@@ -17,7 +17,7 @@ murrawhip at wizardschronicles.com
 
 Requirements
 --------------------------------------------------------------------------------
-BYOND is required to compile the project (http://www.byond.com/download/)
+BYOND (http://www.byond.com/download/)
 The following libraries:
 http://www.byond.com/developer/Stephen001.EventScheduling
 http://www.byond.com/developer/Audeuro.INIReader2
@@ -26,7 +26,13 @@ http://www.byond.com/developer/Theodis.Region
 http://www.byond.com/developer/Deadron.TextHandling
 http://www.byond.com/developer/Deadron.Basecamp
 
-Note that LummoxJR.DmiFontsPlus, LummoxJR.SwapMaps and Dantom.DB are included
+Ensure you put the source in a folder named TWC, as your DME name must match the
+name of the folder it's in.
+
+
+Notes
+--------------------------------------------------------------------------------
+LummoxJR.DmiFontsPlus, LummoxJR.SwapMaps and Dantom.DB are included
 in the distribution due to modifications required and are copyright their
 respective owners.
 
