@@ -1,0 +1,54 @@
+a:link{color:#D60B3D; text-decoration:none;}
+a:hover{color:#D60B3D; text-decoration:underline;}
+a:active{color:#D60B3D; text-decoration:none;}
+a:visited{color:#D60B3D; text-decoration:none;}
+html {
+        overflow: hidden;
+}
+body
+{
+	background-color:#000000;
+	background-image: url('http://wizardschronicles.com/login/bg.jpg');
+	margin-top:10px;
+	font-family:Arial,serif;
+	font-size:2em;
+	overflow:hidden;
+}
+img
+{
+	border-style: none;
+	margin-left:auto;
+	margin-right:auto;
+	display: block;
+}
+div#main
+{
+	padding-top:15px;
+	margin-left:auto;
+	margin-right:auto;
+	color:#000000;
+	width:100%;
+	overflow:hidden;
+
+}
+li.horizontal-li
+{
+	display:inline;
+	list-style-type: none;
+}
+ul.centered-ul
+{
+	text-align:center;
+}
+div.centerederror
+{
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+	font-weight:bold;
+}
+table#login
+{
+	margin-left:auto;
+	margin-right:auto;
+}

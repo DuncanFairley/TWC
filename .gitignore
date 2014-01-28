@@ -1,0 +1,9 @@
+Logs/
+backup/
+players/
+vaults/
+TWC.dmb
+TWC.int
+TWC.rsc
+*.lk
+TWC.dyn.rsc
