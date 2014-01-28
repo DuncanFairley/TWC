@@ -25,6 +25,7 @@ http://www.byond.com/developer/Theodis.Pathfinder
 http://www.byond.com/developer/Theodis.Region
 http://www.byond.com/developer/LummoxJR.SwapMaps
 http://www.byond.com/developer/Deadron.TextHandling
+http://www.byond.com/developer/Deadron.Basecamp
 
 Note that LummoxJR.DmiFontsPlus and Dantom.DB are included in the 
 distribution due to modifications required and are copyright their respective
