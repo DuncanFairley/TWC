@@ -23,13 +23,12 @@ http://www.byond.com/developer/Stephen001.EventScheduling
 http://www.byond.com/developer/Audeuro.INIReader2
 http://www.byond.com/developer/Theodis.Pathfinder
 http://www.byond.com/developer/Theodis.Region
-http://www.byond.com/developer/LummoxJR.SwapMaps
 http://www.byond.com/developer/Deadron.TextHandling
 http://www.byond.com/developer/Deadron.Basecamp
 
-Note that LummoxJR.DmiFontsPlus and Dantom.DB are included in the 
-distribution due to modifications required and are copyright their respective
-owners.
+Note that LummoxJR.DmiFontsPlus, LummoxJR.SwapMaps and Dantom.DB are included
+in the distribution due to modifications required and are copyright their
+respective owners.
 
 Clans are currently not available as parts of the online component need to be
 made secure.
