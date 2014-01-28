@@ -22,7 +22,6 @@ The following libraries:
 http://www.byond.com/developer/Stephen001.EventScheduling
 http://www.byond.com/developer/Audeuro.INIReader2
 http://www.byond.com/developer/Theodis.Pathfinder
-http://www.byond.com/developer/Theodis.Region
 http://www.byond.com/developer/Deadron.TextHandling
 http://www.byond.com/developer/Deadron.Basecamp
 
@@ -32,9 +31,9 @@ name of the folder it's in.
 
 Notes
 --------------------------------------------------------------------------------
-LummoxJR.DmiFontsPlus, LummoxJR.SwapMaps and Dantom.DB are included
-in the distribution due to modifications required and are copyright their
-respective owners.
+LummoxJR.DmiFontsPlus, LummoxJR.SwapMaps, Theodis.Region and Dantom.DB are
+included in the distribution due to modifications required and are copyright
+their respective owners.
 
 Clans are currently not available as parts of the online component need to be
 made secure.
