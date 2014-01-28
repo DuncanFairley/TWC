@@ -12,7 +12,7 @@ included in the distribution. For an easier understanding of what the license
 entails, see:
 http://www.tldrlegal.com/license/gnu-affero-general-public-license-v3-(agpl-3.0)
 If you have any questions about the license, email
-murrawhip@wizardschronicles.com
+murrawhip at wizardschronicles.com
 
 
 Requirements
