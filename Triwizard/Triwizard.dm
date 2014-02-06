@@ -234,6 +234,10 @@ area
 		//will not allow you to fly on a broom.
 		//for the purposes of this event only, announce deaths, unless we can have them not go to the hospital wing.
 		Enter(atom/movable/O)
+			if(usr.flying)
+				var/mob/Player/user = usr
+				for(var/obj/items/wearable/brooms/Broom in user.Lwearing)
+					Broom.Equip(user,1)
 			. = ..()
 			if(.)
 				if(istype(O,/mob))
