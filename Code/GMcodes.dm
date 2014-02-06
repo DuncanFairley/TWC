@@ -208,6 +208,25 @@ proc/reset_panATLogsGold(var/mob/Player/M)
 	broATLogsGold["anchor2"] = "100,100"
 	winset(M,"broATLogsGold",list2params(broATLogsGold))
 
+proc/reset_panATLogsKill(var/mob/Player/M)
+	if(winexists(M,"panATLogsKill"))
+		winset(M,"panATLogsKill","parent=none")
+	winclone(M,"pane","panATLogsKill")
+	var/list/panATLogsKill = list()
+	panATLogsKill["anchor1"] = "0,0"
+	panATLogsKill["anchor2"] = "100,100"
+	panATLogsKill["size"] = "740x500"
+	panATLogsKill["title"] = "Kill"
+	winset(M,"panATLogsKill",list2params(panATLogsKill))
+
+	var/list/broATLogsKill = list()
+	broATLogsKill["type"] = "browser"
+	broATLogsKill["parent"] = "panATLogsKill"
+	broATLogsKill["size"] = "640x480"
+	broATLogsKill["anchor1"] = "0,0"
+	broATLogsKill["anchor2"] = "100,100"
+	winset(M,"broATLogsKill",list2params(broATLogsKill))
+
 proc/reset_panATVerbs(var/mob/Player/M)
 	if(winexists(M,"panATVerbs"))
 		winset(M,"panATVerbs","parent=none")
@@ -225,6 +244,8 @@ mob/GM/verb/EventLogs()
 mob/GM/verb/ClassLogs()
 	set hidden = 1
 mob/GM/verb/GoldLogs()
+	set hidden = 1
+mob/GM/verb/KillLogs()
 	set hidden = 1
 mob/GM/verb/Administration_Tools()
 	reset_winAT(usr)
@@ -250,6 +271,10 @@ mob/GM/verb/Administration_Tools()
 		reset_panATLogsGold(usr)
 		winset(src,"tabATLogs","tabs=%2BpanATLogsGold")
 		usr << browse("[file2text(goldlog)]","window=broATLogsGold")
+	if(/mob/GM/verb/KillLogs in verbs)
+		reset_panATLogsKill(usr)
+		winset(src,"tabATLogs","tabs=%2BpanATLogsKill")
+		usr << browse("[file2text(killlog)]","window=broATLogsKill")
 	winshow(src,"winAT",1)
 mob
 	proc
