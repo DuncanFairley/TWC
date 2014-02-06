@@ -575,7 +575,7 @@ obj
 obj
 	EXP_BOOK_lvlhufflepuff
 		icon = 'Books.dmi'
-		name = "Hufflepuff's Fable Encyclapedia"
+		name = "Hufflepuff's Fable Encyclopedia"
 		icon_state="huffle"
 		density = 1
 		verb/Read_book()
