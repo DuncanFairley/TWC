@@ -1232,7 +1232,7 @@ area
 			if(istype(M, /mob/Player))
 				if(M.flying==1)
 					M.loc=locate(49,30,3)
-					M<<"You may not fly inside Silverblood,"
+					M<<"You may not fly inside Silverblood."
 				else
 					M.loc=locate(24,2,2)
 	SilverbloodExit
