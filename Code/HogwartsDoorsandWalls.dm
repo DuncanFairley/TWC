@@ -30,22 +30,23 @@ mob
 					if(T.owner==usr.key)
 					//	usr<<"<font color= #000099><b>Welcome back, [usr]."
 						//view()<<sound('stdoor.wav')
-						flick("opening",T)
-						sleep(4)
-						T.icon_state="open"
-						T.density=0
-						T.opacity=0
-						sleep(20)
-						//view()<<sound('stdoor.wav')
-						if(isturf(T))
-							while(locate(/mob) in T) sleep(10)
-						else
-							while(locate(/mob) in T.loc) sleep(10)
-						flick("closing",T)
-						sleep(4)
-						T.density=1
-						T.opacity=1
-						T.icon_state="closed"
+						if(T.icon_state == "closed")
+							flick("opening",T)
+							T.opacity=0
+							sleep(4)
+							T.icon_state="open"
+							T.density=0
+							sleep(20)
+							//view()<<sound('stdoor.wav')
+							if(isturf(T))
+								while(locate(/mob) in T) sleep(10)
+							else
+								while(locate(/mob) in T.loc) sleep(10)
+							flick("closing",T)
+							T.density=1
+							sleep(4)
+							T.opacity=1
+							T.icon_state="closed"
 					else if(T.owner!=usr.key)
 						if(!src.key)
 							return
@@ -54,25 +55,26 @@ mob
 						if(passtry==T.pass)
 							usr<<"<font color=green><b>Authorization Confirmed."
 							spawn()
-								src = null
-								T:lastopener = usr.key
-								//view()<<sound('stdoor.wav')
-								flick("opening",T)
-								sleep(4)
-								T.icon_state="open"
-								T.density=0
-								T.opacity=0
-								sleep(50)
-								if(isturf(T))
-									while(locate(/mob) in T) sleep(10)
-								else
-									while(locate(/mob) in T.loc) sleep(10)
-								//view()<<sound('stdoor.wav')
-								flick("closing",T)
-								sleep(4)
-								T.density=1
-								T.opacity=1
-								T.icon_state="closed"
+								if(T.icon_state == "closed")
+									src = null
+									T:lastopener = usr.key
+									//view()<<sound('stdoor.wav')
+									flick("opening",T)
+									T.opacity=0
+									sleep(4)
+									T.icon_state="open"
+									T.density=0
+									sleep(50)
+									if(isturf(T))
+										while(locate(/mob) in T) sleep(10)
+									else
+										while(locate(/mob) in T.loc) sleep(10)
+									//view()<<sound('stdoor.wav')
+									flick("closing",T)
+									T.density=1
+									sleep(4)
+									T.opacity=1
+									T.icon_state="closed"
 						else if(passtry!=T.pass)
 
 							usr<<"<font color=red><b>Authorization Denied. Incorrect Access Code."
@@ -80,24 +82,25 @@ mob
 					//NORMAL DOORS RIGHT HERRRRRRRRRREEEEEEEE
 					//view()<<sound('stdoor.wav')
 					spawn()
-						src = null
-						T:lastopener = usr.key
-						flick("opening",T)
-						sleep(4)
-						T.icon_state="open"
-						T.density=0
-						T.opacity=0
-						sleep(50)
-						if(isturf(T))
-							while(locate(/mob) in T) sleep(10)
-						else
-							while(locate(/mob) in T.loc) sleep(10)
-						//view()<<sound('stdoor.wav')
-						flick("closing",T)
-						sleep(4)
-						T.density=1
-						T.opacity=1
-						T.icon_state="closed"
+						if(T.icon_state == "closed")
+							src = null
+							T:lastopener = usr.key
+							flick("opening",T)
+							T.opacity=0
+							sleep(4)
+							T.icon_state="open"
+							T.density=0
+							sleep(50)
+							if(isturf(T))
+								while(locate(/mob) in T) sleep(10)
+							else
+								while(locate(/mob) in T.loc) sleep(10)
+							//view()<<sound('stdoor.wav')
+							flick("closing",T)
+							T.density=1
+							sleep(4)
+							T.opacity=1
+							T.icon_state="closed"
 		else if(T.bumpable==0)
 			return
 
