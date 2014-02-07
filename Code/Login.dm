@@ -123,12 +123,17 @@ obj/teleport
 		invisibility = 0
 		Teleport(mob/M)
 			if(..())
-				for(var/swapmap/map in swapmaps_loaded)
+				var/list/custom_loaded = list()
+				for(var/customMap/c in loadedMaps)
+					custom_loaded += c.swapmap
+
+				for(var/swapmap/map in (swapmaps_loaded ^ custom_loaded))
 					if(!map.InUse())
 						for(var/turf/T in map.AllTurfs())
 							for(var/mob/A in T)
 								if(!A.key)del(A)
 						map.Unload()
+
 	desert_exit
 		icon = 'misc.dmi'
 		icon_state = "sandstorm_exit"
