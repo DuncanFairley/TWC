@@ -659,7 +659,7 @@ obj/items/wearable/pimp_ring
 		. = ..(owner)
 		if(. == WORN)
 			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his finger.")
-			for(var/obj/items/wearable/bling/W in owner.Lwearing)
+			for(var/obj/items/wearable/pimp_ring/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,0,1)
 		else if(. == REMOVED)
