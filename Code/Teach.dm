@@ -7,7 +7,7 @@
 mob/var/spellpoints = 0 //Earn 5, and you get to choose a spell
 var/spellpointlog = file("Logs/spellpointlog.txt")
 mob/proc/learnspell(path)
-	if(path in verbs)
+	if(path in verbs || (path == "Disperse" && Disperse == 1) || (path == "Eat Slugs" && learnedslug == 1))
 		var/StatusEffect/S = findStatusEffect(/StatusEffect/GotSpellpoint)
 		if(!S)
 			new/StatusEffect/GotSpellpoint(src,60) //A silent marker to prevent people from gaining multiple spell points accidently.
@@ -16,7 +16,7 @@ mob/proc/learnspell(path)
 			//src << "<i>As you've learned this spell previously, you've earnt a spellpoint instead. Each time you earn 5 spellpoints, you can learn a spell of your choice.</i>"
 			spellpointlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [src] earnt a spell point."
 		return 0
-	else
+	else if(!istext(path))
 		verbs += path
 		return 1
 
@@ -129,9 +129,9 @@ mob/GM
 			set category = "Teach"
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
-				M.learnedslug = 1
-				usr.learnedslug = 1
-				M<<"<b><font color=green><font size=3>You learned the Slug Vomitting Curse!"
+				if(M.learnspell("Eat Slugs"))
+					M.learnedslug = 1
+					M<<"<b><font color=green><font size=3>You learned the Slug Vomitting Curse!"
 			usr<<"You've taught your class the Eat Slugs."
 
 mob/GM
@@ -779,8 +779,9 @@ mob/GM
 			set category = "Teach"
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
-				M.Disperse=1
-				M<<"<b><p align=center>.: You learned Disperse :."
+				if(M.learnspell("Disperse"))
+					M.Disperse=1
+					M<<"<b><p align=center>.: You learned Disperse :."
 			src<<"You've taught your class the Disperse spell."
 
 mob/GM

@@ -123,12 +123,34 @@ obj/teleport
 		invisibility = 0
 		Teleport(mob/M)
 			if(..())
-				for(var/swapmap/map in swapmaps_loaded)
+				var/list/custom_loaded = list()
+				for(var/customMap/c in loadedMaps)
+					custom_loaded += c.swapmap
+
+				for(var/swapmap/map in (swapmaps_loaded ^ custom_loaded))
 					if(!map.InUse())
 						for(var/turf/T in map.AllTurfs())
 							for(var/mob/A in T)
 								if(!A.key)del(A)
 						map.Unload()
+
+	desert_exit
+		icon = 'misc.dmi'
+		icon_state = "sandstorm_exit"
+		dest = "@Hogwarts"
+		invisibility = 0
+		Teleport(mob/M)
+			if(prob(60))
+				..()
+				M << infomsg("You magically found yourself at Hogwarts!")
+			else
+				M.density = 0
+				M.Move(locate(rand(4,97),rand(4,97),4))
+				M.density = 1
+		New()
+			..()
+			walk_rand(src,8)
+
 mob/GM/verb/UnloadMap()
 	set category = "Custom Maps"
 	if(!length(loadedMaps))
@@ -224,7 +246,7 @@ proc
 			if(t.type != i.type)
 				ret -= i
 		return ret
-mob/GM/verb/FloodFill(path as null|anything in typesof(/turf))
+mob/GM/verb/FloodFill(path as null|anything in typesof(/turf)|typesof(/area))
 	set category = "Custom Maps"
 	usr << errormsg("Note that the flood ignores objects including doors. It fills via the type of turf that you are standing on, and replaces it with the type you select.")
 	if(!path)return
@@ -1306,7 +1328,7 @@ mob/Player
 											del(S)
 										for(var/turf/T in view())
 											if(T.specialtype == "Swamp")
-												T.slow = 0
+												T.slow -= 5
 												T.overlays += image('mist.dmi',layer=10)
 												spawn(9)
 													T.overlays = null
@@ -2732,7 +2754,7 @@ proc
 			E.activated = 0
 			spawn(1200)////1200
 				if(E)
-					E.loc = initial(E.loc)
+					E.loc = E.origloc
 					E.HP = E.MHP
 					for(var/mob/A in E.loc.loc)
 						if(A.key)

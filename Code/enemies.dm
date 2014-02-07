@@ -101,6 +101,7 @@ mob
 		var/activated = 0
 		var/HPmodifier = 0.9
 		var/DMGmodifier = 0.55
+		var/turf/origloc
 		Enemies
 			player = 0
 			Gm = 1
@@ -425,6 +426,7 @@ mob
 			gold = round(src.level / 2)
 			Expg = round(src.level * 1.3)
 			HP = MHP
+			origloc = loc
 			spawn(rand(10,30))
 				walk_rand(src,11)
 //NEWMONSTERS	.
@@ -449,7 +451,6 @@ mob
 					Attack(M)
 					return
 		proc/ReturnToStart()
-			var/turf/origloc = initial(src.loc)
 			if(src.loc.loc == origloc.loc)
 				ShouldIBeActive()
 			else
