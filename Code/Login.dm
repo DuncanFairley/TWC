@@ -1021,14 +1021,10 @@ mob/Player
 	Login()
 		//..()
 		dance = 0
-		arcessoing = 0
-		episkying = 0
 		if(Gender=="Female")
 			gender = FEMALE
 		else if(Gender=="Male")
 			gender = MALE
-		meditating = 0
-		confused = 0
 		Resort_Stacking_Inv()
 		shielded = 0
 		resetSettings()
@@ -1045,7 +1041,6 @@ mob/Player
 		listenooc = 1
 		listenhousechat = 1
 		invisibility = 0
-		muff = 0
 		switch(key)
 			if("Murrawhip")
 				src.verbs+=typesof(/mob/GM/verb/)

@@ -23,7 +23,7 @@ mob/Player
 				..()
 turf/var/tmp/slow=0
 mob
-   var
+   var/tmp
       moving
 mob
 	var

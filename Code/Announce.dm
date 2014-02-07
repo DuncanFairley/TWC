@@ -135,7 +135,7 @@ mob
 mob/var/tmp
 	mprevicon
 
-mob/var/Rictalk
+mob/var/tmp/Rictalk
 
 obj/var/followplayer
 obj/var/loco
