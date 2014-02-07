@@ -74,9 +74,15 @@ Duel
 				player1.followplayer = 0
 				player2.followplayer = 0
 				range(9,duelcenter) << "<i><font size = 3>The duel will now start in [countdown] seconds!"
-				for(var/i=countdown;i>0;i--)
-					range(9,duelcenter) << i
+				var/obj/o = new
+				o.pixel_y = 32
+				for(var/i=5;i>0;i--)
+			//		range(9,duelcenter) << i
+					duelcenter.overlays -= o
+					o.maptext = "<b><font size=4 color=#FF4500> [i]</font></b>"
+					duelcenter.overlays += o
 					sleep(10)
+				duelcenter.overlays -= o
 				range(9,duelcenter) << "GO!"
 				for(var/turf/duelblock/B in block(locate(duelcenter.x-5,duelcenter.y,duelcenter.z),locate(duelcenter.x+5,duelcenter.y,duelcenter.z)))
 					B.density = 0
