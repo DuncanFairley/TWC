@@ -258,37 +258,20 @@ mob/Spells/verb/Morsmordre()
 			world<<"The Dark Mark fades back into the clouds."
 mob/Spells/verb/Repellium()
 	set category = "Spells"
-	var/list/snakes = list()
-	var/mob/Player/user = usr
-	if(locate(/obj/items/wearable/wands) in user.Lwearing)
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		usr.overlays+=image('expecto.dmi')
+		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>Repellium!"
+		sleep(20)
 		for(var/mob/Snake/D in view())
-			snakes += D
-			if(D.removeoMob)
-				var/tmpmob = D.removeoMob
-				D.removeoMob = null
-				spawn()tmpmob:Permoveo()
+			spawn()Respawn(D)
+		for(var/mob/Snake_/D in view())
+			spawn()Respawn(D)
 		for(var/mob/NPC/Enemies/Snake/S in view())
-			snakes += S
-			if(S.removeoMob)
-				var/tmpmob =S.removeoMob
-				S.removeoMob = null
-				spawn()tmpmob:Permoveo()
 			S.loc = locate(1,1,1)
 			spawn()Respawn(S)
-		for(var/mob/Snake_/D in view())
-			snakes += D
-			if(D.removeoMob)
-				var/tmpmob = D.removeoMob
-				D.removeoMob = null
-				spawn()tmpmob:Permoveo()
-		usr.overlays+=image('expecto.dmi')
-		view()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>Repellium!"
-		sleep(20)
-		for(var/mob/M in snakes)del M
-		view()<<"Bright white light shoots out of [usr]'s wand."
+		hearers()<<"Bright white light shoots out of [usr]'s wand."
 		usr.overlays-=image('expecto.dmi')
-	else
-		usr << errormsg("This spell requires a wand.")
+
 mob/Spells/verb/Basilio()
 	set category = "Staff"
 	if(!usr.shielded)
@@ -411,26 +394,20 @@ mob/Spells/verb/Ferula()
 				del p
 mob/Spells/verb/Expecto_Patronum()
 	set category = "Spells"
-	var/mob/Player/user = usr
-	if(locate(/obj/items/wearable/wands) in user.Lwearing)
-		view()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>EXPECTO PATRONUM!"
-		spawn(20)view()<<"Bright white light shoots out of [usr]'s wand."
-		for(var/mob/D in oview())
-			if(istype(D,/mob/Dementor) || istype(D,/mob/Dementor_) || istype(D,/mob/NPC/Enemies/Dementor))
-				usr.overlays+=image('expecto.dmi')
-				spawn(20)
-					if(D)
-						usr.overlays-=image('expecto.dmi')
-						if(D.removeoMob)
-							var/tmpmob = D.removeoMob
-							D.removeoMob = null
-							spawn()tmpmob:Permoveo()
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>EXPECTO PATRONUM!"
+		sleep(20)
+		overlays += image('expecto.dmi')
+		for(var/mob/Dementor/D in view())
+			spawn() Respawn(D)
+		for(var/mob/Dementor_/D in view())
+			spawn() Respawn(D)
+		for(var/mob/NPC/Enemies/Dementor/D in view())
+			D.loc = locate(1,1,1)
+			spawn() Respawn(D)
+	    overlays-=image('expecto.dmi')
+		hearers()<<"Bright white light shoots out of [usr]'s wand."
 
-						D.loc = locate(1,1,1)
-						Respawn(D)
-						sleep(10)
-	else
-		usr << errormsg("You require a wand to cast this spell.")
 mob/Spells/verb/Avis()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))

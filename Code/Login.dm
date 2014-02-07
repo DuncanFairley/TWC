@@ -2744,7 +2744,7 @@ proc
 			E.removeoMob = null
 			spawn()tmpmob:Permoveo()
 		if(!istype(E,/mob/NPC/Enemies))
-			del(E)
+			E.loc = null
 		else
 			E.activated = 0
 			spawn(1200)////1200
