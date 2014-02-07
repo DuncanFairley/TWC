@@ -122,7 +122,7 @@ obj
 					var/list/turf/Lt = getArea()
 					for(var/turf/T in Lt)
 						T.overlays.Add(icon('jokeitems.dmi',"swamp"))
-						T.slow=5
+						T.slow += 5
 						T.specialtype = "Swamp"
 						if(rand(1,4)==1)
 							T.overlays.Add(icon('jokeitems.dmi',pick("swamp1","swamp2","swamp3","swamp4","swamp5","swamp6","swamp7")))
@@ -134,7 +134,7 @@ obj
 							if(T.specialtype == "Swamp")
 								T.overlays = list()
 								T.specialtype = null
-								T.slow=0
+								T.slow -= 5
 						del(S)
 				else
 					..()

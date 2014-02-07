@@ -1119,13 +1119,13 @@ mob/Spells/verb/Impedimenta()
 		for(var/turf/T in view(7))
 			lt += T
 			T.overlays += image('black50.dmi',"impedimenta")
-			T.slow = 5
+			T.slow += 5
 		src = null
 		spawn(100)
 			for(var/turf/T in lt)
 				T.overlays -= image('black50.dmi',"impedimenta")
-				if(T.slow == 5)
-					T.slow = 0
+				if(T.slow >= 5)
+					T.slow -= 5
 mob/Spells/verb/Incendio()
 	set category="Spells"
 	var/obj/S=new/obj/Incendio
