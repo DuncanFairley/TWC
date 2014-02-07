@@ -241,7 +241,7 @@ proc
 			if(t.type != i.type)
 				ret -= i
 		return ret
-mob/GM/verb/FloodFill(path as null|anything in typesof(/turf))
+mob/GM/verb/FloodFill(path as null|anything in typesof(/turf)|typesof(/area))
 	set category = "Custom Maps"
 	usr << errormsg("Note that the flood ignores objects including doors. It fills via the type of turf that you are standing on, and replaces it with the type you select.")
 	if(!path)return
