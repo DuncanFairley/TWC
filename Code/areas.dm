@@ -1056,7 +1056,7 @@ area
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
 				M.density = 0
-				M.Move(locate(1,1,4))
+				M.Move(locate(rand(4,97),rand(4,97),4))
 				M.density = 1
 
 area

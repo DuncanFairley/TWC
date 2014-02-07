@@ -129,6 +129,23 @@ obj/teleport
 							for(var/mob/A in T)
 								if(!A.key)del(A)
 						map.Unload()
+	desert_exit
+		icon = 'misc.dmi'
+		icon_state = "sandstorm_exit"
+		dest = "@Hogwarts"
+		invisibility = 0
+		Teleport(mob/M)
+			if(prob(60))
+				..()
+				M << infomsg("You magically found yourself at Hogwarts!")
+			else
+				M.density = 0
+				M.Move(locate(rand(4,97),rand(4,97),4))
+				M.density = 1
+		New()
+			..()
+			walk_rand(src,8)
+
 mob/GM/verb/UnloadMap()
 	set category = "Custom Maps"
 	if(!length(loadedMaps))
