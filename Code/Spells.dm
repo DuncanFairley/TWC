@@ -1150,8 +1150,26 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 		view()<<"<b><font color=red>[usr]</font>: <font color=red><font size=3>Reddikulus!</font></font>, [M].</b>"
 		sleep(20)
 		flick('fireworks.dmi',M)
-		if(M.derobe||M.aurorrobe) return
+		if(M.derobe) return
 		if(M.Gender=="Male")
+			if(M.Gm)
+				M.icon='FemaleStaff.dmi'
+				M.icon_state=""
+				sleep(120)
+				M << "<b>You turn back to Normal</b>"
+				flick('teleboom.dmi',M)
+				M.icon='MaleStaff.dmi'
+				M.icon_state=""
+				return
+			if(M.aurorrobe)
+				M.icon='FemaleAuror.dmi'
+				M.icon_state=""
+				sleep(120)
+				M << "<b>You turn back to Normal</b>"
+				flick('teleboom.dmi',M)
+				M.icon='MaleAuror.dmi'
+				M.icon_state=""
+				return
 			if(M.House=="Gryffindor")
 				M.icon='FemaleGryffindor.dmi'
 				M.icon_state=""
@@ -1189,6 +1207,24 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				M.icon_state=""
 				return
 		else
+			if(M.Gm)
+				M.icon='MaleStaff.dmi'
+				M.icon_state=""
+				sleep(120)
+				M << "<b>You turn back to Normal</b>"
+				flick('teleboom.dmi',M)
+				M.icon='FemaleStaff.dmi'
+				M.icon_state=""
+				return
+			if(M.aurorrobe)
+				M.icon='MaleAuror.dmi'
+				M.icon_state=""
+				sleep(120)
+				M << "<b>You turn back to Normal</b>"
+				flick('teleboom.dmi',M)
+				M.icon='FemaleAuror.dmi'
+				M.icon_state=""
+				return
 			if(M.House=="Gryffindor")
 				M.icon='MaleGryffindor.dmi'
 				M.icon_state=""
