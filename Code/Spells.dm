@@ -258,37 +258,20 @@ mob/Spells/verb/Morsmordre()
 			world<<"The Dark Mark fades back into the clouds."
 mob/Spells/verb/Repellium()
 	set category = "Spells"
-	var/list/snakes = list()
-	var/mob/Player/user = usr
-	if(locate(/obj/items/wearable/wands) in user.Lwearing)
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		usr.overlays+=image('expecto.dmi')
+		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>Repellium!"
+		sleep(20)
 		for(var/mob/Snake/D in view())
-			snakes += D
-			if(D.removeoMob)
-				var/tmpmob = D.removeoMob
-				D.removeoMob = null
-				spawn()tmpmob:Permoveo()
+			spawn()Respawn(D)
+		for(var/mob/Snake_/D in view())
+			spawn()Respawn(D)
 		for(var/mob/NPC/Enemies/Snake/S in view())
-			snakes += S
-			if(S.removeoMob)
-				var/tmpmob =S.removeoMob
-				S.removeoMob = null
-				spawn()tmpmob:Permoveo()
 			S.loc = locate(1,1,1)
 			spawn()Respawn(S)
-		for(var/mob/Snake_/D in view())
-			snakes += D
-			if(D.removeoMob)
-				var/tmpmob = D.removeoMob
-				D.removeoMob = null
-				spawn()tmpmob:Permoveo()
-		usr.overlays+=image('expecto.dmi')
-		view()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>Repellium!"
-		sleep(20)
-		for(var/mob/M in snakes)del M
-		view()<<"Bright white light shoots out of [usr]'s wand."
+		hearers()<<"Bright white light shoots out of [usr]'s wand."
 		usr.overlays-=image('expecto.dmi')
-	else
-		usr << errormsg("This spell requires a wand.")
+
 mob/Spells/verb/Basilio()
 	set category = "Staff"
 	if(!usr.shielded)
@@ -411,26 +394,20 @@ mob/Spells/verb/Ferula()
 				del p
 mob/Spells/verb/Expecto_Patronum()
 	set category = "Spells"
-	var/mob/Player/user = usr
-	if(locate(/obj/items/wearable/wands) in user.Lwearing)
-		view()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>EXPECTO PATRONUM!"
-		spawn(20)view()<<"Bright white light shoots out of [usr]'s wand."
-		for(var/mob/D in oview())
-			if(istype(D,/mob/Dementor) || istype(D,/mob/Dementor_) || istype(D,/mob/NPC/Enemies/Dementor))
-				usr.overlays+=image('expecto.dmi')
-				spawn(20)
-					if(D)
-						usr.overlays-=image('expecto.dmi')
-						if(D.removeoMob)
-							var/tmpmob = D.removeoMob
-							D.removeoMob = null
-							spawn()tmpmob:Permoveo()
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>EXPECTO PATRONUM!"
+		sleep(20)
+		overlays += image('expecto.dmi')
+		for(var/mob/Dementor/D in view())
+			spawn() Respawn(D)
+		for(var/mob/Dementor_/D in view())
+			spawn() Respawn(D)
+		for(var/mob/NPC/Enemies/Dementor/D in view())
+			D.loc = locate(1,1,1)
+			spawn() Respawn(D)
+		overlays-=image('expecto.dmi')
+		hearers()<<"Bright white light shoots out of [usr]'s wand."
 
-						D.loc = locate(1,1,1)
-						Respawn(D)
-						sleep(10)
-	else
-		usr << errormsg("You require a wand to cast this spell.")
 mob/Spells/verb/Avis()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
@@ -773,8 +750,12 @@ mob/Spells/verb/Furnunculus(mob/M in view()&Players)
 			M << "<small>You suffered [dmg] damage from Furnunculus.</small>"
 		M<<"<b>The jinx has been lifted. You are no longer afflicted by furnunculus.</b>"
 		M.overlays-=image('pimple.dmi')
+
+mob/var/tmp/Input/_input
 mob/Spells/verb/Arcesso()
 	set category = "Spells"
+
+
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=400,againstocclumens=1))
 		var/list/obj/circles = list(new/obj/circle/c1_1,new/obj/circle/c2_1,new/obj/circle/c3_1,new/obj/circle/c4_1,new/obj/circle/c5_1,
 									new/obj/circle/c1_2,new/obj/circle/c2_2,new/obj/circle/c3_2,new/obj/circle/c4_2,new/obj/circle/c5_2,
@@ -796,6 +777,7 @@ mob/Spells/verb/Arcesso()
 					if(M.arcessoing) src.arcessoing = M
 			if(arcessoing)
 				//partner found
+				arcessoing.arcessoing = src
 				for(var/A in circles)
 					if(A:owner2) return
 					A:owner2 = arcessoing
@@ -817,9 +799,20 @@ mob/Spells/verb/Arcesso()
 					arcessoing.arcessoing = 0
 					arcessoing = 0
 					return
-				var/mob/summonee = input(arcessoing,"Who would you like to summon?") as null|anything in people
-				if(!summonee||!arcessoing)
+				if(people.len == 0)
+					// noone to summon
+					src << "<i>There is noone to summon.</i>"
+					arcessoing << "<i>There is noone to summon.</i>"
+					arcessoing.arcessoing = 0
 					arcessoing = 0
+					return
+				arcessoing._input = new
+				var/mob/summonee = arcessoing._input.InputList(arcessoing,"Who would you like to summon?", "Arcesso", null, people)
+				if(!summonee||!arcessoing)
+					if(arcessoing)
+						arcessoing.arcessoing = 0
+					arcessoing = 0
+					return
 				src << "[arcessoing] has asked [summonee] to be summoned."
 				arcessoing << "You have asked [summonee] to be summoned."
 				if(arcessoing.arcessoing)
@@ -830,7 +823,7 @@ mob/Spells/verb/Arcesso()
 							arcessoing.arcessoing = 0
 							arcessoing = 0
 						else
-							var/response = alert(summonee,"[src] and [arcessoing] would like to summon you. Do you accept?","Summon Request","Yes","No")
+							var/response = arcessoing._input.Alert(summonee,"[src] and [arcessoing] would like to summon you. Do you accept?","Summon Request","Yes","No")
 							if(response == "Yes")
 								if(arcessoing)
 									if(arcessoing.arcessoing)
@@ -891,12 +884,11 @@ mob/Spells/verb/Arcesso()
 								else
 									view() << "The invitation is no longer active."
 							else
-								if(arcessoing.arcessoing)
-									if(arcessoing)
-										src << "[summonee] has not accepted your request to be summoned."
-										arcessoing << "[summonee] has not accepted your request to be summoned."
-										arcessoing.arcessoing = 0
-										arcessoing = 0
+								if(arcessoing && arcessoing.arcessoing)
+									src << "[summonee] has not accepted your request to be summoned."
+									arcessoing << "[summonee] has not accepted your request to be summoned."
+									arcessoing.arcessoing = 0
+									arcessoing = 0
 
 			else
 				//start waiting
@@ -911,6 +903,13 @@ mob/Spells/verb/Arcesso()
 						spawn(400)
 							for(var/A in circles)
 								del(A)
+							if(usr)
+								if(usr.arcessoing)
+									if(ismob(usr.arcessoing))
+										usr.arcessoing.arcessoing = 0
+									usr.arcessoing = 0
+								if(usr._input)
+									del usr._input
 							return
 						while(usr)
 							if(usr.arcessoing)
@@ -921,6 +920,8 @@ mob/Spells/verb/Arcesso()
 							del(A)
 				else
 					src << "You require 800 MP to initiate this spell."
+
+
 mob/Spells/verb/Flagrate(message as message)
 	set category = "Spells"
 	if(!message) return

@@ -371,7 +371,9 @@ mob/test/verb/Remove_Junk()
 proc/Log_admin(adminaction)
 	file("Logs/Adminlog.html")<<"[time2text(world.realtime,"MMM DD - hh:mm")]: [adminaction]<br />"
 proc/Log_gold(gold,var/mob/Player/from,var/mob/Player/too)
-	if(gold>1000)goldlog<<"[time2text(world.realtime,"MMM DD - hh:mm")]: [from]([from.key])([from.client.address]) gave [gold] gold to [too]([too.key])([too.client.address])<br />"
+	if(from.client.address == too.client.address)
+		goldlog<<"<b>[time2text(world.realtime,"MMM DD - hh:mm")]: [from]([from.key])([from.client.address]) gave [gold] gold to [too]([too.key])([too.client.address])</b><br />"
+	else if(gold>1000)goldlog<<"[time2text(world.realtime,"MMM DD - hh:mm")]: [from]([from.key])([from.client.address]) gave [gold] gold to [too]([too.key])([too.client.address])<br />"
 mob/GM/verb
 	Check_EXP(mob/M in Players)
 		set category = "Staff"
