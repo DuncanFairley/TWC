@@ -1249,7 +1249,7 @@ mob/GM/verb
 
 //EXTRA VARS NEEDED FOR GM COMMANDS
 mob/var/picon_state
-mob/var/movable=0
+mob/var/tmp/movable=0
 client.Move()
 	if(!mob.movable)
 		return..()

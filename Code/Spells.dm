@@ -1964,7 +1964,7 @@ obj/circle
 mob/var/tmp/mob/arcessoing = 0
 
 mob/var/tmp/silence
-mob/var/muff
+mob/var/tmp/muff
 
 mob/Player/proc/OcclumensCounter()
 	while(occlumens > 0)
@@ -2038,8 +2038,8 @@ mob/GM/verb/Return_View()
 	usr.client.eye=usr
 	usr.client.perspective=MOB_PERSPECTIVE
 	usr<<"You return to your body."
-mob/var/episkying = 0
-mob/var/meditating = 0
+mob/var/tmp/episkying = 0
+mob/var/tmp/meditating = 0
 mob/var/tmp/confused = 0
 obj/var
 	wlable = 0
