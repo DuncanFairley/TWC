@@ -1323,7 +1323,7 @@ mob/Player
 											del(S)
 										for(var/turf/T in view())
 											if(T.specialtype == "Swamp")
-												T.slow = 0
+												T.slow -= 5
 												T.overlays += image('mist.dmi',layer=10)
 												spawn(9)
 													T.overlays = null
