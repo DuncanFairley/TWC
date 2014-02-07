@@ -2749,7 +2749,7 @@ proc
 			E.activated = 0
 			spawn(1200)////1200
 				if(E)
-					E.loc = initial(E.loc)
+					E.loc = E.origloc
 					E.HP = E.MHP
 					for(var/mob/A in E.loc.loc)
 						if(A.key)
