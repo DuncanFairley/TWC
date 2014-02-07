@@ -219,10 +219,10 @@ area
 							"vs35"		// FORTH_FLOOR
 							)
 		East_Wing
-			location = SEC_FLOOR_EAST
+			location = 0
 			AI_directions = list(
 							"3fa3",		// GROUND_FLOOR
-							null,		// SEC_FLOOR_EAST
+							"2few",		// SEC_FLOOR_EAST
 							"3fa3",		// SEC_FLOOR_WEST
 							"3fa3",		// THIRD_FLOOR
 							"3fa3"		// FORTH_FLOOR
