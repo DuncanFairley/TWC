@@ -1,3 +1,5 @@
+mob/verb/Convert()
+	set hidden = 1
 /*
 	SwapMaps library by Lummox JR
 	developed for digitalBYOND
