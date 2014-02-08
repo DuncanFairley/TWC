@@ -27,13 +27,13 @@ obj/Potion
 	verb
 		Take()
 			set src in oview(1)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 	Container
 		var/uses=0
 		var/meth=""

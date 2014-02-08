@@ -472,14 +472,14 @@ obj
 		verb
 			Take()
 				set src in oview(0)
-				view()<<"[usr] takes \the [src]."
+				hearers()<<"[usr] takes \the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 		verb
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 
 	tootsieroll
 		name="Tootsie Roll"
@@ -488,14 +488,14 @@ obj
 		verb
 			Take()
 				set src in oview(0)
-				view()<<"[usr] takes \the [src]."
+				hearers()<<"[usr] takes \the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 		verb
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 
 	candycorn
 		name="Candy Corn"
@@ -504,14 +504,14 @@ obj
 		verb
 			Take()
 				set src in oview(0)
-				view()<<"[usr] takes \the [src]."
+				hearers()<<"[usr] takes \the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 		verb
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 
 	caramelapple
 		name="Caramel Apple"
@@ -520,14 +520,14 @@ obj
 		verb
 			Take()
 				set src in oview(0)
-				view()<<"[usr] takes \the [src]."
+				hearers()<<"[usr] takes \the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 		verb
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 
 obj
 	Halloween_Bucket
@@ -567,7 +567,7 @@ obj
 		verb
 			Take()
 				set src in oview(0)
-				view()<<"[usr] takes \the [src]."
+				hearers()<<"[usr] takes \the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 		verb

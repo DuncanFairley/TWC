@@ -786,9 +786,9 @@ mob/Sir_Nicholas
 			sleep(5)//And this tells it how long between each step it takes
 	Click()//This starts- wait... you know what this is... i hope ^^
 		if(!(src in view(usr.client.view)))return
-		view()<<"<b>Sir Nicholas:</b> G'day, [usr]. I trust your day is going well, eh mate?"
+		hearers()<<"<b>Sir Nicholas:</b> G'day, [usr]. I trust your day is going well, eh mate?"
 		sleep(30)
-		view()<<"Sir Nicholas opens his head and closes it, before flying off."
+		hearers()<<"Sir Nicholas opens his head and closes it, before flying off."
 		icon_state="headless"
 		sleep(20)
 		icon_state="normal"
@@ -807,7 +807,7 @@ mob/Bloody_Baron
 			sleep(5)//And this tells it how long between each step it takes
 	Click()//This starts- wait... you know what this is... i hope ^^
 		if(!(src in view(usr.client.view)))return
-		view()<<"<b>The Bloody Baron:</b> *Moan* Ahhhhhhhhhh......ooooooohhh. Leave me alone, [usr]."
+		hearers()<<"<b>The Bloody Baron:</b> *Moan* Ahhhhhhhhhh......ooooooohhh. Leave me alone, [usr]."
 mob/Moaning_Myrtle
 	icon = 'houseghostsgirl.dmi'
 	density=0
@@ -823,6 +823,6 @@ mob/Moaning_Myrtle
 			sleep(5)//And this tells it how long between each step it takes
 	Click()//This starts- wait... you know what this is... i hope ^^
 		if(!(src in view(usr.client.view)))return
-		view()<<"<b>Moaning Myrtle:</b> *Sob* Wahhhhhh! Ohhhh, hello there, [usr]. *Blush* GO AWAY! *sob* ahhh..."
+		hearers()<<"<b>Moaning Myrtle:</b> *Sob* Wahhhhhh! Ohhhh, hello there, [usr]. *Blush* GO AWAY! *sob* ahhh..."
 
 

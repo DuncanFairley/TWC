@@ -729,7 +729,7 @@ mob
 				M.loc=locate(8,5,21)
 				flick('dlo.dmi',M)
 				M.MuteOOC=1
-				view()<<"[usr]: <b><font size=2><font color=aqua>Incarcifors, [M]."
+				hearers()<<"[usr]: <b><font size=2><font color=aqua>Incarcifors, [M]."
 				world<<"[M] has been sent to Detention."
 				M << "<b>Welcome to Detention.</b>"
 				if(Reason)

@@ -284,7 +284,7 @@ mob
 						M.HP += ((M.HP/8)+rand(1,50))
 						M.updateHPMP()
 						if(M.HP > (M.MHP+M.extraMHP)) M.HP = M.MHP+M.extraMHP
-						view()<<"<SPAN STYLE='color: red'>[src] heals [M]!</SPAN>"
+						hearers()<<"<SPAN STYLE='color: red'>[src] heals [M]!</SPAN>"
 					spawn(10)Attack(M)
 			Fire_Bat
 				icon = 'monsters.dmi'
@@ -573,10 +573,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 	Wolf
@@ -615,10 +615,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 	Snake
@@ -657,10 +657,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 	Snake_
@@ -700,10 +700,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)if(M)Attack(M)
 
@@ -742,10 +742,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] jabs [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] jabs [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 
@@ -783,10 +783,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 
@@ -825,10 +825,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 
@@ -867,10 +867,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 
@@ -924,10 +924,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 
@@ -966,10 +966,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 	Dementor_
@@ -1010,10 +1010,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 
@@ -1054,10 +1054,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s sticky stick-ness doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s sticky stick-ness doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] sticks [M] with a stick and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] sticks [M] with a stick and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 	Bird_
@@ -1102,7 +1102,7 @@ mob
 				M.HP += ((M.HP/8)+rand(1,50))
 				if(M.HP > M.MHP) M.HP = M.MHP
 				M.updateHPMP()
-				view()<<"<SPAN STYLE='color: red'>[src] heals [M]!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] heals [M]!</SPAN>"
 			spawn(10)Attack(M)
 	Fire_Bat
 		icon = 'monsters.dmi'
@@ -1237,10 +1237,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 	Ice_Muck
@@ -1290,10 +1290,10 @@ mob
 			for(var/mob/E in get_step(usr,usr.dir))
 				var/damage = (src.Dmg+rand(0,3)-E.Def)
 				if(damage<=0)
-					view()<<"<SPAN STYLE='color: blue'>[src]'s bash doesnt even faze [E]</SPAN>"
+					hearers()<<"<SPAN STYLE='color: blue'>[src]'s bash doesnt even faze [E]</SPAN>"
 				else
 					E.HP -= damage
-					view()<<"<SPAN STYLE='color: red'>[src] bashes [E] for [damage] damage!</SPAN>"
+					hearers()<<"<SPAN STYLE='color: red'>[src] bashes [E] for [damage] damage!</SPAN>"
 					E.Death_Check(src)
 	Scorpion
 		icon = 'monsters.dmi'
@@ -1343,13 +1343,13 @@ mob
 			for(var/mob/E in get_step(usr,usr.dir))
 				var/damage = (src.Dmg+rand(0,3)-E.Def)
 				if(damage<=0)
-					view()<<"<SPAN STYLE='color: blue'>[src]'s sting doesnt even faze [E]</SPAN>"
+					hearers()<<"<SPAN STYLE='color: blue'>[src]'s sting doesnt even faze [E]</SPAN>"
 				else
 					E.HP -= damage
-					view()<<"<SPAN STYLE='color: red'>[src] stings [E] for [damage] damage!</SPAN>"
+					hearers()<<"<SPAN STYLE='color: red'>[src] stings [E] for [damage] damage!</SPAN>"
 					var/poisoning=rand(0,3)
 					if(poisoning==3)
-						view()<<"<SPAN STYLE='color: red'>[src]'s sting has poisoned [E]!</SPAN>"
+						hearers()<<"<SPAN STYLE='color: red'>[src]'s sting has poisoned [E]!</SPAN>"
 						E.status="(Poison)"
 					E.Death_Check(src)
 
@@ -1388,10 +1388,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] attacks [M] for [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] attacks [M] for [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 
@@ -1430,10 +1430,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				view()<<"<SPAN STYLE='color: blue'>[src]'s blasts don't even faze [M]</SPAN>"
+				hearers()<<"<SPAN STYLE='color: blue'>[src]'s blasts don't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] blows win at [M] for [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] blows win at [M] for [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 
@@ -1472,10 +1472,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				view()<<"<SPAN STYLE='color: blue'>[src]'s blasts don't even faze [M]</SPAN>"
+				hearers()<<"<SPAN STYLE='color: blue'>[src]'s blasts don't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] blows wind at [M] for [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] blows wind at [M] for [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 
@@ -1516,10 +1516,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				view()<<"<SPAN STYLE='color: blue'>[src]'s burns don't even faze [M]</SPAN>"
+				hearers()<<"<SPAN STYLE='color: blue'>[src]'s burns don't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] burns [M] for [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] burns [M] for [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 
@@ -1558,10 +1558,10 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] hits [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] hits [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 	Basilisk
@@ -1598,9 +1598,9 @@ mob
 					return
 				step_to(src,M)
 			if(dmg<1)
-				//view()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
+				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
 			else
 				M.HP -= dmg
-				view()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
+				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)

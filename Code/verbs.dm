@@ -34,16 +34,16 @@ obj
 			Take()
 				set src in oview(1)
 				if(src.name == "Scroll")
-					view()<<"[usr] takes the scroll."
+					hearers()<<"[usr] takes the scroll."
 				else
-					view()<<"[usr] takes the '[src]' scroll."
+					hearers()<<"[usr] takes the '[src]' scroll."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 
 
 obj
@@ -69,14 +69,14 @@ obj
 				usr << browse("<body bgcolor=black><font color=white>Open now<br>What lies inside<br><br><br><i>The rest is torn off</i>")
 			Take()
 				set src in oview(1)
-				view()<<"[usr] takes the [src]."
+				hearers()<<"[usr] takes the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 			Examine()
 				set src in view(3)
 				usr << "This scroll is made of very old paper that is crumbling at the edges."
@@ -103,14 +103,14 @@ obj
 				usr << browse("<body bgcolor=black><font color=white>Let me in<br>Where the powers hide<br><br><br><i>The rest is torn off</i>")
 			Take()
 				set src in oview(1)
-				view()<<"[usr] takes the [src]."
+				hearers()<<"[usr] takes the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 			Examine()
 				set src in view(3)
 				usr << "This scroll is made of very old paper that is crumbling at the edges."
@@ -138,14 +138,14 @@ obj
 				usr << browse("<body bgcolor=black><font color=white>So I can see<br>With my own two eyes<br><br><br><i>The rest is torn off</i>")
 			Take()
 				set src in oview(1)
-				view()<<"[usr] takes the [src]."
+				hearers()<<"[usr] takes the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 			Examine()
 				set src in view(3)
 				usr << "This scroll is made of very old paper that is crumbling at the edges."
@@ -173,14 +173,14 @@ obj
 				usr << browse("<body bgcolor=black><font color=white>The place where even<br>Gods can die<br><br><br><i>The rest is torn off</i>")
 			Take()
 				set src in oview(1)
-				view()<<"[usr] takes the [src]."
+				hearers()<<"[usr] takes the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 			Examine()
 				set src in view(3)
 				usr << "This scroll is made of very old paper that is crumbling at the edges."

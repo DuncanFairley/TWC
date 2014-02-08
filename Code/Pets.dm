@@ -27,5 +27,5 @@ mob
 					return
 			if(src.followplayer==1)
 				src.followplayer=0
-				view()<<"[src] stops following."
+				hearers()<<"[src] stops following."
 				return

@@ -90,7 +90,7 @@ mob/Spells/verb/Accio(obj/M in oview())
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		if(!M.accioable){src<<"<b><font color=red>Error:</b></font> This object cannot be teleported.";return}
-		view()<< " <b>[usr]:<i><font color=aqua> Accio [M.name]!</i>"
+		hearers()<< " <b>[usr]:<i><font color=aqua> Accio [M.name]!</i>"
 		sleep(3)
 		flick('Dissapear.dmi',M)
 		sleep(20)
@@ -108,13 +108,13 @@ mob/Spells/verb/Herbificus()
 		p:loc = locate(src.x,src.y-1,src.z)
 		flick('dlo.dmi',p)
 		p:owner = "[usr.key]"
-		view()<<"<b><Font color=red>[usr]:</font> Herbificus."
+		hearers()<<"<b><Font color=red>[usr]:</font> Herbificus."
 mob/Spells/verb/Protego()
 	set category = "Spells"
 	if(!usr.shielded)
 		if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 			usr.overlays += /obj/Shield
-			view()<< "<b><font color=red>[usr]</b></font>: PROTEGO!"
+			hearers()<< "<b><font color=red>[usr]</b></font>: PROTEGO!"
 			usr << "You shield yourself magically"
 			usr.shielded = 1
 			usr.shieldamount = (usr.Def+usr.extraDef) * 2.5
@@ -145,7 +145,7 @@ mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
 				//M.flying=0
 				//M.icon_state=""
 				//M.density=1
-				view()<<"[M] is knocked off \his broom!"
+				hearers()<<"[M] is knocked off \his broom!"
 				new /StatusEffect/Knockedfrombroom(M,15)
 	else
 		usr << "You must hold a wand to cast this spell."
@@ -155,7 +155,7 @@ mob/Spells/verb/Depulso()
 	for(M in get_step(usr,usr.dir))
 		if(!M.key && !istype(M,/mob/Victims)) return
 		step_away(M,usr,15)
-		view()<<"<b><font color=red>[usr]:</font></b> Depulso!"
+		hearers()<<"<b><font color=red>[usr]:</font></b> Depulso!"
 		M<<"You were pushed backwards by [usr]'s Depulso Charm."
 		if(M.flying)
 			for(var/obj/items/wearable/brooms/B in M.Lwearing)
@@ -163,7 +163,7 @@ mob/Spells/verb/Depulso()
 				//M.flying=0
 				//M.icon_state=""
 				//M.density=1
-				view()<<"[usr]'s Depulso knocked [M] off \his broom!"
+				hearers()<<"[usr]'s Depulso knocked [M] off \his broom!"
 				new /StatusEffect/Knockedfrombroom(M,15)
 mob/Spells/verb/Deletrius()
 	set category="Spells"
@@ -173,7 +173,7 @@ mob/Spells/verb/Deletrius()
 			if(!S.GM_Made || (S.GM_Made && usr.Gm))
 				flick('GMOrb.dmi',S)
 				del S
-		view()<<"[usr] flicks \his wand, causing the roses to dissolve into the air."
+		hearers()<<"[usr] flicks \his wand, causing the roses to dissolve into the air."
 	else
 		usr << errormsg("This spell requires a wand.")
 mob/Spells/verb/Expelliarmus(mob/M in view()&Players)
@@ -182,8 +182,8 @@ mob/Spells/verb/Expelliarmus(mob/M in view()&Players)
 		var/obj/items/wearable/wands/W = locate(/obj/items/wearable/wands) in M:Lwearing
 		if(W)
 			W.Equip(M,1)
-			view()<<"<font color=red><b>[usr]</b></font>: <font color=white>Expelliarmus!"
-			view()<<"<b>[M] loses \his wand.</b>"
+			hearers()<<"<font color=red><b>[usr]</b></font>: <font color=white>Expelliarmus!"
+			hearers()<<"<b>[M] loses \his wand.</b>"
 			if(M.removeoMob)
 				M << "Your Permoveo spell failed.."
 				M.client.eye=M
@@ -225,12 +225,12 @@ mob/Spells/verb/Evanesco(mob/M in Players&oview())
 mob/Spells/verb/Imitatus(mob/M in view()&Players, T as text)
 	set category = "Spells"
 	if(src.mute==1){src<<"You cannot cast this spell while muted.";return}
-	view()<<"</font><font color = #001E15>[usr]: Imitatus.</font>"
+	hearers()<<"</font><font color = #001E15>[usr]: Imitatus.</font>"
 	view() << " <b><font color = red>[M]</B> <font color = red>:</font> </font> [html_encode(T)]"
 mob/Spells/verb/Densuago(mob/M in view()&Players)
 	set category = "Spells"
 	M.overlays+=('teeth.dmi')
-	view()<<"[usr]: <font color=white><b>Densaugeo [M]!</b></font><p>[M]'s teeth begin to grow rapidly!\n"
+	hearers()<<"[usr]: <font color=white><b>Densaugeo [M]!</b></font><p>[M]'s teeth begin to grow rapidly!\n"
 	M<<"[src] placed a curse on you! Your teeth grew rapidly.  They will return to normal in 5 minutes.\n"
 	src = null
 	spawn(3000)
@@ -274,15 +274,15 @@ mob/Spells/verb/Basilio()
 	if(!usr.shielded)
 		if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
 			new /StatusEffect/Summoned(src,15)
-			view()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Basilio!"
+			hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Basilio!"
 			sleep(20)
-			view()<<"[usr]'s wand emits a bright flash of light."
+			hearers()<<"[usr]'s wand emits a bright flash of light."
 			sleep(20)
 			if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
 				src << "<b>You can't use this inside a safezone.</b>"
 				return
-			view()<<"A Black Basilisk, emerges from [usr]'s wand."
-			view()<<"<b>Basilisk</b>: Hissssssss!"
+			hearers()<<"A Black Basilisk, emerges from [usr]'s wand."
+			hearers()<<"<b>Basilisk</b>: Hissssssss!"
 			var/mob/Basilisk/D = new /mob/Basilisk
 			D:loc = locate(src.x,src.y-1,src.z)
 			flick('mist.dmi',D)
@@ -293,15 +293,15 @@ mob/Spells/verb/Serpensortia()
 	if(!usr.shielded)
 		if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
 			new /StatusEffect/Summoned(src,15)
-			view()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Serpensortia!"
+			hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Serpensortia!"
 			sleep(20)
-			view()<<"[usr]'s wand emits a bright flash of light."
+			hearers()<<"[usr]'s wand emits a bright flash of light."
 			sleep(20)
 			if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
 				src << "<b>You can't use this inside a safezone.</b>"
 				return
-			view()<<"A Red-Spotted Green Snake, emerges from the wand."
-			view()<<"<b>Snake</b>: Hissssssss!"
+			hearers()<<"A Red-Spotted Green Snake, emerges from the wand."
+			hearers()<<"<b>Snake</b>: Hissssssss!"
 			var/mob/Snake_/D = new /mob/Snake_
 			D:loc = locate(src.x,src.y-1,src.z)
 			flick('mist.dmi',D)
@@ -328,7 +328,7 @@ mob/Spells/verb/Herbificus_Maxima()
 		a:owner = "[usr.key]"
 		b:owner = "[usr.key]"
 		c:owner = "[usr.key]"
-		view()<<"<b><Font color=red>[usr]:</font> Herbificus MAXIMA!"
+		hearers()<<"<b><Font color=red>[usr]:</font> Herbificus MAXIMA!"
 mob/Spells/verb/Shelleh()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
@@ -348,7 +348,7 @@ mob/Spells/verb/Shelleh()
 		flick('magic.dmi',f)
 		flick('magic.dmi',g)
 		flick('magic.dmi',h)
-		view()<<"<b><font color=red>[usr]:</font> <font color=white>Shelleh."
+		hearers()<<"<b><font color=red>[usr]:</font> <font color=white>Shelleh."
 		src = null
 		spawn(150)
 			del a
@@ -366,7 +366,7 @@ mob/Spells/verb/Solidus()
 		p:loc = locate(src.x,src.y-1,src.z)
 		flick('teleboom.dmi',p)
 		p:owner = "[usr.key]"
-		view()<<"<b><font color=red>[usr]:</font> <font color=green>Solidus."
+		hearers()<<"<b><font color=red>[usr]:</font> <font color=green>Solidus."
 		src = null
 		spawn(600)
 			del p
@@ -376,8 +376,8 @@ mob/Spells/verb/Ferula()
 		var/obj/Madame_Pomfrey/p = new /obj/Madame_Pomfrey
 		p:loc = locate(src.x,src.y+1,src.z)
 		flick('teleboom.dmi',p)
-		view()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=aqua> Ferula!"
-		view()<<"[usr] has summoned Madame Pomfrey!"
+		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=aqua> Ferula!"
+		hearers()<<"[usr] has summoned Madame Pomfrey!"
 		spawn()
 			src = null
 			sleep(10)
@@ -409,11 +409,11 @@ mob/Spells/verb/Avis()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		new /StatusEffect/Summoned(src,15)
-		view()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=yellow> Avis!"
+		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=yellow> Avis!"
 		sleep(20)
-		view()<<"A bright white flash shoots out of [usr]'s wand."
+		hearers()<<"A bright white flash shoots out of [usr]'s wand."
 		sleep(20)
-		view()<<"A bird emerges."
+		hearers()<<"A bird emerges."
 		var/mob/Bird_/D = new /mob/Bird_
 		D:loc = locate(src.x,src.y+1,src.z)
 		flick('mist.dmi',D)
@@ -430,14 +430,14 @@ mob/Spells/verb/Crapus_Sticketh()
 	if(!usr.shielded)
 		if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
 			new /StatusEffect/Summoned(src,15)
-			view()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Crapus...Sticketh!!"
+			hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Crapus...Sticketh!!"
 			sleep(20)
-			view()<<"A flash of black light shoots from [usr]'s wand."
+			hearers()<<"A flash of black light shoots from [usr]'s wand."
 			sleep(20)
 			if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
 				src << "<b>You can't use this inside a safezone.</b>"
 				return
-			view()<<"A stick figure appears."
+			hearers()<<"A stick figure appears."
 			var/mob/Stickman_/D = new /mob/Stickman_
 			D:loc = locate(src.x,src.y+1,src.z)
 			flick('mist.dmi',D)
@@ -511,11 +511,11 @@ mob/Spells/verb/Dementia()
 	if(!usr.shielded)
 		if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
 			new /StatusEffect/Summoned(src,15)
-			view()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> DEMENTIA!"
+			hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> DEMENTIA!"
 			sleep(20)
-			view()<<"Thick black fog shoots out of [usr]'s wand."
+			hearers()<<"Thick black fog shoots out of [usr]'s wand."
 			sleep(20)
-			view()<<"A Dementor emerges from the smoke."
+			hearers()<<"A Dementor emerges from the smoke."
 			if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
 				src << "<b>You can't use this inside a safezone.</b>"
 				return
@@ -550,7 +550,7 @@ mob/Spells/verb/Conjunctivis(mob/M in view()&Players) // should be oview
 			//Remove preexisting blindness
 			del(P)
 		M.client.screen += S
-		view()<<"<b><font color=red>[usr]:</font> <font size=2><font color=green>Conjunctivis [M]."
+		hearers()<<"<b><font color=red>[usr]:</font> <font size=2><font color=green>Conjunctivis [M]."
 		usr<<"You've casted Conjunctivis upon [M], sealing \his eyes shut!"
 		M<<"[usr] used Conjunctivis on you! Your eyes have been sealed shut for 10 seconds!"
 		src=null
@@ -563,8 +563,8 @@ mob/Spells/verb/Melofors(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		M.sight|=BLIND
-		view()<<"<b><font color=red>[usr]:</font> <font size=2><font color=red>Melofors [M]."
-		view()<<"<b>A giant pumpkin falls from the sky and lands upon [M.name]'s head.</b>"
+		hearers()<<"<b><font color=red>[usr]:</font> <font size=2><font color=red>Melofors [M]."
+		hearers()<<"<b>A giant pumpkin falls from the sky and lands upon [M.name]'s head.</b>"
 		M.overlays+=icon('pumpkinhead.dmi')
 		sleep(95)
 		M.sight&=~BLIND
@@ -579,9 +579,9 @@ mob/Spells/verb/Incarcerous(var/mob/M in oview()&Players)
 		new /StatusEffect/UsedStun(src,15)
 		M.movable=1
 		M.icon_state="bind"
-		view()<<"[usr]: <font color=aqua>Incarcerous, [M]!"
+		hearers()<<"[usr]: <font color=aqua>Incarcerous, [M]!"
 		sleep(20)
-		view()<<"With a sudden spark, [usr]'s wand emits a stream of ropes which bind around [M]."
+		hearers()<<"With a sudden spark, [usr]'s wand emits a stream of ropes which bind around [M]."
 		if(M && M.removeoMob)
 			M << "Your Permoveo spell failed.."
 			M.client.eye=M
@@ -601,22 +601,22 @@ mob/Spells/verb/Anapneo(var/mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		if(!M.flying == 0){src<<"<b><font color=red>Error:</b></font> You can't cast this spell on someone who is flying.";return}
-		view()<<"<B><font color=red>[usr]:</font><font color=blue> <I>Anapneo!</I>"
+		hearers()<<"<B><font color=red>[usr]:</font><font color=blue> <I>Anapneo!</I>"
 		M.Rictusempra=0
 		M.Rictalk=0
 		M.silence=0
 		M.muff=0
 		sleep(20)
-		view()<<"[usr] flicks \his wand, clearing the airway of [M]."
+		hearers()<<"[usr] flicks \his wand, clearing the airway of [M]."
 mob/Spells/verb/Reducto(var/mob/M in view()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		if(M.flying){src<<"<b><font color=red>Error:</b></font> You can't cast this spell on someone who is flying.";return}
 		if(M.GMFrozen){alert("You can't free [M]. They have been frozen by a Game Master.");return}
-		view()<<"<B><font color=red>[usr]:</font><font color=white> <I>Reducto!</I>"
+		hearers()<<"<B><font color=red>[usr]:</font><font color=white> <I>Reducto!</I>"
 		M.movable=0
 		if(M.confused)M.confused=0
-		view()<<"White light emits from [usr]'s wand, freeing [M]."
+		hearers()<<"White light emits from [usr]'s wand, freeing [M]."
 		flick('Reducto.dmi',M)
 		M.icon_state=""
 mob/Spells/verb/Reparo(obj/M in oview())
@@ -661,7 +661,7 @@ mob/Spells/verb/Rictusempra(mob/M in oview(2)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
 		spawn()
-			view()<< " <b>[usr]:<i><font color=blue> Rictusempra [M.name]!</i>"
+			hearers()<< " <b>[usr]:<i><font color=blue> Rictusempra [M.name]!</i>"
 			view() << "<font color=white><b>[M.name] is tickled and begins to laugh hysterically."
 			M.Rictusempra=1
 			usr.MP-= 500
@@ -687,7 +687,7 @@ mob/Spells/verb/Petreficus_Totalus(var/mob/M in view()&Players)
 
 		M.movable=1
 		M.icon_state="stone"
-		view()<<"[usr]: <font color=blue>Petrificus Totalus!"
+		hearers()<<"[usr]: <font color=blue>Petrificus Totalus!"
 		src = null
 		spawn(100)
 			if(usr && M)
@@ -729,11 +729,11 @@ mob/Spells/verb/Tremorio()
 mob/Spells/verb/Furnunculus(mob/M in view()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
-		view()<<"<font color=red><b>[usr]: </font></b>Furnunculus!</font>"
-		view()<<"[usr] twirls \his wand towards [M], ever so lightly."
+		hearers()<<"<font color=red><b>[usr]: </font></b>Furnunculus!</font>"
+		hearers()<<"[usr] twirls \his wand towards [M], ever so lightly."
 		M.Zitt=0
 		sleep(50)
-		view()<<"[M]'s face begins to produce pimples! Puss-filled, erupting, mountainous zits!"
+		hearers()<<"[M]'s face begins to produce pimples! Puss-filled, erupting, mountainous zits!"
 		M.overlays+=image('pimple.dmi')
 		M.Zitt=1
 		src=null
@@ -944,7 +944,7 @@ mob/Spells/verb/Langlock(mob/M in oview()&Players)
 			M.silence=1
 			src.MP -= 600
 			src.updateHPMP()
-			view()<<"[usr] flicks \his wand towards [M] and mutters, 'Langlock'"
+			hearers()<<"[usr] flicks \his wand towards [M] and mutters, 'Langlock'"
 			view() << "<b>[M]'s tongue has been stuck to the roof of \his mouth. They are unable to speak.</b>"
 			src = null
 			spawn(300)
@@ -970,14 +970,14 @@ mob/Spells/verb/Muffliato(mob/M in view()&Players)
 mob/Spells/verb/Incindia()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedIncindia,needwand=1,inarena=0,insafezone=0,inhogwarts=1,target=null,mpreq=950,againstocclumens=1))
-		view()<<"[src] raises \his wand into the air. <font color=red><b><i>INCINDIA!</b></i>"
+		hearers()<<"[src] raises \his wand into the air. <font color=red><b><i>INCINDIA!</b></i>"
 		usr.MP-=950
 		usr.updateHPMP()
 		new /StatusEffect/UsedIncindia(src,30)
 		for(var/mob/M in oview(4))
 			if(M.key)
 				flick('Apparate.dmi',M)
-				view()<<"[M] suddenly explodes!"
+				hearers()<<"[M] suddenly explodes!"
 				M.HP-=1000
 				M.Death_Check()
 				usr.HP-=500
@@ -985,7 +985,7 @@ mob/Spells/verb/Incindia()
 mob/Spells/verb/Replacio(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
-		view()<<"<b><Font color=red>[usr]:</b></font> <font color=blue><B> <i>Replacio Duo.</i></B>"
+		hearers()<<"<b><Font color=red>[usr]:</b></font> <font color=blue><B> <i>Replacio Duo.</i></B>"
 		var/startloc = usr.loc
 		flick('GMOrb.dmi',M)
 		flick('GMOrb.dmi',usr)
@@ -998,7 +998,7 @@ mob/Spells/verb/Replacio(mob/M in oview()&Players)
 		M.loc=startloc
 		flick('GMOrb.dmi',usr)
 		flick('GMOrb.dmi',M)
-		view()<<"[usr] trades places with [M]"
+		hearers()<<"[usr] trades places with [M]"
 		usr.MP-=500
 		usr.updateHPMP()
 mob/Spells/verb/Occlumency()
@@ -1020,8 +1020,8 @@ mob/Spells/verb/Occlumency()
 mob/Spells/verb/Levicorpus(mob/M in view()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedLevicorpus,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=M,mpreq=800,againstocclumens=1))
-		view()<<"<b><font color=red>[usr]:<font color=green> Levicorpus.</b></font>"
-		view()<<"[M] is lifted off of \his feet and dangles upside down in the air."
+		hearers()<<"<b><font color=red>[usr]:<font color=green> Levicorpus.</b></font>"
+		hearers()<<"[M] is lifted off of \his feet and dangles upside down in the air."
 		if(M && M.removeoMob)
 			M << "Your Permoveo spell failed."
 			M.client.eye=M
@@ -1038,7 +1038,7 @@ mob/Spells/verb/Levicorpus(mob/M in view()&Players)
 			S.Move(M.loc)
 		M:Resort_Stacking_Inv()
 		new /StatusEffect/UsedLevicorpus(src,60)
-		view()<<"[M]'s scrolls fall out of \his robes and float gently to the floor beneath them."
+		hearers()<<"[M]'s scrolls fall out of \his robes and float gently to the floor beneath them."
 		src = null
 		spawn(100)
 			M.movable=0
@@ -1046,11 +1046,11 @@ mob/Spells/verb/Levicorpus(mob/M in view()&Players)
 mob/Spells/verb/Obliviate(mob/M in view()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedObliviate,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=700,againstocclumens=0))
-		view()<<"<b><font color=red>[usr]:<font color=green> Obliviate!</b></font>"
+		hearers()<<"<b><font color=red>[usr]:<font color=green> Obliviate!</b></font>"
 		//M<<"<p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p>"
 		//M<<"<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
 		M << output(null,"output")
-		view()<<"[usr] wiped [M]'s memory!"
+		hearers()<<"[usr] wiped [M]'s memory!"
 		usr.MP-=700
 		new /StatusEffect/UsedObliviate(src,30)
 		usr.updateHPMP()
@@ -1058,7 +1058,7 @@ mob/Spells/verb/Tarantallegra(mob/M in view()&Players)
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=100,againstocclumens=1))
 		if(M.dance) return
-		view()<<"<b>[usr]:</B><font color=green> <i>Tarantallegra!</i>"
+		hearers()<<"<b>[usr]:</B><font color=green> <i>Tarantallegra!</i>"
 		usr.MP-=100
 		usr.updateHPMP()
 		if(key != "Murrawhip")
@@ -1078,8 +1078,8 @@ mob/Spells/verb/Immobulus()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=600,againstocclumens=1))
 		new /StatusEffect/UsedStun(src,15)
-		view()<<"<b>[usr]:</b> <font color=blue>Immobulus!"
-		view()<<"A sudden wave of energy emits from [usr]'s wand, immobilizing everything in sight."
+		hearers()<<"<b>[usr]:</b> <font color=blue>Immobulus!"
+		hearers()<<"A sudden wave of energy emits from [usr]'s wand, immobilizing everything in sight."
 		usr.MP-=600
 		usr.updateHPMP()
 		for(var/mob/M in oview())
@@ -1108,8 +1108,8 @@ mob/Spells/verb/Immobulus()
 mob/Spells/verb/Impedimenta()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=750,againstocclumens=1))
-		view()<<"<b>[usr]:</b> <font color=red>Impedimenta!"
-		view()<<"A sharp blast of energy emits from [usr]'s wand, slowing down everything in the area."
+		hearers()<<"<b>[usr]:</b> <font color=red>Impedimenta!"
+		hearers()<<"A sharp blast of energy emits from [usr]'s wand, slowing down everything in the area."
 		usr.MP-=750
 		usr.updateHPMP()
 		new /StatusEffect/UsedStun(src,20)
@@ -1138,14 +1138,14 @@ mob/Spells/verb/Incendio()
 /*mob/Spells/verb/Cugeo(mob/Player/M in view()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=10,againstocclumens=1))
-		view()<<"<b><font color=red>[usr]</font>:<FONT COLOR=#dda0dd>C</FONT><FONT COLOR=#ef736f>u</FONT><FONT COLOR=#ff4500>g</FONT><FONT COLOR=#bea100>e</FONT><FONT COLOR=#7cfc00>o</FONT></FONT>, [M].</b>"
+		hearers()<<"<b><font color=red>[usr]</font>:<FONT COLOR=#dda0dd>C</FONT><FONT COLOR=#ef736f>u</FONT><FONT COLOR=#ff4500>g</FONT><FONT COLOR=#bea100>e</FONT><FONT COLOR=#7cfc00>o</FONT></FONT>, [M].</b>"
 		sleep(20)
 		flick('fireworks.dmi',M)
 		M.overlays+=image('hair.dmi',icon_state="black")*/
 mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
-		view()<<"<b><font color=red>[usr]</font>: <font color=red><font size=3>Reddikulus!</font></font>, [M].</b>"
+		hearers()<<"<b><font color=red>[usr]</font>: <font color=red><font size=3>Reddikulus!</font></font>, [M].</b>"
 		sleep(20)
 		flick('fireworks.dmi',M)
 		if(M.derobe) return
@@ -1264,14 +1264,14 @@ mob/Spells/verb/Ecliptica()
 	var/mob/M
 	for(M in get_step(usr,usr.dir))
 		step_away(M,usr,75)
-		view()<<"<b><font color=red>[usr]:</font></b> Ecliptica!"
+		hearers()<<"<b><font color=red>[usr]:</font></b> Ecliptica!"
 		M<<"You were pushed back!"
 mob/Spells/verb/Delicio(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		flick("transfigure",M)
-		view()<<"<b><font color=red>[usr]</font>: <b>Delicio, [M].</b>"
+		hearers()<<"<b><font color=red>[usr]</font>: <b>Delicio, [M].</b>"
 		sleep(20)
 		M<<"<b><font color=red>Delicio Charm:</b></font>[usr] turned you into a delicious Turkey."
 		M.trnsed = 1
@@ -1283,7 +1283,7 @@ mob/Spells/verb/Avifors(mob/Player/M in oview()&Players)
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		flick("transfigure",M)
-		view()<<"<b><font color=gray>[usr]</font>: <b>Avifors, [M].</b>"
+		hearers()<<"<b><font color=gray>[usr]</font>: <b>Avifors, [M].</b>"
 		sleep(20)
 		M<<"<b><font color=gray>Avifors Charm:</b></font>[usr] turned you into a black crow."
 		M.trnsed = 1
@@ -1294,7 +1294,7 @@ mob/Spells/verb/Ribbitous(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		view()<<"<b><font color=red>[usr]</font>:<b><font color=green> Ribbitous, [M].</b></font>"
+		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Ribbitous, [M].</b></font>"
 		sleep(20)
 		flick("transfigure",M)
 		M<<"<b><font color=green>Ribbitous Charm:</b></font> [usr] turned you into a Frog."
@@ -1306,7 +1306,7 @@ mob/Spells/verb/Carrotosi(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		view()<<"<b><font color=red>[usr]</font>:<b><font color=red> Carrotosi, [M].</b></font>"
+		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=red> Carrotosi, [M].</b></font>"
 		sleep(20)
 		flick("transfigure",M)
 		M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
@@ -1318,7 +1318,7 @@ mob/Spells/verb/Self_To_Dragon()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		flick("transfigure",usr)
-		view()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Draconum.</b></font>"
+		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Draconum.</b></font>"
 		usr.trnsed = 1
 		usr.overlays = null
 		if(usr.away)usr.ApplyAFKOverlay()
@@ -1327,7 +1327,7 @@ mob/Spells/verb/Self_To_Mushroom()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		flick("transfigure",usr)
-		view()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Musashi.</b></font>"
+		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Musashi.</b></font>"
 		usr.overlays = null
 		if(usr.away)usr.ApplyAFKOverlay()
 		usr.trnsed = 1
@@ -1390,7 +1390,7 @@ mob/Spells/verb/Harvesto(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		view()<<"<b><font color=red>[usr]</font>:<b> Harvesto, [M].</b>"
+		hearers()<<"<b><font color=red>[usr]</font>:<b> Harvesto, [M].</b>"
 		sleep(20)
 		flick("transfigure",M)
 		if(!M)return
@@ -1403,7 +1403,7 @@ mob/Spells/verb/Felinious(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		view()<<"<b><font color=red>[usr]</font>:<b> Felinious, [M].</b>"
+		hearers()<<"<b><font color=red>[usr]</font>:<b> Felinious, [M].</b>"
 		sleep(20)
 		if(!M)return
 		M<<"<b><font color=blue>Felinious Charm:</b></font> [usr] turned you into a Black Cat."
@@ -1416,7 +1416,7 @@ mob/Spells/verb/Scurries(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		view()<<"<b><font color=red>[usr]</font>: <b>Scurries, [M].</b>"
+		hearers()<<"<b><font color=red>[usr]</font>: <b>Scurries, [M].</b>"
 		sleep(20)
 		if(!M)return
 		flick("transfigure",M)
@@ -1429,7 +1429,7 @@ mob/Spells/verb/Seatio(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		view()<<"<b><font color=red>[usr]</font>: <b>Seatio, [M].</b>"
+		hearers()<<"<b><font color=red>[usr]</font>: <b>Seatio, [M].</b>"
 		sleep(20)
 		if(!M)return
 		flick("transfigure",M)
@@ -1442,7 +1442,7 @@ mob/Spells/verb/Nightus(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		view()<<"<b><font color=red>[usr]</font>: <b>Nightus, [M].</b>"
+		hearers()<<"<b><font color=red>[usr]</font>: <b>Nightus, [M].</b>"
 		sleep(20)
 		if(!M)return
 		flick("transfigure",M)
@@ -1455,7 +1455,7 @@ mob/Spells/verb/Peskipixie_Pesternomae(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		view()<<"<b><font color=red>[usr]</font>: <b>Peskipixie Pesternomae, [M].</b>"
+		hearers()<<"<b><font color=red>[usr]</font>: <b>Peskipixie Pesternomae, [M].</b>"
 		sleep(20)
 		if(!M)return
 		flick("transfigure",M)
@@ -1485,7 +1485,7 @@ mob/Spells/verb/Telendevour()
 				usr.client.perspective=EYE_PERSPECTIVE
 				file("Logs/Telenlog.txt") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] telendevoured [M]"
 				var/randnum = rand(1,7)
-				view()<<"[usr]:<font color=blue><b><font size=2> Telendevour!</font>"
+				hearers()<<"[usr]:<font color=blue><b><font size=2> Telendevour!</font>"
 				if(randnum == 1)
 					M<<"You feel that <b>[usr]</b> is watching you."
 				else
@@ -1494,14 +1494,14 @@ mob/Spells/verb/Telendevour()
 			if(usr.client.perspective == EYE_PERSPECTIVE)
 				usr.client.eye=usr
 				usr.client.perspective=EYE_PERSPECTIVE
-				view()<<"[usr]'s eyes appear again."
+				hearers()<<"[usr]'s eyes appear again."
 mob/Spells/verb/Arania_Eximae()
 	set category="Spells"
 	set name = "Arania Exumai"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
 		usr.MP-=50
 		usr.updateHPMP()
-		view()<<"<b><font color=red>[usr]</b></font>: <b><font size=2><font color=white> Arania Exumai"
+		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=2><font color=white> Arania Exumai"
 		for(var/mob/NPC/Enemies/Acromantula/A in oview())
 			A.overlays+=image('arania.dmi')
 			spawn(20)
@@ -1514,12 +1514,12 @@ mob/Spells/verb/Arania_Eximae()
 				A.loc = locate(1,1,1)
 				Respawn(A)
 		sleep(19)
-		view()<<"A blast shoots out of [usr]'s wand."
+		hearers()<<"A blast shoots out of [usr]'s wand."
 mob/Spells/verb/Avada_Kedavra()
 	set category="Spells"
 	if(clanrobed())return
 	if(key != "Murrawhip")
-		view()<<"<b><font color=red>[src]:</b></font> <font color= #00FF33>Avada Kedavra !"
+		hearers()<<"<b><font color=red>[src]:</b></font> <font color= #00FF33>Avada Kedavra !"
 	var/obj/S=new/obj/Avada_Kedavra
 
 	S.loc=(src.loc)
@@ -1533,18 +1533,18 @@ mob/Spells/verb/Episky()
 	set name = "Episkey"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedEpiskey,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		view()<<"<font color=red><b>[usr]:</font></b> <font color=aqua>Episkey!"
+		hearers()<<"<font color=red><b>[usr]:</font></b> <font color=aqua>Episkey!"
 		new /StatusEffect/UsedEpiskey(src,15)
 		usr.HP=usr.MHP+usr.extraMHP
 		usr.updateHPMP()
 		usr.overlays+=image('Heal.dmi')
 		sleep(10)
-		view()<<"<font color=aqua>[usr] heals \himself."
+		hearers()<<"<font color=aqua>[usr] heals \himself."
 		usr.overlays-=image('Heal.dmi')
 mob/Spells/verb/Confundus(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=30,againstocclumens=1))
-		view()<<"<b><font color=red>[usr]:</b></font> <font color= #7CFC00>Confundus, [M]!"
+		hearers()<<"<b><font color=red>[usr]:</b></font> <font color= #7CFC00>Confundus, [M]!"
 		usr.MP-=30
 		usr.updateHPMP()
 		sleep(1)
@@ -1563,14 +1563,14 @@ mob/Spells/verb/Confundus(mob/Player/M in oview()&Players)
 mob/Spells/verb/Crucio(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedCrucio,needwand=1,inarena=0,insafezone=0,target=M,mpreq=400))
-		view()<<"<b><font color=red>[usr]:</b></font> <font color= #7CFC00>Crucio!"
+		hearers()<<"<b><font color=red>[usr]:</b></font> <font color= #7CFC00>Crucio!"
 		new /StatusEffect/UsedCrucio(src,15)
 		//var/obj/S=new/obj/Crucio  //MAIN CRUCIO
 		M.overlays+=image(icon='attacks.dmi',icon_state="kill")
 		usr.MP-=400
 		usr.updateHPMP()
 		sleep(1)
-		view()<<"[M] cringes in Pain!"
+		hearers()<<"[M] cringes in Pain!"
 		M.HP-=500
 		M.Death_Check()
 		sleep(20)
@@ -1684,8 +1684,8 @@ mob/Spells/verb/Portus()
 			if(null)
 				return
 		new /StatusEffect/UsedPortus(src,30)
-		view()<<"[usr]: <font color=aqua><font size=2>Portus!</font>"
-		view()<<"A PortKey flys out of [usr]'s wand, and opens."
+		hearers()<<"[usr]: <font color=aqua><font size=2>Portus!</font>"
+		hearers()<<"A PortKey flys out of [usr]'s wand, and opens."
 		usr.MP-=25
 		usr.updateHPMP()
 mob/Spells/verb/Sense(mob/M in view()&Players)
@@ -1998,7 +1998,7 @@ obj/Port_Key
 			sleep(10)
 			if(usr.followplayer==1){alert("You cannot use a portkey while following a player.");return}
 			if(usr.removeoMob) spawn()usr:Permoveo()
-			view()<<"[usr] touches the portkey and vanishes."
+			hearers()<<"[usr] touches the portkey and vanishes."
 			for(var/obj/hud/player/R in usr.client.screen)
 				del(R)
 			for(var/obj/hud/cancel/C in usr.client.screen)
@@ -2025,7 +2025,7 @@ mob/GM/verb/Remote_View(mob/M in world)
 	if(M.derobe||M.aurorrobe||M.type == /mob/fakeDE ||istype(M.loc.loc, /area/ministry_of_magic||istype(M.loc.loc, /area/blindness))){src<<"<b>You cannot use remote view on this person.";return}
 	usr.client.eye=M
 	usr.client.perspective=EYE_PERSPECTIVE
-	view()<<"[usr] sends \his view elsewhere."
+	hearers()<<"[usr] sends \his view elsewhere."
 mob/GM/verb/HM_Remote_View(mob/M in world)
 	set category="Spells"
 	set popup_menu = 0

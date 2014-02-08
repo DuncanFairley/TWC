@@ -41,7 +41,7 @@ mob/Cow
 		Moo()
 	proc/Moo()
 		spawn()while(src)
-			viewers(src) << "Cow: [pick("MooooooOOOoOo!","Moo!","MOOOOOOOOOOOOOOOOOOOOOOOOO","Moooooo!","Moo moo moo!")]"
+			hearers(src) << "Cow: [pick("MooooooOOOoOo!","Moo!","MOOOOOOOOOOOOOOOOOOOOOOOOO","Moooooo!","Moo moo moo!")]"
 			sleep(400)
 obj
 	Food
@@ -57,14 +57,14 @@ obj
 				del src
 			Take()
 				set src in oview(1)
-				view()<<"[usr] takes \the [src]."
+				hearers()<<"[usr] takes \the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 			Drop()
 				set src in usr
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 	FoodProm
 		icon = 'PromFood.dmi'
 		Blue_Popsicle
@@ -120,7 +120,7 @@ obj
 				del src
 			Take()
 				set src in oview(1)
-				view()<<"[usr] takes \the [src]."
+				hearers()<<"[usr] takes \the [src]."
 				Move(usr)
 				Pickedup()
 				usr:Resort_Stacking_Inv()
@@ -128,7 +128,7 @@ obj
 				set src in usr
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 		proc/Pickedup()
 			spawn()
 				sleep(600)

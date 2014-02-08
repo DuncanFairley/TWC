@@ -108,7 +108,7 @@ obj
 		verb
 			Ring_Bell()
 				set src in oview(1)
-				view()<<"<i>DING!"
+				hearers()<<"<i>DING!"
 				usr<<"Someone should be with you shortly."
 				for(var/mob/M in range())
 					if(M.name=="Shana the Receptionist")
@@ -116,7 +116,7 @@ obj
 						flick('dlo.dmi',M)
 
 						M.invisibility=0
-						view()<<"<b><font color=blue>Shana:</font> Hello, I'm Shana. The Hogwarts Receptionist. How May I help you?"
+						hearers()<<"<b><font color=blue>Shana:</font> Hello, I'm Shana. The Hogwarts Receptionist. How May I help you?"
 						sleep(30)
 						usr<<"Use the Talk verb when near Shana to speak with her."
 
@@ -268,7 +268,7 @@ mob
 				new /StatusEffect/UsedMeditate(src,10)
 				usr<<"You meditate for a moment."
 				usr.overlays+=/image/meditate
-				view()<<"<font color=red>[usr] meditates.</font>"
+				hearers()<<"<font color=red>[usr] meditates.</font>"
 				sleep(50)
 				usr.overlays-=/image/meditate
 				usr.MP = usr.MMP+usr.extraMMP
@@ -282,7 +282,7 @@ mob
 			set name = "Raise Hand"
 			if(usr.questionius==2)
 				usr.overlays+=icon('hand.dmi')
-				view()<<"<font color=red>[usr] raises \his hand.</font>"
+				hearers()<<"<font color=red>[usr] raises \his hand.</font>"
 				usr << "<b>Raise Hand is used during class to tell your teacher that you have a question. Use it again to lower your hand.</b>"
 				usr.questionius=1
 			else if(usr.questionius==1)
@@ -291,11 +291,11 @@ mob
 				usr.questionius=0
 			else
 				usr.overlays+=icon('hand.dmi')
-				view()<<"<font color=red>[usr] raises \his hand.</font>"
+				hearers()<<"<font color=red>[usr] raises \his hand.</font>"
 				usr.questionius=1
 mob/verb/Emote(t as text)
 			if(usr.Rictusempra==10) return
 			if(usr.mute==1) return
 			t=check(t)//run the text through the cleaner
 			t = copytext(t,1,350)
-			view()<<"[usr] [t]"
+			hearers()<<"[usr] [t]"

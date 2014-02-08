@@ -26,15 +26,15 @@ obj/drop_on_death
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
 			if(announceToWorld)
-				view()<<"<b>[usr] drops \the [src].</b>"
+				hearers()<<"<b>[usr] drops \the [src].</b>"
 			else
-				view()<<"[usr] drops \the [src]."
+				hearers()<<"[usr] drops \the [src]."
 	proc
 		take(mob/M)
 			if(announceToWorld)
 				world << "<b>[M] takes \the [src].</b>"
 			else
-				view()<<"[M] takes \the [src]."
+				hearers()<<"[M] takes \the [src]."
 			Move(M)
 			M:Resort_Stacking_Inv()
 mob/test/verb
@@ -1268,13 +1268,13 @@ mob/Player
 											T.density = 1
 								if("open event")
 									if(src.admin)
-										view()<<"Done."
+										hearers()<<"Done."
 										for(var/turf/Arena/T in world)
 											T.icon = null
 											T.density = 0
 								if("close event")
 									if(src.admin)
-										view()<<"Done."
+										hearers()<<"Done."
 										for(var/turf/Arena/T in world)
 											T.icon = 'Turf.dmi'
 											T.icon_state = "grille"
@@ -1282,14 +1282,14 @@ mob/Player
 								if("colloportus gate")
 									if(src.Gm)
 										sleep(20)
-										view()<<"<font size=1>[usr] has locked the door</font>"
+										hearers()<<"<font size=1>[usr] has locked the door</font>"
 										for(var/turf/Gate/T in oview(5))
 											T.door=0
 											T.bumpable=0
 								if("colloportus")
 									if(src.Gm)
 										sleep(20)
-										view()<<"<font size=1>[usr] has locked the door</font>"
+										hearers()<<"<font size=1>[usr] has locked the door</font>"
 										if(classdest)
 											usr << errormsg("Friendly reminder: Class guidance is still on.")
 										for(var/obj/Hogwarts_Door/T in oview(client.view))
@@ -1306,7 +1306,7 @@ mob/Player
 								if("alohomora gate")
 									if(src.Gm)
 										sleep(20)
-										view()<<"<font size=1>[usr] has unlocked the Door</font>"
+										hearers()<<"<font size=1>[usr] has unlocked the Door</font>"
 										for(var/turf/Gate/T in oview())
 											flick('Alohomora.dmi',T)
 											T.door=1
@@ -1319,13 +1319,13 @@ mob/Player
 											var/scroll = /obj/items/scroll
 											flick('mist.dmi',T)
 											new scroll(T.loc)
-										view()<<"[usr] flicks \his wand, causing scrolls to appear on the desks."
+										hearers()<<"[usr] flicks \his wand, causing scrolls to appear on the desks."
 								if("quillis deletio")
 									if(src.Gm)
 										for(var/obj/items/scroll/T in oview(client.view))
 											flick('mist.dmi',T)
 											del T
-										view()<<"[usr] flicks \his wand, causing scrolls to vanish"
+										hearers()<<"[usr] flicks \his wand, causing scrolls to vanish"
 
 								if("disperse")
 									if(src.Gm)
@@ -1349,7 +1349,7 @@ mob/Player
 
 								if("save me")
 									src.Save()
-									view()<<"[src] has been saved."
+									hearers()<<"[src] has been saved."
 								if("save world")
 									if(usr.admin)
 										for(var/client/C)
@@ -1418,7 +1418,7 @@ mob/Player
 										src<<infomsg("Access Granted.")
 								if("restricto")
 									if(src.Gm)
-										view()<<"[usr] encases \himself within a magical barrier."
+										hearers()<<"[usr] encases \himself within a magical barrier."
 										for(var/turf/T in view(1))
 											var/inflamari = /obj/Force_Field
 											flick('mist.dmi',T)
@@ -1427,7 +1427,7 @@ mob/Player
 											T.invisibility=0
 								if("restricto hellfire")
 									if(src.admin)
-										view()<<"[usr] encases \himself in magical flames."
+										hearers()<<"[usr] encases \himself in magical flames."
 										for(var/turf/T in view(1))
 											var/inflamari = /obj/Inflamari
 											T.overlays += inflamari
@@ -1436,7 +1436,7 @@ mob/Player
 								if("open up")
 									if(src.Gm)
 										sleep(10)
-										view()<<"Access Granted. Welcome, [usr]."
+										hearers()<<"Access Granted. Welcome, [usr]."
 										for(var/turf/Holoroom_Door/T in oview())
 											T.door=1
 											T.bumpable=1
@@ -1450,7 +1450,7 @@ mob/Player
 								if("reservio")
 									if(src.Gm)
 										sleep(10)
-										view()<<"Holoroom has been locked and secured."
+										hearers()<<"Holoroom has been locked and secured."
 										for(var/turf/Holoroom_Door/T in oview(5))
 											T.door=1
 											T.bumpable=1
@@ -1482,7 +1482,7 @@ mob/Player
 												C.disable()
 							if(cmptext(copytext(t, 1, 18),"restricto maxima "))
 								if(src.Gm)
-									view()<<"[usr] encases the area within a magical barrier."
+									hearers()<<"[usr] encases the area within a magical barrier."
 									var/value = copytext(t, 18, 19)
 									if(value == "") value = 5
 									else if(text2num(value) < 1) value = 5

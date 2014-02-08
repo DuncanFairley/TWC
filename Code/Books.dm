@@ -16,11 +16,11 @@ obj/TFD
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 
@@ -37,11 +37,11 @@ obj/COMCText
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 
@@ -58,11 +58,11 @@ obj/MonBookMon
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 
@@ -78,11 +78,11 @@ obj/CharmingText
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 
@@ -97,11 +97,11 @@ obj/Menu
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 

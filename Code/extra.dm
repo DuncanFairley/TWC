@@ -201,7 +201,7 @@ obj/Beer
 	verb
 		Drink()
 			set src in oview(1)
-			view()<<"[usr] sips \his beer."
+			hearers()<<"[usr] sips \his beer."
 			sleep(1200)
 			del src
 			usr<<"Your beer dissolves."
@@ -209,11 +209,11 @@ obj/Beer
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his beer."
+			hearers()<<"[usr] drops \his beer."
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 obj/Beer2
@@ -228,7 +228,7 @@ obj/Tea
 	verb
 		Drink()
 			set src in view(1)
-			view()<<"[usr] sips \his tea."
+			hearers()<<"[usr] sips \his tea."
 			sleep(1200)
 			if(src)usr<<"Your Tea dissolves."
 			del src
@@ -237,11 +237,11 @@ obj/Tea
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his tea."
+			hearers()<<"[usr] drops \his tea."
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 obj/Blueberry_Pie
@@ -251,7 +251,7 @@ obj/Blueberry_Pie
 	verb
 		Eat()
 			set src in view(1)
-			view()<<"[usr] eats \the [src]."
+			hearers()<<"[usr] eats \the [src]."
 			usr.HP+=5
 			if(usr.HP > (usr.MHP+usr.extraMHP)) usr.HP = usr.MHP+usr.extraMHP
 			del src
@@ -259,11 +259,11 @@ obj/Blueberry_Pie
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 obj/Apple_Pie
@@ -273,7 +273,7 @@ obj/Apple_Pie
 	verb
 		Eat()
 			set src in view(1)
-			view()<<"[usr] eats \the [src]."
+			hearers()<<"[usr] eats \the [src]."
 			usr.HP+=5
 			if(usr.HP > (usr.MHP+usr.extraMHP)) usr.HP = usr.MHP+usr.extraMHP
 			del src
@@ -281,11 +281,11 @@ obj/Apple_Pie
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 obj/Cocoa_Nut_Cream_Pie
@@ -295,7 +295,7 @@ obj/Cocoa_Nut_Cream_Pie
 	verb
 		Eat()
 			set src in view(1)
-			view()<<"[usr] eats \the [src]."
+			hearers()<<"[usr] eats \the [src]."
 			usr.HP+=5
 			if(usr.HP > (usr.MHP+usr.extraMHP)) usr.HP = usr.MHP+usr.extraMHP
 			del src
@@ -303,11 +303,11 @@ obj/Cocoa_Nut_Cream_Pie
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 obj/Fire_Orb
@@ -319,14 +319,14 @@ obj/Fire_Orb
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 	verb
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 
 
 
@@ -356,14 +356,14 @@ obj/Shadow_Orb
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 	verb
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 
 obj/pokeby
 	icon='pokeby.dmi'
@@ -374,14 +374,14 @@ obj/pokeby
 	verb
 		Take()
 			set src in oview(1)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 	verb
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 obj/Chest2
 	name="Chest"
 	icon='turf.dmi'
@@ -519,14 +519,14 @@ obj
 		verb
 			Take()
 				set src in oview(0)
-				view()<<"[usr] picks up [src]."
+				hearers()<<"[usr] picks up [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 		verb
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 		verb
 			Withdraw_Quaffle()
 				set category = "Quidditch"
@@ -549,14 +549,14 @@ obj
 		verb
 			Take()
 				set src in oview(0)
-				view()<<"[usr] picks up [src]."
+				hearers()<<"[usr] picks up [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 		verb
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 		verb
 			Withdraw_Quaffle()
 				set category = "Quidditch"
@@ -579,14 +579,14 @@ obj
 		verb
 			Take()
 				set src in oview(0)
-				view()<<"[usr] picks up [src]."
+				hearers()<<"[usr] picks up [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 		verb
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 		verb
 			Withdraw_Quaffle()
 				set category = "Quidditch"
@@ -609,14 +609,14 @@ obj
 		verb
 			Take()
 				set src in oview(0)
-				view()<<"[usr] picks up [src]."
+				hearers()<<"[usr] picks up [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 		verb
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 		verb
 			Withdraw_Quaffle()
 				set category = "Quidditch"
@@ -639,14 +639,14 @@ obj
 		verb
 			Take()
 				set src in oview(0)
-				view()<<"[usr] picks up [src]."
+				hearers()<<"[usr] picks up [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 		verb
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 		verb
 			Withdraw_Quaffle()
 				set category = "Quidditch"
