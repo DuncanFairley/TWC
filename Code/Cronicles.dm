@@ -190,13 +190,19 @@ mob
 			if(savefile_version < SAVEFILE_VERSION)
 				src.resetStatPoints()
 				src << infomsg("Your statpoints have been reset.")
-			src.loc = locate(last_x, last_y, last_z)
-			if(last_z > 26) //If player is on a swap map, move them to gringotts
+
+			var/turf/t = locate(last_x, last_y, last_z)
+			if(!t || t.name == "blankturf")
+				loc = locate(13,27,21)
+			else if(last_z > 26) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
-			else if(istype(loc.loc, /area/DEHQ) && !DeathEater)
+			else if(istype(t.loc, /area/DEHQ) && !DeathEater)
 				loc = locate(13,27,21)
-			else if(istype(loc.loc, /area/AurorHQ) && !Auror)
+			else if(istype(t.loc, /area/AurorHQ) && !Auror)
 				loc = locate(13,27,21)
+			else
+				loc = t
+
 			spawn()
 				if(usr.loc)
 					if(usr.loc.loc)
