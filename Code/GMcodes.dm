@@ -1194,15 +1194,14 @@ mob
 			set popup_menu = 0
 			set category="Staff"
 			if(clanrobed())return
-			if(M.movable==0)
-
+			if(M.movable==0 && M.GMFrozen != 1)
 				M.movable=1
 				M.GMFrozen=1
 				M.overlays+='freeze.dmi'
 				M<<"You have been frozen."
 			else if(M.movable==1)
 				M.movable=0
-
+				M.frozen=0
 				M.GMFrozen=0
 				M.overlays-='freeze.dmi'
 				M<<"You have been unfrozen."
@@ -1291,10 +1290,16 @@ mob/GM
 			usr<<"With a flick of your wand, you Freeze your view!"
 			for(var/mob/M in view())
 				if(M.key!=usr.key)
+					if(M.GMFrozen)
+						M.frozen = 0
+						M.movable=0
+						M.GMFrozen=0
+						M.overlays-='freeze.dmi'
+					else
+						M.movable=1
+						M.GMFrozen=1
+						M.overlays+='freeze.dmi'
 
-					M.movable=1
-					M.GMFrozen=1
-					M.overlays+='freeze.dmi'
 						//M<<"[usr] holds their wand up, and with a quick *Flick!* freezes EVERYONE in their sight!"
 		Unfreeze_Area()
 			set category="Staff"
