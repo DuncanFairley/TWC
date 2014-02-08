@@ -1787,6 +1787,8 @@ mob/proc/Death_Check(mob/killer = src)
 				src.arcessoing = 0
 			else if(ismob(arcessoing))
 				view() << "[src] pulls out of the spell."
+				if(_input) del _input
+				if(arcessoing._input) del _input
 				arcessoing.arcessoing = 0
 				arcessoing = 0
 			if(src.Detention)
@@ -2012,7 +2014,7 @@ mob/proc/Death_Check(mob/killer = src)
 			if(src.loc.loc.type in typesof(/area/arenas/MapOne))
 				if(src.House != killer.House)
 					if(currentArena)
-						if(currentArena.roundtype == HOUSE_WARS)
+						if(currentArena.roundtype == HOUSE_WARS && currentArena.started)
 							currentArena.Add_Point(killer.House,1)
 							src << "You were killed by [killer] of [killer.House]"
 							killer << "You killed [src] of [src.House]"
