@@ -123,16 +123,7 @@ obj/teleport
 		invisibility = 0
 		Teleport(mob/M)
 			if(..())
-				var/list/custom_loaded = list()
-				for(var/customMap/c in loadedMaps)
-					custom_loaded += c.swapmap
-
-				for(var/swapmap/map in (swapmaps_loaded ^ custom_loaded))
-					if(!map.InUse())
-						for(var/turf/T in map.AllTurfs())
-							for(var/mob/A in T)
-								if(!A.key)del(A)
-						map.Unload()
+				unload_vault()
 
 	desert_exit
 		icon = 'misc.dmi'
@@ -150,6 +141,32 @@ obj/teleport
 		New()
 			..()
 			walk_rand(src,8)
+
+var/tmp/vault_last_exit
+proc/unload_vault()
+	if(vault_last_exit)
+		vault_last_exit = world.time
+		return
+
+	var/const/VAULT_TIMEOUT = 50
+	vault_last_exit = world.time
+
+	spawn(VAULT_TIMEOUT)
+		while(vault_last_exit)
+			if(world.time - vault_last_exit >= VAULT_TIMEOUT)
+				var/list/custom_loaded = list()
+				for(var/customMap/c in loadedMaps)
+					custom_loaded += c.swapmap
+
+				for(var/swapmap/map in (swapmaps_loaded ^ custom_loaded))
+					if(!map.InUse())
+						for(var/turf/T in map.AllTurfs())
+							for(var/mob/A in T)
+								if(!A.key)del(A)
+						map.Unload()
+				vault_last_exit = null
+			sleep(VAULT_TIMEOUT)
+
 
 mob/GM/verb/UnloadMap()
 	set category = "Custom Maps"
