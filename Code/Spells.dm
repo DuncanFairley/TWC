@@ -995,6 +995,7 @@ mob/Spells/verb/Replacio(mob/M in oview()&Players)
 			M << errormsg("The replacio failed.")
 			usr << errormsg("The replacio failed.")
 			usr.loc = startloc
+			return
 		M.loc=startloc
 		flick('GMOrb.dmi',usr)
 		flick('GMOrb.dmi',M)
