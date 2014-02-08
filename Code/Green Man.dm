@@ -183,7 +183,7 @@ obj
 
 		verb
 			Use()
-				view() << "<b><font color=red>[usr] pulls <font color=white>out \his<font color=blue> Flag!</b></font>"
+				hearers() << "<b><font color=red>[usr] pulls <font color=white>out \his<font color=blue> Flag!</b></font>"
 				usr.overlays+=image('flag.dmi',icon_state="flag")
 
 		verb

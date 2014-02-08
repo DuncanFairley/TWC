@@ -139,7 +139,7 @@ obj
 							icon_state = "blue-large"
 							spawn(40)
 							icon_state = "blue-idle"
-							view() << "<b>The Goblet of Fire burns ferociously as [usr]'s piece of parchment falls in.</b>"
+							hearers() << "<b>The Goblet of Fire burns ferociously as [usr]'s piece of parchment falls in.</b>"
 
 		Click()
 			if(usr.Gm)
@@ -147,7 +147,7 @@ obj
 					var/reply = alert("Do you wish to start the ceremony? The goblet will turn red, and wait for you to click it again.",,"Yes","No")
 					if(reply == "Yes")
 						started = 1
-						view() << "<h3>The Goblet of Fire changes its colour to a firey red.</h3>"
+						hearers() << "<h3>The Goblet of Fire changes its colour to a firey red.</h3>"
 						icon_state = "red-idle"
 					return
 				else
@@ -170,12 +170,12 @@ obj
 					//onlineplayers now only contains players from the house
 					var/mob/winner = pick(onlineplayers)
 					icon_state = "red-large"
-					view() << "<b>The Goblet of Fire burns ferociously</b>"
+					hearers() << "<b>The Goblet of Fire burns ferociously</b>"
 					sleep(50)
 					if(winner)
-						view() << "<h2>A thin sliver of charred parchment with <u>[winner.name]<u>  written on it flies out of the Goblet.</h2>"
+						hearers() << "<h2>A thin sliver of charred parchment with <u>[winner.name]<u>  written on it flies out of the Goblet.</h2>"
 					else
-						view() << "<h3>The Goblet fizzles out</h3>"
+						hearers() << "<h3>The Goblet fizzles out</h3>"
 					sleep(10)
 					icon_state = "red-idle"
 

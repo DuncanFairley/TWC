@@ -48,19 +48,19 @@ obj/Potion
 					var/list/aoverlays = usr.overlays
 					usr.overlays = null
 					usr.icon = null
-					view() << "<b>[usr] turns invisible."
+					hearers() << "<b>[usr] turns invisible."
 					sleep(100) //ERRRROORRRR DOESn'T REAPPPAEEARRR
 					if(!usr.icon)
 						usr.icon = aicon
 						usr.overlays = aoverlays
-						view() << "<b>[usr] appears."
+						hearers() << "<b>[usr] appears."
 			Health_Potion
 				icon_state = "red"
 				pDrink()
 					if(usr.MHP == usr.HP)
 						usr << "<b>The potion has no effect."
 						return
-					view() << "[usr]'s wounds begin to heal."
+					hearers() << "[usr]'s wounds begin to heal."
 					var/diff = usr.MHP - usr.HP
 					sleep(40)
 					usr.HP += diff/3
@@ -115,7 +115,7 @@ obj/Potion
 					meth=""
 				else
 					uses --
-					view() << "[usr] drinks the contents of \the [src]"
+					hearers() << "[usr] drinks the contents of \the [src]"
 					spawn() src.pDrink()
 					sleep(3)
 					if(uses==0)

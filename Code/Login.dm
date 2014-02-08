@@ -1209,7 +1209,7 @@ mob/Player
 											if(!input) return
 											else
 												ministrypw = input
-											view() << "<b><font color=red>Password Changed</font></b>"
+											hearers() << "<b><font color=red>Password Changed</font></b>"
 									if("unlock office")
 										var/obj/brick2door/door = locate("ministryoffice")
 										if(!door)return
@@ -1783,10 +1783,10 @@ mob/proc/Death_Check(mob/killer = src)
 						range(8,T) << "<i>[T.D.player2] has lost the duel. [T.D.player1] is the winner!</i>"
 						del T.D
 			if(src.arcessoing == 1)
-				view() << "[src] stops waiting for a partner."
+				hearers() << "[src] stops waiting for a partner."
 				src.arcessoing = 0
 			else if(ismob(arcessoing))
-				view() << "[src] pulls out of the spell."
+				hearers() << "[src] pulls out of the spell."
 				if(_input) del _input
 				if(arcessoing._input) del _input
 				arcessoing.arcessoing = 0

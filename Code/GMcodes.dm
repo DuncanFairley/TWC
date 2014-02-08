@@ -983,7 +983,7 @@ mob
 
 				var/item = new O(usr.loc)
 				if(isobj(item))item:owner = usr.key
-				if(isobj(item)||ismob(item))view() << "With a flick of [usr]'s wand, a [item:name] appears."
+				if(isobj(item)||ismob(item))hearers() << "With a flick of [usr]'s wand, a [item:name] appears."
 		Search_Create()
 			set category="Staff"
 			usr.client<<link("?command=create;")
@@ -1153,7 +1153,7 @@ mob
 			set category = "Staff"
 			if(usr.cloaked==0)
 				if(clanrobed())return
-				view() << "<b>[usr] has vanished."
+				hearers() << "<b>[usr] has vanished."
 				//usr.picon_state=usr.icon_state
 				flick('GMOrb.dmi',usr)
 				sleep(9)
@@ -1166,7 +1166,7 @@ mob
 				usr.underlays = list()
 				usr.overlays = list()
 			else
-				view() << "<b>[usr] has appeared."
+				hearers() << "<b>[usr] has appeared."
 				//usr.icon = usr.mprevicon
 				flick('GMOrb.dmi',usr)
 				sleep(11)
@@ -1540,8 +1540,8 @@ client/Topic(href, href_list[])
 			var/ny = text2num(href_list["y"])
 			var/nz = text2num(href_list["z"])
 			usr.loc = locate(nx,ny,nz)
-			view() << "POOF!"
-			view() << "<i>[usr] appears at the scene of the crime...</i>"
+			hearers() << "POOF!"
+			hearers() << "<i>[usr] appears at the scene of the crime...</i>"
 		else if(verbs.Find(/mob/GM/verb/Remote_View))
 			usr << "Only GM and above can use this command."
 		else

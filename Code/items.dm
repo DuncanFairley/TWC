@@ -192,7 +192,7 @@ obj/items/Whoopie_Cushion
 	Click()
 		if(src in usr)
 			src.verbs.Remove(/obj/items/verb/Take)
-			view() << "[usr] sets a [src]."
+			hearers() << "[usr] sets a [src]."
 			src.isset = 1
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
@@ -742,7 +742,7 @@ obj
 		verb
 			Wear()
 				if(usr.clanrobed())return
-				view() << "<b><font color=#CCCCCC>[usr] slips on \his clothes.</b></font>"
+				hearers() << "<b><font color=#CCCCCC>[usr] slips on \his clothes.</b></font>"
 				if(isoverlay) usr.overlays+=image(src.icon)
 				else
 					usr.mprevicon = usr.icon
@@ -750,7 +750,7 @@ obj
 
 		verb
 			Take_Off()
-				view() << "<b><font color=#CCCCCC>[usr] slips off \his custom clothes.</b></font>"
+				hearers() << "<b><font color=#CCCCCC>[usr] slips off \his custom clothes.</b></font>"
 				if(isoverlay) usr.overlays-=image(src.icon)
 				else usr.icon = usr.mprevicon
 		verb
@@ -776,12 +776,12 @@ obj
 
 		verb
 			Wear()
-				view() << "<b><font color=#CCCCCC>[usr] slips on \his wig.</b></font>"
+				hearers() << "<b><font color=#CCCCCC>[usr] slips on \his wig.</b></font>"
 				usr.overlays+=image(src.icon)
 
 		verb
 			Take_Off()
-				view() << "<b><font color=#CCCCCC>[usr] slips off \his wig.</b></font>"
+				hearers() << "<b><font color=#CCCCCC>[usr] slips off \his wig.</b></font>"
 				usr.overlays-=image(src.icon)
 		verb
 			Take()
@@ -2587,12 +2587,12 @@ obj
 				if(usr.removeoMob) spawn()usr:Permoveo()
 				usr.picon_state=usr.icon_state
 				flick('ex.dmi',usr)
-				oview() << "<i><b>There is a loud crack.</b></i>."
+				ohearers() << "<i><b>There is a loud crack.</b></i>."
 				sleep(4)
 				usr.loc = locate(54,50,18)
 				usr.Move(usr.loc)
 				flick('ex.dmi',usr)
-				oview() << "<i><b>There is a loud crack.</b></i>."
+				ohearers() << "<i><b>There is a loud crack.</b></i>."
 				usr.icon_state=usr.picon_state
 			Take()
 				set src in oview(1)

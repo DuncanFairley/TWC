@@ -304,7 +304,7 @@ mob/Shana_the_Receptionist
 												sleep(10)
 												M.loc = locate(47,50,1)
 												flick('dlo.dmi',M)
-												view() << "<b><font color=blue>Shana:</font> Ah, here he is now. Thank you, [usr]. Come again!"
+												hearers() << "<b><font color=blue>Shana:</font> Ah, here he is now. Thank you, [usr]. Come again!"
 												sleep(35)
 												for(var/mob/Z in world)
 													if(Z.name=="Shana the Receptionist")
@@ -340,7 +340,7 @@ mob/Shana_the_Receptionist
 												sleep(10)
 												M.loc = locate(47,50,1)
 												flick('dlo.dmi',M)
-												view() << "<b><font color=blue>Shana:</font> Ah, here he is now. Thank you, [usr]. Come again!"
+												hearers() << "<b><font color=blue>Shana:</font> Ah, here he is now. Thank you, [usr]. Come again!"
 												sleep(35)
 												for(var/mob/Z in world)
 													if(Z.name=="Shana the Receptionist")
@@ -390,7 +390,7 @@ mob/Shana_the_Receptionist
 					if("Nevermind")
 						hearers()<<"<b><font color=red>[usr]</b></font>: Nevermind."
 						sleep(10)
-						view() << "<b><font color=blue>Shana:</font> Hehe, okay. Bye."
+						hearers() << "<b><font color=blue>Shana:</font> Hehe, okay. Bye."
 						sleep(35)
 						for(var/mob/Z in world)
 							if(Z.name=="Shana the Receptionist")

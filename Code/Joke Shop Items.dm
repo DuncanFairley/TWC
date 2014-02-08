@@ -58,7 +58,7 @@ obj
 			Click()
 				if(src in usr)
 					src.verbs.Remove(/obj/items/verb/Take)
-					view() << "[usr] throws some Peruvian Instant Darkness Powder into the air!"
+					hearers() << "[usr] throws some Peruvian Instant Darkness Powder into the air!"
 					src.invisibility = 10
 					Move(usr.loc)
 					usr:Resort_Stacking_Inv()
@@ -114,7 +114,7 @@ obj
 			Click()
 				if(src in usr)
 					src.verbs.Remove(/obj/items/verb/Take)
-					view() << "[usr] drops a [src]"
+					hearers() << "[usr] drops a [src]"
 					Move(usr.loc)
 					usr:Resort_Stacking_Inv()
 					flick("swampopen",src)
@@ -234,7 +234,7 @@ obj
 			Click()
 				if(src in usr)
 					src.verbs.Remove(/obj/items/verb/Take)
-					view() << "[usr] opens a [src]"
+					hearers() << "[usr] opens a [src]"
 					var/obj/items/Tube_of_fun/T = src
 					spawn() Explode(T)
 					src = null
@@ -333,7 +333,7 @@ obj
 					usr.smokepelletthrowing = 0
 					for(var/obj/hud/cancelthrow/R in usr.client.screen)
 						del(R)
-					view() << "[usr] throws a smoke pellet!"
+					hearers() << "[usr] throws a smoke pellet!"
 					Move(usr.loc)
 					usr:Resort_Stacking_Inv()
 					walk_towards(src,usr.smokepelletdest,1)

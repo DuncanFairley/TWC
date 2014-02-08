@@ -535,7 +535,7 @@ obj
 		icon_state="bag1"
 		verb
 			Take_Out_Candy()
-				view() << "<font color=#FFA600><b>[usr] pulls some candy out of \his halloween bucket!</b></font>"
+				hearers() << "<font color=#FFA600><b>[usr] pulls some candy out of \his halloween bucket!</b></font>"
 				var/rnd=rand(1,4)
 				if(rnd==1)
 					var/obj/chocolatebar/p = new
@@ -557,12 +557,12 @@ obj
 
 		verb
 			Use()
-				view() << "<font color=#FFA600><b>[usr] pulls out \his halloween bucket.</b></font>"
+				hearers() << "<font color=#FFA600><b>[usr] pulls out \his halloween bucket.</b></font>"
 				usr.overlays+=image('halloween-bag.dmi')
 
 		verb
 			Take_Off()
-				view() << "<font color=#FFA600><b>[usr] puts away \his halloween bucket.</b></font>"
+				hearers() << "<font color=#FFA600><b>[usr] puts away \his halloween bucket.</b></font>"
 				usr.overlays-=image('halloween-bag.dmi')
 		verb
 			Take()
@@ -598,7 +598,7 @@ obj
 				else if(locate(/obj/items/wearable/halloween_bucket) in usr.contents)
 					usr << errormsg("You've already completed this quest!")
 				else
-					view() << "<b>[usr] picks up the Silver Knife.</b>"
+					hearers() << "<b>[usr] picks up the Silver Knife.</b>"
 					new/obj/Stupid/silver_knife(usr)
 					usr:Resort_Stacking_Inv()
 
@@ -615,7 +615,7 @@ obj
 				else if(locate(/obj/items/wearable/halloween_bucket) in usr.contents)
 					usr << errormsg("You've already completed this quest!")
 				else
-					view() << "<b>[usr] picks up the Blessed Torch.</b>"
+					hearers() << "<b>[usr] picks up the Blessed Torch.</b>"
 					new/obj/Stupid/Blessed_Torch(usr)
 					usr:Resort_Stacking_Inv()
 
@@ -632,7 +632,7 @@ obj
 				else if(locate(/obj/items/wearable/halloween_bucket) in usr.contents)
 					usr << errormsg("You've already completed this quest!")
 				else
-					view() << "<b>[usr] picks up the Holy Grenade.</b>"
+					hearers() << "<b>[usr] picks up the Holy Grenade.</b>"
 					new/obj/Stupid/Holy_Grenade(usr)
 					usr:Resort_Stacking_Inv()
 

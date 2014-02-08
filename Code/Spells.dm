@@ -138,7 +138,7 @@ mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
 	var/mob/Player/user = usr
 	if(locate(/obj/items/wearable/wands) in user.Lwearing)
 		M.followplayer=0
-		view() << "[usr] flicks \his wand towards [M]"
+		hearers() << "[usr] flicks \his wand towards [M]"
 		if(M.flying)
 			for(var/obj/items/wearable/brooms/B in M.Lwearing)
 				B.Equip(M,1)
@@ -226,7 +226,7 @@ mob/Spells/verb/Imitatus(mob/M in view()&Players, T as text)
 	set category = "Spells"
 	if(src.mute==1){src<<"You cannot cast this spell while muted.";return}
 	hearers()<<"</font><font color = #001E15>[usr]: Imitatus.</font>"
-	view() << " <b><font color = red>[M]</B> <font color = red>:</font> </font> [html_encode(T)]"
+	hearers() << " <b><font color = red>[M]</B> <font color = red>:</font> </font> [html_encode(T)]"
 mob/Spells/verb/Densuago(mob/M in view()&Players)
 	set category = "Spells"
 	M.overlays+=('teeth.dmi')
@@ -244,7 +244,7 @@ mob/Spells/verb/Morsmordre()
 		D:loc = locate(src.x,src.y+1,src.z)
 		D.density=0
 		flick('mist.dmi',D)
-		view() <<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green>MORSMORDRE!"
+		hearers() <<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green>MORSMORDRE!"
 		world<<"The sky darkens as a sneering skull appears in the clouds with a snake slithering from its mouth."
 		usr.shielded = 1
 		usr.shielded = null
@@ -480,7 +480,7 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 				var/scnds2wait = 400-(usr.level/2)
 				if(scnds2wait < 30) scnds2wait = 30
 				if( ((world.timeofday/10) - usr.usedpermoveo ) > scnds2wait)
-					view() << "[usr]: <i>Permoveo!</i>"
+					hearers() << "[usr]: <i>Permoveo!</i>"
 					if(selmonster.removeoMob)
 						var/mob/B = selmonster.removeoMob
 						B << "[src] took possession of the monster you were controlling."
@@ -624,7 +624,7 @@ mob/Spells/verb/Reparo(obj/M in oview())
 	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		if(!M.rubbleable == 1){src<<"<b><font color=red>Error:</b></font> This object has Protection Charms placed upon it.";return}
 		if(M.rubble==1)
-			view() << "[src]: <b>Reparo!</b>"
+			hearers() << "[src]: <b>Reparo!</b>"
 			M.icon=M.picon
 			M.name=M.pname
 			M.icon_state=M.piconstate
@@ -639,7 +639,7 @@ mob/Spells/verb/Bombarda(obj/M in oview())
 				if(usr.salamanderdrop==1)
 					usr << "There's no reason to ruin a perfectly good wand."
 				else
-					view() << "[src]: <b>Bombarda!</b>"
+					hearers() << "[src]: <b>Bombarda!</b>"
 					usr << "You get some Salamander Drop!"
 					new/obj/Alyssa/Salamander_Drop(usr)
 					usr.salamanderdrop=1
@@ -649,7 +649,7 @@ mob/Spells/verb/Bombarda(obj/M in oview())
 			if(M.rubble==1)
 				return
 			else
-				view() << "[src]: <b>Bombarda!</b>"
+				hearers() << "[src]: <b>Bombarda!</b>"
 				M.picon=M.icon
 				M.pname=M.name
 				M.piconstate=M.icon_state
@@ -662,13 +662,13 @@ mob/Spells/verb/Rictusempra(mob/M in oview(2)&Players)
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
 		spawn()
 			hearers()<< " <b>[usr]:<i><font color=blue> Rictusempra [M.name]!</i>"
-			view() << "<font color=white><b>[M.name] is tickled and begins to laugh hysterically."
+			hearers() << "<font color=white><b>[M.name] is tickled and begins to laugh hysterically."
 			M.Rictusempra=1
 			usr.MP-= 500
 			usr.updateHPMP()
 			spawn(300)
 				if(M.Rictusempra||M.Rictalk)
-					view() << "<b>[usr]'s Rictusempra charm has lifted.</b>"
+					hearers() << "<b>[usr]'s Rictusempra charm has lifted.</b>"
 				M.Rictusempra=0
 				M.Rictalk=0
 mob/Spells/verb/Petreficus_Totalus(var/mob/M in view()&Players)
@@ -760,10 +760,10 @@ mob/Spells/verb/Arcesso()
 									new/obj/circle/c1_4,new/obj/circle/c2_4,new/obj/circle/c3_4,new/obj/circle/c4_4,new/obj/circle/c5_4,
 									new/obj/circle/c1_5,new/obj/circle/c2_5,new/obj/circle/c3_5,new/obj/circle/c4_5,new/obj/circle/c5_5)
 		if(src.arcessoing == 1)
-			view() << "[src] stops waiting for a partner."
+			hearers() << "[src] stops waiting for a partner."
 			src.arcessoing = 0
 		else if(ismob(arcessoing))
-			view() << "[src] pulls out of the spell."
+			hearers() << "[src] pulls out of the spell."
 			arcessoing.arcessoing = 0
 			arcessoing = 0
 		else
@@ -877,9 +877,9 @@ mob/Spells/verb/Arcesso()
 										summonee.icon_state = ""
 
 									else
-										view() << "The invitation is no longer active."
+										hearers() << "The invitation is no longer active."
 								else
-									view() << "The invitation is no longer active."
+									hearers() << "The invitation is no longer active."
 							else
 								if(arcessoing && arcessoing.arcessoing)
 									src << "[summonee] has not accepted your request to be summoned."
@@ -891,7 +891,7 @@ mob/Spells/verb/Arcesso()
 				//start waiting
 				if(src.MP>=800)
 					arcessoing = 1
-					view() << "[src] is waiting for a partner. Face [src] on the opposite side of the circle and cast Arcesso to participate."
+					hearers() << "[src] is waiting for a partner. Face [src] on the opposite side of the circle and cast Arcesso to participate."
 					for(var/A in circles)
 						A:loc = locate((middle.x+A:xoffset),(middle.y+A:yoffset),middle.z)
 						A:owner1 = src
@@ -945,7 +945,7 @@ mob/Spells/verb/Langlock(mob/M in oview()&Players)
 			src.MP -= 600
 			src.updateHPMP()
 			hearers()<<"[usr] flicks \his wand towards [M] and mutters, 'Langlock'"
-			view() << "<b>[M]'s tongue has been stuck to the roof of \his mouth. They are unable to speak.</b>"
+			hearers() << "<b>[M]'s tongue has been stuck to the roof of \his mouth. They are unable to speak.</b>"
 			src = null
 			spawn(300)
 				if(M.silence)
@@ -1010,7 +1010,7 @@ mob/Spells/verb/Occlumency()
 					if(C.eye == usr && C.mob != usr)
 						C << "<b><font color = white>Your Telendevour wears off."
 						C.eye=C.mob
-			view() << "<b><font color=red>[usr]</font></b>: <font color=white><i>Occlumens!</i></font>"
+			hearers() << "<b><font color=red>[usr]</font></b>: <font color=white><i>Occlumens!</i></font>"
 			usr << "You can no longer be viewed by Telendevour."
 			usr.occlumens = usr.MMP+usr.extraMMP
 			usr:OcclumensCounter()
@@ -1694,7 +1694,7 @@ mob/Spells/verb/Portus()
 		usr.updateHPMP()
 mob/Spells/verb/Sense(mob/M in view()&Players)
 	set category = "Spells"
-	view() << "[usr]'s eyes flicker."
+	hearers() << "[usr]'s eyes flicker."
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=0))
 		usr<<"\n[M.name]'s Kills: [M.pkills]<br>[M.name]'s Deaths: [M.edeaths]"
 mob/Spells/verb/Scan(mob/M in view()&Players)
@@ -1989,7 +1989,7 @@ obj/Vanishing_Cabnet
 			sleep(10)
 			if(usr.followplayer==1){alert("You cannot use the vanishing cabnet while following a player.");return}
 			if(usr.removeoMob) spawn()usr:Permoveo()
-			view() << "[usr] walks into the cabnet and disappears."
+			hearers() << "[usr] walks into the cabnet and disappears."
 
 
 obj/Port_Key
