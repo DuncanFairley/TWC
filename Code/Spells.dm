@@ -213,18 +213,15 @@ mob/Spells/verb/Eparo_Evanesca()
 			new /StatusEffect/Decloaked(M,15)
 mob/Spells/verb/Evanesco(mob/M in Players&oview())
 	set category="Spells"
-	if(!M.key)
-		usr << "You cannot use Evanesco on NPCs."
-		return
-	if(M.Gm){src<<"<b><font color=red>Error:</b></font> You can't cast this spell on a Staff Member";return}
-	flick('teleboom.dmi',M)
-	sleep(8)
-	M.invisibility=1
-	M.sight |= SEE_SELF
-	M.overlays = list()
-	M.icon_state = "invis"
-	view()<<"<b><font color=red>[usr]: <font color=blue>Evanesco!"
-	M<<"You have been hidden!"
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+		flick('teleboom.dmi',M)
+		sleep(8)
+		M.invisibility=1
+		M.sight |= SEE_SELF
+		M.overlays = list()
+		M.icon_state = "invis"
+		hearers()<<"<b><font color=red>[usr]: <font color=blue>Evanesco!"
+		M<<"You have been hidden!"
 mob/Spells/verb/Imitatus(mob/M in view()&Players, T as text)
 	set category = "Spells"
 	if(src.mute==1){src<<"You cannot cast this spell while muted.";return}
