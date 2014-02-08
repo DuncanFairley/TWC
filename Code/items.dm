@@ -53,10 +53,13 @@ obj/items/proc/Destroy(var/mob/Player/owner)
 obj/items/New()
 	if(!src.desc)
 		src.verbs -= /obj/items/verb/Examine
-	if(!src.dropable)
-		src.verbs -= /obj/items/verb/Drop
-		src.verbs -= /obj/items/wearable/Drop
+
+	spawn(1) // spawn will ensure this works on edited items as well
+		if(!src.dropable)
+			src.verbs -= /obj/items/verb/Drop
+			src.verbs -= /obj/items/wearable/Drop
 	..()
+
 
 obj/items/wearable
 	icon_state = "item"
@@ -392,8 +395,10 @@ obj/items/wearable/hats/tiara
 	icon = 'tiara.dmi'
 obj/items/wearable/hats/christmas_hat
 	icon = 'xmas_hat.dmi'
+	dropable = 0
 obj/items/wearable/hats/bunny_ears
 	icon = 'bunny_ears_hat.dmi'
+	dropable = 0
 obj/items/wearable/hats/blue_earmuffs
 	icon = 'blue_earmuffs_hat.dmi'
 obj/items/wearable/hats/white_earmuffs
@@ -418,6 +423,7 @@ obj/items/wearable/wands
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
 obj/items/wearable/wands/cedar_wand //Thanksgiving
 	icon = 'cedar_wand.dmi'
+	dropable = 0
 	verb/Delicio_Maxima()
 		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Delicio Maxima.</b></font>"
 		sleep(20)
@@ -431,6 +437,7 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 					M<<"<b><font color=#D6952B>Delicio Charm:</b></font> [usr] turned you into some Thanksgiving awesome-ness."
 obj/items/wearable/wands/maple_wand //Easter
 	icon = 'maple_wand.dmi'
+	dropable = 0
 	verb/Carrotosi_Maxima()
 		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Carrotosi Maxima.</b></font>"
 		sleep(20)
@@ -531,6 +538,7 @@ obj/items/wearable/wigs/male_apollo_wig
 	name = "Apollo's wig"
 obj/items/wearable/wigs/male_christmas_wig
 	icon = 'male_christmas_wig.dmi'
+	dropable = 0
 
 obj/items/wearable/wigs/female_black_wig
 	icon = 'female_black_wig.dmi'
@@ -567,6 +575,7 @@ obj/items/wearable/wigs/female_andi_wig
 	name = "Andi's wig"
 obj/items/wearable/wigs/female_christmas_wig
 	icon = 'female_christmas_wig.dmi'
+	dropable = 0
 
 obj/items/wearable/shoes
 	desc = "A pair of shoes. They look comfy!"
