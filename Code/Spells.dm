@@ -1596,7 +1596,7 @@ mob/Spells/verb/Wingardium_Leviosa()
 			if(other.wlable == 1)
 				usr.Wingardiumleviosa = 1
 				usr.wingobject=other
-				view(5,usr)<<"<B>[usr.name]: <I>Wingardium Leviosa.</I>"
+				hearers(5,usr)<<"<B>[usr.name]: <I>Wingardium Leviosa.</I>"
 				other.overlays += new /obj/overlay/flash
 				spawn(100)
 					if(usr)usr.wingobject=null
@@ -1616,21 +1616,25 @@ mob/Spells/verb/Wingardium_Leviosa()
 mob/Spells/verb/Imperio(mob/other in oview()&Players)
 	set category="Spells"
 	if(!Imperio)
-		usr.Wingardiumleviosa = 1
-		usr.wingobject=other
-		Imperio = 1
-		view(5,usr)<<"<B>[usr.name]:<font color=red> Imperio!"
-		usr.client.eye=other
-		usr.client.perspective=EYE_PERSPECTIVE
-		spawn(600)
-			if(Imperio)
-				usr.wingobject=null
-				other.overlays=null
-				if(other.away)other.ApplyAFKOverlay()
-				usr.Wingardiumleviosa = null
-				usr<< "You release possesion of the person you were controlling."
-				usr.client.eye=usr
-				usr.client.perspective=MOB_PERSPECTIVE
+
+		if(!other.Imperio)
+			usr.Wingardiumleviosa = 1
+			usr.wingobject=other
+			Imperio = 1
+			hearers(5,usr)<<"<B>[usr.name]:<font color=red> Imperio!"
+			usr.client.eye=other
+			usr.client.perspective=EYE_PERSPECTIVE
+			spawn(600)
+				if(Imperio)
+					usr.wingobject=null
+					other.overlays=null
+					if(other.away)other.ApplyAFKOverlay()
+					usr.Wingardiumleviosa = null
+					usr<< "You release possesion of the person you were controlling."
+					usr.client.eye=usr
+					usr.client.perspective=MOB_PERSPECTIVE
+		else
+			usr << errormsg("You can not control [other] because his mind is elsewhere.")
 	else
 		Imperio = 0
 		usr.wingobject=null
@@ -1696,7 +1700,7 @@ mob/Spells/verb/Sense(mob/M in view()&Players)
 mob/Spells/verb/Scan(mob/M in view()&Players)
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=0))
-		view() << "[usr]'s eyes glint."
+		hearers() << "[usr]'s eyes glint."
 		if((usr.Dmg+usr.extraDmg)>=1000)
 			usr<<"\n<b>[M.name]'s Max HP:</b> [M.MHP+M.extraMHP] - <b>Current HP:</b> [M.HP]<br><b>[M.name]'s Max MP:</b> [M.MMP+M.extraMMP] - <b>Current MP:</b> [M.MP]"
 		else
