@@ -166,14 +166,14 @@ obj
 		verb
 			Take()
 				set src in oview(0)
-				view()<<"[usr] takes \the [src]."
+				hearers()<<"[usr] takes \the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 		verb
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 
 obj
 	flag
@@ -183,12 +183,12 @@ obj
 
 		verb
 			Use()
-				view() << "<b><font color=red>[usr] pulls <font color=white>out \his<font color=blue> Flag!</b></font>"
+				hearers() << "<b><font color=red>[usr] pulls <font color=white>out \his<font color=blue> Flag!</b></font>"
 				usr.overlays+=image('flag.dmi',icon_state="flag")
 
 		verb
 			Put_Away()
-				view()<<"<b><font color=red>[usr] puts <font color=white>away \his<font color=blue> Flag.</b></font>"
+				hearers()<<"<b><font color=red>[usr] puts <font color=white>away \his<font color=blue> Flag.</b></font>"
 				usr.overlays-=image('flag.dmi',icon_state="flag")
 
 			Examine()

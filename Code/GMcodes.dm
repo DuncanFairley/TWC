@@ -729,7 +729,7 @@ mob
 				M.loc=locate(8,5,21)
 				flick('dlo.dmi',M)
 				M.MuteOOC=1
-				view()<<"[usr]: <b><font size=2><font color=aqua>Incarcifors, [M]."
+				hearers()<<"[usr]: <b><font size=2><font color=aqua>Incarcifors, [M]."
 				world<<"[M] has been sent to Detention."
 				M << "<b>Welcome to Detention.</b>"
 				if(Reason)
@@ -983,7 +983,7 @@ mob
 
 				var/item = new O(usr.loc)
 				if(isobj(item))item:owner = usr.key
-				if(isobj(item)||ismob(item))view() << "With a flick of [usr]'s wand, a [item:name] appears."
+				if(isobj(item)||ismob(item))hearers() << "With a flick of [usr]'s wand, a [item:name] appears."
 		Search_Create()
 			set category="Staff"
 			usr.client<<link("?command=create;")
@@ -1153,7 +1153,7 @@ mob
 			set category = "Staff"
 			if(usr.cloaked==0)
 				if(clanrobed())return
-				view() << "<b>[usr] has vanished."
+				hearers() << "<b>[usr] has vanished."
 				//usr.picon_state=usr.icon_state
 				flick('GMOrb.dmi',usr)
 				sleep(9)
@@ -1166,7 +1166,7 @@ mob
 				usr.underlays = list()
 				usr.overlays = list()
 			else
-				view() << "<b>[usr] has appeared."
+				hearers() << "<b>[usr] has appeared."
 				//usr.icon = usr.mprevicon
 				flick('GMOrb.dmi',usr)
 				sleep(11)
@@ -1194,15 +1194,14 @@ mob
 			set popup_menu = 0
 			set category="Staff"
 			if(clanrobed())return
-			if(M.movable==0)
-
+			if(M.movable==0 && M.GMFrozen != 1)
 				M.movable=1
 				M.GMFrozen=1
 				M.overlays+='freeze.dmi'
 				M<<"You have been frozen."
 			else if(M.movable==1)
 				M.movable=0
-
+				M.frozen=0
 				M.GMFrozen=0
 				M.overlays-='freeze.dmi'
 				M<<"You have been unfrozen."
@@ -1291,10 +1290,16 @@ mob/GM
 			usr<<"With a flick of your wand, you Freeze your view!"
 			for(var/mob/M in view())
 				if(M.key!=usr.key)
+					if(M.GMFrozen)
+						M.frozen = 0
+						M.movable=0
+						M.GMFrozen=0
+						M.overlays-='freeze.dmi'
+					else
+						M.movable=1
+						M.GMFrozen=1
+						M.overlays+='freeze.dmi'
 
-					M.movable=1
-					M.GMFrozen=1
-					M.overlays+='freeze.dmi'
 						//M<<"[usr] holds their wand up, and with a quick *Flick!* freezes EVERYONE in their sight!"
 		Unfreeze_Area()
 			set category="Staff"
@@ -1535,8 +1540,8 @@ client/Topic(href, href_list[])
 			var/ny = text2num(href_list["y"])
 			var/nz = text2num(href_list["z"])
 			usr.loc = locate(nx,ny,nz)
-			view() << "POOF!"
-			view() << "<i>[usr] appears at the scene of the crime...</i>"
+			hearers() << "POOF!"
+			hearers() << "<i>[usr] appears at the scene of the crime...</i>"
 		else if(verbs.Find(/mob/GM/verb/Remote_View))
 			usr << "Only GM and above can use this command."
 		else

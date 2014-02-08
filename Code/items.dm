@@ -53,10 +53,13 @@ obj/items/proc/Destroy(var/mob/Player/owner)
 obj/items/New()
 	if(!src.desc)
 		src.verbs -= /obj/items/verb/Examine
-	if(!src.dropable)
-		src.verbs -= /obj/items/verb/Drop
-		src.verbs -= /obj/items/wearable/Drop
+
+	spawn(1) // spawn will ensure this works on edited items as well
+		if(!src.dropable)
+			src.verbs -= /obj/items/verb/Drop
+			src.verbs -= /obj/items/wearable/Drop
 	..()
+
 
 obj/items/wearable
 	icon_state = "item"
@@ -189,7 +192,7 @@ obj/items/Whoopie_Cushion
 	Click()
 		if(src in usr)
 			src.verbs.Remove(/obj/items/verb/Take)
-			view() << "[usr] sets a [src]."
+			hearers() << "[usr] sets a [src]."
 			src.isset = 1
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
@@ -392,8 +395,10 @@ obj/items/wearable/hats/tiara
 	icon = 'tiara.dmi'
 obj/items/wearable/hats/christmas_hat
 	icon = 'xmas_hat.dmi'
+	dropable = 0
 obj/items/wearable/hats/bunny_ears
 	icon = 'bunny_ears_hat.dmi'
+	dropable = 0
 obj/items/wearable/hats/blue_earmuffs
 	icon = 'blue_earmuffs_hat.dmi'
 obj/items/wearable/hats/white_earmuffs
@@ -418,8 +423,9 @@ obj/items/wearable/wands
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
 obj/items/wearable/wands/cedar_wand //Thanksgiving
 	icon = 'cedar_wand.dmi'
+	dropable = 0
 	verb/Delicio_Maxima()
-		view()<<"<b><font color=red>[usr]</font>:<b><font color=white> Delicio Maxima.</b></font>"
+		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Delicio Maxima.</b></font>"
 		sleep(20)
 		for(var/mob/M in view())
 			if(M.key!=usr.key)
@@ -431,8 +437,9 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 					M<<"<b><font color=#D6952B>Delicio Charm:</b></font> [usr] turned you into some Thanksgiving awesome-ness."
 obj/items/wearable/wands/maple_wand //Easter
 	icon = 'maple_wand.dmi'
+	dropable = 0
 	verb/Carrotosi_Maxima()
-		view()<<"<b><font color=red>[usr]</font>:<b><font color=white> Carrotosi Maxima.</b></font>"
+		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Carrotosi Maxima.</b></font>"
 		sleep(20)
 		for(var/mob/M in view())
 			if(M.key!=usr.key)
@@ -531,6 +538,7 @@ obj/items/wearable/wigs/male_apollo_wig
 	name = "Apollo's wig"
 obj/items/wearable/wigs/male_christmas_wig
 	icon = 'male_christmas_wig.dmi'
+	dropable = 0
 
 obj/items/wearable/wigs/female_black_wig
 	icon = 'female_black_wig.dmi'
@@ -567,6 +575,7 @@ obj/items/wearable/wigs/female_andi_wig
 	name = "Andi's wig"
 obj/items/wearable/wigs/female_christmas_wig
 	icon = 'female_christmas_wig.dmi'
+	dropable = 0
 
 obj/items/wearable/shoes
 	desc = "A pair of shoes. They look comfy!"
@@ -733,7 +742,7 @@ obj
 		verb
 			Wear()
 				if(usr.clanrobed())return
-				view() << "<b><font color=#CCCCCC>[usr] slips on \his clothes.</b></font>"
+				hearers() << "<b><font color=#CCCCCC>[usr] slips on \his clothes.</b></font>"
 				if(isoverlay) usr.overlays+=image(src.icon)
 				else
 					usr.mprevicon = usr.icon
@@ -741,20 +750,20 @@ obj
 
 		verb
 			Take_Off()
-				view() << "<b><font color=#CCCCCC>[usr] slips off \his custom clothes.</b></font>"
+				hearers() << "<b><font color=#CCCCCC>[usr] slips off \his custom clothes.</b></font>"
 				if(isoverlay) usr.overlays-=image(src.icon)
 				else usr.icon = usr.mprevicon
 		verb
 			Take()
 				set src in oview(0)
-				view()<<"[usr] takes \the [src]."
+				hearers()<<"[usr] takes \the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 		verb
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 				if(isoverlay) usr.overlays-=image(src.icon)
 				else if(usr.icon == src.icon) usr.icon = usr.mprevicon
 
@@ -767,17 +776,17 @@ obj
 
 		verb
 			Wear()
-				view() << "<b><font color=#CCCCCC>[usr] slips on \his wig.</b></font>"
+				hearers() << "<b><font color=#CCCCCC>[usr] slips on \his wig.</b></font>"
 				usr.overlays+=image(src.icon)
 
 		verb
 			Take_Off()
-				view() << "<b><font color=#CCCCCC>[usr] slips off \his wig.</b></font>"
+				hearers() << "<b><font color=#CCCCCC>[usr] slips off \his wig.</b></font>"
 				usr.overlays-=image(src.icon)
 		verb
 			Take()
 				set src in oview(0)
-				view()<<"[usr] takes \the [src]."
+				hearers()<<"[usr] takes \the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 		verb
@@ -785,7 +794,7 @@ obj
 				usr.overlays-=image(src.icon)
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 
 			Examine()
 				set src in view(3)
@@ -838,7 +847,7 @@ mob/Player
 
 					usr.gold-=given
 					M.gold+=given
-					view()<<"<b><i>[usr] gives [M] [given] gold.</i></b>"
+					hearers()<<"<b><i>[usr] gives [M] [given] gold.</i></b>"
 					Log_gold(given,usr,M)
 					return
 			else
@@ -1931,7 +1940,7 @@ obj/Fountain____s
 			set src in oview()
 			usr<<"You touch the fountain."
 			sleep(40)
-			view()<<"The fountain opens."
+			hearers()<<"The fountain opens."
 			sleep(20)
 			usr.loc=locate(42,4,20)
 			usr<<"You fall into the opening and down a tunnel into the Chamber of Secrets."
@@ -2078,7 +2087,7 @@ obj/Crucio
 		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
 		if(M.monster||M.player)
 			src.owner<<"Your [src] hit [M]!"
-			view()<<"[M] cringes in Pain!"
+			hearers()<<"[M] cringes in Pain!"
 
 			M.HP-=300
 			M.Death_Check(src.owner)
@@ -2200,10 +2209,10 @@ obj/Portal
 			set src in oview(1)
 			step_towards(usr,src)
 			sleep(10)
-			view()<<"[usr] touched the portal and vanished."
+			hearers()<<"[usr] touched the portal and vanished."
 			usr.loc=locate(src.lastx,src.lasty,src.lastz)
 			step(usr,SOUTH)
-			view()<<"[usr] emerges."
+			hearers()<<"[usr] emerges."
 			return
 
 obj/Copper
@@ -2274,14 +2283,14 @@ obj/Green_Mushroom
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 	verb
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 obj/Red_Mushroom
 	icon='items.dmi'
 	icon_state="redmushroom"
@@ -2298,14 +2307,14 @@ obj/Red_Mushroom
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 	verb
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 obj/Blue_Mushroom
 	icon='items.dmi'
 	icon_state="bluemushroom"
@@ -2323,14 +2332,14 @@ obj/Blue_Mushroom
 	verb
 		Take()
 			set src in oview(0)
-			view()<<"[usr] takes \the [src]."
+			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
 	verb
 		Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his [src]."
+			hearers()<<"[usr] drops \his [src]."
 
 
 obj/CampFire
@@ -2425,7 +2434,7 @@ obj/Fountain
 				switch(input("Recover?","Fountain")in list("Yes","No"))
 					if("Yes")
 						if(get_dist(src,usr)>1)return
-						view()<<"[usr] drinks from the [src]."
+						hearers()<<"[usr] drinks from the [src]."
 						usr.HP=usr.MHP+usr.extraMHP
 						usr.MP=usr.MMP+usr.extraMMP
 						usr.updateHPMP()
@@ -2578,27 +2587,27 @@ obj
 				if(usr.removeoMob) spawn()usr:Permoveo()
 				usr.picon_state=usr.icon_state
 				flick('ex.dmi',usr)
-				oview() << "<i><b>There is a loud crack.</b></i>."
+				ohearers() << "<i><b>There is a loud crack.</b></i>."
 				sleep(4)
 				usr.loc = locate(54,50,18)
 				usr.Move(usr.loc)
 				flick('ex.dmi',usr)
-				oview() << "<i><b>There is a loud crack.</b></i>."
+				ohearers() << "<i><b>There is a loud crack.</b></i>."
 				usr.icon_state=usr.picon_state
 			Take()
 				set src in oview(1)
-				view()<<"[usr] takes \the [src]."
+				hearers()<<"[usr] takes \the [src]."
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 			Drop()
 				Move(usr.loc)
 				usr:Resort_Stacking_Inv()
-				view()<<"[usr] drops \his [src]."
+				hearers()<<"[usr] drops \his [src]."
 
 			Self_To_Zombie()
 				set category="Spells"
 				flick("transfigure",usr)
-				view()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Inter vivos.</b></font>"
+				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Inter vivos.</b></font>"
 				usr.trnsed = 1
 				usr.overlays = null
 				usr.icon = 'Zombie.dmi'

@@ -404,17 +404,17 @@ mob/Player/Topic(href,href_list[])
 			else if(Y.pmsRec.len > 100&&Y.pmsSen.len > 100)
 				src.pmsSen.Add(src.curPM)
 				spawn()alert("That person cannot receive private messages because their inbox and outbox is full. This message has been added to your outbox.")
-				Y << "<b>[src] tried to send you a PM, but you couldn't receive it because your inbox AND outbox has over 100 PMs each already. Delete some."
+				Y << "<b>[derobe ? prevname : src] tried to send you a PM, but you couldn't receive it because your inbox AND outbox has over 100 PMs each already. Delete some."
 				return
 			else if(Y.pmsRec.len > 100)
 				src.pmsSen.Add(src.curPM)
 				spawn()alert("That person cannot receive private messages because their inbox is full. This message has been added to your outbox.")
-				Y << "<b>[src] tried to send you a PM, but you couldn't receive it because your inbox has over 100 PMs already. Delete some."
+				Y << "<b>[derobe ? prevname : src] tried to send you a PM, but you couldn't receive it because your inbox has over 100 PMs already. Delete some."
 				return
 			else if(Y.pmsSen.len > 100)
 				src.pmsSen.Add(src.curPM)
 				spawn()alert("That person cannot receive private messages because their outbox is full. This message has been added to your outbox.")
-				Y << "<b>[src] tried to send you a PM, but you couldn't receive it because your outbox has over 100 PMs already. Delete some."
+				Y << "<b>[derobe ? prevname : src] tried to send you a PM, but you couldn't receive it because your outbox has over 100 PMs already. Delete some."
 				return
 			else if("[formatName(src)]" in Y.blockedpeeps)
 				alert("That person does not wish to receive private messages at the moment.")

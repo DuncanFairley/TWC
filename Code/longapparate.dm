@@ -80,12 +80,12 @@ mob
 			if(usr.removeoMob) spawn()usr:Permoveo()
 			usr.picon_state=usr.icon_state
 			flick('ex.dmi',usr)
-			oview() << "<i><b>There is a loud crack.</b></i>."
+			ohearers() << "<i><b>There is a loud crack.</b></i>."
 			sleep(4)
 			usr.loc = locate(38,59,18)
 			usr.Move(usr.loc)
 			flick('ex.dmi',usr)
-			oview() << "<i><b>There is a loud crack.</b></i>."
+			ohearers() << "<i><b>There is a loud crack.</b></i>."
 			usr.icon_state=usr.picon_state
 
 mob
@@ -101,11 +101,11 @@ mob
 			if(usr.removeoMob) spawn()usr:Permoveo()
 			usr.picon_state=usr.icon_state
 			flick('ex.dmi',usr)
-			oview() << "<i><b>There is a loud crack.</b></i>."
+			ohearers() << "<i><b>There is a loud crack.</b></i>."
 			sleep(4)
 			usr.loc = locate(45,47,26)
 			flick('ex.dmi',usr)
-			view() << "<i><b>There is a loud crack.</b></i>."
+			hearers() << "<i><b>There is a loud crack.</b></i>."
 			usr.icon_state=usr.picon_state
 
 mob
@@ -122,10 +122,10 @@ mob
 				if(usr.removeoMob) spawn()usr:Permoveo()
 				usr.picon_state=usr.icon_state
 				flick('ex.dmi',usr)
-				oview() << "<i><b>There is a loud crack.</b></i>."
+				ohearers() << "<i><b>There is a loud crack.</b></i>."
 				sleep(4)
 				usr.loc = locate(50,22,15)
 				usr.Move(usr.loc)
 				flick('ex.dmi',usr)
-				view() << "<i><b>There is a loud crack.</b></i>."
+				hearers() << "<i><b>There is a loud crack.</b></i>."
 				usr.icon_state=usr.picon_state

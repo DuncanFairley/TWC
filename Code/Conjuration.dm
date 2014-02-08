@@ -45,4 +45,4 @@ mob/GM
 				p:loc = locate(src.x,src.y-1,src.z)
 				flick('dlo.dmi',p)
 				p:owner = "[usr.key]"
-				view()<<"<b><Font color=red>[usr]:</font> Herbificus."
+				hearers()<<"<b><Font color=red>[usr]:</font> Herbificus."

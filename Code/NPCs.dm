@@ -287,15 +287,15 @@ mob/Shana_the_Receptionist
 			else
 				switch(input("Hello, [usr]. How can I help you?","Shana") in list ("Call GM","Orb out.","Nevermind"))
 					if("Call GM")
-						view()<<"<b><font color=blue>Shana:</font> Okay, I'll need you to fill out this form."
+						hearers()<<"<b><font color=blue>Shana:</font> Okay, I'll need you to fill out this form."
 						usr<<"Shana hands you a form, you look at it."
 						sleep(20)
 						switch(input("Please specify which GM you'd like to meet with.","GM Form") in list ("Deputy Headmaster Sylar"))
 
 							if("Deputy Headmaster Sylar")
-								view()<<"<b><font color=red>[usr]</b></font>: I need to speak with Headmaster Ander, please."
+								hearers()<<"<b><font color=red>[usr]</b></font>: I need to speak with Headmaster Ander, please."
 								sleep(30)
-								view()<<"<b><font color=blue>Shana:</font> Alright one second, dear. Paging, Deputy Headmaster Sylar. If he is AFK he could take a while to respond. Have a seat in the Waiting Area if you like."
+								hearers()<<"<b><font color=blue>Shana:</font> Alright one second, dear. Paging, Deputy Headmaster Sylar. If he is AFK he could take a while to respond. Have a seat in the Waiting Area if you like."
 								for(var/mob/M in world)
 									if(M.key=="")
 										switch(input(M,"A voice echoes through your mind.  Hello, [M]. [usr] would like to meet with you at the Reception Area. Do you accept?","Shana via Telepathy") in list ("Yes","No","Report to Office"))
@@ -304,7 +304,7 @@ mob/Shana_the_Receptionist
 												sleep(10)
 												M.loc = locate(47,50,1)
 												flick('dlo.dmi',M)
-												view() << "<b><font color=blue>Shana:</font> Ah, here he is now. Thank you, [usr]. Come again!"
+												hearers() << "<b><font color=blue>Shana:</font> Ah, here he is now. Thank you, [usr]. Come again!"
 												sleep(35)
 												for(var/mob/Z in world)
 													if(Z.name=="Shana the Receptionist")
@@ -340,7 +340,7 @@ mob/Shana_the_Receptionist
 												sleep(10)
 												M.loc = locate(47,50,1)
 												flick('dlo.dmi',M)
-												view() << "<b><font color=blue>Shana:</font> Ah, here he is now. Thank you, [usr]. Come again!"
+												hearers() << "<b><font color=blue>Shana:</font> Ah, here he is now. Thank you, [usr]. Come again!"
 												sleep(35)
 												for(var/mob/Z in world)
 													if(Z.name=="Shana the Receptionist")
@@ -368,11 +368,11 @@ mob/Shana_the_Receptionist
 														sleep(10)
 														Z.invisibility=1
 					if("Orb out.")
-						view()<<"<b><font color=red>[usr]</b></font>: Hi Shana. I'd like to leave reception now please."
+						hearers()<<"<b><font color=red>[usr]</b></font>: Hi Shana. I'd like to leave reception now please."
 						sleep(30)
 						usr<<"Shana looks up at you and picks up her wand."
 						sleep(12)
-						view()<<"<b><font color=blue>Shana:</font> Alright. ^_^  <font color=aqua>Sanctuario, [usr]!</font>"
+						hearers()<<"<b><font color=blue>Shana:</font> Alright. ^_^  <font color=aqua>Sanctuario, [usr]!</font>"
 						sleep(20)
 						flick('dlo.dmi',usr)
 
@@ -388,9 +388,9 @@ mob/Shana_the_Receptionist
 								sleep(10)
 								Z.invisibility=1
 					if("Nevermind")
-						view()<<"<b><font color=red>[usr]</b></font>: Nevermind."
+						hearers()<<"<b><font color=red>[usr]</b></font>: Nevermind."
 						sleep(10)
-						view() << "<b><font color=blue>Shana:</font> Hehe, okay. Bye."
+						hearers() << "<b><font color=blue>Shana:</font> Hehe, okay. Bye."
 						sleep(35)
 						for(var/mob/Z in world)
 							if(Z.name=="Shana the Receptionist")

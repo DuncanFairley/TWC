@@ -41,7 +41,7 @@ If you change your mind about using a custom icon for Prom, use Clear Prom Icon.
 					sleep(3600)
 					speak()
 			speak()
-				view() << "<i><b>Mr Prom</b>: [pick(sayings)]</i>"
+				hearers() << "<i><b>Mr Prom</b>: [pick(sayings)]</i>"
 		Click()
 			Talk()
 		verb

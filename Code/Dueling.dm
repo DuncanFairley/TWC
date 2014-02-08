@@ -136,7 +136,7 @@ obj
 					if(!unpacked)
 						usr << "System is not completely deployed yet."
 						return
-					view()<<"[usr] takes the Portable Dueling System"
+					hearers()<<"[usr] takes the Portable Dueling System"
 					if(unpacked)Packup()
 					Move(usr)
 					usr:Resort_Stacking_Inv()
@@ -145,7 +145,7 @@ obj
 			else if(!ckeyowner)
 				ckeyowner = usr.ckey
 				if(!D)
-					view()<<"[usr] takes the Portable Dueling System"
+					hearers()<<"[usr] takes the Portable Dueling System"
 					if(unpacked)Packup()
 					Move(usr)
 					usr:Resort_Stacking_Inv()
@@ -156,7 +156,7 @@ obj
 		verb/Drop()
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
-			view()<<"[usr] drops \his Portable Dueling System"
+			hearers()<<"[usr] drops \his Portable Dueling System"
 			if(ckeyowner)Unpack()
 		proc/Packup()
 			duelsystems.Remove(src)
@@ -268,7 +268,7 @@ obj
 			c3.density = 0
 			c5.density = 0
 			if(get_dist(c1,c7)<8)
-				view() << "Portable Duel System: <i>ERROR</i>. Duel path must be clear of obstacles to deploy."
+				hearers() << "Portable Duel System: <i>ERROR</i>. Duel path must be clear of obstacles to deploy."
 				Packup()
 				Move(usr)
 				usr:Resort_Stacking_Inv()
