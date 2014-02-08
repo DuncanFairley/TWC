@@ -30,7 +30,7 @@ mob
 					if(T.owner==usr.key)
 					//	usr<<"<font color= #000099><b>Welcome back, [usr]."
 						//view()<<sound('stdoor.wav')
-						if(T.icon_state == "closed")
+						if(T.icon_state != "open")
 							flick("opening",T)
 							T.opacity=0
 							sleep(4)
@@ -55,7 +55,7 @@ mob
 						if(passtry==T.pass)
 							usr<<"<font color=green><b>Authorization Confirmed."
 							spawn()
-								if(T.icon_state == "closed")
+								if(T.icon_state != "open")
 									src = null
 									T:lastopener = usr.key
 									//view()<<sound('stdoor.wav')
@@ -82,7 +82,7 @@ mob
 					//NORMAL DOORS RIGHT HERRRRRRRRRREEEEEEEE
 					//view()<<sound('stdoor.wav')
 					spawn()
-						if(T.icon_state == "closed")
+						if(T.icon_state != "open")
 							src = null
 							T:lastopener = usr.key
 							flick("opening",T)
