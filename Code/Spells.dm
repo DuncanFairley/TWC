@@ -814,7 +814,7 @@ mob/Spells/verb/Arcesso()
 				arcessoing << "You have asked [summonee] to be summoned."
 				if(arcessoing.arcessoing)
 					if(arcessoing)
-						if(istype(summonee.loc.loc,/area/hogwarts))
+						if(istype(summonee.loc.loc,/area/hogwarts) || istype(summonee.loc.loc, /area/arenas))
 							src << "[summonee] can't be summoned from this location."
 							arcessoing << "[summonee] can't be summoned from this location."
 							arcessoing.arcessoing = 0
