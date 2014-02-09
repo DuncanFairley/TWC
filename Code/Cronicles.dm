@@ -399,11 +399,11 @@ proc/HTMLOutput(mob/M,page,list/href_list)
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="http://wizardschronicles.com/login/mainstyle.css" />
 </head>
-<body>
+<body onresize="hideDiv()">
 		<div id="banner">
 			<img src="http://wizardschronicles.com/login/logo_banner.png" />
 		</div>
-		<div id="banner">
+		<div id="logo">
 			<img src="http://wizardschronicles.com/login/logo.png" />
 		</div>
 		<div id="main">
@@ -413,6 +413,32 @@ proc/HTMLOutput(mob/M,page,list/href_list)
 					<li class="horizontal-li"><a href="?src=\ref[M];action=loginLoad">Load</li>
 				</ul>
 		</div>
+
+	<script language=javascript type='text/javascript'>
+		var swap = false;
+		hideDiv();
+		function hideDiv()
+		{
+			if(document.documentElement.offsetHeight < 480 && !swap)
+			{
+				swapNodes(document.getElementById('logo'), document.getElementById('main'));
+				swap = true;
+			}
+			else if(document.documentElement.offsetHeight >= 480 && swap)
+			{
+ 				swapNodes(document.getElementById('logo'), document.getElementById('main'));
+				swap = false;
+			}
+		}
+
+		function swapNodes(node1, node2)
+		{
+    		node2_copy = node2.cloneNode(true);
+    		node1.parentNode.insertBefore(node2_copy, node1);
+    		node2.parentNode.insertBefore(node1, node2);
+    		node2.parentNode.replaceChild(node2, node2_copy);
+		}
+	</script>
 </body>
 </html>"}
 

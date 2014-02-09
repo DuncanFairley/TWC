@@ -4,101 +4,71 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-/*
-Those two mobs pretty much exist already only they were bugged.
-You can remove the old mobs from the source but that's up to you.
-
-Old mobs names:
-EventMob_Item
-EventMob_Variable
-
-I changed them to work properly and have more options.
-Those mobs can help admins+ add quests.
-
-
-There's only one thing I couldn't do.
-I couldn't call stacking update proc for EventMobItem since I don't know it's name.
-
-Changes/Fixes:
-
- - You can now change what the mobs say.
- - Event Mob Variable can now do more than just 'set' values, it can add/remove/double number values for example.
- - AlreadyGiven list was changed to work with ckeys instead of names (People could use Deatheater robes to get two prizes)
- - Event Mob Item now actually gives items.
- - AlreadyGiven now have a reset option.
- - Changed the paths of both mobs by removing the _ to avoid compile errors (Because those paths are already used).
-*/
-
 
 mob
-
-
-	/*
-	This mob gives an item once to everyone who talks to it.
-
-	You need to add the stacking code for this mob.
-	*/
-	EventMobItem
+	EventMob
 		icon = 'misc.dmi'
 		icon_state = "palmer"
 		name = "Event Mob"
 		Immortal = 1
 		Gm = 1
+
 		var
-			list/AlreadyGiven = list()
-			EventItem
+			list
+				AlreadyGiven = list()
+				id = list()
 			Message = "Hello."
-		verb
+
+		/*
+		This mob gives an item once to everyone who talks to it.
+		*/
+		Item
+			var/EventItem
+
 			Talk()
-				set src in view(1)
-				if(AlreadyGiven == "reset")AlreadyGiven = list()
 				if(!EventItem)
 					usr << " <font size=2 color=red><b>[src]</b> : </font>I have nothing to give you."
 					return
-				if(usr.ckey in AlreadyGiven)
-					usr << " <font size=2 color=red><b>[src]</b> : </font>Hello! I've already given you the item. Sorry."
-					return
-				else
-					AlreadyGiven.Add(usr.ckey)
+				if(..())
 					var/obj/O = new EventItem(usr)
 					usr:Resort_Stacking_Inv()
-			//		Stacking code here.
-					usr << " <font size=2 color=red><b>[src]</b> : </font>[Message]"
 					usr << " <font size=2 color=red>[src] hands you their [O.name]."
 
+		/* This mob changes a var to everyone who talks to it.
+		   It can add/remove/double for number values. (Adding also works for lists I guess)
+		   For example, it can give everyone who talks to it 100 Gold once. */
+		Variable
+			var
+				EventVar
+				VarTo
+				Function = "="
 
-
-	/* This mob changes a var to everyone who talks to it.
-	   It can add/remove/double for number values. (Adding also works for lists I guess)
-	   For example, it can give everyone who talks to it 100 Gold once. */
-	EventMobVariable
-		icon = 'misc.dmi'
-		icon_state = "palmer"
-		name = "Event Mob"
-		Immortal = 1
-		Gm = 1
-		var
-			list/AlreadyGiven = list()
-			EventVar
-			VarTo
-			Message = "Hello."
-			Function = "="
-		verb
 			Talk()
-				set src in view(1)
-				if(AlreadyGiven == "reset")AlreadyGiven = list()
-				if(usr.ckey in AlreadyGiven)
-					usr << " <font size=2 color=red><b>[src]</b> : </font>Hello! I've seen you before."
+				if(!EventVar)
+					usr << " <font size=2 color=red><b>[src]</b> : </font>I have nothing to give you."
 					return
-				else
-					AlreadyGiven.Add(usr.ckey)
-					usr << " <font size=2 color=red><b>[src]</b> : </font>[Message]"
+				if(..())
 					if(Function == "=")
 						usr.vars[EventVar] = VarTo
 					else if(Function == "+")
 						usr.vars[EventVar] += VarTo
 					else if(Function == "*")
 						usr.vars[EventVar] *= VarTo
+
+		verb
+			Talk()
+				set src in view(1)
+				if(AlreadyGiven == "reset")
+					AlreadyGiven = list()
+					id = list()
+				if((usr.ckey in AlreadyGiven) || (usr.client.computer_id in id))
+					usr << " <font size=2 color=red><b>[src]</b> : </font>Hello! I've seen you before!"
+					return 0
+				else
+					usr << " <font size=2 color=red><b>[src]</b> : </font>[Message]"
+					AlreadyGiven.Add(usr.ckey)
+					id.Add(usr.client.computer_id)
+					return 1
 
 mob
 	var/tmp
