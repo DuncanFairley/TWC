@@ -127,58 +127,32 @@ obj/items/herosbrace
 	icon = 'herosbrace.dmi'
 	Click()
 		if(src in usr)
-			if(istype(usr.loc.loc,/area/hogwarts))
-				usr << "Teleportation is not possible within Hogwarts' walls."
-				return
-			if(usr.Detention)
-				usr << "You can not use this here."
-				return
-			if(usr.bracecharges>=1)
-				switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Pyramid","Forbidden Forest","Museum"))
-					if("Diagon Alley")
-						if(usr.Detention) return
+			if(canUse(M=usr, needwand=0, inarena=0, inhogwarts=0))
+				if(usr.bracecharges>=1)
+					var/turf/t
+					switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Pyramid","Forbidden Forest","Museum"))
+						if("Diagon Alley")
+							t = locate(45,60,26)
+						if("Pyramid")
+							t = locate(47,42,6)
+						if("Forbidden Forest")
+							t = locate(54,81,16)
+						if("Museum")
+							t = locate(72,77,18)
+					if(t && canUse(M=usr, needwand=0, inarena=0, inhogwarts=0) && usr.bracecharges>0)
 						if(usr.bracecharges<1) return
-						if(istype(usr.loc.loc,/area/hogwarts))
-							usr << "Teleportation is not possible within Hogwarts' walls."
-							return
-						usr.loc = locate(45,60,26)
+						usr.loc = t
 						flick('tele2.dmi',usr)
 						usr.bracecharges-=1
-					if("Pyramid")
-						if(usr.Detention) return
-						if(usr.bracecharges<1) return
-						if(istype(usr.loc.loc,/area/hogwarts))
-							usr << "Teleportation is not possible within Hogwarts' walls."
-							return
-						usr.loc = locate(47,42,6)
-						flick('tele2.dmi',usr)
-						usr.bracecharges-=1
-					if("Forbidden Forest")
-						if(usr.Detention) return
-						if(usr.bracecharges<1) return
-						if(istype(usr.loc.loc,/area/hogwarts))
-							usr << "Teleportation is not possible within Hogwarts' walls."
-							return
-						usr.loc = locate(54,81,16)
-						flick('tele2.dmi',usr)
-						usr.bracecharges-=1
-					if("Museum")
-						if(usr.Detention) return
-						if(usr.bracecharges<1) return
-						if(istype(usr.loc.loc,/area/hogwarts))
-							usr << "Teleportation is not possible within Hogwarts' walls."
-							return
-						usr.loc = locate(72,77,18)
-						flick('tele2.dmi',usr)
-						usr.bracecharges-=1
-				if(usr.removeoMob) spawn()usr:Permoveo()
-				for(var/obj/hud/player/R in usr.client.screen)
-					del(R)
-				for(var/obj/hud/cancel/C in usr.client.screen)
-					del(C)
 
-			else
-				alert("Your brace is too drained to teleport. Try recharging it at Gringotts Wizarding Bank.")
+					if(usr.removeoMob) spawn()usr:Permoveo()
+					for(var/obj/hud/player/R in usr.client.screen)
+						del(R)
+					for(var/obj/hud/cancel/C in usr.client.screen)
+						del(C)
+
+				else
+					alert("Your brace is too drained to teleport. Try recharging it at Gringotts Wizarding Bank.")
 		else
 			..()
 obj/items/Whoopie_Cushion
