@@ -463,20 +463,19 @@ obj/items/wearable/wigs
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
 
-obj/items/wearable/wigs/male_ander_wig
-	icon = 'male_ander_wig.dmi'
-	name = "Ander's wig"
+obj/items/wearable/wigs/male_light_green_wig
+	icon = 'male_light_green_wig.dmi'
 obj/items/wearable/wigs/male_black_wig
 	icon = 'male_black_wig.dmi'
 obj/items/wearable/wigs/male_blond_wig
-	icon = 'male_blond_wig.dmi'
+	icon = 'male_yellow_wig.dmi'
+	name = "male yellow wig"
 obj/items/wearable/wigs/male_blue_wig
 	icon = 'male_blue_wig.dmi'
 obj/items/wearable/wigs/male_brown_wig
 	icon = 'male_brown_wig.dmi'
-obj/items/wearable/wigs/male_deathflash_wig
-	icon = 'male_deathflash_wig.dmi'
-	name = "Deathflash's wig"
+obj/items/wearable/wigs/male_dark_green_wig
+	icon = 'male_dark_green_wig.dmi'
 obj/items/wearable/wigs/male_green_wig
 	icon = 'male_green_wig.dmi'
 obj/items/wearable/wigs/male_grey_wig
@@ -487,37 +486,38 @@ obj/items/wearable/wigs/male_purple_wig
 	icon = 'male_purple_wig.dmi'
 obj/items/wearable/wigs/male_silver_wig
 	icon = 'male_silver_wig.dmi'
-obj/items/wearable/wigs/male_lion_wig
-	icon = 'male_lion_wig.dmi'
-	name = "Lion's wig"
-obj/items/wearable/wigs/male_diablo_wig
+obj/items/wearable/wigs/male_red_wig
+	icon = 'male_red_wig.dmi'
+/*obj/items/wearable/wigs/male_diablo_wig
 	icon = 'male_diablo_wig.dmi'
-	name = "Diablo's wig"
-obj/items/wearable/wigs/male_icedragon_wig
-	icon = 'male_icedragon_wig.dmi'
-	name = "Icedragon's wig"
-obj/items/wearable/wigs/male_demonic_wig
+	name = "Diablo's wig"*/
+obj/items/wearable/wigs/male_teal_wig
+	icon = 'male_teal_wig.dmi'
+/*obj/items/wearable/wigs/male_demonic_wig
 	icon = 'male_demonic_wig.dmi'
-	name = "Demonic's wig"
-obj/items/wearable/wigs/male_isaiah_wig
-	icon = 'male_isaiah_wig.dmi'
-	name = "Isaiah's wig"
-obj/items/wearable/wigs/male_ryuuk_wig
-	icon = 'male_ryuuk_wig.dmi'
-	name = "Ryuuk's wig"
+	name = "Demonic's wig"*/
+obj/items/wearable/wigs/male_bluebrown_wig
+	icon = 'male_bluebrown_wig.dmi'
+	name = "male blue and brown wig"
+obj/items/wearable/wigs/male_darkblackgreen_wig
+	icon = 'male_darkblackgreen_wig.dmi'
+	name = "male black and green wig"
 obj/items/wearable/wigs/male_royale_wig
 	icon = 'male_royale_wig.dmi'
 obj/items/wearable/wigs/male_apollo_wig
-	icon = 'male_apollo_wig.dmi'
-	name = "Apollo's wig"
+	icon = 'male_blond_wig.dmi'
+	name = "male blond wig"
 obj/items/wearable/wigs/male_christmas_wig
 	icon = 'male_christmas_wig.dmi'
 	dropable = 0
+obj/items/wearable/wigs/male_halloween_wig
+	icon = 'male_halloween_wig.dmi'
 
 obj/items/wearable/wigs/female_black_wig
 	icon = 'female_black_wig.dmi'
 obj/items/wearable/wigs/female_blonde_wig
-	icon = 'female_blonde_wig.dmi'
+	icon = 'female_yellow_wig.dmi'
+	name = "female yellow wig"
 obj/items/wearable/wigs/female_blue_wig
 	icon = 'female_blue_wig.dmi'
 obj/items/wearable/wigs/female_brown_wig
@@ -526,30 +526,30 @@ obj/items/wearable/wigs/female_green_wig
 	icon = 'female_green_wig.dmi'
 obj/items/wearable/wigs/female_grey_wig
 	icon = 'female_grey_wig.dmi'
-obj/items/wearable/wigs/female_nevaehlee_wig
+/*obj/items/wearable/wigs/female_nevaehlee_wig
 	icon = 'female_nevaehlee_wig.dmi'
-	name = "Nevaeh Lee's wig"
+	name = "Nevaeh Lee's wig"*/
 obj/items/wearable/wigs/female_pink_wig
 	icon = 'female_pink_wig.dmi'
 obj/items/wearable/wigs/female_purple_wig
 	icon = 'female_purple_wig.dmi'
-obj/items/wearable/wigs/female_rovilea_wig
-	icon = 'female_rovilea_wig.dmi'
-	name = "Rovilea's wig"
+obj/items/wearable/wigs/female_dark_purple_wig
+	icon = 'female_dark_purple_wig.dmi'
 obj/items/wearable/wigs/female_silver_wig
 	icon = 'female_silver_wig.dmi'
-obj/items/wearable/wigs/female_siren_wig
-	icon = 'female_siren_wig.dmi'
-	name = "Siren's wig"
-obj/items/wearable/wigs/female_soleil_wig
-	icon = 'female_soleil_wig.dmi'
-	name = "Soleil's wig"
-obj/items/wearable/wigs/female_andi_wig
-	icon = 'female_andi_wig.dmi'
-	name = "Andi's wig"
+obj/items/wearable/wigs/female_blackred_wig
+	icon = 'female_blackred_wig.dmi'
+	name = "female red and black wig"
+obj/items/wearable/wigs/female_soliel_wig
+	icon = 'female_blonde_wig.dmi'
+	name = "female blonde wig"
+obj/items/wearable/wigs/female_rainbow_wig
+	icon = 'female_rainbow_wig.dmi'
 obj/items/wearable/wigs/female_christmas_wig
 	icon = 'female_christmas_wig.dmi'
 	dropable = 0
+obj/items/wearable/wigs/female_halloween_wig
+	icon = 'female_halloween_wig.dmi'
 
 obj/items/wearable/shoes
 	desc = "A pair of shoes. They look comfy!"
@@ -583,6 +583,8 @@ obj/items/wearable/shoes/black_shoes
 	icon = 'black_shoes.dmi'
 obj/items/wearable/shoes/royale_shoes
 	icon = 'royale_shoes.dmi'
+obj/items/wearable/shoes/pink_shoes
+	icon = 'pink_shoes.dmi'
 
 obj/items/wearable/scarves
 	desc = "A finely knit scarf designed to keep your neck toasty warm."
