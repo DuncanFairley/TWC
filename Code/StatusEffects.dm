@@ -44,10 +44,10 @@ atom/var/TransLastIconState
 
 atom/proc/findStatusEffect(var/type)
 	return src.LStatusEffects ? locate(type) in src.LStatusEffects : 0
-mob/proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inarena=1,var/insafezone=1,var/inhogwarts=1,var/mob/Player/target=null,var/mpreq=0,var/againstocclumens=1,var/againstflying=1,var/againstcloaked=1)
+proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inarena=1,var/insafezone=1,var/inhogwarts=1,var/mob/Player/target=null,var/mpreq=0,var/againstocclumens=1,var/againstflying=1,var/againstcloaked=1)
 	//Returns 1 if you can use the item/cast the spell. Also handles the printing of messages if you can't.
-	var/area/A = loc.loc
-	if(z == 27 && !inhogwarts)
+	var/area/A = M.loc.loc
+	if(M.z == 27 && !inhogwarts)
 		M << "<b>You cannot use this in a vault.</b>"
 		return 0
 	if(!A.safezoneoverride)
@@ -88,7 +88,7 @@ mob/proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/i
 		M << "<b>You require [mpreq] MP to cast this.</b>"
 		return 0
 	if(cooldown)
-		var/StatusEffect/S = findStatusEffect(cooldown)
+		var/StatusEffect/S = M.findStatusEffect(cooldown)
 		if(S)
 			if(S.cantUseMsg(M))	//Says how long you need to wait to use the item/spell again
 				return 0
