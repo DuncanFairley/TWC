@@ -224,53 +224,6 @@ talkedtofred=3  -  done
 **********************************/
 
 
-
-mob
-	EventMob_Item
-		icon = 'misc.dmi'
-		icon_state="palmer"
-		name="Event Mob"
-		Immortal=1
-		Gm=1
-		var/list/AlreadyGiven = list()
-		var/EventItem
-		verb
-			Talk()
-				set src in view(1)
-				if(!EventItem)
-					usr << "<font size=2 color=red><b>[src]</b>: I have nothing to give you."
-					return
-				if(usr.name in AlreadyGiven)
-					usr << "<font size=2 color=red><b>[src]</b>: Hello! I've already given you the item. Sorry."
-					return
-				else
-					usr << "<font size=2 color=red><b>[src]</b>: Hi! Here you go."
-					usr << "<font size=2 color=red>[src] hands you his [EventItem]"
-					AlreadyGiven.Add(usr.name)
-
-	EventMob_Variable
-		icon = 'misc.dmi'
-		icon_state="palmer"
-		name="Event Mob"
-		Immortal=1
-		Gm=1
-		var/list/AlreadyGiven = list()
-		var/EventVar
-		var/VarTo
-		verb
-			Talk()
-				set src in view(1)
-				if(usr.name in AlreadyGiven)
-					usr << "<font size=2 color=red><b>[src]</b>: Hello! I've seen you before."
-					return
-				else
-					usr << "<font size=2 color=red><b>[src]</b>: Hi! You can continue to your next objective now."
-					usr.vars[EventVar] = VarTo
-					AlreadyGiven.Add(usr.name)
-
-
-
-
 mob
 	Girl
 		icon='Misc Mobs.dmi'
