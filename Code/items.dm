@@ -1310,6 +1310,8 @@ mob/GM/verb/Arena()
 mob/NPC/var/walkingBack = 0
 
 mob/Player/Logout()
+	if(arcessoing)
+		stop_arcesso()
 	if(currentArena)
 		if(src in currentArena.players)
 			//currentArena.players.Remove(src)

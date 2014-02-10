@@ -1787,10 +1787,7 @@ mob/proc/Death_Check(mob/killer = src)
 				src.arcessoing = 0
 			else if(ismob(arcessoing))
 				hearers() << "[src] pulls out of the spell."
-				if(_input) del _input
-				if(arcessoing._input) del _input
-				arcessoing.arcessoing = 0
-				arcessoing = 0
+				stop_arcesso()
 			if(src.Detention)
 				sleep(1)
 				flick('teleboom.dmi',src)
