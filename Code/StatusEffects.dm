@@ -149,6 +149,7 @@ StatusEffect
 	UsedPortus
 	UsedMeditate
 	UsedHalloweenBucket
+	UsedArcesso
 	var/Event/AttachedEvent	//Not required - Contains /Event to automatically cancel the StatusEffect
 	var/atom/AttachedAtom	//Required - Contains the /atom which the StatusEffect is attached to
 	proc
