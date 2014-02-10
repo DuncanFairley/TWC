@@ -749,174 +749,165 @@ mob/Spells/verb/Furnunculus(mob/M in view()&Players)
 		M.overlays-=image('pimple.dmi')
 
 mob/var/tmp/Input/_input
+
+mob/proc/stop_arcesso()
+	if(_input) del _input
+	if(ismob(arcessoing))
+		if(arcessoing._input) del arcessoing._input
+		arcessoing.arcessoing = 0
+	arcessoing = 0
+
 mob/Spells/verb/Arcesso()
 	set category = "Spells"
 
+	if(src.arcessoing == 1)
+		hearers() << "[src] stops waiting for a partner."
+		src.arcessoing = 0
+	else if(ismob(arcessoing))
+		hearers() << "[src] pulls out of the spell."
+		stop_arcesso()
 
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=400,againstocclumens=1))
+	else if(canUse(src,cooldown=/StatusEffect/UsedArcesso,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=400,againstocclumens=1))
 		var/list/obj/circles = list(new/obj/circle/c1_1,new/obj/circle/c2_1,new/obj/circle/c3_1,new/obj/circle/c4_1,new/obj/circle/c5_1,
 									new/obj/circle/c1_2,new/obj/circle/c2_2,new/obj/circle/c3_2,new/obj/circle/c4_2,new/obj/circle/c5_2,
 									new/obj/circle/c1_3,new/obj/circle/c2_3,new/obj/circle/c3_3,new/obj/circle/c4_3,new/obj/circle/c5_3,
 									new/obj/circle/c1_4,new/obj/circle/c2_4,new/obj/circle/c3_4,new/obj/circle/c4_4,new/obj/circle/c5_4,
 									new/obj/circle/c1_5,new/obj/circle/c2_5,new/obj/circle/c3_5,new/obj/circle/c4_5,new/obj/circle/c5_5)
-		if(src.arcessoing == 1)
-			hearers() << "[src] stops waiting for a partner."
-			src.arcessoing = 0
-		else if(ismob(arcessoing))
-			hearers() << "[src] pulls out of the spell."
-			arcessoing.arcessoing = 0
-			arcessoing = 0
-		else
-			var/turf/middle = get_step(src,dir)
-			var/turf/opposite = get_step(middle,dir)
-			for(var/mob/Player/M in opposite)
-				if(istype(M,/mob/Player))
-					if(M.arcessoing) src.arcessoing = M
-			if(arcessoing)
-				//partner found
-				arcessoing.arcessoing = src
-				for(var/A in circles)
-					if(A:owner2) return
-					A:owner2 = arcessoing
-				src << "You have joined [arcessoing]'s summoning."
-				arcessoing << "[src] has joined your summoning."
 
-				var/list/people = list()
-				for(var/client/C)
-					if(C.mob)
-						if(C.mob.Rank&&C.mob!=src&&C.mob!=arcessoing&&!C.mob.Detention)
-							people.Add(C.mob)
-				if(!arcessoing||!arcessoing.arcessoing)
-					arcessoing.arcessoing = 0
-					arcessoing = 0
-				if(middle.density)
-					//Summon location is dense, so cancel
-					src << "<i>The teleport area is blocked.</i>"
-					arcessoing << "<i>The teleport is blocked.</i>"
-					arcessoing.arcessoing = 0
-					arcessoing = 0
-					return
-				if(people.len == 0)
-					// noone to summon
-					src << "<i>There is noone to summon.</i>"
-					arcessoing << "<i>There is noone to summon.</i>"
-					arcessoing.arcessoing = 0
-					arcessoing = 0
-					return
-				arcessoing._input = new
-				var/mob/summonee = arcessoing._input.InputList(arcessoing,"Who would you like to summon?", "Arcesso", null, people)
-				if(!summonee||!arcessoing)
-					if(arcessoing)
-						arcessoing.arcessoing = 0
-					arcessoing = 0
-					return
-				src << "[arcessoing] has asked [summonee] to be summoned."
-				arcessoing << "You have asked [summonee] to be summoned."
-				if(arcessoing.arcessoing)
-					if(arcessoing)
-						if(istype(summonee.loc.loc,/area/hogwarts) || istype(summonee.loc.loc, /area/arenas))
-							src << "[summonee] can't be summoned from this location."
-							arcessoing << "[summonee] can't be summoned from this location."
-							arcessoing.arcessoing = 0
-							arcessoing = 0
-						else
-							var/response = arcessoing._input.Alert(summonee,"[src] and [arcessoing] would like to summon you. Do you accept?","Summon Request","Yes","No")
-							if(response == "Yes")
-								if(arcessoing)
-									if(arcessoing.arcessoing)
-										src.MP -= 400
-										arcessoing.MP -= 800
-										src.updateHPMP()
-										arcessoing.updateHPMP()
-										spawn()
-											var/obj/circle/c3_3/C = new (middle)
-											flick("a",C)
-											sleep(1)
-											flick("b",C)
-											sleep(1)
-											flick("c",C)
-											sleep(1)
-											flick("b",C)
-											sleep(1)
-											flick("a",C)
-											sleep(1)
-											flick("b",C)
-											sleep(1)
-											flick("c",C)
-											sleep(1)
-											flick("b",C)
-											sleep(1)
-											flick("a",C)
-											sleep(1)
-											del(C)
-										spawn()
-											summonee.stuned = 1
-											var/obj/circle/c3_3/D = new (summonee.loc)
-											flick("a",D)
-											sleep(1)
-											flick("b",D)
-											sleep(1)
-											flick("c",D)
-											sleep(1)
-											flick("b",D)
-											sleep(1)
-											flick("a",D)
-											sleep(1)
-											flick("b",D)
-											sleep(1)
-											flick("c",D)
-											sleep(1)
-											del(D)
-										if(summonee.removeoMob) spawn()summonee:Permoveo()
-										sleep(5)
-										summonee << "You've been summoned by [src] and [src.arcessoing]."
-										summonee.loc = middle
-										arcessoing.arcessoing = 0
-										arcessoing = 0
-										summonee.stuned = 0
-										summonee.icon_state = ""
+		var/turf/middle = get_step(src,dir)
+		var/turf/opposite = get_step(middle,dir)
+		for(var/mob/Player/M in opposite)
+			if(istype(M,/mob/Player))
+				if(M.arcessoing) src.arcessoing = M
+		if(arcessoing)
+			//partner found
+			new /StatusEffect/UsedArcesso(src,15)
+			arcessoing.arcessoing = src
+			for(var/A in circles)
+				if(A:owner2) return
+				A:owner2 = arcessoing
+			src << "You have joined [arcessoing]'s summoning."
+			arcessoing << "[src] has joined your summoning."
 
-									else
-										hearers() << "The invitation is no longer active."
+			var/list/people = list()
+			for(var/client/C)
+				if(C.mob)
+					if(C.mob.Rank&&C.mob!=src&&C.mob!=arcessoing&&!C.mob.Detention)
+						people.Add(C.mob)
+			if(!arcessoing||!arcessoing.arcessoing)
+				stop_arcesso()
+			if(middle.density)
+				//Summon location is dense, so cancel
+				src << "<i>The teleport area is blocked.</i>"
+				arcessoing << "<i>The teleport is blocked.</i>"
+				stop_arcesso()
+				return
+			if(people.len == 0)
+				// noone to summon
+				src << "<i>There is noone to summon.</i>"
+				arcessoing << "<i>There is noone to summon.</i>"
+				stop_arcesso()
+				return
+			arcessoing._input = new
+			var/mob/summonee = arcessoing._input.InputList(arcessoing,"Who would you like to summon?", "Arcesso", null, people)
+			if(!summonee||!arcessoing)
+				stop_arcesso()
+				return
+			src << "[arcessoing] has asked [summonee] to be summoned."
+			arcessoing << "You have asked [summonee] to be summoned."
+			if(arcessoing.arcessoing)
+				if(arcessoing)
+					if(istype(summonee.loc.loc,/area/hogwarts) || istype(summonee.loc.loc, /area/arenas))
+						src << "[summonee] can't be summoned from this location."
+						arcessoing << "[summonee] can't be summoned from this location."
+						stop_arcesso()
+					else
+						var/response = arcessoing._input.Alert(summonee,"[src] and [arcessoing] would like to summon you. Do you accept?","Summon Request","Yes","No")
+						if(response == "Yes")
+							if(arcessoing)
+								if(arcessoing.arcessoing)
+									src.MP -= 400
+									arcessoing.MP -= 800
+									src.updateHPMP()
+									arcessoing.updateHPMP()
+									spawn()
+										var/obj/circle/c3_3/C = new (middle)
+										flick("a",C)
+										sleep(1)
+										flick("b",C)
+										sleep(1)
+										flick("c",C)
+										sleep(1)
+										flick("b",C)
+										sleep(1)
+										flick("a",C)
+										sleep(1)
+										flick("b",C)
+										sleep(1)
+										flick("c",C)
+										sleep(1)
+										flick("b",C)
+										sleep(1)
+										flick("a",C)
+										sleep(1)
+										del(C)
+									spawn()
+										summonee.stuned = 1
+										var/obj/circle/c3_3/D = new (summonee.loc)
+										flick("a",D)
+										sleep(1)
+										flick("b",D)
+										sleep(1)
+										flick("c",D)
+										sleep(1)
+										flick("b",D)
+										sleep(1)
+										flick("a",D)
+										sleep(1)
+										flick("b",D)
+										sleep(1)
+										flick("c",D)
+										sleep(1)
+										del(D)
+									if(summonee.removeoMob) spawn()summonee:Permoveo()
+									sleep(5)
+									summonee << "You've been summoned by [src] and [src.arcessoing]."
+									summonee.loc = middle
+									stop_arcesso()
+									summonee.stuned = 0
+									summonee.icon_state = ""
+
 								else
 									hearers() << "The invitation is no longer active."
 							else
-								if(arcessoing && arcessoing.arcessoing)
-									src << "[summonee] has not accepted your request to be summoned."
-									arcessoing << "[summonee] has not accepted your request to be summoned."
-									arcessoing.arcessoing = 0
-									arcessoing = 0
+								hearers() << "The invitation is no longer active."
+						else
+							if(arcessoing && arcessoing.arcessoing)
+								src << "[summonee] has not accepted your request to be summoned."
+								arcessoing << "[summonee] has not accepted your request to be summoned."
+								stop_arcesso()
 
-			else
-				//start waiting
-				if(src.MP>=800)
-					arcessoing = 1
-					hearers() << "[src] is waiting for a partner. Face [src] on the opposite side of the circle and cast Arcesso to participate."
+		else
+			//start waiting
+			if(src.MP>=800)
+				new /StatusEffect/UsedArcesso(src,15)
+				arcessoing = 1
+				hearers() << "[src] is waiting for a partner. Face [src] on the opposite side of the circle and cast Arcesso to participate."
+				for(var/A in circles)
+					A:loc = locate((middle.x+A:xoffset),(middle.y+A:yoffset),middle.z)
+					A:owner1 = src
+				src = null
+				spawn()
+					for(var/time = 0; time < 40;time++)
+						if(!usr) break
+						if(!usr.arcessoing) break
+						sleep(10)
 					for(var/A in circles)
-						A:loc = locate((middle.x+A:xoffset),(middle.y+A:yoffset),middle.z)
-						A:owner1 = src
-					src = null
-					spawn()
-						spawn(400)
-							for(var/A in circles)
-								del(A)
-							if(usr)
-								if(usr.arcessoing)
-									if(ismob(usr.arcessoing))
-										usr.arcessoing.arcessoing = 0
-									usr.arcessoing = 0
-								if(usr._input)
-									del usr._input
-							return
-						while(usr)
-							if(usr.arcessoing)
-								sleep(30)
-							else
-								break
-						for(var/A in circles)
-							del(A)
-				else
-					src << "You require 800 MP to initiate this spell."
+						del(A)
+					if(usr)
+						usr.stop_arcesso()
+			else
+				src << "You require 800 MP to initiate this spell."
 
 
 mob/Spells/verb/Flagrate(message as message)
