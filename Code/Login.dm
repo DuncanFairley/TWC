@@ -2852,9 +2852,13 @@ obj
 		density=0
 		layer = MOB_LAYER + 1
 	gargoylerightbottom
-		icon='turf.dmi'
-		icon_state="bright"
+		icon='COMC Icons.dmi'
+		icon_state="statue 2"
 		density=1
+	gargoyleleftbottom
+		icon = 'COMC Icons.dmi'
+		icon_state = "statue 1"
+		density = 1
 //TURFS
 turf
 	layer=TURF_LAYER

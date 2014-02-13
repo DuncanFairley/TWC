@@ -299,6 +299,9 @@ mob/Tom
 					if(usr.talktotom==2)
 						usr << npcsay("Tom stares at you in awe.")
 						usr << npcsay("Tom: You did it!")
+						usr.ratquest=1
+						usr.quests+=1
+						usr.talktotom=0
 						sleep(30)
 						usr << npcsay("Tom: Thank you so much! I don't have much to give you, but I can give you this.")
 						sleep(30)
@@ -306,9 +309,6 @@ mob/Tom
 						usr.gold+=1000
 						usr << npcsay("Tom: Here, have a free beer on the house.")
 						new/obj/Beer(usr)
-						usr.ratquest=1
-						usr.quests+=1
-						usr.talktotom=0
 						usr:Resort_Stacking_Inv()
 						return
 					if(usr.ratquest==1)
