@@ -182,6 +182,7 @@ mob
 
 									if(usr.talkedtofred==2)
 										alert("You show Fred the wand")
+										usr.talkedtofred=3
 										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> YES! You got it!"
 										sleep(30)
 										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Quickly! Use the wand to get me out of here!"
@@ -189,7 +190,6 @@ mob
 										alert("You point the wand at the barriers")
 										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> <b>Finte Incantum!</b>"
 										usr.loc=locate(89,33,8)
-										usr.talkedtofred=3
 										usr.delinterwand=1
 										usr.quests+=1
 										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Finally! I'm free!!!"
@@ -814,7 +814,7 @@ mob/Alyssa
 											usr << "<b><font color=blue>Alyssa: </font>Thanks for helping me anyways, you can have these as a token of my gratitude."
 											if(usr.talkedtoalyssa!=2)
 												new/obj/items/wearable/shoes/royale_shoes(usr)
-											usr.quests+=1
+												usr.quests+=1
 											usr.talkedtoalyssa=2
 											alert("Alyssa gives you a pair of Royale Shoes")
 										else
