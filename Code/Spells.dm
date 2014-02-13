@@ -79,7 +79,8 @@ var/list/spellList = list(
 	/mob/Spells/verb/Harvesto = "Harvesto",
 	/mob/Spells/verb/Scan = "Scan",
 	/mob/Spells/verb/Furnunculus = "Furnunculus",
-	/mob/Spells/verb/Expelliarmus = "Expelliarmus")
+	/mob/Spells/verb/Expelliarmus = "Expelliarmus",
+	/mob/Spells/verb/Eat_Slugs = "Eat Slugs")
 proc/name2spellpath(name)
 	for(var/V in spellList)
 		if(spellList[V] == name)
@@ -101,6 +102,29 @@ mob/Spells/verb/Accio(obj/M in oview())
 			flick('Appear.dmi',M)
 		else
 			usr << "The object is no longer in your view."
+
+mob/Spells/verb/Eat_Slugs()
+	set category = "Spells"
+	set hidden = 1
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+
+		var/mob/M = input("Cast this curse on?") as null|mob in view(client.view)&Players
+		if(!M) return
+		new /StatusEffect/Summoned(src,15)
+
+		hearers()<<"<font color=blue>[usr]:<font color = #FFFFFF> <FONT SIZE=3><FONT COLOR=#006400>E</FONT><FONT COLOR=#248724>a</FONT><FONT COLOR=#49aa49>t</FONT><FONT COLOR=#6dcc6d> </FONT><FONT COLOR=#90ee90>S</FONT><FONT COLOR=#74d374>l</FONT><FONT COLOR=#57b757>u</FONT><FONT COLOR=#3a9c3a>g</FONT><FONT COLOR=#1d801d>s</FONT><FONT COLOR=#006400>!</FONT>"
+		M<<"[usr] has casted the slug vommiting curse on you."
+
+		src=null
+		spawn()
+			var/slugs = rand(4,12)
+			while(M && slugs > 0)
+				new/mob/Slug(M.loc)
+				slugs--
+				sleep(rand(20,90))
+
+
+
 mob/Spells/verb/Herbificus()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))

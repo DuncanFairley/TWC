@@ -293,9 +293,8 @@ mob/verb/Use_Spellpoints()
 			var/list/txtunlearntSpells = list()
 			for(var/V in unlearntSpells)
 				txtunlearntSpells += unlearntSpells[V]
-			txtunlearntSpells.Add("Disperse", "Eat Slugs")
-			if(usr.Disperse) txtunlearntSpells.Remove("Disperse")
-			if(usr.learnedslug) txtunlearntSpells.Remove("Eat Slugs")
+
+			if(!usr.Disperse) txtunlearntSpells.Add("Disperse")
 
 			var/spellname = input("Which spell would you like to learn for 5 spell points?") as null|anything in txtunlearntSpells
 			if(spellname)
