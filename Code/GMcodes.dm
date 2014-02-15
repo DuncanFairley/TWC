@@ -857,12 +857,18 @@ mob
 
 		End_Floor_Guidence()
 			set category = "Staff"
+			var/stillpathing = ""
 			for(var/mob/M in Players)
 				if(M.classpathfinding)
+					stillpathing += "\n  [M.name]"
 					for(var/image/C in M.client.images)
 						if(C.icon == 'arrows.dmi')
 							M.client.images.Remove(C)
 					M.classpathfinding = 0
+			if(stillpathing != "")
+				for(var/mob/Player/M in Players)
+					if(M.Gm)
+						M << infomsg("The following players were currently using floor guidance. Maybe they want to come?:[stillpathing]")
 			usr<<infomsg("Floor Guidance offline.")
 			classdest = null
 
