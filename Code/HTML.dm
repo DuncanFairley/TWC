@@ -261,7 +261,8 @@ mob/Topic(href,href_list[])
 					usr << "You're already in class."
 					client.images = list()
 				else
-					usr.Class_Path_to()
+					if(usr.Class_Path_to())
+						usr << infomsg("Follow the blue markers to class.")
 			else
 				usr << "The class is no longer accepting new players."
 				usr.classpathfinding = 0

@@ -81,7 +81,7 @@ obj/teleport
 				M.client.images = list()
 				M.loc.loc.Enter(M)
 				if(M.classpathfinding)
-					M << link("?src=\ref[M];action=class_path")
+					M.Class_Path_to()
 				return 1
 	entervault
 		Teleport(mob/M)
