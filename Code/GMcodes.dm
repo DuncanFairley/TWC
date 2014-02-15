@@ -858,7 +858,11 @@ mob
 		End_Floor_Guidence()
 			set category = "Staff"
 			for(var/mob/M in Players)
-				M.classpathfinding = 0
+				if(M.classpathfinding)
+					for(var/image/C in M.client.images)
+						if(C.icon == 'arrows.dmi')
+							M.client.images.Remove(C)
+					M.classpathfinding = 0
 			usr<<infomsg("Floor Guidance offline.")
 			classdest = null
 
