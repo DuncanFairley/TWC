@@ -191,6 +191,10 @@ mob
 				src.resetStatPoints()
 				src << infomsg("Your statpoints have been reset.")
 
+			if(learnedslug) // replaces var with verb for eat slugs
+				learnedslug = null
+				verbs += /mob/Spells/verb/Eat_Slugs
+
 			var/turf/t = locate(last_x, last_y, last_z)
 			if(!t || t.name == "blankturf")
 				loc = locate(13,27,21)

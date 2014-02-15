@@ -1147,7 +1147,7 @@ mob/Player
 									range(1)<<"<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> whispers: <i>[copytext(t,4)]</i>"
 
 							else
-								if(!cmptext(t,"eat slugs"))
+								if(!(cmptext(t,"eat slugs") && (/mob/Spells/verb/Eat_Slugs in verbs)))
 									for(var/mob/M in hearers(client.view))
 										if(!M.muff)
 											if(derobe)
@@ -1223,38 +1223,9 @@ mob/Player
 							switch(lowertext(t))
 
 								if("eat slugs")
-									if(learnedslug)
-										if(findStatusEffect(/StatusEffect/Summoned))
-											usr << "You don't feel ready to cast a summoning spell again."
-										else
-											new /StatusEffect/Summoned(usr,15)
-											var/mob/M = input("Cast this curse on?") as mob in view(client.view)&Players
-											hearers()<<"<font color=blue>[usr]:<font color = #FFFFFF> <FONT SIZE=3><FONT COLOR=#006400>E</FONT><FONT COLOR=#248724>a</FONT><FONT COLOR=#49aa49>t</FONT><FONT COLOR=#6dcc6d> </FONT><FONT COLOR=#90ee90>S</FONT><FONT COLOR=#74d374>l</FONT><FONT COLOR=#57b757>u</FONT><FONT COLOR=#3a9c3a>g</FONT><FONT COLOR=#1d801d>s</FONT><FONT COLOR=#006400>!</FONT>"
-											M<<"[usr] has casted the slug vommiting curse on you."
-											sleep(5)
-											new/mob/Slug(M.loc)
-											src=null
-											spawn(40)
-												new/mob/Slug(M.loc)
-												sleep(rand(10,80))
-												new/mob/Slug(M.loc)
-												sleep(rand(10,90))
-												new/mob/Slug(M.loc)
-												sleep(rand(0,50))
-												new/mob/Slug(M.loc)
-												sleep(rand(10,60))
-												new/mob/Slug(M.loc)
-												sleep(rand(20,70))
-												new/mob/Slug(M.loc)
-												sleep(rand(30,80))
-												new/mob/Slug(M.loc)
-												sleep(rand(50,100))
-												new/mob/Slug(M.loc)
-												sleep(rand(80,150))
-												new/mob/Slug(M.loc)
-												sleep(rand(100,200))
-												new/mob/Slug(M.loc)
-											return
+									if(/mob/Spells/verb/Eat_Slugs in verbs)
+										usr:Eat_Slugs()
+										return
 								if("close hogwarts")
 									if(src.admin)
 
