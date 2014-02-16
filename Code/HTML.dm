@@ -224,6 +224,7 @@ mob/test/verb/Teach_Spells()
 	</tr>
 	<tr>
 		<td>[(/mob/GM/verb/Teach_Valorus in verbs) ? "<a href='?src=\ref[src];action=teach_valorus'>Valorus</a>" : "Valorus"]</td>
+		<td>[(/mob/GM/verb/Teach_Wingardium in verbs) ? "<a href='?src=\ref[src];action=teach_wingardium'>Wingardium Levisoa</a>" : "Wingardium Leviosa"]</td>
 	</tr>
 
 </table>
@@ -423,3 +424,5 @@ mob/Topic(href,href_list[])
 			src:Teach_Waddiwasi()
 		if("teach_confundus")
 			src:Teach_Confundus()
+		if("teach_wingardium")
+			src:Teach_Wingardium()

@@ -324,6 +324,15 @@ mob/GM
 			src<<"You've taught your class the Reparo charm."
 mob/GM
 	verb
+		Teach_Wingardium()
+			set category = "Teach"
+			set hidden = 1
+			for(var/mob/M in oview(client.view))
+				if(M.learnspell(/mob/Spells/verb/Wingardium_Leviosa))
+					M<<"<b><font color=white><font size=3>You learned Wingardium Leviosa."
+			src<<"You've taught your class Wingardium Leviosa."
+mob/GM
+	verb
 		Teach_Confundus()
 			set category = "Teach"
 			set hidden = 1
