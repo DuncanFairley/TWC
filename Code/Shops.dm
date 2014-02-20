@@ -45,8 +45,9 @@ mob/male_wigseller
 	Gm=1
 	verb
 		Talk()
-			set src in oview(2)
-			if(usr.gold<500000)
+			set src in oview(4)
+			usr << npcsay("Wig Seller says: Welcome to our little wig shop, use the mirrors to select a wig of your liking! Each wig costs 500,000 gold.")
+		/*	if(usr.gold<500000)
 				usr << npcsay("Wig Seller says: Sorry! It looks like you don't have enough gold to purchase a wig from me. Each wig costs 500,000g.")
 			else if(alert("Hello, would you like to purchase a wig?","You have [usr.gold] gold","Yes","No")=="Yes")
 				var/obj/wigpath
@@ -84,7 +85,7 @@ mob/male_wigseller
 				else
 					usr << npcsay("Wig Seller says: No worries. Maybe next time.")
 			else
-				usr << npcsay("Wig Seller says: No worries. Maybe next time.")
+				usr << npcsay("Wig Seller says: No worries. Maybe next time.")*/
 mob/female_wigseller
 	name="Female Wig's Salesman"
 	icon='Tammie.dmi'
@@ -93,8 +94,9 @@ mob/female_wigseller
 	Gm=1
 	verb
 		Talk()
-			set src in oview(2)
-			if(usr.gold<500000)
+			set src in oview(4)
+			usr << npcsay("Wig Seller says: Welcome to our little wig shop, use the mirrors to select a wig of your liking! Each wig costs 500,000 gold.")
+		/*	if(usr.gold<500000)
 				usr << npcsay("Wig Seller says: Sorry! It looks like you don't have enough gold to purchase a wig from me. Each wig costs 500,000g.")
 			else if(alert("Hello, would you like to purchase a wig?","You have [usr.gold] gold","Yes","No")=="Yes")
 				var/obj/wigpath
@@ -132,7 +134,7 @@ mob/female_wigseller
 				else
 					usr << npcsay("Wig Seller says: No worries. Maybe next time.")
 			else
-				usr << npcsay("Wig Seller says: No worries. Maybe next time.")
+				usr << npcsay("Wig Seller says: No worries. Maybe next time.")*/
 
 mob/Helga
 	icon = 'NPCs.dmi'
@@ -824,5 +826,113 @@ mob/Moaning_Myrtle
 	Click()//This starts- wait... you know what this is... i hope ^^
 		if(!(src in view(usr.client.view)))return
 		hearers()<<"<b>Moaning Myrtle:</b> *Sob* Wahhhhhh! Ohhhh, hello there, [usr]. *Blush* GO AWAY! *sob* ahhh..."
+
+
+obj/shop
+
+	var
+		obj/parent
+
+	New(obj/shop/parent, offset_x = 0, offset_y = 0)
+		loc = locate(parent.x + offset_x, parent.y + offset_y, parent.z)
+		src.parent = parent
+
+	base
+		var
+			list
+				images = list()
+				items = list()
+			index = 1
+
+		New(obj/shop/parent, offset_x = 0, offset_y = 0)
+			..(parent, offset_x, offset_y)
+
+			images += image('storehud.dmi',
+							new /obj/shop/buttons/buy (src,0,3),
+							"buy")
+
+			images += image('storehud.dmi',
+				            new /obj/shop/buttons/previous (src,-1,3),
+				            "previous")
+
+			images += image('storehud.dmi',
+							new /obj/shop/buttons/next (src,1,3),
+							"next")
+
+
+		proc
+			shop(mob/Player/M)
+				M.client.images += images
+				update(1, M)
+
+			unshop(mob/Player/M)
+				M.client.images -= images
+				update(0, M)
+
+			update(i, mob/Player/M)
+				var/obj/o = items[index]
+				M.overlays -= o:icon
+
+				if(i != 0)
+					if(i == 1)
+						index++
+						if(index > items.len)
+							index = 1
+
+					else
+						index--
+						if(index < 1)
+							index = items.len
+					o = items[index]
+					M.overlays += o:icon
+
+
+		male_wig_shop
+			items = newlist(/obj/items/wearable/wigs/male_black_wig,
+							/obj/items/wearable/wigs/male_blond_wig,
+							/obj/items/wearable/wigs/male_blue_wig,
+							/obj/items/wearable/wigs/male_brown_wig,
+							/obj/items/wearable/wigs/male_green_wig,
+							/obj/items/wearable/wigs/male_grey_wig,
+							/obj/items/wearable/wigs/male_pink_wig,
+							/obj/items/wearable/wigs/male_purple_wig,
+							/obj/items/wearable/wigs/male_silver_wig)
+
+		female_wig_shop
+			items = newlist(/obj/items/wearable/wigs/female_black_wig,
+							/obj/items/wearable/wigs/female_blonde_wig,
+							/obj/items/wearable/wigs/female_blue_wig,
+							/obj/items/wearable/wigs/female_brown_wig,
+							/obj/items/wearable/wigs/female_green_wig,
+							/obj/items/wearable/wigs/female_grey_wig,
+							/obj/items/wearable/wigs/female_pink_wig,
+							/obj/items/wearable/wigs/female_purple_wig,
+							/obj/items/wearable/wigs/female_silver_wig)
+
+	buttons
+
+
+		previous
+			Click()
+				parent:update(-1, usr)
+
+		next
+			Click()
+				parent:update(1, usr)
+		buy
+
+			Click()
+				if(usr.gold < 500000)
+					usr << npcsay("Wig Seller says: Sorry! It looks like you don't have enough gold to purchase a wig from me. Each wig costs 500,000g.")
+					return
+
+				if(alert(usr, "Are you sure you want to buy this for 500,000 gold?","Are you sure?","Yes","No") == "Yes")
+					if(usr.gold>=500000)
+						var/obj/o = parent:items[parent:index]
+						new o.type (usr)
+						usr << npcsay("Wig Seller says: Thanks for your business!")
+						usr.gold-=500000
+						ministrybank += taxrate*500000/100
+						usr:Resort_Stacking_Inv()
 
 
