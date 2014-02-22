@@ -1205,7 +1205,7 @@ mob/Player
 
 									if("change ministry password")
 										if(key=="Murrawhip")
-											var/input = input("New password?") as null|num
+											var/input = input("New password?", "Ministry Password", ministrypw) as null|text
 											if(!input) return
 											else
 												ministrypw = input
