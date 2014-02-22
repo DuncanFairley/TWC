@@ -303,7 +303,6 @@ mob
 				if(!Detention)return
 				flick('dlo.dmi',src)
 				src.loc=locate(22,7,21)
-				src.client.view="17x17"
 
 				src.verbs += /mob/Player/verb/PM
 				src.Detention=0
@@ -869,7 +868,6 @@ mob
 			if(M && M.removeoMob) spawn()M:Permoveo()
 			flick('dlo.dmi',M)
 			M.loc=locate(22,7,21)
-			M.client.view="17x17"
 
 			M.verbs += /mob/Player/verb/PM
 			M.Detention=0
