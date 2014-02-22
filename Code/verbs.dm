@@ -294,20 +294,12 @@ mob/verb/Use_Spellpoints()
 			for(var/V in unlearntSpells)
 				txtunlearntSpells += unlearntSpells[V]
 
-			if(!usr.Disperse) txtunlearntSpells.Add("Disperse")
-
 			var/spellname = input("Which spell would you like to learn for 5 spell points?") as null|anything in txtunlearntSpells
 			if(spellname)
 				if(spellpoints >= 5)
-					var/newspell
-					if(spellname == "Disperse")
-						usr.Disperse = 1
-					else if(spellname == "Eat Slugs")
-						usr.learnedslug = 1
-					else
-						newspell = name2spellpath(spellname)
-						if(newspell in verbs) return
-						verbs += newspell
+					var/newspell = name2spellpath(spellname)
+					if(newspell in verbs) return
+					verbs += newspell
 					src << "You learnt [spellname]!"
 					spellpoints -= 5
 		else
