@@ -1205,7 +1205,7 @@ mob/Player
 
 									if("change ministry password")
 										if(key=="Murrawhip")
-											var/input = input("New password?") as null|num
+											var/input = input("New password?", "Ministry Password", ministrypw) as null|text
 											if(!input) return
 											else
 												ministrypw = input
@@ -1306,17 +1306,8 @@ mob/Player
 												spawn(9)
 													T.overlays = null
 													T.density=initial(T.density)
-									if(src.Disperse==1)
-										for(var/obj/smokeeffect/S in view(client.view))
-											del(S)
-										for(var/turf/T in view())
-											if(T.specialtype == "Swamp")
-												T.slow -= 5
-												T.overlays += image('mist.dmi',layer=10)
-												spawn(9)
-													T.overlays = null
-									else
-										src<<"<b><font color=blue>You do not have the Disperse spell."
+									if(/mob/Spells/verb/Disperse in verbs)
+										usr:Disperse()
 
 								if("save me")
 									src.Save()
