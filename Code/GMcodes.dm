@@ -303,7 +303,6 @@ mob
 				if(!Detention)return
 				flick('dlo.dmi',src)
 				src.loc=locate(22,7,21)
-				src.client.view="17x17"
 
 				src.verbs += /mob/Player/verb/PM
 				src.Detention=0
@@ -857,6 +856,7 @@ mob
 
 		End_Floor_Guidence()
 			set category = "Staff"
+			set name = "End Floor Guidance"
 			var/stillpathing = ""
 			for(var/mob/M in Players)
 				if(M.classpathfinding)
