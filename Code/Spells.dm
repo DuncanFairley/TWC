@@ -62,11 +62,11 @@ var/list/spellList = list(
 	/mob/Spells/verb/Imitatus = "Imitatus",
 	/mob/Spells/verb/Felinious = "Felinious",
 	/mob/Spells/verb/Permoveo = "Permoveo",
-	/mob/Spells/verb/Reddikulus = "Reddikulus",
-	/mob/Spells/verb/Densuago = "Densuago",
+	/mob/Spells/verb/Reddikulus = "Riddikulus",
+	/mob/Spells/verb/Densuago = "Densaugeo",
 	/mob/Spells/verb/Replacio = "Replacio",
 	/mob/Spells/verb/Incarcerous = "Incarcerous",
-	/mob/Spells/verb/Peskipixie_Pesternomae = "Peskipixie Pesternomae",
+	/mob/Spells/verb/Peskipixie_Pesternomae = "Peskipiksi Pesternomi",
 	/mob/Spells/verb/Obliviate = "Obliviate",
 	/mob/Spells/verb/Avifors = "Avifors",
 	/mob/Spells/verb/Ferula = "Ferula",
@@ -148,7 +148,8 @@ mob/Spells/verb/Herbificus()
 mob/Spells/verb/Protego()
 	set category = "Spells"
 	if(!usr.shielded)
-		if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		if(canUse(src,cooldown=/StatusEffect/UsedProtego,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+			new /StatusEffect/UsedProtego(src,10)
 			usr.overlays += /obj/Shield
 			hearers()<< "<b><font color=red>[usr]</b></font>: PROTEGO!"
 			usr << "You shield yourself magically"
@@ -265,9 +266,12 @@ mob/Spells/verb/Imitatus(mob/M in view()&Players, T as text)
 	hearers() << " <b><font color = red>[M]</B> <font color = red>:</font> </font> [html_encode(T)]"
 mob/Spells/verb/Densuago(mob/M in view()&Players)
 	set category = "Spells"
+	set name = "Densaugeo"
+	hearers()<<"[usr]: <font color=white><b>Densaugeo [M]!"
+	sleep(20)
 	M.overlays+=('teeth.dmi')
-	hearers()<<"[usr]: <font color=white><b>Densaugeo [M]!</b></font><p>[M]'s teeth begin to grow rapidly!\n"
-	M<<"[src] placed a curse on you! Your teeth grew rapidly.  They will return to normal in 5 minutes.\n"
+	hearers()<<"[M]'s teeth begin to grow rapidly!"
+	M<<"[src] placed a curse on you! Your teeth grew rapidly. They will return to normal in 5 minutes."
 	src = null
 	spawn(3000)
 		if(M)
@@ -275,20 +279,17 @@ mob/Spells/verb/Densuago(mob/M in view()&Players)
 			M<<"Your teeth have been reduced to normal size."
 mob/Spells/verb/Morsmordre()
 	set category = "Spells"
-	if(!usr.shielded)
-		var/obj/The_Dark_Mark/D = new /obj/The_Dark_Mark
-		D:loc = locate(src.x,src.y+1,src.z)
-		D.density=0
-		flick('mist.dmi',D)
-		hearers() <<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green>MORSMORDRE!"
-		world<<"The sky darkens as a sneering skull appears in the clouds with a snake slithering from its mouth."
-		usr.shielded = 1
-		usr.shielded = null
-		src = null
-		spawn(600)
-		if(D)
-			del D
-			world<<"The Dark Mark fades back into the clouds."
+	var/obj/The_Dark_Mark/D = new /obj/The_Dark_Mark
+	D:loc = locate(src.x,src.y+1,src.z)
+	D.density=0
+	flick('mist.dmi',D)
+	hearers() <<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green>MORSMORDRE!"
+	world<<"The sky darkens as a sneering skull appears in the clouds with a snake slithering from its mouth."
+	src = null
+	spawn(600)
+	if(D)
+		del D
+		world<<"The Dark Mark fades back into the clouds."
 mob/Spells/verb/Repellium()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
@@ -307,48 +308,43 @@ mob/Spells/verb/Repellium()
 
 mob/Spells/verb/Basilio()
 	set category = "Staff"
-	if(!usr.shielded)
-		if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
-			new /StatusEffect/Summoned(src,15)
-			hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Basilio!"
-			sleep(20)
-			hearers()<<"[usr]'s wand emits a bright flash of light."
-			sleep(20)
-			if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
-				src << "<b>You can't use this inside a safezone.</b>"
-				return
-			hearers()<<"A Black Basilisk, emerges from [usr]'s wand."
-			hearers()<<"<b>Basilisk</b>: Hissssssss!"
-			var/mob/Basilisk/D = new /mob/Basilisk
-			D:loc = locate(src.x,src.y-1,src.z)
-			flick('mist.dmi',D)
-			usr.shielded = 1
-			usr.shielded = null
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
+		new /StatusEffect/Summoned(src,15)
+		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Basilio!"
+		sleep(20)
+		hearers()<<"[usr]'s wand emits a bright flash of light."
+		sleep(20)
+		if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
+			src << "<b>You can't use this inside a safezone.</b>"
+			return
+		hearers()<<"A Black Basilisk, emerges from [usr]'s wand."
+		hearers()<<"<b>Basilisk</b>: Hissssssss!"
+		var/mob/Basilisk/D = new /mob/Basilisk
+		D:loc = locate(src.x,src.y-1,src.z)
+		flick('mist.dmi',D)
+
 mob/Spells/verb/Serpensortia()
 	set category = "Spells"
-	if(!usr.shielded)
-		if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
-			new /StatusEffect/Summoned(src,15)
-			hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Serpensortia!"
-			sleep(20)
-			hearers()<<"[usr]'s wand emits a bright flash of light."
-			sleep(20)
-			if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
-				src << "<b>You can't use this inside a safezone.</b>"
-				return
-			hearers()<<"A Red-Spotted Green Snake, emerges from the wand."
-			hearers()<<"<b>Snake</b>: Hissssssss!"
-			var/mob/Snake_/D = new /mob/Snake_
-			D:loc = locate(src.x,src.y-1,src.z)
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
+		new /StatusEffect/Summoned(src,15)
+		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Serpensortia!"
+		sleep(20)
+		hearers()<<"[usr]'s wand emits a bright flash of light."
+		sleep(20)
+		if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
+			src << "<b>You can't use this inside a safezone.</b>"
+			return
+		hearers()<<"A Red-Spotted Green Snake, emerges from the wand."
+		hearers()<<"<b>Snake</b>: Hissssssss!"
+		var/mob/Snake_/D = new /mob/Snake_
+		D:loc = locate(src.x,src.y-1,src.z)
+		flick('mist.dmi',D)
+		src = null
+		spawn(600)
 			flick('mist.dmi',D)
-			usr.shielded = 1
-			usr.shielded = null
-			src = null
-			spawn(600)
-				flick('mist.dmi',D)
-				if(D)
-					view(D)<<"The snake disappears."
-					del D
+			if(D)
+				view(D)<<"The snake disappears."
+				del D
 mob/Spells/verb/Herbificus_Maxima()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
@@ -453,8 +449,6 @@ mob/Spells/verb/Avis()
 		var/mob/Bird_/D = new /mob/Bird_
 		D:loc = locate(src.x,src.y+1,src.z)
 		flick('mist.dmi',D)
-		usr.shielded = 1
-		usr.shielded = null
 		src = null
 		spawn(600)
 			flick('mist.dmi',D)
@@ -463,25 +457,23 @@ mob/Spells/verb/Avis()
 				del D
 mob/Spells/verb/Crapus_Sticketh()
 	set category = "Spells"
-	if(!usr.shielded)
-		if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
-			new /StatusEffect/Summoned(src,15)
-			hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Crapus...Sticketh!!"
-			sleep(20)
-			hearers()<<"A flash of black light shoots from [usr]'s wand."
-			sleep(20)
-			if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
-				src << "<b>You can't use this inside a safezone.</b>"
-				return
-			hearers()<<"A stick figure appears."
-			var/mob/Stickman_/D = new /mob/Stickman_
-			D:loc = locate(src.x,src.y+1,src.z)
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
+		new /StatusEffect/Summoned(src,15)
+		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Crapus...Sticketh!!"
+		sleep(20)
+		hearers()<<"A flash of black light shoots from [usr]'s wand."
+		sleep(20)
+		if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
+			src << "<b>You can't use this inside a safezone.</b>"
+			return
+		hearers()<<"A stick figure appears."
+		var/mob/Stickman_/D = new /mob/Stickman_
+		D:loc = locate(src.x,src.y+1,src.z)
+		flick('mist.dmi',D)
+		src = null
+		spawn(600)
 			flick('mist.dmi',D)
-			usr.shielded = 1
-			usr.shielded = null
-			flick('mist.dmi',D)
-			src = null
-			spawn(600)
+			if(D)
 				view(D)<<"The Stickman fades away."
 				del D
 mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at least 30 seconds/?
@@ -544,28 +536,25 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 			src << "You require at least 300MP to use this spell."
 mob/Spells/verb/Dementia()
 	set category = "Spells"
-	if(!usr.shielded)
-		if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
-			new /StatusEffect/Summoned(src,15)
-			hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> DEMENTIA!"
-			sleep(20)
-			hearers()<<"Thick black fog shoots out of [usr]'s wand."
-			sleep(20)
-			hearers()<<"A Dementor emerges from the smoke."
-			if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
-				src << "<b>You can't use this inside a safezone.</b>"
-				return
-			var/mob/Dementor_/D = new /mob/Dementor_
-			D:loc = locate(src.x,src.y+1,src.z)
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
+		new /StatusEffect/Summoned(src,15)
+		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> DEMENTIA!"
+		sleep(20)
+		hearers()<<"Thick black fog shoots out of [usr]'s wand."
+		sleep(20)
+		hearers()<<"A Dementor emerges from the smoke."
+		if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
+			src << "<b>You can't use this inside a safezone.</b>"
+			return
+		var/mob/Dementor_/D = new /mob/Dementor_
+		D:loc = locate(src.x,src.y+1,src.z)
+		flick('mist.dmi',D)
+		src = null
+		spawn(600)
 			flick('mist.dmi',D)
-			usr.shielded = 1
-			usr.shielded = null
-			src = null
-			spawn(600)
-				flick('mist.dmi',D)
-				if(D)
-					view(D)<<"The Dementor fades into smoke and vanishes."
-					del D
+			if(D)
+				view(D)<<"The Dementor fades into smoke and vanishes."
+				del D
 obj/screenobj/conjunct
 		mouse_opacity = 0
 		icon = 'black50.dmi'
@@ -702,6 +691,7 @@ mob/Spells/verb/Rictusempra(mob/M in oview(2)&Players)
 			M.Rictusempra=1
 			usr.MP-= 500
 			usr.updateHPMP()
+			src = null
 			spawn(300)
 				if(M.Rictusempra||M.Rictalk)
 					hearers() << "<b>[usr]'s Rictusempra charm has lifted.</b>"
@@ -1172,8 +1162,9 @@ mob/Spells/verb/Incendio()
 		M.overlays+=image('hair.dmi',icon_state="black")*/
 mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 	set category="Spells"
+	set name = "Riddikulus"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
-		hearers()<<"<b><font color=red>[usr]</font>: <font color=red><font size=3>Reddikulus!</font></font>, [M].</b>"
+		hearers()<<"<b><font color=red>[usr]</font>: <font color=red><font size=3>Riddikulus!</font></font>, [M].</b>"
 		sleep(20)
 		flick('fireworks.dmi',M)
 		if(M.derobe) return
@@ -1481,9 +1472,10 @@ mob/Spells/verb/Nightus(mob/Player/M in oview()&Players)
 		M.icon = 'Bat.dmi'
 mob/Spells/verb/Peskipixie_Pesternomae(mob/Player/M in oview()&Players)
 	set category="Spells"
+	set name = "Peskipiksi Pesternomi"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers()<<"<b><font color=red>[usr]</font>: <b>Peskipixie Pesternomae, [M].</b>"
+		hearers()<<"<b><font color=red>[usr]</font>: <b>Peskipiksi Pesternomi, [M].</b>"
 		sleep(20)
 		if(!M)return
 		flick("transfigure",M)

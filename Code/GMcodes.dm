@@ -856,6 +856,7 @@ mob
 
 		End_Floor_Guidence()
 			set category = "Staff"
+			set name = "End Floor Guidance"
 			var/stillpathing = ""
 			for(var/mob/M in Players)
 				if(M.classpathfinding)
