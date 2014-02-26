@@ -155,8 +155,6 @@ mob/GM/verb/Grant_All_Spells(mob/M in Players)
 			set category="Staff"
 			set popup_menu = 0
 			M.verbs += typesof(/mob/Spells/verb)
-			M.Disperse = 1
-			M.learnedslug = 1
 			M<<"[usr] has given you <u>All</u> spells."
 
 mob/GM/verb/Give_All_Quidditch(mob/M in Players)

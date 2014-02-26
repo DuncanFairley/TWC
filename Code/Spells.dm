@@ -80,7 +80,8 @@ var/list/spellList = list(
 	/mob/Spells/verb/Scan = "Scan",
 	/mob/Spells/verb/Furnunculus = "Furnunculus",
 	/mob/Spells/verb/Expelliarmus = "Expelliarmus",
-	/mob/Spells/verb/Eat_Slugs = "Eat Slugs")
+	/mob/Spells/verb/Eat_Slugs = "Eat Slugs",
+	/mob/Spells/verb/Disperse = "Disperse")
 proc/name2spellpath(name)
 	for(var/V in spellList)
 		if(spellList[V] == name)
@@ -123,7 +124,18 @@ mob/Spells/verb/Eat_Slugs()
 				slugs--
 				sleep(rand(20,90))
 
-
+mob/Spells/verb/Disperse()
+	set category = "Spells"
+	set hidden = 1
+	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		for(var/obj/smokeeffect/S in view(client.view))
+			del(S)
+		for(var/turf/T in view())
+			if(T.specialtype == "Swamp")
+				T.slow -= 5
+				T.overlays += image('mist.dmi',layer=10)
+				spawn(9)
+					T.overlays = null
 
 mob/Spells/verb/Herbificus()
 	set category = "Spells"
