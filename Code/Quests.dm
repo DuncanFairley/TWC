@@ -838,6 +838,7 @@ mob/Alyssa
 							usr << "<b><font color=blue>Alyssa: </font>I just don't have all the ingredients I need, can you help me find some?!"
 							switch(input("Will you help Alysaa find the potion ingredients?","Make a selection")in list("Certainly!","I've got better things to do"))
 								if("Certainly!")
+									usr.talkedtoalyssa=1
 									usr << "<b><font color=blue>Alyssa: </font>Oh wonderful! I know people around here make potions. Maybe they have some ingredients stashed away in there houses."
 									sleep(15)
 									usr << "<b><font color=blue>Alyssa: </font>I'm not saying to steal them....Just borrow them. Indefinitely."
@@ -847,7 +848,6 @@ mob/Alyssa
 										new/obj/AlyssaScroll(usr)
 									alert("Alyssa hands you her list of potion ingredients")
 									usr << "<b><font color=blue>Alyssa: </font>Thanks!"
-									usr.talkedtoalyssa=1
 								if("I've got better things to do")
 									return
 						if("No thanks")
