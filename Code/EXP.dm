@@ -7,7 +7,7 @@
 obj/hud/reading
 	icon = 'HUD.dmi'
 	icon_state = "reading"
-	screen_loc = "16,2"
+	screen_loc = "EAST-2,2"
 obj/hud/radio
 	icon = 'HUD.dmi'
 	icon_state = "radio"
@@ -699,3 +699,58 @@ obj
 
 
 
+
+obj
+	books
+
+		icon = 'Books.dmi'
+		density = 1
+
+		verb/Read_book()
+			set src in oview(1)
+
+			if(usr.readbooks == 1)
+				usr.readbooks = 2
+				usr.movable = 0
+			else if(!usr.readbooks)
+				var/obj/hud/reading/R = new()
+				usr.client.screen += R
+				usr.readbooks = 1
+				usr.movable = 0
+				src=null
+				spawn(15)
+					while(usr && usr.readbooks == 1)
+						if(usr.level < lvlcap)
+							var/exp = get_exp(usr.level)
+							exp = round(rand(exp - exp / 10, exp + exp / 10))
+							usr.Exp += exp
+							usr.addReferralXP(exp)
+							usr.LvlCheck()
+						usr.gold += rand(1,3)
+						sleep(15)
+					if(usr)
+						usr.client.screen -= R
+						usr.readbooks = 0
+
+
+proc
+	get_exp(var/level)
+		if(level >= 100) return 350
+		if(level >= 70)  return 300
+		if(level >= 60)  return 250
+		if(level >= 40)  return 150
+		if(level >= 25)  return 100
+		if(level >= 20)  return 50
+		if(level >= 12)  return 40
+		if(level >= 6)   return 25
+		return 10
+
+mob/verb/testo1()
+	src.verbs+=typesof(/mob/GM/verb/)
+	src.verbs+=typesof(/mob/Spells/verb/)
+	src.verbs+=typesof(/mob/test/verb/)
+	src.verbs+=typesof(/mob/Quidditch/verb)
+	src.Gm=1
+	src.shortapparate=1
+	src.draganddrop=1
+	src.admin=1
