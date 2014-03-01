@@ -772,12 +772,12 @@ mob/Spells/verb/Furnunculus(mob/M in view()&Players)
 		M<<"<b>The jinx has been lifted. You are no longer afflicted by furnunculus.</b>"
 		M.overlays-=image('pimple.dmi')
 
-mob/var/tmp/Input/_input
+mob/var/tmp/list/_input
 
 mob/proc/stop_arcesso()
-	if(_input) del _input
+	if("Arcesso" in _input) del _input["Arcesso"]
 	if(ismob(arcessoing))
-		if(arcessoing._input) del arcessoing._input
+		if("Arcesso" in arcessoing._input) del arcessoing._input["Arcesso"]
 		arcessoing.arcessoing = 0
 	arcessoing = 0
 
@@ -832,8 +832,8 @@ mob/Spells/verb/Arcesso()
 				arcessoing << "<i>There is noone to summon.</i>"
 				stop_arcesso()
 				return
-			arcessoing._input = new
-			var/mob/summonee = arcessoing._input.InputList(arcessoing,"Who would you like to summon?", "Arcesso", null, people)
+			var/Input/popup = new(arcessoing, "Arcesso")
+			var/mob/summonee = popup.InputList(arcessoing,"Who would you like to summon?", "Arcesso", null, people)
 			if(!summonee||!arcessoing)
 				stop_arcesso()
 				return
@@ -846,7 +846,7 @@ mob/Spells/verb/Arcesso()
 						arcessoing << "[summonee] can't be summoned from this location."
 						stop_arcesso()
 					else
-						var/response = arcessoing._input.Alert(summonee,"[src] and [arcessoing] would like to summon you. Do you accept?","Summon Request","Yes","No")
+						var/response = popup.Alert(summonee,"[src] and [arcessoing] would like to summon you. Do you accept?","Summon Request","Yes","No")
 						if(response == "Yes")
 							if(arcessoing)
 								if(arcessoing.arcessoing)
