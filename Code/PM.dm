@@ -70,7 +70,7 @@ obj/hud/PMHome
 	name = "Private Messaging"
 	icon = 'HUD.dmi'
 	icon_state = "PM"
-	screen_loc = "17,1"
+	screen_loc = "EAST-1,1"
 	Click()
 		var/mob/Player/M = usr
 		M.PMHome()
