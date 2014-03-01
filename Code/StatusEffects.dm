@@ -18,19 +18,18 @@ atom/proc/RemoveStatusEffect(StatusEffect/pStatusEffect)
 		src.LStatusEffects -= pStatusEffect
 		if(!LStatusEffects.len)
 			LStatusEffects = null
-
-
 Event
-	var/StatusEffect/AttachedStatusEffect
+	e_StatusEffect
+		var/StatusEffect/AttachedStatusEffect
 
-	New(StatusEffect/pStatusEffect)
-		//Set Event's parent to the StatusEffect
-		..()
-		src.AttachedStatusEffect = pStatusEffect
+		New(StatusEffect/pStatusEffect)
+			//Set Event's parent to the StatusEffect
+			..()
+			src.AttachedStatusEffect = pStatusEffect
 
-	fire()
-		..()
-		if(AttachedStatusEffect)AttachedStatusEffect.Deactivate()
+		fire()
+			..()
+			if(AttachedStatusEffect)AttachedStatusEffect.Deactivate()
 
 
 mob/proc/RevertTrans()
@@ -151,7 +150,7 @@ StatusEffect
 	UsedHalloweenBucket
 	UsedArcesso
 	UsedProtego
-	var/Event/AttachedEvent	//Not required - Contains /Event to automatically cancel the StatusEffect
+	var/Event/e_StatusEffect/AttachedEvent	//Not required - Contains /Event/e_StatusEffect to automatically cancel the StatusEffect
 	var/atom/AttachedAtom	//Required - Contains the /atom which the StatusEffect is attached to
 	proc
 		cantUseMsg(M)
