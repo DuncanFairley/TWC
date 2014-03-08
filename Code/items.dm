@@ -16,6 +16,7 @@ obj/items/var
 obj/items/Click()
 	if(src in oview(1))
 		Take()
+	..()
 obj/items/verb/Take()
 	set src in oview(1)
 	viewers() << infomsg("[usr] takes \the [src.name].")
@@ -100,6 +101,7 @@ obj/items/food
 	Click()
 		if(src in usr)
 			Eat()
+		..()
 	proc/Eat()
 		del(src)
 	chocolate_bar
@@ -170,6 +172,8 @@ obj/items/Whoopie_Cushion
 			src.isset = 1
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
+		else
+			..()
 obj/items/scroll
 	icon = 'Scroll.dmi'
 	destroyable = 1
@@ -184,7 +188,7 @@ obj/items/scroll
 	Click()
 		if(src in usr)
 			usr << browse(content)
-		..()
+		else ..()
 	verb
 		Name(msg as text)
 			set name = "Name Scroll"
