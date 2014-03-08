@@ -706,6 +706,8 @@ obj
 		icon = 'Books.dmi'
 		density = 1
 
+		var/list/questions = list("")
+
 		verb/Read_book()
 			set src in oview(1)
 
@@ -726,11 +728,13 @@ obj
 							usr.Exp += exp
 							usr.addReferralXP(exp)
 							usr.LvlCheck()
-						usr.gold += rand(1,3)
+						if(usr.level > 500) usr.gold += rand(3,6)
 						sleep(15)
 					if(usr)
 						usr.client.screen -= R
 						usr.readbooks = 0
+
+
 
 
 proc
@@ -745,12 +749,28 @@ proc
 		if(level >= 6)   return 25
 		return 10
 
-mob/verb/testo1()
-	src.verbs+=typesof(/mob/GM/verb/)
-	src.verbs+=typesof(/mob/Spells/verb/)
-	src.verbs+=typesof(/mob/test/verb/)
-	src.verbs+=typesof(/mob/Quidditch/verb)
-	src.Gm=1
-	src.shortapparate=1
-	src.draganddrop=1
-	src.admin=1
+	afk_check(mob/Player/m)
+		var/question/q = pick(questions)
+
+
+
+
+var/list/questions = list()
+
+question
+	var
+		question
+		correct
+		list/wrong
+
+	test
+		question = "Are you here?"
+		correct  = "Yes"
+		wrong    = list("No")
+
+
+world/New()
+	..()
+
+	for(var/t in typesof(/question/) - /question)
+		questions += new t

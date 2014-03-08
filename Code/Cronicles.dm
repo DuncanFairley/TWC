@@ -586,6 +586,8 @@ client
 
 	Del()
 		if(mob)
+			if(mob:isTrading())
+				mob:trade.Clean()
 			if(mob.derobe)
 				mob.derobe = 0
 				mob.name = mob.prevname
