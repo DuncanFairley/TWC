@@ -391,7 +391,7 @@ mob
 					else
 						if(C) C.icon_state = "0"
 					usr.client.images = list()
-					return
+					return 0
 				var/turf/T = locate(L[getFloor(curClass)]) //the teleport turf on your current floor
 				path = AStar(loc,T,/turf/proc/AdjacentTurfs,/turf/proc/Distance)
 			client.images = list()
@@ -404,6 +404,7 @@ mob
 							var/image/arrow = image('arrows.dmi',A)
 							arrow.layer = 6
 							usr << arrow
+				return 1
 			else
 				usr << "A path cannot be mapped to the class from this area. Please go to a main area of Hogwarts and try again."
 				usr.classpathfinding = 0
@@ -417,7 +418,7 @@ mob
 				else
 					if(C) C.icon_state = "0"
 				usr.client.images = list()
-				return
+				return 0
 
 area
 	arenas

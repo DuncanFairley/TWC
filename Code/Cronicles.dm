@@ -195,6 +195,10 @@ mob
 				learnedslug = null
 				verbs += /mob/Spells/verb/Eat_Slugs
 
+			if(Disperse) // replaces var with verb for eat slugs
+				Disperse = null
+				verbs += /mob/Spells/verb/Disperse
+
 			var/turf/t = locate(last_x, last_y, last_z)
 			if(!t || t.name == "blankturf")
 				loc = locate(13,27,21)

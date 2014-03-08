@@ -29,7 +29,7 @@ turf
 						E:client.images = list()
 						E.loc.loc.Enter(E)
 						if(usr.classpathfinding)
-							usr << link("?src=\ref[usr];action=class_path")
+							usr.Class_Path_to()
 	destination
 		//layer = 5
 		//icon = 'x.dmi'

@@ -303,7 +303,6 @@ mob
 				if(!Detention)return
 				flick('dlo.dmi',src)
 				src.loc=locate(22,7,21)
-				src.client.view="17x17"
 
 				src.verbs += /mob/Player/verb/PM
 				src.Detention=0
@@ -857,8 +856,19 @@ mob
 
 		End_Floor_Guidence()
 			set category = "Staff"
+			set name = "End Floor Guidance"
+			var/stillpathing = ""
 			for(var/mob/M in Players)
-				M.classpathfinding = 0
+				if(M.classpathfinding)
+					stillpathing += "\n  [M.name]"
+					for(var/image/C in M.client.images)
+						if(C.icon == 'arrows.dmi')
+							M.client.images.Remove(C)
+					M.classpathfinding = 0
+			if(stillpathing != "")
+				for(var/mob/Player/M in Players)
+					if(M.Gm)
+						M << infomsg("The following players were currently using floor guidance. Maybe they want to come?:[stillpathing]")
 			usr<<infomsg("Floor Guidance offline.")
 			classdest = null
 
@@ -869,7 +879,6 @@ mob
 			if(M && M.removeoMob) spawn()M:Permoveo()
 			flick('dlo.dmi',M)
 			M.loc=locate(22,7,21)
-			M.client.view="17x17"
 
 			M.verbs += /mob/Player/verb/PM
 			M.Detention=0
