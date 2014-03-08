@@ -6,6 +6,18 @@
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
+#define FILE_DIR "Icons"
+#define FILE_DIR "Icons/bases"
+#define FILE_DIR "Icons/items"
+#define FILE_DIR "Icons/items/food"
+#define FILE_DIR "Icons/items/wearables"
+#define FILE_DIR "Icons/items/wearables/brooms"
+#define FILE_DIR "Icons/items/wearables/hats"
+#define FILE_DIR "Icons/items/wearables/scarves"
+#define FILE_DIR "Icons/items/wearables/shoes"
+#define FILE_DIR "Icons/items/wearables/wands"
+#define FILE_DIR "Icons/items/wearables/wigs"
+#define FILE_DIR "Triwizard"
 // END_FILE_DIR
 #define FILE_DIR Icons
 #define FILE_DIR Icons/bases
@@ -22,10 +34,10 @@
 // END_PREFERENCES
 
 // BEGIN_INCLUDE
-#include <stephen001\eventscheduling\Events\Events.dme>
 #include <audeuro\inireader2\INI Reader 2\INI Reader 2.dme>
-#include <theodis\pathfinder\Pathfinder.dme>
 #include <deadron\texthandling\TextHandling.dme>
+#include <stephen001\eventscheduling\Events\Events.dme>
+#include <theodis\pathfinder\Pathfinder.dme>
 #include "potinf.dmf"
 #include "world.dmp"
 #include "Code\Animagus.dm"
@@ -78,6 +90,7 @@
 #include "Code\StatusEffects.dm"
 #include "Code\swapmaps.dm"
 #include "Code\Teach.dm"
+#include "Code\Trade.dm"
 #include "Code\verbs.dm"
 #include "Code\world.topic.dm"
 #include "Triwizard\Triwizard.dm"
