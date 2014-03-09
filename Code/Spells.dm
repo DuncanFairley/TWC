@@ -777,9 +777,9 @@ mob/Spells/verb/Furnunculus(mob/M in view()&Players)
 mob/var/tmp/list/_input
 
 mob/proc/stop_arcesso()
-	if("Arcesso" in _input) del _input["Arcesso"]
+	if(IsInputOpen(src, "Arcesso")) del _input["Arcesso"]
 	if(ismob(arcessoing))
-		if("Arcesso" in arcessoing._input) del arcessoing._input["Arcesso"]
+		if(IsInputOpen(arcessoing, "Arcesso")) del arcessoing._input["Arcesso"]
 		arcessoing.arcessoing = 0
 	arcessoing = 0
 
