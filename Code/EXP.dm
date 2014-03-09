@@ -43,6 +43,7 @@ mob/var/tmp/classpathfinding = 0
 mob/var/tmp/readbooks
 
 mob/var/rest = 1
+/*
 obj
 	EXP_BOOK_lvl0
 		icon = 'Books.dmi'
@@ -131,10 +132,64 @@ obj
 						usr << errormsg("You have already reached the level cap of [lvlcap].")
 				else
 					usr << "You need to be lvl 12 to understand this book!!"
-mob/Player/var/Checking
-mob/Player/var/answered
+					*/
+mob/Player/var/tmp
+	Checking
+	answered
+
 proc
 	AFK_Train_Scan()
+
+		var/mob/Player/list/readers = list()
+		for(var/mob/Player/M in world)
+			if(M.readbooks)
+				readers.Add(M)
+		sleep(3)
+		for(var/mob/Player/M in world)
+			if(M.readbooks)
+				readers.Remove(M)
+				readers.Add(M)
+		for(var/mob/Player/M in readers)
+			spawn()
+				M.Checking = 1
+				M.answered = 0
+				var/question/q = pick(questions)
+
+				M << "<u>50 seconds left to reply.</u>"
+				spawn(200)
+					if(!M)return
+					if(!M.answered) M << "<u>30 seconds left to reply.</u>"
+					sleep(200)
+					if(!M)return
+					if(!M.answered) M << "<u><b>10 seconds left to reply.</b></u>"
+					sleep(100)
+					world << "BAM"
+					if(M && IsInputOpen(M, "AFK"))
+						del M._input["AFK"]
+				var
+					Input/popup = new (M, "AFK")
+					list/answers = Shuffle(q.wrong + q.correct)
+					alrt
+				if(answers.len > 3)
+					alrt = popup.InputList(M, q.question, "Presence Check", answers[1], answers)
+				else
+					alrt = popup.Alert(M, q.question, "Presence Check", answers[1], answers[2], answers.len == 3 ? answers[3] : null)
+
+				M.answered=1
+				M.Checking = 0
+				if(alrt != q.correct)M.Checking=1
+		sleep(500)
+		for(var/mob/Player/M in readers)
+			if(M && !M.Checking)
+				M.presence = 1
+				M << infomsg("You read faster.")
+			else
+				M.presence = null
+				M << infomsg("You feel sleepy and start reading slower.")
+/*
+
+		// old afk check
+
 		var/mob/Player/list/readers = list()
 		for(var/mob/Player/M in world)
 			if(M.readbooks)
@@ -172,7 +227,8 @@ proc
 				var/Reason = "AFK Training"
 				var/tmpckey = M.ckey
 				del M
-				spawn()sql_add_plyr_log(tmpckey,"di",Reason)
+				spawn()sql_add_plyr_log(tmpckey,"di",Reason)*/
+/*
 obj
 	EXP_BOOK_lvl3
 		icon = 'Books.dmi'
@@ -696,9 +752,12 @@ obj
 						usr << errormsg("You have already reached the level cap of [lvlcap].")
 				else
 					usr << "You need to be level 5  to understand this book."
+*/
 
-
-
+mob/Player
+	var/tmp
+		book_type
+		presence
 
 obj
 	books
@@ -714,27 +773,109 @@ obj
 			if(usr.readbooks == 1)
 				usr.readbooks = 2
 				usr.movable = 0
+				usr:book_type = null
+				usr:presence = null
 			else if(!usr.readbooks)
 				var/obj/hud/reading/R = new()
 				usr.client.screen += R
+				usr:book_type = name
 				usr.readbooks = 1
 				usr.movable = 0
 				src=null
 				spawn(15)
 					while(usr && usr.readbooks == 1)
 						if(usr.level < lvlcap)
-							var/exp = get_exp(usr.level)
+							var/exp = get_exp(usr.level) / (usr:presence ? 1 : 3)
 							exp = round(rand(exp - exp / 10, exp + exp / 10))
 							usr.Exp += exp
 							usr.addReferralXP(exp)
 							usr.LvlCheck()
-						if(usr.level > 500) usr.gold += rand(3,6)
+						if(usr.level > 500) usr.gold += rand(3,6) / (usr:presence ? 1 : 3)
 						sleep(15)
 					if(usr)
 						usr.client.screen -= R
 						usr.readbooks = 0
 
 
+		EXP_BOOK_lvl0
+			icon_state="peace"
+			name = "Book of Peace"
+
+		EXP_BOOK_lvl1
+			name = "Book of Chaos"
+			icon_state="chaos"
+
+		EXP_BOOK_lvl2
+			name = "Gringott's Guide to Banking"
+			icon_state="bank"
+
+		EXP_BOOK_lvl3
+			name = "Guide to Magic"
+			icon_state="rmagic"
+
+		EXP_BOOK_lvl4
+			name = "Hogwarts: A History"
+			icon_state="Hogwarts"
+
+		EXP_BOOK_lvl5
+			name = "Gawshawks Guide to Herbology"
+			icon_state="herb"
+
+		EXP_BOOK_lvl6
+			name = "How to Brew Potions"
+			icon_state="potion"
+
+		EXP_BOOK_lvl7
+			name = "The Key to Success"
+			icon_state="key"
+
+		EXP_BOOK_lvl8
+			name = "Fencing for Dummies"
+			icon_state="sword"
+
+		EXP_BOOK_lvlde
+			name = "Death Eaters Guide"
+			icon_state="de"
+
+		EXP_BOOK_lvlauror
+			name = "Aurors Guide"
+			icon_state="auror"
+
+		EXP_BOOK_lvlslytherin
+			name = "Slytherin's Strategies of Battle"
+			icon_state="slyth"
+
+		EXP_BOOK_lvlslytherinupgraded
+			name = "Salazar's Journal"
+			icon_state="slythup"
+
+		EXP_BOOK_lvlhufflepuff
+			name = "Hufflepuff's Fable Encyclopedia"
+			icon_state="huffle"
+
+		EXP_BOOK_lvlhufflepuffupgraded
+			name = "Helga's Journal"
+			icon_state="huffleup"
+
+		EXP_BOOK_lvlravenclaw
+			name = "Ravenclaw's Vast Dictionary"
+			icon_state="raven"
+
+		EXP_BOOK_lvlravenclawupgraded
+			name = "Rowena's Journal"
+			icon_state="ravenup"
+
+		EXP_BOOK_lvlgryffindor
+			name = "Gryffindor's Guide to Valor"
+			icon_state="gryff"
+
+		EXP_BOOK_lvlgryffindorupgraded
+			name = "Godric's Journal"
+			icon_state="gryffup"
+
+		EXP_BOOK_lvlnone
+			name = "Book of All Knowledge"
+			icon_state="smart"
 
 
 proc
@@ -749,9 +890,6 @@ proc
 		if(level >= 6)   return 25
 		return 10
 
-	afk_check(mob/Player/m)
-		var/question/q = pick(questions)
-
 
 
 
@@ -763,14 +901,24 @@ question
 		correct
 		list/wrong
 
-	test
+	default
 		question = "Are you here?"
 		correct  = "Yes"
 		wrong    = list("No")
 
+	question1
+		question = "What color are dementors?"
+		correct  = "Black"
+		wrong    = list("White", "Blue")
 
-world/New()
-	..()
 
-	for(var/t in typesof(/question/) - /question)
-		questions += new t
+proc/Shuffle(list/L)
+	if(!L)
+		CRASH("Shuffle failed because input list is null")
+
+	var/list/l = list()
+	while (L.len)
+		var/i = pick(L)
+		L -= i
+		l += i
+	return l

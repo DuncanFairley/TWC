@@ -31,6 +31,13 @@ Event
 			..()
 			if(AttachedStatusEffect)AttachedStatusEffect.Deactivate()
 
+	AFKCheck
+
+		fire()
+			..()
+			AFK_Train_Scan()
+			scheduler.schedule(src, world.tick_lag * rand(9000, 12000)) // 15 to 20 minutes
+
 
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)

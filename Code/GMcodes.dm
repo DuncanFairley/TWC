@@ -1617,6 +1617,11 @@ world/New()
 		clanadmin_hash = cfg_clans.Value("clanadmin_hash")
 	Load_World()
 	scheduler.start()
+
+	for(var/t in typesof(/question/) - /question)
+		questions += new t
+	scheduler.schedule(new/Event/AFKCheck,world.tick_lag * 600)
+
 	swapmaps_directory = "vaults"
 
 	Load_Bans()
