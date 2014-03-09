@@ -11,20 +11,21 @@ trading
 		..()
 		src.parent = parent
 		src.with   = with
-		winset(parent, null, {"Trade.is-visible=true;Trade.Name1.text="[with.name]";Trade.Name2.text="[parent.name]";Trade.GoldInput.text=0"})
+		winset(parent, null, {"Trade.is-visible=true;Trade.Name1.text="[parent.name]";Trade.Name2.text="[with.name]";Trade.GoldInput.text=0"})
 
 	proc
 		Deal(end = 0)
 
 			for(var/obj/O in items)
 				O.loc = with
+			items = list()
+
 			with.gold += gold
 			parent.gold -= gold
 
-			if(!end) spawn() with.trade.Deal(1)
+			if(!end) with.trade.Deal(1)
 
 			parent.Resort_Stacking_Inv()
-			Clean()
 
 
 		Clean(end = 0)
@@ -51,11 +52,11 @@ mob/Player
 			return trade && trade.with
 	verb
 		Trade()
-			set src in range(2)
+			set src in orange(2)
 			set category = null
 			var/mob/Player/trader = usr
 			if(isTrading())
-				usr << errormsg("[usr] is already trading!")
+				usr << errormsg("[src] is already trading!")
 				return
 
 			if(trader.isTrading())
@@ -84,6 +85,7 @@ mob/Player
 					trade.accept = 1
 					if(trade.with.trade.accept)
 						trade.Deal()
+						trade.Clean()
 					else
 						winset(src, "Trade.grid1", "background-color=green")
 						winset(trade.with, "Trade.grid2", "background-color=green")
