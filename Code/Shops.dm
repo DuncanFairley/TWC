@@ -827,7 +827,7 @@ mob/Moaning_Myrtle
 		if(!(src in view(usr.client.view)))return
 		hearers()<<"<b>Moaning Myrtle:</b> *Sob* Wahhhhhh! Ohhhh, hello there, [usr]. *Blush* GO AWAY! *sob* ahhh..."
 
-
+mob/Player/var/tmp/shop_index
 obj/shop
 
 	var
@@ -842,7 +842,6 @@ obj/shop
 			list
 				images = list()
 				items = list()
-			index = 1
 
 		New(obj/shop/parent, offset_x = 0, offset_y = 0)
 			..(parent, offset_x, offset_y)
@@ -863,27 +862,29 @@ obj/shop
 		proc
 			shop(mob/Player/M)
 				M.client.images += images
+				M.shop_index = rand(1,items.len)
 				update(1, M)
 
 			unshop(mob/Player/M)
 				M.client.images -= images
 				update(0, M)
+				M.shop_index = null
 
 			update(i, mob/Player/M)
-				var/obj/o = items[index]
+				var/obj/o = items[M.shop_index]
 				M.overlays -= o:icon
 
 				if(i != 0)
 					if(i == 1)
-						index++
-						if(index > items.len)
-							index = 1
+						M.shop_index++
+						if(M.shop_index > items.len)
+							M.shop_index = 1
 
 					else
-						index--
-						if(index < 1)
-							index = items.len
-					o = items[index]
+						M.shop_index--
+						if(M.shop_index < 1)
+							M.shop_index = items.len
+					o = items[M.shop_index]
 					M.overlays += o:icon
 
 
@@ -929,7 +930,7 @@ obj/shop
 
 				if(alert(usr, "Are you sure you want to buy this for 500,000 gold?","Are you sure?","Yes","No") == "Yes")
 					if(usr.gold>=500000)
-						var/obj/o = parent:items[parent:index]
+						var/obj/o = parent:items[usr:shop_index]
 						new o.type (usr)
 						usr << npcsay("Wig Seller says: Thanks for your business!")
 						usr.gold-=500000

@@ -898,7 +898,10 @@ mob/Spells/verb/Arcesso()
 									if(summonee.removeoMob) spawn()summonee:Permoveo()
 									sleep(5)
 									summonee << "You've been summoned by [src] and [src.arcessoing]."
-									summonee.loc = middle
+									var/dense = summonee.density
+									summonee.density = 0
+									summonee.Move(middle)
+									summonee.density = dense
 									stop_arcesso()
 									summonee.stuned = 0
 									summonee.icon_state = ""
@@ -1006,14 +1009,22 @@ mob/Spells/verb/Replacio(mob/M in oview()&Players)
 		var/startloc = usr.loc
 		flick('GMOrb.dmi',M)
 		flick('GMOrb.dmi',usr)
-		usr.loc=M.loc
+		var/dense = usr.density
+		usr.density = 0
+		usr.Move(M.loc)
+		usr.density = dense
 		sleep(2)
 		if(!(startloc in view(M.client.view)))
 			M << errormsg("The replacio failed.")
 			usr << errormsg("The replacio failed.")
-			usr.loc = startloc
+			dense = usr.density
+			usr.Move(startloc)
+			usr.density = dense
 			return
-		M.loc=startloc
+		dense = M.density
+		M.density = 0
+		M.Move(startloc)
+		M.density = dense
 		flick('GMOrb.dmi',usr)
 		flick('GMOrb.dmi',M)
 		hearers()<<"[usr] trades places with [M]"
