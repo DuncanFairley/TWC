@@ -781,9 +781,9 @@ obj
 				usr:book_type = name
 				usr.readbooks = 1
 				usr.movable = 0
-				src=null
+
 				spawn(15)
-					while(usr && usr.readbooks == 1)
+					while(src && usr && usr.readbooks == 1 && (src in view(usr, 1)))
 						if(usr.level < lvlcap)
 							var/exp = get_exp(usr.level) / (usr:presence ? 1 : 3)
 							exp = round(rand(exp - exp / 10, exp + exp / 10))
