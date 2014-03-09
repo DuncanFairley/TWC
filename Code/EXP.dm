@@ -139,7 +139,7 @@ mob/Player/var/tmp
 
 proc
 	AFK_Train_Scan()
-
+		lastusedAFKCheck = world.realtime
 		var/mob/Player/list/readers = list()
 		for(var/mob/Player/M in world)
 			if(M.readbooks)
@@ -163,7 +163,6 @@ proc
 					if(!M)return
 					if(!M.answered) M << "<u><b>10 seconds left to reply.</b></u>"
 					sleep(100)
-					world << "BAM"
 					if(M && IsInputOpen(M, "AFK"))
 						del M._input["AFK"]
 				var
@@ -754,10 +753,7 @@ obj
 					usr << "You need to be level 5  to understand this book."
 */
 
-mob/Player
-	var/tmp
-		book_type
-		presence
+mob/Player/var/tmp/presence
 
 obj
 	books
@@ -773,12 +769,10 @@ obj
 			if(usr.readbooks == 1)
 				usr.readbooks = 2
 				usr.movable = 0
-				usr:book_type = null
 				usr:presence = null
 			else if(!usr.readbooks)
 				var/obj/hud/reading/R = new()
 				usr.client.screen += R
-				usr:book_type = name
 				usr.readbooks = 1
 				usr.movable = 0
 
@@ -790,7 +784,7 @@ obj
 							usr.Exp += exp
 							usr.addReferralXP(exp)
 							usr.LvlCheck()
-						if(usr.level > 500) usr.gold += rand(3,6) / (usr:presence ? 1 : 3)
+						if(usr.level > 500) usr.gold += round(rand(3,6) / (usr:presence ? 1 : 3))
 						sleep(15)
 					if(usr)
 						usr.client.screen -= R
