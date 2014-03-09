@@ -1352,7 +1352,6 @@ mob/Player
 									if(Gm)
 										if(alert("AFK Check was last used about [round((world.realtime - lastusedAFKCheck) / 10 / 60)] minutes ago. Do you want to use it now?",,"Yes","No") == "Yes")
 											src<<infomsg("Checking for AFK trainers, and disconnecting once found.")
-											lastusedAFKCheck = world.realtime
 											for(var/mob/A in world)
 												if(A.key&&A.Gm)
 													A << infomsg("[src] uses AFK Check")
