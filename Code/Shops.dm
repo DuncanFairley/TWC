@@ -891,7 +891,6 @@ obj/shop
 			items = newlist(/obj/items/wearable/wigs/male_black_wig,
 							/obj/items/wearable/wigs/male_blond_wig,
 							/obj/items/wearable/wigs/male_blue_wig,
-							/obj/items/wearable/wigs/male_brown_wig,
 							/obj/items/wearable/wigs/male_green_wig,
 							/obj/items/wearable/wigs/male_grey_wig,
 							/obj/items/wearable/wigs/male_pink_wig,
@@ -902,7 +901,6 @@ obj/shop
 			items = newlist(/obj/items/wearable/wigs/female_black_wig,
 							/obj/items/wearable/wigs/female_blonde_wig,
 							/obj/items/wearable/wigs/female_blue_wig,
-							/obj/items/wearable/wigs/female_brown_wig,
 							/obj/items/wearable/wigs/female_green_wig,
 							/obj/items/wearable/wigs/female_grey_wig,
 							/obj/items/wearable/wigs/female_pink_wig,
@@ -914,14 +912,17 @@ obj/shop
 
 		previous
 			Click()
+				if(usr.loc != parent.loc) return
 				parent:update(-1, usr)
 
 		next
 			Click()
+				if(usr.loc != parent.loc) return
 				parent:update(1, usr)
 		buy
 
 			Click()
+				if(usr.loc != parent.loc) return
 				if(usr.gold < 500000)
 					usr << npcsay("Wig Seller says: Sorry! It looks like you don't have enough gold to purchase a wig from me. Each wig costs 500,000g.")
 					return
