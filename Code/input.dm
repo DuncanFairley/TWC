@@ -24,8 +24,9 @@ Input
 		parent = p
 
 	Del()
-		parent._input -= src
-		if(!parent._input.len) parent._input = null
+		if(parent._input)
+			parent._input -= src
+			if(!parent._input.len) parent._input = null
 		..()
 
 proc
