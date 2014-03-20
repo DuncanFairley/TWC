@@ -906,6 +906,11 @@ question
 		wrong    = list("White", "Blue")
 
 
+proc/init_books()
+	for(var/t in typesof(/question/) - /question)
+		questions += new t
+	scheduler.schedule(new/Event/AFKCheck,world.tick_lag * 600)
+
 proc/Shuffle(list/L)
 	if(!L)
 		CRASH("Shuffle failed because input list is null")

@@ -1618,9 +1618,7 @@ world/New()
 	Load_World()
 	scheduler.start()
 
-	for(var/t in typesof(/question/) - /question)
-		questions += new t
-	scheduler.schedule(new/Event/AFKCheck,world.tick_lag * 600)
+	init_books()
 
 	swapmaps_directory = "vaults"
 
