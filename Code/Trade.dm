@@ -44,23 +44,29 @@ trading
 				parent = null
 
 mob/Player
-	var/tmp/trading/trade
-
+	var
+		tmp/trading/trade
+		TradeBlock = 0
 
 	proc
 		isTrading()
 			return trade && trade.with
 	verb
 		Trade()
-			set src in orange(2)
+			set src in range(2)
 			set category = null
 			var/mob/Player/trader = usr
+
+			if(TradeBlock) //|| ("[formatName(src)]" in blockedpeeps))
+				usr << errormsg("[src] does not wish to trade at the moment.")
+				return
+
 			if(isTrading())
-				usr << errormsg("[src] is already trading!")
+				usr << errormsg("[src] is already trading.")
 				return
 
 			if(trader.isTrading())
-				usr << errormsg("You are already trading!")
+				usr << errormsg("You are already trading.")
 				return
 
 			trader.trade = new(trader, src)

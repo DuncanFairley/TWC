@@ -51,6 +51,10 @@ mob
 				winset += "butPMtoggle.is-checked=true;"
 			else
 				winset += "butPMtoggle.is-checked=false;"
+			if(src:TradeBlock)
+				winset += "butTradetoggle.is-checked=true;"
+			else
+				winset += "butTradetoggle.is-checked=false;"
 			if(betamapmode)
 				winset += "butMapmodetoggle.is-checked=true;"
 				EnableBetaMapMode()
@@ -114,6 +118,12 @@ mob
 				src.PMBlock=1
 			else
 				src.PMBlock=0
+		Tradetoggle()
+			set name = ".Tradetoggle"
+			if(winget(src,"butTradetoggle","is-checked") == "true")
+				src:TradeBlock=1
+			else
+				src:TradeBlock=0
 		Mapmodetoggle()
 			set name = ".Mapmodetoggle"
 			if(winget(src,"butMapmodetoggle","is-checked") == "false")
