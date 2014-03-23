@@ -1930,9 +1930,11 @@ mob/proc/Death_Check(mob/killer = src)
 				if(killer.aurorrobe && src.DeathEater)
 					src << "You were killed by [killer] of the Aurors."
 					housepointsGSRH[5] += 1
+					clanwars_event.add_auror(1)
 				else if(killer.derobe && src.Auror)
 					src << "You were killed by a [killer]."
 					housepointsGSRH[6] += 1
+					clanwars_event.add_de(1)
 			if(src.loc.loc.type in typesof(/area/arenas/MapTwo))
 			/////CLAN WARS//////
 				if(!(src.derobe && killer.derobe)&&!(src.aurorrobe && killer.aurorrobe))
@@ -2864,7 +2866,6 @@ turf
 				else if(randnum==8)
 					src.icon_state="wood8 - halloween"
 	woodenfloor
-		//icon_state="wood"
 		icon_state = "wood"
 		density=0
 		New()

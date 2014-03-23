@@ -1438,8 +1438,10 @@ obj/clanpillar
 					//If world ClanWars
 					if(clan == "Deatheater")
 						housepointsGSRH[5] += 10
+						clanwars_event.add_auror(10)
 					else if(clan == "Auror")
 						housepointsGSRH[6] += 10
+						clanwars_event.add_de(10)
 					for(var/mob/M in Players)
 						if(clan == "Deatheater")
 							if(M.Auror)

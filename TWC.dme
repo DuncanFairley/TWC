@@ -90,6 +90,7 @@
 #include "Code\StatusEffects.dm"
 #include "Code\swapmaps.dm"
 #include "Code\Teach.dm"
+#include "Code\time.dm"
 #include "Code\Trade.dm"
 #include "Code\verbs.dm"
 #include "Code\world.topic.dm"

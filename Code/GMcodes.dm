@@ -1619,6 +1619,7 @@ world/New()
 	scheduler.start()
 
 	init_books()
+	spawn()init_clanwars()
 
 	swapmaps_directory = "vaults"
 
