@@ -1341,7 +1341,7 @@ window "winSettings"
 	elem "winSettings"
 		type = MAIN
 		pos = 281,0
-		size = 258x283
+		size = 258x295
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -1377,9 +1377,37 @@ window "winSettings"
 		macro = ""
 		menu = ""
 		on-close = ""
+	elem "butTradetoggle"
+		type = BUTTON
+		pos = 9,200
+		size = 200x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #000000
+		background-color = none
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Block trade requests                       "
+		image = ""
+		command = ".Tradetoggle"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = ""
+		button-type = checkbox
 	elem "butEventNotificationstoggle"
 		type = BUTTON
-		pos = 9,227
+		pos = 9,246
 		size = 239x20
 		anchor1 = none
 		anchor2 = none
@@ -1407,7 +1435,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butMonsterMessagestoggle"
 		type = BUTTON
-		pos = 9,251
+		pos = 9,269
 		size = 240x24
 		anchor1 = none
 		anchor2 = none
@@ -1425,7 +1453,7 @@ window "winSettings"
 		right-click = false
 		saved-params = "is-checked"
 		on-size = ""
-		text = "Disable receiving monster attack messages"
+		text = "Disable receiving monster attack messages  "
 		image = ""
 		command = ".MonsterMessagestoggle"
 		is-flat = false
@@ -1435,7 +1463,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butClassNotificationstoggle"
 		type = BUTTON
-		pos = 9,204
+		pos = 9,223
 		size = 239x20
 		anchor1 = none
 		anchor2 = none
@@ -1463,7 +1491,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butHousechattoggle"
 		type = BUTTON
-		pos = 9,158
+		pos = 9,156
 		size = 126x20
 		anchor1 = none
 		anchor2 = none
@@ -1491,7 +1519,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butPMtoggle"
 		type = BUTTON
-		pos = 9,181
+		pos = 9,178
 		size = 200x20
 		anchor1 = none
 		anchor2 = none
@@ -1519,7 +1547,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butOOCtoggle"
 		type = BUTTON
-		pos = 9,135
+		pos = 9,134
 		size = 96x20
 		anchor1 = none
 		anchor2 = none
