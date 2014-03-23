@@ -4,10 +4,93 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
+
+var/clan_wars/clanwars_event
+
+clan_wars
+
+	var
+		deatheater = 0
+		aurors     = 0
+
+		const
+			POINTS_FOR_WIN = 100
+			MINUTES        = 20
+
+	proc
+		add_auror(num)
+
+			aurors += num
+			if(aurors >= POINTS_FOR_WIN)
+				toggle_clanwars()
+
+		add_de(num)
+
+			deatheater += num
+			if(deatheater >= POINTS_FOR_WIN)
+				toggle_clanwars()
+
+		end()
+			if(deatheater > aurors)
+				world << "<h4>Deatheaters won the clan war!</h4>"
+
+				for(var/turf/woodenfloor/t in world)
+					if(t.z >= 21 && t.z <= 23)
+
+						if(!findtext(t.icon_state, " - halloween"))
+							t.icon_state += " - halloween"
+
+			else if(deatheater < aurors)
+				world << "<h4>Aurors won the clan war!</h4>"
+
+				for(var/turf/woodenfloor/t in world)
+					if(t.z >= 21 && t.z <= 23)
+						var/pos = findtext(t.icon_state, " - halloween")
+						if(pos)
+							t.icon_state = copytext(t.icon_state, 1, pos)
+			else
+				world << "<h4>Clan war resulted in a draw.</h4>"
+				for(var/turf/woodenfloor/t in world)
+					if(t.z >= 21 && t.z <= 23)
+						var/pos = findtext(t.icon_state, " - halloween")
+						if(pos)
+							t.icon_state = copytext(t.icon_state, 1, pos)
+
+		timeout()
+			var/m = 0
+			while(m < MINUTES && clanwars)
+				m++
+				sleep(600)
+
+			if(!clanwars) return
+
+			toggle_clanwars()
+
+
+proc/init_clanwars()
+	var
+		thursday = time_until("Thursday", "21")
+		tuesday  = time_until("Tuesday",  "13")
+		saturday = time_until("Saturday", "5")
+
+	if(thursday != -1) scheduler.schedule(new/Event/ClanWars, world.tick_lag * 10 * thursday)
+	if(tuesday  != -1) scheduler.schedule(new/Event/ClanWars, world.tick_lag * 10 * tuesday)
+	if(saturday != -1) scheduler.schedule(new/Event/ClanWars, world.tick_lag * 10 * saturday)
+
+
 mob/test/verb/Toggle_Clanwars()
-	clanwars = !clanwars
+	init_clanwars()
+	toggle_clanwars()
 	if(clanwars)
 		usr << "Clan wars enabled."
+	else
+		usr << "Clan wars disabled."
+
+proc/toggle_clanwars()
+	clanwars = !clanwars
+	if(clanwars)
+		clanwars_event = new
+		spawn() clanwars_event.timeout()
 		for(var/mob/Player/M in Players)
 			if(M.Auror || M.DeathEater)
 				M.ClanwarsInfo()
@@ -16,7 +99,8 @@ mob/test/verb/Toggle_Clanwars()
 		for(var/obj/clanpillar/C in locate(/area/DEHQ))
 			C.enable(100)
 	else
-		usr << "Clan wars disabled."
+		clanwars_event.end()
+		clanwars_event = null
 		for(var/mob/Player/M in Players)
 			if(M.Auror || M.DeathEater)
 				M << infomsg("<b>Clan wars is now disabled.</b>")
@@ -24,6 +108,7 @@ mob/test/verb/Toggle_Clanwars()
 			C.disable()
 		for(var/obj/clanpillar/C in locate(/area/DEHQ))
 			C.disable()
+
 mob/Player/proc/ClanwarsInfo()
 	src << infomsg({"<b>Clan wars has now begun.</b><br>A special object called a "pillar" has spawned inside the Deatheater and Auror HQs.<br>\
 				The goal during clan wars is to protect yours, and destroy the enemy's.<br><br>\
