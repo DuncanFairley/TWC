@@ -900,11 +900,90 @@ question
 		correct  = "Yes"
 		wrong    = list("No")
 
-	question1
+	question0
 		question = "What color are dementors?"
 		correct  = "Black"
 		wrong    = list("White", "Blue")
 
+	question1
+		question = "Who is the half blood prince?"
+		correct  = "Severus Snape"
+		wrong    = list("Harry Potter", "Albus Dumbledore", "Ron Weasley")
+
+	question2
+		question = "Who is Tom Riddle?"
+		correct  = "Voldemort"
+		wrong    = list("Harry Potter", "Albus Dumbledore", "Ron Weasley",  "Lucius Malfoy ")
+
+	question3
+		question = "How many unforgivable curses are there?"
+		correct  = "Three"
+		wrong    = list("One", "Seven")
+
+	question4
+		question = "What is Harry Potter's position in Qudditch?"
+		correct  = "Seeker"
+		wrong    = list("Chaser", "Keeper", "Beater", "He didn't play Quidditch")
+
+	question5
+		question = "What is the government of the magical community in Britain called??"
+		correct  = "Ministry of Magic"
+		wrong    = list("Shadow Clan", "Aurors", "Death Eaters")
+
+	question6
+		question = "Who killed Albus Dumbledore?"
+		correct  = "Severus Snape"
+		wrong    = list("Draco Malfoy", "Voldemort", "Harry Potter")
+
+	question7
+		question = "Complete the following: _____ Pit is full of pesky pixies."
+		correct  = "Pixie"
+		wrong    = list("Snake", "Spider")
+
+	question8
+		question = "What is Harry's last name?"
+		correct  = "Potter"
+		wrong    = list("Snotter", "Hotter")
+
+	question9
+		question = "What is Ron's last name?"
+		correct  = "Weasley"
+		wrong    = list("Beasley", "Potter")
+
+	question10
+		question = "What is Snape's first name"
+		correct  = "Severus"
+		wrong    = list("Sevvy", "Snakes", "Bob")
+
+	question11
+		question = "What color is house Slytherin?"
+		correct  = "Green"
+		wrong    = list("Red", "Blue", "Yellow")
+
+	question12
+		question = "What color is house Hufflepuff?"
+		correct  = "Yellow"
+		wrong    = list("Red", "Blue", "Green")
+
+	question13
+		question = "What color is house Gryffindor?"
+		correct  = "Red"
+		wrong    = list("Green", "Blue", "Yellow")
+
+	question14
+		question = "What color is house Ravenclaw?"
+		correct  = "Blue"
+		wrong    = list("Red", "Green", "Yellow")
+
+	question15
+		question = "What is Dumbledore's first name?"
+		correct  = "Albus"
+		wrong    = list("Harry", "Severus")
+
+	question16
+		question = "1+1=?"
+		correct  = "2"
+		wrong    = list("3", "11")
 
 proc/init_books()
 	for(var/t in typesof(/question/) - /question)
