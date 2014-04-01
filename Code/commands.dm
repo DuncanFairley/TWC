@@ -20,13 +20,25 @@ turf
 			icon_state = "4"
 		s5
 			icon_state = "5"
-		toilet
-			name = "toilet"
-			icon = 'toilet.dmi'
-			density = 0
 		sink
 			icon = 'sink.dmi'
 			density = 1
+obj
+	toilet
+		name = "toilet"
+		icon = 'toilet.dmi'
+		density = 0
+
+		proc
+			poop(mob/Player/P)
+				if(P.Pooping)
+					P.Pooping = 0
+					P << infomsg("You feel a lot better.")
+
+		New()
+			..()
+			loc.density = 0
+
 /area/Diagon_Alley
 mob
 	var

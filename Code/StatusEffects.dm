@@ -147,6 +147,7 @@ StatusEffect
 				..()
 	GotSpellpoint
 	Poisoned
+	SteppedOnPoop
 	Flying
 	UsedEpiskey
 	UsedCrucio

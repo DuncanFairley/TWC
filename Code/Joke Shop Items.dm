@@ -374,3 +374,82 @@ obj
 						new /obj/smokeeffect (src.loc)
 					//del(src)
 					src.loc = null
+
+
+mob/Player/var/tmp/Pooping
+obj/items/U_No_Poo
+	name = "U-No-Poo"
+	desc = "It smells funny... There's 5 pills left."
+	icon = 'PooPill.dmi'
+
+	var/uses = 5;
+	Click()
+		if(src in usr)
+			if(!usr:Pooping)
+				usr:Pooping = 1
+				uses--
+
+				desc = uses == 1 ? "It smells funny..." : "It smells funny... There's [uses] pills left."
+
+				if(uses<=0)
+					src.loc = null
+					usr:Resort_Stacking_Inv()
+
+				src=null
+				spawn()
+					usr << "<i>You feel a little odd...</i>"
+					sleep(rand(50,200))
+					if(!usr || !usr:Pooping) return
+					usr << errormsg("You need to get to a toilet, <b>fast.</b> Something isn't quite right.")
+					sleep(rand(10,50))
+
+					for(var/p=rand(3,8); p > 1; p--)
+						if(!usr || !usr:Pooping) return
+						var/r = rand(1,5)
+						if(r < 4)
+							var/txt = pick("A deep rumbling sound is heard from [usr]'s direction.", "There's a strained expression on [usr]'s face.", "[usr] looks a little more bloated than usual.", "You hear rumbling sounds from [usr]'s direction")
+							hearers() << "<font color=#FD857D size=2><b>[txt]</b></font>"
+						else if(r == 5)
+							var/txt = pick("You feel a great urge to run to the nearest toilet.", "You feel horrible.", "You silently fart.")
+							usr << errormsg(txt)
+						sleep(rand(20,60))
+
+					if(usr && usr:Pooping)
+						hearers() << errormsg("[usr] is unable to hold onto their bowels and the blockage is cleared!")
+
+						for(var/turf/t in range(usr,rand(2,4)))
+							if(prob(30)) continue
+
+							var/obj/Poop/p = new(usr.loc)
+							walk_towards(p,t)
+							sleep(rand(1,3))
+
+							if(!usr) break
+
+						if(usr) usr:Pooping = null
+
+			else
+				usr << errormsg("You feel funny, perhaps it's not a good time to take this.")
+		else
+			..()
+
+obj/Poop
+	icon = 'Poop.dmi'
+
+	accioable = 1
+	wlable    = 1
+
+	New()
+		..()
+		icon_state = pick(icon_states(icon))
+		spawn(rand(300,600))
+			loc = null
+
+	proc/stepped(mob/Player/P)
+		var/StatusEffect/S = P.findStatusEffect(/StatusEffect/SteppedOnPoop)
+		if(!S)
+			P << "<i><font color=yellow>Ewww... You just stepped in poop.</font></i>"
+			new /StatusEffect/SteppedOnPoop(P,rand(5,10))
+
+			if(prob(30))
+				loc=null
