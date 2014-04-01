@@ -140,7 +140,7 @@ obj/items/herosbrace
 						if("Pyramid")
 							t = locate(47,42,6)
 						if("Forbidden Forest")
-							t = locate(54,81,16)
+							t = locate(86,12,16)
 						if("Museum")
 							t = locate(72,77,18)
 					if(t && canUse(M=usr, needwand=0, inarena=0, inhogwarts=0) && usr.bracecharges>0)
@@ -169,13 +169,16 @@ obj/items/Zombie_Head
 	desc = "The zombie's head stares at you."
 
 	Click()
-		if(canUse(usr,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1,againstflying=0,againstcloaked=0))
-			flick("transfigure",usr)
-			hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Inter vivos.</b></font>"
-			usr.trnsed = 1
-			usr.overlays = null
-			if(usr.away)usr.ApplyAFKOverlay()
-			usr.icon = 'Zombie.dmi'
+		if(src in usr)
+			if(canUse(usr,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1,againstflying=0,againstcloaked=0))
+				flick("transfigure",usr)
+				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Inter vivos.</b></font>"
+				usr.trnsed = 1
+				usr.overlays = null
+				if(usr.away)usr.ApplyAFKOverlay()
+				usr.icon = 'Zombie.dmi'
+		else
+			..()
 
 
 obj/items/Whoopie_Cushion
