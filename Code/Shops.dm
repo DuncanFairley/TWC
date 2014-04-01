@@ -827,7 +827,7 @@ mob/Moaning_Myrtle
 		if(!(src in view(usr.client.view)))return
 		hearers()<<"<b>Moaning Myrtle:</b> *Sob* Wahhhhhh! Ohhhh, hello there, [usr]. *Blush* GO AWAY! *sob* ahhh..."
 
-mob/Player/var/tmp/shop_index
+mob/Player/var/tmp/shop_index = 1
 obj/shop
 
 	var
@@ -868,11 +868,10 @@ obj/shop
 			unshop(mob/Player/M)
 				M.client.images -= images
 				update(0, M)
-				M.shop_index = null
 
 			update(i, mob/Player/M)
 				var/obj/o = items[M.shop_index]
-				M.overlays -= o:icon
+				M.overlays -= o.icon
 
 				if(i != 0)
 					if(i == 1)
@@ -885,7 +884,11 @@ obj/shop
 						if(M.shop_index < 1)
 							M.shop_index = items.len
 					o = items[M.shop_index]
-					M.overlays += o:icon
+					M.overlays += o.icon
+
+					if(prob(10))
+						var/txt = pick("Try a few more, maybe you will find something you like.", "Eww, this looks like you gained a couple pounds.", "Try this for size!", "This wig does not make you look fat! I promise!", "You look so hot! You can almost forget an ugly person walked into my store.", "Is your dad a gardener? Probably not but your wig does make you look like a beautiful flower.")
+						usr << npcsay("Wig Seller says: [txt]")
 
 
 		male_wig_shop
@@ -915,6 +918,7 @@ obj/shop
 			Click()
 				if(usr.loc != parent.loc) return
 				parent:update(-1, usr)
+
 
 		next
 			Click()
