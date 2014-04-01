@@ -770,12 +770,13 @@ obj
 				usr.readbooks = 2
 				usr.movable = 0
 				usr:presence = null
+				usr << infomsg("You stop reading.")
 			else if(!usr.readbooks)
 				var/obj/hud/reading/R = new()
 				usr.client.screen += R
 				usr.readbooks = 1
 				usr.movable = 0
-
+				usr << infomsg("You begin reading.")
 				spawn(15)
 					while(src && usr && usr.readbooks == 1 && (src in view(usr, 1)))
 						if(usr.level < lvlcap)
