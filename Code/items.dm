@@ -52,10 +52,12 @@ obj/items/proc/Destroy(var/mob/Player/owner)
 		return 1
 
 obj/items/New()
-	if(!src.desc)
-		src.verbs -= /obj/items/verb/Examine
+
 
 	spawn(1) // spawn will ensure this works on edited items as well
+		if(!src.desc)
+			src.verbs -= /obj/items/verb/Examine
+
 		if(!src.dropable)
 			src.verbs -= /obj/items/verb/Drop
 			src.verbs -= /obj/items/wearable/Drop
@@ -160,6 +162,22 @@ obj/items/herosbrace
 					alert("Your brace is too drained to teleport. Try recharging it at Gringotts Wizarding Bank.")
 		else
 			..()
+
+obj/items/Zombie_Head
+	icon='halloween.dmi'
+	icon_state="head"
+	desc = "The zombie's head stares at you."
+
+	Click()
+		if(canUse(usr,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1,againstflying=0,againstcloaked=0))
+			flick("transfigure",usr)
+			hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Inter vivos.</b></font>"
+			usr.trnsed = 1
+			usr.overlays = null
+			if(usr.away)usr.ApplyAFKOverlay()
+			usr.icon = 'Zombie.dmi'
+
+
 obj/items/Whoopie_Cushion
 	icon='jokeitems.dmi'
 	icon_state = "Whoopie_Cushion"
@@ -259,6 +277,13 @@ obj/items/bagofgoodies
 					new/obj/items/scroll(usr)
 				src.loc = null
 				usr:Resort_Stacking_Inv()
+
+obj/items/pokeby
+	icon = 'pokeby.dmi'
+	desc = "Aww, isn't it cute?"
+
+
+
 obj/items/trophies
 	name = "Trophy"
 	icon = 'trophies.dmi'
@@ -271,11 +296,20 @@ obj/items/trophies
 	Bronze
 		icon_state = "Bronze"
 	desc = "It's blank!"
+
+	New()
+		..()
+		spawn(1)
+			if(desc != initial(desc))
+				src.verbs -= /obj/items/trophies/verb/Inscribe
+
 	verb/Inscribe()
 		var/input = input("This trophy can only be written on once. What do you want it to say?") as null|text
 		if(!input)return
 		desc = input
 		src.verbs.Remove(/obj/items/trophies/verb/Inscribe)
+
+
 obj/items/bucket
 	icon = 'bucket.dmi'
 obj/items/freds_key
@@ -2564,44 +2598,4 @@ obj/Wand_Shelf
 */
 
 
-obj
-	Zombie_Head
-		icon='halloween.dmi'
-		icon_state="head"
-		verb
-			Apparate_to_Graveyard()
-				set category = "Skills"
-				if(istype(usr.loc.loc,/area/hogwarts))
-					usr << "Teleportation is not possible within Hogwarts' walls."
-					return
-				if(usr.Detention)
-					alert("You cannot apparate inside detention.")
-					return
-				if(usr.removeoMob) spawn()usr:Permoveo()
-				usr.picon_state=usr.icon_state
-				flick('ex.dmi',usr)
-				ohearers() << "<i><b>There is a loud crack.</b></i>."
-				sleep(4)
-				usr.loc = locate(54,50,18)
-				usr.Move(usr.loc)
-				flick('ex.dmi',usr)
-				ohearers() << "<i><b>There is a loud crack.</b></i>."
-				usr.icon_state=usr.picon_state
-			Take()
-				set src in oview(1)
-				hearers()<<"[usr] takes \the [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-
-			Self_To_Zombie()
-				set category="Spells"
-				flick("transfigure",usr)
-				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Inter vivos.</b></font>"
-				usr.trnsed = 1
-				usr.overlays = null
-				usr.icon = 'Zombie.dmi'
 
