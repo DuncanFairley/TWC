@@ -4,7 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-var/lvlcap = 600
+var/lvlcap = 550
 /*mob/verb/NewVault1()
 
 	//THIS IS THE FUNCTION FOR CREATING ADDITIONAL VAULT TEMPLATES
@@ -20,13 +20,18 @@ var/lvlcap = 600
 	map.Save()*/
 
 obj/drop_on_death
-	var/announceToWorld = 1
+	var
+		announceToWorld = 1
+
 	verb
 		Drop()
+			var/dense = density
+			density = 0
 			Move(usr.loc)
+			density = dense
 			usr:Resort_Stacking_Inv()
 			if(announceToWorld)
-				hearers()<<"<b>[usr] drops \the [src].</b>"
+				world<<"<b>[usr] drops \the [src].</b>"
 			else
 				hearers()<<"[usr] drops \the [src]."
 	proc
@@ -35,8 +40,12 @@ obj/drop_on_death
 				world << "<b>[M] takes \the [src].</b>"
 			else
 				hearers()<<"[M] takes \the [src]."
+			var/dense = density
+			density = 0
 			Move(M)
+			density = dense
 			M:Resort_Stacking_Inv()
+
 mob/test/verb
 	enter_vault(ckey as text)
 		set category = "Vault Debug"
