@@ -297,16 +297,19 @@ obj/items/Underwater_Bean
 	desc = "It's a little wet."
 
 	Click()
-		if(usr.unslow) return
+		if(src in usr)
+			if(usr.unslow) return
 
-		usr << "<b>You swallow the bean.</b>"
-		usr.icon_state="bl"
-		if(usr.Gender=="Male")
-			usr.underlays+=image('Fishpeople.dmi',icon_state="m")
-		if(usr.Gender=="Female")
-			usr.underlays+=image('Fishpeople.dmi',icon_state="f")
-		usr.unslow()
-		del(src)
+			usr << "<b>You swallow the bean.</b>"
+			usr.icon_state="bl"
+			if(usr.Gender=="Male")
+				usr.underlays+=image('Fishpeople.dmi',icon_state="m")
+			if(usr.Gender=="Female")
+				usr.underlays+=image('Fishpeople.dmi',icon_state="f")
+			usr.unslow()
+			del(src)
+		else
+			..()
 
 obj
 	Pyramid_Bean
