@@ -21,7 +21,8 @@ trading
 			items = list()
 
 			with.gold += gold
-			parent.gold -= gold
+
+			gold = 0
 
 			if(!end) with.trade.Deal(1)
 
@@ -31,6 +32,8 @@ trading
 		Clean(end = 0)
 			for(var/obj/O in items)
 				O.loc = parent
+
+			parent.gold += gold
 
 			if(!end && with && with.isTrading()) with.trade.Clean(1)
 
@@ -53,7 +56,7 @@ mob/Player
 			return trade && trade.with
 	verb
 		Trade()
-			set src in range(2)
+			set src in orange(2)
 			set category = null
 			var/mob/Player/trader = usr
 
@@ -90,25 +93,52 @@ mob/Player
 				else
 					trade.accept = 1
 					if(trade.with.trade.accept)
+
+
+						var/html = {"
+<table border="1">
+	<tr>
+		<td colspan="2">[time2text(world.realtime,"MMM DD - hh:mm")]</td>
+	</tr>
+		<td>[src]([src.key])([src.client.address])</td>
+		<td>[trade.with]([trade.with.key])([trade.with.client.address])</td>
+	<tr>
+		<td><ul>"}
+
+						for(var/obj/i in trade.items)
+							html += "<li>" + i.name + (istype(i, /obj/items/scroll) ? " (scroll)" : "") + "</li>"
+
+						html += "</ul></td><td>"
+
+						for(var/obj/i in trade.with.trade.items)
+							html += "<li>" + i.name + (istype(i, /obj/items/scroll) ? " (scroll)" : "") + "</li>"
+
+						html += "</ul></td></tr><tr><td>[trade.gold] Gold</td><td>[trade.with.trade.gold] Gold</td></tr></table><br>"
+
+						goldlog << html
+
+
 						trade.Deal()
 						trade.Clean()
 					else
 						winset(src, "Trade.grid1", "background-color=green")
 						winset(trade.with, "Trade.grid2", "background-color=green")
 
-			else if(action == "Money")
+			else
 				if((!trade.accept) && (!trade.with.trade.accept))
-					var/gcheck = text2num(winget(src, "Trade.GoldInput", "text"))
+					var/gcheck = text2num(action)
 					if(!isnum(gcheck) || gcheck == null)
 						winset(src, "Trade.error", {"text="Please write a number""})
 					else
 						gcheck = round(gcheck)
 						if(gcheck < 0)
 							winset(src, "Trade.error", {"text="Number must be larger than 0""})
-						else if(gcheck > src.gold)
+						else if(gcheck > gold + trade.gold)
 							winset(src, "Trade.error", {"text="You don't have that much gold""})
 						else
+							gold += trade.gold
 							trade.gold = gcheck
+							gold -= gcheck
 							winset(src, null, {"Trade.gold1.text=[gcheck];Trade.error.text="""})
 							winset(trade.with, "Trade.gold2", "text = [gcheck]")
 				else
