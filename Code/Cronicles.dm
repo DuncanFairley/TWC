@@ -141,7 +141,7 @@ client/var/tmp
 	base_save_verbs = 1
 obj/stackobj/Write(savefile/F)
 	return
-#define SAVEFILE_VERSION 3
+#define SAVEFILE_VERSION 4
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -191,13 +191,19 @@ mob
 				src.resetStatPoints()
 				src << infomsg("Your statpoints have been reset.")
 
-			if(learnedslug) // replaces var with verb for eat slugs
-				learnedslug = null
-				verbs += /mob/Spells/verb/Eat_Slugs
+				if(learnedslug) // replaces var with verb for eat slugs
+					learnedslug = null
+					verbs += /mob/Spells/verb/Eat_Slugs
 
-			if(Disperse) // replaces var with verb for eat slugs
-				Disperse = null
-				verbs += /mob/Spells/verb/Disperse
+				if(Disperse) // replaces var with verb for eat slugs
+					Disperse = null
+					verbs += /mob/Spells/verb/Disperse
+
+				for(var/obj/Pyramid_Bean/bean in contents)
+					bean.loc = null
+					new /obj/items/Underwater_Bean (src)
+
+				Resort_Stacking_Inv()
 
 			var/turf/t = locate(last_x, last_y, last_z)
 			if(!t || t.name == "blankturf")
@@ -586,6 +592,8 @@ client
 
 	Del()
 		if(mob)
+			if(mob:isTrading())
+				mob:trade.Clean()
 			if(mob.derobe)
 				mob.derobe = 0
 				mob.name = mob.prevname
@@ -593,6 +601,8 @@ client
 			if(mob.xp4referer)
 				sql_upload_refererxp(mob.ckey,mob.refererckey,mob.xp4referer)
 				mob.xp4referer = 0
+			if(!mob.Gm)
+				mob.Check_Death_Drop()
 		cleanup_fakeDE(key)
 		if (base_autosave_character)
 			base_SaveMob()

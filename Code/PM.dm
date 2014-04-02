@@ -70,7 +70,7 @@ obj/hud/PMHome
 	name = "Private Messaging"
 	icon = 'HUD.dmi'
 	icon_state = "PM"
-	screen_loc = "17,1"
+	screen_loc = "EAST-1,1"
 	Click()
 		var/mob/Player/M = usr
 		M.PMHome()
@@ -173,24 +173,28 @@ mob/Player/Topic(href,href_list[])
 						src.flying=0
 						src.density=1
 						var/mob/M = locate("MapOne")
-						src.loc = M.loc
+						density = 0
+						Move(M.loc)
+						density = 1
 						src << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[src];action=arena_leave\">clicking here.</a></b>"
 				if(2) //Clan Wars
 					if(!Detention)
 						if(src.DeathEater || src.Auror)
 							src.flying=0
-							src.density=1
 							var/mob/M = locate("MapTwo")
-							src.loc = M.loc
+							density = 0
+							Move(M.loc)
+							density = 1
 							src << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[src];action=arena_leave\">clicking here.</a></b>"
 						else
 							src << "Only clan members can participate."
 				if(3) //FFA
 					if(!Detention)
 						src.flying=0
-						src.density=1
 						var/mob/M = locate("MapThree")
-						src.loc = M.loc
+						density = 0
+						Move(M.loc)
+						density = 1
 						src << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[src];action=arena_leave\">clicking here.</a></b>"
 			var/mob/Player/user = src
 			for(var/obj/items/wearable/brooms/Broom in user.Lwearing)

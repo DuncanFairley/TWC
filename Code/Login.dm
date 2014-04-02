@@ -4,7 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-var/lvlcap = 500
+var/lvlcap = 550
 /*mob/verb/NewVault1()
 
 	//THIS IS THE FUNCTION FOR CREATING ADDITIONAL VAULT TEMPLATES
@@ -20,13 +20,18 @@ var/lvlcap = 500
 	map.Save()*/
 
 obj/drop_on_death
-	var/announceToWorld = 1
+	var
+		announceToWorld = 1
+
 	verb
 		Drop()
+			var/dense = density
+			density = 0
 			Move(usr.loc)
+			density = dense
 			usr:Resort_Stacking_Inv()
 			if(announceToWorld)
-				hearers()<<"<b>[usr] drops \the [src].</b>"
+				world<<"<b>[usr] drops \the [src].</b>"
 			else
 				hearers()<<"[usr] drops \the [src]."
 	proc
@@ -35,8 +40,12 @@ obj/drop_on_death
 				world << "<b>[M] takes \the [src].</b>"
 			else
 				hearers()<<"[M] takes \the [src]."
+			var/dense = density
+			density = 0
 			Move(M)
+			density = dense
 			M:Resort_Stacking_Inv()
+
 mob/test/verb
 	enter_vault(ckey as text)
 		set category = "Vault Debug"
@@ -1352,7 +1361,6 @@ mob/Player
 									if(Gm)
 										if(alert("AFK Check was last used about [round((world.realtime - lastusedAFKCheck) / 10 / 60)] minutes ago. Do you want to use it now?",,"Yes","No") == "Yes")
 											src<<infomsg("Checking for AFK trainers, and disconnecting once found.")
-											lastusedAFKCheck = world.realtime
 											for(var/mob/A in world)
 												if(A.key&&A.Gm)
 													A << infomsg("[src] uses AFK Check")
@@ -1931,9 +1939,11 @@ mob/proc/Death_Check(mob/killer = src)
 				if(killer.aurorrobe && src.DeathEater)
 					src << "You were killed by [killer] of the Aurors."
 					housepointsGSRH[5] += 1
+					clanwars_event.add_auror(1)
 				else if(killer.derobe && src.Auror)
 					src << "You were killed by a [killer]."
 					housepointsGSRH[6] += 1
+					clanwars_event.add_de(1)
 			if(src.loc.loc.type in typesof(/area/arenas/MapTwo))
 			/////CLAN WARS//////
 				if(!(src.derobe && killer.derobe)&&!(src.aurorrobe && killer.aurorrobe))
@@ -2865,7 +2875,6 @@ turf
 				else if(randnum==8)
 					src.icon_state="wood8 - halloween"
 	woodenfloor
-		//icon_state="wood"
 		icon_state = "wood"
 		density=0
 		New()
@@ -2984,7 +2993,7 @@ turf
 		name = "Ice"
 		density=0
 		Enter(atom/movable/O, atom/oldloc)
-			if(ismob(O) && O.density) return 1 // CHANGE TO return 0 FOR NON-WINTER
+			if(name != "Ice" && ismob(O) && O.density) return 0
 			else
 				return ..()
 

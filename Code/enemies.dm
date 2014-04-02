@@ -247,13 +247,20 @@ mob
 				level = 6
 			Stickman_ ///SUMMONED///
 				icon = 'stickman.dmi'
-				gold = 0
+		/*		gold = 0
 				HP = 50
 				MHP = 50
 				Def=0
 				Dmg = 50
 				Expg = 10
-				level = 2
+				level = 2*/
+				gold = 175
+				HP = 3000
+				MHP = 3000
+				Def=10
+				Dmg = 930
+				Expg = 310
+				level = 85
 			Bird_    ///SUMMONED///
 				icon = 'monsters2.dmi'
 				icon_state="bird"

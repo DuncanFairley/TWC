@@ -289,6 +289,28 @@ mob/proc/unslow()
 		usr.underlays-=image('Fishpeople.dmi',icon_state="f")
 		usr.icon_state=""
 		unslow=0
+
+obj/items/Underwater_Bean
+	icon = 'Bean.dmi'
+	icon_state = "Bean"
+	name = "Mysterious Bean"
+	desc = "It's a little wet."
+
+	Click()
+		if(src in usr)
+			if(usr.unslow) return
+
+			usr << "<b>You swallow the bean.</b>"
+			usr.icon_state="bl"
+			if(usr.Gender=="Male")
+				usr.underlays+=image('Fishpeople.dmi',icon_state="m")
+			if(usr.Gender=="Female")
+				usr.underlays+=image('Fishpeople.dmi',icon_state="f")
+			usr.unslow()
+			del(src)
+		else
+			..()
+
 obj
 	Pyramid_Bean
 		icon = 'Bean.dmi'

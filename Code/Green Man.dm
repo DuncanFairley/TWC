@@ -15,7 +15,15 @@ mob/greenman
 			set src in oview(2)
 			switch(input("Green Man: Hello, we are the Green Man Group. We are merchants who travel around selling things from far away places.","You have [usr.gold] gold")in list("Buy","Cancel"))
 				if("Buy")
-					switch(input("Green Man: Have a look at our merchandise","You have [usr.gold] gold")as null|anything in list("Bag-o-Snow 10,000g","Bag of Goodies 35,000g","Whoopie Cushion 4,000g","Tube of fun 3,000g","Smoke Pellet 3,000g","Swamp in ya pocket 5,000g","Peruvian Instant Darkness Powder 7,000g"))
+					switch(input("Green Man: Have a look at our merchandise","You have [usr.gold] gold")as null|anything in list("U-No-Poo 10,000g","Bag-o-Snow 10,000g","Bag of Goodies 35,000g","Whoopie Cushion 4,000g","Tube of fun 3,000g","Smoke Pellet 3,000g","Swamp in ya pocket 5,000g","Peruvian Instant Darkness Powder 7,000g"))
+						if("U-No-Poo 10,000g")
+							if(usr.gold>=10000)
+								new/obj/items/U_No_Poo(usr)
+								usr << "Green Man says: Thanks for buying."
+								usr.gold-=10000
+								ministrybank += taxrate*10000/100
+								usr:Resort_Stacking_Inv()
+								return
 						if("Bag-o-Snow 10,000g")
 							if(usr.gold>=10000)
 								new/obj/items/bagofsnow(usr)
@@ -80,6 +88,7 @@ mob/greenman
 								ministrybank += taxrate*3000/100
 								usr:Resort_Stacking_Inv()
 								return
+
 mob/greenmanno
 	name="Green Man"
 	icon='statues.dmi'

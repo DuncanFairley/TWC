@@ -511,152 +511,42 @@ area/Block
 area/Block
 	density=1
 
-obj
+obj/items/quidditchbox
+	verb
+		Withdraw_Quaffle()
+			set category = "Quidditch"
+			usr<<"You remove the quaffle from the box."
+			new/obj/quidditch/quaffle(usr)
+		Withdraw_Bludger()
+			set category = "Quidditch"
+			usr<<"You release the restraints on the bludger and it flies from the box."
+			new/obj/quidditch/bludger(usr.loc)
+		Withdraw_Snitch()
+			set category = "Quidditch"
+			usr<<"You release the Snitch from the box, and it flies away."
+			new/obj/quidditch/snitch(usr.loc)
+
 	GryffBox
 		name="Quidditch Ball Box"
 		icon='ballbox.dmi'
 		icon_state="gryff"
-		verb
-			Take()
-				set src in oview(0)
-				hearers()<<"[usr] picks up [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-		verb
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-		verb
-			Withdraw_Quaffle()
-				set category = "Quidditch"
-				usr<<"You remove the quaffle from the box."
-				new/obj/quidditch/quaffle(usr)
-			Withdraw_Bludger()
-				set category = "Quidditch"
-				usr<<"You release the restraints on the bludger and it flies from the box."
-				new/obj/quidditch/bludger(usr.loc)
-			Withdraw_Snitch()
-				set category = "Quidditch"
-				usr<<"You release the Snitch from the box, and it flies away."
-				new/obj/quidditch/snitch(usr.loc)
 
-obj
 	SlythBox
 		name="Quidditch Ball Box"
 		icon='ballbox.dmi'
 		icon_state="slyth"
-		verb
-			Take()
-				set src in oview(0)
-				hearers()<<"[usr] picks up [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-		verb
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-		verb
-			Withdraw_Quaffle()
-				set category = "Quidditch"
-				usr<<"You remove the quaffle from the box."
-				new/obj/quidditch/quaffle(usr)
-			Withdraw_Bludger()
-				set category = "Quidditch"
-				usr<<"You release the restraints on the bludger and it flies from the box."
-				new/obj/quidditch/bludger(usr.loc)
-			Withdraw_Snitch()
-				set category = "Quidditch"
-				usr<<"You release the Snitch from the box, and it flies away."
-				new/obj/quidditch/snitch(usr.loc)
 
-obj
 	HuffleBox
 		name="Quidditch Ball Box"
 		icon='ballbox.dmi'
 		icon_state="huffle"
-		verb
-			Take()
-				set src in oview(0)
-				hearers()<<"[usr] picks up [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-		verb
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-		verb
-			Withdraw_Quaffle()
-				set category = "Quidditch"
-				usr<<"You remove the quaffle from the box."
-				new/obj/quidditch/quaffle(usr)
-			Withdraw_Bludger()
-				set category = "Quidditch"
-				usr<<"You release the restraints on the bludger and it flies from the box."
-				new/obj/quidditch/bludger(usr.loc)
-			Withdraw_Snitch()
-				set category = "Quidditch"
-				usr<<"You release the Snitch from the box, and it flies away."
-				new/obj/quidditch/snitch(usr.loc)
 
-obj
 	RavenBox
 		name="Quidditch Ball Box"
 		icon='ballbox.dmi'
 		icon_state="raven"
-		verb
-			Take()
-				set src in oview(0)
-				hearers()<<"[usr] picks up [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-		verb
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-		verb
-			Withdraw_Quaffle()
-				set category = "Quidditch"
-				usr<<"You remove the quaffle from the box."
-				new/obj/quidditch/quaffle(usr)
-			Withdraw_Bludger()
-				set category = "Quidditch"
-				usr<<"You release the restraints on the bludger and it flies from the box."
-				new/obj/quidditch/bludger(usr.loc)
-			Withdraw_Snitch()
-				set category = "Quidditch"
-				usr<<"You release the Snitch from the box, and it flies away."
-				new/obj/quidditch/snitch(usr.loc)
 
-obj
 	GameBox
 		name="Quidditch Ball Box"
 		icon='ballbox.dmi'
 		icon_state="game"
-		verb
-			Take()
-				set src in oview(0)
-				hearers()<<"[usr] picks up [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-		verb
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-		verb
-			Withdraw_Quaffle()
-				set category = "Quidditch"
-				usr<<"You remove the quaffle from the box."
-				new/obj/quidditch/quaffle(usr)
-			Withdraw_Bludger()
-				set category = "Quidditch"
-				usr<<"You release the restraints on the bludger and it flies from the box."
-				new/obj/quidditch/bludger(usr.loc)
-			Withdraw_Snitch()
-				set category = "Quidditch"
-				usr<<"You release the Snitch from the box, and it flies away."
-				new/obj/quidditch/snitch(usr.loc)

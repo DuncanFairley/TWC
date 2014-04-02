@@ -696,6 +696,17 @@ mob/Player/SteppedOn(atom/movable/A)
 		A:Teleport(src)
 	else if(istype(A,/obj/portkey))
 		A:Teleport(src)
+	else if(istype(A,/obj/shop))
+		A:shop(src)
+	else if(istype(A,/obj/Poop))
+		A:stepped(src)
+	else if(istype(A,/obj/toilet))
+		A:poop(src)
+
+mob/Player/SteppedOff(atom/movable/A)
+	..()
+	if(istype(A,/obj/shop))
+		A:unshop(src)
 
 
 atom/movable/SteppedOn(atom/movable/A)

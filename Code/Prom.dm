@@ -122,6 +122,21 @@ obj/mirror
 							reflections.Remove(V)
 							users.Remove(V)
 					world << "users: [users.len] reflections: [reflections.len]"*/
+
+
+
+		male_wig_shop
+			name = "glass"
+			New(obj/parent)
+				..()
+				new /obj/shop/base/male_wig_shop (src,0,-1)
+
+		female_wig_shop
+			name = "glass"
+			New(obj/parent)
+				..()
+				new /obj/shop/base/female_wig_shop (src,0,-1)
+
 	frame
 		icon_state = "frame"
 		layer = 5
@@ -153,6 +168,8 @@ obj/mirror
 		New(obj/mirror/glass/parent)
 			loc = locate(parent.x,parent.y-1,parent.z)
 			src.parent = parent
+
+
 
 
 /*

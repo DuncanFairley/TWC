@@ -774,12 +774,12 @@ mob/Spells/verb/Furnunculus(mob/M in view()&Players)
 		M<<"<b>The jinx has been lifted. You are no longer afflicted by furnunculus.</b>"
 		M.overlays-=image('pimple.dmi')
 
-mob/var/tmp/Input/_input
+mob/var/tmp/list/_input
 
 mob/proc/stop_arcesso()
-	if(_input) del _input
+	if(IsInputOpen(src, "Arcesso")) del _input["Arcesso"]
 	if(ismob(arcessoing))
-		if(arcessoing._input) del arcessoing._input
+		if(IsInputOpen(arcessoing, "Arcesso")) del arcessoing._input["Arcesso"]
 		arcessoing.arcessoing = 0
 	arcessoing = 0
 
@@ -834,8 +834,8 @@ mob/Spells/verb/Arcesso()
 				arcessoing << "<i>There is noone to summon.</i>"
 				stop_arcesso()
 				return
-			arcessoing._input = new
-			var/mob/summonee = arcessoing._input.InputList(arcessoing,"Who would you like to summon?", "Arcesso", null, people)
+			var/Input/popup = new(arcessoing, "Arcesso")
+			var/mob/summonee = popup.InputList(arcessoing,"Who would you like to summon?", "Arcesso", null, people)
 			if(!summonee||!arcessoing)
 				stop_arcesso()
 				return
@@ -848,7 +848,7 @@ mob/Spells/verb/Arcesso()
 						arcessoing << "[summonee] can't be summoned from this location."
 						stop_arcesso()
 					else
-						var/response = arcessoing._input.Alert(summonee,"[src] and [arcessoing] would like to summon you. Do you accept?","Summon Request","Yes","No")
+						var/response = popup.Alert(summonee,"[src] and [arcessoing] would like to summon you. Do you accept?","Summon Request","Yes","No")
 						if(response == "Yes")
 							if(arcessoing)
 								if(arcessoing.arcessoing)
@@ -898,7 +898,10 @@ mob/Spells/verb/Arcesso()
 									if(summonee.removeoMob) spawn()summonee:Permoveo()
 									sleep(5)
 									summonee << "You've been summoned by [src] and [src.arcessoing]."
-									summonee.loc = middle
+									var/dense = summonee.density
+									summonee.density = 0
+									summonee.Move(middle)
+									summonee.density = dense
 									stop_arcesso()
 									summonee.stuned = 0
 									summonee.icon_state = ""
@@ -1006,14 +1009,22 @@ mob/Spells/verb/Replacio(mob/M in oview()&Players)
 		var/startloc = usr.loc
 		flick('GMOrb.dmi',M)
 		flick('GMOrb.dmi',usr)
-		usr.loc=M.loc
+		var/dense = usr.density
+		usr.density = 0
+		usr.Move(M.loc)
+		usr.density = dense
 		sleep(2)
 		if(!(startloc in view(M.client.view)))
 			M << errormsg("The replacio failed.")
 			usr << errormsg("The replacio failed.")
-			usr.loc = startloc
+			dense = usr.density
+			usr.Move(startloc)
+			usr.density = dense
 			return
-		M.loc=startloc
+		dense = M.density
+		M.density = 0
+		M.Move(startloc)
+		M.density = dense
 		flick('GMOrb.dmi',usr)
 		flick('GMOrb.dmi',M)
 		hearers()<<"[usr] trades places with [M]"

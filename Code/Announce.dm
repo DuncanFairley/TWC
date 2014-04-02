@@ -24,7 +24,7 @@ mob
 	test
 		verb
 			View_Specific_Log()
-				var/year = input("Year in 20xx format",,13)
+				var/year = input("Year in 20xx format",,time2text(world.realtime,"YY"))
 				var/month = input("Month in numerical format, with preceding 0 if singular.",,time2text(world.realtime,"MM"))
 				var/day = input("Day in numerical format, with preceding 0 if singular.",,time2text(world.realtime,"DD"))
 				if(fexists("Logs/chatlogs/[year]/[month]/[day].html"))

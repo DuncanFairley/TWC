@@ -121,11 +121,14 @@ obj
 					sleep(20)
 					var/list/turf/Lt = getArea()
 					for(var/turf/T in Lt)
-						T.overlays.Add(icon('jokeitems.dmi',"swamp"))
-						T.slow += 5
-						T.specialtype = "Swamp"
-						if(rand(1,4)==1)
-							T.overlays.Add(icon('jokeitems.dmi',pick("swamp1","swamp2","swamp3","swamp4","swamp5","swamp6","swamp7")))
+						if(T.specialtype != "Swamp")
+							T.overlays.Add(icon('jokeitems.dmi',"swamp"))
+							T.slow += 5
+							T.specialtype = "Swamp"
+							if(rand(1,4)==1)
+								T.overlays.Add(icon('jokeitems.dmi',pick("swamp1","swamp2","swamp3","swamp4","swamp5","swamp6","swamp7")))
+						else
+							Lt -= T
 					var/obj/items/Swamp/S = src
 					src.invisibility = 2
 					src = null
@@ -371,3 +374,109 @@ obj
 						new /obj/smokeeffect (src.loc)
 					//del(src)
 					src.loc = null
+
+
+mob/Player/var/tmp/Pooping
+obj/items/U_No_Poo
+	name = "U-No-Poo"
+	desc = "It smells funny... There's 5 pills left."
+	icon = 'PooPill.dmi'
+
+	var/uses = 5;
+
+	Click()
+		if(src in usr)
+			if(!usr:Pooping)
+				usr:Pooping = 1
+				uses--
+
+				desc = uses == 1 ? "It smells funny..." : "It smells funny... There's [uses] pills left."
+
+				if(uses<=0)
+					src.loc = null
+					usr:Resort_Stacking_Inv()
+
+				src=null
+				spawn()
+					hearers() << infomsg("[usr] swallows a U-No-Poo pill.")
+					sleep(rand(30,60))
+					usr << "<i>You feel a little odd...</i>"
+					sleep(rand(100,250))
+					if(!usr || !usr:Pooping) return
+					usr << errormsg("You need to get to a toilet, <b>fast.</b> Something isn't quite right.")
+					sleep(rand(30,60))
+
+					for(var/p=rand(5,10); p > 0; p--)
+						if(!usr || !usr:Pooping) return
+						var/r = rand(1,5)
+						if(r < 4)
+							var/txt = pick("A deep rumbling sound is heard from [usr]'s direction.", "There's a strained expression on [usr]'s face.", "[usr] looks a little more bloated than usual.", "You hear rumbling sounds from [usr]'s direction.")
+							hearers() << "<font color=#FD857D size=2><b>[txt]</b></font>"
+						else if(r == 5)
+							var/txt = pick("You feel a great urge to run to the nearest toilet.", "You feel horrible.", "You silently fart.")
+							usr << errormsg(txt)
+						sleep(rand(40,80))
+
+					if(usr && usr:Pooping)
+						hearers() << errormsg("[usr] is unable to hold onto \his bowels and the blockage is cleared!")
+
+						var
+							_x=0
+							_y=1
+
+							const
+								SPREAD_SPEED = 1
+
+						for(var/d = 1; d <= rand(2,4); d++)
+							for(_x = 0; _x <= d;  _x++)
+								var/obj/Poop/p = new(usr.loc)
+								walk_towards(p,locate(usr.x+_x,usr.y+_y,usr.z))
+								sleep(SPREAD_SPEED)
+							for(_y = d; _y >= -d; _y--)
+								var/obj/Poop/p = new(usr.loc)
+								walk_towards(p,locate(usr.x+_x,usr.y+_y,usr.z))
+								sleep(SPREAD_SPEED)
+							for(_x = d; _x >= -d; _x--)
+								var/obj/Poop/p = new(usr.loc)
+								walk_towards(p,locate(usr.x+_x,usr.y+_y,usr.z))
+								sleep(SPREAD_SPEED)
+							for(_y = -d; _y <= d; _y++)
+								var/obj/Poop/p = new(usr.loc)
+								walk_towards(p,locate(usr.x+_x,usr.y+_y,usr.z))
+								sleep(SPREAD_SPEED)
+
+
+
+
+
+						if(usr) usr:Pooping = null
+
+			else
+				usr << errormsg("You feel funny, perhaps it's not a good time to take this.")
+		else
+			..()
+
+obj/Poop
+	icon = 'Poop.dmi'
+
+	accioable = 1
+	wlable    = 1
+
+	New()
+		..()
+		icon_state = pick(icon_states(icon))
+
+		pixel_x = rand(-8,8)
+		pixel_y = rand(-8,8)
+
+		spawn(rand(400,1200))
+			loc = null
+
+	proc/stepped(mob/Player/P)
+		var/StatusEffect/S = P.findStatusEffect(/StatusEffect/SteppedOnPoop)
+		if(!S)
+			P << "<i><font color=yellow>Ewww... You just stepped in poop.</font></i>"
+			new /StatusEffect/SteppedOnPoop(P,rand(5,10))
+
+			if(prob(30))
+				loc=null

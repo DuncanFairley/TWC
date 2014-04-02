@@ -31,6 +31,21 @@ Event
 			..()
 			if(AttachedStatusEffect)AttachedStatusEffect.Deactivate()
 
+	AFKCheck
+
+		fire()
+			..()
+			AFK_Train_Scan()
+			scheduler.schedule(src, world.tick_lag * rand(9000, 12000)) // 15 to 20 minutes
+
+	ClanWars
+
+		fire()
+			..()
+			spawn()
+				toggle_clanwars()
+			scheduler.schedule(src, world.tick_lag * 604800 * 10) // 1 week
+
 
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)
@@ -132,6 +147,7 @@ StatusEffect
 				..()
 	GotSpellpoint
 	Poisoned
+	SteppedOnPoop
 	Flying
 	UsedEpiskey
 	UsedCrucio

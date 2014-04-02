@@ -1617,6 +1617,10 @@ world/New()
 		clanadmin_hash = cfg_clans.Value("clanadmin_hash")
 	Load_World()
 	scheduler.start()
+
+	init_books()
+	spawn()init_clanwars()
+
 	swapmaps_directory = "vaults"
 
 	Load_Bans()

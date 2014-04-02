@@ -16,6 +16,7 @@ obj/items/var
 obj/items/Click()
 	if(src in oview(1))
 		Take()
+	..()
 obj/items/verb/Take()
 	set src in oview(1)
 	viewers() << infomsg("[usr] takes \the [src.name].")
@@ -51,10 +52,12 @@ obj/items/proc/Destroy(var/mob/Player/owner)
 		return 1
 
 obj/items/New()
-	if(!src.desc)
-		src.verbs -= /obj/items/verb/Examine
+
 
 	spawn(1) // spawn will ensure this works on edited items as well
+		if(!src.desc)
+			src.verbs -= /obj/items/verb/Examine
+
 		if(!src.dropable)
 			src.verbs -= /obj/items/verb/Drop
 			src.verbs -= /obj/items/wearable/Drop
@@ -100,6 +103,7 @@ obj/items/food
 	Click()
 		if(src in usr)
 			Eat()
+		..()
 	proc/Eat()
 		del(src)
 	chocolate_bar
@@ -136,12 +140,15 @@ obj/items/herosbrace
 						if("Pyramid")
 							t = locate(47,42,6)
 						if("Forbidden Forest")
-							t = locate(54,81,16)
+							t = locate(86,12,16)
 						if("Museum")
 							t = locate(72,77,18)
 					if(t && canUse(M=usr, needwand=0, inarena=0, inhogwarts=0) && usr.bracecharges>0)
 						if(usr.bracecharges<1) return
-						usr.loc = t
+						var/dense = usr.density
+						usr.density = 0
+						usr.Move(t)
+						usr.density = dense
 						flick('tele2.dmi',usr)
 						usr.bracecharges-=1
 
@@ -155,6 +162,25 @@ obj/items/herosbrace
 					alert("Your brace is too drained to teleport. Try recharging it at Gringotts Wizarding Bank.")
 		else
 			..()
+
+obj/items/Zombie_Head
+	icon='halloween.dmi'
+	icon_state="head"
+	desc = "The zombie's head stares at you."
+
+	Click()
+		if(src in usr)
+			if(canUse(usr,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1,againstflying=0,againstcloaked=0))
+				flick("transfigure",usr)
+				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Inter vivos.</b></font>"
+				usr.trnsed = 1
+				usr.overlays = null
+				if(usr.away)usr.ApplyAFKOverlay()
+				usr.icon = 'Zombie.dmi'
+		else
+			..()
+
+
 obj/items/Whoopie_Cushion
 	icon='jokeitems.dmi'
 	icon_state = "Whoopie_Cushion"
@@ -170,6 +196,8 @@ obj/items/Whoopie_Cushion
 			src.isset = 1
 			Move(usr.loc)
 			usr:Resort_Stacking_Inv()
+		else
+			..()
 obj/items/scroll
 	icon = 'Scroll.dmi'
 	destroyable = 1
@@ -184,7 +212,7 @@ obj/items/scroll
 	Click()
 		if(src in usr)
 			usr << browse(content)
-		..()
+		else ..()
 	verb
 		Name(msg as text)
 			set name = "Name Scroll"
@@ -252,6 +280,13 @@ obj/items/bagofgoodies
 					new/obj/items/scroll(usr)
 				src.loc = null
 				usr:Resort_Stacking_Inv()
+
+obj/items/pokeby
+	icon = 'pokeby.dmi'
+	desc = "Aww, isn't it cute?"
+
+
+
 obj/items/trophies
 	name = "Trophy"
 	icon = 'trophies.dmi'
@@ -264,11 +299,20 @@ obj/items/trophies
 	Bronze
 		icon_state = "Bronze"
 	desc = "It's blank!"
+
+	New()
+		..()
+		spawn(1)
+			if(desc != initial(desc))
+				src.verbs -= /obj/items/trophies/verb/Inscribe
+
 	verb/Inscribe()
 		var/input = input("This trophy can only be written on once. What do you want it to say?") as null|text
 		if(!input)return
 		desc = input
 		src.verbs.Remove(/obj/items/trophies/verb/Inscribe)
+
+
 obj/items/bucket
 	icon = 'bucket.dmi'
 obj/items/freds_key
@@ -1431,8 +1475,10 @@ obj/clanpillar
 					//If world ClanWars
 					if(clan == "Deatheater")
 						housepointsGSRH[5] += 10
+						clanwars_event.add_auror(10)
 					else if(clan == "Auror")
 						housepointsGSRH[6] += 10
+						clanwars_event.add_de(10)
 					for(var/mob/M in Players)
 						if(clan == "Deatheater")
 							if(M.Auror)
@@ -2555,44 +2601,4 @@ obj/Wand_Shelf
 */
 
 
-obj
-	Zombie_Head
-		icon='halloween.dmi'
-		icon_state="head"
-		verb
-			Apparate_to_Graveyard()
-				set category = "Skills"
-				if(istype(usr.loc.loc,/area/hogwarts))
-					usr << "Teleportation is not possible within Hogwarts' walls."
-					return
-				if(usr.Detention)
-					alert("You cannot apparate inside detention.")
-					return
-				if(usr.removeoMob) spawn()usr:Permoveo()
-				usr.picon_state=usr.icon_state
-				flick('ex.dmi',usr)
-				ohearers() << "<i><b>There is a loud crack.</b></i>."
-				sleep(4)
-				usr.loc = locate(54,50,18)
-				usr.Move(usr.loc)
-				flick('ex.dmi',usr)
-				ohearers() << "<i><b>There is a loud crack.</b></i>."
-				usr.icon_state=usr.picon_state
-			Take()
-				set src in oview(1)
-				hearers()<<"[usr] takes \the [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-
-			Self_To_Zombie()
-				set category="Spells"
-				flick("transfigure",usr)
-				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Inter vivos.</b></font>"
-				usr.trnsed = 1
-				usr.overlays = null
-				usr.icon = 'Zombie.dmi'
 

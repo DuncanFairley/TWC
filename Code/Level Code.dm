@@ -10,7 +10,7 @@ mob/Player
 		if(isobj(newloc))
 			..()
 		else if(loc)
-			if(confused)
+			if(confused && newdir)
 				newdir = turn(newdir,180)
 				newloc = get_step(src, newdir)
 				..()
