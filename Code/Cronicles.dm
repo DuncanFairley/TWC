@@ -179,7 +179,6 @@ mob
 			F["type"] << /mob/Player
 			return
 		//F["key"] << null
-		detectStoopidBug(__FILE__, __LINE__)
 		..()
 		detectStoopidBug(__FILE__, __LINE__)
 		if(testtype != /mob/Player)
