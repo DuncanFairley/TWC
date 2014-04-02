@@ -163,7 +163,7 @@ mob
 mob/test/verb/Download_Savefile()
 	var/ckeyname = input("Ckeyyyyy?") as null|text
 	if(!ckeyname) return
-	usr << ftp(file("Players/[copytext(ckeyname,1,2)]/[ckeyname].sav"))
+	usr << ftp(file("players/[copytext(ckeyname,1,2)]/[ckeyname].sav"))
 mob
 	GM/verb
 		Auror_Robes()
