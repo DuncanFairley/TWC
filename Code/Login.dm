@@ -2993,7 +2993,7 @@ turf
 		name = "Ice"
 		density=0
 		Enter(atom/movable/O, atom/oldloc)
-			if(ismob(O) && O.density) return 1 // CHANGE TO return 0 FOR NON-WINTER
+			if(name != "Ice" && ismob(O) && O.density) return 0
 			else
 				return ..()
 
