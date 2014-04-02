@@ -1612,7 +1612,9 @@ world/New()
 			mysql_password = cfg_mysql.Value("mysql_password")
 			DBI = "dbi:mysql:[mysql_database]:[mysql_host]:[mysql_port]"
 			connected = my_connection.Connect(DBI,mysql_username,mysql_password)
-			if(!connected) mysql_enabled = 0
+			if(!connected)
+				world.log << my_connection.ErrorMsg()
+				mysql_enabled = 0
 		var/Configuration/cfg_clans = ini.GetSection("clans")
 		clanadmin_hash = cfg_clans.Value("clanadmin_hash")
 	Load_World()
