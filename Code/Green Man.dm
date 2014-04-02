@@ -88,6 +88,7 @@ mob/greenman
 								ministrybank += taxrate*3000/100
 								usr:Resort_Stacking_Inv()
 								return
+
 mob/greenmanno
 	name="Green Man"
 	icon='statues.dmi'
