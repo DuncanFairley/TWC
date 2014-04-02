@@ -383,6 +383,7 @@ obj/items/U_No_Poo
 	icon = 'PooPill.dmi'
 
 	var/uses = 5;
+
 	Click()
 		if(src in usr)
 			if(!usr:Pooping)
@@ -398,33 +399,53 @@ obj/items/U_No_Poo
 				src=null
 				spawn()
 					usr << "<i>You feel a little odd...</i>"
-					sleep(rand(50,200))
+					sleep(rand(100,250))
 					if(!usr || !usr:Pooping) return
 					usr << errormsg("You need to get to a toilet, <b>fast.</b> Something isn't quite right.")
-					sleep(rand(10,50))
+					sleep(rand(30,60))
 
-					for(var/p=rand(3,8); p > 1; p--)
+					for(var/p=rand(5,10); p > 0; p--)
 						if(!usr || !usr:Pooping) return
 						var/r = rand(1,5)
 						if(r < 4)
-							var/txt = pick("A deep rumbling sound is heard from [usr]'s direction.", "There's a strained expression on [usr]'s face.", "[usr] looks a little more bloated than usual.", "You hear rumbling sounds from [usr]'s direction")
+							var/txt = pick("A deep rumbling sound is heard from [usr]'s direction.", "There's a strained expression on [usr]'s face.", "[usr] looks a little more bloated than usual.", "You hear rumbling sounds from [usr]'s direction.")
 							hearers() << "<font color=#FD857D size=2><b>[txt]</b></font>"
 						else if(r == 5)
 							var/txt = pick("You feel a great urge to run to the nearest toilet.", "You feel horrible.", "You silently fart.")
 							usr << errormsg(txt)
-						sleep(rand(20,60))
+						sleep(rand(40,80))
 
 					if(usr && usr:Pooping)
-						hearers() << errormsg("[usr] is unable to hold onto their bowels and the blockage is cleared!")
+						hearers() << errormsg("[usr] is unable to hold onto \his bowels and the blockage is cleared!")
 
-						for(var/turf/t in range(usr,rand(2,4)))
-							if(prob(30)) continue
+						var
+							_x=0
+							_y=1
 
-							var/obj/Poop/p = new(usr.loc)
-							walk_towards(p,t)
-							sleep(rand(1,3))
+							const
+								SPREAD_SPEED = 1
 
-							if(!usr) break
+						for(var/d = 1; d <= rand(2,4); d++)
+							for(_x = 0; _x <= d;  _x++)
+								var/obj/Poop/p = new(usr.loc)
+								walk_towards(p,locate(usr.x+_x,usr.y+_y,usr.z))
+								sleep(SPREAD_SPEED)
+							for(_y = d; _y >= -d; _y--)
+								var/obj/Poop/p = new(usr.loc)
+								walk_towards(p,locate(usr.x+_x,usr.y+_y,usr.z))
+								sleep(SPREAD_SPEED)
+							for(_x = d; _x >= -d; _x--)
+								var/obj/Poop/p = new(usr.loc)
+								walk_towards(p,locate(usr.x+_x,usr.y+_y,usr.z))
+								sleep(SPREAD_SPEED)
+							for(_y = -d; _y <= d; _y++)
+								var/obj/Poop/p = new(usr.loc)
+								walk_towards(p,locate(usr.x+_x,usr.y+_y,usr.z))
+								sleep(SPREAD_SPEED)
+
+
+
+
 
 						if(usr) usr:Pooping = null
 
@@ -442,7 +463,11 @@ obj/Poop
 	New()
 		..()
 		icon_state = pick(icon_states(icon))
-		spawn(rand(300,600))
+
+		pixel_x = rand(-8,8)
+		pixel_y = rand(-8,8)
+
+		spawn(rand(400,1200))
 			loc = null
 
 	proc/stepped(mob/Player/P)
