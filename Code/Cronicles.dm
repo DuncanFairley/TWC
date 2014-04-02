@@ -186,11 +186,11 @@ mob
 			F["last_z"] >> last_z
 			var/savefile_version
 			F["savefileversion"] >> savefile_version
-			if(!savefile_version) savefile_version = 1
-			if(savefile_version < SAVEFILE_VERSION)
+			if(!savefile_version) savefile_version = 3
+			if(savefile_version < 3)
 				src.resetStatPoints()
 				src << infomsg("Your statpoints have been reset.")
-
+			if(savefile_version < 4)
 				if(learnedslug) // replaces var with verb for eat slugs
 					learnedslug = null
 					verbs += /mob/Spells/verb/Eat_Slugs
