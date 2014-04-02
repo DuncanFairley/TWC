@@ -2837,7 +2837,7 @@ turf
 	icon='turf.dmi'
 	grass
 		icon_state="grass1"
-		name = "snow"
+		name = "grass"
 
 		//icon_state="snow"
 		density=0
@@ -2990,10 +2990,10 @@ turf
 	water
 		icon='turf.dmi'
 		icon_state="waterreal"
-		name = "Ice"
+		name = "water"
 		density=0
 		Enter(atom/movable/O, atom/oldloc)
-			if(name != "Ice" && ismob(O) && O.density) return 0
+			if(name != "ice" && ismob(O) && O.density) return 0
 			else
 				return ..()
 
