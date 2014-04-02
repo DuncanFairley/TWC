@@ -141,6 +141,10 @@ client/var/tmp
 	base_save_verbs = 1
 obj/stackobj/Write(savefile/F)
 	return
+mob/proc/detectStoopidBug(sourcefile, line)
+	if(!Gender)
+		for(var/mob/Player/M in Players)
+			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
 #define SAVEFILE_VERSION 4
 mob
 	var/tmp
@@ -165,6 +169,7 @@ mob
 			F["last_x"] << x
 			F["last_y"] << y
 			F["last_z"] << z
+		detectStoopidBug(__FILE__, __LINE__)
 		return
 
 	Read(savefile/F)
@@ -174,8 +179,11 @@ mob
 			F["type"] << /mob/Player
 			return
 		//F["key"] << null
+		detectStoopidBug(__FILE__, __LINE__)
 		..()
+		detectStoopidBug(__FILE__, __LINE__)
 		if(testtype != /mob/Player)
+			world.log << "[testtype] isn't /mob/Player for [src]. Wtf?"
 			return
 		if (base_save_location && world.maxx)
 			var/last_x
