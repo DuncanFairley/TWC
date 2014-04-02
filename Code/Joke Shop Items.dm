@@ -398,6 +398,8 @@ obj/items/U_No_Poo
 
 				src=null
 				spawn()
+					hearers() << infomsg("[usr] swallows a U-No-Poo pill.")
+					sleep(rand(30,60))
 					usr << "<i>You feel a little odd...</i>"
 					sleep(rand(100,250))
 					if(!usr || !usr:Pooping) return
