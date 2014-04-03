@@ -484,6 +484,6 @@ obj/Poop
 
 		get_to(turf/t)
 			spawn()
-				while(src && t != loc)
+				while(src && t && t != loc)
 					step_towards(src, t)
 					sleep(1)
