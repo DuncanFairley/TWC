@@ -1062,7 +1062,7 @@ mob/Player
 				if(C.computer_id == src.client.computer_id)
 					if(C.mob != src)
 						for(var/client/A)
-							if(A.mob.Gm)
+							if(A.mob && A.mob.Gm)
 								A << "<h2>Multikeyers: [C.mob](key: [C.key]) & just logged in: [src] (key: [src.key])</h2>"
 		listenooc = 1
 		listenhousechat = 1
