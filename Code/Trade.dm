@@ -78,7 +78,7 @@ mob/Player
 
 		ATrade(action as text)
 			set hidden = 1
-			if(!trade.with)
+			if(!trade || !trade.with)
 				trade.Clean()
 				return
 
