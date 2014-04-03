@@ -1,6 +1,7 @@
 
 Input
 	var/mob/Player/parent
+	var/index
 
 	proc
 		Alert(Usr=parent,Message,Title,Button1="Ok",Button2,Button3)
@@ -17,15 +18,14 @@ Input
 		..()
 
 		if(!p._input)
-			p._input = new
-			p._input[index] = src
-		else
-			p._input += src
+			p._input = list()
+		src.index = index
+		p._input[index] = src
 		parent = p
 
 	Del()
 		if(parent._input)
-			parent._input -= src
+			parent._input -= index
 			if(!parent._input.len) parent._input = null
 		..()
 
