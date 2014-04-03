@@ -757,12 +757,8 @@ mob/Player/var/tmp/presence
 
 obj
 	books
-
 		icon = 'Books.dmi'
 		density = 1
-
-		var/list/questions = list("")
-
 		verb/Read_book()
 			set src in oview(1)
 
