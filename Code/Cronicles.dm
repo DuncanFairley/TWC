@@ -598,7 +598,7 @@ client
 		return ..()
 
 	Del()
-		if(mob)
+		if(mob && mob.base_save_allowed)
 			if(mob:isTrading())
 				mob:trade.Clean()
 			if(mob.derobe)
