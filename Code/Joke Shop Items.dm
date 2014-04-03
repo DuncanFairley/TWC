@@ -430,19 +430,19 @@ obj/items/U_No_Poo
 						for(var/d = 1; d <= rand(2,4); d++)
 							for(_x = 0; _x <= d;  _x++)
 								var/obj/Poop/p = new(usr.loc)
-								walk_towards(p,locate(usr.x+_x,usr.y+_y,usr.z))
+								p.get_to(locate(usr.x+_x,usr.y+_y,usr.z))
 								sleep(SPREAD_SPEED)
 							for(_y = d; _y >= -d; _y--)
 								var/obj/Poop/p = new(usr.loc)
-								walk_towards(p,locate(usr.x+_x,usr.y+_y,usr.z))
+								p.get_to(locate(usr.x+_x,usr.y+_y,usr.z))
 								sleep(SPREAD_SPEED)
 							for(_x = d; _x >= -d; _x--)
 								var/obj/Poop/p = new(usr.loc)
-								walk_towards(p,locate(usr.x+_x,usr.y+_y,usr.z))
+								p.get_to(locate(usr.x+_x,usr.y+_y,usr.z))
 								sleep(SPREAD_SPEED)
 							for(_y = -d; _y <= d; _y++)
 								var/obj/Poop/p = new(usr.loc)
-								walk_towards(p,locate(usr.x+_x,usr.y+_y,usr.z))
+								p.get_to(locate(usr.x+_x,usr.y+_y,usr.z))
 								sleep(SPREAD_SPEED)
 
 
@@ -472,11 +472,18 @@ obj/Poop
 		spawn(rand(400,1200))
 			loc = null
 
-	proc/stepped(mob/Player/P)
-		var/StatusEffect/S = P.findStatusEffect(/StatusEffect/SteppedOnPoop)
-		if(!S)
-			P << "<i><font color=yellow>Ewww... You just stepped in poop.</font></i>"
-			new /StatusEffect/SteppedOnPoop(P,rand(5,10))
+	proc
+		stepped(mob/Player/P)
+			var/StatusEffect/S = P.findStatusEffect(/StatusEffect/SteppedOnPoop)
+			if(!S)
+				P << "<i><font color=yellow>Ewww... You just stepped in poop.</font></i>"
+				new /StatusEffect/SteppedOnPoop(P,rand(5,10))
 
-			if(prob(30))
-				loc=null
+				if(prob(30))
+					loc=null
+
+		get_to(turf/t)
+			spawn()
+				while(src && t != loc)
+					step_towards(src, t)
+					sleep(1)
