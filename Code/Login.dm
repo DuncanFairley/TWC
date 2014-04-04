@@ -1585,7 +1585,7 @@ mob
 		src.overlays-=image('AFK.dmi',icon_state="GM")
 		src.overlays-=image('AFK.dmi',icon_state="AFK2")
 		src.overlays-=image('AFK.dmi')
-		var/mob/Player/user = usr
+		var/mob/Player/user = src
 		if(src.Gm)
 			src.overlays+=image('AFK.dmi',icon_state="GM")
 		else if(locate(/obj/items/wearable/pimp_ring) in user.Lwearing)
