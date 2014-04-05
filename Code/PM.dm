@@ -29,10 +29,11 @@ proc/text2mob(var/txtMob)
 						M = C.mob
 						break
 			return M
-proc/formatName(mob/M)
-	if(M.pname) return M.pname
+proc/formatName(mob/M,force=1)
+	if(!force)   return "[M]"
+	if(M.pname)  return M.pname
 	if(M.derobe) return M.prevname
-	else return "[M]"
+	return "[M]"
 
 var/PMheader = {"
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"

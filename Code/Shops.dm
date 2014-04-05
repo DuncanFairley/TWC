@@ -38,7 +38,7 @@ proc/announcemsg(T as text)
 proc/infomsg(T as text)
 	return "<font color=#27BBF5>[T]</font>"
 mob/male_wigseller
-	name="Male Wig's Salesman"
+	name="Wig's Salesman"
 	icon='Tammie.dmi'
 	icon_state="mwig"
 	Immortal=1
@@ -46,7 +46,7 @@ mob/male_wigseller
 	verb
 		Talk()
 			set src in oview(4)
-			usr << npcsay("Wig Seller says: Welcome to our little wig shop, use the mirrors to select a wig of your liking! Each wig costs 500,000 gold.")
+			usr << npcsay("Wig Seller says: Welcome to our little wig shop, use the mirrors to select a wig of your liking!")
 		/*	if(usr.gold<500000)
 				usr << npcsay("Wig Seller says: Sorry! It looks like you don't have enough gold to purchase a wig from me. Each wig costs 500,000g.")
 			else if(alert("Hello, would you like to purchase a wig?","You have [usr.gold] gold","Yes","No")=="Yes")
@@ -87,7 +87,7 @@ mob/male_wigseller
 			else
 				usr << npcsay("Wig Seller says: No worries. Maybe next time.")*/
 mob/female_wigseller
-	name="Female Wig's Salesman"
+	name="Wig's Saleswoman"
 	icon='Tammie.dmi'
 	icon_state="fwig"
 	Immortal=1
@@ -95,7 +95,7 @@ mob/female_wigseller
 	verb
 		Talk()
 			set src in oview(4)
-			usr << npcsay("Wig Seller says: Welcome to our little wig shop, use the mirrors to select a wig of your liking! Each wig costs 500,000 gold.")
+			usr << npcsay("Wig Seller says: Welcome to our little wig shop, use the mirrors to select a wig of your liking!")
 		/*	if(usr.gold<500000)
 				usr << npcsay("Wig Seller says: Sorry! It looks like you don't have enough gold to purchase a wig from me. Each wig costs 500,000g.")
 			else if(alert("Hello, would you like to purchase a wig?","You have [usr.gold] gold","Yes","No")=="Yes")
@@ -220,7 +220,7 @@ mob/Bartender
 			else
 				var/obj/selecteditem
 				var/selectedprice
-				switch(input("Bartender: What can I get for ya, hun?","You have [usr.gold] gold")as null|anything in list("Draft Beer  50g","Iced Tea  50g","Cocoa Nut Cream Pie  80g","Blueberry Pie  80g","Apple Pie  80g"))
+				switch(input("Bartender: What can I get for ya, hun?","You have [comma(usr.gold)] gold")as null|anything in list("Draft Beer  50g","Iced Tea  50g","Cocoa Nut Cream Pie  80g","Blueberry Pie  80g","Apple Pie  80g"))
 					if("Draft Beer  50g")
 						selecteditem = /obj/Beer
 						selectedprice = 50
@@ -266,7 +266,7 @@ mob/Tom
 	verb
 		Talk()
 			set src in oview(2)
-			switch(input("Tom: Welcome to the Leaky Cauldron. What do ya wanna do?","You have [usr.gold] gold")as null|anything in list("Shop","Talk"))
+			switch(input("Tom: Welcome to the Leaky Cauldron. What do ya wanna do?","You have [comma(usr.gold)] gold")as null|anything in list("Shop","Talk"))
 				if("Talk")
 					if(usr.talktotom==1)
 						usr << npcsay("Tom: Hello there, Professor Palmer sent me an owl about you.")
@@ -323,7 +323,7 @@ mob/Tom
 					else
 						var/obj/selecteditem
 						var/selectedprice
-						switch(input("Tom: What can I get for ya?","You have [usr.gold] gold")as null|anything in list("Draft Beer  50g","Iced Tea  50g"))
+						switch(input("Tom: What can I get for ya?","You have [comma(usr.gold)] gold")as null|anything in list("Draft Beer  50g","Iced Tea  50g"))
 							if("Draft Beer  50g")
 								selecteditem = /obj/Beer
 								selectedprice = 50
@@ -362,7 +362,7 @@ mob/Divo
 				itemlist = list("Magical Eye 10,000,000g","Invisibility Cloak 9000g")
 			else
 				itemlist = list("Invisibility Cloak 9000g")
-			switch(input("Divo: Hi there! Welcome to Divo's Magical Wares. [magicEyesLeft ? "I've got a limited supply of these ultra rare magical eyes. They let you see invisible people. Very powerful stuff. I'm only going to sell a limited amount though, otherwise my cloak business would be pointless wouldn't it? I have [magicEyesLeft] left." : ""]","You have [usr.gold] gold")as null|anything in itemlist)
+			switch(input("Divo: Hi there! Welcome to Divo's Magical Wares. [magicEyesLeft ? "I've got a limited supply of these ultra rare magical eyes. They let you see invisible people. Very powerful stuff. I'm only going to sell a limited amount though, otherwise my cloak business would be pointless wouldn't it? I have [magicEyesLeft] left." : ""]","You have [comma(usr.gold)] gold")as null|anything in itemlist)
 				if("Magical Eye 10,000,000g")
 					selecteditem = /obj/items/wearable/magic_eye
 					selectedprice = 10000000
@@ -393,7 +393,7 @@ mob/Blotts
 			set src in oview(2)
 			var/obj/selecteditem
 			var/selectedprice
-			switch(input("Blotts: Hi there! Welcome to Flourish and Blotts. Do any titles interest you?","You have [usr.gold] gold")as null|anything in list("Basic COMC 500g","Monster book of Monsters 500g"))
+			switch(input("Blotts: Hi there! Welcome to Flourish and Blotts. Do any titles interest you?","You have [comma(usr.gold)] gold")as null|anything in list("Basic COMC 500g","Monster book of Monsters 500g"))
 				if("Basic COMC 500g")
 					selecteditem = /obj/COMCText
 					selectedprice = 500
@@ -428,14 +428,14 @@ mob/Ollivander
 			set src in oview(3)
 			var/mob/Ollivander/Olli = src
 			if(swiftmode)
-				switch(alert("Ollivander: Welcome to Ollivander's Wand Shop - may I sell you a wand? They're 100 gold","You have [usr.gold] gold","Yes","No"))
+				switch(alert("Ollivander: Welcome to Ollivander's Wand Shop - may I sell you a wand? They're 100 gold","You have [comma(usr.gold)] gold","Yes","No"))
 					if("Yes")
 						start
 						var/length = rand(8,13)
 						var/core = pick("Phoenix Feather", "Dragon Heartstring", "Veela Hair", "Unicorn Hair")
 						var/wood = pick("Birch", "Oak", "Ash", "Willow", "Mahogany", "Elder")
 						var/wandname = "[length] inch [wood] wand ([core])"
-						switch(alert("This [wandname] costs 100 gold. Would you like to purchase it?","You have [usr.gold]","Yes","No"))
+						switch(alert("This [wandname] costs 100 gold. Would you like to purchase it?","You have [comma(usr.gold)]","Yes","No"))
 							if("Yes")
 								if(usr.gold>=100)
 									view(7,Olli) << "[nametext] Here's your new [wandname], [usr]!"
@@ -460,7 +460,7 @@ mob/Ollivander
 								else
 									usr << "You do not have enough gold at this time. Maybe you should check your bank account at Gringotts?"
 							if("No")
-								switch(alert("Would you like me to find you another wand?","You have [usr.gold]","Yes","No"))
+								switch(alert("Would you like me to find you another wand?","You have [comma(usr.gold)]","Yes","No"))
 									if("Yes")
 										var/rnd = rand(12,15)
 										usr << "[nametext] [Olli.phrases[rnd]]"
@@ -484,7 +484,7 @@ mob/Ollivander
 							if(!answered)
 								Olli.busy = 0
 								return
-						switch(alert("Ollivander: Welcome to Ollivander's Wand Shop - may I sell you a wand? They're 100 gold","You have [usr.gold] gold","Yes","No"))
+						switch(alert("Ollivander: Welcome to Ollivander's Wand Shop - may I sell you a wand? They're 100 gold","You have [comma(usr.gold)] gold","Yes","No"))
 							if("Yes")
 
 								view(5,Olli) << "[nametext] Let me just take a look for you."
@@ -535,7 +535,7 @@ mob/Ollivander
 									sleep(2)
 									Olli.busy = 0
 									return
-								switch(alert("This [wandname] costs 100 gold. Would you like to purchase it?","You have [usr.gold]","Yes","No"))
+								switch(alert("This [wandname] costs 100 gold. Would you like to purchase it?","You have [comma(usr.gold)]","Yes","No"))
 									if("Yes")
 										if(usr.gold>=100)
 											view(7,Olli) << "[nametext] Here's your new [wandname], [usr]!"
@@ -560,7 +560,7 @@ mob/Ollivander
 										else
 											usr << "You do not have enough gold at this time. Maybe you should check your bank account at Gringotts?"
 									if("No")
-										switch(alert("Would you like me to find you another wand?","You have [usr.gold]","Yes","No"))
+										switch(alert("Would you like me to find you another wand?","You have [comma(usr.gold)]","Yes","No"))
 											if("Yes")
 												rnd = rand(12,15)
 												view(7,Olli) << "[nametext] [Olli.phrases[rnd]]"
@@ -744,7 +744,7 @@ mob/Broom_Salesman
 			set src in oview(2)
 			var/obj/selecteditem
 			var/selectedprice
-			switch(input("Chrono: Hi there! Welcome to Chrono's Brooms. We have two models in stock right now - would you like to purchase one?","You have [usr.gold] gold")as null|anything in list("Cleansweep Seven - 5,000g","Nimbus 2000 - 10,000g"))
+			switch(input("Chrono: Hi there! Welcome to Chrono's Brooms. We have two models in stock right now - would you like to purchase one?","You have [comma(usr.gold)] gold")as null|anything in list("Cleansweep Seven - 5,000g","Nimbus 2000 - 10,000g"))
 				if("Cleansweep Seven - 5,000g")
 					selecteditem = /obj/items/wearable/brooms/cleansweep_seven
 					selectedprice = 5000
@@ -841,7 +841,7 @@ obj/shop
 		var
 			list
 				images = list()
-				items = list()
+				items
 
 		New(obj/shop/parent, offset_x = 0, offset_y = 0)
 			..(parent, offset_x, offset_y)
@@ -858,18 +858,35 @@ obj/shop
 							new /obj/shop/buttons/next (src,1,3),
 							"next")
 
+			spawn(10)
+				if(!items && (name in shops))
+					items = shops[name]
 
 		proc
 			shop(mob/Player/M)
-				M.client.images += images
-				M.shop_index = rand(1,items.len)
-				update(1, M)
+				if(!items)
+					if(name in shops)
+						items = shops[name]
+					else return
+				if(!items.len) return
 
 			unshop(mob/Player/M)
+				if(!items)
+					if(name in shops)
+						items = shops[name]
+					else return
+				if(!items.len) return
+
 				M.client.images -= images
 				update(0, M)
 
 			update(i, mob/Player/M)
+				if(!items)
+					if(name in shops)
+						items = shops[name]
+					else return
+				if(!items.len) return
+
 				var/obj/o = items[M.shop_index]
 				M.overlays -= o.icon
 
@@ -887,29 +904,14 @@ obj/shop
 					M.overlays += o.icon
 
 					if(prob(10))
-						var/txt = pick("Try a few more, maybe you will find something you like.", "Eww, this looks like you gained a couple pounds.", "Try this for size!", "This wig does not make you look fat! I promise!", "You look so hot! You can almost forget an ugly person walked into my store.", "Is your dad a gardener? Probably not but your wig does make you look like a beautiful flower.")
-						usr << npcsay("Wig Seller says: [txt]")
+						var/txt = pick("Try a few more, maybe you will find something you like.", "Eww, this looks like you gained a couple pounds.", "Try this for size!", "This does not make you look fat! I promise!", "You look so hot! You can almost forget an ugly person walked into the store.")
+						usr << npcsay("Magic Mirror says: [txt]")
 
+		malewigshop
 
-		male_wig_shop
-			items = newlist(/obj/items/wearable/wigs/male_black_wig,
-							/obj/items/wearable/wigs/male_blond_wig,
-							/obj/items/wearable/wigs/male_blue_wig,
-							/obj/items/wearable/wigs/male_green_wig,
-							/obj/items/wearable/wigs/male_grey_wig,
-							/obj/items/wearable/wigs/male_pink_wig,
-							/obj/items/wearable/wigs/male_purple_wig,
-							/obj/items/wearable/wigs/male_silver_wig)
+		femalewigshop
 
-		female_wig_shop
-			items = newlist(/obj/items/wearable/wigs/female_black_wig,
-							/obj/items/wearable/wigs/female_blonde_wig,
-							/obj/items/wearable/wigs/female_blue_wig,
-							/obj/items/wearable/wigs/female_green_wig,
-							/obj/items/wearable/wigs/female_grey_wig,
-							/obj/items/wearable/wigs/female_pink_wig,
-							/obj/items/wearable/wigs/female_purple_wig,
-							/obj/items/wearable/wigs/female_silver_wig)
+		random
 
 	buttons
 
@@ -928,17 +930,53 @@ obj/shop
 
 			Click()
 				if(usr.loc != parent.loc) return
-				if(usr.gold < 500000)
-					usr << npcsay("Wig Seller says: Sorry! It looks like you don't have enough gold to purchase a wig from me. Each wig costs 500,000g.")
+				var/obj/items/i = parent:items[usr:shop_index]
+				if(usr.gold < i.price)
+					usr << infomsg("You don't have enough money. The item you chose costs [comma(i.price)], you need [comma(i.price - usr.gold)] more gold.")
 					return
 
-				if(alert(usr, "Are you sure you want to buy this for 500,000 gold?","Are you sure?","Yes","No") == "Yes")
-					if(usr.gold>=500000)
-						var/obj/o = parent:items[usr:shop_index]
-						new o.type (usr)
-						usr << npcsay("Wig Seller says: Thanks for your business!")
-						usr.gold-=500000
-						ministrybank += taxrate*500000/100
+				if(alert(usr, "Are you sure you want to buy this for [comma(i.price)] gold?","Are you sure?","Yes","No") == "Yes")
+					if(usr.gold>=i.price)
+						new i.type (usr)
+						usr << infomsg("You bought [i] for [comma(i.price)] gold.")
+						usr.gold-=i.price
+						ministrybank += taxrate*i.price/100
 						usr:Resort_Stacking_Inv()
 
 
+var/list/shops = list("malewigshop" = newlist(
+						/obj/items/wearable/wigs/male_black_wig,
+						/obj/items/wearable/wigs/male_blond_wig,
+						/obj/items/wearable/wigs/male_blue_wig,
+						/obj/items/wearable/wigs/male_green_wig,
+						/obj/items/wearable/wigs/male_grey_wig,
+						/obj/items/wearable/wigs/male_pink_wig,
+						/obj/items/wearable/wigs/male_purple_wig,
+						/obj/items/wearable/wigs/male_silver_wig),
+
+					  "femalewigshop" = newlist(
+					  	/obj/items/wearable/wigs/female_black_wig,
+						/obj/items/wearable/wigs/female_blonde_wig,
+						/obj/items/wearable/wigs/female_blue_wig,
+						/obj/items/wearable/wigs/female_green_wig,
+						/obj/items/wearable/wigs/female_grey_wig,
+						/obj/items/wearable/wigs/female_pink_wig,
+						/obj/items/wearable/wigs/female_purple_wig,
+						/obj/items/wearable/wigs/female_silver_wig),
+
+					  "random" = list()
+					)
+
+proc
+    comma(n)
+        if(!isint(n))
+            .=copytext("[round(n-round(n),0.01)]",2)
+            n=round(n)
+        n=num2text(n,15)
+        while(length(n)>3)
+            .=",[copytext(n,length(n)-2)][.]"
+            n=copytext(n,1,length(n)-2)
+        return n+.
+
+    isint(n)
+        return n==round(n)

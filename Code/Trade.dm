@@ -11,7 +11,7 @@ trading
 		..()
 		src.parent = parent
 		src.with   = with
-		winset(parent, null, {"Trade.is-visible=true;Trade.Name1.text="[parent.name]";Trade.Name2.text="[with.name]";Trade.GoldInput.text=0"})
+		winset(parent, null, {"Trade.is-visible=true;Trade.Name1.text="[formatName(parent.name,0)]";Trade.Name2.text="[formatName(with.name,0)]";Trade.GoldInput.text=0"})
 
 	proc
 		Deal(end = 0)
@@ -113,8 +113,8 @@ mob/Player
 						for(var/obj/i in trade.with.trade.items)
 							html += "<li>" + i.name + (istype(i, /obj/items/scroll) ? " (scroll)" : "") + "</li>"
 
-						html += "</ul></td></tr><tr><td>[trade.gold] Gold</td><td>[trade.with.trade.gold] Gold</td></tr></table><br>"
 
+						html += "</ul></td></tr><tr><td>[comma(trade.gold)] Gold</td><td>[comma(trade.with.trade.gold)] Gold</td></tr></table><br>"
 						goldlog << html
 
 

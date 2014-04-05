@@ -35,17 +35,17 @@ Event
 
 		fire()
 			..()
-			AFK_Train_Scan()
-			scheduler.schedule(src, world.tick_lag * rand(9000, 12000)) // 15 to 20 minutes
+			spawn()
+				AFK_Train_Scan()
+				scheduler.schedule(src, world.tick_lag * rand(9000, 12000)) // 15 to 20 minutes
 
 	ClanWars
 
 		fire()
 			..()
 			spawn()
+				scheduler.schedule(src, world.tick_lag * 604800 * 10) // 1 week
 				toggle_clanwars()
-			scheduler.schedule(src, world.tick_lag * 604800 * 10) // 1 week
-
 
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)
@@ -164,6 +164,7 @@ StatusEffect
 	UsedPortus
 	UsedMeditate
 	UsedHalloweenBucket
+	UsedSnowRing
 	UsedArcesso
 	UsedProtego
 	var/Event/e_StatusEffect/AttachedEvent	//Not required - Contains /Event/e_StatusEffect to automatically cancel the StatusEffect

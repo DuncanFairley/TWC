@@ -9,9 +9,10 @@
 mob/Player/var/list/Lwearing
 
 obj/items/var
-	dropable = 1
-	takeable = 1
+	dropable    = 1
+	takeable    = 1
 	destroyable = 0
+	price       = 0
 
 obj/items/Click()
 	if(src in oview(1))
@@ -163,6 +164,28 @@ obj/items/herosbrace
 		else
 			..()
 
+obj/items/snowring
+	icon='ammy.dmi'
+	icon_state="snow"
+	name="Ring of Snow"
+	desc="A magical ring that can manipulate snow."
+
+	Click()
+		if(src in usr)
+
+			if(canUse(src,cooldown=/StatusEffect/UsedSnowRing,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+				new /StatusEffect/UsedSnowRing(src,60)
+				var/obj/snowman/O = new(usr.loc)
+				O.owner = "[usr.key]"
+
+				src = null
+				spawn(600)
+					hearers(O) << "The snowman melts away."
+					del O
+		else
+			..()
+
+
 obj/items/Zombie_Head
 	icon='halloween.dmi'
 	icon_state="head"
@@ -182,7 +205,6 @@ obj/items/Zombie_Head
 					usr.icon = 'MaleZombie.dmi'
 		else
 			..()
-
 
 obj/items/Whoopie_Cushion
 	icon='jokeitems.dmi'
@@ -498,6 +520,7 @@ obj/items/wearable/wands/ash_wand
 
 
 obj/items/wearable/wigs
+	price = 500000
 	desc = "A wig to hide those dreadful split ends."
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
@@ -862,7 +885,7 @@ mob/Player
 	verb
 		Give(mob/M in oview(1)&Players)
 			if(M.client)
-				var/given = input("Give how much gold to [M]?","You have [usr.gold] gold") as null|num
+				var/given = input("Give how much gold to [M]?","You have [comma(usr.gold)] gold") as null|num
 				if(given>usr.gold)
 					usr<<"You don't have that much gold."
 					return
@@ -876,7 +899,7 @@ mob/Player
 
 					usr.gold-=given
 					M.gold+=given
-					hearers()<<"<b><i>[usr] gives [M] [given] gold.</i></b>"
+					hearers()<<"<b><i>[usr] gives [M] [comma(given)] gold.</i></b>"
 					Log_gold(given,usr,M)
 					return
 			else

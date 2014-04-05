@@ -149,40 +149,6 @@ obj/stickbook
 		Read_Book()
 			usr<<"<b><font color=white><font size=3>You learned Crapus Sticketh."
 			usr.verbs += /mob/Spells/verb/Crapus_Sticketh
-obj
-	snowring
-		icon='ammy.dmi'
-		icon_state="snow"
-		name="Ring of Snow"
-		var/tmp/lastused = 0
-		verb
-			Examine()
-				set src in view(3)
-				usr << "A magical ring that can manipulate snow."
-		verb
-			Create_Snowman()
-				if(!lastused || (world.time - lastused) > 600)
-					lastused = world.time
-					var/obj/snowman/O = new(usr.loc)
-					O.owner = "[usr.key]"
-					src = null
-					spawn(600)
-						hearers(O) << "The snowman melts away."
-						del O
-				else
-					usr << "You need to wait [round((600 - (world.time - lastused))/10)] seconds before you can use the Ring of Snow again."
-
-		verb
-			Take()
-				set src in oview(0)
-				hearers()<<"[usr] takes \the [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-		verb
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
 
 obj
 	flag
