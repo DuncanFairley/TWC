@@ -38,7 +38,7 @@ proc/announcemsg(T as text)
 proc/infomsg(T as text)
 	return "<font color=#27BBF5>[T]</font>"
 mob/male_wigseller
-	name="Wig's Salesman"
+	name="Wig Salesman"
 	icon='Tammie.dmi'
 	icon_state="mwig"
 	Immortal=1
@@ -87,7 +87,7 @@ mob/male_wigseller
 			else
 				usr << npcsay("Wig Seller says: No worries. Maybe next time.")*/
 mob/female_wigseller
-	name="Wig's Saleswoman"
+	name="Wig Saleswoman"
 	icon='Tammie.dmi'
 	icon_state="fwig"
 	Immortal=1
