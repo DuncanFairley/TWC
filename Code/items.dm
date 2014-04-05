@@ -176,7 +176,10 @@ obj/items/Zombie_Head
 				usr.trnsed = 1
 				usr.overlays = null
 				if(usr.away)usr.ApplyAFKOverlay()
-				usr.icon = 'Zombie.dmi'
+				if(usr.Gender=="Female")
+					usr.icon = 'FemaleZombie.dmi'
+				else
+					usr.icon = 'MaleZombie.dmi'
 		else
 			..()
 

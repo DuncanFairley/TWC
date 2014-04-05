@@ -420,7 +420,7 @@ mob/var/talkedzombie=0
 obj
 	chocolatebar
 		name="Chocolate Bar"
-		icon='zombie.dmi'
+		icon='chocolate_bar.dmi'
 		icon_state="1"
 		verb
 			Take()
@@ -436,7 +436,7 @@ obj
 
 	tootsieroll
 		name="Tootsie Roll"
-		icon='zombie.dmi'
+		icon='tootsie_roll.dmi'
 		icon_state="2"
 		verb
 			Take()
@@ -452,7 +452,7 @@ obj
 
 	candycorn
 		name="Candy Corn"
-		icon='zombie.dmi'
+		icon='candy_corn.dmi'
 		icon_state="3"
 		verb
 			Take()
@@ -468,7 +468,7 @@ obj
 
 	caramelapple
 		name="Caramel Apple"
-		icon='zombie.dmi'
+		icon='caramel_apple.dmi'
 		icon_state="4"
 		verb
 			Take()
@@ -484,7 +484,7 @@ obj
 
 obj
 	Halloween_Bucket
-		icon='zombie.dmi'
+		icon='halloween_bucket.dmi'
 		icon_state="bag1"
 		verb
 			Take_Out_Candy()
@@ -611,8 +611,8 @@ mob
 		NPC=1
 		bumpable=0
 		Immortal=1
-		icon='Zombie.dmi'
-		icon_state="zombie"
+		icon='MaleZombie.dmi'
+		icon_state=""
 		Gm=1
 		verb
 			Talk()
