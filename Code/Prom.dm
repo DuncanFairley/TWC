@@ -67,7 +67,7 @@ obj/mirror
 	icon = 'mirror.dmi'
 	glass
 		icon_state = "glass"
-		layer = 3
+		layer = 5
 		density = 1
 		var/obj/mirror/frame/frame
 		var/obj/mirror/base/base
@@ -123,23 +123,26 @@ obj/mirror
 							users.Remove(V)
 					world << "users: [users.len] reflections: [reflections.len]"*/
 
-
-
-		male_wig_shop
+		shop
+			var/shoppath
 			name = "glass"
-			New(obj/parent)
-				..()
-				new /obj/shop/base/male_wig_shop (src,0,-1)
 
-		female_wig_shop
-			name = "glass"
-			New(obj/parent)
+			male_wig_shop
+				shoppath = /obj/shop/base/malewigshop
+
+			female_wig_shop
+				shoppath = /obj/shop/base/femalewigshop
+
+			random
+				shoppath = /obj/shop/base/random
+
+			New()
 				..()
-				new /obj/shop/base/female_wig_shop (src,0,-1)
+				new shoppath (src,0,-1)
 
 	frame
 		icon_state = "frame"
-		layer = 5
+		layer = 7
 		density = 1
 		New(obj/mirror/parent)
 			loc = parent.loc
@@ -157,7 +160,7 @@ obj/mirror
 				var/obj/reflection/newref = new (locate(x,y+1,z),M)
 				newref.icon = M.icon
 				newref.icon_state = M.icon_state
-				newref.layer = 4
+				newref.layer = 6
 				newref.pixel_y = 16
 				newref.dir = newdir
 				newref.overlays = M.overlays
