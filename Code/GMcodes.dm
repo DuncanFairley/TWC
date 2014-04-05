@@ -1321,6 +1321,38 @@ mob/GM
 					M.GMFrozen=0
 					M.overlays-='freeze.dmi'
 				//	M<<"[usr] holds up their wand, and with a quick *Flick!* unfrezes EVERYONE in their sight!"
+
+
+		AddItem(var/s in shops, var/path in (typesof(/obj/items)-/obj/items))
+			set category="Staff"
+			set name = "Add item to shop"
+
+			var/new_price = input("Price", "[path]") as null|num
+			if(new_price)
+				var/obj/items/i = new path()
+				i.price = new_price
+				shops[s] += i
+
+		RemoveItem(var/s in shops)
+			set category="Staff"
+			set name = "Remove item from shop"
+
+			var/obj/items/i = input("Select item", "[s]") as null|obj in shops[s]
+			if(i)
+				shops[s] -= i
+				del i
+
+		EditItem(var/s in shops)
+			set category = "Staff"
+			set name = "Edit item price"
+
+			var/obj/items/i = input("Select item", "[s]") as null|obj in shops[s]
+			if(i)
+				var/new_price = input("New price", i.name, i.price) as null|num
+				if(new_price)
+					i.price = new_price
+
+
 var
 	crban_bannedmsg="<font color=red><big><tt>You're banned.</tt></big></font>"
 	crban_preventbannedclients = 0 // See above comments
