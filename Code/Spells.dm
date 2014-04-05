@@ -81,7 +81,8 @@ var/list/spellList = list(
 	/mob/Spells/verb/Furnunculus = "Furnunculus",
 	/mob/Spells/verb/Expelliarmus = "Expelliarmus",
 	/mob/Spells/verb/Eat_Slugs = "Eat Slugs",
-	/mob/Spells/verb/Disperse = "Disperse")
+	/mob/Spells/verb/Disperse = "Disperse",
+	/mob/Spells/verb/Wingardium_Leviosa = "Wingardium Leviosa")
 proc/name2spellpath(name)
 	for(var/V in spellList)
 		if(spellList[V] == name)
