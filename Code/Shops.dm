@@ -870,6 +870,10 @@ obj/shop
 					else return
 				if(!items.len) return
 
+				M.client.images += images
+				M.shop_index = rand(1,items.len)
+				update(1, M)
+
 			unshop(mob/Player/M)
 				if(!items)
 					if(name in shops)
