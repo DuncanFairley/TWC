@@ -30,9 +30,8 @@ proc/text2mob(var/txtMob)
 						break
 			return M
 proc/formatName(mob/M,force=1)
-	if(!force)   return "[M]"
+	if(M.derobe) return force ? M.prevname : "[M]"
 	if(M.pname)  return M.pname
-	if(M.derobe) return M.prevname
 	return "[M]"
 
 var/PMheader = {"

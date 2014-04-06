@@ -11,7 +11,7 @@ trading
 		..()
 		src.parent = parent
 		src.with   = with
-		winset(parent, null, {"Trade.is-visible=true;Trade.Name1.text="[formatName(parent.name,0)]";Trade.Name2.text="[formatName(with.name,0)]";Trade.GoldInput.text=0"})
+		winset(parent, null, {"Trade.is-visible=true;Trade.Name1.text="[formatName(parent,0)]";Trade.Name2.text="[formatName(with,0)]";Trade.GoldInput.text=0"})
 
 	proc
 		Deal(end = 0)
