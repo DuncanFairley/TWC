@@ -1727,6 +1727,7 @@ mob/proc/Resort_Stacking_Inv()
 	else
 		src:stackobjects = null
 mob/proc/Check_Death_Drop()
+	usr=src
 	for(var/obj/drop_on_death/O in src)
 		O.Drop()
 
