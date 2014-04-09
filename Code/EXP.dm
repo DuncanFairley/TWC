@@ -466,13 +466,17 @@ proc/init_books()
 		questions += new t
 	scheduler.schedule(new/Event/AFKCheck,world.tick_lag * 600)
 
-proc/Shuffle(list/L)
-	if(!L)
-		CRASH("Shuffle failed because input list is null")
+proc
+	Shuffle(list/L)
+		if(!L)
+			CRASH("Shuffle failed because input list is null")
 
-	var/list/l = list()
-	while (L.len)
-		var/i = pick(L)
-		L -= i
-		l += i
-	return l
+		var/list/l = list()
+		while (L.len)
+			var/i = pick(L)
+			L -= i
+			l += i
+		return l
+
+	isplayer(atom/A)
+		return istype(A, /mob/Player)

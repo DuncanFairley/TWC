@@ -188,20 +188,25 @@ mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
 		usr << "You must hold a wand to cast this spell."
 mob/Spells/verb/Depulso()
 	set category="Spells"
-	var/mob/Player/M
+	var/mob/M
 	for(M in get_step(usr,usr.dir))
 		if(!M.key && !istype(M,/mob/Victims)) return
 		step_away(M,usr,15)
-		hearers()<<"<b><font color=red>[usr]:</font></b> Depulso!"
-		M<<"You were pushed backwards by [usr]'s Depulso Charm."
-		if(M.flying)
-			for(var/obj/items/wearable/brooms/B in M.Lwearing)
-				B.Equip(M,1)
-				//M.flying=0
-				//M.icon_state=""
-				//M.density=1
-				hearers()<<"[usr]'s Depulso knocked [M] off \his broom!"
-				new /StatusEffect/Knockedfrombroom(M,15)
+
+		if(!findStatusEffect(/StatusEffect/DepulsoText))
+			new /StatusEffect/DepulsoText(src,5)
+			hearers()<<"<b><font color=red>[usr]:</font></b> Depulso!"
+
+		if(isplayer(M))
+			M<<"You were pushed backwards by [usr]'s Depulso Charm."
+			if(M.flying)
+				for(var/obj/items/wearable/brooms/B in M:Lwearing)
+					B.Equip(M,1)
+					//M.flying=0
+					//M.icon_state=""
+					//M.density=1
+					hearers()<<"[usr]'s Depulso knocked [M] off \his broom!"
+					new /StatusEffect/Knockedfrombroom(M,15)
 mob/Spells/verb/Deletrius()
 	set category="Spells"
 	var/mob/Player/user = usr
@@ -364,7 +369,7 @@ mob/Spells/verb/Herbificus_Maxima()
 mob/Spells/verb/Shelleh()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedShelleh,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
-//		new /StatusEffect/UsedShelleh(src,60)
+		new /StatusEffect/UsedShelleh(src,60)
 
 		for(var/turf/t in oview(rand(1,3)))
 			if(t.density) continue
