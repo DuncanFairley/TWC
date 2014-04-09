@@ -1604,8 +1604,8 @@ mob/Spells/verb/Flippendo()
 		del S
 mob/Spells/verb/Wingardium_Leviosa()
 	set category="Spells"
-	if(locate(/obj/items/wearable/wands) in usr:Lwearing)
-		if(!Wingardiumleviosa)
+	if(!Wingardiumleviosa)
+		if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,target=null,mpreq=0))
 			var/obj/other=input("What do you wish to levitate?") as null|obj in oview()
 			if(isnull(other))return
 			if(other.wlable == 1)
@@ -1613,21 +1613,25 @@ mob/Spells/verb/Wingardium_Leviosa()
 				usr.wingobject=other
 				hearers(client.view)<<"<B>[usr.name]: <I>Wingardium Leviosa.</I>"
 				other.overlays += new /obj/overlay/flash
-				spawn(100)
-					if(usr)usr.wingobject=null
+
+				src=null
+				spawn()
+					var/seconds = 60
+					while(usr && Wingardiumleviosa && seconds > 0)
+						seconds--
+						sleep(10)
+					if(usr)
+						usr.wingobject=null
+						usr.Wingardiumleviosa = null
 					other.overlays=null
-					if(usr)usr.Wingardiumleviosa = null
 			else
 				src << errormsg("That object is not movable.")
-		else
-			src<< infomsg("You let go of the object you were holding.")
-			for(var/obj/D in world)
-				if(src.wingobject == D)
-					D.overlays = null
-					usr.wingobject=null
-					usr.Wingardiumleviosa = null
 	else
-		usr << "You cannot cast this without a wand."
+		src << infomsg("You let go of the object you were holding.")
+		wingobject.overlays = null
+		wingobject=null
+		Wingardiumleviosa = null
+
 mob/Spells/verb/Imperio(mob/other in oview()&Players)
 	set category="Spells"
 	if(!Imperio)
