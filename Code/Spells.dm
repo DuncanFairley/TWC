@@ -363,34 +363,18 @@ mob/Spells/verb/Herbificus_Maxima()
 		hearers()<<"<b><Font color=red>[usr]:</font> Herbificus MAXIMA!"
 mob/Spells/verb/Shelleh()
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		var/obj/egg/a = new(locate(src.x,src.y-1,src.z))
-		var/obj/egg/b = new(locate(src.x+1,src.y-1,src.z))
-		var/obj/egg/c = new(locate(src.x+1,src.y,src.z))
-		var/obj/egg/d = new(locate(src.x+1,src.y+1,src.z))
-		var/obj/egg/e = new(locate(src.x,src.y+1,src.z))
-		var/obj/egg/f = new(locate(src.x-1,src.y+1,src.z))
-		var/obj/egg/g = new(locate(src.x-1,src.y,src.z))
-		var/obj/egg/h = new(locate(src.x-1,src.y-1,src.z))
-		flick('magic.dmi',a)
-		flick('magic.dmi',b)
-		flick('magic.dmi',c)
-		flick('magic.dmi',d)
-		flick('magic.dmi',e)
-		flick('magic.dmi',f)
-		flick('magic.dmi',g)
-		flick('magic.dmi',h)
+	if(canUse(src,cooldown=/StatusEffect/UsedShelleh,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
+//		new /StatusEffect/UsedShelleh(src,60)
+
+		for(var/turf/t in oview(rand(1,3)))
+			if(t.density) continue
+			if(prob(40))  continue
+			if(t == loc)  continue
+			new /obj/egg (t)
+			sleep(1)
+
 		hearers()<<"<b><font color=red>[usr]:</font> <font color=white>Shelleh."
-		src = null
-		spawn(150)
-			del a
-			del b
-			del c
-			del d
-			del e
-			del f
-			del g
-			del h
+
 mob/Spells/verb/Solidus()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
@@ -1627,16 +1611,16 @@ mob/Spells/verb/Wingardium_Leviosa()
 			if(other.wlable == 1)
 				usr.Wingardiumleviosa = 1
 				usr.wingobject=other
-				hearers(5,usr)<<"<B>[usr.name]: <I>Wingardium Leviosa.</I>"
+				hearers(client.view)<<"<B>[usr.name]: <I>Wingardium Leviosa.</I>"
 				other.overlays += new /obj/overlay/flash
 				spawn(100)
 					if(usr)usr.wingobject=null
 					other.overlays=null
 					if(usr)usr.Wingardiumleviosa = null
 			else
-				usr << "That object is not movable."
+				src << errormsg("That object is not movable.")
 		else
-			usr<< "You let go of the object you were holding."
+			src<< infomsg("You let go of the object you were holding.")
 			for(var/obj/D in world)
 				if(src.wingobject == D)
 					D.overlays = null
@@ -1799,7 +1783,10 @@ obj
 						src.SteppedOn(O)
 					else if(istype(O,/obj/clanpillar))
 						src.SteppedOn(O)
-				if(istype(M, /obj/clanpillar))
+				if(istype(M,/obj/egg))
+					var/obj/egg/E = M
+					E.Hit()
+				else if(istype(M, /obj/clanpillar))
 					var/obj/clanpillar/C = M
 					if(1)
 						switch(C.clan)
@@ -2083,15 +2070,14 @@ mob
 mob/Player
 	Move(loc,dir)
 		if(wingobject)
+			var/turf/t = get_step(wingobject,dir)
 			if(istype(wingobject.loc,/mob))
-				usr<< "You let go of the object you were holding."
-				for(var/obj/D in world)
-					if(src.wingobject == D)
-						D.overlays = null
-						usr.wingobject=null
-						usr.Wingardiumleviosa = null
-			else
-				step(wingobject,dir)
+				src << infomsg("You let go of the object you were holding.")
+				wingobject.overlays = null
+				wingobject=null
+				Wingardiumleviosa = null
+			else if(t && (t in view(client.view)))
+				wingobject.Move(t)
 			return
 		if(src.questionius==1)
 			src.overlays-=icon('hand.dmi')

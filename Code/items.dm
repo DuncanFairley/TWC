@@ -1818,14 +1818,6 @@ obj/stone
 		..()
 		spawn(600)del(src)
 
-obj/egg
-	icon='Easter Stuff.dmi'
-	icon_state="egg"
-	density=1
-	dontsave=1
-	New()
-		..()
-		spawn(150)del(src)
 obj/Arania_Eximae
 	icon='attacks.dmi'
 	icon_state="missle"
@@ -2626,5 +2618,67 @@ obj/Wand_Shelf
 					usr<<"You grab 'Transfiguration for Dummies' from the Bookshelf."
 */
 
+obj/items/easterbook
+	name="The Easter Bunnies Guide to Magic"
+	icon='Books.dmi'
+	icon_state="easter"
+	desc = "Who would of thought the Easter bunny wrote a book..."
+	Click()
+		if(src in usr)
+			usr.verbs += /mob/Spells/verb/Shelleh
+			usr<<"<b><font color=white><font size=3>You learned Shelleh."
+			loc=null
+			usr:Resort_Stacking_Inv()
+		else
+			..()
 
+obj/items/easter_egg
+	icon='Eggs.dmi'
+	desc="A colored easter egg! How nice!"
+
+
+	New()
+		..()
+		icon_state = pick(icon_states(icon))
+
+	Click()
+		if(src in usr)
+			new/obj/egg(usr.loc)
+			loc=null
+			usr:Resort_Stacking_Inv()
+		else
+			..()
+
+obj/egg
+	icon='Easter Stuff.dmi'
+	icon_state="egg"
+	density=1
+	dontsave=1
+	var/HP
+
+	proc
+		Hit()
+			HP--
+			if(HP <= 0)
+				if(prob(10))
+					new /obj/items/easter_egg(loc)
+				loc=null
+
+			pixel_y++
+			spawn(1)
+				pixel_y--
+
+
+
+	New()
+		..()
+		HP=rand(5,10)
+
+		flick('magic.dmi',src)
+
+		pixel_x = rand(-6,6)
+		pixel_y = rand(-6,6)
+
+		spawn(rand(600,1200))
+			loc=null
 
