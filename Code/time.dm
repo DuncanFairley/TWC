@@ -24,7 +24,7 @@ mob/GM/verb
 				src << infomsg("Event cancelled.")
 			if("Check Time")
 				var/ticks = scheduler.time_to_fire(events[e])
-				src << infomsg("[ticks] ticks until event starts.")
+				src << infomsg("[comma(ticks)] ticks until event starts.")
 
 				if(!scheduler.is_scheduled(events[e]))
 					src << errormsg("Event is not scheduled.")
@@ -41,6 +41,6 @@ mob/GM/verb
 			var/Event/ClanWars/e = new
 			events["[day] - [hour]"] = e
 			scheduler.schedule(e, world.tick_lag * 10 * date)
-			usr << infomsg("Clan wars scheduled ([date])")
+			usr << infomsg("Clan wars scheduled ([comma(date)])")
 		else
 			usr << errormsg("Could not schedule clan wars.")
