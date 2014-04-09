@@ -2149,11 +2149,25 @@ obj/portkey
 			view(src) << "The portkey collapses and closes."
 			del(src)
 	proc/Teleport(mob/Player/M)
-		M.loc = partner.loc
-		if(istype(partner.loc.loc,/area/newareas/inside/Silverblood_Maze) || \
-			istype(partner.loc.loc,/area/newareas/inside/Ratcellar))
-			if(M.flying)
-				for(var/obj/items/wearable/brooms/Broom in M.Lwearing)
-					Broom.Equip(M,1)
-		M << "You step through the portkey."
-		..()
+		if(M.Transfer(partner.loc))
+			if(istype(partner.loc.loc,/area/newareas/inside/Silverblood_Maze) || \
+				istype(partner.loc.loc,/area/newareas/inside/Ratcellar))
+				if(M.flying)
+					for(var/obj/items/wearable/brooms/Broom in M.Lwearing)
+						Broom.Equip(M,1)
+			M << "You step through the portkey."
+			..()
+
+mob/Player
+	var/tmp/teleporting = 0
+
+	proc/Transfer(turf/t)
+		if(teleporting) return 0
+		teleporting = 1
+		var/dense = density
+		density = 0
+		Move(t)
+		density = dense
+		teleporting = 0
+
+		return 1

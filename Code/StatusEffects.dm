@@ -44,8 +44,8 @@ Event
 		fire()
 			..()
 			spawn()
-				scheduler.schedule(src, world.tick_lag * 604800 * 10) // 1 week
 				toggle_clanwars()
+				scheduler.schedule(src, world.tick_lag * 604800 * 10) // 1 week
 
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)
