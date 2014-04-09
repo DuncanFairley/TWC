@@ -202,7 +202,7 @@ mob/Player/Topic(href,href_list[])
 			for(var/obj/items/wearable/invisibility_cloak/Cloak in user.Lwearing)
 				Cloak.Equip(user,1)
 		if("pm_blockplyr")
-			var/list/plyrlist = Players | fakeDEs
+			var/list/plyrlist = Shuffle(Players | fakeDEs)
 			for(var/mob/M in plyrlist)
 				if(M.name == "Deatheater")
 					plyrlist.Remove(M)
@@ -371,7 +371,7 @@ mob/Player/Topic(href,href_list[])
 				if(M.key) L.Add(M)
 			for(var/mob/fakeDE/A in world)
 				L.Add(A)
-			var/mob/input = input("Select recipient for the PM","Private Messaging") as null|mob in L
+			var/mob/input = input("Select recipient for the PM","Private Messaging") as null|mob in Shuffle(L)
 			if(input) src.curPM.pmTo = "[input]"
 			src << browse(createPM(),"window=pm_Create;size=650x400")
 		if("pm_changeSub")
@@ -386,7 +386,7 @@ mob/Player/Topic(href,href_list[])
 				if(M.key) players.Add(M)
 			for(var/mob/fakeDE/A in world)
 				players.Add(A)
-			var/mob/M = input("Select the recipient of the Private Message:","Private Messaging") as null|mob in players
+			var/mob/M = input("Select the recipient of the Private Message:","Private Messaging") as null|mob in Shuffle(players)
 			if(!M)return
 			src.PM(M)
 		if("pm_MainMenu")
@@ -448,7 +448,7 @@ mob/Player/Topic(href,href_list[])
 			else
 				Y << "You have received a <a href='?src=\ref[Y];action=pm_inbox_readmsg;msgid=[pmcounter]'>new private message</a> from <a href='?src=\ref[Y];action=pm_reply;replynametext=[src.pname ? src.pname : src.name]'>[src]</a>."
 			winset(Y,"mainwindow","flash=2")
-mob/Player/verb/PM(mob/M in Players|fakeDEs)
+mob/Player/verb/PM(mob/M in Shuffle(Players|fakeDEs))
 	if(M.name == "Deatheater")
 		alert("Cannot send private messages to Deatheaters.")
 		return

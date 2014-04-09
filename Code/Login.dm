@@ -358,6 +358,7 @@ mob/VaultGoblin
 							switch(alert("Would you like to allow someone to enter your vault, or remove someone's permission from entering?",,"Allow someone","Deny someone","Cancel"))
 								if("Allow someone")
 									var/list/peoplecount = Players + fakeDEs - usr
+									peoplecount = Shuffle(peoplecount)
 									for(var/mob/N in peoplecount)
 										if(N.name == "Deatheater" ||(istype(N,/mob/fakeDE) && N:ownerkey == usr.key))
 											peoplecount -= N

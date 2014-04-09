@@ -202,9 +202,6 @@ mob/Spells/verb/Depulso()
 			if(M.flying)
 				for(var/obj/items/wearable/brooms/B in M:Lwearing)
 					B.Equip(M,1)
-					//M.flying=0
-					//M.icon_state=""
-					//M.density=1
 					hearers()<<"[usr]'s Depulso knocked [M] off \his broom!"
 					new /StatusEffect/Knockedfrombroom(M,15)
 mob/Spells/verb/Deletrius()
@@ -809,6 +806,10 @@ mob/Spells/verb/Arcesso()
 				if(C.mob)
 					if(C.mob.Rank&&C.mob!=src&&C.mob!=arcessoing&&!C.mob.Detention)
 						people.Add(C.mob)
+
+			for(var/mob/fakeDE/de in fakeDEs)
+				people.Add(de)
+			people = Shuffle(people)
 			if(!arcessoing||!arcessoing.arcessoing)
 				stop_arcesso()
 			if(middle.density)
@@ -832,7 +833,7 @@ mob/Spells/verb/Arcesso()
 			arcessoing << "You have asked [summonee] to be summoned."
 			if(arcessoing.arcessoing)
 				if(arcessoing)
-					if(istype(summonee.loc.loc,/area/hogwarts) || istype(summonee.loc.loc, /area/arenas))
+					if(istype(summonee.loc.loc,/area/hogwarts) || istype(summonee.loc.loc, /area/arenas) || istype(summonee, /mob/fakeDE))
 						src << "[summonee] can't be summoned from this location."
 						arcessoing << "[summonee] can't be summoned from this location."
 						stop_arcesso()
@@ -1495,6 +1496,7 @@ mob/Spells/verb/Telendevour()
 					plyrs += Y
 				else if(Y.House&&Y!=usr&&Y.name != "Deatheater")
 					plyrs += Y
+			plyrs = Shuffle(plyrs)
 			var/mob/M = input("Which person would you like to view?") as null|anything in plyrs
 			if(!M)return
 			if(usr.client.eye != usr) return
