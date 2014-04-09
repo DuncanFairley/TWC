@@ -602,7 +602,7 @@ client
 		return ..()
 
 	Del()
-		if(mob && mob.base_save_allowed)
+		if(mob && isplayer(mob))
 			if(mob:isTrading())
 				mob:trade.Clean()
 			if(mob.derobe)
@@ -614,7 +614,7 @@ client
 				mob.xp4referer = 0
 			if(!mob.Gm)
 				mob.Check_Death_Drop()
-		cleanup_fakeDE(key)
+			cleanup_fakeDE(key)
 		if (base_autosave_character)
 			base_SaveMob()
 		if (base_autodelete_mob)
