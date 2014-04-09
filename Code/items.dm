@@ -468,30 +468,43 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 	icon = 'cedar_wand.dmi'
 	dropable = 0
 	verb/Delicio_Maxima()
-		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Delicio Maxima.</b></font>"
-		sleep(20)
-		for(var/mob/M in view())
-			if(M.key!=usr.key)
-				if(M.key)
+		if(src in usr:Lwearing)
+			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+				new /StatusEffect/UsedTransfiguration(usr,15)
+				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Delicio Maxima.</b></font>"
+				sleep(20)
+				for(var/mob/Player/M in ohearers(usr.client.view,usr))
+					if(M.flying) continue
+					if((locate(/obj/items/wearable/invisibility_cloak) in M.Lwearing)) continue
+					if(prob(20)) continue
 					flick("transfigure",M)
 					M.overlays = null
 					M.trnsed = 1
 					M.icon = 'Turkey.dmi'
 					M<<"<b><font color=#D6952B>Delicio Charm:</b></font> [usr] turned you into some Thanksgiving awesome-ness."
+					sleep(1)
+		else
+			usr << errormsg("You need to be using this wand to cast this.")
 obj/items/wearable/wands/maple_wand //Easter
 	icon = 'maple_wand.dmi'
 	dropable = 0
 	verb/Carrotosi_Maxima()
-		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Carrotosi Maxima.</b></font>"
-		sleep(20)
-		for(var/mob/M in view())
-			if(M.key!=usr.key)
-				if(M.key)
+		if(src in usr:Lwearing)
+			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+				new /StatusEffect/UsedTransfiguration(usr,15)
+				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Carrotosi Maxima.</b></font>"
+				sleep(20)
+				for(var/mob/Player/M in ohearers(usr.client.view,usr))
+					if(M.flying) continue
+					if((locate(/obj/items/wearable/invisibility_cloak) in M.Lwearing)) continue
+					if(prob(20)) continue
 					flick("transfigure",M)
 					M.overlays = null
 					M.trnsed = 1
 					M.icon = 'PinkRabbit.dmi'
 					M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
+					sleep(1)
+
 obj/items/wearable/wands/interruption_wand //Fred's quest
 	icon = 'interruption_wand.dmi'
 obj/items/wearable/wands/salamander_wand //Bag of goodies
