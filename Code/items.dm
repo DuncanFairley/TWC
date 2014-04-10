@@ -504,6 +504,8 @@ obj/items/wearable/wands/maple_wand //Easter
 					M.icon = 'PinkRabbit.dmi'
 					M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
 					sleep(1)
+		else
+			usr << errormsg("You need to be using this wand to cast this.")
 
 obj/items/wearable/wands/interruption_wand //Fred's quest
 	icon = 'interruption_wand.dmi'
