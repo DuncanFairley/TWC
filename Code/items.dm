@@ -2645,6 +2645,34 @@ obj/items/easterbook
 		else
 			..()
 
+obj/items/rosesbook
+	name="The Book of Roses"
+	icon='Books.dmi'
+	icon_state="roses"
+	desc = "The cover is so pretty!"
+	Click()
+		if(src in usr)
+			usr<<"<b><font color=red><font size=3>You learned Herbificus Maxima."
+			usr.verbs += /mob/Spells/verb/Herbificus_Maxima
+			loc=null
+			usr:Resort_Stacking_Inv()
+		else
+			..()
+
+obj/items/stickbook
+	name="The Crappy Artist's Guide to Stick Figures"
+	icon='Books.dmi'
+	icon_state="stick"
+	desc = "Remind me why I bought this?"
+	Click()
+		if(src in usr)
+			usr<<"<b><font color=white><font size=3>You learned Crapus Sticketh."
+			usr.verbs += /mob/Spells/verb/Crapus_Sticketh
+			loc=null
+			usr:Resort_Stacking_Inv()
+		else
+			..()
+
 obj/items/easter_egg
 	icon='Eggs.dmi'
 	desc="A colored easter egg! How nice!"
