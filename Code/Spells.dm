@@ -800,16 +800,6 @@ mob/Spells/verb/Arcesso()
 				A:owner2 = arcessoing
 			src << "You have joined [arcessoing]'s summoning."
 			arcessoing << "[src] has joined your summoning."
-
-			var/list/people = list()
-			for(var/client/C)
-				if(C.mob)
-					if(C.mob.Rank&&C.mob!=src&&C.mob!=arcessoing&&!C.mob.Detention)
-						people.Add(C.mob)
-
-			for(var/mob/fakeDE/de in fakeDEs)
-				people.Add(de)
-			people = Shuffle(people)
 			if(!arcessoing||!arcessoing.arcessoing)
 				stop_arcesso()
 			if(middle.density)
@@ -818,14 +808,14 @@ mob/Spells/verb/Arcesso()
 				arcessoing << "<i>The teleport is blocked.</i>"
 				stop_arcesso()
 				return
-			if(people.len == 0)
+			if(Players.len == 2)
 				// noone to summon
 				src << "<i>There is noone to summon.</i>"
 				arcessoing << "<i>There is noone to summon.</i>"
 				stop_arcesso()
 				return
 			var/Input/popup = new(arcessoing, "Arcesso")
-			var/mob/summonee = popup.InputList(arcessoing,"Who would you like to summon?", "Arcesso", null, people)
+			var/mob/summonee = popup.InputList(arcessoing,"Who would you like to summon?", "Arcesso", null, Players(list(src, arcessoing)))
 			if(!summonee||!arcessoing)
 				stop_arcesso()
 				return
@@ -833,7 +823,7 @@ mob/Spells/verb/Arcesso()
 			arcessoing << "You have asked [summonee] to be summoned."
 			if(arcessoing.arcessoing)
 				if(arcessoing)
-					if(istype(summonee.loc.loc,/area/hogwarts) || istype(summonee.loc.loc, /area/arenas) || istype(summonee, /mob/fakeDE))
+					if(istext(summonee) || istype(summonee.loc.loc,/area/hogwarts) || istype(summonee.loc.loc, /area/arenas) || summonee.Detention)
 						src << "[summonee] can't be summoned from this location."
 						arcessoing << "[summonee] can't be summoned from this location."
 						stop_arcesso()
@@ -888,12 +878,9 @@ mob/Spells/verb/Arcesso()
 									if(summonee.removeoMob) spawn()summonee:Permoveo()
 									sleep(5)
 									summonee << "You've been summoned by [src] and [src.arcessoing]."
-									var/dense = summonee.density
-									summonee.density = 0
-									summonee.Move(middle)
-									summonee.density = dense
-									stop_arcesso()
 									summonee.stuned = 0
+									summonee:Transfer(middle)
+									stop_arcesso()
 									summonee.icon_state = ""
 
 								else
@@ -1490,17 +1477,10 @@ mob/Spells/verb/Telendevour()
 	set popup_menu = 0
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		if(usr.client.eye==usr)
-			var/mob/plyrs = list()
-			for(var/mob/Y in world)
-				if(istype(Y,/mob/fakeDE))
-					plyrs += Y
-				else if(Y.House&&Y!=usr&&Y.name != "Deatheater")
-					plyrs += Y
-			plyrs = Shuffle(plyrs)
-			var/mob/M = input("Which person would you like to view?") as null|anything in plyrs
+			var/mob/M = input("Which person would you like to view?") as null|anything in Players(list(src))
 			if(!M)return
 			if(usr.client.eye != usr) return
-			if(istype(M,/mob/fakeDE) || istype(M.loc.loc, /area/blindness) || M.occlumens>0 || M.derobe || M.aurorrobe || istype(M.loc.loc, /area/ministry_of_magic))
+			if(istext(M) || istype(M,/mob/fakeDE) || istype(M.loc.loc, /area/blindness) || M.occlumens>0 || M.derobe || M.aurorrobe || istype(M.loc.loc, /area/ministry_of_magic))
 				src<<"<b>You feel magic repelling your spell.</b>"
 			else
 				usr.client.eye=M

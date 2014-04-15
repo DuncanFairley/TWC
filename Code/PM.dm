@@ -21,13 +21,8 @@ atom/movable/PM
 		pmTo = Pto
 		..()
 proc/text2mob(var/txtMob)
-	for(var/mob/M in Players|fakeDEs)
-		if(M.name == txtMob || M.pname == txtMob)
-			if(istype(M,/mob/fakeDE))
-				for(var/client/C)
-					if(M:ownerkey == C.key)
-						M = C.mob
-						break
+	for(var/mob/M in Players)
+		if(M.name == txtMob || M.pname == txtMob || M.prevname == txtMob)
 			return M
 proc/formatName(mob/M,force=1)
 	if(M.derobe) return force ? M.prevname : "[M]"
@@ -202,12 +197,10 @@ mob/Player/Topic(href,href_list[])
 			for(var/obj/items/wearable/invisibility_cloak/Cloak in user.Lwearing)
 				Cloak.Equip(user,1)
 		if("pm_blockplyr")
-			var/list/plyrlist = Shuffle(Players | fakeDEs)
-			for(var/mob/M in plyrlist)
-				if(M.name == "Deatheater")
-					plyrlist.Remove(M)
-			var/input = input("Who don't you wish to receive messages from anymore?","Block player") as null|anything in plyrlist
+			var/input = input("Who don't you wish to receive messages from anymore?","Block player") as null|anything in Players(list(src))
 			if(input)
+				if(istext(input))
+					input = text2mob(input)
 				input = formatName(input)
 				blockedpeeps.Remove(input)
 				blockedpeeps.Add(input)
@@ -259,15 +252,12 @@ mob/Player/Topic(href,href_list[])
 
 		if("pm_reply")
 			var/mob/online = null
-			for(var/mob/M in Players|fakeDEs)
+			for(var/mob/M in Players)
 				if(formatName(M) == href_list["replynametext"])
 					online = M
 					break
 			if(online)
-				for(var/mob/fakeDE/fake in fakeDEs)
-					if(fake.ownerkey == online.key)
-						online = fake
-				//world << "Trying to PM [online.name] - [online.pname] - [online.type]"
+			//	world << "Trying to PM [online.name] - [online.pname] - [online.type]"
 				src.PM(online)
 			else
 				alert(src,"[href_list["replynametext"]] is no longer online.")
@@ -366,13 +356,11 @@ mob/Player/Topic(href,href_list[])
 	<a href='?src=\ref[src];action=pm_MainMenu'>Back to Main Menu</a>
 						"})
 		if("pm_changeRecipient")
-			var/mob/list/L = list()
-			for(var/mob/Player/M in world)
-				if(M.key) L.Add(M)
-			for(var/mob/fakeDE/A in world)
-				L.Add(A)
-			var/mob/input = input("Select recipient for the PM","Private Messaging") as null|mob in Shuffle(L)
-			if(input) src.curPM.pmTo = "[input]"
+			var/mob/input = input("Select recipient for the PM","Private Messaging") as null|anything in Players()
+			if(input)
+				if(istext(input))
+					input = text2mob(input)
+				src.curPM.pmTo = "[input]"
 			src << browse(createPM(),"window=pm_Create;size=650x400")
 		if("pm_changeSub")
 			src.curPM.name = copytext(input("Select a subject for the PM","Private Messaging",src.curPM.name),1,35)
@@ -381,12 +369,7 @@ mob/Player/Topic(href,href_list[])
 			src.curPM.body = input("Input the message for the PM","Private Messaging",src.curPM.body) as message
 			src << browse(createPM(),"window=pm_Create;size=650x400")
 		if("pm_Create")
-			var/list/players = list()
-			for(var/mob/Player/M in world)
-				if(M.key) players.Add(M)
-			for(var/mob/fakeDE/A in world)
-				players.Add(A)
-			var/mob/M = input("Select the recipient of the Private Message:","Private Messaging") as null|mob in Shuffle(players)
+			var/mob/M = input("Select the recipient of the Private Message:","Private Messaging") as null|anything in Players()
 			if(!M)return
 			src.PM(M)
 		if("pm_MainMenu")
@@ -448,10 +431,10 @@ mob/Player/Topic(href,href_list[])
 			else
 				Y << "You have received a <a href='?src=\ref[Y];action=pm_inbox_readmsg;msgid=[pmcounter]'>new private message</a> from <a href='?src=\ref[Y];action=pm_reply;replynametext=[src.pname ? src.pname : src.name]'>[src]</a>."
 			winset(Y,"mainwindow","flash=2")
-mob/Player/verb/PM(mob/M in Shuffle(Players|fakeDEs))
-	if(M.name == "Deatheater")
-		alert("Cannot send private messages to Deatheaters.")
-		return
+mob/Player/verb/PM(var/p in Players())
+	var/mob/M = p
+	if(istext(M))
+		M = text2mob(M)
 	if(M.key)
 		var/mob/Player/Y = src
 		if(derobe)
@@ -459,17 +442,6 @@ mob/Player/verb/PM(mob/M in Shuffle(Players|fakeDEs))
 		else
 			Y.curPM = new /atom/movable/PM("Subject","Body","[Y.pname ? Y.pname : Y.name]","[M.pname ? M.pname : M.name]")
 		Y.curPM.body = input("Input the main text of the Private Message being sent to [M.derobe ? M.prevname : M.name]") as message|null
-		if(!Y.curPM.body)return
-		src << link("byond://?src=\ref[src];action=pm_Send")
-	else if(M.type == /mob/fakeDE)
-		var/mob/A
-		for(var/client/C)
-			if(M:ownerkey == C.key)
-				A = C.mob
-				break
-		var/mob/Player/Y = src
-		Y.curPM = new /atom/movable/PM("Subject","Body","[Y.pname ? Y.pname : Y.name]","[A.pname ? A.pname : A.prevname]")
-		Y.curPM.body = input("Input the main text of the Private Message being sent to [M]") as message|null
 		if(!Y.curPM.body)return
 		src << link("byond://?src=\ref[src];action=pm_Send")
 

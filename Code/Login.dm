@@ -357,22 +357,12 @@ mob/VaultGoblin
 						if(V.allowedpeople && V.allowedpeople.len)
 							switch(alert("Would you like to allow someone to enter your vault, or remove someone's permission from entering?",,"Allow someone","Deny someone","Cancel"))
 								if("Allow someone")
-									var/list/peoplecount = Players + fakeDEs - usr
-									peoplecount = Shuffle(peoplecount)
-									for(var/mob/N in peoplecount)
-										if(N.name == "Deatheater" ||(istype(N,/mob/fakeDE) && N:ownerkey == usr.key))
-											peoplecount -= N
-									if(!peoplecount.len)
-										//Not any people to do anything with
-										alert("There's nobody left you can add.")
-										return
-									var/mob/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in peoplecount
+									var/mob/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in Players(list(usr))
 									if(M)
-										if(istype(M,/mob/fakeDE))
-											V.add_ckey_allowedpeople(ckey(M:ownerkey))
-										else
-											V.add_ckey_allowedpeople(M.ckey)
-										usr << npcsay("Vault Master: [M.name] can now enter your vault at any time. See me again if you wish to change this.")
+										if(istext(M))
+											M = text2mob(M)
+										V.add_ckey_allowedpeople(M.ckey)
+										usr << npcsay("Vault Master: [M.derobe ? M.prevname : M.name] can now enter your vault at any time. See me again if you wish to change this.")
 								if("Deny someone")
 									var/list/name_ckey_assoc = V.name_ckey_assoc()
 									var/M = input("Who would you like to deny entrance to vault?") as null|anything in name_ckey_assoc
@@ -380,21 +370,16 @@ mob/VaultGoblin
 										V.remove_ckey_allowedpeople(name_ckey_assoc[M])
 										usr << npcsay("Vault Master: [M] can no longer enter your vault.")
 						else
-							var/list/peoplecount = Players + fakeDEs - usr
-							for(var/mob/N in peoplecount)
-								if(N.name == "Deatheater" ||(istype(N,/mob/fakeDE) && N:ownerkey == usr.key))
-									peoplecount -= N
-							if(!peoplecount.len)
+							if(Players.len == 1)
 								//Not any people to do anything with
 								alert("There's nobody left you can add.")
 								return
-							var/mob/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in peoplecount
+							var/mob/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in Players(list(usr))
 							if(M)
-								if(istype(M,/mob/fakeDE))
-									V.add_ckey_allowedpeople(ckey(M:ownerkey))
-								else
-									V.add_ckey_allowedpeople(M.ckey)
-								usr << npcsay("Vault Master: [M.name] can now enter your vault at any time. See me again if you wish to change this.")
+								if(istext(M))
+									M = text2mob(M)
+								V.add_ckey_allowedpeople(M.ckey)
+								usr << npcsay("Vault Master: [M.derobe ? M.prevname : M.name] can now enter your vault at any time. See me again if you wish to change this.")
 					else
 						usr << npcsay("Vault Master: See me again if you need to change anything with your vault.")
 
@@ -1660,6 +1645,7 @@ obj
 				isopen = !isopen
 		verb
 			Drop_All()
+				set category = null
 				//var/tmpname = ""
 				//var/isscroll=0
 				for(var/obj/items/O in contains)

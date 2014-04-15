@@ -480,3 +480,13 @@ proc
 
 	isplayer(atom/A)
 		return istype(A, /mob/Player)
+
+	Players(list/Remove=null)
+		var/list/L = list()
+		for(var/mob/Player/p in Players)
+			if(Remove != null && (p in Remove)) continue
+			if(p.derobe)
+				L.Add(p.prevname)
+			else
+				L.Add(p)
+		return L
