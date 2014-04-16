@@ -1,5 +1,5 @@
 /*
- * Copyright ï¿½ 2014 Duncan Fairley
+ * Copyright © 2014 Duncan Fairley
  * Distributed under the GNU Affero General Public License, version 3.
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
@@ -1601,8 +1601,8 @@ mob/Player
 			stat("Level:",src.level)
 			stat("HP:","[src.HP]/[src.MHP+src.extraMHP]")
 			stat("MP:","[src.MP]/[src.MMP+src.extraMMP]")
-			stat("Damage:","[usr.Dmg+usr.extraDmg]")
-			stat("Defense:","[usr.Def+usr.extraDef]")
+			stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
+			stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
 			stat("House:",src.House)
 			stat("EXP:","[src.Exp]/[src.Mexp]")
 			stat("Stat points:",src.StatPoints)
