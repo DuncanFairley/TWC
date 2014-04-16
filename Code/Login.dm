@@ -73,6 +73,7 @@ mob/test/verb
 
 obj/teleport
 	var/dest = ""
+	var/pass
 	invisibility = 2
 	portkey
 		icon='blue2.dmi'
@@ -81,6 +82,15 @@ obj/teleport
 		invisibility = 0
 	proc/Teleport(mob/M)
 		if(dest)
+			if(pass && pass != "")
+				var/pw = input(M, "You feel this spot was enchanted with a password protected teleporting spell","Teleport","") as null|text
+				if(!pw || M.loc != src) return
+				if(pw == pass)
+					M<<"<font color=green><b>Authorization Confirmed."
+				else
+					M<<"<font color=red><b>Authorization Denied."
+					return
+
 			if(M.key)
 				var/atom/A = locate(dest) //can be some turf, or some obj
 				if(isobj(A))
