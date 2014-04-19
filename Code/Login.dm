@@ -521,6 +521,9 @@ mob/verb/DisableBetaMapMode()
 
 mob/test/verb/Tick_Lag(newnum as num)
 	world.tick_lag = newnum
+mob/test/verb/CurrentRefNum()
+	var/obj/o = new()
+	src << "\ref[o]"
 var/list/housepointsGSRH = new/list(6)
 
 mob/test/verb/Modify_Housepoints()
