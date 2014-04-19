@@ -277,7 +277,7 @@ mob
 			if(client)
 				for(var/client/C)
 					if(C.mob)
-						if(C.mob.Gm) C.mob <<"<B><I>[src][refererckey==C.ckey ? "(referral)" : ""] ([src.client.address]) logged in.</I></B>"
+						if(C.mob.Gm) C.mob <<"<B><I>[src][refererckey==C.ckey ? "(referral)" : ""] ([src.client.address])([ckey]) logged in.</I></B>"
 						else C.mob <<"<B><I>[src][refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B>"
 				usr.Teleblock=0
 				usr<<browse(rules,"window=1;size=500x400")
@@ -290,7 +290,12 @@ mob
 					usr.client.screen += Z
 				if(src:lastreadDP < dplastupdate)
 					usr << "<u><font color=red>The Daily Prophet has an issue that you haven't yet read. Click Daily Prophet in your commands to read.</font></u>"
+				if(VERSION != src:lastversion)
+					src:lastversion = VERSION
+					src<<"<b><font size=2>TWC had an update since you last logged in! A list of changes can be found <a href='?src=\ref[src];action=view_changelog'>here.</a></font></b>"
+				src:clean_quests()
 
+mob/Player/var/lastversion
 var/rules = file("rules.html")
 
 mob/BaseCamp
@@ -598,7 +603,7 @@ client
 		return ..()
 
 	Del()
-		if(mob && mob.base_save_allowed)
+		if(mob && isplayer(mob))
 			if(mob:isTrading())
 				mob:trade.Clean()
 			if(mob.derobe)
@@ -610,7 +615,7 @@ client
 				mob.xp4referer = 0
 			if(!mob.Gm)
 				mob.Check_Death_Drop()
-		cleanup_fakeDE(key)
+			cleanup_fakeDE(key)
 		if (base_autosave_character)
 			base_SaveMob()
 		if (base_autodelete_mob)

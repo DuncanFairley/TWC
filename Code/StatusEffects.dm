@@ -44,8 +44,8 @@ Event
 		fire()
 			..()
 			spawn()
-				scheduler.schedule(src, world.tick_lag * 604800 * 10) // 1 week
 				toggle_clanwars()
+				scheduler.schedule(src, world.tick_lag * 604800 * 10) // 1 week
 
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)
@@ -167,6 +167,8 @@ StatusEffect
 	UsedSnowRing
 	UsedArcesso
 	UsedProtego
+	UsedShelleh
+	DepulsoText
 	var/Event/e_StatusEffect/AttachedEvent	//Not required - Contains /Event/e_StatusEffect to automatically cancel the StatusEffect
 	var/atom/AttachedAtom	//Required - Contains the /atom which the StatusEffect is attached to
 	proc

@@ -11,7 +11,7 @@ trading
 		..()
 		src.parent = parent
 		src.with   = with
-		winset(parent, null, {"Trade.is-visible=true;Trade.Name1.text="[formatName(parent.name,0)]";Trade.Name2.text="[formatName(with.name,0)]";Trade.GoldInput.text=0"})
+		winset(parent, null, {"Trade.is-visible=true;Trade.Name1.text="[formatName(parent,0)]";Trade.Name2.text="[formatName(with,0)]";Trade.GoldInput.text=0"})
 
 	proc
 		Deal(end = 0)
@@ -56,7 +56,7 @@ mob/Player
 			return trade && trade.with
 	verb
 		Trade()
-			set src in orange(2)
+			set src in oview(2)
 			set category = null
 			var/mob/Player/trader = usr
 
@@ -78,7 +78,8 @@ mob/Player
 
 		ATrade(action as text)
 			set hidden = 1
-			if(!trade || !trade.with)
+			if(!trade) return
+			if(!trade.with)
 				trade.Clean()
 				return
 
@@ -93,29 +94,36 @@ mob/Player
 				else
 					trade.accept = 1
 					if(trade.with.trade.accept)
+						var/log = FALSE
+						var/html = ""
+						if(trade.items.len > 0 || trade.with.trade.items.len > 0)
+							log = TRUE
+							html += "<tr><td><ul>"
+							for(var/obj/i in trade.items)
+								html += "<li>" + i.name + (istype(i, /obj/items/scroll) ? " (scroll)" : "") + "</li>"
 
+							html += "</ul></td><td>"
 
-						var/html = {"
+							for(var/obj/i in trade.with.trade.items)
+								html += "<li>" + i.name + (istype(i, /obj/items/scroll) ? " (scroll)" : "") + "</li>"
+
+							html += "</ul></td></tr>"
+						if(trade.gold > 0 || trade.with.trade.gold > 0)
+							log = TRUE
+							html += "<tr><td>[comma(trade.gold)] Gold</td><td>[comma(trade.with.trade.gold)] Gold</td></tr>"
+						if(log)
+							html = {"
 <table border="1">
 	<tr>
-		<td colspan="2">[time2text(world.realtime,"MMM DD - hh:mm")]</td>
+		<td colspan="2"><center>[time2text(world.realtime,"MMM DD - hh:mm")]</center></td>
 	</tr>
 		<td>[src]([src.key])([src.client.address])</td>
 		<td>[trade.with]([trade.with.key])([trade.with.client.address])</td>
-	<tr>
-		<td><ul>"}
-
-						for(var/obj/i in trade.items)
-							html += "<li>" + i.name + (istype(i, /obj/items/scroll) ? " (scroll)" : "") + "</li>"
-
-						html += "</ul></td><td>"
-
-						for(var/obj/i in trade.with.trade.items)
-							html += "<li>" + i.name + (istype(i, /obj/items/scroll) ? " (scroll)" : "") + "</li>"
-
-
-						html += "</ul></td></tr><tr><td>[comma(trade.gold)] Gold</td><td>[comma(trade.with.trade.gold)] Gold</td></tr></table><br>"
-						goldlog << html
+	</tr>
+	[html]
+</table><br>
+"}
+							goldlog << html
 
 
 						trade.Deal()

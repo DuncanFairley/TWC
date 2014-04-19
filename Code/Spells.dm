@@ -189,20 +189,22 @@ mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
 		usr << "You must hold a wand to cast this spell."
 mob/Spells/verb/Depulso()
 	set category="Spells"
-	var/mob/Player/M
+	var/mob/M
 	for(M in get_step(usr,usr.dir))
 		if(!M.key && !istype(M,/mob/Victims)) return
 		step_away(M,usr,15)
-		hearers()<<"<b><font color=red>[usr]:</font></b> Depulso!"
-		M<<"You were pushed backwards by [usr]'s Depulso Charm."
-		if(M.flying)
-			for(var/obj/items/wearable/brooms/B in M.Lwearing)
-				B.Equip(M,1)
-				//M.flying=0
-				//M.icon_state=""
-				//M.density=1
-				hearers()<<"[usr]'s Depulso knocked [M] off \his broom!"
-				new /StatusEffect/Knockedfrombroom(M,15)
+
+		if(!findStatusEffect(/StatusEffect/DepulsoText))
+			new /StatusEffect/DepulsoText(src,5)
+			hearers()<<"<b><font color=red>[usr]:</font></b> Depulso!"
+
+		if(isplayer(M))
+			M<<"You were pushed backwards by [usr]'s Depulso Charm."
+			if(M.flying)
+				for(var/obj/items/wearable/brooms/B in M:Lwearing)
+					B.Equip(M,1)
+					hearers()<<"[usr]'s Depulso knocked [M] off \his broom!"
+					new /StatusEffect/Knockedfrombroom(M,15)
 mob/Spells/verb/Deletrius()
 	set category="Spells"
 	var/mob/Player/user = usr
@@ -364,34 +366,18 @@ mob/Spells/verb/Herbificus_Maxima()
 		hearers()<<"<b><Font color=red>[usr]:</font> Herbificus MAXIMA!"
 mob/Spells/verb/Shelleh()
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		var/obj/egg/a = new(locate(src.x,src.y-1,src.z))
-		var/obj/egg/b = new(locate(src.x+1,src.y-1,src.z))
-		var/obj/egg/c = new(locate(src.x+1,src.y,src.z))
-		var/obj/egg/d = new(locate(src.x+1,src.y+1,src.z))
-		var/obj/egg/e = new(locate(src.x,src.y+1,src.z))
-		var/obj/egg/f = new(locate(src.x-1,src.y+1,src.z))
-		var/obj/egg/g = new(locate(src.x-1,src.y,src.z))
-		var/obj/egg/h = new(locate(src.x-1,src.y-1,src.z))
-		flick('magic.dmi',a)
-		flick('magic.dmi',b)
-		flick('magic.dmi',c)
-		flick('magic.dmi',d)
-		flick('magic.dmi',e)
-		flick('magic.dmi',f)
-		flick('magic.dmi',g)
-		flick('magic.dmi',h)
+	if(canUse(src,cooldown=/StatusEffect/UsedShelleh,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
+		new /StatusEffect/UsedShelleh(src,60)
+
+		for(var/turf/t in oview(rand(1,3)))
+			if(t.density) continue
+			if(prob(40))  continue
+			if(t == loc)  continue
+			new /obj/egg (t)
+			sleep(1)
+
 		hearers()<<"<b><font color=red>[usr]:</font> <font color=white>Shelleh."
-		src = null
-		spawn(150)
-			del a
-			del b
-			del c
-			del d
-			del e
-			del f
-			del g
-			del h
+
 mob/Spells/verb/Solidus()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
@@ -815,12 +801,6 @@ mob/Spells/verb/Arcesso()
 				A:owner2 = arcessoing
 			src << "You have joined [arcessoing]'s summoning."
 			arcessoing << "[src] has joined your summoning."
-
-			var/list/people = list()
-			for(var/client/C)
-				if(C.mob)
-					if(C.mob.Rank&&C.mob!=src&&C.mob!=arcessoing&&!C.mob.Detention)
-						people.Add(C.mob)
 			if(!arcessoing||!arcessoing.arcessoing)
 				stop_arcesso()
 			if(middle.density)
@@ -829,14 +809,14 @@ mob/Spells/verb/Arcesso()
 				arcessoing << "<i>The teleport is blocked.</i>"
 				stop_arcesso()
 				return
-			if(people.len == 0)
+			if(Players.len == 2)
 				// noone to summon
 				src << "<i>There is noone to summon.</i>"
 				arcessoing << "<i>There is noone to summon.</i>"
 				stop_arcesso()
 				return
 			var/Input/popup = new(arcessoing, "Arcesso")
-			var/mob/summonee = popup.InputList(arcessoing,"Who would you like to summon?", "Arcesso", null, people)
+			var/mob/summonee = popup.InputList(arcessoing,"Who would you like to summon?", "Arcesso", null, Players(list(src, arcessoing)))
 			if(!summonee||!arcessoing)
 				stop_arcesso()
 				return
@@ -844,7 +824,7 @@ mob/Spells/verb/Arcesso()
 			arcessoing << "You have asked [summonee] to be summoned."
 			if(arcessoing.arcessoing)
 				if(arcessoing)
-					if(istype(summonee.loc.loc,/area/hogwarts) || istype(summonee.loc.loc, /area/arenas))
+					if(istext(summonee) || istype(summonee.loc.loc,/area/hogwarts) || istype(summonee.loc.loc, /area/arenas) || summonee.Detention)
 						src << "[summonee] can't be summoned from this location."
 						arcessoing << "[summonee] can't be summoned from this location."
 						stop_arcesso()
@@ -899,12 +879,9 @@ mob/Spells/verb/Arcesso()
 									if(summonee.removeoMob) spawn()summonee:Permoveo()
 									sleep(5)
 									summonee << "You've been summoned by [src] and [src.arcessoing]."
-									var/dense = summonee.density
-									summonee.density = 0
-									summonee.Move(middle)
-									summonee.density = dense
-									stop_arcesso()
 									summonee.stuned = 0
+									summonee:Transfer(middle)
+									stop_arcesso()
 									summonee.icon_state = ""
 
 								else
@@ -1501,16 +1478,10 @@ mob/Spells/verb/Telendevour()
 	set popup_menu = 0
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		if(usr.client.eye==usr)
-			var/mob/plyrs = list()
-			for(var/mob/Y in world)
-				if(istype(Y,/mob/fakeDE))
-					plyrs += Y
-				else if(Y.House&&Y!=usr&&Y.name != "Deatheater")
-					plyrs += Y
-			var/mob/M = input("Which person would you like to view?") as null|anything in plyrs
+			var/mob/M = input("Which person would you like to view?") as null|anything in Players(list(src))
 			if(!M)return
 			if(usr.client.eye != usr) return
-			if(istype(M,/mob/fakeDE) || istype(M.loc.loc, /area/blindness) || M.occlumens>0 || M.derobe || M.aurorrobe || istype(M.loc.loc, /area/ministry_of_magic))
+			if(istext(M) || istype(M,/mob/fakeDE) || istype(M.loc.loc, /area/blindness) || M.occlumens>0 || M.derobe || M.aurorrobe || istype(M.loc.loc, /area/ministry_of_magic))
 				src<<"<b>You feel magic repelling your spell.</b>"
 			else
 				usr.client.eye=M
@@ -1621,30 +1592,34 @@ mob/Spells/verb/Flippendo()
 		del S
 mob/Spells/verb/Wingardium_Leviosa()
 	set category="Spells"
-	if(locate(/obj/items/wearable/wands) in usr:Lwearing)
-		if(!Wingardiumleviosa)
+	if(!Wingardiumleviosa)
+		if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,target=null,mpreq=0))
 			var/obj/other=input("What do you wish to levitate?") as null|obj in oview()
 			if(isnull(other))return
 			if(other.wlable == 1)
 				usr.Wingardiumleviosa = 1
 				usr.wingobject=other
-				hearers(5,usr)<<"<B>[usr.name]: <I>Wingardium Leviosa.</I>"
+				hearers(client.view)<<"<B>[usr.name]: <I>Wingardium Leviosa.</I>"
 				other.overlays += new /obj/overlay/flash
-				spawn(100)
-					if(usr)usr.wingobject=null
+
+				src=null
+				spawn()
+					var/seconds = 60
+					while(usr && Wingardiumleviosa && seconds > 0)
+						seconds--
+						sleep(10)
+					if(usr)
+						usr.wingobject=null
+						usr.Wingardiumleviosa = null
 					other.overlays=null
-					if(usr)usr.Wingardiumleviosa = null
 			else
-				usr << "That object is not movable."
-		else
-			usr<< "You let go of the object you were holding."
-			for(var/obj/D in world)
-				if(src.wingobject == D)
-					D.overlays = null
-					usr.wingobject=null
-					usr.Wingardiumleviosa = null
+				src << errormsg("That object is not movable.")
 	else
-		usr << "You cannot cast this without a wand."
+		src << infomsg("You let go of the object you were holding.")
+		wingobject.overlays = null
+		wingobject=null
+		Wingardiumleviosa = null
+
 mob/Spells/verb/Imperio(mob/other in oview()&Players)
 	set category="Spells"
 	if(!Imperio)
@@ -1800,7 +1775,10 @@ obj
 						src.SteppedOn(O)
 					else if(istype(O,/obj/clanpillar))
 						src.SteppedOn(O)
-				if(istype(M, /obj/clanpillar))
+				if(istype(M,/obj/egg))
+					var/obj/egg/E = M
+					E.Hit()
+				else if(istype(M, /obj/clanpillar))
 					var/obj/clanpillar/C = M
 					if(1)
 						switch(C.clan)
@@ -2056,19 +2034,19 @@ mob/var/tmp/trnsed = 0
 mob
 	mouse_drag_pointer = MOUSE_DRAG_POINTER
 mob/GM/verb/Remote_View(mob/M in world)
-	set category="Spells"
+	set category="Staff"
 	set popup_menu = 0
 	if(M.derobe||M.aurorrobe||M.type == /mob/fakeDE ||istype(M.loc.loc, /area/ministry_of_magic||istype(M.loc.loc, /area/blindness))){src<<"<b>You cannot use remote view on this person.";return}
 	usr.client.eye=M
 	usr.client.perspective=EYE_PERSPECTIVE
 	hearers()<<"[usr] sends \his view elsewhere."
 mob/GM/verb/HM_Remote_View(mob/M in world)
-	set category="Spells"
+	set category="Staff"
 	set popup_menu = 0
 	usr.client.eye=M
 	usr.client.perspective=EYE_PERSPECTIVE
 mob/GM/verb/Return_View()
-	set category="Spells"
+	set category="Staff"
 	usr.client.eye=usr
 	usr.client.perspective=MOB_PERSPECTIVE
 	usr<<"You return to your body."
@@ -2084,15 +2062,14 @@ mob
 mob/Player
 	Move(loc,dir)
 		if(wingobject)
+			var/turf/t = get_step(wingobject,dir)
 			if(istype(wingobject.loc,/mob))
-				usr<< "You let go of the object you were holding."
-				for(var/obj/D in world)
-					if(src.wingobject == D)
-						D.overlays = null
-						usr.wingobject=null
-						usr.Wingardiumleviosa = null
-			else
-				step(wingobject,dir)
+				src << infomsg("You let go of the object you were holding.")
+				wingobject.overlays = null
+				wingobject=null
+				Wingardiumleviosa = null
+			else if(t && (t in view(client.view)))
+				wingobject.Move(t)
 			return
 		if(src.questionius==1)
 			src.overlays-=icon('hand.dmi')
@@ -2150,11 +2127,25 @@ obj/portkey
 			view(src) << "The portkey collapses and closes."
 			del(src)
 	proc/Teleport(mob/Player/M)
-		M.loc = partner.loc
-		if(istype(partner.loc.loc,/area/newareas/inside/Silverblood_Maze) || \
-			istype(partner.loc.loc,/area/newareas/inside/Ratcellar))
-			if(M.flying)
-				for(var/obj/items/wearable/brooms/Broom in M.Lwearing)
-					Broom.Equip(M,1)
-		M << "You step through the portkey."
-		..()
+		if(M.Transfer(partner.loc))
+			if(istype(partner.loc.loc,/area/newareas/inside/Silverblood_Maze) || \
+				istype(partner.loc.loc,/area/newareas/inside/Ratcellar))
+				if(M.flying)
+					for(var/obj/items/wearable/brooms/Broom in M.Lwearing)
+						Broom.Equip(M,1)
+			M << "You step through the portkey."
+			..()
+
+mob/Player
+	var/tmp/teleporting = 0
+
+	proc/Transfer(turf/t)
+		if(teleporting) return 0
+		teleporting = 1
+		var/dense = density
+		density = 0
+		Move(t)
+		density = dense
+		teleporting = 0
+
+		return 1

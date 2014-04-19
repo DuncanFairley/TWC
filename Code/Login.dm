@@ -73,6 +73,7 @@ mob/test/verb
 
 obj/teleport
 	var/dest = ""
+	var/pass
 	invisibility = 2
 	portkey
 		icon='blue2.dmi'
@@ -81,6 +82,15 @@ obj/teleport
 		invisibility = 0
 	proc/Teleport(mob/M)
 		if(dest)
+			if(pass && pass != "")
+				var/pw = input(M, "You feel this spot was enchanted with a password protected teleporting spell","Teleport","") as null|text
+				if(!pw || M.loc != src) return
+				if(pw == pass)
+					M<<"<font color=green><b>Authorization Confirmed."
+				else
+					M<<"<font color=red><b>Authorization Denied."
+					return
+
 			if(M.key)
 				var/atom/A = locate(dest) //can be some turf, or some obj
 				if(isobj(A))
@@ -357,21 +367,12 @@ mob/VaultGoblin
 						if(V.allowedpeople && V.allowedpeople.len)
 							switch(alert("Would you like to allow someone to enter your vault, or remove someone's permission from entering?",,"Allow someone","Deny someone","Cancel"))
 								if("Allow someone")
-									var/list/peoplecount = Players + fakeDEs - usr
-									for(var/mob/N in peoplecount)
-										if(N.name == "Deatheater" ||(istype(N,/mob/fakeDE) && N:ownerkey == usr.key))
-											peoplecount -= N
-									if(!peoplecount.len)
-										//Not any people to do anything with
-										alert("There's nobody left you can add.")
-										return
-									var/mob/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in peoplecount
+									var/mob/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in Players(list(usr))
 									if(M)
-										if(istype(M,/mob/fakeDE))
-											V.add_ckey_allowedpeople(ckey(M:ownerkey))
-										else
-											V.add_ckey_allowedpeople(M.ckey)
-										usr << npcsay("Vault Master: [M.name] can now enter your vault at any time. See me again if you wish to change this.")
+										if(istext(M))
+											M = text2mob(M)
+										V.add_ckey_allowedpeople(M.ckey)
+										usr << npcsay("Vault Master: [M.derobe ? M.prevname : M.name] can now enter your vault at any time. See me again if you wish to change this.")
 								if("Deny someone")
 									var/list/name_ckey_assoc = V.name_ckey_assoc()
 									var/M = input("Who would you like to deny entrance to vault?") as null|anything in name_ckey_assoc
@@ -379,21 +380,16 @@ mob/VaultGoblin
 										V.remove_ckey_allowedpeople(name_ckey_assoc[M])
 										usr << npcsay("Vault Master: [M] can no longer enter your vault.")
 						else
-							var/list/peoplecount = Players + fakeDEs - usr
-							for(var/mob/N in peoplecount)
-								if(N.name == "Deatheater" ||(istype(N,/mob/fakeDE) && N:ownerkey == usr.key))
-									peoplecount -= N
-							if(!peoplecount.len)
+							if(Players.len == 1)
 								//Not any people to do anything with
 								alert("There's nobody left you can add.")
 								return
-							var/mob/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in peoplecount
+							var/mob/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in Players(list(usr))
 							if(M)
-								if(istype(M,/mob/fakeDE))
-									V.add_ckey_allowedpeople(ckey(M:ownerkey))
-								else
-									V.add_ckey_allowedpeople(M.ckey)
-								usr << npcsay("Vault Master: [M.name] can now enter your vault at any time. See me again if you wish to change this.")
+								if(istext(M))
+									M = text2mob(M)
+								V.add_ckey_allowedpeople(M.ckey)
+								usr << npcsay("Vault Master: [M.derobe ? M.prevname : M.name] can now enter your vault at any time. See me again if you wish to change this.")
 					else
 						usr << npcsay("Vault Master: See me again if you need to change anything with your vault.")
 
@@ -525,6 +521,9 @@ mob/verb/DisableBetaMapMode()
 
 mob/test/verb/Tick_Lag(newnum as num)
 	world.tick_lag = newnum
+mob/test/verb/CurrentRefNum()
+	var/obj/o = new()
+	src << "\ref[o]"
 var/list/housepointsGSRH = new/list(6)
 
 mob/test/verb/Modify_Housepoints()
@@ -1659,6 +1658,7 @@ obj
 				isopen = !isopen
 		verb
 			Drop_All()
+				set category = null
 				//var/tmpname = ""
 				//var/isscroll=0
 				for(var/obj/items/O in contains)
@@ -1727,6 +1727,7 @@ mob/proc/Resort_Stacking_Inv()
 	else
 		src:stackobjects = null
 mob/proc/Check_Death_Drop()
+	usr=src
 	for(var/obj/drop_on_death/O in src)
 		O.Drop()
 

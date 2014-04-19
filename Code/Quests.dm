@@ -1107,3 +1107,118 @@ obj/AlyssaChest/Silver_Spider3
 					new/obj/Alyssa/Silver_Spider_Legs(usr)
 			else
 				alert("You find nothing.")
+
+
+
+mob/Player
+	var/tmp/list/quests_progress // keep it tmp for now until it's fully tested
+
+	proc
+		clean_quests()
+			for(var/i in quests_progress)
+				if(!(i in quests))
+					quests_progress -= i
+
+			if(!quests_progress.len)
+				quests_progress = null
+var
+	list/quests
+
+
+obj/quests
+
+	var
+		quest_name
+		message
+
+	giver
+		var
+			init = 0
+			reward
+		verb
+			Talk()
+				set src in view(1)
+				if(!quests)
+					quests = list()
+				if(init)
+					var/mob/Player/p = usr
+					if(!p.quests_progress)
+						p.quests_progress = list()
+
+					if(!(quest_name in p.quests_progress) || p.quests_progress[quest_name] == 1)
+						p.quests_progress[quest_name] = 1
+						usr << npcsay(message)
+					else
+						var/flags = 1
+						for(var/i = 1; i <= quests[quest_name]; i++)
+							flags += 2 ** i
+						if(flags == p.quests_progress[quest_name])
+							p.quests_progress[quest_name] = -1
+
+							if(reward)
+								if(isnum(reward))
+									p.gold += reward
+									p << "<b><i>[src] gives you [comma(reward)] gold.</i></b>"
+								else if(istext(reward))
+									p << npcsay(reward)
+								else
+									var/obj/O = new reward(p)
+									p.Resort_Stacking_Inv()
+									p << " <font size=2 color=red>[src] hands you their [O.name]."
+
+				else
+					init()
+					usr << infomsg("Quest initilized")
+		proc
+			init()
+				quests[quest_name] = 0
+				init = 1
+		New()
+			..()
+			spawn(5)
+				if(init)
+					init()
+	progress
+
+		var
+			item
+			id
+
+		item
+			item = 1
+			verb
+				Take()
+					set src in view(1)
+					prog(usr)
+		npc
+			item = 0
+			verb
+				Talk()
+					set src in view(1)
+					prog(usr)
+		verb
+			Init()
+				set src in view(1)
+				init()
+
+		proc
+			init()
+				verbs -= /obj/quests/progress/verb/Init
+				quests[quest_name]++
+				id = 2 ** quests[quest_name]
+
+			prog(mob/Player/p)
+				if((quest_name in p.quests_progress) && p.quests_progress[quest_name] > 0)
+					if((p.quests_progress[quest_name] & id) == id)
+						p << (item ? errormsg("You already took this item.") : message)
+					else
+						p << infomsg(message)
+						p.quests_progress[quest_name] += id
+				else
+					p << (item ? errormsg("You don't see any use for this.") : npcsay("[name] says: Hello again!"))
+
+		New()
+			..()
+			spawn(10)
+				if(id)
+					init()

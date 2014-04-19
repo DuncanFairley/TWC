@@ -100,56 +100,6 @@ mob/greenmanno
 			set src in oview(2)
 			alert("The Green Man Group is currently working on their new products for this month.")
 
-obj/easterbook
-	name="The Easter Bunnies Guide to Magic"
-	icon='Books.dmi'
-	icon_state="easter"
-	verb
-		Examine()
-			set src in view(3)
-			usr << "Who would of thought the Easter bunny wrote a book..."
-	verb
-		Read_Book()
-			usr<<"<b><font color=white><font size=3>You learned Shelleh."
-			usr.verbs += /mob/Spells/verb/Shelleh
-		Destroy()
-			switch(input("Are you sure you want to destroy your Easter Book?","Destroy?")in list("Yes","No"))
-				if("Yes")
-					del src
-				if("No")
-					return
-
-obj/rosesbook
-	name="The Book of Roses"
-	icon='Books.dmi'
-	icon_state="roses"
-	verb
-		Examine()
-			set src in view(3)
-			usr << "The cover is so pretty!"
-	verb
-		Read_Book()
-			usr<<"<b><font color=red><font size=3>You learned Herbificus Maxima."
-			usr.verbs += /mob/Spells/verb/Herbificus_Maxima
-		Destroy()
-			switch(input("Are you sure you want to destroy your Book of Roses?","Destroy?")in list("Yes","No"))
-				if("Yes")
-					del src
-				if("No")
-					return
-
-obj/stickbook
-	name="The Crappy Artist's Guide to Stick Figures"
-	icon='Books.dmi'
-	icon_state="stick"
-	verb
-		Examine()
-			set src in view(3)
-			usr << "Remind me why I bought this?"
-		Read_Book()
-			usr<<"<b><font color=white><font size=3>You learned Crapus Sticketh."
-			usr.verbs += /mob/Spells/verb/Crapus_Sticketh
-
 obj
 	flag
 		icon='flag.dmi'
