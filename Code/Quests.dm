@@ -1115,12 +1115,13 @@ mob/Player
 
 	proc
 		clean_quests()
-			for(var/i in quests_progress)
-				if(!(i in quests))
-					quests_progress -= i
+			if(quests_progress)
+				for(var/i in quests_progress)
+					if(!(i in quests))
+						quests_progress -= i
 
-			if(!quests_progress.len)
-				quests_progress = null
+				if(!quests_progress.len)
+					quests_progress = null
 var
 	list/quests
 
