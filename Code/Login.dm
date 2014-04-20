@@ -741,6 +741,7 @@ mob/GM/verb/Prize_Draw()
    goto DRAW
   if("Announce")
    hearers(client.view) << "<font color='#FF9933' size='3' face='Comic Sans MS'>[winner] was picked!</font>"
+   goto DRAW
 
 world
 	hub = "TheWizardsChronicles.TWC"
