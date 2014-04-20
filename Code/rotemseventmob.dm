@@ -129,7 +129,7 @@ atom/Click(location)
 			usr << "Pick a path to create using CreatePath verb."
 		else if(usr.CreatePath == "Delete")
 			del src
-		else
+		else if(isturf(location))
 			new usr.CreatePath(location)
 			//  Owner var
 			//var/item = new usr.CreatePath(location)

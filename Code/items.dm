@@ -468,30 +468,45 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 	icon = 'cedar_wand.dmi'
 	dropable = 0
 	verb/Delicio_Maxima()
-		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Delicio Maxima.</b></font>"
-		sleep(20)
-		for(var/mob/M in view())
-			if(M.key!=usr.key)
-				if(M.key)
+		if(src in usr:Lwearing)
+			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+				new /StatusEffect/UsedTransfiguration(usr,15)
+				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Delicio Maxima.</b></font>"
+				sleep(20)
+				for(var/mob/Player/M in ohearers(usr.client.view,usr))
+					if(M.flying) continue
+					if((locate(/obj/items/wearable/invisibility_cloak) in M.Lwearing)) continue
+					if(prob(20)) continue
 					flick("transfigure",M)
 					M.overlays = null
 					M.trnsed = 1
 					M.icon = 'Turkey.dmi'
 					M<<"<b><font color=#D6952B>Delicio Charm:</b></font> [usr] turned you into some Thanksgiving awesome-ness."
+					sleep(1)
+		else
+			usr << errormsg("You need to be using this wand to cast this.")
 obj/items/wearable/wands/maple_wand //Easter
 	icon = 'maple_wand.dmi'
 	dropable = 0
 	verb/Carrotosi_Maxima()
-		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Carrotosi Maxima.</b></font>"
-		sleep(20)
-		for(var/mob/M in view())
-			if(M.key!=usr.key)
-				if(M.key)
+		if(src in usr:Lwearing)
+			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+				new /StatusEffect/UsedTransfiguration(usr,15)
+				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Carrotosi Maxima.</b></font>"
+				sleep(20)
+				for(var/mob/Player/M in ohearers(usr.client.view,usr))
+					if(M.flying) continue
+					if((locate(/obj/items/wearable/invisibility_cloak) in M.Lwearing)) continue
+					if(prob(20)) continue
 					flick("transfigure",M)
 					M.overlays = null
 					M.trnsed = 1
 					M.icon = 'PinkRabbit.dmi'
 					M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
+					sleep(1)
+		else
+			usr << errormsg("You need to be using this wand to cast this.")
+
 obj/items/wearable/wands/interruption_wand //Fred's quest
 	icon = 'interruption_wand.dmi'
 obj/items/wearable/wands/salamander_wand //Bag of goodies
@@ -1818,14 +1833,6 @@ obj/stone
 		..()
 		spawn(600)del(src)
 
-obj/egg
-	icon='Easter Stuff.dmi'
-	icon_state="egg"
-	density=1
-	dontsave=1
-	New()
-		..()
-		spawn(150)del(src)
 obj/Arania_Eximae
 	icon='attacks.dmi'
 	icon_state="missle"
@@ -2626,5 +2633,95 @@ obj/Wand_Shelf
 					usr<<"You grab 'Transfiguration for Dummies' from the Bookshelf."
 */
 
+obj/items/easterbook
+	name="The Easter Bunnies Guide to Magic"
+	icon='Books.dmi'
+	icon_state="easter"
+	desc = "Who would of thought the Easter bunny wrote a book..."
+	Click()
+		if(src in usr)
+			usr.verbs += /mob/Spells/verb/Shelleh
+			usr<<"<b><font color=white><font size=3>You learned Shelleh."
+			loc=null
+			usr:Resort_Stacking_Inv()
+		else
+			..()
 
+obj/items/rosesbook
+	name="The Book of Roses"
+	icon='Books.dmi'
+	icon_state="roses"
+	desc = "The cover is so pretty!"
+	Click()
+		if(src in usr)
+			usr<<"<b><font color=red><font size=3>You learned Herbificus Maxima."
+			usr.verbs += /mob/Spells/verb/Herbificus_Maxima
+			loc=null
+			usr:Resort_Stacking_Inv()
+		else
+			..()
+
+obj/items/stickbook
+	name="The Crappy Artist's Guide to Stick Figures"
+	icon='Books.dmi'
+	icon_state="stick"
+	desc = "Remind me why I bought this?"
+	Click()
+		if(src in usr)
+			usr<<"<b><font color=white><font size=3>You learned Crapus Sticketh."
+			usr.verbs += /mob/Spells/verb/Crapus_Sticketh
+			loc=null
+			usr:Resort_Stacking_Inv()
+		else
+			..()
+
+obj/items/easter_egg
+	icon='Eggs.dmi'
+	desc="A colored easter egg! How nice!"
+
+
+	New()
+		..()
+		icon_state = pick(icon_states(icon))
+
+	Click()
+		if(src in usr)
+			new/obj/egg(usr.loc)
+			loc=null
+			usr:Resort_Stacking_Inv()
+		else
+			..()
+
+obj/egg
+	icon='Easter Stuff.dmi'
+	icon_state="egg"
+	density=1
+	dontsave=1
+	var/HP
+
+	proc
+		Hit()
+			HP--
+			if(HP <= 0)
+				if(prob(10))
+					new /obj/items/easter_egg(loc)
+				loc=null
+
+			pixel_y++
+			spawn(1)
+				pixel_y--
+
+
+
+	New()
+		..()
+		HP=rand(5,10)
+
+		flick('magic.dmi',src)
+
+		pixel_x = rand(-6,6)
+		pixel_y = rand(-6,6)
+
+		spawn(rand(600,1200))
+			loc=null
 

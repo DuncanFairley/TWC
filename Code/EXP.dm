@@ -421,18 +421,72 @@ question
 		correct  = "2"
 		wrong    = list("3", "11")
 
+	question17
+		question = "How many words are in this sentence?"
+		correct  = "Seven!"
+		wrong    = list("Eight!", "Potato!")
+
+	question18
+		question = "Where do new players start?"
+		correct  = "Diagon Alley"
+		wrong    = list("The Room of Requirement", "The Owlery")
+
+	question19
+		question = "Is this a Harry Potter themed game?"
+		correct  = "Yes"
+		wrong    = list("No","I'm sorry, I am too afk to answer right now.")
+
+	question20
+		question = "Who is the ghost of Ravenclaw House?"
+		correct  = "The Grey Lady"
+		wrong    = list("Bloody Baron", "Fat Friar", "Sir Nicholas de Mimsy-Porpington")
+
+	question21
+		question = "Who is the ghost of Gryffindor House?"
+		correct  = "Sir Nicholas de Mimsy-Porpington"
+		wrong    = list("Bloody Baron", "Fat Friar", "The Grey Lady")
+
+	question22
+		question = "Who is the ghost of Slytherin House?"
+		correct  = "Bloody Baron"
+		wrong    = list("The Grey Lady", "Fat Friar", "Sir Nicholas de Mimsy-Porpington")
+
+	question23
+		question = "Who is the ghost of Hufflepuff House?"
+		correct  = "Fat Friar"
+		wrong    = list("Bloody Baron", "The Grey Lady", "Sir Nicholas de Mimsy-Porpington")
+
+	question24
+		question = "When was TWC founded?"
+		correct  = "2005"
+		wrong    = list("1989", "2031")
+
 proc/init_books()
 	for(var/t in typesof(/question/) - /question)
 		questions += new t
 	scheduler.schedule(new/Event/AFKCheck,world.tick_lag * 600)
 
-proc/Shuffle(list/L)
-	if(!L)
-		CRASH("Shuffle failed because input list is null")
+proc
+	Shuffle(list/L)
+		if(!L)
+			CRASH("Shuffle failed because input list is null")
 
-	var/list/l = list()
-	while (L.len)
-		var/i = pick(L)
-		L -= i
-		l += i
-	return l
+		var/list/l = list()
+		while (L.len)
+			var/i = pick(L)
+			L -= i
+			l += i
+		return l
+
+	isplayer(atom/A)
+		return istype(A, /mob/Player)
+
+	Players(list/Remove=null)
+		var/list/L = list()
+		for(var/mob/Player/p in Players)
+			if(Remove != null && (p in Remove)) continue
+			if(p.derobe)
+				L.Add(p.prevname)
+			else
+				L.Add(p)
+		return L
