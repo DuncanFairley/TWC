@@ -731,10 +731,17 @@ turf
 			usr << "You step into the fireplace, and are wooshed away in a blaze of green fire."
 
 mob/GM/verb/Prize_Draw()
-	var/txt = input("Enter the names going into the draw, seperating them so that there's one name on each line.") as null|message
-	if(!txt)return
-	txt = dd_text2list(txt,"\n")
-	alert("The magical box of Murra-Awesome draws the name: [pick(txt)]")
+ var/txt = input("Enter the names going into the draw, seperating them so that there's one name on each line.") as null|message
+ if(!txt)return
+ txt = dd_text2list(txt,"\n")
+ DRAW
+ var/winner = pick(txt)
+ switch(alert("The magical box of Murra-Awesome draws the name: [winner]", "Prize Draw", "Redraw", "Announce", "Cancel"))
+  if("Redraw")
+   goto DRAW
+  if("Announce")
+   hearers(client.view) << "<font color='#FF9933' size='3' face='Comic Sans MS'>[winner] was picked!</font>"
+
 world
 	hub = "TheWizardsChronicles.TWC"
 	name = "Harry Potter: The Wizards' Chronicles"
@@ -1600,6 +1607,8 @@ mob/Player
 			stat("Level:",src.level)
 			stat("HP:","[src.HP]/[src.MHP+src.extraMHP]")
 			stat("MP:","[src.MP]/[src.MMP+src.extraMMP]")
+			stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
+			stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
 			stat("House:",src.House)
 			stat("EXP:","[src.Exp]/[src.Mexp]")
 			stat("Stat points:",src.StatPoints)
