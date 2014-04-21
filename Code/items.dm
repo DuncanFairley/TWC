@@ -480,6 +480,7 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 					flick("transfigure",M)
 					M.overlays = null
 					M.trnsed = 1
+					if(M.away)M.ApplyAFKOverlay()
 					M.icon = 'Turkey.dmi'
 					M<<"<b><font color=#D6952B>Delicio Charm:</b></font> [usr] turned you into some Thanksgiving awesome-ness."
 					sleep(1)
@@ -501,6 +502,7 @@ obj/items/wearable/wands/maple_wand //Easter
 					flick("transfigure",M)
 					M.overlays = null
 					M.trnsed = 1
+					if(M.away)M.ApplyAFKOverlay()
 					M.icon = 'PinkRabbit.dmi'
 					M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
 					sleep(1)
