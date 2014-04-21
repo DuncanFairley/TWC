@@ -478,6 +478,7 @@ mob
 					src.Wander()
 					return
 			walk_rand(src,11)
+
 		proc/BlindAttack()//removeoMob
 			if(!src.removeoMob)
 				return
@@ -494,8 +495,8 @@ mob
 						else
 							spawn() M.Death_Check(src)
 					break
-			sleep(15)
-			BlindAttack()
+			spawn(15) BlindAttack()
+
 		proc/Attack(mob/M)
 			var/dmg = Dmg+extraDmg+rand(0,4)
 			if(M.level > src.level)
