@@ -110,6 +110,14 @@ mob/GM
 					M<<"<b><font color=green><font size=1>You learned Occlumency!"
 			src<<"You've taught your class the Occlumency spell."
 
+		Teach_Antifigura()
+			set category = "Teach"
+			set hidden = 1
+			for(var/mob/M in oview(client.view))
+				if(M.learnspell(/mob/Spells/verb/Antifigura))
+					M<<"<b><font color=green><font size=1>You learned Antifigura!"
+			src<<"You've taught your class the Antifigura spell."
+
 mob/var/learnedslug
 
 mob/GM

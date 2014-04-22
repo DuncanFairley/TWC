@@ -477,11 +477,12 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 					if(M.flying) continue
 					if((locate(/obj/items/wearable/invisibility_cloak) in M.Lwearing)) continue
 					if(prob(20)) continue
-					flick("transfigure",M)
-					M.overlays = null
-					M.trnsed = 1
-					M.icon = 'Turkey.dmi'
-					M<<"<b><font color=#D6952B>Delicio Charm:</b></font> [usr] turned you into some Thanksgiving awesome-ness."
+					if(usr.CanTrans(M))
+						flick("transfigure",M)
+						M.overlays = null
+						M.trnsed = 1
+						M.icon = 'Turkey.dmi'
+						M<<"<b><font color=#D6952B>Delicio Charm:</b></font> [usr] turned you into some Thanksgiving awesome-ness."
 					sleep(1)
 		else
 			usr << errormsg("You need to be using this wand to cast this.")
@@ -498,11 +499,12 @@ obj/items/wearable/wands/maple_wand //Easter
 					if(M.flying) continue
 					if((locate(/obj/items/wearable/invisibility_cloak) in M.Lwearing)) continue
 					if(prob(20)) continue
-					flick("transfigure",M)
-					M.overlays = null
-					M.trnsed = 1
-					M.icon = 'PinkRabbit.dmi'
-					M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
+					if(usr.CanTrans(M))
+						flick("transfigure",M)
+						M.overlays = null
+						M.trnsed = 1
+						M.icon = 'PinkRabbit.dmi'
+						M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
 					sleep(1)
 		else
 			usr << errormsg("You need to be using this wand to cast this.")
