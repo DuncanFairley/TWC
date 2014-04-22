@@ -480,7 +480,7 @@ mob
 			walk_rand(src,11)
 
 		proc/BlindAttack()//removeoMob
-			while(src && src.removeoMob)
+			while(src && !src.removeoMob)
 				for(var/mob/M in view(1,src))
 					if(M.key)
 						var/dmg = Dmg+extraDmg+rand(0,4)
