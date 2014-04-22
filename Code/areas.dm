@@ -902,6 +902,12 @@ area
 
 turf
 	ror1
+		Enter(atom/movable/O)
+			if(density && isplayer(O) && O:ror == 1)
+				return 1
+			else
+				.=..()
+
 		Entered(mob/Player/M)
 			if(!ismob(M))
 				return
@@ -914,6 +920,12 @@ turf
 
 turf
 	ror2
+		Enter(atom/movable/O)
+			if(density && isplayer(O) && O:ror == 2)
+				return 1
+			else
+				.=..()
+
 		Entered(mob/Player/M)
 			if(!ismob(M))
 				return
@@ -926,6 +938,12 @@ turf
 
 turf
 	ror3
+		Enter(atom/movable/O)
+			if(density && isplayer(O) && O:ror == 3)
+				return 1
+			else
+				.=..()
+
 		Entered(mob/Player/M)
 			if(!ismob(M))
 				return
