@@ -470,7 +470,7 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 	verb/Delicio_Maxima()
 		if(src in usr:Lwearing)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-				new /StatusEffect/UsedTransfiguration(usr,15)
+				new /StatusEffect/UsedTransfiguration(usr,30)
 				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Delicio Maxima.</b></font>"
 				sleep(20)
 				for(var/mob/Player/M in ohearers(usr.client.view,usr))
@@ -491,7 +491,7 @@ obj/items/wearable/wands/maple_wand //Easter
 	verb/Carrotosi_Maxima()
 		if(src in usr:Lwearing)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-				new /StatusEffect/UsedTransfiguration(usr,15)
+				new /StatusEffect/UsedTransfiguration(usr,30)
 				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Carrotosi Maxima.</b></font>"
 				sleep(20)
 				for(var/mob/Player/M in ohearers(usr.client.view,usr))
