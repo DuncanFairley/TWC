@@ -84,7 +84,7 @@ obj/teleport
 		if(dest)
 			if(pass && pass != "")
 				var/pw = input(M, "You feel this spot was enchanted with a password protected teleporting spell","Teleport","") as null|text
-				if(!pw || M.loc != src) return
+				if(!pw || M.loc != src.loc) return
 				if(pw == pass)
 					M<<"<font color=green><b>Authorization Confirmed."
 				else
