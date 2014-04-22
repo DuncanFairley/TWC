@@ -480,22 +480,21 @@ mob
 			walk_rand(src,11)
 
 		proc/BlindAttack()//removeoMob
-			if(!src.removeoMob)
-				return
-			for(var/mob/M in view(1,src))
-				if(M.key)
-					var/dmg = Dmg+extraDmg+rand(0,4)
-					if(dmg<1)
-						//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
-					else
-						M.HP -= dmg
-						view(M)<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
-						if(src.removeoMob)
-							spawn() M.Death_Check(src.removeoMob)
+			while(src && !src.removeoMob)
+				for(var/mob/M in view(1,src))
+					if(M.key)
+						var/dmg = Dmg+extraDmg+rand(0,4)
+						if(dmg<1)
+							//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 						else
-							spawn() M.Death_Check(src)
-					break
-			spawn(15) BlindAttack()
+							M.HP -= dmg
+							view(M)<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
+							if(src.removeoMob)
+								spawn() M.Death_Check(src.removeoMob)
+							else
+								spawn() M.Death_Check(src)
+						break
+				sleep(15)
 
 		proc/Attack(mob/M)
 			var/dmg = Dmg+extraDmg+rand(0,4)
