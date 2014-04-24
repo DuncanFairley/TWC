@@ -2852,6 +2852,18 @@ turf
 
 		//icon_state="snow"
 		density=0
+
+		edges
+			icon='GrassEdge.dmi'
+			north
+				dir = NORTH
+			west
+				dir = WEST
+			east
+				dir = EAST
+			south
+				dir = SOUTH
+
 	curtain1
 		icon_state="c1"
 		density=0
@@ -2999,15 +3011,40 @@ turf
 		density=0
 		layer=MOB_LAYER+7
 	water
-		icon='turf.dmi'
-		icon_state="waterreal"
+		icon='Water.dmi'
+	//	icon_state="waterreal"
 		name = "water"
 		density=0
+		var/tmp/obj/drop/rain
 		Enter(atom/movable/O, atom/oldloc)
 			if(name != "ice" && ismob(O) && O.density) return 0
 			else
 				return ..()
 
+		proc
+			rain()
+				if(rain) return
+				rain = new (src)
+			clear()
+				if(rain)
+					rain.loc = null
+					rain = null
+
+obj
+	drop
+		icon = 'water_drop.dmi'
+
+		New()
+			..()
+			spawn(rand(1,150))
+				icon_state = pick(icon_states(icon))
+				while(loc)
+					pixel_x = rand(-12,12)
+					pixel_y = rand(-13,12)
+					sleep(300)
+
+
+turf
 	floor
 		icon_state="brick"
 		density=0
@@ -3607,3 +3644,4 @@ obj
 		icon_state="mid3"
 		density=1
 		layer=2
+
