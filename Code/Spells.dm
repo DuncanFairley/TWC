@@ -745,8 +745,10 @@ mob/Spells/verb/Chaotica()
 		castproj(30,'misc.dmi',"black",dmg,"chaotica")
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=25,againstocclumens=1))
-		castproj(25,'Aqua Eructo.dmi',"",usr.Dmg+usr.extraDmg,"aqua eructo")
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		HP -= 25
+		Death_Check()
+		castproj(0,'Aqua Eructo.dmi',"",usr.Def+usr.extraDef,"aqua eructo")
 mob/Spells/verb/Inflamari()
 	set category="Spells"
 	var/dmg = round(usr.level * 0.9)
