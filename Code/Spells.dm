@@ -738,8 +738,8 @@ mob/Spells/verb/Antifigura()
 
 mob/Spells/verb/Chaotica()
 	set category="Spells"
-	var/dmg = round(usr.level)
-	if(dmg<10)dmg=10
+	var/dmg = round(usr.level * 1.1)
+	if(dmg<20)dmg=20
 	else if(dmg>2000)dmg = 2000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1))
 		castproj(30,'misc.dmi',"black",dmg,"chaotica")
