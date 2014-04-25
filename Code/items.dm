@@ -1197,9 +1197,15 @@ obj/Chaotica
 	New() spawn(60)del(src)
 turf/nofirezone
 	Enter(obj/O)
-		if(!istype(O,/obj)) return ..()
+		if(istype(O,/obj/projectile))
+			walk(O,0)
+			O.loc = null
+		else return ..()
 	Exit(obj/O)
-		if(!istype(O,/obj)) return ..()
+		if(istype(O,/obj/projectile))
+			walk(O,0)
+			O.loc = null
+		else return ..()
 turf/DynamicArena
 	name = "Arena"
 	icon = 'turf.dmi'
