@@ -59,21 +59,21 @@ atom/var/TransLastIconState
 atom/proc/findStatusEffect(var/type)
 	return src.LStatusEffects ? locate(type) in src.LStatusEffects : 0
 proc/issafezone(area/A)
-		return (!istype(A,/area/hogwarts/Duel_Arenas) && istype(A,/area/hogwarts) || istype(A,/area/Diagon_Alley))
+		return safemode && !A.safezoneoverride && (!istype(A,/area/hogwarts/Duel_Arenas) && istype(A,/area/hogwarts) || istype(A,/area/Diagon_Alley))
 proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inarena=1,var/insafezone=1,var/inhogwarts=1,var/mob/Player/target=null,var/mpreq=0,var/againstocclumens=1,var/againstflying=1,var/againstcloaked=1)
 	//Returns 1 if you can use the item/cast the spell. Also handles the printing of messages if you can't.
 	var/area/A = M.loc.loc
 	if(M.z > 26 && !inhogwarts)
 		M << "<b>You cannot use this in a vault.</b>"
 		return 0
-	if(target && !insafezone && safemode && issafezone(target.loc.loc))
+	if(target && !insafezone && issafezone(target.loc.loc))
 		M << "<b>[target] is inside a safezone.</b>"
 		return 0
 	if(!A.safezoneoverride)
 		if(!inhogwarts && istype(M.loc.loc,/area/hogwarts))
 			M << "<b>You can't use this inside hogwarts.</b>"
 			return 0
-		if(!insafezone && safemode && issafezone(M.loc.loc))
+		if(!insafezone && issafezone(M.loc.loc))
 			M << "<b>You can't use this inside a safezone.</b>"
 			return 0
 		if(!inarena && istype(M.loc.loc,/area/arenas))
