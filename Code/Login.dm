@@ -1150,7 +1150,7 @@ mob/Player
 						usr.Rictalk=1
 						return
 				else
-					if(usr.spam<=5)
+					if(usr.spam<=5 || Gm)
 						if(t)
 							t=check(t)//run the text through the cleaner
 							t = copytext(t,1,500)
@@ -1508,6 +1508,10 @@ mob/Player
 							usr.spam++
 							spawn(30)
 								usr.spam--
+							if(findtext(T, "://"))
+								usr.spam++
+								spawn(40)
+									usr.spam--
 						else
 							usr<<"Please enter something."
 					else
