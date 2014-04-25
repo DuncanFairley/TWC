@@ -2121,8 +2121,11 @@ obj/Flippendo
 		else if(istype(M, /mob) && (M.monster || M.key))
 			src.owner<<"Your [src] hit [M]!"
 			//step(M, src.dir)
-			step_away(M,src)
-			M<<"You were pushed backwards by [src.owner]'s Flippendo!"
+			var/turf/t = get_step_away(M,src)
+			if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
+				M.Move(t)
+				step_away(M,src)
+				M<<"You were pushed backwards by [src.owner]'s Flippendo!"
 		del src
 obj/Thunderous
 	icon='Powers.dmi'

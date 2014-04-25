@@ -193,7 +193,9 @@ mob/Spells/verb/Depulso()
 	var/mob/M
 	for(M in get_step(usr,usr.dir))
 		if(!M.key && !istype(M,/mob/Victims)) return
-		step_away(M,usr,15)
+		var/turf/t = get_step_away(M,usr,15)
+		if(!t || (issafezone(M.loc.loc) && !issafezone(t.loc))) return
+		M.Move(t)
 
 		if(!findStatusEffect(/StatusEffect/DepulsoText))
 			new /StatusEffect/DepulsoText(src,5)
@@ -1002,7 +1004,7 @@ mob/Spells/verb/Incindia()
 		usr.updateHPMP()
 		new /StatusEffect/UsedIncindia(src,30)
 		for(var/mob/M in oview(4))
-			if(M.key)
+			if(M.key && !issafezone(M))
 				flick('Apparate.dmi',M)
 				hearers()<<"[M] suddenly explodes!"
 				M.HP-=1000
@@ -1012,6 +1014,8 @@ mob/Spells/verb/Incindia()
 mob/Spells/verb/Replacio(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
+		if(issafezone(M.loc.loc) && !issafezone(loc.loc))
+			src << "<b>[M] is inside a safezone.</b>"
 		hearers()<<"<b><Font color=red>[usr]:</b></font> <font color=blue><B> <i>Replacio Duo.</i></B>"
 		var/startloc = usr.loc
 		flick('GMOrb.dmi',M)
