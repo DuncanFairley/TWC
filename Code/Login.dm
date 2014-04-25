@@ -3012,16 +3012,51 @@ turf
 		layer=MOB_LAYER+7
 	water
 		icon='Water.dmi'
-	//	icon_state="waterreal"
+		icon_state="water"
 		name = "water"
 		density=0
-		var/tmp/obj/drop/rain
+		var
+			tmp/obj/drop/rain
+			isice = 0 // Edit to 1 for winter
+
+		New()
+			..()
+			if(isice) ice()
+
 		Enter(atom/movable/O, atom/oldloc)
-			if(name != "ice" && ismob(O) && O.density) return 0
-			else
-				return ..()
+			if(icon_state == "water")
+				if(ismob(O) && O.density) return 0
+				if(istype(O, /obj/projectile) && O.icon_state == "iceball")
+					ice()
+			else if(icon_state == "ice")
+				if(istype(O, /obj/projectile) && O.icon_state == "fireball")
+					water()
+			return ..()
 
 		proc
+			ice()
+				if(icon_state == "ice") return
+				name       = "ice"
+				icon_state = "ice"
+				if(!isice)
+					spawn()
+						var/time = rand(30,60)
+						while(time > 0 && icon_state == "ice")
+							time--
+							sleep(10)
+						water()
+			water()
+				if(icon_state == "water") return
+				name       = "water"
+				icon_state = "water"
+
+				if(isice)
+					spawn()
+						var/time = rand(30,60)
+						while(time > 0 && icon_state == "water")
+							time--
+							sleep(10)
+						ice()
 			rain()
 				if(rain) return
 				rain = new (src)
