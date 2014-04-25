@@ -1004,7 +1004,7 @@ mob/Spells/verb/Incindia()
 		usr.updateHPMP()
 		new /StatusEffect/UsedIncindia(src,30)
 		for(var/mob/M in oview(4))
-			if(M.key && !issafezone(M))
+			if(M.key && !issafezone(M.loc.loc))
 				flick('Apparate.dmi',M)
 				hearers()<<"[M] suddenly explodes!"
 				M.HP-=1000
@@ -1016,6 +1016,7 @@ mob/Spells/verb/Replacio(mob/M in oview()&Players)
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
 		if(issafezone(M.loc.loc) && !issafezone(loc.loc))
 			src << "<b>[M] is inside a safezone.</b>"
+			return
 		hearers()<<"<b><Font color=red>[usr]:</b></font> <font color=blue><B> <i>Replacio Duo.</i></B>"
 		var/startloc = usr.loc
 		flick('GMOrb.dmi',M)
@@ -1813,6 +1814,7 @@ obj
 				//src.loc = null
 		var/player=0
 		Bump(mob/M)
+			if(istype(M.loc, /turf/nofirezone)) return
 			if(!loc || oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
 			if(istype(M, /obj/stone) || istype(M, /obj/redroses) || istype(M, /mob/Madame_Pomfrey) || istype(M,/obj/egg) || istype(M,/obj/clanpillar))
 				for(var/atom/movable/O in M.loc)
