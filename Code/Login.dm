@@ -1612,7 +1612,7 @@ mob/Player
 			stat("Gold:",src.gold)
 			stat("Level:",src.level)
 			stat("HP:","[src.HP]/[src.MHP+src.extraMHP]")
-			stat("MP:","[src.MP]/[src.MMP+src.extraMMP]")
+			stat("MP:","[src.MP]/[src.MMP+src.extraMMP] ([src.extraMMP/10])")
 			stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
 			stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
 			stat("House:",src.House)
