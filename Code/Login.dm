@@ -3020,7 +3020,7 @@ turf
 		name = "water"
 		density=0
 		var
-			tmp/obj/drop/rain
+			tmp/obj/rain
 			isice = 0 // Edit to 1 for winter
 
 		New()
@@ -3031,7 +3031,17 @@ turf
 			if(icon_state == "water")
 				if(ismob(O) && O.density) return 0
 				if(istype(O, /obj/projectile) && O.icon_state == "iceball")
-					ice()
+					if(prob(20))
+						for(var/turf/water/w in range(prob(10) ? 2 : 1,O))
+							w.ice()
+						walk(O,0)
+						O.loc = null
+					else
+						ice()
+						O:damage -= round(O:damage / 10)
+					if(O:damage <= 0)
+						walk(O,0)
+						O.loc = null
 			else if(icon_state == "ice")
 				if(istype(O, /obj/projectile) && O.icon_state == "fireball")
 					water()
@@ -3044,7 +3054,7 @@ turf
 				icon_state = "ice"
 				if(!isice)
 					spawn()
-						var/time = rand(30,60)
+						var/time = rand(40,120)
 						while(time > 0 && icon_state == "ice")
 							time--
 							sleep(10)
@@ -3056,7 +3066,7 @@ turf
 
 				if(isice)
 					spawn()
-						var/time = rand(30,60)
+						var/time = rand(40,120)
 						while(time > 0 && icon_state == "water")
 							time--
 							sleep(10)
@@ -3064,26 +3074,17 @@ turf
 			rain()
 				if(rain) return
 				rain = new (src)
+
+				spawn(rand(1,150))
+					rain.icon = 'water_drop.dmi'
+					rain.icon_state = pick(icon_states(rain.icon))
+					rain.pixel_x = rand(-12,12)
+					rain.pixel_y = rand(-13,14)
 			clear()
 				if(rain)
 					rain.loc = null
 					rain = null
 
-obj
-	drop
-		icon = 'water_drop.dmi'
-
-		New()
-			..()
-			spawn(rand(1,150))
-				icon_state = pick(icon_states(icon))
-				while(loc)
-					pixel_x = rand(-12,12)
-					pixel_y = rand(-13,12)
-					sleep(300)
-
-
-turf
 	floor
 		icon_state="brick"
 		density=0
