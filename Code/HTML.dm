@@ -257,12 +257,12 @@ mob/Topic(href,href_list[])
 					for(var/mob/Player/M in Players)
 						if(M.Gm)
 							M << infomsg("GMs, [usr] just logged in and clicked the class guidance system.")
-				usr.classpathfinding = 1
 				if(usr.loc.loc == classdest.loc.loc)
 					usr << "You're already in class."
 					client.images = list()
 				else
 					if(usr.Class_Path_to())
+						usr.classpathfinding = 1
 						usr << infomsg("Follow the blue markers to class.")
 			else
 				usr << "The class is no longer accepting new players."
