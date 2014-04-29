@@ -733,15 +733,20 @@ turf
 mob/GM/verb/Prize_Draw()
  var/txt = input("Enter the names going into the draw, seperating them so that there's one name on each line.") as null|message
  if(!txt)return
- txt = dd_text2list(txt,"\n")
+ var/txt_list = dd_text2list(txt, "\n")
+
+ switch(alert("Would you like to display the list?", "Prize Draw", "Yes", "No"))
+ 	if("Yes")
+ 		hearers(client.view) << "<font color='#DF0101' size='3' face='Comic Sans MS'>The list contains:\n[txt]</font>"
  DRAW
- var/winner = pick(txt)
+ var/winner = pick(txt_list)
  switch(alert("The magical box of Murra-Awesome draws the name: [winner]", "Prize Draw", "Redraw", "Announce", "Cancel"))
   if("Redraw")
    goto DRAW
   if("Announce")
-   hearers(client.view) << "<font color='#FF9933' size='3' face='Comic Sans MS'>[winner] was picked!</font>"
+   hearers(client.view) << "<font color='#DF0101' size='3' face='Comic Sans MS'>[winner] was picked!</font>"
    goto DRAW
+
 
 world
 	hub = "TheWizardsChronicles.TWC"
@@ -1611,7 +1616,7 @@ mob/Player
 			stat("Gold:",src.gold)
 			stat("Level:",src.level)
 			stat("HP:","[src.HP]/[src.MHP+src.extraMHP]")
-			stat("MP:","[src.MP]/[src.MMP+src.extraMMP]")
+			stat("MP:","[src.MP]/[src.MMP+src.extraMMP] ([src.extraMMP/10])")
 			stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
 			stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
 			stat("House:",src.House)
