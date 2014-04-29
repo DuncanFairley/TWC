@@ -497,7 +497,7 @@ area
 	CommonRooms/GryffindorCommon
 		layer=6
 		Entered(mob/Player/M)
-			if(!ismob(usr)) return
+			if(!isplayer(M)) return
 			if(M.House=="Gryffindor")
 				M.loc = locate(82,28,21)
 				M << "<b>The Portrait swings open</b>"
@@ -510,44 +510,44 @@ area
 	CommonRooms/GryffindorCommon_Back
 		layer=6
 		Entered(mob/Player/M)
-			if(!ismob(usr)) return
+			if(!isplayer(M)) return
 			M.loc = locate(82,22,21)
 area
 	DuelAreas
 		Raven
 			Entered(mob/Player/M)
-				if(!ismob(usr)) return
-				usr.DuelRespawn = 4
+				if(!isplayer(M)) return
+				M.DuelRespawn = 4
 			Exited(mob/Player/M)
-				if(!ismob(usr)) return
-				usr.DuelRespawn = 0
+				if(!isplayer(M)) return
+				M.DuelRespawn = 0
 		Gryff
 			Entered(mob/Player/M)
-				if(!ismob(usr)) return
-				usr.DuelRespawn = 3
+				if(!isplayer(M)) return
+				M.DuelRespawn = 3
 			Exited(mob/Player/M)
-				if(!ismob(usr)) return
-				usr.DuelRespawn = 0
+				if(!isplayer(M)) return
+				M.DuelRespawn = 0
 		Slyth
 			Entered(mob/Player/M)
-				if(!ismob(usr)) return
-				usr.DuelRespawn = 5
+				if(!isplayer(M)) return
+				M.DuelRespawn = 5
 			Exited(mob/Player/M)
-				if(!ismob(usr)) return
-				usr.DuelRespawn = 0
+				if(!isplayer(M)) return
+				M.DuelRespawn = 0
 		Huffle
 			Entered(mob/Player/M)
-				if(!ismob(usr)) return
-				usr.DuelRespawn = 6
+				if(!isplayer(M)) return
+				M.DuelRespawn = 6
 			Exited(mob/Player/M)
-				if(!ismob(usr)) return
-				usr.DuelRespawn = 0
+				if(!isplayer(M)) return
+				M.DuelRespawn = 0
 
 area
 	CommonRooms/RavenclawCommon
 		layer=6
 		Entered(mob/Player/M)
-			if(!ismob(usr)) return
+			if(!isplayer(M)) return
 			if(M.House=="Ravenclaw")
 				M.loc = locate(68,27,21)
 				M << "<b>The Stone Wall shifts open</b>"
@@ -560,14 +560,14 @@ area
 	CommonRooms/RavenclawCommon_Back
 		layer=6
 		Entered(mob/Player/M)
-			if(!ismob(usr)) return
+			if(!isplayer(M)) return
 			M.loc = locate(68,22,21)
 
 area
 	CommonRooms/HufflepuffCommon
 		layer=6
 		Entered(mob/Player/M)
-			if(!ismob(usr)) return
+			if(!isplayer(M)) return
 			if(M.House=="Hufflepuff")
 				M.loc = locate(70,86,21)
 				M << "<b>The Stone Wall moves aside open</b>"
@@ -580,14 +580,14 @@ area
 	CommonRooms/HufflepuffCommon_Back
 		layer=6
 		Entered(mob/Player/M)
-			if(!ismob(usr)) return
+			if(!isplayer(M)) return
 			M.loc = locate(70,81,21)
 
 area
 	CommonRooms/SlytherinCommon
 		layer=6
 		Entered(mob/Player/M)
-			if(!ismob(usr)) return
+			if(!isplayer(M)) return
 			if(M.House=="Slytherin")
 				M.loc = locate(14,85,21)
 				M << "<b>The Stone Floor opens and you fall downwards.</b>"
@@ -600,7 +600,7 @@ area
 	CommonRooms/SlytherinCommon_Back
 		layer=6
 		Entered(mob/Player/M)
-			if(!ismob(usr)) return
+			if(!isplayer(M)) return
 			M.loc=locate(17,77,21)
 
 

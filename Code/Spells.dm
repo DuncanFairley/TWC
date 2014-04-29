@@ -1644,21 +1644,22 @@ mob/Spells/verb/Wingardium_Leviosa()
 			var/obj/other=input("What do you wish to levitate?") as null|obj in oview()
 			if(isnull(other))return
 			if(other.wlable == 1)
-				usr.Wingardiumleviosa = 1
-				usr.wingobject=other
+				Wingardiumleviosa = 1
+				wingobject=other
 				hearers(client.view)<<"<B>[usr.name]: <I>Wingardium Leviosa.</I>"
 				other.overlays += new /obj/overlay/flash
 
 				src=null
 				spawn()
 					var/seconds = 60
-					while(usr && Wingardiumleviosa && seconds > 0)
+					while(other && usr && usr.Wingardiumleviosa && seconds > 0)
 						seconds--
 						sleep(10)
 					if(usr)
 						usr.wingobject=null
 						usr.Wingardiumleviosa = null
-					other.overlays=null
+					if(other)
+						other.overlays=null
 			else
 				src << errormsg("That object is not movable.")
 	else
