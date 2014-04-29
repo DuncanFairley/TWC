@@ -1399,7 +1399,7 @@ mob/Spells/verb/Self_To_Skeleton()
 			usr.icon = 'Skeleton.dmi'
 mob/Spells/verb/Other_To_Human(mob/Player/M in oview()&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(M))
 			flick("transfigure",M)
