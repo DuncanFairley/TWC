@@ -371,6 +371,7 @@ mob/Spells/verb/Shelleh()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedShelleh,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
 		new /StatusEffect/UsedShelleh(src,60)
+		hearers()<<"<b><font color=red>[usr]:</font> <font color=white>Shelleh."
 
 		for(var/turf/t in oview(rand(1,3)))
 			if(t.density) continue
@@ -378,8 +379,6 @@ mob/Spells/verb/Shelleh()
 			if(t == loc)  continue
 			new /obj/egg (t)
 			sleep(1)
-
-		hearers()<<"<b><font color=red>[usr]:</font> <font color=white>Shelleh."
 
 mob/Spells/verb/Solidus()
 	set category = "Spells"

@@ -6,12 +6,9 @@
  */
 mob
 	verb
-		Follow(mob/M in view()&Players)
+		Follow(mob/M in oview()&Players)
 			if(usr.client.eye!=usr)
 				src<<"You cannot follow someone whilst using telendevour."
-				return
-			if(M.monster==1)
-				src<<"You cannot follow a monster."
 				return
 			if(src.followplayer==0)
 				src.followplayer=1
@@ -25,7 +22,7 @@ mob
 						if(src.z!=M.z)
 							src.followplayer=0
 					return
-			if(src.followplayer==1)
+			else
 				src.followplayer=0
 				hearers()<<"[src] stops following."
 				return
