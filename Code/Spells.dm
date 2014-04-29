@@ -129,7 +129,8 @@ mob/Spells/verb/Eat_Slugs()
 mob/Spells/verb/Disperse()
 	set category = "Spells"
 	set hidden = 1
-	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedDisperse,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		new /StatusEffect/UsedDisperse(src,15)
 		for(var/obj/smokeeffect/S in view(client.view))
 			del(S)
 		for(var/turf/T in view())
@@ -138,6 +139,8 @@ mob/Spells/verb/Disperse()
 				T.overlays += image('mist.dmi',layer=10)
 				spawn(9)
 					T.overlays = null
+		for(var/obj/The_Dark_Mark/dm in view())
+			dm.counter(src)
 
 mob/Spells/verb/Herbificus()
 	set category = "Spells"

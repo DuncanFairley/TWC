@@ -173,6 +173,7 @@ StatusEffect
 	UsedArcesso
 	UsedProtego
 	UsedShelleh
+	UsedDisperse
 	DepulsoText
 	var/Event/e_StatusEffect/AttachedEvent	//Not required - Contains /Event/e_StatusEffect to automatically cancel the StatusEffect
 	var/atom/AttachedAtom	//Required - Contains the /atom which the StatusEffect is attached to
