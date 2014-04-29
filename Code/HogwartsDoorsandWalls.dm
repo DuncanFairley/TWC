@@ -290,11 +290,6 @@ turf
 	Duel_7
 		icon='DuelArena.dmi'
 		icon_state="d7"
-	WaterReal
-		icon='turf.dmi'
-		name = "Water"
-		icon_state="waterreal"
-		density=1
 	Holoroom_Door
 		bumpable=1
 		door=0
