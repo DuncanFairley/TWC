@@ -15,7 +15,7 @@ obj/items/var
 	price       = 0
 
 obj/items/Click()
-	if(src in oview(1))
+	if((src in oview(1)) && takeable)
 		Take()
 	..()
 obj/items/verb/Take()
@@ -62,6 +62,8 @@ obj/items/New()
 		if(!src.dropable)
 			src.verbs -= /obj/items/verb/Drop
 			src.verbs -= /obj/items/wearable/Drop
+		if(!src.takeable)
+			src.verbs -= /obj/items/verb/Take
 	..()
 
 
