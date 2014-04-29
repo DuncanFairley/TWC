@@ -611,6 +611,11 @@ obj/Madame_Pomfrey
 			src = null
 			spawn(10)
 				usr.overlays-=image('attacks.dmi',icon_state="heal")
+	New()
+		..()
+		spawn(425)
+			del src
+
 mob/Madame_Pomfrey
 	NPC=1
 	bumpable=0
@@ -771,7 +776,10 @@ obj/The_Dark_Mark
 	icon_state="Darkmark"
 	luminosity=21
 
-
+	New()
+		..()
+		spawn(605)
+			del src
 
 mob/Sir_Nicholas
 	icon = 'houseghosts.dmi'

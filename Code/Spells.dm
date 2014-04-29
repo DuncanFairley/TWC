@@ -293,9 +293,8 @@ mob/Spells/verb/Morsmordre()
 	world<<"The sky darkens as a sneering skull appears in the clouds with a snake slithering from its mouth."
 	src = null
 	spawn(600)
-	if(D)
-		del D
-		world<<"The Dark Mark fades back into the clouds."
+		if(D)
+			world<<"The Dark Mark fades back into the clouds."
 mob/Spells/verb/Repellium()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
@@ -383,14 +382,12 @@ mob/Spells/verb/Shelleh()
 mob/Spells/verb/Solidus()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		var/obj/bigblackchair/p = new /obj/stone
+		var/obj/stone/p = new /obj/stone
 		p:loc = locate(src.x,src.y-1,src.z)
 		flick('teleboom.dmi',p)
 		p:owner = "[usr.key]"
 		hearers()<<"<b><font color=red>[usr]:</font> <font color=green>Solidus."
 		src = null
-		spawn(600)
-			del p
 mob/Spells/verb/Ferula()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
@@ -409,7 +406,6 @@ mob/Spells/verb/Ferula()
 			sleep(10)
 			if(p)
 				view(p)<<"The nurse orbs out."
-				del p
 mob/Spells/verb/Expecto_Patronum()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
