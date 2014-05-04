@@ -1353,6 +1353,7 @@ mob/Spells/verb/Self_To_Mushroom()
 mob/Spells/verb/Self_To_Skeleton()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Skelenum.</b></font>"
 		flick("transfigure",usr)
 		usr.trnsed = 1
 		usr.overlays = null
@@ -1362,6 +1363,7 @@ mob/Spells/verb/Other_To_Human(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
+		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Transfiguro Revertio, [M].</b></font>"
 		flick("transfigure",M)
 		if(M.derobe)
 			M.icon = 'Deatheater.dmi'
@@ -1380,6 +1382,7 @@ mob/Spells/verb/Self_To_Human()
 	set category="Spells"
 	var/mob/Player/user = usr
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Humanium.</b></font>"
 		flick("transfigure",usr)
 		usr<<"You reversed your transfiguration."
 		if(usr.aurorrobe)
