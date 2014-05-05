@@ -1360,6 +1360,7 @@ mob/Spells/verb/Self_To_Skeleton()
 		if(usr.away)usr.ApplyAFKOverlay()
 		usr.icon = 'Skeleton.dmi'
 mob/Spells/verb/Other_To_Human(mob/Player/M in oview()&Players)
+	set name = "Transfiguro Revertio"
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
