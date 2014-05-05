@@ -1323,19 +1323,19 @@ mob/Spells/verb/Carrotosi(mob/Player/M in oview()&Players)
 		if(M.away)M.ApplyAFKOverlay()
 		M.icon = 'Rabbit.dmi'
 mob/Spells/verb/Self_To_Dragon()
+	set name = "Personio Draconum"
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		flick("transfigure",usr)
-		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Draconum.</b></font>"
 		usr.trnsed = 1
 		usr.overlays = null
 		if(usr.away)usr.ApplyAFKOverlay()
 		usr.icon = 'Dragon.dmi'
 mob/Spells/verb/Self_To_Mushroom()
+	set name = "Personio Musashi"
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		flick("transfigure",usr)
-		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Musashi.</b></font>"
 		usr.overlays = null
 		if(usr.away)usr.ApplyAFKOverlay()
 		usr.trnsed = 1
@@ -1351,9 +1351,9 @@ mob/Spells/verb/Self_To_Mushroom()
 			else
 				usr.icon = 'Yellow_Mushroom.dmi'
 mob/Spells/verb/Self_To_Skeleton()
+	set name = "Personio Skelenum"
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Skelenum.</b></font>"
 		flick("transfigure",usr)
 		usr.trnsed = 1
 		usr.overlays = null
@@ -1379,10 +1379,10 @@ mob/Spells/verb/Other_To_Human(mob/Player/M in oview()&Players)
 		M.ApplyOverlays()
 		M<<"[usr] reversed your transfiguration."
 mob/Spells/verb/Self_To_Human()
+	set name = "Personio Humaium"
 	set category="Spells"
 	var/mob/Player/user = usr
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Humanium.</b></font>"
 		flick("transfigure",usr)
 		usr<<"You reversed your transfiguration."
 		if(usr.aurorrobe)
