@@ -15,7 +15,7 @@ obj/items/var
 	price       = 0
 
 obj/items/Click()
-	if(src in oview(1))
+	if((src in oview(1)) && takeable)
 		Take()
 	..()
 obj/items/verb/Take()
@@ -62,6 +62,8 @@ obj/items/New()
 		if(!src.dropable)
 			src.verbs -= /obj/items/verb/Drop
 			src.verbs -= /obj/items/wearable/Drop
+		if(!src.takeable)
+			src.verbs -= /obj/items/verb/Take
 	..()
 
 
@@ -470,18 +472,19 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 	verb/Delicio_Maxima()
 		if(src in usr:Lwearing)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-				new /StatusEffect/UsedTransfiguration(usr,15)
+				new /StatusEffect/UsedTransfiguration(usr,30)
 				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Delicio Maxima.</b></font>"
 				sleep(20)
 				for(var/mob/Player/M in ohearers(usr.client.view,usr))
 					if(M.flying) continue
 					if((locate(/obj/items/wearable/invisibility_cloak) in M.Lwearing)) continue
 					if(prob(20)) continue
-					flick("transfigure",M)
-					M.overlays = null
-					M.trnsed = 1
-					M.icon = 'Turkey.dmi'
-					M<<"<b><font color=#D6952B>Delicio Charm:</b></font> [usr] turned you into some Thanksgiving awesome-ness."
+					if(usr.CanTrans(M))
+						flick("transfigure",M)
+						M.overlays = null
+						M.trnsed = 1
+						M.icon = 'Turkey.dmi'
+						M<<"<b><font color=#D6952B>Delicio Charm:</b></font> [usr] turned you into some Thanksgiving awesome-ness."
 					sleep(1)
 		else
 			usr << errormsg("You need to be using this wand to cast this.")
@@ -491,18 +494,19 @@ obj/items/wearable/wands/maple_wand //Easter
 	verb/Carrotosi_Maxima()
 		if(src in usr:Lwearing)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-				new /StatusEffect/UsedTransfiguration(usr,15)
+				new /StatusEffect/UsedTransfiguration(usr,30)
 				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Carrotosi Maxima.</b></font>"
 				sleep(20)
 				for(var/mob/Player/M in ohearers(usr.client.view,usr))
 					if(M.flying) continue
 					if((locate(/obj/items/wearable/invisibility_cloak) in M.Lwearing)) continue
 					if(prob(20)) continue
-					flick("transfigure",M)
-					M.overlays = null
-					M.trnsed = 1
-					M.icon = 'PinkRabbit.dmi'
-					M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
+					if(usr.CanTrans(M))
+						flick("transfigure",M)
+						M.overlays = null
+						M.trnsed = 1
+						M.icon = 'PinkRabbit.dmi'
+						M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
 					sleep(1)
 		else
 			usr << errormsg("You need to be using this wand to cast this.")
@@ -1195,9 +1199,15 @@ obj/Chaotica
 	New() spawn(60)del(src)
 turf/nofirezone
 	Enter(obj/O)
-		if(!istype(O,/obj)) return ..()
+		if(istype(O,/obj/projectile))
+			walk(O,0)
+			O.loc = null
+		else return ..()
 	Exit(obj/O)
-		if(!istype(O,/obj)) return ..()
+		if(istype(O,/obj/projectile))
+			walk(O,0)
+			O.loc = null
+		else return ..()
 turf/DynamicArena
 	name = "Arena"
 	icon = 'turf.dmi'
@@ -2113,8 +2123,11 @@ obj/Flippendo
 		else if(istype(M, /mob) && (M.monster || M.key))
 			src.owner<<"Your [src] hit [M]!"
 			//step(M, src.dir)
-			step_away(M,src)
-			M<<"You were pushed backwards by [src.owner]'s Flippendo!"
+			var/turf/t = get_step_away(M,src)
+			if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
+				M.Move(t)
+				step_away(M,src)
+				M<<"You were pushed backwards by [src.owner]'s Flippendo!"
 		del src
 obj/Thunderous
 	icon='Powers.dmi'

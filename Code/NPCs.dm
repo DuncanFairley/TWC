@@ -74,14 +74,43 @@ mob
 				usr << "I like his cape."
 			Talk()
 				set src in oview(3)
-				if(usr.StatMan==1)
-					switch(input("Would you like to see your stats?","Check out your stats?") as null|anything in list("Yes","No"))
-						if("Yes")
-							usr << "<br><b><u>Damage:</b></u> [usr.Dmg+usr.extraDmg]<br><b><u>Defense:</b></u> [usr.Def+usr.extraDef]<br>"
-				else
-					alert("I see you've found my hiding place. I request that you keep its location a secret. All I can offer in return is knowledge of your current stats.")
-					alert("You may come to see them anytime you wish.")
-					usr.StatMan=1
+				switch(alert("Hello there... My name is not important, however I have a few special services I can offer you for a price...","Mysterious Caped Fellow", "Rename - 25 Spell Points", "No Thanks"))
+					if("Rename - 25 Spell Points")
+						if(usr.derobe||usr.aurorrobe)
+							usr << errormsg("You can not do this while wearing clan robes.")
+							return
+						if(usr:spellpoints >= 25)
+							var/mob/create_character/c = new
+							var/desiredname = input("What name would you like? (Keep in mind that you cannot use a popular name from the Harry Potter franchise, nor numbers or special characters)") as text|null
+							if(!desiredname)
+								del c
+								return
+							var/passfilter = c.name_filter(desiredname)
+							while(passfilter)
+								alert("Your desired name is not allowed as it [passfilter].")
+								desiredname = input("Please select a name that does not use a popular name from the Harry Potter franchise, nor numbers or special characters.") as text|null
+								if(!desiredname)
+									del c
+									return
+								passfilter = c.name_filter(desiredname)
+							del c
+							if(name == desiredname) return
+							usr.name = desiredname
+							usr.underlays = list()
+							switch(usr.House)
+								if("Hufflepuff")
+									usr.GenerateNameOverlay(242,228,22)
+								if("Slytherin")
+									usr.GenerateNameOverlay(41,232,23)
+								if("Gryffindor")
+									usr.GenerateNameOverlay(240,81,81)
+								if("Ravenclaw")
+									usr.GenerateNameOverlay(13,116,219)
+								if("Ministry")
+									usr.GenerateNameOverlay(255,255,255)
+							usr:spellpoints -= 25
+						else
+							usr << errormsg("You don't have enough spell points.")
 
 mob
 	RavenStatMan

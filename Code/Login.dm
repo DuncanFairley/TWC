@@ -84,7 +84,7 @@ obj/teleport
 		if(dest)
 			if(pass && pass != "")
 				var/pw = input(M, "You feel this spot was enchanted with a password protected teleporting spell","Teleport","") as null|text
-				if(!pw || M.loc != src) return
+				if(!pw || M.loc != src.loc) return
 				if(pw == pass)
 					M<<"<font color=green><b>Authorization Confirmed."
 				else
@@ -979,7 +979,7 @@ mob
 			character.verbs += /mob/Spells/verb/Inflamari
 			for(var/client/C)
 				if(C.mob)
-					if(C.mob.Gm) C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] ([character.client.address]) logged in.</I></B></font>"
+					if(C.mob.Gm) C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] ([character.client.address])([ckey]) logged in.</I></B></font>"
 					else C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B></font>"
 			character.Teleblock=0
 			src = null
@@ -1155,7 +1155,7 @@ mob/Player
 						usr.Rictalk=1
 						return
 				else
-					if(usr.spam<=5)
+					if(usr.spam<=5 || Gm)
 						if(t)
 							t=check(t)//run the text through the cleaner
 							t = copytext(t,1,500)
@@ -1513,6 +1513,10 @@ mob/Player
 							usr.spam++
 							spawn(30)
 								usr.spam--
+							if(findtext(T, "://"))
+								usr.spam++
+								spawn(40)
+									usr.spam--
 						else
 							usr<<"Please enter something."
 					else
@@ -2857,6 +2861,18 @@ turf
 
 		//icon_state="snow"
 		density=0
+
+		edges
+			icon='GrassEdge.dmi'
+			north
+				dir = NORTH
+			west
+				dir = WEST
+			east
+				dir = EAST
+			south
+				dir = SOUTH
+
 	curtain1
 		icon_state="c1"
 		density=0
@@ -3004,14 +3020,75 @@ turf
 		density=0
 		layer=MOB_LAYER+7
 	water
-		icon='turf.dmi'
-		icon_state="waterreal"
+		icon='Water.dmi'
+		icon_state="water"
 		name = "water"
 		density=0
+		var
+			tmp/obj/rain
+			isice = 0 // Edit to 1 for winter
+
+		New()
+			..()
+			if(isice) ice()
+
 		Enter(atom/movable/O, atom/oldloc)
-			if(name != "ice" && ismob(O) && O.density) return 0
-			else
-				return ..()
+			if(icon_state == "water")
+				if(ismob(O) && O.density) return 0
+				if(istype(O, /obj/projectile) && O.icon_state == "iceball")
+					if(prob(20))
+						for(var/turf/water/w in range(prob(10) ? 2 : 1,O))
+							w.ice()
+						walk(O,0)
+						O.loc = null
+					else
+						ice()
+						O:damage -= round(O:damage / 10)
+					if(O:damage <= 0)
+						walk(O,0)
+						O.loc = null
+			else if(icon_state == "ice")
+				if(istype(O, /obj/projectile) && O.icon_state == "fireball")
+					water()
+			return ..()
+
+		proc
+			ice()
+				if(icon_state == "ice") return
+				name       = "ice"
+				icon_state = "ice"
+				if(!isice)
+					spawn()
+						var/time = rand(40,120)
+						while(time > 0 && icon_state == "ice")
+							time--
+							sleep(10)
+						water()
+			water()
+				if(icon_state == "water") return
+				name       = "water"
+				icon_state = "water"
+
+				if(isice)
+					spawn()
+						var/time = rand(40,120)
+						while(time > 0 && icon_state == "water")
+							time--
+							sleep(10)
+						ice()
+			rain()
+				if(rain) return
+				rain = new (src)
+
+				spawn(rand(1,150))
+					rain.icon = 'water_drop.dmi'
+					rain.icon_state = pick(icon_states(rain.icon))
+					rain.pixel_x = rand(-12,12)
+					rain.pixel_y = rand(-13,14)
+			clear()
+				if(rain)
+					rain.loc = null
+					rain = null
 
 	floor
 		icon_state="brick"
@@ -3612,3 +3689,4 @@ obj
 		icon_state="mid3"
 		density=1
 		layer=2
+

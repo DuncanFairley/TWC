@@ -114,7 +114,7 @@ mob/test/verb/Teach_Spells()
 		<td>[(/mob/GM/verb/Teach_Accio in verbs) ? "<a href='?src=\ref[src];action=teach_accio'>Accio</a>" : "Accio"]</td>
 		<td>[(/mob/GM/verb/Teach_Aero in verbs) ? "<a href='?src=\ref[src];action=teach_aero'>Aero</a>" : "Aero"]</td>
 		<td>[(/mob/GM/verb/Teach_Anapneo in verbs) ? "<a href='?src=\ref[src];action=teach_anapneo'>Anapneo</a>" : "Anapneo"]</td>
-		<td></td>
+		<td>[(/mob/GM/verb/Teach_Antifigura in verbs) ? "<a href='?src=\ref[src];action=teach_antifigura'>Antifigura</a>" : "Antifigura"]</td>
 		<td>[(/mob/GM/verb/Teach_Aqua_Eructo in verbs) ? "<a href='?src=\ref[src];action=teach_aquaeructo'>Aqua Eructo</a>" : "Aqua Eructo"]</td>
 	</tr>
 	<tr>
@@ -257,12 +257,12 @@ mob/Topic(href,href_list[])
 					for(var/mob/Player/M in Players)
 						if(M.Gm)
 							M << infomsg("GMs, [usr] just logged in and clicked the class guidance system.")
-				usr.classpathfinding = 1
 				if(usr.loc.loc == classdest.loc.loc)
 					usr << "You're already in class."
 					client.images = list()
 				else
 					if(usr.Class_Path_to())
+						usr.classpathfinding = 1
 						usr << infomsg("Follow the blue markers to class.")
 			else
 				usr << "The class is no longer accepting new players."
@@ -271,6 +271,8 @@ mob/Topic(href,href_list[])
 			usr.client.linkenable_radio()
 		if("teach_valorus")
 			src:Teach_Valorus()
+		if("teach_antifigura")
+			src:Teach_Antifigura()
 		if("teach_arcesso")
 			src:Teach_Arcesso()
 		if("teach_anapneo")
