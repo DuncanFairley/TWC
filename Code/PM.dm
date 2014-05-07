@@ -25,7 +25,7 @@ proc/text2mob(var/txtMob)
 		if(M.name == txtMob || M.pname == txtMob || M.prevname == txtMob)
 			return M
 proc/formatName(mob/M,force=1)
-	if(M.derobe) return force ? M.prevname : "[M]"
+	if(M.derobe) return force ? (M.pname ? M.pname : M.prevname) : "[M]"
 	if(M.pname)  return M.pname
 	return "[M]"
 
@@ -251,11 +251,7 @@ mob/Player/Topic(href,href_list[])
 			src << link("byond://?src=\ref[src];action=pm_outbox")
 
 		if("pm_reply")
-			var/mob/online = null
-			for(var/mob/M in Players)
-				if(formatName(M) == href_list["replynametext"])
-					online = M
-					break
+			var/mob/online = text2mob(href_list["replynametext"])
 			if(online)
 			//	world << "Trying to PM [online.name] - [online.pname] - [online.type]"
 				src.PM(online)
@@ -391,17 +387,17 @@ mob/Player/Topic(href,href_list[])
 			else if(Y.pmsRec.len > 100&&Y.pmsSen.len > 100)
 				src.pmsSen.Add(src.curPM)
 				spawn()alert("That person cannot receive private messages because their inbox and outbox is full. This message has been added to your outbox.")
-				Y << "<b>[derobe ? prevname : src] tried to send you a PM, but you couldn't receive it because your inbox AND outbox has over 100 PMs each already. Delete some."
+				Y << "<b>[formatName(src)] tried to send you a PM, but you couldn't receive it because your inbox AND outbox has over 100 PMs each already. Delete some."
 				return
 			else if(Y.pmsRec.len > 100)
 				src.pmsSen.Add(src.curPM)
 				spawn()alert("That person cannot receive private messages because their inbox is full. This message has been added to your outbox.")
-				Y << "<b>[derobe ? prevname : src] tried to send you a PM, but you couldn't receive it because your inbox has over 100 PMs already. Delete some."
+				Y << "<b>[formatName(src)] tried to send you a PM, but you couldn't receive it because your inbox has over 100 PMs already. Delete some."
 				return
 			else if(Y.pmsSen.len > 100)
 				src.pmsSen.Add(src.curPM)
 				spawn()alert("That person cannot receive private messages because their outbox is full. This message has been added to your outbox.")
-				Y << "<b>[derobe ? prevname : src] tried to send you a PM, but you couldn't receive it because your outbox has over 100 PMs already. Delete some."
+				Y << "<b>[formatName(src)] tried to send you a PM, but you couldn't receive it because your outbox has over 100 PMs already. Delete some."
 				return
 			else if("[formatName(src)]" in Y.blockedpeeps)
 				alert("That person does not wish to receive private messages at the moment.")
@@ -423,13 +419,8 @@ mob/Player/Topic(href,href_list[])
 			for(var/aPM in Y.pmsRec)
 				pmcounter++
 				if(aPM == src.curPM)break
-			if(Y.derobe)
-				src.curPM.pmTo = Y.prevname
-			src << "Private Message Sent to <a href='?src=\ref[src];action=pm_reply;replynametext=[Y.pname ? Y.pname :src.curPM.pmTo]'>[src.curPM.pmTo]</a>."
-			if(src.name == "Deatheater")
-				Y << "You have received a <a href='?src=\ref[Y];action=pm_inbox_readmsg;msgid=[pmcounter]'>new private message</a> from <a href='?src=\ref[Y];action=pm_reply;replynametext=[src.pname ? src.pname : src.prevname]'>[src.prevname]</a>."
-			else
-				Y << "You have received a <a href='?src=\ref[Y];action=pm_inbox_readmsg;msgid=[pmcounter]'>new private message</a> from <a href='?src=\ref[Y];action=pm_reply;replynametext=[src.pname ? src.pname : src.name]'>[src]</a>."
+			src << "Private Message Sent to <a href='?src=\ref[src];action=pm_reply;replynametext=[formatName(Y)]'>[formatName(Y)]</a>."
+			Y << "You have received a <a href='?src=\ref[Y];action=pm_inbox_readmsg;msgid=[pmcounter]'>new private message</a> from <a href='?src=\ref[Y];action=pm_reply;replynametext=[formatName(src)]'>[formatName(src)]</a>."
 			winset(Y,"mainwindow","flash=2")
 mob/Player/verb/PM(var/p in Players())
 	var/mob/M = p
@@ -437,11 +428,8 @@ mob/Player/verb/PM(var/p in Players())
 		M = text2mob(M)
 	if(M.key)
 		var/mob/Player/Y = src
-		if(derobe)
-			Y.curPM = new /atom/movable/PM("Subject","Body","[Y.pname ? Y.pname : Y.prevname]","[M.pname ? M.pname : M.name]")
-		else
-			Y.curPM = new /atom/movable/PM("Subject","Body","[Y.pname ? Y.pname : Y.name]","[M.pname ? M.pname : M.name]")
-		Y.curPM.body = input("Input the main text of the Private Message being sent to [M.derobe ? M.prevname : M.name]") as message|null
+		Y.curPM = new /atom/movable/PM("Subject","Body","[formatName(Y)]","[formatName(M)]")
+		Y.curPM.body = input("Input the main text of the Private Message being sent to [formatName(M)]") as message|null
 		if(!Y.curPM.body)return
 		src << link("byond://?src=\ref[src];action=pm_Send")
 
