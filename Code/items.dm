@@ -2126,7 +2126,6 @@ obj/Flippendo
 			var/turf/t = get_step_away(M,src)
 			if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
 				M.Move(t)
-				step_away(M,src)
 				M<<"You were pushed backwards by [src.owner]'s Flippendo!"
 		del src
 obj/Thunderous
