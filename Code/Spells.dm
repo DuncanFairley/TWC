@@ -82,7 +82,8 @@ var/list/spellList = list(
 	/mob/Spells/verb/Expelliarmus = "Expelliarmus",
 	/mob/Spells/verb/Eat_Slugs = "Eat Slugs",
 	/mob/Spells/verb/Disperse = "Disperse",
-	/mob/Spells/verb/Wingardium_Leviosa = "Wingardium Leviosa")
+	/mob/Spells/verb/Wingardium_Leviosa = "Wingardium Leviosa",
+	/mob/Spells/verb/Antifigura = "Antifigura")
 proc/name2spellpath(name)
 	for(var/V in spellList)
 		if(spellList[V] == name)
@@ -128,7 +129,8 @@ mob/Spells/verb/Eat_Slugs()
 mob/Spells/verb/Disperse()
 	set category = "Spells"
 	set hidden = 1
-	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedDisperse,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		new /StatusEffect/UsedDisperse(src,15)
 		for(var/obj/smokeeffect/S in view(client.view))
 			del(S)
 		for(var/turf/T in view())
@@ -137,6 +139,8 @@ mob/Spells/verb/Disperse()
 				T.overlays += image('mist.dmi',layer=10)
 				spawn(9)
 					T.overlays = null
+		for(var/obj/The_Dark_Mark/dm in view())
+			dm.counter(src)
 
 mob/Spells/verb/Herbificus()
 	set category = "Spells"
@@ -192,7 +196,9 @@ mob/Spells/verb/Depulso()
 	var/mob/M
 	for(M in get_step(usr,usr.dir))
 		if(!M.key && !istype(M,/mob/Victims)) return
-		step_away(M,usr,15)
+		var/turf/t = get_step_away(M,usr,15)
+		if(!t || (issafezone(M.loc.loc) && !issafezone(t.loc))) return
+		M.Move(t)
 
 		if(!findStatusEffect(/StatusEffect/DepulsoText))
 			new /StatusEffect/DepulsoText(src,5)
@@ -290,9 +296,8 @@ mob/Spells/verb/Morsmordre()
 	world<<"The sky darkens as a sneering skull appears in the clouds with a snake slithering from its mouth."
 	src = null
 	spawn(600)
-	if(D)
-		del D
-		world<<"The Dark Mark fades back into the clouds."
+		if(D)
+			world<<"The Dark Mark fades back into the clouds."
 mob/Spells/verb/Repellium()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
@@ -368,6 +373,7 @@ mob/Spells/verb/Shelleh()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedShelleh,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
 		new /StatusEffect/UsedShelleh(src,60)
+		hearers()<<"<b><font color=red>[usr]:</font> <font color=white>Shelleh."
 
 		for(var/turf/t in oview(rand(1,3)))
 			if(t.density) continue
@@ -376,19 +382,15 @@ mob/Spells/verb/Shelleh()
 			new /obj/egg (t)
 			sleep(1)
 
-		hearers()<<"<b><font color=red>[usr]:</font> <font color=white>Shelleh."
-
 mob/Spells/verb/Solidus()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		var/obj/bigblackchair/p = new /obj/stone
+		var/obj/stone/p = new /obj/stone
 		p:loc = locate(src.x,src.y-1,src.z)
 		flick('teleboom.dmi',p)
 		p:owner = "[usr.key]"
 		hearers()<<"<b><font color=red>[usr]:</font> <font color=green>Solidus."
 		src = null
-		spawn(600)
-			del p
 mob/Spells/verb/Ferula()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
@@ -407,7 +409,6 @@ mob/Spells/verb/Ferula()
 			sleep(10)
 			if(p)
 				view(p)<<"The nurse orbs out."
-				del p
 mob/Spells/verb/Expecto_Patronum()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
@@ -709,17 +710,45 @@ mob/Spells/verb/Petreficus_Totalus(var/mob/M in view()&Players)
 			M.movable=0
 			M.icon_state=""
 
+mob
+	Player/var/tmp/antifigura = 0
+	proc
+		CanTrans(mob/Player/p)
+			if(p.antifigura > 0)
+				p.antifigura--
+				src << errormsg("Your spell failed, [p] is protected from transfiguring spells.")
+				if(p.antifigura==0)
+					p << errormsg("You were forced to release the shield around your body.")
+					new /StatusEffect/UsedTransfiguration(p,15)
+				return 0
+			return 1
+
+mob/Spells/verb/Antifigura()
+	set category="Spells"
+	var/mob/Player/p = src
+	if(p.antifigura > 0)
+		new /StatusEffect/UsedTransfiguration(usr,15)
+		src << infomsg("You release the shield around your body.")
+		p.antifigura = 0
+	else if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
+		hearers() << "<b><font color=red>[usr]</font></b>: <font color=white><i>Antifigura!</i></font>"
+		p.antifigura = max(round((p.MMP+usr.extraMMP) / rand(250,350)), 1)
+		p.MP -= 50
+
+
 mob/Spells/verb/Chaotica()
 	set category="Spells"
-	var/dmg = round(usr.level)
-	if(dmg<10)dmg=10
+	var/dmg = round(usr.level * 1.1)
+	if(dmg<20)dmg=20
 	else if(dmg>2000)dmg = 2000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1))
 		castproj(30,'misc.dmi',"black",dmg,"chaotica")
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=25,againstocclumens=1))
-		castproj(25,'Aqua Eructo.dmi',"",usr.Dmg+usr.extraDmg,"aqua eructo")
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		HP -= 30
+		Death_Check()
+		castproj(0,'Aqua Eructo.dmi',"",usr.Def+(usr.extraDef/3),"aqua eructo")
 mob/Spells/verb/Inflamari()
 	set category="Spells"
 	var/dmg = round(usr.level * 0.9)
@@ -973,7 +1002,7 @@ mob/Spells/verb/Incindia()
 		usr.updateHPMP()
 		new /StatusEffect/UsedIncindia(src,30)
 		for(var/mob/M in oview(4))
-			if(M.key)
+			if(M.key && !issafezone(M.loc.loc))
 				flick('Apparate.dmi',M)
 				hearers()<<"[M] suddenly explodes!"
 				M.HP-=1000
@@ -983,6 +1012,9 @@ mob/Spells/verb/Incindia()
 mob/Spells/verb/Replacio(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
+		if(issafezone(M.loc.loc) && !issafezone(loc.loc))
+			src << "<b>[M] is inside a safezone.</b>"
+			return
 		hearers()<<"<b><Font color=red>[usr]:</b></font> <font color=blue><B> <i>Replacio Duo.</i></B>"
 		var/startloc = usr.loc
 		flick('GMOrb.dmi',M)
@@ -1278,50 +1310,54 @@ mob/Spells/verb/Delicio(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		flick("transfigure",M)
 		hearers()<<"<b><font color=red>[usr]</font>: <b>Delicio, [M].</b>"
-		sleep(20)
-		M<<"<b><font color=red>Delicio Charm:</b></font>[usr] turned you into a delicious Turkey."
-		M.trnsed = 1
-		M.overlays = null
-		if(M.away)M.ApplyAFKOverlay()
-		M.icon = 'Turkey.dmi'
+		if(CanTrans(M))
+			flick("transfigure",M)
+			sleep(20)
+			M<<"<b><font color=red>Delicio Charm:</b></font>[usr] turned you into a delicious Turkey."
+			M.trnsed = 1
+			M.overlays = null
+			if(M.away)M.ApplyAFKOverlay()
+			M.icon = 'Turkey.dmi'
 mob/Spells/verb/Avifors(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		flick("transfigure",M)
 		hearers()<<"<b><font color=gray>[usr]</font>: <b>Avifors, [M].</b>"
-		sleep(20)
-		M<<"<b><font color=gray>Avifors Charm:</b></font>[usr] turned you into a black crow."
-		M.trnsed = 1
-		M.overlays = null
-		if(M.away)M.ApplyAFKOverlay()
-		M.icon = 'Bird.dmi'
+		if(CanTrans(M))
+			flick("transfigure",M)
+			sleep(20)
+			M<<"<b><font color=gray>Avifors Charm:</b></font>[usr] turned you into a black crow."
+			M.trnsed = 1
+			M.overlays = null
+			if(M.away)M.ApplyAFKOverlay()
+			M.icon = 'Bird.dmi'
 mob/Spells/verb/Ribbitous(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Ribbitous, [M].</b></font>"
-		sleep(20)
-		flick("transfigure",M)
-		M<<"<b><font color=green>Ribbitous Charm:</b></font> [usr] turned you into a Frog."
-		M.trnsed = 1
-		M.overlays = null
-		if(M.away)M.ApplyAFKOverlay()
-		M.icon = 'Frog.dmi'
+		if(CanTrans(M))
+			flick("transfigure",M)
+			sleep(20)
+			M<<"<b><font color=green>Ribbitous Charm:</b></font> [usr] turned you into a Frog."
+			M.trnsed = 1
+			M.overlays = null
+			if(M.away)M.ApplyAFKOverlay()
+			M.icon = 'Frog.dmi'
 mob/Spells/verb/Carrotosi(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=red> Carrotosi, [M].</b></font>"
-		sleep(20)
-		flick("transfigure",M)
-		M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
-		M.trnsed = 1
-		M.overlays = null
-		if(M.away)M.ApplyAFKOverlay()
-		M.icon = 'Rabbit.dmi'
+		if(CanTrans(M))
+			flick("transfigure",M)
+			sleep(20)
+			M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
+			M.trnsed = 1
+			M.overlays = null
+			if(M.away)M.ApplyAFKOverlay()
+			M.icon = 'Rabbit.dmi'
 mob/Spells/verb/Self_To_Dragon()
 	set name = "Personio Draconum"
 	set category="Spells"
@@ -1354,15 +1390,16 @@ mob/Spells/verb/Self_To_Skeleton()
 	set name = "Personio Skelenum"
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-		flick("transfigure",usr)
-		usr.trnsed = 1
-		usr.overlays = null
-		if(usr.away)usr.ApplyAFKOverlay()
-		usr.icon = 'Skeleton.dmi'
+		if(CanTrans(src))
+			flick("transfigure",usr)
+			usr.trnsed = 1
+			usr.overlays = null
+			if(usr.away)usr.ApplyAFKOverlay()
+			usr.icon = 'Skeleton.dmi'
 mob/Spells/verb/Other_To_Human(mob/Player/M in oview()&Players)
 	set name = "Transfiguro Revertio"
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Transfiguro Revertio, [M].</b></font>"
 		flick("transfigure",M)
@@ -1373,110 +1410,115 @@ mob/Spells/verb/Other_To_Human(mob/Player/M in oview()&Players)
 			if(M.Gender == "Female")
 				M.icon = 'FemaleAuror.dmi'
 			else
-				M.icon = 'MaleAuror.dmi'
-		else
-			M.trnsed = 0
-			M.icon = M.baseicon
-		M.ApplyOverlays()
-		M<<"[usr] reversed your transfiguration."
+				M.trnsed = 0
+				M.icon = M.baseicon
+			M.ApplyOverlays()
+			M<<"[usr] reversed your transfiguration."
 mob/Spells/verb/Self_To_Human()
 	set name = "Personio Humaium"
 	set category="Spells"
 	var/mob/Player/user = usr
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-		flick("transfigure",usr)
-		usr<<"You reversed your transfiguration."
-		if(usr.aurorrobe)
-			usr.trnsed = 0
-			if(usr.Gender == "Female")
-				usr.icon = 'FemaleAuror.dmi'
+		if(CanTrans(src))
+			flick("transfigure",usr)
+			usr<<"You reversed your transfiguration."
+			if(usr.aurorrobe)
+				usr.trnsed = 0
+				if(usr.Gender == "Female")
+					usr.icon = 'FemaleAuror.dmi'
+				else
+					usr.icon = 'MaleAuror.dmi'
+			else if(usr.derobe)
+				usr.icon = 'Deatheater.dmi'
 			else
-				usr.icon = 'MaleAuror.dmi'
-		else if(usr.derobe)
-			usr.icon = 'Deatheater.dmi'
-		else
-			usr.trnsed = 0
-			usr.icon = usr.baseicon
-		user.ApplyOverlays()
+				usr.trnsed = 0
+				usr.icon = usr.baseicon
+			user.ApplyOverlays()
 mob/Spells/verb/Harvesto(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers()<<"<b><font color=red>[usr]</font>:<b> Harvesto, [M].</b>"
-		sleep(20)
-		flick("transfigure",M)
-		if(!M)return
-		M<<"<b><font color=red>Harvesto Charm:</b></font> [usr] turned you into an Onion."
-		M.trnsed = 1
-		M.overlays = null
-		if(M.away)M.ApplyAFKOverlay()
-		M.icon = 'Onion.dmi'
+		if(CanTrans(M))
+			sleep(20)
+			flick("transfigure",M)
+			if(!M)return
+			M<<"<b><font color=red>Harvesto Charm:</b></font> [usr] turned you into an Onion."
+			M.trnsed = 1
+			M.overlays = null
+			if(M.away)M.ApplyAFKOverlay()
+			M.icon = 'Onion.dmi'
 mob/Spells/verb/Felinious(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers()<<"<b><font color=red>[usr]</font>:<b> Felinious, [M].</b>"
-		sleep(20)
-		if(!M)return
-		M<<"<b><font color=blue>Felinious Charm:</b></font> [usr] turned you into a Black Cat."
-		flick("transfigure",M)
-		M.trnsed = 1
-		M.overlays = null
-		if(M.away)M.ApplyAFKOverlay()
-		M.icon = 'BlackCat.dmi'
+		if(CanTrans(M))
+			sleep(20)
+			if(!M)return
+			M<<"<b><font color=blue>Felinious Charm:</b></font> [usr] turned you into a Black Cat."
+			flick("transfigure",M)
+			M.trnsed = 1
+			M.overlays = null
+			if(M.away)M.ApplyAFKOverlay()
+			M.icon = 'BlackCat.dmi'
 mob/Spells/verb/Scurries(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers()<<"<b><font color=red>[usr]</font>: <b>Scurries, [M].</b>"
-		sleep(20)
-		if(!M)return
-		flick("transfigure",M)
-		M<<"<b><font color=blue>Scurries Charm:</b></font> [usr] turned you into a Mouse."
-		M.trnsed = 1
-		M.overlays = null
-		if(M.away)M.ApplyAFKOverlay()
-		M.icon = 'Mouse.dmi'
+		if(CanTrans(M))
+			sleep(20)
+			if(!M)return
+			flick("transfigure",M)
+			M<<"<b><font color=blue>Scurries Charm:</b></font> [usr] turned you into a Mouse."
+			M.trnsed = 1
+			M.overlays = null
+			if(M.away)M.ApplyAFKOverlay()
+			M.icon = 'Mouse.dmi'
 mob/Spells/verb/Seatio(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers()<<"<b><font color=red>[usr]</font>: <b>Seatio, [M].</b>"
-		sleep(20)
-		if(!M)return
-		flick("transfigure",M)
-		M<<"<b><font color=red>Seatio Charm:</b></font> [usr] turned you into a Chair."
-		M.trnsed = 1
-		M.overlays = null
-		if(M.away)M.ApplyAFKOverlay()
-		M.icon = 'Chair.dmi'
+		if(CanTrans(M))
+			sleep(20)
+			if(!M)return
+			flick("transfigure",M)
+			M<<"<b><font color=red>Seatio Charm:</b></font> [usr] turned you into a Chair."
+			M.trnsed = 1
+			M.overlays = null
+			if(M.away)M.ApplyAFKOverlay()
+			M.icon = 'Chair.dmi'
 mob/Spells/verb/Nightus(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers()<<"<b><font color=red>[usr]</font>: <b>Nightus, [M].</b>"
-		sleep(20)
-		if(!M)return
-		flick("transfigure",M)
-		M<<"<b><font color=red>Nightus Charm:</b></font> [usr] turned you into a Bat."
-		M.trnsed = 1
-		M.overlays = null
-		if(M.away)M.ApplyAFKOverlay()
-		M.icon = 'Bat.dmi'
+		if(CanTrans(M))
+			sleep(20)
+			if(!M)return
+			flick("transfigure",M)
+			M<<"<b><font color=red>Nightus Charm:</b></font> [usr] turned you into a Bat."
+			M.trnsed = 1
+			M.overlays = null
+			if(M.away)M.ApplyAFKOverlay()
+			M.icon = 'Bat.dmi'
 mob/Spells/verb/Peskipixie_Pesternomae(mob/Player/M in oview()&Players)
 	set category="Spells"
 	set name = "Peskipiksi Pesternomi"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers()<<"<b><font color=red>[usr]</font>: <b>Peskipiksi Pesternomi, [M].</b>"
-		sleep(20)
-		if(!M)return
-		flick("transfigure",M)
-		M<<"<b><font color=blue>Peskipixie Pesternomae Charm:</b></font> [usr] turned you into a Pixie."
-		M.trnsed = 1
-		M.overlays = null
-		if(M.away)M.ApplyAFKOverlay()
-		M.icon = 'Pixie.dmi'
+		if(CanTrans(M))
+			sleep(20)
+			if(!M)return
+			flick("transfigure",M)
+			M<<"<b><font color=blue>Peskipixie Pesternomae Charm:</b></font> [usr] turned you into a Pixie."
+			M.trnsed = 1
+			M.overlays = null
+			if(M.away)M.ApplyAFKOverlay()
+			M.icon = 'Pixie.dmi'
 mob/Spells/verb/Telendevour()
 	set category="Spells"
 	set popup_menu = 0
@@ -1601,21 +1643,22 @@ mob/Spells/verb/Wingardium_Leviosa()
 			var/obj/other=input("What do you wish to levitate?") as null|obj in oview()
 			if(isnull(other))return
 			if(other.wlable == 1)
-				usr.Wingardiumleviosa = 1
-				usr.wingobject=other
+				Wingardiumleviosa = 1
+				wingobject=other
 				hearers(client.view)<<"<B>[usr.name]: <I>Wingardium Leviosa.</I>"
 				other.overlays += new /obj/overlay/flash
 
 				src=null
 				spawn()
 					var/seconds = 60
-					while(usr && Wingardiumleviosa && seconds > 0)
+					while(other && usr && usr.Wingardiumleviosa && seconds > 0)
 						seconds--
 						sleep(10)
 					if(usr)
 						usr.wingobject=null
 						usr.Wingardiumleviosa = null
-					other.overlays=null
+					if(other)
+						other.overlays=null
 			else
 				src << errormsg("That object is not movable.")
 	else
@@ -1769,6 +1812,7 @@ obj
 				//src.loc = null
 		var/player=0
 		Bump(mob/M)
+			if(istype(M.loc, /turf/nofirezone)) return
 			if(!loc || oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
 			if(istype(M, /obj/stone) || istype(M, /obj/redroses) || istype(M, /mob/Madame_Pomfrey) || istype(M,/obj/egg) || istype(M,/obj/clanpillar))
 				for(var/atom/movable/O in M.loc)
