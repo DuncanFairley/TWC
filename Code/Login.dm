@@ -1617,8 +1617,9 @@ mob/Player
 			stat("Level:",src.level)
 			stat("HP:","[src.HP]/[src.MHP+src.extraMHP]")
 			stat("MP:","[src.MP]/[src.MMP+src.extraMMP] ([src.extraMMP/10])")
-			stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
-			stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
+			if (src.level>500)
+				stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
+				stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
 			stat("House:",src.House)
 			stat("EXP:","[src.Exp]/[src.Mexp]")
 			stat("Stat points:",src.StatPoints)
@@ -2280,7 +2281,8 @@ mob
 					src<<"<b>Congratulations to [src]. You are now a 7th Year."
 				if(src.level>500 && theiryear < 8)
 					src.Year="Hogwarts Graduate"
-					src<<"<b><font color=red>Notice:</font> Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate."
+					src<<"<b>Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate."
+					src<<"<b>You can now view your damage & defense stats in the stats tab.</b>)"
 mob/Mailman
 	icon='Misc Mobs.dmi'
 	icon_state="Mailman"
