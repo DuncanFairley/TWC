@@ -1110,7 +1110,10 @@ mob/Spells/verb/Tarantallegra(mob/M in view()&Players)
 			while(timer < 24)
 				timer++
 				sleep(5)
-				if(!M.movable)step_rand(M)
+				if(!M.movable)
+					var/turf/t = step_rand(M)
+					if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
+						M.Move(t)
 				M.dir = pick(dirs)
 			M.dance = 0
 mob/Spells/verb/Immobulus()
