@@ -42,7 +42,7 @@ mob/Cow
 	proc/Moo()
 		spawn()while(src)
 			hearers(src) << "Cow: [pick("MooooooOOOoOo!","Moo!","MOOOOOOOOOOOOOOOOOOOOOOOOO","Moooooo!","Moo moo moo!")]"
-			sleep(600)
+			sleep(400)
 obj
 	Food
 		icon='turf.dmi'

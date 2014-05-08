@@ -461,6 +461,17 @@ question
 		correct  = "2005"
 		wrong    = list("1989", "2031")
 
+	question25
+		question = "How many classes is there in the TWC cycle?"
+		correct  = "5"
+		wrong    = list("3", "4", "6")
+
+	question26
+		question = "Which game engine are you playing this game on?"
+		correct	 = "BYOND"
+		wrong	 = list("League of Legends", "World of Warcraft", "Web Browser")
+
+
 proc/init_books()
 	for(var/t in typesof(/question/) - /question)
 		questions += new t

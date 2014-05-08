@@ -242,9 +242,6 @@ mob/GM/verb
 		world<<"<B><font color=silver>Rain begins to pour from the sky."
 		for(var/area/A in world)		// look for an outside area
 			if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
-				for(var/turf/water/w in A)
-					if(prob(10)) continue
-					w.rain()
 				A:SetWeather(/obj/weather/rain)
 	Acid()
 		set category="Server"
@@ -262,8 +259,6 @@ mob/GM/verb
 		world<<"<B><font color=silver>The weather has cleared."
 		for(var/area/A in world)		// look for an outside area
 			if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
-				for(var/turf/water/w in A)
-					w.clear()
 				A:SetWeather()
 	DayNight()
 		set category = "Server"

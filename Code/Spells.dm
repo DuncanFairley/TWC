@@ -1359,36 +1359,35 @@ mob/Spells/verb/Carrotosi(mob/Player/M in oview()&Players)
 			if(M.away)M.ApplyAFKOverlay()
 			M.icon = 'Rabbit.dmi'
 mob/Spells/verb/Self_To_Dragon()
+	set name = "Personio Draconum"
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Draconum.</b></font>"
-		if(CanTrans(src))
-			flick("transfigure",src)
-			usr.trnsed = 1
-			usr.overlays = null
-			if(usr.away)usr.ApplyAFKOverlay()
-			usr.icon = 'Dragon.dmi'
+		flick("transfigure",usr)
+		usr.trnsed = 1
+		usr.overlays = null
+		if(usr.away)usr.ApplyAFKOverlay()
+		usr.icon = 'Dragon.dmi'
 mob/Spells/verb/Self_To_Mushroom()
+	set name = "Personio Musashi"
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Musashi.</b></font>"
-		if(CanTrans(src))
-			flick("transfigure",src)
-			usr.overlays = null
-			if(usr.away)usr.ApplyAFKOverlay()
-			usr.trnsed = 1
-			switch(usr.House)
-				if("Gryffindor")
-					usr.icon = 'Red_Mushroom.dmi'
-				if("Slytherin")
-					usr.icon = 'Green_Mushroom.dmi'
-				if("Ravenclaw")
-					usr.icon = 'Blue_Mushroom.dmi'
-				if("Hufflepuff")
-					usr.icon = 'Yellow_Mushroom.dmi'
-				else
-					usr.icon = 'Yellow_Mushroom.dmi'
+		flick("transfigure",usr)
+		usr.overlays = null
+		if(usr.away)usr.ApplyAFKOverlay()
+		usr.trnsed = 1
+		switch(usr.House)
+			if("Gryffindor")
+				usr.icon = 'Red_Mushroom.dmi'
+			if("Slytherin")
+				usr.icon = 'Green_Mushroom.dmi'
+			if("Ravenclaw")
+				usr.icon = 'Blue_Mushroom.dmi'
+			if("Hufflepuff")
+				usr.icon = 'Yellow_Mushroom.dmi'
+			else
+				usr.icon = 'Yellow_Mushroom.dmi'
 mob/Spells/verb/Self_To_Skeleton()
+	set name = "Personio Skelenum"
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		if(CanTrans(src))
@@ -1398,25 +1397,25 @@ mob/Spells/verb/Self_To_Skeleton()
 			if(usr.away)usr.ApplyAFKOverlay()
 			usr.icon = 'Skeleton.dmi'
 mob/Spells/verb/Other_To_Human(mob/Player/M in oview()&Players)
+	set name = "Transfiguro Revertio"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		if(CanTrans(M))
-			flick("transfigure",M)
-			if(M.derobe)
-				M.icon = 'Deatheater.dmi'
-			else if(M.aurorrobe)
-				M.trnsed = 0
-				if(M.Gender == "Female")
-					M.icon = 'FemaleAuror.dmi'
-				else
-					M.icon = 'MaleAuror.dmi'
+		hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Transfiguro Revertio, [M].</b></font>"
+		flick("transfigure",M)
+		if(M.derobe)
+			M.icon = 'Deatheater.dmi'
+		else if(M.aurorrobe)
+			M.trnsed = 0
+			if(M.Gender == "Female")
+				M.icon = 'FemaleAuror.dmi'
 			else
 				M.trnsed = 0
 				M.icon = M.baseicon
 			M.ApplyOverlays()
 			M<<"[usr] reversed your transfiguration."
 mob/Spells/verb/Self_To_Human()
+	set name = "Personio Humaium"
 	set category="Spells"
 	var/mob/Player/user = usr
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))

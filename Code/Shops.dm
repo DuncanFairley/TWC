@@ -611,11 +611,6 @@ obj/Madame_Pomfrey
 			src = null
 			spawn(10)
 				usr.overlays-=image('attacks.dmi',icon_state="heal")
-	New()
-		..()
-		spawn(425)
-			del src
-
 mob/Madame_Pomfrey
 	NPC=1
 	bumpable=0
@@ -776,24 +771,7 @@ obj/The_Dark_Mark
 	icon_state="Darkmark"
 	luminosity=21
 
-	New()
-		..()
-		HP = rand(4,8)
-		spawn(605)
-			del src
-	var/tmp
-		HP
-		list/people = list()
-	proc/counter(mob/Player/p)
-		HP--
-		if(!(p.name in people))
-			people += p.name
-		if(HP <= 0)
-			var/who = people[1]
-			for(var/i = 2; i <= length(people); i++)
-				who += i == length(people) ? " and [people[i]]" : ", [people[i]]"
-			world << "The Dark Mark was dispersed by [who]."
-			del src
+
 
 mob/Sir_Nicholas
 	icon = 'houseghosts.dmi'
