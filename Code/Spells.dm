@@ -1517,7 +1517,7 @@ mob/Spells/verb/Peskipixie_Pesternomae(mob/Player/M in oview(usr.client.view,usr
 	set name = "Peskipiksi Pestermi"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Peskipiksi Pesternomi, [M].</b>"
+		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Peskipiksi Pestermi, [M].</b>"
 		if(CanTrans(M))
 			sleep(20)
 			if(!M)return
