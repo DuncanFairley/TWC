@@ -160,6 +160,7 @@ StatusEffect
 	Decloaked
 	Knockedfrombroom
 	UsedLevicorpus
+	UsedClanAbilities
 	UsedIncindia
 	UsedObliviate
 	UsedStun
