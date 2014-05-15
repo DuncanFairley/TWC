@@ -1363,7 +1363,8 @@ mob/Spells/verb/Carrotosi(mob/Player/M in oview(usr.client.view,usr)&Players)
 mob/Spells/verb/Self_To_Dragon()
 	set name = "Personio Draconum"
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
 			flick("transfigure",src)
 			usr.trnsed = 1
@@ -1373,7 +1374,8 @@ mob/Spells/verb/Self_To_Dragon()
 mob/Spells/verb/Self_To_Mushroom()
 	set name = "Personio Musashi"
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
 			flick("transfigure",src)
 			usr.overlays = null
@@ -1393,7 +1395,8 @@ mob/Spells/verb/Self_To_Mushroom()
 mob/Spells/verb/Self_To_Skeleton()
 	set name = "Personio Skelenum"
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
 			flick("transfigure",usr)
 			usr.trnsed = 1
@@ -1426,7 +1429,8 @@ mob/Spells/verb/Self_To_Human()
 	set name = "Personio Humaium"
 	set category="Spells"
 	var/mob/Player/user = usr
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
 			flick("transfigure",usr)
 			usr<<"You reversed your transfiguration."
