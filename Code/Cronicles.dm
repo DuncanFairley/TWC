@@ -142,7 +142,7 @@ client/var/tmp
 obj/stackobj/Write(savefile/F)
 	return
 mob/proc/detectStoopidBug(sourcefile, line)
-	if(!Gender)
+	if(isplayer(src)&&!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
 #define SAVEFILE_VERSION 4
