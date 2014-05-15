@@ -207,36 +207,8 @@ area
 					if(WeatherType)	// if WeatherType is null, it just removes the old settings
 						Weather = new WeatherType()	// make a new obj/weather of the right type
 						overlays += Weather	// display it as an overlay for the area
+
 mob/GM/verb
-	Change_Area()
-		set category="Server"
-		var/turf/T = loc
-		if(!T) return	// for some reason, the mob is not on a turf.
-
-		if(istype(T.loc,/area/outside))	// if the turf is in an outside area
-			T.loc.contents -= T	// remove the turf from the outside area
-								// This does NOT move the turf, only changes
-								// the area it is associated with.
-
-			var/area/inside/I
-			for(I in world)		//find an inside area
-				break
-			if(!I) I = new()	// if there are no inside areas, create one
-
-			I.contents += T		// add the turf location to the inside area
-			usr << "This is an <b>inside</b> area now."
-
-		else	// this turf isn't outside
-			T.loc.contents -= T	// remove the turf from it's current area
-
-			var/area/outside/O
-			for(O in world)		// look for an outside area
-				break
-			if(!O) O = new()	// if there are no outside areas, create one
-
-			O.contents += T		// place the turf in the outside area
-			usr << "This is an <b>outside</b> area now."
-
 	Rain()
 		set category="Server"
 		world<<"<B><font color=silver>Rain begins to pour from the sky."
