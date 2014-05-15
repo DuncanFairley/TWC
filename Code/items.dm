@@ -2694,7 +2694,8 @@ obj/items/easter_egg
 
 	New()
 		..()
-		icon_state = pick(icon_states(icon))
+		spawn(1)
+			icon_state = pick(icon_states(icon))
 
 	Click()
 		if(src in usr)
