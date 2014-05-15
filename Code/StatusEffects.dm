@@ -166,6 +166,7 @@ StatusEffect
 	UsedFlagrate
 	UsedTransfiguration
 	UsedConjunctivis
+	UsedMelofors
 	UsedPortus
 	UsedMeditate
 	UsedHalloweenBucket

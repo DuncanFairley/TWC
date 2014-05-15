@@ -574,18 +574,19 @@ mob/Spells/verb/Conjunctivis(mob/M in view()&Players) // should be oview
 				del(S)
 mob/Spells/verb/Melofors(mob/M in oview()&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedMelofors,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		new /StatusEffect/UsedMelofors(src,15)
 		M.sight|=BLIND
 		hearers()<<"<b><font color=red>[usr]:</font> <font size=2><font color=red>Melofors [M]."
 		hearers()<<"<b>A giant pumpkin falls from the sky and lands upon [M.name]'s head.</b>"
 		M.overlays+=icon('pumpkinhead.dmi')
-		sleep(95)
-		M.sight&=~BLIND
-		sleep(10)
-		//M.sight=0
-		M.overlays-=icon('pumpkinhead.dmi')
-		usr<<"Your Melofors jinx has subsided from [M]."
-		M<<"[usr]'s Melofors jinx has subsided."
+		src = null
+		spawn(100)
+			if(M)
+				M.sight&=~BLIND
+				M.overlays-=icon('pumpkinhead.dmi')
+				M<<"[usr]'s Melofors jinx has subsided."
+				if(usr)usr<<"Your Melofors jinx has subsided from [M]."
 mob/Spells/verb/Incarcerous(var/mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
