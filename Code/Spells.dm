@@ -2180,11 +2180,11 @@ obj/portkey
 			del(src)
 	proc/Teleport(mob/Player/M)
 		if(M.Transfer(partner.loc))
-			if(istype(partner.loc.loc,/area/newareas/inside/Silverblood_Maze) || \
-				istype(partner.loc.loc,/area/newareas/inside/Ratcellar))
-				if(M.flying)
-					for(var/obj/items/wearable/brooms/Broom in M.Lwearing)
-						Broom.Equip(M,1)
+		//	if(istype(partner.loc.loc,/area/newareas/inside/Silverblood_Maze) || \
+		//		istype(partner.loc.loc,/area/newareas/inside/Ratcellar))
+		//		if(M.flying)
+		//			for(var/obj/items/wearable/brooms/Broom in M.Lwearing)
+		//				Broom.Equip(M,1)
 			M << "You step through the portkey."
 			..()
 

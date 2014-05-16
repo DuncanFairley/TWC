@@ -53,6 +53,13 @@ area
 					spawn(9000) daycycle()
 		inside
 			Silverblood_Maze
+
+				Entered(atom/movable/Obj,atom/OldLoc)
+					.=..()
+					if(isplayer(Obj))
+						Obj:nofly()
+
+
 			Ratcellar
 			Chamber_of_Secrets
 		Enter(atom/movable/O)
