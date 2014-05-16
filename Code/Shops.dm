@@ -958,10 +958,10 @@ obj/shop
 				if(usr.loc != parent.loc) return
 				var/obj/items/i = parent:items[usr:shop_index]
 				if(usr.gold < i.price)
-					usr << infomsg("You don't have enough money. The item you chose costs [comma(i.price)], you need [comma(i.price - usr.gold)] more gold.")
+					usr << infomsg("You don't have enough money. [i.name] costs [comma(i.price)], you need [comma(i.price - usr.gold)] more gold.")
 					return
 
-				if(alert(usr, "Are you sure you want to buy this for [comma(i.price)] gold?","Are you sure?","Yes","No") == "Yes")
+				if(alert(usr, "Are you sure you want to buy [i.name] for [comma(i.price)] gold?","Are you sure?","Yes","No") == "Yes")
 					if(usr.gold>=i.price)
 						new i.type (usr)
 						usr << infomsg("You bought [i] for [comma(i.price)] gold.")
@@ -969,6 +969,19 @@ obj/shop
 						ministrybank += taxrate*i.price/100
 						usr:Resort_Stacking_Inv()
 
+						for(var/mob/Player/p in usr.loc)
+							parent:unshop(p)
+
+						if(i.limit > 0)
+							i.limit--
+							if(i.limit<=0)
+								parent:items -= i
+								del i
+
+						for(var/mob/Player/p in usr.loc)
+							parent:shop(p)
+
+obj/items/var/tmp/limit = 0
 
 var/list/shops = list("malewigshop" = newlist(
 						/obj/items/wearable/wigs/male_black_wig,

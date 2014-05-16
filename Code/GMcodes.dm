@@ -1333,6 +1333,10 @@ mob/GM
 				i.price = new_price
 				shops[s] += i
 
+				var/new_limit = input("Limit (0 for infinite)", "[path]", 0) as null|num
+				i.limit = new_limit	? new_limit : 0
+
+
 		RemoveItem(var/s in shops)
 			set category="Staff"
 			set name = "Remove item from shop"
@@ -1344,13 +1348,22 @@ mob/GM
 
 		EditItem(var/s in shops)
 			set category = "Staff"
-			set name = "Edit item price"
+			set name = "Edit item price/limit"
 
 			var/obj/items/i = input("Select item", "[s]") as null|obj in shops[s]
 			if(i)
-				var/new_price = input("New price", i.name, i.price) as null|num
-				if(new_price)
-					i.price = new_price
+				EDITITEM
+				switch(alert(src, "Price or limit", "Edit Item", "Price", "Limit", "Cancel"))
+					if("Price")
+						var/new_price = input("New price", i.name, i.price) as null|num
+						if(new_price)
+							i.price = new_price
+						goto EDITITEM
+					if("Limit")
+						var/new_limit = input("New limit (0 for infinite)", i.name, i.limit) as null|num
+						if(new_limit)
+							i.limit = new_limit
+						goto EDITITEM
 
 
 var
