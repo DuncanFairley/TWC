@@ -3040,7 +3040,7 @@ turf
 
 		Enter(atom/movable/O, atom/oldloc)
 			if(icon_state == "water")
-				if(ismob(O) && O.density) return 0
+				if(isplayer(O) && O.density) return 0
 				if(istype(O, /obj/projectile) && O.icon_state == "iceball")
 					if(prob(20))
 						for(var/turf/water/w in range(prob(10) ? 2 : 1,O))
@@ -3069,7 +3069,7 @@ turf
 						while(time > 0 && icon_state == "ice")
 							time--
 							sleep(10)
-						water()
+						if(istype(src, /turf/water)) water()
 			water()
 				if(icon_state == "water") return
 				name       = "water"
@@ -3081,7 +3081,7 @@ turf
 						while(time > 0 && icon_state == "water")
 							time--
 							sleep(10)
-						ice()
+						if(istype(src, /turf/water)) ice()
 			rain()
 				if(rain) return
 				rain = new (src)
