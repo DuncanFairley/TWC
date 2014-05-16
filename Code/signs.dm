@@ -398,7 +398,7 @@ obj
 		verb
 			Examine_Statue()
 				set src in oview(10)
-				alert("This a statue of Former Co-Headmaster Linshon.")
+				alert("This a statue of Former Headmaster Linshon.")
 
 
 	Signs/Bustah
