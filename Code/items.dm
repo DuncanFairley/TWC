@@ -2916,14 +2916,22 @@ obj/items
 					return
 				if(D)
 					if(!D.player1 && D.player2 != usr)
+						var/turf/t = locate(x-3,y,z)
+						if(istype(t, /turf/teleport) || (locate(/obj/teleport) in t))
+							return
+
 						D.player1 = usr
-						D.player1.loc = locate(x-3,y,z)
+						D.player1.loc = t
 						D.player1.dir = EAST
 						D.player1.movable = 1
 						range(9) << "[usr] enters the duel."
 					else if(!D.player2 && D.player1 != usr)
+						var/turf/t = locate(x-3,y,z)
+						if(istype(t, /turf/teleport) || (locate(/obj/teleport) in t))
+							return
+
 						D.player2 = usr
-						D.player2.loc = locate(x+3,y,z)
+						D.player2.loc = t
 						D.player2.dir = WEST
 						D.player2.movable = 1
 						range(9) << "[usr] enters the duel."
