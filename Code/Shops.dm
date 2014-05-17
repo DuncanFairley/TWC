@@ -778,7 +778,7 @@ obj/The_Dark_Mark
 
 	New()
 		..()
-		HP = rand(4,8)
+		HP = rand(3,6)
 		spawn(605)
 			del src
 	var/tmp
