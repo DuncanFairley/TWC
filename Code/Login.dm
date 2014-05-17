@@ -1501,9 +1501,9 @@ mob/Player
 
 								if(C.mob)if(C.mob.type == /mob/Player)if(C.mob.listenooc)
 									if(usr.name=="Deatheater")
-										C << "<b><font face='Comic Sans MS' color=green size=1>OOC></font></b><b><font size=2 color=#3636F5>[usr.prevname] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
+										C << "<b><a href=\"?src=\ref[src];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr.prevname] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
 									else
-										C << "<b><font face='Comic Sans MS' color=green size=1>OOC></font></b><b><font size=2 color=#3636F5>[usr] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
+										C << "<b><a href=\"?src=\ref[src];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
 
 
 							if(usr.name=="Deatheater")
