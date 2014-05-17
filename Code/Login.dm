@@ -1764,7 +1764,7 @@ mob/proc/Death_Check(mob/killer = src)
 					else if(T.D.player2 == src)
 						range(8,T) << "<i>[T.D.player2] has lost the duel. [T.D.player1] is the winner!</i>"
 						del T.D
-			for(var/obj/portduelsystem/T in duelsystems)
+			for(var/obj/items/portduelsystem/T in duelsystems)
 				if(T.D)
 					if(T.D.player1 == src)
 						range(8,T) << "<i>[T.D.player1] has lost the duel. [T.D.player2] is the winner!</i>"
