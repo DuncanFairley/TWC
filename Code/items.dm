@@ -1312,16 +1312,20 @@ mob/GM/verb/Arena()
 	currentArena.players.Add(plyrs)
 	switch(currentArena.roundtype)
 		if(FFA_WARS)
+			if(!currentArena) return
 			src << "FFA map selected"
 			for(var/mob/M in currentArena.players)
 				M << "<u>Preparing arena round...</u>"
 			alert("Prizes are not automatically given in this Arena Mode. Round will start when you press OK.")
 			currentArena.players << "<center><font size = 4>The arena mode is <u>Free For All</u>. Everyone is your enemy.<br>The last person standing wins!</center>"
 			sleep(30)
+			if(!currentArena) return
 			currentArena.players << "<h5>Round starting in 10 seconds</h5>"
 			sleep(50)
+			if(!currentArena) return
 			currentArena.players << "<h5>5 seconds</h5>"
 			sleep(50)
+			if(!currentArena) return
 			currentArena.players << "<h4>Go!</h5>"
 			currentArena.started = 1
 			var/list/rndturfs = list()
@@ -1336,6 +1340,7 @@ mob/GM/verb/Arena()
 				M.MP = M.MMP+M.extraMMP
 				M.updateHPMP()
 		if(CLAN_WARS)
+			if(!currentArena) return
 			src << "Clan wars map selected"
 			for(var/mob/M in currentArena.players)
 				M << "<u>Preparing arena round...</u>"
@@ -1373,11 +1378,14 @@ mob/GM/verb/Arena()
 				M.dir = SOUTH
 			currentArena.players << "<center><font size = 4>The arena mode is <u>Clan Wars</u>. Aurors vs Deatheaters.<br>The first clan to reach [currentArena.goalpoints] points wins!</center>"
 			sleep(30)
+			if(!currentArena) return
 			currentArena.players << "<h5>Round starting in 10 seconds</h5>"
 			sleep(100)
+			if(!currentArena) return
 			currentArena.players << "<h4>Go!</h5>"
 			currentArena.started = 1
 		if(HOUSE_WARS)
+			if(!currentArena) return
 			src << "House wars map selected"
 			for(var/mob/M in currentArena.players)
 				M << "<u>Preparing arena round...</u>"
@@ -1406,8 +1414,10 @@ mob/GM/verb/Arena()
 				M.updateHPMP()
 			currentArena.players << "<center><font size = 4>The arena mode is <u>House Wars</u>.<br>The first house to reach [currentArena.goalpoints] arena points wins [currentArena.amountforwin] house points!"
 			sleep(30)
+			if(!currentArena) return
 			currentArena.players << "<h5>Round starting in 10 seconds</h5>"
 			sleep(100)
+			if(!currentArena) return
 			currentArena.players << "<h4>Go!</h5>"
 			currentArena.started = 1
 mob/NPC/var/walkingBack = 0
@@ -2694,8 +2704,7 @@ obj/items/easter_egg
 
 	New()
 		..()
-		spawn(1)
-			icon_state = pick(icon_states(icon))
+		icon_state = pick(icon_states(icon))
 
 	Click()
 		if(src in usr)
