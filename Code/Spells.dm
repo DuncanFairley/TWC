@@ -130,7 +130,7 @@ mob/Spells/verb/Disperse()
 	set category = "Spells"
 	set hidden = 1
 	if(canUse(src,cooldown=/StatusEffect/UsedDisperse,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		new /StatusEffect/UsedDisperse(src,15)
+		new /StatusEffect/UsedDisperse(src,10)
 		for(var/obj/smokeeffect/S in view(client.view))
 			del(S)
 		for(var/turf/T in view())
