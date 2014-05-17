@@ -108,7 +108,7 @@ mob
 		var/activated = 0
 		var/HPmodifier = 0.9
 		var/DMGmodifier = 0.55
-		var/turf/origloc
+		var/tmp/turf/origloc
 		Enemies
 			player = 0
 			Gm = 1
