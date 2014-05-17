@@ -753,7 +753,7 @@ world
 	name = "Harry Potter: The Wizards' Chronicles"
 	turf=/turf/blankturf
 	view="17x17"
-var/world/VERSION = "16.04"
+var/world/VERSION = "16.05"
 
 world/proc/playtimelogger()
 	return
@@ -979,7 +979,7 @@ mob
 			character.verbs += /mob/Spells/verb/Inflamari
 			for(var/client/C)
 				if(C.mob)
-					if(C.mob.Gm) C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] ([character.client.address])([ckey]) logged in.</I></B></font>"
+					if(C.mob.Gm) C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey]) logged in.</I></B></font>"
 					else C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B></font>"
 			character.Teleblock=0
 			src = null
@@ -1617,8 +1617,9 @@ mob/Player
 			stat("Level:",src.level)
 			stat("HP:","[src.HP]/[src.MHP+src.extraMHP]")
 			stat("MP:","[src.MP]/[src.MMP+src.extraMMP] ([src.extraMMP/10])")
-			stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
-			stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
+			if (src.level>500)
+				stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
+				stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
 			stat("House:",src.House)
 			stat("EXP:","[src.Exp]/[src.Mexp]")
 			stat("Stat points:",src.StatPoints)
@@ -2286,7 +2287,8 @@ mob
 					src<<"<b>Congratulations to [src]. You are now a 7th Year."
 				if(src.level>500 && theiryear < 8)
 					src.Year="Hogwarts Graduate"
-					src<<"<b><font color=red>Notice:</font> Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate."
+					src<<"<b>Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate."
+					src<<"<b>You can now view your damage & defense stats in the stats tab.</b>)"
 mob/Mailman
 	icon='Misc Mobs.dmi'
 	icon_state="Mailman"

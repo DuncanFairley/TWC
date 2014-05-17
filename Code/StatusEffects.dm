@@ -160,12 +160,14 @@ StatusEffect
 	Decloaked
 	Knockedfrombroom
 	UsedLevicorpus
+	UsedClanAbilities
 	UsedIncindia
 	UsedObliviate
 	UsedStun
 	UsedFlagrate
 	UsedTransfiguration
 	UsedConjunctivis
+	UsedMelofors
 	UsedPortus
 	UsedMeditate
 	UsedHalloweenBucket

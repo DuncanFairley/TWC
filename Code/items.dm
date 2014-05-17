@@ -470,6 +470,7 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 	icon = 'cedar_wand.dmi'
 	dropable = 0
 	verb/Delicio_Maxima()
+		set category = "Spells"
 		if(src in usr:Lwearing)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 				new /StatusEffect/UsedTransfiguration(usr,30)
@@ -492,6 +493,7 @@ obj/items/wearable/wands/maple_wand //Easter
 	icon = 'maple_wand.dmi'
 	dropable = 0
 	verb/Carrotosi_Maxima()
+		set category = "Spells"
 		if(src in usr:Lwearing)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 				new /StatusEffect/UsedTransfiguration(usr,30)

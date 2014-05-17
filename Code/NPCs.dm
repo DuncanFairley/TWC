@@ -95,6 +95,7 @@ mob
 								passfilter = c.name_filter(desiredname)
 							del c
 							if(name == desiredname) return
+							Log_admin("[usr] has changed their name to [desiredname].")
 							usr.name = desiredname
 							usr.underlays = list()
 							switch(usr.House)

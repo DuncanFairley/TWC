@@ -418,7 +418,7 @@ mob/GM
 			set category="Death Eater"
 			set name="DE Chat"
 			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
-			var/Reason = input(src,"What would you like to say to Death Eaters?","Input DE Message") as text|null
+			var/Reason = input(src,"What would you like to say to Death Eaters?","DE Chat") as text|null
 			if(!Reason) return
 			Reason = copytext(check(Reason),1,350)
 			for(var/client/C)
@@ -432,7 +432,7 @@ mob/GM
 			set category="Aurors"
 			set name="Auror Chat"
 			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
-			var/Reason = input(src,"What would you like to say to the Aurors?","Input Auror Message") as text|null
+			var/Reason = input(src,"What would you like to say to the Aurors?","Auror Chat") as text|null
 			if(!Reason) return
 			Reason = copytext(check(Reason),1,350)
 			for(var/client/C)
