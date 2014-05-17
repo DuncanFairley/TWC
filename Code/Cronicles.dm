@@ -142,7 +142,7 @@ client/var/tmp
 obj/stackobj/Write(savefile/F)
 	return
 mob/proc/detectStoopidBug(sourcefile, line)
-	if(isplayer(src)&&!Gender)
+	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
 #define SAVEFILE_VERSION 4
@@ -180,10 +180,9 @@ mob
 			return
 		//F["key"] << null
 		..()
-		detectStoopidBug(__FILE__, __LINE__)
 		if(testtype != /mob/Player)
-			world.log << "[testtype] isn't /mob/Player for [src]. Wtf?"
 			return
+		detectStoopidBug(__FILE__, __LINE__)
 		if (base_save_location && world.maxx)
 			var/last_x
 			var/last_y
