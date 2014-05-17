@@ -257,7 +257,7 @@ mob/Spells/verb/Eparo_Evanesca()
 				M.icon_state = ""
 			M<<"You have been revealed!"
 			new /StatusEffect/Decloaked(M,15)
-mob/Spells/verb/Evanesco(mob/M in Players&oview(usr.client.view,usr))
+mob/Spells/verb/Evanesco(mob/M in Players&oview())
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		flick('teleboom.dmi',M)
@@ -1011,7 +1011,7 @@ mob/Spells/verb/Incindia()
 				M.Death_Check()
 				usr.HP-=500
 				usr.Death_Check()
-mob/Spells/verb/Replacio(mob/M in oview(src.client.view,src)&Players)
+mob/Spells/verb/Replacio(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
 		if(issafezone(M.loc.loc) && !issafezone(loc.loc))
@@ -1678,7 +1678,7 @@ mob/Spells/verb/Wingardium_Leviosa()
 		wingobject=null
 		Wingardiumleviosa = null
 
-mob/Spells/verb/Imperio(mob/other in oview(usr.client.view,usr)&Players)
+mob/Spells/verb/Imperio(mob/other in oview()&Players)
 	set category="Spells"
 	if(!Imperio)
 
