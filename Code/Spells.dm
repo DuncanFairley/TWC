@@ -735,7 +735,7 @@ mob/Spells/verb/Antifigura()
 		p.antifigura = 0
 	else if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
 		hearers() << "<b><font color=red>[usr]</font></b>: <font color=white><i>Antifigura!</i></font>"
-		p.antifigura = max(round((p.MMP+usr.extraMMP) / rand(250,350)), 1)
+		p.antifigura = max(round((p.MMP+p.extraMMP) / rand(500,1500)), 1)
 		p.MP -= 50
 
 
