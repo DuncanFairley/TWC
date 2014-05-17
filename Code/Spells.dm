@@ -289,7 +289,7 @@ mob/Spells/verb/Densuago(mob/M in view()&Players)
 mob/Spells/verb/Morsmordre()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedClanAbilities, needwand=1))
-		new /StatusEffect/UsedClanAbilities(src,360)
+		new /StatusEffect/UsedClanAbilities(src,300)
 		var/obj/The_Dark_Mark/D = new /obj/The_Dark_Mark
 		D:loc = locate(src.x,src.y+1,src.z)
 		D.density=0
@@ -1429,8 +1429,7 @@ mob/Spells/verb/Self_To_Human()
 	set name = "Personio Humaium"
 	set category="Spells"
 	var/mob/Player/user = usr
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-		new /StatusEffect/UsedTransfiguration(src,15)
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		if(CanTrans(src))
 			flick("transfigure",usr)
 			usr<<"You reversed your transfiguration."
