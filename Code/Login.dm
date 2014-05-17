@@ -979,7 +979,7 @@ mob
 			character.verbs += /mob/Spells/verb/Inflamari
 			for(var/client/C)
 				if(C.mob)
-					if(C.mob.Gm) C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] ([character.client.address])([ckey]) logged in.</I></B></font>"
+					if(C.mob.Gm) C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey]) logged in.</I></B></font>"
 					else C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B></font>"
 			character.Teleblock=0
 			src = null
