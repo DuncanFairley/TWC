@@ -1190,6 +1190,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
 		hearers()<<"<b><font color=red>[usr]</font>: <font color=red><font size=3>Riddikulus!</font></font>, [M].</b>"
 		sleep(20)
+		if(!M) return
 		flick('fireworks.dmi',M)
 		if(M.derobe) return
 		if(M.Gender=="Male")
@@ -1197,6 +1198,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				M.icon='FemaleStaff.dmi'
 				M.icon_state=""
 				sleep(120)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='MaleStaff.dmi'
@@ -1206,6 +1208,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				M.icon='FemaleAuror.dmi'
 				M.icon_state=""
 				sleep(120)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='MaleAuror.dmi'
@@ -1215,6 +1218,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				M.icon='FemaleGryffindor.dmi'
 				M.icon_state=""
 				sleep(120)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='MaleGryffindor.dmi'
@@ -1224,6 +1228,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				M.icon='FemaleRavenclaw.dmi'
 				M.icon_state=""
 				sleep(120)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='MaleRavenclaw.dmi'
@@ -1233,6 +1238,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				M.icon='FemaleSlytherin.dmi'
 				M.icon_state=""
 				sleep(120)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='MaleSlytherin.dmi'
@@ -1242,6 +1248,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				M.icon='FemaleHufflepuff.dmi'
 				M.icon_state=""
 				sleep(120)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='MaleHufflepuff.dmi'
@@ -1252,6 +1259,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				M.icon='MaleStaff.dmi'
 				M.icon_state=""
 				sleep(120)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='FemaleStaff.dmi'
@@ -1261,6 +1269,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				M.icon='MaleAuror.dmi'
 				M.icon_state=""
 				sleep(120)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='FemaleAuror.dmi'
@@ -1270,6 +1279,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				M.icon='MaleGryffindor.dmi'
 				M.icon_state=""
 				sleep(120)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='FemaleGryffindor.dmi'
@@ -1279,6 +1289,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				M.icon='MaleRavenclaw.dmi'
 				M.icon_state=""
 				sleep(120)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='FemaleRavenclaw.dmi'
@@ -1288,6 +1299,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				M.icon='MaleSlytherin.dmi'
 				M.icon_state=""
 				sleep(120)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='FemaleSlytherin.dmi'
@@ -1297,6 +1309,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				M.icon='MaleHufflepuff.dmi'
 				M.icon_state=""
 				sleep(120)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='FemaleHufflepuff.dmi'
