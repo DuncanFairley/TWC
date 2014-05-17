@@ -167,7 +167,7 @@ proc/unload_vault()
 		vault_last_exit = world.time
 		return
 
-	var/const/VAULT_TIMEOUT = 50
+	var/const/VAULT_TIMEOUT = 60
 	vault_last_exit = world.time
 
 	spawn(VAULT_TIMEOUT)
