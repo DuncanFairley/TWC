@@ -1846,10 +1846,11 @@ mob/proc/Death_Check(mob/killer = src)
 				return
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/PlayArea))
 				if(currentArena)
+					var/list/l = range(5,currentArena.speaker)|currentArena.players
 					if(killer != src)
-						range(5,currentArena.speaker)|currentArena.players << "<b>Arena</b>: [killer] killed [src]."
+						l << "<b>Arena</b>: [killer] killed [src]."
 					else
-						range(5,currentArena.speaker)|currentArena.players << "<b>Arena</b>: [killer] killed themself."
+						l << "<b>Arena</b>: [killer] killed themself."
 					currentArena.players.Remove(src)
 					src.HP=src.MHP+extraMHP
 					src.MP=src.MMP+extraMMP
