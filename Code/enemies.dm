@@ -336,6 +336,7 @@ mob
 			Fire_Golem
 				icon = 'monsters.dmi'
 				icon_state="firegolem"
+				density = 0
 				gold = 132
 				HP = 1980
 				MHP = 1980
