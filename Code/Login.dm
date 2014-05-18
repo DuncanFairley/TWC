@@ -1839,74 +1839,6 @@ mob/proc/Death_Check(mob/killer = src)
 				if(src.removeoMob) spawn()src:Permoveo()
 				src.sight &= ~BLIND
 				return
-			if(src.DuelRespawn==2)
-				src.edeaths+=1
-				src.followplayer=0
-				src.HP=src.MHP+src.extraMHP
-				src.MP=src.MMP+src.extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				src.loc=locate(29,13,22)
-				flick('dlo.dmi',src)
-				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
-				src.sight &= ~BLIND
-				if(src.removeoMob) spawn()src:Permoveo()
-				return
-
-
-			if(src.DuelRespawn==3) //GRYFFINDOR
-				src.edeaths+=1
-				src.followplayer=0
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				src.loc=locate(87,39,21)
-				flick('dlo.dmi',src)
-				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
-				src.sight &= ~BLIND
-				if(src.removeoMob) spawn()src:Permoveo()
-				return
-			if(src.DuelRespawn==4) //RAVENCLAW
-				src.edeaths+=1
-				src.followplayer=0
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				src.loc=locate(56,25,21)
-				flick('dlo.dmi',src)
-				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
-				src.sight &= ~BLIND
-				if(src.removeoMob) spawn()src:Permoveo()
-				return
-			if(src.DuelRespawn==5) //SLYTHERIN
-				src.edeaths+=1
-				src.followplayer=0
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				src.loc=locate(15,92,21)
-				flick('dlo.dmi',src)
-				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
-				src.sight &= ~BLIND
-				if(src.removeoMob) spawn()src:Permoveo()
-				return
-			if(src.DuelRespawn==6) //HUFFLEPUFF
-				src.edeaths+=1
-				src.followplayer=0
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				src.loc=locate(60,95,21)
-				flick('dlo.dmi',src)
-				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
-				src.sight &= ~BLIND
-				if(src.removeoMob) spawn()src:Permoveo()
-				return
-
 
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/WaitingArea))
 				killer << "Do not attack in the waiting area.."
@@ -1915,11 +1847,9 @@ mob/proc/Death_Check(mob/killer = src)
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/PlayArea))
 				if(currentArena)
 					if(killer != src)
-						range(5,currentArena.speaker) << "<b>Arena</b>: [killer] killed [src]."
-						currentArena.players << "<b>Arena</b>: [killer] killed [src]."
+						range(5,currentArena.speaker)|currentArena.players << "<b>Arena</b>: [killer] killed [src]."
 					else
-						range(5,currentArena.speaker) << "<b>Arena</b>: [killer] killed themself."
-						currentArena.players << "<b>Arena</b>: [killer] killed themself."
+						range(5,currentArena.speaker)|currentArena.players << "<b>Arena</b>: [killer] killed themself."
 					currentArena.players.Remove(src)
 					src.HP=src.MHP+extraMHP
 					src.MP=src.MMP+extraMMP
@@ -1961,10 +1891,18 @@ mob/proc/Death_Check(mob/killer = src)
 					src << "You were killed by [killer] of the Aurors."
 					housepointsGSRH[5] += 1
 					clanwars_event.add_auror(1)
+
+					if(clanevent1_pointsgivenforkill)
+						housepointsGSRH[5] += clanevent1_pointsgivenforkill
+						clanwars_event.add_auror(clanevent1_pointsgivenforkill)
 				else if(killer.derobe && src.Auror)
 					src << "You were killed by a [killer]."
 					housepointsGSRH[6] += 1
 					clanwars_event.add_de(1)
+
+					if(clanevent1_pointsgivenforkill)
+						housepointsGSRH[6] += clanevent1_pointsgivenforkill
+						clanwars_event.add_de(clanevent1_pointsgivenforkill)
 			if(src.loc.loc.type in typesof(/area/arenas/MapTwo))
 			/////CLAN WARS//////
 				if(!(src.derobe && killer.derobe)&&!(src.aurorrobe && killer.aurorrobe))
@@ -2035,85 +1973,14 @@ mob/proc/Death_Check(mob/killer = src)
 				src.MP=src.MMP+extraMMP
 				src.updateHPMP()
 				return
+			var/obj/Bed/B
 			if(src.derobe)
-				if(clanwars)
-					if(src != killer)
-						if(killer.aurorrobe&&src.DE)
-							housepointsGSRH[5]+= clanevent1_pointsgivenforkill
-				src.edeaths+=1
-				src.gold = round(src.gold / 2)
-				if(src.level < lvlcap)
-					src.Exp = round(src.Exp / 2)
-				src.followplayer=0
-				src.status=""
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				var/obj/Bed/B = pick(DEBeds)
-				src.loc = B.loc
-				src.dir = SOUTH
-				flick('dlo.dmi',src)
-				if(src != killer)
-					src<<"<I>You were knocked out by <b>[killer]</b>!"
-					killer.pkills+=1
-					if(killer.level < lvlcap)
-						var/rndexp = src.level + rand(-200,200)
-						if(rndexp < 0) rndexp = 27
-						killer.Exp+=rndexp
-						killer<<infomsg("You knocked [src] out and gained [rndexp] exp.")
-						killer.LvlCheck()
-					else
-						killer<<infomsg("You knocked [src] out.")
-				else
-					src<<"<I>You knocked yourself out.</I>"
-				src.sight &= ~BLIND
-				return
-			if(src.aurorrobe)
-				if(clanwars)
-					if(src != killer)
-						if(killer.derobe&&src.Auror)
-							housepointsGSRH[6]+= clanevent1_pointsgivenforkill
-				src.edeaths+=1
-				src.gold = round(src.gold / 2)
-				if(src.level < lvlcap)
-					src.Exp = round(src.Exp / 2)
-				src.followplayer=0
-				src.status=""
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				var/obj/Bed/B = pick(AurorBeds)
-				src.loc = B.loc
-				src.dir = SOUTH
-				flick('dlo.dmi',src)
-				if(src != killer)
-					src<<"<I>You were knocked out by <b>[killer]</b>!"
-					killer.pkills+=1
-					if(killer.level < lvlcap)
-						var/rndexp = src.level + rand(-200,200)
-						if(rndexp < 0) rndexp = 27
-						killer.Exp+=rndexp
-						killer<<infomsg("You knocked [src] out and gained [rndexp] exp.")
-						killer.LvlCheck()
-					else
-						killer<<infomsg("You knocked [src] out.")
-				else
-					src<<"<I>You knocked yourself out.</I>"
-				src.sight &= ~BLIND
-				return
+				B = pick(DEBeds)
+			else if(src.aurorrobe)
+				B = pick(AurorBeds)
+			else
+				B = pick(Beds)
 			if(!src.Detention)
-				Zitt = 0
-				src.edeaths+=1
-				src.followplayer=0
-				src.gold = round(src.gold / 2)
-				if(src.level < lvlcap)
-					src.Exp = round(src.Exp / 2)
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
 				if(killer != src)
 					if(killer.client && src.client && killer.loc.loc.name != "outside")
 						if(killer.name == "Deatheater")
@@ -2127,18 +1994,26 @@ mob/proc/Death_Check(mob/killer = src)
 							else
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer] killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 					src<<"<i>You were knocked out by <b>[killer]</b> and sent to the Hospital Wing!</i>"
-				src.loc=locate(20,15,21)
-				var/obj/Bed/B = pick(Beds)
+
+				src:nofly()
+				if(src.removeoMob) spawn()src:Permoveo()
+
+				src.edeaths+=1
+				src.followplayer=0
+				Zitt = 0
+				src.status=""
+				src.HP=src.MHP+extraMHP
+				src.MP=src.MMP+extraMMP
+				src.updateHPMP()
+				src.gold = round(src.gold / 2)
+				if(src.level < lvlcap)
+					src.Exp = round(src.Exp / 2)
+				src.sight &= ~BLIND
+				flick('mist.dmi',src)
 				src.loc = B.loc
 				src.dir = SOUTH
 				flick('dlo.dmi',src)
 
-				src.sight &= ~BLIND
-				if(src.flying)
-					var/mob/Player/caster = src
-					for(var/obj/items/wearable/brooms/Broom in caster.Lwearing)
-						Broom.Equip(caster,1)
-				if(src.removeoMob) spawn()src:Permoveo()
 			if(killer.player)
 				if(killer != src)
 					killer.pkills+=1

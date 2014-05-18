@@ -512,36 +512,6 @@ area
 		Entered(mob/Player/M)
 			if(!isplayer(M)) return
 			M.loc = locate(82,22,21)
-area
-	DuelAreas
-		Raven
-			Entered(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 4
-			Exited(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 0
-		Gryff
-			Entered(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 3
-			Exited(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 0
-		Slyth
-			Entered(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 5
-			Exited(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 0
-		Huffle
-			Entered(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 6
-			Exited(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 0
 
 area
 	CommonRooms/RavenclawCommon
@@ -782,26 +752,6 @@ area
 				return
 			else
 				M.loc=locate(45,89,23)
-
-area
-	Duel_Room
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.DuelRespawn=1
-
-area
-	Leave_Duel_Room
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.DuelRespawn=0
 
 area
 	From_Fourth_Floor
@@ -1329,27 +1279,6 @@ area
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
 				M.loc=locate(57,98,22)
-
-	Duel_Arena_Enter
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(12,26,22)
-				M.DuelRespawn=2
-	Duel_Arena_Enter2
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(13,26,22)
-				M.DuelRespawn=2
-	Duel_Arena_Exit1
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(2,35,21)
-				M.DuelRespawn=0
-	Duel_Arena_Exit2
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(2,34,21)
-				M.DuelRespawn=0
 	Holo_Room_Enter
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))

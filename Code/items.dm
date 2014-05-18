@@ -386,7 +386,7 @@ obj/items/wearable/halloween_bucket
 
 obj/items/wearable/brooms
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc &&(istype(owner.loc.loc, /area/nofly)||istype(owner.loc.loc,/area/arenas)||istype(owner.loc.loc,/area/newareas/inside/Silverblood_Maze)||istype(owner.loc.loc,/area/ministry_of_magic)||istype(owner.loc.loc,/area/DuelAreas)||istype(owner.loc.loc,/area/Underwater)))
+		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc &&(istype(owner.loc.loc, /area/nofly)||istype(owner.loc.loc,/area/arenas)||istype(owner.loc.loc,/area/newareas/inside/Silverblood_Maze)||istype(owner.loc.loc,/area/ministry_of_magic)||istype(owner.loc.loc,/area/Underwater)))
 			owner << errormsg("You cannot fly here.")
 			return
 		if(!forceremove && !(src in owner.Lwearing) && owner.findStatusEffect(/StatusEffect/Knockedfrombroom))
