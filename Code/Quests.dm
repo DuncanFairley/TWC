@@ -279,6 +279,7 @@ mob
 							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Maybe I will ask some of the towns people around here."
 							alert("The girl nods somberly")
 							usr.talkedtogirl=1
+							foundlord = 1
 						if("No")
 							alert("The girl frowns")
 			Examine()

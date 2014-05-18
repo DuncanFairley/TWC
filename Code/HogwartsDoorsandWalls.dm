@@ -133,7 +133,6 @@ turf
 		icon_state="closed"
 		opacity=1
 		pass=""
-
 	Rag_Door
 		icon='Door.dmi'
 		density=1

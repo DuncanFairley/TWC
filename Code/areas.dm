@@ -1501,7 +1501,12 @@ area
 
 			DuelClass
 
-
+turf
+	shadow
+		icon = 'Turfs.dmi'
+		icon_state = "shadow"
+		layer = 5
+		mouse_opacity = 0
 
 
 //or jst put this at the end of the turf you dont wont peeps to go through
