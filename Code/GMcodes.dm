@@ -1003,135 +1003,149 @@ mob
 			set category = "Staff"
 			set name = "Edit"
 			set desc="(target) Edit a target item's variables"
-			if(usr.key=="Kindomhearts10")
-				return
+
+			if(O==null)return
+			var/list/builtin[0]
+			var/list/temp[0]
+			var/list/custom[0]
+			var/found = FALSE
+			for(var/s in O.vars)
+				if(s == "type")
+					found = TRUE
+				else if((s == "pmsRec" || s == "pmsSen")&&ckey!="murrawhip") continue
+
+				if(!issaved(O.vars[s]))
+					temp.Add(s)
+				else if(!found)
+					custom.Add(s)
+				else
+					builtin.Add(s)
+
+			var/list/options = list()
+			if(builtin.len) options += "Built in"
+			if(temp.len)    options += "Temp"
+			if(custom.len)  options += "Custom"
+
+			var/variable
+			switch(input("Which var type?","Var") as null|anything in options)
+				if("Built in")
+					variable = input("Which var?","Var") as null|anything in builtin
+				if("Temp")
+					variable = input("Which var?","Var") as null|anything in temp
+				if("Custom")
+					variable = input("Which var?","Var") as null|anything in custom
+
+			var/default
+			var/typeof = O.vars[variable]
+			var/dir
+
+			if(isnull(typeof))
+				usr << "Unable to determine variable type."
+			else if(isnum(typeof))
+				usr << "Variable appears to be <b>NUM</b>."
+				default = "num"
+				dir = 1
+
+			else if(istext(typeof))
+				usr << "Variable appears to be <b>TEXT</b>."
+				default = "text"
+
+			else if(isloc(typeof))
+				usr << "Variable appears to be <b>REFERENCE</b>."
+				default = "reference"
+
+			else if(isicon(typeof))
+				usr << "Variable appears to be <b>ICON</b>."
+				typeof = "\icon[typeof]"
+				default = "icon"
+
+			else if(istype(typeof,/atom) || istype(typeof,/datum))
+				usr << "Variable appears to be <b>TYPE</b>."
+				default = "type"
+
+			else if(istype(typeof,/list))
+				usr << "Variable appears to be <b>LIST</b>."
+				default = "list"
+
+			else if(istype(typeof,/client))
+				usr << "Variable appears to be <b>CLIENT</b>."
+				usr << "*** Warning!  Clients are uneditable in s_admin! ***"
+				default = "cancel"
+
 			else
-				if(O==null)return
-				var/list/v1[0]
-				var/list/v2[0]
-				var/list/v3[0]
-				for(var/s in O.vars)
-					if(v1.len < 50)
-						v1.Add(s)
-					else if(v1.len < 100)
-						v2.Add(s)
+				usr << "Variable appears to be <b>FILE</b>."
+				default = "file"
+
+			usr << "Variable contains: [typeof]"
+			if(dir)
+				switch(typeof)
+					if(1)
+						dir = "NORTH"
+					if(2)
+						dir = "SOUTH"
+					if(4)
+						dir = "EAST"
+					if(8)
+						dir = "WEST"
+					if(5)
+						dir = "NORTHEAST"
+					if(6)
+						dir = "SOUTHEAST"
+					if(9)
+						dir = "NORTHWEST"
+					if(10)
+						dir = "SOUTHWEST"
 					else
-						v3.Add(s)
-				var/variable
-				if(v2.len == 0)variable = input("Which var?","Var") in v1
-				else if(v3.len == 0)
-					var/vc = input("Which list?","Var List") as null|anything in list("1st","2nd")
-					if(vc == null)return
-					if(vc == "1st")variable = input("Which var?","Var") in v1
-					else if(vc == "2nd")variable = input("Which var?","Var") in v2
-				else
-					var/vc = input("Which list?","Var List") as null|anything in list("1st","2nd","3rd")
-					if(vc == null)return
-					if(vc == "1st")variable = input("Which var?","Var") in v1
-					else if(vc == "2nd")variable = input("Which var?","Var") in v2
-					else variable = input("Which var?","Var") in v3
-				var/default
-				var/typeof = O.vars[variable]
-				var/dir
-
-				if(isnull(typeof))
-					usr << "Unable to determine variable type."
-
-				else if(isnum(typeof))
-					usr << "Variable appears to be <b>NUM</b>."
-					default = "num"
-					dir = 1
-
-				else if(istext(typeof))
-					usr << "Variable appears to be <b>TEXT</b>."
-					default = "text"
-
-				else if(isloc(typeof))
-					usr << "Variable appears to be <b>REFERENCE</b>."
-					default = "reference"
-
-				else if(isicon(typeof))
-					usr << "Variable appears to be <b>ICON</b>."
-					typeof = "\icon[typeof]"
-					default = "icon"
-
-				else if(istype(typeof,/atom) || istype(typeof,/datum))
-					usr << "Variable appears to be <b>TYPE</b>."
-					default = "type"
-
-				else if(istype(typeof,/list))
-					usr << "Variable appears to be <b>LIST</b>."
-					default = "list"
-
-				else if(istype(typeof,/client))
-					usr << "Variable appears to be <b>CLIENT</b>."
-					usr << "*** Warning!  Clients are uneditable in s_admin! ***"
-					default = "cancel"
-
-				else
-					usr << "Variable appears to be <b>FILE</b>."
-					default = "file"
-
-				usr << "Variable contains: [typeof]"
+						dir = null
 				if(dir)
-					switch(typeof)
-						if(1)
-							dir = "NORTH"
-						if(2)
-							dir = "SOUTH"
-						if(4)
-							dir = "EAST"
-						if(8)
-							dir = "WEST"
-						if(5)
-							dir = "NORTHEAST"
-						if(6)
-							dir = "SOUTHEAST"
-						if(9)
-							dir = "NORTHWEST"
-						if(10)
-							dir = "SOUTHWEST"
-						else
-							dir = null
-					if(dir)
-						usr << "If a direction, direction is: [dir]"
+					usr << "If a direction, direction is: [dir]"
 
-				var/class = input("What kind of variable?","Variable Type",default) in list("text",
-					"num","type","reference","icon","file","list","restore to default","cancel")
+			var/class
 
-				switch(class)
-					if("cancel")
-						return
+			if(default=="list")
+				class = input("What kind of variable?","Variable Type",default) as null|anything in list("list","text",
+				"num","type","reference","icon","file","restore to default")
+			else
+				class = input("What kind of variable?","Variable Type",default) as null|anything in list("text",
+				"num","type","reference","icon","file","restore to default")
 
-					if("restore to default")
-						O.vars[variable] = initial(O.vars[variable])
 
-					if("text")
-						O.vars[variable] = input("Enter new text:","Text",\
-							O.vars[variable]) as text
+			switch(class)
+				if("restore to default")
+					O.vars[variable] = initial(O.vars[variable])
 
-					if("num")
-						O.vars[variable] = input("Enter new number:","Num",\
-							O.vars[variable]) as num
+				if("text")
+					O.vars[variable] = input("Enter new text:","Text",\
+						O.vars[variable]) as text
 
-					if("type")
-						O.vars[variable] = input("Enter type:","Type",O.vars[variable]) \
-							in typesof(/obj,/mob,/area,/turf)
+				if("num")
+					O.vars[variable] = input("Enter new number:","Num",\
+						O.vars[variable]) as num
 
-					if("reference")
-						O.vars[variable] = input("Select reference:","Reference",\
-							O.vars[variable]) as mob|obj|turf|area in world
+				if("type")
+					O.vars[variable] = input("Enter type:","Type",O.vars[variable]) \
+						in typesof(/obj,/mob,/area,/turf)
 
-					if("file")
-						O.vars[variable] = input("Pick file:","File",O.vars[variable]) \
-							as file
+				if("reference")
+					O.vars[variable] = input("Select reference:","Reference",\
+						O.vars[variable]) as mob|obj|turf|area in world
 
-					if("list")
-						/*List editing was coded by shirou but was removed at his wishes*/
+				if("file")
+					O.vars[variable] = input("Pick file:","File",O.vars[variable]) \
+						as file
 
-					if("icon")
-						O.vars[variable] = input("Pick icon:","Icon",O.vars[variable]) \
-							as icon
+				if("list")
+					variable = input("Which?","Var") as null|anything in O.vars[variable]
+					if(!variable) return
+					if(istype(variable,/atom))
+						spawn() Edit(variable)
+					else
+						usr << "You can't edit this."
+
+
+				if("icon")
+					O.vars[variable] = input("Pick icon:","Icon",O.vars[variable]) \
+						as icon
 		Disconnect(mob/M in world)
 			set category="Staff"
 			switch(alert("Disconnect: [M]","Disconnect Player","Yes","No"))
