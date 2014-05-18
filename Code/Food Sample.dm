@@ -161,8 +161,6 @@ mob/GM/verb/Give_All_Quidditch(mob/M in Players)
 			set category="Staff"
 			set popup_menu = 0
 			M.verbs += /mob/Quidditch/verb/Announce_To_Spectators
-			M.verbs += /mob/Quidditch/verb/Add_Spectator
-			M.verbs += /mob/Quidditch/verb/Remove_Spectator
 			M.verbs += /mob/Quidditch/verb/Setup_Match
 			M.verbs += /mob/Quidditch/verb/Start_Match
 			M.verbs += /mob/Quidditch/verb/End_Match

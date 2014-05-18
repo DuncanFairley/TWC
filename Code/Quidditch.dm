@@ -61,22 +61,6 @@ mob/Quidditch/verb
 			quidditchmatch.MsgAll("<b><font SIZE=2 COLOR=#c0c0c0>Quidditch Speakers&gt; </font></b>[src.name]<font SIZE=2 COLOR=#c0c0c0><b>:</b> [msg]")
 		else
 			src << "There's no quidditch match started yet."
-	Add_Spectator(mob/Player/P as mob in world)
-		set hidden = 1
-		/*set category = "Quidditch"
-		if(!istype(P, /mob/You/Player)) return
-		quidditchspectators.Add(P)
-		usr << "\white [P] has been added to the spectators list."*/
-
-	Remove_Spectator()
-		set hidden = 1
-		/*
-		set category = "Quidditch"
-		var/blah = input("Remove who?", "Remove Spectator") as null|anything in quidditchspectators
-		if(!blah)return
-		quidditchspectators.Remove(blah)
-		usr << "\white [blah] has been removed from the spectators list."*/
-
 
 	/* This verb was just something to give a general idea of what you can do. You can do whatever the hell you
 		want to do for setting up and starting a match. You will probably want to make it so you have variables coded in

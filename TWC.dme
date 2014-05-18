@@ -81,6 +81,7 @@
 #include "Code\Quests.dm"
 #include "Code\Quidditch.dm"
 #include "Code\Region.dm"
+#include "Code\RemovedVerbs.dm"
 #include "Code\Revoke.dm"
 #include "Code\rotemseventmob.dm"
 #include "Code\Shops.dm"
