@@ -58,14 +58,10 @@ area
 			return
 			usr<<"You may not pass."
 	nofly
-		Enter(atom/A)
-			if(ismob(A))
-				if(A:key && !A.density)
-					return 0
-				else
-					return 1
-			else
-				return 0
+		Entered(atom/movable/Obj,atom/OldLoc)
+			.=..()
+			if(isplayer(Obj))
+				Obj:nofly()
 turf
 	blackblock
 		name=""
