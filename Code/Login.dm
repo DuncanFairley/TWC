@@ -1501,9 +1501,9 @@ mob/Player
 
 								if(C.mob)if(C.mob.type == /mob/Player)if(C.mob.listenooc)
 									if(usr.name=="Deatheater")
-										C << "<b><a href=\"?src=\ref[src];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr.prevname] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
+										C << "<b><a href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr.prevname] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
 									else
-										C << "<b><a href=\"?src=\ref[src];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
+										C << "<b><a href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
 
 
 							if(usr.name=="Deatheater")
@@ -1994,7 +1994,10 @@ mob/proc/Death_Check(mob/killer = src)
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer] killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 							else
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer] killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
-					src<<"<i>You were knocked out by <b>[killer]</b> and sent to the Hospital Wing!</i>"
+					if(get_dist(src, killer) == 1 && get_dir(src, killer) == turn(src.dir,180))
+						src << "<i>You were knocked out by <b>someone from behind</b> and sent to the Hospital Wing!</i>"
+					else
+						src << "<i>You were knocked out by <b>[killer]</b> and sent to the Hospital Wing!</i>"
 
 				src:nofly()
 				if(src.removeoMob) spawn()src:Permoveo()
@@ -2908,6 +2911,7 @@ turf
 		icon_state="water"
 		name = "water"
 		density=0
+		layer=4
 		var
 			tmp/obj/rain
 			isice = 0 // Edit to 1 for winter
@@ -2941,6 +2945,7 @@ turf
 				if(icon_state == "ice") return
 				name       = "ice"
 				icon_state = "ice"
+				layer      = 2
 				if(!isice)
 					spawn()
 						var/time = rand(40,120)
@@ -2952,7 +2957,7 @@ turf
 				if(icon_state == "water") return
 				name       = "water"
 				icon_state = "water"
-
+				layer      = 4
 				if(isice)
 					spawn()
 						var/time = rand(40,120)

@@ -509,7 +509,7 @@ mob
 			if(M.level > src.level)
 				dmg -= dmg * ((M.level-src.level)/140)
 			else if(M.level < src.level)
-				dmg += dmg * ((src.level-M.level)/210)
+				dmg += dmg * ((src.level-M.level)/200)
 			dmg = round(dmg)
 			while(get_dist(src,M)>1)
 				sleep(5)
