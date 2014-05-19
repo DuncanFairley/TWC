@@ -1522,6 +1522,11 @@ mob/Player
 					else
 						usr << errormsg("OOC is muted.")
 				else
+					spam+=0.1
+					spawn(300)
+						spam-=0.1
+					if(spam > 7)
+						Auto_Mute(15, "spammed OOC")
 //					usr.Auto_Ban()
 				//	else
 				//		usr.Auto_Mute()
@@ -2077,11 +2082,28 @@ mob/proc/Death_Check(mob/killer = src)
 			//		killer.StatPoints++
 			src.loc=locate(0,0,0)
 			Respawn(src)
-/*		Auto_Mute()
-			src.mute=1//adds them to the muted list
-			world << "<b><Font face='Comic Sans MS'>HGM Security: <Font color=green><Font face='Comic Sans MS'>[src] has been auto-muted for 5 minutes for spamming.</b>"
-			spawn(300) if(src.mute){src.mute=0;world << "<b>HGM Security: <font color=green>[src] has been auto-unmuted.</font></b>"}
 
+mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
+	if(mute==0)
+		mute=1
+		verbs -= /mob/Player/verb/PM
+		world << "\red <b>[src] has been silenced.</b>"
+
+		if(reason)
+			src << "<b>You've been muted because you [reason].</b>"
+
+		if(timer==0)
+			Log_admin("[src] has been muted automatically.")
+		else
+			Log_admin("[src] has been muted automatically for [timer] minutes.")
+			timerMute = timer
+			if(timer != 0)
+				src << "<u>You've been muted for [timer] minute[timer==1 ? "" : "s"].</u>"
+			spawn()mute_countdown()
+
+		spawn()sql_add_plyr_log(ckey,"si",reason,timer)
+
+/*
 		Auto_Ban()
 			world<<"<B><Font face='Comic Sans MS'>HGM Security: <Font color=green><Font face='Comic Sans MS'>[src] has been automatically banned for Spamming on the main chat channel."
 			usr.client.FullBan(usr.key,usr.client.address)
