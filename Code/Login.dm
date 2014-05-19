@@ -3001,6 +3001,14 @@ turf
 					rain.loc = null
 					rain = null
 
+	lava
+		icon_state="hplava"
+		density = 0
+
+		Enter(atom/movable/O, atom/oldloc)
+			if(isplayer(O) && O.density) return 0
+			return ..()
+
 	floor
 		icon_state="brick"
 		density=0
@@ -3303,8 +3311,6 @@ turf
 	northpole
 		icon_state="pole"
 		density=1
-	lava
-		icon_state="hplava"
 
 	upstairs
 		icon_state="stairs"
