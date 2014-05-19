@@ -218,10 +218,6 @@ mob/GM/verb
 					if(prob(10)) continue
 					w.rain()
 				A:SetWeather(/obj/weather/rain)
-	Acid()
-		set category="Server"
-		set hidden = 1
-
 	Snow()
 		set category="Server"
 		world<<"<B><font color=silver>Snow begins to flurry from the sky."

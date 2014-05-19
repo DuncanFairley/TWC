@@ -346,6 +346,15 @@ area
 				Entered(atom/movable/Obj,atom/OldLoc)
 					if(ismob(Obj))
 						Obj << infomsg("This section has an old form of dueling enabled. Each projectile will last a full 2 seconds regardless of whether it hits a wall or other blockage.")
+			Defence_Against_the_Dark_Arts
+				location = GROUND_FLOOR
+				AI_directions = list(
+								null,		// GROUND_FLOOR
+								"vds3",		// SEC_FLOOR_EAST
+								"dsa3",		// SEC_FLOOR_WEST
+								"dsa3",		// THIRD_FLOOR
+								"dsa3"		// FORTH_FLOOR
+								)
 			Duel_Class
 				location = FORTH_FLOOR
 				AI_directions = list(
@@ -512,36 +521,6 @@ area
 		Entered(mob/Player/M)
 			if(!isplayer(M)) return
 			M.loc = locate(82,22,21)
-area
-	DuelAreas
-		Raven
-			Entered(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 4
-			Exited(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 0
-		Gryff
-			Entered(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 3
-			Exited(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 0
-		Slyth
-			Entered(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 5
-			Exited(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 0
-		Huffle
-			Entered(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 6
-			Exited(mob/Player/M)
-				if(!isplayer(M)) return
-				M.DuelRespawn = 0
 
 area
 	CommonRooms/RavenclawCommon
@@ -782,26 +761,6 @@ area
 				return
 			else
 				M.loc=locate(45,89,23)
-
-area
-	Duel_Room
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.DuelRespawn=1
-
-area
-	Leave_Duel_Room
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.DuelRespawn=0
 
 area
 	From_Fourth_Floor
@@ -1329,27 +1288,6 @@ area
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
 				M.loc=locate(57,98,22)
-
-	Duel_Arena_Enter
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(12,26,22)
-				M.DuelRespawn=2
-	Duel_Arena_Enter2
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(13,26,22)
-				M.DuelRespawn=2
-	Duel_Arena_Exit1
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(2,35,21)
-				M.DuelRespawn=0
-	Duel_Arena_Exit2
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(2,34,21)
-				M.DuelRespawn=0
 	Holo_Room_Enter
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
@@ -1501,7 +1439,12 @@ area
 
 			DuelClass
 
-
+turf
+	shadow
+		icon = 'Turfs.dmi'
+		icon_state = "shadow"
+		layer = 5
+		mouse_opacity = 0
 
 
 //or jst put this at the end of the turf you dont wont peeps to go through

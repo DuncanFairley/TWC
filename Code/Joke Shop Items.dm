@@ -493,7 +493,8 @@ obj/Poop
 		get_to(turf/t)
 			spawn()
 				while(src && t && t != loc)
-					step_towards(src, t)
-					if(src.loc.density) break
+					var/turf/t_to = get_step_towards(src, t)
+					if(!t_to||t_to.density) break
+					Move(t_to)
 					sleep(1)
 

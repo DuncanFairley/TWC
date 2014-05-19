@@ -130,7 +130,7 @@ mob/Spells/verb/Disperse()
 	set category = "Spells"
 	set hidden = 1
 	if(canUse(src,cooldown=/StatusEffect/UsedDisperse,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		new /StatusEffect/UsedDisperse(src,15)
+		new /StatusEffect/UsedDisperse(src,10)
 		for(var/obj/smokeeffect/S in view(client.view))
 			del(S)
 		for(var/turf/T in view())
@@ -735,7 +735,7 @@ mob/Spells/verb/Antifigura()
 		p.antifigura = 0
 	else if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
 		hearers() << "<b><font color=red>[usr]</font></b>: <font color=white><i>Antifigura!</i></font>"
-		p.antifigura = max(round((p.MMP+usr.extraMMP) / rand(250,350)), 1)
+		p.antifigura = max(round((p.MMP+p.extraMMP) / rand(500,1500)), 1)
 		p.MP -= 50
 
 
@@ -1113,7 +1113,10 @@ mob/Spells/verb/Tarantallegra(mob/M in view()&Players)
 			while(timer < 24)
 				timer++
 				sleep(5)
-				if(!M.movable)step_rand(M)
+				if(!M.movable)
+					var/turf/t = get_step_rand(M)
+					if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
+						M.Move(t)
 				M.dir = pick(dirs)
 			M.dance = 0
 mob/Spells/verb/Immobulus()
@@ -1190,13 +1193,15 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
 		hearers()<<"<b><font color=red>[usr]</font>: <font color=red><font size=3>Riddikulus!</font></font>, [M].</b>"
 		sleep(20)
+		if(!M) return
 		flick('fireworks.dmi',M)
 		if(M.derobe) return
 		if(M.Gender=="Male")
 			if(M.Gm)
 				M.icon='FemaleStaff.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='MaleStaff.dmi'
@@ -1205,7 +1210,8 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.aurorrobe)
 				M.icon='FemaleAuror.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='MaleAuror.dmi'
@@ -1214,7 +1220,8 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Gryffindor")
 				M.icon='FemaleGryffindor.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='MaleGryffindor.dmi'
@@ -1223,7 +1230,8 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Ravenclaw")
 				M.icon='FemaleRavenclaw.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='MaleRavenclaw.dmi'
@@ -1232,7 +1240,8 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Slytherin")
 				M.icon='FemaleSlytherin.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='MaleSlytherin.dmi'
@@ -1241,7 +1250,8 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Hufflepuff")
 				M.icon='FemaleHufflepuff.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='MaleHufflepuff.dmi'
@@ -1251,7 +1261,8 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.Gm)
 				M.icon='MaleStaff.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='FemaleStaff.dmi'
@@ -1260,7 +1271,8 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.aurorrobe)
 				M.icon='MaleAuror.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='FemaleAuror.dmi'
@@ -1269,7 +1281,8 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Gryffindor")
 				M.icon='MaleGryffindor.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='FemaleGryffindor.dmi'
@@ -1278,7 +1291,8 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Ravenclaw")
 				M.icon='MaleRavenclaw.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='FemaleRavenclaw.dmi'
@@ -1287,7 +1301,8 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Slytherin")
 				M.icon='MaleSlytherin.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='FemaleSlytherin.dmi'
@@ -1296,7 +1311,8 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Hufflepuff")
 				M.icon='MaleHufflepuff.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
+				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
 				M.icon='FemaleHufflepuff.dmi'
@@ -1886,7 +1902,11 @@ obj
 							if(src.owner && src.owner.MonsterMessages)
 								src.owner<<"Your [src] does [src.damage] damage to [A]."
 						else
-							src.owner<<"Your [src] does [src.damage] damage to [A]."
+							if(owner.monster)
+								A << "[owner] hit you for [damage] with their [src]."
+							else
+								src.owner<<"Your [src] does [src.damage] damage to [A]."
+
 					if(A.shielded)
 						var/tmpdmg = A.shieldamount - src.damage
 						if(tmpdmg < 0)
@@ -1898,9 +1918,10 @@ obj
 						else
 							A.shieldamount -= src.damage
 					else
-						A.HP-=src.damage
-						if(src.damage)
-							A.Death_Check(src.owner)
+						if(!(owner.monster&&A.monster))
+							A.HP-=src.damage
+							if(src.damage)
+								A.Death_Check(src.owner)
 			walk(src,0)
 			src.loc = null
 
@@ -2188,11 +2209,11 @@ obj/portkey
 			del(src)
 	proc/Teleport(mob/Player/M)
 		if(M.Transfer(partner.loc))
-			if(istype(partner.loc.loc,/area/newareas/inside/Silverblood_Maze) || \
-				istype(partner.loc.loc,/area/newareas/inside/Ratcellar))
-				if(M.flying)
-					for(var/obj/items/wearable/brooms/Broom in M.Lwearing)
-						Broom.Equip(M,1)
+		//	if(istype(partner.loc.loc,/area/newareas/inside/Silverblood_Maze) || \
+		//		istype(partner.loc.loc,/area/newareas/inside/Ratcellar))
+		//		if(M.flying)
+		//			for(var/obj/items/wearable/brooms/Broom in M.Lwearing)
+		//				Broom.Equip(M,1)
 			M << "You step through the portkey."
 			..()
 

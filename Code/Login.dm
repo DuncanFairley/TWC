@@ -167,7 +167,7 @@ proc/unload_vault()
 		vault_last_exit = world.time
 		return
 
-	var/const/VAULT_TIMEOUT = 50
+	var/const/VAULT_TIMEOUT = 60
 	vault_last_exit = world.time
 
 	spawn(VAULT_TIMEOUT)
@@ -1501,9 +1501,9 @@ mob/Player
 
 								if(C.mob)if(C.mob.type == /mob/Player)if(C.mob.listenooc)
 									if(usr.name=="Deatheater")
-										C << "<b><font face='Comic Sans MS' color=green size=1>OOC></font></b><b><font size=2 color=#3636F5>[usr.prevname] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
+										C << "<b><a href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr.prevname] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
 									else
-										C << "<b><font face='Comic Sans MS' color=green size=1>OOC></font></b><b><font size=2 color=#3636F5>[usr] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
+										C << "<b><a href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
 
 
 							if(usr.name=="Deatheater")
@@ -1522,6 +1522,11 @@ mob/Player
 					else
 						usr << errormsg("OOC is muted.")
 				else
+					spam+=0.1
+					spawn(300)
+						spam-=0.1
+					if(spam > 7)
+						Auto_Mute(15, "spammed OOC")
 //					usr.Auto_Ban()
 				//	else
 				//		usr.Auto_Mute()
@@ -1765,7 +1770,7 @@ mob/proc/Death_Check(mob/killer = src)
 					else if(T.D.player2 == src)
 						range(8,T) << "<i>[T.D.player2] has lost the duel. [T.D.player1] is the winner!</i>"
 						del T.D
-			for(var/obj/portduelsystem/T in duelsystems)
+			for(var/obj/items/portduelsystem/T in duelsystems)
 				if(T.D)
 					if(T.D.player1 == src)
 						range(8,T) << "<i>[T.D.player1] has lost the duel. [T.D.player2] is the winner!</i>"
@@ -1813,6 +1818,8 @@ mob/proc/Death_Check(mob/killer = src)
 						src.loc=locate(58,89,21)
 					if(/area/hogwarts/Duel_Arenas/Duel_Class)
 						src.loc=locate(45,82,23)
+					if(/area/hogwarts/Duel_Arenas/Defence_Against_the_Dark_Arts)
+						src.loc=locate(36,57,21)
 					if(/area/hogwarts/Duel_Arenas/Main_Arena_Lobby)
 						var/obj/Bed/B = pick(Beds)
 						src.loc = B.loc
@@ -1839,74 +1846,6 @@ mob/proc/Death_Check(mob/killer = src)
 				if(src.removeoMob) spawn()src:Permoveo()
 				src.sight &= ~BLIND
 				return
-			if(src.DuelRespawn==2)
-				src.edeaths+=1
-				src.followplayer=0
-				src.HP=src.MHP+src.extraMHP
-				src.MP=src.MMP+src.extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				src.loc=locate(29,13,22)
-				flick('dlo.dmi',src)
-				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
-				src.sight &= ~BLIND
-				if(src.removeoMob) spawn()src:Permoveo()
-				return
-
-
-			if(src.DuelRespawn==3) //GRYFFINDOR
-				src.edeaths+=1
-				src.followplayer=0
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				src.loc=locate(87,39,21)
-				flick('dlo.dmi',src)
-				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
-				src.sight &= ~BLIND
-				if(src.removeoMob) spawn()src:Permoveo()
-				return
-			if(src.DuelRespawn==4) //RAVENCLAW
-				src.edeaths+=1
-				src.followplayer=0
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				src.loc=locate(56,25,21)
-				flick('dlo.dmi',src)
-				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
-				src.sight &= ~BLIND
-				if(src.removeoMob) spawn()src:Permoveo()
-				return
-			if(src.DuelRespawn==5) //SLYTHERIN
-				src.edeaths+=1
-				src.followplayer=0
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				src.loc=locate(15,92,21)
-				flick('dlo.dmi',src)
-				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
-				src.sight &= ~BLIND
-				if(src.removeoMob) spawn()src:Permoveo()
-				return
-			if(src.DuelRespawn==6) //HUFFLEPUFF
-				src.edeaths+=1
-				src.followplayer=0
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				src.loc=locate(60,95,21)
-				flick('dlo.dmi',src)
-				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
-				src.sight &= ~BLIND
-				if(src.removeoMob) spawn()src:Permoveo()
-				return
-
 
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/WaitingArea))
 				killer << "Do not attack in the waiting area.."
@@ -1914,12 +1853,11 @@ mob/proc/Death_Check(mob/killer = src)
 				return
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/PlayArea))
 				if(currentArena)
+					var/list/players = range(8,currentArena.speaker)|currentArena.players
 					if(killer != src)
-						range(5,currentArena.speaker) << "<b>Arena</b>: [killer] killed [src]."
-						currentArena.players << "<b>Arena</b>: [killer] killed [src]."
+						players << "<b>Arena</b>: [killer] killed [src]."
 					else
-						range(5,currentArena.speaker) << "<b>Arena</b>: [killer] killed themself."
-						currentArena.players << "<b>Arena</b>: [killer] killed themself."
+						players << "<b>Arena</b>: [killer] killed themself."
 					currentArena.players.Remove(src)
 					src.HP=src.MHP+extraMHP
 					src.MP=src.MMP+extraMMP
@@ -1928,8 +1866,7 @@ mob/proc/Death_Check(mob/killer = src)
 						var/mob/winner
 						for(var/mob/M in currentArena.players)
 							winner = M
-						view(8,currentArena.speaker) << "<b>Arena</b>: [winner] wins the round!"
-						currentArena.players << "<b>Arena</b>: [winner] wins the round!"
+						players << "<b>Arena</b>: [winner] wins the round!"
 						var/turf/T = pick(MapThreeWaitingAreaTurfs)
 						winner.loc = T
 						winner.density = 1
@@ -1939,8 +1876,7 @@ mob/proc/Death_Check(mob/killer = src)
 					else if(currentArena.players.len == 0)
 						var/mob/winner
 						winner = src
-						view(8,currentArena.speaker) << "<b>Arena</b>: [winner] wins the round!"
-						currentArena.players << "<b>Arena</b>: [winner] wins the round!"
+						players << "<b>Arena</b>: [winner] wins the round!"
 						var/turf/T = pick(MapThreeWaitingAreaTurfs)
 						winner.loc = T
 						winner.density = 1
@@ -1961,10 +1897,18 @@ mob/proc/Death_Check(mob/killer = src)
 					src << "You were killed by [killer] of the Aurors."
 					housepointsGSRH[5] += 1
 					clanwars_event.add_auror(1)
+
+					if(clanevent1_pointsgivenforkill)
+						housepointsGSRH[5] += clanevent1_pointsgivenforkill
+						clanwars_event.add_auror(clanevent1_pointsgivenforkill)
 				else if(killer.derobe && src.Auror)
 					src << "You were killed by a [killer]."
 					housepointsGSRH[6] += 1
 					clanwars_event.add_de(1)
+
+					if(clanevent1_pointsgivenforkill)
+						housepointsGSRH[6] += clanevent1_pointsgivenforkill
+						clanwars_event.add_de(clanevent1_pointsgivenforkill)
 			if(src.loc.loc.type in typesof(/area/arenas/MapTwo))
 			/////CLAN WARS//////
 				if(!(src.derobe && killer.derobe)&&!(src.aurorrobe && killer.aurorrobe))
@@ -2035,85 +1979,14 @@ mob/proc/Death_Check(mob/killer = src)
 				src.MP=src.MMP+extraMMP
 				src.updateHPMP()
 				return
+			var/obj/Bed/B
 			if(src.derobe)
-				if(clanwars)
-					if(src != killer)
-						if(killer.aurorrobe&&src.DE)
-							housepointsGSRH[5]+= clanevent1_pointsgivenforkill
-				src.edeaths+=1
-				src.gold = round(src.gold / 2)
-				if(src.level < lvlcap)
-					src.Exp = round(src.Exp / 2)
-				src.followplayer=0
-				src.status=""
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				var/obj/Bed/B = pick(DEBeds)
-				src.loc = B.loc
-				src.dir = SOUTH
-				flick('dlo.dmi',src)
-				if(src != killer)
-					src<<"<I>You were knocked out by <b>[killer]</b>!"
-					killer.pkills+=1
-					if(killer.level < lvlcap)
-						var/rndexp = src.level + rand(-200,200)
-						if(rndexp < 0) rndexp = 27
-						killer.Exp+=rndexp
-						killer<<infomsg("You knocked [src] out and gained [rndexp] exp.")
-						killer.LvlCheck()
-					else
-						killer<<infomsg("You knocked [src] out.")
-				else
-					src<<"<I>You knocked yourself out.</I>"
-				src.sight &= ~BLIND
-				return
-			if(src.aurorrobe)
-				if(clanwars)
-					if(src != killer)
-						if(killer.derobe&&src.Auror)
-							housepointsGSRH[6]+= clanevent1_pointsgivenforkill
-				src.edeaths+=1
-				src.gold = round(src.gold / 2)
-				if(src.level < lvlcap)
-					src.Exp = round(src.Exp / 2)
-				src.followplayer=0
-				src.status=""
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				var/obj/Bed/B = pick(AurorBeds)
-				src.loc = B.loc
-				src.dir = SOUTH
-				flick('dlo.dmi',src)
-				if(src != killer)
-					src<<"<I>You were knocked out by <b>[killer]</b>!"
-					killer.pkills+=1
-					if(killer.level < lvlcap)
-						var/rndexp = src.level + rand(-200,200)
-						if(rndexp < 0) rndexp = 27
-						killer.Exp+=rndexp
-						killer<<infomsg("You knocked [src] out and gained [rndexp] exp.")
-						killer.LvlCheck()
-					else
-						killer<<infomsg("You knocked [src] out.")
-				else
-					src<<"<I>You knocked yourself out.</I>"
-				src.sight &= ~BLIND
-				return
+				B = pick(DEBeds)
+			else if(src.aurorrobe)
+				B = pick(AurorBeds)
+			else
+				B = pick(Beds)
 			if(!src.Detention)
-				Zitt = 0
-				src.edeaths+=1
-				src.followplayer=0
-				src.gold = round(src.gold / 2)
-				if(src.level < lvlcap)
-					src.Exp = round(src.Exp / 2)
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
 				if(killer != src)
 					if(killer.client && src.client && killer.loc.loc.name != "outside")
 						if(killer.name == "Deatheater")
@@ -2126,30 +1999,47 @@ mob/proc/Death_Check(mob/killer = src)
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer] killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 							else
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer] killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
-					src<<"<i>You were knocked out by <b>[killer]</b> and sent to the Hospital Wing!</i>"
-				src.loc=locate(20,15,21)
-				var/obj/Bed/B = pick(Beds)
+					if(get_dist(src, killer) == 1 && get_dir(src, killer) == turn(src.dir,180))
+						src << "<i>You were knocked out by <b>someone from behind</b> and sent to the Hospital Wing!</i>"
+					else
+						src << "<i>You were knocked out by <b>[killer]</b> and sent to the Hospital Wing!</i>"
+
+				src:nofly()
+				if(src.removeoMob) spawn()src:Permoveo()
+
+				src.edeaths+=1
+				src.followplayer=0
+				Zitt = 0
+				src.status=""
+				src.HP=src.MHP+extraMHP
+				src.MP=src.MMP+extraMMP
+				src.updateHPMP()
+				src.gold = round(src.gold / 2)
+				if(src.level < lvlcap)
+					src.Exp = round(src.Exp / 2)
+				src.sight &= ~BLIND
+				flick('mist.dmi',src)
 				src.loc = B.loc
 				src.dir = SOUTH
 				flick('dlo.dmi',src)
 
-				src.sight &= ~BLIND
-				if(src.flying)
-					var/mob/Player/caster = src
-					for(var/obj/items/wearable/brooms/Broom in caster.Lwearing)
-						Broom.Equip(caster,1)
-				if(src.removeoMob) spawn()src:Permoveo()
 			if(killer.player)
 				if(killer != src)
 					killer.pkills+=1
+					var/rndexp = src.level + rand(-200,200)
+					if(rndexp < 0) rndexp = rand(20,30)
+
+					if(killer.House == housecupwinner)
+						rndexp *= 1.25
+						rndexp = round(rndexp)
+
 					if(killer.level < lvlcap)
-						var/rndexp = src.level + rand(-200,200)
-						if(rndexp < 0) rndexp = 27
 						killer.Exp+=rndexp
 						killer<<infomsg("You knocked [src] out and gained [rndexp] exp.")
 						killer.LvlCheck()
 					else
-						killer<<infomsg("You knocked [src] out!")
+						killer.gold += rndexp * rand(5,7)
+						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 				else
 					src<<"You knocked yourself out!"
 
@@ -2192,11 +2082,28 @@ mob/proc/Death_Check(mob/killer = src)
 			//		killer.StatPoints++
 			src.loc=locate(0,0,0)
 			Respawn(src)
-/*		Auto_Mute()
-			src.mute=1//adds them to the muted list
-			world << "<b><Font face='Comic Sans MS'>HGM Security: <Font color=green><Font face='Comic Sans MS'>[src] has been auto-muted for 5 minutes for spamming.</b>"
-			spawn(300) if(src.mute){src.mute=0;world << "<b>HGM Security: <font color=green>[src] has been auto-unmuted.</font></b>"}
 
+mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
+	if(mute==0)
+		mute=1
+		verbs -= /mob/Player/verb/PM
+		world << "\red <b>[src] has been silenced.</b>"
+
+		if(reason)
+			src << "<b>You've been muted because you [reason].</b>"
+
+		if(timer==0)
+			Log_admin("[src] has been muted automatically.")
+		else
+			Log_admin("[src] has been muted automatically for [timer] minutes.")
+			timerMute = timer
+			if(timer != 0)
+				src << "<u>You've been muted for [timer] minute[timer==1 ? "" : "s"].</u>"
+			spawn()mute_countdown()
+
+		spawn()sql_add_plyr_log(ckey,"si",reason,timer)
+
+/*
 		Auto_Ban()
 			world<<"<B><Font face='Comic Sans MS'>HGM Security: <Font color=green><Font face='Comic Sans MS'>[src] has been automatically banned for Spamming on the main chat channel."
 			usr.client.FullBan(usr.key,usr.client.address)
@@ -3026,6 +2933,7 @@ turf
 		icon_state="water"
 		name = "water"
 		density=0
+		layer=4
 		var
 			tmp/obj/rain
 			isice = 0 // Edit to 1 for winter
@@ -3036,7 +2944,7 @@ turf
 
 		Enter(atom/movable/O, atom/oldloc)
 			if(icon_state == "water")
-				if(ismob(O) && O.density) return 0
+				if(isplayer(O) && O.density) return 0
 				if(istype(O, /obj/projectile) && O.icon_state == "iceball")
 					if(prob(20))
 						for(var/turf/water/w in range(prob(10) ? 2 : 1,O))
@@ -3059,25 +2967,26 @@ turf
 				if(icon_state == "ice") return
 				name       = "ice"
 				icon_state = "ice"
+				layer      = 2
 				if(!isice)
 					spawn()
 						var/time = rand(40,120)
 						while(time > 0 && icon_state == "ice")
 							time--
 							sleep(10)
-						water()
+						if(istype(src, /turf/water)) water()
 			water()
 				if(icon_state == "water") return
 				name       = "water"
 				icon_state = "water"
-
+				layer      = 4
 				if(isice)
 					spawn()
 						var/time = rand(40,120)
 						while(time > 0 && icon_state == "water")
 							time--
 							sleep(10)
-						ice()
+						if(istype(src, /turf/water)) ice()
 			rain()
 				if(rain) return
 				rain = new (src)
@@ -3091,6 +3000,14 @@ turf
 				if(rain)
 					rain.loc = null
 					rain = null
+
+	lava
+		icon_state="hplava"
+		density = 0
+
+		Enter(atom/movable/O, atom/oldloc)
+			if(isplayer(O) && O.density) return 0
+			return ..()
 
 	floor
 		icon_state="brick"
@@ -3394,8 +3311,6 @@ turf
 	northpole
 		icon_state="pole"
 		density=1
-	lava
-		icon_state="hplava"
 
 	upstairs
 		icon_state="stairs"
