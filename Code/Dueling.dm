@@ -84,8 +84,12 @@ Duel
 					sleep(10)
 				duelcenter.overlays -= o
 				range(9,duelcenter) << "GO!"
-				for(var/turf/duelblock/B in block(locate(duelcenter.x-5,duelcenter.y,duelcenter.z),locate(duelcenter.x+5,duelcenter.y,duelcenter.z)))
-					B.density = 0
+				if(isobj(duelcenter))
+					for(var/obj/duelblock/B in block(locate(duelcenter.x-5,duelcenter.y,duelcenter.z),locate(duelcenter.x+5,duelcenter.y,duelcenter.z)))
+						B.density = 0
+				else
+					for(var/turf/duelblock/B in block(locate(duelcenter.x-5,duelcenter.y,duelcenter.z),locate(duelcenter.x+5,duelcenter.y,duelcenter.z)))
+						B.density = 0
 				player1.movable = 0
 				player2.movable = 0
 				View_Check_Ticker()
