@@ -1853,11 +1853,11 @@ mob/proc/Death_Check(mob/killer = src)
 				return
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/PlayArea))
 				if(currentArena)
-					var/list/l = range(5,currentArena.speaker)|currentArena.players
+					var/list/players = range(8,currentArena.speaker)|currentArena.players
 					if(killer != src)
-						l << "<b>Arena</b>: [killer] killed [src]."
+						players << "<b>Arena</b>: [killer] killed [src]."
 					else
-						l << "<b>Arena</b>: [killer] killed themself."
+						players << "<b>Arena</b>: [killer] killed themself."
 					currentArena.players.Remove(src)
 					src.HP=src.MHP+extraMHP
 					src.MP=src.MMP+extraMMP
@@ -1866,8 +1866,7 @@ mob/proc/Death_Check(mob/killer = src)
 						var/mob/winner
 						for(var/mob/M in currentArena.players)
 							winner = M
-						view(8,currentArena.speaker) << "<b>Arena</b>: [winner] wins the round!"
-						currentArena.players << "<b>Arena</b>: [winner] wins the round!"
+						players << "<b>Arena</b>: [winner] wins the round!"
 						var/turf/T = pick(MapThreeWaitingAreaTurfs)
 						winner.loc = T
 						winner.density = 1
@@ -1877,8 +1876,7 @@ mob/proc/Death_Check(mob/killer = src)
 					else if(currentArena.players.len == 0)
 						var/mob/winner
 						winner = src
-						view(8,currentArena.speaker) << "<b>Arena</b>: [winner] wins the round!"
-						currentArena.players << "<b>Arena</b>: [winner] wins the round!"
+						players << "<b>Arena</b>: [winner] wins the round!"
 						var/turf/T = pick(MapThreeWaitingAreaTurfs)
 						winner.loc = T
 						winner.density = 1
