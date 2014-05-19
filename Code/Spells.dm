@@ -1902,7 +1902,11 @@ obj
 							if(src.owner && src.owner.MonsterMessages)
 								src.owner<<"Your [src] does [src.damage] damage to [A]."
 						else
-							src.owner<<"Your [src] does [src.damage] damage to [A]."
+							if(owner.monster)
+								A << "[owner] hit you for [damage] with their [src]."
+							else
+								src.owner<<"Your [src] does [src.damage] damage to [A]."
+
 					if(A.shielded)
 						var/tmpdmg = A.shieldamount - src.damage
 						if(tmpdmg < 0)
@@ -1914,9 +1918,10 @@ obj
 						else
 							A.shieldamount -= src.damage
 					else
-						A.HP-=src.damage
-						if(src.damage)
-							A.Death_Check(src.owner)
+						if(!(owner.monster&&A.monster))
+							A.HP-=src.damage
+							if(src.damage)
+								A.Death_Check(src.owner)
 			walk(src,0)
 			src.loc = null
 

@@ -323,9 +323,7 @@ mob
 						step_to(src,M)
 						sleep(4)
 					dir=get_dir(src,M)
-					var/obj/enemyfireball/S=new(src.loc)
-					S.caster = src
-					walk(S,dir,2)
+					castproj(0, 'attacks.dmi', "fireball", Dmg, "fire ball")
 					//spawn(30)M.Death_Check(src)
 					sleep(10)
 					for(var/mob/A in oview(src)) if(A.client)
@@ -356,9 +354,7 @@ mob
 							return
 						step_to(src,M)
 					dir=get_dir(src,M)
-					var/obj/enemyfireball/S=new(src.loc)
-					S.caster = src
-					walk(S,dir,2)
+					castproj(0, 'attacks.dmi', "fireball", Dmg, "fire ball")
 					//spawn(30)M.Death_Check(src)
 					sleep(10)
 					for(var/mob/A in oview(src)) if(A.client)
