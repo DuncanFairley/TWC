@@ -1818,6 +1818,8 @@ mob/proc/Death_Check(mob/killer = src)
 						src.loc=locate(58,89,21)
 					if(/area/hogwarts/Duel_Arenas/Duel_Class)
 						src.loc=locate(45,82,23)
+					if(/area/hogwarts/Duel_Arenas/Defence_Against_the_Dark_Arts)
+						src.loc=locate(36,57,21)
 					if(/area/hogwarts/Duel_Arenas/Main_Arena_Lobby)
 						var/obj/Bed/B = pick(Beds)
 						src.loc = B.loc

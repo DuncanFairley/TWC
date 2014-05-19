@@ -346,6 +346,15 @@ area
 				Entered(atom/movable/Obj,atom/OldLoc)
 					if(ismob(Obj))
 						Obj << infomsg("This section has an old form of dueling enabled. Each projectile will last a full 2 seconds regardless of whether it hits a wall or other blockage.")
+			Defence_Against_the_Dark_Arts
+				location = GROUND_FLOOR
+				AI_directions = list(
+								null,		// GROUND_FLOOR
+								"vds3",		// SEC_FLOOR_EAST
+								"dsa3",		// SEC_FLOOR_WEST
+								"dsa3",		// THIRD_FLOOR
+								"dsa3"		// FORTH_FLOOR
+								)
 			Duel_Class
 				location = FORTH_FLOOR
 				AI_directions = list(
