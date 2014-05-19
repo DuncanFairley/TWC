@@ -888,12 +888,9 @@ mob
 		Stealth_Orb(mob/M in world)
 			set category = "Staff"
 			set popup_menu = 0
-			usr.picon_state=usr.icon_state
-		//	flick('apparate.dmi',usr)
-			sleep(10)
-			src.x = M:x
-			src.y = M:y+1
-			src.z = M:z
+			src.x = M.x
+			src.y = M.y+1
+			src.z = M.z
 			usr<<"You orb silently behind [M]."
 
 		Immortal()
@@ -1035,6 +1032,7 @@ mob
 				if("Custom")
 					variable = input("Which var?","Var") as null|anything in custom
 
+			if(!variable) return
 			var/default
 			var/typeof = O.vars[variable]
 			var/dir
