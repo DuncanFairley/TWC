@@ -507,7 +507,7 @@ mob
 		proc/Attack(mob/M)
 			var/dmg = Dmg+extraDmg+rand(0,4)
 			if(M.level > src.level)
-				dmg -= dmg * ((M.level-src.level)/140)
+				dmg -= dmg * ((M.level-src.level)/100)
 			else if(M.level < src.level)
 				dmg += dmg * ((src.level-M.level)/200)
 			dmg = round(dmg)
