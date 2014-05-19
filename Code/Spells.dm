@@ -1114,7 +1114,7 @@ mob/Spells/verb/Tarantallegra(mob/M in view()&Players)
 				timer++
 				sleep(5)
 				if(!M.movable)
-					var/turf/t = step_rand(M)
+					var/turf/t = get_step_rand(M)
 					if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
 						M.Move(t)
 				M.dir = pick(dirs)
@@ -1200,7 +1200,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.Gm)
 				M.icon='FemaleStaff.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
 				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
@@ -1210,7 +1210,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.aurorrobe)
 				M.icon='FemaleAuror.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
 				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
@@ -1220,7 +1220,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Gryffindor")
 				M.icon='FemaleGryffindor.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
 				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
@@ -1230,7 +1230,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Ravenclaw")
 				M.icon='FemaleRavenclaw.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
 				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
@@ -1240,7 +1240,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Slytherin")
 				M.icon='FemaleSlytherin.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
 				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
@@ -1250,7 +1250,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Hufflepuff")
 				M.icon='FemaleHufflepuff.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
 				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
@@ -1261,7 +1261,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.Gm)
 				M.icon='MaleStaff.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
 				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
@@ -1271,7 +1271,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.aurorrobe)
 				M.icon='MaleAuror.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
 				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
@@ -1281,7 +1281,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Gryffindor")
 				M.icon='MaleGryffindor.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
 				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
@@ -1291,7 +1291,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Ravenclaw")
 				M.icon='MaleRavenclaw.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
 				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
@@ -1301,7 +1301,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Slytherin")
 				M.icon='MaleSlytherin.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
 				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
@@ -1311,7 +1311,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			if(M.House=="Hufflepuff")
 				M.icon='MaleHufflepuff.dmi'
 				M.icon_state=""
-				sleep(120)
+				sleep(600)
 				if(!M) return
 				M << "<b>You turn back to Normal</b>"
 				flick('teleboom.dmi',M)
