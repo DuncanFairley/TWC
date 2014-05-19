@@ -53,6 +53,13 @@ area
 					spawn(9000) daycycle()
 		inside
 			Silverblood_Maze
+
+				Entered(atom/movable/Obj,atom/OldLoc)
+					.=..()
+					if(isplayer(Obj))
+						Obj:nofly()
+
+
 			Ratcellar
 			Chamber_of_Secrets
 		Enter(atom/movable/O)
@@ -101,7 +108,7 @@ mob
 		var/activated = 0
 		var/HPmodifier = 0.9
 		var/DMGmodifier = 0.55
-		var/turf/origloc
+		var/tmp/turf/origloc
 		Enemies
 			player = 0
 			Gm = 1
@@ -117,7 +124,7 @@ mob
 				Dmg = 60
 				Expg = 36
 				ratpoints = 1
-				level = 1
+				level = 5
 			Demon_Rat
 				icon = 'monsters.dmi'
 				icon_state="demon rat"
@@ -126,7 +133,7 @@ mob
 				MHP = 360
 				Dmg = 120
 				Expg = 37
-				level = 35
+				level = 10
 			Pixie
 				icon = 'monsters2.dmi'
 				icon_state="pixie"
@@ -136,7 +143,7 @@ mob
 				Def=0
 				Dmg = 300
 				Expg = 65
-				level = 70
+				level = 50
 			Dog
 				icon = 'NewMobs.dmi'
 				icon_state="dog"
@@ -146,7 +153,7 @@ mob
 				Def = 0
 				Dmg = 210
 				Expg = 40
-				level = 105
+				level = 100
 			Snake
 				icon = 'Animagus.dmi'
 				icon_state="Snake"
@@ -156,7 +163,7 @@ mob
 				gold = 36
 				Def=60
 				Expg = 39
-				level = 140
+				level = 150
 			Snake_  //SUMMONED
 				icon = 'Animagus.dmi'
 				icon_state="Snake"
@@ -164,7 +171,7 @@ mob
 				MHP = 500
 				Dmg = 125
 				Def=60
-				level = 15
+				level = 200
 			Wolf
 				icon = 'monsters2.dmi'
 				icon_state="wolf"
@@ -174,7 +181,7 @@ mob
 				Def=0
 				Dmg = 255
 				Expg = 50
-				level = 175
+				level = 250
 			Acromantula
 				icon = 'monster.dmi'
 				icon_state="Spider"
@@ -184,7 +191,7 @@ mob
 				Dmg = 450
 				Def=15
 				Expg = 76
-				level = 210
+				level = 500
 			Floating_Eye
 				icon = 'monsters.dmi'
 				icon_state="eye"
@@ -194,7 +201,7 @@ mob
 				Dmg = 825
 				Def=80
 				Expg = 209
-				level = 305
+				level = 700
 			Troll
 				icon = 'monsters2.dmi'
 				icon_state="troll"
@@ -204,7 +211,7 @@ mob
 				Def=10
 				Dmg = 930
 				Expg = 310
-				level = 85
+				level = 300
 			House_Elf
 				icon = 'monsters2.dmi'
 				icon_state="houseelf"
@@ -234,7 +241,7 @@ mob
 				Dmg = 1275
 				Def=29
 				Expg = 840
-				level = 300
+				level = 650
 			Dementor_ /////SUMMONED/////
 				icon = 'monsters2.dmi'
 				icon_state="Dementor"
@@ -244,7 +251,7 @@ mob
 				MHP = 500
 				Dmg = 200
 				Def=20
-				level = 6
+				level = 300
 			Stickman_ ///SUMMONED///
 				icon = 'stickman.dmi'
 		/*		gold = 0
@@ -260,7 +267,7 @@ mob
 				Def=10
 				Dmg = 930
 				Expg = 310
-				level = 85
+				level = 500
 			Bird_    ///SUMMONED///
 				icon = 'monsters2.dmi'
 				icon_state="bird"
@@ -303,7 +310,7 @@ mob
 				Dmg = 555
 				Def=35
 				Expg = 89
-				level = 240
+				level = 350
 				Attack(mob/M)
 					while(get_dist(src,M)>5)
 						if(!activated)
@@ -316,9 +323,7 @@ mob
 						step_to(src,M)
 						sleep(4)
 					dir=get_dir(src,M)
-					var/obj/enemyfireball/S=new(src.loc)
-					S.caster = src
-					walk(S,dir,2)
+					castproj(0, 'attacks.dmi', "fireball", Dmg, "fire ball")
 					//spawn(30)M.Death_Check(src)
 					sleep(10)
 					for(var/mob/A in oview(src)) if(A.client)
@@ -329,13 +334,14 @@ mob
 			Fire_Golem
 				icon = 'monsters.dmi'
 				icon_state="firegolem"
+				density = 0
 				gold = 132
 				HP = 1980
 				MHP = 1980
 				Dmg = 660
 				Def=30
 				Expg = 115
-				level = 275
+				level = 400
 				Attack(mob/M)
 					while(get_dist(src,M)>5)
 						sleep(4)
@@ -348,9 +354,7 @@ mob
 							return
 						step_to(src,M)
 					dir=get_dir(src,M)
-					var/obj/enemyfireball/S=new(src.loc)
-					S.caster = src
-					walk(S,dir,2)
+					castproj(0, 'attacks.dmi', "fireball", Dmg, "fire ball")
 					//spawn(30)M.Death_Check(src)
 					sleep(10)
 					for(var/mob/A in oview(src)) if(A.client)
@@ -382,7 +386,7 @@ mob
 				Dmg = 945
 				Def=95
 				Expg = 420
-				level = 375
+				level = 450
 			Water_Elemental
 				icon = 'monster.dmi'
 				icon_state="water elemental"
@@ -392,7 +396,7 @@ mob
 				//Dmg = 300//975
 				//Def=80
 				Expg = 510
-				level = 405
+				level = 500
 			Fire_Elemental
 				icon = 'monster.dmi'
 				icon_state="fire elemental"
@@ -402,7 +406,7 @@ mob
 				Dmg = 1020
 				Def=80
 				Expg = 530
-				level = 440
+				level = 550
 			Wyvern
 				icon = 'monster.dmi'
 				icon_state="wyvern"
@@ -412,7 +416,7 @@ mob
 				Dmg = 1110
 				Def=80
 				Expg = 620
-				level = 475
+				level = 600
 				monster = 1
 				NPC = 0
 			Basilisk

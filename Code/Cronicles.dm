@@ -180,10 +180,9 @@ mob
 			return
 		//F["key"] << null
 		..()
-		detectStoopidBug(__FILE__, __LINE__)
 		if(testtype != /mob/Player)
-			world.log << "[testtype] isn't /mob/Player for [src]. Wtf?"
 			return
+		detectStoopidBug(__FILE__, __LINE__)
 		if (base_save_location && world.maxx)
 			var/last_x
 			var/last_y

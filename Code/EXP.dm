@@ -490,3 +490,9 @@ proc
 			else
 				L.Add(p)
 		return L
+
+mob/Player/proc
+	nofly()
+		if(flying)
+			var/obj/items/wearable/brooms/Broom = locate() in Lwearing
+			if(Broom) Broom.Equip(src,1)

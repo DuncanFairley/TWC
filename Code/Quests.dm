@@ -279,6 +279,7 @@ mob
 							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Maybe I will ask some of the towns people around here."
 							alert("The girl nods somberly")
 							usr.talkedtogirl=1
+							foundlord = 1
 						if("No")
 							alert("The girl frowns")
 			Examine()
@@ -307,25 +308,30 @@ mob
 				usr << "He looks like a mix between Count Choculah and an elf."
 			Talk()
 				set src in oview(3)
-				switch(input("Lord: How did you get here!","Lord")in list("Your maze was pretty lame","Give back the girls baby"))
-					if("Your maze was pretty lame")
-						switch(input("Lord: WHAT! NEVER!!! I will demolish you!","Lord")in list("Bring it on!","No! I'm sorry."))
-							if("Bring it on!")
-								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lord</font> [GMTag]</b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
-								alert("The Lord vanishes in a puff of smoke leaving the baby laying on the floor. You pick up the baby and decide to high tail it out before he returns.")
-								usr.babyfound=1
-								usr.foundlord=2
-								usr.loc=locate(74,89,3)
-							if("No! I'm sorry.")
-								alert("The Lord squints his eyes at you and turns his back")
-					if("Give back the girls baby")
-						switch(input("Lord: Never! You'll have to take it!","Lord")in list("So it shall be."))
-							if("So it shall be.")
-								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lord</font> [GMTag]</b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
-								alert("The Lord vanishes in a puff of smoke leaving the baby laying on the floor. You pick up the baby and decide to high tail it out before he returns.")
-								usr.babyfound=1
-								usr.foundlord=2
-								usr.loc=locate(74,89,3)
+				if(foundlord == 1)
+					switch(input("Lord: How did you get here!","Lord")in list("Your maze was pretty lame","Give back the girls baby"))
+						if("Your maze was pretty lame")
+							switch(input("Lord: WHAT! NEVER!!! I will demolish you!","Lord")in list("Bring it on!","No! I'm sorry."))
+								if("Bring it on!")
+									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lord</font> [GMTag]</b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
+								//	alert("The Lord vanishes in a puff of smoke leaving the baby laying on the floor. You pick up the baby and decide to high tail it out before he returns.")
+									usr.babyfound=1
+									usr.foundlord=2
+								//	usr.loc=locate(74,89,3)
+								if("No! I'm sorry.")
+									alert("The Lord squints his eyes at you and turns his back")
+						if("Give back the girls baby")
+							switch(input("Lord: Never! You'll have to take it!","Lord")in list("So it shall be."))
+								if("So it shall be.")
+									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lord</font> [GMTag]</b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
+								//	alert("The Lord vanishes in a puff of smoke leaving the baby laying on the floor. You pick up the baby and decide to high tail it out before he returns.")
+									usr.babyfound=1
+									usr.foundlord=2
+								//	usr.loc=locate(74,89,3)
+				else if(foundlord == 2 && talkedtogirl != 2)
+					usr << "You won, go back to the girl."
+				else
+					usr << "He looks like a mix between Count Choculah and an elf. You decide not to bother him."
 
 turf
 	lever
@@ -706,6 +712,7 @@ mob
 			Talk()
 				set src in oview(3)
 				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> Hiya. What's up?"
+				if(foundlord) return
 				sleep(20)
 				switch(input("Your response","Respond")in list("I'm looking for someone","Nothing really","Mind your own business"))
 					if("Mind your own business")
