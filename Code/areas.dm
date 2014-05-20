@@ -651,6 +651,13 @@ obj
 		density=0
 		dontsave=1
 		wlable=0
+	bigyellowchair
+		name="Big Yellow Chair"
+		icon='Thrones.dmi'
+		icon_state="yellow"
+		density=0
+		dontsave=1
+		wlable=0
 
 //AREAS
 
