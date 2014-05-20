@@ -22,6 +22,16 @@ obj/statues
 	floating_eye/icon_state = "eye"
 	archangel/icon_state = "archangel"
 	snake/icon_state = "snake"
+	house_elf/icon_state = "houseelf"
+	dragon/icon_state = "dragon"
+	wolf/icon_state = "wolf"
+	skeleton/icon_state = "skeleton"
+	bat/icon_state = "bat"
+	werewolf/icon_state = "werewolf"
+	rat/icon_state = "rat"
+	black_cat/icon_state = "blackcat"
+	white_cat/icon_state = "whitecat"
+	dog/icon_state = "dog"
 
 area
 	newareas
