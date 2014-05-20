@@ -2188,8 +2188,8 @@ mob
 					src<<"<b>Congratulations to [src]. You are now a 7th Year."
 				if(src.level>500 && theiryear < 8)
 					src.Year="Hogwarts Graduate"
-					src<<"<b>Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate."
-					src<<"<b>You can now view your damage & defense stats in the stats tab.</b>"
+					src<<"Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate."
+					src<<infomsg("You can now view your damage & defense stats in the stats tab.")
 mob/Mailman
 	icon='Misc Mobs.dmi'
 	icon_state="Mailman"
