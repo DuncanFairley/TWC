@@ -317,7 +317,7 @@ mob/Spells/verb/Repellium()
 		usr.overlays-=image('expecto.dmi')
 
 mob/Spells/verb/Basilio()
-	set category = "Staff"
+	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
 		new /StatusEffect/Summoned(src,15)
 		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Basilio!"
