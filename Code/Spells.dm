@@ -1804,6 +1804,7 @@ mob
 
 obj
 	projectile
+		layer = 4
 		density = 1
 		SteppedOn(atom/movable/A)
 			//world << "[src] stepped on [A]"
