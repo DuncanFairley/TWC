@@ -6,7 +6,7 @@
  */
 mob/Player
 	Move(newloc, newdir)
-		if(frozen||stuned||moving||arcessoing||GMFrozen)return
+		if(frozen||stuned||(moving&&newdir)||arcessoing||GMFrozen)return
 		if(isobj(newloc))
 			..()
 		else if(loc)
