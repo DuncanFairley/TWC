@@ -2161,15 +2161,21 @@ mob/Player
 			return
 		..()
 
-client/Move(loc,dir)
-	if(src.mob.away)
-		src.mob.away = 0
-		src.mob.status=usr.here
-		src.mob.overlays-=image('AFK.dmi',icon_state="GM")
-		src.mob.overlays-=image('AFK.dmi',icon_state="AFK2")
-		src.mob.overlays-='AFK.dmi'
-	..()
+client
+	var/tmp/moving = 0
+	Move(loc,dir)
+		if(moving) return
+		moving = 1
 
+		if(src.mob.away)
+			src.mob.away = 0
+			src.mob.status=usr.here
+			src.mob.overlays-=image('AFK.dmi',icon_state="GM")
+			src.mob.overlays-=image('AFK.dmi',icon_state="AFK2")
+			src.mob.overlays-='AFK.dmi'
+		..()
+		sleep(0)
+		moving = 0
 
 
 obj/var

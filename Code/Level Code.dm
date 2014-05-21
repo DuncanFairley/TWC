@@ -20,10 +20,7 @@ mob/Player
 				sleep(loc:slow)
 				moving=0
 			else
-				moving=1
 				..()
-				sleep(0)
-				moving=0
 turf/var/tmp/slow=0
 mob
    var/tmp
