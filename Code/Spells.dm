@@ -2167,6 +2167,10 @@ client
 		if(moving) return
 		moving = 1
 
+		if(mob.confused && dir)
+			dir = turn(dir,180)
+			loc = get_step(mob, dir)
+
 		if(src.mob.away)
 			src.mob.away = 0
 			src.mob.status=usr.here
