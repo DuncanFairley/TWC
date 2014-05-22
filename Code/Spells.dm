@@ -317,21 +317,19 @@ mob/Spells/verb/Repellium()
 		usr.overlays-=image('expecto.dmi')
 
 mob/Spells/verb/Basilio()
-	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
-		new /StatusEffect/Summoned(src,15)
-		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Basilio!"
-		sleep(20)
-		hearers()<<"[usr]'s wand emits a bright flash of light."
-		sleep(20)
-		if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
-			src << "<b>You can't use this inside a safezone.</b>"
-			return
-		hearers()<<"A Black Basilisk, emerges from [usr]'s wand."
-		hearers()<<"<b>Basilisk</b>: Hissssssss!"
-		var/mob/Basilisk/D = new /mob/Basilisk
-		D:loc = locate(src.x,src.y-1,src.z)
-		flick('mist.dmi',D)
+	set category = "Staff"
+	hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Basilio!"
+	sleep(20)
+	hearers()<<"[usr]'s wand emits a bright flash of light."
+	sleep(20)
+	if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
+		src << "<b>You can't use this inside a safezone.</b>"
+		return
+	hearers()<<"A Black Basilisk, emerges from [usr]'s wand."
+	hearers()<<"<b>Basilisk</b>: Hissssssss!"
+	var/mob/Basilisk/D = new /mob/Basilisk
+	D:loc = locate(src.x,src.y-1,src.z)
+	flick('mist.dmi',D)
 
 mob/Spells/verb/Serpensortia()
 	set category = "Spells"
