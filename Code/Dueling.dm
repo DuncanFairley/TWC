@@ -85,8 +85,10 @@ Duel
 				duelcenter.overlays -= o
 				range(9,duelcenter) << "GO!"
 				if(isobj(duelcenter))
-					for(var/obj/duelblock/B in block(locate(duelcenter.x-5,duelcenter.y,duelcenter.z),locate(duelcenter.x+5,duelcenter.y,duelcenter.z)))
-						B.density = 0
+					var/obj/duelblock/B1 = locate(/obj/duelblock) in locate(duelcenter.x-2,duelcenter.y,duelcenter.z)
+					var/obj/duelblock/B2 = locate(/obj/duelblock) in locate(duelcenter.x+2,duelcenter.y,duelcenter.z)
+					B1.density = 0
+					B2.density = 0
 				else
 					for(var/turf/duelblock/B in block(locate(duelcenter.x-5,duelcenter.y,duelcenter.z),locate(duelcenter.x+5,duelcenter.y,duelcenter.z)))
 						B.density = 0

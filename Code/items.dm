@@ -2869,8 +2869,6 @@ obj/items
 			c3.density = 1
 			src.dueltiles.Add(c5)
 			c5.density = 1
-			var/obj/duelblock/t1 = new(src.loc)
-			var/obj/duelblock/t2 = new(src.loc)
 			spawn()step(c1,WEST)
 			spawn()step(c7,EAST)
 			spawn()step(c2,WEST)
@@ -2885,11 +2883,6 @@ obj/items
 			spawn()step(c3,WEST)
 			spawn()step(c5,EAST)
 			sleep(6)
-			spawn()
-				step(t1,WEST)
-				step(t1,WEST)
-				step(t2,EAST)
-				step(t2,EAST)
 			c1.density = 0
 			c7.density = 0
 			c2.density = 0
@@ -2902,6 +2895,8 @@ obj/items
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 			else
+				new/obj/duelblock (c3.loc)
+				new/obj/duelblock (c5.loc)
 				unpacked = 1
 		Click()
 
@@ -2928,7 +2923,7 @@ obj/items
 						D.player1.movable = 1
 						range(9) << "[usr] enters the duel."
 					else if(!D.player2 && D.player1 != usr)
-						var/turf/t = locate(x-3,y,z)
+						var/turf/t = locate(x+3,y,z)
 						if(istype(t, /turf/teleport) || (locate(/obj/teleport) in t))
 							return
 
@@ -2937,8 +2932,10 @@ obj/items
 						D.player2.dir = WEST
 						D.player2.movable = 1
 						range(9) << "[usr] enters the duel."
-						for(var/obj/duelblock/B in range(5))
-							B.density = 1
+						var/obj/duelblock/B1 = locate(/obj/duelblock) in locate(x-2,y,z)
+						var/obj/duelblock/B2 = locate(/obj/duelblock) in locate(x+2,y,z)
+						B1.density = 1
+						B2.density = 1
 						range(9) << "<i>Duelists now have 10 seconds to click on the duel control center.</i>"
 						D.Pre_Duel()
 
@@ -2961,8 +2958,10 @@ obj/items
 									D.player1.movable = 0
 									D.player2.movable = 0
 									spawn(60)
-										for(var/obj/duelblock/B in range(5))
-											B.density = 0
+										var/obj/duelblock/B1 = locate(/obj/duelblock) in locate(x-2,y,z)
+										var/obj/duelblock/B2 = locate(/obj/duelblock) in locate(x+2,y,z)
+										B1.density = 0
+										B2.density = 0
 									del D
 					else if(D.player2 == usr)
 						if(!D.player1)
@@ -2981,19 +2980,23 @@ obj/items
 									sleep(100)
 									range(9) << "The duel has been forfeited by [usr]."
 									spawn(60)
-										for(var/obj/duelblock/B in range(5))
-											B.density = 0
+										var/obj/duelblock/B1 = locate(/obj/duelblock) in locate(x-2,y,z)
+										var/obj/duelblock/B2 = locate(/obj/duelblock) in locate(x+2,y,z)
+										B1.density = 0
+										B2.density = 0
 									del D
 
 					else
 						usr << "Both player positions are already occupied."
 				else
+					var/turf/t = locate(x-3,y,z)
+					if(istype(t, /turf/teleport) || (locate(/obj/teleport) in t))
+						return
+
 					D = new(src)
 					D.countdown = 5//input("Select count-down timer, for when both players have readied. (between 3 and 10 seconds)","Count-down Timer",D.countdown) as null|num
-					if(D.countdown>10) D.countdown = 10
-					if(D.countdown<3) D.countdown = 3
 					range(9) << "[usr] initiates a duel."
 					D.player1 = usr
-					D.player1.loc = locate(x-3,y,z)
+					D.player1.loc = t
 					D.player1.dir = EAST
 					D.player1.movable = 1
