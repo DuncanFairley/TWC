@@ -1549,14 +1549,16 @@ mob/Player
 				online+=1
 				if(!M.derobe)
 					if(M.House)
-						usr << "\icon[wholist[M.House]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank]</font> </SPAN></B>"
+						usr << "\icon[wholist[M.House]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
 					else
-						usr << "\icon[wholist["Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank]</font> </SPAN></B>"
+						usr << "\icon[wholist["Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
 				else
 					if(M.House)
-						usr << "\icon[wholist[M.House]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank]</font> </SPAN></B>"
+						usr << "\icon[wholist[M.House]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
 					else
-						usr << "\icon[wholist["Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank]</font> </SPAN></B>"
+						usr << "\icon[wholist["Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+				if(M.Rank == "Player")
+					M.Rank = "[M.Year]"
 			usr << "[online] players online."
 			var/logginginmobs = ""
 			for(var/client/C)
