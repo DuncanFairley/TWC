@@ -124,7 +124,7 @@ mob
 				Dmg = 60
 				Expg = 36
 				ratpoints = 1
-				level = 5
+				level = 10
 			Demon_Rat
 				icon = 'monsters.dmi'
 				icon_state="demon rat"
@@ -133,7 +133,7 @@ mob
 				MHP = 360
 				Dmg = 120
 				Expg = 37
-				level = 10
+				level = 50
 			Pixie
 				icon = 'monsters2.dmi'
 				icon_state="pixie"
@@ -143,7 +143,7 @@ mob
 				Def=0
 				Dmg = 300
 				Expg = 65
-				level = 50
+				level = 100
 			Dog
 				icon = 'NewMobs.dmi'
 				icon_state="dog"
@@ -153,7 +153,7 @@ mob
 				Def = 0
 				Dmg = 210
 				Expg = 40
-				level = 100
+				level = 150
 			Snake
 				icon = 'Animagus.dmi'
 				icon_state="Snake"
@@ -163,7 +163,7 @@ mob
 				gold = 36
 				Def=60
 				Expg = 39
-				level = 150
+				level = 200
 			Snake_  //SUMMONED
 				icon = 'Animagus.dmi'
 				icon_state="Snake"
@@ -171,7 +171,7 @@ mob
 				MHP = 500
 				Dmg = 125
 				Def=60
-				level = 200
+				level = 250
 			Wolf
 				icon = 'monsters2.dmi'
 				icon_state="wolf"
@@ -181,7 +181,7 @@ mob
 				Def=0
 				Dmg = 255
 				Expg = 50
-				level = 250
+				level = 300
 			Acromantula
 				icon = 'monster.dmi'
 				icon_state="Spider"
@@ -191,17 +191,33 @@ mob
 				Dmg = 450
 				Def=15
 				Expg = 76
-				level = 500
+				level = 700
 			Floating_Eye
 				icon = 'monsters.dmi'
 				icon_state="eye"
-				gold = 165
-				HP = 2475
-				MHP = 2475
-				Dmg = 825
-				Def=80
-				Expg = 209
-				level = 700
+				level = 800
+				density = 0
+				HPmodifier = 2
+				DMGmodifier = 0.6
+				var/tmp/fired = 0
+				Attack(mob/M)
+					.=..()
+					if(!fired)
+						fired = 1
+						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+						if(prob(30))
+							for(var/d in dirs)
+								var/obj/S=new/obj/Flippendo(src.loc)
+								S.owner = src
+								walk(S,d,2)
+								spawn(20) del S
+						else
+							for(var/d in dirs)
+								dir = d
+								castproj(0, 'attacks.dmi', "crucio2", Dmg + rand(-4,8), "death ball")
+						spawn(rand(10,30)) fired = 0
+				Death()
+
 			Troll
 				icon = 'monsters2.dmi'
 				icon_state="troll"
@@ -211,7 +227,7 @@ mob
 				Def=10
 				Dmg = 930
 				Expg = 310
-				level = 300
+				level = 350
 			House_Elf
 				icon = 'monsters2.dmi'
 				icon_state="houseelf"
@@ -241,7 +257,7 @@ mob
 				Dmg = 1275
 				Def=29
 				Expg = 840
-				level = 650
+				level = 750
 			Dementor_ /////SUMMONED/////
 				icon = 'monsters2.dmi'
 				icon_state="Dementor"
@@ -310,7 +326,7 @@ mob
 				Dmg = 555
 				Def=35
 				Expg = 89
-				level = 350
+				level = 400
 				Attack(mob/M)
 					while(get_dist(src,M)>5)
 						if(!activated)
@@ -323,7 +339,7 @@ mob
 						step_to(src,M)
 						sleep(4)
 					dir=get_dir(src,M)
-					castproj(0, 'attacks.dmi', "fireball", Dmg, "fire ball")
+					castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball")
 					//spawn(30)M.Death_Check(src)
 					sleep(10)
 					for(var/mob/A in oview(src)) if(A.client)
@@ -341,7 +357,7 @@ mob
 				Dmg = 660
 				Def=30
 				Expg = 115
-				level = 400
+				level = 450
 				Attack(mob/M)
 					while(get_dist(src,M)>5)
 						sleep(4)
@@ -354,7 +370,7 @@ mob
 							return
 						step_to(src,M)
 					dir=get_dir(src,M)
-					castproj(0, 'attacks.dmi', "fireball", Dmg, "fire ball")
+					castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball")
 					//spawn(30)M.Death_Check(src)
 					sleep(10)
 					for(var/mob/A in oview(src)) if(A.client)
@@ -386,7 +402,7 @@ mob
 				Dmg = 945
 				Def=95
 				Expg = 420
-				level = 450
+				level = 500
 			Water_Elemental
 				icon = 'monster.dmi'
 				icon_state="water elemental"
@@ -396,7 +412,7 @@ mob
 				//Dmg = 300//975
 				//Def=80
 				Expg = 510
-				level = 500
+				level = 550
 			Fire_Elemental
 				icon = 'monster.dmi'
 				icon_state="fire elemental"
@@ -406,7 +422,7 @@ mob
 				Dmg = 1020
 				Def=80
 				Expg = 530
-				level = 550
+				level = 600
 			Wyvern
 				icon = 'monster.dmi'
 				icon_state="wyvern"
@@ -416,7 +432,7 @@ mob
 				Dmg = 1110
 				Def=80
 				Expg = 620
-				level = 600
+				level = 650
 				monster = 1
 				NPC = 0
 			Basilisk
@@ -440,7 +456,9 @@ mob
 			origloc = loc
 			spawn(rand(10,30))
 				walk_rand(src,11)
-//NEWMONSTERS	.
+//NEWMONSTERS
+		proc/Death()
+
 		proc/Wander()
 			if(removeoMob)
 				return

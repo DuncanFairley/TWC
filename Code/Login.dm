@@ -2050,29 +2050,42 @@ mob/proc/Death_Check(mob/killer = src)
 
 				killer.ekills+=1
 				killer.ratpoints+=src.ratpoints
-				var/gold2give = round((rand(7,14)/10)*gold)
-				var/exp2give = round((rand(9,14)/10)*Expg)
+				var/gold2give = (rand(7,14)/10)*gold
+				var/exp2give  = (rand(9,14)/10)*Expg
+
+				if(killer.level > src.level)
+					gold2give -= gold2give * ((killer.level-src.level)/150)
+					exp2give  -= exp2give  * ((killer.level-src.level)/150)
+			//	else if(killer.level < src.level)
+			//		gold2give += gold2give * min((src.level-killer.level)/150, 1.5)
+			//		exp2give  += exp2give  * min((src.level-killer.level)/150, 1.5)
 
 				if(killer.House == housecupwinner)
 					gold2give *= 1.25
 					exp2give *= 1.25
 				gold2give = round(gold2give)
 				exp2give = round(exp2give)
-				killer.gold+=gold2give
-				if(killer.level < lvlcap)
+
+				if(killer.level >= lvlcap) exp2give = 0
+
+				if(killer.MonsterMessages)
+
+					if(exp2give > 0)
+						killer<<"<i><small>You gained [exp2give] exp[gold2give > 0 ? " and [gold2give] gold" : ""].</small></i>"
+					else if(gold2give > 0)
+						killer<<"<i><small>You gained [gold2give] gold.</small></i>"
+
+				if(gold2give > 0)
+					killer.gold+=gold2give
+					killer.gold = round(killer.gold)
+				if(killer.level < lvlcap && exp2give > 0)
 					killer.Exp+=exp2give
 					killer.addReferralXP(Exp)
-				killer.gold = round(killer.gold)
-				if(killer.level < lvlcap)
 					killer.Exp = round(killer.Exp)
-				killer.Texp+=src.Expg
-				if(killer.MonsterMessages)
-					if(killer.level < lvlcap)
-						killer<<"<i><small>You gained [exp2give] exp and [gold2give] gold.</small></i>"
-					else
-						killer<<"<i><small>You gained [gold2give] gold.</small></i>"
-				if(killer.level < lvlcap)
 					killer.LvlCheck()
+				killer.Texp+=src.Expg
+
+
 			if(src.type == /mob/Dementor_||src.type == /mob/Snake_ ||src.type == /mob/Bird_||src.type == /mob/Slug)
 				del src
 				return ..()
@@ -2080,6 +2093,8 @@ mob/proc/Death_Check(mob/killer = src)
 			//	if(rand(1,80)==1 && killer.client)
 			//		killer.verbs.Add(/mob/Player/verb/Use_Statpoints)
 			//		killer.StatPoints++
+			if(istype(src, /mob/NPC/Enemies))
+				src:Death()
 			src.loc=locate(0,0,0)
 			Respawn(src)
 
