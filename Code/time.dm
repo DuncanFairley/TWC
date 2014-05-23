@@ -12,8 +12,10 @@ proc/time_until(day, hour)
 
 	return -1
 
+var/DropRateModifier = 1
 mob/GM/verb
 	Events(var/Event/e in events)
+		set category = "Staff"
 		switch(alert(src, "What do you want to do?", "Events", "Cancel Event", "Check Time", "Nothing"))
 			if("Cancel Event")
 				scheduler.cancel(events[e])
@@ -23,7 +25,13 @@ mob/GM/verb
 				var/ticks = scheduler.time_to_fire(events[e])
 				src << infomsg("[comma(ticks)] ticks until event starts.")
 
+	Set_Drop_Rate(var/rate=DropRateModifier as num)
+		set category = "Staff"
+		DropRateModifier = rate
+
+
 	Schedule_Clanwars(var/hour as text, var/day as text)
+		set category = "Staff"
 		var/date = time_until(day, hour)
 		if(date != -1)
 			var/Event/ClanWars/e = new
