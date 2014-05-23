@@ -1006,6 +1006,65 @@ var/list/shops = list("malewigshop" = newlist(
 					  "random" = list()
 					)
 
+mob/Vault_Salesman
+	icon_state="goblin1"
+	icon = 'misc.dmi'
+	NPC = 1
+	Gm = 1
+	player=1
+	Immortal=1
+	density=1
+	New()
+		..()
+		icon_state = "goblin[rand(1,3)]"
+
+	verb
+		Talk()
+			set src in oview(2)
+			var/selectedvault
+			var/selectedprice
+			var/itemlist = list()
+
+			switch(input("Vault Salesman: Hi there! Welcome to Gringotts, perhaps you wish to purchase one of our vaults?", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
+				if("Free Vault - Free!")
+					selectedvault = "1"
+					selectedprice = 0
+				if("Medium Vault - 2,500,000 Gold and 25 Artifacts")
+					selectedvault = "_med"
+					selectedprice = 25
+				if("Big Vault - 5,000,000 Gold and 50 Artifacts")
+					selectedvault = "_big"
+					selectedprice = 50
+				if("Large Vault - 8,000,000 Gold and 80 Artifacts")
+					selectedvault = "_huge"
+					selectedprice = 80
+				if("2 Rooms Vault - 8,500,000 Gold and 85 Artifacts")
+					selectedvault = "_2rooms"
+					selectedprice = 85
+				if("4 Rooms Vault - 12,000,000 Gold and 120 Artifacts")
+					selectedvault = "_4rooms"
+					selectedprice = 120
+				if(null)
+					usr << npcsay("Vault Salesman: I only sell to the rich! Begone!")
+					return
+
+			var/list/artifacts = list()
+			for(var/obj/items/artifact/a in usr)
+				artifacts += a
+
+			if(usr.gold < selectedprice * 100000 && artifacts.len < selectedprice)
+				usr<< npcsay("Vault Salesman: I'm running a business here - you can't afford this.")
+			else
+				for(var/obj/o in artifacts)
+					o.loc = null
+				usr:change_vault(selectedvault)
+				usr:Resort_Stacking_Inv()
+				usr.gold -= selectedprice * 100000
+				ministrybank += taxrate*selectedprice*1000
+				usr << npcsay("Vault Salesman: Thank you.")
+
+
+
 proc
     comma(n)
         if(!isint(n))
@@ -1019,3 +1078,4 @@ proc
 
     isint(n)
         return n==round(n)
+

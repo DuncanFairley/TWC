@@ -2706,7 +2706,8 @@ obj/items/easter_egg
 
 	New()
 		..()
-		icon_state = pick(icon_states(icon))
+		spawn(1)
+			if(!icon_state) icon_state = pick(icon_states(icon))
 
 	Click()
 		if(src in usr)
@@ -2749,7 +2750,79 @@ obj/egg
 		spawn(rand(600,1200))
 			loc=null
 
+obj/items/artifact
+	name = "Artifact"
+	icon = 'trophies.dmi'
 
+	New()
+		..()
+		spawn(1)
+			if(name == "Artifact")
+				name = ""
+				var/time = pick("Ancient","Old","")
+				var/prop = pick("Magical", "Shiny", "Mysterious", "")
+				if(time) name += time + " "
+				if(prop) name += prop + " "
+				name += "Artifact"
+			if(!icon_state) icon_state = pick(icon_states(icon))
+
+
+obj/items/potions
+	var
+		effect
+		seconds
+		tmp/StatusEffect/S
+	double_drop_rate
+		desc    = "Doubles your drop rate."
+		effect  = /StatusEffect/Potions/DropRate/Double
+		seconds = 1800
+	triple_drop_rate
+		desc    = "Triples your drop rate."
+		effect  = /StatusEffect/Potions/DropRate/Triple
+		seconds = 1800
+	quadaple_drop_rate
+		desc    = "Quadaples your drop rate."
+		effect  = /StatusEffect/Potions/DropRate/Quadaple
+		seconds = 1800
+
+	double_exp
+		desc    = "Doubles your exp gain rate."
+		effect  = /StatusEffect/Potions/Exp/Double
+		seconds = 1800
+	triple_exp
+		desc    = "Triples your exp gain rate."
+		effect  = /StatusEffect/Potions/Exp/Triple
+		seconds = 1800
+	quadaple_exp
+		desc    = "Quadaples your exp gain rate."
+		effect  = /StatusEffect/Potions/Exp/Quadaple
+		seconds = 1800
+
+	double_gold
+		desc    = "Doubles your gold gain rate."
+		effect  = /StatusEffect/Potions/Gold/Double
+		seconds = 1800
+	triple_gold
+		desc    = "Triples your gold gain rate."
+		effect  = /StatusEffect/Potions/Gold/Triple
+		seconds = 1800
+	quadaple_gold
+		desc    = "Quadaples your gold gain rate."
+		effect  = /StatusEffect/Potions/Gold/Quadaple
+		seconds = 1800
+
+	farming
+		desc    = "Removes damage, gold and exp level reductions allowing you to farm gold and exp from lower level monsters."
+		effect  = /StatusEffect/Potions/Farming
+		seconds = 3600
+	Click()
+		if(src in usr)
+			if(S)
+				S.Deactivate()
+			else
+				S = new effect (usr, seconds, src)
+		else
+			..()
 obj/items
 	portduelsystem
 		name = "Portable Duel System"

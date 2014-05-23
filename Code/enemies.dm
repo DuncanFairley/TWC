@@ -216,7 +216,24 @@ mob
 								dir = d
 								castproj(0, 'attacks.dmi', "crucio2", Dmg + rand(-4,8), "death ball")
 						spawn(rand(10,30)) fired = 0
-				Death()
+				Death(mob/Player/killer)
+
+					var/rate = 0
+
+					if(killer.House == housecupwinner)
+						rate += 0.25
+
+					var/StatusEffect/Potions/DropRate/d = killer.findStatusEffect(/StatusEffect/Potions/DropRate)
+					if(d)
+						rate *= d.rate
+
+					rate *= DropRateModifier
+
+					if(prob(0.6 * rate))
+						new /obj/items/artifact(src.loc)
+					else if(prob(1 * rate))
+						var/t = pick(/obj/items/DarknessPowder, /obj/items/Whoopie_Cushion,/obj/items/U_No_Poo,/obj/items/Smoke_Pellet,/obj/items/Tube_of_fun,/obj/items/Swamp)
+						new t(src.loc)
 
 			Troll
 				icon = 'monsters2.dmi'
@@ -457,7 +474,7 @@ mob
 			spawn(rand(10,30))
 				walk_rand(src,11)
 //NEWMONSTERS
-		proc/Death()
+		proc/Death(mob/Player/killer)
 
 		proc/Wander()
 			if(removeoMob)
@@ -520,7 +537,8 @@ mob
 
 		proc/Attack(mob/M)
 			var/dmg = Dmg+extraDmg+rand(0,4)
-			if(M.level > src.level)
+
+			if(M.level > src.level && !M.findStatusEffect(/StatusEffect/Potions/Farming))
 				dmg -= dmg * ((M.level-src.level)/100)
 			else if(M.level < src.level)
 				dmg += dmg * ((src.level-M.level)/200)

@@ -17,7 +17,23 @@ var/lvlcap = 600
 	map.BuildFilledRectangle(get_step(map.LoCorner(),NORTHEAST),get_step(map.HiCorner(),SOUTHWEST),/turf/floor)
 	map.BuildFilledRectangle(locate(map.x1+1,map.y1+height-2,map.z1),locate(map.x1+width-2,map.y1+height-2,map.z1),/turf/Hogwarts_Stone_Wall)
 	map.BuildFilledRectangle(locate(map.x1+midx-1,map.y1+1,map.z1),locate(map.x1+midx-1,map.y1+1,map.z1),/obj/teleport/leavevault)
+	map.Save()
+
+
+mob/verb/NewVaultCustom(var/height as num, var/width as num)
+
+	if(width % 2 == 0) width--
+
+	var/midx = (width+1)/2
+	var/swapmap/map = new /swapmap("vault_4rooms",width,height,1)
+	map.BuildRectangle(map.LoCorner(),map.HiCorner(),/turf/roofb)
+	map.BuildFilledRectangle(get_step(map.LoCorner(),NORTHEAST),get_step(map.HiCorner(),SOUTHWEST),/turf/floor)
+	map.BuildFilledRectangle(locate(map.x1+1,map.y1+height-2,map.z1),locate(map.x1+width-2,map.y1+height-2,map.z1),/turf/Hogwarts_Stone_Wall)
+
+
+	map.BuildFilledRectangle(locate(map.x1+midx-1,map.y1+1,map.z1),locate(map.x1+midx-1,map.y1+1,map.z1),/obj/teleport/leavevault)
 	map.Save()*/
+
 
 obj/drop_on_death
 	var
@@ -70,6 +86,38 @@ mob/test/verb
 					if(!(text2path("[O.type]/verb/Drop") in O.verbs) && !istype(O,/obj/Food) && !istype(O,/obj/teleport/leavevault) )
 						O.loc = M
 			M:Resort_Stacking_Inv()
+
+	Change_Vault(var/vault as text, var/mob/Player/p in Players)
+		set category = "Vault Debug"
+		if(fexists("[swapmaps_directory]/tmpl_vault[vault].sav"))
+			p.change_vault(vault)
+
+mob/Player/proc/change_vault(var/vault)
+	var/swapmap/map = SwapMaps_Find("[ckey]")
+	if(!map)
+		map = SwapMaps_Load("[ckey]")
+	if(map)
+
+		for(var/obj/items/i in map)
+			i.loc = src
+		if(!map.InUse())
+			for(var/turf/t in map.AllTurfs())
+				for(var/obj/items/i in t)
+					i.loc = src
+			map.Unload()
+			src:Resort_Stacking_Inv()
+		else
+			src << errormsg("Please evacuate everyone from your vault first.")
+			return
+
+	if(!islist(global.globalvaults))
+		global.globalvaults = list()
+	global.globalvaults[usr.ckey] = new /vault()
+	map = SwapMaps_CreateFromTemplate("vault[vault]")
+	map.SetID("[src.ckey]")
+	map.Save()
+	return 1
+
 
 obj/teleport
 	var/dest = ""
@@ -150,12 +198,12 @@ obj/teleport
 		dest = "@Hogwarts"
 		invisibility = 0
 		Teleport(mob/M)
-			if(prob(60))
+			if(prob(40))
 				..()
 				M << infomsg("You magically found yourself at Hogwarts!")
 			else
 				M.density = 0
-				M.Move(locate(rand(4,97),rand(4,97),4))
+				M.Move(locate(rand(4,97),rand(4,97),rand(4,6)))
 				M.density = 1
 		New()
 			..()
@@ -1115,7 +1163,7 @@ mob/Player
 		Players.Add(src)
 		bubblesort_atom_name(Players)
 		if(housecupwinner)
-			src << "<b><font color=#CF21C0>[housecupwinner] is the House Cup winner for this month. They receive +25% gold/XP gained from monster kills.</font></b>"
+			src << "<b><font color=#CF21C0>[housecupwinner] is the House Cup winner for this month. They receive +25% drop rate/gold/XP from monster kills.</font></b>"
 		if(classdest)
 			src << announcemsg("[curClass] class is starting. Click <a href=\"?src=\ref[usr];action=class_path;latejoiner=true\">here</a> for directions.")
 		updateHPMP()
@@ -2053,16 +2101,20 @@ mob/proc/Death_Check(mob/killer = src)
 				var/gold2give = (rand(7,14)/10)*gold
 				var/exp2give  = (rand(9,14)/10)*Expg
 
-				if(killer.level > src.level)
+				if(killer.level > src.level && !killer.findStatusEffect(/StatusEffect/Potions/Farming))
 					gold2give -= gold2give * ((killer.level-src.level)/150)
 					exp2give  -= exp2give  * ((killer.level-src.level)/150)
-			//	else if(killer.level < src.level)
-			//		gold2give += gold2give * min((src.level-killer.level)/150, 1.5)
-			//		exp2give  += exp2give  * min((src.level-killer.level)/150, 1.5)
 
 				if(killer.House == housecupwinner)
 					gold2give *= 1.25
-					exp2give *= 1.25
+					exp2give  *= 1.25
+
+				var/StatusEffect/Potions/Gold/gold_rate = killer.findStatusEffect(/StatusEffect/Potions/Gold)
+				var/StatusEffect/Potions/Exp/exp_rate   = killer.findStatusEffect(/StatusEffect/Potions/Exp)
+
+				if(gold_rate) gold2give *= gold_rate.rate
+				if(exp_rate)  exp2give  *= exp_rate.rate
+
 				gold2give = round(gold2give)
 				exp2give = round(exp2give)
 
@@ -2094,7 +2146,7 @@ mob/proc/Death_Check(mob/killer = src)
 			//		killer.verbs.Add(/mob/Player/verb/Use_Statpoints)
 			//		killer.StatPoints++
 			if(istype(src, /mob/NPC/Enemies))
-				src:Death()
+				src:Death(killer)
 			src.loc=locate(0,0,0)
 			Respawn(src)
 

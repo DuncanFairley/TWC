@@ -177,6 +177,74 @@ StatusEffect
 	UsedShelleh
 	UsedDisperse
 	DepulsoText
+
+	Potions
+		var/tmp/obj/items/potions/potion
+
+		Farming
+
+		DropRate
+			var/rate
+			Double
+				rate = 2
+			Triple
+				rate = 3
+			Quadaple
+				rate = 4
+
+		Exp
+			var/rate
+			Double
+				rate = 2
+			Triple
+				rate = 3
+			Quadaple
+				rate = 4
+
+		Gold
+			var/rate
+			Double
+				rate = 2
+			Triple
+				rate = 3
+			Quadaple
+				rate = 4
+
+		Activate()
+			var/found = FALSE
+			for(var/StatusEffect/Potions/s in AttachedAtom.LStatusEffects)
+				if(s != src && istype(s, /StatusEffect/Potions))
+					found = TRUE
+					break
+			if(found)
+				AttachedAtom << errormsg("You can only use one potion at a time.")
+				Deactivate()
+			else
+				AttachedAtom << infomsg("You feel [potion]'s effect running through your vains.")
+				..()
+
+		Deactivate()
+			AttachedAtom << infomsg("[potion]'s effect fades.")
+			potion.seconds = round(scheduler.time_to_fire(AttachedEvent)/10)
+			if(potion.seconds <= 0)
+				AttachedAtom << errormsg("[potion] has expired.")
+				del potion
+				AttachedAtom:Resort_Stacking_Inv()
+			else
+				var/min = round(potion.seconds / 60)
+				var/sec = potion.seconds-(min*60)
+				var/time = ""
+				if(min) time = "[min] minutes"
+				if(sec)
+					if(min) time += " and "
+					time += "[sec] seconds."
+				potion.desc = "[initial(potion.desc)] Time Remaining: [time]"
+			..()
+
+		New(atom/pAttachedAtom,t,obj/items/potions/p)
+			potion = p
+			.=..()
+
 	var/Event/e_StatusEffect/AttachedEvent	//Not required - Contains /Event/e_StatusEffect to automatically cancel the StatusEffect
 	var/atom/AttachedAtom	//Required - Contains the /atom which the StatusEffect is attached to
 	proc

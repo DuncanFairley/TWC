@@ -605,6 +605,8 @@ client
 		if(mob && isplayer(mob))
 			if(mob:isTrading())
 				mob:trade.Clean()
+			var/StatusEffect/S = mob.findStatusEffect(/StatusEffect/Potions)
+			if(S) S.Deactivate()
 			if(mob.derobe)
 				mob.derobe = 0
 				mob.name = mob.prevname
