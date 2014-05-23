@@ -342,6 +342,8 @@ obj
 		toiletstall
 			icon = 'Stall.dmi'
 			icon_state = "closed"
+		roofb
+			icon = 'roofbdoor.dmi'
 		New()
 			..()
 			var/turf/T = src.loc
