@@ -217,10 +217,11 @@ StatusEffect
 					found = TRUE
 					break
 			if(found)
-				AttachedAtom << errormsg("You can only use one potion at a time.")
+				AttachedAtom << errormsg("You can only use one lamp at a time.")
 				Deactivate()
 			else
-				AttachedAtom << infomsg("You feel [lamp]'s effect running through your vains.")
+				AttachedAtom << infomsg("You feel the warmth of [lamp]'s magical light.")
+				lamp.icon_state = "active"
 				..()
 
 		Deactivate()
@@ -239,6 +240,7 @@ StatusEffect
 					if(min) time += " and "
 					time += "[sec] seconds."
 				lamp.desc = "[initial(lamp.desc)] Time Remaining: [time]"
+				lamp.icon_state = "inactive"
 			..()
 
 		New(atom/pAttachedAtom,t,obj/items/lamps/p)

@@ -2795,6 +2795,8 @@ obj/items/artifact
 
 
 obj/items/lamps
+	icon       = 'lamp.dmi'
+	icon_state = "inactive"
 	var
 		effect
 		seconds
@@ -2850,6 +2852,10 @@ obj/items/lamps
 				S = new effect (usr, seconds, src)
 		else
 			..()
+	Drop()
+		if(S)
+			S.Deactivate()
+		..()
 obj/items
 	portduelsystem
 		name = "Portable Duel System"

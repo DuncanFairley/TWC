@@ -164,6 +164,9 @@ obj/items
 					if(dropable)
 						if(src in usr:Lwearing)
 							src:Equip(usr)
+						else if(istype(src, /obj/items/lamps) && src:S)
+							var/obj/items/lamps/lamp = src
+							lamp.S.Deactivate()
 						winset(P, null, "Trade.grid1.cells=1x[P.trade.y];Trade.grid1.current-cell=1x[P.trade.y]")
 						P << output(src, "Trade.grid1")
 						winset(P.trade.with, null, "Trade.grid2.cells=1x[P.trade.y];Trade.grid2.current-cell=1x[P.trade.y]")
