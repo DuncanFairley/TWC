@@ -25,9 +25,10 @@ mob/GM/verb
 				var/ticks = scheduler.time_to_fire(events[e])
 				src << infomsg("[comma(ticks)] ticks until event starts.")
 
-	Set_Drop_Rate(var/rate=DropRateModifier as num)
+	Set_Drop_Rate(var/rate as num)
 		set category = "Staff"
 		DropRateModifier = rate
+		src << infomsg("Drop rate modifier set to [rate]")
 
 
 	Schedule_Clanwars(var/hour as text, var/day as text)

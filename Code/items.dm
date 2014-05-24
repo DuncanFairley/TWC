@@ -1880,6 +1880,33 @@ obj/Armor_Head
 	wlable=0
 	accioable=0
 	dontsave=1
+obj/gargoylerighttop
+	icon='statues.dmi'
+	icon_state="top3"
+	density=0
+	layer = MOB_LAYER + 1
+obj/gargoylelefttop
+	icon='statues.dmi'
+	icon_state="top2"
+	density=0
+	layer = MOB_LAYER + 1
+obj/gargoylerightbottom
+	icon='statues.dmi'
+	icon_state="bottom3"
+	density=1
+obj/gargoyleleftbottom
+	icon = 'statues.dmi'
+	icon_state = "bottom2"
+	density = 1
+obj/statuebody
+	icon='statues.dmi'
+	icon_state="stat"
+	density=1
+obj/statuehead
+	icon='statues.dmi'
+	icon_state="sh"
+	density=0
+	layer = MOB_LAYER + 1
 obj/Grave
 	icon='statues.dmi'
 	icon_state="grave5"

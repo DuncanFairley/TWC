@@ -1021,9 +1021,21 @@ mob/Vault_Salesman
 	verb
 		Talk()
 			set src in oview(2)
+
+			if(!(usr.ckey in global.globalvaults))
+				usr << npcsay("Vault Salesman: Please go talk to the vault master before coming to me.")
+				return
+
 			var/selectedvault
 			var/selectedprice
 			var/itemlist = list()
+
+			if(fexists("[swapmaps_directory]/tmpl_vault1.sav"))       itemlist += "Free Vault - Free!"
+			if(fexists("[swapmaps_directory]/tmpl_vault_med.sav"))    itemlist += "Medium Vault - 2,500,000 Gold and 25 Artifacts"
+			if(fexists("[swapmaps_directory]/tmpl_vault_big.sav"))    itemlist += "Big Vault - 5,000,000 Gold and 50 Artifacts"
+			if(fexists("[swapmaps_directory]/tmpl_vault_huge.sav"))   itemlist += "Large Vault - 8,000,000 Gold and 80 Artifacts"
+			if(fexists("[swapmaps_directory]/tmpl_vault_2rooms.sav")) itemlist += "2 Rooms Vault - 8,500,000 Gold and 85 Artifacts"
+			if(fexists("[swapmaps_directory]/tmpl_vault_4rooms.sav")) itemlist += "4 Rooms Vault - 12,000,000 Gold and 120 Artifacts"
 
 			switch(input("Vault Salesman: Hi there! Welcome to Gringotts, perhaps you wish to purchase one of our vaults?", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
 				if("Free Vault - Free!")
@@ -1047,23 +1059,26 @@ mob/Vault_Salesman
 				if(null)
 					usr << npcsay("Vault Salesman: I only sell to the rich! Begone!")
 					return
-
-			var/list/artifacts = list()
-			for(var/obj/items/artifact/a in usr)
-				artifacts += a
-
-			if(usr.gold < selectedprice * 100000 && artifacts.len < selectedprice)
-				usr<< npcsay("Vault Salesman: I'm running a business here - you can't afford this.")
+			var/vault/v = global.globalvaults[usr.ckey]
+			if(v.tmpl == selectedvault)
+				usr << npcsay("Vault Salesman: You already have this exact same vault.")
 			else
-				for(var/obj/o in artifacts)
-					o.loc = null
-				usr:change_vault(selectedvault)
-				usr:Resort_Stacking_Inv()
-				usr.gold -= selectedprice * 100000
-				ministrybank += taxrate*selectedprice*1000
-				usr << npcsay("Vault Salesman: Thank you.")
+				var/list/artifacts = list()
+				for(var/obj/items/artifact/a in usr)
+					artifacts += a
+				if(usr.gold < selectedprice * 100000 || artifacts.len < selectedprice)
+					usr << npcsay("Vault Salesman: I'm running a business here - you can't afford this.")
+				else
+					if(usr:change_vault(selectedvault))
+						usr.gold -= selectedprice * 100000
+						ministrybank += taxrate*selectedprice*1000
 
-
+						for(var/obj/o in artifacts)
+							if(selectedprice<=0) break
+							o.loc = null
+							selectedprice--
+						usr:Resort_Stacking_Inv()
+						usr << npcsay("Vault Salesman: Thank you.")
 
 proc
     comma(n)

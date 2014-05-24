@@ -112,7 +112,9 @@ mob/Player/proc/change_vault(var/vault)
 
 	if(!islist(global.globalvaults))
 		global.globalvaults = list()
-	global.globalvaults[usr.ckey] = new /vault()
+	var/vault/v = new
+	v.tmpl = vault
+	global.globalvaults[src.ckey] = v
 	map = SwapMaps_CreateFromTemplate("vault[vault]")
 	map.SetID("[src.ckey]")
 	map.Save()
@@ -359,6 +361,7 @@ customMap
 	var/tmp/swapmap/swapmap = null
 vault
 	var/list/allowedpeople = list()	//ckeys of people with permission to enter
+	var/tmpl = "1"// used template, 1 by default
 	proc/can_ckey_enter(ckey)
 		return (ckey in allowedpeople)
 	proc/add_ckey_allowedpeople(ckey)
