@@ -1033,11 +1033,11 @@ mob/Vault_Salesman
 			if(fexists("[swapmaps_directory]/tmpl_vault1.sav"))       itemlist += "Free Vault - Free!"
 			if(fexists("[swapmaps_directory]/tmpl_vault_med.sav"))    itemlist += "Medium Vault - 2,500,000 Gold and 25 Artifacts"
 			if(fexists("[swapmaps_directory]/tmpl_vault_big.sav"))    itemlist += "Big Vault - 5,000,000 Gold and 50 Artifacts"
-			if(fexists("[swapmaps_directory]/tmpl_vault_huge.sav"))   itemlist += "Large Vault - 8,000,000 Gold and 80 Artifacts"
+			if(fexists("[swapmaps_directory]/tmpl_vault_huge.sav"))   itemlist += "Huge Vault - 8,000,000 Gold and 80 Artifacts"
 			if(fexists("[swapmaps_directory]/tmpl_vault_2rooms.sav")) itemlist += "2 Rooms Vault - 8,500,000 Gold and 85 Artifacts"
 			if(fexists("[swapmaps_directory]/tmpl_vault_4rooms.sav")) itemlist += "4 Rooms Vault - 12,000,000 Gold and 120 Artifacts"
 
-			switch(input("Vault Salesman: Hi there! Welcome to Gringotts, perhaps you wish to purchase one of our vaults?", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
+			switch(input("[name]: Hi there! Welcome to Gringotts, perhaps you wish to purchase one of our vaults?", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
 				if("Free Vault - Free!")
 					selectedvault = "1"
 					selectedprice = 0
@@ -1047,27 +1047,27 @@ mob/Vault_Salesman
 				if("Big Vault - 5,000,000 Gold and 50 Artifacts")
 					selectedvault = "_big"
 					selectedprice = 50
-				if("Large Vault - 8,000,000 Gold and 80 Artifacts")
+				if("Huge Vault - 8,000,000 Gold and 80 Artifacts")
 					selectedvault = "_huge"
 					selectedprice = 80
-				if("2 Rooms Vault - 8,500,000 Gold and 85 Artifacts")
+				if("2 Rooms Vault - 10,000,000 Gold and 100 Artifacts")
 					selectedvault = "_2rooms"
-					selectedprice = 85
+					selectedprice = 100
 				if("4 Rooms Vault - 12,000,000 Gold and 120 Artifacts")
 					selectedvault = "_4rooms"
 					selectedprice = 120
 				if(null)
-					usr << npcsay("Vault Salesman: I only sell to the rich! Begone!")
+					usr << npcsay("[name]: I only sell to the rich! Begone!")
 					return
 			var/vault/v = global.globalvaults[usr.ckey]
 			if(v.tmpl == selectedvault)
-				usr << npcsay("Vault Salesman: You already have this exact same vault.")
+				usr << npcsay("[name]: You already have this exact same vault.")
 			else
 				var/list/artifacts = list()
 				for(var/obj/items/artifact/a in usr)
 					artifacts += a
 				if(usr.gold < selectedprice * 100000 || artifacts.len < selectedprice)
-					usr << npcsay("Vault Salesman: I'm running a business here - you can't afford this.")
+					usr << npcsay("[name]: I'm running a business here - you can't afford this.")
 				else
 					if(usr:change_vault(selectedvault))
 						usr.gold -= selectedprice * 100000
@@ -1078,7 +1078,67 @@ mob/Vault_Salesman
 							o.loc = null
 							selectedprice--
 						usr:Resort_Stacking_Inv()
-						usr << npcsay("Vault Salesman: Thank you.")
+						usr << npcsay("[name]: Thank you.")
+
+mob/Lamp_Salesman
+	icon_state="goblin1"
+	icon = 'misc.dmi'
+	NPC = 1
+	Gm = 1
+	player=1
+	Immortal=1
+	density=1
+	New()
+		..()
+		icon_state = "goblin[rand(1,3)]"
+
+	verb
+		Talk()
+			set src in oview(2)
+
+			var/selecteditem
+			var/selectedprice
+			var/itemlist = list()
+
+			if(fexists("[swapmaps_directory]/tmpl_vault1.sav"))       itemlist += "Free Vault - Free!"
+			if(fexists("[swapmaps_directory]/tmpl_vault_med.sav"))    itemlist += "Medium Vault - 2,500,000 Gold and 25 Artifacts"
+			if(fexists("[swapmaps_directory]/tmpl_vault_big.sav"))    itemlist += "Big Vault - 5,000,000 Gold and 50 Artifacts"
+			if(fexists("[swapmaps_directory]/tmpl_vault_huge.sav"))   itemlist += "Large Vault - 8,000,000 Gold and 80 Artifacts"
+			if(fexists("[swapmaps_directory]/tmpl_vault_2rooms.sav")) itemlist += "2 Rooms Vault - 8,500,000 Gold and 85 Artifacts"
+			if(fexists("[swapmaps_directory]/tmpl_vault_4rooms.sav")) itemlist += "4 Rooms Vault - 12,000,000 Gold and 120 Artifacts"
+
+			switch(input("[name]: Hello... I sell lamp! Now now, they're not just lamps, they're magical lamps! My lamps will help you make your wishes come true!", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
+				if("Farmer Lamp - 100,000 and 1 Artifact")
+					selecteditem  = /obj/items/lamps/farmer_lamp
+					selectedprice = 1
+				if("Double Exp - 200,000 and 2 Artifact")
+					selecteditem  = /obj/items/lamps/double_exp_lamp
+					selectedprice = 2
+				if("Double Gold - 200,000 and 2 Artifact")
+					selecteditem  = /obj/items/lamps/double_gold_lamp
+					selectedprice = 2
+				if("Double Drop Rate - 300,000 and 3 Artifact")
+					selecteditem  = /obj/items/lamps/double_drop_rate_lamp
+					selectedprice = 3
+				if(null)
+					usr << npcsay("[name]: I only sell to the rich! Begone!")
+					return
+
+			var/list/artifacts = list()
+			for(var/obj/items/artifact/a in usr)
+				artifacts += a
+			if(usr.gold < selectedprice * 100000 || artifacts.len < selectedprice)
+				usr << npcsay("[name]: I'm running a business here - you can't afford this.")
+			else
+				usr.gold -= selectedprice * 100000
+				ministrybank += taxrate*selectedprice*1000
+				new selecteditem (src)
+				for(var/obj/o in artifacts)
+					if(selectedprice<=0) break
+					o.loc = null
+					selectedprice--
+				usr:Resort_Stacking_Inv()
+				usr << npcsay("[name]: Thank you.")
 
 proc
     comma(n)
