@@ -2077,7 +2077,8 @@ mob/proc/Death_Check(mob/killer = src)
 			if(killer.player)
 				if(killer != src)
 					killer.pkills+=1
-					var/rndexp = src.level + rand(-200,200)
+
+					var/rndexp = round(src.level * 1.3) + rand(-200,200)
 					if(rndexp < 0) rndexp = rand(20,30)
 
 					if(killer.House == housecupwinner)
@@ -2089,7 +2090,7 @@ mob/proc/Death_Check(mob/killer = src)
 						killer<<infomsg("You knocked [src] out and gained [rndexp] exp.")
 						killer.LvlCheck()
 					else
-						killer.gold += rndexp * rand(5,7)
+						killer.gold += rndexp * rand(3,6)
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 				else
 					src<<"You knocked yourself out!"
@@ -2808,27 +2809,13 @@ turf
 				else
 					usr << errormsg("There is a keyhole, however you do not have the required key...the shape does look like a familiar key though.")
 obj
-	gargoyle
+	fence
 		icon='turf.dmi'
-		icon_state="bg"
+		icon_state="hpfence"
 		density=1
-	gargoyle2
+	downfence
 		icon='turf.dmi'
-		icon_state="tg"
-		density=0
-		layer = MOB_LAYER + 1
-	gargoylerighttop
-		icon='turf.dmi'
-		icon_state="tright"
-		density=0
-		layer = MOB_LAYER + 1
-	gargoylerightbottom
-		icon='COMC Icons.dmi'
-		icon_state="statue 2"
-		density=1
-	gargoyleleftbottom
-		icon = 'COMC Icons.dmi'
-		icon_state = "statue 1"
+		icon_state = "post"
 		density = 1
 //TURFS
 turf
@@ -3106,9 +3093,6 @@ turf
 	door
 		icon_state="door"
 		density=1
-	fence
-		icon_state="hpfence"
-		density=1
 	woodenwall
 		icon_state="wooden"
 		density=1
@@ -3134,9 +3118,6 @@ turf
 		density=1
 	stone
 		icon_state="stone"
-		density=1
-	downfence
-		icon_state="post"
 		density=1
 	waterfall
 		icon_state="waterfall"
@@ -3366,15 +3347,6 @@ turf
 		density=1
 	greenchair
 		icon_state="gc"
-
-
-	statuebody
-		icon_state="stat"
-		density=1
-	statuehead
-		icon_state="sh"
-		density=1
-
 	redchair
 		icon_state="rc"
 		density=1
@@ -3638,7 +3610,7 @@ obj
 		layer=2
 	tablemiddle
 		icon='turf.dmi'
-		icon_state="t1"
+		icon_state="middle"
 		density=1
 		layer=2
 	tablecornerL
@@ -3663,12 +3635,7 @@ obj
 		layer=2
 	tablebottom
 		icon='turf.dmi'
-		icon_state="bottommid"
-		density=1
-		layer=2
-	tablebottom2
-		icon='turf.dmi'
-		icon_state="bottommid"
+		icon_state="bottom"
 		density=1
 		layer=2
 	tablemid3
