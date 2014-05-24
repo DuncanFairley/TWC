@@ -178,8 +178,8 @@ StatusEffect
 	UsedDisperse
 	DepulsoText
 
-	Potions
-		var/tmp/obj/items/potions/potion
+	Lamps
+		var/tmp/obj/items/lamps/lamp
 
 		Farming
 
@@ -212,37 +212,37 @@ StatusEffect
 
 		Activate()
 			var/found = FALSE
-			for(var/StatusEffect/Potions/s in AttachedAtom.LStatusEffects)
-				if(s != src && istype(s, /StatusEffect/Potions))
+			for(var/StatusEffect/Lamps/s in AttachedAtom.LStatusEffects)
+				if(s != src && istype(s, /StatusEffect/Lamps))
 					found = TRUE
 					break
 			if(found)
 				AttachedAtom << errormsg("You can only use one potion at a time.")
 				Deactivate()
 			else
-				AttachedAtom << infomsg("You feel [potion]'s effect running through your vains.")
+				AttachedAtom << infomsg("You feel [lamp]'s effect running through your vains.")
 				..()
 
 		Deactivate()
-			AttachedAtom << infomsg("[potion]'s effect fades.")
-			potion.seconds = round(scheduler.time_to_fire(AttachedEvent)/10)
-			if(potion.seconds <= 0)
-				AttachedAtom << errormsg("[potion] has expired.")
-				del potion
+			AttachedAtom << infomsg("[lamp]'s effect fades.")
+			lamp.seconds = round(scheduler.time_to_fire(AttachedEvent)/10)
+			if(lamp.seconds <= 0)
+				AttachedAtom << errormsg("[lamp] disappears into thin air.")
+				del lamp
 				AttachedAtom:Resort_Stacking_Inv()
 			else
-				var/min = round(potion.seconds / 60)
-				var/sec = potion.seconds-(min*60)
+				var/min = round(lamp.seconds / 60)
+				var/sec = lamp.seconds-(min*60)
 				var/time = ""
 				if(min) time = "[min] minutes"
 				if(sec)
 					if(min) time += " and "
 					time += "[sec] seconds."
-				potion.desc = "[initial(potion.desc)] Time Remaining: [time]"
+				lamp.desc = "[initial(lamp.desc)] Time Remaining: [time]"
 			..()
 
-		New(atom/pAttachedAtom,t,obj/items/potions/p)
-			potion = p
+		New(atom/pAttachedAtom,t,obj/items/lamps/p)
+			lamp = p
 			.=..()
 
 	var/Event/e_StatusEffect/AttachedEvent	//Not required - Contains /Event/e_StatusEffect to automatically cancel the StatusEffect

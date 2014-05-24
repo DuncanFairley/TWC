@@ -2794,53 +2794,53 @@ obj/items/artifact
 			if(!icon_state) icon_state = pick(icon_states(icon))
 
 
-obj/items/potions
+obj/items/lamps
 	var
 		effect
 		seconds
 		tmp/StatusEffect/S
-	double_drop_rate
+	double_drop_rate_lamp
 		desc    = "Doubles your drop rate."
-		effect  = /StatusEffect/Potions/DropRate/Double
+		effect  = /StatusEffect/Lamps/DropRate/Double
 		seconds = 1800
-	triple_drop_rate
+	triple_drop_rate_lamp
 		desc    = "Triples your drop rate."
-		effect  = /StatusEffect/Potions/DropRate/Triple
+		effect  = /StatusEffect/Lamps/DropRate/Triple
 		seconds = 1800
-	quadaple_drop_rate
+	quadaple_drop_rate_lamp
 		desc    = "Quadaples your drop rate."
-		effect  = /StatusEffect/Potions/DropRate/Quadaple
+		effect  = /StatusEffect/Lamps/DropRate/Quadaple
 		seconds = 1800
 
-	double_exp
+	double_exp_lamp
 		desc    = "Doubles your exp gain rate."
-		effect  = /StatusEffect/Potions/Exp/Double
+		effect  = /StatusEffect/Lamps/Exp/Double
 		seconds = 1800
-	triple_exp
+	triple_exp_lamp
 		desc    = "Triples your exp gain rate."
-		effect  = /StatusEffect/Potions/Exp/Triple
+		effect  = /StatusEffect/Lamps/Exp/Triple
 		seconds = 1800
-	quadaple_exp
+	quadaple_exp_lamp
 		desc    = "Quadaples your exp gain rate."
-		effect  = /StatusEffect/Potions/Exp/Quadaple
+		effect  = /StatusEffect/Lamps/Exp/Quadaple
 		seconds = 1800
 
-	double_gold
+	double_gold_lamp
 		desc    = "Doubles your gold gain rate."
-		effect  = /StatusEffect/Potions/Gold/Double
+		effect  = /StatusEffect/Lamps/Gold/Double
 		seconds = 1800
-	triple_gold
+	triple_gold_lamp
 		desc    = "Triples your gold gain rate."
-		effect  = /StatusEffect/Potions/Gold/Triple
+		effect  = /StatusEffect/Lamps/Gold/Triple
 		seconds = 1800
-	quadaple_gold
+	quadaple_gold_lamp
 		desc    = "Quadaples your gold gain rate."
-		effect  = /StatusEffect/Potions/Gold/Quadaple
+		effect  = /StatusEffect/Lamps/Gold/Quadaple
 		seconds = 1800
 
-	farming
+	farmer_lamp
 		desc    = "Removes damage, gold and exp level reductions allowing you to farm gold and exp from lower level monsters."
-		effect  = /StatusEffect/Potions/Farming
+		effect  = /StatusEffect/Lamps/Farming
 		seconds = 3600
 	Click()
 		if(src in usr)

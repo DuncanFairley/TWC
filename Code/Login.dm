@@ -2105,7 +2105,7 @@ mob/proc/Death_Check(mob/killer = src)
 				var/gold2give = (rand(7,14)/10)*gold
 				var/exp2give  = (rand(9,14)/10)*Expg
 
-				if(killer.level > src.level && !killer.findStatusEffect(/StatusEffect/Potions/Farming))
+				if(killer.level > src.level && !killer.findStatusEffect(/StatusEffect/Lamps/Farming))
 					gold2give -= gold2give * ((killer.level-src.level)/150)
 					exp2give  -= exp2give  * ((killer.level-src.level)/150)
 
@@ -2113,8 +2113,8 @@ mob/proc/Death_Check(mob/killer = src)
 					gold2give *= 1.25
 					exp2give  *= 1.25
 
-				var/StatusEffect/Potions/Gold/gold_rate = killer.findStatusEffect(/StatusEffect/Potions/Gold)
-				var/StatusEffect/Potions/Exp/exp_rate   = killer.findStatusEffect(/StatusEffect/Potions/Exp)
+				var/StatusEffect/Lamps/Gold/gold_rate = killer.findStatusEffect(/StatusEffect/Lamps/Gold)
+				var/StatusEffect/Lamps/Exp/exp_rate   = killer.findStatusEffect(/StatusEffect/Lamps/Exp)
 
 				if(gold_rate) gold2give *= gold_rate.rate
 				if(exp_rate)  exp2give  *= exp_rate.rate

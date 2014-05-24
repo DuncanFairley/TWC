@@ -605,7 +605,7 @@ client
 		if(mob && isplayer(mob))
 			if(mob:isTrading())
 				mob:trade.Clean()
-			var/StatusEffect/S = mob.findStatusEffect(/StatusEffect/Potions)
+			var/StatusEffect/S = mob.findStatusEffect(/StatusEffect/Lamps)
 			if(S) S.Deactivate()
 			if(mob.derobe)
 				mob.derobe = 0

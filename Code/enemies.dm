@@ -233,7 +233,7 @@ mob
 					if(killer.House == housecupwinner)
 						rate += 0.25
 
-					var/StatusEffect/Potions/DropRate/d = killer.findStatusEffect(/StatusEffect/Potions/DropRate)
+					var/StatusEffect/Lamps/DropRate/d = killer.findStatusEffect(/StatusEffect/Lamps/DropRate)
 					if(d)
 						rate *= d.rate
 
@@ -548,7 +548,7 @@ mob
 		proc/Attack(mob/M)
 			var/dmg = Dmg+extraDmg+rand(0,4)
 
-			if(M.level > src.level && !M.findStatusEffect(/StatusEffect/Potions/Farming))
+			if(M.level > src.level && !M.findStatusEffect(/StatusEffect/Lamps/Farming))
 				dmg -= dmg * ((M.level-src.level)/100)
 			else if(M.level < src.level)
 				dmg += dmg * ((src.level-M.level)/200)
