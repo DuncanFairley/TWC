@@ -206,10 +206,15 @@ mob
 				icon = 'monsters.dmi'
 				icon_state="eye"
 				level = 800
-				density = 0
 				HPmodifier = 2
-				DMGmodifier = 0.6
 				var/tmp/fired = 0
+
+				Move(NewLoc,Dir)
+					density = 0
+					.=..()
+					density = 1
+
+
 				Attack(mob/M)
 					.=..()
 					if(!fired)
