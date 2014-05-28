@@ -48,8 +48,10 @@ obj/items/verb/Examine()
 	usr << infomsg("<i>[desc]</i>")
 obj/items/proc/Destroy(var/mob/Player/owner)
 	if(alert(owner,"Are you sure you wish to destroy your [src]",,"Yes","Cancel") == "Yes")
-		del(src)
-		usr.Resort_Stacking_Inv()
+		var/obj/item = src
+		src = null
+		del(item)
+		owner.Resort_Stacking_Inv()
 		return 1
 
 obj/items/New()
@@ -175,8 +177,8 @@ obj/items/snowring
 	Click()
 		if(src in usr)
 
-			if(canUse(src,cooldown=/StatusEffect/UsedSnowRing,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-				new /StatusEffect/UsedSnowRing(src,60)
+			if(canUse(usr,cooldown=/StatusEffect/UsedSnowRing,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+				new /StatusEffect/UsedSnowRing(usr,60)
 				var/obj/snowman/O = new(usr.loc)
 				O.owner = "[usr.key]"
 
