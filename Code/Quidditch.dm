@@ -421,7 +421,7 @@ obj/quidditch
 					if(quidditchmatch)
 						quidditchmatch.Score(user, "Snitch")
 					else
-						world << "[user] has caught the snitch!"
+						world << "[user] has caught the [name]!"
 					del(src)
 					return
 				else
