@@ -985,8 +985,8 @@ mob
 				if(z <= SWAPMAP_Z)
 					src << errormsg("You can only use it inside swap maps.")
 					return
-				if(istype(O, /obj/items))
-					src << errormsg("Only admins can create items.")
+				if(ispath(O, /obj/items) || ispath(O, /mob))
+					src << errormsg("Only admins can create this.")
 					return
 
 			var/item = new O(usr.loc)
