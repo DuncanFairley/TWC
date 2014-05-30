@@ -5,6 +5,7 @@
  * For the full license text, see LICENSE.txt.
  */
 var/lvlcap = 600
+var/const/SWAPMAP_Z = 26
 /*mob/verb/NewVault1()
 
 	//THIS IS THE FUNCTION FOR CREATING ADDITIONAL VAULT TEMPLATES
@@ -336,6 +337,9 @@ mob/GM/verb/FloodFill(path as null|anything in typesof(/turf)|typesof(/area))
 	set category = "Custom Maps"
 	usr << errormsg("Note that the flood ignores objects including doors. It fills via the type of turf that you are standing on, and replaces it with the type you select.")
 	if(!path)return
+	if(!admin&&z <= SWAPMAP_Z)
+		src << errormsg("You can only use it inside swap maps.")
+		return
 	var/Region/r = new(usr.loc, /proc/AccessibleTurfs)
 	for(var/T in r.contents)
 		new path (T)

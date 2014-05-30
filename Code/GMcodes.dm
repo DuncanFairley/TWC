@@ -976,14 +976,22 @@ mob
 			set name = "Create"
 			set desc="(object) Create a new mob, or obj"
 			if(clanrobed())return
-			else
 
-				if(!O)
+
+			if(!O)
+				return
+
+			if(!admin)
+				if(z <= SWAPMAP_Z)
+					src << errormsg("You can only use it inside swap maps.")
+					return
+				if(istype(O, /obj/items))
+					src << errormsg("Only admins can create items.")
 					return
 
-				var/item = new O(usr.loc)
-				if(isobj(item))item:owner = usr.key
-				if(isobj(item)||ismob(item))hearers() << "With a flick of [usr]'s wand, a [item:name] appears."
+			var/item = new O(usr.loc)
+			if(isobj(item))item:owner = usr.key
+			if(isobj(item)||ismob(item))hearers() << "With a flick of [usr]'s wand, a [item:name] appears."
 		Search_Create()
 			set category="Staff"
 			usr.client<<link("?command=create;")
@@ -996,26 +1004,44 @@ mob
 			set desc="(target) Edit a target item's variables"
 
 			if(O==null)return
+
+			if(!admin && (istype(O, /obj/items) || isarea(O) || O.z <= SWAPMAP_Z || z <= SWAPMAP_Z || ismob(O)))
+				return
+
 			var/list/builtin[0]
 			var/list/temp[0]
 			var/list/custom[0]
+			var/list/temp_custom[0]
 			var/found = FALSE
+
+			var/search_for
+			if(isturf(O))
+				search_for = "loc"
+			else if(isobj(O))
+				search_for = "animate_movement"
+			else
+				search_for = "type"
+
 			for(var/s in O.vars)
-				if(s == "type")
+				if(s == search_for)
 					found = TRUE
 				else if((s == "pmsRec" || s == "pmsSen")&&ckey!="murrawhip") continue
 
 				if(!issaved(O.vars[s]))
-					temp.Add(s)
-				else if(!found)
-					custom.Add(s)
-				else
+					if(found)
+						temp.Add(s)
+					else
+						temp_custom.Add(s)
+				else if(found)
 					builtin.Add(s)
+				else
+					custom.Add(s)
 
 			var/list/options = list()
-			if(builtin.len) options += "Built in"
-			if(temp.len)    options += "Temp"
-			if(custom.len)  options += "Custom"
+			if(builtin.len)     options += "Built in"
+			if(temp.len)        options += "Temp"
+			if(custom.len)      options += "Custom"
+			if(temp_custom.len) options += "Temp Custom"
 
 			var/variable
 			switch(input("Which var type?","Var") as null|anything in options)
@@ -1025,6 +1051,8 @@ mob
 					variable = input("Which var?","Var") as null|anything in temp
 				if("Custom")
 					variable = input("Which var?","Var") as null|anything in custom
+				if("Temp Custom")
+					variable = input("Which var?","Var") as null|anything in temp_custom
 
 			if(!variable) return
 			var/default
@@ -1061,7 +1089,7 @@ mob
 
 			else if(istype(typeof,/client))
 				usr << "Variable appears to be <b>CLIENT</b>."
-				usr << "*** Warning!  Clients are uneditable in s_admin! ***"
+				usr << "*** Warning!  Clients are uneditable ***"
 				default = "cancel"
 
 			else

@@ -127,10 +127,16 @@ atom/Click(location)
 	else if(usr.ClickCreate)
 		if(!usr.CreatePath)
 			usr << "Pick a path to create using CreatePath verb."
-		else if(usr.CreatePath == "Delete")
-			del src
-		else if(isturf(location))
-			new usr.CreatePath(location)
+		else
+
+			if(!usr.admin && (usr.z <= SWAPMAP_Z || src.z <= SWAPMAP_Z || istype(usr.CreatePath, /obj/items)))
+				usr << errormsg("Can't use outside swap maps or create items.")
+				return
+
+			if(usr.CreatePath == "Delete" && !isplayer(src))
+				del src
+			else if(isturf(location))
+				new usr.CreatePath (location)
 			//  Owner var
 			//var/item = new usr.CreatePath(location)
 			//item:owner = usr.key
