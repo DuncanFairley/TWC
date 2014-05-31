@@ -48,8 +48,10 @@ obj/items/verb/Examine()
 	usr << infomsg("<i>[desc]</i>")
 obj/items/proc/Destroy(var/mob/Player/owner)
 	if(alert(owner,"Are you sure you wish to destroy your [src]",,"Yes","Cancel") == "Yes")
-		del(src)
-		usr.Resort_Stacking_Inv()
+		var/obj/item = src
+		src = null
+		del(item)
+		owner.Resort_Stacking_Inv()
 		return 1
 
 obj/items/New()
@@ -175,8 +177,8 @@ obj/items/snowring
 	Click()
 		if(src in usr)
 
-			if(canUse(src,cooldown=/StatusEffect/UsedSnowRing,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-				new /StatusEffect/UsedSnowRing(src,60)
+			if(canUse(usr,cooldown=/StatusEffect/UsedSnowRing,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+				new /StatusEffect/UsedSnowRing(usr,60)
 				var/obj/snowman/O = new(usr.loc)
 				O.owner = "[usr.key]"
 
@@ -2733,7 +2735,8 @@ obj/items/easter_egg
 
 	New()
 		..()
-		icon_state = pick(icon_states(icon))
+		spawn(1)
+			if(!icon_state) icon_state = pick(icon_states(icon))
 
 	Click()
 		if(src in usr)
@@ -2776,7 +2779,85 @@ obj/egg
 		spawn(rand(600,1200))
 			loc=null
 
+obj/items/artifact
+	name = "Artifact"
+	icon = 'trophies.dmi'
 
+	New()
+		..()
+		spawn(1)
+			if(name == "Artifact")
+				name = ""
+				var/time = pick("Ancient","Old","")
+				var/prop = pick("Magical", "Shiny", "Mysterious", "")
+				if(time) name += time + " "
+				if(prop) name += prop + " "
+				name += "Artifact"
+			if(!icon_state) icon_state = pick(icon_states(icon))
+
+
+obj/items/lamps
+	icon       = 'lamp.dmi'
+	icon_state = "inactive"
+	var
+		effect
+		seconds
+		tmp/StatusEffect/S
+	double_drop_rate_lamp
+		desc    = "Doubles your drop rate."
+		effect  = /StatusEffect/Lamps/DropRate/Double
+		seconds = 1800
+	triple_drop_rate_lamp
+		desc    = "Triples your drop rate."
+		effect  = /StatusEffect/Lamps/DropRate/Triple
+		seconds = 1800
+	quadaple_drop_rate_lamp
+		desc    = "Quadaples your drop rate."
+		effect  = /StatusEffect/Lamps/DropRate/Quadaple
+		seconds = 1800
+
+	double_exp_lamp
+		desc    = "Doubles your exp gain rate."
+		effect  = /StatusEffect/Lamps/Exp/Double
+		seconds = 1800
+	triple_exp_lamp
+		desc    = "Triples your exp gain rate."
+		effect  = /StatusEffect/Lamps/Exp/Triple
+		seconds = 1800
+	quadaple_exp_lamp
+		desc    = "Quadaples your exp gain rate."
+		effect  = /StatusEffect/Lamps/Exp/Quadaple
+		seconds = 1800
+
+	double_gold_lamp
+		desc    = "Doubles your gold gain rate."
+		effect  = /StatusEffect/Lamps/Gold/Double
+		seconds = 1800
+	triple_gold_lamp
+		desc    = "Triples your gold gain rate."
+		effect  = /StatusEffect/Lamps/Gold/Triple
+		seconds = 1800
+	quadaple_gold_lamp
+		desc    = "Quadaples your gold gain rate."
+		effect  = /StatusEffect/Lamps/Gold/Quadaple
+		seconds = 1800
+
+	farmer_lamp
+		desc    = "Removes damage, gold and exp level reductions allowing you to farm gold and exp from lower level monsters."
+		effect  = /StatusEffect/Lamps/Farming
+		seconds = 3600
+	Click()
+		if(src in usr)
+			if(S)
+				S.Deactivate()
+			else
+				S = new effect (usr, seconds, src)
+		else
+			..()
+	Drop()
+		if(S)
+			S.Deactivate()
+		..()
 obj/items
 	portduelsystem
 		name = "Portable Duel System"
@@ -2896,8 +2977,6 @@ obj/items
 			c3.density = 1
 			src.dueltiles.Add(c5)
 			c5.density = 1
-			var/obj/duelblock/t1 = new(src.loc)
-			var/obj/duelblock/t2 = new(src.loc)
 			spawn()step(c1,WEST)
 			spawn()step(c7,EAST)
 			spawn()step(c2,WEST)
@@ -2912,11 +2991,6 @@ obj/items
 			spawn()step(c3,WEST)
 			spawn()step(c5,EAST)
 			sleep(6)
-			spawn()
-				step(t1,WEST)
-				step(t1,WEST)
-				step(t2,EAST)
-				step(t2,EAST)
 			c1.density = 0
 			c7.density = 0
 			c2.density = 0
@@ -2929,6 +3003,8 @@ obj/items
 				Move(usr)
 				usr:Resort_Stacking_Inv()
 			else
+				new/obj/duelblock (c3.loc)
+				new/obj/duelblock (c5.loc)
 				unpacked = 1
 		Click()
 
@@ -2955,7 +3031,7 @@ obj/items
 						D.player1.movable = 1
 						range(9) << "[usr] enters the duel."
 					else if(!D.player2 && D.player1 != usr)
-						var/turf/t = locate(x-3,y,z)
+						var/turf/t = locate(x+3,y,z)
 						if(istype(t, /turf/teleport) || (locate(/obj/teleport) in t))
 							return
 
@@ -2964,8 +3040,10 @@ obj/items
 						D.player2.dir = WEST
 						D.player2.movable = 1
 						range(9) << "[usr] enters the duel."
-						for(var/obj/duelblock/B in range(5))
-							B.density = 1
+						var/obj/duelblock/B1 = locate(/obj/duelblock) in locate(x-2,y,z)
+						var/obj/duelblock/B2 = locate(/obj/duelblock) in locate(x+2,y,z)
+						B1.density = 1
+						B2.density = 1
 						range(9) << "<i>Duelists now have 10 seconds to click on the duel control center.</i>"
 						D.Pre_Duel()
 
@@ -2988,8 +3066,10 @@ obj/items
 									D.player1.movable = 0
 									D.player2.movable = 0
 									spawn(60)
-										for(var/obj/duelblock/B in range(5))
-											B.density = 0
+										var/obj/duelblock/B1 = locate(/obj/duelblock) in locate(x-2,y,z)
+										var/obj/duelblock/B2 = locate(/obj/duelblock) in locate(x+2,y,z)
+										B1.density = 0
+										B2.density = 0
 									del D
 					else if(D.player2 == usr)
 						if(!D.player1)
@@ -3008,19 +3088,23 @@ obj/items
 									sleep(100)
 									range(9) << "The duel has been forfeited by [usr]."
 									spawn(60)
-										for(var/obj/duelblock/B in range(5))
-											B.density = 0
+										var/obj/duelblock/B1 = locate(/obj/duelblock) in locate(x-2,y,z)
+										var/obj/duelblock/B2 = locate(/obj/duelblock) in locate(x+2,y,z)
+										B1.density = 0
+										B2.density = 0
 									del D
 
 					else
 						usr << "Both player positions are already occupied."
 				else
+					var/turf/t = locate(x-3,y,z)
+					if(istype(t, /turf/teleport) || (locate(/obj/teleport) in t))
+						return
+
 					D = new(src)
 					D.countdown = 5//input("Select count-down timer, for when both players have readied. (between 3 and 10 seconds)","Count-down Timer",D.countdown) as null|num
-					if(D.countdown>10) D.countdown = 10
-					if(D.countdown<3) D.countdown = 3
 					range(9) << "[usr] initiates a duel."
 					D.player1 = usr
-					D.player1.loc = locate(x-3,y,z)
+					D.player1.loc = t
 					D.player1.dir = EAST
 					D.player1.movable = 1

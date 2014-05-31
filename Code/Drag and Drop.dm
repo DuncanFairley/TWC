@@ -40,6 +40,12 @@ clan_wars
 						if(!findtext(t.icon_state, " - halloween"))
 							t.icon_state += " - halloween"
 
+				for(var/turf/nofirezone/t in world)
+					if(t.z >= 21 && t.z <= 23 && findtext(t.icon_state, "wood"))
+
+						if(!findtext(t.icon_state, " - halloween"))
+							t.icon_state += " - halloween"
+
 			else if(deatheater < aurors)
 				world << "<h4>Aurors won the clan war!</h4>"
 
@@ -48,6 +54,13 @@ clan_wars
 						var/pos = findtext(t.icon_state, " - halloween")
 						if(pos)
 							t.icon_state = copytext(t.icon_state, 1, pos)
+
+				for(var/turf/nofirezone/t in world)
+					if(t.z >= 21 && t.z <= 23 && findtext(t.icon_state, "wood"))
+						var/pos = findtext(t.icon_state, " - halloween")
+						if(pos)
+							t.icon_state = copytext(t.icon_state, 1, pos)
+
 			else
 				world << "<h4>Clan war resulted in a draw.</h4>"
 				for(var/turf/woodenfloor/t in world)
@@ -55,7 +68,11 @@ clan_wars
 						var/pos = findtext(t.icon_state, " - halloween")
 						if(pos)
 							t.icon_state = copytext(t.icon_state, 1, pos)
-
+				for(var/turf/nofirezone/t in world)
+					if(t.z >= 21 && t.z <= 23 && findtext(t.icon_state, "wood"))
+						var/pos = findtext(t.icon_state, " - halloween")
+						if(pos)
+							t.icon_state = copytext(t.icon_state, 1, pos)
 		timeout()
 			var/m = 0
 			while(m < MINUTES && clanwars)

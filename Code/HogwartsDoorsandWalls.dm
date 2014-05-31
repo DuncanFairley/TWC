@@ -31,9 +31,11 @@ mob
 					//	usr<<"<font color= #000099><b>Welcome back, [usr]."
 						//hearers()<<sound('stdoor.wav')
 						if(T.icon_state != "open")
+							T.bumpable = 0
 							flick("opening",T)
 							T.opacity=0
 							sleep(4)
+							T.bumpable = 1
 							T.icon_state="open"
 							T.density=0
 							sleep(20)
@@ -56,12 +58,14 @@ mob
 							usr<<"<font color=green><b>Authorization Confirmed."
 							spawn()
 								if(T.icon_state != "open")
+									T.bumpable = 0
 									src = null
 									T:lastopener = usr.key
 									//hearers()<<sound('stdoor.wav')
 									flick("opening",T)
 									T.opacity=0
 									sleep(4)
+									T.bumpable = 1
 									T.icon_state="open"
 									T.density=0
 									sleep(50)
@@ -83,11 +87,13 @@ mob
 					//hearers()<<sound('stdoor.wav')
 					spawn()
 						if(T.icon_state != "open")
+							T.bumpable = 0
 							src = null
 							T:lastopener = usr.key
 							flick("opening",T)
 							T.opacity=0
 							sleep(4)
+							T.bumpable = 1
 							T.icon_state="open"
 							T.density=0
 							sleep(50)
@@ -101,8 +107,7 @@ mob
 							sleep(4)
 							T.opacity=1
 							T.icon_state="closed"
-		else if(T.bumpable==0)
-			return
+
 
 turf
 	var/lastopener
@@ -342,6 +347,8 @@ obj
 		toiletstall
 			icon = 'Stall.dmi'
 			icon_state = "closed"
+		roofb
+			icon = 'roofbdoor.dmi'
 		New()
 			..()
 			var/turf/T = src.loc

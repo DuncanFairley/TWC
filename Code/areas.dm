@@ -867,7 +867,16 @@ area
 				M.loc=locate(87,29,18)
 
 turf
-	ror1
+	ror
+		var
+			n
+			dest = "ror"
+		ror1
+			n=1
+		ror2
+			n=2
+		ror3
+			n=3
 		Enter(atom/movable/O)
 			if(density && isplayer(O) && O:ror == 1)
 				return 1
@@ -875,50 +884,10 @@ turf
 				.=..()
 
 		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(M.ror==1)
-				M.loc=locate(39,59,7)
-			else if(M.ror==4)
-				M.loc=locate(70,60,7)
-			else
-				return
+			if(isplayer(M))
+				if(M.ror==n || M.ror==-1)
+					M.loc=locate(dest)
 
-turf
-	ror2
-		Enter(atom/movable/O)
-			if(density && isplayer(O) && O:ror == 2)
-				return 1
-			else
-				.=..()
-
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(M.ror==2)
-				M.loc=locate(39,59,7)
-			else if(M.ror==4)
-				M.loc=locate(70,60,7)
-			else
-				return
-
-turf
-	ror3
-		Enter(atom/movable/O)
-			if(density && isplayer(O) && O:ror == 3)
-				return 1
-			else
-				.=..()
-
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(M.ror==3)
-				M.loc=locate(39,59,7)
-			else if(M.ror==4)
-				M.loc=locate(70,60,7)
-			else
-				return
 
 area
 	tofred
