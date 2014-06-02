@@ -259,7 +259,8 @@ mob/Spells/verb/Eparo_Evanesca()
 			new /StatusEffect/Decloaked(M,15)
 mob/Spells/verb/Evanesco(mob/M in Players&oview())
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedEvanesco,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+		new /StatusEffect/UsedEvanesco(src,15)
 		flick('teleboom.dmi',M)
 		sleep(8)
 		M.invisibility=1

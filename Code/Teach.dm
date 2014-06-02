@@ -555,7 +555,7 @@ mob/GM
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Dragon))
 					M<<"<b><font color=green><font size=3>You learned how to Transfigure yourself into a fearsome Dragon!"
-			src<<"You've taught your class Self to Dragon."
+			src<<"You've taught your class Personio Draconum."
 mob/GM
 	verb
 		Teach_Transfigure_Human()
