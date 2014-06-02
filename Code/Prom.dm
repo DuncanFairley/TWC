@@ -281,12 +281,12 @@ obj/mirror
 		New(obj/mirror/glass/parent)
 			loc = locate(parent.x,parent.y-1,parent.z)
 			src.parent = parent*/
+
 mob/var/tmp/baseicon
 area/hogwarts/promChangeRoom
 	Exit()
 		. = ..()
-		return
-		if(.)
+		if(.&&prom)
 			var/turf/t = get_step(usr,usr.dir)
 			if(!(t.density && usr.density))
 				if(usr && usr.mprevicon)
@@ -294,10 +294,21 @@ area/hogwarts/promChangeRoom
 					usr.mprevicon = null
 	Enter(atom/movable/O)
 		. = ..()
-		if(. && usr && promicons[usr.ckey])
+		if(. && usr && promicons[usr.ckey] && prom)
 			if(promicons[usr.ckey] != usr.icon)
 				usr.mprevicon = usr.icon
 			usr.icon = promicons[usr.ckey]
+
+	New()
+		..()
+		init()
+
+	proc
+		init()
+			if(prom)
+				verbs += typesof(/area/hogwarts/promChangeRoom/verb/)
+			else
+				verbs -= typesof(/area/hogwarts/promChangeRoom/verb/)
 	verb
 		Clear_Prom_Icon()
 			set category = "Prom"
@@ -347,3 +358,11 @@ area/hogwarts/promChangeRoom
 			else
 				alert("Uploaded icons must be no larger than 32 pixels wide and 32 pixels high.")
 var/list/icon/promicons = list()
+
+var/prom = FALSE
+mob/test/verb/Toggle_Prom()
+	set category = "Staff"
+	prom = !prom
+	var/area/hogwarts/promChangeRoom/prom_area = locate(/area/hogwarts/promChangeRoom)
+	prom_area.init()
+	src << infomsg("Toggled prom [prom ? "on" : "off"].")
