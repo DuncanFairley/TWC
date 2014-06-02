@@ -822,7 +822,7 @@
 "apP" = (/obj/housecouch{icon_state = "rightwhite-north"; layer = 4; pixel_y = -4},/turf/woodenfloor,/area/hogwarts)
 "apQ" = (/obj/Torch_,/turf/woodenfloor,/area/hogwarts)
 "apR" = (/obj/sign1{desc = "<b><font color=red>Welcome to Marvelous Magical Mystery!</font></b><br><i> These mirrors are enchanted with a shopkeeping charm,  and may change what they sell every now and then.</i><br>"; name = "Marvelous Magical Mystery"; pixel_x = -1},/turf/Hogwarts_Stone_Wall,/area/hogwarts)
-"apS" = (/turf/woodenfloor,/obj/Hogwarts_Door{door = 0},/turf/nofirezone,/area/hogwarts)
+"apS" = (/turf/woodenfloor,/obj/Hogwarts_Door{door = 1},/turf/nofirezone,/area/hogwarts)
 "apT" = (/turf/roofb{opacity = 1},/area/inside)
 "apU" = (/turf/roofb,/area/nofly)
 "apV" = (/obj/Signs/Gryff,/turf/blackblock{name = ""},/area/inside)
