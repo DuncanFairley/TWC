@@ -63,7 +63,7 @@ proc/issafezone(area/A)
 proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inarena=1,var/insafezone=1,var/inhogwarts=1,var/mob/Player/target=null,var/mpreq=0,var/againstocclumens=1,var/againstflying=1,var/againstcloaked=1)
 	//Returns 1 if you can use the item/cast the spell. Also handles the printing of messages if you can't.
 	var/area/A = M.loc.loc
-	if(M.z > 26 && !inhogwarts)
+	if(M.z > SWAPMAP_Z && !inhogwarts)
 		M << "<b>You cannot use this in a vault.</b>"
 		return 0
 	if(target && !insafezone && issafezone(target.loc.loc))
@@ -177,6 +177,76 @@ StatusEffect
 	UsedShelleh
 	UsedDisperse
 	DepulsoText
+
+	Lamps
+		var/tmp/obj/items/lamps/lamp
+
+		Farming
+
+		DropRate
+			var/rate
+			Double
+				rate = 2
+			Triple
+				rate = 3
+			Quadaple
+				rate = 4
+
+		Exp
+			var/rate
+			Double
+				rate = 2
+			Triple
+				rate = 3
+			Quadaple
+				rate = 4
+
+		Gold
+			var/rate
+			Double
+				rate = 2
+			Triple
+				rate = 3
+			Quadaple
+				rate = 4
+
+		Activate()
+			var/found = FALSE
+			for(var/StatusEffect/Lamps/s in AttachedAtom.LStatusEffects)
+				if(s != src && istype(s, /StatusEffect/Lamps))
+					found = TRUE
+					break
+			if(found)
+				AttachedAtom << errormsg("You can only use one lamp at a time.")
+				Deactivate()
+			else
+				AttachedAtom << infomsg("You feel the warmth of [lamp]'s magical light.")
+				lamp.icon_state = "active"
+				..()
+
+		Deactivate()
+			AttachedAtom << infomsg("[lamp]'s effect fades.")
+			lamp.seconds = round(scheduler.time_to_fire(AttachedEvent)/10)
+			if(lamp.seconds <= 0)
+				AttachedAtom << errormsg("[lamp] disappears into thin air.")
+				del lamp
+				AttachedAtom:Resort_Stacking_Inv()
+			else
+				var/min = round(lamp.seconds / 60)
+				var/sec = lamp.seconds-(min*60)
+				var/time = ""
+				if(min) time = "[min] minutes"
+				if(sec)
+					if(min) time += " and "
+					time += "[sec] seconds."
+				lamp.desc = "[initial(lamp.desc)] Time Remaining: [time]"
+				lamp.icon_state = "inactive"
+			..()
+
+		New(atom/pAttachedAtom,t,obj/items/lamps/p)
+			lamp = p
+			.=..()
+
 	var/Event/e_StatusEffect/AttachedEvent	//Not required - Contains /Event/e_StatusEffect to automatically cancel the StatusEffect
 	var/atom/AttachedAtom	//Required - Contains the /atom which the StatusEffect is attached to
 	proc

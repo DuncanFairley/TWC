@@ -147,8 +147,8 @@ mob/Player
 							gold += trade.gold
 							trade.gold = gcheck
 							gold -= gcheck
-							winset(src, null, {"Trade.gold1.text=[gcheck];Trade.error.text="""})
-							winset(trade.with, "Trade.gold2", "text = [gcheck]")
+							winset(src, null, {"Trade.gold1.text=[comma(gcheck)];Trade.error.text="""})
+							winset(trade.with, "Trade.gold2", "text = [comma(gcheck)]")
 				else
 					src << errormsg("You can't change terms of the trade while one of you already accepted.")
 
@@ -164,9 +164,12 @@ obj/items
 					if(dropable)
 						if(src in usr:Lwearing)
 							src:Equip(usr)
+						else if(istype(src, /obj/items/lamps) && src:S)
+							var/obj/items/lamps/lamp = src
+							lamp.S.Deactivate()
 						winset(P, null, "Trade.grid1.cells=1x[P.trade.y];Trade.grid1.current-cell=1x[P.trade.y]")
 						P << output(src, "Trade.grid1")
-						winset(P.trade.with, null, "Trade.grid2=1x[P.trade.y];Trade.grid2.current-cell=1x[P.trade.y]")
+						winset(P.trade.with, null, "Trade.grid2.cells=1x[P.trade.y];Trade.grid2.current-cell=1x[P.trade.y]")
 						P.trade.with << output(src, "Trade.grid2")
 						P.trade.items += src
 						P.trade.y++

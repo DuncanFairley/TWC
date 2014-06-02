@@ -421,7 +421,7 @@ obj/quidditch
 					if(quidditchmatch)
 						quidditchmatch.Score(user, "Snitch")
 					else
-						world << "[user] has caught the snitch!"
+						world << "[user] has caught the [name]!"
 					del(src)
 					return
 				else
@@ -652,7 +652,7 @@ turf/Entered(atom/movable/M)
 	if(M)
 		for(var/atom/A in src)
 			if(A == M) continue
-			if(!M)break
+			if(!M || !M.loc)break
 			M.SteppedOn(A)
 turf/Exited(atom/movable/M)
     for(var/atom/A in src)

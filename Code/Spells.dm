@@ -1791,7 +1791,7 @@ var/safemode = 1
 mob/var/tmp/lastproj = 0
 mob
 	proc/castproj(MPreq,icon,icon_state,damage,name)
-		if((world.time - lastproj) < 2) return
+		if(!monster && (world.time - lastproj) < 2) return
 		lastproj = world.time
 		var/obj/projectile/P = new(src.loc,src.dir,src,icon,icon_state,damage,name)
 		P.shoot()
@@ -1802,6 +1802,7 @@ mob
 
 obj
 	projectile
+		layer = 4
 		density = 1
 		SteppedOn(atom/movable/A)
 			//world << "[src] stepped on [A]"
@@ -2158,15 +2159,25 @@ mob/Player
 			return
 		..()
 
-client/Move(loc,dir)
-	if(src.mob.away)
-		src.mob.away = 0
-		src.mob.status=usr.here
-		src.mob.overlays-=image('AFK.dmi',icon_state="GM")
-		src.mob.overlays-=image('AFK.dmi',icon_state="AFK2")
-		src.mob.overlays-='AFK.dmi'
-	..()
+client
+	var/tmp/moving = 0
+	Move(loc,dir)
+		if(moving) return
+		moving = 1
 
+		if(mob.confused && dir)
+			dir = turn(dir,180)
+			loc = get_step(mob, dir)
+
+		if(src.mob.away)
+			src.mob.away = 0
+			src.mob.status=usr.here
+			src.mob.overlays-=image('AFK.dmi',icon_state="GM")
+			src.mob.overlays-=image('AFK.dmi',icon_state="AFK2")
+			src.mob.overlays-='AFK.dmi'
+		..()
+		sleep(0)
+		moving = 0
 
 
 obj/var

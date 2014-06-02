@@ -4,7 +4,8 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-var/lvlcap = 550
+var/lvlcap = 600
+var/const/SWAPMAP_Z = 26
 /*mob/verb/NewVault1()
 
 	//THIS IS THE FUNCTION FOR CREATING ADDITIONAL VAULT TEMPLATES
@@ -17,7 +18,23 @@ var/lvlcap = 550
 	map.BuildFilledRectangle(get_step(map.LoCorner(),NORTHEAST),get_step(map.HiCorner(),SOUTHWEST),/turf/floor)
 	map.BuildFilledRectangle(locate(map.x1+1,map.y1+height-2,map.z1),locate(map.x1+width-2,map.y1+height-2,map.z1),/turf/Hogwarts_Stone_Wall)
 	map.BuildFilledRectangle(locate(map.x1+midx-1,map.y1+1,map.z1),locate(map.x1+midx-1,map.y1+1,map.z1),/obj/teleport/leavevault)
+	map.Save()
+
+
+mob/verb/NewVaultCustom(var/height as num, var/width as num)
+
+	if(width % 2 == 0) width--
+
+	var/midx = (width+1)/2
+	var/swapmap/map = new /swapmap("vault_4rooms",width,height,1)
+	map.BuildRectangle(map.LoCorner(),map.HiCorner(),/turf/roofb)
+	map.BuildFilledRectangle(get_step(map.LoCorner(),NORTHEAST),get_step(map.HiCorner(),SOUTHWEST),/turf/floor)
+	map.BuildFilledRectangle(locate(map.x1+1,map.y1+height-2,map.z1),locate(map.x1+width-2,map.y1+height-2,map.z1),/turf/Hogwarts_Stone_Wall)
+
+
+	map.BuildFilledRectangle(locate(map.x1+midx-1,map.y1+1,map.z1),locate(map.x1+midx-1,map.y1+1,map.z1),/obj/teleport/leavevault)
 	map.Save()*/
+
 
 obj/drop_on_death
 	var
@@ -70,6 +87,40 @@ mob/test/verb
 					if(!(text2path("[O.type]/verb/Drop") in O.verbs) && !istype(O,/obj/Food) && !istype(O,/obj/teleport/leavevault) )
 						O.loc = M
 			M:Resort_Stacking_Inv()
+
+	Change_Vault(var/vault as text, var/mob/Player/p in Players)
+		set category = "Vault Debug"
+		if(fexists("[swapmaps_directory]/tmpl_vault[vault].sav"))
+			p.change_vault(vault)
+
+mob/Player/proc/change_vault(var/vault)
+	var/swapmap/map = SwapMaps_Find("[ckey]")
+	if(!map)
+		map = SwapMaps_Load("[ckey]")
+	if(map)
+
+		for(var/obj/items/i in map)
+			i.loc = src
+		if(!map.InUse())
+			for(var/turf/t in map.AllTurfs())
+				for(var/obj/items/i in t)
+					i.loc = src
+			map.Unload()
+			src:Resort_Stacking_Inv()
+		else
+			src << errormsg("Please evacuate everyone from your vault first.")
+			return
+
+	if(!islist(global.globalvaults))
+		global.globalvaults = list()
+	var/vault/v = new
+	v.tmpl = vault
+	global.globalvaults[src.ckey] = v
+	map = SwapMaps_CreateFromTemplate("vault[vault]")
+	map.SetID("[src.ckey]")
+	map.Save()
+	return 1
+
 
 obj/teleport
 	var/dest = ""
@@ -150,12 +201,12 @@ obj/teleport
 		dest = "@Hogwarts"
 		invisibility = 0
 		Teleport(mob/M)
-			if(prob(60))
+			if(prob(40))
 				..()
 				M << infomsg("You magically found yourself at Hogwarts!")
 			else
 				M.density = 0
-				M.Move(locate(rand(4,97),rand(4,97),4))
+				M.Move(locate(rand(4,97),rand(4,97),rand(4,6)))
 				M.density = 1
 		New()
 			..()
@@ -286,6 +337,9 @@ mob/GM/verb/FloodFill(path as null|anything in typesof(/turf)|typesof(/area))
 	set category = "Custom Maps"
 	usr << errormsg("Note that the flood ignores objects including doors. It fills via the type of turf that you are standing on, and replaces it with the type you select.")
 	if(!path)return
+	if(!admin&&z <= SWAPMAP_Z)
+		src << errormsg("You can only use it inside swap maps.")
+		return
 	var/Region/r = new(usr.loc, /proc/AccessibleTurfs)
 	for(var/T in r.contents)
 		new path (T)
@@ -311,6 +365,7 @@ customMap
 	var/tmp/swapmap/swapmap = null
 vault
 	var/list/allowedpeople = list()	//ckeys of people with permission to enter
+	var/tmpl = "1"// used template, 1 by default
 	proc/can_ckey_enter(ckey)
 		return (ckey in allowedpeople)
 	proc/add_ckey_allowedpeople(ckey)
@@ -1115,7 +1170,7 @@ mob/Player
 		Players.Add(src)
 		bubblesort_atom_name(Players)
 		if(housecupwinner)
-			src << "<b><font color=#CF21C0>[housecupwinner] is the House Cup winner for this month. They receive +25% gold/XP gained from monster kills.</font></b>"
+			src << "<b><font color=#CF21C0>[housecupwinner] is the House Cup winner for this month. They receive +25% drop rate/gold/XP from monster kills.</font></b>"
 		if(classdest)
 			src << announcemsg("[curClass] class is starting. Click <a href=\"?src=\ref[usr];action=class_path;latejoiner=true\">here</a> for directions.")
 		updateHPMP()
@@ -1999,7 +2054,7 @@ mob/proc/Death_Check(mob/killer = src)
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer] killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 							else
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer] killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
-					if(get_dist(src, killer) == 1 && get_dir(src, killer) == turn(src.dir,180))
+					if(killer.client && get_dist(src, killer) == 1 && get_dir(src, killer) == turn(src.dir,180))
 						src << "<i>You were knocked out by <b>someone from behind</b> and sent to the Hospital Wing!</i>"
 					else
 						src << "<i>You were knocked out by <b>[killer]</b> and sent to the Hospital Wing!</i>"
@@ -2026,7 +2081,8 @@ mob/proc/Death_Check(mob/killer = src)
 			if(killer.player)
 				if(killer != src)
 					killer.pkills+=1
-					var/rndexp = src.level + rand(-200,200)
+
+					var/rndexp = round(src.level * 1.3) + rand(-200,200)
 					if(rndexp < 0) rndexp = rand(20,30)
 
 					if(killer.House == housecupwinner)
@@ -2038,7 +2094,7 @@ mob/proc/Death_Check(mob/killer = src)
 						killer<<infomsg("You knocked [src] out and gained [rndexp] exp.")
 						killer.LvlCheck()
 					else
-						killer.gold += rndexp * rand(5,7)
+						killer.gold += rndexp * rand(3,6)
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 				else
 					src<<"You knocked yourself out!"
@@ -2050,29 +2106,46 @@ mob/proc/Death_Check(mob/killer = src)
 
 				killer.ekills+=1
 				killer.ratpoints+=src.ratpoints
-				var/gold2give = round((rand(7,14)/10)*gold)
-				var/exp2give = round((rand(9,14)/10)*Expg)
+				var/gold2give = (rand(7,14)/10)*gold
+				var/exp2give  = (rand(9,14)/10)*Expg
+
+				if(killer.level > src.level && !killer.findStatusEffect(/StatusEffect/Lamps/Farming))
+					gold2give -= gold2give * ((killer.level-src.level)/150)
+					exp2give  -= exp2give  * ((killer.level-src.level)/150)
 
 				if(killer.House == housecupwinner)
 					gold2give *= 1.25
-					exp2give *= 1.25
+					exp2give  *= 1.25
+
+				var/StatusEffect/Lamps/Gold/gold_rate = killer.findStatusEffect(/StatusEffect/Lamps/Gold)
+				var/StatusEffect/Lamps/Exp/exp_rate   = killer.findStatusEffect(/StatusEffect/Lamps/Exp)
+
+				if(gold_rate) gold2give *= gold_rate.rate
+				if(exp_rate)  exp2give  *= exp_rate.rate
+
 				gold2give = round(gold2give)
 				exp2give = round(exp2give)
-				killer.gold+=gold2give
-				if(killer.level < lvlcap)
+
+				if(killer.level >= lvlcap) exp2give = 0
+
+				if(killer.MonsterMessages)
+
+					if(exp2give > 0)
+						killer<<"<i><small>You gained [exp2give] exp[gold2give > 0 ? " and [gold2give] gold" : ""].</small></i>"
+					else if(gold2give > 0)
+						killer<<"<i><small>You gained [gold2give] gold.</small></i>"
+
+				if(gold2give > 0)
+					killer.gold+=gold2give
+					killer.gold = round(killer.gold)
+				if(killer.level < lvlcap && exp2give > 0)
 					killer.Exp+=exp2give
 					killer.addReferralXP(Exp)
-				killer.gold = round(killer.gold)
-				if(killer.level < lvlcap)
 					killer.Exp = round(killer.Exp)
-				killer.Texp+=src.Expg
-				if(killer.MonsterMessages)
-					if(killer.level < lvlcap)
-						killer<<"<i><small>You gained [exp2give] exp and [gold2give] gold.</small></i>"
-					else
-						killer<<"<i><small>You gained [gold2give] gold.</small></i>"
-				if(killer.level < lvlcap)
 					killer.LvlCheck()
+				killer.Texp+=src.Expg
+
+
 			if(src.type == /mob/Dementor_||src.type == /mob/Snake_ ||src.type == /mob/Bird_||src.type == /mob/Slug)
 				del src
 				return ..()
@@ -2080,6 +2153,8 @@ mob/proc/Death_Check(mob/killer = src)
 			//	if(rand(1,80)==1 && killer.client)
 			//		killer.verbs.Add(/mob/Player/verb/Use_Statpoints)
 			//		killer.StatPoints++
+			if(istype(src, /mob/NPC/Enemies))
+				src:Death(killer)
 			src.loc=locate(0,0,0)
 			Respawn(src)
 
@@ -2744,8 +2819,8 @@ obj
 		density=1
 	downfence
 		icon='turf.dmi'
-		icon_state="post"
-		density=1
+		icon_state = "post"
+		density = 1
 //TURFS
 turf
 	layer=TURF_LAYER
@@ -3276,7 +3351,6 @@ turf
 		density=1
 	greenchair
 		icon_state="gc"
-
 	redchair
 		icon_state="rc"
 		density=1
