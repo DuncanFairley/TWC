@@ -118,106 +118,106 @@ mob/test/verb/Teach_Spells()
 		<td>[(/mob/GM/verb/Teach_Aqua_Eructo in verbs) ? "<a href='?src=\ref[src];action=teach_aquaeructo'>Aqua Eructo</a>" : "Aqua Eructo"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Arcesso in verbs) ? "<a href='?src=\ref[src];action=teach_arcesso'>Arcesso</a>" : "Arcesso"]</td>
 		<td>[(/mob/GM/verb/Teach_Arania_Eximae in verbs) ? "<a href='?src=\ref[src];action=teach_araniaexumai'>Arania Exumai</a>" : "Arania Exumai"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Crow in verbs) ? "<a href='?src=\ref[src];action=teach_avifors'>Avifors</a>" : "Avifors"]</td>
 		<td>[(/mob/GM/verb/Teach_Avis in verbs) ? "<a href='?src=\ref[src];action=teach_avis'>Avis</a>" : "Avis"]</td>
 		<td>[(/mob/GM/verb/Teach_Bombarda in verbs) ? "<a href='?src=\ref[src];action=teach_bombarda'>Bombarda</a>" : "Bombarda"]</td>
-		<td>[(/mob/GM/verb/Teach_Transfigure_Rabbit in verbs) ? "<a href='?src=\ref[src];action=teach_carrotosi'>Carrotosi</a>" : "Carrotosi"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Transfigure_Rabbit in verbs) ? "<a href='?src=\ref[src];action=teach_carrotosi'>Carrotosi</a>" : "Carrotosi"]</td>
 		<td>[(/mob/GM/verb/Teach_Chaotica in verbs) ? "<a href='?src=\ref[src];action=teach_chaotica'>Chaotica</a>" : "Chaotica"]</td>
 		<td>[(/mob/GM/verb/Teach_Confundus in verbs) ? "<a href='?src=\ref[src];action=teach_confundus'>Confundus</a>" : "Confundus"]</td>
 		<td>[(/mob/GM/verb/Teach_Conjunctivis in verbs) ? "<a href='?src=\ref[src];action=teach_conjunctivis'>Conjunctivis</a>" : "Conjunctivis"]</td>
 		<td>[(/mob/GM/verb/Teach_Crucio in verbs) ? "<a href='?src=\ref[src];action=teach_crucio'>Crucio</a>" : "Crucio"]</td>
-		<td>[(/mob/GM/verb/Teach_Deletrius in verbs) ? "<a href='?src=\ref[src];action=teach_deletrius'>Deletrius</a>" : "Deletrius"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Deletrius in verbs) ? "<a href='?src=\ref[src];action=teach_deletrius'>Deletrius</a>" : "Deletrius"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Turkey in verbs) ? "<a href='?src=\ref[src];action=teach_delicio'>Delicio</a>" : "Delicio"]</td>
 		<td>[(/mob/GM/verb/Teach_Dementia in verbs) ? "<a href='?src=\ref[src];action=teach_dementia'>Dementia</a>" : "Dementia"]</td>
 		<td>[(/mob/GM/verb/Teach_Densuago in verbs) ? "<a href='?src=\ref[src];action=teach_densuago'>Densuago</a>" : "Densuago"]</td>
 		<td>[(/mob/GM/verb/Teach_Depulso in verbs) ? "<a href='?src=\ref[src];action=teach_depulso'>Depulso</a>" : "Depulso"]</td>
-		<td>[(/mob/GM/verb/Teach_Disperse in verbs) ? "<a href='?src=\ref[src];action=teach_disperse'>Disperse</a>" : "Disperse"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Disperse in verbs) ? "<a href='?src=\ref[src];action=teach_disperse'>Disperse</a>" : "Disperse"]</td>
 		<td>[(/mob/GM/verb/Teach_Eat_Slugs in verbs) ? "<a href='?src=\ref[src];action=teach_eatslugs'>Eat Slugs</a>" : "Eat Slugs"]</td>
 		<td>[(/mob/GM/verb/Teach_Eparo_Evanesca in verbs) ? "<a href='?src=\ref[src];action=teach_eparoevanesca'>Eparo Evanesca</a>" : "Eparo Evanesca"]</td>
 		<td>[(/mob/GM/verb/Teach_Episky in verbs) ? "<a href='?src=\ref[src];action=teach_episky'>Episkey</a>" : "Episkey"]</td>
 		<td>[(/mob/GM/verb/Teach_Evanesco in verbs) ? "<a href='?src=\ref[src];action=teach_evanesco'>Evanesco</a>" : "Evanesco"]</td>
-		<td>[(/mob/GM/verb/Teach_Expecto_Patronum in verbs) ? "<a href='?src=\ref[src];action=teach_expectpatronum'>Expecto Patronum</a>" : "Expecto Patronum"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Expecto_Patronum in verbs) ? "<a href='?src=\ref[src];action=teach_expectpatronum'>Expecto Patronum</a>" : "Expecto Patronum"]</td>
 		<td>[(/mob/GM/verb/Teach_Expelliarmus in verbs) ? "<a href='?src=\ref[src];action=teach_expelliarmus'>Expelliarmus</a>" : "Expelliarmus"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Cat in verbs) ? "<a href='?src=\ref[src];action=teach_felinious'>Felinious</a>" : "Felinious"]</td>
 		<td>[(/mob/GM/verb/Teach_Ferula in verbs) ? "<a href='?src=\ref[src];action=teach_ferula'>Ferula</a>" : "Ferula"]</td>
 		<td>[(/mob/GM/verb/Teach_Flagrate in verbs) ? "<a href='?src=\ref[src];action=teach_flagrate'>Flagrate</a>" : "Flagrate"]</td>
-		<td>[(/mob/GM/verb/Teach_Flippendo in verbs) ? "<a href='?src=\ref[src];action=teach_flippendo'>Flippendo</a>" : "Flippendo"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Flippendo in verbs) ? "<a href='?src=\ref[src];action=teach_flippendo'>Flippendo</a>" : "Flippendo"]</td>
 		<td>[(/mob/GM/verb/Teach_Furnunculus in verbs) ? "<a href='?src=\ref[src];action=teach_furnunculus'>Furnunculus</a>" : "Furnunculus"]</td>
 		<td>[(/mob/GM/verb/Teach_Glacius in verbs) ? "<a href='?src=\ref[src];action=teach_glacius'>Glacius</a>" : "Glacius"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Onion in verbs) ? "<a href='?src=\ref[src];action=teach_harvesto'>Harvesto</a>" : "Harvesto"]</td>
 		<td>[(/mob/GM/verb/Teach_Herbificus in verbs) ? "<a href='?src=\ref[src];action=teach_herbificus'>Herbificus</a>" : "Herbificus"]</td>
-		<td>[(/mob/GM/verb/Teach_Imitatus in verbs) ? "<a href='?src=\ref[src];action=teach_imitatus'>Imitatus</a>" : "Imitatus"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Imitatus in verbs) ? "<a href='?src=\ref[src];action=teach_imitatus'>Imitatus</a>" : "Imitatus"]</td>
 		<td>[(/mob/GM/verb/Teach_Immobulus in verbs) ? "<a href='?src=\ref[src];action=teach_immobulus'>Immobulus</a>" : "Immobulus"]</td>
 		<td>[(/mob/GM/verb/Teach_Impedimenta in verbs) ? "<a href='?src=\ref[src];action=teach_impedimenta'>Impedimenta</a>" : "Impedimenta"]</td>
 		<td>[(/mob/GM/verb/Teach_Incarcerous in verbs) ? "<a href='?src=\ref[src];action=teach_incarcerous'>Incarcerous</a>" : "Incarcerous"]</td>
 		<td>[(/mob/GM/verb/Teach_Incendio in verbs) ? "<a href='?src=\ref[src];action=teach_incendio'>Incendio</a>" : "Incendio"]</td>
-		<td>[(/mob/GM/verb/Teach_Incindia in verbs) ? "<a href='?src=\ref[src];action=teach_incindia'>Incindia</a>" : "Incindia"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Incindia in verbs) ? "<a href='?src=\ref[src];action=teach_incindia'>Incindia</a>" : "Incindia"]</td>
 		<td>[(/mob/GM/verb/Teach_Inflamari in verbs) ? "<a href='?src=\ref[src];action=teach_inflamari'>Inflamari</a>" : "Inflamari"]</td>
 		<td>[(/mob/GM/verb/Teach_Langlock in verbs) ? "<a href='?src=\ref[src];action=teach_langlock'>Langlock</a>" : "Langlock"]</td>
 		<td>[(/mob/GM/verb/Teach_Levicorpus in verbs) ? "<a href='?src=\ref[src];action=teach_levicorpus'>Levicorpus</a>" : "Levicorpus"]</td>
 		<td>[(/mob/GM/verb/Teach_Melofors in verbs) ? "<a href='?src=\ref[src];action=teach_melofors'>Melofors</a>" : "Melofors"]</td>
-		<td>[(/mob/GM/verb/Teach_Muffliato in verbs) ? "<a href='?src=\ref[src];action=teach_muffliato'>Muffliato</a>" : "Muffliato"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Muffliato in verbs) ? "<a href='?src=\ref[src];action=teach_muffliato'>Muffliato</a>" : "Muffliato"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Bat in verbs) ? "<a href='?src=\ref[src];action=teach_nightus'>Nightus</a>" : "Nightus"]</td>
 		<td>[(/mob/GM/verb/Teach_Obliviate in verbs) ? "<a href='?src=\ref[src];action=teach_obliviate'>Obliviate</a>" : "Obliviate"]</td>
 		<td>[(/mob/GM/verb/Teach_Occlumency in verbs) ? "<a href='?src=\ref[src];action=teach_occlumency'>Occlumency</a>" : "Occlumency"]</td>
-		<td>[(/mob/GM/verb/Teach_Transfigure_Dragon in verbs) ? "<a href='?src=\ref[src];action=teach_selftodragon'>Personio Draconum</a>" : "Personio Draconum"]</td>
-		<td>[(/mob/GM/verb/Teach_Transfigure_Self_Human in verbs) ? "<a href='?src=\ref[src];action=teach_selftohuman'>Personio Humaium</a>" : "Personio Humaium"]</td>
+		<td>[(/mob/GM/verb/Teach_Permoveo in verbs) ? "<a href='?src=\ref[src];action=teach_permoveo'>Permoveo</a>" : "Permoveo"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Transfigure_Dragon in verbs) ? "<a href='?src=\ref[src];action=teach_selftodragon'>Personio Draconum</a>" : "Personio Draconum"]</td>
+		<td>[(/mob/GM/verb/Teach_Transfigure_Self_Human in verbs) ? "<a href='?src=\ref[src];action=teach_selftohuman'>Personio Humaium</a>" : "Personio Humaium"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Mushroom in verbs) ? "<a href='?src=\ref[src];action=teach_selftomushroom'>Personio Mushashi</a>" : "Personio Mushashi"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Skeleton in verbs) ? "<a href='?src=\ref[src];action=teach_selftoskeleton'>Personio Skelenum</a>" : "Personio Skelenum"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Pixie in verbs) ? "<a href='?src=\ref[src];action=teach_peskipixiepesternomae'>Peskipixie Pestermi</a>" : "Peskipixie Pestermi"]</td>
-		<td>[(/mob/GM/verb/Teach_Petreficus_Totalus in verbs) ? "<a href='?src=\ref[src];action=teach_petreficustotalus'>Petrificus Totalus</a>" : "Petrificus Totalus"]</td>
-		<td>[(/mob/GM/verb/Teach_Portus in verbs) ? "<a href='?src=\ref[src];action=teach_portus'>Portus</a>" : "Portus"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Petreficus_Totalus in verbs) ? "<a href='?src=\ref[src];action=teach_petreficustotalus'>Petrificus Totalus</a>" : "Petrificus Totalus"]</td>
+		<td>[(/mob/GM/verb/Teach_Portus in verbs) ? "<a href='?src=\ref[src];action=teach_portus'>Portus</a>" : "Portus"]</td>
 		<td>[(/mob/GM/verb/Teach_Protego in verbs) ? "<a href='?src=\ref[src];action=teach_protego'>Protego</a>" : "Protego"]</td>
 		<td>[(/mob/GM/verb/Teach_Reddikulus in verbs) ? "<a href='?src=\ref[src];action=teach_reddikulus'>Reddikulus</a>" : "Reddikulus"]</td>
 		<td>[(/mob/GM/verb/Teach_Reducto in verbs) ? "<a href='?src=\ref[src];action=teach_reducto'>Reducto</a>" : "Reducto"]</td>
-		<td>[(/mob/GM/verb/Teach_Reparo in verbs) ? "<a href='?src=\ref[src];action=teach_reparo'>Reparo</a>" : "Reparo"]</td>
-		<td>[(/mob/GM/verb/Teach_Repellium in verbs) ? "<a href='?src=\ref[src];action=teach_repellium'>Repellium</a>" : "Repellium"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Reparo in verbs) ? "<a href='?src=\ref[src];action=teach_reparo'>Reparo</a>" : "Reparo"]</td>
+		<td>[(/mob/GM/verb/Teach_Repellium in verbs) ? "<a href='?src=\ref[src];action=teach_repellium'>Repellium</a>" : "Repellium"]</td>
 		<td>[(/mob/GM/verb/Teach_Replacio in verbs) ? "<a href='?src=\ref[src];action=teach_replacio'>Replacio</a>" : "Replacio"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Frog in verbs) ? "<a href='?src=\ref[src];action=teach_ribbitous'>Ribbitous</a>" : "Ribbitous"]</td>
 		<td>[(/mob/GM/verb/Teach_Rictusempra in verbs) ? "<a href='?src=\ref[src];action=teach_rictusempra'>Rictusempra</a>" : "Rictusempra"]</td>
-		<td>[(/mob/GM/verb/Teach_Scan in verbs) ? "<a href='?src=\ref[src];action=teach_scan'>Scan</a>" : "Scan"]</td>
-		<td>[(/mob/GM/verb/Teach_Transfigure_Mouse in verbs) ? "<a href='?src=\ref[src];action=teach_scurries'>Scurries</a>" : "Scurries"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Scan in verbs) ? "<a href='?src=\ref[src];action=teach_scan'>Scan</a>" : "Scan"]</td>
+		<td>[(/mob/GM/verb/Teach_Transfigure_Mouse in verbs) ? "<a href='?src=\ref[src];action=teach_scurries'>Scurries</a>" : "Scurries"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Chair in verbs) ? "<a href='?src=\ref[src];action=teach_seatio'>Seatio</a>" : "Seatio"]</td>
 		<td>[(/mob/GM/verb/Teach_Sense in verbs) ? "<a href='?src=\ref[src];action=teach_sense'>Sense</a>" : "Sense"]</td>
 		<td>[(/mob/GM/verb/Teach_Serpensortia in verbs) ? "<a href='?src=\ref[src];action=teach_serpensortia'>Serpensortia</a>" : "Serpensortia"]</td>
-		<td>[(/mob/GM/verb/Teach_Solidus in verbs) ? "<a href='?src=\ref[src];action=teach_solidus'>Solidus</a>" : "Solidus"]</td>
-		<td>[(/mob/GM/verb/Teach_Tarantallegra in verbs) ? "<a href='?src=\ref[src];action=teach_tarantallegra'>Tarantallegra</a>" : "Tarantallegra"]</td>
 	</tr>
 	<tr>
+		<td>[(/mob/GM/verb/Teach_Solidus in verbs) ? "<a href='?src=\ref[src];action=teach_solidus'>Solidus</a>" : "Solidus"]</td>
+		<td>[(/mob/GM/verb/Teach_Tarantallegra in verbs) ? "<a href='?src=\ref[src];action=teach_tarantallegra'>Tarantallegra</a>" : "Tarantallegra"]</td>
 		<td>[(/mob/GM/verb/Teach_Telendevour in verbs) ? "<a href='?src=\ref[src];action=teach_telendevour'>Telendevour</a>" : "Telendevour"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Human in verbs) ? "<a href='?src=\ref[src];action=teach_othertohuman'>Transfiguro Revertio</a>" : "Transfiguro Revertio"]</td>
 		<td>[(/mob/GM/verb/Teach_Tremorio in verbs) ? "<a href='?src=\ref[src];action=teach_tremorio'>Tremorio</a>" : "Tremorio"]</td>
-		<td>[(/mob/GM/verb/Teach_Waddiwasi in verbs) ? "<a href='?src=\ref[src];action=teach_waddiwasi'>Waddiwasi</a>" : "Waddiwasi"]</td>
-		<td>[(/mob/GM/verb/Teach_Arcesso in verbs) ? "<a href='?src=\ref[src];action=teach_arcesso'>Arcesso</a>" : "Arcesso"]</td>
 	</tr>
 	<tr>
-		<td>[(/mob/GM/verb/Teach_Permoveo in verbs) ? "<a href='?src=\ref[src];action=teach_permoveo'>Permoveo</a>" : "Permoveo"]</td>
-		<td>[(/mob/GM/verb/Teach_Valorus in verbs) ? "<a href='?src=\ref[src];action=teach_valorus'>Valorus</a>" : "Valorus"]</td>S
+		<td>[(/mob/GM/verb/Teach_Valorus in verbs) ? "<a href='?src=\ref[src];action=teach_valorus'>Valorus</a>" : "Valorus"]</td>
+		<td>[(/mob/GM/verb/Teach_Waddiwasi in verbs) ? "<a href='?src=\ref[src];action=teach_waddiwasi'>Waddiwasi</a>" : "Waddiwasi"]</td>
 		<td>[(/mob/GM/verb/Teach_Wingardium in verbs) ? "<a href='?src=\ref[src];action=teach_wingardium'>Wingardium Levisoa</a>" : "Wingardium Leviosa"]</td>
 	</tr>
 
