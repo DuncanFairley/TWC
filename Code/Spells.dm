@@ -36,7 +36,7 @@ var/list/spellList = list(
 	/mob/Spells/verb/Seatio = "Seatio",
 	/mob/Spells/verb/Protego = "Protego",
 	/mob/Spells/verb/Impedimenta = "Impedimenta",
-	/mob/Spells/verb/Self_To_Dragon = "Self to Dragon",
+	/mob/Spells/verb/Self_To_Dragon = "Personio Draconum",
 	/mob/Spells/verb/Episky = "Episkey",
 	/mob/Spells/verb/Chaotica = "Chaotica",
 	/mob/Spells/verb/Valorus = "Valorus",
@@ -47,13 +47,13 @@ var/list/spellList = list(
 	/mob/Spells/verb/Reducto = "Reducto",
 	/mob/Spells/verb/Glacius = "Glacius",
 	/mob/Spells/verb/Confundus = "Confundus",
-	/mob/Spells/verb/Self_To_Skeleton = "Self to Skeleton",
-	/mob/Spells/verb/Self_To_Mushroom = "Self to Mushroom",
+	/mob/Spells/verb/Self_To_Skeleton = "Personio Skelenum",
+	/mob/Spells/verb/Self_To_Mushroom = "Personio Mushashi",
 	/mob/Spells/verb/Anapneo = "Anapneo",
 	/mob/Spells/verb/Melofors = "Melofors",
 	/mob/Spells/verb/Aqua_Eructo = "Aqua Eructo",
-	/mob/Spells/verb/Self_To_Human = "Self to Human",
-	/mob/Spells/verb/Other_To_Human = "Other to Human",
+	/mob/Spells/verb/Self_To_Human = "Personio Humaium",
+	/mob/Spells/verb/Other_To_Human = "Transfiguro Revertio",
 	/mob/Spells/verb/Levicorpus = "Levicorpus",
 	/mob/Spells/verb/Depulso = "Depulso",
 	/mob/Spells/verb/Occlumency = "Occlumency",
@@ -66,7 +66,7 @@ var/list/spellList = list(
 	/mob/Spells/verb/Densuago = "Densaugeo",
 	/mob/Spells/verb/Replacio = "Replacio",
 	/mob/Spells/verb/Incarcerous = "Incarcerous",
-	/mob/Spells/verb/Peskipixie_Pesternomae = "Peskipiksi Pesternomi",
+	/mob/Spells/verb/Peskipixie_Pesternomae = "Peskipiksi Pestermi",
 	/mob/Spells/verb/Obliviate = "Obliviate",
 	/mob/Spells/verb/Avifors = "Avifors",
 	/mob/Spells/verb/Ferula = "Ferula",
@@ -280,7 +280,8 @@ mob/Spells/verb/Eparo_Evanesca()
 			new /StatusEffect/Decloaked(M,15)
 mob/Spells/verb/Evanesco(mob/M in Players&oview())
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedEvanesco,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+		new /StatusEffect/UsedEvanesco(src,15)
 		flick('teleboom.dmi',M)
 		sleep(8)
 		M.invisibility=1

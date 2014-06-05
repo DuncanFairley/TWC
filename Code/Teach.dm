@@ -494,8 +494,8 @@ mob/GM
 			set name = "Teach Delicio"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Delicio))
-					M<<"<b><font color=green><font size=3>You learned Transfigure Turkey! (Delicio)"
-			src<<"You've taught your class the Transfigure Turkey."
+					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a Turkey!"
+			src<<"You've taught your class the Delicio charm."
 
 		Teach_Transfigure_Crow()
 			set category = "Teach"
@@ -503,18 +503,18 @@ mob/GM
 			set name = "Teach Avifors"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Avifors))
-					M<<"<b><font color=green><font size=3>You learned Transfigure Crow! (Avifors)"
-			src<<"You've taught your class the Transfigure Crow."
+					M<<"<b><font color=green><font size=3>You learned how to transfigure someone else into a Crow!"
+			src<<"You've taught your class the Avifors charm."
 mob/GM
 	verb
 		Teach_Transfigure_Mushroom()
 			set category = "Teach"
 			set hidden = 1
-			set name = "Teach Self to Mushroom"
+			set name = "Teach Personio Mushashi"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Mushroom))
-					M<<"<b><font color=green><font size=3>You learned to Transfigure yourself to a Mushroom!"
-			src<<"You've taught your class the Transfigure Mushroom."
+					M<<"<b><font color=green><font size=3>You learned how to transfigure yourself to a Mushroom!"
+			src<<"You've taught your class Personio Musashi."
 mob/GM
 	verb
 		Teach_Transfigure_Frog()
@@ -523,8 +523,8 @@ mob/GM
 			set name = "Teach Ribbitous"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Ribbitous))
-					M<<"<b><font color=green><font size=3>You learned Transfigure Frog! (Ribbitous)"
-			src<<"You've taught your class the Transfigure Frog Charm."
+					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a frog!"
+			src<<"You've taught your class the Ribbitious Charm."
 
 mob/GM
 	verb
@@ -534,18 +534,18 @@ mob/GM
 			set name = "Teach Carrotosi"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Carrotosi))
-					M<<"<b><font color=red><font size=3>You learned Transfigure Rabbit! (Carrotosi)"
-			src<<"You've taught your class the Transfigure Rabbit Charm."
+					M<<"<b><font color=red><font size=3>You learned how to transfigure someone into a bunny!"
+			src<<"You've taught your class the Carrotosi Charm."
 mob/GM
 	verb
 		Teach_Transfigure_Skeleton()
 			set category = "Teach"
 			set hidden = 1
-			set name = "Teach Self to Skeleton"
+			set name = "Teach Personio Skelenum"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Skeleton))
 					M<<"<b><font color=green><font size=3>You learned how to Transfigure yourself into a Skeletal Warrior!"
-			src<<"You've taught your class Self to Skeleton."
+			src<<"You've taught your class Personio Skelenum."
 mob/GM
 	verb
 		Teach_Transfigure_Dragon()
@@ -555,17 +555,17 @@ mob/GM
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Dragon))
 					M<<"<b><font color=green><font size=3>You learned how to Transfigure yourself into a fearsome Dragon!"
-			src<<"You've taught your class Self to Dragon."
+			src<<"You've taught your class Personio Draconum."
 mob/GM
 	verb
 		Teach_Transfigure_Human()
 			set category = "Teach"
 			set hidden = 1
-			set name = "Teach Other to Human"
+			set name = "Teach Transfiguro Revertio"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Other_To_Human))
-					M<<"<b><font color=green><font size=3>You learned Transfigure Human!"
-			src<<"You've taught your class the Transfigure Human."
+					M<<"<b><font color=green><font size=3>You learned how to turn someone else into a human!"
+			src<<"You've taught your class the Transfiguro Revertio charm."
 mob/GM
 	verb
 		Teach_Transfigure_Onion()
@@ -574,8 +574,8 @@ mob/GM
 			set name = "Teach Harvesto"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Harvesto))
-					M<<"<b><font color=green><font size=3>You learned Transfigure Onion! (Onion)"
-			src<<"You've taught your class the Transfigure Onion."
+					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into an Onion!"
+			src<<"You've taught your class the Harvesto charm."
 
 mob/GM
 	verb
@@ -585,8 +585,8 @@ mob/GM
 			set name = "Teach Felinious"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Felinious))
-					M<<"<b><font color=green><font size=3>You learned Transfigure Cat! (Felinious)"
-			src<<"You've taught your class the Transfigure Cat."
+					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a black cat!"
+			src<<"You've taught your class the Felinious charm."
 mob/GM
 	verb
 		Teach_Transfigure_Mouse()
@@ -595,8 +595,8 @@ mob/GM
 			set name = "Teach Scurries"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Scurries))
-					M<<"<b><font color=green><font size=3>You learned Transfigure Mouse! (Scurries)"
-			src<<"You've taught your class the Transfigure Mouse."
+					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a Mouse!"
+			src<<"You've taught your class the Scurries charm."
 mob/GM
 	verb
 		Teach_Transfigure_Chair()
@@ -605,8 +605,8 @@ mob/GM
 			set name = "Teach Seatio"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Seatio))
-					M<<"<b><font color=green><font size=3>You learned Transfigure Chair! (Seatio)"
-			src<<"You've taught your class the Transfigure Chair"
+					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a Chair!"
+			src<<"You've taught your class the Seatio charm."
 mob/GM
 	verb
 		Teach_Transfigure_Bat()
@@ -615,18 +615,18 @@ mob/GM
 			set name = "Teach Nightus"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Nightus))
-					M<<"<b><font color=green><font size=3>You learned Transfigure Bat! (Nightus)"
-			src<<"You've taught your class the Transfigure Bat."
+					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a Bat!"
+			src<<"You've taught your class the Nightus charm."
 mob/GM
 	verb
 		Teach_Transfigure_Pixie()
 			set category = "Teach"
 			set hidden = 1
-			set name = "Teach Peskipixie Pesternomae"
+			set name = "Teach Peskipixie Pestermi"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Peskipixie_Pesternomae))
-					M<<"<b><font color=green><font size=3>You learned Transfigure Pixie! (Peskipixie_Pesternomae)"
-			src<<"You've taught your class the Transfigure Pixie."
+					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a Pixie!"
+			src<<"You've taught your class the Peskipixie Pestermi charm."
 mob/GM
 	verb
 		Teach_Petreficus_Totalus()
