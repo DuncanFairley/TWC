@@ -541,11 +541,11 @@ mob/GM
 		Teach_Transfigure_Skeleton()
 			set category = "Teach"
 			set hidden = 1
-			set name = "Teach Personio Skelenum"
+			set name = "Teach Personio Sceletus"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Skeleton))
 					M<<"<b><font color=green><font size=3>You learned how to Transfigure yourself into a Skeletal Warrior!"
-			src<<"You've taught your class Personio Skelenum."
+			src<<"You've taught your class Personio Sceletus."
 mob/GM
 	verb
 		Teach_Transfigure_Dragon()
