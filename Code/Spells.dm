@@ -106,23 +106,44 @@ mob/Spells/verb/Accio(obj/M in oview(usr.client.view,usr))
 		else
 			usr << "The object is no longer in your view."
 
-mob/Spells/verb/Eat_Slugs()
+mob/Spells/verb/Eat_Slugs(var/n as text)
 	set category = "Spells"
 	set hidden = 1
+	if(IsInputOpen(src, "Eat Slugs")) return
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 
-		var/mob/M = input("Cast this curse on?") as null|mob in view(client.view)&Players
+		var/list/people = view(client.view)&Players
+		var/mob/M
+
+		if(n)
+			for(var/mob/Player/p in people)
+				if(findtext(n, p.name) && length(p.name) + 2 >= length(n))
+					M = p
+					break
+		if(!M)
+			var/Input/popup = new (src, "Eat Slugs")
+			M = popup.InputList(src, "Cast this curse on?", "Eat Slugs", people[1], people)
+			del popup
 		if(!M) return
 		new /StatusEffect/Summoned(src,15)
 
-		hearers()<<"<font color=blue>[usr]:<font color = #FFFFFF> <FONT SIZE=3><FONT COLOR=#006400>E</FONT><FONT COLOR=#248724>a</FONT><FONT COLOR=#49aa49>t</FONT><FONT COLOR=#6dcc6d> </FONT><FONT COLOR=#90ee90>S</FONT><FONT COLOR=#74d374>l</FONT><FONT COLOR=#57b757>u</FONT><FONT COLOR=#3a9c3a>g</FONT><FONT COLOR=#1d801d>s</FONT><FONT COLOR=#006400>!</FONT>"
-		M<<"[usr] has casted the slug vommiting curse on you."
+		if(derobe)
+			hearers() << "<font size=2><font color=red><b><font color=red> [usr]</font></b> :<font color=white> Eat Slugs! [M.name]"
+		else
+			hearers() << "<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Eat Slugs! [M.name]"
+
+		M << errormsg("[usr] has casted the slug vomiting curse on you.")
 
 		src=null
 		spawn()
 			var/slugs = rand(4,12)
-			while(M && slugs > 0)
+			while(M && slugs > 0 && M.MP > 0)
+				M.MP -= rand(2,10)
 				new/mob/Slug(M.loc)
+				if(M.MP < 0)
+					M.MP = 0
+					M << errormsg("You feel drained from the slug vomiting curse.")
+					break
 				slugs--
 				sleep(rand(20,90))
 
@@ -1408,7 +1429,7 @@ mob/Spells/verb/Self_To_Mushroom()
 				else
 					usr.icon = 'Yellow_Mushroom.dmi'
 mob/Spells/verb/Self_To_Skeleton()
-	set name = "Personio Skelenum"
+	set name = "Personio Sceletus"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
