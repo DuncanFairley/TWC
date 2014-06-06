@@ -109,8 +109,9 @@ mob/Spells/verb/Accio(obj/M in oview(usr.client.view,usr))
 mob/Spells/verb/Eat_Slugs(var/n as text)
 	set category = "Spells"
 	set hidden = 1
-	if(IsInputOpen(src, "Eat Slugs")) return
-	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(IsInputOpen(src, "Eat Slugs"))
+		del _input["Eat Slugs"]
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
 
 		var/list/people = view(client.view)&Players
 		var/mob/M
@@ -128,9 +129,9 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 		new /StatusEffect/Summoned(src,15)
 
 		if(derobe)
-			hearers() << "<font size=2><font color=red><b><font color=red> [usr]</font></b> :<font color=white> Eat Slugs! [M.name]"
+			hearers() << "<font size=2><font color=red><b><font color=red> [usr]</font></b> :<font color=white> Eat Slugs, [M.name]!"
 		else
-			hearers() << "<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Eat Slugs! [M.name]"
+			hearers() << "<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
 
 		M << errormsg("[usr] has casted the slug vomiting curse on you.")
 
@@ -138,7 +139,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 		spawn()
 			var/slugs = rand(4,12)
 			while(M && slugs > 0 && M.MP > 0)
-				M.MP -= rand(2,10)
+				M.MP -= rand(20,60) * round(M.level/100)
 				new/mob/Slug(M.loc)
 				if(M.MP < 0)
 					M.MP = 0
