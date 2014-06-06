@@ -184,7 +184,7 @@ mob/test/verb/Teach_Spells()
 		<td>[(/mob/GM/verb/Teach_Transfigure_Dragon in verbs) ? "<a href='?src=\ref[src];action=teach_selftodragon'>Personio Draconum</a>" : "Personio Draconum"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Self_Human in verbs) ? "<a href='?src=\ref[src];action=teach_selftohuman'>Personio Humaium</a>" : "Personio Humaium"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Mushroom in verbs) ? "<a href='?src=\ref[src];action=teach_selftomushroom'>Personio Mushashi</a>" : "Personio Mushashi"]</td>
-		<td>[(/mob/GM/verb/Teach_Transfigure_Skeleton in verbs) ? "<a href='?src=\ref[src];action=teach_selftoskeleton'>Personio Skelenum</a>" : "Personio Skelenum"]</td>
+		<td>[(/mob/GM/verb/Teach_Transfigure_Skeleton in verbs) ? "<a href='?src=\ref[src];action=teach_selftoskeleton'>Personio Skelenum</a>" : "Personio Sceletus"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Pixie in verbs) ? "<a href='?src=\ref[src];action=teach_peskipixiepesternomae'>Peskipixie Pestermi</a>" : "Peskipixie Pestermi"]</td>
 	</tr>
 	<tr>

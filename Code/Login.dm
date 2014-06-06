@@ -1215,7 +1215,7 @@ mob/Player
 							t=check(t)//run the text through the cleaner
 							t = copytext(t,1,500)
 							if(copytext(t,1,5)=="\[me]")
-								hearers(client.view)<<"[usr][copytext(t,5)]"
+								hearers(client.view)<<"[usr] [copytext(t,5)]"
 							else if(copytext(t,1,4)=="\[w]")
 								if(name == "Deatheater")
 									range(1)<<"<font size=2><font color=red><b><font color=red>[usr]</font> whispers: <i>[copytext(t,4)]</i>"
@@ -1223,7 +1223,26 @@ mob/Player
 									range(1)<<"<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> whispers: <i>[copytext(t,4)]</i>"
 
 							else
-								if(!(cmptext(t,"eat slugs") && (/mob/Spells/verb/Eat_Slugs in verbs)))
+								var/silent = FALSE
+								if(cmptext(copytext(t, 1, 18),"restricto maxima "))
+									if(src.Gm)
+										hearers()<<"[usr] encases the area within a magical barrier."
+										var/value = copytext(t, 18, 19)
+										if(value == "") value = 5
+										else if(text2num(value) < 1) value = 5
+										else value = text2num(value)
+										for(var/turf/T in (oview(value) - oview(value-1)))
+											var/inflamari = /obj/Force_Field
+											flick('mist.dmi',T)
+											T.overlays += inflamari
+											T.density=1
+											T.invisibility=0
+								else if(cmptext(copytext(t, 1, 10),"eat slugs"))
+									if(/mob/Spells/verb/Eat_Slugs in verbs)
+										usr:Eat_Slugs(copytext(t, 11))
+										silent = TRUE
+
+								if(!silent)
 									for(var/mob/M in hearers(client.view))
 										if(!M.muff)
 											if(derobe)
@@ -1232,6 +1251,9 @@ mob/Player
 												M<<"<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> [t]"
 										else
 											if(rand(1,3)==1) M<<"<i>You hear an odd ringing sound.</i>"
+
+
+
 							chatlog << "<font size=2 color=red><b>[usr]</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
 							if(t == ministrypw)
 								if(istype(usr.loc,/turf/gotoministry))
@@ -1297,11 +1319,6 @@ mob/Player
 										door.door = 0
 										view(door) << "<i>You hear the door lock.</i>"
 							switch(lowertext(t))
-
-								if("eat slugs")
-									if(/mob/Spells/verb/Eat_Slugs in verbs)
-										usr:Eat_Slugs()
-										return
 								if("close hogwarts")
 									if(src.admin)
 
@@ -1517,19 +1534,6 @@ mob/Player
 											clanevent1 = 0
 											for(var/obj/clanpillar/C in world)
 												C.disable()
-							if(cmptext(copytext(t, 1, 18),"restricto maxima "))
-								if(src.Gm)
-									hearers()<<"[usr] encases the area within a magical barrier."
-									var/value = copytext(t, 18, 19)
-									if(value == "") value = 5
-									else if(text2num(value) < 1) value = 5
-									else value = text2num(value)
-									for(var/turf/T in (oview(value) - oview(value-1)))
-										var/inflamari = /obj/Force_Field
-										flick('mist.dmi',T)
-										T.overlays += inflamari
-										T.density=1
-										T.invisibility=0
 							usr.spam++
 							spawn(30)
 								usr.spam--
