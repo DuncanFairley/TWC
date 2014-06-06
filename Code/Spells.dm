@@ -283,7 +283,6 @@ mob/Spells/verb/Evanesco(mob/M in Players&oview())
 	if(canUse(src,cooldown=/StatusEffect/UsedEvanesco,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedEvanesco(src,15)
 		flick('teleboom.dmi',M)
-		sleep(8)
 		M.invisibility=1
 		M.sight |= SEE_SELF
 		M.overlays = list()
@@ -1352,7 +1351,6 @@ mob/Spells/verb/Delicio(mob/Player/M in oview(usr.client.view,usr)&Players)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Delicio, [M].</b>"
 		if(CanTrans(M))
 			flick("transfigure",M)
-			sleep(20)
 			M<<"<b><font color=red>Delicio Charm:</b></font>[usr] turned you into a delicious Turkey."
 			M.trnsed = 1
 			M.overlays = null
@@ -1365,7 +1363,6 @@ mob/Spells/verb/Avifors(mob/Player/M in oview(usr.client.view,usr)&Players)
 		hearers(usr.client.view,usr)<<"<b><font color=gray>[usr]</font>: <b>Avifors, [M].</b>"
 		if(CanTrans(M))
 			flick("transfigure",M)
-			sleep(20)
 			M<<"<b><font color=gray>Avifors Charm:</b></font>[usr] turned you into a black crow."
 			M.trnsed = 1
 			M.overlays = null
@@ -1378,7 +1375,6 @@ mob/Spells/verb/Ribbitous(mob/Player/M in oview(usr.client.view,usr)&Players)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=green> Ribbitous, [M].</b></font>"
 		if(CanTrans(M))
 			flick("transfigure",M)
-			sleep(20)
 			M<<"<b><font color=green>Ribbitous Charm:</b></font> [usr] turned you into a Frog."
 			M.trnsed = 1
 			M.overlays = null
@@ -1391,7 +1387,6 @@ mob/Spells/verb/Carrotosi(mob/Player/M in oview(usr.client.view,usr)&Players)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=red> Carrotosi, [M].</b></font>"
 		if(CanTrans(M))
 			flick("transfigure",M)
-			sleep(20)
 			M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
 			M.trnsed = 1
 			M.overlays = null
@@ -1488,7 +1483,6 @@ mob/Spells/verb/Harvesto(mob/Player/M in oview(usr.client.view,usr)&Players)
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b> Harvesto, [M].</b>"
 		if(CanTrans(M))
-			sleep(20)
 			flick("transfigure",M)
 			if(!M)return
 			M<<"<b><font color=red>Harvesto Charm:</b></font> [usr] turned you into an Onion."
@@ -1502,7 +1496,6 @@ mob/Spells/verb/Felinious(mob/Player/M in oview(usr.client.view,usr)&Players)
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b> Felinious, [M].</b>"
 		if(CanTrans(M))
-			sleep(20)
 			if(!M)return
 			M<<"<b><font color=blue>Felinious Charm:</b></font> [usr] turned you into a Black Cat."
 			flick("transfigure",M)
@@ -1516,7 +1509,6 @@ mob/Spells/verb/Scurries(mob/Player/M in oview(usr.client.view,usr)&Players)
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Scurries, [M].</b>"
 		if(CanTrans(M))
-			sleep(20)
 			if(!M)return
 			flick("transfigure",M)
 			M<<"<b><font color=blue>Scurries Charm:</b></font> [usr] turned you into a Mouse."
@@ -1530,7 +1522,6 @@ mob/Spells/verb/Seatio(mob/Player/M in oview(usr.client.view,usr)&Players)
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Seatio, [M].</b>"
 		if(CanTrans(M))
-			sleep(20)
 			if(!M)return
 			flick("transfigure",M)
 			M<<"<b><font color=red>Seatio Charm:</b></font> [usr] turned you into a Chair."
@@ -1544,7 +1535,6 @@ mob/Spells/verb/Nightus(mob/Player/M in oview(usr.client.view,usr)&Players)
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Nightus, [M].</b>"
 		if(CanTrans(M))
-			sleep(20)
 			if(!M)return
 			flick("transfigure",M)
 			M<<"<b><font color=red>Nightus Charm:</b></font> [usr] turned you into a Bat."
@@ -1559,7 +1549,6 @@ mob/Spells/verb/Peskipixie_Pesternomae(mob/Player/M in oview(usr.client.view,usr
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Peskipiksi Pestermi, [M].</b>"
 		if(CanTrans(M))
-			sleep(20)
 			if(!M)return
 			flick("transfigure",M)
 			M<<"<b><font color=blue>Peskipixie Pestermae Charm:</b></font> [usr] turned you into a Pixie."
