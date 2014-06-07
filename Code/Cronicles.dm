@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 Duncan Fairley
+ * Copyright ï¿½ 2014 Duncan Fairley
  * Distributed under the GNU Affero General Public License, version 3.
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
@@ -288,7 +288,7 @@ mob
 					var/obj/hud/radio/Z = new()
 					usr.client.screen += Z
 				if(src:lastreadDP < dplastupdate)
-					usr << "<u><font color=red><a href='?src=\ref[src];action=daily_prophet'>The Daily Prophet has an issue that you haven't yet read. Click to view.</a></font></u>"
+					usr << "<u><font color=red>The Daily Prophet has an issue that you haven't yet read. Click <a href='?src=\ref[src];action=daily_prophet'>here</a> to view.</font></u>"
 				if(VERSION != src:lastversion)
 					src:lastversion = VERSION
 					src<<"<b><font size=2>TWC had an update since you last logged in! A list of changes can be found <a href='?src=\ref[src];action=view_changelog'>here.</a></font></b>"
