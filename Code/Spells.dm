@@ -112,7 +112,6 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 	if(IsInputOpen(src, "Eat Slugs"))
 		del _input["Eat Slugs"]
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
-
 		var/list/people = view(client.view)&Players
 		var/mob/M
 
@@ -127,7 +126,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 			del popup
 		if(!M) return
 		new /StatusEffect/Summoned(src,15)
-
+		MP = max(MP - 100, 0)
 		if(derobe)
 			hearers() << "<font size=2><font color=red><b><font color=red> [usr]</font></b> :<font color=white> Eat Slugs, [M.name]!"
 		else
