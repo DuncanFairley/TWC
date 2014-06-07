@@ -440,17 +440,16 @@ mob/GM
 				usr << "You are not listening to Gryffindor chat."
 				return
 			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
-			var/Reason = input(src,"What would you like to say to all Gryffindors??","Input House Message") as text|null
-			if(!Reason) return
-			Reason = copytext(check(Reason),1,350)
+
+			messsage = copytext(check(messsage),1,350)
 			if(usr.name == "Deatheater")
 				for(var/client/C)
 					if(C.mob)if((C.mob.House=="Gryffindor"||C.mob.admin) && C.mob.listenhousechat)
-						C<<"<b><font color=red><font size=2>Gryffindor Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[Reason]"
+						C<<"<b><font color=red><font size=2>Gryffindor Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
 			else
 				for(var/client/C)
 					if(C.mob)if((C.mob.House=="Gryffindor"||C.mob.admin) && C.mob.listenhousechat)
-						C<<"<b><font color=red><font size=2>Gryffindor Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[Reason]"
+						C<<"<b><font color=red><font size=2>Gryffindor Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 
 		Ravenclaw_Chat(var/messsage as text)
 			if(!listenhousechat)

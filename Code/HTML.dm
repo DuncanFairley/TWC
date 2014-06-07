@@ -261,6 +261,8 @@ mob/Topic(href,href_list[])
 			else
 				usr << "The class is no longer accepting new players."
 				usr.classpathfinding = 0
+		if("daily_prophet")
+			src:Daily_Prophet()
 		if("listen_radio")
 			usr.client.linkenable_radio()
 		if("teach_valorus")
