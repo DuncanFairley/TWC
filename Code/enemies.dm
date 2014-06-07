@@ -228,7 +228,7 @@ mob
 						else
 							for(var/d in dirs)
 								dir = d
-								castproj(0, 'attacks.dmi', "crucio2", Dmg + rand(-4,8), "death ball")
+								castproj(0, 'attacks.dmi', "crucio2", Dmg + rand(-4,8), "death ball", 0)
 						spawn(rand(10,30)) fired = 0
 				Death(mob/Player/killer)
 

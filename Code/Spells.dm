@@ -1795,8 +1795,8 @@ mob/var/Zitt
 var/safemode = 1
 mob/var/tmp/lastproj = 0
 mob
-	proc/castproj(MPreq,icon,icon_state,damage,name)
-		if(!monster && (world.time - lastproj) < 2) return
+	proc/castproj(MPreq,icon,icon_state,damage,name,cd=1)
+		if(cd && (world.time - lastproj) < 2) return
 		lastproj = world.time
 		var/obj/projectile/P = new(src.loc,src.dir,src,icon,icon_state,damage,name)
 		P.shoot()
