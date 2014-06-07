@@ -774,7 +774,7 @@ obj/items/wearable/invisibility_cloak
 	showoverlay=0
 	desc = "This magical cloak renders the wearer invisible."
 	Equip(var/mob/Player/owner,var/overridetext=0)
-		if(owner.findStatusEffect(/StatusEffect/Decloaked))
+		if(owner.findStatusEffect(/StatusEffect/Decloaked) || owner.trnsed)
 			owner << errormsg("You are unable to cloak right now.")
 			return
 		if(locate(/obj/items/wearable/brooms) in owner.Lwearing)
