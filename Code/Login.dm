@@ -3059,6 +3059,7 @@ turf
 
 				spawn(rand(1,150))
 					rain.icon = 'water_drop.dmi'
+					rain.layer = 4
 					rain.icon_state = pick(icon_states(rain.icon))
 					rain.pixel_x = rand(-12,12)
 					rain.pixel_y = rand(-13,14)
