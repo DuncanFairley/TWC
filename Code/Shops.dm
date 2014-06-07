@@ -1098,15 +1098,12 @@ mob/Lamp_Salesman
 
 			var/selecteditem
 			var/selectedprice
-			var/itemlist = list()
-
-			if(fexists("[swapmaps_directory]/tmpl_vault1.sav"))       itemlist += "Free Vault - Free!"
-			if(fexists("[swapmaps_directory]/tmpl_vault_med.sav"))    itemlist += "Medium Vault - 2,500,000 Gold and 25 Artifacts"
-			if(fexists("[swapmaps_directory]/tmpl_vault_big.sav"))    itemlist += "Big Vault - 5,000,000 Gold and 50 Artifacts"
-			if(fexists("[swapmaps_directory]/tmpl_vault_huge.sav"))   itemlist += "Large Vault - 8,000,000 Gold and 80 Artifacts"
-			if(fexists("[swapmaps_directory]/tmpl_vault_2rooms.sav")) itemlist += "2 Rooms Vault - 8,500,000 Gold and 85 Artifacts"
-			if(fexists("[swapmaps_directory]/tmpl_vault_4rooms.sav")) itemlist += "4 Rooms Vault - 12,000,000 Gold and 120 Artifacts"
-
+			var/itemlist = list(
+			"Farmer Lamp - 100,000 and 1 Artifact",
+			"Double Exp - 200,000 and 2 Artifact",
+			"Double Gold - 200,000 and 2 Artifact",
+			"Double Drop Rate - 300,000 and 3 Artifact",
+			)
 			switch(input("[name]: Hello... I sell lamp! Now now, they're not just lamps, they're magical lamps! My lamps will help you make your wishes come true!", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
 				if("Farmer Lamp - 100,000 and 1 Artifact")
 					selecteditem  = /obj/items/lamps/farmer_lamp
