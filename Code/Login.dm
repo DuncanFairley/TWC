@@ -201,13 +201,13 @@ obj/teleport
 		dest = "@Hogwarts"
 		invisibility = 0
 		Teleport(mob/M)
+			if(prob(10)) return
 			if(prob(40))
 				..()
+				dest = pick("@Hogwarts","@DesertEntrance")
 				M << infomsg("You magically found yourself at Hogwarts!")
 			else
-				M.density = 0
-				M.Move(locate(rand(4,97),rand(4,97),rand(4,6)))
-				M.density = 1
+				M:Transfer(locate(rand(4,97),rand(4,97),rand(4,6)))
 		New()
 			..()
 			walk_rand(src,8)
@@ -1534,9 +1534,10 @@ mob/Player
 											clanevent1 = 0
 											for(var/obj/clanpillar/C in world)
 												C.disable()
-							usr.spam++
-							spawn(30)
-								usr.spam--
+							if(!Gm)
+								usr.spam++
+								spawn(30)
+									usr.spam--
 			else
 				usr<<"You cannot send messages while you're muted!"
 		OOC(T as text)
