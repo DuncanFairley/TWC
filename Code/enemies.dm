@@ -206,17 +206,16 @@ mob
 				icon = 'monsters.dmi'
 				icon_state="eye"
 				level = 800
-				HPmodifier = 2
+				HPmodifier = 1.8
 				var/tmp/fired = 0
 
 				Move(NewLoc,Dir)
 					density = 0
-					.=..()
+					..()
 					density = 1
 
-
 				Attack(mob/M)
-					.=..()
+					..()
 					if(!fired)
 						fired = 1
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
