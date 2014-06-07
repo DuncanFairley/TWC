@@ -1018,19 +1018,18 @@ mob/Spells/verb/Muffliato(mob/M in view()&Players)
 				M.muff=0
 mob/Spells/verb/Incindia()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedIncindia,needwand=1,inarena=0,insafezone=0,inhogwarts=1,target=null,mpreq=950,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedIncindia,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=400,againstocclumens=1))
 		hearers()<<"[src] raises \his wand into the air. <font color=red><b><i>INCINDIA!</b></i>"
-		usr.MP-=950
+		usr.MP-=400
 		usr.updateHPMP()
-		new /StatusEffect/UsedIncindia(src,30)
-		for(var/mob/M in oview(4))
-			if(M.key && !issafezone(M.loc.loc))
-				flick('Apparate.dmi',M)
-				hearers()<<"[M] suddenly explodes!"
-				M.HP-=1000
-				M.Death_Check()
-				usr.HP-=500
-				usr.Death_Check()
+		new /StatusEffect/UsedIncindia(src,10)
+		var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+		var/damage = round((Dmg + extraDmg) * 0.8)
+		var/t = dir
+		for(var/d in dirs)
+			dir = d
+			castproj(0, 'attacks.dmi', "fireball", damage, "Incindia", 0)
+		dir = t
 mob/Spells/verb/Replacio(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
