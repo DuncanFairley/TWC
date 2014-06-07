@@ -150,13 +150,9 @@ obj/items/herosbrace
 							t = locate(72,77,18)
 					if(t && canUse(M=usr, needwand=0, inarena=0, inhogwarts=0) && usr.bracecharges>0)
 						if(usr.bracecharges<1) return
-						var/dense = usr.density
-						usr.density = 0
-						usr.Move(t)
-						usr.density = dense
 						flick('tele2.dmi',usr)
 						usr.bracecharges-=1
-
+						usr:Transfer(t)
 					if(usr.removeoMob) spawn()usr:Permoveo()
 					for(var/obj/hud/player/R in usr.client.screen)
 						del(R)

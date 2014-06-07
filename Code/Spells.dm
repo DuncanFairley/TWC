@@ -1041,22 +1041,16 @@ mob/Spells/verb/Replacio(mob/M in oview()&Players)
 		var/startloc = usr.loc
 		flick('GMOrb.dmi',M)
 		flick('GMOrb.dmi',usr)
-		var/dense = usr.density
-		usr.density = 0
-		usr.Move(M.loc)
-		usr.density = dense
+		usr:Transfer(M.loc)
 		sleep(2)
 		if(!(startloc in view(M.client.view)))
 			M << errormsg("The replacio failed.")
 			usr << errormsg("The replacio failed.")
-			dense = usr.density
-			usr.Move(startloc)
-			usr.density = dense
+			var/dense = density
+			Move(startloc)
+			density = dense
 			return
-		dense = M.density
-		M.density = 0
-		M.Move(startloc)
-		M.density = dense
+		M:Transfer(startloc)
 		flick('GMOrb.dmi',usr)
 		flick('GMOrb.dmi',M)
 		hearers()<<"[usr] trades places with [M]"
@@ -2246,7 +2240,8 @@ mob/Player
 		var/dense = density
 		density = 0
 		Move(t)
-		density = dense
+		if(!density)
+			density = dense
 		teleporting = 0
 
 		return 1
