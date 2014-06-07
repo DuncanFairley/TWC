@@ -106,23 +106,45 @@ mob/Spells/verb/Accio(obj/M in oview(usr.client.view,usr))
 		else
 			usr << "The object is no longer in your view."
 
-mob/Spells/verb/Eat_Slugs()
+mob/Spells/verb/Eat_Slugs(var/n as text)
 	set category = "Spells"
 	set hidden = 1
-	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(IsInputOpen(src, "Eat Slugs"))
+		del _input["Eat Slugs"]
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
 
-		var/mob/M = input("Cast this curse on?") as null|mob in view(client.view)&Players
+		var/list/people = view(client.view)&Players
+		var/mob/M
+
+		if(n)
+			for(var/mob/Player/p in people)
+				if(findtext(n, p.name) && length(p.name) + 2 >= length(n))
+					M = p
+					break
+		if(!M)
+			var/Input/popup = new (src, "Eat Slugs")
+			M = popup.InputList(src, "Cast this curse on?", "Eat Slugs", people[1], people)
+			del popup
 		if(!M) return
 		new /StatusEffect/Summoned(src,15)
 
-		hearers()<<"<font color=blue>[usr]:<font color = #FFFFFF> <FONT SIZE=3><FONT COLOR=#006400>E</FONT><FONT COLOR=#248724>a</FONT><FONT COLOR=#49aa49>t</FONT><FONT COLOR=#6dcc6d> </FONT><FONT COLOR=#90ee90>S</FONT><FONT COLOR=#74d374>l</FONT><FONT COLOR=#57b757>u</FONT><FONT COLOR=#3a9c3a>g</FONT><FONT COLOR=#1d801d>s</FONT><FONT COLOR=#006400>!</FONT>"
-		M<<"[usr] has casted the slug vommiting curse on you."
+		if(derobe)
+			hearers() << "<font size=2><font color=red><b><font color=red> [usr]</font></b> :<font color=white> Eat Slugs, [M.name]!"
+		else
+			hearers() << "<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
+
+		M << errormsg("[usr] has casted the slug vomiting curse on you.")
 
 		src=null
 		spawn()
 			var/slugs = rand(4,12)
-			while(M && slugs > 0)
+			while(M && slugs > 0 && M.MP > 0)
+				M.MP -= rand(20,60) * round(M.level/100)
 				new/mob/Slug(M.loc)
+				if(M.MP < 0)
+					M.MP = 0
+					M << errormsg("You feel drained from the slug vomiting curse.")
+					break
 				slugs--
 				sleep(rand(20,90))
 
@@ -262,7 +284,6 @@ mob/Spells/verb/Evanesco(mob/M in Players&oview())
 	if(canUse(src,cooldown=/StatusEffect/UsedEvanesco,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedEvanesco(src,15)
 		flick('teleboom.dmi',M)
-		sleep(8)
 		M.invisibility=1
 		M.sight |= SEE_SELF
 		M.overlays = list()
@@ -1331,7 +1352,6 @@ mob/Spells/verb/Delicio(mob/Player/M in oview(usr.client.view,usr)&Players)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Delicio, [M].</b>"
 		if(CanTrans(M))
 			flick("transfigure",M)
-			sleep(20)
 			M<<"<b><font color=red>Delicio Charm:</b></font>[usr] turned you into a delicious Turkey."
 			M.trnsed = 1
 			M.overlays = null
@@ -1344,7 +1364,6 @@ mob/Spells/verb/Avifors(mob/Player/M in oview(usr.client.view,usr)&Players)
 		hearers(usr.client.view,usr)<<"<b><font color=gray>[usr]</font>: <b>Avifors, [M].</b>"
 		if(CanTrans(M))
 			flick("transfigure",M)
-			sleep(20)
 			M<<"<b><font color=gray>Avifors Charm:</b></font>[usr] turned you into a black crow."
 			M.trnsed = 1
 			M.overlays = null
@@ -1357,7 +1376,6 @@ mob/Spells/verb/Ribbitous(mob/Player/M in oview(usr.client.view,usr)&Players)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=green> Ribbitous, [M].</b></font>"
 		if(CanTrans(M))
 			flick("transfigure",M)
-			sleep(20)
 			M<<"<b><font color=green>Ribbitous Charm:</b></font> [usr] turned you into a Frog."
 			M.trnsed = 1
 			M.overlays = null
@@ -1370,7 +1388,6 @@ mob/Spells/verb/Carrotosi(mob/Player/M in oview(usr.client.view,usr)&Players)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=red> Carrotosi, [M].</b></font>"
 		if(CanTrans(M))
 			flick("transfigure",M)
-			sleep(20)
 			M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
 			M.trnsed = 1
 			M.overlays = null
@@ -1409,7 +1426,7 @@ mob/Spells/verb/Self_To_Mushroom()
 				else
 					usr.icon = 'Yellow_Mushroom.dmi'
 mob/Spells/verb/Self_To_Skeleton()
-	set name = "Personio Skelenum"
+	set name = "Personio Sceletus"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
@@ -1467,7 +1484,6 @@ mob/Spells/verb/Harvesto(mob/Player/M in oview(usr.client.view,usr)&Players)
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b> Harvesto, [M].</b>"
 		if(CanTrans(M))
-			sleep(20)
 			flick("transfigure",M)
 			if(!M)return
 			M<<"<b><font color=red>Harvesto Charm:</b></font> [usr] turned you into an Onion."
@@ -1481,7 +1497,6 @@ mob/Spells/verb/Felinious(mob/Player/M in oview(usr.client.view,usr)&Players)
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b> Felinious, [M].</b>"
 		if(CanTrans(M))
-			sleep(20)
 			if(!M)return
 			M<<"<b><font color=blue>Felinious Charm:</b></font> [usr] turned you into a Black Cat."
 			flick("transfigure",M)
@@ -1495,7 +1510,6 @@ mob/Spells/verb/Scurries(mob/Player/M in oview(usr.client.view,usr)&Players)
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Scurries, [M].</b>"
 		if(CanTrans(M))
-			sleep(20)
 			if(!M)return
 			flick("transfigure",M)
 			M<<"<b><font color=blue>Scurries Charm:</b></font> [usr] turned you into a Mouse."
@@ -1509,7 +1523,6 @@ mob/Spells/verb/Seatio(mob/Player/M in oview(usr.client.view,usr)&Players)
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Seatio, [M].</b>"
 		if(CanTrans(M))
-			sleep(20)
 			if(!M)return
 			flick("transfigure",M)
 			M<<"<b><font color=red>Seatio Charm:</b></font> [usr] turned you into a Chair."
@@ -1523,7 +1536,6 @@ mob/Spells/verb/Nightus(mob/Player/M in oview(usr.client.view,usr)&Players)
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Nightus, [M].</b>"
 		if(CanTrans(M))
-			sleep(20)
 			if(!M)return
 			flick("transfigure",M)
 			M<<"<b><font color=red>Nightus Charm:</b></font> [usr] turned you into a Bat."
@@ -1538,7 +1550,6 @@ mob/Spells/verb/Peskipixie_Pesternomae(mob/Player/M in oview(usr.client.view,usr
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Peskipiksi Pestermi, [M].</b>"
 		if(CanTrans(M))
-			sleep(20)
 			if(!M)return
 			flick("transfigure",M)
 			M<<"<b><font color=blue>Peskipixie Pestermae Charm:</b></font> [usr] turned you into a Pixie."
