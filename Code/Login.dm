@@ -117,6 +117,9 @@ mob/Player/proc/change_vault(var/vault)
 	v.tmpl = vault
 	global.globalvaults[src.ckey] = v
 	map = SwapMaps_CreateFromTemplate("vault[vault]")
+	if(!map)
+		world.log << "ERROR: proc: change_vault() Could not create \"[vault]\" swap map template (vault[vault])"
+		return 0
 	map.SetID("[src.ckey]")
 	map.Save()
 	return 1
@@ -201,13 +204,13 @@ obj/teleport
 		dest = "@Hogwarts"
 		invisibility = 0
 		Teleport(mob/M)
+			if(prob(10)) return
 			if(prob(40))
 				..()
+				dest = pick("@Hogwarts","@DesertEntrance")
 				M << infomsg("You magically found yourself at Hogwarts!")
 			else
-				M.density = 0
-				M.Move(locate(rand(4,97),rand(4,97),rand(4,6)))
-				M.density = 1
+				M:Transfer(locate(rand(4,97),rand(4,97),rand(4,6)))
 		New()
 			..()
 			walk_rand(src,8)
@@ -1534,9 +1537,10 @@ mob/Player
 											clanevent1 = 0
 											for(var/obj/clanpillar/C in world)
 												C.disable()
-							usr.spam++
-							spawn(30)
-								usr.spam--
+							if(!Gm)
+								usr.spam++
+								spawn(30)
+									usr.spam--
 			else
 				usr<<"You cannot send messages while you're muted!"
 		OOC(T as text)
@@ -3057,10 +3061,12 @@ turf
 				rain = new (src)
 
 				spawn(rand(1,150))
-					rain.icon = 'water_drop.dmi'
-					rain.icon_state = pick(icon_states(rain.icon))
-					rain.pixel_x = rand(-12,12)
-					rain.pixel_y = rand(-13,14)
+					if(rain)
+						rain.icon = 'water_drop.dmi'
+						rain.layer = 4
+						rain.icon_state = pick(icon_states(rain.icon))
+						rain.pixel_x = rand(-12,12)
+						rain.pixel_y = rand(-13,14)
 			clear()
 				if(rain)
 					rain.loc = null

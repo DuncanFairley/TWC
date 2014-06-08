@@ -112,7 +112,6 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 	if(IsInputOpen(src, "Eat Slugs"))
 		del _input["Eat Slugs"]
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
-
 		var/list/people = view(client.view)&Players
 		var/mob/M
 
@@ -127,7 +126,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 			del popup
 		if(!M) return
 		new /StatusEffect/Summoned(src,15)
-
+		MP = max(MP - 100, 0)
 		if(derobe)
 			hearers() << "<font size=2><font color=red><b><font color=red> [usr]</font></b> :<font color=white> Eat Slugs, [M.name]!"
 		else
@@ -1019,19 +1018,18 @@ mob/Spells/verb/Muffliato(mob/M in view()&Players)
 				M.muff=0
 mob/Spells/verb/Incindia()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedIncindia,needwand=1,inarena=0,insafezone=0,inhogwarts=1,target=null,mpreq=950,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedIncindia,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=400,againstocclumens=1))
 		hearers()<<"[src] raises \his wand into the air. <font color=red><b><i>INCINDIA!</b></i>"
-		usr.MP-=950
+		usr.MP-=400
 		usr.updateHPMP()
-		new /StatusEffect/UsedIncindia(src,30)
-		for(var/mob/M in oview(4))
-			if(M.key && !issafezone(M.loc.loc))
-				flick('Apparate.dmi',M)
-				hearers()<<"[M] suddenly explodes!"
-				M.HP-=1000
-				M.Death_Check()
-				usr.HP-=500
-				usr.Death_Check()
+		new /StatusEffect/UsedIncindia(src,10)
+		var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+		var/damage = round((Dmg + extraDmg) * 0.8)
+		var/t = dir
+		for(var/d in dirs)
+			dir = d
+			castproj(0, 'attacks.dmi', "fireball", damage, "Incindia", 0)
+		dir = t
 mob/Spells/verb/Replacio(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
@@ -1042,22 +1040,16 @@ mob/Spells/verb/Replacio(mob/M in oview()&Players)
 		var/startloc = usr.loc
 		flick('GMOrb.dmi',M)
 		flick('GMOrb.dmi',usr)
-		var/dense = usr.density
-		usr.density = 0
-		usr.Move(M.loc)
-		usr.density = dense
+		usr:Transfer(M.loc)
 		sleep(2)
 		if(!(startloc in view(M.client.view)))
 			M << errormsg("The replacio failed.")
 			usr << errormsg("The replacio failed.")
-			dense = usr.density
-			usr.Move(startloc)
-			usr.density = dense
+			var/dense = density
+			Move(startloc)
+			density = dense
 			return
-		dense = M.density
-		M.density = 0
-		M.Move(startloc)
-		M.density = dense
+		M:Transfer(startloc)
 		flick('GMOrb.dmi',usr)
 		flick('GMOrb.dmi',M)
 		hearers()<<"[usr] trades places with [M]"
@@ -1126,19 +1118,19 @@ mob/Spells/verb/Tarantallegra(mob/M in view()&Players)
 		if(key != "Murrawhip")
 			M.dance=1
 		src=null
-		spawn(1)
+		spawn()
 			view(M)<<"[M] begins to dance uncontrollably!"
 			var/timer = 0
 			var/dirs = list(NORTH,EAST,SOUTH,WEST,NORTHWEST,NORTHEAST,SOUTHWEST,SOUTHEAST)
-			while(timer < 24)
+			while(M && timer < 24)
 				timer++
-				sleep(5)
 				if(!M.movable)
 					var/turf/t = get_step_rand(M)
 					if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
 						M.Move(t)
 				M.dir = pick(dirs)
-			M.dance = 0
+				sleep(5)
+			if(M) M.dance = 0
 mob/Spells/verb/Immobulus()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=600,againstocclumens=1))
@@ -1802,8 +1794,8 @@ mob/var/Zitt
 var/safemode = 1
 mob/var/tmp/lastproj = 0
 mob
-	proc/castproj(MPreq,icon,icon_state,damage,name)
-		if(!monster && (world.time - lastproj) < 2) return
+	proc/castproj(MPreq,icon,icon_state,damage,name,cd=1)
+		if(cd && (world.time - lastproj) < 2) return
 		lastproj = world.time
 		var/obj/projectile/P = new(src.loc,src.dir,src,icon,icon_state,damage,name)
 		P.shoot()
@@ -2247,7 +2239,8 @@ mob/Player
 		var/dense = density
 		density = 0
 		Move(t)
-		density = dense
+		if(!density)
+			density = dense
 		teleporting = 0
 
 		return 1

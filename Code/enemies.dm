@@ -206,17 +206,16 @@ mob
 				icon = 'monsters.dmi'
 				icon_state="eye"
 				level = 800
-				HPmodifier = 2
+				HPmodifier = 1.8
 				var/tmp/fired = 0
 
 				Move(NewLoc,Dir)
 					density = 0
-					.=..()
+					..()
 					density = 1
 
-
 				Attack(mob/M)
-					.=..()
+					..()
 					if(!fired)
 						fired = 1
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
@@ -229,7 +228,7 @@ mob
 						else
 							for(var/d in dirs)
 								dir = d
-								castproj(0, 'attacks.dmi', "crucio2", Dmg + rand(-4,8), "death ball")
+								castproj(0, 'attacks.dmi', "crucio2", Dmg + rand(-4,8), "death ball", 0)
 						spawn(rand(10,30)) fired = 0
 				Death(mob/Player/killer)
 
@@ -571,7 +570,7 @@ mob
 					sleep(6)
 					spawn()Wander()
 					return
-				if(!step_to(src,M))
+				if(!step_to(src,M,1))
 					for(var/mob/A in view())
 						if(A.client&& A.loc.loc == src.loc.loc && A != M)
 							spawn()Attack(A)
