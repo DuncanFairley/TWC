@@ -161,4 +161,4 @@ mob/GM/verb
 
 		dplastupdate = world.realtime
 		if(alert("Post extra extra message?",,"Yes","No")=="Yes")
-			world<<"<b><font color=red>EXTRA EXTRA! The Daily Prophet has been updated! Click \"Daily Prophet\" in commands to view."
+			world<<"<b><font color=red>EXTRA EXTRA! The Daily Prophet has been updated! Click <a href='?src=\ref[src];action=daily_prophet'>here</a> to view."
