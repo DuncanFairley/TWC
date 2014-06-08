@@ -570,7 +570,7 @@ mob
 					sleep(6)
 					spawn()Wander()
 					return
-				if(!step_to(src,M))
+				if(!step_to(src,M,1))
 					for(var/mob/A in view())
 						if(A.client&& A.loc.loc == src.loc.loc && A != M)
 							spawn()Attack(A)
