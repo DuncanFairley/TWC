@@ -399,104 +399,115 @@ mob/GM
 			set category="Staff"
 			set name="GM Chat"
 			if(usr.mute==1){usr<<"You can't speak while silenced.";return}
-
+			if(messsage)
+				messsage = copytext(check(messsage),1,350)
+				if(messsage == null || messsage == "") return
 			//Reason = html_encode(Reason)
-			if(src.name == "Deatheater")
-				for(var/client/C)
-					if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/End_Floor_Guidence) in C.mob.verbs)
-						C<<"<b><font color=silver size=2>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font>"
-				chatlog << "<b><font size=2 color=silver>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font><br>"
+				if(src.name == "Deatheater")
+					for(var/client/C)
+						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/End_Floor_Guidence) in C.mob.verbs)
+							C<<"<b><font color=silver size=2>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font>"
+					chatlog << "<b><font size=2 color=silver>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font><br>"
 
-			else
-				for(var/client/C)
-					if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/End_Floor_Guidence) in C.mob.verbs)
-						C<<"<b><font color=silver size=2>GM> <font size=2>[usr]:</font></b> <font color=white>[messsage]</font>"
-				chatlog << "<b><font size=2 color=silver>GM> [usr]:</font></b> <font color=white>[messsage]</font><br>"
+				else
+					for(var/client/C)
+						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/End_Floor_Guidence) in C.mob.verbs)
+							C<<"<b><font color=silver size=2>GM> <font size=2>[usr]:</font></b> <font color=white>[messsage]</font>"
+					chatlog << "<b><font size=2 color=silver>GM> [usr]:</font></b> <font color=white>[messsage]</font><br>"
 
 		DE_chat(var/messsage as text)
 			set category="Death Eater"
 			set name="DE Chat"
 			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
-
-			messsage = copytext(check(messsage),1,350)
-			for(var/client/C)
-				if(C.mob)if(C.mob.DeathEater==1)
-					if(usr.name == "Deatheater")
-						C<<"<b><font color=green><font size=2>DE Channel> <font size=2><font color=silver>[usr.prevname](Robed):</b> <font color=white>[messsage]"
-					else
-						C<<"<b><font color=green><font size=2>DE Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
+			if(messsage)
+				messsage = copytext(check(messsage),1,350)
+				if(messsage == null || messsage == "") return
+				for(var/client/C)
+					if(C.mob)if(C.mob.DeathEater==1)
+						if(usr.name == "Deatheater")
+							C<<"<b><font color=green><font size=2>DE Channel> <font size=2><font color=silver>[usr.prevname](Robed):</b> <font color=white>[messsage]"
+						else
+							C<<"<b><font color=green><font size=2>DE Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 
 		Auror_chat(var/messsage as text)
 			set category="Aurors"
 			set name="Auror Chat"
 			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(messsage)
+				messsage = copytext(check(messsage),1,350)
+				if(messsage == null || messsage == "") return
+				for(var/client/C)
+					if(C.mob)if(C.mob.Auror==1)
+						C<<"<b><font color=red><font size=2>Auror Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 
-			messsage = copytext(check(messsage),1,350)
-			for(var/client/C)
-				if(C.mob)if(C.mob.Auror==1)
-					C<<"<b><font color=red><font size=2>Auror Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 		Gryffindor_Chat(var/messsage as text) //mooooooooooooooooooooooooooooooooooooooo
 			if(!listenhousechat)
 				usr << "You are not listening to Gryffindor chat."
 				return
 			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
-
-			messsage = copytext(check(messsage),1,350)
-			if(usr.name == "Deatheater")
-				for(var/client/C)
-					if(C.mob)if((C.mob.House=="Gryffindor"||C.mob.admin) && C.mob.listenhousechat)
-						C<<"<b><font color=red><font size=2>Gryffindor Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
-			else
-				for(var/client/C)
-					if(C.mob)if((C.mob.House=="Gryffindor"||C.mob.admin) && C.mob.listenhousechat)
-						C<<"<b><font color=red><font size=2>Gryffindor Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
+			if(messsage)
+				messsage = copytext(check(messsage),1,350)
+				if(messsage == null || messsage == "") return
+				if(usr.name == "Deatheater")
+					for(var/client/C)
+						if(C.mob)if((C.mob.House=="Gryffindor"||C.mob.admin) && C.mob.listenhousechat)
+							C<<"<b><font color=red><font size=2>Gryffindor Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
+				else
+					for(var/client/C)
+						if(C.mob)if((C.mob.House=="Gryffindor"||C.mob.admin) && C.mob.listenhousechat)
+							C<<"<b><font color=red><font size=2>Gryffindor Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 
 		Ravenclaw_Chat(var/messsage as text)
 			if(!listenhousechat)
 				usr << "You are not listening to Ravenclaw chat."
 				return
 			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
-
-			messsage = copytext(check(messsage),1,350)
-			if(usr.name == "Deatheater")
-				for(var/client/C)
-					if(C.mob)if((C.mob.House=="Ravenclaw"||C.mob.admin) && C.mob.listenhousechat)
-						C<<"<b><font color=blue><font size=2>Ravenclaw Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
-			else
-				for(var/client/C)
-					if(C.mob)if((C.mob.House=="Ravenclaw"||C.mob.admin) && C.mob.listenhousechat)
-						C<<"<b><font color=blue><font size=2>Ravenclaw Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
+			if(messsage)
+				messsage = copytext(check(messsage),1,350)
+				if(messsage == null || messsage == "") return
+				if(usr.name == "Deatheater")
+					for(var/client/C)
+						if(C.mob)if((C.mob.House=="Ravenclaw"||C.mob.admin) && C.mob.listenhousechat)
+							C<<"<b><font color=blue><font size=2>Ravenclaw Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
+				else
+					for(var/client/C)
+						if(C.mob)if((C.mob.House=="Ravenclaw"||C.mob.admin) && C.mob.listenhousechat)
+							C<<"<b><font color=blue><font size=2>Ravenclaw Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 
 		Slytherin_Chat(var/messsage as text)
 			if(!listenhousechat)
 				usr << "You are not listening to Slytherin chat."
 				return
 			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(messsage)
+				messsage = copytext(check(messsage),1,350)
+				if(messsage == null || messsage == "") return
+				if(usr.name == "Deatheater")
+					for(var/client/C)
+						if(C.mob)if((C.mob.House=="Slytherin"||C.mob.admin) && C.mob.listenhousechat)
+							C<<"<b><font color=green><font size=2>Slytherin Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
+				else
+					for(var/client/C)
+						if(C.mob)if((C.mob.House=="Slytherin"||C.mob.admin) && C.mob.listenhousechat)
+							C<<"<b><font color=green><font size=2>Slytherin Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 
-			messsage = copytext(check(messsage),1,350)
-			if(usr.name == "Deatheater")
-				for(var/client/C)
-					if(C.mob)if((C.mob.House=="Slytherin"||C.mob.admin) && C.mob.listenhousechat)
-						C<<"<b><font color=green><font size=2>Slytherin Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
-			else
-				for(var/client/C)
-					if(C.mob)if((C.mob.House=="Slytherin"||C.mob.admin) && C.mob.listenhousechat)
-						C<<"<b><font color=green><font size=2>Slytherin Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 		Hufflepuff_Chat(var/messsage as text)
 			if(!listenhousechat)
 				usr << "You are not listening to Hufflepuff chat."
 				return
 			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(messsage)
+				messsage = copytext(check(messsage),1,350)
+				if(messsage == null || messsage == "") return
+				if(usr.name == "Deatheater")
+					for(var/client/C)
+						if(C.mob)if((C.mob.House=="Hufflepuff"||C.mob.admin) && C.mob.listenhousechat)
+							C<<"<b><font color=yellow><font size=2>Hufflepuff Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
+				else
+					for(var/client/C)
+						if(C.mob)if((C.mob.House=="Hufflepuff"||C.mob.admin) && C.mob.listenhousechat)
+							C<<"<b><font color=yellow><font size=2>Hufflepuff Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 
-			messsage = copytext(check(messsage),1,350)
-			if(usr.name == "Deatheater")
-				for(var/client/C)
-					if(C.mob)if((C.mob.House=="Hufflepuff"||C.mob.admin) && C.mob.listenhousechat)
-						C<<"<b><font color=yellow><font size=2>Hufflepuff Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
-			else
-				for(var/client/C)
-					if(C.mob)if((C.mob.House=="Hufflepuff"||C.mob.admin) && C.mob.listenhousechat)
-						C<<"<b><font color=yellow><font size=2>Hufflepuff Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 		Sanctuario(mob/M in view()&Players)
 			set category="Staff"
 			switch(input("Teleport [M] to where? || Reminder, this spell fires a burst of teleporting magic at the target. Be sure to face your target.","Sanctuario Charm Destination") in list ("Hogwarts","Silverblood","Student Housing","Dark Forest","Windhowl Manor","Azkaban","Cancel"))
