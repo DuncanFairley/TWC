@@ -2215,13 +2215,13 @@ mob
 				src.level++
 				var/MPplus=rand(2,10)
 			//	src.MHP+=HPplus
-				src.HP=src.MHP+extraMHP
 				src.MMP+=MPplus
 				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
 				src.Dmg+=1
 				src.Def+=1
 				src.resetMaxHP()
+				src.HP=src.MHP+extraMHP
+				src.updateHPMP()
 				//src.Expg=src.Texp
 				src.Exp=0
 				src.verbs.Remove(/mob/Player/verb/Use_Statpoints)
