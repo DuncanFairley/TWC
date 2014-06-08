@@ -1014,28 +1014,28 @@ mob/Vault_Salesman
 	player=1
 	Immortal=1
 	density=1
+	var/itemlist = list()
 	New()
 		..()
 		icon_state = "goblin[rand(1,3)]"
+
+		if(fexists("[swapmaps_directory]/tmpl_vault1.sav"))       itemlist += "Free Vault - Free!"
+		if(fexists("[swapmaps_directory]/tmpl_vault_med.sav"))    itemlist += "Medium Vault - 2,500,000 Gold and 25 Artifacts"
+		if(fexists("[swapmaps_directory]/tmpl_vault_big.sav"))    itemlist += "Big Vault - 5,000,000 Gold and 50 Artifacts"
+		if(fexists("[swapmaps_directory]/tmpl_vault_huge.sav"))   itemlist += "Huge Vault - 8,000,000 Gold and 80 Artifacts"
+		if(fexists("[swapmaps_directory]/tmpl_vault_2rooms.sav")) itemlist += "2 Rooms Vault - 8,500,000 Gold and 85 Artifacts"
+		if(fexists("[swapmaps_directory]/tmpl_vault_4rooms.sav")) itemlist += "4 Rooms Vault - 12,000,000 Gold and 120 Artifacts"
 
 	verb
 		Talk()
 			set src in oview(2)
 
-			if(!(usr.ckey in global.globalvaults))
+			if(!(usr.ckey in global.globalvaults) || !fexists("[swapmaps_directory]/map_[usr.ckey].sav"))
 				usr << npcsay("Vault Salesman: Please go talk to the vault master before coming to me.")
 				return
 
 			var/selectedvault
 			var/selectedprice
-			var/itemlist = list()
-
-			if(fexists("[swapmaps_directory]/tmpl_vault1.sav"))       itemlist += "Free Vault - Free!"
-			if(fexists("[swapmaps_directory]/tmpl_vault_med.sav"))    itemlist += "Medium Vault - 2,500,000 Gold and 25 Artifacts"
-			if(fexists("[swapmaps_directory]/tmpl_vault_big.sav"))    itemlist += "Big Vault - 5,000,000 Gold and 50 Artifacts"
-			if(fexists("[swapmaps_directory]/tmpl_vault_huge.sav"))   itemlist += "Huge Vault - 8,000,000 Gold and 80 Artifacts"
-			if(fexists("[swapmaps_directory]/tmpl_vault_2rooms.sav")) itemlist += "2 Rooms Vault - 8,500,000 Gold and 85 Artifacts"
-			if(fexists("[swapmaps_directory]/tmpl_vault_4rooms.sav")) itemlist += "4 Rooms Vault - 12,000,000 Gold and 120 Artifacts"
 
 			switch(input("[name]: Hi there! Welcome to Gringotts, perhaps you wish to purchase one of our vaults?", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
 				if("Free Vault - Free!")

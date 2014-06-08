@@ -117,6 +117,9 @@ mob/Player/proc/change_vault(var/vault)
 	v.tmpl = vault
 	global.globalvaults[src.ckey] = v
 	map = SwapMaps_CreateFromTemplate("vault[vault]")
+	if(!map)
+		world.log << "ERROR: proc: change_vault() Could not create \"[vault]\" swap map template (vault[vault])"
+		return 0
 	map.SetID("[src.ckey]")
 	map.Save()
 	return 1
@@ -3058,11 +3061,12 @@ turf
 				rain = new (src)
 
 				spawn(rand(1,150))
-					rain.icon = 'water_drop.dmi'
-					rain.layer = 4
-					rain.icon_state = pick(icon_states(rain.icon))
-					rain.pixel_x = rand(-12,12)
-					rain.pixel_y = rand(-13,14)
+					if(rain)
+						rain.icon = 'water_drop.dmi'
+						rain.layer = 4
+						rain.icon_state = pick(icon_states(rain.icon))
+						rain.pixel_x = rand(-12,12)
+						rain.pixel_y = rand(-13,14)
 			clear()
 				if(rain)
 					rain.loc = null
