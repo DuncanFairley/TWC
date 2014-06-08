@@ -1118,19 +1118,19 @@ mob/Spells/verb/Tarantallegra(mob/M in view()&Players)
 		if(key != "Murrawhip")
 			M.dance=1
 		src=null
-		spawn(1)
+		spawn()
 			view(M)<<"[M] begins to dance uncontrollably!"
 			var/timer = 0
 			var/dirs = list(NORTH,EAST,SOUTH,WEST,NORTHWEST,NORTHEAST,SOUTHWEST,SOUTHEAST)
-			while(timer < 24)
+			while(M && timer < 24)
 				timer++
-				sleep(5)
 				if(!M.movable)
 					var/turf/t = get_step_rand(M)
 					if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
 						M.Move(t)
 				M.dir = pick(dirs)
-			M.dance = 0
+				sleep(5)
+			if(M) M.dance = 0
 mob/Spells/verb/Immobulus()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=600,againstocclumens=1))
