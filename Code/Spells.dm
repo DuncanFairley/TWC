@@ -264,7 +264,7 @@ mob/Spells/verb/Expelliarmus(mob/M in view()&Players)
 mob/Spells/verb/Eparo_Evanesca()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedEvanesca,needwand=1,insafezone=1,inhogwarts=1))
-		new /StatusEffect/UsedEvanesca(src,15)
+		new /StatusEffect/UsedEvanesca(src,10)
 		hearers()<<"<b><font color=red>[usr] <font color=blue> Eparo Evanesca!"
 		for(var/mob/Player/M in hearers())
 			if(M.key&&(M.invisibility==1))
