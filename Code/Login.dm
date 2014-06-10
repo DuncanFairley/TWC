@@ -2829,6 +2829,20 @@ obj
 		icon='turf.dmi'
 		icon_state = "post"
 		density = 1
+
+	curtains
+		icon='turf.dmi'
+		density = 0
+		layer = 5
+		c1
+			icon_state="c1"
+		c2
+			icon_state="c2"
+		c3
+			icon_state="c3"
+		c4
+			icon_state="c4"
+
 //TURFS
 turf
 	layer=TURF_LAYER
@@ -2850,19 +2864,6 @@ turf
 				dir = EAST
 			south
 				dir = SOUTH
-
-	curtain1
-		icon_state="c1"
-		density=0
-	curtain2
-		icon_state="c2"
-		density=0
-	curtain3
-		icon_state="c3"
-		density=0
-	curtain4
-		icon_state="c4"
-		density=0
 	woodenfloorblack
 		icon_state = "wood - halloween"
 		density = 0
