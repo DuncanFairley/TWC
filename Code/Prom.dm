@@ -19,7 +19,6 @@ If you change your mind about using a custom icon for Prom, use Clear Prom Icon.
 		"I heard there's going to be butterbeer at this prom!",
 		"I can't decide what I'm going to wear...",
 		"I know all about prom! Talk to me about it!",
-		"I heard Chrissy is going to sing again this year.",
 		"Does this hat make me look fat?",
 		"Are you going to prom?",
 		"You'd better come to prom.",
@@ -29,7 +28,8 @@ If you change your mind about using a custom icon for Prom, use Clear Prom Icon.
 		"I have all the information for prom! Ask me! Please! I'm bored!",
 		"I'm going to be prom King this year!",
 		"The 23rd is also Murrawhip's birthday!",
-		"I heard prom entrants get a crazy amount of gold just for entering."
+		"I heard prom entrants get a crazy amount of gold just for entering.",
+		"I wonder if Sylar will agree to come with me to prom..."
 		)//Why are you reading this, Ander... :/
 		New()
 			..()
@@ -286,7 +286,7 @@ mob/var/tmp/baseicon
 area/hogwarts/promChangeRoom
 	Exit()
 		. = ..()
-		if(.&&prom)
+		if(. && prom == 1)
 			var/turf/t = get_step(usr,usr.dir)
 			if(!(t.density && usr.density))
 				if(usr && usr.mprevicon)
@@ -305,7 +305,7 @@ area/hogwarts/promChangeRoom
 
 	proc
 		init()
-			if(prom)
+			if(prom != 0)
 				verbs += typesof(/area/hogwarts/promChangeRoom/verb/)
 			else
 				verbs -= typesof(/area/hogwarts/promChangeRoom/verb/)
@@ -359,10 +359,27 @@ area/hogwarts/promChangeRoom
 				alert("Uploaded icons must be no larger than 32 pixels wide and 32 pixels high.")
 var/list/icon/promicons = list()
 
-var/prom = FALSE
+var/prom = 0
+
 mob/test/verb/Toggle_Prom()
 	set category = "Staff"
-	prom = !prom
+
+	switch(alert("Toggle to?", "Toggle Prom", "Active", "Inactive", "Changeroom"))
+		if("Active")
+			prom = 2
+			src << infomsg("Toggled prom on.")
+		if("Inactive")
+			prom = 0
+			src << infomsg("Toggled prom off.")
+
+			for(var/mob/Player/p in Players)
+				if(p.mprevicon)
+					p.icon = p.mprevicon
+					p.mprevicon = null
+
+		if("Changeroom")
+			prom = 1
+			src << infomsg("Toggled prom changeroom on.")
+
 	var/area/hogwarts/promChangeRoom/prom_area = locate(/area/hogwarts/promChangeRoom)
 	prom_area.init()
-	src << infomsg("Toggled prom [prom ? "on" : "off"].")
