@@ -1897,7 +1897,6 @@ mob/proc/Death_Check(mob/killer = src)
 				src.updateHPMP()
 				return
 			if(src.loc.loc.type == /area/Underwater)
-				src.edeaths+=1
 				src.followplayer=0
 				src.HP=src.MHP+src.extraMHP
 				src.MP=src.MMP+src.extraMMP
@@ -2070,7 +2069,6 @@ mob/proc/Death_Check(mob/killer = src)
 				src:nofly()
 				if(src.removeoMob) spawn()src:Permoveo()
 
-				src.edeaths+=1
 				src.followplayer=0
 				Zitt = 0
 				src.status=""
@@ -2087,6 +2085,7 @@ mob/proc/Death_Check(mob/killer = src)
 				flick('dlo.dmi',src)
 
 			if(killer.player)
+				src.pdeaths+=1
 				if(killer != src)
 					killer.pkills+=1
 
@@ -2107,6 +2106,9 @@ mob/proc/Death_Check(mob/killer = src)
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 				else
 					src<<"You knocked yourself out!"
+			else
+				src.edeaths+=1
+
 
 		else
 			if(killer.client)

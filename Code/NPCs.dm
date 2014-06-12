@@ -74,7 +74,13 @@ mob
 				usr << "I like his cape."
 			Talk()
 				set src in oview(3)
-				switch(alert("Hello there... My name is not important, however I have a few special services I can offer you for a price...","Mysterious Caped Fellow", "Rename - 25 Spell Points", "No Thanks"))
+				switch(alert("Hello there... My name is not important, however I have a few special services I can offer you for a price...","Mysterious Caped Fellow", "Rename - 25 Spell Points", "Reset Kills/Deaths - 60 Spell Points", "No Thanks"))
+					if("Reset Kills/Deaths - 60 Spell Points")
+						if(usr:spellpoints >= 60)
+							usr:spellpoints -= 60
+							usr.pdeaths = 0
+							usr.pkills = 0
+							usr << infomsg("Your player kills and deaths have been reset.")
 					if("Rename - 25 Spell Points")
 						if(usr.derobe||usr.aurorrobe)
 							usr << errormsg("You can not do this while wearing clan robes.")
@@ -112,23 +118,6 @@ mob
 							usr:spellpoints -= 25
 						else
 							usr << errormsg("You don't have enough spell points.")
-
-mob
-	RavenStatMan
-		name="Mysterious Caped Fellow"
-		icon='Misc Mobs.dmi'
-		icon_state="raven"
-		density=1
-		Immortal=1
-		verb
-			Examine()
-				set src in oview(3)
-				usr << "I like his cape."
-			Talk()
-				set src in oview(3)
-				switch(input("Would you like to see your stats?","Check out your stats?") as null|anything in list("Yes","No"))
-					if("Yes")
-						usr << "<br><b><u>Damage:</b></u> [usr.Dmg+usr.extraDmg]<br><b><u>Defense:</b></u> [usr.Def+usr.extraDef]<br>"
 
 obj
 	Guard
