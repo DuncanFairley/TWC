@@ -145,7 +145,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 4
+#define SAVEFILE_VERSION 5
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -210,6 +210,10 @@ mob
 					new /obj/items/Underwater_Bean (src)
 
 				Resort_Stacking_Inv()
+
+			if(savefile_version < 5)
+				pdeaths = edeaths
+				edeaths = 0
 
 			var/turf/t = locate(last_x, last_y, last_z)
 			if(!t || t.name == "blankturf")
