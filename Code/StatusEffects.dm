@@ -161,6 +161,7 @@ StatusEffect
 	Knockedfrombroom
 	UsedLevicorpus
 	UsedEvanesco
+	UsedEvanesca
 	UsedClanAbilities
 	UsedIncindia
 	UsedObliviate
