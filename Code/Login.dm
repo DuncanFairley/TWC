@@ -2090,7 +2090,7 @@ mob/proc/Death_Check(mob/killer = src)
 				if(killer != src)
 					killer.pkills+=1
 
-					var/rndexp = round(src.level * 1.3) + rand(-200,200)
+					var/rndexp = round(src.level * 1.2) + rand(-200,200)
 					if(rndexp < 0) rndexp = rand(20,30)
 
 					if(killer.House == housecupwinner)
@@ -2102,7 +2102,8 @@ mob/proc/Death_Check(mob/killer = src)
 						killer<<infomsg("You knocked [src] out and gained [rndexp] exp.")
 						killer.LvlCheck()
 					else
-						killer.gold += rndexp * rand(3,6)
+						rndexp = rndexp * rand(2,5)
+						killer.gold += rndexp
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 				else
 					src<<"You knocked yourself out!"
