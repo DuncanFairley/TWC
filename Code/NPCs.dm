@@ -84,6 +84,8 @@ mob
 							usr.pdeaths = 0
 							usr.pkills = 0
 							usr << infomsg("Your player kills and deaths have been reset.")
+						else
+							usr << errormsg("You don't have enough spell points. You need [60 - usr:spellpoints] more spell points.")
 					if("Rename - 25 Spell Points")
 						if(usr.derobe||usr.aurorrobe)
 							usr << errormsg("You can not do this while wearing clan robes.")
@@ -120,7 +122,7 @@ mob
 									usr.GenerateNameOverlay(255,255,255)
 							usr:spellpoints -= 25
 						else
-							usr << errormsg("You don't have enough spell points.")
+							usr << errormsg("You don't have enough spell points. You need [60 - usr:spellpoints] more spell points.")
 
 obj
 	Guard

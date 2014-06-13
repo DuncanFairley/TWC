@@ -1185,8 +1185,8 @@ mob/Spells/verb/Impedimenta()
 					T.slow -= 5
 mob/Spells/verb/Incendio()
 	set category="Spells"
-	var/obj/S=new/obj/Incendio
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=20,againstocclumens=1))
+		var/obj/S=new/obj/Incendio
 		usr.MP-=20
 		usr.updateHPMP()
 		S.loc=(usr.loc)

@@ -292,7 +292,7 @@ mob
 					var/obj/hud/radio/Z = new()
 					usr.client.screen += Z
 				if(src:lastreadDP < dplastupdate)
-					usr << "<u><font color=red>The Daily Prophet has an issue that you haven't yet read. Click <a href='?src=\ref[src];action=daily_prophet'>here</a> to view.</font></u>"
+					usr << "<font color=red>The Daily Prophet has an issue that you haven't yet read. <a href='?src=\ref[src];action=daily_prophet'>Click here</a> to view.</font>"
 				if(VERSION != src:lastversion)
 					src:lastversion = VERSION
 					src<<"<b><font size=2>TWC had an update since you last logged in! A list of changes can be found <a href='?src=\ref[src];action=view_changelog'>here.</a></font></b>"

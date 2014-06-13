@@ -1129,7 +1129,7 @@ mob/Lamp_Salesman
 			else
 				usr.gold -= selectedprice * 100000
 				ministrybank += taxrate*selectedprice*1000
-				new selecteditem (src)
+				new selecteditem (usr)
 				for(var/obj/o in artifacts)
 					if(selectedprice<=0) break
 					o.loc = null

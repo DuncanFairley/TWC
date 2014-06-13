@@ -1037,16 +1037,17 @@ obj/Incendio
 	icon='attacks.dmi'
 	icon_state="fireball"
 	density=1
+	layer = 4
 	var/player=0
 	Bump(obj/redroses/O)
 		if(!istype(O, /obj/redroses))
 			del(src)
 			return
-		if(O.GM_Made) return
-		src.icon = null
-		flick("burning", O)
-		sleep(4)
-		del O
+		if(!O.GM_Made)
+			src.icon = null
+			flick("burning", O)
+			sleep(4)
+			del O
 		del src
 	New() spawn(60)del(src)
 /*	Bump(mob/snowman/S)
@@ -2120,6 +2121,7 @@ obj/Avada_Kedavra
 	icon_state="crucio"
 	density=1
 	var/player=0
+	layer = 4
 	Bump(mob/M)
 		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
 		if(isturf(M)||isobj(M))
@@ -2149,6 +2151,7 @@ obj/Flippendo
 	icon='attacks.dmi'
 	icon_state="flippendo"
 	density=1
+	layer = 4
 	var/player=0
 	Bump(mob/M)
 		//if(M.monster||M.player)
