@@ -294,7 +294,7 @@ area/hogwarts/promChangeRoom
 					usr.mprevicon = null
 	Enter(atom/movable/O)
 		. = ..()
-		if(. && usr && promicons[usr.ckey] && prom)
+		if(. && usr && promicons[usr.ckey] && prom && !usr.mprevicon)
 			if(promicons[usr.ckey] != usr.icon)
 				usr.mprevicon = usr.icon
 			usr.icon = promicons[usr.ckey]
@@ -317,31 +317,38 @@ area/hogwarts/promChangeRoom
 				usr.mprevicon = null
 				promicons[usr.ckey] = null
 				if(usr.Gender=="Male")
-					if(usr.House=="Gryffindor")
-						usr.icon='MaleGryffindor.dmi'
-						usr.icon_state=""
-					if(usr.House=="Ravenclaw")
-						usr.icon='MaleRavenclaw.dmi'
-						usr.icon_state=""
-					if(usr.House=="Slytherin")
-						usr.icon='MaleSlytherin.dmi'
-						usr.icon_state=""
-					if(usr.House=="Hufflepuff")
-						usr.icon='MaleHufflepuff.dmi'
-						usr.icon_state=""
+					if(usr.Gm)
+						usr.icon = 'MaleStaff.dmi'
+						usr.icon_state = ""
+					else if(usr.House == "Gryffindor")
+						usr.icon = 'MaleGryffindor.dmi'
+						usr.icon_state = ""
+					else if(usr.House == "Ravenclaw")
+						usr.icon = 'MaleRavenclaw.dmi'
+						usr.icon_state = ""
+					else if(usr.House == "Slytherin")
+						usr.icon = 'MaleSlytherin.dmi'
+						usr.icon_state = ""
+					else if(usr.House == "Hufflepuff")
+						usr.icon = 'MaleHufflepuff.dmi'
+						usr.icon_state = ""
 				else
-					if(usr.House=="Gryffindor")
-						usr.icon='FemaleGryffindor.dmi'
-						usr.icon_state=""
-					if(usr.House=="Ravenclaw")
-						usr.icon='FemaleRavenclaw.dmi'
-						usr.icon_state=""
-					if(usr.House=="Slytherin")
-						usr.icon='FemaleSlytherin.dmi'
-						usr.icon_state=""
-					if(usr.House=="Hufflepuff")
-						usr.icon='FemaleHufflepuff.dmi'
-						usr.icon_state=""
+					if(usr.Gm)
+						usr.icon = 'FemaleStaff.dmi'
+						usr.icon_state = ""
+					else if(usr.House == "Gryffindor")
+						usr.icon = 'FemaleGryffindor.dmi'
+						usr.icon_state = ""
+					else if(usr.House == "Ravenclaw")
+						usr.icon = 'FemaleRavenclaw.dmi'
+						usr.icon_state = ""
+					else if(usr.House == "Slytherin")
+						usr.icon = 'FemaleSlytherin.dmi'
+						usr.icon_state = ""
+					else if(usr.House == "Hufflepuff")
+						usr.icon = 'FemaleHufflepuff.dmi'
+						usr.icon_state = ""
+
 		Change_Prom_Icon()
 			set category = "Prom"
 			if(usr.loc.loc != src)return
@@ -357,6 +364,7 @@ area/hogwarts/promChangeRoom
 				usr.icon = promicons[usr.ckey]
 			else
 				alert("Uploaded icons must be no larger than 32 pixels wide and 32 pixels high.")
+
 var/list/icon/promicons = list()
 
 var/prom = 0
