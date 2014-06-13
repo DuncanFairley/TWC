@@ -262,22 +262,24 @@ mob/Spells/verb/Expelliarmus(mob/M in view()&Players)
 			usr << "[M] doesn't have \his wand drawn."
 mob/Spells/verb/Eparo_Evanesca()
 	set category="Spells"
-	hearers()<<"<b><font color=red>[usr] <font color=blue> Eparo Evanesca!"
-	for(var/mob/Player/M in hearers())
-		if(M.key&&(M.invisibility==1))
-			flick('teleboom.dmi',M)
-			M.invisibility=0
-			M.icon_state = ""
-			var/obj/items/wearable/invisibility_cloak/C = locate(/obj/items/wearable/invisibility_cloak) in M.Lwearing
-			if(C)
-				C.Equip(M,1)
-			else
-				M.ApplyOverlays()
+	if(canUse(src,cooldown=/StatusEffect/UsedEvanesca,needwand=1,insafezone=1,inhogwarts=1))
+		new /StatusEffect/UsedEvanesca(src,10)
+		hearers()<<"<b><font color=red>[usr] <font color=blue> Eparo Evanesca!"
+		for(var/mob/Player/M in hearers())
+			if(M.key&&(M.invisibility==1))
+				flick('teleboom.dmi',M)
 				M.invisibility=0
-				M.sight &= ~SEE_SELF
 				M.icon_state = ""
-			M<<"You have been revealed!"
-			new /StatusEffect/Decloaked(M,15)
+				var/obj/items/wearable/invisibility_cloak/C = locate(/obj/items/wearable/invisibility_cloak) in M.Lwearing
+				if(C)
+					C.Equip(M,1)
+				else
+					M.ApplyOverlays()
+					M.invisibility=0
+					M.sight &= ~SEE_SELF
+					M.icon_state = ""
+				M<<"You have been revealed!"
+				new /StatusEffect/Decloaked(M,15)
 mob/Spells/verb/Evanesco(mob/M in Players&oview())
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedEvanesco,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
@@ -1436,7 +1438,6 @@ mob/Spells/verb/Other_To_Human(mob/Player/M in oview(usr.client.view,usr)&Player
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(M))
 			flick("transfigure",M)
-
 			if(M.derobe)
 				M.icon = 'Deatheater.dmi'
 			else if(M.aurorrobe)
@@ -1457,7 +1458,6 @@ mob/Spells/verb/Self_To_Human()
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		if(CanTrans(src))
 			flick("transfigure",usr)
-			usr<<"You reversed your transfiguration."
 			if(usr.aurorrobe)
 				usr.trnsed = 0
 				if(usr.Gender == "Female")
@@ -1470,6 +1470,7 @@ mob/Spells/verb/Self_To_Human()
 				usr.trnsed = 0
 				usr.icon = usr.baseicon
 			user.ApplyOverlays()
+			usr<<"You reversed your transfiguration."
 mob/Spells/verb/Harvesto(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))

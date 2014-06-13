@@ -59,6 +59,9 @@ mob
 									hearers(usr) << npcsay("Demetrius: There you go, [usr.gender == MALE ? "sonny" : "young lady"] - your stats are reset!")
 									usr.gold -= 50000
 									usr.resetStatPoints()
+									usr.HP = usr.MHP + usr.extraMHP
+									usr.MP = usr.MMP + usr.extraMMP
+									usr.updateHPMP()
 							if("No")
 								hearers(usr) << npcsay("Demetrius: Maybe next time then. Have a nice day!")
 mob
