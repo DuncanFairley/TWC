@@ -286,7 +286,7 @@ mob/var/tmp/baseicon
 area/hogwarts/promChangeRoom
 	Exit()
 		. = ..()
-		if(. && prom == 1)
+		if(. && usr && prom == 1)
 			var/turf/t = get_step(usr,usr.dir)
 			if(!(t.density && usr.density))
 				if(usr && usr.mprevicon)
