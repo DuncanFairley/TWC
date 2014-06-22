@@ -400,7 +400,6 @@ mob/GM
 			set name="GM Chat"
 			if(usr.mute==1){usr<<"You can't speak while silenced.";return}
 			if(messsage)
-				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
 			//Reason = html_encode(Reason)
 				if(src.name == "Deatheater")
