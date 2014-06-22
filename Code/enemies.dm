@@ -137,13 +137,14 @@ mob
 
 			New()
 				. = ..()
-				Dmg = round(DMGmodifier * ((src.level -1) + 5))
-				MHP = round(HPmodifier * (4 * (src.level - 1) + 200))
-				gold = round(src.level / 2)
-				Expg = round(src.level * 1.3)
-				HP = MHP
-				origloc = loc
-				spawn(rand(10,60))
+				spawn(1) // fix for monsters not setting their variables if loaded from swap maps
+					Dmg = round(DMGmodifier * ((src.level -1) + 5))
+					MHP = round(HPmodifier * (4 * (src.level - 1) + 200))
+					gold = round(src.level / 2)
+					Expg = round(src.level * 1.3)
+					HP = MHP
+					origloc = loc
+					sleep(rand(10,60))
 					state()
 //NEWMONSTERS
 			proc/Death(mob/Player/killer)
