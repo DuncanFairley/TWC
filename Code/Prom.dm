@@ -284,20 +284,21 @@ obj/mirror
 
 mob/var/tmp/baseicon
 area/hogwarts/promChangeRoom
-	Exit()
+	Exited(atom/movable/Obj)
 		. = ..()
-		if(. && usr && prom == 1)
-			var/turf/t = get_step(usr,usr.dir)
-			if(!(t.density && usr.density))
-				if(usr && usr.mprevicon)
-					usr.icon = usr.mprevicon
-					usr.mprevicon = null
-	Enter(atom/movable/O)
+		if(Obj && isplayer(Obj) && prom == 1)
+			var/mob/Player/p = Obj
+			if(p && p.mprevicon)
+				p.icon = p.mprevicon
+				p.mprevicon = null
+	Entered(atom/movable/O)
 		. = ..()
-		if(. && usr && promicons[usr.ckey] && prom && !usr.mprevicon)
-			if(promicons[usr.ckey] != usr.icon)
-				usr.mprevicon = usr.icon
-			usr.icon = promicons[usr.ckey]
+		if(O && isplayer(O) && prom)
+			var/mob/Player/p = O
+			if(promicons[p.ckey] && !p.mprevicon)
+				if(promicons[usr.ckey] != usr.icon)
+					usr.mprevicon = usr.icon
+				usr.icon = promicons[usr.ckey]
 
 	New()
 		..()

@@ -147,15 +147,14 @@ obj/teleport
 
 			if(M.key)
 				var/atom/A = locate(dest) //can be some turf, or some obj
-				if(isobj(A))
-					M.loc = A.loc
-				else if(isturf(A))
-					M.loc = A
-				M.client.images = list()
-				M.loc.loc.Enter(M)
-				if(M.classpathfinding)
-					M.Class_Path_to()
-				return 1
+				if(A)
+					if(isobj(A))
+						A = A.loc
+					M:Transfer(A)
+					M.client.images = list()
+					if(M.classpathfinding)
+						M.Class_Path_to()
+					return 1
 	entervault
 		Teleport(mob/M)
 			if(M.key)
@@ -1189,6 +1188,9 @@ mob/Player
 			if(global.clanwars && (src.Auror || src.DeathEater))
 				src.ClanwarsInfo()
 			winset(src,null,"barHP.is-visible=true;barMP.is-visible=true")
+
+			loc.loc.Enter(src, src.loc)
+			loc.loc.Entered(src, src.loc)
 
 	proc/ApplyOverlays()
 		src.overlays = list()
@@ -2740,7 +2742,7 @@ proc
 			else
 				open = 0
 		return t
-	Respawn(mob/NPC/E)
+	Respawn(mob/NPC/Enemies/E)
 		if(!E)return
 		if(E.removeoMob)
 			var/tmpmob = E.removeoMob
@@ -2754,12 +2756,7 @@ proc
 				if(E)
 					E.loc = E.origloc
 					E.HP = E.MHP
-					for(var/mob/A in E.loc.loc)
-						if(A.key)
-							E.Wander()
-							return
-					walk(E,0)
-					walk_rand(E,11)
+					spawn() E.state()
 					/*if(E)
 						E.loc = initial(E.loc)
 						if(istype(E,/mob/NPC/Enemies))
@@ -3661,4 +3658,3 @@ obj
 		icon_state="mid3"
 		density=1
 		layer=2
-

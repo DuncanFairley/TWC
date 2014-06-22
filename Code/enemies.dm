@@ -72,38 +72,31 @@ area
 
 			Ratcellar
 			Chamber_of_Secrets
-		Enter(atom/movable/O)
+		Entered(atom/movable/O)
 			. = ..()
-			if(.)
-				if(istype(O,/mob))
-					if(O:client)
-						for(var/mob/NPC/Enemies/M in locate(type))
-							if(!M:activated)spawn()M:Wander()
-							//if(istype(M,/mob/NPC/Enemies))
-							//	if(M.loc.loc.type == type)
+			if(isplayer(O))
+				world << src
+				world << O
+				for(var/mob/NPC/Enemies/M in src)
+					if(M.state == M.WANDER)
+						M.state = M.SEARCH
 
 
-		//If you run into a wall and aren't ACTUALLY out've the area, Exit() still stops all the monsterz
 		Exit(atom/movable/O)
-			if(istype(O,/mob/NPC))
-				if(O:removeoMob)
-					return ..()
-				return 0
-			if(ismob(O))
-				if(O:client)
-					var/turf/t = get_step(O,O.dir)
-					if(!(t.density && O.density))
-						var/isempty = 1
-						for(var/mob/M in locate(type))
-							if(M.client && M != O)
-								isempty = 0
-						if(isempty)
-							for(var/mob/M in locate(type))
-								if(istype(M,/mob/NPC/Enemies))
-									M:activated = 0
-						return ..()
-			else
-				return ..()
+			if(istype(O, /mob/NPC) && !O:removeoMob) return 0
+			return 1
+
+		Exited(atom/movable/O)
+			. = ..()
+			if(isplayer(O))
+				var/isempty = 1
+				for(var/mob/Player/M in src)
+					if(M != O)
+						isempty = 0
+						break
+				if(isempty)
+					for(var/mob/NPC/Enemies/M in src)
+						M.state = M.WANDER
 mob
 	test
 		verb
@@ -119,11 +112,155 @@ mob
 		var/HPmodifier = 0.9
 		var/DMGmodifier = 0.55
 		var/tmp/turf/origloc
+
 		Enemies
 			player = 0
 			Gm = 1
 			monster = 1
 			NPC = 1
+
+			var
+				const
+					INACTIVE   = 0
+					WANDER     = 1
+					SEARCH     = 2
+					HOSTILE    = 4
+					CONTROLLED = 8
+
+				tmp
+					state = WANDER
+
+				Range = 10
+				MoveDelay = 5
+				AttackDelay = 5
+
+
+			New()
+				. = ..()
+				Dmg = round(DMGmodifier * ((src.level -1) + 5))
+				MHP = round(HPmodifier * (4 * (src.level - 1) + 200))
+				gold = round(src.level / 2)
+				Expg = round(src.level * 1.3)
+				HP = MHP
+				origloc = loc
+				spawn(rand(10,60))
+					state()
+//NEWMONSTERS
+			proc/Death(mob/Player/killer)
+
+			proc/state()
+				var/lag = 10
+				while(src && src.loc)
+					switch(state)
+						if(INACTIVE)
+							lag = 30
+						if(WANDER)
+							Wander()
+							lag = MoveDelay * 5
+						if(SEARCH)
+							Search()
+							lag = MoveDelay * 3
+						if(HOSTILE)
+							Attack()
+							lag = MoveDelay
+						if(CONTROLLED)
+							BlindAttack()
+							lag = 10
+					sleep(lag)
+			var/tmp/mob/target
+
+
+			proc
+				Search()
+					Wander()
+					for(var/mob/Player/M in ohearers(src, Range))
+						if(M.loc.loc == src.loc.loc && get_step_to(src, M, 1))
+							target = M
+							state  = HOSTILE
+							break
+
+				Wander()
+					step_rand(src)
+
+			proc/ReturnToStart()
+				state = INACTIVE
+				if(loc.loc != origloc.loc)
+					if(z == origloc.z)
+						density = 0
+						while(loc.loc != origloc.loc)
+							sleep(1)
+							step_towards(src, origloc)
+						density = 1
+					else
+						src.loc = origloc
+				ShouldIBeActive()
+
+			proc/ShouldIBeActive()
+				if(istype(loc.loc, /area/newareas))
+					state = WANDER
+					return 0
+
+				var/mob/Player/M = locate() in loc.loc
+				if(M)
+					state = SEARCH
+					return 1
+				else
+					state = WANDER
+					return 0
+
+
+			proc/BlindAttack()//removeoMob
+				var/mob/Player/M = locate() in ohearers(1, src)
+				if(M)
+					var/dmg = Dmg+extraDmg+rand(0,4)
+					if(dmg<1)
+						//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
+					else
+						M.HP -= dmg
+						hearers(M)<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
+						if(src.removeoMob)
+							spawn() M.Death_Check(src.removeoMob)
+						else
+							spawn() M.Death_Check(src)
+
+
+
+			proc/Attack()
+
+				var/distance = get_dist(src,target)
+				if(!target || !target.loc || target.loc.loc != loc.loc || distance > Range)
+					target = null
+					ShouldIBeActive()
+					return
+
+				if(prob(15))
+					step_rand(src)
+					sleep(2)
+
+				if(distance > 1)
+					var/turf/t = get_step_to(src, target, 1)
+					if(t)
+						Move(t)
+					else
+						target = null
+						ShouldIBeActive()
+				else
+					var/dmg = Dmg+extraDmg+rand(0,4)
+
+					if(target.level > level && !target.findStatusEffect(/StatusEffect/Lamps/Farming))
+						dmg -= dmg * ((target.level - level)/100)
+					else if(target.level < level)
+						dmg += dmg * ((level - target.level)/200)
+					dmg = round(dmg)
+
+					if(dmg<1)
+						//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
+					else
+						target.HP -= dmg
+						hearers(target)<<"<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
+						spawn()target.Death_Check(src)
+					sleep(AttackDelay)
+
 //////Monsters///////
 			Rat
 				icon = 'monsters.dmi'
@@ -217,19 +354,29 @@ mob
 				Attack(mob/M)
 					..()
 					if(!fired)
-						fired = 1
-						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+						var/fire = 0
 						if(prob(30))
-							for(var/d in dirs)
-								var/obj/S=new/obj/Flippendo(src.loc)
-								S.owner = src
-								walk(S,d,2)
-								spawn(20) del S
-						else
-							for(var/d in dirs)
-								dir = d
-								castproj(0, 'attacks.dmi', "crucio2", Dmg + rand(-4,8), "death ball", 0)
-						spawn(rand(10,30)) fired = 0
+							fire = 1
+						else if(prob(20))
+							fire = 2
+						if(fire)
+							fired = 1
+							spawn(rand(30,50)) fired = 0
+
+							var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+							if(fire == 1)
+								var/tmp_d = dir
+								for(var/d in dirs)
+									dir = d
+									castproj(0, 'attacks.dmi', "crucio2", Dmg + rand(-4,8), "death ball", 0)
+								dir = tmp_d
+							else
+								for(var/d in dirs)
+									var/obj/Flippendo/S = new (src.loc)
+									S.owner = src
+									walk(S, d, 2)
+									spawn(20) if(S) del S
+							sleep(AttackDelay)
 				Death(mob/Player/killer)
 
 					var/rate = 1
@@ -324,33 +471,9 @@ mob
 				Dmg = 200
 				Def=20
 				level = 6
-				Wander()
-					walk_rand(src,6)
-					while(1)
-						sleep(30)
-						for(var/mob/M in oview(src)) if(M.client)
-							walk(src,0)
-							spawn()Attack(M)
-							return
-				Attack(mob/Player/M)
-					while(get_dist(src,M)>1)
-						sleep(4)
-						if(!(M in oview(src)))
-							spawn()Wander()
-							return
-						step_to(src,M)
-					if(M.HP>=(M.MHP+M.extraMHP))
-						return
-					else
-						M.HP += ((M.HP/8)+rand(1,50))
-						M.updateHPMP()
-						if(M.HP > (M.MHP+M.extraMHP)) M.HP = M.MHP+M.extraMHP
-						hearers()<<"<SPAN STYLE='color: red'>[src] heals [M]!</SPAN>"
-					spawn(10)Attack(M)
 			Fire_Bat
 				icon = 'monsters.dmi'
 				icon_state="firebat"
-				density = 0
 				gold = 111
 				HP = 1667
 				MHP = 1667
@@ -358,30 +481,36 @@ mob
 				Def=35
 				Expg = 89
 				level = 400
-				Attack(mob/M)
-					while(get_dist(src,M)>5)
-						if(!activated)
-							spawn(rand(10,30))
-								walk_rand(src,11)
-							return
-						if(!(M in oview(src)))
-							spawn()Wander()
-							return
-						step_to(src,M)
-						sleep(4)
-					dir=get_dir(src,M)
-					castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball")
-					//spawn(30)M.Death_Check(src)
-					sleep(10)
-					for(var/mob/A in oview(src)) if(A.client)
-						walk(src,0)
-						if(rand(1,4) == 4)step_rand(src)
-						spawn()Attack(A)
+				var/tmp/fired = 0
+				Attack()
+					if(!target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+						target = null
+						ShouldIBeActive()
 						return
+
+					if(!fired && prob(80))
+						fired = 1
+						dir=get_dir(src, target)
+						castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball")
+						spawn(rand(15,40)) fired = 0
+						sleep(AttackDelay)
+
+					var/distance = get_dist(src, target)
+					if(distance > 5)
+						var/turf/t = get_step_to(src, target, 1)
+						if(t)
+							Move(t)
+						else
+							target = null
+							ShouldIBeActive()
+					else if(distance <= 3)
+						step_away(src, target)
+					else if(distance > 3)
+						step_rand(src)
+						sleep(5)
 			Fire_Golem
 				icon = 'monsters.dmi'
 				icon_state="firegolem"
-				density = 0
 				gold = 132
 				HP = 1980
 				MHP = 1980
@@ -389,26 +518,34 @@ mob
 				Def=30
 				Expg = 115
 				level = 450
-				Attack(mob/M)
-					while(get_dist(src,M)>5)
-						sleep(4)
-						if(!activated)
-							spawn()
-								walk_rand(src,11)
-							return
-						if(!(M in oview(src)))
-							spawn()Wander()
-							return
-						step_to(src,M)
-					dir=get_dir(src,M)
-					castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball")
-					//spawn(30)M.Death_Check(src)
-					sleep(10)
-					for(var/mob/A in oview(src)) if(A.client)
-						walk(src,0)
-						if(rand(1,4) == 4)step_rand(src)
-						spawn()Attack(A)
+				var/tmp/fired = 0
+				Attack()
+					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+						target = null
+						ShouldIBeActive()
 						return
+
+					if(!fired && prob(80))
+						fired = 1
+						dir=get_dir(src, target)
+						castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball")
+						spawn(rand(15,40)) fired = 0
+						sleep(AttackDelay)
+
+					var/distance = get_dist(src, target)
+					if(distance > 5)
+						var/turf/t = get_step_to(src, target, 1)
+						if(t)
+							Move(t)
+						else
+							target = null
+							ShouldIBeActive()
+					else if(distance <= 3)
+						step_away(src, target)
+					else if(distance > 3)
+						step_rand(src)
+						sleep(5)
+
 			Slug
 				icon='NewMobs.dmi'
 				icon_state="slug"
@@ -477,124 +614,6 @@ mob
 				level = 2000
 				HPmodifier = 3
 				DMGmodifier = 3
-		New()
-			. = ..()
-			Dmg = round(DMGmodifier * ((src.level -1) + 5))
-			MHP = round(HPmodifier * (4 * (src.level - 1) + 200))
-			gold = round(src.level / 2)
-			Expg = round(src.level * 1.3)
-			HP = MHP
-			origloc = loc
-			spawn(rand(10,30))
-				walk_rand(src,11)
-//NEWMONSTERS
-		proc/Death(mob/Player/killer)
-
-		proc/Wander()
-			if(removeoMob)
-				return
-			activated=1
-			walk_rand(src,11)
-			while(activated)
-				sleep(4)
-				if(!activated) return
-				sleep(4)
-				if(!activated) return
-				sleep(4)
-				if(!activated) return
-				sleep(4)
-				if(!activated) return
-				sleep(3)
-				if(!activated) return
-				for(var/mob/M in ohearers(src)) if(M.key && M.loc.loc == src.loc.loc)
-					//walk(src,0)
-					Attack(M)
-					return
-		proc/ReturnToStart()
-			if(src.loc.loc == origloc.loc)
-				ShouldIBeActive()
-			else
-				if(src.z == origloc.z)
-					src.density = 0
-					while(src.loc.loc != origloc.loc)
-						sleep(1)
-						step_towards(src,origloc)
-					src.density = 1
-				else
-					src.loc = origloc
-				ShouldIBeActive()
-		proc/ShouldIBeActive()
-			for(var/mob/M in src.loc.loc)
-				if(M.key)
-					src.activated = 0
-					sleep(6)
-					src.Wander()
-					return
-			walk_rand(src,11)
-
-		proc/BlindAttack()//removeoMob
-			while(src && src.removeoMob)
-				for(var/mob/M in view(1,src))
-					if(M.key)
-						var/dmg = Dmg+extraDmg+rand(0,4)
-						if(dmg<1)
-							//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
-						else
-							M.HP -= dmg
-							view(M)<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
-							if(src.removeoMob)
-								spawn() M.Death_Check(src.removeoMob)
-							else
-								spawn() M.Death_Check(src)
-						break
-				sleep(15)
-
-		proc/Attack(mob/M)
-			var/dmg = Dmg+extraDmg+rand(0,4)
-
-			if(M.level > src.level && !M.findStatusEffect(/StatusEffect/Lamps/Farming))
-				dmg -= dmg * ((M.level-src.level)/100)
-			else if(M.level < src.level)
-				dmg += dmg * ((src.level-M.level)/200)
-			dmg = round(dmg)
-			while(get_dist(src,M)>1)
-				sleep(5)
-				if(!activated)
-					walk(src,0)
-					if(!removeoMob)
-						walk_rand(src,11)
-					else
-						spawn()BlindAttack()
-					return
-				if(!(M in oview(src)))
-					sleep(6)
-					spawn()Wander()
-					return
-				if(!step_to(src,M,1))
-					for(var/mob/A in view())
-						if(A.client&& A.loc.loc == src.loc.loc && A != M)
-							spawn()Attack(A)
-							return
-					sleep(5)
-					walk(src,0)
-					step_towards(src,M)
-			if(dmg<1)
-				//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				view(M)<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			sleep(10)
-			for(var/mob/A in oview(src))
-				if(A.client)
-					spawn()Attack(A)
-					return
-			if(activated)
-				sleep(2)
-				Wander()
-			else
-				walk(src,0)
-				walk_rand(src,11)
 
 mob
 	Dog

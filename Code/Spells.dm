@@ -491,7 +491,7 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 	set category = "Spells"
 	if(src.removeoMob)
 		src << "You release your hold of the monster you were controlling."
-		var/mob/NPC/E = src.removeoMob
+		var/mob/NPC/Enemies/E = src.removeoMob
 		if(E.removeoMob)
 			spawn()
 				E.ReturnToStart()
@@ -501,50 +501,37 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 		src.client.perspective=MOB_PERSPECTIVE
 		return
 	var/list/enemies = list()
-	for(var/mob/M in view())
-		if(istype(M,/mob/NPC/Enemies))
-			enemies.Add(M)
+	for(var/mob/NPC/Enemies/M in ohearers())
+		enemies.Add(M)
 	if(!enemies.len)
 		src << "There are no monsters in your view"
 	else
-		if(usr.MP > 299)
-			if(locate(/obj/items/wearable/wands) in usr:Lwearing)
-				var/mob/NPC/selmonster = input("Which monster do you cast Permoveo on?","Permoveo") as null|anything in enemies
-				if(!selmonster) return
-				if(!(selmonster in view())) return
-				if(src.removeoMob) return
-				if(usr.level < selmonster.level)
-					src << "The monster is level [selmonster.level]. You need to be a higher level."
-					return
-				var/scnds2wait = 400-(usr.level/2)
-				if(scnds2wait < 30) scnds2wait = 30
-				if( ((world.timeofday/10) - usr.usedpermoveo ) > scnds2wait)
-					hearers() << "[usr]: <i>Permoveo!</i>"
-					if(selmonster.removeoMob)
-						var/mob/B = selmonster.removeoMob
-						B << "[src] took possession of the monster you were controlling."
-						B.client.eye=B
-						B.client.perspective=MOB_PERSPECTIVE
-						B.removeoMob = null
-					usr.MP -= 300
-					usr.updateHPMP()
-					usr.usedpermoveo = (world.timeofday/10)
-					usr.removeoMob = selmonster
-					usr.client.eye = selmonster
-					usr.client.perspective = EYE_PERSPECTIVE
-					selmonster.removeoMob = usr
-					if(selmonster.activated)
-						selmonster.activated = 0
-					if(!selmonster.activated)
-						walk(selmonster,0)
-						spawn()selmonster.BlindAttack()
+		if(canUse(src,cooldown=/StatusEffect/Permoveo,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=300,againstocclumens=1))
+			var/mob/NPC/Enemies/selmonster = input("Which monster do you cast Permoveo on?","Permoveo") as null|anything in enemies
+			if(!selmonster) return
+			if(!(selmonster in view())) return
+			if(src.removeoMob) return
+			if(usr.level < selmonster.level)
+				src << errormsg("The monster is level [selmonster.level]. You need to be a higher level.")
+				return
+			new /StatusEffect/Permoveo(src, max(400-(usr.level/2), 30))
 
-				else
-					src << "You need to wait [round(scnds2wait - ((world.timeofday/10) - usr.usedpermoveo))] seconds before you can use Permoveo."
-			else
-				src << "You must have a wand drawn to use this spell."
-		else
-			src << "You require at least 300MP to use this spell."
+			hearers() << "[usr]: <i>Permoveo!</i>"
+			if(selmonster.removeoMob)
+				var/mob/B = selmonster.removeoMob
+				B << "[src] took possession of the monster you were controlling."
+				B.client.eye=B
+				B.client.perspective=MOB_PERSPECTIVE
+				B.removeoMob = null
+			src.MP -= 300
+			src.updateHPMP()
+
+			src.removeoMob = selmonster
+			src.client.eye = selmonster
+			src.client.perspective = EYE_PERSPECTIVE
+			selmonster.removeoMob = src
+			selmonster.state = selmonster.CONTROLLED
+
 mob/Spells/verb/Dementia()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
@@ -2223,11 +2210,6 @@ obj/portkey
 			del(src)
 	proc/Teleport(mob/Player/M)
 		if(M.Transfer(partner.loc))
-		//	if(istype(partner.loc.loc,/area/newareas/inside/Silverblood_Maze) || \
-		//		istype(partner.loc.loc,/area/newareas/inside/Ratcellar))
-		//		if(M.flying)
-		//			for(var/obj/items/wearable/brooms/Broom in M.Lwearing)
-		//				Broom.Equip(M,1)
 			M << "You step through the portkey."
 			..()
 
@@ -2237,11 +2219,14 @@ mob/Player
 	proc/Transfer(turf/t)
 		if(teleporting) return 0
 		teleporting = 1
+
+		var/tmp_dir = dir
 		var/dense = density
 		density = 0
 		Move(t)
 		if(!density)
 			density = dense
+		dir = tmp_dir
 		teleporting = 0
 
 		return 1
