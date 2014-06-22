@@ -51,6 +51,7 @@
 #include "Code\Cronicles.dm"
 #include "Code\Daily Prophet.dm"
 #include "Code\DB.dm"
+#include "Code\DJ.dm"
 #include "Code\dmifontplus.dm"
 #include "Code\Drag and Drop.dm"
 #include "Code\Dueling.dm"

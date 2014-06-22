@@ -606,6 +606,7 @@ mob
 mob
 	GM/verb
 		DJ_Log()
+			set category = "DJ"
 			usr<<browse(DJlog)
 		View_Player_Log()
 			if(!mysql_enabled) {alert("MySQL isn't enabled on this server."); return}

@@ -49,6 +49,7 @@ var/dpheader = {"
 
 
 
+var/list/dplist = list()
 
 //mob/GM/verb
 //	New_Story(message as message)
@@ -64,28 +65,32 @@ mob/GM/verb/Your_Job()
 		set category="DP"
 		set name = ""
 		usr<<browse(Yourjob)
-mob/GM/verb/Hire_Reporter(mob/M in Players)
+mob/GM/verb/Hire_Reporter()
 		set category="DP"
-		set popup_menu = 0
-		M.Rank="<font color=red>Daily Prophet Reporter"
-		M<<"<font color=silver><font size=2><b>[usr] chose you to be a Reporter for the Daily Prophet. See [usr] for your assignments."
+		var/mob/M = input("Who would you like to add as a Daily Prophet Reporter?") as null|mob in Players
+		M.Rank="Daily Prophet Reporter"
+		M<<infomsg("[usr] chose you to be a Reporter for the Daily Prophet. See [usr] for your assignments.")
 		M.verbs += /mob/GM/verb/Your_Job
 		M<<browse(Yourjob)
-mob/GM/verb/Fire_DPSM(mob/M in Players)
-		set popup_menu = 0
+		dplist.Add(M.name)
+mob/GM/verb/Fire_DPSM()
 		set category = "DP"
-		M<<"<font size=2><font color=silver>You have been fired from the Daily Prophet Staff."
-		M.verbs -= /mob/GM/verb/Hire_Reporter
-		M.verbs -= /mob/GM/verb/Edit_DP
-		M.verbs -= /mob/GM/verb/Clear_Stories
-		M.verbs -= /mob/GM/verb/New_Story
-		M.verbs -= /mob/GM/verb/Your_Job
-		M.verbs -= /mob/GM/verb/Fire_DPSM
-		M.verbs -= /mob/GM/verb/Draft
-mob/GM/verb/Hire_Editor(mob/M in Players)
-		set popup_menu = 0
+		var/mob/M = input("Who would you like to remove as a Daily Prophet Staff Member?") as null|anything in dplist
+		if(!M)return
+		dplist.Remove(M)
+		usr << infomsg("You have fired [M] from the Daily Prophet Staff.")
+		M << infomsg("You have been removed from the Daily Prophet Staff.")
+		src.verbs -= /mob/GM/verb/Hire_Reporter
+		src.verbs -= /mob/GM/verb/Edit_DP
+		src.verbs -= /mob/GM/verb/Clear_Stories
+		src.verbs -= /mob/GM/verb/New_Story
+		src.verbs -= /mob/GM/verb/Your_Job
+		src.verbs -= /mob/GM/verb/Fire_DPSM
+		src.verbs -= /mob/GM/verb/Draft
+mob/GM/verb/Hire_Editor()
 		set category="DP"
-		M.Rank="<font color=red>Daily Prophet Editor"
+		var/mob/M = input("Who would you like to add as Daily Prophet Editor?") as null|mob in Players
+		M.Rank="Daily Prophet Editor"
 		M.verbs += /mob/GM/verb/Hire_Reporter
 		M.verbs += /mob/GM/verb/Clear_Stories
 		M.verbs += /mob/GM/verb/Edit_DP
@@ -93,7 +98,8 @@ mob/GM/verb/Hire_Editor(mob/M in Players)
 		M.verbs += /mob/GM/verb/Draft
 		M.verbs += /mob/GM/verb/Your_Job
 		M.verbs += /mob/GM/verb/Fire_DPSM
-		M<<"<font size=3><font color=silver>You have been hired by [usr] to be a Daily Prophet Editor!"
+		dplist.Add(M.name)
+		M<<infomsg("You have been hired by [usr] to be a Daily Prophet Editor!")
 		M<<browse(Yourjob)
 var/list
 	DP = new
