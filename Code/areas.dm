@@ -367,15 +367,14 @@ area
 
 		Entered(mob/M)
 			..()
-			if(ismob(M))
-				if(M.key)
-					if(classdest)
-						if(classdest.loc.loc == src)
-							M.client.images = list()
-							M.classpathfinding = 0
-							for(var/obj/O in M.client.screen)
-								if(O.type == /obj/hud/class)
-									M.client.screen.Remove(O)
+			if(isplayer(M))
+				if(classdest)
+					if(classdest.loc.loc == src)
+						M.client.images = list()
+						M.classpathfinding = 0
+						for(var/obj/O in M.client.screen)
+							if(O.type == /obj/hud/class)
+								M.client.screen.Remove(O)
 
 var/mob/classdest = null
 mob

@@ -1200,12 +1200,12 @@ obj/Chaotica
 	New() spawn(60)del(src)
 turf/nofirezone
 	Enter(obj/O)
-		if(istype(O,/obj/projectile))
+		if(istype(O,/obj/projectile) || istype(O,/obj/Flippendo) || istype(O,/obj/Incendio))
 			walk(O,0)
 			O.loc = null
 		else return ..()
 	Exit(obj/O)
-		if(istype(O,/obj/projectile))
+		if(istype(O,/obj/projectile) || istype(O,/obj/Flippendo) || istype(O,/obj/Incendio))
 			walk(O,0)
 			O.loc = null
 		else return ..()
@@ -3027,7 +3027,7 @@ obj/items
 							return
 
 						D.player1 = usr
-						D.player1.loc = t
+						D.player1:Transfer(t)
 						D.player1.dir = EAST
 						D.player1.movable = 1
 						range(9) << "[usr] enters the duel."
@@ -3037,7 +3037,7 @@ obj/items
 							return
 
 						D.player2 = usr
-						D.player2.loc = t
+						D.player2:Transfer(t)
 						D.player2.dir = WEST
 						D.player2.movable = 1
 						range(9) << "[usr] enters the duel."
@@ -3106,6 +3106,6 @@ obj/items
 					D.countdown = 5//input("Select count-down timer, for when both players have readied. (between 3 and 10 seconds)","Count-down Timer",D.countdown) as null|num
 					range(9) << "[usr] initiates a duel."
 					D.player1 = usr
-					D.player1.loc = t
+					D.player1:Transfer(t)
 					D.player1.dir = EAST
 					D.player1.movable = 1

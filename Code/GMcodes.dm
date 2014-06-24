@@ -632,14 +632,13 @@ mob/GM/verb
 		set category = "Staff"
 		if(clanrobed())return
 		if(!M.Teleblock == 0){src<<"[M] is protected by the Antiportus Charm. Your orbs bounced off the shield and re-materialized you where you were.";return}
-		usr.picon_state=usr.icon_state
-		sleep(18)
+		var/dense = density
 		src.density=0
 		src.Move(locate(M.x,M.y+1,M.z))
-		src.density=1
+		src.density=dense
 		M << "<b><font color=blue>[src]</font> has teleported to you.</b></I>"
 		src << "With a flick of your wand, you find yourself next to <b><font color=red>[M]."
-		usr.icon_state=usr.picon_state
+
 
 
 mob/GM/verb/Orb_Surroundings(var/mob/M in world)
@@ -652,7 +651,10 @@ mob/GM/verb/Orb_Surroundings(var/mob/M in world)
 		spawn(8)
 			var/rnd = rand(-1,1)
 			var/rnd2 = rand(-1,1)
-			K.loc = locate(M.x+rnd,M.y+rnd2,M.z)
+			if(isplayer(K))
+				K:Transfer(locate(M.x+rnd,M.y+rnd2,M.z))
+			else
+				K.loc = locate(M.x+rnd,M.y+rnd2,M.z)
 			flick('Appear.dmi',K)
 	sleep(8)
 	flick('Dissapear.dmi',usr)
@@ -661,18 +663,20 @@ mob/GM/verb/Orb_Surroundings(var/mob/M in world)
 	usr.z = M.z
 	flick('Appear.dmi',usr)
 mob/GM/verb/Bring(mob/M in world)
-			set category = "Staff"
-			if(clanrobed())return
-			view(M)<<"[M] disappears (GM Summon)."
-			M.flying = 0
-			M.density = 1
-			flick('Dissapear.dmi',M)
-			sleep(20)
-			M.loc = locate(x,y,z)
-			flick('Appear.dmi',M)
-
-			M << "You have been summoned."
-			src << "You have summoned <b><font color=red>[M].</font></b>"
+	set category = "Staff"
+	if(clanrobed())return
+	view(M)<<"[M] disappears (GM Summon)."
+	M.flying = 0
+	M.density = 1
+	flick('Dissapear.dmi',M)
+	sleep(20)
+	if(isplayer(M))
+		M:Transfer(locate(x,y,z))
+	else
+		M.loc = locate(x,y,z)
+	flick('Appear.dmi',M)
+	M << "You have been summoned."
+	src << "You have summoned <b><font color=red>[M].</font></b>"
 
 
 mob/var/iconreset

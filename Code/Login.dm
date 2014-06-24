@@ -2752,11 +2752,12 @@ proc
 			E.loc = null
 		else
 			E.activated = 0
+			E.state = E.INACTIVE
 			spawn(1200)////1200
 				if(E)
 					E.loc = E.origloc
 					E.HP = E.MHP
-					spawn() E.state()
+					E.ShouldIBeActive()
 					/*if(E)
 						E.loc = initial(E.loc)
 						if(istype(E,/mob/NPC/Enemies))

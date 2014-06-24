@@ -132,13 +132,13 @@ turf
 			if(D)
 				if(!D.player1 && D.player2 != usr)
 					D.player1 = usr
-					D.player1.loc = locate(x-3,y,z)
+					D.player1:Transfer(locate(x-3,y,z))
 					D.player1.dir = EAST
 					D.player1.movable = 1
 					range(9) << "[usr] enters the duel."
 				else if(!D.player2 && D.player1 != usr)
 					D.player2 = usr
-					D.player2.loc = locate(x+3,y,z)
+					D.player2:Transfer(locate(x+3,y,z))
 					D.player2.dir = WEST
 					D.player2.movable = 1
 					range(9) << "[usr] enters the duel."
@@ -197,6 +197,6 @@ turf
 				D.countdown = 5//input("Select count-down timer, for when both players have readied. (between 3 and 10 seconds)","Count-down Timer",D.countdown) as null|num
 				range(9) << "[usr] initiates a duel."
 				D.player1 = usr
-				D.player1.loc = locate(x-3,y,z)
+				D.player1:Transfer(locate(x-3,y,z))
 				D.player1.dir = EAST
 				D.player1.movable = 1

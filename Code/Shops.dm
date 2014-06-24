@@ -1019,12 +1019,12 @@ mob/Vault_Salesman
 		..()
 		icon_state = "goblin[rand(1,3)]"
 
-		if(fexists("[swapmaps_directory]/tmpl_vault1.sav"))       itemlist += "Free Vault - Free!"
-		if(fexists("[swapmaps_directory]/tmpl_vault_med.sav"))    itemlist += "Medium Vault - 2,500,000 Gold and 25 Artifacts"
-		if(fexists("[swapmaps_directory]/tmpl_vault_big.sav"))    itemlist += "Big Vault - 5,000,000 Gold and 50 Artifacts"
-		if(fexists("[swapmaps_directory]/tmpl_vault_huge.sav"))   itemlist += "Huge Vault - 8,000,000 Gold and 80 Artifacts"
-		if(fexists("[swapmaps_directory]/tmpl_vault_2rooms.sav")) itemlist += "2 Rooms Vault - 8,500,000 Gold and 85 Artifacts"
-		if(fexists("[swapmaps_directory]/tmpl_vault_4rooms.sav")) itemlist += "4 Rooms Vault - 12,000,000 Gold and 120 Artifacts"
+		itemlist += "Free Vault - Free!"
+		itemlist += "Medium Vault - 2,500,000 Gold and 25 Artifacts"
+		itemlist += "Big Vault - 5,000,000 Gold and 50 Artifacts"
+		itemlist += "Huge Vault - 8,000,000 Gold and 80 Artifacts"
+		itemlist += "2 Rooms Vault - 10,000,000 Gold and 100 Artifacts"
+		itemlist += "4 Rooms Vault - 12,000,000 Gold and 120 Artifacts"
 
 	verb
 		Talk()
