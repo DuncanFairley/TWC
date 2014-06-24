@@ -35,6 +35,7 @@ obj/statues
 
 area
 	newareas
+		var/tmp/active = 0
 		outside
 			Forbidden_ForestNE
 			Forbidden_ForestNW
@@ -75,8 +76,7 @@ area
 		Entered(atom/movable/O)
 			. = ..()
 			if(isplayer(O))
-				world << src
-				world << O
+				active = 1
 				for(var/mob/NPC/Enemies/M in src)
 					if(M.state == M.WANDER)
 						M.state = M.SEARCH
@@ -95,6 +95,7 @@ area
 						isempty = 0
 						break
 				if(isempty)
+					active = 0
 					for(var/mob/NPC/Enemies/M in src)
 						M.state = M.WANDER
 mob
@@ -151,22 +152,22 @@ mob
 
 			proc/state()
 				var/lag = 10
-				while(src && src.loc)
+				while(src)
 					switch(state)
 						if(INACTIVE)
-							lag = 30
+							lag = 40
 						if(WANDER)
 							Wander()
-							lag = MoveDelay * 5
+							lag = 25
 						if(SEARCH)
 							Search()
-							lag = MoveDelay * 3
+							lag = 15
 						if(HOSTILE)
 							Attack()
 							lag = MoveDelay
 						if(CONTROLLED)
 							BlindAttack()
-							lag = 10
+							lag = 11
 					sleep(lag)
 			var/tmp/mob/target
 
@@ -175,7 +176,7 @@ mob
 				Search()
 					Wander()
 					for(var/mob/Player/M in ohearers(src, Range))
-						if(M.loc.loc == src.loc.loc && get_step_to(src, M, 1))
+						if(M.loc.loc == src.loc.loc && get_step_to(M, src, 1))
 							target = M
 							state  = HOSTILE
 							break
@@ -197,17 +198,16 @@ mob
 				ShouldIBeActive()
 
 			proc/ShouldIBeActive()
-				if(istype(loc.loc, /area/newareas))
-					state = WANDER
+				if(!loc)
+					state = INACTIVE
 					return 0
 
-				var/mob/Player/M = locate() in loc.loc
-				if(M)
+				if(istype(loc.loc, /area/newareas) && loc.loc:active)
 					state = SEARCH
 					return 1
-				else
-					state = WANDER
-					return 0
+
+				state = WANDER
+				return 0
 
 
 			proc/BlindAttack()//removeoMob
@@ -224,7 +224,9 @@ mob
 						else
 							spawn() M.Death_Check(src)
 
-
+			proc/Blocked()
+				target = null
+				ShouldIBeActive()
 
 			proc/Attack()
 
@@ -243,8 +245,7 @@ mob
 					if(t)
 						Move(t)
 					else
-						target = null
-						ShouldIBeActive()
+						Blocked()
 				else
 					var/dmg = Dmg+extraDmg+rand(0,4)
 
@@ -346,10 +347,24 @@ mob
 				level = 800
 				HPmodifier = 1.8
 				var/tmp/fired = 0
+				MoveDelay = 4
+				AttackDelay = 4
 
-				Move(NewLoc,Dir)
+				Search()
+					Wander()
+					for(var/mob/Player/M in ohearers(src, Range))
+						if(M.loc.loc == src.loc.loc)
+							target = M
+							state  = HOSTILE
+							break
+
+				Blocked()
 					density = 0
-					..()
+					var/turf/t = get_step_to(src, target, 1)
+					if(t)
+						Move(t)
+					else
+						..()
 					density = 1
 
 				Attack(mob/M)
@@ -483,6 +498,7 @@ mob
 				Expg = 89
 				level = 400
 				var/tmp/fired = 0
+				AttackDelay = 3
 				Attack()
 					if(!target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
 						target = null
@@ -493,7 +509,7 @@ mob
 						fired = 1
 						dir=get_dir(src, target)
 						castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball")
-						spawn(rand(15,40)) fired = 0
+						spawn(rand(15,30)) fired = 0
 						sleep(AttackDelay)
 
 					var/distance = get_dist(src, target)
@@ -508,7 +524,7 @@ mob
 						step_away(src, target)
 					else if(distance > 3)
 						step_rand(src)
-						sleep(5)
+						sleep(2)
 			Fire_Golem
 				icon = 'monsters.dmi'
 				icon_state="firegolem"
@@ -519,6 +535,7 @@ mob
 				Def=30
 				Expg = 115
 				level = 450
+				AttackDelay = 3
 				var/tmp/fired = 0
 				Attack()
 					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
@@ -530,7 +547,7 @@ mob
 						fired = 1
 						dir=get_dir(src, target)
 						castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball")
-						spawn(rand(15,40)) fired = 0
+						spawn(rand(15,30)) fired = 0
 						sleep(AttackDelay)
 
 					var/distance = get_dist(src, target)
@@ -541,11 +558,11 @@ mob
 						else
 							target = null
 							ShouldIBeActive()
-					else if(distance <= 3)
+					else if(distance < 3)
 						step_away(src, target)
-					else if(distance > 3)
+					else if(distance >= 3)
 						step_rand(src)
-						sleep(5)
+						sleep(2)
 
 			Slug
 				icon='NewMobs.dmi'
@@ -615,6 +632,15 @@ mob
 				level = 2000
 				HPmodifier = 3
 				DMGmodifier = 3
+
+				Blocked()
+					density = 0
+					var/turf/t = get_step_to(src, target, 1)
+					if(t)
+						Move(t)
+					else
+						..()
+					density = 1
 
 mob
 	Dog
