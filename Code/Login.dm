@@ -788,6 +788,7 @@ turf
 			usr << "You step into the fireplace, and are wooshed away in a blaze of green fire."
 
 mob/GM/verb/Prize_Draw()
+	set category = "DJ"
  var/txt = input("Enter the names going into the draw, seperating them so that there's one name on each line.") as null|message
  if(!txt)return
  var/txt_list = dd_text2list(txt, "\n")
@@ -850,9 +851,9 @@ world/proc/worldlooper()
 			if(winget(C,"radio_enabled","is-checked") == "false")
 				switch(rndnum)
 					if(1)
-						C.mob << "<font color = white><b><h3>TWC Radio is broadcasting. Click <a href='?src=\ref[C.mob];action=listen_radio'>HERE</a> to listen.</h3></b></font><br>"
+						C.mob << "<font color = white><b><h3>TWC Radio is broadcasting. Click <a href='?src=\ref[C.mob];action=listen_radio'>here</a> to listen, or listen online at <a href='http://listen.hotdogradio.com/?ID=TWC'>this link</a>.</h3></b></font><br>"
 					if(2)
-						C.mob << "<font color = white><b><h3>You should probably listen to TWC Radio. Click <a href='?src=\ref[C.mob];action=listen_radio'>HERE</a>!</h3></b></font><br>"
+						C.mob << "<font color = white><b><h3>You should probably listen to TWC Radio! Click <a href='?src=\ref[C.mob];action=listen_radio'>here</a>, or listen online at <a href='http://listen.hotdogradio.com/?ID=TWC'>this link</a>!</h3></b></font><br>"
 	spawn()worldlooper()
 mob
 	create_character
@@ -2516,6 +2517,7 @@ mob/var/Tag=null
 mob/var/GMTag=null
 mob/var/HA
 mob/var/HDE=0
+mob/var/DJ=0
 
 obj/var/dontsave=0
 //others

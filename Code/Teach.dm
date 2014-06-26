@@ -551,7 +551,7 @@ mob/GM
 		Teach_Transfigure_Dragon()
 			set category = "Teach"
 			set hidden = 1
-			set name = "Teach Self to Dragon"
+			set name = "Teach Personio Draconum"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Dragon))
 					M<<"<b><font color=green><font size=3>You learned how to Transfigure yourself into a fearsome Dragon!"

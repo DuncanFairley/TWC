@@ -1381,6 +1381,7 @@ mob/Spells/verb/Self_To_Dragon()
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
+			usr<<"You transformed yourself into a fearsome dragon!"
 			flick("transfigure",src)
 			usr.trnsed = 1
 			usr.overlays = null
@@ -1392,6 +1393,7 @@ mob/Spells/verb/Self_To_Mushroom()
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
+			usr<<"You transformed yourself into a mushroom!"
 			flick("transfigure",src)
 			usr.overlays = null
 			if(usr.away)usr.ApplyAFKOverlay()
@@ -1413,6 +1415,7 @@ mob/Spells/verb/Self_To_Skeleton()
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
+			usr<<"You transformed yourself into a Skeleton!"
 			flick("transfigure",usr)
 			usr.trnsed = 1
 			usr.overlays = null
@@ -1438,6 +1441,7 @@ mob/Spells/verb/Other_To_Human(mob/Player/M in oview(usr.client.view,usr)&Player
 				M.trnsed = 0
 				M.icon = M.baseicon
 			M.ApplyOverlays()
+			usr<<"You reversed [M]'s transfiguration."
 			M<<"[usr] reversed your transfiguration."
 mob/Spells/verb/Self_To_Human()
 	set name = "Personio Humaium"
@@ -1533,7 +1537,7 @@ mob/Spells/verb/Peskipixie_Pesternomae(mob/Player/M in oview(usr.client.view,usr
 		if(CanTrans(M))
 			if(!M)return
 			flick("transfigure",M)
-			M<<"<b><font color=blue>Peskipixie Pestermae Charm:</b></font> [usr] turned you into a Pixie."
+			M<<"<b><font color=blue>Peskipixie Pestermi Charm:</b></font> [usr] turned you into a Pixie."
 			M.trnsed = 1
 			M.overlays = null
 			if(M.away)M.ApplyAFKOverlay()
