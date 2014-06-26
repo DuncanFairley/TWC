@@ -51,7 +51,7 @@ proc
 		X["DP"] >> DP
 		X["housepoints"] >> housepointsGSRH
 		X["dplastupdate"] >> dplastupdate
-		X["DJs"] >> DJs
+		if(X["DJs"]) X["DJs"] >> DJs
 		X["ministrybanlist"] >> ministrybanlist
 		X["housecupwinner"] >> housecupwinner
 		if(!ministrybanlist)
