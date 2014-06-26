@@ -51,6 +51,7 @@ proc
 		X["DP"] >> DP
 		X["housepoints"] >> housepointsGSRH
 		X["dplastupdate"] >> dplastupdate
+		X["DJs"] >> DJs
 		X["ministrybanlist"] >> ministrybanlist
 		X["housecupwinner"] >> housecupwinner
 		if(!ministrybanlist)
@@ -96,6 +97,7 @@ proc
 		fdel("players/World.sav")
 		var/savefile/X = new("players/World.sav")
 		//var/list/objs=list()
+		X["DJs"] << DJs
 		X["DP"] << DP
 		X["housepoints"] << housepointsGSRH
 		X["dplastupdate"] << dplastupdate

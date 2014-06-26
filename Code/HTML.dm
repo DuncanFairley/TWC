@@ -57,12 +57,12 @@ world/proc
 	enable_radio()
 		for(var/mob/Player/C in world)
 			if(C.key)
-				C << "<font color = white><b><h3>TWC Radio is broadcasting with [usr] as the DJ. Click <a href='?src=\ref[C];action=listen_radio'>here</a> to listen, or listen online at <a href='http://listen.hotdogradio.com/?ID=TWC'>this link</a>.</h3></b></font><br>"
+				C << "<font color = white><b><h3>TWC Radio is broadcasting. Click <a href='?src=\ref[C];action=listen_radio'>here</a> to listen, or listen online at <a href='http://listen.hotdogradio.com/?ID=TWC'>this link</a>.</h3></b></font><br>"
 				winset(C,"mnu_radio","is-disabled=false")
 	disable_radio()
 		for(var/mob/Player/C in world)
 			if(C.key)
-				C << "<font color = white><b>[usr] has stopped broadcasting. Thank you for listening.</b></font><br>"
+				C << "<font color = white><b>Thank you for listening.</b></font><br>"
 				winset(C,"mnu_radio","is-disabled=true")
 				winset(C,"radio_enabled","is-checked=false")
 				spawn()C.radio_end()

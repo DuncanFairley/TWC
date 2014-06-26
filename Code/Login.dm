@@ -1178,6 +1178,7 @@ mob/Player
 		updateHPMP()
 		spawn()
 			//CheckSavefileVersion()
+			isDJ(src)
 			if(istype(src.loc.loc,/area/arenas))
 				src.loc = locate(50,22,15)
 			unreadmessagelooper()
@@ -2517,7 +2518,6 @@ mob/var/Tag=null
 mob/var/GMTag=null
 mob/var/HA
 mob/var/HDE=0
-mob/var/DJ=0
 
 obj/var/dontsave=0
 //others
