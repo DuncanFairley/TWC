@@ -43,6 +43,7 @@ client/verb/songinfo()
 	usr << browse(radiosonginfo,"window=1")
 var/tmp/radioEnabled = 0
 mob/GM/verb/Toggle_TWC_Radio()
+	set category = "DJ"
 	if(radioEnabled)
 		radioEnabled = 0
 		DJlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] ended TWC Radio<br />"
@@ -55,11 +56,12 @@ world/proc
 	enable_radio()
 		for(var/mob/Player/C in world)
 			if(C.key)
-				C << "<font color = white><b><h3>TWC Radio is broadcasting. Click <a href='?src=\ref[C];action=listen_radio'>HERE</a> to listen.</h3></b></font><br>"
+				C << "<font color = white><b><h3>TWC Radio is broadcasting with [usr] as the DJ. Click <a href='?src=\ref[C];action=listen_radio'>here</a> to listen, or listen online at <a href='http://listen.hotdogradio.com/?ID=TWC'>this link</a>.</h3></b></font><br>"
 				winset(C,"mnu_radio","is-disabled=false")
 	disable_radio()
 		for(var/mob/Player/C in world)
 			if(C.key)
+				C << "<font color = white><b>[usr] has stopped broadcasting. Thank you for listening.</b></font><br>"
 				winset(C,"mnu_radio","is-disabled=true")
 				winset(C,"radio_enabled","is-checked=false")
 				spawn()C.radio_end()
@@ -184,7 +186,7 @@ mob/test/verb/Teach_Spells()
 		<td>[(/mob/GM/verb/Teach_Transfigure_Dragon in verbs) ? "<a href='?src=\ref[src];action=teach_selftodragon'>Personio Draconum</a>" : "Personio Draconum"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Self_Human in verbs) ? "<a href='?src=\ref[src];action=teach_selftohuman'>Personio Humaium</a>" : "Personio Humaium"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Mushroom in verbs) ? "<a href='?src=\ref[src];action=teach_selftomushroom'>Personio Mushashi</a>" : "Personio Mushashi"]</td>
-		<td>[(/mob/GM/verb/Teach_Transfigure_Skeleton in verbs) ? "<a href='?src=\ref[src];action=teach_selftoskeleton'>Personio Skelenum</a>" : "Personio Sceletus"]</td>
+		<td>[(/mob/GM/verb/Teach_Transfigure_Skeleton in verbs) ? "<a href='?src=\ref[src];action=teach_selftoskeleton'>Personio Sceletus</a>" : "Personio Sceletus"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Pixie in verbs) ? "<a href='?src=\ref[src];action=teach_peskipixiepesternomae'>Peskipixie Pestermi</a>" : "Peskipixie Pestermi"]</td>
 	</tr>
 	<tr>
