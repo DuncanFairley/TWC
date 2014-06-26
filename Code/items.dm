@@ -72,6 +72,7 @@ obj/items/New()
 obj/items/wearable
 	icon_state = "item"
 	var/showoverlay = 1
+	var/wear_layer = FLOAT_LAYER - 5
 
 obj/items/wearable/Destroy(var/mob/Player/owner)
 	. = ..(owner)
@@ -95,15 +96,24 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 	if(src in owner.Lwearing)
 		owner.Lwearing.Remove(src)
 		if(!owner.Lwearing) owner.Lwearing = null// deinitiliaze the list if not in use
-		if(showoverlay) owner.overlays -= src.icon
+		if(showoverlay)
+			var/obj/o = new
+			o.icon = src.icon
+			o.layer = wear_layer
+			owner.overlays -= o
 		src.suffix = null
 		return REMOVED
 	else
-		if(showoverlay && !owner.trnsed && owner.icon_state != "invis") owner.overlays += src.icon
+		if(showoverlay && !owner.trnsed && owner.icon_state != "invis")
+			var/obj/o = new
+			o.icon = src.icon
+			o.layer = wear_layer
+			owner.overlays += o
 		suffix = "<font color=blue>(Worn)</font>"
 		if(!owner.Lwearing) owner.Lwearing = list()
 		owner.Lwearing.Add(src)
 		return WORN
+
 obj/items/food
 	Click()
 		if(src in usr)
@@ -357,6 +367,7 @@ obj/items/wearable/halloween_bucket
 	icon = 'halloween_bucket.dmi'
 	dropable = 0
 	desc = "A bucket of candy from halloween!"
+	wear_layer = FLOAT_LAYER - 4
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(forceremove)return 0

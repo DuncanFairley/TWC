@@ -1150,7 +1150,6 @@ mob/Player
 				//src.icon_state = ""
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
-		overlays = list()
 		underlays = list()
 		if(timerMute > 0)
 			src << "<u>You're muted for [timerMute] minute[timerMute==1 ? "" : "s"].</u>"
@@ -1180,7 +1179,6 @@ mob/Player
 			//CheckSavefileVersion()
 			if(istype(src.loc.loc,/area/arenas))
 				src.loc = locate(50,22,15)
-			src.ApplyOverlays()
 			unreadmessagelooper()
 			sql_update_ckey_in_table(src)
 			sql_update_multikey(src)
@@ -1191,6 +1189,7 @@ mob/Player
 
 			loc.loc.Enter(src, src.loc)
 			loc.loc.Entered(src, src.loc)
+			src.ApplyOverlays()
 
 	proc/ApplyOverlays()
 		src.overlays = list()
@@ -2082,7 +2081,7 @@ mob/proc/Death_Check(mob/killer = src)
 					src.Exp = round(src.Exp / 2)
 				src.sight &= ~BLIND
 				flick('mist.dmi',src)
-				src.loc = B.loc
+				src:Transfer(B.loc)
 				src.dir = SOUTH
 				flick('dlo.dmi',src)
 
