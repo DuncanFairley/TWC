@@ -112,7 +112,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 	if(IsInputOpen(src, "Eat Slugs"))
 		del _input["Eat Slugs"]
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
-		var/list/people = view(client.view)&Players
+		var/list/people = ohearers(client.view)&Players
 		var/mob/M
 
 		if(n)
@@ -125,6 +125,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 			M = popup.InputList(src, "Cast this curse on?", "Eat Slugs", people[1], people)
 			del popup
 		if(!M) return
+		if(!(M in ohearers(client.view))) return
 		new /StatusEffect/Summoned(src,15)
 		MP = max(MP - 100, 0)
 		if(derobe)
