@@ -146,6 +146,10 @@ mob/Player/proc/unreadmessagelooper()
 
 mob/Player/Topic(href,href_list[])
 	..()
+	if(usr)
+		src = usr
+	else if(src)
+		usr = src
 	switch(href_list["action"])
 		//<a href='?src=\ref[src];action=teleport;x=[killer.x];y=[killer.y];z=[killer.z]'>Teleport</a>
 		if("view_changelog")
@@ -428,9 +432,10 @@ mob/Player/verb/PM(var/p in Players())
 		M = text2mob(M)
 	if(M.key)
 		var/mob/Player/Y = src
-		Y.curPM = new /atom/movable/PM("Subject","Body","[formatName(Y)]","[formatName(M)]")
-		Y.curPM.body = input("Input the main text of the Private Message being sent to [formatName(M)]") as message|null
+		var/atom/movable/PM/pm = new /atom/movable/PM("Subject","Body","[formatName(Y)]","[formatName(M)]")
+		pm.body = input("Input the main text of the Private Message being sent to [formatName(M)]") as message|null
 		if(!Y.curPM.body)return
+		Y.curPM = pm
 		src << link("byond://?src=\ref[src];action=pm_Send")
 
 mob/Player/proc/createPM()

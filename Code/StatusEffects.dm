@@ -177,6 +177,7 @@ StatusEffect
 	UsedArcesso
 	UsedProtego
 	UsedShelleh
+	Permoveo
 	UsedDisperse
 	DepulsoText
 

@@ -147,15 +147,14 @@ obj/teleport
 
 			if(M.key)
 				var/atom/A = locate(dest) //can be some turf, or some obj
-				if(isobj(A))
-					M.loc = A.loc
-				else if(isturf(A))
-					M.loc = A
-				M.client.images = list()
-				M.loc.loc.Enter(M)
-				if(M.classpathfinding)
-					M.Class_Path_to()
-				return 1
+				if(A)
+					if(isobj(A))
+						A = A.loc
+					M:Transfer(A)
+					M.client.images = list()
+					if(M.classpathfinding)
+						M.Class_Path_to()
+					return 1
 	entervault
 		Teleport(mob/M)
 			if(M.key)
@@ -1152,7 +1151,6 @@ mob/Player
 				//src.icon_state = ""
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
-		overlays = list()
 		underlays = list()
 		if(timerMute > 0)
 			src << "<u>You're muted for [timerMute] minute[timerMute==1 ? "" : "s"].</u>"
@@ -1180,9 +1178,9 @@ mob/Player
 		updateHPMP()
 		spawn()
 			//CheckSavefileVersion()
+			isDJ(src)
 			if(istype(src.loc.loc,/area/arenas))
 				src.loc = locate(50,22,15)
-			src.ApplyOverlays()
 			unreadmessagelooper()
 			sql_update_ckey_in_table(src)
 			sql_update_multikey(src)
@@ -1190,6 +1188,10 @@ mob/Player
 			if(global.clanwars && (src.Auror || src.DeathEater))
 				src.ClanwarsInfo()
 			winset(src,null,"barHP.is-visible=true;barMP.is-visible=true")
+
+			loc.loc.Enter(src, src.loc)
+			loc.loc.Entered(src, src.loc)
+			src.ApplyOverlays()
 
 	proc/ApplyOverlays()
 		src.overlays = list()
@@ -2081,7 +2083,7 @@ mob/proc/Death_Check(mob/killer = src)
 					src.Exp = round(src.Exp / 2)
 				src.sight &= ~BLIND
 				flick('mist.dmi',src)
-				src.loc = B.loc
+				src:Transfer(B.loc)
 				src.dir = SOUTH
 				flick('dlo.dmi',src)
 
@@ -2516,7 +2518,6 @@ mob/var/Tag=null
 mob/var/GMTag=null
 mob/var/HA
 mob/var/HDE=0
-mob/var/DJ=0
 
 obj/var/dontsave=0
 //others
@@ -2742,7 +2743,7 @@ proc
 			else
 				open = 0
 		return t
-	Respawn(mob/NPC/E)
+	Respawn(mob/NPC/Enemies/E)
 		if(!E)return
 		if(E.removeoMob)
 			var/tmpmob = E.removeoMob
@@ -2752,16 +2753,12 @@ proc
 			E.loc = null
 		else
 			E.activated = 0
+			E.state = E.INACTIVE
 			spawn(1200)////1200
 				if(E)
 					E.loc = E.origloc
 					E.HP = E.MHP
-					for(var/mob/A in E.loc.loc)
-						if(A.key)
-							E.Wander()
-							return
-					walk(E,0)
-					walk_rand(E,11)
+					E.ShouldIBeActive()
 					/*if(E)
 						E.loc = initial(E.loc)
 						if(istype(E,/mob/NPC/Enemies))
@@ -3663,4 +3660,3 @@ obj
 		icon_state="mid3"
 		density=1
 		layer=2
-

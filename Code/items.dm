@@ -72,6 +72,7 @@ obj/items/New()
 obj/items/wearable
 	icon_state = "item"
 	var/showoverlay = 1
+	var/wear_layer = FLOAT_LAYER - 5
 
 obj/items/wearable/Destroy(var/mob/Player/owner)
 	. = ..(owner)
@@ -95,15 +96,24 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 	if(src in owner.Lwearing)
 		owner.Lwearing.Remove(src)
 		if(!owner.Lwearing) owner.Lwearing = null// deinitiliaze the list if not in use
-		if(showoverlay) owner.overlays -= src.icon
+		if(showoverlay)
+			var/obj/o = new
+			o.icon = src.icon
+			o.layer = wear_layer
+			owner.overlays -= o
 		src.suffix = null
 		return REMOVED
 	else
-		if(showoverlay && !owner.trnsed && owner.icon_state != "invis") owner.overlays += src.icon
+		if(showoverlay && !owner.trnsed && owner.icon_state != "invis")
+			var/obj/o = new
+			o.icon = src.icon
+			o.layer = wear_layer
+			owner.overlays += o
 		suffix = "<font color=blue>(Worn)</font>"
 		if(!owner.Lwearing) owner.Lwearing = list()
 		owner.Lwearing.Add(src)
 		return WORN
+
 obj/items/food
 	Click()
 		if(src in usr)
@@ -357,6 +367,7 @@ obj/items/wearable/halloween_bucket
 	icon = 'halloween_bucket.dmi'
 	dropable = 0
 	desc = "A bucket of candy from halloween!"
+	wear_layer = FLOAT_LAYER - 4
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(forceremove)return 0
@@ -1200,12 +1211,12 @@ obj/Chaotica
 	New() spawn(60)del(src)
 turf/nofirezone
 	Enter(obj/O)
-		if(istype(O,/obj/projectile))
+		if(istype(O,/obj/projectile) || istype(O,/obj/Flippendo) || istype(O,/obj/Incendio))
 			walk(O,0)
 			O.loc = null
 		else return ..()
 	Exit(obj/O)
-		if(istype(O,/obj/projectile))
+		if(istype(O,/obj/projectile) || istype(O,/obj/Flippendo) || istype(O,/obj/Incendio))
 			walk(O,0)
 			O.loc = null
 		else return ..()
@@ -1439,6 +1450,8 @@ mob/Player/Logout()
 		src = null
 		spawn()
 			tmpmob:ReturnToStart()
+	loc.loc.Exit(src)
+	loc.loc.Exited(src)
 	..()
 var/const
 	HOUSE_WARS = 1
@@ -3025,7 +3038,7 @@ obj/items
 							return
 
 						D.player1 = usr
-						D.player1.loc = t
+						D.player1:Transfer(t)
 						D.player1.dir = EAST
 						D.player1.movable = 1
 						range(9) << "[usr] enters the duel."
@@ -3035,7 +3048,7 @@ obj/items
 							return
 
 						D.player2 = usr
-						D.player2.loc = t
+						D.player2:Transfer(t)
 						D.player2.dir = WEST
 						D.player2.movable = 1
 						range(9) << "[usr] enters the duel."
@@ -3104,6 +3117,6 @@ obj/items
 					D.countdown = 5//input("Select count-down timer, for when both players have readied. (between 3 and 10 seconds)","Count-down Timer",D.countdown) as null|num
 					range(9) << "[usr] initiates a duel."
 					D.player1 = usr
-					D.player1.loc = t
+					D.player1:Transfer(t)
 					D.player1.dir = EAST
 					D.player1.movable = 1

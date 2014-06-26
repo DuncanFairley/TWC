@@ -18,18 +18,18 @@ turf
 		//icon_state = "red"
 		Entered(atom/movable/E)
 			if(dest)
-				if(ismob(E))
-					if(E:key)
-						var/atom/A = locate(dest) //can be some turf, or some obj
-						if(isobj(A))
-							E.loc = A.loc
-						else if(isturf(A))
-							E.loc = A
+				if(isplayer(E))
+					var/mob/Player/p = E
+					var/atom/A = locate(dest) //can be some turf, or some obj
+					if(isobj(A))
+						A = A.loc
+
 						//E.loc = locate(src.dest)
-						E:client.images = list()
-						E.loc.loc.Enter(E)
-						if(usr.classpathfinding)
-							usr.Class_Path_to()
+					p.Transfer(A)
+
+					p.client.images = list()
+					if(p.classpathfinding)
+						p.Class_Path_to()
 	destination
 		//layer = 5
 		//icon = 'x.dmi'
@@ -37,24 +37,25 @@ turf
 
 turf/gotoministry
 	Entered()
-		if(!ministrypw || ministryopen)
-			if(usr.name in ministrybanlist)
-				view(src) << "<b>Toilet</b>: <i>The Ministry of Magic is not currently open to you. Sorry!</i>"
+		if(usr)
+			if(!ministrypw || ministryopen)
+				if(usr.name in ministrybanlist)
+					view(src) << "<b>Toilet</b>: <i>The Ministry of Magic is not currently open to you. Sorry!</i>"
+				else
+					viewers() << "[usr] disappears."
+					var/obj/dest = locate("ministryentrance")
+					if(usr.flying)
+						var/mob/Player/user = usr
+						for(var/obj/items/wearable/brooms/Broom in user.Lwearing)
+							Broom.Equip(user,1)
+					for(var/client/C)
+						if(C.eye)
+							if(C.eye == usr && C.mob != usr)
+								C << "<b><font color = white>Your Telendevour wears off.</font></b>"
+								C.eye=C.mob
+					usr:Transfer(dest)
 			else
-				viewers() << "[usr] disappears."
-				var/obj/dest = locate("ministryentrance")
-				if(usr.flying)
-					var/mob/Player/user = usr
-					for(var/obj/items/wearable/brooms/Broom in user.Lwearing)
-						Broom.Equip(user,1)
-				for(var/client/C)
-					if(C.eye)
-						if(C.eye == usr && C.mob != usr)
-							C << "<b><font color = white>Your Telendevour wears off.</font></b>"
-							C.eye=C.mob
-				usr.loc = dest
-		else
-			view(src) << "<b>Toilet</b>: <i>The Ministry of Magic is not currently open to visitors. Sorry!</i>"
+				view(src) << "<b>Toilet</b>: <i>The Ministry of Magic is not currently open to visitors. Sorry!</i>"
 
 var/ministrypw = "ketchup"
 var/ministryopen = 0
