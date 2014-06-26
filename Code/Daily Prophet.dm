@@ -80,13 +80,13 @@ mob/GM/verb/Fire_DPSM()
 		dplist.Remove(M)
 		usr << infomsg("You have fired [M] from the Daily Prophet Staff.")
 		M << infomsg("You have been removed from the Daily Prophet Staff.")
-		src.verbs -= /mob/GM/verb/Hire_Reporter
-		src.verbs -= /mob/GM/verb/Edit_DP
-		src.verbs -= /mob/GM/verb/Clear_Stories
-		src.verbs -= /mob/GM/verb/New_Story
-		src.verbs -= /mob/GM/verb/Your_Job
-		src.verbs -= /mob/GM/verb/Fire_DPSM
-		src.verbs -= /mob/GM/verb/Draft
+		M.verbs -= /mob/GM/verb/Hire_Reporter
+		M.verbs -= /mob/GM/verb/Edit_DP
+		M.verbs -= /mob/GM/verb/Clear_Stories
+		M.verbs -= /mob/GM/verb/New_Story
+		M.verbs -= /mob/GM/verb/Your_Job
+		M.verbs -= /mob/GM/verb/Fire_DPSM
+		M.verbs -= /mob/GM/verb/Draft
 mob/GM/verb/Hire_Editor()
 		set category="DP"
 		var/mob/M = input("Who would you like to add as Daily Prophet Editor?") as null|mob in Players

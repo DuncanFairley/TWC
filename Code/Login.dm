@@ -2516,6 +2516,7 @@ mob/var/Tag=null
 mob/var/GMTag=null
 mob/var/HA
 mob/var/HDE=0
+mob/var/DJ=0
 
 obj/var/dontsave=0
 //others
