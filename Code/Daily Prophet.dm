@@ -49,8 +49,6 @@ var/dpheader = {"
 
 
 
-var/list/dplist = list()
-
 //mob/GM/verb
 //	New_Story(message as message)
 	//	set category = "DP"
@@ -61,53 +59,10 @@ mob/GM/verb/Clear_Stories()
 		set category = "DP"
 		DP = list()
 		usr<<"<b>All stories and headlines have been cleared."
-mob/GM/verb/Your_Job()
-		set category="DP"
-		set name = ""
-		usr<<browse(Yourjob)
-mob/GM/verb/Hire_Reporter()
-		set category="DP"
-		var/mob/M = input("Who would you like to add as a Daily Prophet Reporter?") as null|mob in Players
-		M.Rank="Daily Prophet Reporter"
-		M<<infomsg("[usr] chose you to be a Reporter for the Daily Prophet. See [usr] for your assignments.")
-		M.verbs += /mob/GM/verb/Your_Job
-		M<<browse(Yourjob)
-		dplist.Add(M.name)
-mob/GM/verb/Fire_DPSM()
-		set category = "DP"
-		var/mob/M = input("Who would you like to remove as a Daily Prophet Staff Member?") as null|anything in dplist
-		if(!M)return
-		dplist.Remove(M)
-		usr << infomsg("You have fired [M] from the Daily Prophet Staff.")
-		M << infomsg("You have been removed from the Daily Prophet Staff.")
-		M.verbs -= /mob/GM/verb/Hire_Reporter
-		M.verbs -= /mob/GM/verb/Edit_DP
-		M.verbs -= /mob/GM/verb/Clear_Stories
-		M.verbs -= /mob/GM/verb/New_Story
-		M.verbs -= /mob/GM/verb/Your_Job
-		M.verbs -= /mob/GM/verb/Fire_DPSM
-		M.verbs -= /mob/GM/verb/Draft
-mob/GM/verb/Hire_Editor()
-		set category="DP"
-		var/mob/M = input("Who would you like to add as Daily Prophet Editor?") as null|mob in Players
-		M.Rank="Daily Prophet Editor"
-		M.verbs += /mob/GM/verb/Hire_Reporter
-		M.verbs += /mob/GM/verb/Clear_Stories
-		M.verbs += /mob/GM/verb/Edit_DP
-		M.verbs += /mob/GM/verb/New_Story
-		M.verbs += /mob/GM/verb/Draft
-		M.verbs += /mob/GM/verb/Your_Job
-		M.verbs += /mob/GM/verb/Fire_DPSM
-		dplist.Add(M.name)
-		M<<infomsg("You have been hired by [usr] to be a Daily Prophet Editor!")
-		M<<browse(Yourjob)
+
+
 var/list
 	DP = new
-
-
-
-var
-	Yourjob="<body bgcolor=blue> <p align=center><font color=white><font size=3><u>Your Job as a Daily Prophet Staff Member</u> <p> <font size=2>Your job as DPSM, is to report news and everything interesting that happens to the world. So everyone knows what's going on. If someone gets sent to Azkaban, do a story on it! Keep the readers entertained, and keep them up on events happening around the game.  You don't need to report every thing such as : So and So got muted today!  - That's not important.  Things that relate to the game are really wanted, if it has to do with real life, then please leave it out.<p>Editors/Story Creators - You are to write in the paper about events that the Reporters tell you, or the news you come across, yourself. <p>Reporters - Your job is to find out juicy news, like if someone got sent to Azkaban, you would report back to myself or an Editor and we will put it into the Prophet. <p>More verbs coming soon. I JUST thought of this and coded. Still in the works. Enjoy.  <p><font color=aqua>"
 
 mob
 	verb
