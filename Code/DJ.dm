@@ -3,6 +3,7 @@ var/list/DJs = list()
 mob/GM/verb/Hire_DJ(var/k as text)
 	set category = "DJ"
 	if(!k || k == "")return
+	k = ckey(k)
 	if(!DJs)
 		DJs = list()
 	DJs +=k
