@@ -52,6 +52,8 @@ proc
 		X["housepoints"] >> housepointsGSRH
 		X["dplastupdate"] >> dplastupdate
 		if(X["DJs"]) X["DJs"] >> DJs
+		if(X["DPEditors"]) X["DPEditors"] >> dp_editors
+		if(X["Stories"]) X["Stories"] >> stories
 		X["ministrybanlist"] >> ministrybanlist
 		X["housecupwinner"] >> housecupwinner
 		if(!ministrybanlist)
@@ -98,6 +100,8 @@ proc
 		var/savefile/X = new("players/World.sav")
 		//var/list/objs=list()
 		X["DJs"] << DJs
+		X["DPEditors"] << dp_editors
+		X["Stories"] << stories
 		X["DP"] << DP
 		X["housepoints"] << housepointsGSRH
 		X["dplastupdate"] << dplastupdate
