@@ -429,7 +429,7 @@ mob
 
 				Attack(mob/M)
 					..()
-					if(!fired)
+					if(!fired && target)
 						var/fire = 0
 						if(prob(40))
 							fire = 1
@@ -710,7 +710,7 @@ mob
 				Attack()
 					..()
 
-					if(!fired)
+					if(!fired && target)
 						var/d = get_dir(src, target)
 						if(!(d & (d - 1)))
 
