@@ -329,11 +329,38 @@ mob
 					level = 250
 
 				Basilisk
+					icon = 'bassy.dmi'
 					HPmodifier = 3
 					DMGmodifier = 3
 					MoveDelay = 3
 					level = 2000
 
+					Attack()
+						..()
+
+					Search()
+						Wander()
+						for(var/mob/Player/M in ohearers(src, Range))
+							if(M.loc.loc != src.loc.loc) continue
+							if(ignore && (M in ignore)) continue
+
+							if(!isPathBlocked(M, src, 1, src.density))
+								target = M
+								state  = HOSTILE
+
+								spawn()
+									var/time = 5
+									while(src && M == target && time > 0)
+										sleep(30)
+										world << time
+
+									if(M == target)
+										target = null
+										state = SEARCH
+
+								break
+							else
+								Ignore(M)
 
 					Blocked()
 						density = 0
