@@ -170,22 +170,23 @@ mob
 
 			proc/state()
 				var/lag = 10
-				switch(state)
-					if(INACTIVE)
-						lag = 40
-					if(WANDER)
-						Wander()
-						lag = 25
-					if(SEARCH)
-						Search()
-						lag = 15
-					if(HOSTILE)
-						Attack()
-						lag = MoveDelay
-					if(CONTROLLED)
-						BlindAttack()
-						lag = 11
-				spawn(lag) state()
+				while(src)
+					switch(state)
+						if(INACTIVE)
+							lag = 40
+						if(WANDER)
+							Wander()
+							lag = 25
+						if(SEARCH)
+							Search()
+							lag = 15
+						if(HOSTILE)
+							Attack()
+							lag = MoveDelay
+						if(CONTROLLED)
+							BlindAttack()
+							lag = 11
+					sleep(max(1, lag))
 			var/tmp/mob/target
 
 
@@ -321,85 +322,56 @@ mob
 					ShouldIBeActive()
 
 				Death()
-				//	spawn(1) del src
 
-				Snake  //SUMMONED
+				Snake
 					icon = 'Animagus.dmi'
 					icon_state="Snake"
-					HP = 300
-					MHP = 500
-					Dmg = 125
-					Def=60
 					level = 250
+
+				Basilisk
+					HPmodifier = 3
+					DMGmodifier = 3
+					MoveDelay = 3
+					level = 2000
+
+
+					Blocked()
+						density = 0
+						var/turf/t = get_step_to(src, target, 1)
+						if(t)
+							Move(t)
+						else
+							..()
+						density = 1
 
 			Rat
 				icon = 'monsters.dmi'
 				icon_state="demon rat"
-				gold = 12
-				HP = 180
-				MHP = 180
-				Dmg = 60
-				Expg = 36
 				ratpoints = 1
 				level = 10
 			Demon_Rat
 				icon = 'monsters.dmi'
 				icon_state="demon rat"
-				gold = 24
-				HP = 360
-				MHP = 360
-				Dmg = 120
-				Expg = 37
 				level = 50
 			Pixie
 				icon = 'monsters2.dmi'
 				icon_state="pixie"
-				gold = 60
-				HP = 900
-				MHP = 900
-				Def=0
-				Dmg = 300
-				Expg = 65
 				level = 100
 			Dog
 				icon = 'NewMobs.dmi'
 				icon_state="dog"
-				gold = 42
-				HP = 630
-				MHP = 630
-				Def = 0
-				Dmg = 210
-				Expg = 40
 				level = 150
 			Snake
 				icon = 'Animagus.dmi'
 				icon_state="Snake"
-				HP = 540
-				MHP = 540
-				Dmg = 180
-				gold = 36
-				Def=60
-				Expg = 39
 				level = 200
 			Wolf
 				icon = 'monsters2.dmi'
 				icon_state="wolf"
-				gold = 51
-				HP = 765
-				MHP = 765
-				Def=0
-				Dmg = 255
-				Expg = 50
 				level = 300
 			Acromantula
 				icon = 'monster.dmi'
 				icon_state="Spider"
-				gold = 90
-				HP = 1350
-				MHP = 1350
-				Dmg = 450
-				Def=15
-				Expg = 76
 				level = 700
 			Floating_Eye
 				icon = 'monsters.dmi'
@@ -476,87 +448,33 @@ mob
 			Troll
 				icon = 'monsters2.dmi'
 				icon_state="troll"
-				gold = 175
-				HP = 3000
-				MHP = 3000
-				Def=10
-				Dmg = 930
-				Expg = 310
 				level = 350
 			House_Elf
 				icon = 'monsters2.dmi'
 				icon_state="houseelf"
-				gold = 0
-				HP = 200
-				MHP = 200
-				Def=10
-				Dmg = 150
-				Expg = 0
 				level = 5
 			Stone_Golem
 				icon = 'monsters.dmi'
 				icon_state="stonegolem"
-				gold = 75
-				HP = 500
-				MHP = 500
-				Dmg = 200
-				Def=20
-				Expg = 75
 				level = 6
 			Dementor
 				icon = 'monsters2.dmi'
 				icon_state="Dementor"
-				gold = 255
-				HP = 3825
-				MHP = 3825
-				Dmg = 1275
-				Def=29
-				Expg = 840
 				level = 750
 			Dementor_ /////SUMMONED/////
 				icon = 'monsters2.dmi'
 				icon_state="Dementor"
-				gold = 0
-				Expg = 0
-				HP = 500
-				MHP = 500
-				Dmg = 200
-				Def=20
 				level = 300
 			Stickman_ ///SUMMONED///
 				icon = 'stickman.dmi'
-		/*		gold = 0
-				HP = 50
-				MHP = 50
-				Def=0
-				Dmg = 50
-				Expg = 10
-				level = 2*/
-				gold = 175
-				HP = 3000
-				MHP = 3000
-				Def=10
-				Dmg = 930
-				Expg = 310
 				level = 500
 			Bird_    ///SUMMONED///
 				icon = 'monsters2.dmi'
 				icon_state="bird"
-				gold = 0
-				HP = 10000
-				MHP = 500
-				Dmg = 200
-				Def=20
 				level = 6
 			Fire_Bat
 				icon = 'monsters.dmi'
 				icon_state="firebat"
-				gold = 111
-				HP = 1667
-				MHP = 1667
-				Dmg = 555
-				Def=35
-				Expg = 89
 				level = 400
 				var/tmp/fired = 0
 				AttackDelay = 3
@@ -589,12 +507,6 @@ mob
 			Fire_Golem
 				icon = 'monsters.dmi'
 				icon_state="firegolem"
-				gold = 132
-				HP = 1980
-				MHP = 1980
-				Dmg = 660
-				Def=30
-				Expg = 115
 				level = 450
 				AttackDelay = 3
 				var/tmp/fired = 0
@@ -629,8 +541,6 @@ mob
 				icon='NewMobs.dmi'
 				icon_state="slug"
 				monster=1
-				HP=25
-				gold=0
 				player=0
 				New()
 					move()
@@ -643,57 +553,24 @@ mob
 			ArchAngel
 				icon = 'monsters.dmi'
 				icon_state="archangel"
-				gold = 189
-				HP = 2835
-				MHP = 2835
-				Dmg = 945
-				Def=95
-				Expg = 420
 				level = 500
 			Water_Elemental
 				icon = 'monster.dmi'
 				icon_state="water elemental"
-				gold = 195
-			//	HP = 2925
-				//MHP = 2925
-				//Dmg = 300//975
-				//Def=80
-				Expg = 510
 				level = 550
 			Fire_Elemental
 				icon = 'monster.dmi'
 				icon_state="fire elemental"
-				gold = 204
-				HP = 3060
-				MHP = 3060
-				Dmg = 1020
-				Def=80
-				Expg = 530
 				level = 600
 			Wyvern
 				icon = 'monster.dmi'
 				icon_state="wyvern"
-				gold = 222
-				HP = 3330
-				MHP = 3330
-				Dmg = 1110
-				Def=80
-				Expg = 620
 				level = 650
-				monster = 1
-				NPC = 0
 			Basilisk
 				icon = 'bassy.dmi'
-				gold = 6000
-				HP = 90000
-				MHP = 90000
-				Dmg = 30000
-				Def= 8500
-				Expg = 12000
 				level = 2000
 				HPmodifier = 3
 				DMGmodifier = 3
-
 				MoveDelay = 3
 
 				var/tmp/fired = 0
