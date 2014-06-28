@@ -4,7 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-var/list/DJs = list()
+var/list/DJs
 
 mob/GM/verb/Hire_DJ(var/k as text)
 	set category = "DJ"
@@ -12,7 +12,7 @@ mob/GM/verb/Hire_DJ(var/k as text)
 	k = ckey(k)
 	if(!DJs)
 		DJs = list()
-	DJs +=k
+	DJs += k
 	src << infomsg("You hired [k].")
 
 	for(var/mob/Player/p in Players)
@@ -43,3 +43,22 @@ proc/isDJ(mob/Player/p)
 		p.verbs -= /mob/GM/verb/Prize_Draw
 		p.verbs -= /mob/GM/verb/Hire_DJ
 		p.verbs -= /mob/GM/verb/Fire_DJ
+
+
+mob/GM/verb/Prize_Draw()
+	set category = "DJ"
+	var/txt = input("Enter the names going into the draw, seperating them so that there's one name on each line.") as null|message
+	if(!txt)return
+	var/txt_list = dd_text2list(txt, "\n")
+
+	switch(alert("Would you like to display the list?", "Prize Draw", "Yes", "No"))
+		if("Yes")
+			hearers(client.view) << "<font color='#DF0101' size='3' face='Comic Sans MS'>The list contains:\n[txt]</font>"
+	DRAW
+	var/winner = pick(txt_list)
+	switch(alert("The magical box of Murra-Awesome draws the name: [winner]", "Prize Draw", "Redraw", "Announce", "Cancel"))
+		if("Redraw")
+			goto DRAW
+		if("Announce")
+			hearers(client.view) << "<font color='#DF0101' size='3' face='Comic Sans MS'>[winner] was picked!</font>"
+			goto DRAW
