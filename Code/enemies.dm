@@ -33,6 +33,23 @@ obj/statues
 	white_cat/icon_state = "whitecat"
 	dog/icon_state = "dog"
 
+proc
+	isPathBlocked(mob/source, mob/target, dist=1, dense_override=0)
+		if(!source.density && !dense_override) return 0
+
+		var/obj/o = new (source.loc)
+		o.density = 1
+
+		var/turf/t = get_step_to(o, target, dist)
+
+		while(t)
+			o.Move(t)
+			t = get_step_to(o, target, dist)
+		if(!t && get_dist(o, target) > dist)
+			o.loc = null
+			return 1
+		o.loc = null
+		return 0
 area
 	newareas
 		var/tmp/active = 0
@@ -130,6 +147,7 @@ mob
 
 				tmp
 					state = WANDER
+					list/ignore
 
 				Range = 10
 				MoveDelay = 5
@@ -176,10 +194,23 @@ mob
 				Search()
 					Wander()
 					for(var/mob/Player/M in ohearers(src, Range))
-						if(M.loc.loc == src.loc.loc && get_step_to(M, src, 1))
+						if(M.loc.loc != src.loc.loc) continue
+						if(ignore && (M in ignore)) continue
+
+						if(!isPathBlocked(M, src, 1, src.density))
 							target = M
 							state  = HOSTILE
 							break
+						else
+							if(!ignore) ignore = list()
+							ignore += M
+							spawn(50)
+								if(M && ignore)
+									ignore -= M
+									if(ignore.len == 0)
+										ignore = null
+								else
+									ignore = null
 
 				Wander()
 					step_rand(src)
@@ -633,6 +664,8 @@ mob
 				HPmodifier = 3
 				DMGmodifier = 3
 
+				var/tmp/fired = 0
+
 				Blocked()
 					density = 0
 					var/turf/t = get_step_to(src, target, 1)
@@ -641,6 +674,24 @@ mob
 					else
 						..()
 					density = 1
+
+				Attack()
+					..()
+
+					if(!fired)
+						var/d = get_dir(src, target)
+						if(!(d & (d - 1)))
+
+							fired = 1
+							spawn(rand(50,150)) fired = 0
+
+							var/mob/M = target
+							M.movable    = 1
+							M.icon_state = "stone"
+							spawn(rand(10,30))
+								if(M && M.movable)
+									M.movable    = 0
+									M.icon_state = ""
 
 mob
 	Dog
