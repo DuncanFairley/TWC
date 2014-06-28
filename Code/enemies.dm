@@ -202,18 +202,21 @@ mob
 							state  = HOSTILE
 							break
 						else
-							if(!ignore) ignore = list()
-							ignore += M
-							spawn(50)
-								if(M && ignore)
-									ignore -= M
-									if(ignore.len == 0)
-										ignore = null
-								else
-									ignore = null
+							Ignore(M)
 
 				Wander()
 					step_rand(src)
+
+				Ignore(mob/M)
+					if(!ignore) ignore = list()
+					ignore += M
+					spawn(50)
+						if(M && ignore)
+							ignore -= M
+							if(ignore.len == 0)
+								ignore = null
+						else
+							ignore = null
 
 			proc/ReturnToStart()
 				state = INACTIVE
@@ -295,6 +298,41 @@ mob
 					sleep(AttackDelay)
 
 //////Monsters///////
+
+			Summoned
+				state = SEARCH
+				New()
+					Dmg = round(DMGmodifier * ((src.level -1) + 5))
+					MHP = round(HPmodifier * (4 * (src.level - 1) + 200))
+					gold = round(src.level / 2)
+					Expg = round(src.level * 1.3)
+					HP = MHP
+					spawn(1)
+						state()
+
+				ShouldIBeActive()
+					if(!loc)
+						state = INACTIVE
+						return 0
+
+					state = SEARCH
+					return 1
+
+				ReturnToStart()
+					ShouldIBeActive()
+
+				Death()
+				//	spawn(1) del src
+
+				Snake  //SUMMONED
+					icon = 'Animagus.dmi'
+					icon_state="Snake"
+					HP = 300
+					MHP = 500
+					Dmg = 125
+					Def=60
+					level = 250
+
 			Rat
 				icon = 'monsters.dmi'
 				icon_state="demon rat"
@@ -344,14 +382,6 @@ mob
 				Def=60
 				Expg = 39
 				level = 200
-			Snake_  //SUMMONED
-				icon = 'Animagus.dmi'
-				icon_state="Snake"
-				HP = 300
-				MHP = 500
-				Dmg = 125
-				Def=60
-				level = 250
 			Wolf
 				icon = 'monsters2.dmi'
 				icon_state="wolf"

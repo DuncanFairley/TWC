@@ -337,6 +337,9 @@ mob/Spells/verb/Repellium()
 		for(var/mob/NPC/Enemies/Snake/S in view())
 			S.loc = locate(1,1,1)
 			spawn()Respawn(S)
+		for(var/mob/NPC/Enemies/Summoned/Snake/S in view())
+			S.loc = locate(1,1,1)
+			spawn()Respawn(S)
 		hearers()<<"Bright white light shoots out of [usr]'s wand."
 		usr.overlays-=image('expecto.dmi')
 
@@ -368,8 +371,8 @@ mob/Spells/verb/Serpensortia()
 			return
 		hearers()<<"A Red-Spotted Green Snake, emerges from the wand."
 		hearers()<<"<b>Snake</b>: Hissssssss!"
-		var/mob/Snake_/D = new /mob/Snake_
-		D:loc = locate(src.x,src.y-1,src.z)
+		var/mob/NPC/Enemies/Summoned/Snake/D = new (locate(src.x,src.y-1,src.z))
+		D.Ignore(src)
 		flick('mist.dmi',D)
 		src = null
 		spawn(600)
