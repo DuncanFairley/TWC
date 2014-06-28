@@ -432,9 +432,9 @@ mob
 					..()
 					if(!fired)
 						var/fire = 0
-						if(prob(30))
+						if(prob(40))
 							fire = 1
-						else if(prob(20))
+						else if(prob(10))
 							fire = 2
 						if(fire)
 							fired = 1
@@ -443,9 +443,10 @@ mob
 							var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 							if(fire == 1)
 								var/tmp_d = dir
+								var/dmg = round(Dmg * 1.5 + rand(-4,8))
 								for(var/d in dirs)
 									dir = d
-									castproj(0, 'attacks.dmi', "crucio2", Dmg + rand(-4,8), "death ball", 0)
+									castproj(0, 'attacks.dmi', "crucio2", dmg, "death ball", 0, 1)
 								dir = tmp_d
 							else
 								for(var/d in dirs)
