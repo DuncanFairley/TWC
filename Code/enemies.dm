@@ -170,23 +170,22 @@ mob
 
 			proc/state()
 				var/lag = 10
-				while(src)
-					switch(state)
-						if(INACTIVE)
-							lag = 40
-						if(WANDER)
-							Wander()
-							lag = 25
-						if(SEARCH)
-							Search()
-							lag = 15
-						if(HOSTILE)
-							Attack()
-							lag = MoveDelay
-						if(CONTROLLED)
-							BlindAttack()
-							lag = 11
-					sleep(lag)
+				switch(state)
+					if(INACTIVE)
+						lag = 40
+					if(WANDER)
+						Wander()
+						lag = 25
+					if(SEARCH)
+						Search()
+						lag = 15
+					if(HOSTILE)
+						Attack()
+						lag = MoveDelay
+					if(CONTROLLED)
+						BlindAttack()
+						lag = 11
+				spawn(lag) state()
 			var/tmp/mob/target
 
 
@@ -694,6 +693,8 @@ mob
 				level = 2000
 				HPmodifier = 3
 				DMGmodifier = 3
+
+				MoveDelay = 3
 
 				var/tmp/fired = 0
 
