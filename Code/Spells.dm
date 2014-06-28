@@ -143,8 +143,11 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 				new/mob/Slug(M.loc)
 				if(M.MP < 0)
 					M.MP = 0
+					M.updateHPMP()
 					M << errormsg("You feel drained from the slug vomiting curse.")
 					break
+				else
+					M.updateHPMP()
 				slugs--
 				sleep(rand(20,90))
 
@@ -326,22 +329,37 @@ mob/Spells/verb/Morsmordre()
 				world<<"The Dark Mark fades back into the clouds."
 mob/Spells/verb/Repellium()
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		usr.overlays+=image('expecto.dmi')
+	if(canUse(src,cooldown=/StatusEffect/UsedRepel,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
+		overlays+=image('expecto.dmi')
 		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>Repellium!"
-		sleep(20)
-		for(var/mob/Snake/D in view())
-			spawn()Respawn(D)
-		for(var/mob/Snake_/D in view())
-			spawn()Respawn(D)
-		for(var/mob/NPC/Enemies/Snake/S in view())
-			S.loc = locate(1,1,1)
-			spawn()Respawn(S)
-		for(var/mob/NPC/Enemies/Summoned/Snake/S in view())
-			S.loc = locate(1,1,1)
-			spawn()Respawn(S)
+		MP -= 100
+		updateHPMP()
+		light(src, 3, 300)
+
+		new /StatusEffect/UsedRepel(src, 90)
+		new /StatusEffect/DisableProjectiles(src, 30)
+		var/time = 75
+		while(time > 0)
+			for(var/mob/NPC/Enemies/D in ohearers(3, src))
+				step_away(D, src)
+			time--
+			sleep(4)
+
 		hearers()<<"Bright white light shoots out of [usr]'s wand."
-		usr.overlays-=image('expecto.dmi')
+		overlays-=image('expecto.dmi')
+
+atom/proc/light(atom/a, range=3, ticks=100, state = "light")
+	var/obj/light = new
+	var/image/img = image('black50.dmi',state)
+	for(var/px = -3 to 3)
+		for(var/py = -3 to 3)
+			img.pixel_x = px * 32
+			img.pixel_y = py * 32
+			light.overlays += img
+
+	overlays += light
+	spawn(ticks) overlays -= light
+
 
 mob/Spells/verb/Basilio()
 	set category = "Staff"
@@ -756,11 +774,11 @@ mob/Spells/verb/Chaotica()
 	var/dmg = round(usr.level * 1.1)
 	if(dmg<20)dmg=20
 	else if(dmg>2000)dmg = 2000
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
 		castproj(30,'misc.dmi',"black",dmg,"chaotica")
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
 		HP -= 30
 		Death_Check()
 		castproj(0,'Aqua Eructo.dmi',"",usr.Def+(usr.extraDef/3),"aqua eructo")
@@ -769,19 +787,19 @@ mob/Spells/verb/Inflamari()
 	var/dmg = round(usr.level * 0.9)
 	if(dmg<10)dmg=10
 	else if(dmg>1000)dmg = 1000
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
 		castproj(0,'attacks.dmi',"fireball",dmg,"inflamari")
 mob/Spells/verb/Glacius()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
 		castproj(10,'attacks.dmi',"iceball",usr.Dmg+usr.extraDmg,"glacius")
 mob/Spells/verb/Waddiwasi()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
 		castproj(10,'attacks.dmi',"gum",usr.Dmg+usr.extraDmg,"waddiwasi")
 mob/Spells/verb/Tremorio()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
 		castproj(5,'attacks.dmi',"quake",usr.Dmg+usr.extraDmg,"tremorio")
 mob/Spells/verb/Furnunculus(mob/M in oview()&Players)
 	set category="Spells"
@@ -1011,7 +1029,7 @@ mob/Spells/verb/Muffliato(mob/M in view()&Players)
 				M.muff=0
 mob/Spells/verb/Incindia()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedIncindia,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=400,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedIncindia,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=400,againstocclumens=1,projectile=1))
 		hearers()<<"[src] raises \his wand into the air. <font color=red><b><i>INCINDIA!</b></i>"
 		usr.MP-=400
 		usr.updateHPMP()
@@ -1021,7 +1039,7 @@ mob/Spells/verb/Incindia()
 		var/t = dir
 		for(var/d in dirs)
 			dir = d
-			castproj(0, 'attacks.dmi', "fireball", damage, "Incindia", 0)
+			castproj(0, 'attacks.dmi', "fireball", damage, "Incindia", 0, 1)
 		dir = t
 mob/Spells/verb/Replacio(mob/M in oview()&Players)
 	set category="Spells"
@@ -1790,11 +1808,11 @@ mob/var/Zitt
 var/safemode = 1
 mob/var/tmp/lastproj = 0
 mob
-	proc/castproj(MPreq,icon,icon_state,damage,name,cd=1)
+	proc/castproj(MPreq,icon,icon_state,damage,name,cd=1,lag=2)
 		if(cd && (world.time - lastproj) < 2) return
 		lastproj = world.time
 		var/obj/projectile/P = new(src.loc,src.dir,src,icon,icon_state,damage,name)
-		P.shoot()
+		P.shoot(lag)
 		if(client)
 			//Used in fire bats and fire golems as well
 			src.MP -= MPreq
@@ -1833,8 +1851,8 @@ obj
 				src.loc = null
 			//src = null
 		proc
-			shoot()
-				walk(src,dir,2)
+			shoot(lag=2)
+				walk(src,dir,lag)
 				//sleep(20)
 				//src.loc = null
 		var/player=0
