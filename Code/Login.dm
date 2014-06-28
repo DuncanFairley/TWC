@@ -787,25 +787,6 @@ turf
 			flick('mist.dmi',usr)
 			usr << "You step into the fireplace, and are wooshed away in a blaze of green fire."
 
-mob/GM/verb/Prize_Draw()
-	set category = "DJ"
- var/txt = input("Enter the names going into the draw, seperating them so that there's one name on each line.") as null|message
- if(!txt)return
- var/txt_list = dd_text2list(txt, "\n")
-
- switch(alert("Would you like to display the list?", "Prize Draw", "Yes", "No"))
- 	if("Yes")
- 		hearers(client.view) << "<font color='#DF0101' size='3' face='Comic Sans MS'>The list contains:\n[txt]</font>"
- DRAW
- var/winner = pick(txt_list)
- switch(alert("The magical box of Murra-Awesome draws the name: [winner]", "Prize Draw", "Redraw", "Announce", "Cancel"))
-  if("Redraw")
-   goto DRAW
-  if("Announce")
-   hearers(client.view) << "<font color='#DF0101' size='3' face='Comic Sans MS'>[winner] was picked!</font>"
-   goto DRAW
-
-
 world
 	hub = "TheWizardsChronicles.TWC"
 	name = "Harry Potter: The Wizards' Chronicles"
