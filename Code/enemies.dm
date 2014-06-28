@@ -33,6 +33,27 @@ obj/statues
 	white_cat/icon_state = "whitecat"
 	dog/icon_state = "dog"
 
+proc
+	getStepTo(mob/source, mob/target, dist)
+		var/dir  = get_dir(source, target)
+		var/turf/t = get_step(source, dir)
+		var/i = 1
+		var/d = dir
+		while(isBlocked(t))
+			d = turn(dir, 45 * i)
+			i *= -1
+			if(i > 0)
+				i++
+			else if(i == -4) return null
+			t = get_step(source, d)
+		return t
+
+
+	isBlocked(turf/t)
+		if(t.density) return 1
+		for(var/atom/a in t)
+			if(a.density) return 1
+		return 0
 area
 	newareas
 		var/tmp/active = 0
@@ -176,7 +197,7 @@ mob
 				Search()
 					Wander()
 					for(var/mob/Player/M in ohearers(src, Range))
-						if(M.loc.loc == src.loc.loc && get_step_to(M, src, 1))
+						if(M.loc.loc == src.loc.loc && getStepTo(M, src, 1))
 							target = M
 							state  = HOSTILE
 							break
