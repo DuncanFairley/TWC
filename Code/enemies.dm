@@ -664,6 +664,8 @@ mob
 				HPmodifier = 3
 				DMGmodifier = 3
 
+				var/tmp/fired = 0
+
 				Blocked()
 					density = 0
 					var/turf/t = get_step_to(src, target, 1)
@@ -672,6 +674,24 @@ mob
 					else
 						..()
 					density = 1
+
+				Attack()
+					..()
+
+					if(!fired)
+						var/d = get_dir(src, target)
+						if(!(d & (d - 1)))
+
+							fired = 1
+							spawn(rand(50,150)) fired = 0
+
+							var/mob/M = target
+							M.movable    = 1
+							M.icon_state = "stone"
+							spawn(rand(10,30))
+								if(M && M.movable)
+									M.movable    = 0
+									M.icon_state = ""
 
 mob
 	Dog
