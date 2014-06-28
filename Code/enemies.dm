@@ -34,25 +34,21 @@ obj/statues
 	dog/icon_state = "dog"
 
 proc
-	getStepTo(mob/source, mob/target)
-		var/dir  = get_dir(source, target)
-		var/turf/t = get_step(source, dir)
-		var/i = 1
-		var/d = dir
-		while(isBlocked(t) && !source.density)
-			d = turn(dir, 45 * i)
-			i *= -1
-			if(i > 0)
-				i++
-			else if(i == -4) return null
-			t = get_step(source, d)
-		return t
+	isPathBlocked(mob/source, mob/target, dist=1, dense_override=0)
+		if(!source.density && !dense_override) return 0
 
+		var/obj/o = new (source.loc)
+		o.density = 1
 
-	isBlocked(turf/t)
-		if(t.density) return 1
-		for(var/atom/a in t)
-			if(a.density) return 1
+		var/turf/t = get_step_to(o, target, dist)
+
+		while(t)
+			o.Move(t)
+			t = get_step_to(o, target, dist)
+		if(!t && get_dist(o, target) > dist)
+			o.loc = null
+			return 1
+		o.loc = null
 		return 0
 area
 	newareas
@@ -151,6 +147,7 @@ mob
 
 				tmp
 					state = WANDER
+					list/ignore
 
 				Range = 10
 				MoveDelay = 5
@@ -197,10 +194,23 @@ mob
 				Search()
 					Wander()
 					for(var/mob/Player/M in ohearers(src, Range))
-						if(M.loc.loc == src.loc.loc && getStepTo(M, src))
+						if(M.loc.loc != src.loc.loc) continue
+						if(ignore && (M in ignore)) continue
+
+						if(!isPathBlocked(M, src, 1, src.density))
 							target = M
 							state  = HOSTILE
 							break
+						else
+							if(!ignore) ignore = list()
+							ignore += M
+							spawn(50)
+								if(M && ignore)
+									ignore -= M
+									if(ignore.len == 0)
+										ignore = null
+								else
+									ignore = null
 
 				Wander()
 					step_rand(src)
