@@ -34,12 +34,12 @@ obj/statues
 	dog/icon_state = "dog"
 
 proc
-	getStepTo(mob/source, mob/target, dist)
+	getStepTo(mob/source, mob/target)
 		var/dir  = get_dir(source, target)
 		var/turf/t = get_step(source, dir)
 		var/i = 1
 		var/d = dir
-		while(isBlocked(t))
+		while(isBlocked(t) && !source.density)
 			d = turn(dir, 45 * i)
 			i *= -1
 			if(i > 0)
@@ -197,7 +197,7 @@ mob
 				Search()
 					Wander()
 					for(var/mob/Player/M in ohearers(src, Range))
-						if(M.loc.loc == src.loc.loc && getStepTo(M, src, 1))
+						if(M.loc.loc == src.loc.loc && getStepTo(M, src))
 							target = M
 							state  = HOSTILE
 							break
