@@ -154,6 +154,8 @@ mob/Player/Topic(href,href_list[])
 		//<a href='?src=\ref[src];action=teleport;x=[killer.x];y=[killer.y];z=[killer.z]'>Teleport</a>
 		if("view_changelog")
 			src << link("http://wizardschronicles.com/?ver=[VERSION]")
+		if("daily_prophet")
+			src:Daily_Prophet()
 		if("arena_leave")
 			if(currentArena)
 				if(src in currentArena.players)
@@ -434,7 +436,7 @@ mob/Player/verb/PM(var/p in Players())
 		var/mob/Player/Y = src
 		var/atom/movable/PM/pm = new /atom/movable/PM("Subject","Body","[formatName(Y)]","[formatName(M)]")
 		pm.body = input("Input the main text of the Private Message being sent to [formatName(M)]") as message|null
-		if(!Y.curPM.body)return
+		if(!pm.body)return
 		Y.curPM = pm
 		src << link("byond://?src=\ref[src];action=pm_Send")
 
