@@ -34,25 +34,33 @@ obj/statues
 	dog/icon_state = "dog"
 
 proc
-	isPathBlocked(mob/source, mob/target, dist=1, dense_override=0)
-		if(!(source && source.loc && target && target.loc)) return 1
+	isPathBlocked(mob/source, mob/target, dist=1, dense_override=0, dist_limit=10)
+		if(!(source && source.loc)) return 1
+		if(!(target && target.loc)) return 1
 		if(!source.density && !dense_override) return 0
 
 		var/obj/o = new (source.loc)
 		o.density = 1
 
+		var/STEPS_LIMIT = 15
+
 		var/turf/t = get_step_to(o, target, dist)
-		var/steps_limit = 50
-		while(t && steps_limit > 0)
+		var/distance = get_dist(o, target)
+
+		for(var/steps = 0 to STEPS_LIMIT)
+			if(!t) break
+			if(distance <= dist_limit) break
+
 			o.Move(t)
-			t = get_step_to(o, target, dist)
-			steps_limit--
-		if(steps_limit <= 0)
-			world.log << "[time2text(world.timeofday)] - isPathBlocked - src:[source] - trgt:[target] (dist:[dist];dense:[dense_override])"
+			t        = get_step_to(o, target, dist)
+			distance = get_dist(o, target)
+
 		if(!t && get_dist(o, target) > dist)
 			o.loc = null
 			return 1
 		o.loc = null
+		if(distance > dist_limit)
+			return 1
 		return 0
 area
 	newareas
@@ -177,26 +185,28 @@ mob
 				while(src)
 					switch(state)
 						if(INACTIVE)
-							lag = 40
+							lag = 42
 						if(WANDER)
 							Wander()
-							lag = 25
+							lag = 27
 						if(SEARCH)
+							Wander()
+							sleep(MoveDelay)
 							Search()
-							lag = 15
+							lag = 17
 						if(HOSTILE)
 							Attack()
 							lag = MoveDelay
 						if(CONTROLLED)
 							BlindAttack()
-							lag = 11
-					sleep(max(1, lag))
+							lag = 12
+					if(lag <= 0) lag = 1
+					sleep(lag)
 			var/tmp/mob/target
 
 
 			proc
 				Search()
-					Wander()
 					for(var/mob/Player/M in ohearers(src, Range))
 						if(M.loc.loc != src.loc.loc) continue
 						if(ignore && (M in ignore)) continue
