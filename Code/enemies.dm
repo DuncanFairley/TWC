@@ -35,16 +35,20 @@ obj/statues
 
 proc
 	isPathBlocked(mob/source, mob/target, dist=1, dense_override=0)
+		if(!(source && source.loc && target && target.loc)) return 1
 		if(!source.density && !dense_override) return 0
 
 		var/obj/o = new (source.loc)
 		o.density = 1
 
 		var/turf/t = get_step_to(o, target, dist)
-
-		while(t)
+		var/steps_limit = 50
+		while(t && steps_limit > 0)
 			o.Move(t)
 			t = get_step_to(o, target, dist)
+			steps_limit--
+		if(steps_limit <= 0)
+			world.log << "[time2text(world.timeofday)] - isPathBlocked - src:[source] - trgt:[target] (dist:[dist];dense:[dense_override])"
 		if(!t && get_dist(o, target) > dist)
 			o.loc = null
 			return 1
