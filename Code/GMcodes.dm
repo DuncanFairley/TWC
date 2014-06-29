@@ -980,7 +980,7 @@ mob
 			set category = "Staff"
 			switch(input("Are you sure you'd like to shut down?","?")in list("Yes","No"))
 				if("Yes")
-					world << "<B><p align=center><font color=red><u>ATTENTION</u></font><p align=center><b>The Server is being shutdown termporarily.<p align=center><b><font color=blue>See you again soon!</font></b>"
+					world << "<B><p align=center><font color=red><u>ATTENTION</u></font><p align=center><b>The Server is being shutdown temporarily.<p align=center><b><font color=blue>See you again soon!</font></b>"
 					sleep(50)
 					del world
 				if("No")
