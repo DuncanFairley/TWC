@@ -51,7 +51,7 @@ proc
 			if(!t) break
 			if(distance <= dist_limit) break
 
-			o.Move(t)
+			o.loc    = t
 			t        = get_step_to(o, target, dist)
 			distance = get_dist(o, target)
 
