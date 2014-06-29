@@ -398,7 +398,7 @@ mob/Spells/verb/Serpensortia()
 			flick('mist.dmi',D)
 			if(D)
 				view(D)<<"The snake disappears."
-				del D
+				Respawn(D)
 mob/Spells/verb/Herbificus_Maxima()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
