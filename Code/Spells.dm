@@ -330,11 +330,10 @@ mob/Spells/verb/Morsmordre()
 mob/Spells/verb/Repellium()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedRepel,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
-		overlays+=image('expecto.dmi')
 		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>Repellium!"
 		MP -= 100
 		updateHPMP()
-		light(src, 3, 300)
+		light(src, 3, 300, "light")
 
 		new /StatusEffect/UsedRepel(src, 90)
 		new /StatusEffect/DisableProjectiles(src, 30)
@@ -344,9 +343,6 @@ mob/Spells/verb/Repellium()
 				step_away(D, src)
 			time--
 			sleep(4)
-
-		hearers()<<"Bright white light shoots out of [usr]'s wand."
-		overlays-=image('expecto.dmi')
 
 atom/proc/light(atom/a, range=3, ticks=100, state = "light")
 	var/obj/light = new
