@@ -330,11 +330,10 @@ mob/Spells/verb/Morsmordre()
 mob/Spells/verb/Repellium()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedRepel,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
-		overlays+=image('expecto.dmi')
 		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>Repellium!"
 		MP -= 100
 		updateHPMP()
-		light(src, 3, 300)
+		light(src, 3, 300, "light")
 
 		new /StatusEffect/UsedRepel(src, 90)
 		new /StatusEffect/DisableProjectiles(src, 30)
@@ -345,14 +344,12 @@ mob/Spells/verb/Repellium()
 			time--
 			sleep(4)
 
-		hearers()<<"Bright white light shoots out of [usr]'s wand."
-		overlays-=image('expecto.dmi')
-
 atom/proc/light(atom/a, range=3, ticks=100, state = "light")
 	var/obj/light = new
 	var/image/img = image('black50.dmi',state)
+	img.layer = 8
 	for(var/px = -range to range)
-		for(var/py = -3 to 3)
+		for(var/py = -range to range)
 			img.pixel_x = px * 32
 			img.pixel_y = py * 32
 			light.overlays += img
@@ -398,7 +395,7 @@ mob/Spells/verb/Serpensortia()
 			flick('mist.dmi',D)
 			if(D)
 				view(D)<<"The snake disappears."
-				del D
+				Respawn(D)
 mob/Spells/verb/Herbificus_Maxima()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
