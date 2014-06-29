@@ -352,7 +352,7 @@ mob
 									var/time = 5
 									while(src && M == target && time > 0)
 										sleep(30)
-										world << time
+										time--
 
 									if(M == target)
 										target = null
