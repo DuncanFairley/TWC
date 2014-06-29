@@ -779,6 +779,7 @@ obj/The_Dark_Mark
 	New()
 		..()
 		HP = rand(3,6)
+		light(src, 10, 600, "green")
 		spawn(605)
 			del src
 	var/tmp

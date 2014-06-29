@@ -347,8 +347,9 @@ mob/Spells/verb/Repellium()
 atom/proc/light(atom/a, range=3, ticks=100, state = "light")
 	var/obj/light = new
 	var/image/img = image('black50.dmi',state)
+	img.layer = 8
 	for(var/px = -range to range)
-		for(var/py = -3 to 3)
+		for(var/py = -range to range)
 			img.pixel_x = px * 32
 			img.pixel_y = py * 32
 			light.overlays += img
