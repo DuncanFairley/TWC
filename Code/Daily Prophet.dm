@@ -56,12 +56,12 @@ mob
 			usr << "<br><br><b>If you refer a new player to this game, 10% of any XP they earn will be awarded to you whenever you log in. In order to refer someone, have them visit<br>http://wizardschronicles.com/?ref=[ckey]<b><br>Then have them download and join the game. Once they gain XP, then Save (either manually or by logging out), a percentage of that XP will become available to you automatically when <b>you</b> log in.<br>"
 		Daily_Prophet()
 			set category = "Commands"
-			var/dphtml = dpheader
+			var/dphtml = ""
 			//for(var/i=DP.len, i>0, i--)
 			src:lastreadDP = world.realtime
 			for(var/i in DP)
-				dphtml += DP[i]
-				dphtml += "<br /><hr />"
+				dphtml = DP[i] + "<br /><hr />" + dphtml
+			dphtml = dpheader + dphtml
 			usr << browse(dphtml,"window=1;size=700x550")
 
 var/list
