@@ -148,7 +148,10 @@ obj
 					if(!editstory)return
 					var/changes = input("Make your changes below","Changes",DP[editstory]) as message|null
 					if(!changes)return
-					DP[editstory] = changes
+					if(lowertext(changes) == "delete")
+						DP -= editstory
+					else
+						DP[editstory] = changes
 
 		proc
 			edit_story(mob/Player/p, story/s)
