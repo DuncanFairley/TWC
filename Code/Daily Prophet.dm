@@ -72,6 +72,7 @@ obj
 	DailyProphet
 		icon = 'desk.dmi'
 		icon_state = "TD1"
+		density = 1
 		Click()
 			..()
 
