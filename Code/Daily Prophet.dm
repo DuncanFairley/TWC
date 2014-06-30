@@ -98,8 +98,11 @@ obj
 						k = ckey(k)
 						if(!dp_editors)
 							dp_editors = list()
-						dp_editors += k
-						usr << infomsg("You hired [k].")
+						if(k in dp_editors)
+							usr << infomsg("[k] is already hired.")
+						else
+							dp_editors += k
+							usr << infomsg("You hired [k].")
 					else if(i == "Fire")
 						var/k = input("Enter ckey/key", "Hire DP") as null|anything in dp_editors
 						if(!k)return
