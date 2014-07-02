@@ -190,10 +190,8 @@ mob
 							Wander()
 							lag = 27
 						if(SEARCH)
-							Wander()
-							sleep(MoveDelay)
 							Search()
-							lag = 17
+							lag = 15
 						if(HOSTILE)
 							Attack()
 							lag = MoveDelay
@@ -207,6 +205,7 @@ mob
 
 			proc
 				Search()
+					Wander()
 					for(var/mob/Player/M in ohearers(src, Range))
 						if(M.loc.loc != src.loc.loc) continue
 						if(ignore && (M in ignore)) continue
@@ -284,7 +283,7 @@ mob
 					ShouldIBeActive()
 					return
 
-				if(prob(15))
+				if(prob(20))
 					step_rand(src)
 					sleep(2)
 
@@ -293,6 +292,7 @@ mob
 					if(t)
 						Move(t)
 					else
+						step_rand(src)
 						Blocked()
 				else
 					var/dmg = Dmg+extraDmg+rand(0,4)
@@ -364,11 +364,11 @@ mob
 
 								spawn()
 									var/time = 5
-									while(src && M == target && time > 0)
+									while(src && state == HOSTILE && M == target && time > 0)
 										sleep(30)
 										time--
 
-									if(M == target)
+									if(M == target && state == HOSTILE)
 										target = null
 										state = SEARCH
 
@@ -421,7 +421,7 @@ mob
 				HPmodifier = 1.8
 				var/tmp/fired = 0
 				MoveDelay = 4
-				AttackDelay = 4
+				AttackDelay = 1
 
 				Search()
 					Wander()

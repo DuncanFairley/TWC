@@ -12,14 +12,18 @@ mob/GM/verb/Hire_DJ(var/k as text)
 	k = ckey(k)
 	if(!DJs)
 		DJs = list()
-	DJs += k
-	src << infomsg("You hired [k].")
 
-	for(var/mob/Player/p in Players)
-		if(p.ckey == k)
-			p << infomsg("You have been chosen as a DJ for TWC Radio.")
-			isDJ(p)
-			break
+	if(k in DJs)
+		usr << infomsg("[k] is already hired.")
+	else
+		DJs += k
+		src << infomsg("You hired [k].")
+
+		for(var/mob/Player/p in Players)
+			if(p.ckey == k)
+				p << infomsg("You have been chosen as a DJ for TWC Radio.")
+				isDJ(p)
+				break
 
 mob/GM/verb/Fire_DJ(var/k in DJs)
 	set category = "DJ"

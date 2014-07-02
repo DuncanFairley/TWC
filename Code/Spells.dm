@@ -551,6 +551,7 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 			src.client.perspective = EYE_PERSPECTIVE
 			selmonster.removeoMob = src
 			selmonster.state = selmonster.CONTROLLED
+			selmonster.target = null
 
 mob/Spells/verb/Dementia()
 	set category = "Spells"
