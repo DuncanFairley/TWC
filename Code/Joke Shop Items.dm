@@ -498,3 +498,52 @@ obj/Poop
 					Move(t_to)
 					sleep(1)
 
+
+
+obj/items/fireworks
+	icon = 'fireworks.dmi'
+
+	New()
+		..()
+		icon_state = pick(icon_states(src.icon))
+
+	Click()
+		if(src in usr)
+			spawn() boom(usr)
+			loc = null
+			usr:Resort_Stacking_Inv()
+		else
+			..()
+
+
+	proc
+		boom(atom/A)
+			var/list/dirs = list(EAST,WEST,NORTH,SOUTH,NORTHEAST,NORTHWEST,SOUTHEAST,SOUTHWEST)
+			for(var/i = 0 to rand(3,7))
+				var/obj/firework/f = new (A.loc)
+
+				var/d = pick(dirs)
+				dirs -= d
+
+				walk(f, d)
+
+				sleep(1)
+
+
+obj/firework
+
+	icon = 'lights.dmi'
+	density = 1
+
+	New()
+		..()
+
+		icon_state = pick(icon_states(src.icon))
+
+		spawn(rand(5,10))
+			density = 0
+			walk(src,0)
+			var/t = rand(50,100)
+			light(src, rand(2,4), rand(20,80), icon_state)
+			spawn(t) loc = null
+

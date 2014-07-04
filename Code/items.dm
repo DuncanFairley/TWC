@@ -2168,6 +2168,7 @@ obj/Flippendo
 	var/player=0
 	Bump(mob/M)
 		//if(M.monster||M.player)
+		if(!loc) return
 		if(istype(M,/obj/projectile/))
 			M.dir = turn(M.dir,pick(45,-45))
 			walk(M,M.dir,2)
