@@ -547,3 +547,8 @@ obj/firework
 			light(src, rand(2,4), rand(20,80), icon_state)
 			spawn(t) loc = null
 
+	Move()
+		..()
+		if(prob(20))
+			step_rand(src)
+
