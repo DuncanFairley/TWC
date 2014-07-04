@@ -758,6 +758,7 @@ mob
 
 		Host_HM_Class()
 			set category = "Teach"
+			set name = "Host GCOM Class"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named HM Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"HM_Class") as null|mob in world
 			if(!classdest) return
 			var/notes = input("Notes regarding class? (You're subbing for someone, etc.)") as text
@@ -768,7 +769,7 @@ mob
 			curClass = "HM Class West"
 			for(var/client/C)
 				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
-			world<<announcemsg("Head Master's All Subject class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			world<<announcemsg("General Course of Magic class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 		Host_COMC_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named COMC Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"COMC-Class") as null|mob in world
