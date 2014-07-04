@@ -124,6 +124,9 @@ mob
 				if(A.key&&A.Gm) A << "<b><u><font color=#FF14E0>[src] is warning [M]</font></u></b>"
 			var/Reason = input(src,"Why are you warning [M]?","Specify Why","Harming others within safe zones is not allowed. (Hogwarts and Diagon Alley)") as null|text
 			if(!Reason)return
+			if(!M)
+				src << errormsg("The person you tried to warn logged out, apply the warning when they log back in.")
+				return
 			Log_admin("[src] has warned [M] for \"[Reason]\"")
 			spawn()sql_add_plyr_log(M.ckey,"wa",Reason)
 			M<<"<p><font color=red>You have been issued a warning by [usr]. <p><b><font color=white>Reason: [Reason].</b></font> <p></font><font color=red>If you proceed in these actions, you could be Expelled/Booted/Muted or sent to Detention.</font></p>"

@@ -346,7 +346,7 @@ mob/Spells/verb/Repellium()
 
 atom/proc/light(atom/a, range=3, ticks=100, state = "light")
 	var/obj/light = new
-	var/image/img = image('black50.dmi',state)
+	var/image/img = image('lights.dmi',state)
 	img.layer = 8
 	for(var/px = -range to range)
 		for(var/py = -range to range)
@@ -551,6 +551,7 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 			src.client.perspective = EYE_PERSPECTIVE
 			selmonster.removeoMob = src
 			selmonster.state = selmonster.CONTROLLED
+			selmonster.target = null
 
 mob/Spells/verb/Dementia()
 	set category = "Spells"
