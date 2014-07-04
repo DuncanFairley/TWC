@@ -88,6 +88,7 @@
 #include "Code\Shops.dm"
 #include "Code\signs.dm"
 #include "Code\Spells.dm"
+#include "Code\Statues.dm"
 #include "Code\StatusEffects.dm"
 #include "Code\swapmaps.dm"
 #include "Code\Teach.dm"
