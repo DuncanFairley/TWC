@@ -785,8 +785,11 @@ obj/items/wearable/invisibility_cloak
 	showoverlay=0
 	desc = "This magical cloak renders the wearer invisible."
 	Equip(var/mob/Player/owner,var/overridetext=0)
-		if(owner.findStatusEffect(/StatusEffect/Decloaked) || owner.trnsed)
+		if(owner.findStatusEffect(/StatusEffect/Decloaked))
 			owner << errormsg("You are unable to cloak right now.")
+			return
+		if(owner.trnsed && !owner.derobe || (owner.derobe && owner.icon != 'Deatheater.dmi'))
+			owner << errormsg("You can't wear this while transfigured.")
 			return
 		if(locate(/obj/items/wearable/brooms) in owner.Lwearing)
 			owner << errormsg("Your cloak isn't big enough to cover you and your broom.")
