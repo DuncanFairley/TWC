@@ -240,7 +240,7 @@ obj/museum
 		robes = "MaleStaff"
 
 	Zachary_Lyons_AKA_Link
-		desc = "GCOM Professor. Past Charms, COMC, and Transfiguration. Previous Duel Instructor & Ravenclaw Prefect."
+		desc = "GCOM Professor. Past Charms, COMC, and Transfiguration Professor. Previous Duel Instructor & Ravenclaw Prefect."
 		robes = "MaleStaff"
 
 	Lady_Siren
