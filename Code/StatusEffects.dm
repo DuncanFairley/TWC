@@ -163,6 +163,7 @@ StatusEffect
 	Summoned
 	Decloaked
 	Knockedfrombroom
+	UsedFerula
 	UsedLevicorpus
 	UsedEvanesco
 	UsedEvanesca
