@@ -2085,7 +2085,11 @@ mob/proc/Death_Check(mob/killer = src)
 						killer<<infomsg("You knocked [src] out and gained [rndexp] exp.")
 						killer.LvlCheck()
 					else
-						rndexp = rndexp * rand(2,5)
+						if(!killer.findStatusEffect(/StatusEffect/KilledPlayer)) // prevents spam killing people for gold in short time
+							rndexp = rndexp * rand(2,5)
+							new /StatusEffect/KilledPlayer (killer, 30)
+						else
+							rndexp = round(rndexp * 0.4)
 						killer.gold += rndexp
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 				else
