@@ -1326,6 +1326,7 @@ mob/var/shortapparate = 0
 turf//client
 	DblClick()
 		if(usr.shortapparate)
+			if(usr.derobe || usr.aurorrobe)return
 			if(!density)// && get_dist(usr,src) <25)
 				flick('apparate.dmi',usr)
 				if(usr.density)
