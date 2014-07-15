@@ -864,7 +864,7 @@ mob
 			world<<announcemsg("Muggle Studies class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 
 		End_Floor_Guidence()
-			set category = "Staff"
+			set category = "Teach"
 			set name = "End Floor Guidance"
 			var/stillpathing = ""
 			for(var/mob/M in Players)
