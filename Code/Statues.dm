@@ -71,7 +71,7 @@ obj/museum
 		robes = "white"
 
 	Sylar
-		desc = "Headmaster of TWC."
+		desc = "Headmaster of TWC. Past Deputy Headmaster, Administrator, Chat Moderator. Previous GCOM, DADA, and Charms Professor."
 		robes = "orange"
 
 	Chrissy
