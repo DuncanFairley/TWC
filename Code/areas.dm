@@ -596,11 +596,7 @@ turf
 			Examine()
 				set src in oview(3)
 				usr << "A big ol' pile of barrels."
-
-
 obj
-
-
 	bigbluechair
 		name="Big Blue Chair"
 		icon='Thrones.dmi'
@@ -661,9 +657,6 @@ obj
 //AREAS
 
 mob/var/DuelRespawn
-
-area
-	OldAuror
 
 turf
 	Rabbit_Hole
@@ -820,31 +813,6 @@ turf
 					M.flying = 0
 				else
 					alert("A charm keeps you from going down the hole")
-
-area
-	Cave_entrance
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(16,23,3)
-
-
-
-
-
-area
-	To_Santa
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(74,3,7)
-
 area
 	From_Santa
 		Entered(mob/Player/M)
@@ -854,7 +822,6 @@ area
 				return
 			else
 				M.loc=locate(31,98,18)
-
 area
 	fromfred
 		Entered(mob/Player/M)
@@ -897,7 +864,6 @@ area
 				M.loc=locate(89,27,8)
 			else
 				M.loc=locate(30,12,8)
-
 area
 	fromauror
 		Entered(mob/Player/M)
@@ -907,7 +873,6 @@ area
 				return
 			else
 				M.loc=locate(87,69,22)
-
 area
 	From_DA
 		Entered(mob/Player/M)
@@ -937,73 +902,6 @@ area
 				return
 			else
 				M.loc=locate(45,82,26)
-
-area
-	Back_From_Quid
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(48,35,14)
-
-area
-	Gryff1
-		Entered(mob/Player/M)
-			if(quidditchmatch) if(quidditchmatch.gameon) return
-			if(istype(M, /mob/Player))
-				M.loc=locate(9,97,13)
-
-area
-	Raven1
-		Entered(mob/Player/M)
-			if(quidditchmatch) if(quidditchmatch.gameon) return
-			if(istype(M, /mob/Player))
-				M.loc=locate(12,57,13)
-
-area
-	Slyth1
-		Entered(mob/Player/M)
-			if(quidditchmatch) if(quidditchmatch.gameon) return
-			if(istype(M, /mob/Player))
-				M.loc=locate(83,62,13)
-
-area
-	Huffle1
-		Entered(mob/Player/M)
-			if(quidditchmatch) if(quidditchmatch.gameon) return
-			if(istype(M, /mob/Player))
-				M.loc=locate(47,97,13)
-
-area
-	Gryff2
-		Entered(mob/Player/M)
-			if(quidditchmatch) if(quidditchmatch.gameon) return
-			if(istype(M, /mob/Player))
-				M.loc=locate(65,63,14)
-
-area
-	Raven2
-		Entered(mob/Player/M)
-			if(quidditchmatch) if(quidditchmatch.gameon) return
-			if(istype(M, /mob/Player))
-				M.loc=locate(33,45,14)
-
-area
-	Slyth2
-		Entered(mob/Player/M)
-			if(quidditchmatch) if(quidditchmatch.gameon) return
-			if(istype(M, /mob/Player))
-				M.loc=locate(33,63,14)
-
-area
-	Huffle2
-		Entered(mob/Player/M)
-			if(quidditchmatch) if(quidditchmatch.gameon) return
-			if(istype(M, /mob/Player))
-				M.loc=locate(65,45,14)
-
 area
 	Desert
 		Entered(mob/Player/M)
@@ -1011,18 +909,6 @@ area
 				M.density = 0
 				M.Move(locate(rand(4,97),rand(4,97),4))
 				M.density = 1
-
-area
-	To_Owlery_Broom
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				if(M.flying==1)
-					M.flying=0
-					M.density=1
-					M.icon_state=""
-					M << "You land gently."
-				M.loc=locate(42,5,23)
-
 area
 	To_SecondfloorRaven
 		Entered(mob/Player/M)
@@ -1034,126 +920,11 @@ area
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
 				M.loc=locate(35,19,21)
-
-area
-	Ander_To
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(89,36,22)
-
-area
-	Ander_To2
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(91,3,23)
 area
 	Ander_Back
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
 				M.loc=locate(93,91,21)
-area
-	IanHouse2
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(86,2,13)
-area
-	IanHouse1
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(71,38,17)
-
-
-	Cave_exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(48,32,1)
-	cave_exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(51,79,4)
-	cave_entrance
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(69,14,3)
-
-	Volcano
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(19,9,8)
-	Volcano_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(56,84,9)
-	Ice_Cavern
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(50,2,14)
-	Ice_Cavern_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(45,20,13)
-
-	Zydoc_End
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(94,usr.y,11)
-	Zydoc_Land
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(7,usr.y,6)
-	Forest_End
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(7,usr.y,11)
-	Forest_Land
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(99,usr.y,12)
-	Ice_End
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(usr.x,7,11)
-	Ice_Land
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(usr.x,99,13)
-
-	Dark_Elf_KD
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(usr.x,6,17)
-	Dark_Elf_KD_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(usr.x,94,12)
-	Mine
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(27,11,16)
-	Mine_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(28,88,7)
-	Tunder_Path
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(usr.x,7,15)
-	Thunder_Path_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(usr.x,94,11)
-	Tunder_Field
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(usr.x,7,18)
-	Azkaban_Enter
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(58,1,25)
-	Sylar_Enter
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(75,11,1)
 	ShriekingShack_Enter
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
@@ -1162,24 +933,6 @@ area
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
 				M.loc=locate(11,89,15)
-
-
-	Scorpion_Cave
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(69,10,19)
-	Scorpion_Cave_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(16,70,18)
-	SilverbloodLevel2
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(19,89,2)
-	SilverbloodLevel1
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(32,22,2)
 	SilverbloodEnter
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
@@ -1188,40 +941,6 @@ area
 					M<<"You may not fly inside Silverblood."
 				else
 					M.loc=locate(24,2,2)
-	SilverbloodExit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(49,34,3)
-	SilverbloodGroundExit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(14,97,18)
-
-	Arena_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(50,1,15)
-	Battle_Area
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(92,1,16)
-	Battle_Area_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(1,21,15)
-
-	mainhall2
-		Entered(mob/Player/M)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(22,62,21)
-
-	Barn2
-		Entered(mob/Player/M)
-			M.loc=locate(48,2,21)
-
-
 	HMG
 
 
@@ -1241,20 +960,11 @@ area
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
 				M.loc=locate(41,99,4)
-	Archangel_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(usr.x,8,23)
 	CoS_Exit
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
 				M.loc=locate(63,52,22)
 				M<<"You climb back up the tunnel and into the Bathroom."
-
-	Ghoul_Area_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(8,usr.y,23)
 	DE_Enter
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
@@ -1276,23 +986,6 @@ area
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
 				M.loc=locate(41,62,21)
-
-area
-	Cata1_Enter
-		Entered(mob/Player/M)
-			if(!istype(M, /mob)) return
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(44,62,7)
-
-	Cata1_Return
-		Entered(mob/Player/M)
-			if(!istype(M, /mob)) return
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(9,71,21)
 
 mob
 	var

@@ -130,97 +130,6 @@ turf
 		density=1
 		icon_state="closed"
 		opacity=1
-	Gate
-		bumpable=1
-		door=1
-		icon='gate.dmi'
-		density=1
-		icon_state="closed"
-		opacity=1
-		pass=""
-	Rag_Door
-		icon='Door.dmi'
-		density=1
-		icon_state="never"
-		flyblock=1
-		opacity=0
-		verb
-			Examine()
-				set src in oview(3)
-				usr << "\nYou see a large black 'X' painted onto the door, and a small inscription saying 'Never Again'."
-	Iandoor
-		name = "Lord Xioshen's Door"
-		icon = 'Door.dmi'
-		flyblock=1
-		icon_state = "closed"
-		density = 1
-		opacity=1
-		pass=""
-		door=0
-		bumpable=0
-	Amberdoor
-		name = "Door"
-		icon = 'Door.dmi'
-		flyblock=1
-		icon_state = "closed"
-		density = 1
-		opacity=1
-		pass=""
-		door=0
-		bumpable=0
-	Diablodoor
-		name = "Door"
-		icon = 'Door.dmi'
-		flyblock=1
-		icon_state = "closed"
-		density = 1
-		opacity=1
-		pass=""
-		door=0
-		bumpable=0
-	AmberDiablodoor
-		name = "Door"
-		icon = 'Door.dmi'
-		flyblock=1
-		icon_state = "closed"
-		density = 1
-		opacity=1
-		pass=""
-		door=0
-		bumpable=0
-	Shiroudoor
-		name = "Wooden Door"
-		icon = 'Door.dmi'
-		flyblock=1
-		icon_state = "closed"
-		density = 1
-		opacity=1
-		pass=""
-		door=0
-		bumpable=0
-		Enter()
-			if(bumpable==0)
-				return 0
-			else return ..()
-	IanOfficeDoor
-		name = "Ian's Office Door"
-		flyblock=1
-		icon = 'Door.dmi'
-		icon_state = "closed"
-		density = 1
-		opacity=1
-		pass=""
-		door=0
-		bumpable=0
-	Voyager_Door
-		bumpable=1
-		flyblock=1
-		door=1
-		icon='ADoor.dmi'
-		density=1
-		icon_state="closed"
-		opacity=1
-		pass=""
 	Hogwarts_Stone_Wall
 		bumpable=0
 		opacity=0
@@ -294,38 +203,13 @@ turf
 	Duel_7
 		icon='DuelArena.dmi'
 		icon_state="d7"
-	Holoroom_Door
-		bumpable=1
-		door=0
-		icon='Door.dmi'
-		density=1
-		icon_state="closed"
-		opacity=1
-		pass=""
 turf
-
-	basementpole
-		icon='COMC Icons.dmi'
-		icon_state="pole"
-		density=1
-	basementrail
-		icon='COMC Icons.dmi'
-		icon_state="rail"
-		density=1
 	C2
 		icon='COMC Icons.dmi'
 		icon_state="C2"
 	C1
 		icon='COMC Icons.dmi'
 		icon_state="C1"
-	DarkAngelTop
-		icon='Objects.dmi'
-		icon_state="top"
-		density=1
-	DarkAngelBottom
-		icon='Objects.dmi'
-		icon_state="bottom"
-		density=1
 	darkstairs
 		icon='Turff.dmi'
 		icon_state="stairs"

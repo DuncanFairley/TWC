@@ -969,18 +969,6 @@ obj/Fireplace_H
 	density=1
 	accioable=0
 	dontsave=1
-obj/Piano
-	icon='misc.dmi'
-	icon_state="piano"
-	wlable=0
-	density=1
-	accioable=0
-	dontsave=1
-	verb
-		Play(M as sound)
-			set src in oview(1)
-			view(50)<<sound(M)
-			view(50)<<"<b>Piano:</b> <font color=red><b>[usr]</b> plays [M]."
 
 obj/Microphone
 	icon='Microphone.dmi'
@@ -1005,13 +993,10 @@ obj/Exit
 	wlable=0
 	density=1
 	accioable=0
-
-
 obj/Book_Of_The_Cross
 	icon='books.dmi'
 	icon_state="Cross"
 	dontsave=1
-
 obj/Blackboard_
 	icon='bb.dmi'
 	icon_state="1"
@@ -2122,15 +2107,6 @@ obj
 		accioable=0
 		dontsave = 1
 
-obj
-	mazetree
-		icon='ragtree.dmi'
-		density=1
-		opacity=1
-		wlable=0
-		accioable=0
-		dontsave = 1
-
 obj/Avada_Kedavra
 	icon='attacks.dmi'
 	icon_state="crucio"
@@ -2385,11 +2361,6 @@ obj/plate
 	icon='turf.dmi'
 	icon_state="plate"
 	density=1
-	dontsave=1
-obj/plate
-	icon='turf.dmi'
-	icon_state="plate"
-	density=1
 obj/Cauldron__
 	icon='cau.dmi'
 	accioable=0
@@ -2614,7 +2585,6 @@ obj/Dresser
 			new/obj/Dresser(usr.loc)
 			usr<<"You drop your [src]"
 			del src
-
 obj/Lamp_Table_Top
 	icon='house.dmi'
 	icon_state="Lamp Table Top"
@@ -2652,16 +2622,6 @@ obj/Desk
 	density=1
 	value=2500
 	dontsave=1
-
-obj/Stool
-	icon='desk.dmi'
-	icon_state="Stool"
-	pixel_y=-5
-	value=2500
-	dontsave=1
-
-
-
 
 obj/Book_Shelf
 	icon='Desk.dmi'

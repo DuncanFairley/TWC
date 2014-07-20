@@ -38,7 +38,6 @@ obj
 		New()
 			..()
 			loc.density = 0
-
 /area/Diagon_Alley
 mob
 	var

@@ -176,20 +176,15 @@ obj/housecouch
 	dontsave=1
 	icon = 'couch.dmi'
 	icon_state = "green"
-
 turf/Staircase
 	icon='General.dmi'
 	icon_state="tile85"
-
 turf/Staircase3
 	icon='misc.dmi'
 	icon_state="blank"
-
 turf/Staircase2
 	icon='General.dmi'
 	icon_state="tile86"
-
-
 obj/Clock
 	icon='General.dmi'
 	icon_state="tile79"

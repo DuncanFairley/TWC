@@ -13,7 +13,7 @@ mob/Player
 		if(isobj(newloc))
 			..()
 		else if(loc)
-			if(loc:slow && !usr.unslow)
+			if(loc:slow && !unslow)
 				moving=1
 				..()
 				sleep(loc:slow)
