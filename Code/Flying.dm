@@ -7,11 +7,9 @@
 mob/var/delinterwand
 mob/var/easterwand
 
-
 obj/Broom3
 	icon='icons.dmi'
 	icon_state="nimbus"
-
 obj/DeskFilled
 	icon='desk.dmi'
 	icon_state="TD2"

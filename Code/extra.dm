@@ -116,7 +116,6 @@ obj
 		icon_state="16"
 		density=1
 		accioable=0
-
 obj
 	sandwind
 		layer = 8
@@ -125,9 +124,6 @@ obj
 		icon_state = "sandstorm"
 
 turf
-
-	pumpkin
-		icon = 'pumpkin.dmi'
 
 	pyramidmid
 		layer = 6
@@ -328,12 +324,6 @@ obj/Fire_Orb
 			usr:Resort_Stacking_Inv()
 			hearers()<<"[usr] drops \his [src]."
 
-
-
-obj/Initial
-	icon='misc.dmi'
-	wlable=0
-
 obj/Sold
 	icon='items.dmi'
 	icon_state="windorb"
@@ -413,12 +403,7 @@ obj/Chest
 			set src in oview(1)
 			alert("You open the chest")
 			del src
-
 turf
-	sand2
-		icon='Turfs.dmi'
-		icon_state="desert"
-		name="sand"
 	stonefloor
 		icon='Gener.dmi'
 		icon_state="blackfloor"
@@ -506,11 +491,6 @@ obj/sign2
 				usr<<desc
 			else
 				usr << "<font color=red><b>[name]</b></font>"
-
-area/Block
-area/Block
-	density=1
-
 obj/items/quidditchbox
 	verb
 		Withdraw_Quaffle()

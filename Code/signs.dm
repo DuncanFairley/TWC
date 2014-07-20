@@ -5,19 +5,6 @@
  * For the full license text, see LICENSE.txt.
  */
 obj
-	Signs/Windhowl_Manor
-		icon='statues.dmi'
-		icon_state="sign"
-		dontsave=1
-		density=1
-		wlable=0
-		accioable=0
-		verb
-			Read_()
-				set src in oview(10)
-				usr<<"<b>Inside is <u>Animation</u>. Fun, Friends, and Entertainment lay inside these doors."
-
-obj
 	Signs/Diagon_Bank
 		icon='statues.dmi'
 		icon_state="sign"
@@ -29,20 +16,6 @@ obj
 			Read_()
 				set src in oview(10)
 				usr<<"\n<font color=red><b>Gringott's Wizard's Bank.</font><font color=blue><br>Main Branch - Diagon Alley.</b>"
-
-obj
-	Signs/Hogsmeade_Bank
-		icon='statues.dmi'
-		icon_state="sign"
-		dontsave=1
-		density=1
-		wlable=0
-		accioable=0
-		verb
-			Read_()
-				set src in oview(10)
-				usr<<"\n<font color=red><b>Gringott's Wizard's Bank.</font><font color=blue><br>Hogsmeade Branch.</b>"
-
 	Signs/Santa
 		icon='statues.dmi'
 		icon_state="sign"
@@ -79,57 +52,6 @@ obj
 			Read_()
 				set src in oview(10)
 				usr<<"<b>This is the Wizard Chronicles Museum."
-	Signs/Cost/Cost50k
-		name="Sign"
-		icon='statues.dmi'
-		icon_state="sign"
-		dontsave=1
-		density=1
-		wlable=0
-		accioable=0
-		verb
-			Read_()
-				set src in oview(10)
-				usr<<"<b>This house costs 50,000 gold."
-
-	Signs/Cost/Cost100k
-		name="Sign"
-		icon='statues.dmi'
-		icon_state="sign"
-		dontsave=1
-		density=1
-		wlable=0
-		accioable=0
-		verb
-			Read_()
-				set src in oview(10)
-				usr<<"<b>This house costs 100,000 gold."
-
-	Signs/Cost/Cost150k
-		name="Sign"
-		icon='statues.dmi'
-		icon_state="sign"
-		dontsave=1
-		density=1
-		wlable=0
-		accioable=0
-		verb
-			Read_()
-				set src in oview(10)
-				usr<<"<b>This house costs 150,000 gold."
-
-	Signs/Cost/Cost200k
-		name="Sign"
-		icon='statues.dmi'
-		icon_state="sign"
-		dontsave=1
-		density=1
-		wlable=0
-		accioable=0
-		verb
-			Read_()
-				set src in oview(10)
-				usr<<"<b>This house costs 200,000 gold."
 
 	Signs/HolidayMuseum
 		icon='statues.dmi'
@@ -211,7 +133,7 @@ obj
 		verb
 			Examine_Statue()
 				set src in oview(10)
-				alert("Dion has created the following things for TWC. \n -Scarves\n-Earmuffs\n-Auror Robes")
+				alert("Dion has created the following things for TWC. \n -Scarves\n-Auror Robes")
 
 	Signs/Princess
 		icon='FemaleGryffindor.dmi'
@@ -600,14 +522,3 @@ obj
 			Examine_Statue()
 				set src in oview(10)
 				alert("This is a statue of Nornamort, Former Devout Administrator.")
-
-obj/Signs/Sign_NickSam
-	icon='statues.dmi'
-	icon_state="sign"
-	dontsave=1
-	density=1
-	wlable=0
-	verb
-		Read_()
-			set src in oview(10)
-			usr<<"<font size=3><font color=silver>Here lies <b>Blackwood Manor  - <font color=blue><b>Home of Sampola and Nick</b>"
