@@ -2821,6 +2821,8 @@ turf
 	candle
 		icon_state="wood"
 		density=0
+	water/ice
+		isice = 1
 	water
 		icon='Water.dmi'
 		icon_state="water"
