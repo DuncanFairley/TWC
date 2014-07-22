@@ -2159,22 +2159,23 @@ mob
 		tmp/Wingardiumleviosa
 mob/Player
 	Move(loc,dir)
-		if(wingobject)
-			var/turf/t = get_step(wingobject,dir)
-			if(istype(wingobject.loc,/mob))
-				src << infomsg("You let go of the object you were holding.")
-				wingobject.overlays = null
-				wingobject=null
-				Wingardiumleviosa = null
-			else if(t && (t in view(client.view)))
-				wingobject.Move(t)
-			return
-		if(src.questionius==1)
-			src.overlays-=icon('hand.dmi')
-			src.questionius=0
-		if(removeoMob)
-			step(removeoMob,dir)
-			return
+		if(client && client.moving)
+			if(wingobject)
+				var/turf/t = get_step(wingobject,dir)
+				if(istype(wingobject.loc,/mob))
+					src << infomsg("You let go of the object you were holding.")
+					wingobject.overlays = null
+					wingobject=null
+					Wingardiumleviosa = null
+				else if(t && (t in view(client.view)))
+					wingobject.Move(t)
+				return
+			if(src.questionius==1)
+				src.overlays-=icon('hand.dmi')
+				src.questionius=0
+			if(removeoMob)
+				step(removeoMob,dir)
+				return
 		..()
 
 client
