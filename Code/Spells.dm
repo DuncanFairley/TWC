@@ -1695,7 +1695,7 @@ mob/Spells/verb/Wingardium_Leviosa()
 				src=null
 				spawn()
 					var/seconds = 60
-					while(other && usr && usr.Wingardiumleviosa && seconds > 0)
+					while(other && other.loc && usr && usr.Wingardiumleviosa && seconds > 0)
 						seconds--
 						sleep(10)
 					if(usr)
