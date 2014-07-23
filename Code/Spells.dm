@@ -316,7 +316,7 @@ mob/Spells/verb/Densuago(mob/M in view()&Players)
 			M<<"Your teeth have been reduced to normal size."
 mob/Spells/verb/Morsmordre()
 	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedClanAbilities, needwand=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedClanAbilities, needwand=1, insafezone=0))
 		new /StatusEffect/UsedClanAbilities(src,300)
 		var/obj/The_Dark_Mark/D = new /obj/The_Dark_Mark
 		D:loc = locate(src.x,src.y+1,src.z)
