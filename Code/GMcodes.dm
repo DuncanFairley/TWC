@@ -512,6 +512,7 @@ mob/GM
 			switch(alert("Teleport [M] to the Hogwarts Entrance Hall?", "Sanctuario Charm", "Yes", "No"))
 				if("Yes")
 					var/obj/S=new/obj/Sanctuario
+					S.density=0
 					S.loc=(usr.loc)
 					S.owner=usr
 					walk_towards(S,M,2)
@@ -1261,8 +1262,7 @@ obj/var/description
 mob/var/shortapparate = 0
 turf//client
 	DblClick()
-		if(usr.shortapparate)
-			if(usr.derobe || usr.aurorrobe)return
+		if(usr.shortapparate && !(usr.derobe || usr.aurorrobe))
 			if(!density)// && get_dist(usr,src) <25)
 				flick('apparate.dmi',usr)
 				if(usr.density)
