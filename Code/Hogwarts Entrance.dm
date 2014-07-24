@@ -9,7 +9,7 @@ mob
 		verb
 			anorth()
 				set hidden = 1
-				if(client.moving||stuned||frozen||GMFrozen||arcessoing) return
+				if(client.moving||stuned||frozen||GMFrozen||arcessoing||inOldArena()) return
 				client.moving = 1
 				dir = NORTH
 				sleep(0)
@@ -21,49 +21,49 @@ mob
 						break*/
 			asouth()
 				set hidden = 1
-				if(client.moving||stuned||frozen||GMFrozen||arcessoing) return
+				if(client.moving||stuned||frozen||GMFrozen||arcessoing||inOldArena()) return
 				client.moving = 1
 				dir = SOUTH
 				sleep(0)
 				client.moving = 0
 			awest()
 				set hidden = 1
-				if(client.moving||stuned||frozen||GMFrozen||arcessoing) return
+				if(client.moving||stuned||frozen||GMFrozen||arcessoing||inOldArena()) return
 				client.moving = 1
 				dir = WEST
 				sleep(0)
 				client.moving = 0
 			aeast()
 				set hidden = 1
-				if(client.moving||stuned||frozen||GMFrozen||arcessoing) return
+				if(client.moving||stuned||frozen||GMFrozen||arcessoing||inOldArena()) return
 				client.moving = 1
 				dir = EAST
 				sleep(0)
 				client.moving = 0
 			anorthwest()
 				set hidden = 1
-				if(client.moving||stuned||frozen||GMFrozen||arcessoing) return
+				if(client.moving||stuned||frozen||GMFrozen||arcessoing||inOldArena()) return
 				client.moving = 1
 				dir = NORTHWEST
 				sleep(0)
 				client.moving = 0
 			anortheast()
 				set hidden = 1
-				if(client.moving||stuned||frozen||GMFrozen||arcessoing) return
+				if(client.moving||stuned||frozen||GMFrozen||arcessoing||inOldArena()) return
 				client.moving = 1
 				dir = NORTHEAST
 				sleep(0)
 				client.moving = 0
 			asouthwest()
 				set hidden = 1
-				if(client.moving||stuned||frozen||GMFrozen||arcessoing) return
+				if(client.moving||stuned||frozen||GMFrozen||arcessoing||inOldArena()) return
 				client.moving = 1
 				dir = SOUTHWEST
 				sleep(0)
 				client.moving = 0
 			asoutheast()
 				set hidden = 1
-				if(client.moving||stuned||frozen||GMFrozen||arcessoing) return
+				if(client.moving||stuned||frozen||GMFrozen||arcessoing||inOldArena()) return
 				client.moving = 1
 				dir = SOUTHEAST
 				sleep(0)

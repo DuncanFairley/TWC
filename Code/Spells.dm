@@ -1809,7 +1809,7 @@ var/safemode = 1
 mob/var/tmp/lastproj = 0
 mob
 	proc/castproj(MPreq,icon,icon_state,damage,name,cd=1,lag=2)
-		if(cd && (world.time - lastproj) < 2) return
+		if(cd && (world.time - lastproj) < 2 && !inOldArena()) return
 		lastproj = world.time
 		var/obj/projectile/P = new(src.loc,src.dir,src,icon,icon_state,damage,name)
 		P.shoot(lag)

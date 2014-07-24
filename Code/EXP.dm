@@ -491,8 +491,13 @@ proc
 				L.Add(p)
 		return L
 
-mob/Player/proc
-	nofly()
-		if(flying)
-			var/obj/items/wearable/brooms/Broom = locate() in Lwearing
-			if(Broom) Broom.Equip(src,1)
+mob/Player
+	proc
+		nofly()
+			if(flying)
+				var/obj/items/wearable/brooms/Broom = locate() in Lwearing
+				if(Broom) Broom.Equip(src,1)
+atom/movable
+	proc
+		inOldArena()
+			return oldduelmode || (loc && istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))

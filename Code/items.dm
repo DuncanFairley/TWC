@@ -2172,7 +2172,7 @@ obj/Flippendo
 	Bump(mob/M)
 		//if(M.monster||M.player)
 		if(!loc) return
-		if(istype(M,/obj/projectile/))
+		if(istype(M,/obj/projectile/) && !inOldArena())
 			M.dir = turn(M.dir,pick(45,-45))
 			walk(M,M.dir,2)
 		else if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))
