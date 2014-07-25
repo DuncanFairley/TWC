@@ -509,19 +509,91 @@ mob/GM
 
 		Sanctuario(mob/M in view()&Players)
 			set category="Staff"
-			var/obj/S=new/obj/Sanctuario
-			S.density=0
-			S.loc=(usr.loc)
-			S.owner=usr
-			walk_towards(S,M,2)
-			sleep(20)
-			del S
-			flick('apparate.dmi',M)
-			sleep(5)
-			M.loc=locate(13,27,21)
-			flick('apparate.dmi',M)
-			sleep(20)
-			M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to the Hogwarts Entrance Hall.</font></b>"
+			switch(input("Teleport [M] to where? || Reminder, this spell fires a burst of teleporting magic at the target. Be sure to face your target.","Sanctuario Charm Destination") in list ("Hogwarts","Silverblood","Student Housing","Dark Forest","Windhowl Manor","Azkaban","Cancel"))
+				if("Hogwarts")
+					var/obj/S=new/obj/Sanctuario
+					S.loc=(usr.loc)
+					S.owner=usr
+					S.density=0
+					walk_towards(S,M,2)
+					sleep(20)
+					del S
+					flick('apparate.dmi',M)
+					sleep(5)
+					M.loc=locate(13,27,21)
+					flick('apparate.dmi',M)
+					sleep(20)
+					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Hogwarts.</font></b>"
+				if("Silverblood")
+					var/obj/S=new/obj/Sanctuario
+					S.loc=(usr.loc)
+					S.owner=usr
+					S.density=0
+					walk_towards(S,M,2)
+					sleep(20)
+					del S
+					flick('apparate.dmi',M)
+					sleep(5)
+					M.loc=locate(23,6,2)
+					flick('apparate.dmi',M)
+					sleep(20)
+					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Silverblood.</font></b>"
+				if("Student Housing")
+					var/obj/S=new/obj/Sanctuario
+					S.loc=(usr.loc)
+					S.owner=usr
+					S.density=0
+					walk_towards(S,M,2)
+					sleep(20)
+					del S
+					flick('apparate.dmi',M)
+					sleep(5)
+					M.loc=locate(51,54,17)
+					flick('apparate.dmi',M)
+					sleep(20)
+					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to the Student's Neighborhood.</font></b>"
+				if("Dark Forest")
+					var/obj/S=new/obj/Sanctuario
+					S.loc=(usr.loc)
+					S.owner=usr
+					S.density=0
+					walk_towards(S,M,2)
+					sleep(20)
+					del S
+					flick('apparate.dmi',M)
+					sleep(5)
+					M.loc=locate(11,23,15)
+					flick('apparate.dmi',M)
+					sleep(20)
+					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to The Dark Forest.</font></b>"
+				if("Windhowl Manor")
+					var/obj/S=new/obj/Sanctuario
+					S.loc=(usr.loc)
+					S.owner=usr
+					S.density=0
+					walk_towards(S,M,2)
+					sleep(20)
+					del S
+					flick('apparate.dmi',M)
+					sleep(5)
+					M.loc=locate(8,22,17)
+					flick('apparate.dmi',M)
+					sleep(20)
+					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Windhowl Manor.</font></b>"
+				if("Azkaban Entrance")
+					var/obj/S=new/obj/Sanctuario
+					S.loc=(usr.loc)
+					S.owner=usr
+					walk_towards(S,M,2)
+					sleep(20)
+					del S
+					flick('apparate.dmi',M)
+					sleep(5)
+					M.loc=locate(59,80,25)
+					flick('apparate.dmi',M)
+					sleep(20)
+					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Azkaban.</font></b>"
+			if(M && M.removeoMob) spawn()M:Permoveo()
 
 
 mob
