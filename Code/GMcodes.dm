@@ -509,23 +509,20 @@ mob/GM
 
 		Sanctuario(mob/M in view()&Players)
 			set category="Staff"
-			switch(alert("Teleport [M] to the Hogwarts Entrance Hall?", "Sanctuario Charm", "Yes", "No"))
-				if("Yes")
-					var/obj/S=new/obj/Sanctuario
-					S.density=0
-					S.loc=(usr.loc)
-					S.owner=usr
-					walk_towards(S,M,2)
-					sleep(20)
-					del S
-					flick('apparate.dmi',M)
-					sleep(5)
-					M.loc=locate(13,27,21)
-					flick('apparate.dmi',M)
-					sleep(20)
-					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to the Hogwarts Entrance Hall.</font></b>"
-				if("No")
-					return
+			var/obj/S=new/obj/Sanctuario
+			S.density=0
+			S.loc=(usr.loc)
+			S.owner=usr
+			walk_towards(S,M,2)
+			sleep(20)
+			del S
+			flick('apparate.dmi',M)
+			sleep(5)
+			M.loc=locate(13,27,21)
+			flick('apparate.dmi',M)
+			sleep(20)
+			M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to the Hogwarts Entrance Hall.</font></b>"
+
 
 mob
 	test/verb
