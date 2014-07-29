@@ -1150,28 +1150,27 @@ mob/Spells/verb/Immobulus()
 		hearers()<<"A sudden wave of energy emits from [usr]'s wand, immobilizing everything in sight."
 		usr.MP-=600
 		usr.updateHPMP()
-		for(var/mob/M in oview())
-			if(M.key!=usr.key)
-				if(M.key)
-					if(!M.Gm)
-						if(M && M.removeoMob)
-							M << "Your Permoveo spell failed.."
-							M.client.eye=M
-							M.client.perspective=MOB_PERSPECTIVE
-							M.removeoMob:ReturnToStart()
-							M.removeoMob:removeoMob = null
-							M.removeoMob = null
-						M.movable=1
-						M.Immobile=1
-						M.overlays.Remove(image('Immobulus.dmi'))
-						M.overlays += image('Immobulus.dmi')
+		var/list/people = list()
+		for(var/mob/Player/M in ohearers())
+			if(M && M.removeoMob)
+				M << "Your Permoveo spell failed.."
+				M.client.eye=M
+				M.client.perspective=MOB_PERSPECTIVE
+				M.removeoMob:ReturnToStart()
+				M.removeoMob:removeoMob = null
+				M.removeoMob = null
+			people += M
+			M.movable=1
+			M.Immobile=1
+			M.overlays.Remove(image('Immobulus.dmi'))
+			M.overlays += image('Immobulus.dmi')
 		src=null
 		spawn(100)
-			for(var/client/C)
-				if(C.mob)if(C.mob.Immobile==1)
-					C.mob.overlays -= image('Immobulus.dmi')
-					C.mob.movable=0
-					C.mob.Immobile=0
+			for(var/mob/Player/p in people)
+				if(p && p.Immobile==1)
+					p.overlays -= image('Immobulus.dmi')
+					p.movable=0
+					p.Immobile=0
 					if(usr)C<<"[usr]'s Immobulus curse wore off. You can move again."
 mob/Spells/verb/Impedimenta()
 	set category = "Spells"
