@@ -315,7 +315,7 @@ mob/Spells/verb/Densuago(mob/M in view()&Players)
 			M.overlays-=('teeth.dmi')
 			M<<"Your teeth have been reduced to normal size."
 mob/Spells/verb/Morsmordre()
-	set category = "Spells"
+	set category = "Clan"
 	if(canUse(src,cooldown=/StatusEffect/UsedClanAbilities, needwand=1))
 		new /StatusEffect/UsedClanAbilities(src,300)
 		var/obj/The_Dark_Mark/D = new /obj/The_Dark_Mark

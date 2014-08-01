@@ -42,6 +42,7 @@ mob/proc
 		if(DeathEater) return Deatheaters()
 
 mob/GM/verb/Clan_store()
+	set category = "Clan"
 	set name = "Clan Store"
 	var/index = Auror ? 5 : 6
 	var/area/_area = Auror ? /area/AurorHQ : /area/DEHQ
