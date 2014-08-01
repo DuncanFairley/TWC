@@ -415,7 +415,7 @@ mob/GM
 					chatlog << "<b><font size=2 color=silver>GM> [usr]:</font></b> <font color=white>[messsage]</font><br>"
 
 		DE_chat(var/messsage as text)
-			set category="Death Eater"
+			set category="Clan"
 			set name="DE Chat"
 			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
 			if(messsage)
@@ -429,7 +429,7 @@ mob/GM
 							C<<"<b><font color=green><font size=2>DE Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 
 		Auror_chat(var/messsage as text)
-			set category="Aurors"
+			set category="Clan"
 			set name="Auror Chat"
 			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
 			if(messsage)

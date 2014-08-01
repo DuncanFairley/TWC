@@ -166,7 +166,7 @@ mob/test/verb/Download_Savefile()
 mob
 	GM/verb
 		Auror_Robes()
-			set category = "Aurors"
+			set category = "Clan"
 			set name = "Auror Robes"
 			if(usr.aurorrobe==1)
 				usr.aurorrobe=0
@@ -206,7 +206,7 @@ mob
 				else
 					usr.icon = 'MaleAuror.dmi'
 		DErobes()
-			set category = "Death Eater"
+			set category = "Clan"
 			set name = "Wear Robes"
 			if(usr.derobe==1)
 				usr.icon = usr.baseicon
