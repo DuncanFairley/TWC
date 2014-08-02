@@ -476,15 +476,15 @@ mob/Spells/verb/Avis()
 		sleep(20)
 		hearers()<<"A bright white flash shoots out of [usr]'s wand."
 		sleep(20)
-		hearers()<<"A bird emerges."
-		var/mob/Bird_/D = new /mob/Bird_
+		hearers()<<"A Phoenix emerges."
+		var/mob/NPC/Enemies/Summoned/Phoenix/D = new /mob/NPC/Enemies/Summoned/Phoenix
 		D:loc = locate(src.x,src.y+1,src.z)
 		flick('mist.dmi',D)
 		src = null
 		spawn(600)
 			flick('mist.dmi',D)
 			if(D)
-				view(D)<<"The Bird flies away."
+				view(D)<<"The Phoenix flies away."
 				del D
 mob/Spells/verb/Crapus_Sticketh()
 	set category = "Spells"
