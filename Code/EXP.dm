@@ -500,4 +500,10 @@ mob/Player
 atom/movable
 	proc
 		inOldArena()
-			return oldduelmode || (loc && istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))
+			return oldduelmode || (loc && loc.loc:oldsystem)
+
+area
+	var/oldsystem = FALSE
+
+	hogwarts/Duel_Arenas/Main_Arena_Bottom
+		oldsystem = TRUE

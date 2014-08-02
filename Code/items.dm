@@ -1078,7 +1078,7 @@ obj/Inflamari
 	density=1
 	var/player=0
 	Bump(mob/M)
-		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
+		if(inOldArena())if(!istype(M, /mob)) return
 		if(istype(M,/obj/brick2door))
 			var/obj/brick2door/D = M
 			D.Take_Hit(owner)
@@ -1640,7 +1640,7 @@ obj/Glacius
 	density=1
 	var/player=0
 	Bump(mob/M)
-		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
+		if(inOldArena())if(!istype(M, /mob)) return
 		if(istype(M,/obj/brick2door))
 			var/obj/brick2door/D = M
 			D.Take_Hit(owner)
@@ -2139,7 +2139,7 @@ obj/Avada_Kedavra
 	var/player=0
 	layer = 4
 	Bump(mob/M)
-		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
+		if(inOldArena())if(!istype(M, /mob)) return
 		if(isturf(M)||isobj(M))
 			del src
 			return
@@ -2175,7 +2175,7 @@ obj/Flippendo
 		if(istype(M,/obj/projectile/) && !inOldArena())
 			M.dir = turn(M.dir,pick(45,-45))
 			walk(M,M.dir,2)
-		else if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))
+		else if(inOldArena())
 			if(!istype(M, /mob)) return
 		else if(istype(M, /mob) && (M.monster || M.key))
 			src.owner<<"Your [src] hit [M]!"

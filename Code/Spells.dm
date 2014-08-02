@@ -1857,7 +1857,7 @@ obj
 		var/player=0
 		Bump(mob/M)
 			if(istype(M.loc, /turf/nofirezone)) return
-			if(!loc || oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
+			if(!loc || inOldArena())if(!istype(M, /mob)) return
 			if(istype(M, /obj/stone) || istype(M, /obj/redroses) || istype(M, /mob/Madame_Pomfrey) || istype(M,/obj/egg) || istype(M,/obj/clanpillar))
 				for(var/atom/movable/O in M.loc)
 					if(O == M)continue
