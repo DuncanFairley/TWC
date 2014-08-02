@@ -792,27 +792,6 @@ area
 			else
 				M.loc=locate(43,36,23)
 
-turf
-	lordcave
-		name="Hole"
-		icon='hole.dmi'
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				if(usr.foundlord==1)
-					var/mob/Player/user = usr
-					var/obj/items/wearable/brooms/B = locate() in user.Lwearing
-					if(B)
-						B.Equip(user,0)
-					M.density = 0
-					M.Move(locate(62,72,7))
-					M.density = 1
-					M.flying = 0
-				else
-					alert("A charm keeps you from going down the hole")
 area
 	From_Santa
 		Entered(mob/Player/M)
@@ -873,35 +852,7 @@ area
 				return
 			else
 				M.loc=locate(87,69,22)
-area
-	From_DA
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(99,4,25)
 
-area
-	To_Grin
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(30,60,20)
-
-area
-	From_Grin
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(45,82,26)
 area
 	Desert
 		Entered(mob/Player/M)
@@ -909,57 +860,14 @@ area
 				M.density = 0
 				M.Move(locate(rand(4,97),rand(4,97),4))
 				M.density = 1
-area
-	To_SecondfloorRaven
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(95,20,22)
 
-area
-	From_SecondfloorRaven
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(35,19,21)
 area
 	Ander_Back
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
 				M.loc=locate(93,91,21)
-	ShriekingShack_Enter
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(46,1,13)
-	ShriekingShack_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(11,89,15)
-	SilverbloodEnter
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				if(M.flying==1)
-					M.loc=locate(49,30,3)
-					M<<"You may not fly inside Silverblood."
-				else
-					M.loc=locate(24,2,2)
 	HMG
 
-
-	Desert1
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(2,55,5)
-	Desert_back
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(99,50,4)
-	Desert2
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(34,2,6)
-	Desert2_back
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(41,99,4)
 	CoS_Exit
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
@@ -973,32 +881,10 @@ area
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
 				M.loc=locate(57,98,22)
-	Holo_Room_Enter
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(74,25,22)
-				alert(usr,"Welcome to the Holo-Room. The teacher of this class will be in control of the Holograms. Train carefully!","Holo-Room Computer")
-	Holo_Room_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(69,45,21)
-	Holoalert
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(41,62,21)
 
 mob
 	var
 		hogwarts
-
-area
-	Hogwarts_Enter
-		Entered(mob/Player/M)
-			if(!istype(M, /mob/Player)) return
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(13,25,21)
 
 turf
 	Hogwarts
