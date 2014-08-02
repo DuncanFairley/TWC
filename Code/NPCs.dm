@@ -132,7 +132,7 @@ mob
 									usr.GenerateNameOverlay(255,255,255)
 							usr:spellpoints -= 25
 						else
-							usr << errormsg("You don't have enough spell points. You need [60 - usr:spellpoints] more spell points.")
+							usr << errormsg("You don't have enough spell points. You need [25 - usr:spellpoints] more spell points.")
 
 obj
 	Guard
