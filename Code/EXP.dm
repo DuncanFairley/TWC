@@ -337,7 +337,7 @@ question
 		wrong    = list("No")
 
 	question0
-		question = "What color are dementors?"
+		question = "What color are Dementors?"
 		correct  = "Black"
 		wrong    = list("White", "Blue")
 
@@ -357,12 +357,12 @@ question
 		wrong    = list("One", "Seven")
 
 	question4
-		question = "What is Harry Potter's position in Qudditch?"
+		question = "What is Harry Potter's position in Quidditch?"
 		correct  = "Seeker"
 		wrong    = list("Chaser", "Keeper", "Beater", "He didn't play Quidditch")
 
 	question5
-		question = "What is the government of the magical community in Britain called??"
+		question = "What is the government of the magical community in Britain called?"
 		correct  = "Ministry of Magic"
 		wrong    = list("Shadow Clan", "Aurors", "Death Eaters")
 
@@ -387,7 +387,7 @@ question
 		wrong    = list("Beasley", "Potter")
 
 	question10
-		question = "What is Snape's first name"
+		question = "What is Snape's first name?"
 		correct  = "Severus"
 		wrong    = list("Sevvy", "Snakes", "Bob")
 
