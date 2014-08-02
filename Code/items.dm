@@ -2004,6 +2004,7 @@ obj/redroses
 	icon='turf.dmi'
 	icon_state="redplant"
 	density=1
+	layer = 6
 obj/Armor_Feet
 	icon='statues.dmi'
 	icon_state="feet"
