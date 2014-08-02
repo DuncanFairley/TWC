@@ -1171,7 +1171,7 @@ mob/Spells/verb/Immobulus()
 					p.overlays -= image('Immobulus.dmi')
 					p.movable=0
 					p.Immobile=0
-					if(usr)C<<"[usr]'s Immobulus curse wore off. You can move again."
+					if(usr)p<<"[usr]'s Immobulus curse wore off. You can move again."
 mob/Spells/verb/Impedimenta()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=750,againstocclumens=1))

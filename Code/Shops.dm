@@ -1026,7 +1026,6 @@ mob/Vault_Salesman
 		itemlist += "Huge Vault - 8,000,000 Gold and 80 Artifacts"
 		itemlist += "2 Rooms Vault - 10,000,000 Gold and 100 Artifacts"
 		itemlist += "4 Rooms Vault - 12,000,000 Gold and 120 Artifacts"
-		itemlist += "Luxuary Vault - 20,000,000 Gold and 200 Artifacts"
 
 	verb
 		Talk()
