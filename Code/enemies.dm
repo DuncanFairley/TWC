@@ -390,25 +390,17 @@ mob
 					icon_state = "bird"
 					level = 6
 
-					Attack()
-						..()
-
 					Search()
 						Wander()
+						sleep(3)
+						for(var/mob/Player/M in ohearers(3, src))
+							M.HP += ((M.MHP/20)+rand(0,50))
+							if(M.HP > M.MHP) M.HP = M.MHP
+							M.updateHPMP()
 
 					New()
 						light(src, 3, 600, "light")
 						..()
-
-						spawn()
-							var/time = 600
-							while(time > 0)
-								for(var/mob/Player/M in ohearers(3, src))
-									M.HP += ((M.HP/8)+rand(1,50))
-									if(M.HP > M.MHP) M.HP = M.MHP
-									M.updateHPMP()
-								sleep(25)
-								time--
 
 			Rat
 				icon = 'monsters.dmi'
