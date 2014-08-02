@@ -213,7 +213,7 @@ obj
 				usr.movable = 0
 				usr << infomsg("You begin reading.")
 				spawn(15)
-					while(src && usr && usr.readbooks == 1 && (src in view(usr, 1)))
+					while(src && usr && usr.readbooks == 1 && (usr in ohearers(src, 1)))
 						if(usr.level < lvlcap)
 							var/exp = get_exp(usr.level) / (usr:presence ? 1 : 3)
 							exp = round(rand(exp - exp / 10, exp + exp / 10))
@@ -491,8 +491,19 @@ proc
 				L.Add(p)
 		return L
 
-mob/Player/proc
-	nofly()
-		if(flying)
-			var/obj/items/wearable/brooms/Broom = locate() in Lwearing
-			if(Broom) Broom.Equip(src,1)
+mob/Player
+	proc
+		nofly()
+			if(flying)
+				var/obj/items/wearable/brooms/Broom = locate() in Lwearing
+				if(Broom) Broom.Equip(src,1)
+atom/movable
+	proc
+		inOldArena()
+			return oldduelmode || (loc && loc.loc:oldsystem)
+
+area
+	var/oldsystem = FALSE
+
+	hogwarts/Duel_Arenas/Main_Arena_Bottom
+		oldsystem = TRUE

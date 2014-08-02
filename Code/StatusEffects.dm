@@ -188,6 +188,7 @@ StatusEffect
 	UsedDisperse
 	DepulsoText
 	DisableProjectiles
+	KilledPlayer
 	UsedRepel
 
 	Lamps

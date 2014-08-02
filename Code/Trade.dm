@@ -158,7 +158,7 @@ obj/items
 
 	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
 		var/mob/Player/P = usr
-		if(P.isTrading())
+		if((src in usr) && P.isTrading())
 			if(over_control == "Trade.grid1" && !(src in P.trade.items))
 				if(!P.trade.accept && !P.trade.with.trade.accept)
 					if(dropable)

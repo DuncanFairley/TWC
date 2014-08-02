@@ -537,14 +537,9 @@ obj/firework
 
 	New()
 		..()
+		icon_state = pick(icon_states(src.icon))
 
-		spawn(1)
-			if(icon_state)
-				walk(src,0)
-				loc = null
-				return
-			icon_state = pick(icon_states(src.icon))
-			sleep(rand(5,10))
+		spawn(rand(5,10))
 			density = 0
 			walk(src,0)
 			var/t = rand(50,100)
