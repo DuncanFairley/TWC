@@ -33,38 +33,6 @@ area
 					return
 				else
 					M.loc=locate(98,22,15)
-		Arena_Exit
-			Entered(mob/Player/M)
-				if(istype(M, /mob/Player))
-					M.density = 0
-					M.Move(locate(3,21,15))
-					M.density = 1
-		Arena
-			Entered(mob/Player/M)
-				if(!M || !istype(M, /mob/Player)) return
-				if(M.monster==1)
-					return
-				else
-					M.loc=locate(50,100,17)
-		AzkabanGroundEnter
-			Entered(mob/Player/M)
-				if(!istype(M, /mob/Player))
-					return
-				else
-					usr.density=1
-					usr.flying=0
-					usr.icon_state=""
-					M << "<font color=red>Welcome to Diagon Alley. Ollivander's Wand Shop is the first shop on the right, after you move through the moving wall</font>"
-					M.loc=locate(45,5,26)
-		Dark_Forest
-			Entered(mob/Player/M)
-				if(!istype(M,/mob)) return
-				if(M.monster==1)
-					return
-				else
-					M.density = 0
-					M.Move(locate(92,3,16))
-					M.density = 1
 		To_DA/Entered(mob/Player/M)
 			if(!istype(M,/mob)) return
 			if(M.monster==1)
@@ -77,31 +45,6 @@ area
 					M.loc=locate(45,5,26)
 				else
 					M.loc=locate(45,5,26)
-		Student_Housing2/Entered(mob/Player/M)
-			if(!istype(M,/mob)) return
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(2,25,17)
-
-		Student_Housing3/Entered(mob/Player/M)
-			if(!istype(M,/mob)) return
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(48,99,8)
-
-		Student_Housing4/Entered(mob/Player/M)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(47,2,19)
-		Hogsmaede_Exit/Entered(mob/Player/M)
-			if(!istype(M, /mob)) return
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(51,1,17)
 		SilverbloodGroundEnter/Entered(mob/Player/M)
 			M.loc=locate(49,2,3)
 				//M<<"<b><font size=3><font color=green>You are not a Death Eater. You may not pass. Be gone!"
@@ -142,11 +85,6 @@ area
 				M.Move(locate(51,3,18))
 				M.density = 1
 				M.flying = 0
-		Student_Housing/Entered(mob/Player/M)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(100,44,19)
 		proc
 			daycycle()
 				lit = 1 - lit	// toggle lit between 1 and 0

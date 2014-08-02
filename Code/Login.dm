@@ -656,15 +656,6 @@ turf
 			A.loc = locate(87,70,22)
 
 turf
-	leavediagon
-		icon = 'blue2.dmi'
-		name = "Portal"
-		Entered(mob/M)
-			if(ismob(M))
-				M.loc = locate(99,22,15)
-				M << "You leave Diagon Alley."
-
-turf
 	leavecellar
 		icon = 'blue2.dmi'
 		name = "Portal"
@@ -800,7 +791,7 @@ world
 	name = "Harry Potter: The Wizards' Chronicles"
 	turf=/turf/blankturf
 	view="17x17"
-var/world/VERSION = "16.08"
+var/world/VERSION = "16.09"
 
 world/proc/playtimelogger()
 	return
@@ -1338,13 +1329,13 @@ mob/Player
 											T.icon = 'Turf.dmi'
 											T.icon_state = "grille"
 											T.density = 1
-								if("colloportus gate")
+								/*if("colloportus gate")
 									if(src.Gm)
 										sleep(20)
 										hearers()<<"<font size=1>[usr] has locked the door</font>"
 										for(var/turf/Gate/T in oview(5))
 											T.door=0
-											T.bumpable=0
+											T.bumpable=0*/
 								if("colloportus")
 									if(src.Gm)
 										sleep(20)
@@ -1362,7 +1353,7 @@ mob/Player
 											flick('Alohomora.dmi',T)
 											T.door=1
 											T.bumpable=1
-								if("alohomora gate")
+								/*if("alohomora gate")
 									if(src.Gm)
 										sleep(20)
 										hearers()<<"<font size=1>[usr] has unlocked the Door</font>"
@@ -1371,7 +1362,7 @@ mob/Player
 											T.door=1
 											T.bumpable=1
 											T.door=1
-											T.bumpable=1
+											T.bumpable=1*/
 								if("quillis")
 									if(src.Gm)
 										for(var/obj/Desk/T in view(client.view))
@@ -1482,7 +1473,7 @@ mob/Player
 											T.overlays += inflamari
 											T.density=1
 											T.invisibility=0
-								if("open up")
+								/*if("open up")
 									if(src.Gm)
 										sleep(10)
 										hearers()<<"Access Granted. Welcome, [usr]."
@@ -1506,7 +1497,7 @@ mob/Player
 											T.door=0
 											T.bumpable=0
 											T.density=1
-											T.opacity=0
+											T.opacity=0*/
 								if("open hogwarts")
 									if(src.admin)
 										for(var/turf/Hogwarts_Exit/T in world)
@@ -2596,80 +2587,6 @@ var/const
 	weapon=MOB_LAYER+6
 
 
-
-
-area/blockeast
-	icon='turf.dmi'
-	icon_state="block"
-	density=0
-	Entered()
-		if(usr.monster==1)
-			usr.density=0
-			step(usr,EAST)
-			step(usr,EAST)
-			usr.density=1
-			return
-		else
-			return
-area/blockup
-	icon='turf.dmi'
-	icon_state="block"
-	density=0
-	Entered()
-		if(usr.monster==1)
-			usr.density=0
-			step(usr,NORTH)
-			step(usr,NORTH)
-			usr.density=1
-			return
-		else
-			return
-area/blockwest
-	icon='turf.dmi'
-	icon_state="block"
-	density=0
-	Entered()
-		if(usr.monster==1)
-			usr.density=0
-			step(usr,WEST)
-			step(usr,WEST)
-			usr.density=1
-			return
-		else
-			return
-area/blocksouth
-	icon='turf.dmi'
-	icon_state="block"
-	density=0
-	Entered()
-		if(usr.monster==1)
-			usr.density=0
-			step(usr,SOUTH)
-			step(usr,SOUTH)
-			usr.density=1
-			return
-		else
-			return
-
-//mob/Madam_Pomfrey
-//	icon = 'Pomfrey.dmi'
-//	NPC = 1
-//	player=0
-//	verb
-//		Heal()
-//			set src in oview(1)
-//
-//			switch(input("Would you like me to heal you?","Madam Pomfrey the Nurse")in list("Yes, Please.","No Thanks."))
-///				if("Yes, Please.")
-	//				usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episky!"
-	//				usr.overlays+=image('attacks.dmi',icon_state="heal")
-	//				usr.HP=usr.MHP
-	//				usr.status=""
-	//				sleep(10)
-	//				usr.overlays-=image('attacks.dmi',icon_state="heal")
-	//			if("No Thanks.")
-	//				usr<<"Madam Pomfrey:  Very well then. Off you go."
-
 obj/Table
 	icon = 'desk.dmi'
 	icon_state="S1"
@@ -2683,10 +2600,6 @@ obj/Table
 					usr<<"Just an old table."
 				if("Search")
 					usr<<"You dont find anything useful."
-
-
-
-
 obj
 	chairleft
 		icon='turf.dmi'
@@ -2712,13 +2625,10 @@ obj/Gate
 	icon = 'turf.dmi'
 	icon_state="gate"
 	density=1
-
-
-
-
 obj/BFrontChair
 	icon='Chairs.dmi'
 	icon_state="front"
+
 proc
 	textcheck(t as text)
 	// Returns the text string with all potential html tags (anything \
@@ -2920,84 +2830,11 @@ turf
 		icon='longtables.dmi'
 		icon_state="z"
 		density=1
-	bluealert
-		icon='bluealert.dmi'
-		density=0
-	//plate
-	//	icon='turf.dmi'
-	//	icon_state="plate"
-	//	density=1
 	candle
 		icon_state="wood"
 		density=0
-	wfloor
-		icon_state="wfloor"
-		density=0
-	painting1
-		icon_state="p1"
-		density=0
-		opacity=0
-	Art
-		icon='Decoration.dmi'
-		icon_state="royal top1"
-		density=1
-		opacity=0
-	Art1
-		icon='Decoration.dmi'
-		icon_state="royal1"
-		density=1
-		opacity=0
-	Art_Man
-		icon='Decoration.dmi'
-		icon_state="royal top"
-		density=1
-		opacity=0
-	Art_Man2
-		icon='Decoration.dmi'
-		icon_state="royal"
-		density=1
-		opacity=0
-	Art_Tree
-		icon='Decoration.dmi'
-		icon_state="tree top"
-		density=1
-		opacity=0
-	Art_Tree2
-		icon='Decoration.dmi'
-		icon_state="tree"
-		density=1
-		opacity=0
-	painting2
-		icon_state="p2"
-		density=0
-		opacity=0
-	painting3
-		icon_state="p3"
-		density=0
-	painting4
-		icon_state="p4"
-		density=0
-	wwall
-		icon='wall1.dmi'
-		icon_state="wwall"
-		density=1
-		opacity=0
-	holoalertfloor
-		icon_state="wood"
-		density=0
-	clights
-		icon_state="lights"
-		density = 1
-	cane
-		//icon_state="cane"
-		density=0
-	roof
-		icon_state="roof"
-		density=1
-	roofpass
-		icon_state="roof"
-		density=0
-		layer=MOB_LAYER+7
+	water/ice
+		isice = 1
 	water
 		icon='Water.dmi'
 		icon_state="water"
@@ -3081,9 +2918,6 @@ turf
 			if(isplayer(O) && O.density) return 0
 			return ..()
 
-	floor
-		icon_state="brick"
-		density=0
 	roofb
 		icon_state="broof"
 		density=1
@@ -3092,81 +2926,77 @@ turf
 	diamondt
 		icon_state="tf2"
 		density=0
-	brick
-		icon='hogwartsbrick.dmi'
-		icon_state="brick2"
-		density=1
-	floor1
-		icon_state="floor1"
+	blackfloor
+		icon_state="blackfloor"
 		density=0
-	floor2
-		icon_state="floor2"
+	blankturf
+		icon_state="black"
 		density=0
-	boat
-		icon_state="boat"
+	Art_Tree
+		icon='Decoration.dmi'
+		icon_state="tree top"
 		density=1
-	door
-		icon_state="door"
+		opacity=0
+	Art_Tree2
+		icon='Decoration.dmi'
+		icon_state="tree"
 		density=1
-	woodenwall
-		icon_state="wooden"
-		density=1
-	dirtwall
-		icon_state="dirtwall"
-		density=1
-	dirtroof
-		icon_state="dirtroof"
-		density=1
-	dirtroofpass
-		icon_state="dirtwall"
-		density=0
-		layer=MOB_LAYER+7
-	woodenspike
-		icon_state="woodenspike"
-		density=0
-		layer=MOB_LAYER+7
+		opacity=0
 	road
 		icon_state="road"
 		density=0
-	niblets
-		icon_state="nibletsign"
-		density=1
-	stone
-		icon_state="stone"
-		density=1
-	waterfall
-		icon_state="waterfall"
+	wfloor
+		icon_state="wfloor"
 		density=0
-	gmdoor
-		icon_state="gmdoor"
-		density=1
-	turnup
-		icon_state="turnup"
-		density=1
-	turnupfence
-		icon_state="turnupleft"
-		density=1
-	turndown
-		icon_state="turndown"
-		density=1
-	turndownfence
-		icon_state="turndownright"
-		density=1
-	shopsign
-		icon_state="shop"
-		density=1
-	rock
-		icon_state="rock"
-		density=1
-	toprock
-		icon_state="toprock"
+	stairsnormal
+		icon_state="gmstair"
+	painting2
+		icon_state="p2"
 		density=0
-	toprockright
-		icon_state="toprockright"
+		opacity=0
+	painting3
+		icon_state="p3"
+		density=0
+	Art
+		icon='Decoration.dmi'
+		icon_state="royal top1"
 		density=1
-	toprockleft
-		icon_state="toprockleft"
+		opacity=0
+	Art1
+		icon='Decoration.dmi'
+		icon_state="royal1"
 		density=1
+		opacity=0
+	Art_Man
+		icon='Decoration.dmi'
+		icon_state="royal top"
+		density=1
+		opacity=0
+	Art_Man2
+		icon='Decoration.dmi'
+		icon_state="royal"
+		density=1
+		opacity=0
+	painting4
+		icon_state="p4"
+		density=0
+	painting1
+		icon_state="p1"
+		density=0
+		opacity=0
+	wall
+		icon='wall1.dmi'
+		density=1
+	black
+		icon_state="black"
+		density=0
+	tree
+		icon='ragtree.dmi'
+		density=1
+		opacity=0
+	snowtopright
+		icon_state="topsnowright"
+		density=0
 	snowtop
 		icon_state="topsnow"
 		density=0
@@ -3176,144 +3006,16 @@ turf
 	snowtopleft
 		icon_state="topsnowleft"
 		density=0
-	snowtopright
-		icon_state="topsnowright"
+	floor
+		icon_state="brick"
 		density=0
-	black
-		icon_state="black"
-		density=0
-	blankturf
-		icon_state="black"
-		density=0
-	boat1
-		icon_state="1"
+	brick
+		icon='hogwartsbrick.dmi'
+		icon_state="brick2"
 		density=1
-	boat2
-		icon_state="2"
-		density=1
-	boat3
-		icon_state="3"
-		density=1
-	boat4
-		icon_state="4"
-		density=1
-	boat5
-		icon_state="5"
-		density=1
-	boat6
-		icon_state="6"
-		density=1
-	boat7
-		icon_state="7"
-		density=1
-	boat8
-		icon_state="8"
-		density=1
-	blackfloor
-		icon_state="blackfloor"
-		density=0
-	boat9
-		icon_state="9"
-		density=1
-	boat10
-		icon_state="10"
-		density=1
-	boat11
-		icon_state="11"
-		density=1
-	boat12
-		icon_state="12"
-		density=1
-	boat13
-		icon_state="13"
-		density=1
-	boat14
-		icon_state="14"
-		density=1
-	counter
-		icon_state="counter"
-		density=1
-	counterlef
-		icon_state="counterleft"
-		density=1
-	counterright
-		icon_state="counterright"
-		density=1
-	greathalltable
-		icon_state="ghtable"
-		density=1
-	signitem
-		icon_state="itemsign"
-		density=1
-	signweapon
-		icon_state="weaponsign"
-		density=1
-	signbead
-		icon_state="bedsign"
-		density=1
-	signboat
-		icon_state="boatsign"
-		density=1
-	signblacksmith
-		icon_state="bssign"
-		density=1
-	signplayer
-		icon_state="plsign"
-		density=1
-	beacheast
-		icon_state="beacheast"
-		density=0
-	beachwest
-		icon_state="beachwest"
-		density=0
-	beachnorth
-		icon_state="beachnorth"
-		density=0
-	beachsouth
-		icon_state="beachsouth"
-		density=0
-	beachsidesoutheast
-		icon_state="beachsoutheast"
-		density=0
-	beachsidesouthwest
-		icon_state="beachsouthwest"
-		density=0
-	beachsidenortheast
-		icon_state="beachnortheast"
-		density=0
-	beachsidenorthwest
-		icon_state="beachnorthwest"
-		density=0
-	bcornernw
-		icon_state="bnw"
-		density=0
-	bcornerne
-		icon_state="bne"
-		density=0
-	bcornerse
-		icon_state="bse"
-		density=0
-	bcornersw
-		icon_state="bsw"
-		density=0
-	cactus
-		icon_state="cactus"
-		density=1
-	gryffindorfloor
-		icon_state="gred"
-		density=0
-
 	redroses
 		icon_state="redplant"
 		density=1
-	tree
-		icon='Trees.dmi'
-		icon_state="tree1"
-		density=1
-		opacity=0
-//	tree
-//		density=1
-//		opacity=0
 	bush
 		icon_state="bush"
 		density=0
@@ -3322,15 +3024,6 @@ turf
 		icon_state="flower"
 		density=1
 		layer=MOB_LAYER+1
-	stump
-		icon_state="stump"
-		density=1
-	bench
-		icon_state="bench"
-		density=0
-	benche
-		icon_state="benche"
-		density=0
 	sign
 		icon='statues.dmi'
 		icon_state="sign"
@@ -3348,10 +3041,6 @@ turf
 	sand
 		icon_state="sand"
 		density=0
-	tree
-		icon='ragtree.dmi'
-		density=1
-		opacity=0
 	walltorch
 		icon_state="w2"
 		density=1
@@ -3360,75 +3049,10 @@ turf
 	bigchair
 		icon_state="bc"
 		density=1
-	greenchair
-		icon_state="gc"
 	redchair
 		icon_state="rc"
 		density=1
-	northpole
-		icon_state="pole"
-		density=1
 
-	upstairs
-		icon_state="stairs"
-		Entered(mob/Player/M)
-			sleep(8)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(2,24,2)
-	tostaffoffices
-		icon_state="gmstair"
-		Entered(mob/Player/M)
-			sleep(8)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(70,77,21)
-	tosilversecond
-		icon_state="stairs2"
-	tomainhall
-		icon_state="gmstair"
-		Entered(mob/Player/M)
-			sleep(8)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(13,57,21)
-	toaurorhq
-		icon_state="gmstair"
-		Entered(mob/Player/M)
-			sleep(8)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(88,65,22)
-	tofloor2
-		icon_state="gmstair"
-		Entered(mob/Player/M)
-			sleep(8)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(96,24,21)
-	level2
-		icon_state="gmstair"
-		Entered(mob/Player/M)
-			sleep(8)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(90,6,21)
-	stairsnormal
-		icon_state="gmstair"
-	downstairs
-		icon_state="stairs1"
-		Entered(mob/Player/M)
-			sleep(8)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(41,8,5)
 mob/Player/Del()
 	Players.Remove(src)
 	..()
@@ -3439,145 +3063,6 @@ mob/Player/Logout()
 	usr.movable=0
 	..()
 	del(usr)
-
-turf
-	officedoor4
-		name = "Tobias's Office"
-		icon = 'door1.dmi'
-		icon_state = "closed"
-		density = 1
-		var
-			recept = 0
-		verb/Signal()
-			set category = "Door"
-			set src in oview(1)
-			if(src.recept == 0)
-				usr << "Your request to enter has been sent, if there is no reply, Deputy Headmaster Tobias may be AFK/offline."
-				for(var/mob/M in world)
-					if(M.key == "")
-						switch(input(M,"[usr] wishes to enter your office.","Doorbell") in list ("Allow","Deny"))
-							if("Allow")
-								M << "You allow [usr] to enter."
-								usr << "<b><font size=2>You may enter."
-								for(var/turf/officedoor4/T in world)
-									flick("opening",T)
-									T.icon_state = "open"
-									density = 0
-									opacity = 0
-									sleep(70)
-									flick("closing",T)
-									T.icon_state = "closed"
-									density = 1
-									opacity = 1
-							if("Deny")
-								M << "You don't allow [usr] to enter."
-								usr << "<b><font size=2><font color=red>You may not enter."
-			else
-				usr << "Talk to the receptionist"
-
-turf
-	officedoor5
-		name = "Sylar's Office"
-		icon = 'door1.dmi'
-		icon_state = "closed"
-		density = 1
-		var
-			recept = 0
-		verb/Signal()
-			set category = "Door"
-			set src in oview(1)
-			if(src.recept == 0)
-				usr << "Your request to enter has been sent, if there is no reply, Deputy Headmaster Sylar may be AFK/offline."
-				for(var/mob/M in world)
-					if(M.key == "")
-						switch(input(M,"[usr] wishes to enter your office.","Doorbell") in list ("Allow","Deny"))
-							if("Allow")
-								M << "You allow [usr] to enter."
-								usr << "<b><font size=2>You may enter."
-								for(var/turf/officedoor5/T in world)
-									flick("opening",T)
-									T.icon_state = "open"
-									density = 0
-									opacity = 0
-									sleep(70)
-									flick("closing",T)
-									T.icon_state = "closed"
-									density = 1
-									opacity = 1
-							if("Deny")
-								M << "You don't allow [usr] to enter."
-								usr << "<b><font size=2><font color=red>You may not enter."
-			else
-				usr << "Talk to the receptionist"
-
-
-	officedoor2
-		name = "Ander's Office"
-		icon = 'door1.dmi'
-		icon_state = "closed"
-		density = 1
-		var
-			recept = 0
-		verb/Signal()
-			set category = "Door"
-			set src in oview(1)
-			if(src.recept == 0)
-				usr << "Your request to enter has been sent, if there is no reply, Headmaster Ander may be AFK/offline."
-				for(var/mob/M in world)
-					if(M.key == "")
-						switch(input(M,"[usr] wishes to enter your office.","Doorbell") in list ("Allow","Deny","Shortly","Stop","Denied"))
-							if("Allow")
-								M << "You allow [usr] to enter."
-								usr << "You may enter"
-								for(var/turf/officedoor2/T in world)
-									flick("opening",T)
-									T.icon_state = "open"
-									density = 0
-									opacity = 0
-									sleep(70)
-									flick("closing",T)
-									T.icon_state = "closed"
-									density = 1
-									opacity = 1
-							if("Deny")
-								M << "You don't allow [usr] to enter."
-								usr << "You may not enter"
-							if("Shortly")
-								M << "You ask [usr] to wait shortly."
-								usr << "Headmaster Ander is currently seeing someone, but will be done shortly. If you have a seat, he will be with you shortly."
-								switch(input("Would you like to go to Ander's Waiting room?","Orb to waiting room?")in list("Yes","No"))
-									if("Yes")
-										flick('magic.dmi',usr)
-										usr.loc = locate(54,78,1)
-										flick('magic.dmi',usr)
-										usr << "\n<b>Ander</b> : Feel free to have a seat, I will be with you shortly."
-									if("No")
-										usr << "\nAlright."
-							if("Stop")
-								M << "You tell [usr] to stop."
-								usr << "Please only use the signal verb once! If you do not stop you will be punished."
-							if("Denied")
-								M << "You denied [usr]."
-								usr << "<center><h2><font color=red>Denied!</h2></center></font>"
-								return
-			else
-				usr << "Talk to the receptionist."
-
-
-
-
-
-
-
-
-
-
-
-
-/////////////////////////
-
-
-
 
 
 proc/ServerAD()
@@ -3595,17 +3080,6 @@ proc/ServerRW()
 	world<<"<b><Font color=silver>Server:</b> <font size=1><font color=red> The server is currently in Developer Mode. This means that the game is currently being coded and updated - Reboots may be frequent."
 	sleep(3000)
 	ServerRW()
-turf
-	wall
-		icon='wall1.dmi'
-		density=1
-
-turf
-	dirtOpaque
-		name="dirt"
-		icon='turf.dmi'
-		icon_state="dirt"
-		opacity=1
 
 obj
 	tabletop

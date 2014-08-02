@@ -41,9 +41,6 @@ world/cache_lifespan = 0
 mob/Player/var/lastreadDP
 var/dplastupdate
 var/lastusedAFKCheck = 0
-
-
-obj/Healing_Potion
 proc
 	Load_World()
 		var/savefile/X = new ("players/World.sav")

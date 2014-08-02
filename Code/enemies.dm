@@ -385,6 +385,31 @@ mob
 							..()
 						density = 1
 
+				Phoenix
+					icon = 'monsters2.dmi'
+					icon_state = "bird"
+					level = 6
+
+					Attack()
+						..()
+
+					Search()
+						Wander()
+
+					New()
+						light(src, 3, 600, "light")
+						..()
+
+						spawn()
+							var/time = 600
+							while(time > 0)
+								for(var/mob/Player/M in ohearers(3, src))
+									M.HP += ((M.HP/8)+rand(1,50))
+									if(M.HP > M.MHP) M.HP = M.MHP
+									M.updateHPMP()
+								sleep(25)
+								time--
+
 			Rat
 				icon = 'monsters.dmi'
 				icon_state="demon rat"

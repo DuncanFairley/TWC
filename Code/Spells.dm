@@ -477,15 +477,15 @@ mob/Spells/verb/Avis()
 		sleep(20)
 		hearers()<<"A bright white flash shoots out of [usr]'s wand."
 		sleep(20)
-		hearers()<<"A bird emerges."
-		var/mob/Bird_/D = new /mob/Bird_
+		hearers()<<"A Phoenix emerges."
+		var/mob/NPC/Enemies/Summoned/Phoenix/D = new /mob/NPC/Enemies/Summoned/Phoenix
 		D:loc = locate(src.x,src.y+1,src.z)
 		flick('mist.dmi',D)
 		src = null
 		spawn(600)
 			flick('mist.dmi',D)
 			if(D)
-				view(D)<<"The Bird flies away."
+				view(D)<<"The Phoenix flies away."
 				del D
 mob/Spells/verb/Crapus_Sticketh()
 	set category = "Spells"
@@ -1342,11 +1342,15 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 				return
 mob/Spells/verb/Ecliptica()
 	set category="Spells"
-	var/mob/M
-	for(M in get_step(usr,usr.dir))
-		step_away(M,usr,75)
-		hearers()<<"<b><font color=red>[usr]:</font></b> Ecliptica!"
-		M<<"You were pushed back!"
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		hearers()<<"<b><font color=red>[usr]</font></b>: Ecliptica!"
+		light(src, 3, 300, "light")
+		var/time = 150
+		while(time > 0)
+			for(var/mob/Player/M in ohearers(3, src))
+				step_away(M, src)
+			time--
+			sleep(2)
 mob/Spells/verb/Delicio(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
