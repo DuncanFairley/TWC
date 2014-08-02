@@ -785,8 +785,11 @@ obj/items/wearable/invisibility_cloak
 	showoverlay=0
 	desc = "This magical cloak renders the wearer invisible."
 	Equip(var/mob/Player/owner,var/overridetext=0)
-		if(owner.findStatusEffect(/StatusEffect/Decloaked) || owner.trnsed)
+		if(owner.findStatusEffect(/StatusEffect/Decloaked))
 			owner << errormsg("You are unable to cloak right now.")
+			return
+		if(owner.trnsed && !owner.derobe || (owner.derobe && owner.icon != 'Deatheater.dmi'))
+			owner << errormsg("You can't wear this while transfigured.")
 			return
 		if(locate(/obj/items/wearable/brooms) in owner.Lwearing)
 			owner << errormsg("Your cloak isn't big enough to cover you and your broom.")
@@ -1060,7 +1063,7 @@ obj/Inflamari
 	density=1
 	var/player=0
 	Bump(mob/M)
-		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
+		if(inOldArena())if(!istype(M, /mob)) return
 		if(istype(M,/obj/brick2door))
 			var/obj/brick2door/D = M
 			D.Take_Hit(owner)
@@ -1622,7 +1625,7 @@ obj/Glacius
 	density=1
 	var/player=0
 	Bump(mob/M)
-		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
+		if(inOldArena())if(!istype(M, /mob)) return
 		if(istype(M,/obj/brick2door))
 			var/obj/brick2door/D = M
 			D.Take_Hit(owner)
@@ -2001,6 +2004,7 @@ obj/redroses
 	icon='turf.dmi'
 	icon_state="redplant"
 	density=1
+	layer = 6
 obj/Armor_Feet
 	icon='statues.dmi'
 	icon_state="feet"
@@ -2112,7 +2116,7 @@ obj/Avada_Kedavra
 	var/player=0
 	layer = 4
 	Bump(mob/M)
-		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
+		if(inOldArena())if(!istype(M, /mob)) return
 		if(isturf(M)||isobj(M))
 			del src
 			return
@@ -2145,10 +2149,10 @@ obj/Flippendo
 	Bump(mob/M)
 		//if(M.monster||M.player)
 		if(!loc) return
-		if(istype(M,/obj/projectile/))
+		if(istype(M,/obj/projectile/) && !inOldArena())
 			M.dir = turn(M.dir,pick(45,-45))
 			walk(M,M.dir,2)
-		else if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))
+		else if(inOldArena())
 			if(!istype(M, /mob)) return
 		else if(istype(M, /mob) && (M.monster || M.key))
 			src.owner<<"Your [src] hit [M]!"

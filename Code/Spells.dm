@@ -161,6 +161,7 @@ mob/Spells/verb/Disperse()
 		for(var/turf/T in view())
 			if(T.specialtype == "Swamp")
 				T.slow -= 5
+				T.specialtype = null
 				T.overlays += image('mist.dmi',layer=10)
 				spawn(9)
 					T.overlays = null
@@ -1149,29 +1150,28 @@ mob/Spells/verb/Immobulus()
 		hearers()<<"A sudden wave of energy emits from [usr]'s wand, immobilizing everything in sight."
 		usr.MP-=600
 		usr.updateHPMP()
-		for(var/mob/M in oview())
-			if(M.key!=usr.key)
-				if(M.key)
-					if(!M.Gm)
-						if(M && M.removeoMob)
-							M << "Your Permoveo spell failed.."
-							M.client.eye=M
-							M.client.perspective=MOB_PERSPECTIVE
-							M.removeoMob:ReturnToStart()
-							M.removeoMob:removeoMob = null
-							M.removeoMob = null
-						M.movable=1
-						M.Immobile=1
-						M.overlays.Remove(image('Immobulus.dmi'))
-						M.overlays += image('Immobulus.dmi')
+		var/list/people = list()
+		for(var/mob/Player/M in ohearers())
+			if(M && M.removeoMob)
+				M << "Your Permoveo spell failed.."
+				M.client.eye=M
+				M.client.perspective=MOB_PERSPECTIVE
+				M.removeoMob:ReturnToStart()
+				M.removeoMob:removeoMob = null
+				M.removeoMob = null
+			people += M
+			M.movable=1
+			M.Immobile=1
+			M.overlays.Remove(image('Immobulus.dmi'))
+			M.overlays += image('Immobulus.dmi')
 		src=null
 		spawn(100)
-			for(var/client/C)
-				if(C.mob)if(C.mob.Immobile==1)
-					C.mob.overlays -= image('Immobulus.dmi')
-					C.mob.movable=0
-					C.mob.Immobile=0
-					if(usr)C<<"[usr]'s Immobulus curse wore off. You can move again."
+			for(var/mob/Player/p in people)
+				if(p && p.Immobile==1)
+					p.overlays -= image('Immobulus.dmi')
+					p.movable=0
+					p.Immobile=0
+					if(usr)p<<"[usr]'s Immobulus curse wore off. You can move again."
 mob/Spells/verb/Impedimenta()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=750,againstocclumens=1))
@@ -1698,7 +1698,7 @@ mob/Spells/verb/Wingardium_Leviosa()
 				src=null
 				spawn()
 					var/seconds = 60
-					while(other && usr && usr.Wingardiumleviosa && seconds > 0)
+					while(other && other.loc && usr && usr.Wingardiumleviosa && seconds > 0)
 						seconds--
 						sleep(10)
 					if(usr)
@@ -1812,7 +1812,7 @@ var/safemode = 1
 mob/var/tmp/lastproj = 0
 mob
 	proc/castproj(MPreq,icon,icon_state,damage,name,cd=1,lag=2)
-		if(cd && (world.time - lastproj) < 2) return
+		if(cd && (world.time - lastproj) < 2 && !inOldArena()) return
 		lastproj = world.time
 		var/obj/projectile/P = new(src.loc,src.dir,src,icon,icon_state,damage,name)
 		P.shoot(lag)
@@ -1861,7 +1861,7 @@ obj
 		var/player=0
 		Bump(mob/M)
 			if(istype(M.loc, /turf/nofirezone)) return
-			if(!loc || oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
+			if(!loc || inOldArena())if(!istype(M, /mob)) return
 			if(istype(M, /obj/stone) || istype(M, /obj/redroses) || istype(M, /mob/Madame_Pomfrey) || istype(M,/obj/egg) || istype(M,/obj/clanpillar))
 				for(var/atom/movable/O in M.loc)
 					if(O == M)continue
@@ -2162,33 +2162,41 @@ mob
 		tmp/Wingardiumleviosa
 mob/Player
 	Move(loc,dir)
-		if(wingobject)
-			var/turf/t = get_step(wingobject,dir)
-			if(istype(wingobject.loc,/mob))
-				src << infomsg("You let go of the object you were holding.")
-				wingobject.overlays = null
-				wingobject=null
-				Wingardiumleviosa = null
-			else if(t && (t in view(client.view)))
-				wingobject.Move(t)
-			return
-		if(src.questionius==1)
-			src.overlays-=icon('hand.dmi')
-			src.questionius=0
-		if(removeoMob)
-			step(removeoMob,dir)
-			return
+		if(client && client.moving)
+			if(wingobject)
+				var/turf/t = get_step(wingobject,dir)
+				if(istype(wingobject.loc,/mob))
+					src << infomsg("You let go of the object you were holding.")
+					wingobject.overlays = null
+					wingobject=null
+					Wingardiumleviosa = null
+				else if(t && (t in view(client.view)))
+					wingobject.Move(t)
+				return
+			if(src.questionius==1)
+				src.overlays-=icon('hand.dmi')
+				src.questionius=0
+			if(removeoMob)
+				step(removeoMob,dir)
+				return
 		..()
 
 client
-	var/tmp/moving = 0
+	var/tmp
+		moving = 0
+		list/movements
 	Move(loc,dir)
-		if(moving) return
-		moving = 1
-
 		if(mob.confused && dir)
 			dir = turn(dir,180)
 			loc = get_step(mob, dir)
+
+		if(moving)
+			if(!movements) movements = list()
+			else if(movements.len < 10)
+				movements += dir
+			return
+
+		moving = 1
 
 		if(src.mob.away)
 			src.mob.away = 0
@@ -2196,10 +2204,19 @@ client
 			src.mob.overlays-=image('AFK.dmi',icon_state="GM")
 			src.mob.overlays-=image('AFK.dmi',icon_state="AFK2")
 			src.mob.overlays-='AFK.dmi'
+
+		if(movements)
+			var/index = 0
+			while(index < movements.len)
+				index++
+				var/d = movements[index]
+				loc = get_step(mob, d)
+				..(loc, d)
+				sleep(1)
+			movements = null
 		..()
 		sleep(0)
 		moving = 0
-
 
 obj/var
 	controllable = 0

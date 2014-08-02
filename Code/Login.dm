@@ -39,6 +39,7 @@ mob/verb/NewVaultCustom(var/height as num, var/width as num)
 obj/drop_on_death
 	var
 		announceToWorld = 1
+		showicon
 
 	verb
 		Drop()
@@ -51,6 +52,10 @@ obj/drop_on_death
 				world<<"<b>[usr] drops \the [src].</b>"
 			else
 				hearers()<<"[usr] drops \the [src]."
+
+			if(showicon == 1) usr.overlays -= icon
+			else if(showicon) usr.overlays -= showicon
+
 	proc
 		take(mob/M)
 			if(announceToWorld)
@@ -62,6 +67,9 @@ obj/drop_on_death
 			Move(M)
 			density = dense
 			M:Resort_Stacking_Inv()
+
+			if(showicon == 1) M.overlays += icon
+			else if(showicon) M.overlays += showicon
 
 mob/test/verb
 	enter_vault(ckey as text)
@@ -2076,7 +2084,11 @@ mob/proc/Death_Check(mob/killer = src)
 						killer<<infomsg("You knocked [src] out and gained [rndexp] exp.")
 						killer.LvlCheck()
 					else
-						rndexp = rndexp * rand(2,5)
+						if(!killer.findStatusEffect(/StatusEffect/KilledPlayer)) // prevents spam killing people for gold in short time
+							rndexp = rndexp * rand(2,5)
+							new /StatusEffect/KilledPlayer (killer, 30)
+						else
+							rndexp = round(rndexp * 0.4)
 						killer.gold += rndexp
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 				else

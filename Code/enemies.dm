@@ -42,7 +42,7 @@ proc
 		var/obj/o = new (source.loc)
 		o.density = 1
 
-		var/STEPS_LIMIT = 15
+		var/const/STEPS_LIMIT = 10
 
 		var/turf/t = get_step_to(o, target, dist)
 		var/distance = get_dist(o, target)
@@ -223,7 +223,7 @@ mob
 				Ignore(mob/M)
 					if(!ignore) ignore = list()
 					ignore += M
-					spawn(50)
+					spawn(100)
 						if(M && ignore)
 							ignore -= M
 							if(ignore.len == 0)
@@ -277,7 +277,7 @@ mob
 
 			proc/Attack()
 
-				var/distance = get_dist(src,target)
+				var/distance = get_dist(src, target)
 				if(!target || !target.loc || target.loc.loc != loc.loc || distance > Range)
 					target = null
 					ShouldIBeActive()
@@ -390,25 +390,17 @@ mob
 					icon_state = "bird"
 					level = 6
 
-					Attack()
-						..()
-
 					Search()
 						Wander()
+						sleep(3)
+						for(var/mob/Player/M in ohearers(3, src))
+							M.HP += ((M.MHP/20)+rand(0,50))
+							if(M.HP > M.MHP) M.HP = M.MHP
+							M.updateHPMP()
 
 					New()
 						light(src, 3, 600, "light")
 						..()
-
-						spawn()
-							var/time = 600
-							while(time > 0)
-								for(var/mob/Player/M in ohearers(3, src))
-									M.HP += ((M.HP/8)+rand(1,50))
-									if(M.HP > M.MHP) M.HP = M.MHP
-									M.updateHPMP()
-								sleep(25)
-								time--
 
 			Rat
 				icon = 'monsters.dmi'
