@@ -100,34 +100,7 @@ mob/greenmanno
 			set src in oview(2)
 			alert("The Green Man Group is currently working on their new products for this month.")
 
-obj
-	flag
-		icon='flag.dmi'
-		icon_state="ground"
-		name="American Flag"
-
-		verb
-			Use()
-				hearers() << "<b><font color=red>[usr] pulls <font color=white>out \his<font color=blue> Flag!</b></font>"
-				usr.overlays+=image('flag.dmi',icon_state="flag")
-
-		verb
-			Put_Away()
-				hearers()<<"<b><font color=red>[usr] puts <font color=white>away \his<font color=blue> Flag.</b></font>"
-				usr.overlays-=image('flag.dmi',icon_state="flag")
-
-			Examine()
-				set src in view(3)
-				usr << "Yay America!"
-			Destroy()
-				switch(input("Are you sure you want to destroy your Flag?","Destroy?")in list("Yes","No"))
-					if("Yes")
-						del src
-					if("No")
-						return
-
 mob/var/bracecharges
-
 
 obj
 	bracecharger

@@ -2480,9 +2480,6 @@ obj/Bed
 						usr.sight = 0
 						usr<<"You feel much better."
 
-
-
-
 //VARS
 //appearance
 mob/var/Detention=0
