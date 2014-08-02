@@ -399,7 +399,7 @@ mob
 							M.updateHPMP()
 
 					New()
-						light(src, 3, 600, "light")
+						light(src, 3, 600, "orange")
 						..()
 
 			Rat
