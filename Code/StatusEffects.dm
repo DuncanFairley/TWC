@@ -178,6 +178,7 @@ StatusEffect
 	UsedMelofors
 	UsedPortus
 	UsedMeditate
+	UsedExpelliarmus
 	UsedHalloweenBucket
 	UsedSnowRing
 	UsedArcesso

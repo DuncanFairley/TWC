@@ -249,12 +249,13 @@ mob/Spells/verb/Deletrius()
 		usr << errormsg("This spell requires a wand.")
 mob/Spells/verb/Expelliarmus(mob/M in view()&Players)
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedExpelliarmus,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		var/obj/items/wearable/wands/W = locate(/obj/items/wearable/wands) in M:Lwearing
 		if(W)
 			W.Equip(M,1)
 			hearers()<<"<font color=red><b>[usr]</b></font>: <font color=white>Expelliarmus!"
 			hearers()<<"<b>[M] loses \his wand.</b>"
+			new /StatusEffect/UsedExpelliarmus(src,10)
 			if(M.removeoMob)
 				M << "Your Permoveo spell failed.."
 				M.client.eye=M
