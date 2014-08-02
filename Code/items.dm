@@ -377,7 +377,7 @@ obj/items/wearable/halloween_bucket
 		if(. == WORN)
 			src.gender = owner.gender
 			if(!overridetext)viewers(owner) << infomsg("[owner] pulls out \his [src.name].")
-			for(var/obj/items/wearable/hats/W in owner.Lwearing)
+			for(var/obj/items/wearable/halloween_bucket/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,0,1)
 		else if(. == REMOVED)
