@@ -246,7 +246,7 @@ obj/museum
 		desc = "Past Duel Instructor."
 		robes = "MaleStaff"
 
-	Zachary_Lyons_AKA_Link
+	Ben_AKA_Link_and_Zachary_Lyons
 		desc = "GCOM Professor. Past Charms, COMC, and Transfiguration Professor. Previous Duel Instructor & Ravenclaw Prefect."
 		robes = "MaleStaff"
 
@@ -306,7 +306,7 @@ obj/museum
 		desc = "Past Duel Instructor."
 		robes = "MaleStaff"
 
-	Chaseio_Blade
+	Zach_AKA_Chaseio_Blade
 		desc = "Temporary COMC Professor, Past Off-Peak Professor."
 		robes = "MaleStaff"
 
