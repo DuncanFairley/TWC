@@ -73,6 +73,7 @@ obj
 		icon = 'desk.dmi'
 		icon_state = "TD1"
 		density = 1
+		mouse_over_pointer = MOUSE_HAND_POINTER
 		Click()
 			..()
 

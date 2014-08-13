@@ -8,11 +8,14 @@
 #define REMOVED 2
 mob/Player/var/list/Lwearing
 
-obj/items/var
-	dropable    = 1
-	takeable    = 1
-	destroyable = 0
-	price       = 0
+obj/items
+	var
+		dropable    = 1
+		takeable    = 1
+		destroyable = 0
+		price       = 0
+
+	mouse_over_pointer = MOUSE_HAND_POINTER
 
 obj/items/Click()
 	if((src in oview(1)) && takeable)
@@ -374,7 +377,7 @@ obj/items/wearable/halloween_bucket
 		if(. == WORN)
 			src.gender = owner.gender
 			if(!overridetext)viewers(owner) << infomsg("[owner] pulls out \his [src.name].")
-			for(var/obj/items/wearable/hats/W in owner.Lwearing)
+			for(var/obj/items/wearable/halloween_bucket/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,0,1)
 		else if(. == REMOVED)
@@ -1440,8 +1443,9 @@ mob/Player/Logout()
 		src = null
 		spawn()
 			tmpmob:ReturnToStart()
-	loc.loc.Exit(src)
-	loc.loc.Exited(src)
+	if(loc)
+		loc.loc.Exit(src)
+		loc.loc.Exited(src)
 	..()
 var/const
 	HOUSE_WARS = 1
@@ -2149,13 +2153,10 @@ obj/Flippendo
 	layer = 4
 	var/player=0
 	Bump(mob/M)
-		//if(M.monster||M.player)
 		if(!loc) return
 		if(istype(M,/obj/projectile/) && !inOldArena())
 			M.dir = turn(M.dir,pick(45,-45))
 			walk(M,M.dir,2)
-		else if(inOldArena())
-			if(!istype(M, /mob)) return
 		else if(istype(M, /mob) && (M.monster || M.key))
 			src.owner<<"Your [src] hit [M]!"
 			//step(M, src.dir)
@@ -2163,6 +2164,7 @@ obj/Flippendo
 			if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
 				M.Move(t)
 				M<<"You were pushed backwards by [src.owner]'s Flippendo!"
+		else if(inOldArena()) return
 		del src
 obj/Thunderous
 	icon='Powers.dmi'
@@ -2188,86 +2190,7 @@ obj/Eneveda
 			M.HP=0
 			M.Death_Check(src.owner)
 		del src
-obj/Crucio
-	icon='attacks.dmi'
-	icon_state="kill"
-	density=1
-	dontsave = 1
-	var/player=0
-	Bump(mob/M)
-		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
-		if(M.monster||M.player)
-			src.owner<<"Your [src] hit [M]!"
-			hearers()<<"[M] cringes in Pain!"
 
-			M.HP-=300
-			M.Death_Check(src.owner)
-		del src
-
-obj/Tremorio
-	icon='attacks.dmi'
-	icon_state="quake"
-	density=1
-	var/player=0
-	Bump(mob/M)
-		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
-		if(istype(M,/obj/brick2door))
-			var/obj/brick2door/D = M
-			D.Take_Hit(owner)
-		if(istype(M, /obj/clanpillar))
-			var/obj/clanpillar/C = M
-			if(1)
-				switch(C.clan)
-					if("Auror")
-						if(src.owner.DeathEater)
-							C.HP -= 1
-							flick("Auror-V",C)
-							C.Death_Check(src.owner)
-					if("Deatheater")
-						if(src.owner.Auror)
-							C.HP -= 1
-							flick("Deatheater-V",C)
-							C.Death_Check(src.owner)
-					if("Gryff")
-						if(src.owner.House!="Gryffindor")
-							C.HP -= 1
-							flick("Gryff-V",C)
-							C.Death_Check(src.owner)
-					if("Slyth")
-						if(src.owner.House!="Slytherin")
-							C.HP -= 1
-							flick("Slyth-V",C)
-							C.Death_Check(src.owner)
-					if("Raven")
-						if(src.owner.House!="Ravenclaw")
-							C.HP -= 1
-							flick("Raven-V",C)
-							C.Death_Check(src.owner)
-					if("Huffle")
-						if(src.owner.House!="Hufflepuff")
-							C.HP -= 1
-							flick("Huffle-V",C)
-							C.Death_Check(src.owner)
-			del(src)
-			src=null
-	//	if(M.monster||M.player)
-		if(istype(M, /mob))
-			src.owner<<"Your [src] does [src.damage] damage to [M]"
-			if(M.shielded)
-				var/tmpdmg = M.shieldamount - src.damage
-				if(tmpdmg < 0)
-					M.HP += tmpdmg
-					M << "You are no longer shielded!"
-					M.overlays -= /obj/Shield
-					M.overlays -= /obj/Shield
-					M.shielded = 0
-					M.shieldamount = 0
-				else
-					M.shieldamount -= src.damage
-			else
-				M.HP-=src.damage
-			M.Death_Check(src.owner)
-		del src
 ////////////////\
 	End Spells  \
 /////////////////

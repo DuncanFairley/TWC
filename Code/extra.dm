@@ -183,7 +183,6 @@ mob/Click()
 		usr<<"Right click to bring up the menu"
 	else
 		..()
-
 mob/Headmasters_Office
 	invisibility=2
 obj/Magic_Sphere
@@ -212,10 +211,6 @@ obj/Beer
 			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
-obj/Beer2
-	icon='misc.dmi'
-	icon_state="beer"
-	accioable=0
 
 obj/Tea
 	icon='misc.dmi'
@@ -306,29 +301,6 @@ obj/Cocoa_Nut_Cream_Pie
 			hearers()<<"[usr] takes \the [src]."
 			Move(usr)
 			usr:Resort_Stacking_Inv()
-obj/Fire_Orb
-	icon='items.dmi'
-	icon_state="fireorb"
-	value=0
-	verb
-
-	verb
-		Take()
-			set src in oview(0)
-			hearers()<<"[usr] takes \the [src]."
-			Move(usr)
-			usr:Resort_Stacking_Inv()
-	verb
-		Drop()
-			Move(usr.loc)
-			usr:Resort_Stacking_Inv()
-			hearers()<<"[usr] drops \his [src]."
-
-obj/Sold
-	icon='items.dmi'
-	icon_state="windorb"
-	dontsave=0
-	value=0
 
 obj
 	Trophy_Rack
@@ -337,23 +309,6 @@ obj
 		verb
 			Examine()
 				usr << "This rack is to store the House Cup for the winning house!"
-
-obj/Shadow_Orb
-	icon='items.dmi'
-	icon_state="shadoworb"
-	accioable=1
-	value=0
-	verb
-		Take()
-			set src in oview(0)
-			hearers()<<"[usr] takes \the [src]."
-			Move(usr)
-			usr:Resort_Stacking_Inv()
-	verb
-		Drop()
-			Move(usr.loc)
-			usr:Resort_Stacking_Inv()
-			hearers()<<"[usr] drops \his [src]."
 
 obj/pokeby
 	icon='pokeby.dmi'

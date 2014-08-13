@@ -53,6 +53,7 @@ mob
 	name = "Ministry Mail Box"
 	icon = 'desk.dmi'
 	icon_state = "ministrybox"
+	mouse_over_pointer = MOUSE_HAND_POINTER
 	New()
 		..()
 		ministrybox = src

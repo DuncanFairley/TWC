@@ -1084,3 +1084,201 @@ obj/Stool
 	pixel_y=-5
 	value=2500
 	dontsave=1
+mob
+	Holoalert
+		density=0
+		bumpable=1
+		invisibility=2
+		Entered(mob/Player/M)
+			sleep(8)
+			if(M.monster==1)
+				return
+			else
+				M.loc=locate(41,62,21)
+			alert(usr,"ACCESS DENIED.  You need a teacher to cast Alohomora upon this door to gain access to the Holoroom.","Holo-Room Computer")
+area
+	nowalk
+		Entered()
+			return
+			usr<<"You may not pass."
+turf
+	lordcave
+		name="Hole"
+		icon='hole.dmi'
+		Entered(mob/Player/M)
+			if(!ismob(M))
+				return
+			if(!M.key)
+				return
+			else
+				if(usr.foundlord==1)
+					var/mob/Player/user = usr
+					var/obj/items/wearable/brooms/B = locate() in user.Lwearing
+					if(B)
+						B.Equip(user,0)
+					M.density = 0
+					M.Move(locate(62,72,7))
+					M.density = 1
+					M.flying = 0
+				else
+					alert("A charm keeps you from going down the hole")
+area
+	To_Grin
+		Entered(mob/Player/M)
+			if(!ismob(M))
+				return
+			if(!M.key)
+				return
+			else
+				M.loc=locate(30,60,20)
+
+area
+	From_Grin
+		Entered(mob/Player/M)
+			if(!ismob(M))
+				return
+			if(!M.key)
+				return
+			else
+				M.loc=locate(45,82,26)
+area
+	To_SecondfloorRaven
+		Entered(mob/Player/M)
+			if(istype(M, /mob/Player))
+				M.loc=locate(95,20,22)
+
+area
+	From_SecondfloorRaven
+		Entered(mob/Player/M)
+			if(istype(M, /mob/Player))
+				M.loc=locate(35,19,21)
+area
+	From_DA
+		Entered(mob/Player/M)
+			if(!ismob(M))
+				return
+			if(!M.key)
+				return
+			else
+				M.loc=locate(99,4,25)
+	ShriekingShack_Enter
+		Entered(mob/Player/M)
+			if(istype(M, /mob/Player))
+				M.loc=locate(46,1,13)
+	ShriekingShack_Exit
+		Entered(mob/Player/M)
+			if(istype(M, /mob/Player))
+				M.loc=locate(11,89,15)
+	SilverbloodEnter
+		Entered(mob/Player/M)
+			if(istype(M, /mob/Player))
+				if(M.flying==1)
+					M.loc=locate(49,30,3)
+					M<<"You may not fly inside Silverblood."
+				else
+					M.loc=locate(24,2,2)
+	Desert1
+		Entered(mob/Player/M)
+			if(istype(M, /mob/Player))
+				M.loc=locate(2,55,5)
+	Desert_back
+		Entered(mob/Player/M)
+			if(istype(M, /mob/Player))
+				M.loc=locate(99,50,4)
+	Desert2
+		Entered(mob/Player/M)
+			if(istype(M, /mob/Player))
+				M.loc=locate(34,2,6)
+	Desert2_back
+		Entered(mob/Player/M)
+			if(istype(M, /mob/Player))
+				M.loc=locate(41,99,4)
+	Holo_Room_Enter
+		Entered(mob/Player/M)
+			if(istype(M, /mob/Player))
+				M.loc=locate(74,25,22)
+				alert(usr,"Welcome to the Holo-Room. The teacher of this class will be in control of the Holograms. Train carefully!","Holo-Room Computer")
+	Holo_Room_Exit
+		Entered(mob/Player/M)
+			if(istype(M, /mob/Player))
+				M.loc=locate(69,45,21)
+	Holoalert
+		Entered(mob/Player/M)
+			if(istype(M, /mob/Player))
+				M.loc=locate(41,62,21)
+area
+	Hogwarts_Enter
+		Entered(mob/Player/M)
+			if(!istype(M, /mob/Player)) return
+			if(M.monster==1)
+				return
+			else
+				M.loc=locate(13,25,21)
+obj/Beer2
+	icon='misc.dmi'
+	icon_state="beer"
+	accioable=0
+obj/Shadow_Orb
+	icon='items.dmi'
+	icon_state="shadoworb"
+	accioable=1
+	value=0
+	verb
+		Take()
+			set src in oview(0)
+			hearers()<<"[usr] takes \the [src]."
+			Move(usr)
+			usr:Resort_Stacking_Inv()
+	verb
+		Drop()
+			Move(usr.loc)
+			usr:Resort_Stacking_Inv()
+			hearers()<<"[usr] drops \his [src]."
+obj/Fire_Orb
+	icon='items.dmi'
+	icon_state="fireorb"
+	value=0
+	verb
+
+	verb
+		Take()
+			set src in oview(0)
+			hearers()<<"[usr] takes \the [src]."
+			Move(usr)
+			usr:Resort_Stacking_Inv()
+	verb
+		Drop()
+			Move(usr.loc)
+			usr:Resort_Stacking_Inv()
+			hearers()<<"[usr] drops \his [src]."
+
+obj/Sold
+	icon='items.dmi'
+	icon_state="windorb"
+	dontsave=0
+	value=0
+obj
+	flag
+		icon='flag.dmi'
+		icon_state="ground"
+		name="American Flag"
+
+		verb
+			Use()
+				hearers() << "<b><font color=red>[usr] pulls <font color=white>out \his<font color=blue> Flag!</b></font>"
+				usr.overlays+=image('flag.dmi',icon_state="flag")
+
+		verb
+			Put_Away()
+				hearers()<<"<b><font color=red>[usr] puts <font color=white>away \his<font color=blue> Flag.</b></font>"
+				usr.overlays-=image('flag.dmi',icon_state="flag")
+
+			Examine()
+				set src in view(3)
+				usr << "Yay America!"
+			Destroy()
+				switch(input("Are you sure you want to destroy your Flag?","Destroy?")in list("Yes","No"))
+					if("Yes")
+						del src
+					if("No")
+						return

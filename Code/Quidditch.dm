@@ -780,6 +780,7 @@ obj
 			icon = 'HUD.dmi'
 			icon_state = "obsplayer"
 			screen_loc = "12,1"
+			mouse_over_pointer = MOUSE_HAND_POINTER
 			Click()
 				var/list/players = list()
 				for(var/mob/Player/M in locate(/area/Quidditch/quidditch_field))
@@ -794,6 +795,7 @@ obj
 			icon = 'HUD.dmi'
 			icon_state = "obsball"
 			screen_loc = "13,1"
+			mouse_over_pointer = MOUSE_HAND_POINTER
 			Click()
 				var/list/balls = list()
 				for(var/obj/quidditch/bludger/Q in locate(/area/Quidditch/quidditch_field))
@@ -812,6 +814,7 @@ obj
 			icon = 'HUD.dmi'
 			icon_state = "obsself"
 			screen_loc = "14,1"
+			mouse_over_pointer = MOUSE_HAND_POINTER
 			Click()
 				usr.client.eye=usr
 				usr.client.perspective=MOB_PERSPECTIVE

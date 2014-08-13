@@ -38,3 +38,16 @@ mob/Quidditch/verb
 mob/verb/Convert()
 	set hidden = 1
 
+
+obj/MonBookMon
+	New()
+		..()
+		spawn(1)
+			new /obj/items/MonBookMon (loc)
+			loc = null
+obj/COMCText
+	New()
+		..()
+		spawn(1)
+			new /obj/items/COMCText (loc)
+			loc = null

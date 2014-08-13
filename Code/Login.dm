@@ -26,7 +26,7 @@ mob/verb/NewVaultCustom(var/height as num, var/width as num)
 	if(width % 2 == 0) width--
 
 	var/midx = (width+1)/2
-	var/swapmap/map = new /swapmap("vault_4rooms",width,height,1)
+	var/swapmap/map = new /swapmap("vault_luxury",width,height,1)
 	map.BuildRectangle(map.LoCorner(),map.HiCorner(),/turf/roofb)
 	map.BuildFilledRectangle(get_step(map.LoCorner(),NORTHEAST),get_step(map.HiCorner(),SOUTHWEST),/turf/floor)
 	map.BuildFilledRectangle(locate(map.x1+1,map.y1+height-2,map.z1),locate(map.x1+width-2,map.y1+height-2,map.z1),/turf/Hogwarts_Stone_Wall)
@@ -228,7 +228,7 @@ proc/unload_vault()
 		vault_last_exit = world.time
 		return
 
-	var/const/VAULT_TIMEOUT = 60
+	var/const/VAULT_TIMEOUT = 600
 	vault_last_exit = world.time
 
 	spawn(VAULT_TIMEOUT)
@@ -1724,6 +1724,7 @@ obj
 		var/isopen=0
 		var/containstype
 		var/list/obj/contains = list()
+		mouse_over_pointer = MOUSE_HAND_POINTER
 		Click()
 			if(src in usr)
 				isopen = !isopen
@@ -2274,17 +2275,19 @@ mob/Mailman
 		Examine()
 			set src in oview(3)
 			usr << "Your friendly neighborhood Mail man!!"
-mob/Banker
+obj/Banker
 	icon_state="goblin1"
 	icon = 'misc.dmi'
-	NPC = 1
-	Gm = 1
-	player=1
-	Immortal=1
 	density=1
+	mouse_over_pointer = MOUSE_HAND_POINTER
 	New()
 		..()
-		icon_state = "goblin[rand(1,3)]"
+		spawn(1) icon_state = "goblin[rand(1,3)]"
+
+	Click()
+		..()
+		Talk()
+
 	verb
 		Examine()
 			set src in oview(3)
@@ -2476,9 +2479,6 @@ obj/Bed
 					if(usr)
 						usr.sight = 0
 						usr<<"You feel much better."
-
-
-
 
 //VARS
 //appearance

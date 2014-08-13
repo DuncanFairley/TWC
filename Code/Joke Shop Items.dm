@@ -185,6 +185,7 @@ obj
 			icon = 'HUD.dmi'
 			icon_state = "cancelthrow"
 			screen_loc = "9,8"
+			mouse_over_pointer = MOUSE_HAND_POINTER
 			Click()
 				usr.smokepelletthrowing.Cancel()
 

@@ -53,10 +53,6 @@ mob
 
 mob/var/GMFrozen
 area
-	nowalk
-		Entered()
-			return
-			usr<<"You may not pass."
 	nofly
 		Entered(atom/movable/Obj,atom/OldLoc)
 			.=..()
@@ -80,20 +76,6 @@ mob
 		name = "Marker3"
 		invisibility = 2
 		density = 0
-mob
-	Holoalert
-		density=0
-		bumpable=1
-		invisibility=2
-		Entered(mob/Player/M)
-			sleep(8)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(41,62,21)
-			alert(usr,"ACCESS DENIED.  You need a teacher to cast Alohomora upon this door to gain access to the Holoroom.","Holo-Room Computer")
-
-
 
 obj
 	bell
