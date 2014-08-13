@@ -126,6 +126,7 @@ turf
 		name = "Duel Controls"
 		icon='DuelArena.dmi'
 		icon_state="d4"
+		mouse_over_pointer = MOUSE_HAND_POINTER
 		var/Duel/D
 		Click()
 			if( !(usr in hearers(src)) )return

@@ -8,6 +8,7 @@ mob
 	PromMan
 		icon = 'PromMan.dmi'
 		name = "Mr Prom"
+		mouse_over_pointer = MOUSE_HAND_POINTER
 		var/details = {"The date is set! Prom will be held June 23!<br>
 Make sure you have your costume worked out well in advance. You can try out custom clothes up in the Prom Changeroom on the 4th floor - right by Duel Class.<br>
 Once you enter the room, you'll have a new verb tab labelled, "Prom".<br>
