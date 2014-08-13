@@ -1020,12 +1020,13 @@ mob/Vault_Salesman
 		..()
 		icon_state = "goblin[rand(1,3)]"
 
-		itemlist += "Free Vault - Free!"
-		itemlist += "Medium Vault - 2,500,000 Gold and 25 Artifacts"
-		itemlist += "Big Vault - 5,000,000 Gold and 50 Artifacts"
-		itemlist += "Huge Vault - 8,000,000 Gold and 80 Artifacts"
-		itemlist += "2 Rooms Vault - 10,000,000 Gold and 100 Artifacts"
-		itemlist += "4 Rooms Vault - 12,000,000 Gold and 120 Artifacts"
+		itemlist["Free Vault - Free!"]                                = list("1",       0)
+		itemlist["Medium Vault - 2,500,000 Gold and 25 Artifacts"]    = list("_med",    25)
+		itemlist["Big Vault - 5,000,000 Gold and 50 Artifacts"]       = list("_big",    50)
+		itemlist["Huge Vault - 8,000,000 Gold and 80 Artifacts"]      = list("_huge",   80)
+		itemlist["2 Rooms Vault - 10,000,000 Gold and 100 Artifacts"] = list("_2rooms", 100)
+		itemlist["4 Rooms Vault - 12,000,000 Gold and 120 Artifacts"] = list("_4rooms", 120)
+		itemlist["Luxury Vault - 20,000,000 Gold and 200 Artifacts"]  = list("_luxury", 200)
 
 	verb
 		Talk()
@@ -1035,35 +1036,26 @@ mob/Vault_Salesman
 				usr << npcsay("Vault Salesman: Please go talk to the vault master before coming to me.")
 				return
 
-			var/selectedvault
-			var/selectedprice
+			var/index = input("[name]: Hi there! Welcome to Gringotts, perhaps you wish to purchase one of our vaults?", "You have [comma(usr.gold)] gold")as null|anything in itemlist
+			if(!index)
+				usr << npcsay("[name]: I only sell to the rich! Begone!")
+				return
 
-			switch(input("[name]: Hi there! Welcome to Gringotts, perhaps you wish to purchase one of our vaults?", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
-				if("Free Vault - Free!")
-					selectedvault = "1"
-					selectedprice = 0
-				if("Medium Vault - 2,500,000 Gold and 25 Artifacts")
-					selectedvault = "_med"
-					selectedprice = 25
-				if("Big Vault - 5,000,000 Gold and 50 Artifacts")
-					selectedvault = "_big"
-					selectedprice = 50
-				if("Huge Vault - 8,000,000 Gold and 80 Artifacts")
-					selectedvault = "_huge"
-					selectedprice = 80
-				if("2 Rooms Vault - 10,000,000 Gold and 100 Artifacts")
-					selectedvault = "_2rooms"
-					selectedprice = 100
-				if("4 Rooms Vault - 12,000,000 Gold and 120 Artifacts")
-					selectedvault = "_4rooms"
-					selectedprice = 120
-				if(null)
-					usr << npcsay("[name]: I only sell to the rich! Begone!")
-					return
+			var/selectedvault = itemlist[index][1]
+			var/selectedprice = itemlist[index][2]
+
+
 			var/vault/v = global.globalvaults[usr.ckey]
 			if(v.tmpl == selectedvault)
 				usr << npcsay("[name]: You already have this exact same vault.")
 			else
+
+				for(var/i in itemlist)
+					if(itemlist[i][1] == v.tmpl)
+						selectedprice = max(selectedprice - itemlist[i][2], 0)
+						usr << infomsg("Selling your existing vault reduces the price to [selectedprice] artifacts and [selectedprice * 100000] gold.")
+						break
+
 				var/list/artifacts = list()
 				for(var/obj/items/artifact/a in usr)
 					artifacts += a
