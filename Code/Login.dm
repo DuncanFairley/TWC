@@ -1724,6 +1724,7 @@ obj
 		var/isopen=0
 		var/containstype
 		var/list/obj/contains = list()
+		mouse_over_pointer = MOUSE_HAND_POINTER
 		Click()
 			if(src in usr)
 				isopen = !isopen
@@ -2274,17 +2275,19 @@ mob/Mailman
 		Examine()
 			set src in oview(3)
 			usr << "Your friendly neighborhood Mail man!!"
-mob/Banker
+obj/Banker
 	icon_state="goblin1"
 	icon = 'misc.dmi'
-	NPC = 1
-	Gm = 1
-	player=1
-	Immortal=1
 	density=1
+	mouse_over_pointer = MOUSE_HAND_POINTER
 	New()
 		..()
-		icon_state = "goblin[rand(1,3)]"
+		spawn(1) icon_state = "goblin[rand(1,3)]"
+
+	Click()
+		..()
+		Talk()
+
 	verb
 		Examine()
 			set src in oview(3)

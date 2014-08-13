@@ -12,12 +12,14 @@ obj/hud/radio
 	icon = 'HUD.dmi'
 	icon_state = "radio"
 	screen_loc = "15,1"
+	mouse_over_pointer = MOUSE_HAND_POINTER
 	Click()
 		usr << link("http://radio.wizardschronicles.com")
 obj/hud/class
 	icon = 'classhud.dmi'
 	icon_state = "0"
 	screen_loc = "14,1"
+	mouse_over_pointer = MOUSE_HAND_POINTER
 	Click()
 		if(usr.classpathfinding)
 			//Turn OFF path finding
@@ -192,7 +194,7 @@ obj
 	books
 		icon = 'Books.dmi'
 		density = 1
-
+		mouse_over_pointer = MOUSE_HAND_POINTER
 		Click()
 			..()
 			if(src in view(1))

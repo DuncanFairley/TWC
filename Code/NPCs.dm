@@ -38,13 +38,24 @@ mob
 
 mob/var/StatMan
 mob
-	StatChangeMan
-		name = "Demetrius"
-		icon = 'misc.dmi'
-		icon_state = "goblin1"
+	TalkNPC
+		mouse_over_pointer = MOUSE_HAND_POINTER
+
 		density = 1
 		Immortal = 1
+
 		verb
+			Talk()
+
+		Click()
+			..()
+			Talk()
+
+		StatChangeMan
+			name = "Demetrius"
+			icon = 'misc.dmi'
+			icon_state = "goblin1"
+
 			Talk()
 				set src in oview(3)
 				if(usr.level < lvlcap)
@@ -64,17 +75,16 @@ mob
 									usr.updateHPMP()
 							if("No")
 								hearers(usr) << npcsay("Demetrius: Maybe next time then. Have a nice day!")
-mob
-	StatMan
-		name="Mysterious Caped Fellow"
-		icon='Misc Mobs.dmi'
-		icon_state="atomic"
-		density=1
-		Immortal=1
-		verb
-			Examine()
-				set src in oview(3)
-				usr << "I like his cape."
+
+		StatMan
+			name="Mysterious Caped Fellow"
+			icon='Misc Mobs.dmi'
+			icon_state="atomic"
+
+			verb
+				Examine()
+					set src in oview(3)
+					usr << "I like his cape."
 			Talk()
 				set src in oview(3)
 				switch(alert("Hello there... My name is not important, however I have a few special services I can offer you for a price...","Mysterious Caped Fellow", "Rename - 25 Spell Points", "Reset Kills/Deaths - 60 Spell Points", "No Thanks"))

@@ -941,7 +941,7 @@ obj/shop
 		random
 
 	buttons
-
+		mouse_over_pointer = MOUSE_HAND_POINTER
 
 		previous
 			Click()

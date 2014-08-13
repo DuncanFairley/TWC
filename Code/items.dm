@@ -8,11 +8,14 @@
 #define REMOVED 2
 mob/Player/var/list/Lwearing
 
-obj/items/var
-	dropable    = 1
-	takeable    = 1
-	destroyable = 0
-	price       = 0
+obj/items
+	var
+		dropable    = 1
+		takeable    = 1
+		destroyable = 0
+		price       = 0
+
+	mouse_over_pointer = MOUSE_HAND_POINTER
 
 obj/items/Click()
 	if((src in oview(1)) && takeable)
