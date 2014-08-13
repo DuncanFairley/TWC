@@ -194,7 +194,7 @@ mob/test/verb/Teach_Spells()
 		<td>[(/mob/GM/verb/Teach_Petreficus_Totalus in verbs) ? "<a href='?src=\ref[src];action=teach_petreficustotalus'>Petrificus Totalus</a>" : "Petrificus Totalus"]</td>
 		<td>[(/mob/GM/verb/Teach_Portus in verbs) ? "<a href='?src=\ref[src];action=teach_portus'>Portus</a>" : "Portus"]</td>
 		<td>[(/mob/GM/verb/Teach_Protego in verbs) ? "<a href='?src=\ref[src];action=teach_protego'>Protego</a>" : "Protego"]</td>
-		<td>[(/mob/GM/verb/Teach_Reddikulus in verbs) ? "<a href='?src=\ref[src];action=teach_reddikulus'>Reddikulus</a>" : "Reddikulus"]</td>
+		<td>[(/mob/GM/verb/Teach_Reddikulus in verbs) ? "<a href='?src=\ref[src];action=teach_reddikulus'>Riddikulus</a>" : "Riddikulus"]</td>
 		<td>[(/mob/GM/verb/Teach_Reducto in verbs) ? "<a href='?src=\ref[src];action=teach_reducto'>Reducto</a>" : "Reducto"]</td>
 	</tr>
 	<tr>
@@ -221,7 +221,7 @@ mob/test/verb/Teach_Spells()
 	<tr>
 		<td>[(/mob/GM/verb/Teach_Valorus in verbs) ? "<a href='?src=\ref[src];action=teach_valorus'>Valorus</a>" : "Valorus"]</td>
 		<td>[(/mob/GM/verb/Teach_Waddiwasi in verbs) ? "<a href='?src=\ref[src];action=teach_waddiwasi'>Waddiwasi</a>" : "Waddiwasi"]</td>
-		<td>[(/mob/GM/verb/Teach_Wingardium in verbs) ? "<a href='?src=\ref[src];action=teach_wingardium'>Wingardium Levisoa</a>" : "Wingardium Leviosa"]</td>
+		<td>[(/mob/GM/verb/Teach_Wingardium in verbs) ? "<a href='?src=\ref[src];action=teach_wingardium'>Wingardium Leviosa</a>" : "Wingardium Leviosa"]</td>
 	</tr>
 
 </table>
