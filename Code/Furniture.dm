@@ -82,7 +82,6 @@ obj/Ani/N
 	icon_state="n"
 	accioable=0
 
-
 obj/Ani/T
 	icon='ian.dmi'
 	icon_state="t"
@@ -97,6 +96,7 @@ obj/Ani/O
 	icon='ian.dmi'
 	icon_state="o"
 	accioable=0
+
 turf
 	tables
 		icon = 'Tables.dmi'
@@ -137,6 +137,7 @@ obj/Stable
 	wlable=0
 	density=1
 	dontsave=1
+
 obj/Stable_
 	icon='General.dmi'
 	icon_state="tile74"
@@ -144,6 +145,7 @@ obj/Stable_
 	wlable=0
 	density=1
 	dontsave=1
+
 obj/Stable__
 	icon='General.dmi'
 	icon_state="tile75"
@@ -151,6 +153,7 @@ obj/Stable__
 	wlable=0
 	density=1
 	dontsave=1
+
 obj/Triple_Candle
 	icon='General.dmi'
 	icon_state="tile80"
@@ -159,32 +162,39 @@ obj/Triple_Candle
 	density=1
 	luminosity = 7
 	dontsave=1
+
 obj/Couch
 	icon='General.dmi'
 	icon_state="tile83"
 	accioable=0
 	wlable=0
 	dontsave=1
+
 obj/Couch2
 	icon='General.dmi'
 	icon_state="tile84"
 	accioable=0
 	wlable=0
 	dontsave=1
+
 obj/housecouch
 	name = "Couch"
 	dontsave=1
 	icon = 'couch.dmi'
 	icon_state = "green"
+
 turf/Staircase
 	icon='General.dmi'
 	icon_state="tile85"
+
 turf/Staircase3
 	icon='misc.dmi'
 	icon_state="blank"
+
 turf/Staircase2
 	icon='General.dmi'
 	icon_state="tile86"
+
 obj/Clock
 	icon='General.dmi'
 	icon_state="tile79"
@@ -192,6 +202,7 @@ obj/Clock
 	wlable=0
 	density=1
 	dontsave=1
+
 obj/MasterBed
 	icon='General.dmi'
 	icon_state="tile68"
@@ -199,6 +210,7 @@ obj/MasterBed
 	wlable=0
 	layer=6
 	dontsave=1
+
 obj/MasterBed_
 	icon='General.dmi'
 	icon_state="tile69"
@@ -206,6 +218,7 @@ obj/MasterBed_
 	wlable=0
 	layer=2
 	dontsave=1
+
 obj/MasterBed__
 	icon='General.dmi'
 	icon_state="tile70"
@@ -213,6 +226,7 @@ obj/MasterBed__
 	wlable=0
 	density=1
 	dontsave=1
+
 obj/MasterBed___
 	icon='General.dmi'
 	icon_state="tile71"
@@ -233,6 +247,7 @@ obj/Neptune
 	wlable=0
 	density=1
 	dontsave=1
+
 obj/NeptuneBottom
 	icon='General.dmi'
 	icon_state="tile92"
@@ -240,6 +255,7 @@ obj/NeptuneBottom
 	wlable=0
 	density=1
 	dontsave=1
+
 obj/Column
 	icon='General.dmi'
 	icon_state="tile93"
@@ -247,6 +263,7 @@ obj/Column
 	wlable=0
 	density=1
 	dontsave=1
+
 obj/Columb
 	icon='General.dmi'
 	icon_state="tile94"
@@ -272,7 +289,6 @@ obj/Endtable
 	wlable=0
 	density=1
 	dontsave=1
-
 
 obj/Pink_Flowers
 	icon='General.dmi'

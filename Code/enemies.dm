@@ -32,6 +32,8 @@ obj/statues
 	black_cat/icon_state = "blackcat"
 	white_cat/icon_state = "whitecat"
 	dog/icon_state = "dog"
+	frog/icon_state = "frog"
+	rabbit/icon_state = "rabbit"
 
 proc
 	isPathBlocked(mob/source, mob/target, dist=1, dense_override=0, dist_limit=10)
@@ -399,7 +401,7 @@ mob
 							M.updateHPMP()
 
 					New()
-						light(src, 3, 600, "light")
+						light(src, 3, 600, "orange")
 						..()
 
 			Rat
