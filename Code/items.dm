@@ -2147,7 +2147,6 @@ obj/Flippendo
 	layer = 4
 	var/player=0
 	Bump(mob/M)
-		//if(M.monster||M.player)
 		if(!loc) return
 		if(istype(M,/obj/projectile/) && !inOldArena())
 			M.dir = turn(M.dir,pick(45,-45))
@@ -2185,86 +2184,7 @@ obj/Eneveda
 			M.HP=0
 			M.Death_Check(src.owner)
 		del src
-obj/Crucio
-	icon='attacks.dmi'
-	icon_state="kill"
-	density=1
-	dontsave = 1
-	var/player=0
-	Bump(mob/M)
-		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
-		if(M.monster||M.player)
-			src.owner<<"Your [src] hit [M]!"
-			hearers()<<"[M] cringes in Pain!"
 
-			M.HP-=300
-			M.Death_Check(src.owner)
-		del src
-
-obj/Tremorio
-	icon='attacks.dmi'
-	icon_state="quake"
-	density=1
-	var/player=0
-	Bump(mob/M)
-		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
-		if(istype(M,/obj/brick2door))
-			var/obj/brick2door/D = M
-			D.Take_Hit(owner)
-		if(istype(M, /obj/clanpillar))
-			var/obj/clanpillar/C = M
-			if(1)
-				switch(C.clan)
-					if("Auror")
-						if(src.owner.DeathEater)
-							C.HP -= 1
-							flick("Auror-V",C)
-							C.Death_Check(src.owner)
-					if("Deatheater")
-						if(src.owner.Auror)
-							C.HP -= 1
-							flick("Deatheater-V",C)
-							C.Death_Check(src.owner)
-					if("Gryff")
-						if(src.owner.House!="Gryffindor")
-							C.HP -= 1
-							flick("Gryff-V",C)
-							C.Death_Check(src.owner)
-					if("Slyth")
-						if(src.owner.House!="Slytherin")
-							C.HP -= 1
-							flick("Slyth-V",C)
-							C.Death_Check(src.owner)
-					if("Raven")
-						if(src.owner.House!="Ravenclaw")
-							C.HP -= 1
-							flick("Raven-V",C)
-							C.Death_Check(src.owner)
-					if("Huffle")
-						if(src.owner.House!="Hufflepuff")
-							C.HP -= 1
-							flick("Huffle-V",C)
-							C.Death_Check(src.owner)
-			del(src)
-			src=null
-	//	if(M.monster||M.player)
-		if(istype(M, /mob))
-			src.owner<<"Your [src] does [src.damage] damage to [M]"
-			if(M.shielded)
-				var/tmpdmg = M.shieldamount - src.damage
-				if(tmpdmg < 0)
-					M.HP += tmpdmg
-					M << "You are no longer shielded!"
-					M.overlays -= /obj/Shield
-					M.overlays -= /obj/Shield
-					M.shielded = 0
-					M.shieldamount = 0
-				else
-					M.shieldamount -= src.damage
-			else
-				M.HP-=src.damage
-			M.Death_Check(src.owner)
-		del src
 ////////////////\
 	End Spells  \
 /////////////////
