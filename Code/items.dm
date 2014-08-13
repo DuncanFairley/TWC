@@ -1438,8 +1438,9 @@ mob/Player/Logout()
 		src = null
 		spawn()
 			tmpmob:ReturnToStart()
-	loc.loc.Exit(src)
-	loc.loc.Exited(src)
+	if(loc)
+		loc.loc.Exit(src)
+		loc.loc.Exited(src)
 	..()
 var/const
 	HOUSE_WARS = 1

@@ -62,6 +62,9 @@ proc/issafezone(area/A)
 		return safemode && !A.safezoneoverride && (!istype(A,/area/hogwarts/Duel_Arenas) && (istype(A,/area/hogwarts) || istype(A,/area/Diagon_Alley)))
 proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inarena=1,var/insafezone=1,var/inhogwarts=1,var/mob/Player/target=null,var/mpreq=0,var/againstocclumens=1,var/againstflying=1,var/againstcloaked=1,var/projectile=0)
 	//Returns 1 if you can use the item/cast the spell. Also handles the printing of messages if you can't.
+	if(!loc)
+		M << "<b>You cannot use this in the void.</b>"
+		return 0
 	var/area/A = M.loc.loc
 	if(M.z > SWAPMAP_Z && !inhogwarts)
 		M << "<b>You cannot use this in a vault.</b>"
