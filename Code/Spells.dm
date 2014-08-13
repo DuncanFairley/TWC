@@ -1029,13 +1029,13 @@ mob/Spells/verb/Muffliato(mob/M in view()&Players)
 				M.muff=0
 mob/Spells/verb/Incindia()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedIncindia,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=400,againstocclumens=1,projectile=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedIncindia,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=450,againstocclumens=1,projectile=1))
 		hearers()<<"[src] raises \his wand into the air. <font color=red><b><i>INCINDIA!</b></i>"
-		usr.MP-=400
+		usr.MP-=450
 		usr.updateHPMP()
-		new /StatusEffect/UsedIncindia(src,10)
+		new /StatusEffect/UsedIncindia(src,15)
 		var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-		var/damage = round((Dmg + extraDmg) * 0.8)
+		var/damage = round((Dmg + extraDmg) * 0.75)
 		var/t = dir
 		for(var/d in dirs)
 			dir = d
