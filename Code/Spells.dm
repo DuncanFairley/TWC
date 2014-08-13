@@ -2187,12 +2187,12 @@ client
 		list/movements
 	Move(loc,dir)
 		if(mob.confused && dir)
-			dir = turn(dir,180)
+			dir = turn(dir, 180)
 			loc = get_step(mob, dir)
 
-		if(moving)
+		if(moving == 1)
 			if(!movements) movements = list()
-			else if(movements.len < 10)
+			else if(movements.len < 5)
 				movements += dir
 			return
 
@@ -2206,14 +2206,16 @@ client
 			src.mob.overlays-='AFK.dmi'
 
 		if(movements)
+			moving = 2
 			var/index = 0
-			while(index < movements.len)
+			while(index < movements.len && moving == 2)
 				index++
 				var/d = movements[index]
 				loc = get_step(mob, d)
 				..(loc, d)
 				sleep(1)
 			movements = null
+			if(moving != 2) return
 		..()
 		sleep(0)
 		moving = 0
