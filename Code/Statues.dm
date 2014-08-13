@@ -307,7 +307,7 @@ obj/museum
 		robes = "MaleStaff"
 
 	Zach_AKA_Chaseio_Blade
-		desc = "Temporary COMC Professor, Past Off-Peak Professor."
+		desc = "COMC Professor, Past Off-Peak Professor."
 		robes = "MaleStaff"
 
 	Chris_Sparker
