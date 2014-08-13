@@ -2152,8 +2152,6 @@ obj/Flippendo
 		if(istype(M,/obj/projectile/) && !inOldArena())
 			M.dir = turn(M.dir,pick(45,-45))
 			walk(M,M.dir,2)
-		else if(inOldArena())
-			if(!istype(M, /mob)) return
 		else if(istype(M, /mob) && (M.monster || M.key))
 			src.owner<<"Your [src] hit [M]!"
 			//step(M, src.dir)
@@ -2161,6 +2159,7 @@ obj/Flippendo
 			if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
 				M.Move(t)
 				M<<"You were pushed backwards by [src.owner]'s Flippendo!"
+		else if(inOldArena()) return
 		del src
 obj/Thunderous
 	icon='Powers.dmi'
