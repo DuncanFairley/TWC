@@ -415,7 +415,7 @@ mob/GM
 					chatlog << "<b><font size=2 color=silver>GM> [usr]:</font></b> <font color=white>[messsage]</font><br>"
 
 		DE_chat(var/messsage as text)
-			set category="Death Eater"
+			set category="Clan"
 			set name="DE Chat"
 			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
 			if(messsage)
@@ -429,7 +429,7 @@ mob/GM
 							C<<"<b><font color=green><font size=2>DE Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 
 		Auror_chat(var/messsage as text)
-			set category="Aurors"
+			set category="Clan"
 			set name="Auror Chat"
 			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
 			if(messsage)
@@ -514,7 +514,8 @@ mob/GM
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
 					S.owner=usr
-					walk(S,usr.dir,2)
+					S.density=0
+					walk_towards(S,M,2)
 					sleep(20)
 					del S
 					flick('apparate.dmi',M)
@@ -527,7 +528,8 @@ mob/GM
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
 					S.owner=usr
-					walk(S,usr.dir,2)
+					S.density=0
+					walk_towards(S,M,2)
 					sleep(20)
 					del S
 					flick('apparate.dmi',M)
@@ -540,7 +542,8 @@ mob/GM
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
 					S.owner=usr
-					walk(S,usr.dir,2)
+					S.density=0
+					walk_towards(S,M,2)
 					sleep(20)
 					del S
 					flick('apparate.dmi',M)
@@ -553,7 +556,8 @@ mob/GM
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
 					S.owner=usr
-					walk(S,usr.dir,2)
+					S.density=0
+					walk_towards(S,M,2)
 					sleep(20)
 					del S
 					flick('apparate.dmi',M)
@@ -566,7 +570,8 @@ mob/GM
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
 					S.owner=usr
-					walk(S,usr.dir,2)
+					S.density=0
+					walk_towards(S,M,2)
 					sleep(20)
 					del S
 					flick('apparate.dmi',M)
@@ -579,7 +584,7 @@ mob/GM
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
 					S.owner=usr
-					walk(S,usr.dir,2)
+					walk_towards(S,M,2)
 					sleep(20)
 					del S
 					flick('apparate.dmi',M)
@@ -589,6 +594,7 @@ mob/GM
 					sleep(20)
 					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Azkaban.</font></b>"
 			if(M && M.removeoMob) spawn()M:Permoveo()
+
 
 mob
 	test/verb
@@ -864,7 +870,7 @@ mob
 			world<<announcemsg("Muggle Studies class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 
 		End_Floor_Guidence()
-			set category = "Staff"
+			set category = "Teach"
 			set name = "End Floor Guidance"
 			var/stillpathing = ""
 			for(var/mob/M in Players)
@@ -1325,7 +1331,7 @@ obj/var/description
 mob/var/shortapparate = 0
 turf//client
 	DblClick()
-		if(usr.shortapparate)
+		if(usr.shortapparate && !(usr.derobe || usr.aurorrobe))
 			if(!density)// && get_dist(usr,src) <25)
 				flick('apparate.dmi',usr)
 				if(usr.density)

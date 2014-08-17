@@ -250,12 +250,13 @@ mob/Spells/verb/Deletrius()
 		usr << errormsg("This spell requires a wand.")
 mob/Spells/verb/Expelliarmus(mob/M in view()&Players)
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedExpelliarmus,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		var/obj/items/wearable/wands/W = locate(/obj/items/wearable/wands) in M:Lwearing
 		if(W)
 			W.Equip(M,1)
 			hearers()<<"<font color=red><b>[usr]</b></font>: <font color=white>Expelliarmus!"
 			hearers()<<"<b>[M] loses \his wand.</b>"
+			new /StatusEffect/UsedExpelliarmus(src,10)
 			if(M.removeoMob)
 				M << "Your Permoveo spell failed.."
 				M.client.eye=M
@@ -315,7 +316,7 @@ mob/Spells/verb/Densuago(mob/M in view()&Players)
 			M.overlays-=('teeth.dmi')
 			M<<"Your teeth have been reduced to normal size."
 mob/Spells/verb/Morsmordre()
-	set category = "Spells"
+	set category = "Clan"
 	if(canUse(src,cooldown=/StatusEffect/UsedClanAbilities, needwand=1))
 		new /StatusEffect/UsedClanAbilities(src,300)
 		var/obj/The_Dark_Mark/D = new /obj/The_Dark_Mark
@@ -437,7 +438,8 @@ mob/Spells/verb/Solidus()
 		src = null
 mob/Spells/verb/Ferula()
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedFerula,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		new /StatusEffect/UsedFerula(src,5)
 		var/obj/Madame_Pomfrey/p = new /obj/Madame_Pomfrey
 		p:loc = locate(src.x,src.y+1,src.z)
 		flick('teleboom.dmi',p)

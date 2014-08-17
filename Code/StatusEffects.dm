@@ -166,6 +166,8 @@ StatusEffect
 	Summoned
 	Decloaked
 	Knockedfrombroom
+	UsedFerulaToHeal
+	UsedFerula
 	UsedLevicorpus
 	UsedEvanesco
 	UsedEvanesca
@@ -179,6 +181,7 @@ StatusEffect
 	UsedMelofors
 	UsedPortus
 	UsedMeditate
+	UsedExpelliarmus
 	UsedHalloweenBucket
 	UsedSnowRing
 	UsedArcesso

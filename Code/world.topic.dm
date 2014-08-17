@@ -42,6 +42,8 @@ mob/proc
 		if(DeathEater) return Deatheaters()
 
 mob/GM/verb/Clan_store()
+	set category = "Clan"
+	set name = "Clan Store"
 	var/index = Auror ? 5 : 6
 	var/area/_area = Auror ? /area/AurorHQ : /area/DEHQ
 	switch(input("This is pretty well a beta test! I expect there will be a better interface if I decide to go with this idea. Select what you want to spend your clan points on. You will have the option to confirm your choice after you click one.") as null|anything in list(\

@@ -603,14 +603,18 @@ obj/Madame_Pomfrey
 					usr<<"Madam Pomfrey:  Very well then. Off you go."
 	verb
 		Heal_Me()
-			set src in oview(1)
-			usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episkey [usr]!"
-			usr.overlays+=image('attacks.dmi',icon_state="heal")
-			usr.HP=usr.MHP+usr.extraMHP
-			usr.updateHPMP()
-			src = null
-			spawn(10)
-				usr.overlays-=image('attacks.dmi',icon_state="heal")
+			if(canUse(usr,cooldown=/StatusEffect/UsedFerulaToHeal))
+				set src in oview(1)
+				usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episkey [usr]!"
+				new /StatusEffect/UsedFerulaToHeal(usr,5)
+				usr.overlays+=image('attacks.dmi',icon_state="heal")
+				usr.HP=usr.MHP+usr.extraMHP
+				usr.updateHPMP()
+				src = null
+				spawn(10)
+					usr.overlays-=image('attacks.dmi',icon_state="heal")
+
+
 	New()
 		..()
 		spawn(425)
