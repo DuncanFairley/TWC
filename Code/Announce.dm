@@ -174,7 +174,6 @@ mob
 							C << "<b><font color = white>Your Telendevour wears off."
 							C.eye=C.mob
 				usr.aurorrobe=1
-				usr.density=1
 				usr.underlays = list()
 				GenerateNameOverlay(196,237,255)
 				usr.Immortal = 0
@@ -231,7 +230,6 @@ mob
 				if(usr.away)usr.ApplyAFKOverlay()
 				usr.gender = NEUTER
 				usr.Immortal = 0
-				usr.density=1
 				usr.Gm = 0
 				usr << "You slip on your Death Eater robes."
 				usr.prevname = usr.name
