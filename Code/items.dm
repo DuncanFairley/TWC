@@ -1395,6 +1395,7 @@ mob/GM/verb/Arena()
 				var/turf/T = pick(rndturfs)
 				M.loc = T
 				M.density = 1
+				M.Immortal = 0
 				M.HP = M.MHP+M.extraMHP
 				M.MP = M.MMP+M.extraMMP
 				M.updateHPMP()
@@ -1434,6 +1435,8 @@ mob/GM/verb/Arena()
 				M.HP = M.MHP+M.extraMHP
 				M.MP = M.MMP+M.extraMMP
 				M.updateHPMP()
+				M.Immortal = 0
+				M.density = 1
 				M.dir = SOUTH
 			currentArena.players << "<center><font size = 4>The arena mode is <u>Clan Wars</u>. Aurors vs Deatheaters.<br>The first clan to reach [currentArena.goalpoints] points wins!</center>"
 			sleep(30)
@@ -1470,6 +1473,8 @@ mob/GM/verb/Arena()
 				M.dir = SOUTH
 				M.HP = M.MHP+M.extraMHP
 				M.MP = M.MMP+M.extraMMP
+				M.density = 1
+				M.Immortal = 0
 				M.updateHPMP()
 			currentArena.players << "<center><font size = 4>The arena mode is <u>House Wars</u>.<br>The first house to reach [currentArena.goalpoints] arena points wins [currentArena.amountforwin] house points!"
 			sleep(30)

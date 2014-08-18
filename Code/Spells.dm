@@ -439,7 +439,7 @@ mob/Spells/verb/Solidus()
 mob/Spells/verb/Ferula()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedFerula,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		new /StatusEffect/UsedFerula(src,5)
+		new /StatusEffect/UsedFerula(src,30)
 		var/obj/Madame_Pomfrey/p = new /obj/Madame_Pomfrey
 		p:loc = locate(src.x,src.y+1,src.z)
 		flick('teleboom.dmi',p)
