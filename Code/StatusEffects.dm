@@ -183,6 +183,7 @@ StatusEffect
 	UsedMeditate
 	UsedExpelliarmus
 	UsedHalloweenBucket
+	UsedSonic
 	UsedSnowRing
 	UsedArcesso
 	UsedProtego
