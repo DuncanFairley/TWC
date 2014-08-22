@@ -525,6 +525,29 @@ obj/items/wearable/wands/maple_wand //Easter
 		else
 			usr << errormsg("You need to be using this wand to cast this.")
 
+obj/items/wearable/wands/sonic_wand
+	dropable = 0
+	icon = 'sonic_wand.dmi'
+
+	verb/Sound_Wave()
+		set category = "Spells"
+		if(src in usr:Lwearing)
+			if(canUse(usr,cooldown=/StatusEffect/UsedSonic,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+				new /StatusEffect/UsedSonic(usr, 30)
+				spawn()
+					light(usr, 0, 10, "teal")
+					sleep(3)
+					light(usr, 1, 12, "blue")
+					sleep(3)
+					light(usr, 2, 15, "purple")
+				for(var/obj/Hogwarts_Door/d in oview(2))
+					if(prob(20) || d.pass) continue
+					usr.Bump(d)
+					sleep(1)
+
+		else
+			usr << errormsg("You need to be using this wand to cast this.")
+
 obj/items/wearable/wands/interruption_wand //Fred's quest
 	icon = 'interruption_wand.dmi'
 obj/items/wearable/wands/salamander_wand //Bag of goodies

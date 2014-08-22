@@ -346,7 +346,7 @@ mob/Spells/verb/Repellium()
 			time--
 			sleep(4)
 
-atom/proc/light(atom/a, range=3, ticks=100, state = "light")
+proc/light(atom/a, range=3, ticks=100, state = "light")
 	var/obj/light = new
 	var/image/img = image('lights.dmi',state)
 	img.layer = 8
@@ -356,9 +356,9 @@ atom/proc/light(atom/a, range=3, ticks=100, state = "light")
 			img.pixel_y = py * 32
 			light.overlays += img
 
-	overlays += light
+	a.overlays += light
 	if(ticks != 0)
-		spawn(ticks) overlays -= light
+		spawn(ticks) a.overlays -= light
 
 
 mob/Spells/verb/Basilio()
@@ -2192,7 +2192,7 @@ client
 			dir = turn(dir, 180)
 			loc = get_step(mob, dir)
 
-		if(moving == 1)
+		if(moving)
 			if(!movements) movements = list()
 			else if(movements.len < 5)
 				movements += dir
@@ -2208,16 +2208,15 @@ client
 			src.mob.overlays-='AFK.dmi'
 
 		if(movements)
-			moving = 2
 			var/index = 0
-			while(index < movements.len && moving == 2)
+			while(index < movements.len)
 				index++
 				var/d = movements[index]
 				loc = get_step(mob, d)
 				..(loc, d)
 				sleep(1)
 			movements = null
-			if(moving != 2) return
+
 		..()
 		sleep(0)
 		moving = 0
