@@ -1517,7 +1517,7 @@ mob/Spells/verb/Arania_Eximae()
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
 		usr.MP-=50
 		usr.updateHPMP()
-		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=2><font color=white> Arania Exumai"
+		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=2><font color=white> Arania Exumai!"
 		for(var/mob/NPC/Enemies/Acromantula/A in oview())
 			A.overlays+=image('arania.dmi')
 			spawn(20)
