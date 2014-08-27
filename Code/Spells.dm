@@ -2136,9 +2136,11 @@ proc/overlaylist(var/list/overlays)
 mob/var/tmp/trnsed = 0
 mob
 	mouse_drag_pointer = MOUSE_DRAG_POINTER
+
 mob/GM/verb/Remote_View(mob/M in world)
 	set category="Staff"
 	set popup_menu = 0
+	if(clanrobed())return
 	if(M.derobe||M.aurorrobe||M.type == /mob/fakeDE ||istype(M.loc.loc, /area/ministry_of_magic||istype(M.loc.loc, /area/blindness))){src<<"<b>You cannot use remote view on this person.";return}
 	usr.client.eye=M
 	usr.client.perspective=EYE_PERSPECTIVE
@@ -2153,6 +2155,7 @@ mob/GM/verb/Return_View()
 	usr.client.eye=usr
 	usr.client.perspective=MOB_PERSPECTIVE
 	usr<<"You return to your body."
+
 mob/var/tmp/episkying = 0
 mob/var/tmp/meditating = 0
 mob/var/tmp/confused = 0

@@ -910,6 +910,7 @@ mob
 
 		Immortal()
 			set category="Staff"
+			if(clanrobed())return
 			if(usr.Immortal==0)
 				flick('Heal.dmi',usr)
 				usr<<"You are now Immortal."
@@ -1023,6 +1024,7 @@ mob
 			set category = "Staff"
 			set name = "Edit"
 			set desc="(target) Edit a target item's variables"
+			if(clanrobed())return
 
 			if(O==null)return
 
