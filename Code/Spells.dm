@@ -1211,6 +1211,35 @@ mob/Spells/verb/Incendio()
 		sleep(20)
 		flick('fireworks.dmi',M)
 		M.overlays+=image('hair.dmi',icon_state="black")*/
+
+mob/proc/Trans_Me()
+	if(src.Gender=="Male")
+		if(src.Gm)
+			src.icon='FemaleStaff.dmi'
+		if(src.aurorrobe)
+			src.icon='FemaleAuror.dmi'
+		if(src.House=="Gryffindor")
+			src.icon='FemaleGryffindor.dmi'
+		if(src.House=="Ravenclaw")
+			src.icon='FemaleRavenclaw.dmi'
+		if(src.House=="Slytherin")
+			src.icon='FemaleSlytherin.dmi'
+		if(src.House=="Hufflepuff")
+			src.icon='FemaleHufflepuff.dmi'
+	else
+		if(src.Gm)
+			src.icon='MaleStaff.dmi'
+		if(src.aurorrobe)
+			src.icon='MaleAuror.dmi'
+		if(src.House=="Gryffindor")
+			src.icon='MaleGryffindor.dmi'
+		if(src.House=="Ravenclaw")
+			src.icon='MaleRavenclaw.dmi'
+		if(src.House=="Slytherin")
+			src.icon='MaleSlytherin.dmi'
+		if(src.House=="Hufflepuff")
+			src.icon='MaleHufflepuff.dmi'
+
 mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 	set category="Spells"
 	set name = "Riddikulus"
@@ -1218,130 +1247,16 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 		hearers()<<"<b><font color=red>[usr]</font>: <font color=red><font size=3>Riddikulus!</font></font>, [M].</b>"
 		sleep(20)
 		if(!M) return
-		flick('fireworks.dmi',M)
+		flick('teleboom.dmi',M)
 		if(M.derobe) return
-		if(M.Gender=="Male")
-			if(M.Gm)
-				M.icon='FemaleStaff.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='MaleStaff.dmi'
-				M.icon_state=""
-				return
-			if(M.aurorrobe)
-				M.icon='FemaleAuror.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='MaleAuror.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Gryffindor")
-				M.icon='FemaleGryffindor.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='MaleGryffindor.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Ravenclaw")
-				M.icon='FemaleRavenclaw.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='MaleRavenclaw.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Slytherin")
-				M.icon='FemaleSlytherin.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='MaleSlytherin.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Hufflepuff")
-				M.icon='FemaleHufflepuff.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='MaleHufflepuff.dmi'
-				M.icon_state=""
-				return
-		else
-			if(M.Gm)
-				M.icon='MaleStaff.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='FemaleStaff.dmi'
-				M.icon_state=""
-				return
-			if(M.aurorrobe)
-				M.icon='MaleAuror.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='FemaleAuror.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Gryffindor")
-				M.icon='MaleGryffindor.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='FemaleGryffindor.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Ravenclaw")
-				M.icon='MaleRavenclaw.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='FemaleRavenclaw.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Slytherin")
-				M.icon='MaleSlytherin.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='FemaleSlytherin.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Hufflepuff")
-				M.icon='MaleHufflepuff.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='FemaleHufflepuff.dmi'
-				M.icon_state=""
-				return
+		M.Trans_Me()
+		sleep(600)
+		if(!M) return
+		M << "<b>You turn back to Normal</b>."
+		flick('teleboom.dmi',M)
+		M.icon=baseicon
+		return
+
 mob/Spells/verb/Ecliptica()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
