@@ -1244,18 +1244,17 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 	set category="Spells"
 	set name = "Riddikulus"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
+		if(!M) return
+		if(M.derobe) return
 		hearers()<<"<b><font color=red>[usr]</font>: <font color=red><font size=3>Riddikulus!</font></font>, [M].</b>"
 		sleep(20)
-		if(!M) return
 		flick('teleboom.dmi',M)
-		if(M.derobe) return
 		M.Trans_Me()
-		sleep(600)
-		if(!M) return
-		M << "<b>You turn back to Normal</b>."
-		flick('teleboom.dmi',M)
-		M.icon=baseicon
-		return
+		src=null
+		spawn(600)
+			M << "<b>You turn back to Normal</b>."
+			flick('teleboom.dmi',M)
+			M.icon=baseicon
 
 mob/Spells/verb/Ecliptica()
 	set category="Spells"
