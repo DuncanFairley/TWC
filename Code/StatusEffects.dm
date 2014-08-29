@@ -194,6 +194,7 @@ StatusEffect
 	DisableProjectiles
 	KilledPlayer
 	UsedRepel
+	UsedRiddikulus
 
 	Lamps
 		var/tmp/obj/items/lamps/lamp
