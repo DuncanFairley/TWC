@@ -1123,9 +1123,10 @@ mob/Spells/verb/Obliviate(mob/M in view()&Players)
 		usr.updateHPMP()
 mob/Spells/verb/Tarantallegra(mob/M in view()&Players)
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=100,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedTarantallegra,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=100,againstocclumens=1))
 		if(M.dance) return
 		hearers()<<"<b>[usr]:</B><font color=green> <i>Tarantallegra!</i>"
+		new /StatusEffect/UsedTarantallegra(src,15)
 		usr.MP-=100
 		usr.updateHPMP()
 		if(key != "Murrawhip")

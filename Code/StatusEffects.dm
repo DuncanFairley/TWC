@@ -162,6 +162,7 @@ StatusEffect
 	SteppedOnPoop
 	Flying
 	UsedEpiskey
+	UsedTarantallegra
 	UsedCrucio
 	Summoned
 	Decloaked
