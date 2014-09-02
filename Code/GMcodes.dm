@@ -894,8 +894,6 @@ mob
 			if(M && M.removeoMob) spawn()M:Permoveo()
 			flick('dlo.dmi',M)
 			M.loc=locate(22,7,21)
-
-			M.verbs += /mob/Player/verb/PM
 			M.Detention=0
 			M.MuteOOC=0
 			world<<"[M] has been released from Detention."

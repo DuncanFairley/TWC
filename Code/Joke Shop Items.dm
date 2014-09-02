@@ -17,12 +17,12 @@ mob/Zonko
 			if(usr.talkedtobunny==1)
 				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Zonko</font> [GMTag]</b>:<font color=white> Yes? Can I help you?"
 				sleep(10)
-				switch(input("Your Response","Respond")in list("Anything new for sale?","No, i'm ok"))
+				switch(input("Your Response","Respond")in list("Anything new for sale?","No, I'm ok."))
 					if("Anything new for sale?")
 						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Zonko</font> [GMTag]</b>:<font color=white> Actually I have this batch of Chocolate Eggs here. But they're not for sale. This is the only batch I have."
 						sleep(30)
-						switch(input("Your Response","Respond")in list("Oh come on, i'll give you 50,000 gold.","Oh, ok."))
-							if("Oh come on, i'll give you 50,000 gold.")
+						switch(input("Your Response","Respond")in list("Oh come on, I'll give you 50,000 gold.","Oh, ok."))
+							if("Oh come on, I'll give you 50,000 gold.")
 								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Zonko</font> [GMTag]</b>:<font color=white> 50,000! That's a lot of money..."
 								if(usr.gold>=50000)
 									usr.talkedtobunny=2

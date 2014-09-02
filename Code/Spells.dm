@@ -1287,7 +1287,7 @@ mob/Spells/verb/Avifors(mob/Player/M in oview(usr.client.view,usr)&Players)
 		hearers(usr.client.view,usr)<<"<b><font color=gray>[usr]</font>: <b>Avifors, [M].</b>"
 		if(CanTrans(M))
 			flick("transfigure",M)
-			M<<"<b><font color=gray>Avifors Charm:</b></font>[usr] turned you into a black crow."
+			M<<"<b><font color=gray>Avifors Charm:</b></font>[usr] turned you into a Black Crow."
 			M.trnsed = 1
 			M.overlays = null
 			if(M.away)M.ApplyAFKOverlay()
@@ -1322,7 +1322,7 @@ mob/Spells/verb/Self_To_Dragon()
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
-			usr<<"You transformed yourself into a fearsome dragon!"
+			usr<<"You transformed yourself into a fearsome Dragon!"
 			flick("transfigure",src)
 			usr.trnsed = 1
 			usr.overlays = null
@@ -1334,7 +1334,7 @@ mob/Spells/verb/Self_To_Mushroom()
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
-			usr<<"You transformed yourself into a mushroom!"
+			usr<<"You transformed yourself into a Mushroom!"
 			flick("transfigure",src)
 			usr.overlays = null
 			if(usr.away)usr.ApplyAFKOverlay()
@@ -1648,7 +1648,7 @@ mob/Spells/verb/Imperio(mob/other in oview()&Players)
 					other.overlays=null
 					if(other.away)other.ApplyAFKOverlay()
 					usr.Wingardiumleviosa = null
-					usr<< "You release possesion of the person you were controlling."
+					usr<< "You release possession of the person you were controlling."
 					usr.client.eye=usr
 					usr.client.perspective=MOB_PERSPECTIVE
 		else
@@ -1657,13 +1657,13 @@ mob/Spells/verb/Imperio(mob/other in oview()&Players)
 		Imperio = 0
 		usr.wingobject=null
 		usr.Wingardiumleviosa = null
-		usr<< "You release possesion of the person you were controlling."
+		usr<< "You release possession of the person you were controlling."
 		usr.client.eye=usr
 		usr.client.perspective=MOB_PERSPECTIVE
 mob/Spells/verb/Portus()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25))
-		switch(input("Create a PortKey to Where?","Portus Charm")as null|anything in list("Hogsmeade","Pixie Pit","The Dark Forest Entrance"))
+		switch(input("Create a Portkey to Where?","Portus Charm")as null|anything in list("Hogsmeade","Pixie Pit","The Dark Forest Entrance"))
 			if("Hogsmeade")
 				if(src.loc.density)
 					src << errormsg("Portus can't be used on top of something else.")
@@ -1707,7 +1707,7 @@ mob/Spells/verb/Portus()
 				return
 		new /StatusEffect/UsedPortus(src,30)
 		hearers()<<"[usr]: <font color=aqua><font size=2>Portus!</font>"
-		hearers()<<"A PortKey flys out of [usr]'s wand, and opens."
+		hearers()<<"A portkey flys out of [usr]'s wand, and opens."
 		usr.MP-=25
 		usr.updateHPMP()
 mob/Spells/verb/Sense(mob/M in view()&Players)
@@ -1753,9 +1753,9 @@ obj
 					A:HP--
 					owner << "You hit the [A.name]."
 					if(A:HP < 1)
-						hearers(A:partner) << infomsg("The port key has been destroyed from the other end.")
+						hearers(A:partner) << infomsg("The portkey has been destroyed from the other end.")
 						del(A:partner)
-						hearers(A) << infomsg("The port key has been destroyed.")
+						hearers(A) << infomsg("The portkey has been destroyed.")
 						del(A)
 					del(src)
 		New(loc,dir,mob/mob,icon,icon_state,damage,name)
