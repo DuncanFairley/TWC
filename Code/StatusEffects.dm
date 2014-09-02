@@ -195,6 +195,7 @@ StatusEffect
 	KilledPlayer
 	UsedRepel
 	UsedRiddikulus
+	UsedGMHelp
 
 	Lamps
 		var/tmp/obj/items/lamps/lamp
