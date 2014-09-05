@@ -595,10 +595,11 @@ obj/items/wearable/wigs/male_lightgreen_wig
 obj/items/wearable/wigs/male_black_wig
 	icon = 'male_black_wig.dmi'
 obj/items/wearable/wigs/male_blond_wig
-	icon = 'male_blond_wig.dmi'
+	icon = 'male_yellow_wig.dmi'
 	name = "male yellow wig"
 obj/items/wearable/wigs/male_blue_wig
-	icon = 'male_blue_wig.dmi'
+	icon = 'male_lightblue_wig.dmi'
+	name = "male light blue wig"
 obj/items/wearable/wigs/male_brown_wig
 	icon = 'male_brown_wig.dmi'
 obj/items/wearable/wigs/male_darkgreen_wig
@@ -609,17 +610,16 @@ obj/items/wearable/wigs/male_green_wig
 obj/items/wearable/wigs/male_grey_wig
 	icon = 'male_grey_wig.dmi'
 obj/items/wearable/wigs/male_pink_wig
-	icon = 'male_pink_wig.dmi'
+	icon = 'male_lightpink_wig.dmi'
+	name = "male light pink wig"
 obj/items/wearable/wigs/male_purple_wig
-	icon = 'male_purple_wig.dmi'
+	icon = 'male_lightpurple_wig.dmi'
+	name = "male light purple wig"
 obj/items/wearable/wigs/male_silver_wig
 	icon = 'male_silver_wig.dmi'
 obj/items/wearable/wigs/male_red_wig
 	icon = 'male_red_wig.dmi'
 	name = "male red wig"
-/*obj/items/wearable/wigs/male_diablo_wig
-	icon = 'male_diablo_wig.dmi'
-	name = "Diablo's wig"*/
 obj/items/wearable/wigs/male_teal_wig
 	icon = 'male_teal_wig.dmi'
 	name = "male teal wig"
@@ -637,32 +637,48 @@ obj/items/wearable/wigs/male_royale_wig
 obj/items/wearable/wigs/male_apollo_wig
 	icon = 'male_apollo_wig.dmi'
 	name = "male blond wig"
+obj/items/wearable/wigs/male_cyan_wig
+	icon = 'male_cyan_wig.dmi'
+obj/items/wearable/wigs/male_darkblue_wig
+	icon = 'male_darkblue_wig.dmi'
+	name = "male dark blue wig"
+obj/items/wearable/wigs/male_darkpurple_wig
+	icon = 'male_darkpurple_wig.dmi'
+	name = "male dark purple wig"
+obj/items/wearable/wigs/male_darkpink_wig
+	icon = 'male_darkpink_wig.dmi'
+	name = "male dark pink wig"
+obj/items/wearable/wigs/male_orange_wig
+	icon = 'male_orange_wig.dmi'
+
+//Holiday//
 obj/items/wearable/wigs/male_christmas_wig
 	icon = 'male_christmas_wig.dmi'
 	dropable = 0
 obj/items/wearable/wigs/male_halloween_wig
 	icon = 'male_halloween_wig.dmi'
+/////////
 
 obj/items/wearable/wigs/female_black_wig
 	icon = 'female_black_wig.dmi'
 obj/items/wearable/wigs/female_blonde_wig
-	icon = 'female_blonde_wig.dmi'
+	icon = 'female_yellow_wig.dmi'
 	name = "female yellow wig"
 obj/items/wearable/wigs/female_blue_wig
-	icon = 'female_blue_wig.dmi'
+	icon = 'female_lightblue_wig.dmi'
+	name = "female light blue wig"
 obj/items/wearable/wigs/female_brown_wig
 	icon = 'female_brown_wig.dmi'
 obj/items/wearable/wigs/female_green_wig
 	icon = 'female_green_wig.dmi'
 obj/items/wearable/wigs/female_grey_wig
 	icon = 'female_grey_wig.dmi'
-/*obj/items/wearable/wigs/female_nevaehlee_wig
-	icon = 'female_nevaehlee_wig.dmi'
-	name = "Nevaeh Lee's wig"*/
 obj/items/wearable/wigs/female_pink_wig
-	icon = 'female_pink_wig.dmi'
+	icon = 'female_lightpink_wig.dmi'
+	name = "female light pink wig"
 obj/items/wearable/wigs/female_purple_wig
-	icon = 'female_purple_wig.dmi'
+	icon = 'female_lightpurple_wig.dmi'
+	name = "female light purple wig"
 obj/items/wearable/wigs/female_darkpurple_wig
 	icon = 'female_darkpurple_wig.dmi'
 	name = "female dark purple wig"
@@ -677,11 +693,28 @@ obj/items/wearable/wigs/female_soleil_wig
 obj/items/wearable/wigs/female_rainbow_wig
 	icon = 'female_rainbow_wig.dmi'
 	name = "female rainbow wig"
+obj/items/wearable/wigs/female_cyan_wig
+	icon = 'female_cyan_wig.dmi'
+obj/items/wearable/wigs/female_darkblue_wig
+	icon = 'female_darkblue_wig.dmi'
+	name = "female dark blue wig"
+obj/items/wearable/wigs/female_darkpink_wig
+	icon = 'female_darkpink_wig.dmi'
+	name = "female dark pink wig"
+obj/items/wearable/wigs/female_orange_wig
+	icon = 'female_orange_wig.dmi'
+obj/items/wearable/wigs/female_red_wig
+	icon = 'female_red_wig.dmi'
+obj/items/wearable/wigs/female_teal_wig
+	icon = 'female_teal_wig.dmi'
+
+//Holiday//
 obj/items/wearable/wigs/female_christmas_wig
 	icon = 'female_christmas_wig.dmi'
 	dropable = 0
 obj/items/wearable/wigs/female_halloween_wig
 	icon = 'female_halloween_wig.dmi'
+/////////
 
 obj/items/wearable/shoes
 	desc = "A pair of shoes. They look comfy!"
