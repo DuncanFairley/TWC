@@ -768,40 +768,61 @@ obj/items/wearable/scarves/yellow_scarf
 obj/items/wearable/scarves/black_scarf
 	icon = 'scarf_black.dmi'
 obj/items/wearable/scarves/blue_scarf
-	icon = 'scarf_blue.dmi'
-obj/items/wearable/scarves/candycane_scarf
-	icon = 'scarf_candycane.dmi'
-obj/items/wearable/scarves/casimir_scarf
-	icon = 'scarf_casimir.dmi'
-	name = "Casimir's Scarf"
+	icon = 'scarf_lightblue.dmi'
+	name = "light blue scarf"
+obj/items/wearable/scarves/darkblue_scarf
+	icon = 'scarf_darkblue.dmi'
+	name = "dark blue scarf"
+obj/items/wearable/scarves/cyan_scarf
+	icon = 'scarf_cyan.dmi'
 obj/items/wearable/scarves/green_scarf
 	icon = 'scarf_green.dmi'
-obj/items/wearable/scarves/halloween_scarf
-	icon = 'scarf_halloween.dmi'
+obj/items/wearable/scarves/grey_scarf
+	icon = 'scarf_grey.dmi'
+obj/items/wearable/scarves/orange_scarf
+	icon = 'scarf_orange.dmi'
+obj/items/wearable/scarves/pink_scarf
+	icon = 'scarf_lightpink.dmi'
+	name = "light pink scarf"
+obj/items/wearable/scarves/darkpink_scarf
+	icon = 'scarf_darkpink.dmi'
+	name = "dark pink scarf"
+obj/items/wearable/scarves/purple_scarf
+	icon = 'scarf_lightpurple.dmi'
+	name = "light purple scarf"
+obj/items/wearable/scarves/darkpurple_scarf
+	icon = 'scarf_darkpurple.dmi'
+	name = "dark purple scarf"
+obj/items/wearable/scarves/red_scarf
+	icon = 'scarf_red.dmi'
+obj/items/wearable/scarves/teal_scarf
+	icon = 'scarf_teal.dmi'
+obj/items/wearable/scarves/white_scarf
+	icon = 'scarf_white.dmi'
+
 obj/items/wearable/scarves/lucifer_scarf
 	icon = 'scarf_lucifer.dmi'
 	name = "Lucifer's Scarf"
 obj/items/wearable/scarves/lucifer2_scarf
 	icon = 'scarf_lucifer2.dmi'
 	name = "Lucifer's Scarf"
-obj/items/wearable/scarves/orange_scarf
-	icon = 'scarf_orange.dmi'
-obj/items/wearable/scarves/pastel_scarf
-	icon = 'scarf_pastel.dmi'
-obj/items/wearable/scarves/pink_scarf
-	icon = 'scarf_pink.dmi'
-obj/items/wearable/scarves/purple_scarf
-	icon = 'scarf_purple.dmi'
-obj/items/wearable/scarves/red_scarf
-	icon = 'scarf_red.dmi'
-obj/items/wearable/scarves/american_scarf
-	icon = 'scarf_american.dmi'
+obj/items/wearable/scarves/casimir_scarf
+	icon = 'scarf_casimir.dmi'
+	name = "Casimir's Scarf"
 obj/items/wearable/scarves/royale_scarf
 	icon = 'scarf_royale.dmi'
-obj/items/wearable/scarves/teal_scarf
-	icon = 'scarf_teal.dmi'
-obj/items/wearable/scarves/white_scarf
-	icon = 'scarf_white.dmi'
+
+//Holiday//
+obj/items/wearable/scarves/candycane_scarf
+	icon = 'scarf_candycane.dmi'
+obj/items/wearable/scarves/american_scarf
+	icon = 'scarf_american.dmi'
+obj/items/wearable/scarves/halloween_scarf
+	icon = 'scarf_halloween.dmi'
+obj/items/wearable/scarves/pastel_scarf
+	icon = 'scarf_pastel.dmi'
+/////////
+
 obj/items/wearable/pimp_ring
 	icon = 'pimpring.dmi'
 	showoverlay=0
