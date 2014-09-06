@@ -731,7 +731,10 @@ obj/items/wearable/shoes
 obj/items/wearable/shoes/green_shoes
 	icon = 'green_shoes.dmi'
 obj/items/wearable/shoes/blue_shoes
-	icon = 'blue_shoes.dmi'
+	icon = 'lightblue_shoes.dmi'
+obj/items/wearable/shoes/darkblue_shoes
+	icon = 'darkblue_shoes.dmi'
+	name = "dark blue shoes"
 obj/items/wearable/shoes/red_shoes
 	icon = 'red_shoes.dmi'
 obj/items/wearable/shoes/yellow_shoes
@@ -742,14 +745,25 @@ obj/items/wearable/shoes/orange_shoes
 	icon = 'orange_shoes.dmi'
 obj/items/wearable/shoes/teal_shoes
 	icon = 'teal_shoes.dmi'
+obj/items/wearable/shoes/cyan_shoes
+	icon = 'cyan_shoes.dmi'
 obj/items/wearable/shoes/purple_shoes
-	icon = 'purple_shoes.dmi'
+	icon = 'lightpurple_shoes.dmi'
+obj/items/wearable/shoes/darkpurple_shoes
+	icon = 'darkpurple_shoes.dmi'
+	name = "dark purple shoes"
 obj/items/wearable/shoes/black_shoes
 	icon = 'black_shoes.dmi'
+obj/items/wearable/shoes/grey_shoes
+	icon = 'grey_shoes.dmi'
 obj/items/wearable/shoes/royale_shoes
 	icon = 'royale_shoes.dmi'
 obj/items/wearable/shoes/pink_shoes
-	icon = 'pink_shoes.dmi'
+	icon = 'lightpink_shoes.dmi'
+	name = "light pink shoes"
+obj/items/wearable/shoes/darkpink_shoes
+	icon = 'darkpink_shoes.dmi'
+	name = "dark pink shoes"
 
 obj/items/wearable/scarves
 	desc = "A finely knit scarf designed to keep your neck toasty warm."
