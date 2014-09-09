@@ -995,15 +995,16 @@ obj
 		var/velocity = 0
 		Bump(atom/A)
 			if(A.density)
-				velocity = 0
+				velocity--
+				dir = turn(dir, pick(45,-45) + 180)
 			else
 				..()
 		proc
 			Roll(dire)
 				dir = dire
-				if(!velocity)
+				if(velocity <= 0)
 					velocity = 5
-				while(velocity)
+				while(velocity > 0)
 					velocity--
 					step(src,dir)
 					sleep(2)
