@@ -1211,137 +1211,55 @@ mob/Spells/verb/Incendio()
 		sleep(20)
 		flick('fireworks.dmi',M)
 		M.overlays+=image('hair.dmi',icon_state="black")*/
+
+mob/proc/Trans_Me()
+	if(src.Gender=="Male")
+		if(src.Gm)
+			src.icon='FemaleStaff.dmi'
+		if(src.aurorrobe)
+			src.icon='FemaleAuror.dmi'
+		if(src.House=="Gryffindor")
+			src.icon='FemaleGryffindor.dmi'
+		if(src.House=="Ravenclaw")
+			src.icon='FemaleRavenclaw.dmi'
+		if(src.House=="Slytherin")
+			src.icon='FemaleSlytherin.dmi'
+		if(src.House=="Hufflepuff")
+			src.icon='FemaleHufflepuff.dmi'
+	else
+		if(src.Gm)
+			src.icon='MaleStaff.dmi'
+		if(src.aurorrobe)
+			src.icon='MaleAuror.dmi'
+		if(src.House=="Gryffindor")
+			src.icon='MaleGryffindor.dmi'
+		if(src.House=="Ravenclaw")
+			src.icon='MaleRavenclaw.dmi'
+		if(src.House=="Slytherin")
+			src.icon='MaleSlytherin.dmi'
+		if(src.House=="Hufflepuff")
+			src.icon='MaleHufflepuff.dmi'
+
 mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 	set category="Spells"
 	set name = "Riddikulus"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedRiddikulus,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
+		if(M.trnsed==1)
+			usr << "That person is already transfigured."
+			return
+		if(!M) return
+		if(M.derobe) return
+		new /StatusEffect/UsedRiddikulus(src,15)
 		hearers()<<"<b><font color=red>[usr]</font>: <font color=red><font size=3>Riddikulus!</font></font>, [M].</b>"
 		sleep(20)
-		if(!M) return
-		flick('fireworks.dmi',M)
-		if(M.derobe) return
-		if(M.Gender=="Male")
-			if(M.Gm)
-				M.icon='FemaleStaff.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='MaleStaff.dmi'
-				M.icon_state=""
-				return
-			if(M.aurorrobe)
-				M.icon='FemaleAuror.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='MaleAuror.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Gryffindor")
-				M.icon='FemaleGryffindor.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='MaleGryffindor.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Ravenclaw")
-				M.icon='FemaleRavenclaw.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='MaleRavenclaw.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Slytherin")
-				M.icon='FemaleSlytherin.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='MaleSlytherin.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Hufflepuff")
-				M.icon='FemaleHufflepuff.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='MaleHufflepuff.dmi'
-				M.icon_state=""
-				return
-		else
-			if(M.Gm)
-				M.icon='MaleStaff.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='FemaleStaff.dmi'
-				M.icon_state=""
-				return
-			if(M.aurorrobe)
-				M.icon='MaleAuror.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='FemaleAuror.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Gryffindor")
-				M.icon='MaleGryffindor.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='FemaleGryffindor.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Ravenclaw")
-				M.icon='MaleRavenclaw.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='FemaleRavenclaw.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Slytherin")
-				M.icon='MaleSlytherin.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='FemaleSlytherin.dmi'
-				M.icon_state=""
-				return
-			if(M.House=="Hufflepuff")
-				M.icon='MaleHufflepuff.dmi'
-				M.icon_state=""
-				sleep(600)
-				if(!M) return
-				M << "<b>You turn back to Normal</b>"
-				flick('teleboom.dmi',M)
-				M.icon='FemaleHufflepuff.dmi'
-				M.icon_state=""
-				return
+		flick('teleboom.dmi',M)
+		M.Trans_Me()
+		src=null
+		spawn(600)
+			M << "<b>You turn back to Normal</b>."
+			flick('teleboom.dmi',M)
+			M.icon=baseicon
+
 mob/Spells/verb/Ecliptica()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
@@ -1372,7 +1290,7 @@ mob/Spells/verb/Avifors(mob/Player/M in oview(usr.client.view,usr)&Players)
 		hearers(usr.client.view,usr)<<"<b><font color=gray>[usr]</font>: <b>Avifors, [M].</b>"
 		if(CanTrans(M))
 			flick("transfigure",M)
-			M<<"<b><font color=gray>Avifors Charm:</b></font>[usr] turned you into a black crow."
+			M<<"<b><font color=gray>Avifors Charm:</b></font>[usr] turned you into a Black Crow."
 			M.trnsed = 1
 			M.overlays = null
 			if(M.away)M.ApplyAFKOverlay()
@@ -1407,7 +1325,7 @@ mob/Spells/verb/Self_To_Dragon()
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
-			usr<<"You transformed yourself into a fearsome dragon!"
+			usr<<"You transformed yourself into a fearsome Dragon!"
 			flick("transfigure",src)
 			usr.trnsed = 1
 			usr.overlays = null
@@ -1419,7 +1337,7 @@ mob/Spells/verb/Self_To_Mushroom()
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
-			usr<<"You transformed yourself into a mushroom!"
+			usr<<"You transformed yourself into a Mushroom!"
 			flick("transfigure",src)
 			usr.overlays = null
 			if(usr.away)usr.ApplyAFKOverlay()
@@ -1733,7 +1651,7 @@ mob/Spells/verb/Imperio(mob/other in oview()&Players)
 					other.overlays=null
 					if(other.away)other.ApplyAFKOverlay()
 					usr.Wingardiumleviosa = null
-					usr<< "You release possesion of the person you were controlling."
+					usr<< "You release possession of the person you were controlling."
 					usr.client.eye=usr
 					usr.client.perspective=MOB_PERSPECTIVE
 		else
@@ -1742,13 +1660,13 @@ mob/Spells/verb/Imperio(mob/other in oview()&Players)
 		Imperio = 0
 		usr.wingobject=null
 		usr.Wingardiumleviosa = null
-		usr<< "You release possesion of the person you were controlling."
+		usr<< "You release possession of the person you were controlling."
 		usr.client.eye=usr
 		usr.client.perspective=MOB_PERSPECTIVE
 mob/Spells/verb/Portus()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25))
-		switch(input("Create a PortKey to Where?","Portus Charm")as null|anything in list("Hogsmeade","Pixie Pit","The Dark Forest Entrance"))
+		switch(input("Create a Portkey to Where?","Portus Charm")as null|anything in list("Hogsmeade","Pixie Pit","The Dark Forest Entrance"))
 			if("Hogsmeade")
 				if(src.loc.density)
 					src << errormsg("Portus can't be used on top of something else.")
@@ -1792,7 +1710,7 @@ mob/Spells/verb/Portus()
 				return
 		new /StatusEffect/UsedPortus(src,30)
 		hearers()<<"[usr]: <font color=aqua><font size=2>Portus!</font>"
-		hearers()<<"A PortKey flys out of [usr]'s wand, and opens."
+		hearers()<<"A portkey flys out of [usr]'s wand, and opens."
 		usr.MP-=25
 		usr.updateHPMP()
 mob/Spells/verb/Sense(mob/M in view()&Players)
@@ -1838,9 +1756,9 @@ obj
 					A:HP--
 					owner << "You hit the [A.name]."
 					if(A:HP < 1)
-						hearers(A:partner) << infomsg("The port key has been destroyed from the other end.")
+						hearers(A:partner) << infomsg("The portkey has been destroyed from the other end.")
 						del(A:partner)
-						hearers(A) << infomsg("The port key has been destroyed.")
+						hearers(A) << infomsg("The portkey has been destroyed.")
 						del(A)
 					del(src)
 		New(loc,dir,mob/mob,icon,icon_state,damage,name)
@@ -2136,9 +2054,11 @@ proc/overlaylist(var/list/overlays)
 mob/var/tmp/trnsed = 0
 mob
 	mouse_drag_pointer = MOUSE_DRAG_POINTER
+
 mob/GM/verb/Remote_View(mob/M in world)
 	set category="Staff"
 	set popup_menu = 0
+	if(clanrobed())return
 	if(M.derobe||M.aurorrobe||M.type == /mob/fakeDE ||istype(M.loc.loc, /area/ministry_of_magic||istype(M.loc.loc, /area/blindness))){src<<"<b>You cannot use remote view on this person.";return}
 	usr.client.eye=M
 	usr.client.perspective=EYE_PERSPECTIVE
@@ -2153,6 +2073,7 @@ mob/GM/verb/Return_View()
 	usr.client.eye=usr
 	usr.client.perspective=MOB_PERSPECTIVE
 	usr<<"You return to your body."
+
 mob/var/tmp/episkying = 0
 mob/var/tmp/meditating = 0
 mob/var/tmp/confused = 0

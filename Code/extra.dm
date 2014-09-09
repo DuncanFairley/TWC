@@ -177,10 +177,10 @@ mob/GM/verb
 
 
 mob/DblClick()
-	usr<<"Right Click To bring Up the menu"
+	usr<<"Right click to bring up the menu."
 mob/Click()
 	if(!usr.ClickEdit)
-		usr<<"Right click to bring up the menu"
+		usr<<"Right click to bring up the menu."
 	else
 		..()
 mob/Headmasters_Office

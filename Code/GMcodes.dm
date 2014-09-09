@@ -894,8 +894,6 @@ mob
 			if(M && M.removeoMob) spawn()M:Permoveo()
 			flick('dlo.dmi',M)
 			M.loc=locate(22,7,21)
-
-			M.verbs += /mob/Player/verb/PM
 			M.Detention=0
 			M.MuteOOC=0
 			world<<"[M] has been released from Detention."
@@ -910,6 +908,7 @@ mob
 
 		Immortal()
 			set category="Staff"
+			if(clanrobed())return
 			if(usr.Immortal==0)
 				flick('Heal.dmi',usr)
 				usr<<"You are now Immortal."
@@ -1023,6 +1022,7 @@ mob
 			set category = "Staff"
 			set name = "Edit"
 			set desc="(target) Edit a target item's variables"
+			if(clanrobed())return
 
 			if(O==null)return
 
