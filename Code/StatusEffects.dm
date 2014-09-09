@@ -51,10 +51,10 @@ Event
 		fire()
 			..()
 			spawn()
-				if(prob(20))      weather.clear(50)  // partial cloudy
+				if(prob(5))       weather.acid()
+				else if(prob(10))  weather.rain()
 				else if(prob(10)) weather.clear(100) // cloudy
-				else if(prob(5))  weather.rain()
-				else if(prob(2))  weather.acid()
+				else if(prob(20)) weather.clear(50)  // partial cloudy
 				else              weather.clear()
 
 				scheduler.schedule(src, world.tick_lag * rand(9000, 13500)) // // 15 to 45 minutes

@@ -20,10 +20,6 @@ world
 		for(var/area/newareas/outside/O in world)	// Look for outside areas
 			spawn() O.daycycle()
 
-
-mob/verb/TestClouds(num1 as num)
-	weather.clouds(z, num1)
-
 Weather
 	var/list/clouds = list()
 	proc
@@ -93,7 +89,7 @@ var/Weather/weather
 
 proc/init_weather()
 	weather = new()
-	scheduler.schedule(new/Event/Weather, world.tick_lag * 600)
+	scheduler.schedule(new/Event/Weather, world.tick_lag * 100)
 
 obj/cloud
 	icon  = 'clouds.dmi'
