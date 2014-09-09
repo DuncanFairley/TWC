@@ -45,7 +45,19 @@ Event
 			..()
 			spawn()
 				toggle_clanwars()
-				scheduler.schedule(src, world.tick_lag * 604800 * 10) // 1 week
+				scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
+
+	Weather
+		fire()
+			..()
+			spawn()
+				if(prob(20))      weather.clear(50)  // partial cloudy
+				else if(prob(10)) weather.clear(100) // cloudy
+				else if(prob(5))  weather.rain()
+				else if(prob(2))  weather.acid()
+				else              weather.clear()
+
+				scheduler.schedule(src, world.tick_lag * rand(9000, 13500)) // // 15 to 45 minutes
 
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)

@@ -1722,6 +1722,7 @@ world/New()
 
 	init_books()
 	spawn()init_clanwars()
+	spawn()init_weather()
 
 	swapmaps_directory = "vaults"
 

@@ -1732,8 +1732,11 @@ var/safemode = 1
 mob/var/tmp/lastproj = 0
 mob
 	proc/castproj(MPreq,icon,icon_state,damage,name,cd=1,lag=2)
-		if(cd && (world.time - lastproj) < 2 && !inOldArena()) return
+		if(!loc && cd && (world.time - lastproj) < 2 && !inOldArena()) return
 		lastproj = world.time
+
+		damage *= loc.loc:dmg
+
 		var/obj/projectile/P = new(src.loc,src.dir,src,icon,icon_state,damage,name)
 		P.shoot(lag)
 		if(client)

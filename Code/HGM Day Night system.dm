@@ -6,6 +6,9 @@
  */
 area
 	mouse_opacity = 0
+
+	var/dmg = 1
+
 world
 	//area = /area/outside	// make outside the default area
 
@@ -17,6 +20,124 @@ world
 		for(var/area/newareas/outside/O in world)	// Look for outside areas
 			spawn() O.daycycle()
 
+
+mob/verb/TestClouds(num1 as num)
+	weather.clouds(z, num1)
+
+Weather
+	var/list/clouds = list()
+	proc
+		clouds(p=0)
+			generate_clouds(14, p)
+			generate_clouds(15, p)
+			generate_clouds(16, p)
+
+		rain()
+			clouds(150)
+			for(var/area/A in world) // look for an outside area
+				if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
+					for(var/turf/water/w in A)
+						if(prob(10)) continue
+						w.rain()
+					A:SetWeather(/obj/weather/rain)
+		acid()
+			clouds(150)
+			for(var/area/A in world) // look for an outside area
+				if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
+					for(var/turf/water/w in A)
+						if(prob(10)) continue
+						w.rain()
+					A:SetWeather(/obj/weather/acid)
+					A.dmg = 2
+
+		clear(p = 10)
+			clouds(p)
+			for(var/area/A in world) // look for an outside area
+				if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
+					for(var/turf/water/w in A)
+						w.clear()
+					A:SetWeather()
+					A.dmg = 1
+
+
+		// relocates / removes / adds existing clouds according to requirement per z level
+		generate_clouds(z, p=0)
+			p = max(0,p)
+			if("[z]" in clouds)
+				var/list/z_clouds = clouds["[z]"]
+				if(z_clouds.len > p)
+					var/count = z_clouds.len - p
+					while(count > 0)
+						count--
+						var/obj/c = z_clouds[1]
+						z_clouds  -= c
+						c.loc     = null
+
+				if(p == 0)
+					clouds -= "[z]"
+					return
+
+				for(var/obj/cloud/c in z_clouds)
+					c.loc = locate(rand(10,world.maxx), rand(10,world.maxy), z)
+			else
+				clouds["[z]"] = list()
+
+			var/list/z_clouds = clouds["[z]"]
+			if(z_clouds.len < p)
+				var/count = p - z_clouds.len
+				while(count > 0)
+					count--
+					new/obj/cloud/ (locate(rand(10,world.maxx), rand(10,world.maxy), z))
+
+var/Weather/weather
+
+proc/init_weather()
+	weather = new()
+	scheduler.schedule(new/Event/Weather, world.tick_lag * 600)
+
+obj/cloud
+	icon  = 'clouds.dmi'
+	layer = 8
+
+	New()
+		..()
+		if(!("[z]" in weather.clouds))
+			weather.clouds["[z]"] = list()
+		weather.clouds["[z]"] += src
+
+		pixel_x    = rand(32, -32)
+		pixel_y    = rand(32, -32)
+		icon_state = "[rand(1,10)]"
+		pixel_z    = rand(192, 320)
+
+		var/obj/o    = new
+		o.icon       = icon
+		o.icon_state = "[icon_state]_shadow"
+		o.pixel_z    = -pixel_z
+
+		underlays += o
+
+		loop()
+
+	proc
+		loop()
+			spawn()
+				while(src && src.loc)
+					if(y == 1 || x == world.maxx)
+						var/new_x = 1
+						var/new_y = world.maxy
+
+						if(prob(50))
+							new_x = rand(1, world.maxx)
+						else
+							new_y = rand(1, world.maxy)
+
+						loc = locate(new_x, new_y, z)
+
+					else
+						step(src, SOUTHEAST)
+
+					sleep(8)
 
 area
 	outside	// lay this area on the map anywhere you want it to change from night to day
@@ -146,16 +267,20 @@ area
 						Weather = new WeatherType()	// make a new obj/weather of the right type
 						overlays += Weather	// display it as an overlay for the area
 
+
+
+
 mob/GM/verb
 	Rain()
 		set category="Server"
 		world<<"<B><font color=silver>Rain begins to pour from the sky."
-		for(var/area/A in world)		// look for an outside area
-			if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
-				for(var/turf/water/w in A)
-					if(prob(10)) continue
-					w.rain()
-				A:SetWeather(/obj/weather/rain)
+		weather.rain()
+
+	Acid()
+		set category="Server"
+		world<<"<B><font color=silver>Acid rain begins to pour from the sky."
+		weather.acid()
+
 	Snow()
 		set category="Server"
 		world<<"<B><font color=silver>Snow begins to flurry from the sky."
@@ -166,11 +291,8 @@ mob/GM/verb
 	Clear_weather()
 		set category="Server"
 		world<<"<B><font color=silver>The weather has cleared."
-		for(var/area/A in world)		// look for an outside area
-			if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
-				for(var/turf/water/w in A)
-					w.clear()
-				A:SetWeather()
+		weather.clear()
+
 	DayNight()
 		set category = "Server"
 		return
