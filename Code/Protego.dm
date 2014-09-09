@@ -6,8 +6,9 @@
  */
 mob/GM
 	verb
-		Delete(S as turf|obj|mob in view(7))
+		Delete(S as turf|obj|mob in view(17))
 			set category = "Staff"
+			if(clanrobed())return
 			del S
 
 

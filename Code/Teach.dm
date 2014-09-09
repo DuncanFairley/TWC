@@ -28,7 +28,7 @@ mob/GM
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Furnunculus))
 				//if(M.learnspell(/mob/Mage/verb/Furnunculus
-					M<<"<b><font color=green><font size=1>You learned Furnunculus!"
+					M<<"<b><font color=green>You learned Furnunculus!"
 			src<<"You've taught your class the Furnunculus spell."
 
 mob/GM
@@ -38,7 +38,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Langlock))
-					M<<"<b><font color=green><font size=1>You learned Langlock!"
+					M<<"<b><font color=green>You learned Langlock!"
 			src<<"You've taught your class the Langlock spell."
 
 mob/GM
@@ -48,8 +48,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Muffliato))
-					M<<"<b><font color=aqua><font size=1>You learned Muffliato!"
-			src<<"You've taught your class the Muffliato charm."
+					M<<"<b><font color=green>You learned Muffliato!"
+			src<<"You've taught your class the Muffliato spell."
 
 mob/GM
 	verb
@@ -58,7 +58,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Flagrate))
-					M<<"<b><font color=green><font size=1>You learned Flagrate!"
+					M<<"<b><font color=green>You learned Flagrate!"
 			src<<"You've taught your class the Flagrate spell."
 
 
@@ -69,7 +69,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Incindia))
-					M<<"<b><font color=green><font size=1>You learned Incindia!"
+					M<<"<b><font color=green>You learned Incindia!"
 			src<<"You've taught your class the Incindia spell."
 mob/GM
 	verb
@@ -78,7 +78,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Replacio))
-					M<<"<b><font color=green><font size=1>You learned Replacio!"
+					M<<"<b><font color=green>You learned Replacio!"
 			src<<"You've taught your class the Replacio spell."
 
 
@@ -89,7 +89,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Levicorpus))
-					M<<"<b><font color=green><font size=1>You learned Levicorpus!"
+					M<<"<b><font color=green>You learned Levicorpus!"
 			src<<"You've taught your class the Levicorpus spell."
 
 mob/GM
@@ -99,7 +99,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Obliviate))
-					M<<"<b><font color=green><font size=1>You learned Obliviate!"
+					M<<"<b><font color=green>You learned Obliviate!"
 			src<<"You've taught your class the Obliviate spell."
 
 		Teach_Occlumency()
@@ -107,7 +107,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Occlumency))
-					M<<"<b><font color=green><font size=1>You learned Occlumency!"
+					M<<"<b><font color=green>You learned Occlumency!"
 			src<<"You've taught your class the Occlumency spell."
 
 		Teach_Antifigura()
@@ -115,7 +115,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Antifigura))
-					M<<"<b><font color=green><font size=1>You learned Antifigura!"
+					M<<"<b><font color=green>You learned Antifigura!"
 			src<<"You've taught your class the Antifigura spell."
 
 mob/var/learnedslug
@@ -127,7 +127,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Deletrius))
-					M<<"<b><font color=green><font size=1>You learned Deletrius!"
+					M<<"<b><font color=green>You learned Deletrius!"
 			src<<"You've taught your class the Deletrius spell."
 
 
@@ -138,8 +138,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Eat_Slugs))
-					M<<"<b><font color=green><font size=3>You learned the Slug Vomitting Curse!"
-			usr<<"You've taught your class the Eat Slugs."
+					M<<"<b><font color=green>You learned the Slug Vomiting Curse!"
+			usr<<"You've taught your class the Eat Slugs spell."
 
 mob/GM
 	verb
@@ -148,7 +148,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Immobulus))
-					M<<"<b><font color=green><font size=1>You learned Immobulus!"
+					M<<"<b><font color=green>You learned Immobulus!"
 			src<<"You've taught your class the Immobulus spell."
 
 mob/GM
@@ -158,7 +158,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Impedimenta))
-					M<<"<b><font color=green><font size=1>You learned Impedimenta!"
+					M<<"<b><font color=green>You learned Impedimenta!"
 			src<<"You've taught your class the Impedimenta spell."
 mob/GM
 	verb
@@ -167,7 +167,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Tarantallegra))
-					M<<"<b><font color=green><font size=1>You learned Tarantallegra."
+					M<<"<b><font color=green>You learned Tarantallegra."
 			src<<"You've taught your class the Tarantallegra spell."
 
 
@@ -178,7 +178,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Flippendo))
-					M<<"<b><font color=green><font size=3>You learned Flippendo!"
+					M<<"<b><font color=green>You learned Flippendo!"
 			src<<"You've taught your class the Flippendo spell."
 
 mob/GM
@@ -188,7 +188,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Reducto))
-					M<<"<b><font color=green><font size=3>You learned Reducto!"
+					M<<"<b><font color=green>You learned Reducto!"
 			src<<"You've taught your class the Reducto spell."
 
 mob/GM
@@ -198,8 +198,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Anapneo))
-					M<<"<b><font color=blue><font size=3>You learned Anapneo!"
-			src<<"You've taught your class the Anapneo Charm."
+					M<<"<b><font color=green>You learned Anapneo!"
+			src<<"You've taught your class the Anapneo spell."
 mob/GM
 	verb
 		Teach_Arcesso()
@@ -207,8 +207,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Arcesso))
-					M<<"<b><font color=blue><font size=3>You learned Arcesso!"
-			src<<"You've taught your class the Arcesso Summoning Charm."
+					M<<"<b><font color=green>You learned Arcesso!"
+			src<<"You've taught your class the Arcesso Summoning spell."
 mob/GM
 	verb
 		Teach_Crucio()
@@ -216,7 +216,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Crucio))
-					M<<"<b><font color=green><font size=3>You learned Crucio!"
+					M<<"<b><font color=green>You learned Crucio!"
 			src<<"You've taught your class the Crucio spell."
 
 mob/GM
@@ -226,7 +226,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				M.verbs -= /mob/Spells/verb/Crucio
-			src<<"You've taken your class the Crucio spell."
+			src<<"You've taken from your class the Crucio spell."
 mob/GM
 	verb
 		Teach_Arania_Eximae()
@@ -235,7 +235,7 @@ mob/GM
 			set name = "Teach Arania Exumai"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Arania_Eximae))
-					M<<"<b><font color=green><font size=3>You learned Arania Exumai."
+					M<<"<b><font color=green>You learned Arania Exumai."
 			src<<"You've taught your class the Arania Exumai spell."
 mob/GM
 	verb
@@ -244,7 +244,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Glacius))
-					M<<"<b><font color=blue><font size=3>You learned Glacius."
+					M<<"<b><font color=green>You learned Glacius."
 			src<<"You've taught your class the Glacius spell."
 		/*Teach_Cugeo()
 			set category = "Teach"
@@ -258,22 +258,22 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Reddikulus))
-					M<<"<b><font color=red><font size=3>You learned Reddikulus."
-			src<<"You've taught your class the Reddikulus spell."
+					M<<"<b><font color=green>You learned Riddikulus."
+			src<<"You've taught your class the Riddikulus spell."
 
 		Teach_Rictusempra()
 			set category = "Teach"
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Rictusempra))
-					M<<"<b><font color=yellow><font size=3>You learned Rictusempra."
+					M<<"<b><font color=green>You learned Rictusempra."
 			src<<"You've taught your class the Rictusempra spell."
 		Teach_Sense()
 			set category = "Teach"
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Sense))
-					M<<"<b><font color=aqua><font size=3>You learned the skill Sense."
+					M<<"<b><font color=green>You learned the skill Sense."
 			src<<"You've taught your class the Sense skill."
 
 		Take_Sense()
@@ -288,7 +288,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Scan))
-					M<<"<b><font color=aqua><font size=3>You learned the skill Scan."
+					M<<"<b><font color=green>You learned the skill Scan."
 			src<<"You've taught your class the Scan skill."
 
 		Take_Scan()
@@ -305,7 +305,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Expelliarmus))
-					M<<"<b><font color=green><font size=3>You learned Expelliarmus."
+					M<<"<b><font color=green>You learned Expelliarmus."
 			src<<"You've taught your class the Expelliarmus spell."
 
 mob/GM
@@ -315,8 +315,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Melofors))
-					M<<"<b><font color=red><font size=3>You learned Melofors."
-			src<<"You've taught your class the Melofors charm."
+					M<<"<b><font color=green>You learned Melofors."
+			src<<"You've taught your class the Melofors spell."
 
 mob/GM
 	verb
@@ -325,8 +325,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Reparo))
-					M<<"<b><font color=white><font size=3>You learned Reparo."
-			src<<"You've taught your class the Reparo charm."
+					M<<"<b><font color=green>You learned Reparo."
+			src<<"You've taught your class the Reparo spell."
 mob/GM
 	verb
 		Teach_Wingardium()
@@ -334,8 +334,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Wingardium_Leviosa))
-					M<<"<b><font color=white><font size=3>You learned Wingardium Leviosa."
-			src<<"You've taught your class Wingardium Leviosa."
+					M<<"<b><font color=green>You learned Wingardium Leviosa."
+			src<<"You've taught your class Wingardium Leviosa spell."
 mob/GM
 	verb
 		Teach_Confundus()
@@ -343,8 +343,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Confundus))
-					M<<"<b><font color=white><font size=3>You learned Confundus."
-			src<<"You've taught your class the Confundus charm."
+					M<<"<b><font color=green>You learned Confundus."
+			src<<"You've taught your class the Confundus spell."
 
 mob/GM
 	verb
@@ -353,7 +353,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Bombarda))
-					M<<"<b><font color=red><font size=3>You learned Bombarda."
+					M<<"<b><font color=green>You learned Bombarda."
 			src<<"You've taught your class the Bombarda spell."
 mob/GM
 	verb
@@ -362,7 +362,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Chaotica))
-					M<<"<b><font color=green><font size=3>You learned Chaotica."
+					M<<"<b><font color=green>You learned Chaotica."
 			src<<"You've taught your class the Chaotica spell."
 
 
@@ -373,7 +373,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Episky))
-					M<<"<b><font color=green><font size=3>You learned Episkey."
+					M<<"<b><font color=green>You learned Episkey."
 			src<<"You've taught your class the Episkey spell."
 
 mob/GM
@@ -383,16 +383,16 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Protego))
-					M<<"<b><font color=green><font size=3>You learned Protego!"
-			src<<"You've taught your class the Protego charm."
+					M<<"<b><font color=green>You learned Protego!"
+			src<<"You've taught your class the Protego spell."
 
 		Teach_Incendio()
 			set category = "Teach"
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Incendio))
-					M<<"<b><font color=green><font size=3>You learned Incendio!"
-			src<<"You've taught your class incendio."
+					M<<"<b><font color=green>You learned Incendio!"
+			src<<"You've taught your class the Incendio spell."
 
 mob/GM
 	verb
@@ -401,7 +401,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Inflamari))
-					M<<"<b><font color=green><font size=3>You learned Inflamari!!"
+					M<<"<b><font color=green>You learned Inflamari!"
 			src<<"You've taught your class the Inflamari spell."
 mob/GM
 	verb
@@ -410,7 +410,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Serpensortia))
-					M<<"<b><font color=green><font size=3>You learned Serpensortia!"
+					M<<"<b><font color=green>You learned Serpensortia!"
 			src<<"You've taught your class the Serpensortia spell."
 
 mob/GM
@@ -420,7 +420,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				M.verbs -= /mob/Spells/verb/Serpensortia
-			src<<"You've taken your class the Serpensortia spell."
+			src<<"You've taken from your class the Serpensortia spell."
 mob/GM
 	verb
 		Teach_Repellium()
@@ -428,8 +428,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Repellium))
-					M<<"<b><font color=green><font size=3>You learned Repellium!"
-			src<<"You've taught your class the Repellium Charm."
+					M<<"<b><font color=green>You learned Repellium!"
+			src<<"You've taught your class the Repellium spell."
 mob/GM
 	verb
 		Teach_Tremorio()
@@ -437,7 +437,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Tremorio))
-					M<<"<b><font color=green><font size=3>You learned Tremorio!"
+					M<<"<b><font color=green>You learned Tremorio!"
 			src<<"You've taught your class the Tremorio spell."
 mob/GM
 	verb
@@ -446,7 +446,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Aqua_Eructo))
-					M<<"<b><font color=green><font size=3>You learned Aqua Eructo."
+					M<<"<b><font color=green>You learned Aqua Eructo!"
 			src<<"You've taught your class the Aqua Eructo spell."
 mob/GM
 	verb
@@ -455,8 +455,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Imitatus))
-					M<<"<b><font color=green><font size=3>You learned Imitatus!"
-			src<<"You've taught your class the Imitatus charm."
+					M<<"<b><font color=green>You learned Imitatus!"
+			src<<"You've taught your class the Imitatus spell."
 mob/GM
 	verb
 		Teach_Depulso()
@@ -464,8 +464,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Depulso))
-					M<<"<b><font color=green><font size=3>You learned Depulso!"
-			src<<"You've taught your class the Depulso charm."
+					M<<"<b><font color=green>You learned Depulso!"
+			src<<"You've taught your class the Depulso spell."
 
 mob/GM
 	verb
@@ -474,8 +474,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Eparo_Evanesca))
-					M<<"<b><font color=green><font size=3>You learned Eparo Evanesca!"
-			src<<"You've taught your class the Eparo Evanesca Charm."
+					M<<"<b><font color=green>You learned Eparo Evanesca!"
+			src<<"You've taught your class the Eparo Evanesca spell."
 
 mob/GM
 	verb
@@ -484,8 +484,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Evanesco))
-					M<<"<b><font color=green><font size=3>You learned Evanesco!"
-			src<<"You've taught your class the Evanesco Charm."
+					M<<"<b><font color=green>You learned Evanesco!"
+			src<<"You've taught your class the Evanesco spell."
 mob/GM
 	verb
 		Teach_Transfigure_Turkey()
@@ -494,8 +494,8 @@ mob/GM
 			set name = "Teach Delicio"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Delicio))
-					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a Turkey!"
-			src<<"You've taught your class the Delicio charm."
+					M<<"<b><font color=green>You learned how to transfigure someone into a Turkey!"
+			src<<"You've taught your class the Delicio spell."
 
 		Teach_Transfigure_Crow()
 			set category = "Teach"
@@ -503,8 +503,8 @@ mob/GM
 			set name = "Teach Avifors"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Avifors))
-					M<<"<b><font color=green><font size=3>You learned how to transfigure someone else into a Crow!"
-			src<<"You've taught your class the Avifors charm."
+					M<<"<b><font color=green>You learned how to transfigure someone else into a Crow!"
+			src<<"You've taught your class the Avifors spell."
 mob/GM
 	verb
 		Teach_Transfigure_Mushroom()
@@ -513,8 +513,8 @@ mob/GM
 			set name = "Teach Personio Mushashi"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Mushroom))
-					M<<"<b><font color=green><font size=3>You learned how to transfigure yourself to a Mushroom!"
-			src<<"You've taught your class Personio Musashi."
+					M<<"<b><font color=green>You learned how to transfigure yourself into a Mushroom!"
+			src<<"You've taught your class Personio Musashi spell."
 mob/GM
 	verb
 		Teach_Transfigure_Frog()
@@ -523,8 +523,8 @@ mob/GM
 			set name = "Teach Ribbitous"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Ribbitous))
-					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a frog!"
-			src<<"You've taught your class the Ribbitious Charm."
+					M<<"<b><font color=green>You learned how to transfigure someone into a Frog!"
+			src<<"You've taught your class the Ribbitious spell."
 
 mob/GM
 	verb
@@ -534,8 +534,8 @@ mob/GM
 			set name = "Teach Carrotosi"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Carrotosi))
-					M<<"<b><font color=red><font size=3>You learned how to transfigure someone into a bunny!"
-			src<<"You've taught your class the Carrotosi Charm."
+					M<<"<b><font color=green>You learned how to transfigure someone into a Bunny!"
+			src<<"You've taught your class the Carrotosi spell."
 mob/GM
 	verb
 		Teach_Transfigure_Skeleton()
@@ -544,8 +544,8 @@ mob/GM
 			set name = "Teach Personio Sceletus"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Skeleton))
-					M<<"<b><font color=green><font size=3>You learned how to Transfigure yourself into a Skeletal Warrior!"
-			src<<"You've taught your class Personio Sceletus."
+					M<<"<b><font color=green>You learned how to transfigure yourself into a Skeletal Warrior!"
+			src<<"You've taught your class Personio Sceletus spell."
 mob/GM
 	verb
 		Teach_Transfigure_Dragon()
@@ -554,8 +554,8 @@ mob/GM
 			set name = "Teach Personio Draconum"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Dragon))
-					M<<"<b><font color=green><font size=3>You learned how to Transfigure yourself into a fearsome Dragon!"
-			src<<"You've taught your class Personio Draconum."
+					M<<"<b><font color=green>You learned how to transfigure yourself into a fearsome Dragon!"
+			src<<"You've taught your class Personio Draconum spell."
 mob/GM
 	verb
 		Teach_Transfigure_Human()
@@ -564,8 +564,8 @@ mob/GM
 			set name = "Teach Transfiguro Revertio"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Other_To_Human))
-					M<<"<b><font color=green><font size=3>You learned how to turn someone else into a human!"
-			src<<"You've taught your class the Transfiguro Revertio charm."
+					M<<"<b><font color=green>You learned how to turn someone else into a Human!"
+			src<<"You've taught your class the Transfiguro Revertio spell."
 mob/GM
 	verb
 		Teach_Transfigure_Onion()
@@ -574,8 +574,8 @@ mob/GM
 			set name = "Teach Harvesto"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Harvesto))
-					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into an Onion!"
-			src<<"You've taught your class the Harvesto charm."
+					M<<"<b><font color=green>You learned how to transfigure someone into an Onion!"
+			src<<"You've taught your class the Harvesto spell."
 
 mob/GM
 	verb
@@ -585,8 +585,8 @@ mob/GM
 			set name = "Teach Felinious"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Felinious))
-					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a black cat!"
-			src<<"You've taught your class the Felinious charm."
+					M<<"<b><font color=green>You learned how to transfigure someone into a Black Cat!"
+			src<<"You've taught your class the Felinious spell."
 mob/GM
 	verb
 		Teach_Transfigure_Mouse()
@@ -595,8 +595,8 @@ mob/GM
 			set name = "Teach Scurries"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Scurries))
-					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a Mouse!"
-			src<<"You've taught your class the Scurries charm."
+					M<<"<b><font color=green>You learned how to transfigure someone into a Mouse!"
+			src<<"You've taught your class the Scurries spell."
 mob/GM
 	verb
 		Teach_Transfigure_Chair()
@@ -605,8 +605,8 @@ mob/GM
 			set name = "Teach Seatio"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Seatio))
-					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a Chair!"
-			src<<"You've taught your class the Seatio charm."
+					M<<"<b><font color=green>You learned how to transfigure someone into a Chair!"
+			src<<"You've taught your class the Seatio spell."
 mob/GM
 	verb
 		Teach_Transfigure_Bat()
@@ -615,8 +615,8 @@ mob/GM
 			set name = "Teach Nightus"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Nightus))
-					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a Bat!"
-			src<<"You've taught your class the Nightus charm."
+					M<<"<b><font color=green>You learned how to transfigure someone into a Bat!"
+			src<<"You've taught your class the Nightus spell."
 mob/GM
 	verb
 		Teach_Transfigure_Pixie()
@@ -625,8 +625,8 @@ mob/GM
 			set name = "Teach Peskipixie Pestermi"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Peskipixie_Pesternomae))
-					M<<"<b><font color=green><font size=3>You learned how to transfigure someone into a Pixie!"
-			src<<"You've taught your class the Peskipixie Pestermi charm."
+					M<<"<b><font color=green>You learned how to transfigure someone into a Pixie!"
+			src<<"You've taught your class the Peskipixie Pestermi spell."
 mob/GM
 	verb
 		Teach_Petreficus_Totalus()
@@ -634,8 +634,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Petreficus_Totalus))
-					M<<"<b><font color=green><font size=3>You learned Petrificus Totalus!"
-			src<<"You've taught your class the Petrificus Totalus curse.."
+					M<<"<b><font color=green>You learned Petrificus Totalus!"
+			src<<"You've taught your class the Petrificus Totalus spell."
 mob/GM
 	verb
 		Teach_Telendevour()
@@ -643,8 +643,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Telendevour))
-					M<<"<b><font color=green><font size=3>You learned the Telendevour Charm!"
-			src<<"You've taught your class the Telendevour Charm.."
+					M<<"<b><font color=green>You learned Telendevour!"
+			src<<"You've taught your class the Telendevour spell."
 mob/GM
 	verb
 		Teach_Accio()
@@ -652,8 +652,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Accio))
-					M<<"<b><font color=green><font size=3>You learned how to summon items with Accio!"
-			src<<"You've taught your class the Accio Charm."
+					M<<"<b><font color=green>You learned Accio!"
+			src<<"You've taught your class the Accio spell."
 
 mob/GM
 	verb
@@ -662,8 +662,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Densuago))
-					M<<"<b><font color=white><b>You learned how to make someones teeth grow for 5 minutes!"
-			src<<"You taught your class the Densaugeo jinx."
+					M<<"<b><font color=green>You learned Densaugeo!"
+			src<<"You've taught your class the Densaugeo spell."
 
 mob/GM
 	verb
@@ -672,8 +672,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Ferula))
-					M<<"<b><font color=white><b>You learned how to summon the nurse to heal others"
-			src<<"You taught your class the Ferula Charm."
+					M<<"<b><font color=green>You learned Ferula!"
+			src<<"You've taught your class the Ferula spell."
 
 
 mob/GM
@@ -683,8 +683,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Expecto_Patronum))
-					M<<"<b><font color=white><b>You learned how to repel Dementors!"
-			src<<"You taught your class Expecto Patronum."
+					M<<"<b><font color=green>You learned Expecto Patronum!"
+			src<<"You've taught your class the Expecto Patronum spell."
 
 mob/GM
 	verb
@@ -693,16 +693,16 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Dementia))
-					M<<"<b><font color=white><b>You learned how to summon Dementors!"
-			src<<"You taught your class the Dementia Curse."
+					M<<"<b><font color=green>You learned how to summon Dementors!"
+			src<<"You've taught your class the Dementia spell."
 
 		Teach_Avis()
 			set category = "Teach"
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Avis))
-					M<<"<b><font color=white><b>You learned the spell, Avis!"
-			src<<"You taught your class the Avis Charm."
+					M<<"<b><font color=green>You learned the spell, Avis!"
+			src<<"You've taught your class the Avis spell."
 
 mob/GM
 	verb
@@ -711,7 +711,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				M.verbs -= /mob/Spells/verb/Dementia
-			src<<"You took the Dementia Curse from everyone in the area.."
+			src<<"You took the Dementia Curse from everyone in the area."
 mob/GM
 	verb
 		Teach_Portus()
@@ -719,22 +719,22 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Portus))
-					M<<"<b><font color=white><b>You learned Portus!"
-			src<<"You taught your class the Portus Charm!"
+					M<<"<b><font color=green>You learned Portus!"
+			src<<"You've taught your class the Portus spell."
 		Teach_Valorus()
 			set category = "Teach"
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Valorus))
-					M<<"<b><font color=white><b>You learned Valorus!"
-			src<<"You taught your class Valorus."
+					M<<"<b><font color=green>You learned Valorus!"
+			src<<"You've taught your class the Valorus spell."
 		Teach_Permoveo()
 			set category = "Teach"
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Permoveo))
-					M<<"<b><font color=white><b>You learned Permoveo!"
-			src<<"You taught your class Permoveo!"
+					M<<"<b><font color=green>You learned Permoveo!"
+			src<<"You've taught your class the Permoveo spell."
 mob/GM
 	verb
 		Teach_Conjunctivis()
@@ -742,8 +742,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Conjunctivis))
-					M<<"<b><font color=white><b>You learned Conjunctivis!"
-			src<<"You taught your class the Conjunctivis Hex!"
+					M<<"<b><font color=green>You learned Conjunctivis!"
+			src<<"You've taught your class the Conjunctivis spell."
 
 mob/GM
 	verb
@@ -752,8 +752,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Waddiwasi))
-					M<<"<b><font color=white><b>You learned Waddiwasi!"
-			src<<"You taught your class the Waddiwasi spell!"
+					M<<"<b><font color=green>You learned Waddiwasi!"
+			src<<"You've taught your class the Waddiwasi spell."
 
 
 mob/GM
@@ -764,8 +764,8 @@ mob/GM
 			set name = "Teach Self to Human"
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Human))
-					M<<"<b><font color=white><b>You learned how to transform yourself back into a Human!"
-			src<<"You taught your class how to transform back into a Human."
+					M<<"<b><font color=green>You learned how to transform yourself back into a Human!"
+			src<<"You've taught your class how to transform back into a Human."
 
 
 
@@ -776,8 +776,8 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Incarcerous))
-					M<<"<b><font size=3><font color=aqua>You learned the Incarcerous Charm."
-			src << "You've taught your class the Incarcerous spell"
+					M<<"<b><font color=green>You learned Incarcerous!"
+			src << "You've taught your class the Incarcerous spell."
 
 mob/GM
 	verb
@@ -786,7 +786,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				M.Aero=1
-				M<<"<b><p align=center>.: You learned Aero :."
+				M<<"<b><font color=green>You learned Aero!"
 			src<<"You've taught your class the Aero spell."
 
 mob/GM
@@ -796,7 +796,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Disperse))
-					M<<"<b><p align=center>.: You learned Disperse :."
+					M<<"<b><font color=green>You learned Disperse!"
 			src<<"You've taught your class the Disperse spell."
 
 mob/GM
@@ -806,7 +806,7 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Herbificus))
-					M<<"<b><p align=center>.: You learned Herbificus :."
+					M<<"<b><font color=green>You learned Herbificus!"
 			src<<"You've taught your class the Herbificus spell."
 
 mob/GM
@@ -816,5 +816,5 @@ mob/GM
 			set hidden = 1
 			for(var/mob/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Solidus))
-					M<<"<b><p align=center>.: You learned Solidus :."
+					M<<"<b><font color=green>You learned Solidus!"
 			src<<"You've taught your class the Solidus spell."

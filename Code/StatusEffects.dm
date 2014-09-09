@@ -195,6 +195,8 @@ StatusEffect
 	DisableProjectiles
 	KilledPlayer
 	UsedRepel
+	UsedRiddikulus
+	UsedGMHelp
 
 	Lamps
 		var/tmp/obj/items/lamps/lamp

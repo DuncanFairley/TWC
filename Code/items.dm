@@ -595,10 +595,11 @@ obj/items/wearable/wigs/male_lightgreen_wig
 obj/items/wearable/wigs/male_black_wig
 	icon = 'male_black_wig.dmi'
 obj/items/wearable/wigs/male_blond_wig
-	icon = 'male_blond_wig.dmi'
+	icon = 'male_yellow_wig.dmi'
 	name = "male yellow wig"
 obj/items/wearable/wigs/male_blue_wig
-	icon = 'male_blue_wig.dmi'
+	icon = 'male_lightblue_wig.dmi'
+	name = "male light blue wig"
 obj/items/wearable/wigs/male_brown_wig
 	icon = 'male_brown_wig.dmi'
 obj/items/wearable/wigs/male_darkgreen_wig
@@ -609,17 +610,16 @@ obj/items/wearable/wigs/male_green_wig
 obj/items/wearable/wigs/male_grey_wig
 	icon = 'male_grey_wig.dmi'
 obj/items/wearable/wigs/male_pink_wig
-	icon = 'male_pink_wig.dmi'
+	icon = 'male_lightpink_wig.dmi'
+	name = "male light pink wig"
 obj/items/wearable/wigs/male_purple_wig
-	icon = 'male_purple_wig.dmi'
+	icon = 'male_lightpurple_wig.dmi'
+	name = "male light purple wig"
 obj/items/wearable/wigs/male_silver_wig
 	icon = 'male_silver_wig.dmi'
 obj/items/wearable/wigs/male_red_wig
 	icon = 'male_red_wig.dmi'
 	name = "male red wig"
-/*obj/items/wearable/wigs/male_diablo_wig
-	icon = 'male_diablo_wig.dmi'
-	name = "Diablo's wig"*/
 obj/items/wearable/wigs/male_teal_wig
 	icon = 'male_teal_wig.dmi'
 	name = "male teal wig"
@@ -637,32 +637,48 @@ obj/items/wearable/wigs/male_royale_wig
 obj/items/wearable/wigs/male_apollo_wig
 	icon = 'male_apollo_wig.dmi'
 	name = "male blond wig"
+obj/items/wearable/wigs/male_cyan_wig
+	icon = 'male_cyan_wig.dmi'
+obj/items/wearable/wigs/male_darkblue_wig
+	icon = 'male_darkblue_wig.dmi'
+	name = "male dark blue wig"
+obj/items/wearable/wigs/male_darkpurple_wig
+	icon = 'male_darkpurple_wig.dmi'
+	name = "male dark purple wig"
+obj/items/wearable/wigs/male_darkpink_wig
+	icon = 'male_darkpink_wig.dmi'
+	name = "male dark pink wig"
+obj/items/wearable/wigs/male_orange_wig
+	icon = 'male_orange_wig.dmi'
+
+//Holiday//
 obj/items/wearable/wigs/male_christmas_wig
 	icon = 'male_christmas_wig.dmi'
 	dropable = 0
 obj/items/wearable/wigs/male_halloween_wig
 	icon = 'male_halloween_wig.dmi'
+/////////
 
 obj/items/wearable/wigs/female_black_wig
 	icon = 'female_black_wig.dmi'
 obj/items/wearable/wigs/female_blonde_wig
-	icon = 'female_blonde_wig.dmi'
+	icon = 'female_yellow_wig.dmi'
 	name = "female yellow wig"
 obj/items/wearable/wigs/female_blue_wig
-	icon = 'female_blue_wig.dmi'
+	icon = 'female_lightblue_wig.dmi'
+	name = "female light blue wig"
 obj/items/wearable/wigs/female_brown_wig
 	icon = 'female_brown_wig.dmi'
 obj/items/wearable/wigs/female_green_wig
 	icon = 'female_green_wig.dmi'
 obj/items/wearable/wigs/female_grey_wig
 	icon = 'female_grey_wig.dmi'
-/*obj/items/wearable/wigs/female_nevaehlee_wig
-	icon = 'female_nevaehlee_wig.dmi'
-	name = "Nevaeh Lee's wig"*/
 obj/items/wearable/wigs/female_pink_wig
-	icon = 'female_pink_wig.dmi'
+	icon = 'female_lightpink_wig.dmi'
+	name = "female light pink wig"
 obj/items/wearable/wigs/female_purple_wig
-	icon = 'female_purple_wig.dmi'
+	icon = 'female_lightpurple_wig.dmi'
+	name = "female light purple wig"
 obj/items/wearable/wigs/female_darkpurple_wig
 	icon = 'female_darkpurple_wig.dmi'
 	name = "female dark purple wig"
@@ -677,11 +693,28 @@ obj/items/wearable/wigs/female_soleil_wig
 obj/items/wearable/wigs/female_rainbow_wig
 	icon = 'female_rainbow_wig.dmi'
 	name = "female rainbow wig"
+obj/items/wearable/wigs/female_cyan_wig
+	icon = 'female_cyan_wig.dmi'
+obj/items/wearable/wigs/female_darkblue_wig
+	icon = 'female_darkblue_wig.dmi'
+	name = "female dark blue wig"
+obj/items/wearable/wigs/female_darkpink_wig
+	icon = 'female_darkpink_wig.dmi'
+	name = "female dark pink wig"
+obj/items/wearable/wigs/female_orange_wig
+	icon = 'female_orange_wig.dmi'
+obj/items/wearable/wigs/female_red_wig
+	icon = 'female_red_wig.dmi'
+obj/items/wearable/wigs/female_teal_wig
+	icon = 'female_teal_wig.dmi'
+
+//Holiday//
 obj/items/wearable/wigs/female_christmas_wig
 	icon = 'female_christmas_wig.dmi'
 	dropable = 0
 obj/items/wearable/wigs/female_halloween_wig
 	icon = 'female_halloween_wig.dmi'
+/////////
 
 obj/items/wearable/shoes
 	desc = "A pair of shoes. They look comfy!"
@@ -698,7 +731,10 @@ obj/items/wearable/shoes
 obj/items/wearable/shoes/green_shoes
 	icon = 'green_shoes.dmi'
 obj/items/wearable/shoes/blue_shoes
-	icon = 'blue_shoes.dmi'
+	icon = 'lightblue_shoes.dmi'
+obj/items/wearable/shoes/darkblue_shoes
+	icon = 'darkblue_shoes.dmi'
+	name = "dark blue shoes"
 obj/items/wearable/shoes/red_shoes
 	icon = 'red_shoes.dmi'
 obj/items/wearable/shoes/yellow_shoes
@@ -709,14 +745,25 @@ obj/items/wearable/shoes/orange_shoes
 	icon = 'orange_shoes.dmi'
 obj/items/wearable/shoes/teal_shoes
 	icon = 'teal_shoes.dmi'
+obj/items/wearable/shoes/cyan_shoes
+	icon = 'cyan_shoes.dmi'
 obj/items/wearable/shoes/purple_shoes
-	icon = 'purple_shoes.dmi'
+	icon = 'lightpurple_shoes.dmi'
+obj/items/wearable/shoes/darkpurple_shoes
+	icon = 'darkpurple_shoes.dmi'
+	name = "dark purple shoes"
 obj/items/wearable/shoes/black_shoes
 	icon = 'black_shoes.dmi'
+obj/items/wearable/shoes/grey_shoes
+	icon = 'grey_shoes.dmi'
 obj/items/wearable/shoes/royale_shoes
 	icon = 'royale_shoes.dmi'
 obj/items/wearable/shoes/pink_shoes
-	icon = 'pink_shoes.dmi'
+	icon = 'lightpink_shoes.dmi'
+	name = "light pink shoes"
+obj/items/wearable/shoes/darkpink_shoes
+	icon = 'darkpink_shoes.dmi'
+	name = "dark pink shoes"
 
 obj/items/wearable/scarves
 	desc = "A finely knit scarf designed to keep your neck toasty warm."
@@ -735,40 +782,61 @@ obj/items/wearable/scarves/yellow_scarf
 obj/items/wearable/scarves/black_scarf
 	icon = 'scarf_black.dmi'
 obj/items/wearable/scarves/blue_scarf
-	icon = 'scarf_blue.dmi'
-obj/items/wearable/scarves/candycane_scarf
-	icon = 'scarf_candycane.dmi'
-obj/items/wearable/scarves/casimir_scarf
-	icon = 'scarf_casimir.dmi'
-	name = "Casimir's Scarf"
+	icon = 'scarf_lightblue.dmi'
+	name = "light blue scarf"
+obj/items/wearable/scarves/darkblue_scarf
+	icon = 'scarf_darkblue.dmi'
+	name = "dark blue scarf"
+obj/items/wearable/scarves/cyan_scarf
+	icon = 'scarf_cyan.dmi'
 obj/items/wearable/scarves/green_scarf
 	icon = 'scarf_green.dmi'
-obj/items/wearable/scarves/halloween_scarf
-	icon = 'scarf_halloween.dmi'
+obj/items/wearable/scarves/grey_scarf
+	icon = 'scarf_grey.dmi'
+obj/items/wearable/scarves/orange_scarf
+	icon = 'scarf_orange.dmi'
+obj/items/wearable/scarves/pink_scarf
+	icon = 'scarf_lightpink.dmi'
+	name = "light pink scarf"
+obj/items/wearable/scarves/darkpink_scarf
+	icon = 'scarf_darkpink.dmi'
+	name = "dark pink scarf"
+obj/items/wearable/scarves/purple_scarf
+	icon = 'scarf_lightpurple.dmi'
+	name = "light purple scarf"
+obj/items/wearable/scarves/darkpurple_scarf
+	icon = 'scarf_darkpurple.dmi'
+	name = "dark purple scarf"
+obj/items/wearable/scarves/red_scarf
+	icon = 'scarf_red.dmi'
+obj/items/wearable/scarves/teal_scarf
+	icon = 'scarf_teal.dmi'
+obj/items/wearable/scarves/white_scarf
+	icon = 'scarf_white.dmi'
+
 obj/items/wearable/scarves/lucifer_scarf
 	icon = 'scarf_lucifer.dmi'
 	name = "Lucifer's Scarf"
 obj/items/wearable/scarves/lucifer2_scarf
 	icon = 'scarf_lucifer2.dmi'
 	name = "Lucifer's Scarf"
-obj/items/wearable/scarves/orange_scarf
-	icon = 'scarf_orange.dmi'
-obj/items/wearable/scarves/pastel_scarf
-	icon = 'scarf_pastel.dmi'
-obj/items/wearable/scarves/pink_scarf
-	icon = 'scarf_pink.dmi'
-obj/items/wearable/scarves/purple_scarf
-	icon = 'scarf_purple.dmi'
-obj/items/wearable/scarves/red_scarf
-	icon = 'scarf_red.dmi'
-obj/items/wearable/scarves/american_scarf
-	icon = 'scarf_american.dmi'
+obj/items/wearable/scarves/casimir_scarf
+	icon = 'scarf_casimir.dmi'
+	name = "Casimir's Scarf"
 obj/items/wearable/scarves/royale_scarf
 	icon = 'scarf_royale.dmi'
-obj/items/wearable/scarves/teal_scarf
-	icon = 'scarf_teal.dmi'
-obj/items/wearable/scarves/white_scarf
-	icon = 'scarf_white.dmi'
+
+//Holiday//
+obj/items/wearable/scarves/candycane_scarf
+	icon = 'scarf_candycane.dmi'
+obj/items/wearable/scarves/american_scarf
+	icon = 'scarf_american.dmi'
+obj/items/wearable/scarves/halloween_scarf
+	icon = 'scarf_halloween.dmi'
+obj/items/wearable/scarves/pastel_scarf
+	icon = 'scarf_pastel.dmi'
+/////////
+
 obj/items/wearable/pimp_ring
 	icon = 'pimpring.dmi'
 	showoverlay=0
