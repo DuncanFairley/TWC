@@ -4,7 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
- obj
+obj
 	Signs
 		mouse_over_pointer = MOUSE_HAND_POINTER
 
