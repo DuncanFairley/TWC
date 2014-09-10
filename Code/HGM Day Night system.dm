@@ -36,6 +36,7 @@ Weather
 						if(prob(10)) continue
 						w.rain()
 					A:SetWeather(/obj/weather/rain)
+					A.dmg = 1
 		acid()
 			clouds(150)
 			for(var/area/A in world) // look for an outside area
