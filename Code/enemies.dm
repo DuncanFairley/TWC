@@ -395,10 +395,16 @@ mob
 					Search()
 						Wander()
 						sleep(3)
-						for(var/mob/Player/M in ohearers(3, src))
-							M.HP += ((M.MHP/20)+rand(0,50))
-							if(M.HP > M.MHP) M.HP = M.MHP
-							M.updateHPMP()
+						Heal()
+
+					proc
+						Heal()
+							for(var/mob/Player/M in ohearers(3, src))
+								M.HP += ((M.MHP/20)+rand(0,50))
+								if(M.HP > M.MHP) M.HP = M.MHP
+								M.updateHPMP()
+					BlindAttack()//removeoMob
+						Heal()
 
 					New()
 						light(src, 3, 600, "orange")
