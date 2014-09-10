@@ -950,14 +950,14 @@ area
 	blindness
 		layer=3
 		Enter(mob/Player/M)
-			if(istype(M, /mob))
-				if(M.key)
-					M.sight |= BLIND
-					M.sight &= ~SEE_SELF
-					for(var/mob/Player/A in world)
-						if(A.key)
-							if(A.client.eye == M)
-								A.client.eye = A
+			if(isplayer(M))
+				M.sight |= BLIND
+				M.sight &= ~SEE_SELF
+				for(var/mob/Player/A in world)
+					if(A.key)
+						if(A.client.eye == M)
+							A.client.eye = A
+			else if(istype(M, /mob/NPC)) return 0
 			return 1
 		Exited(mob/Player/M)
 			if(istype(M, /mob))
