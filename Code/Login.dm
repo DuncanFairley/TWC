@@ -40,6 +40,7 @@ obj/drop_on_death
 	var
 		announceToWorld = 1
 		showicon
+		slow = 0
 
 	verb
 		Drop()
@@ -56,8 +57,12 @@ obj/drop_on_death
 			if(showicon == 1) usr.overlays -= icon
 			else if(showicon) usr.overlays -= showicon
 
+			if(slow) usr:slow -= slow
+
 	proc
-		take(mob/M)
+		take(mob/Player/M)
+			if(locate(type) in M) return
+			if(slow) M.slow += slow
 			if(announceToWorld)
 				world << "<b>[M] takes \the [src].</b>"
 			else
