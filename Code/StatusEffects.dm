@@ -52,6 +52,7 @@ Event
 			..()
 			spawn()
 				if(prob(5))       weather.acid()
+				else if(prob(6))  weather.snow()
 				else if(prob(10)) weather.rain()
 				else if(prob(10)) weather.clear(100) // cloudy
 				else if(prob(20)) weather.clear(50)  // partial cloudy

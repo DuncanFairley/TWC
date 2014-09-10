@@ -47,6 +47,13 @@ Weather
 					A:SetWeather(/obj/weather/acid)
 					A.dmg = 2
 
+		snow()
+			clouds(200)
+			for(var/area/A in world)		// look for an outside area
+				if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
+					A:SetWeather(/obj/weather/snow)
+					A.dmg = 0.75
+
 		clear(p = 10)
 			clouds(p)
 			for(var/area/A in world) // look for an outside area
@@ -55,7 +62,6 @@ Weather
 						w.clear()
 					A:SetWeather()
 					A.dmg = 1
-
 
 		// relocates / removes / adds existing clouds according to requirement per z level
 		generate_clouds(z, p=0, color=null)
@@ -289,9 +295,7 @@ mob/GM/verb
 	Snow()
 		set category="Server"
 		world<<"<B><font color=silver>Snow begins to flurry from the sky."
-		for(var/area/A in world)		// look for an outside area
-			if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
-				A:SetWeather(/obj/weather/snow)
+		weather.snow()
 
 	Clear_weather()
 		set category="Server"
