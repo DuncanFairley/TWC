@@ -1718,12 +1718,7 @@ world/New()
 		var/Configuration/cfg_clans = ini.GetSection("clans")
 		clanadmin_hash = cfg_clans.Value("clanadmin_hash")
 	Load_World()
-	scheduler.start()
-
-	init_books()
-	spawn()init_clanwars()
-	spawn()init_weather()
-
+	init_events()
 	swapmaps_directory = "vaults"
 
 	Load_Bans()

@@ -58,7 +58,35 @@ Event
 				else if(prob(20)) weather.clear(50)  // partial cloudy
 				else              weather.clear()
 
-				scheduler.schedule(src, world.tick_lag * rand(9000, 13500)) // // 15 to 45 minutes
+				scheduler.schedule(src, world.tick_lag * rand(9000, 27000)) // // 15 to 45 minutes
+
+	RandomEvents
+		fire()
+			..()
+			spawn()
+				if(prob(30)) // old system event
+					var/delay = rand(10,30) // event will be 10 to 30 minutes
+					world << infomsg("Old dueling system is active for [delay] minutes outside!")
+					for(var/area/A in outside_areas)
+						A.oldsystem = 1
+						spawn(delay * 600) A.oldsystem = 0
+
+
+				scheduler.schedule(src, world.tick_lag * rand(36000, 108000))  // 1 to 3 hours
+
+proc
+	init_events()
+		scheduler.start()
+
+		init_books()
+		spawn() init_clanwars()
+		init_weather()
+		scheduler.schedule(new/Event/RandomEvents, world.tick_lag * rand(3000, 36000)) // 5 minutes to 1 hour
+
+RandomEvents
+mob/verb/testareas()
+	for(var/i in outside_areas)
+		world << i
 
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)

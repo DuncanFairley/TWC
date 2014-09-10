@@ -14,11 +14,8 @@ world
 
 	New()									// When the world begins
 		..()								// do the regular things
-		for(var/area/outside/O in world)	// Look for outside areas
-			spawn() O.daycycle()
-						// begin the daycycle
-		for(var/area/newareas/outside/O in world)	// Look for outside areas
-			spawn() O.daycycle()
+		for(var/area/O in outside_areas)	// Look for outside areas
+			spawn() O:daycycle()
 
 Weather
 	var/list/clouds = list()
@@ -30,38 +27,34 @@ Weather
 
 		rain()
 			clouds(150, "rain")
-			for(var/area/A in world) // look for an outside area
-				if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
-					for(var/turf/water/w in A)
-						if(prob(10)) continue
-						w.rain()
-					A:SetWeather(/obj/weather/rain)
-					A.dmg = 1
+			for(var/area/A in outside_areas)
+				for(var/turf/water/w in A)
+					if(prob(10)) continue
+					w.rain()
+				A:SetWeather(/obj/weather/rain)
+				A.dmg = 1
 		acid()
 			clouds(150, "rain")
-			for(var/area/A in world) // look for an outside area
-				if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
-					for(var/turf/water/w in A)
-						if(prob(10)) continue
-						w.rain()
-					A:SetWeather(/obj/weather/acid)
-					A.dmg = 2
+			for(var/area/A in outside_areas)
+				for(var/turf/water/w in A)
+					if(prob(10)) continue
+					w.rain()
+				A:SetWeather(/obj/weather/acid)
+				A.dmg = 2
 
 		snow()
 			clouds(200)
-			for(var/area/A in world)		// look for an outside area
-				if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
-					A:SetWeather(/obj/weather/snow)
-					A.dmg = 0.75
+			for(var/area/A in outside_areas)
+				A:SetWeather(/obj/weather/snow)
+				A.dmg = 0.75
 
 		clear(p = 10)
 			clouds(p)
-			for(var/area/A in world) // look for an outside area
-				if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
-					for(var/turf/water/w in A)
-						w.clear()
-					A:SetWeather()
-					A.dmg = 1
+			for(var/area/A in outside_areas)
+				for(var/turf/water/w in A)
+					w.clear()
+				A:SetWeather()
+				A.dmg = 1
 
 		// relocates / removes / adds existing clouds according to requirement per z level
 		generate_clouds(z, p=0, color=null)
@@ -150,6 +143,7 @@ obj/cloud
 
 					sleep(8)
 
+var/list/outside_areas = list()
 area
 	outside	// lay this area on the map anywhere you want it to change from night to day
 		layer = 6	// set this layer above everything else so the overlay obscures everything
@@ -217,6 +211,12 @@ area
 				M.Move(locate(51,3,18))
 				M.density = 1
 				M.flying = 0
+
+
+		New()
+			..()
+			outside_areas += src
+
 		proc
 			daycycle()
 				lit = 1 - lit	// toggle lit between 1 and 0
@@ -228,17 +228,14 @@ area
 				else
 					overlays += I	// add the 50% dither
 				spawn(9000) daycycle()
-		proc
+
 			nightcycle()
 				lit = 0 - lit	// toggle lit between 1 and 0
 				world<<"<b>Event: <font color=blue>[usr] has commanded the sun to set over the lake. Night has fallen."
 				overlays += 'black50.dmi'	// add the 50% dither
 				sleep(9000)
-				for(var/area/outside/O in world)
+				for(var/area/outside/O in outside_areas)
 					O.daycycle()
-
-
-
 
 
 /*
@@ -279,7 +276,9 @@ area
 						overlays += Weather	// display it as an overlay for the area
 
 
-
+			New()
+				..()
+				outside_areas += src
 
 mob/GM/verb
 	Rain()
