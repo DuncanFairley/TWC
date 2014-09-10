@@ -23,13 +23,13 @@ world
 Weather
 	var/list/clouds = list()
 	proc
-		clouds(p=0)
-			generate_clouds(14, p)
-			generate_clouds(15, p)
-			generate_clouds(16, p)
+		clouds(p=0, color=null)
+			generate_clouds(14, p, color)
+			generate_clouds(15, p, color)
+			generate_clouds(16, p, color)
 
 		rain()
-			clouds(150)
+			clouds(150, "rain")
 			for(var/area/A in world) // look for an outside area
 				if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
 					for(var/turf/water/w in A)
@@ -38,7 +38,7 @@ Weather
 					A:SetWeather(/obj/weather/rain)
 					A.dmg = 1
 		acid()
-			clouds(150)
+			clouds(150, "rain")
 			for(var/area/A in world) // look for an outside area
 				if( (A.type == /area/outside) || (A.parent_type == /area/outside) || (A.parent_type == /area/newareas/outside) )
 					for(var/turf/water/w in A)
@@ -58,7 +58,7 @@ Weather
 
 
 		// relocates / removes / adds existing clouds according to requirement per z level
-		generate_clouds(z, p=0)
+		generate_clouds(z, p=0, color=null)
 			p = max(0,p)
 			if("[z]" in clouds)
 				var/list/z_clouds = clouds["[z]"]
@@ -76,6 +76,7 @@ Weather
 
 				for(var/obj/cloud/c in z_clouds)
 					c.loc = locate(rand(10,world.maxx), rand(10,world.maxy), z)
+					c.set_color(color)
 			else
 				clouds["[z]"] = list()
 
@@ -84,7 +85,8 @@ Weather
 				var/count = p - z_clouds.len
 				while(count > 0)
 					count--
-					new/obj/cloud/ (locate(rand(10,world.maxx), rand(10,world.maxy), z))
+					var/obj/cloud/c = new (locate(rand(10,world.maxx), rand(10,world.maxy), z))
+					c.set_color(color)
 
 var/Weather/weather
 
@@ -102,10 +104,9 @@ obj/cloud
 			weather.clouds["[z]"] = list()
 		weather.clouds["[z]"] += src
 
-		pixel_x    = rand(32, -32)
-		pixel_y    = rand(32, -32)
-		icon_state = "[rand(1,10)]"
-		pixel_z    = rand(192, 320)
+		pixel_z    = rand(1,10)
+		icon_state = "[pixel_z]"
+		pixel_z   += rand(12, 20) * 16
 
 		var/obj/o    = new
 		o.icon       = icon
@@ -117,6 +118,13 @@ obj/cloud
 		loop()
 
 	proc
+		set_color(color=null)
+			// pixel z is built from random multiply of 16 + the icon state. Mod of 16 will return the original icon state
+			icon_state = "[pixel_z % 16]"
+			if(color)
+				icon_state = "[icon_state]_[color]"
+
+
 		loop()
 			spawn()
 				while(src && src.loc)
