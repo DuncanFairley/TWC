@@ -916,8 +916,6 @@ obj/items/wearable/invisibility_cloak
 			owner.sight &= ~SEE_SELF
 			owner.icon_state = ""
 
-//Title//
-
 obj/items/wearable/title
 	var/title = ""
 	icon = 'scrolls.dmi'
@@ -939,13 +937,16 @@ obj/items/wearable/title
 			if(owner.Rank == title) owner.Rank = "Player"
 
 	Custom
-
 	Slayer
-
-
-////////
-
-
+	Rich
+		title = "Rich"
+		name  = "Title: Rich"
+	Treasure_Hunter
+		title = "Treasure Hunter"
+		name  = "Title: Treasure Hunter"
+	Genie
+		title = "Genie's Friend"
+		name  = "Title: Genie's Friend"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
