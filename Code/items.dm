@@ -918,27 +918,30 @@ obj/items/wearable/invisibility_cloak
 
 //Title//
 
-obj/items/wearable/Title
-	var/Title = ""
+obj/items/wearable/title
+	var/title = ""
 	icon = 'scrolls.dmi'
 	icon_state = "title"
 	desc = ""
 	Equip(var/mob/Player/owner,var/overridetext=0)
-		if(owner.level >= 501)
-			owner << errormsg("You are too weak to use this.")
+		if(owner.level < 501)
+			owner << errormsg("You need to be a Hogwarts Graduate to wear this.")
 			return
 		. = ..(owner)
 		if(. == WORN)
-			if(!overridetext)viewers(owner) << infomsg("[owner] wears \his [Title] title.")
-			for(var/obj/items/wearable/Title/W in owner.Lwearing)
-				if(owner.Rank == "Player") owner.Rank = Title
+			if(!overridetext)viewers(owner) << infomsg("[owner] wears \his \"[title]\" title.")
+			for(var/obj/items/wearable/title/W in owner.Lwearing)
+				if(owner.Rank == "Player") owner.Rank = title
 				if(W != src)
 					W.Equip(owner,0,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] removes \his title.")
-			if(owner.Rank == Title) owner.Rank = "Player"
+			if(owner.Rank == title) owner.Rank = "Player"
 
-obj/items/wearable/Title/Custom_Title
+	Custom
+
+	Slayer
+
 
 ////////
 
