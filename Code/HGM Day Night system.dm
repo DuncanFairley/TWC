@@ -96,6 +96,7 @@ proc/init_weather()
 obj/cloud
 	icon  = 'clouds.dmi'
 	layer = 8
+	mouse_opacity = 0
 
 	New()
 		..()
