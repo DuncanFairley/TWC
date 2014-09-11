@@ -2290,7 +2290,8 @@ obj/Banker
 
 	Click()
 		..()
-		Talk()
+		if(src in oview(3))
+			Talk()
 
 	verb
 		Examine()
