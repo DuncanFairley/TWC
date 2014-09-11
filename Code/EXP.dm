@@ -463,6 +463,26 @@ question
 		correct  = "2005"
 		wrong    = list("1989", "2031")
 
+	question25
+		question = "What is the symbol of Gryffindor house?"
+		correct  = "Lion"
+		wrong    = list("Raven", "Badger", "Snake")
+
+	question26
+		question = "What is the symbol of Ravenclaw house?"
+		correct  = "Raven"
+		wrong    = list("Lion", "Badger", "Snake")
+
+	question27
+		question = "What is the symbol of Hufflepuff house?"
+		correct  = "Badger"
+		wrong    = list("Raven", "Lion", "Snake")
+
+	question28
+		question = "What is the symbol of Slytherin house?"
+		correct  = "Snake"
+		wrong    = list("Raven", "Badger", "Lion")
+
 proc/init_books()
 	for(var/t in typesof(/question/) - /question)
 		questions += new t
