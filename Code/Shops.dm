@@ -269,9 +269,6 @@ mob/TalkNPC/Blotts
 mob/TalkNPC/Ollivander
 	icon = 'misc.dmi'
 	icon_state="olivander"
-	NPC = 1
-	Immortal=1
-	Gm=1
 	var/swiftmode=0
 	var/busy=0
 	var/gdir
@@ -597,8 +594,6 @@ mob/Turkey
 mob/TalkNPC/Broom_Salesman
 	icon = 'NPCs.dmi'
 	icon_state="Wizzard"
-	NPC = 1
-	Immortal=1
 	item="Potion"
 	name="Chrono"
 
@@ -865,11 +860,6 @@ var/list/shops = list("malewigshop" = newlist(
 mob/TalkNPC/Vault_Salesman
 	icon_state="goblin1"
 	icon = 'misc.dmi'
-	NPC = 1
-	Gm = 1
-	player=1
-	Immortal=1
-	density=1
 	var/itemlist = list()
 	New()
 		..()
@@ -928,11 +918,6 @@ mob/TalkNPC/Vault_Salesman
 mob/TalkNPC/Artifacts_Salesman
 	icon_state="goblin1"
 	icon = 'misc.dmi'
-	NPC = 1
-	Gm = 1
-	player=1
-	Immortal=1
-	density=1
 	New()
 		..()
 		icon_state = "goblin[rand(1,3)]"

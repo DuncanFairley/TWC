@@ -43,13 +43,17 @@ mob
 
 		density = 1
 		Immortal = 1
+		NPC = 1
+		Gm=1
 
 		verb
 			Talk()
 
 		Click()
-			..()
-			Talk()
+			if(src in oview(3))
+				Talk()
+			else
+				usr << errormsg("You need to be closer.")
 
 		StatChangeMan
 			name = "Demetrius"
