@@ -372,8 +372,7 @@ mob/Spells/verb/Basilio()
 		return
 	hearers()<<"A Black Basilisk, emerges from [usr]'s wand."
 	hearers()<<"<b>Basilisk</b>: Hissssssss!"
-	var/mob/Basilisk/D = new /mob/Basilisk
-	D:loc = locate(src.x,src.y-1,src.z)
+	var/mob/NPC/Enemies/Summoned/Basilisk/D = new (locate(src.x,src.y-1,src.z))
 	flick('mist.dmi',D)
 
 mob/Spells/verb/Serpensortia()
@@ -480,8 +479,7 @@ mob/Spells/verb/Avis()
 		hearers()<<"A bright white flash shoots out of [usr]'s wand."
 		sleep(20)
 		hearers()<<"A Phoenix emerges."
-		var/mob/NPC/Enemies/Summoned/Phoenix/D = new /mob/NPC/Enemies/Summoned/Phoenix
-		D:loc = locate(src.x,src.y+1,src.z)
+		var/mob/NPC/Enemies/Summoned/Phoenix/D = new (locate(src.x,src.y+1,src.z))
 		flick('mist.dmi',D)
 		src = null
 		spawn(600)
