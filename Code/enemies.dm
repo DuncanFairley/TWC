@@ -306,15 +306,15 @@ mob
 
 			proc/Attack()
 
+				if(prob(20))
+					step_rand(src)
+					sleep(2)
+
 				var/distance = get_dist(src, target)
 				if(!target || !target.loc || target.loc.loc != loc.loc || distance > Range)
 					target = null
 					ShouldIBeActive()
 					return
-
-				if(prob(20))
-					step_rand(src)
-					sleep(2)
 
 				if(distance > 1)
 					var/turf/t = get_step_to(src, target, 1)
