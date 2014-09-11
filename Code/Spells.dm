@@ -251,13 +251,13 @@ mob/Spells/verb/Deletrius()
 		usr << errormsg("This spell requires a wand.")
 mob/Spells/verb/Expelliarmus(mob/M in view()&Players)
 	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedExpelliarmus,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		var/obj/items/wearable/wands/W = locate(/obj/items/wearable/wands) in M:Lwearing
 		if(W)
 			W.Equip(M,1)
 			hearers()<<"<font color=red><b>[usr]</b></font>: <font color=white>Expelliarmus!"
 			hearers()<<"<b>[M] loses \his wand.</b>"
-			new /StatusEffect/UsedExpelliarmus(src,10)
+			new /StatusEffect/UsedAnnoying(src,15)
 			if(M.removeoMob)
 				M << "Your Permoveo spell failed.."
 				M.client.eye=M
@@ -589,9 +589,9 @@ proc/view2screenloc(view)
 	return "1,1 to [view]"
 mob/Spells/verb/Conjunctivis(mob/M in oview()&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedConjunctivis,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		//M.sight|=BLIND
-		new /StatusEffect/UsedConjunctivis(src,15)
+		new /StatusEffect/UsedAnnoying(src,15)
 		var/obj/screenobj/conjunct/S = new(M.client)
 		S.layer = 100
 		S.screen_loc = view2screenloc(M.client.view)
@@ -610,8 +610,8 @@ mob/Spells/verb/Conjunctivis(mob/M in oview()&Players)
 				del(S)
 mob/Spells/verb/Melofors(mob/M in oview()&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedMelofors,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		new /StatusEffect/UsedMelofors(src,15)
+	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		new /StatusEffect/UsedAnnoying(src,15)
 		M.sight|=BLIND
 		hearers()<<"<b><font color=red>[usr]:</font> <font size=2><font color=red>Melofors [M]."
 		hearers()<<"<b>A giant pumpkin falls from the sky and lands upon [M.name]'s head.</b>"
@@ -1114,21 +1114,21 @@ mob/Spells/verb/Levicorpus(mob/M in view()&Players)
 			M.icon_state=""
 mob/Spells/verb/Obliviate(mob/M in view()&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedObliviate,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=700,againstocclumens=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=700,againstocclumens=0))
 		hearers()<<"<b><font color=red>[usr]:<font color=green> Obliviate!</b></font>"
 		//M<<"<p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p>"
 		//M<<"<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
 		M << output(null,"output")
 		hearers()<<"[usr] wiped [M]'s memory!"
 		usr.MP-=700
-		new /StatusEffect/UsedObliviate(src,30)
+		new /StatusEffect/UsedAnnoying(src,30)
 		usr.updateHPMP()
 mob/Spells/verb/Tarantallegra(mob/M in view()&Players)
 	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTarantallegra,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=100,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=100,againstocclumens=1))
 		if(M.dance) return
 		hearers()<<"<b>[usr]:</B><font color=green> <i>Tarantallegra!</i>"
-		new /StatusEffect/UsedTarantallegra(src,15)
+		new /StatusEffect/UsedAnnoying(src,15)
 		usr.MP-=100
 		usr.updateHPMP()
 		if(key != "Murrawhip")

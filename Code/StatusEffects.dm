@@ -198,7 +198,6 @@ StatusEffect
 	SteppedOnPoop
 	Flying
 	UsedEpiskey
-	UsedTarantallegra
 	UsedCrucio
 	Summoned
 	Decloaked
@@ -210,15 +209,12 @@ StatusEffect
 	UsedEvanesca
 	UsedClanAbilities
 	UsedIncindia
-	UsedObliviate
 	UsedStun
 	UsedFlagrate
 	UsedTransfiguration
-	UsedConjunctivis
-	UsedMelofors
+	UsedAnnoying
 	UsedPortus
 	UsedMeditate
-	UsedExpelliarmus
 	UsedHalloweenBucket
 	UsedSonic
 	UsedSnowRing
