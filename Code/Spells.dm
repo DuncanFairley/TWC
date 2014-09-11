@@ -120,7 +120,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 				if(findtext(n, p.name) && length(p.name) + 2 >= length(n))
 					M = p
 					break
-		if(!M)
+		if(!M && people.len)
 			var/Input/popup = new (src, "Eat Slugs")
 			M = popup.InputList(src, "Cast this curse on?", "Eat Slugs", people[1], people)
 			del popup
@@ -150,6 +150,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 					M.updateHPMP()
 				slugs--
 				sleep(rand(20,90))
+		return TRUE
 
 mob/Spells/verb/Disperse()
 	set category = "Spells"
@@ -358,7 +359,8 @@ proc/light(atom/a, range=3, ticks=100, state = "light")
 
 	a.overlays += light
 	if(ticks != 0)
-		spawn(ticks) a.overlays -= light
+		spawn(ticks)
+			if(a) a.overlays -= light
 
 
 mob/Spells/verb/Basilio()

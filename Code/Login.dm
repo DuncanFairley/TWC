@@ -1230,8 +1230,7 @@ mob/Player
 											T.invisibility=0
 								else if(cmptext(copytext(t, 1, 10),"eat slugs"))
 									if(/mob/Spells/verb/Eat_Slugs in verbs)
-										usr:Eat_Slugs(copytext(t, 11))
-										silent = TRUE
+										silent = usr:Eat_Slugs(copytext(t, 11))
 
 								if(!silent)
 									for(var/mob/M in hearers(client.view))
