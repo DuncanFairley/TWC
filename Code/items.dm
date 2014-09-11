@@ -732,6 +732,7 @@ obj/items/wearable/shoes/green_shoes
 	icon = 'green_shoes.dmi'
 obj/items/wearable/shoes/blue_shoes
 	icon = 'lightblue_shoes.dmi'
+	name = "light blue shoes"
 obj/items/wearable/shoes/darkblue_shoes
 	icon = 'darkblue_shoes.dmi'
 	name = "dark blue shoes"
@@ -749,6 +750,7 @@ obj/items/wearable/shoes/cyan_shoes
 	icon = 'cyan_shoes.dmi'
 obj/items/wearable/shoes/purple_shoes
 	icon = 'lightpurple_shoes.dmi'
+	name = "light purple shoes"
 obj/items/wearable/shoes/darkpurple_shoes
 	icon = 'darkpurple_shoes.dmi'
 	name = "dark purple shoes"
@@ -914,70 +916,31 @@ obj/items/wearable/invisibility_cloak
 			owner.sight &= ~SEE_SELF
 			owner.icon_state = ""
 
-obj
-	custom_clothes
-		name = "Custom Clothes"
-		var/isoverlay=1
-		verb
-			Wear()
-				if(usr.clanrobed())return
-				hearers() << "<b><font color=#CCCCCC>[usr] slips on \his clothes.</b></font>"
-				if(isoverlay) usr.overlays+=image(src.icon)
-				else
-					usr.mprevicon = usr.icon
-					usr.icon = src.icon
+//Title//
 
-		verb
-			Take_Off()
-				hearers() << "<b><font color=#CCCCCC>[usr] slips off \his custom clothes.</b></font>"
-				if(isoverlay) usr.overlays-=image(src.icon)
-				else usr.icon = usr.mprevicon
-		verb
-			Take()
-				set src in oview(0)
-				hearers()<<"[usr] takes \the [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-		verb
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-				if(isoverlay) usr.overlays-=image(src.icon)
-				else if(usr.icon == src.icon) usr.icon = usr.mprevicon
+obj/items/wearable/Title
+	var/Title = ""
+	icon = 'scrolls.dmi'
+	icon_state = "title"
+	desc = ""
+	Equip(var/mob/Player/owner,var/overridetext=0)
+		if(owner.level >= 501)
+			owner << errormsg("You are too weak to use this.")
+			return
+		. = ..(owner)
+		if(. == WORN)
+			if(!overridetext)viewers(owner) << infomsg("[owner] wears \his [Title] title.")
+			for(var/obj/items/wearable/Title/W in owner.Lwearing)
+				if(owner.Rank == "Player") owner.Rank = Title
+				if(W != src)
+					W.Equip(owner,0,1)
+		else if(. == REMOVED)
+			if(!overridetext)viewers(owner) << infomsg("[owner] removes \his title.")
+			if(owner.Rank == Title) owner.Rank = "Player"
 
-			Examine()
-				set src in view(3)
-				usr << "A stylish way to change my hair!"
-	custom_wig
-		name = "Custom Wig"
-		clothes=1
+obj/items/wearable/Title/Custom_Title
 
-		verb
-			Wear()
-				hearers() << "<b><font color=#CCCCCC>[usr] slips on \his wig.</b></font>"
-				usr.overlays+=image(src.icon)
-
-		verb
-			Take_Off()
-				hearers() << "<b><font color=#CCCCCC>[usr] slips off \his wig.</b></font>"
-				usr.overlays-=image(src.icon)
-		verb
-			Take()
-				set src in oview(0)
-				hearers()<<"[usr] takes \the [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-		verb
-			Drop()
-				usr.overlays-=image(src.icon)
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-
-			Examine()
-				set src in view(3)
-				usr << "A stylish way to change my hair!"
+////////
 
 
 

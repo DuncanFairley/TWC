@@ -615,7 +615,7 @@ mob
 			usr<<browse(DJlog)
 		View_Player_Log()
 			if(!mysql_enabled) {alert("MySQL isn't enabled on this server."); return}
-			var/input = input("This utility views the warnings, detentions, bans, etc. of a specified playerd. Do you wish to enter a ckey, or select a player?") as null|anything in list("Enter a ckey","Select a player")
+			var/input = input("This utility views the warnings, detentions, bans, etc. of a specified player. Do you wish to enter a ckey, or select a player?") as null|anything in list("Enter a ckey","Select a player")
 			if(!input)return
 			if(input == "Enter a ckey")
 				var/inckey = input("Ckey/key of player?") as null|text
