@@ -83,11 +83,6 @@ proc
 		init_weather()
 		scheduler.schedule(new/Event/RandomEvents, world.tick_lag * rand(3000, 36000)) // 5 minutes to 1 hour
 
-RandomEvents
-mob/verb/testareas()
-	for(var/i in outside_areas)
-		world << i
-
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)
 		var/StatusEffect/Transfiguration/S = locate() in src.LStatusEffects
