@@ -379,7 +379,7 @@ obj/items/wearable/halloween_bucket
 			if(!overridetext)viewers(owner) << infomsg("[owner] pulls out \his [src.name].")
 			for(var/obj/items/wearable/halloween_bucket/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
 	Click()
@@ -422,7 +422,7 @@ obj/items/wearable/brooms
 			owner.icon_state = "flying"
 			for(var/obj/items/wearable/brooms/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] dismounts from \his [src.name].")
 			owner.density = 1
@@ -443,7 +443,7 @@ obj/items/wearable/hats
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts on \his [src.name].")
 			for(var/obj/items/wearable/hats/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
 obj/items/wearable/hats/crown
@@ -475,7 +475,7 @@ obj/items/wearable/wands
 			if(!overridetext)viewers(owner) << infomsg("[owner] draws \his [src.name].")
 			for(var/obj/items/wearable/wands/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
 obj/items/wearable/wands/cedar_wand //Thanksgiving
@@ -585,7 +585,7 @@ obj/items/wearable/wigs
 			if(!overridetext)viewers(owner) << infomsg("[owner] attaches [src.name] to \his scalp.")
 			for(var/obj/items/wearable/wigs/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
 
@@ -725,7 +725,7 @@ obj/items/wearable/shoes
 			if(!overridetext)viewers(owner) << infomsg("[owner] throws \his pair of [src.name] on.")
 			for(var/obj/items/wearable/shoes/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
 obj/items/wearable/shoes/green_shoes
@@ -776,7 +776,7 @@ obj/items/wearable/scarves
 			if(!overridetext)viewers(owner) << infomsg("[owner] wraps \his [src.name] around \his neck.")
 			for(var/obj/items/wearable/scarves/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
 obj/items/wearable/scarves/yellow_scarf
@@ -848,7 +848,7 @@ obj/items/wearable/pimp_ring
 			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his finger.")
 			for(var/obj/items/wearable/pimp_ring/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
 obj/items/wearable/bling
@@ -859,7 +859,7 @@ obj/items/wearable/bling
 			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] around his neck.")
 			for(var/obj/items/wearable/bling/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] stuffs \his copious amounts of [src.name] into \his pocket.")
 obj/items/wearable/magic_eye
@@ -872,7 +872,7 @@ obj/items/wearable/magic_eye
 			if(!owner.Gm)owner.see_invisible = 1
 			for(var/obj/items/wearable/magic_eye/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes out \his magical eye from its socket.")
 			if(!owner.Gm)owner.see_invisible = 0
@@ -900,7 +900,7 @@ obj/items/wearable/invisibility_cloak
 			for(var/obj/items/wearable/invisibility_cloak/W in owner.Lwearing)
 				if(W != src)
 					wascloaked = 1
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 			if(!wascloaked)
 				owner<<"You put on the cloak and become invisible to others."
 				owner.overlays = list()
@@ -933,7 +933,7 @@ obj/items/wearable/title
 			for(var/obj/items/wearable/title/W in owner.Lwearing)
 				if(owner.Rank == "Player") owner.Rank = title
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] removes \his title.")
 			if(owner.Rank == title) owner.Rank = "Player"
