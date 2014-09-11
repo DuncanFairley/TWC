@@ -827,7 +827,7 @@ mob
 			curClass = "DADA"
 			for(var/client/C)
 				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
-			world<<announcemsg("Defence against the Dark Arts class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			world<<announcemsg("Defence Against the Dark Arts class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 		Host_Headmaster_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named Headmaster Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"Headmaster-Class") as null|mob in world

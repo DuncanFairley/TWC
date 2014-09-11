@@ -31,7 +31,7 @@ obj/museum
 		robes = "MaleStaff"
 
 	Ander
-		desc  = "Past Headmaster of TWC,"
+		desc  = "Former Headmaster of TWC,"
 		robes = "green"
 
 	Ragnarok
@@ -39,59 +39,60 @@ obj/museum
 		robes = "blue"
 
 	Lucifer
-		desc = "Creator of TWC radio. Past Co-Owner & Transfiguration Professor."
+		desc = "Creator of TWC radio. Former Co-Owner & Transfiguration Professor."
 		robes = "MaleStaff"
 
 	Linshon
-		desc = "Past Headmaster of TWC."
+		desc = "Former Headmaster of TWC."
 		robes = "yellow"
 
 	Shirou
-		desc = "Past Headmaster of TWC & DADA Professor."
+		desc = "Former Headmaster of TWC & DADA Professor."
 		robes = "lightblue"
 
 	Kozu
-		desc = "Past Headmaster of TWC."
+		desc = "Former Headmaster of TWC."
 		robes = "MaleStaff"
 
 	Ash
-		desc = "Past Headmaster of TWC,"
+		desc = "Former Headmaster of TWC,"
 		robes = "MaleStaff"
 
 	Rotem
-		desc = "Event Coordinator. Past Headmistress, Deputy Headmistress, Administrator, DADA, COMC, Transfiguration and GCOM Professor"
+		desc = "Not A Player. Former Headmistress, Deputy Headmistress, Administrator, DADA, COMC, Transfiguration and GCOM Professor"
 		robes = "FemaleStaff"
 
 	Tobias
-		desc = "Past Headmaster of TWC."
+		desc = "Former Headmaster of TWC."
 		robes = "teal"
 
-	Justin_aka_Demonic
-		desc = "Past Headmaster, Deputy Headmaster, Professor of every class at different points. Past Slytherin Prefect and Host."
+	Justin
+		name = "Justin (Demonic)"
+		desc = "Former Headmaster, Deputy Headmaster, Professor of every class at different points. Former Slytherin Prefect and Host."
 		robes = "white"
 
 	Sylar
-		desc = "Headmaster of TWC. Past Deputy Headmaster, Administrator, Chat Moderator. Previous GCOM, DADA, and Charms Professor."
+		desc = "Headmaster of TWC. Former Deputy Headmaster, Administrator, Chat Moderator. Previous GCOM, DADA, and Charms Professor."
 		robes = "orange"
 
 	Chrissy
-		desc = "Past Headmistress, Deputy Headmistress, Administrator, and Professor."
+		desc = "Former Headmistress, Deputy Headmistress, Administrator, and Professor."
 		robes = "pink"
 
 	Firefly
-		desc = "Past Deputy Headmaster of TWC."
+		desc = "Former Deputy Headmaster of TWC."
 		robes = "darkgreen"
 
 	Uchiha
-		desc = "Past Deputy Headmaster of TWC."
+		desc = "Former Deputy Headmaster of TWC."
 		robes = "cyan"
 
 	Atomic
-		desc = "Past Deputy Headmaster of TWC."
+		desc = "Former Deputy Headmaster of TWC."
 		robes = "white"
 
 	Jared
-		desc = "Past Deputy Headmaster of TWC."
+		desc = "Former Deputy Headmaster of TWC."
 		robes = "cyan"
 
 	Spitfire
@@ -99,87 +100,87 @@ obj/museum
 		robes = "MaleStaff"
 
 	Nornamort
-		desc = "Past Administrator."
+		desc = "Former Administrator."
 		robes = "MaleStaff"
 
 	Dark
-		desc = "Past Administrator & DADA Professor."
+		desc = "Former Administrator & DADA Professor."
 		robes = "MaleStaff"
 
 	Gandledorf
-		desc = "Past Administrator."
+		desc = "Former Administrator."
 		robes = "MaleStaff"
 
 	Zane
-		desc = "Past Administrator & Charms Professor."
+		desc = "Former Administrator & Charms Professor."
 		robes = "MaleStaff"
 
 	Lord_Xioshen
-		desc = "Past Administrator & DADA Professor."
+		desc = "Former Administrator & DADA Professor."
 		robes = "MaleStaff"
 
 	SnipeDragon
-		desc = "Past Administrator."
+		desc = "Former Administrator."
 		robes = "MaleStaff"
 
 	Zero
-		desc = "Past DADA Professor."
+		desc = "Former DADA Professor."
 		robes = "MaleStaff"
 
 	Neo
-		desc = "Past Muggle Studies Professor."
+		desc = "Former Muggle Studies Professor."
 		robes = "MaleStaff"
 
 	Grahm
-		desc = "Past COMC Professor."
+		desc = "Former COMC Professor."
 		robes = "MaleStaff"
 
 	BusTaH
-		desc = "Past COMC Professor."
+		desc = "Former COMC Professor."
 		robes = "MaleStaff"
 
 	Charming
-		desc = "Past Charms Professor."
+		desc = "Former Charms Professor."
 		robes = "MaleStaff"
 
 	Katsie
-		desc = "Past Transfiguration Professor."
+		desc = "Former Transfiguration Professor."
 		robes = "FemaleStaff"
 
 	Sampola
-		desc = "Past COMC Professor."
+		desc = "Former COMC Professor."
 		robes = "FemaleStaff"
 
 	Amber
-		desc = "Past Transfiguration Professor & Hufflepuff Prefect."
+		desc = "Former Transfiguration Professor & Hufflepuff Prefect."
 		robes = "FemaleStaff"
 
 	Ezekiel
-		desc = "Past Charms Professor."
+		desc = "Former Charms Professor."
 		robes = "MaleStaff"
 
 	Sponge
-		desc = "Past DADA Professor & Slytherin Prefect."
+		desc = "Former DADA Professor & Slytherin Prefect."
 		robes = "MaleStaff"
 
 	Lavender
-		desc = "Past Transfiguration Professor."
+		desc = "Former Transfiguration Professor."
 		robes = "FemaleStaff"
 
 	Odd_Future
-		desc = "Past Transfiguration Professor."
+		desc = "Former Transfiguration Professor."
 		robes = "MaleStaff"
 
 	Skystone
-		desc = "Past COMC Professor."
+		desc = "Former COMC Professor."
 		robes = "MaleStaff"
 
 	Farrah
-		desc = "Past Transfiguration Professor."
+		desc = "Former Transfiguration Professor."
 		robes = "FemaleStaff"
 
 	Lewis
-		desc = "Past COMC Professor & Gryffindor Prefect."
+		desc = "Former COMC Professor & Gryffindor Prefect."
 		robes = "MaleStaff"
 
 	Seta
@@ -187,129 +188,131 @@ obj/museum
 		robes = "FemaleStaff"
 
 	Lion
-		desc = "Past DADA Professor & Dueling Instructor."
+		desc = "Former DADA Professor & Dueling Instructor."
 		robes = "MaleStaff"
 
 	Julz
-		desc = "Past Transfiguration Professor."
+		desc = "Former Transfiguration Professor."
 		robes = "FemaleStaff"
 
 	Rose
-		desc = "Past COMC Professor."
+		desc = "Former COMC Professor."
 		robes = "FemaleStaff"
 
 	Dscudiero
-		desc = "Past COMC Professor."
+		desc = "Former COMC Professor."
 		robes = "MaleStaff"
 
 	El_Diablo
-		desc = "Past DADA Professor."
+		desc = "Former DADA Professor."
 		robes = "MaleStaff"
 
 	Merlin
-		desc = "Past Transfiguration Professor & Hufflepuff Prefect."
+		desc = "Former Transfiguration Professor & Hufflepuff Prefect."
 		robes = "MaleStaff"
 
 	Xzero
-		desc = "Past DADA Professor."
+		desc = "Former DADA Professor."
 		robes = "MaleStaff"
 
 	Roxas
-		desc = "Past DADA Professor."
+		desc = "Former DADA Professor."
 		robes = "MaleStaff"
 
 	Julian_Boi
-		desc = "Past DADA Professoro."
+		desc = "Former DADA Professoro."
 		robes = "MaleStaff"
 
 	Max_Quickstaff
-		desc = "Past Charms Professor."
+		desc = "Former Charms Professor."
 		robes = "MaleStaff"
 
 	Neveahlee
-		desc = "Past Transfiguration Professor & Slytherin and Gryffindor Prefect."
+		desc = "Former Transfiguration Professor & Slytherin and Gryffindor Prefect."
 		robes = "FemaleStaff"
 
 	Severus
-		desc = "Past Transfiguration Professor."
+		desc = "Former Transfiguration Professor."
 		robes = "MaleStaff"
 
 	Sam_Rajax
-		desc = "Past DADA Professor."
+		desc = "Former DADA Professor."
 		robes = "MaleStaff"
 
 	Deathflash
-		desc = "Past Duel Instructor."
+		desc = "Former Duel Instructor."
 		robes = "MaleStaff"
 
 	Ice_Dragon
-		desc = "Past Duel Instructor."
+		desc = "Former Duel Instructor."
 		robes = "MaleStaff"
 
-	Ben_AKA_Link_and_Zachary_Lyons
-		desc = "GCOM Professor. Past Charms, COMC, and Transfiguration Professor. Previous Duel Instructor & Ravenclaw Prefect."
+	Ben
+		name = "Ben (Zachary Lyons/Link)"
+		desc = "GCOM Professor. Former Charms, COMC, and Transfiguration Professor. Previous Duel Instructor & Ravenclaw Prefect."
 		robes = "MaleStaff"
 
 	Lady_Siren
-		desc = "Past Charms Professor & Slytherin Prefect."
+		desc = "Former Charms Professor & Slytherin Prefect."
 		robes = "FemaleStaff"
 
 	Shade
-		desc = "Past DADA Professor."
+		desc = "Former DADA Professor."
 		robes = "MaleStaff"
 
 	Avery
-		desc = "Past DADA Professor."
+		desc = "Former DADA Professor."
 		robes = "FemaleStaff"
 
 	Malokh
-		desc = "Past DADA Professor & Ravenclaw Prefect."
+		desc = "Former DADA Professor & Ravenclaw Prefect."
 		robes = "MaleStaff"
 
 	Mega_Joe
-		desc = "Past DADA Professor."
+		desc = "Former DADA Professor."
 		robes = "MaleStaff"
 
 	Angela
-		desc = "Past Charms Professor."
+		desc = "Former Charms Professor."
 		robes = "FemaleStaff"
 
 	Sirus
-		desc = "Past DADA Professor."
+		desc = "Former DADA Professor."
 		robes = "MaleStaff"
 
 	Monte
-		desc = "Past Charms Professor."
+		desc = "Former Charms Professor."
 		robes = "MaleStaff"
 
 	Zander
-		desc = "Past Transfiguration Professor."
+		desc = "Former Transfiguration Professor."
 		robes = "MaleStaff"
 
 	Andi
-		desc = "Past COMC Professor."
+		desc = "Former COMC Professor."
 		robes = "MaleStaff"
 
 	Theodore_Richards
-		desc = "Past DADA Professor."
+		desc = "Former DADA Professor."
 		robes = "MaleStaff"
 
 	Nick_A_Creed
-		desc = "Past COMC Professor,"
+		desc = "Former COMC Professor,"
 		robes = "MaleStaff"
 
 	Severus
-		desc = "Past Transfiguration and DADA Professor."
+		desc = "Former Transfiguration and DADA Professor."
 		robes = "MaleStaff"
 
 	Fire
-		desc = "Past Duel Instructor."
+		desc = "Former Duel Instructor."
 		robes = "MaleStaff"
 
-	Zach_AKA_Chaseio_Blade
-		desc = "COMC Professor, Past Off-Peak Professor."
+	Zach
+		name = "Zach (Chaseio Blade)"
+		desc = "COMC Professor, Former Off-Peak Professor."
 		robes = "MaleStaff"
 
 	Chris_Sparker
-		desc = "Charms Professor."
+		desc = "Former Charms Professor."
 		robes = "MaleStaff"
