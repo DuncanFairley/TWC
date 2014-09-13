@@ -62,7 +62,7 @@ clan_wars
 							t.icon_state = copytext(t.icon_state, 1, pos)
 
 			else
-				world << "<h4>Clan war resulted in a draw.</h4>"
+				world << "<h4>The clan war resulted in a draw.</h4>"
 				for(var/turf/woodenfloor/t in world)
 					if(t.z >= 21 && t.z <= 23)
 						var/pos = findtext(t.icon_state, " - halloween")
