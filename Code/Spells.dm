@@ -1714,8 +1714,8 @@ mob/Spells/verb/Portus()
 		usr.updateHPMP()
 mob/Spells/verb/Sense(mob/M in view()&Players)
 	set category = "Spells"
-	hearers() << "[usr]'s eyes flicker."
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=0))
+		hearers() << "[usr]'s eyes flicker."
 		usr<<errormsg("[M.name]'s Kills: [M.pkills]<br>[M.name]'s Deaths: [M.pdeaths]")
 mob/Spells/verb/Scan(mob/M in view()&Players)
 	set category = "Spells"
