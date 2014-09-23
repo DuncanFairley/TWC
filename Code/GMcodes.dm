@@ -292,8 +292,6 @@ mob
 				if(!src.mute)return
 				mute = 0
 				world << "<b><font color=red>[src] has been unsilenced.</font></b>"
-				verbs += /mob/verb/Emote
-				verbs += /mob/Player/verb/PM
 			else
 				mute_countdown()
 		detention_countdown()
@@ -304,7 +302,6 @@ mob
 				flick('dlo.dmi',src)
 				src.loc=locate(22,7,21)
 
-				src.verbs += /mob/Player/verb/PM
 				src.Detention=0
 				src.MuteOOC=0
 				world<<"[src] has been released from Detention."
@@ -400,19 +397,20 @@ mob/GM
 			set name="GM Chat"
 			if(usr.mute==1){usr<<"You can't speak while silenced.";return}
 			if(messsage)
+				if(!admin)
+					messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
-			//Reason = html_encode(Reason)
 				if(src.name == "Deatheater")
 					for(var/client/C)
 						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/End_Floor_Guidence) in C.mob.verbs)
 							C<<"<b><font color=silver size=2>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font>"
-					chatlog << "<b><font size=2 color=silver>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font><br>"
+						chatlog << "<b><font size=2 color=silver>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font><br>"
 
 				else
 					for(var/client/C)
 						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/End_Floor_Guidence) in C.mob.verbs)
 							C<<"<b><font color=silver size=2>GM> <font size=2>[usr]:</font></b> <font color=white>[messsage]</font>"
-					chatlog << "<b><font size=2 color=silver>GM> [usr]:</font></b> <font color=white>[messsage]</font><br>"
+						chatlog << "<b><font size=2 color=silver>GM> [usr]:</font></b> <font color=white>[messsage]</font><br>"
 
 		DE_chat(var/messsage as text)
 			set category="Clan"
@@ -932,7 +930,6 @@ mob
 			set category = "Staff"
 			if(M.mute==0)
 				M.mute=1
-				M.verbs -= /mob/Player/verb/PM
 				world << "\red <b>[M] has been silenced by [usr].</b>"
 				var/timer = input("Set timer for mute in /minutes/ (Leave as 0 for mute to stick until you remove it)","Mute timer",0) as num|null
 				if(timer==null)return
@@ -955,8 +952,6 @@ mob
 				M.mute=0
 				world<<"<b><font color=red>[M] has been <b><font color=red>unsilenced."
 				Log_admin("[src] has unmuted [M].")
-				M.verbs += /mob/verb/Emote
-				M.verbs += /mob/Player/verb/PM
 
 		Event_Announce(message as message)
 			set category = "Staff"

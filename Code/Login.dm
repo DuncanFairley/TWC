@@ -1525,7 +1525,7 @@ mob/Player
 								spawn(30)
 									usr.spam--
 			else
-				usr<<"You cannot send messages while you're muted!"
+				usr << errormsg("You are not allowed to send messages while you are muted.")
 		OOC(T as text)
 			set desc = "Speak on OOC"
 			if(!usr.listenooc)
@@ -2160,7 +2160,6 @@ mob/proc/Death_Check(mob/killer = src)
 mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
 	if(mute==0)
 		mute=1
-		verbs -= /mob/Player/verb/PM
 		world << "\red <b>[src] has been silenced.</b>"
 
 		if(reason)
