@@ -138,7 +138,7 @@ mob/test/verb/Teach_Spells()
 		<td>[(/mob/GM/verb/Teach_Deletrius in verbs) ? "<a href='?src=\ref[src];action=teach_deletrius'>Deletrius</a>" : "Deletrius"]</td>
 		<td>[(/mob/GM/verb/Teach_Transfigure_Turkey in verbs) ? "<a href='?src=\ref[src];action=teach_delicio'>Delicio</a>" : "Delicio"]</td>
 		<td>[(/mob/GM/verb/Teach_Dementia in verbs) ? "<a href='?src=\ref[src];action=teach_dementia'>Dementia</a>" : "Dementia"]</td>
-		<td>[(/mob/GM/verb/Teach_Densuago in verbs) ? "<a href='?src=\ref[src];action=teach_densuago'>Densuago</a>" : "Densuago"]</td>
+		<td>[(/mob/GM/verb/Teach_Densuago in verbs) ? "<a href='?src=\ref[src];action=teach_densuago'>Densaugeo</a>" : "Densaugeo"]</td>
 		<td>[(/mob/GM/verb/Teach_Depulso in verbs) ? "<a href='?src=\ref[src];action=teach_depulso'>Depulso</a>" : "Depulso"]</td>
 	</tr>
 	<tr>
