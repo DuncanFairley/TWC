@@ -221,14 +221,6 @@ mob/GM
 
 mob/GM
 	verb
-		Take_Crucio()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				M.verbs -= /mob/Spells/verb/Crucio
-			src<<"You've taken from your class the Crucio spell."
-mob/GM
-	verb
 		Teach_Arania_Eximae()
 			set category = "Teach"
 			set hidden = 1
@@ -276,13 +268,6 @@ mob/GM
 					M<<"<b><font color=green>You learned the skill Sense."
 			src<<"You've taught your class the Sense skill."
 
-		Take_Sense()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				M.verbs -= /mob/Spells/verb/Sense
-			src<<"You've taken from your class the Sense skill."
-
 		Teach_Scan()
 			set category = "Teach"
 			set hidden = 1
@@ -290,13 +275,6 @@ mob/GM
 				if(M.learnspell(/mob/Spells/verb/Scan))
 					M<<"<b><font color=green>You learned the skill Scan."
 			src<<"You've taught your class the Scan skill."
-
-		Take_Scan()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				M.verbs -= /mob/Spells/verb/Scan
-			src<<"You've taken from your class the Scan skill."
 
 mob/GM
 	verb
@@ -412,15 +390,6 @@ mob/GM
 				if(M.learnspell(/mob/Spells/verb/Serpensortia))
 					M<<"<b><font color=green>You learned Serpensortia!"
 			src<<"You've taught your class the Serpensortia spell."
-
-mob/GM
-	verb
-		Take_Serpensortia()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				M.verbs -= /mob/Spells/verb/Serpensortia
-			src<<"You've taken from your class the Serpensortia spell."
 mob/GM
 	verb
 		Teach_Repellium()
@@ -703,15 +672,6 @@ mob/GM
 				if(M.learnspell(/mob/Spells/verb/Avis))
 					M<<"<b><font color=green>You learned the spell, Avis!"
 			src<<"You've taught your class the Avis spell."
-
-mob/GM
-	verb
-		Take_Dementia()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				M.verbs -= /mob/Spells/verb/Dementia
-			src<<"You took the Dementia Curse from everyone in the area."
 mob/GM
 	verb
 		Teach_Portus()
