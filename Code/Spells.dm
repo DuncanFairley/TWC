@@ -363,6 +363,7 @@ proc/light(atom/a, range=3, ticks=100, state = "light")
 
 mob/Spells/verb/Basilio()
 	set category = "Staff"
+	if(clanrobed())return
 	hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Basilio!"
 	sleep(20)
 	hearers()<<"[usr]'s wand emits a bright flash of light."
@@ -1864,30 +1865,6 @@ obj
 			walk(src,0)
 			src.loc = null
 
-
-
-
-mob
-	GM
-		verb
-			Toggle_Safemode()
-				set category = "Staff"
-				if(safemode)
-					src << "<b>Players can now use offensive spells in <u>all</u> safezones.</b>"
-					safemode = 0
-				else
-					src << "<b>Players can no longer use offensive spells in <u>all</u> safezones.</b>"
-					safemode = 1
-			Toggle_Area_Safemode()
-				set category = "Staff"
-				var/area/A = loc.loc
-				if(!A.safezoneoverride)
-					src << "<b>Players can now use offensive spells in [loc.loc].</b>"
-					A.safezoneoverride = 1
-				else
-					src << "<b>Players can no longer use offensive spells in [loc.loc].</b>"
-					A.safezoneoverride = 0
-
 obj/circle
 	icon = 'circle1.dmi'
 	icon_state = "1_1"
@@ -2065,6 +2042,7 @@ mob/GM/verb/Remote_View(mob/M in world)
 mob/GM/verb/HM_Remote_View(mob/M in world)
 	set category="Staff"
 	set popup_menu = 0
+	if(clanrobed())return
 	usr.client.eye=M
 	usr.client.perspective=EYE_PERSPECTIVE
 mob/GM/verb/Return_View()

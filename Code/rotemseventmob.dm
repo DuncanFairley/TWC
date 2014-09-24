@@ -81,6 +81,7 @@ mob/GM
 	verb
 		Toggle_Click_Create()
 			set category = "Events"
+			if(clanrobed())return
 			if(ClickCreate)
 				ClickCreate = 0
 				CreatePath = null
@@ -91,6 +92,7 @@ mob/GM
 				src << "Click Creating mode toggled on."
 		Toggle_Click_Editing()
 			set category = "Events"
+			if(clanrobed())return
 			if(ClickEdit)
 				ClickEdit = 0
 				EditVar = null
@@ -102,9 +104,11 @@ mob/GM
 				src << "Click Editing mode toggled on."
 		CreatePath(Path as null|anything in typesof(/area,/turf,/obj,/mob) + list("Delete"))
 			set category = "Events"
+			if(clanrobed())return
 			CreatePath = Path
 		MassEdit(Var as text)
 			set category = "Events"
+			if(clanrobed())return
 			var/Type = input("What type?","Var Type") as null|anything in list("text","num","reference","null")
 			if(Type)
 				EditVar = Var

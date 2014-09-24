@@ -888,6 +888,25 @@ mob
 			usr<<infomsg("Floor Guidance offline.")
 			classdest = null
 
+		Toggle_Safemode()
+			set category = "Staff"
+			if(clanrobed())return
+			if(safemode)
+				src << "<b>Players can now use offensive spells in <u>all</u> safezones.</b>"
+				safemode = 0
+			else
+				src << "<b>Players can no longer use offensive spells in <u>all</u> safezones.</b>"
+				safemode = 1
+		Toggle_Area_Safemode()
+			set category = "Staff"
+			if(clanrobed())return
+			var/area/A = loc.loc
+			if(!A.safezoneoverride)
+				src << "<b>Players can now use offensive spells in [loc.loc].</b>"
+				A.safezoneoverride = 1
+			else
+				src << "<b>Players can no longer use offensive spells in [loc.loc].</b>"
+				A.safezoneoverride = 0
 
 		Release_From_Detention(mob/M in Players)
 			set category = "Staff"
@@ -902,6 +921,7 @@ mob
 		Stealth_Orb(mob/M in world)
 			set category = "Staff"
 			set popup_menu = 0
+			if(clanrobed())return
 			src.x = M.x
 			src.y = M.y+1
 			src.z = M.z
