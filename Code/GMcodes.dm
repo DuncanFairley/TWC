@@ -398,7 +398,7 @@ mob/GM
 		GM_chat(var/messsage as text)
 			set category="Staff"
 			set name="GM Chat"
-			if(usr.mute==1){usr<<"You can't speak while silenced.";return}
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				if(messsage == null || messsage == "") return
 			//Reason = html_encode(Reason)
@@ -417,7 +417,7 @@ mob/GM
 		DE_chat(var/messsage as text)
 			set category="Clan"
 			set name="DE Chat"
-			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
@@ -431,7 +431,7 @@ mob/GM
 		Auror_chat(var/messsage as text)
 			set category="Clan"
 			set name="Auror Chat"
-			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
@@ -443,7 +443,7 @@ mob/GM
 			if(!listenhousechat)
 				usr << "You are not listening to Gryffindor chat."
 				return
-			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
@@ -460,7 +460,7 @@ mob/GM
 			if(!listenhousechat)
 				usr << "You are not listening to Ravenclaw chat."
 				return
-			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
@@ -477,7 +477,7 @@ mob/GM
 			if(!listenhousechat)
 				usr << "You are not listening to Slytherin chat."
 				return
-			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
@@ -494,7 +494,7 @@ mob/GM
 			if(!listenhousechat)
 				usr << "You are not listening to Hufflepuff chat."
 				return
-			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
@@ -509,6 +509,7 @@ mob/GM
 
 		Sanctuario(mob/M in view()&Players)
 			set category="Staff"
+			if(clanrobed())return
 			switch(input("Teleport [M] to where? || Reminder, this spell fires a burst of teleporting magic at the target. Be sure to face your target.","Sanctuario Charm Destination") in list ("Hogwarts","Silverblood","Student Housing","Dark Forest","Windhowl Manor","Azkaban","Cancel"))
 				if("Hogwarts")
 					var/obj/S=new/obj/Sanctuario
@@ -961,6 +962,7 @@ mob
 		Event_Announce(message as message)
 			set category = "Staff"
 			set desc = "(message) Announce something to all players logged in"
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			eventlog << "<tr><td><b>[src.name]</b></td><td>[time2text(world.realtime,"MMM DD - hh:mm:ss")]</td><td>[message]</td></tr>"
 			for(var/client/C)
 				C.mob << "<hr><center><font color=blue><b>Announcement From [src]:</b><br><font color=red><b>[message]</font></center><hr>"
@@ -973,6 +975,7 @@ mob
 			set category = "Staff"
 			set name = "Announce"
 			set desc = "(message) Announce something to all players logged in"
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			for(var/client/C)
 				C.mob << "<hr><center><font color=blue><b>Announcement From [src]:</b><br><font color=red><b>[message]</font></center><hr>"
 		Reboot()
