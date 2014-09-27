@@ -1401,31 +1401,31 @@ mob/Player
 										src<<infomsg("The world has been saved.")
 								if("clear admin log")
 									if(src.admin)
-										src<<infomsg("The Logs have been deleted.")
+										src<<infomsg("The Admin logs have been deleted.")
 										fdel("Logs/Adminlog.html")
 								if("clear gold log")
 									if(src.admin)
-										src<<infomsg("The Logs have been deleted.")
+										src<<infomsg("The Gold logs have been deleted.")
 										fdel("Logs/Goldlog.html")
 								if("clear kill log")
 									if(src.admin)
-										src<<infomsg("The Logs have been deleted.")
+										src<<infomsg("The Kill logs have been deleted.")
 										fdel("Logs/kill_log.html")
 								if("clear event log")
 									if(src.admin)
-										src<<infomsg("The Logs have been deleted.")
+										src<<infomsg("The Event logs have been deleted.")
 										fdel("Logs/event_log.html")
 								if("clear class log")
 									if(src.admin)
-										src<<infomsg("The class logs have been deleted.")
+										src<<infomsg("The Class logs have been deleted.")
 										fdel("Logs/classlog.html")
 								if("clear radio log")
 									if(src.admin)
-										src<<infomsg("The radio logs have been deleted.")
+										src<<infomsg("The Radio logs have been deleted.")
 										fdel("Logs/DJlog.html")
 								if("clear log")
 									if(src.admin)
-										src<<infomsg("The Logs have been deleted.")
+										src<<infomsg("The Chat logs have been deleted.")
 										fdel("Logs/chatlog.html")
 								if("afk check")
 									if(Gm)
@@ -1442,7 +1442,7 @@ mob/Player
 										src<<infomsg("OOC has been disabled.")
 								if("enable ooc")
 									if(src.Gm)
-										src<<infomsg("OOC Enabled.")
+										src<<infomsg("OOC has been enabled.")
 										OOCMute = 0
 								if("access admin log files")
 									if(src.admin==1)
@@ -1525,14 +1525,14 @@ mob/Player
 								spawn(30)
 									usr.spam--
 			else
-				usr<<"You cannot send messages while you're muted!"
+				usr << errormsg("You can't send messages while you are muted.")
 		OOC(T as text)
 			set desc = "Speak on OOC"
 			if(!usr.listenooc)
 				usr << "Your OOC is turned off."
 				return
 			if(usr.mute)
-				usr<<"You are muted."
+				usr << errormsg("You can't send messages while you are muted.")
 				return
 			if(OOCMute)
 
