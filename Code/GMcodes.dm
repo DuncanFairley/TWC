@@ -292,8 +292,6 @@ mob
 				if(!src.mute)return
 				mute = 0
 				world << "<b><font color=red>[src] has been unsilenced.</font></b>"
-				verbs += /mob/verb/Emote
-				verbs += /mob/Player/verb/PM
 			else
 				mute_countdown()
 		detention_countdown()
@@ -406,13 +404,13 @@ mob/GM
 					for(var/client/C)
 						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/End_Floor_Guidence) in C.mob.verbs)
 							C<<"<b><font color=silver size=2>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font>"
-					chatlog << "<b><font size=2 color=silver>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font><br>"
+					chatlog << "<b><font size=2 color=silver>GM> [usr.prevname]:</font></b> <font color=white>[html_encode(messsage)]</font><br>"
 
 				else
 					for(var/client/C)
 						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/End_Floor_Guidence) in C.mob.verbs)
 							C<<"<b><font color=silver size=2>GM> <font size=2>[usr]:</font></b> <font color=white>[messsage]</font>"
-					chatlog << "<b><font size=2 color=silver>GM> [usr]:</font></b> <font color=white>[messsage]</font><br>"
+					chatlog << "<b><font size=2 color=silver>GM> [usr]:</font></b> <font color=white>[html_encode(messsage)]</font><br>"
 
 		DE_chat(var/messsage as text)
 			set category="Clan"
@@ -955,8 +953,6 @@ mob
 				M.mute=0
 				world<<"<b><font color=red>[M] has been <b><font color=red>unsilenced."
 				Log_admin("[src] has unmuted [M].")
-				M.verbs += /mob/verb/Emote
-				M.verbs += /mob/Player/verb/PM
 
 		Event_Announce(message as message)
 			set category = "Staff"
