@@ -951,7 +951,7 @@ mob
 		Event_Announce(message as message)
 			set category = "Staff"
 			set desc = "(message) Announce something to all players logged in"
-			\eventlog << "<tr><td><b>[src.name]</b></td><td>[time2text(world.realtime,"MMM DD - hh:mm:ss")]</td><td>[message]</td></tr>"
+			eventlog << "<tr><td><b>[src.name]</b></td><td>[time2text(world.realtime,"MMM DD - hh:mm:ss")]</td><td>[message]</td></tr>"
 			for(var/client/C)
 				C.mob << "<hr><center><font color=blue><b>Announcement From [src]:</b><br><font color=red><b>[message]</font></center><hr>"
 				if(C.mob && C.mob.EventNotifications)winset(C,"mainwindow","flash=2")
