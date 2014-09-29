@@ -398,7 +398,6 @@ mob/GM
 		GM_chat(var/messsage as text)
 			set category="Staff"
 			set name="GM Chat"
-			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				if(messsage == null || messsage == "") return
 			//Reason = html_encode(Reason)
@@ -952,8 +951,7 @@ mob
 		Event_Announce(message as message)
 			set category = "Staff"
 			set desc = "(message) Announce something to all players logged in"
-			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
-			eventlog << "<tr><td><b>[src.name]</b></td><td>[time2text(world.realtime,"MMM DD - hh:mm:ss")]</td><td>[message]</td></tr>"
+			\eventlog << "<tr><td><b>[src.name]</b></td><td>[time2text(world.realtime,"MMM DD - hh:mm:ss")]</td><td>[message]</td></tr>"
 			for(var/client/C)
 				C.mob << "<hr><center><font color=blue><b>Announcement From [src]:</b><br><font color=red><b>[message]</font></center><hr>"
 				if(C.mob && C.mob.EventNotifications)winset(C,"mainwindow","flash=2")
@@ -965,7 +963,6 @@ mob
 			set category = "Staff"
 			set name = "Announce"
 			set desc = "(message) Announce something to all players logged in"
-			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			for(var/client/C)
 				C.mob << "<hr><center><font color=blue><b>Announcement From [src]:</b><br><font color=red><b>[message]</font></center><hr>"
 		Reboot()
