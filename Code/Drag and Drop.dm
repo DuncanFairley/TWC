@@ -37,7 +37,7 @@ clan_wars
 		end()
 			if(deatheater > aurors)
 				var/dewinner = pick(deatheaterWon)
-				world << "<font color='#848B79' size='3'>[dewinner]</font>"
+				world << "<font color='#282C1B' size='3'><b>[dewinner]</b></font>"
 
 				for(var/turf/woodenfloor/t in world)
 					if(t.z >= 21 && t.z <= 23)
@@ -53,7 +53,7 @@ clan_wars
 
 			else if(deatheater < aurors)
 				var/aurorwinner = pick(aurorWon)
-				world << "<font color='#01DEC8' size='3'>[aurorwinner]</font>>"
+				world << "<font color='#66CCFF' size='3'><b>[aurorwinner]<b></font>"
 
 				for(var/turf/woodenfloor/t in world)
 					if(t.z >= 21 && t.z <= 23)
@@ -69,7 +69,7 @@ clan_wars
 
 			else
 				var/wardraw = pick(draw)
-				world << "<font color='#E5E4E2' size='3'>[wardraw]</font>"
+				world << "<font color='#E5E4E2' size='3'><b>[wardraw]</b></font>"
 				for(var/turf/woodenfloor/t in world)
 					if(t.z >= 21 && t.z <= 23)
 						var/pos = findtext(t.icon_state, " - halloween")

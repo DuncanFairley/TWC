@@ -616,14 +616,12 @@ client
 			if(S) S.Deactivate()
 			if(mob.derobe)
 				mob.derobe = 0
-				mob.name = mob.prevname
 			mob.occlumens = 0
 			if(mob.xp4referer)
 				sql_upload_refererxp(mob.ckey,mob.refererckey,mob.xp4referer)
 				mob.xp4referer = 0
 			if(!mob.Gm)
 				mob.Check_Death_Drop()
-			cleanup_fakeDE(key)
 		if (base_autosave_character)
 			base_SaveMob()
 		if (base_autodelete_mob)
