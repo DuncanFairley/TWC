@@ -574,15 +574,9 @@ mob/verb/DisableBetaMapMode()
 	var/outline = "#000"
 	//if(30*r+59*g+11*b > 7650) outline = "#000"
 	if(src.pname&&src.key)
-		if(de)
-			namefont.QuickName(src, "Deatheater", rgb(r,g,b), outline, top=1)
-		else
-			namefont.QuickName(src, src.pname, rgb(r,g,b), outline, top=1)
+		namefont.QuickName(src, src.pname, rgb(r,g,b), outline, top=1)
 	else
-		if(de)
-			namefont.QuickName(src, "Deatheater", rgb(r,g,b), outline, top=1)
-		else
-			namefont.QuickName(src, src.name, rgb(r,g,b), outline, top=1)
+		namefont.QuickName(src, src.name, rgb(r,g,b), outline, top=1)
 
 mob/test/verb/Tick_Lag(newnum as num)
 	world.tick_lag = newnum

@@ -194,6 +194,7 @@ mob/test/verb/Transfer_Savefile()
 mob/GM/verb/HGM_Message(msg as message)
 			set category="Staff"
 			set hidden = 1
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(!usr.Gm) return
 			world<<"[msg]"
 
