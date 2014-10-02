@@ -742,7 +742,7 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a HM class - Notes: [notes]<br />"
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a HM class<br />"
-			curClass = "HM Class West"
+			curClass = "GCOM"
 			for(var/client/C)
 				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
 			world<<announcemsg("General Course of Magic class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
@@ -765,10 +765,10 @@ mob
 			if(!classdest) return
 			var/notes = input("Notes regarding class? (You're subbing for someone, etc.)") as text
 			if(notes)
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Trans class - Notes: [notes]<br />"
+				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Transfiguration class - Notes: [notes]<br />"
 			else
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Trans class<br />"
-			curClass = "Trans"
+				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Transfiguration class<br />"
+			curClass = "Transfiguration"
 			for(var/client/C)
 				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
 			world<<announcemsg("Transfiguration class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
@@ -781,7 +781,7 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Duel class - Notes: [notes]<br />"
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Duel class<br />"
-			curClass = "Duel Class"
+			curClass = "Duel"
 			for(var/client/C)
 				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
 			world<<announcemsg("Duel class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
@@ -807,7 +807,7 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Headmaster class - Notes: [notes]<br />"
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Headmaster class<br />"
-			curClass = "HM Class East"
+			curClass = "Headmasters"
 			for(var/client/C)
 				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
 			world<<announcemsg("Headmaster's General Magic class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
