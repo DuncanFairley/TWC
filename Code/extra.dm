@@ -18,7 +18,11 @@ mob
 				src.xp4referer = 0
 			//sleep(2) // sleep 1 second before displaying Saved
 			src<<"Saved [src]."
-
+obj
+	pumpkin
+		icon='pumpkin.dmi'
+		density=1
+		accioable=0
 obj
 	egg1
 		icon='Eggs.dmi'
