@@ -113,7 +113,6 @@ client/proc
 			mob.icon = mob.baseicon
 		else if(mob.derobe)
 			mob.icon = mob.baseicon
-			mob.name = mob.prevname
 		mob.verbs.Remove(/mob/GM/verb/Auror_chat)
 		mob.verbs.Remove(/mob/GM/verb/Auror_Robes)
 		mob.verbs.Remove(/mob/GM/verb/DErobes)
@@ -127,7 +126,6 @@ client/proc
 			mob:ApplyOverlays()
 			if(locate(/mob/GM/verb/End_Floor_Guidence) in mob.verbs) mob.Gm = 1
 			mob << "You slip off your Death Eater robes."
-			mob.name = mob.prevname
 			mob.underlays = list()
 			if(mob.Gender == "Male")
 				mob.gender = MALE

@@ -859,7 +859,6 @@ mob
 
 		Toggle_Safemode()
 			set category = "Staff"
-			if(clanrobed())return
 			if(safemode)
 				src << "<b>Players can now use offensive spells in <u>all</u> safezones.</b>"
 				safemode = 0
@@ -868,7 +867,6 @@ mob
 				safemode = 1
 		Toggle_Area_Safemode()
 			set category = "Staff"
-			if(clanrobed())return
 			var/area/A = loc.loc
 			if(!A.safezoneoverride)
 				src << "<b>Players can now use offensive spells in [loc.loc].</b>"

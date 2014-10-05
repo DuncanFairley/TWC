@@ -704,10 +704,6 @@ client
 		var/first_initial = copytext(ckey, 1, 2)
 		fdel("players/[first_initial]/[ckey].sav")
 		var/savefile/F = base_PlayerSavefile()
-		var/wasDE = 0
-		if(mob.name == "Deatheater")
-			wasDE = 1
-			mob.name = mob.prevname
 		var/mob_ckey = ckey(mob.name)
 
 		var/directory = "/players/[ckey]/mobs/[mob_ckey]"
@@ -716,8 +712,6 @@ client
 
 		F["name"] << mob.name
 		F["mob"] << mob
-		if(wasDE)
-			mob.name = "Deatheater"
 		_base_player_savefile = null
 
 
