@@ -9,6 +9,12 @@ mob/GM
 		Delete(S as turf|obj|mob in view(17))
 			set category = "Staff"
 			if(clanrobed())return
+			if(isplayer(S))
+				switch(alert("Deleting Player: [S]","Are you sure you want to delete [S]?","Yes","No"))
+					if("Yes")
+						del(S)
+					else
+						return
 			del S
 
 
