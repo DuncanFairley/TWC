@@ -935,7 +935,7 @@ mob
 
 			var/mob/Player/character=new()
 			//character.savefileversion = currentsavefilversion
-			var/desiredname = input("What would you like to name your Harry Potter: The Wizard's Chronicles character? Keep in mind that you cannot use a popular name from the Harry Potter franchise, nor numbers or special characters.")
+			var/desiredname = input("What would you like to name your Harry Potter: The Wizards' Chronicles character? Keep in mind that you cannot use a popular name from the Harry Potter franchise, nor numbers or special characters.")
 			var/passfilter = name_filter(desiredname)
 			while(passfilter)
 				alert("Your desired name is not allowed as it [passfilter].")
@@ -3066,7 +3066,7 @@ mob/Player/Logout()
 
 
 proc/ServerAD()
-	world<<"<b><Font color=silver>Server:</b> <font size=1><font color=silver>Thanks for playing The Wizard's Chronicles. Forums: http://www.wizardschronicles.com"
+	world<<"<b><Font color=silver>Server:</b> <font size=1><font color=silver>Thanks for playing The Wizards' Chronicles. Forums: http://www.wizardschronicles.com"
 	sleep(3000)
 	ServerAD()
 

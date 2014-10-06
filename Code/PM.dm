@@ -35,7 +35,7 @@ var/PMheader = {"
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>The Wizard's Chronicles</title>
+	<title>The Wizards' Chronicles</title>
 </head>
 <style>
 	body

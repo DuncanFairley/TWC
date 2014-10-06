@@ -107,7 +107,7 @@ obj
 		accioable=0
 		Examine_Statue()
 			set src in oview(10)
-			alert("Tasuki, one of the best duelists in The Wizard Chronicle's history.")
+			alert("Tasuki, one of the best duelists in The Wizards' Chronicles history.")
 
 	Signs/Demonic
 		icon='MaleSlytherin.dmi'
@@ -117,7 +117,7 @@ obj
 		accioable=0
 		Examine_Statue()
 			set src in oview(10)
-			alert("Demonic, one of the strongest characters and most advanced duelists in The Wizard's Chronicle's history.")
+			alert("Demonic, one of the strongest characters and most advanced duelists in The Wizards' Chronicles history.")
 
 
 	Signs/Ice
@@ -128,7 +128,7 @@ obj
 		accioable=0
 		Examine_Statue()
 			set src in oview(10)
-			alert("Ice Dragon, one of the most consistantly victorious and most humble in The Wizard's Chronicle's history.")
+			alert("Ice Dragon, one of the most consistantly victorious and most humble in The Wizards' Chronicles history.")
 
 
 	Signs/Dion
