@@ -2136,13 +2136,13 @@ client
 
 		if(movements)
 			var/index = 0
-			while(index < movements.len)
+			while(movements && index < movements.len)
 				index++
 				var/d = movements[index]
-				loc = get_step(mob, d)
-				..(loc, d)
+				..(get_step(mob, d), d)
 				sleep(1)
 			movements = null
+			loc = get_step(mob, dir)
 
 		..()
 		sleep(0)
