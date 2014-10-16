@@ -35,6 +35,7 @@
 
 // BEGIN_INCLUDE
 #include <audeuro\inireader2\INI Reader 2\INI Reader 2.dme>
+#include <deadron\basecamp\BaseCamp.dme>
 #include <deadron\texthandling\TextHandling.dme>
 #include <stephen001\eventscheduling\Events\Events.dme>
 #include <theodis\pathfinder\Pathfinder.dme>
