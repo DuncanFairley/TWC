@@ -11,9 +11,7 @@ mob/GM
 			if(clanrobed())return
 			if(isplayer(S))
 				switch(alert("Deleting Player: [S]","Are you sure you want to delete [S]?","Yes","No"))
-					if("Yes")
-						del(S)
-					else
+					if("No")
 						return
 			del S
 
