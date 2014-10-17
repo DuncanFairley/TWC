@@ -4,6 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
+
 area/var/safezoneoverride = 0
 obj/statues
 	icon = 'statues.dmi'
@@ -143,6 +144,7 @@ mob
 		var/activated = 0
 		var/HPmodifier = 0.9
 		var/DMGmodifier = 0.55
+		var/list/drops = list()
 		var/tmp/turf/origloc
 
 		Enemies
@@ -150,6 +152,10 @@ mob
 			Gm = 1
 			monster = 1
 			NPC = 1
+
+			drops = list("0.7" = list(/obj/items/Whoopie_Cushion,
+			 			  			  /obj/items/Smoke_Pellet,
+			 			  			  /obj/items/Tube_of_fun))
 
 			var
 				const
@@ -181,6 +187,27 @@ mob
 					state()
 //NEWMONSTERS
 			proc/Death(mob/Player/killer)
+				var/rate = 1
+
+				if(killer.House == housecupwinner)
+					rate += 0.25
+
+				var/StatusEffect/Lamps/DropRate/d = killer.findStatusEffect(/StatusEffect/Lamps/DropRate)
+				if(d)
+					rate *= d.rate
+
+				rate *= DropRateModifier
+
+				for(var/i in drops)
+					if(prob(text2num(i) * rate))
+						var/t = istype(drops[i], /list) ? pick(drops[i]) : drops[i]
+						new t (loc)
+						break
+
+				if(name == initial(name) && prob(0.1))
+					var/obj/items/wearable/title/Slayer/t = new (loc)
+					t.title = "[name] Slayer"
+					t.name  = "Title: [name] Slayer"
 
 			proc/state()
 				var/lag = 10
@@ -279,15 +306,15 @@ mob
 
 			proc/Attack()
 
+				if(prob(20))
+					step_rand(src)
+					sleep(2)
+
 				var/distance = get_dist(src, target)
 				if(!target || !target.loc || target.loc.loc != loc.loc || distance > Range)
 					target = null
 					ShouldIBeActive()
 					return
-
-				if(prob(20))
-					step_rand(src)
-					sleep(2)
 
 				if(distance > 1)
 					var/turf/t = get_step_to(src, target, 1)
@@ -395,10 +422,16 @@ mob
 					Search()
 						Wander()
 						sleep(3)
-						for(var/mob/Player/M in ohearers(3, src))
-							M.HP += ((M.MHP/20)+rand(0,50))
-							if(M.HP > M.MHP) M.HP = M.MHP
-							M.updateHPMP()
+						Heal()
+
+					proc
+						Heal()
+							for(var/mob/Player/M in ohearers(3, src))
+								M.HP += ((M.MHP/20)+rand(0,50))
+								if(M.HP > M.MHP) M.HP = M.MHP
+								M.updateHPMP()
+					BlindAttack()//removeoMob
+						Heal()
 
 					New()
 						light(src, 3, 600, "orange")
@@ -441,6 +474,14 @@ mob
 				var/tmp/fired = 0
 				MoveDelay = 4
 				AttackDelay = 1
+
+				drops = list("0.6" = /obj/items/artifact,
+							 "1"   = list(/obj/items/DarknessPowder,
+								 		  /obj/items/Whoopie_Cushion,
+										  /obj/items/U_No_Poo,
+							 			  /obj/items/Smoke_Pellet,
+							 			  /obj/items/Tube_of_fun,
+							 			  /obj/items/Swamp))
 
 				Search()
 					Wander()
@@ -486,24 +527,6 @@ mob
 									walk(S, d, 2)
 									spawn(20) if(S) del S
 							sleep(AttackDelay)
-				Death(mob/Player/killer)
-
-					var/rate = 1
-
-					if(killer.House == housecupwinner)
-						rate += 0.25
-
-					var/StatusEffect/Lamps/DropRate/d = killer.findStatusEffect(/StatusEffect/Lamps/DropRate)
-					if(d)
-						rate *= d.rate
-
-					rate *= DropRateModifier
-
-					if(prob(0.6 * rate))
-						new /obj/items/artifact(src.loc)
-					else if(prob(1 * rate))
-						var/t = pick(/obj/items/DarknessPowder, /obj/items/Whoopie_Cushion,/obj/items/U_No_Poo,/obj/items/Smoke_Pellet,/obj/items/Tube_of_fun,/obj/items/Swamp)
-						new t(src.loc)
 
 			Troll
 				icon = 'monsters2.dmi'

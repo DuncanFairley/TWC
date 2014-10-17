@@ -45,7 +45,55 @@ Event
 			..()
 			spawn()
 				toggle_clanwars()
-				scheduler.schedule(src, world.tick_lag * 604800 * 10) // 1 week
+				scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
+
+	Weather
+		fire()
+			..()
+			spawn()
+				var/disable = TRUE
+				for(var/i in weather_effects)
+					if(prob(weather_effects[i]))
+						switch(i)
+							if("acid")        weather.acid()
+							if("snow")        weather.snow()
+							if("rain")        weather.rain()
+							if("cloudy")      weather.clear(100)
+							if("half cloudy") weather.clear(50)
+							if("sunny")       weather.clear()
+						disable = FALSE
+						break
+				if(disable)	weather.clear(0)
+				scheduler.schedule(src, world.tick_lag * rand(9000, 27000)) // // 15 to 45 minutes
+
+	RandomEvents
+		fire()
+			..()
+			spawn()
+				if(prob(30)) // old duel system event
+					var/delay = rand(10,30) // event will be 10 to 30 minutes
+					world << infomsg("Old dueling system is active for [delay] minutes outside!")
+					for(var/area/A in outside_areas)
+						A.oldsystem = 1
+						spawn(delay * 600) A.oldsystem = 0
+
+
+				scheduler.schedule(src, world.tick_lag * rand(36000, 108000))  // 1 to 3 hours
+
+var/list/weather_effects = list("acid"        = 5,
+								"snow"        = 6,
+								"rain"        = 10,
+								"cloudy"      = 10,
+								"half cloudy" = 20,
+								"sunny"       = 100)
+proc
+	init_events()
+		scheduler.start()
+
+		init_books()
+		spawn() init_clanwars()
+		init_weather()
+		scheduler.schedule(new/Event/RandomEvents, world.tick_lag * rand(3000, 36000)) // 5 minutes to 1 hour
 
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)
@@ -162,7 +210,6 @@ StatusEffect
 	SteppedOnPoop
 	Flying
 	UsedEpiskey
-	UsedTarantallegra
 	UsedCrucio
 	Summoned
 	Decloaked
@@ -174,15 +221,12 @@ StatusEffect
 	UsedEvanesca
 	UsedClanAbilities
 	UsedIncindia
-	UsedObliviate
 	UsedStun
 	UsedFlagrate
 	UsedTransfiguration
-	UsedConjunctivis
-	UsedMelofors
+	UsedAnnoying
 	UsedPortus
 	UsedMeditate
-	UsedExpelliarmus
 	UsedHalloweenBucket
 	UsedSonic
 	UsedSnowRing

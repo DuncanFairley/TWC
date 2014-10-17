@@ -5,6 +5,7 @@
  * For the full license text, see LICENSE.txt.
  */
 mob/Player
+	var/tmp/slow = 0
 	Move(newloc, newdir)
 		if(teleporting)
 			..()
@@ -13,10 +14,11 @@ mob/Player
 		if(isobj(newloc))
 			..()
 		else if(loc)
-			if(loc:slow && !unslow)
+			if((loc:slow && !unslow) || slow)
+				var/delay = slow == 0 ? loc:slow : slow
 				moving=1
 				..()
-				sleep(loc:slow)
+				sleep(delay)
 				moving=0
 			else
 				..()

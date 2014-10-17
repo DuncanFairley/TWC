@@ -12,6 +12,13 @@ proc
 				if(L[j]>L[j+1])
 					L.Swap(j,j+1)
 		return L
+	bubblesort_by_value(list/L)
+		var i, j
+		for(i=L.len,i>0,i--)
+			for(j=1,j<i,j++)
+				if(L[L[j]]>L[L[j+1]])
+					L.Swap(j,j+1)
+		return L
 	bubblesort_atom_name(list/L)
 	//Looks awful, but seems to work
 		var i, j

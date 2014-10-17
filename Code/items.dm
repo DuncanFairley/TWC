@@ -379,7 +379,7 @@ obj/items/wearable/halloween_bucket
 			if(!overridetext)viewers(owner) << infomsg("[owner] pulls out \his [src.name].")
 			for(var/obj/items/wearable/halloween_bucket/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
 	Click()
@@ -422,7 +422,7 @@ obj/items/wearable/brooms
 			owner.icon_state = "flying"
 			for(var/obj/items/wearable/brooms/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] dismounts from \his [src.name].")
 			owner.density = 1
@@ -443,7 +443,7 @@ obj/items/wearable/hats
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts on \his [src.name].")
 			for(var/obj/items/wearable/hats/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
 obj/items/wearable/hats/crown
@@ -475,7 +475,7 @@ obj/items/wearable/wands
 			if(!overridetext)viewers(owner) << infomsg("[owner] draws \his [src.name].")
 			for(var/obj/items/wearable/wands/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
 obj/items/wearable/wands/cedar_wand //Thanksgiving
@@ -532,6 +532,9 @@ obj/items/wearable/wands/sonic_wand
 	verb/Sound_Wave()
 		set category = "Spells"
 		if(src in usr:Lwearing)
+			if(!usr.loc || usr.loc.loc:disableEffects)
+				usr << errormsg("You can't use this here.")
+				return
 			if(canUse(usr,cooldown=/StatusEffect/UsedSonic,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 				new /StatusEffect/UsedSonic(usr, 30)
 				spawn()
@@ -547,6 +550,8 @@ obj/items/wearable/wands/sonic_wand
 
 		else
 			usr << errormsg("You need to be using this wand to cast this.")
+
+area/var/disableEffects = FALSE
 
 obj/items/wearable/wands/interruption_wand //Fred's quest
 	icon = 'interruption_wand.dmi'
@@ -585,7 +590,7 @@ obj/items/wearable/wigs
 			if(!overridetext)viewers(owner) << infomsg("[owner] attaches [src.name] to \his scalp.")
 			for(var/obj/items/wearable/wigs/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
 
@@ -725,7 +730,7 @@ obj/items/wearable/shoes
 			if(!overridetext)viewers(owner) << infomsg("[owner] throws \his pair of [src.name] on.")
 			for(var/obj/items/wearable/shoes/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
 obj/items/wearable/shoes/green_shoes
@@ -776,7 +781,7 @@ obj/items/wearable/scarves
 			if(!overridetext)viewers(owner) << infomsg("[owner] wraps \his [src.name] around \his neck.")
 			for(var/obj/items/wearable/scarves/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
 obj/items/wearable/scarves/yellow_scarf
@@ -848,7 +853,7 @@ obj/items/wearable/pimp_ring
 			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his finger.")
 			for(var/obj/items/wearable/pimp_ring/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
 obj/items/wearable/bling
@@ -859,7 +864,7 @@ obj/items/wearable/bling
 			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] around his neck.")
 			for(var/obj/items/wearable/bling/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] stuffs \his copious amounts of [src.name] into \his pocket.")
 obj/items/wearable/magic_eye
@@ -872,7 +877,7 @@ obj/items/wearable/magic_eye
 			if(!owner.Gm)owner.see_invisible = 1
 			for(var/obj/items/wearable/magic_eye/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes out \his magical eye from its socket.")
 			if(!owner.Gm)owner.see_invisible = 0
@@ -900,7 +905,7 @@ obj/items/wearable/invisibility_cloak
 			for(var/obj/items/wearable/invisibility_cloak/W in owner.Lwearing)
 				if(W != src)
 					wascloaked = 1
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 			if(!wascloaked)
 				owner<<"You put on the cloak and become invisible to others."
 				owner.overlays = list()
@@ -916,33 +921,37 @@ obj/items/wearable/invisibility_cloak
 			owner.sight &= ~SEE_SELF
 			owner.icon_state = ""
 
-//Title//
-
-obj/items/wearable/Title
-	var/Title = ""
+obj/items/wearable/title
+	var/title = ""
 	icon = 'scrolls.dmi'
 	icon_state = "title"
 	desc = ""
 	Equip(var/mob/Player/owner,var/overridetext=0)
-		if(owner.level >= 501)
-			owner << errormsg("You are too weak to use this.")
+		if(owner.level < 501)
+			owner << errormsg("You need to be a Hogwarts Graduate to wear this.")
 			return
 		. = ..(owner)
 		if(. == WORN)
-			if(!overridetext)viewers(owner) << infomsg("[owner] wears \his [Title] title.")
-			for(var/obj/items/wearable/Title/W in owner.Lwearing)
-				if(owner.Rank == "Player") owner.Rank = Title
+			if(!overridetext)viewers(owner) << infomsg("[owner] wears \his \"[title]\" title.")
+			for(var/obj/items/wearable/title/W in owner.Lwearing)
+				if(owner.Rank == "Player") owner.Rank = title
 				if(W != src)
-					W.Equip(owner,0,1)
+					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] removes \his title.")
-			if(owner.Rank == Title) owner.Rank = "Player"
+			if(owner.Rank == title) owner.Rank = "Player"
 
-obj/items/wearable/Title/Custom_Title
-
-////////
-
-
+	Custom
+	Slayer
+	Rich
+		title = "Rich"
+		name  = "Title: Rich"
+	Treasure_Hunter
+		title = "Treasure Hunter"
+		name  = "Title: Treasure Hunter"
+	Genie
+		title = "Genie's Friend"
+		name  = "Title: Genie's Friend"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
@@ -958,15 +967,16 @@ obj
 		var/velocity = 0
 		Bump(atom/A)
 			if(A.density)
-				velocity = 0
+				velocity--
+				dir = turn(dir, pick(45,-45) + 180)
 			else
 				..()
 		proc
 			Roll(dire)
 				dir = dire
-				if(!velocity)
+				if(velocity <= 0)
 					velocity = 5
-				while(velocity)
+				while(velocity > 0)
 					velocity--
 					step(src,dir)
 					sleep(2)
@@ -1393,7 +1403,6 @@ mob/GM/verb/Arena()
 				var/turf/T = pick(rndturfs)
 				M.loc = T
 				M.density = 1
-				M.Immortal = 0
 				M.HP = M.MHP+M.extraMHP
 				M.MP = M.MMP+M.extraMMP
 				M.updateHPMP()
@@ -1433,8 +1442,6 @@ mob/GM/verb/Arena()
 				M.HP = M.MHP+M.extraMHP
 				M.MP = M.MMP+M.extraMMP
 				M.updateHPMP()
-				M.Immortal = 0
-				M.density = 1
 				M.dir = SOUTH
 			currentArena.players << "<center><font size = 4>The arena mode is <u>Clan Wars</u>. Aurors vs Deatheaters.<br>The first clan to reach [currentArena.goalpoints] points wins!</center>"
 			sleep(30)
@@ -1471,8 +1478,6 @@ mob/GM/verb/Arena()
 				M.dir = SOUTH
 				M.HP = M.MHP+M.extraMHP
 				M.MP = M.MMP+M.extraMMP
-				M.density = 1
-				M.Immortal = 0
 				M.updateHPMP()
 			currentArena.players << "<center><font size = 4>The arena mode is <u>House Wars</u>.<br>The first house to reach [currentArena.goalpoints] arena points wins [currentArena.amountforwin] house points!"
 			sleep(30)

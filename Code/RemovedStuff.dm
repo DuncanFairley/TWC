@@ -7,9 +7,6 @@
 mob/GM/verb
 	Change_Area()
 		set hidden = 1
-	Acid()
-		set hidden = 1
-
 	// Daily Prophet verbs
 	Your_Job()
 		set hidden = 1

@@ -31,6 +31,12 @@ mob/GM/verb
 				var/ticks = scheduler.time_to_fire(events[e])
 				src << infomsg("[comma(ticks)] ticks until event starts.")
 
+	Weather(var/effect in weather_effects, var/prob as num)
+		set category = "Staff"
+		weather_effects[effect] = prob
+		bubblesort_by_value(weather_effects)
+		src << infomsg("[effect] has [prob] probability to occur.")
+
 	Set_Drop_Rate(var/rate as num)
 		set category = "Staff"
 		DropRateModifier = rate
