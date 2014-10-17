@@ -43,7 +43,7 @@ Weather
 				A.dmg = 2
 
 		snow()
-			clouds(200)
+			clouds(150)
 			for(var/area/A in outside_areas)
 				A:SetWeather(/obj/weather/snow)
 				A.dmg = 0.75
@@ -65,9 +65,9 @@ Weather
 					var/count = z_clouds.len - p
 					while(count > 0)
 						count--
-						var/obj/c = z_clouds[1]
+						var/obj/cloud/c = z_clouds[1]
 						z_clouds  -= c
-						c.loc     = null
+						c.dispose()
 
 				if(p == 0)
 					clouds -= "[z]"
@@ -91,36 +91,38 @@ var/Weather/weather
 
 proc/init_weather()
 	weather = new()
-	scheduler.schedule(new/Event/Weather, world.tick_lag * 100)
+	scheduler.schedule(new/Event/Weather, world.tick_lag * 1)
 
 obj/cloud
 	icon  = 'clouds.dmi'
 	layer = 8
 	mouse_opacity = 0
-
+	var/obj/shadow
 	New()
 		..()
 		if(!("[z]" in weather.clouds))
 			weather.clouds["[z]"] = list()
 		weather.clouds["[z]"] += src
 
-		pixel_z    = rand(1,10)
-		icon_state = "[pixel_z]"
-		pixel_z   += rand(12, 20) * 16
+		pixel_y    = rand(1,10)
+		icon_state = "[pixel_y]"
 
-		var/obj/o    = new
-		o.icon       = icon
-		o.icon_state = "[icon_state]_shadow"
-		o.pixel_z    = -pixel_z
-
-		underlays += o
+		shadow               = new
+		shadow.icon          = icon
+		shadow.icon_state    = "[icon_state]_shadow"
+		shadow.mouse_opacity = 0
+		shadow.loc           = locate(x, y - rand(6,10), z)
 
 		loop()
 
 	proc
+		dispose()
+			loc        = null
+			shadow.loc = null
+			shadow     = null
+
 		set_color(color=null)
-			// pixel z is built from random multiply of 16 + the icon state. Mod of 16 will return the original icon state
-			icon_state = "[pixel_z % 16]"
+			icon_state = "[pixel_y]"
 			if(color)
 				icon_state = "[icon_state]_[color]"
 
@@ -137,11 +139,12 @@ obj/cloud
 						else
 							new_y = rand(1, world.maxy)
 
-						loc = locate(new_x, new_y, z)
-
+						loc        = locate(new_x, new_y, z)
+						shadow.loc = locate(new_x, new_y - rand(6,10), z)
 					else
 						step(src, SOUTHEAST)
-
+						if(shadow.loc && !step(shadow, SOUTHEAST))
+							shadow.loc = null
 					sleep(8)
 
 var/list/outside_areas = list()
