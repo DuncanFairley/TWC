@@ -940,7 +940,7 @@ mob
 
 			var/mob/Player/character=new()
 			//character.savefileversion = currentsavefilversion
-			var/desiredname = input("What would you like to name your Harry Potter: The Wizard's Chronicles character? Keep in mind that you cannot use a popular name from the Harry Potter franchise, nor numbers or special characters.")
+			var/desiredname = input("What would you like to name your Harry Potter: The Wizards' Chronicles character? Keep in mind that you cannot use a popular name from the Harry Potter franchise, nor numbers or special characters.")
 			var/passfilter = name_filter(desiredname)
 			while(passfilter)
 				alert("Your desired name is not allowed as it [passfilter].")
@@ -1343,7 +1343,7 @@ mob/Player
 								if("colloportus")
 									if(src.Gm)
 										sleep(20)
-										hearers()<<"<font size=1>[usr] has locked the door</font>"
+										hearers()<<"<font size=1>[usr] has locked the door.</font>"
 										if(classdest)
 											usr << errormsg("Friendly reminder: Class guidance is still on.")
 										for(var/obj/Hogwarts_Door/T in oview(client.view))
@@ -1352,7 +1352,7 @@ mob/Player
 								if("alohomora")
 									if(src.Gm)
 										sleep(20)
-										view(client.view)<<"<font size=1>[usr] has unlocked the Door</font>"
+										view(client.view)<<"<font size=1>[usr] has unlocked the door.</font>"
 										for(var/obj/Hogwarts_Door/T in oview(client.view))
 											flick('Alohomora.dmi',T)
 											T.door=1
@@ -1405,31 +1405,31 @@ mob/Player
 										src<<infomsg("The world has been saved.")
 								if("clear admin log")
 									if(src.admin)
-										src<<infomsg("The Logs have been deleted.")
+										src<<infomsg("The Admin logs have been deleted.")
 										fdel("Logs/Adminlog.html")
 								if("clear gold log")
 									if(src.admin)
-										src<<infomsg("The Logs have been deleted.")
+										src<<infomsg("The Gold logs have been deleted.")
 										fdel("Logs/Goldlog.html")
 								if("clear kill log")
 									if(src.admin)
-										src<<infomsg("The Logs have been deleted.")
+										src<<infomsg("The Kill logs have been deleted.")
 										fdel("Logs/kill_log.html")
 								if("clear event log")
 									if(src.admin)
-										src<<infomsg("The Logs have been deleted.")
+										src<<infomsg("The Event logs have been deleted.")
 										fdel("Logs/event_log.html")
 								if("clear class log")
 									if(src.admin)
-										src<<infomsg("The class logs have been deleted.")
+										src<<infomsg("The Class logs have been deleted.")
 										fdel("Logs/classlog.html")
 								if("clear radio log")
 									if(src.admin)
-										src<<infomsg("The radio logs have been deleted.")
+										src<<infomsg("The Radio logs have been deleted.")
 										fdel("Logs/DJlog.html")
 								if("clear log")
 									if(src.admin)
-										src<<infomsg("The Logs have been deleted.")
+										src<<infomsg("The Chat logs have been deleted.")
 										fdel("Logs/chatlog.html")
 								if("afk check")
 									if(Gm)
@@ -1446,7 +1446,7 @@ mob/Player
 										src<<infomsg("OOC has been disabled.")
 								if("enable ooc")
 									if(src.Gm)
-										src<<infomsg("OOC Enabled.")
+										src<<infomsg("OOC has been enabled.")
 										OOCMute = 0
 								if("access admin log files")
 									if(src.admin==1)
@@ -1529,14 +1529,14 @@ mob/Player
 								spawn(30)
 									usr.spam--
 			else
-				usr<<"You cannot send messages while you're muted!"
+				usr << errormsg("You can't send messages while you are muted.")
 		OOC(T as text)
 			set desc = "Speak on OOC"
 			if(!usr.listenooc)
 				usr << "Your OOC is turned off."
 				return
 			if(usr.mute)
-				usr<<"You are muted."
+				usr << errormsg("You can't send messages while you are muted.")
 				return
 			if(OOCMute)
 
@@ -3071,7 +3071,7 @@ mob/Player/Logout()
 
 
 proc/ServerAD()
-	world<<"<b><Font color=silver>Server:</b> <font size=1><font color=silver>Thanks for playing The Wizard's Chronicles. Forums: http://www.wizardschronicles.com"
+	world<<"<b><Font color=silver>Server:</b> <font size=1><font color=silver>Thanks for playing The Wizards' Chronicles. Forums: http://www.wizardschronicles.com"
 	sleep(3000)
 	ServerAD()
 

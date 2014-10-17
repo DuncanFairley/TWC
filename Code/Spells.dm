@@ -365,6 +365,7 @@ proc/light(atom/a, range=3, ticks=100, state = "light")
 
 mob/Spells/verb/Basilio()
 	set category = "Staff"
+	if(clanrobed())return
 	hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Basilio!"
 	sleep(20)
 	hearers()<<"[usr]'s wand emits a bright flash of light."
@@ -374,8 +375,7 @@ mob/Spells/verb/Basilio()
 		return
 	hearers()<<"A Black Basilisk, emerges from [usr]'s wand."
 	hearers()<<"<b>Basilisk</b>: Hissssssss!"
-	var/mob/Basilisk/D = new /mob/Basilisk
-	D:loc = locate(src.x,src.y-1,src.z)
+	var/mob/NPC/Enemies/Summoned/Basilisk/D = new (locate(src.x,src.y-1,src.z))
 	flick('mist.dmi',D)
 
 mob/Spells/verb/Serpensortia()
@@ -482,8 +482,7 @@ mob/Spells/verb/Avis()
 		hearers()<<"A bright white flash shoots out of [usr]'s wand."
 		sleep(20)
 		hearers()<<"A Phoenix emerges."
-		var/mob/NPC/Enemies/Summoned/Phoenix/D = new /mob/NPC/Enemies/Summoned/Phoenix
-		D:loc = locate(src.x,src.y+1,src.z)
+		var/mob/NPC/Enemies/Summoned/Phoenix/D = new (locate(src.x,src.y+1,src.z))
 		flick('mist.dmi',D)
 		src = null
 		spawn(600)
@@ -1718,8 +1717,8 @@ mob/Spells/verb/Portus()
 		usr.updateHPMP()
 mob/Spells/verb/Sense(mob/M in view()&Players)
 	set category = "Spells"
-	hearers() << "[usr]'s eyes flicker."
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=0))
+		hearers() << "[usr]'s eyes flicker."
 		usr<<errormsg("[M.name]'s Kills: [M.pkills]<br>[M.name]'s Deaths: [M.pdeaths]")
 mob/Spells/verb/Scan(mob/M in view()&Players)
 	set category = "Spells"
@@ -1870,30 +1869,6 @@ obj
 								A.Death_Check(src.owner)
 			walk(src,0)
 			src.loc = null
-
-
-
-
-mob
-	GM
-		verb
-			Toggle_Safemode()
-				set category = "Staff"
-				if(safemode)
-					src << "<b>Players can now use offensive spells in <u>all</u> safezones.</b>"
-					safemode = 0
-				else
-					src << "<b>Players can no longer use offensive spells in <u>all</u> safezones.</b>"
-					safemode = 1
-			Toggle_Area_Safemode()
-				set category = "Staff"
-				var/area/A = loc.loc
-				if(!A.safezoneoverride)
-					src << "<b>Players can now use offensive spells in [loc.loc].</b>"
-					A.safezoneoverride = 1
-				else
-					src << "<b>Players can no longer use offensive spells in [loc.loc].</b>"
-					A.safezoneoverride = 0
 
 obj/circle
 	icon = 'circle1.dmi'
@@ -2072,6 +2047,7 @@ mob/GM/verb/Remote_View(mob/M in world)
 mob/GM/verb/HM_Remote_View(mob/M in world)
 	set category="Staff"
 	set popup_menu = 0
+	if(clanrobed())return
 	usr.client.eye=M
 	usr.client.perspective=EYE_PERSPECTIVE
 mob/GM/verb/Return_View()

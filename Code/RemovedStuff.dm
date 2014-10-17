@@ -48,3 +48,25 @@ obj/COMCText
 		spawn(1)
 			new /obj/items/COMCText (loc)
 			loc = null
+
+mob/GM
+	verb
+		Take_Sense()
+			set category = "Teach"
+			set hidden = 1
+
+		Take_Scan()
+			set category = "Teach"
+			set hidden = 1
+
+		Take_Crucio()
+			set category = "Teach"
+			set hidden = 1
+
+		Take_Serpensortia()
+			set category = "Teach"
+			set hidden = 1
+
+		Take_Dementia()
+			set category = "Teach"
+			set hidden = 1

@@ -292,8 +292,6 @@ mob
 				if(!src.mute)return
 				mute = 0
 				world << "<b><font color=red>[src] has been unsilenced.</font></b>"
-				verbs += /mob/verb/Emote
-				verbs += /mob/Player/verb/PM
 			else
 				mute_countdown()
 		detention_countdown()
@@ -398,7 +396,6 @@ mob/GM
 		GM_chat(var/messsage as text)
 			set category="Staff"
 			set name="GM Chat"
-			if(usr.mute==1){usr<<"You can't speak while silenced.";return}
 			if(messsage)
 				if(messsage == null || messsage == "") return
 			//Reason = html_encode(Reason)
@@ -417,7 +414,7 @@ mob/GM
 		DE_chat(var/messsage as text)
 			set category="Clan"
 			set name="DE Chat"
-			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
@@ -431,7 +428,7 @@ mob/GM
 		Auror_chat(var/messsage as text)
 			set category="Clan"
 			set name="Auror Chat"
-			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
@@ -443,7 +440,7 @@ mob/GM
 			if(!listenhousechat)
 				usr << "You are not listening to Gryffindor chat."
 				return
-			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
@@ -460,7 +457,7 @@ mob/GM
 			if(!listenhousechat)
 				usr << "You are not listening to Ravenclaw chat."
 				return
-			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
@@ -477,7 +474,7 @@ mob/GM
 			if(!listenhousechat)
 				usr << "You are not listening to Slytherin chat."
 				return
-			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
@@ -494,7 +491,7 @@ mob/GM
 			if(!listenhousechat)
 				usr << "You are not listening to Hufflepuff chat."
 				return
-			if(usr.mute==1||usr.Detention){usr<<"You can't speak while silenced.";return}
+			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
@@ -509,6 +506,7 @@ mob/GM
 
 		Sanctuario(mob/M in view()&Players)
 			set category="Staff"
+			if(clanrobed())return
 			switch(input("Teleport [M] to where? || Reminder, this spell fires a burst of teleporting magic at the target. Be sure to face your target.","Sanctuario Charm Destination") in list ("Hogwarts","Silverblood","Student Housing","Dark Forest","Windhowl Manor","Azkaban","Cancel"))
 				if("Hogwarts")
 					var/obj/S=new/obj/Sanctuario
@@ -772,7 +770,7 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a HM class - Notes: [notes]<br />"
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a HM class<br />"
-			curClass = "HM Class West"
+			curClass = "GCOM"
 			for(var/client/C)
 				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
 			world<<announcemsg("General Course of Magic class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
@@ -795,10 +793,10 @@ mob
 			if(!classdest) return
 			var/notes = input("Notes regarding class? (You're subbing for someone, etc.)") as text
 			if(notes)
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Trans class - Notes: [notes]<br />"
+				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Transfiguration class - Notes: [notes]<br />"
 			else
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Trans class<br />"
-			curClass = "Trans"
+				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Transfiguration class<br />"
+			curClass = "Transfiguration"
 			for(var/client/C)
 				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
 			world<<announcemsg("Transfiguration class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
@@ -811,7 +809,7 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Duel class - Notes: [notes]<br />"
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Duel class<br />"
-			curClass = "Duel Class"
+			curClass = "Duel"
 			for(var/client/C)
 				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
 			world<<announcemsg("Duel class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
@@ -837,7 +835,7 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Headmaster class - Notes: [notes]<br />"
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Headmaster class<br />"
-			curClass = "HM Class East"
+			curClass = "Headmasters"
 			for(var/client/C)
 				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
 			world<<announcemsg("Headmaster's General Magic class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
@@ -887,6 +885,23 @@ mob
 			usr<<infomsg("Floor Guidance offline.")
 			classdest = null
 
+		Toggle_Safemode()
+			set category = "Staff"
+			if(safemode)
+				src << "<b>Players can now use offensive spells in <u>all</u> safezones.</b>"
+				safemode = 0
+			else
+				src << "<b>Players can no longer use offensive spells in <u>all</u> safezones.</b>"
+				safemode = 1
+		Toggle_Area_Safemode()
+			set category = "Staff"
+			var/area/A = loc.loc
+			if(!A.safezoneoverride)
+				src << "<b>Players can now use offensive spells in [loc.loc].</b>"
+				A.safezoneoverride = 1
+			else
+				src << "<b>Players can no longer use offensive spells in [loc.loc].</b>"
+				A.safezoneoverride = 0
 
 		Release_From_Detention(mob/M in Players)
 			set category = "Staff"
@@ -901,6 +916,7 @@ mob
 		Stealth_Orb(mob/M in world)
 			set category = "Staff"
 			set popup_menu = 0
+			if(clanrobed())return
 			src.x = M.x
 			src.y = M.y+1
 			src.z = M.z
@@ -955,8 +971,6 @@ mob
 				M.mute=0
 				world<<"<b><font color=red>[M] has been <b><font color=red>unsilenced."
 				Log_admin("[src] has unmuted [M].")
-				M.verbs += /mob/verb/Emote
-				M.verbs += /mob/Player/verb/PM
 
 		Event_Announce(message as message)
 			set category = "Staff"

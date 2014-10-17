@@ -27,23 +27,23 @@ obj/museum
 			usr<<"This is [name]: [desc]"
 
 	Murrawhip
-		desc  = "Owner of TWC & Minister of Magic."
+		desc  = "<b>Owner of TWC & Minister of Magic.<b><br>Murrawhip's contributions to TWC excel any other, he will go down forever in history as 'THAT ONE GUY WHO SHUT DOWN TWC BUT THEN CHANGED HIS MIND' and for that reason - we thank him!"
 		robes = "MaleStaff"
 
 	Ander
-		desc  = "Former Headmaster of TWC,"
+		desc  = "<b>Former Headmaster of TWC.</b><br>The one that got away... and then came back only to leave again. Ander has been Headmaster more times than you've probably sneezed."
 		robes = "green"
 
 	Ragnarok
-		desc = "Original owner of TWC."
+		desc = "<b>Original owner of TWC.</b><br>Some people liked him and most people didn't."
 		robes = "blue"
 
 	Lucifer
-		desc = "Creator of TWC radio. Former Co-Owner & Transfiguration Professor."
+		desc = "<b>Creator of TWC radio. Former Co-Owner & Transfiguration Professor.</b><br>A wonderful asset to TWC and a true friend in times of need."
 		robes = "MaleStaff"
 
 	Linshon
-		desc = "Former Headmaster of TWC."
+		desc = "<b>Former Headmaster of TWC.</b><br>Banana man! Linshon was the creator and first person to successfully host TWC's now annual 'Summer Bash'."
 		robes = "yellow"
 
 	Shirou
@@ -51,28 +51,28 @@ obj/museum
 		robes = "lightblue"
 
 	Kozu
-		desc = "Former Headmaster of TWC."
+		desc = "<b>Former Headmaster of TWC.</b><br>Part cute and cuddly, part fierce and fabulous."
 		robes = "MaleStaff"
 
 	Ash
-		desc = "Former Headmaster of TWC,"
+		desc = "<b>Former Headmaster of TWC.</b><br>TWC's first British Headmaster, some say he was actually Dumbledore and McGonagall's love child but I don't believe it."
 		robes = "MaleStaff"
 
 	Rotem
-		desc = "Not A Player. Former Headmistress, Deputy Headmistress, Administrator, DADA, COMC, Transfiguration and GCOM Professor"
+		desc = "<b>Not A Player. Former Headmistress, Deputy Headmistress, Administrator, DADA, COMC, Transfiguration and GCOM Professor.</b><br>We're not sure where she came from but we praise the high heavens that she did! TWC owes alot to Rotem and we hope she never ever leaves. EVER."
 		robes = "FemaleStaff"
 
 	Tobias
-		desc = "Former Headmaster of TWC."
+		desc = "<b>Former Headmaster of TWC.</b><br>The kindest most sweetest soul ever to grace TWC with their presence."
 		robes = "teal"
 
 	Justin
 		name = "Justin (Demonic)"
-		desc = "Former Headmaster, Deputy Headmaster, Professor of every class at different points. Former Slytherin Prefect and Host."
+		desc = "<b>Former Headmaster, Deputy Headmaster, Professor of every class at different points. Former Slytherin Prefect and Host.</b><br>He's just always there... It's kind of weird and some what creepy but he's always here when TWC needs him!"
 		robes = "white"
 
 	Sylar
-		desc = "Headmaster of TWC. Former Deputy Headmaster, Administrator, Chat Moderator. Previous GCOM, DADA, and Charms Professor."
+		desc = "<b>Headmaster of TWC. Former Deputy Headmaster, Administrator, Chat Moderator. Previous GCOM, DADA, and Charms Professor.</b><br>"
 		robes = "orange"
 
 	Chrissy
