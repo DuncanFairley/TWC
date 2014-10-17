@@ -532,6 +532,9 @@ obj/items/wearable/wands/sonic_wand
 	verb/Sound_Wave()
 		set category = "Spells"
 		if(src in usr:Lwearing)
+			if(!usr.loc || usr.loc.loc:disableEffects)
+				usr << errormsg("You can't use this here.")
+				return
 			if(canUse(usr,cooldown=/StatusEffect/UsedSonic,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 				new /StatusEffect/UsedSonic(usr, 30)
 				spawn()
@@ -547,6 +550,8 @@ obj/items/wearable/wands/sonic_wand
 
 		else
 			usr << errormsg("You need to be using this wand to cast this.")
+
+area/var/disableEffects = FALSE
 
 obj/items/wearable/wands/interruption_wand //Fred's quest
 	icon = 'interruption_wand.dmi'
