@@ -5,6 +5,10 @@
  * For the full license text, see LICENSE.txt.
  */
 
+var/deatheaterWon = list("Death Eaters have successfully raided Auror HQ!","The Aurors have been defeated by the Death Eaters!","Death Eaters have defeated the Aurors in the war of the clans!")
+var/aurorWon = list("The Death Eaters have been defeated by the Aurors!","The Aurors have successfully held back the Death Eaters!","The Aurors have emerged victorious in the war of the clans!")
+var/draw = list("Nobody did anything interesting in the clan war so it resulted in a draw!","The clan war has ended in a draw! How boring!","The clans managed to hold each other off! Clan Wars is a draw!")
+
 var/clan_wars/clanwars_event
 
 clan_wars
@@ -32,7 +36,8 @@ clan_wars
 
 		end()
 			if(deatheater > aurors)
-				world << "<h4>Deatheaters won the clan war!</h4>"
+				var/dewinner = pick(deatheaterWon)
+				world << "<font color='#282C1B' size='3'><b>[dewinner]</b></font>"
 
 				for(var/turf/woodenfloor/t in world)
 					if(t.z >= 21 && t.z <= 23)
@@ -47,7 +52,8 @@ clan_wars
 							t.icon_state += " - halloween"
 
 			else if(deatheater < aurors)
-				world << "<h4>Aurors won the clan war!</h4>"
+				var/aurorwinner = pick(aurorWon)
+				world << "<font color='#66CCFF' size='3'><b>[aurorwinner]<b></font>"
 
 				for(var/turf/woodenfloor/t in world)
 					if(t.z >= 21 && t.z <= 23)
@@ -62,7 +68,8 @@ clan_wars
 							t.icon_state = copytext(t.icon_state, 1, pos)
 
 			else
-				world << "<h4>Clan war resulted in a draw.</h4>"
+				var/wardraw = pick(draw)
+				world << "<font color='#E5E4E2' size='3'><b>[wardraw]</b></font>"
 				for(var/turf/woodenfloor/t in world)
 					if(t.z >= 21 && t.z <= 23)
 						var/pos = findtext(t.icon_state, " - halloween")

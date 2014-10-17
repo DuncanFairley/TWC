@@ -1339,7 +1339,7 @@ mob/Player
 								if("colloportus")
 									if(src.Gm)
 										sleep(20)
-										hearers()<<"<font size=1>[usr] has locked the door</font>"
+										hearers()<<"<font size=1>[usr] has locked the door.</font>"
 										if(classdest)
 											usr << errormsg("Friendly reminder: Class guidance is still on.")
 										for(var/obj/Hogwarts_Door/T in oview(client.view))
@@ -1348,7 +1348,7 @@ mob/Player
 								if("alohomora")
 									if(src.Gm)
 										sleep(20)
-										view(client.view)<<"<font size=1>[usr] has unlocked the Door</font>"
+										view(client.view)<<"<font size=1>[usr] has unlocked the door.</font>"
 										for(var/obj/Hogwarts_Door/T in oview(client.view))
 											flick('Alohomora.dmi',T)
 											T.door=1

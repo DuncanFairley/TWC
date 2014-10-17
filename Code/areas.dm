@@ -25,15 +25,15 @@ proc/getFloor(destination)
 			return SEC_FLOOR_WEST
 		if("COMC")
 			return GROUND_FLOOR
-		if("Trans")
+		if("Transfiguration")
 			return THIRD_FLOOR
-		if("Muggle Studdies")
+		if("Muggle Studies")
 			return GROUND_FLOOR
-		if("HM Class East")
+		if("Headmasters")
 			return SEC_FLOOR_EAST
-		if("HM Class West")
+		if("GCOM")
 			return THIRD_FLOOR
-		if("Duel Class")
+		if("Duel")
 			return FORTH_FLOOR
 	world << "Error 3b07d"
 var/curClass

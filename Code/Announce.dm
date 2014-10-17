@@ -189,7 +189,7 @@ mob
 					usr.icon = 'MaleAuror.dmi'
 		DErobes()
 			set category = "Clan"
-			set name = "Wear Robes"
+			set name = "Wear DE Robes"
 			if(usr.derobe==1)
 				usr.icon = usr.baseicon
 				usr.trnsed = 0
