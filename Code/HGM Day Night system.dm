@@ -74,7 +74,9 @@ Weather
 					return
 
 				for(var/obj/cloud/c in z_clouds)
-					c.loc = locate(rand(10,world.maxx), rand(10,world.maxy), z)
+					c.loc = locate(rand(10,world.maxx), rand(20,world.maxy), z)
+					c.shadow.loc = c.loc
+					c.shadow.y -= rand(6,10)
 					c.set_color(color)
 			else
 				clouds["[z]"] = list()

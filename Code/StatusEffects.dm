@@ -51,20 +51,26 @@ Event
 		fire()
 			..()
 			spawn()
-				if(prob(5))       weather.acid()
-				else if(prob(6))  weather.snow()
-				else if(prob(10)) weather.rain()
-				else if(prob(10)) weather.clear(100) // cloudy
-				else if(prob(20)) weather.clear(50)  // partial cloudy
-				else              weather.clear()
-
+				var/disable = TRUE
+				for(var/i in weather_effects)
+					if(prob(weather_effects[i]))
+						switch(i)
+							if("acid")        weather.acid()
+							if("snow")        weather.snow()
+							if("rain")        weather.rain()
+							if("cloudy")      weather.clear(100)
+							if("half cloudy") weather.clear(50)
+							if("sunny")       weather.clear()
+						disable = FALSE
+						break
+				if(disable)	weather.clear(0)
 				scheduler.schedule(src, world.tick_lag * rand(9000, 27000)) // // 15 to 45 minutes
 
 	RandomEvents
 		fire()
 			..()
 			spawn()
-				if(prob(30)) // old system event
+				if(prob(30)) // old duel system event
 					var/delay = rand(10,30) // event will be 10 to 30 minutes
 					world << infomsg("Old dueling system is active for [delay] minutes outside!")
 					for(var/area/A in outside_areas)
@@ -74,6 +80,12 @@ Event
 
 				scheduler.schedule(src, world.tick_lag * rand(36000, 108000))  // 1 to 3 hours
 
+var/list/weather_effects = list("acid"        = 5,
+								"snow"        = 6,
+								"rain"        = 10,
+								"cloudy"      = 10,
+								"half cloudy" = 20,
+								"sunny"       = 100)
 proc
 	init_events()
 		scheduler.start()
