@@ -292,8 +292,6 @@ mob
 				if(!src.mute)return
 				mute = 0
 				world << "<b><font color=red>[src] has been unsilenced.</font></b>"
-				verbs += /mob/verb/Emote
-				verbs += /mob/Player/verb/PM
 			else
 				mute_countdown()
 		detention_countdown()
@@ -943,8 +941,6 @@ mob
 				M.mute=0
 				world<<"<b><font color=red>[M] has been <b><font color=red>unsilenced."
 				Log_admin("[src] has unmuted [M].")
-				M.verbs += /mob/verb/Emote
-				M.verbs += /mob/Player/verb/PM
 
 		Event_Announce(message as message)
 			set category = "Staff"

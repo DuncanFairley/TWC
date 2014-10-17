@@ -270,8 +270,10 @@ mob
 				hearers()<<"<font color=red>[usr] raises \his hand.</font>"
 				usr.questionius=1
 mob/verb/Emote(t as text)
-			if(usr.Rictusempra==10) return
-			if(usr.mute==1) return
-			t=check(t)//run the text through the cleaner
-			t = copytext(t,1,350)
-			hearers()<<"[usr] [t]"
+	if(usr.Rictusempra==10) return
+	if(usr.mute==1)
+		usr << errormsg("You can't emote while you are muted.")
+		return
+	t=check(t)//run the text through the cleaner
+	t = copytext(t,1,350)
+	hearers()<<"[usr] [t]"
