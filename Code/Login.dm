@@ -437,7 +437,7 @@ mob/VaultGoblin
 										if(istext(M))
 											M = text2mob(M)
 										V.add_ckey_allowedpeople(M.ckey)
-										usr << npcsay("Vault Master: [M.name] can now enter your vault at any time. See me again if you wish to change this.")
+										usr << npcsay("Vault Master: [M.derobe ? M.prevname : M.name] can now enter your vault at any time. See me again if you wish to change this.")
 								if("Deny someone")
 									var/list/name_ckey_assoc = V.name_ckey_assoc()
 									var/M = input("Who would you like to deny entrance to vault?") as null|anything in name_ckey_assoc
@@ -454,7 +454,7 @@ mob/VaultGoblin
 								if(istext(M))
 									M = text2mob(M)
 								V.add_ckey_allowedpeople(M.ckey)
-								usr << npcsay("Vault Master: [M.name] can now enter your vault at any time. See me again if you wish to change this.")
+								usr << npcsay("Vault Master: [M.derobe ? M.prevname : M.name] can now enter your vault at any time. See me again if you wish to change this.")
 					else
 						usr << npcsay("Vault Master: See me again if you need to change anything with your vault.")
 
@@ -574,9 +574,15 @@ mob/verb/DisableBetaMapMode()
 	var/outline = "#000"
 	//if(30*r+59*g+11*b > 7650) outline = "#000"
 	if(src.pname&&src.key)
-		namefont.QuickName(src, src.pname, rgb(r,g,b), outline, top=1)
+		if(de)
+			namefont.QuickName(src, "Deatheater", rgb(r,g,b), outline, top=1)
+		else
+			namefont.QuickName(src, src.pname, rgb(r,g,b), outline, top=1)
 	else
-		namefont.QuickName(src, src.name, rgb(r,g,b), outline, top=1)
+		if(de)
+			namefont.QuickName(src, "Deatheater", rgb(r,g,b), outline, top=1)
+		else
+			namefont.QuickName(src, src.name, rgb(r,g,b), outline, top=1)
 
 mob/test/verb/Tick_Lag(newnum as num)
 	world.tick_lag = newnum
@@ -1086,6 +1092,7 @@ mob/Player
 		Saveme()
 			if(derobe)
 				derobe = 0
+				name = prevname
 
 	Login()
 		//..()
@@ -1224,7 +1231,10 @@ mob/Player
 								if(!silent)
 									for(var/mob/M in hearers(client.view))
 										if(!M.muff)
-											M<<"<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> [t]"
+											if(derobe)
+												M<<"<font size=2><font color=red><b><font color=red> [usr]</font></b> :<font color=white> [t]"
+											else
+												M<<"<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> [t]"
 										else
 											if(rand(1,3)==1) M<<"<i>You hear an odd ringing sound.</i>"
 
@@ -1583,11 +1593,17 @@ mob/Player
 			var/online=0
 			for(var/mob/M in Players)
 				online+=1
-				if(M.House)
-					usr << "\icon[wholist[M.House]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+				if(!M.derobe)
+					if(M.House)
+						usr << "\icon[wholist[M.House]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+					else
+						usr << "\icon[wholist["Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
 				else
-					usr << "\icon[wholist["Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
-				usr << "[online] players online."
+					if(M.House)
+						usr << "\icon[wholist[M.House]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+					else
+						usr << "\icon[wholist["Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+			usr << "[online] players online."
 			var/logginginmobs = ""
 			for(var/client/C)
 				if(C.mob && !(Players.Find(C.mob)))

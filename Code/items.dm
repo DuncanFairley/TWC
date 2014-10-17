@@ -1610,12 +1610,12 @@ obj/clanpillar
 							if(M.Auror)
 								M << infomsg("[attacker] has destroyed [name] and earned 10 points for the Aurors.")
 							else if(M.DeathEater)
-								M << infomsg("<font color=red>[name] has been destroyed by [attacker].</font>")
+								M << infomsg("<font color=red>[name] has been destroyed.</font>")
 						else if(clan == "Auror")
 							if(M.DeathEater)
-								M << infomsg("[attacker] has destroyed [name] and earned 10 points for the Deatheaters.")
+								M << infomsg("A Deatheater has destroyed [name] and earned 10 points for the Deatheaters.")
 							else if(M.Auror)
-								M << infomsg("<font color=red>[name] has been destroyed by [attacker].</font>")
+								M << infomsg("<font color=red>[name] has been destroyed.</font>")
 				density = 0
 				invisibility = 101
 				spawn()respawn_count()

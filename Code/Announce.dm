@@ -197,6 +197,7 @@ mob
 				usr:ApplyOverlays()
 				if(locate(/mob/GM/verb/End_Floor_Guidence) in usr.verbs) usr.Gm = 1
 				usr << "You slip off your Death Eater robes."
+				usr.name = usr.prevname
 				usr.underlays = list()
 				if(usr.Gender == "Male")
 					usr.gender = MALE
@@ -215,6 +216,8 @@ mob
 						GenerateNameOverlay(13,116,219)
 					if("Ministry")
 						GenerateNameOverlay(255,255,255)
+				for(var/mob/fakeDE/d in world)
+					if(d.ownerkey == src.key) del d
 			else
 				for(var/client/C)
 					if(C.eye)
@@ -231,8 +234,16 @@ mob
 				usr.density=1
 				usr.Gm = 0
 				usr << "You slip on your Death Eater robes."
+				usr.prevname = usr.name
+				usr.name = "Deatheater"
 				usr.underlays = list()
 				usr.GenerateNameOverlay(77,77,77,1)
+				for(var/mob/fakeDE/d in world)
+					if(d.name == src.name) return
+				var/mob/fakeDE/a = new(locate(1,1,1))
+				a.name = src.prevname
+				a.ownerkey = src.key
+				a.pname = src.pname
 
 image/meditate/icon = 'Meditate.dmi'
 
