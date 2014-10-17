@@ -35,7 +35,7 @@ var/PMheader = {"
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>The Wizard's Chronicles</title>
+	<title>The Wizards' Chronicles</title>
 </head>
 <style>
 	body
@@ -377,6 +377,9 @@ mob/Player/Topic(href,href_list[])
 		if("pm_MainMenu")
 			src.PMHome()
 		if("pm_Send")
+			if(src.mute)
+				alert("You are not allowed to send messages.")
+				return
 			if(src.Detention)
 				alert("You are not allowed to send messages.")
 				return
@@ -429,6 +432,9 @@ mob/Player/Topic(href,href_list[])
 			Y << "You have received a <a href='?src=\ref[Y];action=pm_inbox_readmsg;msgid=[pmcounter]'>new private message</a> from <a href='?src=\ref[Y];action=pm_reply;replynametext=[formatName(src)]'>[formatName(src)]</a>."
 			winset(Y,"mainwindow","flash=2")
 mob/Player/verb/PM(var/p in Players())
+	if(src.mute)
+		alert("You are not allowed to send messages.")
+		return
 	if(src.Detention)
 		alert("You are not allowed to send messages.")
 		return
