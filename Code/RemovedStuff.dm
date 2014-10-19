@@ -70,3 +70,41 @@ mob/GM
 		Take_Dementia()
 			set category = "Teach"
 			set hidden = 1
+
+
+obj/Signage
+	New()
+		..()
+		spawn(1)
+			var/obj/Signs/s = new(loc)
+
+			s.icon       = icon
+			s.icon_state = icon_state
+			s.name       = name
+			s.desc       = desc
+
+			loc = null
+obj/sign1
+	New()
+		..()
+		spawn(1)
+			var/obj/Signs/s = new(loc)
+
+			s.icon       = icon
+			s.icon_state = icon_state
+			s.name       = name
+			s.desc       = desc
+
+			loc = null
+obj/sign2
+	New()
+		..()
+		spawn(1)
+			var/obj/Signs/sign2/s = new(loc)
+
+			s.icon       = icon
+			s.icon_state = icon_state
+			s.name       = name
+			s.desc       = desc
+
+			loc = null

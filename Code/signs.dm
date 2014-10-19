@@ -7,89 +7,36 @@
 obj
 	Signs
 		mouse_over_pointer = MOUSE_HAND_POINTER
+		icon='statues.dmi'
+		icon_state="sign"
+		density=1
 
 		verb
-			Read_()
+			read_sign()
+				set src in oview(10)
+				set name="Read"
+				if(desc)
+					usr << desc
+				else
+					usr << "<font color=red><b>[name]</b></font>"
 
 		Click()
 			..()
 			if(src in oview(10))
-				Read_()
+				read_sign()
 
-obj
-	Signs/Diagon_Bank
-		icon='statues.dmi'
-		icon_state="sign"
-		dontsave=1
-		density=1
-		wlable=0
-		accioable=0
-		Read_()
-			set src in oview(10)
-			usr<<"\n<font color=red><b>Gringott's Wizard's Bank.</font><font color=blue><br>Main Branch - Diagon Alley.</b>"
-	Signs/Santa
-		icon='statues.dmi'
-		icon_state="sign"
-		name="Sign"
-		dontsave=1
-		density=1
-		wlable=0
-		accioable=0
-		Read_()
-			set src in oview(10)
-			usr<<"<b>Until next year!"
 
-	Signs/Owlery
-		icon='statues.dmi'
-		icon_state="sign"
-		dontsave=1
-		density=1
-		wlable=0
-		accioable=0
-		Read_()
-			set src in oview(10)
-			alert("The Owlery")
+		Diagon_Bank
+			desc = "\n<font color=red><b>Gringott's Wizard's Bank.</font><font color=blue><br>Main Branch - Diagon Alley.</b>"
 
-	Signs/Museum
-		icon='statues.dmi'
-		icon_state="sign"
-		dontsave=1
-		density=1
-		wlable=0
-		accioable=0
-		Read_()
-			set src in oview(10)
-			usr<<"<b>This is the Wizard Chronicles Museum."
 
-	Signs/HolidayMuseum
-		icon='statues.dmi'
-		icon_state="sign"
-		dontsave=1
-		density=1
-		wlable=0
-		accioable=0
-		Read_()
-			set src in oview(10)
-			usr<<"<b>This is the Holiday Event section of the Museum."
+		Museum
+			desc = "<b>This is the Wizard Chronicles Museum."
 
-	Signs/Quidditch
-		icon='statues.dmi'
-		icon_state="sign"
-		dontsave=1
-		density=1
-		wlable=0
-		accioable=0
-		Read_()
-			set src in oview(10)
-			usr<<"<b>Welcome to Shirou Stadium. Est. January 7th, 2007."
 
-	Signs/HostsMuseum
-		icon='statues.dmi'
-		icon_state="sign"
-		dontsave=1
-		density=1
-		wlable=0
-		accioable=0
-		Read_()
-			set src in oview(10)
-			usr<<"<b>This is the Hosts section of the Museum, where we give thanks to all of our devoted hosts for donating their computers to us! Thank you!!!"
+		sign2
+			icon_state = "sign3"
+
+
+
+
