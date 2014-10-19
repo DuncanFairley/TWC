@@ -58,7 +58,7 @@ Event
 							if("acid")        weather.acid()
 							if("snow")        weather.snow()
 							if("rain")        weather.rain()
-							if("cloudy")      weather.clear(100)
+							if("cloudy")      weather.clear(75)
 							if("half cloudy") weather.clear(50)
 							if("sunny")       weather.clear()
 						disable = FALSE
