@@ -935,7 +935,7 @@ mob/TalkNPC/Artifacts_Salesman
 		"Title: Rich - 1,000,000 Gold and 10 Artifacts",
 		"Title: Treasure Hunter - 1,000,000 Gold and 10 Artifacts",
 		"Title: Genie's Friend - 2,000,000 Gold and 20 Artifacts")
-		switch(input("[name]: Hello... I sell lamp! Now now, they're not just lamps, they're magical lamps! My lamps will help you make your wishes come true!", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
+		switch(input("[name]: Hello... I sell lamps! Now now, they're not just lamps, they're magical lamps! My lamps will help you make your wishes come true!", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
 			if("Farmer Lamp - 100,000 and 1 Artifact")
 				selecteditem  = /obj/items/lamps/farmer_lamp
 				selectedprice = 1
