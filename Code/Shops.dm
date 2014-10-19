@@ -928,10 +928,10 @@ mob/TalkNPC/Artifacts_Salesman
 		var/selecteditem
 		var/selectedprice
 		var/itemlist = list(
-		"Farmer Lamp - 100,000 and 1 Artifact",
-		"Double Exp Lamp - 200,000 and 2 Artifacts",
-		"Double Gold Lamp - 200,000 and 2 Artifacts",
-		"Double Drop Rate Lamp - 300,000 and 3 Artifacts",
+		"Farmer Lamp - 100,000 Gold and 1 Artifact",
+		"Double Exp Lamp - 200,000 Gold and 2 Artifacts",
+		"Double Gold Lamp - 200,000 Gold and 2 Artifacts",
+		"Double Drop Rate Lamp - 300,000 Gold and 3 Artifacts",
 		"Title: Rich - 1,000,000 Gold and 10 Artifacts",
 		"Title: Treasure Hunter - 1,000,000 Gold and 10 Artifacts",
 		"Title: Genie's Friend - 2,000,000 Gold and 20 Artifacts")
