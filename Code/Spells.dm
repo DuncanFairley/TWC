@@ -1214,53 +1214,55 @@ mob/Spells/verb/Incendio()
 		flick('fireworks.dmi',M)
 		M.overlays+=image('hair.dmi',icon_state="black")*/
 
-mob/proc/Trans_Me()
-	if(src.Gender=="Male")
-		if(src.Gm)
-			src.icon='FemaleStaff.dmi'
-		if(src.aurorrobe)
-			src.icon='FemaleAuror.dmi'
-		if(src.House=="Gryffindor")
-			src.icon='FemaleGryffindor.dmi'
-		if(src.House=="Ravenclaw")
-			src.icon='FemaleRavenclaw.dmi'
-		if(src.House=="Slytherin")
-			src.icon='FemaleSlytherin.dmi'
-		if(src.House=="Hufflepuff")
-			src.icon='FemaleHufflepuff.dmi'
+mob/proc/BaseIcon()
+	if(Gender == "Female")
+		if(Gm)
+			icon = 'FemaleStaff.dmi'
+		else if(aurorrobe)
+			icon = 'FemaleAuror.dmi'
+		else if(House == "Gryffindor")
+			icon = 'FemaleGryffindor.dmi'
+		else if(House == "Ravenclaw")
+			icon = 'FemaleRavenclaw.dmi'
+		else if(House == "Slytherin")
+			icon = 'FemaleSlytherin.dmi'
+		else if(House == "Hufflepuff")
+			icon = 'FemaleHufflepuff.dmi'
 	else
-		if(src.Gm)
-			src.icon='MaleStaff.dmi'
-		if(src.aurorrobe)
-			src.icon='MaleAuror.dmi'
-		if(src.House=="Gryffindor")
-			src.icon='MaleGryffindor.dmi'
-		if(src.House=="Ravenclaw")
-			src.icon='MaleRavenclaw.dmi'
-		if(src.House=="Slytherin")
-			src.icon='MaleSlytherin.dmi'
-		if(src.House=="Hufflepuff")
-			src.icon='MaleHufflepuff.dmi'
+		if(Gm)
+			icon = 'MaleStaff.dmi'
+		else if(aurorrobe)
+			icon = 'MaleAuror.dmi'
+		else if(House == "Gryffindor")
+			icon = 'MaleGryffindor.dmi'
+		else if(House == "Ravenclaw")
+			icon = 'MaleRavenclaw.dmi'
+		else if(House == "Slytherin")
+			icon = 'MaleSlytherin.dmi'
+		else if(House == "Hufflepuff")
+			icon = 'MaleHufflepuff.dmi'
 
 mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 	set category="Spells"
 	set name = "Riddikulus"
 	if(canUse(src,cooldown=/StatusEffect/UsedRiddikulus,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
-		if(M.trnsed==1)
+		if(M.trnsed == 1)
 			usr << "That person is already transfigured."
 			return
 		if(!M) return
 		if(M.derobe) return
-		new /StatusEffect/UsedRiddikulus(src,15)
+		new /StatusEffect/UsedRiddikulus(src,30)
 		hearers()<<"<b><font color=red>[usr]</font>: <font color=red><font size=3>Riddikulus!</font></font>, [M].</b>"
 		sleep(20)
 		flick('teleboom.dmi',M)
-		M.Trans_Me()
+		M.Gender = M.Gender == "Male" ? "Female" : "Male"
+		M.BaseIcon()
+		M.Gender = M.Gender == "Male" ? "Female" : "Male"
 		src=null
-		spawn(600)
+		spawn(1200)
 			M << "<b>You turn back to Normal</b>."
 			flick('teleboom.dmi',M)
-			M.icon=baseicon
+			M.BaseIcon()
 
 mob/Spells/verb/Ecliptica()
 	set category="Spells"
