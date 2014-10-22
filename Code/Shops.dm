@@ -866,12 +866,12 @@ mob/TalkNPC/Vault_Salesman
 		icon_state = "goblin[rand(1,3)]"
 
 		itemlist["Free Vault - Free!"]                                = list("1",       0)
-		itemlist["Medium Vault - 2,500,000 Gold and 25 Artifacts"]    = list("_med",    25)
-		itemlist["Big Vault - 5,000,000 Gold and 50 Artifacts"]       = list("_big",    50)
-		itemlist["Huge Vault - 8,000,000 Gold and 80 Artifacts"]      = list("_huge",   80)
-		itemlist["2 Rooms Vault - 10,000,000 Gold and 100 Artifacts"] = list("_2rooms", 100)
-		itemlist["4 Rooms Vault - 12,000,000 Gold and 120 Artifacts"] = list("_4rooms", 120)
-		itemlist["Luxury Vault - 20,000,000 Gold and 200 Artifacts"]  = list("_luxury", 200)
+		itemlist["Medium Vault - 2,500,000 gold and 25 artifacts"]    = list("_med",    25)
+		itemlist["Big Vault - 5,000,000 gold and 50 artifacts"]       = list("_big",    50)
+		itemlist["Huge Vault - 8,000,000 gold and 80 artifacts"]      = list("_huge",   80)
+		itemlist["2 Rooms Vault - 10,000,000 gold and 100 artifacts"] = list("_2rooms", 100)
+		itemlist["4 Rooms Vault - 12,000,000 gold and 120 artifacts"] = list("_4rooms", 120)
+		itemlist["Luxury Vault - 20,000,000 gold and 200 artifacts"]  = list("_luxury", 200)
 
 	Talk()
 		set src in oview(2)
@@ -928,33 +928,33 @@ mob/TalkNPC/Artifacts_Salesman
 		var/selecteditem
 		var/selectedprice
 		var/itemlist = list(
-		"Farmer Lamp - 100,000 and 1 Artifact",
-		"Double Exp Lamp - 200,000 and 2 Artifacts",
-		"Double Gold Lamp - 200,000 and 2 Artifacts",
-		"Double Drop Rate Lamp - 300,000 and 3 Artifacts",
-		"Title: Rich - 1,000,000 Gold and 10 Artifacts",
-		"Title: Treasure Hunter - 1,000,000 Gold and 10 Artifacts",
-		"Title: Genie's Friend - 2,000,000 Gold and 20 Artifacts")
-		switch(input("[name]: Hello... I sell lamp! Now now, they're not just lamps, they're magical lamps! My lamps will help you make your wishes come true!", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
-			if("Farmer Lamp - 100,000 and 1 Artifact")
+		"Farmer Lamp - 100,000 gold and 1 artifact",
+		"Double Exp Lamp - 200,000 gold and 2 artifacts",
+		"Double Gold Lamp - 200,000 gold and 2 artifacts",
+		"Double Drop Rate Lamp - 300,000 gold and 3 artifacts",
+		"Title: Rich - 1,000,000 gold and 10 artifacts",
+		"Title: Treasure Hunter - 1,000,000 gold and 10 artifacts",
+		"Title: Genie's Friend - 2,000,000 gold and 20 artifacts")
+		switch(input("[name]: Hello... I sell lamps and magical rarities! Now now, they're not just lamps, they're magical lamps! My lamps will help you make your wishes come true! For the right price you might also net yourself something rare!", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
+			if("Farmer Lamp - 100,000 gold and 1 artifact")
 				selecteditem  = /obj/items/lamps/farmer_lamp
 				selectedprice = 1
-			if("Double Exp Lamp - 200,000 and 2 Artifacts")
+			if("Double Exp Lamp - 200,000 gold and 2 artifacts")
 				selecteditem  = /obj/items/lamps/double_exp_lamp
 				selectedprice = 2
-			if("Double Gold Lamp - 200,000 and 2 Artifacts")
+			if("Double Gold Lamp - 200,000 gold and 2 artifacts")
 				selecteditem  = /obj/items/lamps/double_gold_lamp
 				selectedprice = 2
-			if("Double Drop Rate Lamp - 300,000 and 3 Artifacts")
+			if("Double Drop Rate Lamp - 300,000 gold and 3 artifacts")
 				selecteditem  = /obj/items/lamps/double_drop_rate_lamp
 				selectedprice = 3
-			if("Title: Rich - 1,000,000 Gold and 10 Artifacts")
+			if("Title: Rich - 1,000,000 gold and 10 artifacts")
 				selecteditem  = /obj/items/wearable/title/Rich
 				selectedprice = 10
-			if("Title: Treasure Hunter - 1,000,000 Gold and 10 Artifacts")
+			if("Title: Treasure Hunter - 1,000,000 gold and 10 artifacts")
 				selecteditem  = /obj/items/wearable/title/Treasure_Hunter
 				selectedprice = 10
-			if("Title: Genie's Friend - 2,000,000 Gold and 20 Artifacts")
+			if("Title: Genie's Friend - 2,000,000 gold and 20 artifacts")
 				selecteditem  = /obj/items/wearable/title/Genie
 				selectedprice = 20
 			if(null)
