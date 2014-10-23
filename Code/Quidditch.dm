@@ -385,6 +385,7 @@ obj/quidditch
 
 		var
 			caught
+			prize
 
 		New()
 			. = ..()
@@ -420,6 +421,29 @@ obj/quidditch
 					user << "You caught the snitch!!"
 					if(quidditchmatch)
 						quidditchmatch.Score(user, "Snitch")
+					else if(prize)
+						if(prob(50)) // gold prize
+							var/g = rand(10000,15000)
+							user.gold += g
+							user << infomsg("You won [comma(g)] gold.")
+						else // house points prize
+							var/housenum = 1
+							var/points = rand(1,2)
+							switch(user.House)
+								if("Gryffindor")
+									housenum = 1
+								if("Slytherin")
+									housenum = 2
+								if("Ravenclaw")
+									housenum = 3
+								if("Hufflepuff")
+									housenum = 4
+
+							housepointsGSRH[housenum] += points
+
+							user << infomsg("You won [points] house point[points != 1 ? "s" : ""].")
+							world << "\red[points] point[points != 1 ? "s have" : " has"] been added to [user.House]!"
+
 					else
 						world << "[user] has caught the [name]!"
 					del(src)
