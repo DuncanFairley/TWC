@@ -310,6 +310,8 @@ mob
 					step_rand(src)
 					sleep(2)
 
+				if(state != HOSTILE) return
+
 				var/distance = get_dist(src, target)
 				if(!target || !target.loc || target.loc.loc != loc.loc || distance > Range)
 					target = null
