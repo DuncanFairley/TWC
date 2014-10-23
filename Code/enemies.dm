@@ -177,14 +177,17 @@ mob
 			New()
 				. = ..()
 				spawn(1) // fix for monsters not setting their variables if loaded from swap maps
-					Dmg = round(DMGmodifier * ((src.level -1) + 5))
-					MHP = round(HPmodifier * (4 * (src.level - 1) + 200))
-					gold = round(src.level / 2)
-					Expg = round(src.level * 1.3)
-					HP = MHP
+					calcStats()
 					origloc = loc
 					sleep(rand(10,60))
 					state()
+
+			proc/calcStats()
+				Dmg = round(DMGmodifier * ((src.level -1) + 5))
+				MHP = round(HPmodifier * (4 * (src.level - 1) + 200))
+				gold = round(src.level / 2)
+				Expg = round(src.level * 1.3)
+				HP = MHP
 //NEWMONSTERS
 			proc/Death(mob/Player/killer)
 				var/rate = 1
@@ -347,11 +350,7 @@ mob
 			Summoned
 				state = SEARCH
 				New()
-					Dmg = round(DMGmodifier * ((src.level -1) + 5))
-					MHP = round(HPmodifier * (4 * (src.level - 1) + 200))
-					gold = round(src.level / 2)
-					Expg = round(src.level * 1.3)
-					HP = MHP
+					calcStats()
 					spawn(1)
 						state()
 
@@ -366,12 +365,12 @@ mob
 				ReturnToStart()
 					ShouldIBeActive()
 
-				Death()
-
 				Snake
 					icon = 'Animagus.dmi'
 					icon_state="Snake"
 					level = 250
+
+					Death()
 
 				Basilisk
 					icon = 'bassy.dmi'
@@ -382,6 +381,8 @@ mob
 
 					Attack()
 						..()
+
+					Death()
 
 					Search()
 						Wander()
