@@ -18,12 +18,36 @@ obj/spawner
 		spawners += src
 
 RandomEvent
-	var/chance = 0
+	var/chance = 10
 	var/name
 
 	proc/start()
 		for(var/client/C)
 			if(C.mob && C.mob.EventNotifications)winset(C,"mainwindow","flash=2")
+
+
+	EntranceKillZone
+		name = "Entrance Kill Zone"
+		start()
+			..()
+			var/minutes = rand(10,30)
+			world << errormsg("<b>Warning:</b> Hogwarts magical defenses are being suppressed by a dark evil magic, Entrance Hall will become a kill zone in 5 minutes for [minutes] minutes!<br>Move to another area (The library, common room, second floor etc) if you wish to remain safe.")
+			sleep(600)
+			world << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 4 minutes!")
+			sleep(600)
+			world << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 3 minutes!")
+			sleep(600)
+			world << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 2 minutes!")
+			sleep(600)
+			world << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 1 minute!")
+			sleep(600)
+			world << infomsg("Entrance Hall is now a kill zone for [minutes] minutes, defend yourselves from dark wizards who can now enter or other students who feel like murdering you!")
+
+			var/area/entrance = locate(/area/hogwarts/Entrance_Hall)
+			entrance.safezoneoverride = 1
+			sleep(minutes * 600)
+			entrance.safezoneoverride = 0
+			world << infomsg("Hogwarts magical defenses are restored, Entrance Hall is safe again.")
 
 	OldSystem
 		name = "Old Dueling System"
@@ -72,7 +96,7 @@ RandomEvent
 			var/tmpDropRate = DropRateModifier
 			world << infomsg("You sense a strange magic increasing your drop rate by [bonus]% for [minutes] minutes (This stacks with any other bonuses).")
 
-			spawn(minutes * 1)
+			spawn(minutes * 600)
 				if(DropRateModifier == tmpDropRate)
 					world << infomsg("The drop rate bonus event is over.")
 					DropRateModifier -= bonus / 100
