@@ -942,6 +942,7 @@ obj/items/wearable/title
 			if(owner.Rank == title) owner.Rank = "Player"
 
 	Custom
+	Hunter
 	Slayer
 	Rich
 		title = "Rich"
@@ -952,6 +953,12 @@ obj/items/wearable/title
 	Genie
 		title = "Genie's Friend"
 		name  = "Title: Genie's Friend"
+	Warmonger
+		title = "Warmonger"
+		name  = "Title: Warmonger"
+	Warrior
+		title = "Warrior"
+		name  = "Title: Warrior"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
