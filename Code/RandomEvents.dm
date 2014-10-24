@@ -41,9 +41,14 @@ RandomEvent
 			sleep(600)
 			world << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 1 minute!")
 			sleep(600)
+			world << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 10 seconds!") // extra 10 seconds to ensure afk sign toggles on
+			sleep(100)
 			world << infomsg("Entrance Hall is now a kill zone for [minutes] minutes, defend yourselves from dark wizards who can now enter or other students who feel like murdering you!")
 
 			var/area/entrance = locate(/area/hogwarts/Entrance_Hall)
+			for(var/mob/Player/p in entrance)
+				if(p.away) p.loc = locate(49,56,21)
+
 			entrance.safezoneoverride = 1
 			sleep(minutes * 600)
 			entrance.safezoneoverride = 0
