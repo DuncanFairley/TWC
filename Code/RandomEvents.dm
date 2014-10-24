@@ -176,7 +176,8 @@ RandomEvent
 														  /obj/items/lamps/double_drop_rate_lamp,
 														  /obj/items/lamps/double_exp_lamp,
 														  /obj/items/lamps/double_gold_lamp,
-														  /obj/items/lamps/farmer_lamp))
+														  /obj/items/lamps/farmer_lamp,
+														  /obj/items/wearable/title/Warrior))
 					else if(tier == 5)
 						monster.drops = list("100" = list(/obj/items/artifact,
 														  /obj/items/lamps/double_drop_rate_lamp,
@@ -185,18 +186,22 @@ RandomEvent
 														  /obj/items/lamps/triple_drop_rate_lamp,
 														  /obj/items/lamps/triple_exp_lamp,
 														  /obj/items/lamps/triple_gold_lamp,
-														  /obj/items/lamps/farmer_lamp))
+														  /obj/items/lamps/farmer_lamp,
+														  /obj/items/wearable/title/Warrior))
 					else if(tier == 6)
 						monster.drops = list("100" = list(/obj/items/artifact,
 												 		  /obj/items/lamps/triple_drop_rate_lamp,
 												  		  /obj/items/lamps/triple_exp_lamp,
-												  		  /obj/items/lamps/triple_gold_lamp))
+												  		  /obj/items/lamps/triple_gold_lamp,
+												  		  /obj/items/wearable/title/Warrior,
+												  		  /obj/items/wearable/title/Warmonger))
 
 					else if(tier == 7)
 						monster.drops = list("100" = list(/obj/items/artifact,
 												  		  /obj/items/scroll/prize,
 												  		  /obj/items/lamps/triple_drop_rate_lamp,
-												  		  /obj/items/lamps/triple_gold_lamp))
+												  		  /obj/items/lamps/triple_gold_lamp,
+												  		  /obj/items/wearable/title/Warmonger))
 
 				monster.calcStats()
 
@@ -221,7 +226,7 @@ obj/items/scroll/prize
 	accioable = 0
 	wlable = 0
 	name = "Prize Ticket"
-	content = "<body bgcolor=black><u><font color=blue size=3><b>Prize Ticket</b></u></font><br><p><font size=2><font color=white>Turn this scroll to an admin+ to recieve a prize decided by the admin+</p></body>"
+	content = "<body bgcolor=black><u><font color=blue size=3><b>Prize Ticket</b></u></font><br><p><font color=white size=2>Turn this scroll to an admin+ to recieve a prize decided by the admin+.</font></p></body>"
 
 
 	Name(msg as text)
