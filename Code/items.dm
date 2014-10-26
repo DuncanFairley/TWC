@@ -435,6 +435,7 @@ obj/items/wearable/brooms/nimbus_2000
 obj/items/wearable/brooms/cleansweep_seven
 	icon = 'cleansweep_seven_broom.dmi'
 obj/items/wearable/hats
+	wear_layer = FLOAT_LAYER - 4
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(forceremove)return 0
