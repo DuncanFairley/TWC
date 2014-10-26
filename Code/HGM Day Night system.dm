@@ -322,18 +322,18 @@ obj/weather
 	layer = 7	// weather appears over the darkness because I think it looks better that way
 	dontsave=1
 	rain
-		icon = 'misc.dmi'
+		icon = 'weather.dmi'
 		icon_state = "rain"
 		New()
 			src.overlays += image('weather.dmi')
 			..()
 
 	snow
-		icon = 'misc.dmi'
+		icon = 'weather.dmi'
 		icon_state = "snow"
 
 	acid
-		icon = 'misc.dmi'
+		icon = 'weather.dmi'
 		icon_state = "acid"
 
 
