@@ -1994,7 +1994,7 @@ mob/var/dance=0
 mob/var/Immobile=0
 mob/var/IImmobile=0
 obj/Vanishing_Cabnet
-	icon='blue2.dmi'
+	icon='portal.dmi'
 	icon_state="portkey"
 	verb
 		Open()
@@ -2007,7 +2007,7 @@ obj/Vanishing_Cabnet
 
 
 obj/Port_Key
-	icon='blue2.dmi'
+	icon='portal.dmi'
 	icon_state="portkey"
 	verb
 		Touch()
@@ -2142,7 +2142,7 @@ obj/overlay
 obj/portkey
 	var/obj/portkey/partner
 	var/HP = 15
-	icon='blue2.dmi'
+	icon='portal.dmi'
 	icon_state="portkey"
 	New()
 		..()

@@ -427,7 +427,7 @@ turf
 	//				usr<<"Madam Pomfrey:  Very well then. Off you go."
 turf
 	leavediagon
-		icon = 'blue2.dmi'
+		icon = 'portal.dmi'
 		name = "Portal"
 		Entered(mob/M)
 			if(ismob(M))

@@ -143,7 +143,7 @@ obj/teleport
 	var/pass
 	invisibility = 2
 	portkey
-		icon='blue2.dmi'
+		icon='portal.dmi'
 		icon_state="portkey"
 		name = "Port key"
 		invisibility = 0
@@ -645,7 +645,7 @@ client
 var/DevMode
 turf
 	leavereception
-		icon = 'blue2.dmi'
+		icon = 'portal.dmi'
 		name = "Portal"
 		Entered(atom/movable/A)
 			if(ismob(A) && A:key)
@@ -655,14 +655,14 @@ turf
 
 turf
 	leaveauror
-		icon = 'blue2.dmi'
+		icon = 'portal.dmi'
 		name = "Portal"
 		Entered(atom/movable/A)
 			A.loc = locate(87,70,22)
 
 turf
 	leavecellar
-		icon = 'blue2.dmi'
+		icon = 'portal.dmi'
 		name = "Portal"
 		Entered(mob/M)
 			if(ismob(M))

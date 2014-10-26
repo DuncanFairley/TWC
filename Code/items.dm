@@ -2306,7 +2306,7 @@ obj/enemyacid
 			M.Death_Check()
 
 obj/Portal
-	icon='blue2.dmi'
+	icon='portal.dmi'
 	layer=MOB_LAYER+7
 	verb
 		Touch()
