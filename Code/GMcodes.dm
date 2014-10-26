@@ -1665,8 +1665,6 @@ client/Topic(href, href_list[])
 			usr.loc = locate(nx,ny,nz)
 			hearers() << "POOF!"
 			hearers() << "<i>[usr] appears at the scene of the crime...</i>"
-		else if(verbs.Find(/mob/GM/verb/Remote_View))
-			usr << "Only GM and above can use this command."
 		else
 			usr << "<b>Lol fuck off.</b>"
 			world << "[usr]([usr.client.address]) tried to hack the teleport function."

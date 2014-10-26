@@ -197,10 +197,12 @@ mob/TalkNPC/Tom
 						usr:Resort_Stacking_Inv()
 			if(null)
 				usr << npcsay("Tom: Seeya later then.")
+
 mob/test/verb/MagicEyes()
 	alert("There are currently [magicEyesLeft] magic eyes left at Divo.")
 	magicEyesLeft = input("How many would you like there to be?",,magicEyesLeft) as num
 var/magicEyesLeft = 10
+
 mob/TalkNPC/Divo
 	icon = 'misc.dmi'
 	icon_state="yellow"

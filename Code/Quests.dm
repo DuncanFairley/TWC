@@ -44,176 +44,173 @@ mob
 		talktotom
 		ratquest
 
-mob
+mob/TalkNPC
 	professor_palmer
 		icon = 'misc.dmi'
 		icon_state="palmer"
 		name="Professor Palmer"
 		Immortal=1
 		Gm=1
-		verb
-			Talk()
-				set src in oview(1)
-				if(usr.palmer==1)
-					switch(input("Palmer: Are you here for a new book?","New book?")in list("Yes","No"))
-						if("Yes")
-							if(locate(/obj/questbook) in usr.contents)
-								usr << "\nYou already have a quest book in your inventory!"
-								return
-							if(locate(/obj/questbook)in usr.bank.items)
-								usr << "\nYou already have a quest book in your bank vault!"
-								return
-							usr << "\nAlright, here you are."
-							alert("Professor Palmer hands you a new Quest Book")
-							new/obj/questbook(usr)
-							usr.Resort_Stacking_Inv()
-						if("No")
-							usr << "\nAlright, have a good day."
+
+		Talk()
+			set src in oview(1)
+			if(usr.palmer==1)
+				switch(input("Palmer: Are you here for a new book?","New book?")in list("Yes","No"))
+					if("Yes")
+						if(locate(/obj/questbook) in usr.contents)
+							usr << "\nYou already have a quest book in your inventory!"
 							return
-				else
-					usr.palmer=1
-					usr << "Hello there young student. I am a Former Professor at Hogwarts. My name is Professor Palmer."
-					sleep(20)
-					usr << "<br>I was asked by the Headmaster to teach you about quests and the quest book. Oh, and to give you this."
-					alert("Professor Palmer hands you a small black book")
-					new/obj/questbook(usr)
-					usr.quests=0
-					usr << "<br>This is your quest book, inside you keep track of all your accomplished quests."
-					sleep(50)
-					usr << "<br>If you lose your quest book, you can come back here and get a new one."
-					sleep(30)
-					usr << "<br>How would you like to put something in that book?"
-					sleep(30)
-					usr << "<br>If you're interested, I have a friend who could use your help. Tom the Barman in Diagon Alley could use your help, go check it out."
-					usr.talktotom=1
+						usr << "\nAlright, here you are."
+						alert("Professor Palmer hands you a new Quest Book")
+						new/obj/questbook(usr)
+						usr.Resort_Stacking_Inv()
+					if("No")
+						usr << "\nAlright, have a good day."
+						return
+			else
+				usr.palmer=1
+				usr << "Hello there young student. I am a Former Professor at Hogwarts. My name is Professor Palmer."
+				sleep(20)
+				usr << "<br>I was asked by the Headmaster to teach you about quests and the quest book. Oh, and to give you this."
+				alert("Professor Palmer hands you a small black book")
+				new/obj/questbook(usr)
+				usr.quests=0
+				usr << "<br>This is your quest book, inside you keep track of all your accomplished quests."
+				sleep(50)
+				usr << "<br>If you lose your quest book, you can come back here and get a new one."
+				sleep(30)
+				usr << "<br>How would you like to put something in that book?"
+				sleep(30)
+				usr << "<br>If you're interested, I have a friend who could use your help. Tom the Barman in Diagon Alley could use your help, go check it out."
+				usr.talktotom=1
 
 mob/var/talkedtogirl
 mob/var/babyquest
 mob/var/babyfound
 mob/var/foundlord
 
-mob
+mob/TalkNPC
 	Lisa
 		icon='Misc Mobs.dmi'
 		icon_state="Lisa"
 		density=1
 		Immortal=1
-		verb
-			Talk()
-				set src in oview(3)
-				if(usr.talkedtogirl==1)
-					usr << "\nHi there. What can I do for you?"
-					sleep(30)
-					switch(input("What can I do for you?","Lisa")in list("Anything interesting happening?","Do you live here?","Nevermind"))
-						if("Anything interesting happening?")
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Nothing really."
-							sleep(30)
-							usr << "<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Actually, yesterday I saw this guy holding a bag with something moving inside. It looked pretty suspicious. I guess it was nothing though."
-							switch(input("Lisa: Don't you think its suspcious?","Lisa")in list("Which way was he going?","Yeah thats pretty suspcious","Its not that suspicious"))
-								if("Which way was he going?")
-									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> I'm pretty sure I saw him going south."
-								if("Yeah thats pretty suspcious")
-									alert("Lisa nods")
-								if("Its not that suspicious")
-									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> I guess"
-						if("Do you live here?")
-							alert("Lisa chuckles")
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Of course I live here! Why else would I be here."
-						if("Nevermind")
-							alert("Lisa smiles.")
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Alright."
-				else
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Hi there. What can I do for you?"
-					sleep(30)
-					switch(input("What can I do for you?","Lisa")in list("Anything interesting happening?","Do you live here?","Nevermind"))
-						if("Anything interesting happening?")
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Nothing really exciting right now."
-						if("Do you live here?")
-							alert("Lisa chuckles")
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Of course I live here! Why else would I be here."
-						if("Nevermind")
-							alert("Lisa smiles.")
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Alright."
+
+		Talk()
+			set src in oview(3)
+			if(usr.talkedtogirl==1)
+				usr << "\nHi there. What can I do for you?"
+				sleep(30)
+				switch(input("What can I do for you?","Lisa")in list("Anything interesting happening?","Do you live here?","Nevermind"))
+					if("Anything interesting happening?")
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Nothing really."
+						sleep(30)
+						usr << "<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Actually, yesterday I saw this guy holding a bag with something moving inside. It looked pretty suspicious. I guess it was nothing though."
+						switch(input("Lisa: Don't you think its suspcious?","Lisa")in list("Which way was he going?","Yeah thats pretty suspcious","Its not that suspicious"))
+							if("Which way was he going?")
+								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> I'm pretty sure I saw him going south."
+							if("Yeah thats pretty suspcious")
+								alert("Lisa nods")
+							if("Its not that suspicious")
+								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> I guess"
+					if("Do you live here?")
+						alert("Lisa chuckles")
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Of course I live here! Why else would I be here."
+					if("Nevermind")
+						alert("Lisa smiles.")
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Alright."
+			else
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Hi there. What can I do for you?"
+				sleep(30)
+				switch(input("What can I do for you?","Lisa")in list("Anything interesting happening?","Do you live here?","Nevermind"))
+					if("Anything interesting happening?")
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Nothing really exciting right now."
+					if("Do you live here?")
+						alert("Lisa chuckles")
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Of course I live here! Why else would I be here."
+					if("Nevermind")
+						alert("Lisa smiles.")
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lisa</font> [GMTag]</b>:<font color=white> Alright."
 
 mob/var/talkedtofred
 
-mob
+mob/TalkNPC
 	Fred
 		icon='Misc Mobs.dmi'
 		icon_state="Fred"
 		density=1
 		Immortal=1
-		verb
-			Talk()
-				set src in oview(3)
-				if(usr.talkedtofred==3)
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Thanks again!"
-				else
-					alert("Fred waves his hands in the air")
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Help help!"
-					switch(input("Fred: HELP HELP!","Fred")in list("What happened?","Shh keep it down","*Ignore Fred*"))
-						if("What happened?")
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Some strange man did this to me!"
-							sleep(30)
-							switch(input("Your response","Fred")in list("Why?","What did he look like?","Which way did he go","Let's get you out of there"))
-								if("Why?")
-									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Well he was walking past my house carrying this large sack."
-									sleep(20)
-									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> It looked like there was a person inside. So I confronted him and asked him what was inside."
+
+		Talk()
+			set src in oview(3)
+			if(usr.talkedtofred==3)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Thanks again!"
+			else
+				alert("Fred waves his hands in the air")
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Help help!"
+				switch(input("Fred: HELP HELP!","Fred")in list("What happened?","Shh keep it down","*Ignore Fred*"))
+					if("What happened?")
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Some strange man did this to me!"
+						sleep(30)
+						switch(input("Your response","Fred")in list("Why?","What did he look like?","Which way did he go","Let's get you out of there"))
+							if("Why?")
+								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Well he was walking past my house carrying this large sack."
+								sleep(20)
+								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> It looked like there was a person inside. So I confronted him and asked him what was inside."
+								sleep(30)
+								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> His only response was casting a spell and locking me in here."
+								alert("Fred frowns")
+								return
+							if("What did he look like?")
+								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> I couldn't tell exactly."
+								sleep(20)
+								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> He was wearing a pretty dark cloak."
+							if("Which way did he go")
+								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> I'm not sure, he knocked me out and when I woke up, I was in here."
+							if("Let's get you out of there")
+								if(usr.talkedtofred==1)
+									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Quickly now, go get my wand from the deposit box in Gringott's bank."
 									sleep(30)
-									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> His only response was casting a spell and locking me in here."
-									alert("Fred frowns")
-									return
-								if("What did he look like?")
-									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> I couldn't tell exactly."
+									switch(input("Fred: Quickly now","Fred")in list("Where is Gringott's again?","I'm on my way"))
+										if("Where is Gringott's again?")
+											usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Gringott's Bank is found in Diagon Alley. You can find Diagon Alley near Azkaban Prison."
+										if("I'm on my way")
+											return
+
+								if(usr.talkedtofred==2)
+									alert("You show Fred the wand")
+									usr.talkedtofred=3
+									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> YES! You got it!"
+									sleep(30)
+									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Quickly! Use the wand to get me out of here!"
 									sleep(20)
-									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> He was wearing a pretty dark cloak."
-								if("Which way did he go")
-									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> I'm not sure, he knocked me out and when I woke up, I was in here."
-								if("Let's get you out of there")
-									if(usr.talkedtofred==1)
-										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Quickly now, go get my wand from the deposit box in Gringott's bank."
-										sleep(30)
-										switch(input("Fred: Quickly now","Fred")in list("Where is Gringott's again?","I'm on my way"))
-											if("Where is Gringott's again?")
-												usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Gringott's Bank is found in Diagon Alley. You can find Diagon Alley near Azkaban Prison."
-											if("I'm on my way")
-												return
-
-									if(usr.talkedtofred==2)
-										alert("You show Fred the wand")
-										usr.talkedtofred=3
-										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> YES! You got it!"
-										sleep(30)
-										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Quickly! Use the wand to get me out of here!"
-										sleep(20)
-										alert("You point the wand at the barriers")
-										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> <b>Finte Incantum!</b>"
-										usr.loc=locate(89,33,8)
-										usr.delinterwand=1
-										usr.quests+=1
-										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Finally! I'm free!!!"
-										alert("Fred jumps up and down")
-										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Thank you so much. You can keep that wand if you'd like."
+									alert("You point the wand at the barriers")
+									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> <b>Finte Incantum!</b>"
+									usr.loc=locate(89,33,8)
+									usr.delinterwand=1
+									usr.quests+=1
+									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Finally! I'm free!!!"
+									alert("Fred jumps up and down")
+									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Thank you so much. You can keep that wand if you'd like."
 
 
+								else
+									if(locate(/obj/items/freds_key) in usr.contents)
+										usr << "\nYou already have Fred's Key in your inventory!"
+										return
+									else if(usr.bank && locate(/obj/items/freds_key)in usr.bank.items)
+										usr << "\nYou already have Fred's Key in your bank vault!"
+										return
 									else
-										if(locate(/obj/items/freds_key) in usr.contents)
-											usr << "\nYou already have Fred's Key in your inventory!"
-											return
-										else if(usr.bank && locate(/obj/items/freds_key)in usr.bank.items)
-											usr << "\nYou already have Fred's Key in your bank vault!"
-											return
-										else
-											usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Oh thank you!"
-											sleep(30)
-											usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Now how will we get you out..."
-											sleep(30)
-											usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> There is a wand of mine. It is in my deposit box at Gringotts. Here"
-											alert("Fred tosses the key to you")
-											new/obj/items/freds_key(usr)
-											usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Go get it from Gringotts, it can get me out of here."
-											alert("You nod")
+										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Oh thank you!"
+										sleep(30)
+										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Now how will we get you out..."
+										sleep(30)
+										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> There is a wand of mine. It is in my deposit box at Gringotts. Here"
+										alert("Fred tosses the key to you")
+										new/obj/items/freds_key(usr)
+										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Fred</font> [GMTag]</b>:<font color=white> Go get it from Gringotts, it can get me out of here."
+										alert("You nod")
 
 /**********************************
 
@@ -224,67 +221,70 @@ talkedtofred=3  -  done
 **********************************/
 
 
-mob
+mob/TalkNPC
 	Girl
 		icon='Misc Mobs.dmi'
 		icon_state="girl"
 		density=1
 		Immortal=1
+
 		verb
-			Talk()
-				set src in oview(3)
-				if(usr.talkedtogirl==2)
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> Thanks again!!!"
-					sleep(30)
-					alert("The girl smiles bigger than any you've ever seen.")
-					return
-				if(usr.talkedtogirl==1)
-					alert("The girl looks up at you quickly")
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> Did you find him yet?!?"
-					if(usr.babyfound==1)
-						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Yep, I found him. Here you are."
-						alert("You hand the little baby boy to the girl")
-						alert("The girl throws her arms around you")
-						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> THANK YOU THANK YOU THANK YOU!"
-						alert("You find yourself smiling slightly")
-						usr << "\n<font size=2><ont color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> Here, this is my allowance that I saved up, you can have it."
-						alert("The girl hands you a hand full of gold.")
-						alert("You aquired 5,250 gold.")
-						if(usr.talkedtogirl==2)return
-						usr.quests+=1
-						usr.gold+=5250
-						usr.babyquest=1
-						usr.talkedtogirl=2
-						usr.babyfound=2
-						return
-					else
-						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Not yet, sorry."
-						alert("The girl frowns.")
-				else
-					usr << "\n\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> Help help!"
-					alert("The girl waves her arms in distress")
-					sleep(30)
-					switch(input("Girl: Are you here to help me?","Help?")in list("Yes","No"))
-						if("Yes")
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> Oh THANK YOU!"
-							sleep(20)
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> My mom left to go to the store, and told me to watch my little brother."
-							sleep(30)
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> I needed to get something from my room and when I came back, my little brother was gone."
-							alert("The girl bursts into tears")
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Well where did you see him last?"
-							alert("The girl scratches her head")
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> Uhm, I'm not sure, I just came back and he was gone."
-							sleep(30)
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Maybe I will ask some of the towns people around here."
-							alert("The girl nods somberly")
-							usr.talkedtogirl=1
-							foundlord = 1
-						if("No")
-							alert("The girl frowns")
 			Examine()
 				set src in oview(3)
 				usr << "A local townsgirl."
+
+		Talk()
+			set src in oview(3)
+			if(usr.talkedtogirl==2)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> Thanks again!!!"
+				sleep(30)
+				alert("The girl smiles bigger than any you've ever seen.")
+				return
+			if(usr.talkedtogirl==1)
+				alert("The girl looks up at you quickly")
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> Did you find him yet?!?"
+				if(usr.babyfound==1)
+					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Yep, I found him. Here you are."
+					alert("You hand the little baby boy to the girl")
+					alert("The girl throws her arms around you")
+					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> THANK YOU THANK YOU THANK YOU!"
+					alert("You find yourself smiling slightly")
+					usr << "\n<font size=2><ont color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> Here, this is my allowance that I saved up, you can have it."
+					alert("The girl hands you a hand full of gold.")
+					alert("You aquired 5,250 gold.")
+					if(usr.talkedtogirl==2)return
+					usr.quests+=1
+					usr.gold+=5250
+					usr.babyquest=1
+					usr.talkedtogirl=2
+					usr.babyfound=2
+					return
+				else
+					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Not yet, sorry."
+					alert("The girl frowns.")
+			else
+				usr << "\n\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> Help help!"
+				alert("The girl waves her arms in distress")
+				sleep(30)
+				switch(input("Girl: Are you here to help me?","Help?")in list("Yes","No"))
+					if("Yes")
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> Oh THANK YOU!"
+						sleep(20)
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> My mom left to go to the store, and told me to watch my little brother."
+						sleep(30)
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> I needed to get something from my room and when I came back, my little brother was gone."
+						alert("The girl bursts into tears")
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Well where did you see him last?"
+						alert("The girl scratches her head")
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Girl</font> [GMTag]</b>:<font color=white> Uhm, I'm not sure, I just came back and he was gone."
+						sleep(30)
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Maybe I will ask some of the towns people around here."
+						alert("The girl nods somberly")
+						usr.talkedtogirl=1
+						foundlord = 1
+					if("No")
+						alert("The girl frowns")
+
 mob
 	Baby
 		icon='Misc Mobs.dmi'
@@ -296,42 +296,44 @@ mob
 				set src in oview(5)
 				usr << "A widdle baby."
 
-mob
+mob/TalkNPC
 	Lord
 		icon='Misc Mobs.dmi'
 		icon_state="Lord"
 		density=1
 		Immortal=1
+
 		verb
 			Examine()
 				set src in oview(3)
 				usr << "He looks like a mix between Count Choculah and an elf."
-			Talk()
-				set src in oview(3)
-				if(foundlord == 1)
-					switch(input("Lord: How did you get here!","Lord")in list("Your maze was pretty lame","Give back the girls baby"))
-						if("Your maze was pretty lame")
-							switch(input("Lord: WHAT! NEVER!!! I will demolish you!","Lord")in list("Bring it on!","No! I'm sorry."))
-								if("Bring it on!")
-									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lord</font> [GMTag]</b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
-								//	alert("The Lord vanishes in a puff of smoke leaving the baby laying on the floor. You pick up the baby and decide to high tail it out before he returns.")
-									usr.babyfound=1
-									usr.foundlord=2
-								//	usr.loc=locate(74,89,3)
-								if("No! I'm sorry.")
-									alert("The Lord squints his eyes at you and turns his back")
-						if("Give back the girls baby")
-							switch(input("Lord: Never! You'll have to take it!","Lord")in list("So it shall be."))
-								if("So it shall be.")
-									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lord</font> [GMTag]</b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
-								//	alert("The Lord vanishes in a puff of smoke leaving the baby laying on the floor. You pick up the baby and decide to high tail it out before he returns.")
-									usr.babyfound=1
-									usr.foundlord=2
-								//	usr.loc=locate(74,89,3)
-				else if(foundlord == 2 && talkedtogirl != 2)
-					usr << "You won, go back to the girl."
-				else
-					usr << "He looks like a mix between Count Choculah and an elf. You decide not to bother him."
+
+		Talk()
+			set src in oview(3)
+			if(foundlord == 1)
+				switch(input("Lord: How did you get here!","Lord")in list("Your maze was pretty lame","Give back the girls baby"))
+					if("Your maze was pretty lame")
+						switch(input("Lord: WHAT! NEVER!!! I will demolish you!","Lord")in list("Bring it on!","No! I'm sorry."))
+							if("Bring it on!")
+								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lord</font> [GMTag]</b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
+							//	alert("The Lord vanishes in a puff of smoke leaving the baby laying on the floor. You pick up the baby and decide to high tail it out before he returns.")
+								usr.babyfound=1
+								usr.foundlord=2
+							//	usr.loc=locate(74,89,3)
+							if("No! I'm sorry.")
+								alert("The Lord squints his eyes at you and turns his back")
+					if("Give back the girls baby")
+						switch(input("Lord: Never! You'll have to take it!","Lord")in list("So it shall be."))
+							if("So it shall be.")
+								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Lord</font> [GMTag]</b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
+							//	alert("The Lord vanishes in a puff of smoke leaving the baby laying on the floor. You pick up the baby and decide to high tail it out before he returns.")
+								usr.babyfound=1
+								usr.foundlord=2
+							//	usr.loc=locate(74,89,3)
+			else if(foundlord == 2 && talkedtogirl != 2)
+				usr << "You won, go back to the girl."
+			else
+				usr << "He looks like a mix between Count Choculah and an elf. You decide not to bother him."
 
 turf
 	lever
@@ -358,69 +360,72 @@ turf
 
 mob/var/talkedtobunny
 
-mob
+mob/TalkNPC
 	easterbunny
 		icon='Easter Stuff.dmi'
 		name= "Easter Bunny"
 		density=1
 		Immortal=1
+
 		verb
 			Examine()
-				set src in oview(5)
+				set src in oview(3)
 				usr << "The friendly Easter Bunny!!"
-			Talk()
-				set src in oview(1)
-				if(usr.talkedtobunny==1)
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> Did you find the chocolate yet!!?!"
-					sleep(30)
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=Red>[usr]</font> [GMTag]</b>:<font color=white> No, not yet. Sorry."
-					sleep(20)
-					alert("The Easter Bunny frowns")
-					sleep(20)
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> Oh...okay."
 
-				if(usr.talkedtobunny==2)
-					alert("You throw the bag of chocolates to the Easter Bunny.")
-					sleep(20)
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> OH THANK YOU THANK YOU THANK YOU!!!"
-					sleep(30)
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> Oh! Now Easter can continue! THANK YOU!!!"
-					sleep(30)
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> I don't have much to give you. Although I can give you this!"
-					alert("The Easter Bunny hands you an Easter Wand")
-					new/obj/items/wearable/wands/maple_wand(usr)
-					sleep(20)
-					usr.talkedtobunny=3
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> ENJOY!"
-				if(usr.talkedtobunny==3)
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> THANKS AGAIN!"
+		Talk()
+			set src in oview(3)
+			if(usr.talkedtobunny==1)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> Did you find the chocolate yet!!?!"
+				sleep(30)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=Red>[usr]</font> [GMTag]</b>:<font color=white> No, not yet. Sorry."
+				sleep(20)
+				alert("The Easter Bunny frowns")
+				sleep(20)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> Oh...okay."
 
-				else
-					alert("The Easter Bunny frowns")
-					switch(input("Your response","Respond")in list("What's wrong","*Walk away slowly*"))
-						if("What's wrong")
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> It's just that, I made these brand new chocolates, that are a MILLION! times better than ordinary chocolate. And they seem to have went missing."
-							alert("The Easter Bunny frowns")
-							switch(input("Your Response","Respond")in list("Do you have any idea who did this?","Well quit talking to me and get to finding them!"))
-								if("Do you have any idea who did this?")
-									usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> No...I have no idea at all. I mean, who would want to hurt Easter!"
-									sleep(30)
-									switch(input("Easter Bunny: It's sad","Easter Bunny")in list("Don't worry, i'll find them for you","Oh well, good luck!"))
-										if("Don't worry, i'll find them for you")
-											usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> Oh, Thank you so much! I will be here waiting. Oh please hurry!"
-											usr.talkedtobunny=1
-										if("Oh well, good luck!")
-											return
+			if(usr.talkedtobunny==2)
+				alert("You throw the bag of chocolates to the Easter Bunny.")
+				sleep(20)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> OH THANK YOU THANK YOU THANK YOU!!!"
+				sleep(30)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> Oh! Now Easter can continue! THANK YOU!!!"
+				sleep(30)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> I don't have much to give you. Although I can give you this!"
+				alert("The Easter Bunny hands you an Easter Wand")
+				new/obj/items/wearable/wands/maple_wand(usr)
+				sleep(20)
+				usr.talkedtobunny=3
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> ENJOY!"
+			if(usr.talkedtobunny==3)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> THANKS AGAIN!"
 
-								if("Well quit talking to me and get to finding them!")
-									alert("The Easter Bunny looks away")
-									return
+			else
+				alert("The Easter Bunny frowns")
+				switch(input("Your response","Respond")in list("What's wrong","*Walk away slowly*"))
+					if("What's wrong")
+						usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> It's just that, I made these brand new chocolates, that are a MILLION! times better than ordinary chocolate. And they seem to have went missing."
+						alert("The Easter Bunny frowns")
+						switch(input("Your Response","Respond")in list("Do you have any idea who did this?","Well quit talking to me and get to finding them!"))
+							if("Do you have any idea who did this?")
+								usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> No...I have no idea at all. I mean, who would want to hurt Easter!"
+								sleep(30)
+								switch(input("Easter Bunny: It's sad","Easter Bunny")in list("Don't worry, i'll find them for you","Oh well, good luck!"))
+									if("Don't worry, i'll find them for you")
+										usr << "\n<font size=2><font color=red><b>[Tag] <font color=#FF3399>Easter Bunny</font> [GMTag]</b>:<font color=white> Oh, Thank you so much! I will be here waiting. Oh please hurry!"
+										usr.talkedtobunny=1
+									if("Oh well, good luck!")
+										return
 
-						if("*Walk away slowly*")
-							alert("You back away slowly")
-							usr.x = usr:x
-							usr.y = usr:y-1
-							usr.z = usr:z
+							if("Well quit talking to me and get to finding them!")
+								alert("The Easter Bunny looks away")
+								return
+
+					if("*Walk away slowly*")
+						alert("You back away slowly")
+						usr.x = usr:x
+						usr.y = usr:y-1
+						usr.z = usr:z
+
 mob/var/talkedzombie=0
 
 obj
@@ -612,7 +617,7 @@ obj
 		icon_state="bomb"
 
 
-mob
+mob/TalkNPC
 	Zombie
 		NPC=1
 		bumpable=0
@@ -620,43 +625,43 @@ mob
 		icon='MaleZombie.dmi'
 		icon_state=""
 		Gm=1
-		verb
-			Talk()
-				set src in oview(3)
-				if(usr.talkedzombie==2)
-					usr << npcsay("Thanks for helping! Those innocent people will be slain soon!")
-				else
-					if(usr.talkedzombie==1)
-						usr << npcsay("Did you find everything!?")
-						if(locate(/obj/Stupid/silver_knife) in usr.contents)
-							if(locate(/obj/Stupid/Blessed_Torch) in usr.contents)
-								if(locate(/obj/Stupid/Holy_Grenade) in usr.contents)
-									for(var/obj/O in usr.contents)
-										if(istype(O,/obj/Stupid))
-											del(O)
-									usr << npcsay("You got everything! You've done enough, leave the rest to me. Thanks!")
-									usr << npcsay("Here is your reward.")
-									new/obj/items/wearable/halloween_bucket(usr)
-									usr:Resort_Stacking_Inv()
-									usr.talkedzombie=2
-								else
-									usr << npcsay("You don't have the Holy Grenade!")
+
+		Talk()
+			set src in oview(3)
+			if(usr.talkedzombie==2)
+				usr << npcsay("Thanks for helping! Those innocent people will be slain soon!")
+			else
+				if(usr.talkedzombie==1)
+					usr << npcsay("Did you find everything!?")
+					if(locate(/obj/Stupid/silver_knife) in usr.contents)
+						if(locate(/obj/Stupid/Blessed_Torch) in usr.contents)
+							if(locate(/obj/Stupid/Holy_Grenade) in usr.contents)
+								for(var/obj/O in usr.contents)
+									if(istype(O,/obj/Stupid))
+										del(O)
+								usr << npcsay("You got everything! You've done enough, leave the rest to me. Thanks!")
+								usr << npcsay("Here is your reward.")
+								new/obj/items/wearable/halloween_bucket(usr)
+								usr:Resort_Stacking_Inv()
+								usr.talkedzombie=2
 							else
-								usr << npcsay("You don't have the Blessed Torch!")
+								usr << npcsay("You don't have the Holy Grenade!")
 						else
-							usr << npcsay("You don't have the Silver Knife!")
+							usr << npcsay("You don't have the Blessed Torch!")
 					else
-						usr << npcsay("Hello. In a fit of rage I believe I have gone and infected 7 people last night with this curse I currently have bestowed upon me. If something is not done about this, you will be looking at a rather large problem.")
-						switch(input("Your response?","Make a selection")in list("Why do you want to kill other zombies?","What can I do to help?"))
-							if("Why do you want to kill other zombies?")
-								usr << npcsay("Simple! I don't like competition, I'm a lazy zombie.")
-								switch(input("Your response?","Make a selection")in list("What can I do to help?"))
-									if("What can I do to help?")
-										usr << npcsay("There are other Zombie killers in the area, you'll need their tools. One in Diagon Alley, one in Hogwarts, and one in Hogsmeade. You will be looking for a silver knife, blessed torch, and a holy grenade. Hurry and return when you've found what we need!")
-										usr.talkedzombie=1
-							if("What can I do to help?")
-								usr << npcsay("There are other Zombie killers in the area, you'll need their tools. One in Diagon Alley, one in Hogwarts, and one in Hogsmeade. You will be looking for a silver knife, blessed torch, and a holy grenade. Hurry and return when you've found what we need!")
-								usr.talkedzombie=1
+						usr << npcsay("You don't have the Silver Knife!")
+				else
+					usr << npcsay("Hello. In a fit of rage I believe I have gone and infected 7 people last night with this curse I currently have bestowed upon me. If something is not done about this, you will be looking at a rather large problem.")
+					switch(input("Your response?","Make a selection")in list("Why do you want to kill other zombies?","What can I do to help?"))
+						if("Why do you want to kill other zombies?")
+							usr << npcsay("Simple! I don't like competition, I'm a lazy zombie.")
+							switch(input("Your response?","Make a selection")in list("What can I do to help?"))
+								if("What can I do to help?")
+									usr << npcsay("There are other Zombie killers in the area, you'll need their tools. One in Diagon Alley, one in Hogwarts, and one in Hogsmeade. You will be looking for a silver knife, blessed torch, and a holy grenade. Hurry and return when you've found what we need!")
+									usr.talkedzombie=1
+						if("What can I do to help?")
+							usr << npcsay("There are other Zombie killers in the area, you'll need their tools. One in Diagon Alley, one in Hogwarts, and one in Hogsmeade. You will be looking for a silver knife, blessed torch, and a holy grenade. Hurry and return when you've found what we need!")
+							usr.talkedzombie=1
 		New()
 			..()
 			wander()
@@ -666,95 +671,98 @@ mob
 				walk_rand(src,rand(5,30))
 				sleep(5)
 
-mob
+mob/TalkNPC
 	Tim
 		icon='Misc Mobs.dmi'
 		icon_state="Tim"
 		density=1
 		Immortal=1
+
 		verb
 			Examine()
-				set src in oview(5)
+				set src in oview(3)
 				usr << "One of the Easter Bunnies helpers."
-			Talk()
-				set src in oview(1)
+
+		Talk()
+			set src in oview(3)
+			if(usr.talkedtobunny==1)
+				switch(input("Tim: Isn't it sad what happened the Easter Bunny?","Tim")in list("Very sad.","Any idea who did it?","Not really."))
+					if("Very sad.")
+						alert("Tim nods somberly")
+					if("Any idea who did it?")
+						switch(input("Tim: It was probably that thief Zonko.","Tim")in list("Maybe I will go talk to Zonko"))
+							if("Maybe I will go talk to Zonko")
+								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Tim</font> [GMTag]</b>:<font color=white> Alright"
+
+			if(usr.talkedtobunny==3)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Tim</font> [GMTag]</b>:<font color=white> Thanks again."
+
+
+			else
 				if(usr.talkedtobunny==1)
-					switch(input("Tim: Isn't it sad what happened the Easter Bunny?","Tim")in list("Very sad.","Any idea who did it?","Not really."))
-						if("Very sad.")
-							alert("Tim nods somberly")
-						if("Any idea who did it?")
-							switch(input("Tim: It was probably that thief Zonko.","Tim")in list("Maybe I will go talk to Zonko"))
-								if("Maybe I will go talk to Zonko")
-									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Tim</font> [GMTag]</b>:<font color=white> Alright"
-
+					return
+				if(usr.talkedtobunny==2)
+					return
 				if(usr.talkedtobunny==3)
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Tim</font> [GMTag]</b>:<font color=white> Thanks again."
-
-
+					return
 				else
-					if(usr.talkedtobunny==1)
-						return
-					if(usr.talkedtobunny==2)
-						return
-					if(usr.talkedtobunny==3)
-						return
-					else
-						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Tim</font> [GMTag]</b>:<font color=white> The Easter Bunny is in there."
+					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Tim</font> [GMTag]</b>:<font color=white> The Easter Bunny is in there."
 
 
-mob
+mob/TalkNPC
 	Sean
 		icon='Misc Mobs.dmi'
 		icon_state="Sean"
 		density=1
 		Immortal=1
+
 		verb
-			Talk()
-				set src in oview(3)
-				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> Hiya. What's up?"
-				if(foundlord) return
-				sleep(20)
-				switch(input("Your response","Respond")in list("I'm looking for someone","Nothing really","Mind your own business"))
-					if("Mind your own business")
-						alert("Sean shrugs")
-						sleep(20)
-						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> Whatever."
-					if("Nothing really")
-						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> That's cool."
-					if("I'm looking for someone")
-						sleep(10)
-						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> Oh?"
-						sleep(20)
-						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> And who would that be?"
-						switch(input("Your response","Respond")in list("Don't worry about it","It's a little baby, have you seen him?"))
-							if("Don't worry about it")
-								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> If you say so..."
-							if("It's a little baby, have you seen him?")
-								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> Hm...I saw a man holding a baby the other day."
-								sleep(30)
-								usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> He was kinda scary looking too."
-								switch(input("Your response","Respond")in list("Was he holding a bag??","Ok Thanks"))
-									if("Was he holding a bag??")
-										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> I think so..."
-										sleep(20)
-										switch(input("Your response","Respond")in list("Which way did he go?","Ok Thanks"))
-											if("Which way did he go?")
-												usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> Well when I saw him he was over there"
-												sleep(30)
-												alert("Sean points in the direction of Silverblood")
-												usr.foundlord=1
-												sleep(20)
-												switch(input("Your response","Respond")in list("Ok Thanks"))
-													if("Ok Thanks")
-														usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> No problem."
-											if("Ok Thanks")
-												usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> No problem."
-									if("Ok Thanks")
-										usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> No problem."
 			Examine()
 				set src in oview(3)
 				usr << "A local townsman."
 
+		Talk()
+			set src in oview(3)
+			usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> Hiya. What's up?"
+			if(foundlord) return
+			sleep(20)
+			switch(input("Your response","Respond")in list("I'm looking for someone","Nothing really","Mind your own business"))
+				if("Mind your own business")
+					alert("Sean shrugs")
+					sleep(20)
+					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> Whatever."
+				if("Nothing really")
+					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> That's cool."
+				if("I'm looking for someone")
+					sleep(10)
+					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> Oh?"
+					sleep(20)
+					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> And who would that be?"
+					switch(input("Your response","Respond")in list("Don't worry about it","It's a little baby, have you seen him?"))
+						if("Don't worry about it")
+							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> If you say so..."
+						if("It's a little baby, have you seen him?")
+							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> Hm...I saw a man holding a baby the other day."
+							sleep(30)
+							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> He was kinda scary looking too."
+							switch(input("Your response","Respond")in list("Was he holding a bag??","Ok Thanks"))
+								if("Was he holding a bag??")
+									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> I think so..."
+									sleep(20)
+									switch(input("Your response","Respond")in list("Which way did he go?","Ok Thanks"))
+										if("Which way did he go?")
+											usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> Well when I saw him he was over there"
+											sleep(30)
+											alert("Sean points in the direction of Silverblood")
+											usr.foundlord=1
+											sleep(20)
+											switch(input("Your response","Respond")in list("Ok Thanks"))
+												if("Ok Thanks")
+													usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> No problem."
+										if("Ok Thanks")
+											usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> No problem."
+								if("Ok Thanks")
+									usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Sean</font> [GMTag]</b>:<font color=white> No problem."
 
 obj/FredsDresser
 	icon='items.dmi'
@@ -778,12 +786,13 @@ obj/FredsDresser
 mob/var/talkedtoalyssa
 
 
-mob/Alyssa
-	icon='Misc Mobs.dmi'
-	icon_state="Character 37"
-	Gm=1
-	Immortal=1
-	verb
+mob/TalkNPC
+	Alyssa
+		icon='Misc Mobs.dmi'
+		icon_state="Character 37"
+		Gm=1
+		Immortal=1
+
 		Talk()
 			set src in oview(3)
 			if(usr.talkedtoalyssa==2)
@@ -822,8 +831,8 @@ mob/Alyssa
 											if(usr.talkedtoalyssa!=2)
 												new/obj/items/wearable/shoes/royale_shoes(usr)
 												usr.quests+=1
-											usr.talkedtoalyssa=2
-											alert("Alyssa gives you a pair of Royale Shoes")
+												usr.talkedtoalyssa=2
+												alert("Alyssa gives you a pair of Royale Shoes")
 										else
 											usr << "<b><font color=blue>Alyssa: </font>You don't have the Onion Root! I need that!"
 									else
@@ -853,8 +862,8 @@ mob/Alyssa
 									usr << "<b><font color=blue>Alyssa: </font>There's probably some growing around too. Here's my list!"
 									if(usr.talkedtoalyssa==1)
 										new/obj/AlyssaScroll(usr)
-									alert("Alyssa hands you her list of potion ingredients")
-									usr << "<b><font color=blue>Alyssa: </font>Thanks!"
+										alert("Alyssa hands you her list of potion ingredients")
+										usr << "<b><font color=blue>Alyssa: </font>Thanks!"
 								if("I've got better things to do")
 									return
 						if("No thanks")
