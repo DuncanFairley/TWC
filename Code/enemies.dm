@@ -140,6 +140,7 @@ mob
 				src << "New connection started."
 mob
 	NPC
+		icon = 'Mobs.dmi'
 		see_invisible = 1
 		var/activated = 0
 		var/HPmodifier = 0.9
@@ -366,14 +367,13 @@ mob
 					ShouldIBeActive()
 
 				Snake
-					icon = 'Animagus.dmi'
-					icon_state="Snake"
+					icon_state = "snake"
 					level = 250
 
 					Death()
 
 				Basilisk
-					icon = 'bassy.dmi'
+					icon_state = "basilisk"
 					HPmodifier = 3
 					DMGmodifier = 3
 					MoveDelay = 3
@@ -418,7 +418,6 @@ mob
 						density = 1
 
 				Phoenix
-					icon = 'monsters2.dmi'
 					icon_state = "bird"
 					level = 6
 
@@ -441,37 +440,29 @@ mob
 						..()
 
 			Rat
-				icon = 'monsters.dmi'
-				icon_state="demon rat"
+				icon_state = "rat"
 				ratpoints = 1
 				level = 10
 			Demon_Rat
-				icon = 'monsters.dmi'
-				icon_state="demon rat"
+				icon_state = "demon rat"
 				level = 50
 			Pixie
-				icon = 'monsters2.dmi'
-				icon_state="pixie"
+				icon_state = "pixie"
 				level = 100
 			Dog
-				icon = 'NewMobs.dmi'
-				icon_state="dog"
+				icon_state = "dog"
 				level = 150
 			Snake
-				icon = 'Animagus.dmi'
-				icon_state="Snake"
+				icon_state = "snake"
 				level = 200
 			Wolf
-				icon = 'monsters2.dmi'
-				icon_state="wolf"
+				icon_state = "wolf"
 				level = 300
 			Acromantula
-				icon = 'monster.dmi'
-				icon_state="Spider"
+				icon_state = "spider"
 				level = 700
 			Floating_Eye
-				icon = 'monsters.dmi'
-				icon_state="eye"
+				icon_state = "eye"
 				level = 800
 				HPmodifier = 1.8
 				var/tmp/fired = 0
@@ -532,35 +523,29 @@ mob
 							sleep(AttackDelay)
 
 			Troll
-				icon = 'monsters2.dmi'
-				icon_state="troll"
+				icon_state = "troll"
 				level = 350
 			House_Elf
-				icon = 'monsters2.dmi'
-				icon_state="houseelf"
+				icon_state = "houseelf"
 				level = 5
-			Stone_Golem
-				icon = 'monsters.dmi'
+			/*Stone_Golem
+				icon = 'Mobs.dmi'
 				icon_state="stonegolem"
-				level = 6
+				level = 6*/
 			Dementor
-				icon = 'monsters2.dmi'
-				icon_state="Dementor"
+				icon_state = "dementor"
 				level = 750
 			Dementor_ /////SUMMONED/////
-				icon = 'monsters2.dmi'
-				icon_state="Dementor"
+				icon_state = "dementor"
 				level = 300
 			Stickman_ ///SUMMONED///
-				icon = 'stickman.dmi'
+				icon_state = "stickman"
 				level = 500
 			Bird_    ///SUMMONED///
-				icon = 'monsters2.dmi'
-				icon_state="bird"
+				icon_state = "bird"
 				level = 6
 			Fire_Bat
-				icon = 'monsters.dmi'
-				icon_state="firebat"
+				icon_state = "firebat"
 				level = 400
 				var/tmp/fired = 0
 				AttackDelay = 3
@@ -591,8 +576,7 @@ mob
 						step_rand(src)
 						sleep(2)
 			Fire_Golem
-				icon = 'monsters.dmi'
-				icon_state="firegolem"
+				icon_state = "firegolem"
 				level = 450
 				AttackDelay = 3
 				var/tmp/fired = 0
@@ -624,8 +608,7 @@ mob
 						sleep(2)
 
 			Slug
-				icon='NewMobs.dmi'
-				icon_state="slug"
+				icon_state = "slug"
 				monster=1
 				player=0
 				New()
@@ -637,23 +620,19 @@ mob
 							sleep(100)
 							del src
 			ArchAngel
-				icon = 'monsters.dmi'
-				icon_state="archangel"
+				icon_state = "archangel"
 				level = 500
 			Water_Elemental
-				icon = 'monster.dmi'
-				icon_state="water elemental"
+				icon_state = "water elemental"
 				level = 550
 			Fire_Elemental
-				icon = 'monster.dmi'
-				icon_state="fire elemental"
+				icon_state = "fire elemental"
 				level = 600
 			Wyvern
-				icon = 'monster.dmi'
-				icon_state="wyvern"
+				icon_state = "wyvern"
 				level = 650
 			Basilisk
-				icon = 'bassy.dmi'
+				icon_state = "basilisk"
 				level = 2000
 				HPmodifier = 3
 				DMGmodifier = 3
@@ -690,7 +669,7 @@ mob
 
 mob
 	Dog
-		icon = 'NewMobs.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="dog"
 		see_invisible = 1
 		gold = 5
@@ -733,7 +712,7 @@ mob
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 	Wolf
-		icon = 'monsters2.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="wolf"
 		gold = 10
 		HP = 15
@@ -775,8 +754,8 @@ mob
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 	Snake
-		icon = 'Animagus.dmi'
-		icon_state="Snake"
+		icon = 'Mobs.dmi'
+		icon_state="snake"
 		HP = 300
 		MHP = 500
 		player = 0
@@ -817,8 +796,8 @@ mob
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 	Snake_
-		icon = 'Animagus.dmi'
-		icon_state="Snake"
+		icon = 'Mobs.dmi'
+		icon_state="snake"
 		HP = 300
 		see_invisible = 1
 		MHP = 500
@@ -861,7 +840,7 @@ mob
 			spawn(10)if(M)Attack(M)
 
 	Pixie
-		icon = 'monsters2.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="pixie"
 		gold = 10
 		HP = 50
@@ -903,7 +882,7 @@ mob
 			spawn(10)Attack(M)
 
 	Demon_Rat
-		icon = 'monsters.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="demon rat"
 		gold = 25
 		HP = 100
@@ -944,8 +923,8 @@ mob
 			spawn(10)Attack(M)
 
 	Rat
-		icon = 'monsters.dmi'
-		icon_state="demon rat"
+		icon = 'Mobs.dmi'
+		icon_state="rat"
 		gold = 25
 		HP = 100
 		MHP = 100
@@ -986,7 +965,7 @@ mob
 			spawn(10)Attack(M)
 
 	Troll
-		icon = 'monsters2.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="troll"
 		gold = 50
 		HP = 200
@@ -1028,7 +1007,7 @@ mob
 			spawn(10)Attack(M)
 
 	House_Elf
-		icon = 'monsters2.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="houseelf"
 		gold = 0
 		HP = 200
@@ -1043,8 +1022,8 @@ mob
 
 
 
-	Stone_Golem
-		icon = 'monsters.dmi'
+	/*Stone_Golem
+		icon = 'Mobs.dmi'
 		icon_state="stonegolem"
 		gold = 75
 		HP = 500
@@ -1082,11 +1061,11 @@ mob
 				M.HP -= dmg
 				hearers()<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
+			spawn(10)Attack(M)*/
 
 	Dementor
-		icon = 'monsters2.dmi'
-		icon_state="Dementor"
+		icon = 'Mobs.dmi'
+		icon_state="dementor"
 		gold = 75
 		HP = 900
 		see_invisible = 1
@@ -1126,8 +1105,8 @@ mob
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 	Dementor_
-		icon = 'monsters2.dmi'
-		icon_state="Dementor"
+		icon = 'Mobs.dmi'
+		icon_state="dementor"
 		gold = 0
 		Expg = 0
 		HP = 500
@@ -1171,7 +1150,8 @@ mob
 			spawn(10)Attack(M)
 
 	Stickman_
-		icon = 'stickman.dmi'
+		icon = 'Mobs.dmi'
+		icon_state = "stickman"
 		gold = 0
 		HP = 50
 		MHP = 50
@@ -1214,7 +1194,7 @@ mob
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 	Bird_
-		icon = 'monsters2.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="bird"
 		gold = 0
 		HP = 10000
@@ -1258,7 +1238,7 @@ mob
 				hearers()<<"<SPAN STYLE='color: red'>[src] heals [M]!</SPAN>"
 			spawn(10)Attack(M)
 	Fire_Bat
-		icon = 'monsters.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="firebat"
 		gold = 80
 		HP = 600
@@ -1309,7 +1289,7 @@ mob
 				spawn()Attack(A)
 				return
 	Fire_Golem
-		icon = 'monsters.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="firegolem"
 		gold = 85
 		HP = 1000
@@ -1337,7 +1317,7 @@ mob
 					walk(S,usr.dir,2)
 
 	Slug
-		icon='NewMobs.dmi'
+		icon='Mobs.dmi'
 		icon_state="slug"
 		monster=1
 		see_invisible = 1
@@ -1356,8 +1336,8 @@ mob
 			..()
 
 	Acromantula
-		icon = 'monster.dmi'
-		icon_state="Spider"
+		icon = 'Mobs.dmi'
+		icon_state="spider"
 		gold = 70
 		HP = 500
 		MHP = 500
@@ -1396,8 +1376,8 @@ mob
 				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
-	Ice_Muck
-		icon = 'monsters.dmi'
+	/*Ice_Muck
+		icon = 'Mobs.dmi'
 		icon_state="icemuck"
 		gold = 100
 		HP = 1000
@@ -1449,7 +1429,7 @@ mob
 					hearers()<<"<SPAN STYLE='color: red'>[src] bashes [E] for [damage] damage!</SPAN>"
 					E.Death_Check(src)
 	Scorpion
-		icon = 'monsters.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="scorpion"
 		gold = 125
 		HP = 1500
@@ -1504,10 +1484,10 @@ mob
 					if(poisoning==3)
 						hearers()<<"<SPAN STYLE='color: red'>[src]'s sting has poisoned [E]!</SPAN>"
 						E.status="(Poison)"
-					E.Death_Check(src)
+					E.Death_Check(src)*/
 
 	Floating_Eye
-		icon = 'monsters.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="eye"
 		gold = 400
 		HP = 3000
@@ -1549,7 +1529,7 @@ mob
 			spawn(10)Attack(M)
 
 	Water_Elemental
-		icon = 'monster.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="water elemental"
 		gold = 600
 		HP = 5000
@@ -1591,7 +1571,7 @@ mob
 			spawn(10)Attack(M)
 
 	Wyvern
-		icon = 'monster.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="wyvern"
 		gold = 670
 		HP = 5000
@@ -1634,7 +1614,7 @@ mob
 
 
 	Fire_Elemental
-		icon = 'monster.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="fire elemental"
 		gold = 650
 		HP = 5000
@@ -1677,7 +1657,7 @@ mob
 			spawn(10)Attack(M)
 
 	ArchAngel
-		icon = 'monsters.dmi'
+		icon = 'Mobs.dmi'
 		icon_state="archangel"
 		gold = 300
 		HP = 3000
@@ -1718,7 +1698,8 @@ mob
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
 	Basilisk
-		icon = 'bassy.dmi'
+		icon = 'Mobs.dmi'
+		icon_state = "basilisk"
 		gold = 1000
 		HP = 150000
 		MHP = 150000

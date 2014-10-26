@@ -578,8 +578,7 @@ mob/Turkey
 	NPC=1
 	bumpable=0
 	Immortal=1
-	icon='monster.dmi'
-	icon_state="Turkey"
+	icon='Turkey.dmi'
 	Gm=1
 	//Names the NPC//Do i really need to say... Sets their ICON STATE
 	New()//States that its calling a new something ^_^
@@ -624,7 +623,7 @@ mob/TalkNPC/Broom_Salesman
 
 
 obj/The_Dark_Mark
-	icon = 'monsters2.dmi'
+	icon = 'Mobs.dmi'
 	icon_state="Darkmark"
 	luminosity=21
 

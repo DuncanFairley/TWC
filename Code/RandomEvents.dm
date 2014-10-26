@@ -122,31 +122,31 @@ RandomEvent
 			switch(tier)
 				if(1)
 					_name       = "Rat"
-					_icon       = 'monsters.dmi'
-					_icon_state = "demon rat"
+					_icon       = 'Mobs.dmi'
+					_icon_state = "rat"
 				if(2)
 					_name       = "Demon Rat"
-					_icon       = 'monsters.dmi'
+					_icon       = 'Mobs.dmi'
 					_icon_state = "demon rat"
 				if(3)
 					_name       = "Pixie"
-					_icon       = 'monsters2.dmi'
+					_icon       = 'Mobs.dmi'
 					_icon_state = "pixie"
 				if(4)
 					_name       = "Dog"
-					_icon       = 'NewMobs.dmi'
+					_icon       = 'Mobs.dmi'
 					_icon_state = "dog"
 				if(5)
 					_name       = "Snake"
-					_icon       = 'Animagus.dmi'
-					_icon_state = "Snake"
+					_icon       = 'Mobs.dmi'
+					_icon_state = "snake"
 				if(6)
 					_name       = "Wolf"
-					_icon       = 'monsters2.dmi'
+					_icon       = 'Mobs.dmi'
 					_icon_state = "wolf"
 				if(7)
 					_name       = "Troll"
-					_icon       = 'monsters2.dmi'
+					_icon       = 'Mobs.dmi'
 					_icon_state = "troll"
 
 			world << infomsg("[_name]s are invading for [minutes] minutes, they're right outside Hogwarts, defend the castle!<br>(The monsters have a leader, stronger than the rest, he drops a valuable prize based on level)")
