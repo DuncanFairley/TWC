@@ -60,9 +60,6 @@ mob/TalkNPC
 						if(locate(/obj/questbook) in usr.contents)
 							usr << "\nYou already have a quest book in your inventory!"
 							return
-						if(locate(/obj/questbook)in usr.bank.items)
-							usr << "\nYou already have a quest book in your bank vault!"
-							return
 						usr << "\nAlright, here you are."
 						alert("Professor Palmer hands you a new Quest Book")
 						new/obj/questbook(usr)

@@ -58,7 +58,7 @@ Event
 							if("acid")        weather.acid()
 							if("snow")        weather.snow()
 							if("rain")        weather.rain()
-							if("cloudy")      weather.clear(100)
+							if("cloudy")      weather.clear(75)
 							if("half cloudy") weather.clear(50)
 							if("sunny")       weather.clear()
 						disable = FALSE
@@ -70,12 +70,15 @@ Event
 		fire()
 			..()
 			spawn()
-				if(prob(30)) // old duel system event
-					var/delay = rand(10,30) // event will be 10 to 30 minutes
-					world << infomsg("Old dueling system is active for [delay] minutes outside!")
-					for(var/area/A in outside_areas)
-						A.oldsystem = 1
-						spawn(delay * 600) A.oldsystem = 0
+				if(classdest)
+					for(var/mob/Player/p in Players)
+						if(p.Gm)
+							world << errormsg("<b>Autoamted event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
+				else if(!clanwars)
+					for(var/RandomEvent/e in events)
+						if(prob(e.chance))
+							e.start()
+							break
 
 
 				scheduler.schedule(src, world.tick_lag * rand(36000, 108000))  // 1 to 3 hours
@@ -86,6 +89,8 @@ var/list/weather_effects = list("acid"        = 5,
 								"cloudy"      = 10,
 								"half cloudy" = 20,
 								"sunny"       = 100)
+
+
 proc
 	init_events()
 		scheduler.start()
@@ -93,7 +98,7 @@ proc
 		init_books()
 		spawn() init_clanwars()
 		init_weather()
-		scheduler.schedule(new/Event/RandomEvents, world.tick_lag * rand(3000, 36000)) // 5 minutes to 1 hour
+		init_random_events()
 
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)

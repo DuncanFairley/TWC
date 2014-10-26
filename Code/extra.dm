@@ -403,53 +403,6 @@ var/list/wholist = list("Gryffindor" = new/obj/wholist/Gryffindor,
 						"Ministry" = new/obj/wholist/Ministry,
 						"Empty" = new/obj/wholist/Empty)
 
-obj/HM_Class
-	icon='statues.dmi'
-	icon_state="sign"
-	density=1
-	wlable=0
-	verb
-		Read_()
-			set src in oview(1)
-			usr<<"<b> This is the Headmasters Classroom. Classes held by the headmaster covers all subjects."
-
-obj/Signage
-	icon='statues.dmi'
-	icon_state="sign"
-	density=1
-	dontsave=1
-	wlable=0
-	verb
-		Read_()
-			set src in oview(1)
-			usr<< src.desc
-
-obj/sign1
-	icon='statues.dmi'
-	icon_state="sign"
-	dontsave=1
-	density=1
-	verb
-		Read_sign()
-			set src in oview(10)
-			set name="Read"
-			if(desc)
-				usr<<desc
-			else
-				usr << "<font color=red><b>[name]</b></font>"
-obj/sign2
-	icon='statues.dmi'
-	icon_state="sign3"
-	dontsave=1
-	density=1
-	verb
-		Read_sign()
-			set src in oview(10)
-			set name="Read"
-			if(desc)
-				usr<<desc
-			else
-				usr << "<font color=red><b>[name]</b></font>"
 obj/items/quidditchbox
 	verb
 		Withdraw_Quaffle()

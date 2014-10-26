@@ -99,15 +99,15 @@ proc/init_clanwars()
 
 	if(thursday != -1)
 		var/Event/ClanWars/e = new
-		events["Thursday - 21"] = e
+		clanwars_schedule["Thursday - 21"] = e
 		scheduler.schedule(e, world.tick_lag * 10 * thursday)
 	if(tuesday  != -1)
 		var/Event/ClanWars/e = new
-		events["Tuesday - 13"] = e
+		clanwars_schedule["Tuesday - 13"] = e
 		scheduler.schedule(e, world.tick_lag * 10 * tuesday)
 	if(saturday != -1)
 		var/Event/ClanWars/e = new
-		events["Saturday - 5"] = e
+		clanwars_schedule["Saturday - 5"] = e
 		scheduler.schedule(e, world.tick_lag * 10 * saturday)
 
 

@@ -4,7 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-var/list/events = list()
+var/list/clanwars_schedule = list()
 
 proc/time_until(day, hour)
 
@@ -20,15 +20,15 @@ proc/time_until(day, hour)
 
 var/DropRateModifier = 1
 mob/GM/verb
-	Events(var/Event/e in events)
+	Clan_Wars_Schedule(var/Event/e in clanwars_schedule)
 		set category = "Staff"
 		switch(alert(src, "What do you want to do?", "Events", "Cancel Event", "Check Time", "Nothing"))
 			if("Cancel Event")
-				scheduler.cancel(events[e])
-				events.Remove(e)
+				scheduler.cancel(clanwars_schedule[e])
+				clanwars_schedule.Remove(e)
 				src << infomsg("Event cancelled.")
 			if("Check Time")
-				var/ticks = scheduler.time_to_fire(events[e])
+				var/ticks = scheduler.time_to_fire(clanwars_schedule[e])
 				src << infomsg("[comma(ticks)] ticks until event starts.")
 
 	Weather(var/effect in weather_effects, var/prob as num)
@@ -36,6 +36,12 @@ mob/GM/verb
 		weather_effects[effect] = prob
 		bubblesort_by_value(weather_effects)
 		src << infomsg("[effect] has [prob] probability to occur.")
+
+	Events(var/RandomEvent/e in events, var/prob as num)
+		set category = "Events"
+		e.chance = prob
+		bubblesort_by_value(events, "chance")
+		src << infomsg("[e] has [e.chance] probability to occur.")
 
 	Set_Drop_Rate(var/rate as num)
 		set category = "Staff"
@@ -48,7 +54,7 @@ mob/GM/verb
 		var/date = time_until(day, hour)
 		if(date != -1)
 			var/Event/ClanWars/e = new
-			events["[day] - [hour]"] = e
+			clanwars_schedule["[day] - [hour]"] = e
 			scheduler.schedule(e, world.tick_lag * 10 * date)
 			usr << infomsg("Clan wars scheduled ([comma(date)])")
 		else
