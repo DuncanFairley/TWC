@@ -46,7 +46,7 @@ Weather
 			clouds(100)
 			for(var/area/A in outside_areas)
 				A:SetWeather(/obj/weather/snow)
-				A.dmg = 0.75
+				A.dmg = round(1,0.75)
 
 		clear(p = 10)
 			clouds(p)
@@ -112,6 +112,7 @@ obj/cloud
 		shadow               = new
 		shadow.icon          = icon
 		shadow.icon_state    = "[icon_state]_shadow"
+		shadow.layer         = 5
 		shadow.mouse_opacity = 0
 		shadow.loc           = locate(x, y - rand(6,10), z)
 
@@ -312,11 +313,11 @@ mob/GM/verb
 		return
 		for(var/area/outside/O in world)
 			spawn() O.daycycle()
-/*	Night()
+	/*Night()
 		set category = "Server"
 		for(var/area/outside/O in world)
-			spawn() O.nightcycle()
-*/
+			spawn() O.nightcycle()*/
+
 
 obj/weather
 	layer = 7	// weather appears over the darkness because I think it looks better that way
