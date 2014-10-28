@@ -281,7 +281,7 @@ mob/TalkNPC
 						usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Maybe I will ask some of the towns people around here."
 						alert("The girl nods somberly")
 						usr.talkedtogirl=1
-						foundlord = 1
+						usr.foundlord = 1
 					if("No")
 						alert("The girl frowns")
 
@@ -310,7 +310,7 @@ mob/TalkNPC
 
 		Talk()
 			set src in oview(3)
-			if(foundlord == 1)
+			if(usr.foundlord == 1)
 				switch(input("Lord: How did you get here!","Lord")in list("Your maze was pretty lame","Give back the girls baby"))
 					if("Your maze was pretty lame")
 						switch(input("Lord: WHAT! NEVER!!! I will demolish you!","Lord")in list("Bring it on!","No! I'm sorry."))
