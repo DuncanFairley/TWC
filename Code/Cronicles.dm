@@ -92,10 +92,26 @@ proc
 			housepointsGSRH[4] = 0
 			housepointsGSRH[5] = 0
 			housepointsGSRH[6] = 0
+
+		var/list/cw
+		X["magicEyesLeft"] >> cw
+		if(cw && cw.len)
+			spawn()
+				for(var/c in cw)
+					if(!(c in clanwars_schedule))
+						var/list/l = split(c, " - ")
+						add_clan_wars(l[1], l[2])
+
 	Save_World()
 		fdel("players/World.sav")
 		var/savefile/X = new("players/World.sav")
 		//var/list/objs=list()
+
+		var/list/cw = list()
+		for(var/e in clanwars_schedule)
+			cw += e
+
+		X["ClanWars"] << cw
 		X["DJs"] << DJs
 		X["DPEditors"] << dp_editors
 		X["Stories"] << stories

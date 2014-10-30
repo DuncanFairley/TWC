@@ -91,26 +91,6 @@ clan_wars
 			toggle_clanwars()
 
 
-proc/init_clanwars()
-	var
-		thursday = time_until("Thursday", "21")
-		tuesday  = time_until("Tuesday",  "13")
-		saturday = time_until("Saturday", "5")
-
-	if(thursday != -1)
-		var/Event/ClanWars/e = new
-		clanwars_schedule["Thursday - 21"] = e
-		scheduler.schedule(e, world.tick_lag * 10 * thursday)
-	if(tuesday  != -1)
-		var/Event/ClanWars/e = new
-		clanwars_schedule["Tuesday - 13"] = e
-		scheduler.schedule(e, world.tick_lag * 10 * tuesday)
-	if(saturday != -1)
-		var/Event/ClanWars/e = new
-		clanwars_schedule["Saturday - 5"] = e
-		scheduler.schedule(e, world.tick_lag * 10 * saturday)
-
-
 mob/test/verb/Toggle_Clanwars()
 	toggle_clanwars()
 	if(clanwars)

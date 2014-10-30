@@ -49,13 +49,18 @@ mob/GM/verb
 		src << infomsg("Drop rate modifier set to [rate]")
 
 
-	Schedule_Clanwars(var/hour as text, var/day as text)
+	Schedule_Clanwars(var/day as text, var/hour as text)
 		set category = "Staff"
-		var/date = time_until(day, hour)
+		var/date = add_clan_wars(day, hour)
 		if(date != -1)
-			var/Event/ClanWars/e = new
-			clanwars_schedule["[day] - [hour]"] = e
-			scheduler.schedule(e, world.tick_lag * 10 * date)
 			usr << infomsg("Clan wars scheduled ([comma(date)])")
 		else
 			usr << errormsg("Could not schedule clan wars.")
+
+proc/add_clan_wars(var/day, var/hour)
+	var/date = time_until(day, hour)
+	if(date != -1)
+		var/Event/ClanWars/e = new
+		clanwars_schedule["[day] - [hour]"] = e
+		scheduler.schedule(e, world.tick_lag * 10 * date)
+	return date

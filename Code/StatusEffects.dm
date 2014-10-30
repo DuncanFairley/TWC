@@ -96,7 +96,6 @@ proc
 		scheduler.start()
 
 		init_books()
-		spawn() init_clanwars()
 		init_weather()
 		init_random_events()
 
