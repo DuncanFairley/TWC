@@ -90,7 +90,6 @@ clan_wars
 
 			toggle_clanwars()
 
-
 mob/test/verb/Toggle_Clanwars()
 	toggle_clanwars()
 	if(clanwars)
@@ -106,6 +105,9 @@ proc/toggle_clanwars()
 		for(var/mob/Player/M in Players)
 			if(M.Auror || M.DeathEater)
 				M.ClanwarsInfo()
+				if(M.EventNotifications)
+					winset(M, "mainwindow", "flash=2")
+
 		for(var/obj/clanpillar/C in locate(/area/AurorHQ))
 			C.enable(100)
 		for(var/obj/clanpillar/C in locate(/area/DEHQ))

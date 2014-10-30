@@ -94,7 +94,6 @@ var/list/weather_effects = list("acid"        = 5,
 proc
 	init_events()
 		scheduler.start()
-
 		init_books()
 		init_weather()
 		init_random_events()
