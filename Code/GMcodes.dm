@@ -948,7 +948,6 @@ mob
 			set category = "Staff"
 			if(M.mute==0)
 				M.mute=1
-				M.verbs -= /mob/Player/verb/PM
 				world << "\red <b>[M] has been silenced by [usr].</b>"
 				var/timer = input("Set timer for mute in /minutes/ (Leave as 0 for mute to stick until you remove it)","Mute timer",0) as num|null
 				if(timer==null)return
