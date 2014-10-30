@@ -513,6 +513,26 @@ proc
 				L.Add(p)
 		return L
 
+	split(txt, d)
+		#ifdef DEBUG
+		ASSERT(istext(txt))
+		ASSERT(istext(d))
+		ASSERT(d)
+		#endif
+
+		var/pos = findtext(txt, d)
+		var/start = 1
+		var/dlen = length(d)
+
+		. = list()
+
+		while(pos > 0)
+			. += copytext(txt, start, pos)
+			start = pos + dlen
+			pos = findtext(txt, d, start)
+
+		. += copytext(txt, start)
+
 mob/Player
 	proc
 		nofly()
