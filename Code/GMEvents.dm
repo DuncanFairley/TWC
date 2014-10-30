@@ -121,6 +121,15 @@ mob/GM
 						EditVal = input("Value:","Reference") as area|turf|obj|mob in world
 					if("null")
 						EditVal = null
+		FFA_Mode(var/dmg as num, var/os as anything in list("On", "Off"))
+			set category = "Events"
+			var/area/a = locate(/area/arenas/MapThree/PlayArea)
+			a.dmg = dmg
+			a.oldsystem = os == "On"
+			src << infomsg("Set dmg modifier to [dmg], old system is [os].")
+
+
+
 atom/Click(location)
 	..()
 	if(usr.ClickEdit)
