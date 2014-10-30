@@ -2292,6 +2292,8 @@ obj/Banker
 		..()
 		if(src in oview(3))
 			Talk()
+		else
+			usr << errormsg("You need to be closer.")
 
 	verb
 		Examine()
