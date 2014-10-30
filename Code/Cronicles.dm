@@ -94,7 +94,7 @@ proc
 			housepointsGSRH[6] = 0
 
 		var/list/cw
-		X["magicEyesLeft"] >> cw
+		X["ClanWars"] >> cw
 		if(cw && cw.len)
 			spawn()
 				for(var/c in cw)
