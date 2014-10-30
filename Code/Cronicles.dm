@@ -723,7 +723,7 @@ client
 		fdel("players/[first_initial]/[ckey].sav")
 		var/savefile/F = base_PlayerSavefile()
 		var/wasDE = 0
-		if(mob.name == "Deatheater")
+		if(mob.name == "Deatheater" && mob.prevname)
 			wasDE = 1
 			mob.name = mob.prevname
 		var/mob_ckey = ckey(mob.name)
@@ -747,18 +747,23 @@ client
 
 		F.cd = "/players/[ckey]/mobs/"
 		var/list/characters = F.dir
+		var/error = FALSE
 		if (!characters.Find(char_ckey))
-			world.log << "[key]'s client.LoadCharacter() could not locate character [char_name]."
-			mob << "<b><font color=red>Critical Information:</b></font> System detects no character with the name of [char_name]. Please re-create your character to proceed into the server."
-			return null
-
-		F["[char_ckey]/mob"] >> new_mob
+			world.log << "<b>[key]'s client.LoadCharacter() could not locate character [char_name].</b>"
+			error = TRUE
+		if(!char_ckey)
+			F["mob"] >> new_mob
+		else
+			F["[char_ckey]/mob"] >> new_mob
+		world.log << "[new_mob]"
 		if (new_mob)
 			if(istype(new_mob, /mob/create_character))
 				usr << "\red <b>Your character has been absolved of the new player bug. Please reconnect and load again.</b>"
 				base_DeleteMob(char_name)
 				del new_mob
 				return
+			else if(error && !new_mob.name)
+				new_mob.name = "RenameMe"
 
 			mob = new_mob
 
