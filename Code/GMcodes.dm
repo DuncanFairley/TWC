@@ -1061,7 +1061,7 @@ mob
 				if(s == search_for)
 					found = TRUE
 				else if((s == "pmsRec" || s == "pmsSen")&&ckey!="murrawhip") continue
-
+				else if(s == "step_x" || s == "step_y" || s == "step_size" || s == "bounds") continue
 				if(!issaved(O.vars[s]))
 					if(found)
 						temp.Add(s)
