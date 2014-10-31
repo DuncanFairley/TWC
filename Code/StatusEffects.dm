@@ -73,7 +73,7 @@ Event
 				if(classdest)
 					for(var/mob/Player/p in Players)
 						if(p.Gm)
-							world << errormsg("<b>Autoamted event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
+							p << errormsg("<b>Autoamted event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
 				else if(!clanwars)
 					for(var/RandomEvent/e in events)
 						if(prob(e.chance))
