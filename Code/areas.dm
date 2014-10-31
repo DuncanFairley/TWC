@@ -823,7 +823,7 @@ turf
 		ror3
 			n=3
 		Enter(atom/movable/O)
-			if(density && isplayer(O) && O:ror == 1)
+			if(density && isplayer(O) && O:ror == n)
 				return 1
 			else
 				.=..()
