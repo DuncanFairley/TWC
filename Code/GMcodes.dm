@@ -302,7 +302,6 @@ mob
 				flick('dlo.dmi',src)
 				src.loc=locate(22,7,21)
 
-				src.verbs += /mob/Player/verb/PM
 				src.Detention=0
 				src.MuteOOC=0
 				world<<"[src] has been released from Detention."

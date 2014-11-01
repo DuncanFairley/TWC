@@ -2164,7 +2164,6 @@ mob/proc/Death_Check(mob/killer = src)
 mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
 	if(mute==0)
 		mute=1
-		verbs -= /mob/Player/verb/PM
 		world << "\red <b>[src] has been silenced.</b>"
 
 		if(reason)
