@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 Duncan Fairley
+ * Copyright Â© 2014 Duncan Fairley
  * Distributed under the GNU Affero General Public License, version 3.
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
@@ -152,7 +152,7 @@ obj/items/herosbrace
 			if(canUse(M=usr, needwand=0, inarena=0, inhogwarts=0))
 				if(usr.bracecharges>=1)
 					var/turf/t
-					switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Pyramid","Forbidden Forest","Museum"))
+					switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Pyramid","Forbidden Forest","Museum","Clock Tower"))
 						if("Diagon Alley")
 							t = locate(45,60,26)
 						if("Pyramid")
@@ -161,6 +161,8 @@ obj/items/herosbrace
 							t = locate(86,12,16)
 						if("Museum")
 							t = locate(72,77,18)
+						if("Clock Tower")
+							t = locate(42,23,15)
 					if(t && canUse(M=usr, needwand=0, inarena=0, inhogwarts=0) && usr.bracecharges>0)
 						if(usr.bracecharges<1) return
 						flick('tele2.dmi',usr)
