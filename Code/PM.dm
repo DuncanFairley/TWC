@@ -135,9 +135,10 @@ mob/Player/proc/unreadmessagelooper()
 					usr.away = 1
 					usr.here=usr.status
 					usr.status=" (AFK)"
+					var/mob/Player/user = src
 					if(usr.Gm)
 						usr.overlays+=image('AFK.dmi',icon_state="GM")
-					else if(locate(/obj/items/wearable/pimp_ring) in usr.contents)
+					else if(locate(/obj/items/wearable/pimp_ring) in user.Lwearing)
 						usr.overlays+=image('AFK.dmi',icon_state="AFK2")
 					else
 						usr.overlays+='AFK.dmi'
