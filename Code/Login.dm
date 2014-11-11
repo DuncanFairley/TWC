@@ -1595,19 +1595,33 @@ mob/Player
 
 		Who()
 			var/online=0
+			var/list/whosOnline = {"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Who's Online</title>
+</head>
+<style>
+	body
+	{
+		background-color:black;
+	}
+</style>"}
 			for(var/mob/M in Players)
 				online+=1
 				if(!M.derobe)
 					if(M.House)
-						usr << "\icon[wholist[M.House]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+						whosOnline += "<B><font color=gold>House : </font><font color=white>[M.House]</font> <font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B><br>"
 					else
-						usr << "\icon[wholist["Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+						whosOnline += "<B><font color=gold>House : </font><font color=white>N/A</font> <font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B><br>"
 				else
 					if(M.House)
-						usr << "\icon[wholist[M.House]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+						whosOnline += "<B><font color=gold>House : </font><font color=white>[M.House]</font> <font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B><br>"
 					else
-						usr << "\icon[wholist["Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
-			usr << "[online] players online."
+						whosOnline += "<B><font color=gold>House : </font><font color=white>N/A</font> <font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B><br>"
+			whosOnline += "[online] players online."
 			var/logginginmobs = ""
 			for(var/client/C)
 				if(C.mob && !(Players.Find(C.mob)))
@@ -1616,7 +1630,8 @@ mob/Player
 					else
 						logginginmobs += ", [C.key]"
 			if(logginginmobs != "")
-				usr << "Logging in: [logginginmobs]."
+				whosOnline += "Logging in: [logginginmobs]."
+			usr << browse(whosOnline)
 
 
 			/*for(M in world)
