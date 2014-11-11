@@ -948,7 +948,6 @@ mob
 			set category = "Staff"
 			if(M.mute==0)
 				M.mute=1
-				M.verbs -= /mob/Player/verb/PM
 				world << "\red <b>[M] has been silenced by [usr].</b>"
 				var/timer = input("Set timer for mute in /minutes/ (Leave as 0 for mute to stick until you remove it)","Mute timer",0) as num|null
 				if(timer==null)return
@@ -1061,7 +1060,7 @@ mob
 				if(s == search_for)
 					found = TRUE
 				else if((s == "pmsRec" || s == "pmsSen")&&ckey!="murrawhip") continue
-
+				else if(s == "step_x" || s == "step_y" || s == "step_size" || s == "bounds") continue
 				if(!issaved(O.vars[s]))
 					if(found)
 						temp.Add(s)

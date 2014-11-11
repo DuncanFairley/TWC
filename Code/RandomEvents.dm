@@ -88,8 +88,6 @@ RandomEvent
 				del sn
 			s = null
 
-			sleep(234)
-
 	DropRate
 		name = "Drop Rate Bonus"
 		start()

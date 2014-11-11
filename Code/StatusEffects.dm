@@ -73,7 +73,7 @@ Event
 				if(classdest)
 					for(var/mob/Player/p in Players)
 						if(p.Gm)
-							world << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
+							p << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
 				else if(!clanwars)
 					for(var/RandomEvent/e in events)
 						if(prob(e.chance))
@@ -94,9 +94,7 @@ var/list/weather_effects = list("acid"        = 5,
 proc
 	init_events()
 		scheduler.start()
-
 		init_books()
-		spawn() init_clanwars()
 		init_weather()
 		init_random_events()
 

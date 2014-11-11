@@ -823,7 +823,7 @@ turf
 		ror3
 			n=3
 		Enter(atom/movable/O)
-			if(density && isplayer(O) && O:ror == 1)
+			if(density && isplayer(O) && O:ror == n)
 				return 1
 			else
 				.=..()
@@ -999,12 +999,3 @@ turf
 		icon_state = "shadow"
 		layer = 5
 		mouse_opacity = 0
-
-
-//or jst put this at the end of the turf you dont wont peeps to go through
-//		Enter(O)
-//			if(istype(O,/mob))
-//				if(O:Gm == 1)
-//					return 1
-//				else
-//					return 0
