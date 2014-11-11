@@ -46,7 +46,7 @@ Weather
 			clouds(100)
 			for(var/area/A in outside_areas)
 				A:SetWeather(/obj/weather/snow)
-				A.dmg = round(1,0.75)
+				A.dmg = 0.75
 
 		clear(p = 10)
 			clouds(p)

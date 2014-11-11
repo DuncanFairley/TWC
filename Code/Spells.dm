@@ -1739,7 +1739,7 @@ mob
 		if(!loc && cd && (world.time - lastproj) < 2 && !inOldArena()) return
 		lastproj = world.time
 
-		damage *= loc.loc:dmg
+		damage *= round(1,loc.loc:dmg)
 
 		var/obj/projectile/P = new(src.loc,src.dir,src,icon,icon_state,damage,name)
 		P.shoot(lag)
