@@ -2779,6 +2779,16 @@ turf
 				dir = EAST
 			south
 				dir = SOUTH
+			northeast
+				dir = NORTHEAST
+			northwest
+				dir = NORTHWEST
+			southeast
+				dir = SOUTHEAST
+			southwest
+				dir = SOUTHWEST
+
+
 	woodenfloorblack
 		icon_state = "wood - halloween"
 		density = 0

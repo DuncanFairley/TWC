@@ -33,6 +33,7 @@ mob
 						if(T.icon_state != "open")
 							T.bumpable = 0
 							flick("opening",T)
+							var/temp_opacity = T.opacity
 							T.opacity=0
 							sleep(4)
 							T.bumpable = 1
@@ -47,7 +48,7 @@ mob
 							flick("closing",T)
 							T.density=1
 							sleep(4)
-							T.opacity=1
+							T.opacity=temp_opacity
 							T.icon_state="closed"
 					else if(T.owner!=usr.key)
 						if(!src.key)
@@ -63,6 +64,7 @@ mob
 									T:lastopener = usr.key
 									//hearers()<<sound('stdoor.wav')
 									flick("opening",T)
+									var/temp_opacity = T.opacity
 									T.opacity=0
 									sleep(4)
 									T.bumpable = 1
@@ -77,7 +79,7 @@ mob
 									flick("closing",T)
 									T.density=1
 									sleep(4)
-									T.opacity=1
+									T.opacity=temp_opacity
 									T.icon_state="closed"
 						else if(passtry!=T.pass)
 
@@ -91,6 +93,7 @@ mob
 							src = null
 							T:lastopener = usr.key
 							flick("opening",T)
+							var/temp_opacity = T.opacity
 							T.opacity=0
 							sleep(4)
 							T.bumpable = 1
@@ -105,7 +108,7 @@ mob
 							flick("closing",T)
 							T.density=1
 							sleep(4)
-							T.opacity=1
+							T.opacity=temp_opacity
 							T.icon_state="closed"
 
 
