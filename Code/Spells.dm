@@ -2088,6 +2088,8 @@ mob/Player
 				return
 		..()
 
+var/move_queue = TRUE
+
 client
 	var/tmp
 		moving = 0
@@ -2097,7 +2099,8 @@ client
 			dir = turn(dir, 180)
 			loc = get_step(mob, dir)
 
-		if(moving)
+
+		if(moving && move_queue)
 			if(!movements) movements = list()
 			else if(movements.len < 5)
 				movements += dir
