@@ -64,3 +64,8 @@ proc/add_clan_wars(var/day, var/hour)
 		clanwars_schedule["[day] - [hour]"] = e
 		scheduler.schedule(e, world.tick_lag * 10 * date)
 	return date
+
+
+mob/test/verb/Movement_Queue()
+	move_queue = !move_queue
+	src << infomsg("Movement queue toggled [move_queue ? "on" : "off"].")
