@@ -429,7 +429,7 @@ mob
 					proc
 						Heal()
 							for(var/mob/Player/M in ohearers(3, src))
-								M.HP += round(((M.MHP/20)+rand(0,50)))
+								M.HP += round((M.MHP/20)+rand(0,50))
 								if(M.HP > M.MHP) M.HP = M.MHP
 								M.updateHPMP()
 					BlindAttack()//removeoMob
