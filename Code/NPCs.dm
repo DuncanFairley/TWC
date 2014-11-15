@@ -177,7 +177,7 @@ mob
 
 obj
 	Guard
-		icon='monster.dmi'
+		icon='Mobs.dmi'
 		icon_state="guard"
 		density=1
 		Click()
@@ -185,7 +185,7 @@ obj
 
 obj
 	guard_statue
-		icon='monster.dmi'
+		icon='Mobs.dmi'
 		icon_state="guard"
 		New()
 			..()

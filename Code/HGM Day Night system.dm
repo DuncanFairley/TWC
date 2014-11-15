@@ -112,6 +112,7 @@ obj/cloud
 		shadow               = new
 		shadow.icon          = icon
 		shadow.icon_state    = "[icon_state]_shadow"
+		shadow.layer         = 5
 		shadow.mouse_opacity = 0
 		shadow.loc           = locate(x, y - rand(6,10), z)
 
@@ -312,28 +313,28 @@ mob/GM/verb
 		return
 		for(var/area/outside/O in world)
 			spawn() O.daycycle()
-/*	Night()
+	/*Night()
 		set category = "Server"
 		for(var/area/outside/O in world)
-			spawn() O.nightcycle()
-*/
+			spawn() O.nightcycle()*/
+
 
 obj/weather
 	layer = 7	// weather appears over the darkness because I think it looks better that way
 	dontsave=1
 	rain
-		icon = 'misc.dmi'
+		icon = 'weather.dmi'
 		icon_state = "rain"
 		New()
 			src.overlays += image('weather.dmi')
 			..()
 
 	snow
-		icon = 'misc.dmi'
+		icon = 'weather.dmi'
 		icon_state = "snow"
 
 	acid
-		icon = 'misc.dmi'
+		icon = 'weather.dmi'
 		icon_state = "acid"
 
 

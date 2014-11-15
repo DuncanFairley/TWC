@@ -9,8 +9,8 @@ obj/var/tmp
 	purpose = 0
 mob/NPC/Enemies
 	Grindylow
-		icon = 'Grindylow.dmi'
-		icon_state = "Grindylow"
+		icon = 'Mobs.dmi'
+		icon_state = "grindylow"
 		gold = 195
 		HP = 2925
 		MHP = 2925
@@ -84,7 +84,7 @@ mob/NPC/Enemies
 				walk_rand(src,11)
 mob
 	//Grindylow
-	//	icon = 'Grindylow.dmi'
+	//	icon = 'Mobs.dmi'
 	//	icon_state = "Grindylow"
 		//Not affected but any movement slowing effect
 		//can hopefully target people through seaweed.
@@ -111,7 +111,7 @@ mob
 
 /*
 			Fire_Bat
-				icon = 'monsters.dmi'
+				icon = 'Mobs.dmi'
 				icon_state="firebat"
 				gold = 111
 				HP = 1667

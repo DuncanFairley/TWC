@@ -302,7 +302,6 @@ mob
 				flick('dlo.dmi',src)
 				src.loc=locate(22,7,21)
 
-				src.verbs += /mob/Player/verb/PM
 				src.Detention=0
 				src.MuteOOC=0
 				world<<"[src] has been released from Detention."
@@ -507,8 +506,8 @@ mob/GM
 		Sanctuario(mob/M in view()&Players)
 			set category="Staff"
 			if(clanrobed())return
-			switch(input("Teleport [M] to where? || Reminder, this spell fires a burst of teleporting magic at the target. Be sure to face your target.","Sanctuario Charm Destination") in list ("Hogwarts","Silverblood","Student Housing","Dark Forest","Windhowl Manor","Azkaban","Cancel"))
-				if("Hogwarts")
+			switch(input("Teleport [M] to where? || Reminder, this spell fires a burst of teleporting magic at the target. Be sure to face your target.","Sanctuario Charm Destination") in list ("Entrance Hall","Silverblood","Student Housing","Dark Forest","Windhowl Manor","Azkaban","Cancel"))
+				if("Entrance Hall")
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
 					S.owner=usr
@@ -518,7 +517,7 @@ mob/GM
 					del S
 					flick('apparate.dmi',M)
 					sleep(5)
-					M.loc=locate(13,27,21)
+					M.loc=locate(6,27,21)
 					flick('apparate.dmi',M)
 					sleep(20)
 					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Hogwarts.</font></b>"
