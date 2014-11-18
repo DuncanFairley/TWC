@@ -2621,7 +2621,7 @@ obj
 		icon='turf.dmi'
 		icon_state="cback"
 		density=0
-		layer = MOB_LAYER +3
+		layer = MOB_LAYER +1
 	chairfront
 		icon='turf.dmi'
 		icon_state="cfront"
