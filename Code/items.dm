@@ -142,7 +142,7 @@ obj/items/food
 	tootsie_roll
 		icon = 'tootsie_roll.dmi'
 		Eat()
-			viewers(usr) << infomsg("[usr] pops a toosie roll into \his mouth.")
+			viewers(usr) << infomsg("[usr] pops a tootsie roll into \his mouth.")
 			..()
 obj/items/herosbrace
 	name = "Hero's brace"
