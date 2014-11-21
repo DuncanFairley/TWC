@@ -35,6 +35,7 @@ obj/statues
 	dog/icon_state = "dog"
 	frog/icon_state = "frog"
 	rabbit/icon_state = "rabbit"
+	turkey/icon_state = "turkey"
 
 proc
 	isPathBlocked(mob/source, mob/target, dist=1, dense_override=0, dist_limit=10)

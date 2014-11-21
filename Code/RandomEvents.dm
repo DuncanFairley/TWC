@@ -46,10 +46,7 @@ RandomEvent
 			world << infomsg("Entrance Hall is now a kill zone for [minutes] minutes, defend yourselves from dark wizards who can now enter or other students who feel like murdering you!")
 
 			var/area/entrance = locate(/area/hogwarts/Entrance_Hall)
-			var/area/hall = locate(/area/hogwarts/Great_Hall)
 			for(var/mob/Player/p in entrance)
-				if(p.away) p.loc = locate(49,56,21)
-			for(var/mob/Player/p in hall)
 				if(p.away) p.loc = locate(49,56,21)
 
 
