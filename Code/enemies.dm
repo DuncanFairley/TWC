@@ -8,6 +8,7 @@
 area/var/safezoneoverride = 0
 obj/statues
 	icon = 'statues.dmi'
+	density = 1
 	acromantula/icon_state = "acromantula"
 	firebat/icon_state = "firebat"
 	fire_golem/icon_state = "firegolem"
