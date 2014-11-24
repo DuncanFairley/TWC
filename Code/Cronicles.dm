@@ -755,7 +755,6 @@ client
 			F["mob"] >> new_mob
 		else
 			F["[char_ckey]/mob"] >> new_mob
-		world.log << "[new_mob]"
 		if (new_mob)
 			if(istype(new_mob, /mob/create_character))
 				usr << "\red <b>Your character has been absolved of the new player bug. Please reconnect and load again.</b>"
