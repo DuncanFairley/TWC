@@ -143,7 +143,7 @@ obj/teleport
 	var/pass
 	invisibility = 2
 	portkey
-		icon='blue2.dmi'
+		icon='portal.dmi'
 		icon_state="portkey"
 		name = "Port key"
 		invisibility = 0
@@ -645,7 +645,7 @@ client
 var/DevMode
 turf
 	leavereception
-		icon = 'blue2.dmi'
+		icon = 'portal.dmi'
 		name = "Portal"
 		Entered(atom/movable/A)
 			if(ismob(A) && A:key)
@@ -655,14 +655,14 @@ turf
 
 turf
 	leaveauror
-		icon = 'blue2.dmi'
+		icon = 'portal.dmi'
 		name = "Portal"
 		Entered(atom/movable/A)
 			A.loc = locate(87,70,22)
 
 turf
 	leavecellar
-		icon = 'blue2.dmi'
+		icon = 'portal.dmi'
 		name = "Portal"
 		Entered(mob/M)
 			if(ismob(M))
@@ -796,7 +796,7 @@ world
 	name = "Harry Potter: The Wizards' Chronicles"
 	turf=/turf/blankturf
 	view="17x17"
-var/world/VERSION = "16.12"
+var/world/VERSION = "16.13"
 
 world/proc/playtimelogger()
 	return
@@ -2164,7 +2164,6 @@ mob/proc/Death_Check(mob/killer = src)
 mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
 	if(mute==0)
 		mute=1
-		verbs -= /mob/Player/verb/PM
 		world << "\red <b>[src] has been silenced.</b>"
 
 		if(reason)
@@ -2292,6 +2291,8 @@ obj/Banker
 		..()
 		if(src in oview(3))
 			Talk()
+		else
+			usr << errormsg("You need to be closer.")
 
 	verb
 		Examine()
@@ -2620,7 +2621,7 @@ obj
 		icon='turf.dmi'
 		icon_state="cback"
 		density=0
-		layer = MOB_LAYER +3
+		layer = MOB_LAYER +1
 	chairfront
 		icon='turf.dmi'
 		icon_state="cfront"

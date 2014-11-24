@@ -818,8 +818,7 @@ mob/TalkNPC
 											usr << "<i>Alyssa drinks the potion</i>"
 											sleep(20)
 											flick("transfigure",src)
-											src.icon='monsters.dmi'
-											src.icon_state="frog"
+											src.icon='Frog.dmi'
 											sleep(40)
 											flick("transfigure",src)
 											icon='Misc Mobs.dmi'
