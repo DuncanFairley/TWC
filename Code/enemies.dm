@@ -366,6 +366,12 @@ mob
 				ReturnToStart()
 					ShouldIBeActive()
 
+				Dementor
+					icon_state = "dementor"
+					level = 300
+
+					Death()
+
 				Snake
 					icon_state = "snake"
 					level = 250

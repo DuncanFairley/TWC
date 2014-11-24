@@ -463,10 +463,9 @@ mob/Spells/verb/Expecto_Patronum()
 		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>EXPECTO PATRONUM!"
 		sleep(20)
 		overlays += image('expecto.dmi')
-		for(var/mob/Dementor/D in view())
-			spawn() Respawn(D)
-		for(var/mob/Dementor_/D in view())
-			spawn() Respawn(D)
+		for(var/mob/NPC/Enemies/Summoned/Dementor/D in view())
+			D.loc = locate(1,1,1)
+			spawn()	Respawn(D)
 		for(var/mob/NPC/Enemies/Dementor/D in view())
 			D.loc = locate(1,1,1)
 			spawn() Respawn(D)
@@ -569,8 +568,7 @@ mob/Spells/verb/Dementia()
 		if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
 			src << "<b>You can't use this inside a safezone.</b>"
 			return
-		var/mob/Dementor_/D = new /mob/Dementor_
-		D:loc = locate(src.x,src.y+1,src.z)
+		var/mob/NPC/Enemies/Summoned/Dementor/D = new (locate(src.x,src.y+1,src.z))
 		flick('mist.dmi',D)
 		src = null
 		spawn(600)
