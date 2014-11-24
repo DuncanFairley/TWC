@@ -97,7 +97,7 @@ RandomEvent
 
 			DropRateModifier += bonus / 100
 			var/tmpDropRate = DropRateModifier
-			world << infomsg("You sense a strange magic increasing your drop rate by [bonus]% for [minutes] minutes (This stacks with any other bonuses).")
+			world << infomsg("You feel a strange magic surrounding you, increasing your drop rate by [bonus]% for [minutes] minutes (This stacks on top of any other bonuses).")
 
 			spawn(minutes * 600)
 				if(DropRateModifier == tmpDropRate)
