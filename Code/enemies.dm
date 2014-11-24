@@ -505,7 +505,7 @@ mob
 
 				Attack(mob/M)
 					..()
-					if(!fired && target)
+					if(!fired && target && state == HOSTILE)
 						var/fire = 0
 						if(prob(40))
 							fire = 1
