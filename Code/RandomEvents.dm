@@ -112,42 +112,9 @@ RandomEvent
 			var/minutes = rand(10,30)
 			var/monsters = rand(50,100)
 			var/tier = rand(1,7)
+			var/list/types = list("Rat", "Demon Rat", "Pixie", "Dog", "Snake", "Wolf", "Troll")
 
-			var/_name
-			var/_icon
-			var/_icon_state
-
-			switch(tier)
-				if(1)
-					_name       = "Rat"
-					_icon       = 'Mobs.dmi'
-					_icon_state = "rat"
-				if(2)
-					_name       = "Demon Rat"
-					_icon       = 'Mobs.dmi'
-					_icon_state = "demon rat"
-				if(3)
-					_name       = "Pixie"
-					_icon       = 'Mobs.dmi'
-					_icon_state = "pixie"
-				if(4)
-					_name       = "Dog"
-					_icon       = 'Mobs.dmi'
-					_icon_state = "dog"
-				if(5)
-					_name       = "Snake"
-					_icon       = 'Mobs.dmi'
-					_icon_state = "snake"
-				if(6)
-					_name       = "Wolf"
-					_icon       = 'Mobs.dmi'
-					_icon_state = "wolf"
-				if(7)
-					_name       = "Troll"
-					_icon       = 'Mobs.dmi'
-					_icon_state = "troll"
-
-			world << infomsg("[_name]s are invading for [minutes] minutes, they're right outside Hogwarts, defend the castle!<br>(The monsters have a leader, stronger than the rest, he drops a valuable prize based on level)")
+			world << infomsg("[types[tier]]s are invading for [minutes] minutes, they're right outside Hogwarts, defend the castle!<br>(The monsters have a leader, stronger than the rest, he drops a valuable prize based on level)")
 
 			var/list/m = list()
 			for(var/i = 0; i <= monsters; i++)
@@ -157,9 +124,9 @@ RandomEvent
 				monster.DMGmodifier = 1
 				monster.HPmodifier  = 1
 				monster.level       = tier * 100
-				monster.name        = _name
-				monster.icon        = _icon
-				monster.icon_state  = _icon_state
+				monster.name        = types[tier]
+				monster.icon        = 'Mobs.dmi'
+				monster.icon_state  = lowertext(types[tier])
 
 				if(i == monsters)
 					monster.MoveDelay = 2
