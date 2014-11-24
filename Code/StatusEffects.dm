@@ -37,7 +37,7 @@ Event
 			..()
 			spawn()
 				AFK_Train_Scan()
-			scheduler.schedule(src, world.tick_lag * rand(9000, 12000) + 500) // 15 to 20 minutes
+			scheduler.schedule(src, world.tick_lag * rand(9000, 12000) + 503) // 15 to 20 minutes
 
 	ClanWars
 
