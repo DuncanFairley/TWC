@@ -1736,7 +1736,8 @@ var/safemode = 1
 mob/var/tmp/lastproj = 0
 mob
 	proc/castproj(MPreq,icon,icon_state,damage,name,cd=1,lag=2)
-		if(!loc && cd && (world.time - lastproj) < 2 && !inOldArena()) return
+		if(cd && (world.time - lastproj) < 2 && !inOldArena()) return
+		if(!loc) return
 		lastproj = world.time
 
 		damage *= loc.loc:dmg
