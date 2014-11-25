@@ -83,6 +83,7 @@ RandomEvent
 				s += new/obj/quidditch/snitch { prize = 1 } (spawn_loc.loc)
 
 			sleep(minutes * 600)
+			world << infomsg("The snitches have vanished.")
 
 			for(var/obj/quidditch/snitch/sn in s)
 				s -= sn
@@ -212,6 +213,7 @@ RandomEvent
 				m += monster
 
 			sleep(minutes * 600)
+			world << infomsg("The monsters have been driven away.")
 
 			for(var/mob/NPC/Enemies/Summoned/monster in m)
 				monster.loc = null
