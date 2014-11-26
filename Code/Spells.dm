@@ -1657,7 +1657,7 @@ mob/Spells/verb/Imperio(mob/other in oview()&Players)
 					usr.client.eye=usr
 					usr.client.perspective=MOB_PERSPECTIVE
 		else
-			usr << errormsg("You can not control [other] because his mind is elsewhere.")
+			usr << errormsg("You can not control [other] because \his mind is elsewhere.")
 	else
 		Imperio = 0
 		usr.wingobject=null
