@@ -1109,14 +1109,16 @@ mob/Spells/verb/Levicorpus(mob/M in view()&Players)
 		spawn(100)
 			M.movable=0
 			M.icon_state=""
-mob/Spells/verb/Obliviate(mob/M in view()&Players)
+mob/Spells/verb/Obliviate(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=700,againstocclumens=0))
 		hearers()<<"<b><font color=red>[usr]:<font color=green> Obliviate!</b></font>"
-		//M<<"<p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p>"
-		//M<<"<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
-		M << output(null,"output")
-		hearers()<<"[usr] wiped [M]'s memory!"
+		if(prob(15))
+			usr << output(null,"output")
+			hearers()<<"[usr]'s spell has backfired."
+		else
+			M << output(null,"output")
+			hearers()<<"[usr] wiped [M]'s memory!"
 		usr.MP-=700
 		new /StatusEffect/UsedAnnoying(src,30)
 		usr.updateHPMP()
