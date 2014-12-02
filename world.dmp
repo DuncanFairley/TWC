@@ -1430,7 +1430,7 @@
 "aBz" = (/obj/Book_Shelf1,/turf/Hogwarts_Stone_Wall_,/area/hogwarts/Gryffindor_Common_Room)
 "aBA" = (/obj/gargoyleleftbottom,/turf/woodenfloor,/area/hogwarts/Entrance_Hall)
 "aBB" = (/obj/gargoylerightbottom,/turf/woodenfloor,/area/hogwarts/Entrance_Hall)
-"aBC" = (/obj/Hogwarts_Door{opacity = 1},/turf/nofirezone{icon_state = "wood"},/area/hogwarts/Defence_Against_the_Dark_Arts)
+"aBC" = (/obj/Hogwarts_Door,/turf/nofirezone{icon_state = "wood"},/area/hogwarts/Defence_Against_the_Dark_Arts)
 "aBD" = (/turf/wfloor,/obj/Desk{icon_state = "B"},/turf/nofirezone,/area/hogwarts/Defence_Against_the_Dark_Arts)
 "aBE" = (/obj/HGM,/turf/woodenfloorblack,/area/hogwarts/Duel_Arenas/Defence_Against_the_Dark_Arts)
 "aBF" = (/turf/wfloor,/obj/Desk{icon_state = "S"},/turf/nofirezone,/area/hogwarts/Defence_Against_the_Dark_Arts)
