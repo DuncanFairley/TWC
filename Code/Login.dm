@@ -1243,8 +1243,10 @@ mob/Player
 											if(rand(1,3)==1) M<<"<i>You hear an odd ringing sound.</i>"
 
 
-
-							chatlog << "<font size=2 color=red><b>[usr]</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
+							if(usr.name=="Deatheater")
+								chatlog << "<font size=2 color=red><b>[usr.prevname] (ROBED)</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
+							else
+								chatlog << "<font size=2 color=red><b>[usr]</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
 							if(t == ministrypw)
 								if(istype(usr.loc,/turf/gotoministry))
 									if(usr.name in ministrybanlist)
