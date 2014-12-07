@@ -206,16 +206,18 @@ obj/items/Zombie_Head
 
 	Click()
 		if(src in usr)
-			if(canUse(usr,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1,againstflying=0,againstcloaked=0))
-				flick("transfigure",usr)
-				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Inter vivos.</b></font>"
-				usr.trnsed = 1
-				usr.overlays = null
-				if(usr.away)usr.ApplyAFKOverlay()
-				if(usr.Gender=="Female")
-					usr.icon = 'FemaleZombie.dmi'
-				else
-					usr.icon = 'MaleZombie.dmi'
+			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1,againstflying=0,againstcloaked=0))
+				new /StatusEffect/UsedTransfiguration(usr,15)
+				if(usr.CanTrans(usr))
+					flick("transfigure",usr)
+					hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Inter vivos.</b></font>"
+					usr.trnsed = 1
+					usr.overlays = null
+					if(usr.away)usr.ApplyAFKOverlay()
+					if(usr.Gender=="Female")
+						usr.icon = 'FemaleZombie.dmi'
+					else
+						usr.icon = 'MaleZombie.dmi'
 		else
 			..()
 
