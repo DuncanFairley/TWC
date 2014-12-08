@@ -202,7 +202,7 @@ mob/Spells/verb/Protego()
 			usr << "You are no longer shielded!"
 		usr.overlays -= /obj/Shield
 		usr.overlays -= /obj/Shield
-mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
+mob/Spells/verb/Valorus(mob/Player/M in view(usr.client.view,usr)&Players)
 	set category="Spells"
 	var/mob/Player/user = usr
 	if(locate(/obj/items/wearable/wands) in user.Lwearing)
@@ -249,7 +249,7 @@ mob/Spells/verb/Deletrius()
 		hearers(usr.client.view,usr)<<"[usr] flicks \his wand, causing the roses to dissolve into the air."
 	else
 		usr << errormsg("This spell requires a wand.")
-mob/Spells/verb/Expelliarmus(mob/M in view()&Players)
+mob/Spells/verb/Expelliarmus(mob/M in view(usr.client.view,usr)&Players)
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		var/obj/items/wearable/wands/W = locate(/obj/items/wearable/wands) in M:Lwearing
@@ -298,7 +298,7 @@ mob/Spells/verb/Evanesco(mob/M in Players&oview())
 		M.icon_state = "invis"
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]: <font color=blue>Evanesco!"
 		M<<"You have been hidden!"
-mob/Spells/verb/Imitatus(mob/M in view()&Players, T as text)
+mob/Spells/verb/Imitatus(mob/M in view(usr.client.view,usr)&Players, T as text)
 	set category = "Spells"
 	if(src.mute==1){src<<"You cannot cast this spell while muted.";return}
 	hearers()<<"</font><font color = #001E15>[usr]: Imitatus.</font>"
@@ -586,7 +586,7 @@ proc/view2screenloc(view)
 	//example result "1,1 to 33,29
 	view = dd_replacetext(view,"x",",")
 	return "1,1 to [view]"
-mob/Spells/verb/Conjunctivis(mob/M in oview()&Players)
+mob/Spells/verb/Conjunctivis(mob/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		//M.sight|=BLIND
@@ -607,7 +607,7 @@ mob/Spells/verb/Conjunctivis(mob/M in oview()&Players)
 				usr<<"Your Conjunctivis jinx has been lifted from [M]."
 				M<<"The conjunctivis jinx has expired."
 				del(S)
-mob/Spells/verb/Melofors(mob/M in oview()&Players)
+mob/Spells/verb/Melofors(mob/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		new /StatusEffect/UsedAnnoying(src,15)
@@ -622,7 +622,7 @@ mob/Spells/verb/Melofors(mob/M in oview()&Players)
 				M.overlays-=icon('pumpkinhead.dmi')
 				M<<"[usr]'s Melofors jinx has subsided."
 				if(usr)usr<<"Your Melofors jinx has subsided from [M]."
-mob/Spells/verb/Incarcerous(var/mob/M in oview()&Players)
+mob/Spells/verb/Incarcerous(var/mob/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		new /StatusEffect/UsedStun(src,15)
@@ -706,7 +706,7 @@ mob/Spells/verb/Bombarda(obj/M in oview(src.client.view,src))
 				M.icon='rubble.dmi'
 				M.icon_state=""
 				M.rubble=1
-mob/Spells/verb/Rictusempra(mob/M in oview(2)&Players)
+mob/Spells/verb/Rictusempra(mob/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
 		spawn()
@@ -721,7 +721,7 @@ mob/Spells/verb/Rictusempra(mob/M in oview(2)&Players)
 					hearers() << "<b>[usr]'s Rictusempra charm has lifted.</b>"
 				M.Rictusempra=0
 				M.Rictalk=0
-mob/Spells/verb/Petreficus_Totalus(var/mob/M in oview()&Players)
+mob/Spells/verb/Petreficus_Totalus(var/mob/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	set name = "Petrificus Totalus"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
@@ -804,7 +804,7 @@ mob/Spells/verb/Tremorio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
 		castproj(5,'attacks.dmi',"quake",usr.Dmg+usr.extraDmg,"tremorio")
-mob/Spells/verb/Furnunculus(mob/M in oview()&Players)
+mob/Spells/verb/Furnunculus(mob/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		hearers()<<"<font color=red><b>[usr]: </font></b>Furnunculus!</font>"
@@ -999,7 +999,7 @@ mob/Spells/verb/Flagrate(message as message)
 				usr.updateHPMP()
 		else
 			alert("You cannot cast this while muted.")
-mob/Spells/verb/Langlock(mob/M in oview()&Players)
+mob/Spells/verb/Langlock(mob/M in oview(usr.client.view,usr)&Players)
 	set category = "Spells"
 	set name = "Langlock"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=600,againstocclumens=1))
@@ -1014,7 +1014,7 @@ mob/Spells/verb/Langlock(mob/M in oview()&Players)
 				if(M.silence)
 					M<<"<b>Your tongue unsticks from the roof of your mouth.</b>"
 					M.silence=0
-mob/Spells/verb/Muffliato(mob/M in view()&Players)
+mob/Spells/verb/Muffliato(mob/M in view(usr.client.view,usr)&Players)
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		if(M.muff==1)
@@ -1044,7 +1044,7 @@ mob/Spells/verb/Incindia()
 			dir = d
 			castproj(0, 'attacks.dmi', "fireball", damage, "Incindia", 0, 1)
 		dir = t
-mob/Spells/verb/Replacio(mob/M in oview()&Players)
+mob/Spells/verb/Replacio(mob/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
 		if(issafezone(M.loc.loc) && !issafezone(loc.loc))
@@ -1085,7 +1085,7 @@ mob/Spells/verb/Occlumency()
 		else
 			src << "You release the barriers around your mind."
 			usr.occlumens = 0
-mob/Spells/verb/Levicorpus(mob/M in view()&Players)
+mob/Spells/verb/Levicorpus(mob/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedLevicorpus,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=M,mpreq=800,againstocclumens=1))
 		hearers()<<"<b><font color=red>[usr]:<font color=green> Levicorpus.</b></font>"
@@ -1111,7 +1111,7 @@ mob/Spells/verb/Levicorpus(mob/M in view()&Players)
 		spawn(100)
 			M.movable=0
 			M.icon_state=""
-mob/Spells/verb/Obliviate(mob/M in view()&Players)
+mob/Spells/verb/Obliviate(mob/M in view(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=700,againstocclumens=0))
 		hearers()<<"<b><font color=red>[usr]:<font color=green> Obliviate!</b></font>"
@@ -1122,7 +1122,7 @@ mob/Spells/verb/Obliviate(mob/M in view()&Players)
 		usr.MP-=700
 		new /StatusEffect/UsedAnnoying(src,30)
 		usr.updateHPMP()
-mob/Spells/verb/Tarantallegra(mob/M in view()&Players)
+mob/Spells/verb/Tarantallegra(mob/M in view(usr.client.view,usr)&Players)
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=100,againstocclumens=1))
 		if(M.dance) return
@@ -1242,7 +1242,7 @@ mob/proc/BaseIcon()
 		else if(House == "Hufflepuff")
 			icon = 'MaleHufflepuff.dmi'
 
-mob/Spells/verb/Reddikulus(mob/M in view()&Players)
+mob/Spells/verb/Reddikulus(mob/M in view(usr.client.view,usr)&Players)
 	set category="Spells"
 	set name = "Riddikulus"
 	if(canUse(src,cooldown=/StatusEffect/UsedRiddikulus,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
@@ -1561,7 +1561,7 @@ mob/Spells/verb/Episky()
 		sleep(10)
 		hearers()<<"<font color=aqua>[usr] heals \himself."
 		usr.overlays-=image('Heal.dmi')
-mob/Spells/verb/Confundus(mob/Player/M in oview()&Players)
+mob/Spells/verb/Confundus(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=30,againstocclumens=1))
 		hearers()<<"<b><font color=red>[usr]:</b></font> <font color= #7CFC00>Confundus, [M]!"
@@ -1580,7 +1580,7 @@ mob/Spells/verb/Confundus(mob/Player/M in oview()&Players)
 					if(M.confused == 1|| M.confused == 0)M << "<font color = #A2A4A4><small>You shake off your confusion.</small></font>"
 					M.confused--
 					sleep(10)
-mob/Spells/verb/Crucio(mob/M in oview()&Players)
+mob/Spells/verb/Crucio(mob/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedCrucio,needwand=1,inarena=0,insafezone=0,target=M,mpreq=400))
 		hearers()<<"<b><font color=red>[usr]:</b></font> <font color= #7CFC00>Crucio!"
@@ -1638,7 +1638,7 @@ mob/Spells/verb/Wingardium_Leviosa()
 		wingobject=null
 		Wingardiumleviosa = null
 
-mob/Spells/verb/Imperio(mob/other in oview()&Players)
+mob/Spells/verb/Imperio(mob/other in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(!Imperio)
 
@@ -1717,12 +1717,12 @@ mob/Spells/verb/Portus()
 		hearers()<<"A portkey flys out of [usr]'s wand, and opens."
 		usr.MP-=25
 		usr.updateHPMP()
-mob/Spells/verb/Sense(mob/M in view()&Players)
+mob/Spells/verb/Sense(mob/M in view(usr.client.view,usr)&Players)
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=0))
 		hearers() << "[usr]'s eyes flicker."
 		usr<<errormsg("[M.name]'s Kills: [M.pkills]<br>[M.name]'s Deaths: [M.pdeaths]")
-mob/Spells/verb/Scan(mob/M in view()&Players)
+mob/Spells/verb/Scan(mob/M in view(usr.client.view,usr)&Players)
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=0))
 		hearers() << "[usr]'s eyes glint."

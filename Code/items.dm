@@ -2366,80 +2366,37 @@ obj/Cauldron__
 	dontsave=1
 	rubbleable=1
 
-obj/Green_Mushroom
+obj/items/Green_Mushroom
 	icon='items.dmi'
 	icon_state="greenmushroom"
 	wlable = 1
 	accioable=1
 	rubbleable=1
-	verb
-		Examine()
-			set src in view(3)
-			if(src.rubble==1)
-				usr << "A pile of rubble."
-			else
-				usr<<"A green mushroom, yummy."
-	verb
-		Take()
-			set src in oview(0)
-			hearers()<<"[usr] takes \the [src]."
-			Move(usr)
-			usr:Resort_Stacking_Inv()
-	verb
-		Drop()
-			Move(usr.loc)
-			usr:Resort_Stacking_Inv()
-			hearers()<<"[usr] drops \his [src]."
-obj/Red_Mushroom
+	desc = "A green mushroom, yummy."
+
+obj/items/Red_Mushroom
 	icon='items.dmi'
 	icon_state="redmushroom"
 	wlable = 1
-	rubbleable=1
 	accioable=1
-	verb
-		Examine()
-			set src in view(3)
-			if(src.rubble==1)
-				usr << "A pile of rubble."
-			else
-				usr<<"A red mushroom, yummy."
-	verb
-		Take()
-			set src in oview(0)
-			hearers()<<"[usr] takes \the [src]."
-			Move(usr)
-			usr:Resort_Stacking_Inv()
-	verb
-		Drop()
-			Move(usr.loc)
-			usr:Resort_Stacking_Inv()
-			hearers()<<"[usr] drops \his [src]."
-obj/Blue_Mushroom
+	rubbleable=1
+	desc = "A red mushroom, yummy."
+
+obj/items/Yellow_Mushroom
+	icon='items.dmi'
+	icon_state="yellowmushroom"
+	wlable = 1
+	accioable=1
+	rubbleable=1
+	desc = "A yellow mushroom, yummy."
+
+obj/items/Blue_Mushroom
 	icon='items.dmi'
 	icon_state="bluemushroom"
 	wlable = 1
 	accioable=1
-	dontsave=1
 	rubbleable=1
-	verb
-		Examine()
-			set src in view(3)
-			if(src.rubble==1)
-				usr << "A pile of rubble."
-			else
-				usr<<"A blue mushroom, yummy."
-	verb
-		Take()
-			set src in oview(0)
-			hearers()<<"[usr] takes \the [src]."
-			Move(usr)
-			usr:Resort_Stacking_Inv()
-	verb
-		Drop()
-			Move(usr.loc)
-			usr:Resort_Stacking_Inv()
-			hearers()<<"[usr] drops \his [src]."
-
+	desc = "A blue mushroom, yummy."
 
 obj/CampFire
 	icon='misc.dmi'

@@ -35,9 +35,14 @@
 
 // BEGIN_INCLUDE
 #include <audeuro\inireader2\INI Reader 2\INI Reader 2.dme>
+#include <deadron\basecamp\BaseCamp.dme>
+#include <deadron\test\Test.dme>
 #include <deadron\texthandling\TextHandling.dme>
 #include <stephen001\eventscheduling\Events\Events.dme>
+#include <stephen001\log4dm\log4dm.dme>
 #include <theodis\pathfinder\Pathfinder.dme>
+#include <theodis\priorityqueue\PriorityQueue.dme>
+#include <theodis\quicksort\QuickSort.dme>
 #include "potinf.dmf"
 #include "world.dmp"
 #include "Code\Animagus.dm"
