@@ -774,6 +774,9 @@ obj/items/wearable/shoes/pink_shoes
 obj/items/wearable/shoes/darkpink_shoes
 	icon = 'darkpink_shoes.dmi'
 	name = "dark pink shoes"
+obj/items/wearable/shoes/candycane_shoes
+	icon = 'candycane_shoes.dmi'
+	name = "candy cane shoes"
 
 obj/items/wearable/scarves
 	desc = "A finely knit scarf designed to keep your neck toasty warm."
