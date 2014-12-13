@@ -97,6 +97,7 @@ proc
 		init_books()
 		init_weather()
 		init_random_events()
+		init_quests()
 
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)

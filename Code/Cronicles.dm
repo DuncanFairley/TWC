@@ -315,7 +315,7 @@ mob
 				if(VERSION != src:lastversion)
 					src:lastversion = VERSION
 					src<<"<b><font size=2>TWC had an update since you last logged in! A list of changes can be found <a href='?src=\ref[src];action=view_changelog'>here.</a></font></b>"
-				src:clean_quests()
+
 
 mob/Player/var/lastversion
 var/rules = file("rules.html")

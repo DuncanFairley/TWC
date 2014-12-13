@@ -1124,117 +1124,101 @@ obj/AlyssaChest/Silver_Spider3
 				alert("You find nothing.")
 
 
+var/list/quest_list
+
+proc
+	init_quests()
+		quest_list = list()
+		for(var/t in typesof(/quest/) - /quest)
+			if(findtext("[t]", "stage")) continue
+			var/quest/q = new t(1)
+			quest_list[q.name] = q
+
+
+quest
+	var/name
+	var/list/stages
+	var/desc
+	var/list/requirements
+
+
+	test1
+		desc = "This is a test quest!"
+		name = "Test"
+
+		stage1
+			desc = "Find it!"
+
+			requirements = list("TestItem" = 2)
+
+			condition(itemName)
+				return itemName == "TestItem"
+
+
+		stage2
+			desc = "Now that you found the item, go kill it!"
+
+		stage3
+			desc = "Reward!"
+
+	proc/condition()
+
+	New(var/isQuest = 0)
+		..()
+
+		if(isQuest)
+			stages = list()
+			for(var/t in typesof(type) - type)
+				stages += new t
+
+			spawn(10)
+				world << "[src]"
+				for(var/quest/i in stages)
+					world << "[src] = [i.desc]"
+
+
 
 mob/Player
-	var/tmp/list/quests_progress // keep it tmp for now until it's fully tested
-
+	var/list/questStages = list()
 	proc
-		clean_quests()
-			if(quests_progress)
-				for(var/i in quests_progress)
-					if(!(i in quests))
-						quests_progress -= i
+		startQuest(questName)
+			if(questName in quest_list)
+				var/quest/q = quest_list[questName]
+				var/quest/stage = q.stages[1]
 
-				if(!quests_progress.len)
-					quests_progress = null
-var
-	list/quests
+				questStages[questName] = list(1, stage.requirements)
+
+				src << infomsg(q.desc)
+
+		checkQuestProgress(args)
+			for(var/i in questStages)
+				if(!(i in quest_list)) continue
+
+				var/quest/q = quest_list[i]
+				var/quest/stage = q.stages[questStages[i][1]]
+
+				var/check = TRUE
 
 
-obj/quests
+				for(var/z in questStages)
+					world << z
+					world << "  [questStages[z][1]]"
+					world << "  [questStages[z][2]]"
+					for(var/x in questStages[z][2])
+						world << "    [x]"
 
-	var
-		quest_name
-		message
+				for(var/s in questStages[i][2])
+					if(questStages[i][2][s] == args)
+						if(--questStages[i][2][s] > 0) check = FALSE
 
-	giver
-		var
-			init = 0
-			reward
-		verb
-			Talk()
-				set src in view(1)
-				if(!quests)
-					quests = list()
-				if(init)
-					var/mob/Player/p = usr
-					if(!p.quests_progress)
-						p.quests_progress = list()
+				if(check)
+					stage = q.stages[++questStages[i]]
+					src << infomsg(stage.desc)
 
-					if(!(quest_name in p.quests_progress) || p.quests_progress[quest_name] == 1)
-						p.quests_progress[quest_name] = 1
-						usr << npcsay(message)
-					else
-						var/flags = 1
-						for(var/i = 1; i <= quests[quest_name]; i++)
-							flags += 2 ** i
-						if(flags == p.quests_progress[quest_name])
-							p.quests_progress[quest_name] = -1
 
-							if(reward)
-								if(isnum(reward))
-									p.gold += reward
-									p << "<b><i>[src] gives you [comma(reward)] gold.</i></b>"
-								else if(istext(reward))
-									p << npcsay(reward)
-								else
-									var/obj/O = new reward(p)
-									p.Resort_Stacking_Inv()
-									p << " <font size=2 color=red>[src] hands you their [O.name]."
 
-				else
-					init()
-					usr << infomsg("Quest initilized")
-		proc
-			init()
-				quests[quest_name] = 0
-				init = 1
-		New()
-			..()
-			spawn(5)
-				if(init)
-					init()
-	progress
+mob/verb/start_quest()
 
-		var
-			item
-			id
+	src:startQuest("Test")
 
-		item
-			item = 1
-			verb
-				Take()
-					set src in view(1)
-					prog(usr)
-		npc
-			item = 0
-			verb
-				Talk()
-					set src in view(1)
-					prog(usr)
-		verb
-			Init()
-				set src in view(1)
-				init()
-
-		proc
-			init()
-				verbs -= /obj/quests/progress/verb/Init
-				quests[quest_name]++
-				id = 2 ** quests[quest_name]
-
-			prog(mob/Player/p)
-				if((quest_name in p.quests_progress) && p.quests_progress[quest_name] > 0)
-					if((p.quests_progress[quest_name] & id) == id)
-						p << (item ? errormsg("You already took this item.") : message)
-					else
-						p << infomsg(message)
-						p.quests_progress[quest_name] += id
-				else
-					p << (item ? errormsg("You don't see any use for this.") : npcsay("[name] says: Hello again!"))
-
-		New()
-			..()
-			spawn(10)
-				if(id)
-					init()
+obj/items/questItem
