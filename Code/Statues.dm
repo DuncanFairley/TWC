@@ -55,7 +55,7 @@ obj/museum
 		robes = "MaleStaff"
 
 	Ash
-		desc = "<b>Former Headmaster of TWC.</b><br>TWC's first British Headmaster, some say he was actually Dumbledore and McGonagall's love child but I don't believe it."
+		desc = "<b>Former Headmaster of TWC, better known for being an Administrator, former Charms, and Transfiguration Professor.</b><br>TWC's first British Headmaster, some say he was actually Dumbledore and McGonagall's love child but I don't believe it."
 		robes = "MaleStaff"
 
 	Rotem
@@ -310,9 +310,13 @@ obj/museum
 
 	Zach
 		name = "Zach (Chaseio Blade)"
-		desc = "COMC Professor, Former Off-Peak Professor."
+		desc = "GCOM Professor, Former COMC Professor, Former Off-Peak Professor."
 		robes = "MaleStaff"
 
 	Chris_Sparker
 		desc = "Former Charms Professor."
+		robes = "MaleStaff"
+
+	Kole
+		desc = "Charms Professor.<br><b></b>"
 		robes = "MaleStaff"
