@@ -37,7 +37,7 @@ Event
 			..()
 			spawn()
 				AFK_Train_Scan()
-				scheduler.schedule(src, world.tick_lag * rand(9000, 12000)) // 15 to 20 minutes
+			scheduler.schedule(src, world.tick_lag * rand(9000, 12000) + 503) // 15 to 20 minutes
 
 	ClanWars
 
@@ -97,6 +97,7 @@ proc
 		init_books()
 		init_weather()
 		init_random_events()
+//		init_quests()
 
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)

@@ -26,6 +26,9 @@ obj/items/verb/Take()
 	viewers() << infomsg("[usr] takes \the [src.name].")
 	loc = usr
 	usr.Resort_Stacking_Inv()
+
+//	usr:checkQuestProgress(src.name)
+
 obj/items/verb/Drop()
 	set src in usr
 	var/mob/Player/owner = usr
