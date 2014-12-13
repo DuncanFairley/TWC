@@ -463,10 +463,9 @@ mob/Spells/verb/Expecto_Patronum()
 		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>EXPECTO PATRONUM!"
 		sleep(20)
 		overlays += image('expecto.dmi')
-		for(var/mob/Dementor/D in view())
-			spawn() Respawn(D)
-		for(var/mob/Dementor_/D in view())
-			spawn() Respawn(D)
+		for(var/mob/NPC/Enemies/Summoned/Dementor/D in view())
+			D.loc = locate(1,1,1)
+			spawn()	Respawn(D)
 		for(var/mob/NPC/Enemies/Dementor/D in view())
 			D.loc = locate(1,1,1)
 			spawn() Respawn(D)
@@ -569,8 +568,7 @@ mob/Spells/verb/Dementia()
 		if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
 			src << "<b>You can't use this inside a safezone.</b>"
 			return
-		var/mob/Dementor_/D = new /mob/Dementor_
-		D:loc = locate(src.x,src.y+1,src.z)
+		var/mob/NPC/Enemies/Summoned/Dementor/D = new (locate(src.x,src.y+1,src.z))
 		flick('mist.dmi',D)
 		src = null
 		spawn(600)
@@ -1111,14 +1109,16 @@ mob/Spells/verb/Levicorpus(mob/M in view()&Players)
 		spawn(100)
 			M.movable=0
 			M.icon_state=""
-mob/Spells/verb/Obliviate(mob/M in view()&Players)
+mob/Spells/verb/Obliviate(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=700,againstocclumens=0))
 		hearers()<<"<b><font color=red>[usr]:<font color=green> Obliviate!</b></font>"
-		//M<<"<p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p><p>"
-		//M<<"<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
-		M << output(null,"output")
-		hearers()<<"[usr] wiped [M]'s memory!"
+		if(prob(15))
+			usr << output(null,"output")
+			hearers()<<"[usr]'s spell has backfired."
+		else
+			M << output(null,"output")
+			hearers()<<"[usr] wiped [M]'s memory!"
 		usr.MP-=700
 		new /StatusEffect/UsedAnnoying(src,30)
 		usr.updateHPMP()
@@ -1659,7 +1659,7 @@ mob/Spells/verb/Imperio(mob/other in oview()&Players)
 					usr.client.eye=usr
 					usr.client.perspective=MOB_PERSPECTIVE
 		else
-			usr << errormsg("You can not control [other] because his mind is elsewhere.")
+			usr << errormsg("You can not control [other] because \his mind is elsewhere.")
 	else
 		Imperio = 0
 		usr.wingobject=null

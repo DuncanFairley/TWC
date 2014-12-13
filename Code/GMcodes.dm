@@ -973,6 +973,7 @@ mob
 		Event_Announce(message as message)
 			set category = "Staff"
 			set desc = "(message) Announce something to all players logged in"
+			if(!message)return
 			eventlog << "<tr><td><b>[src.name]</b></td><td>[time2text(world.realtime,"MMM DD - hh:mm:ss")]</td><td>[message]</td></tr>"
 			for(var/client/C)
 				C.mob << "<hr><center><font color=blue><b>Announcement From [src]:</b><br><font color=red><b>[message]</font></center><hr>"
@@ -985,6 +986,7 @@ mob
 			set category = "Staff"
 			set name = "Announce"
 			set desc = "(message) Announce something to all players logged in"
+			if(!message)return
 			for(var/client/C)
 				C.mob << "<hr><center><font color=blue><b>Announcement From [src]:</b><br><font color=red><b>[message]</font></center><hr>"
 		Reboot()

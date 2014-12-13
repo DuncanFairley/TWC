@@ -142,7 +142,7 @@ obj/items/food
 	tootsie_roll
 		icon = 'tootsie_roll.dmi'
 		Eat()
-			viewers(usr) << infomsg("[usr] pops a toosie roll into \his mouth.")
+			viewers(usr) << infomsg("[usr] pops a tootsie roll into \his mouth.")
 			..()
 obj/items/herosbrace
 	name = "Hero's brace"
@@ -206,16 +206,18 @@ obj/items/Zombie_Head
 
 	Click()
 		if(src in usr)
-			if(canUse(usr,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1,againstflying=0,againstcloaked=0))
-				flick("transfigure",usr)
-				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Inter vivos.</b></font>"
-				usr.trnsed = 1
-				usr.overlays = null
-				if(usr.away)usr.ApplyAFKOverlay()
-				if(usr.Gender=="Female")
-					usr.icon = 'FemaleZombie.dmi'
-				else
-					usr.icon = 'MaleZombie.dmi'
+			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1,againstflying=0,againstcloaked=0))
+				new /StatusEffect/UsedTransfiguration(usr,15)
+				if(usr.CanTrans(usr))
+					flick("transfigure",usr)
+					hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Inter vivos.</b></font>"
+					usr.trnsed = 1
+					usr.overlays = null
+					if(usr.away)usr.ApplyAFKOverlay()
+					if(usr.Gender=="Female")
+						usr.icon = 'FemaleZombie.dmi'
+					else
+						usr.icon = 'MaleZombie.dmi'
 		else
 			..()
 
@@ -772,6 +774,9 @@ obj/items/wearable/shoes/pink_shoes
 obj/items/wearable/shoes/darkpink_shoes
 	icon = 'darkpink_shoes.dmi'
 	name = "dark pink shoes"
+obj/items/wearable/shoes/candycane_shoes
+	icon = 'candycane_shoes.dmi'
+	name = "candy cane shoes"
 
 obj/items/wearable/scarves
 	desc = "A finely knit scarf designed to keep your neck toasty warm."
