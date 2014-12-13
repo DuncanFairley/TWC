@@ -8,6 +8,7 @@
 area/var/safezoneoverride = 0
 obj/statues
 	icon = 'statues.dmi'
+	density = 1
 	acromantula/icon_state = "acromantula"
 	firebat/icon_state = "firebat"
 	fire_golem/icon_state = "firegolem"
@@ -35,6 +36,7 @@ obj/statues
 	dog/icon_state = "dog"
 	frog/icon_state = "frog"
 	rabbit/icon_state = "rabbit"
+	turkey/icon_state = "turkey"
 
 proc
 	isPathBlocked(mob/source, mob/target, dist=1, dense_override=0, dist_limit=10)

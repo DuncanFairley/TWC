@@ -49,6 +49,7 @@ RandomEvent
 			for(var/mob/Player/p in entrance)
 				if(p.away) p.loc = locate(49,56,21)
 
+
 			entrance.safezoneoverride = 1
 			sleep(minutes * 600)
 			entrance.safezoneoverride = 0
