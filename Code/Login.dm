@@ -2766,14 +2766,14 @@ turf
 	layer=TURF_LAYER
 	icon='turf.dmi'
 	grass
-		icon_state="grass1"
+		//icon_state="grass1"
 		name = "grass"
 
-		//icon_state="snow"
+		icon_state="snow"
 		density=0
 
 		edges
-			icon='GrassEdge.dmi'
+			icon=null// GrassEdge.dmi when not winter
 			north
 				dir = NORTH
 			west
@@ -2855,13 +2855,13 @@ turf
 		isice = 1
 	water
 		icon='Water.dmi'
-		icon_state="water"
-		name = "water"
+		icon_state="ice"
+		name = "ice"
 		density=0
 		layer=4
 		var
 			tmp/obj/rain
-			isice = 0 // Edit to 1 for winter
+			isice = 1 // Edit to 1 for winter
 
 		New()
 			..()
