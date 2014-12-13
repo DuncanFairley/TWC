@@ -27,7 +27,7 @@ obj/items/verb/Take()
 	loc = usr
 	usr.Resort_Stacking_Inv()
 
-	usr:checkQuestProgress(src.name)
+//	usr:checkQuestProgress(src.name)
 
 obj/items/verb/Drop()
 	set src in usr

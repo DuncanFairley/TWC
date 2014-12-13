@@ -1123,7 +1123,7 @@ obj/AlyssaChest/Silver_Spider3
 			else
 				alert("You find nothing.")
 
-
+/*
 var/list/quest_list
 
 proc
@@ -1222,3 +1222,4 @@ mob/verb/start_quest()
 	src:startQuest("Test")
 
 obj/items/questItem
+*/
