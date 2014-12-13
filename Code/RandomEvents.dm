@@ -129,6 +129,8 @@ RandomEvent
 				monster.icon_state  = lowertext(types[tier])
 
 				if(i == monsters)
+					monster.transform *= 3
+
 					monster.MoveDelay = 2
 					monster.AttackDelay = 2
 					monster.level *= 2
