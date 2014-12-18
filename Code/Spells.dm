@@ -2044,6 +2044,7 @@ mob/GM/verb/Remote_View(mob/M in world)
 	set category="Staff"
 	set popup_menu = 0
 	if(clanrobed())return
+	if(M.loc == null) return
 	if(M.derobe||M.aurorrobe||M.type == /mob/fakeDE ||istype(M.loc.loc, /area/ministry_of_magic||istype(M.loc.loc, /area/blindness))){src<<"<b>You cannot use remote view on this person.";return}
 	usr.client.eye=M
 	usr.client.perspective=EYE_PERSPECTIVE
