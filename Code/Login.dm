@@ -831,6 +831,7 @@ world/proc/worldlooper()
 		var/rndnum = rand(1,2)
 		for(var/client/C)
 			sleep(2)
+			if(!C) continue
 			if(world.timeofday < 9000)
 				C.mob.usedpermoveo = 0
 			if(winget(C,"radio_enabled","is-checked") == "false")
