@@ -1850,7 +1850,7 @@ obj
 					var/n = dir2angle(get_dir(A, src))
 					emit(loc    = A,
 						 type   = /obj/particle/blood,
-					     amount = 30,
+					     amount = 5,
 					     angle  = new /Random(n - 25, n + 25),
 					     speed  = 2,
 					     life   = new /Random(15,25))
