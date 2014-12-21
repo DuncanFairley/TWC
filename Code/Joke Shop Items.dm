@@ -241,73 +241,23 @@ obj
 			Click()
 				if(src in usr)
 					src.verbs.Remove(/obj/items/verb/Take)
+					src.loc = usr.loc
+					usr:Resort_Stacking_Inv()
+
+					var/n = dir2angle(usr.dir)
+					emit(loc    = usr,
+						 type   = /obj/particle/balloon,
+					     amount = 50,
+					     angle  = new /Random(n - 35, n + 35),
+					     speed  = 5,
+					     life   = new /Random(20,60))
+
 					hearers() << "[usr] opens a [src]"
-					var/obj/items/Tube_of_fun/T = src
-					spawn() Explode(T)
-					src = null
+
+					spawn(50)
+						src.loc = null
 				else
 					..()
-			proc
-				Explode(obj/items/Tube_of_fun/T)
-					var/obj/ballooneffect/S
-					S = new(T.loc.loc)
-					S.desc = "moo"
-					if(usr.key=="Murrawhip")
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-						S = new(T.loc.loc)
-
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					S = new(T.loc.loc)
-					T.loc = null
-					if(usr)usr:Resort_Stacking_Inv()
-					del(T)
-
-
-
 
 		Smoke_Pellet
 			icon='jokeitems.dmi'

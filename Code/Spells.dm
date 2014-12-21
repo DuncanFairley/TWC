@@ -1846,6 +1846,15 @@ obj
 				var/turf/L = isturf(M.loc) ? M.loc : M
 				for(var/mob/A in L)
 					if(A.invisibility == 2) continue
+
+					var/n = dir2angle(get_dir(A, src))
+					emit(loc    = A,
+						 type   = /obj/particle/blood,
+					     amount = 30,
+					     angle  = new /Random(n - 25, n + 25),
+					     speed  = 2,
+					     life   = new /Random(15,25))
+
 					if(damage)
 						if(A.monster)
 							if(src.owner && src.owner.MonsterMessages)
