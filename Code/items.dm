@@ -2195,7 +2195,7 @@ obj
 
 obj/Avada_Kedavra
 	icon='attacks.dmi'
-	icon_state="crucio"
+	icon_state="avada"
 	density=1
 	var/player=0
 	layer = 4
