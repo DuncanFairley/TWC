@@ -46,7 +46,6 @@ mob
 
 mob/TalkNPC
 	professor_palmer
-		icon = 'misc.dmi'
 		icon_state="palmer"
 		name="Professor Palmer"
 		Immortal=1
@@ -91,8 +90,7 @@ mob/var/foundlord
 
 mob/TalkNPC
 	Lisa
-		icon='Misc Mobs.dmi'
-		icon_state="Lisa"
+		icon_state="lisa"
 		density=1
 		Immortal=1
 
@@ -136,8 +134,7 @@ mob/var/talkedtofred
 
 mob/TalkNPC
 	Fred
-		icon='Misc Mobs.dmi'
-		icon_state="Fred"
+		icon_state="fred"
 		density=1
 		Immortal=1
 
@@ -223,7 +220,6 @@ talkedtofred=3  -  done
 
 mob/TalkNPC
 	Girl
-		icon='Misc Mobs.dmi'
 		icon_state="girl"
 		density=1
 		Immortal=1
@@ -287,7 +283,6 @@ mob/TalkNPC
 
 mob
 	Baby
-		icon='Misc Mobs.dmi'
 		icon_state="baby"
 		density=1
 		Immortal=1
@@ -298,8 +293,7 @@ mob
 
 mob/TalkNPC
 	Lord
-		icon='Misc Mobs.dmi'
-		icon_state="Lord"
+		icon_state="lord"
 		density=1
 		Immortal=1
 
@@ -362,7 +356,7 @@ mob/var/talkedtobunny
 
 mob/TalkNPC
 	easterbunny
-		icon='Easter Stuff.dmi'
+		icon_state = "easter"
 		name= "Easter Bunny"
 		density=1
 		Immortal=1
@@ -673,8 +667,7 @@ mob/TalkNPC
 
 mob/TalkNPC
 	Tim
-		icon='Misc Mobs.dmi'
-		icon_state="Tim"
+		icon_state="tim"
 		density=1
 		Immortal=1
 
@@ -711,8 +704,7 @@ mob/TalkNPC
 
 mob/TalkNPC
 	Sean
-		icon='Misc Mobs.dmi'
-		icon_state="Sean"
+		icon_state="sean"
 		density=1
 		Immortal=1
 
@@ -788,8 +780,7 @@ mob/var/talkedtoalyssa
 
 mob/TalkNPC
 	Alyssa
-		icon='Misc Mobs.dmi'
-		icon_state="Character 37"
+		icon_state="alyssa"
 		Gm=1
 		Immortal=1
 
@@ -821,8 +812,8 @@ mob/TalkNPC
 											src.icon='Frog.dmi'
 											sleep(40)
 											flick("transfigure",src)
-											icon='Misc Mobs.dmi'
-											icon_state="Character 37"
+											icon='NPCs.dmi'
+											icon_state="alyssa"
 											sleep(20)
 											usr << "<b><font color=blue>Alyssa: </font>I guess it was too good to be true."
 											sleep(20)
@@ -1123,6 +1114,131 @@ obj/AlyssaChest/Silver_Spider3
 			else
 				alert("You find nothing.")
 
+mob/var/talkedtosanta
+
+mob
+	elf1
+		icon_state="elf1"
+		density=1
+		Immortal=1
+		name="Elf"
+		verb
+			Examine()
+				set src in oview(3)
+				usr << "They must get tired from making so many toys..."
+
+	elf2
+		icon_state="elf2"
+		density=1
+		name="Elf"
+		Immortal=1
+		verb
+			Examine()
+				set src in oview(3)
+				usr << "They must get tired from making so many toys..."
+
+	elf3
+		icon_state="elf3"
+		density=1
+		name="Elf"
+		Immortal=1
+		verb
+			Examine()
+				set src in oview(3)
+				usr << "They must get tired from making so many toys..."
+
+mob/TalkNPC
+	Santa
+		icon_state="santa"
+		density=1
+		Gm=1
+		Immortal=1
+
+		verb
+			Examine()
+				set src in oview(3)
+				usr << "He looks so jolly!!"
+
+		Talk()
+			set src in oview(3)
+			if(usr.talkedtosanta==1)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Santa</font> [GMTag]</b>:<font color=white> Have you talked to Tim yet?"
+				sleep(10)
+				alert("You shake your head no.")
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Santa</font> [GMTag]</b>:<font color=white> Remember. He's in the Leaky Cauldron."
+				return
+			if(usr.talkedtosanta==2)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Santa</font> [GMTag]</b>:<font color=white> Have you talked to Tim yet?"
+				alert("You tell Santa what Tim said about the receptionist")
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Santa</font> [GMTag]</b>:<font color=white> Alrighty, make sure you check that out."
+				return
+			if(usr.talkedtosanta==3)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Santa</font> [GMTag]</b>:<font color=white> Sooooo, what's the good word??"
+				sleep(20)
+				alert("You fill Santa in on your encounter with Shana")
+				sleep(10)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Santa</font> [GMTag]</b>:<font color=white> So you did it?!? THANK YOU!"
+				sleep(15)
+				alert("Santa leaps into your arms, still screaming 'Thank yous' and 'Great Heavens'")
+				sleep(15)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Santa</font> [GMTag]</b>:<font color=white> Here, take this! My gift to you, as my way of saying Thank you!"
+				alert("Santa gives you a Christmas Wig")
+				usr.talkedtosanta=4
+				switch(input("Do you want a Girl's Wig, or a Boy's Wig?","Santa")in list("Boy's","Girl's"))
+					if("Boy's")
+						new/obj/items/wearable/wigs/male_christmas_wig(usr)
+						alert("Santa: Enjoy!")
+						return
+					if("Girl's")
+						new/obj/items/wearable/wigs/female_christmas_wig(usr)
+						alert("Santa: Enjoy!")
+						return
+			if(usr.talkedtosanta==4)
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Santa</font> [GMTag]</b>:<font color=white> Thanks again!"
+				return
+
+			else
+				usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Santa</font> [GMTag]</b>:<font color=white> Ho ho ho, hello there young one. What can I do for you?"
+				switch(input("Response to Santa","Response")in list("Can I have a present?","I'm just looking around","Nothing"))
+					if("Can I have a present?")
+						usr << "\n<font size=2><ont color=red><b>[Tag] <font color=red>Santa</font> [GMTag]</b>:<font color=white> Oh, I wish I could give you one. It seems that I am in a bit of a dilema. A few of my best Elves have gone missing. With them gone, the other elves have no one to look up to, and toy production itself has stopped."
+						alert("Santa frowns")
+						switch(input("Response to Santa","Santa")in list("Maybe I can help find them for you?","Sorry to hear that"))
+							if("Maybe I can help find them for you?")
+								usr << "\n<font size=2><ont color=red><b>[Tag] <font color=red>Santa</font> [GMTag]</b>:<font color=white> Oh really?!? That would be just great! Word has it that the Easter Bunny's assistant, Tim, knows something, maybe you could ask him? He usually hangs out in the Leaky Cauldron."
+								usr.talkedtosanta=1
+							if("Sorry to hear that")
+								alert("Santa nods solemnly")
+								return
+					if("I'm just looking around")
+						usr << "\n<font size=2><ont color=red><b>[Tag] <font color=red>Santa</font> [GMTag]</b>:<font color=white> Okie Dokie."
+						return
+					if("Nothing")
+						alert("Santa goes back to what he was doing.")
+						return
+
+	Shana
+		icon_state="shana"
+		Gm=1
+		Immortal=1
+
+		Talk()
+			set src in oview(3)
+			if(usr.talkedtosanta==2)
+				usr << "<b><font color=red>[usr]</b></font>: Shana, I know you have the elves"
+				sleep(15)
+				usr << "<b><font color=blue>Shana:</font> I have no idea what you're talking about..."
+				sleep(10)
+				alert("Shana looks around nervously")
+				switch(input("Response to Shana","Response")in list("What did you do with Santa's Elves!","Forget it"))
+					if("What did you do with Santa's Elves!")
+						usr << "<b><font color=blue>Shana:</font> I don't know what you're talking about!!!"
+						sleep(10)
+						usr.loc = locate(73,85,1)
+						alert("Shana attempts to apparate away but you leep onto her and apparate along")
+					if("Forget it")
+						alert("Shana looks relieved")
+						return
 /*
 var/list/quest_list
 

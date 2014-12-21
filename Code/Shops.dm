@@ -39,7 +39,6 @@ proc/infomsg(T as text)
 	return "<font color=#27BBF5>[T]</font>"
 mob/TalkNPC/male_wigseller
 	name="Wig Salesman"
-	icon='Tammie.dmi'
 	icon_state="mwig"
 	Immortal=1
 	Gm=1
@@ -50,7 +49,6 @@ mob/TalkNPC/male_wigseller
 
 mob/TalkNPC/female_wigseller
 	name="Wig Saleswoman"
-	icon='Tammie.dmi'
 	icon_state="fwig"
 	Immortal=1
 	Gm=1
@@ -59,22 +57,22 @@ mob/TalkNPC/female_wigseller
 		set src in oview(4)
 		usr << npcsay("Wig Seller says: Welcome to our little wig shop, use the mirrors to select a wig of your liking!")
 
-mob/TalkNPC/Bartender
-	icon = 'Tammie.dmi'
+mob/TalkNPC/Tammie
+	icon_state = "tammie"
 	NPC = 1
 	Immortal=1
 	item="Potion"
 
 	Talk()
 		set src in oview(2)
-		usr << npcsay("Bartender: Sorry, sweetie. I fell over and hurt my leg so now I can't reach any of my merchandise! What a shame!")
+		usr << npcsay("Tammie: Sorry, sweetie. I fell over and hurt my leg so now I can't reach any of my merchandise! What a shame!")
 		return
 		if(usr.Year in list("1st Year","2nd Year","3rd Year",""))
-			usr << npcsay("Bartender: Sorry, sweetie. Come back when you're older.")
+			usr << npcsay("Tammie: Sorry, sweetie. Come back when you're older.")
 		else
 			var/obj/selecteditem
 			var/selectedprice
-			switch(input("Bartender: What can I get for ya, hun?","You have [comma(usr.gold)] gold")as null|anything in list("Draft Beer  50g","Iced Tea  50g","Cocoa Nut Cream Pie  80g","Blueberry Pie  80g","Apple Pie  80g"))
+			switch(input("Tammie: What can I get for ya, hun?","You have [comma(usr.gold)] gold")as null|anything in list("Draft Beer  50g","Iced Tea  50g","Cocoa Nut Cream Pie  80g","Blueberry Pie  80g","Apple Pie  80g"))
 				if("Draft Beer  50g")
 					selecteditem = /obj/Beer
 					selectedprice = 50
@@ -91,28 +89,27 @@ mob/TalkNPC/Bartender
 					selectedprice = 80
 					selecteditem = /obj/Cocoa_Nut_Cream_Pie
 				if(null)
-					usr << npcsay("Bartender: Just gimme a holler if ya want anything, darl.")
+					usr << npcsay("Tammie: Just gimme a holler if ya want anything, darl.")
 					return
 			if(usr.gold < selectedprice)
-				usr << npcsay("Bartender: Ya don't have enough coin for that darl. It costs [selectedprice]g.")
+				usr << npcsay("Tammie: Ya don't have enough coin for that darl. It costs [selectedprice]g.")
 			else
 				usr.gold -= selectedprice
 				ministrybank += taxrate*selectedprice/100
 				new selecteditem(usr)
-				usr << npcsay("Bartender: There ya go darl. Enjoy.")
+				usr << npcsay("Tammie: There ya go darl. Enjoy.")
 				usr:Resort_Stacking_Inv()
 
 mob/Tom_
-	icon = 'Tom.dmi'
-	icon_state="Tom"
+	icon = 'NPCs.dmi'
+	icon_state="tom"
 	NPC = 1
 	Immortal=1
 	Gm=1
 	density=1
 
 mob/TalkNPC/Tom
-	icon = 'Tom.dmi'
-	icon_state="Tom"
+	icon_state="tom"
 	NPC = 1
 	density=1
 	Immortal=1
@@ -204,8 +201,7 @@ mob/test/verb/MagicEyes()
 var/magicEyesLeft = 10
 
 mob/TalkNPC/Divo
-	icon = 'misc.dmi'
-	icon_state="yellow"
+	icon_state="divo"
 	NPC = 1
 	Immortal=1
 
@@ -240,8 +236,7 @@ mob/TalkNPC/Divo
 			usr:Resort_Stacking_Inv()
 
 mob/TalkNPC/Blotts
-	icon = 'Tammie.dmi'
-	icon_state="Blotts"
+	icon_state="blotts"
 	NPC = 1
 	Immortal=1
 
@@ -269,8 +264,7 @@ mob/TalkNPC/Blotts
 			usr:Resort_Stacking_Inv()
 
 mob/TalkNPC/Ollivander
-	icon = 'misc.dmi'
-	icon_state="olivander"
+	icon_state="ollivander"
 	var/swiftmode=0
 	var/busy=0
 	var/gdir
@@ -426,7 +420,7 @@ mob/TalkNPC/Ollivander
 obj/Madame_Pomfrey
 	bumpable=0
 	density = 1
-	icon='Misc.dmi'
+	icon='NPCs.dmi'
 	icon_state="nurse"
 	Madame_Pomfrey//Names the NPC//Do i really need to say... Sets their ICON STATE
 
@@ -477,7 +471,7 @@ mob/Madame_Pomfrey
 	bumpable=0
 	Gm=1
 	Immortal=1
-	icon='Misc.dmi'
+	icon='NPCs.dmi'
 	icon_state="nurse"
 	Madame_Pomfrey//Names the NPC//Do i really need to say... Sets their ICON STATE
 
@@ -518,7 +512,7 @@ mob/Madam_Pomfrey
 	NPC=1
 	bumpable=0
 	Immortal=1
-	icon='Misc.dmi'
+	icon='NPCs.dmi'
 	icon_state="nurse"
 	Gm=1
 	//Names the NPC//Do i really need to say... Sets their ICON STATE
@@ -594,7 +588,7 @@ mob/Turkey
 
 mob/TalkNPC/Broom_Salesman
 	icon = 'NPCs.dmi'
-	icon_state="Wizzard"
+	icon_state="wizard"
 	item="Potion"
 	name="Chrono"
 
@@ -648,7 +642,8 @@ obj/The_Dark_Mark
 			del src
 
 mob/Sir_Nicholas
-	icon = 'houseghosts.dmi'
+	icon = 'NPCs.dmi'
+	icon_state = "normal"
 	Immortal=1
 	density=0
 	NPC = 1
@@ -669,7 +664,8 @@ mob/Sir_Nicholas
 		sleep(20)
 		icon_state="normal"
 mob/Bloody_Baron
-	icon = 'houseghostsgirl.dmi'
+	icon = 'NPCs.dmi'
+	icon_state = "baron"
 	density=0
 	Immortal=1
 	NPC = 1
@@ -685,7 +681,8 @@ mob/Bloody_Baron
 		if(!(src in view(usr.client.view)))return
 		hearers()<<"<b>The Bloody Baron:</b> *Moan* Ahhhhhhhhhh......ooooooohhh. Leave me alone, [usr]."
 mob/Moaning_Myrtle
-	icon = 'houseghostsgirl.dmi'
+	icon = 'NPCs.dmi'
+	icon_state = "myrtle"
 	density=0
 	Immortal=1
 	NPC = 1
@@ -860,7 +857,6 @@ var/list/shops = list("malewigshop" = newlist(
 
 mob/TalkNPC/Vault_Salesman
 	icon_state="goblin1"
-	icon = 'misc.dmi'
 	var/itemlist = list()
 	New()
 		..()
@@ -918,7 +914,6 @@ mob/TalkNPC/Vault_Salesman
 
 mob/TalkNPC/Artifacts_Salesman
 	icon_state="goblin1"
-	icon = 'misc.dmi'
 	New()
 		..()
 		icon_state = "goblin[rand(1,3)]"

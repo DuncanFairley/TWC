@@ -7,7 +7,7 @@
 
 mob
 	EventMob
-		icon = 'misc.dmi'
+		icon = 'NPCs.dmi'
 		icon_state = "palmer"
 		name = "Event Mob"
 		Immortal = 1
