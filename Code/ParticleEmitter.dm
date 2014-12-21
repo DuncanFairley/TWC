@@ -51,14 +51,14 @@ ParticleEmitter
 
 
 
-mob/verb/Test_Particles()
+/*mob/verb/Test_Particles()
 	var/n = dir2angle(dir)
 	emit(loc    = src,
 		 type   = /obj/particle/blood,
-	     amount = 30,
+	     amount = 5,
 	     angle  = new /Random(n - 25, n + 25),
 	     speed  = 2,
-	     life   = new /Random(15,25))
+	     life   = new /Random(15,25))*/
 
 proc/dir2angle(dir)
 	if(dir == EAST)      return 0
@@ -125,17 +125,24 @@ obj/particle
 		config()
 			..()
 			color = rgb(rand(200,255), 0, 0)
+			transform = matrix()/2
 
 		reset()
 			..()
 			alpha = 255
+			transform = matrix()/2
+			layer = 5
 
 		update()
 			var/t = 5
 			var/l = 1
-			spawn(t * l) die()
+			spawn(t * l)
+				layer = 3
+				sleep(50)
+				die()
 
 			animate(src,
+					transform = matrix()*2,
 					pixel_x = v.x * (life),
 					pixel_y = v.y * (life),
 					alpha = 150,
