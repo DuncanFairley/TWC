@@ -38,7 +38,7 @@ RandomEvent
 					var/obj/spawner/spawn_loc = pick(spawners)
 					var/mob/NPC/Enemies/Summoned/Boss/monster = new /mob/NPC/Enemies/Summoned/Boss/Snowman(spawn_loc.loc)
 					m += monster
-					for(var/i = 1 to 20)
+					for(var/i = 1 to rand(15,40))
 						spawn_loc = pick(spawners)
 						monster = new (spawn_loc.loc)
 
@@ -49,6 +49,7 @@ RandomEvent
 						monster.level       = 600
 						monster.name        = "Snowman"
 						monster.icon        = 'Snowman.dmi'
+						monster.color       = rgb(rand(0, 255), rand(0, 255), rand(0, 255))
 						monster.calcStats()
 						m += monster
 
@@ -252,5 +253,3 @@ obj/items/scroll/prize
 
 	write()
 		set hidden = 1
-
-
