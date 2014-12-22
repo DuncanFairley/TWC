@@ -1801,7 +1801,7 @@ obj/Snowball
 	Bump(mob/M)
 		var/n = dir2angle(get_dir(M, src))
 		emit(loc    = M,
-			 ptype  = /obj/particle/fluid,
+			 ptype  = /obj/particle/fluid/snow,
 		     amount = 5,
 		     angle  = new /Random(n - 25, n + 25),
 		     speed  = 2,

@@ -82,6 +82,8 @@ proc/emit(var/atom/loc, ptype, amount=10, Random/angle, speed, Random/life)
 obj/particle
 	var/life
 	var/velocity/v = new
+	mouse_opacity = 0
+
 
 	layer = 5
 
@@ -146,7 +148,7 @@ obj/particle
 					alpha = 150,
 				    time = t,
 				    loop = l)
-
+		snow
 		blood
 			color = "red"
 
