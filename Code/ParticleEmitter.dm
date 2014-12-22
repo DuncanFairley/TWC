@@ -10,16 +10,16 @@ ParticleEmitter
 		const/DECAY_SIZE = 1000
 
 	proc
-		get_particle(type)
+		get_particle(ptype)
 			var/obj/particle/p
-			if(!("[type]" in pool))
-				p = new type()
+			if(!("[ptype]" in pool))
+				p = new ptype()
 			else
-				p = pool["[type]"][1]
-				pool["[type]"] -= p
+				p = pool["[ptype]"][1]
+				pool["[ptype]"] -= p
 				p.reset()
-				if(length(pool["[type]"]) == 0)
-					pool -= "[type]"
+				if(length(pool["[ptype]"]) == 0)
+					pool -= "[ptype]"
 
 			return p
 
@@ -71,11 +71,10 @@ proc/dir2angle(dir)
 	if(dir == NORTHEAST) return 315
 	return 0
 
-proc/emit(var/atom/loc, type, amount=10, Random/angle, speed, Random/life)
+proc/emit(var/atom/loc, ptype, amount=10, Random/angle, speed, Random/life)
 	if(isobj(loc) || ismob(loc)) loc = loc.loc
-
 	for(var/i = 1 to amount)
-		var/obj/particle/p = particle_emitter.get_particle(type)
+		var/obj/particle/p = particle_emitter.get_particle(ptype)
 		p.config(angle.get(), speed, life.get())
 		p.loc = loc
 		p.update()
@@ -120,11 +119,10 @@ obj/particle
 
 			color = rgb(rand(0,255), rand(0,255), rand(0,255))
 
-	blood
+	fluid
 		icon = 'dot.dmi'
 		config()
 			..()
-			color = rgb(rand(200,255), 0, 0)
 			transform = matrix()/2
 
 		reset()
@@ -148,6 +146,9 @@ obj/particle
 					alpha = 150,
 				    time = t,
 				    loop = l)
+
+		blood
+			color = "red"
 
 
 Random

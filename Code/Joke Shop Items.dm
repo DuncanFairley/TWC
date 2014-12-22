@@ -246,7 +246,7 @@ obj
 
 					var/n = dir2angle(usr.dir)
 					emit(loc    = usr,
-						 type   = /obj/particle/balloon,
+						 ptype  = /obj/particle/balloon,
 					     amount = 50,
 					     angle  = new /Random(n - 35, n + 35),
 					     speed  = 5,

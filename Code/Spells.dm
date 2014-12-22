@@ -1881,7 +1881,7 @@ obj
 				if(bleed)
 					var/n = dir2angle(get_dir(bleed, src))
 					emit(loc    = bleed,
-						 type   = /obj/particle/blood,
+						 ptype  = /obj/particle/fluid/blood,
 					     amount = 5,
 					     angle  = new /Random(n - 25, n + 25),
 					     speed  = 2,

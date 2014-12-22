@@ -281,15 +281,14 @@ obj/items/bagofsnow
 	name="Bag 'o Sno"
 	desc = "It's a bag filled with the finest of snow."
 	destroyable = 1
-	dropable = 0
+	var/tmp/lastproj = 0
 	verb/Throw_Snowball()
-		var/obj/S=new/obj/Snowball
-		S.loc=(usr.loc)
-		S.damage=20
+		if((world.time - lastproj) < 3 || !usr.loc) return
+		lastproj = world.time
+		var/obj/S=new/obj/Snowball (usr.loc)
 		S.owner=usr
 		walk(S,usr.dir,2)
-		sleep(20)
-		del S
+
 obj/items/bagofgoodies
 	name = "bag of goodies"
 	icon = 'bagofgoodies.dmi'
@@ -1795,9 +1794,19 @@ obj/Snowball
 	icon_state="snowball"
 	density=1
 	var/player=0
-	New() spawn(60)del(src)
+	New()
+		spawn(20)
+			walk(src, 0)
+			loc = null
 	Bump(mob/M)
-		del(src)
+		var/n = dir2angle(get_dir(M, src))
+		emit(loc    = M,
+			 ptype  = /obj/particle/fluid,
+		     amount = 5,
+		     angle  = new /Random(n - 25, n + 25),
+		     speed  = 2,
+		     life   = new /Random(15,25))
+		loc = null
 
 obj/Stupefy
 	icon='attacks.dmi'
