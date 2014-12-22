@@ -231,6 +231,10 @@ client/proc
 						mob.LvlCheck()
 					mob.Exp += xp2give
 					mob.LvlCheck()
+				else
+					mob << "<font color=yellow><b>You gained [row_data["Amount"]] gold from your referral [sql_get_name_from(row_data["EarnerCkey"])]([row_data["EarnerCkey"]]).</b></font>"
+					var/gold2give = text2num(row_data["Amount"])
+					mob.gold += gold2give
 				rows2delete += row_data["ID"]
 			var/sql_rows2delete = ""
 			for(var/rowID in rows2delete)
