@@ -135,13 +135,8 @@ mob/Player/proc/unreadmessagelooper()
 					usr.away = 1
 					usr.here=usr.status
 					usr.status=" (AFK)"
-					var/mob/Player/user = src
-					if(usr.Gm)
-						usr.overlays+=image('AFK.dmi',icon_state="GM")
-					else if(locate(/obj/items/wearable/pimp_ring) in user.Lwearing)
-						usr.overlays+=image('AFK.dmi',icon_state="AFK2")
-					else
-						usr.overlays+='AFK.dmi'
+					usr.ApplyAFKOverlay()
+
 			if(unreadmsgs)
 				src << "<b><a href='?src=\ref[src];action=pm_inbox'>You have [unreadmsgs] unread message[unreadmsgs > 1 ? "s":] in your inbox.</a></b>"
 

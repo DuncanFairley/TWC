@@ -1652,18 +1652,22 @@ mob/Player
 				usr.status=usr.here
 				usr.overlays-=image('AFK.dmi',icon_state="GM")
 				usr.overlays-=image('AFK.dmi',icon_state="AFK2")
+				usr.overlays-=image('AFK.dmi',icon_state="AFK3")
 				usr.overlays-='AFK.dmi'
 				world<<"<font color=red>[usr]</font> is no longer AFK."
 mob
 	proc/ApplyAFKOverlay()
 		src.overlays-=image('AFK.dmi',icon_state="GM")
 		src.overlays-=image('AFK.dmi',icon_state="AFK2")
+		src.overlays-=image('AFK.dmi',icon_state="AFK3")
 		src.overlays-=image('AFK.dmi')
 		var/mob/Player/user = src
 		if(src.Gm)
 			src.overlays+=image('AFK.dmi',icon_state="GM")
-		else if(locate(/obj/items/wearable/pimp_ring) in user.Lwearing)
+		else if(locate(/obj/items/wearable/afk/pimp_ring) in user.Lwearing)
 			src.overlays+=image('AFK.dmi',icon_state="AFK2")
+		else if(locate(/obj/items/wearable/afk/hot_chocolate) in user.Lwearing)
+			src.overlays+=image('AFK.dmi',icon_state="AFK3")
 		else
 			src.overlays+='AFK.dmi'
 mob/Player

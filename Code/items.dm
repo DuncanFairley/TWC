@@ -853,18 +853,37 @@ obj/items/wearable/scarves/pastel_scarf
 	icon = 'scarf_pastel.dmi'
 /////////
 
-obj/items/wearable/pimp_ring
-	icon = 'pimpring.dmi'
+obj/items/wearable/afk
 	showoverlay=0
-	Equip(var/mob/Player/owner,var/overridetext=0)
+	Equip(var/mob/Player/owner, var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(. == WORN)
-			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his finger.")
-			for(var/obj/items/wearable/pimp_ring/W in owner.Lwearing)
+			src.gender = owner.gender
+			for(var/obj/items/wearable/afk/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
-		else if(. == REMOVED)
-			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
+
+	pimp_ring
+		icon = 'pimpring.dmi'
+
+		Equip(var/mob/Player/owner,var/overridetext=0, var/forceremove=0)
+			. = ..(owner, overridetext, forceremove)
+			if(. == WORN)
+				if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his finger.")
+			else if(. == REMOVED)
+				if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
+
+	hot_chocolate
+		icon = 'hotchoco.dmi'
+
+		Equip(var/mob/Player/owner,var/overridetext=0, var/forceremove=0)
+			. = ..(owner, overridetext, forceremove)
+			if(. == WORN)
+				if(!overridetext)viewers(owner) << infomsg("[owner] picks up \his [src.name] and hold it in \his hands.")
+			else if(. == REMOVED)
+				if(!overridetext)viewers(owner) << infomsg("[owner] puts down \his [src.name].")
+
+
 obj/items/wearable/bling
 	icon = 'bling.dmi'
 	Equip(var/mob/Player/owner,var/overridetext=0)
@@ -968,6 +987,9 @@ obj/items/wearable/title
 	Warrior
 		title = "Warrior"
 		name  = "Title: Warrior"
+	Snowflakes
+		title = "Snowflakes Collector"
+		name  = "Title: Snowflakes Collector"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
