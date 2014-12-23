@@ -292,6 +292,12 @@ obj/items/bagofsnow
 obj/items/bagofgoodies
 	name = "bag of goodies"
 	icon = 'bagofgoodies.dmi'
+
+	Click()
+		if(src in usr)
+			Open()
+		else ..()
+
 	verb
 		Open()
 			if(src in usr)
