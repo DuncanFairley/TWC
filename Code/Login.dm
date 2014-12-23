@@ -2898,6 +2898,8 @@ turf
 				name       = "ice"
 				icon_state = "ice"
 				layer      = 2
+				if(rain)
+					rain.layer = 0
 				if(!isice)
 					spawn()
 						var/time = rand(40,120)
@@ -2910,6 +2912,8 @@ turf
 				name       = "water"
 				icon_state = "water"
 				layer      = 4
+				if(rain)
+					rain.layer = 4
 				if(isice)
 					spawn()
 						var/time = rand(40,120)
@@ -2924,7 +2928,7 @@ turf
 				spawn(rand(1,150))
 					if(rain)
 						rain.icon = 'water_drop.dmi'
-						rain.layer = 4
+						rain.layer = name == "ice" ? 0 : 4
 						rain.icon_state = pick(icon_states(rain.icon))
 						rain.pixel_x = rand(-12,12)
 						rain.pixel_y = rand(-13,14)
