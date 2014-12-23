@@ -282,6 +282,12 @@ obj/items/bagofsnow
 	desc = "It's a bag filled with the finest of snow."
 	destroyable = 1
 	var/tmp/lastproj = 0
+
+	Click()
+		if(src in usr)
+			Throw_Snowball()
+		else ..()
+
 	verb/Throw_Snowball()
 		if((world.time - lastproj) < 3 || !usr.loc) return
 		lastproj = world.time
