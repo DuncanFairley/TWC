@@ -787,16 +787,18 @@ area/Quidditch
 			var/obj/hud/cancel/C = new()
 			M.client.screen += C
 		Exited(mob/Player/M)
-			..()
 			if(!istype(M, /mob/Player))return
-			M.client.eye=usr
-			M.client.perspective=MOB_PERSPECTIVE
-			for(var/obj/hud/player/R in M.client.screen)
-				del(R)
-			for(var/obj/hud/cancel/C in M.client.screen)
-				del(C)
-			for(var/obj/hud/ball/B in M.client.screen)
-				del(B)
+			if(M.client)
+				M.client.eye=usr
+				M.client.perspective=MOB_PERSPECTIVE
+				for(var/obj/hud/player/R in M.client.screen)
+					del(R)
+				for(var/obj/hud/cancel/C in M.client.screen)
+					del(C)
+				for(var/obj/hud/ball/B in M.client.screen)
+					del(B)
+			..()
+
 obj
 	hud
 		player

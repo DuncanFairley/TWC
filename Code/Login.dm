@@ -2269,20 +2269,9 @@ mob
 					src.Year="Hogwarts Graduate"
 					src<<"Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate."
 					src<<infomsg("You can now view your damage & defense stats in the stats tab.")
-mob/Mailman
-	icon='Misc Mobs.dmi'
-	icon_state="Mailman"
-	density=1
-	NPC=1
-	player=1
-	Gm=1
-	verb
-		Examine()
-			set src in oview(3)
-			usr << "Your friendly neighborhood Mail man!!"
+
 obj/Banker
 	icon_state="goblin1"
-	icon = 'misc.dmi'
 	density=1
 	mouse_over_pointer = MOUSE_HAND_POINTER
 	New()
@@ -3150,3 +3139,19 @@ obj
 		icon_state="mid3"
 		density=1
 		layer=2
+obj
+	guard_statue
+		icon='Mobs.dmi'
+		icon_state="guard"
+		New()
+			..()
+			var/turf/T = src.loc
+			if(T)T.flyblock=1
+
+	snowman
+		icon='snowman.dmi'
+		name="Snow Man"
+		verb
+			Examine()
+				set src in oview(3)
+				usr << "So creative!"
