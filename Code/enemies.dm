@@ -522,6 +522,22 @@ mob
 			Acromantula
 				icon_state = "spider"
 				level = 700
+			Snowman
+				icon = 'Snowman.dmi'
+				level = 700
+				HPmodifier  = 3
+				DMGmodifier = 1
+				MoveDelay = 4
+				AttackDelay = 3
+				drops = list("0.01" = /obj/items/artifact,
+							 "5"    = list(/obj/items/DarknessPowder,
+								 		   /obj/items/Whoopie_Cushion,
+										   /obj/items/U_No_Poo,
+							 			   /obj/items/Smoke_Pellet,
+							 			   /obj/items/Tube_of_fun,
+							 			   /obj/items/Swamp),
+							 "30"   = /obj/items/gift)
+
 			Floating_Eye
 				icon_state = "eye"
 				level = 800
