@@ -25,6 +25,45 @@ RandomEvent
 		for(var/client/C)
 			if(C.mob && C.mob.EventNotifications)winset(C,"mainwindow","flash=2")
 
+	BossFight
+		name = "Boss Fight"
+		start()
+			..()
+			var/minutes = rand(15,45)
+			var/list/m = list()
+			switch(pick("Snowman"))
+				if("Snowman")
+					world << infomsg("The Evil Snowman and his army appeared outside Hogwarts, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
+
+					var/obj/spawner/spawn_loc = pick(spawners)
+					var/mob/NPC/Enemies/Summoned/Boss/monster = new /mob/NPC/Enemies/Summoned/Boss/Snowman(spawn_loc.loc)
+					m += monster
+					for(var/i = 1 to rand(15,40))
+						spawn_loc = pick(spawners)
+						monster = new (spawn_loc.loc)
+
+						monster.DMGmodifier = 1
+						monster.HPmodifier  = 1.5
+						monster.MoveDelay   = 3
+						monster.AttackDelay = 3
+						monster.level       = 600
+						monster.name        = "Snowman"
+						monster.icon        = 'Snowman.dmi'
+						monster.color       = rgb(rand(0, 255), rand(0, 255), rand(0, 255))
+						monster.calcStats()
+						m += monster
+
+			sleep(minutes * 600)
+
+			var/message = 0
+			for(var/mob/NPC/Enemies/Summoned/monster in m)
+				if(monster.loc != null) message = 1
+				monster.loc = null
+				monster.state = monster.INACTIVE
+				m -= monster
+			m = null
+
+			if(message) world << infomsg("The monsters outside have magically vanished by the powers of the ministry.")
 
 	EntranceKillZone
 		name = "Entrance Kill Zone"
@@ -84,10 +123,13 @@ RandomEvent
 
 			sleep(minutes * 600)
 
+			var/message = 0
 			for(var/obj/quidditch/snitch/sn in s)
+				if(sn && sn.loc) message = 1
 				s -= sn
 				del sn
 			s = null
+			if(message) world << infomsg("The snitches have vanished.")
 
 	DropRate
 		name = "Drop Rate Bonus"
@@ -182,11 +224,15 @@ RandomEvent
 
 			sleep(minutes * 600)
 
+			var/message = 0
 			for(var/mob/NPC/Enemies/Summoned/monster in m)
+				if(monster.loc != null) message = 1
 				monster.loc = null
 				monster.state = monster.INACTIVE
 				m -= monster
 			m = null
+
+			if(message) world << infomsg("The monsters have been driven away.")
 
 
 
@@ -207,5 +253,3 @@ obj/items/scroll/prize
 
 	write()
 		set hidden = 1
-
-

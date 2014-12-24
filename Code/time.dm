@@ -57,6 +57,12 @@ mob/GM/verb
 		else
 			usr << errormsg("Could not schedule clan wars.")
 
+	Toggle_GiftOpening()
+		set category = "Staff"
+		allowGifts = !allowGifts
+		usr << infomsg("Gifts [allowGifts ? "can" : "can't"] be opened.")
+
+var/allowGifts = 1
 proc/add_clan_wars(var/day, var/hour)
 	var/date = time_until(day, hour)
 	if(date != -1)

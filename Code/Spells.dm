@@ -375,7 +375,7 @@ mob/Spells/verb/Basilio()
 		return
 	hearers()<<"A Black Basilisk, emerges from [usr]'s wand."
 	hearers()<<"<b>Basilisk</b>: Hissssssss!"
-	var/mob/NPC/Enemies/Summoned/Basilisk/D = new (locate(src.x,src.y-1,src.z))
+	var/mob/NPC/Enemies/Summoned/Boss/Basilisk/D = new (locate(src.x,src.y-1,src.z))
 	flick('mist.dmi',D)
 
 mob/Spells/verb/Serpensortia()
@@ -1750,6 +1750,9 @@ mob
 			src.MP -= MPreq
 			src.updateHPMP()
 
+	proc/Attacked()
+
+
 obj
 	projectile
 		layer = 4
@@ -1790,7 +1793,8 @@ obj
 		var/player=0
 		Bump(mob/M)
 			if(istype(M.loc, /turf/nofirezone)) return
-			if(!loc || inOldArena())if(!istype(M, /mob)) return
+			var/oldSystem = inOldArena()
+			if(!loc || oldSystem)if(!istype(M, /mob)) return
 			if(istype(M, /obj/stone) || istype(M, /obj/redroses) || istype(M, /mob/Madame_Pomfrey) || istype(M,/obj/egg) || istype(M,/obj/clanpillar))
 				for(var/atom/movable/O in M.loc)
 					if(O == M)continue
@@ -1844,9 +1848,13 @@ obj
 				D.Take_Hit(owner)
 			else
 				var/turf/L = isturf(M.loc) ? M.loc : M
+				var/bleed
 				for(var/mob/A in L)
 					if(A.invisibility == 2) continue
+
 					if(damage)
+						A.Attacked()
+						bleed = A
 						if(A.monster)
 							if(src.owner && src.owner.MonsterMessages)
 								src.owner<<"Your [src] does [src.damage] damage to [A]."
@@ -1871,6 +1879,14 @@ obj
 							A.HP-=src.damage
 							if(src.damage)
 								A.Death_Check(src.owner)
+				if(bleed && !oldSystem)
+					var/n = dir2angle(get_dir(bleed, src))
+					emit(loc    = bleed,
+						 ptype  = /obj/particle/fluid/blood,
+					     amount = 5,
+					     angle  = new /Random(n - 25, n + 25),
+					     speed  = 2,
+					     life   = new /Random(15,25))
 			walk(src,0)
 			src.loc = null
 
@@ -2116,6 +2132,7 @@ client
 			src.mob.status=usr.here
 			src.mob.overlays-=image('AFK.dmi',icon_state="GM")
 			src.mob.overlays-=image('AFK.dmi',icon_state="AFK2")
+			src.mob.overlays-=image('AFK.dmi',icon_state="AFK3")
 			src.mob.overlays-='AFK.dmi'
 
 		if(movements)

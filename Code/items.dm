@@ -281,18 +281,109 @@ obj/items/bagofsnow
 	name="Bag 'o Sno"
 	desc = "It's a bag filled with the finest of snow."
 	destroyable = 1
-	dropable = 0
+	var/tmp/lastproj = 0
+
+	Click()
+		if(src in usr)
+			Throw_Snowball()
+		else ..()
+
 	verb/Throw_Snowball()
-		var/obj/S=new/obj/Snowball
-		S.loc=(usr.loc)
-		S.damage=20
+		if((world.time - lastproj) < 3 || !usr.loc) return
+		lastproj = world.time
+		var/obj/S=new/obj/Snowball (usr.loc)
 		S.owner=usr
 		walk(S,usr.dir,2)
-		sleep(20)
-		del S
+
+obj/items/gift
+	icon = 'present.dmi'
+	desc = "Lovely gift wrappings, drag and drop on an item to wrap up a gift!"
+	icon_state = "wrappings"
+	name = "gift wrappings"
+	var/ckeyowner
+
+
+
+	Click()
+		if(src in usr)
+			Open()
+		else ..()
+
+	verb
+		Open()
+			if(!contents.len) return
+			if(!allowGifts)
+				usr << errormsg("You can't open your gift... yet...")
+				return
+
+			var/obj/o = contents[1]
+			usr << infomsg("You opened your present and recieved [o.name]!")
+			o.loc = loc
+			loc = null
+			usr:Resort_Stacking_Inv()
+
+		Disown()
+			var/input = alert("Are you sure you wish to allow anyone to pick this gift up?",,"Yes","No")
+			if(input == "Yes")
+				ckeyowner = null
+				usr << "Your gift can now be picked up by anyone."
+
+	Take()
+		if(ckeyowner == usr.ckey || !ckeyowner)
+			ckeyowner = usr.ckey
+			..()
+		else
+			usr << errormsg("You do not have permission to pick this up.")
+
+	New()
+		..()
+		color = rgb(rand(0,255), rand(0,255), rand(0,255))
+
+		spawn()
+			if(!contents.len)
+				verbs -= /obj/items/gift/verb/Open
+				verbs -= /obj/items/gift/verb/Disown
+
+	MouseDrop(over_object)
+		..()
+
+		if(!contents.len && istype(over_object, /obj/items) && !istype(over_object, /obj/items/gift) && (over_object in usr) && (src in usr))
+			var/obj/items/i = over_object
+
+			if(!i.dropable)
+				usr << errormsg("This item can't be dropped.")
+				return
+
+			if(i in usr:Lwearing)
+				i:Equip(usr)
+			else if(istype(i, /obj/items/lamps) && i:S)
+				var/obj/items/lamps/lamp = i
+				lamp.S.Deactivate()
+
+			i.loc = src
+			desc = "Gift from [usr.name]"
+			name = "gift"
+			icon_state = "[rand(1,4)]"
+			verbs += /obj/items/gift/verb/Disown
+			verbs += /obj/items/gift/verb/Open
+			usr:Resort_Stacking_Inv()
+
+obj/ribbon
+	icon       = 'present.dmi'
+	icon_state = "ribbon"
+	New()
+		..()
+		color = rgb(rand(0,255), rand(0,255), rand(0,255))
+
 obj/items/bagofgoodies
 	name = "bag of goodies"
 	icon = 'bagofgoodies.dmi'
+
+	Click()
+		if(src in usr)
+			Open()
+		else ..()
+
 	verb
 		Open()
 			if(src in usr)
@@ -853,18 +944,37 @@ obj/items/wearable/scarves/pastel_scarf
 	icon = 'scarf_pastel.dmi'
 /////////
 
-obj/items/wearable/pimp_ring
-	icon = 'pimpring.dmi'
+obj/items/wearable/afk
 	showoverlay=0
-	Equip(var/mob/Player/owner,var/overridetext=0)
+	Equip(var/mob/Player/owner, var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(. == WORN)
-			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his finger.")
-			for(var/obj/items/wearable/pimp_ring/W in owner.Lwearing)
+			src.gender = owner.gender
+			for(var/obj/items/wearable/afk/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
-		else if(. == REMOVED)
-			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
+
+	pimp_ring
+		icon = 'pimpring.dmi'
+
+		Equip(var/mob/Player/owner,var/overridetext=0, var/forceremove=0)
+			. = ..(owner, overridetext, forceremove)
+			if(. == WORN)
+				if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his finger.")
+			else if(. == REMOVED)
+				if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
+
+	hot_chocolate
+		icon = 'hotchoco.dmi'
+
+		Equip(var/mob/Player/owner,var/overridetext=0, var/forceremove=0)
+			. = ..(owner, overridetext, forceremove)
+			if(. == WORN)
+				if(!overridetext)viewers(owner) << infomsg("[owner] picks up \his [src.name] and hold it in \his hands.")
+			else if(. == REMOVED)
+				if(!overridetext)viewers(owner) << infomsg("[owner] puts down \his [src.name].")
+
+
 obj/items/wearable/bling
 	icon = 'bling.dmi'
 	Equip(var/mob/Player/owner,var/overridetext=0)
@@ -968,6 +1078,9 @@ obj/items/wearable/title
 	Warrior
 		title = "Warrior"
 		name  = "Title: Warrior"
+	Snowflakes
+		title = "Snowflakes Collector"
+		name  = "Title: Snowflakes Collector"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
@@ -1773,9 +1886,19 @@ obj/Snowball
 	icon_state="snowball"
 	density=1
 	var/player=0
-	New() spawn(60)del(src)
+	New()
+		spawn(20)
+			walk(src, 0)
+			loc = null
 	Bump(mob/M)
-		del(src)
+		var/n = dir2angle(get_dir(M, src))
+		emit(loc    = M,
+			 ptype  = /obj/particle/fluid/snow,
+		     amount = 5,
+		     angle  = new /Random(n - 25, n + 25),
+		     speed  = 2,
+		     life   = new /Random(15,25))
+		loc = null
 
 obj/Stupefy
 	icon='attacks.dmi'

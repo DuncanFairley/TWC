@@ -380,17 +380,10 @@ mob
 
 					Death()
 
-				Basilisk
-					icon_state = "basilisk"
-					HPmodifier = 3
-					DMGmodifier = 3
-					MoveDelay = 3
-					level = 2000
+				Boss
 
 					Attack()
 						..()
-
-					Death()
 
 					Search()
 						Wander()
@@ -424,6 +417,66 @@ mob
 						else
 							..()
 						density = 1
+
+					Basilisk
+						icon_state = "basilisk"
+						HPmodifier = 3
+						DMGmodifier = 3
+						MoveDelay = 3
+						level = 2000
+
+						Death()
+
+					Snowman
+						icon = 'Snowman.dmi'
+						name = "The Evil Snowman"
+						HPmodifier = 10
+						DMGmodifier = 0.5
+						layer = 5
+						MoveDelay = 3
+						AttackDelay = 2
+						Range = 15
+						level = 1000
+						var/tmp/fired = 0
+						extraDmg = 400
+
+						drops = list("100" = list(/obj/items/wearable/title/Snowflakes,
+												  /obj/items/lamps/triple_drop_rate_lamp,
+												  /obj/items/lamps/triple_exp_lamp,
+												  /obj/items/lamps/triple_gold_lamp,
+												  /obj/items/wearable/afk/hot_chocolate))
+
+						Attack(mob/M)
+							..()
+							if(!fired && target && state == HOSTILE)
+								if(prob(40))
+									fired = 1
+									spawn(rand(30,50)) fired = 0
+
+									var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+									var/tmp_d = dir
+									var/dmg = round((Dmg+extraDmg) * 1.5 + rand(-4,8))
+									for(var/d in dirs)
+										dir = d
+										castproj(0, 'attacks.dmi', "snowball", dmg, "snowball", 0, 1)
+									dir = tmp_d
+									sleep(AttackDelay)
+						Attacked()
+							if(HP > 0)
+								var/percent = MHP / HP
+								var/matrix/M = matrix()*percent
+								transform = M
+
+								extraDmg = percent * 400
+
+								if(percent >= 5)
+									MoveDelay = 1
+								else if(percent >= 3)
+									AttackDelay = 1
+								else if(percent >= 2)
+									MoveDelay = 2
+
+
 
 				Phoenix
 					icon_state = "bird"
@@ -469,6 +522,22 @@ mob
 			Acromantula
 				icon_state = "spider"
 				level = 700
+			Snowman
+				icon = 'Snowman.dmi'
+				level = 700
+				HPmodifier  = 3
+				DMGmodifier = 1
+				MoveDelay = 4
+				AttackDelay = 3
+				drops = list("0.01" = /obj/items/artifact,
+							 "5"    = list(/obj/items/DarknessPowder,
+								 		   /obj/items/Whoopie_Cushion,
+										   /obj/items/U_No_Poo,
+							 			   /obj/items/Smoke_Pellet,
+							 			   /obj/items/Tube_of_fun,
+							 			   /obj/items/Swamp),
+							 "30"   = /obj/items/gift)
+
 			Floating_Eye
 				icon_state = "eye"
 				level = 800
