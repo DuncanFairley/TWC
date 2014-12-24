@@ -3039,8 +3039,8 @@ turf
 		icon_state="ice"
 		density=0
 	snow
-		icon='turf.dmi' //**ORIGINAL GRASS state=grass1
-		icon_state="grass1 - normal"
+		icon='turf.dmi'
+		icon_state="snow"
 		density=0
 	dirt
 		icon_state="dirt"
