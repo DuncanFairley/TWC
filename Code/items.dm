@@ -2318,7 +2318,7 @@ obj
 
 obj/Avada_Kedavra
 	icon='attacks.dmi'
-	icon_state="crucio"
+	icon_state="avada"
 	density=1
 	var/player=0
 	layer = 4
@@ -2800,7 +2800,7 @@ obj/items/easter_egg
 			..()
 
 obj/egg
-	icon='Easter Stuff.dmi'
+	icon='Eggs.dmi'
 	icon_state="egg"
 	density=1
 	dontsave=1

@@ -1586,7 +1586,7 @@ mob/Spells/verb/Crucio(mob/M in oview()&Players)
 		hearers()<<"<b><font color=red>[usr]:</b></font> <font color= #7CFC00>Crucio!"
 		new /StatusEffect/UsedCrucio(src,15)
 		//var/obj/S=new/obj/Crucio  //MAIN CRUCIO
-		M.overlays+=image(icon='attacks.dmi',icon_state="kill")
+		M.overlays+=image(icon='attacks.dmi',icon_state="newcrucio")
 		usr.MP-=400
 		usr.updateHPMP()
 		sleep(1)
@@ -1594,7 +1594,7 @@ mob/Spells/verb/Crucio(mob/M in oview()&Players)
 		M.HP-=500
 		M.Death_Check()
 		sleep(20)
-		M.overlays-=image(icon='attacks.dmi',icon_state="kill")
+		M.overlays-=image(icon='attacks.dmi',icon_state="newcrucio")
 mob/Spells/verb/Flippendo()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=1,target=null,mpreq=10))
@@ -2060,6 +2060,7 @@ mob/GM/verb/Remote_View(mob/M in world)
 	set category="Staff"
 	set popup_menu = 0
 	if(clanrobed())return
+	if(M.loc == null) return
 	if(M.derobe||M.aurorrobe||M.type == /mob/fakeDE ||istype(M.loc.loc, /area/ministry_of_magic||istype(M.loc.loc, /area/blindness))){src<<"<b>You cannot use remote view on this person.";return}
 	usr.client.eye=M
 	usr.client.perspective=EYE_PERSPECTIVE

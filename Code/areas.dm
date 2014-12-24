@@ -587,7 +587,7 @@ area
 ************************************************/
 
 
-turf
+obj
 	Barrels
 		icon='turf.dmi'
 		icon_state="barrels"

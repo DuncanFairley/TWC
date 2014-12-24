@@ -1282,3 +1282,28 @@ obj
 						del src
 					if("No")
 						return
+mob
+	snowman
+		icon='snowman.dmi'
+		name="Snow Man"
+		verb
+			Examine()
+				set src in oview(3)
+				usr << "So creative!"
+obj
+	Guard
+		icon='Mobs.dmi'
+		icon_state="guard"
+		density=1
+		Click()
+mob/Mailman
+	icon='Misc Mobs.dmi'
+	icon_state="Mailman"
+	density=1
+	NPC=1
+	player=1
+	Gm=1
+	verb
+		Examine()
+			set src in oview(3)
+			usr << "Your friendly neighborhood Mail man!!"

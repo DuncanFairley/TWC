@@ -377,22 +377,22 @@ question
 	question25
 		question = "What is the symbol of Gryffindor house?"
 		correct  = "Lion"
-		wrong    = list("Raven", "Badger", "Snake")
+		wrong    = list("Eagle", "Badger", "Snake")
 
 	question26
 		question = "What is the symbol of Ravenclaw house?"
-		correct  = "Raven"
+		correct  = "Eagle"
 		wrong    = list("Lion", "Badger", "Snake")
 
 	question27
 		question = "What is the symbol of Hufflepuff house?"
 		correct  = "Badger"
-		wrong    = list("Raven", "Lion", "Snake")
+		wrong    = list("Eagle", "Lion", "Snake")
 
 	question28
 		question = "What is the symbol of Slytherin house?"
 		correct  = "Snake"
-		wrong    = list("Raven", "Badger", "Lion")
+		wrong    = list("Eagle", "Badger", "Lion")
 
 proc/init_books()
 	for(var/t in typesof(/question/) - /question)
