@@ -295,6 +295,86 @@ obj/items/bagofsnow
 		S.owner=usr
 		walk(S,usr.dir,2)
 
+obj/items/gift
+	icon = 'present.dmi'
+	desc = "Lovely gift wrappings, drag and drop on an item to wrap up a gift!"
+	icon_state = "wrappings"
+	name = "gift wrappings"
+	var/ckeyowner
+
+
+
+	Click()
+		if(src in usr)
+			Open()
+		else ..()
+
+	verb
+		Open()
+			if(!contents.len) return
+			if(!allowGifts)
+				usr << errormsg("You can't open your gift... yet...")
+				return
+
+			var/obj/o = contents[1]
+			usr << infomsg("You opened your present and recieved [o.name]!")
+			o.loc = loc
+			loc = null
+			usr:Resort_Stacking_Inv()
+
+		Disown()
+			var/input = alert("Are you sure you wish to allow anyone to pick this gift up?",,"Yes","No")
+			if(input == "Yes")
+				ckeyowner = null
+				usr << "Your gift can now be picked up by anyone."
+
+	Take()
+		if(ckeyowner == usr.ckey || !ckeyowner)
+			ckeyowner = usr.ckey
+			..()
+		else
+			usr << errormsg("You do not have permission to pick this up.")
+
+	New()
+		..()
+		color = rgb(rand(0,255), rand(0,255), rand(0,255))
+
+		spawn()
+			if(!contents.len)
+				verbs -= /obj/items/gift/verb/Open
+				verbs -= /obj/items/gift/verb/Disown
+
+	MouseDrop(over_object)
+		..()
+
+		if(!contents.len && istype(over_object, /obj/items) && !istype(over_object, /obj/items/gift) && (over_object in usr) && (src in usr))
+			var/obj/items/i = over_object
+
+			if(!i.dropable)
+				usr << errormsg("This item can't be dropped.")
+				return
+
+			if(i in usr:Lwearing)
+				i:Equip(usr)
+			else if(istype(i, /obj/items/lamps) && i:S)
+				var/obj/items/lamps/lamp = i
+				lamp.S.Deactivate()
+
+			i.loc = src
+			desc = "Gift from [usr.name]"
+			name = "gift"
+			icon_state = "[rand(1,4)]"
+			verbs += /obj/items/gift/verb/Disown
+			verbs += /obj/items/gift/verb/Open
+			usr:Resort_Stacking_Inv()
+
+obj/ribbon
+	icon       = 'present.dmi'
+	icon_state = "ribbon"
+	New()
+		..()
+		color = rgb(rand(0,255), rand(0,255), rand(0,255))
+
 obj/items/bagofgoodies
 	name = "bag of goodies"
 	icon = 'bagofgoodies.dmi'
