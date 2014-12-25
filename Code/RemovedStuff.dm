@@ -124,6 +124,13 @@ obj/COMCText
 			new /obj/items/COMCText (loc)
 			loc = null
 
+obj/items/wearable/pimp_ring
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/afk/pimp_ring (loc)
+			loc = null
+
 mob/GM
 	verb
 		Take_Sense()

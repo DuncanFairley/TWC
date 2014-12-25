@@ -46,6 +46,7 @@ proc
 		var/savefile/X = new ("players/World.sav")
 		//var/list/objs=list()
 		X["DP"] >> DP
+		X["allowGifts"] >> allowGifts
 		X["housepoints"] >> housepointsGSRH
 		X["dplastupdate"] >> dplastupdate
 		if(X["DJs"]) X["DJs"] >> DJs
@@ -124,6 +125,7 @@ proc
 		X["ministrybank"] << ministrybank
 		X["magicEyesLeft"] << magicEyesLeft
 		X["taxrate"] << taxrate
+		X["allowGifts"] << allowGifts
 		X["lastusedAFKCheck"] << lastusedAFKCheck
 		//X["promicons"] << promicons
 		X["globalvaults"] << globalvaults

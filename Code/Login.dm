@@ -796,7 +796,7 @@ world
 	name = "Harry Potter: The Wizards' Chronicles"
 	turf=/turf/blankturf
 	view="17x17"
-var/world/VERSION = "16.14"
+var/world/VERSION = "16.15"
 
 world/proc/playtimelogger()
 	return
@@ -831,6 +831,7 @@ world/proc/worldlooper()
 		var/rndnum = rand(1,2)
 		for(var/client/C)
 			sleep(2)
+			if(!C) continue
 			if(world.timeofday < 9000)
 				C.mob.usedpermoveo = 0
 			if(winget(C,"radio_enabled","is-checked") == "false")
@@ -1651,18 +1652,22 @@ mob/Player
 				usr.status=usr.here
 				usr.overlays-=image('AFK.dmi',icon_state="GM")
 				usr.overlays-=image('AFK.dmi',icon_state="AFK2")
+				usr.overlays-=image('AFK.dmi',icon_state="AFK3")
 				usr.overlays-='AFK.dmi'
 				world<<"<font color=red>[usr]</font> is no longer AFK."
 mob
 	proc/ApplyAFKOverlay()
 		src.overlays-=image('AFK.dmi',icon_state="GM")
 		src.overlays-=image('AFK.dmi',icon_state="AFK2")
+		src.overlays-=image('AFK.dmi',icon_state="AFK3")
 		src.overlays-=image('AFK.dmi')
 		var/mob/Player/user = src
 		if(src.Gm)
 			src.overlays+=image('AFK.dmi',icon_state="GM")
-		else if(locate(/obj/items/wearable/pimp_ring) in user.Lwearing)
+		else if(locate(/obj/items/wearable/afk/pimp_ring) in user.Lwearing)
 			src.overlays+=image('AFK.dmi',icon_state="AFK2")
+		else if(locate(/obj/items/wearable/afk/hot_chocolate) in user.Lwearing)
+			src.overlays+=image('AFK.dmi',icon_state="AFK3")
 		else
 			src.overlays+='AFK.dmi'
 mob/Player
@@ -2882,6 +2887,8 @@ turf
 				name       = "ice"
 				icon_state = "ice"
 				layer      = 2
+				if(rain)
+					rain.layer = 0
 				if(!isice)
 					spawn()
 						var/time = rand(40,120)
@@ -2894,6 +2901,8 @@ turf
 				name       = "water"
 				icon_state = "water"
 				layer      = 4
+				if(rain)
+					rain.layer = 4
 				if(isice)
 					spawn()
 						var/time = rand(40,120)
@@ -2908,7 +2917,7 @@ turf
 				spawn(rand(1,150))
 					if(rain)
 						rain.icon = 'water_drop.dmi'
-						rain.layer = 4
+						rain.layer = name == "ice" ? 0 : 4
 						rain.icon_state = pick(icon_states(rain.icon))
 						rain.pixel_x = rand(-12,12)
 						rain.pixel_y = rand(-13,14)
