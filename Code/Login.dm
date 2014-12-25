@@ -620,7 +620,7 @@ var/list/illegalnames = list(
 	"harry",
 	"potter",
 	"weasley",
-	"hermoine",
+	"hermione",
 	"granger",
 	"albus",
 	"dumbledore",
