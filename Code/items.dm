@@ -329,7 +329,7 @@ obj/items/gift
 				usr << "Your gift can now be picked up by anyone."
 
 	Take()
-		if(ckeyowner == usr.ckey || !ckeyowner)
+		if(ckeyowner == usr.ckey || !ckeyowner || !contents.len)
 			ckeyowner = usr.ckey
 			..()
 		else
