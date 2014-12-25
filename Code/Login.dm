@@ -406,7 +406,7 @@ mob/proc/get_accessible_vaults()
 
 
 mob/VaultGoblin
-	icon = 'misc.dmi'
+	icon = 'NPCs.dmi'
 	icon_state = "goblinvault"
 	name = "Vault Master"
 	verb
@@ -2276,7 +2276,7 @@ mob
 					src<<infomsg("You can now view your damage & defense stats in the stats tab.")
 
 obj/Banker
-	icon_state="goblin1"
+	icon = 'NPCs.dmi'
 	density=1
 	mouse_over_pointer = MOUSE_HAND_POINTER
 	New()
