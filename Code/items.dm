@@ -366,6 +366,10 @@ obj/items/gift
 			icon_state = "[rand(1,4)]"
 			verbs += /obj/items/gift/verb/Disown
 			verbs += /obj/items/gift/verb/Open
+
+			pixel_y = rand(-4,4)
+			pixel_x = rand(-4,4)
+
 			usr:Resort_Stacking_Inv()
 
 obj/ribbon
