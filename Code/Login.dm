@@ -1543,7 +1543,7 @@ mob/Player
 				return
 			if(OOCMute)
 
-				usr<<"Access to the Communication System has been Restricted. A Game Master has disabled OOC. <p>You can check the status of OOC by saying 'Is OOC off?' out loud."
+				usr<<"Access to the OOC Chat has been restricted by a Staff Member."
 			else
 				if(usr.spam<=5)
 					if(!usr.MuteOOC)
