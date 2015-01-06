@@ -1542,8 +1542,7 @@ mob/Player
 				usr << errormsg("You can't send messages while you are muted.")
 				return
 			if(OOCMute)
-
-				usr<<"Access to the OOC Chat has been restricted by a Staff Member."
+				usr<<"Access to the OOC Chat System has been restricted by a Staff Member."
 			else
 				if(usr.spam<=5)
 					if(!usr.MuteOOC)
