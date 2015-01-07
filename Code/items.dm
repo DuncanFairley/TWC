@@ -1088,6 +1088,12 @@ obj/items/wearable/title
 	Petrified
 		title =  "Petrified Victim"
 		name  =  "Title: Petrified Victim"
+	Bookworm
+		title =  "Bookworm"
+		name  =  "Title: Bookworm"
+	Lumberjack
+		title =  "Lumberjack"
+		name  =  "Title: Lumberjack"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
