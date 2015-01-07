@@ -1347,7 +1347,7 @@ obj
 		density = 1
 		icon='Circle_magic.dmi'
 
-		pixel_x = -64
+		pixel_x = -65
 		pixel_y = -64
 
 		New()
@@ -1393,14 +1393,14 @@ obj
 				var/chance = 100
 				var/prize
 
-				if(istype(i3, /obj/items/scroll) || 1)
+				if(istype(i3, /obj/items/scroll))
 					chance -= 60
 					prize = pick(/obj/items/wearable/title/Bookworm, /obj/items/wearable/title/Lumberjack)
 
 				else if(istype(i3, /obj/items/wearable/title) && !istype(i3, /obj/items/wearable/title/Custom))
 					chance -= 40
 					prize = i3.type
-					i3.color = rgb(rand(20,240), rand(20,240), rand(20,240))
+					i3.color = rgb(rand(40,240), rand(40,240), rand(40,240))
 
 				else
 					bigcolor("black")
