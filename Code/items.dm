@@ -1085,6 +1085,9 @@ obj/items/wearable/title
 	Snowflakes
 		title = "Snowflakes Collector"
 		name  = "Title: Snowflakes Collector"
+	Petrified
+		title =  "Petrified Victim"
+		name  =  "Title: Petrified Victim"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
