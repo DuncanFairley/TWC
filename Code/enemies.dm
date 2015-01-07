@@ -172,7 +172,7 @@ mob
 					state = WANDER
 					list/ignore
 
-				Range = 10
+				Range = 12
 				MoveDelay = 5
 				AttackDelay = 5
 
@@ -714,6 +714,7 @@ mob
 				HPmodifier = 3
 				DMGmodifier = 3
 				MoveDelay = 3
+				Range = 16
 
 				var/tmp/fired = 0
 
