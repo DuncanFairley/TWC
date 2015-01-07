@@ -2657,26 +2657,16 @@ proc
 		if(!istype(E,/mob/NPC/Enemies))
 			E.loc = null
 		else
-			E.activated = 0
 			E.state = E.INACTIVE
-
 			if(E.origloc)
-
-				spawn(1200)////1200
+				spawn(E.respawnTime)// + rand(-50,100))////1200
 					if(E)
 						E.loc = E.origloc
 						E.HP = E.MHP
 						E.ShouldIBeActive()
+						E.state()
 			else
 				E.loc = null
-					/*if(E)
-						E.loc = initial(E.loc)
-						if(istype(E,/mob/NPC/Enemies))
-							E.activated = 0
-							for(var/mob/M in E.loc.loc)
-								if(M.key)
-									E.Wander()
-									return*/
 
 
 

@@ -175,6 +175,7 @@ mob
 				Range = 12
 				MoveDelay = 5
 				AttackDelay = 5
+				respawnTime = 1200
 
 
 			New()
@@ -217,10 +218,11 @@ mob
 
 			proc/state()
 				var/lag = 10
-				while(src)
+				while(src && src.loc)
+					var/s = state
 					switch(state)
 						if(INACTIVE)
-							lag = 42
+							lag = 50
 						if(WANDER)
 							Wander()
 							lag = 27
@@ -233,8 +235,11 @@ mob
 						if(CONTROLLED)
 							BlindAttack()
 							lag = 12
-					if(lag <= 0) lag = 1
-					sleep(lag)
+					if(s == state)
+						if(lag <= 0) lag = 1
+						sleep(lag)
+					else
+						sleep(1)
 			var/tmp/mob/target
 
 
@@ -254,6 +259,7 @@ mob
 
 				Wander()
 					step_rand(src)
+					sleep(1)
 
 				Ignore(mob/M)
 					if(!ignore) ignore = list()
@@ -462,6 +468,7 @@ mob
 									dir = tmp_d
 									sleep(AttackDelay)
 						Attacked()
+							..()
 							if(HP > 0)
 								var/percent = MHP / HP
 								var/matrix/M = matrix()*percent
@@ -711,10 +718,20 @@ mob
 			Basilisk
 				icon_state = "basilisk"
 				level = 2000
-				HPmodifier = 3
+				HPmodifier = 5
 				DMGmodifier = 3
 				MoveDelay = 2
 				Range = 16
+				respawnTime = 3600
+
+				drops = list("1"   = list(/obj/items/artifact,
+										  /obj/items/wearable/title/Petrified),
+							 "5"   = list(/obj/items/DarknessPowder,
+								 		  /obj/items/Whoopie_Cushion,
+										  /obj/items/U_No_Poo,
+							 			  /obj/items/Smoke_Pellet,
+							 			  /obj/items/Tube_of_fun,
+							 			  /obj/items/Swamp))
 
 				var/tmp/fired = 0
 
