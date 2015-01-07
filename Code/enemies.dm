@@ -713,7 +713,7 @@ mob
 				level = 2000
 				HPmodifier = 3
 				DMGmodifier = 3
-				MoveDelay = 3
+				MoveDelay = 2
 				Range = 16
 
 				var/tmp/fired = 0
