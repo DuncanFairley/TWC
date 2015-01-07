@@ -107,6 +107,7 @@ area
 
 			Ratcellar
 			Chamber_of_Secrets
+			Graveyard_Underground
 		Entered(atom/movable/O)
 			. = ..()
 			if(isplayer(O))
@@ -544,11 +545,20 @@ mob
 							 			   /obj/items/Tube_of_fun,
 							 			   /obj/items/Swamp),
 							 "30"   = /obj/items/gift)
+			Magic_Elemental
+				icon_state = "water elemental"
+				level = 750
+
+				New()
+					..()
+					alpha = rand(150,255)
+					color = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
 
 			Floating_Eye
 				icon_state = "eye"
-				level = 800
-				HPmodifier = 1.8
+				level = 850
+				HPmodifier  = 2
+				DMGmodifier = 0.7
 				var/tmp/fired = 0
 				MoveDelay = 4
 				AttackDelay = 1
