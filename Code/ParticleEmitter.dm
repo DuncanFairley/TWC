@@ -54,9 +54,9 @@ ParticleEmitter
 /*mob/verb/Test_Particles()
 	var/n = dir2angle(dir)
 	emit(loc    = src,
-		 type   = /obj/particle/blood,
-	     amount = 5,
-	     angle  = new /Random(n - 25, n + 25),
+		 ptype  = /obj/particle/magic,
+	     amount = 50,
+	     angle  = new /Random(1, 359),
 	     speed  = 2,
 	     life   = new /Random(15,25))*/
 
@@ -149,8 +149,28 @@ obj/particle
 				    time = t,
 				    loop = l)
 		snow
+
 		blood
 			color = "red"
+
+	magic
+		icon = 'dot.dmi'
+
+
+		config()
+			..()
+			color = rgb(rand(20,240), rand(20,240), rand(20,240))
+
+		update()
+			var/t = rand(5,10)
+			var/l = 2
+			spawn(t * l) die()
+
+			animate(src,
+					pixel_x = v.x * (life),
+					pixel_y = v.y * (life),
+				    time = t,
+				    loop = l)
 
 
 Random

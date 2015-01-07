@@ -1795,7 +1795,7 @@ obj
 			if(istype(M.loc, /turf/nofirezone)) return
 			var/oldSystem = inOldArena()
 			if(!loc || oldSystem)if(!istype(M, /mob)) return
-			if(istype(M, /obj/stone) || istype(M, /obj/redroses) || istype(M, /mob/Madame_Pomfrey) || istype(M,/obj/egg) || istype(M,/obj/clanpillar))
+			if(istype(M, /obj/stone) || istype(M, /obj/redroses) || istype(M, /mob/Madame_Pomfrey) || istype(M,/obj/egg) || istype(M,/obj/enchanter) || istype(M,/obj/clanpillar))
 				for(var/atom/movable/O in M.loc)
 					if(O == M)continue
 					if(ismob(O))
@@ -1807,6 +1807,9 @@ obj
 				if(istype(M,/obj/egg))
 					var/obj/egg/E = M
 					E.Hit()
+				else if(istype(M,/obj/enchanter))
+					var/obj/enchanter/E = M
+					E.enchant()
 				else if(istype(M, /obj/clanpillar))
 					var/obj/clanpillar/C = M
 					if(1)
