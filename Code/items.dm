@@ -684,7 +684,7 @@ obj/items/wearable/wigs
 		. = ..(owner)
 		if(. == WORN)
 			src.gender = owner.gender
-			if(!overridetext)viewers(owner) << infomsg("[owner] attaches [src.name] to \his scalp.")
+			if(!overridetext)viewers(owner) << infomsg("[owner] attaches \his [src.name] to \his scalp.")
 			for(var/obj/items/wearable/wigs/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
