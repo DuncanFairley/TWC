@@ -241,16 +241,16 @@ obj/Quidditch_Sign
 	pixel_y = -5
 
 obj/Neptune
-	icon='General.dmi'
-	icon_state="tile91"
+	icon='statues.dmi'
+	icon_state="top6"
 	accioable=0
 	wlable=0
 	density=1
 	dontsave=1
 
 obj/NeptuneBottom
-	icon='General.dmi'
-	icon_state="tile92"
+	icon='statues.dmi'
+	icon_state="bottom6"
 	accioable=0
 	wlable=0
 	density=1
