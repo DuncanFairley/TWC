@@ -991,6 +991,7 @@ obj/items/wearable/bling
 obj/items/wearable/magic_eye
 	icon = 'MoodyEye.dmi'
 	desc = "This magical eye allows the wearer to see through basic and intermediate invisibility magic."
+	wear_layer = FLOAT_LAYER - 6
 	Equip(var/mob/Player/owner,var/overridetext=0)
 		. = ..(owner)
 		if(. == WORN)
