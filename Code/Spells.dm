@@ -1595,7 +1595,7 @@ mob/Spells/verb/Crucio(mob/M in oview()&Players)
 		usr.MP-=400
 		usr.updateHPMP()
 		sleep(1)
-		hearers()<<"[M] cringes in Pain!"
+		hearers()<<"[M] cringes in pain!"
 		M.HP-=500
 		M.Death_Check()
 		sleep(20)
