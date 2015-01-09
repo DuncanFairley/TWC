@@ -1764,7 +1764,7 @@ obj
 				if(!A.density && (A:key || istype(A,/mob/NPC/Enemies)))
 					src.Bump(A)
 			else if(isobj(A))
-				if(istype(A,/obj/portkey))
+				if(istype(A,/obj/portkey) && damage)
 					A:HP--
 					owner << "You hit the [A.name]."
 					if(A:HP < 1)
