@@ -545,14 +545,47 @@ mob
 							 			   /obj/items/Tube_of_fun,
 							 			   /obj/items/Swamp),
 							 "30"   = /obj/items/gift)
-			Magic_Elemental
-				icon_state = "water elemental"
+			Wisp
+				icon_state = "wisp"
 				level = 750
+
+				HPmodifier  = 2
+				DMGmodifier = 2
+				MoveDelay = 4
+				AttackDelay = 3
+				canBleed = FALSE
+
+				Attacked(projname, damage)
+					if(projname == "gum" && prob(80))
+						emit(loc    = src,
+							 ptype  = /obj/particle/red,
+						     amount = 2,
+						     angle  = new /Random(1, 359),
+						     speed  = 2,
+						     life   = new /Random(15,20))
+					else
+						HP+=damage
+
+						emit(loc    = src,
+							 ptype  = /obj/particle/green,
+						     amount = 2,
+						     angle  = new /Random(1, 359),
+						     speed  = 2,
+						     life   = new /Random(15,20))
 
 				New()
 					..()
-					alpha = rand(150,255)
-					color = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+					alpha = rand(190,255)
+
+					var/color1 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+					var/color2 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+					var/color3 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+
+					animate(src, color = color1, time = 10, loop = -1)
+					animate(color = color2, time = 10)
+					animate(color = color3, time = 10)
+
+					if(prob(70)) transform *= 1 + (rand(-5,15) / 50) // -10% to +30% size change
 
 			Floating_Eye
 				icon_state = "eye"
@@ -725,9 +758,11 @@ mob
 			Water_Elemental
 				icon_state = "water elemental"
 				level = 550
+				canBleed = FALSE
 			Fire_Elemental
 				icon_state = "fire elemental"
 				level = 600
+				canBleed = FALSE
 			Wyvern
 				icon_state = "wyvern"
 				level = 650

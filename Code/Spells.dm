@@ -1750,7 +1750,7 @@ mob
 			src.MP -= MPreq
 			src.updateHPMP()
 
-	proc/Attacked()
+	proc/Attacked(projname, damage)
 
 
 obj
@@ -1856,8 +1856,8 @@ obj
 					if(A.invisibility == 2) continue
 
 					if(damage)
-						A.Attacked()
-						bleed = A
+						A.Attacked(src.icon_state, damage)
+						if(A.canBleed) bleed = A
 						if(A.monster)
 							if(src.owner && src.owner.MonsterMessages)
 								src.owner<<"Your [src] does [src.damage] damage to [A]."
@@ -1892,6 +1892,8 @@ obj
 					     life   = new /Random(15,25))
 			walk(src,0)
 			src.loc = null
+
+mob/var/tmp/canBleed = TRUE
 
 obj/circle
 	icon = 'circle1.dmi'

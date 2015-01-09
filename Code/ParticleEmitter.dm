@@ -82,6 +82,8 @@ proc/emit(var/atom/loc, ptype, amount=10, Random/angle, speed, Random/life)
 obj/particle
 	var/life
 	var/velocity/v = new
+	var/loop = 5
+	var/Random/time = new /Random(5, 10)
 	mouse_opacity = 0
 
 
@@ -95,8 +97,8 @@ obj/particle
 			v.y = -speed * sin(angle)
 
 		update()
-			var/t = rand(5,10)
-			var/l = 5
+			var/t = time.get()
+			var/l = loop
 			spawn(t * l) die()
 
 			animate(src,
@@ -155,22 +157,21 @@ obj/particle
 
 	magic
 		icon = 'dot.dmi'
-
+		loop = 2
 
 		config()
 			..()
 			color = rgb(rand(20,240), rand(20,240), rand(20,240))
 
-		update()
-			var/t = rand(5,10)
-			var/l = 2
-			spawn(t * l) die()
+	green
+		icon = 'dot.dmi'
+		loop = 2
+		color = "green"
 
-			animate(src,
-					pixel_x = v.x * (life),
-					pixel_y = v.y * (life),
-				    time = t,
-				    loop = l)
+	red
+		icon = 'dot.dmi'
+		loop = 2
+		color = "red"
 
 
 Random
