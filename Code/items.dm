@@ -1097,6 +1097,9 @@ obj/items/wearable/title
 	Eye
 		title =  "One Eyed"
 		name  =  "Title: One Eyed"
+	Magic
+		title =  "Magical"
+		name  =  "Title: Magical"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))

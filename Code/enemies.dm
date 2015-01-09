@@ -550,10 +550,16 @@ mob
 				level = 750
 
 				HPmodifier  = 2
-				DMGmodifier = 2
-				MoveDelay = 4
-				AttackDelay = 3
+				DMGmodifier = 1.5
+				MoveDelay = 3
+				AttackDelay = 2
 				canBleed = FALSE
+
+				drops = list("0.01" = /obj/items/artifact,
+							 "0.03" = /obj/items/wearable/title/Magic,
+							 "5"    = list(/obj/items/DarknessPowder,
+							 			   /obj/items/Smoke_Pellet,
+							 			   /obj/items/Tube_of_fun))
 
 				Attacked(projname, damage)
 					if(projname == "gum" && prob(80))
