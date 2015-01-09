@@ -563,13 +563,19 @@ mob
 				MoveDelay = 4
 				AttackDelay = 1
 
-				drops = list("0.6" = /obj/items/artifact,
-							 "1"   = list(/obj/items/DarknessPowder,
-								 		  /obj/items/Whoopie_Cushion,
-										  /obj/items/U_No_Poo,
-							 			  /obj/items/Smoke_Pellet,
-							 			  /obj/items/Tube_of_fun,
-							 			  /obj/items/Swamp))
+				New()
+					..()
+					if(prob(60))
+						transform *= 1 + (rand(-15,30) / 50) // -30% to +60% size change
+
+				drops = list("0.03" = /obj/items/wearable/title/Eye,
+							 "0.6"  = /obj/items/artifact,
+							 "1"    = list(/obj/items/DarknessPowder,
+								 	 	   /obj/items/Whoopie_Cushion,
+									 	   /obj/items/U_No_Poo,
+							 		 	   /obj/items/Smoke_Pellet,
+							 		 	   /obj/items/Tube_of_fun,
+							 		       /obj/items/Swamp))
 
 				Search()
 					Wander()
