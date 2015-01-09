@@ -2111,7 +2111,7 @@ mob/proc/Death_Check(mob/killer = src)
 
 		else
 			if(killer.client)
-				killer.AddKill(src.name)
+				if(istype(src, /mob/NPC/Enemies) && !istype(src, /mob/NPC/Enemies/Summoned)) killer.AddKill(src.name)
 				if(killer.MonsterMessages)killer<<"<i><small>You knocked [src] out!</small></i>"
 
 				killer.ekills+=1

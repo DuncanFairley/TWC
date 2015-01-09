@@ -16,7 +16,7 @@ mob
 		AddKill(var/monster)
 			monsterkills["[monster]"]++
 			switch(monster)
-				if("Basilisk","Akalla")
+				if("Basilisk")
 					if(monsterkills["[monster]"] == 1)
 						spawn()Award("Bassy Attacks!")
 				if("Dementor")
