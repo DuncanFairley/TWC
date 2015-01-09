@@ -4,7 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-var/lvlcap = 600
+var/lvlcap = 650
 var/const/SWAPMAP_Z = 26
 /*mob/verb/NewVault1()
 
