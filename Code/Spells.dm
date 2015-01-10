@@ -1854,7 +1854,7 @@ obj
 				var/bleed
 				for(var/mob/A in L)
 					if(A.invisibility == 2) continue
-
+					if(owner.monster&&A.monster) continue
 					if(damage)
 						A.Attacked(src.icon_state, damage)
 						if(A.canBleed) bleed = A
@@ -1878,10 +1878,9 @@ obj
 						else
 							A.shieldamount -= src.damage
 					else
-						if(!(owner.monster&&A.monster))
-							A.HP-=src.damage
-							if(src.damage)
-								A.Death_Check(src.owner)
+						A.HP-=src.damage
+						if(src.damage)
+							A.Death_Check(src.owner)
 				if(bleed && !oldSystem)
 					var/n = dir2angle(get_dir(bleed, src))
 					emit(loc    = bleed,
