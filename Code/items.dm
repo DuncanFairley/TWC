@@ -3207,8 +3207,9 @@ obj/items/crystal
 	icon = 'Crystal.dmi'
 
 	var
-		bonus   = 0 // 1 for damage, 2 for defense, 3 for both
-		luck    = 0 // bonus chance
+		bonus      = 0 // 1 for damage, 2 for defense, 3 for both
+		luck       = 0 // bonus chance
+		ignoreItem = FALSE// ignores fourth item
 
 	Click()
 		if(src in usr)
@@ -3217,6 +3218,7 @@ obj/items/crystal
 				usr << errormsg("You hold [src.name] suddenly it disappears as it is absorbed within the magic circle.")
 				e.applyBonus  |= bonus
 				e.bonusChance += luck
+				if(ignoreItem) e.ignoreItem = TRUE
 				e.showBonus()
 				loc = null
 				usr:Resort_Stacking_Inv()
@@ -3246,6 +3248,11 @@ obj/items/crystal
 		name  = "strong luck crystal"
 		icon_state = "luck2"
 		luck  = 10
+	soul
+		name = "soul crystal"
+		icon_state = "soul"
+		luck = 5
+		ignoreItem = TRUE
 
 
 obj
@@ -3263,9 +3270,10 @@ obj
 
 		var
 			tmp
-				inUse       = 0
+				inUse       = FALSE
 				bonusChance = 0
 				applyBonus  = 0
+				ignoreItem  = FALSE
 			max_upgrade = 3
 
 		proc
@@ -3296,9 +3304,9 @@ obj
 
 			enchant()
 				if(inUse) return
-				inUse = 1
+				inUse = TRUE
 				spawn(13)
-					inUse = 0
+					inUse = FALSE
 					colors()
 
 				animate(src)
@@ -3308,7 +3316,7 @@ obj
 				var/obj/items/artifact/i1 = locate() in locate(x+DISTANCE,y,z)
 				var/obj/items/artifact/i2 = locate() in locate(x-DISTANCE,y,z)
 				var/obj/items/i3 = locate() in locate(x,y+DISTANCE,z)
-				var/obj/items/i4 = locate() in locate(x,y-DISTANCE,z)
+				var/obj/items/i4 = ignoreItem ? i3 : locate() in locate(x,y-DISTANCE,z)
 
 				if(!i1 || !i2) // no artifacts
 					bigcolor("red")
@@ -3377,3 +3385,4 @@ obj
 
 				bonusChance = 0
 				applyBonus  = 0
+				ignoreItem  = FALSE
