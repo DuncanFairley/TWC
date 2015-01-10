@@ -772,7 +772,7 @@ mob/Spells/verb/Antifigura()
 
 mob/Spells/verb/Chaotica()
 	set category="Spells"
-	var/dmg = round(usr.level * 1.1)
+	var/dmg = round(usr.level * 1.1) + clothDmg
 	if(dmg<20)dmg=20
 	else if(dmg>2000)dmg = 2000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
@@ -782,10 +782,10 @@ mob/Spells/verb/Aqua_Eructo()
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
 		HP -= 30
 		Death_Check()
-		castproj(0,'Aqua Eructo.dmi',"",usr.Def+(usr.extraDef/3),"aqua eructo")
+		castproj(0,'Aqua Eructo.dmi',"",usr.Def+(usr.extraDef/3) + clothDmg,"aqua eructo")
 mob/Spells/verb/Inflamari()
 	set category="Spells"
-	var/dmg = round(usr.level * 0.9)
+	var/dmg = round(usr.level * 0.9) + clothDmg
 	if(dmg<10)dmg=10
 	else if(dmg>1000)dmg = 1000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
@@ -793,15 +793,15 @@ mob/Spells/verb/Inflamari()
 mob/Spells/verb/Glacius()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
-		castproj(10,'attacks.dmi',"iceball",usr.Dmg+usr.extraDmg,"glacius")
+		castproj(10,'attacks.dmi',"iceball",usr.Dmg+usr.extraDmg + clothDmg,"glacius")
 mob/Spells/verb/Waddiwasi()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
-		castproj(10,'attacks.dmi',"gum",usr.Dmg+usr.extraDmg,"waddiwasi")
+		castproj(10,'attacks.dmi',"gum",usr.Dmg+usr.extraDmg + clothDmg,"waddiwasi")
 mob/Spells/verb/Tremorio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
-		castproj(5,'attacks.dmi',"quake",usr.Dmg+usr.extraDmg,"tremorio")
+		castproj(5,'attacks.dmi',"quake",usr.Dmg+usr.extraDmg + clothDmg,"tremorio")
 mob/Spells/verb/Furnunculus(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
@@ -1036,7 +1036,7 @@ mob/Spells/verb/Incindia()
 		usr.updateHPMP()
 		new /StatusEffect/UsedIncindia(src,15)
 		var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-		var/damage = round((Dmg + extraDmg) * 0.75)
+		var/damage = round((Dmg + extraDmg + clothDmg) * 0.75)
 		var/t = dir
 		for(var/d in dirs)
 			dir = d

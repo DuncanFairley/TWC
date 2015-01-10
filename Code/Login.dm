@@ -1035,6 +1035,10 @@ mob/var
 	extraMMP = 0
 	extraDmg = 0
 	extraDef = 0
+
+	tmp
+		clothDmg = 0
+		clothDef = 0
 mob/Player
 	player=1
 	NPC=0
@@ -2205,10 +2209,12 @@ mob/proc/resetStatPoints()
 	src.extraDef = 0
 	src.Dmg = (src.level - 1) + 5
 	src.Def = (src.level - 1) + 5
-	src.MHP = 4 * (src.level - 1) + 200 + 2 * (src.Def + src.extraDef)
+	resetMaxHP()
 	src.verbs.Add(/mob/Player/verb/Use_Statpoints)
 mob/proc/resetMaxHP()
-	src.MHP = 4 * (src.level - 1) + 200 + 2 * (src.Def + src.extraDef)
+	src.MHP = 4 * (src.level - 1) + 200 + 2 * (src.Def + src.extraDef + src.clothDef)
+	if(HP > MHP)
+		HP = MHP
 mob
 	proc
 		LvlCheck(var/fakelevels=0)

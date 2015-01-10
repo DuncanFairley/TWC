@@ -80,6 +80,16 @@ obj/items/wearable
 	var/showoverlay = 1
 	var/wear_layer = FLOAT_LAYER - 5
 
+	var
+		const
+			NOUPGRADE = -1 // -1 can't be upgraded
+			UPGRADE   = 0  // 0  can be upgraded
+			DAMAGE    = 1  // 1 damage
+			DEFENSE   = 2  // 2 defense
+
+		bonus   = NOUPGRADE
+		quality = 0
+
 obj/items/wearable/Destroy(var/mob/Player/owner)
 	. = ..(owner)
 	if(. == 1) //If user chooses to destroy
@@ -108,6 +118,11 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			o.layer = wear_layer
 			owner.overlays -= o
 		src.suffix = null
+		if(bonus & DAMAGE)
+			owner.clothDmg -= 10 * quality
+		if(bonus & DEFENSE)
+			owner.clothDef -= 30 * quality
+			owner.resetMaxHP()
 		return REMOVED
 	else
 		if(showoverlay && !owner.trnsed && owner.icon_state != "invis")
@@ -118,6 +133,11 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		suffix = "<font color=blue>(Worn)</font>"
 		if(!owner.Lwearing) owner.Lwearing = list()
 		owner.Lwearing.Add(src)
+		if(bonus & DAMAGE)
+			owner.clothDmg += 10 * quality
+		if(bonus & DEFENSE)
+			owner.clothDef += 30 * quality
+			owner.resetMaxHP()
 		return WORN
 
 obj/items/food
@@ -824,6 +844,7 @@ obj/items/wearable/wigs/female_halloween_wig
 
 obj/items/wearable/shoes
 	desc = "A pair of shoes. They look comfy!"
+	bonus = 0
 	Equip(var/mob/Player/owner, var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(. == WORN)
@@ -877,6 +898,7 @@ obj/items/wearable/shoes/candycane_shoes
 	name = "candy cane shoes"
 
 obj/items/wearable/scarves
+	bonus = 0
 	desc = "A finely knit scarf designed to keep your neck toasty warm."
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
@@ -3180,3 +3202,178 @@ obj/items
 					D.player1:Transfer(t)
 					D.player1.dir = EAST
 					D.player1.movable = 1
+
+obj/items/crystal
+	icon = 'Crystal.dmi'
+
+	var
+		bonus   = 0 // 1 for damage, 2 for defense, 3 for both
+		luck    = 0 // bonus chance
+
+	Click()
+		if(src in usr)
+			var/obj/enchanter/e = locate() in oview(2, usr)
+			if(e)
+				usr << errormsg("You hold [src.name] suddenly it disappears as it is absorbed within the magic circle.")
+				e.applyBonus  |= bonus
+				e.bonusChance += luck
+				e.showBonus()
+				loc = null
+				usr:Resort_Stacking_Inv()
+			else
+				usr << errormsg("You hold [src.name] but nothing happens.")
+
+		else
+			..()
+	damage
+		name  = "damage crystal"
+		icon_state = "damage"
+		bonus = 1
+	defense
+		name  = "defense crystal"
+		icon_state = "defense"
+		bonus = 2
+	magic
+		name  = "magic crystal"
+		icon_state = "magic"
+		bonus = 3
+		luck  = 5
+	luck
+		name  = "luck crystal"
+		icon_state = "luck"
+		luck  = 5
+	strong_luck
+		name  = "strong luck crystal"
+		icon_state = "luck2"
+		luck  = 10
+
+
+obj
+	enchanter
+
+		density = 1
+		icon='Circle_magic.dmi'
+
+		pixel_x = -65
+		pixel_y = -64
+
+		New()
+			..()
+			colors()
+
+		var
+			tmp
+				inUse       = 0
+				bonusChance = 0
+				applyBonus  = 0
+			max_upgrade = 3
+
+		proc
+			colors()
+				animate(src, color = "#cc2aa2", time = 10, loop = -1)
+				animate(color = "#55f933", time = 10)
+				animate(color = "#0aa2df", time = 10)
+
+			showBonus()
+				if(applyBonus & 2)
+					emit(loc    = src,
+						 ptype  = /obj/particle/green,
+					     amount = 3,
+					     angle  = new /Random(1, 359),
+					     speed  = 2,
+					     life   = new /Random(15,25))
+				if(applyBonus & 1)
+					emit(loc    = src,
+						 ptype  = /obj/particle/red,
+					     amount = 3,
+					     angle  = new /Random(1, 359),
+					     speed  = 2,
+					     life   = new /Random(15,25))
+
+			bigcolor(var/c)
+				animate(src, transform = matrix()*1.75, color = "[c]",   alpha = 150, time = 2,  easing = LINEAR_EASING)
+				animate(transform = null,               color = "white", alpha = 255, time = 10, easing = BOUNCE_EASING)
+
+			enchant()
+				if(inUse) return
+				inUse = 1
+				spawn(13)
+					inUse = 0
+					colors()
+
+				animate(src)
+				sleep(1)
+
+				var/const/DISTANCE = 3
+				var/obj/items/artifact/i1 = locate() in locate(x+DISTANCE,y,z)
+				var/obj/items/artifact/i2 = locate() in locate(x-DISTANCE,y,z)
+				var/obj/items/i3 = locate() in locate(x,y+DISTANCE,z)
+				var/obj/items/i4 = locate() in locate(x,y-DISTANCE,z)
+
+				if(!i1 || !i2) // no artifacts
+					bigcolor("red")
+					return
+
+				if(!i3 || !i4 || i3.type != i4.type) // wrong combo
+					bigcolor("blue")
+					return
+
+				var/chance = 100
+				var/prize
+
+				if(istype(i3, /obj/items/scroll))
+					chance -= 60
+					prize = pick(/obj/items/wearable/title/Bookworm, /obj/items/wearable/title/Lumberjack)
+
+				else if(istype(i3, /obj/items/wearable/))
+
+					if(istype(i3, /obj/items/wearable/title) && !istype(i3, /obj/items/wearable/title/Custom))
+						chance -= 40
+						prize = i3.type
+						i3.color = rgb(rand(80,240), rand(80,240), rand(80,240))
+
+					else if(i3:bonus != -1 && i3:quality < max_upgrade && i3:quality == i4:quality)
+						var/flags = applyBonus|i3:bonus|i4:bonus
+						if(flags)
+							i3:bonus = applyBonus|i3:bonus|i4:bonus
+							prize = i3.type
+							i3:quality++
+							chance -= i3:quality * 20
+
+				if(!prize)
+					bigcolor("black")
+					return
+
+				i1.loc = null
+				i2.loc = null
+				i3.loc = null
+				i4.loc = null
+
+				bigcolor("#f84b7a")
+
+				spawn(1)
+					emit(loc    = src,
+						 ptype  = /obj/particle/magic,
+					     amount = 50,
+					     angle  = new /Random(1, 359),
+					     speed  = 2,
+					     life   = new /Random(15,25))
+
+				sleep(12)
+				var/turf/t = locate(x+rand(-1,1),y+rand(-1,1),z)
+				if(prob(chance + bonusChance))
+					var/obj/items/wearable/o = new prize (t)
+
+					if(istype(o, /obj/items/wearable/title))
+						o.color = i3.color
+						o:title = "<font color=\"[o.color]\">" + o:title + "</font>"
+					else if(istype(o, /obj/items/wearable))
+						o.quality = i3:quality
+						o.bonus   = i3:bonus
+						o.name += " +[o.quality]"
+
+				else
+					new /obj/items/DarknessPowder (t)
+
+				bonusChance = 0
+				applyBonus  = 0

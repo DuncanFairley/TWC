@@ -555,8 +555,13 @@ mob
 				AttackDelay = 2
 				canBleed = FALSE
 
-				drops = list("0.01" = /obj/items/artifact,
-							 "0.03" = /obj/items/wearable/title/Magic,
+				drops = list("1"    = list(/obj/items/crystal/defense,
+							 			   /obj/items/crystal/damage,
+							 			   /obj/items/crystal/luck),
+						     "0.01" = /obj/items/artifact,
+							 "0.03" = list(/obj/items/wearable/title/Magic,
+							 			   /obj/items/crystal/magic,
+						     			   /obj/items/crystal/strong_luck),
 							 "5"    = list(/obj/items/DarknessPowder,
 							 			   /obj/items/Smoke_Pellet,
 							 			   /obj/items/Tube_of_fun))
@@ -595,12 +600,12 @@ mob
 
 			Floating_Eye
 				icon_state = "eye"
-				level = 850
+				level = 1000
 				HPmodifier  = 2
 				DMGmodifier = 0.7
 				var/tmp/fired = 0
 				MoveDelay = 4
-				AttackDelay = 1
+				AttackDelay = 2
 
 				New()
 					..()
@@ -778,6 +783,7 @@ mob
 				HPmodifier = 5
 				DMGmodifier = 3
 				MoveDelay = 2
+				AttackDelay = 3
 				Range = 16
 				respawnTime = 3600
 
