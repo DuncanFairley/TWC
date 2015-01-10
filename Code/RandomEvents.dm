@@ -213,7 +213,10 @@ RandomEvent
 
 					else if(tier == 7)
 						monster.drops = list("100" = list(/obj/items/artifact,
-												  		  /obj/items/scroll/prize,
+												  		  /obj/items/wearable/scarves/red_scarf,
+												  		  /obj/items/wearable/scarves/blue_scarf,
+												  		  /obj/items/wearable/scarves/green_scarf,
+												  		  /obj/items/wearable/scarves/yellow_scarf,
 												  		  /obj/items/lamps/triple_drop_rate_lamp,
 												  		  /obj/items/lamps/triple_gold_lamp,
 												  		  /obj/items/wearable/title/Warmonger))
