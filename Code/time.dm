@@ -48,7 +48,6 @@ mob/GM/verb
 		DropRateModifier = rate
 		src << infomsg("Drop rate modifier set to [rate]")
 
-
 	Schedule_Clanwars(var/day as text, var/hour as text)
 		set category = "Staff"
 		var/date = add_clan_wars(day, hour)
@@ -57,12 +56,22 @@ mob/GM/verb
 		else
 			usr << errormsg("Could not schedule clan wars.")
 
+	Start_Random_Event(var/RandomEvent/event in events+"random")
+		if(event == "random")
+			for(var/RandomEvent/e in events)
+				if(prob(e.chance))
+					e.start()
+					break
+		else
+			event.start()
+
 	Toggle_GiftOpening()
 		set category = "Staff"
 		allowGifts = !allowGifts
 		usr << infomsg("Gifts [allowGifts ? "can" : "can't"] be opened.")
 
 var/allowGifts = 1
+
 proc/add_clan_wars(var/day, var/hour)
 	var/date = time_until(day, hour)
 	if(date != -1)
