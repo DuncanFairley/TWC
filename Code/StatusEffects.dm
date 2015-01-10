@@ -70,18 +70,20 @@ Event
 		fire()
 			..()
 			spawn()
-				if(classdest)
-					for(var/mob/Player/p in Players)
-						if(p.Gm)
-							p << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
-				else if(!clanwars)
+				if(classdest || clanwars)
+					scheduler.schedule(src, world.tick_lag * rand(18000, 36000))  // 30 minutes to 1 hour
+
+					if(classdest)
+						for(var/mob/Player/p in Players)
+							if(p.Gm)
+								p << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
+				else
 					for(var/RandomEvent/e in events)
 						if(prob(e.chance))
 							e.start()
 							break
 
-
-				scheduler.schedule(src, world.tick_lag * rand(36000, 108000))  // 1 to 3 hours
+					scheduler.schedule(src, world.tick_lag * rand(36000, 108000))  // 1 to 3 hours
 
 var/list/weather_effects = list("acid"        = 5,
 								"snow"        = 6,
