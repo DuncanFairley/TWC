@@ -593,6 +593,7 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 						flick("transfigure",M)
 						M.overlays = null
 						M.trnsed = 1
+						if(M.away) M.ApplyAFKOverlay()
 						M.icon = 'Turkey.dmi'
 						M<<"<b><font color=#D6952B>Delicio Charm:</b></font> [usr] turned you into some Thanksgiving awesome-ness."
 					sleep(1)
@@ -616,6 +617,7 @@ obj/items/wearable/wands/maple_wand //Easter
 						flick("transfigure",M)
 						M.overlays = null
 						M.trnsed = 1
+						if(M.away) M.ApplyAFKOverlay()
 						M.icon = 'PinkRabbit.dmi'
 						M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
 					sleep(1)
@@ -989,6 +991,7 @@ obj/items/wearable/bling
 obj/items/wearable/magic_eye
 	icon = 'MoodyEye.dmi'
 	desc = "This magical eye allows the wearer to see through basic and intermediate invisibility magic."
+	wear_layer = FLOAT_LAYER - 6
 	Equip(var/mob/Player/owner,var/overridetext=0)
 		. = ..(owner)
 		if(. == WORN)

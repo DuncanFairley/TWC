@@ -310,9 +310,9 @@ mob/Spells/verb/Densuago(mob/M in view()&Players)
 	sleep(20)
 	M.overlays+=('teeth.dmi')
 	hearers()<<"[M]'s teeth begin to grow rapidly!"
-	M<<"[src] placed a curse on you! Your teeth grew rapidly. They will return to normal in 5 minutes."
+	M<<"[src] placed a curse on you! Your teeth grew rapidly. They will return to normal in 3 minutes."
 	src = null
-	spawn(3000)
+	spawn(1800)
 		if(M)
 			M.overlays-=('teeth.dmi')
 			M<<"Your teeth have been reduced to normal size."
