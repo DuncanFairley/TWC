@@ -48,6 +48,11 @@ mob/GM/verb
 		DropRateModifier = rate
 		src << infomsg("Drop rate modifier set to [rate]")
 
+	Set_Price_Modifier(var/modifier as num)
+		set category = "Staff"
+		shopPriceModifier = modifier
+		src << infomsg("Drop rate modifier set to [modifier]")
+
 	Schedule_Clanwars(var/day as text, var/hour as text)
 		set category = "Staff"
 		var/date = add_clan_wars(day, hour)

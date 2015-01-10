@@ -66,6 +66,13 @@ Event
 				if(disable)	weather.clear(0)
 				scheduler.schedule(src, world.tick_lag * rand(9000, 27000)) // // 15 to 45 minutes
 
+	RandomizeShop
+		fire()
+			..()
+			spawn()
+				RandomizeShop()
+			scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
+
 	RandomEvents
 		fire()
 			..()
@@ -99,6 +106,13 @@ proc
 		init_books()
 		init_weather()
 		init_random_events()
+
+		spawn()
+			RandomizeShop()
+			var/date = time_until("Sunday", "00")
+			if(date != -1)
+				var/Event/RandomizeShop/e = new
+				scheduler.schedule(e, world.tick_lag * 10 * date)
 //		init_quests()
 
 mob/proc/RevertTrans()

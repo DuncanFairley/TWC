@@ -147,6 +147,22 @@ RandomEvent
 					world << infomsg("The drop rate bonus event is over.")
 					DropRateModifier -= bonus / 100
 
+	Sale
+		name = "Crazy Sale"
+		start()
+			..()
+			var/minutes = rand(30,60)
+			var/sale = rand(10,30)
+
+			shopPriceModifier -= sale / 100
+			var/tmpShopModifier = shopPriceModifier
+			world << infomsg("There's a crazy sale going on! You should check out Marvelous Magical Mystery or wig shops, they have a [sale]% discount for the next [minutes] minutes!")
+
+			spawn(minutes * 600 * 0 + 600)
+				if(shopPriceModifier == tmpShopModifier)
+					world << infomsg("The sale ended.")
+					shopPriceModifier += sale / 100
+
 
 	Invasion
 		name = "Monster Invasion"

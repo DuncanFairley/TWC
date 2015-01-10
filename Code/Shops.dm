@@ -806,16 +806,19 @@ obj/shop
 			Click()
 				if(usr.loc != parent.loc) return
 				var/obj/items/i = parent:items[usr:shop_index]
-				if(usr.gold < i.price)
-					usr << infomsg("You don't have enough money. [i.name] costs [comma(i.price)], you need [comma(i.price - usr.gold)] more gold.")
+
+				var/actualPrice = round(i.price * shopPriceModifier, 1)
+
+				if(usr.gold < actualPrice)
+					usr << infomsg("You don't have enough money. [i.name] costs [comma(actualPrice)], you need [comma(actualPrice - usr.gold)] more gold.")
 					return
 
-				if(alert(usr, "Are you sure you want to buy [i.name] for [comma(i.price)] gold?","Are you sure?","Yes","No") == "Yes")
-					if(usr.gold>=i.price)
+				if(alert(usr, "Are you sure you want to buy [i.name] for [comma(actualPrice)] gold?","Are you sure?","Yes","No") == "Yes")
+					if(usr.gold >= actualPrice)
 						new i.type (usr)
-						usr << infomsg("You bought [i] for [comma(i.price)] gold.")
-						usr.gold-=i.price
-						ministrybank += taxrate*i.price/100
+						usr << infomsg("You bought [i] for [comma(actualPrice)] gold.")
+						usr.gold -= actualPrice
+						ministrybank += taxrate*actualPrice/100
 						usr:Resort_Stacking_Inv()
 
 						for(var/mob/Player/p in usr.loc)
@@ -831,7 +834,7 @@ obj/shop
 							parent:shop(p)
 
 obj/items/var/tmp/limit = 0
-
+var/shopPriceModifier = 1
 var/list/shops = list("malewigshop" = newlist(
 						/obj/items/wearable/wigs/male_black_wig,
 						/obj/items/wearable/wigs/male_blond_wig,
@@ -987,3 +990,57 @@ proc
     isint(n)
         return n==round(n)
 
+
+obj/items/wearable/shoes/green_shoes/price = 1000000
+obj/items/wearable/shoes/blue_shoes/price = 1000000
+obj/items/wearable/shoes/red_shoes/price = 1000000
+obj/items/wearable/shoes/yellow_shoes/price = 1000000
+obj/items/wearable/shoes/white_shoes/price = 2000000
+obj/items/wearable/shoes/orange_shoes/price = 2000000
+obj/items/wearable/shoes/teal_shoes/price = 2000000
+obj/items/wearable/shoes/purple_shoes/price = 2000000
+obj/items/wearable/shoes/black_shoes/price = 2000000
+obj/items/wearable/shoes/pink_shoes/price = 2000000
+obj/items/wearable/scarves/yellow_scarf/price = 100000
+obj/items/wearable/scarves/black_scarf/price = 800000
+obj/items/wearable/scarves/blue_scarf/price = 100000
+obj/items/wearable/scarves/green_scarf/price = 800000
+obj/items/wearable/scarves/orange_scarf/price = 100000
+obj/items/wearable/scarves/pink_scarf/price = 800000
+obj/items/wearable/scarves/purple_scarf/price = 1000000
+obj/items/wearable/scarves/red_scarf/price = 800000
+obj/items/wearable/scarves/teal_scarf/price = 1000000
+obj/items/wearable/scarves/white_scarf/price = 1000000
+obj/items/wearable/bling/price = 120000
+
+proc/RandomizeShop()
+	while(length(shops["random"]))
+		shops["random"] -= shops["random"][1]
+	var/list/items = list(/obj/items/wearable/shoes/green_shoes,
+						  /obj/items/wearable/shoes/blue_shoes,
+						  /obj/items/wearable/shoes/red_shoes,
+						  /obj/items/wearable/shoes/yellow_shoes,
+						  /obj/items/wearable/shoes/white_shoes,
+						  /obj/items/wearable/shoes/orange_shoes,
+						  /obj/items/wearable/shoes/teal_shoes,
+						  /obj/items/wearable/shoes/purple_shoes,
+						  /obj/items/wearable/shoes/black_shoes,
+						  /obj/items/wearable/shoes/pink_shoes,
+						  /obj/items/wearable/scarves/yellow_scarf,
+						  /obj/items/wearable/scarves/black_scarf,
+						  /obj/items/wearable/scarves/blue_scarf,
+						  /obj/items/wearable/scarves/green_scarf,
+						  /obj/items/wearable/scarves/orange_scarf,
+						  /obj/items/wearable/scarves/pink_scarf,
+						  /obj/items/wearable/scarves/purple_scarf,
+						  /obj/items/wearable/scarves/red_scarf,
+						  /obj/items/wearable/scarves/teal_scarf,
+						  /obj/items/wearable/scarves/white_scarf,
+						  /obj/items/wearable/bling)
+	for(var/i = 1 to 5)
+		var/path = pick(items)
+		var/obj/items/item = new path()
+		item.price = round(item.price * (rand(90, 110)/100))
+		shops["random"] += item
+
+		items -= path
