@@ -1630,7 +1630,7 @@ client/New()
 		else
 			//We're still banned
 			for(var/mob/Player/P in Players)
-				if(P.admin) P << "[src] ([key]) tried to log in.(Result  of IP ban. 2nd tier.) ([address])"
+				if(P.admin) P << "[src] ([key]) tried to log in.(Result of IP ban. 2nd tier.) ([address])"
 			src << crban_bannedmsg
 			del src
 
