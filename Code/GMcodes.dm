@@ -1597,7 +1597,7 @@ world/IsBanned(key, ip)
 				//We're still banned
 				src << crban_bannedmsg
 				for(var/client/C)
-					if(C.key == "Murrawhip") C << "[src] ([key]) tried to log in. ([ip])"
+					if(C.mob.admin) C << "[src] ([key]) tried to log in. ([ip])"
 				return 1
 		//// IP range check
 		for (var/X in crban_ipranges)
@@ -1610,13 +1610,13 @@ client/New()
 			crban_fullbanclient(src)
 			src << crban_bannedmsg
 			for(var/client/C)
-				if(C.key == "Murrawhip") C << "[src] ([key]) tried to log in. ([address])"
+				if(C.mob.admin) C << "[src] ([key]) tried to log in. ([address])"
 			del src
 
 	if (crban_keylist.Find(ckey))
 		src << crban_bannedmsg
 		for(var/client/C)
-			if(C.key == "Murrawhip") C << "[src] ([key]) tried to log in.(Result of keyban. 1st tier.) ([address])"
+			if(C.mob.admin) C << "[src] ([key]) tried to log in.(Result of keyban. 1st tier.) ([address])"
 		if (key!="Guest")
 			crban_fullbanclient(src)
 		del src
@@ -1628,7 +1628,7 @@ client/New()
 		else
 			//We're still banned
 			for(var/client/C)
-				if(C.key == "Murrawhip") C << "[src] ([key]) tried to log in.(Result  of IP ban. 2nd tier.) ([address])"
+				if(C.mob.admin) C << "[src] ([key]) tried to log in.(Result  of IP ban. 2nd tier.) ([address])"
 			src << crban_bannedmsg
 			del src
 
