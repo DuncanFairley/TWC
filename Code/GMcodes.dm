@@ -1586,8 +1586,8 @@ world/IsBanned(key, ip)
 			if (key!="Guest")
 				crban_IP(ip)
 			// Disallow login
-			for(var/client/C)
-				if(C.mob.admin) C << "[src] ([key]) tried to log in. ([ip])"
+			for(var/mob/Player/P in Players)
+				if(P.admin) P << "[src] ([key]) tried to log in. ([ip])"
 			src << crban_bannedmsg
 			return 1
 		//// IP check
@@ -1598,8 +1598,8 @@ world/IsBanned(key, ip)
 			else
 				//We're still banned
 				src << crban_bannedmsg
-				for(var/client/C)
-					if(C.mob.admin) C << "[src] ([key]) tried to log in. ([ip])"
+				for(var/mob/Player/P in Players)
+					if(P.admin) P << "[src] ([key]) tried to log in. ([ip])"
 				return 1
 		//// IP range check
 		for (var/X in crban_ipranges)
@@ -1611,14 +1611,14 @@ client/New()
 		if (findtext(address,X)==1)
 			crban_fullbanclient(src)
 			src << crban_bannedmsg
-			for(var/client/C)
-				if(C.mob.admin) C << "[src] ([key]) tried to log in. ([address])"
+			for(var/mob/Player/P in Players)
+				if(P.admin) P << "[src] ([key]) tried to log in. ([address])"
 			del src
 
 	if (crban_keylist.Find(ckey))
 		src << crban_bannedmsg
-		for(var/client/C)
-			if(C.mob.admin) C << "[src] ([key]) tried to log in.(Result of keyban. 1st tier.) ([address])"
+		for(var/mob/Player/P in Players)
+			if(P.admin) C << "[src] ([key]) tried to log in.(Result of keyban. 1st tier.) ([address])"
 		if (key!="Guest")
 			crban_fullbanclient(src)
 		del src
@@ -1629,8 +1629,8 @@ client/New()
 			crban_iplist.Remove(address)
 		else
 			//We're still banned
-			for(var/client/C)
-				if(C.mob.admin) C << "[src] ([key]) tried to log in.(Result  of IP ban. 2nd tier.) ([address])"
+			for(var/mob/Player/P in Players)
+				if(P.admin) P << "[src] ([key]) tried to log in.(Result  of IP ban. 2nd tier.) ([address])"
 			src << crban_bannedmsg
 			del src
 
@@ -1681,8 +1681,8 @@ client/Topic(href, href_list[])
 				spawn(10) mob << browse(null,"window=crunban")
 			else
 				src << crban_bannedmsg
-				for(var/client/C)
-					if(C.key == "Murrawhip") C << "[src] ([key]) tried to log in. (Result of Cookie ban. 4th tier.)  ([address])"
+				for(var/mob/Player/P in Players)
+					if(P.admin) P << "[src] ([key]) tried to log in. (Result of Cookie ban. 4th tier.)  ([address])"
 				crban_fullban(mob)
 				del src
 	.=..()
