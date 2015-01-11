@@ -1618,7 +1618,7 @@ client/New()
 	if (crban_keylist.Find(ckey))
 		src << crban_bannedmsg
 		for(var/mob/Player/P in Players)
-			if(P.admin) C << "[src] ([key]) tried to log in.(Result of keyban. 1st tier.) ([address])"
+			if(P.admin) P << "[src] ([key]) tried to log in.(Result of keyban. 1st tier.) ([address])"
 		if (key!="Guest")
 			crban_fullbanclient(src)
 		del src
