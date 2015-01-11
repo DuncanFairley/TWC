@@ -158,7 +158,7 @@ RandomEvent
 			var/tmpShopModifier = shopPriceModifier
 			world << infomsg("There's a crazy sale going on! You should check out Marvelous Magical Mystery or wig shops, they have a [sale]% discount for the next [minutes] minutes!")
 
-			spawn(minutes * 600 * 0 + 600)
+			spawn(minutes * 600)
 				if(shopPriceModifier == tmpShopModifier)
 					world << infomsg("The sale ended.")
 					shopPriceModifier += sale / 100
