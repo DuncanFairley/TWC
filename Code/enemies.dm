@@ -539,7 +539,7 @@ mob
 							 "30"   = /obj/items/gift)
 
 			Floating_Eye
-				icon_state = "eye"
+				icon_state = "eye1"
 				level = 800
 				HPmodifier = 1.8
 				var/tmp/fired = 0
@@ -553,6 +553,10 @@ mob
 							 			  /obj/items/Smoke_Pellet,
 							 			  /obj/items/Tube_of_fun,
 							 			  /obj/items/Swamp))
+
+				New()
+					..()
+					spawn(1) icon_state = "eye[rand(1,2)]"
 
 				Search()
 					Wander()
@@ -1565,7 +1569,7 @@ mob
 
 	Floating_Eye
 		icon = 'Mobs.dmi'
-		icon_state="eye"
+		icon_state="eye1"
 		gold = 400
 		HP = 3000
 		MHP = 3000
@@ -1579,6 +1583,7 @@ mob
 		NPC = 0
 		New()
 			..()
+			spawn(1) icon_state = "eye[rand(1,2)]"
 			spawn(rand(10,30))
 				Wander()
 		proc/Wander()
