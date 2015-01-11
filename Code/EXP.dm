@@ -68,6 +68,9 @@ proc
 				M.answered = 0
 				var/question/q = pick(questions)
 
+				for(var/client/C)
+					if(C.mob && C.mob.readbooks)
+						winset(C,"mainwindow","flash=2")
 				M << "<u>50 seconds left to reply.</u>"
 				spawn(200)
 					if(!M)return
