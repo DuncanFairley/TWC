@@ -147,6 +147,22 @@ RandomEvent
 					world << infomsg("The drop rate bonus event is over.")
 					DropRateModifier -= bonus / 100
 
+	Sale
+		name = "Crazy Sale"
+		start()
+			..()
+			var/minutes = rand(30,60)
+			var/sale = rand(10,30)
+
+			shopPriceModifier -= sale / 100
+			var/tmpShopModifier = shopPriceModifier
+			world << infomsg("There's a crazy sale going on! You should check out Marvelous Magical Mystery or wig shops, they have a [sale]% discount for the next [minutes] minutes!")
+
+			spawn(minutes * 600 * 0 + 600)
+				if(shopPriceModifier == tmpShopModifier)
+					world << infomsg("The sale ended.")
+					shopPriceModifier += sale / 100
+
 
 	Invasion
 		name = "Monster Invasion"
@@ -213,7 +229,10 @@ RandomEvent
 
 					else if(tier == 7)
 						monster.drops = list("100" = list(/obj/items/artifact,
-												  		  /obj/items/scroll/prize,
+												  		  /obj/items/wearable/scarves/red_scarf,
+												  		  /obj/items/wearable/scarves/blue_scarf,
+												  		  /obj/items/wearable/scarves/green_scarf,
+												  		  /obj/items/wearable/scarves/yellow_scarf,
 												  		  /obj/items/lamps/triple_drop_rate_lamp,
 												  		  /obj/items/lamps/triple_gold_lamp,
 												  		  /obj/items/wearable/title/Warmonger))

@@ -107,6 +107,7 @@ area
 
 			Ratcellar
 			Chamber_of_Secrets
+			Graveyard_Underground
 		Entered(atom/movable/O)
 			. = ..()
 			if(isplayer(O))
@@ -172,9 +173,10 @@ mob
 					state = WANDER
 					list/ignore
 
-				Range = 10
+				Range = 12
 				MoveDelay = 5
 				AttackDelay = 5
+				respawnTime = 1200
 
 
 			New()
@@ -217,10 +219,11 @@ mob
 
 			proc/state()
 				var/lag = 10
-				while(src)
+				while(src && src.loc)
+					var/s = state
 					switch(state)
 						if(INACTIVE)
-							lag = 42
+							lag = 50
 						if(WANDER)
 							Wander()
 							lag = 27
@@ -233,8 +236,11 @@ mob
 						if(CONTROLLED)
 							BlindAttack()
 							lag = 12
-					if(lag <= 0) lag = 1
-					sleep(lag)
+					if(s == state)
+						if(lag <= 0) lag = 1
+						sleep(lag)
+					else
+						sleep(1)
 			var/tmp/mob/target
 
 
@@ -254,6 +260,7 @@ mob
 
 				Wander()
 					step_rand(src)
+					sleep(1)
 
 				Ignore(mob/M)
 					if(!ignore) ignore = list()
@@ -462,6 +469,7 @@ mob
 									dir = tmp_d
 									sleep(AttackDelay)
 						Attacked()
+							..()
 							if(HP > 0)
 								var/percent = MHP / HP
 								var/matrix/M = matrix()*percent
@@ -537,26 +545,100 @@ mob
 							 			   /obj/items/Tube_of_fun,
 							 			   /obj/items/Swamp),
 							 "30"   = /obj/items/gift)
+			Wisp
+				icon_state = "wisp"
+				level = 750
+
+				HPmodifier  = 1.4
+				DMGmodifier = 0.8
+				MoveDelay = 3
+				AttackDelay = 3
+				canBleed = FALSE
+				var/tmp/fired = 0
+
+				drops = list("3"    = /obj/items/crystal/luck,
+						     "1.2"  = list(/obj/items/crystal/defense,
+							 			   /obj/items/crystal/damage),
+						     "0.01" = /obj/items/artifact,
+							 "0.03" = list(/obj/items/wearable/title/Magic,
+							 			   /obj/items/crystal/magic,
+						     			   /obj/items/crystal/strong_luck,
+						     			   /obj/items/crystal/soul),
+							 "5"    = list(/obj/items/DarknessPowder,
+							 			   /obj/items/Smoke_Pellet,
+							 			   /obj/items/Tube_of_fun))
+
+
+				Attack(mob/M)
+					..()
+					if(!fired && target && state == HOSTILE)
+						fired = 1
+						spawn(rand(50,150)) fired = 0
+
+						for(var/obj/redroses/S in oview(3, src))
+							flick("burning", S)
+							spawn(8) S.loc = null
+
+						if(prob(80))
+							dir=get_dir(src, target)
+							castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball")
+							sleep(AttackDelay)
+
+				Attacked(projname, damage)
+					if(projname == "gum" && prob(95))
+						emit(loc    = src,
+							 ptype  = /obj/particle/red,
+						     amount = 2,
+						     angle  = new /Random(1, 359),
+						     speed  = 2,
+						     life   = new /Random(15,20))
+					else
+						HP+=damage
+
+						emit(loc    = src,
+							 ptype  = /obj/particle/green,
+						     amount = 2,
+						     angle  = new /Random(1, 359),
+						     speed  = 2,
+						     life   = new /Random(15,20))
+
+				New()
+					..()
+					alpha = rand(190,255)
+
+					var/color1 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+					var/color2 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+					var/color3 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+
+					animate(src, color = color1, time = 10, loop = -1)
+					animate(color = color2, time = 10)
+					animate(color = color3, time = 10)
+
+					if(prob(70)) transform *= 1 + (rand(-5,15) / 50) // -10% to +30% size change
 
 			Floating_Eye
 				icon_state = "eye1"
-				level = 800
-				HPmodifier = 1.8
+				level = 900
+				HPmodifier  = 2
+				DMGmodifier = 0.8
 				var/tmp/fired = 0
 				MoveDelay = 4
 				AttackDelay = 1
 
-				drops = list("0.6" = /obj/items/artifact,
-							 "1"   = list(/obj/items/DarknessPowder,
-								 		  /obj/items/Whoopie_Cushion,
-										  /obj/items/U_No_Poo,
-							 			  /obj/items/Smoke_Pellet,
-							 			  /obj/items/Tube_of_fun,
-							 			  /obj/items/Swamp))
-
 				New()
 					..()
-					spawn(1) icon_state = "eye[rand(1,2)]"
+					icon_state = "eye[rand(1,2)]"
+					if(prob(60))
+						transform *= 1 + (rand(-15,30) / 50) // -30% to +60% size change
+
+				drops = list("0.03" = /obj/items/wearable/title/Eye,
+							 "0.6"  = /obj/items/artifact,
+							 "1"    = list(/obj/items/DarknessPowder,
+								 	 	   /obj/items/Whoopie_Cushion,
+									 	   /obj/items/U_No_Poo,
+							 		 	   /obj/items/Smoke_Pellet,
+							 		 	   /obj/items/Tube_of_fun,
+							 		       /obj/items/Swamp))
 
 				Search()
 					Wander()
@@ -706,18 +788,35 @@ mob
 			Water_Elemental
 				icon_state = "water elemental"
 				level = 550
+				canBleed = FALSE
 			Fire_Elemental
 				icon_state = "fire elemental"
 				level = 600
+				canBleed = FALSE
 			Wyvern
 				icon_state = "wyvern"
 				level = 650
 			Basilisk
 				icon_state = "basilisk"
 				level = 2000
-				HPmodifier = 3
+				HPmodifier = 4
 				DMGmodifier = 3
-				MoveDelay = 3
+				MoveDelay = 2
+				AttackDelay = 3
+				Range = 16
+				respawnTime = 3600
+
+				drops = list("3"   = list(/obj/items/artifact,
+										  /obj/items/wearable/title/Petrified,
+										  /obj/items/crystal/soul,
+										  /obj/items/crystal/magic,
+						     			  /obj/items/crystal/strong_luck),
+							 "6"   = list(/obj/items/DarknessPowder,
+								 		  /obj/items/Whoopie_Cushion,
+										  /obj/items/U_No_Poo,
+							 			  /obj/items/Smoke_Pellet,
+							 			  /obj/items/Tube_of_fun,
+							 			  /obj/items/Swamp))
 
 				var/tmp/fired = 0
 
@@ -1583,7 +1682,6 @@ mob
 		NPC = 0
 		New()
 			..()
-			spawn(1) icon_state = "eye[rand(1,2)]"
 			spawn(rand(10,30))
 				Wander()
 		proc/Wander()

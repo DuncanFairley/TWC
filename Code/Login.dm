@@ -4,7 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-var/lvlcap = 600
+var/lvlcap = 650
 var/const/SWAPMAP_Z = 26
 /*mob/verb/NewVault1()
 
@@ -1035,6 +1035,10 @@ mob/var
 	extraMMP = 0
 	extraDmg = 0
 	extraDef = 0
+
+	tmp
+		clothDmg = 0
+		clothDef = 0
 mob/Player
 	player=1
 	NPC=0
@@ -2110,7 +2114,7 @@ mob/proc/Death_Check(mob/killer = src)
 
 		else
 			if(killer.client)
-				killer.AddKill(src.name)
+				if(istype(src, /mob/NPC/Enemies) && !istype(src, /mob/NPC/Enemies/Summoned)) killer.AddKill(src.name)
 				if(killer.MonsterMessages)killer<<"<i><small>You knocked [src] out!</small></i>"
 
 				killer.ekills+=1
@@ -2204,10 +2208,12 @@ mob/proc/resetStatPoints()
 	src.extraDef = 0
 	src.Dmg = (src.level - 1) + 5
 	src.Def = (src.level - 1) + 5
-	src.MHP = 4 * (src.level - 1) + 200 + 2 * (src.Def + src.extraDef)
+	resetMaxHP()
 	src.verbs.Add(/mob/Player/verb/Use_Statpoints)
 mob/proc/resetMaxHP()
-	src.MHP = 4 * (src.level - 1) + 200 + 2 * (src.Def + src.extraDef)
+	src.MHP = 4 * (src.level - 1) + 200 + 2 * (src.Def + src.extraDef + src.clothDef)
+	if(HP > MHP)
+		HP = MHP
 mob
 	proc
 		LvlCheck(var/fakelevels=0)
@@ -2656,26 +2662,16 @@ proc
 		if(!istype(E,/mob/NPC/Enemies))
 			E.loc = null
 		else
-			E.activated = 0
 			E.state = E.INACTIVE
-
 			if(E.origloc)
-
-				spawn(1200)////1200
+				spawn(E.respawnTime)// + rand(-50,100))////1200
 					if(E)
 						E.loc = E.origloc
 						E.HP = E.MHP
 						E.ShouldIBeActive()
+						E.state()
 			else
 				E.loc = null
-					/*if(E)
-						E.loc = initial(E.loc)
-						if(istype(E,/mob/NPC/Enemies))
-							E.activated = 0
-							for(var/mob/M in E.loc.loc)
-								if(M.key)
-									E.Wander()
-									return*/
 
 
 

@@ -777,7 +777,7 @@ mob/Spells/verb/Antifigura()
 
 mob/Spells/verb/Chaotica()
 	set category="Spells"
-	var/dmg = round(usr.level * 1.1)
+	var/dmg = round(usr.level * 1.1) + clothDmg
 	if(dmg<20)dmg=20
 	else if(dmg>2000)dmg = 2000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
@@ -787,10 +787,10 @@ mob/Spells/verb/Aqua_Eructo()
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
 		HP -= 30
 		Death_Check()
-		castproj(0,'Aqua Eructo.dmi',"",usr.Def+(usr.extraDef/3),"aqua eructo")
+		castproj(0,'Aqua Eructo.dmi',"",usr.Def+(usr.extraDef/3) + clothDmg,"aqua eructo")
 mob/Spells/verb/Inflamari()
 	set category="Spells"
-	var/dmg = round(usr.level * 0.9)
+	var/dmg = round(usr.level * 0.9) + clothDmg
 	if(dmg<10)dmg=10
 	else if(dmg>1000)dmg = 1000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
@@ -798,15 +798,15 @@ mob/Spells/verb/Inflamari()
 mob/Spells/verb/Glacius()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
-		castproj(10,'attacks.dmi',"iceball",usr.Dmg+usr.extraDmg,"glacius")
+		castproj(10,'attacks.dmi',"iceball",usr.Dmg+usr.extraDmg + clothDmg,"glacius")
 mob/Spells/verb/Waddiwasi()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
-		castproj(10,'attacks.dmi',"gum",usr.Dmg+usr.extraDmg,"waddiwasi")
+		castproj(10,'attacks.dmi',"gum",usr.Dmg+usr.extraDmg + clothDmg,"waddiwasi")
 mob/Spells/verb/Tremorio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
-		castproj(5,'attacks.dmi',"quake",usr.Dmg+usr.extraDmg,"tremorio")
+		castproj(5,'attacks.dmi',"quake",usr.Dmg+usr.extraDmg + clothDmg,"tremorio")
 mob/Spells/verb/Furnunculus(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
@@ -1041,7 +1041,7 @@ mob/Spells/verb/Incindia()
 		usr.updateHPMP()
 		new /StatusEffect/UsedIncindia(src,15)
 		var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-		var/damage = round((Dmg + extraDmg) * 0.75)
+		var/damage = round((Dmg + extraDmg + clothDmg) * 0.75)
 		var/t = dir
 		for(var/d in dirs)
 			dir = d
@@ -1755,7 +1755,7 @@ mob
 			src.MP -= MPreq
 			src.updateHPMP()
 
-	proc/Attacked()
+	proc/Attacked(projname, damage)
 
 
 obj
@@ -1769,7 +1769,7 @@ obj
 				if(!A.density && (A:key || istype(A,/mob/NPC/Enemies)))
 					src.Bump(A)
 			else if(isobj(A))
-				if(istype(A,/obj/portkey))
+				if(istype(A,/obj/portkey) && damage)
 					A:HP--
 					owner << "You hit the [A.name]."
 					if(A:HP < 1)
@@ -1800,7 +1800,7 @@ obj
 			if(istype(M.loc, /turf/nofirezone)) return
 			var/oldSystem = inOldArena()
 			if(!loc || oldSystem)if(!istype(M, /mob)) return
-			if(istype(M, /obj/stone) || istype(M, /obj/redroses) || istype(M, /mob/Madame_Pomfrey) || istype(M,/obj/egg) || istype(M,/obj/clanpillar))
+			if(istype(M, /obj/stone) || istype(M, /obj/redroses) || istype(M, /mob/Madame_Pomfrey) || istype(M,/obj/egg) || istype(M,/obj/enchanter) || istype(M,/obj/clanpillar))
 				for(var/atom/movable/O in M.loc)
 					if(O == M)continue
 					if(ismob(O))
@@ -1812,6 +1812,9 @@ obj
 				if(istype(M,/obj/egg))
 					var/obj/egg/E = M
 					E.Hit()
+				else if(istype(M,/obj/enchanter))
+					var/obj/enchanter/E = M
+					E.enchant()
 				else if(istype(M, /obj/clanpillar))
 					var/obj/clanpillar/C = M
 					if(1)
@@ -1856,10 +1859,10 @@ obj
 				var/bleed
 				for(var/mob/A in L)
 					if(A.invisibility == 2) continue
-
+					if(owner.monster&&A.monster) continue
 					if(damage)
-						A.Attacked()
-						bleed = A
+						A.Attacked(src.icon_state, damage)
+						if(A.canBleed) bleed = A
 						if(A.monster)
 							if(src.owner && src.owner.MonsterMessages)
 								src.owner<<"Your [src] does [src.damage] damage to [A]."
@@ -1880,10 +1883,9 @@ obj
 						else
 							A.shieldamount -= src.damage
 					else
-						if(!(owner.monster&&A.monster))
-							A.HP-=src.damage
-							if(src.damage)
-								A.Death_Check(src.owner)
+						A.HP-=src.damage
+						if(src.damage)
+							A.Death_Check(src.owner)
 				if(bleed && !oldSystem)
 					var/n = dir2angle(get_dir(bleed, src))
 					emit(loc    = bleed,
@@ -1894,6 +1896,8 @@ obj
 					     life   = new /Random(15,25))
 			walk(src,0)
 			src.loc = null
+
+mob/var/tmp/canBleed = TRUE
 
 obj/circle
 	icon = 'circle1.dmi'

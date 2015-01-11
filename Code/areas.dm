@@ -831,7 +831,7 @@ turf
 		Entered(mob/Player/M)
 			if(isplayer(M))
 				if(M.ror==n || M.ror==-1)
-					M.loc=locate(dest)
+					M.Transfer(locate(dest))
 
 
 area
