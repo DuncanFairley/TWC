@@ -53,7 +53,7 @@ var/list
 mob
 	verb
 		Refer_a_friend()
-			usr << "<br><br><b>If you refer a new player to this game, 10% of any XP they earn will be awarded to you whenever you log in. In order to refer someone, have them visit<br>http://wizardschronicles.com/?ref=[ckey]<b><br>Then have them download and join the game. Once they gain XP, then Save (either manually or by logging out), a percentage of that XP will become available to you automatically when <b>you</b> log in.<br>"
+			usr << "<br><br><b>If you refer a new player to this game, 10% of any XP or 1% of any Gold they earn will be awarded to you whenever you log in. In order to refer someone, have them visit<br>http://wizardschronicles.com/?ref=[ckey]<b><br>Then have them download and join the game. Once they gain XP, then Save (either manually or by logging out), a percentage of that XP will become available to you automatically when <b>you</b> log in. If you've reached the level cap you will instead earn Gold.<br>"
 		Daily_Prophet()
 			set category = "Commands"
 			var/dphtml = ""

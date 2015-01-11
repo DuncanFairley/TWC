@@ -70,9 +70,11 @@ mob/GM/verb/EditVerbs(var/Zref as text, var/Verb as text, var/btnid as text)
 	else if(ischecked == "true")
 		M.verbs += V
 		M << infomsg("[usr] has given you [V]")
+		usr << infomsg("You have given [M] [V]")
 	else if(ischecked == "false")
 		M.verbs -= V
 		M << infomsg("[usr] has removed [V] from you.")
+		usr << infomsg("You have removed [V] from [M].")
 	else
 		world.log << "Error code 3ghLMV"
 

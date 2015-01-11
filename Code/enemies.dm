@@ -617,7 +617,7 @@ mob
 					if(prob(70)) transform *= 1 + (rand(-5,15) / 50) // -10% to +30% size change
 
 			Floating_Eye
-				icon_state = "eye"
+				icon_state = "eye1"
 				level = 900
 				HPmodifier  = 2
 				DMGmodifier = 0.8
@@ -627,6 +627,7 @@ mob
 
 				New()
 					..()
+					icon_state = "eye[rand(1,2)]"
 					if(prob(60))
 						transform *= 1 + (rand(-15,30) / 50) // -30% to +60% size change
 
@@ -1667,7 +1668,7 @@ mob
 
 	Floating_Eye
 		icon = 'Mobs.dmi'
-		icon_state="eye"
+		icon_state="eye1"
 		gold = 400
 		HP = 3000
 		MHP = 3000

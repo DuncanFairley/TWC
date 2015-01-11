@@ -310,9 +310,9 @@ mob/Spells/verb/Densuago(mob/M in view()&Players)
 	sleep(20)
 	M.overlays+=('teeth.dmi')
 	hearers()<<"[M]'s teeth begin to grow rapidly!"
-	M<<"[src] placed a curse on you! Your teeth grew rapidly. They will return to normal in 5 minutes."
+	M<<"[src] placed a curse on you! Your teeth grew rapidly. They will return to normal in 3 minutes."
 	src = null
-	spawn(3000)
+	spawn(1800)
 		if(M)
 			M.overlays-=('teeth.dmi')
 			M<<"Your teeth have been reduced to normal size."
@@ -626,6 +626,7 @@ mob/Spells/verb/Incarcerous(var/mob/M in oview()&Players)
 		new /StatusEffect/UsedStun(src,15)
 		M.movable=1
 		M.icon_state="bind"
+		M.overlays = null
 		hearers()<<"[usr]: <font color=aqua>Incarcerous, [M]!"
 		sleep(20)
 		hearers()<<"With a sudden spark, [usr]'s wand emits a stream of ropes which bind around [M]."
@@ -643,6 +644,7 @@ mob/Spells/verb/Incarcerous(var/mob/M in oview()&Players)
 				M<<"<font color= #999900><b>[usr]'s curse has been dispelled. You can move again!"
 				M.movable=0
 				M.icon_state=""
+				M:ApplyOverlays()
 				if(usr)usr<<"<font color= #999900><b>Your curse upon [M] has been lifted."
 mob/Spells/verb/Anapneo(var/mob/M in view(usr.client.view,usr)&Players)
 	set category="Spells"
@@ -662,6 +664,7 @@ mob/Spells/verb/Reducto(var/mob/M in (view(usr.client.view,usr)&Players)|src)
 		if(M.GMFrozen){alert("You can't free [M]. They have been frozen by a Game Master.");return}
 		hearers(usr.client.view,usr)<<"<B><font color=red>[usr]:</font><font color=white> <I>Reducto!</I>"
 		M.movable=0
+		M:ApplyOverlays()
 		if(M.confused)M.confused=0
 		hearers(usr.client.view,usr)<<"White light emits from [usr]'s wand, freeing [M]."
 		flick('Reducto.dmi',M)
@@ -735,6 +738,7 @@ mob/Spells/verb/Petreficus_Totalus(var/mob/M in oview()&Players)
 
 		M.movable=1
 		M.icon_state="stone"
+		M.overlays=null
 		hearers()<<"[usr]: <font color=blue>Petrificus Totalus!"
 		src = null
 		spawn(100)
@@ -743,6 +747,7 @@ mob/Spells/verb/Petreficus_Totalus(var/mob/M in oview()&Players)
 				M<<"<font color= #999900><b>[usr]'s curse has been dispelled. You can move again!"
 			M.movable=0
 			M.icon_state=""
+			M:ApplyOverlays()
 
 mob
 	Player/var/tmp/antifigura = 0
@@ -1590,7 +1595,7 @@ mob/Spells/verb/Crucio(mob/M in oview()&Players)
 		usr.MP-=400
 		usr.updateHPMP()
 		sleep(1)
-		hearers()<<"[M] cringes in Pain!"
+		hearers()<<"[M] cringes in pain!"
 		M.HP-=500
 		M.Death_Check()
 		sleep(20)

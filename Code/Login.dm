@@ -406,7 +406,7 @@ mob/proc/get_accessible_vaults()
 
 
 mob/VaultGoblin
-	icon = 'misc.dmi'
+	icon = 'NPCs.dmi'
 	icon_state = "goblinvault"
 	name = "Vault Master"
 	verb
@@ -620,7 +620,7 @@ var/list/illegalnames = list(
 	"harry",
 	"potter",
 	"weasley",
-	"hermoine",
+	"hermione",
 	"granger",
 	"albus",
 	"dumbledore",
@@ -796,7 +796,7 @@ world
 	name = "Harry Potter: The Wizards' Chronicles"
 	turf=/turf/blankturf
 	view="17x17"
-var/world/VERSION = "16.14"
+var/world/VERSION = "16.15"
 
 world/proc/playtimelogger()
 	return
@@ -1546,8 +1546,7 @@ mob/Player
 				usr << errormsg("You can't send messages while you are muted.")
 				return
 			if(OOCMute)
-
-				usr<<"Access to the Communication System has been Restricted. A Game Master has disabled OOC. <p>You can check the status of OOC by saying 'Is OOC off?' out loud."
+				usr<<"Access to the OOC Chat System has been restricted by a Staff Member."
 			else
 				if(usr.spam<=5)
 					if(!usr.MuteOOC)
@@ -2282,7 +2281,7 @@ mob
 					src<<infomsg("You can now view your damage & defense stats in the stats tab.")
 
 obj/Banker
-	icon_state="goblin1"
+	icon = 'NPCs.dmi'
 	density=1
 	mouse_over_pointer = MOUSE_HAND_POINTER
 	New()
@@ -3044,8 +3043,8 @@ turf
 		icon_state="ice"
 		density=0
 	snow
-		icon='turf.dmi' //**ORIGINAL GRASS state=grass1
-		icon_state="grass1 - normal"
+		icon='turf.dmi'
+		icon_state="snow"
 		density=0
 	dirt
 		icon_state="dirt"
