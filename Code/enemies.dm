@@ -549,25 +549,43 @@ mob
 				icon_state = "wisp"
 				level = 750
 
-				HPmodifier  = 2
-				DMGmodifier = 1.5
+				HPmodifier  = 1.4
+				DMGmodifier = 0.8
 				MoveDelay = 3
-				AttackDelay = 2
+				AttackDelay = 3
 				canBleed = FALSE
+				var/tmp/fired = 0
 
-				drops = list("1"    = list(/obj/items/crystal/defense,
-							 			   /obj/items/crystal/damage,
-							 			   /obj/items/crystal/luck),
+				drops = list("3"    = /obj/items/crystal/luck,
+						     "1.2"  = list(/obj/items/crystal/defense,
+							 			   /obj/items/crystal/damage),
 						     "0.01" = /obj/items/artifact,
 							 "0.03" = list(/obj/items/wearable/title/Magic,
 							 			   /obj/items/crystal/magic,
-						     			   /obj/items/crystal/strong_luck),
+						     			   /obj/items/crystal/strong_luck,
+						     			   /obj/items/crystal/soul),
 							 "5"    = list(/obj/items/DarknessPowder,
 							 			   /obj/items/Smoke_Pellet,
 							 			   /obj/items/Tube_of_fun))
 
+
+				Attack(mob/M)
+					..()
+					if(!fired && target && state == HOSTILE)
+						fired = 1
+						spawn(rand(50,150)) fired = 0
+
+						for(var/obj/redroses/S in oview(3, src))
+							flick("burning", S)
+							spawn(8) S.loc = null
+
+						if(prob(80))
+							dir=get_dir(src, target)
+							castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball")
+							sleep(AttackDelay)
+
 				Attacked(projname, damage)
-					if(projname == "gum" && prob(80))
+					if(projname == "gum" && prob(95))
 						emit(loc    = src,
 							 ptype  = /obj/particle/red,
 						     amount = 2,
@@ -600,12 +618,12 @@ mob
 
 			Floating_Eye
 				icon_state = "eye"
-				level = 1000
+				level = 900
 				HPmodifier  = 2
-				DMGmodifier = 0.7
+				DMGmodifier = 0.8
 				var/tmp/fired = 0
 				MoveDelay = 4
-				AttackDelay = 2
+				AttackDelay = 1
 
 				New()
 					..()
@@ -780,16 +798,19 @@ mob
 			Basilisk
 				icon_state = "basilisk"
 				level = 2000
-				HPmodifier = 5
+				HPmodifier = 4
 				DMGmodifier = 3
 				MoveDelay = 2
 				AttackDelay = 3
 				Range = 16
 				respawnTime = 3600
 
-				drops = list("1"   = list(/obj/items/artifact,
-										  /obj/items/wearable/title/Petrified),
-							 "5"   = list(/obj/items/DarknessPowder,
+				drops = list("3"   = list(/obj/items/artifact,
+										  /obj/items/wearable/title/Petrified,
+										  /obj/items/crystal/soul,
+										  /obj/items/crystal/magic,
+						     			  /obj/items/crystal/strong_luck),
+							 "6"   = list(/obj/items/DarknessPowder,
 								 		  /obj/items/Whoopie_Cushion,
 										  /obj/items/U_No_Poo,
 							 			  /obj/items/Smoke_Pellet,
