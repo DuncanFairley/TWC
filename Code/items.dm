@@ -3375,10 +3375,10 @@ obj
 				if(prob(chance + bonusChance))
 					var/obj/items/wearable/o = new prize (t)
 
-					if(istype(o, /obj/items/wearable/title))
+					if(istype(i3, /obj/items/wearable/title))
 						o.color = i3.color
 						o:title = "<font color=\"[o.color]\">" + o:title + "</font>"
-					else if(istype(o, /obj/items/wearable))
+					else if(istype(i3, /obj/items/wearable))
 						o.quality = i3:quality
 						o.bonus   = i3:bonus
 						o.name += " +[o.quality]"
