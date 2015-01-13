@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 Duncan Fairley
+ * Copyright Â© 2014 Duncan Fairley
  * Distributed under the GNU Affero General Public License, version 3.
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
@@ -402,84 +402,6 @@ mob/proc/get_accessible_vaults()
 		if(V.can_ckey_enter(src.ckey))
 			accessible_vaults += ckey
 	return accessible_vaults
-
-
-
-mob/VaultGoblin
-	icon = 'NPCs.dmi'
-	icon_state = "goblinvault"
-	name = "Vault Master"
-	verb
-		Talk()
-			set src in oview(2)
-			if(global.globalvaults[usr.ckey])
-				var/vault/V = global.globalvaults[usr.ckey]
-				switch(input("What would you like to change about your vault?")as null|anything in list("Change who can enter my vault", "Transfer items from old vault to new vault"))
-					if("Transfer items from old vault to new vault")
-						if(alert("This will move all items from your old-style vault into your current vault. Are you sure you wish to do this?",,"Yes","No")=="Yes")
-							var/swapmap/map = SwapMaps_Find("[usr.ckey]")
-							if(!map)
-								map = SwapMaps_Load("[usr.ckey]")
-							var/foundundroppable = 0 // Set if you have an object with no drop verb
-							if(usr.bank)for(var/atom/movable/A in usr.bank.items)
-								if((text2path("[A.type]/verb/Drop") in A.verbs) && (!istype(A,/obj/Food)))
-									A.loc = get_step(map.LoCorner(),NORTHEAST)
-								else
-									A.loc = usr
-									foundundroppable = 1
-								usr.bank.items -= A
-							if(foundundroppable)
-								usr << "Undroppable items have been moved to your personal inventory, instead of your vault."
-							usr << npcsay("Vault Master: Your items have been transferred successfully.")
-							usr:Resort_Stacking_Inv()
-
-					if("Change who can enter my vault")
-						if(V.allowedpeople && V.allowedpeople.len)
-							switch(alert("Would you like to allow someone to enter your vault, or remove someone's permission from entering?",,"Allow someone","Deny someone","Cancel"))
-								if("Allow someone")
-									var/mob/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in Players(list(usr))
-									if(M)
-										if(istext(M))
-											M = text2mob(M)
-										V.add_ckey_allowedpeople(M.ckey)
-										usr << npcsay("Vault Master: [M.derobe ? M.prevname : M.name] can now enter your vault at any time. See me again if you wish to change this.")
-								if("Deny someone")
-									var/list/name_ckey_assoc = V.name_ckey_assoc()
-									var/M = input("Who would you like to deny entrance to vault?") as null|anything in name_ckey_assoc
-									if(M)
-										V.remove_ckey_allowedpeople(name_ckey_assoc[M])
-										usr << npcsay("Vault Master: [M] can no longer enter your vault.")
-						else
-							if(Players.len == 1)
-								//Not any people to do anything with
-								alert("There's nobody left you can add.")
-								return
-							var/mob/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in Players(list(usr))
-							if(M)
-								if(istext(M))
-									M = text2mob(M)
-								V.add_ckey_allowedpeople(M.ckey)
-								usr << npcsay("Vault Master: [M.derobe ? M.prevname : M.name] can now enter your vault at any time. See me again if you wish to change this.")
-					else
-						usr << npcsay("Vault Master: See me again if you need to change anything with your vault.")
-
-			else if(fexists("[swapmaps_directory]/map_[usr.ckey].sav"))
-				usr << npcsay("Vault Master: Hi there.")
-				global.globalvaults[usr.ckey] = new /vault()
-				//Attempted fix for #373
-			else
-				if(alert("Do you want a free vault where you can store your belongings?","Vault","Yes","No") == "Yes")
-					if(!fexists("[swapmaps_directory]/map_[usr.ckey].sav"))
-						usr << npcsay("Vault Master: Okay, I've allocated you some space down in Vault [rand(10,99)][pick("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z")]")
-						usr << npcsay("Vault Master: Anything you drop in there will be safely kept and available to you at any time. ((If you create a new character, your vault will retain its contents, so it's a good way to transfer your stuff if you want to remake.))")
-						if(!islist(global.globalvaults))
-							global.globalvaults = list()
-						global.globalvaults[usr.ckey] = new /vault()
-						var/swapmap/map = SwapMaps_CreateFromTemplate("vault1")
-						map.SetID("[usr.ckey]")
-						map.Save()
-				else
-					usr << npcsay("Vault Master: Maybe next time.")
 
 /*client/var/verifiedtelnet = 0
 client/var/telnetchatmode = "say"
