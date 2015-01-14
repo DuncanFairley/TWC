@@ -273,15 +273,6 @@ obj/Columb
 	density=0
 	dontsave=1
 
-obj/Cauldron_________
-	icon='General.dmi'
-	icon_state="tile44"
-	accioable=0
-	wlable=0
-	density=1
-	dontsave=1
-	rubbleable=1
-
 obj/Endtable
 	icon='General.dmi'
 	icon_state="tile72"

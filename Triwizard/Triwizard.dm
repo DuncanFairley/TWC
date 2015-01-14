@@ -279,15 +279,13 @@ area
 
 	//these should be easy, since we can just copy/paste/edit the code for how the quidditch observe_area works.
 	//Observe.dmi as the icon to activate the areas
+
 /mob/var/tmp/unslow = 0
 mob/proc/unslow()
 	spawn()
 		unslow=1
 		sleep(1200)
 		usr << "<b>The effects wear off.</b>"
-		usr.underlays-=image('Fishpeople.dmi',icon_state="m")
-		usr.underlays-=image('Fishpeople.dmi',icon_state="f")
-		usr.icon_state=""
 		unslow=0
 
 obj/items/Underwater_Bean
@@ -299,14 +297,16 @@ obj/items/Underwater_Bean
 	Click()
 		if(src in usr)
 			if(usr.unslow) return
-
 			usr << "<b>You swallow the bean.</b>"
-			usr.icon_state="bl"
-			if(usr.Gender=="Male")
-				usr.underlays+=image('Fishpeople.dmi',icon_state="m")
-			if(usr.Gender=="Female")
-				usr.underlays+=image('Fishpeople.dmi',icon_state="f")
+			flick("transfigure",usr)
+			usr.trnsed = 1
+			usr.overlays = null
+			if(usr.Gender == "Female")
+				usr.icon = 'FemaleFish.dmi'
+			else
+				usr.icon = 'MaleFish.dmi'
 			usr.unslow()
+			if(usr.away) usr.ApplyAFKOverlay()
 			del(src)
 		else
 			..()

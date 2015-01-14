@@ -2508,38 +2508,11 @@ obj/Steel
 obj/Titanium
 	icon='items.dmi'
 	icon_state="titanium"
-obj/Cauldron
-	icon='cau.dmi'
-	icon_state="red"
-	density=1
-	dontsave=1
-	accioable=0
-	rubbleable=1
-obj/Cauldron____
-	icon='cau.dmi'
-	icon_state="purple"
-	dontsave=1
-	accioable=0
-	density=1
-	rubbleable=1
-obj/Cauldron_
-	icon='cau.dmi'
-	icon_state="C2"
-	density=1
-	dontsave=1
-	accioable=0
-	rubbleable=1
+
 obj/plate
 	icon='turf.dmi'
 	icon_state="plate"
 	density=1
-obj/Cauldron__
-	icon='cau.dmi'
-	accioable=0
-	icon_state="green"
-	density=1
-	dontsave=1
-	rubbleable=1
 
 obj/items/Blue_Mushroom
 	icon = 'items.dmi'
@@ -2589,6 +2562,17 @@ obj/flash
 	density=0
 	wlable=0
 	dontsave=1
+
+obj/Cauldron
+	icon = 'cau.dmi'
+	icon_state = "C1"
+	accioable = 0
+	wlable = 0
+	density = 1
+	rubbleable = 1
+	New()
+		..()
+		icon_state = "C[rand(1,8)]"
 
 obj/gryffindor
 	icon='shields.dmi'
