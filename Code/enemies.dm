@@ -552,7 +552,6 @@ mob
 				HPmodifier  = 1.4
 				DMGmodifier = 0.8
 				MoveDelay = 3
-				AttackDelay = 3
 				canBleed = FALSE
 				var/tmp/fired = 0
 
