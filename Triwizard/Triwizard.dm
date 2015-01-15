@@ -296,18 +296,19 @@ obj/items/Underwater_Bean
 
 	Click()
 		if(src in usr)
-			if(usr.unslow) return
-			usr << "<b>You swallow the bean.</b>"
-			flick("transfigure",usr)
-			usr.trnsed = 1
-			usr.overlays = null
-			if(usr.Gender == "Female")
-				usr.icon = 'FemaleFish.dmi'
-			else
-				usr.icon = 'MaleFish.dmi'
-			usr.unslow()
-			if(usr.away) usr.ApplyAFKOverlay()
-			del(src)
+			if(canUse(usr,cooldown=null,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstflying=0,againstcloaked=0))
+				if(usr.unslow) return
+				usr << "<b>You swallow the bean.</b>"
+				flick("transfigure",usr)
+				usr.trnsed = 1
+				usr.overlays = null
+				if(usr.Gender == "Female")
+					usr.icon = 'FemaleFish.dmi'
+				else
+					usr.icon = 'MaleFish.dmi'
+				usr.unslow()
+				if(usr.away) usr.ApplyAFKOverlay()
+				del(src)
 		else
 			..()
 
