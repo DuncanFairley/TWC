@@ -1110,6 +1110,8 @@ mob/Player
 		if(Lwearing)
 			var/mob/Player/var/list/tmpwearing = Lwearing
 			Lwearing = list()
+			clothDmg = 0
+			clothDef = 0
 			for(var/obj/items/wearable/W in tmpwearing)
 				spawn()W.Equip(src,1)
 		spawn()if(src.away)src.ApplyAFKOverlay()
