@@ -196,7 +196,7 @@ obj/brick2door
 			opacity = 0
 			spawn(4)density = 0
 			inuse = 1
-			icon_state = "opened"
+			icon_state = "open"
 			flick("opening",src)
 		Close()
 			while(locate(/mob) in loc) sleep(10)

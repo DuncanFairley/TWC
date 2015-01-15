@@ -552,7 +552,6 @@ mob
 				HPmodifier  = 1.4
 				DMGmodifier = 0.8
 				MoveDelay = 3
-				AttackDelay = 3
 				canBleed = FALSE
 				var/tmp/fired = 0
 
@@ -801,17 +800,17 @@ mob
 				level = 2000
 				HPmodifier = 4
 				DMGmodifier = 3
-				MoveDelay = 2
-				AttackDelay = 3
+				MoveDelay = 3
+				AttackDelay = 10
 				Range = 16
-				respawnTime = 3600
+				respawnTime = 3000
 
-				drops = list("3"   = list(/obj/items/artifact,
+				drops = list("10"   = list(/obj/items/artifact,
 										  /obj/items/wearable/title/Petrified,
 										  /obj/items/crystal/soul,
 										  /obj/items/crystal/magic,
 						     			  /obj/items/crystal/strong_luck),
-							 "6"   = list(/obj/items/DarknessPowder,
+							 "20"   = list(/obj/items/DarknessPowder,
 								 		  /obj/items/Whoopie_Cushion,
 										  /obj/items/U_No_Poo,
 							 			  /obj/items/Smoke_Pellet,

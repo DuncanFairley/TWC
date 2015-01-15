@@ -141,6 +141,7 @@ obj
 					if(usr)
 						usr.client.screen -= R
 						usr.readbooks = 0
+						usr:presence = null
 
 
 		EXP_BOOK_lvl0

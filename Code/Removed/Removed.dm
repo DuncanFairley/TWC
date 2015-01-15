@@ -1307,3 +1307,39 @@ mob/Mailman
 		Examine()
 			set src in oview(3)
 			usr << "Your friendly neighborhood Mail man!!"
+obj/Cauldron_________
+	icon='General.dmi'
+	icon_state="tile44"
+	accioable=0
+	wlable=0
+	density=1
+	dontsave=1
+	rubbleable=1
+obj/Cauldron__
+	icon='cau.dmi'
+	accioable=0
+	icon_state="green"
+	density=1
+	dontsave=1
+	rubbleable=1
+obj/Cauldron_
+	icon='cau.dmi'
+	icon_state="C2"
+	density=1
+	dontsave=1
+	accioable=0
+	rubbleable=1
+obj/Cauldron
+	icon='cau.dmi'
+	icon_state="red"
+	density=1
+	dontsave=1
+	accioable=0
+	rubbleable=1
+obj/Cauldron____
+	icon='cau.dmi'
+	icon_state="purple"
+	dontsave=1
+	accioable=0
+	density=1
+	rubbleable=1

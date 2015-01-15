@@ -2508,38 +2508,11 @@ obj/Steel
 obj/Titanium
 	icon='items.dmi'
 	icon_state="titanium"
-obj/Cauldron
-	icon='cau.dmi'
-	icon_state="red"
-	density=1
-	dontsave=1
-	accioable=0
-	rubbleable=1
-obj/Cauldron____
-	icon='cau.dmi'
-	icon_state="purple"
-	dontsave=1
-	accioable=0
-	density=1
-	rubbleable=1
-obj/Cauldron_
-	icon='cau.dmi'
-	icon_state="C2"
-	density=1
-	dontsave=1
-	accioable=0
-	rubbleable=1
+
 obj/plate
 	icon='turf.dmi'
 	icon_state="plate"
 	density=1
-obj/Cauldron__
-	icon='cau.dmi'
-	accioable=0
-	icon_state="green"
-	density=1
-	dontsave=1
-	rubbleable=1
 
 obj/items/Blue_Mushroom
 	icon = 'items.dmi'
@@ -2589,6 +2562,17 @@ obj/flash
 	density=0
 	wlable=0
 	dontsave=1
+
+obj/Cauldron
+	icon = 'cau.dmi'
+	icon_state = "C1"
+	accioable = 0
+	wlable = 0
+	density = 1
+	rubbleable = 1
+	New()
+		..()
+		icon_state = "C[rand(1,8)]"
 
 obj/gryffindor
 	icon='shields.dmi'
@@ -3257,6 +3241,84 @@ obj/items/crystal
 		luck = 5
 		ignoreItem = TRUE
 
+obj/items/weather
+	var/tmp/inUse = FALSE
+	var/effect
+
+	icon = 'trophies.dmi'
+
+	acid
+		name = "acid stone"
+		effect = "acid"
+		icon_state = "Emerald"
+
+	snow
+		name = "snow stone"
+		effect = "snow"
+		icon_state = "Sapphire2"
+
+	rain
+		name = "rain stone"
+		effect = "rain"
+		icon_state = "Sapphire"
+
+	sun
+		name = "sun stone"
+		effect = "sun"
+		icon_state = "Topaz"
+
+	Click()
+		if(src in usr)
+			effect(usr, effect)
+		else
+			..()
+
+	proc/effect(mob/Player/p, weather_effect)
+
+		if(!(p.loc && (istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))))
+			p << errormsg("You can only use this outside.")
+			return
+
+		if(inUse) return
+		inUse = TRUE
+
+		var/obj/o = new(p.loc)
+		o.icon='Circle_magic.dmi'
+		o.pixel_x = -65
+		o.pixel_y = -64
+
+		animate(o, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10, loop = -1)
+		animate(color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+		animate(color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+
+		hearers(p) << infomsg("[p.name] holds their [name] up in the air")
+
+		var/tmploc = p.loc
+		var/secs = 10
+		while(secs > 0 && p && p.loc == tmploc)
+			secs--
+			sleep(10)
+		if(p && p.loc == tmploc)
+
+			switch(weather_effect)
+				if("acid")
+					weather.acid()
+				if("snow")
+					weather.snow()
+				if("rain")
+					weather.rain()
+				if("sun")
+					weather.clear()
+
+			loc = null
+			p.Resort_Stacking_Inv()
+		else
+			inUse = FALSE
+			p << errormsg("Your attempt at changing the weather failed.")
+
+		animate(o)
+		o.loc = null
+
 
 obj
 	enchanter
@@ -3336,6 +3398,10 @@ obj
 					chance -= 60
 					prize = pick(/obj/items/wearable/title/Bookworm, /obj/items/wearable/title/Lumberjack)
 
+				else if(istype(i3, /obj/items/crystal/soul))
+					chance -= 40
+					prize = pick(/obj/items/weather/sun, /obj/items/weather/rain, /obj/items/weather/acid, /obj/items/weather/snow)
+
 				else if(istype(i3, /obj/items/wearable/))
 
 					if(istype(i3, /obj/items/wearable/title) && !istype(i3, /obj/items/wearable/title/Custom))
@@ -3375,10 +3441,10 @@ obj
 				if(prob(chance + bonusChance))
 					var/obj/items/wearable/o = new prize (t)
 
-					if(istype(o, /obj/items/wearable/title))
+					if(istype(i3, /obj/items/wearable/title))
 						o.color = i3.color
 						o:title = "<font color=\"[o.color]\">" + o:title + "</font>"
-					else if(istype(o, /obj/items/wearable))
+					else if(istype(i3, /obj/items/wearable))
 						o.quality = i3:quality
 						o.bonus   = i3:bonus
 						o.name += " +[o.quality]"
