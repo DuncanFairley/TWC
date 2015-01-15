@@ -3241,6 +3241,79 @@ obj/items/crystal
 		luck = 5
 		ignoreItem = TRUE
 
+obj/items/weather_stone
+	var/tmp/inUse = FALSE
+	var/effect
+
+	icon = 'trophies.dmi'
+
+	acid
+		name = "acid stone"
+		effect = "acid"
+		icon_state = "Emerald"
+
+	snow
+		name = "snow stone"
+		effect = "snow"
+		icon_state = "Sapphire2"
+
+	rain
+		name = "rain stone"
+		effect = "rain"
+		icon_state = "Sapphire"
+
+	sun
+		name = "sun stone"
+		effect = "sun"
+		icon_state = "Topaz"
+
+	Click()
+		if(src in usr)
+			effect(usr, effect)
+		else
+			..()
+
+	proc/effect(mob/Player/p, weather_effect)
+		if(inUse) return
+		inUse = TRUE
+
+		var/obj/o = new(p.loc)
+		o.icon='Circle_magic.dmi'
+		o.pixel_x = -65
+		o.pixel_y = -64
+
+		animate(src, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10, loop = -1)
+		animate(color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+		animate(color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+
+		hearers(p) << infomsg("[p.name] holds their [name] up in the air")
+
+		var/tmploc = p.loc
+		var/secs = 10
+		while(secs > 0 && p && p.loc == tmploc)
+			secs--
+			sleep(10)
+		if(p && p.loc == tmploc)
+
+			switch(weather_effect)
+				if("acid")
+					weather.acid()
+				if("snow")
+					weather.snow()
+				if("rain")
+					weather.rain()
+				if("sun")
+					weather.clear()
+
+			loc = null
+			p.Resort_Stacking_Inv()
+		else
+			inUse = FALSE
+			p << errormsg("Your attempt at changing the weather failed.")
+
+		animate(o)
+		o.loc = null
+
 
 obj
 	enchanter
@@ -3319,6 +3392,10 @@ obj
 				if(istype(i3, /obj/items/scroll))
 					chance -= 60
 					prize = pick(/obj/items/wearable/title/Bookworm, /obj/items/wearable/title/Lumberjack)
+
+				else if(istype(i3, /obj/items/crystal/soul))
+					chance -= 40
+					prize = pick(/obj/items/weather_stone/sun, /obj/items/weather_stone/rain, /obj/items/weather_stone/acid, /obj/items/weather_stone/snow)
 
 				else if(istype(i3, /obj/items/wearable/))
 
