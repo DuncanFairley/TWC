@@ -579,10 +579,11 @@ mob/GM
 					flick('apparate.dmi',M)
 					sleep(20)
 					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Windhowl Manor.</font></b>"
-				if("Azkaban Entrance")
+				if("Azkaban")
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
 					S.owner=usr
+					S.density=0
 					walk_towards(S,M,2)
 					sleep(20)
 					del S
