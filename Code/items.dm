@@ -3241,7 +3241,7 @@ obj/items/crystal
 		luck = 5
 		ignoreItem = TRUE
 
-obj/items/weather_stone
+obj/items/weather
 	var/tmp/inUse = FALSE
 	var/effect
 
@@ -3274,6 +3274,11 @@ obj/items/weather_stone
 			..()
 
 	proc/effect(mob/Player/p, weather_effect)
+
+		if(!(p.loc && (istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))))
+			p << errormsg("You can only use this outside.")
+			return
+
 		if(inUse) return
 		inUse = TRUE
 
@@ -3282,7 +3287,7 @@ obj/items/weather_stone
 		o.pixel_x = -65
 		o.pixel_y = -64
 
-		animate(src, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10, loop = -1)
+		animate(o, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10, loop = -1)
 		animate(color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
 		animate(color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
 
@@ -3395,7 +3400,7 @@ obj
 
 				else if(istype(i3, /obj/items/crystal/soul))
 					chance -= 40
-					prize = pick(/obj/items/weather_stone/sun, /obj/items/weather_stone/rain, /obj/items/weather_stone/acid, /obj/items/weather_stone/snow)
+					prize = pick(/obj/items/weather/sun, /obj/items/weather/rain, /obj/items/weather/acid, /obj/items/weather/snow)
 
 				else if(istype(i3, /obj/items/wearable/))
 
