@@ -232,8 +232,8 @@ client/proc
 					mob.Exp += xp2give
 					mob.LvlCheck()
 				else
-					mob << "<font color=yellow><b>You gained [row_data["Amount"]] gold from your referral [sql_get_name_from(row_data["EarnerCkey"])]([row_data["EarnerCkey"]]).</b></font>"
 					var/gold2give = text2num(row_data["Amount"])
+					mob << "<font color=yellow><b>You gained [gold2give] gold from your referral [sql_get_name_from(row_data["EarnerCkey"])]([row_data["EarnerCkey"]]).</b></font>"
 					mob.gold += max(round(gold2give / 10, 1), 1)
 				rows2delete += row_data["ID"]
 			var/sql_rows2delete = ""
