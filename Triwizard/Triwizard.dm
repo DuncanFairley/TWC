@@ -225,9 +225,10 @@ proc
 
 area
 	Underwater
-		icon = 'Underwater.dmi'
-		icon_state = "spool"
+		icon = 'Water.dmi'
+		icon_state = "water"
 		layer = 13
+		alpha = 150
 		//Will slow human movement by 50%
 		//will slow inhuman movement by 25%
 		//humans have 30 seconds before being teleported out (not affected by logout).
