@@ -3404,7 +3404,7 @@ obj
 
 				else if(istype(i3, /obj/items/wearable/))
 
-					if(istype(i3, /obj/items/wearable/title) && !istype(i3, /obj/items/wearable/title/Custom))
+					if(istype(i3, /obj/items/wearable/title) && i3.name == i4.name)
 						chance -= 40
 						prize = i3.type
 						i3.color = rgb(rand(80,240), rand(80,240), rand(80,240))
@@ -3442,6 +3442,8 @@ obj
 					var/obj/items/wearable/o = new prize (t)
 
 					if(istype(i3, /obj/items/wearable/title))
+						o.name = i3.name
+						o:title = copytext(i3.name, 8)
 						o.color = i3.color
 						o:title = "<font color=\"[o.color]\">" + o:title + "</font>"
 					else if(istype(i3, /obj/items/wearable))
