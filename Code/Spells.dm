@@ -1265,9 +1265,10 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 		M.Gender = M.Gender == "Male" ? "Female" : "Male"
 		src=null
 		spawn(1200)
-			M << "<b>You turn back to Normal</b>."
-			flick('teleboom.dmi',M)
-			M.BaseIcon()
+			if(M)
+				M << "<b>You turn back to Normal</b>."
+				flick('teleboom.dmi',M)
+				M.BaseIcon()
 
 mob/Spells/verb/Ecliptica()
 	set category="Spells"
