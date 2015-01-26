@@ -642,8 +642,8 @@ mob/GM/verb
 		src.density=0
 		src.Move(locate(M.x,M.y+1,M.z))
 		src.density=dense
-		M << "<b><font color=blue>[src]</font> has teleported to you.</b></I>"
-		src << "With a flick of your wand, you find yourself next to <b><font color=red>[M]."
+		M << "<b><font color=blue>[src]</font> has teleported to you.</b>"
+		src << "With a flick of your wand, you find yourself next to <b>[M]</b>."
 
 
 
