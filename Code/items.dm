@@ -125,7 +125,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			owner.resetMaxHP()
 		return REMOVED
 	else
-		if(showoverlay && !owner.trnsed && owner.icon_state != "invis")
+		if(showoverlay && !owner.trnsed && owner.alpha != 36)
 			var/obj/o = new
 			o.icon = src.icon
 			o.layer = wear_layer
@@ -1060,14 +1060,14 @@ obj/items/wearable/invisibility_cloak
 				flick('mist.dmi',owner)
 				owner.invisibility=1
 				owner.sight |= SEE_SELF
-				owner.icon_state = "invis"
+				owner.alpha = 36
 
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] appears from nowhere as \he removes \his [src.name].")
 			owner.ApplyOverlays()
 			owner.invisibility=0
 			owner.sight &= ~SEE_SELF
-			owner.icon_state = ""
+			owner.alpha = 255
 
 obj/items/wearable/title
 	var/title = ""

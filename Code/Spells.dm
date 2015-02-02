@@ -284,7 +284,7 @@ mob/Spells/verb/Eparo_Evanesca()
 					M.ApplyOverlays()
 					M.invisibility=0
 					M.sight &= ~SEE_SELF
-					M.icon_state = ""
+					M.alpha = 255
 				M<<"You have been revealed!"
 				new /StatusEffect/Decloaked(M,15)
 mob/Spells/verb/Evanesco(mob/M in Players&oview())
@@ -295,7 +295,7 @@ mob/Spells/verb/Evanesco(mob/M in Players&oview())
 		M.invisibility=1
 		M.sight |= SEE_SELF
 		M.overlays = list()
-		M.icon_state = "invis"
+		M.alpha = 36
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]: <font color=blue>Evanesco!"
 		M<<"You have been hidden!"
 mob/Spells/verb/Imitatus(mob/M in view()&Players, T as text)
