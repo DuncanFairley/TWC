@@ -275,8 +275,8 @@ mob/Spells/verb/Eparo_Evanesca()
 		for(var/mob/Player/M in hearers())
 			if(M.key&&(M.invisibility==1))
 				flick('teleboom.dmi',M)
-				M.invisibility=0
-				M.icon_state = ""
+				M.invisibility = 0
+				M.alpha = 255
 				var/obj/items/wearable/invisibility_cloak/C = locate(/obj/items/wearable/invisibility_cloak) in M.Lwearing
 				if(C)
 					C.Equip(M,1)

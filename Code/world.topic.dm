@@ -87,7 +87,7 @@ mob/GM/verb/Clan_store()
 						if(M.key&&(M.invisibility==1))
 							flick('teleboom.dmi',M)
 							M.invisibility=0
-							M.icon_state = ""
+							M.alpha=255
 							M<<"You have been revealed!"
 							new /StatusEffect/Decloaked(M,15)
 				else
