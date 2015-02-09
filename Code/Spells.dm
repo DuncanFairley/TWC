@@ -575,6 +575,8 @@ mob/Spells/verb/Dementia()
 			if(D && D.loc)
 				flick('mist.dmi',D)
 				view(D)<<"The Dementor fades into smoke and vanishes."
+				sleep(8)
+				D.loc = null
 
 obj/screenobj/conjunct
 		mouse_opacity = 0
