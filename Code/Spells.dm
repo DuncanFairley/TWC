@@ -572,10 +572,10 @@ mob/Spells/verb/Dementia()
 		flick('mist.dmi',D)
 		src = null
 		spawn(600)
-			flick('mist.dmi',D)
-			if(D)
+			if(D && D.loc)
+				flick('mist.dmi',D)
 				view(D)<<"The Dementor fades into smoke and vanishes."
-				del D
+
 obj/screenobj/conjunct
 		mouse_opacity = 0
 		icon = 'black50.dmi'
