@@ -396,25 +396,22 @@ mob
 						Wander()
 						for(var/mob/Player/M in ohearers(src, Range))
 							if(M.loc.loc != src.loc.loc) continue
-							if(ignore && (M in ignore)) continue
 
-							if(!isPathBlocked(M, src, 1, src.density))
-								target = M
-								state  = HOSTILE
+							target = M
+							state  = HOSTILE
 
-								spawn()
-									var/time = 5
-									while(src && state == HOSTILE && M == target && time > 0)
-										sleep(30)
-										time--
+							spawn()
+								var/time = 5
+								while(src && state == HOSTILE && M == target && time > 0)
+									sleep(30)
+									time--
 
-									if(M == target && state == HOSTILE)
-										target = null
-										state = SEARCH
+								if(M == target && state == HOSTILE)
+									target = null
+									state = SEARCH
 
-								break
-							else
-								Ignore(M)
+							break
+
 
 					Blocked()
 						density = 0
