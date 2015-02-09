@@ -3282,7 +3282,8 @@ obj/items/weather
 		if(inUse) return
 		inUse = TRUE
 
-		var/obj/o = new(p.loc)
+		var/obj/o = new(usr.loc)
+		o.name = "weather"
 		o.icon='Circle_magic.dmi'
 		o.pixel_x = -65
 		o.pixel_y = -64
@@ -3293,32 +3294,33 @@ obj/items/weather
 
 		hearers(p) << infomsg("[p.name] holds their [name] up in the air")
 
-		var/tmploc = p.loc
-		var/secs = 10
-		while(secs > 0 && p && p.loc == tmploc)
-			secs--
-			sleep(10)
-		if(p && p.loc == tmploc)
+		var/obj/items/weather/source = src
+		src=null
+		spawn()
+			var/tmploc = p.loc
+			var/secs = 10
 
-			switch(weather_effect)
-				if("acid")
-					weather.acid()
-				if("snow")
-					weather.snow()
-				if("rain")
-					weather.rain()
-				if("sun")
-					weather.clear()
+			while(secs > 0 && p && p.loc == tmploc)
+				secs--
+				sleep(10)
+			if(p && source)
+				if(p.loc == tmploc)
+					switch(weather_effect)
+						if("acid")
+							weather.acid()
+						if("snow")
+							weather.snow()
+						if("rain")
+							weather.rain()
+						if("sun")
+							weather.clear()
 
-			loc = null
-			p.Resort_Stacking_Inv()
-		else
-			inUse = FALSE
-			p << errormsg("Your attempt at changing the weather failed.")
-
-		animate(o)
-		o.loc = null
-
+					source.loc = null
+					p.Resort_Stacking_Inv()
+				else
+					source.inUse = FALSE
+					p << errormsg("Your attempt at changing the weather failed.")
+			o.loc = null
 
 obj
 	enchanter
