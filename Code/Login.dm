@@ -2990,18 +2990,6 @@ turf
 		icon_state="rc"
 		density=1
 
-mob/Player/Del()
-	Players.Remove(src)
-	..()
-mob/Player/Logout()
-	world<<"<B><font size=2 color=red><I>[usr] <b>logged out.</b></I></font></B>"
-	usr.followplayer=0
-	usr.readbooks = 0
-	usr.movable=0
-	..()
-	del(usr)
-
-
 proc/ServerAD()
 	world<<"<b><Font color=silver>Server:</b> <font size=1><font color=silver>Thanks for playing The Wizards' Chronicles. Forums: http://www.wizardschronicles.com"
 	sleep(3000)

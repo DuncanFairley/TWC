@@ -1662,7 +1662,13 @@ mob/GM/verb/Arena()
 			currentArena.started = 1
 mob/NPC/var/walkingBack = 0
 
+client/Del()
+	if(mob)
+		Players -= mob
+	..()
+
 mob/Player/Logout()
+	world<<"<B><font size=2 color=red><I>[usr] <b>logged out.</b></I></font></B>"
 	if(arcessoing)
 		stop_arcesso()
 	if(currentArena)
