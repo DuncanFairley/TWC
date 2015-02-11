@@ -718,7 +718,7 @@ world
 	name = "Harry Potter: The Wizards' Chronicles"
 	turf=/turf/blankturf
 	view="17x17"
-var/world/VERSION = "16.16"
+var/world/VERSION = "16.17"
 
 world/proc/playtimelogger()
 	return
@@ -1049,6 +1049,7 @@ mob/Player
 		listenooc = 1
 		listenhousechat = 1
 		invisibility = 0
+		alpha = 255
 		switch(key)
 			if("Murrawhip")
 				src.verbs+=typesof(/mob/GM/verb/)
