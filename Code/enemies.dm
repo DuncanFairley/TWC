@@ -802,6 +802,10 @@ mob
 				Range = 16
 				respawnTime = 3000
 
+				New()
+					..()
+					transform *= 2
+
 				drops = list("20"   = list(/obj/items/artifact,
 										  /obj/items/wearable/title/Petrified,
 										  /obj/items/crystal/soul,
@@ -842,6 +846,9 @@ mob
 								if(M && M.movable)
 									M.movable    = 0
 									M.icon_state = ""
+
+				Death()
+					..()
 
 mob
 	Dog
