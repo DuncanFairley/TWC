@@ -802,12 +802,12 @@ mob
 				Range = 16
 				respawnTime = 3000
 
-				drops = list("10"   = list(/obj/items/artifact,
+				drops = list("20"   = list(/obj/items/artifact,
 										  /obj/items/wearable/title/Petrified,
 										  /obj/items/crystal/soul,
 										  /obj/items/crystal/magic,
 						     			  /obj/items/crystal/strong_luck),
-							 "20"   = list(/obj/items/DarknessPowder,
+							 "40"   = list(/obj/items/DarknessPowder,
 								 		  /obj/items/Whoopie_Cushion,
 										  /obj/items/U_No_Poo,
 							 			  /obj/items/Smoke_Pellet,
