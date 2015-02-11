@@ -847,8 +847,14 @@ mob
 									M.movable    = 0
 									M.icon_state = ""
 
-				Death()
-					..()
+				Death(mob/Player/killer)
+					..(killer)
+
+					var/obj/Hogwarts_Door/gate/door = locate("CoSLockDoor")
+					if(door)
+						door.door = 1
+						spawn(respawnTime)
+							door.door = 0
 
 mob
 	Dog
