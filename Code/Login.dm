@@ -1049,6 +1049,7 @@ mob/Player
 		listenooc = 1
 		listenhousechat = 1
 		invisibility = 0
+		alpha = 255
 		switch(key)
 			if("Murrawhip")
 				src.verbs+=typesof(/mob/GM/verb/)

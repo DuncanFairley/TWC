@@ -125,7 +125,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			owner.resetMaxHP()
 		return REMOVED
 	else
-		if(showoverlay && !owner.trnsed && owner.icon_state != "invis")
+		if(showoverlay && !owner.trnsed)
 			var/obj/o = new
 			o.icon = src.icon
 			o.layer = wear_layer
@@ -229,7 +229,7 @@ obj/items/Zombie_Head
 
 	Click()
 		if(src in usr)
-			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1,againstflying=0,againstcloaked=0))
+			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1,againstflying=0,againstcloaked=1))
 				new /StatusEffect/UsedTransfiguration(usr,15)
 				if(usr.CanTrans(usr))
 					flick("transfigure",usr)
@@ -1037,9 +1037,6 @@ obj/items/wearable/invisibility_cloak
 		if(owner.findStatusEffect(/StatusEffect/Decloaked))
 			owner << errormsg("You are unable to cloak right now.")
 			return
-		if(owner.trnsed && !owner.derobe || (owner.derobe && owner.icon != 'Deatheater.dmi'))
-			owner << errormsg("You can't wear this while transfigured.")
-			return
 		if(locate(/obj/items/wearable/brooms) in owner.Lwearing)
 			owner << errormsg("Your cloak isn't big enough to cover you and your broom.")
 			return
@@ -1056,18 +1053,16 @@ obj/items/wearable/invisibility_cloak
 					W.Equip(owner,1,1)
 			if(!wascloaked)
 				owner<<"You put on the cloak and become invisible to others."
-				owner.overlays = list()
 				flick('mist.dmi',owner)
 				owner.invisibility=1
 				owner.sight |= SEE_SELF
-				owner.icon_state = "invis"
+				owner.alpha = 125
 
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] appears from nowhere as \he removes \his [src.name].")
-			owner.ApplyOverlays()
 			owner.invisibility=0
 			owner.sight &= ~SEE_SELF
-			owner.icon_state = ""
+			owner.alpha = 255
 
 obj/items/wearable/title
 	var/title = ""

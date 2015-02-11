@@ -579,10 +579,11 @@ mob/GM
 					flick('apparate.dmi',M)
 					sleep(20)
 					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Windhowl Manor.</font></b>"
-				if("Azkaban Entrance")
+				if("Azkaban")
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
 					S.owner=usr
+					S.density=0
 					walk_towards(S,M,2)
 					sleep(20)
 					del S
@@ -641,8 +642,8 @@ mob/GM/verb
 		src.density=0
 		src.Move(locate(M.x,M.y+1,M.z))
 		src.density=dense
-		M << "<b><font color=blue>[src]</font> has teleported to you.</b></I>"
-		src << "With a flick of your wand, you find yourself next to <b><font color=red>[M]."
+		M << "<b><font color=blue>[src]</font> has teleported to you.</b>"
+		src << "With a flick of your wand, you find yourself next to <b>[M]</b>."
 
 
 
