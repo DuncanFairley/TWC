@@ -251,7 +251,7 @@ RandomEvent
 
 			if(message) world << infomsg("The monsters have been driven away.")
 
-mob
+mob/Player
 	var/playSounds = TRUE
 
 	proc/beep(type = 0)

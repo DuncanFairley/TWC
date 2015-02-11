@@ -1341,7 +1341,7 @@ window "winSettings"
 	elem "winSettings"
 		type = MAIN
 		pos = 281,0
-		size = 258x321
+		size = 258x340
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -1377,9 +1377,37 @@ window "winSettings"
 		macro = ""
 		menu = ""
 		on-close = ""
+	elem "butAFKtoggle"
+		type = BUTTON
+		pos = 9,315
+		size = 247x24
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #000000
+		background-color = none
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Disable automatic AFK (Use at your own risk!)"
+		image = ""
+		command = ".AFKtoggle"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = ""
+		button-type = checkbox
 	elem "butSoundtoggle"
 		type = BUTTON
-		pos = 8,292
+		pos = 9,292
 		size = 232x24
 		anchor1 = none
 		anchor2 = none

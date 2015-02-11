@@ -114,11 +114,12 @@ mob/Player/proc/PMHome()
 mob/Player/var/list/blockedpeeps = list()
 mob/var/tmp/timelog = 0
 var/list/emotes = list("farts","burps","coughs","yawns","sneezes","picks their nose","breathes heavily","scratches their arm","fidgets")
+mob/var/autoAFK = TRUE
 mob/Player/proc/unreadmessagelooper()
 	set background = 1
 	var/unreadmsgs = 0
 	spawn()
-		while(1)
+		while(src)
 			sleep(2650)
 			sql_update_ckey_in_table(src)
 			unreadmsgs = 0
@@ -129,13 +130,13 @@ mob/Player/proc/unreadmessagelooper()
 			switch(rndnum)
 				if(1)
 					Emote("[pick(emotes)].")
-			if(client.inactivity > 9000)
+
+			if(!away && autoAFK && client.inactivity > 9000)
 				//Been inactive for over 600 seconds/5 minutes
-				if(!usr.away)
-					usr.away = 1
-					usr.here=usr.status
-					usr.status=" (AFK)"
-					usr.ApplyAFKOverlay()
+				away = 1
+				here=status
+				status=" (AFK)"
+				ApplyAFKOverlay()
 
 			if(unreadmsgs)
 				src << "<b><a href='?src=\ref[src];action=pm_inbox'>You have [unreadmsgs] unread message[unreadmsgs > 1 ? "s":] in your inbox.</a></b>"
