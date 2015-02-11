@@ -84,6 +84,10 @@ mob
 				winset += "butEventNotificationstoggle.is-checked=false;"
 			else
 				winset += "butEventNotificationstoggle.is-checked=true;"
+			if(playSounds)
+				winset += "butSoundtoggle.is-checked=false;"
+			else
+				winset += "butSoundtoggle.is-checked=true;"
 
 			winset += "mnu_Settings.command=.ShowSettings;"
 			winset += "mnu_Settings.is-disabled=false;"
@@ -93,6 +97,12 @@ mob
 		ShowSettings()
 			set name = ".ShowSettings"
 			winset(src,"winSettings","is-visible=true")
+		Soundtoggle()
+			set name = ".Soundtoggle"
+			if(winget(src,"butSoundtoggle","is-checked") == "true")
+				playSounds = 0
+			else
+				playSounds = 1
 		MonsterMessagestoggle()
 			set name = ".MonsterMessagestoggle"
 			if(winget(src,"butMonsterMessagestoggle","is-checked") == "true")

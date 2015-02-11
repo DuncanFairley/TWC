@@ -22,8 +22,8 @@ RandomEvent
 	var/name
 
 	proc/start()
-		for(var/client/C)
-			if(C.mob && C.mob.EventNotifications)winset(C,"mainwindow","flash=2")
+		for(var/mob/Player/p in Players)
+			p.beep(1)
 
 	TheEvilSnowman
 		name = "The Evil Snowman"
@@ -251,8 +251,16 @@ RandomEvent
 
 			if(message) world << infomsg("The monsters have been driven away.")
 
+mob
+	var/playSounds = TRUE
 
+	proc/beep(type = 0)
+		if((type == 1 && EventNotifications) || (type == 2 && ClassNotifications) || !type)
+			winset(src, "mainwindow", "flash=2")
 
+			if(playSounds)
+				var/sound/S = sound('Alert.ogg')
+				src << S
 
 obj/items/scroll/prize
 

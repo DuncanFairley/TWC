@@ -426,7 +426,7 @@ mob/Player/Topic(href,href_list[])
 				if(aPM == src.curPM)break
 			src << "Private Message Sent to <a href='?src=\ref[src];action=pm_reply;replynametext=[formatName(Y)]'>[formatName(Y)]</a>."
 			Y << "You have received a <a href='?src=\ref[Y];action=pm_inbox_readmsg;msgid=[pmcounter]'>new private message</a> from <a href='?src=\ref[Y];action=pm_reply;replynametext=[formatName(src)]'>[formatName(src)]</a>."
-			winset(Y,"mainwindow","flash=2")
+			Y.beep()
 mob/Player/verb/PM(var/p in Players())
 	if(src.mute)
 		alert("You are not allowed to send messages.")
