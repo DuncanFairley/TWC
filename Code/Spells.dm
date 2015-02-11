@@ -811,13 +811,13 @@ mob/Spells/verb/Chaotica()
 	if(dmg<20)dmg=20
 	else if(dmg>2000)dmg = 2000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
-		castproj(30,'misc.dmi',"black",dmg,"chaotica")
+		castproj(30,'misc.dmi',"black",dmg,"Chaotica")
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
 		HP -= 30
 		Death_Check()
-		castproj(0,'Aqua Eructo.dmi',"",usr.Def+(usr.extraDef/3) + clothDmg,"aqua eructo")
+		castproj(0,'Aqua Eructo.dmi',"",usr.Def+(usr.extraDef/3) + clothDmg,"Aqua Eructo")
 mob/Spells/verb/Inflamari()
 	set category="Spells"
 	var/dmg = round(usr.level * 0.9) + clothDmg
@@ -828,15 +828,15 @@ mob/Spells/verb/Inflamari()
 mob/Spells/verb/Glacius()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
-		castproj(10,'attacks.dmi',"iceball",usr.Dmg+usr.extraDmg + clothDmg,"glacius")
+		castproj(10,'attacks.dmi',"iceball",usr.Dmg+usr.extraDmg + clothDmg,"Glacius")
 mob/Spells/verb/Waddiwasi()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
-		castproj(10,'attacks.dmi',"gum",usr.Dmg+usr.extraDmg + clothDmg,"waddiwasi")
+		castproj(10,'attacks.dmi',"gum",usr.Dmg+usr.extraDmg + clothDmg,"Waddiwasi")
 mob/Spells/verb/Tremorio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
-		castproj(5,'attacks.dmi',"quake",usr.Dmg+usr.extraDmg + clothDmg,"tremorio")
+		castproj(5,'attacks.dmi',"quake",usr.Dmg+usr.extraDmg + clothDmg,"Tremorio")
 mob/Spells/verb/Furnunculus(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
@@ -1084,7 +1084,7 @@ mob/Spells/verb/Incindia()
 		usr:learnSpell("Incindia")
 		for(var/d in dirs)
 			dir = d
-			castproj(0, 'attacks.dmi', "fireball", damage, "Incindia", 0, 1)
+			castproj(0, 'attacks.dmi', "fireball", damage, "incindia", 0, 1)
 		dir = t
 mob/Spells/verb/Replacio(mob/M in oview()&Players)
 	set category="Spells"
@@ -1824,6 +1824,7 @@ mob
 			//Used in fire bats and fire golems as well
 			src.MP -= MPreq
 			src.updateHPMP()
+			src:learnSpell(name)
 
 	proc/Attacked(projname, damage)
 
@@ -1955,7 +1956,20 @@ obj
 					else
 						A.HP-=src.damage
 						if(src.damage)
-							A.Death_Check(src.owner)
+							if(isplayer(owner))
+								var/tmp_ekills = owner.ekills
+								var/tmp_pkills = owner.pkills
+								A.Death_Check(src.owner)
+
+								if(owner.pkills > tmp_pkills)
+									owner:learnSpell(copytext(name, 3), 100)
+								else if(owner.ekills > tmp_ekills)
+									owner:learnSpell(copytext(name, 3), 5)
+							else
+								A.Death_Check(src.owner)
+
+
+
 				if(bleed && !oldSystem)
 					var/n = dir2angle(get_dir(bleed, src))
 					emit(loc    = bleed,

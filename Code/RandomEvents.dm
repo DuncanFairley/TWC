@@ -25,6 +25,45 @@ RandomEvent
 		for(var/mob/Player/p in Players)
 			p.beep(1)
 
+	Class
+		name = "Class"
+		start()
+			var/spell = pick(spellList ^ list(/mob/Spells/verb/Self_To_Dragon, /mob/Spells/verb/Self_To_Human, /mob/Spells/verb/Episky, /mob/Spells/verb/Inflamari))
+
+			var/class/c
+
+			for(var/t in typesof(/class/))
+				if(ends_with("[t]", spellList[spell]))
+					c = new t
+					break
+
+			if(c)
+				c.name      = spellList[spell]
+				c.spelltype = spell
+				curClass    = c.subject
+				classdest   = locate("[c.subject] Class")
+
+				var/obj/teacher/t = new (classdest.loc)
+				t.classInfo = c
+				c.professor = t
+
+				for(var/mob/Player/p in Players)
+					p.beep(2)
+
+				for(var/i = 5; i > 0; i--)
+					Players << announcemsg("[c.subject] Class is starting in [i] minutes. Click <a href=\"?src=\ref[src];action=class_path\">here</a> for directions.")
+					sleep(600)
+
+
+				c.start()
+				sleep(600 * 30)
+				t.loc = null
+				t.classInfo = null
+				c.professor = null
+
+			else
+				world.log << "TWC Error: [spell] not found in class type list (Class.dmi)"
+
 	TheEvilSnowman
 		name = "The Evil Snowman"
 		start()

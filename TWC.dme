@@ -47,6 +47,7 @@
 #include "Code\Arial7pt.dm"
 #include "Code\Books.dm"
 #include "Code\Changelog.dm"
+#include "Code\Class.dm"
 #include "Code\commands.dm"
 #include "Code\Conjuration.dm"
 #include "Code\Cronicles.dm"

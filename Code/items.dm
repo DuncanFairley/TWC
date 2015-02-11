@@ -3461,52 +3461,10 @@ obj
 				applyBonus  = 0
 				ignoreItem  = FALSE
 
-
-mob/verb/testClass()
-
-	var/obj/items/wearable/wands/practice_wand/w = new (src)
-
-	var/s = pick(spellList)
-	var/learnSpell/l = new
-
-	l.path = s
-	l.name = spellList[s]
-	l.uses = 10
-
-	w.spell = l
-	usr:Resort_Stacking_Inv()
-
-
-
-mob/Player
-	var/tmp/learnSpell/learning
-
-	proc/learnSpell(name, use = 1)
-		if(learning && learning.name == name)
-			learning.uses -= use
-			world << learning.uses
-			if(learning.uses <= 0)
-				src << infomsg("You learned [learning.name]!")
-
-				var/spellpath = learning.path
-
-				spawn()
-					var/obj/items/wearable/wands/practice_wand/wand = locate() in Lwearing
-					if(wand)
-						wand.Equip(src)
-						wand.loc = null
-						Resort_Stacking_Inv()
-						verbs += spellpath
-
-
-learnSpell
-	var/path
-	var/name
-	var/uses
-
 obj/items/wearable/wands/practice_wand
 
 	var/learnSpell/spell
+	dropable = 0
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner, overridetext, forceremove)
@@ -3515,7 +3473,7 @@ obj/items/wearable/wands/practice_wand
 			p.verbs   += spell.path
 			p.learning = spell
 
-			p << infomsg("Use [spell.name] [spell.uses] to learn it!")
+			if(!overridetext) p << infomsg("Use [spell.name] [spell.uses] to learn it!")
 
 		else if(. == REMOVED || forceremove)
 			p.verbs   -= spell.path
