@@ -281,7 +281,6 @@ mob/Spells/verb/Eparo_Evanesca()
 				if(C)
 					C.Equip(M,1)
 				else
-					M.ApplyOverlays()
 					M.invisibility=0
 					M.sight &= ~SEE_SELF
 					M.alpha = 255
@@ -294,8 +293,7 @@ mob/Spells/verb/Evanesco(mob/M in Players&oview())
 		flick('teleboom.dmi',M)
 		M.invisibility=1
 		M.sight |= SEE_SELF
-		M.overlays = list()
-		M.alpha = 36
+		M.alpha = 125
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]: <font color=blue>Evanesco!"
 		M<<"You have been hidden!"
 mob/Spells/verb/Imitatus(mob/M in view()&Players, T as text)
@@ -1282,7 +1280,7 @@ mob/Spells/verb/Ecliptica()
 			sleep(2)
 mob/Spells/verb/Delicio(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Delicio, [M].</b>"
 		if(CanTrans(M))
@@ -1294,7 +1292,7 @@ mob/Spells/verb/Delicio(mob/Player/M in oview(usr.client.view,usr)&Players)
 			M.icon = 'Turkey.dmi'
 mob/Spells/verb/Avifors(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=gray>[usr]</font>: <b>Avifors, [M].</b>"
 		if(CanTrans(M))
@@ -1306,7 +1304,7 @@ mob/Spells/verb/Avifors(mob/Player/M in oview(usr.client.view,usr)&Players)
 			M.icon = 'Bird.dmi'
 mob/Spells/verb/Ribbitous(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=green> Ribbitous, [M].</b></font>"
 		if(CanTrans(M))
@@ -1318,7 +1316,7 @@ mob/Spells/verb/Ribbitous(mob/Player/M in oview(usr.client.view,usr)&Players)
 			M.icon = 'Frog.dmi'
 mob/Spells/verb/Carrotosi(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=red> Carrotosi, [M].</b></font>"
 		if(CanTrans(M))
@@ -1331,7 +1329,7 @@ mob/Spells/verb/Carrotosi(mob/Player/M in oview(usr.client.view,usr)&Players)
 mob/Spells/verb/Self_To_Dragon()
 	set name = "Personio Draconum"
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
 			usr<<"You transformed yourself into a fearsome Dragon!"
@@ -1343,7 +1341,7 @@ mob/Spells/verb/Self_To_Dragon()
 mob/Spells/verb/Self_To_Mushroom()
 	set name = "Personio Musashi"
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
 			usr<<"You transformed yourself into a Mushroom!"
@@ -1365,7 +1363,7 @@ mob/Spells/verb/Self_To_Mushroom()
 mob/Spells/verb/Self_To_Skeleton()
 	set name = "Personio Sceletus"
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
 			usr<<"You transformed yourself into a Skeleton!"
@@ -1377,7 +1375,7 @@ mob/Spells/verb/Self_To_Skeleton()
 mob/Spells/verb/Other_To_Human(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set name = "Transfiguro Revertio"
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=green> Transfiguro Revertio, [M].</b></font>"
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(M))
@@ -1400,7 +1398,7 @@ mob/Spells/verb/Self_To_Human()
 	set name = "Personio Humaium"
 	set category="Spells"
 	var/mob/Player/user = usr
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		if(CanTrans(src))
 			flick("transfigure",usr)
 			if(usr.aurorrobe)
@@ -1418,7 +1416,7 @@ mob/Spells/verb/Self_To_Human()
 			usr<<"You reversed your transfiguration."
 mob/Spells/verb/Harvesto(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b> Harvesto, [M].</b>"
 		if(CanTrans(M))
@@ -1431,7 +1429,7 @@ mob/Spells/verb/Harvesto(mob/Player/M in oview(usr.client.view,usr)&Players)
 			M.icon = 'Onion.dmi'
 mob/Spells/verb/Felinious(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b> Felinious, [M].</b>"
 		if(CanTrans(M))
@@ -1444,7 +1442,7 @@ mob/Spells/verb/Felinious(mob/Player/M in oview(usr.client.view,usr)&Players)
 			M.icon = 'BlackCat.dmi'
 mob/Spells/verb/Scurries(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Scurries, [M].</b>"
 		if(CanTrans(M))
@@ -1457,7 +1455,7 @@ mob/Spells/verb/Scurries(mob/Player/M in oview(usr.client.view,usr)&Players)
 			M.icon = 'Mouse.dmi'
 mob/Spells/verb/Seatio(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Seatio, [M].</b>"
 		if(CanTrans(M))
@@ -1470,7 +1468,7 @@ mob/Spells/verb/Seatio(mob/Player/M in oview(usr.client.view,usr)&Players)
 			M.icon = 'Chair.dmi'
 mob/Spells/verb/Nightus(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Nightus, [M].</b>"
 		if(CanTrans(M))
@@ -1484,7 +1482,7 @@ mob/Spells/verb/Nightus(mob/Player/M in oview(usr.client.view,usr)&Players)
 mob/Spells/verb/Peskipixie_Pesternomae(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set category="Spells"
 	set name = "Peskipiksi Pestermi"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Peskipiksi Pestermi, [M].</b>"
 		if(CanTrans(M))
