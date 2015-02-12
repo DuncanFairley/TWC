@@ -1572,7 +1572,7 @@
 "aEl" = (/turf/Staircase3,/area/hogwarts/Care_of_Magical_Creatures)
 "aEm" = (/obj/Armor_Feet,/turf/Hogwarts_Stone_Wall,/area/hogwarts/Care_of_Magical_Creatures)
 "aEn" = (/obj/Columb,/turf/woodenfloor,/area/hogwarts/Gryffindor_Common_Room)
-"aEo" = (/obj/bigwhitechair,/mob/Headmasters_Office{density = 0; name = "COMC Class"; Tag = "COMC Class"},/turf/woodenfloorblack,/area/hogwarts/Care_of_Magical_Creatures)
+"aEo" = (/obj/bigwhitechair,/mob/Headmasters_Office{density = 0; name = "COMC Class"; tag = "COMC Class"; Tag = null},/turf/woodenfloorblack,/area/hogwarts/Care_of_Magical_Creatures)
 "aEp" = (/obj/Column,/turf/roofb{opacity = 1},/area/hogwarts)
 "aEq" = (/turf/Red_Carpet,/turf/Red_Carpet_Corners{dir = 1},/turf/Red_Carpet_Corners{dir = 8},/area/hogwarts/Gryffindor_Common_Room)
 "aEr" = (/turf/Red_Carpet,/turf/Red_Carpet_Corners{dir = 1},/turf/Red_Carpet_Corners,/area/hogwarts/Gryffindor_Common_Room)
