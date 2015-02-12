@@ -992,13 +992,24 @@ obj/items/wearable/afk
 			else if(. == REMOVED)
 				if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
 
+	heart_ring
+		icon = 'ammy.dmi'
+		icon_state = "heart"
+
+		Equip(var/mob/Player/owner,var/overridetext=0, var/forceremove=0)
+			. = ..(owner, overridetext, forceremove)
+			if(. == WORN)
+				if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his finger.")
+			else if(. == REMOVED)
+				if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
+
 	hot_chocolate
 		icon = 'hotchoco.dmi'
 
 		Equip(var/mob/Player/owner,var/overridetext=0, var/forceremove=0)
 			. = ..(owner, overridetext, forceremove)
 			if(. == WORN)
-				if(!overridetext)viewers(owner) << infomsg("[owner] picks up \his [src.name] and hold it in \his hands.")
+				if(!overridetext)viewers(owner) << infomsg("[owner] picks up \his [src.name] and holds it in \his hands.")
 			else if(. == REMOVED)
 				if(!overridetext)viewers(owner) << infomsg("[owner] puts down \his [src.name].")
 
