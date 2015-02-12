@@ -431,6 +431,107 @@ mob
 
 						Death()
 
+					Wisp
+						icon_state = "wisp"
+						name = "Willy the Whisp"
+						HPmodifier = 6
+						DMGmodifier = 2
+						layer = 5
+						MoveDelay = 2
+						AttackDelay = 1
+						Range = 15
+						level = 1200
+						var/tmp/fired = 0
+						var/proj = "gum"
+						canBleed = FALSE
+
+						drops = list("100" = list(/obj/items/wearable/title/Ghost,
+												  /obj/items/lamps/triple_drop_rate_lamp,
+												  /obj/items/lamps/triple_exp_lamp,
+												  /obj/items/lamps/triple_gold_lamp))
+
+
+						New()
+							..()
+							alpha = rand(190,240)
+
+							var/color1 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+							var/color2 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+							var/color3 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+
+							animate(src, color = color1, time = 10, loop = -1)
+							animate(color = color2, time = 10)
+							animate(color = color3, time = 10)
+
+							transform *= 3 + (rand(-10, 10) / 10)
+
+							spawn()
+								while(src.loc)
+									proj = pick(list("gum", "quake", "iceball","fireball", "", "black") - proj)
+									switch(proj)
+										if("gum")
+											animate(src, color = "#fa8bd8", time = 10, loop = -1)
+											animate(color = "#c811f1", time = 10)
+											animate(color = "#ec06a3", time = 10)
+										if("quake")
+											animate(src, color = "#aa8d84", time = 10, loop = -1)
+											animate(color = "#767309", time = 10)
+											animate(color = "#a4903d", time = 10)
+										if("iceball")
+											animate(src, color = "#24e3f3", time = 10, loop = -1)
+											animate(color = "#a4bcd3", time = 10)
+											animate(color = "#4a9ee0", time = 10)
+										if("fireball")
+											animate(src, color = "#dd6103", time = 10, loop = -1)
+											animate(color = "#b21039", time = 10)
+											animate(color = "#b81114", time = 10)
+										if("black")
+											animate(src, color = "#000000", time = 10, loop = -1)
+											animate(color = "#ffffff", time = 10)
+										if("")
+											animate(src, color = "#0e3492", time = 10, loop = -1)
+											animate(color = "#2a32fb", time = 10)
+											animate(color = "#cdf0e3", time = 10)
+									sleep(200)
+
+						Attack(mob/M)
+							..()
+							if(!fired && target && state == HOSTILE)
+								fired = 1
+								spawn(rand(30,50)) fired = 0
+
+								for(var/obj/redroses/S in oview(3, src))
+									flick("burning", S)
+									spawn(8) S.loc = null
+
+								if(prob(80))
+									var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+									var/tmp_d = dir
+									for(var/d in dirs)
+										dir = d
+										castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball", 0, 1)
+									dir = tmp_d
+									sleep(AttackDelay)
+
+						Attacked(projname, damage)
+							world << projname
+							if(projname == proj && prob(99))
+								emit(loc    = src,
+									 ptype  = /obj/particle/red,
+								     amount = 2,
+								     angle  = new /Random(1, 359),
+								     speed  = 2,
+								     life   = new /Random(15,20))
+							else
+								HP+=damage
+
+								emit(loc    = src,
+									 ptype  = /obj/particle/green,
+								     amount = 2,
+								     angle  = new /Random(1, 359),
+								     speed  = 2,
+								     life   = new /Random(15,20))
+
 					Snowman
 						icon = 'Snowman.dmi'
 						name = "The Evil Snowman"
