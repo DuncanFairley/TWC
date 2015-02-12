@@ -10,6 +10,18 @@ proc/init_random_events()
 
 
 var/list/spawners = list()
+mob/verb/testClasses()
+	var/list/spells = spellList ^ list(/mob/Spells/verb/Self_To_Dragon, /mob/Spells/verb/Self_To_Human, /mob/Spells/verb/Episky, /mob/Spells/verb/Inflamari)
+
+	for(var/spell in spells)
+		var/class/c
+		for(var/t in typesof(/class/))
+			if(ends_with("[t]", replace(spellList[spell], " ", "_")))
+				c = new t
+				break
+
+		if(!c)
+			world << "TWC Error: [spell] not found in class type list (Class.dmi)"
 
 obj/spawner
 	invisibility = 10
@@ -33,7 +45,7 @@ RandomEvent
 			var/class/c
 
 			for(var/t in typesof(/class/))
-				if(ends_with("[t]", spellList[spell]))
+				if(ends_with("[t]", replace(spellList[spell], " ", "_")))
 					c = new t
 					break
 
@@ -51,8 +63,8 @@ RandomEvent
 					p.beep(2)
 
 				for(var/i = 5; i > 0; i--)
-					Players << announcemsg("[c.subject] Class is starting in [i] minutes. Click <a href=\"?src=\ref[src];action=class_path\">here</a> for directions.")
-					sleep(600)
+					Players << announcemsg("[c.subject] Class is starting in [i] minutes. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+					sleep(10)
 
 
 				c.start()

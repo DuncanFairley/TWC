@@ -5,16 +5,27 @@ obj/teacher
 
 	icon = 'NPCs.dmi'
 	density = 1
+	mouse_over_pointer = MOUSE_HAND_POINTER
 
 	New()
 		..()
 
 		if(prob(50))
-			icon_state = "shana"
-			name       = pick("Shana")
+			name   = pick("Shana", "Shakira", "Valeri", "Elodia", "Marilu", "Shenna", "Coreen", "Debera", "Marlo", "Aracely", "Romana", "Dona", "Tobi", "Kathern", "Majorie", "Dierdre", "Angla", "Judith", "Johnetta", "Lennie", "Kelli")
+			icon   = 'FemaleStaff.dmi'
+			gender = FEMALE
 		else
-			icon_state = "palmer"
-			name       = pick("Palmer", "Bob")
+			name   = pick("Palmer", "Bob", "Jorge", "Davis", "Shayne", "Clayton", "Olin", "Ty", "Jayson", "Owen", "Ned", "Benito", "Prince", "Cyrus", "Art", "Derek", "Kendrick", "Frances", "Garry", "Man", "Federico", "Clifford")
+			icon   = 'MaleStaff.dmi'
+			gender = MALE
+
+		overlays += image(pick(typesof(/obj/items/wearable/scarves/) - /obj/items/wearable/scarves/), "")
+		overlays += image(pick(typesof(/obj/items/wearable/shoes/)   - /obj/items/wearable/shoes/),   "")
+
+		var/list/colors = list("black", "blue", "green", "grey", "pink", "purple", "silver", "cyan", "teal", "red", "orange")
+		overlays += image(text2path("/obj/items/wearable/wigs/[gender == MALE ? "male" : "female"]_[pick(colors)]_wig"), "")
+
+		namefont.QuickName(src, src.name, rgb(255,255,255), "#000", top=1)
 
 	Click()
 		..()
@@ -118,7 +129,7 @@ class
 			wand    = TRUE
 			start()
 				..()
-				say("Eat slugs will make the target vommit slugs, the slugs are created using not only your MP your target's as well, it will slowly eat their MP away because of this if they have no MP left, no slugs will come out.")
+				say("[name] will make the target vomit slugs. The slugs are created using not only your MP, but your target's as well. The slugs will slowly eat their MP away until it reaches zero. Once your target runs out of MP, they will stop vomiting up slugs.")
 		Disperse
 			start()
 				..()
@@ -148,7 +159,7 @@ class
 			start()
 				..()
 				say("This will turn people you don't like into a chair!")
-		Ribbitious
+		Ribbitous
 			start()
 				..()
 				say("This will turn others into a frog. Don't think that you'll turn into a prince/princess after you get kissed. It doesn't work like that!")
@@ -180,7 +191,7 @@ class
 			start()
 				..()
 				say("It turns you into a nice onion. Be careful not get eaten though.")
-		Perskipiksi_Pestermi
+		Peskipiksi_Pestermi
 			start()
 				..()
 				say("Once you flick your wand and point it at the student, they will be turned into a pixie.")
@@ -190,7 +201,7 @@ class
 		wand    = TRUE
 		start()
 			..()
-			say("If you don't like being transfigured, then this is the spell for you. This will prevent any student from using transfiguration spell on you. This lasts for a certain time though so use it wisely.")
+			say("If you don't like being transfigured, then this is the spell for you. This will prevent any student from using transfiguration spells on you. This lasts for a certain time though so use it wisely.")
 
 	dada
 		Petrificus_Totalus
@@ -230,7 +241,7 @@ class
 			wand = TRUE
 			start()
 				..()
-				say("known as the knockback charm. This pushes someone out the way. It is great for dueling")
+				say("Known as the knockback charm. This pushes someone out of the way. It is great for dueling")
 		Occlumency
 			wand = TRUE
 			start()
@@ -267,7 +278,7 @@ class
 			wand = TRUE
 			start()
 				..()
-				say("You'll forget whatever the caster wants you to. You also will have some of you chat logs erased too.")
+				say("You'll forget whatever the caster wants you to. You also will have some of your chat logs erased too.")
 		Crucio
 			mp = 400
 			wand = TRUE
@@ -283,7 +294,7 @@ class
 			wand = TRUE
 			start()
 				..()
-				say(" This hex causes the victim's teeth to grow rapidly, but can also be used to restore lost teeth.")
+				say("This hex causes the victim's teeth to grow rapidly, but can also be used to restore lost teeth.")
 		Flagrate
 			mp = 300
 			wand = TRUE
@@ -301,8 +312,6 @@ class
 				say("You can summon a student with this spell. It requires two students to work though and they both must have this spell.")
 				sleep(50)
 				say("This spell has two MP usages. One per person who uses it. The first person to use the spell takes a 400 MP cost, and the other takes an 800 MP cost.")
-				sleep(50)
-				say("This also needs a wand.")
 		Riddikulus
 			wand = TRUE
 			start()
@@ -346,19 +355,19 @@ class
 		Expecto_Patronum
 			start()
 				..()
-				say("I'd say this would be perfect for fighting dementors.It sends dementors and other dark creatures away.")
+				say("I'd say this would be perfect for fighting dementors. It sends dementors and other dark creatures away.")
 	charms
 		subject = "Charms"
 		wand    = TRUE
 		Conjunctivis
 			start()
 				..()
-				say("This curse is presumed to cause great pain in the victim's eyes causing the vicitim to be blind for a certain amount of time.")
+				say("This curse is presumed to cause great pain in the victim's eyes causing the victim to be blind for a certain amount of time.")
 		Portus
 			mp = 25
 			start()
 				..()
-				say("It turns an object into a port-key.That means you can make a scroll into a portal. How exciting!")
+				say("It turns an object into a port-key. That means you can make a scroll into a portal. How exciting!")
 		Rictusempra
 			mp = 50
 			start()
@@ -391,7 +400,7 @@ class
 		Eparo_Evanesca
 			start()
 				..()
-				say("It makes the invisibile turn visible.")
+				say("It makes the invisible turn visible.")
 		Langlock
 			mp = 600
 			start()
@@ -405,15 +414,15 @@ class
 			mp = 30
 			start()
 				..()
-				say("It sauses the victim to become confused and befuddled.")
+				say("It causes the victim to become confused and befuddled.")
 		Anapneo
 			start()
 				..()
-				say("This opens the airpipes of a student/")
+				say("This opens the airpipes of a student.")
 		Melofors
 			start()
 				..()
-				say("This drops a pumpkin on your targets head temporaily blinding them under it falls off.")
+				say("This drops a pumpkin on your targets head temporarily blinding them until it falls off.")
 		Levicorpus
 			mp = 800
 			start()
@@ -424,7 +433,7 @@ class
 			mp = 10
 			start()
 				..()
-				say("Great attack spell and helpful with burning roses.")
+				say("This spell is helpful with burning roses.")
 		Imitatus
 			start()
 				..()
@@ -433,35 +442,41 @@ class
 			mp = 500
 			start()
 				..()
-				say("Using this spell, you get to switch places with you and the target you have chosen.")
+				say("Using this spell, you get to switch places with yourself and the target you have chosen.")
 		Ferula
 			start()
 				..()
-				say("This summons our wonderful nurse and she will be there to help heal any minor wounds that you have may.")
+				say("This summons our wonderful nurse and she will be there to help heal any minor wounds that you may have.")
 		Tarantallegra
 			mp = 100
 			start()
 				..()
-				say("this spell causes people to dance uncontrollably.")
+				say("This spell causes people to dance uncontrollably.")
 		Furnunculus
 			start()
 				..()
-				say("this jinx covers the target in painful boils which causes you to lose health in the process.")
+				say("This jinx covers the target in painful boils which causes you to lose health in the process.")
 		Wingardium_Leviosa
 			start()
 				..()
 				say("Levitates and moves the target; the wand motion is described as \"swish and flick.")
 
+proc
+	ends_with(var/string, var/end, var/ignoreCase = FALSE)
+		var/end_len = length(end)
+		var/cut = copytext(string, -end_len)
 
-proc/ends_with(var/string, var/end, var/ignoreCase = FALSE)
-	var/end_len = length(end)
-	var/cut = copytext(string, -end_len)
+		if(ignoreCase)
+			cut = lowertext(cut)
+			end = lowertext(end)
 
-	if(ignoreCase)
-		cut = lowertext(cut)
-		end = lowertext(end)
+		return cut == end
 
-	return cut == end
+	replace(string, needle, new_string, start=1, end=0)
+		while(findtext(string,needle,start,end))
+			var/pos = findtext(string,needle,start,end)
+			string = copytext(string,1,pos) + new_string + copytext(string,pos+length(needle))
+		return string
 
 mob/Player
 	var/tmp/learnSpell/learning
