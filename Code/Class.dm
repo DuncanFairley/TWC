@@ -111,6 +111,13 @@ class
 			say("[name] is a target-based spell. Before it is casted you can choose who you want to target with the spell.")
 			sleep(30)
 
+		Petrificus_Totalus
+			subject = "DADA"
+			mp = 10
+			start()
+				..()
+				say("This is the Full Body-Bind Curse! It stiffens a person's limbs so they cannot move.")
+
 	verbal
 
 		start()
@@ -126,89 +133,297 @@ class
 				..()
 				say("Eat slugs will make the target vommit slugs, the slugs are created using not only your MP your target's as well, it will slowly eat their MP away because of this if they have no MP left, no slugs will come out.")
 		Disperse
+			start()
+				..()
+				say("It gets rid of any smoke or swamp that may happen around you. There's even a rumor that if used enough times, it'll even disperse dark mark created by dark wizards!")
 
 	transfiguration
-
+		subject = "Transfiguration"
+		wand    = TRUE
 		start()
 			..()
 			say("[name] is a transfiguration-based spell. When casted the form of the target will change.")
 			sleep(30)
 
-		Petrificus_Totalus
 		Scurries
+			start()
+				..()
+				say("This spell transforms others into a mouse.")
 		Carrotosi
+			start()
+				..()
+				say("This is one of the cutest spells. It turns others into a small little white bunny.")
 		Delicio
+			start()
+				..()
+				say("This is wonderful especially to those who are hungry. This turns others into a turkey served with some veggies.")
 		Seatio
-		Ribbitous
+			start()
+				..()
+				say("This will turn people you don't like into a chair!")
+		Ribbitious
+			start()
+				..()
+				say("This will turn others into a frog. Don't think that you'll turn into a prince/princess after you get kissed. It doesn't work like that!")
 		Personio_Sceletus
+			start()
+				..()
+				say("This spell is one of my favorites and perfect for halloween! You will be able to transform yourself into a skeleton. Careful not to scare too many people like this though.")
 		Personio_Musashi
+			start()
+				..()
+				say("This spell is great for hiding. It turns you into a little small mushroom.")
 		Transfiguro_Revertio
+			start()
+				..()
+				say("Let's say you turned transfigured someone bu accident. This handy spell turns them back to normal.")
 		Felinious
+			start()
+				..()
+				say("After using this spell on someone, they will be turned into a small black cat. Beware of them crossing you! You don't want any bad luck.")
 		Avifors
-		Antifigura
+			start()
+				..()
+				say("This turns others into a small black bird. Similar to a black crow. Claw! Claw!")
 		Nightus
+			start()
+				..()
+				say("After using this spell, you will be turned into a little bat. Batman may not like you much in this state.")
 		Harvesto
-		Peskipiksi_Pestermi
+			start()
+				..()
+				say("It turns you into a nice onion. Be careful not get eaten though.")
+		Perskipiksi_Pestermi
+			start()
+				..()
+				say("Once you flick your wand and point it at the student, they will be turned into a pixie.")
+	Antifigura
+		subject = "Transfiguration"
+		mp      = 50
+		wand    = TRUE
+		start()
+			..()
+			say("If you don't like being transfigured, then this is the spell for you. This will prevent any student from using transfiguration spell on you. This lasts for a certain time though so use it wisely.")
+
 	dada
 		Incindia
+			mp   = 450
+			wand = TRUE
+			start()
+				..()
+				say("Careful when you use this. It fires projectiles in all 8 directions! It's quite a useful spell in my opinion.")
+		Protego
+			start()
+				..()
+				say("The Shield Charm causes minor to moderate jinxes, curses, and hexes to rebound upon the attacker.")
+		Impedimenta
+			start()
+				..()
+				say("This spell freezes everyone in your view for about 10 seconds.")
+		Immobulus
+			start()
+				..()
+				say("This spell doesnt allow anyone to move for 15 seconds.")
+		Reducto
+			start()
+				..()
+				say("If binded, this spell is perfect for you. It frees you from any binds or frozen spells.")
+		Depulso
+			start()
+				..()
+				say("known as the knockback charm. This pushes someone out the way. It is great for dueling")
+		Occlumency
+			start()
+				..()
+				say("This handy spell prevents people from accessing your mind thus they won't be able to see where you are located.")
+		Incarcerous
+			start()
+				..()
+				say("This ties someone or something up with ropes.")
+		Expelliarmus
+			start()
+				..()
+				say("Known as the disarming charm. You lose your wand and have to re-draw it.")
+	Flippendo
+		subject = "DADA"
+		mp      = 10
+		wand    = TRUE
+		start()
+			..()
+			say("Once this projectile hits the person, it moves them one space.")
 	gcom
+		Sense
+			start()
+				..()
+				say("It allows you to sense how many times the student has died and killed others.")
+		Scan
+			start()
+				..()
+				say("This allows you to see how much health and mana the student has. It is nice for checking out your competition.")
+		Obliviate
+			start()
+				..()
+				say("You'll forget whatever the caster wants you to. You also will have some of you chat logs erased too.")
+		Crucio
+			start()
+				..()
+				say("Inflicts intense pain on the recipient of the curse. One of the three unforgivable curses.")
+		Solidus
+			start()
+				..()
+				say("This created a huge stone in front of you. Perfect for blocking but only lasts for a set time.")
+		Densaugeo
+			start()
+				..()
+				say(" This hex causes the victim's teeth to grow rapidly, but can also be used to restore lost teeth.")
+		Flagrate
+			start()
+				..()
+				say("This displays a large announcement to those who are near you.")
+		Valorus
+			start()
+				..()
+				say("This handy spell can make someone stop following you and have someone fall off a broom too.")
+		Arcesso
+			start()
+				..()
+				say("You can summon a student with this spell. It requires two students to work though and they both must have this spell.")
+		Riddikulus
+			start()
+				..()
+				say("HAHA! This spell turns you into the opposite sex for a few minutes.")
+		Telendevour
+			start()
+				..()
+				say("This allows you to look into the caster's eyes showing where they are located.")
 
 	comc
+		subject = "COMC"
+
 		Serpensortia
+			start()
+				..()
+				say("Summons a small snake that can be rebellious if not treated right.")
 		Repellium
+			start()
+				..()
+				say("Repels the snakes back where they came from.")
 		Avis
+			start()
+				..()
+				say("Summons a bird that can come to your aid and heal you plus others if needed.")
 		Permoveo
-		Eat_Slugs
+			start()
+				..()
+				say("This unique spell lets you control monsters like trolls or even the bassy if you are lucky.")
 		Arania_Exumai
-
+			start()
+				..()
+				say("This spell is used to blast away Acromantulas and, presumably, all other arachnids.")
+		Dementia
+			start()
+				..()
+				say("This will summon a dementor however it will not be under your control. It could turn on you and eat your soul!")
+		Expecto_Patronum
+			start()
+				..()
+				say("I'd say this would be perfect for fighting dementors.It sends dementors and other dark creatures away.")
 	charms
+		subject = "Charms"
 
-	Conjunctivis
-	Portus
-	Expecto_Patronum
-	Rictusempra
-	Dementia
-	Deletrius
-	Evanesco
-	Crucio
-	Accio
-	Reparo
-	Herbificus
-	Bombarda
-	Eparo_Evanesca
-	Flippendo
-	Langlock
-	Arcesso
-	Telendevour
-	Muffliato
-	Protego
-	Impedimenta
-	Valorus
-	Immobulus
-	Reducto
-	Confundus
-	Anapneo
-	Melofors
-	Levicorpus
-	Depulso
-	Occlumency
-	Flagrate
-	Incendio
-	Imitatus
-	Riddikulus
-	Densaugeo
-	Replacio
-	Incarcerous
-	Obliviate
-	Ferula
-	Tarantallegra
-	Solidus
-	Sense
-	Scan
-	Furnunculus
-	Expelliarmus
-	Disperse
-	Wingardium_Leviosa
+		Conjunctivis
+			start()
+				..()
+				say("This curse is presumed to cause great pain in the victim's eyes causing the vicitim to be blind for a certain amount of time.")
+		Portus
+			start()
+				..()
+				say("It turns an object into a port-key.That means you can make a scroll into a portal. How exciting!")
+		Rictusempra
+			start()
+				..()
+				say("This will cause you to laugh without stopping. You won't be able to speak during this time.")
+		Deletrius
+			start()
+				..()
+				say("It deletes things like roses and scrolls.")
+		Evanesco
+			start()
+				..()
+				say("Vanishes the target; the best description of what happens to it is that it goes \"into non-being, which is to say, everything")
+		Accio
+			start()
+				..()
+				say("Known as the summoning charm. It summons an object to the caster.")
+		Reparo
+			start()
+				..()
+				say("It's used to repair objects. Quite handy if something is broken.")
+		Herbificus
+			start()
+				..()
+				say("This summons roses. It is perfect for Valentine's Day!")
+		Bombarda
+			start()
+				..()
+				say("This spell destroys objects and turns it into rubble.")
+		Eparo_Evanesca
+			start()
+				..()
+				say("It makes the invisibile turn visible.")
+		Langlock
+			start()
+				..()
+				say("This spell glues the subject's tongue to the roof of their mouth, making it hard to speak.")
+		Muffliato
+			start()
+				..()
+				say("This spell fills peoples' ears with an unidentifiable buzzing to keep them from hearing nearby conversations.")
+		Confundus
+			start()
+				..()
+				say("It sauses the victim to become confused and befuddled.")
+		Anapneo
+			start()
+				..()
+				say("This opens the airpipe os a student/")
+		Melofors
+			start()
+				..()
+				say("This drops a pumpkin on your head temporaily blinding you under it falls off.")
+		Levicorpus
+			start()
+				..()
+				say("This flips you upside down so any secret notes or pens will be on the floor for people to collect. Watch out!")
+		Incendio
+			start()
+				..()
+				say("Great attack spell and helpful with burning roses.")
+		Imitatus
+			start()
+				..()
+				say("This allowed you to imitate any student in your view.")
+		Replacio
+			start()
+				..()
+				say("Using this spell, you get to switch places with you and the target you have chosen.")
+		Ferula
+			start()
+				..()
+				say("This summons our wonderful nurse and she will be there to help heal any minor wounds that you have may.")
+		Tarantallegra
+			start()
+				..()
+				say("this spell causes people to dance uncontrollably.")
+		Furnunculus
+			start()
+				..()
+				say("this jinx covers the target in painful boils which causes you to lose health in the process.")
+		Wingardium_Leviosa
+			start()
+				..()
+				say("Levitates and moves the target; the wand motion is described as \"swish and flick.")
+
 
 proc/ends_with(var/string, var/end, var/ignoreCase = FALSE)
 	var/end_len = length(end)
