@@ -60,6 +60,14 @@ RandomEvent
 				t.loc = null
 				t.classInfo = null
 				c.professor = null
+				classdest = null
+
+				for(var/mob/M in Players)
+					if(M.classpathfinding)
+						for(var/image/C in M.client.images)
+							if(C.icon == 'arrows.dmi')
+								M.client.images.Remove(C)
+						M.classpathfinding = 0
 
 			else
 				world.log << "TWC Error: [spell] not found in class type list (Class.dmi)"
