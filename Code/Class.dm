@@ -10,7 +10,7 @@ obj/teacher
 	New()
 		..()
 
-		if(prob(50))
+		if(prob(51))
 			name   = pick("Shana", "Shakira", "Valeri", "Elodia", "Marilu", "Shenna", "Coreen", "Debera", "Marlo", "Aracely", "Romana", "Dona", "Tobi", "Kathern", "Majorie", "Dierdre", "Angla", "Judith", "Johnetta", "Lennie", "Kelli")
 			icon   = 'FemaleStaff.dmi'
 			gender = FEMALE
@@ -27,34 +27,42 @@ obj/teacher
 
 		namefont.QuickName(src, src.name, rgb(255,255,255), "#000", top=1)
 
-	Click()
-		..()
-		if(usr in ohearers(3, src))
+	proc/talk(mob/Player/p)
+		if(p in ohearers(3, src))
 
 			if(!canTeach)
-				usr << errormsg("You decide not to disturb the teacher, he hasn't explain everything about the spell yet.")
+				p << errormsg("You decide not to disturb [src], \he hasn't explained everything about the spell yet.")
 				return
 
-			if(classInfo.spelltype in usr.verbs)
-				usr << errormsg("You already know this spell.")
+			if(classInfo.spelltype in p.verbs)
+				p << errormsg("You already know this spell.")
 				return
 
-			if(locate(/obj/items/wearable/wands/practice_wand) in usr)
-				usr << errormsg("You already have a practice wand, you decide not to burden yourself with another.")
+			if(locate(/obj/items/wearable/wands/practice_wand) in p)
+				p << errormsg("You already have a practice wand, you decide not to burden yourself with another.")
 				return
 
-			usr << infomsg("You received a new practice wand, keep using the spell until you learn it!")
-			var/obj/items/wearable/wands/practice_wand/wand = new(usr)
+			p << infomsg("You received a new practice wand, keep using the spell until you learn it!")
+			var/obj/items/wearable/wands/practice_wand/wand = new(p)
 			var/learnSpell/l = new
 
 			l.path = classInfo.spelltype
 			l.name = classInfo.name
 			l.uses = classInfo.uses
 			wand.spell = l
-			usr:Resort_Stacking_Inv()
+			p:Resort_Stacking_Inv()
 
 		else
-			usr << errormsg("You aren't close enough.")
+			p << errormsg("You aren't close enough.")
+
+	verb/Talk()
+		set src in oview(2)
+		set category = null
+		talk(usr)
+
+	Click()
+		..()
+		talk(usr)
 
 class
 	var
@@ -71,7 +79,7 @@ class
 
 	proc/start()
 		spawn(150)	professor.canTeach = TRUE
-		say("Welcome students to [subject] class. Today you will be learning about [name] spell.")
+		say("Welcome students to [subject] class. Today you will be learning about the spell [name].")
 		sleep(30)
 		say("When I'm done explaining the spell, please come to me and take a practice wand, use that wand to practice the spell until you've learned it. Of course if you already have a practice wand of another spell, you will not be able to get another.")
 		sleep(60)
