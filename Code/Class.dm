@@ -4,6 +4,7 @@ obj/teacher
 		tmp/canTeach = FALSE
 
 	icon = 'NPCs.dmi'
+	density = 1
 
 	New()
 		..()
@@ -20,7 +21,7 @@ obj/teacher
 		if(usr in ohearers(3, src))
 
 			if(!canTeach)
-				usr << errormsg("You decide not to disturb the teacher, he didn't explain everything about the spell yet.")
+				usr << errormsg("You decide not to disturb the teacher, he hasn't explain everything about the spell yet.")
 				return
 
 			if(classInfo.spelltype in usr.verbs)
@@ -105,21 +106,7 @@ class
 				..()
 				say("The [name] projectile looks like a wave of water. If you recall, I said this projectile doesn't use MP, it's because it costs health instead, 30 per use.")
 
-	target
-		start()
-			..()
-			say("[name] is a target-based spell. Before it is casted you can choose who you want to target with the spell.")
-			sleep(30)
-
-		Petrificus_Totalus
-			subject = "DADA"
-			mp = 10
-			start()
-				..()
-				say("This is the Full Body-Bind Curse! It stiffens a person's limbs so they cannot move.")
-
 	verbal
-
 		start()
 			..()
 			say("[name] is a verbal-based spell. This spell is casted by typing [name] into the Say chat.")
@@ -206,6 +193,16 @@ class
 			say("If you don't like being transfigured, then this is the spell for you. This will prevent any student from using transfiguration spell on you. This lasts for a certain time though so use it wisely.")
 
 	dada
+		Petrificus_Totalus
+			mp = 10
+			start()
+				..()
+				say("This is the Full Body-Bind Curse! It stiffens a person's limbs so they cannot move.")
+		Reducto
+			wand = TRUE
+			start()
+				..()
+				say("If binded, this spell is perfect for you. It frees you from any binds or frozen spells.")
 		Incindia
 			mp   = 450
 			wand = TRUE
@@ -213,34 +210,39 @@ class
 				..()
 				say("Careful when you use this. It fires projectiles in all 8 directions! It's quite a useful spell in my opinion.")
 		Protego
+			wand = TRUE
 			start()
 				..()
 				say("The Shield Charm causes minor to moderate jinxes, curses, and hexes to rebound upon the attacker.")
 		Impedimenta
+			mp = 750
+			wand = TRUE
 			start()
 				..()
 				say("This spell freezes everyone in your view for about 10 seconds.")
 		Immobulus
+			mp = 600
+			wand = TRUE
 			start()
 				..()
-				say("This spell doesnt allow anyone to move for 15 seconds.")
-		Reducto
-			start()
-				..()
-				say("If binded, this spell is perfect for you. It frees you from any binds or frozen spells.")
+				say("This spell doesnt allow anyone to move in your view for 15 seconds.")
 		Depulso
+			wand = TRUE
 			start()
 				..()
 				say("known as the knockback charm. This pushes someone out the way. It is great for dueling")
 		Occlumency
+			wand = TRUE
 			start()
 				..()
-				say("This handy spell prevents people from accessing your mind thus they won't be able to see where you are located.")
+				say("This handy spell prevents people from accessing your mind thus they won't be able to see where you are located. It uses your MP in seconds as the MP usage.")
 		Incarcerous
+			wand = TRUE
 			start()
 				..()
 				say("This ties someone or something up with ropes.")
 		Expelliarmus
+			wand = TRUE
 			start()
 				..()
 				say("Known as the disarming charm. You lose your wand and have to re-draw it.")
@@ -261,58 +263,75 @@ class
 				..()
 				say("This allows you to see how much health and mana the student has. It is nice for checking out your competition.")
 		Obliviate
+			mp = 700
+			wand = TRUE
 			start()
 				..()
 				say("You'll forget whatever the caster wants you to. You also will have some of you chat logs erased too.")
 		Crucio
+			mp = 400
+			wand = TRUE
 			start()
 				..()
 				say("Inflicts intense pain on the recipient of the curse. One of the three unforgivable curses.")
 		Solidus
+			wand = TRUE
 			start()
 				..()
-				say("This created a huge stone in front of you. Perfect for blocking but only lasts for a set time.")
+				say("This creates a huge stone in front of you. Perfect for blocking but only lasts for a set time.")
 		Densaugeo
+			wand = TRUE
 			start()
 				..()
 				say(" This hex causes the victim's teeth to grow rapidly, but can also be used to restore lost teeth.")
 		Flagrate
+			mp = 300
+			wand = TRUE
 			start()
 				..()
 				say("This displays a large announcement to those who are near you.")
 		Valorus
+			wand = TRUE
 			start()
 				..()
 				say("This handy spell can make someone stop following you and have someone fall off a broom too.")
 		Arcesso
+			wand = TRUE
 			start()
-				..()
 				say("You can summon a student with this spell. It requires two students to work though and they both must have this spell.")
+				sleep(50)
+				say("This spell has two MP usages. One per person who uses it. The first person to use the spell takes a 400 MP cost, and the other takes an 800 MP cost.")
+				sleep(50)
+				say("This also needs a wand.")
 		Riddikulus
+			wand = TRUE
 			start()
 				..()
 				say("HAHA! This spell turns you into the opposite sex for a few minutes.")
 		Telendevour
+			wand = TRUE
 			start()
 				..()
 				say("This allows you to look into the caster's eyes showing where they are located.")
 
 	comc
 		subject = "COMC"
-
+		wand    = TRUE
 		Serpensortia
 			start()
 				..()
 				say("Summons a small snake that can be rebellious if not treated right.")
 		Repellium
+			mp = 100
 			start()
 				..()
-				say("Repels the snakes back where they came from.")
+				say("Creates an Area of Effect that pushes back all monsters outside the circumference. Beware: this doesn't work on all of them. ;)")
 		Avis
 			start()
 				..()
 				say("Summons a bird that can come to your aid and heal you plus others if needed.")
 		Permoveo
+			mp = 300
 			start()
 				..()
 				say("This unique spell lets you control monsters like trolls or even the bassy if you are lucky.")
@@ -330,16 +349,18 @@ class
 				say("I'd say this would be perfect for fighting dementors.It sends dementors and other dark creatures away.")
 	charms
 		subject = "Charms"
-
+		wand    = TRUE
 		Conjunctivis
 			start()
 				..()
 				say("This curse is presumed to cause great pain in the victim's eyes causing the vicitim to be blind for a certain amount of time.")
 		Portus
+			mp = 25
 			start()
 				..()
 				say("It turns an object into a port-key.That means you can make a scroll into a portal. How exciting!")
 		Rictusempra
+			mp = 50
 			start()
 				..()
 				say("This will cause you to laugh without stopping. You won't be able to speak during this time.")
@@ -372,6 +393,7 @@ class
 				..()
 				say("It makes the invisibile turn visible.")
 		Langlock
+			mp = 600
 			start()
 				..()
 				say("This spell glues the subject's tongue to the roof of their mouth, making it hard to speak.")
@@ -380,30 +402,35 @@ class
 				..()
 				say("This spell fills peoples' ears with an unidentifiable buzzing to keep them from hearing nearby conversations.")
 		Confundus
+			mp = 30
 			start()
 				..()
 				say("It sauses the victim to become confused and befuddled.")
 		Anapneo
 			start()
 				..()
-				say("This opens the airpipe os a student/")
+				say("This opens the airpipes of a student/")
 		Melofors
 			start()
 				..()
-				say("This drops a pumpkin on your head temporaily blinding you under it falls off.")
+				say("This drops a pumpkin on your targets head temporaily blinding them under it falls off.")
 		Levicorpus
+			mp = 800
 			start()
 				..()
 				say("This flips you upside down so any secret notes or pens will be on the floor for people to collect. Watch out!")
 		Incendio
+			wand = TRUE
+			mp = 10
 			start()
 				..()
 				say("Great attack spell and helpful with burning roses.")
 		Imitatus
 			start()
 				..()
-				say("This allowed you to imitate any student in your view.")
+				say("This allows you to imitate any student in your view.")
 		Replacio
+			mp = 500
 			start()
 				..()
 				say("Using this spell, you get to switch places with you and the target you have chosen.")
@@ -412,6 +439,7 @@ class
 				..()
 				say("This summons our wonderful nurse and she will be there to help heal any minor wounds that you have may.")
 		Tarantallegra
+			mp = 100
 			start()
 				..()
 				say("this spell causes people to dance uncontrollably.")
