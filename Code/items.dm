@@ -1120,6 +1120,9 @@ obj/items/wearable/title
 	Magic
 		title =  "Magical"
 		name  =  "Title: Magical"
+	Ghost
+		title =  "Ghost"
+		name  =  "Title: Ghost"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
@@ -3462,7 +3465,7 @@ obj
 				ignoreItem  = FALSE
 
 obj/items/wearable/wands/practice_wand
-
+	icon = 'oak_wand.dmi'
 	var/learnSpell/spell
 	dropable = 0
 
