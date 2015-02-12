@@ -122,6 +122,46 @@ RandomEvent
 
 			if(message) world << infomsg("The evil snowman and his minions have magically vanished by the powers of the ministry.")
 
+	WillytheWhisp
+		name = "Willy the Whisp"
+		start()
+			..()
+			var/minutes = rand(15,45)
+			var/list/m = list()
+			world << infomsg("Willy the Whisp and his army are haunting right outside Hogwarts, defend yourselves until ghostbus---- reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
+
+			var/obj/spawner/spawn_loc = pick(spawners)
+			var/mob/NPC/Enemies/Summoned/Boss/monster = new /mob/NPC/Enemies/Summoned/Boss/Wisp(spawn_loc.loc)
+			m += monster
+			for(var/i = 1 to rand(15,40))
+				spawn_loc = pick(spawners)
+				monster = new (spawn_loc.loc)
+
+				monster.DMGmodifier = 1
+				monster.HPmodifier  = 1.5
+				monster.MoveDelay   = 3
+				monster.AttackDelay = 3
+				monster.level       = 650
+				monster.name        = "Wisp"
+				monster.icon_state  = "wisp"
+				monster.icon        = 'Mobs.dmi'
+				monster.color       = rgb(rand(0, 255), rand(0, 255), rand(0, 255))
+				monster.alpha       = rand(125, 240)
+				monster.calcStats()
+				m += monster
+
+			sleep(minutes * 600)
+
+			var/message = 0
+			for(var/mob/NPC/Enemies/Summoned/mon in m)
+				if(mon.loc != null) message = 1
+				mon.loc = null
+				mon.state = monster.INACTIVE
+				m -= mon
+			m = null
+
+			if(message) world << infomsg("Willy the Whisp and his minions have magically vanished by the powers of the ministry.")
+
 	EntranceKillZone
 		name = "Entrance Kill Zone"
 		start()
