@@ -515,7 +515,6 @@ mob
 									sleep(AttackDelay)
 
 						Attacked(projname, damage)
-							world << projname
 							if(projname == proj && prob(99))
 								emit(loc    = src,
 									 ptype  = /obj/particle/red,
