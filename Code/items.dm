@@ -3490,6 +3490,7 @@ obj/items/wearable/wands/practice_wand
 	icon = 'oak_wand.dmi'
 	var/learnSpell/spell
 	dropable = 0
+	destroyable = 1
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner, overridetext, forceremove)
