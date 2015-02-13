@@ -1142,6 +1142,9 @@ obj/items/wearable/title
 	Ghost
 		title =  "Ghost"
 		name  =  "Title: Ghost"
+	Troll
+		title =  "Face of Troll"
+		name  =  "Title: Face of Troll"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
