@@ -226,6 +226,7 @@ mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
 mob/Spells/verb/Depulso()
 	set category="Spells"
 	var/mob/M
+	var/found = FALSE
 	for(M in get_step(usr,usr.dir))
 		if(!M.key && !istype(M,/mob/Victims)) return
 		var/turf/t = get_step_away(M,usr,15)
@@ -237,13 +238,14 @@ mob/Spells/verb/Depulso()
 			hearers()<<"<b><font color=red>[usr]:</font></b> Depulso!"
 
 		if(isplayer(M))
+			found = TRUE
 			M<<"You were pushed backwards by [usr]'s Depulso Charm."
 			if(M.flying)
 				for(var/obj/items/wearable/brooms/B in M:Lwearing)
 					B.Equip(M,1)
 					hearers()<<"[usr]'s Depulso knocked [M] off \his broom!"
 					new /StatusEffect/Knockedfrombroom(M,15)
-	if(M)
+	if(found)
 		usr:learnSpell("Depulso")
 
 mob/Spells/verb/Deletrius()
