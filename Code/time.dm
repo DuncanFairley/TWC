@@ -4,7 +4,8 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-var/list/clanwars_schedule = list()
+var/list/clanwars_schedule  = list()
+var/list/autoclass_schedule = list()
 
 proc/time_until(day, hour)
 
@@ -30,6 +31,25 @@ mob/GM/verb
 			if("Check Time")
 				var/ticks = scheduler.time_to_fire(clanwars_schedule[e])
 				src << infomsg("[comma(ticks)] ticks until event starts.")
+
+	AutoClass_Schedule(var/Event/e in autoclass_schedule)
+		set category = "Staff"
+		switch(alert(src, "What do you want to do?", "Events", "Cancel Event", "Check Time", "Nothing"))
+			if("Cancel Event")
+				scheduler.cancel(autoclass_schedule[e])
+				autoclass_schedule.Remove(e)
+				src << infomsg("Event cancelled.")
+			if("Check Time")
+				var/ticks = scheduler.time_to_fire(autoclass_schedule[e])
+				src << infomsg("[comma(ticks)] ticks until event starts.")
+
+	Add_AutoClass(var/day as text, var/hour as text)
+		set category = "Staff"
+		var/date = add_autoclass(day, hour)
+		if(date != -1)
+			usr << infomsg("Auto class scheduled ([comma(date)])")
+		else
+			usr << errormsg("Could not schedule auto class.")
 
 	Weather(var/effect in weather_effects, var/prob as num)
 		set category = "Staff"
@@ -77,14 +97,21 @@ mob/GM/verb
 
 var/allowGifts = 1
 
-proc/add_clan_wars(var/day, var/hour)
-	var/date = time_until(day, hour)
-	if(date != -1)
-		var/Event/ClanWars/e = new
-		clanwars_schedule["[day] - [hour]"] = e
-		scheduler.schedule(e, world.tick_lag * 10 * date)
-	return date
-
+proc
+	add_clan_wars(var/day, var/hour)
+		var/date = time_until(day, hour)
+		if(date != -1)
+			var/Event/ClanWars/e = new
+			clanwars_schedule["[day] - [hour]"] = e
+			scheduler.schedule(e, world.tick_lag * 10 * date)
+		return date
+	add_autoclass(var/day, var/hour)
+		var/date = time_until(day, hour)
+		if(date != -1)
+			var/Event/AutoClass/e = new
+			autoclass_schedule["[day] - [hour]"] = e
+			scheduler.schedule(e, world.tick_lag * 10 * date)
+		return date
 
 mob/test/verb/Movement_Queue()
 	move_queue = !move_queue

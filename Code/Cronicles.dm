@@ -103,6 +103,15 @@ proc
 						var/list/l = split(c, " - ")
 						add_clan_wars(l[1], l[2])
 
+		var/list/classes
+		X["AutoClasses"] >> classes
+		if(classes && classes.len)
+			spawn()
+				for(var/class in classes)
+					if(!(class in autoclass_schedule))
+						var/list/l = split(class, " - ")
+						add_autoclass(l[1], l[2])
+
 	Save_World()
 		fdel("players/World.sav")
 		var/savefile/X = new("players/World.sav")
@@ -112,7 +121,12 @@ proc
 		for(var/e in clanwars_schedule)
 			cw += e
 
+		var/list/classes = list()
+		for(var/e in autoclass_schedule)
+			classes += e
+
 		X["ClanWars"] << cw
+		X["AutoClasses"] << classes
 		X["DJs"] << DJs
 		X["DPEditors"] << dp_editors
 		X["Stories"] << stories

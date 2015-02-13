@@ -227,10 +227,10 @@ mob
 								if(canUse(src,cooldown=/StatusEffect/UsedGMHelp, needwand=0))
 									new /StatusEffect/UsedGMHelp(src,10)
 									usr<<infomsg("The GM's have been alerted that you need help, and should be with you shortly.")
-									for(var/client/C)
-										if(C.mob && C.mob.Gm)
-											winset(C,"mainwindow","flash=2")
-											C<<"<font color=red><b>GMHelp:</font> <b>User, <font color=blue>[usr]</font> , requests GM assistance."
+									for(var/mob/Player/p in Players)
+										if(p.Gm)
+											p.beep()
+											p << "<font color=red><b>GMHelp:</font> <b>User, <font color=blue>[usr]</font> , requests GM assistance."
 				if("Report a Bug")
 					usr << infomsg("Report bugs by PMing a GM.")
 				if("How to get spells")

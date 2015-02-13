@@ -1060,6 +1060,9 @@ mob/Player
 				src.shortapparate=1
 				src.draganddrop=1
 				src.admin=1
+			if("Rotem12")
+				src.verbs+=/mob/GM/verb/AutoClass_Schedule
+				src.verbs+=/mob/GM/verb/Add_AutoClass
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
@@ -1111,10 +1114,12 @@ mob/Player
 		if(Lwearing)
 			var/mob/Player/var/list/tmpwearing = Lwearing
 			Lwearing = list()
-			clothDmg = 0
-			clothDef = 0
 			for(var/obj/items/wearable/W in tmpwearing)
-				spawn()W.Equip(src,1)
+				spawn()
+					var/b = W.bonus
+					W.bonus = 0
+					W.Equip(src,1)
+					W.bonus = b
 		spawn()if(src.away)src.ApplyAFKOverlay()
 
 	verb
@@ -1614,6 +1619,9 @@ mob/Player
 			stat("EXP:","[src.Exp]/[src.Mexp]")
 			stat("Stat points:",src.StatPoints)
 			stat("Spell points:",src.spellpoints)
+			if(learning)
+				stat("Learning:", learning.name)
+				stat("Uses required:", learning.uses)
 			if(admin)
 				stat("CPU:",world.cpu)
 			stat("---House points---")
@@ -2988,18 +2996,6 @@ turf
 	redchair
 		icon_state="rc"
 		density=1
-
-mob/Player/Del()
-	Players.Remove(src)
-	..()
-mob/Player/Logout()
-	world<<"<B><font size=2 color=red><I>[usr] <b>logged out.</b></I></font></B>"
-	usr.followplayer=0
-	usr.readbooks = 0
-	usr.movable=0
-	..()
-	del(usr)
-
 
 proc/ServerAD()
 	world<<"<b><Font color=silver>Server:</b> <font size=1><font color=silver>Thanks for playing The Wizards' Chronicles. Forums: http://www.wizardschronicles.com"

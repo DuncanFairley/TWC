@@ -1139,6 +1139,12 @@ obj/items/wearable/title
 	Magic
 		title =  "Magical"
 		name  =  "Title: Magical"
+	Ghost
+		title =  "Ghost"
+		name  =  "Title: Ghost"
+	Troll
+		title =  "Face of Troll"
+		name  =  "Title: Face of Troll"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
@@ -1676,7 +1682,13 @@ mob/GM/verb/Arena()
 			currentArena.started = 1
 mob/NPC/var/walkingBack = 0
 
+client/Del()
+	if(mob)
+		Players -= mob
+	..()
+
 mob/Player/Logout()
+	world<<"<B><font size=2 color=red><I>[usr] <b>logged out.</b></I></font></B>"
 	if(arcessoing)
 		stop_arcesso()
 	if(currentArena)
@@ -3296,7 +3308,8 @@ obj/items/weather
 		if(inUse) return
 		inUse = TRUE
 
-		var/obj/o = new(p.loc)
+		var/obj/o = new(usr.loc)
+		o.name = "weather"
 		o.icon='Circle_magic.dmi'
 		o.pixel_x = -65
 		o.pixel_y = -64
@@ -3307,32 +3320,33 @@ obj/items/weather
 
 		hearers(p) << infomsg("[p.name] holds their [name] up in the air")
 
-		var/tmploc = p.loc
-		var/secs = 10
-		while(secs > 0 && p && p.loc == tmploc)
-			secs--
-			sleep(10)
-		if(p && p.loc == tmploc)
+		var/obj/items/weather/source = src
+		src=null
+		spawn()
+			var/tmploc = p.loc
+			var/secs = 10
 
-			switch(weather_effect)
-				if("acid")
-					weather.acid()
-				if("snow")
-					weather.snow()
-				if("rain")
-					weather.rain()
-				if("sun")
-					weather.clear()
+			while(secs > 0 && p && p.loc == tmploc)
+				secs--
+				sleep(10)
+			if(p && source)
+				if(p.loc == tmploc)
+					switch(weather_effect)
+						if("acid")
+							weather.acid()
+						if("snow")
+							weather.snow()
+						if("rain")
+							weather.rain()
+						if("sun")
+							weather.clear()
 
-			loc = null
-			p.Resort_Stacking_Inv()
-		else
-			inUse = FALSE
-			p << errormsg("Your attempt at changing the weather failed.")
-
-		animate(o)
-		o.loc = null
-
+					source.loc = null
+					p.Resort_Stacking_Inv()
+				else
+					source.inUse = FALSE
+					p << errormsg("Your attempt at changing the weather failed.")
+			o.loc = null
 
 obj
 	enchanter
@@ -3418,7 +3432,7 @@ obj
 
 				else if(istype(i3, /obj/items/wearable/))
 
-					if(istype(i3, /obj/items/wearable/title) && !istype(i3, /obj/items/wearable/title/Custom))
+					if(istype(i3, /obj/items/wearable/title) && i3.name == i4.name)
 						chance -= 40
 						prize = i3.type
 						i3.color = rgb(rand(80,240), rand(80,240), rand(80,240))
@@ -3456,6 +3470,8 @@ obj
 					var/obj/items/wearable/o = new prize (t)
 
 					if(istype(i3, /obj/items/wearable/title))
+						o.name = i3.name
+						o:title = copytext(i3.name, 8)
 						o.color = i3.color
 						o:title = "<font color=\"[o.color]\">" + o:title + "</font>"
 					else if(istype(i3, /obj/items/wearable))
@@ -3469,3 +3485,22 @@ obj
 				bonusChance = 0
 				applyBonus  = 0
 				ignoreItem  = FALSE
+
+obj/items/wearable/wands/practice_wand
+	icon = 'oak_wand.dmi'
+	var/learnSpell/spell
+	dropable = 0
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		. = ..(owner, overridetext, forceremove)
+		var/mob/Player/p = usr
+		if(. == WORN)
+			p.verbs   += spell.path
+			p.learning = spell
+
+			if(!overridetext) p << infomsg("Use [spell.name] [spell.uses] to learn it!")
+
+		else if(. == REMOVED || forceremove)
+			p.verbs   -= spell.path
+			p.learning = null
+

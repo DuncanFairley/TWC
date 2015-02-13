@@ -84,6 +84,15 @@ mob
 				winset += "butEventNotificationstoggle.is-checked=false;"
 			else
 				winset += "butEventNotificationstoggle.is-checked=true;"
+			if(src:playSounds)
+				winset += "butSoundtoggle.is-checked=false;"
+			else
+				winset += "butSoundtoggle.is-checked=true;"
+
+			if(autoAFK)
+				winset += "butAFKtoggle.is-checked=false;"
+			else
+				winset += "butAFKtoggle.is-checked=true;"
 
 			winset += "mnu_Settings.command=.ShowSettings;"
 			winset += "mnu_Settings.is-disabled=false;"
@@ -93,6 +102,12 @@ mob
 		ShowSettings()
 			set name = ".ShowSettings"
 			winset(src,"winSettings","is-visible=true")
+		Soundtoggle()
+			set name = ".Soundtoggle"
+			if(winget(src,"butSoundtoggle","is-checked") == "true")
+				src:playSounds = 0
+			else
+				src:playSounds = 1
 		MonsterMessagestoggle()
 			set name = ".MonsterMessagestoggle"
 			if(winget(src,"butMonsterMessagestoggle","is-checked") == "true")
@@ -135,6 +150,14 @@ mob
 				src:TradeBlock=1
 			else
 				src:TradeBlock=0
+
+		AFKtoggle()
+			set name = ".AFKtoggle"
+			if(winget(src,"butAFKtoggle","is-checked") == "true")
+				src:autoAFK=0
+			else
+				src:autoAFK=1
+
 		Mapmodetoggle()
 			set name = ".Mapmodetoggle"
 			if(winget(src,"butMapmodetoggle","is-checked") == "false")

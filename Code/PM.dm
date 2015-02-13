@@ -114,11 +114,12 @@ mob/Player/proc/PMHome()
 mob/Player/var/list/blockedpeeps = list()
 mob/var/tmp/timelog = 0
 var/list/emotes = list("farts","burps","coughs","yawns","sneezes","picks their nose","breathes heavily","scratches their arm","fidgets")
+mob/var/autoAFK = TRUE
 mob/Player/proc/unreadmessagelooper()
 	set background = 1
 	var/unreadmsgs = 0
 	spawn()
-		while(1)
+		while(src)
 			sleep(2650)
 			sql_update_ckey_in_table(src)
 			unreadmsgs = 0
@@ -129,13 +130,13 @@ mob/Player/proc/unreadmessagelooper()
 			switch(rndnum)
 				if(1)
 					Emote("[pick(emotes)].")
-			if(client.inactivity > 9000)
+
+			if(!away && autoAFK && client.inactivity > 9000)
 				//Been inactive for over 600 seconds/5 minutes
-				if(!usr.away)
-					usr.away = 1
-					usr.here=usr.status
-					usr.status=" (AFK)"
-					usr.ApplyAFKOverlay()
+				away = 1
+				here=status
+				status=" (AFK)"
+				ApplyAFKOverlay()
 
 			if(unreadmsgs)
 				src << "<b><a href='?src=\ref[src];action=pm_inbox'>You have [unreadmsgs] unread message[unreadmsgs > 1 ? "s":] in your inbox.</a></b>"
@@ -426,7 +427,7 @@ mob/Player/Topic(href,href_list[])
 				if(aPM == src.curPM)break
 			src << "Private Message Sent to <a href='?src=\ref[src];action=pm_reply;replynametext=[formatName(Y)]'>[formatName(Y)]</a>."
 			Y << "You have received a <a href='?src=\ref[Y];action=pm_inbox_readmsg;msgid=[pmcounter]'>new private message</a> from <a href='?src=\ref[Y];action=pm_reply;replynametext=[formatName(src)]'>[formatName(src)]</a>."
-			winset(Y,"mainwindow","flash=2")
+			Y.beep()
 mob/Player/verb/PM(var/p in Players())
 	if(src.mute)
 		alert("You are not allowed to send messages.")

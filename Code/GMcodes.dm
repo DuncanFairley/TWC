@@ -773,8 +773,8 @@ mob
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a HM class<br />"
 			curClass = "GCOM"
-			for(var/client/C)
-				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
+			for(var/mob/Player/p in Players)
+				p.beep(2)
 			world<<announcemsg("General Course of Magic class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 		Host_COMC_Class()
 			set category = "Teach"
@@ -787,8 +787,8 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a COMC class<br />"
 			world<<announcemsg("Care of Magical Creatures class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 			curClass = "COMC"
-			for(var/client/C)
-				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
+			for(var/mob/Player/p in Players)
+				p.beep(2)
 		Host_Trans_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named Transfiguration Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"Transfiguration-Class") as null|mob in world
@@ -799,8 +799,8 @@ mob
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Transfiguration class<br />"
 			curClass = "Transfiguration"
-			for(var/client/C)
-				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
+			for(var/mob/Player/p in Players)
+				p.beep(2)
 			world<<announcemsg("Transfiguration class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 		Host_Duel_Class()
 			set category = "Teach"
@@ -812,8 +812,8 @@ mob
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Duel class<br />"
 			curClass = "Duel"
-			for(var/client/C)
-				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
+			for(var/mob/Player/p in Players)
+				p.beep(2)
 			world<<announcemsg("Duel class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 		Host_DADA_Class()
 			set category = "Teach"
@@ -825,8 +825,8 @@ mob
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a DADA class<br />"
 			curClass = "DADA"
-			for(var/client/C)
-				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
+			for(var/mob/Player/p in Players)
+				p.beep(2)
 			world<<announcemsg("Defence Against the Dark Arts class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 		Host_Headmaster_Class()
 			set category = "Teach"
@@ -838,8 +838,8 @@ mob
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Headmaster class<br />"
 			curClass = "Headmasters"
-			for(var/client/C)
-				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
+			for(var/mob/Player/p in Players)
+				p.beep(2)
 			world<<announcemsg("Headmaster's General Magic class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 		Host_Charms_Class()
 			set category = "Teach"
@@ -851,8 +851,8 @@ mob
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Charms class<br />"
 			curClass = "Charms"
-			for(var/client/C)
-				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
+			for(var/mob/Player/p in Players)
+				p.beep(2)
 			world<<announcemsg("Charms class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 
 		Host_Muggle_Studies_Class()
@@ -865,8 +865,8 @@ mob
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Muggle Studies class<br />"
 			curClass = "Muggle Studies"
-			for(var/client/C)
-				spawn()if(C.mob && C.mob.ClassNotifications)winset(C,"mainwindow","flash=2")
+			for(var/mob/Player/p in Players)
+				p.beep(2)
 			world<<announcemsg("Muggle Studies class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 
 		End_Floor_Guidence()
@@ -978,9 +978,9 @@ mob
 			set desc = "(message) Announce something to all players logged in"
 			if(!message)return
 			eventlog << "<tr><td><b>[src.name]</b></td><td>[time2text(world.realtime,"MMM DD - hh:mm:ss")]</td><td>[message]</td></tr>"
-			for(var/client/C)
-				C.mob << "<hr><center><font color=blue><b>Announcement From [src]:</b><br><font color=red><b>[message]</font></center><hr>"
-				if(C.mob && C.mob.EventNotifications)winset(C,"mainwindow","flash=2")
+			for(var/mob/Player/p in Players)
+				p.beep(1)
+				p <<  "<hr><center><font color=blue><b>Announcement From [src]:</b><br><font color=red><b>[message]</font></center><hr>"
 			if(!mysql_enabled) return
 			var/sql = "INSERT INTO tblEventLogs(name,timestamp,message) VALUES([mysql_quote("[name] ([key])")],UNIX_TIMESTAMP(),[mysql_quote(message)])"
 			var/DBQuery/qry = my_connection.NewQuery(sql)
