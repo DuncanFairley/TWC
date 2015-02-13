@@ -322,7 +322,17 @@ obj/items/gift
 	name = "gift wrappings"
 	var/ckeyowner
 
+	proc/changeShape()
+		desc = "Gift from [usr.name]"
+		name = "gift"
+		icon_state = "[rand(1,4)]"
 
+	valentine
+
+		changeShape()
+			desc = "A lovely Valentine from [usr.name]"
+			name = "Valentine"
+			icon_state = "heart"
 
 	Click()
 		if(src in usr)
@@ -381,9 +391,7 @@ obj/items/gift
 				lamp.S.Deactivate()
 
 			i.loc = src
-			desc = "Gift from [usr.name]"
-			name = "gift"
-			icon_state = "[rand(1,4)]"
+			changeShape()
 			verbs += /obj/items/gift/verb/Disown
 			verbs += /obj/items/gift/verb/Open
 
