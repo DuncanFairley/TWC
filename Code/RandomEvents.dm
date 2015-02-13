@@ -78,7 +78,7 @@ RandomEvent
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
-			world << infomsg("The Evil Snowman and his army appeared outside Hogwarts, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
+			Players << infomsg("The Evil Snowman and his army appeared outside Hogwarts, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
 
 			var/obj/spawner/spawn_loc = pick(spawners)
 			var/mob/NPC/Enemies/Summoned/Boss/monster = new /mob/NPC/Enemies/Summoned/Boss/Snowman(spawn_loc.loc)
@@ -108,7 +108,7 @@ RandomEvent
 				m -= mon
 			m = null
 
-			if(message) world << infomsg("The evil snowman and his minions have magically vanished by the powers of the ministry.")
+			if(message) Players << infomsg("The evil snowman and his minions have magically vanished by the powers of the ministry.")
 
 	WillytheWhisp
 		name = "Willy the Whisp"
@@ -116,7 +116,7 @@ RandomEvent
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
-			world << infomsg("Willy the Whisp and his army are haunting right outside Hogwarts, defend yourselves until ghostbus---- reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
+			Players << infomsg("Willy the Whisp and his army are haunting right outside Hogwarts, defend yourselves until ghostbus---- reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
 
 			var/obj/spawner/spawn_loc = pick(spawners)
 			var/mob/NPC/Enemies/Summoned/Boss/monster = new /mob/NPC/Enemies/Summoned/Boss/Wisp(spawn_loc.loc)
@@ -148,26 +148,26 @@ RandomEvent
 				m -= mon
 			m = null
 
-			if(message) world << infomsg("Willy the Whisp and his minions have magically vanished by the powers of the ministry.")
+			if(message) Players << infomsg("Willy the Whisp and his minions have magically vanished by the powers of the ministry.")
 
 	EntranceKillZone
 		name = "Entrance Kill Zone"
 		start()
 			..()
 			var/minutes = rand(10,30)
-			world << errormsg("<b>Warning:</b> Hogwarts magical defenses are being suppressed by a dark evil magic, Entrance Hall will become a kill zone in 5 minutes for [minutes] minutes!<br>Move to another area (The library, common room, second floor etc) if you wish to remain safe.")
+			Players << errormsg("<b>Warning:</b> Hogwarts magical defenses are being suppressed by a dark evil magic, Entrance Hall will become a kill zone in 5 minutes for [minutes] minutes!<br>Move to another area (The library, common room, second floor etc) if you wish to remain safe.")
 			sleep(600)
-			world << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 4 minutes!")
+			Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 4 minutes!")
 			sleep(600)
-			world << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 3 minutes!")
+			Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 3 minutes!")
 			sleep(600)
-			world << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 2 minutes!")
+			Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 2 minutes!")
 			sleep(600)
-			world << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 1 minute!")
+			Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 1 minute!")
 			sleep(600)
-			world << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 10 seconds!") // extra 10 seconds to ensure afk sign toggles on
+			Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 10 seconds!") // extra 10 seconds to ensure afk sign toggles on
 			sleep(100)
-			world << infomsg("Entrance Hall is now a kill zone for [minutes] minutes, defend yourselves from dark wizards who can now enter or other students who feel like murdering you!")
+			Players << infomsg("Entrance Hall is now a kill zone for [minutes] minutes, defend yourselves from dark wizards who can now enter or other students who feel like murdering you!")
 
 			var/area/entrance = locate(/area/hogwarts/Entrance_Hall)
 			for(var/mob/Player/p in entrance)
@@ -177,21 +177,21 @@ RandomEvent
 			entrance.safezoneoverride = 1
 			sleep(minutes * 600)
 			entrance.safezoneoverride = 0
-			world << infomsg("Hogwarts magical defenses are restored, Entrance Hall is safe again.")
+			Players << infomsg("Hogwarts magical defenses are restored, Entrance Hall is safe again.")
 
 	OldSystem
 		name = "Old Dueling System"
 		start()
 			..()
 			var/minutes = rand(10,30)
-			world << infomsg("Old dueling system is active for [minutes] minutes outside!")
+			Players << infomsg("Old dueling system is active for [minutes] minutes outside!")
 
 			for(var/area/A in outside_areas)
 				A.oldsystem = 1
 				spawn(minutes * 600) A.oldsystem = 0
 
 			sleep(minutes * 600)
-			world << infomsg("Old dueling system event is over.")
+			Players << infomsg("Old dueling system event is over.")
 
 	Snitches
 		name = "Catch Snitches"
@@ -199,7 +199,7 @@ RandomEvent
 			..()
 			var/minutes = rand(10,30)
 			var/snitches = rand(15,30)
-			world << infomsg("[snitches] snitches were released right outside Hogwarts, each snitch you catch will reward you!<br>The snitches will disappear in [minutes] minutes. To catch snitches you need to fly on a broom and use \"Catch-Snitch\" verb (The verb will only appear when you are near the snitch, it is recommended to macro it).")
+			Players << infomsg("[snitches] snitches were released right outside Hogwarts, each snitch you catch will reward you!<br>The snitches will disappear in [minutes] minutes. To catch snitches you need to fly on a broom and use \"Catch-Snitch\" verb (The verb will only appear when you are near the snitch, it is recommended to macro it).")
 
 			var/list/s = list()
 			for(var/i = 0; i < snitches; i++)
@@ -214,7 +214,7 @@ RandomEvent
 				s -= sn
 				del sn
 			s = null
-			if(message) world << infomsg("The snitches have vanished.")
+			if(message) Players << infomsg("The snitches have vanished.")
 
 	DropRate
 		name = "Drop Rate Bonus"
@@ -225,11 +225,11 @@ RandomEvent
 
 			DropRateModifier += bonus / 100
 			var/tmpDropRate = DropRateModifier
-			world << infomsg("You feel a strange magic surrounding you, increasing your drop rate by [bonus]% for [minutes] minutes (This stacks on top of any other bonuses).")
+			Players << infomsg("You feel a strange magic surrounding you, increasing your drop rate by [bonus]% for [minutes] minutes (This stacks on top of any other bonuses).")
 
 			spawn(minutes * 600)
 				if(DropRateModifier == tmpDropRate)
-					world << infomsg("The drop rate bonus event is over.")
+					Players << infomsg("The drop rate bonus event is over.")
 					DropRateModifier -= bonus / 100
 
 	Sale
@@ -241,11 +241,11 @@ RandomEvent
 
 			shopPriceModifier -= sale / 100
 			var/tmpShopModifier = shopPriceModifier
-			world << infomsg("There's a crazy sale going on! You should check out Marvelous Magical Mystery or wig shops, they have a [sale]% discount for the next [minutes] minutes!")
+			Players << infomsg("There's a crazy sale going on! You should check out Marvelous Magical Mystery or wig shops, they have a [sale]% discount for the next [minutes] minutes!")
 
 			spawn(minutes * 600)
 				if(shopPriceModifier == tmpShopModifier)
-					world << infomsg("The sale ended.")
+					Players << infomsg("The sale ended.")
 					shopPriceModifier += sale / 100
 
 
@@ -258,7 +258,7 @@ RandomEvent
 			var/tier = rand(1,7)
 			var/list/types = list("Rat", "Demon Rat", "Pixie", "Dog", "Snake", "Wolf", "Troll")
 
-			world << infomsg("[types[tier]]s are invading for [minutes] minutes, they're right outside Hogwarts, defend the castle!<br>(The monsters have a leader, stronger than the rest, he drops a valuable prize based on level)")
+			Players << infomsg("[types[tier]]s are invading for [minutes] minutes, they're right outside Hogwarts, defend the castle!<br>(The monsters have a leader, stronger than the rest, he drops a valuable prize based on level)")
 
 			var/list/m = list()
 			for(var/i = 0; i <= monsters; i++)
@@ -336,7 +336,7 @@ RandomEvent
 				m -= monster
 			m = null
 
-			if(message) world << infomsg("The monsters have been driven away.")
+			if(message) Players << infomsg("The monsters have been driven away.")
 
 mob/Player
 	var/playSounds = TRUE

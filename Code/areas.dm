@@ -35,7 +35,7 @@ proc/getFloor(destination)
 			return THIRD_FLOOR
 		if("Duel")
 			return FORTH_FLOOR
-	world << "Error 3b07d"
+	Players << "Error 3b07d"
 var/curClass
 area
 	var/list/AI_directions
