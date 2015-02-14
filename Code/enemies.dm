@@ -447,7 +447,6 @@ mob
 
 						drops = list("100" = list(/obj/items/wearable/title/Ghost,
 												  /obj/items/lamps/triple_drop_rate_lamp,
-												  /obj/items/lamps/triple_exp_lamp,
 												  /obj/items/lamps/triple_gold_lamp,
 												  /obj/items/wearable/afk/heart_ring))
 
@@ -547,7 +546,6 @@ mob
 
 						drops = list("100" = list(/obj/items/wearable/title/Snowflakes,
 												  /obj/items/lamps/triple_drop_rate_lamp,
-												  /obj/items/lamps/triple_exp_lamp,
 												  /obj/items/lamps/triple_gold_lamp,
 												  /obj/items/wearable/afk/hot_chocolate))
 
