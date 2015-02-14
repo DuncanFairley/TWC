@@ -1682,9 +1682,8 @@ mob/GM/verb/Arena()
 			currentArena.started = 1
 mob/NPC/var/walkingBack = 0
 
-client/Del()
-	if(mob)
-		Players -= mob
+mob/Del()
+	Players -= src
 	..()
 
 mob/Player/Logout()
