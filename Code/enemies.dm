@@ -118,8 +118,8 @@ area
 
 
 		Exit(atom/movable/O)
+			.=..()
 			if(istype(O, /mob/NPC) && !O:removeoMob) return 0
-			return 1
 
 		Exited(atom/movable/O)
 			. = ..()
@@ -133,6 +133,11 @@ area
 					active = 0
 					for(var/mob/NPC/Enemies/M in src)
 						M.state = M.WANDER
+
+area/Exit(atom/movable/O, atom/newloc)
+	.=..()
+	if(istype(O, /mob/NPC) && O:removeoMob && !issafezone(src) && issafezone(newloc.loc)) return 0
+
 mob
 	test
 		verb
