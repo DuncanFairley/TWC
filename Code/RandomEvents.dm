@@ -17,17 +17,21 @@ obj/spawner
 		..()
 		spawners += src
 
+var/list/currentEvents = new
+
 RandomEvent
 	var/chance = 10
 	var/name
 
 	proc/start()
+		currentEvents.Add(new type)
 		for(var/mob/Player/p in Players)
 			p.beep(1)
 
 	Class
 		name = "Class"
 		start()
+			currentEvents.Add(new type)
 			var/spell = pick(spellList ^ list(/mob/Spells/verb/Self_To_Dragon, /mob/Spells/verb/Self_To_Human, /mob/Spells/verb/Episky, /mob/Spells/verb/Inflamari))
 
 			var/class/c
@@ -61,6 +65,7 @@ RandomEvent
 				t.classInfo = null
 				c.professor = null
 				classdest = null
+				currentEvents.Remove(locate(type) in currentEvents)
 
 				for(var/mob/M in Players)
 					if(M.classpathfinding)
@@ -109,6 +114,7 @@ RandomEvent
 			m = null
 
 			if(message) Players << infomsg("The evil snowman and his minions have magically vanished by the powers of the ministry.")
+			currentEvents.Remove(locate(type) in currentEvents)
 
 	WillytheWhisp
 		name = "Willy the Whisp"
@@ -149,6 +155,7 @@ RandomEvent
 			m = null
 
 			if(message) Players << infomsg("Willy the Whisp and his minions have magically vanished by the powers of the ministry.")
+			currentEvents.Remove(locate(type) in currentEvents)
 
 	EntranceKillZone
 		name = "Entrance Kill Zone"
@@ -178,6 +185,7 @@ RandomEvent
 			sleep(minutes * 600)
 			entrance.safezoneoverride = 0
 			Players << infomsg("Hogwarts magical defenses are restored, Entrance Hall is safe again.")
+			currentEvents.Remove(locate(type) in currentEvents)
 
 	OldSystem
 		name = "Old Dueling System"
@@ -192,6 +200,7 @@ RandomEvent
 
 			sleep(minutes * 600)
 			Players << infomsg("Old dueling system event is over.")
+			currentEvents.Remove(locate(type) in currentEvents)
 
 	Snitches
 		name = "Catch Snitches"
@@ -215,6 +224,7 @@ RandomEvent
 				del sn
 			s = null
 			if(message) Players << infomsg("The snitches have vanished.")
+			currentEvents.Remove(locate(type) in currentEvents)
 
 	DropRate
 		name = "Drop Rate Bonus"
@@ -231,6 +241,7 @@ RandomEvent
 				if(DropRateModifier == tmpDropRate)
 					Players << infomsg("The drop rate bonus event is over.")
 					DropRateModifier -= bonus / 100
+				currentEvents.Remove(locate(type) in currentEvents)
 
 	Sale
 		name = "Crazy Sale"
@@ -247,6 +258,7 @@ RandomEvent
 				if(shopPriceModifier == tmpShopModifier)
 					Players << infomsg("The sale ended.")
 					shopPriceModifier += sale / 100
+				currentEvents.Remove(locate(type) in currentEvents)
 
 
 	Invasion
@@ -337,6 +349,7 @@ RandomEvent
 			m = null
 
 			if(message) Players << infomsg("The monsters have been driven away.")
+			currentEvents.Remove(locate(type) in currentEvents)
 
 mob/Player
 	var/playSounds = TRUE

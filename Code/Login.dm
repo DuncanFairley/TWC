@@ -1651,6 +1651,14 @@ mob/Player
 					stat("Arena: (Players Alive)")
 					for(var/mob/M in currentArena.players)
 						stat("-",M.name)
+				stat("","")
+			if(currentEvents.len)
+				stat("Current Events:","")
+				var/i
+				for(i=1, i<=currentEvents.len, i++)
+					var/RandomEvent/event = currentEvents[i]
+					stat("", event.name)
+
 		if(statpanel("Items"))
 			for(var/obj/stackobj/S in contents)
 				stat("Click to expand stacked items.")
