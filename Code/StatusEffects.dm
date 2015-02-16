@@ -44,9 +44,9 @@ Event
 		fire()
 			..()
 			spawn()
+				scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
 				var/RandomEvent/Class/auto_class = locate() in events
 				auto_class.start()
-			scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
 
 
 	ClanWars
