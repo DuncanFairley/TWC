@@ -2216,7 +2216,7 @@ client
 
 		if(moving && move_queue)
 			if(!movements) movements = list()
-			else if(movements.len < 5)
+			if(movements.len < 10)
 				movements += dir
 			return
 
@@ -2241,7 +2241,7 @@ client
 			loc = get_step(mob, dir)
 
 		..()
-		sleep(0)
+		sleep(1)
 		moving = 0
 
 obj/var
