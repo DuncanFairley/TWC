@@ -316,10 +316,12 @@ class
 				say("This handy spell can make someone stop following you and have someone fall off a broom too.")
 		Arcesso
 			wand = TRUE
+			mp = 800
 			start()
+				..()
 				say("You can summon a student with this spell. It requires two students to work though and they both must have this spell.")
-				sleep(50)
-				say("This spell has two MP usages. One per person who uses it. The first person to use the spell takes a 400 MP cost, and the other takes an 800 MP cost.")
+				sleep(30)
+				say("The second person who joins the summoning need at least 400 MP.")
 		Riddikulus
 			wand = TRUE
 			start()
