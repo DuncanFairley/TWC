@@ -2948,6 +2948,19 @@ obj/items/lamps
 		effect  = /StatusEffect/Lamps/Gold/Quadaple
 		seconds = 1800
 
+	damage_lamp
+		desc    = "Increases your damage."
+		effect  = /StatusEffect/Lamps/Damage
+		seconds = 600
+	defense_lamp
+		desc    = "Increases your defense."
+		effect  = /StatusEffect/Lamps/Defense
+		seconds = 600
+	power_lamp
+		desc    = "Increases your overall power."
+		effect  = /StatusEffect/Lamps/Power
+		seconds = 300
+
 	farmer_lamp
 		desc    = "Removes damage, gold and exp level reductions allowing you to farm gold and exp from lower level monsters."
 		effect  = /StatusEffect/Lamps/Farming
@@ -3425,9 +3438,26 @@ obj
 					chance -= 60
 					prize = pick(/obj/items/wearable/title/Bookworm, /obj/items/wearable/title/Lumberjack)
 
-				else if(istype(i3, /obj/items/crystal/soul))
-					chance -= 40
-					prize = pick(/obj/items/weather/sun, /obj/items/weather/rain, /obj/items/weather/acid, /obj/items/weather/snow)
+				else if(istype(i3, /obj/items/crystal) && applyBonus == 3)
+
+					if(istype(i3, /obj/items/crystal/soul))
+						chance -= 40
+						prize = pick(/obj/items/weather/sun, /obj/items/weather/rain, /obj/items/weather/acid, /obj/items/weather/snow)
+					else if(istype(i3, /obj/items/crystal/damage))
+						chance -= 50
+						prize = /obj/items/lamps/damage_lamp
+					else if(istype(i3, /obj/items/crystal/defense))
+						chance -= 50
+						prize = /obj/items/lamps/defense_lamp
+					else if(istype(i3, /obj/items/crystal/luck))
+						chance -= 40
+						prize = pick(/obj/items/lamps/double_gold_lamp, /obj/items/lamps/double_exp_lamp, /obj/items/lamps/double_drop_rate_lamp, /obj/items/crystal/strong_luck)
+					else if(istype(i3, /obj/items/crystal/strong_luck))
+						chance -= 50
+						prize = pick(/obj/items/lamps/triple_gold_lamp, /obj/items/lamps/triple_exp_lamp, /obj/items/lamps/triple_drop_rate_lamp)
+					else if(istype(i3, /obj/items/crystal/magic))
+						chance -= 60
+						prize = ignoreItem ? /obj/items/summoning_stone : /obj/items/lamps/power_lamp
 
 				else if(istype(i3, /obj/items/wearable/))
 
@@ -3503,4 +3533,7 @@ obj/items/wearable/wands/practice_wand
 		else if(. == REMOVED || forceremove)
 			p.verbs   -= spell.path
 			p.learning = null
+
+
+obj/items/summoning_stone
 

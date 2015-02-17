@@ -304,6 +304,42 @@ StatusEffect
 			Quadaple
 				rate = 4
 
+		Damage
+			Activate()
+				..()
+				var/mob/Player/p = AttachedAtom
+				p.clothDmg += 30
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				p.clothDmg -= 30
+				..()
+
+		Defense
+			Activate()
+				..()
+				var/mob/Player/p = AttachedAtom
+				p.clothDef += 90
+				p.resetMaxHP()
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				p.clothDef -= 90
+				p.resetMaxHP()
+				..()
+
+		Power
+			Activate()
+				..()
+				var/mob/Player/p = AttachedAtom
+				p.clothDmg += 40
+				p.clothDef += 120
+				p.resetMaxHP()
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				p.clothDmg -= 40
+				p.clothDef -= 120
+				p.resetMaxHP()
+				..()
+
 		Activate()
 			var/found = FALSE
 			for(var/StatusEffect/Lamps/s in AttachedAtom.LStatusEffects)
