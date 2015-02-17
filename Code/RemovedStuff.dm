@@ -190,3 +190,31 @@ obj/sign2
 			s.desc       = desc
 
 			loc = null
+
+obj/items/weather/acid
+	New()
+		..()
+		spawn(1)
+			new /obj/items/magic_stone/weather/acid (loc)
+			loc = null
+
+obj/items/weather/rain
+	New()
+		..()
+		spawn(1)
+			new /obj/items/magic_stone/weather/rain (loc)
+			loc = null
+
+obj/items/weather/snow
+	New()
+		..()
+		spawn(1)
+			new /obj/items/magic_stone/weather/snow (loc)
+			loc = null
+
+obj/items/weather/sun
+	New()
+		..()
+		spawn(1)
+			new /obj/items/magic_stone/weather/sun (loc)
+			loc = null
