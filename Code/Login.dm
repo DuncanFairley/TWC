@@ -1107,9 +1107,9 @@ mob/Player
 
 			loc.loc.Enter(src, src.loc)
 			loc.loc.Entered(src, src.loc)
-			src.ApplyOverlays()
+			src.ApplyOverlays(0)
 
-	proc/ApplyOverlays()
+	proc/ApplyOverlays(ignoreBonus = 1)
 		src.overlays = list()
 		if(Lwearing)
 			var/mob/Player/var/list/tmpwearing = Lwearing
@@ -1117,7 +1117,7 @@ mob/Player
 			for(var/obj/items/wearable/W in tmpwearing)
 				spawn()
 					var/b = W.bonus
-					W.bonus = 0
+					W.bonus = ignoreBonus ? 0 : b
 					W.Equip(src,1)
 					W.bonus = b
 		spawn()if(src.away)src.ApplyAFKOverlay()
