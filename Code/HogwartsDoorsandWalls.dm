@@ -36,7 +36,6 @@ mob
 							var/temp_opacity = T.opacity
 							T.opacity=0
 							sleep(4)
-							T.bumpable = 1
 							T.icon_state="open"
 							T.density=0
 							sleep(20)
@@ -50,6 +49,7 @@ mob
 							sleep(4)
 							T.opacity=temp_opacity
 							T.icon_state="closed"
+							T.bumpable = 1
 					else if(T.owner!=usr.key)
 						if(!src.key)
 							return
@@ -67,7 +67,6 @@ mob
 									var/temp_opacity = T.opacity
 									T.opacity=0
 									sleep(4)
-									T.bumpable = 1
 									T.icon_state="open"
 									T.density=0
 									sleep(50)
@@ -81,6 +80,7 @@ mob
 									sleep(4)
 									T.opacity=temp_opacity
 									T.icon_state="closed"
+									T.bumpable = 1
 						else if(passtry!=T.pass)
 
 							usr<<"<font color=red><b>Authorization Denied. Incorrect Access Code."
@@ -96,7 +96,6 @@ mob
 							var/temp_opacity = T.opacity
 							T.opacity=0
 							sleep(4)
-							T.bumpable = 1
 							T.icon_state="open"
 							T.density=0
 							sleep(50)
@@ -110,6 +109,7 @@ mob
 							sleep(4)
 							T.opacity=temp_opacity
 							T.icon_state="closed"
+							T.bumpable = 1
 
 
 turf
