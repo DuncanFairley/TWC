@@ -337,11 +337,11 @@ mob/Spells/verb/Morsmordre()
 		D.density=0
 		flick('mist.dmi',D)
 		hearers() <<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green>MORSMORDRE!"
-		world<<"The sky darkens as a sneering skull appears in the clouds with a snake slithering from its mouth."
+		Players<<"The sky darkens as a sneering skull appears in the clouds with a snake slithering from its mouth."
 		src = null
 		spawn(600)
 			if(D)
-				world<<"The Dark Mark fades back into the clouds."
+				Players<<"The Dark Mark fades back into the clouds."
 mob/Spells/verb/Repellium()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedRepel,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))

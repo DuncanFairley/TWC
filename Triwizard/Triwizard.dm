@@ -362,7 +362,7 @@ obj
 			if(usr in oview(1))
 				usr << "You reach up and touch the Triwizard Cup."
 				usr.loc = locate(38,37,21)
-				world << "<h2>Congratulations to <b>[usr]</b> who has reached the Triwizard Cup first! Assemble in the Great Hall for the 2011 Triwizard Tournament Closing Ceremony</h2>"
+				Players << "<h2>Congratulations to <b>[usr]</b> who has reached the Triwizard Cup first! Assemble in the Great Hall for the 2011 Triwizard Tournament Closing Ceremony</h2>"
 				del(src)
 	Tiles
 		//Players can only take one of each tile

@@ -8,7 +8,7 @@ world/Topic(T,Addr,Master,Key)
 	switch(copytext(T,1,5))
 		if("7ann")
 			//Announce to world
-			world << copytext(T,5)
+			Players << copytext(T,5)
 		if("7cla")
 			//Reload clan permissions for specified ckey
 			for(var/client/C)
@@ -22,7 +22,7 @@ world/Topic(T,Addr,Master,Key)
 			return "Saved"
 		if("7reb")
 			//Reboot the game
-			world << "<br><hr><b>Rebooting the world now!</b><hr><br>"
+			Players << "<br><hr><b>Rebooting the world now!</b><hr><br>"
 			world.Reboot(2)
 
 proc
