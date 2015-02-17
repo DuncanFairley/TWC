@@ -3279,39 +3279,69 @@ obj/items/crystal
 		luck = 5
 		ignoreItem = TRUE
 
-obj/items/weather
+obj/items/magic_stone
 	var/tmp/inUse = FALSE
 	var/effect
 
 	icon = 'trophies.dmi'
 
-	acid
-		name = "acid stone"
-		effect = "acid"
-		icon_state = "Emerald"
+	weather
+		acid
+			name = "acid stone"
+			effect = "acid"
+			icon_state = "Emerald"
 
-	snow
-		name = "snow stone"
-		effect = "snow"
-		icon_state = "Sapphire2"
+			effect()
+				weather.acid()
 
-	rain
-		name = "rain stone"
-		effect = "rain"
-		icon_state = "Sapphire"
+		snow
+			name = "snow stone"
+			effect = "snow"
+			icon_state = "Sapphire2"
 
-	sun
-		name = "sun stone"
-		effect = "sun"
-		icon_state = "Topaz"
+			effect()
+				weather.snow()
+
+		rain
+			name = "rain stone"
+			effect = "rain"
+			icon_state = "Sapphire"
+
+			effect()
+				weather.rain()
+
+		sun
+			name = "sun stone"
+			effect = "sun"
+			icon_state = "Topaz"
+
+			effect()
+				weather.clear()
+
+	summoning
+		random
+			effect()
+				var/random_type = pick(/RandomEvent/TheEvilSnowman, /RandomEvent/WillytheWhisp)
+				var/RandomEvent/event = locate(random_type) in events
+				event.start()
+
+		snowman
+			effect()
+				var/RandomEvent/TheEvilSnowman/event = locate() in events
+				event.start()
+		willy
+			effect()
+				var/RandomEvent/WillytheWhisp/event = locate() in events
+				event.start()
 
 	Click()
 		if(src in usr)
-			effect(usr, effect)
+			circle(usr)
 		else
 			..()
 
-	proc/effect(mob/Player/p, weather_effect)
+	proc/effect()
+	proc/circle(mob/Player/p)
 
 		if(!(p.loc && (istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))))
 			p << errormsg("You can only use this outside.")
@@ -3321,7 +3351,7 @@ obj/items/weather
 		inUse = TRUE
 
 		var/obj/o = new(usr.loc)
-		o.name = "weather"
+		o.name = "magic circle"
 		o.icon='Circle_magic.dmi'
 		o.pixel_x = -65
 		o.pixel_y = -64
@@ -3332,7 +3362,7 @@ obj/items/weather
 
 		hearers(p) << infomsg("[p.name] holds their [name] up in the air")
 
-		var/obj/items/weather/source = src
+		var/obj/items/magic_stone/source = src
 		src=null
 		spawn()
 			var/tmploc = p.loc
@@ -3343,16 +3373,7 @@ obj/items/weather
 				sleep(10)
 			if(p && source)
 				if(p.loc == tmploc)
-					switch(weather_effect)
-						if("acid")
-							weather.acid()
-						if("snow")
-							weather.snow()
-						if("rain")
-							weather.rain()
-						if("sun")
-							weather.clear()
-
+					effect()
 					source.loc = null
 					p.Resort_Stacking_Inv()
 				else
@@ -3457,7 +3478,7 @@ obj
 						prize = pick(/obj/items/lamps/triple_gold_lamp, /obj/items/lamps/triple_exp_lamp, /obj/items/lamps/triple_drop_rate_lamp)
 					else if(istype(i3, /obj/items/crystal/magic))
 						chance -= 60
-						prize = ignoreItem ? /obj/items/summoning_stone : /obj/items/lamps/power_lamp
+						prize = ignoreItem ? /obj/items/magic_stone/summoning/random : /obj/items/lamps/power_lamp
 
 				else if(istype(i3, /obj/items/wearable/))
 
@@ -3533,7 +3554,4 @@ obj/items/wearable/wands/practice_wand
 		else if(. == REMOVED || forceremove)
 			p.verbs   -= spell.path
 			p.learning = null
-
-
-obj/items/summoning_stone
 
