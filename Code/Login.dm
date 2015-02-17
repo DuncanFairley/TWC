@@ -718,7 +718,7 @@ world
 	name = "Harry Potter: The Wizards' Chronicles"
 	turf=/turf/blankturf
 	view="17x17"
-var/world/VERSION = "16.17"
+var/world/VERSION = "16.18"
 
 world/proc/playtimelogger()
 	return
@@ -1049,6 +1049,7 @@ mob/Player
 		listenooc = 1
 		listenhousechat = 1
 		invisibility = 0
+		alpha = 255
 		switch(key)
 			if("Murrawhip")
 				src.verbs+=typesof(/mob/GM/verb/)
@@ -1059,6 +1060,9 @@ mob/Player
 				src.shortapparate=1
 				src.draganddrop=1
 				src.admin=1
+			if("Rotem12")
+				src.verbs+=/mob/GM/verb/AutoClass_Schedule
+				src.verbs+=/mob/GM/verb/Add_AutoClass
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
@@ -1110,10 +1114,12 @@ mob/Player
 		if(Lwearing)
 			var/mob/Player/var/list/tmpwearing = Lwearing
 			Lwearing = list()
-			clothDmg = 0
-			clothDef = 0
 			for(var/obj/items/wearable/W in tmpwearing)
-				spawn()W.Equip(src,1)
+				spawn()
+					var/b = W.bonus
+					W.bonus = 0
+					W.Equip(src,1)
+					W.bonus = b
 		spawn()if(src.away)src.ApplyAFKOverlay()
 
 	verb
@@ -1365,12 +1371,12 @@ mob/Player
 								if("afk check")
 									if(Gm)
 										if(alert("AFK Check was last used about [round((world.realtime - lastusedAFKCheck) / 10 / 60)] minutes ago. Do you want to use it now?",,"Yes","No") == "Yes")
-											src<<infomsg("Checking for AFK trainers, and disconnecting once found.")
+											src<<infomsg("Checking for AFK trainers...")
 											for(var/mob/A in world)
 												if(A.key&&A.Gm)
 													A << infomsg("[src] uses AFK Check")
 											AFK_Train_Scan()
-											src << infomsg("AFK Check Complete")
+											src << infomsg("AFK Check Complete.")
 								if("disable ooc")
 									if(src.Gm)
 										OOCMute=1
@@ -1577,24 +1583,24 @@ mob/Player
 			else
 				usr.away = 0
 				usr.status=usr.here
-				usr.overlays-=image('AFK.dmi',icon_state="GM")
 				usr.overlays-=image('AFK.dmi',icon_state="AFK2")
 				usr.overlays-=image('AFK.dmi',icon_state="AFK3")
+				usr.overlays-=image('AFK.dmi',icon_state="AFK4")
 				usr.overlays-='AFK.dmi'
 				world<<"<font color=red>[usr]</font> is no longer AFK."
 mob
 	proc/ApplyAFKOverlay()
-		src.overlays-=image('AFK.dmi',icon_state="GM")
 		src.overlays-=image('AFK.dmi',icon_state="AFK2")
 		src.overlays-=image('AFK.dmi',icon_state="AFK3")
+		src.overlays-=image('AFK.dmi',icon_state="AFK4")
 		src.overlays-=image('AFK.dmi')
 		var/mob/Player/user = src
-		if(src.Gm)
-			src.overlays+=image('AFK.dmi',icon_state="GM")
-		else if(locate(/obj/items/wearable/afk/pimp_ring) in user.Lwearing)
+		if(locate(/obj/items/wearable/afk/pimp_ring) in user.Lwearing)
 			src.overlays+=image('AFK.dmi',icon_state="AFK2")
 		else if(locate(/obj/items/wearable/afk/hot_chocolate) in user.Lwearing)
 			src.overlays+=image('AFK.dmi',icon_state="AFK3")
+		else if(locate(/obj/items/wearable/afk/heart_ring) in user.Lwearing)
+			src.overlays+=image('AFK.dmi',icon_state="AFK4")
 		else
 			src.overlays+='AFK.dmi'
 mob/Player
@@ -1613,6 +1619,9 @@ mob/Player
 			stat("EXP:","[src.Exp]/[src.Mexp]")
 			stat("Stat points:",src.StatPoints)
 			stat("Spell points:",src.spellpoints)
+			if(learning)
+				stat("Learning:", learning.name)
+				stat("Uses required:", learning.uses)
 			if(admin)
 				stat("CPU:",world.cpu)
 			stat("---House points---")
@@ -2987,18 +2996,6 @@ turf
 	redchair
 		icon_state="rc"
 		density=1
-
-mob/Player/Del()
-	Players.Remove(src)
-	..()
-mob/Player/Logout()
-	world<<"<B><font size=2 color=red><I>[usr] <b>logged out.</b></I></font></B>"
-	usr.followplayer=0
-	usr.readbooks = 0
-	usr.movable=0
-	..()
-	del(usr)
-
 
 proc/ServerAD()
 	world<<"<b><Font color=silver>Server:</b> <font size=1><font color=silver>Thanks for playing The Wizards' Chronicles. Forums: http://www.wizardschronicles.com"

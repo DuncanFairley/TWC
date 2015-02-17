@@ -22,48 +22,133 @@ RandomEvent
 	var/name
 
 	proc/start()
-		for(var/client/C)
-			if(C.mob && C.mob.EventNotifications)winset(C,"mainwindow","flash=2")
+		for(var/mob/Player/p in Players)
+			p.beep(1)
 
-	BossFight
-		name = "Boss Fight"
+	Class
+		name = "Class"
+		start()
+			var/spell = pick(spellList ^ list(/mob/Spells/verb/Self_To_Dragon, /mob/Spells/verb/Self_To_Human, /mob/Spells/verb/Episky, /mob/Spells/verb/Inflamari))
+
+			var/class/c
+
+			for(var/t in typesof(/class/))
+				if(ends_with("[t]", replace(spellList[spell], " ", "_")))
+					c = new t
+					break
+
+			if(c)
+				c.name      = spellList[spell]
+				c.spelltype = spell
+				curClass    = c.subject
+				classdest   = locate("[c.subject] Class")
+
+				var/obj/teacher/t = new (classdest.loc)
+				t.classInfo = c
+				c.professor = t
+
+				for(var/mob/Player/p in Players)
+					p.beep(2)
+
+				for(var/i = 5; i > 0; i--)
+					Players << announcemsg("[c.subject] Class is starting in [i] minutes. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+					sleep(600)
+
+
+				c.start()
+				sleep(600 * 30)
+				t.loc = null
+				t.classInfo = null
+				c.professor = null
+				classdest = null
+
+				for(var/mob/M in Players)
+					if(M.classpathfinding)
+						for(var/image/C in M.client.images)
+							if(C.icon == 'arrows.dmi')
+								M.client.images.Remove(C)
+						M.classpathfinding = 0
+
+			else
+				world.log << "TWC Error: [spell] not found in class type list (Class.dmi)"
+
+	TheEvilSnowman
+		name = "The Evil Snowman"
 		start()
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
-			switch(pick("Snowman"))
-				if("Snowman")
-					world << infomsg("The Evil Snowman and his army appeared outside Hogwarts, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
+			world << infomsg("The Evil Snowman and his army appeared outside Hogwarts, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
 
-					var/obj/spawner/spawn_loc = pick(spawners)
-					var/mob/NPC/Enemies/Summoned/Boss/monster = new /mob/NPC/Enemies/Summoned/Boss/Snowman(spawn_loc.loc)
-					m += monster
-					for(var/i = 1 to rand(15,40))
-						spawn_loc = pick(spawners)
-						monster = new (spawn_loc.loc)
+			var/obj/spawner/spawn_loc = pick(spawners)
+			var/mob/NPC/Enemies/Summoned/Boss/monster = new /mob/NPC/Enemies/Summoned/Boss/Snowman(spawn_loc.loc)
+			m += monster
+			for(var/i = 1 to rand(15,40))
+				spawn_loc = pick(spawners)
+				monster = new (spawn_loc.loc)
 
-						monster.DMGmodifier = 1
-						monster.HPmodifier  = 1.5
-						monster.MoveDelay   = 3
-						monster.AttackDelay = 3
-						monster.level       = 600
-						monster.name        = "Snowman"
-						monster.icon        = 'Snowman.dmi'
-						monster.color       = rgb(rand(0, 255), rand(0, 255), rand(0, 255))
-						monster.calcStats()
-						m += monster
+				monster.DMGmodifier = 1
+				monster.HPmodifier  = 1.5
+				monster.MoveDelay   = 3
+				monster.AttackDelay = 3
+				monster.level       = 600
+				monster.name        = "Snowman"
+				monster.icon        = 'Snowman.dmi'
+				monster.color       = rgb(rand(0, 255), rand(0, 255), rand(0, 255))
+				monster.calcStats()
+				m += monster
 
 			sleep(minutes * 600)
 
 			var/message = 0
-			for(var/mob/NPC/Enemies/Summoned/monster in m)
-				if(monster.loc != null) message = 1
-				monster.loc = null
-				monster.state = monster.INACTIVE
-				m -= monster
+			for(var/mob/NPC/Enemies/Summoned/mon in m)
+				if(mon.loc != null) message = 1
+				mon.loc = null
+				mon.state = monster.INACTIVE
+				m -= mon
 			m = null
 
-			if(message) world << infomsg("The monsters outside have magically vanished by the powers of the ministry.")
+			if(message) world << infomsg("The evil snowman and his minions have magically vanished by the powers of the ministry.")
+
+	WillytheWhisp
+		name = "Willy the Whisp"
+		start()
+			..()
+			var/minutes = rand(15,45)
+			var/list/m = list()
+			world << infomsg("Willy the Whisp and his army are haunting right outside Hogwarts, defend yourselves until ghostbus---- reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
+
+			var/obj/spawner/spawn_loc = pick(spawners)
+			var/mob/NPC/Enemies/Summoned/Boss/monster = new /mob/NPC/Enemies/Summoned/Boss/Wisp(spawn_loc.loc)
+			m += monster
+			for(var/i = 1 to rand(15,40))
+				spawn_loc = pick(spawners)
+				monster = new (spawn_loc.loc)
+
+				monster.DMGmodifier = 1
+				monster.HPmodifier  = 1.5
+				monster.MoveDelay   = 3
+				monster.AttackDelay = 3
+				monster.level       = 650
+				monster.name        = "Wisp"
+				monster.icon_state  = "wisp"
+				monster.icon        = 'Mobs.dmi'
+				monster.color       = rgb(rand(0, 255), rand(0, 255), rand(0, 255))
+				monster.alpha       = rand(125, 240)
+				monster.calcStats()
+				m += monster
+
+			sleep(minutes * 600)
+
+			var/message = 0
+			for(var/mob/NPC/Enemies/Summoned/mon in m)
+				if(mon.loc != null) message = 1
+				mon.loc = null
+				mon.state = monster.INACTIVE
+				m -= mon
+			m = null
+
+			if(message) world << infomsg("Willy the Whisp and his minions have magically vanished by the powers of the ministry.")
 
 	EntranceKillZone
 		name = "Entrance Kill Zone"
@@ -253,8 +338,16 @@ RandomEvent
 
 			if(message) world << infomsg("The monsters have been driven away.")
 
+mob/Player
+	var/playSounds = TRUE
 
+	proc/beep(type = 0)
+		if((type == 1 && EventNotifications) || (type == 2 && ClassNotifications) || !type)
+			winset(src, "mainwindow", "flash=2")
 
+			if(playSounds)
+				var/sound/S = sound('Alert.ogg')
+				src << S
 
 obj/items/scroll/prize
 

@@ -555,7 +555,7 @@ mob/AndersGoat
 	NPC=1
 	bumpable=0
 	Immortal=1
-	icon='Misc.dmi'
+	icon='Mobs.dmi'
 	icon_state="goat"
 	Gm=1
 	//Names the NPC//Do i really need to say... Sets their ICON STATE

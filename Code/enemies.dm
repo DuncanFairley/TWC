@@ -396,25 +396,22 @@ mob
 						Wander()
 						for(var/mob/Player/M in ohearers(src, Range))
 							if(M.loc.loc != src.loc.loc) continue
-							if(ignore && (M in ignore)) continue
 
-							if(!isPathBlocked(M, src, 1, src.density))
-								target = M
-								state  = HOSTILE
+							target = M
+							state  = HOSTILE
 
-								spawn()
-									var/time = 5
-									while(src && state == HOSTILE && M == target && time > 0)
-										sleep(30)
-										time--
+							spawn()
+								var/time = 5
+								while(src && state == HOSTILE && M == target && time > 0)
+									sleep(30)
+									time--
 
-									if(M == target && state == HOSTILE)
-										target = null
-										state = SEARCH
+								if(M == target && state == HOSTILE)
+									target = null
+									state = SEARCH
 
-								break
-							else
-								Ignore(M)
+							break
+
 
 					Blocked()
 						density = 0
@@ -433,6 +430,108 @@ mob
 						level = 2000
 
 						Death()
+
+					Wisp
+						icon_state = "wisp"
+						name = "Willy the Whisp"
+						HPmodifier = 6
+						DMGmodifier = 2
+						layer = 5
+						MoveDelay = 2
+						AttackDelay = 1
+						Range = 15
+						level = 1200
+						var/tmp/fired = 0
+						var/proj = "gum"
+						canBleed = FALSE
+
+						drops = list("100" = list(/obj/items/wearable/title/Ghost,
+												  /obj/items/lamps/triple_drop_rate_lamp,
+												  /obj/items/lamps/triple_exp_lamp,
+												  /obj/items/lamps/triple_gold_lamp,
+												  /obj/items/wearable/afk/heart_ring))
+
+
+						New()
+							..()
+							alpha = rand(190,240)
+
+							var/color1 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+							var/color2 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+							var/color3 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+
+							animate(src, color = color1, time = 10, loop = -1)
+							animate(color = color2, time = 10)
+							animate(color = color3, time = 10)
+
+							transform *= 3 + (rand(-10, 10) / 10)
+
+							spawn()
+								while(src.loc)
+									proj = pick(list("gum", "quake", "iceball","fireball", "", "black") - proj)
+									switch(proj)
+										if("gum")
+											animate(src, color = "#fa8bd8", time = 10, loop = -1)
+											animate(color = "#c811f1", time = 10)
+											animate(color = "#ec06a3", time = 10)
+										if("quake")
+											animate(src, color = "#aa8d84", time = 10, loop = -1)
+											animate(color = "#767309", time = 10)
+											animate(color = "#a4903d", time = 10)
+										if("iceball")
+											animate(src, color = "#24e3f3", time = 10, loop = -1)
+											animate(color = "#a4bcd3", time = 10)
+											animate(color = "#4a9ee0", time = 10)
+										if("fireball")
+											animate(src, color = "#dd6103", time = 10, loop = -1)
+											animate(color = "#b21039", time = 10)
+											animate(color = "#b81114", time = 10)
+										if("black")
+											animate(src, color = "#000000", time = 10, loop = -1)
+											animate(color = "#ffffff", time = 10)
+										if("")
+											animate(src, color = "#0e3492", time = 10, loop = -1)
+											animate(color = "#2a32fb", time = 10)
+											animate(color = "#cdf0e3", time = 10)
+									sleep(200)
+
+						Attack(mob/M)
+							..()
+							if(!fired && target && state == HOSTILE)
+								fired = 1
+								spawn(rand(30,50)) fired = 0
+
+								for(var/obj/redroses/S in oview(3, src))
+									flick("burning", S)
+									spawn(8) S.loc = null
+
+								if(prob(80))
+									var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+									var/tmp_d = dir
+									for(var/d in dirs)
+										dir = d
+										castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball", 0, 1)
+									dir = tmp_d
+									sleep(AttackDelay)
+
+						Attacked(projname, damage)
+							world << projname
+							if(projname == proj && prob(99))
+								emit(loc    = src,
+									 ptype  = /obj/particle/red,
+								     amount = 2,
+								     angle  = new /Random(1, 359),
+								     speed  = 2,
+								     life   = new /Random(15,20))
+							else
+								HP+=damage
+
+								emit(loc    = src,
+									 ptype  = /obj/particle/green,
+								     amount = 2,
+								     angle  = new /Random(1, 359),
+								     speed  = 2,
+								     life   = new /Random(15,20))
 
 					Snowman
 						icon = 'Snowman.dmi'
@@ -565,7 +664,8 @@ mob
 						     			   /obj/items/crystal/soul),
 							 "5"    = list(/obj/items/DarknessPowder,
 							 			   /obj/items/Smoke_Pellet,
-							 			   /obj/items/Tube_of_fun))
+							 			   /obj/items/Tube_of_fun),
+							 "30"   = /obj/items/gift/valentine)
 
 
 				Attack(mob/M)
@@ -687,6 +787,14 @@ mob
 			Troll
 				icon_state = "troll"
 				level = 350
+
+				drops = list("0.7" = list(/obj/items/Whoopie_Cushion,
+			 				  			  /obj/items/Smoke_Pellet,
+			 			  				  /obj/items/Tube_of_fun),
+			 			  	 "0.5" = list(/obj/items/wearable/bling,
+			 			  	 			  /obj/items/bucket,
+			 			  	 			  /obj/items/scroll,
+			 			  	 			  /obj/items/wearable/title/Troll))
 			House_Elf
 				icon_state = "houseelf"
 				level = 5
@@ -805,12 +913,16 @@ mob
 				Range = 16
 				respawnTime = 3000
 
-				drops = list("10"   = list(/obj/items/artifact,
+				New()
+					..()
+					transform *= 2
+
+				drops = list("20"   = list(/obj/items/artifact,
 										  /obj/items/wearable/title/Petrified,
 										  /obj/items/crystal/soul,
 										  /obj/items/crystal/magic,
 						     			  /obj/items/crystal/strong_luck),
-							 "20"   = list(/obj/items/DarknessPowder,
+							 "40"   = list(/obj/items/DarknessPowder,
 								 		  /obj/items/Whoopie_Cushion,
 										  /obj/items/U_No_Poo,
 							 			  /obj/items/Smoke_Pellet,
@@ -847,6 +959,15 @@ mob
 									M.movable    = 0
 									M.icon_state = ""
 									M:ApplyOverlays()
+
+				Death(mob/Player/killer)
+					..(killer)
+
+					var/obj/Hogwarts_Door/gate/door = locate("CoSLockDoor")
+					if(door)
+						door.door = 1
+						spawn(respawnTime)
+							door.door = 0
 
 mob
 	Dog
