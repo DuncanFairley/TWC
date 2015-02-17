@@ -3319,20 +3319,32 @@ obj/items/magic_stone
 				weather.clear()
 
 	summoning
+		circle(mob/Player/P)
+			if(currentEvents)
+				P << errormsg("You can't use this while an event is running.")
+				return
+			..(P)
+
 		random
+			name = "lucky coin"
+			icon_state = "Coin"
 			effect()
 				var/random_type = pick(/RandomEvent/TheEvilSnowman, /RandomEvent/WillytheWhisp)
 				var/RandomEvent/event = locate(random_type) in events
-				event.start()
+				spawn() event.start()
 
 		snowman
+			name = "snowy coin"
+			icon_state = "Coin"
 			effect()
 				var/RandomEvent/TheEvilSnowman/event = locate() in events
-				event.start()
+				spawn() event.start()
 		willy
+			name = "mysterious coin"
+			icon_state = "Coin"
 			effect()
 				var/RandomEvent/WillytheWhisp/event = locate() in events
-				event.start()
+				spawn() event.start()
 
 	Click()
 		if(src in usr)
@@ -3342,6 +3354,10 @@ obj/items/magic_stone
 
 	proc/effect()
 	proc/circle(mob/Player/p)
+
+		if(!canUse(p,cooldown=/StatusEffect/BossEvent,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=3000))
+			return
+		p.MP -= 3000
 
 		if(!(p.loc && (istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))))
 			p << errormsg("You can only use this outside.")
@@ -3373,12 +3389,12 @@ obj/items/magic_stone
 				sleep(10)
 			if(p && source)
 				if(p.loc == tmploc)
-					effect()
+					source.effect()
 					source.loc = null
 					p.Resort_Stacking_Inv()
 				else
 					source.inUse = FALSE
-					p << errormsg("Your attempt at changing the weather failed.")
+					p << errormsg("The ritual failed.")
 			o.loc = null
 
 obj
@@ -3477,7 +3493,7 @@ obj
 						chance -= 50
 						prize = pick(/obj/items/lamps/triple_gold_lamp, /obj/items/lamps/triple_exp_lamp, /obj/items/lamps/triple_drop_rate_lamp)
 					else if(istype(i3, /obj/items/crystal/magic))
-						chance -= 60
+						chance -= 70
 						prize = ignoreItem ? /obj/items/magic_stone/summoning/random : /obj/items/lamps/power_lamp
 
 				else if(istype(i3, /obj/items/wearable/))
