@@ -657,7 +657,7 @@ mob
 				var/tmp/fired = 0
 
 				drops = list("3"    = /obj/items/crystal/luck,
-						     "1.2"  = list(/obj/items/crystal/defense,
+						     "0.8"  = list(/obj/items/crystal/defense,
 							 			   /obj/items/crystal/damage),
 						     "0.01" = /obj/items/artifact,
 							 "0.03" = list(/obj/items/wearable/title/Magic,
