@@ -3329,7 +3329,7 @@ obj/items/magic_stone
 			name = "lucky coin"
 			icon_state = "Coin"
 			effect()
-				var/random_type = pick(/RandomEvent/TheEvilSnowman, /RandomEvent/WillytheWhisp)
+				var/random_type = pick(/RandomEvent/TheEvilSnowman, /RandomEvent/WillytheWhisp, /RandomEvent/Invasion)
 				var/RandomEvent/event = locate(random_type) in events
 				spawn() event.start()
 
@@ -3346,6 +3346,13 @@ obj/items/magic_stone
 				var/RandomEvent/WillytheWhisp/event = locate() in events
 				spawn() event.start()
 
+		monsters
+			name = "stinky coin"
+			icon_state = "Coin"
+			effect()
+				var/RandomEvent/Invasion/event = locate() in events
+				spawn() event.start()
+
 	Click()
 		if(src in usr)
 			circle(usr)
@@ -3355,7 +3362,7 @@ obj/items/magic_stone
 	proc/effect()
 	proc/circle(mob/Player/p)
 
-		if(!canUse(p,cooldown=/StatusEffect/BossEvent,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=3000))
+		if(!canUse(p,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=3000))
 			return
 		p.MP -= 3000
 
