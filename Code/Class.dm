@@ -35,7 +35,7 @@ obj/teacher
 				return
 
 			if(classInfo.spelltype in p.verbs)
-				p << errormsg("You already know this spell.")
+				p << errormsg("You already know [classInfo.name].")
 				return
 
 			if(locate(/obj/items/wearable/wands/practice_wand) in p)
