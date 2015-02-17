@@ -638,7 +638,7 @@ obj/The_Dark_Mark
 			var/who = people[1]
 			for(var/i = 2; i <= length(people); i++)
 				who += i == length(people) ? " and [people[i]]" : ", [people[i]]"
-			world << "The Dark Mark was dispersed by [who]."
+			Players << "The Dark Mark was dispersed by [who]."
 			del src
 
 mob/Sir_Nicholas

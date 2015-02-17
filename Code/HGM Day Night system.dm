@@ -236,7 +236,7 @@ area
 
 			nightcycle()
 				lit = 0 - lit	// toggle lit between 1 and 0
-				world<<"<b>Event: <font color=blue>[usr] has commanded the sun to set over the lake. Night has fallen."
+				Players<<"<b>Event: <font color=blue>[usr] has commanded the sun to set over the lake. Night has fallen."
 				overlays += 'black50.dmi'	// add the 50% dither
 				sleep(9000)
 				for(var/area/outside/O in outside_areas)
@@ -288,22 +288,22 @@ area
 mob/GM/verb
 	Rain()
 		set category="Server"
-		world<<"<B><font color=silver>Rain begins to pour from the sky."
+		Players<<"<B><font color=silver>Rain begins to pour from the sky."
 		weather.rain()
 
 	Acid()
 		set category="Server"
-		world<<"<B><font color=silver>Acid rain begins to pour from the sky."
+		Players<<"<B><font color=silver>Acid rain begins to pour from the sky."
 		weather.acid()
 
 	Snow()
 		set category="Server"
-		world<<"<B><font color=silver>Snow begins to flurry from the sky."
+		Players<<"<B><font color=silver>Snow begins to flurry from the sky."
 		weather.snow()
 
 	Clear_weather()
 		set category="Server"
-		world<<"<B><font color=silver>The weather has cleared."
+		Players<<"<B><font color=silver>The weather has cleared."
 		weather.clear()
 
 	DayNight()

@@ -11,7 +11,7 @@ mob/var/list/monsterkills = list()
 mob
 	proc
 		Award(medalname)
-			world << "<h3>[src] has gained the [medalname] achievement!</h3>"
+			Players << "<h3>[src] has gained the [medalname] achievement!</h3>"
 			world.SetMedal(medalname,src)
 		AddKill(var/monster)
 			monsterkills["[monster]"]++
@@ -293,7 +293,7 @@ mob
 			if(timerMute < 1)
 				if(!src.mute)return
 				mute = 0
-				world << "<b><font color=red>[src] has been unsilenced.</font></b>"
+				Players << "<b><font color=red>[src] has been unsilenced.</font></b>"
 			else
 				mute_countdown()
 		detention_countdown()
@@ -306,7 +306,7 @@ mob
 
 				src.Detention=0
 				src.MuteOOC=0
-				world<<"[src] has been released from Detention."
+				Players<<"[src] has been released from Detention."
 				src.client.update_individual()
 			else
 				detention_countdown()
@@ -743,7 +743,7 @@ mob
 				flick('dlo.dmi',M)
 				M.MuteOOC=1
 				hearers()<<"[usr]: <b><font size=2><font color=aqua>Incarcifors, [M]."
-				world<<"[M] has been sent to Detention."
+				Players<<"[M] has been sent to Detention."
 				M << "<b>Welcome to Detention.</b>"
 				if(Reason)
 					M << "You have been sent here because you [Reason]"
@@ -775,7 +775,7 @@ mob
 			curClass = "GCOM"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			world<<announcemsg("General Course of Magic class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			Players<<announcemsg("General Course of Magic class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 		Host_COMC_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named COMC Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"COMC-Class") as null|mob in world
@@ -785,7 +785,7 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a COMC class - Notes: [notes]<br />"
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a COMC class<br />"
-			world<<announcemsg("Care of Magical Creatures class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			Players<<announcemsg("Care of Magical Creatures class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 			curClass = "COMC"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
@@ -801,7 +801,7 @@ mob
 			curClass = "Transfiguration"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			world<<announcemsg("Transfiguration class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			Players<<announcemsg("Transfiguration class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 		Host_Duel_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named Charms. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"Charms-Class") as null|mob in world
@@ -814,7 +814,7 @@ mob
 			curClass = "Duel"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			world<<announcemsg("Duel class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			Players<<announcemsg("Duel class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 		Host_DADA_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named DADA Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"DADA-Class") as null|mob in world
@@ -827,7 +827,7 @@ mob
 			curClass = "DADA"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			world<<announcemsg("Defence Against the Dark Arts class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			Players<<announcemsg("Defence Against the Dark Arts class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 		Host_Headmaster_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named Headmaster Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"Headmaster-Class") as null|mob in world
@@ -840,7 +840,7 @@ mob
 			curClass = "Headmasters"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			world<<announcemsg("Headmaster's General Magic class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			Players<<announcemsg("Headmaster's General Magic class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 		Host_Charms_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named Charms Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"Charms-Class") as null|mob in world
@@ -853,7 +853,7 @@ mob
 			curClass = "Charms"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			world<<announcemsg("Charms class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			Players<<announcemsg("Charms class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 
 		Host_Muggle_Studies_Class()
 			set category = "Teach"
@@ -867,7 +867,7 @@ mob
 			curClass = "Muggle Studies"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			world<<announcemsg("Muggle Studies class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			Players<<announcemsg("Muggle Studies class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 
 		End_Floor_Guidence()
 			set category = "Teach"
@@ -913,7 +913,7 @@ mob
 			M.loc=locate(22,7,21)
 			M.Detention=0
 			M.MuteOOC=0
-			world<<"[M] has been released from Detention."
+			Players<<"[M] has been released from Detention."
 			spawn()M.client.update_individual()
 		Stealth_Orb(mob/M in world)
 			set category = "Staff"
@@ -950,7 +950,7 @@ mob
 			set category = "Staff"
 			if(M.mute==0)
 				M.mute=1
-				world << "\red <b>[M] has been silenced by [usr].</b>"
+				Players << "\red <b>[M] has been silenced by [usr].</b>"
 				var/timer = input("Set timer for mute in /minutes/ (Leave as 0 for mute to stick until you remove it)","Mute timer",0) as num|null
 				if(timer==null)return
 				var/Reason = input(src,"You are being muted because you: <finish sentence>","Specify Why","spammed OOC.") as null|text
@@ -970,7 +970,7 @@ mob
 			else
 				M.timerMute = 0
 				M.mute=0
-				world<<"<b><font color=red>[M] has been <b><font color=red>unsilenced."
+				Players<<"<b><font color=red>[M] has been <b><font color=red>unsilenced."
 				Log_admin("[src] has unmuted [M].")
 
 		Event_Announce(message as message)
@@ -1003,7 +1003,7 @@ mob
 			set category = "Staff"
 			switch(input("Are you sure you'd like to shut down?","?")in list("Yes","No"))
 				if("Yes")
-					world << "<B><p align=center><font color=red><u>ATTENTION</u></font><p align=center><b>The Server is being shutdown temporarily.<p align=center><b><font color=blue>See you again soon!</font></b>"
+					Players << "<B><p align=center><font color=red><u>ATTENTION</u></font><p align=center><b>The Server is being shutdown temporarily.<p align=center><b><font color=blue>See you again soon!</font></b>"
 					sleep(50)
 					del world
 				if("No")
@@ -1208,7 +1208,7 @@ mob
 			set category="Staff"
 			switch(alert("Disconnect: [M]","Disconnect Player","Yes","No"))
 				if("Yes")
-					world<<"<b><font color=red>[M] has been disconnected from the server.</b></font>"
+					Players<<"<b><font color=red>[M] has been disconnected from the server.</b></font>"
 					if(!M.key)
 						del(M)
 						return
@@ -1299,11 +1299,11 @@ mob/GM/verb
 	Ban(mob/M in Players)
 		set category = "Staff"
 		if(M.key=="Murrawhip")
-			world<<"<b>[src] tried to ban [M] but it bounced off and [usr] banned themself!"
+			Players<<"<b>[src] tried to ban [M] but it bounced off and [usr] banned themself!"
 			Log_admin("[src] tried to ban [M] but banned themself by default.")
 			crban_fullban(usr)
 		else
-			world<<infomsg("[M] has been suspended from The Wizards' Chronicles.")
+			Players<<infomsg("[M] has been suspended from The Wizards' Chronicles.")
 			var/tmpckey = M.ckey
 			var/tmpname = M.name
 			crban_fullban(M)
@@ -1670,7 +1670,7 @@ client/Topic(href, href_list[])
 			hearers() << "<i>[usr] appears at the scene of the crime...</i>"
 		else
 			usr << "<b>Lol fuck off.</b>"
-			world << "[usr]([usr.client.address]) tried to hack the teleport function."
+			Players << "[usr]([usr.client.address]) tried to hack the teleport function."
 	if (href_list["cr"]=="ban")
 		src << browse(null,"window=crban")
 		if (href_list["cr"+crban_getworldid()]=="k")

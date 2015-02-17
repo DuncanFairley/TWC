@@ -1687,7 +1687,7 @@ mob/Del()
 	..()
 
 mob/Player/Logout()
-	world<<"<B><font size=2 color=red><I>[usr] <b>logged out.</b></I></font></B>"
+	Players<<"<B><font size=2 color=red><I>[usr] <b>logged out.</b></I></font></B>"
 	if(arcessoing)
 		stop_arcesso()
 	if(currentArena)
@@ -1762,7 +1762,7 @@ arena_round
 						housepointsGSRH[5] += amountforwin
 					if("Deatheaters")
 						housepointsGSRH[6] += amountforwin
-				world << "<font color = red>[team] have earned [amountforwin] points.</font>"
+				Players << "<font color = red>[team] have earned [amountforwin] points.</font>"
 				Save_World()
 				del(currentArena)
 
