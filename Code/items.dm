@@ -3253,11 +3253,11 @@ obj/items/crystal
 		else
 			..()
 	damage
-		name  = "damage crystal"
+		name  = "red crystal"
 		icon_state = "damage"
 		bonus = 1
 	defense
-		name  = "defense crystal"
+		name  = "green crystal"
 		icon_state = "defense"
 		bonus = 2
 	magic
