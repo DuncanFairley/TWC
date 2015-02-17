@@ -78,7 +78,7 @@ class
 		hearers(12, professor) << "<font color=#2bcfce>\[[subject] Professor] <b>[professor.name]</b> : </font>[msg]"
 
 	proc/start()
-		spawn(150)	professor.canTeach = TRUE
+		spawn(300)	professor.canTeach = TRUE
 		say("Welcome students to [subject] class. Today you will be learning about the spell [name].")
 		sleep(30)
 		say("When I'm done explaining the spell, please come to me and take a practice wand, use that wand to practice the spell until you've learned it. Of course if you already have a practice wand of another spell, you will not be able to get another.")
