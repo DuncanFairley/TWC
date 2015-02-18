@@ -362,19 +362,14 @@ mob/Spells/verb/Repellium()
 			sleep(4)
 
 proc/light(atom/a, range=3, ticks=100, state = "light")
-	var/obj/light = new
 	var/image/img = image('lights.dmi',state)
+	img.transform *= range * 2 + 1
 	img.layer = 8
-	for(var/px = -range to range)
-		for(var/py = -range to range)
-			img.pixel_x = px * 32
-			img.pixel_y = py * 32
-			light.overlays += img
 
-	a.overlays += light
+	a.underlays += img
 	if(ticks != 0)
 		spawn(ticks)
-			if(a) a.overlays -= light
+			if(a) a.underlays -= img
 
 
 mob/Spells/verb/Basilio()
