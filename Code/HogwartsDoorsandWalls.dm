@@ -20,96 +20,12 @@ mob
 			if(T.door==1)
 				if(istype(T,/obj/brick2door))
 					var/obj/brick2door/O = T
-					spawn()O:Bumped(src)
+					spawn()O.Bumped(src)
 					return
-				if(T.pass!="")
-					if(!src.key)
-						return
-					if(src.removeoMob)
-						return
-					if(T.owner==usr.key)
-					//	usr<<"<font color= #000099><b>Welcome back, [usr]."
-						//hearers()<<sound('stdoor.wav')
-						if(T.icon_state != "open")
-							T.bumpable = 0
-							flick("opening",T)
-							var/temp_opacity = T.opacity
-							T.opacity=0
-							sleep(4)
-							T.icon_state="open"
-							T.density=0
-							sleep(20)
-							//hearers()<<sound('stdoor.wav')
-							if(isturf(T))
-								while(locate(/mob) in T) sleep(10)
-							else
-								while(locate(/mob) in T.loc) sleep(10)
-							flick("closing",T)
-							T.density=1
-							sleep(4)
-							T.opacity=temp_opacity
-							T.icon_state="closed"
-							T.bumpable = 1
-					else if(T.owner!=usr.key)
-						if(!src.key)
-							return
-						var/passtry=input("This is a Secure Area. Please enter Authorization Code.","Incarcerous Charm","")as text
-						passtry=copytext(passtry,1,500)
-						if(passtry==T.pass)
-							usr<<"<font color=green><b>Authorization Confirmed."
-							spawn()
-								if(T.icon_state != "open")
-									T.bumpable = 0
-									src = null
-									T:lastopener = usr.key
-									//hearers()<<sound('stdoor.wav')
-									flick("opening",T)
-									var/temp_opacity = T.opacity
-									T.opacity=0
-									sleep(4)
-									T.icon_state="open"
-									T.density=0
-									sleep(50)
-									if(isturf(T))
-										while(locate(/mob) in T) sleep(10)
-									else
-										while(locate(/mob) in T.loc) sleep(10)
-									//hearers()<<sound('stdoor.wav')
-									flick("closing",T)
-									T.density=1
-									sleep(4)
-									T.opacity=temp_opacity
-									T.icon_state="closed"
-									T.bumpable = 1
-						else if(passtry!=T.pass)
-
-							usr<<"<font color=red><b>Authorization Denied. Incorrect Access Code."
-				else if(T.pass=="")
-					//NORMAL DOORS RIGHT HERRRRRRRRRREEEEEEEE
-					//hearers()<<sound('stdoor.wav')
-					spawn()
-						if(T.icon_state != "open")
-							T.bumpable = 0
-							src = null
-							T:lastopener = usr.key
-							flick("opening",T)
-							var/temp_opacity = T.opacity
-							T.opacity=0
-							sleep(4)
-							T.icon_state="open"
-							T.density=0
-							sleep(50)
-							if(isturf(T))
-								while(locate(/mob) in T) sleep(10)
-							else
-								while(locate(/mob) in T.loc) sleep(10)
-							//hearers()<<sound('stdoor.wav')
-							flick("closing",T)
-							T.density=1
-							sleep(4)
-							T.opacity=temp_opacity
-							T.icon_state="closed"
-							T.bumpable = 1
+				if(istype(T,/obj/Hogwarts_Door))
+					var/obj/Hogwarts_Door/O = T
+					spawn()O.Bumped(src)
+					return
 
 
 turf
@@ -221,13 +137,17 @@ obj
 	Hogwarts_Door
 		bumpable=1
 		dontsave=0
-		var/lastopener
-		var/door=1
 		icon='Door.dmi'
 		density=1
 		icon_state="closed"
 		opacity=1
-		var/pass=""
+
+		var
+			pass=""
+			lastopener
+			door=1
+
+
 		gate
 			icon = 'gate.dmi'
 			icon_state = "closed"
@@ -240,10 +160,28 @@ obj
 			..()
 			var/turf/T = src.loc
 			if(T)T.flyblock=2
-		/*Del()
-			var/turf/T = src.loc
-			for(var/obj/Hogwarts_Door/D in T)
-				if(D != src)
-					return
-			if(T)T.flyblock = 0
-			..()*/
+
+		proc/Bumped(mob/Player/p)
+
+			if(pass != "" && owner != p.key)
+				var/passtry = input(p, "This is a Secure Area. Please enter Authorization Code.","Incarcerous Charm","") as text
+				passtry = copytext(passtry, 1, 500)
+				if(passtry != pass)	return
+				p << "<font color=green><b>Authorization Confirmed."
+
+			if(icon_state != "open")
+				bumpable = 0
+				lastopener = usr.key
+				flick("opening", src)
+				opacity = 0
+				sleep(4)
+				icon_state="open"
+				density=0
+				sleep(50)
+				while(locate(/mob) in loc) sleep(10)
+				flick("closing", src)
+				density=1
+				sleep(4)
+				opacity = initial(opacity)
+				icon_state="closed"
+				bumpable = 1
