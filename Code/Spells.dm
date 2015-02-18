@@ -2202,7 +2202,6 @@ var/move_queue = TRUE
 client
 	var/tmp
 		moving = 0
-		lastmoved
 		list/movements
 
 	Move(loc,dir)
@@ -2211,7 +2210,7 @@ client
 			loc = get_step(mob, dir)
 
 
-		if((moving || lastmoved == world.time) && move_queue)
+		if(moving && move_queue)
 			if(!movements) movements = list()
 			if(movements.len < 10)
 				movements += dir
@@ -2232,12 +2231,10 @@ client
 			while(movements && index < movements.len)
 				index++
 				var/d = movements[index]
-				lastmoved = world.time
 				..(get_step(mob, d), d)
 				sleep(1)
 			movements = null
 			loc = get_step(mob, dir)
-		lastmoved = world.time
 		..()
 		sleep(0)
 		moving = 0
