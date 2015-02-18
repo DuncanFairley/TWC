@@ -53,7 +53,7 @@ obj/items/verb/Examine()
 	set src in view(3)
 	usr << infomsg("<i>[desc]</i>")
 obj/items/proc/Destroy(var/mob/Player/owner)
-	if(alert(owner,"Are you sure you wish to destroy your [src]",,"Yes","Cancel") == "Yes")
+	if(alert(owner,"Are you sure you wish to destroy your [src.name]?",,"Yes","Cancel") == "Yes")
 		var/obj/item = src
 		src = null
 		del(item)
