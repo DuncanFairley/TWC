@@ -74,7 +74,7 @@ RandomEvent
 
 				c.start()
 				sleep(600 * 30)
-
+				Players << announcemsg("[c.subject] Class ended.")
 				t.loc = null
 				t.classInfo = null
 				c.professor = null
@@ -86,7 +86,6 @@ RandomEvent
 							if(C.icon == 'arrows.dmi')
 								M.client.images.Remove(C)
 						M.classpathfinding = 0
-
 				end()
 			else
 				world.log << "TWC Error: [spell] not found in class type list (Class.dmi)"
