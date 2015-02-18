@@ -258,17 +258,17 @@ mob/GM
 					if(!points) return
 					housepointsGSRH[housenum] += points
 					if(points==1)
-						world << "\red[points] point has been added to [house]!"
+						Players << "\red[points] point has been added to [house]!"
 					else
-						world << "\red[points] points have been added to [house]!"
+						Players << "\red[points] points have been added to [house]!"
 				if("Subtract")
 					var/points = input("How many points do you wish to Subtract?","House Points") as null|num
 					if(!points) return
 					housepointsGSRH[housenum] -= points
 					if(points==1)
-						world << "\red[points] point has been subtracted from [house]!"
+						Players << "\red[points] point has been subtracted from [house]!"
 					else
-						world << "\red[points] points have been subtracted from [house]!"
+						Players << "\red[points] points have been subtracted from [house]!"
 			Save_World()
 		Schedule_Admin()
 			set category = "Staff"

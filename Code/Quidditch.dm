@@ -442,10 +442,10 @@ obj/quidditch
 							housepointsGSRH[housenum] += points
 
 							user << infomsg("You won [points] house point[points != 1 ? "s" : ""].")
-							world << "\red[points] point[points != 1 ? "s have" : " has"] been added to [user.House]!"
+							Players << "\red[points] point[points != 1 ? "s have" : " has"] been added to [user.House]!"
 
 					else
-						world << "[user] has caught the [name]!"
+						Players << "[user] has caught the [name]!"
 					del(src)
 					return
 				else

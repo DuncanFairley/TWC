@@ -226,6 +226,7 @@ mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
 mob/Spells/verb/Depulso()
 	set category="Spells"
 	var/mob/M
+	var/found = FALSE
 	for(M in get_step(usr,usr.dir))
 		if(!M.key && !istype(M,/mob/Victims)) return
 		var/turf/t = get_step_away(M,usr,15)
@@ -237,13 +238,14 @@ mob/Spells/verb/Depulso()
 			hearers()<<"<b><font color=red>[usr]:</font></b> Depulso!"
 
 		if(isplayer(M))
+			found = TRUE
 			M<<"You were pushed backwards by [usr]'s Depulso Charm."
 			if(M.flying)
 				for(var/obj/items/wearable/brooms/B in M:Lwearing)
 					B.Equip(M,1)
 					hearers()<<"[usr]'s Depulso knocked [M] off \his broom!"
 					new /StatusEffect/Knockedfrombroom(M,15)
-	if(M)
+	if(found)
 		usr:learnSpell("Depulso")
 
 mob/Spells/verb/Deletrius()
@@ -337,11 +339,11 @@ mob/Spells/verb/Morsmordre()
 		D.density=0
 		flick('mist.dmi',D)
 		hearers() <<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green>MORSMORDRE!"
-		world<<"The sky darkens as a sneering skull appears in the clouds with a snake slithering from its mouth."
+		Players<<"The sky darkens as a sneering skull appears in the clouds with a snake slithering from its mouth."
 		src = null
 		spawn(600)
 			if(D)
-				world<<"The Dark Mark fades back into the clouds."
+				Players<<"The Dark Mark fades back into the clouds."
 mob/Spells/verb/Repellium()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedRepel,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
@@ -360,19 +362,14 @@ mob/Spells/verb/Repellium()
 			sleep(4)
 
 proc/light(atom/a, range=3, ticks=100, state = "light")
-	var/obj/light = new
 	var/image/img = image('lights.dmi',state)
+	img.transform *= range * 2 + 1
 	img.layer = 8
-	for(var/px = -range to range)
-		for(var/py = -range to range)
-			img.pixel_x = px * 32
-			img.pixel_y = py * 32
-			light.overlays += img
 
-	a.overlays += light
+	a.underlays += img
 	if(ticks != 0)
 		spawn(ticks)
-			if(a) a.overlays -= light
+			if(a) a.underlays -= img
 
 
 mob/Spells/verb/Basilio()
@@ -2205,16 +2202,18 @@ var/move_queue = TRUE
 client
 	var/tmp
 		moving = 0
+		lastmoved
 		list/movements
+
 	Move(loc,dir)
 		if(mob.confused && dir)
 			dir = turn(dir, 180)
 			loc = get_step(mob, dir)
 
 
-		if(moving && move_queue)
+		if((moving || lastmoved == world.time) && move_queue)
 			if(!movements) movements = list()
-			else if(movements.len < 5)
+			if(movements.len < 10)
 				movements += dir
 			return
 
@@ -2233,11 +2232,12 @@ client
 			while(movements && index < movements.len)
 				index++
 				var/d = movements[index]
+				lastmoved = world.time
 				..(get_step(mob, d), d)
 				sleep(1)
 			movements = null
 			loc = get_step(mob, dir)
-
+		lastmoved = world.time
 		..()
 		sleep(0)
 		moving = 0

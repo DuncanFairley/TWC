@@ -118,8 +118,8 @@ area
 
 
 		Exit(atom/movable/O)
+			.=..()
 			if(istype(O, /mob/NPC) && !O:removeoMob) return 0
-			return 1
 
 		Exited(atom/movable/O)
 			. = ..()
@@ -133,6 +133,11 @@ area
 					active = 0
 					for(var/mob/NPC/Enemies/M in src)
 						M.state = M.WANDER
+
+area/Exit(atom/movable/O, atom/newloc)
+	.=..()
+	if(istype(O, /mob/NPC) && O:removeoMob && !issafezone(src) && issafezone(newloc.loc)) return 0
+
 mob
 	test
 		verb
@@ -447,7 +452,6 @@ mob
 
 						drops = list("100" = list(/obj/items/wearable/title/Ghost,
 												  /obj/items/lamps/triple_drop_rate_lamp,
-												  /obj/items/lamps/triple_exp_lamp,
 												  /obj/items/lamps/triple_gold_lamp,
 												  /obj/items/wearable/afk/heart_ring))
 
@@ -515,7 +519,6 @@ mob
 									sleep(AttackDelay)
 
 						Attacked(projname, damage)
-							world << projname
 							if(projname == proj && prob(99))
 								emit(loc    = src,
 									 ptype  = /obj/particle/red,
@@ -548,7 +551,6 @@ mob
 
 						drops = list("100" = list(/obj/items/wearable/title/Snowflakes,
 												  /obj/items/lamps/triple_drop_rate_lamp,
-												  /obj/items/lamps/triple_exp_lamp,
 												  /obj/items/lamps/triple_gold_lamp,
 												  /obj/items/wearable/afk/hot_chocolate))
 
@@ -655,7 +657,7 @@ mob
 				var/tmp/fired = 0
 
 				drops = list("3"    = /obj/items/crystal/luck,
-						     "1.2"  = list(/obj/items/crystal/defense,
+						     "0.8"  = list(/obj/items/crystal/defense,
 							 			   /obj/items/crystal/damage),
 						     "0.01" = /obj/items/artifact,
 							 "0.03" = list(/obj/items/wearable/title/Magic,
@@ -917,17 +919,21 @@ mob
 					..()
 					transform *= 2
 
-				drops = list("20"   = list(/obj/items/artifact,
-										  /obj/items/wearable/title/Petrified,
-										  /obj/items/crystal/soul,
-										  /obj/items/crystal/magic,
-						     			  /obj/items/crystal/strong_luck),
+				drops = list("15"   = list(/obj/items/artifact,
+										   /obj/items/wearable/title/Petrified,
+										   /obj/items/crystal/soul,
+										   /obj/items/crystal/magic,
+						     			   /obj/items/crystal/strong_luck),
+							 "20"   = list(/obj/items/artifact,
+										   /obj/items/crystal/damage,
+										   /obj/items/crystal/defense,
+						     			   /obj/items/crystal/luck),
 							 "40"   = list(/obj/items/DarknessPowder,
-								 		  /obj/items/Whoopie_Cushion,
-										  /obj/items/U_No_Poo,
-							 			  /obj/items/Smoke_Pellet,
-							 			  /obj/items/Tube_of_fun,
-							 			  /obj/items/Swamp))
+								 		   /obj/items/Whoopie_Cushion,
+										   /obj/items/U_No_Poo,
+							 			   /obj/items/Smoke_Pellet,
+							 			   /obj/items/Tube_of_fun,
+							 			   /obj/items/Swamp))
 
 				var/tmp/fired = 0
 

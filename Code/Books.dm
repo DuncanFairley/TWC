@@ -53,4 +53,4 @@ obj/Book_Shelf_
 		spawn(1)
 			for(var/mob/Player/p in Players)
 				if(p.Gm)
-					world << "Special teleport bookshelf found in [x],[y],[z] on [loc]. Please delete it."
+					Players << "Special teleport bookshelf found in [x],[y],[z] on [loc]. Please delete it."

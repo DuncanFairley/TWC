@@ -50,7 +50,7 @@ obj/drop_on_death
 			density = dense
 			usr:Resort_Stacking_Inv()
 			if(announceToWorld)
-				world<<"<b>[usr] drops \the [src].</b>"
+				Players<<"<b>[usr] drops \the [src].</b>"
 			else
 				hearers()<<"[usr] drops \the [src]."
 
@@ -64,7 +64,7 @@ obj/drop_on_death
 			if(locate(type) in M) return
 			if(slow) M.slow += slow
 			if(announceToWorld)
-				world << "<b>[M] takes \the [src].</b>"
+				Players << "<b>[M] takes \the [src].</b>"
 			else
 				hearers()<<"[M] takes \the [src]."
 			var/dense = density
@@ -718,7 +718,7 @@ world
 	name = "Harry Potter: The Wizards' Chronicles"
 	turf=/turf/blankturf
 	view="17x17"
-var/world/VERSION = "16.18"
+var/world/VERSION = "16.19"
 
 world/proc/playtimelogger()
 	return
@@ -1061,8 +1061,7 @@ mob/Player
 				src.draganddrop=1
 				src.admin=1
 			if("Rotem12")
-				src.verbs+=/mob/GM/verb/AutoClass_Schedule
-				src.verbs+=/mob/GM/verb/Add_AutoClass
+				src.verbs+=/mob/GM/verb/Give_Prize
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
@@ -1107,9 +1106,9 @@ mob/Player
 
 			loc.loc.Enter(src, src.loc)
 			loc.loc.Entered(src, src.loc)
-			src.ApplyOverlays()
+			src.ApplyOverlays(0)
 
-	proc/ApplyOverlays()
+	proc/ApplyOverlays(ignoreBonus = 1)
 		src.overlays = list()
 		if(Lwearing)
 			var/mob/Player/var/list/tmpwearing = Lwearing
@@ -1117,7 +1116,7 @@ mob/Player
 			for(var/obj/items/wearable/W in tmpwearing)
 				spawn()
 					var/b = W.bonus
-					W.bonus = 0
+					W.bonus = ignoreBonus ? 0 : b
 					W.Equip(src,1)
 					W.bonus = b
 		spawn()if(src.away)src.ApplyAFKOverlay()
@@ -1252,7 +1251,7 @@ mob/Player
 										for(var/turf/Hogwarts_Exit/T in world)
 											T.icon = 'Wall1.dmi'
 											T.density = 1
-										world<<"[usr] has closed Hogwarts"
+										Players<<"[usr] has closed Hogwarts"
 										for(var/turf/Hogwarts/T in world)
 											T.icon = 'Turf.dmi'
 											T.icon_state = "grille"
@@ -1578,7 +1577,7 @@ mob/Player
 				usr.away = 1
 				usr.here=usr.status
 				usr.status=" (AFK)"
-				world<<"~ <font color=red>[usr]</font> is <u>AFK</u> ~"
+				Players<<"~ <font color=red>[usr]</font> is <u>AFK</u> ~"
 				ApplyAFKOverlay()
 			else
 				usr.away = 0
@@ -1587,7 +1586,7 @@ mob/Player
 				usr.overlays-=image('AFK.dmi',icon_state="AFK3")
 				usr.overlays-=image('AFK.dmi',icon_state="AFK4")
 				usr.overlays-='AFK.dmi'
-				world<<"<font color=red>[usr]</font> is no longer AFK."
+				Players<<"<font color=red>[usr]</font> is no longer AFK."
 mob
 	proc/ApplyAFKOverlay()
 		src.overlays-=image('AFK.dmi',icon_state="AFK2")
@@ -1608,7 +1607,7 @@ mob/Player
 		if(statpanel("Stats"))
 			stat("Name:",src.name)
 			stat("Year:",src.Year)
-			stat("Gold:",src.gold)
+			stat("Gold:",comma(src.gold))
 			stat("Level:",src.level)
 			stat("HP:","[src.HP]/[src.MHP+src.extraMHP]")
 			stat("MP:","[src.MP]/[src.MMP+src.extraMMP] ([src.extraMMP/10])")
@@ -1616,7 +1615,7 @@ mob/Player
 				stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
 				stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
 			stat("House:",src.House)
-			stat("EXP:","[src.Exp]/[src.Mexp]")
+			stat("EXP:","[comma(src.Exp)]/[comma(src.Mexp)]")
 			stat("Stat points:",src.StatPoints)
 			stat("Spell points:",src.spellpoints)
 			if(learning)
@@ -1636,6 +1635,10 @@ mob/Player
 				stat("---Clan points---")
 				stat("-Deatheaters-",housepointsGSRH[6])
 			stat("","")
+			if(currentEvents)
+				stat("Current Events:","")
+				for(var/key in currentEvents)
+					stat("", key)
 			if(currentArena)
 				if(currentArena.roundtype == HOUSE_WARS)
 					stat("Arena:")
@@ -1651,6 +1654,7 @@ mob/Player
 					stat("Arena: (Players Alive)")
 					for(var/mob/M in currentArena.players)
 						stat("-",M.name)
+
 		if(statpanel("Items"))
 			for(var/obj/stackobj/S in contents)
 				stat("Click to expand stacked items.")
@@ -2107,7 +2111,7 @@ mob/proc/Death_Check(mob/killer = src)
 mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
 	if(mute==0)
 		mute=1
-		world << "\red <b>[src] has been silenced.</b>"
+		Players << "\red <b>[src] has been silenced.</b>"
 
 		if(reason)
 			src << "<b>You've been muted because you [reason].</b>"
@@ -2998,18 +3002,18 @@ turf
 		density=1
 
 proc/ServerAD()
-	world<<"<b><Font color=silver>Server:</b> <font size=1><font color=silver>Thanks for playing The Wizards' Chronicles. Forums: http://www.wizardschronicles.com"
+	Players<<"<b><Font color=silver>Server:</b> <font size=1><font color=silver>Thanks for playing The Wizards' Chronicles. Forums: http://www.wizardschronicles.com"
 	sleep(3000)
 	ServerAD()
 
 proc/SugAD()
-	world<<"<b><Font color=silver>Server:</b> <font size=1><font color=green>TWC is currently looking for loads more content to add! Got a suggestion? Post it on the suggestions board at http://www.wizardschronicles.com <br>The only bad suggestion is the one not shared!"
+	Players<<"<b><Font color=silver>Server:</b> <font size=1><font color=green>TWC is currently looking for loads more content to add! Got a suggestion? Post it on the suggestions board at http://www.wizardschronicles.com <br>The only bad suggestion is the one not shared!"
 	sleep(9000)
 	SugAD()
 
 
 proc/ServerRW()
-	world<<"<b><Font color=silver>Server:</b> <font size=1><font color=red> The server is currently in Developer Mode. This means that the game is currently being coded and updated - Reboots may be frequent."
+	Players<<"<b><Font color=silver>Server:</b> <font size=1><font color=red> The server is currently in Developer Mode. This means that the game is currently being coded and updated - Reboots may be frequent."
 	sleep(3000)
 	ServerRW()
 
