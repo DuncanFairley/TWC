@@ -3572,7 +3572,7 @@ obj/items/wearable/wands/practice_wand
 			p.verbs   += spell.path
 			p.learning = spell
 
-			if(!overridetext) p << infomsg("Use [spell.name] [spell.uses] to learn it!")
+			if(!overridetext) p << infomsg("Use [spell.name] [spell.uses] time[spell.uses > 1 ? "s" : ""] to learn it!")
 
 		else if(. == REMOVED || forceremove)
 			p.verbs   -= spell.path

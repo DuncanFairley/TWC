@@ -68,7 +68,7 @@ RandomEvent
 				..()
 
 				for(var/i = 5; i > 0; i--)
-					Players << announcemsg("[c.subject] Class is starting in [i] minutes for [c.name]. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+					Players << announcemsg("[c.subject] Class is starting in [i] minute[i > 1 ? "s" : ""] for [c.name]. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 					sleep(600)
 
 
@@ -180,7 +180,7 @@ RandomEvent
 			Players << errormsg("<b>Warning:</b> Hogwarts magical defenses are being suppressed by a dark evil magic, Entrance Hall will become a kill zone in 5 minutes for [minutes] minutes!<br>Move to another area (The library, common room, second floor etc) if you wish to remain safe.")
 			sleep(600)
 			for(var/i = 4 to 1 step -1)
-				Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in [i] minutes!")
+				Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in [i] minute[i > 1 ? "s" : ""]!")
 				sleep(600)
 			Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 10 seconds!") // extra 10 seconds to ensure afk sign toggles on
 			sleep(100)
