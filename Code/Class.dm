@@ -35,7 +35,7 @@ obj/teacher
 				return
 
 			if(classInfo.spelltype in p.verbs)
-				p << errormsg("You already know this spell.")
+				p << errormsg("You already know [classInfo.name].")
 				return
 
 			if(locate(/obj/items/wearable/wands/practice_wand) in p)
@@ -78,7 +78,7 @@ class
 		hearers(12, professor) << "<font color=#2bcfce>\[[subject] Professor] <b>[professor.name]</b> : </font>[msg]"
 
 	proc/start()
-		spawn(150)	professor.canTeach = TRUE
+		spawn(300)	professor.canTeach = TRUE
 		say("Welcome students to [subject] class. Today you will be learning about the spell [name].")
 		sleep(30)
 		say("When I'm done explaining the spell, please come to me and take a practice wand, use that wand to practice the spell until you've learned it. Of course if you already have a practice wand of another spell, you will not be able to get another.")
@@ -316,10 +316,12 @@ class
 				say("This handy spell can make someone stop following you and have someone fall off a broom too.")
 		Arcesso
 			wand = TRUE
+			mp = 800
 			start()
+				..()
 				say("You can summon a student with this spell. It requires two students to work though and they both must have this spell.")
-				sleep(50)
-				say("This spell has two MP usages. One per person who uses it. The first person to use the spell takes a 400 MP cost, and the other takes an 800 MP cost.")
+				sleep(30)
+				say("The second person who joins the summoning need at least 400 MP.")
 		Riddikulus
 			wand = TRUE
 			start()

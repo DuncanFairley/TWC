@@ -44,9 +44,9 @@ Event
 		fire()
 			..()
 			spawn()
+				scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
 				var/RandomEvent/Class/auto_class = locate() in events
 				auto_class.start()
-			scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
 
 
 	ClanWars
@@ -303,6 +303,42 @@ StatusEffect
 				rate = 3
 			Quadaple
 				rate = 4
+
+		Damage
+			Activate()
+				..()
+				var/mob/Player/p = AttachedAtom
+				p.clothDmg += 30
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				p.clothDmg -= 30
+				..()
+
+		Defense
+			Activate()
+				..()
+				var/mob/Player/p = AttachedAtom
+				p.clothDef += 90
+				p.resetMaxHP()
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				p.clothDef -= 90
+				p.resetMaxHP()
+				..()
+
+		Power
+			Activate()
+				..()
+				var/mob/Player/p = AttachedAtom
+				p.clothDmg += 40
+				p.clothDef += 120
+				p.resetMaxHP()
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				p.clothDmg -= 40
+				p.clothDef -= 120
+				p.resetMaxHP()
+				..()
 
 		Activate()
 			var/found = FALSE

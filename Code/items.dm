@@ -53,7 +53,7 @@ obj/items/verb/Examine()
 	set src in view(3)
 	usr << infomsg("<i>[desc]</i>")
 obj/items/proc/Destroy(var/mob/Player/owner)
-	if(alert(owner,"Are you sure you wish to destroy your [src]",,"Yes","Cancel") == "Yes")
+	if(alert(owner,"Are you sure you wish to destroy your [src.name]?",,"Yes","Cancel") == "Yes")
 		var/obj/item = src
 		src = null
 		del(item)
@@ -1682,9 +1682,8 @@ mob/GM/verb/Arena()
 			currentArena.started = 1
 mob/NPC/var/walkingBack = 0
 
-client/Del()
-	if(mob)
-		Players -= mob
+mob/Del()
+	Players -= src
 	..()
 
 mob/Player/Logout()
@@ -2949,6 +2948,19 @@ obj/items/lamps
 		effect  = /StatusEffect/Lamps/Gold/Quadaple
 		seconds = 1800
 
+	damage_lamp
+		desc    = "Increases your damage."
+		effect  = /StatusEffect/Lamps/Damage
+		seconds = 600
+	defense_lamp
+		desc    = "Increases your defense."
+		effect  = /StatusEffect/Lamps/Defense
+		seconds = 600
+	power_lamp
+		desc    = "Increases your overall power."
+		effect  = /StatusEffect/Lamps/Power
+		seconds = 300
+
 	farmer_lamp
 		desc    = "Removes damage, gold and exp level reductions allowing you to farm gold and exp from lower level monsters."
 		effect  = /StatusEffect/Lamps/Farming
@@ -3241,11 +3253,11 @@ obj/items/crystal
 		else
 			..()
 	damage
-		name  = "damage crystal"
+		name  = "red crystal"
 		icon_state = "damage"
 		bonus = 1
 	defense
-		name  = "defense crystal"
+		name  = "green crystal"
 		icon_state = "defense"
 		bonus = 2
 	magic
@@ -3267,39 +3279,92 @@ obj/items/crystal
 		luck = 5
 		ignoreItem = TRUE
 
-obj/items/weather
+obj/items/magic_stone
 	var/tmp/inUse = FALSE
 	var/effect
 
 	icon = 'trophies.dmi'
 
-	acid
-		name = "acid stone"
-		effect = "acid"
-		icon_state = "Emerald"
+	weather
+		acid
+			name = "acid stone"
+			effect = "acid"
+			icon_state = "Emerald"
 
-	snow
-		name = "snow stone"
-		effect = "snow"
-		icon_state = "Sapphire2"
+			effect()
+				weather.acid()
 
-	rain
-		name = "rain stone"
-		effect = "rain"
-		icon_state = "Sapphire"
+		snow
+			name = "snow stone"
+			effect = "snow"
+			icon_state = "Sapphire2"
 
-	sun
-		name = "sun stone"
-		effect = "sun"
-		icon_state = "Topaz"
+			effect()
+				weather.snow()
+
+		rain
+			name = "rain stone"
+			effect = "rain"
+			icon_state = "Sapphire"
+
+			effect()
+				weather.rain()
+
+		sun
+			name = "sun stone"
+			effect = "sun"
+			icon_state = "Topaz"
+
+			effect()
+				weather.clear()
+
+	summoning
+		circle(mob/Player/P)
+			if(currentEvents)
+				P << errormsg("You can't use this while an event is running.")
+				return
+			..(P)
+
+		random
+			name = "lucky coin"
+			icon_state = "Coin"
+			effect()
+				var/random_type = pick(/RandomEvent/TheEvilSnowman, /RandomEvent/WillytheWhisp, /RandomEvent/Invasion)
+				var/RandomEvent/event = locate(random_type) in events
+				spawn() event.start()
+
+		snowman
+			name = "snowy coin"
+			icon_state = "Coin"
+			effect()
+				var/RandomEvent/TheEvilSnowman/event = locate() in events
+				spawn() event.start()
+		willy
+			name = "mysterious coin"
+			icon_state = "Coin"
+			effect()
+				var/RandomEvent/WillytheWhisp/event = locate() in events
+				spawn() event.start()
+
+		monsters
+			name = "stinky coin"
+			icon_state = "Coin"
+			effect()
+				var/RandomEvent/Invasion/event = locate() in events
+				spawn() event.start()
 
 	Click()
 		if(src in usr)
-			effect(usr, effect)
+			circle(usr)
 		else
 			..()
 
-	proc/effect(mob/Player/p, weather_effect)
+	proc/effect()
+	proc/circle(mob/Player/p)
+
+		if(!canUse(p,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=3000))
+			return
+		p.MP -= 3000
 
 		if(!(p.loc && (istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))))
 			p << errormsg("You can only use this outside.")
@@ -3309,7 +3374,7 @@ obj/items/weather
 		inUse = TRUE
 
 		var/obj/o = new(usr.loc)
-		o.name = "weather"
+		o.name = "magic circle"
 		o.icon='Circle_magic.dmi'
 		o.pixel_x = -65
 		o.pixel_y = -64
@@ -3320,7 +3385,7 @@ obj/items/weather
 
 		hearers(p) << infomsg("[p.name] holds their [name] up in the air")
 
-		var/obj/items/weather/source = src
+		var/obj/items/magic_stone/source = src
 		src=null
 		spawn()
 			var/tmploc = p.loc
@@ -3331,21 +3396,12 @@ obj/items/weather
 				sleep(10)
 			if(p && source)
 				if(p.loc == tmploc)
-					switch(weather_effect)
-						if("acid")
-							weather.acid()
-						if("snow")
-							weather.snow()
-						if("rain")
-							weather.rain()
-						if("sun")
-							weather.clear()
-
+					source.effect()
 					source.loc = null
 					p.Resort_Stacking_Inv()
 				else
 					source.inUse = FALSE
-					p << errormsg("Your attempt at changing the weather failed.")
+					p << errormsg("The ritual failed.")
 			o.loc = null
 
 obj
@@ -3426,9 +3482,26 @@ obj
 					chance -= 60
 					prize = pick(/obj/items/wearable/title/Bookworm, /obj/items/wearable/title/Lumberjack)
 
-				else if(istype(i3, /obj/items/crystal/soul))
-					chance -= 40
-					prize = pick(/obj/items/weather/sun, /obj/items/weather/rain, /obj/items/weather/acid, /obj/items/weather/snow)
+				else if(istype(i3, /obj/items/crystal) && applyBonus == 3)
+
+					if(istype(i3, /obj/items/crystal/soul))
+						chance -= 40
+						prize = pick(/obj/items/weather/sun, /obj/items/weather/rain, /obj/items/weather/acid, /obj/items/weather/snow)
+					else if(istype(i3, /obj/items/crystal/damage))
+						chance -= 50
+						prize = /obj/items/lamps/damage_lamp
+					else if(istype(i3, /obj/items/crystal/defense))
+						chance -= 50
+						prize = /obj/items/lamps/defense_lamp
+					else if(istype(i3, /obj/items/crystal/luck))
+						chance -= 40
+						prize = pick(/obj/items/lamps/double_gold_lamp, /obj/items/lamps/double_exp_lamp, /obj/items/lamps/double_drop_rate_lamp, /obj/items/crystal/strong_luck)
+					else if(istype(i3, /obj/items/crystal/strong_luck))
+						chance -= 50
+						prize = pick(/obj/items/lamps/triple_gold_lamp, /obj/items/lamps/triple_exp_lamp, /obj/items/lamps/triple_drop_rate_lamp)
+					else if(istype(i3, /obj/items/crystal/magic))
+						chance -= 70
+						prize = ignoreItem ? /obj/items/magic_stone/summoning/random : /obj/items/lamps/power_lamp
 
 				else if(istype(i3, /obj/items/wearable/))
 
@@ -3490,6 +3563,7 @@ obj/items/wearable/wands/practice_wand
 	icon = 'oak_wand.dmi'
 	var/learnSpell/spell
 	dropable = 0
+	destroyable = 1
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner, overridetext, forceremove)
@@ -3498,7 +3572,7 @@ obj/items/wearable/wands/practice_wand
 			p.verbs   += spell.path
 			p.learning = spell
 
-			if(!overridetext) p << infomsg("Use [spell.name] [spell.uses] to learn it!")
+			if(!overridetext) p << infomsg("Use [spell.name] [spell.uses] time[spell.uses > 1 ? "s" : ""] to learn it!")
 
 		else if(. == REMOVED || forceremove)
 			p.verbs   -= spell.path

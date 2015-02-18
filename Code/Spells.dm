@@ -226,6 +226,7 @@ mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
 mob/Spells/verb/Depulso()
 	set category="Spells"
 	var/mob/M
+	var/found = FALSE
 	for(M in get_step(usr,usr.dir))
 		if(!M.key && !istype(M,/mob/Victims)) return
 		var/turf/t = get_step_away(M,usr,15)
@@ -237,13 +238,14 @@ mob/Spells/verb/Depulso()
 			hearers()<<"<b><font color=red>[usr]:</font></b> Depulso!"
 
 		if(isplayer(M))
+			found = TRUE
 			M<<"You were pushed backwards by [usr]'s Depulso Charm."
 			if(M.flying)
 				for(var/obj/items/wearable/brooms/B in M:Lwearing)
 					B.Equip(M,1)
 					hearers()<<"[usr]'s Depulso knocked [M] off \his broom!"
 					new /StatusEffect/Knockedfrombroom(M,15)
-	if(M)
+	if(found)
 		usr:learnSpell("Depulso")
 
 mob/Spells/verb/Deletrius()
@@ -360,19 +362,14 @@ mob/Spells/verb/Repellium()
 			sleep(4)
 
 proc/light(atom/a, range=3, ticks=100, state = "light")
-	var/obj/light = new
 	var/image/img = image('lights.dmi',state)
+	img.transform *= range * 2 + 1
 	img.layer = 8
-	for(var/px = -range to range)
-		for(var/py = -range to range)
-			img.pixel_x = px * 32
-			img.pixel_y = py * 32
-			light.overlays += img
 
-	a.overlays += light
+	a.underlays += img
 	if(ticks != 0)
 		spawn(ticks)
-			if(a) a.overlays -= light
+			if(a) a.underlays -= img
 
 
 mob/Spells/verb/Basilio()
@@ -2214,7 +2211,7 @@ client
 
 		if(moving && move_queue)
 			if(!movements) movements = list()
-			else if(movements.len < 5)
+			if(movements.len < 10)
 				movements += dir
 			return
 
@@ -2239,7 +2236,7 @@ client
 			loc = get_step(mob, dir)
 
 		..()
-		sleep(0)
+		sleep(1)
 		moving = 0
 
 obj/var

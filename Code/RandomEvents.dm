@@ -17,21 +17,35 @@ obj/spawner
 		..()
 		spawners += src
 
-var/list/currentEvents = new
+var/list/currentEvents
 
 RandomEvent
 	var/chance = 10
 	var/name
+	var/beepType = 1
 
-	proc/start()
-		currentEvents.Add(new type)
-		for(var/mob/Player/p in Players)
-			p.beep(1)
+	proc
+		start()
+			if(!currentEvents) currentEvents = list()
+
+			if(name in currentEvents)
+				currentEvents[name]++
+			else
+				currentEvents[name] = 1
+
+			for(var/mob/Player/p in Players)
+				p.beep(beepType)
+		end()
+			currentEvents[name]--
+			if(currentEvents[name] <= 0)
+				currentEvents -= name
+
+			if(currentEvents.len == 0) currentEvents = null
 
 	Class
 		name = "Class"
+		beepType = 2
 		start()
-			currentEvents.Add(new type)
 			var/spell = pick(spellList ^ list(/mob/Spells/verb/Self_To_Dragon, /mob/Spells/verb/Self_To_Human, /mob/Spells/verb/Episky, /mob/Spells/verb/Inflamari))
 
 			var/class/c
@@ -51,21 +65,20 @@ RandomEvent
 				t.classInfo = c
 				c.professor = t
 
-				for(var/mob/Player/p in Players)
-					p.beep(2)
+				..()
 
 				for(var/i = 5; i > 0; i--)
-					Players << announcemsg("[c.subject] Class is starting in [i] minutes. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+					Players << announcemsg("[c.subject] Class is starting in [i] minute[i > 1 ? "s" : ""] for [c.name]. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
 					sleep(600)
 
 
 				c.start()
 				sleep(600 * 30)
+				Players << announcemsg("[c.subject] Class ended.")
 				t.loc = null
 				t.classInfo = null
 				c.professor = null
 				classdest = null
-				currentEvents.Remove(locate(type) in currentEvents)
 
 				for(var/mob/M in Players)
 					if(M.classpathfinding)
@@ -73,9 +86,10 @@ RandomEvent
 							if(C.icon == 'arrows.dmi')
 								M.client.images.Remove(C)
 						M.classpathfinding = 0
-
+				end()
 			else
 				world.log << "TWC Error: [spell] not found in class type list (Class.dmi)"
+
 
 	TheEvilSnowman
 		name = "The Evil Snowman"
@@ -114,7 +128,7 @@ RandomEvent
 			m = null
 
 			if(message) Players << infomsg("The evil snowman and his minions have magically vanished by the powers of the ministry.")
-			currentEvents.Remove(locate(type) in currentEvents)
+			end()
 
 	WillytheWhisp
 		name = "Willy the Whisp"
@@ -122,7 +136,7 @@ RandomEvent
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
-			Players << infomsg("Willy the Whisp and his army are haunting right outside Hogwarts, defend yourselves until ghostbus---- reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
+			Players << infomsg("Willy the Whisp and his army are haunting right outside Hogwarts, defend yourselves until ghostbus---- reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill Willy the Whisp before then you might be able to get a nice prize!")
 
 			var/obj/spawner/spawn_loc = pick(spawners)
 			var/mob/NPC/Enemies/Summoned/Boss/monster = new /mob/NPC/Enemies/Summoned/Boss/Wisp(spawn_loc.loc)
@@ -155,7 +169,7 @@ RandomEvent
 			m = null
 
 			if(message) Players << infomsg("Willy the Whisp and his minions have magically vanished by the powers of the ministry.")
-			currentEvents.Remove(locate(type) in currentEvents)
+			end()
 
 	EntranceKillZone
 		name = "Entrance Kill Zone"
@@ -164,14 +178,9 @@ RandomEvent
 			var/minutes = rand(10,30)
 			Players << errormsg("<b>Warning:</b> Hogwarts magical defenses are being suppressed by a dark evil magic, Entrance Hall will become a kill zone in 5 minutes for [minutes] minutes!<br>Move to another area (The library, common room, second floor etc) if you wish to remain safe.")
 			sleep(600)
-			Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 4 minutes!")
-			sleep(600)
-			Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 3 minutes!")
-			sleep(600)
-			Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 2 minutes!")
-			sleep(600)
-			Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 1 minute!")
-			sleep(600)
+			for(var/i = 4 to 1 step -1)
+				Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in [i] minute[i > 1 ? "s" : ""]!")
+				sleep(600)
 			Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone in 10 seconds!") // extra 10 seconds to ensure afk sign toggles on
 			sleep(100)
 			Players << infomsg("Entrance Hall is now a kill zone for [minutes] minutes, defend yourselves from dark wizards who can now enter or other students who feel like murdering you!")
@@ -183,9 +192,10 @@ RandomEvent
 
 			entrance.safezoneoverride = 1
 			sleep(minutes * 600)
+
 			entrance.safezoneoverride = 0
 			Players << infomsg("Hogwarts magical defenses are restored, Entrance Hall is safe again.")
-			currentEvents.Remove(locate(type) in currentEvents)
+			end()
 
 	OldSystem
 		name = "Old Dueling System"
@@ -199,8 +209,9 @@ RandomEvent
 				spawn(minutes * 600) A.oldsystem = 0
 
 			sleep(minutes * 600)
+
 			Players << infomsg("Old dueling system event is over.")
-			currentEvents.Remove(locate(type) in currentEvents)
+			end()
 
 	Snitches
 		name = "Catch Snitches"
@@ -216,7 +227,6 @@ RandomEvent
 				s += new/obj/quidditch/snitch { prize = 1 } (spawn_loc.loc)
 
 			sleep(minutes * 600)
-
 			var/message = 0
 			for(var/obj/quidditch/snitch/sn in s)
 				if(sn && sn.loc) message = 1
@@ -224,7 +234,7 @@ RandomEvent
 				del sn
 			s = null
 			if(message) Players << infomsg("The snitches have vanished.")
-			currentEvents.Remove(locate(type) in currentEvents)
+			end()
 
 	DropRate
 		name = "Drop Rate Bonus"
@@ -238,10 +248,10 @@ RandomEvent
 			Players << infomsg("You feel a strange magic surrounding you, increasing your drop rate by [bonus]% for [minutes] minutes (This stacks on top of any other bonuses).")
 
 			spawn(minutes * 600)
+				end()
 				if(DropRateModifier == tmpDropRate)
 					Players << infomsg("The drop rate bonus event is over.")
 					DropRateModifier -= bonus / 100
-				currentEvents.Remove(locate(type) in currentEvents)
 
 	Sale
 		name = "Crazy Sale"
@@ -255,10 +265,10 @@ RandomEvent
 			Players << infomsg("There's a crazy sale going on! You should check out Marvelous Magical Mystery or wig shops, they have a [sale]% discount for the next [minutes] minutes!")
 
 			spawn(minutes * 600)
+				end()
 				if(shopPriceModifier == tmpShopModifier)
 					Players << infomsg("The sale ended.")
 					shopPriceModifier += sale / 100
-				currentEvents.Remove(locate(type) in currentEvents)
 
 
 	Invasion
@@ -339,7 +349,7 @@ RandomEvent
 				m += monster
 
 			sleep(minutes * 600)
-
+			end()
 			var/message = 0
 			for(var/mob/NPC/Enemies/Summoned/monster in m)
 				if(monster.loc != null) message = 1
@@ -349,7 +359,6 @@ RandomEvent
 			m = null
 
 			if(message) Players << infomsg("The monsters have been driven away.")
-			currentEvents.Remove(locate(type) in currentEvents)
 
 mob/Player
 	var/playSounds = TRUE
