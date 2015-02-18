@@ -919,17 +919,21 @@ mob
 					..()
 					transform *= 2
 
-				drops = list("20"   = list(/obj/items/artifact,
-										  /obj/items/wearable/title/Petrified,
-										  /obj/items/crystal/soul,
-										  /obj/items/crystal/magic,
-						     			  /obj/items/crystal/strong_luck),
+				drops = list("15"   = list(/obj/items/artifact,
+										   /obj/items/wearable/title/Petrified,
+										   /obj/items/crystal/soul,
+										   /obj/items/crystal/magic,
+						     			   /obj/items/crystal/strong_luck),
+							 "20"   = list(/obj/items/artifact,
+										   /obj/items/crystal/damage,
+										   /obj/items/crystal/defense,
+						     			   /obj/items/crystal/luck),
 							 "40"   = list(/obj/items/DarknessPowder,
-								 		  /obj/items/Whoopie_Cushion,
-										  /obj/items/U_No_Poo,
-							 			  /obj/items/Smoke_Pellet,
-							 			  /obj/items/Tube_of_fun,
-							 			  /obj/items/Swamp))
+								 		   /obj/items/Whoopie_Cushion,
+										   /obj/items/U_No_Poo,
+							 			   /obj/items/Smoke_Pellet,
+							 			   /obj/items/Tube_of_fun,
+							 			   /obj/items/Swamp))
 
 				var/tmp/fired = 0
 
