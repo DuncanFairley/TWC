@@ -1060,8 +1060,8 @@ mob/Player
 				src.shortapparate=1
 				src.draganddrop=1
 				src.admin=1
-			if("Rotem12")
-				src.verbs+=/mob/GM/verb/Give_Prize
+			if("Juxnist")
+				src.verbs+=/mob/GM/verb/Edit_Rules
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")

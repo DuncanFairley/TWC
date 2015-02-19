@@ -1360,6 +1360,16 @@ turf//client
 				flick('apparate.dmi',usr)
 ///////////////////////////////////////////////////////////////////
 
+mob/GM
+	verb
+		Edit_Rules()
+			set category = "Staff"
+			var/input = input("Rules - Back up the contents prior to editing. Thanks.","TWC Rules",file2text(rules)) as null|message
+			if(!input) return
+			fdel("rules.html")
+			file("rules.html") << "[input]"
+			src << "Rules posted. Thanks."
+
 
 ////////// GM Freezing \\\\\\\\\\\\\\\\
 
