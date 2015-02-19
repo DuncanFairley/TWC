@@ -959,12 +959,9 @@ mob
 							var/mob/M = target
 							M.movable    = 1
 							M.icon_state = "stone"
-							M.overlays = null
 							spawn(rand(10,30))
 								if(M && M.movable)
 									M.movable    = 0
-									M.icon_state = ""
-									M:ApplyOverlays()
 
 				Death(mob/Player/killer)
 					..(killer)
