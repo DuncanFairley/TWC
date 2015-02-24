@@ -370,8 +370,8 @@ proc/Log_admin(adminaction)
 	file("Logs/Adminlog.html")<<"[time2text(world.realtime,"MMM DD - hh:mm")]: [adminaction]<br />"
 proc/Log_gold(gold,var/mob/Player/from,var/mob/Player/too)
 	if(from.client.address == too.client.address)
-		goldlog<<"<b>[time2text(world.realtime,"MMM DD - hh:mm")]: [from]([from.key])([from.client.address]) gave [gold] gold to [too]([too.key])([too.client.address])</b><br />"
-	else if(gold>1000)goldlog<<"[time2text(world.realtime,"MMM DD - hh:mm")]: [from]([from.key])([from.client.address]) gave [gold] gold to [too]([too.key])([too.client.address])<br />"
+		goldlog<<"<b>[time2text(world.realtime,"MMM DD - hh:mm")]: [from]([from.key])([from.client.address]) gave [comma(gold)] gold to [too]([too.key])([too.client.address])</b><br />"
+	else if(gold>1000)goldlog<<"[time2text(world.realtime,"MMM DD - hh:mm")]: [from]([from.key])([from.client.address]) gave [comma(gold)] gold to [too]([too.key])([too.client.address])<br />"
 mob/GM/verb
 	Check_EXP(mob/M in Players)
 		set category = "Staff"
@@ -1426,7 +1426,7 @@ mob/GM
 				if(gold_prize)
 					p.gold += gold_prize
 					hearers() << infomsg("<i>[name] gives [p] [comma(gold_prize)] gold.</i>")
-					goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [name]([key])([client.address]) gave [gold_prize] <b>prize</b> gold to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
+					goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [name]([key])([client.address]) gave [comma(gold_prize)] <b>prize</b> gold to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 
 
 		RemoveItem(var/s in shops)
