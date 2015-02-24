@@ -187,8 +187,10 @@ mob/Click()
 		usr<<"Right click to bring up the menu."
 	else
 		..()
+
 mob/Headmasters_Office
 	invisibility=2
+
 obj/Magic_Sphere
 	icon='misc.dmi'
 	icon_state="black"
@@ -404,6 +406,8 @@ var/list/wholist = list("Gryffindor" = new/obj/wholist/Gryffindor,
 						"Empty" = new/obj/wholist/Empty)
 
 obj/items/quidditchbox
+	name = "Quidditch Ball Box"
+	icon = 'ballbox.dmi'
 	verb
 		Withdraw_Quaffle()
 			set category = "Quidditch"
@@ -419,26 +423,16 @@ obj/items/quidditchbox
 			new/obj/quidditch/snitch(usr.loc)
 
 	GryffBox
-		name="Quidditch Ball Box"
-		icon='ballbox.dmi'
 		icon_state="gryff"
 
 	SlythBox
-		name="Quidditch Ball Box"
-		icon='ballbox.dmi'
 		icon_state="slyth"
 
 	HuffleBox
-		name="Quidditch Ball Box"
-		icon='ballbox.dmi'
 		icon_state="huffle"
 
 	RavenBox
-		name="Quidditch Ball Box"
-		icon='ballbox.dmi'
 		icon_state="raven"
 
 	GameBox
-		name="Quidditch Ball Box"
-		icon='ballbox.dmi'
 		icon_state="game"
