@@ -2192,7 +2192,7 @@ obj/Banker
 								return
 					if("Deposit")
 						set src in oview(2)
-						var/heh = input("You have [usr.gold] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
+						var/heh = input("You have [comma(usr.gold)] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
 						if(heh==null)return
 						if (heh < 0)
 							alert("Don't try cheating me!","Bank Keeper")
@@ -2201,15 +2201,15 @@ obj/Banker
 							alert("You don't have that much!", "Deposit")
 							return()
 						if(get_dist(usr,src)>4)return
-						usr << "You deposit [heh] gold."
+						usr << "You deposit [comma(heh)] gold."
 						usr.gold -= heh
 						usr.goldinbank += heh
-						usr << "You now have [usr.goldinbank] gold in the bank."
+						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
 						return()
 
 					if("Withdraw")
 						set src in oview(2)
-						var/heh = input("You have [usr.goldinbank] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
+						var/heh = input("You have [comma(usr.goldinbank)] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
 						if(heh==null)return
 						if (heh < 0)
 							alert("Don't try cheating me!","Bank Keeper")
@@ -2218,21 +2218,21 @@ obj/Banker
 							alert("You don't have that much in your bank account!", "Bank Keeper")
 							return()
 						if(get_dist(usr,src)>4)return
-						usr << "You withdraw [heh] gold."
+						usr << "You withdraw [comma(heh)] gold."
 						usr.gold += heh
 						usr.goldinbank -= heh
-						usr << "You now have [usr.goldinbank] gold in the bank."
+						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
 						return()
 
 					if("Balance")
 						set src in oview(2)
-						usr << "You have [usr.goldinbank] gold in the bank."
+						usr << "You have [comma(usr.goldinbank)] gold in the bank."
 
 			else
 				switch(input("How may I help you?","Banker")in list("Deposit","Withdraw","Balance"))
 					if("Deposit")
 						set src in oview(2)
-						var/heh = input("You have [usr.gold] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
+						var/heh = input("You have [comma(usr.gold)] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
 						if(heh==null)return
 						if (heh < 0)
 							alert("Don't try cheating me!","Bank Keeper")
@@ -2241,15 +2241,15 @@ obj/Banker
 							alert("You don't have that much!", "Deposit")
 							return()
 						if(get_dist(usr,src)>4)return
-						usr << "You deposit [heh] gold."
+						usr << "You deposit [comma(heh)] gold."
 						usr.gold -= heh
 						usr.goldinbank += heh
-						usr << "You now have [usr.goldinbank] gold in the bank."
+						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
 						return()
 
 					if("Withdraw")
 						set src in oview(2)
-						var/heh = input("You have [usr.goldinbank] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
+						var/heh = input("You have [comma(usr.goldinbank)] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
 						if(heh==null)return
 						if (heh < 0)
 							alert("Don't try cheating me!","Bank Keeper")
@@ -2258,15 +2258,15 @@ obj/Banker
 							alert("You don't have that much in your bank account!", "Bank Keeper")
 							return()
 						if(get_dist(usr,src)>4)return
-						usr << "You withdraw [heh] gold."
+						usr << "You withdraw [comma(heh)] gold."
 						usr.gold += heh
 						usr.goldinbank -= heh
-						usr << "You now have [usr.goldinbank] gold in the bank."
+						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
 						return()
 
 					if("Balance")
 						set src in oview(2)
-						usr << "You have [usr.goldinbank] gold in the bank."
+						usr << "You have [comma(usr.goldinbank)] gold in the bank."
 
 
 obj
