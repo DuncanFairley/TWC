@@ -46,7 +46,7 @@ clan_wars
 							t.icon_state += " - halloween"
 
 				for(var/turf/nofirezone/t in world)
-					if(t.z >= 21 && t.z <= 23 && findtext(t.icon_state, "wood"))
+					if(t.z >= 21 && t.z <= 23 && findtext(t.icon_state, "wood1"))
 
 						if(!findtext(t.icon_state, " - halloween"))
 							t.icon_state += " - halloween"
@@ -62,7 +62,7 @@ clan_wars
 							t.icon_state = copytext(t.icon_state, 1, pos)
 
 				for(var/turf/nofirezone/t in world)
-					if(t.z >= 21 && t.z <= 23 && findtext(t.icon_state, "wood"))
+					if(t.z >= 21 && t.z <= 23 && findtext(t.icon_state, "wood1"))
 						var/pos = findtext(t.icon_state, " - halloween")
 						if(pos)
 							t.icon_state = copytext(t.icon_state, 1, pos)
@@ -76,7 +76,7 @@ clan_wars
 						if(pos)
 							t.icon_state = copytext(t.icon_state, 1, pos)
 				for(var/turf/nofirezone/t in world)
-					if(t.z >= 21 && t.z <= 23 && findtext(t.icon_state, "wood"))
+					if(t.z >= 21 && t.z <= 23 && findtext(t.icon_state, "wood1"))
 						var/pos = findtext(t.icon_state, " - halloween")
 						if(pos)
 							t.icon_state = copytext(t.icon_state, 1, pos)

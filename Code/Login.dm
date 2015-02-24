@@ -2655,47 +2655,18 @@ turf
 
 
 	woodenfloorblack
-		icon_state = "wood - halloween"
+		icon_state = "wood1 - halloween"
 		density = 0
 		New()
 			..()
-			var/randnum = rand(1,8)
-			spawn(1)
-				if(randnum==2)
-					src.icon_state="wood2 - halloween"
-				else if(randnum==3)
-					src.icon_state="wood3 - halloween"
-				else if(randnum==4)
-					src.icon_state="wood4 - halloween"
-				else if(randnum==5)
-					src.icon_state="wood5 - halloween"
-				else if(randnum==6)
-					src.icon_state="wood6 - halloween"
-				else if(randnum==7)
-					src.icon_state="wood7 - halloween"
-				else if(randnum==8)
-					src.icon_state="wood8 - halloween"
+			icon_state = "wood[rand(1,8)] - halloween"
+
 	woodenfloor
-		icon_state = "wood"
+		icon_state = "wood1"
 		density=0
 		New()
 			..()
-			var/randnum = rand(1,8)
-			spawn(1)
-				if(randnum==2)
-					src.icon_state="wood2"
-				else if(randnum==3)
-					src.icon_state="wood3"
-				else if(randnum==4)
-					src.icon_state="wood4"
-				else if(randnum==5)
-					src.icon_state="wood5"
-				else if(randnum==6)
-					src.icon_state="wood6"
-				else if(randnum==7)
-					src.icon_state="wood7"
-				else if(randnum==8)
-					src.icon_state="wood8"
+			icon_state = "wood[rand(1,8)]"
 
 
 	longtable1
