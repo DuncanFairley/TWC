@@ -638,58 +638,6 @@ turf
 			usr.loc = locate(80,26,1)
 			flick('mist.dmi',usr)
 			usr << "You step into the fireplace, and are wooshed away."
-
-
-
-turf
-	floo_slythern_class
-		icon = 'misc.dmi'
-		icon_state="blue fireplace"
-		name = "Fireplace"
-		Entered(atom/movable/A)
-			if(!ismob(A)) return
-			if(!A:key) return
-			switch(input("Which class would you like to go to?","Select a classroom")in list("Defense Against the Dark Arts","Charms","Care of Magical Creatures","Transfiguration","General Course of Magic","Cancel"))
-				if("Defense Against the Dark Arts")
-					usr.loc = locate(24,54,21)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-				if("Charms")
-					usr.loc = locate(70,11,21)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-				if("Care of Magical Creatures")
-					usr.loc = locate(52,48,21)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-				if("Transfiguration")
-					usr.loc = locate(12,83,22)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-				if("General Course of Magic")
-					usr.loc = locate(41,73,22)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-
-turf
-	floo_triwizard
-		icon = 'misc.dmi'
-		icon_state="blue fireplace"
-		name = "Fireplace"
-		Entered(atom/movable/A)
-			if(!ismob(A)) return
-			switch(input("Which class would you like to go to?","Select a classroom")in list("Defense Against the Dark Arts","Charms","Care of Magical Creatures","Transfiguration","General Course of Magic","Cancel"))
-				if("Underwater")
-					usr.loc = locate(8,8,9)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-				if("Sky")
-					usr.loc = locate(47,7,24)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-
-
-turf
 	floo_charms
 		icon = 'misc.dmi'
 		icon_state="fireplace"
@@ -698,18 +646,6 @@ turf
 			if(!ismob(A)) return
 			flick('mist.dmi',usr)
 			usr.loc = locate(70,10,21)
-			flick('mist.dmi',usr)
-			usr << "You step into the fireplace, and are wooshed away in a blaze of green fire."
-
-turf
-	floo_housewars
-		icon = 'misc.dmi'
-		icon_state="fireplace"
-		name = "Fireplace"
-		Entered(atom/movable/A)
-			if(!ismob(A)) return
-			flick('mist.dmi',usr)
-			usr.loc = locate(23,28,20)
 			flick('mist.dmi',usr)
 			usr << "You step into the fireplace, and are wooshed away in a blaze of green fire."
 
