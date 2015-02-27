@@ -137,6 +137,7 @@ swapmap
 	var/z2
 	var/tmp/locked	// don't move anyone to this map; it's saving or loading
 	var/tmp/mode	// save as text-mode
+	var/tmp/used    // can set this to define a used map that has no players
 	var/ischunk		// tells the load routine to load to the specified location
 
 	New(_id,x,y,z)
@@ -407,6 +408,7 @@ swapmap
 		          && T.z>=z1 && T.z<=z2)
 
 	proc/InUse()
+		if(used) return 1
 		for(var/turf/T in AllTurfs())
 			for(var/mob/M in T) if(M.key) return 1
 
