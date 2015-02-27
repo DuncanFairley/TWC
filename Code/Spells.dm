@@ -765,7 +765,7 @@ mob/Spells/verb/Petreficus_Totalus(var/mob/M in oview()&Players)
 		M.icon_state="stone"
 		M.overlays=null
 		hearers()<<"[usr]: <font color=blue>Petrificus Totalus!"
-		usr:learnSpell("Petreficus Totalus")
+		usr:learnSpell("Petrificus Totalus")
 		src = null
 		spawn(100)
 			if(usr && M)
