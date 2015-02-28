@@ -2692,14 +2692,14 @@ turf
 	layer=TURF_LAYER
 	icon='turf.dmi'
 	grass
-		//icon_state="grass1"
+		icon_state="grass1"
 		name = "grass"
 
-		icon_state="snow"
+		//icon_state="snow"
 		density=0
 
 		edges
-			icon=null// GrassEdge.dmi when not winter
+			icon='GrassEdge.dmi'
 			north
 				dir = NORTH
 			west
@@ -2781,13 +2781,13 @@ turf
 		isice = 1
 	water
 		icon='Water.dmi'
-		icon_state="ice"
-		name = "ice"
+		icon_state="water" //ice when in winter
+		name = "water" //ice when in winter
 		density=0
 		layer=4
 		var
 			tmp/obj/rain
-			isice = 1 // Edit to 1 for winter
+			isice = 0 // Edit to 1 for winter
 
 		New()
 			..()
@@ -2940,6 +2940,7 @@ turf
 		density=0
 	tree
 		icon='ragtree.dmi'
+		icon_state="summer" //winter in winter
 		density=1
 		opacity=0
 	snowtopright
