@@ -2256,7 +2256,7 @@ obj/Banker
 								return
 					if("Deposit")
 						set src in oview(2)
-						var/heh = input("You have [usr.gold] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
+						var/heh = input("You have [comma(usr.gold)] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
 						if(heh==null)return
 						if (heh < 0)
 							alert("Don't try cheating me!","Bank Keeper")
@@ -2265,15 +2265,15 @@ obj/Banker
 							alert("You don't have that much!", "Deposit")
 							return()
 						if(get_dist(usr,src)>4)return
-						usr << "You deposit [heh] gold."
+						usr << "You deposit [comma(heh)] gold."
 						usr.gold -= heh
 						usr.goldinbank += heh
-						usr << "You now have [usr.goldinbank] gold in the bank."
+						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
 						return()
 
 					if("Withdraw")
 						set src in oview(2)
-						var/heh = input("You have [usr.goldinbank] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
+						var/heh = input("You have [comma(usr.goldinbank)] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
 						if(heh==null)return
 						if (heh < 0)
 							alert("Don't try cheating me!","Bank Keeper")
@@ -2282,21 +2282,21 @@ obj/Banker
 							alert("You don't have that much in your bank account!", "Bank Keeper")
 							return()
 						if(get_dist(usr,src)>4)return
-						usr << "You withdraw [heh] gold."
+						usr << "You withdraw [comma(heh)] gold."
 						usr.gold += heh
 						usr.goldinbank -= heh
-						usr << "You now have [usr.goldinbank] gold in the bank."
+						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
 						return()
 
 					if("Balance")
 						set src in oview(2)
-						usr << "You have [usr.goldinbank] gold in the bank."
+						usr << "You have [comma(usr.goldinbank)] gold in the bank."
 
 			else
 				switch(input("How may I help you?","Banker")in list("Deposit","Withdraw","Balance"))
 					if("Deposit")
 						set src in oview(2)
-						var/heh = input("You have [usr.gold] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
+						var/heh = input("You have [comma(usr.gold)] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
 						if(heh==null)return
 						if (heh < 0)
 							alert("Don't try cheating me!","Bank Keeper")
@@ -2305,15 +2305,15 @@ obj/Banker
 							alert("You don't have that much!", "Deposit")
 							return()
 						if(get_dist(usr,src)>4)return
-						usr << "You deposit [heh] gold."
+						usr << "You deposit [comma(heh)] gold."
 						usr.gold -= heh
 						usr.goldinbank += heh
-						usr << "You now have [usr.goldinbank] gold in the bank."
+						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
 						return()
 
 					if("Withdraw")
 						set src in oview(2)
-						var/heh = input("You have [usr.goldinbank] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
+						var/heh = input("You have [comma(usr.goldinbank)] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
 						if(heh==null)return
 						if (heh < 0)
 							alert("Don't try cheating me!","Bank Keeper")
@@ -2322,15 +2322,15 @@ obj/Banker
 							alert("You don't have that much in your bank account!", "Bank Keeper")
 							return()
 						if(get_dist(usr,src)>4)return
-						usr << "You withdraw [heh] gold."
+						usr << "You withdraw [comma(heh)] gold."
 						usr.gold += heh
 						usr.goldinbank -= heh
-						usr << "You now have [usr.goldinbank] gold in the bank."
+						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
 						return()
 
 					if("Balance")
 						set src in oview(2)
-						usr << "You have [usr.goldinbank] gold in the bank."
+						usr << "You have [comma(usr.goldinbank)] gold in the bank."
 
 
 obj
@@ -2723,43 +2723,14 @@ turf
 		density = 0
 		New()
 			..()
-			var/randnum = rand(1,8)
-			spawn(1)
-				if(randnum==2)
-					src.icon_state="wood2 - halloween"
-				else if(randnum==3)
-					src.icon_state="wood3 - halloween"
-				else if(randnum==4)
-					src.icon_state="wood4 - halloween"
-				else if(randnum==5)
-					src.icon_state="wood5 - halloween"
-				else if(randnum==6)
-					src.icon_state="wood6 - halloween"
-				else if(randnum==7)
-					src.icon_state="wood7 - halloween"
-				else if(randnum==8)
-					src.icon_state="wood8 - halloween"
+			icon_state = "wood[rand(2,8)] - halloween"
+
 	woodenfloor
 		icon_state = "wood"
 		density=0
 		New()
 			..()
-			var/randnum = rand(1,8)
-			spawn(1)
-				if(randnum==2)
-					src.icon_state="wood2"
-				else if(randnum==3)
-					src.icon_state="wood3"
-				else if(randnum==4)
-					src.icon_state="wood4"
-				else if(randnum==5)
-					src.icon_state="wood5"
-				else if(randnum==6)
-					src.icon_state="wood6"
-				else if(randnum==7)
-					src.icon_state="wood7"
-				else if(randnum==8)
-					src.icon_state="wood8"
+			icon_state = "wood[rand(2,8)]"
 
 
 	longtable1
