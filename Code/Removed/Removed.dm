@@ -1343,3 +1343,290 @@ obj/Cauldron____
 	accioable=0
 	density=1
 	rubbleable=1
+obj
+	bell
+		icon = 'Turfs.dmi'
+		icon_state = "bell2"
+		dontsave=1
+		accioable=0
+		verb
+			Ring_Bell()
+				set src in oview(1)
+				hearers()<<"<i>DING!"
+				usr<<"Someone should be with you shortly."
+				for(var/mob/M in range())
+					if(M.name=="Shana the Receptionist")
+						sleep(30)
+						flick('dlo.dmi',M)
+
+						M.invisibility=0
+						hearers()<<"<b><font color=blue>Shana:</font> Hello, I'm Shana. The Hogwarts Receptionist. How May I help you?"
+						sleep(30)
+						usr<<"Use the Talk verb when near Shana to speak with her."
+mob
+	Marker2
+		name = "Marker2"
+		invisibility = 2
+		density = 0
+	Marker3
+		name = "Marker3"
+		invisibility = 2
+		density = 0
+obj/Copper
+	icon='items.dmi'
+	icon_state="copper"
+obj/Iron
+	icon='items.dmi'
+	icon_state="iron"
+obj/Steel
+	icon='items.dmi'
+	icon_state="steel"
+	dontsave=1
+obj/Titanium
+	icon='items.dmi'
+	icon_state="titanium"
+obj/Fountain____h
+	icon='statues.dmi'
+	icon_state="foun4"
+	density=1
+	accioable=0
+	wlable=0
+	dontsave=1
+obj/Security_Barrier_
+	icon='misc.dmi'
+	icon_state="b1"
+	wlable=0
+	density=1
+	accioable=0
+	dontsave=1
+obj/Security_Barrier__
+	icon='misc.dmi'
+	icon_state="b2"
+	density=1
+	wlable=0
+	layer = MOB_LAYER + 1
+	accioable=0
+	dontsave=1
+turf
+	floo_slythern_class
+		icon = 'misc.dmi'
+		icon_state="blue fireplace"
+		name = "Fireplace"
+		Entered(atom/movable/A)
+			if(!ismob(A)) return
+			if(!A:key) return
+			switch(input("Which class would you like to go to?","Select a classroom")in list("Defense Against the Dark Arts","Charms","Care of Magical Creatures","Transfiguration","General Course of Magic","Cancel"))
+				if("Defense Against the Dark Arts")
+					usr.loc = locate(24,54,21)
+					usr << "You step into the fireplace, and are wooshed away."
+					flick("m-blue", usr)
+				if("Charms")
+					usr.loc = locate(70,11,21)
+					usr << "You step into the fireplace, and are wooshed away."
+					flick("m-blue", usr)
+				if("Care of Magical Creatures")
+					usr.loc = locate(52,48,21)
+					usr << "You step into the fireplace, and are wooshed away."
+					flick("m-blue", usr)
+				if("Transfiguration")
+					usr.loc = locate(12,83,22)
+					usr << "You step into the fireplace, and are wooshed away."
+					flick("m-blue", usr)
+				if("General Course of Magic")
+					usr.loc = locate(41,73,22)
+					usr << "You step into the fireplace, and are wooshed away."
+					flick("m-blue", usr)
+turf
+	floo_housewars
+		icon = 'misc.dmi'
+		icon_state="fireplace"
+		name = "Fireplace"
+		Entered(atom/movable/A)
+			if(!ismob(A)) return
+			flick('mist.dmi',usr)
+			usr.loc = locate(23,28,20)
+			flick('mist.dmi',usr)
+			usr << "You step into the fireplace, and are wooshed away in a blaze of green fire."
+turf
+	floo_triwizard
+		icon = 'misc.dmi'
+		icon_state="blue fireplace"
+		name = "Fireplace"
+		Entered(atom/movable/A)
+			if(!ismob(A)) return
+			switch(input("Which class would you like to go to?","Select a classroom")in list("Defense Against the Dark Arts","Charms","Care of Magical Creatures","Transfiguration","General Course of Magic","Cancel"))
+				if("Underwater")
+					usr.loc = locate(8,8,9)
+					usr << "You step into the fireplace, and are wooshed away."
+					flick("m-blue", usr)
+				if("Sky")
+					usr.loc = locate(47,7,24)
+					usr << "You step into the fireplace, and are wooshed away."
+					flick("m-blue", usr)
+mob/Sir_Nicholas
+	icon = 'NPCs.dmi'
+	icon_state = "normal"
+	Immortal=1
+	density=0
+	NPC = 1
+	Gm = 1
+	New()//States that its calling a new something ^_^
+		wander()//Calls the following PROC, which makes the NPC move by itself
+	proc/wander()//Self-Explanatory
+		//I have no idea what it does, but its required
+		while(src)//As long as the src exists...
+			walk_rand(src,rand(5,30))//This will happen...
+			sleep(5)//And this tells it how long between each step it takes
+	Click()//This starts- wait... you know what this is... i hope ^^
+		if(!(src in view(usr.client.view)))return
+		hearers()<<"<b>Sir Nicholas:</b> G'day, [usr]. I trust your day is going well, eh mate?"
+		sleep(30)
+		hearers()<<"Sir Nicholas opens his head and closes it, before flying off."
+		icon_state="headless"
+		sleep(20)
+		icon_state="normal"
+mob/Bloody_Baron
+	icon = 'NPCs.dmi'
+	icon_state = "baron"
+	density=0
+	Immortal=1
+	NPC = 1
+	Gm = 1
+	New()//States that its calling a new something ^_^
+		wander()//Calls the following PROC, which makes the NPC move by itself
+	proc/wander()//Self-Explanatory
+		//I have no idea what it does, but its required
+		while(src)//As long as the src exists...
+			walk_rand(src,rand(5,30))//This will happen...
+			sleep(5)//And this tells it how long between each step it takes
+	Click()//This starts- wait... you know what this is... i hope ^^
+		if(!(src in view(usr.client.view)))return
+		hearers()<<"<b>The Bloody Baron:</b> *Moan* Ahhhhhhhhhh......ooooooohhh. Leave me alone, [usr]."
+mob/Moaning_Myrtle
+	icon = 'NPCs.dmi'
+	icon_state = "myrtle"
+	density=0
+	Immortal=1
+	NPC = 1
+	Gm = 1
+	New()//States that its calling a new something ^_^
+		wander()//Calls the following PROC, which makes the NPC move by itself
+	proc/wander()//Self-Explanatory
+		//I have no idea what it does, but its required
+		while(src)//As long as the src exists...
+			walk_rand(src,rand(5,30))//This will happen...
+			sleep(5)//And this tells it how long between each step it takes
+	Click()//This starts- wait... you know what this is... i hope ^^
+		if(!(src in view(usr.client.view)))return
+		hearers()<<"<b>Moaning Myrtle:</b> *Sob* Wahhhhhh! Ohhhh, hello there, [usr]. *Blush* GO AWAY! *sob* ahhh..."
+mob/Madam_Pomfrey
+	NPC=1
+	bumpable=0
+	Immortal=1
+	icon='NPCs.dmi'
+	icon_state="nurse"
+	Gm=1
+	//Names the NPC//Do i really need to say... Sets their ICON STATE
+	New()//States that its calling a new something ^_^
+		..()
+		wander()//Calls the following PROC, which makes the NPC move by itself
+	proc/wander()//Self-Explanatory
+		//I have no idea what it does, but its required
+		while(src)//As long as the src exists...
+			walk_rand(src,rand(5,30))//This will happen...
+			sleep(5)//And this tells it how long between each step it takes
+	Click()//This starts- wait... you know what this is... i hope ^^
+		switch(input("Would you like me to heal you?","Madam Pomfrey the Nurse")in list("Yes, Please.","No Thanks."))
+			if("Yes, Please.")
+				usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episkey!"
+				usr.overlays+=image('attacks.dmi',icon_state="heal")
+				usr.HP=usr.MHP+usr.extraMHP
+				usr.updateHPMP()
+				src = null
+				spawn(10)
+					usr.overlays-=image('attacks.dmi',icon_state="heal")
+			if("No Thanks.")
+				usr<<"Madam Pomfrey:  Very well then. Off you go."
+	verb
+		Heal()
+			set src in oview(1)
+
+			switch(input("Would you like me to heal you?","Madam Pomfrey the Nurse")in list("Yes, Please.","No Thanks."))
+				if("Yes, Please.")
+					usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episkey!"
+					usr.overlays+=image('attacks.dmi',icon_state="heal")
+					usr.HP=usr.MHP+usr.extraMHP
+					usr.updateHPMP()
+					sleep(10)
+					usr.overlays-=image('attacks.dmi',icon_state="heal")
+				if("No Thanks.")
+					usr<<"Madam Pomfrey:  Very well then. Off you go."
+obj
+	PyramidScroll3
+		name="Scroll"
+		icon = 'scrolls.dmi'
+		icon_state = "wrote"
+		dontsave = 1
+		accioable=1
+		wlable = 1
+		var
+			content
+		verb
+			Name(msg as text)
+			//	var/name = input(src,"Please name this parchment.","Specify Name",Name This Parchment)
+				set name = "Name Scroll"
+				if(msg == "") return
+				src.name = html_encode(msg)
+				src.owner=usr.name
+			//	name += "Scroll: [name]"
+			read()
+				set name = "Read"
+				usr << browse("<body bgcolor=black><font color=white>So I can see<br>With my own two eyes<br><br><br><i>The rest is torn off</i>")
+			Take()
+				set src in oview(1)
+				hearers()<<"[usr] takes the [src]."
+				Move(usr)
+				usr:Resort_Stacking_Inv()
+
+			Drop()
+				Move(usr.loc)
+				usr:Resort_Stacking_Inv()
+				hearers()<<"[usr] drops \his [src]."
+			Examine()
+				set src in view(3)
+				usr << "This scroll is made of very old paper that is crumbling at the edges."
+
+obj
+	PyramidScroll4
+		name="Scroll"
+		icon = 'scrolls.dmi'
+		icon_state = "wrote"
+		dontsave = 1
+		wlable = 1
+		accioable=1
+		var
+			content
+		verb
+			Name(msg as text)
+			//	var/name = input(src,"Please name this parchment.","Specify Name",Name This Parchment)
+				set name = "Name Scroll"
+				if(msg == "") return
+				src.name = html_encode(msg)
+				src.owner=usr.name
+			//	name += "Scroll: [name]"
+			read()
+				set name = "Read"
+				usr << browse("<body bgcolor=black><font color=white>The place where even<br>Gods can die<br><br><br><i>The rest is torn off</i>")
+			Take()
+				set src in oview(1)
+				hearers()<<"[usr] takes the [src]."
+				Move(usr)
+				usr:Resort_Stacking_Inv()
+
+			Drop()
+				Move(usr.loc)
+				usr:Resort_Stacking_Inv()
+				hearers()<<"[usr] drops \his [src]."
+			Examine()
+				set src in view(3)
+				usr << "This scroll is made of very old paper that is crumbling at the edges."

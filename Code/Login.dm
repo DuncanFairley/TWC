@@ -638,58 +638,6 @@ turf
 			usr.loc = locate(80,26,1)
 			flick('mist.dmi',usr)
 			usr << "You step into the fireplace, and are wooshed away."
-
-
-
-turf
-	floo_slythern_class
-		icon = 'misc.dmi'
-		icon_state="blue fireplace"
-		name = "Fireplace"
-		Entered(atom/movable/A)
-			if(!ismob(A)) return
-			if(!A:key) return
-			switch(input("Which class would you like to go to?","Select a classroom")in list("Defense Against the Dark Arts","Charms","Care of Magical Creatures","Transfiguration","General Course of Magic","Cancel"))
-				if("Defense Against the Dark Arts")
-					usr.loc = locate(24,54,21)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-				if("Charms")
-					usr.loc = locate(70,11,21)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-				if("Care of Magical Creatures")
-					usr.loc = locate(52,48,21)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-				if("Transfiguration")
-					usr.loc = locate(12,83,22)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-				if("General Course of Magic")
-					usr.loc = locate(41,73,22)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-
-turf
-	floo_triwizard
-		icon = 'misc.dmi'
-		icon_state="blue fireplace"
-		name = "Fireplace"
-		Entered(atom/movable/A)
-			if(!ismob(A)) return
-			switch(input("Which class would you like to go to?","Select a classroom")in list("Defense Against the Dark Arts","Charms","Care of Magical Creatures","Transfiguration","General Course of Magic","Cancel"))
-				if("Underwater")
-					usr.loc = locate(8,8,9)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-				if("Sky")
-					usr.loc = locate(47,7,24)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-
-
-turf
 	floo_charms
 		icon = 'misc.dmi'
 		icon_state="fireplace"
@@ -698,18 +646,6 @@ turf
 			if(!ismob(A)) return
 			flick('mist.dmi',usr)
 			usr.loc = locate(70,10,21)
-			flick('mist.dmi',usr)
-			usr << "You step into the fireplace, and are wooshed away in a blaze of green fire."
-
-turf
-	floo_housewars
-		icon = 'misc.dmi'
-		icon_state="fireplace"
-		name = "Fireplace"
-		Entered(atom/movable/A)
-			if(!ismob(A)) return
-			flick('mist.dmi',usr)
-			usr.loc = locate(23,28,20)
 			flick('mist.dmi',usr)
 			usr << "You step into the fireplace, and are wooshed away in a blaze of green fire."
 
@@ -1060,8 +996,8 @@ mob/Player
 				src.shortapparate=1
 				src.draganddrop=1
 				src.admin=1
-			if("Rotem12")
-				src.verbs+=/mob/GM/verb/Give_Prize
+			if("Juxnist")
+				src.verbs+=/mob/GM/verb/Edit_Rules
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
@@ -2256,7 +2192,7 @@ obj/Banker
 								return
 					if("Deposit")
 						set src in oview(2)
-						var/heh = input("You have [usr.gold] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
+						var/heh = input("You have [comma(usr.gold)] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
 						if(heh==null)return
 						if (heh < 0)
 							alert("Don't try cheating me!","Bank Keeper")
@@ -2265,15 +2201,15 @@ obj/Banker
 							alert("You don't have that much!", "Deposit")
 							return()
 						if(get_dist(usr,src)>4)return
-						usr << "You deposit [heh] gold."
+						usr << "You deposit [comma(heh)] gold."
 						usr.gold -= heh
 						usr.goldinbank += heh
-						usr << "You now have [usr.goldinbank] gold in the bank."
+						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
 						return()
 
 					if("Withdraw")
 						set src in oview(2)
-						var/heh = input("You have [usr.goldinbank] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
+						var/heh = input("You have [comma(usr.goldinbank)] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
 						if(heh==null)return
 						if (heh < 0)
 							alert("Don't try cheating me!","Bank Keeper")
@@ -2282,21 +2218,21 @@ obj/Banker
 							alert("You don't have that much in your bank account!", "Bank Keeper")
 							return()
 						if(get_dist(usr,src)>4)return
-						usr << "You withdraw [heh] gold."
+						usr << "You withdraw [comma(heh)] gold."
 						usr.gold += heh
 						usr.goldinbank -= heh
-						usr << "You now have [usr.goldinbank] gold in the bank."
+						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
 						return()
 
 					if("Balance")
 						set src in oview(2)
-						usr << "You have [usr.goldinbank] gold in the bank."
+						usr << "You have [comma(usr.goldinbank)] gold in the bank."
 
 			else
 				switch(input("How may I help you?","Banker")in list("Deposit","Withdraw","Balance"))
 					if("Deposit")
 						set src in oview(2)
-						var/heh = input("You have [usr.gold] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
+						var/heh = input("You have [comma(usr.gold)] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
 						if(heh==null)return
 						if (heh < 0)
 							alert("Don't try cheating me!","Bank Keeper")
@@ -2305,15 +2241,15 @@ obj/Banker
 							alert("You don't have that much!", "Deposit")
 							return()
 						if(get_dist(usr,src)>4)return
-						usr << "You deposit [heh] gold."
+						usr << "You deposit [comma(heh)] gold."
 						usr.gold -= heh
 						usr.goldinbank += heh
-						usr << "You now have [usr.goldinbank] gold in the bank."
+						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
 						return()
 
 					if("Withdraw")
 						set src in oview(2)
-						var/heh = input("You have [usr.goldinbank] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
+						var/heh = input("You have [comma(usr.goldinbank)] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
 						if(heh==null)return
 						if (heh < 0)
 							alert("Don't try cheating me!","Bank Keeper")
@@ -2322,15 +2258,15 @@ obj/Banker
 							alert("You don't have that much in your bank account!", "Bank Keeper")
 							return()
 						if(get_dist(usr,src)>4)return
-						usr << "You withdraw [heh] gold."
+						usr << "You withdraw [comma(heh)] gold."
 						usr.gold += heh
 						usr.goldinbank -= heh
-						usr << "You now have [usr.goldinbank] gold in the bank."
+						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
 						return()
 
 					if("Balance")
 						set src in oview(2)
-						usr << "You have [usr.goldinbank] gold in the bank."
+						usr << "You have [comma(usr.goldinbank)] gold in the bank."
 
 
 obj
@@ -2719,47 +2655,18 @@ turf
 
 
 	woodenfloorblack
-		icon_state = "wood - halloween"
+		icon_state = "wood1 - halloween"
 		density = 0
 		New()
 			..()
-			var/randnum = rand(1,8)
-			spawn(1)
-				if(randnum==2)
-					src.icon_state="wood2 - halloween"
-				else if(randnum==3)
-					src.icon_state="wood3 - halloween"
-				else if(randnum==4)
-					src.icon_state="wood4 - halloween"
-				else if(randnum==5)
-					src.icon_state="wood5 - halloween"
-				else if(randnum==6)
-					src.icon_state="wood6 - halloween"
-				else if(randnum==7)
-					src.icon_state="wood7 - halloween"
-				else if(randnum==8)
-					src.icon_state="wood8 - halloween"
+			icon_state = "wood[rand(1,8)] - halloween"
+
 	woodenfloor
-		icon_state = "wood"
+		icon_state = "wood1"
 		density=0
 		New()
 			..()
-			var/randnum = rand(1,8)
-			spawn(1)
-				if(randnum==2)
-					src.icon_state="wood2"
-				else if(randnum==3)
-					src.icon_state="wood3"
-				else if(randnum==4)
-					src.icon_state="wood4"
-				else if(randnum==5)
-					src.icon_state="wood5"
-				else if(randnum==6)
-					src.icon_state="wood6"
-				else if(randnum==7)
-					src.icon_state="wood7"
-				else if(randnum==8)
-					src.icon_state="wood8"
+			icon_state = "wood[rand(1,8)]"
 
 
 	longtable1

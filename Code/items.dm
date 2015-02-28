@@ -2245,21 +2245,7 @@ obj/Security_Barrier
 	accioable=0
 	density=1
 	dontsave=1
-obj/Security_Barrier_
-	icon='misc.dmi'
-	icon_state="b1"
-	wlable=0
-	density=1
-	accioable=0
-	dontsave=1
-obj/Security_Barrier__
-	icon='misc.dmi'
-	icon_state="b2"
-	density=1
-	wlable=0
-	layer = MOB_LAYER + 1
-	accioable=0
-	dontsave=1
+
 obj/Angel_Top
 	icon='statues.dmi'
 	icon_state="top1"
@@ -2346,13 +2332,6 @@ obj/Piano_
 			alert("Ownage.")
 
 area/login
-obj/Fountain____h
-	icon='statues.dmi'
-	icon_state="foun4"
-	density=1
-	accioable=0
-	wlable=0
-	dontsave=1
 
 obj/Force_Field
 	icon='teleport2.dmi'
@@ -2518,21 +2497,6 @@ obj/Portal
 			step(usr,SOUTH)
 			hearers()<<"[usr] emerges."
 			return
-
-obj/Copper
-	icon='items.dmi'
-	icon_state="copper"
-obj/Iron
-	icon='items.dmi'
-	icon_state="iron"
-obj/Steel
-	icon='items.dmi'
-	icon_state="steel"
-	dontsave=1
-
-obj/Titanium
-	icon='items.dmi'
-	icon_state="titanium"
 
 obj/plate
 	icon='turf.dmi'

@@ -508,48 +508,6 @@ mob/Madame_Pomfrey
 			src = null
 			spawn(10)
 				usr.overlays-=image('attacks.dmi',icon_state="heal")
-mob/Madam_Pomfrey
-	NPC=1
-	bumpable=0
-	Immortal=1
-	icon='NPCs.dmi'
-	icon_state="nurse"
-	Gm=1
-	//Names the NPC//Do i really need to say... Sets their ICON STATE
-	New()//States that its calling a new something ^_^
-		..()
-		wander()//Calls the following PROC, which makes the NPC move by itself
-	proc/wander()//Self-Explanatory
-		//I have no idea what it does, but its required
-		while(src)//As long as the src exists...
-			walk_rand(src,rand(5,30))//This will happen...
-			sleep(5)//And this tells it how long between each step it takes
-	Click()//This starts- wait... you know what this is... i hope ^^
-		switch(input("Would you like me to heal you?","Madam Pomfrey the Nurse")in list("Yes, Please.","No Thanks."))
-			if("Yes, Please.")
-				usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episkey!"
-				usr.overlays+=image('attacks.dmi',icon_state="heal")
-				usr.HP=usr.MHP+usr.extraMHP
-				usr.updateHPMP()
-				src = null
-				spawn(10)
-					usr.overlays-=image('attacks.dmi',icon_state="heal")
-			if("No Thanks.")
-				usr<<"Madam Pomfrey:  Very well then. Off you go."
-	verb
-		Heal()
-			set src in oview(1)
-
-			switch(input("Would you like me to heal you?","Madam Pomfrey the Nurse")in list("Yes, Please.","No Thanks."))
-				if("Yes, Please.")
-					usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episkey!"
-					usr.overlays+=image('attacks.dmi',icon_state="heal")
-					usr.HP=usr.MHP+usr.extraMHP
-					usr.updateHPMP()
-					sleep(10)
-					usr.overlays-=image('attacks.dmi',icon_state="heal")
-				if("No Thanks.")
-					usr<<"Madam Pomfrey:  Very well then. Off you go."
 
 mob/AndersGoat
 	NPC=1
@@ -615,7 +573,6 @@ mob/TalkNPC/Broom_Salesman
 			usr << npcsay("Chrono: Thanks very much for your business, and be careful on the pitch!")
 			usr:Resort_Stacking_Inv()
 
-
 obj/The_Dark_Mark
 	icon = 'Mobs.dmi'
 	icon_state="Darkmark"
@@ -640,63 +597,6 @@ obj/The_Dark_Mark
 				who += i == length(people) ? " and [people[i]]" : ", [people[i]]"
 			Players << "The Dark Mark was dispersed by [who]."
 			del src
-
-mob/Sir_Nicholas
-	icon = 'NPCs.dmi'
-	icon_state = "normal"
-	Immortal=1
-	density=0
-	NPC = 1
-	Gm = 1
-	New()//States that its calling a new something ^_^
-		wander()//Calls the following PROC, which makes the NPC move by itself
-	proc/wander()//Self-Explanatory
-		//I have no idea what it does, but its required
-		while(src)//As long as the src exists...
-			walk_rand(src,rand(5,30))//This will happen...
-			sleep(5)//And this tells it how long between each step it takes
-	Click()//This starts- wait... you know what this is... i hope ^^
-		if(!(src in view(usr.client.view)))return
-		hearers()<<"<b>Sir Nicholas:</b> G'day, [usr]. I trust your day is going well, eh mate?"
-		sleep(30)
-		hearers()<<"Sir Nicholas opens his head and closes it, before flying off."
-		icon_state="headless"
-		sleep(20)
-		icon_state="normal"
-mob/Bloody_Baron
-	icon = 'NPCs.dmi'
-	icon_state = "baron"
-	density=0
-	Immortal=1
-	NPC = 1
-	Gm = 1
-	New()//States that its calling a new something ^_^
-		wander()//Calls the following PROC, which makes the NPC move by itself
-	proc/wander()//Self-Explanatory
-		//I have no idea what it does, but its required
-		while(src)//As long as the src exists...
-			walk_rand(src,rand(5,30))//This will happen...
-			sleep(5)//And this tells it how long between each step it takes
-	Click()//This starts- wait... you know what this is... i hope ^^
-		if(!(src in view(usr.client.view)))return
-		hearers()<<"<b>The Bloody Baron:</b> *Moan* Ahhhhhhhhhh......ooooooohhh. Leave me alone, [usr]."
-mob/Moaning_Myrtle
-	icon = 'NPCs.dmi'
-	icon_state = "myrtle"
-	density=0
-	Immortal=1
-	NPC = 1
-	Gm = 1
-	New()//States that its calling a new something ^_^
-		wander()//Calls the following PROC, which makes the NPC move by itself
-	proc/wander()//Self-Explanatory
-		//I have no idea what it does, but its required
-		while(src)//As long as the src exists...
-			walk_rand(src,rand(5,30))//This will happen...
-			sleep(5)//And this tells it how long between each step it takes
-	Click()//This starts- wait... you know what this is... i hope ^^
-		if(!(src in view(usr.client.view)))return
-		hearers()<<"<b>Moaning Myrtle:</b> *Sob* Wahhhhhh! Ohhhh, hello there, [usr]. *Blush* GO AWAY! *sob* ahhh..."
 
 mob/Player/var/tmp/shop_index = 1
 obj/shop
