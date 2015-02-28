@@ -66,6 +66,7 @@ obj/hud/PMHome
 	icon = 'HUD.dmi'
 	icon_state = "PM"
 	screen_loc = "EAST-1,1"
+	mouse_over_pointer = MOUSE_HAND_POINTER
 	Click()
 		var/mob/Player/M = usr
 		M.PMHome()
