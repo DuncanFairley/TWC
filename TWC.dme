@@ -44,6 +44,7 @@
 #include "Code\Animagus.dm"
 #include "Code\Announce.dm"
 #include "Code\areas.dm"
+#include "Code\Arena.dm"
 #include "Code\Arial7pt.dm"
 #include "Code\Books.dm"
 #include "Code\Changelog.dm"
