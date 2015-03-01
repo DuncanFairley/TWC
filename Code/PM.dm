@@ -66,6 +66,7 @@ obj/hud/PMHome
 	icon = 'HUD.dmi'
 	icon_state = "PM"
 	screen_loc = "EAST-1,1"
+	mouse_over_pointer = MOUSE_HAND_POINTER
 	Click()
 		var/mob/Player/M = usr
 		M.PMHome()
@@ -162,6 +163,7 @@ mob/Player/Topic(href,href_list[])
 			if(istype(src.loc.loc,/area/arenas))
 				src.loc = locate(50,22,15)
 		if("arena_teleport")
+			if(src.rankedArena) return
 			switch(arenaSummon)
 				if(0) //disabled
 					alert("The round is no longer allowing teleportation.")

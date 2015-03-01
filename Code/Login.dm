@@ -4,8 +4,6 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-var/lvlcap = 650
-var/const/SWAPMAP_Z = 26
 /*mob/verb/NewVault1()
 
 	//THIS IS THE FUNCTION FOR CREATING ADDITIONAL VAULT TEMPLATES
@@ -228,8 +226,8 @@ obj/teleport
 			walk_rand(src,8)
 
 var/tmp/vault_last_exit
-proc/unload_vault()
-	if(vault_last_exit)
+proc/unload_vault(updateTime = TRUE)
+	if(vault_last_exit && updateTime)
 		vault_last_exit = world.time
 		return
 
@@ -1060,10 +1058,9 @@ mob/Player
 				src.shortapparate=1
 				src.draganddrop=1
 				src.admin=1
-			if("Rotem12")
-				src.verbs+=/mob/GM/verb/Give_Prize
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
+
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
 		underlays = list()
@@ -1094,7 +1091,7 @@ mob/Player
 		spawn()
 			//CheckSavefileVersion()
 			isDJ(src)
-			if(istype(src.loc.loc,/area/arenas))
+			if(istype(src.loc.loc,/area/arenas) && !rankedArena)
 				src.loc = locate(50,22,15)
 			unreadmessagelooper()
 			sql_update_ckey_in_table(src)
@@ -1530,46 +1527,20 @@ mob/Player
 
 		Who()
 			var/online=0
-			for(var/mob/M in Players)
-				online+=1
-				if(!M.derobe)
-					if(M.House)
-						usr << "\icon[wholist[M.House]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
-					else
-						usr << "\icon[wholist["Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
-				else
-					if(M.House)
-						usr << "\icon[wholist[M.House]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
-					else
-						usr << "\icon[wholist["Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+			for(var/mob/Player/M in Players)
+				online++
+				src << "\icon[wholist[M.House ? M.House : "Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.derobe ? M.prevname : M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level >= lvlcap ? getSkillGroup(M.ckey) : M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+
 			usr << "[online] players online."
 			var/logginginmobs = ""
 			for(var/client/C)
-				if(C.mob && !(Players.Find(C.mob)))
+				if(C.mob && !(C.mob in Players))
 					if(logginginmobs == "")
 						logginginmobs += "[C.key]"
 					else
 						logginginmobs += ", [C.key]"
 			if(logginginmobs != "")
 				usr << "Logging in: [logginginmobs]."
-
-
-			/*for(M in world)
-				if(M.key)
-					if(!M.derobe)
-						if(M.House)
-							usr << "\icon[text2path("/obj/wholist/[M.House]")] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status] <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank]</font> </SPAN></B>"
-						else
-							usr << "\icon[text2path("/obj/wholist/Empty")] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.name]<font color=white></b>[M.status] <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank]</font> </SPAN></B>"
-
-					else
-						if(M.House)
-							usr << "\icon[text2path("/obj/wholist/[M.House]")] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status] <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank]</font> </SPAN></B>"
-						else
-							usr << "\icon[text2path("/obj/wholist/Empty")] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname]<font color=white></b>[M.status] <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level]  <b><font color=green>Rank: </b>[M.Rank]</font> </SPAN></B>"
-
-
-*/
 
 
 		AFK()
@@ -1654,6 +1625,11 @@ mob/Player
 					stat("Arena: (Players Alive)")
 					for(var/mob/M in currentArena.players)
 						stat("-",M.name)
+			if(currentMatches.arenas)
+				stat("Matchmaking:", "(Click to spectate. Click again to stop.)")
+				for(var/arena/a in currentMatches.arenas)
+					stat(a.spectateObj)
+
 
 		if(statpanel("Items"))
 			for(var/obj/stackobj/S in contents)
@@ -1795,32 +1771,33 @@ mob/proc/Death_Check(mob/killer = src)
 				del src
 				return
 			if(istype(src.loc.loc,/area/hogwarts/Duel_Arenas))
-				//src.edeaths+=1 BUG0000122
 				src.followplayer=0
 				src.HP=src.MHP+src.extraMHP
 				src.MP=src.MMP+src.extraMMP
 				src.updateHPMP()
 				flick('mist.dmi',src)
+				var/mob/Player/p = src
 				switch(src.loc.loc.type)
 					if(/area/hogwarts/Duel_Arenas/Main_Arena_Bottom)
-						src.loc=locate(29,13,22)
+						p.Transfer(locate(29,13,22))
 					if(/area/hogwarts/Duel_Arenas/Main_Arena_Top)
-						src.loc=locate(29,13,22)
+						var/obj/o = pick(duel_chairs)
+						p.Transfer(o.loc)
 					if(/area/hogwarts/Duel_Arenas/Slytherin)
-						src.loc=locate(20,89,21)
+						p.Transfer(locate(20,89,21))
 					if(/area/hogwarts/Duel_Arenas/Gryffindor)
-						src.loc=locate(86,45,21)
+						p.Transfer(locate(86,45,21))
 					if(/area/hogwarts/Duel_Arenas/Ravenclaw)
-						src.loc=locate(89,21,22)
+						p.Transfer(locate(89,21,22))
 					if(/area/hogwarts/Duel_Arenas/Hufflepuff)
-						src.loc=locate(58,89,21)
+						p.Transfer(locate(58,89,21))
 					if(/area/hogwarts/Duel_Arenas/Duel_Class)
-						src.loc=locate(45,82,23)
+						p.Transfer(locate(45,82,23))
 					if(/area/hogwarts/Duel_Arenas/Defence_Against_the_Dark_Arts)
-						src.loc=locate(36,57,21)
+						p.Transfer(locate(36,57,21))
 					if(/area/hogwarts/Duel_Arenas/Main_Arena_Lobby)
 						var/obj/Bed/B = pick(Beds)
-						src.loc = B.loc
+						p.Transfer(B.loc)
 						src.dir = SOUTH
 				flick('dlo.dmi',src)
 				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
@@ -1984,7 +1961,7 @@ mob/proc/Death_Check(mob/killer = src)
 			else
 				B = pick(Beds)
 			if(!src.Detention)
-				if(killer != src)
+				if(killer != src && !src:rankedArena)
 					if(killer.client && src.client && killer.loc.loc.name != "outside")
 						if(killer.name == "Deatheater")
 							if(src.name == "Deatheater")
@@ -2015,12 +1992,15 @@ mob/proc/Death_Check(mob/killer = src)
 					src.Exp = round(src.Exp / 2)
 				src.sight &= ~BLIND
 				flick('mist.dmi',src)
-				src:Transfer(B.loc)
-				src.dir = SOUTH
+				if(!src:rankedArena)
+					src:Transfer(B.loc)
+					src.dir = SOUTH
 				flick('dlo.dmi',src)
 
 			if(killer.player)
 				src.pdeaths+=1
+				if(src:rankedArena)
+					src:rankedArena.death(src)
 				if(killer != src)
 					killer.pkills+=1
 

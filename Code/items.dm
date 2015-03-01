@@ -1145,6 +1145,16 @@ obj/items/wearable/title
 	Troll
 		title =  "Face of Troll"
 		name  =  "Title: Face of Troll"
+	Duelist
+		title =  "Duelist"
+		name  =  "Title: Duelist"
+	Wizard
+		title =  "Wizard"
+		name  =  "Title: Wizard"
+	Determined
+		title =  "Determined"
+		name  =  "Title: Determined"
+
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
@@ -1690,6 +1700,10 @@ mob/Player/Logout()
 	Players<<"<B><font size=2 color=red><I>[usr] <b>logged out.</b></I></font></B>"
 	if(arcessoing)
 		stop_arcesso()
+	if(rankedArena)
+		rankedArena.disconnect(src)
+	else if(currentMatches.queue && (src in currentMatches.queue))
+		currentMatches.removeQueue(src)
 	if(currentArena)
 		if(src in currentArena.players)
 			//currentArena.players.Remove(src)

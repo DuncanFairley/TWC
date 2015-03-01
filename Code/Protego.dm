@@ -21,11 +21,6 @@ obj/Shield
 	icon='teleport2.dmi'
 	icon_state = "shield"
 	density = 1
-	layer = 10
-	dontsave=1
-	wlable=0
-	accioable=0
-
 
 mob/var/shielded
 mob/var/prevname = ""
