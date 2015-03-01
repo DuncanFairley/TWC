@@ -810,7 +810,7 @@ obj/shop
 				var/actualPrice = round(i.price * shopPriceModifier, 1)
 
 				if(usr.gold < actualPrice)
-					usr << infomsg("You don't have enough money. [i.name] costs [comma(actualPrice)], you need [comma(actualPrice - usr.gold)] more gold.")
+					usr << infomsg("You don't have enough money for [i.name]. It costs [comma(actualPrice)]. You need [comma(actualPrice - usr.gold)] more gold.")
 					return
 
 				if(alert(usr, "Are you sure you want to buy [i.name] for [comma(actualPrice)] gold?","Are you sure?","Yes","No") == "Yes")
