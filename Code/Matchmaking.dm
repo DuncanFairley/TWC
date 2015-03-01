@@ -1,4 +1,4 @@
-var/const/WINS_REQ = 1
+var/const/WINS_REQ = 10
 
 var/list/duel_chairs = list()
 
