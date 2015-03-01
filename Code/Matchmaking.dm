@@ -379,6 +379,9 @@ arena
 
 
 		end()
+			if(team1.isReconnecting) team1.lost = TRUE
+			if(team2.isReconnecting) team2.lost = TRUE
+
 			if(team1.lost && team2.lost)
 				team1.score++
 				team2.score++
