@@ -788,14 +788,24 @@ mob
 			Troll
 				icon_state = "troll"
 				level = 350
+				HPmodifier  = 3
+				DMGmodifier = 0.8
+				MoveDelay   = 4
+				AttackDelay = 4
 
-				drops = list("0.7" = list(/obj/items/Whoopie_Cushion,
+				drops = list("0.9" = list(/obj/items/Whoopie_Cushion,
 			 				  			  /obj/items/Smoke_Pellet,
 			 			  				  /obj/items/Tube_of_fun),
-			 			  	 "0.5" = list(/obj/items/wearable/bling,
+			 			  	 "0.7" = list(/obj/items/wearable/bling,
 			 			  	 			  /obj/items/bucket,
 			 			  	 			  /obj/items/scroll,
 			 			  	 			  /obj/items/wearable/title/Troll))
+
+				Attack()
+					var/tmpdmg = extraDmg
+					if(prob(10)) extraDmg = 3000
+					..()
+					extraDmg = tmpdmg
 			House_Elf
 				icon_state = "houseelf"
 				level = 5
