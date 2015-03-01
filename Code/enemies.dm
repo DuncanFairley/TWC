@@ -801,11 +801,19 @@ mob
 			 			  	 			  /obj/items/scroll,
 			 			  	 			  /obj/items/wearable/title/Troll))
 
+				New()
+					..()
+					transform *= rand(10,20) / 10
+
 				Attack()
 					var/tmpdmg = extraDmg
-					if(prob(10)) extraDmg = 3000
+					var/tmplvl = level
+					if(prob(5))
+						extraDmg = 600
+						level    = 1000
 					..()
 					extraDmg = tmpdmg
+					level    = tmplvl
 			House_Elf
 				icon_state = "houseelf"
 				level = 5
