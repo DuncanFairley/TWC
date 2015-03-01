@@ -203,38 +203,6 @@ obj/Clock
 	density=1
 	dontsave=1
 
-obj/MasterBed
-	icon='General.dmi'
-	icon_state="tile68"
-	accioable=0
-	wlable=0
-	layer=6
-	dontsave=1
-
-obj/MasterBed_
-	icon='General.dmi'
-	icon_state="tile69"
-	accioable=0
-	wlable=0
-	layer=2
-	dontsave=1
-
-obj/MasterBed__
-	icon='General.dmi'
-	icon_state="tile70"
-	accioable=0
-	wlable=0
-	density=1
-	dontsave=1
-
-obj/MasterBed___
-	icon='General.dmi'
-	icon_state="tile71"
-	accioable=0
-	wlable=0
-	density=1
-	dontsave=1
-
 obj/Quidditch_Sign
 	icon='quidditch.png'
 	pixel_x = -10
