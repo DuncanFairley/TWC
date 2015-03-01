@@ -1145,6 +1145,16 @@ obj/items/wearable/title
 	Troll
 		title =  "Face of Troll"
 		name  =  "Title: Face of Troll"
+	Duelist
+		title =  "Duelist"
+		name  =  "Title: Duelist"
+	Wizard
+		title =  "Wizard"
+		name  =  "Title: Wizard"
+	Determined
+		title =  "Determined"
+		name  =  "Title: Determined"
+
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
