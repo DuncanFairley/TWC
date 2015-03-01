@@ -1,4 +1,4 @@
-var/const/WINS_REQ = 1
+var/const/WINS_REQ = 10
 
 var/list/duel_chairs = list()
 
@@ -577,7 +577,7 @@ proc
 			if(s.rating > 1800 && pos) return "<font color=#9f0419>Champion</font>"
 			if(s.rating > 1600) return "<font color=#aa2fbd>Grandmaster</font>"
 			if(s.rating > 1400) return "<font color=#01e4ac>Master</font>"
-			if(s.rating > 1200) return "<font color=#7D1242>Archwizard</font>"
+			if(s.rating > 1200) return "<font color=#ff0000>Archwizard</font>"
 			if(s.rating > 1000) return "<font color=#E5E4E2>Battlewizard</font>"
 			if(s.rating > 800)  return "<font color=#FFD700>Wizard</font>"
 			if(s.rating > 600)  return "<font color=#C0C0C0>Sorcerer</font>"

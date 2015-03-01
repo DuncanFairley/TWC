@@ -666,8 +666,7 @@ mob
 						     			   /obj/items/crystal/soul),
 							 "5"    = list(/obj/items/DarknessPowder,
 							 			   /obj/items/Smoke_Pellet,
-							 			   /obj/items/Tube_of_fun),
-							 "30"   = /obj/items/gift/valentine)
+							 			   /obj/items/Tube_of_fun))
 
 
 				Attack(mob/M)
@@ -789,14 +788,32 @@ mob
 			Troll
 				icon_state = "troll"
 				level = 350
+				HPmodifier  = 3
+				DMGmodifier = 0.8
+				MoveDelay   = 4
+				AttackDelay = 4
 
-				drops = list("0.7" = list(/obj/items/Whoopie_Cushion,
+				drops = list("0.9" = list(/obj/items/Whoopie_Cushion,
 			 				  			  /obj/items/Smoke_Pellet,
 			 			  				  /obj/items/Tube_of_fun),
-			 			  	 "0.5" = list(/obj/items/wearable/bling,
+			 			  	 "0.7" = list(/obj/items/wearable/bling,
 			 			  	 			  /obj/items/bucket,
 			 			  	 			  /obj/items/scroll,
 			 			  	 			  /obj/items/wearable/title/Troll))
+
+				New()
+					..()
+					transform *= rand(10,20) / 10
+
+				Attack()
+					var/tmpdmg = extraDmg
+					var/tmplvl = level
+					if(prob(5))
+						extraDmg = 600
+						level    = 1000
+					..()
+					extraDmg = tmpdmg
+					level    = tmplvl
 			House_Elf
 				icon_state = "houseelf"
 				level = 5

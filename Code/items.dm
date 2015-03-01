@@ -2393,6 +2393,7 @@ obj
 obj
 	tree
 		icon='ragtree.dmi'
+		icon_state="summer" //winter in winter
 		density=1
 		opacity=0
 		wlable=0
