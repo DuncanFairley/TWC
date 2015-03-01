@@ -99,42 +99,6 @@ macro "macro"
 		name = "SOUTH+REP"
 		command = ".south"
 		is-disabled = false
-	elem 
-		name = "1+REP"
-		command = "macroActionbar 1"
-		is-disabled = false
-	elem 
-		name = "2+REP"
-		command = "macroActionbar 2"
-		is-disabled = false
-	elem 
-		name = "3+REP"
-		command = "macroActionbar 3"
-		is-disabled = false
-	elem 
-		name = "4+REP"
-		command = "macroActionbar 4"
-		is-disabled = false
-	elem 
-		name = "5+REP"
-		command = "macroActionbar 5"
-		is-disabled = false
-	elem 
-		name = "6+REP"
-		command = "macroActionbar 6"
-		is-disabled = false
-	elem 
-		name = "7+REP"
-		command = "macroActionbar 7"
-		is-disabled = false
-	elem 
-		name = "8+REP"
-		command = "macroActionbar 8"
-		is-disabled = false
-	elem 
-		name = "9+REP"
-		command = "macroActionbar 9"
-		is-disabled = false
 
 
 menu "menu"
