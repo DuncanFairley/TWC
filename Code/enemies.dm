@@ -666,8 +666,7 @@ mob
 						     			   /obj/items/crystal/soul),
 							 "5"    = list(/obj/items/DarknessPowder,
 							 			   /obj/items/Smoke_Pellet,
-							 			   /obj/items/Tube_of_fun),
-							 "30"   = /obj/items/gift/valentine)
+							 			   /obj/items/Tube_of_fun))
 
 
 				Attack(mob/M)
