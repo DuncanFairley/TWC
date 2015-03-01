@@ -163,6 +163,7 @@ mob/Player/Topic(href,href_list[])
 			if(istype(src.loc.loc,/area/arenas))
 				src.loc = locate(50,22,15)
 		if("arena_teleport")
+			if(src.rankedArena) return
 			switch(arenaSummon)
 				if(0) //disabled
 					alert("The round is no longer allowing teleportation.")

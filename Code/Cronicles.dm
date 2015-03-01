@@ -112,6 +112,9 @@ proc
 						var/list/l = split(class, " - ")
 						add_autoclass(l[1], l[2])
 
+		X["skill_rating"] >> skill_rating
+		if(!skill_rating) skill_rating = list()
+
 	Save_World()
 		fdel("players/World.sav")
 		var/savefile/X = new("players/World.sav")
@@ -125,6 +128,7 @@ proc
 		for(var/e in autoclass_schedule)
 			classes += e
 
+		X["skill_rating"] << skill_rating
 		X["ClanWars"] << cw
 		X["AutoClasses"] << classes
 		X["DJs"] << DJs
@@ -253,7 +257,7 @@ mob
 			var/turf/t = locate(last_x, last_y, last_z)
 			if(!t || t.name == "blankturf")
 				loc = locate(13,27,21)
-			else if(last_z > SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
+			else if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else if(istype(t.loc, /area/DEHQ) && !DeathEater)
 				loc = locate(13,27,21)

@@ -2197,7 +2197,7 @@ mob/Player
 				return
 		..()
 
-var/move_queue = TRUE
+var/move_queue = FALSE
 
 client
 	var/tmp
