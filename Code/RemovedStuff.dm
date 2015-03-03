@@ -218,3 +218,22 @@ obj/items/weather/sun
 		spawn(1)
 			new /obj/items/magic_stone/weather/sun (loc)
 			loc = null
+obj/MasterBed
+	New()
+		..()
+		loc = null
+
+obj/MasterBed_
+	New()
+		..()
+		loc = null
+
+obj/MasterBed__
+	New()
+		..()
+		loc = null
+
+obj/MasterBed___
+	New()
+		..()
+		loc = null

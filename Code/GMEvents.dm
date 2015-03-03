@@ -5,7 +5,7 @@
  * For the full license text, see LICENSE.txt.
  */
 
-mob
+mob/TalkNPC
 	EventMob
 		icon = 'NPCs.dmi'
 		icon_state = "palmer"
@@ -26,6 +26,7 @@ mob
 			var/EventItem
 
 			Talk()
+				set src in oview(3)
 				if(!EventItem)
 					usr << " <font size=2 color=red><b>[src]</b> : </font>I have nothing to give you."
 					return
@@ -44,6 +45,7 @@ mob
 				Function = "+"
 
 			Talk()
+				set src in oview(3)
 				if(!EventVar)
 					usr << " <font size=2 color=red><b>[src]</b> : </font>I have nothing to give you."
 					return
@@ -55,20 +57,20 @@ mob
 					else if(Function == "*")
 						usr.vars[EventVar] *= VarTo
 
-		verb
-			Talk()
-				set src in view(1)
-				if(AlreadyGiven == "reset")
-					AlreadyGiven = list()
-					id = list()
-				if((usr.ckey in AlreadyGiven) || (usr.client.computer_id in id))
-					usr << " <font size=2 color=red><b>[src]</b> : </font>Hello! I've seen you before!"
-					return 0
-				else
-					usr << " <font size=2 color=red><b>[src]</b> : </font>[Message]"
-					AlreadyGiven.Add(usr.ckey)
-					id.Add(usr.client.computer_id)
-					return 1
+
+		Talk()
+			set src in oview(3)
+			if(AlreadyGiven == "reset")
+				AlreadyGiven = list()
+				id = list()
+			if((usr.ckey in AlreadyGiven) || (usr.client.computer_id in id))
+				usr << " <font size=2 color=red><b>[src]</b> : </font>Hello! I've seen you before!"
+				return 0
+			else
+				usr << " <font size=2 color=red><b>[src]</b> : </font>[Message]"
+				AlreadyGiven.Add(usr.ckey)
+				id.Add(usr.client.computer_id)
+				return 1
 
 mob
 	var/tmp
