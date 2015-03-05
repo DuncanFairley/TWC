@@ -3492,12 +3492,14 @@ obj
 				var/obj/items/i3 = locate() in locate(x,y+DISTANCE,z)
 				var/obj/items/i4 = ignoreItem ? i3 : locate() in locate(x,y-DISTANCE,z)
 
-				if(!i1 || !i2) // no artifacts
+				if(!i1 || !i2)
 					bigcolor("red")
 					return
 
-				if(!i3 || !i4 || i3.type != i4.type) // wrong combo
+				if(!i3 || !i4 || i3.type != i4.type)
 					bigcolor("blue")
+					if(i3) step_rand(i3)
+					if(i4) step_rand(i4)
 					return
 
 				var/chance = 100
@@ -3545,6 +3547,8 @@ obj
 
 				if(!prize)
 					bigcolor("black")
+					if(i3) step_rand(i3)
+					if(i4) step_rand(i4)
 					return
 
 				i1.loc = null
