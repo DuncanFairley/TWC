@@ -8,6 +8,13 @@
 #define REMOVED 2
 mob/Player/var/list/Lwearing
 
+area
+	var/tmp
+		antiTheft = FALSE
+
+	inside/antiTheft
+		antiTheft = TRUE
+
 obj/items
 	var
 		dropable    = 1
@@ -23,6 +30,11 @@ obj/items/Click()
 	..()
 obj/items/verb/Take()
 	set src in oview(1)
+
+	if(loc.loc:antiTheft && owner && owner != usr.ckey)
+		usr << errormsg("This item isn't yours, a charm prevents you from picking it up.")
+		return
+
 	viewers() << infomsg("[usr] takes \the [src.name].")
 	loc = usr
 	usr.Resort_Stacking_Inv()
@@ -33,6 +45,7 @@ obj/items/verb/Drop()
 	set src in usr
 	var/mob/Player/owner = usr
 	loc = owner.loc
+	src.owner = usr.ckey
 	viewers(owner) << infomsg("[owner] drops \his [src.name].")
 	owner.Resort_Stacking_Inv()
 obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
@@ -2392,13 +2405,10 @@ obj
 		dontsave = 1
 obj
 	tree
-		icon='ragtree.dmi'
-		icon_state="summer" //winter in winter
-		density=1
-		opacity=0
-		wlable=0
-		accioable=0
-		dontsave = 1
+		name       = "Tree"
+		icon       = 'ragtree.dmi'
+		icon_state = "summer" //winter in winter
+		density    = 1
 
 obj/Avada_Kedavra
 	icon='attacks.dmi'
@@ -3482,12 +3492,14 @@ obj
 				var/obj/items/i3 = locate() in locate(x,y+DISTANCE,z)
 				var/obj/items/i4 = ignoreItem ? i3 : locate() in locate(x,y-DISTANCE,z)
 
-				if(!i1 || !i2) // no artifacts
+				if(!i1 || !i2)
 					bigcolor("red")
 					return
 
-				if(!i3 || !i4 || i3.type != i4.type) // wrong combo
+				if(!i3 || !i4 || i3.type != i4.type)
 					bigcolor("blue")
+					if(i3) step_rand(i3)
+					if(i4) step_rand(i4)
 					return
 
 				var/chance = 100
@@ -3535,6 +3547,8 @@ obj
 
 				if(!prize)
 					bigcolor("black")
+					if(i3) step_rand(i3)
+					if(i4) step_rand(i4)
 					return
 
 				i1.loc = null
@@ -3555,7 +3569,8 @@ obj
 				sleep(12)
 				var/turf/t = locate(x+rand(-1,1),y+rand(-1,1),z)
 				if(prob(chance + bonusChance))
-					var/obj/items/wearable/o = new prize (t)
+					var/obj/items/o = new prize (t)
+					o.owner = i3.owner
 
 					if(istype(i3, /obj/items/wearable/title))
 						o.name = i3.name
@@ -3563,9 +3578,9 @@ obj
 						o.color = i3.color
 						o:title = "<font color=\"[o.color]\">" + o:title + "</font>"
 					else if(istype(i3, /obj/items/wearable))
-						o.quality = i3:quality
-						o.bonus   = i3:bonus
-						o.name += " +[o.quality]"
+						o:quality = i3:quality
+						o:bonus   = i3:bonus
+						o.name += " +[o:quality]"
 
 				else
 					new /obj/items/DarknessPowder (t)
