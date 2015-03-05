@@ -75,6 +75,7 @@ class
 		name
 		subject = "GCOM"
 		mp      = 0
+		cd      = 0
 		wand    = FALSE
 		obj/teacher/professor
 		spelltype
@@ -89,7 +90,7 @@ class
 		sleep(30)
 		say("When I'm done explaining the spell, please come to me and take a practice wand, use that wand to practice the spell until you've learned it. Of course if you already have a practice wand of another spell, you will not be able to get another.")
 		sleep(60)
-		say("This spell [mp ? "uses [mp] of your" : "does not use"] MP for each use. It [wand ? "requires" : "doesn't require"] a wand.")
+		say("This spell [mp ? "uses [mp] of your" : "does not use"] MP for each use. It [wand ? "requires" : "doesn't require"] a wand. [name] [cd ? "applies a [cd] second" : "doesn't apply a"] cooldown after using it.")
 		sleep(30)
 
 
@@ -140,11 +141,13 @@ class
 		Eat_Slugs
 			subject = "COMC"
 			mp      = 100
+			cd      = 15
 			wand    = TRUE
 			start()
 				..()
 				say("[name] will make the target vomit slugs. The slugs are created using not only your MP, but your target's as well. The slugs will slowly eat their MP away until it reaches zero. Once your target runs out of MP, they will stop vomiting up slugs.")
 		Disperse
+			cd      = 10
 			start()
 				..()
 				say("It gets rid of any smoke or swamp that may happen around you. There's even a rumor that if used enough times, it'll even disperse dark mark created by dark wizards!")
@@ -152,6 +155,7 @@ class
 	transfiguration
 		subject = "Transfiguration"
 		wand    = TRUE
+		cd      = 15
 		start()
 			..()
 			say("[name] is a transfiguration-based spell. When casted the form of the target will change.")
@@ -212,6 +216,7 @@ class
 	Antifigura
 		subject = "Transfiguration"
 		mp      = 50
+		cd      = 15
 		wand    = TRUE
 		start()
 			..()
@@ -220,6 +225,7 @@ class
 	dada
 		Petrificus_Totalus
 			mp = 10
+			cd = 15
 			start()
 				..()
 				say("This is the Full Body-Bind Curse! It stiffens a person's limbs so they cannot move.")
@@ -230,23 +236,27 @@ class
 				say("If binded, this spell is perfect for you. It frees you from any binds or frozen spells.")
 		Incindia
 			mp   = 450
+			cd   = 15
 			wand = TRUE
 			start()
 				..()
 				say("Careful when you use this. It fires projectiles in all 8 directions! It's quite a useful spell in my opinion.")
 		Protego
+			cd = 10
 			wand = TRUE
 			start()
 				..()
 				say("The Shield Charm causes minor to moderate jinxes, curses, and hexes to rebound upon the attacker.")
 		Impedimenta
 			mp = 750
+			cd = 20
 			wand = TRUE
 			start()
 				..()
 				say("This spell freezes everyone in your view for about 10 seconds.")
 		Immobulus
 			mp = 600
+			cd = 15
 			wand = TRUE
 			start()
 				..()
@@ -256,17 +266,21 @@ class
 			start()
 				..()
 				say("Known as the knockback charm. This pushes someone out of the way. It is great for dueling")
+				sleep(30)
+				say("Using [name] to knock someone off of a broom will prevent them from flying for 15 seconds.")
 		Occlumency
 			wand = TRUE
 			start()
 				..()
 				say("This handy spell prevents people from accessing your mind thus they won't be able to see where you are located. It uses your MP in seconds as the MP usage.")
 		Incarcerous
+			cd = 15
 			wand = TRUE
 			start()
 				..()
 				say("This ties someone or something up with ropes.")
 		Expelliarmus
+			cd = 15
 			wand = TRUE
 			start()
 				..()
@@ -289,12 +303,14 @@ class
 				say("This allows you to see how much health and mana the student has. It is nice for checking out your competition.")
 		Obliviate
 			mp = 700
+			cd = 30
 			wand = TRUE
 			start()
 				..()
 				say("You'll forget whatever the caster wants you to. You also will have some of your chat logs erased too.")
 		Crucio
 			mp = 400
+			cd = 15
 			wand = TRUE
 			start()
 				..()
@@ -311,6 +327,7 @@ class
 				say("This hex causes the victim's teeth to grow rapidly, but can also be used to restore lost teeth.")
 		Flagrate
 			mp = 300
+			cd = 10
 			wand = TRUE
 			start()
 				..()
@@ -323,12 +340,14 @@ class
 		Arcesso
 			wand = TRUE
 			mp = 800
+			cd = 15
 			start()
 				..()
 				say("You can summon a student with this spell. It requires two students to work though and they both must have this spell.")
 				sleep(30)
-				say("The second person who joins the summoning need at least 400 MP.")
+				say("The second person who joins the summoning needs at least 400 MP.")
 		Riddikulus
+			cd = 30
 			wand = TRUE
 			start()
 				..()
@@ -343,15 +362,20 @@ class
 		subject = "COMC"
 		wand    = TRUE
 		Serpensortia
+			cd = 15
 			start()
 				..()
 				say("Summons a small snake that can be rebellious if not treated right.")
 		Repellium
 			mp = 100
+			cd = 90
 			start()
 				..()
 				say("Creates an Area of Effect that pushes back all monsters outside the circumference. Beware: this doesn't work on all of them. ;)")
+				sleep(30)
+				say("[name] will also disable projectile usage for 30 seconds.")
 		Avis
+			cd = 15
 			start()
 				..()
 				say("Summons a bird that can come to your aid and heal you plus others if needed.")
@@ -365,6 +389,7 @@ class
 				..()
 				say("This spell is used to blast away Acromantulas and, presumably, all other arachnids.")
 		Dementia
+			cd = 15
 			start()
 				..()
 				say("This will summon a dementor however it will not be under your control. It could turn on you and eat your soul!")
@@ -376,11 +401,13 @@ class
 		subject = "Charms"
 		wand    = TRUE
 		Conjunctivis
+			cd = 15
 			start()
 				..()
 				say("This curse is presumed to cause great pain in the victim's eyes causing the victim to be blind for a certain amount of time.")
 		Portus
 			mp = 25
+			cd = 30
 			start()
 				..()
 				say("It turns an object into a port-key. That means you can make a scroll into a portal. How exciting!")
@@ -394,6 +421,7 @@ class
 				..()
 				say("It deletes things like roses and scrolls.")
 		Evanesco
+			cd = 15
 			start()
 				..()
 				say("Vanishes the target; the best description of what happens to it is that it goes \"into non-being, which is to say, everything")
@@ -414,9 +442,12 @@ class
 				..()
 				say("This spell destroys objects and turns it into rubble.")
 		Eparo_Evanesca
+			cd = 10
 			start()
 				..()
 				say("It makes the invisible turn visible.")
+				sleep(30)
+				say("[name] prevents who it reveals from recloaking themselves for 15 seconds.")
 		Langlock
 			mp = 600
 			start()
@@ -436,11 +467,13 @@ class
 				..()
 				say("This opens the airpipes of a student.")
 		Melofors
+			cd = 15
 			start()
 				..()
 				say("This drops a pumpkin on your targets head temporarily blinding them until it falls off.")
 		Levicorpus
 			mp = 800
+			cd = 60
 			start()
 				..()
 				say("This flips you upside down so any secret notes or pens will be on the floor for people to collect. Watch out!")
@@ -460,11 +493,15 @@ class
 				..()
 				say("Using this spell, you get to switch places with yourself and the target you have chosen.")
 		Ferula
+			cd = 30
 			start()
 				..()
 				say("This summons our wonderful nurse and she will be there to help heal any minor wounds that you may have.")
+				sleep(30)
+				say("[name]'s heal has a 5 second cooldown.")
 		Tarantallegra
 			mp = 100
+			cd = 15
 			start()
 				..()
 				say("This spell causes people to dance uncontrollably.")

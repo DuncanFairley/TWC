@@ -1343,3 +1343,7 @@ obj/Cauldron____
 	accioable=0
 	density=1
 	rubbleable=1
+turf
+	candle
+	icon_state="wood"
+	density=0

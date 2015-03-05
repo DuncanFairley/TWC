@@ -2725,9 +2725,6 @@ turf
 		icon='longtables.dmi'
 		icon_state="z"
 		density=1
-	candle
-		icon_state="wood"
-		density=0
 	water/ice
 		isice = 1
 	water
