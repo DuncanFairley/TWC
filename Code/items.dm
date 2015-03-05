@@ -2406,7 +2406,7 @@ obj
 obj
 	tree
 		name       = "Tree"
-		icon       = 'ragtreeNEW.dmi'
+		icon       = 'ragtree.dmi'
 		icon_state = "summer" //winter in winter
 		density    = 1
 
