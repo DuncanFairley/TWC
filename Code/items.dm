@@ -2401,6 +2401,12 @@ obj
 			var/obj/tree_top/t = new(loc)
 			t.y++
 
+			if(prob(60))
+				var/r = rand(160, 255)
+				var/g = rand(82, r)
+				var/b = rand(45, g)
+				color = rgb(r, g, b)
+
 	tree_top
 		name       = "Tree"
 		icon       = 'BigTree.dmi'
@@ -2408,7 +2414,11 @@ obj
 		density = 1
 		pixel_x = -64
 		pixel_y = -32
-		layer   = MOB_LAYER + 1
+		layer   = 5
+
+		New()
+			..()
+			if(prob(80)) color = rgb(0, rand(150, 220), 0)
 
 	flyblock
 		invisibility = 10
