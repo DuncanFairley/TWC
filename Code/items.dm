@@ -2391,7 +2391,7 @@ obj
 obj
 	tree
 		name       = "Tree"
-		icon       = 'Tree.dmi'
+		icon       = 'BigTree.dmi'
 		icon_state = "stump"
 		density    = 1
 		pixel_x    = -64
@@ -2403,7 +2403,7 @@ obj
 
 	tree_top
 		name       = "Tree"
-		icon       = 'Tree.dmi'
+		icon       = 'BigTree.dmi'
 		icon_state = "top"
 		density = 1
 		pixel_x = -64
