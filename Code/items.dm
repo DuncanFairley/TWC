@@ -2400,15 +2400,47 @@ obj
 			pixel_x = rand(-7,7)
 			pixel_y = rand(-7,7)
 obj
-	HGM
-		accioable = 0
-		dontsave = 1
-obj
 	tree
 		name       = "Tree"
-		icon       = 'ragtree.dmi'
-		icon_state = "summer" //winter in winter
+		icon       = 'Tree.dmi'
+		icon_state = "stump"
 		density    = 1
+		pixel_x    = -64
+
+		New()
+			..()
+			var/obj/tree_top/t = new(loc)
+			t.y++
+
+	tree_top
+		name       = "Tree"
+		icon       = 'Tree.dmi'
+		icon_state = "top"
+		density = 1
+		pixel_x = -64
+		pixel_y = -32
+		layer   = MOB_LAYER + 1
+
+	flyblock
+		invisibility = 10
+		icon='teleport2.dmi'
+		icon_state = "shield"
+		New()
+			..()
+			var/turf/t = loc
+			t.flyblock = 1
+			t.density  = 1
+
+
+turf
+	dirt_south
+		icon_state="dirt south"
+	dirt_north
+		icon_state="dirt north"
+	dirt_east
+		icon_state="dirt east"
+	dirt_west
+		icon_state="dirt west"
 
 obj/Avada_Kedavra
 	icon='attacks.dmi'
