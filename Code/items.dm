@@ -2423,13 +2423,12 @@ obj
 
 	flyblock
 		invisibility = 10
-		icon='teleport2.dmi'
-		icon_state = "shield"
 		New()
 			..()
 			var/turf/t = loc
 			t.flyblock = 1
 			t.density  = 1
+			loc = null
 
 
 turf
