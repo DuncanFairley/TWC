@@ -2729,8 +2729,8 @@ turf
 		isice = 1
 	water
 		icon='Water.dmi'
-		icon_state="water" //ice when in winter
-		name = "water" //ice when in winter
+		icon_state="water"
+		name = "water"
 		density=0
 		layer=4
 		var
