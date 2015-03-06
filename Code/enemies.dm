@@ -196,7 +196,7 @@ mob
 				Dmg = round(DMGmodifier * ((src.level -1) + 5))
 				MHP = round(HPmodifier * (4 * (src.level - 1) + 200))
 				gold = round(src.level / 2)
-				Expg = round(src.level * 1.3)
+				Expg = round(src.level * 1.7)
 				HP = MHP
 //NEWMONSTERS
 			proc/Death(mob/Player/killer)
