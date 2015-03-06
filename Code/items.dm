@@ -2360,17 +2360,6 @@ obj/Fountain____s
 			sleep(20)
 			usr.loc=locate(42,4,20)
 			usr<<"You fall into the opening and down a tunnel into the Chamber of Secrets."
-obj/Piano_
-	icon='misc.dmi'
-	icon_state="piano"
-	wlable=0
-	density=1
-	accioable=0
-	verb
-		Examine()
-			set src in oview()
-			usr.loc=locate(65,12,1)
-			alert("Ownage.")
 
 area/login
 obj/Fountain____h
@@ -2400,15 +2389,56 @@ obj
 			pixel_x = rand(-7,7)
 			pixel_y = rand(-7,7)
 obj
-	HGM
-		accioable = 0
-		dontsave = 1
-obj
 	tree
 		name       = "Tree"
-		icon       = 'ragtree.dmi'
-		icon_state = "summer" //winter in winter
+		icon       = 'BigTree.dmi'
+		icon_state = "stump"
 		density    = 1
+		pixel_x    = -64
+
+		New()
+			..()
+			var/obj/tree_top/t = new(loc)
+			t.y++
+
+			if(prob(60))
+				var/r = rand(160, 255)
+				var/g = rand(82, r)
+				var/b = rand(45, g)
+				color = rgb(r, g, b)
+
+	tree_top
+		name       = "Tree"
+		icon       = 'BigTree.dmi'
+		icon_state = "top"
+		density = 1
+		pixel_x = -64
+		pixel_y = -32
+		layer   = 5
+
+		New()
+			..()
+			if(prob(80)) color = rgb(0, rand(150, 220), 0)
+
+	flyblock
+		invisibility = 10
+		New()
+			..()
+			var/turf/t = loc
+			t.flyblock = 1
+			t.density  = 1
+			loc = null
+
+
+turf
+	dirt_south
+		icon_state="dirt south"
+	dirt_north
+		icon_state="dirt north"
+	dirt_east
+		icon_state="dirt east"
+	dirt_west
+		icon_state="dirt west"
 
 obj/Avada_Kedavra
 	icon='attacks.dmi'
