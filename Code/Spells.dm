@@ -1160,7 +1160,7 @@ mob/Spells/verb/Obliviate(mob/M in oview()&Players)
 		if(prob(15))
 			usr << output(null,"output")
 			hearers()<<"[usr]'s spell has backfired."
-			usr:learnSpell("Obliviate", -1)
+			if(prob(70)) usr:learnSpell("Obliviate", -1)
 		else
 			M << output(null,"output")
 			hearers()<<"[usr] wiped [M]'s memory!"
