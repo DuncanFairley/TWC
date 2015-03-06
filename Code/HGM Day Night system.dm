@@ -22,6 +22,7 @@ Weather
 	proc
 		clouds(p=0, color=null)
 			generate_clouds(15, p, color)
+			generate_clouds(16, p, color)
 
 		rain()
 			clouds(100, "rain")
