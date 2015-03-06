@@ -111,7 +111,7 @@ obj/cloud
 		shadow               = new
 		shadow.icon          = icon
 		shadow.icon_state    = "[icon_state]_shadow"
-		shadow.layer         = 5
+		shadow.layer         = 6
 		shadow.mouse_opacity = 0
 		shadow.loc           = locate(x, y - rand(6,10), z)
 
@@ -152,7 +152,7 @@ obj/cloud
 var/list/outside_areas = list()
 area
 	outside	// lay this area on the map anywhere you want it to change from night to day
-		layer = 6	// set this layer above everything else so the overlay obscures everything
+		layer = 7	// set this layer above everything else so the overlay obscures everything
 		var
 			lit = 1	// determines if the area is lit or dark.
 			obj/weather/Weather	// what type of weather the area is having
