@@ -2360,17 +2360,6 @@ obj/Fountain____s
 			sleep(20)
 			usr.loc=locate(42,4,20)
 			usr<<"You fall into the opening and down a tunnel into the Chamber of Secrets."
-obj/Piano_
-	icon='misc.dmi'
-	icon_state="piano"
-	wlable=0
-	density=1
-	accioable=0
-	verb
-		Examine()
-			set src in oview()
-			usr.loc=locate(65,12,1)
-			alert("Ownage.")
 
 area/login
 obj/Fountain____h
