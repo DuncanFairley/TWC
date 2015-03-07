@@ -537,6 +537,7 @@ proc/check(msg as text)
             pos = findtext(msg,c,pos)//looks for anymore unwanted text after the first one is found
     return html_encode(msg)
 var/list/illegalnames = list(
+	"deatheater",
 	"harry",
 	"potter",
 	"weasley",
