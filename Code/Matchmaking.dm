@@ -655,9 +655,11 @@ tr.file_black
 
 			var/html = ""
 			var/rankNum = 1
+			var/isWhite = TRUE
 			for(var/i = skill_rating.len to 1 step -1)
 				var/skill_stats/s = skill_rating[skill_rating[i]]
 				if(s.wins < WINS_REQ) continue
-				html += "<tr class=[i % 2 == 0 ? "file_white" : "file_black"]><td>[rankNum]</td><td>[s.name]</td><td>[getSkillGroup(skill_rating[i])]</td><td>[s.wins]</td></tr>"
+				html += "<tr class=[isWhite ? "file_white" : "file_black"]><td>[rankNum]</td><td>[s.name]</td><td>[getSkillGroup(skill_rating[i])]</td><td>[s.wins]</td></tr>"
+				isWhite = !isWhite
 				rankNum++
 			usr << browse(SCOREBOARD_HEADER + html + "</table></center></html>","window=scoreboard")
