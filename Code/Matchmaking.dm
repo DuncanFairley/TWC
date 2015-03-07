@@ -291,12 +291,16 @@ arena
 			if(!spectators) spectators = list()
 			spectators += p
 
+			spectateObj.updateName()
+
 		removeSpectator(mob/Player/p)
 			p.client.eye=p
 			p.client.perspective = EYE_PERSPECTIVE
 
 			spectators -= p
 			if(!spectators.len) spectators = null
+
+			spectateObj.updateName()
 
 		loadArena()
 			arena = SwapMaps_CreateFromTemplate("arena1")
@@ -382,7 +386,7 @@ arena
 			if(team1.isReconnecting) team1.lost = TRUE
 			if(team2.isReconnecting) team2.lost = TRUE
 
-			if(team1.lost && team2.lost)
+			if((team1.lost && team2.lost) || (!team1.lost && !team2.lost))
 				team1.score++
 				team2.score++
 
@@ -392,12 +396,17 @@ arena
 					team1.player << infomsg("You draw the match against [team2.name]")
 					team2.player << infomsg("You draw the match against [team1.name]")
 					state = 0
+
+					if(spectators) spectators << infomsg("[spectateObj.name] ended in a draw.")
+
 			if(!team1.lost && team1.won())
 				team1.player << infomsg("You won the match against [team2.name]")
 				team2.player << errormsg("You lost the match against [team1.name]")
 
 				currentMatches.reward(team1, team2)
 				state = 0
+
+				if(spectators) spectators << infomsg("[spectateObj.name] - [team1.name] won.")
 			else if(!team2.lost && team2.won())
 				team2.player << infomsg("You won the match against [team1.name]")
 				team1.player << errormsg("You lost the match against [team2.name]")
@@ -405,6 +414,7 @@ arena
 				currentMatches.reward(team2, team1)
 				state = 0
 
+				if(spectators) spectators << infomsg("[spectateObj.name] - [team2.name] won.")
 			scoreboard.maptext = "<b><font size=4 color=#FF4500>[team1.score]:[team2.score]</font></b>"
 
 			if(state)
@@ -505,7 +515,7 @@ team
 	New(mob/Player/p)
 		..()
 		player = p
-		name   = p.name
+		name   = p.pname ? p.pname : p.name
 		id     = p.ckey
 		score  = 0
 
@@ -603,8 +613,6 @@ obj/spectate
 			parent.removeSpectator(usr)
 		else
 			parent.addSpectator(usr)
-		updateName()
-
 
 	proc
 		dispose()
@@ -663,3 +671,13 @@ tr.file_black
 				isWhite = !isWhite
 				rankNum++
 			usr << browse(SCOREBOARD_HEADER + html + "</table></center></html>","window=scoreboard")
+
+area/arenas
+	Entered(atom/movable/Obj)
+		..()
+		if(isplayer(Obj))
+			var/mob/Player/user = Obj
+			var/obj/items/wearable/brooms/Broom = locate() in user.Lwearing
+			if(Broom) Broom.Equip(user,1)
+			var/obj/items/wearable/invisibility_cloak/Cloak = locate() in user.Lwearing
+			if(Cloak) Cloak.Equip(user,1)
