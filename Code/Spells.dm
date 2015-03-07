@@ -2197,26 +2197,17 @@ mob/Player
 				return
 		..()
 
-var/move_queue = FALSE
+var/move_queue = TRUE
 
 client
 	var/tmp
 		moving = 0
-		list/movements
+		list/movements = list()
 
 	Move(loc,dir)
 		if(mob.confused && dir)
 			dir = turn(dir, 180)
 			loc = get_step(mob, dir)
-
-
-		if(moving && move_queue)
-			if(!movements) movements = list()
-			if(movements.len < 10)
-				movements += dir
-			return
-
-		moving = 1
 
 		if(src.mob.away)
 			src.mob.away = 0
@@ -2226,18 +2217,26 @@ client
 			src.mob.overlays-=image('AFK.dmi',icon_state="AFK4")
 			src.mob.overlays-='AFK.dmi'
 
-		if(movements)
+
+		if(move_queue)
+			if(!movements) movements = list()
+			if(movements.len < 10)
+				movements += dir
+
+			if(moving) return
+			moving = 1
+
 			var/index = 0
 			while(movements && index < movements.len)
 				index++
 				var/d = movements[index]
 				..(get_step(mob, d), d)
+				world << world.time
 				sleep(1)
 			movements = null
-			loc = get_step(mob, dir)
-		..()
-		sleep(0)
-		moving = 0
+			moving = 0
+		else
+			..()
 
 obj/var
 	controllable = 0
