@@ -399,7 +399,7 @@ arena
 
 					if(spectators) spectators << infomsg("[spectateObj.name] ended in a draw.")
 
-			if(!team1.lost && team1.won())
+			else if(!team1.lost && team1.won())
 				team1.player << infomsg("You won the match against [team2.name]")
 				team2.player << errormsg("You lost the match against [team1.name]")
 
@@ -533,7 +533,6 @@ team
 				lost = TRUE
 
 
-
 obj
 	clock
 		var/seconds
@@ -550,7 +549,7 @@ obj
 					minutes += round(seconds / 60)
 					seconds -= minutes * 60
 
-				pixel_x = minutes ? -16 : 2
+				pixel_x = minutes ? -8 : 2
 
 				updateDisplay()
 
@@ -561,7 +560,7 @@ obj
 					minutes--
 					seconds = 59
 
-					pixel_x = minutes ? -16 : 2
+					pixel_x = minutes ? -8 : 2
 
 				updateDisplay()
 
