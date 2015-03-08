@@ -272,7 +272,7 @@ area
 							"fgd423",		// THIRD_FLOOR
 							null		// FORTH_FLOOR
 							)
-		Duel_Class
+		Matchmaking/Duel_Class
 			location = FORTH_FLOOR
 			AI_directions = list(
 							"fgd423",		// GROUND_FLOOR
@@ -327,7 +327,7 @@ area
 							"zvsd32",		// THIRD_FLOOR
 							"zvsd32"		// FORTH_FLOOR
 							)
-			Main_Arena_Top
+			Matchmaking/Main_Arena_Top
 				AI_directions = list(
 							"zvsd32",		// GROUND_FLOOR
 							"zvsd32",		// SEC_FLOOR_EAST
@@ -355,7 +355,7 @@ area
 								"dsa3",		// THIRD_FLOOR
 								"dsa3"		// FORTH_FLOOR
 								)
-			Duel_Class
+			Matchmaking/Duel_Class
 				location = FORTH_FLOOR
 				AI_directions = list(
 							"fgd423",		// GROUND_FLOOR
