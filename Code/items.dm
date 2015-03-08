@@ -131,11 +131,12 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			o.layer = wear_layer
 			owner.overlays -= o
 		src.suffix = null
-		if(bonus & DAMAGE)
-			owner.clothDmg -= 10 * quality
-		if(bonus & DEFENSE)
-			owner.clothDef -= 30 * quality
-			owner.resetMaxHP()
+		if(bonus != -1)
+			if(bonus & DAMAGE)
+				owner.clothDmg -= 10 * quality
+			if(bonus & DEFENSE)
+				owner.clothDef -= 30 * quality
+				owner.resetMaxHP()
 		return REMOVED
 	else
 		if(showoverlay && !owner.trnsed)
@@ -146,11 +147,12 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		suffix = "<font color=blue>(Worn)</font>"
 		if(!owner.Lwearing) owner.Lwearing = list()
 		owner.Lwearing.Add(src)
-		if(bonus & DAMAGE)
-			owner.clothDmg += 10 * quality
-		if(bonus & DEFENSE)
-			owner.clothDef += 30 * quality
-			owner.resetMaxHP()
+		if(bonus != -1)
+			if(bonus & DAMAGE)
+				owner.clothDmg += 10 * quality
+			if(bonus & DEFENSE)
+				owner.clothDef += 30 * quality
+				owner.resetMaxHP()
 		return WORN
 
 obj/items/food

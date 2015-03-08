@@ -1116,7 +1116,7 @@ mob/Player
 			for(var/obj/items/wearable/W in tmpwearing)
 				spawn()
 					var/b = W.bonus
-					W.bonus = ignoreBonus ? 0 : b
+					W.bonus = ignoreBonus ? -1 : b
 					W.Equip(src,1)
 					W.bonus = b
 		spawn()if(src.away)src.ApplyAFKOverlay()
