@@ -2231,7 +2231,6 @@ client
 				index++
 				var/d = movements[index]
 				..(get_step(mob, d), d)
-				world << world.time
 				sleep(1)
 			movements = null
 			moving = 0

@@ -537,6 +537,7 @@ proc/check(msg as text)
             pos = findtext(msg,c,pos)//looks for anymore unwanted text after the first one is found
     return html_encode(msg)
 var/list/illegalnames = list(
+	"deatheater",
 	"harry",
 	"potter",
 	"weasley",
@@ -1060,8 +1061,6 @@ mob/Player
 				src.admin=1
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
-			if("Rotem12")
-				src.verbs+= /mob/GM/verb/Edit_Rules
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
@@ -1115,7 +1114,7 @@ mob/Player
 			for(var/obj/items/wearable/W in tmpwearing)
 				spawn()
 					var/b = W.bonus
-					W.bonus = ignoreBonus ? 0 : b
+					W.bonus = ignoreBonus ? -1 : b
 					W.Equip(src,1)
 					W.bonus = b
 		spawn()if(src.away)src.ApplyAFKOverlay()
@@ -1782,7 +1781,7 @@ mob/proc/Death_Check(mob/killer = src)
 				switch(src.loc.loc.type)
 					if(/area/hogwarts/Duel_Arenas/Main_Arena_Bottom)
 						p.Transfer(locate(29,13,22))
-					if(/area/hogwarts/Duel_Arenas/Main_Arena_Top)
+					if(/area/hogwarts/Duel_Arenas/Matchmaking/Main_Arena_Top)
 						var/obj/o = pick(duel_chairs)
 						p.Transfer(o.loc)
 					if(/area/hogwarts/Duel_Arenas/Slytherin)
@@ -1793,7 +1792,7 @@ mob/proc/Death_Check(mob/killer = src)
 						p.Transfer(locate(89,21,22))
 					if(/area/hogwarts/Duel_Arenas/Hufflepuff)
 						p.Transfer(locate(58,89,21))
-					if(/area/hogwarts/Duel_Arenas/Duel_Class)
+					if(/area/hogwarts/Duel_Arenas/Matchmaking/Duel_Class)
 						p.Transfer(locate(45,82,23))
 					if(/area/hogwarts/Duel_Arenas/Defence_Against_the_Dark_Arts)
 						p.Transfer(locate(36,57,21))

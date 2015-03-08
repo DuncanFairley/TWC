@@ -8,7 +8,9 @@ obj/duel_chair
 		..()
 		duel_chairs += src
 
-area/hogwarts/Duel_Arenas/Main_Arena_Top
+area/hogwarts/Duel_Arenas/Matchmaking
+	Main_Arena_Top
+	Duel_Class
 
 	Entered(atom/movable/Obj,atom/OldLoc)
 		..()
@@ -119,14 +121,24 @@ var/matchmaking/currentMatches = new
 matchmaking
 	var/list/arenas
 	var/list/queue
+	var/matchmaking = FALSE
 
 	proc
 
 		addQueue(mob/Player/p)
 			if(!queue) queue = list()
-			queue += p
+			var/skill_stats/s = skill_rating[p.ckey]
+			queue[p] = s.rating
 
-			spawn() matchup()
+			if(!matchmaking && queue.len >= 2)
+				matchmaking = TRUE
+				spawn(rand(50,100))
+					bubblesort_by_value(queue)
+					while(queue && queue.len >= 2)
+						matchup()
+						sleep(1)
+					matchmaking = FALSE
+
 
 		removeQueue(mob/Player/p)
 			queue -= p
@@ -149,10 +161,10 @@ matchmaking
 				if(a.reconnect(p)) return 1
 
 		matchup()
-			if(queue.len >= 2)
-				var/mob/Player/p1 = pick(queue)
+			if(queue && queue.len >= 2)
+				var/mob/Player/p1 = queue[queue.len]
+				var/mob/Player/p2 = queue[queue.len - 1]
 				removeQueue(p1)
-				var/mob/Player/p2 = pick(queue)
 				removeQueue(p2)
 
 				p1.beep()
@@ -222,8 +234,8 @@ matchmaking
 			var/winnerExpectedScore = 1 / (1 + 10 ** ((loser.rating  - winner.rating) / 400))
 			var/loserExpectedScore  = 1 / (1 + 10 ** ((winner.rating - loser.rating)  / 400))
 
-			winner.rating = round(winner.rating + factor * (1 - winnerExpectedScore), 1)
-			loser.rating  = round(loser.rating  + factor * (0 - loserExpectedScore),  1)
+			winner.rating = round(winner.rating + factor * (1 - winnerExpectedScore))
+			loser.rating  = round(loser.rating  + factor * (0 - loserExpectedScore))
 			loser.rating  = max(10, loser.rating)
 
 			bubblesort_by_value(skill_rating, "rating", TRUE)
@@ -238,7 +250,8 @@ matchmaking
 			if(winTeam.player && prob(5 + loserExpectedScore * 10))
 				var/t = pick(/obj/items/wearable/title/Duelist,
 							 /obj/items/wearable/title/Wizard,
-							 /obj/items/wearable/title/Determined)
+							 /obj/items/wearable/title/Determined,
+							 /obj/items/wearable/title/Battlemage)
 				var/obj/o = new t (winTeam.player)
 				winTeam.player.Resort_Stacking_Inv()
 				winTeam.player << infomsg("You receive [o.name]! How lucky!")
@@ -291,12 +304,16 @@ arena
 			if(!spectators) spectators = list()
 			spectators += p
 
+			spectateObj.updateName()
+
 		removeSpectator(mob/Player/p)
 			p.client.eye=p
 			p.client.perspective = EYE_PERSPECTIVE
 
 			spectators -= p
 			if(!spectators.len) spectators = null
+
+			spectateObj.updateName()
 
 		loadArena()
 			arena = SwapMaps_CreateFromTemplate("arena1")
@@ -382,29 +399,38 @@ arena
 			if(team1.isReconnecting) team1.lost = TRUE
 			if(team2.isReconnecting) team2.lost = TRUE
 
-			if(team1.lost && team2.lost)
+			var/skip = FALSE
+			if((team1.lost && team2.lost) || (!team1.lost && !team2.lost))
 				team1.score++
 				team2.score++
 
-				if(team1.score > team2.score)      team1.lost = FALSE
-				else if(team1.score < team2.score) team2.lost = FALSE
-				else if(team1.score == 3)
-					team1.player << infomsg("You draw the match against [team2.name]")
-					team2.player << infomsg("You draw the match against [team1.name]")
+				if(team1.score > team2.score)      team2.lost = TRUE
+				else if(team1.score < team2.score) team1.lost = TRUE
+				else
+					skip = TRUE
+					if(team1.score == 3)
+						team1.player << infomsg("You drew the match against [team2.name]")
+						team2.player << infomsg("You drew the match against [team1.name]")
+						state = 0
+
+						if(spectators) spectators << infomsg("[spectateObj.name] ended in a draw.")
+			if(!skip)
+				if(!team1.lost && team1.won())
+					team1.player << infomsg("You won the match against [team2.name]")
+					team2.player << errormsg("You lost the match against [team1.name]")
+
+					currentMatches.reward(team1, team2)
 					state = 0
-			if(!team1.lost && team1.won())
-				team1.player << infomsg("You won the match against [team2.name]")
-				team2.player << errormsg("You lost the match against [team1.name]")
 
-				currentMatches.reward(team1, team2)
-				state = 0
-			else if(!team2.lost && team2.won())
-				team2.player << infomsg("You won the match against [team1.name]")
-				team1.player << errormsg("You lost the match against [team2.name]")
+					if(spectators) spectators << infomsg("[spectateObj.name] - [team1.name] won.")
+				else if(!team2.lost && team2.won())
+					team2.player << infomsg("You won the match against [team1.name]")
+					team1.player << errormsg("You lost the match against [team2.name]")
 
-				currentMatches.reward(team2, team1)
-				state = 0
+					currentMatches.reward(team2, team1)
+					state = 0
 
+					if(spectators) spectators << infomsg("[spectateObj.name] - [team2.name] won.")
 			scoreboard.maptext = "<b><font size=4 color=#FF4500>[team1.score]:[team2.score]</font></b>"
 
 			if(state)
@@ -505,7 +531,7 @@ team
 	New(mob/Player/p)
 		..()
 		player = p
-		name   = p.name
+		name   = p.pname ? p.pname : p.name
 		id     = p.ckey
 		score  = 0
 
@@ -521,7 +547,6 @@ team
 		reconnect()
 			if(isReconnecting && timer.countdown())
 				lost = TRUE
-
 
 
 obj
@@ -540,7 +565,7 @@ obj
 					minutes += round(seconds / 60)
 					seconds -= minutes * 60
 
-				pixel_x = minutes ? -16 : 2
+				pixel_x = minutes ? -8 : 2
 
 				updateDisplay()
 
@@ -551,7 +576,7 @@ obj
 					minutes--
 					seconds = 59
 
-					pixel_x = minutes ? -16 : 2
+					pixel_x = minutes ? -8 : 2
 
 				updateDisplay()
 
@@ -603,8 +628,6 @@ obj/spectate
 			parent.removeSpectator(usr)
 		else
 			parent.addSpectator(usr)
-		updateName()
-
 
 	proc
 		dispose()
@@ -655,9 +678,26 @@ tr.file_black
 
 			var/html = ""
 			var/rankNum = 1
+			var/isWhite = TRUE
 			for(var/i = skill_rating.len to 1 step -1)
 				var/skill_stats/s = skill_rating[skill_rating[i]]
 				if(s.wins < WINS_REQ) continue
-				html += "<tr class=[i % 2 == 0 ? "file_white" : "file_black"]><td>[rankNum]</td><td>[s.name]</td><td>[getSkillGroup(skill_rating[i])]</td><td>[s.wins]</td></tr>"
+				var/seconderySkillGroup
+				if(s.rating > 1800 && skill_rating.len - i <= 2)
+					seconderySkillGroup = " [1 + skill_rating.len - i]"
+				else if(s.rating >= 400)
+					seconderySkillGroup = " [5 - round((s.rating % 200) / 40)]"
+				html += "<tr class=[isWhite ? "file_white" : "file_black"]><td>[rankNum]</td><td>[s.name]</td><td>[getSkillGroup(skill_rating[i])][seconderySkillGroup]</td><td>[s.wins]</td></tr>"
+				isWhite = !isWhite
 				rankNum++
 			usr << browse(SCOREBOARD_HEADER + html + "</table></center></html>","window=scoreboard")
+
+area/arenas
+	Entered(atom/movable/Obj)
+		..()
+		if(isplayer(Obj))
+			var/mob/Player/user = Obj
+			var/obj/items/wearable/brooms/Broom = locate() in user.Lwearing
+			if(Broom) Broom.Equip(user,1)
+			var/obj/items/wearable/invisibility_cloak/Cloak = locate() in user.Lwearing
+			if(Cloak) Cloak.Equip(user,1)
