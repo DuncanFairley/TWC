@@ -250,7 +250,8 @@ matchmaking
 			if(winTeam.player && prob(5 + loserExpectedScore * 10))
 				var/t = pick(/obj/items/wearable/title/Duelist,
 							 /obj/items/wearable/title/Wizard,
-							 /obj/items/wearable/title/Determined)
+							 /obj/items/wearable/title/Determined,
+							 /obj/items/wearable/title/Battlemage)
 				var/obj/o = new t (winTeam.player)
 				winTeam.player.Resort_Stacking_Inv()
 				winTeam.player << infomsg("You receive [o.name]! How lucky!")
