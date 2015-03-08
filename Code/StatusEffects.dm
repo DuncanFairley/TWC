@@ -285,6 +285,10 @@ StatusEffect
 				rate = 3
 			Quadaple
 				rate = 4
+			Penta
+				rate = 5
+			Sextuple
+				rate = 6
 
 		Exp
 			var/rate
@@ -294,6 +298,10 @@ StatusEffect
 				rate = 3
 			Quadaple
 				rate = 4
+			Penta
+				rate = 5
+			Sextuple
+				rate = 6
 
 		Gold
 			var/rate
@@ -303,6 +311,10 @@ StatusEffect
 				rate = 3
 			Quadaple
 				rate = 4
+			Penta
+				rate = 5
+			Sextuple
+				rate = 6
 
 		Damage
 			Activate()

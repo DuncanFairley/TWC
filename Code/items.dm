@@ -1169,6 +1169,9 @@ obj/items/wearable/title
 	Determined
 		title =  "Determined"
 		name  =  "Title: Determined"
+	Battlemage
+		title =  "Battlemage"
+		name  =  "Title: Battlemage"
 
 
 mob/Bump(obj/ball/B)
@@ -2978,6 +2981,14 @@ obj/items/lamps
 		desc    = "Quadaples your drop rate."
 		effect  = /StatusEffect/Lamps/DropRate/Quadaple
 		seconds = 1800
+	penta_drop_rate_lamp
+		desc    = "Increases your drop rate x5."
+		effect  = /StatusEffect/Lamps/DropRate/Penta
+		seconds = 900
+	sextuple_drop_rate_lamp
+		desc    = "Increases your drop rate x6."
+		effect  = /StatusEffect/Lamps/DropRate/Sextuple
+		seconds = 600
 
 	double_exp_lamp
 		desc    = "Doubles your exp gain rate."
@@ -2991,6 +3002,14 @@ obj/items/lamps
 		desc    = "Quadaples your exp gain rate."
 		effect  = /StatusEffect/Lamps/Exp/Quadaple
 		seconds = 1800
+	penta_exp_lamp
+		desc    = "Increases your exp x5."
+		effect  = /StatusEffect/Lamps/Exp/Penta
+		seconds = 900
+	sextuple_exp_lamp
+		desc    = "Increases your exp x6."
+		effect  = /StatusEffect/Lamps/Exp/Sextuple
+		seconds = 600
 
 	double_gold_lamp
 		desc    = "Doubles your gold gain rate."
@@ -3004,6 +3023,14 @@ obj/items/lamps
 		desc    = "Quadaples your gold gain rate."
 		effect  = /StatusEffect/Lamps/Gold/Quadaple
 		seconds = 1800
+	penta_gold_lamp
+		desc    = "Increases your gold x5."
+		effect  = /StatusEffect/Lamps/Gold/Penta
+		seconds = 900
+	sextuple_gold_lamp
+		desc    = "Increases your gold x6."
+		effect  = /StatusEffect/Lamps/Gold/Sextuple
+		seconds = 600
 
 	damage_lamp
 		desc    = "Increases your damage."
