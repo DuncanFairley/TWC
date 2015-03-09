@@ -260,7 +260,7 @@ matchmaking
 									 /obj/items/wearable/title/Determined,
 									 /obj/items/wearable/title/Battlemage)
 
-						var/obj/o = new prize (p.player)
+						var/obj/o = new prize (p)
 						p.Resort_Stacking_Inv()
 						p << infomsg("You receive [o.name]! How lucky!")
 
@@ -489,6 +489,19 @@ arena
 		dispose()
 			arena.used = 0
 
+			if(spectators)
+				var/arena/a
+				if(currentMatches.arenas) a = pick(currentMatches.arenas)
+				for(var/mob/Player/p in spectators)
+					removeSpectator(p)
+
+					if(a) a.addSpectator(p)
+
+				spectators = null
+
+			spectateObj.dispose()
+			spectateObj = null
+
 			if(team1.player)
 				var/obj/o = pick(duel_chairs)
 				team1.player.Transfer(o.loc)
@@ -512,19 +525,6 @@ arena
 			currentMatches.removeArena(src)
 
 			unload_vault(FALSE)
-
-			if(spectators)
-				var/arena/a
-				if(currentMatches.arenas) a = pick(currentMatches.arenas)
-				for(var/mob/Player/p in spectators)
-					removeSpectator(p)
-
-					if(a) a.addSpectator(p)
-
-				spectators = null
-
-			spectateObj.dispose()
-			spectateObj = null
 
 
 team
