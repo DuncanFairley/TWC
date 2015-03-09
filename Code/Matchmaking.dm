@@ -488,7 +488,7 @@ arena
 
 		dispose()
 			arena.used = 0
-
+			currentMatches.removeArena(src)
 			if(spectators)
 				var/arena/a
 				if(currentMatches.arenas) a = pick(currentMatches.arenas)
@@ -521,8 +521,6 @@ arena
 			team2.timer  = null
 			team1        = null
 			team2        = null
-
-			currentMatches.removeArena(src)
 
 			unload_vault(FALSE)
 
