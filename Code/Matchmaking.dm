@@ -246,15 +246,23 @@ matchmaking
 				var/rank = getSkillGroup(winTeam.id)
 				if(origRank != rank) Players << infomsg("<b>Matchmaking:</b> [winTeam.name] ranked up to [rank]!")
 
+			var/list/L = list(winTeam.player, loseTeam.player)
+			for(var/mob/Player/p in L)
+				if(p && prob(5))
+					var/prize
+					if(loser.rating > 600 && winner.rating > 600 && prob(15))
+						prize = pick(/obj/items/wearable/shoes/duel_shoes,
+									 /obj/items/wearable/scarves/duel_scarf,
+									 /obj/items/wearable/wands/duel_wand)
+					else
+						prize = pick(/obj/items/wearable/title/Duelist,
+									 /obj/items/wearable/title/Wizard,
+									 /obj/items/wearable/title/Determined,
+									 /obj/items/wearable/title/Battlemage)
 
-			if(winTeam.player && prob(5 + loserExpectedScore * 10))
-				var/t = pick(/obj/items/wearable/title/Duelist,
-							 /obj/items/wearable/title/Wizard,
-							 /obj/items/wearable/title/Determined,
-							 /obj/items/wearable/title/Battlemage)
-				var/obj/o = new t (winTeam.player)
-				winTeam.player.Resort_Stacking_Inv()
-				winTeam.player << infomsg("You receive [o.name]! How lucky!")
+						var/obj/o = new prize (p.player)
+						p.Resort_Stacking_Inv()
+						p << infomsg("You receive [o.name]! How lucky!")
 
 
 mob/Player/var/tmp/arena/rankedArena
