@@ -724,6 +724,8 @@ obj/items/wearable/wands/willow_wand
 	icon = 'willow_wand.dmi'
 obj/items/wearable/wands/ash_wand
 	icon = 'ash_wand.dmi'
+obj/items/wearable/wands/duel_wand
+	icon = 'wand_dueling.dmi'
 
 
 obj/items/wearable/wigs
@@ -921,6 +923,8 @@ obj/items/wearable/shoes/darkpink_shoes
 obj/items/wearable/shoes/candycane_shoes
 	icon = 'candycane_shoes.dmi'
 	name = "candy cane shoes"
+obj/items/wearable/shoes/duel_shoes
+	icon = 'shoes_dueling.dmi'
 
 obj/items/wearable/scarves
 	bonus = 0
@@ -971,6 +975,8 @@ obj/items/wearable/scarves/teal_scarf
 	icon = 'scarf_teal.dmi'
 obj/items/wearable/scarves/white_scarf
 	icon = 'scarf_white.dmi'
+obj/items/wearable/scarves/duel_scarf
+	icon = 'scarf_dueling.dmi'
 
 obj/items/wearable/scarves/lucifer_scarf
 	icon = 'scarf_lucifer.dmi'
