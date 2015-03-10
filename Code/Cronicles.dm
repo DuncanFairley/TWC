@@ -184,7 +184,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 5
+#define SAVEFILE_VERSION 7
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -253,6 +253,16 @@ mob
 			if(savefile_version < 5)
 				pdeaths = edeaths
 				edeaths = 0
+
+			if(savefile_version < 7)
+				spawn()
+					verbs -= /mob/Spells/verb/Avada_Kedavra
+					verbs -= /mob/Spells/verb/Ecliptica
+					verbs -= /mob/Spells/verb/Crapus_Sticketh
+					verbs -= /mob/Spells/verb/Herbificus_Maxima
+					verbs -= /mob/Spells/verb/Basilio
+					verbs -= /mob/Spells/verb/Shelleh
+					verbs -= /mob/Spells/verb/Imperio
 
 			var/turf/t = locate(last_x, last_y, last_z)
 			if(!t || t.name == "blankturf")
