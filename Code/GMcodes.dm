@@ -1458,6 +1458,36 @@ mob/GM
 						goto EDITITEM
 
 
+		Competitive_Ban(var/k as text)
+			set category = "Staff"
+			k = ckey(k)
+			if(!k || k == "") return
+			if(!competitiveBans) competitiveBans = list()
+
+			if(!(k in competitiveBans)) competitiveBans += k
+			src << infomsg("[k] is now banned from competitive matchmaking.")
+
+			for(var/mob/Player/p in Players)
+				if(p.ckey == k)
+					var/obj/hud/Find_Duel/o = locate(/obj/hud/Find_Duel) in p.client.screen
+					if(o)
+						p.client.screen -= o
+						if(p in currentMatches.queue)
+							currentMatches.removeQueue(p)
+
+					p.matchmaking_ready = 0
+					for(var/obj/hud/duel/d in p.client.screen)
+						p.client.screen -= d
+					break
+
+		Competitive_Unban(var/k in competitiveBans)
+			set category = "Staff"
+
+			competitiveBans -= k
+			src << infomsg("[k] is now unbanned from competitive matchmaking.")
+
+var/competitiveBans
+
 var
 	crban_bannedmsg="<font color=red><big><tt>You're banned.</tt></big></font>"
 	crban_preventbannedclients = 0 // See above comments

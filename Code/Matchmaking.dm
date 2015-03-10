@@ -17,7 +17,7 @@ area/hogwarts/Duel_Arenas/Matchmaking
 
 		if(isplayer(Obj))
 			var/mob/Player/p = Obj
-			if(p.level < lvlcap) return
+			if(p.level < lvlcap || (p.ckey in competitiveBans)) return
 			p.client.screen += new /obj/hud/Find_Duel
 
 
@@ -26,7 +26,7 @@ area/hogwarts/Duel_Arenas/Matchmaking
 
 		if(isplayer(Obj))
 			var/mob/Player/p = Obj
-			if(!p.client || p.level < lvlcap) return
+			if(!p.client || p.level < lvlcap || (p.ckey in competitiveBans)) return
 
 			var/obj/hud/Find_Duel/o = locate(/obj/hud/Find_Duel) in p.client.screen
 			if(o)
@@ -36,8 +36,8 @@ area/hogwarts/Duel_Arenas/Matchmaking
 					currentMatches.removeQueue(p)
 
 			p.matchmaking_ready = 0
-			for(var/obj/hud/duel/d in usr.client.screen)
-				usr.client.screen -= d
+			for(var/obj/hud/duel/d in p.client.screen)
+				p.client.screen -= d
 
 mob/Player
 	var/tmp
