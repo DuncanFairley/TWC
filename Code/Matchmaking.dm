@@ -695,7 +695,7 @@ tr.file_black
 				var/seconderySkillGroup
 				if(s.rating > 1800 && skill_rating.len - i <= 2)
 					seconderySkillGroup = " [1 + skill_rating.len - i]"
-				else if(s.rating >= 400)
+				else if(s.rating > 400)
 					seconderySkillGroup = " [5 - round((s.rating % 200) / 40)]"
 				html += "<tr class=[isWhite ? "file_white" : "file_black"]><td>[rankNum]</td><td>[s.name]</td><td>[getSkillGroup(skill_rating[i])][seconderySkillGroup]</td><td>[s.wins]</td></tr>"
 				isWhite = !isWhite
