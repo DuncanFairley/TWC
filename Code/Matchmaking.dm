@@ -127,6 +127,9 @@ matchmaking
 
 		addQueue(mob/Player/p)
 			if(!queue) queue = list()
+
+			if(!(p.ckey  in skill_rating)) skill_rating[p.ckey]  = new /skill_stats
+
 			var/skill_stats/s = skill_rating[p.ckey]
 			queue[p] = s.rating
 
@@ -134,9 +137,9 @@ matchmaking
 				matchmaking = TRUE
 				spawn(rand(50,100))
 					bubblesort_by_value(queue)
-					while(queue && queue.len >= 2)
-						matchup()
-						sleep(1)
+					var/i = 0
+					while(queue && queue.len - i >= 2)
+						i += matchup(i)
 					matchmaking = FALSE
 
 
@@ -160,10 +163,13 @@ matchmaking
 			for(var/arena/a in arenas)
 				if(a.reconnect(p)) return 1
 
-		matchup()
-			if(queue && queue.len >= 2)
-				var/mob/Player/p1 = queue[queue.len]
-				var/mob/Player/p2 = queue[queue.len - 1]
+		matchup(skip = 0)
+			if(queue && queue.len >= 2+skip)
+				var/mob/Player/p1 = queue[queue.len - skip]
+				var/mob/Player/p2 = queue[queue.len - 1 - skip]
+
+				if(queue[p1] - queue[p2] >= 300) return 1
+
 				removeQueue(p1)
 				removeQueue(p2)
 
@@ -214,9 +220,6 @@ matchmaking
 						p2 << errormsg("You were removed from the matchmaking queue because you failed to accept.")
 
 		reward(team/winTeam, team/loseTeam)
-			if(!(winTeam.id  in skill_rating)) skill_rating[winTeam.id]  = new /skill_stats
-			if(!(loseTeam.id in skill_rating)) skill_rating[loseTeam.id] = new /skill_stats
-
 			var/skill_stats/winner = skill_rating[winTeam.id]
 			var/skill_stats/loser  = skill_rating[loseTeam.id]
 
@@ -234,9 +237,9 @@ matchmaking
 			var/winnerExpectedScore = 1 / (1 + 10 ** ((loser.rating  - winner.rating) / 400))
 			var/loserExpectedScore  = 1 / (1 + 10 ** ((winner.rating - loser.rating)  / 400))
 
-			winner.rating = round(winner.rating + factor * (1 - winnerExpectedScore))
-			loser.rating  = round(loser.rating  + factor * (0 - loserExpectedScore))
-			loser.rating  = max(10, loser.rating)
+			winner.rating = round(winner.rating + factor * (1 - winnerExpectedScore), 1)
+			loser.rating  = round(loser.rating  + factor * (0 - loserExpectedScore), 1)
+			loser.rating  = max(100, loser.rating)
 
 			bubblesort_by_value(skill_rating, "rating", TRUE)
 
@@ -630,6 +633,7 @@ obj/spectate
 		updateName()
 
 	Click()
+		if(!parent) return
 		if(parent.spectators && (usr in parent.spectators))
 			parent.removeSpectator(usr)
 		else
