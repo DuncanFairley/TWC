@@ -207,7 +207,8 @@ matchmaking
 
 					if(!p1_accepted)
 						var/obj/hud/Find_Duel/o = locate(/obj/hud/Find_Duel) in p1.client.screen
-						o.color = null
+						if(o)
+							o.color = null
 						p1 << errormsg("You were removed from the matchmaking queue because you failed to accept.")
 
 				if(p2)
@@ -216,7 +217,8 @@ matchmaking
 						p2.client.screen -= d
 					if(!p2_accepted)
 						var/obj/hud/Find_Duel/o = locate(/obj/hud/Find_Duel) in p2.client.screen
-						o.color = null
+						if(o)
+							o.color = null
 						p2 << errormsg("You were removed from the matchmaking queue because you failed to accept.")
 
 		reward(team/winTeam, team/loseTeam)
