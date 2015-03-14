@@ -177,7 +177,7 @@ mob
 				DisableBetaMapMode()
 			else
 				EnableBetaMapMode()
-mob/Player/var/HideQuestTracker = TRUE
+mob/Player/var/HideQuestTracker = FALSE
 mob/var/pname
 obj/var/pname
 obj/var/piconstate
