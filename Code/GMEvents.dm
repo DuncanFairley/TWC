@@ -108,6 +108,7 @@ mob/GM
 			set category = "Events"
 			if(clanrobed())return
 			CreatePath = Path
+			usr << "Your CreatePath is now set to [Path]."
 		MassEdit(Var as text)
 			set category = "Events"
 			if(clanrobed())return
@@ -117,10 +118,13 @@ mob/GM
 				switch(Type)
 					if("text")
 						EditVal = input("Value:","Text") as text
+						usr << "Your MassEdit variable is now [EditVar] with the text value [EditVal]."
 					if("num")
 						EditVal = input("Value:","Number") as num
+						usr << "Your MassEdit variable is now [EditVar] with the number value [EditVal]."
 					if("reference")
 						EditVal = input("Value:","Reference") as area|turf|obj|mob in world
+						usr << "Your MassEdit variable is now [EditVar] with the reference [EditVal]."
 					if("null")
 						EditVal = null
 		FFA_Mode(var/dmg as num, var/os as anything in list("On", "Off"))
