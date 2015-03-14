@@ -269,6 +269,9 @@ mob
 			if(savefile_version < 8)
 				spawn()
 					var/mob/Player/p = src
+
+					p.MMP = p.level * 6
+
 					if(ratquest==1)
 						var/questPointer/pointer = new
 						pointer.time = world.realtime
