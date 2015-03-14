@@ -117,6 +117,47 @@ obj/MonBookMon
 		spawn(1)
 			new /obj/items/MonBookMon (loc)
 			loc = null
+
+obj/questbook
+	New()
+		..()
+		spawn(1)
+			new /obj/items/questbook (loc)
+			loc = null
+
+obj/AlyssaScroll
+	New()
+		..()
+		spawn(1)
+			new /obj/items/AlyssaScroll (loc)
+			loc = null
+
+obj/Alyssa
+	Onion_Root
+		New()
+			..()
+			spawn(1)
+				new /obj/items/Alyssa/Onion_Root (loc)
+				loc = null
+	Salamander_Drop
+		New()
+			..()
+			spawn(1)
+				new /obj/items/Alyssa/Salamander_Drop (loc)
+				loc = null
+	Indigo_Seeds
+		New()
+			..()
+			spawn(1)
+				new /obj/items/Alyssa/Indigo_Seeds (loc)
+				loc = null
+	Silver_Spider_Legs
+		New()
+			..()
+			spawn(1)
+				new /obj/items/Alyssa/Silver_Spider_Legs (loc)
+				loc = null
+
 obj/COMCText
 	New()
 		..()
