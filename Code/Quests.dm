@@ -193,6 +193,7 @@ mob/TalkNPC
 
 mob
 	Baby
+		icon = 'NPCs.dmi'
 		icon_state="baby"
 		density=1
 		Immortal=1
