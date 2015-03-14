@@ -1021,7 +1021,7 @@ quest
 		reward = /questReward/Mon2
 
 		Kill
-			desc = "Kill 100 rats."
+			desc = "Kill 100 demon rats."
 			reqs = list("Kill Demon Rat" = 100)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
