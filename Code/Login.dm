@@ -1109,6 +1109,8 @@ mob/Player
 			loc.loc.Entered(src, src.loc)
 			src.ApplyOverlays(0)
 
+			Interface = new(src)
+
 	proc/ApplyOverlays(ignoreBonus = 1)
 		src.overlays = list()
 		if(Lwearing)
@@ -2037,7 +2039,7 @@ mob/proc/Death_Check(mob/killer = src)
 			if(killer.client)
 				if(istype(src, /mob/NPC/Enemies) && !istype(src, /mob/NPC/Enemies/Summoned))
 					killer.AddKill(src.name)
-					killer:checkQuestProgress(src.name)
+					killer:checkQuestProgress("Kill [src.name]")
 				if(killer.MonsterMessages)killer<<"<i><small>You knocked [src] out!</small></i>"
 
 				killer.ekills+=1
@@ -2141,9 +2143,7 @@ mob
 		LvlCheck(var/fakelevels=0)
 			if(src.Exp>=src.Mexp)
 				src.level++
-				var/MPplus=rand(2,10)
-			//	src.MHP+=HPplus
-				src.MMP+=MPplus
+				src.MMP = level * 6
 				src.MP=src.MMP+extraMMP
 				src.Dmg+=1
 				src.Def+=1
@@ -2246,7 +2246,7 @@ obj/Banker
 								k.loc = null
 
 							p.Resort_Stacking_Inv()
-							p.checkQuestProgress("GotWand")
+							p.checkQuestProgress("Fred's Wand")
 				if("Deposit")
 					var/heh = input("You have [comma(usr.gold)] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
 					if(heh==null)return
