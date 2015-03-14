@@ -1049,7 +1049,7 @@ mob/Spells/verb/Langlock(mob/M in oview()&Players)
 			usr:learnSpell("Langlock")
 			src = null
 			spawn(300)
-				if(M.silence)
+				if(M && M.silence)
 					M<<"<b>Your tongue unsticks from the roof of your mouth.</b>"
 					M.silence=0
 mob/Spells/verb/Muffliato(mob/M in view()&Players)
