@@ -377,11 +377,11 @@ arena
 
 			if(team1.player)
 				team1.player.HP = team1.player.MHP
-				team1.player.MP = team1.player.MMP
+				team1.player.MP = team1.player.MMP+team1.player.extraMMP
 				team1.player.updateHPMP()
 			if(team2.player)
 				team2.player.HP = team2.player.MHP
-				team2.player.MP = team2.player.MMP
+				team2.player.MP = team2.player.MMP+team2.player.extraMMP
 				team2.player.updateHPMP()
 
 			for(var/obj/i in shields)
