@@ -710,7 +710,7 @@ mob/Spells/verb/Bombarda(obj/M in oview(src.client.view,src))
 				return
 			else
 				var/mob/Player/p = usr
-				if(p.checkQuestProgress("SalamanderDrop"))
+				if(p.checkQuestProgress("Salamander Drop"))
 					hearers(src.client.view,src) << "[src]: <b>Bombarda!</b>"
 					usr << "You get some Salamander Drop!"
 					new/obj/items/Alyssa/Salamander_Drop(usr)

@@ -58,11 +58,12 @@ mob
 		resetSettings()
 			set name = ".resetSettings"
 			var/winset = "butHousechattoggle.is-checked=false;butOOCtoggle.is-checked=false;"
+			var/mob/Player/p = src
 			if(PMBlock)
 				winset += "butPMtoggle.is-checked=true;"
 			else
 				winset += "butPMtoggle.is-checked=false;"
-			if(src:TradeBlock)
+			if(p.TradeBlock)
 				winset += "butTradetoggle.is-checked=true;"
 			else
 				winset += "butTradetoggle.is-checked=false;"
@@ -84,7 +85,7 @@ mob
 				winset += "butEventNotificationstoggle.is-checked=false;"
 			else
 				winset += "butEventNotificationstoggle.is-checked=true;"
-			if(src:playSounds)
+			if(p.playSounds)
 				winset += "butSoundtoggle.is-checked=false;"
 			else
 				winset += "butSoundtoggle.is-checked=true;"
@@ -94,6 +95,10 @@ mob
 			else
 				winset += "butAFKtoggle.is-checked=true;"
 
+			if(p.HideQuestTracker)
+				winset += "butQuestTrackertoggle.is-checked=true;"
+			else
+				winset += "butQuestTrackertoggle.is-checked=false;"
 			winset += "mnu_Settings.command=.ShowSettings;"
 			winset += "mnu_Settings.is-disabled=false;"
 			winset += "broLogin.is-visible=false;"
@@ -114,6 +119,14 @@ mob
 				MonsterMessages = 0
 			else
 				MonsterMessages = 1
+		QuestTrackertoggle()
+			set name = ".QuestTrackertoggle"
+			var/mob/Player/p = src
+			if(winget(src,"butQuestTrackertoggle","is-checked") == "true")
+				p.HideQuestTracker = TRUE
+			else
+				p.HideQuestTracker = FALSE
+			p.Interface.Update()
 		ClassNotificationstoggle()
 			set name = ".ClassNotificationstoggle"
 			if(winget(src,"butClassNotificationstoggle","is-checked") == "true")
@@ -164,7 +177,7 @@ mob
 				DisableBetaMapMode()
 			else
 				EnableBetaMapMode()
-
+mob/Player/var/HideQuestTracker = TRUE
 mob/var/pname
 obj/var/pname
 obj/var/piconstate

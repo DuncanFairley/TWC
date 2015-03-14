@@ -751,7 +751,7 @@ obj/AlyssaChest
 			r = 3
 		open(mob/Player/p)
 			.=..()
-			if(. && p.checkQuestProgress("OnionRoot"))
+			if(. && p.checkQuestProgress("Onion Root"))
 				alert("You find an Onion Root!")
 				new/obj/items/Alyssa/Onion_Root(usr)
 				p.Resort_Stacking_Inv()
@@ -767,7 +767,7 @@ obj/AlyssaChest
 			r = 3
 		open(mob/Player/p)
 			.=..()
-			if(. && p.checkQuestProgress("IndigoSeeds"))
+			if(. && p.checkQuestProgress("Indigo Seeds"))
 				alert("You find some Indigo Seeds!")
 				new/obj/items/Alyssa/Indigo_Seeds(usr)
 				p.Resort_Stacking_Inv()
@@ -783,7 +783,7 @@ obj/AlyssaChest
 			r = 3
 		open(mob/Player/p)
 			.=..()
-			if(. && p.checkQuestProgress("SilverSpider"))
+			if(. && p.checkQuestProgress("Silver Spider Legs"))
 				alert("You find some Silver Spider Legs!")
 				new/obj/items/Alyssa/Silver_Spider_Legs(usr)
 				p.Resort_Stacking_Inv()
@@ -791,6 +791,138 @@ obj/AlyssaChest
 				alert("You find nothing.")
 
 mob/var/talkedtosanta
+
+
+mob/TalkNPC
+
+	Vengeful_Wisp
+		icon = 'Mobs.dmi'
+		icon_state="wisp"
+
+		New()
+			..()
+			alpha = rand(190,255)
+
+			var/color1 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+			var/color2 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+			var/color3 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+
+			animate(src, color = color1, time = 10, loop = -1)
+			animate(color = color2, time = 10)
+			animate(color = color3, time = 10)
+
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+			var/questPointer/pointer = p.questPointers["Will of the Wisp \[Daily]"]
+			if(pointer)
+				if(pointer.stage)
+					if(p.checkQuestProgress("Vengeful Wisp"))
+						p << npcsay("Vengeful Wisp: I love the irony in sending you to kill dead creatures. May they rest in pea-- I will send you to kill them again tomorrow.")
+						return
+					else
+						p << npcsay("Vengeful Wisp: Don't waste time talking to me, actions speak louder than words!")
+				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
+					p.questPointers -= pointer
+					pointer = null
+
+			if(!pointer)
+				p << npcsay("Vengeful Wisp: You, human! I want you to help me express my rage, kill every wisp you face, vengeance shall be mine! Mawhahahaha!!!")
+				p.startQuest("Will of the Wisp \[Daily]")
+			else
+				p << npcsay("Vengeful Wisp: Pity the living!")
+
+	Mysterious_Wizard
+		icon_state="wizard"
+
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+			var/questPointer/pointer = p.questPointers["The Eyes in the Sand \[Daily]"]
+			if(pointer)
+				if(pointer.stage)
+					if(p.checkQuestProgress("Mysterious Wizard"))
+						p << npcsay("Mysterious Wizard: Floating eyes, the gods of the desert can bleed after all, how amusing!")
+						return
+					else
+						p << npcsay("Mysterious Wizard: Not enough, go back there and check if they all bleed!")
+				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
+					p.questPointers -= pointer
+					pointer = null
+
+			if(!pointer)
+				p << npcsay("Mysterious Wizard: Beyond this door lies the desert, oh so mysterious... There are strange creatures there called floating eyes, check if they bleed for me!")
+				p.startQuest("The Eyes in the Sand \[Daily]")
+			else
+				p << npcsay("Mysterious Wizard: So even the gods of the desert can bleed... Interesting!")
+
+	Saratri
+		icon_state="lord"
+
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+			var/questPointer/pointer = p.questPointers["To kill a Boss \[Daily]"]
+			if(pointer)
+				if(pointer.stage)
+					if(p.checkQuestProgress("Saratri"))
+						p << npcsay("Saratri: Good job! I can't believe you pulled it off!")
+						return
+					else
+						p << npcsay("Saratri: Go kill the Basilisk!")
+				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
+					p.questPointers -= pointer
+					pointer = null
+
+			if(!pointer)
+				p << npcsay("Saratri: Hey there... Did you know there's a terrible monster here called the Basilisk? I'll reward you if you kill it...")
+				p.startQuest("To kill a Boss \[Daily]")
+			else
+				p << npcsay("Saratri: Wow! I can't believe you killed the Basilisk!")
+
+	Hunter
+		icon_state="lord"
+
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+
+			var/list/tiers = list("Rat", "Demon Rat", "Pixie", "Dog", "Snake", "Wolf", "Troll", "Fire Bat", "Fire Golem", "Archangel", "Water Elemental", "Fire Elemental", "Wyvern")
+			for(var/tier in tiers)
+				var/questPointer/pointer = p.questPointers["Pest Extermination: [tier]"]
+				if(pointer && !pointer.stage) continue
+
+				if(!pointer)
+					p << npcsay("Hunter: Hey there, maybe you can help me, I want to exterminate a few pests from our lives.")
+					p.startQuest("Pest Extermination: [tier]")
+				else
+					p << npcsay("Hunter: Did you kill the monsters I requested yet?")
+					if(p.checkQuestProgress("Hunter"))
+						p << npcsay("Hunter: Good job!")
+					else
+						p << npcsay("Hunter: Go back out there and exterminate some pests!")
+				return
+
+			var/questPointer/pointer = p.questPointers["Pest Extermination \[Daily]"]
+			if(pointer)
+				if(pointer.stage)
+					if(p.checkQuestProgress("Hunter"))
+						p << npcsay("Hunter: Good job!")
+						return
+					else
+						p << npcsay("Hunter: Go back out there and exterminate some pests!")
+				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
+					p.questPointers -= pointer
+					pointer = null
+
+			if(!pointer)
+				p << npcsay("Hunter: Those monsters you've exterminated returned, go there and exterminate them again.")
+				p.startQuest("Pest Extermination \[Daily]")
+			else
+				p << npcsay("Hunter: You've done a really good job exterminating all those monsters.")
+
+
+
 
 var/list/quest_list
 
@@ -810,18 +942,223 @@ quest
 	var/list/reqs
 	var/questReward/reward
 
+	Extermination
+		name   = "Pest Extermination \[Daily]"
+		desc   = "The hunter wants you to help him exterminate monsters."
+		reward = /questReward/Artifact
+
+		Kill
+			desc = "Kill 50 of each monster."
+			reqs = list("Kill Rat"             = 50,
+			            "Kill Demon Rat"       = 50,
+			            "Kill Pixie"           = 50,
+			            "Kill Dog"             = 50,
+			            "Kill Snake"           = 50,
+			            "Kill Wolf"            = 50,
+			            "Kill Troll"           = 50,
+			            "Kill Fire Bat"        = 50,
+			            "Kill Fire Golem"      = 50,
+			            "Kill Archangel"       = 50,
+			            "Kill Water Elemental" = 50,
+			            "Kill Fire Elemental"  = 50,
+			            "Kill Wyvern"          = 50)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+
+	Basilisk
+		name   = "To kill a Boss \[Daily]"
+		desc   = "The basilisk is found at the Chamber of Secrets, kill the Basilisk and any demon rat that gets in your way!"
+		reward = /questReward/Artifact
+
+		Kill
+			desc = "Kill 1 basilisk and 50 demon rats."
+			reqs = list("Kill Basilisk"        = 1,
+			            "Kill Demon Rat"       = 50)
+		Reward
+			desc = "Go back to Saratri to get your reward!"
+			reqs = list("Saratri" = 1)
+
+
+	Eyes
+		name   = "The Eyes in the Sand \[Daily]"
+		desc   = "The desert is a mysterious area filled with strange creatures called floating eyes, I wonder if they bleed..."
+		reward = /questReward/Artifact
+
+		Kill
+			desc = "Kill 50 floating eyes."
+			reqs = list("Kill Floating Eye" = 50)
+		Reward
+			desc = "Go back to the Mysterious Wizard to get your reward!"
+			reqs = list("Mysterious Wizard" = 1)
+
+	Wisps
+		name   = "Will of the Wisp \[Daily]"
+		desc   = "The vengeful wisp wants you to execute revenge, you must kill wisps!"
+		reward = /questReward/Artifact
+
+		Kill
+			desc = "Kill 50 wisps."
+			reqs = list("Kill Wisp" = 50)
+		Reward
+			desc = "Go back to Vengeful Wisp to get your reward!"
+			reqs = list("Vengeful Wisp" = 1)
+
+	Rats
+		name   = "Pest Extermination: Rat"
+		desc   = "The hunter wants you to help him exterminate rats from the forest"
+		reward = /questReward/Mon1
+
+		Kill
+			desc = "Kill 50 rats."
+			reqs = list("Kill Rat" = 50)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	DemonRats
+		name   = "Pest Extermination: Demon Rat"
+		desc   = "The hunter wants you to help him exterminate demon rats from the Chamber of Secrets"
+		reward = /questReward/Mon2
+
+		Kill
+			desc = "Kill 100 rats."
+			reqs = list("Kill Demon Rat" = 100)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	Pixie
+		name   = "Pest Extermination: Pixie"
+		desc   = "The hunter wants you to help him exterminate pixies from the pixie pit"
+		reward = /questReward/Mon3
+
+		Kill
+			desc = "Kill 150 pixies."
+			reqs = list("Kill Pixie" = 150)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	Dog
+		name   = "Pest Extermination: Dog"
+		desc   = "The hunter wants you to help him exterminate dogs from the forest"
+		reward = /questReward/Mon4
+
+		Kill
+			desc = "Kill 200 dogs."
+			reqs = list("Kill Dog" = 200)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	Snake
+		name   = "Pest Extermination: Snake"
+		desc   = "The hunter wants you to help him exterminate snakes from the forest"
+		reward = /questReward/Mon5
+
+		Kill
+			desc = "Kill 50 snakes."
+			reqs = list("Kill Snake" = 50)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	Wolf
+		name   = "Pest Extermination: Wolf"
+		desc   = "The hunter wants you to help him exterminate wolves from the forest"
+		reward = /questReward/Mon6
+
+		Kill
+			desc = "Kill 250 wolves."
+			reqs = list("Kill Wolf" = 250)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	Troll
+		name   = "Pest Extermination: Troll"
+		desc   = "The hunter wants you to help him exterminate trolls from the forest"
+		reward = /questReward/Mon7
+
+		Kill
+			desc = "Kill 50 trolls."
+			reqs = list("Kill Troll" = 50)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	FireBats
+		name   = "Pest Extermination: Fire Bat"
+		desc   = "The hunter wants you to help him exterminate fire bats from Silverblood Grounds"
+		reward = /questReward/Mon8
+
+		Kill
+			desc = "Kill 300 fire bats."
+			reqs = list("Kill Fire Bat" = 300)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	FireGolem
+		name   = "Pest Extermination: Fire Golem"
+		desc   = "The hunter wants you to help him exterminate fire golems from the Silverblood Grounds"
+		reward = /questReward/Mon9
+
+		Kill
+			desc = "Kill 350 fire golems."
+			reqs = list("Kill Fire Golem" = 350)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	Archangel
+		name   = "Pest Extermination: Archangel"
+		desc   = "The hunter wants you to help him exterminate Archangel from the Silverblood Castle"
+		reward = /questReward/Mon10
+
+		Kill
+			desc = "Kill 400 archangels."
+			reqs = list("Kill Archangel" = 400)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	WaterElemental
+		name   = "Pest Extermination: Water Elemental"
+		desc   = "The hunter wants you to help him exterminate fire water elementals from Silverblood Castle"
+		reward = /questReward/Mon11
+
+		Kill
+			desc = "Kill 400 water elementals."
+			reqs = list("Kill Water Elemental" = 400)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	FireElemental
+		name   = "Pest Extermination: Fire Elemental"
+		desc   = "The hunter wants you to help him exterminate fire golems from the Silverblood Castle"
+		reward = /questReward/Mon12
+
+		Kill
+			desc = "Kill 400 fire elementals."
+			reqs = list("Kill Fire Elemental" = 400)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	Wyvern
+		name   = "Pest Extermination: Wyvern"
+		desc   = "The hunter wants you to help him exterminate wyverns from the Silverblood Castle"
+		reward = /questReward/Mon13
+
+		Kill
+			desc = "Kill 400 wyverns."
+			reqs = list("Kill Wyvern" = 400)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+
+
 	Tom
 		name   = "Rats in the Cellar"
 		reward = /questReward/Gold
 
 		Clear
 			desc = "Tom wants you to clear his cellar of rats, kill 35 rats and pull the level at the end of the cellar."
-			reqs = list("Lever" = 1, "Rat" = 35)
+			reqs = list("Lever" = 1, "Kill Rat" = 35)
 		Reward
 			desc = "Go back to Tom to get your reward!"
 			reqs = list("Tom" = 1)
-
-
 
 	Lord
 		name = "Stolen by the Lord"
@@ -840,7 +1177,7 @@ quest
 
 		FindHerbs
 			desc = "Alyssa wants you to help her procure an immortality potions, go find Onion Root, Indigo Seeds, Silver Spider Legs and Salamander Drop."
-			reqs = list("OnionRoot" = 1, "IndigoSeeds" = 1, "SilverSpider" = 1, "SalamanderDrop" = 1)
+			reqs = list("Onion Root" = 1, "Indigo Seeds" = 1, "Silver Spider Legs" = 1, "Salamander Drop" = 1)
 		Reward
 			desc = "You have all the ingredients go back to Alyssa."
 			reqs = list("Alyssa" = 1)
@@ -850,7 +1187,7 @@ quest
 
 		GetWand
 			desc = "Fred wants you to go withdraw a special wand from his vault at Gringotts, one of the bank goblins will help you."
-			reqs = list("GotWand" = 1)
+			reqs = list("Fred's Wand" = 1)
 		Reward
 			desc = "Use the wand to free Fred."
 			reqs = list("Fred" = 1)
@@ -865,28 +1202,78 @@ quest
 
 			if(reward) reward = new reward
 
-			spawn(10)
-				world << "[src]"
-				for(var/quest/i in stages)
-					world << "[src] = [i.desc]"
-
 questReward
 	var/gold
 	var/exp
 	var/items
 
 	Gold
+		exp  = 1000
 		gold = 10000
+	Mon1
+		gold = 1000
+		exp  = 10000
+	Mon2
+		gold = 2000
+		exp  = 20000
+	Mon3
+		gold = 3000
+		exp  = 30000
+	Mon4
+		gold  = 4000
+		exp   = 40000
+		items = /obj/items/wearable/title/Hunter
+	Mon5
+		gold = 5000
+		exp  = 50000
+	Mon6
+		gold = 6000
+		exp  = 60000
+	Mon7
+		gold = 7000
+		exp  = 70000
+	Mon8
+		gold = 8000
+		exp  = 80000
+	Mon9
+		gold  = 9000
+		exp   = 90000
+		items = /obj/items/wearable/title/Pest
+	Mon10
+		gold = 10000
+		exp  = 100000
+	Mon11
+		gold = 11000
+		exp  = 110000
+	Mon12
+		gold = 12000
+		exp  = 120000
+	Mon13
+		gold  = 13000
+		exp   = 130000
+		items = /obj/items/wearable/title/Exterminator
+	Artifact
+		gold  = 14000
+		exp   = 140000
+		items = /obj/items/artifact
 	RoyaleShoes
+		gold  = 5000
+		exp   = 10000
 		items = /obj/items/wearable/shoes/royale_shoes
 
 	proc/get(mob/Player/p)
 		if(gold)
 			p.gold += gold
 			p << infomsg("You receive [comma(gold)] gold.")
-		if(exp)
-			p.Exp += exp
+		if(exp && p.level < lvlcap)
 			p << infomsg("You receive [comma(exp)] experience.")
+			var/xp2give = exp
+			while(p.Exp + xp2give > p.Mexp)
+				xp2give -= p.Mexp - p.Exp
+				p.Exp = p.Mexp
+				p.LvlCheck()
+
+			p.Exp += xp2give
 			p.LvlCheck()
 		if(items)
 			if(islist(items))
@@ -972,6 +1359,7 @@ mob/Player
 
 				questPointers[questName] = pointer
 
+				Interface.Update()
 				src << infomsg(q.desc)
 				src << infomsg(stage.desc)
 
@@ -992,11 +1380,6 @@ mob/Player
 					if(pointer.reqs[args] <= 0)
 						pointer.reqs -= args
 
-				world << questName
-				world << "  [pointer.stage]"
-				for(var/x in pointer.reqs)
-					world << "    [x] = [pointer.reqs[x]]"
-
 				if(!pointer.reqs.len)
 					pointer.stage++
 					if(pointer.stage <= q.stages.len)
@@ -1010,6 +1393,9 @@ mob/Player
 						pointer.time = world.realtime
 
 				if(found) break
+
+			if(found) Interface.Update()
+
 			return found
 
 
@@ -1020,6 +1406,58 @@ mob/Player/Topic(href, href_list[])
 		displayQuest(questName)
 	.=..()
 
-mob/verb/delete_quest()
+mob/Player
+	var/tmp/interface/Interface
 
-	src:questPointers = list()
+client/New()
+	..()
+
+interface
+	var/obj/hud/screentext/quest/quest
+	var/mob/Player/parent
+
+	New(mob/Player/p)
+		..()
+		parent = p
+
+		Update()
+
+	proc/Update()
+		if(parent.HideQuestTracker && quest)
+			parent.client.screen -= quest
+			quest = null
+		else if(!parent.HideQuestTracker && !quest)
+			quest = new
+			parent.client.screen += quest
+
+		if(quest)
+			quest.update(parent)
+
+
+obj/hud/screentext
+
+	quest
+		screen_loc = "WEST+1,SOUTH+1"
+		maptext_width  = 320
+		maptext_height = 320
+
+		proc/update(mob/Player/p)
+			maptext = null
+			var/count = 0
+			for(var/questName in p.questPointers)
+				var/questPointer/pointer = p.questPointers[questName]
+				if(!pointer.stage) continue
+				count++
+				if(count > 4) break
+
+				maptext = "[maptext]<b>[questName]</b><br>"
+				for(var/i in pointer.reqs)
+					maptext += "  - [i]: [pointer.reqs[i]]<br>"
+			if(maptext)
+				maptext = "<font color=white>[maptext] </font>"
+
+mob
+	verb
+		CreateATon(O as null|anything in typesof(/obj,/mob,/turf,/area))
+			for(var/i = 1 to 100)
+				new O(usr.loc)
