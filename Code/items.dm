@@ -1123,7 +1123,6 @@ obj/items/wearable/title
 			if(owner.Rank == title) owner.Rank = "Player"
 
 	Custom
-	Hunter
 	Slayer
 	Rich
 		title = "Rich"
@@ -1176,6 +1175,15 @@ obj/items/wearable/title
 	Battlemage
 		title =  "Battlemage"
 		name  =  "Title: Battlemage"
+	Hunter
+		title = "Hunter"
+		name  = "Title: Hunter"
+	Pest
+		title = "Pest Control"
+		name  = "Title: Pest Control"
+	Exterminator
+		title = "Exterminator"
+		name  = "Title: Exterminator"
 
 
 mob/Bump(obj/ball/B)
