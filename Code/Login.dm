@@ -2035,11 +2035,12 @@ mob/proc/Death_Check(mob/killer = src)
 
 		else
 			if(killer.client)
-				if(istype(src, /mob/NPC/Enemies) && !istype(src, /mob/NPC/Enemies/Summoned)) killer.AddKill(src.name)
+				if(istype(src, /mob/NPC/Enemies) && !istype(src, /mob/NPC/Enemies/Summoned))
+					killer.AddKill(src.name)
+					killer:checkQuestProgress(src.name)
 				if(killer.MonsterMessages)killer<<"<i><small>You knocked [src] out!</small></i>"
 
 				killer.ekills+=1
-				killer.ratpoints+=src.ratpoints
 				var/gold2give = (rand(7,14)/10)*gold
 				var/exp2give  = (rand(9,14)/10)*Expg
 
@@ -2222,99 +2223,60 @@ obj/Banker
 			usr << "He looks like a trustworthy person to hold my money."
 		Talk()
 			set src in oview(3)
-			if( (locate(/obj/items/freds_key) in usr) && usr.talkedtofred!=2)
-				switch(input("How may I help you?","Banker")in list("Deposit","Withdraw","Balance","I'd like to withdraw something from Fred's vault"))
-					if("I'd like to withdraw something from Fred's vault")
-						alert("You hand the banker the key")
-						switch(input("And what would you like to withdraw?","Banker")in list("Wand of Interuption","Cancel"))
-							if("Wand of Interuption")
-								alert("The banker takes the key and unlocks a small compartment under his desk.")
-								alert("He pulls out a box, and removes the wand from it")
-								alert("The banker hands you the wand")
-								if(usr.talkedtofred!=2)
-									new/obj/items/wearable/wands/interruption_wand(usr)
-									usr.Resort_Stacking_Inv()
-								usr.talkedtofred=2
 
-							if("Cancel")
-								return
-					if("Deposit")
-						set src in oview(2)
-						var/heh = input("You have [comma(usr.gold)] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
-						if(heh==null)return
-						if (heh < 0)
-							alert("Don't try cheating me!","Bank Keeper")
-							return()
-						if (heh > usr.gold)
-							alert("You don't have that much!", "Deposit")
-							return()
-						if(get_dist(usr,src)>4)return
-						usr << "You deposit [comma(heh)] gold."
-						usr.gold -= heh
-						usr.goldinbank += heh
-						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
+			var/mob/Player/p = usr
+			var/list/choices = list("Deposit","Withdraw","Balance")
+
+			if("On House Arrest" in p.questPointers)
+				var/questPointer/pointer = p.questPointers["On House Arrest"]
+				if(pointer.stage == 1) choices += "I'd like to withdraw something from Fred's vault"
+
+			switch(input("How may I help you?","Banker") in choices)
+				if("I'd like to withdraw something from Fred's vault")
+					alert("You hand the banker the key")
+					switch(input("And what would you like to withdraw?","Banker")in list("Wand of Interuption","Cancel"))
+						if("Wand of Interuption")
+							alert("The banker takes the key and unlocks a small compartment under his desk.")
+							alert("He pulls out a box, and removes the wand from it")
+							alert("The banker hands you the wand")
+							new/obj/items/wearable/wands/interruption_wand(usr)
+
+							var/obj/items/freds_key/k = locate() in usr
+							if(k)
+								k.loc = null
+
+							p.Resort_Stacking_Inv()
+							p.checkQuestProgress("GotWand")
+				if("Deposit")
+					var/heh = input("You have [comma(usr.gold)] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
+					if(heh==null)return
+					if (heh < 0)
+						alert("Don't try cheating me!","Bank Keeper")
 						return()
-
-					if("Withdraw")
-						set src in oview(2)
-						var/heh = input("You have [comma(usr.goldinbank)] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
-						if(heh==null)return
-						if (heh < 0)
-							alert("Don't try cheating me!","Bank Keeper")
-							return()
-						if (heh > usr.goldinbank)
-							alert("You don't have that much in your bank account!", "Bank Keeper")
-							return()
-						if(get_dist(usr,src)>4)return
-						usr << "You withdraw [comma(heh)] gold."
-						usr.gold += heh
-						usr.goldinbank -= heh
-						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
+					if (heh > usr.gold)
+						alert("You don't have that much!", "Deposit")
 						return()
-
-					if("Balance")
-						set src in oview(2)
-						usr << "You have [comma(usr.goldinbank)] gold in the bank."
-
-			else
-				switch(input("How may I help you?","Banker")in list("Deposit","Withdraw","Balance"))
-					if("Deposit")
-						set src in oview(2)
-						var/heh = input("You have [comma(usr.gold)] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
-						if(heh==null)return
-						if (heh < 0)
-							alert("Don't try cheating me!","Bank Keeper")
-							return()
-						if (heh > usr.gold)
-							alert("You don't have that much!", "Deposit")
-							return()
-						if(get_dist(usr,src)>4)return
-						usr << "You deposit [comma(heh)] gold."
-						usr.gold -= heh
-						usr.goldinbank += heh
-						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
+					if(get_dist(usr,src)>4)return
+					usr << "You deposit [comma(heh)] gold."
+					usr.gold -= heh
+					usr.goldinbank += heh
+					usr << "You now have [comma(usr.goldinbank)] gold in the bank."
+				if("Withdraw")
+					var/heh = input("You have [comma(usr.goldinbank)] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
+					if(heh==null)return
+					if (heh < 0)
+						alert("Don't try cheating me!","Bank Keeper")
 						return()
-
-					if("Withdraw")
-						set src in oview(2)
-						var/heh = input("You have [comma(usr.goldinbank)] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
-						if(heh==null)return
-						if (heh < 0)
-							alert("Don't try cheating me!","Bank Keeper")
-							return()
-						if (heh > usr.goldinbank)
-							alert("You don't have that much in your bank account!", "Bank Keeper")
-							return()
-						if(get_dist(usr,src)>4)return
-						usr << "You withdraw [comma(heh)] gold."
-						usr.gold += heh
-						usr.goldinbank -= heh
-						usr << "You now have [comma(usr.goldinbank)] gold in the bank."
+					if (heh > usr.goldinbank)
+						alert("You don't have that much in your bank account!", "Bank Keeper")
 						return()
-
-					if("Balance")
-						set src in oview(2)
-						usr << "You have [comma(usr.goldinbank)] gold in the bank."
+					if(get_dist(usr,src)>4)return
+					usr << "You withdraw [comma(heh)] gold."
+					usr.gold += heh
+					usr.goldinbank -= heh
+					usr << "You now have [comma(usr.goldinbank)] gold in the bank."
+				if("Balance")
+					usr << "You have [comma(usr.goldinbank)] gold in the bank."
 
 
 obj
@@ -2623,31 +2585,6 @@ turf
 					if("No")
 						return
 
-turf
-	statdoor
-		name = "Hogwarts Stone Wall"
-		icon='door1.dmi'
-		density=1
-		icon_state="closed"
-		verb
-			Unlock()
-				set src in oview(1)
-				if(locate(/obj/items/freds_key) in usr)
-					alert("You pull out Fred's Key and use it to unlock the door.")
-					for(var/turf/statdoor/T in world)
-						flick("opening",T)
-						T.icon_state = "open"
-						density = 0
-						T.bumpable = 1
-						opacity = 0
-						sleep(70)
-						flick("closing",T)
-						T.icon_state = "closed"
-						density = 1
-						opacity = 1
-						T.bumpable=0
-				else
-					usr << errormsg("There is a keyhole, however you do not have the required key...the shape does look like a familiar key though.")
 obj
 	fence
 		icon='turf.dmi'

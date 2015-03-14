@@ -4,47 +4,32 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-obj
+obj/items
 	AlyssaScroll
 		name="Potion Ingredients"
 		icon = 'scrolls.dmi'
 		icon_state = "wrote"
-		dontsave = 1
-		accioable=1
-		wlable = 1
-		New()
-			..()
-			pixel_x = rand(-5,5)
-			pixel_y = rand(-5,5)
+		dropable = 0
+
 		var
 			content="<body bgcolor=black><u><font color=blue><b><font size=3>Scroll</u><p><font color=red><font size=1>by Alyssa <p><p><font size=2><font color=white><br>Onion Root<br>Indigo Seeds<br>Drop of Salamander<br>Silver Spider Legs <p>"
-			inuse = 0
 		verb
 			Crumple()
 				var/dels = alert("Do you wish to get rid of the scroll?",,"Yes","No")
 				if(dels == "Yes")
 					if(src in usr)
 						src << "You crumple the scroll."
-						Move(usr.loc)
+						loc = null
 						usr:Resort_Stacking_Inv()
-						del(src)
 			read()
 				set name = "Read"
 				usr << browse(content)
-			Take()
-				set src in oview(1)
-				if(src.name == "Scroll")
-					hearers()<<"[usr] takes the scroll."
-				else
-					hearers()<<"[usr] takes the '[src]' scroll."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
 
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-
+		Click()
+			if(src in usr)
+				read()
+			else
+				..()
 
 obj
 	PyramidScroll1

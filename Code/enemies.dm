@@ -611,7 +611,6 @@ mob
 
 			Rat
 				icon_state = "rat"
-				ratpoints = 1
 				level = 10
 			Demon_Rat
 				icon_state = "demon rat"
@@ -1254,7 +1253,6 @@ mob
 		see_invisible = 1
 		Dmg = 100
 		Expg = 25
-		ratpoints = 1
 		level = 3
 		monster = 1
 		NPC = 0

@@ -709,14 +709,15 @@ mob/Spells/verb/Bombarda(obj/M in oview(src.client.view,src))
 			if(M.accioable==1)
 				return
 			else
-				if(usr.salamanderdrop==1)
-					usr << "There's no reason to ruin a perfectly good wand."
-				else
+				var/mob/Player/p = usr
+				if(p.checkQuestProgress("SalamanderDrop"))
 					hearers(src.client.view,src) << "[src]: <b>Bombarda!</b>"
 					usr << "You get some Salamander Drop!"
-					new/obj/Alyssa/Salamander_Drop(usr)
-					usr.salamanderdrop=1
-					del M
+					new/obj/items/Alyssa/Salamander_Drop(usr)
+					M.loc = null
+					p.Resort_Stacking_Inv()
+				else
+					usr << "There's no reason to ruin a perfectly good wand."
 		else
 			if(!M.rubbleable == 1){src<<"<b><font color=red>Error:</b></font> This object has Protection Charms placed upon it.";return}
 			if(M.rubble==1)

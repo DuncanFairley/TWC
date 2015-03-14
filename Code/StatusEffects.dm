@@ -123,7 +123,7 @@ proc
 			if(date != -1)
 				var/Event/RandomizeShop/e = new
 				scheduler.schedule(e, world.tick_lag * 10 * date)
-//		init_quests()
+		init_quests()
 
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)

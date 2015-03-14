@@ -186,7 +186,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 7
+#define SAVEFILE_VERSION 8
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -265,6 +265,41 @@ mob
 					verbs -= /mob/Spells/verb/Basilio
 					verbs -= /mob/Spells/verb/Shelleh
 					verbs -= /mob/Spells/verb/Imperio
+
+			if(savefile_version < 8)
+				spawn()
+					var/mob/Player/p = src
+					if(ratquest==1)
+						var/questPointer/pointer = new
+						pointer.time = world.realtime
+						p.questPointers["Rats in the Cellar"] = pointer
+					if(babyquest==1)
+						var/questPointer/pointer = new
+						pointer.time = world.realtime
+						p.questPointers["Stolen by the Lord"] = pointer
+					if(talkedtoalyssa==2)
+						var/questPointer/pointer = new
+						pointer.time = world.realtime
+						p.questPointers["Make a Potion"] = pointer
+					if(talkedtofred==3)
+						var/questPointer/pointer = new
+						pointer.time = world.realtime
+						p.questPointers["On House Arrest"] = pointer
+
+					talkedtogirl = null
+					babyquest = null
+					babyfound = null
+					foundlord = null
+					talkedtofred = null
+					onionroot = null
+					indigoseeds = null
+					silverspiderlegs = null
+					salamanderdrop = null
+					talkedtosanta = null
+					palmer = null
+					quests = null
+					talktotom = null
+					ratquest = null
 
 			var/turf/t = locate(last_x, last_y, last_z)
 			if(!t || t.name == "blankturf")
