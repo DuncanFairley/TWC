@@ -1455,9 +1455,3 @@ obj/hud/screentext
 					maptext += "  - [i]: [pointer.reqs[i]]<br>"
 			if(maptext)
 				maptext = "<font color=white>[maptext] </font>"
-
-mob
-	verb
-		CreateATon(O as null|anything in typesof(/obj,/mob,/turf,/area))
-			for(var/i = 1 to 100)
-				new O(usr.loc)
