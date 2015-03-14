@@ -39,8 +39,6 @@ obj/items/verb/Take()
 	loc = usr
 	usr.Resort_Stacking_Inv()
 
-//	usr:checkQuestProgress(src.name)
-
 obj/items/verb/Drop()
 	set src in usr
 	var/mob/Player/owner = usr
@@ -503,11 +501,11 @@ obj/items/freds_key
 	dropable = 0
 	Destroy()
 		var/mob/Player/user = usr
-		if(user.talkedtofred==3)
-			..()
-		else
+		var/questPointer/pointer = user.questPointers["On House Arrest"]
+		if(pointer.stage == 1)
 			user << errormsg("You still need to take this key to Gringott's Bank.")
-
+		else
+			..()
 
 obj/items/wearable/halloween_bucket
 	icon = 'halloween_bucket.dmi'
@@ -1125,7 +1123,6 @@ obj/items/wearable/title
 			if(owner.Rank == title) owner.Rank = "Player"
 
 	Custom
-	Hunter
 	Slayer
 	Rich
 		title = "Rich"
@@ -1178,6 +1175,15 @@ obj/items/wearable/title
 	Battlemage
 		title =  "Battlemage"
 		name  =  "Title: Battlemage"
+	Hunter
+		title = "Hunter"
+		name  = "Title: Hunter"
+	Pest
+		title = "Pest Control"
+		name  = "Title: Pest Control"
+	Exterminator
+		title = "Exterminator"
+		name  = "Title: Exterminator"
 
 
 mob/Bump(obj/ball/B)

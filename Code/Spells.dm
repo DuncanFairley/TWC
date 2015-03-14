@@ -709,14 +709,15 @@ mob/Spells/verb/Bombarda(obj/M in oview(src.client.view,src))
 			if(M.accioable==1)
 				return
 			else
-				if(usr.salamanderdrop==1)
-					usr << "There's no reason to ruin a perfectly good wand."
-				else
+				var/mob/Player/p = usr
+				if(p.checkQuestProgress("Salamander Drop"))
 					hearers(src.client.view,src) << "[src]: <b>Bombarda!</b>"
 					usr << "You get some Salamander Drop!"
-					new/obj/Alyssa/Salamander_Drop(usr)
-					usr.salamanderdrop=1
-					del M
+					new/obj/items/Alyssa/Salamander_Drop(usr)
+					M.loc = null
+					p.Resort_Stacking_Inv()
+				else
+					usr << "There's no reason to ruin a perfectly good wand."
 		else
 			if(!M.rubbleable == 1){src<<"<b><font color=red>Error:</b></font> This object has Protection Charms placed upon it.";return}
 			if(M.rubble==1)
@@ -1048,7 +1049,7 @@ mob/Spells/verb/Langlock(mob/M in oview()&Players)
 			usr:learnSpell("Langlock")
 			src = null
 			spawn(300)
-				if(M.silence)
+				if(M && M.silence)
 					M<<"<b>Your tongue unsticks from the roof of your mouth.</b>"
 					M.silence=0
 mob/Spells/verb/Muffliato(mob/M in view()&Players)

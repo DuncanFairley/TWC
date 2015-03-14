@@ -105,43 +105,6 @@ mob
 							usr:spellpoints -= 25
 						else
 							usr << errormsg("You don't have enough spell points. You need [25 - usr:spellpoints] more spell points.")
-		Jim
-			icon_state="jim"
-			density=1
-			Immortal=1
-
-			verb
-				Examine()
-					set src in oview(5)
-					usr << "One of the Easter Bunnies helpers."
-
-			Talk()
-				set src in oview(2)
-				if(usr.talkedtosanta==1)
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Jim</font> [GMTag]</b>:<font color=white> What do you want..."
-					sleep(15)
-					alert("You tell Jim about your quest to help Santa")
-					sleep(10)
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Jim</font> [GMTag]</b>:<font color=white> So you're helping jolly old saint nick."
-					switch(input("Response to Jim","Response")in list("Yes, do you know anything?","Not anymore, this is a waste of my time..."))
-						if("Yes, do you know anything?")
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Jim</font> [GMTag]</b>:<font color=white> Eh, All I know is that I saw that receptionist girl talking to someone about how much easier her life is with Elves to do her work."
-							sleep(20)
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Jim</font> [GMTag]</b>:<font color=white> I don't know <u>what</u> elves she's talking about, maybe they're the same ones."
-							sleep(15)
-							usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Jim</font> [GMTag]</b>:<font color=white> But that's all I know, so leave me be."
-							sleep(10)
-							alert("Jim goes back to his drink")
-							usr.talkedtosanta=2
-						if("Not anymore, this is a waste of my time...")
-							alert("Jim ignores you")
-							return
-				else
-					usr << "\n<font size=2><font color=red><b>[Tag] <font color=red>Jim</font> [GMTag]</b>:<font color=white> Can't you see I'm busy..."
-					alert("Jim goes back to his Drink")
-					return
-
-
 		PyramidMan
 			name="Mysterious Old Man"
 			icon_state="pyramid"
@@ -160,7 +123,7 @@ mob
 		VaultGoblin
 			name="Vault Master"
 			icon_state="goblinvault"
-			
+
 			Talk()
 				set src in oview(2)
 				if(global.globalvaults[usr.ckey])

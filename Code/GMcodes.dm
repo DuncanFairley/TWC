@@ -1019,7 +1019,7 @@ mob
 				return
 
 			if(!admin)
-				if(z <= SWAPMAP_Z)
+				if(z < SWAPMAP_Z)
 					src << errormsg("You can only use it inside swap maps.")
 					return
 				if(ispath(O, /obj/items) || ispath(O, /mob))
@@ -1043,7 +1043,7 @@ mob
 
 			if(O==null)return
 
-			if(!admin && (istype(O, /obj/items) || isarea(O) || O.z <= SWAPMAP_Z || z <= SWAPMAP_Z || ismob(O)))
+			if(!admin && (istype(O, /obj/items) || isarea(O) || O.z < SWAPMAP_Z || z < SWAPMAP_Z || ismob(O)))
 				return
 
 			var/list/builtin[0]
@@ -1457,6 +1457,36 @@ mob/GM
 							i.limit = new_limit
 						goto EDITITEM
 
+
+		Competitive_Ban(var/k as text)
+			set category = "Staff"
+			k = ckey(k)
+			if(!k || k == "") return
+			if(!competitiveBans) competitiveBans = list()
+
+			if(!(k in competitiveBans)) competitiveBans += k
+			src << infomsg("[k] is now banned from competitive matchmaking.")
+
+			for(var/mob/Player/p in Players)
+				if(p.ckey == k)
+					var/obj/hud/Find_Duel/o = locate(/obj/hud/Find_Duel) in p.client.screen
+					if(o)
+						p.client.screen -= o
+						if(p in currentMatches.queue)
+							currentMatches.removeQueue(p)
+
+					p.matchmaking_ready = 0
+					for(var/obj/hud/duel/d in p.client.screen)
+						p.client.screen -= d
+					break
+
+		Competitive_Unban(var/k in competitiveBans)
+			set category = "Staff"
+
+			competitiveBans -= k
+			src << infomsg("[k] is now unbanned from competitive matchmaking.")
+
+var/competitiveBans
 
 var
 	crban_bannedmsg="<font color=red><big><tt>You're banned.</tt></big></font>"

@@ -196,7 +196,7 @@ mob
 				Dmg = round(DMGmodifier * ((src.level -1) + 5))
 				MHP = round(HPmodifier * (4 * (src.level - 1) + 200))
 				gold = round(src.level / 2)
-				Expg = round(src.level * 1.7)
+				Expg = round(src.level * 6)
 				HP = MHP
 //NEWMONSTERS
 			proc/Death(mob/Player/killer)
@@ -611,7 +611,6 @@ mob
 
 			Rat
 				icon_state = "rat"
-				ratpoints = 1
 				level = 10
 			Demon_Rat
 				icon_state = "demon rat"
@@ -908,7 +907,7 @@ mob
 							walk_rand(src,15)
 							sleep(100)
 							del src
-			ArchAngel
+			Archangel
 				icon_state = "archangel"
 				level = 500
 			Water_Elemental
@@ -976,9 +975,12 @@ mob
 							var/mob/M = target
 							M.movable    = 1
 							M.icon_state = "stone"
+							M.overlays = null
 							spawn(rand(10,30))
 								if(M && M.movable)
 									M.movable    = 0
+									M.icon_state = ""
+									M:ApplyOverlays()
 
 				Death(mob/Player/killer)
 					..(killer)
@@ -1254,7 +1256,6 @@ mob
 		see_invisible = 1
 		Dmg = 100
 		Expg = 25
-		ratpoints = 1
 		level = 3
 		monster = 1
 		NPC = 0

@@ -119,7 +119,31 @@ mob/TalkNPC/Tom
 		set src in oview(2)
 		switch(input("Tom: Welcome to the Leaky Cauldron. What do ya wanna do?","You have [comma(usr.gold)] gold")as null|anything in list("Shop","Talk"))
 			if("Talk")
-				if(usr.talktotom==1)
+				var/mob/Player/p = usr
+				if("Rats in the Cellar" in p.questPointers)
+					var/questPointer/pointer = p.questPointers["Rats in the Cellar"]
+					if(pointer.stage == 1)
+						usr << npcsay("Tom: I will take you down to the cellar")
+						sleep(20)
+						if(get_dist(usr,src)<5)
+							p.Transfer(locate(70,55,26))
+							var/mob/TheTom = new/mob/Tom_(locate(70,56,26))
+							usr << npcsay("Tom: This is as far as I'll go. Thank you again.")
+							sleep(50)
+							del TheTom
+						else
+							usr << npcsay("You hear a voice in your head: <i>Hey! You're not even here!</i>")
+					else if(pointer.stage == 2)
+						usr << npcsay("Tom stares at you in awe.")
+						sleep(10)
+						usr << npcsay("Tom: You did it!")
+						sleep(10)
+						usr << npcsay("Tom: Thank you so much! I don't have much to give you, but I can give you this.")
+						p.checkQuestProgress("Tom")
+					else
+						usr << npcsay("Tom: Hey, Thanks again!")
+
+				else
 					usr << npcsay("Tom: Hello there, Professor Palmer sent me an owl about you.")
 					switch(input("Tom: Did you come to help me?","Help?")in list("Yes","No"))
 						if("Yes")
@@ -135,6 +159,7 @@ mob/TalkNPC/Tom
 									usr << npcsay("Tom: I will take you down to the cellar")
 									sleep(40)
 									if(get_dist(usr,src)<5)
+										p.startQuest("Rats in the Cellar")
 										usr.loc = locate(70,55,26)
 										var/mob/TheTom = new/mob/Tom_(locate(70,56,26))
 										usr << npcsay("Tom: This is as far as I'll go. Thank you again.")
@@ -149,25 +174,6 @@ mob/TalkNPC/Tom
 						if("No")
 							usr << npcsay("Tom: My mistake. Carry on.")
 							return
-				if(usr.talktotom==2)
-					usr << npcsay("Tom stares at you in awe.")
-					usr << npcsay("Tom: You did it!")
-					usr.ratquest=1
-					usr.quests+=1
-					usr.talktotom=0
-					sleep(30)
-					usr << npcsay("Tom: Thank you so much! I don't have much to give you, but I can give you this.")
-					sleep(30)
-					usr << npcsay("<b>Tom hands you a small pouch containing 1,000 gold.</b>")
-					usr.gold+=1000
-					usr << npcsay("Tom: Here, have a free beer on the house.")
-					new/obj/Beer(usr)
-					usr:Resort_Stacking_Inv()
-					return
-				if(usr.ratquest==1)
-					usr << npcsay("Tom: Hey, Thanks again!")
-				else
-					usr << npcsay("Tom: Eh, I'm not much for talkin' right now.")
 			if("Shop")
 				if(usr.Year in list("1st Year","2nd Year","3rd Year",""))
 					usr << npcsay("Tom: Sorry mate. Come back when you're older.")

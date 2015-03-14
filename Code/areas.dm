@@ -837,12 +837,15 @@ turf
 area
 	tofred
 		Entered(mob/Player/M)
-			if(!ismob(M))
+			if(!isplayer(M))
 				return
-			if(M.talkedtofred==3)
-				M.loc=locate(89,27,8)
-			else
-				M.loc=locate(30,12,8)
+
+			if("On House Arrest" in M.questPointers)
+				var/questPointer/pointer = M.questPointers["On House Arrest"]
+				if(!pointer.stage)
+					M.loc=locate(89,27,8)
+					return
+			M.loc=locate(30,12,8)
 area
 	fromauror
 		Entered(mob/Player/M)

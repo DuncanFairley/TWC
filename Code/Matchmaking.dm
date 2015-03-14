@@ -17,7 +17,7 @@ area/hogwarts/Duel_Arenas/Matchmaking
 
 		if(isplayer(Obj))
 			var/mob/Player/p = Obj
-			if(p.level < lvlcap) return
+			if(p.level < lvlcap || (p.ckey in competitiveBans)) return
 			p.client.screen += new /obj/hud/Find_Duel
 
 
@@ -26,7 +26,7 @@ area/hogwarts/Duel_Arenas/Matchmaking
 
 		if(isplayer(Obj))
 			var/mob/Player/p = Obj
-			if(!p.client || p.level < lvlcap) return
+			if(!p.client || p.level < lvlcap || (p.ckey in competitiveBans)) return
 
 			var/obj/hud/Find_Duel/o = locate(/obj/hud/Find_Duel) in p.client.screen
 			if(o)
@@ -36,8 +36,8 @@ area/hogwarts/Duel_Arenas/Matchmaking
 					currentMatches.removeQueue(p)
 
 			p.matchmaking_ready = 0
-			for(var/obj/hud/duel/d in usr.client.screen)
-				usr.client.screen -= d
+			for(var/obj/hud/duel/d in p.client.screen)
+				p.client.screen -= d
 
 mob/Player
 	var/tmp
@@ -127,6 +127,9 @@ matchmaking
 
 		addQueue(mob/Player/p)
 			if(!queue) queue = list()
+
+			if(!(p.ckey  in skill_rating)) skill_rating[p.ckey]  = new /skill_stats
+
 			var/skill_stats/s = skill_rating[p.ckey]
 			queue[p] = s.rating
 
@@ -134,9 +137,9 @@ matchmaking
 				matchmaking = TRUE
 				spawn(rand(50,100))
 					bubblesort_by_value(queue)
-					while(queue && queue.len >= 2)
-						matchup()
-						sleep(1)
+					var/i = 0
+					while(queue && queue.len - i >= 2)
+						i += matchup(i)
 					matchmaking = FALSE
 
 
@@ -160,10 +163,13 @@ matchmaking
 			for(var/arena/a in arenas)
 				if(a.reconnect(p)) return 1
 
-		matchup()
-			if(queue && queue.len >= 2)
-				var/mob/Player/p1 = queue[queue.len]
-				var/mob/Player/p2 = queue[queue.len - 1]
+		matchup(skip = 0)
+			if(queue && queue.len >= 2+skip)
+				var/mob/Player/p1 = queue[queue.len - skip]
+				var/mob/Player/p2 = queue[queue.len - 1 - skip]
+
+				if(queue[p1] - queue[p2] >= 300) return 1
+
 				removeQueue(p1)
 				removeQueue(p2)
 
@@ -201,7 +207,8 @@ matchmaking
 
 					if(!p1_accepted)
 						var/obj/hud/Find_Duel/o = locate(/obj/hud/Find_Duel) in p1.client.screen
-						o.color = null
+						if(o)
+							o.color = null
 						p1 << errormsg("You were removed from the matchmaking queue because you failed to accept.")
 
 				if(p2)
@@ -210,13 +217,11 @@ matchmaking
 						p2.client.screen -= d
 					if(!p2_accepted)
 						var/obj/hud/Find_Duel/o = locate(/obj/hud/Find_Duel) in p2.client.screen
-						o.color = null
+						if(o)
+							o.color = null
 						p2 << errormsg("You were removed from the matchmaking queue because you failed to accept.")
 
 		reward(team/winTeam, team/loseTeam)
-			if(!(winTeam.id  in skill_rating)) skill_rating[winTeam.id]  = new /skill_stats
-			if(!(loseTeam.id in skill_rating)) skill_rating[loseTeam.id] = new /skill_stats
-
 			var/skill_stats/winner = skill_rating[winTeam.id]
 			var/skill_stats/loser  = skill_rating[loseTeam.id]
 
@@ -234,9 +239,9 @@ matchmaking
 			var/winnerExpectedScore = 1 / (1 + 10 ** ((loser.rating  - winner.rating) / 400))
 			var/loserExpectedScore  = 1 / (1 + 10 ** ((winner.rating - loser.rating)  / 400))
 
-			winner.rating = round(winner.rating + factor * (1 - winnerExpectedScore))
-			loser.rating  = round(loser.rating  + factor * (0 - loserExpectedScore))
-			loser.rating  = max(10, loser.rating)
+			winner.rating = round(winner.rating + factor * (1 - winnerExpectedScore), 1)
+			loser.rating  = round(loser.rating  + factor * (0 - loserExpectedScore), 1)
+			loser.rating  = max(100, loser.rating)
 
 			bubblesort_by_value(skill_rating, "rating", TRUE)
 
@@ -260,7 +265,7 @@ matchmaking
 									 /obj/items/wearable/title/Determined,
 									 /obj/items/wearable/title/Battlemage)
 
-						var/obj/o = new prize (p.player)
+						var/obj/o = new prize (p)
 						p.Resort_Stacking_Inv()
 						p << infomsg("You receive [o.name]! How lucky!")
 
@@ -372,11 +377,11 @@ arena
 
 			if(team1.player)
 				team1.player.HP = team1.player.MHP
-				team1.player.MP = team1.player.MMP
+				team1.player.MP = team1.player.MMP+team1.player.extraMMP
 				team1.player.updateHPMP()
 			if(team2.player)
 				team2.player.HP = team2.player.MHP
-				team2.player.MP = team2.player.MMP
+				team2.player.MP = team2.player.MMP+team2.player.extraMMP
 				team2.player.updateHPMP()
 
 			for(var/obj/i in shields)
@@ -488,6 +493,19 @@ arena
 
 		dispose()
 			arena.used = 0
+			currentMatches.removeArena(src)
+			if(spectators)
+				var/arena/a
+				if(currentMatches.arenas) a = pick(currentMatches.arenas)
+				for(var/mob/Player/p in spectators)
+					removeSpectator(p)
+
+					if(a) a.addSpectator(p)
+
+				spectators = null
+
+			spectateObj.dispose()
+			spectateObj = null
 
 			if(team1.player)
 				var/obj/o = pick(duel_chairs)
@@ -509,22 +527,7 @@ arena
 			team1        = null
 			team2        = null
 
-			currentMatches.removeArena(src)
-
 			unload_vault(FALSE)
-
-			if(spectators)
-				var/arena/a
-				if(currentMatches.arenas) a = pick(currentMatches.arenas)
-				for(var/mob/Player/p in spectators)
-					removeSpectator(p)
-
-					if(a) a.addSpectator(p)
-
-				spectators = null
-
-			spectateObj.dispose()
-			spectateObj = null
 
 
 team
@@ -632,6 +635,7 @@ obj/spectate
 		updateName()
 
 	Click()
+		if(!parent) return
 		if(parent.spectators && (usr in parent.spectators))
 			parent.removeSpectator(usr)
 		else
@@ -693,7 +697,7 @@ tr.file_black
 				var/seconderySkillGroup
 				if(s.rating > 1800 && skill_rating.len - i <= 2)
 					seconderySkillGroup = " [1 + skill_rating.len - i]"
-				else if(s.rating >= 400)
+				else if(s.rating > 400)
 					seconderySkillGroup = " [5 - round((s.rating % 200) / 40)]"
 				html += "<tr class=[isWhite ? "file_white" : "file_black"]><td>[rankNum]</td><td>[s.name]</td><td>[getSkillGroup(skill_rating[i])][seconderySkillGroup]</td><td>[s.wins]</td></tr>"
 				isWhite = !isWhite
