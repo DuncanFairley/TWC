@@ -350,7 +350,7 @@ mob/GM/verb/FloodFill(path as null|anything in typesof(/turf)|typesof(/area))
 	set category = "Custom Maps"
 	usr << errormsg("Note that the flood ignores objects including doors. It fills via the type of turf that you are standing on, and replaces it with the type you select.")
 	if(!path)return
-	if(!admin&&z <= SWAPMAP_Z)
+	if(!admin&&z < SWAPMAP_Z)
 		src << errormsg("You can only use it inside swap maps.")
 		return
 	var/Region/r = new(usr.loc, /proc/AccessibleTurfs)

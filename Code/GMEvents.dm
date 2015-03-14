@@ -144,7 +144,7 @@ atom/Click(location)
 			usr << "Pick a path to create using CreatePath verb."
 		else
 
-			if(!usr.admin && (usr.z <= SWAPMAP_Z || src.z <= SWAPMAP_Z || ispath(usr.CreatePath, /obj/items) || ispath(usr.CreatePath, /mob)))
+			if(!usr.admin && (usr.z < SWAPMAP_Z || src.z < SWAPMAP_Z || ispath(usr.CreatePath, /obj/items) || ispath(usr.CreatePath, /mob)))
 				usr << errormsg("Can't use outside swap maps or create items/mobs.")
 				return
 

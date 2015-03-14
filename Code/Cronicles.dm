@@ -307,7 +307,7 @@ mob
 			var/turf/t = locate(last_x, last_y, last_z)
 			if(!t || t.name == "blankturf")
 				loc = locate(13,27,21)
-			else if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
+			else if(last_z > SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else if(istype(t.loc, /area/DEHQ) && !DeathEater)
 				loc = locate(13,27,21)

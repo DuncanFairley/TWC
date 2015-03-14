@@ -1019,7 +1019,7 @@ mob
 				return
 
 			if(!admin)
-				if(z <= SWAPMAP_Z)
+				if(z < SWAPMAP_Z)
 					src << errormsg("You can only use it inside swap maps.")
 					return
 				if(ispath(O, /obj/items) || ispath(O, /mob))
@@ -1043,7 +1043,7 @@ mob
 
 			if(O==null)return
 
-			if(!admin && (istype(O, /obj/items) || isarea(O) || O.z <= SWAPMAP_Z || z <= SWAPMAP_Z || ismob(O)))
+			if(!admin && (istype(O, /obj/items) || isarea(O) || O.z < SWAPMAP_Z || z < SWAPMAP_Z || ismob(O)))
 				return
 
 			var/list/builtin[0]
