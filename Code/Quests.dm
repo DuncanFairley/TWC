@@ -655,7 +655,7 @@ mob/TalkNPC
 									scroll.loc = null
 								p.checkQuestProgress("Alyssa")
 							else
-								usr << "<b><font color=blue>Alyssa: </font>You don't all the ingredients! Go back and look for them!"
+								usr << "<b><font color=blue>Alyssa: </font>You don't have all of the ingredients! Go back and look for them!"
 						if("No")
 							usr << "<b><font color=blue>Alyssa: </font>Better keep on looking!"
 				else
