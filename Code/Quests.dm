@@ -1454,4 +1454,15 @@ obj/hud/screentext
 				for(var/i in pointer.reqs)
 					maptext += "  - [i]: [pointer.reqs[i]]<br>"
 			if(maptext)
-				maptext = "<font color=white>[maptext] </font>"
+				maptext = "<font color=[p.mapTextColor]>[maptext] </font>"
+
+mob/Player
+	var/mapTextColor = "#ffffff"
+	verb
+		setInterfaceColor(c as color)
+			set hidden=1
+			set name = ".setInterfaceColor"
+			if(!c) return
+
+			mapTextColor = "[c]"
+			Interface.Update()

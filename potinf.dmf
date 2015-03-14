@@ -1519,6 +1519,34 @@ window "winSettings"
 		macro = ""
 		menu = ""
 		on-close = ""
+	elem "button5"
+		type = BUTTON
+		pos = 128,12
+		size = 120x28
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #000000
+		background-color = none
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = line
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "On-Screen Text Color"
+		image = ""
+		command = ".setInterfaceColor"
+		is-flat = true
+		stretch = false
+		is-checked = false
+		group = ""
+		button-type = pushbutton
 	elem "butQuestTrackertoggle"
 		type = BUTTON
 		pos = 9,338
