@@ -820,9 +820,9 @@ mob/TalkNPC
 				if(pointer.stage)
 					if(p.checkQuestProgress("Vengeful Wisp"))
 						p << npcsay("Vengeful Wisp: I love the irony in sending you to kill dead creatures. May they rest in pea-- I will send you to kill them again tomorrow.")
-						return
 					else
 						p << npcsay("Vengeful Wisp: Don't waste time talking to me, actions speak louder than words!")
+						return
 				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
 					p.questPointers -= pointer
 					pointer = null
@@ -844,9 +844,9 @@ mob/TalkNPC
 				if(pointer.stage)
 					if(p.checkQuestProgress("Mysterious Wizard"))
 						p << npcsay("Mysterious Wizard: Floating eyes, the gods of the desert can bleed after all, how amusing!")
-						return
 					else
 						p << npcsay("Mysterious Wizard: Not enough, go back there and check if they all bleed!")
+					return
 				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
 					p.questPointers -= pointer
 					pointer = null
@@ -868,9 +868,9 @@ mob/TalkNPC
 				if(pointer.stage)
 					if(p.checkQuestProgress("Saratri"))
 						p << npcsay("Saratri: Good job! I can't believe you pulled it off!")
-						return
 					else
 						p << npcsay("Saratri: Go kill the Basilisk!")
+					return
 				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
 					p.questPointers -= pointer
 					pointer = null
@@ -909,9 +909,9 @@ mob/TalkNPC
 				if(pointer.stage)
 					if(p.checkQuestProgress("Hunter"))
 						p << npcsay("Hunter: Good job!")
-						return
 					else
 						p << npcsay("Hunter: Go back out there and exterminate some pests!")
+					return
 				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
 					p.questPointers -= pointer
 					pointer = null
