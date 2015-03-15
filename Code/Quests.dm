@@ -1051,12 +1051,12 @@ quest
 			reqs = list("Hunter" = 1)
 	Snake
 		name   = "Pest Extermination: Snake"
-		desc   = "The hunter wants you to help him exterminate snakes from the forest"
+		desc   = "The hunter wants you to help him exterminate snakes from the graveyard"
 		reward = /questReward/Mon5
 
 		Kill
-			desc = "Kill 50 snakes."
-			reqs = list("Kill Snake" = 50)
+			desc = "Kill 250 snakes."
+			reqs = list("Kill Snake" = 250)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -1067,7 +1067,7 @@ quest
 
 		Kill
 			desc = "Kill 250 wolves."
-			reqs = list("Kill Wolf" = 250)
+			reqs = list("Kill Wolf" = 300)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
