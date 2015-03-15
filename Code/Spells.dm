@@ -196,7 +196,6 @@ mob/Spells/verb/Protego()
 				usr.shielded = 0
 				usr.shieldamount = 0
 				usr.overlays -= /obj/Shield
-				usr.overlays -= /obj/Shield
 				usr<<"You are no longer shielded!"
 			else return
 	else
@@ -204,7 +203,6 @@ mob/Spells/verb/Protego()
 			usr.shielded = 0
 			usr.shieldamount = 0
 			usr << "You are no longer shielded!"
-		usr.overlays -= /obj/Shield
 		usr.overlays -= /obj/Shield
 mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
 	set category="Spells"
