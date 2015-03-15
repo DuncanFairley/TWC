@@ -620,7 +620,8 @@ proc
 			if(s.rating > 1000) return "<font color=#E5E4E2>Battlewizard</font>"
 			if(s.rating > 800)  return "<font color=#FFD700>Wizard</font>"
 			if(s.rating > 600)  return "<font color=#C0C0C0>Sorcerer</font>"
-			if(s.rating > 400)  return "<font color=#CD7F32>Apprentice</font>"
+			if(s.rating > 400)  return "<font color=#CD7F32>Journeyman</font>"
+			if(s.rating > 200)  return "Apprentice"
 			return "Novice"
 		return "Unranked"
 
@@ -697,7 +698,7 @@ tr.file_black
 				var/seconderySkillGroup
 				if(s.rating > 1800 && skill_rating.len - i <= 2)
 					seconderySkillGroup = " [1 + skill_rating.len - i]"
-				else if(s.rating > 400)
+				else if(s.rating > 200)
 					seconderySkillGroup = " [5 - round((s.rating % 200) / 40)]"
 				html += "<tr class=[isWhite ? "file_white" : "file_black"]><td>[rankNum]</td><td>[s.name]</td><td>[getSkillGroup(skill_rating[i])][seconderySkillGroup]</td><td>[s.wins]</td></tr>"
 				isWhite = !isWhite
