@@ -20,6 +20,7 @@ mob/GM
 obj/Shield
 	icon='teleport2.dmi'
 	icon_state = "shield"
+	layer = 5
 	density = 1
 
 mob/var/shielded

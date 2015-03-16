@@ -2010,6 +2010,8 @@ mob/proc/Death_Check(mob/killer = src)
 				if(killer != src)
 					killer.pkills+=1
 
+					killer:checkQuestProgress("Kill Player")
+
 					var/rndexp = round(src.level * 1.2) + rand(-200,200)
 					if(rndexp < 0) rndexp = rand(20,30)
 
@@ -2083,7 +2085,7 @@ mob/proc/Death_Check(mob/killer = src)
 				killer.Texp+=src.Expg
 
 
-			if(src.type == /mob/Dementor_||src.type == /mob/Snake_ ||src.type == /mob/Bird_||src.type == /mob/Slug)
+			if(src.type == /mob/Slug)
 				del src
 				return ..()
 			//else Statpoints for monster killz.
