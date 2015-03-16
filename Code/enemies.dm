@@ -98,7 +98,7 @@ area
 					spawn(9000) daycycle()
 		inside
 			Silverblood_Maze
-
+				antiTeleport = TRUE
 				Entered(atom/movable/Obj,atom/OldLoc)
 					.=..()
 					if(isplayer(Obj))
@@ -106,7 +106,14 @@ area
 
 
 			Ratcellar
+				antiTeleport = TRUE
 			Chamber_of_Secrets
+				antiTeleport = TRUE
+				Floor1
+				Floor1_Boss
+				Floor2
+				Floor2_Boss
+
 			Graveyard_Underground
 		Entered(atom/movable/O)
 			. = ..()
@@ -585,6 +592,51 @@ mob
 								else if(percent >= 2)
 									MoveDelay = 2
 
+					Stickman
+						icon_state = "stickman"
+						level = 3000
+						HPmodifier  = 2
+						DMGmodifier = 2
+
+						MoveDelay   = 2
+						AttackDelay = 0
+
+						var/tmp/fired = 0
+
+						Attack()
+							if(!target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+								target = null
+								ShouldIBeActive()
+								return
+
+							var/distance = get_dist(src, target)
+							if(distance > 5)
+								var/turf/t = get_step_to(src, target, 1)
+								if(t)
+									Move(t)
+								else
+									target = null
+									ShouldIBeActive()
+							else if(distance <= 3)
+								step_away(src, target)
+							else if(distance > 3)
+								step_rand(src)
+
+							if(prob(15) && !fired)
+								fired = 1
+								spawn(100) fired = 0
+								var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+								var/tmp_d = dir
+								var/dmg = round(Dmg * 0.75) + rand(-4,8)
+								for(var/d in dirs)
+									dir = d
+									castproj(0, 'attacks.dmi', "fireball", dmg, "Incindia", 0, 1)
+								dir = tmp_d
+							else
+								dir=get_dir(src, target)
+								if(AttackDelay)	sleep(AttackDelay)
+								castproj(0, 'attacks.dmi', "gum", Dmg + rand(-4,8), "Waddiwasi")
+
 
 
 				Phoenix
@@ -608,6 +660,97 @@ mob
 					New()
 						light(src, 3, 600, "orange")
 						..()
+
+
+			Stickman
+				icon_state = "stickman"
+				level = 2200
+				HPmodifier  = 2
+				DMGmodifier = 1.5
+
+				MoveDelay   = 2
+				AttackDelay = 0
+
+				var/tmp/fired = 0
+
+				Range = 16
+				respawnTime = 3000
+
+				New()
+					..()
+					transform *= 2
+
+				drops = list("20"   = list(/obj/items/crystal/soul,
+				                           /obj/items/wearable/title/Surf),
+							 "25"   = list(/obj/items/artifact,
+							               /obj/items/crystal/magic),
+							 "40"   = list(/obj/items/DarknessPowder,
+								 		   /obj/items/Whoopie_Cushion,
+										   /obj/items/U_No_Poo,
+							 			   /obj/items/Smoke_Pellet,
+							 			   /obj/items/Tube_of_fun,
+							 			   /obj/items/Swamp))
+
+				Attack()
+					if(!target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+						target = null
+						ShouldIBeActive()
+						return
+					var/distance = get_dist(src, target)
+					if(distance > 5)
+						var/turf/t = get_step_to(src, target, 1)
+						if(t)
+							Move(t)
+						else
+							target = null
+							ShouldIBeActive()
+					else if(distance <= 3)
+						step_away(src, target)
+					else if(distance > 3)
+						step_rand(src)
+
+					if(prob(15) && !fired)
+						fired = 1
+						spawn(100) fired = 0
+						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+						var/tmp_d = dir
+						var/dmg = round(Dmg * 0.75) + rand(-4,8)
+						for(var/d in dirs)
+							dir = d
+							castproj(0, 'attacks.dmi', "fireball", dmg, "Incindia", 0, 1)
+						dir = tmp_d
+					else
+						dir=get_dir(src, target)
+						if(AttackDelay)	sleep(AttackDelay)
+						castproj(0, 'attacks.dmi', "gum", Dmg + rand(-4,8), "Waddiwasi")
+
+				Blocked()
+					density = 0
+					var/turf/t = get_step_to(src, target, 1)
+					if(t)
+						Move(t)
+					else
+						..()
+					density = 1
+
+				Death(mob/Player/killer)
+					..(killer)
+
+					var/obj/Hogwarts_Door/gate/door = locate("CoSBoss2LockDoor")
+					if(door)
+						door.door = 1
+
+						var/obj/teleport/portkey/t = new (loc)
+						t.dest = "@Hogwarts"
+
+						spawn(respawnTime)
+							door.door = 0
+							t.loc = null
+
+						spawn(2)
+							t.density = 1
+							step_rand(t)
+							t.density = 0
 
 			Rat
 				icon_state = "rat"
@@ -988,490 +1131,20 @@ mob
 					var/obj/Hogwarts_Door/gate/door = locate("CoSLockDoor")
 					if(door)
 						door.door = 1
+
+						var/obj/teleport/portkey/t = new (loc)
+						t.dest = "CoSFloor2"
+
 						spawn(respawnTime)
 							door.door = 0
+							t.loc = null
+
+						spawn(2)
+							t.density = 1
+							step_rand(t)
+							t.density = 0
 
 mob
-	Dog
-		icon = 'Mobs.dmi'
-		icon_state="dog"
-		see_invisible = 1
-		gold = 5
-		HP = 10
-		MHP = 10
-		Def=0
-		player = 0
-		Dmg = 15
-		Expg = 36
-		level = 1
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-
-			spawn(rand(10,30))
-				Wander()
-				.
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+extraDmg+rand(0,4)-M.Def-M.extraDef
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-	Wolf
-		icon = 'Mobs.dmi'
-		icon_state="wolf"
-		gold = 10
-		HP = 15
-		see_invisible = 1
-		MHP = 15
-		Def=0
-		player = 0
-		Dmg = 19
-		Expg = 40
-		level = 1
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+extraDmg+rand(0,5)-M.Def-M.extraDmg
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-	Snake
-		icon = 'Mobs.dmi'
-		icon_state="snake"
-		HP = 300
-		MHP = 500
-		player = 0
-		see_invisible = 1
-		Dmg = 125
-		gold = 10
-		Def=60
-		Expg = 75
-		level = 15
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,10)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-	Snake_
-		icon = 'Mobs.dmi'
-		icon_state="snake"
-		HP = 300
-		see_invisible = 1
-		MHP = 500
-		player = 0
-		Dmg = 125
-		Def=60
-		level = 15
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(10)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			if(!M)
-				spawn()Wander()
-				return
-			var/dmg = Dmg+rand(0,10)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!M ||!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)if(M)Attack(M)
-
-	Pixie
-		icon = 'Mobs.dmi'
-		icon_state="pixie"
-		gold = 10
-		HP = 50
-		MHP = 50
-		Def=0
-		player = 0
-		see_invisible = 1
-		Dmg = 50
-		Expg = 100
-		level = 2
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,10)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] jabs [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-
-	Demon_Rat
-		icon = 'Mobs.dmi'
-		icon_state="demon rat"
-		gold = 25
-		HP = 100
-		MHP = 100
-		player = 0
-		Dmg = 100
-		see_invisible = 1
-		Expg = 25
-		level = 3
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,30)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-
-	Rat
-		icon = 'Mobs.dmi'
-		icon_state="rat"
-		gold = 25
-		HP = 100
-		MHP = 100
-		player = 0
-		see_invisible = 1
-		Dmg = 100
-		Expg = 25
-		level = 3
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,30)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-
-	Troll
-		icon = 'Mobs.dmi'
-		icon_state="troll"
-		gold = 50
-		HP = 200
-		MHP = 200
-		player = 0
-		Def=10
-		Dmg = 150
-		Expg = 250
-		see_invisible = 1
-		level = 5
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,30)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-
-	House_Elf
-		icon = 'Mobs.dmi'
-		icon_state="houseelf"
-		gold = 0
-		HP = 200
-		MHP = 200
-		player = 0
-		Def=10
-		Dmg = 150
-		Expg = 0
-		level = 5
-		monster = 1
-		NPC = 1
-
-
-
-	/*Stone_Golem
-		icon = 'Mobs.dmi'
-		icon_state="stonegolem"
-		gold = 75
-		HP = 500
-		MHP = 500
-		player = 0
-		Dmg = 200
-		Def=20
-		Expg = 75
-		level = 6
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,30)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)*/
-
-	Dementor
-		icon = 'Mobs.dmi'
-		icon_state="dementor"
-		gold = 75
-		HP = 900
-		see_invisible = 1
-		MHP = 500
-		player = 0
-		Dmg = 290
-		Def=29
-		Expg = 375
-		level = 6
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,50)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-	Dementor_
-		icon = 'Mobs.dmi'
-		icon_state="dementor"
-		gold = 0
-		Expg = 0
-		HP = 500
-		MHP = 500
-		player = 0
-		Dmg = 200
-		see_invisible = 1
-		Def=20
-		level = 6
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(5,10))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(10)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			if(!M)
-				spawn()Wander()
-				return
-			var/dmg = Dmg+rand(0,50)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-
 	Stickman_
 		icon = 'Mobs.dmi'
 		icon_state = "stickman"
@@ -1516,128 +1189,6 @@ mob
 				hearers()<<"<SPAN STYLE='color: red'>[src] sticks [M] with a stick and causes [dmg] damage!</SPAN>"
 				spawn()M.Death_Check(src)
 			spawn(10)Attack(M)
-	Bird_
-		icon = 'Mobs.dmi'
-		icon_state="bird"
-		gold = 0
-		HP = 10000
-		MHP = 500
-		player = 0
-		Dmg = 200
-		Def=20
-		see_invisible = 1
-		level = 6
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(5,10))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(10)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			if(!M)
-				spawn()Wander()
-				return
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(M.HP>=M.MHP)
-				spawn()Wander()
-				return
-			else
-				M.HP += ((M.HP/8)+rand(1,50))
-				if(M.HP > M.MHP) M.HP = M.MHP
-				M.updateHPMP()
-				hearers()<<"<SPAN STYLE='color: red'>[src] heals [M]!</SPAN>"
-			spawn(10)Attack(M)
-	Fire_Bat
-		icon = 'Mobs.dmi'
-		icon_state="firebat"
-		gold = 80
-		HP = 600
-		MHP = 600
-		player = 0
-		Dmg = 300
-		Def=35
-		see_invisible = 1
-		Expg = 300
-		level = 7
-		monster = 1
-		NPC = 0
-		var/activated = 1
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			activated = 1
-			walk(src,0)
-			walk_rand(src,11)
-			while(activated)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/M)
-			while(get_dist(src,M)>5)
-				sleep(4)
-				if(!activated)
-					spawn(rand(10,30))
-						walk_rand(src,11)
-					return
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			dir=get_dir(src,M)
-			var/obj/S=new/obj/enemyfireball(src.loc)
-			walk(S,dir,2)
-			spawn(30)M.Death_Check(src)
-			sleep(10)
-			for(var/mob/A in oview(src)) if(A.client)
-				walk(src,0)
-				if(rand(1,4) == 4)
-					step_rand(src)
-				spawn()Attack(A)
-				return
-	Fire_Golem
-		icon = 'Mobs.dmi'
-		icon_state="firegolem"
-		gold = 85
-		HP = 1000
-		MHP = 1000
-		player = 0
-		Dmg = 400
-		Def=30
-		Expg = 390
-		see_invisible = 1
-		level = 7
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			var/mob/Player/P
-			while(src)
-				sleep(20)
-				if(P in oview(5))
-					step_towards(src,P)
-					var/obj/S=new/obj/enemyfireball
-					S.loc=(usr.loc)
-					walk(S,usr.dir,2)
 
 	Slug
 		icon='Mobs.dmi'
@@ -1657,407 +1208,3 @@ mob
 					sleep(100)
 					del src
 			..()
-
-	Acromantula
-		icon = 'Mobs.dmi'
-		icon_state="spider"
-		gold = 70
-		HP = 500
-		MHP = 500
-		see_invisible = 1
-		player = 0
-		Dmg = 200
-		Def=15
-		Expg = 70
-		level = 8
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,20)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-	/*Ice_Muck
-		icon = 'Mobs.dmi'
-		icon_state="icemuck"
-		gold = 100
-		HP = 1000
-		MHP = 1000
-		player = 0
-		Dmg = 400
-		see_invisible = 1
-		Def=40
-		Expg = 100
-		level = 9
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander(var/mob/Player/P)
-			while(src)
-				if(P in oview(5))
-					step_towards(src,P)
-					for(P in oview(1))
-						break
-					for(P in oview(2))
-						break
-					for(P in oview(3))
-						break
-					for(P in oview(4))
-						break
-				else
-					sleep(5)
-					for(P in oview(5))
-						break
-				sleep(5)
-			spawn(5)
-				Wander()
-		Bump(mob/M)
-			if(!istype(M, /mob)) return
-			if(M.player == 1)
-				Fight(M)
-			else
-				return
-		proc/Fight()
-			for(var/mob/E in get_step(usr,usr.dir))
-				var/damage = (src.Dmg+rand(0,3)-E.Def)
-				if(damage<=0)
-					hearers()<<"<SPAN STYLE='color: blue'>[src]'s bash doesnt even faze [E]</SPAN>"
-				else
-					E.HP -= damage
-					hearers()<<"<SPAN STYLE='color: red'>[src] bashes [E] for [damage] damage!</SPAN>"
-					E.Death_Check(src)
-	Scorpion
-		icon = 'Mobs.dmi'
-		icon_state="scorpion"
-		gold = 125
-		HP = 1500
-		MHP = 1500
-		player = 0
-		see_invisible = 1
-		Dmg = 600
-		Def=50
-		Expg = 125
-		level = 10
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander(var/mob/Player/P)
-			while(src)
-				if(P in oview(5))
-					step_towards(src,P)
-					for(P in oview(1))
-						break
-					for(P in oview(2))
-						break
-					for(P in oview(3))
-						break
-					for(P in oview(4))
-						break
-				else
-					step_rand(src)
-					sleep(5)
-					for(P in oview(5))
-						break
-				sleep(5)
-			spawn(5)
-				Wander()
-		Bump(mob/M)
-			if(!istype(M, /mob)) return
-			if(M.player == 1)
-				Fight(M)
-			else
-				return
-		proc/Fight()
-			for(var/mob/E in get_step(usr,usr.dir))
-				var/damage = (src.Dmg+rand(0,3)-E.Def)
-				if(damage<=0)
-					hearers()<<"<SPAN STYLE='color: blue'>[src]'s sting doesnt even faze [E]</SPAN>"
-				else
-					E.HP -= damage
-					hearers()<<"<SPAN STYLE='color: red'>[src] stings [E] for [damage] damage!</SPAN>"
-					var/poisoning=rand(0,3)
-					if(poisoning==3)
-						hearers()<<"<SPAN STYLE='color: red'>[src]'s sting has poisoned [E]!</SPAN>"
-						E.status="(Poison)"
-					E.Death_Check(src)*/
-
-	Floating_Eye
-		icon = 'Mobs.dmi'
-		icon_state="eye1"
-		gold = 400
-		HP = 3000
-		MHP = 3000
-		player = 0
-		Dmg = 800
-		see_invisible = 1
-		Def=80
-		Expg = 580
-		level = 13
-		monster = 1
-		NPC = 0
-		New()
-			..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,20)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] attacks [M] for [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-
-	Water_Elemental
-		icon = 'Mobs.dmi'
-		icon_state="water elemental"
-		gold = 600
-		HP = 5000
-		MHP = 5000
-		player = 0
-		see_invisible = 1
-		Dmg = 950
-		Def=80
-		Expg = 600
-		level = 13
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,20)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				hearers()<<"<SPAN STYLE='color: blue'>[src]'s blasts don't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] blows win at [M] for [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-
-	Wyvern
-		icon = 'Mobs.dmi'
-		icon_state="wyvern"
-		gold = 670
-		HP = 5000
-		MHP = 5000
-		player = 0
-		see_invisible = 1
-		Dmg = 950
-		Def=80
-		Expg = 620
-		level = 13
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,20)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				hearers()<<"<SPAN STYLE='color: blue'>[src]'s blasts don't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] blows wind at [M] for [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-
-
-	Fire_Elemental
-		icon = 'Mobs.dmi'
-		icon_state="fire elemental"
-		gold = 650
-		HP = 5000
-		see_invisible = 1
-		MHP = 5000
-		player = 0
-		Dmg = 950
-		Def=80
-		Expg = 600
-		level = 13
-		monster = 1
-		NPC = 0
-
-		New()
-			spawn(rand(10,30))
-				Wander()
-			return
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,20)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				hearers()<<"<SPAN STYLE='color: blue'>[src]'s burns don't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] burns [M] for [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-
-	ArchAngel
-		icon = 'Mobs.dmi'
-		icon_state="archangel"
-		gold = 300
-		HP = 3000
-		see_invisible = 1
-		MHP = 3000
-		player = 0
-		Dmg = 1000
-		Def=95
-		Expg = 600
-		level = 15
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,10)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] hits [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-	Basilisk
-		icon = 'Mobs.dmi'
-		icon_state = "basilisk"
-		gold = 1000
-		HP = 150000
-		MHP = 150000
-		player = 0
-		Dmg = 10000
-		Def= 8500
-		Expg = 9000
-		level = 300
-		see_invisible = 1
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(10,30))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(30)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			var/dmg = Dmg+rand(0,50)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s bite doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] bites [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
