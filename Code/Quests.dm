@@ -924,6 +924,29 @@ mob/TalkNPC
 
 
 
+	Zerf
+		icon_state = "stat"
+
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+			var/questPointer/pointer = p.questPointers["PvP Introduction"]
+			if(pointer)
+				if(pointer.stage)
+					if(p.checkQuestProgress("Zerf"))
+						p << npcsay("Zerf: Good job! You should try fighting people in the ranked arena by joining the matchmaking queue once you're at level cap.")
+					else
+						p << npcsay("Zerf: You aren't going to get any better by not fighting!")
+					return
+				else
+					p << npcsay("Zerf: You should try fighting people in the ranked arena by joining the matchmaking queue once you're at level cap.")
+
+			else
+				p << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
+				p.startQuest("PvP Introduction")
+
+
+
 
 var/list/quest_list
 
@@ -942,6 +965,18 @@ quest
 	var/desc
 	var/list/reqs
 	var/questReward/reward
+
+	PVP1
+		name   = "PvP Introduction"
+		desc   = "Zerf wants you to fight a few players... He probably just wants you to get dirt on your face so you look less shiny."
+		reward = /questReward/PVP1
+
+		Kill
+			desc = "Kill 20 players."
+			reqs = list("Kill Player" = 20)
+		Reward
+			desc = "Go back to the Zerf to get your reward!"
+			reqs = list("Zerf" = 1)
 
 	Extermination
 		name   = "Pest Extermination \[Daily]"
@@ -1261,6 +1296,11 @@ questReward
 		gold  = 5000
 		exp   = 10000
 		items = /obj/items/wearable/shoes/royale_shoes
+	PVP1
+		gold  = 15000
+		exp   = 15000
+		items = list(/obj/items/bagofgoodies,
+			         /obj/items/wearable/wands/salamander_wand)
 
 	proc/get(mob/Player/p)
 		if(gold)
