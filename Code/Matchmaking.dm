@@ -351,8 +351,6 @@ arena
 
 		countdown()
 			state = COUNTDOWN
-			team1.reset()
-			team2.reset()
 
 			var/turf/loc1 = locate(arena.x1 + 9,  arena.y1 + 8, arena.z1)
 			var/turf/loc2 = locate(arena.x1 + 15,  arena.y1 + 8, arena.z1)
@@ -374,6 +372,9 @@ arena
 
 			while(!timer.countdown())
 				sleep(10)
+
+			team1.reset()
+			team2.reset()
 
 			if(team1.player)
 				team1.player.HP = team1.player.MHP
