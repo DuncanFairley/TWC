@@ -1834,6 +1834,7 @@ obj
 	projectile
 		layer = 4
 		density = 1
+		var/velocity = 0
 		SteppedOn(atom/movable/A)
 			//world << "[src] stepped on [A]"
 			//			projectile stood on candle
@@ -1864,6 +1865,7 @@ obj
 			//src = null
 		proc
 			shoot(lag=2)
+				velocity = lag
 				walk(src,dir,lag)
 				//sleep(20)
 				//src.loc = null
@@ -1979,6 +1981,12 @@ obj
 					     angle  = new /Random(n - 25, n + 25),
 					     speed  = 2,
 					     life   = new /Random(15,25))
+
+				if(istype(M,/obj/projectile))
+					var/obj/projectile/p = M
+					if(p.owner != owner && p.velocity >= velocity)
+						walk(p,0)
+						p.loc = null
 			walk(src,0)
 			src.loc = null
 
