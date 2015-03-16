@@ -604,7 +604,7 @@ mob
 						var/tmp/fired = 0
 
 						Attack()
-							if(!target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+							if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
 								target = null
 								ShouldIBeActive()
 								return
@@ -692,7 +692,7 @@ mob
 							 			   /obj/items/Swamp))
 
 				Attack()
-					if(!target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
 						target = null
 						ShouldIBeActive()
 						return
@@ -981,7 +981,7 @@ mob
 				var/tmp/fired = 0
 				AttackDelay = 3
 				Attack()
-					if(!target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
 						target = null
 						ShouldIBeActive()
 						return
