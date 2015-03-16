@@ -1101,7 +1101,7 @@ quest
 		reward = /questReward/Mon6
 
 		Kill
-			desc = "Kill 250 wolves."
+			desc = "Kill 300 wolves."
 			reqs = list("Kill Wolf" = 300)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
