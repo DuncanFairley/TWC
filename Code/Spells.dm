@@ -1737,6 +1737,11 @@ mob/Spells/verb/Imperio(mob/other in oview()&Players)
 		usr.client.perspective=MOB_PERSPECTIVE
 mob/Spells/verb/Portus()
 	set category="Spells"
+
+	if(!loc || loc.loc:antiTeleport)
+		src << errormsg("You can't use it here.")
+		return
+
 	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25))
 		switch(input("Create a Portkey to Where?","Portus Charm")as null|anything in list("Hogsmeade","Pixie Pit","The Dark Forest Entrance"))
 			if("Hogsmeade")

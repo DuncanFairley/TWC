@@ -10,10 +10,14 @@ mob/Player/var/list/Lwearing
 
 area
 	var/tmp
-		antiTheft = FALSE
+		antiTheft    = FALSE
+		antiTeleport = FALSE
 
-	inside/antiTheft
-		antiTheft = TRUE
+	inside
+		antiTheft
+			antiTheft = TRUE
+		antiTeleport
+			antiTeleport = TRUE
 
 obj/items
 	var
@@ -1184,7 +1188,9 @@ obj/items/wearable/title
 	Exterminator
 		title = "Exterminator"
 		name  = "Title: Exterminator"
-
+	Surf
+		title = "Surfer"
+		name  = "Title: Surfer"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
