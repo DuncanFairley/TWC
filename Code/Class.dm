@@ -90,8 +90,11 @@ class
 		sleep(30)
 		say("When I'm done explaining the spell, please come to me and take a practice wand, use that wand to practice the spell until you've learned it. Of course if you already have a practice wand of another spell, you will not be able to get another.")
 		sleep(60)
-		say("This spell [mp ? "uses [mp] of your" : "does not use"] MP for each use. It [wand ? "requires" : "doesn't require"] a wand. [name] [cd ? "applies a [cd] second" : "doesn't apply a"] cooldown after using it.")
+		say("This spell [mp ? "uses [mp] of your" : "does not use"] MP for each use. It [wand ? "requires" : "doesn't require"] a wand.")
 		sleep(30)
+		if(cd)
+			say("[name] applies a [cd] second cooldown after using it.")
+			sleep(30)
 
 
 
@@ -384,6 +387,8 @@ class
 			start()
 				..()
 				say("This unique spell lets you control monsters like trolls or even the bassy if you are lucky.")
+				sleep(30)
+				say("It applies a cooldown after you use it, the cooldown is dependent on your level, it starts at 400 seconds and reduces by 1 per every 2 levels you have until it reaches a minimum of 30 seconds.")
 		Arania_Exumai
 			start()
 				..()

@@ -74,8 +74,9 @@ Weather
 
 				for(var/obj/cloud/c in z_clouds)
 					c.loc = locate(rand(10,world.maxx), rand(20,world.maxy), z)
-					c.shadow.loc = c.loc
-					c.shadow.y -= rand(6,10)
+					if(c.shadow)
+						c.shadow.loc = c.loc
+						c.shadow.y -= rand(6,10)
 					c.set_color(color)
 			else
 				clouds["[z]"] = list()
@@ -120,8 +121,9 @@ obj/cloud
 	proc
 		dispose()
 			loc        = null
-			shadow.loc = null
-			shadow     = null
+			if(shadow)
+				shadow.loc = null
+				shadow     = null
 
 		set_color(color=null)
 			icon_state = "[pixel_y]"
@@ -141,11 +143,11 @@ obj/cloud
 						else
 							new_y = rand(1, world.maxy)
 
-						loc        = locate(new_x, new_y, z)
-						shadow.loc = locate(new_x, new_y - rand(6,10), z)
+						loc = locate(new_x, new_y, z)
+						if(shadow) shadow.loc = locate(new_x, new_y - rand(6,10), z)
 					else
 						step(src, SOUTHEAST)
-						if(shadow.loc && !step(shadow, SOUTHEAST))
+						if(shadow && shadow.loc && !step(shadow, SOUTHEAST))
 							shadow.loc = null
 					sleep(8)
 

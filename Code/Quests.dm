@@ -193,6 +193,7 @@ mob/TalkNPC
 
 mob
 	Baby
+		icon = 'NPCs.dmi'
 		icon_state="baby"
 		density=1
 		Immortal=1
@@ -655,7 +656,7 @@ mob/TalkNPC
 									scroll.loc = null
 								p.checkQuestProgress("Alyssa")
 							else
-								usr << "<b><font color=blue>Alyssa: </font>You don't all the ingredients! Go back and look for them!"
+								usr << "<b><font color=blue>Alyssa: </font>You don't have all of the ingredients! Go back and look for them!"
 						if("No")
 							usr << "<b><font color=blue>Alyssa: </font>Better keep on looking!"
 				else
@@ -819,9 +820,9 @@ mob/TalkNPC
 				if(pointer.stage)
 					if(p.checkQuestProgress("Vengeful Wisp"))
 						p << npcsay("Vengeful Wisp: I love the irony in sending you to kill dead creatures. May they rest in pea-- I will send you to kill them again tomorrow.")
-						return
 					else
 						p << npcsay("Vengeful Wisp: Don't waste time talking to me, actions speak louder than words!")
+						return
 				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
 					p.questPointers -= pointer
 					pointer = null
@@ -843,9 +844,9 @@ mob/TalkNPC
 				if(pointer.stage)
 					if(p.checkQuestProgress("Mysterious Wizard"))
 						p << npcsay("Mysterious Wizard: Floating eyes, the gods of the desert can bleed after all, how amusing!")
-						return
 					else
 						p << npcsay("Mysterious Wizard: Not enough, go back there and check if they all bleed!")
+					return
 				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
 					p.questPointers -= pointer
 					pointer = null
@@ -867,9 +868,9 @@ mob/TalkNPC
 				if(pointer.stage)
 					if(p.checkQuestProgress("Saratri"))
 						p << npcsay("Saratri: Good job! I can't believe you pulled it off!")
-						return
 					else
 						p << npcsay("Saratri: Go kill the Basilisk!")
+					return
 				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
 					p.questPointers -= pointer
 					pointer = null
@@ -908,9 +909,9 @@ mob/TalkNPC
 				if(pointer.stage)
 					if(p.checkQuestProgress("Hunter"))
 						p << npcsay("Hunter: Good job!")
-						return
 					else
 						p << npcsay("Hunter: Go back out there and exterminate some pests!")
+					return
 				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
 					p.questPointers -= pointer
 					pointer = null
@@ -920,6 +921,29 @@ mob/TalkNPC
 				p.startQuest("Pest Extermination \[Daily]")
 			else
 				p << npcsay("Hunter: You've done a really good job exterminating all those monsters.")
+
+
+
+	Zerf
+		icon_state = "stat"
+
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+			var/questPointer/pointer = p.questPointers["PvP Introduction"]
+			if(pointer)
+				if(pointer.stage)
+					if(p.checkQuestProgress("Zerf"))
+						p << npcsay("Zerf: Good job! You should try fighting people in the ranked arena by joining the matchmaking queue once you're at level cap.")
+					else
+						p << npcsay("Zerf: You aren't going to get any better by not fighting!")
+					return
+				else
+					p << npcsay("Zerf: You should try fighting people in the ranked arena by joining the matchmaking queue once you're at level cap.")
+
+			else
+				p << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
+				p.startQuest("PvP Introduction")
 
 
 
@@ -941,6 +965,18 @@ quest
 	var/desc
 	var/list/reqs
 	var/questReward/reward
+
+	PVP1
+		name   = "PvP Introduction"
+		desc   = "Zerf wants you to fight a few players... He probably just wants you to get dirt on your face so you look less shiny."
+		reward = /questReward/PVP1
+
+		Kill
+			desc = "Kill 20 players."
+			reqs = list("Kill Player" = 20)
+		Reward
+			desc = "Go back to the Zerf to get your reward!"
+			reqs = list("Zerf" = 1)
 
 	Extermination
 		name   = "Pest Extermination \[Daily]"
@@ -1021,7 +1057,7 @@ quest
 		reward = /questReward/Mon2
 
 		Kill
-			desc = "Kill 100 rats."
+			desc = "Kill 100 demon rats."
 			reqs = list("Kill Demon Rat" = 100)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
@@ -1050,12 +1086,12 @@ quest
 			reqs = list("Hunter" = 1)
 	Snake
 		name   = "Pest Extermination: Snake"
-		desc   = "The hunter wants you to help him exterminate snakes from the forest"
+		desc   = "The hunter wants you to help him exterminate snakes from the graveyard"
 		reward = /questReward/Mon5
 
 		Kill
-			desc = "Kill 50 snakes."
-			reqs = list("Kill Snake" = 50)
+			desc = "Kill 250 snakes."
+			reqs = list("Kill Snake" = 250)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -1066,7 +1102,7 @@ quest
 
 		Kill
 			desc = "Kill 250 wolves."
-			reqs = list("Kill Wolf" = 250)
+			reqs = list("Kill Wolf" = 300)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -1260,6 +1296,11 @@ questReward
 		gold  = 5000
 		exp   = 10000
 		items = /obj/items/wearable/shoes/royale_shoes
+	PVP1
+		gold  = 15000
+		exp   = 15000
+		items = list(/obj/items/bagofgoodies,
+			         /obj/items/wearable/wands/salamander_wand)
 
 	proc/get(mob/Player/p)
 		if(gold)

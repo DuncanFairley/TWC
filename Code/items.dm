@@ -10,10 +10,14 @@ mob/Player/var/list/Lwearing
 
 area
 	var/tmp
-		antiTheft = FALSE
+		antiTheft    = FALSE
+		antiTeleport = FALSE
 
-	inside/antiTheft
-		antiTheft = TRUE
+	inside
+		antiTheft
+			antiTheft = TRUE
+		antiTeleport
+			antiTeleport = TRUE
 
 obj/items
 	var
@@ -1184,7 +1188,9 @@ obj/items/wearable/title
 	Exterminator
 		title = "Exterminator"
 		name  = "Title: Exterminator"
-
+	Surf
+		title = "Surfer"
+		name  = "Title: Surfer"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
@@ -1747,7 +1753,7 @@ mob/Player/Logout()
 		src = null
 		spawn()
 			tmpmob:ReturnToStart()
-	if(loc)
+	if(loc && loc.loc)
 		loc.loc.Exit(src)
 		loc.loc.Exited(src)
 	..()
@@ -3668,7 +3674,7 @@ obj/items/wearable/wands/practice_wand
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner, overridetext, forceremove)
-		var/mob/Player/p = usr
+		var/mob/Player/p = owner
 		if(. == WORN)
 			p.verbs   += spell.path
 			p.learning = spell
