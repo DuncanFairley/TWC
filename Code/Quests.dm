@@ -1022,8 +1022,8 @@ quest
 		reward = /questReward/Artifact
 
 		Kill
-			desc = "Kill 50 floating eyes."
-			reqs = list("Kill Floating Eye" = 50)
+			desc = "Kill 60 floating eyes."
+			reqs = list("Kill Floating Eye" = 60)
 		Reward
 			desc = "Go back to the Mysterious Wizard to get your reward!"
 			reqs = list("Mysterious Wizard" = 1)
