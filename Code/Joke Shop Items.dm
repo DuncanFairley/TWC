@@ -171,7 +171,7 @@ obj
 					return Lt
 
 mob/var/tmp/atom/smokepelletdest=null
-mob/var/tmp/obj/items/Smoke_Pellet/smokepelletthrowing=0
+mob/var/tmp/obj/items/Smoke_Pellet/smokepelletthrowing
 
 atom/Click()
 	. = ..()
@@ -179,8 +179,7 @@ atom/Click()
 		if(usr.client.eye!=usr)return
 		usr.smokepelletdest=src
 		if(isobj(usr.smokepelletdest))usr.smokepelletdest = src.loc
-		usr.smokepelletthrowing.Throwit()
-		usr.smokepelletthrowing=0
+		spawn()usr.smokepelletthrowing.Throwit()
 obj
 	hud
 		cancelthrow
@@ -280,25 +279,25 @@ obj
 					..()
 
 			proc
-				Cancel()
-					usr << "You put the [src] back into your robes."
-					usr.smokepelletthrowing = 0
+				Cancel(var/silent = FALSE)
+					if(!silent) usr << "You put the [src] back into your robes."
+					usr.smokepelletthrowing = null
 					for(var/obj/hud/cancelthrow/R in usr.client.screen)
 						del(R)
 				Throwit()
 					thrown=1
-					usr.smokepelletthrowing = 0
-					for(var/obj/hud/cancelthrow/R in usr.client.screen)
-						del(R)
+					Cancel(TRUE)
 					hearers() << "[usr] throws a smoke pellet!"
 					Move(usr.loc)
 					usr:Resort_Stacking_Inv()
-					walk_towards(src,usr.smokepelletdest,1)
-					while(src)
+					var/turf/t = usr.smokepelletdest
+					usr.smokepelletdest = null
+					while(src && t && t != loc)
+						var/turf/t_to = get_step_towards(src, t)
+						if(!t_to||t_to.density) break
+						Move(t_to)
 						sleep(1)
-						if(src.loc == usr.smokepelletdest)
-							Explode()
-							break
+					Explode()
 				Explode()
 					flick("smokepelletland",src)
 					sleep(14)
