@@ -1034,8 +1034,8 @@ quest
 		reward = /questReward/Artifact
 
 		Kill
-			desc = "Kill 50 wisps."
-			reqs = list("Kill Wisp" = 50)
+			desc = "Kill 80 wisps."
+			reqs = list("Kill Wisp" = 80)
 		Reward
 			desc = "Go back to Vengeful Wisp to get your reward!"
 			reqs = list("Vengeful Wisp" = 1)
