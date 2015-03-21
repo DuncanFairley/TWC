@@ -1309,7 +1309,7 @@ questReward
 		if(exp && p.level < lvlcap)
 			p << infomsg("You receive [comma(exp)] experience.")
 			var/xp2give = exp
-			while(p.Exp + xp2give > p.Mexp)
+			while(p.Exp + xp2give > p.Mexp && p.level <= lvlcap)
 				xp2give -= p.Mexp - p.Exp
 				p.Exp = p.Mexp
 				p.LvlCheck()
