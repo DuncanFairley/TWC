@@ -276,10 +276,6 @@ mob
 				var/class = ""
 
 				var/list/classes = autoclass_schedule.Copy()
-
-				var/current_day  = text2num(time2text(world.realtime, "DD"))
-				var/current_hour = text2num(time2text(world.realtime, "hh"))
-
 				var/count = 0
 				while(classes.len && count < 5)
 					count++
@@ -291,9 +287,17 @@ mob
 						scheduled_hour6 = "&nbsp;"
 
 					for(var/e in classes)
-						var/ticks = scheduler.time_to_fire(classes[e])
-						var/day   = (round(ticks / 10 / 60 / 60 / 24) + current_day)  % 7
-						var/hour  = (round(ticks / 10 / 60 / 60)      + current_hour) % 24
+						var/ticks = scheduler.time_to_fire(classes[e]) + world.realtime
+						var/day  = time2text(ticks, "DDD")
+						var/hour = text2num(time2text(ticks, "hh"))
+						if(hour == 0) hour = 24
+
+						if(day == "Mon") day = 2
+						else if(day == "Tue") day = 3
+						else if(day == "Wed") day = 4
+						else if(day == "Thu") day = 5
+						else if(day == "Fri") day = 6
+						else day = 0
 
 						var/scheduled_hour = hour > 12 ? "[hour - 12] PM - [hour - 12]:35 PM" : "[hour] AM - [hour]:35 AM"
 						if(day == 2 && scheduled_hour2 == "&nbsp;")
@@ -306,7 +310,7 @@ mob
 							scheduled_hour5 = scheduled_hour
 						else if(day == 6 && scheduled_hour6 == "&nbsp;")
 							scheduled_hour6 = scheduled_hour
-						else
+						else if(day != 0)
 							continue
 
 						classes -= e
@@ -323,7 +327,7 @@ mob
 		<td class="time">[scheduled_hour6]</td>
 		<td class="time:saturday">&nbsp;</td>
 	</tr>"}
-					break
+
 				txt = replace(txt, "\[AutoClassSchedule]", class, pos)
 
 			src << browse(txt)
