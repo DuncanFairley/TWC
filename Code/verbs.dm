@@ -326,12 +326,6 @@ mob
 					break
 				txt = replace(txt, "\[AutoClassSchedule]", class, pos)
 
-			pos = findtext(txt, "\[AutoClanSchedule]")
-			if(pos)
-				var/clan = ""
-
-				txt = replace(txt, "\[AutoClanSchedule]", clan, pos)
-
 			src << browse(txt)
 mob/verb/Use_Spellpoints()
 	if(spellpoints < 5)
