@@ -1,4 +1,6 @@
-var/const/WINS_REQ = 10
+var/const
+	WINS_REQ   = 10
+	RANK_LIMIT = 300
 
 var/list/duel_chairs = list()
 
@@ -168,7 +170,7 @@ matchmaking
 				var/mob/Player/p1 = queue[queue.len - skip]
 				var/mob/Player/p2 = queue[queue.len - 1 - skip]
 
-				if(queue[p1] - queue[p2] >= 300) return 1
+				if(queue[p1] - queue[p2] >= RANK_LIMIT) return 1
 
 				removeQueue(p1)
 				removeQueue(p2)
@@ -418,8 +420,12 @@ arena
 				team1.score++
 				team2.score++
 
-				if(team1.score > team2.score)      team2.lost = TRUE
-				else if(team1.score < team2.score) team1.lost = TRUE
+				if(team1.score > team2.score)
+					team2.lost = TRUE
+					team1.lost = FALSE
+				else if(team1.score < team2.score)
+					team1.lost = TRUE
+					team2.lost = FALSE
 				else
 					skip = TRUE
 					if(team1.score == 3)
@@ -614,15 +620,15 @@ proc
 		var/skill_stats/s = skill_rating[ckey]
 		if(s && s.wins >= WINS_REQ)
 			var/pos = skill_rating.Find(ckey, skill_rating.len - 2)
-			if(s.rating > 1800 && pos) return "<font color=#9f0419>Champion</font>"
-			if(s.rating > 1600) return "<font color=#aa2fbd>Grandmaster</font>"
-			if(s.rating > 1400) return "<font color=#01e4ac>Master</font>"
-			if(s.rating > 1200) return "<font color=#ff0000>Archwizard</font>"
-			if(s.rating > 1000) return "<font color=#E5E4E2>Battlewizard</font>"
-			if(s.rating > 800)  return "<font color=#FFD700>Wizard</font>"
-			if(s.rating > 600)  return "<font color=#C0C0C0>Sorcerer</font>"
-			if(s.rating > 400)  return "<font color=#CD7F32>Journeyman</font>"
-			if(s.rating > 200)  return "Apprentice"
+			if(s.rating >= 1800 && pos) return "<font color=#9f0419>Champion</font>"
+			if(s.rating >= 1600) return "<font color=#aa2fbd>Grandmaster</font>"
+			if(s.rating >= 1400) return "<font color=#01e4ac>Master</font>"
+			if(s.rating >= 1200) return "<font color=#ff0000>Archwizard</font>"
+			if(s.rating >= 1000) return "<font color=#E5E4E2>Battlewizard</font>"
+			if(s.rating >= 800)  return "<font color=#FFD700>Wizard</font>"
+			if(s.rating >= 600)  return "<font color=#C0C0C0>Sorcerer</font>"
+			if(s.rating >= 400)  return "<font color=#CD7F32>Journeyman</font>"
+			if(s.rating >= 200)  return "Apprentice"
 			return "Novice"
 		return "Unranked"
 
@@ -697,9 +703,9 @@ tr.file_black
 				var/skill_stats/s = skill_rating[skill_rating[i]]
 				if(s.wins < WINS_REQ) continue
 				var/seconderySkillGroup
-				if(s.rating > 1800 && skill_rating.len - i <= 2)
+				if(s.rating >= 1800 && skill_rating.len - i <= 2)
 					seconderySkillGroup = " [1 + skill_rating.len - i]"
-				else if(s.rating > 200)
+				else if(s.rating >= 200)
 					seconderySkillGroup = " [5 - round((s.rating % 200) / 40)]"
 				html += "<tr class=[isWhite ? "file_white" : "file_black"]><td>[rankNum]</td><td>[s.name]</td><td>[getSkillGroup(skill_rating[i])][seconderySkillGroup]</td><td>[s.wins]</td></tr>"
 				isWhite = !isWhite

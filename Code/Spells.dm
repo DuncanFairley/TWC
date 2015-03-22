@@ -875,7 +875,7 @@ mob/Spells/verb/Arcesso()
 		hearers() << "[src] pulls out of the spell."
 		stop_arcesso()
 
-	else if(canUse(src,cooldown=/StatusEffect/UsedArcesso,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=400,againstocclumens=1))
+	else if(canUse(src,cooldown=/StatusEffect/UsedArcesso,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=400,againstocclumens=1,teleport=1))
 		var/list/obj/circles = list(new/obj/circle/c1_1,new/obj/circle/c2_1,new/obj/circle/c3_1,new/obj/circle/c4_1,new/obj/circle/c5_1,
 									new/obj/circle/c1_2,new/obj/circle/c2_2,new/obj/circle/c3_2,new/obj/circle/c4_2,new/obj/circle/c5_2,
 									new/obj/circle/c1_3,new/obj/circle/c2_3,new/obj/circle/c3_3,new/obj/circle/c4_3,new/obj/circle/c5_3,
@@ -1737,12 +1737,7 @@ mob/Spells/verb/Imperio(mob/other in oview()&Players)
 		usr.client.perspective=MOB_PERSPECTIVE
 mob/Spells/verb/Portus()
 	set category="Spells"
-
-	if(!loc || loc.loc:antiTeleport)
-		src << errormsg("You can't use it here.")
-		return
-
-	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25))
+	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25,teleport=1))
 		switch(input("Create a Portkey to Where?","Portus Charm")as null|anything in list("Hogsmeade","Pixie Pit","The Dark Forest Entrance"))
 			if("Hogsmeade")
 				if(src.loc.density)
@@ -1834,6 +1829,7 @@ obj
 	projectile
 		layer = 4
 		density = 1
+		var/velocity = 0
 		SteppedOn(atom/movable/A)
 			//world << "[src] stepped on [A]"
 			//			projectile stood on candle
@@ -1864,6 +1860,7 @@ obj
 			//src = null
 		proc
 			shoot(lag=2)
+				velocity = lag
 				walk(src,dir,lag)
 				//sleep(20)
 				//src.loc = null
@@ -1979,6 +1976,12 @@ obj
 					     angle  = new /Random(n - 25, n + 25),
 					     speed  = 2,
 					     life   = new /Random(15,25))
+
+				if(istype(M,/obj/projectile))
+					var/obj/projectile/p = M
+					if(p.owner != owner && p.velocity >= velocity)
+						walk(p,0)
+						p.loc = null
 			walk(src,0)
 			src.loc = null
 

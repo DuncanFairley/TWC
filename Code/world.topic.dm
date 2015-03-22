@@ -225,7 +225,7 @@ client/proc
 					mob << "<font color=yellow><b>You gained [row_data["Amount"]] XP from your referral [sql_get_name_from(row_data["EarnerCkey"])]([row_data["EarnerCkey"]]).</b></font>"
 					var/xp2give = text2num(row_data["Amount"])
 					//mob.Exp += xp2give
-					while( (mob.Exp + xp2give) > mob.Mexp)
+					while( (mob.Exp + xp2give) > mob.Mexp && mob.level <= lvlcap)
 						xp2give -= (mob.Mexp - mob.Exp)
 						mob.Exp = mob.Mexp
 						mob.LvlCheck()

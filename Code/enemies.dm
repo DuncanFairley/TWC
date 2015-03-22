@@ -79,7 +79,8 @@ area
 			Desert1
 			Desert2
 			Desert3
-			Silverblood_Grounds
+			Silverblood_Bats
+			Silverblood_Golems
 			Graveyard
 			Hogsmeade
 			layer = 6	// set this layer above everything else so the overlay obscures everything
@@ -270,6 +271,19 @@ mob
 						else
 							Ignore(M)
 
+				ChangeTarget()
+					var/min_dist = Range
+					for(var/mob/Player/M in ohearers(src, Range))
+						if(M.loc.loc != src.loc.loc) continue
+						if(ignore && (M in ignore)) continue
+
+						if(!isPathBlocked(M, src, 1, src.density))
+							var/dist = get_dist(src, M)
+							if(min_dist > dist)
+								target = M
+						else
+							Ignore(M)
+
 				Wander()
 					step_rand(src)
 					sleep(1)
@@ -340,10 +354,15 @@ mob
 				var/distance = get_dist(src, target)
 				if(!target || !target.loc || target.loc.loc != loc.loc || distance > Range)
 					target = null
-					ShouldIBeActive()
-					return
+					ChangeTarget()
+					if(!target)
+						ShouldIBeActive()
+						return
 
 				if(distance > 1)
+					if(prob(10))
+						ChangeTarget()
+
 					var/turf/t = get_step_to(src, target, 1)
 					if(t)
 						Move(t)
@@ -604,10 +623,13 @@ mob
 						var/tmp/fired = 0
 
 						Attack()
-							if(!target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+							if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
 								target = null
 								ShouldIBeActive()
 								return
+
+							if(prob(30))
+								ChangeTarget()
 
 							var/distance = get_dist(src, target)
 							if(distance > 5)
@@ -680,11 +702,11 @@ mob
 					..()
 					transform *= 2
 
-				drops = list("20"   = list(/obj/items/crystal/soul,
+				drops = list("15"   = list(/obj/items/crystal/soul,
 				                           /obj/items/wearable/title/Surf),
-							 "25"   = list(/obj/items/artifact,
+							 "20"   = list(/obj/items/artifact,
 							               /obj/items/crystal/magic),
-							 "40"   = list(/obj/items/DarknessPowder,
+							 "30"   = list(/obj/items/DarknessPowder,
 								 		   /obj/items/Whoopie_Cushion,
 										   /obj/items/U_No_Poo,
 							 			   /obj/items/Smoke_Pellet,
@@ -692,10 +714,14 @@ mob
 							 			   /obj/items/Swamp))
 
 				Attack()
-					if(!target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
 						target = null
 						ShouldIBeActive()
 						return
+
+					if(prob(30))
+						ChangeTarget()
+
 					var/distance = get_dist(src, target)
 					if(distance > 5)
 						var/turf/t = get_step_to(src, target, 1)
@@ -981,7 +1007,7 @@ mob
 				var/tmp/fired = 0
 				AttackDelay = 3
 				Attack()
-					if(!target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
 						target = null
 						ShouldIBeActive()
 						return
@@ -1070,7 +1096,6 @@ mob
 				HPmodifier = 4
 				DMGmodifier = 3
 				MoveDelay = 3
-				AttackDelay = 10
 				Range = 16
 				respawnTime = 3000
 
@@ -1078,16 +1103,16 @@ mob
 					..()
 					transform *= 2
 
-				drops = list("15"   = list(/obj/items/artifact,
+				drops = list("10"   = list(/obj/items/artifact,
 										   /obj/items/wearable/title/Petrified,
 										   /obj/items/crystal/soul,
 										   /obj/items/crystal/magic,
 						     			   /obj/items/crystal/strong_luck),
-							 "20"   = list(/obj/items/artifact,
+							 "15"   = list(/obj/items/artifact,
 										   /obj/items/crystal/damage,
 										   /obj/items/crystal/defense,
 						     			   /obj/items/crystal/luck),
-							 "40"   = list(/obj/items/DarknessPowder,
+							 "30"   = list(/obj/items/DarknessPowder,
 								 		   /obj/items/Whoopie_Cushion,
 										   /obj/items/U_No_Poo,
 							 			   /obj/items/Smoke_Pellet,

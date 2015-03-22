@@ -270,7 +270,63 @@ mob/GM
 mob
 	verb
 		Class_Schedule()
-			src << browse(Sched)
+			var/txt = file2text(Sched)
+			var/pos = findtext(txt, "\[AutoClassSchedule]")
+			if(pos)
+				var/class = ""
+
+				var/list/classes = autoclass_schedule.Copy()
+
+				var/current_day  = text2num(time2text(world.realtime, "DD"))
+				var/current_hour = text2num(time2text(world.realtime, "hh"))
+
+				var/count = 0
+				while(classes.len && count < 5)
+					count++
+					var
+						scheduled_hour2 = "&nbsp;"
+						scheduled_hour3 = "&nbsp;"
+						scheduled_hour4 = "&nbsp;"
+						scheduled_hour5 = "&nbsp;"
+						scheduled_hour6 = "&nbsp;"
+
+					for(var/e in classes)
+						var/ticks = scheduler.time_to_fire(classes[e])
+						var/day   = (round(ticks / 10 / 60 / 60 / 24) + current_day)  % 7
+						var/hour  = (round(ticks / 10 / 60 / 60)      + current_hour) % 24
+
+						var/scheduled_hour = hour > 12 ? "[hour - 12] PM - [hour - 12]:35 PM" : "[hour] AM - [hour]:35 AM"
+						if(day == 2 && scheduled_hour2 == "&nbsp;")
+							scheduled_hour2 = scheduled_hour
+						else if(day == 3 && scheduled_hour3 == "&nbsp;")
+							scheduled_hour3 = scheduled_hour
+						else if(day == 4 && scheduled_hour4 == "&nbsp;")
+							scheduled_hour4 = scheduled_hour
+						else if(day == 5 && scheduled_hour5 == "&nbsp;")
+							scheduled_hour5 = scheduled_hour
+						else if(day == 6 && scheduled_hour6 == "&nbsp;")
+							scheduled_hour6 = scheduled_hour
+						else
+							continue
+
+						classes -= e
+
+					class += {"
+	<tr style="color:yellow">
+		<td class="name">Auto Class</td>
+		<td>Random</td>
+		<td class="time:sunday">&nbsp;</td>
+		<td class="time">[scheduled_hour2]</td>
+		<td class="time">[scheduled_hour3]</td>
+		<td class="time">[scheduled_hour4]</td>
+		<td class="time">[scheduled_hour5]</td>
+		<td class="time">[scheduled_hour6]</td>
+		<td class="time:saturday">&nbsp;</td>
+	</tr>"}
+					break
+				txt = replace(txt, "\[AutoClassSchedule]", class, pos)
+
+			src << browse(txt)
 mob/verb/Use_Spellpoints()
 	if(spellpoints < 5)
 		alert("You require at least 5 spell points before you can learn spells with them. Spell points are earned by going to a class and learning a spell that you've already learnt.")

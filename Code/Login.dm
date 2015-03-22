@@ -2143,6 +2143,9 @@ mob/proc/resetMaxHP()
 mob
 	proc
 		LvlCheck(var/fakelevels=0)
+			if(level >= lvlcap)
+				Exp = 0
+				return
 			if(src.Exp>=src.Mexp)
 				src.level++
 				src.MMP = level * 6

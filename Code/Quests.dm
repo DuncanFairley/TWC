@@ -1022,8 +1022,8 @@ quest
 		reward = /questReward/Artifact
 
 		Kill
-			desc = "Kill 50 floating eyes."
-			reqs = list("Kill Floating Eye" = 50)
+			desc = "Kill 60 floating eyes."
+			reqs = list("Kill Floating Eye" = 60)
 		Reward
 			desc = "Go back to the Mysterious Wizard to get your reward!"
 			reqs = list("Mysterious Wizard" = 1)
@@ -1034,8 +1034,8 @@ quest
 		reward = /questReward/Artifact
 
 		Kill
-			desc = "Kill 50 wisps."
-			reqs = list("Kill Wisp" = 50)
+			desc = "Kill 80 wisps."
+			reqs = list("Kill Wisp" = 80)
 		Reward
 			desc = "Go back to Vengeful Wisp to get your reward!"
 			reqs = list("Vengeful Wisp" = 1)
@@ -1101,7 +1101,7 @@ quest
 		reward = /questReward/Mon6
 
 		Kill
-			desc = "Kill 250 wolves."
+			desc = "Kill 300 wolves."
 			reqs = list("Kill Wolf" = 300)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
@@ -1309,7 +1309,7 @@ questReward
 		if(exp && p.level < lvlcap)
 			p << infomsg("You receive [comma(exp)] experience.")
 			var/xp2give = exp
-			while(p.Exp + xp2give > p.Mexp)
+			while(p.Exp + xp2give > p.Mexp && p.level <= lvlcap)
 				xp2give -= p.Mexp - p.Exp
 				p.Exp = p.Mexp
 				p.LvlCheck()
