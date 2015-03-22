@@ -429,30 +429,11 @@ obj/Madame_Pomfrey
 	icon='NPCs.dmi'
 	icon_state="nurse"
 	Madame_Pomfrey//Names the NPC//Do i really need to say... Sets their ICON STATE
+	mouse_over_pointer = MOUSE_HAND_POINTER
 
-		Click()//This starts- wait... you know what this is... i hope ^^
-			switch(input("Would you like me to heal you?","Madam Pomfrey the Nurse")in list("Yes, Please.","Cure my illness.","No Thanks."))
-				if("Yes, Please.")
-					usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episkey!"
-					usr.overlays+=image('attacks.dmi',icon_state="heal")
-					usr.HP=usr.MHP+usr.extraMHP
-					usr.updateHPMP()
-					sleep(10)
-					usr.overlays-=image('attacks.dmi',icon_state="heal")
-				if("Cure my illness.")
-					usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Ah, I shall use an ancient remedy to cure your afflictions."
-					sleep(20)
-					usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> An Mani Elem, Vas Rel Por!"
-					usr<<"The nurse finishes uttering the ancient spell and waves her wand around you. You suddenly feel all warm inside."
-					usr.overlays+=image('attacks.dmi',icon_state="heal")
-					usr.HP=usr.MHP+usr.extraMHP
-					usr.updateHPMP()
-					sleep(10)
-					usr.overlays-=image('attacks.dmi',icon_state="heal")
-					usr.overlays-=image('MaleRavenclaw.dmi',icon_state="pimple")
-					usr.Zitt=0
-				if("No Thanks.")
-					usr<<"Madam Pomfrey:  Very well then. Off you go."
+	Click()//This starts- wait... you know what this is... i hope ^^
+		if(usr in oview(src, 1))
+			Heal_Me()
 	verb
 		Heal_Me()
 			if(canUse(usr,cooldown=/StatusEffect/UsedFerulaToHeal))
