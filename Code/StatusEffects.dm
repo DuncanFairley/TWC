@@ -138,7 +138,7 @@ atom/proc/findStatusEffect(var/type)
 	return src.LStatusEffects ? locate(type) in src.LStatusEffects : 0
 proc/issafezone(area/A)
 		return safemode && !A.safezoneoverride && (!istype(A,/area/hogwarts/Duel_Arenas) && (istype(A,/area/hogwarts) || istype(A,/area/Diagon_Alley)))
-proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inarena=1,var/insafezone=1,var/inhogwarts=1,var/mob/Player/target=null,var/mpreq=0,var/againstocclumens=1,var/againstflying=1,var/againstcloaked=1,var/projectile=0)
+proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inarena=1,var/insafezone=1,var/inhogwarts=1,var/mob/Player/target=null,var/mpreq=0,var/againstocclumens=1,var/againstflying=1,var/againstcloaked=1,var/projectile=0,var/teleport=0)
 	//Returns 1 if you can use the item/cast the spell. Also handles the printing of messages if you can't.
 	if(!M.loc)
 		M << "<b>You cannot use this in the void.</b>"
@@ -149,6 +149,9 @@ proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inare
 		return 0
 	if(target && !insafezone && issafezone(target.loc.loc))
 		M << "<b>[target] is inside a safezone.</b>"
+		return 0
+	if(teleport && M.loc.loc:antiTeleport)
+		M << "<b>You can't teleport here.</b>"
 		return 0
 	if(!A.safezoneoverride)
 		if(!inhogwarts && istype(M.loc.loc,/area/hogwarts))

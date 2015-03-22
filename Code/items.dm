@@ -189,7 +189,7 @@ obj/items/herosbrace
 	icon = 'herosbrace.dmi'
 	Click()
 		if(src in usr)
-			if(canUse(M=usr, needwand=0, inarena=0, inhogwarts=0))
+			if(canUse(M=usr, needwand=0, inarena=0, inhogwarts=0, teleport=1))
 				if(usr.bracecharges>=1)
 					var/turf/t
 					switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Pyramid","Forbidden Forest","Museum"))
