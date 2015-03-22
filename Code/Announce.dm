@@ -278,7 +278,7 @@ mob
 				usr.questionius=0
 			else
 				usr.overlays+=icon('hand.dmi')
-				hearers()<<"<font color=red>[usr] raises \his hand.</font>"
+				hearers(usr.client.view,usr)<<"<font color=red>[usr] raises \his hand.</font>"
 				usr.questionius=1
 mob/verb/Emote(t as text)
 	if(usr.Rictusempra==10) return
