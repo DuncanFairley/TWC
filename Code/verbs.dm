@@ -306,7 +306,7 @@ mob
 							scheduled_hour5 = scheduled_hour
 						else if(day == 6 && scheduled_hour6 == "&nbsp;")
 							scheduled_hour6 = scheduled_hour
-						else
+						else if(day != 0 && day != 1)
 							continue
 
 						classes -= e
