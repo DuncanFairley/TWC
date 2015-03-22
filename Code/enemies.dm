@@ -79,7 +79,8 @@ area
 			Desert1
 			Desert2
 			Desert3
-			Silverblood_Grounds
+			Silverblood_Bats
+			Silverblood_Golems
 			Graveyard
 			Hogsmeade
 			layer = 6	// set this layer above everything else so the overlay obscures everything
