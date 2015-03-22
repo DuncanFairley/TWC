@@ -277,20 +277,17 @@ mob
 
 				var/list/classes = autoclass_schedule.Copy()
 				var/count = 0
-				while(classes.len && count < 5)
+				while(classes.len && count < 10)
 					count++
-					var
-						scheduled_hour2 = "&nbsp;"
-						scheduled_hour3 = "&nbsp;"
-						scheduled_hour4 = "&nbsp;"
-						scheduled_hour5 = "&nbsp;"
-						scheduled_hour6 = "&nbsp;"
+
+					var/list/days[5]
+					for(var/i = 1 to 5)
+						days[i] = "&nbsp;"
 
 					for(var/e in classes)
 						var/ticks = scheduler.time_to_fire(classes[e]) + world.realtime
 						var/day  = time2text(ticks, "DDD")
 						var/hour = text2num(time2text(ticks, "hh"))
-						if(hour == 0) hour = 24
 
 						if(day == "Mon") day = 2
 						else if(day == "Tue") day = 3
@@ -299,19 +296,13 @@ mob
 						else if(day == "Fri") day = 6
 						else day = 0
 
-						var/scheduled_hour = hour > 12 ? "[hour - 12] PM - [hour - 12]:35 PM" : "[hour] AM - [hour]:35 AM"
-						if(day == 2 && scheduled_hour2 == "&nbsp;")
-							scheduled_hour2 = scheduled_hour
-						else if(day == 3 && scheduled_hour3 == "&nbsp;")
-							scheduled_hour3 = scheduled_hour
-						else if(day == 4 && scheduled_hour4 == "&nbsp;")
-							scheduled_hour4 = scheduled_hour
-						else if(day == 5 && scheduled_hour5 == "&nbsp;")
-							scheduled_hour5 = scheduled_hour
-						else if(day == 6 && scheduled_hour6 == "&nbsp;")
-							scheduled_hour6 = scheduled_hour
-						else if(day != 0)
-							continue
+						var/ampm = hour >= 12 ? "PM" : "AM"
+						if(hour > 12) hour -= 12
+						else if(hour == 0) hour = 12
+
+						if(day != 0)
+							if(days[day - 1] != "&nbsp;") continue
+							days[day - 1] = "[hour] [ampm] - [hour]:35 [ampm]"
 
 						classes -= e
 
@@ -320,11 +311,11 @@ mob
 		<td class="name">Auto Class</td>
 		<td>Random</td>
 		<td class="time:sunday">&nbsp;</td>
-		<td class="time">[scheduled_hour2]</td>
-		<td class="time">[scheduled_hour3]</td>
-		<td class="time">[scheduled_hour4]</td>
-		<td class="time">[scheduled_hour5]</td>
-		<td class="time">[scheduled_hour6]</td>
+		<td class="time">[days[1]]</td>
+		<td class="time">[days[2]]</td>
+		<td class="time">[days[3]]</td>
+		<td class="time">[days[4]]</td>
+		<td class="time">[days[5]]</td>
 		<td class="time:saturday">&nbsp;</td>
 	</tr>"}
 
