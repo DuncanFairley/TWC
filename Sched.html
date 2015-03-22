@@ -1,0 +1,348 @@
+<html>
+	<head>
+		<style>
+body
+{
+    background-color:black;
+    color:white;
+    font-family:"Arial";
+}
+table.schedule, table.schedule td, table.schedule tr
+{
+    border-color:red;
+    border-style:solid; 
+    border-width:3px;
+    border-collapse:collapse;
+}
+table.schedule td
+{
+    text-align:center;
+    padding:5px;
+}
+td.name
+{
+    color:#C08000;
+}
+tr.title
+{
+    color:green;
+}
+h1
+{
+    text-align:center;
+}
+h5
+{
+    text-align:center;
+    color:red;
+}
+h2
+{
+    text-align:center;
+    color:#40FF00;
+}
+		</style>
+	</head>
+	<body onload="updateClock(); setInterval('updateClock()', 1000 )">
+<h1><u>Class Schedule</u></h1>
+<center><span id="clock" style="font-size:x-large;">&nbsp;</span><!--<iframe src="http://free.timeanddate.com/clock/i3l19d6l/n142/fn7/fs15/fc90f/tct/pct/ftb/bat7/bac909/tt0/tw1/tm1/th2/ta1" frameborder="0" width="320" height="25" allowTransparency="true"></iframe>--></center>
+<br>
+<h5>Classes will be announced when they are going to start, and the times each class are going to start can be viewed below:.
+<br>*<u>Note</u>: Teachers will start their class within the times stated. Weekend classes don't follow any schedule.</h5>
+<h2>**<u>Note</u>: The schedule now follows your local time zone, you no longer need to convert the times below to your time.</h2>
+<h3>***<u>Note</u>: Yellow class times are automatic classes, due to daylight savings kicking in/out around the world, the times might be off by an hour or two.</h3>
+<center><i><font size=2>For a troubleshooting guide, <a href="http://forum.wizardschronicles.com/index.php?topic=2240.0" target="_blank">click here.</a></font></i></center>
+<br>
+<center>
+<table class="schedule" border=0>
+	<tr class="title">
+		<td>Teacher</td>
+		<td>Class</td>
+		<td id="sunday">Sunday</td>
+		<td>Monday</td>
+		<td>Tuesday</td>
+		<td>Wednesday</td>
+		<td>Thursday</td>
+		<td>Friday</td>
+		<td id="saturday">Saturday</td>
+	</tr>
+                <tr>
+		<td class="name"> Professor Ben</td>
+		<td>GCOM</td>
+		<td class="time:sunday">&nbsp;</td>
+		<td class="time">&nbsp;</td>
+		<td class="time">3 PM - 4 PM</td>
+                                <td class="time">&nbsp;</td>
+                                <td class="time" style="color:yellow;">3 PM - 4 PM</td>
+		<td class="time">3 PM - 4 PM</td>
+		<td class="time:saturday">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="name">Professor Zach</td>
+		<td>DADA</td>
+		<td class="time:sunday">&nbsp;</td>
+		<td class="time">4 AM - 5 AM</td>
+		<td class="time" style="color:yellow;">5 PM - 6 PM</td>
+		<td class="time">&nbsp;</td>
+		<td class="time">&nbsp;</td>
+		<td class="time">4 PM - 5 PM</td>
+		<td class="time:saturday">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="name">Professor Sara</td>
+		<td>COMC</td>
+		<td class="time:sunday">&nbsp;</td>
+		<td class="time">&nbsp;</td>
+		<td class="time">4 PM - 5 PM</td>
+		<td class="time">&nbsp;</td>
+		<td class="time">4 PM - 5 PM</td>
+		<td class="time">5 PM - 6 PM</td>
+		<td class="time:saturday">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="name">Professor Tobi</td>
+		<td>Charms</td>
+		<td class="time:sunday">&nbsp;</td>
+		<td class="time">8 PM - 9 PM</td>
+		<td class="time">&nbsp;</td>
+		<td class="time">8 PM - 9 PM</td>
+		<td class="time">&nbsp;</td>
+		<td class="time" style="color:yellow;">9 PM - 10 PM</td>
+		<td class="time:saturday">&nbsp;</td>
+	</tr>
+	<tr>
+		<td class="name">Professor Chris</td>
+		<td>Transfiguration</td>
+		<td class="time:sunday">&nbsp;</td>
+		<td class="time">7 PM - 8 PM</td>
+		<td class="time">8 PM - 9 PM</td>
+		<td class="time">&nbsp</td>
+		<td class="time">8 PM - 9 PM</td>
+		<td class="time" style="color:yellow;">1 PM - 2 PM</td>
+		<td class="time:saturday">&nbsp;</td>
+	</tr>
+[AutoClassSchedule]
+</table>
+</center>
+<script type="text/javascript">
+	var days     = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+	var saturday = 0;
+	var sunday   = 0
+	var offset   = new Date().getTimezoneOffset()/60 - 5;
+	var elems    = document.getElementsByTagName('*');
+	var arr      = toArray(elems);
+	document.write(offset);
+	for (var i = arr.length - 1; i >= 0; i--)
+	{
+		if((elems[i].className).indexOf("time") > -1) 
+		{
+			var str = elems[i].innerHTML;
+			if(str.indexOf(" - ") > -1) 
+			{
+				var n = str.split(" - ");
+				var minutes1 = 0;
+				var minutes2 = 0;
+				if(n[0].indexOf(":") > -1)
+				{
+					var tm1 = n[0].split(":");
+					var ampm1 = tm1[1].split(" ")
+					n[0] = tm1[0] + " " + ampm1[1];
+					minutes1 = parseInt(ampm1[0]);
+				}
+				if(n[1].indexOf(":") > -1)
+				{
+					var tm2 = n[1].split(":");
+					var ampm2 = tm2[1].split(" ")
+					n[1] = tm2[0] + " " + ampm2[1];
+					minutes2 = parseInt(ampm2[0]);
+				}
+				n[0] = militarytime(n[0]);
+				n[1] = militarytime(n[1]);
+				var offsetHour = Math.floor(offset);
+				var offsetMin = offset - offsetHour;
+				n[0] -= offsetHour;
+				n[1] -= offsetHour;
+
+				if(offsetMin > 0)
+				{
+					n[0]--;
+					n[1]--;
+					
+					minutes1 += 60 - offsetMin * 60;
+					minutes2 += 60 - offsetMin * 60;
+					
+					if(minutes1 >= 60)
+					{
+						minutes1 -= 60;
+						n[0]++;
+					}
+					if(minutes2 >= 60)
+					{
+						minutes2 -= 60;
+						n[1]++;
+					}
+				}
+
+				var new_time = standardtime(n[0], minutes1) +  " - " + standardtime(n[1], minutes2);
+				if(parseInt(n[0]) > 24 || parseInt(n[1]) > 24)
+				{
+					elems[i].innerHTML = "&nbsp;";
+					
+					if(elems[i].style.color == "yellow")
+					{
+						new_time = "<font color=yellow>" + new_time + "</font>";
+						elems[i].style.color = "white"
+					}
+					
+					if(elems[i+1].innerHTML != "&nbsp;")
+					{
+						if(elems[i+1].style.color == "yellow")
+						{
+							elems[i+1].innerHTML = "<font color=yellow>" + elems[i+1].innerHTML + "</font>";
+							elems[i+1].style.color = "white"
+						}
+					
+						elems[i+1].innerHTML = new_time + "|BREAKLINE|" + elems[i+1].innerHTML;
+					}
+					else
+					{
+						elems[i+1].innerHTML = new_time;
+					}
+					if(elems[i+1].className == "time:saturday") saturday = 1;
+				}
+				
+				else if(parseInt(n[0]) < 0 || parseInt(n[1]) < 0)
+				{
+					elems[i].innerHTML = new_time + "|backwards";
+					if(elems[i-1].className == "time:sunday") sunday = 1;
+				}
+				else
+				{
+					elems[i].innerHTML = new_time;
+				}
+			}
+		}
+	}
+	
+	if(saturday == 0) document.getElementById("saturday").style.display = "none";
+	if(sunday   == 0) document.getElementById("sunday").style.display   = "none";
+	for (var i = 0; i < arr.length; i++)
+	{
+		if((elems[i].className).indexOf("time") > -1) 
+		{
+			if(elems[i].innerHTML.indexOf("|backwards") > -1)
+			{
+				var str_ = elems[i].innerHTML;
+				var n_ = str_.split("|");
+				
+				if(elems[i].style.color == "yellow")
+				{
+				    n_[0] = "<font color=yellow>" + n_[0] + "</font>";
+					elems[i].style.color = "white"
+				}
+				
+				if(elems[i-1].innerHTML != "&nbsp;")
+				{
+					if(elems[i-1].style.color == "yellow")
+					{
+						elems[i-1].innerHTML = "<font color=yellow>" + elems[i-1].innerHTML + "</font>";
+						elems[i-1].style.color = "white"
+					}
+				
+					elems[i-1].innerHTML = elems[i-1].innerHTML + "|BREAKLINE|" + n_[0];
+				}
+				else
+				{
+					elems[i-1].innerHTML = n_[0];
+				}
+				elems[i].innerHTML = "&nbsp;";
+				
+			}
+			else if(elems[i].className == "time:saturday" && saturday == 0) elems[i].style.display = "none"
+			else if(elems[i].className == "time:sunday"   && sunday   == 0) elems[i].style.display = "none"
+		}
+	}
+	document.body.innerHTML = replaceAll('|BREAKLINE|', '<br>', document.body.innerHTML);
+	
+	function militarytime(time)
+	{
+		var militaryHours;
+		var n = time.split(" ");
+		var hours = n[0];
+		var ampm = n[1];
+		if( ampm.toLowerCase() == "am" )
+		{
+			militaryHours = hours;
+			if( militaryHours == "12" ) { militaryHours = "00"; }
+		}
+		else
+		{
+			if( ampm.toLowerCase() == "pm")
+			{
+				tempHours = parseInt( hours ) + 2;
+				if( tempHours < 10 ) tempHours = "1" + tempHours;
+				else tempHours = "2" + ( tempHours - 10 );
+				if( tempHours == "24" ) { tempHours = "12"; }
+				militaryHours = tempHours;
+			}
+		}
+		return militaryHours;
+	}
+
+	function standardtime(time, minutes)
+	{
+		var hours24 = parseInt(time);
+		if(hours24 > 24) hours24 -= 24;
+		if(hours24 < 0) hours24 += 24;
+		var hours = ((hours24 + 11) % 12) + 1;
+		var amPm = hours24 > 11 ? 'PM' : 'AM';
+		if(hours24 == 24) amPm = 'AM';
+		
+		return hours + (minutes == 0 ? "" : ":" + ("00" + minutes).slice(-2)) + " " + amPm;
+	}
+	
+	function escapeRegExp(str)
+	{
+		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	}
+	
+	function replaceAll(find, replace, str)
+	{
+		return str.replace(new RegExp(escapeRegExp(find), 'g'), replace);
+	}
+
+	function updateClock ( )
+	{
+		var currentTime = new Date ( );
+
+		var currentHours = currentTime.getHours ( );
+		var currentMinutes = currentTime.getMinutes ( );
+		var currentSeconds = currentTime.getSeconds ( );
+
+		currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
+		currentSeconds = ( currentSeconds < 10 ? "0" : "" ) + currentSeconds;
+
+		var timeOfDay = ( currentHours < 12 ) ? "AM" : "PM";
+
+		currentHours = ( currentHours > 12 ) ? currentHours - 12 : currentHours;
+
+		currentHours = ( currentHours == 0 ) ? 12 : currentHours;
+		var currentTimeString = currentHours + ":" + currentMinutes + ":" + currentSeconds + " " + timeOfDay;
+
+		document.getElementById("clock").firstChild.nodeValue = days[new Date().getDay()] + " " + currentTimeString;
+	}
+	
+	function toArray(obj)
+	{
+		var array = [];
+		for (var i = obj.length >>> 0; i--;) { 
+			array[i] = obj[i];
+		}
+		return array;
+	}
+		</script>
+	</body>
+</html>
+
+
+
