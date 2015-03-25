@@ -1740,7 +1740,16 @@ mob/Spells/verb/Imperio(mob/other in oview()&Players)
 mob/Spells/verb/Portus()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25,teleport=1))
-		switch(input("Create a Portkey to Where?","Portus Charm")as null|anything in list("Hogsmeade","Pixie Pit","The Dark Forest Entrance"))
+
+		if(IsInputOpen(src, "Portus"))
+			del _input["Portus"]
+
+		var/Input/popup = new (src, "Portus")
+		var/locations = list("Hogsmeade", "Pixie Pit", "The Dark Forest Entrance")
+		var/d = popup.InputList(src, "Create a Portkey to Where?", "Portus Charm", locations[1], locations)
+		del popup
+
+		switch(d)
 			if("Hogsmeade")
 				if(src.loc.density)
 					src << errormsg("Portus can't be used on top of something else.")
