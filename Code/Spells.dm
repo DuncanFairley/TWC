@@ -767,12 +767,13 @@ mob/Spells/verb/Petreficus_Totalus(var/mob/M in oview()&Players)
 		usr:learnSpell("Petrificus Totalus")
 		src = null
 		spawn(100)
-			if(usr && M)
+			if(usr)
 				usr<<"<font color= #999900><b>Your curse upon [M] has been lifted."
+			if(M)
 				M<<"<font color= #999900><b>[usr]'s curse has been dispelled. You can move again!"
-			M.movable=0
-			M.icon_state=""
-			M:ApplyOverlays()
+				M.movable=0
+				M.icon_state=""
+				M:ApplyOverlays()
 
 mob
 	Player/var/tmp/antifigura = 0
