@@ -2179,32 +2179,13 @@ mob/var/tmp/meditating = 0
 mob/var/tmp/confused = 0
 obj/var
 	wlable = 0
+
+var/move_queue = TRUE
+
 mob
 	var
 		tmp/obj/wingobject
 		tmp/Wingardiumleviosa
-mob/Player
-	Move(loc,dir)
-		if(client && client.moving)
-			if(wingobject)
-				var/turf/t = get_step(wingobject,dir)
-				if(istype(wingobject.loc,/mob))
-					src << infomsg("You let go of the object you were holding.")
-					wingobject.overlays = null
-					wingobject=null
-					Wingardiumleviosa = null
-				else if(t && (t in view(client.view)))
-					wingobject.Move(t)
-				return
-			if(src.questionius==1)
-				src.overlays-=icon('hand.dmi')
-				src.questionius=0
-			if(removeoMob)
-				step(removeoMob,dir)
-				return
-		..()
-
-var/move_queue = TRUE
 
 client
 	var/tmp
@@ -2216,14 +2197,32 @@ client
 			dir = turn(dir, 180)
 			loc = get_step(mob, dir)
 
-		if(src.mob.away)
-			src.mob.away = 0
-			src.mob.status=usr.here
-			src.mob.overlays-=image('AFK.dmi',icon_state="AFK2")
-			src.mob.overlays-=image('AFK.dmi',icon_state="AFK3")
-			src.mob.overlays-=image('AFK.dmi',icon_state="AFK4")
-			src.mob.overlays-='AFK.dmi'
+		if(mob.wingobject)
+			var/turf/t = get_step(mob.wingobject,dir)
+			if(istype(mob.wingobject.loc,/mob))
+				src << infomsg("You let go of the object you were holding.")
+				mob.wingobject.overlays = null
+				mob.wingobject=null
+				mob.Wingardiumleviosa = null
+			else if(t && (t in view(view)))
+				mob.wingobject.Move(t)
+			return
 
+		if(mob.removeoMob)
+			step(mob.removeoMob,dir)
+			return
+
+		if(mob.away)
+			mob.away = 0
+			mob.status=usr.here
+			mob.overlays-=image('AFK.dmi',icon_state="AFK2")
+			mob.overlays-=image('AFK.dmi',icon_state="AFK3")
+			mob.overlays-=image('AFK.dmi',icon_state="AFK4")
+			mob.overlays-='AFK.dmi'
+
+		if(mob.questionius==1)
+			mob.overlays-=icon('hand.dmi')
+			mob.questionius=0
 
 		if(move_queue)
 			if(!movements) movements = list()
