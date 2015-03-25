@@ -886,8 +886,8 @@ mob/Spells/verb/Arcesso()
 		var/turf/middle = get_step(src,dir)
 		var/turf/opposite = get_step(middle,dir)
 		for(var/mob/Player/M in opposite)
-			if(istype(M,/mob/Player))
-				if(M.arcessoing) src.arcessoing = M
+			if(istype(M,/mob/Player) && M.arcessoing && M.dir == turn(dir, 180))
+				src.arcessoing = M
 		if(arcessoing)
 			//partner found
 			new /StatusEffect/UsedArcesso(src,15)
