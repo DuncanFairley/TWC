@@ -383,33 +383,32 @@ obj/items/U_No_Poo
 						for(var/d = 1; d <= rand(2,4); d++)
 							for(_x = 0; _x <= d;  _x++)
 								var/turf/t = locate(usr.x+_x,usr.y+_y,usr.z)
+								if(!t) break
 								if(t.density) continue
 								var/obj/Poop/p = new(usr.loc)
 								p.get_to(t)
 								sleep(SPREAD_SPEED)
 							for(_y = d; _y >= -d; _y--)
 								var/turf/t = locate(usr.x+_x,usr.y+_y,usr.z)
+								if(!t) break
 								if(t.density) continue
 								var/obj/Poop/p = new(usr.loc)
 								p.get_to(t)
 								sleep(SPREAD_SPEED)
 							for(_x = d; _x >= -d; _x--)
 								var/turf/t = locate(usr.x+_x,usr.y+_y,usr.z)
+								if(!t) break
 								if(t.density) continue
 								var/obj/Poop/p = new(usr.loc)
 								p.get_to(t)
 								sleep(SPREAD_SPEED)
 							for(_y = -d; _y <= d; _y++)
 								var/turf/t = locate(usr.x+_x,usr.y+_y,usr.z)
+								if(!t) break
 								if(t.density) continue
 								var/obj/Poop/p = new(usr.loc)
 								p.get_to(t)
 								sleep(SPREAD_SPEED)
-
-
-
-
-
 						if(usr) usr:Pooping = null
 
 			else
