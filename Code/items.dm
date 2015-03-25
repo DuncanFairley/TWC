@@ -1733,13 +1733,6 @@ mob/Del()
 	..()
 
 mob/Player/Logout()
-
-	var/turf/t = loc
-	spawn()
-		if(t && t.loc)
-			t.loc.Exit(src)
-			t.loc.Exited(src)
-
 	Players<<"<B><font size=2 color=red><I>[usr] <b>logged out.</b></I></font></B>"
 	if(arcessoing)
 		stop_arcesso()
@@ -1754,6 +1747,9 @@ mob/Player/Logout()
 			src.Death_Check(src)
 			src.loc = locate(50,49,15)
 			src.GMFrozen = 0
+	if(loc && loc.loc)
+		loc.loc.Exit(src)
+		loc.loc.Exited(src)
 	if(removeoMob)
 		var/tmpmob = removeoMob
 		removeoMob:removeoMob = null
