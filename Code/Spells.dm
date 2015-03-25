@@ -888,6 +888,7 @@ mob/Spells/verb/Arcesso()
 		for(var/mob/Player/M in opposite)
 			if(istype(M,/mob/Player) && M.arcessoing && M.dir == turn(dir, 180))
 				src.arcessoing = M
+				break
 		if(arcessoing)
 			//partner found
 			new /StatusEffect/UsedArcesso(src,15)
