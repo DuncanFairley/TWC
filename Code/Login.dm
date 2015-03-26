@@ -468,6 +468,13 @@ client/verb/resizeMap()
 		var/xpos = findtext(size,"x")
 		screen_x_tiles = round( text2num(copytext(size,1,xpos)) / 32) + 1
 		screen_y_tiles = round( text2num(copytext(size,xpos+1)) / 32)
+
+		screen_x_tiles = min(screen_x_tiles, 50)
+		screen_y_tiles = min(screen_y_tiles, 50)
+
+		screen_x_tiles = max(screen_x_tiles, 3)
+		screen_y_tiles = max(screen_y_tiles, 3)
+
 		view = "[screen_x_tiles]x[screen_y_tiles]"
 		if(C) C.screen_loc = view2screenloc(view)
 	else
