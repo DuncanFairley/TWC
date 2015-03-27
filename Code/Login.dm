@@ -1068,9 +1068,6 @@ mob/Player
 				src.admin=1
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
-			if("Rotem12")
-				src.verbs+=/mob/GM/verb/Competitive_Ban
-				src.verbs+=/mob/GM/verb/Competitive_Unban
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
@@ -2768,10 +2765,25 @@ turf
 			return ..()
 
 	roofb
-		icon_state="broof"
+		icon       = 'StoneRoof.dmi'
+		icon_state = "roof-0"
+		density    = 1
+		opacity    = 1
+		flyblock   = 1
+
+		New()
+			..()
+
+			if(icon_state == "roof-0")
+				var/n = autojoin("name", "roofb")
+				icon_state = "roof-[n]"
+
+	roofa
+		icon_state = "broof"
 		density=1
 		opacity=1
 		flyblock=1
+
 	diamondt
 		icon_state="tf2"
 		density=0
@@ -2986,3 +2998,19 @@ obj
 			Examine()
 				set src in oview(3)
 				usr << "So creative!"
+
+
+
+turf/proc/autojoin(var_name, var_value = 1)
+	var/n = 0
+	var/turf/t
+	t = locate(x, y + 1, z)
+	if(t && t.vars[var_name] == var_value) n |= 1
+	t = locate(x + 1, y, z)
+	if(t && t.vars[var_name] == var_value) n |= 2
+	t = locate(x, y - 1, z)
+	if(t && t.vars[var_name] == var_value) n |= 4
+	t = locate(x - 1, y, z)
+	if(t && t.vars[var_name] == var_value) n |= 8
+
+	return n

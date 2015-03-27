@@ -150,12 +150,13 @@ obj
 
 		gate
 			icon = 'gate.dmi'
-			icon_state = "closed"
 		toiletstall
 			icon = 'Stall.dmi'
-			icon_state = "closed"
-		roofb
-			icon = 'roofbdoor.dmi'
+		roofb1
+			icon = 'roofbdoor1.dmi'
+		roofb2
+			icon = 'roofbdoor2.dmi'
+
 		New()
 			..()
 			var/turf/T = src.loc
