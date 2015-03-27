@@ -116,6 +116,7 @@ proc
 		if(!skill_rating) skill_rating = list()
 
 		X["competitiveBans"] >> competitiveBans
+		X["prizeItems"] >> prizeItems
 
 	Save_World()
 		fdel("players/World.sav")
@@ -130,6 +131,7 @@ proc
 		for(var/e in autoclass_schedule)
 			classes += e
 		X["competitiveBans"] << competitiveBans
+		X["prizeItems"] << prizeItems
 		X["skill_rating"] << skill_rating
 		X["ClanWars"] << cw
 		X["AutoClasses"] << classes
