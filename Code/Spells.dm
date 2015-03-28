@@ -1572,6 +1572,7 @@ mob/Spells/verb/Telendevour()
 				file("Logs/Telenlog.txt") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] telendevoured [M]"
 				var/randnum = rand(1,7)
 				hearers()<<"[usr]:<font color=blue><b><font size=2> Telendevour!</font>"
+				usr:learnSpell("Telendevour")
 				if(randnum == 1)
 					M<<"You feel that <b>[usr]</b> is watching you."
 				else
