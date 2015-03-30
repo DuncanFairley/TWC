@@ -917,7 +917,6 @@ mob/TalkNPC
 				p << npcsay("Hunter: You've done a really good job exterminating all those monsters.")
 
 
-
 	Zerf
 		icon_state = "stat"
 
@@ -939,7 +938,35 @@ mob/TalkNPC
 				p << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
 				p.startQuest("PvP Introduction")
 
+	Cassandra
+		icon_state="alyssa"
 
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+			var/questPointer/pointer = p.questPointers["Make a Potion"]
+			if(pointer && !pointer.stage)
+
+				if(level >= lvlcap)
+					p << npcsay("Cassandra: Look at you, such a weakling can not possibly help me.")
+					return
+
+				pointer = p.questPointers["Make a Fortune"]
+				if(!pointer)
+					p << npcsay("Cassandra: Hey there, do you wish to make a fortune?! Well, you've come to the right place, I have a task for you, go out there to the world and collect a peice of the rarest monsters to be found, their fine essence will be sold for millions!")
+					p.startQuest("Make a Fortune")
+				else if(pointer.stage)
+					if(p.checkQuestProgress("Cassandra"))
+						p << npcsay("Cassandra: Hmmph! I could've done it myself but I'm a lady, here you can have this scarf, I don't need it anymore...")
+						p << errormsg("Cassandra takes the monster essences you've collected, she's going to make a fortune while you can warm yourself up with her old scarf.")
+					else
+						p << npcsay("Cassandra: Maybe I was wrong about you, maybe you aren't capable of defeating such rare monsters.")
+					return
+				else
+					p << npcsay("Cassandra: Come back later, I might have more tasks for the likes of you later \[To be continued in a later update].")
+
+			else
+				p << npcsay("Cassandra: You should try helping my twin sister Alyssa, she's sitting at Three Broom Sticks, I hear she seeks an immortality potion.")
 
 
 var/list/quest_list
@@ -1211,6 +1238,25 @@ quest
 		Reward
 			desc = "You have all the ingredients go back to Alyssa."
 			reqs = list("Alyssa" = 1)
+
+
+	MakeAFortune
+		name = "Make a Fortune"
+		reward = /questReward/RoyaleScarf
+
+		Kill
+			desc = "Cassandra wants you to help her procure a peice of the rarest monsters in the land, of course that requires you to kill some nasty beasts."
+			reqs = list("Kill Wyvern"           = 50,
+			            "Kill Floating Eye"     = 50,
+			            "Kill Wisp"             = 50,
+			            "Kill Basilisk"         = 1,
+			            "Kill Willy the Whisp"  = 1,
+			            "Kill The Evil Snowman" = 1,
+			            "Kill Tamed Dog"        = 1)
+		Reward
+			desc = "You have all the monster essences go back to Cassandra."
+			reqs = list("Cassandra" = 1)
+
 	Fred
 		name = "On House Arrest"
 		reward = /questReward/Gold
@@ -1290,6 +1336,9 @@ questReward
 		gold  = 5000
 		exp   = 10000
 		items = /obj/items/wearable/shoes/royale_shoes
+	RoyaleScarf
+		gold  = 24000
+		items = /obj/items/wearable/scarves/royale_scarf
 	PVP1
 		gold  = 15000
 		exp   = 15000
