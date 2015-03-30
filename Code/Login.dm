@@ -2778,9 +2778,10 @@ turf
 		New()
 			..()
 
-			if(icon_state == "roof-0")
-				var/n = autojoin("name", "roofb")
-				icon_state = "roof-[n]"
+			spawn(1)
+				if(icon_state == "roof-0")
+					var/n = autojoin("name", "roofb")
+					icon_state = "roof-[n]"
 
 	roofa
 		icon_state = "broof"

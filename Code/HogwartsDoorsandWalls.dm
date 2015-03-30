@@ -152,6 +152,8 @@ obj
 			icon = 'gate.dmi'
 		toiletstall
 			icon = 'Stall.dmi'
+		roofb
+			icon = 'roofbdoor1.dmi'
 		roofb1
 			icon = 'roofbdoor1.dmi'
 		roofb2
