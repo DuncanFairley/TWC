@@ -12,12 +12,20 @@ area
 	var/tmp
 		antiTheft    = FALSE
 		antiTeleport = FALSE
+		antiFly      = FALSE
 
 	inside
 		antiTheft
 			antiTheft = TRUE
+			antiFly   = TRUE
 		antiTeleport
 			antiTeleport = TRUE
+			antiFly      = TRUE
+
+	Entered(atom/movable/Obj,atom/OldLoc)
+		.=..()
+		if(isplayer(Obj))
+			Obj:nofly()
 
 obj/items
 	var
@@ -189,7 +197,7 @@ obj/items/herosbrace
 	icon = 'herosbrace.dmi'
 	Click()
 		if(src in usr)
-			if(canUse(M=usr, needwand=0, inarena=0, inhogwarts=0, teleport=1))
+			if(canUse(M=usr, needwand=0, inarena=0, inhogwarts=0, antiTeleport=1))
 				if(usr.bracecharges>=1)
 					var/turf/t
 					switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Pyramid","Forbidden Forest","Museum"))
@@ -543,7 +551,7 @@ obj/items/wearable/halloween_bucket
 
 obj/items/wearable/brooms
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc &&(istype(owner.loc.loc, /area/nofly)||istype(owner.loc.loc,/area/arenas)||istype(owner.loc.loc,/area/newareas/inside/Silverblood_Maze)||istype(owner.loc.loc,/area/ministry_of_magic)||istype(owner.loc.loc,/area/Underwater)))
+		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && (owner.loc.loc:antiFly||istype(owner.loc.loc, /area/nofly)||istype(owner.loc.loc,/area/arenas)||istype(owner.loc.loc,/area/ministry_of_magic)))
 			owner << errormsg("You cannot fly here.")
 			return
 		if(!forceremove && !(src in owner.Lwearing) && owner.findStatusEffect(/StatusEffect/Knockedfrombroom))
@@ -3383,14 +3391,37 @@ obj/items/crystal
 
 obj/items/magic_stone
 	var/tmp/inUse = FALSE
-	var/effect
 
 	icon = 'trophies.dmi'
+
+	teleport
+		icon = 'Crystal.dmi'
+		name = "teleport stone"
+		var/dest
+
+		circle(mob/Player/p)
+			if(dest)
+				..(p)
+			else
+				var/turf/t = p.loc
+				if(findtext(t.tag, "teleportPoint"))
+					dest = copytext(t.tag, 14)
+					name = "teleport stone \[[dest]]"
+					icon_state = "teleport"
+					p << infomsg("You charged your teleport stone to [dest].")
+				else
+					p << errormsg("You can't use it here, find a memory rune to charge this teleport stone.")
+
+		effect(mob/Player/p)
+			var/turf/t = locate("teleportPoint[dest]")
+			if(t)
+				hearers(p) << infomsg("[p.name] disappears in a flash of light.")
+				p.Transfer(t)
+				hearers(p) << infomsg("[p.name] appears in a flash of light.")
 
 	weather
 		acid
 			name = "acid stone"
-			effect = "acid"
 			icon_state = "Emerald"
 
 			effect()
@@ -3398,7 +3429,6 @@ obj/items/magic_stone
 
 		snow
 			name = "snow stone"
-			effect = "snow"
 			icon_state = "Sapphire2"
 
 			effect()
@@ -3406,7 +3436,6 @@ obj/items/magic_stone
 
 		rain
 			name = "rain stone"
-			effect = "rain"
 			icon_state = "Sapphire"
 
 			effect()
@@ -3414,7 +3443,6 @@ obj/items/magic_stone
 
 		sun
 			name = "sun stone"
-			effect = "sun"
 			icon_state = "Topaz"
 
 			effect()
@@ -3461,10 +3489,10 @@ obj/items/magic_stone
 		else
 			..()
 
-	proc/effect()
+	proc/effect(mob/Player/p)
 	proc/circle(mob/Player/p)
 
-		if(!canUse(p,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=3000))
+		if(!canUse(p,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=3000,antiTeleport=1))
 			return
 		p.MP -= 3000
 
@@ -3498,7 +3526,7 @@ obj/items/magic_stone
 				sleep(10)
 			if(p && source)
 				if(p.loc == tmploc)
-					source.effect()
+					source.effect(p)
 					source.loc = null
 					p.Resort_Stacking_Inv()
 				else
@@ -3585,6 +3613,10 @@ obj
 				if(istype(i3, /obj/items/scroll))
 					chance -= 60
 					prize = pick(/obj/items/wearable/title/Bookworm, /obj/items/wearable/title/Lumberjack)
+
+				else if(istype(i3, /obj/items/artifact))
+					chance -= 20
+					prize = /obj/items/magic_stone/teleport
 
 				else if(istype(i3, /obj/items/crystal) && applyBonus == 3)
 
@@ -3685,3 +3717,24 @@ obj/items/wearable/wands/practice_wand
 			p.verbs   -= spell.path
 			p.learning = null
 
+
+obj/memory_rune
+
+	icon       = 'attacks.dmi'
+	icon_state = "alohomora"
+
+	New()
+		..()
+
+		animate(src, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10, loop = -1)
+		animate(color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+		animate(color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+
+		loc.tag = "teleportPoint[name]"
+
+	Silverblood
+	CoSFloor1
+		name = "CoS Floor 1"
+	CoSFloor2
+		name = "CoS Floor 2"
+	Desert
