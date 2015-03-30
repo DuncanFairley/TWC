@@ -24,7 +24,7 @@ area
 
 	Entered(atom/movable/Obj,atom/OldLoc)
 		.=..()
-		if(isplayer(Obj))
+		if(antiFly && isplayer(Obj))
 			Obj:nofly()
 
 obj/items
@@ -551,7 +551,7 @@ obj/items/wearable/halloween_bucket
 
 obj/items/wearable/brooms
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && (owner.loc.loc:antiFly||istype(owner.loc.loc, /area/nofly)||istype(owner.loc.loc,/area/arenas)||istype(owner.loc.loc,/area/ministry_of_magic)))
+		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && (owner.loc.loc:antiFly||istype(owner.loc.loc,/area/ministry_of_magic)))
 			owner << errormsg("You cannot fly here.")
 			return
 		if(!forceremove && !(src in owner.Lwearing) && owner.findStatusEffect(/StatusEffect/Knockedfrombroom))

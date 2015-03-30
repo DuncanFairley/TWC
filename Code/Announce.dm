@@ -54,10 +54,7 @@ mob
 mob/var/GMFrozen
 area
 	nofly
-		Entered(atom/movable/Obj,atom/OldLoc)
-			.=..()
-			if(isplayer(Obj))
-				Obj:nofly()
+		antiFly = TRUE
 turf
 	blackblock
 		name=""
