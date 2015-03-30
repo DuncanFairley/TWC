@@ -756,8 +756,6 @@ obj/AlyssaChest
 				alert("You find an Onion Root!")
 				new/obj/items/Alyssa/Onion_Root(usr)
 				p.Resort_Stacking_Inv()
-			else
-				alert("You find nothing.")
 
 	Indigo_Seeds
 		Ror1
@@ -772,8 +770,6 @@ obj/AlyssaChest
 				alert("You find some Indigo Seeds!")
 				new/obj/items/Alyssa/Indigo_Seeds(usr)
 				p.Resort_Stacking_Inv()
-			else
-				alert("You find nothing.")
 
 	Silver_Spider
 		Ror1
@@ -788,8 +784,6 @@ obj/AlyssaChest
 				alert("You find some Silver Spider Legs!")
 				new/obj/items/Alyssa/Silver_Spider_Legs(usr)
 				p.Resort_Stacking_Inv()
-			else
-				alert("You find nothing.")
 
 mob/var/talkedtosanta
 
