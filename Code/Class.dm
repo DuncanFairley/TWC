@@ -417,7 +417,7 @@ class
 				..()
 				say("It turns an object into a port-key. That means you can make a scroll into a portal. How exciting!")
 		Rictusempra
-			mp = 50
+			mp = 500
 			start()
 				..()
 				say("This will cause you to laugh without stopping. You won't be able to speak during this time.")

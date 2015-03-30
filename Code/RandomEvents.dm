@@ -79,7 +79,7 @@ RandomEvent
 
 				c.start()
 				sleep(600 * 30)
-				Players << announcemsg("[c.subject] Class ended.")
+				Players << announcemsg("[c.subject] class has ended.")
 				t.loc = null
 				t.classInfo = null
 				c.professor = null

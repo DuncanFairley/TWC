@@ -1150,8 +1150,10 @@ mob/Spells/verb/Levicorpus(mob/M in view()&Players)
 		usr:learnSpell("Levicorpus")
 		src = null
 		spawn(100)
-			M.movable=0
-			M.icon_state=""
+			if(M)
+				M.movable=0
+				M.icon_state=""
+
 mob/Spells/verb/Obliviate(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=700,againstocclumens=0))
@@ -1570,6 +1572,7 @@ mob/Spells/verb/Telendevour()
 				file("Logs/Telenlog.txt") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] telendevoured [M]"
 				var/randnum = rand(1,7)
 				hearers()<<"[usr]:<font color=blue><b><font size=2> Telendevour!</font>"
+				usr:learnSpell("Telendevour")
 				if(randnum == 1)
 					M<<"You feel that <b>[usr]</b> is watching you."
 				else
