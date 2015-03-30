@@ -1069,8 +1069,8 @@ mob/Player
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
 			if("Rotem12")
-				src.verbs+=typesof(/mob/GM/verb/Add_Prize)
-				src.verbs+=typesof(/mob/GM/verb/Remove_Prize)
+				src.verbs+=/mob/GM/verb/Add_Prize
+				src.verbs+=/mob/GM/verb/Remove_Prize
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
