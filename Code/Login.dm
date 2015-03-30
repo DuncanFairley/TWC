@@ -2046,8 +2046,9 @@ mob/proc/Death_Check(mob/killer = src)
 
 		else
 			if(killer.client)
-				if(istype(src, /mob/NPC/Enemies) && name == initial(name))
-					killer.AddKill(src.name)
+				if(istype(src, /mob/NPC/Enemies))
+					if(!istype(src, /mob/NPC/Enemies/Summoned))
+						killer.AddKill(src.name)
 					killer:checkQuestProgress("Kill [src.name]")
 				if(killer.MonsterMessages)killer<<"<i><small>You knocked [src] out!</small></i>"
 
