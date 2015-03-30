@@ -1374,6 +1374,7 @@ questPointer
 	var/stage
 	var/list/reqs
 	var/time
+	var/track = TRUE
 
 	proc/setReqs(var/list/L)
 		reqs = L.Copy()
@@ -1408,9 +1409,11 @@ mob/Player
 				if((showQuestType == 0 && pointer.stage) || (showQuestType == 1 && !pointer.stage) || showQuestType == 2)
 					i++
 					src << output("<a href=\"?src=\ref[src];action=selectQuest;questName=[questName]\">[questName]</a>", "Quests.gridQuests:1,[i]")
+					if(pointer.stage) src << output("<a href=\"?src=\ref[src];action=trackQuest;questName=[questName]\">Toggle</a>", "Quests.gridQuests:2,[i]")
+					else src << output(null, "Quests.gridQuests:2,[i]")
 					if(i == 1)
 						displayQuest(questName)
-			winset(src, "Quests.gridQuests", "cells=1x[i]")
+			winset(src, "Quests.gridQuests", "cells=2x[i]")
 
 			winshow(src, "Quests", 1)
 
@@ -1447,6 +1450,18 @@ mob/Player
 				Interface.Update()
 				src << infomsg(q.desc)
 				src << infomsg(stage.desc)
+
+		trackQuest(var/questName)
+			var/questPointer/pointer = questPointers[questName]
+
+			if(pointer.track)
+				src << infomsg("[questName] will no longer be tracked on screen.")
+				pointer.track = FALSE
+			else
+				src << infomsg("[questName] will be tracked on screen.")
+				pointer.track = TRUE
+
+			Interface.Update()
 
 		checkQuestProgress(args)
 			var/found = FALSE
@@ -1486,9 +1501,12 @@ mob/Player
 
 
 mob/Player/Topic(href, href_list[])
-	if(href_list["action"]=="selectQuest")
+	if(href_list["action"] == "selectQuest")
 		var/questName = href_list["questName"]
 		displayQuest(questName)
+	else if(href_list["action"] == "trackQuest")
+		var/questName = href_list["questName"]
+		trackQuest(questName)
 	.=..()
 
 mob/Player
@@ -1532,6 +1550,7 @@ obj/hud/screentext
 			for(var/questName in p.questPointers)
 				var/questPointer/pointer = p.questPointers[questName]
 				if(!pointer.stage) continue
+				if(!pointer.track) continue
 				count++
 				if(count > 4) break
 
