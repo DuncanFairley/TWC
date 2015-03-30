@@ -322,7 +322,7 @@ mob
 			<td class="time:saturday">&nbsp;</td>
 		</tr>"}
 
-					txt = replace(txt, "\[AutoClassSchedule]", class, pos)
+					txt = replace(txt, "\[AutoClassSchedule]", html, pos)
 
 			src << browse(txt)
 mob/verb/Use_Spellpoints()
