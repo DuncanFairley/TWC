@@ -1438,7 +1438,7 @@ mob/GM
 			var/note = input("Special notes, you would usually write name of the event and the round this reward was given, for example: \"Free For All - Round 2\"", "Notes") as null|text
 			if(note && note != "")
 
-				switch(alert("Which prize?", "Gold", "Common Item", "Rare Item"))
+				switch(alert("Which prize?", "Give Prize", "Gold", "Common Item", "Rare Item"))
 					if("Gold")
 						var/gold_prize = input("How much gold?", "Gold Prize") as null|num
 						if(gold_prize)
