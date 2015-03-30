@@ -1252,7 +1252,8 @@ quest
 			            "Kill Basilisk"         = 1,
 			            "Kill Willy the Whisp"  = 1,
 			            "Kill The Evil Snowman" = 1,
-			            "Kill Tamed Dog"        = 1)
+			            "Kill Tamed Dog"        = 1,
+			            "Kill Player"           = 30)
 		Reward
 			desc = "You have all the monster essences go back to Cassandra."
 			reqs = list("Cassandra" = 1)
