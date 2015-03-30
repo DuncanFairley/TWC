@@ -1419,12 +1419,14 @@ mob/GM
 				i.limit = new_limit	? new_limit : 0
 
 		Add_Prize(var/path in (typesof(/obj/items)-/obj/items))
+			set category="Staff"
 			if(!prizeItems) prizeItems = list()
 
 			prizeItems += path
 			src << infomsg("[path] added to prize list.")
 
 		Remove_Prize(var/path in prizeItems)
+			set category="Staff"
 			prizeItems -= path
 
 			if(!prizeItems.len) prizeItems = null
