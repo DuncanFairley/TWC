@@ -756,8 +756,6 @@ obj/AlyssaChest
 				alert("You find an Onion Root!")
 				new/obj/items/Alyssa/Onion_Root(usr)
 				p.Resort_Stacking_Inv()
-			else
-				alert("You find nothing.")
 
 	Indigo_Seeds
 		Ror1
@@ -772,8 +770,6 @@ obj/AlyssaChest
 				alert("You find some Indigo Seeds!")
 				new/obj/items/Alyssa/Indigo_Seeds(usr)
 				p.Resort_Stacking_Inv()
-			else
-				alert("You find nothing.")
 
 	Silver_Spider
 		Ror1
@@ -788,8 +784,6 @@ obj/AlyssaChest
 				alert("You find some Silver Spider Legs!")
 				new/obj/items/Alyssa/Silver_Spider_Legs(usr)
 				p.Resort_Stacking_Inv()
-			else
-				alert("You find nothing.")
 
 mob/var/talkedtosanta
 
@@ -923,7 +917,6 @@ mob/TalkNPC
 				p << npcsay("Hunter: You've done a really good job exterminating all those monsters.")
 
 
-
 	Zerf
 		icon_state = "stat"
 
@@ -945,7 +938,35 @@ mob/TalkNPC
 				p << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
 				p.startQuest("PvP Introduction")
 
+	Cassandra
+		icon_state="alyssa"
 
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+			var/questPointer/pointer = p.questPointers["Make a Potion"]
+			if(pointer && !pointer.stage)
+
+				if(level >= lvlcap)
+					p << npcsay("Cassandra: Look at you, such a weakling can not possibly help me.")
+					return
+
+				pointer = p.questPointers["Make a Fortune"]
+				if(!pointer)
+					p << npcsay("Cassandra: Hey there, do you wish to make a fortune?! Well, you've come to the right place, I have a task for you, go out there to the world and collect a peice of the rarest monsters to be found, their fine essence will be sold for millions!")
+					p.startQuest("Make a Fortune")
+				else if(pointer.stage)
+					if(p.checkQuestProgress("Cassandra"))
+						p << npcsay("Cassandra: Hmmph! I could've done it myself but I'm a lady, here you can have this scarf, I don't need it anymore...")
+						p << errormsg("Cassandra takes the monster essences you've collected, she's going to make a fortune while you can warm yourself up with her old scarf.")
+					else
+						p << npcsay("Cassandra: Maybe I was wrong about you, maybe you aren't capable of defeating such rare monsters.")
+					return
+				else
+					p << npcsay("Cassandra: Come back later, I might have more tasks for the likes of you later \[To be continued in a later update].")
+
+			else
+				p << npcsay("Cassandra: You should try helping my twin sister Alyssa, she's sitting at Three Broom Sticks, I hear she seeks an immortality potion.")
 
 
 var/list/quest_list
@@ -1217,6 +1238,26 @@ quest
 		Reward
 			desc = "You have all the ingredients go back to Alyssa."
 			reqs = list("Alyssa" = 1)
+
+
+	MakeAFortune
+		name = "Make a Fortune"
+		reward = /questReward/RoyaleScarf
+
+		Kill
+			desc = "Cassandra wants you to help her procure a peice of the rarest monsters in the land, of course that requires you to kill some nasty beasts."
+			reqs = list("Kill Wyvern"           = 50,
+			            "Kill Floating Eye"     = 50,
+			            "Kill Wisp"             = 50,
+			            "Kill Basilisk"         = 1,
+			            "Kill Willy the Whisp"  = 1,
+			            "Kill The Evil Snowman" = 1,
+			            "Kill Tamed Dog"        = 1,
+			            "Kill Player"           = 30)
+		Reward
+			desc = "You have all the monster essences go back to Cassandra."
+			reqs = list("Cassandra" = 1)
+
 	Fred
 		name = "On House Arrest"
 		reward = /questReward/Gold
@@ -1296,6 +1337,9 @@ questReward
 		gold  = 5000
 		exp   = 10000
 		items = /obj/items/wearable/shoes/royale_shoes
+	RoyaleScarf
+		gold  = 24000
+		items = /obj/items/wearable/scarves/royale_scarf
 	PVP1
 		gold  = 15000
 		exp   = 15000
@@ -1330,6 +1374,7 @@ questPointer
 	var/stage
 	var/list/reqs
 	var/time
+	var/track = TRUE
 
 	proc/setReqs(var/list/L)
 		reqs = L.Copy()
@@ -1364,9 +1409,11 @@ mob/Player
 				if((showQuestType == 0 && pointer.stage) || (showQuestType == 1 && !pointer.stage) || showQuestType == 2)
 					i++
 					src << output("<a href=\"?src=\ref[src];action=selectQuest;questName=[questName]\">[questName]</a>", "Quests.gridQuests:1,[i]")
+					if(pointer.stage) src << output("<a href=\"?src=\ref[src];action=trackQuest;questName=[questName]\">Toggle</a>", "Quests.gridQuests:2,[i]")
+					else src << output(null, "Quests.gridQuests:2,[i]")
 					if(i == 1)
 						displayQuest(questName)
-			winset(src, "Quests.gridQuests", "cells=1x[i]")
+			winset(src, "Quests.gridQuests", "cells=2x[i]")
 
 			winshow(src, "Quests", 1)
 
@@ -1403,6 +1450,18 @@ mob/Player
 				Interface.Update()
 				src << infomsg(q.desc)
 				src << infomsg(stage.desc)
+
+		trackQuest(var/questName)
+			var/questPointer/pointer = questPointers[questName]
+
+			if(pointer.track)
+				src << infomsg("[questName] will no longer be tracked on screen.")
+				pointer.track = FALSE
+			else
+				src << infomsg("[questName] will be tracked on screen.")
+				pointer.track = TRUE
+
+			Interface.Update()
 
 		checkQuestProgress(args)
 			var/found = FALSE
@@ -1442,9 +1501,12 @@ mob/Player
 
 
 mob/Player/Topic(href, href_list[])
-	if(href_list["action"]=="selectQuest")
+	if(href_list["action"] == "selectQuest")
 		var/questName = href_list["questName"]
 		displayQuest(questName)
+	else if(href_list["action"] == "trackQuest")
+		var/questName = href_list["questName"]
+		trackQuest(questName)
 	.=..()
 
 mob/Player
@@ -1488,6 +1550,7 @@ obj/hud/screentext
 			for(var/questName in p.questPointers)
 				var/questPointer/pointer = p.questPointers[questName]
 				if(!pointer.stage) continue
+				if(!pointer.track) continue
 				count++
 				if(count > 4) break
 

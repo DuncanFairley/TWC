@@ -271,64 +271,58 @@ mob
 	verb
 		Class_Schedule()
 			var/txt = file2text(Sched)
-			var/pos = findtext(txt, "\[AutoClassSchedule]")
-			if(pos)
-				var/class = ""
 
-				var/list/classes = autoclass_schedule.Copy()
-				var/count = 0
-				while(classes.len && count < 5)
-					count++
-					var
-						scheduled_hour2 = "&nbsp;"
-						scheduled_hour3 = "&nbsp;"
-						scheduled_hour4 = "&nbsp;"
-						scheduled_hour5 = "&nbsp;"
-						scheduled_hour6 = "&nbsp;"
+			var/list/tags = list("Auto Class", "Clan Wars")
+			for(var/t in tags)
+				var/pos = findtext(txt, "\[[t]]")
+				if(pos)
+					var/html = ""
 
-					for(var/e in classes)
-						var/ticks = scheduler.time_to_fire(classes[e]) + world.realtime
-						var/day  = time2text(ticks, "DDD")
-						var/hour = text2num(time2text(ticks, "hh"))
-						if(hour == 0) hour = 24
+					var/list/events = t == "Auto Class" ? autoclass_schedule.Copy() : clanwars_schedule.Copy()
+					var/count = 0
+					while(events.len && count < 10)
+						count++
 
-						if(day == "Mon") day = 2
-						else if(day == "Tue") day = 3
-						else if(day == "Wed") day = 4
-						else if(day == "Thu") day = 5
-						else if(day == "Fri") day = 6
-						else day = 0
+						var/list/days[5]
+						for(var/i = 1 to 5)
+							days[i] = "&nbsp;"
 
-						var/scheduled_hour = hour > 12 ? "[hour - 12] PM - [hour - 12]:35 PM" : "[hour] AM - [hour]:35 AM"
-						if(day == 2 && scheduled_hour2 == "&nbsp;")
-							scheduled_hour2 = scheduled_hour
-						else if(day == 3 && scheduled_hour3 == "&nbsp;")
-							scheduled_hour3 = scheduled_hour
-						else if(day == 4 && scheduled_hour4 == "&nbsp;")
-							scheduled_hour4 = scheduled_hour
-						else if(day == 5 && scheduled_hour5 == "&nbsp;")
-							scheduled_hour5 = scheduled_hour
-						else if(day == 6 && scheduled_hour6 == "&nbsp;")
-							scheduled_hour6 = scheduled_hour
-						else if(day != 0)
-							continue
+						for(var/e in events)
+							var/ticks = scheduler.time_to_fire(events[e]) + world.realtime + 600
+							var/day  = time2text(ticks, "DDD")
+							var/hour = text2num(time2text(ticks, "hh"))
 
-						classes -= e
+							if(day == "Mon") day = 2
+							else if(day == "Tue") day = 3
+							else if(day == "Wed") day = 4
+							else if(day == "Thu") day = 5
+							else if(day == "Fri") day = 6
+							else day = 0
 
-					class += {"
-	<tr style="color:yellow">
-		<td class="name">Auto Class</td>
-		<td>Random</td>
-		<td class="time:sunday">&nbsp;</td>
-		<td class="time">[scheduled_hour2]</td>
-		<td class="time">[scheduled_hour3]</td>
-		<td class="time">[scheduled_hour4]</td>
-		<td class="time">[scheduled_hour5]</td>
-		<td class="time">[scheduled_hour6]</td>
-		<td class="time:saturday">&nbsp;</td>
-	</tr>"}
+							var/ampm = hour >= 12 ? "PM" : "AM"
+							if(hour > 12) hour -= 12
+							else if(hour == 0) hour = 12
 
-				txt = replace(txt, "\[AutoClassSchedule]", class, pos)
+							if(day != 0)
+								if(days[day - 1] != "&nbsp;") continue
+								days[day - 1] = "[hour] [ampm] - [hour]:35 [ampm]"
+
+							events -= e
+
+						html += {"
+		<tr style="color:yellow">
+			<td class="name">[t]</td>
+			<td>&nbsp;</td>
+			<td class="time:sunday">&nbsp;</td>
+			<td class="time">[days[1]]</td>
+			<td class="time">[days[2]]</td>
+			<td class="time">[days[3]]</td>
+			<td class="time">[days[4]]</td>
+			<td class="time">[days[5]]</td>
+			<td class="time:saturday">&nbsp;</td>
+		</tr>"}
+
+					txt = replace(txt, "\[AutoClassSchedule]", html, pos)
 
 			src << browse(txt)
 mob/verb/Use_Spellpoints()

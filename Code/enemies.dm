@@ -100,22 +100,21 @@ area
 		inside
 			Silverblood_Maze
 				antiTeleport = TRUE
-				Entered(atom/movable/Obj,atom/OldLoc)
-					.=..()
-					if(isplayer(Obj))
-						Obj:nofly()
-
-
+				antiFly      = TRUE
 			Ratcellar
 				antiTeleport = TRUE
+				antiFly      = TRUE
 			Chamber_of_Secrets
 				antiTeleport = TRUE
+				antiFly      = TRUE
 				Floor1
 				Floor1_Boss
 				Floor2
 				Floor2_Boss
 
 			Graveyard_Underground
+				antiTeleport = TRUE
+				antiFly      = TRUE
 		Entered(atom/movable/O)
 			. = ..()
 			if(isplayer(O))

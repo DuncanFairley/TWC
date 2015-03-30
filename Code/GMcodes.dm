@@ -1418,16 +1418,57 @@ mob/GM
 				var/new_limit = input("Limit (0 for infinite)", "[path]", 0) as null|num
 				i.limit = new_limit	? new_limit : 0
 
+		Add_Prize(var/path in (typesof(/obj/items)-/obj/items))
+			set category="Staff"
+			if(!prizeItems) prizeItems = list()
+
+			prizeItems += path
+			src << infomsg("[path] added to prize list.")
+
+		Remove_Prize(var/path in prizeItems)
+			set category="Staff"
+			prizeItems -= path
+
+			if(!prizeItems.len) prizeItems = null
+
+			src << infomsg("[path] removed from prize list.")
+
 		Give_Prize(var/mob/Player/p in Players())
 			set category="Events"
 			var/note = input("Special notes, you would usually write name of the event and the round this reward was given, for example: \"Free For All - Round 2\"", "Notes") as null|text
 			if(note && note != "")
-				var/gold_prize = input("How much gold?", "Gold Prize") as null|num
-				if(gold_prize)
-					p.gold += gold_prize
-					hearers() << infomsg("<i>[name] gives [p] [comma(gold_prize)] gold.</i>")
-					goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [name]([key])([client.address]) gave [comma(gold_prize)] <b>prize</b> gold to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 
+				switch(alert("Which prize?", "Gold", "Common Item", "Rare Item"))
+					if("Gold")
+						var/gold_prize = input("How much gold?", "Gold Prize") as null|num
+						if(gold_prize)
+							p.gold += gold_prize
+							hearers() << infomsg("<i>[name] gives [p] [comma(gold_prize)] gold.</i>")
+							goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [name]([key])([client.address]) gave [comma(gold_prize)] <b>prize</b> gold to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
+					if("Common Item")
+						var/i = pick(/obj/items/bagofgoodies,
+						             /obj/items/wearable/scarves/blue_scarf,
+						             /obj/items/wearable/scarves/green_scarf,
+						             /obj/items/wearable/scarves/red_scarf,
+						             /obj/items/wearable/scarves/yellow_scarf,
+						             /obj/items/artifact)
+
+						var/obj/items/item_prize = new i (p)
+						p.Resort_Stacking_Inv()
+						hearers() << infomsg("<i>[name] gives [p] [item_prize.name].</i>")
+						goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [name]([key])([client.address]) gave [item_prize.name] <b>prize</b> common item to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
+
+
+					if("Rare Item")
+						if(!prizeItems)
+							src << errormsg("No rare items to give.")
+							return
+
+						var/i = pick(prizeItems)
+						var/obj/items/item_prize = new i (p)
+						p.Resort_Stacking_Inv()
+						hearers() << infomsg("<i>[name] gives [p] [item_prize.name].</i>")
+						goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [name]([key])([client.address]) gave [item_prize.name] <b>prize</b> rare item to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 
 		RemoveItem(var/s in shops)
 			set category="Staff"
@@ -1486,7 +1527,8 @@ mob/GM
 			competitiveBans -= k
 			src << infomsg("[k] is now unbanned from competitive matchmaking.")
 
-var/competitiveBans
+var/list/competitiveBans
+var/list/prizeItems
 
 var
 	crban_bannedmsg="<font color=red><big><tt>You're banned.</tt></big></font>"

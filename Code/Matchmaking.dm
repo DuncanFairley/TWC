@@ -700,6 +700,7 @@ tr.file_black
 			var/rankNum = 1
 			var/isWhite = TRUE
 			for(var/i = skill_rating.len to 1 step -1)
+				if(skill_rating[i] in competitiveBans) continue
 				var/skill_stats/s = skill_rating[skill_rating[i]]
 				if(s.wins < WINS_REQ) continue
 				var/seconderySkillGroup

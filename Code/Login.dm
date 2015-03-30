@@ -468,6 +468,13 @@ client/verb/resizeMap()
 		var/xpos = findtext(size,"x")
 		screen_x_tiles = round( text2num(copytext(size,1,xpos)) / 32) + 1
 		screen_y_tiles = round( text2num(copytext(size,xpos+1)) / 32)
+
+		screen_x_tiles = min(screen_x_tiles, 50)
+		screen_y_tiles = min(screen_y_tiles, 50)
+
+		screen_x_tiles = max(screen_x_tiles, 3)
+		screen_y_tiles = max(screen_y_tiles, 3)
+
 		view = "[screen_x_tiles]x[screen_y_tiles]"
 		if(C) C.screen_loc = view2screenloc(view)
 	else
@@ -1062,8 +1069,8 @@ mob/Player
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
 			if("Rotem12")
-				src.verbs+=/mob/GM/verb/Competitive_Ban
-				src.verbs+=/mob/GM/verb/Competitive_Unban
+				src.verbs+=/mob/GM/verb/Add_Prize
+				src.verbs+=/mob/GM/verb/Remove_Prize
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
@@ -2039,8 +2046,9 @@ mob/proc/Death_Check(mob/killer = src)
 
 		else
 			if(killer.client)
-				if(istype(src, /mob/NPC/Enemies) && !istype(src, /mob/NPC/Enemies/Summoned))
-					killer.AddKill(src.name)
+				if(istype(src, /mob/NPC/Enemies))
+					if(!istype(src, /mob/NPC/Enemies/Summoned))
+						killer.AddKill(src.name)
 					killer:checkQuestProgress("Kill [src.name]")
 				if(killer.MonsterMessages)killer<<"<i><small>You knocked [src] out!</small></i>"
 
@@ -2761,10 +2769,25 @@ turf
 			return ..()
 
 	roofb
-		icon_state="broof"
+		icon       = 'StoneRoof.dmi'
+		icon_state = "roof-0"
+		density    = 1
+		opacity    = 1
+		flyblock   = 1
+
+		New()
+			..()
+
+			if(icon_state == "roof-0")
+				var/n = autojoin("name", "roofb")
+				icon_state = "roof-[n]"
+
+	roofa
+		icon_state = "broof"
 		density=1
 		opacity=1
 		flyblock=1
+
 	diamondt
 		icon_state="tf2"
 		density=0
@@ -2979,3 +3002,19 @@ obj
 			Examine()
 				set src in oview(3)
 				usr << "So creative!"
+
+
+
+turf/proc/autojoin(var_name, var_value = 1)
+	var/n = 0
+	var/turf/t
+	t = locate(x, y + 1, z)
+	if(t && t.vars[var_name] == var_value) n |= 1
+	t = locate(x + 1, y, z)
+	if(t && t.vars[var_name] == var_value) n |= 2
+	t = locate(x, y - 1, z)
+	if(t && t.vars[var_name] == var_value) n |= 4
+	t = locate(x - 1, y, z)
+	if(t && t.vars[var_name] == var_value) n |= 8
+
+	return n

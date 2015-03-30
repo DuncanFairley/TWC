@@ -767,12 +767,13 @@ mob/Spells/verb/Petreficus_Totalus(var/mob/M in oview()&Players)
 		usr:learnSpell("Petrificus Totalus")
 		src = null
 		spawn(100)
-			if(usr && M)
+			if(usr)
 				usr<<"<font color= #999900><b>Your curse upon [M] has been lifted."
+			if(M)
 				M<<"<font color= #999900><b>[usr]'s curse has been dispelled. You can move again!"
-			M.movable=0
-			M.icon_state=""
-			M:ApplyOverlays()
+				M.movable=0
+				M.icon_state=""
+				M:ApplyOverlays()
 
 mob
 	Player/var/tmp/antifigura = 0
@@ -875,7 +876,7 @@ mob/Spells/verb/Arcesso()
 		hearers() << "[src] pulls out of the spell."
 		stop_arcesso()
 
-	else if(canUse(src,cooldown=/StatusEffect/UsedArcesso,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=400,againstocclumens=1,teleport=1))
+	else if(canUse(src,cooldown=/StatusEffect/UsedArcesso,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=400,againstocclumens=1,antiTeleport=1))
 		var/list/obj/circles = list(new/obj/circle/c1_1,new/obj/circle/c2_1,new/obj/circle/c3_1,new/obj/circle/c4_1,new/obj/circle/c5_1,
 									new/obj/circle/c1_2,new/obj/circle/c2_2,new/obj/circle/c3_2,new/obj/circle/c4_2,new/obj/circle/c5_2,
 									new/obj/circle/c1_3,new/obj/circle/c2_3,new/obj/circle/c3_3,new/obj/circle/c4_3,new/obj/circle/c5_3,
@@ -885,8 +886,9 @@ mob/Spells/verb/Arcesso()
 		var/turf/middle = get_step(src,dir)
 		var/turf/opposite = get_step(middle,dir)
 		for(var/mob/Player/M in opposite)
-			if(istype(M,/mob/Player))
-				if(M.arcessoing) src.arcessoing = M
+			if(istype(M,/mob/Player) && M.arcessoing && M.dir == turn(dir, 180))
+				src.arcessoing = M
+				break
 		if(arcessoing)
 			//partner found
 			new /StatusEffect/UsedArcesso(src,15)
@@ -1740,8 +1742,17 @@ mob/Spells/verb/Imperio(mob/other in oview()&Players)
 		usr.client.perspective=MOB_PERSPECTIVE
 mob/Spells/verb/Portus()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25,teleport=1))
-		switch(input("Create a Portkey to Where?","Portus Charm")as null|anything in list("Hogsmeade","Pixie Pit","The Dark Forest Entrance"))
+	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25,antiTeleport=1))
+
+		if(IsInputOpen(src, "Portus"))
+			del _input["Portus"]
+
+		var/Input/popup = new (src, "Portus")
+		var/locations = list("Hogsmeade", "Pixie Pit", "The Dark Forest Entrance")
+		var/d = popup.InputList(src, "Create a Portkey to Where?", "Portus Charm", locations[1], locations)
+		del popup
+
+		switch(d)
 			if("Hogsmeade")
 				if(src.loc.density)
 					src << errormsg("Portus can't be used on top of something else.")
@@ -2182,32 +2193,13 @@ mob/var/tmp/meditating = 0
 mob/var/tmp/confused = 0
 obj/var
 	wlable = 0
+
+var/move_queue = TRUE
+
 mob
 	var
 		tmp/obj/wingobject
 		tmp/Wingardiumleviosa
-mob/Player
-	Move(loc,dir)
-		if(client && client.moving)
-			if(wingobject)
-				var/turf/t = get_step(wingobject,dir)
-				if(istype(wingobject.loc,/mob))
-					src << infomsg("You let go of the object you were holding.")
-					wingobject.overlays = null
-					wingobject=null
-					Wingardiumleviosa = null
-				else if(t && (t in view(client.view)))
-					wingobject.Move(t)
-				return
-			if(src.questionius==1)
-				src.overlays-=icon('hand.dmi')
-				src.questionius=0
-			if(removeoMob)
-				step(removeoMob,dir)
-				return
-		..()
-
-var/move_queue = TRUE
 
 client
 	var/tmp
@@ -2219,14 +2211,32 @@ client
 			dir = turn(dir, 180)
 			loc = get_step(mob, dir)
 
-		if(src.mob.away)
-			src.mob.away = 0
-			src.mob.status=usr.here
-			src.mob.overlays-=image('AFK.dmi',icon_state="AFK2")
-			src.mob.overlays-=image('AFK.dmi',icon_state="AFK3")
-			src.mob.overlays-=image('AFK.dmi',icon_state="AFK4")
-			src.mob.overlays-='AFK.dmi'
+		if(mob.wingobject)
+			var/turf/t = get_step(mob.wingobject,dir)
+			if(istype(mob.wingobject.loc,/mob))
+				src << infomsg("You let go of the object you were holding.")
+				mob.wingobject.overlays = null
+				mob.wingobject=null
+				mob.Wingardiumleviosa = null
+			else if(t && (t in view(view)))
+				mob.wingobject.Move(t)
+			return
 
+		if(mob.removeoMob)
+			step(mob.removeoMob,dir)
+			return
+
+		if(mob.away)
+			mob.away = 0
+			mob.status=usr.here
+			mob.overlays-=image('AFK.dmi',icon_state="AFK2")
+			mob.overlays-=image('AFK.dmi',icon_state="AFK3")
+			mob.overlays-=image('AFK.dmi',icon_state="AFK4")
+			mob.overlays-='AFK.dmi'
+
+		if(mob.questionius==1)
+			mob.overlays-=icon('hand.dmi')
+			mob.questionius=0
 
 		if(move_queue)
 			if(!movements) movements = list()
