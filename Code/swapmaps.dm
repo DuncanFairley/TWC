@@ -454,7 +454,9 @@ swapmap
 		for(var/T in turfs) new item(T)
 
 atom
+	var/canSave = TRUE
 	Write(savefile/S)
+		if(!canSave) return
 		for(var/V in vars-"x"-"y"-"z"-"contents"-"icon"-"overlays"-"underlays")
 			if(issaved(vars[V]))
 				if(vars[V]!=initial(vars[V])) S[V]<<vars[V]
