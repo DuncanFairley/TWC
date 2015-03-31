@@ -2492,16 +2492,12 @@ obj/Golden_Candles
 	icon='Decoration.dmi'
 	icon_state="gcandle"
 	density=1
-	wlable=0
-	accioable=0
-	dontsave=1
+	pixel_y = -16
 obj/Golden_Candles_
 	icon='Decoration.dmi'
 	icon_state="gcandle1"
 	density=1
-	wlable=0
-	accioable=0
-	dontsave=1
+	pixel_y = -16
 obj/Flippendo
 	icon='attacks.dmi'
 	icon_state="flippendo"
@@ -3720,15 +3716,23 @@ obj/items/wearable/wands/practice_wand
 
 obj/memory_rune
 
-	icon       = 'attacks.dmi'
-	icon_state = "alohomora"
+	icon = 'Rune.dmi'
 
 	New()
 		..()
-
-		animate(src, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10, loop = -1)
-		animate(color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
-		animate(color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+		var/matrix/m = matrix()
+		m.Turn(60)
+		animate(src, transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10, loop = -1)
+		m.Turn(60)
+		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+		m.Turn(60)
+		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+		m.Turn(60)
+		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+		m.Turn(60)
+		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+		m.Turn(60)
+		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
 
 		loc.tag = "teleportPoint[name]"
 
