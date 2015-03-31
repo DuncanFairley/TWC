@@ -2770,7 +2770,7 @@ turf
 
 	roofb
 		icon       = 'StoneRoof.dmi'
-		icon_state = "roof-0"
+		icon_state = "roof-15"
 		density    = 1
 		opacity    = 1
 		flyblock   = 1
@@ -2778,10 +2778,33 @@ turf
 		New()
 			..()
 
-			spawn(1)
-				if(icon_state == "roof-0")
-					var/n = autojoin("name", "roofb")
-					icon_state = "roof-[n]"
+			if(icon_state != "broof" && icon_state != "broofr" && icon_state != "broofl")
+				spawn(1)
+					var/n = 15 - autojoin("name", "roofb")
+
+					var/dirs = list(NORTH, SOUTH, EAST, WEST)
+					for(var/d in dirs)
+						if((n & d) > 0)
+
+							var/obj/roofedge/o = new (src)
+							o.layer = d == NORTH ? 6 : 7
+
+							if(d == SOUTH)
+								o.pixel_x = -32
+								o.x++
+							else if(d == EAST)
+								o.pixel_y = 32
+								o.y--
+							else if(d == WEST)
+								o.pixel_x = 32
+								o.x--
+							else if(d == NORTH)
+								o.pixel_y = -32
+								o.y++
+
+							o.icon_state = "edge-[15 - d]"
+							n -= d
+					icon_state = "roof-15"
 
 	roofa
 		icon_state = "broof"
@@ -2919,6 +2942,11 @@ turf
 	redchair
 		icon_state="rc"
 		density=1
+
+
+obj/roofedge
+	icon = 'StoneRoof.dmi'
+	canSave = FALSE
 
 proc/ServerAD()
 	Players<<"<b><Font color=silver>Server:</b> <font size=1><font color=silver>Thanks for playing The Wizards' Chronicles. Forums: http://www.wizardschronicles.com"

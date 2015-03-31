@@ -153,16 +153,46 @@ obj
 		toiletstall
 			icon = 'Stall.dmi'
 		roofb
-			icon = 'roofbdoor1.dmi'
-		roofb1
-			icon = 'roofbdoor1.dmi'
-		roofb2
-			icon = 'roofbdoor2.dmi'
+			icon = 'roofbdoor.dmi'
 
+			New()
+				..()
+				spawn()
+					loc.name = "roofb"
+
+					var/turf/t = loc
+					var/n = 15 - t.autojoin("name", "roofb")
+
+					var/dirs = list(NORTH, SOUTH, EAST, WEST)
+					for(var/d in dirs)
+						if((n & d) > 0)
+
+							var/obj/roofedge/o = new (t)
+							o.layer = d == NORTH ? 6 : 7
+
+							if(d == SOUTH)
+								o.pixel_x = -32
+								o.x++
+							else if(d == EAST)
+								o.pixel_y = 32
+								o.y--
+							else if(d == WEST)
+								o.pixel_x = 32
+								o.x--
+							else if(d == NORTH)
+								o.pixel_y = -32
+								o.y++
+
+							o.icon_state = "edge-[15 - d]"
+							n -= d
 		New()
 			..()
 			var/turf/T = src.loc
 			if(T)T.flyblock=2
+
+			spawn()
+				density = 1
+				icon_state = "closed"
 
 		proc/Bumped(mob/Player/p)
 
