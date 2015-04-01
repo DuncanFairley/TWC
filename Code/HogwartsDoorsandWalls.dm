@@ -160,29 +160,37 @@ obj
 				spawn()
 					loc.name = "roofb"
 
-					var/turf/t = loc
-					var/n = 15 - t.autojoin("name", "roofb")
+					var/turf/floor = loc
+					var/n = 15 - floor.autojoin("name", "roofb")
 
 					var/dirs = list(NORTH, SOUTH, EAST, WEST)
 					for(var/d in dirs)
 						if((n & d) > 0)
 
-							var/obj/roofedge/o = new (t)
-							o.layer = d == NORTH ? 6 : 7
+							var/obj/roofedge/o
 
 							if(d == SOUTH)
+								var/turf/t = locate(floor.x + 1, floor.y, floor.z)
+								if(!t || istype(t, /turf/blankturf)) continue
+								o = new (t)
 								o.pixel_x = -32
-								o.x++
 							else if(d == EAST)
+								var/turf/t = locate(floor.x, floor.y - 1, floor.z)
+								if(!t || istype(t, /turf/blankturf)) continue
+								o = new (t)
 								o.pixel_y = 32
-								o.y--
 							else if(d == WEST)
+								var/turf/t = locate(floor.x - 1, floor.y, floor.z)
+								if(!t || istype(t, /turf/blankturf)) continue
+								o = new (t)
 								o.pixel_x = 32
-								o.x--
-							else if(d == NORTH)
+							else
+								var/turf/t = locate(floor.x, floor.y + 1, floor.z)
+								if(!t || istype(t, /turf/blankturf)) continue
+								o = new (t)
 								o.pixel_y = -32
-								o.y++
 
+							o.layer = d == NORTH ? 6 : 7
 							o.icon_state = "edge-[15 - d]"
 							n -= d
 		New()

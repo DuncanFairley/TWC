@@ -2786,22 +2786,30 @@ turf
 					for(var/d in dirs)
 						if((n & d) > 0)
 
-							var/obj/roofedge/o = new (src)
-							o.layer = d == NORTH ? 6 : 7
+							var/obj/roofedge/o
 
 							if(d == SOUTH)
+								var/turf/t = locate(x + 1, y, z)
+								if(!t || istype(t, /turf/blankturf)) continue
+								o = new (t)
 								o.pixel_x = -32
-								o.x++
 							else if(d == EAST)
+								var/turf/t = locate(x, y - 1, z)
+								if(!t || istype(t, /turf/blankturf)) continue
+								o = new (t)
 								o.pixel_y = 32
-								o.y--
 							else if(d == WEST)
+								var/turf/t = locate(x - 1, y, z)
+								if(!t || istype(t, /turf/blankturf)) continue
+								o = new (t)
 								o.pixel_x = 32
-								o.x--
-							else if(d == NORTH)
+							else
+								var/turf/t = locate(x, y + 1, z)
+								if(!t || istype(t, /turf/blankturf)) continue
+								o = new (t)
 								o.pixel_y = -32
-								o.y++
 
+							o.layer = d == NORTH ? 6 : 7
 							o.icon_state = "edge-[15 - d]"
 							n -= d
 					icon_state = "roof-15"
