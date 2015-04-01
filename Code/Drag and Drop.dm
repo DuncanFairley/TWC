@@ -141,6 +141,49 @@ obj/brick2door
 	bumpable = 1
 	var/inuse = 0
 	name = "brick"
+
+	roofb
+		icon = 'roofbdoor.dmi'
+		MHP  = 20
+		New()
+			..()
+			spawn()
+				loc.name = "roofb"
+
+				var/turf/floor = loc
+				var/n = 15 - floor.autojoin("name", "roofb")
+
+				var/dirs = list(NORTH, SOUTH, EAST, WEST)
+				for(var/d in dirs)
+					if((n & d) > 0)
+
+						var/obj/roofedge/o
+
+						if(d == SOUTH)
+							var/turf/t = locate(floor.x + 1, floor.y, floor.z)
+							if(!t || istype(t, /turf/blankturf)) continue
+							o = new (t)
+							o.pixel_x = -32
+						else if(d == EAST)
+							var/turf/t = locate(floor.x, floor.y - 1, floor.z)
+							if(!t || istype(t, /turf/blankturf)) continue
+							o = new (t)
+							o.pixel_y = 32
+						else if(d == WEST)
+							var/turf/t = locate(floor.x - 1, floor.y, floor.z)
+							if(!t || istype(t, /turf/blankturf)) continue
+							o = new (t)
+							o.pixel_x = 32
+						else
+							var/turf/t = locate(floor.x, floor.y + 1, floor.z)
+							if(!t || istype(t, /turf/blankturf)) continue
+							o = new (t)
+							o.pixel_y = -32
+
+						o.layer = d == NORTH ? 6 : 7
+						o.icon_state = "edge-[15 - d]"
+						n -= d
+
 	clandoor
 		name = "door"
 		icon = 'Door.dmi'
