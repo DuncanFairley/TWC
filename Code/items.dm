@@ -3640,7 +3640,16 @@ obj
 					if(istype(i3, /obj/items/wearable/title) && i3.name == i4.name)
 						chance -= 40
 						prize = i3.type
-						i3.color = rgb(rand(80,240), rand(80,240), rand(80,240))
+
+						var/red   = rand(80,240)
+						var/green = rand(80,240)
+						var/blue  = rand(80,240)
+
+						if(applyBonus & 1) red   = min(255, red   + 50)
+						if(applyBonus & 2) green = min(255, green + 50)
+						if(ignoreItem)     blue  = min(255, blue  + 50)
+
+						i3.color = rgb(red, green, blue)
 
 					else if(i3:bonus != -1 && i3:quality < max_upgrade && i3:quality == i4:quality)
 						var/flags = applyBonus|i3:bonus|i4:bonus
