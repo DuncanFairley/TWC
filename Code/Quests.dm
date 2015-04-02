@@ -276,32 +276,32 @@ mob/TalkNPC
 
 		Talk()
 			set src in oview(3)
-			if(usr.talkedtobunny==1)
-				usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> Did you find the chocolate yet!!?!"
-				sleep(30)
-				usr << "\n<font size=2><font color=red><b> <font color=Red>[usr]</font> </b>:<font color=white> No, not yet. Sorry."
-				sleep(20)
-				alert("The Easter Bunny frowns")
-				sleep(20)
-				usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> Oh...okay."
+			var/mob/Player/p = usr
+			var/questPointer/pointer = p.questPointers["Sweet Easter"]
+			if(pointer)
+				if(pointer.stage)
+					if(p.checkQuestProgress("Easter Bunny"))
+						alert("You throw the bag of chocolates to the Easter Bunny.")
+						sleep(20)
+						usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> OH THANK YOU THANK YOU THANK YOU!!!"
+						sleep(30)
+						usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> Oh! Now Easter can continue! THANK YOU!!!"
+						sleep(30)
+						usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> I don't have much to give you. Although I can give you this!"
+						alert("The Easter Bunny hands you an Easter Wand")
+						sleep(20)
+						usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> ENJOY!"
+					else
+						usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> Did you find the chocolate yet!!?!"
+						sleep(30)
+						usr << "\n<font size=2><font color=red><b> <font color=Red>[usr]</font> </b>:<font color=white> No, not yet. Sorry."
+						sleep(20)
+						alert("The Easter Bunny frowns")
+						sleep(20)
+						usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> Oh...okay."
+					return
 
-			if(usr.talkedtobunny==2)
-				alert("You throw the bag of chocolates to the Easter Bunny.")
-				sleep(20)
-				usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> OH THANK YOU THANK YOU THANK YOU!!!"
-				sleep(30)
-				usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> Oh! Now Easter can continue! THANK YOU!!!"
-				sleep(30)
-				usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> I don't have much to give you. Although I can give you this!"
-				alert("The Easter Bunny hands you an Easter Wand")
-				new/obj/items/wearable/wands/maple_wand(usr)
-				sleep(20)
-				usr.talkedtobunny=3
-				usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> ENJOY!"
-			if(usr.talkedtobunny==3)
-				usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> THANKS AGAIN!"
-
-			else
+			if(!pointer)
 				alert("The Easter Bunny frowns")
 				switch(input("Your response","Respond")in list("What's wrong","*Walk away slowly*"))
 					if("What's wrong")
@@ -314,7 +314,7 @@ mob/TalkNPC
 								switch(input("Easter Bunny: It's sad","Easter Bunny")in list("Don't worry, i'll find them for you","Oh well, good luck!"))
 									if("Don't worry, i'll find them for you")
 										usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> Oh, Thank you so much! I will be here waiting. Oh please hurry!"
-										usr.talkedtobunny=1
+										p.startQuest("Sweet Easter")
 									if("Oh well, good luck!")
 										return
 
@@ -324,9 +324,9 @@ mob/TalkNPC
 
 					if("*Walk away slowly*")
 						alert("You back away slowly")
-						usr.x = usr:x
-						usr.y = usr:y-1
-						usr.z = usr:z
+						step_away(usr, src)
+			else
+				usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> THANKS AGAIN!"
 
 mob/var/talkedzombie=0
 
@@ -572,42 +572,6 @@ mob/TalkNPC
 			while(src)
 				walk_rand(src,rand(5,30))
 				sleep(5)
-
-mob/TalkNPC
-	Tim
-		icon_state="tim"
-		density=1
-		Immortal=1
-
-		verb
-			Examine()
-				set src in oview(3)
-				usr << "One of the Easter Bunnies helpers."
-
-		Talk()
-			set src in oview(3)
-			if(usr.talkedtobunny==1)
-				switch(input("Tim: Isn't it sad what happened the Easter Bunny?","Tim")in list("Very sad.","Any idea who did it?","Not really."))
-					if("Very sad.")
-						alert("Tim nods somberly")
-					if("Any idea who did it?")
-						switch(input("Tim: It was probably that thief Zonko.","Tim")in list("Maybe I will go talk to Zonko"))
-							if("Maybe I will go talk to Zonko")
-								usr << "\n<font size=2><font color=red><b> <font color=red>Tim</font> </b>:<font color=white> Alright"
-
-			if(usr.talkedtobunny==3)
-				usr << "\n<font size=2><font color=red><b> <font color=red>Tim</font> </b>:<font color=white> Thanks again."
-
-
-			else
-				if(usr.talkedtobunny==1)
-					return
-				if(usr.talkedtobunny==2)
-					return
-				if(usr.talkedtobunny==3)
-					return
-				else
-					usr << "\n<font size=2><font color=red><b> <font color=red>Tim</font> </b>:<font color=white> The Easter Bunny is in there."
 
 
 mob/var/talkedtoalyssa
@@ -963,8 +927,20 @@ mob/TalkNPC
 						p << npcsay("Cassandra: Maybe I was wrong about you, maybe you aren't capable of defeating such rare monsters.")
 					return
 				else
-					p << npcsay("Cassandra: Come back later, I might have more tasks for the likes of you later \[To be continued in a later update].")
-
+					pointer = p.questPointers["Make a Spell"]
+					if(!pointer)
+						p << npcsay("Cassandra: You who helped me once before, how about you help me again, thanks to you I'm rich but sadly gold can not buy me true love, however, I did manage to find a way to fulfil my desires.")
+						p << npcsay("Cassandra: There is a spell capable of changing the laws of magic, this will help me find what I seek. You'll have to do what you did last time only this time I need you to collect more powerful elements.")
+						p.startQuest("Make a Spell")
+					else if(pointer.stage)
+						if(p.checkQuestProgress("Cassandra"))
+							p << npcsay("Cassandra: Hmmph! I could've done it myself but I'm a lady, here you can have this wand, I don't need it anymore...")
+							p << errormsg("Cassandra takes the monster essences you've collected, she's going to be extremely powerful and get all her heart's desires while you are stuck with an old stick.")
+						else
+							p << npcsay("Cassandra: Maybe I was wrong about you, maybe you aren't capable of defeating such rare monsters.")
+						return
+					else
+						p << npcsay("Cassandra: Come back later, I might have more tasks for the likes of you later \[To be continued in a later update].")
 			else
 				p << npcsay("Cassandra: You should try helping my twin sister Alyssa, she's sitting at Three Broom Sticks, I hear she seeks an immortality potion.")
 
@@ -986,6 +962,18 @@ quest
 	var/desc
 	var/list/reqs
 	var/questReward/reward
+
+	Easter
+		name   = "Sweet Easter"
+		desc   = "The easter bunny wants you to help him find a new brand of chocolate he made but seem to have lost."
+		reward = /questReward/Easter
+
+		GetChocolate
+			desc = "Find the chocolate, you heard a rumour a guy named Zonko has it."
+			reqs = list("Zonko" = 1)
+		Reward
+			desc = "Go back to the Easter Bunny to get your reward!"
+			reqs = list("Easter Bunny" = 1)
 
 	PVP1
 		name   = "PvP Introduction"
@@ -1258,6 +1246,25 @@ quest
 			desc = "You have all the monster essences go back to Cassandra."
 			reqs = list("Cassandra" = 1)
 
+	MakeASpell
+		name = "Make a Spell"
+		reward = /questReward/RoyaleWand
+
+		Kill
+			desc = "Cassandra wants you to help her procure a new spell capable of changing the laws of magic."
+			reqs = list("Demonic Essence"        = 5,
+						"Kill Demon Rat"         = 50,
+			            "Kill Floating Eye"      = 200,
+			            "Kill Wisp"              = 50,
+			            "Kill Basilisk"          = 1,
+			            "Kill Stickman"          = 1,
+			            "Kill Eye of The Fallen" = 1,
+			            "Kill Tamed Dog"         = 1,
+			            "Kill Player"            = 60)
+		Reward
+			desc = "You have all the monster essences go back to Cassandra."
+			reqs = list("Cassandra" = 1)
+
 	Fred
 		name = "On House Arrest"
 		reward = /questReward/Gold
@@ -1340,11 +1347,17 @@ questReward
 	RoyaleScarf
 		gold  = 24000
 		items = /obj/items/wearable/scarves/royale_scarf
+	RoyaleWand
+		gold  = 32000
+		items = /obj/items/wearable/wands/royale_wand
 	PVP1
 		gold  = 15000
 		exp   = 15000
 		items = list(/obj/items/bagofgoodies,
 			         /obj/items/wearable/wands/salamander_wand)
+	Easter
+		exp   = 10000
+		items = /obj/items/wearable/wands/maple_wand
 
 	proc/get(mob/Player/p)
 		if(gold)

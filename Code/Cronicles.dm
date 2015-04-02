@@ -188,7 +188,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 8
+#define SAVEFILE_VERSION 9
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -305,6 +305,16 @@ mob
 					quests = null
 					talktotom = null
 					ratquest = null
+
+			if(savefile_version < 9)
+				spawn()
+					if(talkedtobunny == 3)
+						var/questPointer/pointer = new
+						pointer.time = world.realtime
+						var/mob/Player/p = src
+						p.questPointers["Sweet Easter"] = pointer
+
+					talkedtobunny = null
 
 			var/turf/t = locate(last_x, last_y, last_z)
 			if(!t || t.name == "blankturf")
