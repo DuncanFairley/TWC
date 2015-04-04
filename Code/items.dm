@@ -1199,6 +1199,9 @@ obj/items/wearable/title
 	Surf
 		title = "Surfer"
 		name  = "Title: Surfer"
+	Fallen
+		title = "The Fallen"
+		name  = "Title: The Fallen"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
