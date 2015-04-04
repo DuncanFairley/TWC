@@ -499,7 +499,7 @@ mob/Spells/verb/Avis()
 			flick('mist.dmi',D)
 			if(D)
 				view(D)<<"The Phoenix flies away."
-				del D
+				Respawn(D)
 mob/Spells/verb/Crapus_Sticketh()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
@@ -512,15 +512,14 @@ mob/Spells/verb/Crapus_Sticketh()
 			src << "<b>You can't use this inside a safezone.</b>"
 			return
 		hearers()<<"A stick figure appears."
-		var/mob/Stickman_/D = new /mob/Stickman_
-		D:loc = locate(src.x,src.y+1,src.z)
+		var/mob/NPC/Enemies/Summoned/Boss/Stickman/D = new (locate(src.x,src.y+1,src.z))
 		flick('mist.dmi',D)
 		src = null
 		spawn(600)
 			flick('mist.dmi',D)
 			if(D)
 				view(D)<<"The Stickman fades away."
-				del D
+				Respawn(D)
 mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at least 30 seconds/?
 	set category = "Spells"
 	if(src.removeoMob)
@@ -589,7 +588,7 @@ mob/Spells/verb/Dementia()
 				flick('mist.dmi',D)
 				view(D)<<"The Dementor fades into smoke and vanishes."
 				sleep(8)
-				D.loc = null
+				Respawn(D)
 
 obj/screenobj/conjunct
 		mouse_opacity = 0

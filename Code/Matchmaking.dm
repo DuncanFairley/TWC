@@ -714,11 +714,11 @@ tr.file_black
 			usr << browse(SCOREBOARD_HEADER + html + "</table></center></html>","window=scoreboard")
 
 area/arenas
+	antiFly      = TRUE
+	antiTeleport = TRUE
 	Entered(atom/movable/Obj)
 		..()
 		if(isplayer(Obj))
 			var/mob/Player/user = Obj
-			var/obj/items/wearable/brooms/Broom = locate() in user.Lwearing
-			if(Broom) Broom.Equip(user,1)
 			var/obj/items/wearable/invisibility_cloak/Cloak = locate() in user.Lwearing
 			if(Cloak) Cloak.Equip(user,1)

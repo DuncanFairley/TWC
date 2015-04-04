@@ -453,6 +453,7 @@ swapmap
 	proc/BuildInTurfs(list/turfs,item)
 		for(var/T in turfs) new item(T)
 
+obj/var/canSave = TRUE
 atom
 	Write(savefile/S)
 		for(var/V in vars-"x"-"y"-"z"-"contents"-"icon"-"overlays"-"underlays")
@@ -474,6 +475,11 @@ atom
 			if(M)
 				l=l.Copy()
 				for(M in src) if(M.key) l-=M
+			var/obj/o
+			for(o in src) if(!o.canSave) break
+			if(o)
+				if(l==contents) l=l.Copy()
+				for(o in src) if(!o.canSave) l-=o
 			if(l.len) S["contents"]<<l
 			if(l!=contents) del(l)
 	Read(savefile/S)

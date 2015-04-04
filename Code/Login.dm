@@ -211,14 +211,13 @@ obj/teleport
 	desert_exit
 		icon = 'misc.dmi'
 		icon_state = "sandstorm_exit"
-		dest = "@Hogwarts"
+		dest = "CoS Floor 3"
 		invisibility = 0
 		Teleport(mob/M)
 			if(prob(10)) return
 			if(prob(40))
 				..()
-				dest = pick("@Hogwarts","@DesertEntrance")
-				M << infomsg("You magically found yourself at Hogwarts!")
+				M << infomsg("You magically found yourself at the entrance!")
 			else
 				M:Transfer(locate(rand(4,97),rand(4,97),rand(4,6)))
 		New()
@@ -2770,7 +2769,7 @@ turf
 
 	roofb
 		icon       = 'StoneRoof.dmi'
-		icon_state = "roof-0"
+		icon_state = "roof-15"
 		density    = 1
 		opacity    = 1
 		flyblock   = 1
@@ -2778,9 +2777,41 @@ turf
 		New()
 			..()
 
-			if(icon_state == "roof-0")
-				var/n = autojoin("name", "roofb")
-				icon_state = "roof-[n]"
+			if(icon_state != "broof" && icon_state != "broofr" && icon_state != "broofl")
+				spawn(1)
+					var/n = 15 - autojoin("name", "roofb")
+
+					var/dirs = list(NORTH, SOUTH, EAST, WEST)
+					for(var/d in dirs)
+						if((n & d) > 0)
+
+							var/obj/roofedge/o
+
+							if(d == SOUTH)
+								var/turf/t = locate(x + 1, y, z)
+								if(!t || istype(t, /turf/blankturf)) continue
+								o = new (t)
+								o.pixel_x = -32
+							else if(d == EAST)
+								var/turf/t = locate(x, y - 1, z)
+								if(!t || istype(t, /turf/blankturf)) continue
+								o = new (t)
+								o.pixel_y = 32
+							else if(d == WEST)
+								var/turf/t = locate(x - 1, y, z)
+								if(!t || istype(t, /turf/blankturf)) continue
+								o = new (t)
+								o.pixel_x = 32
+							else
+								var/turf/t = locate(x, y + 1, z)
+								if(!t || istype(t, /turf/blankturf)) continue
+								o = new (t)
+								o.pixel_y = -32
+
+							o.layer = d == NORTH ? 6 : 7
+							o.icon_state = "edge-[15 - d]"
+							n -= d
+					icon_state = "roof-15"
 
 	roofa
 		icon_state = "broof"
@@ -2918,6 +2949,11 @@ turf
 	redchair
 		icon_state="rc"
 		density=1
+
+
+obj/roofedge
+	icon = 'StoneRoof.dmi'
+	canSave = FALSE
 
 proc/ServerAD()
 	Players<<"<b><Font color=silver>Server:</b> <font size=1><font color=silver>Thanks for playing The Wizards' Chronicles. Forums: http://www.wizardschronicles.com"

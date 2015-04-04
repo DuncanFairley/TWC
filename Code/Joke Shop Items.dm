@@ -14,7 +14,9 @@ mob/TalkNPC/Zonko
 
 	Talk()
 		set src in oview(3)
-		if(usr.talkedtobunny==1)
+		var/mob/Player/p = usr
+		var/questPointer/pointer = p.questPointers["Sweet Easter"]
+		if(pointer && pointer.stage == 1)
 			usr << "\n<font size=2><font color=red><b> <font color=red>Zonko</font> [GMTag]</b>:<font color=white> Yes? Can I help you?"
 			sleep(10)
 			switch(input("Your Response","Respond")in list("Anything new for sale?","No, I'm ok."))
@@ -25,10 +27,9 @@ mob/TalkNPC/Zonko
 						if("Oh come on, I'll give you 50,000 gold.")
 							usr << "\n<font size=2><font color=red><b> <font color=red>Zonko</font> [GMTag]</b>:<font color=white> 50,000! That's a lot of money..."
 							if(usr.gold>=50000)
-								usr.talkedtobunny=2
-								sleep(30)
 								usr << "\n<font size=2><font color=red><b> <font color=red>Zonko</font> [GMTag]</b>:<font color=white> Hm...Alright alright. Its a deal."
 								usr.gold-=50000
+								p.checkQuestProgress("Zonko")
 								return
 							else
 								usr<<"\n<font size=2><font color=red><b> <font color=red>Zonko</font> [GMTag]</b>:<font color=white> Hm...Doesn't look like you have enough money. Sorry."

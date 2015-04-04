@@ -24,7 +24,7 @@ area
 
 	Entered(atom/movable/Obj,atom/OldLoc)
 		.=..()
-		if(isplayer(Obj))
+		if(antiFly && isplayer(Obj))
 			Obj:nofly()
 
 obj/items
@@ -203,8 +203,6 @@ obj/items/herosbrace
 					switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Pyramid","Forbidden Forest","Museum"))
 						if("Diagon Alley")
 							t = locate(45,60,26)
-						if("Pyramid")
-							t = locate(47,42,6)
 						if("Forbidden Forest")
 							t = locate(86,12,16)
 						if("Museum")
@@ -551,7 +549,7 @@ obj/items/wearable/halloween_bucket
 
 obj/items/wearable/brooms
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && (owner.loc.loc:antiFly||istype(owner.loc.loc, /area/nofly)||istype(owner.loc.loc,/area/arenas)||istype(owner.loc.loc,/area/ministry_of_magic)))
+		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && (owner.loc.loc:antiFly||istype(owner.loc.loc,/area/ministry_of_magic)))
 			owner << errormsg("You cannot fly here.")
 			return
 		if(!forceremove && !(src in owner.Lwearing) && owner.findStatusEffect(/StatusEffect/Knockedfrombroom))
@@ -1199,6 +1197,9 @@ obj/items/wearable/title
 	Surf
 		title = "Surfer"
 		name  = "Title: Surfer"
+	Fallen
+		title = "The Fallen"
+		name  = "Title: The Fallen"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
@@ -2492,16 +2493,12 @@ obj/Golden_Candles
 	icon='Decoration.dmi'
 	icon_state="gcandle"
 	density=1
-	wlable=0
-	accioable=0
-	dontsave=1
+	pixel_y = -16
 obj/Golden_Candles_
 	icon='Decoration.dmi'
 	icon_state="gcandle1"
 	density=1
-	wlable=0
-	accioable=0
-	dontsave=1
+	pixel_y = -16
 obj/Flippendo
 	icon='attacks.dmi'
 	icon_state="flippendo"
@@ -3644,7 +3641,16 @@ obj
 					if(istype(i3, /obj/items/wearable/title) && i3.name == i4.name)
 						chance -= 40
 						prize = i3.type
-						i3.color = rgb(rand(80,240), rand(80,240), rand(80,240))
+
+						var/red   = rand(80,240)
+						var/green = rand(80,240)
+						var/blue  = rand(80,240)
+
+						if(applyBonus & 1) red   = min(255, red   + 50)
+						if(applyBonus & 2) green = min(255, green + 50)
+						if(ignoreItem)     blue  = min(255, blue  + 50)
+
+						i3.color = rgb(red, green, blue)
 
 					else if(i3:bonus != -1 && i3:quality < max_upgrade && i3:quality == i4:quality)
 						var/flags = applyBonus|i3:bonus|i4:bonus
@@ -3720,15 +3726,23 @@ obj/items/wearable/wands/practice_wand
 
 obj/memory_rune
 
-	icon       = 'attacks.dmi'
-	icon_state = "alohomora"
+	icon = 'Rune.dmi'
 
 	New()
 		..()
-
-		animate(src, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10, loop = -1)
-		animate(color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
-		animate(color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+		var/matrix/m = matrix()
+		m.Turn(60)
+		animate(src, transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10, loop = -1)
+		m.Turn(60)
+		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+		m.Turn(60)
+		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+		m.Turn(60)
+		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+		m.Turn(60)
+		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+		m.Turn(60)
+		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
 
 		loc.tag = "teleportPoint[name]"
 
@@ -3737,4 +3751,5 @@ obj/memory_rune
 		name = "CoS Floor 1"
 	CoSFloor2
 		name = "CoS Floor 2"
-	Desert
+	CoSFloor3
+		name = "CoS Floor 3"
