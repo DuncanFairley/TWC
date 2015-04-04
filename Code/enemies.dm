@@ -38,6 +38,8 @@ obj/statues
 	rabbit/icon_state = "rabbit"
 	turkey/icon_state = "turkey"
 
+var/floatingEyesKilled = 0
+
 proc
 	isPathBlocked(mob/source, mob/target, dist=1, dense_override=0, dist_limit=10)
 		if(!(source && source.loc)) return 1
@@ -197,6 +199,7 @@ mob
 					calcStats()
 					origloc = loc
 					sleep(rand(10,60))
+					ShouldIBeActive()
 					state()
 
 			proc/calcStats()
@@ -764,7 +767,7 @@ mob
 						door.door = 1
 
 						var/obj/teleport/portkey/t = new (loc)
-						t.dest = "@Hogwarts"
+						t.dest = "teleportPointCoS Floor 3"
 
 						spawn(respawnTime)
 							door.door = 0
@@ -917,13 +920,30 @@ mob
 							 			     /obj/items/Smoke_Pellet,
 							 			     /obj/items/Tube_of_fun,
 							 			     /obj/items/Swamp))
+
+
+					Death()
+						..()
+						var/obj/teleport/portkey/t = new (loc)
+						t.dest = "@Hogwarts"
+
+						spawn(respawnTime)
+							t.loc = null
+
+						spawn(2)
+							t.density = 1
+							step_rand(t)
+							t.density = 0
+
 					New()
 						..()
 						animate(src, color = rgb(255, 0, 0), time = 10, loop = -1)
 						animate(color = rgb(255, 0, 255), time = 10)
 						animate(color = rgb(rand(60,255), rand(60,255), rand(60,255)), time = 10)
 
-						transform *= 2
+						transform *= 3
+
+						origloc = null
 				New()
 					..()
 					icon_state = "eye[rand(1,2)]"
@@ -946,6 +966,13 @@ mob
 							target = M
 							state  = HOSTILE
 							break
+
+				Death()
+					..()
+					if(++floatingEyesKilled >= 1000)
+						floatingEyesKilled = 0
+						Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
+						new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,6)))
 
 				Blocked()
 					density = 0

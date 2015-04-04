@@ -211,14 +211,13 @@ obj/teleport
 	desert_exit
 		icon = 'misc.dmi'
 		icon_state = "sandstorm_exit"
-		dest = "@Hogwarts"
+		dest = "CoS Floor 3"
 		invisibility = 0
 		Teleport(mob/M)
 			if(prob(10)) return
 			if(prob(40))
 				..()
-				dest = pick("@Hogwarts","@DesertEntrance")
-				M << infomsg("You magically found yourself at Hogwarts!")
+				M << infomsg("You magically found yourself at the entrance!")
 			else
 				M:Transfer(locate(rand(4,97),rand(4,97),rand(4,6)))
 		New()

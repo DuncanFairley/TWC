@@ -203,8 +203,6 @@ obj/items/herosbrace
 					switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Pyramid","Forbidden Forest","Museum"))
 						if("Diagon Alley")
 							t = locate(45,60,26)
-						if("Pyramid")
-							t = locate(47,42,6)
 						if("Forbidden Forest")
 							t = locate(86,12,16)
 						if("Museum")
@@ -3753,4 +3751,5 @@ obj/memory_rune
 		name = "CoS Floor 1"
 	CoSFloor2
 		name = "CoS Floor 2"
-	Desert
+	CoSFloor3
+		name = "CoS Floor 3"
