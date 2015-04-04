@@ -79,8 +79,11 @@ area
 			Forbidden_ForestSW
 			Pixie_Pit
 			Desert1
+				antiTeleport = TRUE
 			Desert2
+				antiTeleport = TRUE
 			Desert3
+				antiTeleport = TRUE
 			Silverblood_Bats
 			Silverblood_Golems
 			Graveyard
