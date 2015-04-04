@@ -839,6 +839,30 @@ mob/TalkNPC
 			else
 				p << npcsay("Saratri: Wow! I can't believe you killed the Basilisk!")
 
+	Malcolm
+		icon_state="goblin1"
+
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+			var/questPointer/pointer = p.questPointers["Draw Me a Stick \[Daily]"]
+			if(pointer)
+				if(pointer.stage)
+					if(p.checkQuestProgress("Malcolm"))
+						p << npcsay("Malcolm: Good job! I can't believe you pulled it off!")
+					else
+						p << npcsay("Malcolm: Go kill the Stickman!")
+					return
+				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
+					p.questPointers -= pointer
+					pointer = null
+
+			if(!pointer)
+				p << npcsay("Malcolm: Welcome to floor 2! Did you know Basilisk is not the strongest monster here?! There's a magical stickman in this floor, if you manage to defeat it I will reward you.")
+				p.startQuest("Draw Me a Stick \[Daily]")
+			else
+				p << npcsay("Malcolm: Wow! I can't believe you killed the Stickman!")
+
 	Hunter
 		icon_state="lord"
 
@@ -944,6 +968,34 @@ mob/TalkNPC
 			else
 				p << npcsay("Cassandra: You should try helping my twin sister Alyssa, she's sitting at Three Broom Sticks, I hear she seeks an immortality potion.")
 
+obj/items/demonic_essence
+	icon       = 'jokeitems.dmi'
+	icon_state = "DarknessPowder"
+
+	Take()
+		set src in oview(1)
+		var/mob/Player/p = usr
+		if(p.checkQuestProgress("Demonic Essence"))
+			p << infomsg("You touch the demonic essence and it fades, you feel as if you carry it inside your soul.")
+			loc = null
+		else
+			p << errormsg("You don't need this item.")
+
+	New()
+		..()
+
+		emit(loc    = src, ptype  = /obj/particle/magic,
+						   amount = 5,
+						   angle  = new /Random(1, 359),
+						   speed  = 2,
+						   life   = new /Random(20,25))
+
+		animate(src, color = rgb(255, 0, 0), time = 10, loop = -1)
+		animate(color = rgb(255, 0, 255), time = 10)
+
+		spawn(100)
+			loc = null
+
 
 var/list/quest_list
 
@@ -1023,6 +1075,19 @@ quest
 		Reward
 			desc = "Go back to Saratri to get your reward!"
 			reqs = list("Saratri" = 1)
+
+	Stickman
+		name   = "Draw Me a Stick \[Daily]"
+		desc   = "The stickman is found at the Chamber of Secrets floor 2, kill the Stickman and any Troll that gets in your way!"
+		reward = /questReward/Teleport
+
+		Kill
+			desc = "Kill 1 stickman and 50 trolls."
+			reqs = list("Kill Stickman"        = 1,
+			            "Kill Troll"       = 50)
+		Reward
+			desc = "Go back to Malcolm to get your reward!"
+			reqs = list("Malcolm" = 1)
 
 
 	Eyes
@@ -1340,6 +1405,12 @@ questReward
 		gold  = 14000
 		exp   = 140000
 		items = /obj/items/artifact
+	Teleport
+		gold  = 16000
+		exp   = 160000
+		items = list(/obj/items/magic_stone/teleport,
+		             /obj/items/magic_stone/teleport,
+		             /obj/items/magic_stone/teleport)
 	RoyaleShoes
 		gold  = 5000
 		exp   = 10000
