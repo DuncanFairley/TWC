@@ -612,14 +612,20 @@ mob
 
 					Stickman
 						icon_state = "stickman"
-						level = 3000
-						HPmodifier  = 2
-						DMGmodifier = 2
+						level = 500
+						HPmodifier  = 1
+						DMGmodifier = 1
 
-						MoveDelay   = 2
-						AttackDelay = 0
+						MoveDelay   = 3
+						AttackDelay = 1
 
 						var/tmp/fired = 0
+
+						BlindAttack()
+							spawn()
+								for(var/i = 1 to 3)
+									castproj(0, 'attacks.dmi', "gum", Dmg + rand(-4,8), "Waddiwasi")
+									sleep(4)
 
 						Attack()
 							if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
@@ -643,20 +649,9 @@ mob
 							else if(distance > 3)
 								step_rand(src)
 
-							if(prob(15) && !fired)
-								fired = 1
-								spawn(100) fired = 0
-								var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-								var/tmp_d = dir
-								var/dmg = round(Dmg * 0.75) + rand(-4,8)
-								for(var/d in dirs)
-									dir = d
-									castproj(0, 'attacks.dmi', "fireball", dmg, "Incindia", 0, 1)
-								dir = tmp_d
-							else
-								dir=get_dir(src, target)
-								if(AttackDelay)	sleep(AttackDelay)
-								castproj(0, 'attacks.dmi', "gum", Dmg + rand(-4,8), "Waddiwasi")
+							dir=get_dir(src, target)
+							if(AttackDelay)	sleep(AttackDelay)
+							castproj(0, 'attacks.dmi', "gum", Dmg + rand(-4,8), "Waddiwasi")
 
 
 
@@ -695,16 +690,19 @@ mob
 				var/tmp/fired = 0
 
 				Range = 16
-				respawnTime = 3000
+				respawnTime = 6000
 
 				New()
 					..()
 					transform *= 2
 
-				drops = list("15"   = list(/obj/items/crystal/soul,
+				drops = list("10"   = list(/obj/items/artifact,
+										   /obj/items/stickbook,
+										   /obj/items/crystal/soul,
 				                           /obj/items/wearable/title/Surf),
-							 "20"   = list(/obj/items/artifact,
-							               /obj/items/crystal/magic),
+							 "15"   = list(/obj/items/artifact,
+							               /obj/items/crystal/magic,
+							               /obj/items/crystal/strong_luck),
 							 "30"   = list(/obj/items/DarknessPowder,
 								 		   /obj/items/Whoopie_Cushion,
 										   /obj/items/U_No_Poo,
@@ -783,6 +781,10 @@ mob
 			Demon_Rat
 				icon_state = "demon rat"
 				level = 50
+				drops = list("0.5" = /obj/items/demonic_essence,
+							 "0.7" = list(/obj/items/Whoopie_Cushion,
+			 	 			 			  /obj/items/Smoke_Pellet,
+			 	 			 			  /obj/items/Tube_of_fun))
 			Pixie
 				icon_state = "pixie"
 				level = 100
@@ -883,15 +885,45 @@ mob
 
 					if(prob(70)) transform *= 1 + (rand(-5,15) / 50) // -10% to +30% size change
 
+
+
 			Floating_Eye
 				icon_state = "eye1"
 				level = 900
 				HPmodifier  = 2
 				DMGmodifier = 0.8
-				var/tmp/fired = 0
+				var
+					tmp/fired = 0
+					Random/cd = new(30, 50)
+
 				MoveDelay = 4
 				AttackDelay = 1
 
+				Eye_of_The_Fallen
+					level = 2400
+					cd = new(5, 10)
+
+					MoveDelay = 2
+
+					drops = list("10" = list(/obj/items/artifact,
+										     /obj/items/crystal/soul,
+				                             /obj/items/wearable/title/Fallen),
+							 "15"     = list(/obj/items/artifact,
+							                 /obj/items/crystal/magic,
+							                 /obj/items/crystal/strong_luck),
+							 "30"     = list(/obj/items/DarknessPowder,
+								 		     /obj/items/Whoopie_Cushion,
+										     /obj/items/U_No_Poo,
+							 			     /obj/items/Smoke_Pellet,
+							 			     /obj/items/Tube_of_fun,
+							 			     /obj/items/Swamp))
+					New()
+						..()
+						animate(src, color = rgb(255, 0, 0), time = 10, loop = -1)
+						animate(color = rgb(255, 0, 255), time = 10)
+						animate(color = rgb(rand(60,255), rand(60,255), rand(60,255)), time = 10)
+
+						transform *= 2
 				New()
 					..()
 					icon_state = "eye[rand(1,2)]"
@@ -934,7 +966,7 @@ mob
 							fire = 2
 						if(fire)
 							fired = 1
-							spawn(rand(30,50)) fired = 0
+							spawn(cd.get()) fired = 0
 
 							var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 							if(fire == 1)
@@ -1096,7 +1128,7 @@ mob
 				DMGmodifier = 3
 				MoveDelay = 3
 				Range = 16
-				respawnTime = 3000
+				respawnTime = 6000
 
 				New()
 					..()
