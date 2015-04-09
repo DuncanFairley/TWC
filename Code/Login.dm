@@ -1995,7 +1995,6 @@ mob/proc/Death_Check(mob/killer = src)
 
 				src.followplayer=0
 				Zitt = 0
-				src.status=""
 				src.HP=src.MHP+extraMHP
 				src.MP=src.MMP+extraMMP
 				src.updateHPMP()
