@@ -1409,7 +1409,6 @@ questReward
 		gold  = 16000
 		exp   = 160000
 		items = list(/obj/items/magic_stone/teleport,
-		             /obj/items/magic_stone/teleport,
 		             /obj/items/magic_stone/teleport)
 	RoyaleShoes
 		gold  = 5000
