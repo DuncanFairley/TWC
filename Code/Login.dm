@@ -211,7 +211,7 @@ obj/teleport
 	desert_exit
 		icon = 'misc.dmi'
 		icon_state = "sandstorm_exit"
-		dest = "CoS Floor 3"
+		dest = "teleportPointCoS Floor 3"
 		invisibility = 0
 		Teleport(mob/M)
 			if(prob(10)) return
