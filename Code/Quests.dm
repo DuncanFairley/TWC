@@ -915,16 +915,26 @@ mob/TalkNPC
 			if(pointer)
 				if(pointer.stage)
 					if(p.checkQuestProgress("Zerf"))
-						p << npcsay("Zerf: Good job! You should try fighting people in the ranked arena by joining the matchmaking queue once you're at level cap.")
+						if(p.level == lvlcap)
+							p << npcsay("Zerf: Good job! Since you're at level cap, why not try some matchmaking in the ranked arena?")
+						else
+							p << npcsay("Zerf: Good job! When you reach the level cap, why not try some matchmaking in the ranked arena?")
 					else
 						p << npcsay("Zerf: You aren't going to get any better by not fighting!")
 					return
 				else
-					p << npcsay("Zerf: You should try fighting people in the ranked arena by joining the matchmaking queue once you're at level cap.")
+					if(p.level == lvlcap)
+						p << npcsay("Zerf: Why not try some matchmaking in the ranked arena?")
+					else
+						p << npcsay("Zerf: When you reach level cap, why not try some matchmaking in the ranked arena?")
 
 			else
-				p << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
-				p.startQuest("PvP Introduction")
+				if(p.level == lvlcap)
+					p << npcsay("Zerf: So, you've reached the level cap, but how much fighting have you done? Why don't you try and fight a bunch of players?")
+					p.startQuest("PvP Introduction")
+				else
+					p << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
+					p.startQuest("PvP Introduction")
 
 	Cassandra
 		icon_state="alyssa"
@@ -959,7 +969,7 @@ mob/TalkNPC
 					else if(pointer.stage)
 						if(p.checkQuestProgress("Cassandra"))
 							p << npcsay("Cassandra: Hmmph! I could've done it myself but I'm a lady, here you can have this wand, I don't need it anymore...")
-							p << errormsg("Cassandra takes the monster essences you've collected, she's going to be extremely powerful and get all her heart's desires while you are stuck with an old stick.")
+							p << errormsg("Cassandra takes the monster essences you've collected. She's going to be extremely powerful and get all her heart's desires while you are stuck with an old stick.")
 						else
 							p << npcsay("Cassandra: Maybe I was wrong about you, maybe you aren't capable of defeating such rare monsters.")
 						return
@@ -1036,7 +1046,7 @@ quest
 			desc = "Kill 20 players."
 			reqs = list("Kill Player" = 20)
 		Reward
-			desc = "Go back to the Zerf to get your reward!"
+			desc = "Go back to Zerf to get your reward!"
 			reqs = list("Zerf" = 1)
 
 	Extermination
@@ -1111,7 +1121,7 @@ quest
 			desc = "Kill 80 wisps."
 			reqs = list("Kill Wisp" = 80)
 		Reward
-			desc = "Go back to Vengeful Wisp to get your reward!"
+			desc = "Go back to the Vengeful Wisp to get your reward!"
 			reqs = list("Vengeful Wisp" = 1)
 
 	Rats
@@ -1204,7 +1214,7 @@ quest
 			reqs = list("Hunter" = 1)
 	FireGolem
 		name   = "Pest Extermination: Fire Golem"
-		desc   = "The hunter wants you to help him exterminate fire golems from the Silverblood Grounds"
+		desc   = "The hunter wants you to help him exterminate fire golems from Silverblood Grounds"
 		reward = /questReward/Mon9
 
 		Kill
@@ -1215,7 +1225,7 @@ quest
 			reqs = list("Hunter" = 1)
 	Archangel
 		name   = "Pest Extermination: Archangel"
-		desc   = "The hunter wants you to help him exterminate Archangel from the Silverblood Castle"
+		desc   = "The hunter wants you to help him exterminate Archangel from Silverblood Castle"
 		reward = /questReward/Mon10
 
 		Kill
@@ -1237,7 +1247,7 @@ quest
 			reqs = list("Hunter" = 1)
 	FireElemental
 		name   = "Pest Extermination: Fire Elemental"
-		desc   = "The hunter wants you to help him exterminate fire golems from the Silverblood Castle"
+		desc   = "The hunter wants you to help him exterminate fire golems from Silverblood Castle"
 		reward = /questReward/Mon12
 
 		Kill
@@ -1248,7 +1258,7 @@ quest
 			reqs = list("Hunter" = 1)
 	Wyvern
 		name   = "Pest Extermination: Wyvern"
-		desc   = "The hunter wants you to help him exterminate wyverns from the Silverblood Castle"
+		desc   = "The hunter wants you to help him exterminate wyverns from Silverblood Castle"
 		reward = /questReward/Mon13
 
 		Kill
@@ -1289,7 +1299,7 @@ quest
 			desc = "Alyssa wants you to help her procure an immortality potions, go find Onion Root, Indigo Seeds, Silver Spider Legs and Salamander Drop."
 			reqs = list("Onion Root" = 1, "Indigo Seeds" = 1, "Silver Spider Legs" = 1, "Salamander Drop" = 1)
 		Reward
-			desc = "You have all the ingredients go back to Alyssa."
+			desc = "You have all the ingredients, go back to Alyssa for your reward."
 			reqs = list("Alyssa" = 1)
 
 
@@ -1308,7 +1318,7 @@ quest
 			            "Kill Tamed Dog"        = 1,
 			            "Kill Player"           = 30)
 		Reward
-			desc = "You have all the monster essences go back to Cassandra."
+			desc = "You have all the monster essences, go back to Cassandra for your reward."
 			reqs = list("Cassandra" = 1)
 
 	MakeASpell
@@ -1327,7 +1337,7 @@ quest
 			            "Kill Tamed Dog"         = 1,
 			            "Kill Player"            = 60)
 		Reward
-			desc = "You have all the monster essences go back to Cassandra."
+			desc = "You have all the monster essences, go back to Cassandra for your reward."
 			reqs = list("Cassandra" = 1)
 
 	Fred
