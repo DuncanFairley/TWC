@@ -1015,6 +1015,21 @@ quest
 	var/list/reqs
 	var/questReward/reward
 
+	Ritual
+		name   = "Demonic Ritual"
+		desc   = "Tammie told you about a ritual capable of increasing your power."
+		reward = /questReward/Ritual
+
+		Essence
+			desc = "Find demonic essences for the ritual."
+			reqs = list("Demonic Essence" = 10)
+		TrollingEssence
+			desc = "It appears one of the essences you've collected disappeared, find another."
+			reqs = list("Demonic Essence" = 1)
+		Reward
+			desc = "Go back to Tammie for your reward!"
+			reqs = list("Tammie" = 1)
+
 	Easter
 		name   = "Sweet Easter"
 		desc   = "The easter bunny wants you to help him find a new brand of chocolate he made but seem to have lost."
@@ -1035,6 +1050,18 @@ quest
 		Kill
 			desc = "Kill 20 players."
 			reqs = list("Kill Player" = 20)
+		Reward
+			desc = "Go back to the Zerf to get your reward!"
+			reqs = list("Zerf" = 1)
+
+	PVP2
+		name   = "Culling the Herd"
+		desc   = "Zerf wants you to fight a massive amount of players... I wonder what he gets out of it."
+		reward = /questReward/PVP2
+
+		Kill
+			desc = "Kill 1000 players."
+			reqs = list("Kill Player" = 1000)
 		Reward
 			desc = "Go back to the Zerf to get your reward!"
 			reqs = list("Zerf" = 1)
