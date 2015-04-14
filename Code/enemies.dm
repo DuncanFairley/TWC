@@ -975,7 +975,7 @@ mob
 					if(++floatingEyesKilled >= 1000)
 						floatingEyesKilled = 0
 						Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
-						new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,6)))
+						new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
 
 				Blocked()
 					density = 0
