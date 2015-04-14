@@ -915,26 +915,30 @@ mob/TalkNPC
 			if(pointer)
 				if(pointer.stage)
 					if(p.checkQuestProgress("Zerf"))
-						if(p.level == lvlcap)
-							p << npcsay("Zerf: Good job! Since you're at level cap, why not try some matchmaking in the ranked arena?")
-						else
-							p << npcsay("Zerf: Good job! When you reach the level cap, why not try some matchmaking in the ranked arena?")
+						p << npcsay("Zerf: Good job but we're just getting started!")
 					else
 						p << npcsay("Zerf: You aren't going to get any better by not fighting!")
-					return
 				else
-					if(p.level == lvlcap)
-						p << npcsay("Zerf: Why not try some matchmaking in the ranked arena?")
+					pointer = p.questPointers["Culling the Herd"]
+					if(!pointer)
+						p << npcsay("Zerf: Let's kill some people... A lot of people!")
+						p.startQuest("Culling the Herd")
+						return
+
+					if(pointer.stage)
+						if(p.checkQuestProgress("Zerf"))
+							p << npcsay("Zerf: Mawhahahaha! THEY'RE ALL DEAD!")
+						else
+							p << npcsay("Zerf: Kill or be killed, my friend.")
 					else
-						p << npcsay("Zerf: When you reach level cap, why not try some matchmaking in the ranked arena?")
+						if(p.level == lvlcap)
+							p << npcsay("Zerf: Why not try some matchmaking in the ranked arena?")
+						else
+							p << npcsay("Zerf: When you reach level cap, why not try some matchmaking in the ranked arena?")
 
 			else
-				if(p.level == lvlcap)
-					p << npcsay("Zerf: So, you've reached the level cap, but how much fighting have you done? Why don't you try and fight a bunch of players?")
-					p.startQuest("PvP Introduction")
-				else
-					p << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
-					p.startQuest("PvP Introduction")
+				p << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
+				p.startQuest("PvP Introduction")
 
 	Cassandra
 		icon_state="alyssa"
