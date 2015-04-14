@@ -61,44 +61,23 @@ mob/TalkNPC/Tammie
 	icon_state = "tammie"
 	NPC = 1
 	Immortal=1
-	item="Potion"
 
 	Talk()
-		set src in oview(2)
-		usr << npcsay("Tammie: Sorry, sweetie. I fell over and hurt my leg so now I can't reach any of my merchandise! What a shame!")
-		return
-		if(usr.Year in list("1st Year","2nd Year","3rd Year",""))
-			usr << npcsay("Tammie: Sorry, sweetie. Come back when you're older.")
-		else
-			var/obj/selecteditem
-			var/selectedprice
-			switch(input("Tammie: What can I get for ya, hun?","You have [comma(usr.gold)] gold")as null|anything in list("Draft Beer  50g","Iced Tea  50g","Cocoa Nut Cream Pie  80g","Blueberry Pie  80g","Apple Pie  80g"))
-				if("Draft Beer  50g")
-					selecteditem = /obj/Beer
-					selectedprice = 50
-				if("Iced Tea  50g")
-					selectedprice = 50
-					selecteditem = /obj/Tea
-				if("Blueberry Pie  80g")
-					selectedprice = 80
-					selecteditem = /obj/Blueberry_Pie
-				if("Apple Pie  80g")
-					selectedprice = 80
-					selecteditem = /obj/Apple_Pie
-				if("Cocoa Nut Cream Pie  80g")
-					selectedprice = 80
-					selecteditem = /obj/Cocoa_Nut_Cream_Pie
-				if(null)
-					usr << npcsay("Tammie: Just gimme a holler if ya want anything, darl.")
-					return
-			if(usr.gold < selectedprice)
-				usr << npcsay("Tammie: Ya don't have enough coin for that darl. It costs [selectedprice]g.")
+		set src in oview(3)
+		var/mob/Player/p = usr
+		var/questPointer/pointer = p.questPointers["Demonic Ritual"]
+		if(pointer)
+			if(pointer.stage)
+				if(p.checkQuestProgress("Tammie"))
+					p << npcsay("Tammie: Wow, I can't believe you went and killed all those little innocent cute rats.")
+				else
+					p << npcsay("Tammie: It will be a little cruel to collect demonic essences...")
+				return
 			else
-				usr.gold -= selectedprice
-				ministrybank += taxrate*selectedprice/100
-				new selecteditem(usr)
-				usr << npcsay("Tammie: There ya go darl. Enjoy.")
-				usr:Resort_Stacking_Inv()
+				p << npcsay("Tammie: You're evil.")
+		else
+			p << npcsay("Tammie: Did you know there's a ritual that makes you stronger, apparently it involves gathering demonic essences, I wonder how you do that, maybe you have to kill a demonic creature.")
+			p.startQuest("Demonic Ritual")
 
 mob/Tom_
 	icon = 'NPCs.dmi'

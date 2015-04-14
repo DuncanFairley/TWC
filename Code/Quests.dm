@@ -1452,6 +1452,20 @@ questReward
 		exp   = 15000
 		items = list(/obj/items/bagofgoodies,
 			         /obj/items/wearable/wands/salamander_wand)
+	PVP2
+		gold  = 60000
+		exp   = 60000
+		items = list(/obj/items/bagofgoodies,
+			         /obj/items/artifact,
+			         /obj/items/artifact,
+			         /obj/items/artifact,
+			         /obj/items/magic_stone/teleport,
+			         /obj/items/magic_stone/teleport,
+			         /obj/items/magic_stone/teleport)
+	Ritual
+		gold  = 3000
+		exp   = 30000
+		items = /obj/items/bagofgoodies
 	Easter
 		exp   = 10000
 		items = /obj/items/wearable/wands/maple_wand
