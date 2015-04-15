@@ -173,7 +173,7 @@ mob/Spells/verb/Disperse()
 
 mob/Spells/verb/Herbificus()
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,antiTeleport=1))
 		var/obj/redroses/p = new
 		p:loc = locate(src.x,src.y-1,src.z)
 		flick('dlo.dmi',p)
@@ -410,7 +410,7 @@ mob/Spells/verb/Serpensortia()
 				Respawn(D)
 mob/Spells/verb/Herbificus_Maxima()
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,antiTeleport=1))
 		var/obj/redroses/a = new
 		var/obj/redroses/b = new
 		var/obj/redroses/c = new
@@ -439,7 +439,7 @@ mob/Spells/verb/Shelleh()
 
 mob/Spells/verb/Solidus()
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,antiTeleport=1))
 		var/obj/stone/p = new /obj/stone
 		p:loc = locate(src.x,src.y-1,src.z)
 		flick('teleboom.dmi',p)

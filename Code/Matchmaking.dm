@@ -1,6 +1,6 @@
 var/const
 	WINS_REQ   = 10
-	RANK_LIMIT = 300
+	RANK_LIMIT = 350
 
 var/list/duel_chairs = list()
 
