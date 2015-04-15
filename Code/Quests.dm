@@ -1305,7 +1305,7 @@ quest
 		reward = /questReward/Gold
 
 		Clear
-			desc = "Tom wants you to clear his cellar of rats, kill 35 rats and pull the level at the end of the cellar."
+			desc = "Tom wants you to clear his cellar of rats, kill 35 rats and pull the lever at the end of the cellar."
 			reqs = list("Lever" = 1, "Kill Rat" = 35)
 		Reward
 			desc = "Go back to Tom to get your reward!"
