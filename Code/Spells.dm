@@ -1941,7 +1941,7 @@ obj
 				var/bleed
 				for(var/mob/A in L)
 					if(A.invisibility == 2) continue
-					if(owner.monster&&A.monster) continue
+					if(owner&&owner.monster&&A.monster) continue
 					if(damage)
 						A.Attacked(src.icon_state, damage)
 						if(A.canBleed) bleed = A
