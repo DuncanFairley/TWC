@@ -29,10 +29,11 @@ area
 
 obj/items
 	var
-		dropable    = 1
-		takeable    = 1
-		destroyable = 0
-		price       = 0
+		dropable      = 1
+		takeable      = 1
+		destroyable   = 0
+		price         = 0
+		tmp/antiTheft = 0
 
 	mouse_over_pointer = MOUSE_HAND_POINTER
 
@@ -43,7 +44,7 @@ obj/items/Click()
 obj/items/verb/Take()
 	set src in oview(1)
 
-	if(loc.loc:antiTheft && owner && owner != usr.ckey)
+	if((antiTheft || loc.loc:antiTheft) && owner && owner != usr.ckey)
 		usr << errormsg("This item isn't yours, a charm prevents you from picking it up.")
 		return
 
