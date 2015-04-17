@@ -1149,7 +1149,7 @@ mob/Player
 							t=check(t)//run the text through the cleaner
 							t = copytext(t,1,500)
 							if(copytext(t,1,5)=="\[me]")
-								hearers(client.view)<<"[usr] [copytext(t,5)]"
+								hearers(client.view)<<"<i>[usr] [copytext(t,5)]</i>"
 							else if(copytext(t,1,4)=="\[w]")
 								if(name == "Deatheater")
 									range(1)<<"<font size=2><font color=red><b><font color=red>[usr]</font> whispers: <i>[copytext(t,4)]</i>"
