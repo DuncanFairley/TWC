@@ -211,7 +211,7 @@ obj/teleport
 	desert_exit
 		icon = 'misc.dmi'
 		icon_state = "sandstorm_exit"
-		dest = "CoS Floor 3"
+		dest = "teleportPointCoS Floor 3"
 		invisibility = 0
 		Teleport(mob/M)
 			if(prob(10)) return
@@ -723,7 +723,7 @@ world
 	name = "Harry Potter: The Wizards' Chronicles"
 	turf=/turf/blankturf
 	view="17x17"
-var/world/VERSION = "16.26"
+var/world/VERSION = "16.27"
 
 world/proc/playtimelogger()
 	return
@@ -1995,7 +1995,6 @@ mob/proc/Death_Check(mob/killer = src)
 
 				src.followplayer=0
 				Zitt = 0
-				src.status=""
 				src.HP=src.MHP+extraMHP
 				src.MP=src.MMP+extraMMP
 				src.updateHPMP()

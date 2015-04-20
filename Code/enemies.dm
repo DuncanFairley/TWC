@@ -224,16 +224,26 @@ mob
 
 				rate *= DropRateModifier
 
+				var/obj/items/prize
 				for(var/i in drops)
 					if(prob(text2num(i) * rate))
 						var/t = istype(drops[i], /list) ? pick(drops[i]) : drops[i]
-						new t (loc)
+						prize = new t (loc)
 						break
 
 				if(name == initial(name) && prob(0.1))
 					var/obj/items/wearable/title/Slayer/t = new (loc)
 					t.title = "[name] Slayer"
 					t.name  = "Title: [name] Slayer"
+					prize = t
+
+				if(prize)
+					prize.antiTheft = 1
+					prize.owner     = killer.ckey
+					spawn(150)
+						if(prize)
+							prize.antiTheft = 0
+							prize.owner     = null
 
 			proc/state()
 				var/lag = 10
@@ -975,7 +985,7 @@ mob
 					if(++floatingEyesKilled >= 1000)
 						floatingEyesKilled = 0
 						Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
-						new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,6)))
+						new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
 
 				Blocked()
 					density = 0

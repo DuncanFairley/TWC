@@ -29,10 +29,11 @@ area
 
 obj/items
 	var
-		dropable    = 1
-		takeable    = 1
-		destroyable = 0
-		price       = 0
+		dropable      = 1
+		takeable      = 1
+		destroyable   = 0
+		price         = 0
+		tmp/antiTheft = 0
 
 	mouse_over_pointer = MOUSE_HAND_POINTER
 
@@ -43,7 +44,7 @@ obj/items/Click()
 obj/items/verb/Take()
 	set src in oview(1)
 
-	if(loc.loc:antiTheft && owner && owner != usr.ckey)
+	if((antiTheft || loc.loc:antiTheft) && owner && owner != usr.ckey)
 		usr << errormsg("This item isn't yours, a charm prevents you from picking it up.")
 		return
 
@@ -3387,7 +3388,10 @@ obj/items/crystal
 		ignoreItem = TRUE
 
 obj/items/magic_stone
-	var/tmp/inUse = FALSE
+	var
+		charges = 1
+		tmp/inUse = FALSE
+
 
 	icon = 'trophies.dmi'
 
@@ -3395,6 +3399,8 @@ obj/items/magic_stone
 		icon = 'Crystal.dmi'
 		name = "teleport stone"
 		var/dest
+		charges = 3
+		desc = "Used for teleportation. 3 charges remaining."
 
 		circle(mob/Player/p)
 			if(dest)
@@ -3415,6 +3421,7 @@ obj/items/magic_stone
 				hearers(p) << infomsg("[p.name] disappears in a flash of light.")
 				p.Transfer(t)
 				hearers(p) << infomsg("[p.name] appears in a flash of light.")
+				desc = "Used for teleportation. [charges - 1] charges remaining."
 
 	weather
 		acid
@@ -3492,7 +3499,7 @@ obj/items/magic_stone
 		if(!canUse(p,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=3000,antiTeleport=1))
 			return
 		p.MP -= 3000
-
+		p.updateHPMP()
 		if(!(p.loc && (istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))))
 			p << errormsg("You can only use this outside.")
 			return
@@ -3524,11 +3531,12 @@ obj/items/magic_stone
 			if(p && source)
 				if(p.loc == tmploc)
 					source.effect(p)
-					source.loc = null
-					p.Resort_Stacking_Inv()
+					if(!--source.charges)
+						source.loc = null
+						p.Resort_Stacking_Inv()
 				else
-					source.inUse = FALSE
 					p << errormsg("The ritual failed.")
+				source.inUse = FALSE
 			o.loc = null
 
 obj

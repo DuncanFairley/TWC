@@ -915,26 +915,30 @@ mob/TalkNPC
 			if(pointer)
 				if(pointer.stage)
 					if(p.checkQuestProgress("Zerf"))
-						if(p.level == lvlcap)
-							p << npcsay("Zerf: Good job! Since you're at level cap, why not try some matchmaking in the ranked arena?")
-						else
-							p << npcsay("Zerf: Good job! When you reach the level cap, why not try some matchmaking in the ranked arena?")
+						p << npcsay("Zerf: Good job but we're just getting started!")
 					else
 						p << npcsay("Zerf: You aren't going to get any better by not fighting!")
-					return
 				else
-					if(p.level == lvlcap)
-						p << npcsay("Zerf: Why not try some matchmaking in the ranked arena?")
+					pointer = p.questPointers["Culling the Herd"]
+					if(!pointer)
+						p << npcsay("Zerf: Let's kill some people... A lot of people!")
+						p.startQuest("Culling the Herd")
+						return
+
+					if(pointer.stage)
+						if(p.checkQuestProgress("Zerf"))
+							p << npcsay("Zerf: Mawhahahaha! THEY'RE ALL DEAD!")
+						else
+							p << npcsay("Zerf: Kill or be killed, my friend.")
 					else
-						p << npcsay("Zerf: When you reach level cap, why not try some matchmaking in the ranked arena?")
+						if(p.level == lvlcap)
+							p << npcsay("Zerf: Why not try some matchmaking in the ranked arena?")
+						else
+							p << npcsay("Zerf: When you reach level cap, why not try some matchmaking in the ranked arena?")
 
 			else
-				if(p.level == lvlcap)
-					p << npcsay("Zerf: So, you've reached the level cap, but how much fighting have you done? Why don't you try and fight a bunch of players?")
-					p.startQuest("PvP Introduction")
-				else
-					p << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
-					p.startQuest("PvP Introduction")
+				p << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
+				p.startQuest("PvP Introduction")
 
 	Cassandra
 		icon_state="alyssa"
@@ -1025,6 +1029,21 @@ quest
 	var/list/reqs
 	var/questReward/reward
 
+	Ritual
+		name   = "Demonic Ritual"
+		desc   = "Tammie told you about a ritual capable of increasing your power."
+		reward = /questReward/Ritual
+
+		Essence
+			desc = "Find demonic essences for the ritual."
+			reqs = list("Demonic Essence" = 10)
+		TrollingEssence
+			desc = "It appears one of the essences you've collected disappeared, find another."
+			reqs = list("Demonic Essence" = 1)
+		Reward
+			desc = "Go back to Tammie for your reward!"
+			reqs = list("Tammie" = 1)
+
 	Easter
 		name   = "Sweet Easter"
 		desc   = "The easter bunny wants you to help him find a new brand of chocolate he made but seem to have lost."
@@ -1047,6 +1066,18 @@ quest
 			reqs = list("Kill Player" = 20)
 		Reward
 			desc = "Go back to Zerf to get your reward!"
+			reqs = list("Zerf" = 1)
+
+	PVP2
+		name   = "Culling the Herd"
+		desc   = "Zerf wants you to fight a massive amount of players... I wonder what he gets out of it."
+		reward = /questReward/PVP2
+
+		Kill
+			desc = "Kill 1000 players."
+			reqs = list("Kill Player" = 1000)
+		Reward
+			desc = "Go back to the Zerf to get your reward!"
 			reqs = list("Zerf" = 1)
 
 	Extermination
@@ -1274,7 +1305,7 @@ quest
 		reward = /questReward/Gold
 
 		Clear
-			desc = "Tom wants you to clear his cellar of rats, kill 35 rats and pull the level at the end of the cellar."
+			desc = "Tom wants you to clear his cellar of rats, kill 35 rats and pull the lever at the end of the cellar."
 			reqs = list("Lever" = 1, "Kill Rat" = 35)
 		Reward
 			desc = "Go back to Tom to get your reward!"
@@ -1419,7 +1450,6 @@ questReward
 		gold  = 16000
 		exp   = 160000
 		items = list(/obj/items/magic_stone/teleport,
-		             /obj/items/magic_stone/teleport,
 		             /obj/items/magic_stone/teleport)
 	RoyaleShoes
 		gold  = 5000
@@ -1436,6 +1466,20 @@ questReward
 		exp   = 15000
 		items = list(/obj/items/bagofgoodies,
 			         /obj/items/wearable/wands/salamander_wand)
+	PVP2
+		gold  = 60000
+		exp   = 60000
+		items = list(/obj/items/bagofgoodies,
+			         /obj/items/artifact,
+			         /obj/items/artifact,
+			         /obj/items/artifact,
+			         /obj/items/magic_stone/teleport,
+			         /obj/items/magic_stone/teleport,
+			         /obj/items/magic_stone/teleport)
+	Ritual
+		gold  = 3000
+		exp   = 30000
+		items = /obj/items/bagofgoodies
 	Easter
 		exp   = 10000
 		items = /obj/items/wearable/wands/maple_wand
