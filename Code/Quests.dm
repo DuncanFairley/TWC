@@ -40,11 +40,11 @@ mob/TalkNPC
 				usr << npcsay("Palmer: Have a good day.")
 			else
 				usr << "Hello there young student. I am a Former Professor at Hogwarts. My name is Professor Palmer."
-				sleep(20)
-				usr << "<br>I was asked by the Headmaster to teach you about quests and the quest book. Oh, and to give you this."
-				alert("Professor Palmer hands you a small black book")
 				new/obj/items/questbook(usr)
+				alert("Professor Palmer hands you a small black book")
 				usr << "<br>This is your quest book, inside you keep track of all your accomplished quests."
+				sleep(20)
+				usr << "<br>I was asked by the Headmaster to teach you about quests and to present you with that quest book."
 				sleep(50)
 				usr << "<br>If you lose your quest book, you can come back here and get a new one."
 				sleep(30)
