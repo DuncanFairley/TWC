@@ -163,7 +163,7 @@ mob
 						GenerateNameOverlay(13,116,219)
 					if("Ministry")
 						GenerateNameOverlay(255,255,255)
-				if(locate(/mob/GM/verb/End_Floor_Guidence) in usr.verbs) usr.Gm = 1
+				if(locate(/mob/GM/verb/GM_chat) in usr.verbs) usr.Gm = 1
 			else
 				for(var/client/C)
 					if(C.eye)
@@ -192,7 +192,7 @@ mob
 				usr.trnsed = 0
 				usr.derobe=0
 				usr:ApplyOverlays()
-				if(locate(/mob/GM/verb/End_Floor_Guidence) in usr.verbs) usr.Gm = 1
+				if(locate(/mob/GM/verb/GM_chat) in usr.verbs) usr.Gm = 1
 				usr << "You slip off your Death Eater robes."
 				usr.name = usr.prevname
 				usr.underlays = list()
