@@ -121,7 +121,7 @@ obj/var/loco
 mob
 	proc
 		clanrobed()
-			if((locate(/mob/GM/verb/End_Floor_Guidence) in usr.verbs) && (derobe||aurorrobe))
+			if((locate(/mob/GM/verb/GM_chat) in usr.verbs) && (derobe||aurorrobe))
 				src << errormsg("You cannot use any GM verbs while wearing clan clothing.")
 				return 1
 			else
