@@ -103,6 +103,9 @@ mob/test/verb
 		set category = "Vault Debug"
 		if(fexists("[swapmaps_directory]/tmpl_vault[vault].sav"))
 			p.change_vault(vault)
+			usr << infomsg("Vault changed")
+		else
+			usr << errormsg("Vault don't exist.")
 
 mob/Player/proc/change_vault(var/vault)
 	var/swapmap/map = SwapMaps_Find("[ckey]")
@@ -131,6 +134,13 @@ mob/Player/proc/change_vault(var/vault)
 	if(!map)
 		world.log << "ERROR: proc: change_vault() Could not create \"[vault]\" swap map template (vault[vault])"
 		return 0
+
+	if(vault == "_hq")
+		for(var/i = 1 to 5)
+			var/obj/Hogwarts_Door/d = locate("vaultDoor[i]")
+			d.tag = null
+			d.vaultOwner = ckey
+
 	map.SetID("[src.ckey]")
 	map.Save()
 	return 1
@@ -2218,6 +2228,9 @@ obj/Banker
 	icon = 'NPCs.dmi'
 	density=1
 	mouse_over_pointer = MOUSE_HAND_POINTER
+
+	var/goldinbank
+
 	New()
 		..()
 		spawn(1) icon_state = "goblin[rand(1,3)]"
@@ -2228,6 +2241,16 @@ obj/Banker
 			Talk()
 		else
 			usr << errormsg("You need to be closer.")
+
+	proc
+		addGold(var/amount, mob/Player/p)
+			if(goldinbank != null)
+				goldinbank   += amount
+			else
+				p.goldinbank += amount
+		getGold(mob/Player/p)
+			return goldinbank != null ? goldinbank : p.goldinbank
+
 
 	verb
 		Examine()
@@ -2271,24 +2294,24 @@ obj/Banker
 					if(get_dist(usr,src)>4)return
 					usr << "You deposit [comma(heh)] gold."
 					usr.gold -= heh
-					usr.goldinbank += heh
-					usr << "You now have [comma(usr.goldinbank)] gold in the bank."
+					addGold(heh)
+					usr << "You now have [comma(getGold(usr))] gold in the bank."
 				if("Withdraw")
-					var/heh = input("You have [comma(usr.goldinbank)] gold in the bank. How much do you wish to withdraw?","Withdraw",usr.goldinbank) as null|num
+					var/heh = input("You have [comma(getGold(usr))] gold in the bank. How much do you wish to withdraw?","Withdraw",getGold(usr)) as null|num
 					if(heh==null)return
 					if (heh < 0)
 						alert("Don't try cheating me!","Bank Keeper")
 						return()
-					if (heh > usr.goldinbank)
+					if (heh > getGold(usr))
 						alert("You don't have that much in your bank account!", "Bank Keeper")
 						return()
 					if(get_dist(usr,src)>4)return
 					usr << "You withdraw [comma(heh)] gold."
 					usr.gold += heh
-					usr.goldinbank -= heh
-					usr << "You now have [comma(usr.goldinbank)] gold in the bank."
+					addGold(-heh)
+					usr << "You now have [comma(getGold(usr))] gold in the bank."
 				if("Balance")
-					usr << "You have [comma(usr.goldinbank)] gold in the bank."
+					usr << "You have [comma(getGold(usr))] gold in the bank."
 
 
 obj

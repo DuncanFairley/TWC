@@ -147,6 +147,9 @@ obj
 			lastopener
 			door=1
 
+			claimed
+			vaultOwner
+
 
 		gate
 			icon = 'gate.dmi'
@@ -198,9 +201,25 @@ obj
 			var/turf/T = src.loc
 			if(T)T.flyblock=2
 
-			spawn()
-				density = 1
+			spawn(1)
+				density    = 1
 				icon_state = "closed"
+				bumpable   = 1
+				door       = 1
+
+				if(!vaultOwner)
+					verbs -= /obj/Hogwarts_Door/verb/Claim
+		verb/Claim()
+			set src in oview(1)
+
+			if(!claimed)
+				claimed = usr.ckey
+				usr << infomsg("This door will now open only to you")
+
+			else if(vaultOwner == usr.ckey || claimed == usr.ckey)
+				claimed = null
+				usr << infomsg("This door is now unclaimed")
+
 
 		proc/Bumped(mob/Player/p)
 
@@ -209,6 +228,9 @@ obj
 				passtry = copytext(passtry, 1, 500)
 				if(passtry != pass)	return
 				p << "<font color=green><b>Authorization Confirmed."
+
+			if(vaultOwner && claimed && usr.ckey != claimed && usr.ckey != vaultOwner)
+				return
 
 			if(icon_state != "open")
 				bumpable = 0
