@@ -115,10 +115,14 @@ obj/items/wearable
 		quality = 0
 
 obj/items/wearable/Destroy(var/mob/Player/owner)
-	. = ..(owner)
-	if(. == 1) //If user chooses to destroy
+	if(alert(owner,"Are you sure you wish to destroy your [src.name]?",,"Yes","Cancel") == "Yes")
 		if(src in owner.Lwearing)
-			owner.Lwearing.Remove(src)
+			Equip(owner)
+		var/obj/item = src
+		src = null
+		del(item)
+		owner.Resort_Stacking_Inv()
+		return 1
 obj/items/wearable/Drop()
 	var/mob/Player/owner = usr
 	if(src in owner.Lwearing)
