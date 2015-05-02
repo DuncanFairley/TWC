@@ -1200,7 +1200,8 @@ mob/Player
 											usr.flying = 0
 											usr.density = 1
 											usr << "You've been knocked off your broom."
-										var/obj/dest = locate("ministryentrance")
+										var/atom/a = locate("ministryentrance")
+										var/turf/dest = isturf(a) ? a : a.loc
 										for(var/client/C)
 											if(C.eye)
 												if(C.eye == usr && C.mob != usr)
