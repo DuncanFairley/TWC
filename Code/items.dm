@@ -991,6 +991,8 @@ obj/items/wearable/scarves/white_scarf
 	icon = 'scarf_white.dmi'
 obj/items/wearable/scarves/duel_scarf
 	icon = 'scarf_dueling.dmi'
+obj/items/wearable/scarves/sunset_scarf
+	icon = 'scarf_sunset.dmi'
 
 obj/items/wearable/scarves/lucifer_scarf
 	icon = 'scarf_lucifer.dmi'
@@ -3854,7 +3856,7 @@ obj/roulette
 			o.pixel_y = 68 * sin(angle)
 
 			animate(o, pixel_x = 68 * cos(getAngle(angle + angle_change)),
-			           pixel_y = 68 * sin(getAngle(angle + angle_change)), time = 10, loop = 6)
+			           pixel_y = 68 * sin(getAngle(angle + angle_change)), time = 10, loop = 4)
 
 			for(var/i = 2 to L.len)
 				animate(pixel_x = 68 * cos(getAngle(angle + (angle_change*i))),
@@ -3862,7 +3864,7 @@ obj/roulette
 
 			angle += angle_change
 
-			spawn(L.len * 50 + (L.len + 4) * 10)
+			spawn(L.len * 30 + (L.len + 4) * 12)
 				o.loc = null
 
 		angle = rand(0, L.len - 1) * angle_change
@@ -3870,13 +3872,13 @@ obj/roulette
 		pixel_y = 64 * sin(angle)
 
 		animate(src, pixel_x = 64 * cos(getAngle(angle - angle_change)),
-		             pixel_y = 64 * sin(getAngle(angle - angle_change)), time = 5, loop = 10)
+		             pixel_y = 64 * sin(getAngle(angle - angle_change)), time = 5, loop = 6)
 
 		for(var/i = 2 to L.len)
 			animate(pixel_x = 64 * cos(getAngle(angle - (angle_change*i))),
 			        pixel_y = 64 * sin(getAngle(angle - (angle_change*i))), time = 5)
 
-		sleep(L.len * 50)
+		sleep(L.len * 30)
 		animate(src, pixel_x = 64 * cos(getAngle(angle - angle_change)),
 		             pixel_y = 64 * sin(getAngle(angle - angle_change)), time = 10, loop = 1)
 
