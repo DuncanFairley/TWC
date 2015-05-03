@@ -3790,6 +3790,10 @@ obj/items
 				set src in usr
 
 				var/obj/items/key = locate(text2path("/obj/items/key/[name]")) in usr
+
+				if(!key)
+					key = locate(/obj/items/key/Master) in usr
+
 				if(key)
 
 					var/obj/roulette/r = new (usr.loc)
@@ -3838,6 +3842,9 @@ obj/items
 
 	key
 		icon = 'ChestKey.dmi'
+
+		Master
+			icon_state = "master"
 
 		Wizard
 			icon_state = "blue"
