@@ -3833,12 +3833,12 @@ obj/items
 
 		Sunset
 			icon_state = "purple"
-			drops = list(/obj/items/wearable/shoes/cyan_shoes         = 29,
+			drops = list(/obj/items/wearable/scarves/sunset_scarf     = 4,
+						 /obj/items/wearable/shoes/cyan_shoes         = 30,
 	                     /obj/items/wearable/shoes/darkblue_shoes     = 12,
 	                     /obj/items/wearable/scarves/darkblue_scarf   = 21,
 	                     /obj/items/wearable/shoes/darkpurple_shoes   = 12,
-	                     /obj/items/wearable/scarves/darkpurple_scarf = 21,
-	                     /obj/items/wearable/scarves/sunset_scarf     = 5)
+	                     /obj/items/wearable/scarves/darkpurple_scarf = 21)
 
 	key
 		icon = 'ChestKey.dmi'
