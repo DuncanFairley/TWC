@@ -743,6 +743,7 @@ obj/items/wearable/wands/duel_wand
 
 obj/items/wearable/wigs
 	price = 500000
+	bonus = 0
 	desc = "A wig to hide those dreadful split ends."
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
