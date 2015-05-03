@@ -3505,11 +3505,11 @@ obj/items/magic_stone
 
 		if(!canUse(p,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=3000,antiTeleport=1))
 			return
-		p.MP -= 3000
-		p.updateHPMP()
 		if(!(p.loc && (istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))))
 			p << errormsg("You can only use this outside.")
 			return
+		p.MP -= 3000
+		p.updateHPMP()
 
 		if(inUse) return
 		inUse = TRUE

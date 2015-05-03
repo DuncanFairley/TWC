@@ -678,10 +678,9 @@ table.file
 	background-color:#FAFAFA;
 	border-collapse: collapse;
 	text-align: left;
-	width:103%;
+	width:100%;
 	font: normal 13px/100% Verdana, Tahoma, sans-serif;
 	border: solid 1px #E5E5E5;
-	margin: 3px;
 	padding:3px;
 }
 tr.file_white

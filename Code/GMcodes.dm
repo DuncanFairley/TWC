@@ -402,13 +402,13 @@ mob/GM
 			//Reason = html_encode(Reason)
 				if(src.name == "Deatheater")
 					for(var/client/C)
-						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/End_Floor_Guidence) in C.mob.verbs)
+						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/GM_chat) in C.mob.verbs)
 							C<<"<b><font color=silver size=2>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font>"
 					chatlog << "<b><font size=2 color=silver>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font><br>"
 
 				else
 					for(var/client/C)
-						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/End_Floor_Guidence) in C.mob.verbs)
+						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/GM_chat) in C.mob.verbs)
 							C<<"<b><font color=silver size=2>GM> <font size=2>[usr]:</font></b> <font color=white>[messsage]</font>"
 					chatlog << "<b><font size=2 color=silver>GM> [usr]:</font></b> <font color=white>[messsage]</font><br>"
 

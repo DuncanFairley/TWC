@@ -125,7 +125,7 @@ client/proc
 			mob.icon = mob.baseicon
 			mob.derobe=0
 			mob:ApplyOverlays()
-			if(locate(/mob/GM/verb/End_Floor_Guidence) in mob.verbs) mob.Gm = 1
+			if(locate(/mob/GM/verb/GM_chat) in mob.verbs) mob.Gm = 1
 			mob << "You slip off your Death Eater robes."
 			mob.name = mob.prevname
 			mob.underlays = list()
@@ -165,7 +165,7 @@ client/proc
 					mob.GenerateNameOverlay(13,116,219)
 				if("Ministry")
 					mob.GenerateNameOverlay(255,255,255)
-			if(locate(/mob/GM/verb/End_Floor_Guidence) in mob.verbs) mob.Gm = 1
+			if(locate(/mob/GM/verb/GM_chat) in mob.verbs) mob.Gm = 1
 		if(qry.RowCount() > 0)
 			qry.NextRow()
 			var/list/row_data = qry.GetRowData()
