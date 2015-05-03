@@ -3765,3 +3765,159 @@ obj/memory_rune
 		name = "CoS Floor 2"
 	CoSFloor3
 		name = "CoS Floor 3"
+
+
+
+obj/items
+
+
+	chest
+		icon = 'Chest.dmi'
+
+		var/list/drops
+
+		Click()
+			if(src in usr)
+				Open()
+			else
+				..()
+
+		verb
+			Open()
+				set src in usr
+
+				var/obj/items/key = locate(text2path("/obj/items/key/[name]")) in usr
+				if(key)
+
+					var/obj/roulette/r = new (usr.loc)
+					r.getPrize(drops, usr.name, usr.ckey)
+
+					usr << infomsg("You opened a [name] chest!")
+
+					key.loc = null
+					loc     = null
+					usr:Resort_Stacking_Inv()
+
+				else
+					usr << errormsg("You don't have a [name] key to open this chest!")
+
+		Test
+			icon_state = "blue"
+			drops = list(/obj/items/wearable/scarves/black_scarf  = 1,
+	                     /obj/items/wearable/scarves/green_scarf  = 2,
+	                     /obj/items/wearable/scarves/red_scarf    = 1,
+	                     /obj/items/wearable/scarves/blue_scarf   = 1,
+	                     /obj/items/wearable/scarves/yellow_scarf = 1,
+	                     /obj/items/wearable/scarves/orange_scarf = 1)
+
+	key
+		icon = 'ChestKey.dmi'
+
+		Test
+			icon_state = "blue"
+
+
+obj/roulette
+	icon = 'roulette.dmi'
+
+	var/playerName
+	var/playerCkey
+
+	proc/getAngle(angle)
+
+		if(angle < 0)         angle += 360
+		else if(angle >= 360)  angle -= 360
+
+		return angle
+
+	proc/getPrize(list/L, pname, pckey)
+		set waitfor = FALSE
+
+		playerName = pname
+		playerCkey = pckey
+
+		var/prize = pickweight(L)
+		var/prize_angle
+
+		var/angle = 0
+		var/angle_change = 360 / L.len
+
+		for(var/item in L)
+			if(!prize_angle && item == prize)
+				prize_angle = angle
+
+			var/obj/o = new (loc)
+			o.overlays += item
+
+			o.pixel_x = 68 * cos(angle)
+			o.pixel_y = 68 * sin(angle)
+
+			animate(o, pixel_x = 68 * cos(getAngle(angle + angle_change)),
+			           pixel_y = 68 * sin(getAngle(angle + angle_change)), time = 10, loop = 6)
+
+			for(var/i = 2 to L.len)
+				animate(pixel_x = 68 * cos(getAngle(angle + (angle_change*i))),
+				        pixel_y = 68 * sin(getAngle(angle + (angle_change*i))), time = 10)
+
+			angle += angle_change
+
+			spawn(L.len * 50 + (L.len + 4) * 10)
+				o.loc = null
+
+		angle = rand(0, L.len - 1) * angle_change
+		pixel_x = 64 * cos(angle)
+		pixel_y = 64 * sin(angle)
+
+		animate(src, pixel_x = 64 * cos(getAngle(angle - angle_change)),
+		             pixel_y = 64 * sin(getAngle(angle - angle_change)), time = 5, loop = 10)
+
+		for(var/i = 2 to L.len)
+			animate(pixel_x = 64 * cos(getAngle(angle - (angle_change*i))),
+			        pixel_y = 64 * sin(getAngle(angle - (angle_change*i))), time = 5)
+
+		sleep(L.len * 50)
+		animate(src, pixel_x = 64 * cos(getAngle(angle - angle_change)),
+		             pixel_y = 64 * sin(getAngle(angle - angle_change)), time = 10, loop = 1)
+
+		for(var/i = 2 to L.len + 1)
+			animate(pixel_x = 64 * cos(getAngle(angle - (angle_change*i))),
+			        pixel_y = 64 * sin(getAngle(angle - (angle_change*i))), time = 10)
+
+			if(getAngle(angle - (angle_change*i)) == prize_angle) break
+
+		sleep((L.len + 2) * 10)
+
+		emit(loc    = src,
+			 ptype  = /obj/particle/magic,
+		     amount = 50,
+		     angle  = new /Random(1, 359),
+		     speed  = 2,
+		     life   = new /Random(15,25))
+
+		var/obj/items/i = new prize (loc)
+		ohearers(src) << infomsg("<b>[playerName] opened a case and won a [i.name]!</b>")
+
+		i.antiTheft = 1
+		i.owner     = playerCkey
+		spawn(600)
+			if(i)
+				i.antiTheft = 0
+				i.owner     = null
+
+		loc = null
+
+
+proc/pickweight(list/L)
+	var/totweight = 0
+	var/item
+	for(item in L)
+		var/weight = L[item]
+		if(isnull(weight))
+			weight = 1; L[item] = 1
+		totweight += weight
+	totweight *= rand()
+	for(var/i=1, i<=L.len, ++i)
+		var/weight = L[L[i]]
+		totweight -= weight
+		if(totweight < 0)
+			return L[i]
