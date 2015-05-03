@@ -33,15 +33,16 @@ var/radiosonginfo = {"
 <html>
 <head>
 <title>TWC Radio</title>
-<meta http-equiv="REFRESH" content="0;url=http://twcradio.wizardschronicles.com"></HEAD>
+<script src='http://media.spacial.com/widgets/widget.js?env=production&his=6&queue=6&lib=20&theme=light&themeType=defined'></script></head>
 <BODY>
-Redirecting.
+<div id='widgets-now-67897-123d04df98465e8bd54999374c820335c0a90f81'></div>
+<div id='widgets-his-67897-123d04df98465e8bd54999374c820335c0a90f81'></div>
 </BODY>
 </HTML>
 "}
 client/verb/songinfo()
 	set hidden = 1
-	usr << browse(radiosonginfo,"window=1")
+	usr << browse(radiosonginfo,"window=1;size=600x500")
 var/tmp/radioEnabled = 0
 mob/GM/verb/Toggle_TWC_Radio()
 	set category = "DJ"
