@@ -219,8 +219,7 @@ obj/teleport
 				unload_vault()
 
 	desert_exit
-		icon = 'misc.dmi'
-		icon_state = "sandstorm_exit"
+		icon = 'DesertTeleport.dmi'
 		dest = "teleportPointCoS Floor 3"
 		invisibility = 0
 		Teleport(mob/M)
@@ -2294,7 +2293,7 @@ obj/Banker
 					if(get_dist(usr,src)>4)return
 					usr << "You deposit [comma(heh)] gold."
 					usr.gold -= heh
-					addGold(heh)
+					addGold(heh, usr)
 					usr << "You now have [comma(getGold(usr))] gold in the bank."
 				if("Withdraw")
 					var/heh = input("You have [comma(getGold(usr))] gold in the bank. How much do you wish to withdraw?","Withdraw",getGold(usr)) as null|num
@@ -2308,7 +2307,7 @@ obj/Banker
 					if(get_dist(usr,src)>4)return
 					usr << "You withdraw [comma(heh)] gold."
 					usr.gold += heh
-					addGold(-heh)
+					addGold(-heh, usr)
 					usr << "You now have [comma(getGold(usr))] gold in the bank."
 				if("Balance")
 					usr << "You have [comma(getGold(usr))] gold in the bank."
