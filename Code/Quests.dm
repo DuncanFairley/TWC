@@ -1403,7 +1403,6 @@ questReward
 	Mon1
 		gold = 1000
 		exp  = 10000
-		items = /obj/items/lamps/double_exp_lamp
 	Mon2
 		gold = 2000
 		exp  = 20000
@@ -1411,7 +1410,6 @@ questReward
 	Mon3
 		gold = 3000
 		exp  = 30000
-		items = /obj/items/lamps/double_exp_lamp
 	Mon4
 		gold  = 4000
 		exp   = 40000
@@ -1420,7 +1418,6 @@ questReward
 	Mon5
 		gold = 5000
 		exp  = 50000
-		items = /obj/items/lamps/triple_exp_lamp
 	Mon6
 		gold = 6000
 		exp  = 60000
@@ -1428,7 +1425,6 @@ questReward
 	Mon7
 		gold = 7000
 		exp  = 70000
-		items = /obj/items/lamps/quadaple_exp_lamp
 	Mon8
 		gold = 8000
 		exp  = 80000
@@ -1441,7 +1437,6 @@ questReward
 	Mon10
 		gold = 10000
 		exp  = 100000
-		items = /obj/items/lamps/quadaple_exp_lamp
 	Mon11
 		gold = 11000
 		exp  = 110000
@@ -1449,7 +1444,7 @@ questReward
 	Mon12
 		gold = 12000
 		exp  = 120000
-		items = /obj/items/lamps/quadaple_exp_lamp
+		items = /obj/items/lamps/triple_exp_lamp
 	Mon13
 		gold  = 13000
 		exp   = 130000
