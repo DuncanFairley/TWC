@@ -8,8 +8,8 @@
 	invisibility=2
 mob
 	ministryfinancer
-		icon_state="yellow"
-		icon = 'misc.dmi'
+		icon_state="divo"
+		icon = 'NPCs.dmi'
 		NPC = 1
 		Gm = 1
 		player=1
