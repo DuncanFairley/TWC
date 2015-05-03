@@ -445,7 +445,7 @@ obj/quidditch
 							Players << "\red[points] point[points != 1 ? "s have" : " has"] been added to [user.House]!"
 
 					else
-						Players << "[user] has caught the [name]!"
+						Players << infomsg("[user] has caught the [name]!")
 					del(src)
 					return
 				else

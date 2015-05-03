@@ -284,4 +284,4 @@ mob/verb/Emote(t as text)
 		return
 	t=check(t)//run the text through the cleaner
 	t = copytext(t,1,350)
-	hearers()<<"[usr] [t]"
+	hearers()<<"<i>[usr] [t]</i>"
