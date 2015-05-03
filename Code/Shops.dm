@@ -838,6 +838,7 @@ mob/TalkNPC/Vault_Salesman
 		itemlist["2 Rooms Vault - 10,000,000 gold and 100 artifacts"] = list("_2rooms", 100)
 		itemlist["4 Rooms Vault - 12,000,000 gold and 120 artifacts"] = list("_4rooms", 120)
 		itemlist["Luxury Vault - 20,000,000 gold and 200 artifacts"]  = list("_luxury", 200)
+		itemlist["HQ Vault - 24,000,000 gold and 240 artifacts"]      = list("_hq",     240)
 
 	Talk()
 		set src in oview(2)

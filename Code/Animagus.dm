@@ -43,7 +43,8 @@ turf/gotoministry
 					view(src) << "<b>Toilet</b>: <i>The Ministry of Magic is not currently open to you. Sorry!</i>"
 				else
 					viewers() << "[usr] disappears."
-					var/obj/dest = locate("ministryentrance")
+					var/atom/t = locate("ministryentrance")
+					var/obj/dest = isturf(t) ? t : t.loc
 					if(usr.flying)
 						var/mob/Player/user = usr
 						for(var/obj/items/wearable/brooms/Broom in user.Lwearing)

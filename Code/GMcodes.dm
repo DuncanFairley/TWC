@@ -1465,6 +1465,8 @@ mob/GM
 							return
 
 						var/i = pick(prizeItems)
+						prizeItems -= i
+
 						var/obj/items/item_prize = new i (p)
 						p.Resort_Stacking_Inv()
 						hearers() << infomsg("<i>[name] gives [p] [item_prize.name].</i>")

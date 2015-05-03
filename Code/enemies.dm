@@ -491,7 +491,9 @@ mob
 						var/proj = "gum"
 						canBleed = FALSE
 
-						drops = list("100" = list(/obj/items/wearable/title/Ghost,
+						drops = list("100" = list(/obj/items/key/Basic,
+						                          /obj/items/key/Wizard,
+						                          /obj/items/wearable/title/Ghost,
 												  /obj/items/lamps/triple_drop_rate_lamp,
 												  /obj/items/lamps/triple_gold_lamp,
 												  /obj/items/wearable/afk/heart_ring))
@@ -590,7 +592,9 @@ mob
 						var/tmp/fired = 0
 						extraDmg = 400
 
-						drops = list("100" = list(/obj/items/wearable/title/Snowflakes,
+						drops = list("100" = list(/obj/items/key/Basic,
+						                          /obj/items/key/Pentakill,
+						                          /obj/items/wearable/title/Snowflakes,
 												  /obj/items/lamps/triple_drop_rate_lamp,
 												  /obj/items/lamps/triple_gold_lamp,
 												  /obj/items/wearable/afk/hot_chocolate))
@@ -712,7 +716,8 @@ mob
 					..()
 					transform *= 2
 
-				drops = list("10"   = list(/obj/items/artifact,
+				drops = list("2"    = /obj/items/key/Wizard,
+				             "10"   = list(/obj/items/artifact,
 										   /obj/items/stickbook,
 										   /obj/items/crystal/soul,
 				                           /obj/items/wearable/title/Surf),
@@ -797,7 +802,7 @@ mob
 			Demon_Rat
 				icon_state = "demon rat"
 				level = 50
-				drops = list("0.5" = /obj/items/demonic_essence,
+				drops = list("0.5" =      /obj/items/demonic_essence,
 							 "0.7" = list(/obj/items/Whoopie_Cushion,
 			 	 			 			  /obj/items/Smoke_Pellet,
 			 	 			 			  /obj/items/Tube_of_fun))
@@ -823,7 +828,7 @@ mob
 				DMGmodifier = 1
 				MoveDelay = 4
 				AttackDelay = 3
-				drops = list("0.01" = /obj/items/artifact,
+				drops = list("0.01" =      /obj/items/artifact,
 							 "5"    = list(/obj/items/DarknessPowder,
 								 		   /obj/items/Whoopie_Cushion,
 										   /obj/items/U_No_Poo,
@@ -841,7 +846,11 @@ mob
 				canBleed = FALSE
 				var/tmp/fired = 0
 
-				drops = list("3"    = /obj/items/crystal/luck,
+				drops = list("3"    =      /obj/items/crystal/luck,
+							 "0.3"  = list(/obj/items/key/Basic,
+							               /obj/items/key/Wizard,
+							               /obj/items/key/Pentakill,
+							               /obj/items/key/Sunset),
 						     "0.8"  = list(/obj/items/crystal/defense,
 							 			   /obj/items/crystal/damage),
 						     "0.01" = /obj/items/artifact,
@@ -921,18 +930,19 @@ mob
 
 					MoveDelay = 2
 
-					drops = list("10" = list(/obj/items/artifact,
-										     /obj/items/crystal/soul,
-				                             /obj/items/wearable/title/Fallen),
-							 "15"     = list(/obj/items/artifact,
-							                 /obj/items/crystal/magic,
-							                 /obj/items/crystal/strong_luck),
-							 "30"     = list(/obj/items/DarknessPowder,
-								 		     /obj/items/Whoopie_Cushion,
-										     /obj/items/U_No_Poo,
-							 			     /obj/items/Smoke_Pellet,
-							 			     /obj/items/Tube_of_fun,
-							 			     /obj/items/Swamp))
+					drops = list("2"      =      /obj/items/key/Sunset,
+					             "10"     = list(/obj/items/artifact,
+										         /obj/items/crystal/soul,
+				                                 /obj/items/wearable/title/Fallen),
+							     "15"     = list(/obj/items/artifact,
+							                     /obj/items/crystal/magic,
+							                     /obj/items/crystal/strong_luck),
+							     "30"     = list(/obj/items/DarknessPowder,
+								 		         /obj/items/Whoopie_Cushion,
+										         /obj/items/U_No_Poo,
+							 			         /obj/items/Smoke_Pellet,
+							 			         /obj/items/Tube_of_fun,
+							 			         /obj/items/Swamp))
 
 
 					Death()
@@ -964,6 +974,10 @@ mob
 						transform *= 1 + (rand(-15,30) / 50) // -30% to +60% size change
 
 				drops = list("0.03" = /obj/items/wearable/title/Eye,
+							 "0.5"  = list(/obj/items/key/Basic,
+							               /obj/items/key/Wizard,
+							               /obj/items/key/Pentakill,
+							               /obj/items/key/Sunset),
 							 "0.6"  = /obj/items/artifact,
 							 "1"    = list(/obj/items/DarknessPowder,
 								 	 	   /obj/items/Whoopie_Cushion,
@@ -1174,7 +1188,8 @@ mob
 					..()
 					transform *= 2
 
-				drops = list("10"   = list(/obj/items/artifact,
+				drops = list("2"    = /obj/items/key/Pentakill,
+							 "10"   = list(/obj/items/artifact,
 										   /obj/items/wearable/title/Petrified,
 										   /obj/items/crystal/soul,
 										   /obj/items/crystal/magic,

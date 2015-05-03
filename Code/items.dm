@@ -115,10 +115,14 @@ obj/items/wearable
 		quality = 0
 
 obj/items/wearable/Destroy(var/mob/Player/owner)
-	. = ..(owner)
-	if(. == 1) //If user chooses to destroy
+	if(alert(owner,"Are you sure you wish to destroy your [src.name]?",,"Yes","Cancel") == "Yes")
 		if(src in owner.Lwearing)
-			owner.Lwearing.Remove(src)
+			Equip(owner)
+		var/obj/item = src
+		src = null
+		del(item)
+		owner.Resort_Stacking_Inv()
+		return 1
 obj/items/wearable/Drop()
 	var/mob/Player/owner = usr
 	if(src in owner.Lwearing)
@@ -739,6 +743,7 @@ obj/items/wearable/wands/duel_wand
 
 obj/items/wearable/wigs
 	price = 500000
+	bonus = 0
 	desc = "A wig to hide those dreadful split ends."
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
@@ -986,6 +991,8 @@ obj/items/wearable/scarves/white_scarf
 	icon = 'scarf_white.dmi'
 obj/items/wearable/scarves/duel_scarf
 	icon = 'scarf_dueling.dmi'
+obj/items/wearable/scarves/sunset_scarf
+	icon = 'scarf_sunset.dmi'
 
 obj/items/wearable/scarves/lucifer_scarf
 	icon = 'scarf_lucifer.dmi'
@@ -3761,3 +3768,198 @@ obj/memory_rune
 		name = "CoS Floor 2"
 	CoSFloor3
 		name = "CoS Floor 3"
+
+
+
+obj/items
+
+
+	chest
+		icon = 'Chest.dmi'
+
+		var/list/drops
+
+		Click()
+			if(src in usr)
+				Open()
+			else
+				..()
+
+		verb
+			Open()
+				set src in usr
+
+				var/obj/items/key = locate(text2path("/obj/items/key/[name]")) in usr
+
+				if(!key)
+					key = locate(/obj/items/key/Master) in usr
+
+				if(key)
+
+					var/obj/roulette/r = new (usr.loc)
+					r.getPrize(drops, usr.name, usr.ckey)
+
+					usr << infomsg("You opened a [name] chest!")
+
+					key.loc = null
+					loc     = null
+					usr:Resort_Stacking_Inv()
+
+				else
+					usr << errormsg("You don't have a [name] key to open this chest!")
+
+		Wizard
+			icon_state = "blue"
+			drops = list(/obj/items/wearable/scarves/teal_scarf = 50,
+	                     /obj/items/wearable/shoes/teal_shoes   = 30,
+	                     /obj/items/wearable/scarves/cyan_scarf = 20)
+
+		Pentakill
+			icon_state = "red"
+			drops = list(/obj/items/wearable/scarves/black_scarf = 40,
+	                     /obj/items/wearable/scarves/white_scarf = 25,
+	                     /obj/items/wearable/shoes/black_shoes   = 20,
+	                     /obj/items/wearable/shoes/white_shoes   = 10,
+	                     /obj/items/wearable/scarves/grey_scarf  = 5)
+
+		Basic
+			icon_state = "green"
+			drops = list(/obj/items/wearable/scarves/black_scarf  = 10,
+	                     /obj/items/wearable/scarves/green_scarf  = 15,
+	                     /obj/items/wearable/scarves/red_scarf    = 15,
+	                     /obj/items/wearable/scarves/blue_scarf   = 15,
+	                     /obj/items/wearable/scarves/yellow_scarf = 20,
+	                     /obj/items/wearable/scarves/orange_scarf = 25)
+
+		Sunset
+			icon_state = "purple"
+			drops = list(/obj/items/wearable/scarves/sunset_scarf     = 4,
+						 /obj/items/wearable/shoes/cyan_shoes         = 30,
+	                     /obj/items/wearable/shoes/darkblue_shoes     = 12,
+	                     /obj/items/wearable/scarves/darkblue_scarf   = 21,
+	                     /obj/items/wearable/shoes/darkpurple_shoes   = 12,
+	                     /obj/items/wearable/scarves/darkpurple_scarf = 21)
+
+	key
+		icon = 'ChestKey.dmi'
+
+		Master
+			icon_state = "master"
+
+		Wizard
+			icon_state = "blue"
+		Pentakill
+			icon_state = "red"
+		Basic
+			icon_state = "green"
+		Sunset
+			icon_state = "purple"
+
+
+obj/roulette
+	icon = 'roulette.dmi'
+
+	var/playerName
+	var/playerCkey
+
+	proc/getAngle(angle)
+
+		if(angle < 0)         angle += 360
+		else if(angle >= 360)  angle -= 360
+
+		return angle
+
+	proc/getPrize(list/L, pname, pckey)
+		set waitfor = FALSE
+
+		playerName = pname
+		playerCkey = pckey
+
+		var/prize = pickweight(L)
+		var/prize_angle
+
+		var/angle = 0
+		var/angle_change = 360 / L.len
+
+		for(var/item in L)
+			if(!prize_angle && item == prize)
+				prize_angle = angle
+
+			var/obj/o = new (loc)
+			o.overlays += item
+
+			o.pixel_x = 68 * cos(angle)
+			o.pixel_y = 68 * sin(angle)
+
+			animate(o, pixel_x = 68 * cos(getAngle(angle + angle_change)),
+			           pixel_y = 68 * sin(getAngle(angle + angle_change)), time = 10, loop = 4)
+
+			for(var/i = 2 to L.len)
+				animate(pixel_x = 68 * cos(getAngle(angle + (angle_change*i))),
+				        pixel_y = 68 * sin(getAngle(angle + (angle_change*i))), time = 10)
+
+			angle += angle_change
+
+			spawn(L.len * 30 + (L.len + 4) * 12)
+				o.loc = null
+
+		angle = rand(0, L.len - 1) * angle_change
+		pixel_x = 64 * cos(angle)
+		pixel_y = 64 * sin(angle)
+
+		animate(src, pixel_x = 64 * cos(getAngle(angle - angle_change)),
+		             pixel_y = 64 * sin(getAngle(angle - angle_change)), time = 5, loop = 6)
+
+		for(var/i = 2 to L.len)
+			animate(pixel_x = 64 * cos(getAngle(angle - (angle_change*i))),
+			        pixel_y = 64 * sin(getAngle(angle - (angle_change*i))), time = 5)
+
+		sleep(L.len * 30)
+		animate(src, pixel_x = 64 * cos(getAngle(angle - angle_change)),
+		             pixel_y = 64 * sin(getAngle(angle - angle_change)), time = 10, loop = 1)
+
+		for(var/i = 2 to L.len + 1)
+			animate(pixel_x = 64 * cos(getAngle(angle - (angle_change*i))),
+			        pixel_y = 64 * sin(getAngle(angle - (angle_change*i))), time = 10)
+
+			if(getAngle(angle - (angle_change*i)) == prize_angle) break
+
+		sleep((L.len + 2) * 10)
+
+		emit(loc    = src,
+			 ptype  = /obj/particle/magic,
+		     amount = 50,
+		     angle  = new /Random(1, 359),
+		     speed  = 2,
+		     life   = new /Random(15,25))
+
+		var/obj/items/i = new prize (loc)
+		ohearers(src) << infomsg("<b>[playerName] opened a case and won a [i.name]!</b>")
+
+		i.antiTheft = 1
+		i.owner     = playerCkey
+
+		goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [playerName]([playerCkey]) got a [i.name] from a case.<br />"
+
+		spawn(600)
+			if(i)
+				i.antiTheft = 0
+				i.owner     = null
+
+		loc = null
+
+
+proc/pickweight(list/L)
+	var/totweight = 0
+	var/item
+	for(item in L)
+		var/weight = L[item]
+		if(isnull(weight))
+			weight = 1; L[item] = 1
+		totweight += weight
+	totweight *= rand()
+	for(var/i=1, i<=L.len, ++i)
+		var/weight = L[L[i]]
+		totweight -= weight
+		if(totweight < 0)
+			return L[i]

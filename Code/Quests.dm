@@ -1406,42 +1406,50 @@ questReward
 	Mon2
 		gold = 2000
 		exp  = 20000
+		items = /obj/items/lamps/double_exp_lamp
 	Mon3
 		gold = 3000
 		exp  = 30000
 	Mon4
 		gold  = 4000
 		exp   = 40000
-		items = /obj/items/wearable/title/Hunter
+		items = list(/obj/items/wearable/title/Hunter,
+				     /obj/items/lamps/triple_exp_lamp)
 	Mon5
 		gold = 5000
 		exp  = 50000
 	Mon6
 		gold = 6000
 		exp  = 60000
+		items = /obj/items/lamps/triple_exp_lamp
 	Mon7
 		gold = 7000
 		exp  = 70000
 	Mon8
 		gold = 8000
 		exp  = 80000
+		items = /obj/items/lamps/quadaple_exp_lamp
 	Mon9
 		gold  = 9000
 		exp   = 90000
-		items = /obj/items/wearable/title/Pest
+		items = list(/obj/items/wearable/title/Pest,
+					 /obj/items/lamps/penta_exp_lamp)
 	Mon10
 		gold = 10000
 		exp  = 100000
 	Mon11
 		gold = 11000
 		exp  = 110000
+		items = /obj/items/lamps/quadaple_exp_lamp
 	Mon12
 		gold = 12000
 		exp  = 120000
+		items = /obj/items/lamps/triple_exp_lamp
 	Mon13
 		gold  = 13000
 		exp   = 130000
-		items = /obj/items/wearable/title/Exterminator
+		items = list(/obj/items/wearable/title/Exterminator,
+					 /obj/items/lamps/sextuple_exp_lamp)
 	Artifact
 		gold  = 14000
 		exp   = 140000
@@ -1479,7 +1487,8 @@ questReward
 	Ritual
 		gold  = 3000
 		exp   = 30000
-		items = /obj/items/bagofgoodies
+		items = list(/obj/items/bagofgoodies,
+					 /obj/items/lamps/penta_exp_lamp)
 	Easter
 		exp   = 10000
 		items = /obj/items/wearable/wands/maple_wand
