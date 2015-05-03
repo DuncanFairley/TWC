@@ -218,6 +218,45 @@ RandomEvent
 			Players << infomsg("Old dueling system event is over.")
 			end()
 
+	TreasureHunt
+		name = "Treasure Hunt"
+		start()
+			..()
+			var/minutes = rand(9, 16)
+			var/chests  = rand(2, 4)
+
+			Players << infomsg("A wizard-pirate droped [chests] chests off his ship while casually flying through the castle's restricted airspace, he might've droped those chests because we might've fired our magic-space guns at him.<br>Find the treasure chests before other pesky looters get them!<br>(Treasure is not visible, it's hidden somewhere outside the castle.)")
+
+			var/list/treasures = list()
+			for(var/i = 1 to chests)
+
+				var/obj/spawner/spawn_loc = pick(spawners)
+
+				var/obj/items/treasure/t = new (spawn_loc.loc)
+				treasures += t
+
+				t.density = 1
+				for(var/j = 1 to 5)
+					step_rand(t)
+				t.density = 0
+
+			sleep(minutes * 600)
+
+
+			var/message = FALSE
+			for(var/obj/t in treasures)
+				treasures -= t
+				if(!t.loc) continue
+				message = TRUE
+				t.loc     = null
+
+			if(message)
+				Players << infomsg("Treasure Hunt is over.")
+
+			treasures = null
+
+			end()
+
 	Snitches
 		name = "Catch Snitches"
 		start()
@@ -392,3 +431,18 @@ obj/items/scroll/prize
 
 	write()
 		set hidden = 1
+
+obj/items/treasure
+
+	Take()
+		set src in oview(1)
+		loc = null
+		var/t = pickweight(list(/obj/items/chest/Basic     = 50,
+		                        /obj/items/chest/Wizard    = 20,
+		                        /obj/items/chest/Pentakill = 20,
+		                        /obj/items/chest/Sunset    = 10))
+
+		var/obj/items/i = new t (usr)
+		usr:Resort_Stacking_Inv()
+
+		Players << infomsg("<b>Treasure Hunt:</b> [usr] found a [i.name] chest!")
