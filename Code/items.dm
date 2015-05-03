@@ -3804,20 +3804,49 @@ obj/items
 				else
 					usr << errormsg("You don't have a [name] key to open this chest!")
 
-		Test
+		Wizard
 			icon_state = "blue"
-			drops = list(/obj/items/wearable/scarves/black_scarf  = 1,
-	                     /obj/items/wearable/scarves/green_scarf  = 2,
-	                     /obj/items/wearable/scarves/red_scarf    = 1,
-	                     /obj/items/wearable/scarves/blue_scarf   = 1,
-	                     /obj/items/wearable/scarves/yellow_scarf = 1,
-	                     /obj/items/wearable/scarves/orange_scarf = 1)
+			drops = list(/obj/items/wearable/scarves/teal_scarf = 50,
+	                     /obj/items/wearable/shoes/teal_shoes   = 30,
+	                     /obj/items/wearable/scarves/cyan_scarf = 20)
+
+		Pentakill
+			icon_state = "red"
+			drops = list(/obj/items/wearable/scarves/black_scarf = 40,
+	                     /obj/items/wearable/scarves/white_scarf = 25,
+	                     /obj/items/wearable/shoes/black_shoes   = 20,
+	                     /obj/items/wearable/shoes/white_shoes   = 10,
+	                     /obj/items/wearable/scarves/grey_scarf  = 5)
+
+		Basic
+			icon_state = "green"
+			drops = list(/obj/items/wearable/scarves/black_scarf  = 10,
+	                     /obj/items/wearable/scarves/green_scarf  = 15,
+	                     /obj/items/wearable/scarves/red_scarf    = 15,
+	                     /obj/items/wearable/scarves/blue_scarf   = 15,
+	                     /obj/items/wearable/scarves/yellow_scarf = 20,
+	                     /obj/items/wearable/scarves/orange_scarf = 25)
+
+		Sunset
+			icon_state = "purple"
+			drops = list(/obj/items/wearable/shoes/cyan_shoes         = 29,
+	                     /obj/items/wearable/shoes/darkblue_shoes     = 12,
+	                     /obj/items/wearable/scarves/darkblue_scarf   = 21,
+	                     /obj/items/wearable/shoes/darkpurple_shoes   = 12,
+	                     /obj/items/wearable/scarves/darkpurple_scarf = 21,
+	                     /obj/items/wearable/scarves/sunset_scarf     = 5)
 
 	key
 		icon = 'ChestKey.dmi'
 
-		Test
+		Wizard
 			icon_state = "blue"
+		Pentakill
+			icon_state = "red"
+		Basic
+			icon_state = "green"
+		Sunset
+			icon_state = "purple"
 
 
 obj/roulette
@@ -3902,6 +3931,9 @@ obj/roulette
 
 		i.antiTheft = 1
 		i.owner     = playerCkey
+
+		goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [playerName]([playerCkey]) got a [i.name] from a case.<br />"
+
 		spawn(600)
 			if(i)
 				i.antiTheft = 0
