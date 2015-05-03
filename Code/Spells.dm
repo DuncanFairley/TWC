@@ -184,7 +184,7 @@ mob/Spells/verb/Protego()
 	set category = "Spells"
 	if(!usr.shielded)
 		if(canUse(src,cooldown=/StatusEffect/UsedProtego,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-			new /StatusEffect/UsedProtego(src,10)
+			new /StatusEffect/UsedProtego(src,60)
 			usr.overlays += /obj/Shield
 			hearers()<< "<b><font color=red>[usr]</b></font>: PROTEGO!"
 			usr << "You shield yourself magically"
