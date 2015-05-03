@@ -9,7 +9,7 @@ client/proc/radio_start()
 	if(radioEnabled)
 		usr << "<center><b>Loading TWC Radio...</b></center><br>"
 		winset(src,"radio_enabled","is-checked=true")
-		usr << browse("<embed src=\"http://listen.spacial.com/api/listen/?sid=67897&method=sc&rid=1284690\" autostart=true loop=false volume=100 hidden=true></embed>","window=radiobrowser")
+		usr << browse("<embed src=\"http://srv1.hotdogradio.com:8000/TWC.m3u\" autostart=true loop=false volume=100 hidden=true></embed>","window=radiobrowser")
 	else
 		usr << "<center><b>TWC Radio is not currently on-air.</b></center><br>"
 mob/verb/radio_end()
@@ -58,7 +58,7 @@ world/proc
 	enable_radio()
 		for(var/mob/Player/C in world)
 			if(C.key)
-				C << "<font color = white><b><h3>TWC Radio is broadcasting. Click <a href='?src=\ref[C];action=listen_radio'>here</a> to listen, or listen online at <a href='http://listen.spacial.com/api/listen/?sid=67897&method=sc&rid=1284690'>this link</a>.</h3></b></font><br>"
+				C << "<font color = white><b><h3>TWC Radio is broadcasting. Click <a href='?src=\ref[C];action=listen_radio'>here</a> to listen, or listen online at <a href='http://listen.hotdogradio.com/?ID=TWC'>this link</a>.</h3></b></font><br>"
 				winset(C,"mnu_radio","is-disabled=false")
 	disable_radio()
 		for(var/mob/Player/C in world)
