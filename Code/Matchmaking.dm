@@ -246,8 +246,8 @@ matchmaking
 			loser.rating  = round(loser.rating  + factor * (0 - loserExpectedScore), 1)
 			loser.rating  = max(100, loser.rating)
 
-			loser.time = world.realtime
-			loser.time = world.realtime
+			loser.time  = world.realtime
+			winner.time = world.realtime
 
 			bubblesort_by_value(skill_rating, "rating", TRUE)
 
@@ -465,6 +465,7 @@ arena
 				currentMatches.records += "[time2text(world.realtime, "DD Month")]  |  [team1.name] Vs [team2.name]  |  [team1.score]:[team2.score]"
 
 				if(currentMatches.records.len > 10)
+					currentMatches.records[1] += "unique"
 					currentMatches.records -= currentMatches.records[1]
 
 				dispose()
