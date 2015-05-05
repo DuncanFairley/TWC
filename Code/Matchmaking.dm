@@ -731,7 +731,7 @@ tr.grey
 
 			if(currentMatches.records)
 				html += "<br>Recent Matches:<br>"
-				for(var/i = currentMatches.records.len to 1 step: -1)
+				for(var/i = currentMatches.records.len to 1 step -1)
 					html += {"<table class="colored"><tr class="grey" align="center"><td>[currentMatches.records[i]]</td></tr></table>"}
 			usr << browse(SCOREBOARD_HEADER + html + "</center></html>","window=scoreboard")
 
