@@ -462,7 +462,7 @@ arena
 					countdown()
 			else
 				if(!currentMatches.records) currentMatches.records = list()
-				currentMatches.records += "[time2text(world.realtime, "DD Month hh:mm")]  |  [team1.name] Vs [team2.name]  |  [team1.score]:[team2.score]"
+				currentMatches.records += "[time2text(world.realtime, "DD Month")]  |  [team1.name] Vs [team2.name]  |  [team1.score]:[team2.score]"
 
 				if(currentMatches.records.len > 10)
 					currentMatches.records -= currentMatches.records[1]
@@ -731,8 +731,8 @@ tr.grey
 
 			if(currentMatches.records)
 				html += "<br>Recent Matches:<br>"
-				for(var/s in currentMatches.records)
-					html += {"<table class="colored"><tr class="grey" align="center"><td>[s]</td></tr></table>"}
+				for(var/i = currentMatches.records.len to 1 step: -1)
+					html += {"<table class="colored"><tr class="grey" align="center"><td>[currentMatches.records[i]]</td></tr></table>"}
 			usr << browse(SCOREBOARD_HEADER + html + "</center></html>","window=scoreboard")
 
 area/arenas
