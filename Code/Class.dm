@@ -256,7 +256,7 @@ class
 			wand = TRUE
 			start()
 				..()
-				say("This spell freezes everyone in your view for about 10 seconds.")
+				say("This spell creates an AoE (area of effect) effect inside a 15x15 square for 10 seconds.")
 		Immobulus
 			mp = 600
 			cd = 15
