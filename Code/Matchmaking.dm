@@ -124,6 +124,7 @@ matchmaking
 	var/list/arenas
 	var/list/queue
 	var/matchmaking = FALSE
+	var/list/records
 
 	proc
 
@@ -244,6 +245,9 @@ matchmaking
 			winner.rating = round(winner.rating + factor * (1 - winnerExpectedScore), 1)
 			loser.rating  = round(loser.rating  + factor * (0 - loserExpectedScore), 1)
 			loser.rating  = max(100, loser.rating)
+
+			loser.time = world.realtime
+			loser.time = world.realtime
 
 			bubblesort_by_value(skill_rating, "rating", TRUE)
 
@@ -457,6 +461,12 @@ arena
 				spawn()
 					countdown()
 			else
+				if(!currentMatches.records) currentMatches.records = list()
+				currentMatches.records += "[time2text(world.realtime, "DD Month hh:mm")]  |  [team1.name] Vs [team2.name]  |  [team1.score]:[team2.score]"
+
+				if(currentMatches.records.len > 10)
+					currentMatches.records -= currentMatches.records[1]
+
 				dispose()
 
 		death(mob/Player/p)
@@ -614,6 +624,7 @@ skill_stats
 	var/wins   = 0
 	var/rating = 200
 	var/name
+	var/time
 
 proc
 	getSkillGroup(var/ckey)
@@ -669,11 +680,11 @@ obj/scoreboard
 {
 	background-color:#FAFAFA;
 	font-size:large;
-	margin: 0;
+	margin: 0px;
 	padding:0px;
 	color:#404040;
 }
-table.file
+table.colored
 {
 	background-color:#FAFAFA;
 	border-collapse: collapse;
@@ -682,20 +693,26 @@ table.file
 	font: normal 13px/100% Verdana, Tahoma, sans-serif;
 	border: solid 1px #E5E5E5;
 	padding:3px;
+	margin: 4px;
 }
-tr.file_white
+tr.white
 {
 	background-color:#FAFAFA;
 	border: solid 1px #E5E5E5;
 }
-tr.file_black
+tr.black
 {
 	background-color:#DFDFDF;
 	border: solid 1px #E5E5E5;
 }
-}</style></head><body><center><table align="center" class="file"><tr><td colspan="4"><center>Season 1</center></td></tr><tr><td colspan="4"><center><br>*Note: Ranks are based on your skill rating and not just amount of wins.<br></center></td></tr><tr><td>#</td><td>Name</td><td>Rank</td><td>Wins</td></tr>"}
+tr.grey
+{
+	background-color:#EFEFEF;
+	border: solid 1px #EEEEEE;
+}
+}</style></head>"}
 
-			var/html = ""
+			var/html = {"<body><center><table align="center" class="colored"><tr><td colspan="4"><center>Season 1</center></td></tr><tr><td colspan="4"><center><br>*Note: Ranks are based on your skill rating and not just amount of wins.<br></center></td></tr><tr><td>#</td><td>Name</td><td>Rank</td><td>Wins</td></tr>"}
 			var/rankNum = 1
 			var/isWhite = TRUE
 			for(var/i = skill_rating.len to 1 step -1)
@@ -707,10 +724,16 @@ tr.file_black
 					seconderySkillGroup = " [1 + skill_rating.len - i]"
 				else if(s.rating >= 200)
 					seconderySkillGroup = " [5 - round((s.rating % 200) / 40)]"
-				html += "<tr class=[isWhite ? "file_white" : "file_black"]><td>[rankNum]</td><td>[s.name]</td><td>[getSkillGroup(skill_rating[i])][seconderySkillGroup]</td><td>[s.wins]</td></tr>"
+				html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[s.name]</td><td>[getSkillGroup(skill_rating[i])][seconderySkillGroup]</td><td>[s.wins]</td></tr>"
 				isWhite = !isWhite
 				rankNum++
-			usr << browse(SCOREBOARD_HEADER + html + "</table></center></html>","window=scoreboard")
+			html += "</table>"
+
+			if(currentMatches.records)
+				html += "<br>Recent Matches:<br>"
+				for(var/s in currentMatches.records)
+					html += {"<table class="colored"><tr class="grey" align="center"><td>[s]</td></tr></table>"}
+			usr << browse(SCOREBOARD_HEADER + html + "</center></html>","window=scoreboard")
 
 area/arenas
 	antiFly      = TRUE
