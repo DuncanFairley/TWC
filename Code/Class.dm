@@ -4,6 +4,14 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
+
+obj/proc/GenerateIcon()
+	overlays += image(pick(typesof(/obj/items/wearable/scarves/) - /obj/items/wearable/scarves/), "")
+	overlays += image(pick(typesof(/obj/items/wearable/shoes/)   - /obj/items/wearable/shoes/),   "")
+
+	var/list/colors = list("black", "blue", "green", "grey", "pink", "purple", "silver", "cyan", "teal", "red", "orange")
+	overlays += image(text2path("/obj/items/wearable/wigs/[gender == MALE ? "male" : "female"]_[pick(colors)]_wig"), "")
+
 obj/teacher
 	var
 		class/classInfo
@@ -25,11 +33,7 @@ obj/teacher
 			icon   = 'MaleStaff.dmi'
 			gender = MALE
 
-		overlays += image(pick(typesof(/obj/items/wearable/scarves/) - /obj/items/wearable/scarves/), "")
-		overlays += image(pick(typesof(/obj/items/wearable/shoes/)   - /obj/items/wearable/shoes/),   "")
-
-		var/list/colors = list("black", "blue", "green", "grey", "pink", "purple", "silver", "cyan", "teal", "red", "orange")
-		overlays += image(text2path("/obj/items/wearable/wigs/[gender == MALE ? "male" : "female"]_[pick(colors)]_wig"), "")
+		GenerateIcon()
 
 		namefont.QuickName(src, src.name, rgb(255,255,255), "#000", top=1)
 
