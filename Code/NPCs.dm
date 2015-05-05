@@ -196,3 +196,39 @@ mob
 							map.Save()
 					else
 						usr << npcsay("Vault Master: Maybe next time.")
+
+		Ghost
+			name = "Hogwarts Ghost"
+			icon = 'NPCs.dmi'
+			alpha = 100
+			density = 0
+			layer = 10
+			mouse_over_pointer = MOUSE_HAND_POINTER
+
+			New()
+				..()
+
+				if(prob(51))
+					icon   = 'FemaleStaff.dmi'
+					gender = FEMALE
+				else
+					icon   = 'MaleStaff.dmi'
+					gender = MALE
+
+				overlays += image(pick(typesof(/obj/items/wearable/scarves/) - /obj/items/wearable/scarves/), "")
+				overlays += image(pick(typesof(/obj/items/wearable/shoes/)   - /obj/items/wearable/shoes/),   "")
+
+				var/list/colors = list("black", "blue", "green", "grey", "pink", "purple", "silver", "cyan", "teal", "red", "orange")
+				overlays += image(text2path("/obj/items/wearable/wigs/[gender == MALE ? "male" : "female"]_[pick(colors)]_wig"), "")
+
+				namefont.QuickName(src, src.name, top=1)
+
+				animate(src, pixel_y = pixel_y +1, time = 7, loop = -1)
+				animate(pixel_y = pixel_y -1, time = 7)
+
+				Wander()
+
+		proc/Wander()
+			while(src)
+				step_rand(src)
+				sleep(25)
