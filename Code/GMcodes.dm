@@ -704,6 +704,8 @@ mob
 			name2be = input(select,"You have been instructed to change your name. Please select a new one.","Change your name",name2be) as text
 			var/ans = alert(src,"[select] selected \"[name2be]\". Is this acceptable?","Name Change","Yes","No")
 			if(ans == "Yes")
+				if(select.pname)
+					select.pname = name2be
 				select.name = name2be
 				select.underlays = list()
 				switch(select.House)

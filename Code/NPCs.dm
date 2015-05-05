@@ -89,6 +89,8 @@ mob
 							del c
 							if(name == desiredname) return
 							Log_admin("[usr] has changed their name to [desiredname].")
+							if(usr.pname)
+								usr.pname = desiredname
 							usr.name = desiredname
 							usr.underlays = list()
 							switch(usr.House)
