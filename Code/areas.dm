@@ -874,7 +874,7 @@ area
 	CoS_Exit
 		Entered(mob/Player/M)
 			if(istype(M, /mob/Player))
-				M.loc=locate(63,52,22)
+				M.loc=locate(63,53,22)
 				M<<"You climb back up the tunnel and into the Bathroom."
 	DE_Enter
 		Entered(mob/Player/M)
