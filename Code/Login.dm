@@ -1265,9 +1265,8 @@ mob/Player
 										door.door = 0
 										view(door) << "<i>You hear the door lock.</i>"
 							switch(lowertext(t))
-								if("close hogwarts")
+								/*if("close hogwarts")
 									if(src.admin)
-
 										for(var/turf/Hogwarts_Exit/T in world)
 											T.icon = 'Wall1.dmi'
 											T.density = 1
@@ -1275,7 +1274,7 @@ mob/Player
 										for(var/turf/Hogwarts/T in world)
 											T.icon = 'Turf.dmi'
 											T.icon_state = "grille"
-											T.density = 1
+											T.density = 1*/
 								if("open event")
 									if(src.admin)
 										hearers()<<"Done."
@@ -1457,7 +1456,7 @@ mob/Player
 											T.door=0
 											T.bumpable=0
 											T.density=1
-											T.opacity=0*/
+											T.opacity=0
 								if("open hogwarts")
 									if(src.admin)
 										for(var/turf/Hogwarts_Exit/T in world)
@@ -1465,7 +1464,7 @@ mob/Player
 											T.density = 0
 										for(var/turf/Hogwarts/T in world)
 											T.icon = null
-											T.density = 0
+											T.density = 0*/
 								if("clanevent1")
 									if(src.admin)
 										if(!clanevent1)

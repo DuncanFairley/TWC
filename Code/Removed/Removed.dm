@@ -1347,3 +1347,19 @@ turf
 	candle
 	icon_state="wood"
 	density=0
+turf
+	Hogwarts
+
+		Entered(mob/Player/M)
+			if(!istype(M, /mob/Player)) return
+			M.loc=locate(13,25,21)
+			if(usr.flying == 1)
+				usr << "You land gently."
+				usr.flying = 0
+				usr.density = 1
+				usr.icon_state="Blank"
+	Hogwarts_Exit
+
+		Entered(mob/Player/M)
+			if(!istype(M, /mob)) return
+			M.loc=locate(50,49,15)

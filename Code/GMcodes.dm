@@ -1370,6 +1370,24 @@ mob/GM
 			file("rules.html") << "[input]"
 			src << "Rules posted. Thanks."
 
+mob/GM
+	verb
+		Check_Inactivity(mob/M in Players)
+			set category = "Staff"
+			var
+				ticks = client.inactivity
+				sec = round(ticks/10)
+				min = round(sec/60)
+				hour = round(min/60)
+				time = "Inactive for "
+			if(hour) time += "[hour] [hour > 1 ? "hours" : "hour"]"
+			if(min)
+				if(hour) time += ", "
+				time += "[min] [min > 1 ? "minutes" : "minute"]"
+			if(sec)
+				if(min) time += ", and "
+				time += "[sec] [sec > 1 ? "seconds" : "second"]."
+			usr << infomsg("[time]")
 
 ////////// GM Freezing \\\\\\\\\\\\\\\\
 
