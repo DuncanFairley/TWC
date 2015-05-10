@@ -1376,8 +1376,9 @@ mob/GM
 			set category = "Staff"
 			var
 				ticks = client.inactivity
-				sec = round(ticks/10)
-				min = round(sec/60)
+				seconds = round(ticks/10)
+				min = round(seconds/60)
+				sec = seconds-(min*60)
 				hour = round(min/60)
 				time = "Inactive for "
 			if(hour) time += "[hour] [hour > 1 ? "hours" : "hour"]"
@@ -1387,7 +1388,10 @@ mob/GM
 			if(sec)
 				if(min) time += ", and "
 				time += "[sec] [sec > 1 ? "seconds" : "second"]."
+			else
+				time += "0 seconds."
 			usr << infomsg("[time]")
+
 
 ////////// GM Freezing \\\\\\\\\\\\\\\\
 
