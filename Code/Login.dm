@@ -1131,13 +1131,27 @@ mob/Player
 		if(Lwearing)
 			var/mob/Player/var/list/tmpwearing = Lwearing
 			Lwearing = list()
+
+			if(!ignoreBonus)
+				clothDmg = 0
+				clothDef = 0
+
 			for(var/obj/items/wearable/W in tmpwearing)
-				spawn()
-					var/b = W.bonus
-					W.bonus = ignoreBonus ? -1 : b
-					W.Equip(src,1)
-					W.bonus = b
-		spawn()if(src.away)src.ApplyAFKOverlay()
+				var/b = W.bonus
+				W.bonus = -1
+				W.Equip(src,1)
+				W.bonus = b
+
+				if(b != -1)
+					if(b & W.DAMAGE)
+						clothDmg += 10 * W.quality
+					if(b & W.DEFENSE)
+						clothDef += 30 * W.quality
+
+			if(!ignoreBonus)
+				resetMaxHP()
+
+		if(src.away)src.ApplyAFKOverlay()
 
 	verb
 		Say(t as text)
