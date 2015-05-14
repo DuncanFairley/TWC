@@ -799,6 +799,7 @@ mob/Spells/verb/Antifigura()
 		hearers() << "<b><font color=red>[usr]</font></b>: <font color=white><i>Antifigura!</i></font>"
 		p.antifigura = max(round((p.MMP+p.extraMMP) / rand(500,1500)), 1)
 		p.MP -= 50
+		p.updateHPMP()
 		usr:learnSpell("Antifigura")
 
 
