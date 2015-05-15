@@ -147,33 +147,6 @@ menu "menu"
 		group = ""
 		is-disabled = true
 		saved-params = "is-checked"
-	elem "mnu_radio"
-		name = "TWC Radio"
-		command = ""
-		category = ""
-		is-checked = false
-		can-check = false
-		group = ""
-		is-disabled = true
-		saved-params = "is-checked"
-	elem "radio_enabled"
-		name = "Toggle Radio"
-		command = "enable-radio"
-		category = "TWC Radio"
-		is-checked = false
-		can-check = true
-		group = ""
-		is-disabled = false
-		saved-params = "is-checked"
-	elem "btnsonginfo"
-		name = "Song Info"
-		command = "songinfo"
-		category = "TWC Radio"
-		is-checked = false
-		can-check = false
-		group = ""
-		is-disabled = false
-		saved-params = "is-checked"
 
 
 window "Quests"
@@ -268,6 +241,8 @@ window "Quests"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "label6"
 		type = LABEL
 		pos = 0,0
@@ -294,6 +269,8 @@ window "Quests"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "buttonQuestDisplay"
 		type = BUTTON
 		pos = 24,37
@@ -954,6 +931,8 @@ window "potionwindow"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "gridCauldron"
 		type = GRID
 		pos = 164,43
@@ -1121,6 +1100,8 @@ window "potionwindow"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 
 window "rpane"
 	elem "rpane"
@@ -1937,6 +1918,8 @@ window "winSettings"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "button1"
 		type = BUTTON
 		pos = 26,31
@@ -2413,6 +2396,8 @@ window "Trade"
 		keep-aspect = false
 		align = left
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "label5"
 		type = LABEL
 		pos = 195,208
@@ -2439,6 +2424,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "label4"
 		type = LABEL
 		pos = 45,384
@@ -2465,6 +2452,8 @@ window "Trade"
 		keep-aspect = false
 		align = left
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "label3"
 		type = LABEL
 		pos = 32,64
@@ -2491,6 +2480,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "label2"
 		type = LABEL
 		pos = 190,432
@@ -2517,6 +2508,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "GoldInput"
 		type = INPUT
 		pos = 285,383
@@ -2567,6 +2560,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "gold1"
 		type = LABEL
 		pos = 78,432
@@ -2593,6 +2588,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "Name2"
 		type = LABEL
 		pos = 248,32
@@ -2619,6 +2616,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "Name1"
 		type = LABEL
 		pos = 32,32
@@ -2645,6 +2644,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "title"
 		type = LABEL
 		pos = 0,0
@@ -2671,6 +2672,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "Approve"
 		type = BUTTON
 		pos = 139,464
