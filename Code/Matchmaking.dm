@@ -713,6 +713,7 @@ tr.grey
 {
 	background-color:#EFEFEF;
 	border: solid 1px #EEEEEE;
+	font-size:16px;
 }
 }</style></head>"}
 
