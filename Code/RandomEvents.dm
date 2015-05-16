@@ -448,9 +448,6 @@ obj/items/scroll/prize
 obj/items/treasure
 	var/event = "Treasure Hunt"
 
-	icon = 'Chest.dmi'
-	icon_state = "red"
-
 	Take()
 		set src in oview(1)
 
