@@ -453,13 +453,14 @@ obj/items/treasure
 
 	Take()
 		set src in oview(1)
-		loc = null
 
 		if(event == "Treasure Hunt")
 			var/RandomEvent/TreasureHunt/e = locate() in events
 			if(e && (usr.ckey in e.winners))
 				usr << errormsg("You already found a chest!")
 				return
+
+		loc = null
 
 		var/t = pickweight(list(/obj/items/chest/Basic     = 50,
 		                        /obj/items/chest/Wizard    = 20,
