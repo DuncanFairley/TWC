@@ -623,7 +623,7 @@ var/list/skill_rating
 
 skill_stats
 	var/wins   = 0
-	var/rating = 200
+	var/rating = 400
 	var/name
 	var/time
 
