@@ -237,13 +237,11 @@ matchmaking
 			if(winTeam.player && winner.wins > WINS_REQ)
 				origRank = getSkillGroup(winTeam.id)
 
-			var/const/factor = 32
-
 			var/winnerExpectedScore = 1 / (1 + 10 ** ((loser.rating  - winner.rating) / 400))
 			var/loserExpectedScore  = 1 / (1 + 10 ** ((winner.rating - loser.rating)  / 400))
 
-			winner.rating = round(winner.rating + factor * (1 - winnerExpectedScore), 1)
-			loser.rating  = round(loser.rating  + factor * (0 - loserExpectedScore), 1)
+			winner.rating = round(winner.rating + winner.getFactor() * (1 - winnerExpectedScore), 1)
+			loser.rating  = round(loser.rating  + loser.getFactor()  * (0 - loserExpectedScore), 1)
 			loser.rating  = max(100, loser.rating)
 
 			loser.time  = world.realtime
@@ -626,6 +624,11 @@ skill_stats
 	var/rating = 400
 	var/name
 	var/time
+
+	proc
+		getFactor()
+			if(wins >= WINS_REQ) return 32
+			return 48
 
 proc
 	getSkillGroup(var/ckey)
