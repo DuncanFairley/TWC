@@ -216,7 +216,7 @@ mob
 							dirs -= d
 
 							var/turf/new_t = get_step(loc, d)
-							if(new_t.loc == loc.loc)
+							if(new_t && new_t.loc == loc.loc)
 								NewLoc = new_t
 								Dir = d
 								break
