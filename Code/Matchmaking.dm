@@ -680,7 +680,7 @@ obj/scoreboard
 		..()
 		if(skill_rating)
 
-			var/const/SCOREBOARD_HEADER = {"<html><head><title>Season 1 Leaderboard</title><style>body
+			var/const/SCOREBOARD_HEADER = {"<html><head><title>Mini Season 1.5 Leaderboard</title><style>body
 {
 	background-color:#FAFAFA;
 	font-size:large;
@@ -717,7 +717,7 @@ tr.grey
 }
 }</style></head>"}
 
-			var/html = {"<body><center><table align="center" class="colored"><tr><td colspan="4"><center>Season 1</center></td></tr><tr><td colspan="4"><center><br>*Note: Ranks are based on your skill rating and not just amount of wins.<br></center></td></tr><tr><td>#</td><td>Name</td><td>Rank</td><td>Wins</td></tr>"}
+			var/html = {"<body><center><table align="center" class="colored"><tr><td colspan="4"><center>Mini Season 1.5</center></td></tr><tr><td colspan="4"><center><br>*Note: Ranks are based on your skill rating and not just amount of wins.<br></center></td></tr><tr><td>#</td><td>Name</td><td>Rank</td><td>Wins</td></tr>"}
 			var/rankNum = 1
 			var/isWhite = TRUE
 			for(var/i = skill_rating.len to 1 step -1)
