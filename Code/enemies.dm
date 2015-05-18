@@ -820,8 +820,8 @@ mob
 			Demon_Rat
 				icon_state = "demon rat"
 				level = 50
-				drops = list("0.5" =      /obj/items/demonic_essence,
-							 "0.7" = list(/obj/items/Whoopie_Cushion,
+				drops = list("0.7" =      /obj/items/demonic_essence,
+							 "0.8" = list(/obj/items/Whoopie_Cushion,
 			 	 			 			  /obj/items/Smoke_Pellet,
 			 	 			 			  /obj/items/Tube_of_fun))
 			Pixie
