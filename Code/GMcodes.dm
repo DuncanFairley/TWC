@@ -1372,6 +1372,10 @@ mob/GM
 
 mob/GM
 	verb
+		Reset_Matchmaking()
+			if(alert(src, "Are you sure you want to reset matchmaking?", "Reset Matchmaking Scoreboard", "Yes", "No") == "Yes")
+				skill_rating = list()
+				src << infomsg("Competitive Matchmaking scoreboard deleted.")
 		Check_Inactivity(mob/M in Players)
 			set category = "Staff"
 			var
