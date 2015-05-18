@@ -366,7 +366,7 @@ mob/TalkNPC/Ollivander
 								sleep(2)
 								Olli.busy = 0
 								return
-							switch(alert("This [wandname] costs 100 gold. Would you like to purchase it?","You have [comma(usr.gold)]","Yes","No"))
+							switch(alert("This [wandname] costs 100 gold. Would you like to purchase it?","You have [comma(usr.gold)] gold.","Yes","No"))
 								if("Yes")
 									if(usr.gold>=100)
 										view(7,Olli) << "[nametext] Here's your new [wandname], [usr]!"
@@ -391,7 +391,7 @@ mob/TalkNPC/Ollivander
 									else
 										usr << "You do not have enough gold at this time. Maybe you should check your bank account at Gringotts?"
 								if("No")
-									switch(alert("Would you like me to find you another wand?","You have [comma(usr.gold)]","Yes","No"))
+									switch(alert("Would you like me to find you another wand?","You have [comma(usr.gold)] gold.","Yes","No"))
 										if("Yes")
 											rnd = rand(12,15)
 											view(7,Olli) << "[nametext] [Olli.phrases[rnd]]"

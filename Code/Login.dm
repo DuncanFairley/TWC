@@ -773,9 +773,9 @@ world/proc/worldlooper()
 			if(winget(C,"radio_enabled","is-checked") == "false")
 				switch(rndnum)
 					if(1)
-						C.mob << "<font color = white><b><h3>TWC Radio is broadcasting. Click <a href='?src=\ref[C.mob];action=listen_radio'>here</a> to listen, or listen online at <a href='http://listen.hotdogradio.com/?ID=TWC'>this link</a>.</h3></b></font><br>"
+						C.mob << "<font color = white><b><h3>TWC Radio is broadcasting. Click <a href='http://listen.hotdogradio.com/?ID=TWC'>here</a> to listen.</h3></b></font><br>"
 					if(2)
-						C.mob << "<font color = white><b><h3>You should probably listen to TWC Radio! Click <a href='?src=\ref[C.mob];action=listen_radio'>here</a>, or listen online at <a href='http://listen.hotdogradio.com/?ID=TWC'>this link</a>!</h3></b></font><br>"
+						C.mob << "<font color = white><b><h3>You should probably listen to TWC Radio! Click Click <a href='http://listen.hotdogradio.com/?ID=TWC'>here</a> to listen!</h3></b></font><br>"
 	spawn()worldlooper()
 mob
 	create_character
@@ -1278,9 +1278,8 @@ mob/Player
 										door.door = 0
 										view(door) << "<i>You hear the door lock.</i>"
 							switch(lowertext(t))
-								if("close hogwarts")
+								/*if("close hogwarts")
 									if(src.admin)
-
 										for(var/turf/Hogwarts_Exit/T in world)
 											T.icon = 'Wall1.dmi'
 											T.density = 1
@@ -1288,7 +1287,7 @@ mob/Player
 										for(var/turf/Hogwarts/T in world)
 											T.icon = 'Turf.dmi'
 											T.icon_state = "grille"
-											T.density = 1
+											T.density = 1*/
 								if("open event")
 									if(src.admin)
 										hearers()<<"Done."
@@ -1470,7 +1469,7 @@ mob/Player
 											T.door=0
 											T.bumpable=0
 											T.density=1
-											T.opacity=0*/
+											T.opacity=0
 								if("open hogwarts")
 									if(src.admin)
 										for(var/turf/Hogwarts_Exit/T in world)
@@ -1478,7 +1477,7 @@ mob/Player
 											T.density = 0
 										for(var/turf/Hogwarts/T in world)
 											T.icon = null
-											T.density = 0
+											T.density = 0*/
 								if("clanevent1")
 									if(src.admin)
 										if(!clanevent1)
