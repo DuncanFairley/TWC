@@ -657,7 +657,7 @@
 "amG" = (/obj/Armor_Head,/turf/Hogwarts_Stone_Wall_,/area/outside)
 "amH" = (/obj/Armor_Feet,/turf/grass,/area/outside)
 "amI" = (/obj/Signs{description = "There are many aggressive pixies within! Enter at your own risk!"; name = "DANGER!"},/turf/brick,/area/outside)
-"amJ" = (/obj/Hogwarts_Door,/turf/road{icon_state = "stonefloor2"},/area/outside)
+"amJ" = (/turf/road{icon_state = "stonefloor2"},/obj/Hogwarts_Door,/turf/nofirezone,/area/outside)
 "amK" = (/obj/Angel_Top{name = "Clock Tower"; icon = 'Clock.dmi'; icon_state = "Top Left"},/turf/grass,/area/outside)
 "amL" = (/obj/Angel_Top{name = "Clock Tower"; icon = 'Clock.dmi'; icon_state = "Top Right"},/turf/grass,/area/outside)
 "amM" = (/turf/dirt,/area/outside)
