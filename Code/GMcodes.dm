@@ -1447,10 +1447,7 @@ mob/GM
 							goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [name]([key])([client.address]) gave [comma(gold_prize)] <b>prize</b> gold to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 					if("Common Item")
 						var/i = pick(/obj/items/bagofgoodies,
-						             /obj/items/wearable/scarves/blue_scarf,
-						             /obj/items/wearable/scarves/green_scarf,
-						             /obj/items/wearable/scarves/red_scarf,
-						             /obj/items/wearable/scarves/yellow_scarf,
+						             /obj/items/chest/Basic,
 						             /obj/items/artifact)
 
 						var/obj/items/item_prize = new i (p)
