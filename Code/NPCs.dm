@@ -194,3 +194,36 @@ mob
 							map.Save()
 					else
 						usr << npcsay("Vault Master: Maybe next time.")
+obj
+	Ghost
+		name = "Hogwarts Ghost"
+		icon = 'NPCs.dmi'
+		alpha = 100
+		density = 0
+		layer = 10
+		mouse_over_pointer = MOUSE_HAND_POINTER
+
+		New()
+			..()
+
+			if(prob(51))
+				icon   = 'FemaleStaff.dmi'
+				gender = FEMALE
+			else
+				icon   = 'MaleStaff.dmi'
+				gender = MALE
+
+			GenerateIcon()
+
+			namefont.QuickName(src, src.name, top=1)
+
+			animate(src, pixel_y = pixel_y +1, time = 7, loop = -1)
+			animate(pixel_y = pixel_y -1, time = 7)
+
+			Wander()
+
+		proc
+			Wander()
+				while(src)
+					step_rand(src)
+					sleep(25)
