@@ -1036,7 +1036,7 @@ quest
 
 		Essence
 			desc = "Find demonic essences for the ritual."
-			reqs = list("Demonic Essence" = 10)
+			reqs = list("Demonic Essence" = 5)
 		TrollingEssence
 			desc = "It appears one of the essences you've collected disappeared, find another."
 			reqs = list("Demonic Essence" = 1)

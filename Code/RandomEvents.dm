@@ -220,20 +220,27 @@ RandomEvent
 
 	TreasureHunt
 		name = "Treasure Hunt"
+		var/list
+			totalTreasures
+			winners
+
 		start()
 			..()
 			var/minutes = rand(9, 16)
 			var/chests  = rand(2, 4)
 
-			Players << infomsg("A wizard-pirate droped [chests] chests off his ship while casually flying through the castle's restricted airspace, he might've droped those chests because we might've fired our magic-space guns at him.<br>Find the treasure chests before other pesky looters get them!<br>(Treasure is not visible, it's hidden somewhere outside the castle.)")
+			Players << infomsg("A wizard-pirate droped [chests] chests off his ship while casually flying through the castle's restricted airspace, he might've droped those chests because we might've fired our magic-space guns at him.<br>Find the treasure chests before other pesky looters get them! You have [minutes] minutes.<br>(Treasure is not visible, it's hidden somewhere outside the castle.)")
 
 			var/list/treasures = list()
+			if(!winners) winners = list()
+			if(!totalTreasures) totalTreasures = list()
 			for(var/i = 1 to chests)
 
 				var/obj/spawner/spawn_loc = pick(spawners)
 
 				var/obj/items/treasure/t = new (spawn_loc.loc)
 				treasures += t
+				totalTreasures += t
 
 				t.density = 1
 				for(var/j = 1 to 5)
@@ -242,20 +249,26 @@ RandomEvent
 
 			sleep(minutes * 600)
 
-
-			var/message = FALSE
 			for(var/obj/t in treasures)
 				treasures -= t
 				if(!t.loc) continue
-				message = TRUE
+				totalTreasures -= t
+				if(!totalTreasures.len)
+					totalTreasures = null
 				t.loc     = null
 
-			if(message)
-				Players << infomsg("Treasure Hunt is over.")
+			if(!totalTreasures)
+				end()
 
 			treasures = null
 
-			end()
+		end()
+			winners = null
+
+			Players << infomsg("Treasure Hunt is over.")
+			currentEvents -= name
+
+			if(currentEvents.len == 0) currentEvents = null
 
 	Snitches
 		name = "Catch Snitches"
@@ -433,10 +446,19 @@ obj/items/scroll/prize
 		set hidden = 1
 
 obj/items/treasure
+	var/event = "Treasure Hunt"
 
 	Take()
 		set src in oview(1)
+
+		if(event == "Treasure Hunt")
+			var/RandomEvent/TreasureHunt/e = locate() in events
+			if(e && (usr.ckey in e.winners))
+				usr << errormsg("You already found a chest!")
+				return
+
 		loc = null
+
 		var/t = pickweight(list(/obj/items/chest/Basic     = 50,
 		                        /obj/items/chest/Wizard    = 20,
 		                        /obj/items/chest/Pentakill = 20,
@@ -445,4 +467,16 @@ obj/items/treasure
 		var/obj/items/i = new t (usr)
 		usr:Resort_Stacking_Inv()
 
-		Players << infomsg("<b>Treasure Hunt:</b> [usr] found a [i.name] chest!")
+		Players << infomsg("<b>[event]:</b> [usr] found a [i.name] chest!")
+
+		if(event == "Treasure Hunt")
+			var/RandomEvent/TreasureHunt/e = locate() in events
+			if(e && e.totalTreasures)
+				e.totalTreasures -= src
+
+				e.winners += usr.ckey
+
+				if(!e.totalTreasures.len)
+					e.totalTreasures = null
+					e.end()
+

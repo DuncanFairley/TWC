@@ -219,8 +219,7 @@ obj/teleport
 				unload_vault()
 
 	desert_exit
-		icon = 'misc.dmi'
-		icon_state = "sandstorm_exit"
+		icon = 'DesertTeleport.dmi'
 		dest = "teleportPointCoS Floor 3"
 		invisibility = 0
 		Teleport(mob/M)
@@ -1078,8 +1077,7 @@ mob/Player
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
 			if("Rotem12")
-				src.verbs+=/mob/GM/verb/Add_Prize
-				src.verbs+=/mob/GM/verb/Remove_Prize
+				src.verbs+=/mob/GM/verb/Check_Inactivity
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
@@ -1132,13 +1130,27 @@ mob/Player
 		if(Lwearing)
 			var/mob/Player/var/list/tmpwearing = Lwearing
 			Lwearing = list()
+
+			if(!ignoreBonus)
+				clothDmg = 0
+				clothDef = 0
+
 			for(var/obj/items/wearable/W in tmpwearing)
-				spawn()
-					var/b = W.bonus
-					W.bonus = ignoreBonus ? -1 : b
-					W.Equip(src,1)
-					W.bonus = b
-		spawn()if(src.away)src.ApplyAFKOverlay()
+				var/b = W.bonus
+				W.bonus = -1
+				W.Equip(src,1)
+				W.bonus = b
+
+				if(b != -1)
+					if(b & W.DAMAGE)
+						clothDmg += 10 * W.quality
+					if(b & W.DEFENSE)
+						clothDef += 30 * W.quality
+
+			if(!ignoreBonus)
+				resetMaxHP()
+
+		if(src.away)src.ApplyAFKOverlay()
 
 	verb
 		Say(t as text)
@@ -2293,7 +2305,7 @@ obj/Banker
 					if(get_dist(usr,src)>4)return
 					usr << "You deposit [comma(heh)] gold."
 					usr.gold -= heh
-					addGold(heh)
+					addGold(heh, usr)
 					usr << "You now have [comma(getGold(usr))] gold in the bank."
 				if("Withdraw")
 					var/heh = input("You have [comma(getGold(usr))] gold in the bank. How much do you wish to withdraw?","Withdraw",getGold(usr)) as null|num
@@ -2307,7 +2319,7 @@ obj/Banker
 					if(get_dist(usr,src)>4)return
 					usr << "You withdraw [comma(heh)] gold."
 					usr.gold += heh
-					addGold(-heh)
+					addGold(-heh, usr)
 					usr << "You now have [comma(getGold(usr))] gold in the bank."
 				if("Balance")
 					usr << "You have [comma(getGold(usr))] gold in the bank."

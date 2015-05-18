@@ -129,9 +129,9 @@ area
 						M.state = M.SEARCH
 
 
-		Exit(atom/movable/O)
-			.=..()
-			if(istype(O, /mob/NPC) && !O:removeoMob) return 0
+	//	Exit(atom/movable/O)
+	//		.=..()
+	//		if(istype(O, /mob/NPC) && !O:removeoMob) return 0
 
 		Exited(atom/movable/O)
 			. = ..()
@@ -204,6 +204,24 @@ mob
 					sleep(rand(10,60))
 					ShouldIBeActive()
 					state()
+
+			Move(NewLoc,Dir=0)
+				if(!removeoMob && isturf(NewLoc))
+					var/turf/t = NewLoc
+					if(t.loc != loc.loc)
+						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+						dirs -= Dir
+						while(dirs.len)
+							var/d = pick(dirs)
+							dirs -= d
+
+							var/turf/new_t = get_step(loc, d)
+							if(new_t && new_t.loc == loc.loc)
+								NewLoc = new_t
+								Dir = d
+								break
+						if(NewLoc:loc != loc.loc) return
+				..()
 
 			proc/calcStats()
 				Dmg = round(DMGmodifier * ((src.level -1) + 5))
@@ -802,8 +820,8 @@ mob
 			Demon_Rat
 				icon_state = "demon rat"
 				level = 50
-				drops = list("0.5" =      /obj/items/demonic_essence,
-							 "0.7" = list(/obj/items/Whoopie_Cushion,
+				drops = list("0.7" =      /obj/items/demonic_essence,
+							 "0.8" = list(/obj/items/Whoopie_Cushion,
 			 	 			 			  /obj/items/Smoke_Pellet,
 			 	 			 			  /obj/items/Tube_of_fun))
 			Pixie

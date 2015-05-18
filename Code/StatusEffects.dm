@@ -151,7 +151,7 @@ proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inare
 		M << "<b>[target] is inside a safezone.</b>"
 		return 0
 	if(antiTeleport && M.loc.loc:antiTeleport)
-		M << "<b>You can't teleport here.</b>"
+		M << "<b>You can't use this here.</b>"
 		return 0
 	if(!A.safezoneoverride)
 		if(!inhogwarts && istype(M.loc.loc,/area/hogwarts))
