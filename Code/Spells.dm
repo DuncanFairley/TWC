@@ -323,7 +323,7 @@ mob/Spells/verb/Densuago(mob/M in view()&Players)
 	M.overlays+=('teeth.dmi')
 	hearers()<<"[M]'s teeth begin to grow rapidly!"
 	M<<"[src] placed a curse on you! Your teeth grew rapidly. They will return to normal in 3 minutes."
-	usr:learnSpell("Densuago")
+	usr:learnSpell("Densaugeo")
 	src = null
 	spawn(1800)
 		if(M)
