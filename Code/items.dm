@@ -1133,9 +1133,9 @@ obj/items/wearable/title
 		if(. == WORN)
 			if(!overridetext)viewers(owner) << infomsg("[owner] wears \his \"[title]\" title.")
 			for(var/obj/items/wearable/title/W in owner.Lwearing)
-				if(owner.Rank == "Player") owner.Rank = title
 				if(W != src)
 					W.Equip(owner,1,1)
+			if(owner.Rank == "Player") owner.Rank = title
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] removes \his title.")
 			if(owner.Rank == title) owner.Rank = "Player"
