@@ -1141,7 +1141,7 @@ mob/Player
 				W.Equip(src,1)
 				W.bonus = b
 
-				if(b != -1)
+				if(!ignoreBonus)
 					if(b & W.DAMAGE)
 						clothDmg += 10 * W.quality
 					if(b & W.DEFENSE)
