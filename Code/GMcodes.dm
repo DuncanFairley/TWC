@@ -757,7 +757,7 @@ mob
 					M << "<u>You're in detention for [timer] minute[timer==1 ? "" : "s"].</u>"
 				spawn()M.detention_countdown()
 			else
-				Log_admin("[src] has detentioned [M] indefinately.")
+				Log_admin("[src] has detentioned [M]([M.ckey]) indefinately for [Reason].")
 			spawn()sql_add_plyr_log(M.ckey,"de",Reason,timer)
 
 ///////////// Floor Guidance \\\\\\\\\\\\
@@ -957,9 +957,9 @@ mob
 				if(Reason)
 					M << "<b>You've been muted because you [Reason]</b>"
 				if(timer==0)
-					Log_admin("[src] has muted [M] indefinately.")
+					Log_admin("[src] has muted [M]([M.ckey]) indefinately for [Reason].")
 				else
-					Log_admin("[src] has muted [M] for [timer] minutes.")
+					Log_admin("[src] has muted [M]([M.ckey]) for [timer] minutes for [Reason].")
 					M.timerMute = timer
 					if(timer != 0)
 						M << "<u>You've been muted for [timer] minute[timer==1 ? "" : "s"].</u>"
