@@ -751,7 +751,7 @@ mob
 					M << "Review the rules."
 				spawn(55)M << browse(rules,"window=1")
 			if(timer)
-				Log_admin("[src] has detentioned [M] for [timer] minutes.")
+				Log_admin("[src] has detentioned [M]([M.ckey]) for [timer] minutes for [Reason].")
 				M.timerDet = timer
 				if(timer != 0)
 					M << "<u>You're in detention for [timer] minute[timer==1 ? "" : "s"].</u>"
