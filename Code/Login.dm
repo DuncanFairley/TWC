@@ -776,7 +776,7 @@ world/proc/worldlooper()
 					if(1)
 						C.mob << "<font color = white><b><h3>TWC Radio is broadcasting. Click <a href='http://listen.hotdogradio.com/?ID=TWC'>here</a> to listen.</h3></b></font><br>"
 					if(2)
-						C.mob << "<font color = white><b><h3>You should probably listen to TWC Radio! Click Click <a href='http://listen.hotdogradio.com/?ID=TWC'>here</a> to listen!</h3></b></font><br>"
+						C.mob << "<font color = white><b><h3>You should probably listen to TWC Radio! Click <a href='http://listen.hotdogradio.com/?ID=TWC'>here</a> to listen!</h3></b></font><br>"
 	spawn()worldlooper()
 mob
 	create_character
