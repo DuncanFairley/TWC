@@ -2422,8 +2422,8 @@ obj
 		luminosity = 7
 		layer = 7
 		dontsave=1
-		accioable=1
-		wlable = 1
+		accioable=0
+		wlable = 0
 		New()
 			..()
 			pixel_x = rand(-7,7)
