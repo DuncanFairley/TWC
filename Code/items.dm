@@ -614,15 +614,39 @@ obj/items/wearable/hats/bunny_ears
 	icon = 'bunny_ears_hat.dmi'
 	dropable = 0
 obj/items/wearable/hats/blue_earmuffs
-	icon = 'blue_earmuffs_hat.dmi'
+	icon = 'lightblue_earmuffs_hat.dmi'
+	name = "light blue earmuffs"
 obj/items/wearable/hats/white_earmuffs
 	icon = 'white_earmuffs_hat.dmi'
 obj/items/wearable/hats/green_earmuffs
 	icon = 'green_earmuffs_hat.dmi'
 obj/items/wearable/hats/red_earmuffs
 	icon = 'red_earmuffs_hat.dmi'
-obj/items/wearable/hats/yellow_earmuffs
-	icon = 'yellow_earmuffs_hat.dmi'
+obj/items/wearable/hats/black_earmuffs
+	icon = 'black_earmuffs_hat.dmi'
+obj/items/wearable/hats/cyan_earmuffs
+	icon = 'cyan_earmuffs_hat.dmi'
+obj/items/wearable/hats/darkblue_earmuffs
+	icon = 'darkblue_earmuffs_hat.dmi'
+	name = "dark blue earmuffs"
+obj/items/wearable/hats/darkpurple_earmuffs
+	icon = 'darkpurple_earmuffs_hat.dmi'
+	name = "dark purple earmuffs"
+obj/items/wearable/hats/darkpink_earmuffs
+	icon = 'darkpink_earmuffs_hat.dmi'
+	name = "dark pink earmuffs"
+obj/items/wearable/hats/grey_earmuffs
+	icon = 'grey_earmuffs_hat.dmi'
+obj/items/wearable/hats/lightpurple_earmuffs
+	icon = 'lightpurple_earmuffs_hat.dmi'
+	name = "light purple earmuffs"
+obj/items/wearable/hats/lightpink_earmuffs
+	icon = 'lightpink_earmuffs_hat.dmi'
+	name = "light pink earmuffs"
+obj/items/wearable/hats/orange_earmuffs
+	icon = 'orange_earmuffs_hat.dmi'
+obj/items/wearable/hats/teal_earmuffs
+	icon = 'teal_earmuffs_hat.dmi'
 obj/items/wearable/wands
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
