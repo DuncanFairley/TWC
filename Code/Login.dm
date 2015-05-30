@@ -515,12 +515,12 @@ mob/verb/DisableBetaMapMode()
 	//if(30*r+59*g+11*b > 7650) outline = "#000"
 	if(src.pname&&src.key)
 		if(de)
-			namefont.QuickName(src, "Deatheater", rgb(r,g,b), outline, top=1)
+			namefont.QuickName(src, "Robed Figure", rgb(r,g,b), outline, top=1)
 		else
 			namefont.QuickName(src, src.pname, rgb(r,g,b), outline, top=1)
 	else
 		if(de)
-			namefont.QuickName(src, "Deatheater", rgb(r,g,b), outline, top=1)
+			namefont.QuickName(src, "Robed Figure", rgb(r,g,b), outline, top=1)
 		else
 			namefont.QuickName(src, src.name, rgb(r,g,b), outline, top=1)
 
@@ -552,7 +552,7 @@ proc/check(msg as text)
             pos = findtext(msg,c,pos)//looks for anymore unwanted text after the first one is found
     return html_encode(msg)
 var/list/illegalnames = list(
-	"deatheater",
+	"robed figure",
 	"harry",
 	"potter",
 	"weasley",
@@ -1036,7 +1036,7 @@ mob/Player
 
 	proc
 		Saveme()
-			if(derobe)
+			if(prevname)
 				derobe = 0
 				name = prevname
 
@@ -1208,7 +1208,7 @@ mob/Player
 											if(rand(1,3)==1) M<<"<i>You hear an odd ringing sound.</i>"
 
 
-							if(usr.name=="Deatheater")
+							if(usr.name=="Robed Figure")
 								chatlog << "<font size=2 color=red><b>[usr.prevname] (ROBED)</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
 							else
 								chatlog << "<font size=2 color=red><b>[usr]</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
@@ -1563,7 +1563,7 @@ mob/Player
 			var/online=0
 			for(var/mob/Player/M in Players)
 				online++
-				src << "\icon[wholist[M.House ? M.House : "Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.derobe ? M.prevname : M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level >= lvlcap ? getSkillGroup(M.ckey) : M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+				src << "\icon[wholist[M.House ? M.House : "Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname ? M.prevname : M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level >= lvlcap ? getSkillGroup(M.ckey) : M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
 
 			usr << "[online] players online."
 			var/logginginmobs = ""
@@ -2058,6 +2058,16 @@ mob/proc/Death_Check(mob/killer = src)
 							rndexp = round(rndexp * 0.4)
 						killer.gold += rndexp
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
+
+					var/rep = -round(src:getRep() / 100, 1)
+
+					if(rep >= 0)
+						rep = max(rep, 1)
+					else
+						rep = min(rep, -1)
+
+					killer:addRep(rep)
+					killer << infomsg("You gained [abs(rep)] [rep > 0 ? "good" : "evil"] reputation.")
 				else
 					src<<"You knocked yourself out!"
 			else
@@ -2425,19 +2435,19 @@ mob/var/Disperse
 mob/var/Aero
 obj/var/accioable=0
 obj/var/clothes
-mob/var/DeathEater=0
+mob/var/DeathEater
 
 mob/var/MuteOOC=0
 
 mob/var/Year=""
 mob/var/Teleblock=0
 mob/var/House
-mob/var/Auror=0
-mob/var/DE=0
+mob/var/Auror
+mob/var/DE
 mob/var/Tag=null
 mob/var/GMTag=null
 mob/var/HA
-mob/var/HDE=0
+mob/var/HDE
 
 obj/var/dontsave=0
 //others

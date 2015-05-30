@@ -100,7 +100,7 @@ client/proc
 	update_individual()
 		set background=1
 		if(!mysql_enabled) return
-		var/DBQuery/qry = my_connection.NewQuery("SELECT isAuror,isDE,Cstore,Cspecverb FROM tblPlayers WHERE ckey=[mysql_quote(src.ckey)];")
+		/*var/DBQuery/qry = my_connection.NewQuery("SELECT isAuror,isDE,Cstore,Cspecverb FROM tblPlayers WHERE ckey=[mysql_quote(src.ckey)];")
 		var/tmpmsg = qry.ErrorMsg()
 		if(tmpmsg) world.log << "Mysql error update_individual. 1: [tmpmsg]"
 		qry.Execute()
@@ -146,8 +146,6 @@ client/proc
 					mob.GenerateNameOverlay(13,116,219)
 				if("Ministry")
 					mob.GenerateNameOverlay(255,255,255)
-			for(var/mob/fakeDE/d in world)
-				if(d.ownerkey == mob.key) del d
 		if(mob.aurorrobe && !(/mob/GM/verb/Auror_Robes in mob.verbs))
 			//You're no longer a DE but are in robes
 			mob.aurorrobe=0
@@ -211,10 +209,10 @@ client/proc
 							qry = my_connection.NewQuery("UPDATE tblPlayers SET isAuror=1,clanRank='Aurors' WHERE ckey=[mysql_quote(src.ckey)];")
 							qry.Execute()
 							mob << "You can access Auror HQ by clicking the PM button on your HUD."
-					update_individual()
-		qry = my_connection.NewQuery("SELECT ID,Amount,EarnerCkey FROM tblReferralAmounts WHERE RefererCkey=[my_connection.Quote(src.ckey)];")
+					update_individual()*/
+		var/DBQuery/qry = my_connection.NewQuery("SELECT ID,Amount,EarnerCkey FROM tblReferralAmounts WHERE RefererCkey=[my_connection.Quote(src.ckey)];")
 		qry.Execute()
-		tmpmsg = qry.ErrorMsg()
+		var/tmpmsg = qry.ErrorMsg()
 		if(tmpmsg) world.log << "Mysql error update_individual for tblReferralAmounts: [tmpmsg] - SQL: SELECT ID,Amount,EarnerCkey FROM tblReferralAmounts WHERE RefererCkey=[my_connection.Quote(src.ckey)];"
 		if(qry.RowCount() > 0)
 			var/list/row_data

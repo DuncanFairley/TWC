@@ -129,118 +129,12 @@ mob
 
 mob
 	var
-		derobe = 0
-		aurorrobe = 0
-mob
-	fakeDE
-		density = 0
-		var/ownerkey = ""
-		New()
-			..()
-			fakeDEs.Add(src)
+		derobe = null
+		aurorrobe = null
 mob/test/verb/Download_Savefile()
 	var/ckeyname = input("Ckeyyyyy?") as null|text
 	if(!ckeyname) return
 	usr << ftp(file("players/[copytext(ckeyname,1,2)]/[ckeyname].sav"))
-mob
-	GM/verb
-		Auror_Robes()
-			set category = "Clan"
-			set name = "Auror Robes"
-			if(usr.aurorrobe==1)
-				usr.aurorrobe=0
-				usr.icon = usr.baseicon
-				usr:ApplyOverlays()
-				usr.underlays = list()
-				switch(usr.House)
-					if("Hufflepuff")
-						GenerateNameOverlay(242,228,22)
-					if("Slytherin")
-						GenerateNameOverlay(41,232,23)
-					if("Gryffindor")
-						GenerateNameOverlay(240,81,81)
-					if("Ravenclaw")
-						GenerateNameOverlay(13,116,219)
-					if("Ministry")
-						GenerateNameOverlay(255,255,255)
-				if(locate(/mob/GM/verb/GM_chat) in usr.verbs) usr.Gm = 1
-			else
-				for(var/client/C)
-					if(C.eye)
-						if(C.eye == usr && C.mob != usr)
-							C << "<b><font color = white>Your Telendevour wears off."
-							C.eye=C.mob
-				usr.aurorrobe=1
-				usr.density=1
-				usr.underlays = list()
-				GenerateNameOverlay(196,237,255)
-				usr.Immortal = 0
-				usr.Gm = 0
-				var/mob/Player/user = usr
-				if(usr.trnsed)
-					usr.trnsed = 0
-					user.ApplyOverlays()
-				if(usr.Gender == "Female")
-					usr.icon = 'FemaleAuror.dmi'
-				else
-					usr.icon = 'MaleAuror.dmi'
-		DErobes()
-			set category = "Clan"
-			set name = "Wear DE Robes"
-			if(usr.derobe==1)
-				usr.icon = usr.baseicon
-				usr.trnsed = 0
-				usr.derobe=0
-				usr:ApplyOverlays()
-				if(locate(/mob/GM/verb/GM_chat) in usr.verbs) usr.Gm = 1
-				usr << "You slip off your Death Eater robes."
-				usr.name = usr.prevname
-				usr.underlays = list()
-				if(usr.Gender == "Male")
-					usr.gender = MALE
-				else if(usr.Gender == "Female")
-					usr.gender = FEMALE
-				else
-					usr.gender = MALE
-				switch(usr.House)
-					if("Hufflepuff")
-						GenerateNameOverlay(242,228,22)
-					if("Slytherin")
-						GenerateNameOverlay(41,232,23)
-					if("Gryffindor")
-						GenerateNameOverlay(240,81,81)
-					if("Ravenclaw")
-						GenerateNameOverlay(13,116,219)
-					if("Ministry")
-						GenerateNameOverlay(255,255,255)
-				for(var/mob/fakeDE/d in world)
-					if(d.ownerkey == src.key) del d
-			else
-				for(var/client/C)
-					if(C.eye)
-						if(C.eye == usr && C.mob != usr)
-							C << "<b><font color = white>Your Telendevour wears off."
-							C.eye=C.mob
-				usr.trnsed = 1
-				usr.derobe=1
-				usr.icon = 'Deatheater.dmi'
-				usr.overlays = null
-				if(usr.away)usr.ApplyAFKOverlay()
-				usr.gender = NEUTER
-				usr.Immortal = 0
-				usr.density=1
-				usr.Gm = 0
-				usr << "You slip on your Death Eater robes."
-				usr.prevname = usr.name
-				usr.name = "Deatheater"
-				usr.underlays = list()
-				usr.GenerateNameOverlay(77,77,77,1)
-				for(var/mob/fakeDE/d in world)
-					if(d.name == src.name) return
-				var/mob/fakeDE/a = new(locate(1,1,1))
-				a.name = src.prevname
-				a.ownerkey = src.key
-				a.pname = src.pname
 
 image/meditate/icon = 'Meditate.dmi'
 

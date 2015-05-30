@@ -115,6 +115,9 @@ proc
 		X["skill_rating"] >> skill_rating
 		if(!skill_rating) skill_rating = list()
 
+		X["reputations"] >> reputations
+		if(!reputations) reputations = list()
+
 		X["competitiveBans"] >> competitiveBans
 		X["prizeItems"] >> prizeItems
 
@@ -133,6 +136,7 @@ proc
 		X["competitiveBans"] << competitiveBans
 		X["prizeItems"] << prizeItems
 		X["skill_rating"] << skill_rating
+		X["reputations"] << reputations
 		X["ClanWars"] << cw
 		X["AutoClasses"] << classes
 		X["DJs"] << DJs
@@ -188,7 +192,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 9
+#define SAVEFILE_VERSION 10
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -315,6 +319,25 @@ mob
 						p.questPointers["Sweet Easter"] = pointer
 
 					talkedtobunny = null
+
+			if(savefile_version < 10)
+				DeathEater = null
+				HA         = null
+				Auror      = null
+				HDE        = null
+				if(aurorrobe)
+					icon = baseicon
+					aurorrobe = null
+				else if(derobe)
+					name = prevname
+					icon = baseicon
+					derobe = null
+				verbs.Remove(/mob/GM/verb/Auror_chat)
+				verbs.Remove(/mob/GM/verb/Auror_Robes)
+				verbs.Remove(/mob/GM/verb/DErobes)
+				verbs.Remove(/mob/GM/verb/DE_chat)
+				verbs.Remove(/mob/GM/verb/Clan_store)
+				verbs.Remove(/mob/Spells/verb/Morsmordre)
 
 			var/turf/t = locate(last_x, last_y, last_z)
 			if(!t || t.name == "blankturf")
@@ -689,11 +712,6 @@ mob/BaseCamp/ChoosingCharacter
 		sight=0
 		return
 
-var/list/mob/fakeDEs = list()
-proc/cleanup_fakeDE(loggedoutKey)
-	for(var/mob/fakeDE/d in fakeDEs)
-		if(d.ownerkey == loggedoutKey)
-			del d
 
 client
 	var/tmp/savefile/_base_player_savefile
@@ -712,7 +730,7 @@ client
 				mob:trade.Clean()
 			var/StatusEffect/S = mob.findStatusEffect(/StatusEffect/Lamps)
 			if(S) S.Deactivate()
-			if(mob.derobe)
+			if(mob.prevname)
 				mob.derobe = 0
 				mob.name = mob.prevname
 			mob.occlumens = 0
@@ -721,7 +739,6 @@ client
 				mob.xp4referer = 0
 			if(!mob.Gm)
 				mob.Check_Death_Drop()
-			cleanup_fakeDE(key)
 		if (base_autosave_character)
 			base_SaveMob()
 		if (base_autodelete_mob)
@@ -805,7 +822,7 @@ client
 		fdel("players/[first_initial]/[ckey].sav")
 		var/savefile/F = base_PlayerSavefile()
 		var/wasDE = 0
-		if(mob.name == "Deatheater" && mob.prevname)
+		if(mob.name == "Robed Figure" && mob.prevname)
 			wasDE = 1
 			mob.name = mob.prevname
 		var/mob_ckey = ckey(mob.name)
@@ -817,7 +834,7 @@ client
 		F["name"] << mob.name
 		F["mob"] << mob
 		if(wasDE)
-			mob.name = "Deatheater"
+			mob.name = "Robed Figure"
 		_base_player_savefile = null
 
 

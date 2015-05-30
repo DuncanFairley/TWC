@@ -1493,6 +1493,17 @@ questReward
 		exp   = 10000
 		items = /obj/items/wearable/wands/maple_wand
 
+
+	clanReward
+		var/points
+
+		get(mob/Player/p)
+			..(p)
+
+			if(points)
+				p.addRep(points)
+				p << infomsg("You gained [abs(points)] [points > 0 ? "good" : "evil"] reputation.")
+
 	proc/get(mob/Player/p)
 		if(gold)
 			p.gold += gold

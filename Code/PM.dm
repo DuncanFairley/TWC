@@ -25,7 +25,7 @@ proc/text2mob(var/txtMob)
 		if(M.name == txtMob || M.pname == txtMob || M.prevname == txtMob)
 			return M
 proc/formatName(mob/M,force=1)
-	if(M.derobe) return force ? (M.pname ? M.pname : M.prevname) : "[M]"
+	if(M.prevname) return force ? (M.pname ? M.pname : M.prevname) : "[M]"
 	if(M.pname)  return M.pname
 	return "[M]"
 

@@ -419,7 +419,7 @@ proc
 		var/list/L = list()
 		for(var/mob/Player/p in Players)
 			if(Remove != null && (p in Remove)) continue
-			if(p.derobe)
+			if(p.prevname)
 				L.Add(p.prevname)
 			else
 				L.Add(p)

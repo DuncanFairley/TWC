@@ -24,5 +24,5 @@ obj/Shield
 	density = 1
 
 mob/var/shielded
-mob/var/prevname = ""
+mob/var/tmp/prevname
 mob/var/shieldamount
