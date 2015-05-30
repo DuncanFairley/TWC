@@ -560,7 +560,7 @@ obj/items/wearable/brooms
 		if(!forceremove && !(src in owner.Lwearing) && owner.findStatusEffect(/StatusEffect/Knockedfrombroom))
 			owner << errormsg("You can't get back on your broom right now because you were recently knocked off.")
 			return
-		if(owner.trnsed && !owner.derobe || (owner.derobe && owner.icon != 'Deatheater.dmi'))
+		if(owner.trnsed)
 			owner << errormsg("You can't fly while transfigured.")
 			return
 		if(locate(/obj/items/wearable/invisibility_cloak) in owner.Lwearing)
@@ -573,8 +573,6 @@ obj/items/wearable/brooms
 			if(!overridetext)viewers(owner) << infomsg("[owner] jumps on \his [src.name].")
 			owner.density = 0
 			owner.flying = 1
-			if(owner.derobe)
-				owner.overlays -= src.icon
 			owner.icon_state = "flying"
 			for(var/obj/items/wearable/brooms/W in owner.Lwearing)
 				if(W != src)
@@ -3789,10 +3787,10 @@ obj/items
 			Open()
 				set src in usr
 
-				var/obj/items/key = locate(text2path("/obj/items/key/[name]")) in usr
+				var/obj/items/key = locate(text2path("/obj/items/key/[split(name, " ")[1]]_key")) in usr
 
 				if(!key)
-					key = locate(/obj/items/key/Master) in usr
+					key = locate(/obj/items/key/master_key) in usr
 
 				if(key)
 
@@ -3808,13 +3806,20 @@ obj/items
 				else
 					usr << errormsg("You don't have a [name] key to open this chest!")
 
-		Wizard
+
+		duel_chest
+			icon_state = "duel"
+			drops = list(/obj/items/wearable/scarves/duel_scarf = 50,
+	                     /obj/items/wearable/shoes/duel_shoes   = 30,
+	                     /obj/items/wearable/wands/duel_wand = 20)
+
+		wizard_chest
 			icon_state = "blue"
 			drops = list(/obj/items/wearable/scarves/teal_scarf = 50,
 	                     /obj/items/wearable/shoes/teal_shoes   = 30,
 	                     /obj/items/wearable/scarves/cyan_scarf = 20)
 
-		Pentakill
+		pentakill_chest
 			icon_state = "red"
 			drops = list(/obj/items/wearable/scarves/black_scarf = 40,
 	                     /obj/items/wearable/scarves/white_scarf = 25,
@@ -3822,7 +3827,7 @@ obj/items
 	                     /obj/items/wearable/shoes/white_shoes   = 10,
 	                     /obj/items/wearable/scarves/grey_scarf  = 5)
 
-		Basic
+		basic_chest
 			icon_state = "green"
 			drops = list(/obj/items/wearable/scarves/black_scarf  = 10,
 	                     /obj/items/wearable/scarves/green_scarf  = 15,
@@ -3831,7 +3836,7 @@ obj/items
 	                     /obj/items/wearable/scarves/yellow_scarf = 20,
 	                     /obj/items/wearable/scarves/orange_scarf = 25)
 
-		Sunset
+		sunset_chest
 			icon_state = "purple"
 			drops = list(/obj/items/wearable/scarves/sunset_scarf     = 4,
 						 /obj/items/wearable/shoes/cyan_shoes         = 30,
@@ -3843,16 +3848,17 @@ obj/items
 	key
 		icon = 'ChestKey.dmi'
 
-		Master
+		master_key
 			icon_state = "master"
-
-		Wizard
+		wizard_key
 			icon_state = "blue"
-		Pentakill
+		duel_key
+			icon_state = "duel"
+		pentakill_key
 			icon_state = "red"
-		Basic
+		basic_key
 			icon_state = "green"
-		Sunset
+		sunset_key
 			icon_state = "purple"
 
 
@@ -3934,12 +3940,12 @@ obj/roulette
 		     life   = new /Random(15,25))
 
 		var/obj/items/i = new prize (loc)
-		ohearers(src) << infomsg("<b>[playerName] opened a case and won a [i.name]!</b>")
+		ohearers(src) << infomsg("<b>[playerName] opened a chest and won a [i.name]!</b>")
 
 		i.antiTheft = 1
 		i.owner     = playerCkey
 
-		goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [playerName]([playerCkey]) got a [i.name] from a case.<br />"
+		goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [playerName]([playerCkey]) got a [i.name] from a chest.<br />"
 
 		spawn(600)
 			if(i)

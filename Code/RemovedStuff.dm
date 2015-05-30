@@ -278,3 +278,38 @@ obj/MasterBed___
 	New()
 		..()
 		loc = null
+
+
+obj/items
+	key
+		Master
+		Wizard
+		Pentakill
+		Basic
+		Sunset
+		New()
+			..()
+			spawn(1)
+				var/t = text2path("/obj/items/key/[lowertext(name)]_key")
+				new t (loc)
+				loc = null
+
+	chest
+		Wizard
+		Pentakill
+		Basic
+		Sunset
+
+		New()
+			..()
+			spawn(1)
+				var/t = text2path("/obj/items/chest/[lowertext(name)]_chest")
+				new t (loc)
+				loc = null
+
+mob
+	GM/verb
+		Auror_Robes()
+			set hidden = 1
+		DErobes()
+			set hidden = 1

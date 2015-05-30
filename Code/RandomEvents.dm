@@ -459,10 +459,10 @@ obj/items/treasure
 
 		loc = null
 
-		var/t = pickweight(list(/obj/items/chest/Basic     = 50,
-		                        /obj/items/chest/Wizard    = 20,
-		                        /obj/items/chest/Pentakill = 20,
-		                        /obj/items/chest/Sunset    = 10))
+		var/t = pickweight(list(/obj/items/chest/basic_chest     = 50,
+		                        /obj/items/chest/wizard_chest    = 20,
+		                        /obj/items/chest/pentakill_chest = 20,
+		                        /obj/items/chest/sunset_chest    = 10))
 
 		var/obj/items/i = new t (usr)
 		usr:Resort_Stacking_Inv()

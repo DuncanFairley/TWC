@@ -509,8 +509,8 @@ mob
 						var/proj = "gum"
 						canBleed = FALSE
 
-						drops = list("100" = list(/obj/items/key/Basic,
-						                          /obj/items/key/Wizard,
+						drops = list("100" = list(/obj/items/key/basic_key,
+						                          /obj/items/key/wizard_key,
 						                          /obj/items/wearable/title/Ghost,
 												  /obj/items/lamps/triple_drop_rate_lamp,
 												  /obj/items/lamps/triple_gold_lamp,
@@ -610,8 +610,8 @@ mob
 						var/tmp/fired = 0
 						extraDmg = 400
 
-						drops = list("100" = list(/obj/items/key/Basic,
-						                          /obj/items/key/Pentakill,
+						drops = list("100" = list(/obj/items/key/basic_key,
+						                          /obj/items/key/pentakill_key,
 						                          /obj/items/wearable/title/Snowflakes,
 												  /obj/items/lamps/triple_drop_rate_lamp,
 												  /obj/items/lamps/triple_gold_lamp,
@@ -734,7 +734,7 @@ mob
 					..()
 					transform *= 2
 
-				drops = list("2"    = /obj/items/key/Wizard,
+				drops = list("2"    = /obj/items/key/wizard_key,
 				             "10"   = list(/obj/items/artifact,
 										   /obj/items/stickbook,
 										   /obj/items/crystal/soul,
@@ -865,10 +865,10 @@ mob
 				var/tmp/fired = 0
 
 				drops = list("3"    =      /obj/items/crystal/luck,
-							 "0.3"  = list(/obj/items/key/Basic,
-							               /obj/items/key/Wizard,
-							               /obj/items/key/Pentakill,
-							               /obj/items/key/Sunset),
+							 "0.3"  = list(/obj/items/key/basic_key,
+							               /obj/items/key/wizard_key,
+							               /obj/items/key/pentakill_key,
+							               /obj/items/key/sunset_key),
 						     "0.8"  = list(/obj/items/crystal/defense,
 							 			   /obj/items/crystal/damage),
 						     "0.01" = /obj/items/artifact,
@@ -948,7 +948,7 @@ mob
 
 					MoveDelay = 2
 
-					drops = list("2"      =      /obj/items/key/Sunset,
+					drops = list("2"      =      /obj/items/key/sunset_key,
 					             "10"     = list(/obj/items/artifact,
 										         /obj/items/crystal/soul,
 				                                 /obj/items/wearable/title/Fallen),
@@ -992,10 +992,10 @@ mob
 						transform *= 1 + (rand(-15,30) / 50) // -30% to +60% size change
 
 				drops = list("0.03" = /obj/items/wearable/title/Eye,
-							 "0.5"  = list(/obj/items/key/Basic,
-							               /obj/items/key/Wizard,
-							               /obj/items/key/Pentakill,
-							               /obj/items/key/Sunset),
+							 "0.5"  = list(/obj/items/key/basic_key,
+							               /obj/items/key/wizard_key,
+							               /obj/items/key/pentakill_key,
+							               /obj/items/key/sunset_key),
 							 "0.6"  = /obj/items/artifact,
 							 "1"    = list(/obj/items/DarknessPowder,
 								 	 	   /obj/items/Whoopie_Cushion,
@@ -1206,7 +1206,7 @@ mob
 					..()
 					transform *= 2
 
-				drops = list("2"    = /obj/items/key/Pentakill,
+				drops = list("2"    = /obj/items/key/pentakill_key,
 							 "10"   = list(/obj/items/artifact,
 										   /obj/items/wearable/title/Petrified,
 										   /obj/items/crystal/soul,
