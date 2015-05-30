@@ -2690,14 +2690,14 @@ turf
 		density = 0
 		New()
 			..()
-			icon_state = "wood[rand(2,8)] - halloween"
+			icon_state = "wood[rand(1,8)] - halloween"
 
 	woodenfloor
 		icon_state = "wood"
 		density=0
 		New()
 			..()
-			icon_state = "wood[rand(2,8)]"
+			icon_state = "wood[rand(1,8)]"
 
 
 	longtable1
