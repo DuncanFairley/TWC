@@ -1,6 +1,7 @@
 var/const
-	WINS_REQ   = 10
-	RANK_LIMIT = 350
+	WINS_REQ     = 10
+	RANK_LIMIT   = 350
+	START_RATING = 500
 
 var/list/duel_chairs = list()
 
@@ -260,18 +261,19 @@ matchmaking
 				if(p && prob(5))
 					var/prize
 					if(loser.rating > 600 && winner.rating > 600 && prob(15))
-						prize = pick(/obj/items/wearable/shoes/duel_shoes,
-									 /obj/items/wearable/scarves/duel_scarf,
-									 /obj/items/wearable/wands/duel_wand)
+						prize = pick(/obj/items/chest/wizard_chest,
+						             /obj/items/chest/duel_chest,
+						             /obj/items/chest/basic_chest)
 					else
-						prize = pick(/obj/items/wearable/title/Duelist,
+						prize = pick(/obj/items/chest/basic_chest,
+									 /obj/items/wearable/title/Duelist,
 									 /obj/items/wearable/title/Wizard,
 									 /obj/items/wearable/title/Determined,
 									 /obj/items/wearable/title/Battlemage)
 
-						var/obj/o = new prize (p)
-						p.Resort_Stacking_Inv()
-						p << infomsg("You receive [o.name]! How lucky!")
+					var/obj/o = new prize (p)
+					p.Resort_Stacking_Inv()
+					p << infomsg("You receive [o.name]! How lucky!")
 
 
 mob/Player/var/tmp/arena/rankedArena
@@ -621,7 +623,7 @@ var/list/skill_rating
 
 skill_stats
 	var/wins   = 0
-	var/rating = 400
+	var/rating = START_RATING
 	var/name
 	var/time
 
@@ -713,7 +715,6 @@ tr.grey
 {
 	background-color:#EFEFEF;
 	border: solid 1px #EEEEEE;
-	font-size:16px;
 }
 }</style></head>"}
 
