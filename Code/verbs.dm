@@ -170,13 +170,6 @@ obj
 				set src in view(3)
 				usr << "This scroll is made of very old paper that is crumbling at the edges."
 
-
-
-
-
-
-
-
 mob/GM/verb/Force_PM(mob/M in world)
 		set category="Staff"
 		set popup_menu = 0
@@ -184,18 +177,7 @@ mob/GM/verb/Force_PM(mob/M in world)
 		M<<browse("<body bgcolor=black><p align=center><p><font size=3><font color=white><hr><b><font color=red><p align=center>Forced PM From [usr]<p align=center><b><font color=white>[PM]<hr>")
 
 		usr<<"Sent."
-mob/GM/verb
-	Add_GM_To_List(message as message)
-		set category = "Staff"
-		set name = ""
-		var/timestamp = world.realtime
-		file("GMs.html") << "<b><u>[time2text(timestamp,"MMM DD - hh:mm:ss")]: [src.key]</b></u><br>[message]<BR>"
-		src << "This person has been added to the GM List. Thank you."
 
-mob/GM
-	verb
-		GM_List_Admin()
-			set category = "Staff"
 mob
 	verb
 		Help()
