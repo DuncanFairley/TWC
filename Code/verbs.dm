@@ -217,7 +217,7 @@ mob
 											p.beep()
 											p << "<font color=red><b>GMHelp:</font> <b>User, <font color=blue>[usr]</font> , requests GM assistance."
 				if("Report a Bug")
-					usr << infomsg("Report bugs by PMing a GM.")
+					usr << infomsg("You can report a bug/issue to the developers by going <a href=\"https://github.com/DuncanFairley/TWC/issues\">here</a>.")
 				if("How to get spells")
 					usr << infomsg("Go to classes. Classes will be announced when they are going to start, and the times each class are going to start can be viewed by pressing the Class Schedule verb in your 'Commands' tab.")
 mob/GM
