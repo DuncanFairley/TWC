@@ -2245,6 +2245,7 @@ obj/Banker
 	New()
 		..()
 		spawn(1) icon_state = "goblin[rand(1,3)]"
+		namefont.QuickName(src, src.name, rgb(255,255,255), "#000", top=1)
 
 	Click()
 		..()
