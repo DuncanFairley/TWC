@@ -1173,7 +1173,7 @@ mob/Player
 							if(copytext(t,1,5)=="\[me]")
 								hearers(client.view)<<"<i>[usr] [copytext(t,5)]</i>"
 							else if(copytext(t,1,4)=="\[w]")
-								if(name == "Deatheater")
+								if(name == "Robed Figure")
 									range(1)<<"<font size=2><font color=red><b><font color=red>[usr]</font> whispers: <i>[copytext(t,4)]</i>"
 								else
 									range(1)<<"<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> whispers: <i>[copytext(t,4)]</i>"
@@ -1200,7 +1200,7 @@ mob/Player
 								if(!silent)
 									for(var/mob/M in hearers(client.view))
 										if(!M.muff)
-											if(derobe)
+											if(prevname)
 												M<<"<font size=2><font color=red><b><font color=red> [usr]</font></b> :<font color=white> [t]"
 											else
 												M<<"<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> [t]"
@@ -1516,13 +1516,13 @@ mob/Player
 							for(var/client/C)
 
 								if(C.mob)if(C.mob.type == /mob/Player)if(C.mob.listenooc)
-									if(usr.name=="Deatheater")
+									if(usr.name=="Robed Figure")
 										C << "<b><a href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr.prevname] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
 									else
 										C << "<b><a href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
 
 
-							if(usr.name=="Deatheater")
+							if(usr.name=="Robed Figure")
 								chatlog << "<font color=blue><b>[usr.prevname] (ROBED)</b></font><font color=green> OOC's '[T]'</font>"+"<br>"//This is what it adds to the log!
 							else
 								chatlog << "<font color=blue><b>[usr]</b></font><font color=green> OOC's '[T]'</font>"+"<br>"//This is what it adds to the log!
@@ -1997,13 +1997,13 @@ mob/proc/Death_Check(mob/killer = src)
 			if(!src.Detention)
 				if(killer != src && !src:rankedArena)
 					if(killer.client && src.client && killer.loc.loc.name != "outside")
-						if(killer.name == "Deatheater")
-							if(src.name == "Deatheater")
+						if(killer.name == "Robed Figure")
+							if(src.name == "Robed Figure")
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer.prevname](DE robed) killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 							else
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer.prevname](DE robed) killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 						else
-							if(src.name == "Deatheater")
+							if(src.name == "Robed Figure")
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer] killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 							else
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer] killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"

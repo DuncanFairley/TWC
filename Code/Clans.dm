@@ -59,9 +59,18 @@ obj/items/wearable/clan_robes
 		if(!on && p.prevname)
 			p.name     = p.prevname
 			p.prevname = null
+
+			if(p.Gender == "Male")
+				p.gender = MALE
+			else if(p.Gender == "Female")
+				p.gender = FEMALE
+			else
+				p.gender = MALE
+
 		else if(on && p.name != "Robed Figure")
 			p.prevname = p.name
 			p.name     = "Robed Figure"
+			p.gender   = NEUTER
 
 	verb/wear_hood()
 		set src in usr

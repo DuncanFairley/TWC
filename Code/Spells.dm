@@ -1544,7 +1544,7 @@ mob/Spells/verb/Telendevour()
 			var/mob/M = input("Which person would you like to view?") as null|anything in Players(list(src))
 			if(!M)return
 			if(usr.client.eye != usr) return
-			if(istext(M) || istype(M.loc.loc, /area/blindness) || M.occlumens>0 || M.derobe || M.aurorrobe || istype(M.loc.loc, /area/ministry_of_magic))
+			if(istext(M) || istype(M.loc.loc, /area/blindness) || M.occlumens>0 || istype(M.loc.loc, /area/ministry_of_magic))
 				src<<"<b>You feel magic repelling your spell.</b>"
 			else
 				usr.client.eye=M
@@ -2150,7 +2150,7 @@ mob/GM/verb/Remote_View(mob/M in world)
 	set popup_menu = 0
 	if(clanrobed())return
 	if(M.loc == null) return
-	if(M.derobe||M.aurorrobe||istype(M.loc.loc, /area/ministry_of_magic||istype(M.loc.loc, /area/blindness))){src<<"<b>You cannot use remote view on this person.";return}
+	if(istype(M.loc.loc, /area/ministry_of_magic||istype(M.loc.loc, /area/blindness))){src<<"<b>You cannot use remote view on this person.";return}
 	usr.client.eye=M
 	usr.client.perspective=EYE_PERSPECTIVE
 	hearers()<<"[usr] sends \his view elsewhere."
