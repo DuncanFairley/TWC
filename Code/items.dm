@@ -2793,20 +2793,7 @@ obj/Bed_
 	icon='turf.dmi'
 	icon_state="Bed"
 	density=1
-	verb
-		Sleep()
-			set src in oview(1)
-			switch(input("Recover?","Bed")in list("Yes","No"))
-				if("Yes")
-					if(get_dist(src,usr)>1)return
-					usr<<"You go to sleep."
-					usr.sight = 1
-					usr.HP=usr.MHP+usr.extraMHP
-					usr.MP=usr.MMP+usr.extraMMP
-					usr.updateHPMP()
-					sleep(100)
-					usr.sight = 0
-					usr<<"You feel much better."
+
 	verb
 		Take()
 			set src in oview(1)

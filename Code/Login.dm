@@ -2401,21 +2401,7 @@ obj/Bed
 	icon_state="Bed"
 	density=0
 	dontsave=1
-	verb
-		Sleep()
-			set src in oview(1)
-			switch(input("Recover?","Bed")in list("Yes","No"))
-				if("Yes")
-					if(get_dist(src,usr)>1)return
-					usr<<"You go to sleep."
-					usr.sight = 1
-					usr.HP=usr.MHP+usr.extraMHP
-					usr.MP=usr.MMP+usr.extraMMP
-					usr.updateHPMP()
-					sleep(100)
-					if(usr)
-						usr.sight = 0
-						usr<<"You feel much better."
+
 
 //VARS
 //appearance
