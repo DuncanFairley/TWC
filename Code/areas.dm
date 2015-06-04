@@ -816,6 +816,14 @@ area
 
 			DuelClass
 
+		Enter(atom/movable/O, atom/oldloc)
+			.=..()
+
+			if(istype(O, /obj/projectile) && issafezone(src))
+				walk(O, 0)
+				O.loc = null
+				return 0
+
 turf
 	shadow
 		icon = 'Turfs.dmi'
