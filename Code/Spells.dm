@@ -323,7 +323,7 @@ mob/Spells/verb/Densuago(mob/M in view()&Players)
 	M.overlays+=('teeth.dmi')
 	hearers()<<"[M]'s teeth begin to grow rapidly!"
 	M<<"[src] placed a curse on you! Your teeth grew rapidly. They will return to normal in 3 minutes."
-	usr:learnSpell("Densuago")
+	usr:learnSpell("Densaugeo")
 	src = null
 	spawn(1800)
 		if(M)
@@ -1536,32 +1536,33 @@ mob/Spells/verb/Peskipixie_Pesternomae(mob/Player/M in oview(usr.client.view,usr
 			if(M.away)M.ApplyAFKOverlay()
 			M.icon = 'Pixie.dmi'
 			usr:learnSpell("Peskipiksi Pestermi")
+
 mob/Spells/verb/Telendevour()
 	set category="Spells"
 	set popup_menu = 0
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		if(usr.client.eye==usr)
+	if(usr.client.eye == usr)
+		if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 			var/mob/M = input("Which person would you like to view?") as null|anything in Players(list(src))
-			if(!M)return
+			if(!M) return
 			if(usr.client.eye != usr) return
 			if(istext(M) || istype(M.loc.loc, /area/blindness) || M.occlumens>0 || istype(M.loc.loc, /area/ministry_of_magic))
 				src<<"<b>You feel magic repelling your spell.</b>"
 			else
-				usr.client.eye=M
-				usr.client.perspective=EYE_PERSPECTIVE
-				file("Logs/Telenlog.txt") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] telendevoured [M]"
+				usr.client.eye = M
+				usr.client.perspective = EYE_PERSPECTIVE
+				file("Logs/Telenlog.text") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] telendevoured [M]"
 				var/randnum = rand(1,7)
-				hearers()<<"[usr]:<font color=blue><b><font size=2> Telendevour!</font>"
+				hearers() << "[usr]:<font size=2><font color=blue><b> Telendevour!</b></font>"
 				usr:learnSpell("Telendevour")
 				if(randnum == 1)
-					M<<"You feel that <b>[usr]</b> is watching you."
+					M << "You feel that <b>[usr]</b> is watching you."
 				else
-					M<<"The hair on the back of your neck tingles."
-		else
-			if(usr.client.perspective == EYE_PERSPECTIVE)
-				usr.client.eye=usr
-				usr.client.perspective=EYE_PERSPECTIVE
-				hearers()<<"[usr]'s eyes appear again."
+					M << "The hair on the back of your neck tingles."
+	else
+		usr.client.eye = usr
+		usr.client.perspective = EYE_PERSPECTIVE
+		hearers() << "[usr]'s eyes appear again."
+
 mob/Spells/verb/Arania_Eximae()
 	set category="Spells"
 	set name = "Arania Exumai"

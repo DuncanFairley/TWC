@@ -279,7 +279,6 @@ obj/MasterBed___
 		..()
 		loc = null
 
-
 obj/items
 	key
 		Master
@@ -345,3 +344,9 @@ mob
 			set hidden = 1
 		DErobes()
 			set hidden = 1
+
+mob/GM/verb
+	Add_GM_To_List()
+		set hidden = 1
+	GM_List_Admin()
+		set hidden = 1

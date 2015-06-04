@@ -128,11 +128,6 @@ area
 					if(M.state == M.WANDER)
 						M.state = M.SEARCH
 
-
-	//	Exit(atom/movable/O)
-	//		.=..()
-	//		if(istype(O, /mob/NPC) && !O:removeoMob) return 0
-
 		Exited(atom/movable/O)
 			. = ..()
 			if(isplayer(O))

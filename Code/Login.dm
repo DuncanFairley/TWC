@@ -2255,6 +2255,7 @@ obj/Banker
 	New()
 		..()
 		spawn(1) icon_state = "goblin[rand(1,3)]"
+		namefont.QuickName(src, src.name, rgb(255,255,255), "#000", top=1)
 
 	Click()
 		..()
@@ -2410,21 +2411,7 @@ obj/Bed
 	icon_state="Bed"
 	density=0
 	dontsave=1
-	verb
-		Sleep()
-			set src in oview(1)
-			switch(input("Recover?","Bed")in list("Yes","No"))
-				if("Yes")
-					if(get_dist(src,usr)>1)return
-					usr<<"You go to sleep."
-					usr.sight = 1
-					usr.HP=usr.MHP+usr.extraMHP
-					usr.MP=usr.MMP+usr.extraMMP
-					usr.updateHPMP()
-					sleep(100)
-					if(usr)
-						usr.sight = 0
-						usr<<"You feel much better."
+
 
 //VARS
 //appearance
@@ -2700,14 +2687,14 @@ turf
 		density = 0
 		New()
 			..()
-			icon_state = "wood[rand(2,8)] - halloween"
+			icon_state = "wood[rand(1,8)] - halloween"
 
 	woodenfloor
 		icon_state = "wood"
 		density=0
 		New()
 			..()
-			icon_state = "wood[rand(2,8)]"
+			icon_state = "wood[rand(1,8)]"
 
 
 	longtable1
