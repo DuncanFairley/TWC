@@ -339,15 +339,20 @@ mob
 				verbs.Remove(/mob/GM/verb/Clan_store)
 				verbs.Remove(/mob/Spells/verb/Morsmordre)
 
+				var/turf/t = locate("@Hogwarts")
+				last_x = t.x
+				last_y = t.y
+				last_z = t.z
+
 			var/turf/t = locate(last_x, last_y, last_z)
 			if(!t || t.name == "blankturf")
-				loc = locate(13,27,21)
+				loc = locate("@Hogwarts")
 			else if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else if(istype(t.loc, /area/DEHQ) && !DeathEater)
-				loc = locate(13,27,21)
+				loc = locate("@Hogwarts")
 			else if(istype(t.loc, /area/AurorHQ) && !Auror)
-				loc = locate(13,27,21)
+				loc = locate("@Hogwarts")
 			else
 				loc = t
 
