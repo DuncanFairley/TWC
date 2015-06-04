@@ -374,16 +374,10 @@ proc/Log_gold(gold,var/mob/Player/from,var/mob/Player/too)
 	else if(gold>1000)goldlog<<"[time2text(world.realtime,"MMM DD - hh:mm")]: [from]([from.key])([from.client.address]) gave [gold] gold to [too]([too.key])([too.client.address])<br />"
 mob/GM/verb
 	Check_EXP(mob/M in Players)
-		set name = "Check Reading"
 		set category = "Staff"
-		if(M.level == lvlcap)
-			usr << "[M]'s Gold: [M:gold]."
-			sleep(30)
-			usr << "[M]'s Gold: [M:gold]."
-		else
-			usr << "[M]'s EXP: [M:Exp]"
-			sleep(30)
-			usr << "[M]'s EXP: [M:Exp]"
+		usr << "[M]'s EXP: [M:Exp]"
+		sleep(30)
+		usr << "[M]'s EXP: [M:Exp]"
 
 var/pointlog //The worldlog variable
 
