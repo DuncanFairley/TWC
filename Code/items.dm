@@ -1277,14 +1277,12 @@ turf
 	Fireplace
 		icon='misc.dmi'
 		icon_state="fireplace"
-		var/destination
 		green
 			icon_state="floo fireplace"
 			Entered(mob/M)
+				.=..()
 				if(ismob(M))
 					if(M.key)
-						var/obj/O = locate(destination)
-						M.loc = O.loc
 						flick("m-green", M)
 obj/Fireplace_H
 	icon='misc.dmi'
