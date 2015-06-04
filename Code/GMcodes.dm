@@ -1374,20 +1374,20 @@ mob/GM
 	verb
 		Check_Inactivity(mob/M in Players)
 			set category = "Staff"
-			var
-				ticks = client.inactivity
-				seconds = round(ticks/10)
-				min = round(seconds/60)
-				sec = seconds-(min*60)
-				hour = round(min/60)
-				time = "Inactive for "
-			if(hour) time += "[hour] [hour > 1 ? "hours" : "hour"]"
-			if(min)
-				if(hour) time += ", "
-				time += "[min] [min > 1 ? "minutes" : "minute"]"
-			if(sec)
-				if(min) time += ", and "
-				time += "[sec] [sec > 1 ? "seconds" : "second"]."
+			var/time = "Inactive for "
+			var/ticks = client.inactivity
+			var/seconds = round(ticks/10)
+			var/minutes = round(seconds/60)
+			seconds -= minutes * 60
+			var/hours = round(minutes/60)
+			minutes -= hours * 60
+			if(hours) time += "[hours] [hours > 1 ? "hours" : "hour"]"
+			if(minutes)
+				if(hours) time += ", "
+				time += "[minutes] [minutes > 1 ? "minutes" : "minute"]"
+			if(seconds)
+				if(minutes) time += ", and "
+				time += "[seconds] [seconds > 1 ? "seconds" : "second"]."
 			else
 				time += "0 seconds."
 			usr << infomsg("[time]")

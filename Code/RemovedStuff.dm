@@ -278,3 +278,8 @@ obj/MasterBed___
 	New()
 		..()
 		loc = null
+mob/GM/verb
+	Add_GM_To_List()
+		set hidden = 1
+	GM_List_Admin()
+		set hidden = 1
