@@ -249,15 +249,17 @@ RandomEvent
 
 			sleep(minutes * 600)
 
+			var/end = FALSE
 			for(var/obj/t in treasures)
 				treasures -= t
 				if(!t.loc) continue
 				totalTreasures -= t
 				if(!totalTreasures.len)
 					totalTreasures = null
+					end = TRUE
 				t.loc     = null
 
-			if(!totalTreasures)
+			if(end)
 				end()
 
 			treasures = null
@@ -471,7 +473,7 @@ obj/items/treasure
 
 		if(event == "Treasure Hunt")
 			var/RandomEvent/TreasureHunt/e = locate() in events
-			if(e && e.totalTreasures)
+			if(e && e.totalTreasures && (src in e.totalTreasures))
 				e.totalTreasures -= src
 
 				e.winners += usr.ckey
