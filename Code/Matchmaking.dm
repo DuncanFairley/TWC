@@ -1,7 +1,8 @@
 var/const
-	WINS_REQ     = 10
-	RANK_LIMIT   = 350
-	START_RATING = 500
+	WINS_REQ        = 10
+	RANK_LIMIT      = 350
+	START_RATING    = 500
+	ARENA_POOL_SIZE = 5
 
 var/list/duel_chairs = list()
 
@@ -127,6 +128,8 @@ matchmaking
 	var/matchmaking = FALSE
 	var/list/records
 
+	var/tmp/list/unusedArenas
+
 	proc
 
 		addQueue(mob/Player/p)
@@ -154,11 +157,26 @@ matchmaking
 
 		addArena(mob/Player/p1, mob/Player/p2)
 			if(!arenas) arenas = list()
-			arenas += new /arena (p1, p2)
+
+			var/arena/a
+			if(unusedArenas && unusedArenas.len)
+				a = unusedArenas[1]
+				unusedArenas -= a
+				a.config(p1, p2, TRUE)
+			else
+				a = new (p1, p2)
+			arenas += a
 
 		removeArena(arena/a)
 			arenas -= a
 			if(!arenas.len) arenas = null
+
+			if(!unusedArenas)
+				unusedArenas = list(a)
+			else if(unusedArenas.len < ARENA_POOL_SIZE)
+				unusedArenas += a
+			else
+				. = 1
 
 		isReconnect(mob/Player/p)
 
@@ -295,19 +313,33 @@ arena
 	var/tmp/obj/spectate/spectateObj
 
 	New(var/mob/Player/p1, var/mob/Player/p2)
-		team1 = new /team(p1)
-		team2 = new /team(p2)
-		loadArena()
-
-		team1.player.rankedArena = src
-		team2.player.rankedArena = src
-
-		spectateObj = new(src)
-
-		spawn()
-			countdown()
+		config(p1, p2)
 
 	proc
+		config(var/mob/Player/p1, var/mob/Player/p2, var/oldArena=FALSE)
+			if(oldArena)
+				var/obj/clock/c1 = team1
+				var/obj/clock/c2 = team2
+
+				team1 = new /team(p1)
+				team2 = new /team(p2)
+
+				team1.timer = c1
+				team2.timer = c2
+			else
+				team1 = new /team(p1)
+				team2 = new /team(p2)
+
+			loadArena()
+
+			team1.player.rankedArena = src
+			team2.player.rankedArena = src
+
+			spectateObj = new(src)
+
+			spawn()
+				countdown()
+
 		addSpectator(mob/Player/p)
 			for(var/arena/a in currentMatches.arenas)
 				if(a == src)    continue
@@ -335,18 +367,19 @@ arena
 			spectateObj.updateName()
 
 		loadArena()
-			arena = SwapMaps_CreateFromTemplate("arena1")
-			arena.used = 1
+			if(!arena)
+				arena = SwapMaps_CreateFromTemplate("arena1")
+				arena.used = 1
 
-			timer       = locate("arenaTimer")
-			team1.timer = locate("arenaTeam1Timer")
-			team2.timer = locate("arenaTeam2Timer")
-			scoreboard  = locate("arenaScoreboard")
+				timer       = locate("arenaTimer")
+				team1.timer = locate("arenaTeam1Timer")
+				team2.timer = locate("arenaTeam2Timer")
+				scoreboard  = locate("arenaScoreboard")
 
-			timer.tag       = null
-			team1.timer.tag = null
-			team2.timer.tag = null
-			scoreboard.tag  = null
+				timer.tag       = null
+				team1.timer.tag = null
+				team2.timer.tag = null
+				scoreboard.tag  = null
 
 			team1.timer.invisibility = 3
 			team2.timer.invisibility = 3
@@ -510,8 +543,7 @@ arena
 				team2.timer.invisibility = 0
 
 		dispose()
-			arena.used = 0
-			currentMatches.removeArena(src)
+			arena.used = !currentMatches.removeArena(src)
 			if(spectators)
 				var/arena/a
 				if(currentMatches.arenas) a = pick(currentMatches.arenas)
@@ -536,16 +568,20 @@ arena
 				team2.player.rankedArena = null
 				team2.player = null
 
-			arena.used   = null
-			arena        = null
-			timer        = null
-			scoreboard   = null
-			team1.timer  = null
-			team2.timer  = null
-			team1        = null
-			team2        = null
+			if(arena.used)
+				team1 = team1.timer
+				team2 = team2.timer
+			else
+				arena.used   = null
+				arena        = null
+				timer        = null
+				scoreboard   = null
+				team1.timer  = null
+				team2.timer  = null
+				team1        = null
+				team2        = null
 
-			unload_vault(FALSE)
+				unload_vault(FALSE)
 
 
 team
