@@ -1621,37 +1621,52 @@ mob/Player
 
 			Interface.Update()
 
+
+		questProgress(questName, args, trackedOnly=TRUE)
+			var/questPointer/pointer = questPointers[questName]
+			if(!pointer.stage)                return
+			if(!pointer.track && trackedOnly) return 2
+
+			var/quest/q = quest_list[questName]
+
+			if((args in pointer.reqs) && pointer.reqs[args] > 0)
+				pointer.reqs[args]--
+				. = 1
+
+				if(pointer.reqs[args] <= 0)
+					pointer.reqs -= args
+
+			if(!pointer.reqs.len)
+				pointer.stage++
+				if(pointer.stage <= q.stages.len)
+					var/quest/stage = q.stages[pointer.stage]
+					src << infomsg(stage.desc)
+					pointer.setReqs(stage.reqs)
+				else // quest completed
+					if(q.reward) q.reward.get(src)
+					pointer.reqs  = null
+					pointer.stage = null
+					pointer.time = world.realtime
+
+
 		checkQuestProgress(args)
 			var/found = FALSE
+
+			var/list/untracked = list()
 			for(var/questName in questPointers)
 				if(!(questName in quest_list)) continue
 
-				var/questPointer/pointer = questPointers[questName]
-				if(!pointer.stage) continue
+				found = questProgress(questName, args)
+				if(found == 2)
+					found = 0
+					untracked += questName
+				else if(found == 1) break
 
-				var/quest/q = quest_list[questName]
-
-				if((args in pointer.reqs) && pointer.reqs[args] > 0)
-					pointer.reqs[args]--
-					found = TRUE
-
-					if(pointer.reqs[args] <= 0)
-						pointer.reqs -= args
-
-				if(!pointer.reqs.len)
-					pointer.stage++
-					if(pointer.stage <= q.stages.len)
-						var/quest/stage = q.stages[pointer.stage]
-						src << infomsg(stage.desc)
-						pointer.setReqs(stage.reqs)
-					else // quest completed
-						if(q.reward) q.reward.get(src)
-						pointer.reqs  = null
-						pointer.stage = null
-						pointer.time = world.realtime
-
-				if(found) break
-
+			if(!found && untracked.len)
+				for(var/questName in untracked)
+					found = questProgress(questName, args, FALSE)
+					if(found) break
+				untracked = null
 			if(found) Interface.Update()
 
 			return found
@@ -1728,3 +1743,5 @@ mob/Player
 
 			mapTextColor = "[c]"
 			Interface.Update()
+		testQuest()
+			questPointers -= "To kill a Boss \[Daily]"
