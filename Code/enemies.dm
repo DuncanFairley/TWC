@@ -122,7 +122,7 @@ area
 				antiFly      = TRUE
 		Entered(atom/movable/O)
 			. = ..()
-			if(isplayer(O))
+			if(isplayer(O) && !active)
 				active = 1
 				for(var/mob/NPC/Enemies/M in src)
 					if(M.state == M.WANDER || M.state == M.INACTIVE)
@@ -130,7 +130,7 @@ area
 
 		Exited(atom/movable/O)
 			. = ..()
-			if(isplayer(O))
+			if(isplayer(O) && active)
 				var/isempty = 1
 				for(var/mob/Player/M in src)
 					if(M != O)

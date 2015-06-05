@@ -22,6 +22,13 @@ teleportNode
 			return 1
 
 		Entered(atom/movable/Obj)
+			set waitfor = 0
+			sleep(0)
+
+			if(active)                  return
+			if(!Obj || !Obj.loc)        return
+			if(!(Obj.loc.loc in areas)) return
+
 			active = TRUE
 			for(var/area/newareas/a in areas)
 				for(var/mob/NPC/Enemies/M in a)
@@ -29,7 +36,13 @@ teleportNode
 						M.ChangeState(M.WANDER)
 
 		Exited(atom/movable/Obj)
+			set waitfor = 0
 			var/isempty = 1
+			sleep(0)
+
+			if(!active)              return
+			if(!Obj || !Obj.loc)     return
+			if(Obj.loc.loc in areas) return
 
 			for(var/area/newareas/a in areas)
 				for(var/mob/Player/M in a)
@@ -46,14 +59,18 @@ teleportNode
 
 area
 	Enter(atom/movable/O, atom/oldloc)
-		if(region && isplayer(O))
+		.=..()
+		if(isplayer(O) && .)
 			var/area/a
 			if(oldloc) a = oldloc.loc
-			if(!a || !(a in region.areas))
-				if(a && a.region)
+
+			if(a && a.region)
+				if(!(src in a.region.areas))
 					a.region.Exited(O)
+					if(region)
+						region.Entered(O)
+			else if(region)
 				region.Entered(O)
-		.=..()
 
 proc
 	AccessibleAreas(turf/t)
@@ -208,24 +225,8 @@ area
 
 	outsideHogwarts           // pathfinding related
 		name = "Hogwarts"
-
-		Exited(atom/movable/Obj, atom/newloc)
-			..()
-			if(isplayer(Obj))
-				var/area/outside = locate(/area/hogwarts/Entrance_Hall)
-				if(outside.region)
-					outside.region.Exited(Obj)
-
 	outside/insideHogwarts
 		name = "Entrance Hall"
-
-		Exited(atom/movable/Obj, atom/newloc)
-			..()
-			if(isplayer(Obj))
-				var/area/outside = locate(/area/outside/Hogwarts)
-				if(outside.region)
-					outside.region.Exited(Obj)
-
 	outside
 		Forbidden_Forest
 		Desert
