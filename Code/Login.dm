@@ -2691,6 +2691,7 @@ turf
 
 	woodenfloor
 		icon_state = "wood"
+		color = "#733D1A"
 		density=0
 		New()
 			..()
