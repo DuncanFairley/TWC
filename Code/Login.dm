@@ -2660,6 +2660,10 @@ obj
 		icon='turf.dmi'
 		icon_state = "post"
 		density = 1
+	halffence
+		icon='turf.dmi'
+		icon_state="halffence"
+		layer = 5
 
 	curtains
 		icon='turf.dmi'
@@ -2706,15 +2710,16 @@ turf
 
 
 	woodenfloorblack
-		icon_state = "wood - halloween"
+		icon_state = "wood"
+		color = "#303A3A"
 		density = 0
 		New()
 			..()
-			icon_state = "wood[rand(1,8)] - halloween"
+			icon_state = "wood[rand(1,8)]"
 
 	woodenfloor
 		icon_state = "wood"
-		color = "#733D1A"
+		color = "#704f32"
 		density=0
 		New()
 			..()
