@@ -1379,7 +1379,7 @@ mob/GM
 		Check_Inactivity(mob/M in Players)
 			set category = "Staff"
 			var/time = "Inactive for "
-			var/ticks = client.inactivity
+			var/ticks = M.client.inactivity
 			var/seconds = round(ticks/10)
 			var/minutes = round(seconds/60)
 			seconds -= minutes * 60
