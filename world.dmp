@@ -1753,7 +1753,7 @@
 "aHK" = (/obj/Desk{icon_state = "S"},/obj/Cauldron,/turf/woodenfloor,/area/hogwarts)
 "aHL" = (/obj/Desk{icon_state = "S"},/obj/Triple_Candle,/turf/woodenfloor,/area/hogwarts)
 "aHM" = (/obj/Desk{icon_state = "TD2"},/turf/Red_Carpet,/area/hogwarts)
-"aHN" = (/mob/Anderoffice{name = "Detention"},/turf/Red_Carpet,/area/hogwarts)
+"aHN" = (/mob/Anderoffice{name = "Detention"; tag = ""},/turf/Red_Carpet{tag = "Detention"},/area/hogwarts)
 "aHO" = (/obj/chairback,/turf/woodenfloor,/area/hogwarts)
 "aHP" = (/obj/slytherin,/turf/Hogwarts_Stone_Wall,/area/hogwarts/Headmasters_Class_West)
 "aHQ" = (/turf/Hogwarts_Stone_Wall,/area/hogwarts/Headmasters_Class_West)
