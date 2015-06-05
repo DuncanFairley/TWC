@@ -124,6 +124,8 @@ obj/teleportPath
 	var
 		tmp/dest
 		axisY = FALSE
+		offsetX = 0
+		offsetY = 0
 	New()
 		..()
 		var/area/a = loc.loc
@@ -143,7 +145,7 @@ obj/teleportPath
 				var/obj/teleport/tele = new (t)
 
 				var/offset = axisY ? y - t.y : x - t.x
-				var/turf/tagTurf = axisY ? locate(x, tele.y, z) : locate(tele.x, y, z)
+				var/turf/tagTurf = axisY ? locate(x + offsetX, tele.y + offsetY, z) : locate(tele.x + offsetX, y + offsetY, z)
 
 				tagTurf.tag = "[name]_to_[nearby_area.name]:[offset]"
 				tele.dest   = "[nearby_area.name]_to_[name]:[offset]"
