@@ -227,6 +227,10 @@ area
 		name = "Hogwarts"
 	outside/insideHogwarts
 		name = "Entrance Hall"
+	outsideDEHQ
+		name = "Hogwarts"
+	outside/insideDEHQ
+		name = "DEHQ"
 	outside
 		Forbidden_Forest
 		Desert
