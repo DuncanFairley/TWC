@@ -409,7 +409,7 @@ mob
 			if(client)
 				for(var/client/C)
 					if(C.mob)
-						if(C.mob.Gm) C.mob <<"<B><I>[src][refererckey==C.ckey ? "(referral)" : ""] ([src.client.address])([ckey]) logged in.</I></B>"
+						if(C.mob.Gm) C.mob <<"<B><I>[src][refererckey==C.ckey ? "(referral)" : ""] ([client.address])([ckey])([client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</I></B>"
 						else C.mob <<"<B><I>[src][refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B>"
 				usr.Teleblock=0
 				usr<<browse(rules,"window=1;size=500x400")

@@ -959,7 +959,7 @@ mob
 			character.verbs += /mob/Spells/verb/Inflamari
 			for(var/client/C)
 				if(C.mob)
-					if(C.mob.Gm) C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey]) logged in.</I></B></font>"
+					if(C.mob.Gm) C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey])(([character.client.connection == "web" ? "webclient" : "dreamseeker"])) logged in.</I></B></font>"
 					else C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B></font>"
 			character.Teleblock=0
 			src = null
@@ -1054,12 +1054,20 @@ mob/Player
 		shieldamount = 0
 		mouse_drag_pointer = MOUSE_DRAG_POINTER
 		spawn()
-			for(var/client/C)
-				if(C.computer_id == src.client.computer_id)
-					if(C.mob != src)
-						for(var/client/A)
-							if(A.mob && A.mob.Gm)
-								A << "<h2>Multikeyers: [C.mob](key: [C.key]) & just logged in: [src] (key: [src.key])</h2>"
+			for(var/client/c)
+				if(src.client == c) continue
+				var/multikey = FALSE
+				if(c.connection == "web")
+					if(c.address == client.address || c.computer_id == client.computer_id)
+						multikey = TRUE
+				else
+					if(c.computer_id == client.computer_id)
+						multikey = TRUE
+
+				if(multikey)
+					for(var/mob/Player/p in Players)
+						if(p.Gm)
+							p << "<h2>Multikeyers: [c.mob](key: [c.key] | ip: [c.address]) & just logged in: [src] (key: [key] | ip: [client.address]) ([c.connection == "web" ? "webclient" : "dreamseeker"])</h2>"
 		listenooc = 1
 		listenhousechat = 1
 		invisibility = 0
