@@ -128,7 +128,7 @@ RandomEvent
 			for(var/mob/NPC/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
 				mon.loc = null
-				mon.state = monster.INACTIVE
+				mon.ChangeState(monster.INACTIVE)
 				m -= mon
 			m = null
 
@@ -169,7 +169,7 @@ RandomEvent
 			for(var/mob/NPC/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
 				mon.loc = null
-				mon.state = monster.INACTIVE
+				mon.ChangeState(monster.INACTIVE)
 				m -= mon
 			m = null
 
@@ -411,7 +411,7 @@ RandomEvent
 			for(var/mob/NPC/Enemies/Summoned/monster in m)
 				if(monster.loc != null) message = 1
 				monster.loc = null
-				monster.state = monster.INACTIVE
+				monster.ChangeState(monster.INACTIVE)
 				m -= monster
 			m = null
 

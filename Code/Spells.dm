@@ -564,7 +564,7 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 			src.client.eye = selmonster
 			src.client.perspective = EYE_PERSPECTIVE
 			selmonster.removeoMob = src
-			selmonster.state = selmonster.CONTROLLED
+			selmonster.ChangeState(selmonster.CONTROLLED)
 			selmonster.target = null
 			usr:learnSpell("Permoveo")
 

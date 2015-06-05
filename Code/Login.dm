@@ -2588,14 +2588,13 @@ proc
 		if(!istype(E,/mob/NPC/Enemies))
 			E.loc = null
 		else
-			E.state = E.INACTIVE
+			E.ChangeState(E.INACTIVE)
 			if(E.origloc)
 				spawn(E.respawnTime)// + rand(-50,100))////1200
 					if(E)
 						E.loc = E.origloc
 						E.HP = E.MHP
 						E.ShouldIBeActive()
-						E.state()
 			else
 				E.loc = null
 

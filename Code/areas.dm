@@ -13,6 +13,7 @@ teleportNode
 		list/nodes
 		list/areas
 		name
+		active = FALSE
 
 	proc
 		AdjacentNodes()
@@ -20,20 +21,39 @@ teleportNode
 		Distance(teleportNode/t)
 			return 1
 
-/*	westWing
-		nodes = list("firstFloor")
-	dungeons
-		nodes = list("firstFloor")
-	firstFloor
-		nodes = list("hostpital", "secondFloor", "westWing", "dungeons")
-	fourthFloor
-		nodes = list("thirdFloor", "hostpital")
-	secondFloor
-		nodes = list("firstFloor", "thirdFloor")
-	thirdFloor
-		nodes = list("secondFloor")
-	hostpital
-		nodes = list("firstFloor", "fourthFloor")*/
+		Entered(atom/movable/Obj)
+			active = TRUE
+			for(var/area/newareas/a in areas)
+				for(var/mob/NPC/Enemies/M in a)
+					if(M.state == M.INACTIVE)
+						M.ChangeState(M.WANDER)
+
+		Exited(atom/movable/Obj)
+			var/isempty = 1
+
+			for(var/area/newareas/a in areas)
+				for(var/mob/Player/M in a)
+					if(M != Obj)
+						isempty = 0
+						break
+				if(!isempty) break
+			if(isempty)
+				active = FALSE
+				for(var/area/newareas/a in areas)
+					for(var/mob/NPC/Enemies/M in a)
+						M.ChangeState(M.INACTIVE)
+
+
+area
+	Enter(atom/movable/O, atom/oldloc)
+		if(region && isplayer(O))
+			var/area/a
+			if(oldloc) a = oldloc.loc
+			if(!a || !(a in region.areas))
+				if(a && a.region)
+					a.region.Exited(O)
+				region.Entered(O)
+		.=..()
 
 proc
 	AccessibleAreas(turf/t)
@@ -76,7 +96,7 @@ teleportMap
 				var/area/a = t.loc
 				a.region = node
 
-				if(!(a.name in node.areas)) node.areas += a.name
+				if(!(a in node.areas)) node.areas += a
 
 				var/obj/teleportPath/p = locate() in t
 				if(p)
@@ -186,8 +206,23 @@ area
 
 	outsideHogwarts           // pathfinding related
 		name = "Hogwarts"
+
+		Exited(atom/movable/Obj, atom/newloc)
+			..()
+			if(isplayer(Obj))
+				var/area/outside = locate(/area/hogwarts/Entrance_Hall)
+				if(outside.region)
+					outside.region.Exited(Obj)
+
 	outside/insideHogwarts
 		name = "Entrance Hall"
+
+		Exited(atom/movable/Obj, atom/newloc)
+			..()
+			if(isplayer(Obj))
+				var/area/outside = locate(/area/outside/Hogwarts)
+				if(outside.region)
+					outside.region.Exited(Obj)
 
 	outside
 		Forbidden_Forest
@@ -265,7 +300,7 @@ mob
 			var/failure = FALSE
 			if(!startarea.region || !destarea.region)
 				failure = TRUE
-			else if(destarea.name in startarea.region.areas)
+			else if(destarea in startarea.region.areas)
 				path = AStar(loc, classdest.loc, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
 			else
 				var/teleport_path[]
