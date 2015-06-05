@@ -156,7 +156,7 @@ mob
 											if(istext(M))
 												M = text2mob(M)
 											V.add_ckey_allowedpeople(M.ckey)
-											usr << npcsay("Vault Master: [M.derobe ? M.prevname : M.name] can now enter your vault at any time. See me again if you wish to change this.")
+											usr << npcsay("Vault Master: [M.prevname ? M.prevname : M.name] can now enter your vault at any time. See me again if you wish to change this.")
 									if("Deny someone")
 										var/list/name_ckey_assoc = V.name_ckey_assoc()
 										var/M = input("Who would you like to deny entrance to vault?") as null|anything in name_ckey_assoc
@@ -173,7 +173,7 @@ mob
 									if(istext(M))
 										M = text2mob(M)
 									V.add_ckey_allowedpeople(M.ckey)
-									usr << npcsay("Vault Master: [M.derobe ? M.prevname : M.name] can now enter your vault at any time. See me again if you wish to change this.")
+									usr << npcsay("Vault Master: [M.prevname ? M.prevname : M.name] can now enter your vault at any time. See me again if you wish to change this.")
 						else
 							usr << npcsay("Vault Master: See me again if you need to change anything with your vault.")
 

@@ -191,6 +191,10 @@ turf/Staircase3
 	icon='misc.dmi'
 	icon_state="blank"
 
+turf/Hogwarts_Stairs
+	icon = 'General.dmi'
+	icon_state = "Stairs"
+
 turf/Staircase2
 	icon='General.dmi'
 	icon_state="tile86"

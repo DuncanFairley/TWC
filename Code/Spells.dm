@@ -130,7 +130,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 		new /StatusEffect/Summoned(src,15)
 		MP = max(MP - 100, 0)
 		updateHPMP()
-		if(derobe)
+		if(prevname)
 			hearers() << "<font size=2><font color=red><b><font color=red> [usr]</font></b> :<font color=white> Eat Slugs, [M.name]!"
 		else
 			hearers() << "<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
@@ -1272,8 +1272,6 @@ mob/proc/BaseIcon()
 	if(Gender == "Female")
 		if(Gm)
 			icon = 'FemaleStaff.dmi'
-		else if(aurorrobe)
-			icon = 'FemaleAuror.dmi'
 		else if(House == "Gryffindor")
 			icon = 'FemaleGryffindor.dmi'
 		else if(House == "Ravenclaw")
@@ -1285,8 +1283,6 @@ mob/proc/BaseIcon()
 	else
 		if(Gm)
 			icon = 'MaleStaff.dmi'
-		else if(aurorrobe)
-			icon = 'MaleAuror.dmi'
 		else if(House == "Gryffindor")
 			icon = 'MaleGryffindor.dmi'
 		else if(House == "Ravenclaw")
@@ -1304,7 +1300,6 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			usr << "That person is already transfigured."
 			return
 		if(!M) return
-		if(M.derobe) return
 		new /StatusEffect/UsedRiddikulus(src,30)
 		hearers()<<"<b><font color=red>[usr]</font>: <font color=red><font size=3>Riddikulus!</font></font>, [M].</b>"
 		sleep(20)
@@ -1439,17 +1434,8 @@ mob/Spells/verb/Other_To_Human(mob/Player/M in oview(usr.client.view,usr)&Player
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(M))
 			flick("transfigure",M)
-			if(M.derobe)
-				M.icon = 'Deatheater.dmi'
-			else if(M.aurorrobe)
-				M.trnsed = 0
-				if(M.Gender == "Female")
-					M.icon = 'FemaleAuror.dmi'
-				else
-					M.icon = 'MaleAuror.dmi'
-			else
-				M.trnsed = 0
-				M.icon = M.baseicon
+			M.trnsed = 0
+			M.BaseIcon()
 			M.ApplyOverlays()
 			usr<<"You reversed [M]'s transfiguration."
 			M<<"[usr] reversed your transfiguration."
@@ -1461,17 +1447,8 @@ mob/Spells/verb/Self_To_Human()
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		if(CanTrans(src))
 			flick("transfigure",usr)
-			if(usr.aurorrobe)
-				usr.trnsed = 0
-				if(usr.Gender == "Female")
-					usr.icon = 'FemaleAuror.dmi'
-				else
-					usr.icon = 'MaleAuror.dmi'
-			else if(usr.derobe)
-				usr.icon = 'Deatheater.dmi'
-			else
-				usr.trnsed = 0
-				usr.icon = usr.baseicon
+			usr.trnsed = 0
+			usr.BaseIcon()
 			user.ApplyOverlays()
 			usr<<"You reversed your transfiguration."
 mob/Spells/verb/Harvesto(mob/Player/M in oview(usr.client.view,usr)&Players)
@@ -1568,8 +1545,8 @@ mob/Spells/verb/Telendevour()
 			var/mob/M = input("Which person would you like to view?") as null|anything in Players(list(src))
 			if(!M) return
 			if(usr.client.eye != usr) return
-			if(istext(M) || istype(M,/mob/fakeDE) || istype(M.loc.loc, /area/blindness) || M.occlumens>0 || M.derobe || M.aurorrobe || istype(M.loc.loc, /area/ministry_of_magic))
-				src << infomsg("<b>You feel magic repelling your spell.</b>")
+			if(istext(M) || istype(M.loc.loc, /area/blindness) || M.occlumens>0 || istype(M.loc.loc, /area/ministry_of_magic))
+				src<<"<b>You feel magic repelling your spell.</b>"
 			else
 				usr.client.eye = M
 				usr.client.perspective = EYE_PERSPECTIVE
@@ -2174,7 +2151,7 @@ mob/GM/verb/Remote_View(mob/M in world)
 	set popup_menu = 0
 	if(clanrobed())return
 	if(M.loc == null) return
-	if(M.derobe||M.aurorrobe||M.type == /mob/fakeDE ||istype(M.loc.loc, /area/ministry_of_magic||istype(M.loc.loc, /area/blindness))){src<<"<b>You cannot use remote view on this person.";return}
+	if(istype(M.loc.loc, /area/ministry_of_magic||istype(M.loc.loc, /area/blindness))){src<<"<b>You cannot use remote view on this person.";return}
 	usr.client.eye=M
 	usr.client.perspective=EYE_PERSPECTIVE
 	hearers()<<"[usr] sends \his view elsewhere."

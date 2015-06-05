@@ -125,6 +125,9 @@ proc
 				scheduler.schedule(e, world.tick_lag * 10 * date)
 		init_quests()
 
+		TeleportMap = new
+		TeleportMap.init()
+
 mob/proc/RevertTrans()
 	if(src.LStatusEffects)
 		var/StatusEffect/Transfiguration/S = locate() in src.LStatusEffects
@@ -175,7 +178,7 @@ proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inare
 	if(!target && !againstcloaked && (locate(/obj/items/wearable/invisibility_cloak) in M.Lwearing))
 		M << "<b>Your cloak prevents this spell from being cast.</b>"
 		return 0
-	if(!againstocclumens && (target.occlumens || target.derobe || target.aurorrobe))
+	if(!againstocclumens && (target.occlumens || target.prevname))
 		M << "<b>A charm blocks your spell.</b>"
 		return 0
 	if(target && !target.key)

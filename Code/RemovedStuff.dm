@@ -278,6 +278,73 @@ obj/MasterBed___
 	New()
 		..()
 		loc = null
+
+obj/items
+	key
+		Master
+			New()
+				..()
+				spawn(1)
+					new /obj/items/key/master_key (loc)
+					loc = null
+		Wizard
+			New()
+				..()
+				spawn(1)
+					new /obj/items/key/wizard_key (loc)
+					loc = null
+		Pentakill
+			New()
+				..()
+				spawn(1)
+					new /obj/items/key/pentakill_key (loc)
+					loc = null
+		Basic
+			New()
+				..()
+				spawn(1)
+					new /obj/items/key/basic_key (loc)
+					loc = null
+		Sunset
+			New()
+				..()
+				spawn(1)
+					new /obj/items/key/sunset_key (loc)
+					loc = null
+
+	chest
+		Wizard
+			New()
+				..()
+				spawn(1)
+					new /obj/items/chest/wizard_chest (loc)
+					loc = null
+		Pentakill
+			New()
+				..()
+				spawn(1)
+					new /obj/items/chest/pentakill_chest (loc)
+					loc = null
+		Basic
+			New()
+				..()
+				spawn(1)
+					new /obj/items/chest/basic_chest (loc)
+					loc = null
+		Sunset
+			New()
+				..()
+				spawn(1)
+					new /obj/items/chest/sunset_chest (loc)
+					loc = null
+
+mob
+	GM/verb
+		Auror_Robes()
+			set hidden = 1
+		DErobes()
+			set hidden = 1
+
 mob/GM/verb
 	Add_GM_To_List()
 		set hidden = 1

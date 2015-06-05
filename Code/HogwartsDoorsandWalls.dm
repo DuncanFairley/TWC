@@ -55,6 +55,33 @@ turf
 		density=1
 		flyblock=1
 		icon='wall1.dmi'
+	Hogwarts_Stone_Arch
+		bumpable = 0
+		opacity = 0
+		density = 0
+		icon = 'wall1.dmi'
+		icon_state = "arch"
+	Hogwarts_Stone_Low_Wall_Horizontal
+		bumpable = 0
+		opacity = 0
+		density = 0
+		layer = MOB_LAYER+1
+		icon = 'wall1.dmi'
+		icon_state = "Horizontal"
+	Hogwarts_Stone_Low_Wall_Vertical_Left
+		bumpable = 0
+		opacity = 0
+		density = 1
+		layer = MOB_LAYER+1
+		icon = 'wall1.dmi'
+		icon_state = "Left"
+	Hogwarts_Stone_Low_Wall_Vertical_Right
+		bumpable = 0
+		opacity = 0
+		density = 1
+		layer = MOB_LAYER+1
+		icon = 'wall1.dmi'
+		icon_state = "Right"
 	/*	Enter(atom/movable/O)
 			if(ismob(O))
 				if(!density) return ..()

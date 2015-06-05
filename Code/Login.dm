@@ -515,12 +515,12 @@ mob/verb/DisableBetaMapMode()
 	//if(30*r+59*g+11*b > 7650) outline = "#000"
 	if(src.pname&&src.key)
 		if(de)
-			namefont.QuickName(src, "Deatheater", rgb(r,g,b), outline, top=1)
+			namefont.QuickName(src, "Robed Figure", rgb(r,g,b), outline, top=1)
 		else
 			namefont.QuickName(src, src.pname, rgb(r,g,b), outline, top=1)
 	else
 		if(de)
-			namefont.QuickName(src, "Deatheater", rgb(r,g,b), outline, top=1)
+			namefont.QuickName(src, "Robed Figure", rgb(r,g,b), outline, top=1)
 		else
 			namefont.QuickName(src, src.name, rgb(r,g,b), outline, top=1)
 
@@ -552,7 +552,7 @@ proc/check(msg as text)
             pos = findtext(msg,c,pos)//looks for anymore unwanted text after the first one is found
     return html_encode(msg)
 var/list/illegalnames = list(
-	"deatheater",
+	"robed figure",
 	"harry",
 	"potter",
 	"weasley",
@@ -1036,7 +1036,7 @@ mob/Player
 
 	proc
 		Saveme()
-			if(derobe)
+			if(prevname)
 				derobe = 0
 				name = prevname
 
@@ -1077,7 +1077,7 @@ mob/Player
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
 			if("Rotem12")
-				src.verbs+=/mob/GM/verb/Check_Inactivity
+				src.verbs+=/mob/GM/verb/Reset_Matchmaking
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
@@ -1141,7 +1141,7 @@ mob/Player
 				W.Equip(src,1)
 				W.bonus = b
 
-				if(b != -1)
+				if(!ignoreBonus)
 					if(b & W.DAMAGE)
 						clothDmg += 10 * W.quality
 					if(b & W.DEFENSE)
@@ -1173,7 +1173,7 @@ mob/Player
 							if(copytext(t,1,5)=="\[me]")
 								hearers(client.view)<<"<i>[usr] [copytext(t,5)]</i>"
 							else if(copytext(t,1,4)=="\[w]")
-								if(name == "Deatheater")
+								if(name == "Robed Figure")
 									range(1)<<"<font size=2><font color=red><b><font color=red>[usr]</font> whispers: <i>[copytext(t,4)]</i>"
 								else
 									range(1)<<"<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> whispers: <i>[copytext(t,4)]</i>"
@@ -1200,7 +1200,7 @@ mob/Player
 								if(!silent)
 									for(var/mob/M in hearers(client.view))
 										if(!M.muff)
-											if(derobe)
+											if(prevname)
 												M<<"<font size=2><font color=red><b><font color=red> [usr]</font></b> :<font color=white> [t]"
 											else
 												M<<"<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> [t]"
@@ -1208,7 +1208,7 @@ mob/Player
 											if(rand(1,3)==1) M<<"<i>You hear an odd ringing sound.</i>"
 
 
-							if(usr.name=="Deatheater")
+							if(usr.name=="Robed Figure")
 								chatlog << "<font size=2 color=red><b>[usr.prevname] (ROBED)</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
 							else
 								chatlog << "<font size=2 color=red><b>[usr]</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
@@ -1516,13 +1516,13 @@ mob/Player
 							for(var/client/C)
 
 								if(C.mob)if(C.mob.type == /mob/Player)if(C.mob.listenooc)
-									if(usr.name=="Deatheater")
+									if(usr.name=="Robed Figure")
 										C << "<b><a href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr.prevname] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
 									else
 										C << "<b><a href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
 
 
-							if(usr.name=="Deatheater")
+							if(usr.name=="Robed Figure")
 								chatlog << "<font color=blue><b>[usr.prevname] (ROBED)</b></font><font color=green> OOC's '[T]'</font>"+"<br>"//This is what it adds to the log!
 							else
 								chatlog << "<font color=blue><b>[usr]</b></font><font color=green> OOC's '[T]'</font>"+"<br>"//This is what it adds to the log!
@@ -1563,7 +1563,7 @@ mob/Player
 			var/online=0
 			for(var/mob/Player/M in Players)
 				online++
-				src << "\icon[wholist[M.House ? M.House : "Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.derobe ? M.prevname : M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level >= lvlcap ? getSkillGroup(M.ckey) : M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+				src << "\icon[wholist[M.House ? M.House : "Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname ? M.prevname : M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level >= lvlcap ? getSkillGroup(M.ckey) : M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
 
 			usr << "[online] players online."
 			var/logginginmobs = ""
@@ -1813,22 +1813,22 @@ mob/proc/Death_Check(mob/killer = src)
 				var/mob/Player/p = src
 				switch(src.loc.loc.type)
 					if(/area/hogwarts/Duel_Arenas/Main_Arena_Bottom)
-						p.Transfer(locate(29,13,22))
+						p.Transfer(locate("DuelArena_Death"))
 					if(/area/hogwarts/Duel_Arenas/Matchmaking/Main_Arena_Top)
 						var/obj/o = pick(duel_chairs)
 						p.Transfer(o.loc)
 					if(/area/hogwarts/Duel_Arenas/Slytherin)
-						p.Transfer(locate(20,89,21))
+						p.Transfer(locate("Slyth_Death"))
 					if(/area/hogwarts/Duel_Arenas/Gryffindor)
-						p.Transfer(locate(86,45,21))
+						p.Transfer(locate("Gryffin_Death"))
 					if(/area/hogwarts/Duel_Arenas/Ravenclaw)
-						p.Transfer(locate(89,21,22))
+						p.Transfer(locate("Raven_Death"))
 					if(/area/hogwarts/Duel_Arenas/Hufflepuff)
-						p.Transfer(locate(58,89,21))
+						p.Transfer(locate("Huffle_Death"))
 					if(/area/hogwarts/Duel_Arenas/Matchmaking/Duel_Class)
-						p.Transfer(locate(45,82,23))
+						p.Transfer(locate("DuelClass_Death"))
 					if(/area/hogwarts/Duel_Arenas/Defence_Against_the_Dark_Arts)
-						p.Transfer(locate(36,57,21))
+						p.Transfer(locate("DADA_Death"))
 					if(/area/hogwarts/Duel_Arenas/Main_Arena_Lobby)
 						var/obj/Bed/B = pick(Beds)
 						p.Transfer(B.loc)
@@ -1997,13 +1997,13 @@ mob/proc/Death_Check(mob/killer = src)
 			if(!src.Detention)
 				if(killer != src && !src:rankedArena)
 					if(killer.client && src.client && killer.loc.loc.name != "outside")
-						if(killer.name == "Deatheater")
-							if(src.name == "Deatheater")
+						if(killer.name == "Robed Figure")
+							if(src.name == "Robed Figure")
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer.prevname](DE robed) killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 							else
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer.prevname](DE robed) killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 						else
-							if(src.name == "Deatheater")
+							if(src.name == "Robed Figure")
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer] killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 							else
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer] killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
@@ -2058,6 +2058,16 @@ mob/proc/Death_Check(mob/killer = src)
 							rndexp = round(rndexp * 0.4)
 						killer.gold += rndexp
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
+
+					var/rep = -round(src:getRep() / 100, 1)
+
+					if(rep >= 0)
+						rep = max(rep, 1)
+					else
+						rep = min(rep, -1)
+
+					killer:addRep(rep)
+					killer << infomsg("You gained [abs(rep)] [rep > 0 ? "good" : "evil"] reputation.")
 				else
 					src<<"You knocked yourself out!"
 			else
@@ -2412,19 +2422,19 @@ mob/var/Disperse
 mob/var/Aero
 obj/var/accioable=0
 obj/var/clothes
-mob/var/DeathEater=0
+mob/var/DeathEater
 
 mob/var/MuteOOC=0
 
 mob/var/Year=""
 mob/var/Teleblock=0
 mob/var/House
-mob/var/Auror=0
-mob/var/DE=0
+mob/var/Auror
+mob/var/DE
 mob/var/Tag=null
 mob/var/GMTag=null
 mob/var/HA
-mob/var/HDE=0
+mob/var/HDE
 
 obj/var/dontsave=0
 //others

@@ -400,7 +400,7 @@ mob/GM
 			if(messsage)
 				if(messsage == null || messsage == "") return
 			//Reason = html_encode(Reason)
-				if(src.name == "Deatheater")
+				if(src.name == "Robed Figure")
 					for(var/client/C)
 						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/GM_chat) in C.mob.verbs)
 							C<<"<b><font color=silver size=2>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font>"
@@ -421,7 +421,7 @@ mob/GM
 				if(messsage == null || messsage == "") return
 				for(var/client/C)
 					if(C.mob)if(C.mob.DeathEater==1)
-						if(usr.name == "Deatheater")
+						if(usr.name == "Robed Figure")
 							C<<"<b><font color=green><font size=2>DE Channel> <font size=2><font color=silver>[usr.prevname](Robed):</b> <font color=white>[messsage]"
 						else
 							C<<"<b><font color=green><font size=2>DE Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
@@ -445,7 +445,7 @@ mob/GM
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
-				if(usr.name == "Deatheater")
+				if(usr.name == "Robed Figure")
 					for(var/client/C)
 						if(C.mob)if((C.mob.House=="Gryffindor"||C.mob.admin) && C.mob.listenhousechat)
 							C<<"<b><font color=red><font size=2>Gryffindor Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
@@ -462,7 +462,7 @@ mob/GM
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
-				if(usr.name == "Deatheater")
+				if(usr.name == "Robed Figure")
 					for(var/client/C)
 						if(C.mob)if((C.mob.House=="Ravenclaw"||C.mob.admin) && C.mob.listenhousechat)
 							C<<"<b><font color=blue><font size=2>Ravenclaw Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
@@ -479,7 +479,7 @@ mob/GM
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
-				if(usr.name == "Deatheater")
+				if(usr.name == "Robed Figure")
 					for(var/client/C)
 						if(C.mob)if((C.mob.House=="Slytherin"||C.mob.admin) && C.mob.listenhousechat)
 							C<<"<b><font color=green><font size=2>Slytherin Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
@@ -496,7 +496,7 @@ mob/GM
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
-				if(usr.name == "Deatheater")
+				if(usr.name == "Robed Figure")
 					for(var/client/C)
 						if(C.mob)if((C.mob.House=="Hufflepuff"||C.mob.admin) && C.mob.listenhousechat)
 							C<<"<b><font color=yellow><font size=2>Hufflepuff Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
@@ -1372,6 +1372,10 @@ mob/GM
 
 mob/GM
 	verb
+		Reset_Matchmaking()
+			if(alert(src, "Are you sure you want to reset matchmaking?", "Reset Matchmaking Scoreboard", "Yes", "No") == "Yes")
+				skill_rating = list()
+				src << infomsg("Competitive Matchmaking scoreboard deleted.")
 		Check_Inactivity(mob/M in Players)
 			set category = "Staff"
 			var/time = "Inactive for "
@@ -1469,7 +1473,7 @@ mob/GM
 							goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [name]([key])([client.address]) gave [comma(gold_prize)] <b>prize</b> gold to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 					if("Common Item")
 						var/i = pick(/obj/items/bagofgoodies,
-						             /obj/items/chest/Basic,
+						             /obj/items/chest/basic_chest,
 						             /obj/items/artifact)
 
 						var/obj/items/item_prize = new i (p)

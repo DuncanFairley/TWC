@@ -7,6 +7,159 @@
 world
 	//map_format=TILED_ICON_MAP
 
+
+teleportNode
+	var
+		list/nodes
+		list/areas
+		name
+
+	proc
+		AdjacentNodes()
+			return nodes
+		Distance(teleportNode/t)
+			return 1
+
+/*	westWing
+		nodes = list("firstFloor")
+	dungeons
+		nodes = list("firstFloor")
+	firstFloor
+		nodes = list("hostpital", "secondFloor", "westWing", "dungeons")
+	fourthFloor
+		nodes = list("thirdFloor", "hostpital")
+	secondFloor
+		nodes = list("firstFloor", "thirdFloor")
+	thirdFloor
+		nodes = list("secondFloor")
+	hostpital
+		nodes = list("firstFloor", "fourthFloor")*/
+
+proc
+	AccessibleAreas(turf/t)
+		var/ret[] = block(locate(max(t.x-1,1),max(t.y-1,1),t.z),locate(min(t.x+1,world.maxx),min(t.y+1,world.maxy),t.z)) - t
+		for(var/turf/i in ret)
+			if(i.density || istype(i, /turf/blankturf) || (locate(/obj/teleport) in i))
+				ret -= i
+
+			else
+				var/area/a = i.loc
+				if(a.name == "area" || a.name == "hogwarts")
+					ret -= i
+		return ret
+
+teleportMap
+	var/list/teleports
+
+	proc/init()
+		var/count = 0
+		teleports = list()
+
+		var/list/teleportPaths = list()
+
+		for(var/obj/teleportPath/p in world)
+			teleportPaths += p
+
+		while(teleportPaths.len > 0)
+
+			var/obj/teleportPath/path = teleportPaths[1]
+			teleportPaths -= path
+
+			var/teleportNode/node = new
+			node.name = "[++count]"
+
+			node.nodes = list()
+			node.areas = list()
+
+			var/Region/r = new(path.loc, /proc/AccessibleAreas)
+			for(var/turf/t in r.contents)
+				var/area/a = t.loc
+				a.region = node
+
+				if(!(a.name in node.areas)) node.areas += a.name
+
+				var/obj/teleportPath/p = locate() in t
+				if(p)
+					teleportPaths -= p
+					node.nodes += p
+
+			teleports["[count]"] = node
+
+
+		for(var/n in teleports)
+			var/teleportNode/node = teleports[n]
+
+			for(var/obj/teleportPath/p in node.nodes)
+				node.nodes -= p
+
+				var/turf/t = locate("[p.dest]_to_[p.name]:0")
+				if(!t) continue
+				var/area/a = t.loc
+
+				node.nodes[a.region] = "[p.name]_to_[p.dest]:0"
+
+var/teleportMap/TeleportMap
+
+obj/teleportPath
+	var
+		tmp/dest
+		axisY = FALSE
+	New()
+		..()
+		var/area/a = loc.loc
+		if(!a) return
+
+		name = a.name
+
+		for(var/turf/t in oview(2, src))
+			if(t == loc)  continue
+			if(t.density) continue
+			if(t.opacity) continue
+
+			var/area/nearby_area = t.loc
+			if(nearby_area && nearby_area != a)
+				dest = nearby_area.name
+
+				var/obj/teleport/tele = new (t)
+
+				var/offset = axisY ? y - t.y : x - t.x
+				var/turf/tagTurf = axisY ? locate(x, tele.y, z) : locate(tele.x, y, z)
+
+				tagTurf.tag = "[name]_to_[nearby_area.name]:[offset]"
+				tele.dest   = "[nearby_area.name]_to_[name]:[offset]"
+			else if(istype(t, /turf/blankturf) && a == nearby_area && t.name != "blankturf")
+				dest = t.name
+
+				var/obj/teleport/tele = new (t)
+
+				var/offset = axisY ? y - t.y : x - t.x
+				var/turf/tagTurf = axisY ? locate(x, tele.y, z) : locate(tele.x, y, z)
+
+				tagTurf.tag = "[name]_to_[t.name]:[offset]"
+				tele.dest   = "[t.name]_to_[name]:[offset]"
+
+	Side
+		axisY = TRUE
+
+area/var/tmp/teleportNode/region
+
+mob/verb/testMap()
+	for(var/i in TeleportMap.teleports)
+		world << i
+
+		var/teleportNode/n = TeleportMap.teleports[i]
+		var/nodes = ""
+		for(var/node in n.nodes)
+			nodes += "[node], "
+		world << "Nodes: [nodes]"
+
+		var/textareas = ""
+		for(var/t in n.areas)
+			textareas += "[t], "
+		world << "Areas: [textareas]"
+
+
+
 /************************************************
 Common Room Areas
 ************************************************/
@@ -40,330 +193,60 @@ var/curClass
 area
 	var/list/AI_directions
 	var/location
+
+	outside
+		Forbidden_Forest
+		Desert
+			antiTeleport = TRUE
+		Hogsmeade
+		Hogwarts
+		Quidditch
 	DEHQ
 	AurorHQ
 	hogwarts
+		TrophyRoom
 		Entrance_Hall
-			location = GROUND_FLOOR
-			AI_directions = list(
-							null,		// GROUND_FLOOR
-							"vds3",		// SEC_FLOOR_EAST
-							"dsa3",		// SEC_FLOOR_WEST
-							"dsa3",		// THIRD_FLOOR
-							"dsa3"		// FORTH_FLOOR
-							)
 		Great_Hall
-			location = GROUND_FLOOR
-			AI_directions = list(
-							null,		// GROUND_FLOOR
-							"vds3",		// SEC_FLOOR_EAST
-							"dsa3",		// SEC_FLOOR_WEST
-							"dsa3",		// THIRD_FLOOR
-							"dsa3"		// FORTH_FLOOR
-							)
 		Defence_Against_the_Dark_Arts
-			location = GROUND_FLOOR
-			AI_directions = list(
-							null,		// GROUND_FLOOR
-							"vds3",		// SEC_FLOOR_EAST
-							"dsa3",		// SEC_FLOOR_WEST
-							"dsa3",		// THIRD_FLOOR
-							"dsa3"		// FORTH_FLOOR
-							)
 		Charms
-			location = SEC_FLOOR_WEST
-			AI_directions = list(
-							"4fsb4",		// GROUND_FLOOR
-							"4fsb4",		// SEC_FLOOR_EAST
-							null,		// SEC_FLOOR_WEST
-							"gdf42",		// THIRD_FLOOR
-							"gdf42"		// FORTH_FLOOR
-							)
 		Care_of_Magical_Creatures
-			location = GROUND_FLOOR
-			AI_directions = list(
-							null,		// GROUND_FLOOR
-							"vds3",		// SEC_FLOOR_EAST
-							"dsa3",		// SEC_FLOOR_WEST
-							"dsa3",		// THIRD_FLOOR
-							"dsa3"		// FORTH_FLOOR
-							)
 		Transfiguration
-			location = THIRD_FLOOR
-			AI_directions = list(
-							"fsdf24",		// GROUND_FLOOR
-							"fsdf24",		// SEC_FLOOR_EAST
-							"fsdf24",		// SEC_FLOOR_WEST
-							null,		// THIRD_FLOOR
-							"3fs45"		// FORTH_FLOOR
-							)
 		Bathroom
-			location = THIRD_FLOOR
-			AI_directions = list(
-							"fsdf24",		// GROUND_FLOOR
-							"fsdf24",		// SEC_FLOOR_EAST
-							"fsdf24",		// SEC_FLOOR_WEST
-							null,		// THIRD_FLOOR
-							"3fs45"		// FORTH_FLOOR
-							)
 		Library
-			location = GROUND_FLOOR
-			AI_directions = list(
-							null,		// GROUND_FLOOR
-							"vds3",		// SEC_FLOOR_EAST
-							"dsa3",		// SEC_FLOOR_WEST
-							"dsa3",		// THIRD_FLOOR
-							"dsa3"		// FORTH_FLOOR
-							)
 		Hufflepuff_Common_Room
-			location = SEC_FLOOR_EAST
-			AI_directions = list(
-							"3fa3",		// GROUND_FLOOR
-							null,		// SEC_FLOOR_EAST
-							"3fa3",		// SEC_FLOOR_WEST
-							"3fa3",		// THIRD_FLOOR
-							"3fa3"		// FORTH_FLOOR
-							)
 		Ravenclaw_Common_Room
-			location = SEC_FLOOR_WEST
-			AI_directions = list(
-							"4fsb4",		// GROUND_FLOOR
-							"4fsb4",		// SEC_FLOOR_EAST
-							null,		// SEC_FLOOR_WEST
-							"gdf42",		// THIRD_FLOOR
-							"gdf42"		// FORTH_FLOOR
-							)
+			SecondFloor
 		Slytherin_Common_Room
-			location = GROUND_FLOOR
-			AI_directions = list(
-							null,		// GROUND_FLOOR
-							"vds3",		// SEC_FLOOR_EAST
-							"dsa3",		// SEC_FLOOR_WEST
-							"dsa3",		// THIRD_FLOOR
-							"dsa3"		// FORTH_FLOOR
-							)
 		Gryffindor_Common_Room
-			location = SEC_FLOOR_WEST
-			AI_directions = list(
-							"4fsb4",		// GROUND_FLOOR
-							"4fsb4",		// SEC_FLOOR_EAST
-							null,		// SEC_FLOOR_WEST
-							"gdf42",		// THIRD_FLOOR
-							"gdf42"		// FORTH_FLOOR
-							)
 		Dungeons
-			location = GROUND_FLOOR
-			AI_directions = list(
-							null,		// GROUND_FLOOR
-							"vds3",		// SEC_FLOOR_EAST
-							"dsa3",		// SEC_FLOOR_WEST
-							"dsa3",		// THIRD_FLOOR
-							"dsa3"		// FORTH_FLOOR
-							)
 		Potions
-			location = GROUND_FLOOR
-			AI_directions = list(
-							null,		// GROUND_FLOOR
-							"vds3",		// SEC_FLOOR_EAST
-							"dsa3",		// SEC_FLOOR_WEST
-							"dsa3",		// THIRD_FLOOR
-							"dsa3"		// FORTH_FLOOR
-							)
 		Hospital_Wing
-			location = GROUND_FLOOR
-			AI_directions = list(
-							null,		// GROUND_FLOOR
-							"vds3",		// SEC_FLOOR_EAST
-							"dsa3",		// SEC_FLOOR_WEST
-							"dsa3",		// THIRD_FLOOR
-							"dsa3"		// FORTH_FLOOR
-							)
 		Muggle_Studdies
-			location = GROUND_FLOOR
-			AI_directions = list(
-							null,		// GROUND_FLOOR
-							"vds3",		// SEC_FLOOR_EAST
-							"dsa3",		// SEC_FLOOR_WEST
-							"dsa3",		// THIRD_FLOOR
-							"dsa3"		// FORTH_FLOOR
-							)
 		Restricted_Section
-			location = GROUND_FLOOR
-			AI_directions = list(
-							null,		// GROUND_FLOOR
-							"vds3",		// SEC_FLOOR_EAST
-							"dsa3",		// SEC_FLOOR_WEST
-							"dsa3",		// THIRD_FLOOR
-							"dsa3"		// FORTH_FLOOR
-							)
 		Detention
-			location = GROUND_FLOOR
 		Headmasters_Class_West
-			name = "Headmaster's West-Wing Class"
-			location = THIRD_FLOOR
-			AI_directions = list(
-							"fsdf24",		// GROUND_FLOOR
-							"fsdf24",		// SEC_FLOOR_EAST
-							"fsdf24",		// SEC_FLOOR_WEST
-							null,		// THIRD_FLOOR
-							"3fs45"		// FORTH_FLOOR
-							)
 		Headmasters_Class_East
-			name = "Headmaster's East-Wing Class"
-			location = SEC_FLOOR_EAST
-			AI_directions = list(
-							"vs35",		// GROUND_FLOOR
-							null,		// SEC_FLOOR_EAST
-							"vs35",		// SEC_FLOOR_WEST
-							"vs35",		// THIRD_FLOOR
-							"vs35"		// FORTH_FLOOR
-							)
 		East_Wing
-			location = 0
-			AI_directions = list(
-							"3fa3",		// GROUND_FLOOR
-							"2few",		// SEC_FLOOR_EAST
-							"3fa3",		// SEC_FLOOR_WEST
-							"3fa3",		// THIRD_FLOOR
-							"3fa3"		// FORTH_FLOOR
-							)
 		West_Wing
-			location = SEC_FLOOR_WEST
-			AI_directions = list(
-							"4fsb4",		// GROUND_FLOOR
-							"4fsb4",		// SEC_FLOOR_EAST
-							null,		// SEC_FLOOR_WEST
-							"gdf42",		// THIRD_FLOOR
-							"gdf42"		// FORTH_FLOOR
-							)
 		Meeting_Room
-			location = SEC_FLOOR_EAST
-			AI_directions = list(
-							"3fa3",		// GROUND_FLOOR
-							null,		// SEC_FLOOR_EAST
-							"3fa3",		// SEC_FLOOR_WEST
-							"3fa3",		// THIRD_FLOOR
-							"3fa3"		// FORTH_FLOOR
-							)
 		Third_Floor
-			location = THIRD_FLOOR
-			AI_directions = list(
-							"fsdf24",		// GROUND_FLOOR
-							"fsdf24",		// SEC_FLOOR_EAST
-							"fsdf24",		// SEC_FLOOR_WEST
-							null,		// THIRD_FLOOR
-							"3fs45"		// FORTH_FLOOR
-							)
 		Study_Hall
-			location = THIRD_FLOOR
-			AI_directions = list(
-							"fsdf24",		// GROUND_FLOOR
-							"fsdf24",		// SEC_FLOOR_EAST
-							"fsdf24",		// SEC_FLOOR_WEST
-							null,		// THIRD_FLOOR
-							"3fs45"		// FORTH_FLOOR
-							)
 		Forth_Floor
-			location = FORTH_FLOOR
-			AI_directions = list(
-							"fgd423",		// GROUND_FLOOR
-							"fgd423",		// SEC_FLOOR_EAST
-							"fgd423",		// SEC_FLOOR_WEST
-							"fgd423",		// THIRD_FLOOR
-							null		// FORTH_FLOOR
-							)
 		Matchmaking/Duel_Class
-			location = FORTH_FLOOR
-			AI_directions = list(
-							"fgd423",		// GROUND_FLOOR
-							"fgd423",		// SEC_FLOOR_EAST
-							"fgd423",		// SEC_FLOOR_WEST
-							"fgd423",		// THIRD_FLOOR
-							null		// FORTH_FLOOR
-							)
-
 		Duel_Arenas
 			Gryffindor
-				location = SEC_FLOOR_WEST
-				AI_directions = list(
-							"4fsb4",		// GROUND_FLOOR
-							"4fsb4",		// SEC_FLOOR_EAST
-							null,		// SEC_FLOOR_WEST
-							"gdf42",		// THIRD_FLOOR
-							"gdf42"		// FORTH_FLOOR
-							)
 			Hufflepuff
-				location = SEC_FLOOR_EAST
-				AI_directions = list(
-							"3fa3",		// GROUND_FLOOR
-							null,		// SEC_FLOOR_EAST
-							"3fa3",		// SEC_FLOOR_WEST
-							"3fa3",		// THIRD_FLOOR
-							"3fa3"		// FORTH_FLOOR
-							)
 			Slytherin
-				location = GROUND_FLOOR
-				AI_directions = list(
-							null,		// GROUND_FLOOR
-							"vds3",		// SEC_FLOOR_EAST
-							"dsa3",		// SEC_FLOOR_WEST
-							"dsa3",		// THIRD_FLOOR
-							"dsa3"		// FORTH_FLOOR
-							)
 			Ravenclaw
-				location = SEC_FLOOR_WEST
-				AI_directions = list(
-							"4fsb4",		// GROUND_FLOOR
-							"4fsb4",		// SEC_FLOOR_EAST
-							null,		// SEC_FLOOR_WEST
-							"gdf42",		// THIRD_FLOOR
-							"gdf42"		// FORTH_FLOOR
-							)
 			Main_Arena_Lobby
-				AI_directions = list(
-							"zvsd32",		// GROUND_FLOOR
-							"zvsd32",		// SEC_FLOOR_EAST
-							"zvsd32",		// SEC_FLOOR_WEST
-							"zvsd32",		// THIRD_FLOOR
-							"zvsd32"		// FORTH_FLOOR
-							)
 			Matchmaking/Main_Arena_Top
-				AI_directions = list(
-							"zvsd32",		// GROUND_FLOOR
-							"zvsd32",		// SEC_FLOOR_EAST
-							"zvsd32",		// SEC_FLOOR_WEST
-							"zvsd32",		// THIRD_FLOOR
-							"zvsd32"		// FORTH_FLOOR
-							)
 			Main_Arena_Bottom
-				AI_directions = list(
-							"zvsd32",		// GROUND_FLOOR
-							"zvsd32",		// SEC_FLOOR_EAST
-							"zvsd32",		// SEC_FLOOR_WEST
-							"zvsd32",		// THIRD_FLOOR
-							"zvsd32"		// FORTH_FLOOR
-							)
+
 				Entered(atom/movable/Obj,atom/OldLoc)
 					if(ismob(Obj))
 						Obj << infomsg("This section has an old form of dueling enabled. Each projectile will last a full 2 seconds regardless of whether it hits a wall or other blockage.")
 			Defence_Against_the_Dark_Arts
-				location = GROUND_FLOOR
-				AI_directions = list(
-								null,		// GROUND_FLOOR
-								"vds3",		// SEC_FLOOR_EAST
-								"dsa3",		// SEC_FLOOR_WEST
-								"dsa3",		// THIRD_FLOOR
-								"dsa3"		// FORTH_FLOOR
-								)
 			Matchmaking/Duel_Class
-				location = FORTH_FLOOR
-				AI_directions = list(
-							"fgd423",		// GROUND_FLOOR
-							"fgd423",		// SEC_FLOOR_EAST
-							"fgd423",		// SEC_FLOOR_WEST
-							"fgd423",		// THIRD_FLOOR
-							null		// FORTH_FLOOR
-							)
 
 		Entered(mob/M)
 			..()
@@ -383,28 +266,26 @@ mob
 			var/area/startarea = src.loc.loc
 			var/area/destarea = classdest.loc.loc
 			var/path[]
-			if(startarea.location == destarea.location)
-				path = AStar(loc,classdest.loc,/turf/proc/AdjacentTurfs,/turf/proc/Distance)
+
+			var/failure = FALSE
+			if(!startarea.region || !destarea.region)
+				failure = TRUE
+			else if(destarea.name in startarea.region.areas)
+				path = AStar(loc, classdest.loc, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
 			else
-				var/list/L = startarea.AI_directions //The methods of travel for the current area
-				if(!length(L))
-					usr << "A path cannot be mapped to the class from this area. Please go to a main area of Hogwarts and try again."
-					var/obj/hud/class/C = null
-					for(var/obj/O in usr.client.screen)
-						if(O.type == /obj/hud/class)
-							C = O
-					usr.classpathfinding = 0
-					if(!classdest)
-						if(C) usr.client.screen.Remove(C)
-					else
-						if(C) C.icon_state = "0"
-					usr.client.images = list()
-					return 0
-				var/turf/T = locate(L[getFloor(curClass)]) //the teleport turf on your current floor
-				path = AStar(loc,T,/turf/proc/AdjacentTurfs,/turf/proc/Distance)
-			client.images = list()
+				var/teleport_path[]
+				teleport_path = AStar(startarea.region, destarea.region, /teleportNode/proc/AdjacentNodes, /teleportNode/proc/Distance)
+
+				if(teleport_path && teleport_path.len < 2)
+					failure = TRUE
+				else
+					var/teleportNode/nextNode = teleport_path[2]
+					var/turf/t = locate(startarea.region.nodes[nextNode]) //the teleport turf on your current floor
+					path = AStar(loc, t, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
+
 			sleep()
-			if(length(path))
+			if(!failure && length(path))
+				client.images = list()
 				for(var/i=1,i<length(path),i++)
 					if(i % 4 == 0)
 						var/turf/A = path[i]
@@ -414,19 +295,19 @@ mob
 							usr << arrow
 				return 1
 			else
+				client.images = list()
 				usr << "A path cannot be mapped to the class from this area. Please go to a main area of Hogwarts and try again."
-				usr.classpathfinding = 0
 				var/obj/hud/class/C = null
 				for(var/obj/O in usr.client.screen)
 					if(O.type == /obj/hud/class)
 						C = O
-
+				usr.classpathfinding = 0
 				if(!classdest)
 					if(C) usr.client.screen.Remove(C)
 				else
 					if(C) C.icon_state = "0"
-				usr.client.images = list()
 				return 0
+
 
 area
 	arenas
@@ -502,86 +383,42 @@ area
 				else
 					return ..()
 area
-	CommonRooms/GryffindorCommon
-		layer=6
+	CommonRooms
+		var/house
+		var/dest
+		layer = 6
 		Entered(mob/Player/M)
 			if(!isplayer(M)) return
-			if(M.House=="Gryffindor")
-				M.loc = locate(82,28,21)
-				M << "<b>The Portrait swings open</b>"
-				return
+			if(!house)
+				M.Transfer(locate(dest))
+			else if(M.House == house)
+				M.Transfer(locate(dest))
+				M << infomsg("<b>Welcome to your common room.</b>")
 			else
 				M.followplayer = 0
-				M.loc = locate(82,22,21)
-				alert("The Portrait pushes you back")
-area
-	CommonRooms/GryffindorCommon_Back
-		layer=6
-		Entered(mob/Player/M)
-			if(!isplayer(M)) return
-			M.loc = locate(82,22,21)
+				step(M, turn(M.dir, 180))
+				M << errormsg("<b>This isn't your common room.</b>")
 
-area
-	CommonRooms/RavenclawCommon
-		layer=6
-		Entered(mob/Player/M)
-			if(!isplayer(M)) return
-			if(M.House=="Ravenclaw")
-				M.loc = locate(68,27,21)
-				M << "<b>The Stone Wall shifts open</b>"
-				return
-			else
-				M.followplayer = 0
-				M.loc = locate(68,22,21)
-				alert("The Neptune statue pushes you back")
-area
-	CommonRooms/RavenclawCommon_Back
-		layer=6
-		Entered(mob/Player/M)
-			if(!isplayer(M)) return
-			M.loc = locate(68,22,21)
-
-area
-	CommonRooms/HufflepuffCommon
-		layer=6
-		Entered(mob/Player/M)
-			if(!isplayer(M)) return
-			if(M.House=="Hufflepuff")
-				M.loc = locate(70,86,21)
-				M << "<b>The Stone Wall moves aside open</b>"
-				return
-			else
-				M.followplayer = 0
-				M.loc = locate(70,81,21)
-				alert("A gust of wind pushes you back")
-area
-	CommonRooms/HufflepuffCommon_Back
-		layer=6
-		Entered(mob/Player/M)
-			if(!isplayer(M)) return
-			M.loc = locate(70,81,21)
-
-area
-	CommonRooms/SlytherinCommon
-		layer=6
-		Entered(mob/Player/M)
-			if(!isplayer(M)) return
-			if(M.House=="Slytherin")
-				M.loc = locate(14,85,21)
-				M << "<b>The Stone Floor opens and you fall downwards.</b>"
-				return
-			else
-				M.followplayer = 0
-				M.loc = locate(17,77,21)
-				alert("The floor shifts and you stumble backwards.")
-area
-	CommonRooms/SlytherinCommon_Back
-		layer=6
-		Entered(mob/Player/M)
-			if(!isplayer(M)) return
-			M.loc=locate(17,77,21)
-
-
+		GryffindorCommon
+			house = "Gryffindor"
+			dest  = "gryfCR"
+		GryffindorCommon_Back
+			dest  = "gryfCRBack"
+		RavenclawCommon
+			house = "Ravenclaw"
+			dest  = "ravenCR"
+		RavenclawCommon_Back
+			dest  = "ravenCRBack"
+		HufflepuffCommon
+			house = "Hufflepuff"
+			dest  = "huffleCR"
+		HufflepuffCommon_Back
+			dest  = "huffleCRBack"
+		SlytherinCommon
+			house = "Slytherin"
+			dest  = "slythCR"
+		SlytherinCommon_Back
+			dest  = "slythCRBack"
 
 /************************************************
 ************************************************/
@@ -950,6 +787,9 @@ area
 			return
 
 area
+	Diagon_Alley
+		Hogsmeade
+		Bank
 	hogwarts
 		DiagonAlley
 		Azkaban
@@ -975,6 +815,14 @@ area
 			AnderClass
 
 			DuelClass
+
+		Enter(atom/movable/O, atom/oldloc)
+			.=..()
+
+			if(istype(O, /obj/projectile) && issafezone(src))
+				walk(O, 0)
+				O.loc = null
+				return 0
 
 turf
 	shadow
