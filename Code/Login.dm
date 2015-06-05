@@ -2628,6 +2628,29 @@ turf
 					if("No")
 						return
 
+turf
+	sideBlock
+		var/blockDir
+
+		Enter(atom/movable/O)
+			.=..()
+
+			if(O.density && (get_dir(src, O) & blockDir))
+				O.Bump(src)
+				return 0
+
+		Exit(atom/movable/O, atom/newloc)
+			.=..()
+
+			if(O.density && (get_dir(O, newloc) & blockDir))
+				O.Bump(src)
+				return 0
+
+		East
+			blockDir = EAST
+		West
+			blockDir = WEST
+
 obj
 	fence
 		icon='turf.dmi'
