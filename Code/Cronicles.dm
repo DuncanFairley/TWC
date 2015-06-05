@@ -339,10 +339,11 @@ mob
 				verbs.Remove(/mob/GM/verb/Clan_store)
 				verbs.Remove(/mob/Spells/verb/Morsmordre)
 
-				var/turf/t = locate("@Hogwarts")
-				last_x = t.x
-				last_y = t.y
-				last_z = t.z
+				if(last_z == 21 || last_z == 22)
+					var/turf/t = locate("@Hogwarts")
+					last_x = t.x
+					last_y = t.y
+					last_z = t.z
 
 			var/turf/t = locate(last_x, last_y, last_z)
 			if(!t || t.name == "blankturf")
