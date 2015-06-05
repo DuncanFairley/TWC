@@ -835,9 +835,11 @@ mob/Spells/verb/Tremorio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
 		castproj(5,'attacks.dmi',"quake",usr.Dmg+usr.extraDmg + clothDmg,"Tremorio")
-mob/Spells/verb/Furnunculus(mob/M in oview()&Players)
+mob/Spells/verb/Furnunculus(mob/M in view()&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=0,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
+		new /StatusEffect/UsedAnnoying(src, 30)
+		usr:learnSpell("Furnunculus")
 		hearers()<<"<font color=red><b>[usr]: </font></b>Furnunculus!</font>"
 		hearers()<<"[usr] twirls \his wand towards [M], ever so lightly."
 		M.Zitt=0
@@ -848,15 +850,15 @@ mob/Spells/verb/Furnunculus(mob/M in oview()&Players)
 		src=null
 		spawn(rand(200,600))M.Zitt = 0
 		var/dmg
-		while(M.Zitt)
-			sleep(rand(30,120))
+		while(M && M.Zitt)
 			dmg = rand(5,100)
 			M.HP-=dmg
 			M.Death_Check()
 			M << "<small>You suffered [dmg] damage from Furnunculus.</small>"
-		M<<"<b>The jinx has been lifted. You are no longer afflicted by furnunculus.</b>"
-		M.overlays-=image('pimple.dmi')
-		usr:learnSpell("Furnunculus")
+			sleep(rand(30,120))
+		if(M)
+			M<<"<b>The jinx has been lifted. You are no longer afflicted by furnunculus.</b>"
+			M.overlays-=image('pimple.dmi')
 
 mob/var/tmp/list/_input
 
