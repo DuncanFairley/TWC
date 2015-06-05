@@ -127,16 +127,6 @@ obj/teleportPath
 
 				tagTurf.tag = "[name]_to_[nearby_area.name]:[offset]"
 				tele.dest   = "[nearby_area.name]_to_[name]:[offset]"
-			else if(istype(t, /turf/blankturf) && a == nearby_area && t.name != "blankturf")
-				dest = t.name
-
-				var/obj/teleport/tele = new (t)
-
-				var/offset = axisY ? y - t.y : x - t.x
-				var/turf/tagTurf = axisY ? locate(x, tele.y, z) : locate(tele.x, y, z)
-
-				tagTurf.tag = "[name]_to_[t.name]:[offset]"
-				tele.dest   = "[t.name]_to_[name]:[offset]"
 
 	Side
 		axisY = TRUE
@@ -193,6 +183,11 @@ var/curClass
 area
 	var/list/AI_directions
 	var/location
+
+	outsideHogwarts           // pathfinding related
+		name = "Hogwarts"
+	outside/insideHogwarts
+		name = "Entrance Hall"
 
 	outside
 		Forbidden_Forest

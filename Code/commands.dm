@@ -20,9 +20,12 @@ turf
 			icon_state = "4"
 		s5
 			icon_state = "5"
-		sink
-			icon = 'sink.dmi'
-			density = 1
+
+obj
+	sink
+		icon = 'sink.dmi'
+		density = 1
+		opacity = 0
 obj
 	toilet
 		name = "toilet"
