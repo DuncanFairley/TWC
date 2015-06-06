@@ -158,8 +158,8 @@ area
 		var
 			lit = 1	// determines if the area is lit or dark.
 			obj/weather/Weather	// what type of weather the area is having
-		Entered(mob/Player/M)
-			if(!istype(M, /mob/Player)) return
+	//	Entered(mob/Player/M)
+	//		if(!istype(M, /mob/Player)) return
 		AzkabanGroundExit
 			Entered(mob/Player/M)
 				if(!istype(M, /mob)) return
