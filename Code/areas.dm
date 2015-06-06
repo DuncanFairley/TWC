@@ -131,8 +131,10 @@ teleportMap
 
 				var/turf/t = locate("[p.dest]_to_[p.name]:0")
 				if(!t) continue
+				if(p.offsetX || p.offsetY)
+					t = locate(t.x + p.offsetX, t.y + p.offsetY, t.z)
 				var/area/a = t.loc
-
+				if(a.region == node) continue
 				node.nodes[a.region] = "[p.name]_to_[p.dest]:0"
 
 var/teleportMap/TeleportMap
@@ -825,7 +827,7 @@ area
 
 area
 	Diagon_Alley
-		Hogsmeade
+		HogsmeadeSafeZone
 		Bank
 	hogwarts
 		DiagonAlley
