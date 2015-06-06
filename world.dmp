@@ -2539,16 +2539,16 @@
 "aWQ" = (/obj/toilet{opacity = 0; tag = "exitministry"},/turf/diamondt,/area/Diagon_Alley)
 "aWR" = (/turf/stonefloor,/area/Diagon_Alley)
 "aWS" = (/obj/teleportPath{offsetY = 1},/turf/stonefloor,/area/Diagon_Alley)
-"aWT" = (/turf/woodenfloor,/turf/leavecellar,/area/hogwarts)
-"aWU" = (/turf/diamondt,/obj/Column,/turf/bathroomstall/s1,/area/Diagon_Alley)
-"aWV" = (/obj/Hogwarts_Door/toiletstall,/turf/diamondt,/area/Diagon_Alley)
-"aWW" = (/turf/diamondt,/obj/Column,/turf/bathroomstall/s5,/area/Diagon_Alley)
-"aWX" = (/obj/Chair{accioable = 0; wlable = 0},/mob/TalkNPC/quest/Cassandra,/turf/woodenfloor,/area/Diagon_Alley)
+"aWT" = (/turf/diamondt,/obj/Column,/turf/bathroomstall/s1,/area/Diagon_Alley)
+"aWU" = (/obj/Hogwarts_Door/toiletstall,/turf/diamondt,/area/Diagon_Alley)
+"aWV" = (/turf/diamondt,/obj/Column,/turf/bathroomstall/s5,/area/Diagon_Alley)
+"aWW" = (/obj/Chair{accioable = 0; wlable = 0},/mob/TalkNPC/quest/Cassandra,/turf/woodenfloor,/area/Diagon_Alley)
+"aWX" = (/obj/destination{tag = "TomsBar"},/turf/woodenfloor,/area/Diagon_Alley)
 "aWY" = (/obj/Chair,/turf/woodenfloor,/area/Diagon_Alley)
 "aWZ" = (/turf/floor,/area/Diagon_Alley)
 "aXa" = (/obj/Torch_,/turf/floor,/area/Diagon_Alley)
 "aXb" = (/obj/Signs/sign2{desc = "<h3>Rail service to Hogsmeade is temporarily out of service. Please make use of fireplaces provided for your travel purposes.</h3>"; name = "RAIL NOTICE"; text = "S"},/turf/floor,/area/Diagon_Alley)
-"aXc" = (/obj/Exit,/turf/roofb{opacity = 1},/area/hogwarts)
+"aXc" = (/obj/Exit{density = 0},/obj/teleport{dest = "TomsBar"},/turf/blankturf,/area/Diagon_Alley)
 "aXd" = (/obj/Column,/turf/floor,/area/Diagon_Alley)
 "aXe" = (/turf/floor{tag = "@Diagon"},/area/Diagon_Alley)
 "aXf" = (/obj/Columb,/turf/floor,/area/Diagon_Alley)
@@ -5232,9 +5232,9 @@ aTdaTgaTgaTgaTgaTgaTgaTgaTgaTgaTgaTgaTgaUoaTcaWpaWqaWraWsaWtaWuaWvaWwaWxaWyaUTaU
 ajpabmabmabmabmabmabmaUoaUoaUoaUoaUoaUoaUoaTcaWpaWBaWCaWDaWtaUTaUTaUTaUTaWEaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaTcaUoaUoaUoaUoaiyaWiaWlaWlaWmaWiaiyaiyaUoaUoaUoaUoaUoaUoaUoaUoaUoaUoaUoaUoaUoaUoaUoaUoaUoaTcaVRaVRaVRaVRaVRaWnaVRaWFaVRaVRaVRaVRaVRaWnaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaab
 ajpabmabmabmaTcaUjaUjaUjaUjaUjaUjaUjaUjaUjaUjaWpaWBaWCaWDaWtaUTaUTaUTaUTaWEaUTaUTaUTaUTaUTaWGaUTaUTaUTaUTaUTaTcaUoaUoaUoaTcaWiaWiaWlaWlaWmaWiaWiaUjaUjaUjaUjaWiajpajpabmabmabmabmabmabmabmabmabmabmabmaabaVRaVRaVDaVRaVRaWnaVRaVRaVRaVRaVVaVRaVRaWnaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVVaVRaVRaVRaVRaab
 ajpabmabmabmaTcaTNaTNaTNaTNaTNaTNaTNaTNaTNaUjaUTaWHaWIaWJaUTaUTaUTaUTaUTaWEaVMaVMaVMaVMaVMaVMaVMaVMaVMaVMaWKaUjaUjaUjaUjaUjaWiaWiaWlaWmaWmaWiaWiaUjaWLaWLaWLaWiajpajpabmabmabmabmabmabmabmabmabmabmabmaabaVRaVRaVRaVRaVRaWnaVRaVRaVRaVRaVRaVRaVRaWnaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaab
-ajpabmabmabmaTcaxyaWMaWNaWOaWPaWMaWQaWOaxyaUjaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUjaTNaTNaTNaTNaTNaTNaUmaUmaUmaTNaTNaTNaWRaWSaWRaTNajpajpabmabmabmabmabmabmabmabmabmabmabmaabaVRaVRaWTaVRaVRaWnaVRaVRaVVaVRaVRaVRaVRaWnaVRaVRaVRaWnaWnaWnaWnaWnaWnaWnaWnaWnaWnaWnaWnaWnaWnaWnaab
-ajpabmabmabmaTcaxyaWUaWVaWWaxyaWUaWVaWWaxyaUjaUTaUTaUTaWXaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaWYaUTaUTaUTaUTaUTaUTaTXaWZaWZaWZaWZaWZaXaaWZaWZaWZaXaaWZaXbaWZaWZaWZaXbaTcaTcabmabmabmabmabmabmabmabmabmabmabmaabaabaabaXcaabaabaabaabaabaabaabaabaabaVRaabaVRaVVaVRaWnaWAaWAaWAaWAaWAaWAaWAaWAaWAaWAaWAaWAaWAaWAaab
-ajpabmabmabmaTcaxyaxyaxyaxyaxyaxyaxyaxyaxyaUjaUTaWpaWqaWraWsaWtaUTaUTaUTaUTaUTaUTaWpaWqaWraWsaWtaUTaUTaUTaUTaXdaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaTcaTcabmabmabmabmabmabmabmabmabmabmabmaadaadaadaadaadaadaadaadaadaadaadaadaabaVRaabaVRaVRaVRaWnaVRaVRaVRaVRaVRaVRaVRaVRaVVaVRaVRaVRaVRaVRaab
+ajpabmabmabmaTcaxyaWMaWNaWOaWPaWMaWQaWOaxyaUjaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUTaUjaTNaTNaTNaTNaTNaTNaUmaUmaUmaTNaTNaTNaWRaWSaWRaTNajpajpabmabmabmabmabmabmabmabmabmabmabmaabaVRaVRaahaVRaVRaWnaVRaVRaVVaVRaVRaVRaVRaWnaVRaVRaVRaWnaWnaWnaWnaWnaWnaWnaWnaWnaWnaWnaWnaWnaWnaWnaab
+ajpabmabmabmaTcaxyaWTaWUaWVaxyaWTaWUaWVaxyaUjaUTaUTaUTaWWaUTaUTaUTaUTaUTaWXaUTaUTaUTaUTaWYaUTaUTaUTaUTaUTaUTaTXaWZaWZaWZaWZaWZaXaaWZaWZaWZaXaaWZaXbaWZaWZaWZaXbaTcaTcabmabmabmabmabmabmabmabmabmabmabmaabaabaabaXcaabaabaabaabaabaabaabaabaabaVRaabaVRaVVaVRaWnaWAaWAaWAaWAaWAaWAaWAaWAaWAaWAaWAaWAaWAaWAaab
+ajpabmabmabmaTcaxyaxyaxyaxyaxyaxyaxyaxyaxyaUjaUTaWpaWqaWraWsaWtaUTaUTaUTaUTaUTaUTaWpaWqaWraWsaWtaUTaUTaUTaUTaXdaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaTcaTcabmabmabmabmabmabmabmabmabmabmabmabmabmaabaabaababmabmabmabmabmabmabmaabaVRaabaVRaVRaVRaWnaVRaVRaVRaVRaVRaVRaVRaVRaVVaVRaVRaVRaVRaVRaab
 ajpabmabmabmaTcaxyaxyaxyaxyaxyaxyaxyaxyaxyaUjaUTaWpaWBaWCaWDaWtaUTaUTaUTaUTaUTaUTaWpaWBaWCaWDaWtaUTaUTaUTaUTaWZaWZaWZaWZaWZaWZaWZaWZaXeaWZaWZaWZaWZaWZaWZaWZaWZaTcaTcabmabmabmabmabmabmabmabmabmabmabmabmaUoabmaUoabmabmabmabmabmabmabmabmaabaVRaabaVRaVRaVRaWnaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaVRaab
 ajpabmabmabmaTcaxyaxyaxyaxyaxyaxyaxyaxyaxyaUjaUTaWpaWBaWCaWDaWtaUTaUTaUTaUTaUTaUTaWpaWBaWCaWDaWtaUTaUTaUTaUTaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaTcaTcabmabmabmabmabmabmabmabmabmabmabmabmaUoabmaUoabmabmabmabmabmabmabmabmaabaVRaabaVRaVRaVRaWnaVRaVRaVVaVRaVRaVRaVRaWnaWnaWnaVRaVRaWnaWnaab
 ajpabmabmabmaTcaxyaxyaxyaxyaxyaxyaxyaxyaxyaUjaUTaUTaWHaWIaWJaUTaUTaUTaUTaUTaUTaUTaUTaWHaWIaWJaUTaUTaUTaUTaUTaXfaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaWZaabaTcabmabmabmabmabmabmabmabmabmabmabmabmaUoabmaUoabmabmabmabmabmabmabmabmaabaVRaabaVRaVRaVRaWnaVRaVRaVRaVRaVVaVRaVRaWnaWAaWAaWoaWoaWAaWAaab

@@ -126,6 +126,7 @@ mob/TalkNPC/quest
 
 								p.startQuest("On House Arrest")
 								p.Resort_Stacking_Inv()
+			..()
 
 mob/TalkNPC/quest
 	Girl
@@ -185,7 +186,7 @@ mob/TalkNPC/quest
 						p.startQuest("Stolen by the Lord")
 					if("No")
 						alert("The girl frowns")
-
+			..()
 
 
 
@@ -327,6 +328,7 @@ mob/TalkNPC/quest
 						step_away(usr, src)
 			else
 				usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> THANKS AGAIN!"
+			..()
 
 mob/var/talkedzombie=0
 
@@ -650,6 +652,7 @@ mob/TalkNPC/quest
 								return
 					if("No thanks")
 						return
+			..()
 
 mob/var/onionroot
 mob/var/indigoseeds
@@ -799,15 +802,14 @@ mob/Player
 					if(!pointer)
 						state = "nonactive"
 						continue
-					if(!pointer.stage) continue
+					if(pointer.stage)
+						var/quest/q = quest_list[p]
+						if(pointer.stage == q.stages.len)
+							state = "completed"
+							break
 
-					var/quest/q = quest_list[p]
-					if(pointer.stage == q.stages.len)
-						state = "completed"
+						state = "active"
 						break
-
-					state = "active"
-					break
 			else
 				var/questPointer/pointer = questPointers[i_Mob.questPointers]
 				if(!pointer)
@@ -1844,5 +1846,3 @@ mob/Player
 
 			mapTextColor = "[c]"
 			Interface.Update()
-		testQuest()
-			questPointers -= "To kill a Boss \[Daily]"
