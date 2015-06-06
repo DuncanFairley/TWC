@@ -121,8 +121,6 @@ teleportMap
 
 				var/turf/t = locate("[p.dest]_to_[p.name]:0")
 				if(!t) continue
-				if(p.offsetX || p.offsetY)
-					t = locate(t.x + p.offsetX, t.y + p.offsetY, t.z)
 				var/area/a = t.loc
 				if(a.region == node) continue
 				node.nodes[a.region] = "[p.name]_to_[p.dest]:0"
@@ -133,8 +131,6 @@ obj/teleportPath
 	var
 		tmp/dest
 		axisY = FALSE
-		offsetX = 0
-		offsetY = 0
 	New()
 		..()
 		var/area/a = loc.loc
@@ -154,7 +150,7 @@ obj/teleportPath
 				var/obj/teleport/tele = new (t)
 
 				var/offset = axisY ? y - t.y : x - t.x
-				var/turf/tagTurf = axisY ? locate(x + offsetX, tele.y + offsetY, z) : locate(tele.x + offsetX, y + offsetY, z)
+				var/turf/tagTurf = axisY ? locate(x, tele.y, z) : locate(tele.x, y, z)
 
 				tagTurf.tag = "[name]_to_[nearby_area.name]:[offset]"
 				tele.dest   = "[nearby_area.name]_to_[name]:[offset]"
