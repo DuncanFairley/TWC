@@ -27,30 +27,27 @@ mob
 		talktotom
 		ratquest
 
-mob/TalkNPC
+mob/TalkNPC/quest
 	professor_palmer
 		icon_state="palmer"
 		name="Professor Palmer"
 		Immortal=1
 		Gm=1
-
+		questPointers = "Tutorial: Quests"
 		Talk()
 			set src in oview(1)
-			if(locate(/obj/items/questbook) in usr)
-				usr << npcsay("Palmer: Have a good day.")
+			..()
+			var/mob/Player/p = usr
+			if(p.checkQuestProgress("Palmer"))
+
+				if(!("Tutorial: Quests" in p.questPointers))
+					p << npcsay("Palmer: Hey there, you're new aren't you. I was asked by the Headmaster to teach you about quests.")
+					p << npcsay("Palmer: You can click the quest book found in your \"Items\" tab to view quests you have or quests you completed.")
+					p << npcsay("Palmer: How would you like to put something in that book? I have a few friends who can help you out with that, why don't you go and meet them?")
+
+					p.startQuest("Tutorial: Quests")
 			else
-				usr << "Hello there young student. I am a Former Professor at Hogwarts. My name is Professor Palmer."
-				new/obj/items/questbook(usr)
-				alert("Professor Palmer hands you a small black book")
-				usr << "<br>This is your quest book, inside you keep track of all your accomplished quests."
-				sleep(20)
-				usr << "<br>I was asked by the Headmaster to teach you about quests and to present you with that quest book."
-				sleep(50)
-				usr << "<br>If you lose your quest book, you can come back here and get a new one."
-				sleep(30)
-				usr << "<br>How would you like to put something in that book?"
-				sleep(30)
-				usr << "<br>If you're interested, I have a friend who could use your help. Tom the Barman in Diagon Alley could use your help, go check it out."
+				p << npcsay("Palmer: Have a good day.")
 
 mob/var/talkedtogirl
 mob/var/babyquest
@@ -765,7 +762,7 @@ area
 	Entered(atom/movable/Obj, atom/OldLoc)
 		if(isplayer(Obj))
 			var/mob/Player/p = Obj
-			p.updateQuestMarkers(src)
+			p.updateQuestMarkers()
 		.=..()
 
 mob/Player
@@ -780,6 +777,7 @@ mob/Player
 			images[i_Name]     = i_Image
 
 		removeImage(i_Name)
+			if(!(i_Name in images)) return
 			client.images -= images[i_Name]
 			images        -= i_Name
 
@@ -826,10 +824,13 @@ mob/Player
 				i.pixel_y = 36
 				addImage(i_Mob.name, i)
 
-		updateQuestMarkers(area/i_Area)
+		updateQuestMarkers()
+			if(!loc) return
+			var/area/a = loc.loc
+
 			removeAllImages()
-			if(i_Area.questMobs)
-				for(var/mob/TalkNPC/quest/m in i_Area.questMobs)
+			if(a.questMobs)
+				for(var/mob/TalkNPC/quest/m in a.questMobs)
 					questMarker(m)
 
 mob/TalkNPC/quest
@@ -964,9 +965,14 @@ mob/TalkNPC/quest
 			set src in oview(3)
 			..()
 			var/mob/Player/p = usr
+
+			var/questPointer/pointer = p.questPointers["Tutorial: Quests"]
+			if(pointer && pointer.stage == 1)
+				spawn() p.checkQuestProgress("Hunter")
+
 			var/list/tiers = list("Rat", "Demon Rat", "Pixie", "Dog", "Snake", "Wolf", "Troll", "Fire Bat", "Fire Golem", "Archangel", "Water Elemental", "Fire Elemental", "Wyvern")
 			for(var/tier in tiers)
-				var/questPointer/pointer = p.questPointers["Pest Extermination: [tier]"]
+				pointer = p.questPointers["Pest Extermination: [tier]"]
 				if(pointer && !pointer.stage) continue
 
 				if(!pointer)
@@ -980,7 +986,7 @@ mob/TalkNPC/quest
 						p << npcsay("Hunter: Go back out there and exterminate some pests!")
 				return
 
-			var/questPointer/pointer = p.questPointers["Pest Extermination \[Daily]"]
+			pointer = p.questPointers["Pest Extermination \[Daily]"]
 			if(pointer)
 				if(pointer.stage)
 					if(p.checkQuestProgress("Hunter"))
@@ -1004,6 +1010,7 @@ mob/TalkNPC/quest
 		questPointers = list("PvP Introduction", "Culling the Herd")
 		Talk()
 			set src in oview(3)
+			..()
 			var/mob/Player/p = usr
 			var/questPointer/pointer = p.questPointers["PvP Introduction"]
 			if(pointer)
@@ -1033,13 +1040,13 @@ mob/TalkNPC/quest
 			else
 				p << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
 				p.startQuest("PvP Introduction")
-			..()
 
 	Cassandra
 		icon_state="alyssa"
 		questPointers = list("Make a Potion", "Make a Fortune", "Make a Spell")
 		Talk()
 			set src in oview(3)
+			..()
 			var/mob/Player/p = usr
 			var/questPointer/pointer = p.questPointers["Make a Potion"]
 			if(pointer && !pointer.stage)
@@ -1076,7 +1083,8 @@ mob/TalkNPC/quest
 						p << npcsay("Cassandra: Come back later, I might have more tasks for the likes of you later \[To be continued in a later update].")
 			else
 				p << npcsay("Cassandra: You should try helping my twin sister Alyssa, she's sitting at Three Broom Sticks, I hear she seeks an immortality potion.")
-			..()
+
+
 
 obj/items/demonic_essence
 	icon       = 'jokeitems.dmi'
@@ -1124,6 +1132,41 @@ quest
 	var/desc
 	var/list/reqs
 	var/questReward/reward
+
+
+	TutorialWand
+		name   = "Tutorial: The Wand Maker"
+		desc   = "You arrived at Diagon Alley, as a young wizard your first objective is to find a wand to cast spells with."
+		reward = /questReward/TutorialWand
+
+		Reward
+			desc = "You heard a rumour there's a powerful wand maker around here somewhere, find him and buy a powerful wand to begin your magical adventure."
+			reqs = list("Ollivander" = 1)
+
+	TutorialPalmer
+		name   = "Tutorial: Friendly Professor"
+		desc   = "Ollivander told you about a friendly professor named palmer who will help you out."
+		reward = /questReward/TutorialPalmer
+
+		Reward
+			desc = "Palmer is a professor he's probably at the castle."
+			reqs = list("Palmer" = 1)
+
+	TutorialQuests
+		name   = "Tutorial: Quests"
+		desc   = "Palmer sent you to meet a bunch of new people, fun!"
+		reward = /questReward/TutorialQuests
+
+		Hunter
+			desc = "The first person is apparently a monster hunter named Hunter. How very original."
+			reqs = list("Hunter" = 1)
+		Tom
+			desc = "The second person is a bar owner, why would a respected professor send you to a bar, that's so very odd."
+			reqs = list("Tom" = 1)
+		Reward
+			desc = "Go back to Palmer and make him give you a reward, quests are not fun without a reward!"
+			reqs = list("Palmer" = 1)
+
 
 	Ritual
 		name   = "Demonic Ritual"
@@ -1589,6 +1632,15 @@ questReward
 		exp   = 10000
 		items = /obj/items/wearable/wands/maple_wand
 
+	TutorialWand
+		exp   = 10
+		gold  = 50
+	TutorialPalmer
+		exp   = 25
+		gold  = 100
+	TutorialQuests
+		exp   = 50
+		gold  = 150
 
 	clanReward
 		var/points
@@ -1705,7 +1757,7 @@ mob/Player
 				src << infomsg(q.desc)
 				src << infomsg(stage.desc)
 
-				updateQuestMarkers(loc.loc)
+				updateQuestMarkers()
 
 		trackQuest(var/questName)
 			var/questPointer/pointer = questPointers[questName]
@@ -1745,7 +1797,7 @@ mob/Player
 					pointer.reqs  = null
 					pointer.stage = null
 					pointer.time = world.realtime
-				updateQuestMarkers(loc.loc)
+				updateQuestMarkers()
 
 
 		checkQuestProgress(args)

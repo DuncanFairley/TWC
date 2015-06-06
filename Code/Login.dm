@@ -964,6 +964,9 @@ mob
 					else C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B></font>"
 			character.Teleblock=0
 			src = null
+			spawn(5)
+				new/obj/items/questbook(character)
+				character.startQuest("Tutorial: The Wand Maker")
 			spawn()
 				sql_check_for_referral(character)
 			del(oldmob)
@@ -1085,8 +1088,6 @@ mob/Player
 				src.admin=1
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
-			if("Rotem12")
-				src.verbs+=/mob/GM/verb/Reset_Matchmaking
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime

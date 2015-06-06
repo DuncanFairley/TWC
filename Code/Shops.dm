@@ -98,11 +98,14 @@ mob/TalkNPC/quest/Tom
 	Talk()
 		set src in oview(2)
 		..()
+		var/mob/Player/p = usr
+		var/questPointer/pointer = p.questPointers["Tutorial: Quests"]
+		if(pointer && pointer.stage == 2)
+			p.checkQuestProgress("Tom")
 		switch(input("Tom: Welcome to the Leaky Cauldron. What do ya wanna do?","You have [comma(usr.gold)] gold")as null|anything in list("Shop","Talk"))
 			if("Talk")
-				var/mob/Player/p = usr
 				if("Rats in the Cellar" in p.questPointers)
-					var/questPointer/pointer = p.questPointers["Rats in the Cellar"]
+					pointer = p.questPointers["Rats in the Cellar"]
 					if(pointer.stage == 1)
 						usr << npcsay("Tom: I will take you down to the cellar")
 						sleep(20)
@@ -261,6 +264,7 @@ mob/TalkNPC/Ollivander
 	Talk()
 		set src in oview(3)
 		var/mob/TalkNPC/Ollivander/Olli = src
+		var/mob/Player/p = usr
 		if(swiftmode)
 			switch(alert("Ollivander: Welcome to Ollivander's Wand Shop - may I sell you a wand? They're 100 gold","You have [comma(usr.gold)] gold","Yes","No"))
 				if("Yes")
@@ -290,7 +294,10 @@ mob/TalkNPC/Ollivander
 									if("Elder")
 										newwand = new/obj/items/wearable/wands/elder_wand(usr)
 								newwand.name = wandname
-								usr:Resort_Stacking_Inv()
+								p.Resort_Stacking_Inv()
+								if(p.checkQuestProgress("Ollivander"))
+									p << npcsay("Ollivander: Oh you're just starting out eh? My friend Palmer can help you out, his name is Palmer, he is quite friendly.")
+									p.startQuest("Tutorial: Friendly Professor")
 							else
 								usr << "You do not have enough gold at this time. Maybe you should check your bank account at Gringotts?"
 						if("No")
@@ -389,7 +396,10 @@ mob/TalkNPC/Ollivander
 											if("Elder")
 												newwand = new/obj/items/wearable/wands/elder_wand(usr)
 										newwand.name = wandname
-										usr:Resort_Stacking_Inv()
+										p.Resort_Stacking_Inv()
+										if(p.checkQuestProgress("Ollivander"))
+											p << npcsay("Ollivander: Oh you're just starting out eh? My friend Palmer can help you out, his name is Palmer, he is quite friendly.")
+											p.startQuest("Tutorial: Friendly Professor")
 									else
 										usr << "You do not have enough gold at this time. Maybe you should check your bank account at Gringotts?"
 								if("No")
