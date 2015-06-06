@@ -2067,7 +2067,7 @@ mob/proc/Death_Check(mob/killer = src)
 						killer.gold += rndexp
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 
-					var/rep = -round(src:getRep() / 100, 1)
+					var/rep = -round(1 + (src:getRep() / 100), 1)
 
 					if(rep >= 0)
 						rep = max(rep, 1)
