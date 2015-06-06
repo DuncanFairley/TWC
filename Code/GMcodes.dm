@@ -437,7 +437,7 @@ mob/GM
 					if(C.mob)if(C.mob.Auror==1)
 						C<<"<b><font color=red><font size=2>Auror Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 
-		Gryffindor_Chat(var/messsage as text) //mooooooooooooooooooooooooooooooooooooooo
+		Gryffindor_Chat(var/messsage as text)
 			if(!listenhousechat)
 				usr << "You are not listening to Gryffindor chat."
 				return
