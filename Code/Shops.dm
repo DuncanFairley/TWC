@@ -64,6 +64,7 @@ mob/TalkNPC/quest/Tammie
 	questPointers = "Demonic Ritual"
 	Talk()
 		set src in oview(3)
+		..()
 		var/mob/Player/p = usr
 		var/questPointer/pointer = p.questPointers["Demonic Ritual"]
 		if(pointer)
@@ -78,7 +79,6 @@ mob/TalkNPC/quest/Tammie
 		else
 			p << npcsay("Tammie: Did you know there's a ritual that makes you stronger, apparently it involves gathering demonic essences, I wonder how you do that, maybe you have to kill a demonic creature.")
 			p.startQuest("Demonic Ritual")
-		..()
 
 mob/Tom_
 	icon = 'NPCs.dmi'
@@ -97,6 +97,7 @@ mob/TalkNPC/quest/Tom
 	questPointers = "Rats in the Cellar"
 	Talk()
 		set src in oview(2)
+		..()
 		switch(input("Tom: Welcome to the Leaky Cauldron. What do ya wanna do?","You have [comma(usr.gold)] gold")as null|anything in list("Shop","Talk"))
 			if("Talk")
 				var/mob/Player/p = usr

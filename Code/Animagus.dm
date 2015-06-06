@@ -27,9 +27,11 @@ turf
 						//E.loc = locate(src.dest)
 					p.Transfer(A)
 
-					p.client.images = list()
+					p.removePath()
 					if(p.classpathfinding)
 						p.Class_Path_to()
+					else if(p.pathdest)
+						p.pathTo()
 	destination
 		//layer = 5
 		//icon = 'x.dmi'

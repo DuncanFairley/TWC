@@ -155,7 +155,7 @@ obj/teleport
 		icon_state="portkey"
 		name = "Port key"
 		invisibility = 0
-	proc/Teleport(mob/M)
+	proc/Teleport(mob/Player/M)
 		if(dest)
 			if(pass && pass != "")
 				var/pw = input(M, "You feel this spot was enchanted with a password protected teleporting spell","Teleport","") as null|text
@@ -166,16 +166,17 @@ obj/teleport
 					M<<"<font color=red><b>Authorization Denied."
 					return
 
-			if(M.key)
-				var/atom/A = locate(dest) //can be some turf, or some obj
-				if(A)
-					if(isobj(A))
-						A = A.loc
-					M:Transfer(A)
-					M.client.images = list()
-					if(M.classpathfinding)
-						M.Class_Path_to()
-					return 1
+			var/atom/A = locate(dest) //can be some turf, or some obj
+			if(A)
+				if(isobj(A))
+					A = A.loc
+				M:Transfer(A)
+				M.removePath()
+				if(M.classpathfinding)
+					M.Class_Path_to()
+				else if(M.pathdest)
+					M.pathTo(M.pathdest)
+				return 1
 	entervault
 		Teleport(mob/M)
 			if(M.key)

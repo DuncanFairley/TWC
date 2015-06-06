@@ -22,12 +22,7 @@ teleportNode
 			return 1
 
 		Entered(atom/movable/Obj)
-			set waitfor = 0
-			sleep(0)
-
-			if(active)                  return
-			if(!Obj || !Obj.loc)        return
-			if(!(Obj.loc.loc in areas)) return
+			if(active) return
 
 			active = TRUE
 			for(var/area/newareas/a in areas)
@@ -36,14 +31,9 @@ teleportNode
 						M.ChangeState(M.WANDER)
 
 		Exited(atom/movable/Obj)
-			set waitfor = 0
+			if(!active) return
+
 			var/isempty = 1
-			sleep(0)
-
-			if(!active)              return
-			if(!Obj || !Obj.loc)     return
-			if(Obj.loc.loc in areas) return
-
 			for(var/area/newareas/a in areas)
 				for(var/mob/Player/M in a)
 					if(M != Obj)
@@ -58,17 +48,17 @@ teleportNode
 
 
 area
-	Enter(atom/movable/O, atom/oldloc)
+	Entered(atom/movable/O, atom/oldloc)
 		.=..()
-		if(isplayer(O) && .)
+		if(isplayer(O))
 			var/area/a
 			if(oldloc) a = oldloc.loc
 
 			if(a && a.region)
 				if(!(src in a.region.areas))
-					a.region.Exited(O)
 					if(region)
 						region.Entered(O)
+					a.region.Exited(O)
 			else if(region)
 				region.Entered(O)
 
@@ -290,9 +280,9 @@ area
 		Entered(mob/M)
 			..()
 			if(isplayer(M))
-				if(classdest)
+				if(M.classpathfinding && classdest)
 					if(classdest.loc.loc == src)
-						M.client.images = list()
+						M:removePath()
 						M.classpathfinding = 0
 						for(var/obj/O in M.client.screen)
 							if(O.type == /obj/hud/class)
@@ -300,41 +290,58 @@ area
 
 var/mob/classdest = null
 mob
+	Player
+		var/tmp/pathdest
+		proc
+
+			removePath()
+				for(var/image/C in client.images)
+					if(C.icon == 'arrows.dmi')
+						client.images.Remove(C)
+			pathTo(atom/target)
+				if(!loc) return
+
+				var/turf/t
+				if(istype(target, /atom/movable))
+					t = target.loc
+				else
+					t = target
+
+				var/area/startarea = loc.loc
+				var/area/destarea  = t.loc
+				var/path[]
+
+				if(!startarea.region || !destarea.region) return
+
+				if(destarea in startarea.region.areas)
+					path = AStar(loc, t, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
+				else
+					var/teleport_path[]
+					teleport_path = AStar(startarea.region, destarea.region, /teleportNode/proc/AdjacentNodes, /teleportNode/proc/Distance)
+
+					if(teleport_path && teleport_path.len >= 2)
+						var/teleportNode/nextNode = teleport_path[2]
+						t = locate(startarea.region.nodes[nextNode]) //the teleport turf on your current floor
+						path = AStar(loc, t, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
+				sleep()
+
+				if(path && length(path))
+					removePath()
+					for(var/i=1,i<length(path),i++)
+						if(i % 4 == 0)
+							var/turf/A = path[i]
+							var/image/arrow = image('arrows.dmi', A)
+							arrow.layer = 10
+							usr << arrow
+					return 1
+
 	proc
 		Class_Path_to()
-			var/area/startarea = src.loc.loc
-			var/area/destarea = classdest.loc.loc
-			var/path[]
+			if(src:pathdest) src:pathdest = null
 
-			var/failure = FALSE
-			if(!startarea.region || !destarea.region)
-				failure = TRUE
-			else if(destarea in startarea.region.areas)
-				path = AStar(loc, classdest.loc, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
-			else
-				var/teleport_path[]
-				teleport_path = AStar(startarea.region, destarea.region, /teleportNode/proc/AdjacentNodes, /teleportNode/proc/Distance)
-
-				if(teleport_path && teleport_path.len < 2)
-					failure = TRUE
-				else
-					var/teleportNode/nextNode = teleport_path[2]
-					var/turf/t = locate(startarea.region.nodes[nextNode]) //the teleport turf on your current floor
-					path = AStar(loc, t, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
-
-			sleep()
-			if(!failure && length(path))
-				client.images = list()
-				for(var/i=1,i<length(path),i++)
-					if(i % 4 == 0)
-						var/turf/A = path[i]
-						if(A.loc != classdest.loc.loc)
-							var/image/arrow = image('arrows.dmi',A)
-							arrow.layer = 6
-							usr << arrow
-				return 1
-			else
-				client.images = list()
+			. = src:pathTo(classdest)
+			if(!.)
+				src:removePath()
 				usr << "A path cannot be mapped to the class from this area. Please go to a main area of Hogwarts and try again."
 				var/obj/hud/class/C = null
 				for(var/obj/O in usr.client.screen)
@@ -345,7 +352,6 @@ mob
 					if(C) usr.client.screen.Remove(C)
 				else
 					if(C) C.icon_state = "0"
-				return 0
 
 
 area
@@ -711,6 +717,8 @@ turf
 
 
 area
+	FredHouseTrap
+	FredHouse
 	tofred
 		Entered(mob/Player/M)
 			if(!isplayer(M))
@@ -719,9 +727,9 @@ area
 			if("On House Arrest" in M.questPointers)
 				var/questPointer/pointer = M.questPointers["On House Arrest"]
 				if(!pointer.stage)
-					M.loc=locate(89,27,8)
+					M.Transfer(locate(89,27,8))
 					return
-			M.loc=locate(30,12,8)
+			M.Transfer(locate(30,12,8))
 area
 	fromauror
 		Entered(mob/Player/M)

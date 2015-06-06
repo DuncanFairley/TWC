@@ -66,6 +66,7 @@ mob/TalkNPC/quest
 		questPointers = "On House Arrest"
 		Talk()
 			set src in oview(3)
+			..()
 			var/mob/Player/p = usr
 			if("On House Arrest" in p.questPointers)
 				var/questPointer/pointer = p.questPointers["On House Arrest"]
@@ -126,7 +127,6 @@ mob/TalkNPC/quest
 
 								p.startQuest("On House Arrest")
 								p.Resort_Stacking_Inv()
-			..()
 
 mob/TalkNPC/quest
 	Girl
@@ -141,6 +141,7 @@ mob/TalkNPC/quest
 
 		Talk()
 			set src in oview(3)
+			..()
 			var/mob/Player/p = usr
 			if("Stolen by the Lord" in p.questPointers)
 				var/questPointer/pointer = p.questPointers["Stolen by the Lord"]
@@ -186,7 +187,6 @@ mob/TalkNPC/quest
 						p.startQuest("Stolen by the Lord")
 					if("No")
 						alert("The girl frowns")
-			..()
 
 
 
@@ -277,6 +277,7 @@ mob/TalkNPC/quest
 
 		Talk()
 			set src in oview(3)
+			..()
 			var/mob/Player/p = usr
 			var/questPointer/pointer = p.questPointers["Sweet Easter"]
 			if(pointer)
@@ -328,7 +329,6 @@ mob/TalkNPC/quest
 						step_away(usr, src)
 			else
 				usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> THANKS AGAIN!"
-			..()
 
 mob/var/talkedzombie=0
 
@@ -587,6 +587,7 @@ mob/TalkNPC/quest
 		questPointers = "Make a Potion"
 		Talk()
 			set src in oview(3)
+			..()
 			var/mob/Player/p = usr
 			if("Make a Potion" in p.questPointers)
 				var/questPointer/pointer = p.questPointers["Make a Potion"]
@@ -652,7 +653,6 @@ mob/TalkNPC/quest
 								return
 					if("No thanks")
 						return
-			..()
 
 mob/var/onionroot
 mob/var/indigoseeds
@@ -844,11 +844,6 @@ mob/TalkNPC/quest
 			else
 				a.questMobs = list(src)
 
-	Talk()
-		var/mob/Player/p = usr
-		p.questMarker(src)
-
-
 	Vengeful_Wisp
 		icon = 'Mobs.dmi'
 		icon_state="wisp"
@@ -867,6 +862,7 @@ mob/TalkNPC/quest
 
 		Talk()
 			set src in oview(3)
+			..()
 			var/mob/Player/p = usr
 			var/questPointer/pointer = p.questPointers["Will of the Wisp \[Daily]"]
 			if(pointer)
@@ -885,13 +881,13 @@ mob/TalkNPC/quest
 				p.startQuest("Will of the Wisp \[Daily]")
 			else
 				p << npcsay("Vengeful Wisp: Pity the living!")
-			..()
 
 	Mysterious_Wizard
 		icon_state="wizard"
 		questPointers = "The Eyes in the Sand \[Daily]"
 		Talk()
 			set src in oview(3)
+			..()
 			var/mob/Player/p = usr
 			var/questPointer/pointer = p.questPointers["The Eyes in the Sand \[Daily]"]
 			if(pointer)
@@ -910,13 +906,13 @@ mob/TalkNPC/quest
 				p.startQuest("The Eyes in the Sand \[Daily]")
 			else
 				p << npcsay("Mysterious Wizard: So even the gods of the desert can bleed... Interesting!")
-			..()
 
 	Saratri
 		icon_state="lord"
 		questPointers = "To kill a Boss \[Daily]"
 		Talk()
 			set src in oview(3)
+			..()
 			var/mob/Player/p = usr
 			var/questPointer/pointer = p.questPointers["To kill a Boss \[Daily]"]
 			if(pointer)
@@ -935,13 +931,13 @@ mob/TalkNPC/quest
 				p.startQuest("To kill a Boss \[Daily]")
 			else
 				p << npcsay("Saratri: Wow! I can't believe you killed the Basilisk!")
-			..()
 
 	Malcolm
 		icon_state="goblin1"
 		questPointers = "Draw Me a Stick \[Daily]"
 		Talk()
 			set src in oview(3)
+			..()
 			var/mob/Player/p = usr
 			var/questPointer/pointer = p.questPointers["Draw Me a Stick \[Daily]"]
 			if(pointer)
@@ -960,15 +956,14 @@ mob/TalkNPC/quest
 				p.startQuest("Draw Me a Stick \[Daily]")
 			else
 				p << npcsay("Malcolm: Wow! I can't believe you killed the Stickman!")
-			..()
 
 	Hunter
 		icon_state="lord"
 		questPointers = list("Pest Extermination \[Daily]", "Pest Extermination: Rat", "Pest Extermination: Demon Rat", "Pest Extermination: Pixie", "Pest Extermination: Dog", "Pest Extermination: Snake", "Pest Extermination: Wolf", "Pest Extermination: Troll", "Pest Extermination: Fire Bat", "Pest Extermination: Fire Golem", "Pest Extermination: Archangel", "Pest Extermination: Water Elemental", "Pest Extermination: Fire Elemental", "Pest Extermination: Wyvern")
 		Talk()
 			set src in oview(3)
+			..()
 			var/mob/Player/p = usr
-
 			var/list/tiers = list("Rat", "Demon Rat", "Pixie", "Dog", "Snake", "Wolf", "Troll", "Fire Bat", "Fire Golem", "Archangel", "Water Elemental", "Fire Elemental", "Wyvern")
 			for(var/tier in tiers)
 				var/questPointer/pointer = p.questPointers["Pest Extermination: [tier]"]
@@ -1002,7 +997,6 @@ mob/TalkNPC/quest
 				p.startQuest("Pest Extermination \[Daily]")
 			else
 				p << npcsay("Hunter: You've done a really good job exterminating all those monsters.")
-			..()
 
 
 	Zerf
@@ -1711,6 +1705,8 @@ mob/Player
 				src << infomsg(q.desc)
 				src << infomsg(stage.desc)
 
+				updateQuestMarkers(loc.loc)
+
 		trackQuest(var/questName)
 			var/questPointer/pointer = questPointers[questName]
 
@@ -1812,8 +1808,29 @@ interface
 		if(quest)
 			quest.update(parent)
 
+// turn off when obj is gone
+//
 
 obj/hud/screentext
+
+	questPath
+		mouse_over_pointer = MOUSE_HAND_POINTER
+		mouse_opacity = 2
+		maptext = "<b>\[Path]<b>"
+		maptext_width  = 44
+		maptext_height = 32
+
+		Click()
+			..()
+			var/mob/Player/p = usr
+			if(p.pathdest && p.pathdest:tag == name)
+				p.pathdest = null
+				p.removePath()
+			else
+				p.classpathfinding = 0
+
+				p.pathdest = locate(name)
+				p.pathTo(p.pathdest)
 
 	quest
 		screen_loc = "WEST+1,SOUTH+1"
@@ -1822,19 +1839,49 @@ obj/hud/screentext
 
 		proc/update(mob/Player/p)
 			maptext = null
-			var/count = 0
+			var/count        = 4
+			var/offset       = 0
+			var/pixel_offset = 29
+
+			for(var/obj/hud/screentext/questPath/path in p.client.screen)
+				p.client.screen -= path
+			var/removePath = p.pathdest ? TRUE : FALSE
+
 			for(var/questName in p.questPointers)
 				var/questPointer/pointer = p.questPointers[questName]
 				if(!pointer.stage) continue
 				if(!pointer.track) continue
-				count++
-				if(count > 4) break
 
-				maptext = "[maptext]<b>[questName]</b><br>"
+				count--
+				if(count < 0) break
+
+				pixel_offset += (pointer.reqs.len) * 14 + 18
+				if(pixel_offset >= 32)
+					pixel_offset -= 32
+					offset++
+
+				if(pointer.reqs.len == 1 && locate(pointer.reqs[1]))
+					var/obj/hud/screentext/questPath/path = new
+					path.name = pointer.reqs[1]
+					path.screen_loc = "WEST+7,SOUTH+[offset]:[pixel_offset]"
+					path.maptext = "<font color=\"[p.mapTextColor]\">[path.maptext]</font>"
+					p.client.screen += path
+
+					if(removePath && path.name == p.pathdest:tag)
+						removePath = FALSE
+
+				var/reqsText = ""
 				for(var/i in pointer.reqs)
-					maptext += "  - [i]: [pointer.reqs[i]]<br>"
+					reqsText += "  - [i]: [pointer.reqs[i]]<br>"
+
+				maptext = "<b>[questName]</b><br>[reqsText][maptext]"
+
 			if(maptext)
 				maptext = "<font color=[p.mapTextColor]>[maptext] </font>"
+
+			if(removePath)
+				p.pathdest = null
+				p.removePath()
 
 mob/Player
 	var/mapTextColor = "#ffffff"

@@ -256,7 +256,7 @@ mob/Topic(href,href_list[])
 							M << infomsg("GMs, [usr] just logged in and clicked the class guidance system.")
 				if(usr.loc.loc == classdest.loc.loc)
 					usr << "You're already in class."
-					client.images = list()
+					usr:removePath()
 				else
 					if(usr.Class_Path_to())
 						usr.classpathfinding = 1
