@@ -1830,7 +1830,9 @@ obj/hud/screentext
 				p.classpathfinding = 0
 
 				p.pathdest = locate(name)
-				p.pathTo(p.pathdest)
+				if(!p.pathTo(p.pathdest))
+					p.pathdest = null
+					p << errormsg("You don't know where you are, pathfinding magic is impossible here.")
 
 	quest
 		screen_loc = "WEST+1,SOUTH+1"
