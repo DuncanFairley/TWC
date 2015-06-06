@@ -323,8 +323,10 @@ mob
 
 				if(path && length(path))
 					removePath()
-					for(var/i=1,i<length(path),i++)
-						if(i % 4 == 0)
+					var/length = length(path)
+					var/gap    = min(max(round(length / 5, 1), 2), 4)
+					for(var/i=1, i < length, i++)
+						if(i % gap == 0)
 							var/turf/A = path[i]
 							var/image/arrow = image('arrows.dmi', A)
 							arrow.layer = 10
