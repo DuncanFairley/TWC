@@ -58,12 +58,12 @@ mob/var/babyfound
 mob/var/foundlord
 mob/var/talkedtofred
 
-mob/TalkNPC
+mob/TalkNPC/quest
 	Fred
 		icon_state="fred"
 		density=1
 		Immortal=1
-
+		questPointers = "On House Arrest"
 		Talk()
 			set src in oview(3)
 			var/mob/Player/p = usr
@@ -127,12 +127,12 @@ mob/TalkNPC
 								p.startQuest("On House Arrest")
 								p.Resort_Stacking_Inv()
 
-mob/TalkNPC
+mob/TalkNPC/quest
 	Girl
 		icon_state="girl"
 		density=1
 		Immortal=1
-
+		questPointers = "Stolen by the Lord"
 		verb
 			Examine()
 				set src in oview(3)
@@ -262,13 +262,13 @@ turf
 
 mob/var/talkedtobunny
 
-mob/TalkNPC
+mob/TalkNPC/quest
 	easterbunny
 		icon_state = "easter"
 		name= "Easter Bunny"
 		density=1
 		Immortal=1
-
+		questPointers = "Sweet Easter"
 		verb
 			Examine()
 				set src in oview(3)
@@ -577,12 +577,12 @@ mob/TalkNPC
 mob/var/talkedtoalyssa
 
 
-mob/TalkNPC
+mob/TalkNPC/quest
 	Alyssa
 		icon_state="alyssa"
 		Gm=1
 		Immortal=1
-
+		questPointers = "Make a Potion"
 		Talk()
 			set src in oview(3)
 			var/mob/Player/p = usr
@@ -752,12 +752,105 @@ obj/AlyssaChest
 mob/var/talkedtosanta
 
 
-mob/TalkNPC
+image/questMarker
+	icon    = 'QuestMarker.dmi'
+	pixel_y = 32
+
+area
+	var/tmp/list/questMobs
+
+	Entered(atom/movable/Obj, atom/OldLoc)
+		if(isplayer(Obj))
+			var/mob/Player/p = Obj
+			p.updateQuestMarkers(src)
+		.=..()
+
+mob/Player
+	var/tmp/list/images
+
+
+	proc
+		addImage(i_Name, image/i_Image)
+			client.images += i_Image
+
+			if(!images)	images = list()
+			images[i_Name]     = i_Image
+
+		removeImage(i_Name)
+			client.images -= images[i_Name]
+			images        -= i_Name
+
+			if(!images.len) images = null
+
+		removeAllImages()
+			if(images)
+				for(var/i in images)
+					removeImage(i)
+
+		questMarker(mob/TalkNPC/quest/i_Mob)
+			if(!i_Mob.questPointers) return
+
+			removeImage(i_Mob.name)
+
+			var/state
+			if(islist(i_Mob.questPointers))
+				for(var/p in i_Mob.questPointers)
+					var/questPointer/pointer = questPointers[p]
+					if(!pointer)
+						state = "nonactive"
+						continue
+					if(!pointer.stage) continue
+
+					var/quest/q = quest_list[p]
+					if(pointer.stage == q.stages.len)
+						state = "completed"
+						break
+
+					state = "active"
+					break
+			else
+				var/questPointer/pointer = questPointers[i_Mob.questPointers]
+				if(!pointer)
+					state = "nonactive"
+				else if(pointer.stage)
+
+					var/quest/q = quest_list[i_Mob.questPointers]
+					if(pointer.stage == q.stages.len)
+						state = "completed"
+					else state = "active"
+
+			if(state)
+				var/image/i = image('QuestMarker.dmi', i_Mob, state)
+				i.pixel_y = 36
+				addImage(i_Mob.name, i)
+
+		updateQuestMarkers(area/i_Area)
+			removeAllImages()
+			if(i_Area.questMobs)
+				for(var/mob/TalkNPC/quest/m in i_Area.questMobs)
+					questMarker(m)
+
+mob/TalkNPC/quest
+	var/questPointers
+
+	New()
+		..()
+		if(questPointers)
+			var/area/a = loc.loc
+			if(a.questMobs)
+				a.questMobs += src
+			else
+				a.questMobs = list(src)
+
+	Talk()
+		var/mob/Player/p = usr
+		p.questMarker(src)
+
 
 	Vengeful_Wisp
 		icon = 'Mobs.dmi'
 		icon_state="wisp"
-
+		questPointers = "Will of the Wisp \[Daily]"
 		New()
 			..()
 			alpha = rand(190,255)
@@ -790,10 +883,11 @@ mob/TalkNPC
 				p.startQuest("Will of the Wisp \[Daily]")
 			else
 				p << npcsay("Vengeful Wisp: Pity the living!")
+			..()
 
 	Mysterious_Wizard
 		icon_state="wizard"
-
+		questPointers = "The Eyes in the Sand \[Daily]"
 		Talk()
 			set src in oview(3)
 			var/mob/Player/p = usr
@@ -814,10 +908,11 @@ mob/TalkNPC
 				p.startQuest("The Eyes in the Sand \[Daily]")
 			else
 				p << npcsay("Mysterious Wizard: So even the gods of the desert can bleed... Interesting!")
+			..()
 
 	Saratri
 		icon_state="lord"
-
+		questPointers = "To kill a Boss \[Daily]"
 		Talk()
 			set src in oview(3)
 			var/mob/Player/p = usr
@@ -838,10 +933,11 @@ mob/TalkNPC
 				p.startQuest("To kill a Boss \[Daily]")
 			else
 				p << npcsay("Saratri: Wow! I can't believe you killed the Basilisk!")
+			..()
 
 	Malcolm
 		icon_state="goblin1"
-
+		questPointers = "Draw Me a Stick \[Daily]"
 		Talk()
 			set src in oview(3)
 			var/mob/Player/p = usr
@@ -862,10 +958,11 @@ mob/TalkNPC
 				p.startQuest("Draw Me a Stick \[Daily]")
 			else
 				p << npcsay("Malcolm: Wow! I can't believe you killed the Stickman!")
+			..()
 
 	Hunter
 		icon_state="lord"
-
+		questPointers = list("Pest Extermination \[Daily]", "Pest Extermination: Rat", "Pest Extermination: Demon Rat", "Pest Extermination: Pixie", "Pest Extermination: Dog", "Pest Extermination: Snake", "Pest Extermination: Wolf", "Pest Extermination: Troll", "Pest Extermination: Fire Bat", "Pest Extermination: Fire Golem", "Pest Extermination: Archangel", "Pest Extermination: Water Elemental", "Pest Extermination: Fire Elemental", "Pest Extermination: Wyvern")
 		Talk()
 			set src in oview(3)
 			var/mob/Player/p = usr
@@ -903,11 +1000,12 @@ mob/TalkNPC
 				p.startQuest("Pest Extermination \[Daily]")
 			else
 				p << npcsay("Hunter: You've done a really good job exterminating all those monsters.")
+			..()
 
 
 	Zerf
 		icon_state = "stat"
-
+		questPointers = list("PvP Introduction", "Culling the Herd")
 		Talk()
 			set src in oview(3)
 			var/mob/Player/p = usr
@@ -939,10 +1037,11 @@ mob/TalkNPC
 			else
 				p << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
 				p.startQuest("PvP Introduction")
+			..()
 
 	Cassandra
 		icon_state="alyssa"
-
+		questPointers = list("Make a Potion", "Make a Fortune", "Make a Spell")
 		Talk()
 			set src in oview(3)
 			var/mob/Player/p = usr
@@ -981,6 +1080,7 @@ mob/TalkNPC
 						p << npcsay("Cassandra: Come back later, I might have more tasks for the likes of you later \[To be continued in a later update].")
 			else
 				p << npcsay("Cassandra: You should try helping my twin sister Alyssa, she's sitting at Three Broom Sticks, I hear she seeks an immortality potion.")
+			..()
 
 obj/items/demonic_essence
 	icon       = 'jokeitems.dmi'
@@ -1647,6 +1747,7 @@ mob/Player
 					pointer.reqs  = null
 					pointer.stage = null
 					pointer.time = world.realtime
+				updateQuestMarkers(loc.loc)
 
 
 		checkQuestProgress(args)

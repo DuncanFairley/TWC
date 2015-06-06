@@ -57,11 +57,11 @@ mob/TalkNPC/female_wigseller
 		set src in oview(4)
 		usr << npcsay("Wig Seller says: Welcome to our little wig shop, use the mirrors to select a wig of your liking!")
 
-mob/TalkNPC/Tammie
+mob/TalkNPC/quest/Tammie
 	icon_state = "tammie"
 	NPC = 1
 	Immortal=1
-
+	questPointers = "Demonic Ritual"
 	Talk()
 		set src in oview(3)
 		var/mob/Player/p = usr
@@ -87,13 +87,13 @@ mob/Tom_
 	Gm=1
 	density=1
 
-mob/TalkNPC/Tom
+mob/TalkNPC/quest/Tom
 	icon_state="tom"
 	NPC = 1
 	density=1
 	Immortal=1
 	Gm=1
-
+	questPointers = "Rats in the Cellar"
 	Talk()
 		set src in oview(2)
 		switch(input("Tom: Welcome to the Leaky Cauldron. What do ya wanna do?","You have [comma(usr.gold)] gold")as null|anything in list("Shop","Talk"))
