@@ -160,7 +160,7 @@ obj/teleportPath
 
 area/var/tmp/teleportNode/region
 
-mob/verb/testMap()
+/*mob/verb/testMap()
 	for(var/i in TeleportMap.teleports)
 		world << i
 
@@ -173,7 +173,7 @@ mob/verb/testMap()
 		var/textareas = ""
 		for(var/t in n.areas)
 			textareas += "[t], "
-		world << "Areas: [textareas]"
+		world << "Areas: [textareas]"*/
 
 
 
