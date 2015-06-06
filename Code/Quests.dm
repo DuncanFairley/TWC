@@ -28,6 +28,66 @@ mob
 		ratquest
 
 mob/TalkNPC/quest
+	var/questPointers
+
+	New()
+		..()
+		tag = name
+		if(questPointers)
+			var/area/a = loc.loc
+			if(a.questMobs)
+				a.questMobs += src
+			else
+				a.questMobs = list(src)
+	proc
+
+		Quest(mob/Player/i_Player)
+
+			if(i_Player.questPointers)
+				for(var/i in i_Player.questPointers)
+					var/questPointer/pointer = i_Player.questPointers[i]
+					if(!pointer || !pointer.stage)  continue
+					if(!(name in pointer.reqs))     continue
+					if(questPointers)
+						if(islist(questPointers))
+							if(i in questPointers)  continue
+						else if(questPointers == i) continue
+
+					i_Player.questProgress(i, name)
+					break
+
+			if(questPointers)
+				var/questName
+				if(islist(questPointers))
+					for(var/i in questPointers)
+						var/questPointer/pointer = i_Player.questPointers[i]
+						if(!pointer || pointer.stage)
+							questName = i
+							break
+					if(!questName)
+						questName = questPointers[length(questPointers)]
+				else
+					questName = questPointers
+
+				var/questPointer/pointer = i_Player.questPointers[questName]
+
+				if(!pointer)
+					questStart(i_Player, questName)
+				else if(pointer.stage)
+					questOngoing(i_Player, questName)
+				else
+					questCompleted(i_Player, questName)
+
+		questStart(mob/Player/i_Player, questName)
+			i_Player.startQuest(questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			. = i_Player.checkQuestProgress(name)
+
+		questCompleted(mob/Player/i_Player, questName)
+
+
+
 	professor_palmer
 		icon_state="palmer"
 		name="Professor Palmer"
@@ -36,18 +96,22 @@ mob/TalkNPC/quest
 		questPointers = "Tutorial: Quests"
 		Talk()
 			set src in oview(1)
-			..()
-			var/mob/Player/p = usr
-			if(p.checkQuestProgress("Palmer"))
+			Quest(usr)
 
-				if(!("Tutorial: Quests" in p.questPointers))
-					p << npcsay("Palmer: Hey there, you're new aren't you. I was asked by the Headmaster to teach you about quests.")
-					p << npcsay("Palmer: You can click the quest book found in your \"Items\" tab to view quests you have or quests you completed.")
-					p << npcsay("Palmer: How would you like to put something in that book? I have a few friends who can help you out with that, why don't you go and meet them?")
+		questStart(mob/Player/i_Player, questName)
+			i_Player << npcsay("Palmer: Hey there, you're new aren't you. I was asked by the Headmaster to teach you about quests.")
+			i_Player << npcsay("Palmer: You can click the quest book found in your \"Items\" tab to view quests you have or quests you completed.")
+			i_Player << npcsay("Palmer: How would you like to put something in that book? I have a few friends who can help you out with that, why don't you go and meet them?")
+			..(i_Player, questName)
 
-					p.startQuest("Tutorial: Quests")
-			else
-				p << npcsay("Palmer: Have a good day.")
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			if(!.)
+				i_Player << npcsay("Palmer: They're friendly people, they'll help you.")
+
+		questCompleted(mob/Player/i_Player, questName)
+			i_Player << npcsay("Palmer: Have a good day.")
 
 mob/var/talkedtogirl
 mob/var/babyquest
@@ -834,17 +898,6 @@ mob/Player
 					questMarker(m)
 
 mob/TalkNPC/quest
-	var/questPointers
-
-	New()
-		..()
-		if(questPointers)
-			var/area/a = loc.loc
-			if(a.questMobs)
-				a.questMobs += src
-			else
-				a.questMobs = list(src)
-
 	Vengeful_Wisp
 		icon = 'Mobs.dmi'
 		icon_state="wisp"
@@ -863,146 +916,155 @@ mob/TalkNPC/quest
 
 		Talk()
 			set src in oview(3)
-			..()
-			var/mob/Player/p = usr
-			var/questPointer/pointer = p.questPointers["Will of the Wisp \[Daily]"]
-			if(pointer)
-				if(pointer.stage)
-					if(p.checkQuestProgress("Vengeful Wisp"))
-						p << npcsay("Vengeful Wisp: I love the irony in sending you to kill dead creatures. May they rest in pea-- I will send you to kill them again tomorrow.")
-					else
-						p << npcsay("Vengeful Wisp: Don't waste time talking to me, actions speak louder than words!")
-						return
-				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
-					p.questPointers -= pointer
-					pointer = null
+			Quest(usr)
 
-			if(!pointer)
-				p << npcsay("Vengeful Wisp: You, human! I want you to help me express my rage, kill every wisp you face, vengeance shall be mine! Mawhahahaha!!!")
-				p.startQuest("Will of the Wisp \[Daily]")
+		questStart(mob/Player/i_Player, questName)
+			i_Player << npcsay("Vengeful Wisp: You, human! I want you to help me express my rage, kill every wisp you face, vengeance shall be mine! Mawhahahaha!!!")
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			if(.)
+				i_Player << npcsay("Vengeful Wisp: I love the irony in sending you to kill dead creatures. May they rest in pea-- I will send you to kill them again tomorrow.")
 			else
-				p << npcsay("Vengeful Wisp: Pity the living!")
+				i_Player << npcsay("Vengeful Wisp: Don't waste time talking to me, actions speak louder than words!")
+
+		questCompleted(mob/Player/i_Player, questName)
+			var/questPointer/pointer = i_Player.questPointers[questName]
+			if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
+				i_Player.questPointers -= pointer
+				pointer = null
+
+				questStart(i_Player, questName)
+			else
+				i_Player << npcsay("Vengeful Wisp: Pity the living!")
 
 	Mysterious_Wizard
 		icon_state="wizard"
 		questPointers = "The Eyes in the Sand \[Daily]"
 		Talk()
 			set src in oview(3)
-			..()
-			var/mob/Player/p = usr
-			var/questPointer/pointer = p.questPointers["The Eyes in the Sand \[Daily]"]
-			if(pointer)
-				if(pointer.stage)
-					if(p.checkQuestProgress("Mysterious Wizard"))
-						p << npcsay("Mysterious Wizard: Floating eyes, the gods of the desert can bleed after all, how amusing!")
-					else
-						p << npcsay("Mysterious Wizard: Not enough, go back there and check if they all bleed!")
-					return
-				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
-					p.questPointers -= pointer
-					pointer = null
+			Quest(usr)
 
-			if(!pointer)
-				p << npcsay("Mysterious Wizard: Beyond this door lies the desert, oh so mysterious... There are strange creatures there called floating eyes, check if they bleed for me!")
-				p.startQuest("The Eyes in the Sand \[Daily]")
+		questStart(mob/Player/i_Player, questName)
+			i_Player << npcsay("Mysterious Wizard: Beyond this door lies the desert, oh so mysterious... There are strange creatures there called floating eyes, check if they bleed for me!")
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			if(.)
+				i_Player << npcsay("Mysterious Wizard: Floating eyes, the gods of the desert can bleed after all, how amusing!")
 			else
-				p << npcsay("Mysterious Wizard: So even the gods of the desert can bleed... Interesting!")
+				i_Player << npcsay("Mysterious Wizard: Not enough, go back there and check if they all bleed!")
+
+		questCompleted(mob/Player/i_Player, questName)
+			var/questPointer/pointer = i_Player.questPointers[questName]
+			if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
+				i_Player.questPointers -= pointer
+				pointer = null
+
+				questStart(i_Player, questName)
+			else
+				i_Player << npcsay("Mysterious Wizard: So even the gods of the desert can bleed... Interesting!")
 
 	Saratri
 		icon_state="lord"
 		questPointers = "To kill a Boss \[Daily]"
 		Talk()
 			set src in oview(3)
-			..()
-			var/mob/Player/p = usr
-			var/questPointer/pointer = p.questPointers["To kill a Boss \[Daily]"]
-			if(pointer)
-				if(pointer.stage)
-					if(p.checkQuestProgress("Saratri"))
-						p << npcsay("Saratri: Good job! I can't believe you pulled it off!")
-					else
-						p << npcsay("Saratri: Go kill the Basilisk!")
-					return
-				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
-					p.questPointers -= pointer
-					pointer = null
+			Quest(usr)
 
-			if(!pointer)
-				p << npcsay("Saratri: Hey there... Did you know there's a terrible monster here called the Basilisk? I'll reward you if you kill it...")
-				p.startQuest("To kill a Boss \[Daily]")
+
+		questStart(mob/Player/i_Player, questName)
+			i_Player << npcsay("Saratri: Hey there... Did you know there's a terrible monster here called the Basilisk? I'll reward you if you kill it...")
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			if(.)
+				i_Player << npcsay("Saratri: Good job! I can't believe you pulled it off!")
 			else
-				p << npcsay("Saratri: Wow! I can't believe you killed the Basilisk!")
+				i_Player << npcsay("Saratri: Go kill the Basilisk!")
+
+		questCompleted(mob/Player/i_Player, questName)
+			var/questPointer/pointer = i_Player.questPointers[questName]
+			if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
+				i_Player.questPointers -= pointer
+				pointer = null
+
+				questStart(i_Player, questName)
+			else
+				i_Player << npcsay("Saratri: Wow! I can't believe you killed the Basilisk!")
 
 	Malcolm
 		icon_state="goblin1"
 		questPointers = "Draw Me a Stick \[Daily]"
 		Talk()
 			set src in oview(3)
-			..()
-			var/mob/Player/p = usr
-			var/questPointer/pointer = p.questPointers["Draw Me a Stick \[Daily]"]
-			if(pointer)
-				if(pointer.stage)
-					if(p.checkQuestProgress("Malcolm"))
-						p << npcsay("Malcolm: Good job! I can't believe you pulled it off!")
-					else
-						p << npcsay("Malcolm: Go kill the Stickman!")
-					return
-				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
-					p.questPointers -= pointer
-					pointer = null
+			Quest(usr)
 
-			if(!pointer)
-				p << npcsay("Malcolm: Welcome to floor 2! Did you know Basilisk is not the strongest monster here?! There's a magical stickman in this floor, if you manage to defeat it I will reward you.")
-				p.startQuest("Draw Me a Stick \[Daily]")
+
+		questStart(mob/Player/i_Player, questName)
+			i_Player << npcsay("Malcolm: Welcome to floor 2! Did you know Basilisk is not the strongest monster here?! There's a magical stickman in this floor, if you manage to defeat it I will reward you.")
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			if(.)
+				i_Player << npcsay("Malcolm: Good job! I can't believe you pulled it off!")
 			else
-				p << npcsay("Malcolm: Wow! I can't believe you killed the Stickman!")
+				i_Player << npcsay("Malcolm: Go kill the Stickman!")
+
+		questCompleted(mob/Player/i_Player, questName)
+			var/questPointer/pointer = i_Player.questPointers[questName]
+			if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
+				i_Player.questPointers -= pointer
+				pointer = null
+
+				questStart(i_Player, questName)
+			else
+				i_Player << npcsay("Malcolm: Wow! I can't believe you killed the Stickman!")
 
 	Hunter
 		icon_state="lord"
-		questPointers = list("Pest Extermination \[Daily]", "Pest Extermination: Rat", "Pest Extermination: Demon Rat", "Pest Extermination: Pixie", "Pest Extermination: Dog", "Pest Extermination: Snake", "Pest Extermination: Wolf", "Pest Extermination: Troll", "Pest Extermination: Fire Bat", "Pest Extermination: Fire Golem", "Pest Extermination: Archangel", "Pest Extermination: Water Elemental", "Pest Extermination: Fire Elemental", "Pest Extermination: Wyvern")
+		questPointers = list("Pest Extermination: Rat", "Pest Extermination: Demon Rat", "Pest Extermination: Pixie", "Pest Extermination: Dog", "Pest Extermination: Snake", "Pest Extermination: Wolf", "Pest Extermination: Troll", "Pest Extermination: Fire Bat", "Pest Extermination: Fire Golem", "Pest Extermination: Archangel", "Pest Extermination: Water Elemental", "Pest Extermination: Fire Elemental", "Pest Extermination: Wyvern", "Pest Extermination \[Daily]")
+
+
 		Talk()
 			set src in oview(3)
-			..()
-			var/mob/Player/p = usr
+			Quest(usr)
 
-			var/questPointer/pointer = p.questPointers["Tutorial: Quests"]
-			if(pointer && pointer.stage == 1)
-				spawn() p.checkQuestProgress("Hunter")
+		questStart(mob/Player/i_Player, questName)
+			i_Player << npcsay("Hunter: Hey there, maybe you can help me, I want to exterminate a few pests from our lives.")
+			..(i_Player, questName)
 
-			var/list/tiers = list("Rat", "Demon Rat", "Pixie", "Dog", "Snake", "Wolf", "Troll", "Fire Bat", "Fire Golem", "Archangel", "Water Elemental", "Fire Elemental", "Wyvern")
-			for(var/tier in tiers)
-				pointer = p.questPointers["Pest Extermination: [tier]"]
-				if(pointer && !pointer.stage) continue
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+			i_Player << npcsay("Hunter: Did you kill the monsters I requested yet?")
+			if(.)
+				i_Player << npcsay("Hunter: Good job!")
+			else
+				i_Player << npcsay("Hunter: Go back out there and exterminate some pests!")
 
-				if(!pointer)
-					p << npcsay("Hunter: Hey there, maybe you can help me, I want to exterminate a few pests from our lives.")
-					p.startQuest("Pest Extermination: [tier]")
-				else
-					p << npcsay("Hunter: Did you kill the monsters I requested yet?")
-					if(p.checkQuestProgress("Hunter"))
-						p << npcsay("Hunter: Good job!")
-					else
-						p << npcsay("Hunter: Go back out there and exterminate some pests!")
-				return
-
-			pointer = p.questPointers["Pest Extermination \[Daily]"]
-			if(pointer)
-				if(pointer.stage)
-					if(p.checkQuestProgress("Hunter"))
-						p << npcsay("Hunter: Good job!")
-					else
-						p << npcsay("Hunter: Go back out there and exterminate some pests!")
-					return
-				else if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
-					p.questPointers -= pointer
+		questCompleted(mob/Player/i_Player, questName)
+			if(questName == "Pest Extermination \[Daily]")
+				var/questPointer/pointer = i_Player.questPointers["Pest Extermination \[Daily]"]
+				if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
+					i_Player.questPointers -= pointer
 					pointer = null
 
-			if(!pointer)
-				p << npcsay("Hunter: Those monsters you've exterminated returned, go there and exterminate them again.")
-				p.startQuest("Pest Extermination \[Daily]")
-			else
-				p << npcsay("Hunter: You've done a really good job exterminating all those monsters.")
+					questStart(i_Player, questName)
+				else
+					i_Player << npcsay("Hunter: You've done a really good job exterminating all those monsters.")
+
 
 
 	Zerf
@@ -1010,81 +1072,83 @@ mob/TalkNPC/quest
 		questPointers = list("PvP Introduction", "Culling the Herd")
 		Talk()
 			set src in oview(3)
-			..()
-			var/mob/Player/p = usr
-			var/questPointer/pointer = p.questPointers["PvP Introduction"]
-			if(pointer)
-				if(pointer.stage)
-					if(p.checkQuestProgress("Zerf"))
-						p << npcsay("Zerf: Good job but we're just getting started!")
-					else
-						p << npcsay("Zerf: You aren't going to get any better by not fighting!")
-				else
-					pointer = p.questPointers["Culling the Herd"]
-					if(!pointer)
-						p << npcsay("Zerf: Let's kill some people... A lot of people!")
-						p.startQuest("Culling the Herd")
-						return
+			Quest(usr)
 
-					if(pointer.stage)
-						if(p.checkQuestProgress("Zerf"))
-							p << npcsay("Zerf: Mawhahahaha! THEY'RE ALL DEAD!")
-						else
-							p << npcsay("Zerf: Kill or be killed, my friend.")
-					else
-						if(p.level == lvlcap)
-							p << npcsay("Zerf: Why not try some matchmaking in the ranked arena?")
-						else
-							p << npcsay("Zerf: When you reach level cap, why not try some matchmaking in the ranked arena?")
+		questStart(mob/Player/i_Player, questName)
+			switch(questName)
+				if("PvP Introduction")
+					i_Player << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
+				if("Culling the Herd")
+					i_Player << npcsay("Zerf: Let's kill some people... A lot of people!")
 
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			switch(questName)
+				if("PvP Introduction")
+					if(.)
+						i_Player << npcsay("Zerf: Good job but we're just getting started!")
+					else
+						i_Player << npcsay("Zerf: You aren't going to get any better by not fighting!")
+				if("Culling the Herd")
+					if(.)
+						i_Player << npcsay("Zerf: Mawhahahaha! THEY'RE ALL DEAD!")
+					else
+						i_Player << npcsay("Zerf: Kill or be killed, my friend.")
+
+		questCompleted(mob/Player/i_Player, questName)
+			if(i_Player.level == lvlcap)
+				i_Player << npcsay("Zerf: Why not try some matchmaking in the ranked arena?")
 			else
-				p << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
-				p.startQuest("PvP Introduction")
+				i_Player << npcsay("Zerf: When you reach level cap, why not try some matchmaking in the ranked arena?")
+
 
 	Cassandra
 		icon_state="alyssa"
-		questPointers = list("Make a Potion", "Make a Fortune", "Make a Spell")
+		questPointers = list("Make a Fortune", "Make a Spell")
 		Talk()
 			set src in oview(3)
-			..()
-			var/mob/Player/p = usr
-			var/questPointer/pointer = p.questPointers["Make a Potion"]
-			if(pointer && !pointer.stage)
+			Quest(usr)
 
-				if(level >= lvlcap)
-					p << npcsay("Cassandra: Look at you, such a weakling can not possibly help me.")
-					return
 
-				pointer = p.questPointers["Make a Fortune"]
-				if(!pointer)
-					p << npcsay("Cassandra: Hey there, do you wish to make a fortune?! Well, you've come to the right place, I have a task for you, go out there to the world and collect a peice of the rarest monsters to be found, their fine essence will be sold for millions!")
-					p.startQuest("Make a Fortune")
-				else if(pointer.stage)
-					if(p.checkQuestProgress("Cassandra"))
-						p << npcsay("Cassandra: Hmmph! I could've done it myself but I'm a lady, here you can have this scarf, I don't need it anymore...")
-						p << errormsg("Cassandra takes the monster essences you've collected, she's going to make a fortune while you can warm yourself up with her old scarf.")
-					else
-						p << npcsay("Cassandra: Maybe I was wrong about you, maybe you aren't capable of defeating such rare monsters.")
-					return
-				else
-					pointer = p.questPointers["Make a Spell"]
-					if(!pointer)
-						p << npcsay("Cassandra: You who helped me once before, how about you help me again, thanks to you I'm rich but sadly gold can not buy me true love, however, I did manage to find a way to fulfil my desires.")
-						p << npcsay("Cassandra: There is a spell capable of changing the laws of magic, this will help me find what I seek. You'll have to do what you did last time only this time I need you to collect more powerful elements.")
-						p.startQuest("Make a Spell")
-					else if(pointer.stage)
-						if(p.checkQuestProgress("Cassandra"))
-							p << npcsay("Cassandra: Hmmph! I could've done it myself but I'm a lady, here you can have this wand, I don't need it anymore...")
-							p << errormsg("Cassandra takes the monster essences you've collected. She's going to be extremely powerful and get all her heart's desires while you are stuck with an old stick.")
-						else
-							p << npcsay("Cassandra: Maybe I was wrong about you, maybe you aren't capable of defeating such rare monsters.")
-						return
-					else
-						p << npcsay("Cassandra: Come back later, I might have more tasks for the likes of you later \[To be continued in a later update].")
+		questStart(mob/Player/i_Player, questName)
+
+			var/questPointer/pointer = i_Player.questPointers["Make a Potion"]
+			if(!pointer || pointer.stage)
+				i_Player << npcsay("Cassandra: You should try helping my twin sister Alyssa, she's sitting at Three Broom Sticks, I hear she seeks an immortality potion.")
+				return
+
+			if(i_Player.level < lvlcap)
+				i_Player << npcsay("Cassandra: Look at you, such a weakling can not possibly help me.")
+				return
+
+			switch(questName)
+				if("Make a Fortune")
+					i_Player << npcsay("Cassandra: Hey there, do you wish to make a fortune?! Well, you've come to the right place, I have a task for you, go out there to the world and collect a peice of the rarest monsters to be found, their fine essence will be sold for millions!")
+				if("Make a Spell")
+					i_Player << npcsay("Cassandra: You who helped me once before, how about you help me again, thanks to you I'm rich but sadly gold can not buy me true love, however, I did manage to find a way to fulfil my desires.")
+					i_Player << npcsay("Cassandra: There is a spell capable of changing the laws of magic, this will help me find what I seek. You'll have to do what you did last time only this time I need you to collect more powerful elements.")
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			if(.)
+				switch(questName)
+					if("Make a Fortune")
+						i_Player << npcsay("Cassandra: Hmmph! I could've done it myself but I'm a lady, here you can have this scarf, I don't need it anymore...")
+						i_Player << errormsg("Cassandra takes the monster essences you've collected, she's going to make a fortune while you can warm yourself up with her old scarf.")
+					if("Make a Spell")
+						i_Player << npcsay("Cassandra: Hmmph! I could've done it myself but I'm a lady, here you can have this wand, I don't need it anymore...")
+						i_Player << errormsg("Cassandra takes the monster essences you've collected. She's going to be extremely powerful and get all her heart's desires while you are stuck with an old stick.")
 			else
-				p << npcsay("Cassandra: You should try helping my twin sister Alyssa, she's sitting at Three Broom Sticks, I hear she seeks an immortality potion.")
+				i_Player << npcsay("Cassandra: Maybe I was wrong about you, maybe you aren't capable of defeating such rare monsters.")
 
-
+		questCompleted(mob/Player/i_Player, questName)
+			i_Player << npcsay("Cassandra: Come back later, I might have more tasks for the likes of you later \[To be continued in a later update].")
 
 obj/items/demonic_essence
 	icon       = 'jokeitems.dmi'
@@ -1150,7 +1214,7 @@ quest
 
 		Reward
 			desc = "Palmer is a professor he's probably at the castle."
-			reqs = list("Palmer" = 1)
+			reqs = list("Professor Palmer" = 1)
 
 	TutorialQuests
 		name   = "Tutorial: Quests"
@@ -1165,7 +1229,7 @@ quest
 			reqs = list("Tom" = 1)
 		Reward
 			desc = "Go back to Palmer and make him give you a reward, quests are not fun without a reward!"
-			reqs = list("Palmer" = 1)
+			reqs = list("Professor Palmer" = 1)
 
 
 	Ritual
@@ -1914,15 +1978,17 @@ obj/hud/screentext
 					pixel_offset -= 32
 					offset++
 
-				if(pointer.reqs.len == 1 && locate(pointer.reqs[1]))
-					var/obj/hud/screentext/questPath/path = new
-					path.name = pointer.reqs[1]
-					path.screen_loc = "WEST+7,SOUTH+[offset]:[pixel_offset]"
-					path.maptext = "<font color=\"[p.mapTextColor]\">[path.maptext]</font>"
-					p.client.screen += path
+				if(pointer.reqs.len == 1)
+					var/area/a = getArea(locate(pointer.reqs[1]))
+					if(a && a.region)
+						var/obj/hud/screentext/questPath/path = new
+						path.name = pointer.reqs[1]
+						path.screen_loc = "WEST+7,SOUTH+[offset]:[pixel_offset]"
+						path.maptext = "<font color=\"[p.mapTextColor]\">[path.maptext]</font>"
+						p.client.screen += path
 
-					if(removePath && path.name == p.pathdest:tag)
-						removePath = FALSE
+						if(removePath && path.name == p.pathdest:tag)
+							removePath = FALSE
 
 				var/reqsText = ""
 				for(var/i in pointer.reqs)
@@ -1936,6 +2002,11 @@ obj/hud/screentext
 			if(removePath)
 				p.pathdest = null
 				p.removePath()
+
+proc/getArea(atom/a)
+	if(a)
+		if(istype(a, /atom/movable) && a.loc) return a.loc.loc
+		if(isturf(a))                         return a.loc
 
 mob/Player
 	var/mapTextColor = "#ffffff"
