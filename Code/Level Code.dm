@@ -6,22 +6,25 @@
  */
 mob/Player
 	var/tmp/slow = 0
-	Move(newloc, newdir)
-		if(teleporting)
-			..()
-			return
-		if(frozen||stuned||moving||arcessoing||GMFrozen)return
-		if(isobj(newloc))
-			..()
-		else if(loc)
-			if((loc:slow && !unslow) || slow)
-				var/delay = slow == 0 ? loc:slow : slow
-				moving=1
-				..()
+
+turf
+	Exit(atom/movable/O, atom/newloc)
+		.=..()
+
+		if(isplayer(O) && .)
+			var/mob/Player/p = O
+			if(p.teleporting) return
+			if(p.frozen || p.stuned || p.moving || p.arcessoing || p.GMFrozen)
+				return 0
+			if(isobj(newloc)) return
+
+			var/turf/t = newloc
+			if(((t && t.slow) || p.slow) && !p.unslow)
+				var/delay = p.slow + t.slow
+				p.moving=1
 				sleep(delay)
-				moving=0
-			else
-				..()
+				p.moving=0
+
 turf/var/tmp/slow=0
 mob
    var/tmp
