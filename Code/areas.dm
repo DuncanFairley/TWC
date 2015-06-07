@@ -54,7 +54,7 @@ area
 			var/area/a
 			if(oldloc) a = oldloc.loc
 
-			if(a && a.region)
+			if(a && a != src &&  a.region)
 				if(!(src in a.region.areas))
 					if(region)
 						region.Entered(O)
