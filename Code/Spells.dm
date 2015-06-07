@@ -2185,7 +2185,7 @@ mob
 client
 	var/tmp
 		moving = 0
-		list/movements = list()
+		list/movements
 
 	Move(loc,dir)
 		if(mob.confused && dir)
@@ -2223,7 +2223,6 @@ client
 			if(!movements) movements = list()
 			if(movements.len < 10)
 				movements += dir
-
 			if(moving) return
 			moving = 1
 
