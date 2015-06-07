@@ -230,9 +230,13 @@ obj/teleport
 				M << infomsg("You magically found yourself at the entrance!")
 			else
 				M:Transfer(locate(rand(4,97),rand(4,97),rand(4,6)))
-		New()
-			..()
-			walk_rand(src,8)
+
+		proc/wander()
+			set waitfor = 0
+
+			while(src)
+				loc = get_step_rand(src)
+				sleep(8)
 
 var/tmp/vault_last_exit
 proc/unload_vault(updateTime = TRUE)
@@ -2071,7 +2075,7 @@ mob/proc/Death_Check(mob/killer = src)
 						killer.gold += rndexp
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 
-					var/rep = -round(1 + (src:getRep() / 100), 1)
+				/*	var/rep = -round(1 + (src:getRep() / 100), 1)
 
 					if(rep >= 0)
 						rep = max(rep, 1)
@@ -2079,7 +2083,7 @@ mob/proc/Death_Check(mob/killer = src)
 						rep = min(rep, -1)
 
 					killer:addRep(rep)
-					killer << infomsg("You gained [abs(rep)] [rep > 0 ? "good" : "evil"] reputation.")
+					killer << infomsg("You gained [abs(rep)] [rep > 0 ? "good" : "evil"] reputation.")*/
 				else
 					src<<"You knocked yourself out!"
 			else
