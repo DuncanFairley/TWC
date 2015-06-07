@@ -146,9 +146,11 @@ obj/cloud
 						loc = locate(new_x, new_y, z)
 						if(shadow) shadow.loc = locate(new_x, new_y - rand(6,10), z)
 					else
-						step(src, SOUTHEAST)
-						if(shadow && shadow.loc && !step(shadow, SOUTHEAST))
-							shadow.loc = null
+						var/turf/t = get_step(src, SOUTHEAST)
+						loc = t
+						if(shadow && shadow.loc)
+							t = get_step(shadow, SOUTHEAST)
+							shadow.loc = t
 					sleep(8)
 
 var/list/outside_areas = list()
