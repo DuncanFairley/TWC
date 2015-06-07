@@ -1058,20 +1058,22 @@ mob/Player
 		shieldamount = 0
 		mouse_drag_pointer = MOUSE_DRAG_POINTER
 		spawn()
-			for(var/client/c)
-				if(src.client == c) continue
-				var/multikey = FALSE
-				if(c.connection == "web")
-					if(c.address == client.address || c.computer_id == client.computer_id)
-						multikey = TRUE
+			var/mob/multikey
+			for(var/mob/Player/p in Players)
+				if(client == p.client) continue
+				if(client.connection == "web")
+					if(p.client.address == client.address || p.client.computer_id == client.computer_id)
+						multikey = p
+						break
 				else
-					if(c.computer_id == client.computer_id)
-						multikey = TRUE
+					if(p.client.computer_id == client.computer_id)
+						multikey = p
+						break
 
-				if(multikey)
-					for(var/mob/Player/p in Players)
-						if(p.Gm)
-							p << "<h2>Multikeyers: [c.mob](key: [c.key] | ip: [c.address]) & just logged in: [src] (key: [key] | ip: [client.address]) ([c.connection == "web" ? "webclient" : "dreamseeker"])</h2>"
+			if(multikey)
+				for(var/mob/Player/p in Players)
+					if(p.Gm)
+						p << "<h2>Multikeyers: [multikey](key: [multikey.key] | ip: [multikey.client.address]) & just logged in: [src] (key: [key] | ip: [client.address]) ([client.connection == "web" ? "webclient" : "dreamseeker"])</h2>"
 		listenooc = 1
 		listenhousechat = 1
 		invisibility = 0
