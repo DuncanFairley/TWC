@@ -140,8 +140,6 @@ obj/items/wearable/clan_robes
 
 /*
 
-- test hidden ID bugs: PM, Telendevour etc
-
 - add clan quests
 - remove/add robes function
 - robe icon + color line code
