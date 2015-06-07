@@ -144,7 +144,24 @@ area
 
 area/Exit(atom/movable/O, atom/newloc)
 	.=..()
-	if(istype(O, /mob/NPC/Enemies) && O:state && O:removeoMob && !issafezone(src) && issafezone(newloc.loc)) return 0
+
+	if(istype(O, /mob/NPC/Enemies) && . && newloc && O:state)
+		if(O:removeoMob)
+			if(!issafezone(src) && issafezone(newloc.loc)) return 0
+		else
+			var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+			dirs -= O.dir
+
+			. = 0
+			while(dirs.len)
+				var/d = pick(dirs)
+				dirs -= d
+
+				var/turf/t = get_step(O, d)
+				if(t && t.loc == src)
+					step(O, d)
+					break
+
 
 mob
 	test
@@ -199,26 +216,6 @@ mob
 					origloc = loc
 					sleep(rand(10,60))
 					ShouldIBeActive()
-
-			Move(NewLoc,Dir=0)
-				if(state && !removeoMob && isturf(NewLoc))
-					var/turf/t = NewLoc
-					if(t.loc != loc.loc)
-						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-						dirs -= Dir
-						while(dirs.len)
-							var/d = pick(dirs)
-							dirs -= d
-
-							var/turf/new_t = get_step(loc, d)
-							if(new_t && new_t.loc == loc.loc)
-								NewLoc = new_t
-								Dir = d
-								break
-
-						if(NewLoc:loc != loc.loc)
-							return
-				..()
 
 			proc/calcStats()
 				Dmg = round(DMGmodifier * ((src.level -1) + 5))
