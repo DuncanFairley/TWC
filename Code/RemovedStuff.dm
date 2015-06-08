@@ -338,15 +338,128 @@ obj/items
 					new /obj/items/chest/sunset_chest (loc)
 					loc = null
 
-mob
-	GM/verb
-		Auror_Robes()
-			set hidden = 1
-		DErobes()
-			set hidden = 1
 
 mob/GM/verb
 	Add_GM_To_List()
 		set hidden = 1
 	GM_List_Admin()
 		set hidden = 1
+
+mob
+	var
+		derobe    = 0
+		aurorrobe = 0
+
+	BaseIcon()
+		if(derobe)
+			icon   = 'Deatheater.dmi'
+			trnsed = 1
+		else if(aurorrobe)
+			if(Gender == "Female")
+				icon = 'FemaleAuror.dmi'
+			else
+				icon = 'MaleAuror.dmi'
+		else ..()
+
+	GM/verb
+		Auror_Robes()
+			set category = "Clan"
+			set name = "Auror Robes"
+			if(usr.aurorrobe==1)
+				usr.aurorrobe=0
+				usr.icon = usr.baseicon
+				usr:ApplyOverlays()
+				usr.underlays = list()
+				switch(usr.House)
+					if("Hufflepuff")
+						GenerateNameOverlay(242,228,22)
+					if("Slytherin")
+						GenerateNameOverlay(41,232,23)
+					if("Gryffindor")
+						GenerateNameOverlay(240,81,81)
+					if("Ravenclaw")
+						GenerateNameOverlay(13,116,219)
+					if("Ministry")
+						GenerateNameOverlay(255,255,255)
+				if(locate(/mob/GM/verb/GM_chat) in usr.verbs) usr.Gm = 1
+			else
+				for(var/client/C)
+					if(C.eye)
+						if(C.eye == usr && C.mob != usr)
+							C << "<b><font color = white>Your Telendevour wears off."
+							C.eye=C.mob
+				usr.aurorrobe=1
+				usr.density=1
+				usr.underlays = list()
+				GenerateNameOverlay(196,237,255)
+				usr.Immortal = 0
+				usr.Gm = 0
+				var/mob/Player/user = usr
+				if(usr.trnsed)
+					usr.trnsed = 0
+					user.ApplyOverlays()
+				if(usr.Gender == "Female")
+					usr.icon = 'FemaleAuror.dmi'
+				else
+					usr.icon = 'MaleAuror.dmi'
+		DErobes()
+			set category = "Clan"
+			set name = "Wear DE Robes"
+			if(usr.derobe==1)
+				usr.icon = usr.baseicon
+				usr.trnsed = 0
+				usr.derobe=0
+				usr:ApplyOverlays()
+				if(locate(/mob/GM/verb/GM_chat) in usr.verbs) usr.Gm = 1
+				usr << "You slip off your Death Eater robes."
+				usr.name = usr.prevname
+				usr.underlays = list()
+				if(usr.Gender == "Male")
+					usr.gender = MALE
+				else if(usr.Gender == "Female")
+					usr.gender = FEMALE
+				else
+					usr.gender = MALE
+				switch(usr.House)
+					if("Hufflepuff")
+						GenerateNameOverlay(242,228,22)
+					if("Slytherin")
+						GenerateNameOverlay(41,232,23)
+					if("Gryffindor")
+						GenerateNameOverlay(240,81,81)
+					if("Ravenclaw")
+						GenerateNameOverlay(13,116,219)
+					if("Ministry")
+						GenerateNameOverlay(255,255,255)
+			else
+				for(var/client/C)
+					if(C.eye)
+						if(C.eye == usr && C.mob != usr)
+							C << "<b><font color = white>Your Telendevour wears off."
+							C.eye=C.mob
+				usr.trnsed = 1
+				usr.derobe=1
+				usr.icon = 'Deatheater.dmi'
+				usr.overlays = null
+				if(usr.away)usr.ApplyAFKOverlay()
+				usr.gender = NEUTER
+				usr.Immortal = 0
+				usr.density=1
+				usr.Gm = 0
+				usr << "You slip on your Death Eater robes."
+				usr.prevname = usr.name
+				usr.name = "Robed Figure"
+				usr.underlays = list()
+				usr.GenerateNameOverlay(77,77,77,1)
+
+
+mob/test/verb/FloorColor(c as color)
+	for(var/turf/woodenfloor/t in world)
+		if(t.z >= 21 && t.z <= 22)
+			t.color = c
+	for(var/turf/nofirezone/t in world)
+		if(t.z >= 21 && t.z <= 22 && findtext(t.icon_state, "wood"))
+			t.color = c
+	for(var/turf/sideBlock/t in world)
+		if(t.z >= 21 && t.z <= 22)
+			t.color = c
