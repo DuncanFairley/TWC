@@ -611,6 +611,8 @@ obj/items/wearable/hats/christmas_hat
 obj/items/wearable/hats/bunny_ears
 	icon = 'bunny_ears_hat.dmi'
 	dropable = 0
+obj/items/wearable/hats/yellow_earmuffs
+	icon = 'yellow_earmuffs_hat.dmi'
 obj/items/wearable/hats/blue_earmuffs
 	icon = 'lightblue_earmuffs_hat.dmi'
 	name = "light blue earmuffs"
