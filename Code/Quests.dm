@@ -863,15 +863,16 @@ mob/Player
 					var/questPointer/pointer = questPointers[p]
 					if(!pointer)
 						state = "nonactive"
-						continue
-					if(pointer.stage)
+					else if(pointer.stage)
 						var/quest/q = quest_list[p]
 						if(pointer.stage == q.stages.len)
 							state = "completed"
-							break
+						else
+							state = "active"
+					else if(findtext(p, "\[Daily]", 7))
+						state = "daily"
 
-						state = "active"
-						break
+					if(state) break
 			else
 				var/questPointer/pointer = questPointers[i_Mob.questPointers]
 				if(!pointer)
@@ -882,6 +883,8 @@ mob/Player
 					if(pointer.stage == q.stages.len)
 						state = "completed"
 					else state = "active"
+				else if(findtext(i_Mob.questPointers, "\[Daily]", 7))
+					state = "daily"
 
 			if(state)
 				var/image/i = image('QuestMarker.dmi', i_Mob, state)
