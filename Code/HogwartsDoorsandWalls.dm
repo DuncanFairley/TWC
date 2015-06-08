@@ -28,6 +28,18 @@ mob
 					return
 
 
+obj
+	Red_Carpet_Corners
+		icon='floors2.dmi'
+		name = "Red Carpet"
+		icon_state="corner"
+	Hogwarts_Stone_Arch
+		bumpable = 0
+		opacity = 0
+		density = 0
+		icon = 'wall1.dmi'
+		icon_state = "arch"
+
 turf
 	var/lastopener
 	stonedoor1
@@ -55,12 +67,6 @@ turf
 		density=1
 		flyblock=1
 		icon='wall1.dmi'
-	Hogwarts_Stone_Arch
-		bumpable = 0
-		opacity = 0
-		density = 0
-		icon = 'wall1.dmi'
-		icon_state = "arch"
 	Hogwarts_Stone_Wall_
 		bumpable=0
 		opacity=0
@@ -83,10 +89,6 @@ turf
 	Red_Carpet
 		icon='floors2.dmi'
 		icon_state="carpet"
-	Red_Carpet_Corners
-		icon='floors2.dmi'
-		name = "Red Carpet"
-		icon_state="corner"
 	Black_Tile
 		icon='floors2.dmi'
 		icon_state="greycarpet"

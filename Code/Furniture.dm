@@ -191,7 +191,7 @@ turf/Staircase3
 	icon='misc.dmi'
 	icon_state="blank"
 
-turf/Hogwarts_Stairs
+obj/Hogwarts_Stairs
 	icon = 'General.dmi'
 	icon_state = "Stairs"
 
