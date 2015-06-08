@@ -328,7 +328,7 @@ mob
 
 				spawn()
 					var/mob/Player/p = src
-					if(p.Interface) p.Interface = new(src)
+					if(!p.Interface) p.Interface = new(src)
 					p.startQuest("Tutorial: The Wand Maker")
 
 					var/obj/items/questbook/q = locate() in src
