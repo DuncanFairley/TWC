@@ -967,10 +967,10 @@ mob
 					if(C.mob.Gm) C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey])([character.client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</I></B></font>"
 					else C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B></font>"
 			character.Teleblock=0
+			if(!character.Interface) character.Interface = new(character)
+			new/obj/items/questbook(character)
+			character.startQuest("Tutorial: The Wand Maker")
 			src = null
-			spawn(5)
-				new/obj/items/questbook(character)
-				character.startQuest("Tutorial: The Wand Maker")
 			spawn()
 				sql_check_for_referral(character)
 			del(oldmob)
@@ -1122,9 +1122,10 @@ mob/Player
 		if(classdest)
 			src << announcemsg("[curClass] class is starting. Click <a href=\"?src=\ref[usr];action=class_path;latejoiner=true\">here</a> for directions.")
 		updateHPMP()
+		if(!Interface) Interface = new(src)
+		isDJ(src)
 		spawn()
 			//CheckSavefileVersion()
-			isDJ(src)
 			if(istype(src.loc.loc,/area/arenas) && !rankedArena)
 				src.loc = locate(50,22,15)
 			unreadmessagelooper()
@@ -1138,8 +1139,6 @@ mob/Player
 			loc.loc.Enter(src, src.loc)
 			loc.loc.Entered(src, src.loc)
 			src.ApplyOverlays(0)
-
-			Interface = new(src)
 
 	proc/ApplyOverlays(ignoreBonus = 1)
 		src.overlays = list()
