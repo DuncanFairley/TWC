@@ -127,10 +127,6 @@ mob
 			else
 				return 0
 
-mob
-	var
-		derobe = null
-		aurorrobe = null
 mob/test/verb/Download_Savefile()
 	var/ckeyname = input("Ckeyyyyy?") as null|text
 	if(!ckeyname) return

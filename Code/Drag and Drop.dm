@@ -5,10 +5,6 @@
  * For the full license text, see LICENSE.txt.
  */
 
-var/deatheaterWon = list("The Death Eaters have successfully raided Auror HQ!","The Aurors have been defeated by the Death Eaters!","Death Eaters have defeated the Aurors in the war of the clans!")
-var/aurorWon = list("The Death Eaters have been defeated by the Aurors!","The Aurors have successfully held back the Death Eaters!","The Aurors have emerged victorious in the war of the clans!")
-var/draw = list("Nobody did anything interesting in the clan war so it resulted in a draw!","The clan war has ended in a draw! How boring!","The clans managed to hold each other off! Clan Wars is a draw!")
-
 var/clan_wars/clanwars_event
 
 clan_wars
@@ -35,51 +31,34 @@ clan_wars
 				toggle_clanwars()
 
 		end()
+			var/deatheaterWon = list("The Death Eaters have successfully raided Auror HQ!","The Aurors have been defeated by the Death Eaters!","Death Eaters have defeated the Aurors in the war of the clans!")
+			var/aurorWon = list("The Death Eaters have been defeated by the Aurors!","The Aurors have successfully held back the Death Eaters!","The Aurors have emerged victorious in the war of the clans!")
+			var/draw = list("Nobody did anything interesting in the clan war so it resulted in a draw!","The clan war has ended in a draw! How boring!","The clans managed to hold each other off! Clan Wars is a draw!")
+
+			var/c
 			if(deatheater > aurors)
 				var/dewinner = pick(deatheaterWon)
 				Players << "<font color='#282C1B' size='3'><b>[dewinner]</b></font>"
-
-				for(var/turf/woodenfloor/t in world)
-					if(t.z >= 21 && t.z <= 23)
-
-						if(!findtext(t.icon_state, " - halloween"))
-							t.icon_state += " - halloween"
-
-				for(var/turf/nofirezone/t in world)
-					if(t.z >= 21 && t.z <= 23 && findtext(t.icon_state, "wood"))
-
-						if(!findtext(t.icon_state, " - halloween"))
-							t.icon_state += " - halloween"
-
+				c = "#303A3A"
 			else if(deatheater < aurors)
 				var/aurorwinner = pick(aurorWon)
 				Players << "<font color='#66CCFF' size='3'><b>[aurorwinner]<b></font>"
-
-				for(var/turf/woodenfloor/t in world)
-					if(t.z >= 21 && t.z <= 23)
-						var/pos = findtext(t.icon_state, " - halloween")
-						if(pos)
-							t.icon_state = copytext(t.icon_state, 1, pos)
-
-				for(var/turf/nofirezone/t in world)
-					if(t.z >= 21 && t.z <= 23 && findtext(t.icon_state, "wood"))
-						var/pos = findtext(t.icon_state, " - halloween")
-						if(pos)
-							t.icon_state = copytext(t.icon_state, 1, pos)
-
+				c = "#c9c9c9"
 			else
 				var/wardraw = pick(draw)
 				Players << "<font color='#E5E4E2' size='3'><b>[wardraw]</b></font>"
-				for(var/turf/woodenfloor/t in world)
-					if(t.z >= 21 && t.z <= 23)
-						var/pos = findtext(t.icon_state, " - halloween")
-						if(pos)
-							t.icon_state = copytext(t.icon_state, 1, pos)
-				for(var/turf/nofirezone/t in world)
-					if(t.z >= 21 && t.z <= 23 && findtext(t.icon_state, "wood"))
-						var/pos = findtext(t.icon_state, " - halloween")
-						if(pos)
-							t.icon_state = copytext(t.icon_state, 1, pos)
+				c = "#704f32"
+
+			for(var/turf/woodenfloor/t in world)
+				if(t.z >= 21 && t.z <= 22)
+					t.color = c
+			for(var/turf/nofirezone/t in world)
+				if(t.z >= 21 && t.z <= 22 && findtext(t.icon_state, "wood"))
+					t.color = c
+			for(var/turf/sideBlock/t in world)
+				if(t.z >= 21 && t.z <= 22)
+					t.color = c
+
 		timeout()
 			var/m = 0
 			while(m < MINUTES && clanwars)

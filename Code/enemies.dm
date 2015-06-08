@@ -122,15 +122,15 @@ area
 				antiFly      = TRUE
 		Entered(atom/movable/O)
 			. = ..()
-			if(isplayer(O))
+			if(isplayer(O) && !active)
 				active = 1
 				for(var/mob/NPC/Enemies/M in src)
-					if(M.state == M.WANDER)
-						M.state = M.SEARCH
+					if(M.state == M.WANDER || M.state == M.INACTIVE)
+						M.ChangeState(M.SEARCH)
 
 		Exited(atom/movable/O)
 			. = ..()
-			if(isplayer(O))
+			if(isplayer(O) && active)
 				var/isempty = 1
 				for(var/mob/Player/M in src)
 					if(M != O)
@@ -139,11 +139,29 @@ area
 				if(isempty)
 					active = 0
 					for(var/mob/NPC/Enemies/M in src)
-						M.state = M.WANDER
+						if(M.state != M.INACTIVE)
+							M.ChangeState(region ? M.WANDER : M.INACTIVE)
 
 area/Exit(atom/movable/O, atom/newloc)
 	.=..()
-	if(istype(O, /mob/NPC) && O:removeoMob && !issafezone(src) && issafezone(newloc.loc)) return 0
+
+	if(istype(O, /mob/NPC/Enemies) && . && newloc && O:state)
+		if(O:removeoMob)
+			if(!issafezone(src) && issafezone(newloc.loc)) return 0
+		else
+			var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+			dirs -= O.dir
+
+			. = 0
+			while(dirs.len)
+				var/d = pick(dirs)
+				dirs -= d
+
+				var/turf/t = get_step(O, d)
+				if(t && t.loc == src)
+					step(O, d)
+					break
+
 
 mob
 	test
@@ -157,7 +175,7 @@ mob
 	NPC
 		icon = 'Mobs.dmi'
 		see_invisible = 1
-		var/activated = 0
+		var/active = 0
 		var/HPmodifier = 0.9
 		var/DMGmodifier = 0.55
 		var/list/drops = list()
@@ -182,7 +200,7 @@ mob
 					CONTROLLED = 8
 
 				tmp
-					state = WANDER
+					state = INACTIVE
 					list/ignore
 
 				Range = 12
@@ -198,25 +216,6 @@ mob
 					origloc = loc
 					sleep(rand(10,60))
 					ShouldIBeActive()
-					state()
-
-			Move(NewLoc,Dir=0)
-				if(!removeoMob && isturf(NewLoc))
-					var/turf/t = NewLoc
-					if(t.loc != loc.loc)
-						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-						dirs -= Dir
-						while(dirs.len)
-							var/d = pick(dirs)
-							dirs -= d
-
-							var/turf/new_t = get_step(loc, d)
-							if(new_t && new_t.loc == loc.loc)
-								NewLoc = new_t
-								Dir = d
-								break
-						if(NewLoc:loc != loc.loc) return
-				..()
 
 			proc/calcStats()
 				Dmg = round(DMGmodifier * ((src.level -1) + 5))
@@ -259,8 +258,11 @@ mob
 							prize.owner     = null
 
 			proc/state()
+				set waitfor = 0
+				if(active) return
+				active = 1
 				var/lag = 10
-				while(src && src.loc)
+				while(src && src.loc && state != 0)
 					var/s = state
 					switch(state)
 						if(INACTIVE)
@@ -282,10 +284,17 @@ mob
 						sleep(lag)
 					else
 						sleep(1)
+				active = 0
 			var/tmp/mob/target
 
 
 			proc
+				ChangeState(var/i_State)
+					state = i_State
+
+					if(state != 0)
+						state()
+
 				Search()
 					Wander()
 					for(var/mob/Player/M in ohearers(src, Range))
@@ -328,7 +337,7 @@ mob
 							ignore = null
 
 			proc/ReturnToStart()
-				state = INACTIVE
+				ChangeState(INACTIVE)
 				if(loc.loc != origloc.loc)
 					if(z == origloc.z)
 						density = 0
@@ -341,17 +350,17 @@ mob
 				ShouldIBeActive()
 
 			proc/ShouldIBeActive()
-				if(!loc)
-					state = INACTIVE
-					return 0
+				ChangeState(INACTIVE)
+				if(!loc) return 0
 
-				if(istype(loc.loc, /area/newareas) && loc.loc:active)
-					state = SEARCH
-					return 1
+				if(istype(loc.loc, /area/newareas))
+					var/area/newareas/a = loc.loc
 
-				state = WANDER
-				return 0
-
+					if(a.active)
+						ChangeState(SEARCH)
+						return 1
+					if(a.region && a.region.active)
+						ChangeState(WANDER)
 
 			proc/BlindAttack()//removeoMob
 				var/mob/Player/M = locate() in ohearers(1, src)
@@ -428,7 +437,7 @@ mob
 						state = INACTIVE
 						return 0
 
-					state = SEARCH
+					ChangeState(SEARCH)
 					return 1
 
 				ReturnToStart()
@@ -467,7 +476,7 @@ mob
 
 								if(M == target && state == HOSTILE)
 									target = null
-									state = SEARCH
+									ChangeState(SEARCH)
 
 							break
 

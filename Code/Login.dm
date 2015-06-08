@@ -155,7 +155,7 @@ obj/teleport
 		icon_state="portkey"
 		name = "Port key"
 		invisibility = 0
-	proc/Teleport(mob/M)
+	proc/Teleport(mob/Player/M)
 		if(dest)
 			if(pass && pass != "")
 				var/pw = input(M, "You feel this spot was enchanted with a password protected teleporting spell","Teleport","") as null|text
@@ -166,16 +166,17 @@ obj/teleport
 					M<<"<font color=red><b>Authorization Denied."
 					return
 
-			if(M.key)
-				var/atom/A = locate(dest) //can be some turf, or some obj
-				if(A)
-					if(isobj(A))
-						A = A.loc
-					M:Transfer(A)
-					M.client.images = list()
-					if(M.classpathfinding)
-						M.Class_Path_to()
-					return 1
+			var/atom/A = locate(dest) //can be some turf, or some obj
+			if(A)
+				if(isobj(A))
+					A = A.loc
+				M:Transfer(A)
+				M.removePath()
+				if(M.classpathfinding)
+					M.Class_Path_to()
+				else if(M.pathdest)
+					M.pathTo(M.pathdest)
+				return 1
 	entervault
 		Teleport(mob/M)
 			if(M.key)
@@ -229,9 +230,13 @@ obj/teleport
 				M << infomsg("You magically found yourself at the entrance!")
 			else
 				M:Transfer(locate(rand(4,97),rand(4,97),rand(4,6)))
-		New()
-			..()
-			walk_rand(src,8)
+
+		proc/wander()
+			set waitfor = 0
+
+			while(src)
+				loc = get_step_rand(src)
+				sleep(8)
 
 var/tmp/vault_last_exit
 proc/unload_vault(updateTime = TRUE)
@@ -959,9 +964,12 @@ mob
 			character.verbs += /mob/Spells/verb/Inflamari
 			for(var/client/C)
 				if(C.mob)
-					if(C.mob.Gm) C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey]) logged in.</I></B></font>"
+					if(C.mob.Gm) C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey])([character.client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</I></B></font>"
 					else C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B></font>"
 			character.Teleblock=0
+			if(!character.Interface) character.Interface = new(character)
+			new/obj/items/questbook(character)
+			character.startQuest("Tutorial: The Wand Maker")
 			src = null
 			spawn()
 				sql_check_for_referral(character)
@@ -1054,12 +1062,22 @@ mob/Player
 		shieldamount = 0
 		mouse_drag_pointer = MOUSE_DRAG_POINTER
 		spawn()
-			for(var/client/C)
-				if(C.computer_id == src.client.computer_id)
-					if(C.mob != src)
-						for(var/client/A)
-							if(A.mob && A.mob.Gm)
-								A << "<h2>Multikeyers: [C.mob](key: [C.key]) & just logged in: [src] (key: [src.key])</h2>"
+			var/mob/multikey
+			for(var/mob/Player/p in Players)
+				if(client == p.client) continue
+				if(client.connection == "web")
+					if(p.client.address == client.address || p.client.computer_id == client.computer_id)
+						multikey = p
+						break
+				else
+					if(p.client.computer_id == client.computer_id)
+						multikey = p
+						break
+
+			if(multikey)
+				for(var/mob/Player/p in Players)
+					if(p.Gm)
+						p << "<h2>Multikeyers: [multikey](key: [multikey.key] | ip: [multikey.client.address]) & just logged in: [src] (key: [key] | ip: [client.address]) ([client.connection == "web" ? "webclient" : "dreamseeker"])</h2>"
 		listenooc = 1
 		listenhousechat = 1
 		invisibility = 0
@@ -1077,7 +1095,7 @@ mob/Player
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
 			if("Rotem12")
-				src.verbs+=/mob/GM/verb/Reset_Matchmaking
+				src.verbs+=/mob/test/verb/FloorColor
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
@@ -1106,9 +1124,10 @@ mob/Player
 		if(classdest)
 			src << announcemsg("[curClass] class is starting. Click <a href=\"?src=\ref[usr];action=class_path;latejoiner=true\">here</a> for directions.")
 		updateHPMP()
+		if(!Interface) Interface = new(src)
+		isDJ(src)
 		spawn()
 			//CheckSavefileVersion()
-			isDJ(src)
 			if(istype(src.loc.loc,/area/arenas) && !rankedArena)
 				src.loc = locate(50,22,15)
 			unreadmessagelooper()
@@ -1122,8 +1141,6 @@ mob/Player
 			loc.loc.Enter(src, src.loc)
 			loc.loc.Entered(src, src.loc)
 			src.ApplyOverlays(0)
-
-			Interface = new(src)
 
 	proc/ApplyOverlays(ignoreBonus = 1)
 		src.overlays = list()
@@ -2059,7 +2076,7 @@ mob/proc/Death_Check(mob/killer = src)
 						killer.gold += rndexp
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 
-					var/rep = -round(src:getRep() / 100, 1)
+				/*	var/rep = -round(1 + (src:getRep() / 100), 1)
 
 					if(rep >= 0)
 						rep = max(rep, 1)
@@ -2067,7 +2084,7 @@ mob/proc/Death_Check(mob/killer = src)
 						rep = min(rep, -1)
 
 					killer:addRep(rep)
-					killer << infomsg("You gained [abs(rep)] [rep > 0 ? "good" : "evil"] reputation.")
+					killer << infomsg("You gained [abs(rep)] [rep > 0 ? "good" : "evil"] reputation.")*/
 				else
 					src<<"You knocked yourself out!"
 			else
@@ -2588,14 +2605,13 @@ proc
 		if(!istype(E,/mob/NPC/Enemies))
 			E.loc = null
 		else
-			E.state = E.INACTIVE
+			E.ChangeState(E.INACTIVE)
 			if(E.origloc)
 				spawn(E.respawnTime)// + rand(-50,100))////1200
 					if(E)
 						E.loc = E.origloc
 						E.HP = E.MHP
 						E.ShouldIBeActive()
-						E.state()
 			else
 				E.loc = null
 
@@ -2630,7 +2646,15 @@ turf
 
 turf
 	sideBlock
+
 		var/blockDir
+
+		icon_state = "wood"
+		color = "#704f32"
+
+		New()
+			..()
+			icon_state = "wood[rand(1,8)]"
 
 		Enter(atom/movable/O)
 			.=..()

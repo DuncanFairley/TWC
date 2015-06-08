@@ -27,9 +27,11 @@ turf
 						//E.loc = locate(src.dest)
 					p.Transfer(A)
 
-					p.client.images = list()
+					p.removePath()
 					if(p.classpathfinding)
 						p.Class_Path_to()
+					else if(p.pathdest)
+						p.pathTo()
 	destination
 		//layer = 5
 		//icon = 'x.dmi'
@@ -68,7 +70,6 @@ turf
 		AdjacentTurfs()
 			var/L[] = new()
 			for(var/turf/t in oview(src,1))
-			//for(var/turf/t in block(locate(x-1,y-1,z),locate(x+1,y+1,z)))
 				if(!t.density||t.door)
 					L.Add(t)
 			return L

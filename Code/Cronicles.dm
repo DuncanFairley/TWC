@@ -320,7 +320,22 @@ mob
 
 					talkedtobunny = null
 
-			if(savefile_version < 10)
+			if(savefile_version < 10 && (last_z == 21 || last_z == 22))
+				var/turf/t = locate("@Hogwarts")
+				last_x = t.x
+				last_y = t.y
+				last_z = t.z
+
+				spawn()
+					var/mob/Player/p = src
+					if(p.Interface) p.Interface = new(src)
+					p.startQuest("Tutorial: The Wand Maker")
+
+					var/obj/items/questbook/q = locate() in src
+					if(!q)
+						q = new(src)
+
+			if(savefile_version < 11)
 				DeathEater = null
 				HA         = null
 				Auror      = null
@@ -338,11 +353,6 @@ mob
 				verbs.Remove(/mob/GM/verb/DE_chat)
 				verbs.Remove(/mob/GM/verb/Clan_store)
 				verbs.Remove(/mob/Spells/verb/Morsmordre)
-
-				var/turf/t = locate("@Hogwarts")
-				last_x = t.x
-				last_y = t.y
-				last_z = t.z
 
 			var/turf/t = locate(last_x, last_y, last_z)
 			if(!t || t.name == "blankturf")
@@ -409,7 +419,7 @@ mob
 			if(client)
 				for(var/client/C)
 					if(C.mob)
-						if(C.mob.Gm) C.mob <<"<B><I>[src][refererckey==C.ckey ? "(referral)" : ""] ([src.client.address])([ckey]) logged in.</I></B>"
+						if(C.mob.Gm) C.mob <<"<B><I>[src][refererckey==C.ckey ? "(referral)" : ""] ([client.address])([ckey])([client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</I></B>"
 						else C.mob <<"<B><I>[src][refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B>"
 				usr.Teleblock=0
 				usr<<browse(rules,"window=1;size=500x400")

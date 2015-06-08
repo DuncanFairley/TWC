@@ -3365,7 +3365,7 @@ obj/items/crystal
 				usr << errormsg("You hold [src.name] suddenly it disappears as it is absorbed within the magic circle.")
 				e.applyBonus  |= bonus
 				e.bonusChance += luck
-				if(ignoreItem) e.ignoreItem = TRUE
+				if(ignoreItem) e.ignoreItem++
 				e.showBonus()
 				loc = null
 				usr:Resort_Stacking_Inv()
@@ -3571,7 +3571,7 @@ obj
 				inUse       = FALSE
 				bonusChance = 0
 				applyBonus  = 0
-				ignoreItem  = FALSE
+				ignoreItem  = 0
 			max_upgrade = 3
 
 		proc
@@ -3676,6 +3676,9 @@ obj
 
 					else if(i3:bonus != -1 && i3:quality < max_upgrade && i3:quality == i4:quality)
 						var/flags = applyBonus|i3:bonus|i4:bonus
+
+						if(ignoreItem && ignoreItem < i3:quality + 1) flags = 0
+
 						if(flags)
 							i3:bonus = applyBonus|i3:bonus|i4:bonus
 							prize = i3.type
@@ -3685,7 +3688,7 @@ obj
 				if(!prize)
 					bigcolor("black")
 					if(i3) step_rand(i3)
-					if(i4) step_rand(i4)
+					if(i4 && !ignoreItem) step_rand(i4)
 					return
 
 				i1.loc = null
@@ -3724,7 +3727,7 @@ obj
 
 				bonusChance = 0
 				applyBonus  = 0
-				ignoreItem  = FALSE
+				ignoreItem  = 0
 
 obj/items/wearable/wands/practice_wand
 	icon = 'oak_wand.dmi'

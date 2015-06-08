@@ -100,7 +100,7 @@ client/proc
 	update_individual()
 		set background=1
 		if(!mysql_enabled) return
-		/*var/DBQuery/qry = my_connection.NewQuery("SELECT isAuror,isDE,Cstore,Cspecverb FROM tblPlayers WHERE ckey=[mysql_quote(src.ckey)];")
+		var/DBQuery/qry = my_connection.NewQuery("SELECT isAuror,isDE,Cstore,Cspecverb FROM tblPlayers WHERE ckey=[mysql_quote(src.ckey)];")
 		var/tmpmsg = qry.ErrorMsg()
 		if(tmpmsg) world.log << "Mysql error update_individual. 1: [tmpmsg]"
 		qry.Execute()
@@ -209,10 +209,10 @@ client/proc
 							qry = my_connection.NewQuery("UPDATE tblPlayers SET isAuror=1,clanRank='Aurors' WHERE ckey=[mysql_quote(src.ckey)];")
 							qry.Execute()
 							mob << "You can access Auror HQ by clicking the PM button on your HUD."
-					update_individual()*/
-		var/DBQuery/qry = my_connection.NewQuery("SELECT ID,Amount,EarnerCkey FROM tblReferralAmounts WHERE RefererCkey=[my_connection.Quote(src.ckey)];")
+					update_individual()
+		qry = my_connection.NewQuery("SELECT ID,Amount,EarnerCkey FROM tblReferralAmounts WHERE RefererCkey=[my_connection.Quote(src.ckey)];")
 		qry.Execute()
-		var/tmpmsg = qry.ErrorMsg()
+		tmpmsg = qry.ErrorMsg()
 		if(tmpmsg) world.log << "Mysql error update_individual for tblReferralAmounts: [tmpmsg] - SQL: SELECT ID,Amount,EarnerCkey FROM tblReferralAmounts WHERE RefererCkey=[my_connection.Quote(src.ckey)];"
 		if(qry.RowCount() > 0)
 			var/list/row_data

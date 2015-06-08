@@ -679,10 +679,10 @@ turf/Entered(atom/movable/M)
 			if(!M || !M.loc)break
 			M.SteppedOn(A)
 turf/Exited(atom/movable/M)
-    for(var/atom/A in src)
-        if(A == M) continue
-        if(!M)break
-        M.SteppedOff(A)
+	for(var/atom/A in src)
+		if(A == M) continue
+		if(!M)break
+		M.SteppedOff(A)
 
 
 

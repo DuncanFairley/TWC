@@ -80,12 +80,16 @@ proc/emit(var/atom/loc, ptype, amount=10, Random/angle, speed, Random/life)
 		p.update()
 
 obj/particle
+	icon       = 'dot.dmi'
+	icon_state = "default"
+
 	var/life
+	var/afterlife = 0
 	var/velocity/v = new
 	var/loop = 5
+	var/size = 1
 	var/Random/time = new /Random(5, 10)
 	mouse_opacity = 0
-
 
 	layer = 5
 
@@ -96,20 +100,36 @@ obj/particle
 			v.x =  speed * cos(angle)
 			v.y = -speed * sin(angle)
 
+		impact()
+
+
 		update()
+			set waitfor = 0
+
 			var/t = time.get()
 			var/l = loop
-			spawn(t * l) die()
+
+			var/alphaDest = alpha
+			alpha = 255
 
 			animate(src,
+					transform = matrix() * size,
 					pixel_x = v.x * (life),
 					pixel_y = v.y * (life),
+					alpha = alphaDest,
 				    time = t,
 				    loop = l)
+
+			sleep(t * l + 1)
+			impact()
+			sleep(afterlife)
+			die()
+			alpha = alphaDest
 
 		reset()
 			pixel_x = 0
 			pixel_y = 0
+			transform = null
 
 		die()
 			particle_emitter.pool(src)
@@ -117,6 +137,7 @@ obj/particle
 	balloon
 		icon       = 'balloon.dmi'
 		icon_state = "white"
+		blend_mode = 0
 
 		config()
 			..()
@@ -124,39 +145,39 @@ obj/particle
 			color = rgb(rand(0,255), rand(0,255), rand(0,255))
 
 	fluid
-		icon = 'dot.dmi'
+		alpha     = 130
+		loop      = 1
+		afterlife = 100
+		size      = 2
+
 		config()
 			..()
-			transform = matrix()/2
 
 		reset()
 			..()
-			alpha = 255
-			transform = matrix()/2
+			alpha = 150
 			layer = 5
 
-		update()
-			var/t = 5
-			var/l = 1
-			spawn(t * l)
-				layer = 3
-				sleep(50)
-				die()
+		impact()
+			layer = 3
 
-			animate(src,
-					transform = matrix()*2,
-					pixel_x = v.x * (life),
-					pixel_y = v.y * (life),
-					alpha = 150,
-				    time = t,
-				    loop = l)
 		snow
 
 		blood
-			color = "red"
+			afterlife  = 200
+			color      = "#e00000"
+
+			impact()
+				..()
+				color      = "#08ffff"
+				blend_mode = BLEND_SUBTRACT
+
+			reset()
+				..()
+				color      = "#e00000"
+				blend_mode = 0
 
 	magic
-		icon = 'dot.dmi'
 		loop = 2
 
 		config()
@@ -164,12 +185,10 @@ obj/particle
 			color = rgb(rand(20,240), rand(20,240), rand(20,240))
 
 	green
-		icon = 'dot.dmi'
 		loop = 2
 		color = "green"
 
 	red
-		icon = 'dot.dmi'
 		loop = 2
 		color = "red"
 

@@ -302,7 +302,7 @@ mob
 			if(timerDet < 1)
 				if(!Detention)return
 				flick('dlo.dmi',src)
-				src.loc=locate(22,7,21)
+				src:Transfer(locate("@Hogwarts"))
 
 				src.Detention=0
 				src.MuteOOC=0
@@ -437,7 +437,7 @@ mob/GM
 					if(C.mob)if(C.mob.Auror==1)
 						C<<"<b><font color=red><font size=2>Auror Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 
-		Gryffindor_Chat(var/messsage as text) //mooooooooooooooooooooooooooooooooooooooo
+		Gryffindor_Chat(var/messsage as text)
 			if(!listenhousechat)
 				usr << "You are not listening to Gryffindor chat."
 				return
@@ -519,7 +519,7 @@ mob/GM
 					del S
 					flick('apparate.dmi',M)
 					sleep(5)
-					M.loc=locate(6,27,21)
+					M:Transfer(locate("@Hogwarts"))
 					flick('apparate.dmi',M)
 					sleep(20)
 					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Hogwarts.</font></b>"
@@ -533,7 +533,7 @@ mob/GM
 					del S
 					flick('apparate.dmi',M)
 					sleep(5)
-					M.loc=locate(23,6,2)
+					M:Transfer(locate(23,6,2))
 					flick('apparate.dmi',M)
 					sleep(20)
 					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Silverblood.</font></b>"
@@ -547,7 +547,7 @@ mob/GM
 					del S
 					flick('apparate.dmi',M)
 					sleep(5)
-					M.loc=locate(51,54,17)
+					M:Transfer(locate(51,54,17))
 					flick('apparate.dmi',M)
 					sleep(20)
 					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to the Student's Neighborhood.</font></b>"
@@ -561,7 +561,7 @@ mob/GM
 					del S
 					flick('apparate.dmi',M)
 					sleep(5)
-					M.loc=locate(11,23,15)
+					M:Transfer(locate(11,23,15))
 					flick('apparate.dmi',M)
 					sleep(20)
 					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to The Dark Forest.</font></b>"
@@ -575,7 +575,7 @@ mob/GM
 					del S
 					flick('apparate.dmi',M)
 					sleep(5)
-					M.loc=locate(8,22,17)
+					M:Transfer(locate(8,22,17))
 					flick('apparate.dmi',M)
 					sleep(20)
 					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Windhowl Manor.</font></b>"
@@ -589,7 +589,7 @@ mob/GM
 					del S
 					flick('apparate.dmi',M)
 					sleep(5)
-					M.loc=locate(59,80,25)
+					M:Transfer(locate(59,80,25))
 					flick('apparate.dmi',M)
 					sleep(20)
 					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Azkaban.</font></b>"
@@ -727,8 +727,8 @@ mob
 
 		Detention(mob/M in Players)
 			set category = "Staff"
-			for(var/mob/A in world)
-				if(A.key&&A.Gm) A << "<b><u><font color=#FF14E0>[src] has opened the Detention window on [M].</font></u></b>"
+			for(var/mob/Player/A in Players)
+				if(A.Gm) A << "<b><u><font color=#FF14E0>[src] has opened the Detention window on [M].</font></u></b>"
 			var/timer = input("Set timer for detention in /minutes/ (Leave as 0 for detention to stick until you remove it)","Detention timer",0) as num|null
 			if(timer == null) return
 			var/Reason = input(src,"You are being Detentioned because you: <finish sentence>","Specify Why","harmed somebody within a safe zone (Hogwarts or Diagon Alley).") as null|text
@@ -739,7 +739,7 @@ mob
 				flick('dlo.dmi',M)
 				M.Detention=1
 				sleep(10)
-				M.loc=locate(8,5,21)
+				M:Transfer(locate("Detention"))
 				flick('dlo.dmi',M)
 				M.MuteOOC=1
 				hearers()<<"[usr]: <b><font size=2><font color=aqua>Incarcifors, [M]."
@@ -910,7 +910,7 @@ mob
 			set popup_menu = 0
 			if(M && M.removeoMob) spawn()M:Permoveo()
 			flick('dlo.dmi',M)
-			M.loc=locate(22,7,21)
+			M:Transfer(locate("@Hogwarts"))
 			M.Detention=0
 			M.MuteOOC=0
 			Players<<"[M] has been released from Detention."

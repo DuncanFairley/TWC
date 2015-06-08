@@ -18,70 +18,7 @@ mob/NPC/Enemies
 		Def=80
 		Expg = 510
 		level = 120// CHange them stats bitch tits.
-		Wander()
-			if(removeoMob)
-				return
-			activated=1
-			walk(src,0)
-			walk_rand(src,11)
-			while(activated)
-				sleep(5)
-				if(!activated) return
-				sleep(5)
-				if(!activated) return
-				sleep(5)
-				if(!activated) return
-				sleep(5)
-				if(!activated) return
-				sleep(5)
-				if(!activated) return
-				sleep(5)
-				if(!activated) return
-				for(var/mob/M in orange(src)) if(M.client&& M.loc.loc == src.loc.loc)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		Attack(mob/M)
-			var/dmg = round((M.MHP / 4) + rand(-10,10))
-//			var/dmg = ((M.MHP / 4) + rand(-10,10))
-			while(get_dist(src,M)>1)
-				sleep(5)
-				if(!activated)
-					walk(src,0)
-					if(!removeoMob)
-						walk_rand(src,11)
-					else
-						spawn()BlindAttack()
-					return
-				if(!(M in orange(src)))
-					sleep(6)
-					spawn()Wander()
-					return
-				if(!step_to(src,M))
-					for(var/mob/A in view())
-						if(A.client&& A.loc.loc == src.loc.loc && A != M)
-							spawn()Attack(A)
-							return
-					sleep(5)
-					walk(src,0)
-					step_towards(src,M)
-			if(dmg<1)
-				//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				view(M)<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			sleep(10)
-			for(var/mob/A in orange(src))
-				if(A.client)
-					spawn()Attack(A)
-					return
-			if(activated)
-				sleep(2)
-				Wander()
-			else
-				walk(src,0)
-				walk_rand(src,11)
+
 mob
 	//Grindylow
 	//	icon = 'Mobs.dmi'
@@ -234,41 +171,7 @@ area
 		//humans have 30 seconds before being teleported out (not affected by logout).
 		//will not allow you to fly on a broom.
 		//for the purposes of this event only, announce deaths, unless we can have them not go to the hospital wing.
-		Enter(atom/movable/O)
-			if(usr.flying)
-				var/mob/Player/user = usr
-				for(var/obj/items/wearable/brooms/Broom in user.Lwearing)
-					Broom.Equip(user,1)
-			. = ..()
-			if(.)
-				if(istype(O,/mob))
-					if(O:client)
-						for(var/mob/M in locate(type))
-							if(istype(M,/mob/NPC/Enemies))
-								if(M.loc.loc.type == type)
-									if(!M:activated)spawn()M:Wander()
 
-		//If you run into a wall and aren't ACTUALLY out've the area, Exit() still stops all the monsterz
-		Exit(atom/movable/O)
-			if(istype(O,/mob/NPC))
-				if(O:removeoMob)
-					return ..()
-				return 0
-			if(ismob(O))
-				if(O:client)
-					var/turf/t = get_step(O,O.dir)
-					if(!(t.density && O.density))
-						var/isempty = 1
-						for(var/mob/M in locate(type))
-							if(M.client && M != O)
-								isempty = 0
-						if(isempty)
-							for(var/mob/M in locate(type))
-								if(istype(M,/mob/NPC/Enemies))
-									M:activated = 0
-						return ..()
-			else
-				return ..()
 	Sky
 		//Anyone not on a broom will fall to the ground AKA the ground teleporters.
 	Observe_Area1

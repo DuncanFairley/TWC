@@ -128,7 +128,7 @@ RandomEvent
 			for(var/mob/NPC/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
 				mon.loc = null
-				mon.state = monster.INACTIVE
+				mon.ChangeState(monster.INACTIVE)
 				m -= mon
 			m = null
 
@@ -169,7 +169,7 @@ RandomEvent
 			for(var/mob/NPC/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
 				mon.loc = null
-				mon.state = monster.INACTIVE
+				mon.ChangeState(monster.INACTIVE)
 				m -= mon
 			m = null
 
@@ -249,15 +249,17 @@ RandomEvent
 
 			sleep(minutes * 600)
 
+			var/end = FALSE
 			for(var/obj/t in treasures)
 				treasures -= t
 				if(!t.loc) continue
 				totalTreasures -= t
 				if(!totalTreasures.len)
 					totalTreasures = null
+					end = TRUE
 				t.loc     = null
 
-			if(!totalTreasures)
+			if(end)
 				end()
 
 			treasures = null
@@ -411,7 +413,7 @@ RandomEvent
 			for(var/mob/NPC/Enemies/Summoned/monster in m)
 				if(monster.loc != null) message = 1
 				monster.loc = null
-				monster.state = monster.INACTIVE
+				monster.ChangeState(monster.INACTIVE)
 				m -= monster
 			m = null
 
@@ -471,7 +473,7 @@ obj/items/treasure
 
 		if(event == "Treasure Hunt")
 			var/RandomEvent/TreasureHunt/e = locate() in events
-			if(e && e.totalTreasures)
+			if(e && e.totalTreasures && (src in e.totalTreasures))
 				e.totalTreasures -= src
 
 				e.winners += usr.ckey
