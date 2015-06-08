@@ -52,7 +52,7 @@ area
 		.=..()
 		if(isplayer(O))
 			var/area/a
-			if(oldloc) a = oldloc.loc
+			if(oldloc && isturf(oldloc)) a = oldloc.loc
 
 			if(a && a != src &&  a.region)
 				if(!(src in a.region.areas))
