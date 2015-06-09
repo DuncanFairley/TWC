@@ -231,11 +231,16 @@ obj/teleport
 			else
 				M:Transfer(locate(rand(4,97),rand(4,97),rand(4,6)))
 
+		New()
+			..()
+			wander()
+
 		proc/wander()
 			set waitfor = 0
 
 			while(src)
-				loc = get_step_rand(src)
+				var/turf/t = get_step_rand(src)
+				if(t) loc = t
 				sleep(8)
 
 var/tmp/vault_last_exit
