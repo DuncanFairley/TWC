@@ -261,7 +261,6 @@ mob
 				set waitfor = 0
 				if(active) return
 				active = 1
-				var/lag = 10
 				while(src && src.loc && state != 0)
 					switch(state)
 						if(WANDER)
@@ -279,10 +278,10 @@ mob
 
 			proc
 				getStateLag(var/i_State)
-					if(state == WANDER)   return 25
+					if(state == WANDER)   return 15
 					if(state == SEARCH)   return 15
 					if(state == HOSTILE)  return max(MoveDelay, 1)
-					if(state == INACTIVE) return 12
+					if(state == CONTROLLED) return 12
 					return 1
 
 				ChangeState(var/i_State)
