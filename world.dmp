@@ -2033,7 +2033,7 @@
 "aNe" = (/obj/Columb,/turf/Hogwarts_Stone_Wall_{opacity = 1},/area/hogwarts)
 "aNf" = (/obj/chairback,/turf/woodenfloor,/area/hogwarts/Gryffindor_Common_Room)
 "aNg" = (/obj/Column,/turf/woodenfloor,/area/hogwarts/Gryffindor_Common_Room)
-"aNh" = (/turf/roofb{density = 0; layer = 5; opacity = 0},/area/hogwarts/Bathroom)
+"aNh" = (/turf/roofb{opacity = 0},/area/hogwarts/Bathroom)
 "aNi" = (/obj/Columb,/turf/woodenfloor,/area/hogwarts/Third_Floor)
 "aNj" = (/obj/Book_Shelf,/turf/Hogwarts_Stone_Wall,/area/hogwarts/West_Wing)
 "aNk" = (/obj/Book_Shelf1,/turf/Hogwarts_Stone_Wall,/area/hogwarts/West_Wing)
