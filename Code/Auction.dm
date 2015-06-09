@@ -61,8 +61,8 @@ mail
 
 
 
-proc/mail(i_Ckey, i_Message, i_Gold)
-	var/mail/m = new/mail(i_Message, i_Gold)
+proc/mail(i_Ckey, i_Message, i_Content)
+	var/mail/m = new/mail(i_Message, i_Content)
 
 	for(var/mob/Player/p in Players)
 		if(p.ckey == i_Ckey)
