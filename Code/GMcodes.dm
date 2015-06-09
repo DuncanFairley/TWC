@@ -5,7 +5,6 @@
  * For the full license text, see LICENSE.txt.
  */
 #define CREATE_PATH list(/obj,/mob,/turf,/area)			//	change the path to what you want to create, if you wish
-#define islist(X) istype(X,/list)					//	Do not change this line
 #define _CSS "<style type='text/css'></style>"	//	Enter the CSS style for the browser, if you wish to make it ore fancy.
 mob/var/list/monsterkills = list()
 mob
