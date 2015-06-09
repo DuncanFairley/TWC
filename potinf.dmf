@@ -213,7 +213,7 @@ window "Auction"
 		keep-aspect = false
 		transparent-color = none
 		alpha = 255
-		macro = ""
+		macro = "macro"
 		menu = ""
 		on-close = ".auctionClosed"
 	elem "buttonOwned"
@@ -814,7 +814,7 @@ window "Quests"
 		keep-aspect = false
 		transparent-color = none
 		alpha = 255
-		macro = ""
+		macro = "macro"
 		menu = ""
 		on-close = ""
 	elem "outputQuests"
@@ -3003,7 +3003,7 @@ window "Trade"
 		keep-aspect = false
 		transparent-color = none
 		alpha = 255
-		macro = ""
+		macro = "macro"
 		menu = ""
 		on-close = "ATrade \"Close\""
 	elem "error"
