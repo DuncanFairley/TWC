@@ -108,6 +108,16 @@ auction
 		.=..()
 		var/mob/Player/p = usr
 		if(!(src in auctionItems)) return
+
+		if(!src) return
+		if(!src.item)
+			auctionItems -= src
+			if(bidder)
+				mail(bidder, errormsg("<b>Auction:</b> The auction for the [item.name] was cancelled."), minPrice)
+
+			return
+
+
 		if(href_list["action"] == "bidAuction")
 
 			if(bid && owner != p.ckey && bidder != p.ckey)
