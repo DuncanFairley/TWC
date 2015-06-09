@@ -3899,13 +3899,12 @@ obj/items
 			limited_edition
 				name = "special summer 2015 chest"
 
-				drops = list(/obj/items/wearable/hats/orange_earmuffs = 5,
-		                     /obj/items/wearable/hats/yellow_earmuffs = 5,
-							 /obj/items/wearable/shoes/orange_shoes   = 10,
-		                     /obj/items/wearable/shoes/yellow_shoes   = 20,
-		                     /obj/items/wearable/shoes/green_shoes    = 20,
-		                     /obj/items/wearable/shoes/red_shoes      = 20,
-		                     /obj/items/wearable/shoes/blue_shoes     = 20)
+				drops = list(/obj/items/wearable/hats/orange_earmuffs = 9,
+		                     /obj/items/wearable/hats/yellow_earmuffs = 9,
+							 /obj/items/wearable/shoes/orange_shoes   = 13,
+		                     /obj/items/wearable/shoes/yellow_shoes   = 23,
+		                     /obj/items/wearable/shoes/red_shoes      = 23,
+		                     /obj/items/wearable/shoes/blue_shoes     = 23)
 
 		prom_chest
 			icon_state = "pink"
