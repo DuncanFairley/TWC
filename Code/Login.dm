@@ -239,7 +239,9 @@ obj/teleport
 			set waitfor = 0
 
 			while(src)
-				var/turf/t = get_step_rand(src)
+				var/d = rand(1,10)
+				if(d == 3 || d == 7 || d == 9) d--
+				var/turf/t = get_step(src, d)
 				if(t) loc = t
 				sleep(8)
 
