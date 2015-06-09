@@ -337,8 +337,12 @@ mob
 					if(z == origloc.z)
 						density = 0
 						while(loc.loc != origloc.loc)
-							sleep(1)
+							var/t = get_step_towards(src, origloc)
+							if(!t)
+								loc = origloc
+								break
 							loc = get_step_towards(src, origloc)
+							sleep(1)
 						density = 1
 					else
 						src.loc = origloc
