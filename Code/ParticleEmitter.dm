@@ -177,6 +177,14 @@ obj/particle
 				color      = "#e00000"
 				blend_mode = 0
 
+	smoke
+		alpha = 50
+		size  = 4
+		loop  = 1
+		green
+			color = "#00f000"
+
+
 	magic
 		loop = 2
 

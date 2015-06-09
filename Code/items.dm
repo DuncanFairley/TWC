@@ -1307,9 +1307,15 @@ turf
 			icon_state="floo fireplace"
 			Entered(mob/M)
 				.=..()
-				if(ismob(M))
-					if(M.key)
-						flick("m-green", M)
+				if(isplayer(M))
+					emit(loc    = M,
+						 ptype  = /obj/particle/smoke/green,
+					     amount = 10,
+					     angle  = new /Random(1, 359),
+					     speed  = 2,
+					     life   = new /Random(15,25))
+
+
 obj/Fireplace_H
 	icon='misc.dmi'
 	icon_state="fireplace"
