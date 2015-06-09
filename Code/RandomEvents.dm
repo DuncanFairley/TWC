@@ -469,7 +469,7 @@ obj/items/treasure
 		var/obj/items/i = new t (usr)
 		usr:Resort_Stacking_Inv()
 
-		Players << infomsg("<b>[event]:</b> [usr] found a [i.name] chest!")
+		Players << infomsg("<b>[event]:</b> [usr] found a [i.name]!")
 
 		if(event == "Treasure Hunt")
 			var/RandomEvent/TreasureHunt/e = locate() in events

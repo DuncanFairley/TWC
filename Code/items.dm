@@ -611,6 +611,8 @@ obj/items/wearable/hats/christmas_hat
 obj/items/wearable/hats/bunny_ears
 	icon = 'bunny_ears_hat.dmi'
 	dropable = 0
+obj/items/wearable/hats/yellow_earmuffs
+	icon = 'yellow_earmuffs_hat.dmi'
 obj/items/wearable/hats/blue_earmuffs
 	icon = 'lightblue_earmuffs_hat.dmi'
 	name = "light blue earmuffs"
@@ -2437,17 +2439,24 @@ obj/Force_Field
 	dontsave=1
 obj
 	candle
+		var/tmp/origloc
 		icon = 'turfZ.dmi'
 		icon_state = "candle"
 		luminosity = 7
 		layer = 7
 		dontsave=1
-		accioable=0
-		wlable = 0
+		accioable=1
+		wlable = 1
 		New()
 			..()
 			pixel_x = rand(-7,7)
 			pixel_y = rand(-7,7)
+			origloc = loc
+
+		proc/respawn()
+			if(origloc)
+				loc = origloc
+
 obj
 	tree
 		name       = "Tree"
