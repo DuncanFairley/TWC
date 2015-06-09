@@ -2439,13 +2439,13 @@ obj/Force_Field
 	dontsave=1
 obj
 	candle
-		var/tmp/origloc
+		var/tmp/turf/origloc
 		icon = 'turfZ.dmi'
 		icon_state = "candle"
 		luminosity = 7
 		layer = 7
-		dontsave=1
-		accioable=1
+		dontsave = 1
+		accioable = 1
 		wlable = 1
 		New()
 			..()
@@ -2454,8 +2454,23 @@ obj
 			origloc = loc
 
 		proc/respawn()
+			set waitfor = 0
+			sleep(rand(700, 2400))
 			if(origloc)
-				loc = origloc
+				if(z == origloc.z)
+					accioable = 0
+					wlable    = 0
+					while(loc != origloc)
+						var/t = get_step_towards(src, origloc)
+						if(!t)
+							loc = origloc
+							break
+						loc = t
+						sleep(2)
+					accioable = 1
+					wlable    = 1
+				else
+					loc = origloc
 
 obj
 	tree
