@@ -211,6 +211,8 @@ area
 	var/list/AI_directions
 	var/location
 
+	inside/ToWisps
+
 	outsideHogwarts           // pathfinding related
 		name = "Hogwarts"
 	outside/insideHogwarts
