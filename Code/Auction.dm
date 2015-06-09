@@ -69,6 +69,8 @@ proc/mail(i_Ckey, i_Message, i_Content)
 			m.send(p)
 			return
 
+	if(!mailTracker) mailTracker = list()
+
 	if(i_Ckey in mailTracker)
 		if(islist(mailTracker[i_Ckey]))
 			mailTracker[i_Ckey] += m
@@ -108,7 +110,7 @@ auction
 		if(href_list["action"] == "bidAuction")
 
 			if(bid && owner != p.ckey && bidder != p.ckey)
-				var/price = round(minPrice + (minPrice/10), 1)
+				var/price = max(round(minPrice + (minPrice/10), 1), 1)
 				if(p.gold >= price)
 
 					if(bidder)
@@ -145,14 +147,15 @@ auction
 			if(owner == p.ckey)
 				auctionItems -= src
 				if(!auctionItems.len) auctionItems = null
+
+				if(bidder)
+					mail(bidder, errormsg("<b>Auction:</b> The auction for the [item.name] was cancelled."), minPrice)
+
 				p << infomsg("<b>Auction:</b> You removed [item.name] from auction.")
 				p.auctionBuild()
 				item.loc = p
 				item = null
 				p.Resort_Stacking_Inv()
-
-				if(bidder)
-					mail(bidder, errormsg("<b>Auction:</b> The auction for the [item.name] was cancelled."), minPrice)
 
 
 
@@ -187,7 +190,7 @@ mob/Player
 					if(options[o] == "true")
 						option = copytext(o, 1, -11)
 						break
-
+				if(!auctionItems) return
 				for(var/i = 1 to auctionItems.len)
 					var/auction/a = auctionItems[i]
 
@@ -207,16 +210,24 @@ mob/Player
 
 					if(a.buyout)
 						src << output("<a href=\"?src=\ref[a];action=buyoutAuction\">Buyout</a> [comma(a.buyoutPrice)]", "Auction.gridAuction:2,[count]")
+					else
+						src << output(null, "Auction.gridAuction:2,[count]")
 
 					if(a.bid)
 						src << output("<a href=\"?src=\ref[a];action=bidAuction\">Bid</a> [comma(round(a.minPrice + (a.minPrice / 10), 1))]", "Auction.gridAuction:3,[count]")
+					else
+						src << output(null, "Auction.gridAuction:3,[count]")
 
 					if(a.bid)
 						var/days = round((2592000 - (world.realtime - a.time)) / 864000, 1)
 						src << output("[days] days remaining", "Auction.gridAuction:4,[count]")
+					else
+						src << output(null, "Auction.gridAuction:4,[count]")
 
 					if(a.owner == ckey)
 						src << output("<a href=\"?src=\ref[a];action=removeAuction\">Remove</a>", "Auction.gridAuction:5,[count]")
+					else
+						src << output(null, "Auction.gridAuction:5,[count]")
 
 				winset(src, null, "Auction.gridAuction.cells=5x[count]")
 
