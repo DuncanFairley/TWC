@@ -1524,7 +1524,7 @@
 "aDp" = (/obj/candle,/turf/woodenfloor,/area/hogwarts/Great_Hall)
 "aDq" = (/obj/Cauldron,/turf/woodenfloor,/area/hogwarts/East_Wing)
 "aDr" = (/obj/Hogwarts_Stairs,/turf/woodenfloor,/area/hogwarts/Great_Hall)
-"aDs" = (/mob/Anderoffice{name = "Great Hall"},/turf/woodenfloor,/area/hogwarts/Great_Hall)
+"aDs" = (/mob/Anderoffice{name = "Great Hall"},/turf/woodenfloor{tag = "@GreatHall"},/area/hogwarts/Great_Hall)
 "aDt" = (/obj/Fountain,/turf/woodenfloor,/area/hogwarts/East_Wing)
 "aDu" = (/turf/Hogwarts_Stone_Wall,/area/hogwarts/Dungeons)
 "aDv" = (/turf/Hogwarts_Stone_Wall,/turf/walltorch,/area/hogwarts/Dungeons)

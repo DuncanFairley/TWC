@@ -192,7 +192,7 @@ RandomEvent
 
 			var/area/entrance = locate(/area/hogwarts/Entrance_Hall)
 			for(var/mob/Player/p in entrance)
-				if(p.away) p.loc = locate(49,56,21)
+				if(p.away) p.loc = locate("@GreatHall")
 
 
 			entrance.safezoneoverride = 1
