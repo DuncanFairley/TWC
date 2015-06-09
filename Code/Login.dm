@@ -1133,6 +1133,7 @@ mob/Player
 		updateHPMP()
 		if(!Interface) Interface = new(src)
 		isDJ(src)
+		checkMail()
 		spawn()
 			//CheckSavefileVersion()
 			if(istype(src.loc.loc,/area/arenas) && !rankedArena)

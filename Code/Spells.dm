@@ -2218,6 +2218,10 @@ client
 			mob.overlays-=image('AFK.dmi',icon_state="AFK4")
 			mob.overlays-='AFK.dmi'
 
+		if(mob:auctionInfo)
+			mob:auctionClosed()
+			winshow(src, "Auction", 0)
+
 		if(mob.questionius==1)
 			mob.overlays-=icon('hand.dmi')
 			mob.questionius=0

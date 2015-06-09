@@ -66,6 +66,8 @@ proc
 		if(!promicons) promicons = list()
 		X["globalvaults"] >> globalvaults
 		X["customMaps"] >> customMaps
+		X["mailTracker"] >> mailTracker
+		X["auctionItems"] >> auctionItems
 		if(!customMaps) customMaps = list()
 		if(!globalvaults) globalvaults = list()
 		if(magicEyesLeft == null)
@@ -151,6 +153,8 @@ proc
 		X["ministrybank"] << ministrybank
 		X["magicEyesLeft"] << magicEyesLeft
 		X["taxrate"] << taxrate
+		X["mailTracker"] << mailTracker
+		X["auctionItems"] << auctionItems
 		X["allowGifts"] << allowGifts
 		X["lastusedAFKCheck"] << lastusedAFKCheck
 		//X["promicons"] << promicons
@@ -743,6 +747,7 @@ client
 		if(mob && isplayer(mob))
 			if(mob:isTrading())
 				mob:trade.Clean()
+			mob:auctionClosed()
 			var/StatusEffect/S = mob.findStatusEffect(/StatusEffect/Lamps)
 			if(S) S.Deactivate()
 			if(mob.prevname)
