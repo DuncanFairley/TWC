@@ -104,6 +104,8 @@ mob/Spells/verb/Accio(obj/M in oview(usr.client.view,usr))
 			M.y = src:y-1
 			M.z = src:z
 			flick('Appear.dmi',M)
+			sleep(25)
+			if(istype(M,/obj/candle)) M:respawn()
 		else
 			usr << "The object is no longer in your view."
 
@@ -1684,6 +1686,7 @@ mob/Spells/verb/Wingardium_Leviosa()
 						usr.Wingardiumleviosa = null
 					if(other)
 						other.overlays=null
+					if(istype(other,/obj/candle)) other:respawn()
 			else
 				src << errormsg("That object is not movable.")
 	else
