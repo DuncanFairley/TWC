@@ -9,4 +9,4 @@
 
 var/const
 	SWAPMAP_Z = 27
-	lvlcap = 666
+	lvlcap = 669
