@@ -140,6 +140,9 @@ auction
 				if(p.gold >= buyoutPrice)
 					p.gold -= buyoutPrice
 
+					if(bid && bidder)
+						mail(bidder, errormsg("<b>Auction:</b> The [item.name] auction was bought out at the auction, your bid is cancelled."), minPrice)
+
 					var/taxedGold = round(buyoutPrice - (buyoutPrice/20), 1)
 					mail(owner, infomsg("<b>Auction:</b> [item.name] was bought at the auction."), taxedGold)
 					goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: (Buyout) [owner] sold [item.name] to [p.name] ([p.ckey]) ([p.client.address])<br />"
@@ -160,7 +163,7 @@ auction
 				auctionItems -= src
 				if(!auctionItems.len) auctionItems = null
 
-				if(bidder)
+				if(bid && bidder)
 					mail(bidder, errormsg("<b>Auction:</b> The auction for the [item.name] was cancelled."), minPrice)
 
 				p << infomsg("<b>Auction:</b> You removed [item.name] from auction.")
