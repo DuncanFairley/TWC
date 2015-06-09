@@ -15,6 +15,7 @@ mob
 		Immortal = 1
 		NPC = 1
 		Gm=1
+		canBleed = FALSE
 
 		verb
 			Talk()
