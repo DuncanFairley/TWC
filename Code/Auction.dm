@@ -21,7 +21,6 @@ proc
 		if(auctionItems)
 			for(var/auction/a in auctionItems)
 				if(!a.bid) continue
-				world << world.realtime - a.time
 				if(world.realtime - a.time >= 2592000) // 3 days
 					if(a.bidder)
 						mail(a.bidder, infomsg("Auction: You won the auction for the [a.item.name]."),     a.item)
