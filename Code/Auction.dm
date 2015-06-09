@@ -220,11 +220,8 @@ mob/Player
 					else
 						src << output(null, "Auction.gridAuction:3,[count]")
 
-					if(a.bid)
-						var/days = round((2592000 - (world.realtime - a.time)) / 864000, 1)
-						src << output("[days] days remaining", "Auction.gridAuction:4,[count]")
-					else
-						src << output(null, "Auction.gridAuction:4,[count]")
+					var/days = round((2592000 - (world.realtime - a.time)) / 864000, 1)
+					src << output("[days] days remaining", "Auction.gridAuction:4,[count]")
 
 					if(a.owner == ckey)
 						src << output("<a href=\"?src=\ref[a];action=removeAuction\">Remove</a>", "Auction.gridAuction:5,[count]")
