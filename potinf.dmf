@@ -176,6 +176,607 @@ menu "menu"
 		saved-params = "is-checked"
 
 
+window "Auction"
+	elem "Auction"
+		type = MAIN
+		pos = 281,0
+		size = 658x465
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #000000
+		background-color = #b0e6fa
+		is-visible = false
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "pos;size;is-minimized;is-maximized"
+		on-size = ""
+		title = "Auction"
+		titlebar = true
+		statusbar = false
+		can-close = true
+		can-minimize = false
+		can-resize = false
+		is-pane = false
+		is-minimized = false
+		is-maximized = false
+		can-scroll = none
+		icon = ""
+		image = ""
+		image-mode = stretch
+		keep-aspect = false
+		transparent-color = none
+		alpha = 255
+		macro = "macro"
+		menu = ""
+		on-close = ".auctionClosed"
+	elem "buttonOwned"
+		type = BUTTON
+		pos = 17,275
+		size = 64x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Owned"
+		image = ""
+		command = ".auctionRefresh"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = "filter"
+		button-type = radio
+	elem "buttonOther"
+		type = BUTTON
+		pos = 88,350
+		size = 64x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Other"
+		image = ""
+		command = ".auctionRefresh"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = "filter"
+		button-type = radio
+	elem "button6"
+		type = BUTTON
+		pos = 17,250
+		size = 64x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "All"
+		image = ""
+		command = ".auctionRefresh"
+		is-flat = false
+		stretch = false
+		is-checked = true
+		group = "filter"
+		button-type = radio
+	elem "buttonTitle"
+		type = BUTTON
+		pos = 88,325
+		size = 56x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Title"
+		image = ""
+		command = ".auctionRefresh"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = "filter"
+		button-type = radio
+	elem "buttonShoes"
+		type = BUTTON
+		pos = 88,300
+		size = 64x19
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Shoes"
+		image = ""
+		command = ".auctionRefresh"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = "filter"
+		button-type = radio
+	elem "buttonClothing"
+		type = BUTTON
+		pos = 88,250
+		size = 72x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Clothing"
+		image = ""
+		command = ".auctionRefresh"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = "filter"
+		button-type = radio
+	elem "buttonScarves"
+		type = BUTTON
+		pos = 88,275
+		size = 72x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Scarves"
+		image = ""
+		command = ".auctionRefresh"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = "filter"
+		button-type = radio
+	elem "label9"
+		type = LABEL
+		pos = 8,64
+		size = 160x32
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = "bold"
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = true
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		text = "Bidding lasts 3 days."
+		image = ""
+		image-mode = center
+		keep-aspect = false
+		align = center
+		text-wrap = true
+		allow-html = false
+		letterbox = true
+	elem "label8"
+		type = LABEL
+		pos = 9,213
+		size = 56x24
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = "bold"
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = true
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		text = "Min Bid:"
+		image = ""
+		image-mode = center
+		keep-aspect = false
+		align = center
+		text-wrap = false
+		allow-html = false
+		letterbox = true
+	elem "inputMinPrice"
+		type = INPUT
+		pos = 66,215
+		size = 97x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #000000
+		background-color = #ffffff
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = sunken
+		drop-zone = false
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		command = ""
+		multi-line = false
+		is-password = false
+		no-command = true
+	elem "label5"
+		type = LABEL
+		pos = 11,186
+		size = 48x24
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = "bold"
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = true
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		text = "Buyout:"
+		image = ""
+		image-mode = center
+		keep-aspect = false
+		align = center
+		text-wrap = false
+		allow-html = false
+		letterbox = true
+	elem "buttonBid"
+		type = BUTTON
+		pos = 7,160
+		size = 60x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Bid"
+		image = ""
+		command = ""
+		is-flat = false
+		stretch = false
+		is-checked = true
+		group = ""
+		button-type = checkbox
+	elem "buttonBuyout"
+		type = BUTTON
+		pos = 59,160
+		size = 60x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Buyout"
+		image = ""
+		command = ""
+		is-flat = false
+		stretch = false
+		is-checked = true
+		group = ""
+		button-type = checkbox
+	elem "labelError"
+		type = LABEL
+		pos = 8,404
+		size = 160x48
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = "bold"
+		text-color = #c10000
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = true
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		text = ""
+		image = ""
+		image-mode = center
+		keep-aspect = false
+		align = left
+		text-wrap = true
+		allow-html = false
+		letterbox = true
+	elem "inputBuyoutPrice"
+		type = INPUT
+		pos = 66,188
+		size = 97x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #000000
+		background-color = #ffffff
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = sunken
+		drop-zone = false
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		command = ""
+		multi-line = false
+		is-password = false
+		no-command = true
+	elem "gridAuctionAddItem"
+		type = GRID
+		pos = 7,112
+		size = 161x40
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #cceeff
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = sunken
+		drop-zone = true
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		cells = 1x1
+		current-cell = 1,1
+		show-lines = none
+		small-icons = false
+		show-names = true
+		enable-http-images = false
+		link-color = #6f81ff
+		visited-color = #6f81ff
+		line-color = #0b81ff
+		highlight-color = #000000
+		style = ""
+		is-list = false
+	elem "buttonAdd"
+		type = BUTTON
+		pos = 118,160
+		size = 48x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #cceeff
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = line
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Add"
+		image = ""
+		command = ".auctionAdd"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = ""
+		button-type = pushbutton
+	elem "gridAuction"
+		type = GRID
+		pos = 176,56
+		size = 472x400
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #cceeff
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = sunken
+		drop-zone = true
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		cells = 0x0
+		current-cell = 0,0
+		show-lines = none
+		small-icons = false
+		show-names = true
+		enable-http-images = false
+		link-color = #6f81ff
+		visited-color = #6f81ff
+		line-color = #0b81ff
+		highlight-color = #000000
+		style = ""
+		is-list = false
+	elem "label6"
+		type = LABEL
+		pos = 0,0
+		size = 658x24
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 16
+		font-style = "bold"
+		text-color = #a8e2ff
+		background-color = #0b81ff
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		text = "Auction"
+		image = ""
+		image-mode = center
+		keep-aspect = false
+		align = center
+		text-wrap = false
+		allow-html = false
+		letterbox = true
+	elem "buttonRefresh"
+		type = BUTTON
+		pos = 592,2
+		size = 56x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #cceeff
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = line
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Refresh"
+		image = ""
+		command = ".auctionRefresh"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = ""
+		button-type = pushbutton
+
 window "Quests"
 	elem "Quests"
 		type = MAIN
@@ -213,7 +814,7 @@ window "Quests"
 		keep-aspect = false
 		transparent-color = none
 		alpha = 255
-		macro = ""
+		macro = "macro"
 		menu = ""
 		on-close = ""
 	elem "outputQuests"
@@ -268,6 +869,8 @@ window "Quests"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "label6"
 		type = LABEL
 		pos = 0,0
@@ -294,6 +897,8 @@ window "Quests"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "buttonQuestDisplay"
 		type = BUTTON
 		pos = 24,37
@@ -351,6 +956,7 @@ window "Quests"
 		link-color = #6f81ff
 		visited-color = #6f81ff
 		line-color = #0b81ff
+		highlight-color = #000000
 		style = ""
 		is-list = false
 
@@ -813,6 +1419,7 @@ window "potEquipment"
 		link-color = #0000ff
 		visited-color = #ff00ff
 		line-color = #c0c0c0
+		highlight-color = none
 		style = ""
 		is-list = true
 
@@ -885,6 +1492,7 @@ window "potIngredients"
 		link-color = #0000ff
 		visited-color = #ff00ff
 		line-color = #c0c0c0
+		highlight-color = none
 		style = ""
 		is-list = true
 
@@ -954,6 +1562,8 @@ window "potionwindow"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "gridCauldron"
 		type = GRID
 		pos = 164,43
@@ -983,6 +1593,7 @@ window "potionwindow"
 		link-color = #0000ff
 		visited-color = #ff00ff
 		line-color = #c0c0c0
+		highlight-color = none
 		style = ""
 		is-list = false
 	elem "btnFinish"
@@ -1121,6 +1732,8 @@ window "potionwindow"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 
 window "rpane"
 	elem "rpane"
@@ -1937,6 +2550,8 @@ window "winSettings"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "button1"
 		type = BUTTON
 		pos = 26,31
@@ -2128,6 +2743,7 @@ window "paneSpellbook_Trans"
 		link-color = #0000ff
 		visited-color = #ff00ff
 		line-color = #c0c0c0
+		highlight-color = none
 		style = ""
 		is-list = false
 
@@ -2200,6 +2816,7 @@ window "paneSpellbook_Charms"
 		link-color = #0000ff
 		visited-color = #ff00ff
 		line-color = #c0c0c0
+		highlight-color = none
 		style = ""
 		is-list = false
 
@@ -2272,6 +2889,7 @@ window "paneSpellbook_COMC"
 		link-color = #0000ff
 		visited-color = #ff00ff
 		line-color = #c0c0c0
+		highlight-color = none
 		style = ""
 		is-list = false
 
@@ -2344,6 +2962,7 @@ window "paneSpellbook_All"
 		link-color = #0000ff
 		visited-color = #ff00ff
 		line-color = #c0c0c0
+		highlight-color = none
 		style = ""
 		is-list = false
 
@@ -2384,7 +3003,7 @@ window "Trade"
 		keep-aspect = false
 		transparent-color = none
 		alpha = 255
-		macro = ""
+		macro = "macro"
 		menu = ""
 		on-close = "ATrade \"Close\""
 	elem "error"
@@ -2413,6 +3032,8 @@ window "Trade"
 		keep-aspect = false
 		align = left
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "label5"
 		type = LABEL
 		pos = 195,208
@@ -2439,6 +3060,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "label4"
 		type = LABEL
 		pos = 45,384
@@ -2465,6 +3088,8 @@ window "Trade"
 		keep-aspect = false
 		align = left
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "label3"
 		type = LABEL
 		pos = 32,64
@@ -2491,6 +3116,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "label2"
 		type = LABEL
 		pos = 190,432
@@ -2517,6 +3144,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "GoldInput"
 		type = INPUT
 		pos = 285,383
@@ -2567,6 +3196,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "gold1"
 		type = LABEL
 		pos = 78,432
@@ -2593,6 +3224,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "Name2"
 		type = LABEL
 		pos = 248,32
@@ -2619,6 +3252,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "Name1"
 		type = LABEL
 		pos = 32,32
@@ -2645,6 +3280,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "title"
 		type = LABEL
 		pos = 0,0
@@ -2671,6 +3308,8 @@ window "Trade"
 		keep-aspect = false
 		align = center
 		text-wrap = false
+		allow-html = false
+		letterbox = true
 	elem "Approve"
 		type = BUTTON
 		pos = 139,464
@@ -2756,6 +3395,7 @@ window "Trade"
 		link-color = #0000ff
 		visited-color = #ff00ff
 		line-color = #c0c0c0
+		highlight-color = #000000
 		style = ""
 		is-list = false
 	elem "grid2"
@@ -2787,6 +3427,7 @@ window "Trade"
 		link-color = #0000ff
 		visited-color = #ff00ff
 		line-color = #c0c0c0
+		highlight-color = #000000
 		style = ""
 		is-list = false
 

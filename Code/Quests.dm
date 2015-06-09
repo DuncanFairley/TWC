@@ -76,7 +76,12 @@ mob/TalkNPC/quest
 				else if(pointer.stage)
 					questOngoing(i_Player, questName)
 				else
-					questCompleted(i_Player, questName)
+					var/quest/q = quest_list[questName]
+					if(q.repeat && world.realtime - pointer.time >= q.repeat)
+						i_Player.questPointers -= questName
+						questStart(i_Player, questName)
+					else
+						questCompleted(i_Player, questName)
 
 		questStart(mob/Player/i_Player, questName)
 			i_Player.startQuest(questName)
@@ -869,8 +874,10 @@ mob/Player
 							state = "completed"
 						else
 							state = "active"
-					else if(findtext(p, "\[Daily]", 7))
-						state = "daily"
+					else
+						var/quest/q = quest_list[p]
+						if(q.repeat)
+							state = "daily"
 
 					if(state) break
 			else
@@ -883,8 +890,10 @@ mob/Player
 					if(pointer.stage == q.stages.len)
 						state = "completed"
 					else state = "active"
-				else if(findtext(i_Mob.questPointers, "\[Daily]", 7))
-					state = "daily"
+				else
+					var/quest/q = quest_list[i_Mob.questPointers]
+					if(q.repeat)
+						state = "daily"
 
 			if(state)
 				var/image/i = image('QuestMarker.dmi', i_Mob, state)
@@ -935,14 +944,7 @@ mob/TalkNPC/quest
 				i_Player << npcsay("Vengeful Wisp: Don't waste time talking to me, actions speak louder than words!")
 
 		questCompleted(mob/Player/i_Player, questName)
-			var/questPointer/pointer = i_Player.questPointers[questName]
-			if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
-				i_Player.questPointers -= pointer
-				pointer = null
-
-				questStart(i_Player, questName)
-			else
-				i_Player << npcsay("Vengeful Wisp: Pity the living!")
+			i_Player << npcsay("Vengeful Wisp: Pity the living!")
 
 	Mysterious_Wizard
 		icon_state="wizard"
@@ -965,14 +967,7 @@ mob/TalkNPC/quest
 				i_Player << npcsay("Mysterious Wizard: Not enough, go back there and check if they all bleed!")
 
 		questCompleted(mob/Player/i_Player, questName)
-			var/questPointer/pointer = i_Player.questPointers[questName]
-			if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
-				i_Player.questPointers -= pointer
-				pointer = null
-
-				questStart(i_Player, questName)
-			else
-				i_Player << npcsay("Mysterious Wizard: So even the gods of the desert can bleed... Interesting!")
+			i_Player << npcsay("Mysterious Wizard: So even the gods of the desert can bleed... Interesting!")
 
 	Saratri
 		icon_state="lord"
@@ -996,14 +991,7 @@ mob/TalkNPC/quest
 				i_Player << npcsay("Saratri: Go kill the Basilisk!")
 
 		questCompleted(mob/Player/i_Player, questName)
-			var/questPointer/pointer = i_Player.questPointers[questName]
-			if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
-				i_Player.questPointers -= pointer
-				pointer = null
-
-				questStart(i_Player, questName)
-			else
-				i_Player << npcsay("Saratri: Wow! I can't believe you killed the Basilisk!")
+			i_Player << npcsay("Saratri: Wow! I can't believe you killed the Basilisk!")
 
 	Malcolm
 		icon_state="goblin1"
@@ -1027,14 +1015,7 @@ mob/TalkNPC/quest
 				i_Player << npcsay("Malcolm: Go kill the Stickman!")
 
 		questCompleted(mob/Player/i_Player, questName)
-			var/questPointer/pointer = i_Player.questPointers[questName]
-			if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
-				i_Player.questPointers -= pointer
-				pointer = null
-
-				questStart(i_Player, questName)
-			else
-				i_Player << npcsay("Malcolm: Wow! I can't believe you killed the Stickman!")
+			i_Player << npcsay("Malcolm: Wow! I can't believe you killed the Stickman!")
 
 	Hunter
 		icon_state="lord"
@@ -1058,15 +1039,7 @@ mob/TalkNPC/quest
 				i_Player << npcsay("Hunter: Go back out there and exterminate some pests!")
 
 		questCompleted(mob/Player/i_Player, questName)
-			if(questName == "Pest Extermination \[Daily]")
-				var/questPointer/pointer = i_Player.questPointers["Pest Extermination \[Daily]"]
-				if(time2text(world.realtime, "DD") != time2text(pointer.time, "DD"))
-					i_Player.questPointers -= pointer
-					pointer = null
-
-					questStart(i_Player, questName)
-				else
-					i_Player << npcsay("Hunter: You've done a really good job exterminating all those monsters.")
+			i_Player << npcsay("Hunter: You've done a really good job exterminating all those monsters.")
 
 
 
@@ -1199,6 +1172,7 @@ quest
 	var/desc
 	var/list/reqs
 	var/questReward/reward
+	var/repeat
 
 
 	TutorialWand
@@ -1290,6 +1264,7 @@ quest
 		name   = "Pest Extermination \[Daily]"
 		desc   = "The hunter wants you to help him exterminate monsters."
 		reward = /questReward/Artifact
+		repeat = 864000
 
 		Kill
 			desc = "Kill 50 of each monster."
@@ -1314,6 +1289,7 @@ quest
 		name   = "To kill a Boss \[Daily]"
 		desc   = "The basilisk is found at the Chamber of Secrets, kill the Basilisk and any demon rat that gets in your way!"
 		reward = /questReward/Artifact
+		repeat = 864000
 
 		Kill
 			desc = "Kill 1 basilisk and 50 demon rats."
@@ -1327,6 +1303,7 @@ quest
 		name   = "Draw Me a Stick \[Daily]"
 		desc   = "The stickman is found at the Chamber of Secrets floor 2, kill the Stickman and any Troll that gets in your way!"
 		reward = /questReward/Teleport
+		repeat = 864000
 
 		Kill
 			desc = "Kill 1 stickman and 50 trolls."
@@ -1341,6 +1318,7 @@ quest
 		name   = "The Eyes in the Sand \[Daily]"
 		desc   = "The desert is a mysterious area filled with strange creatures called floating eyes, I wonder if they bleed..."
 		reward = /questReward/Artifact
+		repeat = 864000
 
 		Kill
 			desc = "Kill 60 floating eyes."
@@ -1353,6 +1331,7 @@ quest
 		name   = "Will of the Wisp \[Daily]"
 		desc   = "The vengeful wisp wants you to execute revenge, you must kill wisps!"
 		reward = /questReward/Artifact
+		repeat = 864000
 
 		Kill
 			desc = "Kill 80 wisps."

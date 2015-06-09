@@ -261,34 +261,29 @@ mob
 				set waitfor = 0
 				if(active) return
 				active = 1
-				var/lag = 10
 				while(src && src.loc && state != 0)
-					var/s = state
 					switch(state)
-						if(INACTIVE)
-							lag = 50
 						if(WANDER)
 							Wander()
-							lag = 27
 						if(SEARCH)
 							Search()
-							lag = 15
 						if(HOSTILE)
 							Attack()
-							lag = MoveDelay
 						if(CONTROLLED)
 							BlindAttack()
-							lag = 12
-					if(s == state)
-						if(lag <= 0) lag = 1
-						sleep(lag)
-					else
-						sleep(1)
+					sleep(getStateLag(state))
 				active = 0
 			var/tmp/mob/target
 
 
 			proc
+				getStateLag(var/i_State)
+					if(state == WANDER)   return 15
+					if(state == SEARCH)   return 15
+					if(state == HOSTILE)  return max(MoveDelay, 1)
+					if(state == CONTROLLED) return 12
+					return 1
+
 				ChangeState(var/i_State)
 					state = i_State
 
@@ -342,8 +337,12 @@ mob
 					if(z == origloc.z)
 						density = 0
 						while(loc.loc != origloc.loc)
+							var/t = get_step_towards(src, origloc)
+							if(!t)
+								loc = origloc
+								break
+							loc = get_step_towards(src, origloc)
 							sleep(1)
-							step_towards(src, origloc)
 						density = 1
 					else
 						src.loc = origloc

@@ -448,7 +448,7 @@ obj/Poop
 				while(src && t && t != loc)
 					var/turf/t_to = get_step_towards(src, t)
 					if(!t_to||t_to.density) break
-					Move(t_to)
+					loc = t_to
 					sleep(1)
 
 

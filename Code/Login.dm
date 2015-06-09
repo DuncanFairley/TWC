@@ -231,11 +231,18 @@ obj/teleport
 			else
 				M:Transfer(locate(rand(4,97),rand(4,97),rand(4,6)))
 
+		New()
+			..()
+			wander()
+
 		proc/wander()
 			set waitfor = 0
 
 			while(src)
-				loc = get_step_rand(src)
+				var/d = rand(1,10)
+				if(d == 3 || d == 7 || d == 9) d--
+				var/turf/t = get_step(src, d)
+				if(t) loc = t
 				sleep(8)
 
 var/tmp/vault_last_exit
@@ -1126,6 +1133,7 @@ mob/Player
 		updateHPMP()
 		if(!Interface) Interface = new(src)
 		isDJ(src)
+		checkMail()
 		spawn()
 			//CheckSavefileVersion()
 			if(istype(src.loc.loc,/area/arenas) && !rankedArena)

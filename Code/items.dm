@@ -2439,13 +2439,13 @@ obj/Force_Field
 	dontsave=1
 obj
 	candle
-		var/tmp/origloc
+		var/tmp/turf/origloc
 		icon = 'turfZ.dmi'
 		icon_state = "candle"
 		luminosity = 7
 		layer = 7
-		dontsave=1
-		accioable=1
+		dontsave = 1
+		accioable = 1
 		wlable = 1
 		New()
 			..()
@@ -2454,8 +2454,23 @@ obj
 			origloc = loc
 
 		proc/respawn()
+			set waitfor = 0
+			sleep(rand(700, 2400))
 			if(origloc)
-				loc = origloc
+				if(z == origloc.z)
+					accioable = 0
+					wlable    = 0
+					while(loc != origloc)
+						var/t = get_step_towards(src, origloc)
+						if(!t)
+							loc = origloc
+							break
+						loc = t
+						sleep(2)
+					accioable = 1
+					wlable    = 1
+				else
+					loc = origloc
 
 obj
 	tree
@@ -3832,7 +3847,7 @@ obj/items
 			icon_state = "duel"
 			drops = list(/obj/items/wearable/scarves/duel_scarf = 50,
 	                     /obj/items/wearable/shoes/duel_shoes   = 30,
-	                     /obj/items/wearable/wands/duel_wand = 20)
+	                     /obj/items/wearable/wands/duel_wand    = 20)
 
 		wizard_chest
 			icon_state = "blue"
@@ -3866,6 +3881,43 @@ obj/items
 	                     /obj/items/wearable/shoes/darkpurple_shoes   = 12,
 	                     /obj/items/wearable/scarves/darkpurple_scarf = 21)
 
+		summer_chest
+			icon_state = "orange"
+			drops = list(/obj/items/wearable/shoes/orange_shoes = 8,
+	                     /obj/items/wearable/shoes/yellow_shoes = 21,
+	                     /obj/items/wearable/shoes/green_shoes  = 21,
+	                     /obj/items/wearable/shoes/red_shoes    = 21,
+	                     /obj/items/wearable/shoes/blue_shoes   = 21)
+
+
+			limited_edition
+				name = "special summer 2015 chest"
+
+				drops = list(/obj/items/wearable/hats/orange_earmuffs = 5,
+		                     /obj/items/wearable/hats/yellow_earmuffs = 5,
+							 /obj/items/wearable/shoes/orange_shoes   = 10,
+		                     /obj/items/wearable/shoes/yellow_shoes   = 20,
+		                     /obj/items/wearable/shoes/green_shoes    = 20,
+		                     /obj/items/wearable/shoes/red_shoes      = 20,
+		                     /obj/items/wearable/shoes/blue_shoes     = 20)
+
+		prom_chest
+			icon_state = "pink"
+			drops = list(/obj/items/wearable/scarves/pink_scarf     = 40,
+	                     /obj/items/wearable/shoes/pink_shoes       = 30,
+	                     /obj/items/wearable/shoes/darkpink_shoes   = 10,
+	                     /obj/items/wearable/scarves/darkpink_scarf = 20)
+
+			limited_edition
+				name = "special prom 2015 chest"
+
+				drops = list(/obj/items/wearable/hats/darkpink_earmuffs  = 5,
+							 /obj/items/wearable/hats/lightpink_earmuffs = 5,
+							 /obj/items/wearable/scarves/pink_scarf      = 35,
+		                     /obj/items/wearable/shoes/pink_shoes        = 25,
+		                     /obj/items/wearable/shoes/darkpink_shoes    = 10,
+		                     /obj/items/wearable/scarves/darkpink_scarf  = 20)
+
 	key
 		icon = 'ChestKey.dmi'
 
@@ -3881,7 +3933,12 @@ obj/items
 			icon_state = "green"
 		sunset_key
 			icon_state = "purple"
-
+		summer_key
+			icon_state = "orange"
+		prom_key
+			icon_state = "pink"
+		special_key
+			icon_state = "master"
 
 obj/roulette
 	icon = 'roulette.dmi'

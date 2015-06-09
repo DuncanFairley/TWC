@@ -104,7 +104,6 @@ mob/Spells/verb/Accio(obj/M in oview(usr.client.view,usr))
 			M.y = src:y-1
 			M.z = src:z
 			flick('Appear.dmi',M)
-			sleep(25)
 			if(istype(M,/obj/candle)) M:respawn()
 		else
 			usr << "The object is no longer in your view."
@@ -1675,6 +1674,7 @@ mob/Spells/verb/Wingardium_Leviosa()
 				hearers(client.view)<<"<B>[usr.name]: <I>Wingardium Leviosa.</I>"
 				other.overlays += new /obj/overlay/flash
 				usr:learnSpell("Wingardium Leviosa")
+				if(istype(other,/obj/candle)) other:respawn()
 				src=null
 				spawn()
 					var/seconds = 60
@@ -1686,7 +1686,6 @@ mob/Spells/verb/Wingardium_Leviosa()
 						usr.Wingardiumleviosa = null
 					if(other)
 						other.overlays=null
-					if(istype(other,/obj/candle)) other:respawn()
 			else
 				src << errormsg("That object is not movable.")
 	else
@@ -2217,6 +2216,10 @@ client
 			mob.overlays-=image('AFK.dmi',icon_state="AFK3")
 			mob.overlays-=image('AFK.dmi',icon_state="AFK4")
 			mob.overlays-='AFK.dmi'
+
+		if(mob:auctionInfo)
+			mob:auctionClosed()
+			winshow(src, "Auction", 0)
 
 		if(mob.questionius==1)
 			mob.overlays-=icon('hand.dmi')
