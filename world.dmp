@@ -2559,7 +2559,7 @@
 "aXk" = (/obj/Signs/sign2{desc = "<h3>Rail service to Hogsmeade is temporarily out of service. Please make use of fireplaces provided for your travel purposes.</h3>"; name = "RAIL NOTICE"; text = "S"},/turf/floor,/area/Diagon_Alley)
 "aXl" = (/turf/stonefloor,/area/Diagon_Alley)
 "aXm" = (/obj/teleportPath,/turf/stonefloor,/area/Diagon_Alley)
-"aXn" = (/turf/stonefloor,/area/Diagon_Alley/HogsmeadeSafeZone)
+"aXn" = (/turf/stonefloor,/turf/Fireplace/green{icon = null},/area/Diagon_Alley/HogsmeadeSafeZone)
 "aXo" = (/obj/Bed{icon = 'Bed.dmi'; icon_state = "Top"; density = 1},/obj/Bed{icon = 'Bed.dmi'; icon_state = "Topoverlay"; layer = 5},/turf/woodenfloor,/area/AurorHQ)
 "aXp" = (/obj/Signs{desc = "It's possible to move diagonally by pressing Home, End, PageUp or PageDown. You can also use the diagonal keys on a numpad (With numlock turned off)."; name = "Movement"},/turf/Hogwarts_Stone_Wall,/area/hogwarts)
 "aXq" = (/turf/roofb{opacity = 1},/area/ministry_of_magic)
