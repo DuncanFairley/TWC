@@ -2289,6 +2289,10 @@ mob/Player
 
 	proc/Transfer(turf/t)
 		if(teleporting) return 0
+
+		if(istype(t, /atom/movable))
+			t = t.loc
+
 		teleporting = 1
 
 		var/tmp_dir = dir
