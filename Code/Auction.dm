@@ -191,7 +191,8 @@ mob/Player
 				                        "Auction.buttonScarves"  = /obj/items/wearable/scarves,
 				                        "Auction.buttonTitle"    = /obj/items/wearable/title,
 				                        "Auction.buttonOther",
-				                        "Auction.buttonOwned")
+				                        "Auction.buttonOwned",
+				                        "Auction.buttonNotOwned")
 
 				var/qry = ""
 				for(var/f in filters)
@@ -216,6 +217,8 @@ mob/Player
 							if(istype(a.item, /obj/items/wearable)) continue
 						else if(option == "Auction.buttonOwned")
 							if(a.owner != ckey)                     continue
+						else if(option == "Auction.buttonNotOwned")
+							if(a.owner == ckey)                     continue
 						else if(!istype(a.item, filters[option]))   continue
 
 					count++

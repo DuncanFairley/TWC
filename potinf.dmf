@@ -216,9 +216,37 @@ window "Auction"
 		macro = "macro"
 		menu = ""
 		on-close = ".auctionClosed"
+	elem "buttonNotOwned"
+		type = BUTTON
+		pos = 12,300
+		size = 84x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Not Owned"
+		image = ""
+		command = ".auctionRefresh"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = "filter"
+		button-type = radio
 	elem "buttonOwned"
 		type = BUTTON
-		pos = 17,275
+		pos = 12,275
 		size = 64x20
 		anchor1 = none
 		anchor2 = none
@@ -246,7 +274,7 @@ window "Auction"
 		button-type = radio
 	elem "buttonOther"
 		type = BUTTON
-		pos = 88,350
+		pos = 100,350
 		size = 64x20
 		anchor1 = none
 		anchor2 = none
@@ -274,8 +302,8 @@ window "Auction"
 		button-type = radio
 	elem "button6"
 		type = BUTTON
-		pos = 17,250
-		size = 64x20
+		pos = 12,250
+		size = 44x20
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -302,7 +330,7 @@ window "Auction"
 		button-type = radio
 	elem "buttonTitle"
 		type = BUTTON
-		pos = 88,325
+		pos = 100,325
 		size = 56x20
 		anchor1 = none
 		anchor2 = none
@@ -330,7 +358,7 @@ window "Auction"
 		button-type = radio
 	elem "buttonShoes"
 		type = BUTTON
-		pos = 88,300
+		pos = 100,300
 		size = 64x19
 		anchor1 = none
 		anchor2 = none
@@ -358,7 +386,7 @@ window "Auction"
 		button-type = radio
 	elem "buttonClothing"
 		type = BUTTON
-		pos = 88,250
+		pos = 100,250
 		size = 72x20
 		anchor1 = none
 		anchor2 = none
@@ -386,7 +414,7 @@ window "Auction"
 		button-type = radio
 	elem "buttonScarves"
 		type = BUTTON
-		pos = 88,275
+		pos = 100,275
 		size = 72x20
 		anchor1 = none
 		anchor2 = none
