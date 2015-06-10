@@ -324,11 +324,13 @@ mob
 
 					talkedtobunny = null
 
-			if(savefile_version < 10 && (last_z == 21 || last_z == 22))
-				var/turf/t = locate("@Hogwarts")
-				last_x = t.x
-				last_y = t.y
-				last_z = t.z
+			if(savefile_version < 10)
+
+				if(last_z == 21 || last_z == 22)
+					var/turf/t = locate("@Hogwarts")
+					last_x = t.x
+					last_y = t.y
+					last_z = t.z
 
 				spawn()
 					var/mob/Player/p = src
