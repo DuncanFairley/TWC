@@ -132,7 +132,7 @@ auction
 					p.gold  -= price
 					p.auctionBuild()
 				else
-					src << errormsg("You don't have enough money, the item costs [comma(price)] gold, you need [comma(price)] more gold.")
+					p << errormsg("You don't have enough money, the item costs [comma(price)] gold, you need [comma(price)] more gold.")
 
 		else if(href_list["action"] == "buyoutAuction")
 			if(buyout && owner != p.ckey)
@@ -155,7 +155,7 @@ auction
 					p.Resort_Stacking_Inv()
 					p.auctionBuild()
 				else
-					src << errormsg("You don't have enough money, the item costs [comma(buyoutPrice)] gold, you need [comma(buyoutPrice - p.gold)] more gold.")
+					p << errormsg("You don't have enough money, the item costs [comma(buyoutPrice)] gold, you need [comma(buyoutPrice - p.gold)] more gold.")
 
 
 		else if(href_list["action"] == "removeAuction")
