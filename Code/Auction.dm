@@ -108,7 +108,7 @@ auction
 		var/mob/Player/p = usr
 		if(!(src in auctionItems)) return
 
-		if(!src) return
+		if(!src || !p) return
 		if(!src.item)
 			auctionItems -= src
 			if(bidder)
@@ -181,14 +181,14 @@ mob/Player
 	proc
 		auctionBuild()
 			auctionCount = 0
-			var/count = 0
+			var/count = 2
 			if(auctionItems)
-				src << output(null, "Auction.gridAuction")
-				winset(src, null, "Auction.gridAuction.cells=5x[auctionItems.len]")
+				winset(src, null, "Auction.gridAuction.cells=5x[auctionItems.len + 2];Auction.gridAuction.style='body{text-align:center;background-color:#cceeff;color:#6f81ff;}'")
 
 				var/list/filters = list("Auction.buttonClothing" = /obj/items/wearable,
 				                        "Auction.buttonShoes"    = /obj/items/wearable/shoes,
 				                        "Auction.buttonScarves"  = /obj/items/wearable/scarves,
+				                        "Auction.buttonWands"    = /obj/items/wearable/wands,
 				                        "Auction.buttonTitle"    = /obj/items/wearable/title,
 				                        "Auction.buttonOther",
 				                        "Auction.buttonOwned",
@@ -245,13 +245,23 @@ mob/Player
 
 				winset(src, null, "Auction.gridAuction.cells=5x[count]")
 
-			if(!count)
-				winset(src, null, "Auction.gridAuction.cells=0x0")
+			if(count < 3)
+				winset(src, null, "Auction.gridAuction.cells=5x2")
 
 		auctionOpen()
 			auctionInfo = new(src)
 			auctionBuild()
+
 			src << output(null, "Auction.gridAuctionAddItem")
+
+			winset(src, "Auction.gridAuction", "style='body{text-align:center;background-color:#0b81ff;color:#a8e2ff;}'")
+			src << output("<b>Item</b>", "Auction.gridAuction:1,1")
+			src << output("<b>Buyout (Click Buyout to buy)</b>", "Auction.gridAuction:2,1")
+			src << output("<b>Bid (Click Bid to bid)</b>", "Auction.gridAuction:3,1")
+			src << output("<b>Time Remaining</b>", "Auction.gridAuction:4,1")
+			src << output(null, "Auction.gridAuction:5,1")
+
+
 			winshow(src, "Auction", 1)
 
 		auctionError(var/msg)

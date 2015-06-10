@@ -216,6 +216,34 @@ window "Auction"
 		macro = "macro"
 		menu = ""
 		on-close = ".auctionClosed"
+	elem "buttonWands"
+		type = BUTTON
+		pos = 100,350
+		size = 64x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Wands"
+		image = ""
+		command = ".auctionRefresh"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = "filter"
+		button-type = radio
 	elem "buttonNotOwned"
 		type = BUTTON
 		pos = 12,300
@@ -274,7 +302,7 @@ window "Auction"
 		button-type = radio
 	elem "buttonOther"
 		type = BUTTON
-		pos = 100,350
+		pos = 100,375
 		size = 64x20
 		anchor1 = none
 		anchor2 = none
@@ -606,7 +634,7 @@ window "Auction"
 		button-type = checkbox
 	elem "labelError"
 		type = LABEL
-		pos = 8,404
+		pos = 8,395
 		size = 160x48
 		anchor1 = none
 		anchor2 = none
@@ -746,7 +774,7 @@ window "Auction"
 		visited-color = #6f81ff
 		line-color = #0b81ff
 		highlight-color = #000000
-		style = ""
+		style = "text-align:center;"
 		is-list = false
 	elem "label6"
 		type = LABEL
