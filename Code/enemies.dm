@@ -947,8 +947,10 @@ mob
 
 				Eye_of_The_Fallen
 					level = 2400
-					cd = new(5, 10)
+					cd = new(4, 8)
+					HPmodifier = 2.5
 
+					Range     = 20
 					MoveDelay = 2
 
 					drops = list("2"      =      /obj/items/key/sunset_key,
