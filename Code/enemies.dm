@@ -669,7 +669,7 @@ mob
 									sleep(4)
 
 						Attack()
-							if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+							if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,Range)))
 								target = null
 								ShouldIBeActive()
 								return
@@ -723,10 +723,10 @@ mob
 				icon_state = "stickman"
 				level = 2200
 				HPmodifier  = 2
-				DMGmodifier = 1.5
+				DMGmodifier = 1.3
 
 				MoveDelay   = 2
-				AttackDelay = 0
+				AttackDelay = 1
 
 				var/tmp/fired = 0
 
@@ -753,7 +753,7 @@ mob
 							 			   /obj/items/Swamp))
 
 				Attack()
-					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,Range)))
 						target = null
 						ShouldIBeActive()
 						return
