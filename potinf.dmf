@@ -269,9 +269,9 @@ window "Auction"
 		command = ".auctionRefresh"
 		is-flat = false
 		stretch = false
-		is-checked = false
-		group = "filter"
-		button-type = radio
+		is-checked = true
+		group = ""
+		button-type = checkbox
 	elem "buttonOwned"
 		type = BUTTON
 		pos = 12,275
@@ -297,9 +297,9 @@ window "Auction"
 		command = ".auctionRefresh"
 		is-flat = false
 		stretch = false
-		is-checked = false
-		group = "filter"
-		button-type = radio
+		is-checked = true
+		group = ""
+		button-type = checkbox
 	elem "buttonOther"
 		type = BUTTON
 		pos = 100,375

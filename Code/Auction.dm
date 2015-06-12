@@ -126,6 +126,7 @@ auction
 					if(bidder)
 						mail(bidder, errormsg("<b>Auction:</b> You were outbid for the [item.name] auction."), minPrice)
 
+					bid++
 					bidder   = p.ckey
 					minPrice = price
 					p.gold  -= price
@@ -183,7 +184,9 @@ mob/Player
 			auctionCount = 0
 			var/count = 2
 			if(auctionItems)
+
 				winset(src, null, "Auction.gridAuction.cells=5x[auctionItems.len + 2];Auction.gridAuction.style='body{text-align:center;background-color:#cceeff;color:#6f81ff;}'")
+				if(!auctionItems) return
 
 				var/list/filters = list("Auction.buttonClothing" = /obj/items/wearable,
 				                        "Auction.buttonShoes"    = /obj/items/wearable/shoes,
@@ -201,11 +204,12 @@ mob/Player
 				var/list/options = params2list(winget(src, qry, "is-checked"))
 
 				var/option
-				for(var/o in options)
+				for(var/i = 1 to 6)
+					var/o = options[i]
 					if(options[o] == "true")
 						option = copytext(o, 1, -11)
 						break
-				if(!auctionItems) return
+
 				for(var/i = 1 to auctionItems.len)
 					var/auction/a = auctionItems[i]
 
@@ -215,11 +219,10 @@ mob/Player
 					if(option)
 						if(option == "Auction.buttonOther")
 							if(istype(a.item, /obj/items/wearable)) continue
-						else if(option == "Auction.buttonOwned")
-							if(a.owner != ckey)                     continue
-						else if(option == "Auction.buttonNotOwned")
-							if(a.owner == ckey)                     continue
 						else if(!istype(a.item, filters[option]))   continue
+
+					if(options["Auction.buttonOwned.is-checked"]    == "false" && a.owner == ckey) continue
+					if(options["Auction.buttonNotOwned.is-checked"] == "false" && a.owner != ckey) continue
 
 					count++
 
@@ -231,7 +234,10 @@ mob/Player
 						src << output(null, "Auction.gridAuction:2,[count]")
 
 					if(a.bid)
-						src << output("<a href=\"?src=\ref[a];action=bidAuction\">Bid</a> [comma(round(a.minPrice + (a.minPrice / 10), 1))]", "Auction.gridAuction:3,[count]")
+						if(a.bidder == ckey)
+							src << output("You're at lead bidding [comma(a.minPrice)] gold. (Bids: [a.bid])", "Auction.gridAuction:3,[count]")
+						else
+							src << output("<a href=\"?src=\ref[a];action=bidAuction\">Bid</a> [comma(round(a.minPrice + (a.minPrice / 10), 1))] (Bids: [a.bid])", "Auction.gridAuction:3,[count]")
 					else
 						src << output(null, "Auction.gridAuction:3,[count]")
 
