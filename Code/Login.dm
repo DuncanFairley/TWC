@@ -237,10 +237,8 @@ obj/teleport
 
 		proc/wander()
 			set waitfor = 0
-
 			var/turf/target
 			while(src)
-
 				if(!target || loc == target)
 					target = locate(rand(4,97), rand(4,97), z)
 

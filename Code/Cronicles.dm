@@ -332,6 +332,12 @@ mob
 
 			if(savefile_version < 11)
 
+				if(last_z == 18)
+					var/turf/t = locate("@Hogwarts")
+					last_x = t.x
+					last_y = t.y
+					last_z = t.z
+
 				spawn()
 					var/mob/Player/p = src
 					if(!p.Interface) p.Interface = new(src)
