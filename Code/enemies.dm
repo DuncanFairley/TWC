@@ -42,6 +42,7 @@ obj
 	eye_counter
 		var/count     = 0
 		maptext_width = 64
+		pixel_x       = 8
 
 		New()
 			..()

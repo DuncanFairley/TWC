@@ -135,7 +135,8 @@ obj
 						add_story(s)
 
 						if(alert("Post extra extra message?",,"Yes","No") == "Yes")
-							Players<<"<b><font color=red>EXTRA EXTRA! The Daily Prophet has been updated! Click <a href='?src=\ref[usr];action=daily_prophet'>here</a> to view."
+							for(var/mob/Player/p in Players)
+								p << "<b><font color=red>EXTRA EXTRA! The Daily Prophet has been updated! Click <a href='?src=\ref[p];action=daily_prophet'>here</a> to view."
 
 				if("Remove story")
 					var/story/s = input("Which story?", "Remove Story") as null|anything in stories

@@ -1133,7 +1133,7 @@ mob/Player
 		if(housecupwinner)
 			src << "<b><font color=#CF21C0>[housecupwinner] is the House Cup winner for this month. They receive +25% drop rate/gold/XP from monster kills.</font></b>"
 		if(classdest)
-			src << announcemsg("[curClass] class is starting. Click <a href=\"?src=\ref[usr];action=class_path;latejoiner=true\">here</a> for directions.")
+			src << announcemsg("[curClass] class is starting. Click <a href=\"?src=\ref[src];action=class_path;latejoiner=true\">here</a> for directions.")
 		updateHPMP()
 		if(!Interface) Interface = new(src)
 		isDJ(src)

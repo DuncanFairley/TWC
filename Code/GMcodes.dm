@@ -774,7 +774,8 @@ mob
 			curClass = "GCOM"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			Players<<announcemsg("General Course of Magic class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			for(var/mob/Player/p in Players)
+				p << announcemsg("General Course of Magic class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
 		Host_COMC_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named COMC Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"COMC-Class") as null|mob in world
@@ -784,7 +785,8 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a COMC class - Notes: [notes]<br />"
 			else
 				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a COMC class<br />"
-			Players<<announcemsg("Care of Magical Creatures class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			for(var/mob/Player/p in Players)
+				p << announcemsg("Care of Magical Creatures class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
 			curClass = "COMC"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
@@ -800,7 +802,8 @@ mob
 			curClass = "Transfiguration"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			Players<<announcemsg("Transfiguration class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			for(var/mob/Player/p in Players)
+				p << announcemsg("Transfiguration class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
 		Host_Duel_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named Charms. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"Charms-Class") as null|mob in world
@@ -813,7 +816,8 @@ mob
 			curClass = "Duel"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			Players<<announcemsg("Duel class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			for(var/mob/Player/p in Players)
+				p << announcemsg("Duel class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
 		Host_DADA_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named DADA Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"DADA-Class") as null|mob in world
@@ -826,7 +830,8 @@ mob
 			curClass = "DADA"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			Players<<announcemsg("Defence Against the Dark Arts class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			for(var/mob/Player/p in Players)
+				p << announcemsg("Defence Against the Dark Arts class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
 		Host_Headmaster_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named Headmaster Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"Headmaster-Class") as null|mob in world
@@ -839,7 +844,8 @@ mob
 			curClass = "Headmasters"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			Players<<announcemsg("Headmaster's General Magic class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			for(var/mob/Player/p in Players)
+				p << announcemsg("Headmaster's General Magic class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
 		Host_Charms_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named Charms Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"Charms-Class") as null|mob in world
@@ -852,7 +858,8 @@ mob
 			curClass = "Charms"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			Players<<announcemsg("Charms class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			for(var/mob/Player/p in Players)
+				p << announcemsg("Charms class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
 
 		Host_Muggle_Studies_Class()
 			set category = "Teach"
@@ -866,7 +873,8 @@ mob
 			curClass = "Muggle Studies"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
-			Players<<announcemsg("Muggle Studies class is starting. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+			for(var/mob/Player/p in Players)
+				p << announcemsg("Muggle Studies class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
 
 		End_Floor_Guidence()
 			set category = "Teach"
