@@ -273,6 +273,9 @@ RandomEvent
 			entrance.safezoneoverride = 1
 			sleep(minutes * 600)
 
+			for(var/mob/NPC/Enemies/ai in entrance)
+				Respawn(ai)
+
 			entrance.safezoneoverride = 0
 			Players << infomsg("Hogwarts magical defenses are restored, Entrance Hall is safe again.")
 			end()
