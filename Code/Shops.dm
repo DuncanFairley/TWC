@@ -970,27 +970,27 @@ proc
         return n==round(n)
 
 
-obj/items/wearable/shoes/green_shoes/price = 1000000
-obj/items/wearable/shoes/blue_shoes/price = 1000000
-obj/items/wearable/shoes/red_shoes/price = 1000000
-obj/items/wearable/shoes/yellow_shoes/price = 1000000
-obj/items/wearable/shoes/white_shoes/price = 2000000
-obj/items/wearable/shoes/orange_shoes/price = 2000000
-obj/items/wearable/shoes/teal_shoes/price = 2000000
-obj/items/wearable/shoes/purple_shoes/price = 2000000
-obj/items/wearable/shoes/black_shoes/price = 2000000
-obj/items/wearable/shoes/pink_shoes/price = 2000000
-obj/items/wearable/scarves/yellow_scarf/price = 100000
-obj/items/wearable/scarves/black_scarf/price = 800000
-obj/items/wearable/scarves/blue_scarf/price = 100000
-obj/items/wearable/scarves/green_scarf/price = 800000
-obj/items/wearable/scarves/orange_scarf/price = 100000
-obj/items/wearable/scarves/pink_scarf/price = 800000
-obj/items/wearable/scarves/purple_scarf/price = 1000000
-obj/items/wearable/scarves/red_scarf/price = 800000
-obj/items/wearable/scarves/teal_scarf/price = 1000000
-obj/items/wearable/scarves/white_scarf/price = 1000000
-obj/items/wearable/bling/price = 120000
+obj/items/wearable/shoes/green_shoes/price = 2000000
+obj/items/wearable/shoes/blue_shoes/price = 2000000
+obj/items/wearable/shoes/red_shoes/price = 2000000
+obj/items/wearable/shoes/yellow_shoes/price = 2000000
+obj/items/wearable/shoes/white_shoes/price = 4000000
+obj/items/wearable/shoes/orange_shoes/price = 4000000
+obj/items/wearable/shoes/teal_shoes/price = 4000000
+obj/items/wearable/shoes/purple_shoes/price = 4000000
+obj/items/wearable/shoes/black_shoes/price = 4000000
+obj/items/wearable/shoes/pink_shoes/price = 4000000
+obj/items/wearable/scarves/yellow_scarf/price = 200000
+obj/items/wearable/scarves/black_scarf/price = 1600000
+obj/items/wearable/scarves/blue_scarf/price = 200000
+obj/items/wearable/scarves/green_scarf/price = 1600000
+obj/items/wearable/scarves/orange_scarf/price = 200000
+obj/items/wearable/scarves/pink_scarf/price = 1600000
+obj/items/wearable/scarves/purple_scarf/price = 2000000
+obj/items/wearable/scarves/red_scarf/price = 1600000
+obj/items/wearable/scarves/teal_scarf/price = 2200000
+obj/items/wearable/scarves/white_scarf/price = 2200000
+obj/items/wearable/bling/price = 250000
 
 proc/RandomizeShop()
 	while(length(shops["random"]))
