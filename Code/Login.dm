@@ -2859,7 +2859,7 @@ turf
 			if(isplayer(O) && O.density) return 0
 			return ..()
 
-	edge
+	blankturf/edge
 		icon       = null
 		icon_state = null
 		density    = 1
