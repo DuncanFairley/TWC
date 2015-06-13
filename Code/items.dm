@@ -3849,7 +3849,7 @@ obj/items
 					usr << errormsg("You don't have a [name] key to open this!")
 
 		legendary_golden_chest
-			icon_state = "gold"
+			icon_state = "golden"
 
 		duel_chest
 			icon_state = "duel"
