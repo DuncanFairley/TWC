@@ -2859,6 +2859,13 @@ turf
 			if(isplayer(O) && O.density) return 0
 			return ..()
 
+	edge
+		icon       = null
+		icon_state = null
+		density    = 1
+		flyblock   = 1
+		opacity    = 1
+
 	roofb
 		icon       = 'StoneRoof.dmi'
 		icon_state = "roof-15"
