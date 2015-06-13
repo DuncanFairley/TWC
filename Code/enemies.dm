@@ -763,6 +763,12 @@ mob
 					..()
 					transform *= 2
 
+				ChangeState(var/i_State)
+					..(i_State)
+
+					if(state == 0 && origloc)
+						loc = origloc
+
 				drops = list("2"    = /obj/items/key/wizard_key,
 				             "10"   = list(/obj/items/artifact,
 										   /obj/items/stickbook,
@@ -1232,6 +1238,12 @@ mob
 				MoveDelay = 3
 				Range = 16
 				respawnTime = 6000
+
+				ChangeState(var/i_State)
+					..(i_State)
+
+					if(state == 0 && origloc)
+						loc = origloc
 
 				New()
 					..()
