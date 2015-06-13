@@ -319,6 +319,9 @@ mob/TalkNPC/Ollivander
 				if(locate(/obj/items/wearable/wands) in usr.contents)
 					Olli.busy = 0
 					view(7,Olli) << "[nametext] Ah, I remember you, [usr]. I believe I've already sold you a wand."
+					if(p.checkQuestProgress("Ollivander"))
+						p << npcsay("Ollivander: Oh you're just starting out eh? My friend Palmer can help you out, his name is Palmer, he is quite friendly.")
+						p.startQuest("Tutorial: Friendly Professor")
 				else
 					var/answered = 0
 					spawn(200)
