@@ -38,7 +38,33 @@ obj/statues
 	rabbit/icon_state = "rabbit"
 	turkey/icon_state = "turkey"
 
-var/floatingEyesKilled = 0
+obj
+	eye_counter
+		var/count     = 0
+		maptext_width = 64
+
+		New()
+			..()
+			tag = "EyeCounter"
+			maptext = "<b><font size=4 color=#FF4500>0</font></b>"
+
+		proc
+			add()
+				count++
+				if(count >= 1000)
+					count = 0
+					. = 1
+				updateDisplay()
+
+			updateDisplay()
+				if(count >= 100)
+					pixel_x = -5
+				else if(count >= 10)
+					pixel_x = -4
+				else
+					pixel_x = 8
+
+				maptext = "<b><font size=4 color=#FF4500>[count]</font></b>"
 
 proc
 	isPathBlocked(mob/source, mob/target, dist=1, dense_override=0, dist_limit=10)
@@ -1019,8 +1045,8 @@ mob
 
 				Death()
 					..()
-					if(++floatingEyesKilled >= 1000)
-						floatingEyesKilled = 0
+					var/obj/eye_counter/count = locate("EyeCounter")
+					if(count.add())
 						Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
 						new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
 
