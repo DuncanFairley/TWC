@@ -196,7 +196,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 10
+#define SAVEFILE_VERSION 11
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -330,16 +330,26 @@ mob
 				last_y = t.y
 				last_z = t.z
 
+			if(savefile_version < 11)
+
+				if(last_z == 18)
+					var/turf/t = locate("@Hogwarts")
+					last_x = t.x
+					last_y = t.y
+					last_z = t.z
+
 				spawn()
 					var/mob/Player/p = src
 					if(!p.Interface) p.Interface = new(src)
-					p.startQuest("Tutorial: The Wand Maker")
+
+					if(!("Tutorial: The Wand Maker" in p.questPointers))
+						p.startQuest("Tutorial: The Wand Maker")
 
 					var/obj/items/questbook/q = locate() in src
 					if(!q)
 						q = new(src)
 
-			if(savefile_version < 11)
+			if(savefile_version < 12)
 				DeathEater = null
 				HA         = null
 				Auror      = null
@@ -358,17 +368,18 @@ mob
 				verbs.Remove(/mob/GM/verb/Clan_store)
 				verbs.Remove(/mob/Spells/verb/Morsmordre)
 
-			var/turf/t = locate(last_x, last_y, last_z)
-			if(!t || t.name == "blankturf")
-				loc = locate("@Hogwarts")
-			else if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
+			if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
-			else if(istype(t.loc, /area/DEHQ) && !DeathEater)
-				loc = locate("@Hogwarts")
-			else if(istype(t.loc, /area/AurorHQ) && !Auror)
-				loc = locate("@Hogwarts")
 			else
-				loc = t
+				var/turf/t = locate(last_x, last_y, last_z)
+				if(!t || t.name == "blankturf")
+					loc = locate("@Hogwarts")
+				else if(istype(t.loc, /area/DEHQ) && !DeathEater)
+					loc = locate("@Hogwarts")
+				else if(istype(t.loc, /area/AurorHQ) && !Auror)
+					loc = locate("@Hogwarts")
+				else
+					loc = t
 
 			spawn()
 				if(usr.loc)

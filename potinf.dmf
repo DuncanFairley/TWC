@@ -180,7 +180,7 @@ window "Auction"
 	elem "Auction"
 		type = MAIN
 		pos = 281,0
-		size = 658x465
+		size = 551x452
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -202,7 +202,7 @@ window "Auction"
 		statusbar = false
 		can-close = true
 		can-minimize = false
-		can-resize = false
+		can-resize = true
 		is-pane = false
 		is-minimized = false
 		is-maximized = false
@@ -216,9 +216,65 @@ window "Auction"
 		macro = "macro"
 		menu = ""
 		on-close = ".auctionClosed"
+	elem "buttonWands"
+		type = BUTTON
+		pos = 100,350
+		size = 64x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Wands"
+		image = ""
+		command = ".auctionRefresh"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = "filter"
+		button-type = radio
+	elem "buttonNotOwned"
+		type = BUTTON
+		pos = 12,300
+		size = 84x20
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #b0e6fa
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Not Owned"
+		image = ""
+		command = ".auctionRefresh"
+		is-flat = false
+		stretch = false
+		is-checked = true
+		group = ""
+		button-type = checkbox
 	elem "buttonOwned"
 		type = BUTTON
-		pos = 17,275
+		pos = 12,275
 		size = 64x20
 		anchor1 = none
 		anchor2 = none
@@ -241,12 +297,12 @@ window "Auction"
 		command = ".auctionRefresh"
 		is-flat = false
 		stretch = false
-		is-checked = false
-		group = "filter"
-		button-type = radio
+		is-checked = true
+		group = ""
+		button-type = checkbox
 	elem "buttonOther"
 		type = BUTTON
-		pos = 88,350
+		pos = 100,375
 		size = 64x20
 		anchor1 = none
 		anchor2 = none
@@ -274,8 +330,8 @@ window "Auction"
 		button-type = radio
 	elem "button6"
 		type = BUTTON
-		pos = 17,250
-		size = 64x20
+		pos = 12,250
+		size = 44x20
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -302,7 +358,7 @@ window "Auction"
 		button-type = radio
 	elem "buttonTitle"
 		type = BUTTON
-		pos = 88,325
+		pos = 100,325
 		size = 56x20
 		anchor1 = none
 		anchor2 = none
@@ -330,7 +386,7 @@ window "Auction"
 		button-type = radio
 	elem "buttonShoes"
 		type = BUTTON
-		pos = 88,300
+		pos = 100,300
 		size = 64x19
 		anchor1 = none
 		anchor2 = none
@@ -358,7 +414,7 @@ window "Auction"
 		button-type = radio
 	elem "buttonClothing"
 		type = BUTTON
-		pos = 88,250
+		pos = 100,250
 		size = 72x20
 		anchor1 = none
 		anchor2 = none
@@ -386,7 +442,7 @@ window "Auction"
 		button-type = radio
 	elem "buttonScarves"
 		type = BUTTON
-		pos = 88,275
+		pos = 100,275
 		size = 72x20
 		anchor1 = none
 		anchor2 = none
@@ -578,7 +634,7 @@ window "Auction"
 		button-type = checkbox
 	elem "labelError"
 		type = LABEL
-		pos = 8,404
+		pos = 8,395
 		size = 160x48
 		anchor1 = none
 		anchor2 = none
@@ -690,10 +746,10 @@ window "Auction"
 		button-type = pushbutton
 	elem "gridAuction"
 		type = GRID
-		pos = 176,56
-		size = 472x400
-		anchor1 = none
-		anchor2 = none
+		pos = 175,32
+		size = 372x414
+		anchor1 = 0,7
+		anchor2 = 99,99
 		font-family = ""
 		font-size = 0
 		font-style = ""
@@ -718,14 +774,14 @@ window "Auction"
 		visited-color = #6f81ff
 		line-color = #0b81ff
 		highlight-color = #000000
-		style = ""
+		style = "text-align:center;"
 		is-list = false
 	elem "label6"
 		type = LABEL
 		pos = 0,0
-		size = 658x24
-		anchor1 = none
-		anchor2 = none
+		size = 551x24
+		anchor1 = 0,0
+		anchor2 = 100,0
 		font-family = ""
 		font-size = 16
 		font-style = "bold"
@@ -750,9 +806,9 @@ window "Auction"
 		letterbox = true
 	elem "buttonRefresh"
 		type = BUTTON
-		pos = 592,2
+		pos = 492,1
 		size = 56x20
-		anchor1 = none
+		anchor1 = 100,0
 		anchor2 = none
 		font-family = ""
 		font-size = 0

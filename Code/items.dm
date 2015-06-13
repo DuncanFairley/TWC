@@ -205,17 +205,17 @@ obj/items/herosbrace
 			if(canUse(M=usr, needwand=0, inarena=0, inhogwarts=0, antiTeleport=1))
 				if(usr.bracecharges>=1)
 					var/turf/t
-					switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Pyramid","Forbidden Forest","Museum"))
+					switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Forbidden Forest","Graveyard"))
 						if("Diagon Alley")
-							t = locate(45,60,26)
+							t = locate("@DiagonAlley")
 						if("Forbidden Forest")
-							t = locate(86,12,16)
-						if("Museum")
-							t = locate(72,77,18)
+							t = locate("@Forest")
+						if("Graveyard")
+							t = locate("@Graveyard")
 					if(t && canUse(M=usr, needwand=0, inarena=0, inhogwarts=0) && usr.bracecharges>0)
 						if(usr.bracecharges<1) return
 						flick('tele2.dmi',usr)
-						usr.bracecharges-=1
+						usr.bracecharges--
 						usr:Transfer(t)
 					if(usr.removeoMob) spawn()usr:Permoveo()
 					for(var/obj/hud/player/R in usr.client.screen)
@@ -3439,6 +3439,14 @@ obj/items/magic_stone
 
 	icon = 'trophies.dmi'
 
+	Drop()
+		set src in usr
+		if(inUse)
+			usr << errormsg("You can't drop it right now.")
+		else
+			..()
+
+
 	teleport
 		icon = 'Crystal.dmi'
 		name = "teleport stone"
@@ -3817,7 +3825,7 @@ obj/items
 	chest
 		icon = 'Chest.dmi'
 
-		var/list/drops
+		var/drops
 
 		Click()
 			if(src in usr)
@@ -3839,90 +3847,54 @@ obj/items
 					var/obj/roulette/r = new (usr.loc)
 					r.getPrize(drops, usr.name, usr.ckey)
 
-					usr << infomsg("You opened a [name] chest!")
+					usr << infomsg("You opened a [name]!")
 
 					key.loc = null
 					loc     = null
 					usr:Resort_Stacking_Inv()
 
 				else
-					usr << errormsg("You don't have a [name] key to open this chest!")
+					usr << errormsg("You don't have a [name] key to open this!")
 
+		legendary_golden_chest
+			icon_state = "golden"
 
 		duel_chest
 			icon_state = "duel"
-			drops = list(/obj/items/wearable/scarves/duel_scarf = 50,
-	                     /obj/items/wearable/shoes/duel_shoes   = 30,
-	                     /obj/items/wearable/wands/duel_wand    = 20)
+			drops      = "duel"
 
 		wizard_chest
 			icon_state = "blue"
-			drops = list(/obj/items/wearable/scarves/teal_scarf = 50,
-	                     /obj/items/wearable/shoes/teal_shoes   = 30,
-	                     /obj/items/wearable/scarves/cyan_scarf = 20)
+			drops      = "wizard"
 
 		pentakill_chest
 			icon_state = "red"
-			drops = list(/obj/items/wearable/scarves/black_scarf = 40,
-	                     /obj/items/wearable/scarves/white_scarf = 25,
-	                     /obj/items/wearable/shoes/black_shoes   = 20,
-	                     /obj/items/wearable/shoes/white_shoes   = 10,
-	                     /obj/items/wearable/scarves/grey_scarf  = 5)
+			drops      = "pentakill"
 
 		basic_chest
 			icon_state = "green"
-			drops = list(/obj/items/wearable/scarves/black_scarf  = 10,
-	                     /obj/items/wearable/scarves/green_scarf  = 15,
-	                     /obj/items/wearable/scarves/red_scarf    = 15,
-	                     /obj/items/wearable/scarves/blue_scarf   = 15,
-	                     /obj/items/wearable/scarves/yellow_scarf = 20,
-	                     /obj/items/wearable/scarves/orange_scarf = 25)
+			drops      = "basic"
 
 		sunset_chest
 			icon_state = "purple"
-			drops = list(/obj/items/wearable/scarves/sunset_scarf     = 4,
-						 /obj/items/wearable/shoes/cyan_shoes         = 30,
-	                     /obj/items/wearable/shoes/darkblue_shoes     = 12,
-	                     /obj/items/wearable/scarves/darkblue_scarf   = 21,
-	                     /obj/items/wearable/shoes/darkpurple_shoes   = 12,
-	                     /obj/items/wearable/scarves/darkpurple_scarf = 21)
+			drops      = "sunset"
 
 		summer_chest
 			icon_state = "orange"
-			drops = list(/obj/items/wearable/shoes/orange_shoes = 8,
-	                     /obj/items/wearable/shoes/yellow_shoes = 21,
-	                     /obj/items/wearable/shoes/green_shoes  = 21,
-	                     /obj/items/wearable/shoes/red_shoes    = 21,
-	                     /obj/items/wearable/shoes/blue_shoes   = 21)
+			drops      = "summer"
 
 
 			limited_edition
-				name = "special summer 2015 chest"
-
-				drops = list(/obj/items/wearable/hats/orange_earmuffs = 5,
-		                     /obj/items/wearable/hats/yellow_earmuffs = 5,
-							 /obj/items/wearable/shoes/orange_shoes   = 10,
-		                     /obj/items/wearable/shoes/yellow_shoes   = 20,
-		                     /obj/items/wearable/shoes/green_shoes    = 20,
-		                     /obj/items/wearable/shoes/red_shoes      = 20,
-		                     /obj/items/wearable/shoes/blue_shoes     = 20)
+				name  = "2015 summer 2015 chest"
+				drops = "2015 sum"
 
 		prom_chest
 			icon_state = "pink"
-			drops = list(/obj/items/wearable/scarves/pink_scarf     = 40,
-	                     /obj/items/wearable/shoes/pink_shoes       = 30,
-	                     /obj/items/wearable/shoes/darkpink_shoes   = 10,
-	                     /obj/items/wearable/scarves/darkpink_scarf = 20)
+			drops      = "prom"
 
 			limited_edition
-				name = "special prom 2015 chest"
-
-				drops = list(/obj/items/wearable/hats/darkpink_earmuffs  = 5,
-							 /obj/items/wearable/hats/lightpink_earmuffs = 5,
-							 /obj/items/wearable/scarves/pink_scarf      = 35,
-		                     /obj/items/wearable/shoes/pink_shoes        = 25,
-		                     /obj/items/wearable/shoes/darkpink_shoes    = 10,
-		                     /obj/items/wearable/scarves/darkpink_scarf  = 20)
+				name = "2015 prom 2015 chest"
+				drops = "2015 prom"
 
 	key
 		icon = 'ChestKey.dmi'
@@ -3946,6 +3918,59 @@ obj/items
 		special_key
 			icon_state = "master"
 
+var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel_scarf       = 50,
+					                            /obj/items/wearable/shoes/duel_shoes         = 30,
+					                            /obj/items/wearable/wands/duel_wand          = 20),
+
+							 "wizard"    = list(/obj/items/wearable/scarves/teal_scarf       = 50,
+					                            /obj/items/wearable/shoes/teal_shoes         = 30,
+					                            /obj/items/wearable/scarves/cyan_scarf       = 20),
+
+					         "pentakill" = list(/obj/items/wearable/scarves/black_scarf      = 40,
+							                    /obj/items/wearable/scarves/white_scarf      = 25,
+							                    /obj/items/wearable/shoes/black_shoes        = 20,
+							                    /obj/items/wearable/shoes/white_shoes        = 10,
+							                    /obj/items/wearable/scarves/grey_scarf       = 5),
+
+	                     	 "basic"     = list(/obj/items/wearable/scarves/black_scarf      = 10,
+							                    /obj/items/wearable/scarves/green_scarf      = 15,
+							                    /obj/items/wearable/scarves/red_scarf        = 15,
+							                    /obj/items/wearable/scarves/blue_scarf       = 15,
+							                    /obj/items/wearable/scarves/yellow_scarf     = 20,
+							                    /obj/items/wearable/scarves/orange_scarf     = 25),
+
+	                     	 "sunset"    = list(/obj/items/wearable/scarves/sunset_scarf     = 4,
+												/obj/items/wearable/shoes/cyan_shoes         = 30,
+							                    /obj/items/wearable/shoes/darkblue_shoes     = 12,
+							                    /obj/items/wearable/scarves/darkblue_scarf   = 21,
+							                    /obj/items/wearable/shoes/darkpurple_shoes   = 12,
+							                    /obj/items/wearable/scarves/darkpurple_scarf = 21),
+
+	                     	 "summer"    = list(/obj/items/wearable/shoes/orange_shoes       = 8,
+							                    /obj/items/wearable/shoes/yellow_shoes       = 21,
+							                    /obj/items/wearable/shoes/green_shoes        = 21,
+							                    /obj/items/wearable/shoes/red_shoes          = 21,
+							                    /obj/items/wearable/shoes/blue_shoes         = 21),
+
+							 "2015 sum"  = list(/obj/items/wearable/hats/orange_earmuffs     = 9,
+							                    /obj/items/wearable/hats/yellow_earmuffs     = 9,
+												/obj/items/wearable/shoes/orange_shoes       = 13,
+							                    /obj/items/wearable/shoes/yellow_shoes       = 23,
+							                    /obj/items/wearable/shoes/red_shoes          = 23,
+							                    /obj/items/wearable/shoes/blue_shoes         = 23),
+
+	                     	 "prom"      = list(/obj/items/wearable/scarves/pink_scarf       = 40,
+							                    /obj/items/wearable/shoes/pink_shoes         = 30,
+							                    /obj/items/wearable/shoes/darkpink_shoes     = 10,
+							                    /obj/items/wearable/scarves/darkpink_scarf   = 20),
+
+							 "2015 prom" = list(/obj/items/wearable/hats/darkpink_earmuffs   = 5,
+												/obj/items/wearable/hats/lightpink_earmuffs  = 5,
+												/obj/items/wearable/scarves/pink_scarf       = 35,
+							                    /obj/items/wearable/shoes/pink_shoes         = 25,
+							                    /obj/items/wearable/shoes/darkpink_shoes     = 10,
+							                    /obj/items/wearable/scarves/darkpink_scarf   = 20))
+
 obj/roulette
 	icon = 'roulette.dmi'
 
@@ -3959,11 +3984,32 @@ obj/roulette
 
 		return angle
 
-	proc/getPrize(list/L, pname, pckey)
+	proc/getPrize(drops, pname, pckey)
 		set waitfor = FALSE
 
 		playerName = pname
 		playerCkey = pckey
+
+		var/list/L
+		if(!drops)
+			L = list()
+			var/amount = rand(3, 6)
+
+			for(var/i = 1 to amount)
+				var/category = pick(chest_prizes)
+
+				if(category == "duel")
+					i--
+					continue
+
+				L += pickweight(chest_prizes[category])
+
+		else if(istext(drops) && (drops in chest_prizes))
+			L = chest_prizes[drops]
+		else if(islist(drops))
+			L = chest_prizes[drops]
+		else
+			return
 
 		var/prize = pickweight(L)
 		var/prize_angle

@@ -400,7 +400,7 @@ mob/Spells/verb/Serpensortia()
 			return
 		hearers()<<"A Red-Spotted Green Snake, emerges from the wand."
 		hearers()<<"<b>Snake</b>: Hissssssss!"
-		var/mob/NPC/Enemies/Summoned/Snake/D = new (locate(src.x,src.y-1,src.z))
+		var/mob/NPC/Enemies/Summoned/Snake/D = new (loc)
 		D.Ignore(src)
 		flick('mist.dmi',D)
 		usr:learnSpell("Serpensortia")
@@ -514,7 +514,7 @@ mob/Spells/verb/Crapus_Sticketh()
 			src << "<b>You can't use this inside a safezone.</b>"
 			return
 		hearers()<<"A stick figure appears."
-		var/mob/NPC/Enemies/Summoned/Boss/Stickman/D = new (locate(src.x,src.y+1,src.z))
+		var/mob/NPC/Enemies/Summoned/Boss/Stickman/D = new (loc)
 		flick('mist.dmi',D)
 		src = null
 		spawn(600)
@@ -581,7 +581,7 @@ mob/Spells/verb/Dementia()
 		if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
 			src << "<b>You can't use this inside a safezone.</b>"
 			return
-		var/mob/NPC/Enemies/Summoned/Dementor/D = new (locate(src.x,src.y+1,src.z))
+		var/mob/NPC/Enemies/Summoned/Dementor/D = new (loc)
 		flick('mist.dmi',D)
 		usr:learnSpell("Dementia")
 		src = null
@@ -2289,6 +2289,10 @@ mob/Player
 
 	proc/Transfer(turf/t)
 		if(teleporting) return 0
+
+		if(istype(t, /atom/movable))
+			t = t.loc
+
 		teleporting = 1
 
 		var/tmp_dir = dir

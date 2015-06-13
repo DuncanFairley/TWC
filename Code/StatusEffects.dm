@@ -34,74 +34,80 @@ Event
 	AFKCheck
 
 		fire()
-			set waitfor = 0
-			AFK_Train_Scan()
-			scheduler.schedule(src, world.tick_lag * rand(9000, 12000) + 503) // 15 to 20 minutes
+			..()
+			spawn()
+				scheduler.schedule(src, world.tick_lag * rand(9000, 12000) + 600) // 16 to 21 minutes
+				AFK_Train_Scan()
 
 	Auction
 
 		fire()
-			set waitfor = 0
-			auctionBidTime()
-			scheduler.schedule(src, world.tick_lag * 43200) // 15 to 20 minutes
+			..()
+			spawn()
+				scheduler.schedule(src, world.tick_lag * 43200) // 15 to 20 minutes
+				auctionBidTime()
 
 	AutoClass
 
 		fire()
-			set waitfor = 0
-			scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
-			var/RandomEvent/Class/auto_class = locate() in events
-			auto_class.start()
-
+			..()
+			spawn()
+				scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
+				var/RandomEvent/Class/auto_class = locate() in events
+				auto_class.start()
 
 	ClanWars
 
 		fire()
-			set waitfor = 0
-			toggle_clanwars()
-			scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
+			..()
+			spawn()
+				scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
+				toggle_clanwars()
 
 	Weather
 		fire()
-			set waitfor = 0
-			var/disable = TRUE
-			for(var/i in weather_effects)
-				if(prob(weather_effects[i]))
-					switch(i)
-						if("acid")        weather.acid()
-						if("snow")        weather.snow()
-						if("rain")        weather.rain()
-						if("cloudy")      weather.clear(75)
-						if("half cloudy") weather.clear(50)
-						if("sunny")       weather.clear()
-					disable = FALSE
-					break
-			if(disable)	weather.clear(0)
-			scheduler.schedule(src, world.tick_lag * rand(9000, 27000)) // // 15 to 45 minutes
+			..()
+			spawn()
+				scheduler.schedule(src, world.tick_lag * rand(9000, 27000)) // // 15 to 45 minutes
+				var/disable = TRUE
+				for(var/i in weather_effects)
+					if(prob(weather_effects[i]))
+						switch(i)
+							if("acid")        weather.acid()
+							if("snow")        weather.snow()
+							if("rain")        weather.rain()
+							if("cloudy")      weather.clear(75)
+							if("half cloudy") weather.clear(50)
+							if("sunny")       weather.clear()
+						disable = FALSE
+						break
+				if(disable)	weather.clear(0)
 
 	RandomizeShop
 		fire()
-			set waitfor = 0
-			RandomizeShop()
-			scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
+			..()
+			spawn()
+				scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
+				RandomizeShop()
 
 	RandomEvents
 		fire()
-			set waitfor = 0
-			if(classdest || clanwars)
-				scheduler.schedule(src, world.tick_lag * rand(18000, 36000))  // 30 minutes to 1 hour
+			..()
+			spawn()
+				if(classdest || clanwars)
+					scheduler.schedule(src, world.tick_lag * rand(18000, 36000))  // 30 minutes to 1 hour
 
-				if(classdest)
-					for(var/mob/Player/p in Players)
-						if(p.Gm)
-							p << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
-			else
-				for(var/RandomEvent/e in events)
-					if(prob(e.chance))
-						e.start()
-						break
+					if(classdest)
+						for(var/mob/Player/p in Players)
+							if(p.Gm)
+								p << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
+				else
+					scheduler.schedule(src, world.tick_lag * rand(36000, 108000))  // 1 to 3 hours
+					for(var/RandomEvent/e in events)
+						if(prob(e.chance))
+							e.start()
+							break
 
-				scheduler.schedule(src, world.tick_lag * rand(36000, 108000))  // 1 to 3 hours
 
 var/list/weather_effects = list("acid"        = 5,
 								"snow"        = 6,

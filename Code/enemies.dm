@@ -38,7 +38,33 @@ obj/statues
 	rabbit/icon_state = "rabbit"
 	turkey/icon_state = "turkey"
 
-var/floatingEyesKilled = 0
+obj
+	eye_counter
+		var/count     = 0
+		maptext_width = 64
+
+		New()
+			..()
+			tag = "EyeCounter"
+			maptext = "<b><font size=4 color=#FF4500>0</font></b>"
+
+		proc
+			add()
+				count++
+				if(count >= 1000)
+					count = 0
+					. = 1
+				updateDisplay()
+
+			updateDisplay()
+				if(count >= 100)
+					pixel_x = -5
+				else if(count >= 10)
+					pixel_x = -4
+				else
+					pixel_x = 8
+
+				maptext = "<b><font size=4 color=#FF4500>[count]</font></b>"
 
 proc
 	isPathBlocked(mob/source, mob/target, dist=1, dense_override=0, dist_limit=10)
@@ -220,8 +246,8 @@ mob
 			proc/calcStats()
 				Dmg = round(DMGmodifier * ((src.level -1) + 5))
 				MHP = round(HPmodifier * (4 * (src.level - 1) + 200))
-				gold = round(src.level / 2)
-				Expg = round(src.level * 6)
+				gold = round(src.level / 3)
+				Expg = round(src.level * 5)
 				HP = MHP
 //NEWMONSTERS
 			proc/Death(mob/Player/killer)
@@ -669,7 +695,7 @@ mob
 									sleep(4)
 
 						Attack()
-							if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+							if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,Range)))
 								target = null
 								ShouldIBeActive()
 								return
@@ -723,10 +749,10 @@ mob
 				icon_state = "stickman"
 				level = 2200
 				HPmodifier  = 2
-				DMGmodifier = 1.5
+				DMGmodifier = 1.3
 
 				MoveDelay   = 2
-				AttackDelay = 0
+				AttackDelay = 1
 
 				var/tmp/fired = 0
 
@@ -736,6 +762,12 @@ mob
 				New()
 					..()
 					transform *= 2
+
+				ChangeState(var/i_State)
+					..(i_State)
+
+					if(state == 0 && origloc)
+						loc = origloc
 
 				drops = list("2"    = /obj/items/key/wizard_key,
 				             "10"   = list(/obj/items/artifact,
@@ -753,7 +785,7 @@ mob
 							 			   /obj/items/Swamp))
 
 				Attack()
-					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,Range)))
 						target = null
 						ShouldIBeActive()
 						return
@@ -947,8 +979,10 @@ mob
 
 				Eye_of_The_Fallen
 					level = 2400
-					cd = new(5, 10)
+					cd = new(4, 8)
+					HPmodifier = 2.5
 
+					Range     = 20
 					MoveDelay = 2
 
 					drops = list("2"      =      /obj/items/key/sunset_key,
@@ -1017,8 +1051,8 @@ mob
 
 				Death()
 					..()
-					if(++floatingEyesKilled >= 1000)
-						floatingEyesKilled = 0
+					var/obj/eye_counter/count = locate("EyeCounter")
+					if(count.add())
 						Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
 						new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
 
@@ -1204,6 +1238,12 @@ mob
 				MoveDelay = 3
 				Range = 16
 				respawnTime = 6000
+
+				ChangeState(var/i_State)
+					..(i_State)
+
+					if(state == 0 && origloc)
+						loc = origloc
 
 				New()
 					..()

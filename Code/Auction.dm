@@ -1,10 +1,14 @@
 
 mob/TalkNPC/merchant
 
-	name = "Zotgbles Goldnose"
-
 	New()
 		..()
+
+		var/f = pick("Soxlax", "Zotold", "Noik", "Nixelee", "Zotgbles", "Jarex", "Filax", "Rizlax", "Zeeard", "Zeemo")
+		var/l = pick("", " Goldnose", " Silvernose", " Saltmine", " Scrollgrinder", " Moneygear", " Saltytongue", " Steamrocket", " Sharpfingers", " Boomknob")
+
+		name = "[f][l]"
+
 		icon_state = "goblin[rand(1,3)]"
 
 	Talk()
@@ -20,12 +24,12 @@ proc
 	auctionBidTime()
 		if(auctionItems)
 			for(var/auction/a in auctionItems)
-				if(!a.bid) continue
-				world << world.realtime - a.time
 				if(world.realtime - a.time >= 2592000) // 3 days
-					if(a.bidder)
+					if(a.bid && a.bidder)
 						mail(a.bidder, infomsg("Auction: You won the auction for the [a.item.name]."),     a.item)
 						mail(a.owner,  infomsg("Auction: Your [a.item.name] was sold during an auction."), a.minPrice)
+
+						goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: (Bid) [a.owner] sold [a.item.name] to [a.bidder]<br />"
 					else
 						mail(a.owner,  errormsg("Auction: The [a.item.name] auction expired."), a.item)
 					a.item = null
@@ -107,6 +111,16 @@ auction
 		.=..()
 		var/mob/Player/p = usr
 		if(!(src in auctionItems)) return
+
+		if(!src || !p) return
+		if(!src.item)
+			auctionItems -= src
+			if(bidder)
+				mail(bidder, errormsg("<b>Auction:</b> The auction for the [item.name] was cancelled."), minPrice)
+
+			return
+
+
 		if(href_list["action"] == "bidAuction")
 
 			if(bid && owner != p.ckey && bidder != p.ckey)
@@ -116,12 +130,13 @@ auction
 					if(bidder)
 						mail(bidder, errormsg("<b>Auction:</b> You were outbid for the [item.name] auction."), minPrice)
 
+					bid++
 					bidder   = p.ckey
 					minPrice = price
 					p.gold  -= price
 					p.auctionBuild()
 				else
-					src << errormsg("You don't have enough money, the item costs [comma(price)] gold, you need [comma(price)] more gold.")
+					p << errormsg("You don't have enough money, the item costs [comma(price)] gold, you need [comma(price)] more gold.")
 
 		else if(href_list["action"] == "buyoutAuction")
 			if(buyout && owner != p.ckey)
@@ -129,8 +144,12 @@ auction
 				if(p.gold >= buyoutPrice)
 					p.gold -= buyoutPrice
 
+					if(bid && bidder)
+						mail(bidder, errormsg("<b>Auction:</b> The [item.name] auction was bought out at the auction, your bid is cancelled."), minPrice)
+
 					var/taxedGold = round(buyoutPrice - (buyoutPrice/20), 1)
 					mail(owner, infomsg("<b>Auction:</b> [item.name] was bought at the auction."), taxedGold)
+					goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: (Buyout) [owner] sold [item.name] to [p.name] ([p.ckey]) ([p.client.address])<br />"
 
 					auctionItems -= src
 					if(!auctionItems.len) auctionItems = null
@@ -140,7 +159,7 @@ auction
 					p.Resort_Stacking_Inv()
 					p.auctionBuild()
 				else
-					src << errormsg("You don't have enough money, the item costs [comma(buyoutPrice)] gold, you need [comma(buyoutPrice - p.gold)] more gold.")
+					p << errormsg("You don't have enough money, the item costs [comma(buyoutPrice)] gold, you need [comma(buyoutPrice - p.gold)] more gold.")
 
 
 		else if(href_list["action"] == "removeAuction")
@@ -148,7 +167,7 @@ auction
 				auctionItems -= src
 				if(!auctionItems.len) auctionItems = null
 
-				if(bidder)
+				if(bid && bidder)
 					mail(bidder, errormsg("<b>Auction:</b> The auction for the [item.name] was cancelled."), minPrice)
 
 				p << infomsg("<b>Auction:</b> You removed [item.name] from auction.")
@@ -167,17 +186,20 @@ mob/Player
 	proc
 		auctionBuild()
 			auctionCount = 0
-			var/count = 0
+			var/count = 2
 			if(auctionItems)
-				src << output(null, "Auction.gridAuction")
-				winset(src, null, "Auction.gridAuction.cells=5x[auctionItems.len]")
+
+				winset(src, null, "Auction.gridAuction.cells=5x[auctionItems.len + 2];Auction.gridAuction.style='body{text-align:center;background-color:#cceeff;color:#6f81ff;}'")
+				if(!auctionItems) return
 
 				var/list/filters = list("Auction.buttonClothing" = /obj/items/wearable,
 				                        "Auction.buttonShoes"    = /obj/items/wearable/shoes,
 				                        "Auction.buttonScarves"  = /obj/items/wearable/scarves,
+				                        "Auction.buttonWands"    = /obj/items/wearable/wands,
 				                        "Auction.buttonTitle"    = /obj/items/wearable/title,
 				                        "Auction.buttonOther",
-				                        "Auction.buttonOwned")
+				                        "Auction.buttonOwned",
+				                        "Auction.buttonNotOwned")
 
 				var/qry = ""
 				for(var/f in filters)
@@ -186,11 +208,12 @@ mob/Player
 				var/list/options = params2list(winget(src, qry, "is-checked"))
 
 				var/option
-				for(var/o in options)
+				for(var/i = 1 to 6)
+					var/o = options[i]
 					if(options[o] == "true")
 						option = copytext(o, 1, -11)
 						break
-				if(!auctionItems) return
+
 				for(var/i = 1 to auctionItems.len)
 					var/auction/a = auctionItems[i]
 
@@ -200,9 +223,10 @@ mob/Player
 					if(option)
 						if(option == "Auction.buttonOther")
 							if(istype(a.item, /obj/items/wearable)) continue
-						else if(option == "Auction.buttonOwned")
-							if(a.owner != ckey)                     continue
 						else if(!istype(a.item, filters[option]))   continue
+
+					if(options["Auction.buttonOwned.is-checked"]    == "false" && a.owner == ckey) continue
+					if(options["Auction.buttonNotOwned.is-checked"] == "false" && a.owner != ckey) continue
 
 					count++
 
@@ -214,15 +238,15 @@ mob/Player
 						src << output(null, "Auction.gridAuction:2,[count]")
 
 					if(a.bid)
-						src << output("<a href=\"?src=\ref[a];action=bidAuction\">Bid</a> [comma(round(a.minPrice + (a.minPrice / 10), 1))]", "Auction.gridAuction:3,[count]")
+						if(a.bidder == ckey)
+							src << output("You're at lead bidding [comma(a.minPrice)] gold. (Bids: [a.bid])", "Auction.gridAuction:3,[count]")
+						else
+							src << output("<a href=\"?src=\ref[a];action=bidAuction\">Bid</a> [comma(round(a.minPrice + (a.minPrice / 10), 1))] (Bids: [a.bid])", "Auction.gridAuction:3,[count]")
 					else
 						src << output(null, "Auction.gridAuction:3,[count]")
 
-					if(a.bid)
-						var/days = round((2592000 - (world.realtime - a.time)) / 864000, 1)
-						src << output("[days] days remaining", "Auction.gridAuction:4,[count]")
-					else
-						src << output(null, "Auction.gridAuction:4,[count]")
+					var/days = round((2592000 - (world.realtime - a.time)) / 864000, 1)
+					src << output("[days] days remaining", "Auction.gridAuction:4,[count]")
 
 					if(a.owner == ckey)
 						src << output("<a href=\"?src=\ref[a];action=removeAuction\">Remove</a>", "Auction.gridAuction:5,[count]")
@@ -231,13 +255,23 @@ mob/Player
 
 				winset(src, null, "Auction.gridAuction.cells=5x[count]")
 
-			if(!count)
-				winset(src, null, "Auction.gridAuction.cells=0x0")
+			if(count < 3)
+				winset(src, null, "Auction.gridAuction.cells=5x2")
 
 		auctionOpen()
 			auctionInfo = new(src)
 			auctionBuild()
+
 			src << output(null, "Auction.gridAuctionAddItem")
+
+			winset(src, "Auction.gridAuction", "style='body{text-align:center;background-color:#0b81ff;color:#a8e2ff;}'")
+			src << output("<b>Item</b>", "Auction.gridAuction:1,1")
+			src << output("<b>Buyout (Click Buyout to buy)</b>", "Auction.gridAuction:2,1")
+			src << output("<b>Bid (Click Bid to bid)</b>", "Auction.gridAuction:3,1")
+			src << output("<b>Time Remaining</b>", "Auction.gridAuction:4,1")
+			src << output(null, "Auction.gridAuction:5,1")
+
+
 			winshow(src, "Auction", 1)
 
 		auctionError(var/msg)
