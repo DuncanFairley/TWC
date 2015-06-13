@@ -196,7 +196,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 10
+#define SAVEFILE_VERSION 11
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -324,24 +324,26 @@ mob
 
 					talkedtobunny = null
 
-			if(savefile_version < 10)
+			if(savefile_version < 10 && (last_z == 21 || last_z == 22))
+				var/turf/t = locate("@Hogwarts")
+				last_x = t.x
+				last_y = t.y
+				last_z = t.z
 
-				if(last_z == 21 || last_z == 22)
-					var/turf/t = locate("@Hogwarts")
-					last_x = t.x
-					last_y = t.y
-					last_z = t.z
+			if(savefile_version < 11)
 
 				spawn()
 					var/mob/Player/p = src
 					if(!p.Interface) p.Interface = new(src)
-					p.startQuest("Tutorial: The Wand Maker")
+
+					if(!("Tutorial: The Wand Maker" in p.questPointers))
+						p.startQuest("Tutorial: The Wand Maker")
 
 					var/obj/items/questbook/q = locate() in src
 					if(!q)
 						q = new(src)
 
-			if(savefile_version < 11)
+			if(savefile_version < 12)
 				DeathEater = null
 				HA         = null
 				Auror      = null
