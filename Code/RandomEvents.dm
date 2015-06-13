@@ -47,6 +47,81 @@ RandomEvent
 
 			if(currentEvents.len == 0) currentEvents = null
 
+	FFA
+		name = "Free For All"
+
+		start()
+			if(currentArena || (name in currentEvents))	return
+
+			..()
+			arenaSummon = 3
+
+			var/rounds = rand(1,3)
+			var/obj/clock/timer = locate("FFAtimer")
+
+			for(var/client/C)
+				C << "<h3>An automated FFA is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[C.mob];action=arena_teleport\">click here to teleport.</a> The first round will start in 2 minutes.</h3>"
+			sleep(1200 * 0 + 50)
+			while(rounds)
+				rounds--
+				arenaSummon = 3
+				for(var/client/C)
+					C << "<h3>An automated FFA is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[C.mob];action=arena_teleport\">click here to teleport.</a> The [rounds==0 ? "last" : ""] round will start in 1 minute.</h3>"
+				sleep(600 * 0 + 50)
+				currentArena = new()
+				arenaSummon = 0
+				currentArena.roundtype = FFA_WARS
+				for(var/mob/M in locate(/area/arenas/MapThree/WaitingArea))
+					if(M.client)
+						M.DuelRespawn = 0
+						currentArena.players.Add(M)
+				if(currentArena.players.len < 2)
+					currentArena.players << "There isn't enough players to start the round."
+					for(var/mob/Player/M in currentArena.players)
+						M << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[M];action=arena_leave\">clicking here.</a></b>"
+					del(currentArena)
+				else
+					currentArena.players << "<center><font size = 4>The arena mode is <u>Free For All</u>. Everyone is your enemy.<br>The last person standing wins!</center>"
+					sleep(30)
+					currentArena.players << "<h5>Round starting in 10 seconds</h5>"
+					sleep(50)
+					currentArena.players << "<h5>5 seconds</h5>"
+					sleep(10)
+					currentArena.players << "<h5>4 seconds</h5>"
+					sleep(10)
+					currentArena.players << "<h5>3 seconds</h5>"
+					sleep(10)
+					currentArena.players << "<h5>2 seconds</h5>"
+					sleep(10)
+					currentArena.players << "<h5>1 seconds</h5>"
+					sleep(10)
+					currentArena.players << "<h4>Go!</h5>"
+					currentArena.started = 1
+					var/list/rndturfs = list()
+					for(var/turf/T in locate(/area/arenas/MapThree/PlayArea))
+						rndturfs.Add(T)
+					currentArena.speaker = pick(MapThreeWaitingAreaTurfs)
+					for(var/mob/M in currentArena.players)
+						var/turf/T = pick(rndturfs)
+						M.loc = T
+						M.density = 1
+
+					timer.invisibility = 0
+					timer.setTime(15)
+
+					while(currentArena && !timer.countdown())
+						sleep(10)
+
+					timer.invisibility = 2
+
+					if(currentArena)
+						while(currentArena && currentArena.players && currentArena.players.len > 1)
+							var/mob/Player/p = pick(currentArena.players)
+							p.HP = 0
+							p.Death_Check()
+
+			end()
+
 	Class
 		name = "Class"
 		beepType = 2
