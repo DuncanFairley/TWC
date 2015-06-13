@@ -2920,16 +2920,6 @@ turf
 	blankturf
 		icon_state="black"
 		density=0
-	Art_Tree
-		icon='Decoration.dmi'
-		icon_state="tree top"
-		density=1
-		opacity=0
-	Art_Tree2
-		icon='Decoration.dmi'
-		icon_state="tree"
-		density=1
-		opacity=0
 	road
 		icon_state="road"
 		density=0
@@ -2938,40 +2928,6 @@ turf
 		density=0
 	stairsnormal
 		icon_state="gmstair"
-	painting2
-		icon_state="p2"
-		density=0
-		opacity=0
-	painting3
-		icon_state="p3"
-		density=0
-	Art
-		icon='Decoration.dmi'
-		icon_state="royal top1"
-		density=1
-		opacity=0
-	Art1
-		icon='Decoration.dmi'
-		icon_state="royal1"
-		density=1
-		opacity=0
-	Art_Man
-		icon='Decoration.dmi'
-		icon_state="royal top"
-		density=1
-		opacity=0
-	Art_Man2
-		icon='Decoration.dmi'
-		icon_state="royal"
-		density=1
-		opacity=0
-	painting4
-		icon_state="p4"
-		density=0
-	painting1
-		icon_state="p1"
-		density=0
-		opacity=0
 	wall
 		icon='wall1.dmi'
 		density=1
@@ -3130,6 +3086,34 @@ obj
 			Examine()
 				set src in oview(3)
 				usr << "So creative!"
+
+	art
+		icon    = 'Decoration.dmi'
+		density = 1
+
+		Art_Tree
+			icon_state="tree top"
+		Art_Tree2
+			icon_state="tree"
+		Art
+			icon_state="royal top1"
+		Art1
+			icon_state="royal1"
+		Art_Man
+			icon_state="royal top"
+		Art_Man2
+			icon_state="royal"
+
+		painting
+			density = 0
+			p1
+				icon_state="big tl"
+			p2
+				icon_state="big tr"
+			p3
+				icon_state="big bl"
+			p4
+				icon_state="big br"
 
 
 
