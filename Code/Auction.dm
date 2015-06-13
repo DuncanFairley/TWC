@@ -1,10 +1,14 @@
 
 mob/TalkNPC/merchant
 
-	name = "Zotgbles Goldnose"
-
 	New()
 		..()
+
+		var/f = pick("Soxlax", "Zotold", "Noik", "Nixelee", "Zotgbles", "Jarex", "Filax", "Rizlax", "Zeeard", "Zeemo")
+		var/l = pick("", " Goldnose", " Silvernose", " Saltmine", " Scrollgrinder", " Moneygear", " Saltytongue", " Steamrocket", " Sharpfingers", " Boomknob")
+
+		name = "[f][l]"
+
 		icon_state = "goblin[rand(1,3)]"
 
 	Talk()
