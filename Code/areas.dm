@@ -683,15 +683,6 @@ area
 				return
 			else
 				M.loc=locate(31,98,18)
-area
-	fromfred
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(87,29,18)
 
 turf
 	ror
@@ -727,9 +718,9 @@ area
 			if("On House Arrest" in M.questPointers)
 				var/questPointer/pointer = M.questPointers["On House Arrest"]
 				if(!pointer.stage)
-					M.Transfer(locate(89,27,8))
+					M.Transfer(locate("@Fred"))
 					return
-			M.Transfer(locate(30,12,8))
+			M.Transfer(locate("@FredTrap"))
 area
 	fromauror
 		Entered(mob/Player/M)
