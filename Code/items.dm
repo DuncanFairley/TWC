@@ -3439,6 +3439,14 @@ obj/items/magic_stone
 
 	icon = 'trophies.dmi'
 
+	Drop()
+		set src in usr
+		if(inUse)
+			usr << errormsg("You can't drop it right now.")
+		else
+			..()
+
+
 	teleport
 		icon = 'Crystal.dmi'
 		name = "teleport stone"
