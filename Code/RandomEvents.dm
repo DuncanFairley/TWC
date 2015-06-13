@@ -25,7 +25,7 @@ obj/spawner
 var/list/currentEvents
 
 RandomEvent
-	var/chance = 10
+	var/chance = 15
 	var/name
 	var/beepType = 1
 
@@ -295,6 +295,7 @@ RandomEvent
 
 	TreasureHunt
 		name = "Treasure Hunt"
+		chance = 20
 		var/list
 			totalTreasures
 			winners
