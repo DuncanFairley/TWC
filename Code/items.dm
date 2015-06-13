@@ -205,17 +205,17 @@ obj/items/herosbrace
 			if(canUse(M=usr, needwand=0, inarena=0, inhogwarts=0, antiTeleport=1))
 				if(usr.bracecharges>=1)
 					var/turf/t
-					switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Pyramid","Forbidden Forest","Museum"))
+					switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Forbidden Forest","Graveyard"))
 						if("Diagon Alley")
-							t = locate(45,60,26)
+							t = locate("@DiagonAlley")
 						if("Forbidden Forest")
-							t = locate(86,12,16)
-						if("Museum")
-							t = locate(72,77,18)
+							t = locate("@Forest")
+						if("Graveyard")
+							t = locate("@Graveyard")
 					if(t && canUse(M=usr, needwand=0, inarena=0, inhogwarts=0) && usr.bracecharges>0)
 						if(usr.bracecharges<1) return
 						flick('tele2.dmi',usr)
-						usr.bracecharges-=1
+						usr.bracecharges--
 						usr:Transfer(t)
 					if(usr.removeoMob) spawn()usr:Permoveo()
 					for(var/obj/hud/player/R in usr.client.screen)
