@@ -61,13 +61,13 @@ RandomEvent
 
 			for(var/client/C)
 				C << "<h3>An automated FFA is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[C.mob];action=arena_teleport\">click here to teleport.</a> The first round will start in 2 minutes.</h3>"
-			sleep(1200 * 0 + 50)
+			sleep(1200)
 			while(rounds)
 				rounds--
 				arenaSummon = 3
 				for(var/client/C)
 					C << "<h3>An automated FFA is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[C.mob];action=arena_teleport\">click here to teleport.</a> The [rounds==0 ? "last" : ""] round will start in 1 minute.</h3>"
-				sleep(600 * 0 + 50)
+				sleep(600)
 				currentArena = new()
 				arenaSummon = 0
 				currentArena.roundtype = FFA_WARS
