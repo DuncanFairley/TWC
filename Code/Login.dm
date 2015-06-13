@@ -229,7 +229,7 @@ obj/teleport
 				..()
 				M << infomsg("You magically found yourself at the entrance!")
 			else
-				M:Transfer(locate(rand(4,97),rand(4,97),rand(4,6)))
+				M:Transfer(locate(rand(4,97), rand(4,97), rand(4,6)))
 
 		New()
 			..()
@@ -238,11 +238,17 @@ obj/teleport
 		proc/wander()
 			set waitfor = 0
 
+			var/turf/target
 			while(src)
-				var/d = rand(1,10)
-				if(d == 3 || d == 7 || d == 9) d--
-				var/turf/t = get_step(src, d)
-				if(t) loc = t
+
+				if(!target || loc == target)
+					target = locate(rand(4,97), rand(4,97), z)
+
+				var/turf/t = get_step_towards(loc, target)
+				if(t)
+					loc = t
+				else
+					target = null
 				sleep(8)
 
 var/tmp/vault_last_exit
