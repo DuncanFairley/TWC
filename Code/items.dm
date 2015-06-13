@@ -3991,7 +3991,7 @@ obj/roulette
 				var/category = pick(chest_prizes)
 
 				if(category == "duel")
-					amount--
+					i--
 					continue
 
 				L += pickweight(chest_prizes[category])
