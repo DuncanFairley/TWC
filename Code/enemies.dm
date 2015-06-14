@@ -41,6 +41,7 @@ obj/statues
 obj
 	eye_counter
 		var/count     = 0
+		var/marks     = 0
 		maptext_width = 64
 		pixel_x       = 8
 
@@ -54,6 +55,7 @@ obj
 				count++
 				if(count >= 1000)
 					count = 0
+					marks++
 					. = 1
 				updateDisplay()
 
