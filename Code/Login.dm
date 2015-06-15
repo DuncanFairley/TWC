@@ -2065,6 +2065,7 @@ mob/proc/Death_Check(mob/killer = src)
 					src:rankedArena.death(src)
 				if(killer != src)
 					killer.pkills+=1
+					displayKills(killer, 1)
 
 					killer:checkQuestProgress("Kill Player")
 

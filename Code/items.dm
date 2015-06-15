@@ -648,19 +648,57 @@ obj/items/wearable/hats/orange_earmuffs
 obj/items/wearable/hats/teal_earmuffs
 	icon = 'teal_earmuffs_hat.dmi'
 obj/items/wearable/wands
+
+	var
+		track
+		displayColor
+		killCount   = 0
+		tmp/display = FALSE
+
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(forceremove)return 0
 		if(. == WORN)
 			src.gender = owner.gender
-			if(!overridetext)viewers(owner) << infomsg("[owner] draws \his [src.name].")
 			for(var/obj/items/wearable/wands/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
+			if(!overridetext)
+				if(track)
+					displayKills(owner, 0)
+					if(displayColor)
+						viewers(owner) << infomsg({"[owner] draws \his <font color="[displayColor]">[src.name]</font>."})
+					else
+						viewers(owner) << infomsg("[owner] draws \his [src.name].")
 		else if(. == REMOVED)
-			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
+			if(!overridetext)
+				if(track && displayColor)
+					viewers(owner) << infomsg({"[owner] puts \his <font color="[displayColor]">[src.name]</font> away."})
+				else
+					viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
+
+proc/displayKills(mob/Player/i_Player, count=0)
+	set waitfor = 0
+	var/obj/items/wearable/wands/w = locate() in i_Player.Lwearing
+	if(w && w.track)
+
+		while(w.display)
+			sleep(1)
+
+		w.display = TRUE
+		spawn(3) w.display = FALSE
+		w.killCount += count
+
+		var/offset = 15 - (length("[w.killCount]") * 5)
+
+		if(w.displayColor)
+			fadeText(i_Player, "<b><font color=\"[w.displayColor]\">[w.killCount] </font></b>", offset, 20)
+		else
+			fadeText(i_Player, "<b>[w.killCount]</b>", offset, 20)
+
 obj/items/wearable/wands/cedar_wand //Thanksgiving
 	icon = 'cedar_wand.dmi'
+	displayColor = "#c86426"
 	dropable = 0
 	verb/Delicio_Maxima()
 		set category = "Spells"
@@ -685,6 +723,7 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 			usr << errormsg("You need to be using this wand to cast this.")
 obj/items/wearable/wands/maple_wand //Easter
 	icon = 'maple_wand.dmi'
+	displayColor = "#D6968F"
 	dropable = 0
 	verb/Carrotosi_Maxima()
 		set category = "Spells"
@@ -711,6 +750,7 @@ obj/items/wearable/wands/maple_wand //Easter
 obj/items/wearable/wands/sonic_wand
 	dropable = 0
 	icon = 'sonic_wand.dmi'
+	displayColor = "#8BEAAF"
 
 	verb/Sound_Wave()
 		set category = "Spells"
@@ -740,30 +780,37 @@ obj/items/wearable/wands/interruption_wand //Fred's quest
 	icon = 'interruption_wand.dmi'
 obj/items/wearable/wands/salamander_wand //Bag of goodies
 	icon = 'salamander_wand.dmi'
+	displayColor = "#FFa500"
 obj/items/wearable/wands/mithril_wand //GM wand
 	icon = 'mithril_wand.dmi'
 obj/items/wearable/wands/mulberry_wand //GM wand
 	icon = 'mulberry_wand.dmi'
 obj/items/wearable/wands/royale_wand //Royal event reward?
 	icon = 'royale_wand.dmi'
+	displayColor = "#8560b3"
 obj/items/wearable/wands/pimp_cane //Sylar's wand thing
 	icon = 'pimpcane_wand.dmi'
-
 obj/items/wearable/wands/birch_wand
 	icon = 'birch_wand.dmi'
+	displayColor = "#fff"
 obj/items/wearable/wands/oak_wand
 	icon = 'oak_wand.dmi'
+	displayColor = "#960"
 obj/items/wearable/wands/mahogany_wand
 	icon = 'mahogany_wand.dmi'
+	displayColor = "#966"
 obj/items/wearable/wands/elder_wand
 	icon = 'elder_wand.dmi'
+	displayColor = "#ff0"
 obj/items/wearable/wands/willow_wand
 	icon = 'willow_wand.dmi'
+	displayColor = "#f00"
 obj/items/wearable/wands/ash_wand
 	icon = 'ash_wand.dmi'
+	displayColor = "#cab5b5"
 obj/items/wearable/wands/duel_wand
 	icon = 'wand_dueling.dmi'
-
+	displayColor = "#088"
 
 obj/items/wearable/wigs
 	price = 500000
