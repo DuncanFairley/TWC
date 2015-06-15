@@ -116,7 +116,6 @@ area
 			Silverblood_Bats
 			Silverblood_Golems
 			Graveyard
-			Hogsmeade
 			layer = 6	// set this layer above everything else so the overlay obscures everything
 			var
 				lit = 1	// determines if the area is lit or dark.
