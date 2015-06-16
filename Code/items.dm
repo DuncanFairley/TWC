@@ -677,7 +677,7 @@ obj/items/wearable/wands
 				else
 					viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
 
-proc/displayKills(mob/Player/i_Player, count=0)
+proc/displayKills(mob/Player/i_Player, count=0, overrideCount=FALSE)
 	set waitfor = 0
 	var/obj/items/wearable/wands/w = locate() in i_Player.Lwearing
 	if(w && w.track)
@@ -687,14 +687,14 @@ proc/displayKills(mob/Player/i_Player, count=0)
 
 		w.display = TRUE
 		spawn(3) w.display = FALSE
-		w.killCount += count
+		if(!overrideCount) w.killCount += count
 
 		var/offset = 15 - (length("[w.killCount]") * 5)
 
 		if(w.displayColor)
-			fadeText(i_Player, "<b><font color=\"[w.displayColor]\">[w.killCount] </font></b>", offset, 20)
+			fadeText(i_Player, "<b><font color=\"[w.displayColor]\">[overrideCount ? count : w.killCount] </font></b>", offset, 20)
 		else
-			fadeText(i_Player, "<b>[w.killCount]</b>", offset, 20)
+			fadeText(i_Player, "<b>[overrideCount ? count : w.killCount]</b>", offset, 20)
 
 obj/items/wearable/wands/cedar_wand //Thanksgiving
 	icon = 'cedar_wand.dmi'
@@ -1279,7 +1279,9 @@ obj/items/wearable/title
 	Fallen
 		title = "The Fallen"
 		name  = "Title: The Fallen"
-
+	Gambler
+		title = "The Gambler"
+		name  = "Title: The Gambler"
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
 		B.Roll(dir)
@@ -3493,6 +3495,50 @@ obj/items/magic_stone
 		else
 			..()
 
+	memory
+		icon = 'Crystal.dmi'
+		name = "memory stone"
+		icon_state = "memory"
+
+
+		circle(mob/Player/p)
+			var/turf/t = p.loc
+			if(!findtext(t.tag, "teleportPoint"))
+				p << errormsg("You can't use it here, memories are too powerful to manipulate without external help.")
+				return
+			..(p)
+
+
+
+		effect(mob/Player/p)
+			var/obj/items/wearable/wands/w = locate() in p.Lwearing
+
+			if(!w)
+				p << errormsg("This stone enchants your equipped wand, please equip a wand.")
+				charges++
+				return
+
+			if(w.track)
+				p << errormsg("Your wand already has a memory enchantment.")
+				charges++
+				return
+
+			w.track = 1
+
+			var/origname = initial(w.name)
+			if(origname != w.name)
+				var/pos = findtext(w.name, origname)
+				if(pos)
+					w.name = copytext(w.name, 1, pos) + "memory " + copytext(w.name, pos)
+			else
+				w.name = "memory [w.name]"
+
+			src=null
+			spawn()
+				for(var/i = 0 to 10)
+					displayKills(p, rand(1, 9999), TRUE)
+					sleep(3)
+
 
 	teleport
 		icon = 'Crystal.dmi'
@@ -4016,7 +4062,12 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 												/obj/items/wearable/scarves/pink_scarf       = 35,
 							                    /obj/items/wearable/shoes/pink_shoes         = 25,
 							                    /obj/items/wearable/shoes/darkpink_shoes     = 10,
-							                    /obj/items/wearable/scarves/darkpink_scarf   = 20))
+							                    /obj/items/wearable/scarves/darkpink_scarf   = 20),
+
+							 "gold only" = list(/obj/items/magic_stone/memory     = 10,
+							                    /obj/items/herosbrace             = 20,
+							                    /obj/items/wearable/afk/pimp_ring = 30,
+							                    /obj/items/wearable/title/Gambler = 40))
 
 obj/roulette
 	icon = 'roulette.dmi'
