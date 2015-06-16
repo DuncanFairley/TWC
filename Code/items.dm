@@ -1042,6 +1042,8 @@ obj/items/wearable/shoes/candycane_shoes
 	name = "candy cane shoes"
 obj/items/wearable/shoes/duel_shoes
 	icon = 'duel_shoes.dmi'
+obj/items/wearable/shoes/blood_shoes
+	icon = 'blood_shoes.dmi'
 
 obj/items/wearable/scarves
 	bonus = 0
@@ -1096,6 +1098,8 @@ obj/items/wearable/scarves/duel_scarf
 	icon = 'scarf_duel.dmi'
 obj/items/wearable/scarves/sunset_scarf
 	icon = 'scarf_sunset.dmi'
+obj/items/wearable/scarves/blood_scarf
+	icon = 'scarf_blood.dmi'
 
 obj/items/wearable/scarves/lucifer_scarf
 	icon = 'scarf_lucifer.dmi'
@@ -4058,6 +4062,8 @@ obj/items
 			icon_state = "duel"
 		pentakill_key
 			icon_state = "red"
+		blood_key
+			icon_state = "red"
 		basic_key
 			icon_state = "green"
 		sunset_key
@@ -4122,7 +4128,9 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 							                    /obj/items/wearable/shoes/darkpink_shoes     = 10,
 							                    /obj/items/wearable/scarves/darkpink_scarf   = 20),
 
-							 "blood"     = list(/obj/items/wearable/wands/blood_wand = 10),
+							 "blood"     = list(/obj/items/wearable/scarves/blood_scarf = 50,
+							 					/obj/items/wearable/shoes/blood_shoes   = 30,
+							 					/obj/items/wearable/wands/blood_wand    = 20),
 
 							 "gold only" = list(/obj/items/magic_stone/memory     = 10,
 							                    /obj/items/herosbrace             = 20,
