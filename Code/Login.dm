@@ -2070,7 +2070,7 @@ mob/proc/Death_Check(mob/killer = src)
 					src:rankedArena.death(src)
 				if(killer != src)
 					killer.pkills+=1
-					displayKills(killer, 1)
+					displayKills(killer, 1, 1)
 
 					killer:checkQuestProgress("Kill Player")
 
@@ -2118,6 +2118,7 @@ mob/proc/Death_Check(mob/killer = src)
 				if(killer.MonsterMessages)killer<<"<i><small>You knocked [src] out!</small></i>"
 
 				killer.ekills+=1
+				displayKills(killer, 1, 2)
 				var/gold2give = (rand(7,14)/10)*gold
 				var/exp2give  = (rand(9,14)/10)*Expg
 
