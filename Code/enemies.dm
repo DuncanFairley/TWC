@@ -41,7 +41,9 @@ obj/statues
 obj
 	eye_counter
 		var/count     = 0
+		var/marks     = 0
 		maptext_width = 64
+		pixel_x       = 8
 
 		New()
 			..()
@@ -53,6 +55,7 @@ obj
 				count++
 				if(count >= 1000)
 					count = 0
+					marks++
 					. = 1
 				updateDisplay()
 
@@ -113,7 +116,6 @@ area
 			Silverblood_Bats
 			Silverblood_Golems
 			Graveyard
-			Hogsmeade
 			layer = 6	// set this layer above everything else so the overlay obscures everything
 			var
 				lit = 1	// determines if the area is lit or dark.
@@ -246,7 +248,7 @@ mob
 			proc/calcStats()
 				Dmg = round(DMGmodifier * ((src.level -1) + 5))
 				MHP = round(HPmodifier * (4 * (src.level - 1) + 200))
-				gold = round(src.level / 3)
+				gold = round(src.level / 2)
 				Expg = round(src.level * 5)
 				HP = MHP
 //NEWMONSTERS
@@ -766,7 +768,7 @@ mob
 				ChangeState(var/i_State)
 					..(i_State)
 
-					if(state == 0 && origloc)
+					if(state == 0 && origloc && HP > 0)
 						loc = origloc
 
 				drops = list("2"    = /obj/items/key/wizard_key,
@@ -1242,7 +1244,7 @@ mob
 				ChangeState(var/i_State)
 					..(i_State)
 
-					if(state == 0 && origloc)
+					if(state == 0 && origloc && HP > 0)
 						loc = origloc
 
 				New()

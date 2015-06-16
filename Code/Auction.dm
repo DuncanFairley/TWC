@@ -239,7 +239,7 @@ mob/Player
 
 					if(a.bid)
 						if(a.bidder == ckey)
-							src << output("You're at lead bidding [comma(a.minPrice)] gold. (Bids: [a.bid])", "Auction.gridAuction:3,[count]")
+							src << output("You're at lead bidding [comma(a.minPrice)] gold. (Bids: [a.bid - 1])", "Auction.gridAuction:3,[count]")
 						else
 							src << output("<a href=\"?src=\ref[a];action=bidAuction\">Bid</a> [comma(round(a.minPrice + (a.minPrice / 10), 1))] (Bids: [a.bid])", "Auction.gridAuction:3,[count]")
 					else

@@ -281,7 +281,8 @@ matchmaking
 					if(loser.rating > 600 && winner.rating > 600 && prob(15))
 						prize = pick(/obj/items/chest/wizard_chest,
 						             /obj/items/chest/duel_chest,
-						             /obj/items/chest/basic_chest)
+						             /obj/items/chest/basic_chest,
+						             /obj/items/magic_stone/memory)
 					else
 						prize = pick(/obj/items/chest/basic_chest,
 									 /obj/items/wearable/title/Duelist,

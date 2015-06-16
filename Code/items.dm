@@ -648,19 +648,57 @@ obj/items/wearable/hats/orange_earmuffs
 obj/items/wearable/hats/teal_earmuffs
 	icon = 'teal_earmuffs_hat.dmi'
 obj/items/wearable/wands
+
+	var
+		track
+		displayColor
+		killCount   = 0
+		tmp/display = FALSE
+
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(forceremove)return 0
 		if(. == WORN)
 			src.gender = owner.gender
-			if(!overridetext)viewers(owner) << infomsg("[owner] draws \his [src.name].")
 			for(var/obj/items/wearable/wands/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
+			if(!overridetext)
+				if(track)
+					displayKills(owner, 0)
+					if(displayColor)
+						viewers(owner) << infomsg({"[owner] draws \his <font color="[displayColor]">[src.name]</font>."})
+					else
+						viewers(owner) << infomsg("[owner] draws \his [src.name].")
 		else if(. == REMOVED)
-			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
+			if(!overridetext)
+				if(track && displayColor)
+					viewers(owner) << infomsg({"[owner] puts \his <font color="[displayColor]">[src.name]</font> away."})
+				else
+					viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
+
+proc/displayKills(mob/Player/i_Player, count=0, overrideCount=FALSE)
+	set waitfor = 0
+	var/obj/items/wearable/wands/w = locate() in i_Player.Lwearing
+	if(w && w.track)
+
+		while(w.display)
+			sleep(1)
+
+		w.display = TRUE
+		spawn(3) w.display = FALSE
+		if(!overrideCount) w.killCount += count
+
+		var/offset = 15 - (length("[w.killCount]") * 5)
+
+		if(w.displayColor)
+			fadeText(i_Player, "<b><font color=\"[w.displayColor]\">[overrideCount ? count : w.killCount] </font></b>", offset, 20)
+		else
+			fadeText(i_Player, "<b>[overrideCount ? count : w.killCount]</b>", offset, 20)
+
 obj/items/wearable/wands/cedar_wand //Thanksgiving
 	icon = 'cedar_wand.dmi'
+	displayColor = "#c86426"
 	dropable = 0
 	verb/Delicio_Maxima()
 		set category = "Spells"
@@ -685,6 +723,7 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 			usr << errormsg("You need to be using this wand to cast this.")
 obj/items/wearable/wands/maple_wand //Easter
 	icon = 'maple_wand.dmi'
+	displayColor = "#D6968F"
 	dropable = 0
 	verb/Carrotosi_Maxima()
 		set category = "Spells"
@@ -711,6 +750,7 @@ obj/items/wearable/wands/maple_wand //Easter
 obj/items/wearable/wands/sonic_wand
 	dropable = 0
 	icon = 'sonic_wand.dmi'
+	displayColor = "#8BEAAF"
 
 	verb/Sound_Wave()
 		set category = "Spells"
@@ -740,30 +780,37 @@ obj/items/wearable/wands/interruption_wand //Fred's quest
 	icon = 'interruption_wand.dmi'
 obj/items/wearable/wands/salamander_wand //Bag of goodies
 	icon = 'salamander_wand.dmi'
+	displayColor = "#FFa500"
 obj/items/wearable/wands/mithril_wand //GM wand
 	icon = 'mithril_wand.dmi'
 obj/items/wearable/wands/mulberry_wand //GM wand
 	icon = 'mulberry_wand.dmi'
 obj/items/wearable/wands/royale_wand //Royal event reward?
 	icon = 'royale_wand.dmi'
+	displayColor = "#8560b3"
 obj/items/wearable/wands/pimp_cane //Sylar's wand thing
 	icon = 'pimpcane_wand.dmi'
-
 obj/items/wearable/wands/birch_wand
 	icon = 'birch_wand.dmi'
+	displayColor = "#fff"
 obj/items/wearable/wands/oak_wand
 	icon = 'oak_wand.dmi'
+	displayColor = "#960"
 obj/items/wearable/wands/mahogany_wand
 	icon = 'mahogany_wand.dmi'
+	displayColor = "#966"
 obj/items/wearable/wands/elder_wand
 	icon = 'elder_wand.dmi'
+	displayColor = "#ff0"
 obj/items/wearable/wands/willow_wand
 	icon = 'willow_wand.dmi'
+	displayColor = "#f00"
 obj/items/wearable/wands/ash_wand
 	icon = 'ash_wand.dmi'
+	displayColor = "#cab5b5"
 obj/items/wearable/wands/duel_wand
 	icon = 'wand_dueling.dmi'
-
+	displayColor = "#088"
 
 obj/items/wearable/wigs
 	price = 500000
@@ -1232,7 +1279,9 @@ obj/items/wearable/title
 	Fallen
 		title = "The Fallen"
 		name  = "Title: The Fallen"
-
+	Gambler
+		title = "The Gambler"
+		name  = "Title: The Gambler"
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
 		B.Roll(dir)
@@ -3446,6 +3495,50 @@ obj/items/magic_stone
 		else
 			..()
 
+	memory
+		icon = 'Crystal.dmi'
+		name = "memory stone"
+		icon_state = "memory"
+
+
+		circle(mob/Player/p)
+			var/turf/t = p.loc
+			if(!findtext(t.tag, "teleportPoint"))
+				p << errormsg("You can't use it here, memories are too powerful to manipulate without external help.")
+				return
+			..(p)
+
+
+
+		effect(mob/Player/p)
+			var/obj/items/wearable/wands/w = locate() in p.Lwearing
+
+			if(!w)
+				p << errormsg("This stone enchants your equipped wand, please equip a wand.")
+				charges++
+				return
+
+			if(w.track)
+				p << errormsg("Your wand already has a memory enchantment.")
+				charges++
+				return
+
+			w.track = 1
+
+			var/origname = initial(w.name)
+			if(origname != w.name)
+				var/pos = findtext(w.name, origname)
+				if(pos)
+					w.name = copytext(w.name, 1, pos) + "memory " + copytext(w.name, pos)
+			else
+				w.name = "memory [w.name]"
+
+			src=null
+			spawn()
+				for(var/i = 0 to 10)
+					displayKills(p, rand(1, 9999), TRUE)
+					sleep(3)
+
 
 	teleport
 		icon = 'Crystal.dmi'
@@ -3969,7 +4062,12 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 												/obj/items/wearable/scarves/pink_scarf       = 35,
 							                    /obj/items/wearable/shoes/pink_shoes         = 25,
 							                    /obj/items/wearable/shoes/darkpink_shoes     = 10,
-							                    /obj/items/wearable/scarves/darkpink_scarf   = 20))
+							                    /obj/items/wearable/scarves/darkpink_scarf   = 20),
+
+							 "gold only" = list(/obj/items/magic_stone/memory     = 10,
+							                    /obj/items/herosbrace             = 20,
+							                    /obj/items/wearable/afk/pimp_ring = 30,
+							                    /obj/items/wearable/title/Gambler = 40))
 
 obj/roulette
 	icon = 'roulette.dmi'

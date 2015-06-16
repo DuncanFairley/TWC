@@ -52,13 +52,12 @@ ParticleEmitter
 
 
 /*mob/verb/Test_Particles()
-	var/n = dir2angle(dir)
-	emit(loc    = src,
-		 ptype  = /obj/particle/magic,
-	     amount = 50,
-	     angle  = new /Random(1, 359),
-	     speed  = 2,
-	     life   = new /Random(15,25))*/
+	emit(loc    = loc,
+						 ptype  = /obj/particle/fluid/blood,
+					     amount = 80,
+					     angle  = new /Random(0, 360),
+					     speed  = 5,
+					     life   = new /Random(1,15))*/
 
 proc/dir2angle(dir)
 	if(dir == EAST)      return 0
@@ -228,3 +227,31 @@ var/const/PI = 3.14159265359
 velocity
 	var/x
 	var/y
+
+proc/fadeText(turf/loc, text, offsetX = 0, offsetY = 0)
+	if(istype(loc, /atom/movable))
+		loc = loc.loc
+	new /obj/fadeText (loc, text, offsetX, offsetY)
+
+obj
+    fadeText
+        maptext_width  = 128
+        maptext_height = 16
+        mouse_opacity  = 0
+        layer          = EFFECTS_LAYER
+
+        New(loc, text, offsetX, offsetY)
+            ..()
+
+            maptext = text
+            pixel_x = offsetX
+            pixel_y = offsetY
+
+            var/ox = rand(-16,16)
+            animate(src, pixel_x = pixel_x,        pixel_y = pixel_y,      alpha = 254, time = 0)
+            animate(pixel_x = pixel_x + ox * 0.25, pixel_y = pixel_y + 16, alpha = 253, time = 3)
+            animate(pixel_x = pixel_x + ox * 0.5,  pixel_y = pixel_y + 32, alpha = 196, time = 3)
+            animate(pixel_x = pixel_x + ox,        pixel_y = pixel_y + 48, alpha = 128, time = 3)
+            animate(pixel_x = pixel_x + ox * 2,    pixel_y = pixel_y + 64, alpha = 0,   time = 3)
+            spawn(13)
+                loc = null

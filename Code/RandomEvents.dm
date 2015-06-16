@@ -56,17 +56,17 @@ RandomEvent
 			..()
 			arenaSummon = 3
 
-			var/rounds = rand(1,3)
+			var/rounds = rand(2,4)
 			var/obj/clock/timer = locate("FFAtimer")
 
-			for(var/client/C)
-				C << "<h3>An automated FFA is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[C.mob];action=arena_teleport\">click here to teleport.</a> The first round will start in 2 minutes.</h3>"
+			for(var/mob/Player/p in Players)
+				p << "<h3>An automated FFA is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a> The first round will start in 2 minutes.</h3>"
 			sleep(1200)
 			while(rounds)
 				rounds--
 				arenaSummon = 3
-				for(var/client/C)
-					C << "<h3>An automated FFA is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[C.mob];action=arena_teleport\">click here to teleport.</a> The [rounds==0 ? "last" : ""] round will start in 1 minute.</h3>"
+				for(var/mob/Player/p in Players)
+					p << "<h3>An automated FFA is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a> The [rounds==0 ? "last" : ""] round will start in 1 minute.</h3>"
 				sleep(600)
 				currentArena = new()
 				arenaSummon = 0
@@ -77,8 +77,8 @@ RandomEvent
 						currentArena.players.Add(M)
 				if(currentArena.players.len < 2)
 					currentArena.players << "There isn't enough players to start the round."
-					for(var/mob/Player/M in currentArena.players)
-						M << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[M];action=arena_leave\">clicking here.</a></b>"
+					for(var/mob/Player/p in Players)
+						p << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[p];action=arena_leave\">clicking here.</a></b>"
 					del(currentArena)
 				else
 					currentArena.players << "<center><font size = 4>The arena mode is <u>Free For All</u>. Everyone is your enemy.<br>The last person standing wins!</center>"
@@ -105,9 +105,12 @@ RandomEvent
 						var/turf/T = pick(rndturfs)
 						M.loc = T
 						M.density = 1
+						M.HP = M.MHP+M.extraMHP
+						M.MP = M.MMP+M.extraMMP
+						M.updateHPMP()
 
 					timer.invisibility = 0
-					timer.setTime(15)
+					timer.setTime(6)
 
 					while(currentArena && !timer.countdown())
 						sleep(10)
@@ -148,7 +151,8 @@ RandomEvent
 				..()
 
 				for(var/i = 5; i > 0; i--)
-					Players << announcemsg("[c.subject] Class is starting in [i] minute[i > 1 ? "s" : ""] for [c.name]. Click <a href=\"?src=\ref[usr];action=class_path\">here</a> for directions.")
+					for(var/mob/Player/p in Players)
+						p << announcemsg("[c.subject] Class is starting in [i] minute[i > 1 ? "s" : ""] for [c.name]. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
 					sleep(600)
 
 
