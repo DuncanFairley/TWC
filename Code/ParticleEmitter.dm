@@ -234,24 +234,30 @@ proc/fadeText(turf/loc, text, offsetX = 0, offsetY = 0)
 	new /obj/fadeText (loc, text, offsetX, offsetY)
 
 obj
-    fadeText
-        maptext_width  = 128
-        maptext_height = 16
-        mouse_opacity  = 0
-        layer          = EFFECTS_LAYER
+	fadeText
+		maptext_width  = 128
+		maptext_height = 16
+		mouse_opacity  = 0
+		layer          = EFFECTS_LAYER
 
-        New(loc, text, offsetX, offsetY)
-            ..()
+		New(i_Loc, i_Text, i_OffsetX, i_OffsetY)
+			..()
 
-            maptext = text
-            pixel_x = offsetX
-            pixel_y = offsetY
+			maptext = i_Text
+			pixel_x = i_OffsetX
+			pixel_y = i_OffsetY
 
-            var/ox = rand(-16,16)
-            animate(src, pixel_x = pixel_x,        pixel_y = pixel_y,      alpha = 254, time = 0)
-            animate(pixel_x = pixel_x + ox * 0.25, pixel_y = pixel_y + 16, alpha = 253, time = 3)
-            animate(pixel_x = pixel_x + ox * 0.5,  pixel_y = pixel_y + 32, alpha = 196, time = 3)
-            animate(pixel_x = pixel_x + ox,        pixel_y = pixel_y + 48, alpha = 128, time = 3)
-            animate(pixel_x = pixel_x + ox * 2,    pixel_y = pixel_y + 64, alpha = 0,   time = 3)
-            spawn(13)
-                loc = null
+			var/size   = abs(pixel_x * 2)
+			var/offset = 16
+			if(maptext_width < size)
+				maptext_width = size
+				offset = round(size / 8)
+
+			var/ox = rand(-offset,offset)
+			animate(src, pixel_x = pixel_x,        pixel_y = pixel_y,      alpha = 254, time = 0)
+			animate(pixel_x = pixel_x + ox * 0.25, pixel_y = pixel_y + 16, alpha = 253, time = 3)
+			animate(pixel_x = pixel_x + ox * 0.5,  pixel_y = pixel_y + 32, alpha = 196, time = 3)
+			animate(pixel_x = pixel_x + ox,        pixel_y = pixel_y + 48, alpha = 128, time = 3)
+			animate(pixel_x = pixel_x + ox * 2,    pixel_y = pixel_y + 64, alpha = 0,   time = 3)
+			spawn(13)
+				loc = null
