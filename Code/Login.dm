@@ -1909,6 +1909,11 @@ mob/proc/Death_Check(mob/killer = src)
 						winner.density = 1
 						for(var/mob/Z in view(8,currentArena.speaker))
 							Z << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[Z];action=arena_leave\">clicking here.</a></b>"
+
+						var/RandomEvent/FFA/e = locate() in events
+						if(e)
+							e.winner = winner
+
 						del(currentArena)
 					else if(currentArena.players.len == 0)
 						var/mob/winner

@@ -50,6 +50,8 @@ RandomEvent
 	FFA
 		name = "Free For All"
 
+		var/tmp/mob/Player/winner
+
 		start()
 			if(currentArena || (name in currentEvents))	return
 
@@ -97,6 +99,9 @@ RandomEvent
 					sleep(10)
 					currentArena.players << "<h4>Go!</h5>"
 					currentArena.started = 1
+
+					var/count = currentArena.players.len
+
 					var/list/rndturfs = list()
 					for(var/turf/T in locate(/area/arenas/MapThree/PlayArea))
 						rndturfs.Add(T)
@@ -122,6 +127,12 @@ RandomEvent
 							var/mob/Player/p = pick(currentArena.players)
 							p.HP = 0
 							p.Death_Check()
+
+					if(winner)
+						var/prize = 10000 * count
+						winner.gold += prize
+						winner << infomsg("You won [comma(prize)] gold for winning the round.")
+						goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: (FFA) [winner.name] won [comma(prize)] gold.<br />"
 
 			end()
 
