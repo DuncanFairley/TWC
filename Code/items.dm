@@ -3632,6 +3632,19 @@ obj/items/magic_stone
 				var/RandomEvent/Invasion/event = locate() in events
 				spawn() event.start()
 
+	eye
+		name = "death coin"
+		icon_state = "Coin"
+		effect(mob/Player/p)
+			if(p.loc && p.loc.loc)
+				var/area/a = p.loc.loc
+
+				if(istype(a, /area/newareas/outside/Desert1) || istype(a, /area/newareas/outside/Desert2) || istype(a, /area/newareas/outside/Desert3))
+					var/obj/eye_counter/count = locate("EyeCounter")
+					count.count = min(999, count.count + 200)
+					count.updateDisplay()
+
+
 	Click()
 		if(src in usr)
 			circle(usr)

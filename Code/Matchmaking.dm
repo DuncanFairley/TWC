@@ -276,9 +276,9 @@ matchmaking
 
 			var/list/L = list(winTeam.player, loseTeam.player)
 			for(var/mob/Player/p in L)
-				if(p && prob(5))
+				if(p && prob(15))
 					var/prize
-					if(loser.rating > 600 && winner.rating > 600 && prob(15))
+					if(loser.rating > 600 && winner.rating > 600 && prob(30))
 						prize = pick(/obj/items/chest/wizard_chest,
 						             /obj/items/chest/duel_chest,
 						             /obj/items/chest/basic_chest,
