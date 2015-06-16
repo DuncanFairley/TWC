@@ -285,6 +285,7 @@ StatusEffect
 	UsedRepel
 	UsedRiddikulus
 	UsedGMHelp
+	DisplayedTrophy
 
 	Lamps
 		var/tmp/obj/items/lamps/lamp

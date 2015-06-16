@@ -482,6 +482,19 @@ mob
 
 					Death()
 
+				Acromantula
+					icon_state = "spider"
+					level = 700
+					MoveDelay = 1
+					AttackDelay = 6
+
+					Death()
+						emit(loc    = loc,
+							 ptype  = /obj/particle/fluid/blood,
+						     amount = 25,
+						     angle  = new /Random(0, 360),
+						     speed  = 5,
+						     life   = new /Random(1,10))
 				Boss
 
 					Attack()
@@ -525,6 +538,68 @@ mob
 						level = 2000
 
 						Death()
+
+					Acromantula
+						name = "Bubbles the Spider"
+						icon_state = "spider"
+						level = 1400
+						HPmodifier = 10
+						DMGmodifier = 2
+						MoveDelay = 2
+						AttackDelay = 5
+						Range = 15
+						var/tmp
+							fired       = 0
+							damageTaken = 0
+
+
+						drops = list("100" = list(/obj/items/key/prom_key,
+						                          /obj/items/key/duel_key,
+						                          /obj/items/key/summer_key,
+						                          /obj/items/wearable/title/Crawler,
+						                          /obj/items/chest/blood_chest,
+						                          /obj/items/magic_stone/eye,
+												  /obj/items/lamps/triple_drop_rate_lamp,
+												  /obj/items/lamps/triple_gold_lamp))
+
+						New()
+							..()
+							transform *= 5 + (rand(-10, 10) / 10)
+
+						Attack(mob/M)
+							..()
+							if(!fired && target && state == HOSTILE)
+								fired = 1
+								spawn(rand(20,40)) fired = 0
+
+								if(prob(85))
+									var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+									var/tmp_d = dir
+									for(var/d in dirs)
+										dir = d
+										castproj(0, 'attacks.dmi', "quake", Dmg + rand(-4,8), "rubble", 0, 1)
+									dir = tmp_d
+									sleep(AttackDelay)
+
+						Attacked(projname, damage)
+							if(HP > 0)
+								damageTaken += damage
+
+								var/limit = 3
+								while(damageTaken >= 1000 && limit)
+									new /mob/NPC/Enemies/Summoned/Acromantula (loc)
+									damageTaken -= 1000
+									limit--
+
+						Death()
+							emit(loc    = loc,
+								 ptype  = /obj/particle/fluid/blood,
+							     amount = 100,
+							     angle  = new /Random(0, 360),
+							     speed  = 6,
+							     life   = new /Random(1,25))
+							..()
+
 
 					Wisp
 						icon_state = "wisp"

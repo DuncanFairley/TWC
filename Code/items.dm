@@ -494,6 +494,24 @@ obj/items/trophies
 		icon_state = "Bronze"
 	desc = "It's blank!"
 
+	Click()
+		if(src in usr)
+			if(canUse(M=usr, cooldown=/StatusEffect/DisplayedTrophy, needwand=0, inarena=0, inhogwarts=0))
+				new /StatusEffect/DisplayedTrophy(usr, 30)
+
+				var/msg = "[icon_state] Trophy: [desc]"
+				var/offset = 15 - (length(msg) * 4)
+
+				src = null
+				spawn()
+					for(var/i = 1 to rand(10,20))
+						if(!usr) break
+						var/c = rgb(rand(0, 255), rand(0, 255), rand(0, 255))
+						fadeText(usr, "<font color=[c]>[msg]</font>", offset, 20)
+						sleep(3)
+		else
+			..()
+
 	New()
 		..()
 		spawn(1)
@@ -652,7 +670,8 @@ obj/items/wearable/wands
 	var
 		track
 		displayColor
-		killCount   = 0
+		killCount        = 0
+		monsterKillCount = 0
 		tmp/display = FALSE
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
@@ -665,11 +684,12 @@ obj/items/wearable/wands
 					W.Equip(owner,1,1)
 			if(!overridetext)
 				if(track)
-					displayKills(owner, 0)
-					if(displayColor)
-						viewers(owner) << infomsg({"[owner] draws \his <font color="[displayColor]">[src.name]</font>."})
-					else
-						viewers(owner) << infomsg("[owner] draws \his [src.name].")
+					displayKills(owner, 0, 1)
+					displayKills(owner, 0, 2)
+				if(track && displayColor)
+					viewers(owner) << infomsg({"[owner] draws \his <font color="[displayColor]">[src.name]</font>."})
+				else
+					viewers(owner) << infomsg("[owner] draws \his [src.name].")
 		else if(. == REMOVED)
 			if(!overridetext)
 				if(track && displayColor)
@@ -677,7 +697,7 @@ obj/items/wearable/wands
 				else
 					viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
 
-proc/displayKills(mob/Player/i_Player, count=0, overrideCount=FALSE)
+proc/displayKills(mob/Player/i_Player, count=0, countType=1)
 	set waitfor = 0
 	var/obj/items/wearable/wands/w = locate() in i_Player.Lwearing
 	if(w && w.track)
@@ -687,14 +707,23 @@ proc/displayKills(mob/Player/i_Player, count=0, overrideCount=FALSE)
 
 		w.display = TRUE
 		spawn(3) w.display = FALSE
-		if(!overrideCount) w.killCount += count
 
-		var/offset = 15 - (length("[w.killCount]") * 5)
+		var/num
+		if(!countType)
+			num = count
+		else if(countType == 1)
+			w.killCount += count
+			num = w.killCount
+		else if(countType == 2)
+			w.monsterKillCount += count
+			num = w.monsterKillCount
+
+		var/offset = 15 - (length("[num]") * 5)
 
 		if(w.displayColor)
-			fadeText(i_Player, "<b><font color=\"[w.displayColor]\">[overrideCount ? count : w.killCount] </font></b>", offset, 20)
+			fadeText(i_Player, "<b><font color=\"[w.displayColor]\">[num] </font></b>", offset, 20)
 		else
-			fadeText(i_Player, "<b>[overrideCount ? count : w.killCount]</b>", offset, 20)
+			fadeText(i_Player, "<b>[num]</b>", offset, 20)
 
 obj/items/wearable/wands/cedar_wand //Thanksgiving
 	icon = 'cedar_wand.dmi'
@@ -809,8 +838,11 @@ obj/items/wearable/wands/ash_wand
 	icon = 'ash_wand.dmi'
 	displayColor = "#cab5b5"
 obj/items/wearable/wands/duel_wand
-	icon = 'wand_dueling.dmi'
+	icon = 'duel_wand.dmi'
 	displayColor = "#088"
+obj/items/wearable/wands/blood_wand
+	icon = 'blood_wand.dmi'
+	displayColor = "#9A1010"
 
 obj/items/wearable/wigs
 	price = 500000
@@ -1009,7 +1041,9 @@ obj/items/wearable/shoes/candycane_shoes
 	icon = 'candycane_shoes.dmi'
 	name = "candy cane shoes"
 obj/items/wearable/shoes/duel_shoes
-	icon = 'shoes_dueling.dmi'
+	icon = 'duel_shoes.dmi'
+obj/items/wearable/shoes/blood_shoes
+	icon = 'blood_shoes.dmi'
 
 obj/items/wearable/scarves
 	bonus = 0
@@ -1061,9 +1095,11 @@ obj/items/wearable/scarves/teal_scarf
 obj/items/wearable/scarves/white_scarf
 	icon = 'scarf_white.dmi'
 obj/items/wearable/scarves/duel_scarf
-	icon = 'scarf_dueling.dmi'
+	icon = 'scarf_duel.dmi'
 obj/items/wearable/scarves/sunset_scarf
 	icon = 'scarf_sunset.dmi'
+obj/items/wearable/scarves/blood_scarf
+	icon = 'scarf_blood.dmi'
 
 obj/items/wearable/scarves/lucifer_scarf
 	icon = 'scarf_lucifer.dmi'
@@ -1282,6 +1318,9 @@ obj/items/wearable/title
 	Gambler
 		title = "The Gambler"
 		name  = "Title: The Gambler"
+	Crawler
+		title = "Crawler"
+		name  = "Title: Crawler"
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
 		B.Roll(dir)
@@ -3635,14 +3674,20 @@ obj/items/magic_stone
 	eye
 		name = "death coin"
 		icon_state = "Coin"
-		effect(mob/Player/p)
+
+		circle(mob/Player/p)
 			if(p.loc && p.loc.loc)
 				var/area/a = p.loc.loc
-
 				if(istype(a, /area/newareas/outside/Desert1) || istype(a, /area/newareas/outside/Desert2) || istype(a, /area/newareas/outside/Desert3))
-					var/obj/eye_counter/count = locate("EyeCounter")
-					count.count = min(999, count.count + 200)
-					count.updateDisplay()
+					..(p)
+				else
+					p << errormsg("The coin glows, nothing else happens.")
+
+
+		effect(mob/Player/p)
+			var/obj/eye_counter/count = locate("EyeCounter")
+			count.count = min(999, count.count + 200)
+			count.updateDisplay()
 
 
 	Click()
@@ -3654,7 +3699,7 @@ obj/items/magic_stone
 	proc/effect(mob/Player/p)
 	proc/circle(mob/Player/p)
 
-		if(!canUse(p,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=3000,antiTeleport=1))
+		if(!canUse(p,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=3000))
 			return
 		if(!(p.loc && (istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))))
 			p << errormsg("You can only use this outside.")
@@ -4002,6 +4047,10 @@ obj/items
 				name = "2015 prom 2015 chest"
 				drops = "2015 prom"
 
+		blood_chest
+			icon_state = "red"
+			drops      = "blood"
+
 	key
 		icon = 'ChestKey.dmi'
 
@@ -4012,6 +4061,8 @@ obj/items
 		duel_key
 			icon_state = "duel"
 		pentakill_key
+			icon_state = "red"
+		blood_key
 			icon_state = "red"
 		basic_key
 			icon_state = "green"
@@ -4076,6 +4127,10 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 							                    /obj/items/wearable/shoes/pink_shoes         = 25,
 							                    /obj/items/wearable/shoes/darkpink_shoes     = 10,
 							                    /obj/items/wearable/scarves/darkpink_scarf   = 20),
+
+							 "blood"     = list(/obj/items/wearable/scarves/blood_scarf = 50,
+							 					/obj/items/wearable/shoes/blood_shoes   = 30,
+							 					/obj/items/wearable/wands/blood_wand    = 20),
 
 							 "gold only" = list(/obj/items/magic_stone/memory     = 10,
 							                    /obj/items/herosbrace             = 20,

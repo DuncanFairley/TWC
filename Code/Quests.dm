@@ -1269,14 +1269,11 @@ quest
 		Kill
 			desc = "Kill 50 of each monster."
 			reqs = list("Kill Rat"             = 50,
-			            "Kill Demon Rat"       = 50,
 			            "Kill Pixie"           = 50,
 			            "Kill Dog"             = 50,
 			            "Kill Snake"           = 50,
 			            "Kill Wolf"            = 50,
 			            "Kill Troll"           = 50,
-			            "Kill Fire Bat"        = 50,
-			            "Kill Fire Golem"      = 50,
 			            "Kill Archangel"       = 50,
 			            "Kill Water Elemental" = 50,
 			            "Kill Fire Elemental"  = 50,

@@ -266,6 +266,37 @@ RandomEvent
 			if(message) Players << infomsg("Willy the Whisp and his minions have magically vanished by the powers of the ministry.")
 			end()
 
+
+	Spider
+		name = "Spiders"
+		start()
+			..()
+			var/minutes = rand(15,45)
+			var/list/m = list()
+			Players << infomsg("Something doesn't quite smell right outside Hogwarts, be cautious, evil forces are crawling, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to ...butcher them... before then you might be able to get a nice prize!")
+
+			var/obj/spawner/spawn_loc = pick(spawners)
+			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/Acromantula(spawn_loc.loc)
+			m += monster
+			for(var/i = 1 to rand(10,30))
+				spawn_loc = pick(spawners)
+				monster = new /mob/NPC/Enemies/Summoned/Acromantula (spawn_loc.loc)
+
+				m += monster
+
+			sleep(minutes * 600)
+
+			var/message = 0
+			for(var/mob/NPC/Enemies/Summoned/mon in m)
+				if(mon.loc != null) message = 1
+				mon.loc = null
+				mon.ChangeState(monster.INACTIVE)
+				m -= mon
+			m = null
+
+			if(message) Players << infomsg("The pesky spiders were exterminated. All hail the dalek--- ministry.")
+			end()
+
 	EntranceKillZone
 		name = "Entrance Kill Zone"
 		start()
