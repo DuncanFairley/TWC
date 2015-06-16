@@ -838,8 +838,11 @@ obj/items/wearable/wands/ash_wand
 	icon = 'ash_wand.dmi'
 	displayColor = "#cab5b5"
 obj/items/wearable/wands/duel_wand
-	icon = 'wand_dueling.dmi'
+	icon = 'duel_wand.dmi'
 	displayColor = "#088"
+obj/items/wearable/wands/blood_wand
+	icon = 'blood_wand.dmi'
+	displayColor = "#9A1010"
 
 obj/items/wearable/wigs
 	price = 500000
@@ -1038,7 +1041,7 @@ obj/items/wearable/shoes/candycane_shoes
 	icon = 'candycane_shoes.dmi'
 	name = "candy cane shoes"
 obj/items/wearable/shoes/duel_shoes
-	icon = 'shoes_dueling.dmi'
+	icon = 'duel_shoes.dmi'
 
 obj/items/wearable/scarves
 	bonus = 0
@@ -1090,7 +1093,7 @@ obj/items/wearable/scarves/teal_scarf
 obj/items/wearable/scarves/white_scarf
 	icon = 'scarf_white.dmi'
 obj/items/wearable/scarves/duel_scarf
-	icon = 'scarf_dueling.dmi'
+	icon = 'scarf_duel.dmi'
 obj/items/wearable/scarves/sunset_scarf
 	icon = 'scarf_sunset.dmi'
 
@@ -4040,6 +4043,10 @@ obj/items
 				name = "2015 prom 2015 chest"
 				drops = "2015 prom"
 
+		blood_chest
+			icon_state = "red"
+			drops      = "blood"
+
 	key
 		icon = 'ChestKey.dmi'
 
@@ -4114,6 +4121,8 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 							                    /obj/items/wearable/shoes/pink_shoes         = 25,
 							                    /obj/items/wearable/shoes/darkpink_shoes     = 10,
 							                    /obj/items/wearable/scarves/darkpink_scarf   = 20),
+
+							 "blood"     = list(/obj/items/wearable/wands/blood_wand = 10),
 
 							 "gold only" = list(/obj/items/magic_stone/memory     = 10,
 							                    /obj/items/herosbrace             = 20,
