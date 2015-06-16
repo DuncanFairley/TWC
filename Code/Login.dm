@@ -748,7 +748,7 @@ world
 	name = "Harry Potter: The Wizards' Chronicles"
 	turf=/turf/blankturf
 	view="17x17"
-var/world/VERSION = "16.32"
+var/world/VERSION = "16.33"
 
 world/proc/playtimelogger()
 	return
