@@ -557,6 +557,7 @@ mob
 						                          /obj/items/key/duel_key,
 						                          /obj/items/key/summer_key,
 						                          /obj/items/wearable/title/Crawler,
+						                          /obj/items/chest/blood_chest,
 						                          /obj/items/magic_stone/eye,
 												  /obj/items/lamps/triple_drop_rate_lamp,
 												  /obj/items/lamps/triple_gold_lamp))
