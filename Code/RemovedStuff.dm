@@ -419,6 +419,7 @@ mob
 				if(locate(/mob/GM/verb/GM_chat) in usr.verbs) usr.Gm = 1
 				usr << "You slip off your Death Eater robes."
 				usr.name = usr.prevname
+				usr.prevname = null
 				usr.underlays = list()
 				if(usr.Gender == "Male")
 					usr.gender = MALE
