@@ -496,7 +496,7 @@ obj/items/trophies
 
 	Click()
 		if(src in usr)
-			if(canUse(M=usr, cooldown=/StatusEffect/DisplayedTrophy, needwand=0, inarena=0, inhogwarts=0))
+			if(canUse(M=usr, cooldown=/StatusEffect/DisplayedTrophy, needwand=0))
 				new /StatusEffect/DisplayedTrophy(usr, 30)
 
 				var/msg = "[icon_state] Trophy: [desc]"
