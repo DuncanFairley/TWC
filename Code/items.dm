@@ -1311,6 +1311,9 @@ obj/items/wearable/title
 	Gambler
 		title = "The Gambler"
 		name  = "Title: The Gambler"
+	Crawler
+		title = "Crawler"
+		name  = "Title: Crawler"
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
 		B.Roll(dir)
