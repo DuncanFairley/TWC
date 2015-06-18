@@ -2280,6 +2280,7 @@ obj/portkey
 			view(src) << "The portkey collapses and closes."
 			del(src)
 	proc/Teleport(mob/Player/M)
+		if(!partner) return
 		if(M.Transfer(partner.loc))
 			M << "You step through the portkey."
 			..()
