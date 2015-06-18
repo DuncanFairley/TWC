@@ -759,6 +759,7 @@ client
 			if(mob:isTrading())
 				mob:trade.Clean()
 			mob:auctionClosed()
+			mob:saveSpells()
 			var/StatusEffect/S = mob.findStatusEffect(/StatusEffect/Lamps)
 			if(S) S.Deactivate()
 			if(mob.prevname)
