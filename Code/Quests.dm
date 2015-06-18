@@ -10,15 +10,33 @@ obj/items
 		icon='questbook.dmi'
 		dropable = 0
 
+		var/tmp/isOpen = FALSE
+
 		Click()
 			..()
 			var/mob/Player/p = usr
-			p.buildQuestBook()
+			if(p.questBookOpen)
+				p.questBookOpen = FALSE
+				winshow(p, "Quests", 0)
+			else
+				p.questBookOpen = TRUE
+				p.buildQuestBook()
 
 		verb
 			Read_Quest_Book()
 				var/mob/Player/p = usr
-				p.buildQuestBook()
+				if(p.questBookOpen)
+					p.questBookOpen = FALSE
+					winshow(p, "Quests", 0)
+				else
+					p.questBookOpen = TRUE
+					p.buildQuestBook()
+
+mob/Player
+	var/tmp/questBookOpen = FALSE
+	verb/questBookClosed()
+		set name = ".questBookClosed"
+		questBookOpen = FALSE
 
 mob
 	var
