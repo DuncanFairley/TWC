@@ -487,6 +487,7 @@ mob
 					level = 700
 					MoveDelay = 1
 					AttackDelay = 5
+					Range = 16
 
 					Death()
 						emit(loc    = loc,
@@ -544,10 +545,10 @@ mob
 						icon_state = "spider"
 						level = 1400
 						HPmodifier = 10
-						DMGmodifier = 2.2
+						DMGmodifier = 2.3
 						MoveDelay = 2
 						AttackDelay = 1
-						Range = 15
+						Range = 16
 						var/tmp
 							fired       = 0
 							damageTaken = 0
