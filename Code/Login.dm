@@ -745,7 +745,7 @@ turf
 
 world
 	hub = "TheWizardsChronicles.TWC"
-	name = "Harry Potter: The Wizards' Chronicles"
+	name = "The Wizards' Chronicles"
 	turf=/turf/blankturf
 	view="17x17"
 var/world/VERSION = "16.34"
@@ -1138,6 +1138,7 @@ mob/Player
 		if(!Interface) Interface = new(src)
 		isDJ(src)
 		checkMail()
+		buildActionBar()
 		spawn()
 			//CheckSavefileVersion()
 			if(istype(src.loc.loc,/area/arenas) && !rankedArena)

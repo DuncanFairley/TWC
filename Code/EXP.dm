@@ -7,7 +7,7 @@
 obj/hud/reading
 	icon = 'HUD.dmi'
 	icon_state = "reading"
-	screen_loc = "EAST-2,2"
+	screen_loc = "EAST-3,2"
 obj/hud/radio
 	icon = 'HUD.dmi'
 	icon_state = "radio"

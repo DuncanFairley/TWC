@@ -872,7 +872,7 @@ window "Quests"
 		alpha = 255
 		macro = "macro"
 		menu = ""
-		on-close = ""
+		on-close = ".questBookClosed"
 	elem "outputQuests"
 		type = OUTPUT
 		pos = 231,69
@@ -1015,6 +1015,79 @@ window "Quests"
 		highlight-color = #000000
 		style = ""
 		is-list = false
+
+window "SpellBook"
+	elem "SpellBook"
+		type = MAIN
+		pos = 281,0
+		size = 285x232
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #000000
+		background-color = none
+		is-visible = false
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "pos;size;is-minimized;is-maximized"
+		on-size = ""
+		title = ""
+		titlebar = true
+		statusbar = false
+		can-close = true
+		can-minimize = true
+		can-resize = true
+		is-pane = false
+		is-minimized = false
+		is-maximized = false
+		can-scroll = none
+		icon = ""
+		image = ""
+		image-mode = stretch
+		keep-aspect = false
+		transparent-color = none
+		alpha = 255
+		macro = "macro"
+		menu = ""
+		on-close = ".spellBookClosed"
+	elem "gridSpellBook"
+		type = GRID
+		pos = 0,0
+		size = 285x232
+		anchor1 = 0,0
+		anchor2 = 100,100
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #6f81ff
+		background-color = #cceeff
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = sunken
+		drop-zone = true
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		cells = 1x0
+		current-cell = 1,1
+		show-lines = none
+		small-icons = false
+		show-names = true
+		enable-http-images = false
+		link-color = #0000ff
+		visited-color = #ff00ff
+		line-color = #c0c0c0
+		highlight-color = #000000
+		style = ""
+		is-list = true
 
 window "mainwindow"
 	elem "mainwindow"
@@ -2799,7 +2872,7 @@ window "paneSpellbook_Trans"
 		link-color = #0000ff
 		visited-color = #ff00ff
 		line-color = #c0c0c0
-		highlight-color = none
+		highlight-color = #000000
 		style = ""
 		is-list = false
 
@@ -3018,7 +3091,7 @@ window "paneSpellbook_All"
 		link-color = #0000ff
 		visited-color = #ff00ff
 		line-color = #c0c0c0
-		highlight-color = none
+		highlight-color = #000000
 		style = ""
 		is-list = false
 

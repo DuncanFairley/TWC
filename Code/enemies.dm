@@ -486,7 +486,8 @@ mob
 					icon_state = "spider"
 					level = 700
 					MoveDelay = 1
-					AttackDelay = 6
+					AttackDelay = 5
+					Range = 16
 
 					Death()
 						emit(loc    = loc,
@@ -544,10 +545,10 @@ mob
 						icon_state = "spider"
 						level = 1400
 						HPmodifier = 10
-						DMGmodifier = 2
+						DMGmodifier = 2.3
 						MoveDelay = 2
-						AttackDelay = 5
-						Range = 15
+						AttackDelay = 1
+						Range = 16
 						var/tmp
 							fired       = 0
 							damageTaken = 0
@@ -570,9 +571,9 @@ mob
 							..()
 							if(!fired && target && state == HOSTILE)
 								fired = 1
-								spawn(rand(20,40)) fired = 0
+								spawn(rand(20,30)) fired = 0
 
-								if(prob(85))
+								if(prob(95))
 									var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 									var/tmp_d = dir
 									for(var/d in dirs)

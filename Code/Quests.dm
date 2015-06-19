@@ -10,15 +10,33 @@ obj/items
 		icon='questbook.dmi'
 		dropable = 0
 
+		var/tmp/isOpen = FALSE
+
 		Click()
 			..()
 			var/mob/Player/p = usr
-			p.buildQuestBook()
+			if(p.questBookOpen)
+				p.questBookOpen = FALSE
+				winshow(p, "Quests", 0)
+			else
+				p.questBookOpen = TRUE
+				p.buildQuestBook()
 
 		verb
 			Read_Quest_Book()
 				var/mob/Player/p = usr
-				p.buildQuestBook()
+				if(p.questBookOpen)
+					p.questBookOpen = FALSE
+					winshow(p, "Quests", 0)
+				else
+					p.questBookOpen = TRUE
+					p.buildQuestBook()
+
+mob/Player
+	var/tmp/questBookOpen = FALSE
+	verb/questBookClosed()
+		set name = ".questBookClosed"
+		questBookOpen = FALSE
 
 mob
 	var
@@ -42,7 +60,6 @@ mob/TalkNPC/quest
 	proc
 
 		Quest(mob/Player/i_Player)
-
 			if(i_Player.questPointers)
 				for(var/i in i_Player.questPointers)
 					var/questPointer/pointer = i_Player.questPointers[i]
@@ -54,6 +71,7 @@ mob/TalkNPC/quest
 						else if(questPointers == i) continue
 
 					i_Player.questProgress(i, name)
+					i_Player.Interface.Update()
 					break
 
 			if(questPointers)
@@ -1045,7 +1063,7 @@ mob/TalkNPC/quest
 
 	Zerf
 		icon_state = "stat"
-		questPointers = list("PvP Introduction", "Culling the Herd")
+		questPointers = list("PvP Introduction", "Culling the Herd", "Strength of Dragons")
 		Talk()
 			set src in oview(3)
 			Quest(usr)
@@ -1056,6 +1074,8 @@ mob/TalkNPC/quest
 					i_Player << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
 				if("Culling the Herd")
 					i_Player << npcsay("Zerf: Let's kill some people... A lot of people!")
+				if("Strength of Dragons")
+					i_Player << npcsay("Zerf: Show me what you're made of, if you're strong enough I will give you a wand so powerful it contains the strength of dragons!")
 
 			..(i_Player, questName)
 
@@ -1073,6 +1093,9 @@ mob/TalkNPC/quest
 						i_Player << npcsay("Zerf: Mawhahahaha! THEY'RE ALL DEAD!")
 					else
 						i_Player << npcsay("Zerf: Kill or be killed, my friend.")
+				if("Strength of Dragons")
+					i_Player << npcsay("Zerf: Hmm... I don't know, are you really ready?")
+
 
 		questCompleted(mob/Player/i_Player, questName)
 			if(i_Player.level == lvlcap)
@@ -1258,6 +1281,44 @@ quest
 			reqs = list("Kill Player" = 1000)
 		Reward
 			desc = "Go back to the Zerf to get your reward!"
+			reqs = list("Zerf" = 1)
+
+	PVP3
+		name   = "Strength of Dragons"
+		desc   = "Zerf will reward you greatly (unlike last time... you hope) if you manage to show him how powerful you've become."
+		reward = /questReward/PVP3
+
+		Players
+			desc = "Time to show some strength, let's kill stuff!"
+			reqs = list("Kill Player"            = 1000,
+			            "Kill Floating Eye"      = 200,
+			            "Kill Wisp"              = 200)
+
+		FakeReward1
+			desc = "Go back to the Zerf to get your reward!"
+			reqs = list("Zerf" = 1)
+
+		Boss
+			desc = "Zerf told you to kill more, how about you try boss monsters?"
+			reqs = list("Kill Basilisk"           = 1,
+			            "Kill Stickman"           = 1,
+			            "Kill Eye of The Fallen"  = 1,
+			            "Kill Tamed Dog"          = 1,
+			            "Kill Willy the Whisp"    = 1,
+			            "Kill The Evil Snowman"   = 1,
+			            "Kill Bubbles the Spider" = 1)
+
+		FakeReward2
+			desc = "Go back to the Zerf to get your reward!"
+			reqs = list("Zerf" = 1)
+
+		Boost
+			desc = "You decided Zerf is cray cray, it would be easier to fool him by making yourself smell like a demon."
+			reqs = list("Kill Demon Rat"  = 50,
+			            "Demonic Essence" = 5)
+
+		Reward
+			desc = "Go back to the Zerf and fool him to get your reward!"
 			reqs = list("Zerf" = 1)
 
 	Extermination
@@ -1666,6 +1727,11 @@ questReward
 			         /obj/items/magic_stone/teleport,
 			         /obj/items/magic_stone/teleport,
 			         /obj/items/magic_stone/teleport)
+
+	PVP3
+		gold  = 1337
+		items = /obj/items/wearable/wands/dragonhorn_wand
+
 	Ritual
 		gold  = 3000
 		exp   = 30000

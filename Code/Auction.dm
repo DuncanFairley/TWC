@@ -349,6 +349,7 @@ mob/Player
 obj/items
 
 	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
+		.=..()
 		var/mob/Player/P = usr
 		if((src in usr) && P.auctionInfo)
 			if(over_control == "Auction.gridAuctionAddItem" && src != P.auctionInfo.item)
