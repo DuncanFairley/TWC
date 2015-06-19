@@ -17,7 +17,7 @@ mob/Player
 				if(istype(UsedKeys[k], /obj/spells))
 					var/obj/spells/s = UsedKeys[k]
 
-					if(s.path in verbs)
+					if((s.path in verbs) || !s.path)
 						UsedKeys[k] = s.name
 					else
 						UsedKeys -= k
@@ -35,24 +35,36 @@ mob/Player
 
 		updateSpellbook()
 
-			var/list/s = list(/mob/Spells/verb/Glacius,
-							  /mob/Spells/verb/Inflamari,
-							  /mob/Spells/verb/Waddiwasi,
-							  /mob/Spells/verb/Flippendo,
-							  /mob/Spells/verb/Incindia,
-							  /mob/Spells/verb/Incendio,
-							  /mob/Spells/verb/Tremorio,
+			var/list/s = list("Meditate",
 							  /mob/Spells/verb/Aqua_Eructo,
-							  /mob/Spells/verb/Chaotica)
+							  /mob/Spells/verb/Chaotica,
+							  /mob/Spells/verb/Episky,
+							  /mob/Spells/verb/Flippendo,
+							  /mob/Spells/verb/Glacius,
+							  /mob/Spells/verb/Incendio,
+							  /mob/Spells/verb/Incindia,
+							  /mob/Spells/verb/Inflamari,
+							  /mob/Spells/verb/Tremorio,
+							  /mob/Spells/verb/Waddiwasi)
 
 			if(!spells) spells = list()
-			var/count = 0
+			var/count = spells.len
 			for(var/spell in s)
-				count++
-				if(spell in verbs)
-					var/spellName = spellList[spell]
+				if(istext(spell))
+					if(!(spell in spells))
+						count++
+						var/obj/spells/o = new
+						o.name       = spell
+						o.icon_state = o.selectState()
 
+						spells[spell] = o
+
+						src << output(o, "SpellBook.gridSpellbook:[count]")
+
+				else if(spell in verbs)
+					var/spellName = spellList[spell]
 					if(!(spellName in spells))
+						count++
 						var/obj/spells/o = new
 
 						o.name       = spellName
@@ -77,12 +89,14 @@ obj/spells
 		if(name == "Flippendo")   return "flippendo"
 		if(name == "Tremorio")    return "quake"
 		if(name == "Chaotica")    return "black"
+		if(name == "Meditate")    return "meditate"
+		if(name == "Episkey")     return "episkey"
 		return "fireball"
 
 
 	Click()
 		var/mob/m = usr
-		if(!(path in m.verbs))
+		if(path && !(path in m.verbs))
 			if(m:spells && (src in m:spells))
 				m:spells -= src
 				return
@@ -110,6 +124,10 @@ obj/spells
 				m:Aqua_Eructo()
 			if("Chaotica")
 				m:Chaotica()
+			if("Meditate")
+				m.Meditate()
+			if("Episkey")
+				m:Episky()
 
 	MouseDrag()
 		usr.client.mouse_pointer_icon = icon(icon,icon_state)

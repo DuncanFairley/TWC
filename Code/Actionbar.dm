@@ -13,20 +13,24 @@ obj
 			New(loc,pos)
 				..()
 				screen_loc = pos
+
 			Click()
 				Do()
 			MouseDrag()
-				usr.client.mouse_pointer_icon = icon(icon,icon_state)
+				if(parent.UsedKeys && (key in parent.UsedKeys))
+					var/obj/o = parent.UsedKeys[key]
+					usr.client.mouse_pointer_icon = icon(o.icon, o.icon_state)
 			MouseDrop(over_object)
-				usr.client.mouse_pointer_icon = 'pointer.dmi'
-				var/swap
-				if(istype(over_object, /obj/actionbar/keys/))
-					var/obj/actionbar/keys/k = over_object
+				if(parent.UsedKeys && parent.UsedKeys[key])
+					usr.client.mouse_pointer_icon = 'pointer.dmi'
+					var/swap
+					if(istype(over_object, /obj/actionbar/keys/))
+						var/obj/actionbar/keys/k = over_object
 
-					swap = parent.UsedKeys[k.key]
+						swap = parent.UsedKeys[k.key]
 
-					k.SetKey(parent.UsedKeys[key], icon_state)
-				SetKey(swap)
+						k.SetKey(parent.UsedKeys[key], icon_state)
+					SetKey(swap)
 
 
 			proc
@@ -57,10 +61,8 @@ obj
 							overlays += o
 							o.layer = origLayer
 
-						if(parent.UsedKeys)
-							parent.UsedKeys[key] = a
-						else
-							parent.UsedKeys = list(key = a)
+						if(!parent.UsedKeys) parent.UsedKeys = list()
+						parent.UsedKeys[key] = a
 
 mob/Player
 	var
@@ -86,7 +88,7 @@ mob/Player
 					A.SetKey(UsedKeys[A.key])
 				else A.invisibility = 10
 
-				winset(src, "[i]", "parent=macro;name=[i]+rep;command=keyPress+[i]")
+				winset(src, "[i]Rep", "parent=macro;name=\"[i]+REP\";command=\"keyPress [i]\"")
 
 		toggle_actionbar(on=0)
 			if(displayActionbar == on) return
