@@ -1300,10 +1300,13 @@ quest
 
 		Boss
 			desc = "Zerf told you to kill more, how about you try boss monsters?"
-			reqs = list("Kill Basilisk"          = 1,
-			            "Kill Stickman"          = 1,
-			            "Kill Eye of The Fallen" = 1,
-			            "Kill Tamed Dog"         = 1)
+			reqs = list("Kill Basilisk"           = 1,
+			            "Kill Stickman"           = 1,
+			            "Kill Eye of The Fallen"  = 1,
+			            "Kill Tamed Dog"          = 1,
+			            "Kill Willy the Whisp"    = 1,
+			            "Kill The Evil Snowman"   = 1,
+			            "Kill Bubbles the Spider" = 1)
 
 		FakeReward2
 			desc = "Go back to the Zerf to get your reward!"
@@ -2060,14 +2063,3 @@ mob/Player
 
 			mapTextColor = "[c]"
 			Interface.Update()
-
-mob/Player/verb/testQuest()
-	for(var/questName in questPointers)
-		var/questPointer/pointer = questPointers[questName]
-
-
-		for(var/req in pointer.reqs)
-			if(pointer.reqs.len == 1 && pointer.reqs[req] == 1) continue
-
-			pointer.reqs[req] = 1
-			questProgress(questName, req)
