@@ -1020,7 +1020,7 @@ window "SpellBook"
 	elem "SpellBook"
 		type = MAIN
 		pos = 281,0
-		size = 640x480
+		size = 285x232
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -1059,7 +1059,7 @@ window "SpellBook"
 	elem "gridSpellBook"
 		type = GRID
 		pos = 0,0
-		size = 640x480
+		size = 285x232
 		anchor1 = 0,0
 		anchor2 = 100,100
 		font-family = ""
@@ -1076,7 +1076,7 @@ window "SpellBook"
 		right-click = false
 		saved-params = ""
 		on-size = ""
-		cells = 1x1
+		cells = 1x0
 		current-cell = 1,1
 		show-lines = none
 		small-icons = false
