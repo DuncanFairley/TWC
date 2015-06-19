@@ -117,6 +117,7 @@ mob/Player
 obj/items
 
 	MouseDrag()
+		..()
 		usr.client.mouse_pointer_icon = icon(icon,icon_state)
 
 	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
