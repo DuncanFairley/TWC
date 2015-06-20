@@ -607,7 +607,7 @@ obj/items/wearable/brooms/nimbus_2000
 obj/items/wearable/brooms/cleansweep_seven
 	icon = 'cleansweep_seven_broom.dmi'
 obj/items/wearable/hats
-	wear_layer = FLOAT_LAYER - 4
+	wear_layer = FLOAT_LAYER - 3
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(forceremove)return 0
@@ -851,6 +851,7 @@ obj/items/wearable/wigs
 	price = 500000
 	bonus = 0
 	desc = "A wig to hide those dreadful split ends."
+	wear_layer = FLOAT_LAYER - 4
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(. == WORN)
