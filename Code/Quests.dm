@@ -1757,14 +1757,7 @@ questReward
 			p << infomsg("You receive [comma(gold)] gold.")
 		if(exp && p.level < lvlcap)
 			p << infomsg("You receive [comma(exp)] experience.")
-			var/xp2give = exp
-			while(p.Exp + xp2give > p.Mexp && p.level <= lvlcap)
-				xp2give -= p.Mexp - p.Exp
-				p.Exp = p.Mexp
-				p.LvlCheck()
-
-			p.Exp += xp2give
-			p.LvlCheck()
+			p.addExp(exp, 1)
 		if(items)
 			if(islist(items))
 				for(var/t in items)

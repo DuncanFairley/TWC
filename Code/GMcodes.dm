@@ -1890,6 +1890,11 @@ world/New()
 		if(!M.key)
 			if(M.monster == 0)
 				M.GenerateNameOverlay(255,255,255)
+
+	rankIcons = list()
+	for(var/state in icon_states('Ranks.dmi'))
+		rankIcons[state] = icon('Ranks.dmi', state)
+
 	worldlooper()
 world/proc/Load_Bans()
 	var/savefile/S=new("players/cr_full.ban")
@@ -1904,3 +1909,5 @@ world/proc/Save_Bans()
 	S["key"] << crban_keylist
 	S["IP"] << crban_iplist
 	S["unban"] << crban_unbanned
+
+var/list/rankIcons
