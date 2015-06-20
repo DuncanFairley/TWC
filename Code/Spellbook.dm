@@ -1,3 +1,4 @@
+
 mob/Player
 	var/tmp
 		spellBookOpen = FALSE
@@ -35,63 +36,41 @@ mob/Player
 
 		updateSpellbook()
 
-			var/list/s = list("Meditate",
-							  /mob/Spells/verb/Aqua_Eructo,
-							  /mob/Spells/verb/Chaotica,
-							  /mob/Spells/verb/Episky,
-							  /mob/Spells/verb/Flippendo,
-							  /mob/Spells/verb/Glacius,
-							  /mob/Spells/verb/Incendio,
-							  /mob/Spells/verb/Incindia,
-							  /mob/Spells/verb/Inflamari,
-							  /mob/Spells/verb/Tremorio,
-							  /mob/Spells/verb/Waddiwasi)
+			var/list/verbList = list("Meditate", "Take")
 
 			if(!spells) spells = list()
 			var/count = spells.len
-			for(var/spell in s)
-				if(istext(spell))
-					if(!(spell in spells))
-						count++
-						var/obj/spells/o = new
-						o.name       = spell
-						o.icon_state = o.selectState()
 
-						spells[spell] = o
+			for(var/v in verbList)
+				if(v in spells) continue
+				count++
+				var/obj/spells/o = new (null, v, null)
+				spells[v] = o
 
-						src << output(o, "SpellBook.gridSpellbook:[count]")
+				src << output(o, "SpellBook.gridSpellbook:[count]")
 
-				else if(spell in verbs)
-					var/spellName = spellList[spell]
-					if(!(spellName in spells))
-						count++
-						var/obj/spells/o = new
+			for(var/v in verbs)
+				var/mob/Spells/verb/generic = v
+				if(generic.name in spells)                     continue
+				if(!findtext("[v]", "/mob/Spells/verb")) continue
+				count++
 
-						o.name       = spellName
-						o.icon_state = o.selectState()
-						o.path       = spell
+				var/obj/spells/o = new (null, generic.name, text2path("[v]"))
+				spells[generic.name] = o
 
-						spells[spellName] = o
-
-						src << output(o, "SpellBook.gridSpellbook:[count]")
-
+				src << output(o, "SpellBook.gridSpellbook:[count]")
 
 obj/spells
-	icon = 'Attacks.dmi'
+	icon = 'SpellbookIcons.dmi'
 
 	var/path
-	var/obj/actionbar/key/macro
 
-	proc/selectState()
-		if(name == "Glacius")     return "iceball"
-		if(name == "Waddiwasi")   return "gum"
-		if(name == "Aqua Eructo") return "aqua"
-		if(name == "Flippendo")   return "flippendo"
-		if(name == "Tremorio")    return "quake"
-		if(name == "Chaotica")    return "black"
-		if(name == "Meditate")    return "meditate"
-		if(name == "Episkey")     return "episkey"
-		return "fireball"
+	New(Loc, name, path)
+		..()
+
+		src.name   = name
+		src.path   = path
+		icon_state = name
 
 
 	Click()
@@ -104,7 +83,9 @@ obj/spells
 				for(var/k in m:UsedKeys)
 					var/obj/o = m:UsedKeys[k]
 					if(o == src)
+						m:removeKey(k)
 						m:UsedKeys -= k
+						break
 		switch(name)
 			if("Glacius")
 				m:Glacius()
@@ -130,6 +111,7 @@ obj/spells
 				m:Episky()
 
 	MouseDrag()
+		..()
 		usr.client.mouse_pointer_icon = icon(icon,icon_state)
 
 	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
