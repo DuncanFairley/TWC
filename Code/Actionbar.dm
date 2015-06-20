@@ -30,6 +30,8 @@ obj
 						swap = parent.UsedKeys[k.key]
 
 						k.SetKey(parent.UsedKeys[key], icon_state)
+					if(!swap)
+						winset(parent, "[key]Rep", "parent=")
 					SetKey(swap)
 
 
@@ -45,7 +47,7 @@ obj
 							usr=parent
 							o.Click()
 
-				SetKey(a)
+				SetKey(obj/a)
 					overlays = null
 					if(!a)
 						if(parent.UsedKeys && (key in parent.UsedKeys))
@@ -56,15 +58,20 @@ obj
 							if(!parent.displayActionbar)
 								invisibility = 10
 					else
-						if(isobj(a))
-							var/obj/o = a
-							var/origLayer = o.layer
-							o.layer = layer + 1
-							overlays += o
-							o.layer = origLayer
+						var/origLayer = a.layer
+						a.layer = layer + 1
+						overlays += a
+						a.layer = origLayer
 
 						if(!parent.UsedKeys) parent.UsedKeys = list()
 						parent.UsedKeys[key] = a
+
+						if(istype(a, /obj/spells))
+							var/m = replace(a.name, " ", "-")
+							winset(parent, "[key]Rep", "parent=macro;name=\"[key]+REP\";command=\"[m]\"")
+						else
+							winset(parent, "[key]Rep", "parent=macro;name=\"[key]+REP\";command=\"keyPress [key]\"")
+
 
 mob/Player
 	var
@@ -72,6 +79,11 @@ mob/Player
 		list/UsedKeys
 
 	proc
+		removeKey(var/k)
+			for(var/obj/actionbar/keys/o in client.screen)
+				if(o.key == k)
+					o.SetKey()
+					break
 
 		buildActionBar()
 			updateSpellbook()
@@ -89,8 +101,6 @@ mob/Player
 				if(UsedKeys && UsedKeys[A.key])
 					A.SetKey(UsedKeys[A.key])
 				else A.invisibility = 10
-
-				winset(src, "[i]Rep", "parent=macro;name=\"[i]+REP\";command=\"keyPress [i]\"")
 
 		toggle_actionbar(on=0)
 			if(displayActionbar == on) return
@@ -120,12 +130,14 @@ obj/items
 
 	MouseDrag()
 		..()
-		usr.client.mouse_pointer_icon = icon(icon,icon_state)
+		if(src in usr)
+			usr.client.mouse_pointer_icon = icon(icon,icon_state)
 
 	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
 		..()
-		usr.client.mouse_pointer_icon = 'pointer.dmi'
-		if(istype(over_object, /obj/actionbar/keys))
-			var/obj/actionbar/keys/k = over_object
-			k.SetKey(src)
+		if(src in usr)
+			usr.client.mouse_pointer_icon = 'pointer.dmi'
+			if(istype(over_object, /obj/actionbar/keys))
+				var/obj/actionbar/keys/k = over_object
+				k.SetKey(src)
 
