@@ -345,10 +345,6 @@ mob
 					if(!("Tutorial: The Wand Maker" in p.questPointers))
 						p.startQuest("Tutorial: The Wand Maker")
 
-					var/obj/items/questbook/q = locate() in src
-					if(!q)
-						q = new(src)
-
 			if(savefile_version < 12)
 				DeathEater = null
 				HA         = null
@@ -440,8 +436,6 @@ mob
 				usr<<browse(rules,"window=1;size=500x400")
 				src<<"<b><font size=2><font color=#3636F5>Welcome to Harry Potter: The Wizards Chronicles</font> <u><a href='?src=\ref[src];action=view_changelog'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://www.wizardschronicles.com\">here.</a>"
 				//if(!usr.Gm)usr.see_invisible = 0
-				var/obj/hud/PMHome/H = new()
-				usr.client.screen += H
 				if(radioOnline)
 					var/obj/hud/radio/Z = new()
 					usr.client.screen += Z

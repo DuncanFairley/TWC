@@ -344,6 +344,12 @@ obj/items
 					new /obj/items/chest/sunset_chest (loc)
 					loc = null
 
+obj/items/questbook
+	New()
+		..()
+		spawn(1)
+			loc = null
+
 
 mob/GM/verb
 	Add_GM_To_List()
