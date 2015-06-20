@@ -927,6 +927,14 @@ mob
 							step_rand(t)
 							t.density = 0
 
+							var/limit = 3
+							while(istype(t.loc, /turf/water) && limit--)
+								sleep(1)
+								t.density = 1
+								step_rand(t)
+								t.density = 0
+
+
 			Rat
 				icon_state = "rat"
 				level = 10
