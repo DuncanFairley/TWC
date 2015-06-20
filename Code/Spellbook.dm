@@ -24,9 +24,6 @@ mob/Player
 						UsedKeys -= k
 
 		loadSpells()
-
-			client.screen += new/obj/hud/spellbook
-
 			if(!UsedKeys || !spells) return
 
 			for(var/k in UsedKeys)

@@ -4,33 +4,23 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-obj/items
-	questbook
-		name="Quest Book"
-		icon='questbook.dmi'
-		dropable = 0
 
-		var/tmp/isOpen = FALSE
+obj/hud/questbook
+	name               = "Quest Book"
+	icon               = 'HUD.dmi'
+	icon_state         = "questbook"
+	screen_loc         = "EAST-3,1"
+	mouse_over_pointer = MOUSE_HAND_POINTER
 
-		Click()
-			..()
-			var/mob/Player/p = usr
-			if(p.questBookOpen)
-				p.questBookOpen = FALSE
-				winshow(p, "Quests", 0)
-			else
-				p.questBookOpen = TRUE
-				p.buildQuestBook()
-
-		verb
-			Read_Quest_Book()
-				var/mob/Player/p = usr
-				if(p.questBookOpen)
-					p.questBookOpen = FALSE
-					winshow(p, "Quests", 0)
-				else
-					p.questBookOpen = TRUE
-					p.buildQuestBook()
+	Click()
+		..()
+		var/mob/Player/p = usr
+		if(p.questBookOpen)
+			p.questBookOpen = FALSE
+			winshow(p, "Quests", 0)
+		else
+			p.questBookOpen = TRUE
+			p.buildQuestBook()
 
 mob/Player
 	var/tmp/questBookOpen = FALSE
@@ -1955,6 +1945,10 @@ interface
 	New(mob/Player/p)
 		..()
 		parent = p
+
+		parent.client.screen += new/obj/hud/PMHome
+		parent.client.screen += new/obj/hud/spellbook
+		parent.client.screen += new/obj/hud/questbook
 
 		Update()
 

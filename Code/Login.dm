@@ -963,8 +963,6 @@ mob
 			src<<"<b>You are in the entrance to Diagon Alley."
 			src<<"<b><u>Ollivander has a wand for you. Go up, and the first door on your right is the entrance to Ollivander's wand store.</u></b>"
 			src<<"<h3>For a full player guide, visit http://guide.wizardschronicles.com.</h3>"
-			var/obj/hud/PMHome/H = new()
-			usr.client.screen += H
 			var/oldmob = src
 			src.client.mob = character
 			character.gold = 100
