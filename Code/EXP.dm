@@ -127,12 +127,9 @@ obj
 				usr << infomsg("You begin reading.")
 				spawn(15)
 					while(src && usr && usr.readbooks == 1 && (usr in ohearers(src, 1)))
-						if(usr.level < lvlcap)
-							var/exp = get_exp(usr.level) / (usr:presence ? 1 : 3)
-							exp = round(rand(exp - exp / 10, exp + exp / 10))
-							usr.Exp += exp
-							usr.addReferralXP(exp)
-							usr.LvlCheck()
+						var/exp = get_exp(usr.level) / (usr:presence ? 1 : 3)
+						exp = round(rand(exp - exp / 10, exp + exp / 10))
+						usr:addExp(exp, 1)
 						if(usr.level > 500) usr.gold += round(rand(3,6) / (usr:presence ? 1 : 3))
 						sleep(15)
 					if(usr)
@@ -446,11 +443,59 @@ proc
 		. += copytext(txt, start)
 
 mob/Player
+
+	var/expRank/rankLevel
+
 	proc
 		nofly()
 			if(flying)
 				var/obj/items/wearable/brooms/Broom = locate() in Lwearing
 				if(Broom) Broom.Equip(src,1)
+
+		addExp(amount, silent = 0)
+			if(level < lvlcap)
+				addReferralXP(amount)
+
+				var/exp = Exp + amount
+				while(exp > Mexp)
+					exp -= Mexp
+					Exp  = Mexp
+					LvlCheck()
+
+				if(level == lvlcap && exp > 0)
+					addExp(exp)
+				else
+					Exp = exp
+					LvlCheck()
+			else
+				if(!rankLevel)
+					rankLevel = new
+
+				amount = round(amount / 10, 1)
+				rankLevel.add(amount, src, silent)
+
+expRank
+	var
+		level  = 0
+		exp    = 0
+		maxExp = 100000
+
+		const/MAX = 10
+
+	proc
+		add(amount, mob/Player/parent, silent=0)
+			if(level >= MAX) return
+
+			exp += amount
+			if(!silent) parent << infomsg("You gained [comma(amount)] rank experience!")
+
+			while(exp > maxExp)
+				exp -= maxExp
+				level++
+				maxExp = 100000 + (level * 10000)
+				parent << infomsg("<b>You leveled up to rank [level]!</b>")
+
+
 atom/movable
 	proc
 		inOldArena()

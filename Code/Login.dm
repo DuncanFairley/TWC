@@ -977,7 +977,6 @@ mob
 					else C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B></font>"
 			character.Teleblock=0
 			if(!character.Interface) character.Interface = new(character)
-			new/obj/items/questbook(character)
 			character.startQuest("Tutorial: The Wand Maker")
 			src = null
 			spawn()
@@ -1648,7 +1647,12 @@ mob/Player
 				stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
 				stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
 			stat("House:",src.House)
-			stat("EXP:","[comma(src.Exp)]/[comma(src.Mexp)]")
+			if(level >= lvlcap && rankLevel)
+				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100, 1)
+				stat("Experiece Rank:", "[rankLevel.level]   [comma(rankLevel.exp)]/[comma(rankLevel.maxExp)] ([percent]%)")
+			else
+				var/percent = round((Exp / Mexp) * 100, 1)
+				stat("EXP:", "[comma(src.Exp)]/[comma(src.Mexp)] ([percent]%)")
 			stat("Stat points:",src.StatPoints)
 			stat("Spell points:",src.spellpoints)
 			if(learning)
@@ -2080,10 +2084,9 @@ mob/proc/Death_Check(mob/killer = src)
 						rndexp *= 1.25
 						rndexp = round(rndexp)
 
+					killer:addExp(rndexp)
 					if(killer.level < lvlcap)
-						killer.Exp+=rndexp
-						killer<<infomsg("You knocked [src] out and gained [rndexp] exp.")
-						killer.LvlCheck()
+						killer << infomsg("You knocked [src] out and gained [rndexp] exp.")
 					else
 						if(!killer.findStatusEffect(/StatusEffect/KilledPlayer)) // prevents spam killing people for gold in short time
 							rndexp = rndexp * rand(2,5)
@@ -2136,13 +2139,10 @@ mob/proc/Death_Check(mob/killer = src)
 				if(exp_rate)  exp2give  *= exp_rate.rate
 
 				gold2give = round(gold2give)
-				exp2give = round(exp2give)
-
-				if(killer.level >= lvlcap) exp2give = 0
 
 				if(killer.MonsterMessages)
 
-					if(exp2give > 0)
+					if(exp2give > 0 && killer.level < lvlcap)
 						killer<<"<i><small>You gained [exp2give] exp[gold2give > 0 ? " and [gold2give] gold" : ""].</small></i>"
 					else if(gold2give > 0)
 						killer<<"<i><small>You gained [gold2give] gold.</small></i>"
@@ -2150,13 +2150,8 @@ mob/proc/Death_Check(mob/killer = src)
 				if(gold2give > 0)
 					killer.gold+=gold2give
 					killer.gold = round(killer.gold)
-				if(killer.level < lvlcap && exp2give > 0)
-					killer.Exp+=exp2give
-					killer.addReferralXP(Exp)
-					killer.Exp = round(killer.Exp)
-					killer.LvlCheck()
-				killer.Texp+=src.Expg
-
+				if(exp2give > 0)
+					killer:addExp(exp2give)
 
 			if(src.type == /mob/Slug)
 				del src
