@@ -36,6 +36,8 @@ obj
 			proc
 
 				Do()
+					if(!parent.UsedKeys) return
+
 					var/action = parent.UsedKeys[key]
 					if(action)
 						if(isobj(action))
