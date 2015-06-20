@@ -486,8 +486,8 @@ expRank
 		maxExp = 100000
 
 		const
-			MAX  = 5
-			TIER = 5
+			MAX  = 20
+			TIER = 4
 
 	proc
 		add(amount, mob/Player/parent, silent=0)
