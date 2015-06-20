@@ -1590,7 +1590,7 @@ mob/Player
 			var/online=0
 			for(var/mob/Player/M in Players)
 				online++
-				src << "\icon[wholist[M.House ? M.House : "Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname ? M.prevname : M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level >= lvlcap ? getSkillGroup(M.ckey) : M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+				src << "\icon[wholist[M.House ? M.House : "Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname ? M.prevname : M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level >= lvlcap ? "[getSkillGroup(M.ckey)] \icon[M.getRankIcon()]" : M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
 
 			usr << "[online] players online."
 			var/logginginmobs = ""
@@ -1649,7 +1649,8 @@ mob/Player
 			stat("House:",src.House)
 			if(level >= lvlcap && rankLevel)
 				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100, 1)
-				stat("Experiece Rank:", "[rankLevel.level]   [comma(rankLevel.exp)]/[comma(rankLevel.maxExp)] ([percent]%)")
+				stat("Experiece Rank: ", "[rankLevel.level]   Exp: [comma(rankLevel.exp)]/[comma(rankLevel.maxExp)] ([percent]%)")
+				stat("\icon[getRankIcon()]")
 			else
 				var/percent = round((Exp / Mexp) * 100, 1)
 				stat("EXP:", "[comma(src.Exp)]/[comma(src.Mexp)] ([percent]%)")

@@ -452,6 +452,11 @@ mob/Player
 				var/obj/items/wearable/brooms/Broom = locate() in Lwearing
 				if(Broom) Broom.Equip(src,1)
 
+		getRankIcon()
+			if(level >= lvlcap && rankLevel)
+				return rankIcons["[rankLevel.level]"]
+			return rankIcons["0"]
+
 		addExp(amount, silent = 0)
 			if(level < lvlcap)
 				addReferralXP(amount)
@@ -480,7 +485,9 @@ expRank
 		exp    = 0
 		maxExp = 100000
 
-		const/MAX = 10
+		const
+			MAX  = 5
+			TIER = 5
 
 	proc
 		add(amount, mob/Player/parent, silent=0)
@@ -489,11 +496,31 @@ expRank
 			exp += amount
 			if(!silent) parent << infomsg("You gained [comma(amount)] rank experience!")
 
-			while(exp > maxExp)
+			while(exp > maxExp && level < MAX)
 				exp -= maxExp
 				level++
-				maxExp = 100000 + (level * 10000)
+				maxExp = 100000 + (level * 30000)
 				parent << infomsg("<b>You leveled up to rank [level]!</b>")
+
+				var/t
+
+				if(level % TIER == 1)
+					t = /obj/items/chest/legendary_golden_chest
+				else
+					t = pickweight(list(/obj/items/chest/basic_chest     = 26,
+			                        	/obj/items/chest/wizard_chest    = 16,
+			                        	/obj/items/chest/pentakill_chest = 16,
+										/obj/items/chest/prom_chest      = 15,
+										/obj/items/chest/summer_chest    = 15,
+			                        	/obj/items/chest/sunset_chest    = 12))
+
+				var/obj/items/i = new t (parent)
+				parent.Resort_Stacking_Inv()
+
+				parent << infomsg("<b>Reward:</b> you receive a [i.name]!")
+
+			if(level == MAX) exp = 0
+
 
 
 atom/movable
