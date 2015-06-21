@@ -493,3 +493,10 @@ obj/items/scroll/prize
 
 	write()
 		set hidden = 1
+
+mob/var/onionroot
+mob/var/indigoseeds
+mob/var/silverspiderlegs
+mob/var/salamanderdrop
+mob/var/talkedtosanta
+mob/var/talkedtoalyssa
