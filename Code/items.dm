@@ -1002,8 +1002,9 @@ obj/items/wearable/wigs/female_halloween_wig
 /////////
 
 obj/items/wearable/shoes
-	desc = "A pair of shoes. They look comfy!"
-	bonus = 0
+	desc   = "A pair of shoes. They look comfy!"
+	bonus  = 0
+	gender = PLURAL
 	Equip(var/mob/Player/owner, var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(. == WORN)
@@ -4252,7 +4253,7 @@ obj/roulette
 		     life   = new /Random(15,25))
 
 		var/obj/items/i = new prize (loc)
-		ohearers(src) << infomsg("<b>[playerName] opened a chest and won a [i.name]!</b>")
+		ohearers(src) << infomsg("<b>[playerName] opened a chest and won \a [i]!</b>")
 
 		i.antiTheft = 1
 		i.owner     = playerCkey
