@@ -29,7 +29,7 @@ proc
 						mail(a.bidder, infomsg("Auction: You won the auction for the [a.item.name]."),     a.item)
 						mail(a.owner,  infomsg("Auction: Your [a.item.name] was sold during an auction."), a.minPrice)
 
-						goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: (Bid) [a.owner] sold [a.item.name] to [a.bidder]<br />"
+						goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: (Bid) [a.owner] sold [a.item.name] to [a.bidder] for [a.minPrice]<br />"
 					else
 						mail(a.owner,  errormsg("Auction: The [a.item.name] auction expired."), a.item)
 					a.item = null
@@ -149,7 +149,7 @@ auction
 
 					var/taxedGold = round(buyoutPrice - (buyoutPrice/20), 1)
 					mail(owner, infomsg("<b>Auction:</b> [item.name] was bought at the auction."), taxedGold)
-					goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: (Buyout) [owner] sold [item.name] to [p.name] ([p.ckey]) ([p.client.address])<br />"
+					goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: (Buyout) [owner] sold [item.name] to [p.name] ([p.ckey]) ([p.client.address]) for [buyoutPrice]<br />"
 
 					auctionItems -= src
 					if(!auctionItems.len) auctionItems = null
