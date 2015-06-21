@@ -4052,7 +4052,7 @@ obj/items
 
 
 			limited_edition
-				name  = "2015 summer 2015 chest"
+				name  = "special summer 2015 chest"
 				drops = "2015 sum"
 
 		prom_chest
@@ -4060,7 +4060,7 @@ obj/items
 			drops      = "prom"
 
 			limited_edition
-				name = "2015 prom 2015 chest"
+				name = "special prom 2015 chest"
 				drops = "2015 prom"
 
 		blood_chest
