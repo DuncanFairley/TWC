@@ -1,16 +1,16 @@
 mob/TalkNPC/quest
-
-
 	Sassy_Pixie
 		icon = 'Mobs.dmi'
 		icon_state="pixie"
-		questPointers = "The Eyes in the Sand \[Weekly]"
+		questPointers = "Pixie Wisdom \[Weekly]"
 		Talk()
 			set src in oview(3)
 			Quest(usr)
 
 		questStart(mob/Player/i_Player, questName)
-			i_Player << npcsay("[name]: Beyond this door lies the desert, oh so mysterious... There are strange creatures there called floating eyes, check if they bleed for me!")
+			i_Player << npcsay("[name]: Get away from me, you creep.")
+			i_Player << "<i>You blink.</i>"
+			i_Player << npcsay("[name]: What? Are you bored? Okay, well I've got a task for you then, you pathetic imbecile. I'm in need of a few... ingredients, let's say. Not for anything sinister, like taking over your idiotic wizard school or anything. They're for a... birthday party... yeah, that's it! A birthday party.")
 
 			..(i_Player, questName)
 
@@ -18,12 +18,16 @@ mob/TalkNPC/quest
 			.=..(i_Player, questName)
 
 			if(.)
-				i_Player << npcsay("[name]: Floating eyes, the gods of the desert can bleed after all, how amusing!")
+				i_Player << npcsay("[name]: Finally, what took you so long? Jeeze. Now I can finally take over that miserable place you can a school and--")
+				i_Player << "<i>You blink.</i>"
+				i_Player << npcsay("[name]: I mean... Plan the best party ever for, uhm... Ben! Yes, Ben...")
+				i_Player << "<i>Sassy Pixie laughs evilly.</i>"
+				i_Player << npcsay("[name]: Thanks, mortal!")
 			else
-				i_Player << npcsay("[name]: Not enough, go back there and check if they all bleed!")
+				i_Player << npcsay("[name]: Well? What are you still standing there for? Get me what I need!")
 
 		questCompleted(mob/Player/i_Player, questName)
-			i_Player << npcsay("[name]: So even the gods of the desert can bleed... Interesting!")
+			i_Player << npcsay("[name]: Get away from me, you creep.")
 
 
 	Vengeful_Wisp

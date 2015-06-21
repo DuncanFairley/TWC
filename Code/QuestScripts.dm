@@ -1,20 +1,19 @@
 quest
-
 	TWCIdol1
 		name   = "Pixie Wisdom \[Weekly]"
-		desc   = "You arrived at Diagon Alley, as a young wizard your first objective is to find a wand to cast spells with."
+		desc   = "An extremely sassy pixie asked you for your help collecting ingredients for a birthday party."
 		reward = /questReward/PVP2
 		repeat = 6048000
 
 		Kill
-			desc = "You heard a rumour there's a powerful wand maker around here somewhere, find him and buy a powerful wand to begin your magical adventure."
+			desc = "The ingredients list includes demonic essence, pixie parts and what appears to be... Human parts?"
 			reqs = list("Demonic Essence"         = 15,
 						"Kill Player"             = 100,
 			            "Kill Pixie"              = 200,
 			            "Kill Bubbles the Spider" = 1)
 
 		Reward
-			desc = "rewardz."
+			desc = "Go back to the Sassy Pixie to get your reward."
 			reqs = list("Sassy Pixie" = 1)
 
 	TutorialWand
