@@ -16,13 +16,9 @@ obj
 
 			Click()
 				Do()
-			MouseDrag()
-				if(parent.UsedKeys && (key in parent.UsedKeys))
-					var/obj/o = parent.UsedKeys[key]
-					usr.client.mouse_pointer_icon = icon(o.icon, o.icon_state)
+
 			MouseDrop(over_object)
 				if(parent.UsedKeys && parent.UsedKeys[key])
-					usr.client.mouse_pointer_icon = 'pointer.dmi'
 					var/swap
 					if(istype(over_object, /obj/actionbar/keys/))
 						var/obj/actionbar/keys/k = over_object
@@ -60,6 +56,7 @@ obj
 					else
 						var/origLayer = a.layer
 						a.layer = layer + 1
+						mouse_drag_pointer = a
 						overlays += a
 						a.layer = origLayer
 
@@ -128,16 +125,13 @@ mob/Player
 
 obj/items
 
-	MouseDrag()
+	New()
 		..()
-		if(src in usr)
-			usr.client.mouse_pointer_icon = icon(icon,icon_state)
+		mouse_drag_pointer = src
 
 	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
 		..()
-		if(src in usr)
-			usr.client.mouse_pointer_icon = 'pointer.dmi'
-			if(istype(over_object, /obj/actionbar/keys))
-				var/obj/actionbar/keys/k = over_object
-				k.SetKey(src)
+		if(istype(over_object, /obj/actionbar/keys) && (src in usr))
+			var/obj/actionbar/keys/k = over_object
+			k.SetKey(src)
 
