@@ -284,6 +284,7 @@ obj/items/Whoopie_Cushion
 	icon='jokeitems.dmi'
 	icon_state = "Whoopie_Cushion"
 	var/isset = 0
+	canAuction = FALSE
 	proc
 		Fart(sitter)
 			hearers() << "<font color=#FD857D size=3><b>A loud fart is heard from [sitter]'s direction.</b></font>"
@@ -302,6 +303,7 @@ obj/items/scroll
 	destroyable = 1
 	accioable=1
 	wlable = 1
+	canAuction = FALSE
 	var/content
 	var/tmp/inuse = 0
 	New()
@@ -535,6 +537,7 @@ obj/items/trophies
 
 obj/items/bucket
 	icon = 'bucket.dmi'
+	canAuction = FALSE
 obj/items/freds_key
 	name = "Fred's key"
 	icon = 'key.dmi'
@@ -1878,6 +1881,7 @@ mob/Del()
 	..()
 
 mob/Player/Logout()
+	playedtime += world.timeofday - logintime
 	Players<<"<B><font size=2 color=red><I>[usr] <b>logged out.</b></I></font></B>"
 	if(arcessoing)
 		stop_arcesso()
@@ -3754,6 +3758,26 @@ obj/items/magic_stone
 				source.inUse = FALSE
 			o.loc = null
 
+
+
+enchanting
+	var
+		reqType
+		souls        = 0
+		bonus        = 0
+		chance       = 100
+		prize
+
+	proc
+		check(obj/items/i, bonus, souls)
+			if(istype(i, reqType) && src.bonus == bonus && src.souls <= souls) return 1
+			return 0
+
+		getPrize()
+			if(islist(prize)) return pickweight(prize)
+
+			return prize
+
 obj
 	enchanter
 
@@ -3801,6 +3825,13 @@ obj
 				animate(src, transform = matrix()*1.75, color = "[c]",   alpha = 150, time = 2,  easing = LINEAR_EASING)
 				animate(transform = null,               color = "white", alpha = 255, time = 10, easing = BOUNCE_EASING)
 
+			getRecipe(obj/items/i, bonus, souls)
+				for(var/t in typesof(/enchanting) - /enchanting)
+					var/enchanting/e = new t
+
+					if(e.check(i, bonus, souls))
+						return e
+
 			enchant()
 				if(inUse) return
 				inUse = TRUE
@@ -3828,39 +3859,12 @@ obj
 					return
 
 				var/chance = 100
+				var/enchanting/e = getRecipe(i3, applyBonus, ignoreItem)
 				var/prize
-
-				if(istype(i3, /obj/items/scroll))
-					chance -= 60
-					prize = pick(/obj/items/wearable/title/Bookworm, /obj/items/wearable/title/Lumberjack)
-
-				else if(istype(i3, /obj/items/artifact))
-					chance -= 20
-					prize = /obj/items/magic_stone/teleport
-
-				else if(istype(i3, /obj/items/crystal) && applyBonus == 3)
-
-					if(istype(i3, /obj/items/crystal/soul))
-						chance -= 40
-						prize = pick(/obj/items/weather/sun, /obj/items/weather/rain, /obj/items/weather/acid, /obj/items/weather/snow)
-					else if(istype(i3, /obj/items/crystal/damage))
-						chance -= 50
-						prize = /obj/items/lamps/damage_lamp
-					else if(istype(i3, /obj/items/crystal/defense))
-						chance -= 50
-						prize = /obj/items/lamps/defense_lamp
-					else if(istype(i3, /obj/items/crystal/luck))
-						chance -= 40
-						prize = pick(/obj/items/lamps/double_gold_lamp, /obj/items/lamps/double_exp_lamp, /obj/items/lamps/double_drop_rate_lamp, /obj/items/crystal/strong_luck)
-					else if(istype(i3, /obj/items/crystal/strong_luck))
-						chance -= 50
-						prize = pick(/obj/items/lamps/triple_gold_lamp, /obj/items/lamps/triple_exp_lamp, /obj/items/lamps/triple_drop_rate_lamp)
-					else if(istype(i3, /obj/items/crystal/magic))
-						chance -= 70
-						prize = ignoreItem ? /obj/items/magic_stone/summoning/random : /obj/items/lamps/power_lamp
-
+				if(e)
+					prize  = e.getPrize()
+					chance = e.chance
 				else if(istype(i3, /obj/items/wearable/))
-
 					if(istype(i3, /obj/items/wearable/title) && i3.name == i4.name)
 						chance -= 40
 						prize = i3.type
