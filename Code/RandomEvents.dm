@@ -354,7 +354,7 @@ RandomEvent
 			var/minutes = rand(9, 16)
 			var/chests  = rand(2, 6)
 
-			Players << infomsg("A wizard-pirate droped [chests] chests off his ship while casually flying through the castle's restricted airspace, he might've droped those chests because we might've fired our magic-space guns at him.<br>Find the treasure chests before other pesky looters get them! You have [minutes] minutes.<br>(Treasure is not visible, it's hidden somewhere outside the castle.)")
+			Players << infomsg("A wizard-pirate dropped [chests] chests off his ship while casually flying through the castle's restricted airspace, he might've dropped those chests because we might've fired our magic-space guns at him.<br>Find the treasure chests before other pesky looters get them! You have [minutes] minutes.<br>(Treasure is not visible, it's hidden somewhere outside the castle.)")
 
 			var/list/treasures = list()
 			if(!winners) winners = list()
@@ -554,23 +554,6 @@ mob/Player
 			if(playSounds)
 				var/sound/S = sound('Alert.ogg')
 				src << S
-
-obj/items/scroll/prize
-
-	icon = 'Scroll.dmi'
-	icon_state = "wrote"
-	destroyable = 0
-	accioable = 0
-	wlable = 0
-	name = "Prize Ticket"
-	content = "<body bgcolor=black><u><font color=blue size=3><b>Prize Ticket</b></u></font><br><p><font color=white size=2>Turn this scroll to an admin+ to recieve a prize decided by the admin+.</font></p></body>"
-
-
-	Name(msg as text)
-		set hidden = 1
-
-	write()
-		set hidden = 1
 
 obj/items/treasure
 	var/event = "Treasure Hunt"

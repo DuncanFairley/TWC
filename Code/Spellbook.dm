@@ -69,6 +69,8 @@ obj/spells
 		src.path   = path
 		icon_state = name
 
+		mouse_drag_pointer = src
+
 
 	Click()
 		var/mob/m = usr
@@ -107,13 +109,8 @@ obj/spells
 			if("Episkey")
 				m:Episky()
 
-	MouseDrag()
-		..()
-		usr.client.mouse_pointer_icon = icon(icon,icon_state)
-
 	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
 		..()
-		usr.client.mouse_pointer_icon = 'pointer.dmi'
 		if(istype(over_object, /obj/actionbar/keys))
 			var/obj/actionbar/keys/k = over_object
 			k.SetKey(src)

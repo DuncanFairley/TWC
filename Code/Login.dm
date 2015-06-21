@@ -1102,8 +1102,6 @@ mob/Player
 				src.admin=1
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
-			if("Rotem12")
-				src.verbs+=/mob/test/verb/FloorColor
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
@@ -1136,6 +1134,7 @@ mob/Player
 		isDJ(src)
 		checkMail()
 		buildActionBar()
+		logintime = world.timeofday
 		spawn()
 			//CheckSavefileVersion()
 			if(istype(src.loc.loc,/area/arenas) && !rankedArena)
@@ -1649,7 +1648,7 @@ mob/Player
 			stat("House:",src.House)
 			if(level >= lvlcap && rankLevel)
 				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100, 1)
-				stat("Experiece Rank: ", "[rankLevel.level]   Exp: [comma(rankLevel.exp)]/[comma(rankLevel.maxExp)] ([percent]%)")
+				stat("Experience Rank: ", "[rankLevel.level]   Exp: [comma(rankLevel.exp)]/[comma(rankLevel.maxExp)] ([percent]%)")
 				stat("\icon[getRankIcon()]")
 			else
 				var/percent = round((Exp / Mexp) * 100, 1)

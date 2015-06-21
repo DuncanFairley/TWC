@@ -301,8 +301,9 @@ obj
 
 obj
 	MouseDrop(over_object,src_location,over_location)
+		.=..()
 		if(usr.clanrobed())return
-		if(!isturf(over_location))return ..()
+		if(!isturf(over_location))return
 		if(usr.draganddrop)
 			if(istype(src, /obj/items/wearable))
 				var/mob/Player/user = usr

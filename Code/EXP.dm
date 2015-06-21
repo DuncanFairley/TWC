@@ -459,6 +459,7 @@ mob/Player
 
 		addExp(amount, silent = 0)
 			if(level < lvlcap)
+				amount = round(amount, 1)
 				addReferralXP(amount)
 
 				var/exp = Exp + amount

@@ -56,6 +56,7 @@ turf/var/tmp/specialtype
 obj
 	items
 		DarknessPowder
+			canAuction = FALSE
 			name = "Peruvian Instant Darkness Powder"
 			icon='jokeitems.dmi'
 			icon_state="DarknessPowder"
@@ -115,6 +116,7 @@ obj
 			name = "Swamp in ya pocket"
 			icon='jokeitems.dmi'
 			icon_state="swampbox"
+			canAuction = FALSE
 			Click()
 				if(src in usr)
 					src.verbs.Remove(/obj/items/verb/Take)
@@ -237,6 +239,7 @@ obj
 		Tube_of_fun
 			icon='jokeitems.dmi'
 			icon_state="Tube_of_fun"
+			canAuction = FALSE
 			var/thrown=0
 			Click()
 				if(src in usr)
@@ -262,6 +265,7 @@ obj
 		Smoke_Pellet
 			icon='jokeitems.dmi'
 			icon_state="smokepellet"
+			canAuction = FALSE
 			var/thrown=0
 			Click()
 				if(src in usr)
@@ -335,7 +339,7 @@ obj/items/U_No_Poo
 	name = "U-No-Poo"
 	desc = "It smells funny... There's 5 pills left."
 	icon = 'PooPill.dmi'
-
+	canAuction = FALSE
 	var/uses = 5;
 
 	Click()

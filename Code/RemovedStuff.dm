@@ -476,3 +476,27 @@ mob/test/verb/FloorColor(c as color)
 	for(var/turf/sideBlock/t in world)
 		if(t.z >= 21 && t.z <= 22)
 			t.color = c
+
+obj/items/scroll/prize
+
+	icon = 'Scroll.dmi'
+	icon_state = "wrote"
+	destroyable = 0
+	accioable = 0
+	wlable = 0
+	name = "Prize Ticket"
+	content = "<body bgcolor=black><u><font color=blue size=3><b>Prize Ticket</b></u></font><br><p><font color=white size=2>Turn this scroll to an admin+ to recieve a prize decided by the admin+.</font></p></body>"
+
+
+	Name(msg as text)
+		set hidden = 1
+
+	write()
+		set hidden = 1
+
+mob/var/onionroot
+mob/var/indigoseeds
+mob/var/silverspiderlegs
+mob/var/salamanderdrop
+mob/var/talkedtosanta
+mob/var/talkedtoalyssa
