@@ -9,6 +9,7 @@ obj/items/COMCText
 	name = "Care of Magical Creatures"
 	icon='Books.dmi'
 	icon_state="COMC"
+	canAuction = FALSE
 	verb
 		Read_()
 			set src in view(2)
@@ -18,6 +19,7 @@ obj/items/MonBookMon
 	name = "Monster book of Monsters"
 	icon='Books.dmi'
 	icon_state="monsters"
+	canAuction = FALSE
 	verb
 		Read_()
 			set src in view(2)
