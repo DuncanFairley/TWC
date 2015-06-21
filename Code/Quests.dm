@@ -1500,7 +1500,7 @@ quest
 			reqs = list("Hunter" = 1)
 	WaterElemental
 		name   = "Pest Extermination: Water Elemental"
-		desc   = "The hunter wants you to help him exterminate fire water elementals from Silverblood Castle"
+		desc   = "The hunter wants you to help him exterminate water elementals from Silverblood Castle"
 		reward = /questReward/Mon11
 
 		Kill
@@ -1511,7 +1511,7 @@ quest
 			reqs = list("Hunter" = 1)
 	FireElemental
 		name   = "Pest Extermination: Fire Elemental"
-		desc   = "The hunter wants you to help him exterminate fire golems from Silverblood Castle"
+		desc   = "The hunter wants you to help him exterminate fire elementals from Silverblood Castle"
 		reward = /questReward/Mon12
 
 		Kill
@@ -1801,6 +1801,7 @@ mob/Player
 		buildQuestBook()
 			src << output(null, "Quests.outputQuests")
 			var/i = 0
+			var/completed = 0
 			for(var/questName in questPointers)
 				var/questPointer/pointer = questPointers[questName]
 
@@ -1811,7 +1812,13 @@ mob/Player
 					else src << output(null, "Quests.gridQuests:2,[i]")
 					if(i == 1)
 						displayQuest(questName)
-			winset(src, "Quests.gridQuests", "cells=2x[i]")
+
+				var/quest/q = quest_list[questName]
+				if(pointer && (!pointer.stage || q.repeat)) completed++
+
+			var/percent = round((completed /  quest_list.len) * 100, 1)
+			var/header  = "You completed [percent]% of the available quests.\nAdventure Time: [getPlayTime()]."
+			winset(src, null, "Quests.gridQuests.cells=2x[i];Quests.labelText.text=\"[header]\"")
 
 			winshow(src, "Quests", 1)
 
@@ -2050,3 +2057,33 @@ mob/Player
 
 			mapTextColor = "[c]"
 			Interface.Update()
+
+mob/Player
+	var
+		tmp
+			logintime = 0
+		playedtime = 0
+	proc
+		getPlayTime()
+			var
+				playtime=world.timeofday-logintime+playedtime
+				sec = round(playtime/10)
+				min = round(sec/60)
+				hour = round(min/60)
+				day = round(hour/24)
+			sec -= min*60
+			min -= hour*60
+			hour -= day*24
+			var/msg = ""
+			if(day)
+				msg += "[day] [day > 1 ? "days" : "day"]"
+			if(hour)
+				if(msg)msg += ", "
+				msg += "[hour] [hour > 1 ? "hours" : "hour"]"
+			if(min)
+				if(msg)msg += ", "
+				msg += "[min] [min > 1 ? "minutes" : "minute"]"
+			if(sec)
+				if(msg)msg += " and "
+				msg += "[sec] [sec > 1 ? "seconds" : "second"]"
+			return msg
