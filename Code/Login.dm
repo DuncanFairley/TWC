@@ -1773,11 +1773,7 @@ mob/proc/Resort_Stacking_Inv()
 		for(var/V in counts)
 			if(counts[V] > 1)
 				var/obj/stackobj/stack = new()
-				var/obj/tmpV
-				for(var/obj/items/i in src)
-					if(i.type == V)
-						tmpV = i
-						break
+				var/obj/tmpV = new V
 				stack.containstype = V
 				if(src:stackobjects)
 					if(src:stackobjects[V])
