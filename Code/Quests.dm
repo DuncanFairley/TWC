@@ -796,7 +796,11 @@ quest
 			for(var/t in typesof(type) - type)
 				stages += new t
 
-			if(reward) reward = new reward
+			if(reward)
+				if(!("[reward]" in questRewards))
+					questRewards["[reward]"] = new reward
+
+				reward = questRewards["[reward]"]
 
 questReward
 	var/gold
@@ -1024,9 +1028,6 @@ interface
 
 		if(quest)
 			quest.update(parent)
-
-// turn off when obj is gone
-//
 
 obj/hud/screentext
 
