@@ -124,7 +124,6 @@ mob/Player
 					o.Click()
 
 obj/items
-
 	New()
 		..()
 		mouse_drag_pointer = src
@@ -134,4 +133,10 @@ obj/items
 		if(istype(over_object, /obj/actionbar/keys) && (src in usr))
 			var/obj/actionbar/keys/k = over_object
 			k.SetKey(src)
+
+	Write()
+		var/pointer = mouse_drag_pointer
+		mouse_drag_pointer = null
+		..()
+		mouse_drag_pointer = pointer
 
