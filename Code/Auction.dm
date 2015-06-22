@@ -19,12 +19,15 @@ mob/TalkNPC/merchant
 proc
 	init_auction()
 		var/Event/Auction/e = new
-		scheduler.schedule(e, world.tick_lag * 10 * 600)
+		scheduler.schedule(e, world.tick_lag * 3 * 600)
 
 	auctionBidTime()
 		if(auctionItems)
 			for(var/auction/a in auctionItems)
-				if(world.realtime - a.time >= 2592000) // 3 days
+				if(!a.item)
+					auctionItems -= a
+					continue
+				if(world.realtime - a.time >= 2592000 || !a.item.canAuction) // 3 days
 					if(a.bid && a.bidder)
 						mail(a.bidder, infomsg("Auction: You won the auction for the [a.item.name]."),     a.item)
 						mail(a.owner,  infomsg("Auction: Your [a.item.name] was sold during an auction."), a.minPrice)
@@ -216,7 +219,7 @@ mob/Player
 
 				for(var/i = 1 to auctionItems.len)
 					var/auction/a = auctionItems[i]
-
+					if(!a.item) continue
 					if(a.owner == ckey)
 						auctionCount++
 
