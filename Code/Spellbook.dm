@@ -14,14 +14,17 @@ mob/Player
 		saveSpells()
 			if(!UsedKeys) return
 
-			for(var/k in UsedKeys)
-				if(istype(UsedKeys[k], /obj/spells))
-					var/obj/spells/s = UsedKeys[k]
+			var/list/copied = UsedKeys.Copy()
+			for(var/k in copied)
+				if(istype(copied[k], /obj/spells))
+					var/obj/spells/s = copied[k]
 
 					if((s.path in verbs) || !s.path)
-						UsedKeys[k] = s.name
+						copied[k] = s.name
 					else
-						UsedKeys -= k
+						copied -= k
+
+			return copied
 
 		loadSpells()
 			if(!UsedKeys || !spells) return

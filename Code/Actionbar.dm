@@ -73,7 +73,7 @@ obj
 mob/Player
 	var
 		tmp/displayActionbar = FALSE
-		list/UsedKeys
+		tmp/list/UsedKeys
 
 	proc
 		removeKey(var/k)

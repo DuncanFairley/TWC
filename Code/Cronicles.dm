@@ -209,6 +209,7 @@ mob
 
 
 	Write(savefile/F)
+
 		..()
 		if(src.type != /mob/Player)
 			return
@@ -220,6 +221,7 @@ mob
 			F["last_x"] << x
 			F["last_y"] << y
 			F["last_z"] << z
+		F["UsedKeys"] << src:saveSpells()
 		detectStoopidBug(__FILE__, __LINE__)
 		return
 
@@ -241,6 +243,7 @@ mob
 			F["last_x"] >> last_x
 			F["last_y"] >> last_y
 			F["last_z"] >> last_z
+			F["UsedKeys"] >> src:UsedKeys
 			var/savefile_version
 			F["savefileversion"] >> savefile_version
 			if(!savefile_version) savefile_version = 3
@@ -736,7 +739,6 @@ mob/BaseCamp/ChoosingCharacter
 		sight=0
 		return
 
-
 client
 	var/tmp/savefile/_base_player_savefile
 
@@ -754,7 +756,6 @@ client
 			if(mob:isTrading())
 				mob:trade.Clean()
 			mob:auctionClosed()
-			mob:saveSpells()
 			var/StatusEffect/S = mob.findStatusEffect(/StatusEffect/Lamps)
 			if(S) S.Deactivate()
 			if(mob.prevname)
@@ -769,6 +770,8 @@ client
 		if (base_autosave_character)
 			base_SaveMob()
 		if (base_autodelete_mob)
+			mob.contents     = null
+			mob:stackobjects = null
 			del(mob)
 		return ..()
 
