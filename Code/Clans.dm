@@ -38,7 +38,7 @@ clan
 obj/items/wearable/clan_robes
 
 	var/hiddenID = FALSE
-
+	canAuction = FALSE
 	dropable = 1
 	takeable = 1
 

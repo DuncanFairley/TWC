@@ -1882,7 +1882,6 @@ mob/Del()
 	..()
 
 mob/Player/Logout()
-	playedtime += world.timeofday - logintime
 	Players<<"<B><font size=2 color=red><I>[usr] <b>logged out.</b></I></font></B>"
 	if(arcessoing)
 		stop_arcesso()
