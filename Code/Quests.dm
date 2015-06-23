@@ -1129,14 +1129,14 @@ mob/Player
 	proc
 		getPlayTime()
 			var
-				playtime=world.timeofday-logintime+playedtime
-				sec = round(playtime/10)
-				min = round(sec/60)
-				hour = round(min/60)
-				day = round(hour/24)
-			sec -= min*60
-			min -= hour*60
-			hour -= day*24
+				playtime = (world.timeofday - logintime) + playedtime
+				sec      = round(playtime / 10)
+				min      = round(sec      / 60)
+				hour     = round(min      / 60)
+				day      = round(hour     / 24)
+			sec  -= min  * 60
+			min  -= hour * 60
+			hour -= day  * 24
 			var/msg = ""
 			if(day)
 				msg += "[day] [day > 1 ? "days" : "day"]"

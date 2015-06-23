@@ -68,6 +68,8 @@ proc
 		X["customMaps"] >> customMaps
 		X["mailTracker"] >> mailTracker
 		X["auctionItems"] >> auctionItems
+		X["itemsCount"] >> itemsCount
+		if(!itemsCount) itemsCount = 0
 		if(!customMaps) customMaps = list()
 		if(!globalvaults) globalvaults = list()
 		if(magicEyesLeft == null)
@@ -140,6 +142,7 @@ proc
 		X["skill_rating"] << skill_rating
 		X["reputations"] << reputations
 		X["ClanWars"] << cw
+		X["itemsCount"] << itemsCount
 		X["AutoClasses"] << classes
 		X["DJs"] << DJs
 		X["DPEditors"] << dp_editors

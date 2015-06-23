@@ -27,6 +27,28 @@ area
 		if(antiFly && isplayer(Obj))
 			Obj:nofly()
 
+var/itemsCount
+
+mob/test/verb/findDupes()
+	src << checkDupes()
+	src << "Items count: [itemsCount]"
+
+proc/checkDupes()
+	var/txt = ""
+	for(var/obj/items/i1 in world)
+		if(!i1.loc) continue
+		if(!i1.tag) continue
+		var/t = i1.tag
+		i1.tag = null
+
+		var/obj/items/i2 = locate(t)
+		i1.tag = t
+
+		if(i2)
+			txt += "[errormsg("[i1] ([i1.loc]) ([i1.x],[i1.y],[i1.z]) ([i1.owner]) == [i2] ([i2.loc]) ([i2.x],[i2.y],[i2.z]) ([i2.owner])")]<br>"
+
+	return txt == "" ? null : txt
+
 obj/items
 	var
 		dropable      = 1
@@ -36,6 +58,22 @@ obj/items
 		tmp/antiTheft = 0
 
 	mouse_over_pointer = MOUSE_HAND_POINTER
+
+	proc/setId()
+		set waitfor = 0
+		if(tag || !dropable || !canAuction) return
+
+		sleep(10)
+
+		if(loc && !tag)
+			tag = "i[itemsCount]"
+			itemsCount++
+
+	New()
+		..()
+
+		setId()
+
 
 obj/items/Click()
 	if((src in oview(1)) && takeable)
