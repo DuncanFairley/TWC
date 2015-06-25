@@ -1400,6 +1400,7 @@ mob/GM
 				if(minutes) time += ", and "
 				time += "[seconds] [seconds > 1 ? "seconds" : "second"]."
 			else
+				if(minutes) time += ", and "
 				time += "0 seconds."
 			usr << infomsg("[time]")
 
