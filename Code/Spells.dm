@@ -810,32 +810,32 @@ mob/Spells/verb/Chaotica()
 	if(dmg<20)dmg=20
 	else if(dmg>2000)dmg = 2000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
-		castproj(30,'misc.dmi',"black",dmg,"Chaotica")
+		castproj(MPreq = 30, icon = 'misc.dmi', icon_stae = "black", damage = dmg, name = "Chaotica")
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
 		HP -= 30
 		Death_Check()
-		castproj(0,'Aqua Eructo.dmi',"",usr.Def+(usr.extraDef/3) + clothDmg,"Aqua Eructo")
+		castproj(icon = 'Aqua Eructo.dmi', damage = usr.Def+(usr.extraDef/3) + clothDmg, name = "Aqua Eructo")
 mob/Spells/verb/Inflamari()
 	set category="Spells"
 	var/dmg = round(usr.level * 0.9) + clothDmg
 	if(dmg<10)dmg=10
 	else if(dmg>1000)dmg = 1000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
-		castproj(0,'attacks.dmi',"fireball",dmg,"inflamari")
+		castproj(icon_state = "fireball", damage = dmg, name = "Inflamari")
 mob/Spells/verb/Glacius()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
-		castproj(10,'attacks.dmi',"iceball",usr.Dmg+usr.extraDmg + clothDmg,"Glacius")
+		castproj(MPreq = 10, icon_state = "iceball", damage = usr.Dmg+usr.extraDmg + clothDmg, name = "Glacius")
 mob/Spells/verb/Waddiwasi()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
-		castproj(10,'attacks.dmi',"gum",usr.Dmg+usr.extraDmg + clothDmg,"Waddiwasi")
+		castproj(MPreq = 10, icon_state = "gum", damage = usr.Dmg+usr.extraDmg + clothDmg, name = "Waddiwasi")
 mob/Spells/verb/Tremorio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
-		castproj(5,'attacks.dmi',"quake",usr.Dmg+usr.extraDmg + clothDmg,"Tremorio")
+		castproj(MPreq = 5, icon_state = "quake", damage = usr.Dmg+usr.extraDmg + clothDmg, name = "Tremorio")
 mob/Spells/verb/Furnunculus(mob/M in view()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=0,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
@@ -1086,7 +1086,7 @@ mob/Spells/verb/Incindia()
 		usr:learnSpell("Incindia")
 		for(var/d in dirs)
 			dir = d
-			castproj(0, 'attacks.dmi', "fireball", damage, "incindia", 0, 1)
+			castproj(icon_state = "fireball", damage = damage, name = "incindia", cd = 0, lag = 1)
 		dir = t
 mob/Spells/verb/Replacio(mob/M in oview()&Players)
 	set category="Spells"
@@ -1329,58 +1329,39 @@ mob/Spells/verb/Ecliptica()
 				step_away(M, src)
 			time--
 			sleep(2)
-mob/Spells/verb/Delicio(mob/Player/M in oview(usr.client.view,usr)&Players)
+mob/Spells/verb/Delicio()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Delicio, [M].</b>"
+		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Delicio!</b>"
 		usr:learnSpell("Delicio")
-		if(CanTrans(M))
-			flick("transfigure",M)
-			M<<"<b><font color=red>Delicio Charm:</b></font>[usr] turned you into a delicious Turkey."
-			M.trnsed = 1
-			M.overlays = null
-			if(M.away)M.ApplyAFKOverlay()
-			M.icon = 'Turkey.dmi'
-mob/Spells/verb/Avifors(mob/Player/M in oview(usr.client.view,usr)&Players)
+
+		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Delicio", lag = 0)
+
+mob/Spells/verb/Avifors()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=gray>[usr]</font>: <b>Avifors, [M].</b>"
-		usr:learnSpell("Avifors")
-		if(CanTrans(M))
-			flick("transfigure",M)
-			M<<"<b><font color=gray>Avifors Charm:</b></font>[usr] turned you into a Black Crow."
-			M.trnsed = 1
-			M.overlays = null
-			if(M.away)M.ApplyAFKOverlay()
-			M.icon = 'Bird.dmi'
-mob/Spells/verb/Ribbitous(mob/Player/M in oview(usr.client.view,usr)&Players)
+		hearers(usr.client.view,usr)<<"<b><font color=gray>[usr]</font>: <b>Avifors!</b>"
+
+		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Avifors", lag = 0)
+
+mob/Spells/verb/Ribbitous()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=green> Ribbitous, [M].</b></font>"
-		usr:learnSpell("Ribbitous")
-		if(CanTrans(M))
-			flick("transfigure",M)
-			M<<"<b><font color=green>Ribbitous Charm:</b></font> [usr] turned you into a Frog."
-			M.trnsed = 1
-			M.overlays = null
-			if(M.away)M.ApplyAFKOverlay()
-			M.icon = 'Frog.dmi'
-mob/Spells/verb/Carrotosi(mob/Player/M in oview(usr.client.view,usr)&Players)
+		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=green> Ribbitous!</b></font>"
+
+		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Ribbitous", lag = 0)
+
+mob/Spells/verb/Carrotosi()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=red> Carrotosi, [M].</b></font>"
-		usr:learnSpell("Carrotosi")
-		if(CanTrans(M))
-			flick("transfigure",M)
-			M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
-			M.trnsed = 1
-			M.overlays = null
-			if(M.away)M.ApplyAFKOverlay()
-			M.icon = 'Rabbit.dmi'
+		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=red> Carrotosi!</b></font>"
+
+		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Carrotosi", lag = 0)
+
 mob/Spells/verb/Self_To_Dragon()
 	set name = "Personio Draconum"
 	set category="Spells"
@@ -1454,91 +1435,54 @@ mob/Spells/verb/Self_To_Human()
 			usr.BaseIcon()
 			user.ApplyOverlays()
 			usr<<"You reversed your transfiguration."
-mob/Spells/verb/Harvesto(mob/Player/M in oview(usr.client.view,usr)&Players)
+mob/Spells/verb/Harvesto()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b> Harvesto, [M].</b>"
-		if(CanTrans(M))
-			flick("transfigure",M)
-			if(!M)return
-			M<<"<b><font color=red>Harvesto Charm:</b></font> [usr] turned you into an Onion."
-			M.trnsed = 1
-			M.overlays = null
-			if(M.away)M.ApplyAFKOverlay()
-			M.icon = 'Onion.dmi'
-			usr:learnSpell("Harvesto")
-mob/Spells/verb/Felinious(mob/Player/M in oview(usr.client.view,usr)&Players)
+		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b> Harvesto!</b>"
+
+		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Harvesto", lag = 0)
+
+mob/Spells/verb/Felinious()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b> Felinious, [M].</b>"
-		if(CanTrans(M))
-			if(!M)return
-			M<<"<b><font color=blue>Felinious Charm:</b></font> [usr] turned you into a Black Cat."
-			flick("transfigure",M)
-			M.trnsed = 1
-			M.overlays = null
-			if(M.away)M.ApplyAFKOverlay()
-			M.icon = 'BlackCat.dmi'
-			usr:learnSpell("Felinious")
-mob/Spells/verb/Scurries(mob/Player/M in oview(usr.client.view,usr)&Players)
+		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>:<b> Felinious!</b>"
+
+		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Felinious", lag = 0)
+
+mob/Spells/verb/Scurries()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Scurries, [M].</b>"
-		if(CanTrans(M))
-			if(!M)return
-			flick("transfigure",M)
-			M<<"<b><font color=blue>Scurries Charm:</b></font> [usr] turned you into a Mouse."
-			M.trnsed = 1
-			M.overlays = null
-			if(M.away)M.ApplyAFKOverlay()
-			M.icon = 'Mouse.dmi'
-			usr:learnSpell("Scurries")
-mob/Spells/verb/Seatio(mob/Player/M in oview(usr.client.view,usr)&Players)
+		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>: <b>Scurries!</b>"
+
+		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Scurries", lag = 0)
+
+mob/Spells/verb/Seatio()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Seatio, [M].</b>"
-		if(CanTrans(M))
-			if(!M)return
-			flick("transfigure",M)
-			M<<"<b><font color=red>Seatio Charm:</b></font> [usr] turned you into a Chair."
-			M.trnsed = 1
-			M.overlays = null
-			if(M.away)M.ApplyAFKOverlay()
-			M.icon = 'Chair.dmi'
-			usr:learnSpell("Seatio")
-mob/Spells/verb/Nightus(mob/Player/M in oview(usr.client.view,usr)&Players)
+		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Seatio!</b>"
+
+		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Seatio", lag = 0)
+
+mob/Spells/verb/Nightus()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Nightus, [M].</b>"
-		if(CanTrans(M))
-			if(!M)return
-			flick("transfigure",M)
-			M<<"<b><font color=red>Nightus Charm:</b></font> [usr] turned you into a Bat."
-			M.trnsed = 1
-			M.overlays = null
-			if(M.away)M.ApplyAFKOverlay()
-			M.icon = 'Bat.dmi'
-			usr:learnSpell("Nightus")
-mob/Spells/verb/Peskipixie_Pesternomae(mob/Player/M in oview(usr.client.view,usr)&Players)
+		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Nightus!</b>"
+
+		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Nightus", lag = 0)
+
+mob/Spells/verb/Peskipixie_Pesternomae()
 	set category="Spells"
 	set name = "Peskipiksi Pestermi"
-	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Peskipiksi Pestermi, [M].</b>"
-		if(CanTrans(M))
-			if(!M)return
-			flick("transfigure",M)
-			M<<"<b><font color=blue>Peskipixie Pestermi Charm:</b></font> [usr] turned you into a Pixie."
-			M.trnsed = 1
-			M.overlays = null
-			if(M.away)M.ApplyAFKOverlay()
-			M.icon = 'Pixie.dmi'
-			usr:learnSpell("Peskipiksi Pestermi")
+		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Peskipiksi Pestermi!</b>"
+
+		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Peskipiksi Pestermi", lag = 0)
 
 mob/Spells/verb/Telendevour()
 	set category="Spells"
@@ -1652,16 +1596,8 @@ mob/Spells/verb/Crucio(mob/M in oview()&Players)
 mob/Spells/verb/Flippendo()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=1,target=null,mpreq=10))
-		var/obj/S=new/obj/Flippendo
-		usr.MP-=10
-		usr.updateHPMP()
-		S.damage=10
-		S.owner = usr
-		S.loc=(usr.loc)
-		walk(S,usr.dir,2)
-		usr:learnSpell("Flippendo")
-		sleep(20)
-		del S
+		castproj(Type = /obj/projectile/Flippendo, MPreq = 10, icon_state = "flippendo", name = "Flippendo")
+
 mob/Spells/verb/Wingardium_Leviosa()
 	set category="Spells"
 	if(!Wingardiumleviosa)
@@ -1803,7 +1739,7 @@ mob/var/Zitt
 var/safemode = 1
 mob/var/tmp/lastproj = 0
 mob
-	proc/castproj(MPreq,icon,icon_state,damage,name,cd=1,lag=2)
+	proc/castproj(Type = /obj/projectile, MPreq = 0, icon = 'attacks.dmi', icon_state = "", damage = 0, name = "projectile", cd = 1, lag = 2)
 		if(cd && (world.time - lastproj) < 2 && !inOldArena()) return
 		if(!loc) return
 		lastproj = world.time
@@ -1811,178 +1747,237 @@ mob
 		damage *= loc.loc:dmg
 		damage = round(damage)
 
-		var/obj/projectile/P = new(src.loc,src.dir,src,icon,icon_state,damage,name)
+		var/obj/projectile/P = new Type (src.loc,src.dir,src,icon,icon_state,damage,name)
 		P.shoot(lag)
 		if(client)
-			//Used in fire bats and fire golems as well
+			//Used in monsters as well
 			src.MP -= MPreq
 			src.updateHPMP()
 			src:learnSpell(name)
 
-	proc/Attacked(projname, damage)
+atom/movable/proc
+	Attacked(obj/projectile/p)
 
+	Dispose()
+		loc = null
+
+
+obj/portkey
+	Dispose()
+		partner = null
+		..()
+	Attacked(obj/projectile/p)
+		HP--
+		p.owner << "You hit the [name]."
+		if(HP < 1)
+			hearers(partner) << infomsg("The portkey has been destroyed from the other end.")
+			hearers(src)     << infomsg("The portkey has been destroyed.")
+
+			p.Dispose()
+			partner.Dispose()
+			Dispose()
+
+obj/egg
+	Attacked()
+		Hit()
+
+obj/enchanter
+	Attacked()
+		enchant()
+
+obj/clanpillar
+
+	Attacked(obj/projectile/p)
+		HP -= 1
+		flick("[clan]-V", src)
+		Death_Check(p.owner)
+
+obj/brick2door
+	Attacked(obj/projectile/p)
+		Take_Hit(p.owner)
+
+mob/Player
+
+	Attacked(obj/projectile/p)
+
+		if(p.owner)
+			if(p.owner.monster)
+				src << "[p.owner] hit you for [p.damage] with their [p]."
+			else
+				p.owner << "Your [p] does [p.damage] damage to [src]."
+
+		if(shielded)
+			var/tmpdmg = shieldamount - p.damage
+			if(tmpdmg < 0)
+				HP += tmpdmg
+				src << "You are no longer shielded!"
+				overlays    -= /obj/Shield
+				shielded     = 0
+				shieldamount = 0
+				Death_Check(p.owner)
+			else
+				shieldamount -= p.damage
+		else
+			HP -= p.damage
+
+			var/n = dir2angle(get_dir(src, p))
+			emit(loc    = src,
+				 ptype  = /obj/particle/fluid/blood,
+			     amount = 5,
+			     angle  = new /Random(n - 25, n + 25),
+			     speed  = 2,
+			     life   = new /Random(15,25))
+
+			if(isplayer(p.owner))
+				var/tmp_pkills = p.owner.pkills
+				Death_Check(p.owner)
+
+				if(p.owner.pkills > tmp_pkills)
+					p.owner:learnSpell(p.name, 100)
+			else
+				Death_Check(p.owner)
+
+			return src
+
+
+
+mob/NPC/Enemies
+	var/canBleed = TRUE
+
+	Attacked(obj/projectile/p)
+
+		if(isplayer(p.owner))
+
+			if(canBleed)
+				var/n = dir2angle(get_dir(src, p))
+				emit(loc    = src,
+					 ptype  = /obj/particle/fluid/blood,
+				     amount = 5,
+				     angle  = new /Random(n - 25, n + 25),
+				     speed  = 2,
+				     life   = new /Random(15,25))
+
+			if(p.owner.MonsterMessages)
+				p.owner << "Your [p] does [p.damage] damage to [src]."
+
+			HP -= p.damage
+
+			var/tmp_ekills = p.owner.ekills
+			Death_Check(p.owner)
+
+			if(p.owner.ekills > tmp_ekills)
+				p.owner:learnSpell(p.name, 5)
 
 obj
 	projectile
 		layer = 4
 		density = 1
 		var/velocity = 0
+
 		SteppedOn(atom/movable/A)
-			//world << "[src] stepped on [A]"
-			//			projectile stood on candle
-			if(ismob(A))
-				if(!A.density && (A:key || istype(A,/mob/NPC/Enemies)))
-					src.Bump(A)
-			else if(isobj(A))
-				if(istype(A,/obj/portkey) && damage)
-					A:HP--
-					owner << "You hit the [A.name]."
-					if(A:HP < 1)
-						hearers(A:partner) << infomsg("The portkey has been destroyed from the other end.")
-						del(A:partner)
-						hearers(A) << infomsg("The portkey has been destroyed.")
-						del(A)
-					del(src)
+			if(!A.density && (isplayer(A) || istype(A,/mob/NPC/Enemies)))
+				src.Bump(A)
+			else if(damage && istype(A,/obj/portkey))
+				src.Bump(A)
+
 		New(loc,dir,mob/mob,icon,icon_state,damage,name)
+			..()
+
 			src.dir = dir
 			src.icon = icon
 			src.icon_state = icon_state
 			src.damage = damage
 			src.owner = mob
-			src.name = "\proper [name]"
-			//..()
+			src.name = name
+
 			spawn(20)
-				walk(src,0)
-				src.loc = null
-			//src = null
+				Dispose()
+
+		Dispose()
+			walk(src,0)
+			..()
+		proc
+			Impact(atom/movable/a)
+
+			Effect(atom/movable/a)
+
+		Attacked(obj/projectile/p)
+			set waitfor = 0
+			sleep()
+
+			if(p.owner != owner && p.velocity >= velocity)
+				p.Dispose()
+
 		proc
 			shoot(lag=2)
 				velocity = lag
-				walk(src,dir,lag)
-				//sleep(20)
-				//src.loc = null
-		var/player=0
-		Bump(mob/M)
-			if(istype(M.loc, /turf/nofirezone)) return
+				walk(src, dir, lag)
+
+		Bump(atom/movable/a)
+			var/turf/t    = isturf(a.loc) ? a.loc : a
+			if(!t || istype(t, /turf/nofirezone)) return
+
 			var/oldSystem = inOldArena()
-			if(!loc || oldSystem)if(!istype(M, /mob)) return
-			if(istype(M, /obj/stone) || istype(M, /obj/redroses) || istype(M, /mob/Madame_Pomfrey) || istype(M,/obj/egg) || istype(M,/obj/enchanter) || istype(M,/obj/clanpillar))
-				for(var/atom/movable/O in M.loc)
-					if(O == M)continue
-					if(ismob(O))
-						src.Bump(O)
-					else if(istype(O,/obj/portkey))
-						src.SteppedOn(O)
-					else if(istype(O,/obj/clanpillar))
-						src.SteppedOn(O)
-				if(istype(M,/obj/egg))
-					var/obj/egg/E = M
-					E.Hit()
-				else if(istype(M,/obj/enchanter))
-					var/obj/enchanter/E = M
-					E.enchant()
-				else if(istype(M, /obj/clanpillar))
-					var/obj/clanpillar/C = M
-					if(1)
-						switch(C.clan)
-							if("Auror")
-								if(src.owner.derobe)
-									C.HP -= 1
-									flick("Auror-V",C)
-									C.Death_Check(src.owner)
-							if("Deatheater")
-								if(src.owner.aurorrobe)
-									C.HP -= 1
-									flick("Deatheater-V",C)
-									C.Death_Check(src.owner)
-							if("Gryff")
-								if(src.owner.House!="Gryffindor")
-									C.HP -= 1
-									flick("Gryff-V",C)
-									C.Death_Check(src.owner)
-							if("Slyth")
-								if(src.owner.House!="Slytherin")
-									C.HP -= 1
-									flick("Slyth-V",C)
-									C.Death_Check(src.owner)
-							if("Raven")
-								if(src.owner.House!="Ravenclaw")
-									C.HP -= 1
-									flick("Raven-V",C)
-									C.Death_Check(src.owner)
-							if("Huffle")
-								if(src.owner.House!="Hufflepuff")
-									C.HP -= 1
-									flick("Huffle-V",C)
-									C.Death_Check(src.owner)
-					walk(src,0)
-					src.loc = null
-			else if(istype(M,/obj/brick2door))
-				var/obj/brick2door/D = M
-				D.Take_Hit(owner)
-			else
-				var/turf/L = isturf(M.loc) ? M.loc : M
-				var/bleed
-				for(var/mob/A in L)
-					if(A.invisibility == 2) continue
-					if(owner&&owner.monster&&A.monster) continue
-					if(damage)
-						A.Attacked(src.icon_state, damage)
-						if(A.canBleed) bleed = A
-						if(A.monster)
-							if(src.owner && src.owner.MonsterMessages)
-								src.owner<<"Your [src] does [src.damage] damage to [A]."
-						else
-							if(owner.monster)
-								A << "[owner] hit you for [damage] with their [src]."
-							else
-								src.owner<<"Your [src] does [src.damage] damage to [A]."
+			if(oldSystem && !istype(a, /mob)) return
 
-					if(A.shielded)
-						var/tmpdmg = A.shieldamount - src.damage
-						if(tmpdmg < 0)
-							A.HP += tmpdmg
-							A << "You are no longer shielded!"
-							A.overlays -= /obj/Shield
-							A.shielded = 0
-							A.shieldamount = 0
-						else
-							A.shieldamount -= src.damage
-					else
-						A.HP-=src.damage
-						if(src.damage)
-							if(isplayer(owner))
-								var/tmp_ekills = owner.ekills
-								var/tmp_pkills = owner.pkills
-								A.Death_Check(src.owner)
+			var/dispose = TRUE
+			for(var/atom/movable/O in t)
+				if(O.invisibility >= 2) continue
 
-								if(owner.pkills > tmp_pkills)
-									owner:learnSpell(copytext(name, 3), 100)
-								else if(owner.ekills > tmp_ekills)
-									owner:learnSpell(copytext(name, 3), 5)
-							else
-								A.Death_Check(src.owner)
+				Effect(O)
+				if(damage)
+					var/i = O.Attacked(src)
+					if(dispose && i == -1) dispose = FALSE
 
+			Impact(a)
 
+			if(dispose) Dispose()
 
-				if(bleed && !oldSystem)
-					var/n = dir2angle(get_dir(bleed, src))
-					emit(loc    = bleed,
-						 ptype  = /obj/particle/fluid/blood,
-					     amount = 5,
-					     angle  = new /Random(n - 25, n + 25),
-					     speed  = 2,
-					     life   = new /Random(15,25))
+		Flippendo
 
-				if(istype(M,/obj/projectile))
-					var/obj/projectile/p = M
-					if(p.owner != owner && p.velocity >= velocity)
-						walk(p,0)
-						p.loc = null
-			walk(src,0)
-			src.loc = null
+			Attacked(obj/projectile/p)
+				set waitfor = 0
 
-mob/var/tmp/canBleed = TRUE
+				if(p.type != type)
+					p.dir = turn(p.dir, pick(45, -45))
+					walk(p, p.dir, p.velocity)
+
+				Dispose()
+				return -1
+
+			Effect(atom/movable/a)
+
+				if(isplayer(a) || istype(a, /mob/NPC/Enemies))
+
+					owner << "Your [src] hit [a]!"
+
+					var/turf/t = get_step_away(a, src)
+					if(t && !(issafezone(a.loc.loc) && !issafezone(t.loc)))
+						a.Move(t)
+						a << "You were pushed backwards by [owner]'s Flippendo!"
+
+				else if(istype(a,/obj/projectile) && a.type != type)
+					a.dir = turn(a.dir, pick(45, -45))
+					walk(a, a.dir, a:velocity)
+
+		Transfiguration
+
+			Effect(atom/movable/a)
+
+				if(src.owner && isplayer(a))
+					var/mob/Player/p = a
+					owner << "Your [src] hit [a]!"
+
+					if(owner.CanTrans(p))
+
+						flick("transfigure", p)
+						p.trnsed = 1
+						p.overlays = null
+						if(p.away) p.ApplyAFKOverlay()
+
+						p.icon       = 'Transfiguration.dmi'
+						p.icon_state = name
+
 
 obj/circle
 	icon = 'circle1.dmi'

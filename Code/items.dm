@@ -1692,12 +1692,12 @@ obj/Chaotica
 	New() spawn(60)del(src)
 turf/nofirezone
 	Enter(obj/O)
-		if(istype(O,/obj/projectile) || istype(O,/obj/Flippendo) || istype(O,/obj/Incendio))
+		if(istype(O,/obj/projectile) || istype(O,/obj/Incendio))
 			walk(O,0)
 			O.loc = null
 		else return ..()
 	Exit(obj/O)
-		if(istype(O,/obj/projectile) || istype(O,/obj/Flippendo) || istype(O,/obj/Incendio))
+		if(istype(O,/obj/projectile) || istype(O,/obj/Incendio))
 			walk(O,0)
 			O.loc = null
 		else return ..()
@@ -2699,26 +2699,6 @@ obj/Golden_Candles_
 	icon_state="gcandle1"
 	density=1
 	pixel_y = -16
-obj/Flippendo
-	icon='attacks.dmi'
-	icon_state="flippendo"
-	density=1
-	layer = 4
-	var/player=0
-	Bump(mob/M)
-		if(!loc) return
-		if(istype(M,/obj/projectile/) && !inOldArena())
-			M.dir = turn(M.dir,pick(45,-45))
-			walk(M,M.dir,2)
-		else if(istype(M, /mob) && (M.monster || M.key))
-			src.owner<<"Your [src] hit [M]!"
-			//step(M, src.dir)
-			var/turf/t = get_step_away(M,src)
-			if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
-				M.Move(t)
-				M<<"You were pushed backwards by [src.owner]'s Flippendo!"
-		else if(inOldArena()) return
-		del src
 obj/Thunderous
 	icon='Powers.dmi'
 	density=1
