@@ -139,7 +139,7 @@ auction
 					p.gold  -= price
 					p.auctionBuild()
 				else
-					p << errormsg("You don't have enough money, the item costs [comma(price)] gold, you need [comma(price)] more gold.")
+					p << errormsg("You don't have enough money, the item costs [comma(price)] gold, you need [comma(price - p.gold)] more gold.")
 
 		else if(href_list["action"] == "buyoutAuction")
 			if(buyout && owner != p.ckey)
