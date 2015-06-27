@@ -215,7 +215,7 @@ mob
 			monster = 1
 			NPC = 1
 
-			drops = list("0.7" = list(/obj/items/Whoopie_Cushion,
+			drops = list("0.5" = list(/obj/items/Whoopie_Cushion,
 			 			  			  /obj/items/Smoke_Pellet,
 			 			  			  /obj/items/Tube_of_fun))
 
@@ -855,7 +855,7 @@ mob
 							 "15"   = list(/obj/items/artifact,
 							               /obj/items/crystal/magic,
 							               /obj/items/crystal/strong_luck),
-							 "30"   = list(/obj/items/DarknessPowder,
+							 "15"   = list(/obj/items/DarknessPowder,
 								 		   /obj/items/Whoopie_Cushion,
 										   /obj/items/U_No_Poo,
 							 			   /obj/items/Smoke_Pellet,
@@ -941,7 +941,7 @@ mob
 			Demon_Rat
 				icon_state = "demon rat"
 				level = 50
-				drops = list("0.7" =      /obj/items/demonic_essence,
+				drops = list("1" =      /obj/items/demonic_essence,
 							 "0.8" = list(/obj/items/Whoopie_Cushion,
 			 	 			 			  /obj/items/Smoke_Pellet,
 			 	 			 			  /obj/items/Tube_of_fun))
@@ -997,7 +997,7 @@ mob
 							 			   /obj/items/crystal/magic,
 						     			   /obj/items/crystal/strong_luck,
 						     			   /obj/items/crystal/soul),
-							 "5"    = list(/obj/items/DarknessPowder,
+							 "3"    = list(/obj/items/DarknessPowder,
 							 			   /obj/items/Smoke_Pellet,
 							 			   /obj/items/Tube_of_fun))
 
@@ -1078,7 +1078,7 @@ mob
 							     "15"     = list(/obj/items/artifact,
 							                     /obj/items/crystal/magic,
 							                     /obj/items/crystal/strong_luck),
-							     "30"     = list(/obj/items/DarknessPowder,
+							     "15"     = list(/obj/items/DarknessPowder,
 								 		         /obj/items/Whoopie_Cushion,
 										         /obj/items/U_No_Poo,
 							 			         /obj/items/Smoke_Pellet,
@@ -1120,7 +1120,7 @@ mob
 							               /obj/items/key/pentakill_key,
 							               /obj/items/key/sunset_key),
 							 "0.6"  = /obj/items/artifact,
-							 "1"    = list(/obj/items/DarknessPowder,
+							 "0.6"    = list(/obj/items/DarknessPowder,
 								 	 	   /obj/items/Whoopie_Cushion,
 									 	   /obj/items/U_No_Poo,
 							 		 	   /obj/items/Smoke_Pellet,
@@ -1322,7 +1322,7 @@ mob
 										   /obj/items/crystal/damage,
 										   /obj/items/crystal/defense,
 						     			   /obj/items/crystal/luck),
-							 "30"   = list(/obj/items/DarknessPowder,
+							 "15"   = list(/obj/items/DarknessPowder,
 								 		   /obj/items/Whoopie_Cushion,
 										   /obj/items/U_No_Poo,
 							 			   /obj/items/Smoke_Pellet,
