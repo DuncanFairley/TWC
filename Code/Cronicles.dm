@@ -199,7 +199,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 11
+#define SAVEFILE_VERSION 12
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -352,6 +352,9 @@ mob
 						p.startQuest("Tutorial: The Wand Maker")
 
 			if(savefile_version < 12)
+				var/mob/Player/p = src
+				p.playedtime = 0
+			if(savefile_version < 13)
 				DeathEater = null
 				HA         = null
 				Auror      = null
