@@ -68,6 +68,8 @@ proc
 		X["customMaps"] >> customMaps
 		X["mailTracker"] >> mailTracker
 		X["auctionItems"] >> auctionItems
+		X["itemsCount"] >> itemsCount
+		if(!itemsCount) itemsCount = 0
 		if(!customMaps) customMaps = list()
 		if(!globalvaults) globalvaults = list()
 		if(magicEyesLeft == null)
@@ -140,6 +142,7 @@ proc
 		X["skill_rating"] << skill_rating
 		X["reputations"] << reputations
 		X["ClanWars"] << cw
+		X["itemsCount"] << itemsCount
 		X["AutoClasses"] << classes
 		X["DJs"] << DJs
 		X["DPEditors"] << dp_editors
@@ -196,7 +199,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 11
+#define SAVEFILE_VERSION 12
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -209,6 +212,7 @@ mob
 
 
 	Write(savefile/F)
+
 		..()
 		if(src.type != /mob/Player)
 			return
@@ -220,6 +224,7 @@ mob
 			F["last_x"] << x
 			F["last_y"] << y
 			F["last_z"] << z
+		F["UsedKeys"] << src:saveSpells()
 		detectStoopidBug(__FILE__, __LINE__)
 		return
 
@@ -241,6 +246,7 @@ mob
 			F["last_x"] >> last_x
 			F["last_y"] >> last_y
 			F["last_z"] >> last_z
+			F["UsedKeys"] >> src:UsedKeys
 			var/savefile_version
 			F["savefileversion"] >> savefile_version
 			if(!savefile_version) savefile_version = 3
@@ -346,6 +352,9 @@ mob
 						p.startQuest("Tutorial: The Wand Maker")
 
 			if(savefile_version < 12)
+				var/mob/Player/p = src
+				p.playedtime = 0
+			if(savefile_version < 13)
 				DeathEater = null
 				HA         = null
 				Auror      = null
@@ -736,7 +745,6 @@ mob/BaseCamp/ChoosingCharacter
 		sight=0
 		return
 
-
 client
 	var/tmp/savefile/_base_player_savefile
 
@@ -750,11 +758,10 @@ client
 
 	Del()
 		if(mob && isplayer(mob))
-			mob:playedtime += world.timeofday - mob:logintime
+			mob:playedtime += world.realtime  - mob:logintime
 			if(mob:isTrading())
 				mob:trade.Clean()
 			mob:auctionClosed()
-			mob:saveSpells()
 			var/StatusEffect/S = mob.findStatusEffect(/StatusEffect/Lamps)
 			if(S) S.Deactivate()
 			if(mob.prevname)
@@ -768,7 +775,10 @@ client
 				mob.Check_Death_Drop()
 		if (base_autosave_character)
 			base_SaveMob()
-		if (base_autodelete_mob)
+		if (base_autodelete_mob && mob)
+			if(isplayer(mob))
+				mob.contents     = list()
+				mob:stackobjects = null
 			del(mob)
 		return ..()
 

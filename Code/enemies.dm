@@ -578,13 +578,13 @@ mob
 									var/tmp_d = dir
 									for(var/d in dirs)
 										dir = d
-										castproj(0, 'attacks.dmi', "quake", Dmg + rand(-4,8), "rubble", 0, 1)
+										castproj(icon_state = "quake", damage = Dmg + rand(-4,8), name = "rubble", cd = 0, lag = 1)
 									dir = tmp_d
 									sleep(AttackDelay)
 
-						Attacked(projname, damage)
+						Attacked(obj/projectile/p)
 							if(HP > 0)
-								damageTaken += damage
+								damageTaken += p.damage
 
 								var/limit = 3
 								while(damageTaken >= 1000 && limit)
@@ -682,12 +682,12 @@ mob
 									var/tmp_d = dir
 									for(var/d in dirs)
 										dir = d
-										castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball", 0, 1)
+										castproj(icon_state = "fireball", damage = Dmg + rand(-4,8), name = "fire ball", cd = 0, lag = 1)
 									dir = tmp_d
 									sleep(AttackDelay)
 
-						Attacked(projname, damage)
-							if(projname == proj && prob(99))
+						Attacked(obj/projectile/p)
+							if(p.icon_state == proj && prob(99))
 								emit(loc    = src,
 									 ptype  = /obj/particle/red,
 								     amount = 2,
@@ -695,7 +695,7 @@ mob
 								     speed  = 2,
 								     life   = new /Random(15,20))
 							else
-								HP+=damage
+								HP += p.damage
 
 								emit(loc    = src,
 									 ptype  = /obj/particle/green,
@@ -736,7 +736,7 @@ mob
 									var/dmg = round((Dmg+extraDmg) * 1.5 + rand(-4,8))
 									for(var/d in dirs)
 										dir = d
-										castproj(0, 'attacks.dmi', "snowball", dmg, "snowball", 0, 1)
+										castproj(icon_state = "snowball", damage = dmg, name = "snowball", cd = 0, lag = 1)
 									dir = tmp_d
 									sleep(AttackDelay)
 						Attacked()
@@ -769,7 +769,7 @@ mob
 						BlindAttack()
 							spawn()
 								for(var/i = 1 to 3)
-									castproj(0, 'attacks.dmi', "gum", Dmg + rand(-4,8), "Waddiwasi")
+									castproj(icon_state = "gum", damage = Dmg + rand(-4,8), name = "Waddiwasi")
 									sleep(4)
 
 						Attack()
@@ -796,7 +796,7 @@ mob
 
 							dir=get_dir(src, target)
 							if(AttackDelay)	sleep(AttackDelay)
-							castproj(0, 'attacks.dmi', "gum", Dmg + rand(-4,8), "Waddiwasi")
+							castproj(icon_state = "gum", damage = Dmg + rand(-4,8), name = "Waddiwasi")
 
 
 
@@ -892,12 +892,12 @@ mob
 						var/dmg = round(Dmg * 0.75) + rand(-4,8)
 						for(var/d in dirs)
 							dir = d
-							castproj(0, 'attacks.dmi', "fireball", dmg, "Incindia", 0, 1)
+							castproj(icon_state = "fireball", dmg, name = "Incindia", cd = 0, lag = 1)
 						dir = tmp_d
 					else
 						dir=get_dir(src, target)
 						if(AttackDelay)	sleep(AttackDelay)
-						castproj(0, 'attacks.dmi', "gum", Dmg + rand(-4,8), "Waddiwasi")
+						castproj(icon_state = "gum", damage = Dmg + rand(-4,8), name = "Waddiwasi")
 
 				Blocked()
 					density = 0
@@ -1014,7 +1014,7 @@ mob
 
 						if(prob(80))
 							dir=get_dir(src, target)
-							castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball")
+							castproj(icon_state = "fireball", damage = Dmg + rand(-4,8), name = "fire ball")
 							sleep(AttackDelay)
 
 				Attacked(projname, damage)
@@ -1164,19 +1164,19 @@ mob
 							spawn(cd.get()) fired = 0
 
 							var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+							var/tmp_d = dir
 							if(fire == 1)
-								var/tmp_d = dir
 								var/dmg = round(Dmg * 1.5 + rand(-4,8))
 								for(var/d in dirs)
 									dir = d
-									castproj(0, 'attacks.dmi', "crucio2", dmg, "death ball", 0, 1)
-								dir = tmp_d
+									castproj(icon_state = "crucio2", damage = dmg, name = "death ball", cd = 0, lag = 1)
 							else
 								for(var/d in dirs)
-									var/obj/Flippendo/S = new (src.loc)
-									S.owner = src
-									walk(S, d, 2)
-									spawn(20) if(S) del S
+									dir = d
+									castproj(Type = /obj/projectile/Flippendo, icon_state = "flippendo", name = "Flippendo", cd = 0, lag = 1)
+
+							dir = tmp_d
+
 							sleep(AttackDelay)
 
 			Troll
@@ -1227,13 +1227,21 @@ mob
 			Bird_    ///SUMMONED///
 				icon_state = "bird"
 				level = 6
-			Fire_Bat
-				icon_state = "firebat"
-				level = 400
+
+			Projectile
 				var/tmp/fired = 0
 				AttackDelay = 3
+
+				Fire_Bat
+					icon_state = "firebat"
+					level = 400
+
+				Fire_Golem
+					icon_state = "firegolem"
+					level = 450
+
 				Attack()
-					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
+					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src, Range)))
 						target = null
 						ShouldIBeActive()
 						return
@@ -1241,7 +1249,7 @@ mob
 					if(!fired && prob(80))
 						fired = 1
 						dir=get_dir(src, target)
-						castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball")
+						castproj(icon_state = "fireball", damage = Dmg + rand(-4,8), name = "fire ball")
 						spawn(rand(15,30)) fired = 0
 						sleep(AttackDelay)
 
@@ -1256,37 +1264,6 @@ mob
 					else if(distance <= 3)
 						step_away(src, target)
 					else if(distance > 3)
-						step_rand(src)
-						sleep(2)
-			Fire_Golem
-				icon_state = "firegolem"
-				level = 450
-				AttackDelay = 3
-				var/tmp/fired = 0
-				Attack()
-					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,10)))
-						target = null
-						ShouldIBeActive()
-						return
-
-					if(!fired && prob(80))
-						fired = 1
-						dir=get_dir(src, target)
-						castproj(0, 'attacks.dmi', "fireball", Dmg + rand(-4,8), "fire ball")
-						spawn(rand(15,30)) fired = 0
-						sleep(AttackDelay)
-
-					var/distance = get_dist(src, target)
-					if(distance > 5)
-						var/turf/t = get_step_to(src, target, 1)
-						if(t)
-							Move(t)
-						else
-							target = null
-							ShouldIBeActive()
-					else if(distance < 3)
-						step_away(src, target)
-					else if(distance >= 3)
 						step_rand(src)
 						sleep(2)
 

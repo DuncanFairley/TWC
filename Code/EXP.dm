@@ -497,6 +497,7 @@ expRank
 			exp += amount
 			if(!silent) parent << infomsg("You gained [comma(amount)] rank experience!")
 
+			var/update = FALSE
 			while(exp > maxExp && level < MAX)
 				exp -= maxExp
 				level++
@@ -516,11 +517,12 @@ expRank
 			                        	/obj/items/chest/sunset_chest    = 12))
 
 				var/obj/items/i = new t (parent)
-				parent.Resort_Stacking_Inv()
+				update = TRUE
 
 				parent << infomsg("<b>Reward:</b> you receive a [i.name]!")
 
 			if(level == MAX) exp = 0
+			if(update) parent.Resort_Stacking_Inv()
 
 
 

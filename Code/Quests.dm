@@ -821,9 +821,10 @@ questReward
 		if(gold)
 			p.gold += gold
 			p << infomsg("You receive [comma(gold)] gold.")
-		if(exp && p.level < lvlcap)
-			p << infomsg("You receive [comma(exp)] experience.")
-			p.addExp(exp, 1)
+		if(exp)
+			if(p.level < lvlcap)
+				p << infomsg("You receive [comma(exp)] experience.")
+			p.addExp(exp)
 		if(items)
 			if(islist(items))
 				for(var/t in items)
@@ -1129,14 +1130,14 @@ mob/Player
 	proc
 		getPlayTime()
 			var
-				playtime=world.timeofday-logintime+playedtime
-				sec = round(playtime/10)
-				min = round(sec/60)
-				hour = round(min/60)
-				day = round(hour/24)
-			sec -= min*60
-			min -= hour*60
-			hour -= day*24
+				playtime = (world.realtime - logintime) + playedtime
+				sec      = round(playtime / 10)
+				min      = round(sec      / 60)
+				hour     = round(min      / 60)
+				day      = round(hour     / 24)
+			sec  -= min  * 60
+			min  -= hour * 60
+			hour -= day  * 24
 			var/msg = ""
 			if(day)
 				msg += "[day] [day > 1 ? "days" : "day"]"

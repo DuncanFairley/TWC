@@ -44,8 +44,18 @@ Event
 		fire()
 			..()
 			spawn()
-				scheduler.schedule(src, world.tick_lag * 43200) // 15 to 20 minutes
+				scheduler.schedule(src, world.tick_lag * 36000)
 				auctionBidTime()
+
+	FindDupes
+
+		fire()
+			..()
+			spawn()
+				scheduler.schedule(src, world.tick_lag * 36000 + 9000 * rand(1, 12))
+				var/txt = checkDupes()
+
+				if(txt) Log_admin(txt)
 
 	AutoClass
 
@@ -125,11 +135,13 @@ proc
 		init_random_events()
 		init_auction()
 
+		var/Event/FindDupes/e = new
+		scheduler.schedule(e, world.tick_lag * 6000)
 		spawn()
 			RandomizeShop()
 			var/date = time_until("Sunday", "00")
 			if(date != -1)
-				var/Event/RandomizeShop/e = new
+				e = new
 				scheduler.schedule(e, world.tick_lag * 10 * date)
 		init_quests()
 

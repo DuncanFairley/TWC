@@ -3,7 +3,7 @@ var/ParticleEmitter/particle_emitter = new
 
 ParticleEmitter
 	var
-		list/pool = list()
+		list/pool
 
 		decay = FALSE
 		const/DECAY_TIME = 3000
@@ -12,7 +12,8 @@ ParticleEmitter
 	proc
 		get_particle(ptype)
 			var/obj/particle/p
-			if(!("[ptype]" in pool))
+
+			if(!pool || !("[ptype]" in pool))
 				p = new ptype()
 			else
 				p = pool["[ptype]"][1]
@@ -27,25 +28,30 @@ ParticleEmitter
 		pool(obj/particle/p)
 			p.loc = null
 
+			if(!pool) pool = list()
+
 			if("[p.type]" in pool)
 				pool["[p.type]"] += p
 
-				if(length(pool["[type]"]) > DECAY_SIZE)
-					decay()
-
-
+				decay()
 			else
 				pool["[p.type]"] = list(p)
 
 		decay()
+			set waitfor = 0
 			if(decay) return
 			decay = TRUE
-			spawn(DECAY_TIME)
-				for(var/t in pool)
-					for(var/p in t)
-						t -= p
-					pool -= t
-				decay = FALSE
+
+			sleep(DECAY_TIME)
+
+			var/size = 0
+			for(var/t in pool)
+				size += length(pool[t])
+
+			if(size > DECAY_SIZE)
+				pool = null
+
+			decay = FALSE
 
 
 
@@ -178,9 +184,19 @@ obj/particle
 
 	smoke
 		alpha = 50
-		size  = 4
+		size  = 3
 		loop  = 1
+		color = "#bbb"
+
+		red
+			color = "#c60"
+		blue
+			color = "#0bc"
+		pink
+			color = "#ff69b4"
+
 		green
+			size  = 4
 			color = "#00f000"
 
 

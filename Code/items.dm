@@ -27,6 +27,28 @@ area
 		if(antiFly && isplayer(Obj))
 			Obj:nofly()
 
+var/itemsCount
+
+mob/test/verb/findDupes()
+	src << checkDupes()
+	src << "Items count: [itemsCount]"
+
+proc/checkDupes()
+	var/txt = ""
+	for(var/obj/items/i1 in world)
+		if(!i1.loc) continue
+		if(!i1.tag) continue
+		var/t = i1.tag
+		i1.tag = null
+
+		var/obj/items/i2 = locate(t)
+		i1.tag = t
+
+		if(i2)
+			txt += "[errormsg("[i1] ([i1.loc]) ([i1.x],[i1.y],[i1.z]) ([i1.owner]) == [i2] ([i2.loc]) ([i2.x],[i2.y],[i2.z]) ([i2.owner])")]<br>"
+
+	return txt == "" ? null : txt
+
 obj/items
 	var
 		dropable      = 1
@@ -36,6 +58,22 @@ obj/items
 		tmp/antiTheft = 0
 
 	mouse_over_pointer = MOUSE_HAND_POINTER
+
+	proc/setId()
+		set waitfor = 0
+		if(tag || !dropable || !canAuction) return
+
+		sleep(10)
+
+		if(loc && !tag)
+			tag = "i[itemsCount]"
+			itemsCount++
+
+	New()
+		..()
+
+		setId()
+
 
 obj/items/Click()
 	if((src in oview(1)) && takeable)
@@ -347,11 +385,7 @@ obj/items/bagofsnow
 		else ..()
 
 	verb/Throw_Snowball()
-		if((world.time - lastproj) < 3 || !usr.loc) return
-		lastproj = world.time
-		var/obj/S=new/obj/Snowball (usr.loc)
-		S.owner=usr
-		walk(S,usr.dir,2)
+		usr.castproj(MPreq = 10, icon_state = "snowball", name = "Snowball")
 
 obj/items/gift
 	icon = 'present.dmi'
@@ -1484,99 +1518,6 @@ world/IsBanned(key,address)
       .["Login"] = 1
 
 
-/***********************
-*********SPELLS*********
-***********************/
-obj/Incendio
-	icon='attacks.dmi'
-	icon_state="fireball"
-	density=1
-	layer = 4
-	var/player=0
-	Bump(obj/redroses/O)
-		if(!istype(O, /obj/redroses))
-			del(src)
-			return
-		if(!O.GM_Made)
-			src.icon = null
-			flick("burning", O)
-			sleep(4)
-			del O
-		del src
-	New() spawn(60)del(src)
-/*	Bump(mob/snowman/S)
-		if(!istype(S, /mob/snowman)) return
-		src.icon = null
-		flick("dead", S)
-		sleep(4)
-		del S
-		del src
-*/
-obj/Inflamari
-	icon='attacks.dmi'
-	icon_state="fireball"
-	density=1
-	var/player=0
-	Bump(mob/M)
-		if(inOldArena())if(!istype(M, /mob)) return
-		if(istype(M,/obj/brick2door))
-			var/obj/brick2door/D = M
-			D.Take_Hit(owner)
-		if(istype(M, /obj/clanpillar))
-			var/obj/clanpillar/C = M
-			if(1)
-				switch(C.clan)
-					if("Auror")
-						if(src.owner.DeathEater)
-							C.HP -= 1
-							flick("Auror-V",C)
-							C.Death_Check(src.owner)
-					if("Deatheater")
-						if(src.owner.Auror)
-							C.HP -= 1
-							flick("Deatheater-V",C)
-							C.Death_Check(src.owner)
-					if("Gryff")
-						if(src.owner.House!="Gryffindor")
-							C.HP -= 1
-							flick("Gryff-V",C)
-							C.Death_Check(src.owner)
-					if("Slyth")
-						if(src.owner.House!="Slytherin")
-							C.HP -= 1
-							flick("Slyth-V",C)
-							C.Death_Check(src.owner)
-					if("Raven")
-						if(src.owner.House!="Ravenclaw")
-							C.HP -= 1
-							flick("Raven-V",C)
-							C.Death_Check(src.owner)
-					if("Huffle")
-						if(src.owner.House!="Hufflepuff")
-							C.HP -= 1
-							flick("Huffle-V",C)
-							C.Death_Check(src.owner)
-			del(src)
-			src=null
-		if(istype(M, /mob))
-			if(!src.owner)del(src)
-			var/dmg = round(src.owner.level * 1.8)
-			if(dmg<10)dmg=10
-			else if(dmg>1000)dmg = 1000
-			src.owner<<"Your [src] does [dmg] damage to \the [M]"
-			if(M.shielded)
-				M.shieldamount-=dmg
-				if(M.shieldamount < 1)
-					M.shielded = 0
-					M.shieldamount = 0
-					M << "You are no longer shielded!"
-					M.overlays -= /obj/Shield
-					M.overlays -= /obj/Shield
-			else M.HP-=dmg
-			M.Death_Check(src.owner)
-		del src
-	New() spawn(60)del(src)
-
 obj/Sanctuario
 	icon='attacks.dmi'
 	icon_state="alohomora"
@@ -1588,80 +1529,15 @@ obj/Sanctuario
 			src.owner<<""
 		del src
 	New() spawn(60)del(src)
-obj/Chaotica
-	icon='misc.dmi'
-	icon_state="black"
-	density=1
-	var/player=0
-	Bump(mob/M)
-		//if(!istype(M, /mob)) return
-		if(istype(M,/obj/brick2door))
-			var/obj/brick2door/D = M
-			D.Take_Hit(owner)
-		if(istype(M, /obj/clanpillar))
-			var/obj/clanpillar/C = M
-			if(1)
-				switch(C.clan)
-					if("Auror")
-						if(src.owner.DeathEater)
-							C.HP -= 1
-							flick("Auror-V",C)
-							C.Death_Check(src.owner)
-					if("Deatheater")
-						if(src.owner.Auror)
-							C.HP -= 1
-							flick("Deatheater-V",C)
-							C.Death_Check(src.owner)
-					if("Gryff")
-						if(src.owner.House!="Gryffindor")
-							C.HP -= 1
-							flick("Gryff-V",C)
-							C.Death_Check(src.owner)
-					if("Slyth")
-						if(src.owner.House!="Slytherin")
-							C.HP -= 1
-							flick("Slyth-V",C)
-							C.Death_Check(src.owner)
-					if("Raven")
-						if(src.owner.House!="Ravenclaw")
-							C.HP -= 1
-							flick("Raven-V",C)
-							C.Death_Check(src.owner)
-					if("Huffle")
-						if(src.owner.House!="Hufflepuff")
-							C.HP -= 1
-							flick("Huffle-V",C)
-							C.Death_Check(src.owner)
-			del(src)
-			src=null
-		//if(M.monster||M.player)
-		if(istype(M, /mob))
-			var/dmg = round(src.owner.level * 2)
-			if(dmg<10) dmg = 10
-			else if(dmg>2000) dmg = 2000
-			src.owner<<"Your [src] does [dmg] damage to [M]"
-			if(M.shielded)
-				M.shieldamount-=dmg
-				if(M.shieldamount < 1)
-					M.shielded = 0
-					M.shieldamount = 0
-					M << "You are no longer shielded!"
-					M.overlays -= /obj/Shield
-					M.overlays -= /obj/Shield
-			else M.HP-=dmg
-			M.Death_Check(src.owner)
-		del src
-	New() spawn(60)del(src)
+
 turf/nofirezone
-	Enter(obj/O)
-		if(istype(O,/obj/projectile) || istype(O,/obj/Flippendo) || istype(O,/obj/Incendio))
-			walk(O,0)
-			O.loc = null
+	Enter(obj/o)
+		if(istype(o, /obj/projectile))
+			o.Dispose()
 		else return ..()
-	Exit(obj/O)
-		if(istype(O,/obj/projectile) || istype(O,/obj/Flippendo) || istype(O,/obj/Incendio))
-			walk(O,0)
-			O.loc = null
+	Exit(obj/o)
+		if(istype(o, /obj/projectile))
+			o.Dispose()
 		else return ..()
 turf/DynamicArena
 	name = "Arena"
@@ -2084,243 +1960,7 @@ mob/test/verb/Old_duel_mode()
 		src << "Old duel mode is now on."
 	else
 		src << "Old duel mode is now off."
-obj/Glacius
-	icon='attacks.dmi'
-	icon_state="iceball"
-	density=1
-	var/player=0
-	Bump(mob/M)
-		if(inOldArena())if(!istype(M, /mob)) return
-		if(istype(M,/obj/brick2door))
-			var/obj/brick2door/D = M
-			D.Take_Hit(owner)
-		if(istype(M, /obj/clanpillar))
-			var/obj/clanpillar/C = M
-			if(1)
-				switch(C.clan)
-					if("Auror")
-						if(src.owner.DeathEater)
-							C.HP -= 1
-							flick("Auror-V",C)
-							C.Death_Check(src.owner)
-					if("Deatheater")
-						if(src.owner.Auror)
-							C.HP -= 1
-							flick("Deatheater-V",C)
-							C.Death_Check(src.owner)
-					if("Gryff")
-						if(src.owner.House!="Gryffindor")
-							C.HP -= 1
-							flick("Gryff-V",C)
-							C.Death_Check(src.owner)
-					if("Slyth")
-						if(src.owner.House!="Slytherin")
-							C.HP -= 1
-							flick("Slyth-V",C)
-							C.Death_Check(src.owner)
-					if("Raven")
-						if(src.owner.House!="Ravenclaw")
-							C.HP -= 1
-							flick("Raven-V",C)
-							C.Death_Check(src.owner)
-					if("Huffle")
-						if(src.owner.House!="Hufflepuff")
-							C.HP -= 1
-							flick("Huffle-V",C)
-							C.Death_Check(src.owner)
-			del(src)
-			src=null
-		if(istype(M, /mob))
-			src.owner<<"Your [src] does [src.damage] damage to [M]"
-			if(M.shielded)
-				var/tmpdmg = M.shieldamount - src.damage
-				if(tmpdmg < 0)
-					M.HP += tmpdmg
-					M << "You are no longer shielded!"
-					M.overlays -= /obj/Shield
-					M.overlays -= /obj/Shield
-					M.shielded = 0
-					M.shieldamount = 0
-				else
-					M.shieldamount -= src.damage
-			else
-				M.HP-=src.damage
-			M.Death_Check(src.owner)
-		del(src)
-	New() spawn(60)del(src)
 
-obj/Snowball
-	icon='attacks.dmi'
-	icon_state="snowball"
-	density=1
-	var/player=0
-	New()
-		spawn(20)
-			walk(src, 0)
-			loc = null
-	Bump(mob/M)
-		var/n = dir2angle(get_dir(M, src))
-		emit(loc    = M,
-			 ptype  = /obj/particle/fluid/snow,
-		     amount = 5,
-		     angle  = new /Random(n - 25, n + 25),
-		     speed  = 2,
-		     life   = new /Random(15,25))
-		loc = null
-
-obj/Stupefy
-	icon='attacks.dmi'
-	icon_state="stupefy"
-	density=1
-	var/player=0
-	Bump(mob/M)
-		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
-		if(M.monster||M.player)
-			if(M.shielded)
-				M.shieldamount-=src.damage
-				if(M.shieldamount < 1)
-					M.shielded = 0
-					M.shieldamount = 0
-					M << "You are no longer shielded!"
-					M.overlays -= /obj/Shield
-					M.overlays -= /obj/Shield
-			else
-				M.HP-=src.damage
-			M.frozen=1
-			sleep(100)
-			M.frozen=0
-			M.Death_Check(src.owner)
-		del src
-	New() spawn(60)del(src)
-obj/Waddiwasi
-	icon='attacks.dmi'
-	icon_state="gum"
-	density=1
-	var/player=0
-	Bump(mob/M)
-		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
-		if(istype(M,/obj/brick2door))
-			var/obj/brick2door/D = M
-			D.Take_Hit(owner)
-		if(istype(M, /obj/clanpillar))
-			var/obj/clanpillar/C = M
-			if(1)
-				switch(C.clan)
-					if("Auror")
-						if(src.owner.DeathEater)
-							C.HP -= 1
-							flick("Auror-V",C)
-							C.Death_Check(src.owner)
-					if("Deatheater")
-						if(src.owner.Auror)
-							C.HP -= 1
-							flick("Deatheater-V",C)
-							C.Death_Check(src.owner)
-					if("Gryff")
-						if(src.owner.House!="Gryffindor")
-							C.HP -= 1
-							flick("Gryff-V",C)
-							C.Death_Check(src.owner)
-					if("Slyth")
-						if(src.owner.House!="Slytherin")
-							C.HP -= 1
-							flick("Slyth-V",C)
-							C.Death_Check(src.owner)
-					if("Raven")
-						if(src.owner.House!="Ravenclaw")
-							C.HP -= 1
-							flick("Raven-V",C)
-							C.Death_Check(src.owner)
-					if("Huffle")
-						if(src.owner.House!="Hufflepuff")
-							C.HP -= 1
-							flick("Huffle-V",C)
-							C.Death_Check(src.owner)
-			del(src)
-			src=null
-		//if(M.monster||M.player)
-		if(istype(M, /mob))
-			src.owner<<"Your [src] does [src.damage] damage to [M]"
-			if(M.shielded)
-				var/tmpdmg = M.shieldamount - src.damage
-				if(tmpdmg < 0)
-					M.HP += tmpdmg
-					M << "You are no longer shielded!"
-					M.overlays -= /obj/Shield
-					M.overlays -= /obj/Shield
-					M.shielded = 0
-					M.shieldamount = 0
-				else
-					M.shieldamount -= src.damage
-			else
-				M.HP-=src.damage
-			M.Death_Check(src.owner)
-		del src
-	New() spawn(60)del(src)
-obj/Aqua_Eructo
-	icon='Aqua Eructo.dmi'
-	density=1
-	var/player=0
-	Bump(mob/M)
-		if(oldduelmode||istype(loc.loc,/area/hogwarts/Duel_Arenas/Main_Arena_Bottom))if(!istype(M, /mob)) return
-		if(istype(M,/obj/brick2door))
-			var/obj/brick2door/D = M
-			D.Take_Hit(owner)
-		if(istype(M, /obj/clanpillar))
-			var/obj/clanpillar/C = M
-			if(1)
-				switch(C.clan)
-					if("Auror")
-						if(src.owner.DeathEater)
-							C.HP -= 1
-							flick("Auror-V",C)
-							C.Death_Check(src.owner)
-					if("Deatheater")
-						if(src.owner.Auror)
-							C.HP -= 1
-							flick("Deatheater-V",C)
-							C.Death_Check(src.owner)
-					if("Gryff")
-						if(src.owner.House!="Gryffindor")
-							C.HP -= 1
-							flick("Gryff-V",C)
-							C.Death_Check(src.owner)
-					if("Slyth")
-						if(src.owner.House!="Slytherin")
-							C.HP -= 1
-							flick("Slyth-V",C)
-							C.Death_Check(src.owner)
-					if("Raven")
-						if(src.owner.House!="Ravenclaw")
-							C.HP -= 1
-							flick("Raven-V",C)
-							C.Death_Check(src.owner)
-					if("Huffle")
-						if(src.owner.House!="Hufflepuff")
-							C.HP -= 1
-							flick("Huffle-V",C)
-							C.Death_Check(src.owner)
-			del(src)
-			src=null
-	//	if(M.monster||M.player)
-		if(istype(M, /mob))
-			src.owner<<"Your [src] does [src.damage] damage to [M]"
-			if(M.shielded)
-				var/tmpdmg = M.shieldamount - src.damage
-				if(tmpdmg < 0)
-					M.HP += tmpdmg
-					M << "You are no longer shielded!"
-					M.overlays -= /obj/Shield
-					M.overlays -= /obj/Shield
-					M.shielded = 0
-					M.shieldamount = 0
-				else
-					M.shieldamount -= src.damage
-			else
-				M.HP-=src.damage
-			M.Death_Check(src.owner)
-		del src
-	New() spawn(60)del(src)
 obj/stone
 	icon='turf.dmi'
 	icon_state="stone"
@@ -2330,23 +1970,6 @@ obj/stone
 		..()
 		spawn(600)del(src)
 
-obj/Arania_Eximae
-	icon='attacks.dmi'
-	icon_state="missle"
-	density=1
-	var/player=0
-	Bump(mob/M)
-		src.owner<<"Your [src] does [src.damage] damage to the [M]"
-		if(M.shieldamount> 0)
-			if(M.shieldamount - src.damage < 0)
-				src.damage -= M.shieldamount
-				M.shieldamount = 0
-			else
-				M.shieldamount-=src.damage
-				src.damage = 0
-		M.HP-=src.damage
-		del src
-	New() spawn(60)del(src)
 obj/Armor_Head
 	icon='statues.dmi'
 	icon_state="head"
@@ -2661,50 +2284,6 @@ obj/Golden_Candles_
 	icon_state="gcandle1"
 	density=1
 	pixel_y = -16
-obj/Flippendo
-	icon='attacks.dmi'
-	icon_state="flippendo"
-	density=1
-	layer = 4
-	var/player=0
-	Bump(mob/M)
-		if(!loc) return
-		if(istype(M,/obj/projectile/) && !inOldArena())
-			M.dir = turn(M.dir,pick(45,-45))
-			walk(M,M.dir,2)
-		else if(istype(M, /mob) && (M.monster || M.key))
-			src.owner<<"Your [src] hit [M]!"
-			//step(M, src.dir)
-			var/turf/t = get_step_away(M,src)
-			if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
-				M.Move(t)
-				M<<"You were pushed backwards by [src.owner]'s Flippendo!"
-		else if(inOldArena()) return
-		del src
-obj/Thunderous
-	icon='Powers.dmi'
-	density=1
-	var/player=0
-	Bump(mob/M)
-		if(!istype(M, /mob)) return
-		if(M.monster||M.player)
-			src.owner<<"Your [src] hit [M]!"
-			M.HP=0
-			M.Death_Check(src.owner)
-		del src
-obj/Eneveda
-	icon='Powers.dmi'
-	icon_state="orbball"
-	icon='Powers.dmi'
-	density=1
-	var/player=0
-	Bump(mob/M)
-		if(!istype(M, /mob)) return
-		if(M.monster||M.player)
-			src.owner<<"Your [src] hit [M]!"
-			M.HP=0
-			M.Death_Check(src.owner)
-		del src
 
 ////////////////\
 	End Spells  \

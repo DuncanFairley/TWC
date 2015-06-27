@@ -784,8 +784,6 @@ world/proc/worldlooper()
 		for(var/client/C)
 			sleep(2)
 			if(!C) continue
-			if(world.timeofday < 9000)
-				C.mob.usedpermoveo = 0
 			if(winget(C,"radio_enabled","is-checked") == "false")
 				switch(rndnum)
 					if(1)
@@ -1102,6 +1100,9 @@ mob/Player
 				src.admin=1
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
+			if("Rotem12")
+				src.verbs += /mob/test/verb/findDupes
+
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
@@ -1134,7 +1135,7 @@ mob/Player
 		isDJ(src)
 		checkMail()
 		buildActionBar()
-		logintime = world.timeofday
+		logintime = world.realtime
 		spawn()
 			//CheckSavefileVersion()
 			if(istype(src.loc.loc,/area/arenas) && !rankedArena)
@@ -1462,47 +1463,6 @@ mob/Player
 											T.overlays += inflamari
 											T.density=1
 											T.invisibility=0
-								if("restricto hellfire")
-									if(src.admin)
-										hearers()<<"[usr] encases \himself in magical flames."
-										for(var/turf/T in view(1))
-											var/inflamari = /obj/Inflamari
-											T.overlays += inflamari
-											T.density=1
-											T.invisibility=0
-								/*if("open up")
-									if(src.Gm)
-										sleep(10)
-										hearers()<<"Access Granted. Welcome, [usr]."
-										for(var/turf/Holoroom_Door/T in oview())
-											T.door=1
-											T.bumpable=1
-
-											T.icon = 'ADoor.dmi'
-											T.density = 1
-											T.icon_state="closed"
-											T.bumpable=1
-											T.door=1
-											T.opacity=0
-								if("reservio")
-									if(src.Gm)
-										sleep(10)
-										hearers()<<"Holoroom has been locked and secured."
-										for(var/turf/Holoroom_Door/T in oview(5))
-											T.door=1
-											T.bumpable=1
-											T.door=0
-											T.bumpable=0
-											T.density=1
-											T.opacity=0
-								if("open hogwarts")
-									if(src.admin)
-										for(var/turf/Hogwarts_Exit/T in world)
-											T.icon = null
-											T.density = 0
-										for(var/turf/Hogwarts/T in world)
-											T.icon = null
-											T.density = 0*/
 								if("clanevent1")
 									if(src.admin)
 										if(!clanevent1)
@@ -1589,7 +1549,7 @@ mob/Player
 			var/online=0
 			for(var/mob/Player/M in Players)
 				online++
-				src << "\icon[wholist[M.House ? M.House : "Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname ? M.prevname : M.name]<font color=white></b>[M.status]  <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level >= lvlcap ? "[getSkillGroup(M.ckey)] \icon[M.getRankIcon()]" : M.level]  <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+				src << "\icon[wholist[M.House ? M.House : "Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname ? M.prevname : M.name]<font color=white></b>[M.status] <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level >= lvlcap ? "[getSkillGroup(M.ckey)] \icon[M.getRankIcon()]" : M.level] <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
 
 			usr << "[online] players online."
 			var/logginginmobs = ""
@@ -1773,7 +1733,7 @@ mob/proc/Resort_Stacking_Inv()
 		for(var/V in counts)
 			if(counts[V] > 1)
 				var/obj/stackobj/stack = new()
-				var/obj/tmpV = new V()
+				var/obj/tmpV = new V
 				stack.containstype = V
 				if(src:stackobjects)
 					if(src:stackobjects[V])
