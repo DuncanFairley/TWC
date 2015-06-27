@@ -892,7 +892,7 @@ mob
 						var/dmg = round(Dmg * 0.75) + rand(-4,8)
 						for(var/d in dirs)
 							dir = d
-							castproj(icon_state = "fireball", dmg, name = "Incindia", cd = 0, lag = 1)
+							castproj(icon_state = "fireball", damage = dmg, name = "Incindia", cd = 0, lag = 1)
 						dir = tmp_d
 					else
 						dir=get_dir(src, target)
