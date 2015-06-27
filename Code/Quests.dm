@@ -1130,7 +1130,7 @@ mob/Player
 	proc
 		getPlayTime()
 			var
-				playtime = (world.timeofday - logintime) + playedtime
+				playtime = (world.realtime - logintime) + playedtime
 				sec      = round(playtime / 10)
 				min      = round(sec      / 60)
 				hour     = round(min      / 60)

@@ -755,7 +755,7 @@ client
 
 	Del()
 		if(mob && isplayer(mob))
-			mob:playedtime += world.timeofday - mob:logintime
+			mob:playedtime += world.realtime  - mob:logintime
 			if(mob:isTrading())
 				mob:trade.Clean()
 			mob:auctionClosed()

@@ -1135,7 +1135,7 @@ mob/Player
 		isDJ(src)
 		checkMail()
 		buildActionBar()
-		logintime = world.timeofday
+		logintime = world.realtime
 		spawn()
 			//CheckSavefileVersion()
 			if(istype(src.loc.loc,/area/arenas) && !rankedArena)
