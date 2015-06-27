@@ -1400,6 +1400,7 @@ mob/GM
 				if(minutes) time += ", and "
 				time += "[seconds] [seconds > 1 ? "seconds" : "second"]."
 			else
+				if(minutes) time += ", and "
 				time += "0 seconds."
 			usr << infomsg("[time]")
 
@@ -1496,6 +1497,7 @@ mob/GM
 
 						var/i = pick(prizeItems)
 						prizeItems -= i
+						if(!prizeItems.len) prizeItems = null
 
 						var/obj/items/item_prize = new i (p)
 						p.Resort_Stacking_Inv()
