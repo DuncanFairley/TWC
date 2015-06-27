@@ -1463,47 +1463,6 @@ mob/Player
 											T.overlays += inflamari
 											T.density=1
 											T.invisibility=0
-								if("restricto hellfire")
-									if(src.admin)
-										hearers()<<"[usr] encases \himself in magical flames."
-										for(var/turf/T in view(1))
-											var/inflamari = /obj/Inflamari
-											T.overlays += inflamari
-											T.density=1
-											T.invisibility=0
-								/*if("open up")
-									if(src.Gm)
-										sleep(10)
-										hearers()<<"Access Granted. Welcome, [usr]."
-										for(var/turf/Holoroom_Door/T in oview())
-											T.door=1
-											T.bumpable=1
-
-											T.icon = 'ADoor.dmi'
-											T.density = 1
-											T.icon_state="closed"
-											T.bumpable=1
-											T.door=1
-											T.opacity=0
-								if("reservio")
-									if(src.Gm)
-										sleep(10)
-										hearers()<<"Holoroom has been locked and secured."
-										for(var/turf/Holoroom_Door/T in oview(5))
-											T.door=1
-											T.bumpable=1
-											T.door=0
-											T.bumpable=0
-											T.density=1
-											T.opacity=0
-								if("open hogwarts")
-									if(src.admin)
-										for(var/turf/Hogwarts_Exit/T in world)
-											T.icon = null
-											T.density = 0
-										for(var/turf/Hogwarts/T in world)
-											T.icon = null
-											T.density = 0*/
 								if("clanevent1")
 									if(src.admin)
 										if(!clanevent1)

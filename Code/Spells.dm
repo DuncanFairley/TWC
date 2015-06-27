@@ -1254,15 +1254,8 @@ mob/Spells/verb/Impedimenta()
 mob/Spells/verb/Incendio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=20,againstocclumens=1))
-		usr:learnSpell("Incendio")
-		var/obj/S=new/obj/Incendio
-		usr.MP-=20
-		usr.updateHPMP()
-		S.loc=(usr.loc)
-		S.owner="[usr]"
-		walk(S,usr.dir,2)
-		sleep(20)
-		del S
+		castproj(Type = /obj/projectile/BurnRoses, MPreq = 10, icon_state = "fireball", name = "Incendio")
+
 /*mob/Spells/verb/Cugeo(mob/Player/M in view()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=10,againstocclumens=1))
@@ -1978,6 +1971,15 @@ obj
 						p.icon       = 'Transfiguration.dmi'
 						p.icon_state = name
 
+		BurnRoses
+
+			Effect(atom/movable/a)
+				if(istype(a, /obj/redroses))
+					var/obj/redroses/r = a
+
+					flick("burning", r)
+					if(!r.GM_Made)
+						spawn(4) r.Dispose()
 
 obj/circle
 	icon = 'circle1.dmi'
