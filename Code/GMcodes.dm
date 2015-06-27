@@ -1895,7 +1895,7 @@ world/New()
 	for(var/state in icon_states('Ranks.dmi'))
 		rankIcons[state] = icon('Ranks.dmi', state)
 
-	worldlooper()
+//	worldlooper()
 world/proc/Load_Bans()
 	var/savefile/S=new("players/cr_full.ban")
 	S["key"] >> crban_keylist
