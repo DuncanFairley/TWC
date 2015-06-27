@@ -821,9 +821,10 @@ questReward
 		if(gold)
 			p.gold += gold
 			p << infomsg("You receive [comma(gold)] gold.")
-		if(exp && p.level < lvlcap)
-			p << infomsg("You receive [comma(exp)] experience.")
-			p.addExp(exp, 1)
+		if(exp)
+			if(p.level < lvlcap)
+				p << infomsg("You receive [comma(exp)] experience.")
+			p.addExp(exp)
 		if(items)
 			if(islist(items))
 				for(var/t in items)
