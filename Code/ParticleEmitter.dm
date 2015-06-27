@@ -184,9 +184,19 @@ obj/particle
 
 	smoke
 		alpha = 50
-		size  = 4
+		size  = 3
 		loop  = 1
+		color = "#bbb"
+
+		red
+			color = "#c60"
+		blue
+			color = "#0bc"
+		pink
+			color = "#ff69b4"
+
 		green
+			size  = 4
 			color = "#00f000"
 
 

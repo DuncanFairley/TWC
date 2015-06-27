@@ -1813,7 +1813,7 @@ mob/Player
 		else
 			HP -= p.damage
 
-			var/n = dir2angle(get_dir(src, p))
+			var/n = dir2angle(get_dir(p, src))
 			emit(loc    = src,
 				 ptype  = /obj/particle/fluid/blood,
 			     amount = 5,
@@ -1842,7 +1842,7 @@ mob/NPC/Enemies
 		if(isplayer(p.owner))
 
 			if(canBleed)
-				var/n = dir2angle(get_dir(src, p))
+				var/n = dir2angle(get_dir(p, src))
 				emit(loc    = src,
 					 ptype  = /obj/particle/fluid/blood,
 				     amount = 5,
@@ -1865,7 +1865,9 @@ obj
 	projectile
 		layer = 4
 		density = 1
-		var/velocity = 0
+		var
+			velocity = 0
+			const/MAX_VELOCITY = 10
 
 		SteppedOn(atom/movable/A)
 			if(!A.density && (isplayer(A) || istype(A,/mob/NPC/Enemies)))
@@ -1890,20 +1892,51 @@ obj
 			walk(src,0)
 			..()
 		proc
-			Impact(atom/movable/a)
+			Impact(atom/movable/a, turf/oldloc)
+				var/effect = TRUE
+				. = 1
+				if(istype(a, /obj/projectile))
+					. = a:velocity >= velocity
+
+					effect = a:owner != owner && .
+
+				if(effect)
+					var/particle
+
+					switch(icon_state)
+						if("snowball")
+							particle = /obj/particle/fluid/snow
+						if("iceball")
+							particle = /obj/particle/smoke/blue
+						if("fireball")
+							particle = /obj/particle/smoke/red
+						if("gum")
+							particle = /obj/particle/smoke/pink
+						if("flippendo")
+							particle = /obj/particle/smoke
+
+					if(particle)
+
+						if(!oldloc) oldloc = isturf(a) ? a : a.loc
+
+						var/n = dir2angle(get_dir(oldloc, src))
+						emit(loc    = oldloc,
+							 ptype  = particle,
+						     amount = 4,
+						     angle  = new /Random(n - 25, n + 25),
+						     speed  = 2,
+						     life   = new /Random(15,20))
 
 			Effect(atom/movable/a)
 
 		Attacked(obj/projectile/p)
-			set waitfor = 0
-			sleep()
-
-			if(p.owner != owner && p.velocity >= velocity)
-				p.Dispose()
+			if(p.owner != owner)
+				if(Impact(p))
+					Dispose()
 
 		proc
 			shoot(lag=2)
-				velocity = lag
+				velocity = MAX_VELOCITY - lag
 				walk(src, dir, lag)
 
 		Bump(atom/movable/a)
@@ -1913,30 +1946,31 @@ obj
 			var/oldSystem = inOldArena()
 			if(oldSystem && !istype(a, /mob)) return
 
-			var/dispose = TRUE
 			for(var/atom/movable/O in t)
 				if(O.invisibility >= 2) continue
 
-				Effect(O)
-				if(damage)
-					var/i = O.Attacked(src)
-					if(dispose && i == -1) dispose = FALSE
+				spawn()
+					Effect(O)
+					if(damage)
+						O.Attacked(src)
 
-			Impact(a)
 
-			if(dispose) Dispose()
+			if(Impact(a, t))
+				Dispose()
 
 		Flippendo
 
+			shoot()
+				..()
+				velocity--
+
 			Attacked(obj/projectile/p)
-				set waitfor = 0
 
-				if(p.type != type)
-					p.dir = turn(p.dir, pick(45, -45))
-					walk(p, p.dir, p.velocity)
+				p.dir = turn(p.dir, pick(45, -45))
+				walk(p, p.dir, MAX_VELOCITY - p.velocity)
 
-				Dispose()
-				return -1
+				if(Impact(p))
+					Dispose()
 
 			Effect(atom/movable/a)
 
@@ -1949,9 +1983,9 @@ obj
 						a.Move(t)
 						a << "You were pushed backwards by [owner]'s Flippendo!"
 
-				else if(istype(a,/obj/projectile) && a.type != type)
+				else if(istype(a,/obj/projectile))
 					a.dir = turn(a.dir, pick(45, -45))
-					walk(a, a.dir, a:velocity)
+					walk(a, a.dir, MAX_VELOCITY - a:velocity)
 
 		Transfiguration
 
