@@ -385,11 +385,7 @@ obj/items/bagofsnow
 		else ..()
 
 	verb/Throw_Snowball()
-		if((world.time - lastproj) < 3 || !usr.loc) return
-		lastproj = world.time
-		var/obj/S=new/obj/Snowball (usr.loc)
-		S.owner=usr
-		walk(S,usr.dir,2)
+		usr.castproj(MPreq = 10, icon_state = "snowball", name = "Snowball")
 
 obj/items/gift
 	icon = 'present.dmi'
@@ -1964,25 +1960,6 @@ mob/test/verb/Old_duel_mode()
 		src << "Old duel mode is now on."
 	else
 		src << "Old duel mode is now off."
-
-obj/Snowball
-	icon='attacks.dmi'
-	icon_state="snowball"
-	density=1
-	var/player=0
-	New()
-		spawn(20)
-			walk(src, 0)
-			loc = null
-	Bump(mob/M)
-		var/n = dir2angle(get_dir(M, src))
-		emit(loc    = M,
-			 ptype  = /obj/particle/fluid/snow,
-		     amount = 5,
-		     angle  = new /Random(n - 25, n + 25),
-		     speed  = 2,
-		     life   = new /Random(15,25))
-		loc = null
 
 obj/stone
 	icon='turf.dmi'
