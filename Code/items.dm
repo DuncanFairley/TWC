@@ -385,7 +385,7 @@ obj/items/bagofsnow
 		else ..()
 
 	verb/Throw_Snowball()
-		usr.castproj(MPreq = 10, icon_state = "snowball", name = "Snowball")
+		usr.castproj(icon_state = "snowball", name = "Snowball")
 
 obj/items/gift
 	icon = 'present.dmi'
