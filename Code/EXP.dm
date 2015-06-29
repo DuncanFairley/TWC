@@ -214,11 +214,6 @@ obj
 			name = "Godric's Journal"
 			icon_state="gryffup"
 
-		EXP_BOOK_lvlnone
-			name = "Book of All Knowledge"
-			icon_state="smart"
-
-
 proc
 	get_exp(var/level)
 		if(level >= 100) return 350

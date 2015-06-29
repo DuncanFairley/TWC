@@ -37,6 +37,12 @@ obj
 		sign2
 			icon_state = "sign3"
 
+turf
+	tree
+		icon='ragtree.dmi'
+		icon_state="summer" //winter in winter
+		density=1
+		opacity=0
 
 
 
