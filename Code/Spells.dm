@@ -643,8 +643,9 @@ mob/Spells/verb/Incarcerous(var/mob/M in oview()&Players)
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		new /StatusEffect/UsedStun(src,15)
 		M.movable=1
-		M.icon_state="bind"
-		M.overlays = null
+		if(!M.trnsed)
+			M.icon_state="bind"
+			M.overlays = null
 		hearers()<<"[usr]: <font color=aqua>Incarcerous, [M]!"
 		sleep(20)
 		hearers()<<"With a sudden spark, [usr]'s wand emits a stream of ropes which bind around [M]."
@@ -662,8 +663,9 @@ mob/Spells/verb/Incarcerous(var/mob/M in oview()&Players)
 			if(M && M.movable)
 				M<<"<font color= #999900><b>[usr]'s curse has been dispelled. You can move again!"
 				M.movable=0
-				M.icon_state=""
-				M:ApplyOverlays()
+				if(!M.trnsed)
+					M.icon_state=""
+					M:ApplyOverlays()
 				if(usr)usr<<"<font color= #999900><b>Your curse upon [M] has been lifted."
 mob/Spells/verb/Anapneo(var/mob/M in view(usr.client.view,usr)&Players)
 	set category="Spells"
@@ -684,11 +686,11 @@ mob/Spells/verb/Reducto(var/mob/M in (view(usr.client.view,usr)&Players)|src)
 		if(M.GMFrozen){alert("You can't free [M]. They have been frozen by a Game Master.");return}
 		hearers(usr.client.view,usr)<<"<B><font color=red>[usr]:</font><font color=white> <I>Reducto!</I>"
 		M.movable=0
-		M:ApplyOverlays()
+		if(!M.trnsed) M:ApplyOverlays()
 		if(M.confused)M.confused=0
 		hearers(usr.client.view,usr)<<"White light emits from [usr]'s wand, freeing [M]."
 		flick('Reducto.dmi',M)
-		M.icon_state=""
+		if(!M.trnsed) M.icon_state=""
 		usr:learnSpell("Reducto")
 mob/Spells/verb/Reparo(obj/M in oview(src.client.view,src))
 	set category = "Spells"
@@ -762,8 +764,9 @@ mob/Spells/verb/Petreficus_Totalus(var/mob/M in oview()&Players)
 		M<<"<font color= #999900>[usr] <b>uses <font color= #990099><b>Petrificus Totalus<font color= #999900> on you, <font color= #000099>turning you into stone for 10 seconds."
 
 		M.movable=1
-		M.icon_state="stone"
-		M.overlays=null
+		if(!M.trnsed)
+			M.icon_state="stone"
+			M.overlays=null
 		hearers()<<"[usr]: <font color=blue>Petrificus Totalus!"
 		usr:learnSpell("Petrificus Totalus")
 		src = null
@@ -773,8 +776,9 @@ mob/Spells/verb/Petreficus_Totalus(var/mob/M in oview()&Players)
 			if(M)
 				M<<"<font color= #999900><b>[usr]'s curse has been dispelled. You can move again!"
 				M.movable=0
-				M.icon_state=""
-				M:ApplyOverlays()
+				if(!M.trnsed)
+					M.icon_state=""
+					M:ApplyOverlays()
 
 mob
 	Player/var/tmp/antifigura = 0
@@ -810,7 +814,7 @@ mob/Spells/verb/Chaotica()
 	if(dmg<20)dmg=20
 	else if(dmg>2000)dmg = 2000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
-		castproj(MPreq = 30, icon = 'misc.dmi', icon_stae = "black", damage = dmg, name = "Chaotica")
+		castproj(MPreq = 30, icon = 'misc.dmi', icon_state = "black", damage = dmg, name = "Chaotica")
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
@@ -1144,7 +1148,7 @@ mob/Spells/verb/Levicorpus(mob/M in view()&Players)
 			M.removeoMob:removeoMob = null
 			M.removeoMob = null
 		flick('mist.dmi',M)
-		M.icon_state="levi"
+		if(!M.trnsed) M.icon_state="levi"
 		usr.MP-=800
 		usr.updateHPMP()
 		M.movable=1
@@ -1158,7 +1162,7 @@ mob/Spells/verb/Levicorpus(mob/M in view()&Players)
 		spawn(100)
 			if(M)
 				M.movable=0
-				M.icon_state=""
+				if(!M.trnsed) M.icon_state=""
 
 mob/Spells/verb/Obliviate(mob/M in oview()&Players)
 	set category="Spells"
@@ -1781,13 +1785,15 @@ obj/enchanter
 obj/clanpillar
 
 	Attacked(obj/projectile/p)
-		HP -= 1
-		flick("[clan]-V", src)
-		Death_Check(p.owner)
+		if(density)
+			HP -= 1
+			flick("[clan]-V", src)
+			Death_Check(p.owner)
 
 obj/brick2door
 	Attacked(obj/projectile/p)
-		Take_Hit(p.owner)
+		if(density)
+			Take_Hit(p.owner)
 
 mob/Player
 
@@ -1813,7 +1819,7 @@ mob/Player
 		else
 			HP -= p.damage
 
-			var/n = dir2angle(get_dir(p, src))
+			var/n = dir2angle(get_dir(src, p))
 			emit(loc    = src,
 				 ptype  = /obj/particle/fluid/blood,
 			     amount = 5,
@@ -1842,7 +1848,7 @@ mob/NPC/Enemies
 		if(isplayer(p.owner))
 
 			if(canBleed)
-				var/n = dir2angle(get_dir(p, src))
+				var/n = dir2angle(get_dir(src, p))
 				emit(loc    = src,
 					 ptype  = /obj/particle/fluid/blood,
 				     amount = 5,
@@ -1900,7 +1906,7 @@ obj
 
 					effect = a:owner != owner && .
 
-				if(effect)
+				if(effect && !ismob(a))
 					var/particle
 
 					switch(icon_state)
@@ -1914,10 +1920,13 @@ obj
 							particle = /obj/particle/smoke/pink
 						if("flippendo")
 							particle = /obj/particle/smoke
+						if("quake")
+							particle = /obj/particle/smoke/brown
 
 					if(particle)
 
 						if(!oldloc) oldloc = isturf(a) ? a : a.loc
+						if(!oldloc) oldloc = loc
 
 						var/n = dir2angle(get_dir(oldloc, src))
 						emit(loc    = oldloc,
@@ -1946,16 +1955,15 @@ obj
 			var/oldSystem = inOldArena()
 			if(oldSystem && !istype(a, /mob)) return
 
+			var/count = 0
 			for(var/atom/movable/O in t)
 				if(O.invisibility >= 2) continue
+				Effect(O)
+				if(damage)
+					O.Attacked(src)
+				count++
 
-				spawn()
-					Effect(O)
-					if(damage)
-						O.Attacked(src)
-
-
-			if(Impact(a, t))
+			if(Impact(a, t) || count > 1)
 				Dispose()
 
 		Flippendo
