@@ -2307,7 +2307,7 @@ obj/portkey
 				icon = 'scrolls.dmi'
 				icon_state = "blank"
 			if(4)
-				icon = 'turfZ.dmi'
+				icon = 'turf.dmi'
 				icon_state="candle"
 		spawn(300)
 			view(src) << "The portkey collapses and closes."

@@ -1851,3 +1851,52 @@ turf
 		icon_state="flower"
 		density=1
 		layer=MOB_LAYER+1
+obj/Book_Of_The_Cross
+	icon='books.dmi'
+	icon_state="Cross"
+	dontsave=1
+turf
+	snowtopright
+		icon_state="topsnowright"
+		density=0
+	snowtop
+		icon_state="topsnow"
+		density=0
+	snowtopup
+		icon_state="topsnowup"
+		density=0
+	snowtopleft
+		icon_state="topsnowleft"
+		density=0
+	stairsnormal
+		icon_state="gmstair"
+	redroses
+		icon_state="redplant"
+		density=1
+	redchair
+		icon_state="rc"
+		density=1
+obj
+	bell
+		icon = 'Turfs.dmi'
+		icon_state = "bell2"
+		dontsave=1
+		accioable=0
+		verb
+			Ring_Bell()
+				set src in oview(1)
+				hearers()<<"<i>DING!"
+				usr<<"Someone should be with you shortly."
+				for(var/mob/M in range())
+					if(M.name=="Shana the Receptionist")
+						sleep(30)
+						flick('dlo.dmi',M)
+
+						M.invisibility=0
+						hearers()<<"<b><font color=blue>Shana:</font> Hello, I'm Shana. The Hogwarts Receptionist. How May I help you?"
+						sleep(30)
+						usr<<"Use the Talk verb when near Shana to speak with her."
+obj/Gate
+	icon = 'turf.dmi'
+	icon_state="gate"
+	density=1

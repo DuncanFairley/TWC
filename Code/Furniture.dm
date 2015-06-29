@@ -272,9 +272,16 @@ obj/Endtable
 	dontsave=1
 
 obj/Pink_Flowers
-	icon='General.dmi'
-	icon_state="tile114"
+	icon='Plants.dmi'
+	icon_state="Pink Flowers"
 	accioable=0
 	wlable=0
 	density=1
 	dontsave=1
+
+obj/Blue_Flowers
+	icon = 'Plants.dmi'
+	icon_state = "Blue Flowers"
+	accioable = 0
+	wlable = 0
+	density = 1

@@ -1483,10 +1483,6 @@ obj/Exit
 	wlable=0
 	density=1
 	accioable=0
-obj/Book_Of_The_Cross
-	icon='books.dmi'
-	icon_state="Cross"
-	dontsave=1
 obj/Blackboard_
 	icon='bb.dmi'
 	icon_state="1"
@@ -2142,7 +2138,7 @@ obj/Force_Field
 obj
 	candle
 		var/tmp/turf/origloc
-		icon = 'turfZ.dmi'
+		icon = 'turf.dmi'
 		icon_state = "candle"
 		luminosity = 7
 		layer = 7
