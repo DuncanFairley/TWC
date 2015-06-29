@@ -194,7 +194,8 @@ obj/particle
 			color = "#0bc"
 		pink
 			color = "#ff69b4"
-
+		brown
+			color = "#8b4513"
 		green
 			size  = 4
 			color = "#00f000"
