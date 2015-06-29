@@ -1487,3 +1487,367 @@ mob/Moaning_Myrtle
 	Click()//This starts- wait... you know what this is... i hope ^^
 		if(!(src in view(usr.client.view)))return
 		hearers()<<"<b>Moaning Myrtle:</b> *Sob* Wahhhhhh! Ohhhh, hello there, [usr]. *Blush* GO AWAY! *sob* ahhh..."
+obj/Snowfall
+	icon='turf.dmi'
+	icon_state="snowfall"
+	invisibility=2
+	density=0
+obj/books
+	EXP_BOOK_lvlnone
+	name = "Book of All Knowledge"
+	icon_state="smart"
+obj/Book_Shelf_
+	icon='Desk.dmi'
+	icon_state="1"
+	density=1
+	dontsave=1
+
+	New()
+		..()
+		spawn(1)
+			for(var/mob/Player/p in Players)
+				if(p.Gm)
+					Players << "Special teleport bookshelf found in [x],[y],[z] on [loc]. Please delete it."
+turf
+	secretdoor
+		bumpable=0
+		name="Hogwarts Stone Wall"
+		flyblock=1
+		door=1
+		icon='door1.dmi'
+		density=1
+		icon_state="closed"
+		opacity=1
+turf
+	walltorch_housewars
+		name = "walltorch"
+		icon='turf.dmi'
+		icon_state="w2"
+		density=1
+		verb
+			Pull()
+				set src in oview(1)
+				switch(input("Pull the Torch?","Pull the Torch?")in list("Yes","No"))
+					if("Yes")
+						alert("You pull the torch and a secret door opens")
+						for(var/turf/secretdoor/T in world)
+							flick("opening",T)
+							T.icon_state = "open"
+							density = 0
+							T.bumpable = 1
+							opacity = 0
+							sleep(70)
+							flick("closing",T)
+							T.icon_state = "closed"
+							density = 1
+							opacity = 1
+							T.bumpable=0
+					if("No")
+						return
+turf
+	Rabbit_Hole
+		icon='hole.dmi'
+		Entered(mob/Player/M)
+			if(M.monster==1)
+				return
+			else
+				M.loc=locate(26,70,7)
+obj/Ani/I
+	icon='ian.dmi'
+	icon_state="i"
+	accioable=0
+
+obj/Ani/A
+	icon='ian.dmi'
+	icon_state="a"
+	accioable=0
+
+obj/Ani/N
+	icon='ian.dmi'
+	icon_state="n"
+	accioable=0
+
+obj/Ani/T
+	icon='ian.dmi'
+	icon_state="t"
+	accioable=0
+
+obj/Ani/M
+	icon='ian.dmi'
+	icon_state="m"
+	accioable=0
+
+obj/Ani/O
+	icon='ian.dmi'
+	icon_state="o"
+	accioable=0
+obj/arrowup
+	icon='items.dmi'
+	icon_state="arrowup"
+obj/arrowdown
+	icon='items.dmi'
+	icon_state="arrowdown"
+obj/arrowleft
+	icon='items.dmi'
+	icon_state="arrowleft"
+obj/arrowright
+	icon='items.dmi'
+	icon_state="arrowright"
+obj/Copper
+	icon='items.dmi'
+	icon_state="copper"
+obj/Iron
+	icon='items.dmi'
+	icon_state="iron"
+obj/Steel
+	icon='items.dmi'
+	icon_state="steel"
+	dontsave=1
+obj/Titanium
+	icon='items.dmi'
+	icon_state="titanium"
+obj/CampFire
+	icon='misc.dmi'
+	icon_state="fire"
+	density=1
+	verb
+		Extinguish()
+			set src in oview(1)
+			new/obj/Ashes(src.loc)
+			src.loc = null
+obj/Ashes
+	icon='items.dmi'
+	icon_state="ashes"
+	density=0
+	New()
+		sleep(50)
+		src.loc = null
+obj/items/Blue_Mushroom
+	icon = 'items.dmi'
+	icon_state = "bluemushroom"
+	desc = "A blue mushroom.. yummy!"
+	takeable = 0
+
+obj/items/Green_Mushroom
+	icon = 'items.dmi'
+	icon_state = "greenmushroom"
+	desc = "A green mushroom.. yummy!"
+	takeable = 0
+
+obj/items/Yellow_Mushroom
+	icon = 'items.dmi'
+	icon_state = "yellowmushroom"
+	desc = "A yellow mushroom.. yummy!"
+	takeable = 0
+
+obj/items/Red_Mushroom
+	icon = 'items.dmi'
+	icon_state = "redmushroom"
+	desc = "A red mushroom.. yummy!"
+	takeable = 0
+obj/Security_Barrier
+	icon='misc.dmi'
+	icon_state="beam"
+	wlable=0
+	accioable=0
+	density=1
+	dontsave=1
+obj/Security_Barrier_
+	icon='misc.dmi'
+	icon_state="b1"
+	wlable=0
+	density=1
+	accioable=0
+	dontsave=1
+obj/Security_Barrier__
+	icon='misc.dmi'
+	icon_state="b2"
+	density=1
+	wlable=0
+	layer = MOB_LAYER + 1
+	accioable=0
+	dontsave=1
+obj/flash
+	icon='misc.dmi'
+	icon_state="flash"
+	accioable=0
+	density=0
+	wlable=0
+	dontsave=1
+turf
+
+	pyramidmid
+		layer = 6
+		name = "pyramid"
+		icon = 'pyramid.dmi'
+		icon_state = "mid"
+
+	pyramidleft
+		layer = 6
+		name = "pyramid"
+		icon = 'pyramid.dmi'
+		icon_state = "left"
+
+	pyramidright
+		layer = 6
+		name = "pyramid"
+		icon = 'pyramid.dmi'
+		icon_state = "right"
+
+	p_blackline
+		layer = 6
+		name = "pyramid"
+		icon = 'pyramid.dmi'
+		icon_state = "line"
+
+	p_blacklinedown
+		layer = 6
+		name = "pyramid"
+		icon = 'pyramid.dmi'
+		icon_state = "down"
+
+obj/pokeby
+	icon='pokeby.dmi'
+	verb
+		Examine()
+			set src in view(3)
+			usr << "Aww, isn't it cute?"
+	verb
+		Take()
+			set src in oview(1)
+			hearers()<<"[usr] takes \the [src]."
+			Move(usr)
+			usr:Resort_Stacking_Inv()
+	verb
+		Drop()
+			Move(usr.loc)
+			usr:Resort_Stacking_Inv()
+			hearers()<<"[usr] drops \his [src]."
+obj/PromPlate
+	icon = 'PromFood.dmi'
+	icon_state = "Plate"
+	New()
+		..()
+		Refresh()
+	proc/Refresh()
+		spawn()while(src)
+			var/foundfood = 0
+			for(var/obj/O in src.loc)
+				if(istype(O,/obj/FoodProm))
+					foundfood = 1
+			if(!foundfood)
+				var/foodtypes = typesof(/obj/FoodProm) - /obj/FoodProm
+				var/newfood = pick(foodtypes)
+				new newfood(src.loc)
+			sleep(200)
+obj
+	Food
+		icon='turf.dmi'
+		dontsave=1
+		value=10
+		verb
+			Eat()
+				set src in view(1)
+				usr.HP+=25
+				if(usr.HP > (usr.MHP+usr.extraMHP)) usr.HP = usr.MHP+usr.extraMHP
+				usr<<"You eat \the [src]."
+				del src
+			Take()
+				set src in oview(1)
+				hearers()<<"[usr] takes \the [src]."
+				Move(usr)
+				usr:Resort_Stacking_Inv()
+			Drop()
+				set src in usr
+				Move(usr.loc)
+				usr:Resort_Stacking_Inv()
+				hearers()<<"[usr] drops \his [src]."
+	FoodProm
+		icon = 'PromFood.dmi'
+		Blue_Popsicle
+			icon_state = "BluePopsicle"
+		Red_Popsicle
+			icon_state = "RedPopsicle"
+		Yellow_Popsicle
+			icon_state = "YellowPopsicle"
+		Green_Popsicle
+			icon_state = "GreenPopsicle"
+		Blue_Snowcone
+			icon_state = "BlueSnowcone"
+		Green_Snowcone
+			icon_state = "GreenSnowcone"
+		Yellow_Snowcone
+			icon_state = "YellowSnowcone"
+		Red_Snowcone
+			icon_state = "RedSnowcone"
+		Bubble_Gum
+			icon_state = "Bubble Gum"
+		Blood_Pop
+			icon_state = "Blood Pop"
+		Skittles
+			icon_state = "Skittles"
+		Burger
+			icon_state = "Burger"
+		Fire_Whiskey
+			icon_state = "Firewhiskey"
+		Cookie
+			icon_state = "Cookie"
+		Chocolate_Frog
+			icon_state = "Chocolate Frog"
+		Pudding
+			icon_state = "Pudding"
+		Slice_of_cake
+			icon_state = "Cake Slice"
+		Strawberry_Cake
+			icon_state = "Strawberry Cake"
+		Pumpkin_Juice
+			icon_state = "Pumpkinjuice"
+		Butterbeer
+			icon_state = "Butterbeer"
+		New()
+			..()
+			if(!src.loc)
+				del(src)
+		verb
+			Eat()
+				set src in view(1)
+				usr.HP+=25
+				if(usr.HP > (usr.MHP+usr.extraMHP)) usr.HP = usr.MHP+usr.extraMHP
+				usr<<"You eat \the [src]."
+				del src
+			Take()
+				set src in oview(1)
+				hearers()<<"[usr] takes \the [src]."
+				Move(usr)
+				Pickedup()
+				usr:Resort_Stacking_Inv()
+			Drop()
+				set src in usr
+				Move(usr.loc)
+				usr:Resort_Stacking_Inv()
+				hearers()<<"[usr] drops \his [src]."
+		proc/Pickedup()
+			spawn()
+				sleep(600)
+				del(src)
+
+obj/Food/Candy_Cane
+			icon_state="cane"
+obj/Food/Steak
+			icon_state="food16"
+obj/Food/Turkey
+			icon_state="food13"
+obj/Food/Sundae
+			icon='Food.dmi'
+			icon_state="Sundae"
+obj/Food/fruitbucket
+			name = "fruit bucket"
+			icon_state="food14"
+obj/Food/Pizza
+			icon='Food.dmi'
+			icon_state="Pizza"
+turf
+	flower
+		icon_state="flower"
+		density=1
+		layer=MOB_LAYER+1

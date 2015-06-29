@@ -321,14 +321,14 @@ mob/Spells/verb/Densuago(mob/M in view()&Players)
 	set name = "Densaugeo"
 	hearers()<<"[usr]: <font color=white><b>Densaugeo [M]!"
 	sleep(20)
-	M.overlays+=('teeth.dmi')
+	M.overlays += image('attacks.dmi', icon_state = "teeth")
 	hearers()<<"[M]'s teeth begin to grow rapidly!"
 	M<<"[src] placed a curse on you! Your teeth grew rapidly. They will return to normal in 3 minutes."
 	usr:learnSpell("Densaugeo")
 	src = null
 	spawn(1800)
 		if(M)
-			M.overlays-=('teeth.dmi')
+			M.overlays -= image('attacks.dmi', icon_state = "teeth")
 			M<<"Your teeth have been reduced to normal size."
 mob/Spells/verb/Morsmordre()
 	set category = "Clan"
@@ -473,14 +473,14 @@ mob/Spells/verb/Expecto_Patronum()
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>EXPECTO PATRONUM!"
 		sleep(20)
-		overlays += image('expecto.dmi')
+		overlays += image('attacks.dmi', icon_state = "expecto")
 		for(var/mob/NPC/Enemies/Summoned/Dementor/D in view())
 			D.loc = locate(1,1,1)
 			spawn()	Respawn(D)
 		for(var/mob/NPC/Enemies/Dementor/D in view())
 			D.loc = locate(1,1,1)
 			spawn() Respawn(D)
-		overlays-=image('expecto.dmi')
+		overlays -= image('attacks.dmi', icon_state = "expecto")
 		hearers()<<"Bright white light shoots out of [usr]'s wand."
 		usr:learnSpell("Expecto Patronum")
 
@@ -629,13 +629,13 @@ mob/Spells/verb/Melofors(mob/M in oview()&Players)
 		M.sight|=BLIND
 		hearers()<<"<b><font color=red>[usr]:</font> <font size=2><font color=red>Melofors [M]."
 		hearers()<<"<b>A giant pumpkin falls from the sky and lands upon [M.name]'s head.</b>"
-		M.overlays+=icon('pumpkinhead.dmi')
+		M.overlays += image('attacks.dmi', icon_state = "melofors")
 		usr:learnSpell("Melofors")
 		src = null
 		spawn(100)
 			if(M)
 				M.sight&=~BLIND
-				M.overlays-=icon('pumpkinhead.dmi')
+				M.overlays -= image('attacks.dmi', icon_state = "melofors")
 				M<<"[usr]'s Melofors jinx has subsided."
 				if(usr)usr<<"Your Melofors jinx has subsided from [M]."
 mob/Spells/verb/Incarcerous(var/mob/M in oview()&Players)
@@ -810,13 +810,13 @@ mob/Spells/verb/Chaotica()
 	if(dmg<20)dmg=20
 	else if(dmg>2000)dmg = 2000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
-		castproj(MPreq = 30, icon = 'misc.dmi', icon_stae = "black", damage = dmg, name = "Chaotica")
+		castproj(MPreq = 30, icon_state = "chaotica", damage = dmg, name = "Chaotica")
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
 		HP -= 30
 		Death_Check()
-		castproj(icon = 'Aqua Eructo.dmi', damage = usr.Def+(usr.extraDef/3) + clothDmg, name = "Aqua Eructo")
+		castproj(icon_state = "aqua", damage = usr.Def+(usr.extraDef/3) + clothDmg, name = "Aqua Eructo")
 mob/Spells/verb/Inflamari()
 	set category="Spells"
 	var/dmg = round(usr.level * 0.9) + clothDmg
@@ -846,7 +846,7 @@ mob/Spells/verb/Furnunculus(mob/M in view()&Players)
 		M.Zitt=0
 		sleep(50)
 		hearers()<<"[M]'s face begins to produce pimples! Puss-filled, erupting, mountainous zits!"
-		M.overlays+=image('pimple.dmi')
+		M.overlays+=image('attacks.dmi', icon_state = "pimple")
 		M.Zitt=1
 		src=null
 		spawn(rand(200,600))M.Zitt = 0
@@ -859,7 +859,7 @@ mob/Spells/verb/Furnunculus(mob/M in view()&Players)
 			sleep(rand(30,120))
 		if(M)
 			M<<"<b>The jinx has been lifted. You are no longer afflicted by furnunculus.</b>"
-			M.overlays-=image('pimple.dmi')
+			M.overlays-=image('attacks.dmi', icon_state = "pimple")
 
 mob/var/tmp/list/_input
 
@@ -1220,14 +1220,14 @@ mob/Spells/verb/Immobulus()
 			people += M
 			M.movable=1
 			M.Immobile=1
-			M.overlays.Remove(image('Immobulus.dmi'))
-			M.overlays += image('Immobulus.dmi')
+			M.overlays.Remove(image('attacks.dmi', icon_state = "immobulus"))
+			M.overlays += image('attacks.dmi', icon_state = "immobulus")
 		usr:learnSpell("Immobulus")
 		src=null
 		spawn(100)
 			for(var/mob/Player/p in people)
 				if(p && p.Immobile==1)
-					p.overlays -= image('Immobulus.dmi')
+					p.overlays -= image('attacks.dmi', icon_state = "immobulus")
 					p.movable=0
 					p.Immobile=0
 					if(usr)p<<"[usr]'s Immobulus curse wore off. You can move again."
@@ -1255,14 +1255,6 @@ mob/Spells/verb/Incendio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=20,againstocclumens=1))
 		castproj(Type = /obj/projectile/BurnRoses, MPreq = 10, icon_state = "fireball", name = "Incendio")
-
-/*mob/Spells/verb/Cugeo(mob/Player/M in view()&Players)
-	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=10,againstocclumens=1))
-		hearers()<<"<b><font color=red>[usr]</font>:<FONT COLOR=#dda0dd>C</FONT><FONT COLOR=#ef736f>u</FONT><FONT COLOR=#ff4500>g</FONT><FONT COLOR=#bea100>e</FONT><FONT COLOR=#7cfc00>o</FONT></FONT>, [M].</b>"
-		sleep(20)
-		flick('fireworks.dmi',M)
-		M.overlays+=image('hair.dmi',icon_state="black")*/
 
 mob/proc/BaseIcon()
 	if(Gender == "Female")
@@ -1512,14 +1504,14 @@ mob/Spells/verb/Arania_Eximae()
 		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=2><font color=white> Arania Exumai!"
 		usr:learnSpell("Arania Exumai")
 		for(var/mob/NPC/Enemies/Acromantula/A in oview())
-			A.overlays+=image('arania.dmi')
+			A.overlays+=image('attacks.dmi', icon_state = "arania")
 			spawn(20)
 				if(A.removeoMob)
 					var/tmpmob = A.removeoMob
 					A.removeoMob = null
 					spawn()tmpmob:Permoveo()
 
-				A.overlays-=image('arania.dmi')
+				A.overlays-=image('attacks.dmi', icon_state = "arania")
 				A.loc = locate(1,1,1)
 				Respawn(A)
 		sleep(19)
@@ -1538,6 +1530,7 @@ mob/Spells/verb/Avada_Kedavra()
 	sleep(20)
 	del S
 	return
+
 mob/Spells/verb/Episky()
 	set name = "Episkey"
 	set category="Spells"
@@ -1546,10 +1539,11 @@ mob/Spells/verb/Episky()
 		new /StatusEffect/UsedEpiskey(src,15)
 		usr.HP=usr.MHP+usr.extraMHP
 		usr.updateHPMP()
-		usr.overlays+=image('Heal.dmi')
+		usr.overlays+=image('attacks.dmi', icon_state = "heal")
 		sleep(10)
 		hearers()<<"<font color=aqua>[usr] heals \himself."
-		usr.overlays-=image('Heal.dmi')
+		usr.overlays-=image('attacks.dmi', icon_state = "heal")
+
 mob/Spells/verb/Confundus(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=30,againstocclumens=1))
@@ -1576,7 +1570,7 @@ mob/Spells/verb/Crucio(mob/M in oview()&Players)
 		hearers()<<"<b><font color=red>[usr]:</b></font> <font color= #7CFC00>Crucio!"
 		new /StatusEffect/UsedCrucio(src,15)
 		//var/obj/S=new/obj/Crucio  //MAIN CRUCIO
-		M.overlays+=image(icon='attacks.dmi',icon_state="newcrucio")
+		M.overlays+=image(icon='attacks.dmi',icon_state="crucio")
 		usr.MP-=400
 		usr.updateHPMP()
 		sleep(1)
@@ -1584,7 +1578,7 @@ mob/Spells/verb/Crucio(mob/M in oview()&Players)
 		M.HP-=500
 		M.Death_Check()
 		sleep(20)
-		M.overlays-=image(icon='attacks.dmi',icon_state="newcrucio")
+		M.overlays-=image(icon='attacks.dmi',icon_state="crucio")
 		usr:learnSpell("Crucio")
 mob/Spells/verb/Flippendo()
 	set category="Spells"
@@ -2282,8 +2276,8 @@ mob/GM
 		controlobject
 obj/overlay
 	flash
-		icon = 'flash.dmi'
-		icon_state = "flash"
+		icon = 'attacks.dmi'
+		icon_state = "leviosa"
 		layer = MOB_LAYER
 
 
@@ -2296,11 +2290,11 @@ obj/portkey
 		..()
 		switch(rand(1,3))
 			if(1)
-				icon='cau.dmi'
+				icon='bucket.dmi'
 				icon_state="bucket"
 			if(2)
 				icon='misc.dmi'
-				icon_state="beer"
+				icon_state="tea"
 			if(3)
 				icon = 'scrolls.dmi'
 				icon_state = "blank"

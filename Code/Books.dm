@@ -43,16 +43,3 @@ obj/items/MonBookMon
 			<tr>               <td>Basilisk</td>               <td>2000</td>               <td>6000</td>               <td>12000</td>               <td>Chamber of Secrets</td>		<td>Freeze</td>            </tr>
 			<tr>               <td colspan="5" style="color:#FF8000;"><b> *Note: Gold and Experience values are approximate.</b></td>            </tr>         </table>      </center>   </body></html>"}
 			usr << browse(monsterbook)
-
-obj/Book_Shelf_
-	icon='Desk.dmi'
-	icon_state="1"
-	density=1
-	dontsave=1
-
-	New()
-		..()
-		spawn(1)
-			for(var/mob/Player/p in Players)
-				if(p.Gm)
-					Players << "Special teleport bookshelf found in [x],[y],[z] on [loc]. Please delete it."

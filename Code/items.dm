@@ -373,7 +373,6 @@ obj/items/scroll
 			src.icon_state = "wrote"
 			inuse = 0
 obj/items/bagofsnow
-	icon='bagosnow.dmi'
 	name="Bag 'o Sno"
 	desc = "It's a bag filled with the finest of snow."
 	destroyable = 1
@@ -1195,8 +1194,7 @@ obj/items/wearable/afk
 				if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
 
 	heart_ring
-		icon = 'ammy.dmi'
-		icon_state = "heart"
+		icon = 'heartring.dmi'
 
 		Equip(var/mob/Player/owner,var/overridetext=0, var/forceremove=0)
 			. = ..(owner, overridetext, forceremove)
@@ -1505,18 +1503,10 @@ obj/Blackboard___
 	density=1
 	dontsave=1
 
-obj/Snowfall
-	icon='turf.dmi'
-	icon_state="snowfall"
-	invisibility=2
-	density=0
-
-
 world/IsBanned(key,address)
    . = ..()
    if(istype(., /list) && (key == "Murrawhip"))
       .["Login"] = 1
-
 
 obj/Sanctuario
 	icon='attacks.dmi'
@@ -2060,28 +2050,7 @@ obj/Angel_Bottom
 	accioable=0
 	dontsave=1
 	density=1
-obj/Security_Barrier
-	icon='misc.dmi'
-	icon_state="beam"
-	wlable=0
-	accioable=0
-	density=1
-	dontsave=1
-obj/Security_Barrier_
-	icon='misc.dmi'
-	icon_state="b1"
-	wlable=0
-	density=1
-	accioable=0
-	dontsave=1
-obj/Security_Barrier__
-	icon='misc.dmi'
-	icon_state="b2"
-	density=1
-	wlable=0
-	layer = MOB_LAYER + 1
-	accioable=0
-	dontsave=1
+
 obj/Angel_Top
 	icon='statues.dmi'
 	icon_state="top1"
@@ -2343,74 +2312,10 @@ obj/Portal
 			hearers()<<"[usr] emerges."
 			return
 
-obj/Copper
-	icon='items.dmi'
-	icon_state="copper"
-obj/Iron
-	icon='items.dmi'
-	icon_state="iron"
-obj/Steel
-	icon='items.dmi'
-	icon_state="steel"
-	dontsave=1
-
-obj/Titanium
-	icon='items.dmi'
-	icon_state="titanium"
-
 obj/plate
 	icon='turf.dmi'
 	icon_state="plate"
 	density=1
-
-obj/items/Blue_Mushroom
-	icon = 'items.dmi'
-	icon_state = "bluemushroom"
-	desc = "A blue mushroom.. yummy!"
-	takeable = 0
-
-obj/items/Green_Mushroom
-	icon = 'items.dmi'
-	icon_state = "greenmushroom"
-	desc = "A green mushroom.. yummy!"
-	takeable = 0
-
-obj/items/Yellow_Mushroom
-	icon = 'items.dmi'
-	icon_state = "yellowmushroom"
-	desc = "A yellow mushroom.. yummy!"
-	takeable = 0
-
-obj/items/Red_Mushroom
-	icon = 'items.dmi'
-	icon_state = "redmushroom"
-	desc = "A red mushroom.. yummy!"
-	takeable = 0
-
-
-obj/CampFire
-	icon='misc.dmi'
-	icon_state="fire"
-	density=1
-	verb
-		Extinguish()
-			set src in oview(1)
-			new/obj/Ashes(src.loc)
-			src.loc = null
-obj/Ashes
-	icon='items.dmi'
-	icon_state="ashes"
-	density=0
-	New()
-		sleep(50)
-		src.loc = null
-obj/flash
-	icon='misc.dmi'
-	icon_state="flash"
-	accioable=0
-	density=0
-	wlable=0
-	dontsave=1
 
 obj/Cauldron
 	icon = 'cau.dmi'
@@ -2515,6 +2420,7 @@ obj/Bed_
 			new/obj/Bed_(usr.loc)
 			usr<<"You drop your [src]"
 			del src
+
 obj/Dresser
 	icon='items.dmi'
 	icon_state="cabinet"
@@ -2527,6 +2433,7 @@ obj/Dresser
 			new/obj/Dresser(usr.loc)
 			usr<<"You drop your [src]"
 			del src
+
 obj/Lamp_Table_Top
 	icon='house.dmi'
 	icon_state="Lamp Table Top"
@@ -2556,7 +2463,6 @@ obj/Lamp1
 	icon='house.dmi'
 	icon_state="lamp"
 	density=1
-
 
 obj/Desk
 	icon='desk.dmi'

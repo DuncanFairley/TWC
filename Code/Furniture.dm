@@ -115,36 +115,6 @@ turf/gender_easter_egg
 		if(isplayer(Obj) && (Obj.gender == "male" || Obj.gender == "female"))
 			trigger()
 
-obj/Ani/I
-	icon='ian.dmi'
-	icon_state="i"
-	accioable=0
-
-obj/Ani/A
-	icon='ian.dmi'
-	icon_state="a"
-	accioable=0
-
-obj/Ani/N
-	icon='ian.dmi'
-	icon_state="n"
-	accioable=0
-
-obj/Ani/T
-	icon='ian.dmi'
-	icon_state="t"
-	accioable=0
-
-obj/Ani/M
-	icon='ian.dmi'
-	icon_state="m"
-	accioable=0
-
-obj/Ani/O
-	icon='ian.dmi'
-	icon_state="o"
-	accioable=0
-
 turf
 	tables
 		icon = 'Tables.dmi'

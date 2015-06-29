@@ -95,7 +95,7 @@ mob/test/verb
 		else
 			for(var/turf/T in map.AllTurfs())
 				for(var/obj/O in T)
-					if(!(text2path("[O.type]/verb/Drop") in O.verbs) && !istype(O,/obj/Food) && !istype(O,/obj/teleport/leavevault) )
+					if(!(text2path("[O.type]/verb/Drop") in O.verbs) && !istype(O,/obj/teleport/leavevault) )
 						O.loc = M
 			M:Resort_Stacking_Inv()
 
@@ -2509,7 +2509,6 @@ var/const
 	cape=MOB_LAYER+5
 	weapon=MOB_LAYER+6
 
-
 obj/Table
 	icon = 'desk.dmi'
 	icon_state="S1"
@@ -2587,35 +2586,6 @@ proc
 						E.ShouldIBeActive()
 			else
 				E.loc = null
-
-
-
-turf
-	walltorch_housewars
-		name = "walltorch"
-		icon='turf.dmi'
-		icon_state="w2"
-		density=1
-		verb
-			Pull()
-				set src in oview(1)
-				switch(input("Pull the Torch?","Pull the Torch?")in list("Yes","No"))
-					if("Yes")
-						alert("You pull the torch and a secret door opens")
-						for(var/turf/secretdoor/T in world)
-							flick("opening",T)
-							T.icon_state = "open"
-							density = 0
-							T.bumpable = 1
-							opacity = 0
-							sleep(70)
-							flick("closing",T)
-							T.icon_state = "closed"
-							density = 1
-							opacity = 1
-							T.bumpable=0
-					if("No")
-						return
 
 turf
 	sideBlock
@@ -2906,23 +2876,6 @@ turf
 	black
 		icon_state="black"
 		density=0
-	tree
-		icon='ragtree.dmi'
-		icon_state="summer" //winter in winter
-		density=1
-		opacity=0
-	snowtopright
-		icon_state="topsnowright"
-		density=0
-	snowtop
-		icon_state="topsnow"
-		density=0
-	snowtopup
-		icon_state="topsnowup"
-		density=0
-	snowtopleft
-		icon_state="topsnowleft"
-		density=0
 	floor
 		icon_state="brick"
 		density=0
@@ -2937,14 +2890,22 @@ turf
 		icon_state="bush"
 		density=0
 		layer=MOB_LAYER+1
-	flower
-		icon_state="flower"
-		density=1
-		layer=MOB_LAYER+1
 	sign
 		icon='statues.dmi'
 		icon_state="sign"
 		density=1
+	snowtopright
+		icon_state="topsnowright"
+		density=0
+	snowtop
+		icon_state="topsnow"
+		density=0
+	snowtopup
+		icon_state="topsnowup"
+		density=0
+	snowtopleft
+		icon_state="topsnowleft"
+		density=0
 	ice
 		icon_state="ice"
 		density=0
