@@ -583,6 +583,7 @@ mob
 									sleep(AttackDelay)
 
 						Attacked(obj/projectile/p)
+							..()
 							if(HP > 0)
 								damageTaken += p.damage
 
@@ -687,6 +688,7 @@ mob
 									sleep(AttackDelay)
 
 						Attacked(obj/projectile/p)
+							..()
 							if(p.icon_state == proj && prob(99))
 								emit(loc    = src,
 									 ptype  = /obj/particle/red,
@@ -1017,8 +1019,8 @@ mob
 							castproj(icon_state = "fireball", damage = Dmg + rand(-4,8), name = "fire ball")
 							sleep(AttackDelay)
 
-				Attacked(projname, damage)
-					if(projname == "gum" && prob(95))
+				Attacked(obj/projectile/p)
+					if(p.icon_state == "gum" && prob(95))
 						emit(loc    = src,
 							 ptype  = /obj/particle/red,
 						     amount = 2,
@@ -1026,7 +1028,7 @@ mob
 						     speed  = 2,
 						     life   = new /Random(15,20))
 					else
-						HP+=damage
+						HP += p.damage
 
 						emit(loc    = src,
 							 ptype  = /obj/particle/green,
@@ -1034,6 +1036,7 @@ mob
 						     angle  = new /Random(1, 359),
 						     speed  = 2,
 						     life   = new /Random(15,20))
+					..()
 
 				New()
 					..()

@@ -776,9 +776,6 @@ client
 		if (base_autosave_character)
 			base_SaveMob()
 		if (base_autodelete_mob && mob)
-			if(isplayer(mob))
-				mob.contents     = list()
-				mob:stackobjects = null
 			del(mob)
 		return ..()
 

@@ -1785,13 +1785,15 @@ obj/enchanter
 obj/clanpillar
 
 	Attacked(obj/projectile/p)
-		HP -= 1
-		flick("[clan]-V", src)
-		Death_Check(p.owner)
+		if(density)
+			HP -= 1
+			flick("[clan]-V", src)
+			Death_Check(p.owner)
 
 obj/brick2door
 	Attacked(obj/projectile/p)
-		Take_Hit(p.owner)
+		if(density)
+			Take_Hit(p.owner)
 
 mob/Player
 
@@ -1817,7 +1819,7 @@ mob/Player
 		else
 			HP -= p.damage
 
-			var/n = dir2angle(get_dir(p, src))
+			var/n = dir2angle(get_dir(src, p))
 			emit(loc    = src,
 				 ptype  = /obj/particle/fluid/blood,
 			     amount = 5,
@@ -1846,7 +1848,7 @@ mob/NPC/Enemies
 		if(isplayer(p.owner))
 
 			if(canBleed)
-				var/n = dir2angle(get_dir(p, src))
+				var/n = dir2angle(get_dir(src, p))
 				emit(loc    = src,
 					 ptype  = /obj/particle/fluid/blood,
 				     amount = 5,
@@ -1904,7 +1906,7 @@ obj
 
 					effect = a:owner != owner && .
 
-				if(effect)
+				if(effect && !ismob(a))
 					var/particle
 
 					switch(icon_state)
@@ -1953,16 +1955,15 @@ obj
 			var/oldSystem = inOldArena()
 			if(oldSystem && !istype(a, /mob)) return
 
-			spawn()
-				for(var/atom/movable/O in t)
-					if(O.invisibility >= 2) continue
+			var/count = 0
+			for(var/atom/movable/O in t)
+				if(O.invisibility >= 2) continue
+				Effect(O)
+				if(damage)
+					O.Attacked(src)
+				count++
 
-					Effect(O)
-					if(damage)
-						O.Attacked(src)
-
-
-			if(Impact(a, t))
+			if(Impact(a, t) || count > 1)
 				Dispose()
 
 		Flippendo
