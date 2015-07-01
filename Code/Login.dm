@@ -1607,11 +1607,11 @@ mob/Player
 				stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
 			stat("House:",src.House)
 			if(level >= lvlcap && rankLevel)
-				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100, 1)
+				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100)
 				stat("Experience Rank: ", "[rankLevel.level]   Exp: [comma(rankLevel.exp)]/[comma(rankLevel.maxExp)] ([percent]%)")
 				stat("\icon[getRankIcon()]")
 			else
-				var/percent = round((Exp / Mexp) * 100, 1)
+				var/percent = round((Exp / Mexp) * 100)
 				stat("EXP:", "[comma(src.Exp)]/[comma(src.Mexp)] ([percent]%)")
 			stat("Stat points:",src.StatPoints)
 			stat("Spell points:",src.spellpoints)
