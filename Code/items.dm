@@ -98,11 +98,12 @@ obj/items/verb/Drop()
 	viewers(owner) << infomsg("[owner] drops \his [src.name].")
 	owner.Resort_Stacking_Inv()
 
-	for(var/k in owner.UsedKeys)
-		if(owner.UsedKeys[k] == src)
-			owner.removeKey(k)
-			owner.UsedKeys -= k
-			break
+	if(owner.UsedKeys)
+		for(var/k in owner.UsedKeys)
+			if(owner.UsedKeys[k] == src)
+				owner.removeKey(k)
+				owner.UsedKeys -= k
+				break
 
 
 obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
