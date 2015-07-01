@@ -127,38 +127,6 @@ obj
 		icon = 'misc.dmi'
 		icon_state = "sandstorm"
 
-turf
-
-	pyramidmid
-		layer = 6
-		name = "pyramid"
-		icon = 'pyramid.dmi'
-		icon_state = "mid"
-
-	pyramidleft
-		layer = 6
-		name = "pyramid"
-		icon = 'pyramid.dmi'
-		icon_state = "left"
-
-	pyramidright
-		layer = 6
-		name = "pyramid"
-		icon = 'pyramid.dmi'
-		icon_state = "right"
-
-	p_blackline
-		layer = 6
-		name = "pyramid"
-		icon = 'pyramid.dmi'
-		icon_state = "line"
-
-	p_blacklinedown
-		layer = 6
-		name = "pyramid"
-		icon = 'pyramid.dmi'
-		icon_state = "down"
-
 mob
 	var
 		ratpoints
@@ -314,23 +282,6 @@ obj
 			Examine()
 				usr << "This rack is to store the House Cup for the winning house!"
 
-obj/pokeby
-	icon='pokeby.dmi'
-	verb
-		Examine()
-			set src in view(3)
-			usr << "Aww, isn't it cute?"
-	verb
-		Take()
-			set src in oview(1)
-			hearers()<<"[usr] takes \the [src]."
-			Move(usr)
-			usr:Resort_Stacking_Inv()
-	verb
-		Drop()
-			Move(usr.loc)
-			usr:Resort_Stacking_Inv()
-			hearers()<<"[usr] drops \his [src]."
 obj/Chest2
 	name="Chest"
 	icon='turf.dmi'
@@ -368,18 +319,6 @@ turf
 		icon_state="blackfloor"
 		name="floor"
 //all
-obj/arrowup
-	icon='items.dmi'
-	icon_state="arrowup"
-obj/arrowdown
-	icon='items.dmi'
-	icon_state="arrowdown"
-obj/arrowleft
-	icon='items.dmi'
-	icon_state="arrowleft"
-obj/arrowright
-	icon='items.dmi'
-	icon_state="arrowright"
 obj/ball
 	icon='pointer.dmi'
 obj/wholist

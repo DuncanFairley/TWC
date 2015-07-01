@@ -541,15 +541,6 @@ obj
 mob/var/DuelRespawn
 
 turf
-	Rabbit_Hole
-		icon='hole.dmi'
-		Entered(mob/Player/M)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(26,70,7)
-
-turf
 	rift1
 		name="Rift"
 		icon='tele.dmi'

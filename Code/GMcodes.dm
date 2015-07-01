@@ -935,7 +935,7 @@ mob
 			set category="Staff"
 			if(clanrobed())return
 			if(usr.Immortal==0)
-				flick('Heal.dmi',usr)
+				flick('mist.dmi',usr)
 				usr<<"You are now Immortal."
 				usr.Immortal=1
 			else if(usr.Immortal==1)
@@ -946,7 +946,7 @@ mob
 			set category="Staff"
 			set popup_menu = 0
 			if(M.Immortal==0)
-				flick('Heal.dmi',M)
+				flick('mist.dmi',M)
 				M<<"<b><font color=aqua>[usr] has made you an Immortal. You can no longer die."
 				M.Immortal=1
 			else if(M.Immortal==1)
@@ -1400,6 +1400,7 @@ mob/GM
 				if(minutes) time += ", and "
 				time += "[seconds] [seconds > 1 ? "seconds" : "second"]."
 			else
+				if(minutes) time += ", and "
 				time += "0 seconds."
 			usr << infomsg("[time]")
 
@@ -1496,6 +1497,7 @@ mob/GM
 
 						var/i = pick(prizeItems)
 						prizeItems -= i
+						if(!prizeItems.len) prizeItems = null
 
 						var/obj/items/item_prize = new i (p)
 						p.Resort_Stacking_Inv()

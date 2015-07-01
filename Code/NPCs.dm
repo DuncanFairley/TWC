@@ -136,7 +136,7 @@ mob
 									map = SwapMaps_Load("[usr.ckey]")
 								var/foundundroppable = 0 // Set if you have an object with no drop verb
 								if(usr.bank)for(var/atom/movable/A in usr.bank.items)
-									if((text2path("[A.type]/verb/Drop") in A.verbs) && (!istype(A,/obj/Food)))
+									if((text2path("[A.type]/verb/Drop") in A.verbs))
 										A.loc = get_step(map.LoCorner(),NORTHEAST)
 									else
 										A.loc = usr

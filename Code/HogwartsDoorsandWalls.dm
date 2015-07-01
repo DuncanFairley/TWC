@@ -52,15 +52,6 @@ turf
 		icon_state="closed"
 		opacity=1
 		pass="Roar"
-	secretdoor
-		bumpable=0
-		name="Hogwarts Stone Wall"
-		flyblock=1
-		door=1
-		icon='door1.dmi'
-		density=1
-		icon_state="closed"
-		opacity=1
 	Hogwarts_Stone_Wall
 		bumpable=0
 		opacity=0
@@ -130,8 +121,8 @@ turf
 		icon='COMC Icons.dmi'
 		icon_state="C1"
 	darkstairs
-		icon='Turff.dmi'
-		icon_state="stairs"
+		icon='turf.dmi'
+		icon_state="darkstairs"
 
 obj
 	Hogwarts_Door

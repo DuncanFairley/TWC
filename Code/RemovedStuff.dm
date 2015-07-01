@@ -500,3 +500,14 @@ mob/var/silverspiderlegs
 mob/var/salamanderdrop
 mob/var/talkedtosanta
 mob/var/talkedtoalyssa
+
+mob
+	longap/verb
+		Apparate_To_Three_Broomsticks()
+			set hidden = 1
+	longap/verb
+		Apparate_To_Diagon_Alley()
+			set hidden = 1
+	longap/verb
+		Apparate_To_Crossroads()
+			set hidden = 1
