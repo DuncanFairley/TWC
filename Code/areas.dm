@@ -855,7 +855,7 @@ area
 
 turf
 	shadow
-		icon = 'Turfs.dmi'
+		icon = 'turf.dmi'
 		icon_state = "shadow"
 		layer = 5
 		mouse_opacity = 0
