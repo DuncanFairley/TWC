@@ -57,7 +57,6 @@ area
 		antiFly = TRUE
 turf
 	blackblock
-		name=""
 		icon='turf.dmi'
 		icon_state="blackz"
 mob
@@ -73,27 +72,6 @@ mob
 		name = "Marker3"
 		invisibility = 2
 		density = 0
-
-obj
-	bell
-		icon = 'Turfs.dmi'
-		icon_state = "bell2"
-		dontsave=1
-		accioable=0
-		verb
-			Ring_Bell()
-				set src in oview(1)
-				hearers()<<"<i>DING!"
-				usr<<"Someone should be with you shortly."
-				for(var/mob/M in range())
-					if(M.name=="Shana the Receptionist")
-						sleep(30)
-						flick('dlo.dmi',M)
-
-						M.invisibility=0
-						hearers()<<"<b><font color=blue>Shana:</font> Hello, I'm Shana. The Hogwarts Receptionist. How May I help you?"
-						sleep(30)
-						usr<<"Use the Talk verb when near Shana to speak with her."
 
 mob
 	GM

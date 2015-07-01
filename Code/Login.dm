@@ -2543,13 +2543,9 @@ obj
 		icon_state="cfront"
 		density=0
 
-obj/Gate
-	icon = 'turf.dmi'
-	icon_state="gate"
-	density=1
 obj/BFrontChair
-	icon='Chairs.dmi'
-	icon_state="front"
+	icon='turf.dmi'
+	icon_state="cfront"
 
 proc
 	textcheck(t as text)
@@ -2868,8 +2864,6 @@ turf
 	wfloor
 		icon_state="wfloor"
 		density=0
-	stairsnormal
-		icon_state="gmstair"
 	wall
 		icon='wall1.dmi'
 		density=1
@@ -2883,9 +2877,6 @@ turf
 		icon='hogwartsbrick.dmi'
 		icon_state="brick2"
 		density=1
-	redroses
-		icon_state="redplant"
-		density=1
 	bush
 		icon_state="bush"
 		density=0
@@ -2894,18 +2885,6 @@ turf
 		icon='statues.dmi'
 		icon_state="sign"
 		density=1
-	snowtopright
-		icon_state="topsnowright"
-		density=0
-	snowtop
-		icon_state="topsnow"
-		density=0
-	snowtopup
-		icon_state="topsnowup"
-		density=0
-	snowtopleft
-		icon_state="topsnowleft"
-		density=0
 	ice
 		icon_state="ice"
 		density=0
@@ -2919,17 +2898,16 @@ turf
 	sand
 		icon_state="sand"
 		density=0
-	walltorch
-		icon_state="w2"
-		density=1
-		flyblock=1
-		luminosity = 6
 	bigchair
+		icon = 'turf.dmi'
 		icon_state="bc"
 		density=1
-	redchair
-		icon_state="rc"
+obj
+	walltorch
+		icon = 'turf.dmi'
+		icon_state="walltorch"
 		density=1
+		luminosity = 6
 
 
 obj/roofedge
