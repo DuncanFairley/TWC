@@ -482,7 +482,7 @@ expRank
 		maxExp = 100000
 
 		const
-			MAX  = 20
+			MAX  = 60
 			TIER = 4
 
 	proc
@@ -504,12 +504,12 @@ expRank
 				if(level % TIER == 1)
 					t = /obj/items/chest/legendary_golden_chest
 				else
-					t = pickweight(list(/obj/items/chest/basic_chest     = 26,
-			                        	/obj/items/chest/wizard_chest    = 16,
-			                        	/obj/items/chest/pentakill_chest = 16,
+					t = pickweight(list(/obj/items/chest/basic_chest     = 30,
+			                        	/obj/items/chest/wizard_chest    = 20,
+			                        	/obj/items/chest/pentakill_chest = 20,
 										/obj/items/chest/prom_chest      = 15,
 										/obj/items/chest/summer_chest    = 15,
-			                        	/obj/items/chest/sunset_chest    = 12))
+			                        	/obj/items/chest/sunset_chest    = 6))
 
 				var/obj/items/i = new t (parent)
 				update = TRUE
