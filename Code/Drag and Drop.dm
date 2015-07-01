@@ -206,6 +206,7 @@ obj/brick2door
 				view(src) << "The door blows open."
 				Bust_Open()
 		Bust_Open()
+			set waitfor = 0
 			density = 0
 			icon_state = "brokeopen"
 			opacity = 0
