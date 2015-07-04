@@ -104,7 +104,7 @@ class
 
 	projectile
 		subject = "DADA"
-		uses    = 1000
+		uses    = 10000
 		wand    = TRUE
 
 		start()
@@ -163,6 +163,7 @@ class
 		subject = "Transfiguration"
 		wand    = TRUE
 		cd      = 15
+		uses    = 300
 		start()
 			..()
 			say("[name] is a transfiguration-based spell. When casted the form of the target will change.")
@@ -189,14 +190,17 @@ class
 				..()
 				say("This will turn others into a frog. Don't think that you'll turn into a prince/princess after you get kissed. It doesn't work like that!")
 		Personio_Sceletus
+			uses = 20
 			start()
 				..()
 				say("This spell is one of my favorites and perfect for halloween! You will be able to transform yourself into a skeleton. Careful not to scare too many people like this though.")
 		Personio_Musashi
+			uses = 20
 			start()
 				..()
 				say("This spell is great for hiding. It turns you into a little small mushroom.")
 		Transfiguro_Revertio
+			uses = 15
 			start()
 				..()
 				say("Let's say you turned transfigured someone bu accident. This handy spell turns them back to normal.")
@@ -233,6 +237,7 @@ class
 		Petrificus_Totalus
 			mp = 10
 			cd = 15
+			uses = 200
 			start()
 				..()
 				say("This is the Full Body-Bind Curse! It stiffens a person's limbs so they cannot move.")
@@ -283,6 +288,7 @@ class
 		Incarcerous
 			cd = 15
 			wand = TRUE
+			uses = 200
 			start()
 				..()
 				say("This ties someone or something up with ropes.")
