@@ -852,7 +852,7 @@ area
 		else return ..()
 
 	Exit(atom/movable/o, atom/newloc)
-		if(istype(o, /obj/projectile) && issafezone(newloc))
+		if(istype(o, /obj/projectile) && issafezone(newloc.loc))
 			o.Dispose()
 		else return ..()
 
