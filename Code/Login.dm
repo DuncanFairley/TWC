@@ -2108,10 +2108,10 @@ mob/proc/Death_Check(mob/killer = src)
 						killer<<"<i><small>You gained [gold2give] gold.</small></i>"
 
 				if(gold2give > 0)
-					killer.gold+=gold2give
-					killer.gold = round(killer.gold)
+					killer.gold += gold2give
+					killer.gold  = round(killer.gold)
 				if(exp2give > 0)
-					killer:addExp(exp2give)
+					killer:addExp(exp2give, !killer.MonsterMessages)
 
 			if(src.type == /mob/Slug)
 				del src
