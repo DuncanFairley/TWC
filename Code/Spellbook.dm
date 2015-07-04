@@ -51,7 +51,7 @@ mob/Player
 
 			for(var/v in verbs)
 				var/mob/Spells/verb/generic = v
-				if(generic.name in spells)                     continue
+				if(generic.name in spells)               continue
 				if(!findtext("[v]", "/mob/Spells/verb")) continue
 				count++
 
