@@ -537,7 +537,7 @@ mob
 						count++
 
 				if(count)
-					spellpoints += count
+					spellpoints += count * 2
 					src << infomsg("[count] spells were refunded.")
 
 
