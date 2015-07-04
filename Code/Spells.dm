@@ -1900,7 +1900,7 @@ obj
 
 					effect = a:owner != owner && .
 
-				if(effect && !ismob(a))
+				if(effect && (!damage || !ismob(a)))
 					var/particle
 
 					switch(icon_state)
@@ -2006,6 +2006,8 @@ obj
 
 						p.icon       = 'Transfiguration.dmi'
 						p.icon_state = name
+
+						p.nofly()
 
 		BurnRoses
 
