@@ -1731,6 +1731,7 @@ obj
 					owner << "Your [src] hit [a]!"
 
 					if(owner.CanTrans(p))
+						p.nofly()
 
 						flick("transfigure", p)
 						p.trnsed = 1
@@ -1739,8 +1740,6 @@ obj
 
 						p.icon       = 'Transfiguration.dmi'
 						p.icon_state = name
-
-						p.nofly()
 
 						src.owner:learnSpell(name, 10)
 					else
