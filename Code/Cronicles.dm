@@ -199,7 +199,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 12
+#define SAVEFILE_VERSION 13
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -354,7 +354,12 @@ mob
 			if(savefile_version < 12)
 				var/mob/Player/p = src
 				p.playedtime = 0
+
 			if(savefile_version < 13)
+				var/mob/Player/p = src
+				p.refundSpells1()
+
+			if(savefile_version < 14)
 				DeathEater = null
 				HA         = null
 				Auror      = null

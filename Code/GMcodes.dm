@@ -1480,9 +1480,12 @@ mob/GM
 							hearers() << infomsg("<i>[name] gives [p] [comma(gold_prize)] gold.</i>")
 							goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [name]([key])([client.address]) gave [comma(gold_prize)] <b>prize</b> gold to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 					if("Common Item")
-						var/i = pick(/obj/items/bagofgoodies,
-						             /obj/items/chest/basic_chest,
-						             /obj/items/artifact)
+						var/i = pickweight(/obj/items/chest/basic_chest     = 35,
+										   /obj/items/artifact              = 25,
+		                        		   /obj/items/chest/wizard_chest    = 15,
+		                        		   /obj/items/chest/pentakill_chest = 15,
+										   /obj/items/chest/summer_chest    = 10)
+
 
 						var/obj/items/item_prize = new i (p)
 						p.Resort_Stacking_Inv()

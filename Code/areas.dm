@@ -845,13 +845,17 @@ area
 
 			DuelClass
 
-		Enter(atom/movable/O, atom/oldloc)
-			.=..()
 
-			if(istype(O, /obj/projectile) && issafezone(src))
-				walk(O, 0)
-				O.loc = null
-				return 0
+	Enter(atom/movable/o, atom/oldloc)
+		if(istype(o, /obj/projectile) && issafezone(src))
+			o.Dispose()
+		else return ..()
+
+	Exit(atom/movable/o, atom/newloc)
+		if(istype(o, /obj/projectile) && issafezone(newloc))
+			o.Dispose()
+		else return ..()
+
 
 turf
 	shadow
