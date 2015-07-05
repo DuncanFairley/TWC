@@ -531,6 +531,15 @@ mob
 											  /mob/Spells/verb/Arania_Eximae,
 											  /mob/Spells/verb/Furnunculus)
 
+
+				var/obj/items/wearable/wands/practice_wand/w = locate() in src
+				if(w)
+					if(w in Lwearing)
+						w.Equip(src, 1)
+
+					w.Dispose()
+					Resort_Stacking_Inv()
+
 				var/count = 0
 				for(var/s in removedSpells)
 					if(verbs.Remove(s))
