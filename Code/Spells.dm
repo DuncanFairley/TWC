@@ -1763,7 +1763,7 @@ obj
 						p.removeoMob:removeoMob = null
 						p.removeoMob = null
 
-					p << errormsg("You were hit by [p.name]'s [name].")
+					p << errormsg("You were hit by [owner]'s [name].")
 
 					p.movable=1
 					if(!p.trnsed)
