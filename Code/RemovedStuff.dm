@@ -770,3 +770,10 @@ mob/Spells/verb/Expecto_Patronum()
 		overlays -= image('attacks.dmi', icon_state = "expecto")
 		hearers()<<"Bright white light shoots out of [usr]'s wand."
 		usr:learnSpell("Expecto Patronum")
+
+obj/Food/Candy_Cane
+	New()
+		..()
+		spawn(1)
+			loc = null
+
