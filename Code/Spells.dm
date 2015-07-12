@@ -1268,6 +1268,25 @@ mob/Spells/verb/Telendevour()
 		usr.client.perspective = EYE_PERSPECTIVE
 		hearers() << "[usr]'s eyes appear again."
 
+//AVADA//
+
+obj/Avada_Kedavra
+	icon='attacks.dmi'
+	icon_state="avada"
+	density=1
+	var/player=0
+	layer = 4
+	Bump(mob/M)
+		if(inOldArena())if(!istype(M, /mob)) return
+		if(isturf(M)||isobj(M))
+			del src
+			return
+		if(M.monster||M.player)
+			src.owner<<"Your [src] hit [M]!"
+			M.HP=0
+			M.Death_Check(src.owner)
+		del src
+
 mob/Spells/verb/Avada_Kedavra()
 	set category="Spells"
 	if(clanrobed())return
@@ -1282,6 +1301,8 @@ mob/Spells/verb/Avada_Kedavra()
 	sleep(20)
 	del S
 	return
+
+//
 
 mob/Spells/verb/Episky()
 	set name = "Episkey"

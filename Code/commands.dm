@@ -4,43 +4,6 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-turf
-	bathroomstall
-		icon = 'Stall.dmi'
-		name = "Stall"
-		density = 1
-		opacity = 1
-		s1
-			icon_state = "1"
-		s2
-			icon_state = "2"
-		s3
-			icon_state = "3"
-		s4
-			icon_state = "4"
-		s5
-			icon_state = "5"
-
-obj
-	sink
-		icon = 'sink.dmi'
-		density = 1
-		opacity = 0
-obj
-	toilet
-		name = "toilet"
-		icon = 'toilet.dmi'
-		density = 0
-
-		proc
-			poop(mob/Player/P)
-				if(P.Pooping)
-					P.Pooping = 0
-					P << infomsg("You feel a lot better.")
-
-		New()
-			..()
-			loc.density = 0
 mob
 	var
 		WNDone
