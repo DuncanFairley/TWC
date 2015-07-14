@@ -212,7 +212,7 @@ obj/items/Underwater_Bean
 					usr.icon = 'MaleFish.dmi'
 				usr.unslow()
 				if(usr.away) usr.ApplyAFKOverlay()
-				del(src)
+				Consume()
 		else
 			..()
 

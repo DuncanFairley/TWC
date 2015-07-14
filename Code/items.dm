@@ -116,6 +116,26 @@ obj/items
 			else
 				UpdateDisplay()
 
+		drop(mob/Player/owner, amount = 1)
+			if(stack > 1 && amount != stack)
+				var/obj/items/i = Split(amount)
+				var/area/a = getArea(loc)
+				if(a.antiTheft) i.owner = owner.ckey
+				i.Move(owner.loc)
+			else
+				var/area/a = getArea(loc)
+				if(a.antiTheft) src.owner = owner.ckey
+				Move(owner.loc)
+
+				if(owner.UsedKeys)
+					for(var/k in owner.UsedKeys)
+						if(owner.UsedKeys[k] == src)
+							owner.removeKey(k)
+							owner.UsedKeys -= k
+							break
+
+			owner.Resort_Stacking_Inv()
+
 obj/items/Click()
 	if((src in oview(1)) && takeable)
 		Take()
@@ -134,33 +154,12 @@ obj/items/verb/Take()
 
 	usr.Resort_Stacking_Inv()
 
-obj/items/verb/Drop()
-	set src in usr
-	var/mob/Player/owner = usr
+obj/items/verb
+	Drop()
+		set src in usr
 
-	viewers(owner) << infomsg("[owner] drops \his [src.name].")
-
-	if(stack > 1)
-		var/obj/items/i = Split(1)
-		var/area/a = getArea(loc)
-		if(a.antiTheft) i.owner = owner.ckey
-		i.Move(owner.loc)
-	else
-		var/area/a = getArea(loc)
-		if(a.antiTheft) src.owner = owner.ckey
-		Move(owner.loc)
-
-		if(owner.UsedKeys)
-			for(var/k in owner.UsedKeys)
-				if(owner.UsedKeys[k] == src)
-					owner.removeKey(k)
-					owner.UsedKeys -= k
-					break
-
-	owner.Resort_Stacking_Inv()
-
-
-
+		hearers(owner) << infomsg("[usr] drops \his [src.name].")
+		drop(usr, 1)
 
 obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
 	if(isturf(over_object))
@@ -1388,6 +1387,14 @@ obj/items/wearable/title
 
 		return . && i:title == title
 
+	Clone()
+		var/obj/items/wearable/title/t = ..()
+
+		t.title = title
+		t.name  = name
+
+		return t
+
 	Equip(var/mob/Player/owner,var/overridetext=0)
 		if(owner.level < 501)
 			owner << errormsg("You need to be a Hogwarts Graduate to wear this.")
@@ -2517,6 +2524,15 @@ obj/items/magic_stone
 		var/dest
 
 		desc = "Used for teleportation."
+
+		Clone()
+			var/obj/items/magic_stone/teleport/t = ..()
+
+			t.dest       = dest
+			t.name       = name
+			t.icon_state = icon_state
+
+			return t
 
 		circle(mob/Player/p)
 			if(dest)
