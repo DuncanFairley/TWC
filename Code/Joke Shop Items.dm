@@ -62,23 +62,25 @@ obj
 			icon_state="DarknessPowder"
 			Click()
 				if(src in usr)
-					src.verbs.Remove(/obj/items/verb/Take)
+
 					hearers() << "[usr] throws some Peruvian Instant Darkness Powder into the air!"
-					src.invisibility = 10
-					Move(usr.loc)
-					usr:Resort_Stacking_Inv()
+
+					var/obj/items/DarknessPowder/d = Split(1)
+
+					d.verbs.Remove(/obj/items/verb/Take)
+					d.invisibility = 10
+					d.loc = usr.loc
+
 					sleep(20)
-					var/list/turf/Lt = getArea()
+					var/list/turf/Lt = d.getArea()
 					for(var/turf/T in Lt)
 						new/obj/effect/darkness(T)
-					var/obj/items/DarknessPowder/S = src
-					src.invisibility = 2
-					src = null
+					src=null
 					spawn(300)
 						for(var/turf/T in Lt)
 							for(var/obj/effect/darkness/D in T)
 								del D
-						del(S)
+						d.Dispose()
 				else
 					..()
 
@@ -119,32 +121,34 @@ obj
 			canAuction = FALSE
 			Click()
 				if(src in usr)
-					src.verbs.Remove(/obj/items/verb/Take)
 					hearers() << "[usr] drops a [src]"
-					Move(usr.loc)
-					usr:Resort_Stacking_Inv()
-					flick("swampopen",src)
+
+					var/obj/items/Swamp/s = Split(1)
+
+					s.verbs.Remove(/obj/items/verb/Take)
+					s.loc = usr.loc
+					flick("swampopen", s)
 					sleep(20)
-					var/list/turf/Lt = getArea()
+					var/list/turf/Lt = s.getArea()
 					for(var/turf/T in Lt)
 						if(T.specialtype != "Swamp")
 							T.overlays.Add(icon('jokeitems.dmi',"swamp"))
-							T.slow += 5
+							T.slow += 1
 							T.specialtype = "Swamp"
 							if(rand(1,4)==1)
 								T.overlays.Add(icon('jokeitems.dmi',pick("swamp1","swamp2","swamp3","swamp4","swamp5","swamp6","swamp7")))
 						else
 							Lt -= T
-					var/obj/items/Swamp/S = src
-					src.invisibility = 2
+
 					src = null
 					spawn(600)
 						for(var/turf/T in Lt)
 							if(T.specialtype == "Swamp")
 								T.overlays = list()
 								T.specialtype = null
-								T.slow -= 5
-						del(S)
+								T.slow -= 1
+						s.Dispose()
+
 				else
 					..()
 
@@ -243,9 +247,13 @@ obj
 			var/thrown=0
 			Click()
 				if(src in usr)
-					src.verbs.Remove(/obj/items/verb/Take)
-					src.loc = usr.loc
-					usr:Resort_Stacking_Inv()
+
+					var/obj/items/Tube_of_fun/t = Split(1)
+
+					t.verbs.Remove(/obj/items/verb/Take)
+					t.loc = usr.loc
+					spawn(50)
+						t.Dispose()
 
 					var/n = dir2angle(usr.dir)
 					emit(loc    = usr,
@@ -256,9 +264,6 @@ obj
 					     life   = new /Random(20,60))
 
 					hearers() << "[usr] opens a [src]"
-
-					spawn(50)
-						src.loc = null
 				else
 					..()
 
@@ -293,16 +298,22 @@ obj
 					thrown=1
 					Cancel(TRUE)
 					hearers() << "[usr] throws a smoke pellet!"
-					Move(usr.loc)
-					usr:Resort_Stacking_Inv()
+
+					var/obj/items/Smoke_Pellet/s = Split(1)
+
+					s.verbs.Remove(/obj/items/verb/Take)
+					s.loc = usr.loc
+
 					var/turf/t = usr.smokepelletdest
 					usr.smokepelletdest = null
-					while(src && t && t != loc)
-						var/turf/t_to = get_step_towards(src, t)
-						if(!t_to||t_to.density) break
-						Move(t_to)
-						sleep(1)
-					Explode()
+					src=null
+					spawn()
+						while(s && t && t != s.loc)
+							var/turf/t_to = get_step_towards(s, t)
+							if(!t_to||t_to.density) break
+							s.Move(t_to)
+							sleep(1)
+						if(s) s.Explode()
 				Explode()
 					flick("smokepelletland",src)
 					sleep(14)
@@ -337,22 +348,16 @@ obj
 mob/Player/var/tmp/Pooping
 obj/items/U_No_Poo
 	name = "U-No-Poo"
-	desc = "It smells funny... There's 5 pills left."
+	desc = "It smells funny..."
 	icon = 'PooPill.dmi'
 	canAuction = FALSE
-	var/uses = 5;
 
 	Click()
 		if(src in usr)
 			if(!usr:Pooping)
 				usr:Pooping = 1
-				uses--
 
-				desc = uses == 1 ? "It smells funny..." : "It smells funny... There's [uses] pills left."
-
-				if(uses<=0)
-					src.loc = null
-					usr:Resort_Stacking_Inv()
+				Consume()
 
 				src=null
 				spawn()
@@ -467,8 +472,12 @@ obj/items/fireworks
 	Click()
 		if(src in usr)
 			spawn() boom(usr)
-			loc = null
-			usr:Resort_Stacking_Inv()
+			stack--
+			if(stack <= 0)
+				Dispose()
+				usr:Resort_Stacking_Inv()
+			else
+				UpdateDisplay()
 		else
 			..()
 

@@ -355,7 +355,7 @@ turf
 	Sea_Floor
 		icon = 'Underwater.dmi'
 		icon_state = "Sand Floor"
-		slow = 5
+		slow = 3
 
 
 	Canyon

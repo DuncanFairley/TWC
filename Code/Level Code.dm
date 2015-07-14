@@ -5,7 +5,9 @@
  * For the full license text, see LICENSE.txt.
  */
 mob/Player
-	var/tmp/slow = 0
+	var/tmp
+		slow       = 0
+		move_delay = 1
 
 turf
 	Exit(atom/movable/O, atom/newloc)
@@ -13,22 +15,18 @@ turf
 
 		if(isplayer(O) && .)
 			var/mob/Player/p = O
+			if(p.frozen || p.stuned || p.GMFrozen || p.arcessoing) return 0
 			if(p.teleporting) return
-			if(p.frozen || p.stuned || p.moving || p.arcessoing || p.GMFrozen)
-				return 0
 			if(isobj(newloc)) return
 
-			var/turf/t = newloc
-			if(((t && t.slow) || p.slow) && !p.unslow)
-				var/delay = p.slow + t.slow
-				p.moving=1
-				sleep(delay)
-				p.moving=0
+			if(!p.unslow)
+				var/turf/t = newloc
+				p.move_delay = t.slow + 1
+			else
+				p.move_delay = 1
 
-turf/var/tmp/slow=0
-mob
-   var/tmp
-      moving
+turf/var/tmp/slow = 0
+
 mob
 	var
 		reading=0
@@ -36,15 +34,6 @@ mob
 		stuned=0
 
 turf
-/*	DEblocker
-		Enter(mob/You/Y)
-			if(istype(Y,/mob/You))
-				if(Y.Auror) return ..()
-
-	Aurorblocker
-		Enter(mob/You/Y)
-			if(istype(Y,/mob/You))
-				if(Y.DeathEater) return ..()*/
 	Huffleblocker
 		Enter(mob/Player/Y)
 			if(istype(Y,/mob/Player))

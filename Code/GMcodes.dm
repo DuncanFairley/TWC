@@ -1001,11 +1001,17 @@ mob
 				C.mob << "<hr><center><font color=blue><b>Announcement From [src]:</b><br><font color=red><b>[message]</font></center><hr>"
 		Reboot()
 			set category = "Staff"
-			switch(input("Are you sure you'd like to reboot?","?")in list("Yes","No"))
+			switch(input("Are you sure you'd like to reboot?","?") in list("Yes", "Yes & Save", "No"))
 				if("Yes")
 					world.Reboot()
-				if("No")
-					return
+				if("Yes & Save")
+					for(var/mob/Player/p in Players)
+						if(z >= SWAPMAP_Z)
+							loc = locate("leavevault")
+						p.Save()
+					Save_World()
+					sleep(1)
+					world.Reboot()
 		Shutdown()
 			set category = "Staff"
 			switch(input("Are you sure you'd like to shut down?","?")in list("Yes","No"))
@@ -1215,6 +1221,7 @@ mob
 			set category="Staff"
 			switch(alert("Disconnect: [M]","Disconnect Player","Yes","No"))
 				if("Yes")
+					M.Save()
 					Players<<"<b><font color=red>[M] has been disconnected from the server.</b></font>"
 					if(!M.key)
 						del(M)
@@ -1310,6 +1317,7 @@ mob/GM/verb
 			Log_admin("[src] tried to ban [M] but banned themself by default.")
 			crban_fullban(usr)
 		else
+			M.Save()
 			Players<<infomsg("[M] has been suspended from The Wizards' Chronicles.")
 			var/tmpckey = M.ckey
 			var/tmpname = M.name
@@ -1488,7 +1496,6 @@ mob/GM
 
 
 						var/obj/items/item_prize = new i (p)
-						p.Resort_Stacking_Inv()
 						hearers() << infomsg("<i>[name] gives [p] [item_prize.name].</i>")
 						goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [name]([key])([client.address]) gave [item_prize.name] <b>prize</b> common item to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 

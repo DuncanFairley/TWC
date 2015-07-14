@@ -27,28 +27,6 @@ area
 		if(antiFly && isplayer(Obj))
 			Obj:nofly()
 
-var/itemsCount
-
-mob/test/verb/findDupes()
-	src << checkDupes()
-	src << "Items count: [itemsCount]"
-
-proc/checkDupes()
-	var/txt = ""
-	for(var/obj/items/i1 in world)
-		if(!i1.loc) continue
-		if(!i1.tag) continue
-		var/t = i1.tag
-		i1.tag = null
-
-		var/obj/items/i2 = locate(t)
-		i1.tag = t
-
-		if(i2)
-			txt += "[errormsg("[i1] ([i1.loc]) ([i1.x],[i1.y],[i1.z]) ([i1.owner]) == [i2] ([i2.loc]) ([i2.x],[i2.y],[i2.z]) ([i2.owner])")]<br>"
-
-	return txt == "" ? null : txt
-
 obj/items
 	var
 		dropable      = 1
@@ -57,23 +35,86 @@ obj/items
 		price         = 0
 		tmp/antiTheft = 0
 
+		stack     = 1
+		max_stack = 0
+
 	mouse_over_pointer = MOUSE_HAND_POINTER
-
-	proc/setId()
-		set waitfor = 0
-		if(tag || !dropable || !canAuction) return
-
-		sleep(10)
-
-		if(loc && !tag)
-			tag = "i[itemsCount]"
-			itemsCount++
 
 	New()
 		..()
+		Sort()
 
-		setId()
+	Move(NewLoc,Dir=0)
+		.=..()
 
+		Sort()
+
+	proc
+		Sort()
+			if(istype(loc, /atom))
+				for(var/obj/items/i in loc)
+					if(i != src && Compare(i))
+						Stack(i)
+						if(!loc) return
+		Clone()
+			var/obj/items/i = new type
+			return i
+
+		Compare(obj/items/i)
+			return i.name == name && i.type == type && i.owner == owner
+
+		UpdateDisplay()
+			if(stack > 1)
+				suffix  = "<font color=#c00>(x[stack])</font>"
+				maptext = ismob(loc) ? null : "<font size=1 color=#c00><b>[stack]</b></font>"
+			else
+				suffix  = null
+				maptext = null
+
+		Stack(obj/items/i)
+			var/change
+			if(max_stack)
+				change = min(stack, i.max_stack - i.stack)
+			else
+				change = stack
+
+			stack   -= change
+			i.stack += change
+
+			i.UpdateDisplay()
+
+			if(stack <= 0)
+				Dispose()
+			else
+				UpdateDisplay()
+
+		Split(size)
+			if(max_stack)
+				size = min(stack, max_stack)
+
+			if(size)
+				var/obj/items/i = Clone()
+
+				i.stack = size
+				stack  -= size
+
+				i.UpdateDisplay()
+
+				if(stack <= 0)
+					Dispose()
+				else
+					UpdateDisplay()
+
+				return i
+
+			return null
+
+		Consume(amount = 1)
+			stack -= amount
+			if(stack <= 0)
+				Dispose()
+			else
+				UpdateDisplay()
 
 obj/items/Click()
 	if((src in oview(1)) && takeable)
@@ -87,23 +128,38 @@ obj/items/verb/Take()
 		return
 
 	viewers() << infomsg("[usr] takes \the [src.name].")
-	loc = usr
+
+	owner = null
+	Move(usr)//loc = usr
+
 	usr.Resort_Stacking_Inv()
 
 obj/items/verb/Drop()
 	set src in usr
 	var/mob/Player/owner = usr
-	loc = owner.loc
-	src.owner = usr.ckey
+
 	viewers(owner) << infomsg("[owner] drops \his [src.name].")
+
+	if(stack > 1)
+		var/obj/items/i = Split(1)
+		var/area/a = getArea(loc)
+		if(a.antiTheft) i.owner = owner.ckey
+		i.Move(owner.loc)
+	else
+		var/area/a = getArea(loc)
+		if(a.antiTheft) src.owner = owner.ckey
+		Move(owner.loc)
+
+		if(owner.UsedKeys)
+			for(var/k in owner.UsedKeys)
+				if(owner.UsedKeys[k] == src)
+					owner.removeKey(k)
+					owner.UsedKeys -= k
+					break
+
 	owner.Resort_Stacking_Inv()
 
-	if(owner.UsedKeys)
-		for(var/k in owner.UsedKeys)
-			if(owner.UsedKeys[k] == src)
-				owner.removeKey(k)
-				owner.UsedKeys -= k
-				break
+
 
 
 obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
@@ -161,6 +217,25 @@ obj/items/wearable
 		bonus   = NOUPGRADE
 		quality = 0
 
+
+	UpdateDisplay()
+		var/const/WORN_TEXT = "<font color=blue>(Worn)</font>"
+		var/worn = findtext(suffix, "worn")
+
+		maptext = null
+		if(stack > 1)
+			suffix  = "<font color=#c00>(x[stack])</font>"
+
+			if(!ismob(loc))
+				maptext = "<font size=1 color=#c00><b>[stack]</b></font>"
+			else if(worn)
+				suffix  = "[suffix] [WORN_TEXT]"
+		else
+			if(worn)
+				suffix = WORN_TEXT
+			else
+				suffix  = null
+
 obj/items/wearable/Destroy(var/mob/Player/owner)
 	if(alert(owner,"Are you sure you wish to destroy your [src.name]?",,"Yes","Cancel") == "Yes")
 		if(src in owner.Lwearing)
@@ -172,7 +247,7 @@ obj/items/wearable/Destroy(var/mob/Player/owner)
 		return 1
 obj/items/wearable/Drop()
 	var/mob/Player/owner = usr
-	if(src in owner.Lwearing)
+	if((src in owner.Lwearing) && stack <= 1)
 		Equip(owner)
 	..()
 obj/items/wearable/verb/Wear()
@@ -192,7 +267,8 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			o.icon = src.icon
 			o.layer = wear_layer
 			owner.overlays -= o
-		src.suffix = null
+		suffix = null
+		UpdateDisplay()
 		if(bonus != -1)
 			if(bonus & DAMAGE)
 				owner.clothDmg -= 10 * quality
@@ -206,9 +282,10 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			o.icon = src.icon
 			o.layer = wear_layer
 			owner.overlays += o
-		suffix = "<font color=blue>(Worn)</font>"
 		if(!owner.Lwearing) owner.Lwearing = list()
 		owner.Lwearing.Add(src)
+		suffix = "worn"
+		UpdateDisplay()
 		if(bonus != -1)
 			if(bonus & DAMAGE)
 				owner.clothDmg += 10 * quality
@@ -224,7 +301,8 @@ obj/items/food
 			Eat()
 		..()
 	proc/Eat()
-		del(src)
+		Consume()
+
 	chocolate_bar
 		icon = 'chocolate_bar.dmi'
 		Eat()
@@ -331,13 +409,21 @@ obj/items/Whoopie_Cushion
 			del(src)
 	Click()
 		if(src in usr)
-			src.verbs.Remove(/obj/items/verb/Take)
 			hearers() << "[usr] sets a [src]."
-			src.isset = 1
-			Move(usr.loc)
-			usr:Resort_Stacking_Inv()
+
+			var/obj/items/Whoopie_Cushion/w = Split(1)
+			w.isset = 1
+			w.verbs.Remove(/obj/items/verb/Take)
+			w.loc = usr.loc
+
 		else
 			..()
+
+	Compare()
+		. = ..()
+
+		return isset ? 0 : .
+
 obj/items/scroll
 	icon = 'Scroll.dmi'
 	destroyable = 1
@@ -354,6 +440,13 @@ obj/items/scroll
 		if(src in usr)
 			usr << browse(content)
 		else ..()
+
+	Compare(obj/items/i)
+		. = ..()
+
+		return content ? 0 : .
+
+
 	verb
 		Name(msg as text)
 			set name = "Name Scroll"
@@ -447,6 +540,11 @@ obj/items/gift
 				verbs -= /obj/items/gift/verb/Open
 				verbs -= /obj/items/gift/verb/Disown
 
+	Compare(obj/items/i)
+		. = ..()
+
+		return contents.len ? 0 : .
+
 	MouseDrop(over_object)
 		..()
 
@@ -463,7 +561,12 @@ obj/items/gift
 				var/obj/items/lamps/lamp = i
 				lamp.S.Deactivate()
 
-			i.loc = src
+			if(i.stack > 1)
+				var/obj/items/s = i.Split(1)
+				s.loc = src
+			else
+				i.loc = src
+
 			changeShape()
 			verbs += /obj/items/gift/verb/Disown
 			verbs += /obj/items/gift/verb/Open
@@ -472,13 +575,6 @@ obj/items/gift
 			pixel_x = rand(-4,4)
 
 			usr:Resort_Stacking_Inv()
-
-obj/ribbon
-	icon       = 'present.dmi'
-	icon_state = "ribbon"
-	New()
-		..()
-		color = rgb(rand(0,255), rand(0,255), rand(0,255))
 
 obj/items/bagofgoodies
 	name = "bag of goodies"
@@ -517,14 +613,12 @@ obj/items/bagofgoodies
 				else if(rnd==4)
 					usr << "Inside you find a Scroll"
 					new/obj/items/scroll(usr)
-				src.loc = null
-				usr:Resort_Stacking_Inv()
+
+				Consume()
 
 obj/items/pokeby
 	icon = 'pokeby.dmi'
 	desc = "Aww, isn't it cute?"
-
-
 
 obj/items/trophies
 	name = "Trophy"
@@ -538,6 +632,11 @@ obj/items/trophies
 	Bronze
 		icon_state = "Bronze"
 	desc = "It's blank!"
+
+	Compare(obj/items/i)
+		. = ..()
+
+		return . && desc == i.desc
 
 	Click()
 		if(src in usr)
@@ -612,7 +711,6 @@ obj/items/wearable/halloween_bucket
 			var/obj/O = new newtype (usr)
 			O.gender = usr.gender
 			viewers(usr) << infomsg("[usr] pulls \a [O] out of \his halloween bucket.")
-			usr:Resort_Stacking_Inv()
 		else
 			..()
 
@@ -1284,6 +1382,12 @@ obj/items/wearable/title
 	icon = 'scrolls.dmi'
 	icon_state = "title"
 	desc = ""
+
+	Compare(obj/items/i)
+		. = ..()
+
+		return . && i:title == title
+
 	Equip(var/mob/Player/owner,var/overridetext=0)
 		if(owner.level < 501)
 			owner << errormsg("You need to be a Hogwarts Graduate to wear this.")
@@ -1407,11 +1511,13 @@ turf/nofirezone
 	Enter(obj/o)
 		if(istype(o, /obj/projectile))
 			o.Dispose()
-		else return ..()
+		else
+			.=..()
 	Exit(obj/o)
 		if(istype(o, /obj/projectile))
 			o.Dispose()
-		else return ..()
+		else
+			.=..()
 turf/DynamicArena
 	name = "Arena"
 	icon = 'turf.dmi'
@@ -1845,8 +1951,7 @@ obj/items/easterbook
 		if(src in usr)
 			usr.verbs += /mob/Spells/verb/Shelleh
 			usr<<"<b><font color=white><font size=3>You learned Shelleh."
-			loc=null
-			usr:Resort_Stacking_Inv()
+			Consume()
 		else
 			..()
 
@@ -1859,8 +1964,7 @@ obj/items/rosesbook
 		if(src in usr)
 			usr<<"<b><font color=red><font size=3>You learned Herbificus Maxima."
 			usr.verbs += /mob/Spells/verb/Herbificus_Maxima
-			loc=null
-			usr:Resort_Stacking_Inv()
+			Consume()
 		else
 			..()
 
@@ -1873,8 +1977,7 @@ obj/items/stickbook
 		if(src in usr)
 			usr<<"<b><font color=white><font size=3>You learned Crapus Sticketh."
 			usr.verbs += /mob/Spells/verb/Crapus_Sticketh
-			loc=null
-			usr:Resort_Stacking_Inv()
+			Consume()
 		else
 			..()
 
@@ -1891,8 +1994,7 @@ obj/items/easter_egg
 	Click()
 		if(src in usr)
 			new/obj/egg(usr.loc)
-			loc=null
-			usr:Resort_Stacking_Inv()
+			Consume()
 		else
 			..()
 obj/egg
@@ -1952,6 +2054,9 @@ obj/items/lamps
 		effect
 		seconds
 		tmp/StatusEffect/S
+
+	max_stack = 1
+
 	double_drop_rate_lamp
 		desc    = "Doubles your drop rate."
 		effect  = /StatusEffect/Lamps/DropRate/Double
@@ -2040,6 +2145,7 @@ obj/items/lamps
 				S = new effect (usr, seconds, src)
 		else
 			..()
+
 	Drop()
 		if(S)
 			S.Deactivate()
@@ -2312,8 +2418,7 @@ obj/items/crystal
 				e.bonusChance += luck
 				if(ignoreItem) e.ignoreItem++
 				e.showBonus()
-				loc = null
-				usr:Resort_Stacking_Inv()
+				Consume()
 			else
 				usr << errormsg("You hold [src.name] but nothing happens.")
 
@@ -2410,8 +2515,8 @@ obj/items/magic_stone
 		icon = 'Crystal.dmi'
 		name = "teleport stone"
 		var/dest
-		charges = 3
-		desc = "Used for teleportation. 3 charges remaining."
+
+		desc = "Used for teleportation."
 
 		circle(mob/Player/p)
 			if(dest)
@@ -2432,7 +2537,6 @@ obj/items/magic_stone
 				hearers(p) << infomsg("[p.name] disappears in a flash of light.")
 				p.Transfer(t)
 				hearers(p) << infomsg("[p.name] appears in a flash of light.")
-				desc = "Used for teleportation. [charges - 1] charges remaining."
 
 	weather
 		acid
@@ -2562,8 +2666,7 @@ obj/items/magic_stone
 				if(p.loc == tmploc)
 					source.effect(p)
 					if(!--source.charges)
-						source.loc = null
-						p.Resort_Stacking_Inv()
+						source.Consume()
 				else
 					p << errormsg("The ritual failed.")
 				source.inUse = FALSE
@@ -2707,10 +2810,10 @@ obj
 					if(i4 && !ignoreItem) step_rand(i4)
 					return
 
-				i1.loc = null
-				i2.loc = null
-				i3.loc = null
-				i4.loc = null
+				i1.Consume()
+				i2.Consume()
+				i3.Consume()
+				i4.Consume()
 
 				bigcolor("#f84b7a")
 
@@ -2815,22 +2918,20 @@ obj/items
 			Open()
 				set src in usr
 
-				var/obj/items/key = locate(text2path("/obj/items/key/[split(name, " ")[1]]_key")) in usr
+				var/obj/items/chestKey = locate(text2path("/obj/items/key/[split(name, " ")[1]]_key")) in usr
 
-				if(!key)
-					key = locate(/obj/items/key/master_key) in usr
+				if(!chestKey)
+					chestKey = locate(/obj/items/key/master_key) in usr
 
-				if(key)
+				if(chestKey)
 
 					var/obj/roulette/r = new (usr.loc)
 					r.getPrize(drops, usr.name, usr.ckey)
 
 					usr << infomsg("You opened a [name]!")
 
-					key.loc = null
-					loc     = null
-					usr:Resort_Stacking_Inv()
-
+					chestKey.Consume()
+					Consume()
 				else
 					usr << errormsg("You don't have a [name] key to open this!")
 

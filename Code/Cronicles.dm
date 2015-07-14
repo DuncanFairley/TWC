@@ -68,8 +68,6 @@ proc
 		X["customMaps"] >> customMaps
 		X["mailTracker"] >> mailTracker
 		X["auctionItems"] >> auctionItems
-		X["itemsCount"] >> itemsCount
-		if(!itemsCount) itemsCount = 0
 		if(!customMaps) customMaps = list()
 		if(!globalvaults) globalvaults = list()
 		if(magicEyesLeft == null)
@@ -142,7 +140,6 @@ proc
 		X["skill_rating"] << skill_rating
 		X["reputations"] << reputations
 		X["ClanWars"] << cw
-		X["itemsCount"] << itemsCount
 		X["AutoClasses"] << classes
 		X["DJs"] << DJs
 		X["DPEditors"] << dp_editors
@@ -199,7 +196,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 13
+#define SAVEFILE_VERSION 14
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -360,6 +357,14 @@ mob
 				p.refundSpells1()
 
 			if(savefile_version < 14)
+				var/mob/Player/p = src
+
+				for(var/obj/items/i in p)
+					i.Sort()
+
+				p.Resort_Stacking_Inv()
+
+			if(savefile_version < 15)
 				DeathEater = null
 				HA         = null
 				Auror      = null

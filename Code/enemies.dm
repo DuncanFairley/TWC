@@ -307,7 +307,7 @@ mob
 			proc
 				getStateLag(var/i_State)
 					if(state == WANDER)   return 15
-					if(state == SEARCH)   return 15
+					if(state == SEARCH)   return 10
 					if(state == HOSTILE)  return max(MoveDelay, 1)
 					if(state == CONTROLLED) return 12
 					return 1
@@ -486,8 +486,10 @@ mob
 					icon_state = "spider"
 					level = 700
 					MoveDelay = 1
-					AttackDelay = 5
-					Range = 16
+					AttackDelay = 3
+					Range = 20
+					HPmodifier = 1.4
+					DMGmodifier = 0.8
 
 					Death()
 						emit(loc    = loc,
@@ -496,6 +498,16 @@ mob
 						     angle  = new /Random(0, 360),
 						     speed  = 5,
 						     life   = new /Random(1,10))
+
+				Blocked()
+					density = 0
+					var/turf/t = get_step_to(src, target, 1)
+					if(t)
+						Move(t)
+					else
+						..()
+					density = 1
+
 				Boss
 
 					Attack()
@@ -521,16 +533,6 @@ mob
 
 							break
 
-
-					Blocked()
-						density = 0
-						var/turf/t = get_step_to(src, target, 1)
-						if(t)
-							Move(t)
-						else
-							..()
-						density = 1
-
 					Basilisk
 						icon_state = "basilisk"
 						HPmodifier = 3
@@ -544,10 +546,10 @@ mob
 						name = "Bubbles the Spider"
 						icon_state = "spider"
 						level = 1400
-						HPmodifier = 10
-						DMGmodifier = 2.3
+						HPmodifier = 12
+						DMGmodifier = 4
 						MoveDelay = 2
-						AttackDelay = 1
+						AttackDelay = 0
 						Range = 16
 						var/tmp
 							fired       = 0
@@ -571,16 +573,15 @@ mob
 							..()
 							if(!fired && target && state == HOSTILE)
 								fired = 1
-								spawn(rand(20,30)) fired = 0
+								spawn(rand(10,20)) fired = 0
 
-								if(prob(95))
-									var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-									var/tmp_d = dir
-									for(var/d in dirs)
-										dir = d
-										castproj(icon_state = "quake", damage = Dmg + rand(-4,8), name = "rubble", cd = 0, lag = 1)
-									dir = tmp_d
-									sleep(AttackDelay)
+								var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+								var/tmp_d = dir
+								for(var/d in dirs)
+									dir = d
+									castproj(icon_state = "quake", damage = Dmg + rand(-4,8), name = "rubble", cd = 0, lag = 1)
+								dir = tmp_d
+								sleep(AttackDelay)
 
 						Attacked(obj/projectile/p)
 							..()
@@ -709,8 +710,8 @@ mob
 					Snowman
 						icon = 'Snowman.dmi'
 						name = "The Evil Snowman"
-						HPmodifier = 10
-						DMGmodifier = 0.5
+						HPmodifier = 12
+						DMGmodifier = 0.8
 						layer = 5
 						MoveDelay = 3
 						AttackDelay = 2
@@ -745,16 +746,18 @@ mob
 							..()
 							if(HP > 0)
 								var/percent = MHP / HP
-								var/matrix/M = matrix()*percent
+								var/matrix/M = matrix() * min(percent, 10)
 								transform = M
 
 								extraDmg = percent * 400
 
-								if(percent >= 5)
+								percent = (1 / percent) * 100
+
+								if(percent <= 30)
 									MoveDelay = 1
-								else if(percent >= 3)
+								else if(percent <= 60)
 									AttackDelay = 1
-								else if(percent >= 2)
+								else if(percent <= 80)
 									MoveDelay = 2
 
 					Stickman
@@ -1068,8 +1071,8 @@ mob
 
 				Eye_of_The_Fallen
 					level = 2400
-					cd = new(4, 8)
-					HPmodifier = 2.5
+					cd = new(3, 6)
+					HPmodifier = 3.2
 
 					Range     = 20
 					MoveDelay = 2
@@ -1110,7 +1113,7 @@ mob
 
 						transform *= 3
 
-						origloc = null
+						spawn(2) origloc = null
 				New()
 					..()
 					icon_state = "eye[rand(1,2)]"

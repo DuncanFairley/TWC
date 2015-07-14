@@ -162,21 +162,23 @@ obj/items
 			if(over_control == "Trade.grid1" && !(src in P.trade.items))
 				if(!P.trade.accept && !P.trade.with.trade.accept)
 					if(dropable)
-						if(src in usr:Lwearing)
+						if(stack <= 1 && (src in usr:Lwearing))
 							src:Equip(usr)
 						else if(istype(src, /obj/items/lamps) && src:S)
 							var/obj/items/lamps/lamp = src
 							lamp.S.Deactivate()
 
-						if("ckeyowner" in vars)
+						var/obj/items/i = stack > 1 ? Split(1) : src
+
+						if("ckeyowner" in i.vars)
 							src:ckeyowner = null
 						winset(P, null, "Trade.grid1.cells=1x[P.trade.y];Trade.grid1.current-cell=1x[P.trade.y]")
-						P << output(src, "Trade.grid1")
+						P << output(i, "Trade.grid1")
 						winset(P.trade.with, null, "Trade.grid2.cells=1x[P.trade.y];Trade.grid2.current-cell=1x[P.trade.y]")
-						P.trade.with << output(src, "Trade.grid2")
-						P.trade.items += src
+						P.trade.with << output(i, "Trade.grid2")
+						P.trade.items += i
 						P.trade.y++
-						P.contents -= src
+						P.contents -= i
 						P.Resort_Stacking_Inv()
 					else
 						P << errormsg("This item can't be dropped")
@@ -190,7 +192,8 @@ obj/items
 			if(!P.trade.accept && !P.trade.with.trade.accept)
 				P.trade.y--
 				P.trade.items -= src
-				P.contents += src
+
+				Move(P)
 				var/list/p = params2list(params)
 
 				var/cell = text2num(findtext(p["drop-cell"], ",") ? copytext(p["drop-cell"], 3) : p["drop-cell"])
