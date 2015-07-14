@@ -365,19 +365,21 @@ obj/items
 				if(dropable && canAuction)
 
 					if(P.auctionInfo.item)
-						P.contents += P.auctionInfo.item
+						P.auctionInfo.item.Move(P)
 
-					if(src in usr:Lwearing)
+					if(stack <= 1 && (src in usr:Lwearing))
 						src:Equip(usr)
 					else if(istype(src, /obj/items/lamps) && src:S)
 						var/obj/items/lamps/lamp = src
 						lamp.S.Deactivate()
 
-					if("ckeyowner" in vars)
+					var/obj/items/i = stack > 1 ? Split(1) : src
+
+					if("ckeyowner" in i.vars)
 						src:ckeyowner = null
-					P << output(src, "Auction.gridAuctionAddItem")
-					P.auctionInfo.item = src
-					P.contents -= src
+					P << output(i, "Auction.gridAuctionAddItem")
+					P.auctionInfo.item = i
+					P.contents -= i
 					P.Resort_Stacking_Inv()
 				else
 					P << errormsg("This item can't be used in auction.")
@@ -387,7 +389,7 @@ obj/items
 		if(P.auctionInfo && P.auctionInfo.item == src)
 			P << output(null, "Auction.gridAuctionAddItem")
 			P.auctionInfo.item = null
-			P.contents += src
+			Move(P)
 			P.Resort_Stacking_Inv()
 		else
 			..()

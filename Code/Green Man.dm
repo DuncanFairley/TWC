@@ -22,7 +22,6 @@ mob/TalkNPC/greenman
 							usr << "Green Man says: Thanks for buying."
 							usr.gold-=10000
 							ministrybank += taxrate*10000/100
-							usr:Resort_Stacking_Inv()
 							return
 					if("Bag-o-Snow 10,000g")
 						if(usr.gold>=10000)
@@ -30,7 +29,6 @@ mob/TalkNPC/greenman
 							usr << "Green Man says: Thanks for buying."
 							usr.gold-=10000
 							ministrybank += taxrate*10000/100
-							usr:Resort_Stacking_Inv()
 							return
 					if("Firebolt 8,000,000g")
 						if(usr.gold>=8000000)
@@ -38,7 +36,6 @@ mob/TalkNPC/greenman
 							usr << "Green Man says: Thanks for buying."
 							usr.gold-=8000000
 							ministrybank += taxrate*8000000/100
-							usr:Resort_Stacking_Inv()
 							return
 					if("Bag of Goodies 100,000g")
 						if(usr.gold>=100000)
@@ -46,7 +43,6 @@ mob/TalkNPC/greenman
 							usr << "Green Man says: Thanks for buying."
 							usr.gold-=100000
 							ministrybank += taxrate*100000/100
-							usr:Resort_Stacking_Inv()
 							return
 					if("Whoopie Cushion 4,000g")
 						if(usr.gold>=4000)
@@ -54,7 +50,6 @@ mob/TalkNPC/greenman
 							usr << "Green Man says: Thanks for buying."
 							usr.gold-=4000
 							ministrybank += taxrate*4000/100
-							usr:Resort_Stacking_Inv()
 							return
 					if("Smoke Pellet 3,000g")
 						if(usr.gold>=3000)
@@ -62,7 +57,6 @@ mob/TalkNPC/greenman
 							usr << "Green Man says: Thanks for buying."
 							usr.gold-=3000
 							ministrybank += taxrate*3000/100
-							usr:Resort_Stacking_Inv()
 							return
 					if("Peruvian Instant Darkness Powder 7,000g")
 						if(usr.gold>=7000)
@@ -70,7 +64,6 @@ mob/TalkNPC/greenman
 							usr << "Green Man says: Thanks for buying."
 							usr.gold-=7000
 							ministrybank += taxrate*7000/100
-							usr:Resort_Stacking_Inv()
 							return
 					if("Swamp in ya pocket 5,000g")
 						if(usr.gold>=5000)
@@ -78,7 +71,6 @@ mob/TalkNPC/greenman
 							usr << "Green Man says: Thanks for buying."
 							usr.gold-=5000
 							ministrybank += taxrate*5000/100
-							usr:Resort_Stacking_Inv()
 							return
 					if("Tube of fun 3,000g")
 						if(usr.gold>=3000)
@@ -86,7 +78,6 @@ mob/TalkNPC/greenman
 							usr << "Green Man says: Thanks for buying."
 							usr.gold-=3000
 							ministrybank += taxrate*3000/100
-							usr:Resort_Stacking_Inv()
 							return
 
 mob/TalkNPC/greenmanno
