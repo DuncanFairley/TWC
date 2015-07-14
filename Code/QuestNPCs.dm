@@ -18,7 +18,7 @@ mob/TalkNPC/quest
 			.=..(i_Player, questName)
 
 			if(.)
-				i_Player << npcsay("[name]: Finally, what took you so long? Jeeze. Now I can finally take over that miserable place you can a school and--")
+				i_Player << npcsay("[name]: Finally, what took you so long? Jeeze. Now I can finally take over that miserable place you call a school and--")
 				i_Player << "<i>You blink.</i>"
 				i_Player << npcsay("[name]: I mean... Plan the best party ever for, uhm... Ben! Yes, Ben...")
 				i_Player << "<i>Sassy Pixie laughs evilly.</i>"
