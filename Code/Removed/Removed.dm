@@ -1900,3 +1900,80 @@ obj/Gate
 	icon = 'turf.dmi'
 	icon_state="gate"
 	density=1
+
+obj/enemyacid
+	icon='attacks.dmi'
+	icon_state="fireball"
+	density=1
+	var/player=0
+	Bump(mob/M)
+		if(!istype(M, /mob)) return
+		var/damage=(50)
+		if(!M.monster)
+			M<<"The acid blast damages you for [damage] HP!"
+			M.HP-=(damage)
+			M.Death_Check()
+
+obj/enemyfireball
+	icon='attacks.dmi'
+	icon_state="fireball"
+	density=1
+	var/mob/caster
+	var/player=0
+	New()
+		..()
+		spawn(30)del(src)
+	Bump(mob/M)
+		if(!istype(M, /mob))
+			del(src)
+			return
+		var/damage=40
+		if(M.monster==0)
+			M<<"The fireball damages you for [damage] HP!"
+			M.HP-=(damage)
+			if(caster)
+				M.Death_Check(caster)
+			else
+				M.Death_Check()
+		del(src)
+	SteppedOn(atom/movable/A)
+		//world << "[src] stepped on [A]"
+		//			projectile stood on candle
+		if(ismob(A))
+			if(!A.density && A:key)
+				src.Bump(A)
+
+obj/Fountain____s
+	icon='statues.dmi'
+	icon_state="foun4"
+	density=1
+	accioable=0
+	wlable=0
+	dontsave=1
+	verb
+		Touch()
+			set src in oview()
+			usr<<"You touch the fountain."
+			sleep(40)
+			hearers()<<"The fountain opens."
+			sleep(20)
+			usr.loc=locate(42,4,20)
+			usr<<"You fall into the opening and down a tunnel into the Chamber of Secrets."
+
+area/login
+
+obj/Fountain____h
+	icon='statues.dmi'
+	icon_state="foun4"
+	density=1
+	accioable=0
+	wlable=0
+	dontsave=1
+
+obj/Fireplace_H
+	icon='misc.dmi'
+	icon_state="fireplace"
+	wlable=0
+	density=1
+	accioable=0
+	dontsave=1

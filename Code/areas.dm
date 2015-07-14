@@ -468,162 +468,10 @@ area
 /************************************************
 ************************************************/
 
-
-obj
-	Barrels
-		icon='turf.dmi'
-		icon_state="barrels"
-		density=1
-		verb
-			Examine()
-				set src in oview(3)
-				usr << "A big ol' pile of barrels."
-obj
-	bigbluechair
-		name="Big Blue Chair"
-		icon='Thrones.dmi'
-		icon_state="blue"
-		density=0
-		dontsave=1
-		wlable=0
-	biggreenchair
-		name="Big Green Chair"
-		icon='Thrones.dmi'
-		icon_state="green"
-		density=0
-		dontsave=1
-		wlable=0
-	bigtealchair
-		name="Big Teal Chair"
-		icon='Thrones.dmi'
-		icon_state="teal"
-		density=0
-		dontsave=1
-		wlable=0
-	bigwhitechair
-		name="Big White Chair"
-		icon='Thrones.dmi'
-		icon_state="white"
-		density=0
-		dontsave=1
-		wlable=0
-	bigblackchair
-		name="Big Black Chair"
-		icon='Thrones.dmi'
-		icon_state="black"
-		density=0
-		wlable=0
-		dontsave=1
-	bigpurplechair
-		name="Big Purple Chair"
-		icon='Thrones.dmi'
-		icon_state="purple"
-		density=0
-		dontsave=1
-		wlable=0
-	bigredchair
-		name="Big Red Chair"
-		icon='Thrones.dmi'
-		icon_state="red"
-		density=0
-		dontsave=1
-		wlable=0
-	bigyellowchair
-		name="Big Yellow Chair"
-		icon='Thrones.dmi'
-		icon_state="yellow"
-		density=0
-		dontsave=1
-		wlable=0
-
 //AREAS
 
 mob/var/DuelRespawn
 
-turf
-	rift1
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="red"
-		Entered(mob/Player/M)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(26,70,7)
-
-turf
-	rift2
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="blue"
-		Entered(mob/Player/M)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(26,70,7)
-
-turf
-	rift3
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="gold"
-		Entered(mob/Player/M)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(26,70,7)
-
-turf
-	rift4
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="purple"
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(26,70,7)
-
-turf
-	rift5
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="green"
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(26,70,7)
-
-turf
-	rift6
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="orange"
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(26,70,7)
-
-turf
-	rift7
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="pink"
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(26,70,7)
 area
 	To_Fourth_Floor
 		Entered(mob/Player/M)
@@ -674,29 +522,6 @@ area
 				return
 			else
 				M.loc=locate(31,98,18)
-
-turf
-	ror
-		var
-			n
-			dest = "ror"
-		ror1
-			n=1
-		ror2
-			n=2
-		ror3
-			n=3
-		Enter(atom/movable/O)
-			if(density && isplayer(O) && O:ror == n)
-				return 1
-			else
-				.=..()
-
-		Entered(mob/Player/M)
-			if(isplayer(M))
-				if(M.ror==n || M.ror==-1)
-					M.Transfer(locate(dest))
-
 
 area
 	FredHouseTrap
@@ -855,11 +680,3 @@ area
 		if(istype(o, /obj/projectile) && issafezone(newloc.loc))
 			o.Dispose()
 		else return ..()
-
-
-turf
-	shadow
-		icon = 'turf.dmi'
-		icon_state = "shadow"
-		layer = 5
-		mouse_opacity = 0
