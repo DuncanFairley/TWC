@@ -1513,7 +1513,8 @@ obj
 					//if(istype(O,/obj/items/scroll))
 				//		isscroll = 1
 					//O.Move(usr.loc)
-					O.Drop()
+					O.drop(usr, O.stack)
+				hearers(owner) << infomsg("[usr] drops all \his [src.name] items.")
 				/*if(isscroll)
 					hearers(usr) << "[usr] drops all of \his scrolls."
 				else
@@ -1556,11 +1557,14 @@ mob/proc/Resort_Stacking_Inv()
 				stack.icon = tmpV.icon
 				stack.icon_state = tmpV.icon_state
 				stack.name = tmpV.name
-				stack.suffix = "<font color=red>(x[counts[V]])</font>"
 				contents += stack
 				for(var/obj/O in contents)
 					if(istype(O,stack.containstype))
 						stack.contains += O
+				var/c = 0
+				for(var/obj/items/i in stack.contains)
+					c += i.stack
+				stack.suffix = "<font color=red>(x[c])</font>"
 				tmpstackobjects[V] = stack
 		src:stackobjects = tmpstackobjects
 	else

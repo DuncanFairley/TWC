@@ -761,19 +761,28 @@ mob/TalkNPC/Vault_Salesman
 					break
 
 			var/list/artifacts = list()
+			var/amount = 0
 			for(var/obj/items/artifact/a in usr)
 				artifacts += a
-			if(usr.gold < selectedprice * 100000 || artifacts.len < selectedprice)
+				amount    += a.stack
+
+			if(usr.gold < selectedprice * 100000 || amount < selectedprice)
 				usr << npcsay("[name]: I'm running a business here - you can't afford this.")
 			else
 				if(usr:change_vault(selectedvault))
 					usr.gold -= selectedprice * 100000
 					ministrybank += taxrate*selectedprice*1000
 
-					for(var/obj/o in artifacts)
+					for(var/obj/items/o in artifacts)
+						selectedprice -= o.stack
+
+						if(selectedprice < 0)
+							o.stack = abs(selectedprice)
+							o.UpdateDisplay()
+						else
+							o.loc = null
+
 						if(selectedprice<=0) break
-						o.loc = null
-						selectedprice--
 					usr:Resort_Stacking_Inv()
 					usr << npcsay("[name]: Thank you.")
 
@@ -823,18 +832,27 @@ mob/TalkNPC/Artifacts_Salesman
 				return
 
 		var/list/artifacts = list()
+		var/amount = 0
 		for(var/obj/items/artifact/a in usr)
 			artifacts += a
-		if(usr.gold < selectedprice * 100000 || artifacts.len < selectedprice)
+			amount += a.stack
+		if(usr.gold < selectedprice * 100000 || amount < selectedprice)
 			usr << npcsay("[name]: I'm running a business here - you can't afford this.")
 		else
 			usr.gold -= selectedprice * 100000
 			ministrybank += taxrate*selectedprice*1000
 			new selecteditem (usr)
-			for(var/obj/o in artifacts)
+			for(var/obj/items/o in artifacts)
+				selectedprice -= o.stack
+
+				if(selectedprice < 0)
+					o.stack = abs(selectedprice)
+					o.UpdateDisplay()
+				else
+					o.loc = null
+
 				if(selectedprice<=0) break
-				o.loc = null
-				selectedprice--
+
 			usr:Resort_Stacking_Inv()
 			usr << npcsay("[name]: Thank you.")
 
