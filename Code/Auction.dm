@@ -175,7 +175,7 @@ auction
 
 				p << infomsg("<b>Auction:</b> You removed [item.name] from auction.")
 				p.auctionBuild()
-				item.loc = p
+				item.Move(p)
 				item = null
 				p.Resort_Stacking_Inv()
 
@@ -341,7 +341,7 @@ mob/Player
 			set name = ".auctionClosed"
 			if(auctionInfo)
 				if(auctionInfo.item)
-					contents += auctionInfo.item
+					auctionInfo.item.Move(src)
 					auctionInfo.item = null
 					Resort_Stacking_Inv()
 
