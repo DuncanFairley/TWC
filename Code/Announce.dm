@@ -4,22 +4,6 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-obj
-	air1
-		name = "Sign"
-		icon = 'dj.dmi'
-		icon_state="1off"
-		verb
-			Turn_On()
-				set src in oview(1)
-				src.icon_state="on"
-				for(var/obj/air2/X in world)
-					X.icon_state="off"
-			Turn_Off()
-				set src in oview(1)
-				src.icon_state="1off"
-				for(var/obj/air2/X in world)
-					X.icon_state="2off"
 mob
 	test
 		verb
@@ -31,11 +15,7 @@ mob
 					usr << browse("<body bgcolor=\"black\"> [file2text(file("Logs/chatlogs/[year]/[month]/[day].html"))]</body>","window=1")
 				else
 					alert("Couldn't find specified log")
-obj
-	air2
-		name = "Sign"
-		icon = 'dj.dmi'
-		icon_state="2off"
+
 mob
  proc
   Deathcheck(mob/M)
@@ -52,26 +32,10 @@ mob
      world.Repop(src)
 
 mob/var/GMFrozen
+
 area
 	nofly
 		antiFly = TRUE
-turf
-	blackblock
-		icon='turf.dmi'
-		icon_state="blackz"
-mob
-	Anderoffice
-		invisibility = 2
-		name = "Marker1"
-		density = 0
-	Marker2
-		name = "Marker2"
-		invisibility = 2
-		density = 0
-	Marker3
-		name = "Marker3"
-		invisibility = 2
-		density = 0
 
 mob
 	GM

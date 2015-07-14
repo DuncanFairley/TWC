@@ -418,3 +418,30 @@ mob/TalkNPC/quest
 								return
 					if("No thanks")
 						return
+
+obj/items
+	AlyssaScroll
+		name="Potion Ingredients"
+		icon = 'scrolls.dmi'
+		icon_state = "wrote"
+		dropable = 0
+
+		var
+			content="<body bgcolor=black><u><font color=blue><b><font size=3>Scroll</u><p><font color=red><font size=1>by Alyssa <p><p><font size=2><font color=white><br>Onion Root<br>Indigo Seeds<br>Drop of Salamander<br>Silver Spider Legs <p>"
+		verb
+			Crumple()
+				var/dels = alert("Do you wish to get rid of the scroll?",,"Yes","No")
+				if(dels == "Yes")
+					if(src in usr)
+						src << "You crumple the scroll."
+						loc = null
+						usr:Resort_Stacking_Inv()
+			read()
+				set name = "Read"
+				usr << browse(content)
+
+		Click()
+			if(src in usr)
+				read()
+			else
+				..()

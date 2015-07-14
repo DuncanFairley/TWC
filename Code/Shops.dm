@@ -162,7 +162,8 @@ mob/TalkNPC/quest/Tom
 				if(usr.Year in list("1st Year","2nd Year","3rd Year",""))
 					usr << npcsay("Tom: Sorry mate. Come back when you're older.")
 				else
-					var/obj/selecteditem
+					usr << npcsay("Tom: Sorry mate. Those rats have drank all of the beer.")
+					/*var/obj/selecteditem
 					var/selectedprice
 					switch(input("Tom: What can I get for ya?","You have [comma(usr.gold)] gold")as null|anything in list("Draft Beer  50g","Iced Tea  50g"))
 						if("Draft Beer  50g")
@@ -181,7 +182,7 @@ mob/TalkNPC/quest/Tom
 						ministrybank += taxrate*selectedprice/100
 						new selecteditem(usr)
 						usr << npcsay("Tom: There ya go. Enjoy.")
-						usr:Resort_Stacking_Inv()
+						usr:Resort_Stacking_Inv()*/
 			if(null)
 				usr << npcsay("Tom: Seeya later then.")
 

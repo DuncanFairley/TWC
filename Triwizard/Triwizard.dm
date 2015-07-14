@@ -321,10 +321,10 @@ obj
 				if(usr.beansearching)return
 				var/i=0
 				for(var/obj/O in loc)
-					if(O.type == /obj/Pyramid_Bean)
+					if(O.type == /obj/items/Underwater_Bean)
 						i++
 				if(i>5)
-					usr << "<b>You're already carrying the maximum of 5 pyramid beans!</b>"
+					usr << "<b>You're already carrying the maximum of 5 mysterious beans!</b>"
 					return
 				usr.beansearching=1
 				var/beanchance=rand(1,7)
@@ -333,8 +333,8 @@ obj
 				if(beanchance==1)
 					sleep(50)
 					usr.beansearching=0
-					usr << "<b>You find a Pyramid Bean!</b>"
-					new/obj/Pyramid_Bean(usr)
+					usr << "<b>You find a Mysterious Bean!</b>"
+					new/obj/items/Underwater_Bean(usr)
 				else
 					sleep(50)
 					usr.beansearching=0

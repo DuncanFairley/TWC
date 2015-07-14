@@ -5,29 +5,6 @@
  * For the full license text, see LICENSE.txt.
  */
 
-obj/Trophy
-	name = "Trophy"
-	icon = 'trophies.dmi'
-	Gold
-		icon_state = "Gold"
-	Yellow
-		icon_state = "Yellow"
-	Silver
-		icon_state = "Silver"
-	Bronze
-		icon_state = "Bronze"
-mob/Cow
-	icon = 'Cow.dmi'
-	Immortal = 1
-	New()
-		..()
-		walk_rand(src,8)
-		Moo()
-	proc/Moo()
-		spawn()while(src)
-			hearers(src) << "Cow: [pick("MooooooOOOoOo!","Moo!","MOOOOOOOOOOOOOOOOOOOOOOOOO","Moooooo!","Moo moo moo!")]"
-			sleep(600)
-
 mob/GM/verb/Grant_All_Spells(mob/M in Players)
 			set category="Staff"
 			set popup_menu = 0
