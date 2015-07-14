@@ -641,7 +641,10 @@ mob/Spells/verb/Aqua_Eructo()
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
 		HP -= 30
 		Death_Check()
+
 		castproj(icon_state = "aqua", damage = usr.Def+(usr.extraDef/3) + clothDmg, name = "Aqua Eructo")
+//		castproj(Type = /obj/projectile { color = "#08ffff"; blend_mode = 3; alpha = 150; }, damage = usr.Def+(usr.extraDef/3) + clothDmg, name = "Aqua Eructo")
+
 mob/Spells/verb/Inflamari()
 	set category="Spells"
 	var/dmg = round(usr.level * 0.9) + clothDmg
@@ -1016,14 +1019,14 @@ mob/Spells/verb/Impedimenta()
 		for(var/turf/T in view(7))
 			lt += T
 			T.overlays += image('black50.dmi',"impedimenta")
-			T.slow += 5
+			T.slow += 1
 		usr:learnSpell("Impedimenta")
 		src = null
 		spawn(100)
 			for(var/turf/T in lt)
 				T.overlays -= image('black50.dmi',"impedimenta")
-				if(T.slow >= 5)
-					T.slow -= 5
+				if(T.slow >= 1)
+					T.slow -= 1
 mob/Spells/verb/Incendio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=20,againstocclumens=1))
@@ -2047,7 +2050,7 @@ client
 				index++
 				var/d = movements[index]
 				..(get_step(mob, d), d)
-				sleep(1)
+				sleep(mob:move_delay + mob:slow)
 			movements = null
 			moving = 0
 		else
