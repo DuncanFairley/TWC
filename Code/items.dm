@@ -58,6 +58,10 @@ obj/items
 						if(!loc) return
 		Clone()
 			var/obj/items/i = new type
+
+			i.owner = owner
+			i.name  = name
+
 			return i
 
 		Compare(obj/items/i)
@@ -216,6 +220,18 @@ obj/items/wearable
 		bonus   = NOUPGRADE
 		quality = 0
 
+	Compare(obj/items/i)
+		. = ..()
+
+		return . && i:bonus == bonus && i:quality == quality
+
+	Clone()
+		var/obj/items/wearable/w = ..()
+
+		w.bonus   = bonus
+		w.quality = quality
+
+		return w
 
 	UpdateDisplay()
 		var/const/WORN_TEXT = "<font color=blue>(Worn)</font>"
@@ -818,6 +834,11 @@ obj/items/wearable/wands
 		killCount        = 0
 		monsterKillCount = 0
 		tmp/display = FALSE
+
+	Compare(obj/items/i)
+		. = ..()
+
+		return track ? 0 : .
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
@@ -2501,6 +2522,10 @@ obj/items/magic_stone
 				charges++
 				return
 
+			if(w.stack > 1)
+				w = w.Split(1)
+				w.Equip(p, 1)
+
 			w.track = 1
 
 			var/origname = initial(w.name)
@@ -2514,7 +2539,8 @@ obj/items/magic_stone
 			src=null
 			spawn()
 				for(var/i = 0 to 10)
-					displayKills(p, rand(1, 9999), TRUE)
+					displayKills(p, rand(1, 9999), 1)
+					w.killCount = 0
 					sleep(3)
 
 

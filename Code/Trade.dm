@@ -17,7 +17,7 @@ trading
 		Deal(end = 0)
 
 			for(var/obj/O in items)
-				O.loc = with
+				O.Move(with)
 			items = list()
 
 			with.gold += gold
@@ -31,7 +31,7 @@ trading
 
 		Clean(end = 0)
 			for(var/obj/O in items)
-				O.loc = parent
+				O.Move(parent)
 
 			parent.gold += gold
 
