@@ -359,18 +359,19 @@ RandomEvent
 			var/list/treasures = list()
 			if(!winners) winners = list()
 			if(!totalTreasures) totalTreasures = list()
+
+			var/obj/spawner/spawn_loc = pick(spawners)
+			var/mapZ = spawn_loc.z
+
 			for(var/i = 1 to chests)
-
-				var/obj/spawner/spawn_loc = pick(spawners)
-
-				var/obj/items/treasure/t = new (spawn_loc.loc)
+				var/obj/items/treasure/t = new
 				treasures += t
 				totalTreasures += t
 
-				t.density = 1
-				for(var/j = 1 to 5)
-					step_rand(t)
-				t.density = 0
+				while(!t.loc || t.loc.density)
+					t.loc = locate(rand(1,100), rand(1,100), mapZ)
+
+				t.name = "Bush"
 
 			sleep(minutes * 600)
 
@@ -557,6 +558,7 @@ mob/Player
 
 obj/items/treasure
 	var/event = "Treasure Hunt"
+	max_stack = 1
 
 	Take()
 		set src in oview(1)
