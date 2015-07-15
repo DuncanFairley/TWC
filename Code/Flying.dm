@@ -182,8 +182,8 @@ obj/Black
 	density=1
 obj/redroses
 	var/GM_Made = 0
-	icon='turf.dmi'
-	icon_state="redplant"
+	icon='attacks.dmi'
+	icon_state="herbificus"
 	density=1
 	layer = 6
 obj/Armor_Feet
