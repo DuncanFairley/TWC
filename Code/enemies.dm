@@ -1357,14 +1357,20 @@ mob
 							spawn(rand(50,150)) fired = 0
 
 							var/mob/M = target
-							M.movable    = 1
-							M.icon_state = "stone"
-							M.overlays = null
-							spawn(rand(10,30))
-								if(M && M.movable)
-									M.movable    = 0
-									M.icon_state = ""
-									M:ApplyOverlays()
+							if(!M.icon_state == "trans")
+								M.movable    = 1
+								M.icon_state = "stone"
+								M.overlays = null
+								spawn(rand(10,30))
+									if(M && M.movable)
+										M.movable    = 0
+										M.icon_state = ""
+										M:ApplyOverlays()
+							else
+								M.movable = 1
+								spawn(rand(10,30))
+									if(M && M.movable)
+										M.movable = 0
 
 				Death(mob/Player/killer)
 					..(killer)
