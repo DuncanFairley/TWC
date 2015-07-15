@@ -259,10 +259,6 @@ mob
 					Disperse = null
 					verbs += /mob/Spells/verb/Disperse
 
-				for(var/obj/Pyramid_Bean/bean in contents)
-					bean.loc = null
-					new /obj/items/Underwater_Bean (src)
-
 				Resort_Stacking_Inv()
 
 			if(savefile_version < 5)

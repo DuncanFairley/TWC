@@ -802,3 +802,9 @@ obj/Cocoa_Nut_Cream_Pie
 		..()
 		spawn(1)
 			loc = null
+obj
+	Pyramid_Bean
+		New()
+			..()
+			spawn(1)
+				loc = null
