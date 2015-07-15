@@ -70,7 +70,7 @@ obj/items
 		UpdateDisplay()
 			if(stack > 1)
 				suffix  = "<font color=#c00>(x[stack])</font>"
-				maptext = ismob(loc) ? null : "<font size=1 color=#c00><b>[stack]</b></font>"
+				maptext = "<font size=1 color=#c00><b>[stack]</b></font>"
 			else
 				suffix  = null
 				maptext = null
@@ -85,12 +85,12 @@ obj/items
 			stack   -= change
 			i.stack += change
 
-			i.UpdateDisplay()
+			i.Refresh()
 
 			if(stack <= 0)
 				Dispose()
 			else
-				UpdateDisplay()
+				Refresh()
 
 		Split(size)
 			if(max_stack)
@@ -102,12 +102,12 @@ obj/items
 				i.stack = size
 				stack  -= size
 
-				i.UpdateDisplay()
+				i.Refresh()
 
 				if(stack <= 0)
 					Dispose()
 				else
-					UpdateDisplay()
+					Refresh()
 
 				return i
 
@@ -120,8 +120,16 @@ obj/items
 			else
 				UpdateDisplay()
 
+		Refresh()
+			UpdateDisplay()
+
+			if(stack > 1)
+				verbs += new/obj/items/proc/Drop_All()
+			else
+				verbs -= new/obj/items/proc/Drop_All()
+
 		drop(mob/Player/owner, amount = 1)
-			if(stack > 1 && amount != stack)
+			if(stack > 1 && amount < stack)
 				var/obj/items/i = Split(amount)
 				var/area/a = getArea(loc)
 				if(a.antiTheft) i.owner = owner.ckey
@@ -139,6 +147,12 @@ obj/items
 							break
 
 			owner.Resort_Stacking_Inv()
+
+		Drop_All()
+			set src in usr
+
+			hearers(owner) << infomsg("[usr] drops all \his [src.name] items.")
+			drop(usr, stack)
 
 obj/items/Click()
 	if((src in oview(1)) && takeable)
@@ -199,7 +213,8 @@ obj/items/New()
 
 		if(!src.dropable)
 			src.verbs -= /obj/items/verb/Drop
-			src.verbs -= /obj/items/wearable/Drop
+		else if(stack > 1)
+			verbs += new/obj/items/proc/Drop_All()
 		if(!src.takeable)
 			src.verbs -= /obj/items/verb/Take
 	..()
@@ -237,13 +252,11 @@ obj/items/wearable
 		var/const/WORN_TEXT = "<font color=blue>(Worn)</font>"
 		var/worn = findtext(suffix, "worn")
 
-		maptext = null
 		if(stack > 1)
 			suffix  = "<font color=#c00>(x[stack])</font>"
+			maptext = "<font size=1 color=#c00><b>[stack]</b></font>"
 
-			if(!ismob(loc))
-				maptext = "<font size=1 color=#c00><b>[stack]</b></font>"
-			else if(worn)
+			if(worn)
 				suffix  = "[suffix] [WORN_TEXT]"
 		else
 			if(worn)
@@ -260,11 +273,12 @@ obj/items/wearable/Destroy(var/mob/Player/owner)
 		del(item)
 		owner.Resort_Stacking_Inv()
 		return 1
-obj/items/wearable/Drop()
-	var/mob/Player/owner = usr
-	if((src in owner.Lwearing) && stack <= 1)
+
+obj/items/wearable/drop(mob/Player/owner, amount = 1)
+	if(stack <= amount && (src in owner.Lwearing))
 		Equip(owner)
 	..()
+
 obj/items/wearable/verb/Wear()
 	if(src in usr)
 		Equip(usr)
