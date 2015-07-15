@@ -493,8 +493,11 @@ obj/items/scroll
 				return
 			msg = copytext(msg,1,1000)
 			msg = dd_replacetext(msg,"\n","<br>")
-			content += "<body bgcolor=black><u><font color=blue><b><font size=3>[name]</u><p><font color=red><font size=1>by [usr] <p><p><font size=2><font color=white>[msg] <p>"
-			src.icon_state = "wrote"
+
+			var/obj/items/scroll/s = stack > 1 ? Split(1) : src
+			s.content += "<body bgcolor=black><u><font color=blue><b><font size=3>[name]</u><p><font color=red><font size=1>by [usr] <p><p><font size=2><font color=white>[msg] <p>"
+			s.icon_state = "wrote"
+			s.loc = usr
 			inuse = 0
 obj/items/bagofsnow
 	name="Bag 'o Sno"
