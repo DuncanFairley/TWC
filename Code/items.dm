@@ -2498,7 +2498,6 @@ obj/items/crystal
 
 obj/items/magic_stone
 	var
-		charges = 1
 		tmp/inUse = FALSE
 
 
@@ -2531,13 +2530,11 @@ obj/items/magic_stone
 
 			if(!w)
 				p << errormsg("This stone enchants your equipped wand, please equip a wand.")
-				charges++
-				return
+				return 1
 
 			if(w.track)
 				p << errormsg("Your wand already has a memory enchantment.")
-				charges++
-				return
+				return 1
 
 			if(w.stack > 1)
 				w = w.Split(1)
@@ -2723,8 +2720,7 @@ obj/items/magic_stone
 				sleep(10)
 			if(p && source)
 				if(p.loc == tmploc)
-					source.effect(p)
-					if(!--source.charges)
+					if(!source.effect(p))
 						source.Consume()
 				else
 					p << errormsg("The ritual failed.")
