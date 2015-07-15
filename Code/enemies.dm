@@ -431,7 +431,6 @@ mob
 					if(t)
 						Move(t)
 					else
-						step_rand(src)
 						Blocked()
 				else
 					var/dmg = Dmg+extraDmg+rand(0,4)
