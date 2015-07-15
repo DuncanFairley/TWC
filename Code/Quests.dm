@@ -741,6 +741,7 @@ mob/Player
 obj/items/demonic_essence
 	icon       = 'jokeitems.dmi'
 	icon_state = "DarknessPowder"
+	max_stack  = 1
 
 	Take()
 		set src in oview(1)
