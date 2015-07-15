@@ -130,7 +130,7 @@ obj/teleport
 				if(isobj(A))
 					A = A.loc
 				M:Transfer(A)
-				new /StatusEffect/DisableProjectiles(M, 1)
+				M.lastproj = world.time + 10
 				M.removePath()
 				if(M.classpathfinding)
 					M.Class_Path_to()

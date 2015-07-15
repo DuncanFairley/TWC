@@ -217,44 +217,6 @@ obj/items/Underwater_Bean
 			..()
 
 obj
-	Pyramid_Bean
-		icon = 'Bean.dmi'
-		icon_state = "Bean"
-		verb
-			Pick_Up()
-				set category = "Commands"
-				set src in orange(1)
-				if(count()>5)
-					usr << "<b>You're already carrying the maximum of 5 pyramid beans!</b>"
-				else
-					usr.contents += src
-					usr << "<b>You pick up the pyramid bean!</b>"
-			Drop()
-				set category = "Commands"
-				src.loc = locate(usr.x,usr.y,usr.z)
-			Eat()
-				if(usr.unslow)
-					usr << "<b>You're already using a pyramid bean.</b>"
-				else
-					usr << "<b>You swallow the bean.</b>"
-					usr.icon_state="bl"
-					if(usr.Gender=="Male")
-						usr.underlays+=image('Fishpeople.dmi',icon_state="m")
-					if(usr.Gender=="Female")
-						usr.underlays+=image('Fishpeople.dmi',icon_state="f")
-					usr.unslow()
-					del(src)
-		proc
-			count()
-				var/i=0
-				for(var/obj/O in loc)
-					if(O.type == src.loc)
-						i++
-				return i
-		//set human var to 1 to make them inhuman.
-		//effects will last 120 seconds.
-		//if reverting back to human underwater, 30 seconds need to apply to them.
-		//can only carry 5 at a time.
 	TriwizardCup
 		icon = 'Goblet.dmi'
 		name = "Triwizard Cup"
@@ -355,7 +317,7 @@ turf
 	Sea_Floor
 		icon = 'Underwater.dmi'
 		icon_state = "Sand Floor"
-		slow = 3
+		slow = 2
 
 
 	Canyon

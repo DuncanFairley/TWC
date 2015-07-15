@@ -70,7 +70,7 @@ obj/items
 		UpdateDisplay()
 			if(stack > 1)
 				suffix  = "<font color=#c00>(x[stack])</font>"
-				maptext = ismob(loc) ? null : "<font size=1 color=#c00><b>[stack]</b></font>"
+				maptext = "<font size=1 color=#c00><b>[stack]</b></font>"
 			else
 				suffix  = null
 				maptext = null
@@ -85,12 +85,12 @@ obj/items
 			stack   -= change
 			i.stack += change
 
-			i.UpdateDisplay()
+			i.Refresh()
 
 			if(stack <= 0)
 				Dispose()
 			else
-				UpdateDisplay()
+				Refresh()
 
 		Split(size)
 			if(max_stack)
@@ -102,12 +102,12 @@ obj/items
 				i.stack = size
 				stack  -= size
 
-				i.UpdateDisplay()
+				i.Refresh()
 
 				if(stack <= 0)
 					Dispose()
 				else
-					UpdateDisplay()
+					Refresh()
 
 				return i
 
@@ -120,8 +120,16 @@ obj/items
 			else
 				UpdateDisplay()
 
+		Refresh()
+			UpdateDisplay()
+
+			if(stack > 1)
+				verbs += new/obj/items/proc/Drop_All()
+			else
+				verbs -= new/obj/items/proc/Drop_All()
+
 		drop(mob/Player/owner, amount = 1)
-			if(stack > 1 && amount != stack)
+			if(stack > 1 && amount < stack)
 				var/obj/items/i = Split(amount)
 				var/area/a = getArea(loc)
 				if(a.antiTheft) i.owner = owner.ckey
@@ -139,6 +147,12 @@ obj/items
 							break
 
 			owner.Resort_Stacking_Inv()
+
+		Drop_All()
+			set src in usr
+
+			hearers(owner) << infomsg("[usr] drops all \his [src.name] items.")
+			drop(usr, stack)
 
 obj/items/Click()
 	if((src in oview(1)) && takeable)
@@ -199,7 +213,8 @@ obj/items/New()
 
 		if(!src.dropable)
 			src.verbs -= /obj/items/verb/Drop
-			src.verbs -= /obj/items/wearable/Drop
+		else if(stack > 1)
+			verbs += new/obj/items/proc/Drop_All()
 		if(!src.takeable)
 			src.verbs -= /obj/items/verb/Take
 	..()
@@ -237,13 +252,11 @@ obj/items/wearable
 		var/const/WORN_TEXT = "<font color=blue>(Worn)</font>"
 		var/worn = findtext(suffix, "worn")
 
-		maptext = null
 		if(stack > 1)
 			suffix  = "<font color=#c00>(x[stack])</font>"
+			maptext = "<font size=1 color=#c00><b>[stack]</b></font>"
 
-			if(!ismob(loc))
-				maptext = "<font size=1 color=#c00><b>[stack]</b></font>"
-			else if(worn)
+			if(worn)
 				suffix  = "[suffix] [WORN_TEXT]"
 		else
 			if(worn)
@@ -260,11 +273,12 @@ obj/items/wearable/Destroy(var/mob/Player/owner)
 		del(item)
 		owner.Resort_Stacking_Inv()
 		return 1
-obj/items/wearable/Drop()
-	var/mob/Player/owner = usr
-	if((src in owner.Lwearing) && stack <= 1)
+
+obj/items/wearable/drop(mob/Player/owner, amount = 1)
+	if(stack <= amount && (src in owner.Lwearing))
 		Equip(owner)
 	..()
+
 obj/items/wearable/verb/Wear()
 	if(src in usr)
 		Equip(usr)
@@ -479,8 +493,11 @@ obj/items/scroll
 				return
 			msg = copytext(msg,1,1000)
 			msg = dd_replacetext(msg,"\n","<br>")
-			content += "<body bgcolor=black><u><font color=blue><b><font size=3>[name]</u><p><font color=red><font size=1>by [usr] <p><p><font size=2><font color=white>[msg] <p>"
-			src.icon_state = "wrote"
+
+			var/obj/items/scroll/s = stack > 1 ? Split(1) : src
+			s.content += "<body bgcolor=black><u><font color=blue><b><font size=3>[name]</u><p><font color=red><font size=1>by [usr] <p><p><font size=2><font color=white>[msg] <p>"
+			s.icon_state = "wrote"
+			s.loc = usr
 			inuse = 0
 obj/items/bagofsnow
 	name="Bag 'o Sno"
@@ -2481,7 +2498,6 @@ obj/items/crystal
 
 obj/items/magic_stone
 	var
-		charges = 1
 		tmp/inUse = FALSE
 
 
@@ -2514,13 +2530,11 @@ obj/items/magic_stone
 
 			if(!w)
 				p << errormsg("This stone enchants your equipped wand, please equip a wand.")
-				charges++
-				return
+				return 1
 
 			if(w.track)
 				p << errormsg("Your wand already has a memory enchantment.")
-				charges++
-				return
+				return 1
 
 			if(w.stack > 1)
 				w = w.Split(1)
@@ -2706,8 +2720,7 @@ obj/items/magic_stone
 				sleep(10)
 			if(p && source)
 				if(p.loc == tmploc)
-					source.effect(p)
-					if(!--source.charges)
+					if(!source.effect(p))
 						source.Consume()
 				else
 					p << errormsg("The ritual failed.")
