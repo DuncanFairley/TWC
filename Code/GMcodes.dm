@@ -1042,6 +1042,7 @@ mob
 			var/item = new O(usr.loc)
 			if(isobj(item))item:owner = usr.key
 			if(isobj(item)||ismob(item))hearers() << "With a flick of [usr]'s wand, a [item:name] appears."
+			if(ispath(O, /obj/items)) Log_admin("<b>[src.name] ([src.ckey]) has created [item:name].</b>")
 		Search_Create()
 			set category="Staff"
 			usr.client<<link("?command=create;")
