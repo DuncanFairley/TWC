@@ -72,3 +72,17 @@ obj/Sanctuario
 			src.owner<<""
 		del src
 	New() spawn(60)del(src)
+
+
+
+
+
+mob/Player/proc
+	StateChange()
+		if(movable == 0)
+			movable = 1
+			icon_state = "stone"
+			overlays = null
+		else
+			movable = 0
+			icon_state = ""
