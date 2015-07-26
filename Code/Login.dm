@@ -1514,7 +1514,7 @@ obj
 				//		isscroll = 1
 					//O.Move(usr.loc)
 					O.drop(usr, O.stack)
-				hearers(owner) << infomsg("[usr] drops all \his [src.name] items.")
+				hearers(owner) << infomsg("[usr] drops all of \his [src.name] items.")
 				/*if(isscroll)
 					hearers(usr) << "[usr] drops all of \his scrolls."
 				else

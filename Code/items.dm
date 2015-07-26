@@ -151,7 +151,7 @@ obj/items
 		Drop_All()
 			set src in usr
 
-			hearers(owner) << infomsg("[usr] drops all \his [src.name] items.")
+			hearers(owner) << infomsg("[usr] drops all of \his [src.name] items.")
 			drop(usr, stack)
 
 obj/items/Click()
