@@ -247,7 +247,7 @@ mob/GM/verb/UnloadMap()
 		return
 	map.swapmap.UnloadNoSave()
 	global.loadedMaps.Remove(map)
-	src << infomsg("Map has been unloaded.")
+	src << infomsg("Map name \"[map.name]\" has been unloaded.")
 mob/GM/verb/DeleteMap()
 	set category = "Custom Maps"
 	if(!length(customMaps))
@@ -262,6 +262,7 @@ mob/GM/verb/DeleteMap()
 	global.loadedMaps.Remove(map)
 	global.customMaps.Remove(map)
 	Save_World()
+	src << infomsg("Map name \"[map.name]\" has been deleted.")
 mob/GM/verb/CopyMap()
 	set category = "Custom Maps"
 	var/customMap/newmap = new()
