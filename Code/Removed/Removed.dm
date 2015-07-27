@@ -1977,3 +1977,36 @@ obj/Fireplace_H
 	density=1
 	accioable=0
 	dontsave=1
+obj/Vanishing_Cabnet
+	icon='portal.dmi'
+	icon_state="portkey"
+	verb
+		Open()
+			set src in oview(1)
+			step_towards(usr,src)
+			sleep(10)
+			if(usr.followplayer==1){alert("You cannot use the vanishing cabnet while following a player.");return}
+			if(usr.removeoMob) spawn()usr:Permoveo()
+			hearers() << "[usr] walks into the cabnet and disappears."
+obj/Port_Key
+	icon='portal.dmi'
+	icon_state="portkey"
+	verb
+		Touch()
+			set src in oview(1)
+			step_towards(usr,src)
+			sleep(10)
+			if(usr.followplayer==1){alert("You cannot use a portkey while following a player.");return}
+			if(usr.removeoMob) spawn()usr:Permoveo()
+			hearers()<<"[usr] touches the portkey and vanishes."
+			for(var/obj/hud/player/R in usr.client.screen)
+				del(R)
+			for(var/obj/hud/cancel/C in usr.client.screen)
+				del(C)
+			usr.loc=locate(src.lastx,src.lasty,src.lastz)
+			step(usr,SOUTH)
+			return
+	New()
+		..()
+		spawn(300)
+			del(src)
