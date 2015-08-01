@@ -208,8 +208,6 @@ obj
 			. = ..()
 			icon_state = pick("smoke1","smoke2","smoke3","smoke4")
 			spawn()smoke_about_the_place()
-		Click()
-			usr << desc
 
 		proc
 			smoke_about_the_place()
@@ -230,8 +228,6 @@ obj
 			. = ..()
 			icon_state = pick("blue","red","black","yellow","green","orange")
 			spawn()float_about_the_place()
-		Click()
-			usr << desc
 
 		proc
 			float_about_the_place()

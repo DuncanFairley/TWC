@@ -139,6 +139,9 @@ mob/GM
 atom/Click(location)
 	..()
 	if(usr.ClickEdit)
+		if(!usr.admin)
+			usr << errormsg("Only Admins can use this.")
+			return
 		if(!usr.EditVar)
 			usr << "Pick a var to edit using MassEdit verb."
 		else if(usr.EditVar in vars)
