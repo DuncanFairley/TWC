@@ -555,9 +555,7 @@ mob
 							damageTaken = 0
 
 
-						drops = list("100" = list(/obj/items/key/prom_key,
-						                          /obj/items/key/duel_key,
-						                          /obj/items/key/summer_key,
+						drops = list("100" = list(/obj/items/key/summer_key,
 						                          /obj/items/wearable/title/Crawler,
 						                          /obj/items/chest/blood_chest,
 						                          /obj/items/magic_stone/eye,
