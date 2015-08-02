@@ -113,7 +113,9 @@ obj
 
 		verb/Read_book()
 			set src in oview(1)
-
+			if(!canReadBooks)
+				usr << errormsg("You find this book too boring to read.")
+				return
 			if(usr.readbooks == 1)
 				usr.readbooks = 2
 				usr.movable = 0
@@ -453,6 +455,14 @@ mob/Player
 			return rankIcons["0"]
 
 		addExp(amount, silent = 0)
+
+			if(!expScoreboard) expScoreboard = list()
+
+			if(ckey in expScoreboard)
+				expScoreboard["[ckey]"] += amount / 1000
+			else
+				expScoreboard["[ckey]"]  = amount / 1000
+
 			if(level < lvlcap)
 				amount = round(amount, 1)
 				addReferralXP(amount)
@@ -528,3 +538,88 @@ area
 
 	hogwarts/Duel_Arenas/Main_Arena_Bottom
 		oldsystem = TRUE
+
+var
+	canReadBooks = TRUE
+	list/expScoreboard
+
+mob/test/verb
+	Toggle_Book_Read()
+		canReadBooks = !canReadBooks
+
+		src << infomsg("read books set to [canReadBooks]")
+
+		if(!canReadBooks)
+			for(var/mob/Player/p in Players)
+				if(p.readbooks == 1)
+					p.readbooks = 2
+
+	Clear_Exp_Log()
+		expScoreboard = null
+
+
+obj/exp_scoreboard
+	icon = 'Rock.dmi'
+	mouse_over_pointer = MOUSE_HAND_POINTER
+
+	Click()
+		..()
+		if(expScoreboard)
+			bubblesort(expScoreboard)
+			var/const/SCOREBOARD_HEADER = {"<html><head><title>Experience Earned Leaderboard</title><style>body
+{
+	background-color:#FAFAFA;
+	font-size:large;
+	margin: 0px;
+	padding:0px;
+	color:#404040;
+}
+table.colored
+{
+	background-color:#FAFAFA;
+	border-collapse: collapse;
+	text-align: left;
+	width:100%;
+	font: normal 13px/100% Verdana, Tahoma, sans-serif;
+	border: solid 1px #E5E5E5;
+	padding:3px;
+	margin: 4px;
+}
+tr.white
+{
+	background-color:#FAFAFA;
+	border: solid 1px #E5E5E5;
+}
+tr.black
+{
+	background-color:#DFDFDF;
+	border: solid 1px #E5E5E5;
+}
+tr.grey
+{
+	background-color:#EFEFEF;
+	border: solid 1px #EEEEEE;
+}
+}</style></head>"}
+
+			var/html = {"<body><center><table align="center" class="colored"><tr><td colspan="3"><center>Experience Earned Leaderboard</center></td></tr><tr><td>#</td><td>Name</td><td>Score</td></tr>"}
+			var/rankNum = 1
+			var/isWhite = TRUE
+			for(var/i = expScoreboard.len to 1 step -1)
+
+				var/score = expScoreboard[expScoreboard[i]]
+
+				if(score < 10) continue
+
+				var/Name  = sql_get_name_from(expScoreboard[i])
+				var/Ckey  = expScoreboard[i]
+
+				if(usr.admin)
+					html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[Name] ([Ckey])</td><td>[score]</td></tr>"
+				else
+					html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[Name]</td><td>[round(score, 1)]</td></tr>"
+				isWhite = !isWhite
+				rankNum++
+			html += "</table>"
+
+			usr << browse(SCOREBOARD_HEADER + html + "</center></html>","window=scoreboard")
