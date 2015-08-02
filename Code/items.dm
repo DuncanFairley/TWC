@@ -259,6 +259,7 @@ obj/items/wearable
 			if(worn)
 				suffix  = "[suffix] [WORN_TEXT]"
 		else
+			maptext = null
 			if(worn)
 				suffix = WORN_TEXT
 			else
