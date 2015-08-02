@@ -27,14 +27,6 @@ mob/var/learnedslug
 
 mob/GM
 	verb
-		Teach_Furnunculus()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Furnunculus))
-					M << infomsg("You learned Furnunculus!")
-			src << infomsg("You've taught your class the Furnunculus spell.")
-
 		Teach_Langlock()
 			set category = "Teach"
 			set hidden = 1
@@ -74,14 +66,6 @@ mob/GM
 				if(M.learnspell(/mob/Spells/verb/Replacio))
 					M << infomsg("You learned Replacio!")
 			src << infomsg("You've taught your class the Replacio spell.")
-
-		Teach_Levicorpus()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Levicorpus))
-					M << infomsg("You learned Levicorpus!")
-			src << infomsg("You've taught your class the Levicorpus spell.")
 
 		Teach_Obliviate()
 			set category = "Teach"
@@ -179,23 +163,6 @@ mob/GM
 					M << infomsg("You learned Arcesso!")
 			src << infomsg("You've taught your class the Arcesso spell.")
 
-		Teach_Crucio()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Crucio))
-					M << infomsg("You learned Crucio!")
-			src << infomsg("You've taught your class the Crucio spell.")
-
-		Teach_Arania_Eximae()
-			set category = "Teach"
-			set hidden = 1
-			set name = "Teach Arania Exumai"
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Arania_Eximae))
-					M << infomsg("You learned Arania Exumai!")
-			src << infomsg("You've taught your class the Arania Exumai spell.")
-
 		Teach_Glacius()
 			set category = "Teach"
 			set hidden = 1
@@ -220,14 +187,6 @@ mob/GM
 					M << infomsg("You learned Riddikulus!")
 			src << infomsg("You've taught your class the Riddikulus spell.")
 
-		Teach_Rictusempra()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Rictusempra))
-					M << infomsg("You learned Rictusempra!")
-			src << infomsg("You've taught your class the Rictusempra spell.")
-
 		Teach_Sense()
 			set category = "Teach"
 			set hidden = 1
@@ -251,14 +210,6 @@ mob/GM
 				if(M.learnspell(/mob/Spells/verb/Expelliarmus))
 					M << infomsg("You learned Expelliarmus!")
 			src << infomsg("You've taught your class the Expelliarmus spell.")
-
-		Teach_Melofors()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Melofors))
-					M << infomsg("You learned Melofors!")
-			src << infomsg("You've taught your class the Melofors spell.")
 
 		Teach_Reparo()
 			set category = "Teach"
@@ -546,14 +497,6 @@ mob/GM
 					M << infomsg("You learned Accio!")
 			src << infomsg("You've taught your class the Accio spell.")
 
-		Teach_Densuago()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Densuago))
-					M << infomsg("You learned Densaugeo!")
-			src << infomsg("You've taught your class the Densaugeo spell.")
-
 		Teach_Ferula()
 			set category = "Teach"
 			set hidden = 1
@@ -561,22 +504,6 @@ mob/GM
 				if(M.learnspell(/mob/Spells/verb/Ferula))
 					M << infomsg("You learned Ferula!")
 			src << infomsg("You've taught your class the Ferula spell.")
-
-		Teach_Expecto_Patronum()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Expecto_Patronum))
-					M << infomsg("You learned Expecto Patronum!")
-			src << infomsg("You've taught your class the Expecto Patronum spell.")
-
-		Teach_Dementia()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Dementia))
-					M << infomsg("You learned Dementia!")
-			src << infomsg("You've taught your class the Dementia spell.")
 
 		Teach_Avis()
 			set category = "Teach"
@@ -610,14 +537,6 @@ mob/GM
 					M << infomsg("You learned Permoveo!")
 			src << infomsg("You've taught your class the Permoveo spell.")
 
-		Teach_Conjunctivis()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Conjunctivis))
-					M << infomsg("You learned Conjunctivis!")
-			src << infomsg("You've taught your class the Conjunctivis spell.")
-
 		Teach_Waddiwasi()
 			set category = "Teach"
 			set hidden = 1
@@ -643,12 +562,6 @@ mob/GM
 					M << infomsg("You learned Incarcerous!")
 			src << infomsg("You've taught your class the Incarcerous spell.")
 
-		Teach_Aero()
-			set category = "Teach"
-			set hidden = 1
-			/*for(var/mob/M in oview(client.view))
-				M.Aero=1*/
-
 		Teach_Disperse()
 			set category = "Teach"
 			set hidden = 1
@@ -664,11 +577,3 @@ mob/GM
 				if(M.learnspell(/mob/Spells/verb/Herbificus))
 					M << infomsg("You learned Herbificus!")
 			src << infomsg("You've taught your class the Herbificus spell.")
-
-		Teach_Solidus()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Solidus))
-					M << infomsg("You learned Solidus!")
-			src << infomsg("You've taught your class the Solidus spell.")
