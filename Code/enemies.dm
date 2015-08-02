@@ -397,12 +397,12 @@ mob
 					if(dmg<1)
 						//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 					else
-						M.HP -= dmg
-						hearers(M)<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
+						p.HP -= dmg
+						hearers(p)<<"<SPAN STYLE='color: red'>[src] attacks [p] and causes [dmg] damage!</SPAN>"
 						if(src.removeoMob)
-							spawn() M.Death_Check(src.removeoMob)
+							spawn() p.Death_Check(src.removeoMob)
 						else
-							spawn() M.Death_Check(src)
+							spawn() p.Death_Check(src)
 					break
 
 			proc/Blocked()
