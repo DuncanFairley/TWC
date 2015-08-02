@@ -258,12 +258,17 @@ mob/Spells/verb/Expelliarmus(mob/M in view()&Players)
 			new /StatusEffect/UsedAnnoying(src,15)
 			usr:learnSpell("Expelliarmus")
 			if(M.removeoMob)
-				M << "Your Permoveo spell failed.."
+				M << errormsg("Your Permoveo spell failed..")
 				M.client.eye=M
 				M.client.perspective=MOB_PERSPECTIVE
 				M.removeoMob:ReturnToStart()
 				M.removeoMob:removeoMob = null
 				M.removeoMob = null
+			if(M.Wingardiumleviosa)
+				M << errormsg("You were forced to let go of the object you were holding.")
+				M.wingobject.overlays = null
+				M.wingobject = null
+				M.Wingardiumleviosa = null
 		else
 			usr << "[M] doesn't have \his wand drawn."
 mob/Spells/verb/Eparo_Evanesca()
