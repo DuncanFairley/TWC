@@ -512,6 +512,8 @@ mob/TalkNPC/Broom_Salesman
 
 	Talk()
 		set src in oview(2)
+		usr << npcsay("Chrono: Come back later. I'm busy playing with my broom.")
+		return
 		var/obj/selecteditem
 		var/selectedprice
 		switch(input("Chrono: Hi there! Welcome to Chrono's Brooms. We have two models in stock right now - would you like to purchase one?","You have [comma(usr.gold)] gold")as null|anything in list("Cleansweep Seven - 5,000g","Nimbus 2000 - 10,000g"))
