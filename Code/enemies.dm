@@ -390,8 +390,9 @@ mob
 						ChangeState(WANDER)
 
 			proc/BlindAttack()//removeoMob
-				var/mob/Player/M = locate() in ohearers(1, src)
-				if(M)
+				for(var/mob/Player/p in range(1, src))
+					if(p.loc.loc != loc.loc) continue
+
 					var/dmg = Dmg+extraDmg+rand(0,4)
 					if(dmg<1)
 						//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
@@ -402,6 +403,7 @@ mob
 							spawn() M.Death_Check(src.removeoMob)
 						else
 							spawn() M.Death_Check(src)
+					break
 
 			proc/Blocked()
 				target = null
