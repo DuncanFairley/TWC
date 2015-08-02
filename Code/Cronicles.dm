@@ -45,6 +45,8 @@ proc
 	Load_World()
 		var/savefile/X = new ("players/World.sav")
 		//var/list/objs=list()
+		X["canReadBooks"] >> canReadBooks
+		X["expScoreboard"] >> expScoreboard
 		X["DP"] >> DP
 		X["allowGifts"] >> allowGifts
 		X["housepoints"] >> housepointsGSRH
@@ -127,6 +129,9 @@ proc
 		fdel("players/World.sav")
 		var/savefile/X = new("players/World.sav")
 		//var/list/objs=list()
+
+		X["canReadBooks"] << canReadBooks
+		X["expScoreboard"] << expScoreboard
 
 		var/list/cw = list()
 		for(var/e in clanwars_schedule)

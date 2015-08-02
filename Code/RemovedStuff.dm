@@ -808,3 +808,30 @@ obj
 			..()
 			spawn(1)
 				loc = null
+
+mob/GM
+	verb
+		Teach_Crucio()
+			set hidden = 1
+		Teach_Arania_Eximae()
+			set hidden = 1
+		Teach_Rictusempra()
+			set hidden = 1
+		Teach_Melofors()
+			set hidden = 1
+		Teach_Densuago()
+			set hidden = 1
+		Teach_Dementia()
+			set hidden = 1
+		Teach_Conjunctivis()
+			set hidden = 1
+		Teach_Aero()
+			set hidden = 1
+		Teach_Solidus()
+			set hidden = 1
+		Teach_Furnunculus()
+			set hidden = 1
+		Teach_Levicorpus()
+			set hidden = 1
+		Teach_Expecto_Patronum()
+			set hidden = 1

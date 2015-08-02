@@ -390,18 +390,20 @@ mob
 						ChangeState(WANDER)
 
 			proc/BlindAttack()//removeoMob
-				var/mob/Player/M = locate() in ohearers(1, src)
-				if(M)
+				for(var/mob/Player/p in range(1, src))
+					if(p.loc.loc != loc.loc) continue
+
 					var/dmg = Dmg+extraDmg+rand(0,4)
 					if(dmg<1)
 						//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 					else
-						M.HP -= dmg
-						hearers(M)<<"<SPAN STYLE='color: red'>[src] attacks [M] and causes [dmg] damage!</SPAN>"
+						p.HP -= dmg
+						hearers(p)<<"<SPAN STYLE='color: red'>[src] attacks [p] and causes [dmg] damage!</SPAN>"
 						if(src.removeoMob)
-							spawn() M.Death_Check(src.removeoMob)
+							spawn() p.Death_Check(src.removeoMob)
 						else
-							spawn() M.Death_Check(src)
+							spawn() p.Death_Check(src)
+					break
 
 			proc/Blocked()
 				target = null
@@ -555,9 +557,7 @@ mob
 							damageTaken = 0
 
 
-						drops = list("100" = list(/obj/items/key/prom_key,
-						                          /obj/items/key/duel_key,
-						                          /obj/items/key/summer_key,
+						drops = list("100" = list(/obj/items/key/summer_key,
 						                          /obj/items/wearable/title/Crawler,
 						                          /obj/items/chest/blood_chest,
 						                          /obj/items/magic_stone/eye,
