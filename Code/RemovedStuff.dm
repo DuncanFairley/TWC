@@ -1112,3 +1112,8 @@ obj/items/wearable/brooms/cleansweep_seven
 		..()
 		spawn(1)
 			loc = null
+obj/pokeby
+	New()
+		..()
+		spawn(1)
+			loc = null
