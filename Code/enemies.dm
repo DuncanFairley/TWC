@@ -1359,14 +1359,15 @@ mob
 							if(!M.trnsed)
 								M:StateChange()
 							else
-								movable = 1
+								M.movable = 1
+
 							spawn(rand(10,30))
 								if(M && M.movable)
 									if(!M.trnsed)
 										M:StateChange()
 										M:ApplyOverlays()
 									else
-										movable = 0
+										M.movable = 0
 
 				Death(mob/Player/killer)
 					..(killer)

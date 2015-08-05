@@ -8,7 +8,7 @@
 #define	CHANCETOSTEAL	13 //% chance of stealing quaffle from a player
 #define CHANCETOBUMP	40 //% chance of knocking quaffle away from a player
 
-#define CHANCEFORSNITCH	25 //% chance of catching the snitch
+#define CHANCEFORSNITCH	20 //% chance of catching the snitch
 
 #define CHANCEFUMBLEQUAFFLE	10 //% chance of fumbling the quaffle when you try to pick it up
 
@@ -407,9 +407,6 @@ obj/quidditch
 		verb
 			Catch_Snitch()
 				set src in view(1)
-				if(!usr.flying)
-					usr << "<b>You must be flying to catch the snitch!</b>"
-					return
 				if(!istype(usr, /mob/Player) && !usr.client) return
 				var/mob/Player/user = usr
 				if(quidditchmatch && user.position != "Seeker")

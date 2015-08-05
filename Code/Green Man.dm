@@ -30,13 +30,6 @@ mob/TalkNPC/greenman
 							usr.gold-=10000
 							ministrybank += taxrate*10000/100
 							return
-					if("Firebolt 8,000,000g")
-						if(usr.gold>=8000000)
-							new/obj/items/wearable/brooms/firebolt(usr)
-							usr << "Green Man says: Thanks for buying."
-							usr.gold-=8000000
-							ministrybank += taxrate*8000000/100
-							return
 					if("Bag of Goodies 100,000g")
 						if(usr.gold>=100000)
 							new/obj/items/bagofgoodies(usr)

@@ -835,3 +835,285 @@ mob/GM
 			set hidden = 1
 		Teach_Expecto_Patronum()
 			set hidden = 1
+
+obj/items/wearable/wigs/male_black_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/black_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_blond_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/yellow_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_blue_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/lightblue_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_brown_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/brown_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_green_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/green_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_grey_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/grey_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_pink_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/lightpink_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_purple_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/lightpurple_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_silver_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/silver_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_red_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/red_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_teal_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/teal_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_apollo_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/blond_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_cyan_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/cyan_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_darkblue_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/darkblue_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_darkpurple_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/darkpurple_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_darkpink_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/darkpink_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_orange_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/orange_wig (loc)
+			loc = null
+//Holiday//
+obj/items/wearable/wigs/male_christmas_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/christmas_wig (loc)
+			loc = null
+obj/items/wearable/wigs/male_halloween_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/halloween_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_black_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/black_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_blonde_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/yellow_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_blue_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/lightblue_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_brown_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/brown_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_green_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/green_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_grey_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/grey_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_pink_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/lightpink_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_purple_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/lightpurple_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_darkpurple_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/darkpurple_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_silver_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/silver_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_soleil_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/blond_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_cyan_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/cyan_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_darkblue_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/darkblue_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_darkpink_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/darkpink_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_orange_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/orange_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_red_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/red_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_teal_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/teal_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_christmas_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/christmas_wig (loc)
+			loc = null
+obj/items/wearable/wigs/female_halloween_wig
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/wigs/halloween_wig (loc)
+			loc = null
+obj/items/wearable/brooms
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && (owner.loc.loc:antiFly||istype(owner.loc.loc,/area/ministry_of_magic)))
+			owner << errormsg("You cannot fly here.")
+			return
+		if(!forceremove && !(src in owner.Lwearing) && owner.findStatusEffect(/StatusEffect/Knockedfrombroom))
+			owner << errormsg("You can't get back on your broom right now because you were recently knocked off.")
+			return
+		if(!(src in owner.Lwearing) && owner.trnsed)
+			owner << errormsg("You can't fly while transfigured.")
+			return
+		if(locate(/obj/items/wearable/invisibility_cloak) in owner.Lwearing)
+			owner << errormsg("Your cloak isn't big enough to cover you and your broom.")
+			return
+		. = ..(owner)
+		if(forceremove)return 0
+		if(. == WORN)
+			src.gender = owner.gender
+			if(!overridetext)viewers(owner) << infomsg("[owner] jumps on \his [src.name].")
+			owner.density = 0
+			owner.flying = 1
+			owner.icon_state = "flying"
+			for(var/obj/items/wearable/brooms/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+		else if(. == REMOVED)
+			if(!overridetext)viewers(owner) << infomsg("[owner] dismounts from \his [src.name].")
+			owner.density = 1
+			owner.flying = 0
+			owner.icon_state = ""
+obj/items/wearable/brooms/firebolt
+	New()
+		..()
+		spawn(1)
+			loc = null
+
+obj/items/wearable/brooms/nimbus_2000
+	New()
+		..()
+		spawn(1)
+			loc = null
+
+obj/items/wearable/brooms/cleansweep_seven
+	New()
+		..()
+		spawn(1)
+			loc = null
+obj/pokeby
+	New()
+		..()
+		spawn(1)
+			loc = null

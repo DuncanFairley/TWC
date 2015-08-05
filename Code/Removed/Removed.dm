@@ -1706,23 +1706,6 @@ turf
 		icon = 'pyramid.dmi'
 		icon_state = "down"
 
-obj/pokeby
-	icon='pokeby.dmi'
-	verb
-		Examine()
-			set src in view(3)
-			usr << "Aww, isn't it cute?"
-	verb
-		Take()
-			set src in oview(1)
-			hearers()<<"[usr] takes \the [src]."
-			Move(usr)
-			usr:Resort_Stacking_Inv()
-	verb
-		Drop()
-			Move(usr.loc)
-			usr:Resort_Stacking_Inv()
-			hearers()<<"[usr] drops \his [src]."
 obj/PromPlate
 	icon = 'PromFood.dmi'
 	icon_state = "Plate"
