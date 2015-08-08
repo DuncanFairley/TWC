@@ -2023,34 +2023,31 @@ mob
 				var/theiryear = (src.Year == "Hogwarts Graduate" ? 8 : text2num(copytext(src.Year, 1, 2)))
 				if(src.level>1 && src.level < 16)
 					src.Year="1st Year"
-				if(src.level>15 && theiryear < 2)
+				else if(src.level>15 && theiryear < 2)
 					src.Year="2nd Year"
 					src<<"<b>Congratulations, you are now on your Second Year at Hogwarts.</b>"
-					src<<infomsg("You learned how to cancel transfigurations!")
-					src.verbs += /mob/Spells/verb/Self_To_Human
-				if(src.level>15 && !(/mob/Spells/verb/Self_To_Human in verbs))
-					src<<infomsg("You learned how to cancel transfigurations!")
-					src.verbs += /mob/Spells/verb/Self_To_Human
-				if(src.level>50 && theiryear < 3)
-					src.Year="3rd Year"
-					src<<"<b>Congratulations on attaining your 3rd Year rank promotion!</b>"
 					src.verbs += /mob/Spells/verb/Episky
 					src<<"<b><font color=green><font size=3>You learned Episkey."
-				if(src.level>100 && theiryear < 4)
+				else if(src.level>50 && theiryear < 3)
+					src.Year="3rd Year"
+					src<<"<b>Congratulations on attaining your 3rd Year rank promotion!</b>"
+					src<<infomsg("You learned how to cancel transfigurations!")
+					src.verbs += /mob/Spells/verb/Self_To_Human
+				else if(src.level>100 && theiryear < 4)
 					src.Year="4th Year"
 					src<<"<b>Congratulations to [src]. You are now a 4th Year."
 					src.verbs += /mob/Spells/verb/Self_To_Dragon
 					src<<"<b><font color=green><font size=3>You learned how to Transfigure yourself into a fearsome Dragon!"
-				if(src.level>200 && theiryear < 5)
+				else if(src.level>200 && theiryear < 5)
 					src.Year="5th Year"
 					src<<"<b>Congratulations to [src]. You are now a 5th Year."
-				if(src.level>300 && theiryear < 6)
+				else if(src.level>300 && theiryear < 6)
 					src.Year="6th Year"
 					src<<"<b>Congratulations to [src]. You are now a 6th Year."
-				if(src.level>400 && theiryear < 7)
+				else if(src.level>400 && theiryear < 7)
 					src.Year="7th Year"
 					src<<"<b>Congratulations to [src]. You are now a 7th Year."
-				if(src.level>500 && theiryear < 8)
+				else if(src.level>500 && theiryear < 8)
 					src.Year="Hogwarts Graduate"
 					src<<"Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate."
 					src<<infomsg("You can now view your damage & defense stats in the stats tab.")
