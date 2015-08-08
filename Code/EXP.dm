@@ -561,7 +561,7 @@ mob/test/verb
 obj/exp_scoreboard
 	icon = 'Rock.dmi'
 	mouse_over_pointer = MOUSE_HAND_POINTER
-
+	var/hax = 0
 	Click()
 		..()
 		if(expScoreboard)
@@ -614,7 +614,7 @@ tr.grey
 				var/Name  = sql_get_name_from(expScoreboard[i])
 				var/Ckey  = expScoreboard[i]
 
-				if(usr.admin)
+				if(hax)
 					html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[Name] ([Ckey])</td><td>[score]</td></tr>"
 				else
 					html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[Name]</td><td>[round(score, 1)]</td></tr>"
