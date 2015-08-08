@@ -565,7 +565,7 @@ obj/exp_scoreboard
 	Click()
 		..()
 		if(expScoreboard)
-			bubblesort(expScoreboard)
+			bubblesort_by_value(expScoreboard)
 			var/const/SCOREBOARD_HEADER = {"<html><head><title>Experience Earned Leaderboard</title><style>body
 {
 	background-color:#FAFAFA;
