@@ -89,6 +89,7 @@ Event
 			spawn()
 				scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
 				RandomizeShop()
+				rewardExpWeek()
 
 	RandomEvents
 		fire()
