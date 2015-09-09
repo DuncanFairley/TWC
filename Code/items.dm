@@ -2014,6 +2014,29 @@ obj/items/rosesbook
 		else
 			..()
 
+
+obj/items/spellbook
+	name       = "The Crappy Artist's Guide to Stick Figures"
+	icon       = 'Books.dmi'
+	icon_state = "spell"
+
+	var/spell
+
+	New()
+		..()
+		spell = pick(spellList)
+		name  = spellList[spell]
+
+		name = pick("All about [name]", "Book of [name]", "Mystery of [name]", "[name]: 101")
+
+	Click()
+		if(src in usr)
+			usr<<"<b><font color=white><font size=3>You learned Crapus Sticketh."
+			usr.verbs += /mob/Spells/verb/Crapus_Sticketh
+			Consume()
+		else
+			..()
+
 obj/items/stickbook
 	name="The Crappy Artist's Guide to Stick Figures"
 	icon='Books.dmi'
