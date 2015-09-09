@@ -129,7 +129,7 @@ proc
 			RandomizeShop()
 			var/date = time_until("Sunday", "00")
 			if(date != -1)
-				var/Event/e = new
+				var/Event/RandomizeShop/e = new
 				scheduler.schedule(e, world.tick_lag * 10 * date)
 		init_quests()
 
