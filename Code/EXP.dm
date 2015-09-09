@@ -498,7 +498,7 @@ expRank
 		maxExp = 100000
 
 		const
-			MAX  = 60
+			MAX  = 72
 			TIER = 4
 
 	proc
