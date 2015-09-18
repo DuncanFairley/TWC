@@ -76,7 +76,7 @@ Duel
 	Del()
 		for(var/turf/duelblock/B in block(locate(duelcenter.x-5,duelcenter.y,duelcenter.z),locate(duelcenter.x+5,duelcenter.y,duelcenter.z)))
 			B.density = 0
-		player1.movable = 0
+		if(player1)player1.movable = 0
 		if(player2)player2.movable = 0
 		..()
 	proc
