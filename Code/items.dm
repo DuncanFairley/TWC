@@ -123,7 +123,7 @@ obj/items
 		Refresh()
 			UpdateDisplay()
 
-			if(stack > 1)
+			if(stack > 1 && dropable)
 				verbs += new/obj/items/proc/Drop_All()
 			else
 				verbs -= new/obj/items/proc/Drop_All()
@@ -2010,6 +2010,29 @@ obj/items/rosesbook
 		if(src in usr)
 			usr<<"<b><font color=red><font size=3>You learned Herbificus Maxima."
 			usr.verbs += /mob/Spells/verb/Herbificus_Maxima
+			Consume()
+		else
+			..()
+
+
+obj/items/spellbook
+	name       = "The Crappy Artist's Guide to Stick Figures"
+	icon       = 'Books.dmi'
+	icon_state = "spell"
+
+	var/spell
+
+	New()
+		..()
+		spell = pick(spellList)
+		name  = spellList[spell]
+
+		name = pick("All about [name]", "Book of [name]", "Mystery of [name]", "[name]: 101")
+
+	Click()
+		if(src in usr)
+			usr<<"<b><font color=white><font size=3>You learned Crapus Sticketh."
+			usr.verbs += /mob/Spells/verb/Crapus_Sticketh
 			Consume()
 		else
 			..()

@@ -131,7 +131,7 @@ obj
 					while(src && usr && usr.readbooks == 1 && (usr in ohearers(src, 1)))
 						var/exp = get_exp(usr.level) / (usr:presence ? 1 : 3)
 						exp = round(rand(exp - exp / 10, exp + exp / 10))
-						usr:addExp(exp, 1)
+						usr:addExp(exp, 1, 0)
 						if(usr.level > 500) usr.gold += round(rand(3,6) / (usr:presence ? 1 : 3))
 						sleep(15)
 					if(usr)
@@ -419,6 +419,11 @@ proc
 				L.Add(p)
 		return L
 
+	ordinal(num)
+		if(num == 1) return "1st"
+		if(num == 2) return "2nd"
+		if(num == 3) return "3rd"
+
 	split(txt, d)
 		#ifdef DEBUG
 		ASSERT(istext(txt))
@@ -454,14 +459,15 @@ mob/Player
 				return rankIcons["[rankLevel.level]"]
 			return rankIcons["0"]
 
-		addExp(amount, silent = 0)
+		addExp(amount, silent = 0, log = 1)
 
-			if(!expScoreboard) expScoreboard = list()
+			if(log)
+				if(!expScoreboard) expScoreboard = list()
 
-			if(ckey in expScoreboard)
-				expScoreboard["[ckey]"] += amount / 1000
-			else
-				expScoreboard["[ckey]"]  = amount / 1000
+				if(ckey in expScoreboard)
+					expScoreboard["[ckey]"] += amount / 1000
+				else
+					expScoreboard["[ckey]"]  = amount / 1000
 
 			if(level < lvlcap)
 				amount = round(amount, 1)
@@ -492,7 +498,7 @@ expRank
 		maxExp = 100000
 
 		const
-			MAX  = 60
+			MAX  = 72
 			TIER = 4
 
 	proc
@@ -557,11 +563,33 @@ mob/test/verb
 	Clear_Exp_Log()
 		expScoreboard = null
 
+proc/rewardExpWeek()
+	if(expScoreboard)
+		bubblesort_by_value(expScoreboard)
+
+		for(var/i = 0 to 2)
+			if(expScoreboard.len <= i) break
+
+			var/winnerCkey = expScoreboard[expScoreboard.len - i]
+
+			mail(winnerCkey, infomsg("Experience Week [ordinal(i + 1)] Prize, congratulations!"), 150000 - 50000*i)
+
+			var/t = pickweight(list(/obj/items/chest/basic_chest = 45,
+		                        /obj/items/chest/wizard_chest    = 15,
+		                        /obj/items/chest/pentakill_chest = 15,
+								/obj/items/chest/prom_chest      = 10,
+								/obj/items/chest/summer_chest    = 10,
+		                        /obj/items/chest/sunset_chest    = 5))
+
+			var/obj/o = new t
+			mail(winnerCkey, infomsg("You also get a random chest!"), o)
+
+		expScoreboard = null
 
 obj/exp_scoreboard
 	icon = 'Rock.dmi'
 	mouse_over_pointer = MOUSE_HAND_POINTER
-
+	var/hax = 0
 	Click()
 		..()
 		if(expScoreboard)
@@ -614,7 +642,7 @@ tr.grey
 				var/Name  = sql_get_name_from(expScoreboard[i])
 				var/Ckey  = expScoreboard[i]
 
-				if(usr.admin)
+				if(hax)
 					html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[Name] ([Ckey])</td><td>[score]</td></tr>"
 				else
 					html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[Name]</td><td>[round(score, 1)]</td></tr>"

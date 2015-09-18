@@ -647,9 +647,18 @@ mob/Spells/verb/Aqua_Eructo()
 
 mob/Spells/verb/Inflamari()
 	set category="Spells"
-	var/dmg = round(usr.level * 0.9) + clothDmg
-	if(dmg<10)dmg=10
-	else if(dmg>1000)dmg = 1000
+	var/dmg = usr.level * 0.9 + clothDmg
+
+	if(usr.level < 200)
+		dmg *= 1 + (200 - usr.level)/100
+
+	if(dmg <= 10)
+		dmg = 10 + rand(1,5)
+	else if(dmg > 1000)
+		dmg = 1000
+	else
+		dmg = round(dmg, 1)
+
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
 		castproj(icon_state = "fireball", damage = dmg, name = "Inflamari")
 mob/Spells/verb/Glacius()

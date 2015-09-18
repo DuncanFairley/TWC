@@ -276,23 +276,25 @@ matchmaking
 
 			var/list/L = list(winTeam.player, loseTeam.player)
 			for(var/mob/Player/p in L)
-				if(p && prob(15))
-					var/prize
-					if(loser.rating > 600 && winner.rating > 600 && prob(30))
-						prize = pick(/obj/items/chest/wizard_chest,
-						             /obj/items/chest/duel_chest,
-						             /obj/items/chest/basic_chest,
-						             /obj/items/magic_stone/memory)
-					else
-						prize = pick(/obj/items/chest/basic_chest,
-									 /obj/items/wearable/title/Duelist,
-									 /obj/items/wearable/title/Wizard,
-									 /obj/items/wearable/title/Determined,
-									 /obj/items/wearable/title/Battlemage)
+				if(p)
+					p.addExp(20000)
+					if(prob(15))
+						var/prize
+						if(loser.rating > 600 && winner.rating > 600 && prob(30))
+							prize = pick(/obj/items/chest/wizard_chest,
+							             /obj/items/chest/duel_chest,
+							             /obj/items/chest/basic_chest,
+							             /obj/items/magic_stone/memory)
+						else
+							prize = pick(/obj/items/chest/basic_chest,
+										 /obj/items/wearable/title/Duelist,
+										 /obj/items/wearable/title/Wizard,
+										 /obj/items/wearable/title/Determined,
+										 /obj/items/wearable/title/Battlemage)
 
-					var/obj/o = new prize (p)
-					p.Resort_Stacking_Inv()
-					p << infomsg("You receive [o.name]! How lucky!")
+						var/obj/o = new prize (p)
+						p.Resort_Stacking_Inv()
+						p << infomsg("You receive [o.name]! How lucky!")
 
 
 mob/Player/var/tmp/arena/rankedArena

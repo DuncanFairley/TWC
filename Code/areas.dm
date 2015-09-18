@@ -441,7 +441,10 @@ area
 				M << infomsg("<b>Welcome to your common room.</b>")
 			else
 				M.followplayer = 0
+				var/dense = M.density
+				M.density = 0
 				step(M, turn(M.dir, 180))
+				M.density = dense
 				M << errormsg("<b>This isn't your common room.</b>")
 
 		GryffindorCommon

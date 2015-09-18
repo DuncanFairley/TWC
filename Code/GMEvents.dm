@@ -24,6 +24,7 @@ mob/TalkNPC
 		*/
 		Item
 			var/EventItem
+			var/Unique
 
 			Talk()
 				set src in oview(3)
@@ -31,6 +32,10 @@ mob/TalkNPC
 					usr << " <font size=2 color=red><b>[src]</b> : </font>I have nothing to give you."
 					return
 				if(..())
+					if(Unique && (locate(text2path(EventItem)) in usr))
+						usr << " <font size=2 color=red><b>[src]</b> : </font>You already have the item I'm giving, move along!"
+						return
+
 					var/obj/O = new EventItem(usr)
 					usr:Resort_Stacking_Inv()
 					usr << " <font size=2 color=red>[src] hands you their [O.name]."
