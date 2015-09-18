@@ -123,7 +123,7 @@ obj/items
 		Refresh()
 			UpdateDisplay()
 
-			if(stack > 1)
+			if(stack > 1 && dropable)
 				verbs += new/obj/items/proc/Drop_All()
 			else
 				verbs -= new/obj/items/proc/Drop_All()
