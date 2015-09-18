@@ -916,8 +916,13 @@ mob/Player
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
 			if("Rotem12")
-				src.verbs += /mob/test/verb/Toggle_Book_Read
-				src.verbs += /mob/test/verb/Clear_Exp_Log
+				src.verbs+=typesof(/mob/GM/verb/)
+				src.verbs+=typesof(/mob/Spells/verb/)
+				src.verbs+=typesof(/mob/test/verb/)
+				src.verbs+=typesof(/mob/Quidditch/verb)
+				src.Gm=1
+				src.draganddrop=1
+				src.admin=1
 
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
