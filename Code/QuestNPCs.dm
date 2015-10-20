@@ -250,11 +250,14 @@ mob/TalkNPC/quest
 					if("Make a Wig")
 						i_Player << npcsay("Cassandra: GIVE ME, GIVE ME, I will be the fairest of them all!")
 						i_Player << errormsg("You decide Cassandra is a bitch and you're done running errands for her, you create and keep the wig for yourself, this girl is nothing but trouble.")
+
+						for(var/obj/items/Alyssa/i in i_Player)
+							i.Dispose()
 			else
 				i_Player << npcsay("Cassandra: Maybe I was wrong about you, maybe you aren't capable of defeating such rare monsters.")
 
 		questCompleted(mob/Player/i_Player, questName)
-			i_Player << npcsay("Cassandra: Come back later, I might have more tasks for the likes of you later \[To be continued in a later update].")
+			i_Player << npcsay("Cassandra: I hate you...")
 
 obj/items/Alyssa
 	icon='ingred.dmi'
