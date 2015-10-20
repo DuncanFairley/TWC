@@ -208,7 +208,7 @@ mob/TalkNPC/quest
 
 	Cassandra
 		icon_state="alyssa"
-		questPointers = list("Make a Fortune", "Make a Spell")
+		questPointers = list("Make a Fortune", "Make a Spell", "Make a Wig")
 		Talk()
 			set src in oview(3)
 			Quest(usr)
@@ -231,6 +231,8 @@ mob/TalkNPC/quest
 				if("Make a Spell")
 					i_Player << npcsay("Cassandra: You who helped me once before, how about you help me again, thanks to you I'm rich but sadly gold can not buy me true love, however, I did manage to find a way to fulfil my desires.")
 					i_Player << npcsay("Cassandra: There is a spell capable of changing the laws of magic, this will help me find what I seek. You'll have to do what you did last time only this time I need you to collect more powerful elements.")
+				if("Make a Wig")
+					i_Player << npcsay("Cassandra: Hey... Am I pretty? This boy rejected me... I'm rich and powerful but it's not enough, I want to be the most beautiful girl in the world-- nay, the universe! You my dear slave will help me accomplish that goal!")
 
 			..(i_Player, questName)
 
@@ -245,6 +247,9 @@ mob/TalkNPC/quest
 					if("Make a Spell")
 						i_Player << npcsay("Cassandra: Hmmph! I could've done it myself but I'm a lady, here you can have this wand, I don't need it anymore...")
 						i_Player << errormsg("Cassandra takes the monster essences you've collected. She's going to be extremely powerful and get all her heart's desires while you are stuck with an old stick.")
+					if("Make a Wig")
+						i_Player << npcsay("Cassandra: GIVE ME, GIVE ME, I will be the fairest of them all!")
+						i_Player << errormsg("You decide Cassandra is a bitch and you're done running errands for her, you create and keep the wig for yourself, this girl is nothing but trouble.")
 			else
 				i_Player << npcsay("Cassandra: Maybe I was wrong about you, maybe you aren't capable of defeating such rare monsters.")
 

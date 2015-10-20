@@ -1168,6 +1168,8 @@ obj/items/wearable/wigs/female_red_wig
 	icon = 'female_red_wig.dmi'
 obj/items/wearable/wigs/female_teal_wig
 	icon = 'female_teal_wig.dmi'
+obj/items/wearable/wigs/female_royale_wig
+	icon = 'female_royale_wig.dmi'
 
 //Holiday//
 obj/items/wearable/wigs/female_christmas_wig

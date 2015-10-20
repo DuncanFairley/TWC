@@ -432,6 +432,30 @@ quest
 			desc = "You have all the monster essences, go back to Cassandra for your reward."
 			reqs = list("Cassandra" = 1)
 
+	MakeAWig
+		name = "Make a Wig"
+		reward = /questReward/RoyaleWig
+
+		Kill
+			desc = "Cassandra wishes to create a beautiful wig to distract everyone from her hideous face... and personality."
+			reqs = list("Kill Troll" 			 = 69,
+						"Kill Wyvern"            = 300,
+						"Demonic Essence"        = 40,
+						"Kill Demon Rat"         = 400,
+			            "Kill Floating Eye"      = 300,
+			            "Kill Wisp"              = 200,
+			            "Kill Player"            = 100,
+			            "Kill Basilisk"          = 3,
+			            "Kill Stickman"          = 2,
+			            "Kill Eye of The Fallen" = 1,
+			            "Kill Tamed Dog"         = 10,
+			            "Onion Root"             = 1,
+			            "Indigo Seeds"           = 1,
+			            "Silver Spider Legs"     = 1)
+		Reward
+			desc = "You collected everything you required, go back to Cassandra for your reward."
+			reqs = list("Cassandra" = 1)
+
 	Fred
 		name = "On House Arrest"
 		reward = /questReward/Gold
@@ -519,6 +543,9 @@ questReward
 	RoyaleWand
 		gold  = 32000
 		items = /obj/items/wearable/wands/royale_wand
+	RoyaleWig
+		gold  = 40000
+		items = /obj/items/wearable/wigs/female_royale_wig
 	PVP1
 		gold  = 15000
 		exp   = 15000
