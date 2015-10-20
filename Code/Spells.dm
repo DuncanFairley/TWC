@@ -2026,7 +2026,7 @@ client
 			mob.overlays-=image('AFK.dmi',icon_state="AFK4")
 			mob.overlays-='AFK.dmi'
 
-		if(mob:auctionInfo)
+		if(mob:player && mob:auctionInfo)
 			mob:auctionClosed()
 			winshow(src, "Auction", 0)
 
