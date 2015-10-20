@@ -764,6 +764,8 @@ tr.grey
 				if(skill_rating[i] in competitiveBans) continue
 				var/skill_stats/s = skill_rating[skill_rating[i]]
 				if(s.wins < WINS_REQ) continue
+				if(world.realtime - s.time > 12096000) continue
+
 				var/seconderySkillGroup
 				if(s.rating >= 1800 && skill_rating.len - i <= 2)
 					seconderySkillGroup = " [1 + skill_rating.len - i]"
