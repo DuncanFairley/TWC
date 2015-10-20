@@ -816,11 +816,13 @@ dmifont
 		if(color=="#fff") color="#ffffff"
 		if(outline)
 			s.DFP_Outline(color, outline)
-		else if(color != "#ffffff")
-			s.Blend(color, ICON_MULTIPLY)
+	//	else if(color != "#ffffff")
+	//		s.Blend(color, ICON_MULTIPLY)
 		var/obj/O = new
 		O.layer = layer
 		O.icon = s
+		O.color = color
+		O.appearance_flags = RESET_COLOR|RESET_ALPHA
 #if DM_VERSION >= 455
 		var/xinc = icon_width
 		var/yinc = 0

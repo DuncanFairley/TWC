@@ -143,10 +143,11 @@ matchmaking
 			if(!matchmaking && queue.len >= 2)
 				matchmaking = TRUE
 				spawn(rand(50,100))
-					bubblesort_by_value(queue)
-					var/i = 0
-					while(queue && queue.len - i >= 2)
-						i += matchup(i)
+					if(queue && queue.len >= 2)
+						bubblesort_by_value(queue)
+						var/i = 0
+						while(queue && queue.len - i >= 2)
+							i += matchup(i)
 					matchmaking = FALSE
 
 
@@ -287,6 +288,7 @@ matchmaking
 							             /obj/items/magic_stone/memory)
 						else
 							prize = pick(/obj/items/chest/basic_chest,
+										 /obj/items/chest/community1_chest,
 										 /obj/items/wearable/title/Duelist,
 										 /obj/items/wearable/title/Wizard,
 										 /obj/items/wearable/title/Determined,
@@ -764,6 +766,8 @@ tr.grey
 				if(skill_rating[i] in competitiveBans) continue
 				var/skill_stats/s = skill_rating[skill_rating[i]]
 				if(s.wins < WINS_REQ) continue
+				if(world.realtime - s.time > 12096000) continue
+
 				var/seconderySkillGroup
 				if(s.rating >= 1800 && skill_rating.len - i <= 2)
 					seconderySkillGroup = " [1 + skill_rating.len - i]"

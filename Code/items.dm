@@ -143,7 +143,6 @@ obj/items
 					for(var/k in owner.UsedKeys)
 						if(owner.UsedKeys[k] == src)
 							owner.removeKey(k)
-							owner.UsedKeys -= k
 							break
 
 			owner.Resort_Stacking_Inv()
@@ -222,8 +221,6 @@ obj/items/New()
 
 obj/items/wearable
 	icon_state = "item"
-	var/showoverlay = 1
-	var/wear_layer = FLOAT_LAYER - 5
 
 	var
 		const
@@ -234,6 +231,9 @@ obj/items/wearable
 
 		bonus   = NOUPGRADE
 		quality = 0
+
+		showoverlay = TRUE
+		wear_layer  = FLOAT_LAYER - 5
 
 	Compare(obj/items/i)
 		. = ..()
@@ -293,9 +293,10 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.Lwearing.Remove(src)
 		if(!owner.Lwearing) owner.Lwearing = null// deinitiliaze the list if not in use
 		if(showoverlay)
-			var/obj/o = new
+			var/image/o = new
 			o.icon = src.icon
 			o.layer = wear_layer
+
 			owner.overlays -= o
 		suffix = null
 		UpdateDisplay()
@@ -308,10 +309,12 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		return REMOVED
 	else
 		if(showoverlay && !owner.trnsed)
-			var/obj/o = new
+			var/image/o = new
 			o.icon = src.icon
 			o.layer = wear_layer
+
 			owner.overlays += o
+
 		if(!owner.Lwearing) owner.Lwearing = list()
 		owner.Lwearing.Add(src)
 		suffix = "worn"
@@ -1165,6 +1168,8 @@ obj/items/wearable/wigs/female_red_wig
 	icon = 'female_red_wig.dmi'
 obj/items/wearable/wigs/female_teal_wig
 	icon = 'female_teal_wig.dmi'
+obj/items/wearable/wigs/female_royale_wig
+	icon = 'female_royale_wig.dmi'
 
 //Holiday//
 obj/items/wearable/wigs/female_christmas_wig
@@ -1233,6 +1238,7 @@ obj/items/wearable/shoes/duel_shoes
 	icon = 'duel_shoes.dmi'
 obj/items/wearable/shoes/blood_shoes
 	icon = 'blood_shoes.dmi'
+
 
 obj/items/wearable/scarves
 	bonus = 0
@@ -1311,6 +1317,21 @@ obj/items/wearable/scarves/halloween_scarf
 	icon = 'scarf_halloween.dmi'
 obj/items/wearable/scarves/pastel_scarf
 	icon = 'scarf_pastel.dmi'
+
+// Community Scarves //
+obj/items/wearable/scarves/heartscarf
+	icon = 'scarf_heart.dmi'
+obj/items/wearable/scarves/snake_scarf
+	icon = 'scarf_snake.dmi'
+obj/items/wearable/scarves/booster_scarf
+	icon = 'scarf_booster.dmi'
+obj/items/wearable/scarves/alien_scarf
+	icon = 'scarf_alien.dmi'
+obj/items/wearable/scarves/icarus_scarf
+	icon = 'scarf_icarus.dmi'
+obj/items/wearable/scarves/sunrise_scarf
+	icon = 'scarf_sunrise.dmi'
+
 /////////
 
 obj/items/wearable/afk
@@ -3058,6 +3079,11 @@ obj/items
 			icon_state = "red"
 			drops      = "blood"
 
+		community1_chest
+			name = "community #1 chest"
+			icon_state = "blue"
+			drops      = "community1"
+
 	key
 		icon = 'ChestKey.dmi'
 
@@ -3081,6 +3107,8 @@ obj/items
 			icon_state = "pink"
 		special_key
 			icon_state = "master"
+		community_key
+			icon_state = "blue"
 
 var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel_scarf       = 50,
 					                            /obj/items/wearable/shoes/duel_shoes         = 30,
@@ -3138,6 +3166,13 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 							 "blood"     = list(/obj/items/wearable/scarves/blood_scarf = 50,
 							 					/obj/items/wearable/shoes/blood_shoes   = 30,
 							 					/obj/items/wearable/wands/blood_wand    = 20),
+
+							 "community1"     = list(/obj/items/wearable/scarves/heartscarf    = 16,
+							 					     /obj/items/wearable/scarves/alien_scarf   = 22,
+							 					     /obj/items/wearable/scarves/snake_scarf   = 11,
+							 					     /obj/items/wearable/scarves/booster_scarf = 25,
+							 					     /obj/items/wearable/scarves/sunrise_scarf = 10,
+							 					     /obj/items/wearable/scarves/icarus_scarf  = 16),
 
 							 "gold only" = list(/obj/items/magic_stone/memory     = 10,
 							                    /obj/items/herosbrace             = 20,
