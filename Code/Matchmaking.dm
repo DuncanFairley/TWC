@@ -288,6 +288,7 @@ matchmaking
 							             /obj/items/magic_stone/memory)
 						else
 							prize = pick(/obj/items/chest/basic_chest,
+										 /obj/items/chest/community1_chest,
 										 /obj/items/wearable/title/Duelist,
 										 /obj/items/wearable/title/Wizard,
 										 /obj/items/wearable/title/Determined,
