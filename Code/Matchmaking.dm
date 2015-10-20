@@ -143,10 +143,11 @@ matchmaking
 			if(!matchmaking && queue.len >= 2)
 				matchmaking = TRUE
 				spawn(rand(50,100))
-					bubblesort_by_value(queue)
-					var/i = 0
-					while(queue && queue.len - i >= 2)
-						i += matchup(i)
+					if(queue && queue.len >= 2)
+						bubblesort_by_value(queue)
+						var/i = 0
+						while(queue && queue.len - i >= 2)
+							i += matchup(i)
 					matchmaking = FALSE
 
 
