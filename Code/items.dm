@@ -143,7 +143,6 @@ obj/items
 					for(var/k in owner.UsedKeys)
 						if(owner.UsedKeys[k] == src)
 							owner.removeKey(k)
-							owner.UsedKeys -= k
 							break
 
 			owner.Resort_Stacking_Inv()
@@ -222,8 +221,6 @@ obj/items/New()
 
 obj/items/wearable
 	icon_state = "item"
-	var/showoverlay = 1
-	var/wear_layer = FLOAT_LAYER - 5
 
 	var
 		const
@@ -234,6 +231,9 @@ obj/items/wearable
 
 		bonus   = NOUPGRADE
 		quality = 0
+
+		showoverlay = TRUE
+		wear_layer  = FLOAT_LAYER - 5
 
 	Compare(obj/items/i)
 		. = ..()
@@ -293,9 +293,10 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.Lwearing.Remove(src)
 		if(!owner.Lwearing) owner.Lwearing = null// deinitiliaze the list if not in use
 		if(showoverlay)
-			var/obj/o = new
+			var/image/o = new
 			o.icon = src.icon
 			o.layer = wear_layer
+
 			owner.overlays -= o
 		suffix = null
 		UpdateDisplay()
@@ -308,10 +309,12 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		return REMOVED
 	else
 		if(showoverlay && !owner.trnsed)
-			var/obj/o = new
+			var/image/o = new
 			o.icon = src.icon
 			o.layer = wear_layer
+
 			owner.overlays += o
+
 		if(!owner.Lwearing) owner.Lwearing = list()
 		owner.Lwearing.Add(src)
 		suffix = "worn"
