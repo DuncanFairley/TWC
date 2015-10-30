@@ -1,0 +1,5 @@
+Stephen001.EventScheduling version=0.6.2
+Audeuro.INIReader2 version=3
+Theodis.Pathfinder version=10
+Deadron.TextHandling version=5
+Deadron.Basecamp version=23
