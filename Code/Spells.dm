@@ -2021,10 +2021,7 @@ client
 		if(mob.away)
 			mob.away = 0
 			mob.status=usr.here
-			mob.overlays-=image('AFK.dmi',icon_state="AFK2")
-			mob.overlays-=image('AFK.dmi',icon_state="AFK3")
-			mob.overlays-=image('AFK.dmi',icon_state="AFK4")
-			mob.overlays-='AFK.dmi'
+			mob.RemoveAFKOverlay()
 
 		if(mob:player && mob:auctionInfo)
 			mob:auctionClosed()
