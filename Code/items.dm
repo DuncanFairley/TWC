@@ -3286,7 +3286,7 @@ obj/roulette
 		i.antiTheft = 1
 		i.owner     = playerCkey
 
-		goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [playerName]([playerCkey]) got a [i.name] from a chest.<br />"
+		goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [playerName]([playerCkey]) got a [i.name] from a chest.<br />"
 
 		spawn(600)
 			if(i)

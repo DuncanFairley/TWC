@@ -1267,7 +1267,7 @@ mob/Spells/verb/Telendevour()
 			else
 				usr.client.eye = M
 				usr.client.perspective = EYE_PERSPECTIVE
-				file("Logs/Telenlog.text") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] telendevoured [M]"
+				file("Logs/Telenlog.text") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] telendevoured [M]"
 				var/randnum = rand(1,7)
 				hearers() << "[usr]:<font size=2><font color=blue><b> Telendevour!</b></font>"
 				usr:learnSpell("Telendevour")

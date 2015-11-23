@@ -115,7 +115,7 @@ mob/Player
 							html = {"
 <table border="1">
 	<tr>
-		<td colspan="2"><center>[time2text(world.realtime,"MMM DD - hh:mm")]</center></td>
+		<td colspan="2"><center>[time2text(world.realtime,"MMM DD YYYY- hh:mm")]</center></td>
 	</tr>
 		<td>[src]([src.key])([src.client.address])</td>
 		<td>[trade.with]([trade.with.key])([trade.with.client.address])</td>
