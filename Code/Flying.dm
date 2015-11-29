@@ -1674,7 +1674,7 @@ turf
 		layer=4
 		var
 			tmp/obj/rain
-			isice = 0 // Edit to 1 for winter
+			isice = 1 // Edit to 1 for winter
 
 		New()
 			..()
