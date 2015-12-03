@@ -10,3 +10,5 @@
 var/const
 	SWAPMAP_Z = 27
 	lvlcap = 700
+
+	WINTER = TRUE

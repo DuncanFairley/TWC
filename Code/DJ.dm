@@ -42,7 +42,7 @@ proc/isDJ(mob/Player/p)
 	if(DJs && (p.ckey in DJs))
 		p.verbs += /mob/GM/verb/Toggle_TWC_Radio
 		p.verbs += /mob/GM/verb/Prize_Draw
-	else if(!(p.Gm || p.admin))
+	else if(!locate(/mob/GM/verb/GM_chat))
 		p.verbs -= /mob/GM/verb/Toggle_TWC_Radio
 		p.verbs -= /mob/GM/verb/Prize_Draw
 		p.verbs -= /mob/GM/verb/Hire_DJ

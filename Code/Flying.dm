@@ -269,19 +269,28 @@ obj
 		name       = "Tree"
 		icon       = 'BigTree.dmi'
 		icon_state = "stump"
+
 		density    = 1
 		pixel_x    = -64
 
+
 		New()
 			..()
+
 			var/obj/tree_top/t = new(loc)
 			t.y++
 
-			if(prob(60))
-				var/r = rand(160, 255)
-				var/g = rand(82, r)
-				var/b = rand(45, g)
-				color = rgb(r, g, b)
+			if(WINTER)
+				invisibility = 100
+			else
+				if(prob(60))
+					var/r = rand(160, 255)
+					var/g = rand(82, r)
+					var/b = rand(45, g)
+					color = rgb(r, g, b)
+
+
+
 
 	tree_top
 		name       = "Tree"
@@ -294,7 +303,18 @@ obj
 
 		New()
 			..()
-			if(prob(80)) color = rgb(0, rand(150, 220), 0)
+			if(WINTER)
+				if(prob(70)) color = rgb(170, rand(170, 240), 170)
+
+				var/r = rand(1,3)
+				icon_state = "stump[r]_winter"
+
+				if(prob(75))
+					var/image/i = new('BigTree.dmi', "snow[r]")
+					i.appearance_flags = RESET_COLOR
+					overlays += i
+			else
+				if(prob(80)) color = rgb(0, rand(150, 220), 0)
 
 	flyblock
 		invisibility = 10
@@ -1674,11 +1694,13 @@ turf
 		layer=4
 		var
 			tmp/obj/rain
-			isice = 0 // Edit to 1 for winter
+			isice = 0
 
 		New()
 			..()
-			if(isice) ice()
+
+			if(WINTER) isice = 1
+			if(isice)  ice()
 
 		Enter(atom/movable/O, atom/oldloc)
 			if(icon_state == "water")
