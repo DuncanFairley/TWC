@@ -90,18 +90,7 @@ mob
 							if(name == desiredname) return
 							Log_admin("[usr] has changed their name to [desiredname].")
 							usr.name = desiredname
-							usr.underlays = list()
-							switch(usr.House)
-								if("Hufflepuff")
-									usr.GenerateNameOverlay(242,228,22)
-								if("Slytherin")
-									usr.GenerateNameOverlay(41,232,23)
-								if("Gryffindor")
-									usr.GenerateNameOverlay(240,81,81)
-								if("Ravenclaw")
-									usr.GenerateNameOverlay(13,116,219)
-								if("Ministry")
-									usr.GenerateNameOverlay(255,255,255)
+							usr:addNameTag()
 							usr:spellpoints -= 25
 						else
 							usr << errormsg("You don't have enough spell points. You need [25 - usr:spellpoints] more spell points.")

@@ -710,18 +710,7 @@ mob
 			var/ans = alert(src,"[select] selected \"[name2be]\". Is this acceptable?","Name Change","Yes","No")
 			if(ans == "Yes")
 				select.name = name2be
-				select.underlays = list()
-				switch(select.House)
-					if("Hufflepuff")
-						select.GenerateNameOverlay(242,228,22)
-					if("Slytherin")
-						select.GenerateNameOverlay(41,232,23)
-					if("Gryffindor")
-						select.GenerateNameOverlay(240,81,81)
-					if("Ravenclaw")
-						select.GenerateNameOverlay(13,116,219)
-					if("Ministry")
-						select.GenerateNameOverlay(255,255,255)
+				select:addNameTag()
 				select << "Your selected name is accepted."
 			else
 				var/reason = input("The name was unacceptable due to it: (Finish the sentence)","Name Change") as text
@@ -1281,17 +1270,7 @@ mob
 				usr.cloaked=0
 				usr.density=1
 
-				switch(usr.House)
-					if("Hufflepuff")
-						GenerateNameOverlay(242,228,22)
-					if("Slytherin")
-						GenerateNameOverlay(41,232,23)
-					if("Gryffindor")
-						GenerateNameOverlay(240,81,81)
-					if("Ravenclaw")
-						GenerateNameOverlay(13,116,219)
-					if("Ministry")
-						GenerateNameOverlay(255,255,255)
+				usr:addNameTag()
 		Freeze(var/mob/M in Players)
 			set popup_menu = 0
 			set category="Staff"

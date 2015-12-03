@@ -791,6 +791,7 @@ mob
 			character.Teleblock=0
 			if(!character.Interface) character.Interface = new(character)
 			character.startQuest("Tutorial: The Wand Maker")
+			character.BaseIcon()
 			src = null
 			spawn()
 				sql_check_for_referral(character)
@@ -807,6 +808,21 @@ mob/var
 mob/Player
 	player=1
 	NPC=0
+
+	proc
+		addNameTag()
+			switch(House)
+				if("Hufflepuff")
+					GenerateNameOverlay(242,228,22)
+				if("Slytherin")
+					GenerateNameOverlay(41,232,23)
+				if("Gryffindor")
+					GenerateNameOverlay(240,81,81)
+				if("Ravenclaw")
+					GenerateNameOverlay(13,116,219)
+				if("Ministry")
+					GenerateNameOverlay(255,255,255)
+
 	verb
 		Use_Statpoints()
 			set category = "Commands"
@@ -927,24 +943,13 @@ mob/Player
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
-		underlays = list()
 		if(timerMute > 0)
 			src << "<u>You're muted for [timerMute] minute[timerMute==1 ? "" : "s"].</u>"
 			spawn() mute_countdown()
 		if(timerDet > 0)
 			src << "<u>You're in detention for [timerDet] minute[timerDet==1 ? "" : "s"].</u>"
 			spawn() detention_countdown()
-		switch(src.House)
-			if("Hufflepuff")
-				GenerateNameOverlay(242,228,22)
-			if("Slytherin")
-				GenerateNameOverlay(41,232,23)
-			if("Gryffindor")
-				GenerateNameOverlay(240,81,81)
-			if("Ravenclaw")
-				GenerateNameOverlay(13,116,219)
-			if("Ministry")
-				GenerateNameOverlay(255,255,255)
+		addNameTag()
 		Players.Add(src)
 		bubblesort_atom_name(Players)
 		if(housecupwinner)
@@ -972,6 +977,7 @@ mob/Player
 			loc.loc.Enter(src, src.loc)
 			loc.loc.Entered(src, src.loc)
 			src.ApplyOverlays(0)
+			BaseIcon()
 
 	proc/ApplyOverlays(ignoreBonus = 1)
 		src.overlays = list()
