@@ -379,10 +379,10 @@ mob
 			set name = "Auror Robes"
 			if(usr.aurorrobe==1)
 				usr.aurorrobe=0
-				usr.icon = usr.baseicon
 				usr:ApplyOverlays()
 				usr:addNameTag()
 				if(locate(/mob/GM/verb/GM_chat) in usr.verbs) usr.Gm = 1
+				usr.BaseIcon()
 			else
 				for(var/client/C)
 					if(C.eye)
@@ -399,15 +399,11 @@ mob
 				if(usr.trnsed)
 					usr.trnsed = 0
 					user.ApplyOverlays()
-				if(usr.Gender == "Female")
-					usr.icon = 'FemaleAuror.dmi'
-				else
-					usr.icon = 'MaleAuror.dmi'
+				usr.BaseIcon()
 		DErobes()
 			set category = "Clan"
 			set name = "Wear DE Robes"
 			if(usr.derobe==1)
-				usr.icon = usr.baseicon
 				usr.trnsed = 0
 				usr.derobe=0
 				usr:ApplyOverlays()
@@ -415,13 +411,13 @@ mob
 				usr << "You slip off your Death Eater robes."
 				usr.name = usr.prevname
 				usr.prevname = null
-				usr.underlays = list()
 				if(usr.Gender == "Male")
 					usr.gender = MALE
 				else if(usr.Gender == "Female")
 					usr.gender = FEMALE
 				else
 					usr.gender = MALE
+				usr.BaseIcon()
 				usr:addNameTag()
 			else
 				for(var/client/C)
@@ -431,7 +427,7 @@ mob
 							C.eye=C.mob
 				usr.trnsed = 1
 				usr.derobe=1
-				usr.icon = 'Deatheater.dmi'
+				usr.BaseIcon()
 				usr.overlays = null
 				if(usr.away)usr.ApplyAFKOverlay()
 				usr.gender = NEUTER

@@ -811,6 +811,7 @@ mob/Player
 
 	proc
 		addNameTag()
+			underlays = list()
 			switch(House)
 				if("Hufflepuff")
 					GenerateNameOverlay(242,228,22)

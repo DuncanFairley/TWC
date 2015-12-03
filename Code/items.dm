@@ -313,7 +313,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			o.icon = src.icon
 			o.layer = wear_layer
 
-			owner.overlays += o
+			if(!snowCurse) owner.overlays += o
 
 		if(!owner.Lwearing) owner.Lwearing = list()
 		owner.Lwearing.Add(src)
