@@ -364,13 +364,13 @@ mob
 
 	BaseIcon()
 		if(derobe)
-			icon   = 'Deatheater.dmi'
+			icon   = snowCurse ? 'SnowmanBlack.dmi' : 'Deatheater.dmi'
 			trnsed = 1
 		else if(aurorrobe)
 			if(Gender == "Female")
-				icon = 'FemaleAuror.dmi'
+				icon = snowCurse ? 'SnowmanWhite.dmi' : 'FemaleAuror.dmi'
 			else
-				icon = 'MaleAuror.dmi'
+				icon = snowCurse ? 'SnowmanWhite.dmi' : 'MaleAuror.dmi'
 		else ..()
 
 	GM/verb
@@ -381,18 +381,7 @@ mob
 				usr.aurorrobe=0
 				usr.icon = usr.baseicon
 				usr:ApplyOverlays()
-				usr.underlays = list()
-				switch(usr.House)
-					if("Hufflepuff")
-						GenerateNameOverlay(242,228,22)
-					if("Slytherin")
-						GenerateNameOverlay(41,232,23)
-					if("Gryffindor")
-						GenerateNameOverlay(240,81,81)
-					if("Ravenclaw")
-						GenerateNameOverlay(13,116,219)
-					if("Ministry")
-						GenerateNameOverlay(255,255,255)
+				usr:addNameTag()
 				if(locate(/mob/GM/verb/GM_chat) in usr.verbs) usr.Gm = 1
 			else
 				for(var/client/C)
@@ -433,17 +422,7 @@ mob
 					usr.gender = FEMALE
 				else
 					usr.gender = MALE
-				switch(usr.House)
-					if("Hufflepuff")
-						GenerateNameOverlay(242,228,22)
-					if("Slytherin")
-						GenerateNameOverlay(41,232,23)
-					if("Gryffindor")
-						GenerateNameOverlay(240,81,81)
-					if("Ravenclaw")
-						GenerateNameOverlay(13,116,219)
-					if("Ministry")
-						GenerateNameOverlay(255,255,255)
+				usr:addNameTag()
 			else
 				for(var/client/C)
 					if(C.eye)

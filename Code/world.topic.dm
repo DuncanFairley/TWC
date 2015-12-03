@@ -128,41 +128,19 @@ client/proc
 			if(locate(/mob/GM/verb/GM_chat) in mob.verbs) mob.Gm = 1
 			mob << "You slip off your Death Eater robes."
 			mob.name = mob.prevname
-			mob.underlays = list()
 			if(mob.Gender == "Male")
 				mob.gender = MALE
 			else if(mob.Gender == "Female")
 				mob.gender = FEMALE
 			else
 				mob.gender = MALE
-			switch(mob.House)
-				if("Hufflepuff")
-					mob.GenerateNameOverlay(242,228,22)
-				if("Slytherin")
-					mob.GenerateNameOverlay(41,232,23)
-				if("Gryffindor")
-					mob.GenerateNameOverlay(240,81,81)
-				if("Ravenclaw")
-					mob.GenerateNameOverlay(13,116,219)
-				if("Ministry")
-					mob.GenerateNameOverlay(255,255,255)
+			mob:addNameTag()
 		if(mob.aurorrobe && !(/mob/GM/verb/Auror_Robes in mob.verbs))
 			//You're no longer a DE but are in robes
 			mob.aurorrobe=0
 			mob.icon = mob.baseicon
 			mob:ApplyOverlays()
-			mob.underlays = list()
-			switch(mob.House)
-				if("Hufflepuff")
-					mob.GenerateNameOverlay(242,228,22)
-				if("Slytherin")
-					mob.GenerateNameOverlay(41,232,23)
-				if("Gryffindor")
-					mob.GenerateNameOverlay(240,81,81)
-				if("Ravenclaw")
-					mob.GenerateNameOverlay(13,116,219)
-				if("Ministry")
-					mob.GenerateNameOverlay(255,255,255)
+			mob:addNameTag()
 			if(locate(/mob/GM/verb/GM_chat) in mob.verbs) mob.Gm = 1
 		if(qry.RowCount() > 0)
 			qry.NextRow()

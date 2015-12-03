@@ -646,7 +646,9 @@ obj
 					minutes--
 					seconds = 59
 
-					pixel_x = minutes ? -8 : 2
+					if(minutes > 9)  pixel_x = -14
+					else if(minutes) pixel_x = -8
+					else             pixel_x = 2
 
 				updateDisplay()
 

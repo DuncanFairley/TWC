@@ -1044,26 +1044,26 @@ mob/Spells/verb/Incendio()
 mob/proc/BaseIcon()
 	if(Gender == "Female")
 		if(Gm)
-			icon = 'FemaleStaff.dmi'
+			icon = snowCurse ? 'SnowmanStaff.dmi' : 'FemaleStaff.dmi'
 		else if(House == "Gryffindor")
-			icon = 'FemaleGryffindor.dmi'
+			icon = snowCurse ? 'SnowmanRed.dmi' : 'FemaleGryffindor.dmi'
 		else if(House == "Ravenclaw")
-			icon = 'FemaleRavenclaw.dmi'
+			icon = snowCurse ? 'SnowmanBlue.dmi' : 'FemaleRavenclaw.dmi'
 		else if(House == "Slytherin")
-			icon = 'FemaleSlytherin.dmi'
+			icon = snowCurse ? 'SnowmanGreen.dmi' : 'FemaleSlytherin.dmi'
 		else if(House == "Hufflepuff")
-			icon = 'FemaleHufflepuff.dmi'
+			icon = snowCurse ? 'SnowmanYellow.dmi' : 'FemaleHufflepuff.dmi'
 	else
 		if(Gm)
-			icon = 'MaleStaff.dmi'
+			icon = snowCurse ? 'SnowmanStaff.dmi' : 'MaleStaff.dmi'
 		else if(House == "Gryffindor")
-			icon = 'MaleGryffindor.dmi'
+			icon = snowCurse ? 'SnowmanRed.dmi' : 'MaleGryffindor.dmi'
 		else if(House == "Ravenclaw")
-			icon = 'MaleRavenclaw.dmi'
+			icon = snowCurse ? 'SnowmanBlue.dmi' : 'MaleRavenclaw.dmi'
 		else if(House == "Slytherin")
-			icon = 'MaleSlytherin.dmi'
+			icon = snowCurse ? 'SnowmanGreen.dmi' : 'MaleSlytherin.dmi'
 		else if(House == "Hufflepuff")
-			icon = 'MaleHufflepuff.dmi'
+			icon = snowCurse ? 'SnowmanYellow.dmi' : 'MaleHufflepuff.dmi'
 
 mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 	set category="Spells"

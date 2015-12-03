@@ -90,18 +90,7 @@ obj/items/wearable/clan_robes
 
 	proc/remove(var/mob/Player/p)
 		toggle_hood(p, 0)
-		p.underlays = list()
-		switch(p.House)
-			if("Hufflepuff")
-				p.GenerateNameOverlay(242,228,22)
-			if("Slytherin")
-				p.GenerateNameOverlay(41,232,23)
-			if("Gryffindor")
-				p.GenerateNameOverlay(240,81,81)
-			if("Ravenclaw")
-				p.GenerateNameOverlay(13,116,219)
-			if("Ministry")
-				p.GenerateNameOverlay(255,255,255)
+		p.addNameTag()
 		if(locate(/mob/GM/verb/GM_chat) in p.verbs) p.Gm = 1
 		p.trnsed = 0
 		p.BaseIcon()
