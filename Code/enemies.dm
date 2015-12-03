@@ -726,6 +726,14 @@ mob
 												  /obj/items/lamps/triple_gold_lamp,
 												  /obj/items/wearable/afk/hot_chocolate))
 
+
+						Death(mob/Player/killer)
+							var/obj/snow_counter/count = locate("SnowCounter")
+							if(count.add())
+								new /mob/NPC/Enemies/Summoned/Boss/Snowman/Super (loc)
+
+								world << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
+
 						Attack(mob/M)
 							..()
 							if(!fired && target && state == HOSTILE)
