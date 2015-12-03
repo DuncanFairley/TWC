@@ -14,7 +14,7 @@ mob/proc/learnspell(path)
 			spellpoints++
 			src << "<b>You earnt a spell point! When you've gained at least 5, you can learn a spell with the Use Spellpoints button in Commands.</b>"
 			//src << "<i>As you've learned this spell previously, you've earnt a spellpoint instead. Each time you earn 5 spellpoints, you can learn a spell of your choice.</i>"
-			spellpointlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [src] earnt a spell point."
+			spellpointlog << "[time2text(world.realtime,"MMM DD YYYY- hh:mm")]: [src] earnt a spell point."
 		return 0
 	else
 		verbs += path
