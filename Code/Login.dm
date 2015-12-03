@@ -1004,7 +1004,9 @@ mob/Player
 			if(!ignoreBonus)
 				resetMaxHP()
 
-		if(src.away)src.ApplyAFKOverlay()
+		if(src.away)
+			world << 1
+			src.ApplyAFKOverlay()
 
 	verb
 		Say(t as text)
@@ -1405,13 +1407,10 @@ mob/Player
 
 mob
 	proc/ApplyAFKOverlay()
-		src.overlays-=image('AFK.dmi',icon_state="AFK1")
-		src.overlays-=image('AFK.dmi',icon_state="AFK2")
-		src.overlays-=image('AFK.dmi',icon_state="AFK3")
-		src.overlays-=image('AFK.dmi',icon_state="S")
-		src.overlays-=image('AFK.dmi',icon_state="G")
-		src.overlays-=image('AFK.dmi',icon_state="H")
-		src.overlays-=image('AFK.dmi',icon_state="R")
+		RemoveAFKOverlay()
+
+		if(!away) return
+
 		var/mob/Player/user = src
 		if(locate(/obj/items/wearable/afk/pimp_ring) in user.Lwearing)
 			if(src.House=="Slytherin")
@@ -1431,13 +1430,13 @@ mob
 
 mob
 	proc/RemoveAFKOverlay()
-		usr.overlays-=image('AFK.dmi',icon_state="AFK1")
-		usr.overlays-=image('AFK.dmi',icon_state="AFK2")
-		usr.overlays-=image('AFK.dmi',icon_state="AFK3")
-		usr.overlays-=image('AFK.dmi',icon_state="S")
-		usr.overlays-=image('AFK.dmi',icon_state="G")
-		usr.overlays-=image('AFK.dmi',icon_state="H")
-		usr.overlays-=image('AFK.dmi',icon_state="R")
+		overlays-=image('AFK.dmi',icon_state="AFK1")
+		overlays-=image('AFK.dmi',icon_state="AFK2")
+		overlays-=image('AFK.dmi',icon_state="AFK3")
+		overlays-=image('AFK.dmi',icon_state="S")
+		overlays-=image('AFK.dmi',icon_state="G")
+		overlays-=image('AFK.dmi',icon_state="H")
+		overlays-=image('AFK.dmi',icon_state="R")
 
 
 mob/Player
