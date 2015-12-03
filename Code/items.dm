@@ -1339,10 +1339,13 @@ obj/items/wearable/afk
 	Equip(var/mob/Player/owner, var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(. == WORN)
+			usr.ApplyAFKOverlay()
 			src.gender = owner.gender
 			for(var/obj/items/wearable/afk/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
+		else if(. == REMOVED)
+			usr.ApplyAFKOverlay()
 
 	pimp_ring
 		icon = 'pimpring.dmi'
@@ -3283,7 +3286,7 @@ obj/roulette
 		i.antiTheft = 1
 		i.owner     = playerCkey
 
-		goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [playerName]([playerCkey]) got a [i.name] from a chest.<br />"
+		goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [playerName]([playerCkey]) got a [i.name] from a chest.<br />"
 
 		spawn(600)
 			if(i)

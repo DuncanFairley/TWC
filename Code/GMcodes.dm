@@ -366,11 +366,11 @@ mob/test/verb/Remove_Junk()
 			var/alrt2 = alert("[person] has [person.bank.items.len] items. Would you like to delete them?",,"Yes","No")
 			if(alrt2 == "Yes") person.bank.items = list()
 proc/Log_admin(adminaction)
-	file("Logs/Adminlog.html")<<"[time2text(world.realtime,"MMM DD - hh:mm")]: [adminaction]<br />"
+	file("Logs/Adminlog.html")<<"[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [adminaction]<br />"
 proc/Log_gold(gold,var/mob/Player/from,var/mob/Player/too)
 	if(from.client.address == too.client.address)
 		goldlog<<"<b>[time2text(world.realtime,"MMM DD - hh:mm")]: [from]([from.key])([from.client.address]) gave [comma(gold)] gold to [too]([too.key])([too.client.address])</b><br />"
-	else if(gold>1000)goldlog<<"[time2text(world.realtime,"MMM DD - hh:mm")]: [from]([from.key])([from.client.address]) gave [gold] gold to [too]([too.key])([too.client.address])<br />"
+	else if(gold>1000)goldlog<<"[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [from]([from.key])([from.client.address]) gave [gold] gold to [too]([too.key])([too.client.address])<br />"
 mob/GM/verb
 	Check_EXP(mob/Player/p in Players)
 		set category = "Staff"
@@ -763,9 +763,9 @@ mob
 			if(!classdest) return
 			var/notes = input("Notes regarding class? (You're subbing for someone, etc.)") as text
 			if(notes)
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a HM class - Notes: [notes]<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a HM class - Notes: [notes]<br />"
 			else
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a HM class<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a HM class<br />"
 			curClass = "GCOM"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
@@ -777,9 +777,9 @@ mob
 			if(!classdest) return
 			var/notes = input("Notes regarding class? (You're subbing for someone, etc.)") as text
 			if(notes)
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a COMC class - Notes: [notes]<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a COMC class - Notes: [notes]<br />"
 			else
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a COMC class<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a COMC class<br />"
 			for(var/mob/Player/p in Players)
 				p << announcemsg("Care of Magical Creatures class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
 			curClass = "COMC"
@@ -791,9 +791,9 @@ mob
 			if(!classdest) return
 			var/notes = input("Notes regarding class? (You're subbing for someone, etc.)") as text
 			if(notes)
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Transfiguration class - Notes: [notes]<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Transfiguration class - Notes: [notes]<br />"
 			else
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Transfiguration class<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Transfiguration class<br />"
 			curClass = "Transfiguration"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
@@ -805,9 +805,9 @@ mob
 			if(!classdest) return
 			var/notes = input("Notes regarding class? (You're subbing for someone, etc.)") as text
 			if(notes)
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Duel class - Notes: [notes]<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Duel class - Notes: [notes]<br />"
 			else
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Duel class<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Duel class<br />"
 			curClass = "Duel"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
@@ -819,9 +819,9 @@ mob
 			if(!classdest) return
 			var/notes = input("Notes regarding class? (You're subbing for someone, etc.)") as text
 			if(notes)
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a DADA class - Notes: [notes]<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a DADA class - Notes: [notes]<br />"
 			else
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a DADA class<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a DADA class<br />"
 			curClass = "DADA"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
@@ -833,9 +833,9 @@ mob
 			if(!classdest) return
 			var/notes = input("Notes regarding class? (You're subbing for someone, etc.)") as text
 			if(notes)
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Headmaster class - Notes: [notes]<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Headmaster class - Notes: [notes]<br />"
 			else
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Headmaster class<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Headmaster class<br />"
 			curClass = "Headmasters"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
@@ -847,9 +847,9 @@ mob
 			if(!classdest) return
 			var/notes = input("Notes regarding class? (You're subbing for someone, etc.)") as text
 			if(notes)
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Charms class - Notes: [notes]<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Charms class - Notes: [notes]<br />"
 			else
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Charms class<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Charms class<br />"
 			curClass = "Charms"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
@@ -862,9 +862,9 @@ mob
 			if(!classdest) return
 			var/notes = input("Notes regarding class? (You're subbing for someone, etc.)") as text
 			if(notes)
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Muggle Studies class - Notes: [notes]<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Muggle Studies class - Notes: [notes]<br />"
 			else
-				classlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started a Muggle Studies class<br />"
+				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Muggle Studies class<br />"
 			curClass = "Muggle Studies"
 			for(var/mob/Player/p in Players)
 				p.beep(2)
@@ -979,7 +979,7 @@ mob
 			set category = "Staff"
 			set desc = "(message) Announce something to all players logged in"
 			if(!message)return
-			eventlog << "<tr><td><b>[src.name]</b></td><td>[time2text(world.realtime,"MMM DD - hh:mm:ss")]</td><td>[message]</td></tr>"
+			eventlog << "<tr><td><b>[src.name]</b></td><td>[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]</td><td>[message]</td></tr>"
 			for(var/mob/Player/p in Players)
 				p.beep(1)
 				p <<  "<hr><center><font color=blue><b>Announcement From [src]:</b><br><font color=red><b>[message]</font></center><hr>"
@@ -1472,7 +1472,7 @@ mob/GM
 						if(gold_prize)
 							p.gold += gold_prize
 							hearers() << infomsg("<i>[name] gives [p] [comma(gold_prize)] gold.</i>")
-							goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [name]([key])([client.address]) gave [comma(gold_prize)] <b>prize</b> gold to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
+							goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [name]([key])([client.address]) gave [comma(gold_prize)] <b>prize</b> gold to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 					if("Common Item")
 						var/i = pickweight(list(/obj/items/chest/basic_chest     = 35,
 										   /obj/items/artifact              = 25,
@@ -1483,7 +1483,7 @@ mob/GM
 
 						var/obj/items/item_prize = new i (p)
 						hearers() << infomsg("<i>[name] gives [p] [item_prize.name].</i>")
-						goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [name]([key])([client.address]) gave [item_prize.name] <b>prize</b> common item to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
+						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [name]([key])([client.address]) gave [item_prize.name] <b>prize</b> common item to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 
 
 					if("Rare Item")
@@ -1498,7 +1498,7 @@ mob/GM
 						var/obj/items/item_prize = new i (p)
 						p.Resort_Stacking_Inv()
 						hearers() << infomsg("<i>[name] gives [p] [item_prize.name].</i>")
-						goldlog << "[time2text(world.realtime,"MMM DD - hh:mm")]: [name]([key])([client.address]) gave [item_prize.name] <b>prize</b> rare item to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
+						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [name]([key])([client.address]) gave [item_prize.name] <b>prize</b> rare item to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 
 		RemoveItem(var/s in shops)
 			set category="Staff"

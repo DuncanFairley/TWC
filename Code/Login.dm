@@ -1400,26 +1400,46 @@ mob/Player
 			else
 				usr.away = 0
 				usr.status=usr.here
-				usr.overlays-=image('AFK.dmi',icon_state="AFK2")
-				usr.overlays-=image('AFK.dmi',icon_state="AFK3")
-				usr.overlays-=image('AFK.dmi',icon_state="AFK4")
-				usr.overlays-='AFK.dmi'
 				Players<<"<font color=red>[usr]</font> is no longer AFK."
+				RemoveAFKOverlay()
+
 mob
 	proc/ApplyAFKOverlay()
+		src.overlays-=image('AFK.dmi',icon_state="AFK1")
 		src.overlays-=image('AFK.dmi',icon_state="AFK2")
 		src.overlays-=image('AFK.dmi',icon_state="AFK3")
-		src.overlays-=image('AFK.dmi',icon_state="AFK4")
-		src.overlays-=image('AFK.dmi')
+		src.overlays-=image('AFK.dmi',icon_state="S")
+		src.overlays-=image('AFK.dmi',icon_state="G")
+		src.overlays-=image('AFK.dmi',icon_state="H")
+		src.overlays-=image('AFK.dmi',icon_state="R")
 		var/mob/Player/user = src
 		if(locate(/obj/items/wearable/afk/pimp_ring) in user.Lwearing)
-			src.overlays+=image('AFK.dmi',icon_state="AFK2")
+			if(src.House=="Slytherin")
+				src.overlays += image('AFK.dmi', icon_state = "S")
+			else if(src.House=="Gryffindor")
+				src.overlays += image('AFK.dmi', icon_state = "G")
+			else if(src.House=="Hufflepuff")
+				src.overlays += image('AFK.dmi', icon_state = "H")
+			else
+				src.overlays += image('AFK.dmi', icon_state = "R")
 		else if(locate(/obj/items/wearable/afk/hot_chocolate) in user.Lwearing)
-			src.overlays+=image('AFK.dmi',icon_state="AFK3")
+			src.overlays+=image('AFK.dmi',icon_state="AFK2")
 		else if(locate(/obj/items/wearable/afk/heart_ring) in user.Lwearing)
-			src.overlays+=image('AFK.dmi',icon_state="AFK4")
+			src.overlays+=image('AFK.dmi',icon_state="AFK3")
 		else
-			src.overlays+='AFK.dmi'
+			src.overlays+=image('AFK.dmi',icon_state="AFK1")
+
+mob
+	proc/RemoveAFKOverlay()
+		usr.overlays-=image('AFK.dmi',icon_state="AFK1")
+		usr.overlays-=image('AFK.dmi',icon_state="AFK2")
+		usr.overlays-=image('AFK.dmi',icon_state="AFK3")
+		usr.overlays-=image('AFK.dmi',icon_state="S")
+		usr.overlays-=image('AFK.dmi',icon_state="G")
+		usr.overlays-=image('AFK.dmi',icon_state="H")
+		usr.overlays-=image('AFK.dmi',icon_state="R")
+
+
 mob/Player
 	Stat()
 		if(statpanel("Stats"))
@@ -1827,14 +1847,14 @@ mob/proc/Death_Check(mob/killer = src)
 					if(killer.client && src.client && killer.loc.loc.name != "outside")
 						if(killer.name == "Robed Figure")
 							if(src.name == "Robed Figure")
-								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer.prevname](DE robed) killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
+								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer.prevname](DE robed) killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 							else
-								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer.prevname](DE robed) killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
+								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer.prevname](DE robed) killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 						else
 							if(src.name == "Robed Figure")
-								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer] killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
+								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer] killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 							else
-								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [killer] killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
+								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer] killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 					if(killer.client && get_dist(src, killer) == 1 && get_dir(src, killer) == turn(src.dir,180))
 						src << "<i>You were knocked out by <b>someone from behind</b> and sent to the Hospital Wing!</i>"
 					else

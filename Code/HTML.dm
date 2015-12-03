@@ -47,11 +47,11 @@ mob/GM/verb/Toggle_TWC_Radio()
 	set category = "DJ"
 	if(radioEnabled)
 		radioEnabled = 0
-		DJlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] ended TWC Radio<br />"
+		DJlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] ended TWC Radio<br />"
 		world.disable_radio()
 	else
 		radioEnabled = 1
-		DJlog << "[time2text(world.realtime,"MMM DD - hh:mm:ss")]: [usr] started TWC Radio<br />"
+		DJlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started TWC Radio<br />"
 		world.enable_radio()
 world/proc
 	enable_radio()
