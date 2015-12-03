@@ -1609,14 +1609,14 @@ turf
 	layer=TURF_LAYER
 	icon='turf.dmi'
 	grass
-		icon_state="grass1"
+		//icon_state="grass1"
 		name = "grass"
 
-		//icon_state="snow"
+		icon_state="snow"
 		density=0
 
 		edges
-			icon='GrassEdge.dmi'
+		//	icon='GrassEdge.dmi'
 			north
 				dir = NORTH
 			west
