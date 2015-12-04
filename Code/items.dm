@@ -505,6 +505,7 @@ obj/items/scroll
 			inuse = 0
 obj/items/bagofsnow
 	name="Bag 'o Sno"
+	icon = 'bagosnow.dmi'
 	desc = "It's a bag filled with the finest of snow."
 	destroyable = 1
 	var/tmp/lastproj = 0
