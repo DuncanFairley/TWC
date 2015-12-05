@@ -228,9 +228,11 @@ obj/items/wearable
 			UPGRADE   = 0  // 0  can be upgraded
 			DAMAGE    = 1  // 1 damage
 			DEFENSE   = 2  // 2 defense
+			NOENCHANT = 4
 
 		bonus   = NOUPGRADE
 		quality = 0
+		scale   = 1
 
 		showoverlay = TRUE
 		wear_layer  = FLOAT_LAYER - 5
@@ -302,9 +304,9 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		UpdateDisplay()
 		if(bonus != -1)
 			if(bonus & DAMAGE)
-				owner.clothDmg -= 10 * quality
+				owner.clothDmg -= 10 * quality * scale
 			if(bonus & DEFENSE)
-				owner.clothDef -= 30 * quality
+				owner.clothDef -= 30 * quality * scale
 				owner.resetMaxHP()
 		return REMOVED
 	else
@@ -321,9 +323,9 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		UpdateDisplay()
 		if(bonus != -1)
 			if(bonus & DAMAGE)
-				owner.clothDmg += 10 * quality
+				owner.clothDmg += 10 * quality * scale
 			if(bonus & DEFENSE)
-				owner.clothDef += 30 * quality
+				owner.clothDef += 30 * quality * scale
 				owner.resetMaxHP()
 		return WORN
 
@@ -847,19 +849,108 @@ obj/items/wearable/hats/orange_earmuffs
 	icon = 'orange_earmuffs_hat.dmi'
 obj/items/wearable/hats/teal_earmuffs
 	icon = 'teal_earmuffs_hat.dmi'
-obj/items/wearable/wands
 
+obj/items/wearable/orb
+
+	icon = 'orbs.dmi'
+
+	var
+		exp
+		modifier = 1
+
+	Consume()
+		exp = initial(exp)
+
+		..()
+
+	chaos
+		name       = "orb of chaos"
+		bonus      = 1
+		exp   	   = 15000
+		icon_state = "chaos"
+
+		greater
+			name     = "greater orb of chaos"
+			exp      = 60000
+			modifier = 1.5
+
+	peace
+		name       = "orb of peace"
+		bonus      = 2
+		exp        = 15000
+		icon_state = "peace"
+
+		greater
+			name     = "greater orb of peace"
+			exp      = 60000
+			modifier = 1.5
+
+mob/Player/var/tmp/obj/items/wearable/wands/wand
+
+obj/items/wearable/wands
+	scale = 3
 	var
 		track
 		displayColor
 		killCount        = 0
 		monsterKillCount = 0
+		exp              = 0
 		tmp/display = FALSE
+
+		lastused
+
+		const
+			MAX = 3
+
+	max_stack = 1
+
+	proc
+		maxExp()
+			return round((1 + (quality * 10)) * 20000)
+		addExp(mob/Player/owner, amount)
+			if(quality >= MAX) return
+
+			var/obj/items/wearable/orb/o = locate() in owner.Lwearing
+			if(o)
+				amount = round(amount * o.modifier, 1)
+
+				if(o.exp < amount) amount = o.exp
+
+				o.exp -= amount
+				if(o.exp == 0)
+					o.Equip(owner)
+					o.Consume()
+					owner << errormsg("[o.name] shatters.")
+
+				exp += amount
+
+				var/i = 0
+				while(exp >= maxExp())
+					exp -= maxExp()
+					i += 0.1
+
+				if(i)
+					if(bonus == -1) bonus = NOENCHANT
+
+					Equip(owner, 1)
+
+					quality += i
+					bonus |= o.bonus
+
+					Equip(owner, 1)
+
+					var/list/s = split(name, " +")
+					name = "[s[1]] +[quality * 10]"
+
+					owner << infomsg("[s[1]] leveled up to [quality * 10]!")
 
 	Compare(obj/items/i)
 		. = ..()
 
-		return track ? 0 : .
+		if(track)				    return FALSE
+		if(exp || bonus || quality) return FALSE
+
+		return TRUE
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
@@ -869,6 +960,15 @@ obj/items/wearable/wands
 			for(var/obj/items/wearable/wands/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
+
+			if(lastused && lastused != owner.ckey && (bonus || quality || exp))
+				bonus   = -1
+				quality = 0
+				exp     = 0
+
+			lastused = owner.ckey
+			owner.wand = src
+
 			if(!overridetext)
 				if(track)
 					displayKills(owner, 0, 1)
@@ -878,6 +978,7 @@ obj/items/wearable/wands
 				else
 					viewers(owner) << infomsg("[owner] draws \his [src.name].")
 		else if(. == REMOVED)
+			owner.wand = null
 			if(!overridetext)
 				if(track && displayColor)
 					viewers(owner) << infomsg({"[owner] puts \his <font color="[displayColor]">[src.name]</font> away."})
@@ -886,9 +987,9 @@ obj/items/wearable/wands
 
 proc/displayKills(mob/Player/i_Player, count=0, countType=1)
 	set waitfor = 0
-	var/obj/items/wearable/wands/w = locate() in i_Player.Lwearing
-	if(w && w.track)
 
+	if(i_Player.wand && i_Player.wand.track)
+		var/obj/items/wearable/wands/w = i_Player.wand
 		while(w.display)
 			sleep(1)
 
@@ -2896,7 +2997,7 @@ obj
 
 						i3.color = rgb(red, green, blue)
 
-					else if(i3:bonus != -1 && i3:quality < max_upgrade && i3:quality == i4:quality)
+					else if(i3:bonus != -1 && i3:quality < max_upgrade && i3:quality == i4:quality && !(i3:bonus & 4))
 						var/flags = applyBonus|i3:bonus|i4:bonus
 
 						if(ignoreItem && ignoreItem < i3:quality + 1) flags = 0
