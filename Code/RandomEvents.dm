@@ -25,7 +25,7 @@ obj/spawner
 var/list/currentEvents
 
 RandomEvent
-	var/chance = 13
+	var/chance = 10
 	var/name
 	var/beepType = 1
 
