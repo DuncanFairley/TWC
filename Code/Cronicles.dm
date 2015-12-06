@@ -454,7 +454,8 @@ mob
 						else C.mob <<"<B><I>[src][refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B>"
 				usr.Teleblock=0
 				usr<<browse(rules,"window=1;size=500x400")
-				src<<"<b><font size=2><font color=#3636F5>Welcome to Harry Potter: The Wizards Chronicles</font> <u><a href='?src=\ref[src];action=view_changelog'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://www.wizardschronicles.com\">here.</a>"
+				src<<"<b><font size=2><font color=#3636F5>Welcome to Harry Potter: The Wizards Chronicles</font> <u><a href='http://wizardschronicles.com/?ver=[VERSION]'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://www.wizardschronicles.com\">here.</a>"
+
 				//if(!usr.Gm)usr.see_invisible = 0
 				if(radioOnline)
 					var/obj/hud/radio/Z = new()
@@ -463,7 +464,7 @@ mob
 					usr << "<font color=red>The Daily Prophet has an issue that you haven't yet read. <a href='?src=\ref[src];action=daily_prophet'>Click here</a> to view.</font>"
 				if(VERSION != src:lastversion)
 					src:lastversion = VERSION
-					src<<"<b><font size=2>TWC had an update since you last logged in! A list of changes can be found <a href='?src=\ref[src];action=view_changelog'>here.</a></font></b>"
+					src<<"<b><font size=2>TWC had an update since you last logged in! A list of changes can be found <a href='http://wizardschronicles.com/?ver=[VERSION]'>here.</a></font></b>"
 
 
 mob/Player/var/lastversion
