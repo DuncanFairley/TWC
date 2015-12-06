@@ -1006,7 +1006,6 @@ mob/Player
 				resetMaxHP()
 
 		if(src.away)
-			world << 1
 			src.ApplyAFKOverlay()
 
 	verb
@@ -1460,6 +1459,9 @@ mob/Player
 			else
 				var/percent = round((Exp / Mexp) * 100)
 				stat("EXP:", "[comma(src.Exp)]/[comma(src.Mexp)] ([percent]%)")
+			if(wand && (wand.exp + wand.quality > 0))
+				var/percent = round((wand.exp / wand.maxExp()) * 100)
+				stat("Wand:", "Level: [wand.quality * 10]   Exp: [comma(wand.exp)]/[comma(wand.maxExp())] ([percent]%)")
 			stat("Stat points:",src.StatPoints)
 			stat("Spell points:",src.spellpoints)
 			if(learning)
@@ -1896,6 +1898,10 @@ mob/proc/Death_Check(mob/killer = src)
 						rndexp = round(rndexp)
 
 					killer:addExp(rndexp)
+					if(killer:wand)
+						var/obj/items/wearable/wands/w = killer:wand
+						w.addExp(killer, round(rndexp / 30))
+
 					if(killer.level < lvlcap)
 						killer << infomsg("You knocked [src] out and gained [rndexp] exp.")
 					else
@@ -1963,6 +1969,10 @@ mob/proc/Death_Check(mob/killer = src)
 					killer.gold  = round(killer.gold)
 				if(exp2give > 0)
 					killer:addExp(exp2give, !killer.MonsterMessages)
+
+					if(killer:wand)
+						var/obj/items/wearable/wands/w = killer:wand
+						w.addExp(killer, round(exp2give / 50))
 
 			if(src.type == /mob/Slug)
 				del src
