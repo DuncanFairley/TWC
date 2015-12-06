@@ -864,6 +864,8 @@ obj/items/wearable/orb
 
 		..()
 
+	max_stack = 1
+
 	chaos
 		name       = "orb of chaos"
 		bonus      = 1
@@ -966,6 +968,9 @@ obj/items/wearable/wands
 				bonus   = -1
 				quality = 0
 				exp     = 0
+
+				var/list/s = split(name, " +")
+				name = s[1]
 
 			lastused = owner.ckey
 			owner.wand = src
