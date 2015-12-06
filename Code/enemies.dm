@@ -732,7 +732,7 @@ mob
 							if(count.add())
 								new /mob/NPC/Enemies/Summoned/Boss/Snowman/Super (loc)
 
-								world << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
+								Players << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
 
 							..()
 
