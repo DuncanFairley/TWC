@@ -380,6 +380,51 @@ mob/Player/Topic(href,href_list[])
 		if("pm_MainMenu")
 			src.PMHome()
 		if("pm_Send")
+			src.pm_Send()
+
+mob/Player/verb/PM(var/p in Players())
+	if(src.mute)
+		alert("You are not allowed to send messages.")
+		return
+	if(src.Detention)
+		alert("You are not allowed to send messages.")
+		return
+	var/mob/M = p
+	if(istext(M))
+		M = text2mob(M)
+	if(M.key)
+		var/mob/Player/Y = src
+		var/atom/movable/PM/pm = new /atom/movable/PM("Subject","Body","[formatName(Y)]","[formatName(M)]")
+		pm.body = input("Input the main text of the Private Message being sent to [formatName(M)]") as message|null
+		if(!pm.body)return
+		Y.curPM = pm
+		src.pm_Send()
+
+mob/Player/proc/createPM()
+	return ({"[PMheader]
+	<div class = "header">Private Messaging</div>
+	<br />
+	<div class = "subheader">Create Message</div>
+	<br />
+	<a href='?src=\ref[src];action=pm_Send'>Send</a>
+	<a href='?src=\ref[src];action=pm_Create'>Reset</a>
+	<br /><br />
+	<table>
+	<tr>
+		<td>To:</td>
+		<td><a href='?src=\ref[src];action=pm_changeRecipient'>[src.curPM.pmTo ? src.curPM.pmTo : "Select Recipient"]</a></td>
+	</tr>
+	<tr valign=top>
+		<td>Body:</td>
+		<td><a href='?src=\ref[src];action=pm_changeBody'>[src.curPM.body]</a></td>
+	</tr>
+	</table>
+	<br />
+			"})
+
+mob
+	Player
+		proc/pm_Send()
 			if(src.mute)
 				alert("You are not allowed to send messages.")
 				return
@@ -389,9 +434,6 @@ mob/Player/Topic(href,href_list[])
 			if(!src.curPM.pmTo)
 				alert("You are required to select a recipient.")
 				return
-			//if(src.curPM.pmTo == "Deatheater")
-			//	alert("Cannot send private messages to Deatheaters.")
-			//	return
 			var/mob/Player/Y = text2mob("[src.curPM.pmTo]")
 			if(!Y || Y.PMBlock)
 				alert("That person does not wish to receive private messages at the moment.")
@@ -434,42 +476,3 @@ mob/Player/Topic(href,href_list[])
 			src << "Private Message Sent to <a href='?src=\ref[src];action=pm_reply;replynametext=[formatName(Y)]'>[formatName(Y)]</a>."
 			Y << "You have received a <a href='?src=\ref[Y];action=pm_inbox_readmsg;msgid=[pmcounter]'>new private message</a> from <a href='?src=\ref[Y];action=pm_reply;replynametext=[formatName(src)]'>[formatName(src)]</a>."
 			Y.beep()
-mob/Player/verb/PM(var/p in Players())
-	if(src.mute)
-		alert("You are not allowed to send messages.")
-		return
-	if(src.Detention)
-		alert("You are not allowed to send messages.")
-		return
-	var/mob/M = p
-	if(istext(M))
-		M = text2mob(M)
-	if(M.key)
-		var/mob/Player/Y = src
-		var/atom/movable/PM/pm = new /atom/movable/PM("Subject","Body","[formatName(Y)]","[formatName(M)]")
-		pm.body = input("Input the main text of the Private Message being sent to [formatName(M)]") as message|null
-		if(!pm.body)return
-		Y.curPM = pm
-		src << link("byond://?src=\ref[src];action=pm_Send")
-
-mob/Player/proc/createPM()
-	return ({"[PMheader]
-	<div class = "header">Private Messaging</div>
-	<br />
-	<div class = "subheader">Create Message</div>
-	<br />
-	<a href='?src=\ref[src];action=pm_Send'>Send</a>
-	<a href='?src=\ref[src];action=pm_Create'>Reset</a>
-	<br /><br />
-	<table>
-	<tr>
-		<td>To:</td>
-		<td><a href='?src=\ref[src];action=pm_changeRecipient'>[src.curPM.pmTo ? src.curPM.pmTo : "Select Recipient"]</a></td>
-	</tr>
-	<tr valign=top>
-		<td>Body:</td>
-		<td><a href='?src=\ref[src];action=pm_changeBody'>[src.curPM.body]</a></td>
-	</tr>
-	</table>
-	<br />
-			"})
