@@ -229,13 +229,29 @@ mob
 
 				tmp
 					state = INACTIVE
-					list/ignore
+					list
+						ignore
+						damage
 
-				Range = 12
-				MoveDelay = 5
-				AttackDelay = 5
-				respawnTime = 1200
+				Range         = 12
+				MoveDelay     = 5
+				AttackDelay   = 5
+				respawnTime   = 1200
 
+				prizePoolSize = 1
+				damageReq     = 20
+
+			Attacked(obj/projectile/p)
+				..()
+				if(prizePoolSize > 1 && p.owner && p.damage)
+					if(!damage) damage = list()
+
+					var/perc = (p.damage / MHP) * 100
+
+					if(p.owner.ckey in damage)
+						damage[p.owner.ckey] += perc
+					else
+						damage[p.owner.ckey] = perc
 
 			New()
 				. = ..()
@@ -244,6 +260,7 @@ mob
 					origloc = loc
 					sleep(rand(10,60))
 					ShouldIBeActive()
+
 
 			proc/calcStats()
 				Dmg = round(DMGmodifier * ((src.level -1) + 5))
@@ -268,22 +285,64 @@ mob
 				for(var/i in drops)
 					if(prob(text2num(i) * rate))
 						var/t = istype(drops[i], /list) ? pick(drops[i]) : drops[i]
-						prize = new t (loc)
+						prize = t
 						break
 
 				if(name == initial(name) && prob(0.1))
 					var/obj/items/wearable/title/Slayer/t = new (loc)
 					t.title = "[name] Slayer"
 					t.name  = "Title: [name] Slayer"
-					prize = t
+
+					t.antiTheft = 1
+					t.owner     = killer.ckey
+
+					spawn(150)
+						if(t)
+							t.antiTheft = 0
+							t.owner     = null
 
 				if(prize)
-					prize.antiTheft = 1
-					prize.owner     = killer.ckey
-					spawn(150)
-						if(prize)
-							prize.antiTheft = 0
-							prize.owner     = null
+
+					if(prizePoolSize > 1 && damage)
+						if(!(killer.ckey in damage) || damage[killer.ckey] < damageReq)
+							damage[killer.ckey] = damageReq
+
+						bubblesort_by_value(damage)
+
+						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+						for(var/i = min(prizePoolSize, damage.len) to 1 step -1)
+							if(damage[damage[i]] < damageReq) break
+
+							var/obj/items/item = new prize (loc)
+
+							item.antiTheft = 1
+							item.owner     = damage[i]
+
+							var/randomDir
+							if(dirs.len)
+								randomDir = pick(dirs)
+								dirs -= randomDir
+
+							spawn(2)
+								if(randomDir)
+									step(item, randomDir)
+
+								sleep(600)
+								if(item)
+									item.antiTheft = 0
+									item.owner     = null
+
+					else
+						prize = new prize (loc)
+
+						prize.antiTheft = 1
+						prize.owner     = killer.ckey
+						spawn(150)
+							if(prize)
+								prize.antiTheft = 0
+								prize.owner     = null
+
+				damage = null
 
 			proc/state()
 				set waitfor = 0
@@ -510,6 +569,7 @@ mob
 					density = 1
 
 				Boss
+					prizePoolSize = 3
 
 					Attack()
 						..()
@@ -557,7 +617,7 @@ mob
 							damageTaken = 0
 
 
-						drops = list("100" = list(/obj/items/key/summer_key,
+						drops = list("100" = list(/obj/items/key/blood_key,
 						                          /obj/items/wearable/title/Crawler,
 						                          /obj/items/chest/blood_chest,
 						                          /obj/items/magic_stone/eye,
@@ -688,8 +748,8 @@ mob
 									sleep(AttackDelay)
 
 						Attacked(obj/projectile/p)
-							..()
 							if(p.icon_state == proj && prob(99))
+								..()
 								emit(loc    = src,
 									 ptype  = /obj/particle/red,
 								     amount = 2,
@@ -719,8 +779,7 @@ mob
 						var/tmp/fired = 0
 						extraDmg = 400
 
-						drops = list("100" = list(/obj/items/key/basic_key,
-						                          /obj/items/key/pentakill_key,
+						drops = list("100" = list(/obj/items/key/winter_key,
 						                          /obj/items/wearable/title/Snowflakes,
 												  /obj/items/lamps/triple_drop_rate_lamp,
 												  /obj/items/lamps/triple_gold_lamp,
@@ -845,6 +904,8 @@ mob
 
 				MoveDelay   = 2
 				AttackDelay = 1
+
+				prizePoolSize = 2
 
 				var/tmp/fired = 0
 
@@ -1033,6 +1094,7 @@ mob
 
 				Attacked(obj/projectile/p)
 					if(p.icon_state == "gum" && prob(95))
+						..()
 						emit(loc    = src,
 							 ptype  = /obj/particle/red,
 						     amount = 2,
@@ -1048,7 +1110,6 @@ mob
 						     angle  = new /Random(1, 359),
 						     speed  = 2,
 						     life   = new /Random(15,20))
-					..()
 
 				New()
 					..()
@@ -1082,6 +1143,8 @@ mob
 					level = 2400
 					cd = new(3, 6)
 					HPmodifier = 3.2
+
+					prizePoolSize = 2
 
 					Range     = 20
 					MoveDelay = 2
@@ -1316,6 +1379,8 @@ mob
 				MoveDelay = 3
 				Range = 16
 				respawnTime = 6000
+
+				prizePoolSize = 2
 
 				ChangeState(var/i_State)
 					..(i_State)
