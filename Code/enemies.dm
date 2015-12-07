@@ -1149,10 +1149,11 @@ mob
 					Range     = 20
 					MoveDelay = 2
 
-					drops = list("2"      =      /obj/items/key/sunset_key,
-					             "10"     = list(/obj/items/artifact,
+					drops = list("10"     = list(/obj/items/artifact,
 										         /obj/items/crystal/soul,
-				                                 /obj/items/wearable/title/Fallen),
+				                                 /obj/items/wearable/title/Fallen,
+				                                 /obj/items/rosesbook,
+				                                 /obj/items/key/sunset_key),
 							     "15"     = list(/obj/items/artifact,
 							                     /obj/items/crystal/magic,
 							                     /obj/items/crystal/strong_luck),
