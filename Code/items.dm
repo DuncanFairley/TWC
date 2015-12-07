@@ -911,7 +911,9 @@ obj/items/wearable/wands
 		maxExp()
 			return round((1 + (quality * 10)) * 20000)
 		addExp(mob/Player/owner, amount)
-			if(quality >= MAX) return
+			if(quality >= MAX)
+				exp = 0
+				return
 
 			var/obj/items/wearable/orb/o = locate() in owner.Lwearing
 			if(o)
@@ -931,6 +933,10 @@ obj/items/wearable/wands
 				while(exp >= maxExp())
 					exp -= maxExp()
 					i += 0.1
+
+					if(quality >= MAX)
+						exp = 0
+						break
 
 				if(i)
 					if(bonus == -1) bonus = NOENCHANT
@@ -1654,6 +1660,9 @@ obj/items/wearable/title
 	Crawler
 		title = "Crawler"
 		name  = "Title: Crawler"
+	TWC
+		title = "I <3 TWC"
+		name  = "Title: I <3 TWC"
 
 
 mob/Bump(obj/ball/B)
@@ -3177,6 +3186,15 @@ obj/items
 				name  = "special summer 2015 chest"
 				drops = "2015 sum"
 
+		winter_chest
+			icon_state = "blue"
+			drops      = "winter"
+
+
+			limited_edition
+				name  = "special winter 2015 chest"
+				drops = "2015 winter"
+
 		prom_chest
 			icon_state = "pink"
 			drops      = "prom"
@@ -3213,6 +3231,8 @@ obj/items
 			icon_state = "purple"
 		summer_key
 			icon_state = "orange"
+		winter_key
+			icon_state = "blue"
 		prom_key
 			icon_state = "pink"
 		special_key
@@ -3272,6 +3292,19 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 							                    /obj/items/wearable/shoes/pink_shoes         = 25,
 							                    /obj/items/wearable/shoes/darkpink_shoes     = 10,
 							                    /obj/items/wearable/scarves/darkpink_scarf   = 20),
+
+	                     	 "winter"    = list(/obj/items/wearable/shoes/candycane_shoes    = 6,
+							                    /obj/items/wearable/scarves/candycane_scarf  = 10,
+							                    /obj/items/wearable/scarves/red_scarf        = 27,
+							                    /obj/items/wearable/scarves/white_scarf      = 24,
+							                    /obj/items/wearable/shoes/red_shoes          = 18,
+							                    /obj/items/wearable/shoes/white_shoes        = 15),
+
+							 "2015 winter"  = list(/obj/items/wearable/hats/red_earmuffs        = 10,
+							                       /obj/items/wearable/hats/white_earmuffs      = 10,
+							                       /obj/items/wearable/shoes/candycane_shoes    = 35,
+							                       /obj/items/wearable/scarves/candycane_scarf  = 39,
+												   /obj/items/snowring                          = 6),
 
 							 "blood"     = list(/obj/items/wearable/scarves/blood_scarf = 50,
 							 					/obj/items/wearable/shoes/blood_shoes   = 30,
