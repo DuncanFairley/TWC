@@ -1558,7 +1558,7 @@ obj/brick2door
 mob/Player
 
 	Attacked(obj/projectile/p)
-
+		..()
 		if(p.owner)
 			if(p.owner.monster)
 				src << "[p.owner] hit you for [p.damage] with their [p]."
@@ -1626,6 +1626,8 @@ mob/NPC/Enemies
 
 			if(p.owner.ekills > tmp_ekills)
 				p.owner:learnSpell(p.name, 5)
+
+		..()
 
 obj
 	projectile
@@ -1699,6 +1701,7 @@ obj
 			Effect(atom/movable/a)
 
 		Attacked(obj/projectile/p)
+
 			if(p.owner != owner)
 				if(Impact(p))
 					Dispose()

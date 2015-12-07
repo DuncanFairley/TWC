@@ -290,6 +290,7 @@ matchmaking
 							prize = pick(/obj/items/chest/basic_chest,
 										 /obj/items/chest/community1_chest,
 										 /obj/items/wearable/title/Duelist,
+										 /obj/items/wearable/title/TWC,
 										 /obj/items/wearable/title/Wizard,
 										 /obj/items/wearable/title/Determined,
 										 /obj/items/wearable/title/Battlemage)

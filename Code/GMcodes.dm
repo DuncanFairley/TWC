@@ -1478,7 +1478,7 @@ mob/GM
 										   /obj/items/artifact              = 25,
 		                        		   /obj/items/chest/wizard_chest    = 15,
 		                        		   /obj/items/chest/pentakill_chest = 15,
-										   /obj/items/chest/summer_chest    = 10))
+										   /obj/items/chest/winter_chest    = 10))
 
 
 						var/obj/items/item_prize = new i (p)
