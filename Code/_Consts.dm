@@ -12,3 +12,9 @@ var/const
 	lvlcap = 700
 
 	WINTER = TRUE
+
+
+var/snowCurse = FALSE
+
+obj/clock/Curse_Clock
+obj/snow_counter

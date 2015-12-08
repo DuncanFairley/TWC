@@ -787,12 +787,13 @@ mob
 
 
 						Death(mob/Player/killer)
+							#ifdef HIDDEN
 							var/obj/snow_counter/count = locate("SnowCounter")
 							if(count.add())
 								new /mob/NPC/Enemies/Summoned/Boss/Snowman/Super (loc)
 
 								Players << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
-
+							#endif
 							..()
 
 						Attack(mob/M)

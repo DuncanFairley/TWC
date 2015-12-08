@@ -854,7 +854,7 @@ obj/items/wearable/hats/teal_earmuffs
 obj/items/wearable/orb
 
 	icon = 'orbs.dmi'
-
+	showoverlay = FALSE
 	var
 		exp
 		modifier = 1
