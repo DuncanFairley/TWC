@@ -1570,11 +1570,11 @@ window "outputwindow"
 		size = 640x480
 		anchor1 = 0,0
 		anchor2 = 100,100
-		font-family = ""
+		font-family = "Arial,sans-serif"
 		font-size = 0
 		font-style = ""
-		text-color = #000000
-		background-color = #ffffff
+		text-color = #ffffff
+		background-color = #000000
 		is-visible = true
 		is-disabled = false
 		is-transparent = false
@@ -1584,9 +1584,9 @@ window "outputwindow"
 		right-click = false
 		saved-params = "max-lines"
 		on-size = ""
-		link-color = #0000ff
+		link-color = #3636f5
 		visited-color = #ff00ff
-		style = ".system {color:#ff0000;}"
+		style = ""
 		enable-http-images = false
 		max-lines = 1000
 		image = ""

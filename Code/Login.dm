@@ -551,8 +551,8 @@ var/list/illegalnames = list(
 	"8",
 	"9",
 	"0")
-client
-	script = "<STYLE>BODY {background: black; color: white; font-family: Arial,sans-serif}a:link {color: #3636F5}</STYLE>"
+//client
+//	script = "<STYLE>BODY {background: black; color: white; font-family: Arial,sans-serif}a:link {color: #3636F5}</STYLE>"
 //	macros return "Attack"
 
 var/DevMode
