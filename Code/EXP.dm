@@ -132,7 +132,7 @@ obj
 						var/exp = get_exp(usr.level) / (usr:presence ? 1 : 3)
 						exp = round(rand(exp - exp / 10, exp + exp / 10))
 						usr:addExp(exp, 1, 0)
-						if(usr.level > 500) usr.gold += round(rand(3,6) / (usr:presence ? 1 : 3))
+						if(usr.level > 500) usr.gold.add(round(rand(3,6) / (usr:presence ? 1 : 3)))
 						sleep(15)
 					if(usr)
 						usr.client.screen -= R
@@ -651,3 +651,33 @@ tr.grey
 			html += "</table>"
 
 			usr << browse(SCOREBOARD_HEADER + html + "</center></html>","window=scoreboard")
+
+
+gold
+	var
+		plat   = 0
+		gold   = 0
+		silver = 0
+		bronze = 0
+
+	New(amount)
+		..()
+
+		add(amount)
+
+
+	proc
+		add(amount)
+			amount = round(amount)
+
+			var/i = 8
+			for(var/v in vars)
+				i -= 2
+				if(abs(amount) < 10 ** i) continue
+
+				var/c = round(amount / (10 ** i))
+				vars[v] += c
+				amount  -= c * (10 ** i)
+
+		get()
+			return bronze + (silver * 100) + (gold * 10000) + (plat * 1000000)

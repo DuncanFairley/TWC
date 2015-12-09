@@ -467,6 +467,27 @@ quest
 			desc = "Use the wand to free Fred."
 			reqs = list("Fred" = 1)
 
+	MasterofKeys
+		name   = "Master of Keys"
+		desc   = "Professor Palmer offered you help opening a legendary golden chest."
+		reward = /questReward/Masterkey
+
+		Key
+			desc = "It'll be a bit of a grind but everything worthawhile takes work, go fight some of the most worthy monsters."
+			reqs = list("Kill Wisp"               = 200,
+			            "Kill Floating Eye"       = 100,
+			            "Kill Player"             = 50,
+			            "Kill Basilisk"           = 3,
+			            "Kill Stickman"           = 2,
+			            "Kill Eye of The Fallen"  = 1,
+			            "Kill Tamed Dog"          = 5,
+			            "Kill The Evil Snowman"   = 10,
+			            "Kill Willy the Whisp"    = 5,
+			            "Kill Bubbles the Spider" = 2)
+
+		Reward
+			desc = "Go back to Palmer."
+			reqs = list("Professor Palmer" = 1)
 
 questReward
 
@@ -587,3 +608,8 @@ questReward
 	TutorialQuests
 		exp   = 50
 		gold  = 150
+
+	Masterkey
+		exp   = 32000
+		gold  = 3200
+		items = /obj/items/key/master_key

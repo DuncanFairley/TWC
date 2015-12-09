@@ -211,7 +211,7 @@ client/proc
 					var/gold2give = text2num(row_data["Amount"])
 					gold2give = max(round(gold2give / 10, 1), 1)
 					mob << "<font color=yellow><b>You gained [gold2give] gold from your referral [sql_get_name_from(row_data["EarnerCkey"])]([row_data["EarnerCkey"]]).</b></font>"
-					mob.gold += gold2give
+					mob.gold.add(gold2give)
 				rows2delete += row_data["ID"]
 			var/sql_rows2delete = ""
 			for(var/rowID in rows2delete)

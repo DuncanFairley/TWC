@@ -26,9 +26,9 @@ mob/TalkNPC/Zonko
 					switch(input("Your Response","Respond")in list("Oh come on, I'll give you 50,000 gold.","Oh, ok."))
 						if("Oh come on, I'll give you 50,000 gold.")
 							usr << "\n<font size=2><font color=red><b> <font color=red>Zonko</font> [GMTag]</b>:<font color=white> 50,000! That's a lot of money..."
-							if(usr.gold>=50000)
+							if(usr.gold.get()>=50000)
 								usr << "\n<font size=2><font color=red><b> <font color=red>Zonko</font> [GMTag]</b>:<font color=white> Hm...Alright alright. Its a deal."
-								usr.gold-=50000
+								usr.gold.add(-50000)
 								p.checkQuestProgress("Zonko")
 								return
 							else

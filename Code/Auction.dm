@@ -59,7 +59,7 @@ mail
 		if(content)
 			if(isnum(content))
 				i_Player << infomsg("[comma(content)] gold was sent to your bank.")
-				i_Player.goldinbank += content
+				i_Player.goldinbank.add(content)
 			else
 				var/obj/o = content
 				i_Player << infomsg("[o.name] was sent to you.")
@@ -128,7 +128,7 @@ auction
 
 			if(bid && owner != p.ckey && bidder != p.ckey)
 				var/price = max(round(minPrice + (minPrice/10), 1), 1)
-				if(p.gold >= price)
+				if(p.gold.get() >= price)
 
 					if(bidder)
 						mail(bidder, errormsg("<b>Auction:</b> You were outbid for the [item.name] auction."), minPrice)
@@ -136,16 +136,16 @@ auction
 					bid++
 					bidder   = p.ckey
 					minPrice = price
-					p.gold  -= price
+					p.gold.add(-price)
 					p.auctionBuild()
 				else
-					p << errormsg("You don't have enough money, the item costs [comma(price)] gold, you need [comma(price - p.gold)] more gold.")
+					p << errormsg("You don't have enough money, the item costs [comma(price)] gold, you need [comma(price - p.gold.get())] more gold.")
 
 		else if(href_list["action"] == "buyoutAuction")
 			if(buyout && owner != p.ckey)
 
-				if(p.gold >= buyoutPrice)
-					p.gold -= buyoutPrice
+				if(p.gold.get() >= buyoutPrice)
+					p.gold.add(-buyoutPrice)
 
 					if(bid && bidder)
 						mail(bidder, errormsg("<b>Auction:</b> The [item.name] auction was bought out at the auction, your bid is cancelled."), minPrice)
@@ -162,7 +162,7 @@ auction
 					p.Resort_Stacking_Inv()
 					p.auctionBuild()
 				else
-					p << errormsg("You don't have enough money, the item costs [comma(buyoutPrice)] gold, you need [comma(buyoutPrice - p.gold)] more gold.")
+					p << errormsg("You don't have enough money, the item costs [comma(buyoutPrice)] gold, you need [comma(buyoutPrice - p.gold.get())] more gold.")
 
 
 		else if(href_list["action"] == "removeAuction")

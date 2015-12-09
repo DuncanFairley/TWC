@@ -130,7 +130,7 @@ RandomEvent
 
 					if(winner)
 						var/prize = 10000 * count
-						winner.gold += prize
+						winner.gold.add(prize)
 						winner << infomsg("You won [comma(prize)] gold for winning the round.")
 						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: (FFA) [winner.name] won [comma(prize)] gold.<br />"
 

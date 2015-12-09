@@ -1470,7 +1470,7 @@ mob/GM
 					if("Gold")
 						var/gold_prize = input("How much gold?", "Gold Prize") as null|num
 						if(gold_prize)
-							p.gold += gold_prize
+							p.gold.add(gold_prize)
 							hearers() << infomsg("<i>[name] gives [p] [comma(gold_prize)] gold.</i>")
 							goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [name]([key])([client.address]) gave [comma(gold_prize)] <b>prize</b> gold to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 					if("Common Item")

@@ -106,22 +106,36 @@ mob/TalkNPC/quest
 		name="Professor Palmer"
 		Immortal=1
 		Gm=1
-		questPointers = "Tutorial: Quests"
+		questPointers = list("Tutorial: Quests", "Master of Keys")
 		Talk()
 			set src in oview(1)
 			Quest(usr)
 
 		questStart(mob/Player/i_Player, questName)
-			i_Player << npcsay("Palmer: Hey there, you're new aren't you. I was asked by the Headmaster to teach you about quests.")
-			i_Player << npcsay("Palmer: You can click the quest book found in your \"Items\" tab to view quests you have or quests you completed.")
-			i_Player << npcsay("Palmer: How would you like to put something in that book? I have a few friends who can help you out with that, why don't you go and meet them?")
+			switch(questName)
+				if("Tutorial: Quests")
+					i_Player << npcsay("Palmer: Hey there, you're new aren't you. I was asked by the Headmaster to teach you about quests.")
+					i_Player << npcsay("Palmer: You can click the quest book found in your \"Items\" tab to view quests you have or quests you completed.")
+					i_Player << npcsay("Palmer: How would you like to put something in that book? I have a few friends who can help you out with that, why don't you go and meet them?")
+				if("Master of Keys")
+
+
+					if(i_Player.level < lvlcap && i_Player.rankLevel && i_Player.rankLevel.level > i_Player.rankLevel.TIER)
+						i_Player << npcsay("Palmer: You're too young for this, talk to me again when you've gained some more experience.")
+						return
+
+					i_Player << npcsay("Palmer: Hey there, I see you got yourself a legendary golden chest, how about I help you open it?")
 			..(i_Player, questName)
 
 		questOngoing(mob/Player/i_Player, questName)
 			.=..(i_Player, questName)
 
 			if(!.)
-				i_Player << npcsay("Palmer: They're friendly people, they'll help you.")
+				switch(questName)
+					if("Tutorial: Quests")
+						i_Player << npcsay("Palmer: They're friendly people, they'll help you.")
+					if("Master of Keys")
+						i_Player << npcsay("Palmer: Keep up the good work, it'll be worth it... Maybe.")
 
 		questCompleted(mob/Player/i_Player, questName)
 			i_Player << npcsay("Palmer: Have a good day.")
@@ -820,7 +834,7 @@ questReward
 
 	proc/get(mob/Player/p)
 		if(gold)
-			p.gold += gold
+			p.gold.add(gold)
 			p << infomsg("You receive [comma(gold)] gold.")
 		if(exp)
 			if(p.level < lvlcap)

@@ -366,6 +366,10 @@ mob
 				p.Resort_Stacking_Inv()
 
 			if(savefile_version < 15)
+				if(isnum(gold))       gold       = new /gold(gold)
+				if(isnum(goldinbank)) goldinbank = new /gold(goldinbank)
+
+			if(savefile_version < 99)
 				DeathEater = null
 				HA         = null
 				Auror      = null

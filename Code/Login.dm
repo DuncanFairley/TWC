@@ -778,7 +778,7 @@ mob
 			src<<"<h3>For a full player guide, visit http://guide.wizardschronicles.com.</h3>"
 			var/oldmob = src
 			src.client.mob = character
-			character.gold = 100
+			character.gold = new /gold(100)
 			character.client.eye = character
 			character.client.perspective = MOB_PERSPECTIVE
 			character.loc=locate(45,60,26)
@@ -1870,7 +1870,7 @@ mob/proc/Death_Check(mob/killer = src)
 				src.HP=src.MHP+extraMHP
 				src.MP=src.MMP+extraMMP
 				src.updateHPMP()
-				src.gold = round(src.gold / 2)
+				src.gold.add(-gold.get() / 2)
 				if(src.level < lvlcap)
 					src.Exp = round(src.Exp / 2)
 				src.sight &= ~BLIND
@@ -1910,7 +1910,7 @@ mob/proc/Death_Check(mob/killer = src)
 							new /StatusEffect/KilledPlayer (killer, 30)
 						else
 							rndexp = round(rndexp * 0.4)
-						killer.gold += rndexp
+						killer.gold.add(rndexp)
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 
 				/*	var/rep = -round(1 + (src:getRep() / 100), 1)
@@ -1965,8 +1965,7 @@ mob/proc/Death_Check(mob/killer = src)
 						killer<<"<i><small>You gained [gold2give] gold.</small></i>"
 
 				if(gold2give > 0)
-					killer.gold += gold2give
-					killer.gold  = round(killer.gold)
+					killer.gold.add(gold2give)
 				if(exp2give > 0)
 					killer:addExp(exp2give, !killer.MonsterMessages)
 
@@ -2098,7 +2097,7 @@ obj/Banker
 	density=1
 	mouse_over_pointer = MOUSE_HAND_POINTER
 
-	var/goldinbank
+	var/gold/goldinbank
 
 	New()
 		..()
@@ -2115,11 +2114,13 @@ obj/Banker
 	proc
 		addGold(var/amount, mob/Player/p)
 			if(goldinbank != null)
-				goldinbank   += amount
+				if(isnum(goldinbank)) goldinbank = new /gold(goldinbank)
+				goldinbank.add(amount)
 			else
-				p.goldinbank += amount
+				p.goldinbank.add(amount)
 		getGold(mob/Player/p)
-			return goldinbank != null ? goldinbank : p.goldinbank
+			if(isnum(goldinbank)) goldinbank = new /gold(goldinbank)
+			return goldinbank != null ? goldinbank.get() : p.goldinbank.get()
 
 
 	verb
@@ -2153,17 +2154,17 @@ obj/Banker
 							p.Resort_Stacking_Inv()
 							p.checkQuestProgress("Fred's Wand")
 				if("Deposit")
-					var/heh = input("You have [comma(usr.gold)] gold. How much do you wish to deposit?","Deposit",usr.gold) as null|num
+					var/heh = input("You have [comma(usr.gold)] gold. How much do you wish to deposit?","Deposit",usr.gold.get()) as null|num
 					if(heh==null)return
 					if (heh < 0)
 						alert("Don't try cheating me!","Bank Keeper")
 						return()
-					if (heh > usr.gold)
+					if (heh > usr.gold.get())
 						alert("You don't have that much!", "Deposit")
 						return()
 					if(get_dist(usr,src)>4)return
 					usr << "You deposit [comma(heh)] gold."
-					usr.gold -= heh
+					usr.gold.add(-heh)
 					addGold(heh, usr)
 					usr << "You now have [comma(getGold(usr))] gold in the bank."
 				if("Withdraw")
@@ -2177,7 +2178,7 @@ obj/Banker
 						return()
 					if(get_dist(usr,src)>4)return
 					usr << "You withdraw [comma(heh)] gold."
-					usr.gold += heh
+					usr.gold.add(heh)
 					addGold(-heh, usr)
 					usr << "You now have [comma(getGold(usr))] gold in the bank."
 				if("Balance")
@@ -2299,9 +2300,9 @@ mob/var/mute=0
 mob/var/listenooc=1
 mob/var/listenhousechat=1
 mob/var/player=1
-mob/var/gold=0
+mob/var/gold/gold=0
 mob/var/goldg=1
-mob/var/goldinbank=100
+mob/var/gold/goldinbank=100
 
 mob/var/monster=0
 mob/var/follow=0
