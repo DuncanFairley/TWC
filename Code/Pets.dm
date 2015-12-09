@@ -37,7 +37,7 @@ mob/Player
 		Give(mob/M in oview(1)&Players)
 			if(M.client)
 				var/given = input("Give how much gold to [M]?","You have [comma(usr.gold)] gold") as null|num
-				if(given>usr.gold)
+				if(given>usr.gold.get())
 					usr<<"You don't have that much gold."
 					return
 				if(given<0)
@@ -48,8 +48,8 @@ mob/Player
 					return
 				else
 
-					usr.gold-=given
-					M.gold+=given
+					usr.gold.add(-given)
+					M.gold.add(given)
 					hearers()<<"<b><i>[usr] gives [M] [comma(given)] gold.</i></b>"
 					Log_gold(given,usr,M)
 					return

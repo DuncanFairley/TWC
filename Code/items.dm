@@ -2009,7 +2009,7 @@ arena_round
 		Reward(var/mob/Player/plyr,amount)
 			//ONly used in Arena
 			if(rewardforwin == REWARD_GOLD)
-				plyr.gold += amount
+				plyr.gold.add(amount)
 				plyr << "You have been awarded [amount] gold."
 			else if(rewardforwin == REWARD_POINTS)
 				plyr << "You have earnt [amount] points for [plyr.House]"

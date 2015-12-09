@@ -20,7 +20,7 @@ trading
 				O.Move(with)
 			items = list()
 
-			with.gold += gold
+			with.gold.add(gold)
 
 			gold = 0
 
@@ -33,7 +33,7 @@ trading
 			for(var/obj/O in items)
 				O.Move(parent)
 
-			parent.gold += gold
+			parent.gold.add(gold)
 
 			if(!end && with && with.isTrading()) with.trade.Clean(1)
 
@@ -141,12 +141,12 @@ mob/Player
 						gcheck = round(gcheck)
 						if(gcheck < 0)
 							winset(src, "Trade.error", {"text="Number must be larger than 0""})
-						else if(gcheck > gold + trade.gold)
+						else if(gcheck > gold.get() + trade.gold)
 							winset(src, "Trade.error", {"text="You don't have that much gold""})
 						else
-							gold += trade.gold
+							gold.add(trade.gold)
 							trade.gold = gcheck
-							gold -= gcheck
+							gold.add(-gcheck)
 							winset(src, null, {"Trade.gold1.text=[comma(gcheck)];Trade.error.text="""})
 							winset(trade.with, "Trade.gold2", "text = [comma(gcheck)]")
 				else

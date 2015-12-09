@@ -34,14 +34,14 @@ mob
 				if(usr.level < lvlcap)
 					hearers(usr) << npcsay("Demetrius: Well hello there, [usr.gender == MALE ? "sonny" : "young lady"]. Unfortunately I cannot help you until you are of a higher level!")
 				else
-					if(usr.gold < 50000)
+					if(usr.gold.get() < 50000)
 						hearers(usr) << npcsay("Demetrius: Well hello there, [usr.gender == MALE ? "sonny" : "young lady"]. Unfortunately you need 50,000 gold before I am able to help you.")
 					else
 						switch(alert("Would you like to reset your stat points? It will cost 50,000 gold.",,"Yes","No"))
 							if("Yes")
-								if(usr.gold >= 50000)
+								if(usr.gold.get() >= 50000)
 									hearers(usr) << npcsay("Demetrius: There you go, [usr.gender == MALE ? "sonny" : "young lady"] - your stats are reset!")
-									usr.gold -= 50000
+									usr.gold.add(-50000)
 									usr.resetStatPoints()
 									usr.HP = usr.MHP + usr.extraMHP
 									usr.MP = usr.MMP + usr.extraMMP

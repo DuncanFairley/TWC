@@ -834,7 +834,7 @@ questReward
 
 	proc/get(mob/Player/p)
 		if(gold)
-			p.gold += gold
+			p.gold.add(gold)
 			p << infomsg("You receive [comma(gold)] gold.")
 		if(exp)
 			if(p.level < lvlcap)

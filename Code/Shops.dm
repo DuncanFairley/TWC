@@ -162,7 +162,7 @@ mob/TalkNPC/quest/Tom
 				if(usr.Year in list("1st Year","2nd Year","3rd Year",""))
 					usr << npcsay("Tom: Sorry mate. Come back when you're older.")
 				else
-					usr << npcsay("Tom: Sorry mate. Those rats have drank all of the beer.")
+					usr << npcsay("Tom: Sorry mate. Those rats drank all of the beer.")
 					/*var/obj/selecteditem
 					var/selectedprice
 					switch(input("Tom: What can I get for ya?","You have [comma(usr.gold)] gold")as null|anything in list("Draft Beer  50g","Iced Tea  50g"))
@@ -215,12 +215,12 @@ mob/TalkNPC/Divo
 			if(null)
 				usr << npcsay("Divo: Sorry that I don't have anything interesting to ya... ")
 				return
-		if(usr.gold < selectedprice)
+		if(usr.gold.get() < selectedprice)
 			usr<< npcsay("Divo: I'm running a business here - you don't have enough gold for this.")
 		else
 			if(selecteditem == /obj/items/wearable/magic_eye)
 				magicEyesLeft--
-			usr.gold -= selectedprice
+			usr.gold.add(-selectedprice)
 			ministrybank += taxrate*selectedprice/100
 			new selecteditem(usr)
 			usr << npcsay("Divo: Thank you.")
@@ -245,10 +245,10 @@ mob/TalkNPC/Blotts
 			if(null)
 				usr << npcsay("Blotts: Come see me any time if you change your mind.")
 				return
-		if(usr.gold < selectedprice)
+		if(usr.gold.get() < selectedprice)
 			usr << npcsay("Blotts: Unfortunately you don't have enough for this book - it's [selectedprice]g.")
 		else
-			usr.gold -= selectedprice
+			usr.gold.add(-selectedprice)
 			ministrybank += taxrate*selectedprice/100
 			new selecteditem(usr)
 			usr << npcsay("Blotts: Thanks very much for your business!")
@@ -276,9 +276,9 @@ mob/TalkNPC/Ollivander
 					var/wandname = "[length] inch [wood] wand ([core])"
 					switch(alert("This [wandname] costs 100 gold. Would you like to purchase it?","You have [comma(usr.gold)]","Yes","No"))
 						if("Yes")
-							if(usr.gold>=100)
+							if(usr.gold.get()>=100)
 								view(7,Olli) << "[nametext] Here's your new [wandname], [usr]!"
-								usr.gold -= 100
+								usr.gold.add(-100)
 								ministrybank += taxrate*100/100
 								var/obj/newwand
 								switch(wood)
@@ -381,9 +381,9 @@ mob/TalkNPC/Ollivander
 								return
 							switch(alert("This [wandname] costs 100 gold. Would you like to purchase it?","You have [comma(usr.gold)] gold.","Yes","No"))
 								if("Yes")
-									if(usr.gold>=100)
+									if(usr.gold.get()>=100)
 										view(7,Olli) << "[nametext] Here's your new [wandname], [usr]!"
-										usr.gold -= 100
+										usr.gold.add(-100)
 										ministrybank += taxrate*100/100
 										var/obj/newwand
 										switch(wood)
@@ -524,10 +524,10 @@ mob/TalkNPC/Broom_Salesman
 			if(null)
 				usr << npcsay("Chrono: Come see me any time if you change your mind.")
 				return
-		if(usr.gold < selectedprice)
+		if(usr.gold.get() < selectedprice)
 			usr << npcsay("Chrono: Unfortunately you don't have enough for this broom - it's [selectedprice]g.")
 		else
-			usr.gold -= selectedprice
+			usr.gold.add(-selectedprice)
 			ministrybank += taxrate*selectedprice/100
 			new selecteditem(usr)
 			usr << npcsay("Chrono: Thanks very much for your business, and be careful on the pitch!")
@@ -670,15 +670,15 @@ obj/shop
 
 				var/actualPrice = round(i.price * shopPriceModifier, 1)
 
-				if(usr.gold < actualPrice)
-					usr << infomsg("You don't have enough money for [i.name]. It costs [comma(actualPrice)]. You need [comma(actualPrice - usr.gold)] more gold.")
+				if(usr.gold.get() < actualPrice)
+					usr << infomsg("You don't have enough money for [i.name]. It costs [comma(actualPrice)]. You need [comma(actualPrice - usr.gold.get())] more gold.")
 					return
 
 				if(alert(usr, "Are you sure you want to buy [i.name] for [comma(actualPrice)] gold?","Are you sure?","Yes","No") == "Yes")
-					if(usr.gold >= actualPrice)
+					if(usr.gold.get() >= actualPrice)
 						new i.type (usr)
 						usr << infomsg("You bought [i] for [comma(actualPrice)] gold.")
-						usr.gold -= actualPrice
+						usr.gold.add(-actualPrice)
 						ministrybank += taxrate*actualPrice/100
 						usr:Resort_Stacking_Inv()
 
@@ -766,11 +766,11 @@ mob/TalkNPC/Vault_Salesman
 				artifacts += a
 				amount    += a.stack
 
-			if(usr.gold < selectedprice * 100000 || amount < selectedprice)
+			if(usr.gold.get() < selectedprice * 100000 || amount < selectedprice)
 				usr << npcsay("[name]: I'm running a business here - you can't afford this.")
 			else
 				if(usr:change_vault(selectedvault))
-					usr.gold -= selectedprice * 100000
+					usr.gold.add(-selectedprice * 100000)
 					ministrybank += taxrate*selectedprice*1000
 
 					for(var/obj/items/o in artifacts)
@@ -840,10 +840,10 @@ mob/TalkNPC/Artifacts_Salesman
 		for(var/obj/items/artifact/a in usr)
 			artifacts += a
 			amount += a.stack
-		if(usr.gold < selectedprice * 100000 || amount < selectedprice)
+		if(usr.gold.get() < selectedprice * 100000 || amount < selectedprice)
 			usr << npcsay("[name]: I'm running a business here - you can't afford this.")
 		else
-			usr.gold -= selectedprice * 100000
+			usr.gold.add(-selectedprice * 100000)
 			ministrybank += taxrate*selectedprice*1000
 			new selecteditem (usr)
 			for(var/obj/items/o in artifacts)
@@ -861,18 +861,20 @@ mob/TalkNPC/Artifacts_Salesman
 			usr << npcsay("[name]: Thank you.")
 
 proc
-    comma(n)
-        if(!isint(n))
-            .=copytext("[round(n-round(n),0.01)]",2)
-            n=round(n)
-        n=num2text(n,15)
-        while(length(n)>3)
-            .=",[copytext(n,length(n)-2)][.]"
-            n=copytext(n,1,length(n)-2)
-        return n+.
+	comma(n)
+		if(istype(n, /gold))
+			n = n:get()
+		if(!isint(n))
+			.=copytext("[round(n-round(n),0.01)]",2)
+			n=round(n)
+		n=num2text(n,15)
+		while(length(n)>3)
+			.=",[copytext(n,length(n)-2)][.]"
+			n=copytext(n,1,length(n)-2)
+		return n+.
 
-    isint(n)
-        return n==round(n)
+	isint(n)
+		return n==round(n)
 
 
 obj/items/wearable/shoes/green_shoes/price = 2000000

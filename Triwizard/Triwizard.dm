@@ -11,7 +11,6 @@ mob/NPC/Enemies
 	Grindylow
 		icon = 'Mobs.dmi'
 		icon_state = "grindylow"
-		gold = 195
 		HP = 2925
 		MHP = 2925
 		Dmg = 975

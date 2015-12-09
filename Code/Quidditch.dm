@@ -413,7 +413,7 @@ obj/quidditch
 					else if(prize)
 						if(prob(50)) // gold prize
 							var/g = rand(5000,10000)
-							user.gold += g
+							user.gold.add(g)
 							user << infomsg("You won [comma(g)] gold.")
 						else // house points prize
 							var/housenum = 1

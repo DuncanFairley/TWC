@@ -24,12 +24,12 @@ mob
 					var/choice = input("What would you like to do?") as null|anything in list("Deposit gold","Withdraw gold","Change tax rate")
 					switch(choice)
 						if("Deposit gold")
-							var/amount = input("How much would you like to deposit?",,usr.gold) as null|num
+							var/amount = input("How much would you like to deposit?",,usr.gold.get()) as null|num
 							if(!amount)return
-							if(usr.gold >= amount && amount > 0)
+							if(usr.gold.get() >= amount && amount > 0)
 								hearers() << npcsay("Head of Finance: I've placed the [amount] gold into the account.")
 								ministrybank += amount
-								usr.gold -= amount
+								usr.gold.add(-amount)
 							else
 								hearers() << npcsay("Head of Finance: You don't have that much gold.")
 						if("Withdraw gold")
@@ -38,7 +38,7 @@ mob
 							if(amount <= ministrybank && amount > 0)
 								hearers() << npcsay("Head of Finance: Here is the [amount] gold.")
 								ministrybank -= amount
-								usr.gold += amount
+								usr.gold.add(amount)
 							else
 								hearers() << npcsay("Head of Finance: There isn't that much gold in the ministry account.")
 
