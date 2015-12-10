@@ -1989,7 +1989,7 @@ mob/var/tmp/confused = 0
 obj/var
 	wlable = 0
 
-var/move_queue = TRUE
+var/move_queue = FALSE
 
 mob
 	var
