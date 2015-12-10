@@ -1102,6 +1102,15 @@ mob
 					variable = input("Which var?","Var") as null|anything in temp_custom
 
 			if(!variable) return
+
+			if(istype(O.vars[variable], /datum))
+
+				if(istype(O.vars[variable], /gold))
+					var/gold/g = O.vars[variable]
+					usr << "Variable contains: [g.get()]"
+				spawn() Edit(O.vars[variable])
+				return
+
 			var/default
 			var/typeof = O.vars[variable]
 			var/dir
