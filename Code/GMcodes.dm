@@ -982,7 +982,7 @@ mob
 			eventlog << "<tr><td><b>[src.name]</b></td><td>[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]</td><td>[message]</td></tr>"
 			for(var/mob/Player/p in Players)
 				p.beep(1)
-				p <<  "<hr><center><font color=blue><b>Announcement From [src]:</b><font><br><font color=red><b>[message]</font><hr></center>"
+				p <<  "<hr><center><font color=blue><b>Announcement From [src]:</b></font><br><font color=red><b>[message]</font><hr></center>"
 			if(!mysql_enabled) return
 			var/sql = "INSERT INTO tblEventLogs(name,timestamp,message) VALUES([mysql_quote("[name] ([key])")],UNIX_TIMESTAMP(),[mysql_quote(message)])"
 			var/DBQuery/qry = my_connection.NewQuery(sql)
