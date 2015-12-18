@@ -24,6 +24,7 @@ http://www.byond.com/developer/Audeuro.INIReader2
 http://www.byond.com/developer/Theodis.Pathfinder
 http://www.byond.com/developer/Deadron.TextHandling
 http://www.byond.com/developer/Deadron.Basecamp
+http://www.byond.com/developer/Rotem12.ColorMatrix
 
 Ensure you put the source in a folder named TWC, as your DME name must match the
 name of the folder it's in.
