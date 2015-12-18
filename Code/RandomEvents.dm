@@ -163,7 +163,7 @@ RandomEvent
 
 				for(var/i = 5; i > 0; i--)
 					for(var/mob/Player/p in Players)
-						p << announcemsg("[c.subject] Class is starting in [i] minute[i > 1 ? "s" : ""] for [c.name]. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
+						p << announcemsg("[c.subject] class is starting in [i] minute[i > 1 ? "s" : ""] for [c.name]. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
 					sleep(600)
 
 
