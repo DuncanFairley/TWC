@@ -49,15 +49,10 @@ clan_wars
 				Players << "<font color='#E5E4E2' size='3'><b>[wardraw]</b></font>"
 				c = "#704f32"
 
-			for(var/turf/woodenfloor/t in world)
+			for(var/turf/t in world)
 				if(t.z >= 21 && t.z <= 22)
-					t.color = c
-			for(var/turf/nofirezone/t in world)
-				if(t.z >= 21 && t.z <= 22 && findtext(t.icon_state, "wood"))
-					t.color = c
-			for(var/turf/sideBlock/t in world)
-				if(t.z >= 21 && t.z <= 22)
-					t.color = c
+					if(istype(t, /turf/woodenfloor) || istype(t, /turf/nofirezone) || istype(t, /turf/sideBlock))
+						t.color = c
 
 		timeout()
 			var/m = 0

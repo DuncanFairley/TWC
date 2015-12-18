@@ -12,7 +12,6 @@ mob
 		icon = 'NPCs.dmi'
 		NPC = 1
 		Gm = 1
-		player=1
 		Immortal=1
 		density=1
 		name = "Head of Finance"

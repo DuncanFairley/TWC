@@ -5,10 +5,6 @@
  * For the full license text, see LICENSE.txt.
  */
 var/obj/ministrybox/ministrybox
-mob/New()
-	if(client)
-		winset(src,"rpane.btnPotions","is-visible=true")
-	..()
 
 turf
 	teleport

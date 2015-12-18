@@ -1301,7 +1301,6 @@ mob/Mailman
 	icon_state="Mailman"
 	density=1
 	NPC=1
-	player=1
 	Gm=1
 	verb
 		Examine()
