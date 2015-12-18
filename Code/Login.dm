@@ -1528,6 +1528,7 @@ obj
 		var/containstype
 		var/list/obj/contains = list()
 		mouse_over_pointer = MOUSE_HAND_POINTER
+		name = "(Click to Expand)"
 		Click()
 			if(src in usr)
 				isopen = !isopen
@@ -1592,7 +1593,7 @@ mob/proc/Resort_Stacking_Inv()
 						stack.isopen = tmpstack.isopen
 				stack.icon = tmpV.icon
 				stack.icon_state = tmpV.icon_state
-				stack.name = tmpV.name
+	//			stack.name = tmpV.name
 				contents += stack
 				for(var/obj/O in contents)
 					if(istype(O,stack.containstype))
