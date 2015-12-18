@@ -1724,6 +1724,9 @@ obj/items/wearable/title
 	Crawler
 		title = "Crawler"
 		name  = "Title: Crawler"
+	Pirate
+		title = "Pirate"
+		name  = "Title: Pirate"
 	TWC
 		title = "I <3 TWC"
 		name  = "Title: I <3 TWC"
