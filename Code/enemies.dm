@@ -243,7 +243,7 @@ mob
 
 			Attacked(obj/projectile/p)
 				..()
-				if(prizePoolSize > 1 && p.owner && p.damage)
+				if(prizePoolSize > 1 && p.owner && p.damage && HP > 0)
 					if(!damage) damage = list()
 
 					var/perc = (p.damage / MHP) * 100
@@ -270,6 +270,9 @@ mob
 				HP = MHP
 //NEWMONSTERS
 			proc/Death(mob/Player/killer)
+				if(state == INACTIVE) return
+				state = INACTIVE
+
 				var/rate = 1
 
 				if(killer.House == housecupwinner)
@@ -303,14 +306,14 @@ mob
 
 				if(prize)
 
-					if(prizePoolSize > 1 && damage)
+					if(prizePoolSize > 1 && damage && damage.len > 1)
 						if(!(killer.ckey in damage) || damage[killer.ckey] < damageReq)
 							damage[killer.ckey] = damageReq
 
 						bubblesort_by_value(damage)
 
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-						for(var/i = min(prizePoolSize, damage.len) to 1 step -1)
+						for(var/i = damage.len to max(1 + damage.len - prizePoolSize, 1) step -1)
 							if(damage[damage[i]] < damageReq) break
 
 							var/obj/items/item = new prize (loc)
