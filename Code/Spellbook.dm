@@ -86,7 +86,6 @@ obj/spells
 					var/obj/o = m:UsedKeys[k]
 					if(o == src)
 						m:removeKey(k)
-						m:UsedKeys -= k
 						break
 		switch(name)
 			if("Glacius")
