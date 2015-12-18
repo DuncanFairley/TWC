@@ -452,6 +452,30 @@ mob/test/verb/FloorColor(c as color)
 		if(t.z >= 21 && t.z <= 22)
 			t.color = c
 
+mob/test/verb/pickColor(newColor as color)
+	set category = "colors"
+
+	var/ColorMatrix/c = new(newColor)
+
+	for(var/mob/Player/p in Players)
+		animate(p.client, color = c.matrix, time = 10)
+
+mob/test/verb/pickColorSatContBright(b as num, s as num, c as num)
+	set category = "colors"
+
+	var/ColorMatrix/cm = new(s, c, b)
+
+	for(var/mob/Player/p in Players)
+		animate(p.client, color = cm.matrix, time = 10)
+
+mob/test/verb/pickColorPreset(newColor in list("Invert", "BGR", "Greyscale", "Sepia", "Black & White", "Polaroid", "GRB", "RBG", "BRG", "GBR", "Normal"))
+	set category = "colors"
+
+	var/ColorMatrix/c = new(newColor)
+
+	for(var/mob/Player/p in Players)
+		animate(p.client, color = c.matrix, time = 10)
+
 obj/items/scroll/prize
 
 	icon = 'Scroll.dmi'
