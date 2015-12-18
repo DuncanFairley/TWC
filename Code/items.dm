@@ -129,6 +129,12 @@ obj/items
 				verbs -= new/obj/items/proc/Drop_All()
 
 		drop(mob/Player/owner, amount = 1)
+
+			if(owner.splitSize || owner.splitItem)
+				owner.splitSize = null
+				owner.splitItem = null
+				winset(owner, null, "splitStack.is-visible=false;")
+
 			if(stack > 1 && amount < stack)
 				var/obj/items/i = Split(amount)
 				var/area/a = getArea(loc)
@@ -188,10 +194,67 @@ obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_cont
 					if("Destroy")
 						if(src in usr)Destroy(usr)
 			else if(dropable)
-				Drop(usr)
+				if(stack > 1)
+					var/s = usr:split(src, over_object)
+					if(s)
+						if(s > 1)
+							hearers(owner) << infomsg("[usr] drops \his [name]x[s].")
+						else
+							hearers(owner) << infomsg("[usr] drops \his [name].")
+						drop(usr, s)
+
+				else
+					Drop(usr)
 			else if(destroyable)
 				Destroy(usr)
 	..()
+
+mob/Player
+	var/tmp
+		obj/items/splitItem
+		splitSize
+
+	proc/split(obj/items/i_Item, loc)
+
+		winset(src, null, "splitStack.is-visible=true;splitStack.splitPercent.value=100;splitStack.splitBar.value=100;splitButton.text=[i_Item.stack];")
+		splitItem = i_Item
+
+		while(splitItem && (i_Item in src) && i_Item && splitItem == i_Item)
+			sleep(1)
+
+		if(i_Item && splitItem == null && splitSize && (i_Item in src))
+			var/s = splitSize
+			splitSize = null
+			return s
+		return 0
+
+	verb/splitStack()
+		set hidden = 1
+		winset(src, null, "splitStack.is-visible=false;")
+		if(!splitItem) return
+
+		if(!splitSize)
+			splitSize = splitItem.stack
+
+		splitItem = null
+
+
+
+
+	verb/updateSplitStack()
+		set hidden = 1
+		if(!splitItem) return
+
+		var/val = text2num(winget(src, "splitStack.splitPercent", "value"))
+		var/s   = round(splitItem.stack * val / 100, 1)
+
+		winset(src, null, "splitStack.splitButton.text=\"[s]\";splitStack.splitBar.value=[val];")
+
+		s = min(s, splitItem.stack)
+		s = max(s, 1)
+
+		splitSize = s
+
 obj/items/verb/Examine()
 	set src in view(3)
 	usr << infomsg("<i>[desc]</i>")
