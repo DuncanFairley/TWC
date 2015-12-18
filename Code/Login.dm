@@ -779,6 +779,7 @@ mob
 			var/oldmob = src
 			src.client.mob = character
 			character.gold = new /gold(100)
+			character.goldinbank = new /gold(100)
 			character.client.eye = character
 			character.client.perspective = MOB_PERSPECTIVE
 			character.loc=locate(45,60,26)
@@ -2119,7 +2120,7 @@ obj/Banker
 			else
 				p.goldinbank.add(amount)
 		getGold(mob/Player/p)
-			if(isnum(goldinbank)) goldinbank = new /gold(goldinbank)
+			if(goldinbank && isnum(goldinbank)) goldinbank = new /gold(goldinbank)
 			return goldinbank != null ? goldinbank.get() : p.goldinbank.get()
 
 
@@ -2299,10 +2300,10 @@ mob/var/NPC=1
 mob/var/mute=0
 mob/var/listenooc=1
 mob/var/listenhousechat=1
-mob/var/player=1
-mob/var/gold/gold=0
+mob/var/player=0
+mob/var/gold/gold
 mob/var/goldg=1
-mob/var/gold/goldinbank=100
+mob/var/gold/goldinbank
 
 mob/var/monster=0
 mob/var/follow=0
