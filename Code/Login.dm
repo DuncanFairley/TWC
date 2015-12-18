@@ -322,6 +322,17 @@ mob/GM/verb/SaveMap()
 	if(map.swapmap.InUse())
 		alert("That map currently has a player on it.")
 		return
+
+	if(!admin)
+		for(var/turf/T in map.swapmap.AllTurfs())
+			for(var/atom/movable/a in T)
+
+				if(istype(a, /obj/items))
+					a.Dispose()
+
+				else if(istype(a, /mob/TalkNPC/EventMob))
+					a.Dispose()
+
 	map.swapmap.Save()
 	src << infomsg("Map name \"[map.name]\" has been saved.")
 proc
@@ -779,6 +790,7 @@ mob
 			var/oldmob = src
 			src.client.mob = character
 			character.gold = new /gold(100)
+			character.goldinbank = new /gold(100)
 			character.client.eye = character
 			character.client.perspective = MOB_PERSPECTIVE
 			character.loc=locate(45,60,26)
@@ -1527,6 +1539,7 @@ obj
 		var/containstype
 		var/list/obj/contains = list()
 		mouse_over_pointer = MOUSE_HAND_POINTER
+		name = "(Click to Expand)"
 		Click()
 			if(src in usr)
 				isopen = !isopen
@@ -1591,7 +1604,7 @@ mob/proc/Resort_Stacking_Inv()
 						stack.isopen = tmpstack.isopen
 				stack.icon = tmpV.icon
 				stack.icon_state = tmpV.icon_state
-				stack.name = tmpV.name
+	//			stack.name = tmpV.name
 				contents += stack
 				for(var/obj/O in contents)
 					if(istype(O,stack.containstype))
@@ -2119,7 +2132,7 @@ obj/Banker
 			else
 				p.goldinbank.add(amount)
 		getGold(mob/Player/p)
-			if(isnum(goldinbank)) goldinbank = new /gold(goldinbank)
+			if(goldinbank && isnum(goldinbank)) goldinbank = new /gold(goldinbank)
 			return goldinbank != null ? goldinbank.get() : p.goldinbank.get()
 
 
@@ -2299,10 +2312,10 @@ mob/var/NPC=1
 mob/var/mute=0
 mob/var/listenooc=1
 mob/var/listenhousechat=1
-mob/var/player=1
-mob/var/gold/gold=0
+mob/var/player=0
+mob/var/gold/gold
 mob/var/goldg=1
-mob/var/gold/goldinbank=100
+mob/var/gold/goldinbank
 
 mob/var/monster=0
 mob/var/follow=0

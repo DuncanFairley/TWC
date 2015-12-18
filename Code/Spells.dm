@@ -243,7 +243,7 @@ mob/Spells/verb/Deletrius()
 		for(var/obj/redroses/S in oview(usr.client.view,usr))
 			if(!S.GM_Made || (S.GM_Made && usr.Gm))
 				flick('GMOrb.dmi',S)
-				del S
+				S.Dispose()
 		hearers(usr.client.view,usr)<<"[usr] flicks \his wand, causing the roses to dissolve into the air."
 	else
 		usr << errormsg("This spell requires a wand.")
@@ -520,7 +520,7 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 
 mob/Spells/verb/Incarcerous()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,mpreq=50,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=50,againstocclumens=1))
 		new /StatusEffect/UsedStun(src,15)
 		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>:<b> Incarcerous!</b>"
 
@@ -595,7 +595,7 @@ mob/Spells/verb/Bombarda(obj/M in oview(src.client.view,src))
 mob/Spells/verb/Petreficus_Totalus()
 	set category="Spells"
 	set name = "Petrificus Totalus"
-	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,mpreq=50,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=50,againstocclumens=1))
 		new /StatusEffect/UsedStun(src,15)
 		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>:<b> Petrificus Totalus!</b>"
 

@@ -201,7 +201,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 14
+#define SAVEFILE_VERSION 15
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -365,9 +365,9 @@ mob
 
 				p.Resort_Stacking_Inv()
 
-			if(savefile_version < 15)
-				if(isnum(gold))       gold       = new /gold(gold)
-				if(isnum(goldinbank)) goldinbank = new /gold(goldinbank)
+			if(savefile_version < 16)
+				if(!gold       || isnum(gold))       gold       = new /gold(gold)
+				if(!goldinbank || isnum(goldinbank)) goldinbank = new /gold(goldinbank)
 
 			if(savefile_version < 99)
 				DeathEater = null
@@ -664,7 +664,7 @@ mob/BaseCamp/ChoosingCharacter
 				break
 			//alert("An old savefile is detected and needs to be converted into a new email-based savefile. The detected character is named \"[M.name]\" and is level [M.level].")
 			usr << output(HTMLOutput(src,"login"),"broLogin")*/
-		winset(src,null,"SpellBook.is-visible=false;Quests.is-visible=false;Auction.is-visible=false;mapwindow.on-size=\".resizeMap\";winSettings.is-visible=false;broLogin.is-visible=true;radio_enabled.is-checked=false;barHP.is-visible=false;barMP.is-visible=false;[radioEnabled ? "mnu_radio.is-disabled=false;" : ""]")
+		winset(src,null,"splitStack.is-visible=false;SpellBook.is-visible=false;Quests.is-visible=false;Auction.is-visible=false;mapwindow.on-size=\".resizeMap\";winSettings.is-visible=false;broLogin.is-visible=true;radio_enabled.is-checked=false;barHP.is-visible=false;barMP.is-visible=false;[radioEnabled ? "mnu_radio.is-disabled=false;" : ""]")
 		loc=locate(93,85,2)
 		..()
 

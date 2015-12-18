@@ -32,7 +32,7 @@ proc
 						mail(a.bidder, infomsg("Auction: You won the auction for the [a.item.name]."),     a.item)
 						mail(a.owner,  infomsg("Auction: Your [a.item.name] was sold during an auction."), a.minPrice)
 
-						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: (Bid) [a.owner] sold [a.item.name] to [a.bidder] for [a.minPrice]<br />"
+						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: (Bid) [a.owner] sold [a.item.name] x[a.item.stack] to [a.bidder] for [a.minPrice]<br />"
 					else
 						mail(a.owner,  errormsg("Auction: The [a.item.name] auction expired."), a.item)
 					a.item = null
@@ -233,48 +233,51 @@ mob/Player
 
 					count++
 
-					src << output(a.item,      "Auction.gridAuction:1,[count]")
-					src << output(a.item.desc, "Auction.gridAuction:2,[count]")
+					src << output(a.item,            "Auction.gridAuction:1,[count]")
+					src << output("x[a.item.stack]", "Auction.gridAuction:2,[count]")
+					src << output(a.item.desc,       "Auction.gridAuction:3,[count]")
 
 					if(a.buyout)
-						src << output("<a href=\"?src=\ref[a];action=buyoutAuction\">Buyout</a> [comma(a.buyoutPrice)]", "Auction.gridAuction:3,[count]")
-					else
-						src << output(null, "Auction.gridAuction:3,[count]")
-
-					if(a.bid)
-						if(a.bidder == ckey)
-							src << output("You're at lead bidding [comma(a.minPrice)] gold. (Bids: [a.bid - 1])", "Auction.gridAuction:4,[count]")
-						else
-							src << output("<a href=\"?src=\ref[a];action=bidAuction\">Bid</a> [comma(round(a.minPrice + (a.minPrice / 10), 1))] (Bids: [a.bid - 1])", "Auction.gridAuction:4,[count]")
+						src << output("<a href=\"?src=\ref[a];action=buyoutAuction\">Buyout</a> [comma(a.buyoutPrice)]", "Auction.gridAuction:4,[count]")
 					else
 						src << output(null, "Auction.gridAuction:4,[count]")
 
+					if(a.bid)
+						if(a.bidder == ckey)
+							src << output("You're at lead bidding [comma(a.minPrice)] gold. (Bids: [a.bid - 1])", "Auction.gridAuction:5,[count]")
+						else
+							src << output("<a href=\"?src=\ref[a];action=bidAuction\">Bid</a> [comma(round(a.minPrice + (a.minPrice / 10), 1))] (Bids: [a.bid - 1])", "Auction.gridAuction:5,[count]")
+					else
+						src << output(null, "Auction.gridAuction:5,[count]")
+
 					var/days = round((2592000 - (world.realtime - a.time)) / 864000, 1)
-					src << output("[days] days remaining", "Auction.gridAuction:5,[count]")
+					src << output("[days] days remaining", "Auction.gridAuction:6,[count]")
 
 					if(a.owner == ckey)
-						src << output("<a href=\"?src=\ref[a];action=removeAuction\">Remove</a>", "Auction.gridAuction:6,[count]")
+						src << output("<a href=\"?src=\ref[a];action=removeAuction\">Remove</a>", "Auction.gridAuction:7,[count]")
 					else
-						src << output(null, "Auction.gridAuction:6,[count]")
+						src << output(null, "Auction.gridAuction:7,[count]")
 
-				winset(src, null, "Auction.gridAuction.cells=6x[count]")
+				winset(src, null, "Auction.gridAuction.cells=7x[count]")
 
 			if(count < 3)
-				winset(src, null, "Auction.gridAuction.cells=6x2")
+				winset(src, null, "Auction.gridAuction.cells=7x2")
 
 		auctionOpen()
 			auctionInfo = new(src)
 			auctionBuild()
 
-			src << output(null, "Auction.gridAuctionAddItem")
+			src << output(null, "Auction.gridAuctionAddItem:1,1")
+			src << output(null, "Auction.gridAuctionAddItem:2,1")
 
 			winset(src, "Auction.gridAuction", "style='body{text-align:center;background-color:#0b81ff;color:#a8e2ff;}'")
 			src << output("<b>Item</b>", "Auction.gridAuction:1,1")
-			src << output("<b>Description</b>", "Auction.gridAuction:2,1")
-			src << output("<b>Buyout (Click Buyout to buy)</b>", "Auction.gridAuction:3,1")
-			src << output("<b>Bid (Click Bid to bid)</b>", "Auction.gridAuction:4,1")
-			src << output("<b>Time Remaining</b>", "Auction.gridAuction:5,1")
-			src << output(null, "Auction.gridAuction:6,1")
+			src << output("<b>Amount</b>", "Auction.gridAuction:2,1")
+			src << output("<b>Description</b>", "Auction.gridAuction:3,1")
+			src << output("<b>Buyout (Click Buyout to buy)</b>", "Auction.gridAuction:4,1")
+			src << output("<b>Bid (Click Bid to bid)</b>", "Auction.gridAuction:5,1")
+			src << output("<b>Time Remaining</b>", "Auction.gridAuction:6,1")
+			src << output(null, "Auction.gridAuction:7,1")
 
 
 			winshow(src, "Auction", 1)
@@ -333,7 +336,8 @@ mob/Player
 					auctionItems = list(auctionInfo)
 
 				auctionInfo = new(src)
-				src << output(null, "Auction.gridAuctionAddItem")
+				src << output(null, "Auction.gridAuctionAddItem:1,1")
+				src << output(null, "Auction.gridAuctionAddItem:2,1")
 				auctionError("")
 				auctionBuild()
 
@@ -373,11 +377,20 @@ obj/items
 						var/obj/items/lamps/lamp = src
 						lamp.S.Deactivate()
 
-					var/obj/items/i = stack > 1 ? Split(1) : src
+					var/obj/items/i
+					if(stack > 1)
+						var/s = P.split(src)
+						if(!P || !s || !P.auctionInfo) return
+						i = Split(s)
+					else
+						i = src
+
+				//	var/obj/items/i = stack > 1 ? Split(1) : src
 
 					if("ckeyowner" in i.vars)
 						src:ckeyowner = null
-					P << output(i, "Auction.gridAuctionAddItem")
+					P << output(i, "Auction.gridAuctionAddItem:1,1")
+					P << output("<b>x[i.stack]</b>", "Auction.gridAuctionAddItem:2,1")
 					P.auctionInfo.item = i
 					P.contents -= i
 					P.Resort_Stacking_Inv()
@@ -387,7 +400,8 @@ obj/items
 	Click(location,control,params)
 		var/mob/Player/P = usr
 		if(P.auctionInfo && P.auctionInfo.item == src)
-			P << output(null, "Auction.gridAuctionAddItem")
+			P << output(null, "Auction.gridAuctionAddItem:1,1")
+			P << output(null, "Auction.gridAuctionAddItem:2,1")
 			P.auctionInfo.item = null
 			Move(P)
 			P.Resort_Stacking_Inv()

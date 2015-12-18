@@ -662,12 +662,14 @@ mob/Player/quidditch/verb/Steal()
 			src << "You try to steal the quaffle from [from] but you fail."
 		return
 turf/Entered(atom/movable/M)
+	..()
 	if(M)
 		for(var/atom/A in src)
 			if(A == M) continue
 			if(!M || !M.loc)break
 			M.SteppedOn(A)
 turf/Exited(atom/movable/M)
+	..()
 	for(var/atom/A in src)
 		if(A == M) continue
 		if(!M)break

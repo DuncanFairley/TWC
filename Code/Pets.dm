@@ -65,7 +65,6 @@ obj/Sanctuario
 	icon='attacks.dmi'
 	icon_state="alohomora"
 	density=1
-	var/player=0
 	Bump(mob/M)
 		if(!istype(M, /mob)) return
 		if(M.monster||M.player)

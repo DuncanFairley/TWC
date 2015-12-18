@@ -683,3 +683,31 @@ area
 		if(istype(o, /obj/projectile) && issafezone(newloc.loc))
 			o.Dispose()
 		else return ..()
+
+mob/Player/var/tmp/stepColor = 0
+
+turf
+	var/clientColor
+
+	Entered(atom/movable/Obj, atom/newloc)
+
+		if(isplayer(Obj) && clientColor)
+			var/mob/Player/p = Obj
+			p.stepColor = 1
+
+			var/ColorMatrix/c = new(clientColor)
+
+			animate(p.client, color = c.matrix, time = 10)
+
+		..()
+
+	Exited(atom/movable/Obj, atom/newloc)
+
+		if(isplayer(Obj) && Obj:stepColor)
+			var/mob/Player/p = Obj
+			p.stepColor = 0
+			spawn(1)
+				if(p && !p.stepColor)
+					animate(p.client, color = null, time = 10)
+
+		..()

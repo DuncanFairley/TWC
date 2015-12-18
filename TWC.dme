@@ -37,6 +37,7 @@
 // BEGIN_INCLUDE
 #include <audeuro\inireader2\INI Reader 2\INI Reader 2.dme>
 #include <deadron\texthandling\TextHandling.dme>
+#include <rotem12\colormatrix\ColorMatrix.dme>
 #include <stephen001\eventscheduling\Events\Events.dme>
 #include <theodis\pathfinder\Pathfinder.dme>
 #include "potinf.dmf"
@@ -61,6 +62,7 @@
 #include "Code\dmifontplus.dm"
 #include "Code\Drag and Drop.dm"
 #include "Code\Dueling.dm"
+#include "Code\enemies drops.dm"
 #include "Code\enemies.dm"
 #include "Code\EXP.dm"
 #include "Code\extra.dm"
