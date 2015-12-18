@@ -243,7 +243,7 @@ mob/Spells/verb/Deletrius()
 		for(var/obj/redroses/S in oview(usr.client.view,usr))
 			if(!S.GM_Made || (S.GM_Made && usr.Gm))
 				flick('GMOrb.dmi',S)
-				del S
+				S.Dispose()
 		hearers(usr.client.view,usr)<<"[usr] flicks \his wand, causing the roses to dissolve into the air."
 	else
 		usr << errormsg("This spell requires a wand.")
