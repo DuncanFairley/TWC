@@ -206,7 +206,7 @@ mob
 		var/active = 0
 		var/HPmodifier = 0.9
 		var/DMGmodifier = 0.55
-		var/list/drops = list()
+		var/list/drops
 		var/tmp/turf/origloc
 
 		Enemies
@@ -214,10 +214,6 @@ mob
 			Gm = 1
 			monster = 1
 			NPC = 1
-
-			drops = list("0.5" = list(/obj/items/Whoopie_Cushion,
-			 			  			  /obj/items/Smoke_Pellet,
-			 			  			  /obj/items/Tube_of_fun))
 
 			var
 				const
@@ -239,7 +235,15 @@ mob
 				respawnTime   = 1200
 
 				prizePoolSize = 1
-				damageReq     = 20
+				damageReq     = 15
+
+			Dispose()
+				..()
+
+				damage  = null
+				origloc = null
+				drops   = null
+				state   = INACTIVE
 
 			Attacked(obj/projectile/p)
 				..()
@@ -285,11 +289,25 @@ mob
 				rate *= DropRateModifier
 
 				var/obj/items/prize
-				for(var/i in drops)
-					if(prob(text2num(i) * rate))
-						var/t = istype(drops[i], /list) ? pick(drops[i]) : drops[i]
-						prize = t
-						break
+
+				var/list/possible_drops = drops
+
+				if(!possible_drops && name == initial(name))
+					possible_drops = (name in drops_list) ? drops_list[name] : drops_list["default"]
+
+				if(islist(possible_drops))
+					for(var/i in possible_drops)
+						var/chance = text2num(i)
+
+						if(!chance)
+							prize = pick(possible_drops)
+							break
+						else if(prob(chance * rate))
+							var/t = islist(possible_drops[i]) ? pick(possible_drops[i]) : possible_drops[i]
+							prize = t
+							break
+				else if(possible_drops)
+					prize = possible_drops
 
 				if(name == initial(name) && prob(0.1))
 					var/obj/items/wearable/title/Slayer/t = new (loc)
@@ -619,14 +637,6 @@ mob
 							fired       = 0
 							damageTaken = 0
 
-
-						drops = list("100" = list(/obj/items/key/blood_key,
-						                          /obj/items/wearable/title/Crawler,
-						                          /obj/items/chest/blood_chest,
-						                          /obj/items/magic_stone/eye,
-												  /obj/items/lamps/triple_drop_rate_lamp,
-												  /obj/items/lamps/triple_gold_lamp))
-
 						New()
 							..()
 							transform *= 5 + (rand(-10, 10) / 10)
@@ -679,14 +689,6 @@ mob
 						var/tmp/fired = 0
 						var/proj = "gum"
 						canBleed = FALSE
-
-						drops = list("100" = list(/obj/items/key/basic_key,
-						                          /obj/items/key/wizard_key,
-						                          /obj/items/wearable/title/Ghost,
-												  /obj/items/lamps/triple_drop_rate_lamp,
-												  /obj/items/lamps/triple_gold_lamp,
-												  /obj/items/wearable/afk/heart_ring))
-
 
 						New()
 							..()
@@ -782,22 +784,18 @@ mob
 						var/tmp/fired = 0
 						extraDmg = 400
 
-						drops = list("100" = list(/obj/items/key/winter_key,
-						                          /obj/items/wearable/title/Snowflakes,
-												  /obj/items/lamps/triple_drop_rate_lamp,
-												  /obj/items/lamps/triple_gold_lamp,
-												  /obj/items/wearable/afk/hot_chocolate))
-
-
+						#ifdef HIDDEN
 						Death(mob/Player/killer)
-							#ifdef HIDDEN
 							var/obj/snow_counter/count = locate("SnowCounter")
-							if(count.add())
-								new /mob/NPC/Enemies/Summoned/Boss/Snowman/Super (loc)
+							if(count.add(100))
+								spawn()
+									var/mob/NPC/Enemies/Summoned/Boss/Snowman/Super/s = new(loc)
+									sleep(36000)
+									s.Dispose()
 
 								Players << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
-							#endif
 							..()
+						#endif
 
 						Attack(mob/M)
 							..()
@@ -926,21 +924,6 @@ mob
 					if(state == 0 && origloc && HP > 0)
 						loc = origloc
 
-				drops = list("2"    = /obj/items/key/wizard_key,
-				             "10"   = list(/obj/items/artifact,
-										   /obj/items/stickbook,
-										   /obj/items/crystal/soul,
-				                           /obj/items/wearable/title/Surf),
-							 "15"   = list(/obj/items/artifact,
-							               /obj/items/crystal/magic,
-							               /obj/items/crystal/strong_luck),
-							 "16"   = list(/obj/items/DarknessPowder,
-								 		   /obj/items/Whoopie_Cushion,
-										   /obj/items/U_No_Poo,
-							 			   /obj/items/Smoke_Pellet,
-							 			   /obj/items/Tube_of_fun,
-							 			   /obj/items/Swamp))
-
 				Attack()
 					if(!target || !target.loc || target.loc.loc != loc.loc || !(target in ohearers(src,Range)))
 						target = null
@@ -1020,10 +1003,6 @@ mob
 			Demon_Rat
 				icon_state = "demon rat"
 				level = 50
-				drops = list("1" =      /obj/items/demonic_essence,
-							 "0.8" = list(/obj/items/Whoopie_Cushion,
-			 	 			 			  /obj/items/Smoke_Pellet,
-			 	 			 			  /obj/items/Tube_of_fun))
 			Pixie
 				icon_state = "pixie"
 				level = 100
@@ -1046,14 +1025,24 @@ mob
 				DMGmodifier = 1
 				MoveDelay = 4
 				AttackDelay = 3
-				drops = list("0.01" =      /obj/items/artifact,
-							 "5"    = list(/obj/items/DarknessPowder,
-								 		   /obj/items/Whoopie_Cushion,
-										   /obj/items/U_No_Poo,
-							 			   /obj/items/Smoke_Pellet,
-							 			   /obj/items/Tube_of_fun,
-							 			   /obj/items/Swamp),
-							 "30"   = /obj/items/gift)
+				respawnTime = 1800
+
+				#ifdef HIDDEN
+				Death(mob/Player/killer)
+					var/obj/snow_counter/count = locate("SnowCounter")
+					if(count.add())
+
+						spawn()
+							var/obj/spawner/spawn_loc = pick(spawners)
+
+							var/mob/NPC/Enemies/Summoned/Boss/Snowman/Super/s = new(spawn_loc.loc)
+							sleep(36000)
+							s.Dispose()
+
+					Players << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
+					..()
+				#endif
+
 			Wisp
 				icon_state = "wisp"
 				level = 750
@@ -1063,23 +1052,6 @@ mob
 				MoveDelay = 3
 				canBleed = FALSE
 				var/tmp/fired = 0
-
-				drops = list("3"    =      /obj/items/crystal/luck,
-							 "0.3"  = list(/obj/items/key/basic_key,
-							               /obj/items/key/wizard_key,
-							               /obj/items/key/pentakill_key,
-							               /obj/items/key/sunset_key),
-						     "0.8"  = list(/obj/items/crystal/defense,
-							 			   /obj/items/crystal/damage),
-						     "0.01" = /obj/items/artifact,
-							 "0.03" = list(/obj/items/wearable/title/Magic,
-							 			   /obj/items/crystal/magic,
-						     			   /obj/items/crystal/strong_luck,
-						     			   /obj/items/crystal/soul),
-							 "4"    = list(/obj/items/DarknessPowder,
-							 			   /obj/items/Smoke_Pellet,
-							 			   /obj/items/Tube_of_fun))
-
 
 				Attack(mob/M)
 					..()
@@ -1130,7 +1102,6 @@ mob
 					if(prob(70)) transform *= 1 + (rand(-5,15) / 50) // -10% to +30% size change
 
 
-
 			Floating_Eye
 				icon_state = "eye1"
 				level = 900
@@ -1152,21 +1123,6 @@ mob
 
 					Range     = 20
 					MoveDelay = 2
-
-					drops = list("10"     = list(/obj/items/artifact,
-										         /obj/items/crystal/soul,
-				                                 /obj/items/wearable/title/Fallen,
-				                                 /obj/items/rosesbook,
-				                                 /obj/items/key/sunset_key),
-							     "15"     = list(/obj/items/artifact,
-							                     /obj/items/crystal/magic,
-							                     /obj/items/crystal/strong_luck),
-							     "16"     = list(/obj/items/DarknessPowder,
-								 		         /obj/items/Whoopie_Cushion,
-										         /obj/items/U_No_Poo,
-							 			         /obj/items/Smoke_Pellet,
-							 			         /obj/items/Tube_of_fun,
-							 			         /obj/items/Swamp))
 
 
 					Death()
@@ -1196,19 +1152,6 @@ mob
 					icon_state = "eye[rand(1,2)]"
 					if(prob(60))
 						transform *= 1 + (rand(-15,30) / 50) // -30% to +60% size change
-
-				drops = list("0.03" = /obj/items/wearable/title/Eye,
-							 "0.5"  = list(/obj/items/key/basic_key,
-							               /obj/items/key/wizard_key,
-							               /obj/items/key/pentakill_key,
-							               /obj/items/key/sunset_key),
-							 "0.6"  = /obj/items/artifact,
-							 "0.7"    = list(/obj/items/DarknessPowder,
-								 	 	   /obj/items/Whoopie_Cushion,
-									 	   /obj/items/U_No_Poo,
-							 		 	   /obj/items/Smoke_Pellet,
-							 		 	   /obj/items/Tube_of_fun,
-							 		       /obj/items/Swamp))
 
 				Search()
 					Wander()
@@ -1269,14 +1212,6 @@ mob
 				DMGmodifier = 0.8
 				MoveDelay   = 4
 				AttackDelay = 4
-
-				drops = list("0.9" = list(/obj/items/Whoopie_Cushion,
-			 				  			  /obj/items/Smoke_Pellet,
-			 			  				  /obj/items/Tube_of_fun),
-			 			  	 "0.7" = list(/obj/items/wearable/bling,
-			 			  	 			  /obj/items/bucket,
-			 			  	 			  /obj/items/scroll,
-			 			  	 			  /obj/items/wearable/title/Troll))
 
 				New()
 					..()
