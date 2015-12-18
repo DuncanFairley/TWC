@@ -322,6 +322,17 @@ mob/GM/verb/SaveMap()
 	if(map.swapmap.InUse())
 		alert("That map currently has a player on it.")
 		return
+
+	if(!admin)
+		for(var/turf/T in map.swapmap.AllTurfs())
+			for(var/atom/a in T)
+
+				if(istype(a, /obj/items))
+					a.Dispose()
+
+				else if(istype(a, /mob/TalkNPC/EventMob))
+					a.Dispose()
+
 	map.swapmap.Save()
 	src << infomsg("Map name \"[map.name]\" has been saved.")
 proc
