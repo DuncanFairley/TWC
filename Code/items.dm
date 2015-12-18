@@ -2219,7 +2219,6 @@ obj/items/rosesbook
 
 
 obj/items/spellbook
-	name       = "The Crappy Artist's Guide to Stick Figures"
 	icon       = 'Books.dmi'
 	icon_state = "spell"
 
@@ -2234,9 +2233,12 @@ obj/items/spellbook
 
 	Click()
 		if(src in usr)
-			usr<<"<b><font color=white><font size=3>You learned Crapus Sticketh."
-			usr.verbs += /mob/Spells/verb/Crapus_Sticketh
-			Consume()
+			if(spell in usr.verbs)
+				usr << errormsg("You already know this spell.")
+			else
+				usr<<"<b><font color=white><font size=3>You learned [name]."
+				usr.verbs += spell
+				Consume()
 		else
 			..()
 
