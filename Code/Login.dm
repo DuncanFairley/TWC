@@ -325,7 +325,7 @@ mob/GM/verb/SaveMap()
 
 	if(!admin)
 		for(var/turf/T in map.swapmap.AllTurfs())
-			for(var/atom/a in T)
+			for(var/atom/movable/a in T)
 
 				if(istype(a, /obj/items))
 					a.Dispose()
