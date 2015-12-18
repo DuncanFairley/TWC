@@ -1173,10 +1173,11 @@ obj/items/wearable/wands/interruption_wand //Fred's quest
 obj/items/wearable/wands/salamander_wand //Bag of goodies
 	icon = 'salamander_wand.dmi'
 	displayColor = "#FFa500"
-obj/items/wearable/wands/mithril_wand //GM wand
+obj/items/wearable/wands/mithril_wand
 	icon = 'mithril_wand.dmi'
-obj/items/wearable/wands/mulberry_wand //GM wand
+obj/items/wearable/wands/mulberry_wand
 	icon = 'mulberry_wand.dmi'
+	displayColor = "#f39"
 obj/items/wearable/wands/royale_wand //Royal event reward?
 	icon = 'royale_wand.dmi'
 	displayColor = "#8560b3"

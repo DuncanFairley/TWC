@@ -51,7 +51,8 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 
 "Snowman"            = list("0.01" = list(/obj/items/artifact,
                                           /obj/items/wearable/orb/peace,
-							              /obj/items/wearable/orb/chaos),
+							              /obj/items/wearable/orb/chaos,
+							              /obj/items/wearable/wands/mulberry_wand),
 							 "5"   = list(/obj/items/DarknessPowder,
 								 		  /obj/items/Whoopie_Cushion,
 										  /obj/items/U_No_Poo,
