@@ -5,6 +5,8 @@ obj
 		icon       = 'HUD.dmi'
 		icon_state = "actionbarbox"
 
+		appearance_flags = NO_CLIENT_COLOR
+
 		keys
 			var
 				key

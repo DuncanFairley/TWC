@@ -48,7 +48,7 @@ mob/Player
 		matchmaking_ready = 0
 
 obj/hud
-
+	appearance_flags = NO_CLIENT_COLOR
 	duel
 		layer = 20
 		Background
