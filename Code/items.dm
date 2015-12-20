@@ -378,7 +378,8 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			o.icon = src.icon
 			o.layer = wear_layer
 
-			if(!snowCurse) owner.overlays += o
+			if(!snowCurse)
+				owner.overlays += o
 
 		if(!owner.Lwearing) owner.Lwearing = list()
 		owner.Lwearing.Add(src)
@@ -675,6 +676,12 @@ obj/items/gift
 
 			pixel_y = rand(-4,4)
 			pixel_x = rand(-4,4)
+
+			ckeyowner = usr.ckey
+
+			if(stack > 1)
+				var/obj/items/s = Split(stack - 1)
+				s.loc = src.loc
 
 			usr:Resort_Stacking_Inv()
 
@@ -1210,6 +1217,9 @@ obj/items/wearable/wands/blood_wand
 obj/items/wearable/wands/dragonhorn_wand
 	icon = 'dragonhorn_wand.dmi'
 	displayColor = "#037800"
+obj/items/wearable/wands/light_wand
+	icon = 'light_wand.dmi'
+	displayColor = "#64c8ff"
 
 obj/items/wearable/wigs
 	price = 500000
