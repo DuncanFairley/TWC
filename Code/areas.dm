@@ -331,6 +331,7 @@ mob
 						if(i % gap == 0)
 							var/turf/A = path[i]
 							var/image/arrow = image('arrows.dmi', A)
+							arrow.appearance_flags = NO_CLIENT_COLOR|RESET_COLOR
 							arrow.layer = 10
 							usr << arrow
 					return 1
@@ -675,8 +676,11 @@ area
 
 
 	Enter(atom/movable/o, atom/oldloc)
-		if(istype(o, /obj/projectile) && issafezone(src))
-			o.Dispose()
+		if(istype(o, /obj/projectile))
+			if(issafezone(src))
+				o.Dispose()
+			else if(!istype(oldloc.loc, /area/newareas) && istype(src, /area/newareas))
+				o.Dispose()
 		else return ..()
 
 	Exit(atom/movable/o, atom/newloc)
