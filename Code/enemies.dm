@@ -841,6 +841,9 @@ mob
 
 						var/tmp/fired = 0
 
+						Death()
+
+
 						BlindAttack()
 							spawn()
 								for(var/i = 1 to 3)
@@ -1030,7 +1033,7 @@ mob
 				#ifdef HIDDEN
 				Death(mob/Player/killer)
 					var/obj/snow_counter/count = locate("SnowCounter")
-					if(count.add())
+					if(count.add(1))
 
 						spawn()
 							var/obj/spawner/spawn_loc = pick(spawners)
@@ -1039,7 +1042,7 @@ mob
 							sleep(36000)
 							s.Dispose()
 
-					Players << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
+						Players << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
 					..()
 				#endif
 
