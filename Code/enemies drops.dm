@@ -49,9 +49,11 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 			 	 			 			  /obj/items/Tube_of_fun)),
 
 
-"Snowman"            = list("0.01" = list(/obj/items/artifact,
+"Snowman"            = list("0.02" = list(/obj/items/artifact,
                                           /obj/items/wearable/orb/peace,
 							              /obj/items/wearable/orb/chaos,
+							              /obj/items/key/winter_key,
+							              /obj/items/chest/winter_chest,
 							              /obj/items/wearable/wands/mulberry_wand),
 							 "5"   = list(/obj/items/DarknessPowder,
 								 		  /obj/items/Whoopie_Cushion,
@@ -59,7 +61,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							 			  /obj/items/Smoke_Pellet,
 							 			  /obj/items/Tube_of_fun,
 							 			  /obj/items/Swamp),
-							 "30"  =      /obj/items/gift),
+							 "25"  =      /obj/items/gift),
 
 
 "Wisp"               = list("3"    =      /obj/items/crystal/luck,
