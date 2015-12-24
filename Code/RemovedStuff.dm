@@ -455,7 +455,7 @@ mob/test/verb/FloorColor(c as color)
 mob/test/verb/pickColor(newColor as color)
 	set category = "colors"
 
-	var/ColorMatrix/c = new(newColor)
+	var/ColorMatrix/c = new(newColor, 0.75)
 
 	for(var/mob/Player/p in Players)
 		animate(p.client, color = c.matrix, time = 10)
@@ -474,7 +474,7 @@ mob/test/verb/pickColorPreset(newColor in list("Invert", "BGR", "Greyscale", "Se
 	if(newColor == "Normal")
 		for(var/mob/Player/p in Players)
 			animate(p.client, color = null, time = 10)
-			return
+		return
 
 	var/ColorMatrix/c = new(newColor)
 
