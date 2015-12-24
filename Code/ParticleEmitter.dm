@@ -76,11 +76,11 @@ proc/dir2angle(dir)
 	if(dir == NORTHEAST) return 315
 	return 0
 
-proc/emit(var/atom/loc, ptype, amount=10, Random/angle, speed, Random/life)
+proc/emit(var/atom/loc, ptype, amount=10, Random/angle, speed, Random/life, color = null)
 	if(isobj(loc) || ismob(loc)) loc = loc.loc
 	for(var/i = 1 to amount)
 		var/obj/particle/p = particle_emitter.get_particle(ptype)
-		p.config(angle.get(), speed, life.get())
+		p.config(angle.get(), speed, life.get(), color)
 		p.loc = loc
 		p.update()
 
@@ -99,11 +99,14 @@ obj/particle
 	layer = 5
 
 	proc
-		config(angle, speed, life)
+		config(angle, speed, life, color = null)
 			src.life = life
 
 			v.x =  speed * cos(angle)
 			v.y = -speed * sin(angle)
+
+			if(color)
+				src.color = color
 
 		impact()
 
@@ -188,14 +191,7 @@ obj/particle
 		loop  = 1
 		color = "#bbb"
 
-		red
-			color = "#c60"
-		blue
-			color = "#0bc"
-		pink
-			color = "#ff69b4"
-		brown
-			color = "#8b4513"
+		proj
 		green
 			size  = 4
 			color = "#00f000"

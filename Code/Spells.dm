@@ -1677,20 +1677,25 @@ obj
 
 				if(effect && (!damage || !ismob(a)))
 					var/particle
+					var/c
 
 					switch(icon_state)
 						if("snowball")
 							particle = /obj/particle/fluid/snow
 						if("iceball")
-							particle = /obj/particle/smoke/blue
+							particle = /obj/particle/smoke/proj
+							c = "#0bc"
 						if("fireball")
-							particle = /obj/particle/smoke/red
+							particle = /obj/particle/smoke/proj
+							c = "#c60"
 						if("gum")
-							particle = /obj/particle/smoke/pink
+							particle = /obj/particle/smoke/proj
+							c = "#ff69b4"
 						if("flippendo")
 							particle = /obj/particle/smoke
 						if("quake")
-							particle = /obj/particle/smoke/brown
+							particle = /obj/particle/smoke/proj
+							c = "#8b4513"
 
 					if(particle)
 
@@ -1703,7 +1708,8 @@ obj
 						     amount = 4,
 						     angle  = new /Random(n - 25, n + 25),
 						     speed  = 2,
-						     life   = new /Random(15,20))
+						     life   = new /Random(15,20),
+						     color  = color ? color : c)
 
 			Effect(atom/movable/a)
 

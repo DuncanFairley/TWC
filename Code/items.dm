@@ -3574,32 +3574,32 @@ obj/items/colors
 		else
 			..()
 
-	green
+	green_stone
 		icon_state = "green"
 		projColor  = "#006600"
-	red
+	red_stone
 		icon_state = "red"
 		projColor  = "#660000"
-	blue
+	blue_stone
 		icon_state = "blue"
 		projColor  = "#000066"
-	yellow
+	yellow_stone
 		icon_state = "yellow"
 		projColor  = "#666600"
 
-	purple
+	purple_stone
 		reqLevel   = 10
 		icon_state = "purple"
 		projColor  = "#660066"
-	pink
+	pink_stone
 		reqLevel   = 10
 		icon_state = "pink"
 		projColor  = "#990033"
-	teal
+	teal_stone
 		reqLevel   = 10
 		icon_state = "teal"
 		projColor  = "#006666"
-	orange
+	orange_stone
 		reqLevel   = 10
 		icon_state = "orange"
 		projColor  = "#994400"
