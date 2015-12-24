@@ -1214,7 +1214,7 @@ mob
 				if("list")
 					variable = input("Which?","Var") as null|anything in O.vars[variable]
 					if(!variable) return
-					if(istype(variable,/atom))
+					if(istype(variable,/datum))
 						spawn() Edit(variable)
 					else
 						usr << "You can't edit this."
