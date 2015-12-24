@@ -524,7 +524,7 @@ mob/Spells/verb/Incarcerous()
 		new /StatusEffect/UsedStun(src,15)
 		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>:<b> Incarcerous!</b>"
 
-		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 2 }, icon_state = "bind", name = "Incarcerous", lag = 1)
+		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 1.7 }, icon_state = "bind", name = "Incarcerous", lag = 1)
 
 mob/Spells/verb/Anapneo(var/mob/M in view(usr.client.view,usr)&Players)
 	set category="Spells"
@@ -599,7 +599,7 @@ mob/Spells/verb/Petreficus_Totalus()
 		new /StatusEffect/UsedStun(src,15)
 		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>:<b> Petrificus Totalus!</b>"
 
-		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 2 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
+		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 1.7 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
 
 mob
 	Player/var/tmp/antifigura = 0
@@ -1510,7 +1510,14 @@ mob
 			//Used in monsters as well
 			src.MP -= MPreq
 			src.updateHPMP()
-			src:learnSpell(name)
+
+			var/mob/Player/p = src
+			if(p.wand)
+				p.learnSpell(name)
+
+				if(p.wand.projColor)
+					P.color = list(p.wand.projColor, p.wand.projColor, p.wand.projColor)
+
 
 atom/movable/proc
 	Attacked(obj/projectile/p)

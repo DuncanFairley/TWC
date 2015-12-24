@@ -965,6 +965,7 @@ obj/items/wearable/wands
 	var
 		track
 		displayColor
+		projColor
 		killCount        = 0
 		monsterKillCount = 0
 		exp              = 0
@@ -3529,3 +3530,76 @@ proc/pickweight(list/L)
 		totweight -= weight
 		if(totweight < 0)
 			return L[i]
+
+obj/wand_desk
+	mouse_opacity = 2
+
+	Click()
+		..()
+
+		if(usr in oview(1, src))
+			usr << infomsg("If you have any wand coloring stones, click them to apply the color effect.")
+
+obj/items/colors
+
+	icon = 'Colors.dmi'
+
+	var
+		reqLevel = 5
+		projColor
+
+	Click()
+		if(src in usr)
+
+			var/mob/Player/p = usr
+
+			if(!(locate(/obj/wand_desk) in oview(1)))
+				p << errormsg("You need some tools in order to apply this to your equipped wand.")
+				return
+			if(!p.wand)
+				p << errormsg("You have to have a wand equipped.")
+				return
+			if(p.wand.quality * 10 < reqLevel)
+				p << errormsg("Your wand has to be at least level [reqLevel].")
+				return
+
+			if(p.wand.projColor && alert("Are you sure you want to override this wand's color?", "Override Wand Color", "Yes", "No") == "No")
+				return
+
+			if(locate(/obj/wand_desk) in oview(1))
+				p << infomsg("You applied new <font color=\"[projColor]\">magical color</font> to your equipped wand.")
+				p.wand.projColor = projColor
+				Dispose()
+				p.Resort_Stacking_Inv()
+		else
+			..()
+
+	green
+		icon_state = "green"
+		projColor  = "#006600"
+	red
+		icon_state = "red"
+		projColor  = "#660000"
+	blue
+		icon_state = "blue"
+		projColor  = "#000066"
+	yellow
+		icon_state = "yellow"
+		projColor  = "#666600"
+
+	purple
+		reqLevel   = 10
+		icon_state = "purple"
+		projColor  = "#660066"
+	pink
+		reqLevel   = 10
+		icon_state = "pink"
+		projColor  = "#990033"
+	teal
+		reqLevel   = 10
+		icon_state = "teal"
+		projColor  = "#006666"
+	orange
+		reqLevel   = 10
+		icon_state = "orange"
+		projColor  = "#994400"
