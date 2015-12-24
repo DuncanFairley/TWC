@@ -524,7 +524,7 @@ mob/Spells/verb/Incarcerous()
 		new /StatusEffect/UsedStun(src,15)
 		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>:<b> Incarcerous!</b>"
 
-		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 1.7 }, icon_state = "bind", name = "Incarcerous", lag = 1)
+		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 1 }, icon_state = "bind", name = "Incarcerous", lag = 1)
 
 mob/Spells/verb/Anapneo(var/mob/M in view(usr.client.view,usr)&Players)
 	set category="Spells"
@@ -599,7 +599,7 @@ mob/Spells/verb/Petreficus_Totalus()
 		new /StatusEffect/UsedStun(src,15)
 		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>:<b> Petrificus Totalus!</b>"
 
-		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 1.7 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
+		castproj(MPreq = 50, Type = /obj/projectile/Bind { min_time = 0.5; max_time = 2.5 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
 
 mob
 	Player/var/tmp/antifigura = 0
@@ -1795,7 +1795,22 @@ obj
 						src.owner:learnSpell(name, 5)
 
 		Bind
-			var/time = 1
+			var/max_time
+			var/min_time
+			var/time
+
+			New()
+				..()
+
+				if(min_time)
+					time = min_time
+
+			Move()
+				..()
+
+				var/step = 20 / MAX_VELOCITY - velocity
+
+				time += (max_time - min_time) / step
 
 			Effect(atom/movable/a)
 
@@ -1822,7 +1837,7 @@ obj
 					src.owner:learnSpell(name, 10)
 
 					spawn()
-						var/t = time * 10
+						var/t = round(time * 10)
 						while(p && p.movable && t > 0)
 							t--
 							sleep(1)
