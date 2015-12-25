@@ -2503,142 +2503,137 @@
 "aWg" = (/obj/Fireplace,/turf/Hogwarts_Stone_Wall,/area/Diagon_Alley)
 "aWh" = (/obj/NeptuneBottom{name = "Window"; icon = 'house.dmi'; icon_state = "RedWindow-Bottom"},/turf/Hogwarts_Stone_Wall,/area/Diagon_Alley)
 "aWi" = (/obj/Wand_Shelf,/turf/Hogwarts_Stone_Wall,/area/Diagon_Alley)
-"aWj" = (/obj/Wand_Shelf,/turf/Hogwarts_Stone_Wall,/area/hogwarts/DiagonAlley)
-"aWk" = (/obj/NeptuneBottom{name = "Window"; icon = 'house.dmi'; icon_state = "RedWindow-Top"},/turf/Hogwarts_Stone_Wall,/area/hogwarts/DiagonAlley)
-"aWl" = (/obj/Endtable,/turf/wfloor,/area/Diagon_Alley)
-"aWm" = (/obj/mirror/glass/shop/female_wig_shop,/turf/wfloor,/area/Diagon_Alley)
-"aWn" = (/obj/mirror/glass/shop/male_wig_shop,/turf/wfloor,/area/Diagon_Alley)
-"aWo" = (/obj/WTable,/turf/wfloor,/area/Diagon_Alley)
-"aWp" = (/obj/destination{tag = "@DiagonAlley"},/turf/blackfloor,/area/Diagon_Alley)
-"aWq" = (/obj/NeptuneBottom{name = "Window"; icon = 'house.dmi'; icon_state = "RedWindow-Bottom"},/turf/Hogwarts_Stone_Wall,/area/hogwarts/DiagonAlley)
-"aWr" = (/turf/blankturf,/area/hogwarts/DiagonAlley)
-"aWs" = (/obj/teleportPath,/turf/diamondt,/area/Diagon_Alley/Bank)
-"aWt" = (/obj/Ghost_Bottom,/turf/woodenfloor,/area/Diagon_Alley)
-"aWu" = (/turf/woodenfloor,/area/hogwarts/DiagonAlley)
-"aWv" = (/obj/Ghost_Top,/turf/woodenfloor,/area/hogwarts/DiagonAlley)
-"aWw" = (/turf/diamondt,/area/Diagon_Alley)
-"aWx" = (/obj/Angel_Top,/turf/wfloor,/area/Diagon_Alley)
-"aWy" = (/obj/Ghost_Bottom2,/turf/woodenfloor,/area/Diagon_Alley)
-"aWz" = (/mob/TalkNPC/Ollivander{tag = "Ollivander"},/turf/woodenfloor,/area/Diagon_Alley)
-"aWA" = (/obj/Ghost_Top2,/turf/woodenfloor,/area/hogwarts/DiagonAlley)
-"aWB" = (/obj/Angel_Bottom,/turf/wfloor,/area/Diagon_Alley)
-"aWC" = (/turf/woodenfloor,/turf/longtable2,/area/Diagon_Alley)
-"aWD" = (/turf/woodenfloor,/turf/longtable1{icon_state = "1"},/area/Diagon_Alley)
-"aWE" = (/turf/woodenfloor,/obj{density = 1},/turf/longtable1{density = 0; icon_state = "1"},/area/Diagon_Alley)
-"aWF" = (/turf/woodenfloor,/turf/longtable1{icon_state = "1"},/area/hogwarts/DiagonAlley)
-"aWG" = (/turf/woodenfloor,/turf/longtable1{icon_state = "2"},/area/hogwarts/DiagonAlley)
-"aWH" = (/obj/DeskFilled,/obj/Wand_Shelf{pixel_y = 8},/obj/wand_desk,/turf/woodenfloor,/area/hogwarts/DiagonAlley)
-"aWI" = (/obj/Hogwarts_Door,/turf/wfloor,/area/Diagon_Alley)
-"aWJ" = (/turf/woodenfloor,/area/newareas/inside/Ratcellar)
-"aWK" = (/mob/NPC/Enemies/Rat,/turf/woodenfloor,/area/newareas/inside/Ratcellar)
-"aWL" = (/mob/TalkNPC/female_wigseller,/turf/wfloor,/area/Diagon_Alley)
-"aWM" = (/turf/wfloor,/turf/longtable2,/area/Diagon_Alley)
-"aWN" = (/obj/Barrels,/turf/wfloor,/area/Diagon_Alley)
-"aWO" = (/mob/TalkNPC/male_wigseller,/turf/wfloor,/area/Diagon_Alley)
-"aWP" = (/turf/roofb{opacity = 1; layer = 4},/area/Diagon_Alley)
-"aWQ" = (/turf/roofb{density = 1; layer = 5; opacity = 1},/area/Diagon_Alley)
-"aWR" = (/turf/blankturf,/area/AurorHQ)
-"aWS" = (/obj/Book_Shelf{icon = 'house.dmi'; icon_state = "tile77"},/turf/Hogwarts_Stone_Wall,/area/Diagon_Alley)
-"aWT" = (/obj/movablewall,/turf/blackfloor,/area/Diagon_Alley)
-"aWU" = (/obj/movablewall{dir2go = 1},/turf/blackfloor,/area/Diagon_Alley)
-"aWV" = (/turf/roofb{opacity = 1},/area/newareas/inside/Ratcellar)
-"aWW" = (/obj/Hogwarts_Door/gate,/turf/woodenfloor,/area/newareas/inside/Ratcellar)
-"aWX" = (/obj/chairright,/turf/woodenfloor,/area/Diagon_Alley)
-"aWY" = (/obj/tablecornerL,/turf/woodenfloor,/area/Diagon_Alley)
-"aWZ" = (/obj/tabletop,/turf/woodenfloor,/area/Diagon_Alley)
-"aXa" = (/obj/tablecornerR,/turf/woodenfloor,/area/Diagon_Alley)
-"aXb" = (/obj/chairleft,/turf/woodenfloor,/area/Diagon_Alley)
-"aXc" = (/obj/housecouch{icon_state = "blackleft"},/turf/woodenfloor,/area/Diagon_Alley)
-"aXd" = (/obj/housecouch{icon_state = "black"},/turf/woodenfloor,/area/Diagon_Alley)
-"aXe" = (/obj/housecouch{icon_state = "blackright"},/turf/woodenfloor,/area/Diagon_Alley)
-"aXf" = (/obj/teleportPath,/turf/woodenfloor,/area/Diagon_Alley)
-"aXg" = (/turf/woodenfloor,/turf/longtable1,/area/Diagon_Alley)
-"aXh" = (/obj/Barrels,/turf/woodenfloor,/area/Diagon_Alley)
-"aXi" = (/turf/Hogwarts_Stone_Wall,/area/newareas/inside/Ratcellar)
-"aXj" = (/obj/tablemid3,/turf/woodenfloor,/area/Diagon_Alley)
-"aXk" = (/obj/tablemiddle,/turf/woodenfloor,/area/Diagon_Alley)
-"aXl" = (/obj/tablemiddle2,/turf/woodenfloor,/area/Diagon_Alley)
-"aXm" = (/turf/woodenfloor,/turf/lever,/area/newareas/inside/Ratcellar)
-"aXn" = (/mob/TalkNPC/quest/Tom,/turf/woodenfloor,/area/Diagon_Alley)
-"aXo" = (/obj/tableleft,/turf/woodenfloor,/area/Diagon_Alley)
-"aXp" = (/obj/tablebottom,/turf/woodenfloor,/area/Diagon_Alley)
-"aXq" = (/obj/tableright,/turf/woodenfloor,/area/Diagon_Alley)
-"aXr" = (/turf/woodenfloor,/turf/longtable1{icon_state = "2"},/area/Diagon_Alley)
-"aXs" = (/turf/diamondt,/obj/Columb,/turf/bathroomstall/s2,/area/Diagon_Alley)
-"aXt" = (/turf/diamondt,/obj/toilet{opacity = 0},/turf/gotoministry{name = "diamondt"},/area/Diagon_Alley)
-"aXu" = (/turf/diamondt,/obj/Columb,/turf/bathroomstall/s4,/area/Diagon_Alley)
-"aXv" = (/obj/sink,/turf/diamondt,/area/Diagon_Alley)
-"aXw" = (/obj/toilet{opacity = 0; tag = "exitministry"},/turf/diamondt,/area/Diagon_Alley)
-"aXx" = (/turf/diamondt,/obj/Column,/turf/bathroomstall/s1,/area/Diagon_Alley)
-"aXy" = (/obj/Hogwarts_Door/toiletstall,/turf/diamondt,/area/Diagon_Alley)
-"aXz" = (/turf/diamondt,/obj/Column,/turf/bathroomstall/s5,/area/Diagon_Alley)
-"aXA" = (/obj/Chair{accioable = 0; wlable = 0},/mob/TalkNPC/quest/Cassandra,/turf/woodenfloor,/area/Diagon_Alley)
-"aXB" = (/obj/destination{tag = "TomsBar"},/turf/woodenfloor,/area/Diagon_Alley)
-"aXC" = (/obj/Chair,/turf/woodenfloor,/area/Diagon_Alley)
-"aXD" = (/turf/floor,/area/Diagon_Alley)
-"aXE" = (/obj/Torch_,/turf/floor,/area/Diagon_Alley)
-"aXF" = (/obj/Exit{density = 0},/obj/teleport{dest = "TomsBar"},/turf/blankturf,/area/Diagon_Alley)
-"aXG" = (/obj/Column,/turf/floor,/area/Diagon_Alley)
-"aXH" = (/turf/floor{tag = "@Diagon"},/area/Diagon_Alley)
-"aXI" = (/obj/Columb,/turf/floor,/area/Diagon_Alley)
-"aXJ" = (/obj/Signs/sign2{desc = "<h3>Rail service to Hogsmeade is temporarily out of service. Please make use of fireplaces provided for your travel purposes.</h3>"; name = "RAIL NOTICE"; text = "S"},/turf/floor,/area/Diagon_Alley)
-"aXK" = (/turf/stonefloor,/area/Diagon_Alley)
-"aXL" = (/obj/teleportPath,/turf/stonefloor,/area/Diagon_Alley)
-"aXM" = (/turf/stonefloor,/turf/Fireplace/green{icon = null},/area/Diagon_Alley/HogsmeadeSafeZone)
-"aXN" = (/obj/Signs{desc = "It's possible to move diagonally by pressing Home, End, PageUp or PageDown. You can also use the diagonal keys on a numpad (With numlock turned off)."; name = "Movement"},/turf/Hogwarts_Stone_Wall,/area/hogwarts)
-"aXO" = (/turf/roofb{opacity = 1},/area/ministry_of_magic)
-"aXP" = (/obj/Armor_Head,/turf/brick,/area/ministry_of_magic)
-"aXQ" = (/turf/brick,/area/ministry_of_magic)
-"aXR" = (/obj/walltorch,/turf/brick,/area/ministry_of_magic)
-"aXS" = (/obj/Dual_Swords,/turf/brick,/area/ministry_of_magic)
-"aXT" = (/obj/Fireplace,/turf/brick,/area/ministry_of_magic)
-"aXU" = (/obj/Armor_Feet,/turf/diamondt,/area/ministry_of_magic)
-"aXV" = (/turf/diamondt,/area/ministry_of_magic)
-"aXW" = (/turf/Red_Carpet,/area/ministry_of_magic)
-"aXX" = (/obj/gargoylelefttop,/turf/diamondt,/area/ministry_of_magic)
-"aXY" = (/obj/housecouch{icon_state = "whiteleft"},/turf/Red_Carpet,/area/ministry_of_magic)
-"aXZ" = (/obj/housecouch{icon_state = "white"},/turf/Ministry_Red_Carpet,/area/ministry_of_magic)
-"aYa" = (/obj/housecouch{icon_state = "whiteright"},/turf/Red_Carpet,/area/ministry_of_magic)
-"aYb" = (/obj/gargoylerighttop,/turf/diamondt,/area/ministry_of_magic)
-"aYc" = (/turf/Ministry_Red_Carpet,/area/ministry_of_magic)
-"aYd" = (/turf/roofb{density = 0; opacity = 1},/area/ministry_of_magic)
-"aYe" = (/obj/gargoyleleftbottom,/turf/diamondt,/area/ministry_of_magic)
-"aYf" = (/turf/Red_Carpet,/turf/tables/normaltable{icon_state = "13"},/area/ministry_of_magic)
-"aYg" = (/turf/Red_Carpet,/turf/tables/normaltable{icon_state = "23"},/area/ministry_of_magic)
-"aYh" = (/obj/ministrytable,/turf/Red_Carpet,/area/ministry_of_magic)
-"aYi" = (/turf/Red_Carpet,/turf/tables/normaltable{icon_state = "33"},/area/ministry_of_magic)
-"aYj" = (/obj/gargoylerightbottom,/turf/diamondt,/area/ministry_of_magic)
-"aYk" = (/turf/Red_Carpet,/turf/tables/normaltable{icon_state = "11"},/area/ministry_of_magic)
-"aYl" = (/turf/Red_Carpet,/turf/tables/normaltable{icon_state = "21"},/area/ministry_of_magic)
-"aYm" = (/turf/Red_Carpet,/turf/tables/normaltable{icon_state = "31"},/area/ministry_of_magic)
-"aYn" = (/obj/chairback,/turf/Red_Carpet,/area/ministry_of_magic)
-"aYo" = (/obj/Clock,/turf/brick,/area/ministry_of_magic)
-"aYp" = (/obj/Chair,/turf/diamondt,/area/ministry_of_magic)
-"aYq" = (/obj/Chair,/mob/ministryfinancer,/turf/diamondt,/area/ministry_of_magic)
-"aYr" = (/turf/diamondt,/turf/tables/normaltable{icon_state = "13"},/area/ministry_of_magic)
-"aYs" = (/obj/ministrytable,/turf/diamondt,/area/ministry_of_magic)
-"aYt" = (/turf/diamondt,/turf/tables/normaltable{icon_state = "33"},/area/ministry_of_magic)
-"aYu" = (/turf/diamondt,/turf/tables/normaltable{icon_state = "11"},/area/ministry_of_magic)
-"aYv" = (/turf/diamondt,/turf/tables/normaltable{icon_state = "21"},/area/ministry_of_magic)
-"aYw" = (/turf/diamondt,/turf/tables/normaltable{icon_state = "31"},/area/ministry_of_magic)
-"aYx" = (/obj/chairback,/turf/diamondt,/area/ministry_of_magic)
-"aYy" = (/turf/roofb{density = 0; layer = 5; opacity = 1},/area/ministry_of_magic)
-"aYz" = (/obj/brick2door{door = 1},/turf/blankturf,/area/ministry_of_magic)
-"aYA" = (/obj/Hogwarts_Door,/turf/diamondt,/area/ministry_of_magic)
-"aYB" = (/obj/Signs{name = "Minister of Magic"},/turf/brick,/area/ministry_of_magic)
-"aYC" = (/obj/Hogwarts_Door,/obj/Hogwarts_Door,/turf/diamondt,/area/ministry_of_magic)
-"aYD" = (/obj/Signs{name = "Undersecretary to the Minister of Magic"},/turf/brick,/area/ministry_of_magic)
-"aYE" = (/obj/Signs{name = "Department of Finance"},/turf/brick,/area/ministry_of_magic)
-"aYF" = (/turf/diamondt,/obj/Columb,/turf/bathroomstall/s2,/area/ministry_of_magic)
-"aYG" = (/obj/toilet{opacity = 0; tag = "ministryentrance"},/turf/diamondt,/area/ministry_of_magic)
-"aYH" = (/turf/diamondt,/obj/Columb,/turf/bathroomstall/s4,/area/ministry_of_magic)
-"aYI" = (/obj/sink,/turf/diamondt,/area/ministry_of_magic)
-"aYJ" = (/turf/diamondt,/obj/toilet{opacity = 0},/turf/teleport{dest = "exitministry"},/area/ministry_of_magic)
-"aYK" = (/turf/diamondt,/area)
-"aYL" = (/turf/diamondt,/obj/Column,/turf/bathroomstall/s1,/area/ministry_of_magic)
-"aYM" = (/obj/Hogwarts_Door/toiletstall,/turf/diamondt,/area/ministry_of_magic)
-"aYN" = (/turf/diamondt,/obj/Column,/turf/bathroomstall/s5,/area/ministry_of_magic)
-"aYO" = (/obj/brick2door{tag = "ministryoffice"},/turf/diamondt,/area/ministry_of_magic)
+"aWj" = (/obj/Endtable,/turf/wfloor,/area/Diagon_Alley)
+"aWk" = (/obj/mirror/glass/shop/female_wig_shop,/turf/wfloor,/area/Diagon_Alley)
+"aWl" = (/obj/mirror/glass/shop/male_wig_shop,/turf/wfloor,/area/Diagon_Alley)
+"aWm" = (/obj/WTable,/turf/wfloor,/area/Diagon_Alley)
+"aWn" = (/obj/destination{tag = "@DiagonAlley"},/turf/blackfloor,/area/Diagon_Alley)
+"aWo" = (/turf/blankturf,/area/hogwarts/DiagonAlley)
+"aWp" = (/obj/teleportPath,/turf/diamondt,/area/Diagon_Alley/Bank)
+"aWq" = (/obj/Ghost_Bottom,/turf/woodenfloor,/area/Diagon_Alley)
+"aWr" = (/obj/Ghost_Top,/turf/woodenfloor,/area/Diagon_Alley)
+"aWs" = (/turf/diamondt,/area/Diagon_Alley)
+"aWt" = (/obj/Angel_Top,/turf/wfloor,/area/Diagon_Alley)
+"aWu" = (/obj/Ghost_Bottom2,/turf/woodenfloor,/area/Diagon_Alley)
+"aWv" = (/mob/TalkNPC/Ollivander{tag = "Ollivander"},/turf/woodenfloor,/area/Diagon_Alley)
+"aWw" = (/obj/Ghost_Top2,/turf/woodenfloor,/area/Diagon_Alley)
+"aWx" = (/obj/Angel_Bottom,/turf/wfloor,/area/Diagon_Alley)
+"aWy" = (/turf/woodenfloor,/turf/longtable2,/area/Diagon_Alley)
+"aWz" = (/turf/woodenfloor,/turf/longtable1{icon_state = "1"},/area/Diagon_Alley)
+"aWA" = (/turf/woodenfloor,/obj{density = 1},/turf/longtable1{density = 0; icon_state = "1"},/area/Diagon_Alley)
+"aWB" = (/turf/woodenfloor,/turf/longtable1{icon_state = "2"},/area/Diagon_Alley)
+"aWC" = (/obj/DeskFilled,/obj/Wand_Shelf{pixel_y = 8},/obj/wand_desk,/turf/woodenfloor,/area/Diagon_Alley)
+"aWD" = (/obj/Hogwarts_Door,/turf/wfloor,/area/Diagon_Alley)
+"aWE" = (/turf/woodenfloor,/area/newareas/inside/Ratcellar)
+"aWF" = (/mob/NPC/Enemies/Rat,/turf/woodenfloor,/area/newareas/inside/Ratcellar)
+"aWG" = (/mob/TalkNPC/female_wigseller,/turf/wfloor,/area/Diagon_Alley)
+"aWH" = (/turf/wfloor,/turf/longtable2,/area/Diagon_Alley)
+"aWI" = (/obj/Barrels,/turf/wfloor,/area/Diagon_Alley)
+"aWJ" = (/mob/TalkNPC/male_wigseller,/turf/wfloor,/area/Diagon_Alley)
+"aWK" = (/turf/roofb{opacity = 1; layer = 4},/area/Diagon_Alley)
+"aWL" = (/turf/roofb{density = 1; layer = 5; opacity = 1},/area/Diagon_Alley)
+"aWM" = (/turf/blankturf,/area/AurorHQ)
+"aWN" = (/obj/Book_Shelf{icon = 'house.dmi'; icon_state = "tile77"},/turf/Hogwarts_Stone_Wall,/area/Diagon_Alley)
+"aWO" = (/obj/movablewall,/turf/blackfloor,/area/Diagon_Alley)
+"aWP" = (/obj/movablewall{dir2go = 1},/turf/blackfloor,/area/Diagon_Alley)
+"aWQ" = (/turf/roofb{opacity = 1},/area/newareas/inside/Ratcellar)
+"aWR" = (/obj/Hogwarts_Door/gate,/turf/woodenfloor,/area/newareas/inside/Ratcellar)
+"aWS" = (/obj/chairright,/turf/woodenfloor,/area/Diagon_Alley)
+"aWT" = (/obj/tablecornerL,/turf/woodenfloor,/area/Diagon_Alley)
+"aWU" = (/obj/tabletop,/turf/woodenfloor,/area/Diagon_Alley)
+"aWV" = (/obj/tablecornerR,/turf/woodenfloor,/area/Diagon_Alley)
+"aWW" = (/obj/chairleft,/turf/woodenfloor,/area/Diagon_Alley)
+"aWX" = (/obj/housecouch{icon_state = "blackleft"},/turf/woodenfloor,/area/Diagon_Alley)
+"aWY" = (/obj/housecouch{icon_state = "black"},/turf/woodenfloor,/area/Diagon_Alley)
+"aWZ" = (/obj/housecouch{icon_state = "blackright"},/turf/woodenfloor,/area/Diagon_Alley)
+"aXa" = (/obj/teleportPath,/turf/woodenfloor,/area/Diagon_Alley)
+"aXb" = (/turf/woodenfloor,/turf/longtable1,/area/Diagon_Alley)
+"aXc" = (/obj/Barrels,/turf/woodenfloor,/area/Diagon_Alley)
+"aXd" = (/turf/Hogwarts_Stone_Wall,/area/newareas/inside/Ratcellar)
+"aXe" = (/obj/tablemid3,/turf/woodenfloor,/area/Diagon_Alley)
+"aXf" = (/obj/tablemiddle,/turf/woodenfloor,/area/Diagon_Alley)
+"aXg" = (/obj/tablemiddle2,/turf/woodenfloor,/area/Diagon_Alley)
+"aXh" = (/turf/woodenfloor,/turf/lever,/area/newareas/inside/Ratcellar)
+"aXi" = (/mob/TalkNPC/quest/Tom,/turf/woodenfloor,/area/Diagon_Alley)
+"aXj" = (/turf/woodenfloor,/area/hogwarts/DiagonAlley)
+"aXk" = (/obj/tableleft,/turf/woodenfloor,/area/Diagon_Alley)
+"aXl" = (/obj/tablebottom,/turf/woodenfloor,/area/Diagon_Alley)
+"aXm" = (/obj/tableright,/turf/woodenfloor,/area/Diagon_Alley)
+"aXn" = (/turf/diamondt,/obj/Columb,/turf/bathroomstall/s2,/area/Diagon_Alley)
+"aXo" = (/turf/diamondt,/obj/toilet{opacity = 0},/turf/gotoministry{name = "diamondt"},/area/Diagon_Alley)
+"aXp" = (/turf/diamondt,/obj/Columb,/turf/bathroomstall/s4,/area/Diagon_Alley)
+"aXq" = (/obj/sink,/turf/diamondt,/area/Diagon_Alley)
+"aXr" = (/obj/toilet{opacity = 0; tag = "exitministry"},/turf/diamondt,/area/Diagon_Alley)
+"aXs" = (/turf/diamondt,/obj/Column,/turf/bathroomstall/s1,/area/Diagon_Alley)
+"aXt" = (/obj/Hogwarts_Door/toiletstall,/turf/diamondt,/area/Diagon_Alley)
+"aXu" = (/turf/diamondt,/obj/Column,/turf/bathroomstall/s5,/area/Diagon_Alley)
+"aXv" = (/obj/Chair{accioable = 0; wlable = 0},/mob/TalkNPC/quest/Cassandra,/turf/woodenfloor,/area/Diagon_Alley)
+"aXw" = (/obj/destination{tag = "TomsBar"},/turf/woodenfloor,/area/Diagon_Alley)
+"aXx" = (/obj/Chair,/turf/woodenfloor,/area/Diagon_Alley)
+"aXy" = (/turf/floor,/area/Diagon_Alley)
+"aXz" = (/obj/Torch_,/turf/floor,/area/Diagon_Alley)
+"aXA" = (/obj/Exit{density = 0},/obj/teleport{dest = "TomsBar"},/turf/blankturf,/area/Diagon_Alley)
+"aXB" = (/obj/Column,/turf/floor,/area/Diagon_Alley)
+"aXC" = (/turf/floor{tag = "@Diagon"},/area/Diagon_Alley)
+"aXD" = (/obj/Columb,/turf/floor,/area/Diagon_Alley)
+"aXE" = (/obj/Signs/sign2{desc = "<h3>Rail service to Hogsmeade is temporarily out of service. Please make use of fireplaces provided for your travel purposes.</h3>"; name = "RAIL NOTICE"; text = "S"},/turf/floor,/area/Diagon_Alley)
+"aXF" = (/turf/stonefloor,/area/Diagon_Alley)
+"aXG" = (/obj/teleportPath,/turf/stonefloor,/area/Diagon_Alley)
+"aXH" = (/turf/stonefloor,/turf/Fireplace/green{icon = null},/area/Diagon_Alley/HogsmeadeSafeZone)
+"aXI" = (/obj/Signs{desc = "It's possible to move diagonally by pressing Home, End, PageUp or PageDown. You can also use the diagonal keys on a numpad (With numlock turned off)."; name = "Movement"},/turf/Hogwarts_Stone_Wall,/area/hogwarts)
+"aXJ" = (/turf/roofb{opacity = 1},/area/ministry_of_magic)
+"aXK" = (/obj/Armor_Head,/turf/brick,/area/ministry_of_magic)
+"aXL" = (/turf/brick,/area/ministry_of_magic)
+"aXM" = (/obj/walltorch,/turf/brick,/area/ministry_of_magic)
+"aXN" = (/obj/Dual_Swords,/turf/brick,/area/ministry_of_magic)
+"aXO" = (/obj/Fireplace,/turf/brick,/area/ministry_of_magic)
+"aXP" = (/obj/Armor_Feet,/turf/diamondt,/area/ministry_of_magic)
+"aXQ" = (/turf/diamondt,/area/ministry_of_magic)
+"aXR" = (/turf/Red_Carpet,/area/ministry_of_magic)
+"aXS" = (/obj/gargoylelefttop,/turf/diamondt,/area/ministry_of_magic)
+"aXT" = (/obj/housecouch{icon_state = "whiteleft"},/turf/Red_Carpet,/area/ministry_of_magic)
+"aXU" = (/obj/housecouch{icon_state = "white"},/turf/Ministry_Red_Carpet,/area/ministry_of_magic)
+"aXV" = (/obj/housecouch{icon_state = "whiteright"},/turf/Red_Carpet,/area/ministry_of_magic)
+"aXW" = (/obj/gargoylerighttop,/turf/diamondt,/area/ministry_of_magic)
+"aXX" = (/turf/Ministry_Red_Carpet,/area/ministry_of_magic)
+"aXY" = (/turf/roofb{density = 0; opacity = 1},/area/ministry_of_magic)
+"aXZ" = (/obj/gargoyleleftbottom,/turf/diamondt,/area/ministry_of_magic)
+"aYa" = (/turf/Red_Carpet,/turf/tables/normaltable{icon_state = "13"},/area/ministry_of_magic)
+"aYb" = (/turf/Red_Carpet,/turf/tables/normaltable{icon_state = "23"},/area/ministry_of_magic)
+"aYc" = (/obj/ministrytable,/turf/Red_Carpet,/area/ministry_of_magic)
+"aYd" = (/turf/Red_Carpet,/turf/tables/normaltable{icon_state = "33"},/area/ministry_of_magic)
+"aYe" = (/obj/gargoylerightbottom,/turf/diamondt,/area/ministry_of_magic)
+"aYf" = (/turf/Red_Carpet,/turf/tables/normaltable{icon_state = "11"},/area/ministry_of_magic)
+"aYg" = (/turf/Red_Carpet,/turf/tables/normaltable{icon_state = "21"},/area/ministry_of_magic)
+"aYh" = (/turf/Red_Carpet,/turf/tables/normaltable{icon_state = "31"},/area/ministry_of_magic)
+"aYi" = (/obj/chairback,/turf/Red_Carpet,/area/ministry_of_magic)
+"aYj" = (/obj/Clock,/turf/brick,/area/ministry_of_magic)
+"aYk" = (/obj/Chair,/turf/diamondt,/area/ministry_of_magic)
+"aYl" = (/obj/Chair,/mob/ministryfinancer,/turf/diamondt,/area/ministry_of_magic)
+"aYm" = (/turf/diamondt,/turf/tables/normaltable{icon_state = "13"},/area/ministry_of_magic)
+"aYn" = (/obj/ministrytable,/turf/diamondt,/area/ministry_of_magic)
+"aYo" = (/turf/diamondt,/turf/tables/normaltable{icon_state = "33"},/area/ministry_of_magic)
+"aYp" = (/turf/diamondt,/turf/tables/normaltable{icon_state = "11"},/area/ministry_of_magic)
+"aYq" = (/turf/diamondt,/turf/tables/normaltable{icon_state = "21"},/area/ministry_of_magic)
+"aYr" = (/turf/diamondt,/turf/tables/normaltable{icon_state = "31"},/area/ministry_of_magic)
+"aYs" = (/obj/chairback,/turf/diamondt,/area/ministry_of_magic)
+"aYt" = (/turf/roofb{density = 0; layer = 5; opacity = 1},/area/ministry_of_magic)
+"aYu" = (/obj/brick2door{door = 1},/turf/blankturf,/area/ministry_of_magic)
+"aYv" = (/obj/Hogwarts_Door,/turf/diamondt,/area/ministry_of_magic)
+"aYw" = (/obj/Signs{name = "Minister of Magic"},/turf/brick,/area/ministry_of_magic)
+"aYx" = (/obj/Hogwarts_Door,/obj/Hogwarts_Door,/turf/diamondt,/area/ministry_of_magic)
+"aYy" = (/obj/Signs{name = "Undersecretary to the Minister of Magic"},/turf/brick,/area/ministry_of_magic)
+"aYz" = (/obj/Signs{name = "Department of Finance"},/turf/brick,/area/ministry_of_magic)
+"aYA" = (/turf/diamondt,/obj/Columb,/turf/bathroomstall/s2,/area/ministry_of_magic)
+"aYB" = (/obj/toilet{opacity = 0; tag = "ministryentrance"},/turf/diamondt,/area/ministry_of_magic)
+"aYC" = (/turf/diamondt,/obj/Columb,/turf/bathroomstall/s4,/area/ministry_of_magic)
+"aYD" = (/obj/sink,/turf/diamondt,/area/ministry_of_magic)
+"aYE" = (/turf/diamondt,/obj/toilet{opacity = 0},/turf/teleport{dest = "exitministry"},/area/ministry_of_magic)
+"aYF" = (/turf/diamondt,/area)
+"aYG" = (/turf/diamondt,/obj/Column,/turf/bathroomstall/s1,/area/ministry_of_magic)
+"aYH" = (/obj/Hogwarts_Door/toiletstall,/turf/diamondt,/area/ministry_of_magic)
+"aYI" = (/turf/diamondt,/obj/Column,/turf/bathroomstall/s5,/area/ministry_of_magic)
+"aYJ" = (/obj/brick2door{tag = "ministryoffice"},/turf/diamondt,/area/ministry_of_magic)
 
 (1,1,1) = {"
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -5245,68 +5240,68 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVYaVZaWaaWbaWcaVeaVyaVyaVyaVyaVyaVyaVyaVeaVJaVKaVJaVKaVPaVJaVKaVJaVKaUXaVJaVKaVPaVPaWdaVPajraaaaaaaaaaUwaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQabqaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVeaVeaVeaVeaVeaVeaVeaVeaUXaUXaUXaUXaUXaUXaVyaVyaVyaVyaVyaVyaVyaVeaVNaVOaVNaVOaVPaVNaVOaVNaVOaUXaVNaVOaVPaVPaVPaVPajraaaaaaaaaaUwaUUaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUQaUUabqaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVjaVfaVhaVjaVfaVjaWeaVfaVjaVGaVjaWfaVjaVeaVwaVyaVyaVyaVyaVyaVwaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaUXaUXaUXaUXaUXaUXaUXajraUXaaaaaaaUwaUwaUwaUwaUwaUwaUwaUwaUwaUwaUwaUwaULaUQaUQaUQaULaUwaUwaUwaUwaUwaUwaUwaUwaUwaUwaUwaUwaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVjaVjaVjaWgaVjaVjaWhaVjaVjaVIaVjaVjaVjaVeaVyaVyaVyaVyaVyaVyaVyaVeaVjaWeaWiaWiaWiaWiaWiaWiaWiaWiaWiaWjaWjaWjaWjaWkaVaaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaUwaUKaUQaUQaUQaUKaUwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaWlaVtaVtaVtaWmaVtaVtaVtaWnaVtaVtaVtaWoaVeaVyaVyaVyaWpaVyaVyaVyaVeaVjaWhaWiaWiaWiaWiaWiaWiaWiaWiaWiaWjaWjaWjaWjaWqaVaaUXaWraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaUwaUwaUQaWsaUQaUwaUwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVeaVyaVyaVyaVyaVyaVyaVyaVeaWtaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaWuaWuaWuaWuaWuaWvaUXaWradRadRadRadRadRadRadRadRadRaaaaaaaaaaaaaUwaWwaWwaWwaUwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVtaVtaVtaVtaVtaVtaWxaVtaVtaVtaVtaVtaVtaVeaVwaVyaVyaVyaVyaVyaVwaVeaWyaVPaVPaVPaVPaVPaVPaVPaWzaVPaVPaWuaWuaWuaWuaWuaWAaUXaabaabaabaabaabaabaabaabaabaabaabaabaabaabaUwaUwaUwaUwaUwaabaabaabaabaabaabaabaabaabaabaabaabaabaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVtaVtaWmaVtaVtaVtaWBaVtaVtaVtaWnaVtaVtaVeaVyaVyaVyaVyaVyaVyaVyaVeaWCaWDaWDaWDaWDaWDaWDaWDaWEaWDaWDaWFaWFaWFaWFaWFaWGaUXaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVeaVyaVyaVyaVyaVyaVyaVyaVeaVPaVPaWHaWuaWHaVPaVPaVPaVPaVPaVPaWuaWHaWuaWHaWuaWuaUXaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaWIaVyaVyaVyaVyaVyaVyaVyaVXaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaWuaWuaWuaWuaWuaWuaUXaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVtaVtaVtaVtaWmaVtaVtaVtaWnaVtaVtaVtaVtaVeaVyaVyaVyaVyaVyaVyaVyaVeaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaWuaWuaWuaWuaWuaWuaUXaWJaWJaWJaWJaWKaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVCaVDaVtaVtaVtaVtaVtaVtaVtaVtaVtaVBaVCaVeaVyaVyaVyaVyaVyaVyaVyaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaUXaUXaUXaUXaUXaUXaUXaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWKaWJaWJaWJaWJaWJaWJaWJaWKaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaWLaWMaVtaVtaVtaVtaWNaVtaVtaVtaVtaWMaWOaVeaVyaVyaVyaVyaVyaVyaVyaVeaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaWraWraWraWraWraWraUXaWJaWJaWJaWJaWJaWKaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaSxaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaVwaVyaVyaVyaVyaVyaVwaVeaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaWraWraWraWraWraWraUXaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaUXaWraWraWraWraWraWraWraWraWraWraWraWraUXaWPaVyaVyaVyaVyaVyaWPaVeaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaWraWraWraWraWraWraUXaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWKaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVeaVeaVeaVeaVeaVeaVeaVeaWQaWQaVeaVeaUXaVeaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaWraWraWraVaaWPaWPaVyaVyaVyaWPaWPaVjaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaWraWraWraWraWraWraUXaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aWRaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVjaVjaVjaVjaWfaVjaVjaVjaTXaTXaVjaVjaVhaVjaWSaWSaVjaWfaVjaVjaWSaVjaVjaUXaWraWraWraWraiAaWPaWTaWUaWUaWPaiAaiAaWraWraWraWraWraWraWraWraWraWraWraWraWraWraWraWraWraUXaWVaWVaWWaWVaWVaWVaWVaWVaWVaWVaWVaWVaWVaWVaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aWRaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaWXaWYaWZaXaaXbaXcaXdaXeaVPaXfaVPaXgaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaXhaUXaWraWraWraWraiAaWPaWTaWUaWUaWPaiAaiAaWraWraWraWraWraWraWraWraWraWraWraWraWraWraWraWraWraUXaXiaXiaWJaXiaXiaWVaXiaXiaXiaXiaXiaXiaXiaWVaWJaWJaWJaWJaWJaWKaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaWXaXjaXkaXlaXbaVPaVPaVPaVPaVPaVPaXgaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaUXaWraWraWraWraiAaWPaWTaWTaWUaWPaiAaaaaaaaaaaaaaaaaaaaaaaaaaaaaWraWraWraWraWraWraWraWraWraUXaWJaWJaWJaWJaWJaWVaWJaXmaWJaWJaWJaWJaWJaWVaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aaaaaaaUXaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaWXaXjaXkaXlaXbaVPaVPaVPaVPaVPaVPaXgaVPaVPaVPaVPaVPaXnaVPaVPaVPaVPaVPaUXaWraWraWraUXaWPaWPaWTaWTaWUaWPaWPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWJaWJaWuaWJaWJaWVaWJaWJaWJaWJaWKaWJaWJaWVaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWKaWJaWJaWJaWJaab
-aaaaaaaUXaVjaVjaVjaVjaVjaVjaVjaVjaVjaVeaVPaXoaXpaXqaVPaVPaVPaVPaVPaVPaVPaXgaWDaWDaWDaWDaWDaWEaWDaWDaWDaWDaXraVeaVeaVeaVeaVeaWPaWPaWTaWUaWUaWPaWPajrajrajrajrajrajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWJaWJaWJaWJaWJaWVaWJaWJaWJaWJaWJaWJaWJaWVaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aaaaaaaUXaWwaXsaXtaXuaXvaXsaXwaXuaWwaVeaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVeaVjaVjaVjaVjaVjaVjaVyaVyaVyaVjaVjaVjaVjaVjaVjaVjajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWJaWJaahaWJaWJaWVaWJaWJaWKaWJaWJaWJaWJaWVaWJaWJaWJaWVaWVaWVaWVaWVaWVaWVaWVaWVaWVaWVaWVaWVaWVaWVaab
-aaaaaaaUXaWwaXxaXyaXzaWwaXxaXyaXzaWwaVeaVPaVPaVPaXAaVPaVPaVPaVPaVPaVPaVPaXBaVPaVPaVPaVPaXCaVPaVPaVPaVPaVPaVPaVpaXDaXDaXDaXDaXDaXEaXDaXDaXDaXEaXDaXDaXDaXDaXDaXDaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaabaabaXFaabaabaabaabaabaabaabaabaabaWJaabaWJaWKaWJaWVaXiaXiaXiaXiaXiaXiaXiaXiaXiaXiaXiaXiaXiaXiaab
-aaaaaaaUXaWwaWwaWwaWwaWwaWwaWwaWwaWwaVeaVPaWXaWYaWZaXaaXbaVPaVPaVPaVPaVPaVPaVPaVPaWXaWYaWZaXaaXbaVPaVPaVPaVPaXGaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaabaabaaaaaaaaaaaaaaaaaaaaaaabaWJaabaWJaWJaWJaWVaWJaWJaWJaWJaWJaWJaWJaWJaWKaWJaWJaWJaWJaWJaab
-aaaaaaaUXaWwaWwaWwaWwaWwaWwaWwaWwaWwaVeaVPaWXaXjaXkaXlaXbaVPaVPaVPaVPaVPaVPaVPaVPaWXaXjaXkaXlaXbaVPaVPaVPaVPaXDaXDaXDaXDaXDaXDaXDaXDaXHaXDaXDaXDaXDaXDaXDaXDaXDaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWraaaaWraaaaaaaaaaaaaaaaaaaaaaaaaabaWJaabaWJaWJaWJaWVaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aaaaaaaUXaWwaWwaWwaWwaWwaWwaWwaWwaWwaVeaVPaWXaXjaXkaXlaXbaVPaVPaVPaVPaVPaVPaVPaVPaWXaXjaXkaXlaXbaVPaVPaVPaVPaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWraaaaWraaaaaaaaaaaaaaaaaaaaaaaaaabaWJaabaWJaWJaWJaWVaWJaWJaWKaWJaWJaWJaWJaWVaWVaWVaWJaWJaWVaWVaab
-aaaaaaaUXaWwaWwaWwaWwaWwaWwaWwaWwaWwaVeaVPaVPaXoaXpaXqaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaXoaXpaXqaVPaVPaVPaVPaVPaXIaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWraaaaWraaaaaaaaaaaaaaaaaaaaaaaaaabaWJaabaWJaWJaWJaWVaWJaWJaWJaWJaWKaWJaWJaWVaXiaXiaWWaWWaXiaXiaab
-aaaaaaaUXaWwaWwaWwaWwaWwaWwaWwaWwaWwaVeaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaXGaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWraaaaWraaaaaaaaaaaaaaaaaaaaaaaaaabaWJaabaWJaWKaWJaWVaWJaWJaWJaWJaWJaWJaWJaWVaWJaWJaWJaWJaWJaWJaab
-aaaaaaaUXaVeaVeaVeaVeaVeaVeaVeaVPaVPaVeaVeaVeaVPaVPaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWraaaaWraaaaaaaaaaaaaaaaaaaaaaaaaabaWJaabaWJaWJaWJaWVaWWaWVaWVaWVaWVaWVaWVaWVaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVPaVPaVeaVeaVeaVPaVPaUXaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVeaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXDaXJaXDaXDaXDaXJaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWraaaaWraaaaaaaaaaaaaaaaaaaaaaaaaabaWJaabaWJaWJaWJaWVaWJaXiaXiaXiaXiaXiaXiaWVaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVPaVPaVjaVjaVjaVPaVPaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaXKaXLaXKaUXaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWraaaaWraaaaaaaaaaaaaaaaaaaaaaaaaabaWJaabaWJaWJaWJaWVaWJaWJaWJaWJaWJaWJaWJaWVaWJaWJaWKaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaiAaVeaVPaVPaVPaVPaVPaVPaVPaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaXMaXMaXMaWPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWJaabaWJaWJaWJaWVaWJaWJaWJaWKaWJaWJaWJaWVaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaiAaVeaVPaVPaVPaVPaVPaVPaVPaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVeaVeaVeaWPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWJaabaWJaWJaWJaWWaWJaWJaWJaWJaWJaWJaWJaWVaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaUXaUXaUXaUXaUXaUXaUXaUXaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWJaabaWVaWVaWVaWVaWVaWVaWVaWVaWVaWVaWVaWVaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWJaabaXiaXiaXiaXiaXiaXiaXiaXiaXiaXiaXiaXiaWJaWJaWJaWKaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWJaabaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWJaabaWJaWJaWKaWJaWJaWJaWJaWJaWKaWKaWJaWJaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWJaXNaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaabaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaWJaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaXPaXQaXRaXQaXSaXQaXTaXQaXSaXQaXRaXQaXPaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaab
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaXUaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXUaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadR
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaXOaXOaXOaXOaXOaXVaXVaXWaXWaXWaXWaXWaXWaXWaXWaXWaXVaXVaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadR
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaXQaXQaXQaXQaXOaXXaXVaXWaXWaXWaXYaXZaYaaXWaXWaXWaXVaYbaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadRadRadRadRadRadR
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaYcaYcaYcaYcaYdaYeaXVaXWaXWaYfaYgaYhaYgaYiaXWaXWaXVaYjaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadRadRaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaYcaXOaXOaXOaXOaXVaXVaXWaXWaYkaYlaYlaYlaYmaXWaXWaXVaXVaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadRadRaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaYcaXOaaaaaaaXOaXXaXVaXWaXWaYnaYnaYnaYnaYnaXWaXWaXVaYbaXOaXOaYoaXRaXQaXRaXQaXOaYoaXRaXQaXRaXQaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadRadRaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaYcaXOaaaaaaaXOaYeaXVaXWaXWaXWaXWaXWaXWaXWaXWaXWaXVaYjaXOaXOaXVaXVaYpaXVaXVaXOaXVaXVaYqaXVaXVaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaYcaXOaaaaaaaXOaXVaXVaXWaXWaXWaXWaXWaXWaXWaXWaXWaXVaXVaXOaXOaXVaYraYsaYtaXVaXOaXVaYraYsaYtaXVaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaYcaXOaaaaaaajraXXaXVaXWaXWaXWaXWaXWaXWaXWaXWaXWaXVaYbaXOaXOaXVaYuaYvaYwaXVaXOaXVaYuaYvaYwaXVaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaYcaXOaaaaaaajraYeaXVaXWaXWaXWaXWaXWaXWaXWaXWaXWaXVaYjaXOaXOaXVaXVaYxaXVaXVaXOaXVaXVaYxaXVaXVaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaYcaXOaaaaaaajraXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXOaXOaXVaXVaXVaXVaXVaXOaXVaXVaXVaXVaXVaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaXOaXOaXOaXOaXOaXOaXOaYdaXOaXOaXOajrajrajrajraXOaXOaXOaYyaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaYyaXOaXOaXOaXOaXOaYyaXOaXOaXOajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaXOaXQaXRaXQaXQaXRaXQaYzaXRaXQaXOaaaaaaaaaaaaaXOaXQaXRaYAaYBaXRaXQaXQaXRaXQaXQaXRaXQaXQaYCaYDaXQaXRaXQaXQaYCaYEaXQaXOafWafWafZafWafWafZafWafWafZafWafWafZafWafWafZafWafWafZafWafWajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaXOaXVaYFaYGaYHaYIaYFaYJaYHaXVaXOaaaaaaaaaaaaaXOaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXOaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaXOaXVaYLaYMaYNaXVaYLaYMaYNaXVaXOaaaaaaaaaaaaaXOaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXOaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKaYKajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaXOaXVaXVaXVaXVaXVaXVaXVaXVaXVaXOajrajrajrajraXOaXOaXOaYyaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaXOaXVaXVaXVaXVaXVaXVaXVaXVaXVaXOaaaaaaaaaaaaaXOaXQaXRaYOaXRaXQaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaXOaXVaXVaXVaXVaXVaXVaXVaXVaXVaXOaaaaaaaaaaaaaXOaXVaXVaXVaXVaXVaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaXOaXVaXVaXVaXVaXVaXVaXVaXVaXVaXOaaaaaaaaaaaaaXOaXVaXVaYpaXVaXVaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaXOaXVaXVaXVaXVaXVaXVaXVaXVaXVaXOaaaaaaaaaaaaaXOaXVaYraYsaYtaXVaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaXOaXOaXOaXOaXOaXOaXOaXOaXVaXVaXOaXOaXOaXOaXOaXOaXVaYuaYvaYwaXVaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaXVaXVaXQaXRaXQaXQaXRaXQaXVaXVaYxaXVaXVaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXVaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaXOaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVjaVjaVjaWgaVjaVjaWhaVjaVjaVIaVjaVjaVjaVeaVyaVyaVyaVyaVyaVyaVyaVeaVjaWeaWiaWiaWiaWiaWiaWiaWiaWiaWiaWiaWiaWiaWiaWeaVjaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaUwaUKaUQaUQaUQaUKaUwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaWjaVtaVtaVtaWkaVtaVtaVtaWlaVtaVtaVtaWmaVeaVyaVyaVyaWnaVyaVyaVyaVeaVjaWhaWiaWiaWiaWiaWiaWiaWiaWiaWiaWiaWiaWiaWiaWhaVjaUXaWoaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaUwaUwaUQaWpaUQaUwaUwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVeaVyaVyaVyaVyaVyaVyaVyaVeaWqaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaWraUXaWoadRadRadRadRadRadRadRadRadRaaaaaaaaaaaaaUwaWsaWsaWsaUwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVtaVtaVtaVtaVtaVtaWtaVtaVtaVtaVtaVtaVtaVeaVwaVyaVyaVyaVyaVyaVwaVeaWuaVPaVPaVPaVPaVPaVPaVPaWvaVPaVPaVPaVPaVPaVPaVPaWwaUXaabaabaabaabaabaabaabaabaabaabaabaabaabaabaUwaUwaUwaUwaUwaabaabaabaabaabaabaabaabaabaabaabaabaabaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVtaVtaWkaVtaVtaVtaWxaVtaVtaVtaWlaVtaVtaVeaVyaVyaVyaVyaVyaVyaVyaVeaWyaWzaWzaWzaWzaWzaWzaWzaWAaWzaWzaWzaWzaWzaWzaWzaWBaUXaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVeaVyaVyaVyaVyaVyaVyaVyaVeaVPaVPaWCaVPaWCaVPaVPaVPaVPaVPaVPaVPaWCaVPaWCaVPaVPaUXaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaadaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaVtaWDaVyaVyaVyaVyaVyaVyaVyaVXaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaUXaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVtaVtaVtaVtaWkaVtaVtaVtaWlaVtaVtaVtaVtaVeaVyaVyaVyaVyaVyaVyaVyaVeaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaUXaWEaWEaWEaWEaWFaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVCaVDaVtaVtaVtaVtaVtaVtaVtaVtaVtaVBaVCaVeaVyaVyaVyaVyaVyaVyaVyaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaUXaUXaUXaUXaUXaUXaUXaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWFaWEaWEaWEaWEaWEaWEaWEaWFaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaWGaWHaVtaVtaVtaVtaWIaVtaVtaVtaVtaWHaWJaVeaVyaVyaVyaVyaVyaVyaVyaVeaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaWoaWoaWoaWoaWoaWoaUXaWEaWEaWEaWEaWEaWFaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaSxaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaVwaVyaVyaVyaVyaVyaVwaVeaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaWoaWoaWoaWoaWoaWoaUXaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaUXaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaUXaWKaVyaVyaVyaVyaVyaWKaVeaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaWoaWoaWoaWoaWoaWoaUXaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWFaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVeaVeaVeaVeaVeaVeaVeaVeaWLaWLaVeaVeaUXaVeaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaWoaWoaWoaVaaWKaWKaVyaVyaVyaWKaWKaVjaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaiAaWoaWoaWoaWoaWoaWoaUXaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aWMaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVjaVjaVjaVjaWfaVjaVjaVjaTXaTXaVjaVjaVhaVjaWNaWNaVjaWfaVjaVjaWNaVjaVjaUXaWoaWoaWoaWoaiAaWKaWOaWPaWPaWKaiAaiAaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaUXaWQaWQaWRaWQaWQaWQaWQaWQaWQaWQaWQaWQaWQaWQaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aWMaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaWSaWTaWUaWVaWWaWXaWYaWZaVPaXaaVPaXbaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaXcaUXaWoaWoaWoaWoaiAaWKaWOaWPaWPaWKaiAaiAaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaWoaUXaXdaXdaWEaXdaXdaWQaXdaXdaXdaXdaXdaXdaXdaWQaWEaWEaWEaWEaWEaWFaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaWSaXeaXfaXgaWWaVPaVPaVPaVPaVPaVPaXbaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaUXaWoaWoaWoaWoaiAaWKaWOaWOaWPaWKaiAaaaaaaaaaaaaaaaaaaaaaaaaaaaaWoaWoaWoaWoaWoaWoaWoaWoaWoaUXaWEaWEaWEaWEaWEaWQaWEaXhaWEaWEaWEaWEaWEaWQaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aaaaaaaUXaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaWSaXeaXfaXgaWWaVPaVPaVPaVPaVPaVPaXbaVPaVPaVPaVPaVPaXiaVPaVPaVPaVPaVPaUXaWoaWoaWoaUXaWKaWKaWOaWOaWPaWKaWKaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaWEaXjaWEaWEaWQaWEaWEaWEaWEaWFaWEaWEaWQaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWFaWEaWEaWEaWEaab
+aaaaaaaUXaVjaVjaVjaVjaVjaVjaVjaVjaVjaVeaVPaXkaXlaXmaVPaVPaVPaVPaVPaVPaVPaXbaWzaWzaWzaWzaWzaWAaWzaWzaWzaWzaWBaVeaVeaVeaVeaVeaWKaWKaWOaWPaWPaWKaWKajrajrajrajrajrajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaWEaWEaWEaWEaWQaWEaWEaWEaWEaWEaWEaWEaWQaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aaaaaaaUXaWsaXnaXoaXpaXqaXnaXraXpaWsaVeaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVeaVjaVjaVjaVjaVjaVjaVyaVyaVyaVjaVjaVjaVjaVjaVjaVjajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaWEaahaWEaWEaWQaWEaWEaWFaWEaWEaWEaWEaWQaWEaWEaWEaWQaWQaWQaWQaWQaWQaWQaWQaWQaWQaWQaWQaWQaWQaWQaab
+aaaaaaaUXaWsaXsaXtaXuaWsaXsaXtaXuaWsaVeaVPaVPaVPaXvaVPaVPaVPaVPaVPaVPaVPaXwaVPaVPaVPaVPaXxaVPaVPaVPaVPaVPaVPaVpaXyaXyaXyaXyaXyaXzaXyaXyaXyaXzaXyaXyaXyaXyaXyaXyaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaabaabaXAaabaabaabaabaabaabaabaabaabaWEaabaWEaWFaWEaWQaXdaXdaXdaXdaXdaXdaXdaXdaXdaXdaXdaXdaXdaXdaab
+aaaaaaaUXaWsaWsaWsaWsaWsaWsaWsaWsaWsaVeaVPaWSaWTaWUaWVaWWaVPaVPaVPaVPaVPaVPaVPaVPaWSaWTaWUaWVaWWaVPaVPaVPaVPaXBaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaabaabaaaaaaaaaaaaaaaaaaaaaaabaWEaabaWEaWEaWEaWQaWEaWEaWEaWEaWEaWEaWEaWEaWFaWEaWEaWEaWEaWEaab
+aaaaaaaUXaWsaWsaWsaWsaWsaWsaWsaWsaWsaVeaVPaWSaXeaXfaXgaWWaVPaVPaVPaVPaVPaVPaVPaVPaWSaXeaXfaXgaWWaVPaVPaVPaVPaXyaXyaXyaXyaXyaXyaXyaXyaXCaXyaXyaXyaXyaXyaXyaXyaXyaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWoaaaaWoaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaabaWEaWEaWEaWQaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aaaaaaaUXaWsaWsaWsaWsaWsaWsaWsaWsaWsaVeaVPaWSaXeaXfaXgaWWaVPaVPaVPaVPaVPaVPaVPaVPaWSaXeaXfaXgaWWaVPaVPaVPaVPaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWoaaaaWoaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaabaWEaWEaWEaWQaWEaWEaWFaWEaWEaWEaWEaWQaWQaWQaWEaWEaWQaWQaab
+aaaaaaaUXaWsaWsaWsaWsaWsaWsaWsaWsaWsaVeaVPaVPaXkaXlaXmaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaXkaXlaXmaVPaVPaVPaVPaVPaXDaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWoaaaaWoaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaabaWEaWEaWEaWQaWEaWEaWEaWEaWFaWEaWEaWQaXdaXdaWRaWRaXdaXdaab
+aaaaaaaUXaWsaWsaWsaWsaWsaWsaWsaWsaWsaVeaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaVPaXBaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWoaaaaWoaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaabaWEaWFaWEaWQaWEaWEaWEaWEaWEaWEaWEaWQaWEaWEaWEaWEaWEaWEaab
+aaaaaaaUXaVeaVeaVeaVeaVeaVeaVeaVPaVPaVeaVeaVeaVPaVPaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaVeaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWoaaaaWoaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaabaWEaWEaWEaWQaWRaWQaWQaWQaWQaWQaWQaWQaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVPaVPaVeaVeaVeaVPaVPaUXaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVaaVeaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXyaXEaXyaXyaXyaXEaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWoaaaaWoaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaabaWEaWEaWEaWQaWEaXdaXdaXdaXdaXdaXdaWQaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVPaVPaVjaVjaVjaVPaVPaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaUXaXFaXGaXFaUXaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaWoaaaaWoaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaabaWEaWEaWEaWQaWEaWEaWEaWEaWEaWEaWEaWQaWEaWEaWFaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaiAaVeaVPaVPaVPaVPaVPaVPaVPaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaXHaXHaXHaWKaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaabaWEaWEaWEaWQaWEaWEaWEaWFaWEaWEaWEaWQaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaiAaVeaVPaVPaVPaVPaVPaVPaVPaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaVeaVeaVeaVeaWKaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaabaWEaWEaWEaWRaWEaWEaWEaWEaWEaWEaWEaWQaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaUXaUXaUXaUXaUXaUXaUXaUXaUXaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaabaWQaWQaWQaWQaWQaWQaWQaWQaWQaWQaWQaWQaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaabaXdaXdaXdaXdaXdaXdaXdaXdaXdaXdaXdaXdaWEaWEaWEaWFaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaabaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaabaWEaWEaWFaWEaWEaWEaWEaWEaWFaWFaWEaWEaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaWEaXIaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaabaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaWEaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXKaXLaXMaXLaXNaXLaXOaXLaXNaXLaXMaXLaXKaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaab
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXPaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXPaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadR
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXJaXJaXJaXJaXJaXQaXQaXRaXRaXRaXRaXRaXRaXRaXRaXRaXQaXQaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadRadR
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXLaXLaXLaXLaXJaXSaXQaXRaXRaXRaXTaXUaXVaXRaXRaXRaXQaXWaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadRadRadRadRadRadR
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXXaXXaXXaXXaXYaXZaXQaXRaXRaYaaYbaYcaYbaYdaXRaXRaXQaYeaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadRadRaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXXaXJaXJaXJaXJaXQaXQaXRaXRaYfaYgaYgaYgaYhaXRaXRaXQaXQaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadRadRaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXXaXJaaaaaaaXJaXSaXQaXRaXRaYiaYiaYiaYiaYiaXRaXRaXQaXWaXJaXJaYjaXMaXLaXMaXLaXJaYjaXMaXLaXMaXLaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadRadRaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXXaXJaaaaaaaXJaXZaXQaXRaXRaXRaXRaXRaXRaXRaXRaXRaXQaYeaXJaXJaXQaXQaYkaXQaXQaXJaXQaXQaYlaXQaXQaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXXaXJaaaaaaaXJaXQaXQaXRaXRaXRaXRaXRaXRaXRaXRaXRaXQaXQaXJaXJaXQaYmaYnaYoaXQaXJaXQaYmaYnaYoaXQaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXXaXJaaaaaaajraXSaXQaXRaXRaXRaXRaXRaXRaXRaXRaXRaXQaXWaXJaXJaXQaYpaYqaYraXQaXJaXQaYpaYqaYraXQaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXXaXJaaaaaaajraXZaXQaXRaXRaXRaXRaXRaXRaXRaXRaXRaXQaYeaXJaXJaXQaXQaYsaXQaXQaXJaXQaXQaYsaXQaXQaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXXaXJaaaaaaajraXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXJaXJaXQaXQaXQaXQaXQaXJaXQaXQaXQaXQaXQaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaXJaXJaXJaXJaXJaXJaXJaXYaXJaXJaXJajrajrajrajraXJaXJaXJaYtaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaYtaXJaXJaXJaXJaXJaYtaXJaXJaXJajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaXJaXLaXMaXLaXLaXMaXLaYuaXMaXLaXJaaaaaaaaaaaaaXJaXLaXMaYvaYwaXMaXLaXLaXMaXLaXLaXMaXLaXLaYxaYyaXLaXMaXLaXLaYxaYzaXLaXJafWafWafZafWafWafZafWafWafZafWafWafZafWafWafZafWafWafZafWafWajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaXJaXQaYAaYBaYCaYDaYAaYEaYCaXQaXJaaaaaaaaaaaaaXJaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXJaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaXJaXQaYGaYHaYIaXQaYGaYHaYIaXQaXJaaaaaaaaaaaaaXJaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXJaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFaYFajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaXJaXQaXQaXQaXQaXQaXQaXQaXQaXQaXJajrajrajrajraXJaXJaXJaYtaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajrajraaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaXJaXQaXQaXQaXQaXQaXQaXQaXQaXQaXJaaaaaaaaaaaaaXJaXLaXMaYJaXMaXLaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaXJaXQaXQaXQaXQaXQaXQaXQaXQaXQaXJaaaaaaaaaaaaaXJaXQaXQaXQaXQaXQaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaXJaXQaXQaXQaXQaXQaXQaXQaXQaXQaXJaaaaaaaaaaaaaXJaXQaXQaYkaXQaXQaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaXJaXQaXQaXQaXQaXQaXQaXQaXQaXQaXJaaaaaaaaaaaaaXJaXQaYmaYnaYoaXQaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaXJaXJaXJaXJaXJaXJaXJaXJaXQaXQaXJaXJaXJaXJaXJaXJaXQaYpaYqaYraXQaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXQaXQaXLaXMaXLaXLaXMaXLaXQaXQaYsaXQaXQaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXQaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaXJaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
