@@ -599,7 +599,7 @@ mob/Spells/verb/Petreficus_Totalus()
 		new /StatusEffect/UsedStun(src,15)
 		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>:<b> Petrificus Totalus!</b>"
 
-		castproj(MPreq = 50, Type = /obj/projectile/Bind { min_time = 0.5; max_time = 2.5 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
+		castproj(MPreq = 50, Type = /obj/projectile/Bind { min_time = 0.4; max_time = 2.4 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
 
 mob
 	Player/var/tmp/antifigura = 0
@@ -642,7 +642,10 @@ mob/Spells/verb/Aqua_Eructo()
 		HP -= 60
 		Death_Check()
 
-		castproj(icon_state = "aqua", damage = usr.Def+(usr.extraDef/3) + round(clothDmg/5), name = "Aqua Eructo")
+		var/dmg = usr.Def + (usr.extraDef / 3) + (clothDmg / 5)
+		dmg *= 0.8
+
+		castproj(icon_state = "aqua", damage = dmg, name = "Aqua Eructo")
 
 
 mob/Spells/verb/Sanguinis_Iactus()
@@ -1051,26 +1054,26 @@ mob/Spells/verb/Incendio()
 mob/proc/BaseIcon()
 	if(Gender == "Female")
 		if(Gm)
-			icon = snowCurse ? 'SnowmanStaff.dmi' : 'FemaleStaff.dmi'
+			icon = 'FemaleStaff.dmi'
 		else if(House == "Gryffindor")
-			icon = snowCurse ? 'SnowmanRed.dmi' : 'FemaleGryffindor.dmi'
+			icon = 'FemaleGryffindor.dmi'
 		else if(House == "Ravenclaw")
-			icon = snowCurse ? 'SnowmanBlue.dmi' : 'FemaleRavenclaw.dmi'
+			icon = 'FemaleRavenclaw.dmi'
 		else if(House == "Slytherin")
-			icon = snowCurse ? 'SnowmanGreen.dmi' : 'FemaleSlytherin.dmi'
+			icon = 'FemaleSlytherin.dmi'
 		else if(House == "Hufflepuff")
-			icon = snowCurse ? 'SnowmanYellow.dmi' : 'FemaleHufflepuff.dmi'
+			icon = 'FemaleHufflepuff.dmi'
 	else
 		if(Gm)
-			icon = snowCurse ? 'SnowmanStaff.dmi' : 'MaleStaff.dmi'
+			icon = 'MaleStaff.dmi'
 		else if(House == "Gryffindor")
-			icon = snowCurse ? 'SnowmanRed.dmi' : 'MaleGryffindor.dmi'
+			icon = 'MaleGryffindor.dmi'
 		else if(House == "Ravenclaw")
-			icon = snowCurse ? 'SnowmanBlue.dmi' : 'MaleRavenclaw.dmi'
+			icon = 'MaleRavenclaw.dmi'
 		else if(House == "Slytherin")
-			icon = snowCurse ? 'SnowmanGreen.dmi' : 'MaleSlytherin.dmi'
+			icon = 'MaleSlytherin.dmi'
 		else if(House == "Hufflepuff")
-			icon = snowCurse ? 'SnowmanYellow.dmi' : 'MaleHufflepuff.dmi'
+			icon = 'MaleHufflepuff.dmi'
 
 mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 	set category="Spells"
@@ -1720,6 +1723,11 @@ obj
 						if(!oldloc) oldloc = loc
 
 						var/n = dir2angle(get_dir(oldloc, src))
+
+						if(blend_mode == BLEND_SUBTRACT)
+							color = null
+							c     = "#c00"
+
 						emit(loc    = oldloc,
 							 ptype  = particle,
 						     amount = 4,
@@ -1832,7 +1840,7 @@ obj
 			Move()
 				..()
 
-				var/step = 20 / MAX_VELOCITY - velocity
+				var/step = 20 / (MAX_VELOCITY - velocity)
 
 				time += (max_time - min_time) / step
 
