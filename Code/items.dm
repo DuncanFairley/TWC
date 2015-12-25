@@ -378,8 +378,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			o.icon = src.icon
 			o.layer = wear_layer
 
-			if(!snowCurse)
-				owner.overlays += o
+			owner.overlays += o
 
 		if(!owner.Lwearing) owner.Lwearing = list()
 		owner.Lwearing.Add(src)
@@ -629,8 +628,9 @@ obj/items/gift
 
 	Take()
 		if(ckeyowner == usr.ckey || !ckeyowner || !contents.len)
-			ckeyowner = usr.ckey
 			..()
+			if(src in usr)
+				ckeyowner = usr.ckey
 		else
 			usr << errormsg("You do not have permission to pick this up.")
 
@@ -939,7 +939,7 @@ obj/items/wearable/orb
 
 	chaos
 		name       = "orb of chaos"
-		bonus      = 1
+		bonus      = 5
 		exp   	   = 15000
 		icon_state = "chaos"
 
@@ -950,7 +950,7 @@ obj/items/wearable/orb
 
 	peace
 		name       = "orb of peace"
-		bonus      = 2
+		bonus      = 6
 		exp        = 15000
 		icon_state = "peace"
 
@@ -1004,11 +1004,12 @@ obj/items/wearable/wands
 				var/i = 0
 				while(exp >= maxExp())
 					exp -= maxExp()
-					i += 0.1
 
 					if(quality + i >= MAX)
 						exp = 0
 						break
+
+					i += 0.1
 
 				if(i)
 					if(bonus == -1) bonus = NOENCHANT
@@ -3017,7 +3018,7 @@ enchanting
 
 	proc
 		check(obj/items/i, bonus, souls)
-			if(istype(i, reqType) && src.bonus == bonus && src.souls <= souls) return 1
+			if(istype(i, reqType) && (src.bonus & bonus) >= src.bonus && src.souls <= souls) return 1
 			return 0
 
 		getPrize()
@@ -3169,7 +3170,7 @@ obj
 						o:title = copytext(i3.name, 8)
 						o.color = i3.color
 						o:title = "<font color=\"[o.color]\">" + o:title + "</font>"
-					else if(istype(i3, /obj/items/wearable))
+					else if(istype(i3, /obj/items/wearable) && !(i3:bonus & 4))
 						o:quality = i3:quality
 						o:bonus   = i3:bonus
 						o.name += " +[o:quality]"
