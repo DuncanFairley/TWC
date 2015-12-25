@@ -364,13 +364,13 @@ mob
 
 	BaseIcon()
 		if(derobe)
-			icon   = snowCurse ? 'SnowmanBlack.dmi' : 'Deatheater.dmi'
+			icon   = 'Deatheater.dmi'
 			trnsed = 1
 		else if(aurorrobe)
 			if(Gender == "Female")
-				icon = snowCurse ? 'SnowmanWhite.dmi' : 'FemaleAuror.dmi'
+				icon = 'FemaleAuror.dmi'
 			else
-				icon = snowCurse ? 'SnowmanWhite.dmi' : 'MaleAuror.dmi'
+				icon = 'MaleAuror.dmi'
 		else ..()
 
 	GM/verb
