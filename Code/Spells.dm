@@ -631,7 +631,7 @@ mob/Spells/verb/Antifigura()
 
 mob/Spells/verb/Chaotica()
 	set category="Spells"
-	var/dmg = round(usr.level * 1.1) + clothDmg
+	var/dmg = round(usr.level * 1.1) + round(clothDmg/5)
 	if(dmg<20)dmg=20
 	else if(dmg>2000)dmg = 2000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
@@ -639,11 +639,18 @@ mob/Spells/verb/Chaotica()
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
-		HP -= 30
+		HP -= 60
 		Death_Check()
 
-		castproj(icon_state = "aqua", damage = usr.Def+(usr.extraDef/3) + clothDmg, name = "Aqua Eructo")
-//		castproj(Type = /obj/projectile { color = "#08ffff"; blend_mode = 3; alpha = 150; }, damage = usr.Def+(usr.extraDef/3) + clothDmg, name = "Aqua Eructo")
+		castproj(icon_state = "aqua", damage = usr.Def+(usr.extraDef/3) + round(clothDmg/5), name = "Aqua Eructo")
+
+
+mob/Spells/verb/Sanguinis_Iactus()
+	set category="Spells"
+	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
+
+
+		castproj(Type = /obj/projectile/Blood, MPreq = 5, icon_state = "blood", damage = usr.Dmg + usr.extraDmg + clothDmg, name = "Blood")
 
 mob/Spells/verb/Inflamari()
 	set category="Spells"
@@ -1506,6 +1513,7 @@ mob
 
 		var/obj/projectile/P = new Type (src.loc,src.dir,src,icon,icon_state,damage,name)
 		P.shoot(lag)
+
 		if(client)
 			//Used in monsters as well
 			src.MP -= MPreq
@@ -1515,9 +1523,12 @@ mob
 			if(p.wand)
 				p.learnSpell(name)
 
-				if(p.wand.projColor)
-					P.color = list(p.wand.projColor, p.wand.projColor, p.wand.projColor)
-
+				if(!P.color && p.wand.projColor)
+					if(p.wand.projColor == "blood")
+						P.color      = "#08ffff"
+						P.blend_mode = BLEND_SUBTRACT
+					else
+						P.color = list(p.wand.projColor, p.wand.projColor, p.wand.projColor)
 
 atom/movable/proc
 	Attacked(obj/projectile/p)
@@ -1614,6 +1625,9 @@ mob/NPC/Enemies
 
 		if(isplayer(p.owner))
 
+			if(p.icon_state == "blood")
+				p.damage += round(p.damage / 20, 1)
+
 			if(canBleed)
 				var/n = dir2angle(get_dir(src, p))
 				emit(loc    = src,
@@ -1696,6 +1710,9 @@ obj
 						if("quake")
 							particle = /obj/particle/smoke/proj
 							c = "#8b4513"
+						if("blood")
+							particle = /obj/particle/fluid/blood
+							color = null
 
 					if(particle)
 
@@ -1741,6 +1758,13 @@ obj
 
 			if(Impact(a, t) || count > 1)
 				Dispose()
+
+		Blood
+			New()
+				..()
+
+				color      = "#08ffff"
+				blend_mode = BLEND_SUBTRACT
 
 		Flippendo
 

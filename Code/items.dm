@@ -681,7 +681,8 @@ obj/items/gift
 
 			if(stack > 1)
 				var/obj/items/s = Split(stack - 1)
-				s.loc = src.loc
+				s.loc  = src.loc
+				s.name = "gift wrappings"
 
 			usr:Resort_Stacking_Inv()
 
@@ -1005,7 +1006,7 @@ obj/items/wearable/wands
 					exp -= maxExp()
 					i += 0.1
 
-					if(quality >= MAX)
+					if(quality + i >= MAX)
 						exp = 0
 						break
 
@@ -2241,10 +2242,12 @@ obj/items/spellbook
 
 	New()
 		..()
-		spell = pick(spellList)
-		name  = spellList[spell]
 
-		name = pick("All about [name]", "Book of [name]", "Mystery of [name]", "[name]: 101")
+		if(!spell)
+			spell = pick(spellList)
+			name  = spellList[spell]
+
+			name = pick("All about [name]", "Book of [name]", "Mystery of [name]", "[name]: 101")
 
 	Click()
 		if(src in usr)
@@ -2255,6 +2258,37 @@ obj/items/spellbook
 				usr.verbs += spell
 				Consume()
 		else
+			..()
+
+	blood
+		name = "Book of Chaos: Vol II"
+		icon_state = "chaos"
+		spell = /mob/Spells/verb/Sanguinis_Iactus
+
+		var/tmp/read = 0
+
+		Click()
+			if(read) return
+
+			if(src in usr)
+				read = 1
+				usr << infomsg("You attempt to read [name]")
+
+				var/c = usr.client.color
+				if(spell in usr.verbs)
+					animate(usr.client, color = list(1.5,1.5,1.5,
+		                          					 1.5,1.5,1.5,
+		                          					 1.5,1.5,1.5,
+		                         					 -1,-1,-1), time = 10)
+
+				else
+					animate(usr.client, color = list(1.6,1,1,
+		                          					 1.6,1,1,
+		                          					 1.6,1,1,
+		                         					 -1,-1,-1), time = 10)
+				sleep(15)
+				animate(usr.client, color = c, time = 10)
+				read = 0
 			..()
 
 obj/items/stickbook
@@ -3567,7 +3601,7 @@ obj/items/colors
 				return
 
 			if(locate(/obj/wand_desk) in oview(1))
-				p << infomsg("You applied new <font color=\"[projColor]\">magical color</font> to your equipped wand.")
+				p << infomsg("You applied new <font color=\"[projColor == "blood" ? "#a00" : projColor]\">magical color</font> to your equipped wand.")
 				p.wand.projColor = projColor
 				Dispose()
 				p.Resort_Stacking_Inv()
@@ -3590,16 +3624,20 @@ obj/items/colors
 	purple_stone
 		reqLevel   = 10
 		icon_state = "purple"
-		projColor  = "#660066"
+		projColor  = "#662690"
 	pink_stone
 		reqLevel   = 10
 		icon_state = "pink"
-		projColor  = "#990033"
+		projColor  = "#993f6c"
 	teal_stone
 		reqLevel   = 10
 		icon_state = "teal"
-		projColor  = "#006666"
+		projColor  = "#226666"
 	orange_stone
 		reqLevel   = 10
 		icon_state = "orange"
-		projColor  = "#994400"
+		projColor  = "#994422"
+	blood_stone
+		reqLevel   = 15
+		icon_state = "red"
+		projColor  = "blood"
