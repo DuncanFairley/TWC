@@ -5,12 +5,12 @@
  * For the full license text, see LICENSE.txt.
  */
 
-obj/proc/GenerateIcon()
-	overlays += image(pick(typesof(/obj/items/wearable/scarves/) - /obj/items/wearable/scarves/), "")
-	overlays += image(pick(typesof(/obj/items/wearable/shoes/)   - /obj/items/wearable/shoes/),   "")
+proc/GenerateIcon(atom/movable/a)
+	a.overlays += image(pick(typesof(/obj/items/wearable/scarves/) - /obj/items/wearable/scarves/), "")
+	a.overlays += image(pick(typesof(/obj/items/wearable/shoes/)   - /obj/items/wearable/shoes/),   "")
 
 	var/list/colors = list("black", "blue", "green", "grey", "pink", "purple", "silver", "cyan", "teal", "red", "orange")
-	overlays += image(text2path("/obj/items/wearable/wigs/[gender == MALE ? "male" : "female"]_[pick(colors)]_wig"), "")
+	a.overlays += image(text2path("/obj/items/wearable/wigs/[a.gender == MALE ? "male" : "female"]_[pick(colors)]_wig"), "")
 
 obj/teacher
 	var

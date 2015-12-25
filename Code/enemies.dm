@@ -675,6 +675,65 @@ mob
 							     life   = new /Random(1,25))
 							..()
 
+					Ghost
+						name = "Vengeful Ghost"
+						icon = 'NPCs.dmi'
+						HPmodifier = 1.9
+						DMGmodifier = 0.9
+						layer = 5
+						MoveDelay = 2
+						AttackDelay = 1
+						Range = 15
+						level = 800
+						canBleed = FALSE
+						prizePoolSize = 1
+
+						New()
+							..()
+
+							if(prob(51))
+								icon   = 'FemaleStaff.dmi'
+								gender = FEMALE
+							else
+								icon   = 'MaleStaff.dmi'
+								gender = MALE
+
+							GenerateIcon(src)
+
+							alpha = rand(100,180)
+
+							animate(src, color = "#f55", pixel_y = 2,  time = 6, loop = -1)
+							animate(     color = "#f55", pixel_y = 0,  time = 6)
+							animate(     color = null,   pixel_y = -2, time = 6)
+
+						Attacked(obj/projectile/p)
+
+							if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
+
+								if(prob(35))
+									target = p.owner
+									loc    = get_step_away(p.owner, p.owner.loc)
+								else if(MoveDelay == 2 && prob(20))
+									MoveDelay = 1
+									spawn(50)
+										MoveDelay = 2
+
+							if(p.icon_state == "gum" || (p.icon_state == "blood" && prob(70)))
+								..()
+								emit(loc    = src,
+									 ptype  = /obj/particle/red,
+								     amount = 2,
+								     angle  = new /Random(1, 359),
+								     speed  = 2,
+								     life   = new /Random(15,20))
+							else
+								emit(loc    = src,
+									 ptype  = /obj/particle/green,
+								     amount = 2,
+								     angle  = new /Random(1, 359),
+								     speed  = 2,
+								     life   = new /Random(15,20))
+
 
 					Wisp
 						icon_state = "wisp"
@@ -762,8 +821,6 @@ mob
 								     speed  = 2,
 								     life   = new /Random(15,20))
 							else
-								HP += p.damage
-
 								emit(loc    = src,
 									 ptype  = /obj/particle/green,
 								     amount = 2,
@@ -784,18 +841,6 @@ mob
 						var/tmp/fired = 0
 						extraDmg = 400
 
-						#ifdef HIDDEN
-						Death(mob/Player/killer)
-							var/obj/snow_counter/count = locate("SnowCounter")
-							if(count.add(100))
-								spawn()
-									var/mob/NPC/Enemies/Summoned/Boss/Snowman/Super/s = new(loc)
-									sleep(36000)
-									s.Dispose()
-
-								Players << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
-							..()
-						#endif
 
 						Attack(mob/M)
 							..()
@@ -1030,22 +1075,6 @@ mob
 				AttackDelay = 3
 				respawnTime = 1800
 
-				#ifdef HIDDEN
-				Death(mob/Player/killer)
-					var/obj/snow_counter/count = locate("SnowCounter")
-					if(count.add(1))
-
-						spawn()
-							var/obj/spawner/spawn_loc = pick(spawners)
-
-							var/mob/NPC/Enemies/Summoned/Boss/Snowman/Super/s = new(spawn_loc.loc)
-							sleep(36000)
-							s.Dispose()
-
-						Players << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
-					..()
-				#endif
-
 			Wisp
 				icon_state = "wisp"
 				level = 750
@@ -1081,8 +1110,6 @@ mob
 						     speed  = 2,
 						     life   = new /Random(15,20))
 					else
-						HP += p.damage
-
 						emit(loc    = src,
 							 ptype  = /obj/particle/green,
 						     amount = 2,

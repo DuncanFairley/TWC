@@ -202,7 +202,7 @@ obj
 				icon   = 'MaleStaff.dmi'
 				gender = MALE
 
-			GenerateIcon()
+			GenerateIcon(src)
 
 			namefont.QuickName(src, src.name, top=1)
 
