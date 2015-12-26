@@ -2397,6 +2397,8 @@ obj/items/artifact
 	name = "Artifact"
 	icon = 'trophies.dmi'
 
+	max_stack = 1
+
 	New()
 		..()
 		spawn(1)
