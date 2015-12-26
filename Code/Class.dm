@@ -5,12 +5,34 @@
  * For the full license text, see LICENSE.txt.
  */
 
-proc/GenerateIcon(atom/movable/a)
-	a.overlays += image(pick(typesof(/obj/items/wearable/scarves/) - /obj/items/wearable/scarves/), "")
-	a.overlays += image(pick(typesof(/obj/items/wearable/shoes/)   - /obj/items/wearable/shoes/),   "")
+proc/GenerateIcon(atom/movable/a, px = 0, py = 0, wig = 1, shoes = 1, scarf = 1)
 
-	var/list/colors = list("black", "blue", "green", "grey", "pink", "purple", "silver", "cyan", "teal", "red", "orange")
-	a.overlays += image(text2path("/obj/items/wearable/wigs/[a.gender == MALE ? "male" : "female"]_[pick(colors)]_wig"), "")
+	if(scarf)
+		var/image/i = image(pick(typesof(/obj/items/wearable/scarves/) - /obj/items/wearable/scarves/), "")
+		i.layer   = FLOAT_LAYER - 5
+		i.pixel_x = px
+		i.pixel_y = py
+
+		a.overlays += i
+
+	if(shoes)
+		var/image/i = image(pick(typesof(/obj/items/wearable/shoes/)   - /obj/items/wearable/shoes/),   "")
+
+		i.layer   = FLOAT_LAYER - 5
+		i.pixel_x = px
+		i.pixel_y = py
+
+		a.overlays += i
+
+	if(wig)
+		var/list/colors = list("black", "blue", "green", "grey", "pink", "purple", "silver", "cyan", "teal", "red", "orange")
+		var/image/i = image(text2path("/obj/items/wearable/wigs/[a.gender == MALE ? "male" : "female"]_[pick(colors)]_wig"), "")
+
+		i.layer   = FLOAT_LAYER - 4
+		i.pixel_x = px
+		i.pixel_y = py
+
+		a.overlays += i
 
 obj/teacher
 	var

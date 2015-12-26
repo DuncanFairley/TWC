@@ -361,6 +361,41 @@ RandomEvent
 			if(message) Players << infomsg("The pesky spiders were exterminated. All hail the dalek--- ministry.")
 			end()
 
+	VampireLord
+		name   = "Vampire Lord"
+		chance = 0
+		start()
+			..()
+			var/minutes = rand(15,45)
+			var/list/m = list()
+			Players << infomsg("A vampire lord has been lured outside of the castle for [minutes] minutes, the vicious creature brought an army, it appears old and wealthy, maybe it carries valuables, slay it to find out!")
+
+			var/obj/spawner/spawn_loc = pick(spawners)
+			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/VampireLord(spawn_loc.loc)
+			m += monster
+			for(var/i = 1 to rand(15, 25))
+				spawn_loc = pick(spawners)
+				monster = new /mob/NPC/Enemies/Summoned/Acromantula (spawn_loc.loc)
+
+			for(var/i = 1 to rand(4, 8))
+				spawn_loc = pick(spawners)
+				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
+
+				m += monster
+
+			sleep(minutes * 600)
+
+			var/message = 0
+			for(var/mob/NPC/Enemies/Summoned/mon in m)
+				if(mon.loc != null) message = 1
+				mon.loc = null
+				mon.ChangeState(monster.INACTIVE)
+				m -= mon
+			m = null
+
+			if(message) Players << infomsg("The vampire lord and his army vanished to darkness.")
+			end()
+
 	EntranceKillZone
 		name = "Entrance Kill Zone"
 		start()
