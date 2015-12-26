@@ -666,17 +666,40 @@ gold
 		add(amount)
 
 
+
 	proc
 		add(amount)
+
+			if(amount < 0)
+				subtract(abs(amount))
+				return
+
 			amount = round(amount)
 
 			var/i = 8
 			for(var/v in vars)
 				i -= 2
-				if(abs(amount) < 10 ** i) continue
+				if(amount < 10 ** i) continue
 
 				var/c = round(amount / (10 ** i))
 				vars[v] += c
+				amount  -= c * (10 ** i)
+
+		subtract(amount)
+
+			if(amount < 0)
+				add(abs(amount))
+				return
+
+			amount = round(amount)
+
+			var/i = 8
+			for(var/v in vars)
+				i -= 2
+				if(amount < 10 ** i) continue
+
+				var/c = round(amount / (10 ** i))
+				vars[v] -= c
 				amount  -= c * (10 ** i)
 
 		get()
