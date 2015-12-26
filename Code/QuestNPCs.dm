@@ -1,4 +1,35 @@
 mob/TalkNPC/quest
+
+	Austra
+		icon = 'FemaleVampire.dmi'
+		questPointers = "Royal Blood \[Weekly]"
+		Talk()
+			set src in oview(3)
+			Quest(usr)
+
+		questStart(mob/Player/i_Player, questName)
+			i_Player << npcsay("[name]: Hi... Who are you? Hmm...")
+			i_Player << npcsay("[name]: You humans always go about unnoticed, it might just work... How do you feel about helping me take on a very powerful ancient being? You'll help me fer sure!")
+			i_Player << "<font color=red> <b>[i_Player.name]</b> : </font>Sure thing, I'll totally help you kill whatever, I'm just naive and arrogant."
+			i_Player << "<font color=red> <b>[i_Player.name]</b> : </font>Wait... Why did I say tha---"
+			i_Player << npcsay("[name]: Good! I can't give you much details right now but there in the night lurk creatures older than any human alive, they know far superior art or \"magic\" as you humans call it, I need you to help me kill a high ranking member of--")
+			i_Player << npcsay("[name]: We'll need a bait, go gather 50 blood sacks.")
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			if(.)
+				i_Player << npcsay("[name]: Great! You got it!")
+				i_Player << npcsay("[name]: Give me the blood sacks, I'll create a blood coin for you.")
+			else
+				i_Player << npcsay("[name]: You should probably get a few more blood sacks, this won't be enough...")
+
+		questCompleted(mob/Player/i_Player, questName)
+			i_Player << npcsay("[name]: You're not bad for a human. Come back next week, I'll help you make another bait.")
+
+
 	Sassy_Pixie
 		icon = 'Mobs.dmi'
 		icon_state="pixie"
