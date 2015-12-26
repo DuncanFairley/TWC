@@ -963,6 +963,17 @@ obj/items/wearable/hats/teal_earmuffs
 
 obj/items/wearable/orb
 
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		. = ..(owner)
+		if(. == WORN)
+			src.gender = owner.gender
+			if(!overridetext)viewers(owner) << infomsg("[owner] uses \his [src.name].")
+			for(var/obj/items/wearable/orb/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+		else if(. == REMOVED)
+			if(!overridetext)viewers(owner) << infomsg("[owner] stops using \his [src.name].")
+
 	icon = 'orbs.dmi'
 	showoverlay = FALSE
 	var
@@ -1016,6 +1027,7 @@ obj/items/wearable/wands
 		const
 			MAX = 3
 
+	bonus = NOENCHANT
 	max_stack = 1
 
 	proc
@@ -1051,12 +1063,10 @@ obj/items/wearable/wands
 					i += 0.1
 
 				if(i)
-					if(bonus == -1) bonus = NOENCHANT
-
 					Equip(owner, 1)
 
 					quality += i
-					bonus |= o.bonus
+					bonus = o.bonus|bonus
 
 					Equip(owner, 1)
 
@@ -1083,7 +1093,7 @@ obj/items/wearable/wands
 					W.Equip(owner,1,1)
 
 			if(lastused && lastused != owner.ckey && (bonus || quality || exp))
-				bonus   = -1
+				bonus   = NOENCHANT
 				quality = 0
 				exp     = 0
 
