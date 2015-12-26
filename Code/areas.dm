@@ -679,14 +679,22 @@ area
 		if(istype(o, /obj/projectile))
 			if(issafezone(src))
 				o.Dispose()
-			else if(!istype(oldloc.loc, /area/newareas) && istype(src, /area/newareas))
+				return
+			if(!istype(oldloc.loc, /area/newareas) && istype(src, /area/newareas))
 				o.Dispose()
-		else return ..()
+				return
+		return ..()
 
 	Exit(atom/movable/o, atom/newloc)
-		if(istype(o, /obj/projectile) && issafezone(newloc.loc))
-			o.Dispose()
-		else return ..()
+		if(istype(o, /obj/projectile))
+			if(issafezone(newloc.loc))
+				o.Dispose()
+				return
+
+			if(!istype(src, /area/newareas) && istype(newloc.loc, /area/newareas))
+				o.Dispose()
+				return
+		return ..()
 
 mob/Player/var/tmp/stepColor = 0
 
