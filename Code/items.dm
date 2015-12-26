@@ -863,6 +863,7 @@ obj/items/wearable/brooms/cleansweep_seven
 
 obj/items/wearable/brooms/vampire_wings
 	showoverlay = FALSE
+	color = "#ff0000"
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		.=..(owner, 1, forceremove)
@@ -872,6 +873,9 @@ obj/items/wearable/brooms/vampire_wings
 			i.layer = FLOAT_LAYER - 3
 			i.pixel_x = -16
 			i.pixel_y = -16
+			i.color = color
+			i.alpha = alpha
+
 			owner.overlays += i
 
 			animate(owner, pixel_y = pixel_y,    time = 2, loop = -1)
@@ -881,11 +885,13 @@ obj/items/wearable/brooms/vampire_wings
 
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts on \his [src.name].")
 
-		else if(. == REMOVED)
+		else if(. == REMOVED || forceremove)
 			var/image/i = new('VampireWings.dmi', "flying")
 			i.layer = FLOAT_LAYER - 3
 			i.pixel_x = -16
 			i.pixel_y = -16
+			i.color = color
+			i.alpha = alpha
 			owner.overlays -= i
 
 			animate(owner)

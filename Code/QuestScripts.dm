@@ -16,6 +16,21 @@ quest
 			desc = "Go back to the Sassy Pixie to get your reward."
 			reqs = list("Sassy Pixie" = 1)
 
+	PeaceWeekly
+		name   = "Royal Blood \[Weekly]"
+		desc   = "A woman with very pale skin and red eyes named Austra asked you to help her murder an old creature."
+		reward = /questReward/BloodCoin
+		repeat = 6048000
+
+		Gather
+			desc = "Gather 50 blood sacks from acromantulas. You also feel the need to violently attack vengeful ghosts for some odd unexplained reason."
+			reqs = list("Blood Sacks"         = 50,
+			            "Kill Vengeful Ghost" = 50)
+
+		Reward
+			desc = "Go back to the Austra."
+			reqs = list("Austra" = 1)
+
 	TutorialWand
 		name   = "Tutorial: The Wand Maker"
 		desc   = "You arrived at Diagon Alley, as a young wizard your first objective is to find a wand to cast spells with."
@@ -613,3 +628,8 @@ questReward
 		exp   = 32000
 		gold  = 3200
 		items = /obj/items/key/master_key
+
+	BloodCoin
+		exp   = 32000
+		gold  = 3200
+		items = /obj/items/magic_stone/summoning/blood
