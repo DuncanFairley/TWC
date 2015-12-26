@@ -48,7 +48,7 @@ mob/Player
 		matchmaking_ready = 0
 
 obj/hud
-
+	appearance_flags = NO_CLIENT_COLOR
 	duel
 		layer = 20
 		Background
@@ -679,7 +679,8 @@ skill_stats
 proc
 	getSkillGroup(var/ckey)
 		var/skill_stats/s = skill_rating[ckey]
-		if(s && s.wins >= WINS_REQ)
+
+		if(s && s.wins >= WINS_REQ && world.realtime - s.time <= 12096000)
 			var/pos = skill_rating.Find(ckey, skill_rating.len - 2)
 			if(s.rating >= 1800 && pos) return "<font color=#9f0419>Champion</font>"
 			if(s.rating >= 1600) return "<font color=#aa2fbd>Grandmaster</font>"

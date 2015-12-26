@@ -266,6 +266,70 @@ RandomEvent
 			if(message) Players << infomsg("Willy the Whisp and his minions have magically vanished by the powers of the ministry.")
 			end()
 
+	Haunted_Castle
+		name   = "Haunted Castle"
+
+		start()
+			..()
+
+			var/waves = rand(2,4)
+			Players << errormsg("<b>Warning:</b> Hogwarts magical defenses are being suppressed by a dark ghostly evil magic, Entrance Hall will be invaded by vengeful ghosts in 5 minutes for [waves] waves! Every wave will last 4 minutes.<br>Move to another area (The library, common room, second floor etc) if you wish to remain safe.")
+			sleep(600)
+			for(var/i = 4 to 1 step -1)
+				Players << errormsg("<b>Warning:</b> Entrance Hall will be invaded by vengeful ghosts in [i] minute[i > 1 ? "s" : ""]!")
+				sleep(600)
+			Players << errormsg("<b>Warning:</b> Entrance Hall will become a kill zone and invaded in 10 seconds!") // extra 10 seconds to ensure afk sign toggles on
+			sleep(100)
+
+			var/area/entrance = locate(/area/hogwarts/Entrance_Hall)
+			for(var/mob/Player/p in entrance)
+				if(p.away) p.loc = locate("@GreatHall")
+			entrance.safezoneoverride = 1
+
+			var/turf/spawn_loc = locate("@Hogwarts")
+
+			for(var/i = 1 to waves)
+
+				Players << infomsg("Wave [i]: Ghosts are invading, defend the castle!")
+
+				var/list/monsters = list()
+
+				for(var/j = 1 to rand(3,7))
+					monsters += new /mob/NPC/Enemies/Summoned/Boss/Ghost(spawn_loc)
+
+				sleep(2400)
+
+				for(var/mob/NPC/Enemies/ai in monsters)
+					Respawn(ai)
+
+			entrance.safezoneoverride = 0
+			Players << infomsg("Hogwarts magical defenses are restored. Entrance Hall is safe again.")
+			end()
+
+	Ghosts
+		name = "Ghosts"
+		start()
+			..()
+			var/minutes = rand(10,20)
+			var/list/m = list()
+			Players << infomsg("Vengeful ghosts are lurking outside the castle for [minutes] minutes, chase them away!")
+
+			for(var/i = 1 to rand(8,24))
+				var/obj/spawner/spawn_loc = pick(spawners)
+				m += new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
+
+			sleep(minutes * 600)
+
+			var/message = 0
+			for(var/mob/NPC/Enemies/Summoned/mon in m)
+				if(mon.loc != null) message = 1
+				mon.loc = null
+				mon.ChangeState(mon.INACTIVE)
+				m -= mon
+			m = null
+
+			if(message) Players << infomsg("The ghosts got bored and ran off to lurk somewhere else.")
+			end()
 
 	Spider
 		name = "Spiders"
@@ -297,6 +361,41 @@ RandomEvent
 			if(message) Players << infomsg("The pesky spiders were exterminated. All hail the dalek--- ministry.")
 			end()
 
+	VampireLord
+		name   = "Vampire Lord"
+		chance = 0
+		start()
+			..()
+			var/minutes = rand(15,45)
+			var/list/m = list()
+			Players << infomsg("A vampire lord has been lured outside of the castle for [minutes] minutes, the vicious creature brought an army, it appears old and wealthy, maybe it carries valuables, slay it to find out!")
+
+			var/obj/spawner/spawn_loc = pick(spawners)
+			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/VampireLord(spawn_loc.loc)
+			m += monster
+			for(var/i = 1 to rand(15, 25))
+				spawn_loc = pick(spawners)
+				monster = new /mob/NPC/Enemies/Summoned/Acromantula (spawn_loc.loc)
+
+			for(var/i = 1 to rand(4, 8))
+				spawn_loc = pick(spawners)
+				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
+
+				m += monster
+
+			sleep(minutes * 600)
+
+			var/message = 0
+			for(var/mob/NPC/Enemies/Summoned/mon in m)
+				if(mon.loc != null) message = 1
+				mon.loc = null
+				mon.ChangeState(monster.INACTIVE)
+				m -= mon
+			m = null
+
+			if(message) Players << infomsg("The vampire lord and his army vanished to darkness.")
+			end()
+
 	EntranceKillZone
 		name = "Entrance Kill Zone"
 		start()
@@ -323,7 +422,7 @@ RandomEvent
 				Respawn(ai)
 
 			entrance.safezoneoverride = 0
-			Players << infomsg("Hogwarts magical defenses are restored, Entrance Hall is safe again.")
+			Players << infomsg("Hogwarts magical defenses are restored. Entrance Hall is safe again.")
 			end()
 
 	OldSystem

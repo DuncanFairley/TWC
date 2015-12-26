@@ -110,6 +110,8 @@ obj/spells
 				m.Meditate()
 			if("Episkey")
 				m:Episky()
+			if("Sanguinis Iactus")
+				m:Sanguinis_Iactus()
 
 	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
 		..()

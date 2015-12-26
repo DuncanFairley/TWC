@@ -524,7 +524,7 @@ mob/Spells/verb/Incarcerous()
 		new /StatusEffect/UsedStun(src,15)
 		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>:<b> Incarcerous!</b>"
 
-		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 2 }, icon_state = "bind", name = "Incarcerous", lag = 1)
+		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 1 }, icon_state = "bind", name = "Incarcerous", lag = 1)
 
 mob/Spells/verb/Anapneo(var/mob/M in view(usr.client.view,usr)&Players)
 	set category="Spells"
@@ -599,7 +599,7 @@ mob/Spells/verb/Petreficus_Totalus()
 		new /StatusEffect/UsedStun(src,15)
 		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>:<b> Petrificus Totalus!</b>"
 
-		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 2 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
+		castproj(MPreq = 50, Type = /obj/projectile/Bind { min_time = 0.4; max_time = 2.4 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
 
 mob
 	Player/var/tmp/antifigura = 0
@@ -631,7 +631,7 @@ mob/Spells/verb/Antifigura()
 
 mob/Spells/verb/Chaotica()
 	set category="Spells"
-	var/dmg = round(usr.level * 1.1) + clothDmg
+	var/dmg = round(usr.level * 1.1) + round(clothDmg/5)
 	if(dmg<20)dmg=20
 	else if(dmg>2000)dmg = 2000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
@@ -639,11 +639,21 @@ mob/Spells/verb/Chaotica()
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
-		HP -= 30
+		HP -= 60
 		Death_Check()
 
-		castproj(icon_state = "aqua", damage = usr.Def+(usr.extraDef/3) + clothDmg, name = "Aqua Eructo")
-//		castproj(Type = /obj/projectile { color = "#08ffff"; blend_mode = 3; alpha = 150; }, damage = usr.Def+(usr.extraDef/3) + clothDmg, name = "Aqua Eructo")
+		var/dmg = usr.Def + (usr.extraDef / 3) + (clothDmg / 5)
+		dmg *= 0.8
+
+		castproj(icon_state = "aqua", damage = dmg, name = "Aqua Eructo")
+
+
+mob/Spells/verb/Sanguinis_Iactus()
+	set category="Spells"
+	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
+
+
+		castproj(Type = /obj/projectile/Blood, MPreq = 5, icon_state = "blood", damage = usr.Dmg + usr.extraDmg + clothDmg, name = "Blood")
 
 mob/Spells/verb/Inflamari()
 	set category="Spells"
@@ -1044,26 +1054,26 @@ mob/Spells/verb/Incendio()
 mob/proc/BaseIcon()
 	if(Gender == "Female")
 		if(Gm)
-			icon = snowCurse ? 'SnowmanStaff.dmi' : 'FemaleStaff.dmi'
+			icon = 'FemaleStaff.dmi'
 		else if(House == "Gryffindor")
-			icon = snowCurse ? 'SnowmanRed.dmi' : 'FemaleGryffindor.dmi'
+			icon = 'FemaleGryffindor.dmi'
 		else if(House == "Ravenclaw")
-			icon = snowCurse ? 'SnowmanBlue.dmi' : 'FemaleRavenclaw.dmi'
+			icon = 'FemaleRavenclaw.dmi'
 		else if(House == "Slytherin")
-			icon = snowCurse ? 'SnowmanGreen.dmi' : 'FemaleSlytherin.dmi'
+			icon = 'FemaleSlytherin.dmi'
 		else if(House == "Hufflepuff")
-			icon = snowCurse ? 'SnowmanYellow.dmi' : 'FemaleHufflepuff.dmi'
+			icon = 'FemaleHufflepuff.dmi'
 	else
 		if(Gm)
-			icon = snowCurse ? 'SnowmanStaff.dmi' : 'MaleStaff.dmi'
+			icon = 'MaleStaff.dmi'
 		else if(House == "Gryffindor")
-			icon = snowCurse ? 'SnowmanRed.dmi' : 'MaleGryffindor.dmi'
+			icon = 'MaleGryffindor.dmi'
 		else if(House == "Ravenclaw")
-			icon = snowCurse ? 'SnowmanBlue.dmi' : 'MaleRavenclaw.dmi'
+			icon = 'MaleRavenclaw.dmi'
 		else if(House == "Slytherin")
-			icon = snowCurse ? 'SnowmanGreen.dmi' : 'MaleSlytherin.dmi'
+			icon = 'MaleSlytherin.dmi'
 		else if(House == "Hufflepuff")
-			icon = snowCurse ? 'SnowmanYellow.dmi' : 'MaleHufflepuff.dmi'
+			icon = 'MaleHufflepuff.dmi'
 
 mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 	set category="Spells"
@@ -1506,11 +1516,22 @@ mob
 
 		var/obj/projectile/P = new Type (src.loc,src.dir,src,icon,icon_state,damage,name)
 		P.shoot(lag)
+
 		if(client)
 			//Used in monsters as well
 			src.MP -= MPreq
 			src.updateHPMP()
-			src:learnSpell(name)
+
+			var/mob/Player/p = src
+			if(p.wand)
+				p.learnSpell(name)
+
+				if(!P.color && p.wand.projColor)
+					if(p.wand.projColor == "blood")
+						P.color      = "#08ffff"
+						P.blend_mode = BLEND_SUBTRACT
+					else
+						P.color = list(p.wand.projColor, p.wand.projColor, p.wand.projColor)
 
 atom/movable/proc
 	Attacked(obj/projectile/p)
@@ -1607,6 +1628,9 @@ mob/NPC/Enemies
 
 		if(isplayer(p.owner))
 
+			if(p.icon_state == "blood")
+				p.damage += round(p.damage / 20, 1)
+
 			if(canBleed)
 				var/n = dir2angle(get_dir(src, p))
 				emit(loc    = src,
@@ -1670,20 +1694,28 @@ obj
 
 				if(effect && (!damage || !ismob(a)))
 					var/particle
+					var/c
 
 					switch(icon_state)
 						if("snowball")
 							particle = /obj/particle/fluid/snow
 						if("iceball")
-							particle = /obj/particle/smoke/blue
+							particle = /obj/particle/smoke/proj
+							c = "#0bc"
 						if("fireball")
-							particle = /obj/particle/smoke/red
+							particle = /obj/particle/smoke/proj
+							c = "#c60"
 						if("gum")
-							particle = /obj/particle/smoke/pink
+							particle = /obj/particle/smoke/proj
+							c = "#ff69b4"
 						if("flippendo")
 							particle = /obj/particle/smoke
 						if("quake")
-							particle = /obj/particle/smoke/brown
+							particle = /obj/particle/smoke/proj
+							c = "#8b4513"
+						if("blood")
+							particle = /obj/particle/fluid/blood
+							color = null
 
 					if(particle)
 
@@ -1691,12 +1723,18 @@ obj
 						if(!oldloc) oldloc = loc
 
 						var/n = dir2angle(get_dir(oldloc, src))
+
+						if(blend_mode == BLEND_SUBTRACT)
+							color = null
+							c     = "#c00"
+
 						emit(loc    = oldloc,
 							 ptype  = particle,
 						     amount = 4,
 						     angle  = new /Random(n - 25, n + 25),
 						     speed  = 2,
-						     life   = new /Random(15,20))
+						     life   = new /Random(15,20),
+						     color  = color ? color : c)
 
 			Effect(atom/movable/a)
 
@@ -1728,6 +1766,13 @@ obj
 
 			if(Impact(a, t) || count > 1)
 				Dispose()
+
+		Blood
+			New()
+				..()
+
+				color      = "#08ffff"
+				blend_mode = BLEND_SUBTRACT
 
 		Flippendo
 
@@ -1782,7 +1827,22 @@ obj
 						src.owner:learnSpell(name, 5)
 
 		Bind
-			var/time = 1
+			var/max_time
+			var/min_time
+			var/time
+
+			New()
+				..()
+
+				if(min_time)
+					time = min_time
+
+			Move()
+				..()
+
+				var/step = 20 / (MAX_VELOCITY - velocity)
+
+				time += (max_time - min_time) / step
 
 			Effect(atom/movable/a)
 
@@ -1809,7 +1869,7 @@ obj
 					src.owner:learnSpell(name, 10)
 
 					spawn()
-						var/t = time * 10
+						var/t = round(time * 10)
 						while(p && p.movable && t > 0)
 							t--
 							sleep(1)

@@ -911,6 +911,8 @@ mob/Player
 		if(usr.StatPoints<1)usr.verbs.Remove(/mob/Player/verb/Use_Statpoints)
 		shieldamount = 0
 		mouse_drag_pointer = MOUSE_DRAG_POINTER
+		if(client.connection == "web")
+			winset(src, "mapwindow.map", "icon-size=32")
 		spawn()
 			var/mob/multikey
 			for(var/mob/Player/p in Players)

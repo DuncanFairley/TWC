@@ -364,13 +364,13 @@ mob
 
 	BaseIcon()
 		if(derobe)
-			icon   = snowCurse ? 'SnowmanBlack.dmi' : 'Deatheater.dmi'
+			icon   = 'Deatheater.dmi'
 			trnsed = 1
 		else if(aurorrobe)
 			if(Gender == "Female")
-				icon = snowCurse ? 'SnowmanWhite.dmi' : 'FemaleAuror.dmi'
+				icon = 'FemaleAuror.dmi'
 			else
-				icon = snowCurse ? 'SnowmanWhite.dmi' : 'MaleAuror.dmi'
+				icon = 'MaleAuror.dmi'
 		else ..()
 
 	GM/verb
@@ -455,12 +455,12 @@ mob/test/verb/FloorColor(c as color)
 mob/test/verb/pickColor(newColor as color)
 	set category = "colors"
 
-	var/ColorMatrix/c = new(newColor)
+	var/ColorMatrix/c = new(newColor, 0.75)
 
 	for(var/mob/Player/p in Players)
 		animate(p.client, color = c.matrix, time = 10)
 
-mob/test/verb/pickColorSatContBright(b as num, s as num, c as num)
+mob/test/verb/pickColorSatContBright(s as num, c as num, b as num)
 	set category = "colors"
 
 	var/ColorMatrix/cm = new(s, c, b)
@@ -470,6 +470,11 @@ mob/test/verb/pickColorSatContBright(b as num, s as num, c as num)
 
 mob/test/verb/pickColorPreset(newColor in list("Invert", "BGR", "Greyscale", "Sepia", "Black & White", "Polaroid", "GRB", "RBG", "BRG", "GBR", "Normal"))
 	set category = "colors"
+
+	if(newColor == "Normal")
+		for(var/mob/Player/p in Players)
+			animate(p.client, color = null, time = 10)
+		return
 
 	var/ColorMatrix/c = new(newColor)
 

@@ -378,7 +378,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			o.icon = src.icon
 			o.layer = wear_layer
 
-			if(!snowCurse) owner.overlays += o
+			owner.overlays += o
 
 		if(!owner.Lwearing) owner.Lwearing = list()
 		owner.Lwearing.Add(src)
@@ -628,8 +628,9 @@ obj/items/gift
 
 	Take()
 		if(ckeyowner == usr.ckey || !ckeyowner || !contents.len)
-			ckeyowner = usr.ckey
 			..()
+			if(src in usr)
+				ckeyowner = usr.ckey
 		else
 			usr << errormsg("You do not have permission to pick this up.")
 
@@ -675,6 +676,13 @@ obj/items/gift
 
 			pixel_y = rand(-4,4)
 			pixel_x = rand(-4,4)
+
+			ckeyowner = usr.ckey
+
+			if(stack > 1)
+				var/obj/items/s = Split(stack - 1)
+				s.loc  = src.loc
+				s.name = "gift wrappings"
 
 			usr:Resort_Stacking_Inv()
 
@@ -852,6 +860,39 @@ obj/items/wearable/brooms/nimbus_2000
 	icon = 'nimbus_2000_broom.dmi'
 obj/items/wearable/brooms/cleansweep_seven
 	icon = 'cleansweep_seven_broom.dmi'
+
+obj/items/wearable/brooms/vampire_wings
+	showoverlay = FALSE
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		.=..(owner, 1, forceremove)
+
+		if(. == WORN)
+			var/image/i = new('VampireWings.dmi', "flying")
+			i.layer = FLOAT_LAYER - 3
+			i.pixel_x = -16
+			i.pixel_y = -16
+			owner.overlays += i
+
+			animate(owner, pixel_y = pixel_y,    time = 2, loop = -1)
+			animate(       pixel_y = pixel_y + 1,time = 2)
+			animate(       pixel_y = pixel_y,    time = 2)
+			animate(       pixel_y = pixel_y - 1,time = 2)
+
+			if(!overridetext)viewers(owner) << infomsg("[owner] puts on \his [src.name].")
+
+		else if(. == REMOVED)
+			var/image/i = new('VampireWings.dmi', "flying")
+			i.layer = FLOAT_LAYER - 3
+			i.pixel_x = -16
+			i.pixel_y = -16
+			owner.overlays -= i
+
+			animate(owner)
+
+			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
+
+
 obj/items/wearable/hats
 	wear_layer = FLOAT_LAYER - 3
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
@@ -931,7 +972,7 @@ obj/items/wearable/orb
 
 	chaos
 		name       = "orb of chaos"
-		bonus      = 1
+		bonus      = 5
 		exp   	   = 15000
 		icon_state = "chaos"
 
@@ -942,7 +983,7 @@ obj/items/wearable/orb
 
 	peace
 		name       = "orb of peace"
-		bonus      = 2
+		bonus      = 6
 		exp        = 15000
 		icon_state = "peace"
 
@@ -958,6 +999,7 @@ obj/items/wearable/wands
 	var
 		track
 		displayColor
+		projColor
 		killCount        = 0
 		monsterKillCount = 0
 		exp              = 0
@@ -995,11 +1037,12 @@ obj/items/wearable/wands
 				var/i = 0
 				while(exp >= maxExp())
 					exp -= maxExp()
-					i += 0.1
 
-					if(quality >= MAX)
+					if(quality + i >= MAX)
 						exp = 0
 						break
+
+					i += 0.1
 
 				if(i)
 					if(bonus == -1) bonus = NOENCHANT
@@ -1210,6 +1253,9 @@ obj/items/wearable/wands/blood_wand
 obj/items/wearable/wands/dragonhorn_wand
 	icon = 'dragonhorn_wand.dmi'
 	displayColor = "#037800"
+obj/items/wearable/wands/light_wand
+	icon = 'light_wand.dmi'
+	displayColor = "#64c8ff"
 
 obj/items/wearable/wigs
 	price = 500000
@@ -2230,10 +2276,12 @@ obj/items/spellbook
 
 	New()
 		..()
-		spell = pick(spellList)
-		name  = spellList[spell]
 
-		name = pick("All about [name]", "Book of [name]", "Mystery of [name]", "[name]: 101")
+		if(!spell)
+			spell = pick(spellList)
+			name  = spellList[spell]
+
+			name = pick("All about [name]", "Book of [name]", "Mystery of [name]", "[name]: 101")
 
 	Click()
 		if(src in usr)
@@ -2244,6 +2292,37 @@ obj/items/spellbook
 				usr.verbs += spell
 				Consume()
 		else
+			..()
+
+	blood
+		name = "Book of Chaos: Vol II"
+		icon_state = "chaos"
+		spell = /mob/Spells/verb/Sanguinis_Iactus
+
+		var/tmp/read = 0
+
+		Click()
+			if(read) return
+
+			if(src in usr)
+				read = 1
+				usr << infomsg("You attempt to read [name]")
+
+				var/c = usr.client.color
+				if(spell in usr.verbs)
+					animate(usr.client, color = list(1.5,1.5,1.5,
+		                          					 1.5,1.5,1.5,
+		                          					 1.5,1.5,1.5,
+		                         					 -1,-1,-1), time = 10)
+
+				else
+					animate(usr.client, color = list(1.6,1,1,
+		                          					 1.6,1,1,
+		                          					 1.6,1,1,
+		                         					 -1,-1,-1), time = 10)
+				sleep(15)
+				animate(usr.client, color = c, time = 10)
+				read = 0
 			..()
 
 obj/items/stickbook
@@ -2884,6 +2963,26 @@ obj/items/magic_stone
 				var/RandomEvent/WillytheWhisp/event = locate() in events
 				spawn() event.start()
 
+		blood
+			name = "blood coin"
+			icon_state = "Coin"
+
+			circle(mob/Player/p)
+				if(!(p.loc && (istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))))
+					p << errormsg("You can only use this outside.")
+					return
+
+				var/area/outside/a = p.loc.loc
+				if(a.lit)
+					p << errormsg("You can only use this at night.")
+					return
+
+				..(p)
+
+			effect()
+				var/RandomEvent/VampireLord/event = locate() in events
+				spawn() event.start()
+
 		monsters
 			name = "stinky coin"
 			icon_state = "Coin"
@@ -2972,7 +3071,7 @@ enchanting
 
 	proc
 		check(obj/items/i, bonus, souls)
-			if(istype(i, reqType) && src.bonus == bonus && src.souls <= souls) return 1
+			if(istype(i, reqType) && (src.bonus & bonus) >= src.bonus && src.souls <= souls) return 1
 			return 0
 
 		getPrize()
@@ -3124,7 +3223,7 @@ obj
 						o:title = copytext(i3.name, 8)
 						o.color = i3.color
 						o:title = "<font color=\"[o.color]\">" + o:title + "</font>"
-					else if(istype(i3, /obj/items/wearable))
+					else if(istype(i3, /obj/items/wearable) && !(i3:bonus & 4))
 						o:quality = i3:quality
 						o:bonus   = i3:bonus
 						o.name += " +[o:quality]"
@@ -3519,3 +3618,80 @@ proc/pickweight(list/L)
 		totweight -= weight
 		if(totweight < 0)
 			return L[i]
+
+obj/wand_desk
+	mouse_opacity = 2
+
+	Click()
+		..()
+
+		if(usr in oview(1, src))
+			usr << infomsg("If you have any wand coloring stones, click them to apply the color effect.")
+
+obj/items/colors
+
+	icon = 'Colors.dmi'
+
+	var
+		reqLevel = 5
+		projColor
+
+	Click()
+		if(src in usr)
+
+			var/mob/Player/p = usr
+
+			if(!(locate(/obj/wand_desk) in oview(1)))
+				p << errormsg("You need some tools in order to apply this to your equipped wand.")
+				return
+			if(!p.wand)
+				p << errormsg("You have to have a wand equipped.")
+				return
+			if(p.wand.quality * 10 < reqLevel)
+				p << errormsg("Your wand has to be at least level [reqLevel].")
+				return
+
+			if(p.wand.projColor && alert("Are you sure you want to override this wand's color?", "Override Wand Color", "Yes", "No") == "No")
+				return
+
+			if(locate(/obj/wand_desk) in oview(1))
+				p << infomsg("You applied new <font color=\"[projColor == "blood" ? "#a00" : projColor]\">magical color</font> to your equipped wand.")
+				p.wand.projColor = projColor
+				Dispose()
+				p.Resort_Stacking_Inv()
+		else
+			..()
+
+	green_stone
+		icon_state = "green"
+		projColor  = "#006600"
+	red_stone
+		icon_state = "red"
+		projColor  = "#660000"
+	blue_stone
+		icon_state = "blue"
+		projColor  = "#000066"
+	yellow_stone
+		icon_state = "yellow"
+		projColor  = "#666600"
+
+	purple_stone
+		reqLevel   = 10
+		icon_state = "purple"
+		projColor  = "#662690"
+	pink_stone
+		reqLevel   = 10
+		icon_state = "pink"
+		projColor  = "#993f6c"
+	teal_stone
+		reqLevel   = 10
+		icon_state = "teal"
+		projColor  = "#226666"
+	orange_stone
+		reqLevel   = 10
+		icon_state = "orange"
+		projColor  = "#994422"
+	blood_stone
+		reqLevel   = 15
+		icon_state = "red"
+		projColor  = "blood"

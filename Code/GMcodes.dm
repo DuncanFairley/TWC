@@ -1103,14 +1103,6 @@ mob
 
 			if(!variable) return
 
-			if(istype(O.vars[variable], /datum))
-
-				if(istype(O.vars[variable], /gold))
-					var/gold/g = O.vars[variable]
-					usr << "Variable contains: [g.get()]"
-				spawn() Edit(O.vars[variable])
-				return
-
 			var/default
 			var/typeof = O.vars[variable]
 			var/dir
@@ -1178,15 +1170,24 @@ mob
 
 			var/class
 
-			if(default=="list")
-				class = input("What kind of variable?","Variable Type",default) as null|anything in list("list","text",
-				"num","type","reference","icon","file","restore to default")
-			else
-				class = input("What kind of variable?","Variable Type",default) as null|anything in list("text",
-				"num","type","reference","icon","file","restore to default")
+			options = list("text","num","type","reference","icon","file","restore to default")
 
+			if(default=="list")
+				options += "list"
+
+			if(istype(O.vars[variable], /datum))
+
+				if(istype(O.vars[variable], /gold))
+					var/gold/g = O.vars[variable]
+					usr << "Gold: [g.get()]"
+
+				options += "Edit reference"
+
+			class = input("What kind of variable?","Variable Type",default) as null|anything in options
 
 			switch(class)
+				if("Edit reference")
+					spawn() Edit(O.vars[variable])
 				if("restore to default")
 					O.vars[variable] = initial(O.vars[variable])
 
@@ -1213,7 +1214,7 @@ mob
 				if("list")
 					variable = input("Which?","Var") as null|anything in O.vars[variable]
 					if(!variable) return
-					if(istype(variable,/atom))
+					if(istype(variable,/datum))
 						spawn() Edit(variable)
 					else
 						usr << "You can't edit this."

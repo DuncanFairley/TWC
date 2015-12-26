@@ -4,7 +4,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 			 	                                         /obj/items/Tube_of_fun)),
 
 
-"Bubbles the Spider" = list(/obj/items/key/blood_key,
+"Bubbles the Spider" = list(/obj/items/key/basic_key,
 						    /obj/items/wearable/title/Crawler,
 						    /obj/items/chest/blood_chest,
 						    /obj/items/magic_stone/eye,
@@ -49,9 +49,11 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 			 	 			 			  /obj/items/Tube_of_fun)),
 
 
-"Snowman"            = list("0.01" = list(/obj/items/artifact,
+"Snowman"            = list("0.02" = list(/obj/items/artifact,
                                           /obj/items/wearable/orb/peace,
 							              /obj/items/wearable/orb/chaos,
+							              /obj/items/key/winter_key,
+							              /obj/items/chest/winter_chest,
 							              /obj/items/wearable/wands/mulberry_wand),
 							 "5"   = list(/obj/items/DarknessPowder,
 								 		  /obj/items/Whoopie_Cushion,
@@ -59,24 +61,44 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							 			  /obj/items/Smoke_Pellet,
 							 			  /obj/items/Tube_of_fun,
 							 			  /obj/items/Swamp),
-							 "30"  =      /obj/items/gift),
+							 "25"  =      /obj/items/gift),
 
 
 "Wisp"               = list("3"    =      /obj/items/crystal/luck,
-							"0.3"  = list(/obj/items/key/basic_key,
+							"0.2"  = list(/obj/items/key/basic_key,
 							              /obj/items/key/wizard_key,
 							              /obj/items/key/pentakill_key,
 							              /obj/items/key/sunset_key),
-						    "0.8"  = list(/obj/items/crystal/defense,
+						    "0.7"  = list(/obj/items/crystal/defense,
 							 			  /obj/items/crystal/damage),
-						    "0.01" =      /obj/items/artifact,
 							"0.03" = list(/obj/items/wearable/title/Magic,
 							 			  /obj/items/crystal/magic,
 						     			  /obj/items/crystal/strong_luck,
 						     			  /obj/items/crystal/soul),
-							"4"    = list(/obj/items/DarknessPowder,
+							"2"    = list(/obj/items/DarknessPowder,
 							 			  /obj/items/Smoke_Pellet,
 							 			  /obj/items/Tube_of_fun)),
+
+"Vengeful Ghost"     = list("1"   = list(/obj/items/colors/purple_stone,
+							 			 /obj/items/colors/pink_stone,
+						     			 /obj/items/colors/teal_stone,
+						     			 /obj/items/colors/orange_stone,
+						     			 /obj/items/artifact),
+							"5"   = list(/obj/items/colors/red_stone,
+							 			 /obj/items/colors/green_stone,
+						     			 /obj/items/colors/yellow_stone,
+						     			 /obj/items/colors/blue_stone,
+						     			 /obj/items/artifact),
+							"15"  = list(/obj/items/wearable/orb/chaos,
+							 			 /obj/items/wearable/orb/peace)),
+
+"Vampire Lord"       = list("15"   = list(/obj/items/colors/blood_stone,
+										  /obj/items/spellbook/blood),
+							"30"   = list(/obj/items/colors/purple_stone,
+							 			  /obj/items/colors/pink_stone,
+						     			  /obj/items/colors/teal_stone,
+						     			  /obj/items/colors/orange_stone),
+							"40"   =      /obj/items/chest/blood_chest),
 
 
 "Eye of The Fallen"  = list("10"   = list(/obj/items/artifact,
@@ -95,12 +117,12 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							 			  /obj/items/Swamp)),
 
 
-"Floating Eye"       = list("0.03" =      /obj/items/wearable/title/Eye,
-							"0.5"  = list(/obj/items/key/basic_key,
+"Floating Eye"       = list("0.02" =      /obj/items/wearable/title/Eye,
+							"0.4"  = list(/obj/items/key/basic_key,
 							              /obj/items/key/wizard_key,
 							              /obj/items/key/pentakill_key,
 							              /obj/items/key/sunset_key),
-							"0.6"  =      /obj/items/artifact,
+							"0.5"  =      /obj/items/artifact,
 							"0.7"  = list(/obj/items/DarknessPowder,
 								 	 	  /obj/items/Whoopie_Cushion,
 									 	  /obj/items/U_No_Poo,
@@ -116,6 +138,10 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 			 			  	 			  /obj/items/bucket,
 			 			  	 			  /obj/items/scroll,
 			 			  	 			  /obj/items/wearable/title/Troll)),
+
+"Acromantula"        = list("0.6"  = list(/obj/items/key/winter_key,
+			 			  	 			  /obj/items/key/blood_key),
+			 			  	"1"    =      /obj/items/blood_sack),
 
 
 "Basilisk"           = list("2"    =      /obj/items/key/pentakill_key,

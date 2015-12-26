@@ -764,7 +764,7 @@ obj/items/demonic_essence
 			p << infomsg("You touch the demonic essence and it fades, you feel as if you carry it inside your soul.")
 			loc = null
 		else
-			p << errormsg("You don't need this item.")
+			p << errormsg("You don't need this.")
 
 	New()
 		..()
@@ -777,6 +777,32 @@ obj/items/demonic_essence
 
 		animate(src, color = rgb(255, 0, 0), time = 10, loop = -1)
 		animate(color = rgb(255, 0, 255), time = 10)
+
+		spawn(100)
+			loc = null
+
+obj/items/blood_sack
+	icon       = 'jokeitems.dmi'
+	icon_state = "Blood Sack"
+	max_stack  = 1
+
+	Take()
+		set src in oview(1)
+		var/mob/Player/p = usr
+		if(p.checkQuestProgress("Blood Sack"))
+			p << infomsg("You take the acromantula's blood sack.")
+			loc = null
+		else
+			p << errormsg("You don't need this.")
+
+	New()
+		..()
+
+		emit(loc    = src, ptype  = /obj/particle/magic,
+						   amount = 5,
+						   angle  = new /Random(1, 359),
+						   speed  = 2,
+						   life   = new /Random(20,25))
 
 		spawn(100)
 			loc = null

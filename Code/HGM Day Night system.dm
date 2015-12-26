@@ -100,6 +100,7 @@ obj/cloud
 	layer = 8
 	mouse_opacity = 0
 	var/obj/shadow
+	glide_size = 6
 	New()
 		..()
 		if(!("[z]" in weather.clouds))

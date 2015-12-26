@@ -580,6 +580,12 @@ mob
 						     speed  = 5,
 						     life   = new /Random(1,10))
 
+					New()
+						..()
+
+						if(prob(60))
+							transform *= rand(5,15) / 10
+
 				Blocked()
 					density = 0
 					var/turf/t = get_step_to(src, target, 1)
@@ -675,6 +681,144 @@ mob
 							     life   = new /Random(1,25))
 							..()
 
+					Ghost
+						name = "Vengeful Ghost"
+						icon = 'NPCs.dmi'
+						HPmodifier = 1.9
+						DMGmodifier = 0.9
+						layer = 5
+						MoveDelay = 2
+						AttackDelay = 1
+						Range = 15
+						level = 850
+						canBleed = FALSE
+						prizePoolSize = 1
+
+						New()
+							..()
+
+							if(prob(51))
+								icon   = 'FemaleStaff.dmi'
+								gender = FEMALE
+							else
+								icon   = 'MaleStaff.dmi'
+								gender = MALE
+
+							GenerateIcon(src)
+
+							alpha = rand(100,180)
+
+							animate(src, color = "#f55", pixel_y = 2,  time = 6, loop = -1)
+							animate(     color = "#f55", pixel_y = 0,  time = 6)
+							animate(     color = null,   pixel_y = -2, time = 6)
+
+						Attacked(obj/projectile/p)
+
+							if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
+
+								if(prob(35))
+									target = p.owner
+									loc    = get_step_away(p.owner, p.owner.loc)
+								else if(MoveDelay == 2 && prob(20))
+									MoveDelay = 1
+									spawn(50)
+										MoveDelay = 2
+
+							if(p.icon_state == "gum" || (p.icon_state == "blood" && prob(70)))
+								..()
+								emit(loc    = src,
+									 ptype  = /obj/particle/red,
+								     amount = 2,
+								     angle  = new /Random(1, 359),
+								     speed  = 2,
+								     life   = new /Random(15,20))
+							else
+								emit(loc    = src,
+									 ptype  = /obj/particle/green,
+								     amount = 2,
+								     angle  = new /Random(1, 359),
+								     speed  = 2,
+								     life   = new /Random(15,20))
+
+
+					VampireLord
+						name = "Vampire Lord"
+						icon = 'FemaleVampire.dmi'
+						icon_state = "flying"
+						HPmodifier = 6
+						DMGmodifier = 2
+						MoveDelay = 2
+						AttackDelay = 0
+						Range = 15
+						level = 1600
+
+						var/tmp/fired = 0
+
+						New()
+							..()
+
+							if(prob(49))
+								icon   = 'MaleVampire.dmi'
+								gender = MALE
+							else
+								gender = FEMALE
+
+							GenerateIcon(src)
+
+							var/image/i = new('VampireWings.dmi', "flying")
+							i.layer = FLOAT_LAYER - 3
+							i.pixel_x = -16
+							i.pixel_y = -16
+							overlays += i
+
+							animate(src, pixel_y = pixel_y,      time = 2, loop = -1)
+							animate(     pixel_y = pixel_y + 1,  time = 2)
+							animate(     pixel_y = pixel_y,      time = 2)
+							animate(     pixel_y = pixel_y - 1,  time = 2)
+
+						Attack(mob/M)
+							..()
+							if(!fired && target && state == HOSTILE)
+								fired = 1
+								spawn(rand(20,40)) fired = 0
+
+								for(var/obj/redroses/S in oview(3, src))
+									flick("burning", S)
+									spawn(8) S.loc = null
+
+								var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+								var/tmp_d = dir
+								for(var/d in dirs)
+									dir = d
+									castproj(Type = /obj/projectile/Blood, icon_state = "blood", damage = Dmg + rand(-4,8), name = "Cruor", cd = 0, lag = 1)
+								dir = tmp_d
+								sleep(AttackDelay)
+
+						Attacked(obj/projectile/p)
+
+							if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
+
+								if(prob(40))
+									target = p.owner
+									loc    = get_step_away(p.owner, p.owner.loc)
+								else if(MoveDelay == 2 && prob(40))
+									MoveDelay = 1
+									spawn(50)
+										MoveDelay = 2
+
+							p.damage = round(p.damage * rand(7, 10)/10)
+
+							..()
+
+						Death()
+							emit(loc    = loc,
+								 ptype  = /obj/particle/fluid/blood,
+							     amount = 60,
+							     angle  = new /Random(0, 360),
+							     speed  = 4,
+							     life   = new /Random(1,25))
+							..()
+
 
 					Wisp
 						icon_state = "wisp"
@@ -753,7 +897,7 @@ mob
 									sleep(AttackDelay)
 
 						Attacked(obj/projectile/p)
-							if(p.icon_state == proj && prob(99))
+							if(p.icon_state == proj || (p.icon_state == "blood" && prob(65)))
 								..()
 								emit(loc    = src,
 									 ptype  = /obj/particle/red,
@@ -762,8 +906,6 @@ mob
 								     speed  = 2,
 								     life   = new /Random(15,20))
 							else
-								HP += p.damage
-
 								emit(loc    = src,
 									 ptype  = /obj/particle/green,
 								     amount = 2,
@@ -784,18 +926,6 @@ mob
 						var/tmp/fired = 0
 						extraDmg = 400
 
-						#ifdef HIDDEN
-						Death(mob/Player/killer)
-							var/obj/snow_counter/count = locate("SnowCounter")
-							if(count.add(100))
-								spawn()
-									var/mob/NPC/Enemies/Summoned/Boss/Snowman/Super/s = new(loc)
-									sleep(36000)
-									s.Dispose()
-
-								Players << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
-							..()
-						#endif
 
 						Attack(mob/M)
 							..()
@@ -840,6 +970,9 @@ mob
 						AttackDelay = 1
 
 						var/tmp/fired = 0
+
+						Death()
+
 
 						BlindAttack()
 							spawn()
@@ -1027,21 +1160,30 @@ mob
 				AttackDelay = 3
 				respawnTime = 1800
 
-				#ifdef HIDDEN
-				Death(mob/Player/killer)
-					var/obj/snow_counter/count = locate("SnowCounter")
-					if(count.add())
+			Acromantula
+				icon_state = "spider"
+				level = 800
+				MoveDelay = 2
 
-						spawn()
-							var/obj/spawner/spawn_loc = pick(spawners)
+				HPmodifier = 1.6
+				DMGmodifier = 0.8
 
-							var/mob/NPC/Enemies/Summoned/Boss/Snowman/Super/s = new(spawn_loc.loc)
-							sleep(36000)
-							s.Dispose()
-
-					Players << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
+				Death()
+					emit(loc    = loc,
+						 ptype  = /obj/particle/fluid/blood,
+					     amount = 25,
+					     angle  = new /Random(0, 360),
+					     speed  = 5,
+					     life   = new /Random(5,15))
 					..()
-				#endif
+
+					for(var/i = 1 to rand(1, 2))
+						new /mob/NPC/Enemies/Summoned/Acromantula (loc)
+
+				New()
+					..()
+
+					transform *= rand(15,30) / 10
 
 			Wisp
 				icon_state = "wisp"
@@ -1069,7 +1211,7 @@ mob
 							sleep(AttackDelay)
 
 				Attacked(obj/projectile/p)
-					if(p.icon_state == "gum" && prob(95))
+					if(p.icon_state == "gum" && (p.icon_state == "blood" && prob(75)))
 						..()
 						emit(loc    = src,
 							 ptype  = /obj/particle/red,
@@ -1078,8 +1220,6 @@ mob
 						     speed  = 2,
 						     life   = new /Random(15,20))
 					else
-						HP += p.damage
-
 						emit(loc    = src,
 							 ptype  = /obj/particle/green,
 						     amount = 2,
