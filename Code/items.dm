@@ -963,6 +963,8 @@ obj/items/wearable/hats/teal_earmuffs
 
 obj/items/wearable/orb
 
+	desc = "When equipped, your equipped wand will earn experience and level up by killing monsters."
+
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(. == WORN)
