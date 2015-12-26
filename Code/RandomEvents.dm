@@ -284,6 +284,8 @@ RandomEvent
 			var/area/entrance = locate(/area/hogwarts/Entrance_Hall)
 			for(var/mob/Player/p in entrance)
 				if(p.away) p.loc = locate("@GreatHall")
+
+			entrance.friendlyFire     = 0
 			entrance.safezoneoverride = 1
 
 			var/turf/spawn_loc = locate("@Hogwarts")
@@ -302,7 +304,9 @@ RandomEvent
 				for(var/mob/NPC/Enemies/ai in monsters)
 					Respawn(ai)
 
+			entrance.friendlyFire     = 1
 			entrance.safezoneoverride = 0
+
 			Players << infomsg("Hogwarts magical defenses are restored. Entrance Hall is safe again.")
 			end()
 
