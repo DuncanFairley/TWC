@@ -700,6 +700,7 @@ mob
 			set popup_menu = 0
 			if(!M.client) return
 			usr << "[M]'s IP: [M.client.address]"
+			usr << "connection type [M.client.connection]"
 
 
 		Grant_Name_Change(mob/select in Players)
