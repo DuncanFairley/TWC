@@ -3,6 +3,11 @@ mob/TalkNPC/quest
 	Austra
 		icon = 'FemaleVampire.dmi'
 		questPointers = "Royal Blood \[Weekly]"
+
+		New()
+			..()
+			GenerateIcon(src, wig = 0, shoes = 1, scarf = 1)
+
 		Talk()
 			set src in oview(3)
 			Quest(usr)
