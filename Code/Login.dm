@@ -1012,9 +1012,9 @@ mob/Player
 
 				if(!ignoreBonus)
 					if(b & W.DAMAGE)
-						clothDmg += 10 * W.quality
+						clothDmg += 10 * W.quality * W.scale
 					if(b & W.DEFENSE)
-						clothDef += 30 * W.quality
+						clothDef += 30 * W.quality * W.scale
 
 			if(!ignoreBonus)
 				resetMaxHP()
