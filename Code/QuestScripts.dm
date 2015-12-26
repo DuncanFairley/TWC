@@ -24,7 +24,7 @@ quest
 
 		Gather
 			desc = "Gather 50 blood sacks from acromantulas. You also feel the need to violently attack vengeful ghosts for some odd unexplained reason."
-			reqs = list("Blood Sacks"         = 50,
+			reqs = list("Blood Sack"          = 50,
 			            "Kill Vengeful Ghost" = 50)
 
 		Reward
