@@ -1576,15 +1576,22 @@ obj/brick2door
 		if(density)
 			Take_Hit(p.owner)
 
+area/var/friendlyFire = TRUE
+
 mob/Player
 
 	Attacked(obj/projectile/p)
 		..()
+
 		if(p.owner)
-			if(p.owner.monster)
-				src << "[p.owner] hit you for [p.damage] with their [p]."
-			else
+			if(isplayer(p.owner))
+
+				var/area/a = loc.loc
+				if(!a.friendlyFire) return
+
 				p.owner << "Your [p] does [p.damage] damage to [src]."
+			else
+				src << "[p.owner] hit you for [p.damage] with their [p]."
 
 		if(shielded)
 			var/tmpdmg = shieldamount - p.damage
