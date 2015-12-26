@@ -132,11 +132,16 @@ obj
 					var/list/turf/Lt = s.getArea()
 					for(var/turf/T in Lt)
 						if(T.specialtype != "Swamp")
-							T.overlays.Add(icon('jokeitems.dmi',"swamp"))
+
+							var/image/i = image('jokeitems.dmi',"swamp")
+							i.appearance_flags = RESET_COLOR
+							T.overlays += i
 							T.slow += 1
 							T.specialtype = "Swamp"
 							if(rand(1,4)==1)
-								T.overlays.Add(icon('jokeitems.dmi',pick("swamp1","swamp2","swamp3","swamp4","swamp5","swamp6","swamp7")))
+								i = image('jokeitems.dmi', pick("swamp1","swamp2","swamp3","swamp4","swamp5","swamp6","swamp7"))
+								i.appearance_flags = RESET_COLOR
+								T.overlays += i
 						else
 							Lt -= T
 
