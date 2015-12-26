@@ -3648,7 +3648,7 @@ obj/items/colors
 			var/mob/Player/p = usr
 
 			if(!(locate(/obj/wand_desk) in oview(1)))
-				p << errormsg("You need some tools in order to apply this to your equipped wand.")
+				p << errormsg("You need some tools in order to apply this to your equipped wand. Maybe you'll find some tools at the wand shop.")
 				return
 			if(!p.wand)
 				p << errormsg("You have to have a wand equipped.")
