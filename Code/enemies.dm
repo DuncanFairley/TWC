@@ -99,6 +99,12 @@ proc
 			return 1
 		return 0
 area
+	outside
+		Spider_Pit
+			icon       = 'black50.dmi'
+			icon_state = "red"
+			alpha      = 200
+
 	newareas
 		var/tmp/active = 0
 		outside
@@ -106,15 +112,12 @@ area
 			Forbidden_ForestNW
 			Forbidden_ForestSE
 			Forbidden_ForestSW
+
 			Spider_Pit
 				icon       = 'black50.dmi'
 				icon_state = "red"
 				alpha      = 200
 
-				New()
-					..()
-					animate(src, alpha = 255, time = 100, loop = -1)
-					animate(     alpha = 180, time = 100)
 			Pixie_Pit
 			Desert1
 				antiTeleport = TRUE
@@ -693,8 +696,8 @@ mob
 					Ghost
 						name = "Vengeful Ghost"
 						icon = 'NPCs.dmi'
-						HPmodifier = 1.9
-						DMGmodifier = 0.9
+						HPmodifier = 2
+						DMGmodifier = 1
 						layer = 5
 						MoveDelay = 2
 						AttackDelay = 1
@@ -725,10 +728,10 @@ mob
 
 							if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
 
-								if(prob(35))
+								if(prob(40))
 									target = p.owner
 									loc    = get_step_away(p.owner, p.owner.loc)
-								else if(MoveDelay == 2 && prob(20))
+								else if(MoveDelay == 2 && prob(30))
 									MoveDelay = 1
 									spawn(50)
 										MoveDelay = 2
@@ -754,8 +757,8 @@ mob
 						name = "Vampire Lord"
 						icon = 'FemaleVampire.dmi'
 						icon_state = "flying"
-						HPmodifier = 6
-						DMGmodifier = 2
+						HPmodifier = 8
+						DMGmodifier = 3
 						MoveDelay = 2
 						AttackDelay = 0
 						Range = 15
@@ -809,12 +812,12 @@ mob
 
 							if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
 
-								if(prob(40))
+								if(prob(55))
 									target = p.owner
 									loc    = get_step_away(p.owner, p.owner.loc)
-								else if(MoveDelay == 2 && prob(40))
+								else if(MoveDelay == 2 && prob(45))
 									MoveDelay = 1
-									spawn(50)
+									spawn(rand(40,60))
 										MoveDelay = 2
 
 							p.damage = round(p.damage * rand(7, 10)/10)
