@@ -139,7 +139,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 			 			  	 			  /obj/items/scroll,
 			 			  	 			  /obj/items/wearable/title/Troll)),
 
-"Acromantula"        = list("0.6"  = list(/obj/items/key/winter_key,
+"Acromantula"        = list("0.3"  = list(/obj/items/key/winter_key,
 			 			  	 			  /obj/items/key/blood_key,
 			 			  	 			  /obj/items/colors/red_stone,
 							 			  /obj/items/colors/green_stone,
