@@ -729,8 +729,15 @@ mob
 							if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
 
 								if(prob(40))
-									target = p.owner
-									loc    = get_step_away(p.owner, p.owner.loc)
+									var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+									while(dirs.len)
+										var/d = pick(dirs)
+										dirs -= d
+										var/turf/t = get_step(p.owner, d)
+										if(t.loc == loc.loc)
+											target = p.owner
+											loc    = t
+											break
 								else if(MoveDelay == 2 && prob(30))
 									MoveDelay = 1
 									spawn(50)
@@ -813,8 +820,15 @@ mob
 							if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
 
 								if(prob(55))
-									target = p.owner
-									loc    = get_step_away(p.owner, p.owner.loc)
+									var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+									while(dirs.len)
+										var/d = pick(dirs)
+										dirs -= d
+										var/turf/t = get_step(p.owner, d)
+										if(t.loc == loc.loc)
+											target = p.owner
+											loc    = t
+											break
 								else if(MoveDelay == 2 && prob(45))
 									MoveDelay = 1
 									spawn(rand(40,60))
