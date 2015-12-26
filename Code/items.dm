@@ -860,6 +860,39 @@ obj/items/wearable/brooms/nimbus_2000
 	icon = 'nimbus_2000_broom.dmi'
 obj/items/wearable/brooms/cleansweep_seven
 	icon = 'cleansweep_seven_broom.dmi'
+
+obj/items/wearable/brooms/vampire_wings
+	showoverlay = FALSE
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		.=..(owner, 1, forceremove)
+
+		if(. == WORN)
+			var/image/i = new('VampireWings.dmi', "flying")
+			i.layer = FLOAT_LAYER - 3
+			i.pixel_x = -16
+			i.pixel_y = -16
+			owner.overlays += i
+
+			animate(owner, pixel_y = pixel_y,    time = 2, loop = -1)
+			animate(       pixel_y = pixel_y + 1,time = 2)
+			animate(       pixel_y = pixel_y,    time = 2)
+			animate(       pixel_y = pixel_y - 1,time = 2)
+
+			if(!overridetext)viewers(owner) << infomsg("[owner] puts on \his [src.name].")
+
+		else if(. == REMOVED)
+			var/image/i = new('VampireWings.dmi', "flying")
+			i.layer = FLOAT_LAYER - 3
+			i.pixel_x = -16
+			i.pixel_y = -16
+			owner.overlays -= i
+
+			animate(owner)
+
+			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
+
+
 obj/items/wearable/hats
 	wear_layer = FLOAT_LAYER - 3
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
@@ -2928,6 +2961,26 @@ obj/items/magic_stone
 			icon_state = "Coin"
 			effect()
 				var/RandomEvent/WillytheWhisp/event = locate() in events
+				spawn() event.start()
+
+		blood
+			name = "blood coin"
+			icon_state = "Coin"
+
+			circle(mob/Player/p)
+				if(!(p.loc && (istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))))
+					p << errormsg("You can only use this outside.")
+					return
+
+				var/area/outside/a = p.loc.loc
+				if(a.lit)
+					p << errormsg("You can only use this at night.")
+					return
+
+				..(p)
+
+			effect()
+				var/RandomEvent/VampireLord/event = locate() in events
 				spawn() event.start()
 
 		monsters
