@@ -1222,7 +1222,7 @@ mob
 							sleep(AttackDelay)
 
 				Attacked(obj/projectile/p)
-					if(p.icon_state == "gum" && (p.icon_state == "blood" && prob(75)))
+					if(p.icon_state == "gum" || (p.icon_state == "blood" && prob(75)))
 						..()
 						emit(loc    = src,
 							 ptype  = /obj/particle/red,
