@@ -25,7 +25,7 @@ obj/spawner
 var/list/currentEvents
 
 RandomEvent
-	var/chance = 10
+	var/chance = 15
 	var/name
 	var/beepType = 1
 
@@ -307,7 +307,7 @@ RandomEvent
 			end()
 
 	Ghosts
-		name = "Ghosts"
+		name = "Ghost Invasion"
 		start()
 			..()
 			var/minutes = rand(10,20)
