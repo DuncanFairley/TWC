@@ -180,10 +180,11 @@ obj/brick2door
 			..()
 		Take_Hit(mob/M)
 			if(!clanwars)return
-			if(clan == "Auror" && M.derobe)
-				return ..()
-			else if(clan == "DE" && M.aurorrobe)
-				return ..()
+			return ..()
+		//	if(clan == "Auror" && M.derobe)
+		//		return ..()
+		//	else if(clan == "DE" && M.aurorrobe)
+		//		return ..()
 
 	proc
 		Bumped(mob/M)
