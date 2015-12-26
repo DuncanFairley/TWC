@@ -1548,7 +1548,7 @@ obj
 		verb
 			Drop_All()
 				set category = null
-				//var/tmpname = ""
+				var/tmpname = ""
 				//var/isscroll=0
 				for(var/obj/items/O in contains)
 					var/founddrop = 0
@@ -1563,8 +1563,9 @@ obj
 					//if(istype(O,/obj/items/scroll))
 				//		isscroll = 1
 					//O.Move(usr.loc)
+					tmpname = O.name
 					O.drop(usr, O.stack)
-				hearers(owner) << infomsg("[usr] drops all of \his [src.name] items.")
+				hearers(owner) << infomsg("[usr] drops all of \his [tmpname] items.")
 				/*if(isscroll)
 					hearers(usr) << "[usr] drops all of \his scrolls."
 				else
