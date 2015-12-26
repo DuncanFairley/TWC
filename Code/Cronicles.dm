@@ -201,7 +201,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 15
+#define SAVEFILE_VERSION 16
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -368,6 +368,10 @@ mob
 			if(savefile_version < 16)
 				if(!gold       || isnum(gold))       gold       = new /gold(gold)
 				if(!goldinbank || isnum(goldinbank)) goldinbank = new /gold(goldinbank)
+
+			if(savefile_version < 17)
+				gold       = new /gold(gold.get())
+				goldinbank = new /gold(goldinbank.get())
 
 			if(savefile_version < 99)
 				DeathEater = null
