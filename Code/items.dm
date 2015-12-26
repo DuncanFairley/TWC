@@ -881,7 +881,7 @@ obj/items/wearable/brooms/vampire_wings
 
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts on \his [src.name].")
 
-		else if(. == REMOVED)
+		else if(. == REMOVED || forceremove)
 			var/image/i = new('VampireWings.dmi', "flying")
 			i.layer = FLOAT_LAYER - 3
 			i.pixel_x = -16
