@@ -106,6 +106,15 @@ area
 			Forbidden_ForestNW
 			Forbidden_ForestSE
 			Forbidden_ForestSW
+			Spider_Pit
+				icon       = 'black50.dmi'
+				icon_state = "red"
+				alpha      = 200
+
+				New()
+					..()
+					animate(src, alpha = 255, time = 100, loop = -1)
+					animate(     alpha = 180, time = 100)
 			Pixie_Pit
 			Desert1
 				antiTeleport = TRUE
@@ -769,6 +778,8 @@ mob
 							i.layer = FLOAT_LAYER - 3
 							i.pixel_x = -16
 							i.pixel_y = -16
+							i.color   = rgb(rand(0,255), rand(0,255), rand(0,255))
+
 							overlays += i
 
 							animate(src, pixel_y = pixel_y,      time = 2, loop = -1)
