@@ -272,7 +272,7 @@ RandomEvent
 		start()
 			..()
 
-			var/waves = rand(2,4)
+			var/waves = rand(3,5)
 			Players << errormsg("<b>Warning:</b> Hogwarts magical defenses are being suppressed by a dark ghostly evil magic, Entrance Hall will be invaded by vengeful ghosts in 5 minutes for [waves] waves! Every wave will last 4 minutes.<br>Move to another area (The library, common room, second floor etc) if you wish to remain safe.")
 			sleep(600)
 			for(var/i = 4 to 1 step -1)
@@ -294,7 +294,7 @@ RandomEvent
 
 				var/list/monsters = list()
 
-				for(var/j = 1 to rand(3,7))
+				for(var/j = 1 to rand(5,10))
 					monsters += new /mob/NPC/Enemies/Summoned/Boss/Ghost(spawn_loc)
 
 				sleep(2400)
@@ -314,7 +314,7 @@ RandomEvent
 			var/list/m = list()
 			Players << infomsg("Vengeful ghosts are lurking outside the castle for [minutes] minutes, chase them away!")
 
-			for(var/i = 1 to rand(8,24))
+			for(var/i = 1 to rand(10,30))
 				var/obj/spawner/spawn_loc = pick(spawners)
 				m += new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
@@ -373,11 +373,11 @@ RandomEvent
 			var/obj/spawner/spawn_loc = pick(spawners)
 			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/VampireLord(spawn_loc.loc)
 			m += monster
-			for(var/i = 1 to rand(15, 25))
+			for(var/i = 1 to rand(15, 30))
 				spawn_loc = pick(spawners)
 				monster = new /mob/NPC/Enemies/Summoned/Acromantula (spawn_loc.loc)
 
-			for(var/i = 1 to rand(4, 8))
+			for(var/i = 1 to rand(5, 10))
 				spawn_loc = pick(spawners)
 				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
