@@ -79,8 +79,9 @@ RandomEvent
 						currentArena.players.Add(M)
 				if(currentArena.players.len < 2)
 					currentArena.players << "There isn't enough players to start the round."
-					for(var/mob/Player/p in Players)
-						p << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[p];action=arena_leave\">clicking here.</a></b>"
+
+					for(var/mob/m in currentArena.players)
+						m << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[m];action=arena_leave\">clicking here.</a></b>"
 					del(currentArena)
 				else
 					currentArena.players << "<center><font size = 4>The arena mode is <u>Free For All</u>. Everyone is your enemy.<br>The last person standing wins!</center>"
