@@ -344,6 +344,7 @@ mob
 
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 						for(var/i = damage.len to max(1 + damage.len - prizePoolSize, 1) step -1)
+							if(damage[i] == "" || damage[i] == null) continue
 							if(damage[damage[i]] < damageReq) break
 
 							var/obj/items/item = new prize (loc)
@@ -361,9 +362,8 @@ mob
 									step(item, randomDir)
 
 								sleep(600)
-								if(item)
-									item.antiTheft = 0
-									item.owner     = null
+								if(item && isturf(item.loc) && item.antiTheft)
+									item.Dispose()
 
 					else
 						prize = new prize (loc)
@@ -398,7 +398,7 @@ mob
 
 			proc
 				getStateLag(var/i_State)
-					if(state == WANDER)   return 15
+					if(state == WANDER)   return 10
 					if(state == SEARCH)   return 10
 					if(state == HOSTILE)  return max(MoveDelay, 1)
 					if(state == CONTROLLED) return 12
@@ -1176,9 +1176,6 @@ mob
 			Wolf
 				icon_state = "wolf"
 				level = 300
-			Acromantula
-				icon_state = "spider"
-				level = 700
 			Snowman
 				icon = 'Snowman.dmi'
 				level = 700
@@ -1195,6 +1192,18 @@ mob
 
 				HPmodifier = 1.6
 				DMGmodifier = 0.8
+
+				ChangeState(var/i_State)
+					set waitfor = FALSE
+
+					..(i_State)
+
+					if(i_State == WANDER && origloc && HP > 0)
+
+						while(state == WANDER && get_dist(loc, origloc) > 2)
+							var/i = step_to(src, origloc)
+							if(!i) break
+							sleep(1)
 
 				Death()
 					emit(loc    = loc,

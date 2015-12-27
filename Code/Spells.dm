@@ -639,7 +639,7 @@ mob/Spells/verb/Chaotica()
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
-		HP -= 60
+		HP -= 45
 		Death_Check()
 
 		var/dmg = usr.Def + (usr.extraDef / 3) + (clothDmg / 5)
@@ -1658,7 +1658,7 @@ mob/NPC/Enemies
 			if(p.owner.ekills > tmp_ekills)
 				p.owner:learnSpell(p.name, 5)
 
-		..()
+			..()
 
 obj
 	projectile
@@ -2093,9 +2093,15 @@ client
 			mob.status=usr.here
 			mob.RemoveAFKOverlay()
 
-		if(mob:player && mob:auctionInfo)
-			mob:auctionClosed()
-			winshow(src, "Auction", 0)
+		if(isplayer(mob))
+			var/mob/Player/p = mob
+
+			if(p.auctionInfo)
+				p.auctionClosed()
+				winshow(src, "Auction", 0)
+
+			if(p.screen_text)
+				p.screen_text.Dispose()
 
 		if(mob.questionius==1)
 			mob.overlays-=icon('hand.dmi')

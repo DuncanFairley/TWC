@@ -170,6 +170,8 @@ obj/items/verb/Take()
 		usr << errormsg("This item isn't yours, a charm prevents you from picking it up.")
 		return
 
+	antiTheft = 0
+
 	viewers() << infomsg("[usr] takes \the [src.name].")
 
 	owner = null
