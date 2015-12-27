@@ -145,7 +145,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							 			  /obj/items/colors/green_stone,
 						     			  /obj/items/colors/yellow_stone,
 						     			  /obj/items/colors/blue_stone),
-			 			  	"1"    =      /obj/items/blood_sack),
+			 			  	"3"    =      /obj/items/blood_sack),
 
 
 "Basilisk"           = list("2"    =      /obj/items/key/pentakill_key,
