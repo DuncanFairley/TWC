@@ -980,6 +980,10 @@ obj/items/wearable/orb
 
 	icon = 'orbs.dmi'
 	showoverlay = FALSE
+	quality = -1
+	scale   = 3
+
+
 	var
 		exp
 		modifier = 1
@@ -1001,6 +1005,7 @@ obj/items/wearable/orb
 			name     = "greater orb of chaos"
 			exp      = 60000
 			modifier = 1.5
+			quality  = -2
 
 	peace
 		name       = "orb of peace"
@@ -1012,6 +1017,7 @@ obj/items/wearable/orb
 			name     = "greater orb of peace"
 			exp      = 60000
 			modifier = 1.5
+			quality  = -2
 
 mob/Player/var/tmp/obj/items/wearable/wands/wand
 
@@ -2178,9 +2184,13 @@ obj/clanpillar
 					if(clan == "Deatheater")
 						housepointsGSRH[5] += 10
 						clanwars_event.add_auror(10)
+
+						attacker.addRep(10)
 					else if(clan == "Auror")
 						housepointsGSRH[6] += 10
 						clanwars_event.add_de(10)
+
+						attacker.addRep(-10)
 					for(var/mob/M in Players)
 						if(clan == "Deatheater")
 							if(M.Auror)
