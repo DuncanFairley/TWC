@@ -141,11 +141,16 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 
 "Acromantula"        = list("0.3"  = list(/obj/items/key/winter_key,
 			 			  	 			  /obj/items/key/blood_key,
-			 			  	 			  /obj/items/colors/red_stone,
-							 			  /obj/items/colors/green_stone,
 						     			  /obj/items/colors/yellow_stone,
 						     			  /obj/items/colors/blue_stone),
 			 			  	"3"    =      /obj/items/blood_sack),
+
+
+"Vampire"            = list("0.1"  = list(/obj/items/key/winter_key,
+			 			  	 			  /obj/items/key/blood_key,
+			 			  	 			  /obj/items/colors/red_stone,
+							 			  /obj/items/colors/green_stone),
+			 			  	"1"    =      /obj/items/blood_sack),
 
 
 "Basilisk"           = list("2"    =      /obj/items/key/pentakill_key,
