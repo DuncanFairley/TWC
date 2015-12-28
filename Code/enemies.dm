@@ -834,7 +834,7 @@ mob
 									spawn(rand(40,60))
 										MoveDelay = 2
 
-							p.damage = round(p.damage * rand(7, 10)/10)
+							p.damage = round(p.damage * rand(5, 10)/10)
 
 							..()
 
@@ -1221,6 +1221,57 @@ mob
 					..()
 
 					transform *= rand(15,30) / 10
+
+			Vampire
+				icon = 'FemaleVampire.dmi'
+				level = 850
+				HPmodifier  = 3
+				DMGmodifier = 1
+				MoveDelay   = 2
+				AttackDelay = 2
+
+				drops = "Vampire"
+
+				var/rep = 0
+
+				New()
+					..()
+					if(prob(49))
+						icon   = 'MaleVampire.dmi'
+						gender = MALE
+					else
+						gender = FEMALE
+
+					GenerateIcon(src)
+
+				Chaos
+					name = "Chaos Vampire"
+					rep  = 1
+				Peace
+					name = "Peace Vampire"
+					rep  = -1
+
+				Death(mob/Player/killer)
+					emit(loc    = loc,
+					 ptype  = /obj/particle/fluid/blood,
+					     amount = 25,
+					     angle  = new /Random(0, 360),
+					     speed  = 5,
+					     life   = new /Random(1,10))
+
+					if(killer)
+						killer.addRep(rep)
+
+					..()
+
+				Attacked(obj/projectile/p)
+					p.damage = round(p.damage * rand(7, 10)/10)
+					if(MoveDelay == 2 && p.owner && p.owner.loc.loc == loc.loc && prob(55))
+						MoveDelay = 1
+						spawn(50)
+							MoveDelay = 2
+					..()
+
 
 			Wisp
 				icon_state = "wisp"
