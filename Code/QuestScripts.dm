@@ -31,6 +31,37 @@ quest
 			desc = "Go back to the Austra."
 			reqs = list("Austra" = 1)
 
+	PeaceDaily
+		name   = "Preserve Peace \[Daily]"
+		desc   = "A stranger with pale skin asked you to kill other strangers with pale skin who supposedly spread chaos. One must fight fire with fire."
+		reward = /questReward/BloodCoin
+		repeat = 864000
+
+		Kill
+			desc = "Kill chaos vampires and their pets."
+			reqs = list("Kill Chaos Vampire" = 50,
+			            "Kill Acromantula"   = 25)
+
+		Reward
+			desc = "Go back to the stranger with the weird skin."
+			reqs = list("Peace Vampire" = 1)
+
+	ChaosDaily
+		name   = "Spread Chaos \[Daily]"
+		desc   = "A stranger with pale skin asked you to kill other strangers with pale skin supposedly for the fun of it. Why not kill everyone while you're at it."
+		reward = /questReward/BloodCoin
+		repeat = 864000
+
+		Kill
+			desc = "Spread chaos."
+			reqs = list("Kill Peace Vampire" = 50,
+			            "Kill Player"        = 50)
+
+		Reward
+			desc = "Go back to the stranger with the weird skin."
+			reqs = list("Chaos Vampire" = 1)
+
+
 	TutorialWand
 		name   = "Tutorial: The Wand Maker"
 		desc   = "You arrived at Diagon Alley, as a young wizard your first objective is to find a wand to cast spells with."
@@ -631,5 +662,14 @@ questReward
 
 	BloodCoin
 		exp   = 32000
-		gold  = 3200
+		gold  = 32000
 		items = /obj/items/magic_stone/summoning/blood
+
+	clanReward
+		exp   = 10000
+		gold  = 5000
+
+		peace
+			points = 100
+		chaos
+			points = 100
