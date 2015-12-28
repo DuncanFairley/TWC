@@ -1929,7 +1929,7 @@ mob/proc/Death_Check(mob/killer = src)
 						killer.gold.add(rndexp)
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 
-				/*	var/rep = -round(1 + (src:getRep() / 100), 1)
+					var/rep = -round(1 + (src:getRep() / 100), 1)
 
 					if(rep >= 0)
 						rep = max(rep, 1)
@@ -1937,7 +1937,6 @@ mob/proc/Death_Check(mob/killer = src)
 						rep = min(rep, -1)
 
 					killer:addRep(rep)
-					killer << infomsg("You gained [abs(rep)] [rep > 0 ? "good" : "evil"] reputation.")*/
 				else
 					src<<"You knocked yourself out!"
 			else
