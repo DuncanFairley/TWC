@@ -92,13 +92,23 @@ mob/TalkNPC/quest
 						questCompleted(i_Player, questName)
 
 		questStart(mob/Player/i_Player, questName)
+			if(!i_Player) return
+
+			if(i_Player.screen_text)
+				var/ScreenText/s = i_Player.screen_text
+				while(i_Player && !s.isDisposed)
+					sleep(10)
+				if(s.queue) return
+
 			i_Player.startQuest(questName)
 
 		questOngoing(mob/Player/i_Player, questName)
+			if(!i_Player) return
+
 			. = i_Player.checkQuestProgress(name)
 
 		questCompleted(mob/Player/i_Player, questName)
-
+			if(!i_Player) return
 
 
 	professor_palmer
@@ -112,33 +122,56 @@ mob/TalkNPC/quest
 			Quest(usr)
 
 		questStart(mob/Player/i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
 			switch(questName)
 				if("Tutorial: Quests")
-					i_Player << npcsay("Palmer: Hey there, you're new aren't you. I was asked by the Headmaster to teach you about quests.")
-					i_Player << npcsay("Palmer: You can click the quest book found in your \"Items\" tab to view quests you have or quests you completed.")
-					i_Player << npcsay("Palmer: How would you like to put something in that book? I have a few friends who can help you out with that, why don't you go and meet them?")
+					var/i = 1
+					var/list/messages = list("Hey there, you're new aren't you. I was asked by the Headmaster to teach you about quests.",
+									"You can click the quest book found in your \"Items\" tab to view quests you have or quests you completed.",
+									"How would you like to put something in that book? I have a few friends who can help you out with that, why don't you go and meet them?")
+
+					for(var/m in messages)
+						s.AddText(m, "[name][i++]")
+						i_Player << npcsay("[name]: [m]")
+
 				if("Master of Keys")
 
-
 					if(i_Player.level < lvlcap || !i_Player.rankLevel || i_Player.rankLevel.level > i_Player.rankLevel.TIER)
-						i_Player << npcsay("Palmer: You're too young for this, talk to me again when you've gained some more experience.")
+						var/m = "You're too young for this, talk to me again when you've gained some more experience."
+						s.AddText(m, "[name]11")
+						i_Player << npcsay("[name]: [m]")
 						return
 
-					i_Player << npcsay("Palmer: Hey there, I see you got yourself a legendary golden chest, how about I help you open it?")
+					var/m = "Hey there, I see you got yourself a legendary golden chest, how about I help you open it?"
+					s.AddText(m, "[name]12")
+					i_Player << npcsay("[name]: [m]")
+
 			..(i_Player, questName)
 
 		questOngoing(mob/Player/i_Player, questName)
 			.=..(i_Player, questName)
 
 			if(!.)
+				var/ScreenText/s = new(i_Player, src)
+				var/m
 				switch(questName)
 					if("Tutorial: Quests")
-						i_Player << npcsay("Palmer: They're friendly people, they'll help you.")
+						m = "They're friendly people, they'll help you."
+						s.AddText(m, "[name]4")
 					if("Master of Keys")
-						i_Player << npcsay("Palmer: Keep up the good work, it'll be worth it... Maybe.")
+						m = "Palmer: Keep up the good work, it'll be worth it... Maybe."
+						s.AddText(m, "[name]13")
+
+				i_Player << npcsay("[name]: [m]")
 
 		questCompleted(mob/Player/i_Player, questName)
-			i_Player << npcsay("Palmer: Have a good day.")
+			var/ScreenText/s = new(i_Player, src)
+
+			var/m = "Palmer: Have a good day."
+			s.AddText(m, "[name]5")
+			i_Player << npcsay("[name]: [m]")
 
 mob/var/talkedtogirl
 mob/var/babyquest
@@ -856,7 +889,6 @@ questReward
 
 			if(points)
 				p.addRep(points)
-				p << infomsg("You gained [abs(points)] [points > 0 ? "good" : "evil"] reputation.")
 
 	proc/get(mob/Player/p)
 		if(gold)
