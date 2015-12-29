@@ -112,7 +112,7 @@ area
 			Forbidden_ForestNW
 			Forbidden_ForestSE
 			Forbidden_ForestSW
-
+			Quidditch
 			Spider_Pit
 				icon       = 'black50.dmi'
 				icon_state = "red"
@@ -1225,10 +1225,11 @@ mob
 			Vampire
 				icon = 'FemaleVampire.dmi'
 				level = 850
-				HPmodifier  = 3
-				DMGmodifier = 1
+				HPmodifier  = 1.8
+				DMGmodifier = 0.9
 				MoveDelay   = 2
 				AttackDelay = 2
+				respawnTime = 3000
 
 				drops = "Vampire"
 

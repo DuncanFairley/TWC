@@ -3,6 +3,10 @@ mob/TalkNPC/quest
 	vampires
 		icon = 'FemaleVampire.dmi'
 
+		Talk()
+			set src in oview(3)
+			Quest(usr)
+
 		New()
 			..()
 			GenerateIcon(src, wig = 0, shoes = 1, scarf = 1)
@@ -12,6 +16,7 @@ mob/TalkNPC/quest
 			questPointers = "Preserve Peace \[Daily]"
 
 			questStart(mob/Player/i_Player, questName)
+
 				var/m = "Help me preserve the peace, go slaughter those who spread chaos."
 
 				var/ScreenText/s = new(i_Player, src)
