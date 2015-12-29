@@ -77,9 +77,8 @@ proc/toggle_clanwars()
 		clanwars_event = new
 		spawn() clanwars_event.timeout()
 		for(var/mob/Player/M in Players)
-			if(M.Auror || M.DeathEater)
-				M.ClanwarsInfo()
-				M.beep()
+			M.ClanwarsInfo()
+			M.beep()
 
 		for(var/obj/clanpillar/C in locate(/area/AurorHQ))
 			C.enable(100)
@@ -99,11 +98,13 @@ proc/toggle_clanwars()
 mob/Player/proc/ClanwarsInfo()
 	src << infomsg({"<b>Clan wars has now begun.</b><br>A special object called a "pillar" has spawned inside the Deatheater and Auror HQs.<br>\
 				The goal during clan wars is to protect yours, and destroy the enemy's.<br><br>\
-				Your clan will receive 1 point for each [src.Auror ? "Deatheater" : "Auror"] you kill.<br>\
-				Your clan will receive 10 points for each time the enemy's pillar is destroyed.<br>\
-				Doors inside your enemy's HQ can be destroyed by firing at them with a projectile damage spell. Doors will respawn in 60 seconds.<br>\
-				Some clan members may have access to "The Clan Store", and are able to spend points to perform actions such as doubling Door max HP, restoring Door HP to full, uncloaking enemies in your HQ, etc.<br>\
-				<b>You must be robed in order to earn points/destroy doors/destroy pillars.<br>"})
+				Doors inside your enemy's HQ can be destroyed by firing at them with a projectile damage spell. Doors will respawn in 60 seconds.<br>"})
+
+	if(src.Auror || src.DE)
+		src << infomsg({"Your clan will receive 1 point for each [src.Auror ? "Deatheater" : "Auror"] you kill.<br>\
+						 Your clan will receive 10 points for each time the enemy's pillar is destroyed.<br>\
+						 Some clan members may have access to "The Clan Store", and are able to spend points to perform actions such as doubling Door max HP, restoring Door HP to full, uncloaking enemies in your HQ, etc.<br>\
+						 <b>You must be robed in order to earn points/destroy doors/destroy pillars.<br>"})
 var/clanwars = 0
 obj/brick2door
 	icon = 'hogwartsbrick.dmi'
@@ -180,10 +181,11 @@ obj/brick2door
 			..()
 		Take_Hit(mob/M)
 			if(!clanwars)return
-			if(clan == "Auror" && M.derobe)
-				return ..()
-			else if(clan == "DE" && M.aurorrobe)
-				return ..()
+			return ..()
+		//	if(clan == "Auror" && M.derobe)
+		//		return ..()
+		//	else if(clan == "DE" && M.aurorrobe)
+		//		return ..()
 
 	proc
 		Bumped(mob/M)

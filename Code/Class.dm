@@ -55,7 +55,7 @@ obj/teacher
 			icon   = 'MaleStaff.dmi'
 			gender = MALE
 
-		GenerateIcon()
+		GenerateIcon(src)
 
 		namefont.QuickName(src, src.name, rgb(255,255,255), "#000", top=1)
 

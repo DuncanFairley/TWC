@@ -637,7 +637,7 @@ tr.grey
 
 				var/score = expScoreboard[expScoreboard[i]]
 
-				if(score < 10) continue
+				if(score < 10) break
 
 				var/Name  = sql_get_name_from(expScoreboard[i])
 				var/Ckey  = expScoreboard[i]

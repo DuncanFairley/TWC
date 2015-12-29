@@ -99,6 +99,12 @@ proc
 			return 1
 		return 0
 area
+	outside
+		Spider_Pit
+			icon       = 'black50.dmi'
+			icon_state = "red"
+			alpha      = 200
+
 	newareas
 		var/tmp/active = 0
 		outside
@@ -106,15 +112,12 @@ area
 			Forbidden_ForestNW
 			Forbidden_ForestSE
 			Forbidden_ForestSW
+			Quidditch
 			Spider_Pit
 				icon       = 'black50.dmi'
 				icon_state = "red"
 				alpha      = 200
 
-				New()
-					..()
-					animate(src, alpha = 255, time = 100, loop = -1)
-					animate(     alpha = 180, time = 100)
 			Pixie_Pit
 			Desert1
 				antiTeleport = TRUE
@@ -341,6 +344,7 @@ mob
 
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 						for(var/i = damage.len to max(1 + damage.len - prizePoolSize, 1) step -1)
+							if(damage[i] == "" || damage[i] == null) continue
 							if(damage[damage[i]] < damageReq) break
 
 							var/obj/items/item = new prize (loc)
@@ -358,9 +362,8 @@ mob
 									step(item, randomDir)
 
 								sleep(600)
-								if(item)
-									item.antiTheft = 0
-									item.owner     = null
+								if(item && isturf(item.loc) && item.antiTheft)
+									item.Dispose()
 
 					else
 						prize = new prize (loc)
@@ -395,7 +398,7 @@ mob
 
 			proc
 				getStateLag(var/i_State)
-					if(state == WANDER)   return 15
+					if(state == WANDER)   return 10
 					if(state == SEARCH)   return 10
 					if(state == HOSTILE)  return max(MoveDelay, 1)
 					if(state == CONTROLLED) return 12
@@ -693,8 +696,8 @@ mob
 					Ghost
 						name = "Vengeful Ghost"
 						icon = 'NPCs.dmi'
-						HPmodifier = 1.9
-						DMGmodifier = 0.9
+						HPmodifier = 2
+						DMGmodifier = 1
 						layer = 5
 						MoveDelay = 2
 						AttackDelay = 1
@@ -725,10 +728,17 @@ mob
 
 							if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
 
-								if(prob(35))
-									target = p.owner
-									loc    = get_step_away(p.owner, p.owner.loc)
-								else if(MoveDelay == 2 && prob(20))
+								if(prob(40))
+									var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+									while(dirs.len)
+										var/d = pick(dirs)
+										dirs -= d
+										var/turf/t = get_step(p.owner, d)
+										if(t.loc == loc.loc)
+											target = p.owner
+											loc    = t
+											break
+								else if(MoveDelay == 2 && prob(30))
 									MoveDelay = 1
 									spawn(50)
 										MoveDelay = 2
@@ -754,8 +764,8 @@ mob
 						name = "Vampire Lord"
 						icon = 'FemaleVampire.dmi'
 						icon_state = "flying"
-						HPmodifier = 6
-						DMGmodifier = 2
+						HPmodifier = 8
+						DMGmodifier = 3
 						MoveDelay = 2
 						AttackDelay = 0
 						Range = 15
@@ -809,15 +819,22 @@ mob
 
 							if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
 
-								if(prob(40))
-									target = p.owner
-									loc    = get_step_away(p.owner, p.owner.loc)
-								else if(MoveDelay == 2 && prob(40))
+								if(prob(55))
+									var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+									while(dirs.len)
+										var/d = pick(dirs)
+										dirs -= d
+										var/turf/t = get_step(p.owner, d)
+										if(t.loc == loc.loc)
+											target = p.owner
+											loc    = t
+											break
+								else if(MoveDelay == 2 && prob(45))
 									MoveDelay = 1
-									spawn(50)
+									spawn(rand(40,60))
 										MoveDelay = 2
 
-							p.damage = round(p.damage * rand(7, 10)/10)
+							p.damage = round(p.damage * rand(5, 10)/10)
 
 							..()
 
@@ -1159,9 +1176,6 @@ mob
 			Wolf
 				icon_state = "wolf"
 				level = 300
-			Acromantula
-				icon_state = "spider"
-				level = 700
 			Snowman
 				icon = 'Snowman.dmi'
 				level = 700
@@ -1179,6 +1193,18 @@ mob
 				HPmodifier = 1.6
 				DMGmodifier = 0.8
 
+				ChangeState(var/i_State)
+					set waitfor = FALSE
+
+					..(i_State)
+
+					if(i_State == WANDER && origloc && HP > 0)
+
+						while(state == WANDER && get_dist(loc, origloc) > 2)
+							var/i = step_to(src, origloc)
+							if(!i) break
+							sleep(1)
+
 				Death()
 					emit(loc    = loc,
 						 ptype  = /obj/particle/fluid/blood,
@@ -1195,6 +1221,70 @@ mob
 					..()
 
 					transform *= rand(15,30) / 10
+
+			Vampire
+				icon = 'FemaleVampire.dmi'
+				level = 850
+				HPmodifier  = 1.8
+				DMGmodifier = 0.9
+				MoveDelay   = 2
+				AttackDelay = 2
+				respawnTime = 3000
+
+				drops = "Vampire"
+
+				var/rep = 0
+
+				New()
+					..()
+					if(prob(49))
+						icon   = 'MaleVampire.dmi'
+						gender = MALE
+					else
+						gender = FEMALE
+
+					GenerateIcon(src)
+
+				Chaos
+					name = "Chaos Vampire"
+					rep  = 1
+				Peace
+					name = "Peace Vampire"
+					rep  = -1
+
+				Death(mob/Player/killer)
+					emit(loc    = loc,
+					 ptype  = /obj/particle/fluid/blood,
+					     amount = 25,
+					     angle  = new /Random(0, 360),
+					     speed  = 5,
+					     life   = new /Random(1,10))
+
+					if(killer)
+						killer.addRep(rep)
+
+					..()
+
+				Attacked(obj/projectile/p)
+					p.damage = round(p.damage * rand(8, 10)/10)
+					if(MoveDelay == 2 && p.owner && p.owner.loc.loc == loc.loc && prob(55))
+						MoveDelay = 1
+						spawn(50)
+							MoveDelay = 2
+					..()
+
+				ChangeState(var/i_State)
+					set waitfor = FALSE
+
+					..(i_State)
+
+					if(i_State == WANDER && origloc && HP > 0)
+
+						while(state == WANDER && get_dist(loc, origloc) > 2)
+							var/i = step_to(src, origloc)
+							if(!i) break
+							sleep(1)
+
 
 			Wisp
 				icon_state = "wisp"
@@ -1222,7 +1312,7 @@ mob
 							sleep(AttackDelay)
 
 				Attacked(obj/projectile/p)
-					if(p.icon_state == "gum" && (p.icon_state == "blood" && prob(75)))
+					if(p.icon_state == "gum" || (p.icon_state == "blood" && prob(75)))
 						..()
 						emit(loc    = src,
 							 ptype  = /obj/particle/red,

@@ -25,7 +25,7 @@ obj/spawner
 var/list/currentEvents
 
 RandomEvent
-	var/chance = 15
+	var/chance = 13
 	var/name
 	var/beepType = 1
 
@@ -79,8 +79,9 @@ RandomEvent
 						currentArena.players.Add(M)
 				if(currentArena.players.len < 2)
 					currentArena.players << "There isn't enough players to start the round."
-					for(var/mob/Player/p in Players)
-						p << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[p];action=arena_leave\">clicking here.</a></b>"
+
+					for(var/mob/m in currentArena.players)
+						m << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[m];action=arena_leave\">clicking here.</a></b>"
 					del(currentArena)
 				else
 					currentArena.players << "<center><font size = 4>The arena mode is <u>Free For All</u>. Everyone is your enemy.<br>The last person standing wins!</center>"
@@ -272,7 +273,7 @@ RandomEvent
 		start()
 			..()
 
-			var/waves = rand(2,4)
+			var/waves = rand(3,5)
 			Players << errormsg("<b>Warning:</b> Hogwarts magical defenses are being suppressed by a dark ghostly evil magic, Entrance Hall will be invaded by vengeful ghosts in 5 minutes for [waves] waves! Every wave will last 4 minutes.<br>Move to another area (The library, common room, second floor etc) if you wish to remain safe.")
 			sleep(600)
 			for(var/i = 4 to 1 step -1)
@@ -284,6 +285,8 @@ RandomEvent
 			var/area/entrance = locate(/area/hogwarts/Entrance_Hall)
 			for(var/mob/Player/p in entrance)
 				if(p.away) p.loc = locate("@GreatHall")
+
+			entrance.friendlyFire     = 0
 			entrance.safezoneoverride = 1
 
 			var/turf/spawn_loc = locate("@Hogwarts")
@@ -294,7 +297,7 @@ RandomEvent
 
 				var/list/monsters = list()
 
-				for(var/j = 1 to rand(3,7))
+				for(var/j = 1 to rand(5,10))
 					monsters += new /mob/NPC/Enemies/Summoned/Boss/Ghost(spawn_loc)
 
 				sleep(2400)
@@ -302,7 +305,9 @@ RandomEvent
 				for(var/mob/NPC/Enemies/ai in monsters)
 					Respawn(ai)
 
+			entrance.friendlyFire     = 1
 			entrance.safezoneoverride = 0
+
 			Players << infomsg("Hogwarts magical defenses are restored. Entrance Hall is safe again.")
 			end()
 
@@ -314,7 +319,7 @@ RandomEvent
 			var/list/m = list()
 			Players << infomsg("Vengeful ghosts are lurking outside the castle for [minutes] minutes, chase them away!")
 
-			for(var/i = 1 to rand(8,24))
+			for(var/i = 1 to rand(10,30))
 				var/obj/spawner/spawn_loc = pick(spawners)
 				m += new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
@@ -373,11 +378,11 @@ RandomEvent
 			var/obj/spawner/spawn_loc = pick(spawners)
 			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/VampireLord(spawn_loc.loc)
 			m += monster
-			for(var/i = 1 to rand(15, 25))
+			for(var/i = 1 to rand(15, 30))
 				spawn_loc = pick(spawners)
 				monster = new /mob/NPC/Enemies/Summoned/Acromantula (spawn_loc.loc)
 
-			for(var/i = 1 to rand(4, 8))
+			for(var/i = 1 to rand(5, 10))
 				spawn_loc = pick(spawners)
 				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 

@@ -1548,7 +1548,7 @@ obj
 		verb
 			Drop_All()
 				set category = null
-				//var/tmpname = ""
+				var/tmpname = ""
 				//var/isscroll=0
 				for(var/obj/items/O in contains)
 					var/founddrop = 0
@@ -1563,8 +1563,9 @@ obj
 					//if(istype(O,/obj/items/scroll))
 				//		isscroll = 1
 					//O.Move(usr.loc)
+					tmpname = O.name
 					O.drop(usr, O.stack)
-				hearers(owner) << infomsg("[usr] drops all of \his [src.name] items.")
+				hearers(owner) << infomsg("[usr] drops all of \his [tmpname] items.")
 				/*if(isscroll)
 					hearers(usr) << "[usr] drops all of \his scrolls."
 				else
@@ -1928,7 +1929,7 @@ mob/proc/Death_Check(mob/killer = src)
 						killer.gold.add(rndexp)
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 
-				/*	var/rep = -round(1 + (src:getRep() / 100), 1)
+					var/rep = -round(1 + (src:getRep() / 100), 1)
 
 					if(rep >= 0)
 						rep = max(rep, 1)
@@ -1936,7 +1937,6 @@ mob/proc/Death_Check(mob/killer = src)
 						rep = min(rep, -1)
 
 					killer:addRep(rep)
-					killer << infomsg("You gained [abs(rep)] [rep > 0 ? "good" : "evil"] reputation.")*/
 				else
 					src<<"You knocked yourself out!"
 			else

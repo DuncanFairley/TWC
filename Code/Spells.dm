@@ -639,7 +639,7 @@ mob/Spells/verb/Chaotica()
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
-		HP -= 60
+		HP -= 45
 		Death_Check()
 
 		var/dmg = usr.Def + (usr.extraDef / 3) + (clothDmg / 5)
@@ -1528,7 +1528,7 @@ mob
 
 				if(!P.color && p.wand.projColor)
 					if(p.wand.projColor == "blood")
-						P.color      = "#08ffff"
+						P.color      = "#16d0d0"
 						P.blend_mode = BLEND_SUBTRACT
 					else
 						P.color = list(p.wand.projColor, p.wand.projColor, p.wand.projColor)
@@ -1576,15 +1576,22 @@ obj/brick2door
 		if(density)
 			Take_Hit(p.owner)
 
+area/var/friendlyFire = TRUE
+
 mob/Player
 
 	Attacked(obj/projectile/p)
 		..()
+
 		if(p.owner)
-			if(p.owner.monster)
-				src << "[p.owner] hit you for [p.damage] with their [p]."
-			else
+			if(isplayer(p.owner))
+
+				var/area/a = loc.loc
+				if(!a.friendlyFire) return
+
 				p.owner << "Your [p] does [p.damage] damage to [src]."
+			else
+				src << "[p.owner] hit you for [p.damage] with their [p]."
 
 		if(shielded)
 			var/tmpdmg = shieldamount - p.damage
@@ -1651,7 +1658,7 @@ mob/NPC/Enemies
 			if(p.owner.ekills > tmp_ekills)
 				p.owner:learnSpell(p.name, 5)
 
-		..()
+			..()
 
 obj
 	projectile
@@ -2086,9 +2093,15 @@ client
 			mob.status=usr.here
 			mob.RemoveAFKOverlay()
 
-		if(mob:player && mob:auctionInfo)
-			mob:auctionClosed()
-			winshow(src, "Auction", 0)
+		if(isplayer(mob))
+			var/mob/Player/p = mob
+
+			if(p.auctionInfo)
+				p.auctionClosed()
+				winshow(src, "Auction", 0)
+
+			if(p.screen_text)
+				p.screen_text.Dispose()
 
 		if(mob.questionius==1)
 			mob.overlays-=icon('hand.dmi')

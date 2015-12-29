@@ -79,17 +79,17 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							 			  /obj/items/Smoke_Pellet,
 							 			  /obj/items/Tube_of_fun)),
 
-"Vengeful Ghost"     = list("1"   = list(/obj/items/colors/purple_stone,
+"Vengeful Ghost"     = list("0.5"   = list(/obj/items/colors/purple_stone,
 							 			 /obj/items/colors/pink_stone,
 						     			 /obj/items/colors/teal_stone,
 						     			 /obj/items/colors/orange_stone,
 						     			 /obj/items/artifact),
-							"5"   = list(/obj/items/colors/red_stone,
+							"2"   = list(/obj/items/colors/red_stone,
 							 			 /obj/items/colors/green_stone,
 						     			 /obj/items/colors/yellow_stone,
 						     			 /obj/items/colors/blue_stone,
 						     			 /obj/items/artifact),
-							"15"  = list(/obj/items/wearable/orb/chaos,
+							"8"   = list(/obj/items/wearable/orb/chaos,
 							 			 /obj/items/wearable/orb/peace)),
 
 "Vampire Lord"       = list("15"   = list(/obj/items/colors/blood_stone,
@@ -139,12 +139,17 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 			 			  	 			  /obj/items/scroll,
 			 			  	 			  /obj/items/wearable/title/Troll)),
 
-"Acromantula"        = list("0.6"  = list(/obj/items/key/winter_key,
+"Acromantula"        = list("0.3"  = list(/obj/items/key/winter_key,
 			 			  	 			  /obj/items/key/blood_key,
-			 			  	 			  /obj/items/colors/red_stone,
-							 			  /obj/items/colors/green_stone,
 						     			  /obj/items/colors/yellow_stone,
 						     			  /obj/items/colors/blue_stone),
+			 			  	"3"    =      /obj/items/blood_sack),
+
+
+"Vampire"            = list("0.1"  = list(/obj/items/key/winter_key,
+			 			  	 			  /obj/items/key/blood_key,
+			 			  	 			  /obj/items/colors/red_stone,
+							 			  /obj/items/colors/green_stone),
 			 			  	"1"    =      /obj/items/blood_sack),
 
 

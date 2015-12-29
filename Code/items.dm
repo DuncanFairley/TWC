@@ -170,6 +170,8 @@ obj/items/verb/Take()
 		usr << errormsg("This item isn't yours, a charm prevents you from picking it up.")
 		return
 
+	antiTheft = 0
+
 	viewers() << infomsg("[usr] takes \the [src.name].")
 
 	owner = null
@@ -963,8 +965,25 @@ obj/items/wearable/hats/teal_earmuffs
 
 obj/items/wearable/orb
 
+	desc = "When equipped, your equipped wand will earn experience and level up by killing monsters."
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		. = ..(owner)
+		if(. == WORN)
+			src.gender = owner.gender
+			if(!overridetext)viewers(owner) << infomsg("[owner] uses \his [src.name].")
+			for(var/obj/items/wearable/orb/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+		else if(. == REMOVED)
+			if(!overridetext)viewers(owner) << infomsg("[owner] stops using \his [src.name].")
+
 	icon = 'orbs.dmi'
 	showoverlay = FALSE
+	quality = -1
+	scale   = 3
+
+
 	var
 		exp
 		modifier = 1
@@ -986,6 +1005,7 @@ obj/items/wearable/orb
 			name     = "greater orb of chaos"
 			exp      = 60000
 			modifier = 1.5
+			quality  = -2
 
 	peace
 		name       = "orb of peace"
@@ -997,6 +1017,7 @@ obj/items/wearable/orb
 			name     = "greater orb of peace"
 			exp      = 60000
 			modifier = 1.5
+			quality  = -2
 
 mob/Player/var/tmp/obj/items/wearable/wands/wand
 
@@ -1016,6 +1037,7 @@ obj/items/wearable/wands
 		const
 			MAX = 3
 
+	bonus = NOENCHANT
 	max_stack = 1
 
 	proc
@@ -1051,12 +1073,10 @@ obj/items/wearable/wands
 					i += 0.1
 
 				if(i)
-					if(bonus == -1) bonus = NOENCHANT
-
 					Equip(owner, 1)
 
 					quality += i
-					bonus |= o.bonus
+					bonus = o.bonus|bonus
 
 					Equip(owner, 1)
 
@@ -1083,7 +1103,7 @@ obj/items/wearable/wands
 					W.Equip(owner,1,1)
 
 			if(lastused && lastused != owner.ckey && (bonus || quality || exp))
-				bonus   = -1
+				bonus   = NOENCHANT
 				quality = 0
 				exp     = 0
 
@@ -2164,9 +2184,13 @@ obj/clanpillar
 					if(clan == "Deatheater")
 						housepointsGSRH[5] += 10
 						clanwars_event.add_auror(10)
+
+						attacker.addRep(10)
 					else if(clan == "Auror")
 						housepointsGSRH[6] += 10
 						clanwars_event.add_de(10)
+
+						attacker.addRep(-10)
 					for(var/mob/M in Players)
 						if(clan == "Deatheater")
 							if(M.Auror)
@@ -2396,6 +2420,8 @@ obj/egg
 obj/items/artifact
 	name = "Artifact"
 	icon = 'trophies.dmi'
+
+	max_stack = 1
 
 	New()
 		..()

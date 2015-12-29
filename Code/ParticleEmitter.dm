@@ -76,6 +76,14 @@ proc/dir2angle(dir)
 	if(dir == NORTHEAST) return 315
 	return 0
 
+proc
+	atan2(x,y)
+		return (x||y)&&(y>=0 ? arccos(x/sqrt(x*x+y*y)) : 360-arccos(x/sqrt(x*x+y*y)))
+
+proc
+	get_angle(atom/a, atom/b)
+		return atan2(b.y - a.y, b.x - a.x)
+
 proc/emit(var/atom/loc, ptype, amount=10, Random/angle, speed, Random/life, color = null)
 	if(isobj(loc) || ismob(loc)) loc = loc.loc
 	for(var/i = 1 to amount)

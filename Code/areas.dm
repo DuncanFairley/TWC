@@ -333,6 +333,17 @@ mob
 							var/image/arrow = image('arrows.dmi', A)
 							arrow.appearance_flags = NO_CLIENT_COLOR|RESET_COLOR
 							arrow.layer = 10
+
+							var/j = min(path.len - i, gap)
+							if(path.len >= i + j)
+								var/image/a = image('arrows.dmi', "arrow")
+								var/angle = get_angle(path[i], path[i + j])
+
+								a.transform = turn(matrix(), angle)
+								arrow.overlays += a
+							else
+								arrow.icon_state = "0"
+
 							usr << arrow
 					return 1
 
@@ -679,14 +690,22 @@ area
 		if(istype(o, /obj/projectile))
 			if(issafezone(src))
 				o.Dispose()
-			else if(!istype(oldloc.loc, /area/newareas) && istype(src, /area/newareas))
+				return
+			if(!istype(oldloc.loc, /area/newareas) && istype(src, /area/newareas))
 				o.Dispose()
-		else return ..()
+				return
+		return ..()
 
 	Exit(atom/movable/o, atom/newloc)
-		if(istype(o, /obj/projectile) && issafezone(newloc.loc))
-			o.Dispose()
-		else return ..()
+		if(istype(o, /obj/projectile))
+			if(issafezone(newloc.loc))
+				o.Dispose()
+				return
+
+			if(!istype(src, /area/newareas) && istype(newloc.loc, /area/newareas))
+				o.Dispose()
+				return
+		return ..()
 
 mob/Player/var/tmp/stepColor = 0
 
