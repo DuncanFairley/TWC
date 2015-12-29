@@ -1273,6 +1273,18 @@ mob
 							MoveDelay = 2
 					..()
 
+				ChangeState(var/i_State)
+					set waitfor = FALSE
+
+					..(i_State)
+
+					if(i_State == WANDER && origloc && HP > 0)
+
+						while(state == WANDER && get_dist(loc, origloc) > 2)
+							var/i = step_to(src, origloc)
+							if(!i) break
+							sleep(1)
+
 
 			Wisp
 				icon_state = "wisp"
