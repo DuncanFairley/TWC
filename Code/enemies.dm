@@ -1266,7 +1266,7 @@ mob
 					..()
 
 				Attacked(obj/projectile/p)
-					p.damage = round(p.damage * rand(7, 10)/10)
+					p.damage = round(p.damage * rand(8, 10)/10)
 					if(MoveDelay == 2 && p.owner && p.owner.loc.loc == loc.loc && prob(55))
 						MoveDelay = 1
 						spawn(50)
