@@ -105,6 +105,8 @@ area
 			icon_state = "red"
 			alpha      = 200
 
+			antiTeleport = 1
+
 	newareas
 		var/tmp/active = 0
 		outside
@@ -113,10 +115,12 @@ area
 			Forbidden_ForestSE
 			Forbidden_ForestSW
 			Quidditch
+				antiTeleport = 1
 			Spider_Pit
 				icon       = 'black50.dmi'
 				icon_state = "red"
 				alpha      = 200
+				antiTeleport = 1
 
 			Pixie_Pit
 			Desert1
@@ -302,7 +306,7 @@ mob
 
 				var/obj/items/prize
 
-				var/list/possible_drops = drops
+				var/list/possible_drops = istext(drops)	? drops_list[drops] : drops
 
 				if(!possible_drops && name == initial(name))
 					possible_drops = (name in drops_list) ? drops_list[name] : drops_list["default"]
@@ -393,7 +397,9 @@ mob
 							BlindAttack()
 					sleep(getStateLag(state))
 				active = 0
-			var/tmp/mob/target
+			var/tmp
+				mob/target
+				blockCount = 0
 
 
 			proc
@@ -441,15 +447,16 @@ mob
 					sleep(1)
 
 				Ignore(mob/M)
+					set waitfor = 0
 					if(!ignore) ignore = list()
 					ignore += M
-					spawn(100)
-						if(M && ignore)
-							ignore -= M
-							if(ignore.len == 0)
-								ignore = null
-						else
+					sleep(50)
+					if(M && ignore)
+						ignore -= M
+						if(ignore.len == 0)
 							ignore = null
+					else
+						ignore = null
 
 			proc/ReturnToStart()
 				ChangeState(INACTIVE)
@@ -498,8 +505,10 @@ mob
 					break
 
 			proc/Blocked()
-				target = null
-				ShouldIBeActive()
+				blockCount++
+				if(blockCount > 10)
+					target = null
+					ShouldIBeActive()
 
 			proc/Attack()
 
@@ -523,6 +532,7 @@ mob
 
 					var/turf/t = get_step_to(src, target, 1)
 					if(t)
+						blockCount = 0
 						Move(t)
 					else
 						Blocked()
@@ -697,10 +707,10 @@ mob
 						name = "Vengeful Ghost"
 						icon = 'NPCs.dmi'
 						HPmodifier = 2
-						DMGmodifier = 1
+						DMGmodifier = 0.9
 						layer = 5
 						MoveDelay = 2
-						AttackDelay = 1
+						AttackDelay = 2
 						Range = 15
 						level = 850
 						canBleed = FALSE
@@ -738,10 +748,6 @@ mob
 											target = p.owner
 											loc    = t
 											break
-								else if(MoveDelay == 2 && prob(30))
-									MoveDelay = 1
-									spawn(50)
-										MoveDelay = 2
 
 							if(p.icon_state == "gum" || (p.icon_state == "blood" && prob(70)))
 								..()
@@ -1199,7 +1205,7 @@ mob
 					..(i_State)
 
 					if(i_State == WANDER && origloc && HP > 0)
-
+						HP = MHP
 						while(state == WANDER && get_dist(loc, origloc) > 2)
 							var/i = step_to(src, origloc)
 							if(!i) break
@@ -1225,10 +1231,10 @@ mob
 			Vampire
 				icon = 'FemaleVampire.dmi'
 				level = 850
-				HPmodifier  = 1.8
-				DMGmodifier = 0.9
-				MoveDelay   = 2
-				AttackDelay = 2
+				HPmodifier  = 1.5
+				DMGmodifier = 0.8
+				MoveDelay   = 3
+				AttackDelay = 3
 				respawnTime = 3000
 
 				drops = "Vampire"
@@ -1267,7 +1273,7 @@ mob
 
 				Attacked(obj/projectile/p)
 					p.damage = round(p.damage * rand(8, 10)/10)
-					if(MoveDelay == 2 && p.owner && p.owner.loc.loc == loc.loc && prob(55))
+					if(MoveDelay == 3 && p.owner && p.owner.loc.loc == loc.loc && prob(45))
 						MoveDelay = 1
 						spawn(50)
 							MoveDelay = 2
@@ -1279,7 +1285,7 @@ mob
 					..(i_State)
 
 					if(i_State == WANDER && origloc && HP > 0)
-
+						HP = MHP
 						while(state == WANDER && get_dist(loc, origloc) > 2)
 							var/i = step_to(src, origloc)
 							if(!i) break
