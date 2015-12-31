@@ -201,7 +201,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 18
+#define SAVEFILE_VERSION 19
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -242,6 +242,7 @@ mob
 			return
 		detectStoopidBug(__FILE__, __LINE__)
 		if (base_save_location && world.maxx)
+			var/mob/Player/p = src
 			var/last_x
 			var/last_y
 			var/last_z
@@ -282,8 +283,6 @@ mob
 
 			if(savefile_version < 8)
 				spawn()
-					var/mob/Player/p = src
-
 					p.MMP = p.level * 6
 
 					if(ratquest==1)
@@ -323,7 +322,6 @@ mob
 					if(talkedtobunny == 3)
 						var/questPointer/pointer = new
 						pointer.time = world.realtime
-						var/mob/Player/p = src
 						p.questPointers["Sweet Easter"] = pointer
 
 					talkedtobunny = null
@@ -343,23 +341,18 @@ mob
 					last_z = t.z
 
 				spawn()
-					var/mob/Player/p = src
 					if(!p.Interface) p.Interface = new(src)
 
 					if(!("Tutorial: The Wand Maker" in p.questPointers))
 						p.startQuest("Tutorial: The Wand Maker")
 
 			if(savefile_version < 12)
-				var/mob/Player/p = src
 				p.playedtime = 0
 
 			if(savefile_version < 13)
-				var/mob/Player/p = src
 				p.refundSpells1()
 
 			if(savefile_version < 14)
-				var/mob/Player/p = src
-
 				for(var/obj/items/i in p)
 					i.Sort()
 
@@ -374,12 +367,13 @@ mob
 				goldinbank = new /gold(goldinbank.get())
 
 			if(savefile_version < 18)
-				var/mob/Player/p = src
 				if("Royal Blood \[Weekly]" in p.questPointers)
 					p.questPointers -= "Royal Blood \[Weekly]"
 
+			if(savefile_version < 19)
+				p.refundSpells2()
 
-			if(savefile_version < 99)
+			/*if(savefile_version < 99)
 				DeathEater = null
 				HA         = null
 				Auror      = null
@@ -396,7 +390,7 @@ mob
 				verbs.Remove(/mob/GM/verb/DErobes)
 				verbs.Remove(/mob/GM/verb/DE_chat)
 				verbs.Remove(/mob/GM/verb/Clan_store)
-				verbs.Remove(/mob/Spells/verb/Morsmordre)
+				verbs.Remove(/mob/Spells/verb/Morsmordre)*/
 
 			if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")

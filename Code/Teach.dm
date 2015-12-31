@@ -107,14 +107,6 @@ mob/GM
 					M << infomsg("You learned Eat Slugs!")
 			src << infomsg("You've taught your class the Eat Slugs spell.")
 
-		Teach_Immobulus()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Immobulus))
-					M << infomsg("You learned Immobulus!")
-			src << infomsg("You've taught your class the Immobulus spell.")
-
 		Teach_Impedimenta()
 			set category = "Teach"
 			set hidden = 1

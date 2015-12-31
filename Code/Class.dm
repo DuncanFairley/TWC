@@ -288,13 +288,6 @@ class
 			start()
 				..()
 				say("This spell creates an AoE (area of effect) effect inside a 15x15 square for 10 seconds.")
-		Immobulus
-			mp = 600
-			cd = 15
-			wand = TRUE
-			start()
-				..()
-				say("This spell doesnt allow anyone to move in your view for 15 seconds.")
 		Depulso
 			wand = TRUE
 			start()

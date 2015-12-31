@@ -34,7 +34,6 @@ var/list/spellList = list(
 	/mob/Spells/verb/Chaotica = "Chaotica",
 	/mob/Spells/verb/Valorus = "Valorus",
 	/mob/Spells/verb/Inflamari = "Inflamari",
-	/mob/Spells/verb/Immobulus = "Immobulus",
 	/mob/Spells/verb/Ribbitous = "Ribbitous",
 	/mob/Spells/verb/Avis = "Avis",
 	/mob/Spells/verb/Reducto = "Reducto",
@@ -145,20 +144,31 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 mob/Spells/verb/Disperse()
 	set category = "Spells"
 	set hidden = 1
+
 	if(canUse(src,cooldown=/StatusEffect/UsedDisperse,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		new /StatusEffect/UsedDisperse(src,10)
 		usr:learnSpell("Disperse")
-		for(var/obj/smokeeffect/S in view(client.view))
+		for(var/obj/smokeeffect/S in oview(client.view))
 			del(S)
-		for(var/turf/T in view())
+		for(var/turf/T in oview())
 			if(T.specialtype == "Swamp")
 				T.slow -= 5
 				T.specialtype = null
 				T.overlays += image('mist.dmi',layer=10)
 				spawn(9)
 					T.overlays = null
-		for(var/obj/The_Dark_Mark/dm in view())
+
+
+		var/obj/The_Dark_Mark/dm = locate() in oview(5, src)
+
+		if(dm)
 			dm.counter(src)
+			movable = 1
+			var/mob/Player/p = src
+			p << errormsg("Dispersing the dark mark took a bit of effort, you stand still for a bit.")
+			spawn(15)
+				if(p) p.movable = 0
+		src = null
 
 mob/Spells/verb/Herbificus()
 	set category = "Spells"
@@ -305,18 +315,20 @@ mob/Spells/verb/Imitatus(mob/M in view()&Players, T as text)
 	usr:learnSpell("Imitatus")
 mob/Spells/verb/Morsmordre()
 	set category = "Clan"
-	if(canUse(src,cooldown=/StatusEffect/UsedClanAbilities, needwand=1))
-		new /StatusEffect/UsedClanAbilities(src,300)
-		var/obj/The_Dark_Mark/D = new /obj/The_Dark_Mark
-		D:loc = locate(src.x,src.y+1,src.z)
+	if(canUse(src,cooldown=/StatusEffect/UsedClanAbilities,inarena=0, insafezone=0, needwand=1))
+		var/obj/The_Dark_Mark/D = locate("DarkMark")
+		if(D && D.loc)
+			src << errormsg("A dark mark already exists in the sky.")
+			return
+
+		new /StatusEffect/UsedClanAbilities(src, 3000)
+		D = new (locate(src.x,src.y+1,src.z))
 		D.density=0
+		D.owner = ckey
 		flick('mist.dmi',D)
 		hearers() <<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green>MORSMORDRE!"
 		Players<<"The sky darkens as a sneering skull appears in the clouds with a snake slithering from its mouth."
-		src = null
-		spawn(600)
-			if(D)
-				Players<<"The Dark Mark fades back into the clouds."
+
 mob/Spells/verb/Repellium()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedRepel,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
@@ -654,6 +666,13 @@ mob/Spells/verb/Sanguinis_Iactus()
 
 
 		castproj(Type = /obj/projectile/Blood, MPreq = 5, icon_state = "blood", damage = usr.Dmg + usr.extraDmg + clothDmg, name = "Blood")
+
+mob/Spells/verb/Gravitate()
+	set category="Spells"
+	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
+
+
+		castproj(Type = /obj/projectile/Grav, icon_state = "grav", name = "Gravitate")
 
 mob/Spells/verb/Inflamari()
 	set category="Spells"
@@ -997,35 +1016,42 @@ mob/Spells/verb/Tarantallegra(mob/M in view()&Players)
 			if(M) M.dance = 0
 mob/Spells/verb/Immobulus()
 	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=600,againstocclumens=1))
-		new /StatusEffect/UsedStun(src,15)
-		hearers()<<"<b>[usr]:</b> <font color=blue>Immobulus!"
-		hearers()<<"A sudden wave of energy emits from [usr]'s wand, immobilizing everything in sight."
-		usr.MP-=600
+	if(canUse(src,cooldown=/StatusEffect/UsedImmobulus,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=500,againstocclumens=1))
+		var/mob/Player/player = src
+
+		new /StatusEffect/UsedImmobulus(src, 20)
+		usr.MP-=500
 		usr.updateHPMP()
-		var/list/people = list()
-		for(var/mob/Player/M in ohearers())
-			if(M && M.removeoMob)
-				M << "Your Permoveo spell failed.."
-				M.client.eye=M
-				M.client.perspective=MOB_PERSPECTIVE
-				M.removeoMob:ReturnToStart()
-				M.removeoMob:removeoMob = null
-				M.removeoMob = null
-			people += M
-			M.movable=1
-			M.Immobile=1
-			M.overlays.Remove(image('attacks.dmi', icon_state = "immobulus"))
-			M.overlays += image('attacks.dmi', icon_state = "immobulus")
-		usr:learnSpell("Immobulus")
-		src=null
-		spawn(100)
-			for(var/mob/Player/p in people)
-				if(p && p.Immobile==1)
-					p.overlays -= image('attacks.dmi', icon_state = "immobulus")
-					p.movable=0
-					p.Immobile=0
-					if(usr)p<<"[usr]'s Immobulus curse wore off. You can move again."
+
+		hearers()<<"<b>[usr]:</b> <font color=blue>Immobulus!"
+		hearers()<<"A sudden wave of energy emits from [usr]'s wand, immobilizing every projectile in sight."
+
+		var/const/RANGE = 6
+		var/const/TICKS = 60
+		var/const/STEP  = 3
+
+		var/obj/o = new(loc)
+		o.alpha = 0
+		o.layer = 6
+		light(o, range=RANGE, ticks=TICKS, state = "rand")
+
+		if(player.wand && player.wand.projColor)
+			o.color = player.wand.projColor
+
+		animate(o, alpha = 255, time = 10)
+
+		for(var/time = 0 to TICKS step STEP)
+			for(var/obj/projectile/p in oview(RANGE, o))
+				if(p.overlays.len)	continue
+
+				p.overlays += image('attacks.dmi', icon_state = "immobulus")
+				p.velocity = 0
+				walk(p, 0)
+
+			sleep(STEP)
+
+		o.Dispose()
+
 mob/Spells/verb/Impedimenta()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=750,againstocclumens=1))
@@ -1667,6 +1693,7 @@ obj
 		var
 			velocity = 0
 			const/MAX_VELOCITY = 10
+			life = 20
 
 		SteppedOn(atom/movable/A)
 			if(!A.density && (isplayer(A) || istype(A,/mob/NPC/Enemies)))
@@ -1684,7 +1711,7 @@ obj
 			src.owner = mob
 			src.name = name
 
-			spawn(20)
+			spawn(life)
 				Dispose()
 
 		Dispose()
@@ -1780,6 +1807,56 @@ obj
 
 				color      = "#08ffff"
 				blend_mode = BLEND_SUBTRACT
+
+		Grav
+			life = 15
+
+			shoot()
+				..()
+				velocity+=2
+
+			New()
+				..()
+
+				blend_mode = BLEND_SUBTRACT
+
+				animate(src, color = rgb(rand(0,255), rand(0,255), rand(0,255)), time = 4, loop = -1)
+				for(var/i = 1 to 3)
+					animate(color = rgb(rand(0,255), rand(0,255), rand(0,255)), time = 5, loop = -1)
+
+			Dispose()
+				dir = SOUTH
+				density = 0
+				walk(src, 0)
+
+				var/const/DIST  = 2
+				var/const/TICKS = 15
+
+				light(src, DIST, TICKS)
+
+				for(var/t = TICKS to 0 step -1)
+					for(var/mob/p in oview(DIST, src))
+						if(istype(p, /mob/NPC/Enemies) || isplayer(p))
+							step_towards(p, src)
+
+					sleep(1)
+
+				var/b = FALSE
+				for(var/mob/p in oview(DIST, src))
+					if(istype(p, /mob/NPC/Enemies) || isplayer(p))
+						p.HP = 0
+						p.Death_Check(owner)
+						b = TRUE
+
+				if(b)
+					emit(loc    = loc,
+						 ptype  = /obj/particle/fluid/blood,
+					     amount = 125,
+					     angle  = new /Random(0, 360),
+					     speed  = 6,
+					     life   = new /Random(1,25))
+
+				..()
 
 		Flippendo
 
@@ -2056,7 +2133,7 @@ mob/var/tmp/confused = 0
 obj/var
 	wlable = 0
 
-var/move_queue = FALSE
+var/move_queue = TRUE
 
 mob
 	var
