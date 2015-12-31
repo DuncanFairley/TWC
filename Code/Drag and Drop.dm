@@ -88,8 +88,7 @@ proc/toggle_clanwars()
 		clanwars_event.end()
 		clanwars_event = null
 		for(var/mob/Player/M in Players)
-			if(M.Auror || M.DeathEater)
-				M << infomsg("<b>Clan wars is now disabled.</b>")
+			M << infomsg("<b>Clan wars is now disabled.</b>")
 		for(var/obj/clanpillar/C in locate(/area/AurorHQ))
 			C.disable()
 		for(var/obj/clanpillar/C in locate(/area/DEHQ))
@@ -97,10 +96,10 @@ proc/toggle_clanwars()
 
 mob/Player/proc/ClanwarsInfo()
 	src << infomsg({"<b>Clan wars has now begun.</b><br>A special object called a "pillar" has spawned inside the Deatheater and Auror HQs.<br>\
-				The goal during clan wars is to protect yours, and destroy the enemy's.<br><br>\
-				Doors inside your enemy's HQ can be destroyed by firing at them with a projectile damage spell. Doors will respawn in 60 seconds.<br>"})
+				The goal during clan wars is to protect yours, and destroy the enemy's.<br>\
+				Doors inside your enemy's HQ can be destroyed by firing at them with a projectile damage spell. Doors will respawn in 60 seconds.<br><br>"})
 
-	if(src.Auror || src.DE)
+	if(src.Auror || src.DeathEater)
 		src << infomsg({"Your clan will receive 1 point for each [src.Auror ? "Deatheater" : "Auror"] you kill.<br>\
 						 Your clan will receive 10 points for each time the enemy's pillar is destroyed.<br>\
 						 Some clan members may have access to "The Clan Store", and are able to spend points to perform actions such as doubling Door max HP, restoring Door HP to full, uncloaking enemies in your HQ, etc.<br>\
