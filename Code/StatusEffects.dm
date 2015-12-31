@@ -83,13 +83,20 @@ Event
 						break
 				if(disable)	weather.clear(0)
 
-	RandomizeShop
+	WeeklyEvents
 		fire()
 			..()
 			spawn()
 				scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
 				RandomizeShop()
 				rewardExpWeek()
+
+				for(var/ckey in reputations)
+					var/reputation/rep = reputations[ckey]
+
+					if(abs(rep.rating) <= 200) continue
+
+					rep.rating -= round(rep.rating / 10)
 
 	RandomEvents
 		fire()
@@ -130,7 +137,7 @@ proc
 			RandomizeShop()
 			var/date = time_until("Sunday", "00")
 			if(date != -1)
-				var/Event/RandomizeShop/e = new
+				var/Event/WeeklyEvents/e = new
 				scheduler.schedule(e, world.tick_lag * 10 * date)
 		init_quests()
 
@@ -255,7 +262,7 @@ StatusEffect
 	SteppedOnPoop
 	Flying
 	UsedEpiskey
-	UsedCrucio
+	UsedImmobulus
 	Summoned
 	Decloaked
 	Knockedfrombroom
