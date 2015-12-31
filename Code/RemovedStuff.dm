@@ -659,6 +659,17 @@ mob/GM
 		Teach_Expecto_Patronum()
 			set hidden = 1
 
+		DayNight()
+			set hidden = 1
+		/*	set category = "Server"
+			return
+			for(var/area/outside/O in world)
+				spawn() O.daycycle()
+		Night()
+			set category = "Server"
+			for(var/area/outside/O in world)
+				spawn() O.nightcycle()*/
+
 obj/pokeby
 	icon='pokeby.dmi'
 	New()
