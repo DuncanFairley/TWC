@@ -541,23 +541,44 @@ obj/The_Dark_Mark
 
 	New()
 		..()
-		HP = rand(3,6)
+		HP = rand(4,6)
+		tag = "DarkMark"
 		light(src, 10, 600, "green")
-		spawn(605)
-			del src
+		spawn(600)
+			if(loc)
+				Players<<"The Dark Mark fades back into the clouds."
+				Dispose()
 	var/tmp
 		HP
 		list/people = list()
-	proc/counter(mob/Player/p)
+	proc/counter(mob/Player/i_Player)
 		HP--
-		if(!(p.name in people))
-			people += p.name
+		if(!(i_Player in people))
+			people += i_Player
 		if(HP <= 0)
-			var/who = people[1]
-			for(var/i = 2; i <= length(people); i++)
-				who += i == length(people) ? " and [people[i]]" : ", [people[i]]"
-			Players << "The Dark Mark was dispersed by [who]."
-			del src
+			var/txt = ""
+
+			for(var/i = 1; i <= people.len; i++)
+				if(!people[i]) continue
+
+				var/mob/Player/p = people[i]
+
+				if(i == 1)
+					txt += p.name
+				else if(i != people.len)
+					txt += "[p.name], "
+				else
+					txt += " and [p.name]"
+
+				if(p.ckey != owner)
+					p.addRep(3)
+
+
+			Players << "The Dark Mark was dispersed by [txt]."
+			Dispose()
+	Dispose()
+		..()
+		people = null
 
 mob/Player/var/tmp/shop_index = 1
 obj/shop
@@ -727,13 +748,14 @@ mob/TalkNPC/Vault_Salesman
 		icon_state = "goblin[rand(1,3)]"
 
 		itemlist["Free Vault - Free!"]                                = list("1",       0)
-		itemlist["Medium Vault - 2,500,000 gold and 25 artifacts"]    = list("_med",    25)
-		itemlist["Big Vault - 5,000,000 gold and 50 artifacts"]       = list("_big",    50)
-		itemlist["Huge Vault - 8,000,000 gold and 80 artifacts"]      = list("_huge",   80)
-		itemlist["2 Rooms Vault - 10,000,000 gold and 100 artifacts"] = list("_2rooms", 100)
-		itemlist["4 Rooms Vault - 12,000,000 gold and 120 artifacts"] = list("_4rooms", 120)
-		itemlist["Luxury Vault - 20,000,000 gold and 200 artifacts"]  = list("_luxury", 200)
-		itemlist["HQ Vault - 24,000,000 gold and 240 artifacts"]      = list("_hq",     240)
+		itemlist["Medium Vault - 3,000,000 gold and 30 artifacts"]    = list("_med",    30)
+		itemlist["Big Vault - 6,000,000 gold and 60 artifacts"]       = list("_big",    60)
+		itemlist["Huge Vault - 10,000,000 gold and 100 artifacts"]    = list("_huge",   100)
+		itemlist["2 Rooms Vault - 15,000,000 gold and 150 artifacts"] = list("_2rooms", 150)
+		itemlist["4 Rooms Vault - 24,000,000 gold and 240 artifacts"] = list("_4rooms", 240)
+		itemlist["Luxury Vault - 36,000,000 gold and 360 artifacts"]  = list("_luxury", 360)
+		itemlist["HQ Vault - 40,000,000 gold and 400 artifacts"]      = list("_hq",     400)
+		itemlist["Wizard Vault - 66,600,000 gold and 666 artifacts"]  = list("_wizard", 666)
 
 	Talk()
 		set src in oview(2)
