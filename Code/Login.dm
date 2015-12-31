@@ -24,15 +24,25 @@ mob/verb/NewVaultCustom(var/height as num, var/width as num)
 	if(width % 2 == 0) width--
 
 	var/midx = (width+1)/2
-	var/swapmap/map = new /swapmap("vault_luxury",width,height,1)
+	var/swapmap/map = new /swapmap("vault_wizard",width,height,1)
 	map.BuildRectangle(map.LoCorner(),map.HiCorner(),/turf/roofb)
 	map.BuildFilledRectangle(get_step(map.LoCorner(),NORTHEAST),get_step(map.HiCorner(),SOUTHWEST),/turf/floor)
 	map.BuildFilledRectangle(locate(map.x1+1,map.y1+height-2,map.z1),locate(map.x1+width-2,map.y1+height-2,map.z1),/turf/Hogwarts_Stone_Wall)
 
 
 	map.BuildFilledRectangle(locate(map.x1+midx-1,map.y1+1,map.z1),locate(map.x1+midx-1,map.y1+1,map.z1),/obj/teleport/leavevault)
-	map.Save()*/
+	map.Save()
 
+mob/verb/LoadMapCUSTOM()
+	var/swapmap/map = SwapMaps_Load("vault_wizard")
+
+	var/width = (map.x2+1) - map.x1
+	usr.loc = locate(map.x1 + round((width)/2), map.y1+1, map.z1 )
+
+mob/verb/SaveMapCUSTOM()
+	var/swapmap/map = SwapMaps_Find("vault_wizard")
+	map.Save()
+*/
 mob/test/verb
 	enter_vault(ckey as text)
 		set category = "Vault Debug"
@@ -94,11 +104,20 @@ mob/Player/proc/change_vault(var/vault)
 		world.log << "ERROR: proc: change_vault() Could not create \"[vault]\" swap map template (vault[vault])"
 		return 0
 
+	var/doors = 0
 	if(vault == "_hq")
-		for(var/i = 1 to 5)
-			var/obj/Hogwarts_Door/d = locate("vaultDoor[i]")
-			d.tag = null
-			d.vaultOwner = ckey
+		doors = 5
+
+	else if(vault == "_wizard")
+		doors = 7
+
+		var/obj/color_lamp/c = locate("vaultColorLamp")
+		c.vaultOwner = ckey
+
+	for(var/i = 1 to doors)
+		var/obj/Hogwarts_Door/d = locate("vaultDoor[i]")
+		d.tag = null
+		d.vaultOwner = ckey
 
 	map.SetID("[src.ckey]")
 	map.Save()
@@ -1482,7 +1501,9 @@ mob/Player
 				stat("Learning:", learning.name)
 				stat("Uses required:", learning.uses)
 			if(admin)
-				stat("CPU:",world.cpu)
+				stat("CPU:", world.cpu)
+				stat("realtime:", comma(world.realtime))
+				stat("Date:", time2text(world.realtime, "DDD MMM DD hh:mm:ss YYYY"))
 			stat("---House points---")
 			stat("Gryffindor",housepointsGSRH[1])
 			stat("Slytherin",housepointsGSRH[2])
@@ -1541,14 +1562,14 @@ obj
 		var/containstype
 		var/list/obj/contains = list()
 		mouse_over_pointer = MOUSE_HAND_POINTER
-		name = "(Click to Expand)"
+
 		Click()
 			if(src in usr)
 				isopen = !isopen
 		verb
 			Drop_All()
 				set category = null
-				var/tmpname = ""
+			//	var/tmpname = ""
 				//var/isscroll=0
 				for(var/obj/items/O in contains)
 					var/founddrop = 0
@@ -1563,9 +1584,8 @@ obj
 					//if(istype(O,/obj/items/scroll))
 				//		isscroll = 1
 					//O.Move(usr.loc)
-					tmpname = O.name
 					O.drop(usr, O.stack)
-				hearers(owner) << infomsg("[usr] drops all of \his [tmpname] items.")
+				hearers(owner) << infomsg("[usr] drops all of \his [name] items.")
 				/*if(isscroll)
 					hearers(usr) << "[usr] drops all of \his scrolls."
 				else
@@ -1607,7 +1627,7 @@ mob/proc/Resort_Stacking_Inv()
 						stack.isopen = tmpstack.isopen
 				stack.icon = tmpV.icon
 				stack.icon_state = tmpV.icon_state
-	//			stack.name = tmpV.name
+				stack.name = tmpV.name
 				contents += stack
 				for(var/obj/O in contents)
 					if(istype(O,stack.containstype))
@@ -1931,7 +1951,7 @@ mob/proc/Death_Check(mob/killer = src)
 
 					var/rep = -round(1 + (src:getRep() / 100), 1)
 
-					if(rep >= 0)
+					if(rep > -100)
 						rep = max(rep, 1)
 					else
 						rep = min(rep, -1)

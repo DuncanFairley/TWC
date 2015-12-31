@@ -1823,7 +1823,7 @@ turf
 								o = new (t)
 								o.pixel_y = -32
 
-							o.layer = d == NORTH ? 6 : 7
+							o.layer = (d == NORTH ? 4 : 5) + layer
 							o.icon_state = "edge-[15 - d]"
 							n -= d
 					icon_state = "roof-15"

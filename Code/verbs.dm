@@ -90,6 +90,17 @@ mob
 			var/txt = file2text(Sched)
 
 			var/list/tags = list("Auto Class", "Clan Wars")
+
+			var/offset_pos_start = findtext(txt, "\[Offset=")
+			var/offset = 0
+			if(offset_pos_start)
+				var/const/NEEDLE = 8
+
+				var/offset_pos_end = findtext(txt, "]", offset_pos_start + NEEDLE)
+
+				offset = text2num(copytext(txt, offset_pos_start + NEEDLE, offset_pos_end))
+				txt = replace(txt, "\[Offset=[offset]]", "", offset_pos_start)
+
 			for(var/t in tags)
 				var/pos = findtext(txt, "\[[t]]")
 				if(pos)
@@ -105,7 +116,7 @@ mob
 							days[i] = "&nbsp;"
 
 						for(var/e in events)
-							var/ticks = scheduler.time_to_fire(events[e]) + world.realtime + 600
+							var/ticks = scheduler.time_to_fire(events[e]) + world.realtime + 600 + (offset*36000)// + world.timeofday
 							var/day  = time2text(ticks, "DDD")
 							var/hour = text2num(time2text(ticks, "hh"))
 

@@ -42,11 +42,14 @@ ScreenText
 	var
 		obj/hud/input
 
-			Text/text
+			Text/displayText
 	//		Text/text_shadow
 			Background/background
-			Image/image
-			Button/button
+			Image/displayImage
+			Button
+				button1
+				button2
+				button3
 
 		mob/Player/owner
 
@@ -55,71 +58,221 @@ ScreenText
 		tmp
 			isBusy     = FALSE
 			isDisposed = FALSE
+			isWaiting  = FALSE
+			Result
 
-	New(mob/Player/p, atom/a = null)
+	New(mob/Player/i_Player, atom/i_Image = null, i_Button1 = "OK", i_Button1Color = "#2299d0", i_Button2 = null, i_Button2Color = "#ff0000", i_Button3 = null, i_Button3Color = "#00ff00")
 		..()
 
-		owner             = p
+		owner             = i_Player
 		owner.screen_text = src
 
-		text        = new
+		displayText = new
 	//	text_shadow = new
 		background  = new
-		button      = new(src)
 
+		if(i_Button1)
+			button1 = new(src, i_Button1, i_Button1Color, "CENTER:24-1,CENTER-2")
+		if(i_Button2)
+			button2 = new(src, i_Button2, i_Button2Color, "CENTER:29-4,CENTER-2")
+		if(i_Button3)
+			button3 = new(src, i_Button3, i_Button3Color, "CENTER:18+2,CENTER-2")
 
-		if(a)
-			image = new
-			image.appearance = a.appearance
-			image.transform *= 6.5
-			image.underlays  = null
+		if(i_Image)
+			displayImage = new
+			SetImage(i_Image, FALSE)
+			displayImage.name = i_Image.name
+			owner.client.screen += displayImage
 
-			p.client.screen += image
 
 	//	shadowedMapText(text, text_shadow, 1, SOUTH)
 
-		p.client.screen += background
-		p.client.screen += text
-	//	p.client.screen += text_shadow
-		p.client.screen += button
+		owner.client.screen += background
+		owner.client.screen += displayText
+	//	owner.client.screen += text_shadow
 
 	proc
+		SetImage(atom/a, animate=TRUE)
+			set waitfor = 0
+
+			if(!displayImage)
+				displayImage = new
+				animate      = FALSE
+				owner.client.screen += displayImage
+
+			if(animate)
+				displayImage.Hide(5)
+				sleep(5)
+
+			displayImage.appearance = a.appearance
+			displayImage.transform *= 6.5
+			displayImage.underlays  = null
+			displayImage.layer      = 18
+
+			if(animate)
+				displayImage.Show(5)
+
+		AddImage(atom/a)
+			if(!queue)
+				SetImage(a)
+			else
+				queue += a
+
+
 		SetText(t, soundID)
-			text.maptext        = "<b><font color=white>[t]</font></b>"
+			displayText.maptext = "<b><font color=white>[t]</font></b>"
+
+			if(displayImage)
+				owner << npcsay("[displayImage.name]: [t]")
+
 	//		text_shadow.maptext = "<b><font color=black>[t]</font></b>"
 
-			if(owner.playSounds && soundID)
-				owner << sound(file("Sound/[soundID].ogg"), 0, 0, 9)
+	//		if(owner.playSounds && soundID)
+	//			owner << sound(file("Sound/[soundID].ogg"), 0, 0, 9)
 
 		AddText(t, soundID = null)
 
-			if(text.maptext == null)
+			if(displayText.maptext == null)
 				SetText(t, soundID)
 			else
 				if(!queue) queue = list()
 
 				queue[t] = soundID
 
-		Next()
-			if(isBusy) return
+		SetButtons(i_Button1 = null, i_Button1Color = "#2299d0", i_Button2 = null, i_Button2Color = "#ff0000", i_Button3 = null, i_Button3Color = "#00ff00")
 
-			if(!queue)
-				Dispose()
-			else
-				isBusy = TRUE
+			if(i_Button1)
+				if(button1)
+					button1.Set(i_Button1, i_Button1Color)
+				else
+					button1 = new(src, i_Button1, i_Button1Color, "CENTER:24-1,CENTER-2")
 
-				animate(text, alpha = 0, time = 5)
-				sleep(5)
+			else if(button1)
+				button1.Hide()
 
-				SetText(queue[1], queue[queue[1]])
-				queue -= queue[1]
+			if(i_Button2)
+				if(button2)
+					button2.Set(i_Button2, i_Button2Color)
+				else
+					button2 = new(src, i_Button2, i_Button2Color, "CENTER:29-4,CENTER-2")
 
-				animate(text, alpha = 255, time = 5)
+			else if(button2)
+				button2.Hide()
+
+			if(i_Button3)
+				if(button3)
+					button3.Set(i_Button3, i_Button3Color)
+				else
+					button3 = new(src, i_Button3, i_Button3Color, "CENTER:18+2,CENTER-2")
+
+			else if(button3)
+				button3.Hide()
+
+
+
+		AddButtons(i_Button1 = null, i_Button1Color = "#2299d0", i_Button2 = null, i_Button2Color = "#ff0000", i_Button3 = null, i_Button3Color = "#00ff00")
+			if(!queue) queue = list()
+		//		SetButtons(i_Button1, i_Button1Color, i_Button2, i_Button2Color, i_Button3, i_Button3Color)
+		//	else
+			queue           += 0
+			queue[queue.len] = list(i_Button1, i_Button1Color, i_Button2, i_Button2Color, i_Button3, i_Button3Color)
+
+		process()
+			set waitfor = 0
+			var/q = queue[1]
+
+			if(istype(q, /atom/movable))
+				SetImage(q)
+				queue -= q
 
 				if(!queue.len) queue = null
 
+
+
+		Next(i_buttonName)
+			if(isBusy) return
+
+			Result = i_buttonName
+
+			if(!queue)
+				if(isWaiting)
+					isWaiting = FALSE
+				else
+					Dispose()
+			else
+				isBusy = TRUE
+
+				var/q = queue[1]
+
+				if(islist(q))
+
+					var
+						list/buttonData = q
+						b1
+						bc1
+						b2
+						bc2
+						b3
+						bc3
+
+					if(buttonData.len > 0) b1  = buttonData[1]
+					if(buttonData.len > 1) bc1 = buttonData[2]
+					if(buttonData.len > 2) b2  = buttonData[3]
+					if(buttonData.len > 3) bc2 = buttonData[4]
+					if(buttonData.len > 4) b3  = buttonData[5]
+					if(buttonData.len > 5) bc3 = buttonData[6]
+
+					SetButtons(b1, bc1, b2, bc2, b3, bc3)
+
+					queue.Cut(1,2)
+
+					if(queue.len)
+						q = queue[1]
+					else
+						q     = null
+						queue = null
+
+				if(q)
+					displayText.Hide(5)
+					sleep(5)
+
+					SetText(q, queue[q])
+					queue -= q
+
+					if(!queue.len)
+						queue = null
+					else
+						process()
+
+					displayText.Show(5)
+
+
 				sleep(5)
 				isBusy = FALSE
+
+		Wait()
+			isWaiting = TRUE
+
+			while(owner && !isDisposed && isWaiting)
+				sleep(1)
+
+			if(owner)
+				if(!isWaiting)
+					spawn() Next()
+					return 1
+
+			else if(!isDisposed)
+				Dispose()
+
+		WaitEnd()
+			while(owner && !isDisposed)
+				sleep(10)
+
+			if(owner)
+				return queue ? 0 : 1
+
+			else if(!isDisposed)
+				Dispose()
 
 		Dispose()
 			set waitfor = FALSE
@@ -128,39 +281,49 @@ ScreenText
 
 			isBusy = TRUE
 
-			animate(background,  alpha = 0, time = 10)
-			animate(text,        alpha = 0, time = 10)
-		//	animate(text_shadow, alpha = 0, time = 10)
-			animate(button,      alpha = 0, time = 10)
+			background.Hide(10)
+			displayText.Hide(10)
+		//	text_shadow.Hide(10)
 
-			if(image)
-				animate(image,  alpha = 0, time = 10)
+			if(button1) button1.Hide(10)
+			if(button2) button2.Hide(10)
+			if(button3) button3.Hide(10)
+
+			if(displayImage)
+				displayImage.Hide(10)
 
 			if(owner)
 				owner.screen_text = null
 				owner << sound(null, 0, 0, 9)
 
-			button.parent = null
+			if(button1)	button1.parent = null
+			if(button2)	button2.parent = null
+			if(button3)	button3.parent = null
+
+
 			isDisposed = TRUE
 
 			sleep(10)
 
 			if(owner)
 				owner.client.screen -= background
-				owner.client.screen -= text
+				owner.client.screen -= displayText
 		//		owner.client.screen -= text_shadow
-				owner.client.screen -= button
 
-				if(image)
-					owner.client.screen -= image
+				if(button1)		 owner.client.screen -= button1
+				if(button2)		 owner.client.screen -= button2
+				if(button3)		 owner.client.screen -= button3
+				if(displayImage) owner.client.screen -= displayImage
 
 				owner = null
 
-			image       = null
-			text        = null
-	//		text_shadow = null
-			background  = null
-			button      = null
+			displayImage = null
+			displayText  = null
+	//		text_shadow  = null
+			background   = null
+			button1      = null
+			button2      = null
+			button3      = null
 
 obj/hud
 
@@ -174,13 +337,14 @@ obj/hud
 
 		Image
 			icon = 'Matchmaking.dmi'
-			screen_loc = "CENTER:17,CENTER+2"
-
+			screen_loc = "CENTER:14,CENTER+2"
+			layer = 18
 
 		Text
 			screen_loc = "CENTER:2-3,CENTER:16-1"
 			maptext_width  = 250
 			maptext_height = 128
+			layer = 20
 
 		Button
 			icon = 'MMButtons.dmi'
@@ -190,29 +354,76 @@ obj/hud
 			color = "#2299d0"
 
 			alpha     = 235
-			maptext   = "<font color=white>OK</font>"
 			maptext_x = 26
 			maptext_y = 6
+			layer = 20
 
 			var/ScreenText/parent
 
-			New(ScreenText/parent)
-				..()
+			New(ScreenText/parent, text, color, screenLoc = "CENTER:24-1,CENTER-2")
 
 				src.parent = parent
+				screen_loc = screenLoc
+				Set(text, color)
+
+				parent.owner.client.screen += src
+
+				..()
+
+			proc
+				Set(text, color)
+					maptext    = "<font color=white>[text]</font>"
+					src.color  = color
+					name       = text
+
+					if(invisibility) Show()
 
 			Click()
 				..()
 				if(parent)
-					parent.Next()
+					parent.Next(name)
 
 		New()
 			..()
 
-			var/a = alpha
-			alpha = 0
+		/*	var/px = width  / 2
+			var/py = height / 2
 
-			animate(src, alpha = a, time = 10)
+			var/tx = round(px / 32, 1)
+			var/ty = round(py / 32, 1)
+
+			px = px % 32
+			py = py % 32
+
+			if(px)
+				tx++
+				px = 32 - px
+
+			if(py)
+				ty++
+				py = 32 - py*/
+
+			Show(10)
+
+		proc
+			Hide(t = 5)
+				set waitfor = 0
+				if(invisibility) return
+
+				var/a = alpha
+
+				animate(src, alpha = 0, time = t)
+
+				sleep(t)
+				alpha = a
+				invisibility = 10
+
+			Show(t = 5)
+				var/a        = alpha
+				alpha        = 0
+				invisibility = 0
+
+				animate(src, alpha = a, time = t)
 
 
 /*proc/shadowedMapText(atom/a, shadow_object = null, offset = 1, shadow_dir = SOUTH)

@@ -196,7 +196,6 @@ obj
 				density    = 1
 				icon_state = "closed"
 				bumpable   = 1
-				door       = 1
 
 				if(!vaultOwner)
 					verbs -= /obj/Hogwarts_Door/verb/Claim

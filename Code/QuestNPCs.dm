@@ -17,66 +17,52 @@ mob/TalkNPC/quest
 
 			questStart(mob/Player/i_Player, questName)
 
-				var/m = "Help me preserve the peace, go slaughter those who spread chaos."
-
 				var/ScreenText/s = new(i_Player, src)
-				s.AddText(m)
-				i_Player << npcsay("[name]: [m]")
+				s.AddText("Help me preserve the peace, go slaughter those who spread chaos.")
 
 				..(i_Player, questName)
 
 			questOngoing(mob/Player/i_Player, questName)
 				.=..(i_Player, questName)
 
-				var/m
 				var/ScreenText/s = new(i_Player, src)
 
 				if(.)
-					m = "Thank you for supporting the peace."
+					s.AddText("Thank you for supporting the peace.")
 				else
-					m = "We must stop the chaos from spreading."
-
-				s.AddText(m)
-				i_Player << npcsay("[name]: [m]")
+					s.AddText("We must stop the chaos from spreading.")
 
 			questCompleted(mob/Player/i_Player, questName)
-				var/m = "I might have more tasks for you in the future."
+
 				var/ScreenText/s = new(i_Player, src)
-				s.AddText(m)
-				i_Player << npcsay("[name]: [m]")
+				s.AddText("I might have more tasks for you in the future.")
+
 
 		Chaos_Vampire
 			icon = 'MaleVampire.dmi'
 			questPointers = "Spread Chaos \[Daily]"
 
 			questStart(mob/Player/i_Player, questName)
-				var/m = "Help me spread chaos, go slaughter those who preach about peace."
 
 				var/ScreenText/s = new(i_Player, src)
-				s.AddText(m)
-				i_Player << npcsay("[name]: [m]")
+				s.AddText("Help me spread chaos, go slaughter those who preach about peace.")
 
 				..(i_Player, questName)
 
 			questOngoing(mob/Player/i_Player, questName)
 				.=..(i_Player, questName)
 
-				var/m
 				var/ScreenText/s = new(i_Player, src)
 
 				if(.)
-					m = "Thank you for spreading more chaos."
+					s.AddText("Thank you for spreading more chaos.")
 				else
-					m = "Kill the bloody peace snobs."
+					s.AddText("Kill the bloody peace snobs.")
 
-				s.AddText(m)
-				i_Player << npcsay("[name]: [m]")
 
 			questCompleted(mob/Player/i_Player, questName)
-				var/m = "I might have more tasks for you in the future."
 				var/ScreenText/s = new(i_Player, src)
-				s.AddText(m)
-				i_Player << npcsay("[name]: [m]")
+				s.AddText("I might have more tasks for you in the future.")
 
 		Austra
 			questPointers = "Royal Blood \[Weekly]"
@@ -84,17 +70,12 @@ mob/TalkNPC/quest
 
 			questStart(mob/Player/i_Player, questName)
 
-				var/list/messages = list("Hi... Who are you? Hmm...",
-	"You humans always go about unnoticed, it might just work... How do you feel about helping me take on a very powerful ancient being? You'll help me fer sure!",
-	"Good! I can't give you much details right now but there in the night lurk creatures older than any human alive, they know far superior art or \"magic\" as you humans call it, I need you to help me kill a high ranking member of--",
-	"We'll need a bait, go gather 50 blood sacks.")
-
 				var/ScreenText/s = new(i_Player, src)
 
-				var/i = 1
-				for(var/m in messages)
-					i_Player << npcsay("[name]: [m]")
-					s.AddText(m, "[name][i++]")
+				s.AddText("Hi... Who are you? Hmm...")
+				s.AddText("You humans always go about unnoticed, it might just work... How do you feel about helping me take on a very powerful ancient being? You'll help me fer sure!")
+				s.AddText("Good! I can't give you much details right now but there in the night lurk creatures older than any human alive, they know far superior art or \"magic\" as you humans call it, I need you to help me kill a high ranking member of--")
+				s.AddText("We'll need a bait, go gather 50 blood sacks.")
 
 				..(i_Player, questName)
 
@@ -102,25 +83,16 @@ mob/TalkNPC/quest
 				.=..(i_Player, questName)
 
 				var/ScreenText/s = new(i_Player, src)
-				var/list/messages
-				var/i
-				if(.)
-					messages = list("Great! You got it!", "Give me the blood sacks, I'll create a blood coin for you.")
-					i = 6
-				else
-					messages = list("You should probably get a few more blood sacks, this won't be enough...")
-					i = 5
 
-				for(var/m in messages)
-					i_Player << npcsay("[name]: [m]")
-					s.AddText(m, "[name][i++]")
+				if(.)
+					s.AddText("Great! You got it!")
+					s.AddText("Give me the blood sacks, I'll create a blood coin for you.")
+				else
+					s.AddText("You should probably get a few more blood sacks, this won't be enough...")
 
 			questCompleted(mob/Player/i_Player, questName)
 				var/ScreenText/s = new(i_Player, src)
-				var/m = "You're not bad for a human. Come back next week, I'll help you make another bait."
-
-				s.AddText(m, "[name]8")
-				i_Player << npcsay("[name]: [m]")
+				s.AddText("Not bad for a human. Come back next week, I'll help you make another bait.")
 
 
 	Sassy_Pixie
@@ -178,9 +150,7 @@ mob/TalkNPC/quest
 
 			var/ScreenText/s = new(i_Player, src)
 
-			var/m = "You, human! I want you to help me express my rage, kill every wisp you face, vengeance shall be mine! Mawhahahaha!!!"
-			s.AddText(m, "[name]1")
-			i_Player << npcsay("[name]: [m]")
+			s.AddText("You, human! I want you to help me express my rage, kill every wisp you face, vengeance shall be mine! Mawhahahaha!!!")
 
 			..(i_Player, questName)
 
@@ -188,25 +158,17 @@ mob/TalkNPC/quest
 			.=..(i_Player, questName)
 
 			var/ScreenText/s = new(i_Player, src)
-			var/m
-			var/i
-			if(.)
-				m = "I love the irony in sending you to kill dead creatures. May they rest in pea-- I will send you to kill them again tomorrow."
-				i = 3
-			else
-				m = "Don't waste time talking to me, actions speak louder than words!"
-				i = 2
 
-			s.AddText(m, "[name][i]")
-			i_Player << npcsay("[name]: [m]")
+			if(.)
+				s.AddText("I love the irony in sending you to kill dead creatures. May they rest in pea-- I will send you to kill them again tomorrow.")
+			else
+				s.AddText("Don't waste time talking to me, actions speak louder than words!")
 
 		questCompleted(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
 
-			var/m = "Pity the living!"
+			s.AddText("Pity the living!")
 
-			s.AddText(m, "[name]4")
-			i_Player << npcsay("[name]: [m]")
 
 	Mysterious_Wizard
 		icon_state="wizard"
@@ -216,11 +178,9 @@ mob/TalkNPC/quest
 			Quest(usr)
 
 		questStart(mob/Player/i_Player, questName)
-			var/m = "Beyond this door lies the desert, oh so mysterious... There are strange creatures there called floating eyes, check if they bleed for me!"
 
 			var/ScreenText/s = new(i_Player, src)
-			s.AddText(m)
-			i_Player << npcsay("[name]: [m]")
+			s.AddText("Beyond this door lies the desert, oh so mysterious... There are strange creatures there called floating eyes, check if they bleed for me!")
 
 			..(i_Player, questName)
 
@@ -228,23 +188,16 @@ mob/TalkNPC/quest
 			.=..(i_Player, questName)
 
 			var/ScreenText/s = new(i_Player, src)
-			var/m
-			if(.)
-				m = "Floating eyes, the gods of the desert can bleed after all, how amusing!"
-				s.AddText(m)
-			else
-				m = "Not enough, go back there and check if they all bleed!"
-				s.AddText(m)
 
-			i_Player << npcsay("[name]: [m]")
+			if(.)
+				s.AddText("Floating eyes, the gods of the desert can bleed after all, how amusing!")
+			else
+				s.AddText("Not enough, go back there and check if they all bleed!")
 
 		questCompleted(mob/Player/i_Player, questName)
-			var/m = "So even the gods of the desert can bleed... Interesting!"
-
-			i_Player << npcsay("[name]: [m]")
 
 			var/ScreenText/s = new(i_Player, src)
-			s.AddText(m)
+			s.AddText("So even the gods of the desert can bleed... Interesting!")
 
 	Saratri
 		icon_state="lord"
@@ -307,9 +260,7 @@ mob/TalkNPC/quest
 
 			var/ScreenText/s = new(i_Player, src)
 
-			var/m = "Hey there, maybe you can help me, I want to exterminate a few pests from our lives."
-			s.AddText(m, "[name]1")
-			i_Player << npcsay("[name]: [m]")
+			s.AddText("Hey there, maybe you can help me, I want to exterminate a few pests from our lives.")
 
 			..(i_Player, questName)
 
@@ -317,26 +268,16 @@ mob/TalkNPC/quest
 			.=..(i_Player, questName)
 
 			var/ScreenText/s = new(i_Player, src)
-			var/m = "Did you kill the monsters I requested yet?"
 
-			i_Player << npcsay("[name]: [m]")
-			s.AddText(m, "[name]2")
+			s.AddText("Did you kill the monsters I requested yet?")
 			if(.)
-				m = "Hunter: Good job!"
-				s.AddText(m, "[name]4")
+				s.AddText("Hunter: Good job!")
 			else
-				m = "Hunter: Go back out there and exterminate some pests!"
-				s.AddText(m, "[name]3")
-
-			i_Player << npcsay("[name]: [m]")
+				s.AddText("Hunter: Go back out there and exterminate some pests!")
 
 		questCompleted(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
-
-			var/m = "Hunter: You've done a really good job exterminating all those monsters."
-
-			i_Player << npcsay("[name]: [m]")
-			s.AddText(m, "[name]5")
+			s.AddText("Hunter: You've done a really good job exterminating all those monsters.")
 
 	Zerf
 		icon_state = "stat"

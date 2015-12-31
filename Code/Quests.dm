@@ -50,6 +50,8 @@ mob/TalkNPC/quest
 	proc
 
 		Quest(mob/Player/i_Player)
+			if(i_Player.screen_text) return
+
 			if(i_Player.questPointers)
 				for(var/i in i_Player.questPointers)
 					var/questPointer/pointer = i_Player.questPointers[i]
@@ -96,9 +98,7 @@ mob/TalkNPC/quest
 
 			if(i_Player.screen_text)
 				var/ScreenText/s = i_Player.screen_text
-				while(i_Player && !s.isDisposed)
-					sleep(10)
-				if(s.queue) return
+				if(!s.WaitEnd()) return
 
 			i_Player.startQuest(questName)
 
@@ -116,7 +116,7 @@ mob/TalkNPC/quest
 		name="Professor Palmer"
 		Immortal=1
 		Gm=1
-		questPointers = list("Tutorial: Quests", "Master of Keys")
+		questPointers = list("Tutorial: Quests", "Master of Keys", "Strength of Graduate \[Weekly]")
 		Talk()
 			set src in oview(1)
 			Quest(usr)
@@ -127,51 +127,47 @@ mob/TalkNPC/quest
 
 			switch(questName)
 				if("Tutorial: Quests")
-					var/i = 1
-					var/list/messages = list("Hey there, you're new aren't you. I was asked by the Headmaster to teach you about quests.",
-									"You can click the quest book found in your \"Items\" tab to view quests you have or quests you completed.",
-									"How would you like to put something in that book? I have a few friends who can help you out with that, why don't you go and meet them?")
 
-					for(var/m in messages)
-						s.AddText(m, "[name][i++]")
-						i_Player << npcsay("[name]: [m]")
+					s.AddText("Hey there, you're new aren't you. I was asked by the Headmaster to teach you about quests.")
+					s.AddText("You can click the quest book found in your \"Items\" tab to view quests you have or quests you completed.")
+					s.AddText("How would you like to put something in that book? I have a few friends who can help you out with that, why don't you go and meet them?")
+
 
 				if("Master of Keys")
 
 					if(i_Player.level < lvlcap || !i_Player.rankLevel || i_Player.rankLevel.level > i_Player.rankLevel.TIER)
-						var/m = "You're too young for this, talk to me again when you've gained some more experience."
-						s.AddText(m, "[name]11")
-						i_Player << npcsay("[name]: [m]")
+
+						s.AddText("You're too young for this, talk to me again when you've gained some more experience.")
 						return
 
-					var/m = "Hey there, I see you got yourself a legendary golden chest, how about I help you open it?"
-					s.AddText(m, "[name]12")
-					i_Player << npcsay("[name]: [m]")
+					s.AddText("Hey there, I see you got yourself a legendary golden chest, how about I help you open it?")
+
+				if("Strength of Graduate \[Weekly]")
+
+					s.AddText("I see you've grown quite a bit since you first came to this school, how about a challenge to see how strong you've become?")
 
 			..(i_Player, questName)
 
 		questOngoing(mob/Player/i_Player, questName)
 			.=..(i_Player, questName)
 
+			var/ScreenText/s = new(i_Player, src)
 			if(!.)
-				var/ScreenText/s = new(i_Player, src)
-				var/m
+
 				switch(questName)
 					if("Tutorial: Quests")
-						m = "They're friendly people, they'll help you."
-						s.AddText(m, "[name]4")
+						s.AddText("They're friendly people, they'll help you.")
 					if("Master of Keys")
-						m = "Palmer: Keep up the good work, it'll be worth it... Maybe."
-						s.AddText(m, "[name]13")
+						s.AddText("Keep up the good work, it'll be worth it... Maybe.")
+					if("Strength of Graduate \[Weekly]")
+						s.AddText("Are you up for the challenge?")
+			else
 
-				i_Player << npcsay("[name]: [m]")
+				s.AddText("Good work!")
 
 		questCompleted(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
-
-			var/m = "Palmer: Have a good day."
-			s.AddText(m, "[name]5")
-			i_Player << npcsay("[name]: [m]")
+			s.AddText("Have a good day.")
 
 mob/var/talkedtogirl
 mob/var/babyquest

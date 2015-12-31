@@ -216,3 +216,92 @@ obj
 				while(src)
 					step_rand(src)
 					sleep(25)
+
+
+mob/TalkNPC/vampire
+
+	icon = 'FemaleVampire.dmi'
+
+
+	Shop
+		var/rep
+		Chaos
+			name  = "Chaos Shopkeeper"
+			rep   = -1
+		Peace
+			name  = "Peace Shopkeeper"
+			rep   = 1
+
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+			if(p.screen_text) return
+
+			var/rating = p.getRep()
+
+			var/ScreenText/s = new(usr, src)
+			s.AddText("Hey there, I offer special items for those who helped our cause.")
+
+			if((rep > 0 && rating < 1000) || (rep < 0 && rating > -1000))
+				s.AddText("Sadly, you haven't helped us enough.")
+				return
+
+			s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
+
+			var/obj/items/spellbook/b
+
+			if(rep > 0)
+				b = new/obj/items/spellbook/peace
+			else
+				b = new/obj/items/spellbook/blood
+
+			s.AddText("Would you like [b.name] for 1000 reputation?")
+			s.AddImage(b)
+			if(s.Wait())
+				s.SetImage(src)
+				s.SetButtons("OK")
+				if(s.Result == "Yes")
+					p.addRep(1000 * -rep)
+					b.loc = p
+					s.AddText("Enjoy your new spell book.")
+				else
+					s.AddText("Hopefully I'll have something you want next time.")
+
+
+
+	Respec
+		name = "Vampire Historian"
+		Talk()
+			set src in oview(3)
+
+			var/mob/Player/p = usr
+			if(p.screen_text) return
+			var/rating = p.getRep()
+
+			var/ScreenText/s = new(usr, src)
+
+			if(abs(rating) > 1000)
+
+				s.AddText("Hey, I can help you wipe your past sins (player kills/deaths) but be warned, you will be less famous if you do so.")
+				s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
+				if(s.Wait())
+					s.AddButtons("OK", null, 0,0,0,0)
+					if(s.Result == "Yes")
+						p.pdeaths = 0
+						p.pkills  = 0
+
+						if(rating > 0)
+							p.addRep(-1000)
+						else
+							p.addRep(1000)
+
+						s.AddText("It is done, noone will know your kill/death history.")
+					else
+						s.AddText("Our past actions determine who we are.")
+			else
+				s.AddText("You're a nobody, walk away.")
+
+
+	New()
+		..()
+		GenerateIcon(src, wig = 0, shoes = 1, scarf = 1)
