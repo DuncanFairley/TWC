@@ -1921,10 +1921,7 @@ mob/proc/Death_Check(mob/killer = src)
 				if(src:rankedArena)
 					src:rankedArena.death(src)
 				if(killer != src)
-					killer.pkills+=1
-					displayKills(killer, 1, 1)
-
-					killer:checkQuestProgress("Kill Player")
+					var/spamKilled = killer.findStatusEffect(/StatusEffect/KilledPlayer)
 
 					var/rndexp = round(src.level * 1.2) + rand(-200,200)
 					if(rndexp < 0) rndexp = rand(20,30)
@@ -1932,6 +1929,22 @@ mob/proc/Death_Check(mob/killer = src)
 					if(killer.House == housecupwinner)
 						rndexp *= 1.25
 						rndexp = round(rndexp)
+
+					if(spamKilled)
+						rndexp = round(rndexp * 0.3)
+					else
+						killer:checkQuestProgress("Kill Player")
+						killer.pkills+=1
+						displayKills(killer, 1, 1)
+
+						var/rep = -round(1 + (src:getRep() / 100), 1)
+
+						if(rep > -100)
+							rep = max(rep, 1)
+						else
+							rep = min(rep, -1)
+
+						killer:addRep(rep)
 
 					killer:addExp(rndexp)
 					if(killer:wand)
@@ -1941,22 +1954,13 @@ mob/proc/Death_Check(mob/killer = src)
 					if(killer.level < lvlcap)
 						killer << infomsg("You knocked [src] out and gained [rndexp] exp.")
 					else
-						if(!killer.findStatusEffect(/StatusEffect/KilledPlayer)) // prevents spam killing people for gold in short time
+						if(!spamKilled) // prevents spam killing people for gold in short time
 							rndexp = rndexp * rand(2,5)
-							new /StatusEffect/KilledPlayer (killer, 30)
+							new /StatusEffect/KilledPlayer (killer, 100)
 						else
-							rndexp = round(rndexp * 0.4)
+							rndexp = round(rndexp * 0.3)
 						killer.gold.add(rndexp)
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
-
-					var/rep = -round(1 + (src:getRep() / 100), 1)
-
-					if(rep > -100)
-						rep = max(rep, 1)
-					else
-						rep = min(rep, -1)
-
-					killer:addRep(rep)
 				else
 					src<<"You knocked yourself out!"
 			else
