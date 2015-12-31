@@ -807,19 +807,44 @@ mob
 							..()
 							if(!fired && target && state == HOSTILE)
 								fired = 1
-								spawn(rand(20,40)) fired = 0
+								spawn(30) fired = 0
 
-								for(var/obj/redroses/S in oview(3, src))
-									flick("burning", S)
-									spawn(8) S.loc = null
+								if(prob(30))
 
-								var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-								var/tmp_d = dir
-								for(var/d in dirs)
-									dir = d
-									castproj(Type = /obj/projectile/Blood, icon_state = "blood", damage = Dmg + rand(-4,8), name = "Cruor", cd = 0, lag = 1)
-								dir = tmp_d
-								sleep(AttackDelay)
+									var/hp = 0
+
+									for(var/mob/Player/p in oview(9, src))
+										hp++
+										emit(loc    = p.loc,
+											 ptype  = /obj/particle/fluid/blood,
+										     amount = 60,
+										     angle  = new /Random(get_angle(src, p) + 95, get_angle(src, p) + 85),
+										     speed  = 6,
+										     life   = new /Random(1,50))
+
+										p << errormsg("[name] fed on your blood.")
+
+										p.HP -= 2500
+										p.Death_Check(src)
+
+									HP += hp * 500
+									if(HP > MHP)
+										HP = MHP
+
+								else
+
+									for(var/obj/redroses/S in oview(3, src))
+										flick("burning", S)
+										spawn(8) S.loc = null
+
+
+									var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+									var/tmp_d = dir
+									for(var/d in dirs)
+										dir = d
+										castproj(Type = /obj/projectile/Blood, icon_state = "blood", damage = Dmg + rand(-4,8), name = "Cruor", cd = 0, lag = 1)
+									dir = tmp_d
+									sleep(AttackDelay)
 
 						Attacked(obj/projectile/p)
 
