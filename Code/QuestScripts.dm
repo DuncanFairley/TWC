@@ -19,7 +19,7 @@ quest
 	PeaceWeekly
 		name   = "Royal Blood \[Weekly]"
 		desc   = "A woman with very pale skin and red eyes named Austra asked you to help her murder an old creature."
-		reward = /questReward/BloodCoin
+		reward = /questReward/clanReward/BloodCoin
 		repeat = 6048000
 
 		Gather
@@ -34,7 +34,7 @@ quest
 	PeaceDaily
 		name   = "Preserve Peace \[Daily]"
 		desc   = "A stranger with pale skin asked you to kill other strangers with pale skin who supposedly spread chaos. One must fight fire with fire."
-		reward = /questReward/BloodCoin
+		reward = /questReward/clanReward/peace
 		repeat = 864000
 
 		Kill
@@ -49,13 +49,13 @@ quest
 	ChaosDaily
 		name   = "Spread Chaos \[Daily]"
 		desc   = "A stranger with pale skin asked you to kill other strangers with pale skin supposedly for the fun of it. Why not kill everyone while you're at it."
-		reward = /questReward/BloodCoin
+		reward = /questReward/clanReward/chaos
 		repeat = 864000
 
 		Kill
 			desc = "Spread chaos."
 			reqs = list("Kill Peace Vampire" = 50,
-			            "Kill Player"        = 50)
+			            "Kill Player"        = 20)
 
 		Reward
 			desc = "Go back to the stranger with the weird skin."
@@ -535,6 +535,27 @@ quest
 			desc = "Go back to Palmer."
 			reqs = list("Professor Palmer" = 1)
 
+	Gradutate
+		name   = "Strength of Graduate \[Weekly]"
+		desc   = "Professor Palmer challenged you to show your mastery and strength of magic arts by defeating the strongest monster she could think of."
+		reward = /questReward/Masterkey
+		repeat = 864000
+
+		Key
+			desc = "Defeat a vampire lord."
+			reqs = list("Kill Vampire Lord" = 1)
+
+		Grind
+			desc = "This won't be fun without a bit of a grind. Did you really think it will end with only one monster?"
+			reqs = list("Kill Wisp"               = 100,
+			            "Kill Floating Eye"       = 50,
+			            "Kill Player"             = 10,
+			            "Kill Tamed Dog"          = 3)
+
+		Reward
+			desc = "Go back to Palmer."
+			reqs = list("Professor Palmer" = 1)
+
 questReward
 
 	Gold
@@ -660,16 +681,18 @@ questReward
 		gold  = 3200
 		items = /obj/items/key/master_key
 
-	BloodCoin
-		exp   = 32000
-		gold  = 32000
-		items = /obj/items/magic_stone/summoning/blood
-
 	clanReward
+		BloodCoin
+			exp    = 32000
+			gold   = 32000
+			points = 100
+			items  = /obj/items/magic_stone/summoning/blood
+
+
 		exp   = 10000
 		gold  = 5000
 
 		peace
-			points = 100
+			points = 50
 		chaos
-			points = 100
+			points = -50
