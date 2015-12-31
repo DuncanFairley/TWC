@@ -312,16 +312,6 @@ mob/GM/verb
 		Players<<"<B><font color=silver>The weather has cleared."
 		weather.clear()
 
-	DayNight()
-		set category = "Server"
-		return
-		for(var/area/outside/O in world)
-			spawn() O.daycycle()
-	/*Night()
-		set category = "Server"
-		for(var/area/outside/O in world)
-			spawn() O.nightcycle()*/
-
 
 obj/weather
 	layer = 7	// weather appears over the darkness because I think it looks better that way
