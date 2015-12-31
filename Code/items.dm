@@ -117,8 +117,10 @@ obj/items
 			stack -= amount
 			if(stack <= 0)
 				Dispose()
+				. = 1
 			else
 				UpdateDisplay()
+				. = 0
 
 		Refresh()
 			UpdateDisplay()
@@ -880,10 +882,10 @@ obj/items/wearable/brooms/vampire_wings
 
 			owner.overlays += i
 
-			animate(owner, pixel_y = pixel_y,    time = 2, loop = -1)
-			animate(       pixel_y = pixel_y + 1,time = 2)
-			animate(       pixel_y = pixel_y,    time = 2)
-			animate(       pixel_y = pixel_y - 1,time = 2)
+			animate(owner, pixel_y = owner.pixel_y,    time = 2, loop = -1)
+			animate(       pixel_y = owner.pixel_y + 1,time = 2)
+			animate(       pixel_y = owner.pixel_y,    time = 2)
+			animate(       pixel_y = owner.pixel_y - 1,time = 2)
 
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts on \his [src.name].")
 
@@ -895,10 +897,48 @@ obj/items/wearable/brooms/vampire_wings
 			i.color = color
 			i.alpha = alpha
 			owner.overlays -= i
+			owner.pixel_y = 0
 
 			animate(owner)
 
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
+
+obj/items/wearable/brooms/floating_rock
+	showoverlay = FALSE
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		.=..(owner, 1, forceremove)
+
+		if(. == WORN)
+			var/image/i = new('floating_rock.dmi', "flying")
+			i.layer = 3
+			i.pixel_y = -21
+			i.color = color
+			i.alpha = alpha
+
+			owner.overlays += i
+			owner.pixel_y = 24
+
+			animate(owner, pixel_y = owner.pixel_y,    time = 2, loop = -1)
+			animate(       pixel_y = owner.pixel_y + 1,time = 2)
+			animate(       pixel_y = owner.pixel_y,    time = 2)
+			animate(       pixel_y = owner.pixel_y - 1,time = 2)
+
+			if(!overridetext)viewers(owner) << infomsg("[owner] climbs on \his [src.name].")
+
+		else if(. == REMOVED || forceremove)
+			var/image/i = new('floating_rock.dmi', "flying")
+			i.layer = 3
+			i.pixel_y = -21
+			i.color = color
+			i.alpha = alpha
+
+			owner.overlays -= i
+			owner.pixel_y = 0
+
+			animate(owner)
+
+			if(!overridetext)viewers(owner) << infomsg("[owner] gets off \his [src.name] away.")
 
 
 obj/items/wearable/hats
@@ -2302,7 +2342,12 @@ obj/items/spellbook
 	icon       = 'Books.dmi'
 	icon_state = "spell"
 
-	var/spell
+	var
+		spell
+
+		r = 0
+		g = 0
+		b = 0
 
 	New()
 		..()
@@ -2315,12 +2360,34 @@ obj/items/spellbook
 
 	Click()
 		if(src in usr)
+
+			if(usr.client.color) return
+
+			usr << infomsg("You attempt to read [name]")
+
+			var/mob/Spells/verb/generic = spell
+
 			if(spell in usr.verbs)
-				usr << errormsg("You already know this spell.")
+				animate(usr.client, color = list(1.5,1.5,1.5,
+		                						 1.5,1.5,1.5,
+		                          				 1.5,1.5,1.5,
+		                         				 -1,-1,-1), time = 10)
+
+				usr << errormsg("You already know [generic.name].")
 			else
-				usr<<"<b><font color=white><font size=3>You learned [name]."
+
+				animate(usr.client, color = list(1 + r,1 + g,1 + b,
+		                          				 1 + r,1 + g,1 + b,
+		                          				 1 + r,1 + g,1 + b,
+		                         				 -1,-1,-1), time = 10)
+
+				usr<<"<b><font color=white><font size=3>You learned [generic.name]."
 				usr.verbs += spell
 				Consume()
+
+			sleep(15)
+			animate(usr.client, color = null, time = 10)
+
 		else
 			..()
 
@@ -2328,32 +2395,15 @@ obj/items/spellbook
 		name = "Book of Chaos: Vol II"
 		icon_state = "chaos"
 		spell = /mob/Spells/verb/Sanguinis_Iactus
+		r = 0.6
 
-		var/tmp/read = 0
+	peace
+		name = "Book of Peace: Vol II"
+		icon_state = "peace"
+		spell = /mob/Spells/verb/Immobulus
+		b = 0.6
+		g = 0.5
 
-		Click()
-			if(read) return
-
-			if(src in usr)
-				read = 1
-				usr << infomsg("You attempt to read [name]")
-
-				var/c = usr.client.color
-				if(spell in usr.verbs)
-					animate(usr.client, color = list(1.5,1.5,1.5,
-		                          					 1.5,1.5,1.5,
-		                          					 1.5,1.5,1.5,
-		                         					 -1,-1,-1), time = 10)
-
-				else
-					animate(usr.client, color = list(1.6,1,1,
-		                          					 1.6,1,1,
-		                          					 1.6,1,1,
-		                         					 -1,-1,-1), time = 10)
-				sleep(15)
-				animate(usr.client, color = c, time = 10)
-				read = 0
-			..()
 
 obj/items/stickbook
 	name="The Crappy Artist's Guide to Stick Figures"
@@ -2924,15 +2974,36 @@ obj/items/magic_stone
 			else
 				var/turf/t = p.loc
 				if(findtext(t.tag, "teleportPoint"))
-					dest = copytext(t.tag, 14)
-					name = "teleport stone \[[dest]]"
-					icon_state = "teleport"
+
+					var/obj/items/magic_stone/teleport/s = stack > 1 ? Split(1) : src
+
+					s.dest = copytext(t.tag, 14)
+					s.name = "teleport stone \[[s.dest]]"
+					s.icon_state = "teleport"
+
+					if(s != src)
+						s.Move(p)
+						p.Resort_Stacking_Inv()
+
 					p << infomsg("You charged your teleport stone to [dest].")
 				else
 					p << errormsg("You can't use it here, find a memory rune to charge this teleport stone.")
 
 		effect(mob/Player/p)
-			var/turf/t = locate("teleportPoint[dest]")
+
+			var/turf/t
+			if(dest == "Vault")
+				var/swapmap/map = SwapMaps_Find("[usr.ckey]")
+				if(!map)
+					map = SwapMaps_Load("[usr.ckey]")
+				if(!map)
+					usr << errormsg("You do not have a vault.")
+				else
+					var/width = (map.x2+1) - map.x1
+					t = locate(map.x1 + round((width)/2), map.y1+1, map.z1 )
+
+			else
+				t = locate("teleportPoint[dest]")
 			if(t)
 				hearers(p) << infomsg("[p.name] disappears in a flash of light.")
 				p.Transfer(t)
@@ -3293,21 +3364,23 @@ obj/memory_rune
 
 	New()
 		..()
-		var/matrix/m = matrix()
-		m.Turn(60)
-		animate(src, transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10, loop = -1)
-		m.Turn(60)
-		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
-		m.Turn(60)
-		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
-		m.Turn(60)
-		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
-		m.Turn(60)
-		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
-		m.Turn(60)
-		animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
 
-		loc.tag = "teleportPoint[name]"
+		spawn(1)
+			var/matrix/m = matrix()
+			m.Turn(60)
+			animate(src, transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10, loop = -1)
+			m.Turn(60)
+			animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+			m.Turn(60)
+			animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+			m.Turn(60)
+			animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+			m.Turn(60)
+			animate(transform = m, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+
+			animate(transform = null, color = rgb(rand(80,255), rand(80,255), rand(80,255)), time = 10)
+
+			loc.tag = "teleportPoint[name]"
 
 	Silverblood
 	CoSFloor1
@@ -3316,6 +3389,7 @@ obj/memory_rune
 		name = "CoS Floor 2"
 	CoSFloor3
 		name = "CoS Floor 3"
+	Vault
 
 
 
@@ -3727,3 +3801,93 @@ obj/items/colors
 		reqLevel   = 15
 		icon_state = "red"
 		projColor  = "blood"
+
+obj/items/reputation
+	var/rep
+	icon = 'reputation.dmi'
+
+	Click()
+		if(src in usr)
+			Add(usr)
+		else
+			..()
+
+	New()
+		if(prob(5))
+			rep *= 2
+			name = "greater [name]"
+		else if(prob(60))
+			rep /= 3
+			name = "small [name]"
+
+		..()
+
+	proc/Add(mob/Player/i_Player)
+
+		i_Player.addRep(rep)
+		if(Consume())
+			i_Player.Resort_Stacking_Inv()
+
+	chaos_tablet
+		icon_state = "chaos"
+		rep        = -3
+		Add(mob/Player/i_Player)
+
+			if(!(locate(/mob/TalkNPC/quest/vampires/Chaos_Vampire) in oview(1)))
+				i_Player << errormsg("Someone might want this, maybe someone that likes chaos.")
+				return
+
+			..()
+
+	peace_tablet
+		icon_state = "peace"
+		rep        = 3
+		Add(mob/Player/i_Player)
+
+			if(!(locate(/mob/TalkNPC/quest/vampires/Peace_Vampire) in oview(1)))
+				i_Player << errormsg("Someone might want this, maybe someone that likes peace.")
+				return
+
+			..()
+
+obj/color_lamp
+	icon       = 'lamp.dmi'
+	icon_state = "inactive"
+
+	mouse_over_pointer = MOUSE_HAND_POINTER
+
+	var
+		vaultOwner
+
+	Click()
+		if(vaultOwner == usr.ckey && (src in oview()))
+
+			var/c = input("What color floors would you like?", "Wooden Floor Color") as null|color
+
+			if(c)
+				var/swapmap/map = SwapMaps_Find(vaultOwner)
+				for(var/turf/woodenfloor/w in map.AllTurfs())
+					w.color = c
+
+		..()
+
+obj/items/vault_key
+
+	icon       = 'ChestKey.dmi'
+	icon_state = "master"
+
+	Click()
+		if(src in usr)
+
+			var/obj/Hogwarts_Door/d = locate() in oview(1)
+			if(d && d.vaultOwner == usr.ckey)
+				usr << errormsg("You unlocked the door.")
+				flick('Alohomora.dmi', d)
+				d.door     = 1
+				d.bumpable = 1
+				Consume()
+			else
+				usr << errormsg("You need to use this near a locked vault door.")
+
+		else
+			..()
