@@ -94,11 +94,11 @@ mob/Player/proc/change_vault(var/vault)
 			src << errormsg("Please evacuate everyone from your vault first.")
 			return
 
-	if(!islist(global.globalvaults))
-		global.globalvaults = list()
+	if(!islist(worldData.globalvaults))
+		worldData.globalvaults = list()
 	var/vault/v = new
 	v.tmpl = vault
-	global.globalvaults[src.ckey] = v
+	worldData.globalvaults[src.ckey] = v
 	map = SwapMaps_CreateFromTemplate("vault[vault]")
 	if(!map)
 		world.log << "ERROR: proc: change_vault() Could not create \"[vault]\" swap map template (vault[vault])"
@@ -269,17 +269,17 @@ mob/GM/verb/UnloadMap()
 	src << infomsg("Map name \"[map.name]\" has been unloaded.")
 mob/GM/verb/DeleteMap()
 	set category = "Custom Maps"
-	if(!length(customMaps))
+	if(!length(worldData.customMaps))
 		src << errormsg("No maps currently exist.")
 		return
-	var/customMap/map = input("Delete which map?") as null|anything in customMaps
+	var/customMap/map = input("Delete which map?") as null|anything in worldData.customMaps
 	if(!map) return
 	if(map.swapmap && map.swapmap.InUse())
 		alert("That map currently has a player on it.")
 		return
 	fdel("[swapmaps_directory]/map_custom_[ckey(map.name)].sav")
-	global.loadedMaps.Remove(map)
-	global.customMaps.Remove(map)
+	loadedMaps -= map
+	worldData.customMaps -= map
 	Save_World()
 	src << infomsg("Map name \"[map.name]\" has been deleted.")
 mob/GM/verb/CopyMap()
@@ -294,12 +294,12 @@ mob/GM/verb/CopyMap()
 		alert("Map name already exists.")
 		return
 	newmap.name = newname
-	var/customMap/copymap = input("Which map do you want to make a copy of?") as null|anything in customMaps
+	var/customMap/copymap = input("Which map do you want to make a copy of?") as null|anything in worldData.customMaps
 	if(!copymap) return
 	var/result = fcopy("[swapmaps_directory]/map_custom_[ckey(copymap.name)].sav","[swapmaps_directory]/map_custom_[ckey(newname)].sav")
 	if(result)
 		src << infomsg("A copy of [copymap.name] has been created and named [newname]. It has not been loaded.")
-		global.customMaps.Add(newmap)
+		worldData.customMaps.Add(newmap)
 		Save_World()
 	else
 		src << errormsg("Report error ID 3feOP to Murrawhip.")
@@ -319,8 +319,8 @@ mob/GM/verb/NewMap()
 	swapmap.Save()
 	newmap.swapmap = swapmap
 	src.loc = locate(swapmap.x1, swapmap.y1, swapmap.z1)
-	global.loadedMaps.Add(newmap)
-	global.customMaps.Add(newmap)
+	loadedMaps += newmap
+	worldData.customMaps += newmap
 	Save_World()
 	src << infomsg("Your new map has been created. <b>Note that your map will never be saved automatically. You must use SaveMap.</b>")
 proc/WhichcustomMap(mob/M)
@@ -373,10 +373,10 @@ mob/GM/verb/FloodFill(path as null|anything in typesof(/turf)|typesof(/area))
 		new path (T)
 mob/GM/verb/LoadMap()
 	set category = "Custom Maps"
-	if(!length(customMaps))
+	if(!length(worldData.customMaps))
 		src << errormsg("No maps currently exist.")
 		return
-	var/customMap/map = input("Load which map?") as null|anything in customMaps
+	var/customMap/map = input("Load which map?") as null|anything in worldData.customMaps
 	if(!map) return
 	if(map.swapmap)
 		src << infomsg("\"[map.name]\" is already loaded. Teleporting there now.")
@@ -386,7 +386,6 @@ mob/GM/verb/LoadMap()
 	src.loc = locate(map.swapmap.x1, map.swapmap.y1, map.swapmap.z1)
 	global.loadedMaps.Remove(map)
 	global.loadedMaps.Add(map)
-var/list/customMap/customMaps = list()
 var/tmp/list/customMap/loadedMaps = list()
 customMap
 	var/name = ""
@@ -406,12 +405,11 @@ vault
 		for(var/V in src.allowedpeople)
 			result[sql_get_name_from(V)] = V
 		return result
-var/list/vault/globalvaults = list()//Associated with ckey of owner
 
 mob/proc/get_accessible_vaults()
 	var/list/accessible_vaults = list()
-	for(var/ckey in globalvaults)
-		var/vault/V = globalvaults[ckey]
+	for(var/ckey in worldData.globalvaults)
+		var/vault/V = worldData.globalvaults[ckey]
 		if(V.can_ckey_enter(src.ckey))
 			accessible_vaults += ckey
 	return accessible_vaults
@@ -536,16 +534,14 @@ mob/test/verb/Tick_Lag(newnum as num)
 mob/test/verb/CurrentRefNum()
 	var/obj/o = new()
 	src << "\ref[o]"
-var/list/housepointsGSRH = new/list(6)
-
 mob/test/verb/Modify_Housepoints()
 
-	housepointsGSRH[1] = input("Select Gryffindor's housepoints:","Housepoints",housepointsGSRH[1]) as num
-	housepointsGSRH[2] = input("Select Slytherin's housepoints:","Housepoints",housepointsGSRH[2]) as num
-	housepointsGSRH[3] = input("Select Ravenclaw's housepoints:","Housepoints",housepointsGSRH[3]) as num
-	housepointsGSRH[4] = input("Select Hufflepuff's housepoints:","Housepoints",housepointsGSRH[4]) as num
-	housepointsGSRH[5] = input("Select Auror's housepoints:","Housepoints",housepointsGSRH[5]) as num
-	housepointsGSRH[6] = input("Select Deatheater's housepoints:","Housepoints",housepointsGSRH[6]) as num
+	worldData.housepointsGSRH[1] = input("Select Gryffindor's housepoints:","Housepoints",worldData.housepointsGSRH[1]) as num
+	worldData.housepointsGSRH[2] = input("Select Slytherin's housepoints:","Housepoints",worldData.housepointsGSRH[2]) as num
+	worldData.housepointsGSRH[3] = input("Select Ravenclaw's housepoints:","Housepoints",worldData.housepointsGSRH[3]) as num
+	worldData.housepointsGSRH[4] = input("Select Hufflepuff's housepoints:","Housepoints",worldData.housepointsGSRH[4]) as num
+	worldData.housepointsGSRH[5] = input("Select Auror's housepoints:","Housepoints",worldData.housepointsGSRH[5]) as num
+	worldData.housepointsGSRH[6] = input("Select Deatheater's housepoints:","Housepoints",worldData.housepointsGSRH[6]) as num
 	Save_World()
 mob/var/tmp/Rictusempra
 var/radioOnline = 0
@@ -986,8 +982,8 @@ mob/Player
 		addNameTag()
 		Players.Add(src)
 		bubblesort_atom_name(Players)
-		if(housecupwinner)
-			src << "<b><font color=#CF21C0>[housecupwinner] is the House Cup winner for this month. They receive +25% drop rate/gold/XP from monster kills.</font></b>"
+		if(worldData.housecupwinner)
+			src << "<b><font color=#CF21C0>[worldData.housecupwinner] is the House Cup winner for this month. They receive +25% drop rate/gold/XP from monster kills.</font></b>"
 		if(classdest)
 			src << announcemsg("[curClass] class is starting. Click <a href=\"?src=\ref[src];action=class_path;latejoiner=true\">here</a> for directions.")
 		updateHPMP()
@@ -1101,9 +1097,9 @@ mob/Player
 								chatlog << "<font size=2 color=red><b>[usr.prevname] (ROBED)</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
 							else
 								chatlog << "<font size=2 color=red><b>[usr]</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
-							if(t == ministrypw)
+							if(t == worldData.ministrypw)
 								if(istype(usr.loc,/turf/gotoministry))
-									if(usr.name in ministrybanlist)
+									if(usr.name in worldData.ministrybanlist)
 										view(src) << "<b>Toilet</b>: <i>The Ministry of Magic is not currently open to you. Sorry!</i>"
 									else
 										oviewers() << "[usr] disappears."
@@ -1150,10 +1146,10 @@ mob/Player
 
 									if("change ministry password")
 										if(key=="Murrawhip")
-											var/input = input("New password?", "Ministry Password", ministrypw) as null|text
+											var/input = input("New password?", "Ministry Password", worldData.ministrypw) as null|text
 											if(!input) return
 											else
-												ministrypw = input
+												worldData.ministrypw = input
 											hearers() << "<b><font color=red>Password Changed</font></b>"
 									if("unlock office")
 										var/obj/brick2door/door = locate("ministryoffice")
@@ -1289,7 +1285,7 @@ mob/Player
 										fdel("Logs/chatlog.html")
 								if("afk check")
 									if(Gm)
-										if(alert("AFK Check was last used about [round((world.realtime - lastusedAFKCheck) / 10 / 60)] minutes ago. Do you want to use it now?",,"Yes","No") == "Yes")
+										if(alert("AFK Check was last used about [round((world.realtime - worldData.lastusedAFKCheck) / 10 / 60)] minutes ago. Do you want to use it now?",,"Yes","No") == "Yes")
 											src<<infomsg("Checking for AFK trainers...")
 											for(var/mob/A in world)
 												if(A.key&&A.Gm)
@@ -1505,16 +1501,16 @@ mob/Player
 				stat("realtime:", comma(world.realtime))
 				stat("Date:", time2text(world.realtime, "DDD MMM DD hh:mm:ss YYYY"))
 			stat("---House points---")
-			stat("Gryffindor",housepointsGSRH[1])
-			stat("Slytherin",housepointsGSRH[2])
-			stat("Ravenclaw",housepointsGSRH[3])
-			stat("Hufflepuff",housepointsGSRH[4])
+			stat("Gryffindor",worldData.housepointsGSRH[1])
+			stat("Slytherin",worldData.housepointsGSRH[2])
+			stat("Ravenclaw",worldData.housepointsGSRH[3])
+			stat("Hufflepuff",worldData.housepointsGSRH[4])
 			if(src.Auror)
 				stat("---Clan points---")
-				stat("-Aurors-",housepointsGSRH[5])
+				stat("-Aurors-",worldData.housepointsGSRH[5])
 			if(src.DeathEater)
 				stat("---Clan points---")
-				stat("-Deatheaters-",housepointsGSRH[6])
+				stat("-Deatheaters-",worldData.housepointsGSRH[6])
 			stat("","")
 			if(currentEvents)
 				stat("Current Events:","")
@@ -1789,19 +1785,19 @@ mob/proc/Death_Check(mob/killer = src)
 			//world clanwars
 				if(killer.aurorrobe && src.DeathEater)
 					src << "You were killed by [killer] of the Aurors."
-					housepointsGSRH[5] += 1
+					worldData.housepointsGSRH[5] += 1
 					clanwars_event.add_auror(1)
 
 					if(clanevent1_pointsgivenforkill)
-						housepointsGSRH[5] += clanevent1_pointsgivenforkill
+						worldData.housepointsGSRH[5] += clanevent1_pointsgivenforkill
 						clanwars_event.add_auror(clanevent1_pointsgivenforkill)
 				else if(killer.derobe && src.Auror)
 					src << "You were killed by a [killer]."
-					housepointsGSRH[6] += 1
+					worldData.housepointsGSRH[6] += 1
 					clanwars_event.add_de(1)
 
 					if(clanevent1_pointsgivenforkill)
-						housepointsGSRH[6] += clanevent1_pointsgivenforkill
+						worldData.housepointsGSRH[6] += clanevent1_pointsgivenforkill
 						clanwars_event.add_de(clanevent1_pointsgivenforkill)
 			if(src.loc.loc.type in typesof(/area/arenas/MapTwo))
 			/////CLAN WARS//////
@@ -1921,25 +1917,33 @@ mob/proc/Death_Check(mob/killer = src)
 				if(src:rankedArena)
 					src:rankedArena.death(src)
 				if(killer != src)
-					var/spamKilled = killer.findStatusEffect(/StatusEffect/KilledPlayer)
+
+					killer.pkills+=1
+					displayKills(killer, 1, 1)
+
+					var/spamKilled      = killer.findStatusEffect(/StatusEffect/KilledPlayer)
+					var/spamKilledQuest = killer.findStatusEffect(/StatusEffect/KilledPlayerQuest)
 
 					var/rndexp = round(src.level * 1.2) + rand(-200,200)
 					if(rndexp < 0) rndexp = rand(20,30)
 
-					if(killer.House == housecupwinner)
+					if(killer.House == worldData.housecupwinner)
 						rndexp *= 1.25
 						rndexp = round(rndexp)
 
 					if(spamKilled)
-						rndexp = round(rndexp * 0.3)
-					else
+						rndexp = round(rndexp * 0.1)
+					else if(killer.level >= lvlcap)
+						new /StatusEffect/KilledPlayer (killer, 40)
+						rndexp *= rand(2,4)
+
+					if(!spamKilledQuest)
+						new /StatusEffect/KilledPlayerQuest (killer, 15)
 						killer:checkQuestProgress("Kill Player")
-						killer.pkills+=1
-						displayKills(killer, 1, 1)
 
 						var/rep = -round(1 + (src:getRep() / 100), 1)
 
-						if(rep > -100)
+						if(rep >= 0)
 							rep = max(rep, 1)
 						else
 							rep = min(rep, -1)
@@ -1954,11 +1958,6 @@ mob/proc/Death_Check(mob/killer = src)
 					if(killer.level < lvlcap)
 						killer << infomsg("You knocked [src] out and gained [rndexp] exp.")
 					else
-						if(!spamKilled) // prevents spam killing people for gold in short time
-							rndexp = rndexp * rand(2,5)
-							new /StatusEffect/KilledPlayer (killer, 100)
-						else
-							rndexp = round(rndexp * 0.3)
 						killer.gold.add(rndexp)
 						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
 				else
@@ -1984,7 +1983,7 @@ mob/proc/Death_Check(mob/killer = src)
 					gold2give -= gold2give * ((killer.level-src.level)/150)
 					exp2give  -= exp2give  * ((killer.level-src.level)/150)
 
-				if(killer.House == housecupwinner)
+				if(killer.House == worldData.housecupwinner)
 					gold2give *= 1.25
 					exp2give  *= 1.25
 
@@ -2051,7 +2050,6 @@ mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
 
 	//	damageblock()
 	//		src.HP-=(src.HP/8)
-
 
 mob/proc/resetStatPoints()
 	src.StatPoints = src.level - 1

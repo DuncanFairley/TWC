@@ -230,6 +230,11 @@ area
 		Quidditch
 	DEHQ
 	AurorHQ
+
+	safezone
+		DEHQ
+		AurorHQ
+
 	hogwarts
 		TrophyRoom
 		Entrance_Hall

@@ -59,13 +59,14 @@ obj/items
 		Clone()
 			var/obj/items/i = new type
 
-			i.owner = owner
-			i.name  = name
+			i.owner      = owner
+			i.name       = name
+			i.icon_state = icon_state
 
 			return i
 
 		Compare(obj/items/i)
-			return i.name == name && i.type == type && i.owner == owner
+			return i.name == name && i.type == type && i.owner == owner && i.icon_state == icon_state
 
 		UpdateDisplay()
 			if(stack > 1)
@@ -614,7 +615,7 @@ obj/items/gift
 	verb
 		Open()
 			if(!contents.len) return
-			if(!allowGifts)
+			if(!worldData.allowGifts)
 				usr << errormsg("You can't open your gift... yet...")
 				return
 
@@ -1322,6 +1323,28 @@ obj/items/wearable/wands/dragonhorn_wand
 obj/items/wearable/wands/light_wand
 	icon = 'light_wand.dmi'
 	displayColor = "#64c8ff"
+
+obj/items/wearable/masks
+	desc = "A mask to hide your identity."
+	wear_layer = FLOAT_LAYER - 3
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		. = ..(owner)
+		if(. == WORN)
+			src.gender = owner.gender
+			if(!overridetext)viewers(owner) << infomsg("[owner] wears \his [src.name].")
+			for(var/obj/items/wearable/masks/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+		else if(. == REMOVED)
+			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
+
+obj/items/wearable/masks/peace_mask
+	icon = 'mask_peace.dmi'
+	dropable = 0
+
+obj/items/wearable/masks/chaos_mask
+	icon = 'mask_peace.dmi'
+	dropable = 0
 
 obj/items/wearable/wigs
 	price = 500000
@@ -2170,17 +2193,17 @@ arena_round
 					M << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[M];action=arena_leave\">clicking here.</a></b>"
 				switch(team)
 					if("Gryffindor")
-						housepointsGSRH[1] += amountforwin
+						worldData.housepointsGSRH[1] += amountforwin
 					if("Slytherin")
-						housepointsGSRH[2] += amountforwin
+						worldData.housepointsGSRH[2] += amountforwin
 					if("Ravenclaw")
-						housepointsGSRH[3] += amountforwin
+						worldData.housepointsGSRH[3] += amountforwin
 					if("Hufflepuff")
-						housepointsGSRH[4] += amountforwin
+						worldData.housepointsGSRH[4] += amountforwin
 					if("Aurors")
-						housepointsGSRH[5] += amountforwin
+						worldData.housepointsGSRH[5] += amountforwin
 					if("Deatheaters")
-						housepointsGSRH[6] += amountforwin
+						worldData.housepointsGSRH[6] += amountforwin
 				Players << "<font color = red>[team] have earned [amountforwin] points.</font>"
 				Save_World()
 				del(currentArena)
@@ -2194,13 +2217,13 @@ arena_round
 				plyr << "You have earnt [amount] points for [plyr.House]"
 				switch(plyr.House)
 					if("Gryffindor")
-						housepointsGSRH[1] += amount
+						worldData.housepointsGSRH[1] += amount
 					if("Slytherin")
-						housepointsGSRH[2] += amount
+						worldData.housepointsGSRH[2] += amount
 					if("Ravenclaw")
-						housepointsGSRH[3] += amount
+						worldData.housepointsGSRH[3] += amount
 					if("Hufflepuff")
-						housepointsGSRH[4] += amount
+						worldData.housepointsGSRH[4] += amount
 obj/clanpillar
 	var/HP = 50
 	var/MHP = 50
@@ -2222,12 +2245,12 @@ obj/clanpillar
 				else
 					//If world ClanWars
 					if(clan == "Deatheater")
-						housepointsGSRH[5] += 10
+						worldData.housepointsGSRH[5] += 10
 						clanwars_event.add_auror(10)
 
 						attacker.addRep(10)
 					else if(clan == "Auror")
-						housepointsGSRH[6] += 10
+						worldData.housepointsGSRH[6] += 10
 						clanwars_event.add_de(10)
 
 						attacker.addRep(-10)
@@ -2967,6 +2990,9 @@ obj/items/magic_stone
 			t.icon_state = icon_state
 
 			return t
+
+		Compare()
+
 
 		circle(mob/Player/p)
 			if(dest)
@@ -3812,25 +3838,39 @@ obj/items/reputation
 		else
 			..()
 
+	Clone()
+		var/obj/items/reputation/i = new type
+
+		i.owner      = owner
+		i.name       = name
+		i.icon_state = icon_state
+		i.rep        = rep
+
+		return i
+
 	New()
-		if(prob(5))
+		if(prob(10))
 			rep *= 2
 			name = "greater [name]"
-		else if(prob(60))
-			rep /= 3
+		else if(prob(55))
+			rep /= 2
 			name = "small [name]"
 
 		..()
 
 	proc/Add(mob/Player/i_Player)
+		var/r1 = i_Player.getRep()
+		var/r2 = i_Player.addRep(rep)
 
-		i_Player.addRep(rep)
-		if(Consume())
+		if(r1 == r2)
+			i_Player << errormsg("You are at max reputation for your rank.")
+
+		else if(Consume())
 			i_Player.Resort_Stacking_Inv()
 
 	chaos_tablet
 		icon_state = "chaos"
-		rep        = -3
+		rep        = -4
 		Add(mob/Player/i_Player)
 
 			if(!(locate(/mob/TalkNPC/quest/vampires/Chaos_Vampire) in oview(1)))
@@ -3841,7 +3881,7 @@ obj/items/reputation
 
 	peace_tablet
 		icon_state = "peace"
-		rep        = 3
+		rep        = 4
 		Add(mob/Player/i_Player)
 
 			if(!(locate(/mob/TalkNPC/quest/vampires/Peace_Vampire) in oview(1)))

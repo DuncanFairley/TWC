@@ -94,6 +94,7 @@ ScreenText
 	proc
 		SetImage(atom/a, animate=TRUE)
 			set waitfor = 0
+			if(isDisposed) return
 
 			if(!displayImage)
 				displayImage = new
@@ -113,17 +114,28 @@ ScreenText
 				displayImage.Show(5)
 
 		AddImage(atom/a)
+			if(isDisposed) return
 			if(!queue)
 				SetImage(a)
 			else
 				queue += a
 
 
-		SetText(t, soundID)
+		SetText(t, soundID, animate = TRUE)
+			set waitfor = 0
+			if(isDisposed) return
+
+			if(animate)
+				displayText.Hide(5)
+				sleep(5)
+
 			displayText.maptext = "<b><font color=white>[t]</font></b>"
+
 
 			if(displayImage)
 				owner << npcsay("[displayImage.name]: [t]")
+
+			if(animate) displayText.Show(5)
 
 	//		text_shadow.maptext = "<b><font color=black>[t]</font></b>"
 
@@ -131,15 +143,16 @@ ScreenText
 	//			owner << sound(file("Sound/[soundID].ogg"), 0, 0, 9)
 
 		AddText(t, soundID = null)
-
+			if(isDisposed) return
 			if(displayText.maptext == null)
-				SetText(t, soundID)
+				SetText(t, soundID, FALSE)
 			else
 				if(!queue) queue = list()
 
 				queue[t] = soundID
 
 		SetButtons(i_Button1 = null, i_Button1Color = "#2299d0", i_Button2 = null, i_Button2Color = "#ff0000", i_Button3 = null, i_Button3Color = "#00ff00")
+			if(isDisposed) return
 
 			if(i_Button1)
 				if(button1)
@@ -171,6 +184,7 @@ ScreenText
 
 
 		AddButtons(i_Button1 = null, i_Button1Color = "#2299d0", i_Button2 = null, i_Button2Color = "#ff0000", i_Button3 = null, i_Button3Color = "#00ff00")
+			if(isDisposed) return
 			if(!queue) queue = list()
 		//		SetButtons(i_Button1, i_Button1Color, i_Button2, i_Button2Color, i_Button3, i_Button3Color)
 		//	else
@@ -179,6 +193,7 @@ ScreenText
 
 		process()
 			set waitfor = 0
+			if(isDisposed) return
 			var/q = queue[1]
 
 			if(istype(q, /atom/movable))
@@ -190,7 +205,8 @@ ScreenText
 
 
 		Next(i_buttonName)
-			if(isBusy) return
+			if(isBusy)     return
+			if(isDisposed) return
 
 			Result = i_buttonName
 
@@ -233,9 +249,6 @@ ScreenText
 						queue = null
 
 				if(q)
-					displayText.Hide(5)
-					sleep(5)
-
 					SetText(q, queue[q])
 					queue -= q
 
@@ -244,27 +257,31 @@ ScreenText
 					else
 						process()
 
-					displayText.Show(5)
-
-
-				sleep(5)
+				sleep(10)
 				isBusy = FALSE
 
-		Wait()
+		Wait(next = TRUE)
+			if(isDisposed) return
 			isWaiting = TRUE
 
+			var/sleepCount = 0
 			while(owner && !isDisposed && isWaiting)
+				sleepCount++
+				sleep(1)
+
+			if(!sleepCount)
 				sleep(1)
 
 			if(owner)
 				if(!isWaiting)
-					spawn() Next()
+					if(next) spawn() Next()
 					return 1
 
 			else if(!isDisposed)
 				Dispose()
 
 		WaitEnd()
+			if(isDisposed) return
 			while(owner && !isDisposed)
 				sleep(10)
 
@@ -353,10 +370,11 @@ obj/hud
 			mouse_over_pointer = MOUSE_HAND_POINTER
 			color = "#2299d0"
 
-			alpha     = 235
-			maptext_x = 26
-			maptext_y = 6
-			layer = 20
+			alpha         = 235
+			maptext_x     = 26
+			maptext_width = 72
+			maptext_y     = 6
+			layer         = 20
 
 			var/ScreenText/parent
 
@@ -376,11 +394,13 @@ obj/hud
 					src.color  = color
 					name       = text
 
+					maptext_x = 33 - (3 * length(text))
+
 					if(invisibility) Show()
 
 			Click()
 				..()
-				if(parent)
+				if(parent && alpha == 235 && invisibility == 0)
 					parent.Next(name)
 
 		New()
@@ -410,12 +430,10 @@ obj/hud
 				set waitfor = 0
 				if(invisibility) return
 
-				var/a = alpha
-
 				animate(src, alpha = 0, time = t)
 
 				sleep(t)
-				alpha = a
+				alpha = initial(alpha)
 				invisibility = 10
 
 			Show(t = 5)

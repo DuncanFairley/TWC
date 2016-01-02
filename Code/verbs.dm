@@ -58,7 +58,7 @@ mob/GM
 				if("Add")
 					var/points = input("How many points do you wish to Add?","House Points") as null|num
 					if(!points) return
-					housepointsGSRH[housenum] += points
+					worldData.housepointsGSRH[housenum] += points
 					if(points==1)
 						Players << "\red[points] point has been added to [house]!"
 					else
@@ -66,7 +66,7 @@ mob/GM
 				if("Subtract")
 					var/points = input("How many points do you wish to Subtract?","House Points") as null|num
 					if(!points) return
-					housepointsGSRH[housenum] -= points
+					worldData.housepointsGSRH[housenum] -= points
 					if(points==1)
 						Players << "\red[points] point has been subtracted from [house]!"
 					else

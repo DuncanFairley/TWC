@@ -144,16 +144,16 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 			 			  	 			  /obj/items/key/blood_key,
 						     			  /obj/items/colors/yellow_stone,
 						     			  /obj/items/colors/blue_stone),
-			 			  	"3"    =      /obj/items/blood_sack),
+			 			  	"4"    =      /obj/items/blood_sack),
 
 
-"Vampire"            = list("0.2"  = list(/obj/items/key/winter_key,
+"Vampire"            = list("0.3"  = list(/obj/items/key/winter_key,
 			 			  	 			  /obj/items/key/blood_key,
 			 			  	 			  /obj/items/colors/red_stone,
 							 			  /obj/items/colors/green_stone),
-			 			  	"0.8"  = list(/obj/items/blood_sack,
-			 			  	              /obj/items/reputation/chaos_tablet,
-			 			  	              /obj/items/reputation/peace_tablet)),
+			 			  	"4"  = list(/obj/items/blood_sack,
+			 			  	            /obj/items/reputation/chaos_tablet,
+			 			  	            /obj/items/reputation/peace_tablet)),
 
 
 "Basilisk"           = list("2"    =      /obj/items/key/pentakill_key,

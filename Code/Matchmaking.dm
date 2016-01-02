@@ -21,7 +21,7 @@ area/hogwarts/Duel_Arenas/Matchmaking
 
 		if(isplayer(Obj))
 			var/mob/Player/p = Obj
-			if(p.level < lvlcap || (p.ckey in competitiveBans)) return
+			if(p.level < lvlcap || (p.ckey in worldData.competitiveBans)) return
 			p.client.screen += new /obj/hud/Find_Duel
 
 
@@ -30,7 +30,7 @@ area/hogwarts/Duel_Arenas/Matchmaking
 
 		if(isplayer(Obj))
 			var/mob/Player/p = Obj
-			if(!p.client || p.level < lvlcap || (p.ckey in competitiveBans)) return
+			if(!p.client || p.level < lvlcap || (p.ckey in worldData.competitiveBans)) return
 
 			var/obj/hud/Find_Duel/o = locate(/obj/hud/Find_Duel) in p.client.screen
 			if(o)
@@ -135,10 +135,10 @@ matchmaking
 		addQueue(mob/Player/p)
 			if(!queue) queue = list()
 
-			if(!(p.ckey  in skill_rating)) skill_rating[p.ckey]  = new /skill_stats
+			if(!(p.ckey  in worldData.playersData)) worldData.playersData[p.ckey]  = new /PlayerData
 
-			var/skill_stats/s = skill_rating[p.ckey]
-			queue[p] = s.rating
+			var/PlayerData/s = worldData.playersData[p.ckey]
+			queue[p] = s.mmRating
 
 			if(!matchmaking && queue.len >= 2)
 				matchmaking = TRUE
@@ -245,31 +245,29 @@ matchmaking
 						p2 << errormsg("You were removed from the matchmaking queue because you failed to accept.")
 
 		reward(team/winTeam, team/loseTeam)
-			var/skill_stats/winner = skill_rating[winTeam.id]
-			var/skill_stats/loser  = skill_rating[loseTeam.id]
+			var/PlayerData/winner = worldData.playersData[winTeam.id]
+			var/PlayerData/loser  = worldData.playersData[loseTeam.id]
 
 			winner.name = winTeam.name
 			loser.name  = loseTeam.name
 
-			winner.wins++
+			winner.mmWins++
 
 			var/origRank
-			if(winTeam.player && winner.wins > WINS_REQ)
+			if(winTeam.player && winner.mmWins > WINS_REQ)
 				origRank = getSkillGroup(winTeam.id)
 
-			var/winnerExpectedScore = 1 / (1 + 10 ** ((loser.rating  - winner.rating) / 400))
-			var/loserExpectedScore  = 1 / (1 + 10 ** ((winner.rating - loser.rating)  / 400))
+			var/winnerExpectedScore = 1 / (1 + 10 ** ((loser.mmRating  - winner.mmRating) / 400))
+			var/loserExpectedScore  = 1 / (1 + 10 ** ((winner.mmRating - loser.mmRating)  / 400))
 
-			winner.rating = round(winner.rating + winner.getFactor() * (1 - winnerExpectedScore), 1)
-			loser.rating  = round(loser.rating  + loser.getFactor()  * (0 - loserExpectedScore), 1)
-			loser.rating  = max(100, loser.rating)
+			winner.mmRating = round(winner.mmRating + winner.getFactor() * (1 - winnerExpectedScore), 1)
+			loser.mmRating  = round(loser.mmRating  + loser.getFactor()  * (0 - loserExpectedScore), 1)
+			loser.mmRating  = max(100, loser.mmRating)
 
-			loser.time  = world.realtime
-			winner.time = world.realtime
+			loser.mmTime  = world.realtime
+			winner.mmTime = world.realtime
 
-			bubblesort_by_value(skill_rating, "rating", TRUE)
-
-			if(winner.wins == WINS_REQ)
+			if(winner.mmTime == WINS_REQ)
 				Players << infomsg("<b>Matchmaking:</b> [winTeam.name] is now ranked!")
 			else if(origRank)
 				var/rank = getSkillGroup(winTeam.id)
@@ -281,7 +279,7 @@ matchmaking
 					p.addExp(20000)
 					if(prob(15))
 						var/prize
-						if(loser.rating > 600 && winner.rating > 600 && prob(30))
+						if(loser.mmRating > 600 && winner.mmRating > 600 && prob(30))
 							prize = pick(/obj/items/chest/wizard_chest,
 							             /obj/items/chest/duel_chest,
 							             /obj/items/chest/basic_chest,
@@ -665,32 +663,39 @@ obj
 
 var/list/skill_rating
 
+PlayerData
+	var
+		mmWins   = 0
+		mmRating = START_RATING
+		mmTime
+
+	proc
+		getFactor()
+			if(mmWins >= WINS_REQ) return 32
+			return 48
+
 skill_stats
 	var/wins   = 0
 	var/rating = START_RATING
 	var/name
 	var/time
 
-	proc
-		getFactor()
-			if(wins >= WINS_REQ) return 32
-			return 48
 
 proc
 	getSkillGroup(var/ckey)
-		var/skill_stats/s = skill_rating[ckey]
+		var/PlayerData/s = worldData.playersData[ckey]
 
-		if(s && s.wins >= WINS_REQ && world.realtime - s.time <= 12096000)
-			var/pos = skill_rating.Find(ckey, skill_rating.len - 2)
-			if(s.rating >= 1800 && pos) return "<font color=#9f0419>Champion</font>"
-			if(s.rating >= 1600) return "<font color=#aa2fbd>Grandmaster</font>"
-			if(s.rating >= 1400) return "<font color=#01e4ac>Master</font>"
-			if(s.rating >= 1200) return "<font color=#ff0000>Archwizard</font>"
-			if(s.rating >= 1000) return "<font color=#E5E4E2>Battlewizard</font>"
-			if(s.rating >= 800)  return "<font color=#FFD700>Wizard</font>"
-			if(s.rating >= 600)  return "<font color=#C0C0C0>Sorcerer</font>"
-			if(s.rating >= 400)  return "<font color=#CD7F32>Journeyman</font>"
-			if(s.rating >= 200)  return "Apprentice"
+		if(s && s.mmWins >= WINS_REQ && world.realtime - s.mmTime <= 12096000)
+	//		var/pos = skill_rating.Find(ckey, skill_rating.len - 2)
+	//		if(s.rating >= 1800 && pos) return "<font color=#9f0419>Champion</font>"
+			if(s.mmRating >= 1600) return "<font color=#aa2fbd>Grandmaster</font>"
+			if(s.mmRating >= 1400) return "<font color=#01e4ac>Master</font>"
+			if(s.mmRating >= 1200) return "<font color=#ff0000>Archwizard</font>"
+			if(s.mmRating >= 1000) return "<font color=#E5E4E2>Battlewizard</font>"
+			if(s.mmRating >= 800)  return "<font color=#FFD700>Wizard</font>"
+			if(s.mmRating >= 600)  return "<font color=#C0C0C0>Sorcerer</font>"
+			if(s.mmRating >= 400)  return "<font color=#CD7F32>Journeyman</font>"
+			if(s.mmRating >= 200)  return "Apprentice"
 			return "Novice"
 		return "Unranked"
 
@@ -725,7 +730,21 @@ obj/scoreboard
 
 	Click()
 		..()
-		if(skill_rating)
+		if(worldData.playersData)
+
+			var/list/people = list()
+
+			for(var/k in worldData.playersData)
+				if(k in worldData.competitiveBans) continue
+
+				var/PlayerData/p = worldData.playersData[k]
+
+				if(p.mmWins < WINS_REQ) continue
+				if(world.realtime - p.mmTime > 12096000) continue
+
+				people[k] = p
+
+			bubblesort_by_value(people, "mmRating", TRUE)
 
 			var/const/SCOREBOARD_HEADER = {"<html><head><title>Season 2 Leaderboard</title><style>body
 {
@@ -766,18 +785,15 @@ tr.grey
 			var/html = {"<body><center><table align="center" class="colored"><tr><td colspan="4"><center>Season 2</center></td></tr><tr><td colspan="4"><center><br>*Note: Ranks are based on your skill rating and not just amount of wins.<br></center></td></tr><tr><td>#</td><td>Name</td><td>Rank</td><td>Wins</td></tr>"}
 			var/rankNum = 1
 			var/isWhite = TRUE
-			for(var/i = skill_rating.len to 1 step -1)
-				if(skill_rating[i] in competitiveBans) continue
-				var/skill_stats/s = skill_rating[skill_rating[i]]
-				if(s.wins < WINS_REQ) continue
-				if(world.realtime - s.time > 12096000) continue
+			for(var/i = people.len to 1 step -1)
+				var/PlayerData/s = people[people[i]]
 
 				var/seconderySkillGroup
-				if(s.rating >= 1800 && skill_rating.len - i <= 2)
-					seconderySkillGroup = " [1 + skill_rating.len - i]"
-				else if(s.rating >= 200)
-					seconderySkillGroup = " [5 - round((s.rating % 200) / 40)]"
-				html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[s.name]</td><td>[getSkillGroup(skill_rating[i])][seconderySkillGroup]</td><td>[s.wins]</td></tr>"
+			//	if(s.mmRating >= 1800 && people.len - i <= 2)
+			//		seconderySkillGroup = " [1 + people.len - i]"
+				if(s.mmRating >= 200)
+					seconderySkillGroup = " [5 - round((s.mmRating % 200) / 40)]"
+				html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[s.name]</td><td>[getSkillGroup(people[i])][seconderySkillGroup]</td><td>[s.mmWins]</td></tr>"
 				isWhite = !isWhite
 				rankNum++
 			html += "</table>"

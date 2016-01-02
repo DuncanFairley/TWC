@@ -19,7 +19,7 @@ mob
 			Talk()
 				set src in oview(3)
 				if(usr.Rank == "Minister of Magic")
-					hearers() << npcsay("Head of Finance: Hello, Minister. We currently have [ministrybank] gold.")
+					hearers() << npcsay("Head of Finance: Hello, Minister. We currently have [worldData.ministrybank] gold.")
 					var/choice = input("What would you like to do?") as null|anything in list("Deposit gold","Withdraw gold","Change tax rate")
 					switch(choice)
 						if("Deposit gold")
@@ -27,25 +27,25 @@ mob
 							if(!amount)return
 							if(usr.gold.get() >= amount && amount > 0)
 								hearers() << npcsay("Head of Finance: I've placed the [amount] gold into the account.")
-								ministrybank += amount
+								worldData.ministrybank += amount
 								usr.gold.add(-amount)
 							else
 								hearers() << npcsay("Head of Finance: You don't have that much gold.")
 						if("Withdraw gold")
-							var/amount = input("How much would you like to withdraw?",,ministrybank) as null|num
+							var/amount = input("How much would you like to withdraw?",,worldData.ministrybank) as null|num
 							if(!amount)return
-							if(amount <= ministrybank && amount > 0)
+							if(amount <= worldData.ministrybank && amount > 0)
 								hearers() << npcsay("Head of Finance: Here is the [amount] gold.")
-								ministrybank -= amount
+								worldData.ministrybank -= amount
 								usr.gold.add(amount)
 							else
 								hearers() << npcsay("Head of Finance: There isn't that much gold in the ministry account.")
 
 						if("Change tax rate")
-							var/newtaxrate = input("What will the new taxrate be? (%)","New Tax Rate",taxrate) as null|num
+							var/newtaxrate = input("What will the new taxrate be? (%)","New Tax Rate",worldData.taxrate) as null|num
 							if(!newtaxrate)return
-							taxrate = newtaxrate
-							hearers() << npcsay("Head of Finance: The tax rate is now [taxrate]%.")
+							worldData.taxrate = newtaxrate
+							hearers() << npcsay("Head of Finance: The tax rate is now [worldData.taxrate]%.")
 				else
 					hearers() << npcsay("Head of Finance: Unfortunately, I can only discuss the finances of the Ministry with the Minister.")
 /obj/ministrybox

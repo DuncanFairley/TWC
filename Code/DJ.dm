@@ -4,19 +4,18 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-var/list/DJs
 
 mob/GM/verb/Hire_DJ(var/k as text)
 	set category = "DJ"
 	if(!k || k == "")return
 	k = ckey(k)
-	if(!DJs)
-		DJs = list()
+	if(!worldData.DJs)
+		worldData.DJs = list()
 
-	if(k in DJs)
+	if(k in worldData.DJs)
 		usr << infomsg("[k] is already hired.")
 	else
-		DJs += k
+		worldData.DJs += k
 		src << infomsg("You hired [k].")
 
 		for(var/mob/Player/p in Players)
@@ -25,11 +24,11 @@ mob/GM/verb/Hire_DJ(var/k as text)
 				isDJ(p)
 				break
 
-mob/GM/verb/Fire_DJ(var/k in DJs)
+mob/GM/verb/Fire_DJ(var/k in worldData.DJs)
 	set category = "DJ"
 	if(!k)return
-	DJs -= k
-	if(!DJs.len) DJs = null
+	worldData.DJs -= k
+	if(!worldData.DJs.len) worldData.DJs = null
 	src << infomsg("You fired [k].")
 
 	for(var/mob/Player/p in Players)
@@ -39,7 +38,7 @@ mob/GM/verb/Fire_DJ(var/k in DJs)
 
 proc/isDJ(mob/Player/p)
 
-	if(DJs && (p.ckey in DJs))
+	if(worldData.DJs && (p.ckey in worldData.DJs))
 		p.verbs += /mob/GM/verb/Toggle_TWC_Radio
 		p.verbs += /mob/GM/verb/Prize_Draw
 	else if(!(locate(/mob/GM/verb/GM_chat) in p.verbs))

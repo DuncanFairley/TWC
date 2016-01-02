@@ -13,6 +13,7 @@
 #define FILE_DIR "Icons/items/wearables"
 #define FILE_DIR "Icons/items/wearables/brooms"
 #define FILE_DIR "Icons/items/wearables/hats"
+#define FILE_DIR "Icons/items/wearables/masks"
 #define FILE_DIR "Icons/items/wearables/scarves"
 #define FILE_DIR "Icons/items/wearables/shoes"
 #define FILE_DIR "Icons/items/wearables/wands"

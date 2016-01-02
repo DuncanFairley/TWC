@@ -91,12 +91,13 @@ Event
 				RandomizeShop()
 				rewardExpWeek()
 
-				for(var/ckey in reputations)
-					var/reputation/rep = reputations[ckey]
+				// rep/fame decay
+				for(var/ckey in worldData.playersData)
+					var/PlayerData/p = worldData.playersData[ckey]
 
-					if(abs(rep.rating) <= 200) continue
+					if(abs(p.fame) <= 200) continue
 
-					rep.rating -= round(rep.rating / 10)
+					p.fame -= round(p.fame / 10)
 
 	RandomEvents
 		fire()
@@ -156,7 +157,7 @@ atom/var/TransLastIconState
 atom/proc/findStatusEffect(var/type)
 	return src.LStatusEffects ? locate(type) in src.LStatusEffects : 0
 proc/issafezone(area/A)
-		return safemode && !A.safezoneoverride && (!istype(A,/area/hogwarts/Duel_Arenas) && (istype(A,/area/hogwarts) || istype(A,/area/Diagon_Alley)))
+		return safemode && !A.safezoneoverride && (!istype(A,/area/hogwarts/Duel_Arenas) && (istype(A,/area/hogwarts) || istype(A,/area/Diagon_Alley)|| istype(A,/area/safezone)))
 proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inarena=1,var/insafezone=1,var/inhogwarts=1,var/mob/Player/target=null,var/mpreq=0,var/againstocclumens=1,var/againstflying=1,var/againstcloaked=1,var/projectile=0,var/antiTeleport=0)
 	//Returns 1 if you can use the item/cast the spell. Also handles the printing of messages if you can't.
 	if(!M.loc)
@@ -290,6 +291,7 @@ StatusEffect
 	DepulsoText
 	DisableProjectiles
 	KilledPlayer
+	KilledPlayerQuest
 	UsedRepel
 	UsedRiddikulus
 	UsedGMHelp

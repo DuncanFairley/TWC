@@ -1213,12 +1213,26 @@ mob
 						as file
 
 				if("list")
-					variable = input("Which?","Var") as null|anything in O.vars[variable]
-					if(!variable) return
-					if(istype(variable,/datum))
-						spawn() Edit(variable)
+					var/list/l = O.vars[variable]
+					var/v = input("Which?","Count: [l.len]") as null|anything in l
+					if(!v) return
+					if(istype(v,/datum))
+						spawn() Edit(v)
+					else if(istext(v))
+						if(l[v])
+							if(istype(l[v],/datum))
+								spawn() Edit(l[v])
+							else if(isnum(l[v]))
+								l[v] = input("Enter new number:","Num",\
+									l[v]) as num
+							else if(istext(l[v]))
+								l[v] = input("Enter new text:","Text",\
+									l[v]) as text
+					else if(isnum(v))
+						v = input("Enter new number:","Num", v) as num
+
 					else
-						usr << "You can't edit this."
+						usr << "Can't edit"
 
 
 				if("icon")
@@ -1386,7 +1400,17 @@ mob/GM
 	verb
 		Reset_Matchmaking()
 			if(alert(src, "Are you sure you want to reset matchmaking?", "Reset Matchmaking Scoreboard", "Yes", "No") == "Yes")
-				skill_rating = list()
+
+				for(var/k in worldData.playersData)
+					var/PlayerData/p = worldData.playersData[k]
+
+					if(abs(p.fame) < 10)
+						worldData.playersData -= k
+					else
+						p.mmWins   = initial(p.mmWins)
+						p.mmRating = initial(p.mmRating)
+						p.mmTime   = initial(p.mmTime)
+
 				src << infomsg("Competitive Matchmaking scoreboard deleted.")
 		Check_Inactivity(mob/M in Players)
 			set category = "Staff"
@@ -1459,16 +1483,16 @@ mob/GM
 
 		Add_Prize(var/path in (typesof(/obj/items)-/obj/items))
 			set category="Staff"
-			if(!prizeItems) prizeItems = list()
+			if(!worldData.prizeItems) worldData.prizeItems = list()
 
-			prizeItems += path
+			worldData.prizeItems += path
 			src << infomsg("[path] added to prize list.")
 
-		Remove_Prize(var/path in prizeItems)
+		Remove_Prize(var/path in worldData.prizeItems)
 			set category="Staff"
-			prizeItems -= path
+			worldData.prizeItems -= path
 
-			if(!prizeItems.len) prizeItems = null
+			if(!worldData.prizeItems.len) worldData.prizeItems = null
 
 			src << infomsg("[path] removed from prize list.")
 
@@ -1498,13 +1522,13 @@ mob/GM
 
 
 					if("Rare Item")
-						if(!prizeItems)
+						if(!worldData.prizeItems)
 							src << errormsg("No rare items to give.")
 							return
 
-						var/i = pick(prizeItems)
-						prizeItems -= i
-						if(!prizeItems.len) prizeItems = null
+						var/i = pick(worldData.prizeItems)
+						worldData.prizeItems -= i
+						if(!worldData.prizeItems.len) worldData.prizeItems = null
 
 						var/obj/items/item_prize = new i (p)
 						p.Resort_Stacking_Inv()
@@ -1544,9 +1568,9 @@ mob/GM
 			set category = "Staff"
 			k = ckey(k)
 			if(!k || k == "") return
-			if(!competitiveBans) competitiveBans = list()
+			if(!worldData.competitiveBans) worldData.competitiveBans = list()
 
-			if(!(k in competitiveBans)) competitiveBans += k
+			if(!(k in worldData.competitiveBans)) worldData.competitiveBans += k
 			src << infomsg("[k] is now banned from competitive matchmaking.")
 
 			for(var/mob/Player/p in Players)
@@ -1562,14 +1586,12 @@ mob/GM
 						p.client.screen -= d
 					break
 
-		Competitive_Unban(var/k in competitiveBans)
+		Competitive_Unban(var/k in worldData.competitiveBans)
 			set category = "Staff"
 
-			competitiveBans -= k
+			worldData.competitiveBans -= k
 			src << infomsg("[k] is now unbanned from competitive matchmaking.")
 
-var/list/competitiveBans
-var/list/prizeItems
 
 var
 	crban_bannedmsg="<font color=red><big><tt>You're banned.</tt></big></font>"

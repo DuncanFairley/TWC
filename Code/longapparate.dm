@@ -4,7 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-var/list/ministrybanlist = list()
+
 obj
 	ministrytable
 		icon = 'Tables.dmi'
@@ -31,10 +31,10 @@ obj
 					return
 				switch(choice)
 					if("Change tax rate")
-						var/newtaxrate = input("What will the new taxrate be? (%)","New Tax Rate",taxrate) as null|text
+						var/newtaxrate = input("What will the new taxrate be? (%)","New Tax Rate",worldData.taxrate) as null|text
 						if(!newtaxrate)return
-						taxrate = newtaxrate
-						usr << "The tax rate is now [taxrate]"
+						worldData.taxrate = newtaxrate
+						usr << "The tax rate is now [worldData.taxrate]"
 					if("Make Ministry-wide announcement")
 						var/announcement = input("What would you like to announce to anyone in the Ministry of Magic's premises?") as null|text
 						if(!announcement)return
@@ -60,10 +60,10 @@ obj
 						var/mob/M = input("Who would you like to ban from using the Ministry's entrance?") as null|mob in Players
 						if(!M)return
 						usr << "[M] is now banned from entering the Ministry of Magic."
-						ministrybanlist.Remove(M.name)
-						ministrybanlist.Add(M.name)
+						worldData.ministrybanlist.Remove(M.name)
+						worldData.ministrybanlist.Add(M.name)
 					if("Unban person")
-						var/M = input("Who would you like to unban from using the Ministry's entrance?") as null|anything in ministrybanlist
+						var/M = input("Who would you like to unban from using the Ministry's entrance?") as null|anything in worldData.ministrybanlist
 						if(!M)return
-						ministrybanlist.Remove(M)
+						worldData.ministrybanlist.Remove(M)
 						usr << "[M] is now unbanned from entering the Ministry of Magic."

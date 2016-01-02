@@ -2,6 +2,8 @@
 #define REMOVED 2
 
 
+var/const/REP_FACTOR = 100
+
 var/list/reputations
 
 reputation
@@ -9,38 +11,83 @@ reputation
 	var/name
 	var/time
 
+PlayerData
+	var
+		fame
+
+		name
+		time
+
+
+
+	proc
+		tierToFame(t)
+			return 100 * t * (t + 1)
+
+		fametoTier()
+			var/r = abs(fame) - 1
+
+			if(r >= 7200) return 8
+
+			var/tier = (sqrt((REP_FACTOR*REP_FACTOR) + (4*REP_FACTOR*r))-REP_FACTOR)/(REP_FACTOR*2)
+
+			return round(tier)
+
+		getRep()
+			var/r = abs(fame)
+
+			if(r <= 200) return r
+
+			return r - tierToFame(fametoTier())
+
 proc/initRep(var/ckey)
 
-	if(!reputations) reputations = list()
+	if(!worldData.playersData) worldData.playersData = list()
 
-	var/reputation/r = reputations[ckey]
-	if(!r)
-		r = new
-		reputations[ckey] = r
-	return r
+	var/PlayerData/p = worldData.playersData[ckey]
+	if(!p)
+		p = new
+		worldData.playersData[ckey] = p
+	return p
 
 mob/Player/proc
 
+	getRep(trim = 0)
+		var/PlayerData/r = initRep(ckey)
 
-	getRep()
-		var/reputation/r = initRep(ckey)
-		return r.rating
+		return trim ? r.getRep() : r.fame
 
-	addRep(var/p = 0, silent = 0)
-		var/reputation/r = initRep(ckey)
-		r.rating += p
-		r.time = world.realtime
+	addRep(var/p = 0, silent = 0, max = 1)
+		var/PlayerData/r = initRep(ckey)
 
-		if(pname)
-			r.name = pname
-		else if(prevname)
-			r.name = prevname
-		else
-			r.name = name
+		if(max)
 
-		if(!silent)
-			src << infomsg("You gained [abs(p)] [p > 0 ? "peace" : "chaos"] reputation.")
-		return r.rating
+			var/tier
+
+			if(p < 0 && r.fame > 0)      tier = 1
+			else if(p > 0 && r.fame < 0) tier = 1
+			else                         tier = r.fametoTier() + 1
+
+			var/max_rep = r.tierToFame(tier) * (p > 0 ? 1 : -1)
+
+			if((p > 0 && r.fame + p >= max_rep) || (p < 0 && r.fame + p <= max_rep))
+				p = max_rep - r.fame
+
+		if(p != 0)
+			r.fame += p
+			r.time = world.realtime
+
+			if(pname)
+				r.name = pname
+			else if(prevname)
+				r.name = prevname
+			else
+				r.name = name
+
+			if(!silent)
+				src << infomsg("You gained [abs(p)] [p > 0 ? "peace" : "chaos"] reputation.")
+
+		return r.fame
 
 clan
 	var/points = 0
@@ -145,13 +192,13 @@ proc/getRepRank(var/rating)
 
 	rating = abs(rating)
 
-	if(rating > 4000) return "<font color=#9f0419>Legend</font>"
-	if(rating > 3200) return "<font color=#aa2fbd>Grand Master</font>"
-	if(rating > 2500) return "<font color=#01e4ac>Lord</font>"
-	if(rating > 1900) return "<font color=#ff0000>Master</font>"
-	if(rating > 1400) return "<font color=#E5E4E2>Respected Warrior</font>"
-	if(rating > 900)  return "<font color=#FFD700>Warrior</font>"
-	if(rating > 500)  return "<font color=#C0C0C0>Disciple</font>"
+	if(rating > 7200) return "<font color=#9f0419>Legend</font>"
+	if(rating > 5600) return "<font color=#aa2fbd>Grand Master</font>"
+	if(rating > 4200) return "<font color=#01e4ac>Lord</font>"
+	if(rating > 3000) return "<font color=#ff0000>Master</font>"
+	if(rating > 2000) return "<font color=#E5E4E2>Respected Warrior</font>"
+	if(rating > 1200) return "<font color=#FFD700>Warrior</font>"
+	if(rating > 600)  return "<font color=#C0C0C0>Disciple</font>"
 	if(rating > 200)  return "<font color=#CD7F32>Initiate</font>"
 	return "Neutral"
 
@@ -161,8 +208,20 @@ obj/rep_scoreboard
 	var/peace = 1
 	Click()
 		..()
-		if(expScoreboard)
-			bubblesort_by_value(reputations, "rating", TRUE)
+		if(worldData.playersData)
+
+			var/list/people = list()
+
+			for(var/k in worldData.playersData)
+				var/PlayerData/p = worldData.playersData[k]
+
+				if(world.realtime - p.time > 12096000) continue
+
+				if((peace && p.fame > 100) || (!peace && p.fame < -100))
+					people[p.name] = p
+
+
+			bubblesort_by_value(people, "fame", TRUE)
 			var/const/SCOREBOARD_HEADER = {"<html><head><title>Reputation Leaderboard</title><style>body
 {
 	background-color:#FAFAFA;
@@ -202,13 +261,11 @@ tr.grey
 			var/html = {"<body><center><table align="center" class="colored"><tr><td colspan="3"><center>[peace ? "Peace" : "Chaos"] Reputation Leaderboard</center></td></tr><tr><td>#</td><td>Name</td><td>Rank</td></tr>"}
 			var/rankNum = 1
 			var/isWhite = TRUE
-			for(var/i = (peace ? reputations.len : 1) to (peace ? 1 : reputations.len) step (peace ? -1 : 1))
+			for(var/i = (peace ? people.len : 1) to (peace ? 1 : people.len) step (peace ? -1 : 1))
 
-				var/reputation/r = reputations[reputations[i]]
-				if(abs(r.rating) < 100) break
-				if(world.realtime - r.time > 12096000) continue
+				var/PlayerData/p = people[people[i]]
 
-				html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[r.name]</td><td>[getRepRank(r.rating)] ([abs(r.rating)])</td></tr>"
+				html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[p.name]</td><td>[getRepRank(p.fame)] ([p.getRep()])</td></tr>"
 				isWhite = !isWhite
 				rankNum++
 			html += "</table>"

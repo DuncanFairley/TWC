@@ -11,9 +11,40 @@ mob/TalkNPC/quest
 			..()
 			GenerateIcon(src, wig = 0, shoes = 1, scarf = 1)
 
+
 		Peace_Vampire
 			icon = 'MaleVampire.dmi'
 			questPointers = "Preserve Peace \[Daily]"
+
+			Peace_Vampire_Lord
+				questPointers = "Preserve Peace \[Rank Up]"
+
+				questStart(mob/Player/i_Player, questName)
+
+					var/PlayerData/r = worldData.playersData[i_Player.ckey]
+
+					var/max_rep = r.tierToFame(r.fametoTier() + 1)
+
+					if(r.fame >= max_rep)
+						..(i_Player, questName)
+					else
+						var/ScreenText/s = new(i_Player, src)
+						s.AddText("Who the hell are you, why do you dare show your face before me.")
+
+				questOngoing(mob/Player/i_Player, questName)
+					.=..(i_Player, questName)
+
+					if(.)
+						var/obj/items/wearable/masks/peace_mask/peace = locate() in i_Player
+						var/obj/items/wearable/masks/peace_mask/chaos = locate() in i_Player
+
+						if(chaos)
+							chaos.Dispose()
+							i_Player << errormsg("Your chaos mask was taken from you.")
+
+						if(!peace)
+							peace = new(i_Player)
+							i_Player << infomsg("You were given a peace mask.")
 
 			questStart(mob/Player/i_Player, questName)
 
@@ -41,6 +72,37 @@ mob/TalkNPC/quest
 		Chaos_Vampire
 			icon = 'MaleVampire.dmi'
 			questPointers = "Spread Chaos \[Daily]"
+
+			Chaos_Vampire_Lord
+				questPointers = "Spread Chaos \[Rank Up]"
+
+				questStart(mob/Player/i_Player, questName)
+
+					var/PlayerData/r = worldData.playersData[i_Player.ckey]
+
+					var/max_rep = r.tierToFame(r.fametoTier() + 1)
+
+					if(r.fame <= -max_rep)
+
+						..(i_Player, questName)
+					else
+						var/ScreenText/s = new(i_Player, src)
+						s.AddText("Who the hell are you, why do you dare show your face before me.")
+
+				questOngoing(mob/Player/i_Player, questName)
+					.=..(i_Player, questName)
+
+					if(.)
+						var/obj/items/wearable/masks/peace_mask/peace = locate() in i_Player
+						var/obj/items/wearable/masks/peace_mask/chaos = locate() in i_Player
+
+						if(peace)
+							peace.Dispose()
+							i_Player << errormsg("Your peace mask was taken from you.")
+						if(!chaos)
+							chaos = new(i_Player)
+							i_Player << infomsg("You were given a chaos mask.")
+
 
 			questStart(mob/Player/i_Player, questName)
 

@@ -187,9 +187,8 @@ mob/TalkNPC/quest/Tom
 				usr << npcsay("Tom: Seeya later then.")
 
 mob/test/verb/MagicEyes()
-	alert("There are currently [magicEyesLeft] magic eyes left at Divo.")
-	magicEyesLeft = input("How many would you like there to be?",,magicEyesLeft) as num
-var/magicEyesLeft = 10
+	alert("There are currently [worldData.magicEyesLeft] magic eyes left at Divo.")
+	worldData.magicEyesLeft = input("How many would you like there to be?",,worldData.magicEyesLeft) as num
 
 mob/TalkNPC/Divo
 	icon_state="divo"
@@ -201,11 +200,11 @@ mob/TalkNPC/Divo
 		var/obj/selecteditem
 		var/selectedprice
 		var/itemlist
-		if(magicEyesLeft)
+		if(worldData.magicEyesLeft)
 			itemlist = list("Magical Eye 10,000,000g","Invisibility Cloak 9000g")
 		else
 			itemlist = list("Invisibility Cloak 9000g")
-		switch(input("Divo: Hi there! Welcome to Divo's Magical Wares. [magicEyesLeft ? "I've got a limited supply of these ultra rare magical eyes. They let you see invisible people. Very powerful stuff. I'm only going to sell a limited amount though, otherwise my cloak business would be pointless wouldn't it? I have [magicEyesLeft] left." : ""]","You have [comma(usr.gold)] gold")as null|anything in itemlist)
+		switch(input("Divo: Hi there! Welcome to Divo's Magical Wares. [worldData.magicEyesLeft ? "I've got a limited supply of these ultra rare magical eyes. They let you see invisible people. Very powerful stuff. I'm only going to sell a limited amount though, otherwise my cloak business would be pointless wouldn't it? I have [worldData.magicEyesLeft] left." : ""]","You have [comma(usr.gold)] gold")as null|anything in itemlist)
 			if("Magical Eye 10,000,000g")
 				selecteditem = /obj/items/wearable/magic_eye
 				selectedprice = 10000000
@@ -219,9 +218,9 @@ mob/TalkNPC/Divo
 			usr<< npcsay("Divo: I'm running a business here - you don't have enough gold for this.")
 		else
 			if(selecteditem == /obj/items/wearable/magic_eye)
-				magicEyesLeft--
+				worldData.magicEyesLeft--
 			usr.gold.add(-selectedprice)
-			ministrybank += taxrate*selectedprice/100
+			worldData.ministrybank += worldData.taxrate*selectedprice/100
 			new selecteditem(usr)
 			usr << npcsay("Divo: Thank you.")
 			usr:Resort_Stacking_Inv()
@@ -249,7 +248,7 @@ mob/TalkNPC/Blotts
 			usr << npcsay("Blotts: Unfortunately you don't have enough for this book - it's [selectedprice]g.")
 		else
 			usr.gold.add(-selectedprice)
-			ministrybank += taxrate*selectedprice/100
+			worldData.ministrybank += worldData.taxrate*selectedprice/100
 			new selecteditem(usr)
 			usr << npcsay("Blotts: Thanks very much for your business!")
 			usr:Resort_Stacking_Inv()
@@ -279,7 +278,7 @@ mob/TalkNPC/Ollivander
 							if(usr.gold.get()>=100)
 								view(7,Olli) << "[nametext] Here's your new [wandname], [usr]!"
 								usr.gold.add(-100)
-								ministrybank += taxrate*100/100
+								worldData.ministrybank += worldData.taxrate*100/100
 								var/obj/newwand
 								switch(wood)
 									if("Birch")
@@ -384,7 +383,7 @@ mob/TalkNPC/Ollivander
 									if(usr.gold.get()>=100)
 										view(7,Olli) << "[nametext] Here's your new [wandname], [usr]!"
 										usr.gold.add(-100)
-										ministrybank += taxrate*100/100
+										worldData.ministrybank += worldData.taxrate*100/100
 										var/obj/newwand
 										switch(wood)
 											if("Birch")
@@ -528,7 +527,7 @@ mob/TalkNPC/Broom_Salesman
 			usr << npcsay("Chrono: Unfortunately you don't have enough for this broom - it's [selectedprice]g.")
 		else
 			usr.gold.add(-selectedprice)
-			ministrybank += taxrate*selectedprice/100
+			worldData.ministrybank += worldData.taxrate*selectedprice/100
 			new selecteditem(usr)
 			usr << npcsay("Chrono: Thanks very much for your business, and be careful on the pitch!")
 			usr:Resort_Stacking_Inv()
@@ -700,7 +699,7 @@ obj/shop
 						new i.type (usr)
 						usr << infomsg("You bought [i] for [comma(actualPrice)] gold.")
 						usr.gold.add(-actualPrice)
-						ministrybank += taxrate*actualPrice/100
+						worldData.ministrybank += worldData.taxrate*actualPrice/100
 						usr:Resort_Stacking_Inv()
 
 						for(var/mob/Player/p in usr.loc)
@@ -737,8 +736,17 @@ var/list/shops = list("malewigshop" = newlist(
 						/obj/items/wearable/wigs/female_purple_wig,
 						/obj/items/wearable/wigs/female_silver_wig),
 
+					  "peace" = newlist(
+					  	/obj/items/spellbook/peace),
+
+					  "chaos" = newlist(
+					  	/obj/items/spellbook/blood),
+
 					  "random" = list()
 					)
+
+obj/items/spellbook/peace/price = 666
+obj/items/spellbook/blood/price = -666
 
 mob/TalkNPC/Vault_Salesman
 	icon_state="goblin1"
@@ -760,7 +768,7 @@ mob/TalkNPC/Vault_Salesman
 	Talk()
 		set src in oview(2)
 
-		if(!(usr.ckey in global.globalvaults) || !fexists("[swapmaps_directory]/map_[usr.ckey].sav"))
+		if(!(usr.ckey in worldData.globalvaults) || !fexists("[swapmaps_directory]/map_[usr.ckey].sav"))
 			usr << npcsay("Vault Salesman: Please go talk to the vault master before coming to me.")
 			return
 
@@ -772,7 +780,7 @@ mob/TalkNPC/Vault_Salesman
 		var/selectedvault = itemlist[index][1]
 		var/selectedprice = itemlist[index][2]
 
-		var/vault/v = global.globalvaults[usr.ckey]
+		var/vault/v = worldData.globalvaults[usr.ckey]
 		if(v.tmpl == selectedvault)
 			usr << npcsay("[name]: You already have this exact same vault.")
 		else
@@ -793,7 +801,7 @@ mob/TalkNPC/Vault_Salesman
 			else
 				if(usr:change_vault(selectedvault))
 					usr.gold.add(-selectedprice * 100000)
-					ministrybank += taxrate*selectedprice*1000
+					worldData.ministrybank += worldData.taxrate*selectedprice*1000
 
 					for(var/obj/items/o in artifacts)
 						selectedprice -= o.stack
@@ -866,7 +874,7 @@ mob/TalkNPC/Artifacts_Salesman
 			usr << npcsay("[name]: I'm running a business here - you can't afford this.")
 		else
 			usr.gold.add(-selectedprice * 100000)
-			ministrybank += taxrate*selectedprice*1000
+			worldData.ministrybank += worldData.taxrate*selectedprice*1000
 			new selecteditem (usr)
 			for(var/obj/items/o in artifacts)
 				selectedprice -= o.stack
