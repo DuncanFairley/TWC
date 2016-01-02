@@ -333,9 +333,9 @@ mob/TalkNPC
 
 			var/ScreenText/s = new(usr, src)
 
-			if(abs(rating) > 1201 + 1000)
+			if(p.getRep(1) >= 800)
 
-				s.AddText("Hey, I can help you wipe your past sins (player kills/deaths) but be warned, you will be less famous if you do so (1,500 reputation).")
+				s.AddText("Hey, I can help you wipe your past sins (player kills/deaths) but be warned, you will be less famous if you do so (800 reputation).")
 				s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
 				if(s.Wait())
 					s.AddButtons("OK", null, 0,0,0,0)
@@ -344,9 +344,9 @@ mob/TalkNPC
 						p.pkills  = 0
 
 						if(rating > 0)
-							p.addRep(-1000)
+							p.addRep(-800)
 						else
-							p.addRep(1000)
+							p.addRep(800)
 
 						s.AddText("It is done, noone will know your kill/death history.")
 					else
