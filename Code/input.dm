@@ -119,11 +119,20 @@ ScreenText
 				queue += a
 
 
-		SetText(t, soundID)
+		SetText(t, soundID, animate = TRUE)
+			set waitfor = 0
+
+			if(animate)
+				displayText.Hide(5)
+				sleep(5)
+
 			displayText.maptext = "<b><font color=white>[t]</font></b>"
+
 
 			if(displayImage)
 				owner << npcsay("[displayImage.name]: [t]")
+
+			if(animate) displayText.Show(5)
 
 	//		text_shadow.maptext = "<b><font color=black>[t]</font></b>"
 
@@ -133,7 +142,7 @@ ScreenText
 		AddText(t, soundID = null)
 
 			if(displayText.maptext == null)
-				SetText(t, soundID)
+				SetText(t, soundID, FALSE)
 			else
 				if(!queue) queue = list()
 
@@ -233,9 +242,6 @@ ScreenText
 						queue = null
 
 				if(q)
-					displayText.Hide(5)
-					sleep(5)
-
 					SetText(q, queue[q])
 					queue -= q
 
@@ -244,13 +250,10 @@ ScreenText
 					else
 						process()
 
-					displayText.Show(5)
-
-
-				sleep(5)
+				sleep(10)
 				isBusy = FALSE
 
-		Wait()
+		Wait(next = TRUE)
 			isWaiting = TRUE
 
 			while(owner && !isDisposed && isWaiting)
@@ -258,7 +261,7 @@ ScreenText
 
 			if(owner)
 				if(!isWaiting)
-					spawn() Next()
+					if(next) spawn() Next()
 					return 1
 
 			else if(!isDisposed)
@@ -353,10 +356,11 @@ obj/hud
 			mouse_over_pointer = MOUSE_HAND_POINTER
 			color = "#2299d0"
 
-			alpha     = 235
-			maptext_x = 26
-			maptext_y = 6
-			layer = 20
+			alpha         = 235
+			maptext_x     = 26
+			maptext_width = 72
+			maptext_y     = 6
+			layer         = 20
 
 			var/ScreenText/parent
 
@@ -376,11 +380,13 @@ obj/hud
 					src.color  = color
 					name       = text
 
+					maptext_x = 33 - (3 * length(text))
+
 					if(invisibility) Show()
 
 			Click()
 				..()
-				if(parent)
+				if(parent && alpha == 235 && invisibility == 0)
 					parent.Next(name)
 
 		New()
@@ -410,12 +416,10 @@ obj/hud
 				set waitfor = 0
 				if(invisibility) return
 
-				var/a = alpha
-
 				animate(src, alpha = 0, time = t)
 
 				sleep(t)
-				alpha = a
+				alpha = initial(alpha)
 				invisibility = 10
 
 			Show(t = 5)
