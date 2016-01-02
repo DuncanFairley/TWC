@@ -1343,7 +1343,7 @@ obj/items/wearable/masks/peace_mask
 	dropable = 0
 
 obj/items/wearable/masks/chaos_mask
-	icon = 'mask_peace.dmi'
+	icon = 'mask_chaos.dmi'
 	dropable = 0
 
 obj/items/wearable/wigs
