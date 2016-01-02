@@ -164,7 +164,7 @@ proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inare
 		M << "<b>You cannot use this in the void.</b>"
 		return 0
 	var/area/A = M.loc.loc
-	if(M.z > SWAPMAP_Z && !inhogwarts)
+	if(M.z >= SWAPMAP_Z && !inhogwarts)
 		M << "<b>You cannot use this in a vault.</b>"
 		return 0
 	if(target && !insafezone && issafezone(target.loc.loc))
