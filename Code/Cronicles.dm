@@ -39,64 +39,68 @@ client
 world/cache_lifespan = 0
 
 mob/Player/var/lastreadDP
-var/dplastupdate
-var/lastusedAFKCheck = 0
+
+var/WorldData/worldData
+
+WorldData
+	var
+		list
+			playersData
+			expScoreboard
+			competitiveBans
+			prizeItems
+			DP
+			housepointsGSRH
+			DJs
+			dp_editors
+			stories
+			ministrybanlist
+			mailTracker
+			auctionItems
+
+			vault/globalvaults
+			customMap/customMaps
+
+		canReadBooks
+		allowGifts
+		dplastupdate
+		housecupwinner
+		lastusedAFKCheck
+
+		magicEyesLeft = 10
+		ministrypw    = "ketchup"
+		ministrybank  = 0
+		taxrate       = 0
+
+var/ministryopen = 0
+
 proc
 	Load_World()
 		var/savefile/X = new ("players/World.sav")
-		//var/list/objs=list()
-		X["canReadBooks"] >> canReadBooks
-		X["expScoreboard"] >> expScoreboard
-		X["DP"] >> DP
-		X["allowGifts"] >> allowGifts
-		X["housepoints"] >> housepointsGSRH
-		X["dplastupdate"] >> dplastupdate
-		if(X["DJs"]) X["DJs"] >> DJs
-		if(X["DPEditors"]) X["DPEditors"] >> dp_editors
-		if(X["Stories"]) X["Stories"] >> stories
-		X["ministrybanlist"] >> ministrybanlist
-		X["housecupwinner"] >> housecupwinner
-		if(!ministrybanlist)
-			ministrybanlist = new/list()
-		X["ministrybox"] >> ministrybox
-		X["ministrypw"] >> ministrypw
-		X["ministrybank"] >> ministrybank
-		X["taxrate"] >> taxrate
-		X["lastusedAFKCheck"] >> lastusedAFKCheck
-		X["magicEyesLeft"] >> magicEyesLeft
+
+		X["worldData"] >> worldData
+		if(!worldData) worldData = new
+
+		if(!worldData.ministrybanlist)
+			worldData.ministrybanlist = new/list()
 		//X["promicons"] >> promicons
 		if(!promicons) promicons = list()
-		X["globalvaults"] >> globalvaults
-		X["customMaps"] >> customMaps
-		X["mailTracker"] >> mailTracker
-		X["auctionItems"] >> auctionItems
-		if(!customMaps) customMaps = list()
-		if(!globalvaults) globalvaults = list()
-		if(magicEyesLeft == null)
-			magicEyesLeft = 10
+		if(!worldData.customMaps) worldData.customMaps = list()
+		if(!worldData.globalvaults) worldData.globalvaults = list()
+		if(worldData.magicEyesLeft == null)
+			worldData.magicEyesLeft = 10
 		if(ministrybox)
 			ministrybox.loc = locate(ministrybox.lastx,ministrybox.lasty,ministrybox.lastz)
-		//X["objs"] >> objs
-
-		/*for(var/obj/O in objs)
-			O.loc = locate(O.lastx, O.lasty, O.lastz)
-			if(istype(O,/obj/Hogwarts_Door))
-				var/obj/Hogwarts_Door/A = O
-				for(var/obj/Hogwarts_Door/H in locate(A.lastx, A.lasty, A.lastz))
-					H.pass = A.pass
-					H.bumpable = A.bumpable
-					H.door = A.door
-					del A*/
-		if(!DP)
-			DP = new/list()
-		if(!housepointsGSRH)
-			housepointsGSRH = new/list(6)
-			housepointsGSRH[1] = 0
-			housepointsGSRH[2] = 0
-			housepointsGSRH[3] = 0
-			housepointsGSRH[4] = 0
-			housepointsGSRH[5] = 0
-			housepointsGSRH[6] = 0
+		if(!worldData.DP)
+			worldData.DP = new/list()
+		if(!worldData.housepointsGSRH)
+			worldData.housepointsGSRH = new/list(6)
+			worldData.housepointsGSRH[1] = 0
+			worldData.housepointsGSRH[2] = 0
+			worldData.housepointsGSRH[3] = 0
+			worldData.housepointsGSRH[4] = 0
+			worldData.housepointsGSRH[5] = 0
+			worldData.housepointsGSRH[6] = 0
 
 		var/list/cw
 		X["ClanWars"] >> cw
@@ -116,22 +120,10 @@ proc
 						var/list/l = split(class, " - ")
 						add_autoclass(l[1], l[2])
 
-		X["skill_rating"] >> skill_rating
-		if(!skill_rating) skill_rating = list()
-
-		X["reputations"] >> reputations
-		if(!reputations) reputations = list()
-
-		X["competitiveBans"] >> competitiveBans
-		X["prizeItems"] >> prizeItems
-
 	Save_World()
 		fdel("players/World.sav")
 		var/savefile/X = new("players/World.sav")
 		//var/list/objs=list()
-
-		X["canReadBooks"] << canReadBooks
-		X["expScoreboard"] << expScoreboard
 
 		var/list/cw = list()
 		for(var/e in clanwars_schedule)
@@ -140,51 +132,17 @@ proc
 		var/list/classes = list()
 		for(var/e in autoclass_schedule)
 			classes += e
-		X["competitiveBans"] << competitiveBans
-		X["prizeItems"] << prizeItems
-		X["skill_rating"] << skill_rating
-		X["reputations"] << reputations
+
+		X["worldData"] << worldData
 		X["ClanWars"] << cw
 		X["AutoClasses"] << classes
-		X["DJs"] << DJs
-		X["DPEditors"] << dp_editors
-		X["Stories"] << stories
-		X["DP"] << DP
-		X["housepoints"] << housepointsGSRH
-		X["dplastupdate"] << dplastupdate
-		X["housecupwinner"] << housecupwinner
-		X["ministrybanlist"] << ministrybanlist
-		X["ministrypw"] << ministrypw
-		X["ministrybank"] << ministrybank
-		X["magicEyesLeft"] << magicEyesLeft
-		X["taxrate"] << taxrate
-		X["mailTracker"] << mailTracker
-		X["auctionItems"] << auctionItems
-		X["allowGifts"] << allowGifts
-		X["lastusedAFKCheck"] << lastusedAFKCheck
-		//X["promicons"] << promicons
-		X["globalvaults"] << globalvaults
-		X["customMaps"] << customMaps
+
 		if(ministrybox)
 			ministrybox.lastx = ministrybox.x
 			ministrybox.lasty = ministrybox.y
 			ministrybox.lastz = ministrybox.z
 			X["ministrybox"] << ministrybox
-		/*for(var/obj/O in world)
-			if(istype(O,/obj/Hogwarts_Door))
-				if(O:pass)
-					O.lastx = O.x
-					O.lasty = O.y
-					O.lastz = O.z
-					objs.Add(O)
-			else if(O.dontsave)
-				continue
-			else if(O.z==21 || O.z==19)
-				O.lastx = O.x
-				O.lasty = O.y
-				O.lastz = O.z
-				objs.Add(O)
-		X["objs"] << objs*/
+
 world/Del()
 	Save_World()
 	SwapMaps_Save_All()
@@ -201,7 +159,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 19
+#define SAVEFILE_VERSION 20
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -373,6 +331,40 @@ mob
 			if(savefile_version < 19)
 				p.refundSpells2()
 
+			if(savefile_version < 20)
+
+				if(ckey in worldData.playersData)
+					var/PlayerData/r = worldData.playersData[ckey]
+
+					var/d = 0
+					if(r.fame > 200)
+						d = r.fame - 200
+						r.fame = 200
+					else if(r.fame < -200)
+						d = r.fame + 200
+						r.fame = -200
+
+					if(d > 0)
+						var/obj/items/reputation/peace_tablet/t = new
+						t.name  = "massive peace tablet"
+						t.rep   = 10
+						t.stack = max(round(d / 10, 1), 1)
+						t.Move(src)
+						t.UpdateDisplay()
+
+						src << infomsg("You were given [t.stack] massive peace tablets.")
+
+					else if(d < 0)
+						var/obj/items/reputation/chaos_tablet/t = new
+						t.name  = "massive chaos tablet"
+						t.rep   = -10
+						t.stack = max(round(abs(d) / 10, 1), 1)
+						t.Move(src)
+						t.UpdateDisplay()
+
+						src << infomsg("You were given [t.stack] massive chaos tablets.")
+
+
 			/*if(savefile_version < 99)
 				DeathEater = null
 				HA         = null
@@ -398,9 +390,9 @@ mob
 				var/turf/t = locate(last_x, last_y, last_z)
 				if(!t || t.name == "blankturf")
 					loc = locate("@Hogwarts")
-				else if(istype(t.loc, /area/DEHQ) && !DeathEater)
+				else if((istype(t.loc, /area/DEHQ) || istype(t.loc, /area/safezone/DEHQ)) && !DeathEater)
 					loc = locate("@Hogwarts")
-				else if(istype(t.loc, /area/AurorHQ) && !Auror)
+				else if((istype(t.loc, /area/AurorHQ) || istype(t.loc, /area/safezone/AurorHQ)) && !Auror)
 					loc = locate("@Hogwarts")
 				else
 					loc = t
@@ -468,7 +460,7 @@ mob
 				if(radioOnline)
 					var/obj/hud/radio/Z = new()
 					usr.client.screen += Z
-				if(src:lastreadDP < dplastupdate)
+				if(src:lastreadDP < worldData.dplastupdate)
 					usr << "<font color=red>The Daily Prophet has an issue that you haven't yet read. <a href='?src=\ref[src];action=daily_prophet'>Click here</a> to view.</font>"
 				if(VERSION != src:lastversion)
 					src:lastversion = VERSION

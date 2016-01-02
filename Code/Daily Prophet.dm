@@ -47,9 +47,6 @@ var/const/dpheader = {"
 	</div>
 	"}
 
-var/list
-	DP = new
-
 mob
 	verb
 		Refer_a_friend()
@@ -59,14 +56,10 @@ mob
 			var/dphtml = ""
 			//for(var/i=DP.len, i>0, i--)
 			src:lastreadDP = world.realtime
-			for(var/i in DP)
-				dphtml = DP[i] + "<br /><hr />" + dphtml
+			for(var/i in worldData.DP)
+				dphtml = worldData.DP[i] + "<br /><hr />" + dphtml
 			dphtml = dpheader + dphtml
 			usr << browse(dphtml,"window=1;size=700x550")
-
-var/list
-	dp_editors
-	stories
 
 obj
 	DailyProphet
@@ -80,7 +73,7 @@ obj
 			var/list/actions = list("Submit a story")
 
 			if(usr.admin) actions += "Hire/Fire someone"
-			if(usr.ckey in dp_editors)
+			if(usr.ckey in worldData.dp_editors)
 				actions += "Review story"
 				actions += "Remove story"
 				actions += "Clear DP"
@@ -110,25 +103,25 @@ obj
 						var/k = input("Enter ckey/key", "Hire DP") as text|null
 						if(!k || k == "")return
 						k = ckey(k)
-						if(!dp_editors)
-							dp_editors = list()
-						if(k in dp_editors)
+						if(!worldData.dp_editors)
+							worldData.dp_editors = list()
+						if(k in worldData.dp_editors)
 							usr << infomsg("[k] is already hired.")
 						else
-							dp_editors += k
+							worldData.dp_editors += k
 							usr << infomsg("You hired [k].")
 					else if(i == "Fire")
-						var/k = input("Enter ckey/key", "Hire DP") as null|anything in dp_editors
+						var/k = input("Enter ckey/key", "Hire DP") as null|anything in worldData.dp_editors
 						if(!k)return
-						dp_editors -= k
-						if(!dp_editors.len) dp_editors = null
+						worldData.dp_editors -= k
+						if(!worldData.dp_editors.len) worldData.dp_editors = null
 						usr << infomsg("You fired [k].")
 
 				if("Clear DP")
 					clear_dp()
 					usr << "<b>All stories and headlines have been cleared.</b>"
 				if("Review story")
-					var/story/s = input("Which story?", "Review Story") as null|anything in stories
+					var/story/s = input("Which story?", "Review Story") as null|anything in worldData.stories
 					if(!s) return
 
 					if(edit_story(usr, s))
@@ -139,22 +132,22 @@ obj
 								p << "<b><font color=red>EXTRA EXTRA! The Daily Prophet has been updated! Click <a href='?src=\ref[p];action=daily_prophet'>here</a> to view."
 
 				if("Remove story")
-					var/story/s = input("Which story?", "Remove Story") as null|anything in stories
+					var/story/s = input("Which story?", "Remove Story") as null|anything in worldData.stories
 					if(!s) return
 
-					stories -= s
+					worldData.stories -= s
 
 					usr << "<b>[s] was removed.</b>"
 
 				if("Edit DP")
-					var/editstory = input("Which story do you wish to edit?") as null|anything in DP
+					var/editstory = input("Which story do you wish to edit?") as null|anything in worldData.DP
 					if(!editstory)return
-					var/changes = input("Make your changes below","Changes",DP[editstory]) as message|null
+					var/changes = input("Make your changes below","Changes",worldData.DP[editstory]) as message|null
 					if(!changes)return
 					if(lowertext(changes) == "delete")
-						DP -= editstory
+						worldData.DP -= editstory
 					else
-						DP[editstory] = changes
+						worldData.DP[editstory] = changes
 
 		proc
 			edit_story(mob/Player/p, story/s)
@@ -194,11 +187,11 @@ obj
 				var/story/s = new (message, Headline, p.name, p.ckey)
 
 				if(edit_story(p, s))
-					if(!stories) stories = list()
-					stories += s
+					if(!worldData.stories) worldData.stories = list()
+					worldData.stories += s
 
 			add_story(story/s)
-				DP[s.name] = {"
+				worldData.DP[s.name] = {"
 								<div class="subtitle">
 									[s.name]
 								</div>
@@ -208,11 +201,11 @@ obj
 								<div>
 									[s.content]
 								</div>"}
-				dplastupdate = world.realtime
-				stories -= s
+				worldData.dplastupdate = world.realtime
+				worldData.stories -= s
 
 			has_story(mob/Player/p)
-				for(var/story/s in stories)
+				for(var/story/s in worldData.stories)
 					if(s.ckey == p.ckey)
 						return 1
 						break
@@ -220,16 +213,16 @@ obj
 
 			my_stories(mob/Player/p)
 				var/list/storylist = list()
-				for(var/story/s in stories)
+				for(var/story/s in worldData.stories)
 					if(s.ckey == p.ckey)
 						storylist += s
 				return storylist
 
 			remove_story(s)
-				DP -= s
+				worldData.DP -= s
 
 			clear_dp()
-				DP = list()
+				worldData.DP = list()
 
 
 story

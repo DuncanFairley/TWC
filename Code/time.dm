@@ -92,10 +92,8 @@ mob/GM/verb
 
 	Toggle_GiftOpening()
 		set category = "Staff"
-		allowGifts = !allowGifts
-		usr << infomsg("Gifts [allowGifts ? "can" : "can't"] be opened.")
-
-var/allowGifts = 1
+		worldData.allowGifts = !worldData.allowGifts
+		usr << infomsg("Gifts [worldData.allowGifts ? "can" : "can't"] be opened.")
 
 proc
 	add_clan_wars(var/day, var/hour)

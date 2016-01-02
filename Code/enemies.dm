@@ -295,7 +295,7 @@ mob
 
 				var/rate = 1
 
-				if(killer.House == housecupwinner)
+				if(killer.House == worldData.housecupwinner)
 					rate += 0.25
 
 				var/StatusEffect/Lamps/DropRate/d = killer.findStatusEffect(/StatusEffect/Lamps/DropRate)
@@ -809,7 +809,7 @@ mob
 								fired = 1
 								spawn(30) fired = 0
 
-								if(prob(30))
+								if(prob(25))
 
 									var/hp = 0
 
@@ -824,10 +824,10 @@ mob
 
 										p << errormsg("[name] fed on your blood.")
 
-										p.HP -= 2500
+										p.HP -= 1500
 										p.Death_Check(src)
 
-									HP += hp * 500
+									HP += hp * 250
 									if(HP > MHP)
 										HP = MHP
 

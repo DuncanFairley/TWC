@@ -36,8 +36,8 @@ turf
 turf/gotoministry
 	Entered()
 		if(usr)
-			if(!ministrypw || ministryopen)
-				if(usr.name in ministrybanlist)
+			if(!worldData.ministrypw || ministryopen)
+				if(usr.name in worldData.ministrybanlist)
 					view(src) << "<b>Toilet</b>: <i>The Ministry of Magic is not currently open to you. Sorry!</i>"
 				else
 					viewers() << "[usr] disappears."
@@ -55,11 +55,6 @@ turf/gotoministry
 					usr:Transfer(dest)
 			else
 				view(src) << "<b>Toilet</b>: <i>The Ministry of Magic is not currently open to visitors. Sorry!</i>"
-
-var/ministrypw = "ketchup"
-var/ministryopen = 0
-var/ministrybank = 0
-var/taxrate = 0
 
 turf
 	proc

@@ -22,10 +22,10 @@ proc
 		scheduler.schedule(e, world.tick_lag * 3 * 600)
 
 	auctionBidTime()
-		if(auctionItems)
-			for(var/auction/a in auctionItems)
+		if(worldData.auctionItems)
+			for(var/auction/a in worldData.auctionItems)
 				if(!a.item)
-					auctionItems -= a
+					worldData.auctionItems -= a
 					continue
 				if(world.realtime - a.time >= 2592000 || !a.item.canAuction) // 3 days
 					if(a.bid && a.bidder)
@@ -36,12 +36,8 @@ proc
 					else
 						mail(a.owner,  errormsg("Auction: The [a.item.name] auction expired."), a.item)
 					a.item = null
-					auctionItems -= a
-					if(!auctionItems.len) auctionItems = null
-
-var/list
-	mailTracker
-	auctionItems
+					worldData.auctionItems -= a
+					if(!worldData.auctionItems.len) worldData.auctionItems = null
 
 mail
 	var
@@ -76,25 +72,25 @@ proc/mail(i_Ckey, i_Message, i_Content)
 			m.send(p)
 			return
 
-	if(!mailTracker) mailTracker = list()
+	if(!worldData.mailTracker) worldData.mailTracker = list()
 
-	if(i_Ckey in mailTracker)
-		if(islist(mailTracker[i_Ckey]))
-			mailTracker[i_Ckey] += m
+	if(i_Ckey in worldData.mailTracker)
+		if(islist(worldData.mailTracker[i_Ckey]))
+			worldData.mailTracker[i_Ckey] += m
 		else
-			mailTracker[i_Ckey] = list(mailTracker[i_Ckey], m)
+			worldData.mailTracker[i_Ckey] = list(worldData.mailTracker[i_Ckey], m)
 	else
-		mailTracker[i_Ckey] = m
+		worldData.mailTracker[i_Ckey] = m
 
 mob/Player/proc/checkMail()
-	if(ckey in mailTracker)
-		if(islist(mailTracker[ckey]))
-			for(var/mail/m in mailTracker[ckey])
+	if(ckey in worldData.mailTracker)
+		if(islist(worldData.mailTracker[ckey]))
+			for(var/mail/m in worldData.mailTracker[ckey])
 				m.send(src)
 		else
-			var/mail/m = mailTracker[ckey]
+			var/mail/m = worldData.mailTracker[ckey]
 			m.send(src)
-		mailTracker -= ckey
+		worldData.mailTracker -= ckey
 
 auction
 	var
@@ -113,11 +109,11 @@ auction
 	Topic(href, href_list[])
 		.=..()
 		var/mob/Player/p = usr
-		if(!(src in auctionItems)) return
+		if(!(src in worldData.auctionItems)) return
 
 		if(!src || !p) return
 		if(!src.item)
-			auctionItems -= src
+			worldData.auctionItems -= src
 			if(bidder)
 				mail(bidder, errormsg("<b>Auction:</b> The auction for the [item.name] was cancelled."), minPrice)
 
@@ -154,8 +150,8 @@ auction
 					mail(owner, infomsg("<b>Auction:</b> [item.name] was bought at the auction."), taxedGold)
 					goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: (Buyout) [owner] sold [item.name] to [p.name] ([p.ckey]) ([p.client.address]) for [buyoutPrice]<br />"
 
-					auctionItems -= src
-					if(!auctionItems.len) auctionItems = null
+					worldData.auctionItems -= src
+					if(!worldData.auctionItems.len) worldData.auctionItems = null
 					p << infomsg("<b>Auction:</b> You bought [item.name] for [buyoutPrice] gold.")
 					item.loc = p
 					item = null
@@ -167,8 +163,8 @@ auction
 
 		else if(href_list["action"] == "removeAuction")
 			if(owner == p.ckey)
-				auctionItems -= src
-				if(!auctionItems.len) auctionItems = null
+				worldData.auctionItems -= src
+				if(!worldData.auctionItems.len) worldData.auctionItems = null
 
 				if(bid && bidder)
 					mail(bidder, errormsg("<b>Auction:</b> The auction for the [item.name] was cancelled."), minPrice)
@@ -190,10 +186,10 @@ mob/Player
 		auctionBuild()
 			auctionCount = 0
 			var/count = 2
-			if(auctionItems)
+			if(worldData.auctionItems)
 
-				winset(src, null, "Auction.gridAuction.cells=6x[auctionItems.len + 2];Auction.gridAuction.style='body{text-align:center;background-color:#cceeff;color:#6f81ff;}'")
-				if(!auctionItems) return
+				winset(src, null, "Auction.gridAuction.cells=6x[worldData.auctionItems.len + 2];Auction.gridAuction.style='body{text-align:center;background-color:#cceeff;color:#6f81ff;}'")
+				if(!worldData.auctionItems) return
 
 				var/list/filters = list("Auction.buttonClothing" = /obj/items/wearable,
 				                        "Auction.buttonShoes"    = /obj/items/wearable/shoes,
@@ -217,8 +213,8 @@ mob/Player
 						option = copytext(o, 1, -11)
 						break
 
-				for(var/i = 1 to auctionItems.len)
-					var/auction/a = auctionItems[i]
+				for(var/i = 1 to worldData.auctionItems.len)
+					var/auction/a = worldData.auctionItems[i]
 					if(!a.item) continue
 					if(a.owner == ckey)
 						auctionCount++
@@ -330,10 +326,9 @@ mob/Player
 				if(options["Auction.button2Days.is-checked"] == "true")
 					auctionInfo.time -= 864000
 
-				if(auctionItems)
-					auctionItems += auctionInfo
-				else
-					auctionItems = list(auctionInfo)
+				if(!worldData.auctionItems) worldData.auctionItems = list()
+
+				worldData.auctionItems += auctionInfo
 
 				auctionInfo = new(src)
 				src << output(null, "Auction.gridAuctionAddItem:1,1")

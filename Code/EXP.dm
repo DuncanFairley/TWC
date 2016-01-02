@@ -52,7 +52,7 @@ mob/Player/var/tmp
 
 proc
 	AFK_Train_Scan()
-		lastusedAFKCheck = world.realtime
+		worldData.lastusedAFKCheck = world.realtime
 		var/mob/Player/list/readers = list()
 		for(var/mob/Player/M in world)
 			if(M.readbooks)
@@ -113,7 +113,7 @@ obj
 
 		verb/Read_book()
 			set src in oview(1)
-			if(!canReadBooks)
+			if(!worldData.canReadBooks)
 				usr << errormsg("You find this book too boring to read.")
 				return
 			if(usr.readbooks == 1)
@@ -462,12 +462,12 @@ mob/Player
 		addExp(amount, silent = 0, log = 1)
 
 			if(log)
-				if(!expScoreboard) expScoreboard = list()
+				if(!worldData.expScoreboard) worldData.expScoreboard = list()
 
-				if(ckey in expScoreboard)
-					expScoreboard["[ckey]"] += amount / 1000
+				if(ckey in worldData.expScoreboard)
+					worldData.expScoreboard["[ckey]"] += amount / 1000
 				else
-					expScoreboard["[ckey]"]  = amount / 1000
+					worldData.expScoreboard["[ckey]"]  = amount / 1000
 
 			if(level < lvlcap)
 				amount = round(amount, 1)
@@ -545,32 +545,29 @@ area
 	hogwarts/Duel_Arenas/Main_Arena_Bottom
 		oldsystem = TRUE
 
-var
-	canReadBooks = TRUE
-	list/expScoreboard
 
 mob/test/verb
 	Toggle_Book_Read()
-		canReadBooks = !canReadBooks
+		worldData.canReadBooks = !worldData.canReadBooks
 
-		src << infomsg("read books set to [canReadBooks]")
+		src << infomsg("read books set to [worldData.canReadBooks]")
 
-		if(!canReadBooks)
+		if(!worldData.canReadBooks)
 			for(var/mob/Player/p in Players)
 				if(p.readbooks == 1)
 					p.readbooks = 2
 
 	Clear_Exp_Log()
-		expScoreboard = null
+		worldData.expScoreboard = null
 
 proc/rewardExpWeek()
-	if(expScoreboard)
-		bubblesort_by_value(expScoreboard)
+	if(worldData.expScoreboard)
+		bubblesort_by_value(worldData.expScoreboard)
 
 		for(var/i = 0 to 2)
-			if(expScoreboard.len <= i) break
+			if(worldData.expScoreboard.len <= i) break
 
-			var/winnerCkey = expScoreboard[expScoreboard.len - i]
+			var/winnerCkey = worldData.expScoreboard[worldData.expScoreboard.len - i]
 
 			mail(winnerCkey, infomsg("Experience Week [ordinal(i + 1)] Prize, congratulations!"), 150000 - 50000*i)
 
@@ -584,7 +581,7 @@ proc/rewardExpWeek()
 			var/obj/o = new t
 			mail(winnerCkey, infomsg("You also get a random chest!"), o)
 
-		expScoreboard = null
+		worldData.expScoreboard = null
 
 obj/exp_scoreboard
 	icon = 'Rock.dmi'
@@ -592,8 +589,8 @@ obj/exp_scoreboard
 	var/hax = 0
 	Click()
 		..()
-		if(expScoreboard)
-			bubblesort_by_value(expScoreboard)
+		if(worldData.expScoreboard)
+			bubblesort_by_value(worldData.expScoreboard)
 			var/const/SCOREBOARD_HEADER = {"<html><head><title>Experience Earned Leaderboard</title><style>body
 {
 	background-color:#FAFAFA;
@@ -633,14 +630,14 @@ tr.grey
 			var/html = {"<body><center><table align="center" class="colored"><tr><td colspan="3"><center>Experience Earned Leaderboard</center></td></tr><tr><td>#</td><td>Name</td><td>Score</td></tr>"}
 			var/rankNum = 1
 			var/isWhite = TRUE
-			for(var/i = expScoreboard.len to 1 step -1)
+			for(var/i = worldData.expScoreboard.len to 1 step -1)
 
-				var/score = expScoreboard[expScoreboard[i]]
+				var/score = worldData.expScoreboard[worldData.expScoreboard[i]]
 
 				if(score < 10) break
 
-				var/Name  = sql_get_name_from(expScoreboard[i])
-				var/Ckey  = expScoreboard[i]
+				var/Name  = sql_get_name_from(worldData.expScoreboard[i])
+				var/Ckey  = worldData.expScoreboard[i]
 
 				if(hax)
 					html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[Name] ([Ckey])</td><td>[score]</td></tr>"
