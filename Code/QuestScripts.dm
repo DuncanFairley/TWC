@@ -62,6 +62,41 @@ quest
 			reqs = list("Chaos Vampire" = 1)
 
 
+	PeaceRankUp
+		name   = "Preserve Peace \[Rank Up]"
+		desc   = "A stranger with pale skin asked you to kill other strangers with pale skin who supposedly spread chaos. One must fight fire with fire."
+		reward = /questReward/clanReward/peaceRankUp
+		repeat = 36000
+
+		Kill
+			desc = "Kill chaos vampires and their pets."
+			reqs = list("Kill Chaos Vampire" = 50,
+			            "Kill Acromantula"   = 25,
+			            "Blood Sack"         = 5,
+			            "Demonic Essence"    = 1)
+
+		Reward
+			desc = "Go back to the stranger with the weird skin."
+			reqs = list("Peace Vampire Lord" = 1)
+
+	ChaosRankUp
+		name   = "Spread Chaos \[Rank Up]"
+		desc   = "A stranger with pale skin asked you to kill other strangers with pale skin supposedly for the fun of it. Why not kill everyone while you're at it."
+		reward = /questReward/clanReward/chaosRankUp
+		repeat = 36000
+
+		Kill
+			desc = "Spread chaos."
+			reqs = list("Kill Peace Vampire" = 50,
+			            "Kill Player"        = 20,
+			            "Blood Sack"         = 5,
+			            "Demonic Essence"    = 1)
+
+		Reward
+			desc = "Go back to the stranger with the weird skin."
+			reqs = list("Chaos Vampire Lord" = 1)
+
+
 	TutorialWand
 		name   = "Tutorial: The Wand Maker"
 		desc   = "You arrived at Diagon Alley, as a young wizard your first objective is to find a wand to cast spells with."
@@ -696,3 +731,10 @@ questReward
 			points = 50
 		chaos
 			points = -50
+
+		peaceRankUp
+			points = 10
+			max    = 0
+		chaosRankUp
+			points = -10
+			max    = 0

@@ -879,12 +879,13 @@ questReward
 
 	clanReward
 		var/points
+		var/max    = 0
 
 		get(mob/Player/p)
 			..(p)
 
 			if(points)
-				p.addRep(points)
+				p.addRep(points, !max, max)
 
 	proc/get(mob/Player/p)
 		if(gold)

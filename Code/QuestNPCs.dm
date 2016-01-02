@@ -11,9 +11,25 @@ mob/TalkNPC/quest
 			..()
 			GenerateIcon(src, wig = 0, shoes = 1, scarf = 1)
 
+
 		Peace_Vampire
 			icon = 'MaleVampire.dmi'
 			questPointers = "Preserve Peace \[Daily]"
+
+			Peace_Vampire_Lord
+				questPointers = "Preserve Peace \[Rank Up]"
+
+				questStart(mob/Player/i_Player, questName)
+
+					var/PlayerData/r = worldData.playersData[i_Player.ckey]
+
+					var/max_rep = r.tierToFame(r.fametoTier() + 1)
+
+					if(r.fame >= max_rep)
+						..(i_Player, questName)
+					else
+						var/ScreenText/s = new(i_Player, src)
+						s.AddText("Who the hell are you, why do you dare show your face before me.")
 
 			questStart(mob/Player/i_Player, questName)
 
@@ -41,6 +57,22 @@ mob/TalkNPC/quest
 		Chaos_Vampire
 			icon = 'MaleVampire.dmi'
 			questPointers = "Spread Chaos \[Daily]"
+
+			Chaos_Vampire_Lord
+				questPointers = "Spread Chaos \[Rank Up]"
+
+				questStart(mob/Player/i_Player, questName)
+
+					var/PlayerData/r = worldData.playersData[i_Player.ckey]
+
+					var/max_rep = r.tierToFame(r.fametoTier() + 1)
+
+					if(r.fame <= -max_rep)
+
+						..(i_Player, questName)
+					else
+						var/ScreenText/s = new(i_Player, src)
+						s.AddText("Who the hell are you, why do you dare show your face before me.")
 
 			questStart(mob/Player/i_Player, questName)
 
