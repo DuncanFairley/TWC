@@ -454,7 +454,7 @@ mob/Spells/verb/Avis()
 		hearers()<<"A bright white flash shoots out of [usr]'s wand."
 		sleep(20)
 		hearers()<<"A Phoenix emerges."
-		var/mob/NPC/Enemies/Summoned/Phoenix/D = new (locate(src.x,src.y+1,src.z))
+		var/mob/NPC/Enemies/Summoned/Phoenix/D = new (loc)
 		flick('mist.dmi',D)
 		usr:learnSpell("Avis")
 		src = null
@@ -1542,7 +1542,7 @@ mob
 
 		var/obj/projectile/P = new Type (src.loc,src.dir,src,icon,icon_state,damage,name)
 		P.shoot(lag)
-
+		. = P
 		if(client)
 			//Used in monsters as well
 			src.MP -= MPreq
