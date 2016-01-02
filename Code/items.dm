@@ -59,13 +59,14 @@ obj/items
 		Clone()
 			var/obj/items/i = new type
 
-			i.owner = owner
-			i.name  = name
+			i.owner      = owner
+			i.name       = name
+			i.icon_state = icon_state
 
 			return i
 
 		Compare(obj/items/i)
-			return i.name == name && i.type == type && i.owner == owner
+			return i.name == name && i.type == type && i.owner == owner && i.icon_state == icon_state
 
 		UpdateDisplay()
 			if(stack > 1)
@@ -614,7 +615,7 @@ obj/items/gift
 	verb
 		Open()
 			if(!contents.len) return
-			if(!allowGifts)
+			if(!worldData.allowGifts)
 				usr << errormsg("You can't open your gift... yet...")
 				return
 
@@ -2170,17 +2171,17 @@ arena_round
 					M << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[M];action=arena_leave\">clicking here.</a></b>"
 				switch(team)
 					if("Gryffindor")
-						housepointsGSRH[1] += amountforwin
+						worldData.housepointsGSRH[1] += amountforwin
 					if("Slytherin")
-						housepointsGSRH[2] += amountforwin
+						worldData.housepointsGSRH[2] += amountforwin
 					if("Ravenclaw")
-						housepointsGSRH[3] += amountforwin
+						worldData.housepointsGSRH[3] += amountforwin
 					if("Hufflepuff")
-						housepointsGSRH[4] += amountforwin
+						worldData.housepointsGSRH[4] += amountforwin
 					if("Aurors")
-						housepointsGSRH[5] += amountforwin
+						worldData.housepointsGSRH[5] += amountforwin
 					if("Deatheaters")
-						housepointsGSRH[6] += amountforwin
+						worldData.housepointsGSRH[6] += amountforwin
 				Players << "<font color = red>[team] have earned [amountforwin] points.</font>"
 				Save_World()
 				del(currentArena)
@@ -2194,13 +2195,13 @@ arena_round
 				plyr << "You have earnt [amount] points for [plyr.House]"
 				switch(plyr.House)
 					if("Gryffindor")
-						housepointsGSRH[1] += amount
+						worldData.housepointsGSRH[1] += amount
 					if("Slytherin")
-						housepointsGSRH[2] += amount
+						worldData.housepointsGSRH[2] += amount
 					if("Ravenclaw")
-						housepointsGSRH[3] += amount
+						worldData.housepointsGSRH[3] += amount
 					if("Hufflepuff")
-						housepointsGSRH[4] += amount
+						worldData.housepointsGSRH[4] += amount
 obj/clanpillar
 	var/HP = 50
 	var/MHP = 50
@@ -2222,12 +2223,12 @@ obj/clanpillar
 				else
 					//If world ClanWars
 					if(clan == "Deatheater")
-						housepointsGSRH[5] += 10
+						worldData.housepointsGSRH[5] += 10
 						clanwars_event.add_auror(10)
 
 						attacker.addRep(10)
 					else if(clan == "Auror")
-						housepointsGSRH[6] += 10
+						worldData.housepointsGSRH[6] += 10
 						clanwars_event.add_de(10)
 
 						attacker.addRep(-10)
@@ -2967,6 +2968,9 @@ obj/items/magic_stone
 			t.icon_state = icon_state
 
 			return t
+
+		Compare()
+
 
 		circle(mob/Player/p)
 			if(dest)
@@ -3812,6 +3816,16 @@ obj/items/reputation
 		else
 			..()
 
+	Clone()
+		var/obj/items/reputation/i = new type
+
+		i.owner      = owner
+		i.name       = name
+		i.icon_state = icon_state
+		i.rep        = rep
+
+		return i
+
 	New()
 		if(prob(5))
 			rep *= 2
@@ -3823,9 +3837,13 @@ obj/items/reputation
 		..()
 
 	proc/Add(mob/Player/i_Player)
+		var/r1 = i_Player.getRep()
+		var/r2 = i_Player.addRep(rep)
 
-		i_Player.addRep(rep)
-		if(Consume())
+		if(r1 == r2)
+			i_Player << errormsg("You are at max reputation for your rank.")
+
+		else if(Consume())
 			i_Player.Resort_Stacking_Inv()
 
 	chaos_tablet
