@@ -745,8 +745,8 @@ var/list/shops = list("malewigshop" = newlist(
 					  "random" = list()
 					)
 
-obj/items/spellbook/peace/price = 1600
-obj/items/spellbook/blood/price = -1600
+obj/items/spellbook/peace/price = 666
+obj/items/spellbook/blood/price = -666
 
 mob/TalkNPC/Vault_Salesman
 	icon_state="goblin1"
