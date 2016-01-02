@@ -115,8 +115,8 @@ mob
 
 			Talk()
 				set src in oview(2)
-				if(global.globalvaults[usr.ckey])
-					var/vault/V = global.globalvaults[usr.ckey]
+				if(worldData.globalvaults[usr.ckey])
+					var/vault/V = worldData.globalvaults[usr.ckey]
 					switch(input("What would you like to change about your vault?")as null|anything in list("Change who can enter my vault", "Transfer items from old vault to new vault"))
 						if("Transfer items from old vault to new vault")
 							if(alert("This will move all items from your old-style vault into your current vault. Are you sure you wish to do this?",,"Yes","No")=="Yes")
@@ -168,16 +168,16 @@ mob
 
 				else if(fexists("[swapmaps_directory]/map_[usr.ckey].sav"))
 					usr << npcsay("Vault Master: Hi there.")
-					global.globalvaults[usr.ckey] = new /vault()
+					worldData.globalvaults[usr.ckey] = new /vault()
 					//Attempted fix for #373
 				else
 					if(alert("Do you want a free vault where you can store your belongings?","Vault","Yes","No") == "Yes")
 						if(!fexists("[swapmaps_directory]/map_[usr.ckey].sav"))
 							usr << npcsay("Vault Master: Okay, I've allocated you some space down in Vault [rand(10,99)][pick("A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z")]")
 							usr << npcsay("Vault Master: Anything you drop in there will be safely kept and available to you at any time. ((If you create a new character, your vault will retain its contents, so it's a good way to transfer your stuff if you want to remake.))")
-							if(!islist(global.globalvaults))
-								global.globalvaults = list()
-							global.globalvaults[usr.ckey] = new /vault()
+							if(!islist(worldData.globalvaults))
+								worldData.globalvaults = list()
+							worldData.globalvaults[usr.ckey] = new /vault()
 							var/swapmap/map = SwapMaps_CreateFromTemplate("vault1")
 							map.SetID("[usr.ckey]")
 							map.Save()
@@ -218,59 +218,112 @@ obj
 					sleep(25)
 
 
-mob/TalkNPC/vampire
-
-	icon = 'FemaleVampire.dmi'
-
+mob/TalkNPC
 
 	Shop
-		var/rep
-		Chaos
-			name  = "Chaos Shopkeeper"
-			rep   = -1
-		Peace
-			name  = "Peace Shopkeeper"
-			rep   = 1
+		var/shop
+
+
+		vampire
+			icon = 'FemaleVampire.dmi'
+			Chaos
+				name  = "Chaos Shopkeeper"
+				shop = "chaos"
+			Peace
+				name  = "Peace Shopkeeper"
+				shop = "peace"
+
+			New()
+				..()
+				GenerateIcon(src, wig = 0, shoes = 1, scarf = 1)
+
+			Talk()
+				set src in oview(3)
+				var/mob/Player/p = usr
+				if(p.screen_text) return
+
+				var/ScreenText/s = new(p, src)
+				s.AddText("Hey there, I offer special items for those who helped our cause. (Warrior and above)")
+
+				Shop(p, s)
+
+			Buy(mob/Player/p, obj/items/i, price)
+				p.addRep(-i.price)
+
+				var/obj/items/newItem = new i.type
+				newItem.Move(p)
+
+			canAfford(mob/Player/p)
+				var/rating = p.getRep()
+
+				if(abs(rating) <= 1200) return 0
+
+				return p.getRep(1) * (rating > 0 ? 1 : -1)
+
 
 		Talk()
 			set src in oview(3)
 			var/mob/Player/p = usr
 			if(p.screen_text) return
 
-			var/rating = p.getRep()
+			Shop(usr)
 
-			var/ScreenText/s = new(usr, src)
-			s.AddText("Hey there, I offer special items for those who helped our cause.")
+		proc
+			Shop(mob/Player/p, ScreenText/s)
 
-			if((rep > 0 && rating < 1000) || (rep < 0 && rating > -1000))
-				s.AddText("Sadly, you haven't helped us enough.")
-				return
+				if(!s) s = new(p, src)
 
-			s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
-
-			var/obj/items/spellbook/b
-
-			if(rep > 0)
-				b = new/obj/items/spellbook/peace
-			else
-				b = new/obj/items/spellbook/blood
-
-			s.AddText("Would you like [b.name] for 1000 reputation?")
-			s.AddImage(b)
-			if(s.Wait())
-				s.SetImage(src)
-				s.SetButtons("OK")
-				if(s.Result == "Yes")
-					p.addRep(1000 * -rep)
-					b.loc = p
-					s.AddText("Enjoy your new spell book.")
 				else
-					s.AddText("Hopefully I'll have something you want next time.")
+					if(!s.Wait(0)) return
+
+				var/i = 0
+				var/list/shopRef = shops[shop]
+				var/obj/items/o
+
+				s.Result = "Next"
+				while(p && s.Result == "Next" && !s.isDisposed)
+					i++
+					if(i > shopRef.len) i = 1
+					o = shopRef[i]
+
+					s.SetText("Would you like [o.name] for [abs(o.price)] reputation?")
+					s.SetImage(o)
+
+					var/nextItem = shopRef.len == 1 ? 0 : "Next"
+					if((canAfford(usr) >= o.price && o.price > 0) || (canAfford(usr) <= o.price && o.price < 0))
+						s.SetButtons("Buy", "#00ff00", "Cancel", "#ff0000", nextItem, "#2299d0")
+					else
+						s.SetButtons(0, 0, "Cancel", "#ff0000", nextItem, "#2299d0")
+
+					if(!s.Wait(0)) break
+
+				if(!p)
+					s.Dispose()
+					return
+
+				s.SetButtons("OK")
+				s.SetImage(src)
+				if(s.Result == "Buy")
+					Buy(usr, o)
+					s.SetText("Enjoy your new item.")
+				else
+					s.SetText("Hopefully I'll have something you want next time.")
+
+			Buy(mob/Player/p, obj/items/i, price)
+				p.gold.subtract(i.price)
+
+				var/obj/items/newItem = new i.type
+				newItem.Move(p)
+
+
+			canAfford(mob/Player/p)
+				return p.gold.get()
 
 
 
 	Respec
 		name = "Vampire Historian"
+		icon = 'FemaleVampire.dmi'
 		Talk()
 			set src in oview(3)
 
@@ -280,9 +333,9 @@ mob/TalkNPC/vampire
 
 			var/ScreenText/s = new(usr, src)
 
-			if(abs(rating) > 1000)
+			if(abs(rating) > 1201 + 1000)
 
-				s.AddText("Hey, I can help you wipe your past sins (player kills/deaths) but be warned, you will be less famous if you do so.")
+				s.AddText("Hey, I can help you wipe your past sins (player kills/deaths) but be warned, you will be less famous if you do so (1,500 reputation).")
 				s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
 				if(s.Wait())
 					s.AddButtons("OK", null, 0,0,0,0)
@@ -302,6 +355,6 @@ mob/TalkNPC/vampire
 				s.AddText("You're a nobody, walk away.")
 
 
-	New()
-		..()
-		GenerateIcon(src, wig = 0, shoes = 1, scarf = 1)
+		New()
+			..()
+			GenerateIcon(src, wig = 0, shoes = 1, scarf = 1)
