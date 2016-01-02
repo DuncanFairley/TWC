@@ -1324,6 +1324,28 @@ obj/items/wearable/wands/light_wand
 	icon = 'light_wand.dmi'
 	displayColor = "#64c8ff"
 
+obj/items/wearable/masks
+	desc = "A mask to hide your identity."
+	wear_layer = FLOAT_LAYER - 3
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		. = ..(owner)
+		if(. == WORN)
+			src.gender = owner.gender
+			if(!overridetext)viewers(owner) << infomsg("[owner] wears \his [src.name].")
+			for(var/obj/items/wearable/masks/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+		else if(. == REMOVED)
+			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
+
+obj/items/wearable/masks/peace_mask
+	icon = 'mask_peace.dmi'
+	dropable = 0
+
+obj/items/wearable/masks/chaos_mask
+	icon = 'mask_peace.dmi'
+	dropable = 0
+
 obj/items/wearable/wigs
 	price = 500000
 	bonus = 0
@@ -3827,11 +3849,11 @@ obj/items/reputation
 		return i
 
 	New()
-		if(prob(5))
+		if(prob(10))
 			rep *= 2
 			name = "greater [name]"
-		else if(prob(60))
-			rep /= 3
+		else if(prob(55))
+			rep /= 2
 			name = "small [name]"
 
 		..()
@@ -3848,7 +3870,7 @@ obj/items/reputation
 
 	chaos_tablet
 		icon_state = "chaos"
-		rep        = -3
+		rep        = -4
 		Add(mob/Player/i_Player)
 
 			if(!(locate(/mob/TalkNPC/quest/vampires/Chaos_Vampire) in oview(1)))
@@ -3859,7 +3881,7 @@ obj/items/reputation
 
 	peace_tablet
 		icon_state = "peace"
-		rep        = 3
+		rep        = 4
 		Add(mob/Player/i_Player)
 
 			if(!(locate(/mob/TalkNPC/quest/vampires/Peace_Vampire) in oview(1)))
