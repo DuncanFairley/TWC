@@ -272,14 +272,3 @@ tr.grey
 			html += "</table>"
 
 			usr << browse(SCOREBOARD_HEADER + html + "</center></html>","window=scoreboard")
-
-/*
-
-- remove/add robes function/quest
-- robe icon + color line code
-
-- fix old clan wars?
-- fix new clan wars??? already fixed?
-
-
-*/
