@@ -115,6 +115,8 @@ obj/particle
 
 			if(color)
 				src.color = color
+			else
+				src.color = initial(src.color)
 
 		impact()
 
