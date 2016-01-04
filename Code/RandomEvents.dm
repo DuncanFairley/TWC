@@ -319,7 +319,7 @@ RandomEvent
 			var/list/m = list()
 			Players << infomsg("Vengeful ghosts are lurking outside the castle for [minutes] minutes, chase them away!")
 
-			for(var/i = 1 to rand(10,30))
+			for(var/i = 1 to rand(18,30))
 				var/obj/spawner/spawn_loc = pick(spawners)
 				m += new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
