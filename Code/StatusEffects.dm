@@ -95,7 +95,8 @@ Event
 				for(var/ckey in worldData.playersData)
 					var/PlayerData/p = worldData.playersData[ckey]
 
-					if(abs(p.fame) <= 200) continue
+					if(abs(p.fame) <= 100) continue
+					if(world.realtime - p.time < 2592000) continue
 
 					p.fame -= round(p.fame / 10)
 
