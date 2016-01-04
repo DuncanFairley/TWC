@@ -1311,6 +1311,7 @@ mob
 				icon_state = "spider"
 				level = 800
 				MoveDelay = 3
+				AttackDelay = 4
 
 				HPmodifier = 1.4
 				DMGmodifier = 0.8
@@ -1350,9 +1351,10 @@ mob
 			Vampire
 				icon = 'FemaleVampire.dmi'
 				level = 850
-				HPmodifier  = 1.6
+				HPmodifier  = 1.8
 				DMGmodifier = 0.7
 				MoveDelay   = 3
+				AttackDelay = 3
 				respawnTime = 2400
 
 				drops = "Vampire"
@@ -1413,10 +1415,10 @@ mob
 					..()
 
 				Attacked(obj/projectile/p)
-					p.damage = round(p.damage * rand(8, 10)/10)
-					if(MoveDelay == 3 && p.owner && p.owner.loc.loc == loc.loc && prob(45))
+					p.damage = round(p.damage * rand(7, 10)/10)
+					if(MoveDelay == 3 && p.owner && p.owner.loc.loc == loc.loc && prob(55))
 						MoveDelay = 1
-						spawn(50)
+						spawn(80)
 							MoveDelay = 2
 					..()
 
