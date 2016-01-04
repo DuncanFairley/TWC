@@ -310,7 +310,7 @@ mob/TalkNPC
 					s.SetText("Hopefully I'll have something you want next time.")
 
 			Buy(mob/Player/p, obj/items/i, price)
-				p.gold.add(-i.price)
+				p.gold.subtract(i.price)
 
 				var/obj/items/newItem = new i.type
 				newItem.Move(p)

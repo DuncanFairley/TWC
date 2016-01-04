@@ -666,41 +666,38 @@ gold
 
 	proc
 		add(amount)
+
+			if(amount < 0)
+				subtract(abs(amount))
+				return
+
 			amount = round(amount)
 
-			addBronze(amount)
+			var/i = 8
+			for(var/v in vars)
+				i -= 2
+				if(amount < 10 ** i) continue
 
+				var/c = round(amount / (10 ** i))
+				vars[v] += c
+				amount  -= c * (10 ** i)
 
-		addPlat(amount)
-			if(amount == 0) return
-			plat += amount
+		subtract(amount)
 
-		addGold(amount)
-			if(amount == 0) return
-			gold += amount
+			if(amount < 0)
+				add(abs(amount))
+				return
 
-			var/c  = round(gold / 100)
-			gold   =       gold % 100
+			amount = round(amount)
 
-			addPlat(c)
+			var/i = 8
+			for(var/v in vars)
+				i -= 2
+				if(amount < 10 ** i) continue
 
-		addSilver(amount)
-			if(amount == 0) return
-			silver += amount
-
-			var/c  = round(silver / 100)
-			silver =       silver % 100
-
-			addGold(c)
-
-		addBronze(amount)
-			if(amount == 0) return
-			bronze += amount
-
-			var/c  = round(bronze / 100)
-			bronze =       bronze % 100
-
-			addSilver(c)
+				var/c = round(amount / (10 ** i))
+				vars[v] -= c
+				amount  -= c * (10 ** i)
 
 		get()
 			return bronze + (silver * 100) + (gold * 10000) + (plat * 1000000)
