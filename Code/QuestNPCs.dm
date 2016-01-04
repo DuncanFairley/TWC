@@ -36,7 +36,7 @@ mob/TalkNPC/quest
 
 					if(.)
 						var/obj/items/wearable/masks/peace_mask/peace = locate() in i_Player
-						var/obj/items/wearable/masks/peace_mask/chaos = locate() in i_Player
+						var/obj/items/wearable/masks/chaos_mask/chaos = locate() in i_Player
 
 						if(chaos)
 							chaos.Dispose()
@@ -94,7 +94,7 @@ mob/TalkNPC/quest
 
 					if(.)
 						var/obj/items/wearable/masks/peace_mask/peace = locate() in i_Player
-						var/obj/items/wearable/masks/peace_mask/chaos = locate() in i_Player
+						var/obj/items/wearable/masks/chaos_mask/chaos = locate() in i_Player
 
 						if(peace)
 							peace.Dispose()
