@@ -228,6 +228,9 @@ area
 		Hogsmeade
 		Hogwarts
 		Quidditch
+			icon       = 'black50.dmi'
+			icon_state = "white"
+			alpha      = 200
 	DEHQ
 	AurorHQ
 
