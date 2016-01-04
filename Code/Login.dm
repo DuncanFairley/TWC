@@ -949,6 +949,7 @@ mob/Player
 		listenhousechat = 1
 		invisibility = 0
 		alpha = 255
+		sight &= ~(SEE_SELF|BLIND)
 		switch(key)
 			if("Murrawhip")
 				src.verbs+=typesof(/mob/GM/verb/)
@@ -1938,10 +1939,12 @@ mob/proc/Death_Check(mob/killer = src)
 						rndexp *= rand(2,4)
 
 					if(!spamKilledQuest)
-						new /StatusEffect/KilledPlayerQuest (killer, 15)
+						new /StatusEffect/KilledPlayerQuest (killer, 20)
 						killer:checkQuestProgress("Kill Player")
 
-						var/rep = -round(1 + (src:getRep() / 100), 1)
+						var/player_rating = src:getRep()
+						var/killer_rating = killer:getRep()
+						var/rep = -round(1 + (player_rating / 100), 1)
 
 						if(rep >= 0)
 							rep = max(rep, 1)
@@ -1949,6 +1952,9 @@ mob/proc/Death_Check(mob/killer = src)
 							rep = min(rep, -1)
 
 						killer:addRep(rep)
+
+						if(abs(player_rating) > 200 && ((player_rating > 0 && killer_rating < 0) || (player_rating < 0 && killer_rating > 0)))
+							src:addRep(round(rep / 2))
 
 					killer:addExp(rndexp)
 					if(killer:wand)

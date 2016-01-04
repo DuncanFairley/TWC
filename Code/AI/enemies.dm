@@ -69,6 +69,62 @@ obj
 
 				maptext = "<b><font size=4 color=#FF4500>[count]</font></b>"
 
+
+obj
+	countdown
+
+		var/count     = 1000
+		var/marks     = 0
+		maptext_width = 64
+		pixel_x       = 8
+		layer         = 11
+
+		New()
+			..()
+			var/area/a = loc.loc
+			tag = "[a.name]Countdown"
+			updateDisplay()
+
+		proc
+			Completed()
+
+			add(c = 1)
+				count--
+				if(count <= 0)
+					count = initial(count)
+					marks++
+					Completed()
+					. = 1
+				updateDisplay()
+
+			updateDisplay()
+				if(count >= 100)
+					pixel_x = -5
+				else if(count >= 10)
+					pixel_x = -4
+				else
+					pixel_x = 8
+
+				maptext = "<b><font size=4 color=#FF4500>[count]</font></b>"
+
+
+		clan
+			count   = 500
+
+			New()
+				..()
+
+			Completed()
+				var/area/newareas/a = loc.loc
+
+				a.rep = -a.rep
+				a.faction()
+
+				for(var/mob/NPC/Enemies/Vampire/v in a)
+					v.rep = -v.rep
+					v.faction()
+
+
 proc
 	isPathBlocked(mob/source, mob/target, dist=1, dense_override=0, dist_limit=10)
 		if(!(source && source.loc)) return 1
@@ -102,24 +158,57 @@ area
 	outside
 		Spider_Pit
 			icon       = 'black50.dmi'
-			icon_state = "red"
+			icon_state = "white"
 			alpha      = 200
 
 			antiTeleport = 1
 
 	newareas
-		var/tmp/active = 0
+		var/tmp
+			active = 0
+			rep    = 0
+
+		New()
+			..()
+			spawn(1) faction()
+
+		proc/faction()
+			if(rep != 0 && icon)
+				var/c = rep > 0 ? "#30bbcc" : "#600606"
+
+				if(region && region.areas)
+					for(var/area/a in region.areas)
+						if(!a.icon) continue
+						animate(a, color = c, time = 20)
+
+					for(var/node in region.nodes)
+						var/turf/t = locate(region.nodes[node])
+						if(!t) break
+
+						for(var/area/a in orange(1, t))
+							if(a == src || a == t.loc) continue
+
+							if(a.icon)
+								animate(a, color = c, time = 20)
+
+							break
+
 		outside
 			Forbidden_ForestNE
 			Forbidden_ForestNW
 			Forbidden_ForestSE
 			Forbidden_ForestSW
 			Quidditch
+				icon         = 'black50.dmi'
+				icon_state   = "white"
+				alpha        = 200
 				antiTeleport = 1
+				rep          = -1
 			Spider_Pit
-				icon       = 'black50.dmi'
-				icon_state = "red"
-				alpha      = 200
+				rep          = 1
+				icon         = 'black50.dmi'
+				icon_state   = "white"
+				alpha        = 200
 				antiTeleport = 1
 
 			Pixie_Pit
@@ -591,10 +680,10 @@ mob
 					icon_state = "spider"
 					level = 700
 					MoveDelay = 1
-					AttackDelay = 3
+					AttackDelay = 4
 					Range = 20
-					HPmodifier = 1.4
-					DMGmodifier = 0.8
+					HPmodifier = 1.3
+					DMGmodifier = 0.7
 
 					Death()
 						emit(loc    = loc,
@@ -708,11 +797,11 @@ mob
 					Ghost
 						name = "Vengeful Ghost"
 						icon = 'NPCs.dmi'
-						HPmodifier = 2
-						DMGmodifier = 0.9
+						HPmodifier = 1.9
+						DMGmodifier = 0.8
 						layer = 5
 						MoveDelay = 2
-						AttackDelay = 2
+						AttackDelay = 3
 						Range = 15
 						level = 850
 						canBleed = FALSE
@@ -1221,10 +1310,12 @@ mob
 			Acromantula
 				icon_state = "spider"
 				level = 800
-				MoveDelay = 2
+				MoveDelay = 3
 
-				HPmodifier = 1.6
+				HPmodifier = 1.4
 				DMGmodifier = 0.8
+
+				respawnTime = 1800
 
 				ChangeState(var/i_State)
 					set waitfor = FALSE
@@ -1247,7 +1338,8 @@ mob
 					     life   = new /Random(5,15))
 					..()
 
-					for(var/i = 1 to rand(1, 2))
+					var/s = prob(45) ? 2 : 1
+					for(var/i = 1 to s)
 						new /mob/NPC/Enemies/Summoned/Acromantula (loc)
 
 				New()
@@ -1258,11 +1350,10 @@ mob
 			Vampire
 				icon = 'FemaleVampire.dmi'
 				level = 850
-				HPmodifier  = 1.5
-				DMGmodifier = 0.8
+				HPmodifier  = 1.6
+				DMGmodifier = 0.7
 				MoveDelay   = 3
-				AttackDelay = 3
-				respawnTime = 3000
+				respawnTime = 2400
 
 				drops = "Vampire"
 
@@ -1278,12 +1369,28 @@ mob
 
 					GenerateIcon(src)
 
-				Chaos
-					name = "Chaos Vampire"
-					rep  = 2
-				Peace
-					name = "Peace Vampire"
-					rep  = -2
+					var/area/newareas/a = loc.loc
+					rep = -2 * a.rep
+					faction()
+
+				ShouldIBeActive()
+					..()
+
+					if(rep != 0)
+						var/area/newareas/a = loc.loc
+						if(!istype(a, /area/newareas)) return
+
+						if(a && a.rep != 0 && ((a.rep > 0 && rep > 0) || (a.rep < 0 && rep < 0)))
+							rep = -rep
+							faction()
+
+				proc/faction()
+					if(rep < 0)
+						name = "Peace Vampire"
+					else if(rep > 0)
+						name = "Chaos Vampire"
+					else
+						name = "Vampire"
 
 				Death(mob/Player/killer)
 					emit(loc    = loc,
@@ -1295,6 +1402,13 @@ mob
 
 					if(killer)
 						killer.addRep(rep)
+
+					var/area/newareas/a = loc.loc
+					if(a && istype(a, /area/newareas) && a.rep != 0)
+						var/obj/countdown/clan/c = locate("[a.name]Countdown")
+
+						if(c)
+							c.add()
 
 					..()
 
@@ -1482,25 +1596,25 @@ mob
 			Troll
 				icon_state = "troll"
 				level = 350
-				HPmodifier  = 3
+				HPmodifier  = 6
 				DMGmodifier = 0.8
-				MoveDelay   = 4
-				AttackDelay = 4
+				MoveDelay   = 3
+				AttackDelay = 3
 
 				New()
 					..()
 					transform *= rand(10,20) / 10
 
 				Attack()
-					var/p = 5
+					var/p = 20
 					for(var/mob/NPC/Enemies/m in oview(1, src))
 						if(src == m) continue
-						p += 5
+						p += 15
 
 					var/tmpdmg = extraDmg
 					var/tmplvl = level
 					if(prob(p))
-						extraDmg = 600
+						extraDmg = 1000
 						level    = 1000
 					..()
 					extraDmg = tmpdmg

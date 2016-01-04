@@ -25,7 +25,7 @@ PlayerData
 			return 100 * t * (t + 1)
 
 		fametoTier()
-			var/r = abs(fame) - 1
+			var/r = max(abs(fame) - 1, 0)
 
 			if(r >= 7200) return 8
 
@@ -72,10 +72,11 @@ mob/Player/proc
 
 			if((p > 0 && r.fame + p >= max_rep) || (p < 0 && r.fame + p <= max_rep))
 				p = max_rep - r.fame
+		else
+			r.time = world.realtime
 
 		if(p != 0)
 			r.fame += p
-			r.time = world.realtime
 
 			if(pname)
 				r.name = pname
@@ -271,14 +272,3 @@ tr.grey
 			html += "</table>"
 
 			usr << browse(SCOREBOARD_HEADER + html + "</center></html>","window=scoreboard")
-
-/*
-
-- remove/add robes function/quest
-- robe icon + color line code
-
-- fix old clan wars?
-- fix new clan wars??? already fixed?
-
-
-*/

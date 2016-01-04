@@ -807,7 +807,7 @@ obj/items/demonic_essence
 		animate(src, color = rgb(255, 0, 0), time = 10, loop = -1)
 		animate(color = rgb(255, 0, 255), time = 10)
 
-		spawn(100)
+		spawn(300)
 			loc = null
 
 obj/items/blood_sack
@@ -833,7 +833,7 @@ obj/items/blood_sack
 						   speed  = 2,
 						   life   = new /Random(20,25))
 
-		spawn(100)
+		spawn(300)
 			loc = null
 
 
@@ -879,7 +879,7 @@ questReward
 
 	clanReward
 		var/points
-		var/max    = 0
+		var/max    = 1
 
 		get(mob/Player/p)
 			..(p)

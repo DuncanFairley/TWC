@@ -433,7 +433,7 @@ obj/Madame_Pomfrey
 			if(canUse(usr,cooldown=/StatusEffect/UsedFerulaToHeal))
 				set src in oview(1)
 				usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episkey [usr]!"
-				new /StatusEffect/UsedFerulaToHeal(usr,5)
+				new /StatusEffect/UsedFerulaToHeal(usr,12)
 				usr.overlays+=image('attacks.dmi',icon_state="heal")
 				usr.HP=usr.MHP+usr.extraMHP
 				usr.updateHPMP()
@@ -444,8 +444,12 @@ obj/Madame_Pomfrey
 
 	New()
 		..()
-		spawn(425)
-			del src
+		view(src)<<"<b>Madame Pomfrey</b>: Hello. Need healing? Click me."
+		spawn(500)
+			flick('dlo.dmi',src)
+			sleep(10)
+			view(src)<<"The nurse orbs out."
+			Dispose()
 
 
 mob/Madame_Pomfrey

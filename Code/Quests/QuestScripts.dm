@@ -1,3 +1,12 @@
+/*mob/Player/verb/testQuest()
+	for(var/n in questPointers)
+		var/questPointer/pointer = questPointers[n]
+
+		for(var/r in pointer.reqs)
+			pointer.reqs[r] = 1
+
+			checkQuestProgress(r)*/
+
 quest
 	TWCIdol1
 		name   = "Pixie Wisdom \[Weekly]"
@@ -223,7 +232,7 @@ quest
 	Extermination
 		name   = "Pest Extermination \[Daily]"
 		desc   = "The hunter wants you to help him exterminate monsters."
-		reward = /questReward/Artifact
+		reward = /questReward/Teleport
 		repeat = 864000
 
 		Kill
@@ -245,7 +254,7 @@ quest
 	Basilisk
 		name   = "To kill a Boss \[Daily]"
 		desc   = "The basilisk is found at the Chamber of Secrets, kill the Basilisk and any demon rat that gets in your way!"
-		reward = /questReward/Artifact
+		reward = /questReward/Teleport
 		repeat = 864000
 
 		Kill
@@ -653,9 +662,7 @@ questReward
 	Teleport
 		gold  = 16000
 		exp   = 160000
-		items = list(/obj/items/magic_stone/teleport,
-					 /obj/items/magic_stone/teleport,
-		             /obj/items/magic_stone/teleport)
+		items = /obj/items/magic_stone/teleport
 	RoyaleShoes
 		gold  = 5000
 		exp   = 10000
@@ -733,8 +740,8 @@ questReward
 			points = -50
 
 		peaceRankUp
-			points = 10
+			points = 20
 			max    = 0
 		chaosRankUp
-			points = -10
+			points = -20
 			max    = 0
