@@ -118,6 +118,8 @@ guild
 
 			ranks = list("Recruit", "Member", "Leader", "Master")
 
+			owner.verbs += /mob/GM/verb/Guild_Chat
+
 		Show(mob/Player/p)
 
 			var/params = list()
@@ -346,7 +348,19 @@ mob/TalkNPC/Guildmaster
 				if(!desiredname)
 					del c
 					return
+				desiredname = trimAll(desiredname)
 				var/passfilter = c.name_filter(desiredname)
+
+				if(!passfilter)
+
+					if(worldData.guilds && worldData.guilds.len)
+						for(var/guild/g in worldData.guilds)
+							if(g.name == desiredname)
+								passfilter = "a guild already exists with that name"
+								break
+				else
+					passfilter = "it [passfilter]"
+
 				while(passfilter)
 					alert("Your desired name is not allowed as [passfilter].")
 					desiredname = input("Please select a name that does not use numbers or special characters.") as text|null
