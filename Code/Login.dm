@@ -1006,6 +1006,7 @@ mob/Player
 			src.ApplyOverlays(0)
 			BaseIcon()
 
+			if(!worldData.playersData) worldData.playersData = list()
 			var/PlayerData/data = worldData.playersData[ckey]
 			if(data && data.guild)
 				var/guild/g = worldData.guilds[data.guild]

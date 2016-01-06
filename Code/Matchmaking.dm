@@ -747,7 +747,7 @@ obj/scoreboard
 
 			bubblesort_by_value(people, "mmRating", TRUE)
 
-			var/const/SCOREBOARD_HEADER = {"<html><head><title>Season 2 Leaderboard</title><style>body
+			var/const/SCOREBOARD_HEADER = {"<html><head><title>Indefinite Season Leaderboard</title><style>body
 {
 	background-color:#FAFAFA;
 	font-size:large;
@@ -783,7 +783,7 @@ tr.grey
 }
 }</style></head>"}
 
-			var/html = {"<body><center><table align="center" class="colored"><tr><td colspan="4"><center>Season 2</center></td></tr><tr><td colspan="4"><center><br>*Note: Ranks are based on your skill rating and not just amount of wins.<br></center></td></tr><tr><td>#</td><td>Name</td><td>Rank</td><td>Wins</td></tr>"}
+			var/html = {"<body><center><table align="center" class="colored"><tr><td colspan="4"><center>Indefinite Season</center></td></tr><tr><td colspan="4"><center><br>*Note: Ranks are based on your skill rating and not just amount of wins.<br></center></td></tr><tr><td>#</td><td>Name</td><td>Rank</td><td>Wins</td></tr>"}
 			var/rankNum = 1
 			var/isWhite = TRUE
 			for(var/i = people.len to 1 step -1)

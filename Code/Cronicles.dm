@@ -392,7 +392,9 @@ mob
 				if(!t || t.name == "blankturf")
 					loc = locate("@Hogwarts")
 				else
-					var/g
+					if(!worldData.playersData) worldData.playersData = list()
+
+					var/guild/g
 					var/PlayerData/data = worldData.playersData[ckey]
 					if(data)
 						g = data.guild

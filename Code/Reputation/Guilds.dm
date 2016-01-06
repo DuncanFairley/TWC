@@ -348,12 +348,24 @@ mob/TalkNPC/Guildmaster
 					return
 				var/passfilter = c.name_filter(desiredname)
 				while(passfilter)
-					alert("Your desired name is not allowed as it [passfilter].")
+					alert("Your desired name is not allowed as [passfilter].")
 					desiredname = input("Please select a name that does not use numbers or special characters.") as text|null
 					if(!desiredname)
 						del c
 						return
+					desiredname = trimAll(desiredname)
 					passfilter = c.name_filter(desiredname)
+
+					if(!passfilter)
+
+						if(worldData.guilds && worldData.guilds.len)
+							for(var/guild/g in worldData.guilds)
+								if(g.name == desiredname)
+									passfilter = "a guild already exists with that name"
+									break
+					else
+						passfilter = "it [passfilter]"
+
 				del c
 
 				if(p.gold.get() >= 1500000)
@@ -369,6 +381,25 @@ mob/TalkNPC/Guildmaster
 					var/guild/g = new
 					g.Init(p, desiredname)
 
+
+proc/trimRight(text)
+	var/i
+	for(i = 1 to length(text))
+		if(text2ascii(text, i) == 32)
+			continue
+		break
+	return copytext(text, i)
+
+proc/trimLeft(text)
+    var/i
+    for(i = length(text) to 1 step -1)
+        if(text2ascii(text, i) == 32)
+            continue
+        break
+    return copytext(text, 1, i+1)
+
+proc/trimAll(text)
+    return trimRight(trimLeft(text))
 
 
 // BUG: can take more than required artifacts if using combined old+new stacking
