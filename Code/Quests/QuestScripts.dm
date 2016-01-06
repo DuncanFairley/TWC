@@ -726,7 +726,7 @@ questReward
 		BloodCoin
 			exp    = 32000
 			gold   = 32000
-			points = 100
+			points = 60
 			items  = /obj/items/magic_stone/summoning/blood
 
 
@@ -739,8 +739,8 @@ questReward
 			points = -50
 
 		peaceRankUp
-			points = 20
+			points = 15
 			max    = 0
 		chaosRankUp
-			points = -20
+			points = -15
 			max    = 0
