@@ -51,7 +51,9 @@ clan_wars
 
 			for(var/turf/t in world)
 				if(t.z >= 21 && t.z <= 22)
+					if(t.icon_state != "wood") continue
 					if(istype(t, /turf/woodenfloor) || istype(t, /turf/nofirezone) || istype(t, /turf/sideBlock))
+						if(!findtext(t.icon_state, "wood")) continue
 						t.color = c
 
 		timeout()
