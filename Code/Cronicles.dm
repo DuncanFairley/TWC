@@ -374,7 +374,7 @@ mob
 				if(aurorrobe)
 					icon = baseicon
 				else if(derobe)
-					name = prevname
+					if(prevname) name = prevname
 					icon = baseicon
 				aurorrobe = null
 				derobe = null
