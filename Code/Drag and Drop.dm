@@ -170,6 +170,7 @@ obj/brick2door
 				clan = "DE"
 		Bumped(mob/Player/M)
 			if(!isplayer(M)) return
+			if(!M.guild) return
 			if(clan == "Auror" && M.guild != worldData.majorPeace)
 				//If you're not the same clan as the door
 				return
