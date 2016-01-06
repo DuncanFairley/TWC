@@ -49,6 +49,7 @@ mob/Player
 				if(alert("Are you sure you want to quit?", "Quit", "Yes", "No") == "No") return
 				src << errormsg("You left [g.name] guild")
 				guild = null
+				verbs -= /mob/GM/verb/Guild_Chat
 			else
 
 				if(!(who in g.members)) return
@@ -59,6 +60,7 @@ mob/Player
 					if(p.ckey == who)
 						p << errormsg("You were removed from [g.name] guild")
 						p.guild = null
+						p.verbs -= /mob/GM/verb/Guild_Chat
 						break
 
 			g.Remove(who)
@@ -82,7 +84,7 @@ mob/GM
 
 				for(var/mob/Player/m in Players)
 					if(m.guild == p.guild)
-						if(p.name == "Masked Figure")
+						if(p.prevname)
 							m << "<b><font color=[f]><font size=2>Guild Channel> <font size=2><font color=silver>[p.prevname](Masked):</b> <font color=white>[messsage]"
 						else
 							m << "<b><font color=[f]><font size=2>Guild Channel> <font size=2><font color=silver>[p]:</b> <font color=white>[messsage]"
@@ -234,6 +236,7 @@ guild
 					if(p.guild == id)
 						p << errormsg("[name] guild was disbanded.")
 						p.guild = null
+						p.verbs -= /mob/GM/verb/Guild_Chat
 
 				Dispose()
 
@@ -498,6 +501,7 @@ mob/Player/verb/guild_command(var/action as text)
 			spawn()
 				if(alert(p, "Would you like to join [g.name] guild?", "Guild Invite", "Yes", "No") == "Yes")
 					g.Add(p)
+					p.verbs += /mob/GM/verb/Guild_Chat
 
 
 
