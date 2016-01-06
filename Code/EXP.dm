@@ -645,9 +645,8 @@ tr.grey
 					html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[Name]</td><td>[round(score, 1)]</td></tr>"
 				isWhite = !isWhite
 				rankNum++
-			html += "</table>"
 
-			usr << browse(SCOREBOARD_HEADER + html + "</center></html>","window=scoreboard")
+			usr << browse(SCOREBOARD_HEADER + html + "</table></center></body></html>","window=scoreboard")
 
 
 gold
@@ -675,12 +674,16 @@ gold
 
 			var/i = 8
 			for(var/v in vars)
+				if(i <= 0) break
+
 				i -= 2
 				if(amount < 10 ** i) continue
 
 				var/c = round(amount / (10 ** i))
 				vars[v] += c
 				amount  -= c * (10 ** i)
+
+			setVars()
 
 		subtract(amount)
 
@@ -692,12 +695,35 @@ gold
 
 			var/i = 8
 			for(var/v in vars)
+				if(i <= 0) break
+
 				i -= 2
 				if(amount < 10 ** i) continue
 
 				var/c = round(amount / (10 ** i))
 				vars[v] -= c
 				amount  -= c * (10 ** i)
+
+			setVars()
+
+		setVars()
+
+			if(bronze > 99)
+				var/c   = round(bronze / (100))
+				silver += c
+				bronze -= c * 100
+
+			if(silver > 99)
+				var/c   = round(silver / (100))
+				gold   += c
+				silver -= c * 100
+
+			if(gold > 99)
+				var/c   = round(gold / (100))
+				plat   += c
+				gold   -= c * 100
+
+
 
 		get()
 			return bronze + (silver * 100) + (gold * 10000) + (plat * 1000000)
