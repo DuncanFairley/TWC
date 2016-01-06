@@ -379,4 +379,4 @@ area
 				var/obj/items/wearable/masks/m = locate() in p.Lwearing
 
 				if(m)
-					m.Equip(p, 1, 0)
+					spawn(1) m.Equip(p, 1, 0)
