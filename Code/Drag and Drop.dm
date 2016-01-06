@@ -31,8 +31,8 @@ clan_wars
 				toggle_clanwars()
 
 		end()
-			var/deatheaterWon = list("The Death Eaters have successfully raided Auror HQ!","The Aurors have been defeated by the Death Eaters!","Death Eaters have defeated the Aurors in the war of the clans!")
-			var/aurorWon = list("The Death Eaters have been defeated by the Aurors!","The Aurors have successfully held back the Death Eaters!","The Aurors have emerged victorious in the war of the clans!")
+			var/deatheaterWon = list("The chaos clan have successfully raided peace clan HQ!","The peace clan have been defeated by the chaos clan!","Chaos clan have defeated the peace clan in the war of the clans!")
+			var/aurorWon = list("The chaos clan have been defeated by the peace clan!","The peace clan have successfully held back the chaos clan!","The peace clan have emerged victorious in the war of the clans!")
 			var/draw = list("Nobody did anything interesting in the clan war so it resulted in a draw!","The clan war has ended in a draw! How boring!","The clans managed to hold each other off! Clan Wars is a draw!")
 
 			var/c
@@ -95,15 +95,12 @@ proc/toggle_clanwars()
 			C.disable()
 
 mob/Player/proc/ClanwarsInfo()
-	src << infomsg({"<b>Clan wars has now begun.</b><br>A special object called a "pillar" has spawned inside the Deatheater and Auror HQs.<br>\
+	src << infomsg({"<b>Clan wars has now begun.</b><br>A special object called a "pillar" has spawned inside the chaos and peace HQs.<br>\
 				The goal during clan wars is to protect yours, and destroy the enemy's.<br>\
-				Doors inside your enemy's HQ can be destroyed by firing at them with a projectile damage spell. Doors will respawn in 60 seconds.<br><br>"})
+				Doors inside your enemy's HQ can be destroyed by firing at them with a projectile damage spell. Doors will respawn in 60 seconds.<br>\
+				Your side will receive 1 point for each player you kill.<br>\
+				Your side will receive 10 points for each time the enemy's pillar is destroyed.<br>"})
 
-	if(src.Auror || src.DeathEater)
-		src << infomsg({"Your clan will receive 1 point for each [src.Auror ? "Deatheater" : "Auror"] you kill.<br>\
-						 Your clan will receive 10 points for each time the enemy's pillar is destroyed.<br>\
-						 Some clan members may have access to "The Clan Store", and are able to spend points to perform actions such as doubling Door max HP, restoring Door HP to full, uncloaking enemies in your HQ, etc.<br>\
-						 <b>You must be robed in order to earn points/destroy doors/destroy pillars.<br>"})
 var/clanwars = 0
 obj/brick2door
 	icon = 'hogwartsbrick.dmi'
@@ -171,20 +168,17 @@ obj/brick2door
 				clan = "Auror"
 			else if(istype(src.loc.loc, /area/DEHQ))
 				clan = "DE"
-		Bumped(mob/M)
-			if(clan == "Auror" && !M.Auror)
+		Bumped(mob/Player/M)
+			if(!isplayer(M)) return
+			if(clan == "Auror" && M.guild != worldData.majorPeace)
 				//If you're not the same clan as the door
 				return
-			if(clan == "DE" && !M.DeathEater)
+			if(clan == "DE" && M.guild != worldData.majorChaos)
 				return
 			..()
 		Take_Hit(mob/M)
 			if(!clanwars)return
 			return ..()
-		//	if(clan == "Auror" && M.derobe)
-		//		return ..()
-		//	else if(clan == "DE" && M.aurorrobe)
-		//		return ..()
 
 	proc
 		Bumped(mob/M)

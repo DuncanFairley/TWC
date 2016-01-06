@@ -111,5 +111,6 @@
 #include "Code\Quests\Quests.dm"
 #include "Code\Quests\QuestScripts.dm"
 #include "Code\Reputation\Clans.dm"
+#include "Code\Reputation\Guilds.dm"
 #include "Triwizard\Triwizard.dm"
 // END_INCLUDE

@@ -159,7 +159,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 20
+#define SAVEFILE_VERSION 21
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -365,24 +365,25 @@ mob
 						src << infomsg("You were given [t.stack] massive chaos tablets.")
 
 
-			/*if(savefile_version < 99)
+			if(savefile_version < 21)
 				DeathEater = null
 				HA         = null
 				Auror      = null
 				HDE        = null
+				DE         = null
 				if(aurorrobe)
 					icon = baseicon
-					aurorrobe = null
 				else if(derobe)
 					name = prevname
 					icon = baseicon
-					derobe = null
+				aurorrobe = null
+				derobe = null
 				verbs.Remove(/mob/GM/verb/Auror_chat)
 				verbs.Remove(/mob/GM/verb/Auror_Robes)
 				verbs.Remove(/mob/GM/verb/DErobes)
 				verbs.Remove(/mob/GM/verb/DE_chat)
 				verbs.Remove(/mob/GM/verb/Clan_store)
-				verbs.Remove(/mob/Spells/verb/Morsmordre)*/
+				verbs.Remove(/mob/Spells/verb/Morsmordre)
 
 			if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
@@ -390,12 +391,18 @@ mob
 				var/turf/t = locate(last_x, last_y, last_z)
 				if(!t || t.name == "blankturf")
 					loc = locate("@Hogwarts")
-				else if((istype(t.loc, /area/DEHQ) || istype(t.loc, /area/safezone/DEHQ)) && !DeathEater)
-					loc = locate("@Hogwarts")
-				else if((istype(t.loc, /area/AurorHQ) || istype(t.loc, /area/safezone/AurorHQ)) && !Auror)
-					loc = locate("@Hogwarts")
 				else
-					loc = t
+					var/g
+					var/PlayerData/data = worldData.playersData[ckey]
+					if(data)
+						g = data.guild
+
+					if((istype(t.loc, /area/DEHQ) || istype(t.loc, /area/safezone/DEHQ)) && worldData.majorChaos != g)
+						loc = locate("@Hogwarts")
+					else if((istype(t.loc, /area/AurorHQ) || istype(t.loc, /area/safezone/AurorHQ)) && worldData.majorPeace != g)
+						loc = locate("@Hogwarts")
+					else
+						loc = t
 
 			spawn()
 				if(usr.loc)
@@ -660,7 +667,7 @@ mob/BaseCamp/ChoosingCharacter
 				break
 			//alert("An old savefile is detected and needs to be converted into a new email-based savefile. The detected character is named \"[M.name]\" and is level [M.level].")
 			usr << output(HTMLOutput(src,"login"),"broLogin")*/
-		winset(src,null,"splitStack.is-visible=false;SpellBook.is-visible=false;Quests.is-visible=false;Auction.is-visible=false;mapwindow.on-size=\".resizeMap\";winSettings.is-visible=false;broLogin.is-visible=true;radio_enabled.is-checked=false;barHP.is-visible=false;barMP.is-visible=false;[radioEnabled ? "mnu_radio.is-disabled=false;" : ""]")
+		winset(src,null,"guild.is-visible=false;splitStack.is-visible=false;SpellBook.is-visible=false;Quests.is-visible=false;Auction.is-visible=false;mapwindow.on-size=\".resizeMap\";winSettings.is-visible=false;broLogin.is-visible=true;radio_enabled.is-checked=false;barHP.is-visible=false;barMP.is-visible=false;[radioEnabled ? "mnu_radio.is-disabled=false;" : ""]")
 		loc=locate(93,85,2)
 		..()
 
@@ -777,7 +784,6 @@ client
 			var/StatusEffect/S = mob.findStatusEffect(/StatusEffect/Lamps)
 			if(S) S.Deactivate()
 			if(mob.prevname)
-				mob.derobe = 0
 				mob.name = mob.prevname
 			mob.occlumens = 0
 			if(mob.xp4referer)
@@ -868,7 +874,9 @@ client
 		fdel("players/[first_initial]/[ckey].sav")
 		var/savefile/F = base_PlayerSavefile()
 		var/wasDE = 0
-		if(mob.name == "Robed Figure" && mob.prevname)
+		var/maskedName
+		if(mob.prevname)
+			maskedName = mob.name
 			wasDE = 1
 			mob.name = mob.prevname
 		var/mob_ckey = ckey(mob.name)
@@ -880,7 +888,7 @@ client
 		F["name"] << mob.name
 		F["mob"] << mob
 		if(wasDE)
-			mob.name = "Robed Figure"
+			mob.name = maskedName
 		_base_player_savefile = null
 
 

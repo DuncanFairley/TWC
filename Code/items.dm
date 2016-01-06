@@ -1324,28 +1324,6 @@ obj/items/wearable/wands/light_wand
 	icon = 'light_wand.dmi'
 	displayColor = "#64c8ff"
 
-obj/items/wearable/masks
-	desc = "A mask to hide your identity."
-	wear_layer = FLOAT_LAYER - 3
-	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		. = ..(owner)
-		if(. == WORN)
-			src.gender = owner.gender
-			if(!overridetext)viewers(owner) << infomsg("[owner] wears \his [src.name].")
-			for(var/obj/items/wearable/masks/W in owner.Lwearing)
-				if(W != src)
-					W.Equip(owner,1,1)
-		else if(. == REMOVED)
-			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
-
-obj/items/wearable/masks/peace_mask
-	icon = 'mask_peace.dmi'
-	dropable = 0
-
-obj/items/wearable/masks/chaos_mask
-	icon = 'mask_chaos.dmi'
-	dropable = 0
-
 obj/items/wearable/wigs
 	price = 500000
 	bonus = 0
@@ -2230,7 +2208,7 @@ obj/clanpillar
 	density = 0
 	invisibility = 101
 	var/clan = "Auror"
-	name = "Aurors' headquarters"
+	name = "Peace headquarters"
 	icon = 'clanpillar.dmi'
 	icon_state = "Auror"
 	proc
@@ -2245,26 +2223,19 @@ obj/clanpillar
 				else
 					//If world ClanWars
 					if(clan == "Deatheater")
-						worldData.housepointsGSRH[5] += 10
+				//		worldData.housepointsGSRH[5] += 10
 						clanwars_event.add_auror(10)
 
 						attacker.addRep(10)
 					else if(clan == "Auror")
-						worldData.housepointsGSRH[6] += 10
+				//		worldData.housepointsGSRH[6] += 10
 						clanwars_event.add_de(10)
 
 						attacker.addRep(-10)
-					for(var/mob/M in Players)
-						if(clan == "Deatheater")
-							if(M.Auror)
-								M << infomsg("[attacker] has destroyed [name] and earned 10 points for the Aurors.")
-							else if(M.DeathEater)
-								M << infomsg("<font color=red>[name] has been destroyed.</font>")
-						else if(clan == "Auror")
-							if(M.DeathEater)
-								M << infomsg("A Deatheater has destroyed [name] and earned 10 points for the Deatheaters.")
-							else if(M.Auror)
-								M << infomsg("<font color=red>[name] has been destroyed.</font>")
+
+
+					Players << "[attacker] has destroyed [name] and earned 10 points for the [clan == "Deatheater" ? "chaos" : "peace"] clan."
+
 				density = 0
 				invisibility = 101
 				spawn()respawn_count()
@@ -2283,26 +2254,25 @@ obj/clanpillar
 						if(M.DeathEater)M << "Deatheaters - <font color = white><i>\The [src] has respawned."
 			else
 				//If world ClanWars
-				for(var/mob/M in Players)
-					if(clan == "Deatheater" && M.DeathEater)
-						M << infomsg("Deatheaters: <i>\The [src] has respawned.</i>")
-					else if(clan == "Auror" && M.Auror)
-						M << infomsg("Aurors: <i>\The [src] has respawned.</i>")
+				for(var/mob/Player/M in Players)
+					if(clan == "Deatheater" && M.getRep() < -100)
+						M << infomsg("Chaos: <i>\The [src] has respawned.</i>")
+					else if(clan == "Auror" && M.getRep() > 100)
+						M << infomsg("Peace: <i>\The [src] has respawned.</i>")
 		disable()
 			density = 0
 			invisibility = 101
 		respawn_count()
 			spawn()
 				if(clanwars)
-					for(var/mob/M in Players)
-						if(clan == "Deatheater" && M.DeathEater)
+					for(var/mob/Player/M in Players)
+						if(clan == "Deatheater" && M.getRep() < -100)
 							M << "<font color = white><i>\The [src] will respawn in 2 minutes."
-						else if(clan == "Auror" && M.Auror)
+						else if(clan == "Auror" && M.getRep() > 100)
 							M << "<font color = white><i>\The [src] will respawn in 2 minutes."
 					sleep(1200)
-				else
-					sleep(clanevent1_respawntime * 10)
-				if(!clanevent1 && !clanwars) return
+
+				if(!clanwars) return
 				density = 1
 				invisibility = 0
 				HP = MHP
@@ -2313,12 +2283,12 @@ obj/clanpillar
 					else if(clan == "Deatheater")
 						for(var/mob/Player/M in currentArena.players)
 							if(M.DeathEater)M << "Deatheaters - <font color = white><i>\The [src] has respawned."
-				else if(clanwars)
-					for(var/mob/M in Players)
-						if(clan == "Auror" && M.Auror)
-							M << infomsg("Aurors: <i>\The [src] has respawned.</i>")
-						else if(clan == "Deatheater" && M.DeathEater)
-							M << infomsg("Deatheaters: <i>\The [src] has respawned.</i>")
+				if(clanwars)
+					for(var/mob/Player/M in Players)
+						if(clan == "Auror" && M.getRep() > 100)
+							M << infomsg("Peace: <i>\The [src] has respawned.</i>")
+						else if(clan == "Deatheater" && M.getRep() < -100)
+							M << infomsg("Chaos: <i>\The [src] has respawned.</i>")
 var
 	clanevent1 = 0
 	clanevent1_respawntime
@@ -3134,7 +3104,7 @@ obj/items/magic_stone
 
 		effect(mob/Player/p)
 			var/obj/eye_counter/count = locate("EyeCounter")
-			count.count = min(999, count.count + 200)
+			worldData.eyesKilled = min(999, worldData.eyesKilled + 200)
 			count.updateDisplay()
 
 

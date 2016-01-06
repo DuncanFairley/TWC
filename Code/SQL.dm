@@ -302,7 +302,7 @@ proc/sql_update_ckey_in_table(mob/M)
 			break
 		var/time = oldtime + (world.realtime - M.timelog)
 		M.timelog = world.realtime
-		if(M.name == "Robed Figure")
+		if(M.prevname)
 			qry = my_connection.NewQuery({"UPDATE tblPlayers
 			SET name=[mysql_quote(M.prevname)],level=[M.level],house=[mysql_quote(M.House)],rank=[mysql_quote(M.Rank)],IP=INET_ATON('[M.client.address]'),timeloggedin='[time]',lastLoggedIn=CURDATE() WHERE ckey=[mysql_quote(M.ckey)];"})
 		else

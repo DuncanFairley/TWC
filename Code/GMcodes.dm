@@ -405,7 +405,7 @@ mob/GM
 			if(messsage)
 				if(messsage == null || messsage == "") return
 			//Reason = html_encode(Reason)
-				if(src.name == "Robed Figure")
+				if(prevname)
 					for(var/client/C)
 						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/GM_chat) in C.mob.verbs)
 							C<<"<b><font color=silver size=2>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font>"
@@ -426,7 +426,7 @@ mob/GM
 				if(messsage == null || messsage == "") return
 				for(var/client/C)
 					if(C.mob)if(C.mob.DeathEater==1)
-						if(usr.name == "Robed Figure")
+						if(prevname)
 							C<<"<b><font color=green><font size=2>DE Channel> <font size=2><font color=silver>[usr.prevname](Robed):</b> <font color=white>[messsage]"
 						else
 							C<<"<b><font color=green><font size=2>DE Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
@@ -450,7 +450,7 @@ mob/GM
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
-				if(usr.name == "Robed Figure")
+				if(prevname)
 					for(var/client/C)
 						if(C.mob)if((C.mob.House=="Gryffindor"||C.mob.admin) && C.mob.listenhousechat)
 							C<<"<b><font color=red><font size=2>Gryffindor Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
@@ -467,7 +467,7 @@ mob/GM
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
-				if(usr.name == "Robed Figure")
+				if(prevname)
 					for(var/client/C)
 						if(C.mob)if((C.mob.House=="Ravenclaw"||C.mob.admin) && C.mob.listenhousechat)
 							C<<"<b><font color=blue><font size=2>Ravenclaw Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
@@ -484,7 +484,7 @@ mob/GM
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
-				if(usr.name == "Robed Figure")
+				if(prevname)
 					for(var/client/C)
 						if(C.mob)if((C.mob.House=="Slytherin"||C.mob.admin) && C.mob.listenhousechat)
 							C<<"<b><font color=green><font size=2>Slytherin Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
@@ -501,7 +501,7 @@ mob/GM
 			if(messsage)
 				messsage = copytext(check(messsage),1,350)
 				if(messsage == null || messsage == "") return
-				if(usr.name == "Robed Figure")
+				if(prevname)
 					for(var/client/C)
 						if(C.mob)if((C.mob.House=="Hufflepuff"||C.mob.admin) && C.mob.listenhousechat)
 							C<<"<b><font color=yellow><font size=2>Hufflepuff Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
@@ -1374,7 +1374,7 @@ obj/var/description
 mob/var/shortapparate = 0
 turf//client
 	DblClick()
-		if(usr.shortapparate && !(usr.derobe || usr.aurorrobe))
+		if(usr.shortapparate && !(usr.prevname))
 			if(!density)// && get_dist(usr,src) <25)
 				flick('apparate.dmi',usr)
 				if(usr.density)
