@@ -608,24 +608,6 @@ mob/var/tmp
 	flying = 0
 
 
-turf
-	Arena
-
-	aurortrap
-		Entered(mob/Player/M)
-			if(istype(M,/mob))
-				for(var/mob/A in world)
-					if(A.Auror) A << "<i><font color=white>One of the Auror HQ entrance traps has been set off.</font></i>"
-				M.Move(locate(38,78,26))
-	detrap
-		Entered(mob/Player/M)
-			if(istype(M,/mob))
-				for(var/mob/A in world)
-					if(A.DeathEater) A << "<i><font color=white>One of the DE HQ entrance traps has been set off.</font></i>"
-				M.Move(locate(37,17,13))
-
-
-
 
 
 ////First you could jst lay this turf on everything that you dont wont people to go

@@ -39,13 +39,13 @@ proc
 				var/mob/j1 = L[j]
 				var/mob/j2 = L[j+1]
 				if(j1 && j2)
-					if(j1.name == "Robed Figure" && j2.name != "Robed Figure")
+					if(j1.prevname && !j2.prevname)
 						if(j1.prevname>j2.name) L.Swap(j,j+1)
-					else if(j1.name == "Robed Figure" && j2.name == "Robed Figure")
+					else if(j1.prevname && j2.prevname)
 						if(j1.prevname>j2.prevname) L.Swap(j,j+1)
-					if(j1.name != "Robed Figure" && j2.name == "Robed Figure")
+					if(!j1.prevname && j2.prevname)
 						if(j1.name>j2.prevname) L.Swap(j,j+1)
-					else if(j1.name != "Robed Figure" && j2.name != "Robed Figure")
+					else if(!j1.prevname && !j2.prevname)
 						if(j1.name>j2.name) L.Swap(j,j+1)
 turf
 	duelmat_gryff

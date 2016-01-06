@@ -462,8 +462,8 @@ mob
 			else if(src.curPM.body == "Body"|| !src.curPM.body)
 				alert("The PM's body has no content.")
 				return
-			else if(src.name == "Robed Figure")
-				if(alert("PMs sent from robed figures will be sent as though you are unrobed. Do you still wish to send this message?",,"Yes","No") == "No")
+			else if(src.prevname)
+				if(alert("PMs sent from robed/masked figures will be sent as though you are unrobed. Do you still wish to send this message?",,"Yes","No") == "No")
 					return
 			src.curPM.body = "<u>Sent [time2text(world.realtime,"Day - DD/Month/YYYY, hh:mm")]</u><br><br>[src.curPM.body]"
 			src.curPM.name = "Private Message"

@@ -1409,22 +1409,20 @@ turf
 		name = "Fireplace"
 		Entered(mob/M)
 			if(ismob(M))
-				if(M.Auror)
-					flick('mist.dmi',usr)
-					var/obj/O = locate("hogshospital")
-					M.loc = O.loc
-					flick('mist.dmi',usr)
+				flick('mist.dmi',usr)
+				var/obj/O = locate("hogshospital")
+				M.loc = O.loc
+				flick('mist.dmi',usr)
 	floo_dehosp
 		icon = 'misc.dmi'
 		icon_state="fireplace"
 		name = "Fireplace"
 		Entered(mob/M)
 			if(ismob(M))
-				if(M.DeathEater)
-					flick('mist.dmi',usr)
-					var/obj/O = locate("DEspawn[rand(1,3)]")
-					M.loc = O.loc
-					flick('mist.dmi',usr)
+				flick('mist.dmi',usr)
+				var/obj/O = locate("DEspawn[rand(1,3)]")
+				M.loc = O.loc
+				flick('mist.dmi',usr)
 	floo_dada
 		icon = 'misc.dmi'
 		icon_state="fireplace"

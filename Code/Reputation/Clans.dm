@@ -4,13 +4,6 @@
 
 var/const/REP_FACTOR = 100
 
-var/list/reputations
-
-reputation
-	var/rating = 0
-	var/name
-	var/time
-
 PlayerData
 	var
 		fame
@@ -40,7 +33,7 @@ PlayerData
 
 			return r - tierToFame(fametoTier())
 
-proc/initRep(var/ckey)
+proc/initPlayer(var/ckey)
 
 	if(!worldData.playersData) worldData.playersData = list()
 
@@ -53,12 +46,15 @@ proc/initRep(var/ckey)
 mob/Player/proc
 
 	getRep(trim = 0)
-		var/PlayerData/r = initRep(ckey)
+		if(!worldData.playersData) worldData.playersData = list()
+
+		var/PlayerData/r = worldData.playersData[ckey]
+		if(!r) return 0
 
 		return trim ? r.getRep() : r.fame
 
 	addRep(var/p = 0, silent = 0, max = 1)
-		var/PlayerData/r = initRep(ckey)
+		var/PlayerData/r = initPlayer(ckey)
 
 		if(max)
 
@@ -129,7 +125,7 @@ obj/items/wearable/clan_robes
 			else
 				p.gender = MALE
 
-		else if(on && p.name != "Robed Figure")
+		else if(on && !p.prevname)
 			p.prevname = p.name
 			p.name     = "Robed Figure"
 			p.gender   = NEUTER
@@ -221,8 +217,25 @@ obj/rep_scoreboard
 				if((peace && p.fame > 100) || (!peace && p.fame < -100))
 					people[p.name] = p
 
+			var/list/guilds
+
+			if(worldData.guilds && worldData.guilds.len)
+
+				guilds = list()
+
+				for(var/k in worldData.guilds)
+					var/guild/g = worldData.guilds[k]
+
+					if((peace && g.Rep() > 100) || (!peace && g.Rep() < -100))
+						guilds[k] = g.Score()
+
+				if(!guilds.len)
+					guilds = null
+				else
+					bubblesort_by_value(guilds)
 
 			bubblesort_by_value(people, "fame", TRUE)
+
 			var/const/SCOREBOARD_HEADER = {"<html><head><title>Reputation Leaderboard</title><style>body
 {
 	background-color:#FAFAFA;
@@ -269,6 +282,101 @@ tr.grey
 				html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[p.name]</td><td>[getRepRank(p.fame)] ([p.getRep()])</td></tr>"
 				isWhite = !isWhite
 				rankNum++
-			html += "</table>"
 
-			usr << browse(SCOREBOARD_HEADER + html + "</center></html>","window=scoreboard")
+			if(guilds)
+				rankNum = 1
+				isWhite = TRUE
+
+				html += {"</table><table align="center" class="colored"><tr><td colspan="4"><center>[peace ? "Peace" : "Chaos"] Guilds Leaderboard</center></td></tr><tr><td>#</td><td>Name</td><td>Reputation</td><td>Skill</td></tr>"}
+
+				for(var/i = (peace ? guilds.len : 1) to (peace ? 1 : guilds.len) step (peace ? -1 : 1))
+
+					var/guild/g = worldData.guilds[guilds[i]]
+
+					html += "<tr class=[isWhite ? "white" : "black"]><td>[rankNum]</td><td>[g.name]</td><td>[abs(g.Rep())]</td><td>[g.Skill()]</td></tr>"
+					isWhite = !isWhite
+					rankNum++
+
+
+			usr << browse(SCOREBOARD_HEADER + html + "</table></center></body></html>","window=scoreboard")
+
+
+
+
+obj/items/wearable/masks
+	desc = "A mask to hide your identity."
+	wear_layer = FLOAT_LAYER - 3
+
+	var
+		r
+		g
+		b
+		n = "Masked Figure"
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		if(!forceremove && !(src in owner.Lwearing) && istype(owner.loc.loc, /area/hogwarts))
+			owner << errormsg("You can't wear this here.")
+			return
+
+		. = ..(owner)
+		if(forceremove) return
+		if(. == WORN)
+			src.gender = owner.gender
+			if(!overridetext)viewers(owner) << infomsg("[owner] wears \his [src.name].")
+			for(var/obj/items/wearable/masks/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+
+			if(!owner.prevname)
+				owner.prevname = owner.name
+				owner.name     = n
+				owner.gender   = NEUTER
+
+			owner.underlays = list()
+			owner.GenerateNameOverlay(r,g,b, TRUE)
+
+		else if(. == REMOVED)
+			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
+
+
+			owner.name     = owner.prevname
+			owner.prevname = null
+
+			if(owner.Gender == "Male")
+				owner.gender = MALE
+			else if(owner.Gender == "Female")
+				owner.gender = FEMALE
+			else
+				owner.gender = MALE
+
+			owner.underlays = list()
+			owner.addNameTag()
+
+
+obj/items/wearable/masks/peace_mask
+	icon = 'mask_peace.dmi'
+	dropable = 0
+	r = 196
+	g = 237
+	b = 255
+
+obj/items/wearable/masks/chaos_mask
+	icon = 'mask_chaos.dmi'
+	dropable = 0
+	r = 77
+	g = 77
+	b = 77
+
+
+area
+	hogwarts
+		Entered(atom/movable/Obj, atom/OldLoc)
+			..()
+
+			if(isplayer(Obj) && issafezone(src))
+				var/mob/Player/p = Obj
+
+				var/obj/items/wearable/masks/m = locate() in p.Lwearing
+
+				if(m)
+					m.Equip(p, 1, 0)

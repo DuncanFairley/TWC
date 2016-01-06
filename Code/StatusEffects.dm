@@ -91,6 +91,18 @@ Event
 				RandomizeShop()
 				rewardExpWeek()
 
+				// elects major guilds
+				if(worldData.guilds && worldData.guilds.len >= 2)
+
+					var/list/guilds = list()
+					for(var/guild/g in worldData.guilds)
+						guilds[g.id] = g.Score()
+
+					bubblesort_by_value(guilds)
+
+					worldData.majorChaos = guilds[1]
+					worldData.majorPeace = guilds[guilds.len]
+
 				// rep/fame decay
 				for(var/ckey in worldData.playersData)
 					var/PlayerData/p = worldData.playersData[ckey]

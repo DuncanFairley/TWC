@@ -38,9 +38,13 @@ obj/statues
 	rabbit/icon_state = "rabbit"
 	turkey/icon_state = "turkey"
 
+WorldData
+	var
+		eyesKilled = 0
+		list/areaCounters
+
 obj
 	eye_counter
-		var/count     = 0
 		var/marks     = 0
 		maptext_width = 64
 		pixel_x       = 8
@@ -52,22 +56,22 @@ obj
 
 		proc
 			add()
-				count++
-				if(count >= 1000)
-					count = 0
+				worldData.eyesKilled++
+				if(worldData.eyesKilled >= 1000)
+					worldData.eyesKilled = 0
 					marks++
 					. = 1
 				updateDisplay()
 
 			updateDisplay()
-				if(count >= 100)
+				if(worldData.eyesKilled >= 100)
 					pixel_x = -5
-				else if(count >= 10)
+				else if(worldData.eyesKilled >= 10)
 					pixel_x = -4
 				else
 					pixel_x = 8
 
-				maptext = "<b><font size=4 color=#FF4500>[count]</font></b>"
+				maptext = "<b><font size=4 color=#FF4500>[worldData.eyesKilled]</font></b>"
 
 
 obj
@@ -718,6 +722,7 @@ mob
 						Wander()
 						for(var/mob/Player/M in ohearers(src, Range))
 							if(M.loc.loc != src.loc.loc) continue
+							if(M.Immortal && M.admin) continue
 
 							target = M
 							state  = HOSTILE
@@ -734,12 +739,47 @@ mob
 
 							break
 
+					ChangeTarget()
+						var/min_dist = Range
+						for(var/mob/Player/M in ohearers(src, Range))
+							if(M.Immortal) continue
+							if(M.loc.loc != src.loc.loc) continue
+							if(ignore && (M in ignore)) continue
+
+							if(!isPathBlocked(M, src, 1, src.density))
+								var/dist = get_dist(src, M)
+								if(min_dist > dist)
+									target = M
+							else
+								Ignore(M)
+
 					Basilisk
 						icon_state = "basilisk"
 						HPmodifier = 3
 						DMGmodifier = 3
 						MoveDelay = 3
 						level = 2000
+
+						Search()
+							Wander()
+							for(var/mob/Player/M in ohearers(src, Range))
+								if(M.loc.loc != src.loc.loc) continue
+								if(M.Immortal) continue
+
+								target = M
+								state  = HOSTILE
+
+								spawn()
+									var/time = 5
+									while(src && state == HOSTILE && M == target && time > 0)
+										sleep(30)
+										time--
+
+									if(M == target && state == HOSTILE)
+										target = null
+										ChangeState(SEARCH)
+
+								break
 
 						Death()
 
@@ -1112,6 +1152,7 @@ mob
 
 					Stickman
 						icon_state = "stickman"
+						name = "Mini Stickman"
 						level = 500
 						HPmodifier  = 1
 						DMGmodifier = 1
@@ -1311,6 +1352,7 @@ mob
 				icon_state = "spider"
 				level = 800
 				MoveDelay = 3
+				AttackDelay = 4
 
 				HPmodifier = 1.4
 				DMGmodifier = 0.8
@@ -1350,9 +1392,10 @@ mob
 			Vampire
 				icon = 'FemaleVampire.dmi'
 				level = 850
-				HPmodifier  = 1.6
+				HPmodifier  = 1.8
 				DMGmodifier = 0.7
 				MoveDelay   = 3
+				AttackDelay = 3
 				respawnTime = 2400
 
 				drops = "Vampire"
@@ -1413,10 +1456,10 @@ mob
 					..()
 
 				Attacked(obj/projectile/p)
-					p.damage = round(p.damage * rand(8, 10)/10)
-					if(MoveDelay == 3 && p.owner && p.owner.loc.loc == loc.loc && prob(45))
+					p.damage = round(p.damage * rand(7, 10)/10)
+					if(MoveDelay == 3 && p.owner && p.owner.loc.loc == loc.loc && prob(55))
 						MoveDelay = 1
-						spawn(50)
+						spawn(80)
 							MoveDelay = 2
 					..()
 

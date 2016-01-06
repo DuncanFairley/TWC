@@ -63,11 +63,9 @@ obj/var/loco
 mob
 	proc
 		clanrobed()
-			if((locate(/mob/GM/verb/GM_chat) in usr.verbs) && (derobe||aurorrobe))
+			if((locate(/mob/GM/verb/GM_chat) in usr.verbs) && (prevname))
 				src << errormsg("You cannot use any GM verbs while wearing clan clothing.")
 				return 1
-			else
-				return 0
 
 mob/test/verb/Download_Savefile()
 	var/ckeyname = input("Ckeyyyyy?") as null|text

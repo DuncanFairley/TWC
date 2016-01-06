@@ -518,16 +518,13 @@ mob/verb/DisableBetaMapMode()
 /mob/proc/GenerateNameOverlay(r,g,b,de=0)
 	var/outline = "#000"
 	//if(30*r+59*g+11*b > 7650) outline = "#000"
-	if(src.pname&&src.key)
-		if(de)
-			namefont.QuickName(src, "Robed Figure", rgb(r,g,b), outline, top=1)
-		else
-			namefont.QuickName(src, src.pname, rgb(r,g,b), outline, top=1)
+	var/n
+	if(pname && !de)
+		n = pname
 	else
-		if(de)
-			namefont.QuickName(src, "Robed Figure", rgb(r,g,b), outline, top=1)
-		else
-			namefont.QuickName(src, src.name, rgb(r,g,b), outline, top=1)
+		n = name
+
+	namefont.QuickName(src, n, rgb(r,g,b), outline, top=1)
 
 mob/test/verb/Tick_Lag(newnum as num)
 	world.tick_lag = newnum
@@ -556,6 +553,7 @@ proc/check(msg as text)
     return html_encode(msg)
 var/list/illegalnames = list(
 	"robed figure",
+	"masked figure",
 	"harry",
 	"potter",
 	"weasley",
@@ -910,7 +908,6 @@ mob/Player
 	proc
 		Saveme()
 			if(prevname)
-				derobe = 0
 				name = prevname
 
 	Login()
@@ -971,7 +968,6 @@ mob/Player
 				src.draganddrop=1
 				src.admin=1
 
-
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
 		if(timerMute > 0)
@@ -1001,7 +997,7 @@ mob/Player
 			sql_update_ckey_in_table(src)
 			sql_update_multikey(src)
 			src.client.update_individual()
-			if(global.clanwars && (src.Auror || src.DeathEater))
+			if(global.clanwars)
 				src.ClanwarsInfo()
 			winset(src,null,"barHP.is-visible=true;barMP.is-visible=true")
 
@@ -1009,6 +1005,19 @@ mob/Player
 			loc.loc.Entered(src, src.loc)
 			src.ApplyOverlays(0)
 			BaseIcon()
+
+			var/PlayerData/data = worldData.playersData[ckey]
+			if(data && data.guild)
+				var/guild/g = worldData.guilds[data.guild]
+
+				if(!g || !(ckey in g.members))
+					data.guild = null
+					verbs -= /mob/GM/verb/Guild_Chat
+				else
+					verbs += /mob/GM/verb/Guild_Chat
+					guild = data.guild
+
+					src << infomsg(g.motd)
 
 	proc/ApplyOverlays(ignoreBonus = 1)
 		src.overlays = list()
@@ -1059,7 +1068,7 @@ mob/Player
 							if(copytext(t,1,5)=="\[me]")
 								hearers(client.view)<<"<i>[usr] [copytext(t,5)]</i>"
 							else if(copytext(t,1,4)=="\[w]")
-								if(name == "Robed Figure")
+								if(prevname)
 									range(1)<<"<font size=2><font color=red><b><font color=red>[usr]</font> whispers: <i>[copytext(t,4)]</i>"
 								else
 									range(1)<<"<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> whispers: <i>[copytext(t,4)]</i>"
@@ -1094,7 +1103,7 @@ mob/Player
 											if(rand(1,3)==1) M<<"<i>You hear an odd ringing sound.</i>"
 
 
-							if(usr.name=="Robed Figure")
+							if(prevname)
 								chatlog << "<font size=2 color=red><b>[usr.prevname] (ROBED)</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
 							else
 								chatlog << "<font size=2 color=red><b>[usr]</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
@@ -1163,36 +1172,6 @@ mob/Player
 										door.door = 0
 										view(door) << "<i>You hear the door lock.</i>"
 							switch(lowertext(t))
-								/*if("close hogwarts")
-									if(src.admin)
-										for(var/turf/Hogwarts_Exit/T in world)
-											T.icon = 'Wall1.dmi'
-											T.density = 1
-										Players<<"[usr] has closed Hogwarts"
-										for(var/turf/Hogwarts/T in world)
-											T.icon = 'Turf.dmi'
-											T.icon_state = "grille"
-											T.density = 1*/
-								if("open event")
-									if(src.admin)
-										hearers()<<"Done."
-										for(var/turf/Arena/T in world)
-											T.icon = null
-											T.density = 0
-								if("close event")
-									if(src.admin)
-										hearers()<<"Done."
-										for(var/turf/Arena/T in world)
-											T.icon = 'Turf.dmi'
-											T.icon_state = "grille"
-											T.density = 1
-								/*if("colloportus gate")
-									if(src.Gm)
-										sleep(20)
-										hearers()<<"<font size=1>[usr] has locked the door</font>"
-										for(var/turf/Gate/T in oview(5))
-											T.door=0
-											T.bumpable=0*/
 								if("colloportus")
 									if(src.Gm)
 										sleep(20)
@@ -1200,6 +1179,7 @@ mob/Player
 										if(classdest)
 											usr << errormsg("Friendly reminder: Class guidance is still on.")
 										for(var/obj/Hogwarts_Door/T in oview(client.view))
+											if(!admin && T.vaultOwner) continue
 											T.door=0
 											T.bumpable=0
 								if("alohomora")
@@ -1207,19 +1187,10 @@ mob/Player
 										sleep(20)
 										view(client.view)<<"<font size=1>[usr] has unlocked the door.</font>"
 										for(var/obj/Hogwarts_Door/T in oview(client.view))
+											if(!admin && T.vaultOwner) continue
 											flick('Alohomora.dmi',T)
 											T.door=1
 											T.bumpable=1
-								/*if("alohomora gate")
-									if(src.Gm)
-										sleep(20)
-										hearers()<<"<font size=1>[usr] has unlocked the Door</font>"
-										for(var/turf/Gate/T in oview())
-											flick('Alohomora.dmi',T)
-											T.door=1
-											T.bumpable=1
-											T.door=1
-											T.bumpable=1*/
 								if("quillis")
 									if(src.Gm)
 										for(var/obj/Desk/T in view(client.view))
@@ -1322,20 +1293,6 @@ mob/Player
 											T.overlays += inflamari
 											T.density=1
 											T.invisibility=0
-								if("clanevent1")
-									if(src.admin)
-										if(!clanevent1)
-											clanevent1 = 1
-											clanevent1_respawntime = input("Seconds before respawn of destroyed pillar?",,600)
-											clanevent1_pointsgivenforpillarkill = input ("Number of points given for destroyed pillar?",,25)
-											clanevent1_pointsgivenforkill = input ("Number of points given for player kill?",,1)
-											var/MHP = input("Hits required to destroy pillar?",,100)
-											for(var/obj/clanpillar/C in world)
-												C.enable(MHP)
-										else
-											clanevent1 = 0
-											for(var/obj/clanpillar/C in world)
-												C.disable()
 							if(!Gm)
 								usr.spam++
 								spawn(30)
@@ -1361,13 +1318,13 @@ mob/Player
 							for(var/client/C)
 
 								if(C.mob)if(C.mob.type == /mob/Player)if(C.mob.listenooc)
-									if(usr.name=="Robed Figure")
+									if(prevname)
 										C << "<b><a href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr.prevname] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
 									else
 										C << "<b><a href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
 
 
-							if(usr.name=="Robed Figure")
+							if(prevname)
 								chatlog << "<font color=blue><b>[usr.prevname] (ROBED)</b></font><font color=green> OOC's '[T]'</font>"+"<br>"//This is what it adds to the log!
 							else
 								chatlog << "<font color=blue><b>[usr]</b></font><font color=green> OOC's '[T]'</font>"+"<br>"//This is what it adds to the log!
@@ -1499,7 +1456,6 @@ mob/Player
 				stat("Uses required:", learning.uses)
 			if(admin)
 				stat("CPU:", world.cpu)
-				stat("realtime:", comma(world.realtime))
 				stat("Date:", time2text(world.realtime, "DDD MMM DD hh:mm:ss YYYY"))
 			stat("---House points---")
 			stat("Gryffindor",worldData.housepointsGSRH[1])
@@ -1675,7 +1631,7 @@ mob/proc/Death_Check(mob/killer = src)
 				flick('teleboom.dmi',src)
 				return
 				//src<<"<b><font color=red>Advice:</b></font> You can't kill yourself to get out of detention. Attempt to do it again and all of your spells will be erased from your memory."
-			if(src.Immortal==1)
+			if(src.Immortal==1 && (src.admin || !istype(killer, /mob/NPC/Enemies)))
 				src<<"[killer] tried to knock you out, but you are immortal."
 				killer<<"<font color=blue><b>[src] is immortal and cannot die.</b></font>"
 				return
@@ -1782,24 +1738,7 @@ mob/proc/Death_Check(mob/killer = src)
 					killer << "Do not attack before a round has started."
 					src.HP = src.MHP+extraMHP
 					return
-			if(clanwars)
-			//world clanwars
-				if(killer.aurorrobe && src.DeathEater)
-					src << "You were killed by [killer] of the Aurors."
-					worldData.housepointsGSRH[5] += 1
-					clanwars_event.add_auror(1)
 
-					if(clanevent1_pointsgivenforkill)
-						worldData.housepointsGSRH[5] += clanevent1_pointsgivenforkill
-						clanwars_event.add_auror(clanevent1_pointsgivenforkill)
-				else if(killer.derobe && src.Auror)
-					src << "You were killed by a [killer]."
-					worldData.housepointsGSRH[6] += 1
-					clanwars_event.add_de(1)
-
-					if(clanevent1_pointsgivenforkill)
-						worldData.housepointsGSRH[6] += clanevent1_pointsgivenforkill
-						clanwars_event.add_de(clanevent1_pointsgivenforkill)
 			if(src.loc.loc.type in typesof(/area/arenas/MapTwo))
 			/////CLAN WARS//////
 				if(!(src.derobe && killer.derobe)&&!(src.aurorrobe && killer.aurorrobe))
@@ -1871,22 +1810,25 @@ mob/proc/Death_Check(mob/killer = src)
 				src.updateHPMP()
 				return
 			var/obj/Bed/B
-			if(src.derobe)
-				B = pick(DEBeds)
-			else if(src.aurorrobe)
-				B = pick(AurorBeds)
+			if(src.prevname)
+				if(src:guild == worldData.majorChaos)
+					B = pick(DEBeds)
+				else if(src:guild == worldData.majorPeace)
+					B = pick(AurorBeds)
+				else
+					B = pick(Beds)
 			else
 				B = pick(Beds)
 			if(!src.Detention)
 				if(killer != src && !src:rankedArena)
 					if(killer.client && src.client && killer.loc.loc.name != "outside")
-						if(killer.name == "Robed Figure")
-							if(src.name == "Robed Figure")
+						if(killer.prevname)
+							if(src.prevname)
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer.prevname](DE robed) killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 							else
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer.prevname](DE robed) killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 						else
-							if(src.name == "Robed Figure")
+							if(src.prevname)
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer] killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 							else
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer] killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
@@ -1918,6 +1860,14 @@ mob/proc/Death_Check(mob/killer = src)
 				if(src:rankedArena)
 					src:rankedArena.death(src)
 				if(killer != src)
+					var/mob/Player/p = src
+
+					if(clanwars)
+						if(p.getRep() < -100)
+							clanwars_event.add_auror(1)
+
+						else if(p.getRep() > 100)
+							clanwars_event.add_de(1)
 
 					killer.pkills+=1
 					displayKills(killer, 1, 1)
@@ -1938,13 +1888,9 @@ mob/proc/Death_Check(mob/killer = src)
 						new /StatusEffect/KilledPlayer (killer, 40)
 						rndexp *= rand(2,4)
 
-					if(!spamKilledQuest)
-						new /StatusEffect/KilledPlayerQuest (killer, 20)
-						killer:checkQuestProgress("Kill Player")
-
-						var/player_rating = src:getRep()
+						var/player_rating = p.getRep()
 						var/killer_rating = killer:getRep()
-						var/rep = -round(1 + (player_rating / 100), 1)
+						var/rep = -round(1 + (player_rating / 200), 1)
 
 						if(rep >= 0)
 							rep = max(rep, 1)
@@ -1954,7 +1900,11 @@ mob/proc/Death_Check(mob/killer = src)
 						killer:addRep(rep)
 
 						if(abs(player_rating) > 200 && ((player_rating > 0 && killer_rating < 0) || (player_rating < 0 && killer_rating > 0)))
-							src:addRep(round(rep / 2))
+							src:addRep(round(rep))
+
+					if(!spamKilledQuest)
+						new /StatusEffect/KilledPlayerQuest (killer, 20)
+						killer:checkQuestProgress("Kill Player")
 
 					killer:addExp(rndexp)
 					if(killer:wand)
@@ -2307,19 +2257,13 @@ mob/var/Disperse
 mob/var/Aero
 obj/var/accioable=0
 obj/var/clothes
-mob/var/DeathEater
-
 mob/var/MuteOOC=0
-
 mob/var/Year=""
 mob/var/Teleblock=0
 mob/var/House
-mob/var/Auror
-mob/var/DE
 mob/var/Tag=null
 mob/var/GMTag=null
-mob/var/HA
-mob/var/HDE
+
 
 obj/var/dontsave=0
 //others

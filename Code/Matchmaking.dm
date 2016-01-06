@@ -135,9 +135,7 @@ matchmaking
 		addQueue(mob/Player/p)
 			if(!queue) queue = list()
 
-			if(!(p.ckey  in worldData.playersData)) worldData.playersData[p.ckey]  = new /PlayerData
-
-			var/PlayerData/s = worldData.playersData[p.ckey]
+			var/PlayerData/s = initPlayer(p.ckey)
 			queue[p] = s.mmRating
 
 			if(!matchmaking && queue.len >= 2)
@@ -660,9 +658,6 @@ obj
 					maptext = "<b><font size=4 color=#FF4500>[seconds]</font></b>"
 
 
-
-var/list/skill_rating
-
 PlayerData
 	var
 		mmWins   = 0
@@ -674,11 +669,7 @@ PlayerData
 			if(mmWins >= WINS_REQ) return 32
 			return 48
 
-skill_stats
-	var/wins   = 0
-	var/rating = START_RATING
-	var/name
-	var/time
+
 
 
 proc
@@ -686,7 +677,7 @@ proc
 		var/PlayerData/s = worldData.playersData[ckey]
 
 		if(s && s.mmWins >= WINS_REQ && world.realtime - s.mmTime <= 12096000)
-	//		var/pos = skill_rating.Find(ckey, skill_rating.len - 2)
+			//		var/pos = skill_rating.Find(ckey, skill_rating.len - 2)
 	//		if(s.rating >= 1800 && pos) return "<font color=#9f0419>Champion</font>"
 			if(s.mmRating >= 1600) return "<font color=#aa2fbd>Grandmaster</font>"
 			if(s.mmRating >= 1400) return "<font color=#01e4ac>Master</font>"
@@ -699,6 +690,16 @@ proc
 			return "Novice"
 		return "Unranked"
 
+	getSkillFromNum(var/rating)
+		if(rating >= 1600) return "<font color=#aa2fbd>Grandmaster</font>"
+		if(rating >= 1400) return "<font color=#01e4ac>Master</font>"
+		if(rating >= 1200) return "<font color=#ff0000>Archwizard</font>"
+		if(rating >= 1000) return "<font color=#E5E4E2>Battlewizard</font>"
+		if(rating >= 800)  return "<font color=#FFD700>Wizard</font>"
+		if(rating >= 600)  return "<font color=#C0C0C0>Sorcerer</font>"
+		if(rating >= 400)  return "<font color=#CD7F32>Journeyman</font>"
+		if(rating >= 200)  return "Apprentice"
+		return "Novice"
 
 
 obj/spectate
@@ -802,7 +803,7 @@ tr.grey
 				html += "<br>Recent Matches:<br>"
 				for(var/i = currentMatches.records.len to 1 step -1)
 					html += {"<table class="colored"><tr class="grey" align="center"><td>[currentMatches.records[i]]</td></tr></table>"}
-			usr << browse(SCOREBOARD_HEADER + html + "</center></html>","window=scoreboard")
+			usr << browse(SCOREBOARD_HEADER + html + "</center></body></html>","window=scoreboard")
 
 area/arenas
 	antiFly      = TRUE

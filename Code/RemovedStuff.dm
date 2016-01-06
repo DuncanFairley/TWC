@@ -352,86 +352,19 @@ mob/GM/verb
 
 mob
 	var
-		derobe    = 0
-		aurorrobe = 0
-
-	BaseIcon()
-		if(derobe)
-			icon   = 'Deatheater.dmi'
-			trnsed = 1
-		else if(aurorrobe)
-			if(Gender == "Female")
-				icon = 'FemaleAuror.dmi'
-			else
-				icon = 'MaleAuror.dmi'
-		else ..()
+		derobe
+		aurorrobe
+		DeathEater
+		HA
+		HDE
+		Auror
+		DE
 
 	GM/verb
 		Auror_Robes()
-			set category = "Clan"
-			set name = "Auror Robes"
-			if(usr.aurorrobe==1)
-				usr.aurorrobe=0
-				usr:ApplyOverlays()
-				usr:addNameTag()
-				if(locate(/mob/GM/verb/GM_chat) in usr.verbs) usr.Gm = 1
-				usr.BaseIcon()
-			else
-				for(var/client/C)
-					if(C.eye)
-						if(C.eye == usr && C.mob != usr)
-							C << "<b><font color = white>Your Telendevour wears off."
-							C.eye=C.mob
-				usr.aurorrobe=1
-				usr.density=1
-				usr.underlays = list()
-				GenerateNameOverlay(196,237,255)
-				usr.Immortal = 0
-				usr.Gm = 0
-				var/mob/Player/user = usr
-				if(usr.trnsed)
-					usr.trnsed = 0
-					user.ApplyOverlays()
-				usr.BaseIcon()
+			set hidden = 1
 		DErobes()
-			set category = "Clan"
-			set name = "Wear DE Robes"
-			if(usr.derobe==1)
-				usr.trnsed = 0
-				usr.derobe=0
-				usr:ApplyOverlays()
-				if(locate(/mob/GM/verb/GM_chat) in usr.verbs) usr.Gm = 1
-				usr << "You slip off your Death Eater robes."
-				usr.name = usr.prevname
-				usr.prevname = null
-				if(usr.Gender == "Male")
-					usr.gender = MALE
-				else if(usr.Gender == "Female")
-					usr.gender = FEMALE
-				else
-					usr.gender = MALE
-				usr.BaseIcon()
-				usr:addNameTag()
-			else
-				for(var/client/C)
-					if(C.eye)
-						if(C.eye == usr && C.mob != usr)
-							C << "<b><font color = white>Your Telendevour wears off."
-							C.eye=C.mob
-				usr.trnsed = 1
-				usr.derobe=1
-				usr.BaseIcon()
-				usr.overlays = null
-				if(usr.away)usr.ApplyAFKOverlay()
-				usr.gender = NEUTER
-				usr.Immortal = 0
-				usr.density=1
-				usr.Gm = 0
-				usr << "You slip on your Death Eater robes."
-				usr.prevname = usr.name
-				usr.name = "Robed Figure"
-				usr.underlays = list()
-				usr.GenerateNameOverlay(77,77,77,1)
+			set hidden = 1
 
 
 mob/test/verb/FloorColor(c as color)
