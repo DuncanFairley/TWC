@@ -321,7 +321,7 @@ mob/Spells/verb/Morsmordre()
 			src << errormsg("A dark mark already exists in the sky.")
 			return
 
-		new /StatusEffect/UsedClanAbilities(src, 3000)
+		new /StatusEffect/UsedClanAbilities(src, 300)
 		D = new (locate(src.x,src.y+1,src.z))
 		D.density=0
 		D.owner = ckey
