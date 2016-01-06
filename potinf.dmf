@@ -1261,7 +1261,7 @@ window "guild"
 	elem "guild"
 		type = MAIN
 		pos = 281,0
-		size = 550x409
+		size = 607x409
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -1300,7 +1300,7 @@ window "guild"
 	elem "labelBackground"
 		type = LABEL
 		pos = 7,109
-		size = 537x293
+		size = 593x293
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -1327,7 +1327,7 @@ window "guild"
 		letterbox = true
 	elem "buttonRanksEdit"
 		type = BUTTON
-		pos = 243,249
+		pos = 271,249
 		size = 60x20
 		anchor1 = none
 		anchor2 = none
@@ -1355,7 +1355,7 @@ window "guild"
 		button-type = pushbutton
 	elem "label16"
 		type = LABEL
-		pos = 275,221
+		pos = 303,221
 		size = 104x20
 		anchor1 = none
 		anchor2 = none
@@ -1383,7 +1383,7 @@ window "guild"
 		letterbox = true
 	elem "label15"
 		type = LABEL
-		pos = 275,194
+		pos = 303,194
 		size = 104x20
 		anchor1 = none
 		anchor2 = none
@@ -1411,7 +1411,7 @@ window "guild"
 		letterbox = true
 	elem "label14"
 		type = LABEL
-		pos = 275,167
+		pos = 303,167
 		size = 104x20
 		anchor1 = none
 		anchor2 = none
@@ -1439,7 +1439,7 @@ window "guild"
 		letterbox = true
 	elem "label13"
 		type = LABEL
-		pos = 275,141
+		pos = 303,141
 		size = 104x20
 		anchor1 = none
 		anchor2 = none
@@ -1467,7 +1467,7 @@ window "guild"
 		letterbox = true
 	elem "inputRank1"
 		type = INPUT
-		pos = 171,221
+		pos = 199,221
 		size = 100x20
 		anchor1 = none
 		anchor2 = none
@@ -1491,7 +1491,7 @@ window "guild"
 		no-command = false
 	elem "inputRank2"
 		type = INPUT
-		pos = 171,194
+		pos = 199,194
 		size = 100x20
 		anchor1 = none
 		anchor2 = none
@@ -1515,7 +1515,7 @@ window "guild"
 		no-command = false
 	elem "inputRank3"
 		type = INPUT
-		pos = 171,167
+		pos = 199,167
 		size = 100x20
 		anchor1 = none
 		anchor2 = none
@@ -1539,7 +1539,7 @@ window "guild"
 		no-command = false
 	elem "inputRank4"
 		type = INPUT
-		pos = 171,141
+		pos = 199,141
 		size = 100x20
 		anchor1 = none
 		anchor2 = none
@@ -1564,7 +1564,7 @@ window "guild"
 	elem "outputMotd"
 		type = OUTPUT
 		pos = 7,32
-		size = 537x72
+		size = 593x72
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -1590,7 +1590,7 @@ window "guild"
 	elem "outputMembers"
 		type = OUTPUT
 		pos = 7,109
-		size = 537x293
+		size = 593x293
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -1671,7 +1671,7 @@ window "guild"
 		button-type = pushbutton
 	elem "button8"
 		type = BUTTON
-		pos = 520,8
+		pos = 576,8
 		size = 24x20
 		anchor1 = none
 		anchor2 = none
