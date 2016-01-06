@@ -332,25 +332,25 @@ obj/items/wearable/masks
 				owner.name     = n
 				owner.gender   = NEUTER
 
-			owner.underlays = list()
-			owner.GenerateNameOverlay(r,g,b, TRUE)
+				owner.underlays = list()
+				owner.GenerateNameOverlay(r,g,b, TRUE)
 
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
 
+			if(owner.prevname)
+				owner.name     = owner.prevname
+				owner.prevname = null
 
-			owner.name     = owner.prevname
-			owner.prevname = null
+				if(owner.Gender == "Male")
+					owner.gender = MALE
+				else if(owner.Gender == "Female")
+					owner.gender = FEMALE
+				else
+					owner.gender = MALE
 
-			if(owner.Gender == "Male")
-				owner.gender = MALE
-			else if(owner.Gender == "Female")
-				owner.gender = FEMALE
-			else
-				owner.gender = MALE
-
-			owner.underlays = list()
-			owner.addNameTag()
+				owner.underlays = list()
+				owner.addNameTag()
 
 
 obj/items/wearable/masks/peace_mask
