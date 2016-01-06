@@ -2226,15 +2226,15 @@ obj/clanpillar
 				//		worldData.housepointsGSRH[5] += 10
 						clanwars_event.add_auror(10)
 
-						attacker.addRep(10)
+						attacker.addRep(8)
 					else if(clan == "Auror")
 				//		worldData.housepointsGSRH[6] += 10
 						clanwars_event.add_de(10)
 
-						attacker.addRep(-10)
+						attacker.addRep(-8)
 
 
-					Players << "[attacker] has destroyed [name] and earned 10 points for the [clan == "Deatheater" ? "chaos" : "peace"] clan."
+					Players << "[attacker] has destroyed [name] and earned 10 points for the [clan == "Deatheater" ? "peace" : "chaos"] clan."
 
 				density = 0
 				invisibility = 101
