@@ -977,7 +977,7 @@ window "Quests"
 	elem "Quests"
 		type = MAIN
 		pos = 281,0
-		size = 419x349
+		size = 420x349
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -1098,7 +1098,7 @@ window "Quests"
 	elem "label6"
 		type = LABEL
 		pos = 0,0
-		size = 446x24
+		size = 420x24
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
