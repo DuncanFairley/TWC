@@ -274,8 +274,8 @@ window "Auction"
 		letterbox = true
 	elem "label10"
 		type = LABEL
-		pos = 111,107
-		size = 83x32
+		pos = 136,107
+		size = 31x32
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -610,8 +610,8 @@ window "Auction"
 		button-type = radio
 	elem "label9"
 		type = LABEL
-		pos = -1,108
-		size = 83x32
+		pos = 16,108
+		size = 66x32
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -893,7 +893,7 @@ window "Auction"
 		font-family = ""
 		font-size = 0
 		font-style = ""
-		text-color = #e3e3e3
+		text-color = #508cb4
 		background-color = #a8d8f0
 		is-visible = true
 		is-disabled = false
@@ -910,8 +910,8 @@ window "Auction"
 		small-icons = false
 		show-names = true
 		enable-http-images = false
-		link-color = #e3e3e3
-		visited-color = #e3e3e3
+		link-color = #508cb4
+		visited-color = #508cb4
 		line-color = #0b81ff
 		highlight-color = #000000
 		style = "text-align:center;"
