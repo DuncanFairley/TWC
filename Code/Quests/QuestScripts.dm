@@ -44,7 +44,7 @@ quest
 		name   = "Preserve Peace \[Daily]"
 		desc   = "A stranger with pale skin asked you to kill other strangers with pale skin who supposedly spread chaos. One must fight fire with fire."
 		reward = /questReward/clanReward/peace
-		repeat = 8648000
+		repeat = 864000
 
 		Kill
 			desc = "Kill chaos vampires and their pets."
