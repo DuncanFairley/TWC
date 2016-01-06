@@ -52,7 +52,7 @@ obj
 		New()
 			..()
 			tag = "EyeCounter"
-			maptext = "<b><font size=4 color=#FF4500>0</font></b>"
+			maptext = "<b><font size=4 color=#FF4500>[eyesKilled]</font></b>"
 
 		proc
 			add()
