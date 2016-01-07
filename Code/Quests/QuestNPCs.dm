@@ -311,7 +311,23 @@ mob/TalkNPC/quest
 
 	Hunter
 		icon_state="lord"
-		questPointers = list("Pest Extermination: Rat", "Pest Extermination: Demon Rat", "Pest Extermination: Pixie", "Pest Extermination: Dog", "Pest Extermination: Snake", "Pest Extermination: Wolf", "Pest Extermination: Troll", "Pest Extermination: Fire Bat", "Pest Extermination: Fire Golem", "Pest Extermination: Archangel", "Pest Extermination: Water Elemental", "Pest Extermination: Fire Elemental", "Pest Extermination: Wyvern", "Pest Extermination \[Daily]")
+		questPointers = list("Pest Extermination: Rat",
+		                     "Pest Extermination: Common Pests",
+		                     "Pest Extermination: Pixie",
+		                     "Pest Extermination: Dog",
+		                     "Pest Extermination: Snake",
+		                     "Pest Extermination: Wolf",
+		                     "Pest Extermination: Uncommon Pests",
+		                     "Pest Extermination: Fire Bat",
+		                     "Pest Extermination: Fire Golem",
+		                     "Pest Extermination: Archangel",
+		                     "Pest Extermination: Water Elemental",
+		                     "Pest Extermination: Fire Elemental",
+		                     "Pest Extermination: Wyvern",
+		                     "Pest Extermination: Demon Rat",
+		                     "Pest Extermination: Troll",
+		                     "Pest Extermination: Acromantula",
+		                     "Pest Extermination \[Daily]")
 
 
 		Talk()
