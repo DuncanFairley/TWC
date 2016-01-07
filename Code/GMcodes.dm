@@ -1180,7 +1180,7 @@ mob
 
 				if(istype(O.vars[variable], /gold))
 					var/gold/g = O.vars[variable]
-					usr << "Gold: [g.get()]"
+					usr << "Gold: [g.get()] ([g.plat]/[g.gold]/[g.silver]/[g.bronze])"
 
 				options += "Edit reference"
 
