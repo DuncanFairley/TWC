@@ -52,6 +52,7 @@ clan_wars
 			for(var/turf/t in world)
 				if(t.z >= 21 && t.z <= 22)
 					if(istype(t, /turf/woodenfloor) || istype(t, /turf/nofirezone) || istype(t, /turf/sideBlock))
+						if(!findtext(t.icon_state, "wood")) continue
 						t.color = c
 
 		timeout()
@@ -170,6 +171,7 @@ obj/brick2door
 				clan = "DE"
 		Bumped(mob/Player/M)
 			if(!isplayer(M)) return
+			if(!M.guild) return
 			if(clan == "Auror" && M.guild != worldData.majorPeace)
 				//If you're not the same clan as the door
 				return

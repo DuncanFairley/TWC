@@ -49,6 +49,7 @@ mob/Player
 				if(alert("Are you sure you want to quit?", "Quit", "Yes", "No") == "No") return
 				src << errormsg("You left [g.name] guild")
 				guild = null
+				verbs -= /mob/GM/verb/Guild_Chat
 			else
 
 				if(!(who in g.members)) return
@@ -59,6 +60,7 @@ mob/Player
 					if(p.ckey == who)
 						p << errormsg("You were removed from [g.name] guild")
 						p.guild = null
+						p.verbs -= /mob/GM/verb/Guild_Chat
 						break
 
 			g.Remove(who)
@@ -76,13 +78,14 @@ mob/GM
 				if(messsage == null || messsage == "") return
 
 				var/mob/Player/p = src
+				if(!p.guild) return
 				var/guild/g = worldData.guilds[p.guild]
 
 				var/f = g.Rep() < 0 ? "green" : "red"
 
 				for(var/mob/Player/m in Players)
 					if(m.guild == p.guild)
-						if(p.name == "Masked Figure")
+						if(p.prevname)
 							m << "<b><font color=[f]><font size=2>Guild Channel> <font size=2><font color=silver>[p.prevname](Masked):</b> <font color=white>[messsage]"
 						else
 							m << "<b><font color=[f]><font size=2>Guild Channel> <font size=2><font color=silver>[p]:</b> <font color=white>[messsage]"
@@ -117,6 +120,8 @@ guild
 			data.guild = id
 
 			ranks = list("Recruit", "Member", "Leader", "Master")
+
+			owner.verbs += /mob/GM/verb/Guild_Chat
 
 		Show(mob/Player/p)
 
@@ -157,60 +162,41 @@ guild
 			var/alignment = rep < 0 ? "Chaos" : "Peace"
 			p << output("<b>Guild Reputation:</b>\t[alignment] ([abs(rep)])<br><b>Guild Skill:</b>\t\t[Skill()]<br>", "guild.outputMembers")
 
-			var/html = "<tr>\
-							<td><b>Name</b><td>\
-							<td></td>\
-							<td><b>Rank</b></td>\
-							<td></td>\
-							<td><b>Reputation</b></td>\
-							<td></td><td></td></tr>"
+
+			p << output("<b>Name</b>",       "guild.gridMembers:1,1")
+			p << output("<b>Rank</b>",       "guild.gridMembers:2,1")
+			p << output("<b>Reputation</b>", "guild.gridMembers:3,1")
+			winset(p, "guild.gridMembers", "cells=5x1")
 
 			var/playerRank = members[p.ckey]
 
+			var/row = 1
 			for(var/m in members)
+				row++
 				var/PlayerData/data = worldData.playersData[m]
 
 				alignment = data.fame < 0 ? "Chaos" : "Peace"
 
-
-				html += "<tr>\
-							<td>[data.name]</td>\
-							<td></td>\
-							<td>[ranks[members[m]]]</td>\
-							<td></td>\
-							<td>[alignment] ([abs(data.fame)])</td>"
+				p << output(data.name, "guild.gridMembers:1,[row]")
+				p << output(ranks[members[m]], "guild.gridMembers:2,[row]")
+				p << output(alignment, "guild.gridMembers:3,[row]")
 
 				if(m == p.ckey)
-					html += "<td><a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Quit</a></td>"
+					p << output("<a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Quit</a>", "guild.gridMembers:5,[row]")
 				else
 					var/memberRank = members[m]
 
 					if(playerRank > 2 && playerRank > memberRank)
 						if(playerRank > memberRank + 1)
-							html += "<td><a href=\"?src=\ref[p];action=guildPromote;who=[m]\">Promote</a></td>"
+							p << output("<a href=\"?src=\ref[p];action=guildPromote;who=[m]\">Promote</a>", "guild.gridMembers:4,[row]")
 
 						if(memberRank > 1)
-							html += "<td><a href=\"?src=\ref[p];action=guildDemote;who=[m]\">Demote</a></td>"
+							p << output("<a href=\"?src=\ref[p];action=guildDemote;who=[m]\">Demote</a>", "guild.gridMembers:5,[row]")
 						else
-							html += "<td><a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Remove</a></td>"
+							p << output("<a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Remove</a>", "guild.gridMembers:5,[row]")
 
-				html += "</tr>"
+			winset(p, "guild.gridMembers", "cells=5x[row]")
 
-			/*	if(m == p.ckey)
-					p << output("<tr><td>[data.name]</td><td>[ranks[members[m]]]</td><td>[alignment] ([abs(data.fame)])</td><td><a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Quit</a></td></tr>", "guild.outputMembers")
-				else
-					var/memberRank = members[m]
-					if(playerRank > 2 && playerRank > memberRank)
-						p << output("<tr><td>[data.name]</td><td>[ranks[members[m]]]</td><td>[alignment] ([abs(data.fame)])</td>\
-						[playerRank > memberRank + 1 ? "<td><a href=\"?src=\ref[p];action=guildPromote;who=[m]\">Promote</a></td>" : ""]\
-						[memberRank > 1 ? "<td><a href=\"?src=\ref[p];action=guildDemote;who=[m]\">Demote</a></td></tr>" : "<td><a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Remove</a></td></tr>"]", "guild.outputMembers")
-					else
-						p << output("<tr><td>[data.name]</td><td>[ranks[members[m]]]</td><td>[alignment] ([abs(data.fame)])</td></tr>", "guild.outputMembers")
-
-						*/
-			p << output("<table>[html]</table>", "guild.outputMembers")
-
-			winset(p, "guild.outputMembers", "is-visible=true")
 
 		Add(mob/Player/p)
 			if(!(p.ckey in members))
@@ -232,6 +218,7 @@ guild
 					if(p.guild == id)
 						p << errormsg("[name] guild was disbanded.")
 						p.guild = null
+						p.verbs -= /mob/GM/verb/Guild_Chat
 
 				Dispose()
 
@@ -264,7 +251,7 @@ guild
 			return i
 
 		Score()
-			return (Rep() + Skill(0)) / 2
+			return (Rep() / 7200) * Skill(0)
 
 
 		Dispose()
@@ -346,7 +333,19 @@ mob/TalkNPC/Guildmaster
 				if(!desiredname)
 					del c
 					return
+				desiredname = trimAll(desiredname)
 				var/passfilter = c.name_filter(desiredname)
+
+				if(!passfilter)
+
+					if(worldData.guilds && worldData.guilds.len)
+						for(var/guild/g in worldData.guilds)
+							if(g.name == desiredname)
+								passfilter = "a guild already exists with that name"
+								break
+				else
+					passfilter = "it [passfilter]"
+
 				while(passfilter)
 					alert("Your desired name is not allowed as [passfilter].")
 					desiredname = input("Please select a name that does not use numbers or special characters.") as text|null
@@ -453,7 +452,7 @@ mob/Player/verb/guild_command(var/action as text)
 
 	if(action == "motd"   && rank > 1)
 
-		var/text = input("What would you like to set message of the day to? (200 characters limit)", "Guild MOTD") as null|text
+		var/text = input("What would you like to set message of the day to? (200 characters limit)", "Guild MOTD", g.motd) as null|message
 		if(text)
 			g.motd = copytext(text, 1, 200)
 			src << output(null,   "guild.outputMotd")
@@ -484,6 +483,7 @@ mob/Player/verb/guild_command(var/action as text)
 			spawn()
 				if(alert(p, "Would you like to join [g.name] guild?", "Guild Invite", "Yes", "No") == "Yes")
 					g.Add(p)
+					p.verbs += /mob/GM/verb/Guild_Chat
 
 
 

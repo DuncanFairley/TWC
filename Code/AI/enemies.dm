@@ -52,7 +52,8 @@ obj
 		New()
 			..()
 			tag = "EyeCounter"
-			maptext = "<b><font size=4 color=#FF4500>0</font></b>"
+			spawn(1)
+				maptext = "<b><font size=4 color=#FF4500>[worldData.eyesKilled]</font></b>"
 
 		proc
 			add()
@@ -681,10 +682,11 @@ mob
 					Death()
 
 				Acromantula
+					name = "Tiny Spider"
 					icon_state = "spider"
 					level = 700
 					MoveDelay = 1
-					AttackDelay = 4
+					AttackDelay = 3
 					Range = 20
 					HPmodifier = 1.3
 					DMGmodifier = 0.7
@@ -755,6 +757,7 @@ mob
 
 					Basilisk
 						icon_state = "basilisk"
+						name = "Mini Basilisk"
 						HPmodifier = 3
 						DMGmodifier = 3
 						MoveDelay = 3
@@ -1323,10 +1326,13 @@ mob
 
 			Rat
 				icon_state = "rat"
-				level = 10
+				level = 50
+				HPmodifier = 0.2
+				DMGmodifier = 0.1
+
 			Demon_Rat
 				icon_state = "demon rat"
-				level = 50
+				level = 550
 			Pixie
 				icon_state = "pixie"
 				level = 100
@@ -1351,10 +1357,10 @@ mob
 			Acromantula
 				icon_state = "spider"
 				level = 800
-				MoveDelay = 3
-				AttackDelay = 4
+				MoveDelay = 2
+				AttackDelay = 3
 
-				HPmodifier = 1.4
+				HPmodifier = 1.6
 				DMGmodifier = 0.8
 
 				respawnTime = 1800
@@ -1393,7 +1399,7 @@ mob
 				icon = 'FemaleVampire.dmi'
 				level = 850
 				HPmodifier  = 1.8
-				DMGmodifier = 0.7
+				DMGmodifier = 0.8
 				MoveDelay   = 3
 				AttackDelay = 3
 				respawnTime = 2400
@@ -1444,7 +1450,11 @@ mob
 					     life   = new /Random(1,10))
 
 					if(killer)
-						killer.addRep(rep)
+
+						var/r = rep
+						if(prob(52)) r /= 2
+
+						killer.addRep(r)
 
 					var/area/newareas/a = loc.loc
 					if(a && istype(a, /area/newareas) && a.rep != 0)
@@ -1457,7 +1467,7 @@ mob
 
 				Attacked(obj/projectile/p)
 					p.damage = round(p.damage * rand(7, 10)/10)
-					if(MoveDelay == 3 && p.owner && p.owner.loc.loc == loc.loc && prob(55))
+					if(MoveDelay == 3 && p.owner && p.owner.loc.loc == loc.loc && prob(60))
 						MoveDelay = 1
 						spawn(80)
 							MoveDelay = 2
@@ -1638,7 +1648,7 @@ mob
 
 			Troll
 				icon_state = "troll"
-				level = 350
+				level = 600
 				HPmodifier  = 6
 				DMGmodifier = 0.8
 				MoveDelay   = 3
@@ -1840,51 +1850,6 @@ mob
 							t.density = 0
 
 mob
-	Stickman_
-		icon = 'Mobs.dmi'
-		icon_state = "stickman"
-		gold = 0
-		HP = 50
-		MHP = 50
-		Def=0
-		player = 0
-		Dmg = 50
-		see_invisible = 1
-		Expg = 10
-		level = 2
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(5,10))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(10)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			if(!M)
-				spawn()Wander()
-				return
-			var/dmg = Dmg+rand(0,20)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s sticky stick-ness doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] sticks [M] with a stick and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-
 	Slug
 		icon='Mobs.dmi'
 		icon_state="slug"

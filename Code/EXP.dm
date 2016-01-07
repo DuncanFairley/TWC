@@ -708,17 +708,17 @@ gold
 
 		setVars()
 
-			if(bronze > 99)
+			if(bronze > 99 || bronze < 0)
 				var/c   = round(bronze / (100))
 				silver += c
 				bronze -= c * 100
 
-			if(silver > 99)
+			if(silver > 99 || silver < 0)
 				var/c   = round(silver / (100))
 				gold   += c
 				silver -= c * 100
 
-			if(gold > 99)
+			if(gold > 99 || gold < 0)
 				var/c   = round(gold / (100))
 				plat   += c
 				gold   -= c * 100

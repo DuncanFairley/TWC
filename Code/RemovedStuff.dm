@@ -368,15 +368,11 @@ mob
 
 
 mob/test/verb/FloorColor(c as color)
-	for(var/turf/woodenfloor/t in world)
+	for(var/turf/t in world)
 		if(t.z >= 21 && t.z <= 22)
-			t.color = c
-	for(var/turf/nofirezone/t in world)
-		if(t.z >= 21 && t.z <= 22 && findtext(t.icon_state, "wood"))
-			t.color = c
-	for(var/turf/sideBlock/t in world)
-		if(t.z >= 21 && t.z <= 22)
-			t.color = c
+			if(istype(t, /turf/woodenfloor) || istype(t, /turf/nofirezone) || istype(t, /turf/sideBlock))
+				if(!findtext(t.icon_state, "wood")) continue
+				t.color = c
 
 mob/test/verb/pickColor(newColor as color)
 	set category = "colors"

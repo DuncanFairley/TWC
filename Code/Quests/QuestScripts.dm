@@ -44,7 +44,7 @@ quest
 		name   = "Preserve Peace \[Daily]"
 		desc   = "A stranger with pale skin asked you to kill other strangers with pale skin who supposedly spread chaos. One must fight fire with fire."
 		reward = /questReward/clanReward/peace
-		repeat = 8648000
+		repeat = 864000
 
 		Kill
 			desc = "Kill chaos vampires and their pets."
@@ -317,14 +317,15 @@ quest
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
-	DemonRats
-		name   = "Pest Extermination: Demon Rat"
-		desc   = "The hunter wants you to help him exterminate demon rats from the Chamber of Secrets"
+	CommonPests
+		name   = "Pest Extermination: Common Pests"
+		desc   = "The hunter wants you to help him exterminate common pests"
 		reward = /questReward/Mon2
 
 		Kill
-			desc = "Kill 100 demon rats."
-			reqs = list("Kill Demon Rat" = 100)
+			desc = "Kill 50 rats and 50 pixies."
+			reqs = list("Kill Rat"   = 50,
+						"Kill Pixie" = 50)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -372,14 +373,15 @@ quest
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
-	Troll
-		name   = "Pest Extermination: Troll"
-		desc   = "The hunter wants you to help him exterminate trolls from the forest"
+	UncommonPests
+		name   = "Pest Extermination: Uncommon Pests"
+		desc   = "The hunter wants you to help him exterminate some of the tougher pests"
 		reward = /questReward/Mon7
 
 		Kill
-			desc = "Kill 50 trolls."
-			reqs = list("Kill Troll" = 50)
+			desc = "Kill 150 snakes and 200 wolves."
+			reqs = list("Kill Snake" = 150,
+						"Kill Wolf"  = 200)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -449,7 +451,39 @@ quest
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
+	DemonRats
+		name   = "Pest Extermination: Demon Rat"
+		desc   = "The hunter wants you to help him exterminate demon rats from the Chamber of Secrets"
+		reward = /questReward/Mon10
 
+		Kill
+			desc = "Kill 256 demon rats."
+			reqs = list("Kill Demon Rat" = 256)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	Troll
+		name   = "Pest Extermination: Troll"
+		desc   = "The hunter wants you to help him exterminate trolls from the forest"
+		reward = /questReward/Mon10
+
+		Kill
+			desc = "Kill 69 trolls."
+			reqs = list("Kill Troll" = 69)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
+	Acromantulas
+		name   = "Pest Extermination: Acromantula"
+		desc   = "The hunter wants you to help him exterminate acromantulas from the spider pit"
+		reward = /questReward/Mon14
+
+		Kill
+			desc = "Kill 333 acromantulas."
+			reqs = list("Kill Acromantula" = 333)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
 
 	Tom
 		name   = "Rats in the Cellar"
@@ -655,6 +689,12 @@ questReward
 		exp   = 130000
 		items = list(/obj/items/wearable/title/Exterminator,
 					 /obj/items/lamps/sextuple_exp_lamp)
+	Mon14
+		gold = 14000
+		exp  = 140000
+		items = list(/obj/items/artifact,
+					 /obj/items/artifact,
+					 /obj/items/magic_stone/summoning/random)
 	Artifact
 		gold  = 14000
 		exp   = 140000
@@ -708,14 +748,14 @@ questReward
 		items = /obj/items/wearable/wands/maple_wand
 
 	TutorialWand
-		exp   = 10
-		gold  = 50
-	TutorialPalmer
-		exp   = 25
-		gold  = 100
-	TutorialQuests
 		exp   = 50
-		gold  = 150
+		gold  = 200
+	TutorialPalmer
+		exp   = 100
+		gold  = 400
+	TutorialQuests
+		exp   = 200
+		gold  = 800
 
 	Masterkey
 		exp   = 32000
@@ -726,7 +766,7 @@ questReward
 		BloodCoin
 			exp    = 32000
 			gold   = 32000
-			points = 100
+			points = 60
 			items  = /obj/items/magic_stone/summoning/blood
 
 
@@ -739,8 +779,8 @@ questReward
 			points = -50
 
 		peaceRankUp
-			points = 20
+			points = 15
 			max    = 0
 		chaosRankUp
-			points = -20
+			points = -15
 			max    = 0

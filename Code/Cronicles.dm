@@ -159,7 +159,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 21
+#define SAVEFILE_VERSION 22
 mob
 	var/tmp
 		base_save_allowed = 1
@@ -365,7 +365,7 @@ mob
 						src << infomsg("You were given [t.stack] massive chaos tablets.")
 
 
-			if(savefile_version < 21)
+			if(savefile_version < 22)
 				DeathEater = null
 				HA         = null
 				Auror      = null
@@ -378,12 +378,14 @@ mob
 					icon = baseicon
 				aurorrobe = null
 				derobe = null
-				verbs.Remove(/mob/GM/verb/Auror_chat)
-				verbs.Remove(/mob/GM/verb/Auror_Robes)
-				verbs.Remove(/mob/GM/verb/DErobes)
-				verbs.Remove(/mob/GM/verb/DE_chat)
-				verbs.Remove(/mob/GM/verb/Clan_store)
-				verbs.Remove(/mob/Spells/verb/Morsmordre)
+
+				spawn()
+					verbs -= /mob/GM/verb/Auror_chat
+					verbs -= /mob/GM/verb/Auror_Robes
+					verbs -= /mob/GM/verb/DErobes
+					verbs -= /mob/GM/verb/DE_chat
+					verbs -= /mob/GM/verb/Clan_store
+					verbs -= /mob/Spells/verb/Morsmordre
 
 			if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")

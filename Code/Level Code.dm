@@ -55,10 +55,10 @@ turf
 			if(istype(Y,/mob/Player))
 				if(Y.aurorrobe) return ..()
 
-				if(Y.guild == worldData.majorPeace) return ..()
+				if(Y.guild && Y.guild == worldData.majorPeace) return ..()
 
 	Aurorblocker
 		Enter(mob/Player/Y)
 			if(istype(Y,/mob/Player))
 				if(Y.derobe) return ..()
-				if(Y.guild == worldData.majorChaos) return ..()
+				if(Y.guild && Y.guild == worldData.majorChaos) return ..()

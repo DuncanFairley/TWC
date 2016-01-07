@@ -2226,15 +2226,15 @@ obj/clanpillar
 				//		worldData.housepointsGSRH[5] += 10
 						clanwars_event.add_auror(10)
 
-						attacker.addRep(10)
+						attacker.addRep(8)
 					else if(clan == "Auror")
 				//		worldData.housepointsGSRH[6] += 10
 						clanwars_event.add_de(10)
 
-						attacker.addRep(-10)
+						attacker.addRep(-8)
 
 
-					Players << "[attacker] has destroyed [name] and earned 10 points for the [clan == "Deatheater" ? "chaos" : "peace"] clan."
+					Players << "[attacker] has destroyed [name] and earned 10 points for the [clan == "Deatheater" ? "peace" : "chaos"] clan."
 
 				density = 0
 				invisibility = 101
@@ -3482,6 +3482,27 @@ obj/items
 			icon_state = "blue"
 			drops      = "community1"
 
+		wigs
+
+			Open()
+				set src in usr
+
+				var/d = drops
+
+				if(usr.Gender == "Female")
+					drops = "female_[drops]"
+				else
+					drops = "male_[drops]"
+
+				..()
+
+				drops = d
+
+			basic_wig_chest
+				icon_state = "green"
+				drops      = "basic"
+
+
 	key
 		icon = 'ChestKey.dmi'
 
@@ -3579,6 +3600,17 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 							 "blood"     = list(/obj/items/wearable/scarves/blood_scarf = 50,
 							 					/obj/items/wearable/shoes/blood_shoes   = 30,
 							 					/obj/items/wearable/wands/blood_wand    = 20),
+
+							 "male_basic" = list(/obj/items/wearable/wigs/male_black_wig   = 32,
+							 					   /obj/items/wearable/wigs/male_blond_wig = 32,
+							 					   /obj/items/wearable/wigs/male_grey_wig  = 32,
+							 					   /obj/items/wearable/wigs/male_brown_wig = 4),
+
+							 "female_basic" = list(/obj/items/wearable/wigs/female_black_wig    = 32,
+							 					     /obj/items/wearable/wigs/female_blonde_wig = 32,
+							 					     /obj/items/wearable/wigs/female_grey_wig   = 32,
+							 					     /obj/items/wearable/wigs/female_brown_wig  = 4),
+
 
 							 "community1"     = list(/obj/items/wearable/scarves/heartscarf    = 16,
 							 					     /obj/items/wearable/scarves/alien_scarf   = 22,
