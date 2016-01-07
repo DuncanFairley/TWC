@@ -675,13 +675,14 @@ obj/items/treasure
 
 		loc = null
 
-		var/t = pickweight(list(/obj/items/chest/basic_chest     = 45,
-		                        /obj/items/chest/wizard_chest    = 15,
-		                        /obj/items/chest/pentakill_chest = 15,
-								/obj/items/chest/prom_chest      = 10,
-								/obj/items/chest/winter_chest    = 10,
-		                        /obj/items/chest/sunset_chest    = 5,
-		                        /obj/items/wearable/title/Pirate = 2))
+		var/t = pickweight(list(/obj/items/chest/basic_chest          = 45,
+		                        /obj/items/chest/wizard_chest         = 15,
+		                        /obj/items/chest/pentakill_chest      = 15,
+								/obj/items/chest/prom_chest           = 10,
+								/obj/items/chest/winter_chest         = 10,
+		                        /obj/items/chest/sunset_chest         = 5,
+		                        /obj/items/chest/wigs/basic_wig_chest = 3,
+		                        /obj/items/wearable/title/Pirate      = 2))
 
 		var/obj/items/i = new t (usr)
 		usr:Resort_Stacking_Inv()

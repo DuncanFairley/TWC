@@ -43,7 +43,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							 			  /obj/items/Swamp)),
 
 
-"Demon Rat"          = list("1"    =      /obj/items/demonic_essence,
+"Demon Rat"          = list("5"    =      /obj/items/demonic_essence,
 							"0.8"  = list(/obj/items/Whoopie_Cushion,
 			 	 			 			  /obj/items/Smoke_Pellet,
 			 	 			 			  /obj/items/Tube_of_fun)),
@@ -98,7 +98,8 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							"30"   = list(/obj/items/colors/purple_stone,
 							 			  /obj/items/colors/pink_stone,
 						     			  /obj/items/colors/teal_stone,
-						     			  /obj/items/colors/orange_stone),
+						     			  /obj/items/colors/orange_stone,
+						     			  /obj/items/chest/wigs/basic_wig_chest),
 							"40"   =      /obj/items/chest/blood_chest),
 
 
