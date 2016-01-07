@@ -452,7 +452,7 @@ mob/Player/verb/guild_command(var/action as text)
 
 	if(action == "motd"   && rank > 1)
 
-		var/text = input("What would you like to set message of the day to? (200 characters limit)", "Guild MOTD") as null|text
+		var/text = input("What would you like to set message of the day to? (200 characters limit)", "Guild MOTD", g.motd) as null|message
 		if(text)
 			g.motd = copytext(text, 1, 200)
 			src << output(null,   "guild.outputMotd")
