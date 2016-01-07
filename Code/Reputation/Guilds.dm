@@ -78,6 +78,7 @@ mob/GM
 				if(messsage == null || messsage == "") return
 
 				var/mob/Player/p = src
+				if(!p.guild) return
 				var/guild/g = worldData.guilds[p.guild]
 
 				var/f = g.Rep() < 0 ? "green" : "red"
@@ -161,60 +162,41 @@ guild
 			var/alignment = rep < 0 ? "Chaos" : "Peace"
 			p << output("<b>Guild Reputation:</b>\t[alignment] ([abs(rep)])<br><b>Guild Skill:</b>\t\t[Skill()]<br>", "guild.outputMembers")
 
-			var/html = "<tr>\
-							<td><b>Name</b><td>\
-							<td></td>\
-							<td><b>Rank</b></td>\
-							<td></td>\
-							<td><b>Reputation</b></td>\
-							<td></td><td></td></tr>"
+
+			p << output("<b>Name</b>",       "guild.gridMembers:1,1")
+			p << output("<b>Rank</b>",       "guild.gridMembers:2,1")
+			p << output("<b>Reputation</b>", "guild.gridMembers:3,1")
+			winset(p, "guild.gridMembers", "cells=5x1")
 
 			var/playerRank = members[p.ckey]
 
+			var/row = 1
 			for(var/m in members)
+				row++
 				var/PlayerData/data = worldData.playersData[m]
 
 				alignment = data.fame < 0 ? "Chaos" : "Peace"
 
-
-				html += "<tr>\
-							<td>[data.name]</td>\
-							<td></td>\
-							<td>[ranks[members[m]]]</td>\
-							<td></td>\
-							<td>[alignment] ([abs(data.fame)])</td>"
+				p << output(data.name, "guild.gridMembers:1,[row]")
+				p << output(ranks[members[m]], "guild.gridMembers:2,[row]")
+				p << output(alignment, "guild.gridMembers:3,[row]")
 
 				if(m == p.ckey)
-					html += "<td><a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Quit</a></td>"
+					p << output("<a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Quit</a>", "guild.gridMembers:5,[row]")
 				else
 					var/memberRank = members[m]
 
 					if(playerRank > 2 && playerRank > memberRank)
 						if(playerRank > memberRank + 1)
-							html += "<td><a href=\"?src=\ref[p];action=guildPromote;who=[m]\">Promote</a></td>"
+							p << output("<a href=\"?src=\ref[p];action=guildPromote;who=[m]\">Promote</a>", "guild.gridMembers:4,[row]")
 
 						if(memberRank > 1)
-							html += "<td><a href=\"?src=\ref[p];action=guildDemote;who=[m]\">Demote</a></td>"
+							p << output("<a href=\"?src=\ref[p];action=guildDemote;who=[m]\">Demote</a>", "guild.gridMembers:5,[row]")
 						else
-							html += "<td><a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Remove</a></td>"
+							p << output("<a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Remove</a>", "guild.gridMembers:5,[row]")
 
-				html += "</tr>"
+			winset(p, "guild.gridMembers", "cells=5x[row]")
 
-			/*	if(m == p.ckey)
-					p << output("<tr><td>[data.name]</td><td>[ranks[members[m]]]</td><td>[alignment] ([abs(data.fame)])</td><td><a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Quit</a></td></tr>", "guild.outputMembers")
-				else
-					var/memberRank = members[m]
-					if(playerRank > 2 && playerRank > memberRank)
-						p << output("<tr><td>[data.name]</td><td>[ranks[members[m]]]</td><td>[alignment] ([abs(data.fame)])</td>\
-						[playerRank > memberRank + 1 ? "<td><a href=\"?src=\ref[p];action=guildPromote;who=[m]\">Promote</a></td>" : ""]\
-						[memberRank > 1 ? "<td><a href=\"?src=\ref[p];action=guildDemote;who=[m]\">Demote</a></td></tr>" : "<td><a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Remove</a></td></tr>"]", "guild.outputMembers")
-					else
-						p << output("<tr><td>[data.name]</td><td>[ranks[members[m]]]</td><td>[alignment] ([abs(data.fame)])</td></tr>", "guild.outputMembers")
-
-						*/
-			p << output("<table>[html]</table>", "guild.outputMembers")
-
-			winset(p, "guild.outputMembers", "is-visible=true")
 
 		Add(mob/Player/p)
 			if(!(p.ckey in members))
@@ -269,7 +251,7 @@ guild
 			return i
 
 		Score()
-			return (Rep() + Skill(0)) / 2
+			return (Rep() / 7200) * Skill(0)
 
 
 		Dispose()

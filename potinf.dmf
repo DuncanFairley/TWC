@@ -1327,7 +1327,7 @@ window "guild"
 		letterbox = true
 	elem "buttonRanksEdit"
 		type = BUTTON
-		pos = 271,249
+		pos = 264,351
 		size = 60x20
 		anchor1 = none
 		anchor2 = none
@@ -1355,7 +1355,7 @@ window "guild"
 		button-type = pushbutton
 	elem "label16"
 		type = LABEL
-		pos = 303,221
+		pos = 296,323
 		size = 104x20
 		anchor1 = none
 		anchor2 = none
@@ -1383,7 +1383,7 @@ window "guild"
 		letterbox = true
 	elem "label15"
 		type = LABEL
-		pos = 303,194
+		pos = 296,296
 		size = 104x20
 		anchor1 = none
 		anchor2 = none
@@ -1411,7 +1411,7 @@ window "guild"
 		letterbox = true
 	elem "label14"
 		type = LABEL
-		pos = 303,167
+		pos = 296,269
 		size = 104x20
 		anchor1 = none
 		anchor2 = none
@@ -1439,7 +1439,7 @@ window "guild"
 		letterbox = true
 	elem "label13"
 		type = LABEL
-		pos = 303,141
+		pos = 296,243
 		size = 104x20
 		anchor1 = none
 		anchor2 = none
@@ -1467,7 +1467,7 @@ window "guild"
 		letterbox = true
 	elem "inputRank1"
 		type = INPUT
-		pos = 199,221
+		pos = 192,323
 		size = 100x20
 		anchor1 = none
 		anchor2 = none
@@ -1491,7 +1491,7 @@ window "guild"
 		no-command = false
 	elem "inputRank2"
 		type = INPUT
-		pos = 199,194
+		pos = 192,296
 		size = 100x20
 		anchor1 = none
 		anchor2 = none
@@ -1515,7 +1515,7 @@ window "guild"
 		no-command = false
 	elem "inputRank3"
 		type = INPUT
-		pos = 199,167
+		pos = 192,269
 		size = 100x20
 		anchor1 = none
 		anchor2 = none
@@ -1539,7 +1539,7 @@ window "guild"
 		no-command = false
 	elem "inputRank4"
 		type = INPUT
-		pos = 199,141
+		pos = 192,243
 		size = 100x20
 		anchor1 = none
 		anchor2 = none
@@ -1561,6 +1561,38 @@ window "guild"
 		multi-line = false
 		is-password = false
 		no-command = false
+	elem "gridMembers"
+		type = GRID
+		pos = 16,200
+		size = 576x192
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #e3e3e3
+		background-color = #508cb4
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = true
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		cells = 0x0
+		current-cell = 0,0
+		show-lines = none
+		small-icons = false
+		show-names = true
+		enable-http-images = false
+		link-color = #e3e3e3
+		visited-color = #e3e3e3
+		line-color = #c0c0c0
+		highlight-color = #000000
+		style = ""
+		is-list = false
 	elem "outputMotd"
 		type = OUTPUT
 		pos = 7,32
@@ -1589,8 +1621,8 @@ window "guild"
 		image = ""
 	elem "outputMembers"
 		type = OUTPUT
-		pos = 7,109
-		size = 593x293
+		pos = 16,120
+		size = 576x75
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -1602,7 +1634,7 @@ window "guild"
 		is-disabled = false
 		is-transparent = false
 		is-default = false
-		border = line
+		border = none
 		drop-zone = false
 		right-click = false
 		saved-params = "max-lines"
@@ -1635,7 +1667,7 @@ window "guild"
 		on-size = ""
 		text = "Ranks"
 		image = ""
-		command = ".winset \"outputMembers.is-visible=true?outputMembers.is-visible=false:outputMembers.is-visible=true\""
+		command = ".winset \"gridMembers.is-visible=true?gridMembers.is-visible=false:gridMembers.is-visible=true\""
 		is-flat = true
 		stretch = false
 		is-checked = false
