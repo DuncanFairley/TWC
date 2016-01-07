@@ -1326,10 +1326,13 @@ mob
 
 			Rat
 				icon_state = "rat"
-				level = 10
+				level = 50
+				HPmodifier = 0.2
+				DMGmodifier = 0.1
+
 			Demon_Rat
 				icon_state = "demon rat"
-				level = 50
+				level = 550
 			Pixie
 				icon_state = "pixie"
 				level = 100
@@ -1645,7 +1648,7 @@ mob
 
 			Troll
 				icon_state = "troll"
-				level = 350
+				level = 600
 				HPmodifier  = 6
 				DMGmodifier = 0.8
 				MoveDelay   = 3
@@ -1847,51 +1850,6 @@ mob
 							t.density = 0
 
 mob
-	Stickman_
-		icon = 'Mobs.dmi'
-		icon_state = "stickman"
-		gold = 0
-		HP = 50
-		MHP = 50
-		Def=0
-		player = 0
-		Dmg = 50
-		see_invisible = 1
-		Expg = 10
-		level = 2
-		monster = 1
-		NPC = 0
-		New()
-			. = ..()
-			spawn(rand(5,10))
-				Wander()
-		proc/Wander()
-			walk_rand(src,6)
-			while(1)
-				sleep(10)
-				for(var/mob/M in oview(src)) if(M.client)
-					walk(src,0)
-					spawn()Attack(M)
-					return
-		proc/Attack(mob/Player/M)
-			if(!M)
-				spawn()Wander()
-				return
-			var/dmg = Dmg+rand(0,20)-M.Def
-			while(get_dist(src,M)>1)
-				sleep(4)
-				if(!(M in oview(src)))
-					spawn()Wander()
-					return
-				step_to(src,M)
-			if(dmg<1)
-				//hearers()<<"<SPAN STYLE='color: blue'>[src]'s sticky stick-ness doesn't even faze [M]</SPAN>"
-			else
-				M.HP -= dmg
-				hearers()<<"<SPAN STYLE='color: red'>[src] sticks [M] with a stick and causes [dmg] damage!</SPAN>"
-				spawn()M.Death_Check(src)
-			spawn(10)Attack(M)
-
 	Slug
 		icon='Mobs.dmi'
 		icon_state="slug"
