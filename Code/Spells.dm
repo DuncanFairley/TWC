@@ -1340,15 +1340,19 @@ mob/Spells/verb/Avada_Kedavra()
 	del S
 	return
 
-//
-
 mob/Spells/verb/Episky()
 	set name = "Episkey"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedEpiskey,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		hearers()<<"<font color=red><b>[usr]:</font></b> <font color=aqua>Episkey!"
 		new /StatusEffect/UsedEpiskey(src,15)
-		usr.HP=usr.MHP+usr.extraMHP
+
+		var/maxHP = MHP + extraMHP
+		if(level > 200)
+			HP = min(maxHP, round(HP + maxHP*0.75, 1))
+		else
+			HP = maxHP
+
 		usr.updateHPMP()
 		usr.overlays+=image('attacks.dmi', icon_state = "heal")
 		sleep(10)
