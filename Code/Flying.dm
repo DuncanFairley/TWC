@@ -228,6 +228,7 @@ obj/Force_Field
 	icon_state="shield"
 	density=1
 	dontsave=1
+	appearance_flags = RESET_COLOR
 
 obj
 	candle
