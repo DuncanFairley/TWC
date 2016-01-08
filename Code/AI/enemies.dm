@@ -41,7 +41,7 @@ obj/statues
 WorldData
 	var
 		eyesKilled = 0
-		list/areaCounters
+		list/areaData
 
 obj
 	eye_counter
@@ -75,59 +75,95 @@ obj
 				maptext = "<b><font size=4 color=#FF4500>[worldData.eyesKilled]</font></b>"
 
 
+AreaData
+	var/count
+	var/rep
+	var/guild
+
+	New(count, rep)
+		..()
+		src.count = count
+		src.rep   = rep
+
 obj
 	countdown
-
-		var/count     = 1000
-		var/marks     = 0
-		maptext_width = 64
-		pixel_x       = 8
-		layer         = 11
+		var/marks      = 0
+		maptext_width  = 128
+		maptext_height = 128
+		pixel_x        = 8
+		layer          = 11
+		maptext_y      = 32
 
 		New()
 			..()
-			var/area/a = loc.loc
-			tag = "[a.name]Countdown"
-			updateDisplay()
+			if(!istype(loc.loc, /area/newareas)) return
+
+			var/area/newareas/a = loc.loc
+
+			tag = "area_[a.name]"
+
+			spawn(1)
+
+				if(!worldData.areaData) worldData.areaData = list()
+
+				var/AreaData/data = worldData.areaData[tag]
+				if(!data)
+					data = new(500, prob(50) ? 1 : -1)
+					worldData.areaData[tag] = data
+
+				data.rep = -data.rep
+				Completed()
+				updateDisplay()
 
 		proc
 			Completed()
-
-			add(c = 1)
-				count--
-				if(count <= 0)
-					count = initial(count)
-					marks++
-					Completed()
-					. = 1
-				updateDisplay()
-
-			updateDisplay()
-				if(count >= 100)
-					pixel_x = -5
-				else if(count >= 10)
-					pixel_x = -4
-				else
-					pixel_x = 8
-
-				maptext = "<b><font size=4 color=#FF4500>[count]</font></b>"
-
-
-		clan
-			count   = 500
-
-			New()
-				..()
-
-			Completed()
 				var/area/newareas/a = loc.loc
+				var/AreaData/data = worldData.areaData[tag]
 
-				a.rep = -a.rep
+				data.rep = -data.rep
 				a.faction()
 
 				for(var/mob/NPC/Enemies/Vampire/v in a)
 					v.rep = -v.rep
 					v.faction()
+
+
+
+			add(c = 1, guild)
+				var/AreaData/data = worldData.areaData[tag]
+				data.count--
+				if(data.count <= 0)
+					data.count = 500
+					marks++
+					Completed()
+
+					data.guild = guild
+
+					. = 1
+				updateDisplay()
+
+			updateDisplay()
+				var/AreaData/data = worldData.areaData[tag]
+				if(data.count >= 100)
+					pixel_x = -5
+				else if(data.count >= 10)
+					pixel_x = -4
+				else
+					pixel_x = 8
+
+				maptext  = "<font size=4 color=#FF4500><b>[data.count]</b></font>"
+				overlays = list()
+				if(data.guild)
+					var/image/i      = new
+
+					var/guild/g = worldData.guilds[data.guild]
+
+					i.maptext        = "<font size=3 color=#FF4500>[g.name]</font>"
+					i.maptext_width  = maptext_width
+					i.maptext_height = maptext_height
+					i.maptext_x      = -16
+
+					overlays += i
 
 
 proc
@@ -171,15 +207,11 @@ area
 	newareas
 		var/tmp
 			active = 0
-			rep    = 0
-
-		New()
-			..()
-			spawn(1) faction()
 
 		proc/faction()
-			if(rep != 0 && icon)
-				var/c = rep > 0 ? "#30bbcc" : "#600606"
+			var/AreaData/data = worldData.areaData["area_[name]"]
+			if(data && icon)
+				var/c = data.rep > 0 ? "#30bbcc" : "#600606"
 
 				if(region && region.areas)
 					for(var/area/a in region.areas)
@@ -208,13 +240,10 @@ area
 				icon_state   = "white"
 				alpha        = 200
 				antiTeleport = 1
-				rep          = -1
 			Spider_Pit
-				rep          = 1
 				icon         = 'black50.dmi'
 				icon_state   = "white"
 				alpha        = 200
-				antiTeleport = 1
 
 			Pixie_Pit
 			Desert1
@@ -636,7 +665,7 @@ mob
 					var/dmg = Dmg+extraDmg+rand(0,4)
 
 					if(target.level > level && !target.findStatusEffect(/StatusEffect/Lamps/Farming))
-						dmg -= dmg * ((target.level - level)/100)
+						dmg -= dmg * ((target.level - level)/150)
 					else if(target.level < level)
 						dmg += dmg * ((level - target.level)/200)
 					dmg = round(dmg)
@@ -1332,13 +1361,17 @@ mob
 
 			Demon_Rat
 				icon_state = "demon rat"
-				level = 550
+				level = 600
 			Pixie
 				icon_state = "pixie"
 				level = 100
+				HPmodifier = 0.75
+				DMGmodifier = 0.40
 			Dog
 				icon_state = "dog"
 				level = 150
+				HPmodifier = 0.8
+				DMGmodifier = 0.45
 			Snake
 				icon_state = "snake"
 				level = 200
@@ -1406,7 +1439,7 @@ mob
 
 				drops = "Vampire"
 
-				var/rep = 0
+				var/rep = 2
 
 				New()
 					..()
@@ -1418,10 +1451,6 @@ mob
 
 					GenerateIcon(src)
 
-					var/area/newareas/a = loc.loc
-					rep = -2 * a.rep
-					faction()
-
 				ShouldIBeActive()
 					..()
 
@@ -1429,8 +1458,10 @@ mob
 						var/area/newareas/a = loc.loc
 						if(!istype(a, /area/newareas)) return
 
-						if(a && a.rep != 0 && ((a.rep > 0 && rep > 0) || (a.rep < 0 && rep < 0)))
-							rep = -rep
+						var/AreaData/data = worldData.areaData["area_[a.name]"]
+
+						if(data && ((data.rep > 0 && rep > 0) || (data.rep < 0 && rep < 0)))
+							rep    = -rep
 							faction()
 
 				proc/faction()
@@ -1456,12 +1487,12 @@ mob
 
 						killer.addRep(r)
 
-					var/area/newareas/a = loc.loc
-					if(a && istype(a, /area/newareas) && a.rep != 0)
-						var/obj/countdown/clan/c = locate("[a.name]Countdown")
+						var/area/newareas/a = loc.loc
+						if(a && istype(a, /area/newareas))
+							var/obj/countdown/c = locate("area_[a.name]")
 
-						if(c)
-							c.add()
+							if(c)
+								c.add(1, killer.guild)
 
 					..()
 
@@ -1648,7 +1679,7 @@ mob
 
 			Troll
 				icon_state = "troll"
-				level = 600
+				level = 650
 				HPmodifier  = 6
 				DMGmodifier = 0.8
 				MoveDelay   = 3
