@@ -2961,9 +2961,6 @@ obj/items/magic_stone
 
 			return t
 
-		Compare()
-
-
 		circle(mob/Player/p)
 			if(dest)
 				..(p)
@@ -3850,13 +3847,20 @@ obj/items/reputation
 
 		return i
 
+	Compare(obj/items/reputation/i)
+		return i.name == name && i.type == type && i.owner == owner && i.icon_state == icon_state && i.rep == rep
+
+
 	New()
-		if(prob(10))
-			rep *= 2
-			name = "greater [name]"
-		else if(prob(55))
-			rep /= 2
-			name = "small [name]"
+		if(name == initial(name))
+			if(prob(10))
+				rep *= 2
+				name = "greater [name]"
+			else if(prob(55))
+				rep /= 2
+				name = "small [name]"
+			else
+				name = "medium [name]"
 
 		..()
 
