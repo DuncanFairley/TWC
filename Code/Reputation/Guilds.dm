@@ -179,7 +179,7 @@ guild
 
 				p << output(data.name, "guild.gridMembers:1,[row]")
 				p << output(ranks[members[m]], "guild.gridMembers:2,[row]")
-				p << output(alignment, "guild.gridMembers:3,[row]")
+				p << output("[alignment] ([abs(data.fame)])", "guild.gridMembers:3,[row]")
 
 				if(m == p.ckey)
 					p << output("<a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Quit</a>", "guild.gridMembers:5,[row]")
