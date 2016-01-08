@@ -301,7 +301,7 @@ StatusEffect
 	UsedShelleh
 	Permoveo
 	UsedDisperse
-	DepulsoText
+	SpellText
 	DisableProjectiles
 	KilledPlayer
 	KilledPlayerQuest

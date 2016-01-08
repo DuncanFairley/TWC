@@ -177,8 +177,10 @@ mob/Spells/verb/Herbificus()
 		p:loc = locate(src.x,src.y-1,src.z)
 		flick('dlo.dmi',p)
 		p:owner = "[usr.key]"
-		hearers()<<"<b><Font color=red>[usr]:</font> Herbificus."
-		usr:learnSpell("Herbificus")
+		if(!findStatusEffect(/StatusEffect/SpellText))
+			new /StatusEffect/SpellText(src,5)
+			hearers()<<"<b><Font color=red>[usr]:</font> Herbificus."
+			usr:learnSpell("Herbificus")
 mob/Spells/verb/Protego()
 	set category = "Spells"
 	if(!usr.shielded)
@@ -230,8 +232,8 @@ mob/Spells/verb/Depulso()
 		if(!t || (issafezone(M.loc.loc) && !issafezone(t.loc))) return
 		M.Move(t)
 
-		if(!findStatusEffect(/StatusEffect/DepulsoText))
-			new /StatusEffect/DepulsoText(src,5)
+		if(!findStatusEffect(/StatusEffect/SpellText))
+			new /StatusEffect/SpellText(src,5)
 			hearers()<<"<b><font color=red>[usr]:</font></b> Depulso!"
 
 		if(isplayer(M))
@@ -410,7 +412,9 @@ mob/Spells/verb/Herbificus_Maxima()
 		a:owner = "[usr.key]"
 		b:owner = "[usr.key]"
 		c:owner = "[usr.key]"
-		hearers()<<"<b><Font color=red>[usr]:</font> Herbificus MAXIMA!"
+		if(!findStatusEffect(/StatusEffect/SpellText))
+			new /StatusEffect/SpellText(src,5)
+			hearers()<<"<b><Font color=red>[usr]:</font> Herbificus MAXIMA!"
 mob/Spells/verb/Shelleh()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedShelleh,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
