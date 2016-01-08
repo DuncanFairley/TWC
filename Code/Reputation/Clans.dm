@@ -314,7 +314,7 @@ obj/items/wearable/masks
 		n = "Masked Figure"
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		if(!forceremove && !(src in owner.Lwearing) && istype(owner.loc.loc, /area/hogwarts) && issafezone(src))
+		if(!forceremove && !(src in owner.Lwearing) && istype(owner.loc.loc, /area/hogwarts) && issafezone(owner.loc.loc))
 			owner << errormsg("You can't wear this here.")
 			return
 
