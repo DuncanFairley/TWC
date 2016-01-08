@@ -188,7 +188,7 @@ mob/Player
 			var/count = 2
 			if(worldData.auctionItems)
 
-				winset(src, null, "Auction.gridAuction.cells=6x[worldData.auctionItems.len + 2];Auction.gridAuction.style='body{text-align:center;background-color:#a8d8f0;color:#508cb4;}'")
+				winset(src, null, "Auction.gridAuction.cells=6x[worldData.auctionItems.len + 2];Auction.gridAuction.style='body{vertical-align:middle;text-align:center;background-color:#a8d8f0;color:#508cb4;}'")
 				if(!worldData.auctionItems) return
 
 				var/list/filters = list("Auction.buttonClothing" = /obj/items/wearable,
@@ -261,12 +261,11 @@ mob/Player
 
 		auctionOpen()
 			auctionInfo = new(src)
-			auctionBuild()
 
 			src << output(null, "Auction.gridAuctionAddItem:1,1")
 			src << output(null, "Auction.gridAuctionAddItem:2,1")
 
-			winset(src, "Auction.gridAuction", "style='body{text-align:center;background-color:#508cb4;color:#a8d8f0;}'")
+			winset(src, "Auction.gridAuction", "style='body{vertical-align:middle;text-align:center;background-color:#508cb4;color:#a8d8f0;}'")
 			src << output("<b>Item</b>", "Auction.gridAuction:1,1")
 			src << output("<b>Amount</b>", "Auction.gridAuction:2,1")
 			src << output("<b>Description</b>", "Auction.gridAuction:3,1")
@@ -275,6 +274,7 @@ mob/Player
 			src << output("<b>Time Remaining</b>", "Auction.gridAuction:6,1")
 			src << output(null, "Auction.gridAuction:7,1")
 
+			auctionBuild()
 
 			winshow(src, "Auction", 1)
 
