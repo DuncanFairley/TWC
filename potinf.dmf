@@ -854,7 +854,7 @@ window "Auction"
 		visited-color = #e3e3e3
 		line-color = #0b81ff
 		highlight-color = #000000
-		style = ""
+		style = ".item\n{\n    vertical-align:middle;\n    text-align:center;\n}"
 		is-list = false
 	elem "buttonAdd"
 		type = BUTTON
