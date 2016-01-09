@@ -407,7 +407,7 @@ mob/GM
 			for(var/mob/Player/p in Players)
 				if(p.Gm)
 					p << "<b><span style=\"color:silver; font-size:2;\">GM> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
-			chatlog << "<b><span style=\"font-size:2; color:silver;\">GM> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+			chatlog << "<b><span style=\"color:silver;\">GM> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
 
 
 		Gryffindor_Chat(var/message as text)
@@ -422,7 +422,7 @@ mob/GM
 				if((p.House == "Gryffindor" || p.admin) && p.listenhousechat)
 					p << "<b><span style=\"font-size:2; color:red\">Gryffindor Channel> </span><span style=\"font-size:2; color:silver\">[prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
 
-			chatlog << "<b><span style=\"font-size:2; color:red;\">Gryffindor> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+			chatlog << "<b><span style=\"color:red;\">Gryffindor> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
 
 
 		Ravenclaw_Chat(var/message as text)
@@ -437,7 +437,7 @@ mob/GM
 				if((p.House == "Ravenclaw" || p.admin) && p.listenhousechat)
 					p << "<b><span style=\"font-size:2; color:blue\">Ravenclaw Channel> </span><span style=\"font-size:2; color:silver\">[prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
 
-			chatlog << "<b><span style=\"font-size:2; color:blue;\">Ravenclaw> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+			chatlog << "<b><span style=\"color:blue;\">Ravenclaw> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
 
 
 
@@ -453,7 +453,7 @@ mob/GM
 				if((p.House == "Slytherin" || p.admin) && p.listenhousechat)
 					p << "<b><span style=\"font-size:2; color:green\">Slytherin Channel> </span><span style=\"font-size:2; color:silver\">[prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
 
-			chatlog << "<b><span style=\"font-size:2; color:green;\">Slytherin> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+			chatlog << "<b><span style=\"color:green;\">Slytherin> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
 
 
 
@@ -468,7 +468,7 @@ mob/GM
 				if((p.House == "Hufflepuff" || p.admin) && p.listenhousechat)
 					p << "<b><span style=\"font-size:2; color:yellow\">Hufflepuff Channel> </span><span style=\"font-size:2; color:silver\">[prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
 
-			chatlog << "<b><span style=\"font-size:2; color:yellow;\">Hufflepuff> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+			chatlog << "<b><span style=\"color:yellow;\">Hufflepuff> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
 
 
 		Sanctuario(mob/M in view()&Players)
