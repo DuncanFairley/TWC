@@ -167,7 +167,7 @@ obj/items/wearable/clan_robes
 			var/client/C = watcher.client
 			if(C.eye)
 				if(C.eye == p && watcher != p)
-					C << "<b><font color = white>Your Telendevour wears off."
+					C << errormsg("Your Telendevour wears off.")
 					C.eye = watcher
 		p.density=1
 		p.underlays = list()

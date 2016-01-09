@@ -957,7 +957,7 @@ mob/Spells/verb/Occlumency()
 			for(var/client/C)
 				if(C.eye)
 					if(C.eye == usr && C.mob != usr)
-						C << "<b><font color = white>Your Telendevour wears off."
+						C << errormsg("Your Telendevour wears off.")
 						C.eye=C.mob
 			hearers() << "<b><span style=\"color:red;\">[usr]</span></b>: <span style=\"color:white;\"><i>Occlumens!</i></span>"
 			usr << "You can no longer be viewed by Telendevour."
