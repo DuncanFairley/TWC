@@ -1689,7 +1689,7 @@
 "aGy" = (/turf/Staircase2,/area/hogwarts/Entrance_Hall)
 "aGz" = (/turf/roofb,/area/hogwarts/Defence_Against_the_Dark_Arts)
 "aGA" = (/turf/roofb{density = 0; layer = 7},/area/hogwarts/Defence_Against_the_Dark_Arts)
-"aGB" = (/turf/Hogwarts_Stone_Wall{density = 0; layer = 7},/area)
+"aGB" = (/turf/Hogwarts_Stone_Wall{density = 0; layer = 7},/area/hogwarts)
 "aGC" = (/turf/Hogwarts_Stone_Wall{density = 0; layer = 7},/area/hogwarts/Defence_Against_the_Dark_Arts)
 "aGD" = (/obj/Signs{desc = "<b><font color = red>Defense Against The Dark Arts</b></font>"; name = "Defense Against The Dark Arts"},/turf/Hogwarts_Stone_Wall,/area)
 "aGE" = (/obj/Hogwarts_Door,/turf/woodenfloor,/area/hogwarts/Defence_Against_the_Dark_Arts)
