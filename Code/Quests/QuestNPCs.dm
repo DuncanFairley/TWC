@@ -277,20 +277,24 @@ mob/TalkNPC/quest
 
 
 		questStart(mob/Player/i_Player, questName)
-			i_Player << npcsay("Saratri: Hey there... Did you know there's a terrible monster here called the Basilisk? I'll reward you if you kill it...")
+
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("Hey there... Did you know there's a terrible monster here called the Basilisk? I'll reward you if you kill it...")
 
 			..(i_Player, questName)
 
 		questOngoing(mob/Player/i_Player, questName)
 			.=..(i_Player, questName)
 
+			var/ScreenText/s = new(i_Player, src)
 			if(.)
-				i_Player << npcsay("Saratri: Good job! I can't believe you pulled it off!")
+				s.AddText("Good job! I can't believe you pulled it off!")
 			else
-				i_Player << npcsay("Saratri: Go kill the Basilisk!")
+				s.AddText("Go kill the Basilisk!")
 
 		questCompleted(mob/Player/i_Player, questName)
-			i_Player << npcsay("Saratri: Wow! I can't believe you killed the Basilisk!")
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("Wow! I can't believe you killed the Basilisk!")
 
 	Malcolm
 		icon_state="goblin1"
@@ -301,20 +305,23 @@ mob/TalkNPC/quest
 
 
 		questStart(mob/Player/i_Player, questName)
-			i_Player << npcsay("Malcolm: Welcome to floor 2! Did you know Basilisk is not the strongest monster here?! There's a magical stickman in this floor, if you manage to defeat it I will reward you.")
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("Welcome to floor 2! Did you know Basilisk is not the strongest monster here?! There's a magical stickman in this floor, if you manage to defeat it I will reward you.")
 
 			..(i_Player, questName)
 
 		questOngoing(mob/Player/i_Player, questName)
 			.=..(i_Player, questName)
 
+			var/ScreenText/s = new(i_Player, src)
 			if(.)
-				i_Player << npcsay("Malcolm: Good job! I can't believe you pulled it off!")
+				s.AddText("Good job! I can't believe you pulled it off!")
 			else
-				i_Player << npcsay("Malcolm: Go kill the Stickman!")
+				s.AddText("Go kill the Stickman!")
 
 		questCompleted(mob/Player/i_Player, questName)
-			i_Player << npcsay("Malcolm: Wow! I can't believe you killed the Stickman!")
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("Wow! I can't believe you killed the Stickman!")
 
 	Hunter
 		icon_state="lord"

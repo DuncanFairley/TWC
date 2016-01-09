@@ -252,7 +252,7 @@ body
 
 					src << output(a.item,                                         "Auction.gridAuction:1,[count]")
 					src << output("<span class='content'>x[a.item.stack]</span>", "Auction.gridAuction:2,[count]")
-					src << output("<span class='content'>a.item.desc</span>",     "Auction.gridAuction:3,[count]")
+					src << output("<span class='content'>[a.item.desc]</span>",   "Auction.gridAuction:3,[count]")
 
 					if(a.buyout)
 						src << output("<span class='content'><a href=\"?src=\ref[a];action=buyoutAuction\">Buyout</a> [comma(a.buyoutPrice)]</span>", "Auction.gridAuction:4,[count]")

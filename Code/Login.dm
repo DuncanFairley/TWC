@@ -1095,9 +1095,10 @@ mob/Player
 
 
 							if(prevname)
-								chatlog << "<span style=\"font-size:2; color:red;\"><b>[usr.prevname] (ROBED)</b></span><span style=\"color:white;\"> says '[t]'</span>"+"<br>"//This is what it adds to the log!
+								chatlog << "<span style=\"color:red;\"><b>[usr.prevname] (ROBED)</b></span><span style=\"color:white;\"> says '[t]'</span><br>"
 							else
-								chatlog << "<span style=\"font-size:2; color:red;\"><b>[usr]</b></span><span style=\"color:white;\"> says '[t]'</span>"+"<br>"//This is what it adds to the log!
+								chatlog << "<span style=\"color:red;\"><b>[usr]</b></span><span style=\"color:white;\"> says '[t]'</span><br>"
+
 							if(t == worldData.ministrypw)
 								if(istype(usr.loc,/turf/gotoministry))
 									if(usr.name in worldData.ministrybanlist)
