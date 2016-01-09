@@ -92,13 +92,13 @@ Duel
 			else
 				player1.followplayer = 0
 				player2.followplayer = 0
-				range(9,duelcenter) << "<i><font size = 3>The duel will now start in [countdown] seconds!"
+				range(9,duelcenter) << "<i><span style=\"font-size:3\">The duel will now start in [countdown] seconds!</span></i>"
 				var/obj/o = new
 				o.pixel_y = 32
 				for(var/i=5;i>0;i--)
 			//		range(9,duelcenter) << i
 					duelcenter.overlays -= o
-					o.maptext = "<b><font size=4 color=#FF4500> [i]</font></b>"
+					o.maptext = "<b><span style=\"font-size:4; color:#FF4500;\"> [i]</span></b>"
 					duelcenter.overlays += o
 					sleep(10)
 				duelcenter.overlays -= o
@@ -118,12 +118,12 @@ Duel
 			spawn() while(src)
 				sleep(5)
 				if(get_dist(player1,duelcenter) > DUEL_DISTANCE)
-					range(DUEL_DISTANCE,duelcenter) << infomsg("<font size=3>[player1] has left the duel area. [player2] wins!</font>")
-					player1 << errormsg("<font size=3>You have left the duel area. [player2] wins.</font>")
+					range(DUEL_DISTANCE,duelcenter) << infomsg("<span style=\"font-size:3;\">[player1] has left the duel area. [player2] wins!</span>")
+					player1 << errormsg("<span style=\"font-size:3;\">You have left the duel area. [player2] wins.</span>")
 					del(src)
 				else if(get_dist(player2,duelcenter) > DUEL_DISTANCE)
-					range(DUEL_DISTANCE,duelcenter) << infomsg("<font size=3>[player2] has left the duel area. [player1] wins!</font>")
-					player2 << errormsg("<font size=3>You have left the duel area. [player1] wins.</font>")
+					range(DUEL_DISTANCE,duelcenter) << infomsg("<span style=\"font-size:3;\">[player2] has left the duel area. [player1] wins!</span>")
+					player2 << errormsg("<span style=\"font-size:3;\">You have left the duel area. [player1] wins.</span>")
 					del(src)
 turf/duelblock/density=0
 obj

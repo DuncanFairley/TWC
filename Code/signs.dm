@@ -1,5 +1,5 @@
 /*
- * Copyright Â© 2014 Duncan Fairley
+ * Copyright © 2014 Duncan Fairley
  * Distributed under the GNU Affero General Public License, version 3.
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
@@ -18,7 +18,7 @@ obj
 				if(desc)
 					usr << desc
 				else
-					usr << "<font color=red><b>[name]</b></font>"
+					usr << "<span style=\"color:red;\"><b>[name]</b></span>"
 
 		Click()
 			..()
@@ -27,7 +27,7 @@ obj
 
 
 		Diagon_Bank
-			desc = "\n<font color=red><b>Gringott's Wizard's Bank.</font><font color=blue><br>Main Branch - Diagon Alley.</b>"
+			desc = "\n<span style=\"color:red;\"><b>Gringott's Wizard's Bank.</span><font color=blue><br>Main Branch - Diagon Alley.</b>"
 
 
 		Museum

@@ -56,12 +56,12 @@ mob/GM/verb/Prize_Draw()
 
 	switch(alert("Would you like to display the list?", "Prize Draw", "Yes", "No"))
 		if("Yes")
-			hearers(client.view) << "<font color='#DF0101' size='3' face='Comic Sans MS'>The list contains:\n[txt]</font>"
+			hearers(client.view) << "<span style=\"color:'#DF0101'; font-size:'3'; face:'Comic;\">The list contains:\n[txt]</span>"
 	DRAW
 	var/winner = pick(txt_list)
 	switch(alert("The magical box of Murra-Awesome draws the name: [winner]", "Prize Draw", "Redraw", "Announce", "Cancel"))
 		if("Redraw")
 			goto DRAW
 		if("Announce")
-			hearers(client.view) << "<font color='#DF0101' size='3' face='Comic Sans MS'>[winner] was picked!</font>"
+			hearers(client.view) << "<span style=\"color:'#DF0101'; font-size:'3'; face:'Comic;\">[winner] was picked!</span>"
 			goto DRAW

@@ -189,57 +189,57 @@ mob/TalkNPC/quest
 				var/questPointer/pointer = p.questPointers["On House Arrest"]
 
 				if(pointer.stage == 1)
-					usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> Quickly now, go get my wand from the deposit box in Gringott's bank."
+					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> Quickly now, go get my wand from the deposit box in Gringott's bank."
 					sleep(30)
 					switch(input("Fred: Quickly now","Fred")in list("Where is Gringott's again?","I'm on my way"))
 						if("Where is Gringott's again?")
-							usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> Gringott's Bank is found in Diagon Alley. You can find Diagon Alley near Azkaban Prison."
+							usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> Gringott's Bank is found in Diagon Alley. You can find Diagon Alley near Azkaban Prison."
 				else if(pointer.stage == 2)
 					alert("You show Fred the wand")
-					usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> YES! You got it!"
+					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> YES! You got it!"
 					sleep(30)
-					usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> Quickly! Use the wand to get me out of here!"
+					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> Quickly! Use the wand to get me out of here!"
 					sleep(20)
 					alert("You point the wand at the barriers")
-					usr << "\n<font size=2><font color=red><b> <font color=red>[usr]</font> </b>:<font color=white> <b>Finte Incantum!</b>"
+					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>[usr]</span> </b>:<font color=white> <b>Finte Incantum!</b>"
 					usr.loc=locate(89,33,8)
-					usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> Finally! I'm free!!!"
+					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> Finally! I'm free!!!"
 					alert("Fred jumps up and down")
-					usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> Thank you so much. You can keep that wand if you'd like."
+					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> Thank you so much. You can keep that wand if you'd like."
 					p.checkQuestProgress("Fred")
 				else
-					usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> Thanks again!"
+					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> Thanks again!"
 			else
 				alert("Fred waves his hands in the air")
-				usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> Help help!"
+				usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> Help help!"
 				switch(input("Fred: HELP HELP!","Fred")in list("What happened?","Shh keep it down","*Ignore Fred*"))
 					if("What happened?")
-						usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> Some strange man did this to me!"
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> Some strange man did this to me!"
 						sleep(30)
 						switch(input("Your response","Fred")in list("Why?","What did he look like?","Which way did he go","Let's get you out of there"))
 							if("Why?")
-								usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> Well he was walking past my house carrying this large sack."
+								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> Well he was walking past my house carrying this large sack."
 								sleep(20)
-								usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> It looked like there was a person inside. So I confronted him and asked him what was inside."
+								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> It looked like there was a person inside. So I confronted him and asked him what was inside."
 								sleep(30)
-								usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> His only response was casting a spell and locking me in here."
+								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> His only response was casting a spell and locking me in here."
 								alert("Fred frowns")
 								return
 							if("What did he look like?")
-								usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> I couldn't tell exactly."
+								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> I couldn't tell exactly."
 								sleep(20)
-								usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> He was wearing a pretty dark cloak."
+								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> He was wearing a pretty dark cloak."
 							if("Which way did he go")
-								usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> I'm not sure, he knocked me out and when I woke up, I was in here."
+								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> I'm not sure, he knocked me out and when I woke up, I was in here."
 							if("Let's get you out of there")
-								usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> Oh thank you!"
+								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> Oh thank you!"
 								sleep(30)
-								usr << "\n<font size=2><font color=red><b> <font color=red>[usr]</font> </b>:<font color=white> Now how will we get you out..."
+								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>[usr]</span> </b>:<font color=white> Now how will we get you out..."
 								sleep(30)
-								usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> There is a wand of mine. It is in my deposit box at Gringotts. Here"
+								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> There is a wand of mine. It is in my deposit box at Gringotts. Here"
 								alert("Fred tosses the key to you")
 								new/obj/items/freds_key(usr)
-								usr << "\n<font size=2><font color=red><b> <font color=red>Fred</font> </b>:<font color=white> Go get it from Gringotts, it can get me out of here."
+								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> Go get it from Gringotts, it can get me out of here."
 								alert("You nod")
 
 								p.startQuest("On House Arrest")
@@ -264,42 +264,42 @@ mob/TalkNPC/quest
 				var/questPointer/pointer = p.questPointers["Stolen by the Lord"]
 				if(pointer.stage)
 					usr << "The girl looks up at you quickly"
-					usr << "\n<font size=2><font color=red><b> <font color=red>Girl</font> </b>:<font color=white> Did you find him yet?!?"
+					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> Did you find him yet?!?"
 
 					if(pointer.stage == 2)
-						usr << "\n<font size=2><font color=red><b> <font color=red>[usr]</font> </b>:<font color=white> Yep, I found him. Here you are."
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>[usr]</span> </b>:<font color=white> Yep, I found him. Here you are."
 						usr << "You hand the little baby boy to the girl"
 						usr << "The girl throws her arms around you"
-						usr << "\n<font size=2><font color=red><b> <font color=red>Girl</font> </b>:<font color=white> THANK YOU THANK YOU THANK YOU!"
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> THANK YOU THANK YOU THANK YOU!"
 						usr << "You find yourself smiling slightly"
-						usr << "\n<font size=2><ont color=red><b> <font color=red>Girl</font> </b>:<font color=white> Here, this is my allowance that I saved up, you can have it."
+						usr << "\n<span style=\"font-size:2;\"><ont color=red><b> <font color=red>Girl</span> </b>:<font color=white> Here, this is my allowance that I saved up, you can have it."
 						usr << "The girl hands you a hand full of gold."
 						p.checkQuestProgress("Girl")
 					else
-						usr << "\n<font size=2><font color=red><b> <font color=red>[usr]</font> </b>:<font color=white> Not yet, sorry."
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>[usr]</span> </b>:<font color=white> Not yet, sorry."
 						usr << "The girl frowns."
 				else
-					usr << "\n<font size=2><font color=red><b> <font color=red>Girl</font> </b>:<font color=white> Thanks again!!!"
+					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> Thanks again!!!"
 					sleep(10)
 					usr << "The girl smiles bigger than any you've ever seen."
 
 			else
-				usr << "\n\n<font size=2><font color=red><b> <font color=red>Girl</font> </b>:<font color=white> Help help!"
+				usr << "\n\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> Help help!"
 				alert("The girl waves her arms in distress")
 				sleep(30)
 				switch(input("Girl: Are you here to help me?","Help?")in list("Yes","No"))
 					if("Yes")
-						usr << "\n<font size=2><font color=red><b> <font color=red>Girl</font> </b>:<font color=white> Oh THANK YOU!"
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> Oh THANK YOU!"
 						sleep(20)
-						usr << "\n<font size=2><font color=red><b> <font color=red>Girl</font> </b>:<font color=white> My mom left to go to the store, and told me to watch my little brother."
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> My mom left to go to the store, and told me to watch my little brother."
 						sleep(30)
-						usr << "\n<font size=2><font color=red><b> <font color=red>Girl</font> </b>:<font color=white> I needed to get something from my room and when I came back, my little brother was gone."
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> I needed to get something from my room and when I came back, my little brother was gone."
 						alert("The girl bursts into tears")
-						usr << "\n<font size=2><font color=red><b> <font color=red>[usr]</font> </b>:<font color=white> Well where did you see him last?"
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>[usr]</span> </b>:<font color=white> Well where did you see him last?"
 						alert("The girl scratches her head")
-						usr << "\n<font size=2><font color=red><b> <font color=red>Girl</font> </b>:<font color=white> Uhm, I'm not sure, I just came back and he was gone."
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> Uhm, I'm not sure, I just came back and he was gone."
 						sleep(30)
-						usr << "\n<font size=2><font color=red><b> <font color=red>[usr]</font> </b>:<font color=white> Maybe I will ask some of the towns people around here."
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>[usr]</span> </b>:<font color=white> Maybe I will ask some of the towns people around here."
 						alert("The girl nods somberly")
 						p.startQuest("Stolen by the Lord")
 					if("No")
@@ -341,14 +341,14 @@ mob/TalkNPC
 						if("Your maze was pretty lame")
 							switch(input("Lord: WHAT! NEVER!!! I will demolish you!","Lord")in list("Bring it on!","No! I'm sorry."))
 								if("Bring it on!")
-									usr << "\n<font size=2><font color=red><b> <font color=red>Lord</font> </b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
+									usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Lord</span> </b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
 									p.checkQuestProgress("Lord")
 								if("No! I'm sorry.")
 									alert("The Lord squints his eyes at you and turns his back")
 						if("Give back the girls baby")
 							switch(input("Lord: Never! You'll have to take it!","Lord")in list("So it shall be."))
 								if("So it shall be.")
-									usr << "\n<font size=2><font color=red><b> <font color=red>Lord</font> </b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
+									usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Lord</span> </b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
 									p.checkQuestProgress("Lord")
 					return
 				else if(pointer.stage == 2)
@@ -402,37 +402,37 @@ mob/TalkNPC/quest
 					if(p.checkQuestProgress("Easter Bunny"))
 						alert("You throw the bag of chocolates to the Easter Bunny.")
 						sleep(20)
-						usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> OH THANK YOU THANK YOU THANK YOU!!!"
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=#FF3399>Easter Bunny</span> </b>:<font color=white> OH THANK YOU THANK YOU THANK YOU!!!"
 						sleep(30)
-						usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> Oh! Now Easter can continue! THANK YOU!!!"
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=#FF3399>Easter Bunny</span> </b>:<font color=white> Oh! Now Easter can continue! THANK YOU!!!"
 						sleep(30)
-						usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> I don't have much to give you. Although I can give you this!"
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=#FF3399>Easter Bunny</span> </b>:<font color=white> I don't have much to give you. Although I can give you this!"
 						alert("The Easter Bunny hands you an Easter Wand")
 						sleep(20)
-						usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> ENJOY!"
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=#FF3399>Easter Bunny</span> </b>:<font color=white> ENJOY!"
 					else
-						usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> Did you find the chocolate yet!!?!"
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=#FF3399>Easter Bunny</span> </b>:<font color=white> Did you find the chocolate yet!!?!"
 						sleep(30)
-						usr << "\n<font size=2><font color=red><b> <font color=Red>[usr]</font> </b>:<font color=white> No, not yet. Sorry."
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=Red>[usr]</span> </b>:<font color=white> No, not yet. Sorry."
 						sleep(20)
 						alert("The Easter Bunny frowns")
 						sleep(20)
-						usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> Oh...okay."
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=#FF3399>Easter Bunny</span> </b>:<font color=white> Oh...okay."
 					return
 
 			if(!pointer)
 				alert("The Easter Bunny frowns")
 				switch(input("Your response","Respond")in list("What's wrong","*Walk away slowly*"))
 					if("What's wrong")
-						usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> It's just that, I made these brand new chocolates, that are a MILLION! times better than ordinary chocolate. And they seem to have went missing."
+						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=#FF3399>Easter Bunny</span> </b>:<font color=white> It's just that, I made these brand new chocolates, that are a MILLION! times better than ordinary chocolate. And they seem to have went missing."
 						alert("The Easter Bunny frowns")
 						switch(input("Your Response","Respond")in list("Do you have any idea who did this?","Well quit talking to me and get to finding them!"))
 							if("Do you have any idea who did this?")
-								usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> No...I have no idea at all. I mean, who would want to hurt Easter!"
+								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=#FF3399>Easter Bunny</span> </b>:<font color=white> No...I have no idea at all. I mean, who would want to hurt Easter!"
 								sleep(30)
 								switch(input("Easter Bunny: It's sad","Easter Bunny")in list("Don't worry, i'll find them for you","Oh well, good luck!"))
 									if("Don't worry, i'll find them for you")
-										usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> Oh, Thank you so much! I will be here waiting. Oh please hurry!"
+										usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=#FF3399>Easter Bunny</span> </b>:<font color=white> Oh, Thank you so much! I will be here waiting. Oh please hurry!"
 										p.startQuest("Sweet Easter")
 									if("Oh well, good luck!")
 										return
@@ -445,7 +445,7 @@ mob/TalkNPC/quest
 						alert("You back away slowly")
 						step_away(usr, src)
 			else
-				usr << "\n<font size=2><font color=red><b> <font color=#FF3399>Easter Bunny</font> </b>:<font color=white> THANKS AGAIN!"
+				usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=#FF3399>Easter Bunny</span> </b>:<font color=white> THANKS AGAIN!"
 
 mob/var/talkedzombie=0
 
@@ -520,7 +520,7 @@ obj
 		icon_state="bag1"
 		verb
 			Take_Out_Candy()
-				hearers() << "<font color=#FFA600><b>[usr] pulls some candy out of \his halloween bucket!</b></font>"
+				hearers() << "<span style=\"color:#FFA600;\"><b>[usr] pulls some candy out of \his halloween bucket!</b></span>"
 				var/rnd=rand(1,4)
 				if(rnd==1)
 					var/obj/chocolatebar/p = new
@@ -542,12 +542,12 @@ obj
 
 		verb
 			Use()
-				hearers() << "<font color=#FFA600><b>[usr] pulls out \his halloween bucket.</b></font>"
+				hearers() << "<span style=\"color:#FFA600;\"><b>[usr] pulls out \his halloween bucket.</b></span>"
 				usr.overlays+=image('halloween-bag.dmi')
 
 		verb
 			Take_Off()
-				hearers() << "<font color=#FFA600><b>[usr] puts away \his halloween bucket.</b></font>"
+				hearers() << "<span style=\"color:#FFA600;\"><b>[usr] puts away \his halloween bucket.</b></span>"
 				usr.overlays-=image('halloween-bag.dmi')
 		verb
 			Take()
@@ -566,7 +566,7 @@ obj
 
 			Examine()
 				set src in view(3)
-				usr << "<font color=#FFA600>It's a Halloween Bucket from 2011!</font>"
+				usr << "<span style=\"color:#FFA600;\">It's a Halloween Bucket from 2011!</span>"
 
 
 
@@ -1157,7 +1157,7 @@ obj/hud/screentext
 						var/obj/hud/screentext/questPath/path = new
 						path.name = pointer.reqs[1]
 						path.screen_loc = "WEST+7,SOUTH+[offset]:[pixel_offset]"
-						path.maptext = "<font color=\"[p.mapTextColor]\">[path.maptext]</font>"
+						path.maptext = "<span style=\"color:[p.mapTextColor];\">[path.maptext]</span>"
 						p.client.screen += path
 
 						if(removePath && path.name == p.pathdest:tag)
@@ -1170,7 +1170,7 @@ obj/hud/screentext
 				maptext = "<b>[questName]</b><br>[reqsText][maptext]"
 
 			if(maptext)
-				maptext = "<font color=[p.mapTextColor]>[maptext] </font>"
+				maptext = "<span style=\"color:[p.mapTextColor];\">[maptext] </span>"
 
 			if(removePath)
 				p.pathdest = null

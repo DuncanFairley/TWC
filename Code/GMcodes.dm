@@ -283,7 +283,7 @@ mob
 			sleep(length)
 			if(mute)
 				mute = 0
-				world << "<b><font color=red>[src] has been unsilenced.</font></b>"
+				world << "<b><span style=\"color:red;\">[src] has been unsilenced.</span></b>"
 				verbs += /mob/verb/Emote
 				verbs += /mob/verb/PM*/
 		mute_countdown()
@@ -292,7 +292,7 @@ mob
 			if(timerMute < 1)
 				if(!src.mute)return
 				mute = 0
-				Players << "<b><font color=red>[src] has been unsilenced.</font></b>"
+				Players << "<b><span style=\"color:red;\">[src] has been unsilenced.</span></b>"
 			else
 				mute_countdown()
 		detention_countdown()
@@ -399,116 +399,77 @@ var
 	goldlog = file("Logs/goldlog.html")
 mob/GM
 	verb
-		GM_chat(var/messsage as text)
+		GM_chat(var/message as text)
 			set category="Staff"
 			set name="GM Chat"
-			if(messsage)
-				if(messsage == null || messsage == "") return
-			//Reason = html_encode(Reason)
-				if(prevname)
-					for(var/client/C)
-						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/GM_chat) in C.mob.verbs)
-							C<<"<b><font color=silver size=2>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font>"
-					chatlog << "<b><font size=2 color=silver>GM> [usr.prevname]:</font></b> <font color=white>[messsage]</font><br>"
+			if(!message || message == "") return
 
-				else
-					for(var/client/C)
-						if(C.mob)if(C.mob.Gm || locate(/mob/GM/verb/GM_chat) in C.mob.verbs)
-							C<<"<b><font color=silver size=2>GM> <font size=2>[usr]:</font></b> <font color=white>[messsage]</font>"
-					chatlog << "<b><font size=2 color=silver>GM> [usr]:</font></b> <font color=white>[messsage]</font><br>"
+			for(var/mob/Player/p in Players)
+				if(p.Gm)
+					p << "<b><span style=\"color:silver; font-size:2;\">GM> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
+			chatlog << "<b><span style=\"font-size:2; color:silver;\">GM> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
 
-		DE_chat(var/messsage as text)
-			set category="Clan"
-			set name="DE Chat"
-			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
-			if(messsage)
-				messsage = copytext(check(messsage),1,350)
-				if(messsage == null || messsage == "") return
-				for(var/client/C)
-					if(C.mob)if(C.mob.DeathEater==1)
-						if(prevname)
-							C<<"<b><font color=green><font size=2>DE Channel> <font size=2><font color=silver>[usr.prevname](Robed):</b> <font color=white>[messsage]"
-						else
-							C<<"<b><font color=green><font size=2>DE Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
 
-		Auror_chat(var/messsage as text)
-			set category="Clan"
-			set name="Auror Chat"
-			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
-			if(messsage)
-				messsage = copytext(check(messsage),1,350)
-				if(messsage == null || messsage == "") return
-				for(var/client/C)
-					if(C.mob)if(C.mob.Auror==1)
-						C<<"<b><font color=red><font size=2>Auror Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
-
-		Gryffindor_Chat(var/messsage as text)
+		Gryffindor_Chat(var/message as text)
 			if(!listenhousechat)
 				usr << "You are not listening to Gryffindor chat."
 				return
 			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
-			if(messsage)
-				messsage = copytext(check(messsage),1,350)
-				if(messsage == null || messsage == "") return
-				if(prevname)
-					for(var/client/C)
-						if(C.mob)if((C.mob.House=="Gryffindor"||C.mob.admin) && C.mob.listenhousechat)
-							C<<"<b><font color=red><font size=2>Gryffindor Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
-				else
-					for(var/client/C)
-						if(C.mob)if((C.mob.House=="Gryffindor"||C.mob.admin) && C.mob.listenhousechat)
-							C<<"<b><font color=red><font size=2>Gryffindor Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
+			if(!message || message == "") return
+			message = copytext(check(message),1,350)
 
-		Ravenclaw_Chat(var/messsage as text)
+			for(var/mob/Player/p in Players)
+				if((p.House == "Gryffindor" || p.admin) && p.listenhousechat)
+					p << "<b><span style=\"font-size:2; color:red\">Gryffindor Channel> </span><span style=\"font-size:2; color:silver\">[prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
+
+			chatlog << "<b><span style=\"font-size:2; color:red;\">Gryffindor> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+
+
+		Ravenclaw_Chat(var/message as text)
 			if(!listenhousechat)
 				usr << "You are not listening to Ravenclaw chat."
 				return
 			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
-			if(messsage)
-				messsage = copytext(check(messsage),1,350)
-				if(messsage == null || messsage == "") return
-				if(prevname)
-					for(var/client/C)
-						if(C.mob)if((C.mob.House=="Ravenclaw"||C.mob.admin) && C.mob.listenhousechat)
-							C<<"<b><font color=blue><font size=2>Ravenclaw Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
-				else
-					for(var/client/C)
-						if(C.mob)if((C.mob.House=="Ravenclaw"||C.mob.admin) && C.mob.listenhousechat)
-							C<<"<b><font color=blue><font size=2>Ravenclaw Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
+			if(!message || message == "") return
+			message = copytext(check(message),1,350)
 
-		Slytherin_Chat(var/messsage as text)
+			for(var/mob/Player/p in Players)
+				if((p.House == "Ravenclaw" || p.admin) && p.listenhousechat)
+					p << "<b><span style=\"font-size:2; color:blue\">Ravenclaw Channel> </span><span style=\"font-size:2; color:silver\">[prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
+
+			chatlog << "<b><span style=\"font-size:2; color:blue;\">Ravenclaw> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+
+
+
+		Slytherin_Chat(var/message as text)
 			if(!listenhousechat)
 				usr << "You are not listening to Slytherin chat."
 				return
 			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
-			if(messsage)
-				messsage = copytext(check(messsage),1,350)
-				if(messsage == null || messsage == "") return
-				if(prevname)
-					for(var/client/C)
-						if(C.mob)if((C.mob.House=="Slytherin"||C.mob.admin) && C.mob.listenhousechat)
-							C<<"<b><font color=green><font size=2>Slytherin Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
-				else
-					for(var/client/C)
-						if(C.mob)if((C.mob.House=="Slytherin"||C.mob.admin) && C.mob.listenhousechat)
-							C<<"<b><font color=green><font size=2>Slytherin Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
+			if(!message || message == "") return
+			message = copytext(check(message),1,350)
 
-		Hufflepuff_Chat(var/messsage as text)
+			for(var/mob/Player/p in Players)
+				if((p.House == "Slytherin" || p.admin) && p.listenhousechat)
+					p << "<b><span style=\"font-size:2; color:green\">Slytherin Channel> </span><span style=\"font-size:2; color:silver\">[prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
+
+			chatlog << "<b><span style=\"font-size:2; color:green;\">Slytherin> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+
+
+
+		Hufflepuff_Chat(var/message as text)
 			if(!listenhousechat)
 				usr << "You are not listening to Hufflepuff chat."
 				return
 			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
-			if(messsage)
-				messsage = copytext(check(messsage),1,350)
-				if(messsage == null || messsage == "") return
-				if(prevname)
-					for(var/client/C)
-						if(C.mob)if((C.mob.House=="Hufflepuff"||C.mob.admin) && C.mob.listenhousechat)
-							C<<"<b><font color=yellow><font size=2>Hufflepuff Channel> <font size=2><font color=silver>[usr.prevname]:</b> <font color=white>[messsage]"
-				else
-					for(var/client/C)
-						if(C.mob)if((C.mob.House=="Hufflepuff"||C.mob.admin) && C.mob.listenhousechat)
-							C<<"<b><font color=yellow><font size=2>Hufflepuff Channel> <font size=2><font color=silver>[usr]:</b> <font color=white>[messsage]"
+			if(!message || message == "") return
+
+			for(var/mob/Player/p in Players)
+				if((p.House == "Hufflepuff" || p.admin) && p.listenhousechat)
+					p << "<b><span style=\"font-size:2; color:yellow\">Hufflepuff Channel> </span><span style=\"font-size:2; color:silver\">[prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
+
+			chatlog << "<b><span style=\"font-size:2; color:yellow;\">Hufflepuff> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+
 
 		Sanctuario(mob/M in view()&Players)
 			set category="Staff"
@@ -527,7 +488,7 @@ mob/GM
 					M:Transfer(locate("@Hogwarts"))
 					flick('apparate.dmi',M)
 					sleep(20)
-					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Hogwarts.</font></b>"
+					M<<"<b><span style=\"color:green;\">[usr]'s Sanctuario charm teleported you to Hogwarts.</span></b>"
 				if("Silverblood")
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
@@ -541,7 +502,7 @@ mob/GM
 					M:Transfer(locate(23,6,2))
 					flick('apparate.dmi',M)
 					sleep(20)
-					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Silverblood.</font></b>"
+					M<<"<b><span style=\"color:green;\">[usr]'s Sanctuario charm teleported you to Silverblood.</span></b>"
 				if("Student Housing")
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
@@ -555,7 +516,7 @@ mob/GM
 					M:Transfer(locate(51,54,17))
 					flick('apparate.dmi',M)
 					sleep(20)
-					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to the Student's Neighborhood.</font></b>"
+					M<<"<b><span style=\"color:green;\">[usr]'s Sanctuario charm teleported you to the Student's Neighborhood.</span></b>"
 				if("Dark Forest")
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
@@ -569,7 +530,7 @@ mob/GM
 					M:Transfer(locate(11,23,15))
 					flick('apparate.dmi',M)
 					sleep(20)
-					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to The Dark Forest.</font></b>"
+					M<<"<b><span style=\"color:green;\">[usr]'s Sanctuario charm teleported you to The Dark Forest.</span></b>"
 				if("Windhowl Manor")
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
@@ -583,7 +544,7 @@ mob/GM
 					M:Transfer(locate(8,22,17))
 					flick('apparate.dmi',M)
 					sleep(20)
-					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Windhowl Manor.</font></b>"
+					M<<"<b><span style=\"color:green;\">[usr]'s Sanctuario charm teleported you to Windhowl Manor.</span></b>"
 				if("Azkaban")
 					var/obj/S=new/obj/Sanctuario
 					S.loc=(usr.loc)
@@ -597,7 +558,7 @@ mob/GM
 					M:Transfer(locate(59,80,25))
 					flick('apparate.dmi',M)
 					sleep(20)
-					M<<"<b><font color=green>[usr]'s Sanctuario charm teleported you to Azkaban.</font></b>"
+					M<<"<b><span style=\"color:green;\">[usr]'s Sanctuario charm teleported you to Azkaban.</span></b>"
 			if(M && M.removeoMob) spawn()M:Permoveo()
 
 
@@ -647,7 +608,7 @@ mob/GM/verb
 		src.density=0
 		src.Move(locate(M.x,M.y+1,M.z))
 		src.density=dense
-		M << "<b><font color=blue>[src]</font> has teleported to you.</b>"
+		M << "<b><span style=\"color:blue;\">[src]</span> has teleported to you.</b>"
 		src << "With a flick of your wand, you find yourself next to <b>[M]</b>."
 
 
@@ -687,7 +648,7 @@ mob/GM/verb/Bring(mob/M in world)
 		M.loc = locate(x,y,z)
 	flick('Appear.dmi',M)
 	M << "You have been summoned."
-	src << "You have summoned <b><font color=red>[M].</font></b>"
+	src << "You have summoned <b><span style=\"color:red;\">[M].</span></b>"
 
 
 mob/var/iconreset
@@ -723,7 +684,7 @@ mob
 		Detention(mob/M in Players)
 			set category = "Staff"
 			for(var/mob/Player/A in Players)
-				if(A.Gm) A << "<b><u><font color=#FF14E0>[src] has opened the Detention window on [M].</font></u></b>"
+				if(A.Gm) A << "<b><u><span style=\"color:#FF14E0;\">[src] has opened the Detention window on [M].</span></u></b>"
 			var/timer = input("Set timer for detention in /minutes/ (Leave as 0 for detention to stick until you remove it)","Detention timer",0) as num|null
 			if(timer == null) return
 			var/Reason = input(src,"You are being Detentioned because you: <finish sentence>","Specify Why","harmed somebody within a safe zone (Hogwarts or Diagon Alley).") as null|text
@@ -737,7 +698,7 @@ mob
 				M:Transfer(locate("Detention"))
 				flick('dlo.dmi',M)
 				M.MuteOOC=1
-				hearers()<<"[usr]: <b><font size=2><font color=aqua>Incarcifors, [M]."
+				hearers()<<"[name]: <b><span style=\"font-size:2;color:aqua;\">Incarcifors, [M].</span></b>"
 				Players<<"[M] has been sent to Detention."
 				M << "<b>Welcome to Detention.</b>"
 				if(Reason)
@@ -943,11 +904,11 @@ mob
 			set popup_menu = 0
 			if(M.Immortal==0)
 				flick('mist.dmi',M)
-				M<<"<b><font color=aqua>[usr] has made you an Immortal. You can no longer die."
+				M<<"<b><span style=\"color:aqua;\">[usr] has made you an Immortal. You can no longer die.</span>"
 				M.Immortal=1
 			else if(M.Immortal==1)
 				flick('mist.dmi',M)
-				M<<"<b><font color=blue>[usr] has made you a Mortal. You are now vulnerable to Death."
+				M<<"<b><span style=\"color:blue;\">[usr] has made you a Mortal. You are now vulnerable to Death.</span>"
 				M.Immortal=0
 		Mute(mob/M in Players)
 			set category = "Staff"
@@ -973,7 +934,7 @@ mob
 			else
 				M.timerMute = 0
 				M.mute=0
-				Players<<"<b><font color=red>[M] has been <b><font color=red>unsilenced."
+				Players<<"<b><span stlye=\"color:red;\">[M] has been unsilenced.</span></b>"
 				Log_admin("[src] has unmuted [M].")
 
 		Event_Announce(message as message)
@@ -983,7 +944,7 @@ mob
 			eventlog << "<tr><td><b>[src.name]</b></td><td>[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]</td><td>[message]</td></tr>"
 			for(var/mob/Player/p in Players)
 				p.beep(1)
-				p <<  "<hr><center><font color=blue><b>Announcement From [src]:</b></font><br><font color=red><b>[message]</font><hr></center>"
+				p <<  "<hr><center><span style=\"color:blue;\"><b>Announcement From [src]:</b></span><br><span style=\"color:red;\"><b>[message]</span><hr></center>"
 			if(!mysql_enabled) return
 			var/sql = "INSERT INTO tblEventLogs(name,timestamp,message) VALUES([mysql_quote("[name] ([key])")],UNIX_TIMESTAMP(),[mysql_quote(message)])"
 			var/DBQuery/qry = my_connection.NewQuery(sql)
@@ -994,7 +955,7 @@ mob
 			set desc = "(message) Announce something to all players logged in"
 			if(!message)return
 			for(var/client/C)
-				C.mob << "<hr><center><font color=blue><b>Announcement From [src]:</b></font><br><font color=red><b>[message]</font><hr></center>"
+				C.mob << "<hr><center><span style=\"color:blue;\"><b>Announcement From [src]:</b></span><br><span style=\"color:red;\"><b>[message]</span><hr></center>"
 		Reboot()
 			set category = "Staff"
 			switch(input("Are you sure you'd like to reboot?","?") in list("Yes", "Yes & Save", "No"))
@@ -1012,7 +973,7 @@ mob
 			set category = "Staff"
 			switch(input("Are you sure you'd like to shut down?","?")in list("Yes","No"))
 				if("Yes")
-					Players << "<B><p align=center><font color=red><u>ATTENTION</u></font><p align=center><b>The Server is being shutdown temporarily.<p align=center><b><font color=blue>See you again soon!</font></b>"
+					Players << "<B><p align=center><span style=\"color:red;\"><u>ATTENTION</u></span><p align=center><b>The Server is being shutdown temporarily.<p align=center><b><span style=\"color:blue;\">See you again soon!</span></b>"
 					sleep(50)
 					del world
 				if("No")
@@ -1243,7 +1204,7 @@ mob
 			switch(alert("Disconnect: [M]","Disconnect Player","Yes","No"))
 				if("Yes")
 					M.Save()
-					Players<<"<b><font color=red>[M] has been disconnected from the server.</b></font>"
+					Players<<"<b><span style=\"color:red;\">[M] has been disconnected from the server.</b></span>"
 					if(!M.key)
 						del(M)
 						return
@@ -1594,7 +1555,7 @@ mob/GM
 
 
 var
-	crban_bannedmsg="<font color=red><big><tt>You're banned.</tt></big></font>"
+	crban_bannedmsg="<span style=\"color:red;\"><big><tt>You're banned.</tt></big></span>"
 	crban_preventbannedclients = 0 // See above comments
 	crban_keylist[0]  // Banned keys and their associated IP addresses
 	crban_iplist[0]   // Banned IP addresses
@@ -1916,7 +1877,7 @@ world/New()
 		if(B.icon_state == "Top") Map2Aurorbeds.Add(B)
 	for(var/turf/T in locate(/area/arenas/MapThree/WaitingArea))
 		MapThreeWaitingAreaTurfs.Add(T)
-	world.status = "<font face='Comic Sans MS'><b>Server: <font color=blue>Main Server </font>||  <font color=black><b>Version:<font color=red> [VERSION] <font color=black><font color=blue>"
+	world.status = "<b><span style=\"font-family:'Comic Sans MS'; color:black;\">Server: <span style=\"color:blue;\">Main Server</span> || Version: <span style=\"color:red;\">[VERSION]</span></span></b>"
 	for(var/mob/M in world)
 		if(!M.key)
 			if(M.monster == 0)

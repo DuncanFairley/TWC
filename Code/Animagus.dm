@@ -50,7 +50,7 @@ turf/gotoministry
 					for(var/client/C)
 						if(C.eye)
 							if(C.eye == usr && C.mob != usr)
-								C << "<b><font color = white>Your Telendevour wears off.</font></b>"
+								C << "<b><span style=\"color:white;\">Your Telendevour wears off.</span></b>"
 								C.eye=C.mob
 					usr:Transfer(dest)
 			else

@@ -32,7 +32,7 @@ mob
 									for(var/mob/Player/p in Players)
 										if(p.Gm)
 											p.beep()
-											p << "<font color=red><b>GMHelp:</font> <b>User, <font color=blue>[usr]</font> , requests GM assistance."
+											p << "<span style=\"color:red;\"><b>GMHelp:</span> <b>User, <span style=\"color:blue;\">[usr]</span> , requests GM assistance."
 				if("Report a Bug")
 					usr << infomsg("You can report a bug/issue to the developers by going <a href=\"https://github.com/DuncanFairley/TWC/issues\">here</a>.")
 				if("How to get spells")

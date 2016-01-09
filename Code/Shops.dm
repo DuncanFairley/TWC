@@ -30,13 +30,13 @@ mob/Bump(obj/movablewall/O)
 				spawn(rand(1,30))W.rumble()
 			functioning = 0
 proc/npcsay(T as text)
-	return "<font color=#1eff00>[T]</font>"
+	return "<span style=\"color:#1eff00;\">[T]</span>"
 proc/errormsg(T as text)
-	return "<font color=#E32020><i>[T]</i></font>"
+	return "<span style=\"color:#E32020;\"><i>[T]</i></span>"
 proc/announcemsg(T as text)
-	return "<font color=#27BBF5 size=3><b>[T]</b></font>"
+	return "<span style=\"color:#27BBF5; font-size:3;\"><b>[T]</b></span>"
 proc/infomsg(T as text)
-	return "<font color=#27BBF5>[T]</font>"
+	return "<span style=\"color:#27BBF5;\">[T]</span>"
 mob/TalkNPC/male_wigseller
 	name="Wig Salesman"
 	icon_state="mwig"
@@ -258,7 +258,7 @@ mob/TalkNPC/Ollivander
 	var/swiftmode=0
 	var/busy=0
 	var/gdir
-	var/const/nametext = "<b><font color = red>Ollivander</b>:</font><font color = white>"
+	var/const/nametext = "<b><span style=\";\">Ollivander</b>:</span><font color = white>"
 	var/list/phrases = list("Hmm...","Uhmm...","Let's see here...","Possibly..? No. No that won't do.","Probably not.","I don't think so.", "Too flexible, I would think.","Oh yes; this will do very nicely.","Ahah! One of my finest!", "Oh yes. Nice and springy.","This one should suit perfectly.","Oh. Okay then.","I thought this one would be perfect, but you're the customer!","Pity... You could be great with this wand.","Fair enough.")
 
 	Talk()
@@ -432,7 +432,7 @@ obj/Madame_Pomfrey
 		Heal_Me()
 			if(canUse(usr,cooldown=/StatusEffect/UsedFerulaToHeal))
 				set src in oview(1)
-				usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episkey [usr]!"
+				usr<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [usr]!"
 				new /StatusEffect/UsedFerulaToHeal(usr,12)
 				usr.overlays+=image('attacks.dmi',icon_state="heal")
 				usr.HP=usr.MHP+usr.extraMHP
@@ -463,7 +463,7 @@ mob/Madame_Pomfrey
 	verb
 		Heal_Me()
 			set src in oview(1)
-			usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episkey [usr]!"
+			usr<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [usr]!"
 			usr.overlays+=image('attacks.dmi',icon_state="heal")
 			usr.HP=usr.MHP+usr.extraMHP
 			usr.updateHPMP()

@@ -98,7 +98,7 @@ obj
 		verb
 			Recharge()
 				set src in oview(2)
-				usr << "<font color=red>Re-charging..."
+				usr << "<span style=\"color:red;\">Re-charging...</span>"
 				sleep(20)
-				usr << "<font color=green>Complete."
+				usr << "<span style=\"color:green\">Complete.</span>"
 				usr.bracecharges=3

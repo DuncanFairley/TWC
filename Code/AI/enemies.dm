@@ -53,7 +53,7 @@ obj
 			..()
 			tag = "EyeCounter"
 			spawn(1)
-				maptext = "<b><font size=4 color=#FF4500>[worldData.eyesKilled]</font></b>"
+				maptext = "<b><span style=\"font-size:4; color:#FF4500;\">[worldData.eyesKilled]</span></b>"
 
 		proc
 			add()
@@ -72,7 +72,7 @@ obj
 				else
 					pixel_x = 8
 
-				maptext = "<b><font size=4 color=#FF4500>[worldData.eyesKilled]</font></b>"
+				maptext = "<b><span style=\"font-size:4; color:#FF4500;\">[worldData.eyesKilled]</span></b>"
 
 
 AreaData
@@ -151,14 +151,14 @@ obj
 				else
 					pixel_x = 8
 
-				maptext  = "<font size=4 color=#FF4500><b>[data.count]</b></font>"
+				maptext  = "<span style=\"font-size:4; color:#FF4500;\"><b>[data.count]</b></span>"
 				overlays = list()
 				if(data.guild)
 					var/image/i      = new
 
 					var/guild/g = worldData.guilds[data.guild]
 
-					i.maptext        = "<font size=3 color=#FF4500>[g.name]</font>"
+					i.maptext        = "<span style=\"font-size:3; color:#FF4500;\">[g.name]</span>"
 					i.maptext_width  = maptext_width
 					i.maptext_height = maptext_height
 					i.maptext_x      = -16

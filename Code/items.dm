@@ -70,8 +70,8 @@ obj/items
 
 		UpdateDisplay()
 			if(stack > 1)
-				suffix  = "<font color=#c00>(x[stack])</font>"
-				maptext = "<font size=1 color=#c00><b>[stack]</b></font>"
+				suffix  = "<span style=\"color:#c00;\">(x[stack])</span>"
+				maptext = "<span style=\"font-size:1; color:#c00;\"><b>[stack]</b></span>"
 			else
 				suffix  = null
 				maptext = null
@@ -319,12 +319,12 @@ obj/items/wearable
 		return w
 
 	UpdateDisplay()
-		var/const/WORN_TEXT = "<font color=blue>(Worn)</font>"
+		var/const/WORN_TEXT = "<span style=\"color:blue;\">(Worn)</span>"
 		var/worn = findtext(suffix, "worn")
 
 		if(stack > 1)
-			suffix  = "<font color=#c00>(x[stack])</font>"
-			maptext = "<font size=1 color=#c00><b>[stack]</b></font>"
+			suffix  = "<span style=\"color:#c00;\">(x[stack])</span>"
+			maptext = "<span style=\"font-size:1; color:#c00;\"><b>[stack]</b></span>"
 
 			if(worn)
 				suffix  = "[suffix] [WORN_TEXT]"
@@ -490,7 +490,7 @@ obj/items/Zombie_Head
 				new /StatusEffect/UsedTransfiguration(usr,15)
 				if(usr.CanTrans(usr))
 					flick("transfigure",usr)
-					hearers()<<"<b><font color=red>[usr]</font>:<b><font color=green> Personio Inter vivos.</b></font>"
+					hearers()<<"<b><span style=\"color:red;\">[usr]</span>:<b><span style=\"color:green;\"> Personio Inter vivos.</b></span>"
 					usr.trnsed = 1
 					usr.overlays = null
 					if(usr.away)usr.ApplyAFKOverlay()
@@ -508,7 +508,7 @@ obj/items/Whoopie_Cushion
 	canAuction = FALSE
 	proc
 		Fart(sitter)
-			hearers() << "<font color=#FD857D size=3><b>A loud fart is heard from [sitter]'s direction.</b></font>"
+			hearers() << "<span style=\"color:#FD857D; font-size:3;\"><b>A loud fart is heard from [sitter]'s direction.</b></span>"
 			del(src)
 	Click()
 		if(src in usr)
@@ -555,7 +555,7 @@ obj/items/scroll
 			set name = "Name Scroll"
 			if(msg == "") return
 			if(inuse)
-				usr << "<font color=white>The scroll is currently being used.</font>"
+				usr << errormsg("The scroll is currently being used.")
 				return
 			src.name = copytext(html_encode(msg),1,25)
 		write()
@@ -569,7 +569,7 @@ obj/items/scroll
 			msg = dd_replacetext(msg,"\n","<br>")
 
 			var/obj/items/scroll/s = stack > 1 ? Split(1) : src
-			s.content += "<body bgcolor=black><u><font color=blue><b><font size=3>[name]</u><p><font color=red><font size=1>by [usr] <p><p><font size=2><font color=white>[msg] <p>"
+			s.content += "<body style=\"background-color:black; color:white; font-size:2;\"><b><span style=\"color:blue; font-size:3; \"><u>[name]</u></span><br><span style=\"color:red; font-size:1;\">by [usr]</span></b><br><p>[msg]</p></body>"
 			s.icon_state = "wrote"
 			s.loc = usr
 			inuse = 0
@@ -766,7 +766,7 @@ obj/items/trophies
 					for(var/i = 1 to rand(10,20))
 						if(!usr) break
 						var/c = rgb(rand(0, 255), rand(0, 255), rand(0, 255))
-						fadeText(usr, "<font color=[c]>[msg]</font>", offset, 20)
+						fadeText(usr, "<span style=\"color:[c];\">[msg]</span>", offset, 20)
 						sleep(3)
 		else
 			..()
@@ -1159,14 +1159,14 @@ obj/items/wearable/wands
 					displayKills(owner, 0, 1)
 					displayKills(owner, 0, 2)
 				if(track && displayColor)
-					viewers(owner) << infomsg({"[owner] draws \his <font color="[displayColor]">[src.name]</font>."})
+					viewers(owner) << infomsg({"[owner] draws \his <span style=\"color:"[displayColor]";\">[src.name]</span>."})
 				else
 					viewers(owner) << infomsg("[owner] draws \his [src.name].")
 		else if(. == REMOVED)
 			owner.wand = null
 			if(!overridetext)
 				if(track && displayColor)
-					viewers(owner) << infomsg({"[owner] puts \his <font color="[displayColor]">[src.name]</font> away."})
+					viewers(owner) << infomsg({"[owner] puts \his <span style=\"color:"[displayColor]";\">[src.name]</span> away."})
 				else
 					viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
 
@@ -1194,7 +1194,7 @@ proc/displayKills(mob/Player/i_Player, count=0, countType=1)
 		var/offset = 15 - (length("[num]") * 5)
 
 		if(w.displayColor)
-			fadeText(i_Player, "<b><font color=\"[w.displayColor]\">[num] </font></b>", offset, 20)
+			fadeText(i_Player, "<b><span style=\"color:\"[w.displayColor]\";\">[num] </span></b>", offset, 20)
 		else
 			fadeText(i_Player, "<b>[num]</b>", offset, 20)
 
@@ -1207,7 +1207,7 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 		if(src in usr:Lwearing)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 				new /StatusEffect/UsedTransfiguration(usr,30)
-				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Delicio Maxima.</b></font>"
+				hearers()<<"<b><span style=\"color:red;\">[usr]</span>:<b><span style=\"color:white;\"> Delicio Maxima.</b></span>"
 				sleep(20)
 				for(var/mob/Player/M in ohearers(usr.client.view,usr))
 					if(M.flying) continue
@@ -1219,7 +1219,7 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 						M.trnsed = 1
 						if(M.away) M.ApplyAFKOverlay()
 						M.icon = 'Turkey.dmi'
-						M<<"<b><font color=#D6952B>Delicio Charm:</b></font> [usr] turned you into some Thanksgiving awesome-ness."
+						M<<"<b><span style=\"color:#D6952B;\">Delicio Charm:</b></span> [usr] turned you into some Thanksgiving awesome-ness."
 					sleep(1)
 		else
 			usr << errormsg("You need to be using this wand to cast this.")
@@ -1232,7 +1232,7 @@ obj/items/wearable/wands/maple_wand //Easter
 		if(src in usr:Lwearing)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 				new /StatusEffect/UsedTransfiguration(usr,30)
-				hearers()<<"<b><font color=red>[usr]</font>:<b><font color=white> Carrotosi Maxima.</b></font>"
+				hearers()<<"<b><span style=\"color:red;\">[usr]</span>:<b><span style=\"color:white;\"> Carrotosi Maxima.</b></span>"
 				sleep(20)
 				for(var/mob/Player/M in ohearers(usr.client.view,usr))
 					if(M.flying) continue
@@ -1244,7 +1244,7 @@ obj/items/wearable/wands/maple_wand //Easter
 						M.trnsed = 1
 						if(M.away) M.ApplyAFKOverlay()
 						M.icon = 'PinkRabbit.dmi'
-						M<<"<b><font color=red>Carrotosi Charm:</b></font> [usr] turned you into a Rabbit."
+						M<<"<b><span style=\"color:red;\">Carrotosi Charm:</b></span> [usr] turned you into a Rabbit."
 					sleep(1)
 		else
 			usr << errormsg("You need to be using this wand to cast this.")
@@ -2103,7 +2103,7 @@ mob/Del()
 	..()
 
 mob/Player/Logout()
-	Players<<"<B><font size=2 color=red><I>[usr] <b>logged out.</b></I></font></B>"
+	Players<<"<B><span style=\"font-size:2; color:red;\"><I>[usr] <b>logged out.</b></I></span></B>"
 	if(arcessoing)
 		stop_arcesso()
 	if(rankedArena)
@@ -2182,7 +2182,7 @@ arena_round
 						worldData.housepointsGSRH[5] += amountforwin
 					if("Deatheaters")
 						worldData.housepointsGSRH[6] += amountforwin
-				Players << "<font color = red>[team] have earned [amountforwin] points.</font>"
+				Players << "<span style=\";\">[team] have earned [amountforwin] points.</span>"
 				Save_World()
 				del(currentArena)
 
@@ -2374,7 +2374,7 @@ obj/items/spellbook
 		                          				 1 + r,1 + g,1 + b,
 		                         				 -1,-1,-1), time = 10)
 
-				usr<<"<b><font color=white><font size=3>You learned [generic.name]."
+				usr << infomsg("You learned [generic.name].")
 				usr.verbs += spell
 				Consume()
 
@@ -2405,7 +2405,7 @@ obj/items/stickbook
 	desc = "Remind me why I bought this?"
 	Click()
 		if(src in usr)
-			usr<<"<b><font color=white><font size=3>You learned Crapus Sticketh."
+			usr << infomsg("You learned Crapus Sticketh.")
 			usr.verbs += /mob/Spells/verb/Crapus_Sticketh
 			Consume()
 		else

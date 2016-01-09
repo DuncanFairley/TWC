@@ -17,31 +17,31 @@ mob/TalkNPC/Zonko
 		var/mob/Player/p = usr
 		var/questPointer/pointer = p.questPointers["Sweet Easter"]
 		if(pointer && pointer.stage == 1)
-			usr << "\n<font size=2><font color=red><b> <font color=red>Zonko</font> [GMTag]</b>:<font color=white> Yes? Can I help you?"
+			usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white> Yes? Can I help you?"
 			sleep(10)
 			switch(input("Your Response","Respond")in list("Anything new for sale?","No, I'm ok."))
 				if("Anything new for sale?")
-					usr << "\n<font size=2><font color=red><b> <font color=red>Zonko</font> [GMTag]</b>:<font color=white> Actually I have this batch of Chocolate Eggs here. But they're not for sale. This is the only batch I have."
+					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white> Actually I have this batch of Chocolate Eggs here. But they're not for sale. This is the only batch I have."
 					sleep(30)
 					switch(input("Your Response","Respond")in list("Oh come on, I'll give you 50,000 gold.","Oh, ok."))
 						if("Oh come on, I'll give you 50,000 gold.")
-							usr << "\n<font size=2><font color=red><b> <font color=red>Zonko</font> [GMTag]</b>:<font color=white> 50,000! That's a lot of money..."
+							usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white> 50,000! That's a lot of money..."
 							if(usr.gold.get()>=50000)
-								usr << "\n<font size=2><font color=red><b> <font color=red>Zonko</font> [GMTag]</b>:<font color=white> Hm...Alright alright. Its a deal."
+								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white> Hm...Alright alright. Its a deal."
 								usr.gold.add(-50000)
 								p.checkQuestProgress("Zonko")
 								return
 							else
-								usr<<"\n<font size=2><font color=red><b> <font color=red>Zonko</font> [GMTag]</b>:<font color=white> Hm...Doesn't look like you have enough money. Sorry."
+								usr<<"\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white> Hm...Doesn't look like you have enough money. Sorry."
 								return
 						if("Oh, ok.")
 							return
 				if("No, I'm ok.")
-					usr << "\n<font size=2><font color=red><b> <font color=red>Zonko</font> [GMTag]</b>:<font color=white>Stop wasting my time!"
+					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white>Stop wasting my time!"
 					return
 
 		else
-			usr << "\n<font size=2><font color=red><b> <font color=red>Zonko</font> [GMTag]</b>:<font color=white> Excuse me kid, I'm quite busy."
+			usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white> Excuse me kid, I'm quite busy."
 
 
 obj
@@ -281,7 +281,7 @@ obj
 						usr.smokepelletthrowing = src
 						var/obj/hud/cancelthrow/C = new()
 						usr.client.screen += C
-						usr << "<font size=3>You have five seconds to click where you would like to throw the [src]."
+						usr << infomsg("You have five seconds to click where you would like to throw the [src].")
 						var/obj/items/Smoke_Pellet/P = src
 						src = null
 						spawn(50)
@@ -375,7 +375,7 @@ obj/items/U_No_Poo
 						var/r = rand(1,5)
 						if(r < 4)
 							var/txt = pick("A deep rumbling sound is heard from [usr]'s direction.", "There's a strained expression on [usr]'s face.", "[usr] looks a little more bloated than usual.", "You hear rumbling sounds from [usr]'s direction.")
-							hearers() << "<font color=#FD857D size=2><b>[txt]</b></font>"
+							hearers() << "<span style=\"color:#FD857D; font-size:2;\"><b>[txt]</b></span>"
 						else if(r == 5)
 							var/txt = pick("You feel a great urge to run to the nearest toilet.", "You feel horrible.", "You silently fart.")
 							usr << errormsg(txt)
@@ -447,7 +447,7 @@ obj/Poop
 		stepped(mob/Player/P)
 			var/StatusEffect/S = P.findStatusEffect(/StatusEffect/SteppedOnPoop)
 			if(!S)
-				P << "<i><font color=yellow>Ewww... You just stepped in poop.</font></i>"
+				P << "<i><span style=\"color:yellow;\">Ewww... You just stepped in poop.</span></i>"
 				new /StatusEffect/SteppedOnPoop(P,rand(5,10))
 
 				if(prob(30))

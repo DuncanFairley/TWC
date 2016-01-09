@@ -1,3 +1,10 @@
+/*
+ * Copyright © 2014 Duncan Fairley
+ * Distributed under the GNU Affero General Public License, version 3.
+ * Your changes must be made public.
+ * For the full license text, see LICENSE.txt.
+ */
+
 mob/TalkNPC/quest
 
 	vampires
@@ -559,16 +566,16 @@ mob/TalkNPC/quest
 			if("Make a Potion" in p.questPointers)
 				var/questPointer/pointer = p.questPointers["Make a Potion"]
 				if(pointer.stage)
-					usr << "<b><font color=blue>Alyssa: </font>Find my ingredients yet?!"
+					usr << "<b><span style=\"color:blue;\">Alyssa: </span>Find my ingredients yet?!"
 					switch(input("What is your response?","Make a selection")in list("Yes","No"))
 						if("Yes")
-							usr << "<b><font color=blue>Alyssa: </font>Well let's see them."
+							usr << "<b><span style=\"color:blue;\">Alyssa: </span>Well let's see them."
 							if(pointer.stage == 2)
-								usr << "<b><font color=blue>Alyssa: </font>You have it all! How wonderful!"
+								usr << "<b><span style=\"color:blue;\">Alyssa: </span>You have it all! How wonderful!"
 								sleep(25)
-								usr << "<b><font color=blue>Alyssa: </font>Now we'll use these to brew the potion."
+								usr << "<b><span style=\"color:blue;\">Alyssa: </span>Now we'll use these to brew the potion."
 								sleep(20)
-								usr << "<b><font color=blue>Alyssa: </font>Hopefully I've mixed it right! I'm ready to be immortal."
+								usr << "<b><span style=\"color:blue;\">Alyssa: </span>Hopefully I've mixed it right! I'm ready to be immortal."
 								sleep(25)
 								usr << "<i>Alyssa drinks the potion</i>"
 								sleep(20)
@@ -579,9 +586,9 @@ mob/TalkNPC/quest
 								icon='NPCs.dmi'
 								icon_state="alyssa"
 								sleep(20)
-								usr << "<b><font color=blue>Alyssa: </font>I guess it was too good to be true."
+								usr << "<b><span style=\"color:blue;\">Alyssa: </span>I guess it was too good to be true."
 								sleep(20)
-								usr << "<b><font color=blue>Alyssa: </font>Thanks for helping me anyways, you can have these as a token of my gratitude."
+								usr << "<b><span style=\"color:blue;\">Alyssa: </span>Thanks for helping me anyways, you can have these as a token of my gratitude."
 
 								for(var/obj/items/Alyssa/X in usr)
 									X.loc = null
@@ -590,30 +597,30 @@ mob/TalkNPC/quest
 									scroll.loc = null
 								p.checkQuestProgress("Alyssa")
 							else
-								usr << "<b><font color=blue>Alyssa: </font>You don't have all of the ingredients! Go back and look for them!"
+								usr << "<b><span style=\"color:blue;\">Alyssa: </span>You don't have all of the ingredients! Go back and look for them!"
 						if("No")
-							usr << "<b><font color=blue>Alyssa: </font>Better keep on looking!"
+							usr << "<b><span style=\"color:blue;\">Alyssa: </span>Better keep on looking!"
 				else
-					usr << "<b><font color=blue>Alyssa: </font>Thanks again for helping me."
+					usr << "<b><span style=\"color:blue;\">Alyssa: </span>Thanks again for helping me."
 			else
-				usr << "<b><font color=blue>Alyssa: </font>Hey there! You look like someone with too much time on their hands."
+				usr << "<b><span style=\"color:blue;\">Alyssa: </span>Hey there! You look like someone with too much time on their hands."
 				sleep(15)
-				usr << "<b><font color=blue>Alyssa: </font>How would you like to help me out?"
+				usr << "<b><span style=\"color:blue;\">Alyssa: </span>How would you like to help me out?"
 				switch(input("What do you say?","Make a selection")in list("What do you need help with?","No thanks"))
 					if("What do you need help with?")
-						usr << "<b><font color=blue>Alyssa: </font>Well I've been reading this book I found! There's a recipe here for a potion that makes anyone immortal!"
+						usr << "<b><span style=\"color:blue;\">Alyssa: </span>Well I've been reading this book I found! There's a recipe here for a potion that makes anyone immortal!"
 						sleep(15)
-						usr << "<b><font color=blue>Alyssa: </font>I just don't have all the ingredients I need, can you help me find some?!"
+						usr << "<b><span style=\"color:blue;\">Alyssa: </span>I just don't have all the ingredients I need, can you help me find some?!"
 						switch(input("Will you help Alysaa find the potion ingredients?","Make a selection")in list("Certainly!","I've got better things to do"))
 							if("Certainly!")
-								usr << "<b><font color=blue>Alyssa: </font>Oh wonderful! I know people around here make potions. Maybe they have some ingredients stashed away in there houses."
+								usr << "<b><span style=\"color:blue;\">Alyssa: </span>Oh wonderful! I know people around here make potions. Maybe they have some ingredients stashed away in there houses."
 								sleep(15)
-								usr << "<b><font color=blue>Alyssa: </font>I'm not saying to steal them....Just borrow them. Indefinitely."
+								usr << "<b><span style=\"color:blue;\">Alyssa: </span>I'm not saying to steal them....Just borrow them. Indefinitely."
 								sleep(15)
-								usr << "<b><font color=blue>Alyssa: </font>There's probably some growing around too. Here's my list!"
+								usr << "<b><span style=\"color:blue;\">Alyssa: </span>There's probably some growing around too. Here's my list!"
 								new/obj/items/AlyssaScroll(usr)
 								alert("Alyssa hands you her list of potion ingredients")
-								usr << "<b><font color=blue>Alyssa: </font>Thanks!"
+								usr << "<b><span style=\"color:blue;\">Alyssa: </span>Thanks!"
 								p.Resort_Stacking_Inv()
 								p.startQuest("Make a Potion")
 							if("I've got better things to do")

@@ -1,5 +1,5 @@
 /*
- * Copyright Â© 2014 Duncan Fairley
+ * Copyright © 2014 Duncan Fairley
  * Distributed under the GNU Affero General Public License, version 3.
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
@@ -139,9 +139,9 @@ obj/teleport
 				var/pw = input(M, "You feel this spot was enchanted with a password protected teleporting spell","Teleport","") as null|text
 				if(!pw || M.loc != src.loc) return
 				if(pw == pass)
-					M<<"<font color=green><b>Authorization Confirmed."
+					M << infomsg("Authorization Confirmed.")
 				else
-					M<<"<font color=red><b>Authorization Denied."
+					M << errormsg("Authorization Denied.")
 					return
 
 			var/atom/A = locate(dest) //can be some turf, or some obj
@@ -442,11 +442,11 @@ client/Command(T)
 			if(telnetchatmode == "say")
 				for(var/mob/M in hearers())
 					if(!M.muff)
-						M<<"<font size=2><font color=red><b> <font color=red>[usr.name]</font> </b>:<font color=white> [T]"
+						M<<"<span style=\"font-size:2;\"><font color=red><b> <font color=red>[usr.name]</span> </b>:<font color=white> [T]"
 					else
 						if(rand(1,3)==1) M<<"<i>You hear an odd ringing sound.</i>"
 			else
-				world << "<b><font face='Comic Sans MS'><font color=green><font size=1>OOC></b><font face='Comic San MS'><font size=2><b><font color=blue>[mob.name]  :</font></b> <font color=white><font size=2> [T]"
+				world << "<b><span style=\"face:'Comic;\"><font color=green><font size=1>OOC></b><font face='Comic San MS'><font size=2><b><font color=blue>[mob.name]  :</span></b> <font color=white><font size=2> [T]"
 	else
 		usr << "You can sign in by typing the password followed by your name. (Seperated by a space)"
 		failedtries++
@@ -626,9 +626,9 @@ world/proc/worldlooper()
 			if(winget(C,"radio_enabled","is-checked") == "false")
 				switch(rndnum)
 					if(1)
-						C.mob << "<font color = white><b><h3>TWC Radio is broadcasting. Click <a href='http://listen.hotdogradio.com/?ID=TWC'>here</a> to listen.</h3></b></font><br>"
+						C.mob << "<span style=\";\"><b><h3>TWC Radio is broadcasting. Click <a href='http://listen.hotdogradio.com/?ID=TWC'>here</a> to listen.</h3></b></span><br>"
 					if(2)
-						C.mob << "<font color = white><b><h3>You should probably listen to TWC Radio! Click <a href='http://listen.hotdogradio.com/?ID=TWC'>here</a> to listen!</h3></b></font><br>"
+						C.mob << "<span style=\";\"><b><h3>You should probably listen to TWC Radio! Click <a href='http://listen.hotdogradio.com/?ID=TWC'>here</a> to listen!</h3></b></span><br>"
 	spawn()worldlooper()
 mob
 	create_character
@@ -718,15 +718,6 @@ mob
 					return 1
 			return 0
 		Login()
-			if(DevMode==1)
-				if(!src.Gm)
-					src<<"<font color=red><p align=center> || <b>Access Denied</b>|| <p align=center> The server is currently in Maintinence Mode. Access is restricted to Game Masters only.</p>"
-
-					sleep(1)
-					del src
-				else
-					src<<"<b><p align=center> || <b>Access Granted</b> || <p align=center>You have been recognized as a Game Master. The server is currently in maintience mode. Access is permitted to staff only. Welcome.</p>"
-
 
 			var/mob/Player/character=new()
 			//character.savefileversion = currentsavefilversion
@@ -784,7 +775,7 @@ mob
 					character.Gender="Female"
 					character.verbs += /mob/GM/verb/Hufflepuff_Chat
 					character.icon='FemaleHufflepuff.dmi'
-				//	character<<"<font size=3><font color=red>You are now a Hufflepuff. Common Room password is <font size=3><font color=red>Maroon</font><p><b>Dont Tell Anyone Outside of Your House or you will be expelled."
+				//	character<<"<span style=\"font-size:3;\"><font color=red>You are now a Hufflepuff. Common Room password is <font size=3><font color=red>Maroon</span><p><b>Dont Tell Anyone Outside of Your House or you will be expelled."
 
 			character.Rank="Player"
 			character.baseicon = character.icon
@@ -793,11 +784,9 @@ mob
 				character.gender = FEMALE
 			else if(character.Gender=="Male")
 				character.gender = MALE
-			//character.StatPoints+=10
-			//character.verbs += /mob/Player/verb/Use_Statpoints
-			src<<"<b><font size=2><font color=#3636F5>Welcome to Harry Potter: The Wizards Chronicles</font> <u><a href='http://wizardschronicles.com/?ver=[VERSION]'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://forum.wizardschronicles.com\">here.</a>"
-			//src<<"<b><font size=2><font color=blue>Welcome to Harry Potter: The Wizards Chronicles</font> <u><a href='?src=\ref[src];action=view_changelog'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://www.wizardschronicles.com\">here.</a>"
-			src<<"<b>You are in the entrance to Diagon Alley."
+
+			src<<"<b><span style=\"font-size:2;color:#3636F5;\">Welcome to Harry Potter: The Wizards Chronicles</span> <u><a href='http://wizardschronicles.com/?ver=[VERSION]'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://forum.wizardschronicles.com\">here.</a>"
+			src<<"<b>You are in the entrance to Diagon Alley.</b>"
 			src<<"<b><u>Ollivander has a wand for you. Go up, and the first door on your right is the entrance to Ollivander's wand store.</u></b>"
 			src<<"<h3>For a full player guide, visit http://guide.wizardschronicles.com.</h3>"
 			var/oldmob = src
@@ -809,10 +798,12 @@ mob
 			character.loc=locate(45,60,26)
 			character.notmonster=1
 			character.verbs += /mob/Spells/verb/Inflamari
-			for(var/client/C)
-				if(C.mob)
-					if(C.mob.Gm) C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey])([character.client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</I></B></font>"
-					else C.mob << "<font size=2 color=#C0C0C0><B><I>[character][character.refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B></font>"
+
+			for(var/mob/Player/p in Players)
+				if(p.Gm)
+					p << "<span style=\"font-size:2; color:#C0C0C0;\"><b><i>[character][character.refererckey==p.client.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey])([character.client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</i></b></span>"
+				else
+					p << "<span style=\"font-size:2; color:#C0C0C0;\"><b><i>[character][character.refererckey==p.client.ckey ? "(referral)" : ""] logged in.</i></b></span>"
 			character.Teleblock=0
 			if(!character.Interface) character.Interface = new(character)
 			character.startQuest("Tutorial: The Wand Maker")
@@ -980,7 +971,7 @@ mob/Player
 		Players.Add(src)
 		bubblesort_atom_name(Players)
 		if(worldData.housecupwinner)
-			src << "<b><font color=#CF21C0>[worldData.housecupwinner] is the House Cup winner for this month. They receive +25% drop rate/gold/XP from monster kills.</font></b>"
+			src << "<b><span style=\"color:#CF21C0;\">[worldData.housecupwinner] is the House Cup winner for this month. They receive +25% drop rate/gold/XP from monster kills.</span></b>"
 		if(classdest)
 			src << announcemsg("[curClass] class is starting. Click <a href=\"?src=\ref[src];action=class_path;latejoiner=true\">here</a> for directions.")
 		updateHPMP()
@@ -1070,9 +1061,9 @@ mob/Player
 								hearers(client.view)<<"<i>[usr] [copytext(t,5)]</i>"
 							else if(copytext(t,1,4)=="\[w]")
 								if(prevname)
-									range(1)<<"<font size=2><font color=red><b><font color=red>[usr]</font> whispers: <i>[copytext(t,4)]</i>"
+									range(1)<<"<span style=\"font-size:2; color:red;\"><b> [usr] whispers: <i>[copytext(t,4)]</i></b></span>"
 								else
-									range(1)<<"<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> whispers: <i>[copytext(t,4)]</i>"
+									range(1)<<"<span style=\"font-size:2; color:red;\"><b>[Tag] [usr] whispers: <i>[copytext(t,4)]</i></b></span>"
 
 							else
 								var/silent = FALSE
@@ -1097,17 +1088,17 @@ mob/Player
 									for(var/mob/M in hearers(client.view))
 										if(!M.muff)
 											if(prevname)
-												M<<"<font size=2><font color=red><b><font color=red> [usr]</font></b> :<font color=white> [t]"
+												M<<"<span style=\"font-size:2; color:red;\"><b>[usr]</b></span> : <span style=\"color:white\">[t]</span>"
 											else
-												M<<"<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> [t]"
+												M<<"<span style=\"font-size:2; color:red;\"><b>[Tag][usr][GMTag]</b></span> : <span style=\"color:white\">[t]</span>"
 										else
 											if(rand(1,3)==1) M<<"<i>You hear an odd ringing sound.</i>"
 
 
 							if(prevname)
-								chatlog << "<font size=2 color=red><b>[usr.prevname] (ROBED)</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
+								chatlog << "<span style=\"font-size:2; color:red;\"><b>[usr.prevname] (ROBED)</b></span><span style=\"color:white;\"> says '[t]'</span>"+"<br>"//This is what it adds to the log!
 							else
-								chatlog << "<font size=2 color=red><b>[usr]</b></font><font color=white> says '[t]'</font>"+"<br>"//This is what it adds to the log!
+								chatlog << "<span style=\"font-size:2; color:red;\"><b>[usr]</b></span><span style=\"color:white;\"> says '[t]'</span>"+"<br>"//This is what it adds to the log!
 							if(t == worldData.ministrypw)
 								if(istype(usr.loc,/turf/gotoministry))
 									if(usr.name in worldData.ministrybanlist)
@@ -1123,7 +1114,7 @@ mob/Player
 										for(var/client/C)
 											if(C.eye)
 												if(C.eye == usr && C.mob != usr)
-													C << "<b><font color = white>Your Telendevour wears off.</font></b>"
+													C << "<b><span style=\";\">Your Telendevour wears off.</span></b>"
 													C.eye=C.mob
 										usr.loc = dest
 							if(usr.House == "Ministry")
@@ -1134,15 +1125,15 @@ mob/Player
 											A.code_black = 0
 											for(var/mob/M in Players)
 												if(M.Auror)
-													M << "<b><font color=red>Ministry of Magic - Code Black cancelled</font></b>"
+													M << "<b><span style=\"color:red;\">Ministry of Magic - Code Black cancelled</span></b>"
 											if(!usr.Auror)
-												usr << "<b><font color=red>Ministry of Magic - Code Black cancelled</font></b>"
+												usr << "<b><span style=\"color:red;\">Ministry of Magic - Code Black cancelled</span></b>"
 										else
 											for(var/mob/M in Players)
 												if(M.Auror)
-													M << "<b><font color=red>Ministry of Magic is under attack. Code Black initiated</font></b>"
+													M << "<b><span style=\"color:red;\">Ministry of Magic is under attack. Code Black initiated</span></b>"
 											if(!usr.Auror)
-												usr << "<b><font color=red>Ministry of Magic is under attack. Code Black initiated</font></b>"
+												usr << "<b><span style=\"color:red;\">Ministry of Magic is under attack. Code Black initiated</span></b>"
 											A.code_black = 1
 											var/list/turf/seeds = list()
 											for(var/turf/T in A)
@@ -1161,7 +1152,7 @@ mob/Player
 											if(!input) return
 											else
 												worldData.ministrypw = input
-											hearers() << "<b><font color=red>Password Changed</font></b>"
+											hearers() << "<b><span style=\"color:red;\">Password Changed</span></b>"
 									if("unlock office")
 										var/obj/brick2door/door = locate("ministryoffice")
 										if(!door)return
@@ -1176,7 +1167,7 @@ mob/Player
 								if("colloportus")
 									if(src.Gm)
 										sleep(20)
-										hearers()<<"<font size=1>[usr] has locked the door.</font>"
+										hearers()<<"<span style=\"font-size:1;\">[usr] has locked the door.</span>"
 										if(classdest)
 											usr << errormsg("Friendly reminder: Class guidance is still on.")
 										for(var/obj/Hogwarts_Door/T in oview(client.view))
@@ -1186,7 +1177,7 @@ mob/Player
 								if("alohomora")
 									if(src.Gm)
 										sleep(20)
-										view(client.view)<<"<font size=1>[usr] has unlocked the door.</font>"
+										view(client.view)<<"<span style=\"font-size:1;\">[usr] has unlocked the door.</span>"
 										for(var/obj/Hogwarts_Door/T in oview(client.view))
 											if(!admin && T.vaultOwner) continue
 											flick('Alohomora.dmi',T)
@@ -1320,15 +1311,15 @@ mob/Player
 
 								if(C.mob)if(C.mob.type == /mob/Player)if(C.mob.listenooc)
 									if(prevname)
-										C << "<b><a href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr.prevname] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
+										C << "<b><a style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\" href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\">OOC></a></b><b><span style=\"font-size:2; color:#3636F5;\">[usr.prevname][usr.GMTag]:</span></b> <span style=\"color:white; font-size:2;\"> [T]</span>"
 									else
-										C << "<b><a href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\" style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a></font></b><b><font size=2 color=#3636F5>[usr] [usr.GMTag]:</font></b> <font color=white size=2> [T]</font>"
+										C << "<b><a style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\" href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\">OOC></a></b><b><span style=\"font-size:2; color:#3636F5;\">[usr][usr.GMTag]:</span></b> <span style=\"color:white; font-size:2;\"> [T]</span>"
 
 
 							if(prevname)
-								chatlog << "<font color=blue><b>[usr.prevname] (ROBED)</b></font><font color=green> OOC's '[T]'</font>"+"<br>"//This is what it adds to the log!
+								chatlog << "<span style=\"color:blue;\"><b>[usr.prevname] (ROBED)</b></span><span style=\"color:green;\"> OOC's '[T]'</span>"+"<br>"//This is what it adds to the log!
 							else
-								chatlog << "<font color=blue><b>[usr]</b></font><font color=green> OOC's '[T]'</font>"+"<br>"//This is what it adds to the log!
+								chatlog << "<span style=\"color:blue;\"><b>[usr]</b></span><span style=\"color:green;\"> OOC's '[T]'</span>"+"<br>"//This is what it adds to the log!
 							usr.spam++
 							spawn(30)
 								usr.spam--
@@ -1366,7 +1357,11 @@ mob/Player
 			var/online=0
 			for(var/mob/Player/M in Players)
 				online++
-				src << "\icon[wholist[M.House ? M.House : "Empty"]] <B><font color=blue><font size=1>Name:</font> </b><font color=white>[M.prevname ? M.prevname : M.name]<font color=white></b>[M.status] <b><font color=red>Key: </b>[M.key] <b><font size=1><font color=purple> Level: </b>[M.level >= lvlcap ? "[getSkillGroup(M.ckey)] \icon[M.getRankIcon()]" : M.level] <b><font color=green>Rank: </b>[M.Rank == "Player" ? M.Year : M.Rank]</font> </SPAN></B>"
+				src << "\icon[wholist[M.House ? M.House : "Empty"]] \
+						<b><span style=\"color:blue;\">Name:</span></b> [M.prevname ? M.prevname : M.name] [M.status] \
+						<b><span style=\"color:blue;\">Key:</span></b> [M.key] \
+						<b><span style=\"color:purple;\">Level:</span></b> [M.level >= lvlcap ? "[getSkillGroup(M.ckey)] \icon[M.getRankIcon()]" : M.level] \
+						<b><span style=\"color:green;\">Rank:</span></b> [M.Rank == "Player" ? M.Year : M.Rank]"
 
 			usr << "[online] players online."
 			var/logginginmobs = ""
@@ -1385,12 +1380,12 @@ mob/Player
 				usr.away = 1
 				usr.here=usr.status
 				usr.status=" (AFK)"
-				Players<<"~ <font color=red>[usr]</font> is <u>AFK</u> ~"
+				Players<<"~ <span style=\"color:red;\">[usr]</span> is <u>AFK</u> ~"
 				ApplyAFKOverlay()
 			else
 				usr.away = 0
 				usr.status=usr.here
-				Players<<"<font color=red>[usr]</font> is no longer AFK."
+				Players<<"<span style=\"color:red;\">[usr]</span> is no longer AFK."
 				RemoveAFKOverlay()
 
 mob
@@ -1589,7 +1584,7 @@ mob/proc/Resort_Stacking_Inv()
 				var/c = 0
 				for(var/obj/items/i in stack.contains)
 					c += i.stack
-				stack.suffix = "<font color=red>(x[c])</font>"
+				stack.suffix = "<span style=\"color:red;\">(x[c])</span>"
 				tmpstackobjects[V] = stack
 		src:stackobjects = tmpstackobjects
 	else
@@ -1631,10 +1626,10 @@ mob/proc/Death_Check(mob/killer = src)
 				sleep(1)
 				flick('teleboom.dmi',src)
 				return
-				//src<<"<b><font color=red>Advice:</b></font> You can't kill yourself to get out of detention. Attempt to do it again and all of your spells will be erased from your memory."
+				//src<<"<b><span style=\"color:red;\">Advice:</b></span> You can't kill yourself to get out of detention. Attempt to do it again and all of your spells will be erased from your memory."
 			if(src.Immortal==1 && (src.admin || !istype(killer, /mob/NPC/Enemies)))
 				src<<"[killer] tried to knock you out, but you are immortal."
-				killer<<"<font color=blue><b>[src] is immortal and cannot die.</b></font>"
+				killer<<"<span style=\"color:blue;\"><b>[src] is immortal and cannot die.</b></span>"
 				return
 			if(src.monster==1)
 				del src
@@ -1999,14 +1994,6 @@ mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
 
 		spawn()sql_add_plyr_log(ckey,"si",reason,timer)
 
-/*
-		Auto_Ban()
-			world<<"<B><Font face='Comic Sans MS'>HGM Security: <Font color=green><Font face='Comic Sans MS'>[src] has been automatically banned for Spamming on the main chat channel."
-			usr.client.FullBan(usr.key,usr.client.address)
-*/
-
-	//	damageblock()
-	//		src.HP-=(src.HP/8)
 
 mob/proc/resetStatPoints()
 	src.StatPoints = src.level - 1
@@ -2048,43 +2035,46 @@ mob
 					src.Mexp+=500
 				Mexp = round(Mexp)
 				if(!fakelevels)
-					src<<"<b><font color=blue>You are now level [src.level]!</font></b>"
-				//	src<<"HP increased by [HPplus]."
-				//	src<<"MP increased by [MPplus]."
-				//	src<<"Damage increased by [Dmgplus]."
-				//	src<<"Defense increased by [Defplus]."
+					src<<"<b><span style=\"color:blue;\">You are now level [src.level]!</span></b>"
 					src<<"You have gained a statpoint."
 				var/theiryear = (src.Year == "Hogwarts Graduate" ? 8 : text2num(copytext(src.Year, 1, 2)))
-				if(src.level>1 && src.level < 16)
-					src.Year="1st Year"
-				else if(src.level>15 && theiryear < 2)
-					src.Year="2nd Year"
-					src<<"<b>Congratulations, you are now on your Second Year at Hogwarts.</b>"
+				if(src.level > 1 && src.level < 16)
+					src.Year = "1st Year"
+
+				else if(src.level > 15 && theiryear < 2)
+					src.Year = "2nd Year"
+					src << infomsg("Congratulations, you are now on your Second Year at Hogwarts.")
 					src.verbs += /mob/Spells/verb/Episky
-					src<<"<b><font color=green><font size=3>You learned Episkey."
-				else if(src.level>50 && theiryear < 3)
-					src.Year="3rd Year"
-					src<<"<b>Congratulations on attaining your 3rd Year rank promotion!</b>"
-					src<<infomsg("You learned how to cancel transfigurations!")
+					src << infomsg("You learned Episkey.")
+
+				else if(src.level > 50 && theiryear < 3)
+					src.Year = "3rd Year"
+					src << infomsg("Congratulations on attaining your 3rd Year rank promotion!")
+					src << infomsg("You learned how to cancel transfigurations!")
 					src.verbs += /mob/Spells/verb/Self_To_Human
-				else if(src.level>100 && theiryear < 4)
-					src.Year="4th Year"
-					src<<"<b>Congratulations to [src]. You are now a 4th Year."
+
+				else if(src.level > 100 && theiryear < 4)
+					src.Year = "4th Year"
+					src << infomsg("Congratulations to [src]. You are now a 4th Year.")
 					src.verbs += /mob/Spells/verb/Self_To_Dragon
-					src<<"<b><font color=green><font size=3>You learned how to Transfigure yourself into a fearsome Dragon!"
-				else if(src.level>200 && theiryear < 5)
-					src.Year="5th Year"
-					src<<"<b>Congratulations to [src]. You are now a 5th Year."
-				else if(src.level>300 && theiryear < 6)
-					src.Year="6th Year"
-					src<<"<b>Congratulations to [src]. You are now a 6th Year."
-				else if(src.level>400 && theiryear < 7)
-					src.Year="7th Year"
-					src<<"<b>Congratulations to [src]. You are now a 7th Year."
-				else if(src.level>500 && theiryear < 8)
-					src.Year="Hogwarts Graduate"
-					src<<"Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate."
-					src<<infomsg("You can now view your damage & defense stats in the stats tab.")
+					src << infomsg("You learned how to Transfigure yourself into a fearsome Dragon!")
+
+				else if(src.level > 200 && theiryear < 5)
+					src.Year = "5th Year"
+					src << infomsg("Congratulations to [src]. You are now a 5th Year.")
+
+				else if(src.level > 300 && theiryear < 6)
+					src.Year = "6th Year"
+					src << infomsg("Congratulations to [src]. You are now a 6th Year.")
+
+				else if(src.level > 400 && theiryear < 7)
+					src.Year = "7th Year"
+					src << infomsg("Congratulations to [src]. You are now a 7th Year.")
+
+				else if(src.level > 500 && theiryear < 8)
+					src.Year = "Hogwarts Graduate"
+					src << infomsg("Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate.")
+					src << infomsg("You can now view your damage & defense stats in the stats tab.")
 
 obj/Banker
 	icon = 'NPCs.dmi'
@@ -2384,22 +2374,6 @@ proc
 						E.ShouldIBeActive()
 			else
 				E.loc = null
-
-proc/ServerAD()
-	Players<<"<b><Font color=silver>Server:</b> <font size=1><font color=silver>Thanks for playing The Wizards' Chronicles. Forums: http://www.wizardschronicles.com"
-	sleep(3000)
-	ServerAD()
-
-proc/SugAD()
-	Players<<"<b><Font color=silver>Server:</b> <font size=1><font color=green>TWC is currently looking for loads more content to add! Got a suggestion? Post it on the suggestions board at http://www.wizardschronicles.com <br>The only bad suggestion is the one not shared!"
-	sleep(9000)
-	SugAD()
-
-
-proc/ServerRW()
-	Players<<"<b><Font color=silver>Server:</b> <font size=1><font color=red> The server is currently in Developer Mode. This means that the game is currently being coded and updated - Reboots may be frequent."
-	sleep(3000)
-	ServerRW()
 
 turf/proc/autojoin(var_name, var_value = 1)
 	var/n = 0

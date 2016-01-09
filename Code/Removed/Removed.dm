@@ -122,7 +122,7 @@ turf
 								usr << "Please only use the signal verb once! If you do not stop you will be punished."
 							if("Denied")
 								M << "You denied [usr]."
-								usr << "<center><h2><font color=red>Denied!</h2></center></font>"
+								usr << "<center><h2><span style=\"color:red;\">Denied!</h2></center></span>"
 								return
 			else
 				usr << "Talk to the receptionist."
@@ -417,7 +417,7 @@ turf
 //
 //			switch(input("Would you like me to heal you?","Madam Pomfrey the Nurse")in list("Yes, Please.","No Thanks."))
 ///				if("Yes, Please.")
-	//				usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episky!"
+	//				usr<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episky!"
 	//				usr.overlays+=image('attacks.dmi',icon_state="heal")
 	//				usr.HP=usr.MHP
 	//				usr.status=""
@@ -825,7 +825,7 @@ area
 					usr.density=1
 					usr.flying=0
 					usr.icon_state=""
-					M << "<font color=red>Welcome to Diagon Alley. Ollivander's Wand Shop is the first shop on the right, after you move through the moving wall</font>"
+					M << "<span style=\"color:red;\">Welcome to Diagon Alley. Ollivander's Wand Shop is the first shop on the right, after you move through the moving wall</span>"
 					M.loc=locate(45,5,26)
 		Dark_Forest
 			Entered(mob/Player/M)
@@ -937,7 +937,7 @@ obj
 		verb
 			Read_()
 				set src in oview(10)
-				usr<<"\n<font color=red><b>Gringott's Wizard's Bank.</font><font color=blue><br>Hogsmeade Branch.</b>"
+				usr<<"\n<span style=\"color:red;\"><b>Gringott's Wizard's Bank.</span><font color=blue><br>Hogsmeade Branch.</b>"
 obj
 	Signs/Windhowl_Manor
 		icon='statues.dmi'
@@ -1265,12 +1265,12 @@ obj
 
 		verb
 			Use()
-				hearers() << "<b><font color=red>[usr] pulls <font color=white>out \his<font color=blue> Flag!</b></font>"
+				hearers() << "<b><span style=\"color:red;\">[usr] pulls <font color=white>out \his<font color=blue> Flag!</b></span>"
 				usr.overlays+=image('flag.dmi',icon_state="flag")
 
 		verb
 			Put_Away()
-				hearers()<<"<b><font color=red>[usr] puts <font color=white>away \his<font color=blue> Flag.</b></font>"
+				hearers()<<"<b><span style=\"color:red;\">[usr] puts <font color=white>away \his<font color=blue> Flag.</b></span>"
 				usr.overlays-=image('flag.dmi',icon_state="flag")
 
 			Examine()
@@ -1368,16 +1368,16 @@ mob
 		Click()//This starts- wait... you know what this is... i hope ^^
 			switch(input("Would you like me to heal you?","Madam Pomfrey the Nurse")in list("Yes, Please.","Cure my illness.","No Thanks."))
 				if("Yes, Please.")
-					usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episkey!"
+					usr<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey!"
 					usr.overlays+=image('attacks.dmi',icon_state="heal")
 					usr.HP=usr.MHP+usr.extraMHP
 					usr.updateHPMP()
 					sleep(10)
 					usr.overlays-=image('attacks.dmi',icon_state="heal")
 				if("Cure my illness.")
-					usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Ah, I shall use an ancient remedy to cure your afflictions."
+					usr<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Ah, I shall use an ancient remedy to cure your afflictions."
 					sleep(20)
-					usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> An Mani Elem, Vas Rel Por!"
+					usr<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> An Mani Elem, Vas Rel Por!"
 					usr<<"The nurse finishes uttering the ancient spell and waves her wand around you. You suddenly feel all warm inside."
 					usr.overlays+=image('attacks.dmi',icon_state="heal")
 					usr.HP=usr.MHP+usr.extraMHP
@@ -1407,7 +1407,7 @@ mob/Madam_Pomfrey
 	Click()//This starts- wait... you know what this is... i hope ^^
 		switch(input("Would you like me to heal you?","Madam Pomfrey the Nurse")in list("Yes, Please.","No Thanks."))
 			if("Yes, Please.")
-				usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episkey!"
+				usr<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey!"
 				usr.overlays+=image('attacks.dmi',icon_state="heal")
 				usr.HP=usr.MHP+usr.extraMHP
 				usr.updateHPMP()
@@ -1422,7 +1422,7 @@ mob/Madam_Pomfrey
 
 			switch(input("Would you like me to heal you?","Madam Pomfrey the Nurse")in list("Yes, Please.","No Thanks."))
 				if("Yes, Please.")
-					usr<<"<b><font color=green>Madam Pomfrey:</font><font color=aqua> Episkey!"
+					usr<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey!"
 					usr.overlays+=image('attacks.dmi',icon_state="heal")
 					usr.HP=usr.MHP+usr.extraMHP
 					usr.updateHPMP()
@@ -1875,7 +1875,7 @@ obj
 						flick('dlo.dmi',M)
 
 						M.invisibility=0
-						hearers()<<"<b><font color=blue>Shana:</font> Hello, I'm Shana. The Hogwarts Receptionist. How May I help you?"
+						hearers()<<"<b><span style=\"color:blue;\">Shana:</span> Hello, I'm Shana. The Hogwarts Receptionist. How May I help you?"
 						sleep(30)
 						usr<<"Use the Talk verb when near Shana to speak with her."
 obj/Gate

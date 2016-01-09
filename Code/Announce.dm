@@ -42,7 +42,7 @@ mob
 		verb/Warn(mob/M in Players)
 			set category="Staff"
 			for(var/mob/A in Players)
-				if(A.key&&A.Gm) A << "<b><u><font color=#FF14E0>[src] is warning [M]</font></u></b>"
+				if(A.key&&A.Gm) A << "<b><u><span style=\"color:#FF14E0;\">[src] is warning [M]</span></u></b>"
 			var/Reason = input(src,"Why are you warning [M]?","Specify Why","Harming others within safe zones is not allowed. (Hogwarts and Diagon Alley)") as null|text
 			if(!Reason)return
 			if(!M)
@@ -50,7 +50,7 @@ mob
 				return
 			Log_admin("[src] has warned [M] for \"[Reason]\"")
 			spawn()sql_add_plyr_log(M.ckey,"wa",Reason)
-			M<<"<p><font color=red>You have been issued a warning by [usr]. <p><b><font color=white>Reason: [Reason].</b></font> <p></font><font color=red>If you proceed in these actions, you could be Expelled/Booted/Muted or sent to Detention.</font></p>"
+			M<<"<p><span style=\"color:red;\">You have been issued a warning by [usr]. <p><b><font color=white>Reason: [Reason].</b></span> <p></font><span style=\"color:red;\">If you proceed in these actions, you could be Expelled/Booted/Muted or sent to Detention.</span></p>"
 			M<< browse(rules,"window=1")
 mob/var/tmp
 	mprevicon
@@ -82,7 +82,7 @@ mob
 				new /StatusEffect/UsedMeditate(src,10)
 				usr<<"You meditate for a moment."
 				usr.overlays+=/image/meditate
-				hearers()<<"<font color=red>[usr] meditates.</font>"
+				hearers()<<"<span style=\"color:red;\">[usr] meditates.</span>"
 				sleep(50)
 				usr.overlays-=/image/meditate
 				usr.MP = usr.MMP+usr.extraMMP
@@ -96,7 +96,7 @@ mob
 			set name = "Raise Hand"
 			if(usr.questionius==2)
 				usr.overlays+=icon('hand.dmi')
-				hearers()<<"<font color=red>[usr] raises \his hand.</font>"
+				hearers()<<"<span style=\"color:red;\">[usr] raises \his hand.</span>"
 				usr << "<b>Raise Hand is used during class to tell your teacher that you have a question. Use it again to lower your hand.</b>"
 				usr.questionius=1
 			else if(usr.questionius==1)
@@ -105,7 +105,7 @@ mob
 				usr.questionius=0
 			else
 				usr.overlays+=icon('hand.dmi')
-				hearers(usr.client.view,usr)<<"<font color=red>[usr] raises \his hand.</font>"
+				hearers(usr.client.view,usr)<<"<span style=\"color:red;\">[usr] raises \his hand.</span>"
 				usr.questionius=1
 mob/verb/Emote(t as text)
 	if(usr.Rictusempra==10) return
