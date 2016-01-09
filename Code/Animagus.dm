@@ -59,10 +59,11 @@ turf/gotoministry
 turf
 	proc
 		AdjacentTurfs()
-			var/L[] = new()
-			for(var/turf/t in oview(src,1))
+			var/L = list()
+			for(var/turf/t in orange(1, src))
 				if(!t.density||t.door)
-					L.Add(t)
+					L += t
 			return L
+
 		Distance(turf/t)
 			return get_dist(src,t)
