@@ -244,6 +244,7 @@ area
 				icon         = 'black50.dmi'
 				icon_state   = "white"
 				alpha        = 200
+				antiTeleport = 1
 
 			Pixie_Pit
 			Desert1
