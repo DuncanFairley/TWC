@@ -3318,7 +3318,7 @@ obj
 						o.name = i3.name
 						o:title = copytext(i3.name, 8)
 						o.color = i3.color
-						o:title = "<font color=\"[o.color]\">" + o:title + "</font>"
+						o:title = "<span style=\"color:[o.color];\">" + o:title + "</span>"
 					else if(istype(i3, /obj/items/wearable) && !(i3:bonus & 4))
 						o:quality = i3:quality
 						o:bonus   = i3:bonus
