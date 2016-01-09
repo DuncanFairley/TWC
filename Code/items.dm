@@ -3786,7 +3786,7 @@ obj/items/colors
 				return
 
 			if(locate(/obj/wand_desk) in oview(1))
-				p << infomsg("You applied new <font color=\"[projColor == "blood" ? "#a00" : projColor]\">magical color</font> to your equipped wand.")
+				p << infomsg("You applied new <span style=\"color:[projColor == "blood" ? "#a00" : projColor];\">magical color</span> to your equipped wand.")
 				p.wand.projColor = projColor
 				Dispose()
 				p.Resort_Stacking_Inv()
