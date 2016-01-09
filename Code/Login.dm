@@ -1114,7 +1114,7 @@ mob/Player
 										for(var/client/C)
 											if(C.eye)
 												if(C.eye == usr && C.mob != usr)
-													C << "<b><span style=\";\">Your Telendevour wears off.</span></b>"
+													C << errormsg("Your Telendevour wears off.")
 													C.eye=C.mob
 										usr.loc = dest
 							if(usr.House == "Ministry")
@@ -1359,7 +1359,7 @@ mob/Player
 				online++
 				src << "\icon[wholist[M.House ? M.House : "Empty"]] \
 						<b><span style=\"color:blue;\">Name:</span></b> [M.prevname ? M.prevname : M.name] [M.status] \
-						<b><span style=\"color:blue;\">Key:</span></b> [M.key] \
+						<b><span style=\"color:red;\">Key:</span></b> [M.key] \
 						<b><span style=\"color:purple;\">Level:</span></b> [M.level >= lvlcap ? "[getSkillGroup(M.ckey)] \icon[M.getRankIcon()]" : M.level] \
 						<b><span style=\"color:green;\">Rank:</span></b> [M.Rank == "Player" ? M.Year : M.Rank]"
 
