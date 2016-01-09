@@ -38,15 +38,15 @@ clan_wars
 			var/c
 			if(deatheater > aurors)
 				var/dewinner = pick(deatheaterWon)
-				Players << "<font color='#282C1B' size='3'><b>[dewinner]</b></font>"
+				Players << "<span style=\"color:'#282C1B'; font-size:'3';\"><b>[dewinner]</b></span>"
 				c = "#303A3A"
 			else if(deatheater < aurors)
 				var/aurorwinner = pick(aurorWon)
-				Players << "<font color='#66CCFF' size='3'><b>[aurorwinner]<b></font>"
+				Players << "<span style=\"color:'#66CCFF'; font-size:'3';\"><b>[aurorwinner]<b></span>"
 				c = "#aed3e2"
 			else
 				var/wardraw = pick(draw)
-				Players << "<font color='#E5E4E2' size='3'><b>[wardraw]</b></font>"
+				Players << "<span style=\"color:'#E5E4E2'; font-size:'3';\"><b>[wardraw]</b></span>"
 				c = "#704f32"
 
 			for(var/turf/t in world)

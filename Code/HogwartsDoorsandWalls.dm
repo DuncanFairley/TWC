@@ -217,7 +217,7 @@ obj
 				var/passtry = input(p, "This is a Secure Area. Please enter Authorization Code.","Incarcerous Charm","") as text
 				passtry = copytext(passtry, 1, 500)
 				if(passtry != pass)	return
-				p << "<font color=green><b>Authorization Confirmed."
+				p << infomsg("Authorization Confirmed.")
 
 			if(vaultOwner && claimed && usr.ckey != claimed && usr.ckey != vaultOwner)
 				return

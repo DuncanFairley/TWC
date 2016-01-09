@@ -50,7 +50,7 @@ turf/gotoministry
 					for(var/client/C)
 						if(C.eye)
 							if(C.eye == usr && C.mob != usr)
-								C << "<b><font color = white>Your Telendevour wears off.</font></b>"
+								C << "<b><span style=\"color:white;\">Your Telendevour wears off.</span></b>"
 								C.eye=C.mob
 					usr:Transfer(dest)
 			else
@@ -59,10 +59,11 @@ turf/gotoministry
 turf
 	proc
 		AdjacentTurfs()
-			var/L[] = new()
-			for(var/turf/t in oview(src,1))
+			var/L = list()
+			for(var/turf/t in orange(1, src))
 				if(!t.density||t.door)
-					L.Add(t)
+					L += t
 			return L
+
 		Distance(turf/t)
 			return get_dist(src,t)

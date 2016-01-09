@@ -1,3 +1,10 @@
+/*
+ * Copyright © 2014 Duncan Fairley
+ * Distributed under the GNU Affero General Public License, version 3.
+ * Your changes must be made public.
+ * For the full license text, see LICENSE.txt.
+ */
+
 #define WORN 1
 #define REMOVED 2
 
@@ -189,14 +196,14 @@ proc/getRepRank(var/rating)
 
 	rating = abs(rating)
 
-	if(rating > 7200) return "<font color=#9f0419>Legend</font>"
-	if(rating > 5600) return "<font color=#aa2fbd>Grand Master</font>"
-	if(rating > 4200) return "<font color=#01e4ac>Lord</font>"
-	if(rating > 3000) return "<font color=#ff0000>Master</font>"
-	if(rating > 2000) return "<font color=#E5E4E2>Respected Warrior</font>"
-	if(rating > 1200) return "<font color=#FFD700>Warrior</font>"
-	if(rating > 600)  return "<font color=#C0C0C0>Disciple</font>"
-	if(rating > 200)  return "<font color=#CD7F32>Initiate</font>"
+	if(rating > 7200) return "<span style=\"color:#9f0419;\">Legend</span>"
+	if(rating > 5600) return "<span style=\"color:#aa2fbd;\">Grand Master</span>"
+	if(rating > 4200) return "<span style=\"color:#01e4ac;\">Lord</span>"
+	if(rating > 3000) return "<span style=\"color:#ff0000;\">Master</span>"
+	if(rating > 2000) return "<span style=\"color:#E5E4E2;\">Respected Warrior</span>"
+	if(rating > 1200) return "<span style=\"color:#FFD700;\">Warrior</span>"
+	if(rating > 600)  return "<span style=\"color:#C0C0C0;\">Disciple</span>"
+	if(rating > 200)  return "<span style=\"color:#CD7F32;\">Initiate</span>"
 	return "Neutral"
 
 obj/rep_scoreboard
@@ -314,7 +321,7 @@ obj/items/wearable/masks
 		n = "Masked Figure"
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		if(!forceremove && !(src in owner.Lwearing) && istype(owner.loc.loc, /area/hogwarts))
+		if(!forceremove && !(src in owner.Lwearing) && istype(owner.loc.loc, /area/hogwarts) && issafezone(owner.loc.loc))
 			owner << errormsg("You can't wear this here.")
 			return
 

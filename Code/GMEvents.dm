@@ -29,16 +29,16 @@ mob/TalkNPC
 			Talk()
 				set src in oview(3)
 				if(!EventItem)
-					usr << " <font size=2 color=red><b>[src]</b> : </font>I have nothing to give you."
+					usr << "<span style=\"font-size:2; color:red;\"><b>[src]</b> : </span>I have nothing to give you."
 					return
 				if(..())
 					if(Unique && (locate(text2path(EventItem)) in usr))
-						usr << " <font size=2 color=red><b>[src]</b> : </font>You already have the item I'm giving, move along!"
+						usr << "<span style=\"font-size:2; color:red;\"><b>[src]</b> : </span>You already have the item I'm giving, move along!"
 						return
 
 					var/obj/O = new EventItem(usr)
 					usr:Resort_Stacking_Inv()
-					usr << " <font size=2 color=red>[src] hands you their [O.name]."
+					usr << "<span style=\"font-size:2; color:red;\">[src] hands you their [O.name].</span>"
 
 		/* This mob changes a var to everyone who talks to it.
 		   It can add/remove/double for number values. (Adding also works for lists I guess)
@@ -52,7 +52,7 @@ mob/TalkNPC
 			Talk()
 				set src in oview(3)
 				if(!EventVar)
-					usr << " <font size=2 color=red><b>[src]</b> : </font>I have nothing to give you."
+					usr << " <span style=\"font-size:2; color:red;\"><b>[src]</b> : </span>I have nothing to give you."
 					return
 				if(..())
 					if(Function == "=")
@@ -69,10 +69,10 @@ mob/TalkNPC
 				AlreadyGiven = list()
 				id = list()
 			if((usr.ckey in AlreadyGiven) || (usr.client.computer_id in id))
-				usr << " <font size=2 color=red><b>[src]</b> : </font>Hello! I've seen you before!"
+				usr << " <span style=\"font-size:2; color:red;\"><b>[src]</b> : </span>Hello! I've seen you before!"
 				return 0
 			else
-				usr << " <font size=2 color=red><b>[src]</b> : </font>[Message]"
+				usr << " <span style=\"font-size:2; color:red;\"><b>[src]</b> : </span>[Message]"
 				AlreadyGiven.Add(usr.ckey)
 				id.Add(usr.client.computer_id)
 				return 1

@@ -58,7 +58,7 @@ mob/Quidditch/verb
 		set category = "Quidditch"
 		if(!msg) return
 		if(quidditchmatch)
-			quidditchmatch.MsgAll("<b><font SIZE=2 COLOR=#c0c0c0>Quidditch Speakers&gt; </font></b>[src.name]<font SIZE=2 COLOR=#c0c0c0><b>:</b> [msg]")
+			quidditchmatch.MsgAll("<b><span style=\"font-size:2; COLOR:#c0c0c0;\">Quidditch Speakers&gt; </span></b>[src.name]<font SIZE=2 COLOR=#c0c0c0><b>:</b> [msg]")
 		else
 			src << "There's no quidditch match started yet."
 

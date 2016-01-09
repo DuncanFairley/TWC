@@ -365,7 +365,11 @@ mob
 			set hidden = 1
 		DErobes()
 			set hidden = 1
+		DE_chat(var/messsage as text)
+			set hidden = 1
 
+		Auror_chat(var/messsage as text)
+			set hidden = 1
 
 mob/test/verb/FloorColor(c as color)
 	for(var/turf/t in world)
@@ -411,7 +415,7 @@ obj/items/scroll/prize
 	accioable = 0
 	wlable = 0
 	name = "Prize Ticket"
-	content = "<body bgcolor=black><u><font color=blue size=3><b>Prize Ticket</b></u></font><br><p><font color=white size=2>Turn this scroll to an admin+ to recieve a prize decided by the admin+.</font></p></body>"
+	content = "<body bgcolor=black><u><span style=\"color:blue; font-size:3;\"><b>Prize Ticket</b></u></span><br><p><span style=\"color:white; font-size:2;\">Turn this scroll to an admin+ to recieve a prize decided by the admin+.</span></p></body>"
 
 
 	Name(msg as text)

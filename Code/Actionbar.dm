@@ -1,3 +1,10 @@
+/*
+ * Copyright © 2014 Duncan Fairley
+ * Distributed under the GNU Affero General Public License, version 3.
+ * Your changes must be made public.
+ * For the full license text, see LICENSE.txt.
+ */
+
 obj
 	actionbar
 		layer = 10
@@ -94,7 +101,7 @@ mob/Player
 				count++
 				var/obj/actionbar/keys/A = new (pos="CENTER+[count]-[offset],1")
 				A.key = "[i]"
-				A.maptext = "<font size=1 color=#800000>[i]</font>"
+				A.maptext = "<span style=\"font-size:1; color:#800000;\">[i]</span>"
 				A.parent = src
 				client.screen+=A
 				if(UsedKeys && UsedKeys[A.key])

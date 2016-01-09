@@ -125,8 +125,8 @@ obj
 			while(attkrnd>0)
 				for(var/mob/M in view(1,src))
 					if(M.client)
-						hearers() << "<font color=red>[src] fires lightning at [M]!</font>"
-						M << "<font color=red>[src] fires lightning at [M]!</font>"
+						hearers() << "<span style=\"color:red;\">[src] fires lightning at [M]!</span>"
+						M << "<span style=\"color:red;\">[src] fires lightning at [M]!</span>"
 						M.loc = locate(48,7,24)
 				attkrnd-=3
 				sleep(3)

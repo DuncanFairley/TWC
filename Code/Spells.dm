@@ -79,7 +79,7 @@ proc/name2spellpath(name)
 mob/Spells/verb/Accio(obj/M in oview(usr.client.view,usr))
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		if(!M.accioable){src<<"<b><font color=red>Error:</b></font> This object cannot be teleported.";return}
+		if(!M.accioable){src<<"<b><span style=\"color:red;\">Error:</b></span> This object cannot be teleported.";return}
 		hearers(usr.client.view,usr)<< " <b>[usr]:<i><font color=aqua> Accio [M.name]!</i>"
 		sleep(3)
 		flick('Dissapear.dmi',M)
@@ -118,9 +118,9 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 		MP = max(MP - 100, 0)
 		updateHPMP()
 		if(prevname)
-			hearers() << "<font size=2><font color=red><b><font color=red> [usr]</font></b> :<font color=white> Eat Slugs, [M.name]!"
+			hearers() << "<span style=\"font-size:2;\"><font color=red><b><font color=red> [usr]</span></b> :<font color=white> Eat Slugs, [M.name]!"
 		else
-			hearers() << "<font size=2><font color=red><b>[Tag] <font color=red>[usr]</font> [GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
+			hearers() << "<span style=\"font-size:2;\"><font color=red><b>[Tag] <font color=red>[usr]</span> [GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
 
 		M << errormsg("[usr] has casted the slug vomiting curse on you.")
 		usr:learnSpell("Eat Slugs")
@@ -177,15 +177,17 @@ mob/Spells/verb/Herbificus()
 		p:loc = locate(src.x,src.y-1,src.z)
 		flick('dlo.dmi',p)
 		p:owner = "[usr.key]"
-		hearers()<<"<b><Font color=red>[usr]:</font> Herbificus."
-		usr:learnSpell("Herbificus")
+		if(!findStatusEffect(/StatusEffect/SpellText))
+			new /StatusEffect/SpellText(src,5)
+			hearers()<<"<b><span style=\"color:red;\">[usr]:</span> Herbificus."
+			usr:learnSpell("Herbificus")
 mob/Spells/verb/Protego()
 	set category = "Spells"
 	if(!usr.shielded)
 		if(canUse(src,cooldown=/StatusEffect/UsedProtego,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 			new /StatusEffect/UsedProtego(src,60)
 			usr.overlays += /obj/Shield
-			hearers()<< "<b><font color=red>[usr]</b></font>: PROTEGO!"
+			hearers()<< "<b><span style=\"color:red;\">[usr]</b></span>: PROTEGO!"
 			usr << "You shield yourself magically"
 			usr.shielded = 1
 			usr.shieldamount = (usr.Def+usr.extraDef) * 2.5
@@ -230,9 +232,9 @@ mob/Spells/verb/Depulso()
 		if(!t || (issafezone(M.loc.loc) && !issafezone(t.loc))) return
 		M.Move(t)
 
-		if(!findStatusEffect(/StatusEffect/DepulsoText))
-			new /StatusEffect/DepulsoText(src,5)
-			hearers()<<"<b><font color=red>[usr]:</font></b> Depulso!"
+		if(!findStatusEffect(/StatusEffect/SpellText))
+			new /StatusEffect/SpellText(src,5)
+			hearers()<<"<b><span style=\"color:red;\">[usr]:</span></b> Depulso!"
 
 		if(isplayer(M))
 			found = TRUE
@@ -263,7 +265,7 @@ mob/Spells/verb/Expelliarmus(mob/M in view()&Players)
 		var/obj/items/wearable/wands/W = locate(/obj/items/wearable/wands) in M:Lwearing
 		if(W)
 			W.Equip(M,1)
-			hearers()<<"<font color=red><b>[usr]</b></font>: <font color=white>Expelliarmus!"
+			hearers()<<"<span style=\"color:red;\"><b>[usr]</b></span>: <font color=white>Expelliarmus!"
 			hearers()<<"<b>[M] loses \his wand.</b>"
 			new /StatusEffect/UsedAnnoying(src,15)
 			usr:learnSpell("Expelliarmus")
@@ -310,8 +312,8 @@ mob/Spells/verb/Evanesco(mob/M in Players&oview())
 mob/Spells/verb/Imitatus(mob/M in view()&Players, T as text)
 	set category = "Spells"
 	if(src.mute==1){src<<"You cannot cast this spell while muted.";return}
-	hearers()<<"</font><font color = #001E15>[usr]: Imitatus.</font>"
-	hearers() << " <b><font color = red>[M]</B> <font color = red>:</font> </font> [html_encode(T)]"
+	hearers()<<"</font><span style=\";\">[usr]: Imitatus.</span>"
+	hearers() << " <b><span style=\";\">[M]</B> <font color = red>:</span> </font> [html_encode(T)]"
 	usr:learnSpell("Imitatus")
 mob/Spells/verb/Morsmordre()
 	set category = "Clan"
@@ -326,13 +328,13 @@ mob/Spells/verb/Morsmordre()
 		D.density=0
 		D.owner = ckey
 		flick('mist.dmi',D)
-		hearers() <<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green>MORSMORDRE!"
+		hearers() <<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green>MORSMORDRE!"
 		Players<<"The sky darkens as a sneering skull appears in the clouds with a snake slithering from its mouth."
 
 mob/Spells/verb/Repellium()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedRepel,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
-		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=white>Repellium!"
+		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=white>Repellium!"
 		MP -= 100
 		updateHPMP()
 		light(src, 3, 300, "light")
@@ -360,7 +362,7 @@ proc/light(atom/a, range=3, ticks=100, state = "light")
 mob/Spells/verb/Basilio()
 	set category = "Staff"
 	if(clanrobed())return
-	hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Basilio!"
+	hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Basilio!"
 	sleep(20)
 	hearers()<<"[usr]'s wand emits a bright flash of light."
 	sleep(20)
@@ -376,7 +378,7 @@ mob/Spells/verb/Serpensortia()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
 		new /StatusEffect/Summoned(src,15)
-		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Serpensortia!"
+		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Serpensortia!"
 		sleep(20)
 		hearers()<<"[usr]'s wand emits a bright flash of light."
 		sleep(20)
@@ -410,12 +412,14 @@ mob/Spells/verb/Herbificus_Maxima()
 		a:owner = "[usr.key]"
 		b:owner = "[usr.key]"
 		c:owner = "[usr.key]"
-		hearers()<<"<b><Font color=red>[usr]:</font> Herbificus MAXIMA!"
+		if(!findStatusEffect(/StatusEffect/SpellText))
+			new /StatusEffect/SpellText(src,5)
+			hearers()<<"<b><span style=\"color:red;\">[usr]:</span> Herbificus MAXIMA!"
 mob/Spells/verb/Shelleh()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedShelleh,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
 		new /StatusEffect/UsedShelleh(src,60)
-		hearers()<<"<b><font color=red>[usr]:</font> <font color=white>Shelleh."
+		hearers()<<"<b><span style=\"color:red;\">[usr]:</span> <font color=white>Shelleh."
 
 		for(var/turf/t in oview(rand(1,3)))
 			if(t.density) continue
@@ -431,7 +435,7 @@ mob/Spells/verb/Ferula()
 		var/obj/Madame_Pomfrey/p = new /obj/Madame_Pomfrey
 		p:loc = locate(src.x,src.y+1,src.z)
 		flick('teleboom.dmi',p)
-		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=aqua> Ferula!"
+		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=aqua> Ferula!"
 		hearers()<<"[usr] has summoned Madame Pomfrey!"
 		usr:learnSpell("Ferula")
 
@@ -439,7 +443,7 @@ mob/Spells/verb/Avis()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		new /StatusEffect/Summoned(src,15)
-		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=yellow> Avis!"
+		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=yellow> Avis!"
 		sleep(20)
 		hearers()<<"A bright white flash shoots out of [usr]'s wand."
 		sleep(20)
@@ -457,7 +461,7 @@ mob/Spells/verb/Crapus_Sticketh()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
 		new /StatusEffect/Summoned(src,15)
-		hearers()<<"<b><font color=red>[usr]</b></font>: <b><font size=3><font color=green> Crapus...Sticketh!!"
+		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Crapus...Sticketh!!"
 		sleep(20)
 		hearers()<<"A flash of black light shoots from [usr]'s wand."
 		sleep(20)
@@ -524,15 +528,15 @@ mob/Spells/verb/Incarcerous()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=50,againstocclumens=1))
 		new /StatusEffect/UsedStun(src,15)
-		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>:<b> Incarcerous!</b>"
+		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Incarcerous!</b>"
 
 		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 1 }, icon_state = "bind", name = "Incarcerous", lag = 1)
 
 mob/Spells/verb/Anapneo(var/mob/M in view(usr.client.view,usr)&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		if(!M.flying == 0){src<<"<b><font color=red>Error:</b></font> You can't cast this spell on someone who is flying.";return}
-		hearers()<<"<B><font color=red>[usr]:</font><font color=blue> <I>Anapneo!</I>"
+		if(!M.flying == 0){src<<"<b><span style=\"color:red;\">Error:</b></span> You can't cast this spell on someone who is flying.";return}
+		hearers()<<"<B><span style=\"color:red;\">[usr]:</span><font color=blue> <I>Anapneo!</I>"
 		M.Rictusempra=0
 		M.Rictalk=0
 		M.silence=0
@@ -543,9 +547,9 @@ mob/Spells/verb/Anapneo(var/mob/M in view(usr.client.view,usr)&Players)
 mob/Spells/verb/Reducto(var/mob/M in (view(usr.client.view,usr)&Players)|src)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
-		if(M.flying){src<<"<b><font color=red>Error:</b></font> You can't cast this spell on someone who is flying.";return}
+		if(M.flying){src<<"<b><span style=\"color:red;\">Error:</b></span> You can't cast this spell on someone who is flying.";return}
 		if(M.GMFrozen){alert("You can't free [M]. They have been frozen by a Game Master.");return}
-		hearers(usr.client.view,usr)<<"<B><font color=red>[usr]:</font><font color=white> <I>Reducto!</I>"
+		hearers(usr.client.view,usr)<<"<B><span style=\"color:red;\">[usr]:</span><font color=white> <I>Reducto!</I>"
 		M.movable=0
 		if(!M.trnsed) M:ApplyOverlays()
 		if(M.confused)M.confused=0
@@ -556,7 +560,7 @@ mob/Spells/verb/Reducto(var/mob/M in (view(usr.client.view,usr)&Players)|src)
 mob/Spells/verb/Reparo(obj/M in oview(src.client.view,src))
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		if(!M.rubbleable == 1){src<<"<b><font color=red>Error:</b></font> This object has Protection Charms placed upon it.";return}
+		if(!M.rubbleable == 1){src<<"<b><span style=\"color:red;\">Error:</b></span> This object has Protection Charms placed upon it.";return}
 		if(M.rubble==1)
 			hearers(src.client.view,src) << "[src]: <b>Reparo!</b>"
 			M.icon=M.picon
@@ -581,7 +585,7 @@ mob/Spells/verb/Bombarda(obj/M in oview(src.client.view,src))
 				else
 					usr << "There's no reason to ruin a perfectly good wand."
 		else
-			if(!M.rubbleable == 1){src<<"<b><font color=red>Error:</b></font> This object has Protection Charms placed upon it.";return}
+			if(!M.rubbleable == 1){src<<"<b><span style=\"color:red;\">Error:</b></span> This object has Protection Charms placed upon it.";return}
 			if(M.rubble==1)
 				return
 			else
@@ -599,7 +603,7 @@ mob/Spells/verb/Petreficus_Totalus()
 	set name = "Petrificus Totalus"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=50,againstocclumens=1))
 		new /StatusEffect/UsedStun(src,15)
-		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>:<b> Petrificus Totalus!</b>"
+		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Petrificus Totalus!</b>"
 
 		castproj(MPreq = 50, Type = /obj/projectile/Bind { min_time = 0.4; max_time = 2.4 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
 
@@ -624,7 +628,7 @@ mob/Spells/verb/Antifigura()
 		src << infomsg("You release the shield around your body.")
 		p.antifigura = 0
 	else if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
-		hearers() << "<b><font color=red>[usr]</font></b>: <font color=white><i>Antifigura!</i></font>"
+		hearers() << "<b><span style=\"color:red;\">[usr]</span></b>: <span style=\"color:white;\"><i>Antifigura!</i></span>"
 		p.antifigura = max(round((p.MMP+p.extraMMP) / rand(500,1500)), 1)
 		p.MP -= 50
 		p.updateHPMP()
@@ -864,9 +868,9 @@ mob/Spells/verb/Flagrate(message as message)
 			else
 				message = copytext(message,1,500)
 				new /StatusEffect/UsedFlagrate(src,10)
-				hearers(client.view)<<"<font color=red><b>[usr]:</font> Flagrate!"
+				hearers(client.view)<<"<span style=\"color:red;\"><b>[usr]:</span> Flagrate!"
 				sleep(10)
-				hearers(client.view)<<"<font color=red><b>[usr]:</font> <font color=#FF9933><font size=3><font face='Comic Sans MS'> [html_encode(message)]</font>"
+				hearers(client.view)<<"<span style=\"color:red;\"><b>[usr]:</span> <span style=\"color:#FF9933;\"><font size=3><font face='Comic Sans MS'> [html_encode(message)]</span>"
 				usr.MP-=300
 				usr.updateHPMP()
 				usr:learnSpell("Flagrate")
@@ -926,7 +930,7 @@ mob/Spells/verb/Replacio(mob/M in oview()&Players)
 		if(issafezone(M.loc.loc) && !issafezone(loc.loc))
 			src << "<b>[M] is inside a safezone.</b>"
 			return
-		hearers()<<"<b><Font color=red>[usr]:</b></font> <font color=blue><B> <i>Replacio Duo.</i></B>"
+		hearers()<<"<b><span style=\"color:red;\">[usr]:</b></span> <font color=blue><B> <i>Replacio Duo.</i></B>"
 		var/startloc = usr.loc
 		flick('GMOrb.dmi',M)
 		flick('GMOrb.dmi',usr)
@@ -955,7 +959,7 @@ mob/Spells/verb/Occlumency()
 					if(C.eye == usr && C.mob != usr)
 						C << "<b><font color = white>Your Telendevour wears off."
 						C.eye=C.mob
-			hearers() << "<b><font color=red>[usr]</font></b>: <font color=white><i>Occlumens!</i></font>"
+			hearers() << "<b><span style=\"color:red;\">[usr]</span></b>: <span style=\"color:white;\"><i>Occlumens!</i></span>"
 			usr << "You can no longer be viewed by Telendevour."
 			usr.occlumens = usr.MMP+usr.extraMMP
 			usr:OcclumensCounter()
@@ -967,7 +971,7 @@ mob/Spells/verb/Occlumency()
 mob/Spells/verb/Obliviate(mob/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=700,againstocclumens=0))
-		hearers()<<"<b><font color=red>[usr]:<font color=green> Obliviate!</b></font>"
+		hearers()<<"<b><span style=\"color:red;\">[usr]:<font color=green> Obliviate!</b></span>"
 		if(prob(15))
 			usr << output(null,"output")
 			hearers()<<"[usr]'s spell has backfired."
@@ -1100,7 +1104,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 			return
 		if(!M) return
 		new /StatusEffect/UsedRiddikulus(src,30)
-		hearers()<<"<b><font color=red>[usr]</font>: <font color=red><font size=3>Riddikulus!</font></font>, [M].</b>"
+		hearers()<<"<b><span style=\"color:red;\">[usr]</span>: <span style=\"color:red;\"><font size=3>Riddikulus!</span></font>, [M].</b>"
 		sleep(20)
 		flick('teleboom.dmi',M)
 		M.Gender = M.Gender == "Male" ? "Female" : "Male"
@@ -1117,7 +1121,7 @@ mob/Spells/verb/Reddikulus(mob/M in view()&Players)
 mob/Spells/verb/Ecliptica()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		hearers()<<"<b><font color=red>[usr]</font></b>: Ecliptica!"
+		hearers()<<"<b><span style=\"color:red;\">[usr]</span></b>: Ecliptica!"
 		light(src, 3, 300, "light")
 		var/time = 150
 		while(time > 0)
@@ -1129,7 +1133,7 @@ mob/Spells/verb/Delicio()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Delicio!</b>"
+		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>: <b>Delicio!</b>"
 		usr:learnSpell("Delicio")
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Delicio", lag = 0)
@@ -1138,7 +1142,7 @@ mob/Spells/verb/Avifors()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=gray>[usr]</font>: <b>Avifors!</b>"
+		hearers(usr.client.view,usr)<<"<b><span style=\"color:gray;\">[usr]</span>: <b>Avifors!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Avifors", lag = 0)
 
@@ -1146,7 +1150,7 @@ mob/Spells/verb/Ribbitous()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=green> Ribbitous!</b></font>"
+		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b><span style=\"color:green;\"> Ribbitous!</b></span>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Ribbitous", lag = 0)
 
@@ -1154,7 +1158,7 @@ mob/Spells/verb/Carrotosi()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=red> Carrotosi!</b></font>"
+		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b><span style=\"color:red;\"> Carrotosi!</b></span>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Carrotosi", lag = 0)
 
@@ -1210,7 +1214,7 @@ mob/Spells/verb/Other_To_Human(mob/Player/M in oview(usr.client.view,usr)&Player
 	set name = "Transfiguro Revertio"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b><font color=green> Transfiguro Revertio, [M].</b></font>"
+		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b><span style=\"color:green;\"> Transfiguro Revertio, [M].</b></span>"
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(M))
 			flick("transfigure",M)
@@ -1235,7 +1239,7 @@ mob/Spells/verb/Harvesto()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>:<b> Harvesto!</b>"
+		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Harvesto!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Harvesto", lag = 0)
 
@@ -1243,7 +1247,7 @@ mob/Spells/verb/Felinious()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>:<b> Felinious!</b>"
+		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Felinious!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Felinious", lag = 0)
 
@@ -1251,7 +1255,7 @@ mob/Spells/verb/Scurries()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view, usr)<<"<b><font color=red>[usr]</font>: <b>Scurries!</b>"
+		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>: <b>Scurries!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Scurries", lag = 0)
 
@@ -1259,7 +1263,7 @@ mob/Spells/verb/Seatio()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Seatio!</b>"
+		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>: <b>Seatio!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Seatio", lag = 0)
 
@@ -1267,7 +1271,7 @@ mob/Spells/verb/Nightus()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Nightus!</b>"
+		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>: <b>Nightus!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Nightus", lag = 0)
 
@@ -1276,7 +1280,7 @@ mob/Spells/verb/Peskipixie_Pesternomae()
 	set name = "Peskipiksi Pestermi"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]</font>: <b>Peskipiksi Pestermi!</b>"
+		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>: <b>Peskipiksi Pestermi!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Peskipiksi Pestermi", lag = 0)
 
@@ -1295,7 +1299,7 @@ mob/Spells/verb/Telendevour()
 				usr.client.perspective = EYE_PERSPECTIVE
 				file("Logs/Telenlog.text") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] telendevoured [M]"
 				var/randnum = rand(1,7)
-				hearers() << "[usr]:<font size=2><font color=blue><b> Telendevour!</b></font>"
+				hearers() << "[usr]:<span style=\"font-size:2;\"><font color=blue><b> Telendevour!</b></span>"
 				usr:learnSpell("Telendevour")
 				if(randnum == 1)
 					M << "You feel that <b>[usr]</b> is watching you."
@@ -1329,7 +1333,7 @@ mob/Spells/verb/Avada_Kedavra()
 	set category="Spells"
 	if(clanrobed())return
 	if(key != "Murrawhip")
-		hearers()<<"<b><font color=red>[src]:</b></font> <font color= #00FF33>Avada Kedavra !"
+		hearers()<<"<b><span style=\"color:red;\">[src]:</b></span> <font color= #00FF33>Avada Kedavra !"
 	var/obj/S=new/obj/Avada_Kedavra
 
 	S.loc=(src.loc)
@@ -1344,11 +1348,11 @@ mob/Spells/verb/Episky()
 	set name = "Episkey"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedEpiskey,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		hearers()<<"<font color=red><b>[usr]:</font></b> <font color=aqua>Episkey!"
+		hearers()<<"<span style=\"color:red;\"><b>[usr]:</span></b> <font color=aqua>Episkey!"
 		new /StatusEffect/UsedEpiskey(src,15)
 
 		var/maxHP = MHP + extraMHP
-		if(level > 200)
+		if(level > 200 && !Immortal)
 			HP = min(maxHP, round(HP + maxHP*0.75, 1))
 		else
 			HP = maxHP
@@ -1362,21 +1366,21 @@ mob/Spells/verb/Episky()
 mob/Spells/verb/Confundus(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=30,againstocclumens=1))
-		hearers()<<"<b><font color=red>[usr]:</b></font> <font color= #7CFC00>Confundus, [M]!"
+		hearers()<<"<b><span style=\"color:red;\">[usr]:</b></span> <font color= #7CFC00>Confundus, [M]!"
 		usr.MP-=30
 		usr.updateHPMP()
 		usr:learnSpell("Confundus")
 		sleep(1)
 		if(M.confused>0)
 			M.confused = 20
-			M << "<font color = #A2A4A4><small>You feel more confused...</small></font>"
+			M << "<span style=\";\"><small>You feel more confused...</small></span>"
 		else
 			M.confused = 20
-			M << "<font color = #A2A4A4><small>You feel confused...</small></font>"
+			M << "<span style=\";\"><small>You feel confused...</small></span>"
 			src = null
 			spawn()
 				while(M.confused>0)
-					if(M.confused == 1|| M.confused == 0)M << "<font color = #A2A4A4><small>You shake off your confusion.</small></font>"
+					if(M.confused == 1|| M.confused == 0)M << "<span style=\";\"><small>You shake off your confusion.</small></span>"
 					M.confused--
 					sleep(10)
 
@@ -1501,7 +1505,7 @@ mob/Spells/verb/Portus()
 			if(null)
 				return
 		new /StatusEffect/UsedPortus(src,30)
-		hearers()<<"[usr]: <font color=aqua><font size=2>Portus!</font>"
+		hearers()<<"[usr]: <span style=\"color:aqua;\"><font size=2>Portus!</span>"
 		hearers()<<"A portkey flys out of [usr]'s wand, and opens."
 		usr.MP-=25
 		usr.updateHPMP()

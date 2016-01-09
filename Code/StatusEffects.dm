@@ -257,10 +257,10 @@ StatusEffect
 				else
 					if(istype(AttachedAtom,/area/DEHQ))
 						for(var/mob/M in Players)if(M.DeathEater)
-							M << "<font color=#E0E01D><b>The Deatheater HQ doors have been reinforced.</b></font>"
+							M << "<span style=\"color:#E0E01D;\"><b>The Deatheater HQ doors have been reinforced.</b></span>"
 					else if(istype(AttachedAtom,/area/AurorHQ))
 						for(var/mob/M in Players)if(M.Auror)
-							M << "<font color=#E0E01D><b>The Auror HQ doors have been reinforced.</b></font>"
+							M << "<span style=\"color:#E0E01D;\"><b>The Auror HQ doors have been reinforced.</b></span>"
 					for(var/obj/brick2door/clandoor/D in AttachedAtom)//An /area
 						D.MHP = 2*initial(D.MHP)
 			Deactivate()
@@ -301,7 +301,7 @@ StatusEffect
 	UsedShelleh
 	Permoveo
 	UsedDisperse
-	DepulsoText
+	SpellText
 	DisableProjectiles
 	KilledPlayer
 	KilledPlayerQuest

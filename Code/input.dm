@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2014 Duncan Fairley
+ * Distributed under the GNU Affero General Public License, version 3.
+ * Your changes must be made public.
+ * For the full license text, see LICENSE.txt.
+ */
 
 Input
 	var/mob/Player/parent
@@ -129,7 +135,7 @@ ScreenText
 				displayText.Hide(5)
 				sleep(5)
 
-			displayText.maptext = "<b><font color=white>[t]</font></b>"
+			displayText.maptext = "<b><span style=\"color:white;\">[t]</span></b>"
 
 
 			if(displayImage)
@@ -137,7 +143,7 @@ ScreenText
 
 			if(animate) displayText.Show(5)
 
-	//		text_shadow.maptext = "<b><font color=black>[t]</font></b>"
+	//		text_shadow.maptext = "<b><span style=\"color:black;\">[t]</span></b>"
 
 	//		if(owner.playSounds && soundID)
 	//			owner << sound(file("Sound/[soundID].ogg"), 0, 0, 9)
@@ -390,7 +396,7 @@ obj/hud
 
 			proc
 				Set(text, color)
-					maptext    = "<font color=white>[text]</font>"
+					maptext    = "<span style=\"color:white;\">[text]</span>"
 					src.color  = color
 					name       = text
 
