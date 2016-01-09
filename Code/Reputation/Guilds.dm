@@ -93,9 +93,9 @@ mob/GM
 				for(var/mob/Player/m in Players)
 					if(m.guild == p.guild)
 						if(p.prevname)
-							m << "<b><font color=[f]><font size=2>Guild Channel> <font size=2><font color=silver>[p.prevname](Masked):</b> <font color=white>[messsage]"
+							m << "<b><span style=\"color:[f]; font-size:2;\">Guild Channel> <span style=\"color:silver;\">[p.prevname](Masked):</span></b> <span style=\"color:white;\"[messsage]</span>"
 						else
-							m << "<b><font color=[f]><font size=2>Guild Channel> <font size=2><font color=silver>[p]:</b> <font color=white>[messsage]"
+							m << "<b><span style=\"color:[f]; font-size:2;\">Guild Channel> <span style=\"color:silver;\">[p]:</span></b> <span style=\"color:white;\"[messsage]</span>"
 
 guild
 	var
