@@ -1159,14 +1159,14 @@ obj/items/wearable/wands
 					displayKills(owner, 0, 1)
 					displayKills(owner, 0, 2)
 				if(track && displayColor)
-					viewers(owner) << infomsg({"[owner] draws \his <span style=\"color:"[displayColor]";\">[src.name]</span>."})
+					viewers(owner) << infomsg({"[owner] draws \his <span style=\"color:[displayColor];\">[src.name]</span>."})
 				else
 					viewers(owner) << infomsg("[owner] draws \his [src.name].")
 		else if(. == REMOVED)
 			owner.wand = null
 			if(!overridetext)
 				if(track && displayColor)
-					viewers(owner) << infomsg({"[owner] puts \his <span style=\"color:"[displayColor]";\">[src.name]</span> away."})
+					viewers(owner) << infomsg({"[owner] puts \his <span style=\"color:[displayColor];\">[src.name]</span> away."})
 				else
 					viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
 
@@ -1194,7 +1194,7 @@ proc/displayKills(mob/Player/i_Player, count=0, countType=1)
 		var/offset = 15 - (length("[num]") * 5)
 
 		if(w.displayColor)
-			fadeText(i_Player, "<b><span style=\"color:\"[w.displayColor]\";\">[num] </span></b>", offset, 20)
+			fadeText(i_Player, "<b><span style=\"color:[w.displayColor];\">[num] </span></b>", offset, 20)
 		else
 			fadeText(i_Player, "<b>[num]</b>", offset, 20)
 
