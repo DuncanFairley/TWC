@@ -95,8 +95,9 @@ Event
 				if(worldData.guilds && worldData.guilds.len >= 2)
 
 					var/list/guilds = list()
-					for(var/guild/g in worldData.guilds)
-						guilds[g.id] = g.Score()
+					for(var/id in worldData.guilds)
+						var/guild/g = worldData.guilds[id]
+						guilds[id] = g.Score()
 
 					bubblesort_by_value(guilds)
 
