@@ -30,13 +30,17 @@ mob/TalkNPC/quest
 
 					var/PlayerData/r = worldData.playersData[i_Player.ckey]
 
-					var/max_rep = r.tierToFame(r.fametoTier() + 1)
+					if(r)
 
-					if(r.fame >= max_rep)
-						..(i_Player, questName)
-					else
-						var/ScreenText/s = new(i_Player, src)
-						s.AddText("Who the hell are you, why do you dare show your face before me.")
+						var/max_rep = r.tierToFame(r.fametoTier() + 1)
+
+						if(r.fame >= max_rep)
+							..(i_Player, questName)
+
+							return
+
+					var/ScreenText/s = new(i_Player, src)
+					s.AddText("Who the hell are you, why do you dare show your face before me.")
 
 				questOngoing(mob/Player/i_Player, questName)
 					.=..(i_Player, questName)
@@ -86,15 +90,16 @@ mob/TalkNPC/quest
 				questStart(mob/Player/i_Player, questName)
 
 					var/PlayerData/r = worldData.playersData[i_Player.ckey]
+					if(r)
+						var/max_rep = r.tierToFame(r.fametoTier() + 1)
 
-					var/max_rep = r.tierToFame(r.fametoTier() + 1)
+						if(r.fame <= -max_rep)
 
-					if(r.fame <= -max_rep)
+							..(i_Player, questName)
+							return
 
-						..(i_Player, questName)
-					else
-						var/ScreenText/s = new(i_Player, src)
-						s.AddText("Who the hell are you, why do you dare show your face before me.")
+					var/ScreenText/s = new(i_Player, src)
+					s.AddText("Who the hell are you, why do you dare show your face before me.")
 
 				questOngoing(mob/Player/i_Player, questName)
 					.=..(i_Player, questName)
