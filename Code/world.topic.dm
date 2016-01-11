@@ -200,7 +200,7 @@ client/proc
 			while(qry.NextRow())
 				row_data = qry.GetRowData()
 				if(mob.level < lvlcap)
-					mob << "<font color=yellow><b>You gained [row_data["Amount"]] XP from your referral [sql_get_name_from(row_data["EarnerCkey"])]([row_data["EarnerCkey"]]).</b></font>"
+					mob << "<span style=\"color:yellow;\"><b>You gained [row_data["Amount"]] XP from your referral [sql_get_name_from(row_data["EarnerCkey"])]([row_data["EarnerCkey"]]).</b></span>"
 					var/xp2give = text2num(row_data["Amount"])
 					//mob.Exp += xp2give
 					while( (mob.Exp + xp2give) > mob.Mexp && mob.level <= lvlcap)
@@ -212,7 +212,7 @@ client/proc
 				else
 					var/gold2give = text2num(row_data["Amount"])
 					gold2give = max(round(gold2give / 10, 1), 1)
-					mob << "<font color=yellow><b>You gained [gold2give] gold from your referral [sql_get_name_from(row_data["EarnerCkey"])]([row_data["EarnerCkey"]]).</b></font>"
+					mob << "<span style=\"color:yellow;\"><b>You gained [gold2give] gold from your referral [sql_get_name_from(row_data["EarnerCkey"])]([row_data["EarnerCkey"]]).</b></span>"
 					mob.gold.add(gold2give)
 				rows2delete += row_data["ID"]
 			var/sql_rows2delete = ""

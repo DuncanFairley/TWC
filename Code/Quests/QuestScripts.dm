@@ -1,3 +1,10 @@
+/*
+ * Copyright © 2014 Duncan Fairley
+ * Distributed under the GNU Affero General Public License, version 3.
+ * Your changes must be made public.
+ * For the full license text, see LICENSE.txt.
+ */
+
 /*mob/Player/verb/testQuest()
 	for(var/n in questPointers)
 		var/questPointer/pointer = questPointers[n]
@@ -319,7 +326,7 @@ quest
 			reqs = list("Hunter" = 1)
 	CommonPests
 		name   = "Pest Extermination: Common Pests"
-		desc   = "The hunter wants you to help him exterminate common pests"
+		desc   = "The hunter wants you to help him exterminate common pests. Using Episkey to heal will increase your chances of survival in battle!"
 		reward = /questReward/Mon2
 
 		Kill

@@ -108,7 +108,7 @@ class
 		uses = 10
 
 	proc/say(var/msg)
-		hearers(12, professor) << "<font color=#2bcfce>\[[subject] Professor] <b>[professor.name]</b> : </font>[msg]"
+		hearers(12, professor) << "<span style=\"color:#2bcfce;\">\[[subject] Professor] <b>[professor.name]</b> : </span>[msg]"
 
 	proc/start()
 		spawn(300)	professor.canTeach = TRUE

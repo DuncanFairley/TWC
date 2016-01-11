@@ -1,3 +1,10 @@
+/*
+ * Copyright © 2014 Duncan Fairley
+ * Distributed under the GNU Affero General Public License, version 3.
+ * Your changes must be made public.
+ * For the full license text, see LICENSE.txt.
+ */
+
 WorldData/var
 	list/guilds
 
@@ -69,26 +76,28 @@ mob/Player
 
 mob/GM
 	verb
-		Guild_Chat(var/messsage as text)
+		Guild_Chat(var/message as text)
 			set name="Guild Chat"
 			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
 
-			if(messsage)
-				messsage = copytext(check(messsage),1,350)
-				if(messsage == null || messsage == "") return
+			if(!message || message == "") return
+			message = copytext(check(message),1,350)
 
-				var/mob/Player/p = src
-				if(!p.guild) return
-				var/guild/g = worldData.guilds[p.guild]
+			var/mob/Player/p = src
+			if(!p.guild) return
+			var/guild/g = worldData.guilds[p.guild]
 
-				var/f = g.Rep() < 0 ? "green" : "red"
+			var/f = g.Rep() < 0 ? "green" : "red"
 
-				for(var/mob/Player/m in Players)
-					if(m.guild == p.guild)
-						if(p.prevname)
-							m << "<b><font color=[f]><font size=2>Guild Channel> <font size=2><font color=silver>[p.prevname](Masked):</b> <font color=white>[messsage]"
-						else
-							m << "<b><font color=[f]><font size=2>Guild Channel> <font size=2><font color=silver>[p]:</b> <font color=white>[messsage]"
+			for(var/mob/Player/m in Players)
+				if(m.guild == p.guild)
+					if(p.prevname)
+						m << "<b><span style=\"color:[f]; font-size:2;\">Guild Channel> <span style=\"color:silver;\">[p.prevname](Masked):</span></b> <span style=\"color:white;\">[message]</span>"
+					else
+						m << "<b><span style=\"color:[f]; font-size:2;\">Guild Channel> <span style=\"color:silver;\">[p]:</span></b> <span style=\"color:white;\">[message]</span>"
+
+			chatlog << "<b><span style=\"color:silver;\">[g.name]> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+
 
 guild
 	var
@@ -179,7 +188,7 @@ guild
 
 				p << output(data.name, "guild.gridMembers:1,[row]")
 				p << output(ranks[members[m]], "guild.gridMembers:2,[row]")
-				p << output(alignment, "guild.gridMembers:3,[row]")
+				p << output("[alignment] ([abs(data.fame)])", "guild.gridMembers:3,[row]")
 
 				if(m == p.ckey)
 					p << output("<a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Quit</a>", "guild.gridMembers:5,[row]")
@@ -405,12 +414,8 @@ proc/trimAll(text)
 proc/getArtifacts(mob/Player/p, amount)
 
 	var/list/artifacts = list()
-	var/i = 0
 	for(var/obj/items/artifact/a in p)
 		artifacts += a
-		i         += a.stack
-
-		if(i >= amount)	break
 
 	return artifacts.len >= amount ? artifacts : null
 

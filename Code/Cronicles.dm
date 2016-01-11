@@ -459,23 +459,24 @@ mob
 							usr.icon = 'suit.dmi'
 			usr.baseicon = usr.icon
 			if(client)
-				for(var/client/C)
-					if(C.mob)
-						if(C.mob.Gm) C.mob <<"<B><I>[src][refererckey==C.ckey ? "(referral)" : ""] ([client.address])([ckey])([client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</I></B>"
-						else C.mob <<"<B><I>[src][refererckey==C.ckey ? "(referral)" : ""] logged in.</I></B>"
+				for(var/mob/Player/c in Players)
+					if(c.Gm)
+						c <<"<b><i>[src][refererckey == c.client.ckey ? "(referral)" : ""] ([client.address])([ckey])([client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</i></b>"
+					else
+						c <<"<b><i>[src][refererckey == c.client.ckey ? "(referral)" : ""] logged in.</i></b>"
 				usr.Teleblock=0
 				usr<<browse(rules,"window=1;size=500x400")
-				src<<"<b><font size=2><font color=#3636F5>Welcome to Harry Potter: The Wizards Chronicles</font> <u><a href='http://wizardschronicles.com/?ver=[VERSION]'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://www.wizardschronicles.com\">here.</a>"
+				src<<"<b><span style=\"font-size:2; color:#3636F5;\">Welcome to Harry Potter: The Wizards Chronicles</span> <u><a href='http://wizardschronicles.com/?ver=[VERSION]'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://www.wizardschronicles.com\">here.</a>"
 
 				//if(!usr.Gm)usr.see_invisible = 0
 				if(radioOnline)
 					var/obj/hud/radio/Z = new()
 					usr.client.screen += Z
 				if(src:lastreadDP < worldData.dplastupdate)
-					usr << "<font color=red>The Daily Prophet has an issue that you haven't yet read. <a href='?src=\ref[src];action=daily_prophet'>Click here</a> to view.</font>"
+					usr << "<span style=\"color:red;\">The Daily Prophet has an issue that you haven't yet read. <a href='?src=\ref[src];action=daily_prophet'>Click here</a> to view.</span>"
 				if(VERSION != src:lastversion)
 					src:lastversion = VERSION
-					src<<"<b><font size=2>TWC had an update since you last logged in! A list of changes can be found <a href='http://wizardschronicles.com/?ver=[VERSION]'>here.</a></font></b>"
+					src<<"<b><span style=\"font-size:2;\">TWC had an update since you last logged in! A list of changes can be found <a href='http://wizardschronicles.com/?ver=[VERSION]'>here.</a></span></b>"
 
 
 mob/Player/var/lastversion

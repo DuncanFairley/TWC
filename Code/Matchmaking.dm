@@ -65,7 +65,7 @@ obj/hud
 			screen_loc = "CENTER:2-3,CENTER:16-2"
 			maptext_width  = 256
 			maptext_height = 64
-			maptext = "<b><font color=white>Competitive matches can last up to 15 minutes, only accept if you have enough time to play.</font></b>"
+			maptext = "<b><span style=\"color:white;\">Competitive matches can last up to 15 minutes, only accept if you have enough time to play.</span></b>"
 
 		Timer
 			screen_loc = "CENTER:16,CENTER"
@@ -76,7 +76,7 @@ obj/hud
 				..()
 				spawn()
 					while(seconds)
-						maptext = "<b><font size=4 color=#FF4500> [seconds]</font></b>"
+						maptext = "<b><span style=\"font-size:4; color:#FF4500;\"> [seconds]</span></b>"
 						seconds--
 						sleep(10)
 
@@ -388,7 +388,7 @@ arena
 
 			scoreboard.pixel_x       = -1
 			scoreboard.maptext_width = 48
-			scoreboard.maptext       = "<b><font size=4 color=#FF4500>[team1.score]:[team2.score]</font></b>"
+			scoreboard.maptext       = "<b><span style=\"font-size:4; color:#FF4500;\">[team1.score]:[team2.score]</span></b>"
 
 		countdown()
 			state = COUNTDOWN
@@ -490,7 +490,7 @@ arena
 					state = 0
 
 					if(spectators) spectators << infomsg("[spectateObj.name] - [team2.name] won.")
-			scoreboard.maptext = "<b><font size=4 color=#FF4500>[team1.score]:[team2.score]</font></b>"
+			scoreboard.maptext = "<b><span style=\"font-size:4; color:#FF4500;\">[team1.score]:[team2.score]</span></b>"
 
 			if(state)
 				spawn()
@@ -653,9 +653,9 @@ obj
 
 			updateDisplay()
 				if(minutes)
-					maptext = "<b><font size=4 color=#FF4500>[minutes]:[seconds < 10 ? "0" : ""][seconds]</font></b>"
+					maptext = "<b><span style=\"font-size:4; color:#FF4500;\">[minutes]:[seconds < 10 ? "0" : ""][seconds]</span></b>"
 				else
-					maptext = "<b><font size=4 color=#FF4500>[seconds]</font></b>"
+					maptext = "<b><span style=\"font-size:4; color:#FF4500;\">[seconds]</span></b>"
 
 
 PlayerData
@@ -678,26 +678,26 @@ proc
 
 		if(s && s.mmWins >= WINS_REQ && world.realtime - s.mmTime <= 12096000)
 			//		var/pos = skill_rating.Find(ckey, skill_rating.len - 2)
-	//		if(s.rating >= 1800 && pos) return "<font color=#9f0419>Champion</font>"
-			if(s.mmRating >= 1600) return "<font color=#aa2fbd>Grandmaster</font>"
-			if(s.mmRating >= 1400) return "<font color=#01e4ac>Master</font>"
-			if(s.mmRating >= 1200) return "<font color=#ff0000>Archwizard</font>"
-			if(s.mmRating >= 1000) return "<font color=#E5E4E2>Battlewizard</font>"
-			if(s.mmRating >= 800)  return "<font color=#FFD700>Wizard</font>"
-			if(s.mmRating >= 600)  return "<font color=#C0C0C0>Sorcerer</font>"
-			if(s.mmRating >= 400)  return "<font color=#CD7F32>Journeyman</font>"
+	//		if(s.rating >= 1800 && pos) return "<span style=\"color:#9f0419;\">Champion</span>"
+			if(s.mmRating >= 1600) return "<span style=\"color:#aa2fbd;\">Grandmaster</span>"
+			if(s.mmRating >= 1400) return "<span style=\"color:#01e4ac;\">Master</span>"
+			if(s.mmRating >= 1200) return "<span style=\"color:#ff0000;\">Archwizard</span>"
+			if(s.mmRating >= 1000) return "<span style=\"color:#E5E4E2;\">Battlewizard</span>"
+			if(s.mmRating >= 800)  return "<span style=\"color:#FFD700;\">Wizard</span>"
+			if(s.mmRating >= 600)  return "<span style=\"color:#C0C0C0;\">Sorcerer</span>"
+			if(s.mmRating >= 400)  return "<span style=\"color:#CD7F32;\">Journeyman</span>"
 			if(s.mmRating >= 200)  return "Apprentice"
 			return "Novice"
 		return "Unranked"
 
 	getSkillFromNum(var/rating)
-		if(rating >= 1600) return "<font color=#aa2fbd>Grandmaster</font>"
-		if(rating >= 1400) return "<font color=#01e4ac>Master</font>"
-		if(rating >= 1200) return "<font color=#ff0000>Archwizard</font>"
-		if(rating >= 1000) return "<font color=#E5E4E2>Battlewizard</font>"
-		if(rating >= 800)  return "<font color=#FFD700>Wizard</font>"
-		if(rating >= 600)  return "<font color=#C0C0C0>Sorcerer</font>"
-		if(rating >= 400)  return "<font color=#CD7F32>Journeyman</font>"
+		if(rating >= 1600) return "<span style=\"color:#aa2fbd;\">Grandmaster</span>"
+		if(rating >= 1400) return "<span style=\"color:#01e4ac;\">Master</span>"
+		if(rating >= 1200) return "<span style=\"color:#ff0000;\">Archwizard</span>"
+		if(rating >= 1000) return "<span style=\"color:#E5E4E2;\">Battlewizard</span>"
+		if(rating >= 800)  return "<span style=\"color:#FFD700;\">Wizard</span>"
+		if(rating >= 600)  return "<span style=\"color:#C0C0C0;\">Sorcerer</span>"
+		if(rating >= 400)  return "<span style=\"color:#CD7F32;\">Journeyman</span>"
 		if(rating >= 200)  return "Apprentice"
 		return "Novice"
 

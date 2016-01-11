@@ -10,8 +10,6 @@ area
 	var/dmg = 1
 
 world
-	//area = /area/outside	// make outside the default area
-
 	New()									// When the world begins
 		..()								// do the regular things
 		for(var/area/O in outside_areas)	// Look for outside areas
@@ -161,68 +159,6 @@ area
 		var
 			lit = 1	// determines if the area is lit or dark.
 			obj/weather/Weather	// what type of weather the area is having
-	//	Entered(mob/Player/M)
-	//		if(!istype(M, /mob/Player)) return
-		AzkabanGroundExit
-			Entered(mob/Player/M)
-				if(!istype(M, /mob)) return
-				if(M.monster==1)
-					return
-				else
-					M.loc=locate(98,22,15)
-		To_DA/Entered(mob/Player/M)
-			if(!istype(M,/mob)) return
-			if(M.monster==1)
-				return
-			else
-				if(usr.flying==1)
-					M.icon_state=""
-					M.density=1
-					M.flying=0
-					M.loc=locate(45,5,26)
-				else
-					M.loc=locate(45,5,26)
-		SilverbloodGroundEnter/Entered(mob/Player/M)
-			M.loc=locate(49,2,3)
-				//M<<"<b><font size=3><font color=green>You are not a Death Eater. You may not pass. Be gone!"
-				//sleep(20)
-				//M<<"<B>You are suddenly blasted with a strange energy, and teleported back to Hogsmeade."
-				//flick('apparate.dmi',M)
-				//M.loc=locate(51,1,18)
-				//flick('apparate.dmi',M)
-
-		SilverbloodAurorPrevent/Entered(mob/Player/M)
-			..()
-		//	sleep(8)
-			//if(M.Auror==1)
-			//	return
-			//	M<<"<b><font size=2><font color=green>Ugh! An Auror! You may not pass! All Death Eaters have been alerted to your attempted intrusion."
-			//	sleep(20)
-			//	M<<"<B>You are suddenly blasted with a strange energy, and teleported back to Hogsmeade."
-			//	flick('apparate.dmi',M)
-			//	M.loc=locate(51,1,18)
-			//	flick('apparate.dmi',M)
-		HogwartsGroundEnter/Entered(mob/Player/M)
-			if(!istype(M, /mob)) return
-			if(M.key)
-			//	M<<"<b><font size=3><font color=green>Your aura reeks of evil and hatred. You are a Death Eater! You may not pass into Hogwarts. Be gone!"
-			//	sleep(20)
-			//	M<<"<B>You are suddenly blasted with a strange energy, and teleported back to Hogsmeade."
-			//	flick('apparate.dmi',M)
-				//M.loc=locate(51,1,18)
-				M.loc=locate(50,3,15)
-			//	flick('apparate.dmi',M)
-			//else
-			//	M.loc=locate(51,3,15)
-		Hogsmaede_Enter/Entered(mob/Player/M)
-			if(M.monster==1)
-				return
-			else
-				M.density = 0
-				M.Move(locate(51,3,18))
-				M.density = 1
-				M.flying = 0
-
 
 		New()
 			..()
@@ -239,25 +175,6 @@ area
 				else
 					overlays += I	// add the 50% dither
 				spawn(9000) daycycle()
-
-			nightcycle()
-				lit = 0 - lit	// toggle lit between 1 and 0
-				Players<<"<b>Event: <font color=blue>[usr] has commanded the sun to set over the lake. Night has fallen."
-				overlays += 'black50.dmi'	// add the 50% dither
-				sleep(9000)
-				for(var/area/outside/O in outside_areas)
-					O.daycycle()
-
-
-/*
-	If you prefer real darkness (luminosity = 0), replace the daycycle() proc
-	with the one below. Using luminosity for outside darkness is better if
-	you want to use other light sources like torches.
-
-			daycycle()
-				luminosity = 1 - luminosity	// toggle between 1 and 0
-				spawn(20) daycycle()	// change the 20 to make longer days and nights
-*/
 
 			SetWeather(WeatherType)
 				if(Weather)	// see if this area already has a weather effect
@@ -294,22 +211,22 @@ area
 mob/GM/verb
 	Rain()
 		set category="Server"
-		Players<<"<B><font color=silver>Rain begins to pour from the sky."
+		Players << infomsg("Rain begins to pour from the sky.")
 		weather.rain()
 
 	Acid()
 		set category="Server"
-		Players<<"<B><font color=silver>Acid rain begins to pour from the sky."
+		Players << infomsg("Acid rain begins to pour from the sky.")
 		weather.acid()
 
 	Snow()
 		set category="Server"
-		Players<<"<B><font color=silver>Snow begins to flurry from the sky."
+		Players << infomsg("Snow begins to flurry from the sky.")
 		weather.snow()
 
 	Clear_weather()
 		set category="Server"
-		Players<<"<B><font color=silver>The weather has cleared."
+		Players << infomsg("The weather has cleared.")
 		weather.clear()
 
 
