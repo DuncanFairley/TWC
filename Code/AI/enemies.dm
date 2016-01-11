@@ -1681,8 +1681,8 @@ mob
 			Troll
 				icon_state = "troll"
 				level = 650
-				HPmodifier  = 6
-				DMGmodifier = 0.8
+				HPmodifier  = 5
+				DMGmodifier = 0.7
 				MoveDelay   = 3
 				AttackDelay = 3
 
