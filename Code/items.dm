@@ -148,13 +148,17 @@ obj/items
 				if(a.antiTheft) src.owner = owner.ckey
 				Move(owner.loc)
 
-				if(owner.UsedKeys)
-					for(var/k in owner.UsedKeys)
-						if(owner.UsedKeys[k] == src)
-							owner.removeKey(k)
-							break
+				Unmacro(owner)
 
 			owner.Resort_Stacking_Inv()
+
+		Unmacro(mob/Player/p)
+			if(p.UsedKeys)
+				for(var/k in p.UsedKeys)
+					if(p.UsedKeys[k] == src)
+						p.removeKey(k)
+						break
+
 
 		Drop_All()
 			set src in usr
@@ -669,6 +673,8 @@ obj/items/gift
 				var/obj/items/lamps/lamp = i
 				lamp.S.Deactivate()
 
+			i.Unmacro(usr)
+
 			if(i.stack > 1)
 				var/obj/items/s = i.Split(1)
 				s.loc = src
@@ -829,6 +835,31 @@ obj/items/wearable/halloween_bucket
 		else
 			..()
 
+obj/Shadow
+	icon          = 'shadow.dmi'
+	mouse_opacity = 0
+
+mob/Player/var/tmp/obj/Shadow/shadow
+
+proc/animateFly(mob/Player/p)
+	set waitfor = 0
+
+	var/max = 8
+	for(var/obj/o in p.loc)
+		if(!o.density) continue
+		max = 24
+		break
+
+	if(p.pixel_y != max)
+		animate(p, pixel_y = max, time = 5)
+		sleep(5)
+
+		if(p.flying)
+			animate(p, pixel_y = p.pixel_y,    time = 2, loop = -1)
+			animate(   pixel_y = p.pixel_y + 1,time = 2)
+			animate(   pixel_y = p.pixel_y,    time = 2)
+			animate(   pixel_y = p.pixel_y - 1,time = 2)
+
 obj/items/wearable/brooms
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && (owner.loc.loc:antiFly||istype(owner.loc.loc,/area/ministry_of_magic)))
@@ -854,11 +885,27 @@ obj/items/wearable/brooms
 			for(var/obj/items/wearable/brooms/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
+
+			owner.layer   = 5
+			animateFly(owner)
+
+			if(!owner.shadow)
+				owner.shadow = new (owner.loc)
+
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] dismounts from \his [src.name].")
 			owner.density = 1
 			owner.flying = 0
 			owner.icon_state = ""
+
+			animate(owner, pixel_y = 0, time = 5)
+			owner.layer   = 4
+
+			spawn(5)
+				if(owner.shadow && !owner.flying)
+					owner.shadow.Dispose()
+					owner.shadow = null
+
 obj/items/wearable/brooms/firebolt
 	icon = 'firebolt_broom.dmi'
 obj/items/wearable/brooms/nimbus_2000
@@ -883,11 +930,6 @@ obj/items/wearable/brooms/vampire_wings
 
 			owner.overlays += i
 
-			animate(owner, pixel_y = owner.pixel_y,    time = 2, loop = -1)
-			animate(       pixel_y = owner.pixel_y + 1,time = 2)
-			animate(       pixel_y = owner.pixel_y,    time = 2)
-			animate(       pixel_y = owner.pixel_y - 1,time = 2)
-
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts on \his [src.name].")
 
 		else if(. == REMOVED || forceremove)
@@ -898,9 +940,6 @@ obj/items/wearable/brooms/vampire_wings
 			i.color = color
 			i.alpha = alpha
 			owner.overlays -= i
-			owner.pixel_y = 0
-
-			animate(owner)
 
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
 
@@ -920,11 +959,6 @@ obj/items/wearable/brooms/floating_rock
 			owner.overlays += i
 			owner.pixel_y = 24
 
-			animate(owner, pixel_y = owner.pixel_y,    time = 2, loop = -1)
-			animate(       pixel_y = owner.pixel_y + 1,time = 2)
-			animate(       pixel_y = owner.pixel_y,    time = 2)
-			animate(       pixel_y = owner.pixel_y - 1,time = 2)
-
 			if(!overridetext)viewers(owner) << infomsg("[owner] climbs on \his [src.name].")
 
 		else if(. == REMOVED || forceremove)
@@ -935,9 +969,6 @@ obj/items/wearable/brooms/floating_rock
 			i.alpha = alpha
 
 			owner.overlays -= i
-			owner.pixel_y = 0
-
-			animate(owner)
 
 			if(!overridetext)viewers(owner) << infomsg("[owner] gets off \his [src.name] away.")
 
