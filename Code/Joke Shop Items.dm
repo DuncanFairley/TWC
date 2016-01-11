@@ -260,10 +260,10 @@ obj
 					var/n = dir2angle(usr.dir)
 					emit(loc    = usr,
 						 ptype  = /obj/particle/balloon,
-					     amount = 50,
-					     angle  = new /Random(n - 35, n + 35),
-					     speed  = 5,
-					     life   = new /Random(20,60))
+					     amount = 60,
+					     angle  = new /Random(n - 40, n + 40),
+					     speed  = 3,
+					     life   = new /Random(40,80))
 
 					hearers() << "[usr] opens a [src]"
 				else
