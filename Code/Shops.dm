@@ -422,10 +422,10 @@ obj/Madame_Pomfrey
 	density = 1
 	icon='NPCs.dmi'
 	icon_state="nurse"
-	Madame_Pomfrey//Names the NPC//Do i really need to say... Sets their ICON STATE
+
 	mouse_over_pointer = MOUSE_HAND_POINTER
 
-	Click()//This starts- wait... you know what this is... i hope ^^
+	Click()
 		if(usr in oview(src, 1))
 			Heal_Me()
 	verb
@@ -433,9 +433,12 @@ obj/Madame_Pomfrey
 			if(canUse(usr,cooldown=/StatusEffect/UsedFerulaToHeal))
 				set src in oview(1)
 				usr<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [usr]!"
-				new /StatusEffect/UsedFerulaToHeal(usr,12)
+				new /StatusEffect/UsedFerulaToHeal(usr,10)
 				usr.overlays+=image('attacks.dmi',icon_state="heal")
-				usr.HP=usr.MHP+usr.extraMHP
+
+				var/maxHP = usr.MHP + usr.extraMHP
+				usr.HP = min(maxHP, round(usr.HP + maxHP * 0.5, 1))
+
 				usr.updateHPMP()
 				src = null
 				spawn(10)

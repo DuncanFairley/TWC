@@ -414,10 +414,14 @@ proc/trimAll(text)
 proc/getArtifacts(mob/Player/p, amount)
 
 	var/list/artifacts = list()
+	var/i = 0
 	for(var/obj/items/artifact/a in p)
 		artifacts += a
+		i         += a.stack
 
-	return artifacts.len >= amount ? artifacts : null
+		if(i >= amount) break
+
+	return i >= amount ? artifacts : null
 
 
 obj/guild

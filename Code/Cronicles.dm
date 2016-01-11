@@ -796,6 +796,10 @@ client
 				mob.xp4referer = 0
 			if(!mob.Gm)
 				mob.Check_Death_Drop()
+			if(mob:shadow)
+				mob.pixel_y = 0
+				mob:shadow.Dispose()
+				mob:shadow = null
 		if (base_autosave_character)
 			base_SaveMob()
 		if (base_autodelete_mob && mob)

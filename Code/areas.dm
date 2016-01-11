@@ -704,16 +704,23 @@ turf
 	var/clientColor
 
 	Entered(atom/movable/Obj, atom/newloc)
-
-		if(isplayer(Obj) && clientColor)
-			var/mob/Player/p = Obj
-			p.stepColor = 1
-
-			var/ColorMatrix/c = new(clientColor)
-
-			animate(p.client, color = c.matrix, time = 10)
-
 		..()
+		if(isplayer(Obj))
+			var/mob/Player/p = Obj
+
+			if(clientColor)
+				p.stepColor = 1
+
+				var/ColorMatrix/c = new(clientColor)
+
+				animate(p.client, color = c.matrix, time = 10)
+
+			if(p.flying)
+				animateFly(p)
+
+				if(p.shadow)
+					p.shadow.loc = src
+
 
 	Exited(atom/movable/Obj, atom/newloc)
 

@@ -95,8 +95,9 @@ Event
 				if(worldData.guilds && worldData.guilds.len >= 2)
 
 					var/list/guilds = list()
-					for(var/guild/g in worldData.guilds)
-						guilds[g.id] = g.Score()
+					for(var/id in worldData.guilds)
+						var/guild/g = worldData.guilds[id]
+						guilds[id] = g.Score()
 
 					bubblesort_by_value(guilds)
 
@@ -409,7 +410,9 @@ StatusEffect
 			lamp.seconds = round(scheduler.time_to_fire(AttachedEvent)/10)
 			if(lamp.seconds <= 0)
 				AttachedAtom << errormsg("[lamp] disappears into thin air.")
-				del lamp
+
+				lamp.Unmacro(AttachedAtom)
+				lamp.Dispose()
 				AttachedAtom:Resort_Stacking_Inv()
 			else
 				var/min = round(lamp.seconds / 60)
