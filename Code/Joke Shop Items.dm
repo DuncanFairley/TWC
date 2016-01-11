@@ -62,25 +62,25 @@ obj
 			icon_state="DarknessPowder"
 			Click()
 				if(src in usr)
+					if(canUse(M=usr, inarena=0))
+						hearers() << "[usr] throws some Peruvian Instant Darkness Powder into the air!"
 
-					hearers() << "[usr] throws some Peruvian Instant Darkness Powder into the air!"
+						var/obj/items/DarknessPowder/d = Split(1)
 
-					var/obj/items/DarknessPowder/d = Split(1)
+						d.verbs.Remove(/obj/items/verb/Take)
+						d.invisibility = 10
+						d.loc = usr.loc
 
-					d.verbs.Remove(/obj/items/verb/Take)
-					d.invisibility = 10
-					d.loc = usr.loc
-
-					sleep(20)
-					var/list/turf/Lt = d.getArea()
-					for(var/turf/T in Lt)
-						new/obj/effect/darkness(T)
-					src=null
-					spawn(300)
+						sleep(20)
+						var/list/turf/Lt = d.getArea()
 						for(var/turf/T in Lt)
-							for(var/obj/effect/darkness/D in T)
-								del D
-						d.Dispose()
+							new/obj/effect/darkness(T)
+						src=null
+						spawn(300)
+							for(var/turf/T in Lt)
+								for(var/obj/effect/darkness/D in T)
+									del D
+							d.Dispose()
 				else
 					..()
 
@@ -121,38 +121,39 @@ obj
 			canAuction = FALSE
 			Click()
 				if(src in usr)
-					hearers() << "[usr] drops a [src]"
+					if(canUse(M=usr, inarena=0))
+						hearers() << "[usr] drops a [src]"
 
-					var/obj/items/Swamp/s = Split(1)
+						var/obj/items/Swamp/s = Split(1)
 
-					s.verbs.Remove(/obj/items/verb/Take)
-					s.loc = usr.loc
-					flick("swampopen", s)
-					sleep(20)
-					var/list/turf/Lt = s.getArea()
-					for(var/turf/T in Lt)
-						if(T.specialtype != "Swamp")
+						s.verbs.Remove(/obj/items/verb/Take)
+						s.loc = usr.loc
+						flick("swampopen", s)
+						sleep(20)
+						var/list/turf/Lt = s.getArea()
+						for(var/turf/T in Lt)
+							if(T.specialtype != "Swamp")
 
-							var/image/i = image('jokeitems.dmi',"swamp")
-							i.appearance_flags = RESET_COLOR
-							T.overlays += i
-							T.slow += 1
-							T.specialtype = "Swamp"
-							if(rand(1,4)==1)
-								i = image('jokeitems.dmi', pick("swamp1","swamp2","swamp3","swamp4","swamp5","swamp6","swamp7"))
+								var/image/i = image('jokeitems.dmi',"swamp")
 								i.appearance_flags = RESET_COLOR
 								T.overlays += i
-						else
-							Lt -= T
+								T.slow += 1
+								T.specialtype = "Swamp"
+								if(rand(1,4)==1)
+									i = image('jokeitems.dmi', pick("swamp1","swamp2","swamp3","swamp4","swamp5","swamp6","swamp7"))
+									i.appearance_flags = RESET_COLOR
+									T.overlays += i
+							else
+								Lt -= T
 
-					src = null
-					spawn(600)
-						for(var/turf/T in Lt)
-							if(T.specialtype == "Swamp")
-								T.overlays = list()
-								T.specialtype = null
-								T.slow -= 1
-						s.Dispose()
+						src = null
+						spawn(600)
+							for(var/turf/T in Lt)
+								if(T.specialtype == "Swamp")
+									T.overlays = list()
+									T.specialtype = null
+									T.slow -= 1
+							s.Dispose()
 
 				else
 					..()
@@ -277,7 +278,7 @@ obj
 				if(src in usr)
 					if(usr.smokepelletthrowing)
 						Cancel()
-					else
+					else if(canUse(M=usr, inarena=0))
 						usr.smokepelletthrowing = src
 						var/obj/hud/cancelthrow/C = new()
 						usr.client.screen += C
