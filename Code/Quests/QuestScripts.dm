@@ -5,15 +5,6 @@
  * For the full license text, see LICENSE.txt.
  */
 
-/*mob/Player/verb/testQuest()
-	for(var/n in questPointers)
-		var/questPointer/pointer = questPointers[n]
-
-		for(var/r in pointer.reqs)
-			pointer.reqs[r] = 1
-
-			checkQuestProgress(r)*/
-
 quest
 	TWCIdol1
 		name   = "Pixie Wisdom \[Weekly]"
