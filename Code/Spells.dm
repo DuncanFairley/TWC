@@ -1352,10 +1352,10 @@ mob/Spells/verb/Episky()
 		new /StatusEffect/UsedEpiskey(src,15)
 
 		var/maxHP = MHP + extraMHP
-		if(level > 200 && !Immortal)
-			HP = min(maxHP, round(HP + maxHP*0.75, 1))
-		else
+		if(level <= 200 || (Immortal && HP < 0))
 			HP = maxHP
+		else
+			HP = min(maxHP, round(HP + maxHP * 0.6, 1))
 
 		usr.updateHPMP()
 		usr.overlays+=image('attacks.dmi', icon_state = "heal")
