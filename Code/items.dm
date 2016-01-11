@@ -49,6 +49,13 @@ obj/items
 
 		Sort()
 
+	Dispose()
+
+		if(isplayer(loc))
+			Unmacro(loc)
+
+		..()
+
 	proc
 		Sort()
 			if(istype(loc, /atom))
