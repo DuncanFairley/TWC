@@ -436,7 +436,8 @@ obj/Madame_Pomfrey
 				new /StatusEffect/UsedFerulaToHeal(usr,10)
 				usr.overlays+=image('attacks.dmi',icon_state="heal")
 
-				HP = min(maxHP, round(HP + maxHP * 0.5, 1))
+				var/maxHP = usr.MHP + usr.extraMHP
+				usr.HP = min(maxHP, round(usr.HP + maxHP * 0.5, 1))
 
 				usr.updateHPMP()
 				src = null
