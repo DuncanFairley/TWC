@@ -163,6 +163,8 @@ obj/particle
 		icon_state = "white"
 		blend_mode = 0
 
+		loop = 15
+
 		config()
 			..()
 
