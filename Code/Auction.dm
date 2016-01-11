@@ -393,6 +393,8 @@ obj/items
 						var/obj/items/lamps/lamp = src
 						lamp.S.Deactivate()
 
+					Unmacro(P)
+
 					var/obj/items/i
 					if(stack > 1)
 						var/s = P.split(src)

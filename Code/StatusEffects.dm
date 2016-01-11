@@ -410,7 +410,9 @@ StatusEffect
 			lamp.seconds = round(scheduler.time_to_fire(AttachedEvent)/10)
 			if(lamp.seconds <= 0)
 				AttachedAtom << errormsg("[lamp] disappears into thin air.")
-				del lamp
+
+				lamp.Unmacro(AttachedAtom)
+				lamp.Dispose()
 				AttachedAtom:Resort_Stacking_Inv()
 			else
 				var/min = round(lamp.seconds / 60)

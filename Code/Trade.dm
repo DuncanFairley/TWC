@@ -174,6 +174,8 @@ obj/items
 							var/obj/items/lamps/lamp = src
 							lamp.S.Deactivate()
 
+						Unmacro(P)
+
 						var/obj/items/i = stack > 1 ? Split(1) : src
 
 						if("ckeyowner" in i.vars)
