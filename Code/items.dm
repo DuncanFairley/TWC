@@ -844,11 +844,15 @@ mob/Player/var/tmp/obj/Shadow/shadow
 proc/animateFly(mob/Player/p)
 	set waitfor = 0
 
-	var/max = 8
-	for(var/obj/o in p.loc)
-		if(!o.density) continue
-		max = 24
-		break
+	var/max = 10
+
+	if(p.loc.density)
+		max = 26
+	else
+		for(var/atom/movable/a in p.loc)
+			if(!a.density) continue
+			max = 26
+			break
 
 	if(p.pixel_y != max)
 		animate(p, pixel_y = max, time = 5)
@@ -905,6 +909,7 @@ obj/items/wearable/brooms
 				if(owner.shadow && !owner.flying)
 					owner.shadow.Dispose()
 					owner.shadow = null
+					animate(owner)
 
 obj/items/wearable/brooms/firebolt
 	icon = 'firebolt_broom.dmi'
