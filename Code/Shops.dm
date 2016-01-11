@@ -422,10 +422,10 @@ obj/Madame_Pomfrey
 	density = 1
 	icon='NPCs.dmi'
 	icon_state="nurse"
-	Madame_Pomfrey//Names the NPC//Do i really need to say... Sets their ICON STATE
+
 	mouse_over_pointer = MOUSE_HAND_POINTER
 
-	Click()//This starts- wait... you know what this is... i hope ^^
+	Click()
 		if(usr in oview(src, 1))
 			Heal_Me()
 	verb
