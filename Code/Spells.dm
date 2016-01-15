@@ -935,14 +935,6 @@ mob/Spells/verb/Replacio(mob/M in oview()&Players)
 		flick('GMOrb.dmi',M)
 		flick('GMOrb.dmi',usr)
 		usr:Transfer(M.loc)
-		sleep(2)
-		if(!(startloc in view(M.client.view)))
-			M << errormsg("The replacio failed.")
-			usr << errormsg("The replacio failed.")
-			var/dense = density
-			Move(startloc)
-			density = dense
-			return
 		M:Transfer(startloc)
 		flick('GMOrb.dmi',usr)
 		flick('GMOrb.dmi',M)
