@@ -85,7 +85,10 @@ mob
 				hearers()<<"<span style=\"color:red;\">[usr] meditates.</span>"
 				sleep(50)
 				usr.overlays-=/image/meditate
-				usr.MP = usr.MMP+usr.extraMMP
+
+				var/maxMP = usr.MMP + usr.extraMMP
+				usr.MP = min(maxMP, MP + maxMP*0.5)
+
 				updateHPMP()
 				usr<<"You have restored all of your MP."
 mob/var/questionius = 2
