@@ -118,9 +118,9 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 		MP = max(MP - 100, 0)
 		updateHPMP()
 		if(prevname)
-			hearers() << "<span style=\"font-size:2;\"><font color=red><b><font color=red> [usr]</span></b> :<font color=white> Eat Slugs, [M.name]!"
+			hearers() << "<span style=\"font-size:2;\"><font color=red><b><font color=red>[usr]</span></b> :<font color=white> Eat Slugs, [M.name]!"
 		else
-			hearers() << "<span style=\"font-size:2;\"><font color=red><b>[Tag] <font color=red>[usr]</span> [GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
+			hearers() << "<span style=\"font-size:2;\"><font color=red><b>[Tag]<font color=red>[usr]</span> [GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
 
 		M << errormsg("[usr] has casted the slug vomiting curse on you.")
 		usr:learnSpell("Eat Slugs")
