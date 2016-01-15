@@ -105,7 +105,7 @@ obj/particle
 	var/life
 	var/afterlife = 0
 	var/velocity/v = new
-	var/loop = 5
+	var/loop = 2
 	var/size = 1
 	var/Random/time = new /Random(5, 10)
 	mouse_opacity = 0

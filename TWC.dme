@@ -85,6 +85,7 @@
 #include "Code\ParticleEmitter.dm"
 #include "Code\Pets.dm"
 #include "Code\PM.dm"
+#include "Code\Potions.dm"
 #include "Code\Prom.dm"
 #include "Code\Protego.dm"
 #include "Code\Quidditch.dm"
