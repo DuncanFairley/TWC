@@ -507,3 +507,13 @@ mob/Player/verb/guild_command(var/action as text)
 		g.Refresh(src)
 		src << infomsg("Guild ranks changed.")
 
+
+mob/Player/proc/getGuildAreas()
+	if(!guild) return
+
+	. = 0
+
+	for(var/a in worldData.areaData)
+		var/AreaData/data = worldData.areaData[a]
+
+		if(data.guild == guild) .++

@@ -125,6 +125,7 @@ Event
 							if(p.Gm)
 								p << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
 				else
+					spawnHerbs()
 					scheduler.schedule(src, world.tick_lag * rand(36000, 108000))  // 50 minutes to 2.5 hours
 					for(var/RandomEvent/e in events)
 						if(prob(e.chance))
@@ -310,6 +311,85 @@ StatusEffect
 	UsedRiddikulus
 	UsedGMHelp
 	DisplayedTrophy
+
+
+	Potions
+
+		Health
+			var/amount = 30
+
+			Activate()
+				set waitfor = 0
+
+				var/mob/Player/p = AttachedAtom
+				while(p)
+					p.HP = min(p.HP + amount, p.MHP + p.extraMHP)
+
+					emit(loc    = p,
+						 ptype  = /obj/particle,
+						 amount = 1,
+						 angle  = new /Random(1, 359),
+					     speed  = 4,
+						 life   = new /Random(4, 8),
+						 color  = "green")
+
+					sleep(10)
+
+				..()
+
+		Mana
+			var/amount = 30
+
+			Activate()
+				set waitfor = 0
+
+				var/mob/Player/p = AttachedAtom
+				while(p)
+					p.MP = min(p.MP + amount, p.MMP + p.extraMMP)
+
+					emit(loc    = p,
+						 ptype  = /obj/particle,
+						 amount = 1,
+						 angle  = new /Random(1, 359),
+					     speed  = 4,
+						 life   = new /Random(4, 8),
+						 color  = "#7bf")
+
+					sleep(10)
+
+				..()
+
+		Invisibility
+
+			Activate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					flick('mist.dmi', p)
+					p.invisibility = 2
+					p.sight |= SEE_SELF
+					p.alpha = 125
+
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+
+					if(locate(/obj/items/wearable/invisibility_cloak) in p.Lwearing)
+						p.invisibility = 1
+					else
+						p.invisibility = 0
+						p.sight &= ~SEE_SELF
+						p.alpha = 255
+
+				..()
+
+		Deactivate()
+			var/mob/Player/p = AttachedAtom
+			if(p)
+				p << errormsg("Your potion's effect fades.")
+
+			..()
 
 	Lamps
 		var/tmp/obj/items/lamps/lamp

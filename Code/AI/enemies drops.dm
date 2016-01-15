@@ -49,7 +49,10 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							 			  /obj/items/Swamp)),
 
 
-"Demon Rat"          = list("5"    =      /obj/items/demonic_essence,
+"Rat"                = list("5"    =      /obj/items/ingredients/rat_tail),
+
+"Demon Rat"          = list("5"    = list(/obj/items/demonic_essence,
+                                          /obj/items/ingredients/rat_tail),
 							"0.8"  = list(/obj/items/Whoopie_Cushion,
 			 	 			 			  /obj/items/Smoke_Pellet,
 			 	 			 			  /obj/items/Tube_of_fun)),
@@ -134,6 +137,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							"0.7"  = list(/obj/items/DarknessPowder,
 								 	 	  /obj/items/Whoopie_Cushion,
 									 	  /obj/items/U_No_Poo,
+									 	  /obj/items/ingredients/eyes,
 							 		 	  /obj/items/Smoke_Pellet,
 							 		 	  /obj/items/Tube_of_fun,
 							 		      /obj/items/Swamp)),
@@ -141,6 +145,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 
 "Troll"              = list("0.9"  = list(/obj/items/Whoopie_Cushion,
 			 				  			  /obj/items/Smoke_Pellet,
+			 				  			  /obj/items/ingredients/eyes,
 			 			  				  /obj/items/Tube_of_fun),
 			 			  	"0.7"  = list(/obj/items/wearable/bling,
 			 			  	 			  /obj/items/bucket,

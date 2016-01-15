@@ -4,320 +4,475 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-mob
-	var/obj/Potion/Tools/Cauldron/brewing=null
-	/*Move()
-		..()
-		if(brewing)
-			brewing = null*/
 
-obj/Potion
-	var/pickupable=0
-	proc
-		determPot(var/meth)
-			//Returns: Type path of Potion
-			var/obj/Potion/Container/Potions/Pot
-			switch(meth)
-				if("moo")
-					Pot = new /obj/Potion/Container/Potions/Health_Potion
-			return Pot
+#define SOLID  0
+#define POWDER 1
+#define LIQUID 2
+
+
+WorldData/var
+	list/potions
+	potionsAmount = 0
+
+obj/items/ingredients
+	icon = 'potions_ingredients.dmi'
+
+	var
+		id
+
+		form = 0
+
+	Clone()
+		var/obj/items/ingredients/i = ..()
+
+		i.id   = id
+		i.form = form
+
+		return i
+
+	Compare(obj/items/i)
+		. = ..()
+
+		return . && i:form == form && i:id == id
+
+	Click()
+		if(src in usr)
+
+			var/obj/potions/p = locate() in get_step(usr, usr.dir)
+			if(p)
+
+				if(p.isBusy)
+					usr << errormsg("The tool is busy.")
+					return
+
+				var/obj/items/i
+				if(stack > 1)
+					i = Split(1)
+				else
+					i = src
+					loc = null
+					usr:Resort_Stacking_Inv()
+
+				p.Process(usr, i)
+
+		else
+			..()
+
+
+	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
+		if((src in usr) && istype(over_object, /obj/potions))
+			var/obj/potions/p = over_object
+
+			if(p.isBusy)
+				usr << errormsg("The tool is busy.")
+				return
+
+			var/obj/items/i
+			if(stack > 1)
+				i = Split(1)
+			else
+				i = src
+				loc = null
+				usr:Resort_Stacking_Inv()
+
+			p.Process(usr, i)
+
+		else
+			..()
+
+	daisy
+		icon_state = "daisy"
+		id         = 1
+	aconite
+		icon_state = "aconite"
+		id         = 2
+	eyes
+		icon_state = "eye"
+		id         = 3
+	rat_tail
+		icon_state = "rat_tail"
+		id         = 4
+
+proc/spawnHerbs()
+
+	for(var/a = 1 to rand(10, 20))
+
+		var/t = pick(/obj/items/ingredients/daisy, /obj/items/ingredients/aconite)
+		var/obj/items/i = new t()
+
+		var/retry = 3
+		while(!i.loc || i.loc.density || retry > 0)
+			i.loc = locate(rand(1,100), rand(1,100), rand(16,18))
+
+			if(istype(i.loc, /turf/grass))
+				retry = 0
+			else
+				retry--
+
+		if(!istype(i.loc, /turf/grass))
+			var/obj/spawner/spawn_loc = pick(spawners)
+
+			i.loc = locate(spawn_loc.x + rand(-2, 2), spawn_loc.y + rand(-2, 2), spawn_loc.z)
+
+			i.density = 1
+			step_rand(i)
+			i.density = 0
+
+obj/smoke
+	icon          = 'dot.dmi'
+	icon_state    = "default"
+	mouse_opacity = 0
+	layer         = 5
+
+	alpha         = 168
+	pixel_x       = 0
+	pixel_y       = 0
+
 	New()
 		..()
-		if(!src.pickupable) src.verbs -= /obj/Potion/verb/Take
-	verb
-		Take()
-			set src in oview(1)
-			hearers()<<"[usr] takes \the [src]."
-			Move(usr)
-			usr:Resort_Stacking_Inv()
-		Drop()
-			Move(usr.loc)
-			usr:Resort_Stacking_Inv()
-			hearers()<<"[usr] drops \his [src]."
-	Container
-		var/uses=0
-		var/meth=""
-		pickupable=1
-		icon = 'Potions.dmi'
-		Flask
-		Potions
-			Invisibility_Potion
-				icon_state = "yellow"
-				pDrink()
-					var/aicon = usr.icon
-					var/list/aoverlays = usr.overlays
-					usr.overlays = null
-					usr.icon = null
-					hearers() << "<b>[usr] turns invisible."
-					sleep(100) //ERRRROORRRR DOESn'T REAPPPAEEARRR
-					if(!usr.icon)
-						usr.icon = aicon
-						usr.overlays = aoverlays
-						hearers() << "<b>[usr] appears."
-			Health_Potion
-				icon_state = "red"
-				pDrink()
-					if(usr.MHP == usr.HP)
-						usr << "<b>The potion has no effect."
-						return
-					hearers() << "[usr]'s wounds begin to heal."
-					var/diff = usr.MHP - usr.HP
-					sleep(40)
-					usr.HP += diff/3
-					sleep(40)
-					usr.HP += diff/3
-					sleep(40)
-					usr.HP = usr.MHP
-			Mana_Potion
-				icon_state = "blue"
-				pDrink()
-					if(usr.MMP == usr.MP)
-						usr << "<b>The potion has no effect."
-						return
-					usr << "<b>You start to feel energized."
-					var/diff = usr.MMP - usr.MP
-					sleep(40)
-					usr.MP += diff/3
-					sleep(40)
-					usr.MP += diff/3
-					sleep(40)
-					usr.MP = usr.MMP
 
-		Click()
-			var/newname = input("What do you wish to label the Flask?","Labelling",name) as null|text
-			name = newname
-		DblClick()
-			return
-		proc
-			pDrink()
-				usr << "The contents cause no effect!"
-		verb
-			Fill(var/obj/Potion/Tools/Cauldron/C in oview(1))
-				if(C.meth=="")
-					usr << "There is nothing in that cauldron."
-				else
-					if(meth!="")
-						usr << "You empty the [src] then fill it with the contents of the cauldron."
-					else
-						usr << "You fill the [src] with the contents of the cauldron."
-					var/obj/Potion/Container/Potions/P = determPot(C.meth)
-					P.meth = C.meth
-					P.Move(usr)
-					P.name = src.name
-					P.uses = 1
-					C.icon_state=""
-					C.overlays=null
-					C.meth = ""
-					del src
-			Drink()
-				if(uses<1)
-					usr << "The [src] is empty!"
-					meth=""
-				else
-					uses --
-					hearers() << "[usr] drinks the contents of \the [src]"
-					spawn() src.pDrink()
-					sleep(3)
-					if(uses==0)
-						new/obj/Potion/Container/Flask(usr)
-						del(src)
-	Tools
-		pickupable=0
-		Silver_knife
-			pickupable=1
-			icon = 'Tools.dmi'
-			icon_state = "Silver_knife"
-		Mortar_and_pestle
-			icon = 'Tools.dmi'
-			icon_state = "Mortar_and_pestle"
-			pickupable=1
-		Dropper
-			pickupable=1
-			icon = 'Tools.dmi'
-			icon_state = "Dropper"
-		Stirring_rod
-			pickupable=1
-			icon = 'Tools.dmi'
-			icon_state = "Stirring_rod"
-		Cauldron
-			icon='Cauldron.dmi'
-			density=1
-			var/meth=""
-			var/busy=0
-			proc
-				randcolor()
-					var/list/colours = list(
-					"blue",
-					"black",
-					"red",
-					"pink",
-					"white",
-					"green",
-					"yellow")
-					icon_state = pick(colours)
-				pStir(var/spelled=0)
-					if(busy)
-						usr << "This Cauldron is being used."
-						return
-					if(meth=="")
-						usr << "There is nothing in the cauldron"
-						return
-					var/selection=alert("Stir clockwise or anticlockwise?","Stir Potion","Clockwise","Anticlockwise","Cancel")
-					if(selection=="Cancel") return
-					var/times=input("How many times would you like to sir [selection]?") as null|num
-					if(!times) return
-					if(times > 15 || times <1)
-						usr << "You do not need to stir that much."
-						return
-					if(!spelled)
-						usr << "Stirring. (If you move during this process, the potion will be ruined)"
-						usr.brewing = src
-					else
-						usr << "Stirring."
-					busy=1
-					sleep(times*10)
-					busy=0
-					randcolor()
-					if(!usr.brewing&&!spelled)
-						meth=""
-						//phailed
-						return
-					usr << "You stirred the potion [selection] [times] times."
-					meth += "stirred [selection] [times] times<br>"
-					randcolor()
-			verb
-				Heat()
-					set src in oview(1)
-					if(busy)
-						usr << "This Cauldron is being used."
-						return
-					if(meth=="")
-						usr << "There is nothing in the cauldron"
-						return
-					var/selection=alert("How would you like to heat the contents?","Heating","Boil","Simmer","Cancel")
-					if(selection=="Cancel") return
-					var/times=input("How many seconds would you like to [selection]?") as null|num
-					if(!times) return
-					if(times <1)
-						usr << "You don't have a time turner."
-						return
-					if(busy)
-						usr << "This Cauldron is being used."
-						return
-					usr << "[selection]ing the Cauldron for [times] seconds."
-					busy=1
-					overlays+=icon('Cauldron.dmi',"flame")
-					sleep(times*10)
-					overlays=null
-					busy=0
-					usr << "Your potion has finished [selection]ing."
-					meth += "[selection]ed [times] seconds<br>"
-					randcolor()
+		setColor("#090")
 
+	proc/setColor(c)
+		color = c
 
-				Add_to_Cauldron()
-					set src in oview(1)
-					if(busy)
-						usr << "This Cauldron is being used."
-						return
-					var/list/ingreds = new/list()
-					for(var/obj/Potion/Ingredients/I in usr)
-						ingreds.Add(I)
-					var/selection=input("Select what you would like to add to the cauldron:") as null|obj in ingreds
-					if(!selection)return
-					meth += "added [selection]<br>"
-					del selection
-					randcolor()
-				Stir()
-					set src in oview(1)
-					if(!(locate(/obj/Potion/Tools/Stirring_rod) in usr.contents))
-						usr << "You need a stirring rod!"
-						return
-					pStir()
+		transform = matrix()/1.5
+		pixel_x   = initial(pixel_x)
+		pixel_y   = initial(pixel_y)
+		alpha     = initial(alpha)
+		animate(src, pixel_x = pixel_x + rand(-10, 10), pixel_y = pixel_y + 36, alpha = 50, transform = matrix()*3, time = 24, loop = -1)
 
-			proc
-				Check_potion()
+obj/potions
+	var/tmp/isBusy = FALSE
 
-	Ingredients
-		var/maxamountreceived=1
-		var/grindable=0
-		var/liquidable=0
-		var/fruitable=0
-		var/name2be=""
-		icon = 'PotionIngredients.dmi'
-		pickupable=1
-		Goat_bezoar
-			name="Goat_bezoar"
-			grindable=1
-		Grinded_Goat_bezoar
-			name="Grinded_Goat_bezoar"
-		Aconite
-		Acromantula_corpse
-			liquidable=1
-		Acromantula_liquid
-			name="Acromantula_liquid"
-			name2be="Acromantula venom"
-		Armadillo_liquid
-			name="Armadillo_liquid"
-			name2be="Armadillo bile"
-		Asphodel
-			maxamountreceived=5
-			fruitable=1
-		Asphodel_Fruit
-			name="Asphodel_Fruit"
-			grindable=1
-		Grinded_Asphodel_Fruit
-			name="Grinded_Asphodel_Fruit"
-		Belladonna
-		Bicorn_horn
-			name="Bicorn_horn"
-			grindable=1
-		Grinded_Bicorn_horn
-			name="Grinded_Bicorn_horn"
-		Bubotuber
-			liquidable=1
-		Bubotuber_liquid
-			name="Bubotuber_liquid"
-			name2be="Bubotuber Pus"
+	icon = 'potions_tools.dmi'
+
+	mouse_over_pointer = MOUSE_HAND_POINTER
+	mouse_opacity = 2
+
+	Click()
+		..()
+
+		usr << infomsg("Drag and drop an ingredient here or face and click the ingredient.")
+
+	cauldron
+		icon_state = "cauldron"
+
+		var/tmp
+			list/smoke
+
+			pool = 0
 
 		New()
+			set waitfor = 0
 			..()
-			if(!grindable) verbs-=/obj/Potion/Ingredients/verb/Grind
-			if(!fruitable) verbs-=/obj/Potion/Ingredients/verb/Pick_Fruit
-			if(!liquidable) verbs-=/obj/Potion/Ingredients/verb/Squeeze
-		verb
-			Squeeze()
-				set src in view()
-				var/obj/Potion/Tools/Dropper/N
-				if(!(locate(/obj/Potion/Tools/Dropper) in usr.contents))
-					usr << "You need a Dropper to store the liquid!"
-					return
-				for(var/obj/Potion/Tools/Dropper/D in usr.contents)
-					if(D.name == "Dropper")
-						N = D
-				if(!N)
-					usr << "You need an empty Dropper to store the liquid!"
-					return
-				var/type = text2path("/obj/Potion/Ingredients/[src]_liquid")
-				new type (usr)
-				del(src)
+
+			color = rgb(rand(140, 255), rand(140, 255), rand(140, 255))
+
+			smoke = list()
+
+			var/obj/o = new (loc)
+
+			o.icon       = 'potions_tools.dmi'
+			o.icon_state = "liquid"
+			o.color      = "#090"
+
+			smoke += o
+
+			for(var/i = 1 to 6)
+				smoke += new /obj/smoke (loc)
+				sleep(4)
+
+		Click()
+			..()
+
+			usr << infomsg("Shoot with Inflamari to heat up.")
+
+		Attacked(obj/projectile/p)
+			if(!isBusy && p.owner && p.icon_state == "fireball" && isplayer(p.owner))
+
+				var/c = pool
+
+				c = c - ((c >> 1) & 0x5555)
+				c = (c & 0x3333) + ((c >> 2) & 0x3333)
+				c = ((c + (c >> 4) & 0x0F0F) * 0x0101) >> 8
+
+				if(c  < 1) return
+
+				var/potion
+
+				if(c >= 4)
+
+					if(!worldData.potions) worldData.potions = list()
+
+					potion = worldData.potions["[pool]"]
+					if(!potion)
+						var/chance = max(5, 50 - (worldData.potionsAmount * 5))
+
+						if(prob(chance))
+							potion = pick(childTypes(/obj/items/potions))
+							worldData.potions["[pool]"] = potion
+							worldData.potionsAmount++
+
+						else
+							chance = worldData.potionsAmount / worldData.potions.len
+							if(prob(chance * 100))
+								potion = 0
+								worldData.potions["[pool]"] = potion
 
 
-			Grind()
-				set src in view(1)
-				if(!(locate(/obj/Potion/Tools/Mortar_and_pestle) in usr.contents))
-					usr << "You need a Mortar and pestle!"
-					return
-				world << "/obj/Potion/Ingredients/Grinded_[src.name]"
-				var/type = text2path("/obj/Potion/Ingredients/Grinded_[src.name]")
-				new type (usr)
-				del(src)
-			Pick_Fruit()
-				set src in view(1)
-				var/randnum = rand(1,maxamountreceived)
-				var/type = text2path("/obj/Potion/Ingredients/[src]_Fruit")
-				for(var/i=1; i<=randnum; i++)
-					new type (usr)
-				usr << "You pick [randnum] fruit from the [src]."
-				del(src)
+				if(potion)
+					var/obj/o = smoke[1]
+					emit(loc    = loc,
+						 ptype  = /obj/particle/smoke/green,
+					     amount = 15,
+					     angle  = new /Random(1, 359),
+					     speed  = 2,
+					     life   = new /Random(15,25),
+					     color  = o.color)
 
+					var/obj/items/i = new potion (loc)
+					i.antiTheft = 1
+					i.owner     = p.owner.ckey
+					spawn(600)
+						if(i)
+							i.antiTheft = 0
+							i.owner     = null
+
+				else
+					emit(loc    = loc,
+						 ptype  = /obj/particle/smoke/green,
+					     amount = 15,
+					     angle  = new /Random(1, 359),
+					     speed  = 2,
+					     life   = new /Random(15,25),
+					     color  = "#000")
+
+					if(potion == 0)
+						emit(loc    = loc,
+							 ptype  = /obj/particle/smoke,
+							 amount = 60,
+							 angle  = new /Random(get_angle(p.owner, src) + 95, get_angle(p.owner, src) + 85),
+							 speed  = 6,
+							 life   = new /Random(1,50),
+							 color  = "#c60")
+
+						spawn(4)
+							if(p.owner)
+								hearers(src) << errormsg("[p.owner]'s mixture caused an explosion.")
+								p.owner.HP = 0
+								p.owner.Death_Check(p.owner)
+
+				setColor("#090")
+				pool = 0
+
+			..()
+
+
+		Move()
+			..()
+
+			for(var/obj/o in smoke)
+				o.loc = loc
+
+		Process(mob/Player/p, obj/items/ingredients/i)
+			if(isBusy) return
+
+
+			pool |= 2 ** ((i.id - 1) * 3 + i.form)
+
+			if(worldData.potions && ("[pool]" in worldData.potions))
+				var/potion = worldData.potions["[pool]"]
+
+				if(istype(potion, /obj/items/potions/health))
+					setColor("#f00")
+
+				else if(istype(potion, /obj/items/potions/mana))
+					setColor("#5af")
+
+				else if(istype(potion, /obj/items/potions/invisibility_potion))
+					setColor("#ccc")
+				else
+					setColor(rgb(rand(0,255), rand(0,255), rand(0,255)))
+
+			else
+				setColor(rgb(rand(0,255), rand(0,255), rand(0,255)))
+
+			i = null
+			..()
+
+		proc
+			setColor(c)
+				set waitfor = 0
+
+				var/obj/o = smoke[1]
+				o.color = c
+
+				for(var/obj/smoke/s in smoke)
+					s.setColor(c)
+					sleep(4)
+
+
+	grind
+		name       = "pestle and mortar"
+		icon_state = "pestle"
+
+		Process(mob/Player/p, obj/items/ingredients/i)
+			if(isBusy)          return
+			if(i.form != SOLID) return
+
+			i.form       = POWDER
+			i.name       = "powdered [i.name]"
+			i.icon_state = "[i.icon_state]_powder"
+
+			..()
+
+	dropper
+		icon_state = "dropper"
+
+		Process(mob/Player/p, obj/items/ingredients/i)
+			if(isBusy)          return
+			if(i.form != SOLID) return
+
+			i.form       = LIQUID
+			i.name       = "[i.name] extract"
+			i.icon_state = "[i.icon_state]_liquid"
+
+			..()
+
+
+	proc/Process(mob/Player/p, obj/items/ingredients/i)
+		set waitfor = 0
+
+		isBusy = TRUE
+
+		var/obj/bar/b = new (locate(x, y + 1, z))
+		b.countdown(320)
+
+		sleep(320)
+
+		isBusy = FALSE
+
+		if(i)
+			i.loc = loc
+			i.antiTheft = 1
+			i.owner     = p.ckey
+
+			sleep(600)
+
+			if(i)
+				i.antiTheft = 0
+				i.owner     = null
+
+obj/custom
+obj/bar
+	icon          = 'dot.dmi'
+	icon_state    = "square"
+	layer         = 6
+	mouse_opacity = 0
+	pixel_y       = -16
+
+	proc/countdown(time)
+		set waitfor = 0
+
+		var/matrix/m_from = matrix(2, 0, 0, 0, 0.5, 0)
+		var/matrix/m_to   = matrix(0, 0, 0, 0, 0.5, 0)
+
+		transform = m_from
+
+		var/obj/o       = new /obj/custom { mouse_opacity = 0; } (loc)
+		o.appearance    = appearance
+
+		o.color = rgb(rand(0,   100), rand(100, 255), rand(100, 255))
+		color   = rgb(rand(100, 255), rand(0,   100), rand(100, 255))
+
+		layer   = 7
+
+		animate(o,   transform = m_to, time = time)
+		animate(src, transform = m_to, time = time * 0.5)
+
+
+		var/obj/text = new /obj/custom { layer          = 8;\
+		                                 mouse_opacity  = 0;\
+		                                 pixel_y        = -16;\
+		                                 maptext_x      = 8;\
+		                                 maptext_y      = 8;\
+		                                 maptext_width  = 64;\
+		                                 maptext_height = 64; }(loc)
+
+		var/t = time / 10
+		while(t)
+			if(t < 10)
+				text.maptext_x = 11
+
+			text.maptext = "<span style=\"color:[t * 10 < time * 0.6 ? color : o.color];\"><b>[t]</b></span>"
+
+			t--
+			sleep(10)
+
+		text.loc = null
+		o.loc    = null
+		loc      = null
+
+
+obj/items/potions
+
+	icon = 'potions.dmi'
+
+	var
+		effect
+		seconds
+
+	Click()
+		if(src in usr)
+
+			var/StatusEffect/Potions/p = locate() in usr.LStatusEffects
+			if(p)
+				usr << errormsg("[name] washed out the previous potion you consumed.")
+				p.Deactivate()
+
+			Consume()
+			new effect (usr, seconds, src)
+		else
+			..()
+
+	health
+		icon_state = "red"
+		effect     = /StatusEffect/Potions/Health
+
+		small_health_potion
+			seconds = 30
+
+		health_potion
+			seconds = 45
+
+		large_health_potion
+			seconds = 60
+
+	mana
+		icon_state = "blue"
+		effect     = /StatusEffect/Potions/Mana
+
+		small_mana_potion
+			seconds = 30
+
+		mana_potion
+			seconds = 45
+
+		large_mana_potion
+			seconds = 60
+
+	invisibility_potion
+		icon_state = "gray"
+		effect     = /StatusEffect/Potions/Invisibility
+		seconds    = 30
+
+
+proc/childTypes(var/typesOf)
+	. = list()
+
+	var/lastType
+	for(var/t in typesof(typesOf))
+		if(ispath(lastType, t)) continue
+		. += t
+		lastType = t

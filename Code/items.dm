@@ -1761,16 +1761,20 @@ obj/items/wearable/invisibility_cloak
 					W.Equip(owner,1,1)
 			if(!wascloaked)
 				owner<<"You put on the cloak and become invisible to others."
-				flick('mist.dmi',owner)
-				owner.invisibility=1
-				owner.sight |= SEE_SELF
-				owner.alpha = 125
+
+				if(owner.invisibility == 0)
+					flick('mist.dmi',owner)
+					owner.invisibility=1
+					owner.sight |= SEE_SELF
+					owner.alpha = 125
 
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] appears from nowhere as \he removes \his [src.name].")
-			owner.invisibility=0
-			owner.sight &= ~SEE_SELF
-			owner.alpha = 255
+
+			if(owner.invisibility == 1)
+				owner.invisibility=0
+				owner.sight &= ~SEE_SELF
+				owner.alpha = 255
 
 obj/items/wearable/title
 	var/title = ""
