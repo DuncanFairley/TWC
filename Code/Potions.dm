@@ -38,7 +38,7 @@ obj/items/ingredients
 	Click()
 		if(src in usr)
 
-			var/obj/potions/p = locate() in get_step(usr, dir)
+			var/obj/potions/p = locate() in get_step(usr, usr.dir)
 			if(p)
 
 				if(p.isBusy)
@@ -257,10 +257,11 @@ obj/potions
 							 life   = new /Random(1,50),
 							 color  = "#c60")
 
-
-
-						p.owner.HP = 0
-						p.owner.Death_Check(p.owner)
+						spawn(4)
+							if(p.owner)
+								hearers(src) << errormsg("[p.owner]'s mixture caused an explosion.")
+								p.owner.HP = 0
+								p.owner.Death_Check(p.owner)
 
 				setColor("#090")
 				pool = 0
@@ -350,17 +351,26 @@ obj/potions
 
 		sleep(320)
 
+		isBusy = FALSE
+
 		if(i)
 			i.loc = loc
+			i.antiTheft = 1
+			i.owner     = p.ckey
 
-		isBusy = FALSE
+			sleep(600)
+
+			if(i)
+				i.antiTheft = 0
+				i.owner     = null
 
 obj/custom
 obj/bar
-	icon       = 'dot.dmi'
-	icon_state = "square"
-	layer      = 6
+	icon          = 'dot.dmi'
+	icon_state    = "square"
+	layer         = 6
 	mouse_opacity = 0
+	pixel_y       = -16
 
 	proc/countdown(time)
 		set waitfor = 0
@@ -382,11 +392,12 @@ obj/bar
 		animate(src, transform = m_to, time = time * 0.5)
 
 
-		var/obj/text = new /obj/custom { layer = 8;\
-		                                 mouse_opacity = 0;\
-		                                 maptext_x = 8;\
-		                                 maptext_y = 8;\
-		                                 maptext_width = 64;\
+		var/obj/text = new /obj/custom { layer          = 8;\
+		                                 mouse_opacity  = 0;\
+		                                 pixel_y        = -16;\
+		                                 maptext_x      = 8;\
+		                                 maptext_y      = 8;\
+		                                 maptext_width  = 64;\
 		                                 maptext_height = 64; }(loc)
 
 		var/t = time / 10
