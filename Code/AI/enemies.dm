@@ -424,6 +424,8 @@ mob
 				if(killer.House == worldData.housecupwinner)
 					rate += 0.25
 
+				rate += killer.getGuildAreas() * 0.05
+
 				var/StatusEffect/Lamps/DropRate/d = killer.findStatusEffect(/StatusEffect/Lamps/DropRate)
 				if(d)
 					rate *= d.rate
