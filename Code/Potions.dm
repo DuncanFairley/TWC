@@ -15,8 +15,8 @@ WorldData/var
 	potionsAmount = 0
 
 obj/items/ingredients
-	icon = 'potions_ingredients.dmi'
-
+	icon      = 'potions_ingredients.dmi'
+	accioable = 1
 	var
 		id
 
@@ -214,7 +214,7 @@ obj/potions
 							worldData.potions["[pool]"] = potion
 							worldData.potionsAmount++
 
-						else
+						else if(worldData.potions.len)
 							chance = worldData.potionsAmount / worldData.potions.len
 							if(prob(chance * 100))
 								potion = 0
@@ -424,8 +424,7 @@ obj/items/potions
 		seconds
 
 	Click()
-		if(src in usr)
-
+		if((src in usr) && canUse(M=usr, inarena=0))
 			var/StatusEffect/Potions/p = locate() in usr.LStatusEffects
 			if(p)
 				usr << errormsg("[name] washed out the previous potion you consumed.")
