@@ -53,6 +53,8 @@ obj/items/ingredients
 					loc = null
 					usr:Resort_Stacking_Inv()
 
+				usr << infomsg("You added \a [i] to \the [p].")
+
 				p.Process(usr, i)
 
 		else
@@ -75,6 +77,8 @@ obj/items/ingredients
 				loc = null
 				usr:Resort_Stacking_Inv()
 
+			usr << infomsg("You added \a [i] to \the [p].")
+
 			p.Process(usr, i)
 
 		else
@@ -95,7 +99,7 @@ obj/items/ingredients
 
 proc/spawnHerbs()
 
-	for(var/a = 1 to rand(10, 20))
+	for(var/a = 1 to rand(15, 30))
 
 		var/t = pick(/obj/items/ingredients/daisy, /obj/items/ingredients/aconite)
 		var/obj/items/i = new t()
@@ -112,7 +116,7 @@ proc/spawnHerbs()
 		if(!istype(i.loc, /turf/grass))
 			var/obj/spawner/spawn_loc = pick(spawners)
 
-			i.loc = locate(spawn_loc.x + rand(-2, 2), spawn_loc.y + rand(-2, 2), spawn_loc.z)
+			i.loc = locate(spawn_loc.x + rand(-3, 3), spawn_loc.y + rand(-3, 3), spawn_loc.z)
 
 			i.density = 1
 			step_rand(i)
@@ -214,9 +218,9 @@ obj/potions
 							worldData.potions["[pool]"] = potion
 							worldData.potionsAmount++
 
-						else if(worldData.potions.len)
-							chance = worldData.potionsAmount / worldData.potions.len
-							if(prob(chance * 100))
+						else
+							chance = worldData.potionsAmount / (worldData.potions.len + 1)
+							if(prob(chance * 90))
 								potion = 0
 								worldData.potions["[pool]"] = potion
 
@@ -370,7 +374,7 @@ obj/bar
 	icon_state    = "square"
 	layer         = 6
 	mouse_opacity = 0
-	pixel_y       = -16
+	pixel_y       = -14
 
 	proc/countdown(time)
 		set waitfor = 0
@@ -394,7 +398,7 @@ obj/bar
 
 		var/obj/text = new /obj/custom { layer          = 8;\
 		                                 mouse_opacity  = 0;\
-		                                 pixel_y        = -16;\
+		                                 pixel_y        = -14;\
 		                                 maptext_x      = 8;\
 		                                 maptext_y      = 8;\
 		                                 maptext_width  = 64;\
@@ -440,26 +444,49 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/Health
 
 		small_health_potion
-			seconds = 30
+			seconds = 10
 
 		health_potion
-			seconds = 45
+			seconds = 20
 
 		large_health_potion
-			seconds = 60
+			seconds = 30
+
+		greater
+			effect = /StatusEffect/Potions/Health { amount = 200 }
+			small_greater_health_potion
+				seconds = 10
+
+			greater_health_potion
+				seconds = 20
+
+			large_greater_health_potion
+				seconds = 30
 
 	mana
 		icon_state = "blue"
 		effect     = /StatusEffect/Potions/Mana
 
 		small_mana_potion
-			seconds = 30
+			seconds = 10
 
 		mana_potion
-			seconds = 45
+			seconds = 20
 
 		large_mana_potion
-			seconds = 60
+			seconds = 30
+
+		greater
+			effect = /StatusEffect/Potions/Mana { amount = 200 }
+
+			small_greater_mana_potion
+				seconds = 10
+
+			greater_mana_potion
+				seconds = 20
+
+			large_greater_mana_potion
+				seconds = 30
 
 	invisibility_potion
 		icon_state = "gray"
