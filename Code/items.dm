@@ -53,6 +53,7 @@ obj/items
 
 		if(isplayer(loc))
 			Unmacro(loc)
+			loc:Resort_Stacking_Inv()
 
 		..()
 
