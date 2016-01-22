@@ -111,7 +111,7 @@ Event
 					if(abs(p.fame) <= 100) continue
 					if(world.realtime - p.time < 2592000) continue
 
-					p.fame -= round(p.fame / 10)
+					p.fame -= round(p.fame / 6)
 
 	RandomEvents
 		fire()
@@ -315,15 +315,33 @@ StatusEffect
 
 	Potions
 
+
+		Stone
+			Activate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.slow += 1
+					p << infomsg("You feel heavy.")
+
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.slow -= 1
+
+				..()
+
 		Health
-			var/amount = 30
+			var/amount = 100
 
 			Activate()
 				set waitfor = 0
 
 				var/mob/Player/p = AttachedAtom
 				while(p)
-					p.HP = min(p.HP + amount, p.MHP + p.extraMHP)
+					p.HP = min(p.HP + amount + rand(-10, 10), p.MHP + p.extraMHP)
+					p.updateHPMP()
 
 					emit(loc    = p,
 						 ptype  = /obj/particle,
@@ -338,14 +356,15 @@ StatusEffect
 				..()
 
 		Mana
-			var/amount = 30
+			var/amount = 100
 
 			Activate()
 				set waitfor = 0
 
 				var/mob/Player/p = AttachedAtom
 				while(p)
-					p.MP = min(p.MP + amount, p.MMP + p.extraMMP)
+					p.MP = min(p.MP + amount + rand(-10, 10), p.MMP + p.extraMMP)
+					p.updateHPMP()
 
 					emit(loc    = p,
 						 ptype  = /obj/particle,

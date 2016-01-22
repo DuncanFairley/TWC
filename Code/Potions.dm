@@ -15,8 +15,8 @@ WorldData/var
 	potionsAmount = 0
 
 obj/items/ingredients
-	icon = 'potions_ingredients.dmi'
-
+	icon      = 'potions_ingredients.dmi'
+	accioable = 1
 	var
 		id
 
@@ -53,6 +53,8 @@ obj/items/ingredients
 					loc = null
 					usr:Resort_Stacking_Inv()
 
+				usr << infomsg("You added \a [i] to \the [p].")
+
 				p.Process(usr, i)
 
 		else
@@ -75,6 +77,8 @@ obj/items/ingredients
 				loc = null
 				usr:Resort_Stacking_Inv()
 
+			usr << infomsg("You added \a [i] to \the [p].")
+
 			p.Process(usr, i)
 
 		else
@@ -95,7 +99,7 @@ obj/items/ingredients
 
 proc/spawnHerbs()
 
-	for(var/a = 1 to rand(10, 20))
+	for(var/a = 1 to rand(15, 30))
 
 		var/t = pick(/obj/items/ingredients/daisy, /obj/items/ingredients/aconite)
 		var/obj/items/i = new t()
@@ -112,7 +116,7 @@ proc/spawnHerbs()
 		if(!istype(i.loc, /turf/grass))
 			var/obj/spawner/spawn_loc = pick(spawners)
 
-			i.loc = locate(spawn_loc.x + rand(-2, 2), spawn_loc.y + rand(-2, 2), spawn_loc.z)
+			i.loc = locate(spawn_loc.x + rand(-3, 3), spawn_loc.y + rand(-3, 3), spawn_loc.z)
 
 			i.density = 1
 			step_rand(i)
@@ -207,7 +211,7 @@ obj/potions
 
 					potion = worldData.potions["[pool]"]
 					if(!potion)
-						var/chance = max(5, 50 - (worldData.potionsAmount * 5))
+						var/chance = max(5, 100 - (worldData.potionsAmount * 5))
 
 						if(prob(chance))
 							potion = pick(childTypes(/obj/items/potions))
@@ -215,8 +219,8 @@ obj/potions
 							worldData.potionsAmount++
 
 						else
-							chance = worldData.potionsAmount / worldData.potions.len
-							if(prob(chance * 100))
+							chance = worldData.potionsAmount / (worldData.potions.len + 1)
+							if(prob(chance * 75))
 								potion = 0
 								worldData.potions["[pool]"] = potion
 
@@ -284,13 +288,13 @@ obj/potions
 			if(worldData.potions && ("[pool]" in worldData.potions))
 				var/potion = worldData.potions["[pool]"]
 
-				if(istype(potion, /obj/items/potions/health))
+				if(ispath(potion, /obj/items/potions/health))
 					setColor("#f00")
 
-				else if(istype(potion, /obj/items/potions/mana))
+				else if(ispath(potion, /obj/items/potions/mana))
 					setColor("#5af")
 
-				else if(istype(potion, /obj/items/potions/invisibility_potion))
+				else if(ispath(potion, /obj/items/potions/invisibility_potion))
 					setColor("#ccc")
 				else
 					setColor(rgb(rand(0,255), rand(0,255), rand(0,255)))
@@ -370,7 +374,7 @@ obj/bar
 	icon_state    = "square"
 	layer         = 6
 	mouse_opacity = 0
-	pixel_y       = -16
+	pixel_y       = -14
 
 	proc/countdown(time)
 		set waitfor = 0
@@ -394,7 +398,7 @@ obj/bar
 
 		var/obj/text = new /obj/custom { layer          = 8;\
 		                                 mouse_opacity  = 0;\
-		                                 pixel_y        = -16;\
+		                                 pixel_y        = -14;\
 		                                 maptext_x      = 8;\
 		                                 maptext_y      = 8;\
 		                                 maptext_width  = 64;\
@@ -424,8 +428,7 @@ obj/items/potions
 		seconds
 
 	Click()
-		if(src in usr)
-
+		if((src in usr) && canUse(M=usr, inarena=0))
 			var/StatusEffect/Potions/p = locate() in usr.LStatusEffects
 			if(p)
 				usr << errormsg("[name] washed out the previous potion you consumed.")
@@ -441,31 +444,59 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/Health
 
 		small_health_potion
-			seconds = 30
+			seconds = 10
 
 		health_potion
-			seconds = 45
+			seconds = 20
 
 		large_health_potion
-			seconds = 60
+			seconds = 30
+
+		greater
+			effect = /StatusEffect/Potions/Health { amount = 200 }
+			small_greater_health_potion
+				seconds = 10
+
+			greater_health_potion
+				seconds = 20
+
+			large_greater_health_potion
+				seconds = 30
 
 	mana
 		icon_state = "blue"
 		effect     = /StatusEffect/Potions/Mana
 
 		small_mana_potion
-			seconds = 30
+			seconds = 10
 
 		mana_potion
-			seconds = 45
+			seconds = 20
 
 		large_mana_potion
-			seconds = 60
+			seconds = 30
+
+		greater
+			effect = /StatusEffect/Potions/Mana { amount = 200 }
+
+			small_greater_mana_potion
+				seconds = 10
+
+			greater_mana_potion
+				seconds = 20
+
+			large_greater_mana_potion
+				seconds = 30
 
 	invisibility_potion
 		icon_state = "gray"
 		effect     = /StatusEffect/Potions/Invisibility
 		seconds    = 30
+
+	stone_body_potion
+		icon_state = "gray"
+		effect     = /StatusEffect/Potions/Stone
+		seconds    = 45
 
 
 proc/childTypes(var/typesOf)

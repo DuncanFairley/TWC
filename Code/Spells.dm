@@ -118,9 +118,9 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 		MP = max(MP - 100, 0)
 		updateHPMP()
 		if(prevname)
-			hearers() << "<span style=\"font-size:2;\"><font color=red><b><font color=red> [usr]</span></b> :<font color=white> Eat Slugs, [M.name]!"
+			hearers() << "<span style=\"font-size:2;\"><font color=red><b><font color=red>[usr]</span></b> :<font color=white> Eat Slugs, [M.name]!"
 		else
-			hearers() << "<span style=\"font-size:2;\"><font color=red><b>[Tag] <font color=red>[usr]</span> [GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
+			hearers() << "<span style=\"font-size:2;\"><font color=red><b>[Tag]<font color=red>[usr]</span> [GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
 
 		M << errormsg("[usr] has casted the slug vomiting curse on you.")
 		usr:learnSpell("Eat Slugs")
@@ -228,9 +228,11 @@ mob/Spells/verb/Depulso()
 	var/found = FALSE
 	for(M in get_step(usr,usr.dir))
 		if(!M.key && !istype(M,/mob/Victims)) return
-		var/turf/t = get_step_away(M,usr,15)
-		if(!t || (issafezone(M.loc.loc) && !issafezone(t.loc))) return
-		M.Move(t)
+
+		if(!M.findStatusEffect(/StatusEffect/Potions/Stone))
+			var/turf/t = get_step_away(M,usr,15)
+			if(!t || (issafezone(M.loc.loc) && !issafezone(t.loc))) return
+			M.Move(t)
 
 		if(!findStatusEffect(/StatusEffect/SpellText))
 			new /StatusEffect/SpellText(src,5)
@@ -1347,7 +1349,7 @@ mob/Spells/verb/Episky()
 		if(level <= 200 || (Immortal && HP < 0))
 			HP = maxHP
 		else
-			HP = min(maxHP, round(HP + maxHP * 0.6, 1))
+			HP = min(maxHP, round(HP + maxHP * 0.2, 1))
 
 		usr.updateHPMP()
 		usr.overlays+=image('attacks.dmi', icon_state = "heal")
@@ -1868,10 +1870,11 @@ obj
 
 					owner << "Your [src] hit [a]!"
 
-					var/turf/t = get_step_away(a, src)
-					if(t && !(issafezone(a.loc.loc) && !issafezone(t.loc)))
-						a.Move(t)
-						a << "You were pushed backwards by [owner]'s Flippendo!"
+					if(!a.findStatusEffect(/StatusEffect/Potions/Stone))
+						var/turf/t = get_step_away(a, src)
+						if(t && !(issafezone(a.loc.loc) && !issafezone(t.loc)))
+							a.Move(t)
+							a << "You were pushed backwards by [owner]'s Flippendo!"
 
 				else if(istype(a,/obj/projectile))
 					a.dir = turn(a.dir, pick(45, -45))

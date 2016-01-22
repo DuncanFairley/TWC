@@ -133,7 +133,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							              /obj/items/key/wizard_key,
 							              /obj/items/key/pentakill_key,
 							              /obj/items/key/sunset_key),
-							"0.5"  =      /obj/items/artifact,
+							"0.6"  =      /obj/items/artifact,
 							"0.7"  = list(/obj/items/DarknessPowder,
 								 	 	  /obj/items/Whoopie_Cushion,
 									 	  /obj/items/U_No_Poo,
@@ -143,7 +143,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							 		      /obj/items/Swamp)),
 
 
-"Troll"              = list("0.9"  = list(/obj/items/Whoopie_Cushion,
+"Troll"              = list("8"    = list(/obj/items/Whoopie_Cushion,
 			 				  			  /obj/items/Smoke_Pellet,
 			 				  			  /obj/items/ingredients/eyes,
 			 			  				  /obj/items/Tube_of_fun),
@@ -163,9 +163,9 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 			 			  	 			  /obj/items/key/blood_key,
 			 			  	 			  /obj/items/colors/red_stone,
 							 			  /obj/items/colors/green_stone),
-			 			  	"4"  = list(/obj/items/blood_sack,
-			 			  	            /obj/items/reputation/chaos_tablet,
-			 			  	            /obj/items/reputation/peace_tablet)),
+			 			  	"4"    = list(/obj/items/blood_sack,
+			 			  	              /obj/items/reputation/chaos_tablet,
+			 			  	              /obj/items/reputation/peace_tablet)),
 
 
 "Basilisk"           = list("2"    =      /obj/items/key/pentakill_key,
@@ -174,8 +174,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 										  /obj/items/crystal/soul,
 										  /obj/items/crystal/magic,
 						     			  /obj/items/crystal/strong_luck),
-							"15"   = list(/obj/items/artifact,
-										  /obj/items/crystal/damage,
+							"15"   = list(/obj/items/crystal/damage,
 										  /obj/items/crystal/defense,
 						     			  /obj/items/crystal/luck),
 							"16"   = list(/obj/items/DarknessPowder,

@@ -76,15 +76,42 @@ obj
 
 
 AreaData
-	var/count
-	var/rep
-	var/guild
+	var
+		count
+		rep
+		guild
+
+		tmp/list/killedBy
 
 	New(count, rep)
 		..()
 		src.count = count
 		src.rep   = rep
 
+	proc
+		sort()
+			if(killedBy)
+				var/winner = killedBy[1]
+
+				if(killedBy.len > 1)
+					for(var/i = 2 to killedBy.len)
+						var/who = killedBy[i]
+						if(killedBy[who] > killedBy[winner])
+							winner = who
+
+				guild = winner
+				killedBy = null
+
+
+
+		add(guildName)
+
+			if(!killedBy) killedBy = list()
+
+			if(guildName in killedBy)
+				killedBy[guildName]++
+			else
+				killedBy[killedBy] = 1
 obj
 	countdown
 		var/marks      = 0
@@ -132,12 +159,16 @@ obj
 			add(c = 1, guild)
 				var/AreaData/data = worldData.areaData[tag]
 				data.count--
+
+				if(guild)
+					data.add(guild)
+
 				if(data.count <= 0)
 					data.count = 500
 					marks++
 					Completed()
 
-					data.guild = guild
+					data.sort()
 
 					. = 1
 				updateDisplay()
@@ -1246,7 +1277,7 @@ mob
 					proc
 						Heal()
 							for(var/mob/Player/M in ohearers(3, src))
-								M.HP += round((M.MHP/20)+rand(0,50))
+								M.HP += round((M.MHP/100) + rand(-10, 10))
 								if(M.HP > M.MHP) M.HP = M.MHP
 								M.updateHPMP()
 					BlindAttack()//removeoMob
@@ -1364,7 +1395,7 @@ mob
 
 			Demon_Rat
 				icon_state = "demon rat"
-				level = 600
+				level = 700
 			Pixie
 				icon_state = "pixie"
 				level = 100
@@ -1393,11 +1424,11 @@ mob
 			Acromantula
 				icon_state = "spider"
 				level = 800
-				MoveDelay = 2
-				AttackDelay = 3
+				MoveDelay = 5
+				AttackDelay = 5
 
 				HPmodifier = 1.6
-				DMGmodifier = 0.8
+				DMGmodifier = 0.55
 
 				respawnTime = 1800
 
@@ -1435,8 +1466,8 @@ mob
 				icon = 'FemaleVampire.dmi'
 				level = 850
 				HPmodifier  = 1.8
-				DMGmodifier = 0.8
-				MoveDelay   = 3
+				DMGmodifier = 0.55
+				MoveDelay   = 5
 				AttackDelay = 3
 				respawnTime = 2400
 
@@ -1522,7 +1553,7 @@ mob
 
 			Wisp
 				icon_state = "wisp"
-				level = 750
+				level = 800
 
 				HPmodifier  = 1.4
 				DMGmodifier = 0.8
@@ -1682,11 +1713,11 @@ mob
 
 			Troll
 				icon_state = "troll"
-				level = 650
-				HPmodifier  = 5
-				DMGmodifier = 0.7
-				MoveDelay   = 3
-				AttackDelay = 3
+				level = 750
+				HPmodifier  = 4
+				DMGmodifier = 0.55
+				MoveDelay   = 4
+				AttackDelay = 4
 
 				New()
 					..()

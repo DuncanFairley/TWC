@@ -208,7 +208,10 @@ obj/teleport
 				..()
 				M << infomsg("You magically found yourself at the entrance!")
 			else
-				M:Transfer(locate(rand(4,97), rand(4,97), rand(4,6)))
+				var/turf/t
+				while(!t || t.density)
+					t = locate(rand(4,97), rand(4,97), rand(4,6))
+				M:Transfer(t)
 
 		New()
 			..()
