@@ -211,7 +211,7 @@ obj/potions
 
 					potion = worldData.potions["[pool]"]
 					if(!potion)
-						var/chance = max(5, 50 - (worldData.potionsAmount * 5))
+						var/chance = max(5, 100 - (worldData.potionsAmount * 5))
 
 						if(prob(chance))
 							potion = pick(childTypes(/obj/items/potions))
@@ -220,7 +220,7 @@ obj/potions
 
 						else
 							chance = worldData.potionsAmount / (worldData.potions.len + 1)
-							if(prob(chance * 90))
+							if(prob(chance * 75))
 								potion = 0
 								worldData.potions["[pool]"] = potion
 
@@ -288,13 +288,13 @@ obj/potions
 			if(worldData.potions && ("[pool]" in worldData.potions))
 				var/potion = worldData.potions["[pool]"]
 
-				if(istype(potion, /obj/items/potions/health))
+				if(ispath(potion, /obj/items/potions/health))
 					setColor("#f00")
 
-				else if(istype(potion, /obj/items/potions/mana))
+				else if(ispath(potion, /obj/items/potions/mana))
 					setColor("#5af")
 
-				else if(istype(potion, /obj/items/potions/invisibility_potion))
+				else if(ispath(potion, /obj/items/potions/invisibility_potion))
 					setColor("#ccc")
 				else
 					setColor(rgb(rand(0,255), rand(0,255), rand(0,255)))
