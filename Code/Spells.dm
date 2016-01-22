@@ -1347,7 +1347,7 @@ mob/Spells/verb/Episky()
 		if(level <= 200 || (Immortal && HP < 0))
 			HP = maxHP
 		else
-			HP = min(maxHP, round(HP + maxHP * 0.6, 1))
+			HP = min(maxHP, round(HP + maxHP * 0.2, 1))
 
 		usr.updateHPMP()
 		usr.overlays+=image('attacks.dmi', icon_state = "heal")
