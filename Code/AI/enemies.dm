@@ -76,15 +76,42 @@ obj
 
 
 AreaData
-	var/count
-	var/rep
-	var/guild
+	var
+		count
+		rep
+		guild
+
+		tmp/list/killedBy
 
 	New(count, rep)
 		..()
 		src.count = count
 		src.rep   = rep
 
+	proc
+		sort()
+			if(killedBy)
+				var/winner = killedBy[1]
+
+				if(killedBy.len > 1)
+					for(var/i = 2 to killedBy.len)
+						var/who = killedBy[i]
+						if(killedBy[who] > killedBy[winner])
+							winner = who
+
+				guild = winner
+				killedBy = null
+
+
+
+		add(guildName)
+
+			if(!killedBy) killedBy = list()
+
+			if(guildName in killedBy)
+				killedBy[guildName]++
+			else
+				killedBy[killedBy] = 1
 obj
 	countdown
 		var/marks      = 0
@@ -132,12 +159,16 @@ obj
 			add(c = 1, guild)
 				var/AreaData/data = worldData.areaData[tag]
 				data.count--
+
+				if(guild)
+					data.add(guild)
+
 				if(data.count <= 0)
 					data.count = 500
 					marks++
 					Completed()
 
-					data.guild = guild
+					data.sort()
 
 					. = 1
 				updateDisplay()
