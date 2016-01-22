@@ -315,6 +315,23 @@ StatusEffect
 
 	Potions
 
+
+		Stone
+			Activate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.slow += 1
+					p << infomsg("You feel heavy.")
+
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.slow -= 1
+
+				..()
+
 		Health
 			var/amount = 100
 

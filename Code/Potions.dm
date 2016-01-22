@@ -493,6 +493,11 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/Invisibility
 		seconds    = 30
 
+	stone_body_potion
+		icon_state = "gray"
+		effect     = /StatusEffect/Potions/Stone
+		seconds    = 45
+
 
 proc/childTypes(var/typesOf)
 	. = list()

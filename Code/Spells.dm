@@ -228,9 +228,11 @@ mob/Spells/verb/Depulso()
 	var/found = FALSE
 	for(M in get_step(usr,usr.dir))
 		if(!M.key && !istype(M,/mob/Victims)) return
-		var/turf/t = get_step_away(M,usr,15)
-		if(!t || (issafezone(M.loc.loc) && !issafezone(t.loc))) return
-		M.Move(t)
+
+		if(!M.findStatusEffect(/StatusEffect/Potions/Stone))
+			var/turf/t = get_step_away(M,usr,15)
+			if(!t || (issafezone(M.loc.loc) && !issafezone(t.loc))) return
+			M.Move(t)
 
 		if(!findStatusEffect(/StatusEffect/SpellText))
 			new /StatusEffect/SpellText(src,5)
@@ -1868,10 +1870,11 @@ obj
 
 					owner << "Your [src] hit [a]!"
 
-					var/turf/t = get_step_away(a, src)
-					if(t && !(issafezone(a.loc.loc) && !issafezone(t.loc)))
-						a.Move(t)
-						a << "You were pushed backwards by [owner]'s Flippendo!"
+					if(!a.findStatusEffect(/StatusEffect/Potions/Stone))
+						var/turf/t = get_step_away(a, src)
+						if(t && !(issafezone(a.loc.loc) && !issafezone(t.loc)))
+							a.Move(t)
+							a << "You were pushed backwards by [owner]'s Flippendo!"
 
 				else if(istype(a,/obj/projectile))
 					a.dir = turn(a.dir, pick(45, -45))
