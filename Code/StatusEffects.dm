@@ -325,6 +325,7 @@ StatusEffect
 				while(p)
 					p.HP = min(p.HP + amount + rand(-10, 10), p.MHP + p.extraMHP)
 					p.updateHPMP()
+
 					emit(loc    = p,
 						 ptype  = /obj/particle,
 						 amount = 1,
@@ -347,6 +348,7 @@ StatusEffect
 				while(p)
 					p.MP = min(p.MP + amount + rand(-10, 10), p.MMP + p.extraMMP)
 					p.updateHPMP()
+
 					emit(loc    = p,
 						 ptype  = /obj/particle,
 						 amount = 1,

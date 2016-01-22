@@ -1364,7 +1364,7 @@ mob
 
 			Demon_Rat
 				icon_state = "demon rat"
-				level = 600
+				level = 700
 			Pixie
 				icon_state = "pixie"
 				level = 100
@@ -1522,7 +1522,7 @@ mob
 
 			Wisp
 				icon_state = "wisp"
-				level = 750
+				level = 800
 
 				HPmodifier  = 1.4
 				DMGmodifier = 0.8
@@ -1682,7 +1682,7 @@ mob
 
 			Troll
 				icon_state = "troll"
-				level = 650
+				level = 750
 				HPmodifier  = 4
 				DMGmodifier = 0.55
 				MoveDelay   = 4
