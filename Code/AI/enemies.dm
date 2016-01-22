@@ -1246,7 +1246,7 @@ mob
 					proc
 						Heal()
 							for(var/mob/Player/M in ohearers(3, src))
-								M.HP += round((M.MHP/20)+rand(0,50))
+								M.HP += round((M.MHP/100) + rand(-10, 10))
 								if(M.HP > M.MHP) M.HP = M.MHP
 								M.updateHPMP()
 					BlindAttack()//removeoMob
@@ -1393,11 +1393,11 @@ mob
 			Acromantula
 				icon_state = "spider"
 				level = 800
-				MoveDelay = 2
-				AttackDelay = 3
+				MoveDelay = 5
+				AttackDelay = 5
 
 				HPmodifier = 1.6
-				DMGmodifier = 0.8
+				DMGmodifier = 0.55
 
 				respawnTime = 1800
 
@@ -1435,8 +1435,8 @@ mob
 				icon = 'FemaleVampire.dmi'
 				level = 850
 				HPmodifier  = 1.8
-				DMGmodifier = 0.8
-				MoveDelay   = 3
+				DMGmodifier = 0.55
+				MoveDelay   = 5
 				AttackDelay = 3
 				respawnTime = 2400
 
@@ -1683,10 +1683,10 @@ mob
 			Troll
 				icon_state = "troll"
 				level = 650
-				HPmodifier  = 5
-				DMGmodifier = 0.7
-				MoveDelay   = 3
-				AttackDelay = 3
+				HPmodifier  = 4
+				DMGmodifier = 0.55
+				MoveDelay   = 4
+				AttackDelay = 4
 
 				New()
 					..()
