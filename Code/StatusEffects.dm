@@ -133,11 +133,11 @@ Event
 							break
 
 
-var/list/weather_effects = list("acid"        = 12,
-								"snow"        = 10,
-								"rain"        = 15,
-								"cloudy"      = 20,
-								"half cloudy" = 30,
+var/list/weather_effects = list("acid"        = 4,
+								"snow"        = 2,
+								"rain"        = 7,
+								"cloudy"      = 10,
+								"half cloudy" = 15,
 								"sunny"       = 100)
 
 
