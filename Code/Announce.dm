@@ -80,17 +80,15 @@ mob
 			set category = "Commands"
 			if(canUse(src,cooldown=/StatusEffect/UsedMeditate,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 				new /StatusEffect/UsedMeditate(src,10)
-				usr<<"You meditate for a moment."
 				usr.overlays+=/image/meditate
 				hearers()<<"<span style=\"color:red;\">[usr] meditates.</span>"
 				sleep(50)
 				usr.overlays-=/image/meditate
 
 				var/maxMP = usr.MMP + usr.extraMMP
-				usr.MP = min(maxMP, MP + maxMP*0.5)
-
+				usr.MP = min(maxMP, MP + maxMP*0.4)
 				updateHPMP()
-				usr<<"You have restored all of your MP."
+
 mob/var/questionius = 2
 mob
 	verb
