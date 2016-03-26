@@ -2233,7 +2233,8 @@ obj/portkey
 			del(src)
 	proc/Teleport(mob/Player/M)
 		if(!partner) return
-		if(M.Transfer(partner.loc))
+
+		if(!(!M.client.moving && issafezone(M.loc.loc)) && M.Transfer(partner.loc))
 			M << "You step through the portkey."
 			..()
 
