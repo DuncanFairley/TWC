@@ -111,7 +111,7 @@ AreaData
 			if(guildName in killedBy)
 				killedBy[guildName]++
 			else
-				killedBy[killedBy] = 1
+				killedBy[guildName] = 1
 obj
 	countdown
 		var/marks      = 0
@@ -375,8 +375,8 @@ mob
 		icon = 'Mobs.dmi'
 		see_invisible = 1
 		var/active = 0
-		var/HPmodifier = 0.9
-		var/DMGmodifier = 0.55
+		var/HPmodifier = 1
+		var/DMGmodifier = 0.6
 		var/list/drops
 		var/tmp/turf/origloc
 
@@ -401,8 +401,8 @@ mob
 						damage
 
 				Range         = 12
-				MoveDelay     = 5
-				AttackDelay   = 5
+				MoveDelay     = 4
+				AttackDelay   = 4
 				respawnTime   = 1200
 
 				prizePoolSize = 1
@@ -696,12 +696,12 @@ mob
 					else
 						Blocked()
 				else
-					var/dmg = Dmg+extraDmg+rand(0,4)
+					var/dmg = Dmg + extraDmg + rand(0, 12)
 
 					if(target.level > level && !target.findStatusEffect(/StatusEffect/Lamps/Farming))
-						dmg -= dmg * ((target.level - level)/150)
+						dmg -= dmg * ((target.level - (level + 1))/150)
 					else if(target.level < level)
-						dmg += dmg * ((level - target.level)/200)
+						dmg += dmg * ((1 + level - target.level)/200)
 					dmg = round(dmg)
 
 					if(dmg<1)
@@ -1424,11 +1424,11 @@ mob
 			Acromantula
 				icon_state = "spider"
 				level = 800
-				MoveDelay = 5
-				AttackDelay = 5
+				MoveDelay = 3
+				AttackDelay = 3
 
 				HPmodifier = 1.6
-				DMGmodifier = 0.55
+				DMGmodifier = 0.6
 
 				respawnTime = 1800
 
@@ -1466,8 +1466,8 @@ mob
 				icon = 'FemaleVampire.dmi'
 				level = 850
 				HPmodifier  = 1.8
-				DMGmodifier = 0.55
-				MoveDelay   = 5
+				DMGmodifier = 0.6
+				MoveDelay   = 2
 				AttackDelay = 3
 				respawnTime = 2400
 
@@ -1617,7 +1617,7 @@ mob
 					tmp/fired = 0
 					Random/cd = new(30, 50)
 
-				MoveDelay = 4
+				MoveDelay = 3
 				AttackDelay = 1
 
 				Eye_of_The_Fallen
@@ -1717,7 +1717,7 @@ mob
 				HPmodifier  = 4
 				DMGmodifier = 0.55
 				MoveDelay   = 4
-				AttackDelay = 4
+				AttackDelay = 3
 
 				New()
 					..()
@@ -1829,6 +1829,7 @@ mob
 				HPmodifier = 4
 				DMGmodifier = 3
 				MoveDelay = 3
+				AttackDelay = 1
 				Range = 16
 				respawnTime = 6000
 
