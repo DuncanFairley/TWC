@@ -1063,9 +1063,9 @@ mob/Player
 								hearers(client.view)<<"<i>[usr] [copytext(t,5)]</i>"
 							else if(copytext(t,1,4)=="\[w]")
 								if(prevname)
-									range(1)<<"<span style=\"font-size:2; color:red;\"><b> [usr] whispers: <i>[copytext(t,4)]</i></b></span>"
+									range(1)<<"<span style=\"font-size:2; color:red;\"><b>[usr] whispers: <i>[copytext(t,4)]</i></b></span>"
 								else
-									range(1)<<"<span style=\"font-size:2; color:red;\"><b>[Tag] [usr] whispers: <i>[copytext(t,4)]</i></b></span>"
+									range(1)<<"<span style=\"font-size:2; color:red;\"><b>[Tag][usr] whispers: <i>[copytext(t,4)]</i></b></span>"
 
 							else
 								var/silent = FALSE
