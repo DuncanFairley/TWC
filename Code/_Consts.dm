@@ -8,7 +8,7 @@
 #define islist(X) istype(X,/list)
 
 var/const
-	VERSION   = "16.54"
+	VERSION   = "16.55"
 	SWAPMAP_Z = 27
 	lvlcap    = 750
 
