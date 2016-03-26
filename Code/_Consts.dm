@@ -11,4 +11,5 @@ var/const
 	VERSION   = "16.54"
 	SWAPMAP_Z = 27
 	lvlcap    = 750
-	WINTER    = TRUE
+
+#define WINTER 0
