@@ -437,7 +437,7 @@ obj/Madame_Pomfrey
 				usr.overlays+=image('attacks.dmi',icon_state="heal")
 
 				var/maxHP = usr.MHP + usr.extraMHP
-				usr.HP = min(maxHP, round(usr.HP + maxHP * 0.15, 1))
+				usr.HP = min(maxHP, round(usr.HP + maxHP * 0.15 + rand(-15, 15), 1))
 
 				usr.updateHPMP()
 				src = null

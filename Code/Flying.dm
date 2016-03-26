@@ -281,14 +281,19 @@ obj
 			var/obj/tree_top/t = new(loc)
 			t.y++
 
-			if(WINTER)
-				invisibility = 100
-			else
-				if(prob(60))
-					var/r = rand(160, 255)
-					var/g = rand(82, r)
-					var/b = rand(45, g)
-					color = rgb(r, g, b)
+			#if WINTER
+
+			invisibility = 100
+
+			#else
+
+			if(prob(60))
+				var/r = rand(160, 255)
+				var/g = rand(82, r)
+				var/b = rand(45, g)
+				color = rgb(r, g, b)
+
+			#endif
 
 
 
@@ -304,18 +309,24 @@ obj
 
 		New()
 			..()
-			if(WINTER)
-				if(prob(70)) color = rgb(170, rand(170, 240), 170)
 
-				var/r = rand(1,3)
-				icon_state = "stump[r]_winter"
+			#if WINTER
 
-				if(prob(75))
-					var/image/i = new('BigTree.dmi', "snow[r]")
-					i.appearance_flags = RESET_COLOR
-					overlays += i
-			else
-				if(prob(80)) color = rgb(0, rand(150, 220), 0)
+			if(prob(70)) color = rgb(170, rand(170, 240), 170)
+
+			var/r = rand(1,3)
+			icon_state = "stump[r]_winter"
+
+			if(prob(75))
+				var/image/i = new('BigTree.dmi', "snow[r]")
+				i.appearance_flags = RESET_COLOR
+				overlays += i
+
+			#else
+
+			if(prob(80)) color = rgb(0, rand(150, 220), 0)
+
+			#endif
 
 	flyblock
 		invisibility = 10
@@ -1628,14 +1639,20 @@ turf
 	layer=TURF_LAYER
 	icon='turf.dmi'
 	grass
-		//icon_state="grass1"
-		name = "grass"
+		#if WINTER
+		name       = "snow"
+		icon_state = "snow"
+		#else
+		name       = "grass"
+		icon_state = "grass1"
+		#endif
 
-		icon_state="snow"
 		density=0
 
 		edges
-		//	icon='GrassEdge.dmi'
+			#if !WINTER
+			icon='GrassEdge.dmi'
+			#endif
 			north
 				dir = NORTH
 			west
@@ -1698,7 +1715,10 @@ turf
 		New()
 			..()
 
-			if(WINTER) isice = 1
+			#if WINTER
+			isice = 1
+			#endif
+
 			if(isice)  ice()
 
 		Enter(atom/movable/O, atom/oldloc)

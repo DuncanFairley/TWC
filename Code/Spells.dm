@@ -444,7 +444,7 @@ mob/Spells/verb/Ferula()
 mob/Spells/verb/Avis()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		new /StatusEffect/Summoned(src,15)
+		new /StatusEffect/Summoned(src, 15)
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=yellow> Avis!"
 		sleep(20)
 		hearers()<<"A bright white flash shoots out of [usr]'s wand."
@@ -1346,10 +1346,10 @@ mob/Spells/verb/Episky()
 		new /StatusEffect/UsedEpiskey(src,15)
 
 		var/maxHP = MHP + extraMHP
-		if(level <= 200 || (Immortal && HP < 0))
+		if(level <= 300 || (Immortal && HP < 0))
 			HP = maxHP
 		else
-			HP = min(maxHP, round(HP + maxHP * 0.2, 1))
+			HP = min(maxHP, round(HP + maxHP * 0.35 + rand(-15, 15), 1))
 
 		usr.updateHPMP()
 		usr.overlays+=image('attacks.dmi', icon_state = "heal")
@@ -2233,7 +2233,8 @@ obj/portkey
 			del(src)
 	proc/Teleport(mob/Player/M)
 		if(!partner) return
-		if(M.Transfer(partner.loc))
+
+		if(!(!M.client.moving && issafezone(M.loc.loc)) && M.Transfer(partner.loc))
 			M << "You step through the portkey."
 			..()
 
