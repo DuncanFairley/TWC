@@ -5,23 +5,14 @@
  * For the full license text, see LICENSE.txt.
  */
 
-obj
+hudobj
 	actionbar
-		layer = 10
-
-		icon       = 'HUD.dmi'
 		icon_state = "actionbarbox"
-
-		appearance_flags = NO_CLIENT_COLOR
 
 		keys
 			var
 				key
 				mob/Player/parent
-
-			New(loc,pos)
-				..()
-				screen_loc = pos
 
 			Click()
 				Do()
@@ -29,8 +20,8 @@ obj
 			MouseDrop(over_object)
 				if(parent.UsedKeys && parent.UsedKeys[key])
 					var/swap
-					if(istype(over_object, /obj/actionbar/keys/))
-						var/obj/actionbar/keys/k = over_object
+					if(istype(over_object, /hudobj/actionbar/keys/))
+						var/hudobj/actionbar/keys/k = over_object
 
 						swap = parent.UsedKeys[k.key]
 
@@ -86,7 +77,7 @@ mob/Player
 
 	proc
 		removeKey(var/k)
-			for(var/obj/actionbar/keys/o in client.screen)
+			for(var/hudobj/actionbar/keys/o in client.screen)
 				if(o.key == k)
 					o.SetKey()
 					break
@@ -99,11 +90,13 @@ mob/Player
 			var/offset = round(ActionKeys.len/2)
 			for(var/i in ActionKeys)
 				count++
-				var/obj/actionbar/keys/A = new (pos="CENTER+[count]-[offset],1")
+
+				var/hudobj/actionbar/keys/A = new (null, client, list(anchor_x = "CENTER", anchor_y = "SOUTH", screen_x = (count - offset)*32), show=1)
+
 				A.key = "[i]"
 				A.maptext = "<span style=\"font-size:1; color:#800000;\">[i]</span>"
 				A.parent = src
-				client.screen+=A
+
 				if(UsedKeys && UsedKeys[A.key])
 					A.SetKey(UsedKeys[A.key])
 				else A.invisibility = 10
@@ -113,11 +106,11 @@ mob/Player
 
 			if(on)
 				displayActionbar = TRUE
-				for(var/obj/actionbar/keys/k in client.screen)
+				for(var/hudobj/actionbar/keys/k in client.screen)
 					k.invisibility = 0
 			else
 				displayActionbar = FALSE
-				for(var/obj/actionbar/keys/k in client.screen)
+				for(var/hudobj/actionbar/keys/k in client.screen)
 					if(!(k.key in UsedKeys)) k.invisibility = 10
 
 	verb
@@ -139,8 +132,8 @@ obj/items
 
 	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
 		..()
-		if(istype(over_object, /obj/actionbar/keys) && (src in usr))
-			var/obj/actionbar/keys/k = over_object
+		if(istype(over_object, /hudobj/actionbar/keys) && (src in usr))
+			var/hudobj/actionbar/keys/k = over_object
 			k.SetKey(src)
 
 	Write()

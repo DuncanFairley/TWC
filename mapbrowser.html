@@ -1,0 +1,93 @@
+<HTML>
+<BODY>
+</BODY>
+<SCRIPT type="text/javascript">
+var map_width;
+var map_height;
+var TILE_WIDTH = 32;
+var TILE_HEIGHT = 32;
+var MAX_VIEW_TILES = 2000;
+
+function CallVerb() {
+    var locstr = "byond://winset?command=" + arguments[0];
+    for(var count=1;count<arguments.length;count++) {
+        locstr += " " + encodeURIComponent(arguments[count]);
+    }
+    window.location = locstr;
+}
+
+function WinSet() {
+    var locstr = "byond://winset?id=" + arguments[0];
+    for(var count=1;count<arguments.length;count+=2) {
+        locstr += "&" + arguments[count] + "=" + arguments[count+1];
+    }
+    window.location = locstr;
+}
+
+function Output() {
+    window.location = "byond://winset?command=.output " + arguments[0] + " " + encodeURIComponent(arguments[1]);
+}
+
+window.onresize = function() {
+    Resize();
+};
+
+window.onload = function() {
+    CallVerb("onLoad");
+};
+
+var isfullscreen = 0;
+
+function ToggleFullscreen() {
+    if(isfullscreen) {
+        WinSet("mainwindow","titlebar","true","is-maximized","false","can-resize","true");
+        isfullscreen = 0;
+    } else {
+        WinSet("mainwindow","titlebar","false")
+        WinSet("mainwindow","is-maximized","true","can-resize","false");
+        isfullscreen = 1;
+    }
+}
+
+var resolution_x;
+var resolution_y;
+
+function CenterWindow() {
+    window.location = "byond://winget?callback=CenterWindowCallback&id=mainwindow&property=size";
+}
+
+function Resize() {
+    var body = document.getElementsByTagName('body')[0];
+    map_width = body.clientWidth;
+    map_height = body.clientHeight;
+
+    var map_zoom = 1;
+
+    var view_width = Math.ceil(map_width/TILE_WIDTH);
+    if(!(view_width%2)) ++view_width;
+    var view_height = Math.ceil(map_height/TILE_HEIGHT);
+    if(!(view_height%2)) ++view_height;
+
+    while(view_width*view_height>MAX_VIEW_TILES) {
+        view_width = Math.ceil(map_width/TILE_WIDTH/++map_zoom);
+        if(!(view_width%2)) ++view_width;
+        view_height = Math.ceil(map_height/TILE_HEIGHT/map_zoom);
+        if(!(view_height%2)) ++view_height;
+    }
+
+    var buffer_x = Math.floor((view_width*TILE_WIDTH - map_width/map_zoom)/2);
+    var buffer_y = Math.floor((view_height*TILE_HEIGHT - map_height/map_zoom)/2);
+
+    WinSet("map","zoom",map_zoom);
+    CallVerb("onResize",view_width,view_height,buffer_x,buffer_y,map_zoom);
+}
+
+function CenterWindowCallback(properties) {
+    var win_width = properties.size.x;
+    var win_height = properties.size.y;
+    resolution_x = screen.width;
+    resolution_y = screen.height;
+    WinSet("mainwindow","pos",Math.floor((resolution_x-win_width)/2) + "," + Math.floor((resolution_y-win_height)/2));
+}
+</SCRIPT>
+</HTML>

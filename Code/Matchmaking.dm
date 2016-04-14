@@ -22,7 +22,8 @@ area/hogwarts/Duel_Arenas/Matchmaking
 		if(isplayer(Obj))
 			var/mob/Player/p = Obj
 			if(p.level < lvlcap || (p.ckey in worldData.competitiveBans)) return
-			p.client.screen += new /obj/hud/Find_Duel
+
+			new /hudobj/Find_Duel(null, p.client, null, 1)
 
 
 	Exited(atom/movable/Obj, atom/newloc)
@@ -32,7 +33,7 @@ area/hogwarts/Duel_Arenas/Matchmaking
 			var/mob/Player/p = Obj
 			if(!p.client || p.level < lvlcap || (p.ckey in worldData.competitiveBans)) return
 
-			var/obj/hud/Find_Duel/o = locate(/obj/hud/Find_Duel) in p.client.screen
+			var/hudobj/Find_Duel/o = locate(/hudobj/Find_Duel) in p.client.screen
 			if(o)
 				p.client.screen -= o
 
@@ -40,6 +41,7 @@ area/hogwarts/Duel_Arenas/Matchmaking
 					currentMatches.removeQueue(p)
 
 			p.matchmaking_ready = 0
+
 			for(var/obj/hud/duel/d in p.client.screen)
 				p.client.screen -= d
 
@@ -102,11 +104,14 @@ obj/hud
 				for(var/obj/hud/duel/d in usr.client.screen)
 					usr.client.screen -= d
 
+hudobj
 	Find_Duel
-		icon = 'HUD.dmi'
 		icon_state = "duel"
-		screen_loc = "EAST-1,2"
-		mouse_over_pointer = MOUSE_HAND_POINTER
+
+		anchor_x    = "EAST"
+		screen_x    = -32
+		screen_y    = 32
+		anchor_y    = "SOUTH"
 
 		Click()
 			if(usr:matchmaking_ready) return
@@ -227,7 +232,7 @@ matchmaking
 						p1.client.screen -= d
 
 					if(!p1_accepted)
-						var/obj/hud/Find_Duel/o = locate(/obj/hud/Find_Duel) in p1.client.screen
+						var/hudobj/Find_Duel/o = locate() in p1.client.screen
 						if(o)
 							o.color = null
 						p1 << errormsg("You were removed from the matchmaking queue because you failed to accept.")
@@ -237,7 +242,7 @@ matchmaking
 					for(var/obj/hud/duel/d in p2.client.screen)
 						p2.client.screen -= d
 					if(!p2_accepted)
-						var/obj/hud/Find_Duel/o = locate(/obj/hud/Find_Duel) in p2.client.screen
+						var/hudobj/Find_Duel/o = locate() in p2.client.screen
 						if(o)
 							o.color = null
 						p2 << errormsg("You were removed from the matchmaking queue because you failed to accept.")

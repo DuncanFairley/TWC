@@ -60,16 +60,7 @@ var/PMheader = {"
 	}
 </style>
 				"}
-obj/hud/layer=11
-obj/hud/PMHome
-	name = "Private Messaging"
-	icon = 'HUD.dmi'
-	icon_state = "PM"
-	screen_loc = "EAST-1,1"
-	mouse_over_pointer = MOUSE_HAND_POINTER
-	Click()
-		var/mob/Player/M = usr
-		M.PMHome()
+
 proc/ckey2auth(ckey)
 	return md5("[clanadmin_hash][ckey]")
 mob/Player/proc/PMHome()
