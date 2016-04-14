@@ -1855,35 +1855,27 @@ turf
 
 	diamondt
 		icon_state="tf2"
-		density=0
 	blackfloor
 		icon_state="blackfloor"
-		density=0
 	blankturf
 		icon_state="black"
-		density=0
 	road
 		icon_state="road"
-		density=0
 	wfloor
 		icon_state="wfloor"
-		density=0
 	wall
 		icon='wall1.dmi'
 		density=1
 	black
 		icon_state="black"
-		density=0
 	floor
 		icon_state="brick"
-		density=0
 	brick
 		icon='hogwartsbrick.dmi'
 		icon_state="brick2"
 		density=1
 	bush
 		icon_state="bush"
-		density=0
 		layer=MOB_LAYER+1
 	sign
 		icon='statues.dmi'
@@ -1891,17 +1883,13 @@ turf
 		density=1
 	ice
 		icon_state="ice"
-		density=0
 	snow
 		icon='turf.dmi'
 		icon_state="snow"
-		density=0
 	dirt
 		icon_state="dirt"
-		density=0
 	sand
 		icon_state="sand"
-		density=0
 	bigchair
 		icon = 'turf.dmi'
 		icon_state="bc"
