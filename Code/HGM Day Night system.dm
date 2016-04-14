@@ -5,15 +5,34 @@
  * For the full license text, see LICENSE.txt.
  */
 area
-	mouse_opacity = 0
+//	mouse_opacity = 0
 
 	var/dmg = 1
 
 world
-	New()									// When the world begins
-		..()								// do the regular things
-		for(var/area/O in outside_areas)	// Look for outside areas
-			spawn() O:daycycle()
+	New()
+		..()
+
+		global_loops()
+
+proc/global_loops()
+	set waitfor = 0
+
+
+	var/day = TRUE
+	while(1)
+		day = !day
+
+		for(var/area/O in outside_areas)
+			O:lit = day
+
+		for(var/mob/Player/p in Players)
+			if(!p.loc) continue
+
+			if(istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))
+				p.Interface.SetDarknessColor(day ? "#ffff" : NIGHTCOLOR)
+
+		sleep(9000)
 
 Weather
 	var/list/clouds = list()
@@ -154,8 +173,24 @@ obj/cloud
 
 var/list/outside_areas = list()
 area
+
+
+	Entered(atom/movable/a, atom/OldLoc)
+		..()
+
+		if(isplayer(a))
+			var/mob/Player/p = a
+
+			var/area/newArea = a.loc.loc
+
+			if(istype(newArea, /area/outside) || istype(newArea, /area/newareas/outside))
+				p.Interface.SetDarknessColor(src:lit ? "#ffff" : NIGHTCOLOR)
+			else
+				p.Interface.SetDarknessColor("#ffff")
+
 	outside	// lay this area on the map anywhere you want it to change from night to day
 		layer = 7	// set this layer above everything else so the overlay obscures everything
+
 		var
 			lit = 1	// determines if the area is lit or dark.
 			obj/weather/Weather	// what type of weather the area is having
@@ -165,17 +200,6 @@ area
 			outside_areas += src
 
 		proc
-			daycycle()
-				lit = 1 - lit	// toggle lit between 1 and 0
-				var/icon/I = 'black50.dmi'
-				if(lit)
-					overlays -= I	// remove the 50% dither
-					//if(type == /area/outside)
-						//world<<"<b>Event: <font color=blue>The sun rises over the forest. A new day begins."	// remove the dither
-				else
-					overlays += I	// add the 50% dither
-				spawn(9000) daycycle()
-
 			SetWeather(WeatherType)
 				if(Weather)	// see if this area already has a weather effect
 					if(istype(Weather,WeatherType)) return	// no need to reset it
@@ -184,8 +208,6 @@ area
 				if(WeatherType)	// if WeatherType is null, it just removes the old settings
 					Weather = new WeatherType()	// make a new obj/weather of the right type
 					overlays += Weather	// display it as an overlay for the area
-
-
 
 	inside	// a sample area not affected by the daycycle or weather
 		luminosity = 1
@@ -203,6 +225,9 @@ area
 						Weather = new WeatherType()	// make a new obj/weather of the right type
 						overlays += Weather	// display it as an overlay for the area
 
+			var
+				lit = 1	// determines if the area is lit or dark.
+				obj/weather/Weather	// what type of weather the area is having
 
 			New()
 				..()
@@ -250,3 +275,55 @@ obj/weather
 
 
 
+
+image
+	planemaster
+		plane            = 0
+		blend_mode       = BLEND_MULTIPLY
+		appearance_flags = PLANE_MASTER | NO_CLIENT_COLOR
+		color            = list(null,null,null,"#0000","#000f")
+		mouse_opacity    = 0
+
+	darkness
+		plane            = -1
+		blend_mode       = BLEND_ADD
+		mouse_opacity    = 0
+		icon             = 'darkness.dmi'
+
+interface
+	var
+		image
+			planemaster/planemaster
+			darkness/darkness
+
+		animating = FALSE
+
+	New()
+		..()
+
+		planemaster = new(loc=parent)
+		darkness    = new(loc=parent)
+
+		parent << planemaster
+		parent << darkness
+
+	proc/SetDarknessAlpha(a)
+		animate(darkness, alpha = 255 - a, time = 5)
+
+	proc/SetDarknessColor(c)
+		animate(darkness, color = c,       time = 5)
+
+
+	Resize(width, height)
+		var/matrix/m = matrix()
+		m.Scale(width, height)
+		darkness.transform = m
+
+obj/light
+	plane = -1
+	blend_mode = BLEND_ADD
+	icon = 'spotlight.dmi'
+	mouse_opacity = 0
+
+	pixel_x = -32
+	pixel_y = -32
