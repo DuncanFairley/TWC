@@ -4,10 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-obj/hud/reading
-	icon = 'HUD.dmi'
-	icon_state = "reading"
-	screen_loc = "EAST-3,2"
+
 obj/hud/radio
 	icon = 'HUD.dmi'
 	icon_state = "radio"
@@ -122,8 +119,7 @@ obj
 				usr:presence = null
 				usr << infomsg("You stop reading.")
 			else if(!usr.readbooks)
-				var/obj/hud/reading/R = new()
-				usr.client.screen += R
+				var/hudobj/reading/R = new(null, usr.client, null, 1)
 				usr.readbooks = 1
 				usr.movable = 0
 				usr << infomsg("You begin reading.")
@@ -406,9 +402,6 @@ proc
 			l += i
 		return l
 
-	isplayer(atom/A)
-		return istype(A, /mob/Player)
-
 	Players(list/Remove=null)
 		var/list/L = list()
 		for(var/mob/Player/p in Players)
@@ -672,8 +665,10 @@ gold
 
 			amount = round(amount)
 
+			var/list/variables = list("plat", "gold", "silver", "bronze")
+
 			var/i = 8
-			for(var/v in vars)
+			for(var/v in variables)
 				if(i <= 0) break
 
 				i -= 2
@@ -694,13 +689,17 @@ gold
 			amount = round(amount)
 
 			var/i = 8
-			for(var/v in vars)
+
+			var/list/variables = list("plat", "gold", "silver", "bronze")
+
+			for(var/v in variables)
 				if(i <= 0) break
 
 				i -= 2
 				if(amount < 10 ** i) continue
 
 				var/c = round(amount / (10 ** i))
+
 				vars[v] -= c
 				amount  -= c * (10 ** i)
 
