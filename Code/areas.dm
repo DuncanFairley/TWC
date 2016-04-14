@@ -698,8 +698,6 @@ area
 				return
 		return ..()
 
-mob/Player/var/tmp/stepColor = 0
-
 turf
 	var/clientColor
 
@@ -718,8 +716,9 @@ turf
 			if(p.flying)
 				animateFly(p)
 
-				if(p.shadow)
-					p.shadow.loc = src
+			if(p.followers)
+				for(var/obj/o in p.followers)
+					o.loc = src
 
 
 	Exited(atom/movable/Obj, atom/newloc)
@@ -732,3 +731,23 @@ turf
 					animate(p.client, color = null, time = 10)
 
 		..()
+
+obj/Shadow
+	icon          = 'shadow.dmi'
+	mouse_opacity = 0
+
+mob/Player
+	var/tmp
+		list/followers
+		stepColor = 0
+
+	proc
+		addFollower(obj/o)
+			if(!followers) followers = list()
+			followers += o
+
+		removeFollower(obj/o)
+			followers -= o
+
+			if(!followers.len)
+				followers = null

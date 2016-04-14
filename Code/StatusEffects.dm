@@ -287,6 +287,7 @@ StatusEffect
 	UsedLevicorpus
 	UsedEvanesco
 	UsedEvanesca
+	UsedLumos
 	UsedClanAbilities
 	UsedIncindia
 	UsedStun

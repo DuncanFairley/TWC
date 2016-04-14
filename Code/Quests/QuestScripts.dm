@@ -47,7 +47,7 @@ quest
 		Kill
 			desc = "Kill chaos vampires and their pets."
 			reqs = list("Kill Chaos Vampire" = 50,
-			            "Kill Acromantula"   = 25)
+			            "Kill Acromantula"   = 30)
 
 		Reward
 			desc = "Go back to the stranger with the weird skin."
@@ -62,7 +62,7 @@ quest
 		Kill
 			desc = "Spread chaos."
 			reqs = list("Kill Peace Vampire" = 50,
-			            "Kill Player"        = 20)
+			            "Kill Acromantula"   = 30)
 
 		Reward
 			desc = "Go back to the stranger with the weird skin."

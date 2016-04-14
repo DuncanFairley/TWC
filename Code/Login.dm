@@ -454,69 +454,6 @@ client/Command(T)
 		usr << "You can sign in by typing the password followed by your name. (Seperated by a space)"
 		failedtries++
 		if(failedtries>4)del(src)*/
-mob/see_in_dark = 1
-client/view = "17x17"
-client/New()
-	..()
-	screen_x_tiles = 17
-	screen_y_tiles = 17
-client/var/screen_x_tiles = 0
-client/var/screen_y_tiles = 0
-mob/proc/setsplitter()
-	if(!betamapmode)
-		//mainvsplit
-		var/wholewidth = winget(src,"mainvsplit","size")
-		var/xpos = findtext(wholewidth,"x")
-		wholewidth = text2num(copytext(wholewidth,1,xpos))
-		var/mapwidth = winget(src,"mapwindow","size")
-		xpos = findtext(mapwidth,"x")
-		mapwidth = text2num(copytext(mapwidth,1,xpos))
-		mapwidth = 32*17
-		var/percentage = (mapwidth / wholewidth) * 100
-		winset(src,"mainvsplit","splitter=[percentage]")
-
-client/verb/resizeMap()
-	set name=".resizeMap"
-	if(!istype(mob,/mob/Player))return
-	var/obj/screenobj/conjunct/C = locate() in screen
-	if(mob&&mob.betamapmode)
-		var/size = winget(src,"mapwindow","size")
-		var/xpos = findtext(size,"x")
-		screen_x_tiles = round( text2num(copytext(size,1,xpos)) / 32) + 1
-		screen_y_tiles = round( text2num(copytext(size,xpos+1)) / 32)
-
-		screen_x_tiles = min(screen_x_tiles, 50)
-		screen_y_tiles = min(screen_y_tiles, 50)
-
-		screen_x_tiles = max(screen_x_tiles, 3)
-		screen_y_tiles = max(screen_y_tiles, 3)
-
-		view = "[screen_x_tiles]x[screen_y_tiles]"
-		if(C) C.screen_loc = view2screenloc(view)
-	else
-		//NEED TO RESET TO OLD VERSIO HERRREEE
-		view="17x17"
-		if(C) C.screen_loc = view2screenloc(view)
-		screen_x_tiles = 17
-		screen_y_tiles = 17
-mob/var/betamapmode = 1
-mob/verb/ToggleBetaMapMode()
-	set name = ".ToggleBetaMapMode"
-	if(winget(src,"menu.betamapmode","is-checked") == "true")
-		betamapmode = 1
-	else
-		betamapmode = 0
-		setsplitter()
-	client.resizeMap()
-mob/verb/EnableBetaMapMode()
-	set name = ".EnableBetaMapMode"
-	betamapmode = 1
-	client.resizeMap()
-mob/verb/DisableBetaMapMode()
-	set name = ".DisableBetaMapMode"
-	betamapmode = 0
-	setsplitter()
-	client.resizeMap()
 
 /mob/proc/GenerateNameOverlay(r,g,b,de=0)
 	var/outline = "#000"
@@ -800,6 +737,8 @@ mob
 			character.loc=locate(45,60,26)
 			character.notmonster=1
 			character.verbs += /mob/Spells/verb/Inflamari
+
+			character << output(null,"browser1:Resize")
 
 			for(var/mob/Player/p in Players)
 				if(p.Gm)

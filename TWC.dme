@@ -92,6 +92,7 @@
 #include "Code\RandomEvents.dm"
 #include "Code\Region.dm"
 #include "Code\RemovedStuff.dm"
+#include "Code\resize.dm"
 #include "Code\Revoke.dm"
 #include "Code\Shops.dm"
 #include "Code\signs.dm"

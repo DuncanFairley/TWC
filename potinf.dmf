@@ -4,6 +4,10 @@ macro "macro"
 		command = ".center"
 		is-disabled = false
 	elem 
+		name = "ALT+RETURN"
+		command = ".output browser1:ToggleFullscreen null"
+		is-disabled = false
+	elem 
 		name = "CTRL+NORTHEAST"
 		command = "anortheast"
 		is-disabled = false
@@ -2017,7 +2021,7 @@ window "mapwindow"
 	elem "mapwindow"
 		type = MAIN
 		pos = 281,0
-		size = 640x480
+		size = 645x490
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -2053,10 +2057,36 @@ window "mapwindow"
 		macro = ""
 		menu = ""
 		on-close = ""
+	elem "browser1"
+		type = BROWSER
+		pos = 0,0
+		size = 645x490
+		anchor1 = 0,0
+		anchor2 = 100,100
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #000000
+		background-color = none
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = ""
+		on-size = ""
+		show-history = false
+		show-url = false
+		auto-format = true
+		use-title = false
+		on-show = ""
+		on-hide = ""
 	elem "map"
 		type = MAP
 		pos = 0,0
-		size = 640x480
+		size = 645x490
 		anchor1 = 0,0
 		anchor2 = 100,100
 		font-family = ""
@@ -2191,7 +2221,7 @@ window "rpane"
 	elem "rpanewindow"
 		type = CHILD
 		pos = 0,0
-		size = 638x470
+		size = 636x480
 		anchor1 = 0,0
 		anchor2 = 100,100
 		font-family = ""
@@ -2388,11 +2418,11 @@ window "infowindow"
 		saved-params = "pos;size;is-minimized;is-maximized"
 		on-size = ""
 		title = "Info"
-		titlebar = true
-		statusbar = true
-		can-close = true
-		can-minimize = true
-		can-resize = true
+		titlebar = false
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
 		is-pane = true
 		is-minimized = false
 		is-maximized = false
@@ -2409,7 +2439,7 @@ window "infowindow"
 	elem "info"
 		type = INFO
 		pos = 0,0
-		size = 638x474
+		size = 640x480
 		anchor1 = 0,0
 		anchor2 = 100,100
 		font-family = ""
@@ -3034,7 +3064,7 @@ window "winSettings"
 	elem "winSettings"
 		type = MAIN
 		pos = 281,0
-		size = 258x364
+		size = 258x286
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -3072,7 +3102,7 @@ window "winSettings"
 		on-close = ""
 	elem "button5"
 		type = BUTTON
-		pos = 128,12
+		pos = 8,9
 		size = 120x28
 		anchor1 = none
 		anchor2 = none
@@ -3100,7 +3130,7 @@ window "winSettings"
 		button-type = pushbutton
 	elem "butQuestTrackertoggle"
 		type = BUTTON
-		pos = 9,338
+		pos = 9,256
 		size = 119x24
 		anchor1 = none
 		anchor2 = none
@@ -3128,7 +3158,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butAFKtoggle"
 		type = BUTTON
-		pos = 9,315
+		pos = 9,233
 		size = 247x24
 		anchor1 = none
 		anchor2 = none
@@ -3156,7 +3186,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butSoundtoggle"
 		type = BUTTON
-		pos = 9,292
+		pos = 9,210
 		size = 232x24
 		anchor1 = none
 		anchor2 = none
@@ -3184,7 +3214,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butTradetoggle"
 		type = BUTTON
-		pos = 9,200
+		pos = 9,118
 		size = 200x20
 		anchor1 = none
 		anchor2 = none
@@ -3212,7 +3242,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butEventNotificationstoggle"
 		type = BUTTON
-		pos = 9,246
+		pos = 9,164
 		size = 239x20
 		anchor1 = none
 		anchor2 = none
@@ -3240,7 +3270,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butMonsterMessagestoggle"
 		type = BUTTON
-		pos = 9,269
+		pos = 9,187
 		size = 240x24
 		anchor1 = none
 		anchor2 = none
@@ -3268,7 +3298,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butClassNotificationstoggle"
 		type = BUTTON
-		pos = 9,223
+		pos = 9,141
 		size = 239x20
 		anchor1 = none
 		anchor2 = none
@@ -3296,7 +3326,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butHousechattoggle"
 		type = BUTTON
-		pos = 9,156
+		pos = 9,74
 		size = 126x20
 		anchor1 = none
 		anchor2 = none
@@ -3324,7 +3354,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butPMtoggle"
 		type = BUTTON
-		pos = 9,178
+		pos = 9,96
 		size = 200x20
 		anchor1 = none
 		anchor2 = none
@@ -3352,7 +3382,7 @@ window "winSettings"
 		button-type = checkbox
 	elem "butOOCtoggle"
 		type = BUTTON
-		pos = 9,134
+		pos = 9,52
 		size = 96x20
 		anchor1 = none
 		anchor2 = none
@@ -3378,144 +3408,4 @@ window "winSettings"
 		is-checked = false
 		group = ""
 		button-type = checkbox
-	elem "butMapmodetoggle"
-		type = BUTTON
-		pos = 9,112
-		size = 223x20
-		anchor1 = none
-		anchor2 = none
-		font-family = ""
-		font-size = 0
-		font-style = ""
-		text-color = #000000
-		background-color = none
-		is-visible = true
-		is-disabled = false
-		is-transparent = false
-		is-default = false
-		border = none
-		drop-zone = false
-		right-click = false
-		saved-params = "is-checked"
-		on-size = ""
-		text = "Use fullscreen map mode (Experimental)"
-		image = ""
-		command = ".Mapmodetoggle"
-		is-flat = false
-		stretch = false
-		is-checked = false
-		group = ""
-		button-type = checkbox
-	elem "button4"
-		type = BUTTON
-		pos = 26,79
-		size = 86x20
-		anchor1 = none
-		anchor2 = none
-		font-family = ""
-		font-size = 0
-		font-style = ""
-		text-color = #000000
-		background-color = none
-		is-visible = true
-		is-disabled = false
-		is-transparent = false
-		is-default = false
-		border = none
-		drop-zone = false
-		right-click = false
-		saved-params = "is-checked"
-		on-size = ""
-		text = "Stretch to fit"
-		image = ""
-		command = ".winset \"mapwindow.map.icon-size=0\""
-		is-flat = false
-		stretch = false
-		is-checked = false
-		group = "mapIconsize"
-		button-type = radio
-	elem "button3"
-		type = BUTTON
-		pos = 26,55
-		size = 60x20
-		anchor1 = none
-		anchor2 = none
-		font-family = ""
-		font-size = 0
-		font-style = ""
-		text-color = #000000
-		background-color = none
-		is-visible = true
-		is-disabled = false
-		is-transparent = false
-		is-default = false
-		border = none
-		drop-zone = false
-		right-click = false
-		saved-params = "is-checked"
-		on-size = ""
-		text = "32x32"
-		image = ""
-		command = ".winset \"mapwindow.map.icon-size=32\""
-		is-flat = false
-		stretch = false
-		is-checked = true
-		group = "mapIconsize"
-		button-type = radio
-	elem "label1"
-		type = LABEL
-		pos = 9,8
-		size = 80x20
-		anchor1 = none
-		anchor2 = none
-		font-family = ""
-		font-size = 0
-		font-style = ""
-		text-color = #000000
-		background-color = none
-		is-visible = true
-		is-disabled = false
-		is-transparent = false
-		is-default = false
-		border = none
-		drop-zone = false
-		right-click = false
-		saved-params = ""
-		on-size = ""
-		text = "Map Icon Size:"
-		image = ""
-		image-mode = center
-		keep-aspect = false
-		align = center
-		text-wrap = false
-		allow-html = false
-		letterbox = true
-	elem "button1"
-		type = BUTTON
-		pos = 26,31
-		size = 60x20
-		anchor1 = none
-		anchor2 = none
-		font-family = ""
-		font-size = 0
-		font-style = ""
-		text-color = #000000
-		background-color = none
-		is-visible = true
-		is-disabled = false
-		is-transparent = false
-		is-default = false
-		border = none
-		drop-zone = false
-		right-click = false
-		saved-params = "is-checked"
-		on-size = ""
-		text = "16x16"
-		image = ""
-		command = ".winset \"mapwindow.map.icon-size=16\""
-		is-flat = false
-		stretch = false
-		is-checked = false
-		group = "mapIconsize"
-		button-type = radio
 

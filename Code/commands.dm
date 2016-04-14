@@ -32,12 +32,7 @@ mob
 				winset += "butTradetoggle.is-checked=true;"
 			else
 				winset += "butTradetoggle.is-checked=false;"
-			if(betamapmode)
-				winset += "butMapmodetoggle.is-checked=true;"
-				EnableBetaMapMode()
-			else
-				winset += "butMapmodetoggle.is-checked=false;"
-				DisableBetaMapMode()
+
 			if(MonsterMessages)
 				winset += "butMonsterMessagestoggle.is-checked=false;"
 			else
@@ -136,12 +131,6 @@ mob
 			else
 				src:autoAFK=1
 
-		Mapmodetoggle()
-			set name = ".Mapmodetoggle"
-			if(winget(src,"butMapmodetoggle","is-checked") == "false")
-				DisableBetaMapMode()
-			else
-				EnableBetaMapMode()
 mob/Player/var/HideQuestTracker = FALSE
 mob/var/pname
 obj/var/pname

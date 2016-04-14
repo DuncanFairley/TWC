@@ -5,7 +5,10 @@
  * For the full license text, see LICENSE.txt.
  */
 
-#define islist(X) istype(X,/list)
+#define islist(x) istype(x,/list)
+#define floor(x) round(x)
+#define ceil(x) (-round(-x))
+#define isplayer(x) istype(x, /mob/Player)
 
 var/const
 	VERSION   = "16.55"
@@ -13,3 +16,5 @@ var/const
 	lvlcap    = 750
 
 #define WINTER 0
+#define NIGHTCOLOR "#bbfb"
+

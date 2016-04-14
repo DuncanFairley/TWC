@@ -288,19 +288,7 @@ area
 			Silverblood_Golems
 			Graveyard
 			layer = 6	// set this layer above everything else so the overlay obscures everything
-			var
-				lit = 1	// determines if the area is lit or dark.
-				obj/weather/Weather	// what type of weather the area is having
-			proc
-				daycycle()
-					lit = 1 - lit	// toggle lit between 1 and 0
-					if(lit)
-						overlays -= 'black50.dmi'	// remove the 50% dither
-						//if(type == /area/outside)
-							//world<<"<b>Event: <font color=blue>The sun rises over the forest. A new day begins."	// remove the dither
-					else
-						overlays += 'black50.dmi'	// add the 50% dither
-					spawn(9000) daycycle()
+
 		inside
 			Silverblood_Maze
 				antiTeleport = TRUE
@@ -321,7 +309,7 @@ area
 				antiFly      = TRUE
 		Entered(atom/movable/O)
 			. = ..()
-			if(isplayer(O) && !active)
+			if(!active && isplayer(O))
 				active = 1
 				for(var/mob/NPC/Enemies/M in src)
 					if(M.state == M.WANDER || M.state == M.INACTIVE)
@@ -329,7 +317,7 @@ area
 
 		Exited(atom/movable/O)
 			. = ..()
-			if(isplayer(O) && active)
+			if(active && isplayer(O))
 				var/isempty = 1
 				for(var/mob/Player/M in src)
 					if(M != O)

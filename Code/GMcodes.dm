@@ -1536,7 +1536,7 @@ mob/GM
 
 			for(var/mob/Player/p in Players)
 				if(p.ckey == k)
-					var/obj/hud/Find_Duel/o = locate(/obj/hud/Find_Duel) in p.client.screen
+					var/hudobj/Find_Duel/o = locate(/hudobj/Find_Duel) in p.client.screen
 					if(o)
 						p.client.screen -= o
 						if(p in currentMatches.queue)

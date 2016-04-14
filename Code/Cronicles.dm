@@ -459,6 +459,7 @@ mob
 							usr.icon = 'suit.dmi'
 			usr.baseicon = usr.icon
 			if(client)
+				src << output(null,"browser1:Resize")
 				for(var/mob/Player/c in Players)
 					if(c.Gm)
 						c <<"<b><i>[src][refererckey == c.client.ckey ? "(referral)" : ""] ([client.address])([ckey])([client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</i></b>"
@@ -672,7 +673,7 @@ mob/BaseCamp/ChoosingCharacter
 				break
 			//alert("An old savefile is detected and needs to be converted into a new email-based savefile. The detected character is named \"[M.name]\" and is level [M.level].")
 			usr << output(HTMLOutput(src,"login"),"broLogin")*/
-		winset(src,null,"guild.is-visible=false;splitStack.is-visible=false;SpellBook.is-visible=false;Quests.is-visible=false;Auction.is-visible=false;mapwindow.on-size=\".resizeMap\";winSettings.is-visible=false;broLogin.is-visible=true;radio_enabled.is-checked=false;barHP.is-visible=false;barMP.is-visible=false;[radioEnabled ? "mnu_radio.is-disabled=false;" : ""]")
+		winset(src,null,"guild.is-visible=false;splitStack.is-visible=false;SpellBook.is-visible=false;Quests.is-visible=false;Auction.is-visible=false;winSettings.is-visible=false;broLogin.is-visible=true;radio_enabled.is-checked=false;barHP.is-visible=false;barMP.is-visible=false;[radioEnabled ? "mnu_radio.is-disabled=false;" : ""]")
 		loc=locate(93,85,2)
 		..()
 
@@ -796,10 +797,12 @@ client
 				mob.xp4referer = 0
 			if(!mob.Gm)
 				mob.Check_Death_Drop()
-			if(mob:shadow)
+			if(mob:followers)
 				mob.pixel_y = 0
-				mob:shadow.Dispose()
-				mob:shadow = null
+				for(var/obj/o in mob:followers)
+					o.Dispose()
+				mob:followers = null
+
 		if (base_autosave_character)
 			base_SaveMob()
 		if (base_autodelete_mob && mob)

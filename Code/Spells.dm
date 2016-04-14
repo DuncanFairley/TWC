@@ -360,6 +360,29 @@ proc/light(atom/a, range=3, ticks=100, state = "light")
 		spawn(ticks)
 			if(a) a.underlays -= img
 
+mob/Spells/verb/Lumos()
+	set category = "Spells"
+	if(canUse(src,cooldown=/StatusEffect/UsedLumos,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
+		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=white>Lumos!"
+		MP -= 100
+		updateHPMP()
+
+		usr:learnSpell("Lumos")
+		new /StatusEffect/UsedLumos(src, 60)
+
+		var/obj/light/l = new(loc)
+
+		animate(l, transform = matrix() * 1.1, time = 10, loop = -1)
+		animate(transform = null, time = 10)
+
+		var/mob/Player/p = src
+		p.addFollower(l)
+
+		src = null
+		spawn(600)
+			if(p && l)
+				p.removeFollower(l)
+				l.loc = null
 
 mob/Spells/verb/Basilio()
 	set category = "Staff"

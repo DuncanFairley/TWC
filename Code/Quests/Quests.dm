@@ -5,23 +5,6 @@
  * For the full license text, see LICENSE.txt.
  */
 
-obj/hud/questbook
-	name               = "Quest Book"
-	icon               = 'HUD.dmi'
-	icon_state         = "questbook"
-	screen_loc         = "EAST-3,1"
-	mouse_over_pointer = MOUSE_HAND_POINTER
-
-	Click()
-		..()
-		var/mob/Player/p = usr
-		if(p.questBookOpen)
-			p.questBookOpen = FALSE
-			winshow(p, "Quests", 0)
-		else
-			p.questBookOpen = TRUE
-			p.buildQuestBook()
-
 mob/Player
 	var/tmp/questBookOpen = FALSE
 	verb/questBookClosed()
@@ -1080,14 +1063,15 @@ interface
 	var/mob/Player/parent
 
 	New(mob/Player/p)
-		..()
 		parent = p
 
-		parent.client.screen += new/obj/hud/PMHome
-		parent.client.screen += new/obj/hud/spellbook
-		parent.client.screen += new/obj/hud/questbook
+		new /hudobj/PMHome(null, parent.client, null, show=1)
+		new /hudobj/spellbook(null, parent.client, null, show=1)
+		new /hudobj/questbook(null, parent.client, null, show=1)
 
 		Update()
+
+		..()
 
 	proc/Update()
 		if(parent.HideQuestTracker && quest)
@@ -1099,6 +1083,8 @@ interface
 
 		if(quest)
 			quest.update(parent)
+
+	proc/Resize(width, height)
 
 obj/hud/screentext
 

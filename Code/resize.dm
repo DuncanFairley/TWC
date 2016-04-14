@@ -1,0 +1,192 @@
+
+#define TILE_WIDTH 32
+#define TILE_HEIGHT 32
+#define MAX_VIEW_TILES 2000
+#define HUD_LAYER 10
+
+hudobj
+	parent_type = /obj
+	layer = HUD_LAYER
+	var
+		client/client
+		anchor_x = "WEST"
+		anchor_y = "SOUTH"
+		screen_x = 0
+		screen_y = 0
+		width = TILE_WIDTH
+		height = TILE_HEIGHT
+	proc
+		setSize(W,H)
+			width = W
+			height = H
+			if(anchor_x!="WEST"||anchor_y!="SOUTH")
+				updatePos()
+
+		setPos(X,Y,AnchorX="WEST",AnchorY="SOUTH")
+			screen_x = X
+			anchor_x = AnchorX
+			screen_y = Y
+			anchor_y = AnchorY
+			updatePos()
+
+		updatePos()
+			var/ax
+			var/ay
+			var/ox
+			var/oy
+			switch(anchor_x)
+				if("WEST")
+					ax = "WEST+0"
+					ox = screen_x + client.buffer_x
+				if("EAST")
+					if(width>TILE_WIDTH)
+						var/tx = ceil(width/TILE_WIDTH)
+						ax = "EAST-[tx-1]"
+						ox = tx*TILE_WIDTH - width - client.buffer_x + screen_x
+					else
+						ax = "EAST+0"
+						ox = TILE_WIDTH - width - client.buffer_x + screen_x
+				if("CENTER")
+					ax = "CENTER+0"
+					ox = floor((TILE_WIDTH - width)/2) + screen_x
+			switch(anchor_y)
+				if("SOUTH")
+					ay = "SOUTH+0"
+					oy = screen_y + client.buffer_y
+				if("NORTH")
+					if(height>TILE_HEIGHT)
+						var/ty = ceil(height/TILE_HEIGHT)
+						ay = "NORTH-[ty-1]"
+						oy = ty*TILE_HEIGHT - height - client.buffer_y + screen_y
+					else
+						ay = "NORTH+0"
+						oy = TILE_HEIGHT - height - client.buffer_y + screen_y
+				if("CENTER")
+					ay = "CENTER+0"
+					oy = floor((TILE_HEIGHT - height)/2) + screen_y
+			screen_loc = "[ax]:[ox],[ay]:[oy]"
+
+		show()
+			updatePos()
+			client.screen += src
+
+		hide()
+			client.screen -= src
+
+	New(loc=null,client/Client,list/Params,show=1)
+		client = Client
+		for(var/v in Params)
+			vars[v] = Params[v]
+		if(show) show()
+
+client
+	var
+		view_width
+		view_height
+		buffer_x
+		buffer_y
+		map_zoom
+
+		browser_loaded = 0
+	verb
+		onLoad()
+			set hidden = 1
+			browser_loaded = 1
+			src << output(null,"browser1:CenterWindow")
+
+		onResize(VW as num,VH as num,BX as num,BY as num,Z as num)
+			set hidden = 1
+			if(VW*VH>MAX_VIEW_TILES) return
+
+			view_width = VW
+			view_height = VH
+			buffer_x = BX
+			buffer_y = BY
+			map_zoom = Z
+			view = "[VW]x[VH]"
+
+			if(isplayer(mob) && mob:Interface)
+				mob:Interface.Resize(VW, VH)
+
+				for(var/hudobj/h in screen)
+					h.updatePos()
+
+	New()
+		spawn()
+			while(!browser_loaded)
+				src << browse('mapbrowser.html',"window=browser1")
+				sleep(50)
+		..()
+
+
+hudobj
+	icon               = 'HUD.dmi'
+	mouse_over_pointer = MOUSE_HAND_POINTER
+	appearance_flags   = NO_CLIENT_COLOR
+	plane              = 1
+
+	PMHome
+
+		name        = "Private Messaging"
+		icon_state  = "PM"
+
+		anchor_x    = "EAST"
+		screen_x    = -32
+		anchor_y    = "SOUTH"
+
+		Click()
+			var/mob/Player/M = usr
+			M.PMHome()
+
+
+	spellbook
+
+		icon_state = "spellbook"
+
+		anchor_x   = "EAST"
+		screen_x   = -64
+		anchor_y   = "SOUTH"
+
+		Click()
+			..()
+			var/mob/Player/p = usr
+			if(p.spellBookOpen)
+				p.spellBookOpen = 0
+				winshow(p, "SpellBook", 0)
+			else
+				p.spellBookOpen = 1
+				p.updateSpellbook()
+				winshow(p, "SpellBook", 1)
+
+			p.toggle_actionbar(p.spellBookOpen)
+
+
+	questbook
+		name        = "Quest Book"
+		icon_state  = "questbook"
+
+		anchor_x    = "EAST"
+		screen_x    = -96
+		anchor_y    = "SOUTH"
+
+		Click()
+			..()
+			var/mob/Player/p = usr
+			if(p.questBookOpen)
+				p.questBookOpen = FALSE
+				winshow(p, "Quests", 0)
+			else
+				p.questBookOpen = TRUE
+				p.buildQuestBook()
+
+	reading
+		icon_state         = "reading"
+		mouse_over_pointer = MOUSE_INACTIVE_POINTER
+
+		anchor_x    = "EAST"
+		screen_x    = -96
+		screen_y    = 32
+		anchor_y    = "SOUTH"
+
+obj/hud
+	plane = 1

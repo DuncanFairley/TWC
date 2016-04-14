@@ -120,26 +120,6 @@ obj/spells
 
 	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
 		..()
-		if(istype(over_object, /obj/actionbar/keys))
-			var/obj/actionbar/keys/k = over_object
+		if(istype(over_object, /hudobj/actionbar/keys))
+			var/hudobj/actionbar/keys/k = over_object
 			k.SetKey(src)
-
-obj/hud/spellbook
-
-	icon = 'HUD.dmi'
-	icon_state = "spellbook"
-	screen_loc = "EAST-2,1"
-	mouse_over_pointer = MOUSE_HAND_POINTER
-
-	Click()
-		..()
-		var/mob/Player/p = usr
-		if(p.spellBookOpen)
-			p.spellBookOpen = 0
-			winshow(p, "SpellBook", 0)
-		else
-			p.spellBookOpen = 1
-			p.updateSpellbook()
-			winshow(p, "SpellBook", 1)
-
-		p.toggle_actionbar(p.spellBookOpen)
