@@ -843,12 +843,6 @@ obj/items/wearable/halloween_bucket
 		else
 			..()
 
-obj/Shadow
-	icon          = 'shadow.dmi'
-	mouse_opacity = 0
-
-mob/Player/var/tmp/obj/Shadow/shadow
-
 proc/animateFly(mob/Player/p)
 	set waitfor = 0
 
@@ -901,8 +895,9 @@ obj/items/wearable/brooms
 			owner.layer   = 5
 			animateFly(owner)
 
-			if(!owner.shadow)
-				owner.shadow = new (owner.loc)
+			if(!owner.followers || !(locate(/obj/Shadow) in owner.followers))
+				var/obj/Shadow/s = new (owner.loc)
+				owner.addFollower(s)
 
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] dismounts from \his [src.name].")
@@ -914,10 +909,12 @@ obj/items/wearable/brooms
 			owner.layer   = 4
 
 			spawn(5)
-				if(owner.shadow && !owner.flying)
-					owner.shadow.Dispose()
-					owner.shadow = null
-					animate(owner)
+				if(owner.followers && !owner.flying)
+					var/obj/Shadow/s = locate(/obj/Shadow) in owner.followers
+					if(s)
+						s.Dispose()
+						owner.removeFollower(s)
+						animate(owner)
 
 obj/items/wearable/brooms/firebolt
 	icon = 'firebolt_broom.dmi'
