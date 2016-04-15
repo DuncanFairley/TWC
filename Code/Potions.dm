@@ -491,7 +491,7 @@ obj/items/potions
 	invisibility_potion
 		icon_state = "gray"
 		effect     = /StatusEffect/Potions/Invisibility
-		seconds    = 30
+		seconds    = 45
 
 	stone_body_potion
 		icon_state = "gray"
