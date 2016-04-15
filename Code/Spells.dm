@@ -5,6 +5,7 @@
  * For the full license text, see LICENSE.txt.
  */
 var/list/spellList = list(
+	/mob/Spells/verb/Lumos = "Lumos",
 	/mob/Spells/verb/Petreficus_Totalus = "Petrificus Totalus",
 	/mob/Spells/verb/Scurries = "Scurries",
 	/mob/Spells/verb/Portus = "Portus",

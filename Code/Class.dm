@@ -430,6 +430,15 @@ class
 	charms
 		subject = "Charms"
 		wand    = TRUE
+
+		Lumos
+			cd = 60
+			mp = 100
+
+			start()
+				..()
+				say("It lights the area around you.")
+
 		Conjunctivis
 			cd = 15
 			start()
