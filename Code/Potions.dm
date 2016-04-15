@@ -498,6 +498,11 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/Stone
 		seconds    = 45
 
+	cat_eyes_potion
+		icon_state = "blue"
+		effect     = /StatusEffect/Potions/NightSight
+		seconds    = 300
+
 
 proc/childTypes(var/typesOf)
 	. = list()

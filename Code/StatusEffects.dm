@@ -404,6 +404,31 @@ StatusEffect
 
 				..()
 
+		NightSight
+
+			Activate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.Interface.SetDarknessColor("#dd9")
+					p.Interface.ignoreDarkness = TRUE
+
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.Interface.ignoreDarkness = FALSE
+
+					var/area/a = p.loc.loc
+					var/islit = 1
+
+					if((istype(a, /area/outside) || istype(a, /area/newareas/outside)) && !a:lit)
+						islit = 0
+
+					p.Interface.SetDarknessColor(islit ? "#fff" : NIGHTCOLOR)
+
+				..()
+
 		Deactivate()
 			var/mob/Player/p = AttachedAtom
 			if(p)
