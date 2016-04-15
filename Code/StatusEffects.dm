@@ -317,6 +317,42 @@ StatusEffect
 	Potions
 
 
+
+		Luck
+			var/factor = 4
+
+		Damage
+			Activate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.clothDmg += 40
+
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.clothDmg -= 40
+
+				..()
+
+		Defense
+			Activate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.clothDef += 120
+					p.resetMaxHP()
+
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.clothDef -= 120
+					p.resetMaxHP()
+
+				..()
+
 		Stone
 			Activate()
 				var/mob/Player/p = AttachedAtom
@@ -403,6 +439,7 @@ StatusEffect
 						p.alpha = 255
 
 				..()
+
 
 		NightSight
 

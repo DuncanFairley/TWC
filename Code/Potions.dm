@@ -99,7 +99,7 @@ obj/items/ingredients
 
 proc/spawnHerbs()
 
-	for(var/a = 1 to rand(15, 30))
+	for(var/a = 1 to rand(4, 10))
 
 		var/t = pick(/obj/items/ingredients/daisy, /obj/items/ingredients/aconite)
 		var/obj/items/i = new t()
@@ -499,9 +499,37 @@ obj/items/potions
 		seconds    = 45
 
 	cat_eyes_potion
-		icon_state = "blue"
+		icon_state = "purple"
 		effect     = /StatusEffect/Potions/NightSight
 		seconds    = 300
+
+	defense
+		icon_state = "green"
+		effect     = /StatusEffect/Potions/Defense
+
+		small_defense_potion
+			seconds = 120
+
+		defense_potion
+			seconds = 240
+
+		large_defense_potion
+			seconds = 360
+
+	damage
+		icon_state = "red"
+		effect     = /StatusEffect/Potions/Damage
+
+		small_damage_potion
+			seconds = 120
+
+		damage_potion
+			seconds = 240
+
+		large_damage_potion
+			seconds = 360
+
+
 
 
 proc/childTypes(var/typesOf)
