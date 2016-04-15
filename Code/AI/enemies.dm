@@ -231,8 +231,6 @@ area
 		Spider_Pit
 			icon       = 'black50.dmi'
 			icon_state = "white"
-			alpha      = 200
-
 			antiTeleport = 1
 
 	newareas
@@ -242,7 +240,7 @@ area
 		proc/faction()
 			var/AreaData/data = worldData.areaData["area_[name]"]
 			if(data && icon)
-				var/c = data.rep > 0 ? "#30bbcc" : "#600606"
+				var/c = data.rep > 0 ? "#0cf" : "#600606"
 
 				if(region && region.areas)
 					for(var/area/a in region.areas)
@@ -269,12 +267,10 @@ area
 			Quidditch
 				icon         = 'black50.dmi'
 				icon_state   = "white"
-				alpha        = 200
 				antiTeleport = 1
 			Spider_Pit
 				icon         = 'black50.dmi'
 				icon_state   = "white"
-				alpha        = 200
 				antiTeleport = 1
 
 			Pixie_Pit

@@ -5,7 +5,7 @@
  * For the full license text, see LICENSE.txt.
  */
 area
-//	mouse_opacity = 0
+	mouse_opacity = 0
 
 	var/dmg = 1
 
@@ -30,7 +30,7 @@ proc/global_loops()
 			if(!p.loc) continue
 
 			if(istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))
-				p.Interface.SetDarknessColor(day ? "#ffff" : NIGHTCOLOR)
+				p.Interface.SetDarknessColor(day ? "#fff" : NIGHTCOLOR)
 
 		sleep(9000)
 
@@ -276,54 +276,51 @@ obj/weather
 
 
 
-image
+obj
 	planemaster
-		plane            = 0
+		plane            = 1
 		blend_mode       = BLEND_MULTIPLY
 		appearance_flags = PLANE_MASTER | NO_CLIENT_COLOR
 		color            = list(null,null,null,"#0000","#000f")
 		mouse_opacity    = 0
 
+		screen_loc = "1,1"
+
 	darkness
-		plane            = -1
+		plane            = 1
 		blend_mode       = BLEND_ADD
-		mouse_opacity    = 0
 		icon             = 'darkness.dmi'
+
+		screen_loc = "SOUTHWEST to NORTHEAST"
 
 interface
 	var
-		image
+		obj
 			planemaster/planemaster
 			darkness/darkness
 
-		animating = FALSE
+
+		ignoreDarkness = FALSE
 
 	New()
 		..()
 
-		planemaster = new(loc=parent)
-		darkness    = new(loc=parent)
+		planemaster    = new
+		darkness       = new
 
-		parent << planemaster
-		parent << darkness
-
-	proc/SetDarknessAlpha(a)
-		animate(darkness, alpha = 255 - a, time = 5)
+		parent.client.screen += planemaster
+		parent.client.screen += darkness
 
 	proc/SetDarknessColor(c)
-		animate(darkness, color = c,       time = 5)
+		if(ignoreDarkness) return
 
-
-	Resize(width, height)
-		var/matrix/m = matrix()
-		m.Scale(width, height)
-		darkness.transform = m
+		animate(darkness, color = c, time = 5)
 
 obj/light
-	plane = -1
+	plane = 1
 	blend_mode = BLEND_ADD
 	icon = 'spotlight.dmi'
 	mouse_opacity = 0
 
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64

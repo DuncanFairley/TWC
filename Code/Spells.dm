@@ -5,6 +5,7 @@
  * For the full license text, see LICENSE.txt.
  */
 var/list/spellList = list(
+	/mob/Spells/verb/Lumos = "Lumos",
 	/mob/Spells/verb/Petreficus_Totalus = "Petrificus Totalus",
 	/mob/Spells/verb/Scurries = "Scurries",
 	/mob/Spells/verb/Portus = "Portus",
@@ -372,8 +373,8 @@ mob/Spells/verb/Lumos()
 
 		var/obj/light/l = new(loc)
 
-		animate(l, transform = matrix() * 1.1, time = 10, loop = -1)
-		animate(transform = null, time = 10)
+		animate(l, transform = matrix() * 1.6, time = 10, loop = -1)
+		animate(   transform = matrix() * 1.5,   time = 10)
 
 		var/mob/Player/p = src
 		p.addFollower(l)
