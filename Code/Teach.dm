@@ -27,6 +27,14 @@ mob/var/learnedslug
 
 mob/GM
 	verb
+		Teach_Lumos()
+			set category = "Teach"
+			set hidden = 1
+			for(var/mob/M in oview(client.view))
+				if(M.learnspell(/mob/Spells/verb/Lumos))
+					M << infomsg("You learned Lumos!")
+			src << infomsg("You've taught your class the Lumos spell.")
+
 		Teach_Langlock()
 			set category = "Teach"
 			set hidden = 1
