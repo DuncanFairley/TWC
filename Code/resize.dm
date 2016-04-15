@@ -4,9 +4,13 @@
 #define MAX_VIEW_TILES 2000
 #define HUD_LAYER 10
 
+obj/hud
+	plane = 2
+
 hudobj
 	parent_type = /obj
 	layer = HUD_LAYER
+
 	var
 		client/client
 		anchor_x = "WEST"
@@ -105,11 +109,8 @@ client
 			map_zoom = Z
 			view = "[VW]x[VH]"
 
-			if(isplayer(mob) && mob:Interface)
-				mob:Interface.Resize(VW, VH)
-
-				for(var/hudobj/h in screen)
-					h.updatePos()
+			for(var/hudobj/h in screen)
+				h.updatePos()
 
 	New()
 		spawn()
@@ -123,7 +124,7 @@ hudobj
 	icon               = 'HUD.dmi'
 	mouse_over_pointer = MOUSE_HAND_POINTER
 	appearance_flags   = NO_CLIENT_COLOR
-	plane              = 1
+	plane              = 2
 
 	PMHome
 
@@ -187,6 +188,3 @@ hudobj
 		screen_x    = -96
 		screen_y    = 32
 		anchor_y    = "SOUTH"
-
-obj/hud
-	plane = 1

@@ -1084,8 +1084,6 @@ interface
 		if(quest)
 			quest.update(parent)
 
-	proc/Resize(width, height)
-
 obj/hud/screentext
 
 	questPath
