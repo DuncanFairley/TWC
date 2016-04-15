@@ -1905,6 +1905,8 @@ obj
 obj/roofedge
 	icon = 'StoneRoof.dmi'
 	canSave = FALSE
+	appearance_flags = TILE_BOUND
+
 obj
 	tabletop
 		icon='turf.dmi'
