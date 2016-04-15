@@ -529,7 +529,11 @@ obj/items/potions
 		large_damage_potion
 			seconds = 360
 
-
+	luck
+		name       = "felix felicis"
+		icon_state = "gray"
+		effect     = /StatusEffect/Potions/Luck
+		seconds    = 180
 
 
 proc/childTypes(var/typesOf)

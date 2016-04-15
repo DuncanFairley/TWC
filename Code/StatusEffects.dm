@@ -319,7 +319,7 @@ StatusEffect
 
 
 		Luck
-			var/factor = 4
+			var/factor = 3
 
 		Damage
 			Activate()

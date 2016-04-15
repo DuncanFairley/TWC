@@ -434,7 +434,8 @@ mob
 
 				if(!killer) return
 
-				var/rate = 1
+				var/rate        = 1
+				var/rate_factor = DropRateModifier
 
 				if(killer.House == worldData.housecupwinner)
 					rate += 0.25
@@ -443,9 +444,13 @@ mob
 
 				var/StatusEffect/Lamps/DropRate/d = killer.findStatusEffect(/StatusEffect/Lamps/DropRate)
 				if(d)
-					rate *= d.rate
+					rate_factor *= d.rate
 
-				rate *= DropRateModifier
+				var/StatusEffect/Potions/Luck/l = killer.findStatusEffect(/StatusEffect/Potions/Luck)
+				if(l)
+					rate_factor *= l.factor
+
+				rate *= rate_factor
 
 				var/obj/items/prize
 
