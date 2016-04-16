@@ -609,3 +609,24 @@ obj/pokeby
 		..()
 		spawn(1)
 			loc = null
+
+obj/PyramidScroll1
+	New()
+		..()
+		spawn(1)
+			loc = null
+obj/PyramidScroll2
+	New()
+		..()
+		spawn(1)
+			loc = null
+obj/PyramidScroll3
+	New()
+		..()
+		spawn(1)
+			loc = null
+obj/PyramidScroll4
+	New()
+		..()
+		spawn(1)
+			loc = null
