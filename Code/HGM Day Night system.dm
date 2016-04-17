@@ -320,7 +320,8 @@ obj/light
 	plane = 1
 	blend_mode = BLEND_ADD
 	icon = 'spotlight.dmi'
-	mouse_opacity = 0
 
 	pixel_x = -64
 	pixel_y = -64
+
+
