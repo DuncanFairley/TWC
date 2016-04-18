@@ -844,6 +844,10 @@ mob/Player
 
 	Login()
 		//..()
+
+		if(client.byond_version < world.byond_version)
+			src << errormsg("Your installed BYOND version is older than the one the game is using, please update to BYOND version [world.byond_version] or higher. You can continue to play but unpredicted errors may occur.")
+
 		dance = 0
 		if(Gender=="Female")
 			gender = FEMALE
