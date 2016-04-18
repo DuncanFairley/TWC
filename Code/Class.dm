@@ -497,7 +497,8 @@ class
 				..()
 				say("This spell fills peoples' ears with an unidentifiable buzzing to keep them from hearing nearby conversations.")
 		Confundus
-			mp = 30
+			mp = 300
+			cd = 20
 			start()
 				..()
 				say("It causes the victim to become confused and befuddled.")

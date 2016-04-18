@@ -578,7 +578,6 @@ mob/Spells/verb/Reducto(var/mob/M in (view(usr.client.view,usr)&Players)|src)
 		hearers(usr.client.view,usr)<<"<B><span style=\"color:red;\">[usr]:</span><font color=white> <I>Reducto!</I>"
 		M.movable=0
 		if(!M.trnsed) M:ApplyOverlays()
-		if(M.confused)M.confused=0
 		hearers(usr.client.view,usr)<<"White light emits from [usr]'s wand, freeing [M]."
 		flick('Reducto.dmi',M)
 		if(!M.trnsed) M.icon_state=""
@@ -1383,24 +1382,23 @@ mob/Spells/verb/Episky()
 
 mob/Spells/verb/Confundus(mob/Player/M in oview()&Players)
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=30,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=300,againstocclumens=1))
+		new /StatusEffect/UsedAnnoying(src,20)
 		hearers()<<"<b><span style=\"color:red;\">[usr]:</b></span> <font color= #7CFC00>Confundus, [M]!"
-		usr.MP-=30
+		usr.MP-=300
 		usr.updateHPMP()
 		usr:learnSpell("Confundus")
-		sleep(1)
-		if(M.confused>0)
-			M.confused = 20
-			M << "<span style=\";\"><small>You feel more confused...</small></span>"
-		else
-			M.confused = 20
-			M << "<span style=\";\"><small>You feel confused...</small></span>"
-			src = null
-			spawn()
-				while(M.confused>0)
-					if(M.confused == 1|| M.confused == 0)M << "<span style=\";\"><small>You shake off your confusion.</small></span>"
-					M.confused--
-					sleep(10)
+		M << errormsg("You feel confused...")
+
+		var/matrix/m = M.Interface.mapplane.transform
+		m.Turn(90 * rand(-2, 2))
+		m.Scale(1.25,1.25)
+		animate(M.Interface.mapplane, transform = m, time = 10)
+
+		src=null
+		spawn(200)
+			if(M)
+				animate(M.Interface.mapplane, transform = null, time = 10)
 
 mob/Spells/verb/Flippendo()
 	set category="Spells"
@@ -2146,7 +2144,6 @@ mob/GM/verb/Return_View()
 
 mob/var/tmp/episkying = 0
 mob/var/tmp/meditating = 0
-mob/var/tmp/confused = 0
 obj/var
 	wlable = 0
 
@@ -2163,9 +2160,6 @@ client
 		list/movements
 
 	Move(loc,dir)
-		if(mob.confused && dir)
-			dir = turn(dir, 180)
-			loc = get_step(mob, dir)
 
 		if(mob.wingobject)
 			var/turf/t = get_step(mob.wingobject,dir)
