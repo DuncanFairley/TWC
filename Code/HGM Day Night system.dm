@@ -277,7 +277,7 @@ obj/weather
 
 
 obj
-	planemaster
+	lightplane
 		plane            = 1
 		blend_mode       = BLEND_MULTIPLY
 		appearance_flags = PLANE_MASTER | NO_CLIENT_COLOR
@@ -293,10 +293,18 @@ obj
 
 		screen_loc = "SOUTHWEST to NORTHEAST"
 
+	mapplane
+		plane            = 0
+		appearance_flags = PLANE_MASTER | NO_CLIENT_COLOR
+		mouse_opacity    = 1
+
+		screen_loc = "1,1"
+
 interface
 	var
 		obj
-			planemaster/planemaster
+			lightplane/lightplane
+			mapplane/mapplane
 			darkness/darkness
 
 
@@ -305,11 +313,13 @@ interface
 	New()
 		..()
 
-		planemaster    = new
-		darkness       = new
+		lightplane = new
+		darkness   = new
+		mapplane   = new
 
-		parent.client.screen += planemaster
+		parent.client.screen += lightplane
 		parent.client.screen += darkness
+		parent.client.screen += mapplane
 
 	proc/SetDarknessColor(c)
 		if(ignoreDarkness) return
@@ -323,5 +333,3 @@ obj/light
 
 	pixel_x = -64
 	pixel_y = -64
-
-

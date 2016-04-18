@@ -1329,7 +1329,7 @@ obj/items/wearable/wands/mithril_wand
 obj/items/wearable/wands/mulberry_wand
 	icon = 'mulberry_wand.dmi'
 	displayColor = "#f39"
-obj/items/wearable/wands/royale_wand //Royal event reward?
+obj/items/wearable/wands/royale_wand
 	icon = 'royale_wand.dmi'
 	displayColor = "#8560b3"
 obj/items/wearable/wands/pimp_cane //Sylar's wand thing
