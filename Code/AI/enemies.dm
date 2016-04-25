@@ -5,6 +5,9 @@
  * For the full license text, see LICENSE.txt.
  */
 
+
+#define SetSize(s) transform = matrix() * ((s) / (iconSize/32))
+
 area/var/safezoneoverride = 0
 obj/statues
 	icon = 'statues.dmi'
@@ -37,6 +40,7 @@ obj/statues
 	frog/icon_state = "frog"
 	rabbit/icon_state = "rabbit"
 	turkey/icon_state = "turkey"
+
 
 WorldData
 	var
@@ -392,6 +396,8 @@ mob
 				prizePoolSize = 1
 				damageReq     = 15
 
+				iconSize      = 32
+
 			Dispose()
 				..()
 
@@ -419,6 +425,7 @@ mob
 					origloc = loc
 					sleep(rand(10,60))
 					ShouldIBeActive()
+
 
 
 			proc/calcStats()
@@ -701,6 +708,7 @@ mob
 						spawn()target.Death_Check(src)
 					sleep(AttackDelay)
 
+
 //////Monsters///////
 
 			Summoned
@@ -734,6 +742,10 @@ mob
 					Death()
 
 				Acromantula
+					icon = 'Mobs_128x128.dmi'
+					iconSize = 128
+					pixel_x = -48
+					pixel_y = -48
 					name = "Tiny Spider"
 					icon_state = "spider"
 					level = 700
@@ -754,8 +766,7 @@ mob
 					New()
 						..()
 
-						if(prob(60))
-							transform *= rand(5,15) / 10
+						SetSize(rand(5,15) / 10)
 
 				Blocked()
 					density = 0
@@ -808,6 +819,8 @@ mob
 								Ignore(M)
 
 					Basilisk
+						icon = 'Mobs_128x128.dmi'
+						iconSize = 128
 						icon_state = "basilisk"
 						name = "Mini Basilisk"
 						HPmodifier = 3
@@ -839,6 +852,10 @@ mob
 						Death()
 
 					Acromantula
+						icon = 'Mobs_128x128.dmi'
+						iconSize = 128
+						pixel_x = -48
+						pixel_y = -48
 						name = "Bubbles the Spider"
 						icon_state = "spider"
 						level = 1400
@@ -853,7 +870,7 @@ mob
 
 						New()
 							..()
-							transform *= 5 + (rand(-10, 10) / 10)
+							SetSize(5 + (rand(-10, 10) / 10))
 
 						Attack(mob/M)
 							..()
@@ -1066,6 +1083,10 @@ mob
 
 
 					Wisp
+						icon = 'Mobs_128x128.dmi'
+						iconSize = 128
+						pixel_x = -48
+						pixel_y = -48
 						icon_state = "wisp"
 						name = "Willy the Whisp"
 						HPmodifier = 6
@@ -1091,7 +1112,7 @@ mob
 							animate(color = color2, time = 10)
 							animate(color = color3, time = 10)
 
-							transform *= 3 + (rand(-10, 10) / 10)
+							SetSize(3 + (rand(-10, 10) / 10))
 
 							spawn()
 								while(src.loc)
@@ -1278,6 +1299,10 @@ mob
 
 
 			Stickman
+				icon = 'Mobs_128x128.dmi'
+				iconSize = 128
+				pixel_x = -48
+				pixel_y = -48
 				icon_state = "stickman"
 				level = 2200
 				HPmodifier  = 2
@@ -1295,7 +1320,7 @@ mob
 
 				New()
 					..()
-					transform *= 2
+					SetSize(2)
 
 				ChangeState(var/i_State)
 					..(i_State)
@@ -1411,6 +1436,11 @@ mob
 				respawnTime = 1800
 
 			Acromantula
+				icon = 'Mobs_128x128.dmi'
+				iconSize = 128
+				pixel_x = -48
+				pixel_y = -48
+
 				icon_state = "spider"
 				level = 800
 				MoveDelay = 3
@@ -1449,7 +1479,7 @@ mob
 				New()
 					..()
 
-					transform *= rand(15,30) / 10
+					SetSize(rand(15,30) / 10)
 
 			Vampire
 				icon = 'FemaleVampire.dmi'
@@ -1541,6 +1571,11 @@ mob
 
 
 			Wisp
+				icon = 'Mobs_128x128.dmi'
+				iconSize = 128
+				pixel_x = -48
+				pixel_y = -48
+
 				icon_state = "wisp"
 				level = 800
 
@@ -1594,10 +1629,15 @@ mob
 					animate(color = color2, time = 10)
 					animate(color = color3, time = 10)
 
-					if(prob(70)) transform *= 1 + (rand(-5,15) / 50) // -10% to +30% size change
+					SetSize(1 + (rand(-5,15) / 50)) // -10% to +30% size change
 
 
 			Floating_Eye
+				icon = 'Mobs_128x128.dmi'
+				iconSize = 128
+				pixel_x = -48
+				pixel_y = -48
+
 				icon_state = "eye1"
 				level = 900
 				HPmodifier  = 2
@@ -1639,11 +1679,12 @@ mob
 						animate(color = rgb(255, 0, 255), time = 10)
 						animate(color = rgb(rand(60,255), rand(60,255), rand(60,255)), time = 10)
 
-						transform *= 3
+						SetSize(3)
 
 						spawn(2) origloc = null
 				New()
 					..()
+					SetSize(1)
 					icon_state = "eye[rand(1,2)]"
 					if(prob(60))
 						transform *= 1 + (rand(-15,30) / 50) // -30% to +60% size change
@@ -1701,6 +1742,11 @@ mob
 							sleep(AttackDelay)
 
 			Troll
+				icon = 'Mobs_128x128.dmi'
+				iconSize = 128
+				pixel_x = -48
+				pixel_y = -48
+
 				icon_state = "troll"
 				level = 750
 				HPmodifier  = 4
@@ -1710,7 +1756,7 @@ mob
 
 				New()
 					..()
-					transform *= rand(10,20) / 10
+					SetSize(rand(10,20) / 10)
 
 				Attack()
 					var/p = 20
@@ -1813,6 +1859,11 @@ mob
 				icon_state = "wyvern"
 				level = 650
 			Basilisk
+				icon = 'Mobs_128x128.dmi'
+				iconSize = 128
+				pixel_x = -48
+				pixel_y = -48
+
 				icon_state = "basilisk"
 				level = 2000
 				HPmodifier = 4
@@ -1832,7 +1883,7 @@ mob
 
 				New()
 					..()
-					transform *= 2
+					SetSize(2)
 
 				drops = list("2"    = /obj/items/key/pentakill_key,
 							 "10"   = list(/obj/items/artifact,

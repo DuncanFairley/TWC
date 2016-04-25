@@ -580,16 +580,17 @@ RandomEvent
 				monster.HPmodifier  = 1
 				monster.level       = tier * 100
 				monster.name        = types[tier]
-				monster.icon        = 'Mobs.dmi'
 				monster.icon_state  = lowertext(types[tier])
 
 				if(i == monsters)
-					monster.transform *= 3
-
 					monster.MoveDelay = 2
 					monster.AttackDelay = 2
 					monster.level *= 2
 					monster.name   = "[pick("Odd ", "Big ", "Giant ", "Mysteriously Big ", "Enormous ", "Magical ", "")][monster.name][pick(" King", " Queen", " Leader", "")]"
+
+					monster.icon = 'Mobs_128x128.dmi'
+					monster.pixel_x = -48
+					monster.pixel_y = -48
 
 					if(tier < 3)
 						monster.drops = list("100" = list(/obj/items/bagofgoodies))
@@ -632,6 +633,8 @@ RandomEvent
 												  		  /obj/items/lamps/triple_drop_rate_lamp,
 												  		  /obj/items/lamps/triple_gold_lamp,
 												  		  /obj/items/wearable/title/Warmonger))
+				else
+					monster.icon = 'Mobs.dmi'
 
 				monster.calcStats()
 
