@@ -697,10 +697,11 @@ area
 				return
 		return ..()
 
+
 turf
 	var/clientColor
 
-	Entered(atom/movable/Obj, atom/newloc)
+	Entered(atom/movable/Obj, atom/oldLoc)
 		..()
 		if(isplayer(Obj))
 			var/mob/Player/p = Obj
@@ -719,6 +720,8 @@ turf
 				for(var/obj/o in p.followers)
 					o.loc = src
 
+			if(p.pet && p.pet.loc)
+				p.pet.follow(oldLoc)
 
 	Exited(atom/movable/Obj, atom/newloc)
 
