@@ -6,8 +6,6 @@
  */
 
 
-#define SetSize(s) transform = matrix() * ((s) / (iconSize/32))
-
 area/var/safezoneoverride = 0
 obj/statues
 	icon = 'statues.dmi'
@@ -16,7 +14,7 @@ obj/statues
 	firebat/icon_state = "firebat"
 	fire_golem/icon_state = "firegolem"
 	bird/icon_state = "bird"
-	demon_rat/icon_state = "demon rat"
+	demon_rat/icon_state = "rat"
 	troll/icon_state = "troll"
 	dementor/icon_state = "dementor"
 	pixie/icon_state = "pixie"
@@ -1408,7 +1406,7 @@ mob
 				DMGmodifier = 0.1
 
 			Demon_Rat
-				icon_state = "demon rat"
+				icon_state = "rat"
 				level = 700
 			Pixie
 				icon_state = "pixie"

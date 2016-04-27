@@ -802,6 +802,9 @@ client
 				for(var/obj/o in mob:followers)
 					o.Dispose()
 				mob:followers = null
+			if(mob:pet)
+				mob:pet.Dispose()
+				mob:pet = null
 
 		if (base_autosave_character)
 			base_SaveMob()

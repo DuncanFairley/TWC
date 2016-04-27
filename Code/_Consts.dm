@@ -9,6 +9,7 @@
 #define floor(x) round(x)
 #define ceil(x) (-round(-x))
 #define isplayer(x) istype(x, /mob/Player)
+#define SetSize(s) transform = matrix() * ((s) / (iconSize/32))
 
 var/const
 	VERSION   = "16.55"

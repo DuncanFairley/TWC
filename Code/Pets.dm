@@ -73,9 +73,6 @@ obj/Sanctuario
 	New() spawn(60)del(src)
 
 
-
-
-
 mob/Player/proc
 	StateChange()
 		if(movable == 0)
@@ -85,3 +82,102 @@ mob/Player/proc
 		else
 			movable = 0
 			icon_state = ""
+
+
+mob/Player/var/tmp/obj/pet/pet
+
+obj/items/wearable/pets
+
+	icon        = 'Mobs.dmi'
+	showoverlay = FALSE
+	max_stack   = 1
+	destroyable = 1
+
+	var
+		currentSize = 0.75
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		.=..(owner, 1, forceremove)
+
+
+		if(. == WORN)
+
+			for(var/obj/items/wearable/pets/P in owner.Lwearing)
+				if(P != src)
+					P.Equip(owner,1,1)
+
+			if(!owner.pet)
+
+				if(dropable)
+					dropable = 0
+					verbs   -= /obj/items/verb/Drop
+
+				owner.pet = new (get_step(owner, owner.dir), src)
+
+				if(!overridetext) hearers(owner) << infomsg("[owner] puts on \his [src.name].")
+
+		else if(. == REMOVED || forceremove)
+
+			owner.pet.loc = null
+			owner.pet     = null
+
+			if(!overridetext) hearers(owner) << infomsg("[owner] puts \his [src.name] away.")
+
+	rat
+		icon_state = "rat"
+	pixie
+		icon_state = "pixie"
+	dog
+		icon_state = "dog"
+	wolf
+		icon_state = "wolf"
+	snake
+		icon_state = "snake"
+	troll
+		icon_state = "troll"
+	acromantula
+		icon_state = "spider"
+	wisp
+		icon_state = "wisp"
+
+
+obj/pet
+	icon = 'Mobs_128x128.dmi'
+	pixel_x = -48
+	pixel_y = -48
+
+	layer = 4
+
+	var
+		iconSize    = 128
+		currentSize = 1
+
+	New(loc, obj/items/wearable/pets/pet)
+		..()
+
+		icon_state  = pet.icon_state
+		name        = pet.name
+		currentSize = pet.currentSize
+		color       = pet.color
+
+		SetSize(pet.currentSize)
+
+	proc/follow(turf/oldLoc)
+		dir = get_dir(loc, oldLoc)
+		loc = oldLoc
+
+		if(dir & EAST)
+			pixel_x = -48 - (currentSize - 1) * 4
+		else if(dir & WEST)
+			pixel_x = -48 + (currentSize - 1) * 4
+		else
+			pixel_x = -48
+
+		if(dir & NORTH)
+			pixel_y = -48 - (currentSize - 1) * 4
+		else if(dir & SOUTH)
+			pixel_y = -48 + (currentSize - 1) * 8
+		else
+			pixel_y = -48
+
+

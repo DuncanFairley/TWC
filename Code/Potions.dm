@@ -535,6 +535,86 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/Luck
 		seconds    = 180
 
+	pets
+
+		growth
+			name = "pet growth potion"
+			icon_state = "purple"
+
+			Effect(mob/Player/p)
+
+				if(p.pet.currentSize >= 3)
+					p << errormsg("You can't make your pet grow further.")
+					return
+
+				var/obj/items/wearable/pets/item = locate() in p.Lwearing
+
+				p.pet.currentSize += 0.25
+				item.currentSize  += 0.25
+
+				animate(p.pet, transform = matrix() * (item.currentSize / 4), time = 10)
+
+		shrink
+			name = "pet shrink potion"
+			icon_state = "orange"
+
+			Effect(mob/Player/p)
+
+				if(p.pet.currentSize <= 0.75)
+					p << errormsg("You can't make your pet shrink further.")
+					return
+
+				var/obj/items/wearable/pets/item = locate() in p.Lwearing
+
+				p.pet.currentSize -= 0.25
+				item.currentSize  -= 0.25
+
+				animate(p.pet, transform = matrix() * (item.currentSize / 4), time = 10)
+
+		color
+			name = "pet coloring potion"
+			icon_state = "green"
+
+			Effect(mob/Player/p)
+
+				var/obj/items/wearable/pets/item = locate() in p.Lwearing
+
+				item.color = rgb(rand(60, 240), rand(60, 240), rand(60, 240))
+
+				animate(p.pet, color = item.color, time = 10)
+
+		decolor
+			name = "pet decoloring potion"
+			icon_state = "gray"
+
+			Effect(mob/Player/p)
+
+				if(!p.pet.color)
+					p << errormsg("Your pet doesn't have a color.")
+					return
+
+				var/obj/items/wearable/pets/item = locate() in p.Lwearing
+
+				item.color = null
+
+				animate(p.pet, color = null, time = 10)
+
+		proc/Effect(mob/Player/p)
+
+
+		Click()
+			if((src in usr) && canUse(M=usr, inarena=0))
+
+				var/mob/Player/p = usr
+
+				if(!p.pet)
+					p << errormsg("You don't have an owned pet near you.")
+					return
+
+				if(Effect(p))
+					Consume()
+			else
+				..()
 
 proc/childTypes(var/typesOf)
 	. = list()
