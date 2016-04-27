@@ -1650,6 +1650,8 @@ obj/items/wearable/scarves/pastel_scarf
 	icon = 'scarf_pastel.dmi'
 
 // Community Scarves //
+
+// #1
 obj/items/wearable/scarves/heartscarf
 	icon = 'scarf_heart.dmi'
 obj/items/wearable/scarves/snake_scarf
@@ -1662,6 +1664,14 @@ obj/items/wearable/scarves/icarus_scarf
 	icon = 'scarf_icarus.dmi'
 obj/items/wearable/scarves/sunrise_scarf
 	icon = 'scarf_sunrise.dmi'
+
+// #2
+obj/items/wearable/scarves/party_scarf
+	icon = 'scarf_party.dmi'
+obj/items/wearable/scarves/hello_scarf
+	icon = 'scarf_hello.dmi'
+obj/items/wearable/scarves/sky_scarf
+	icon = 'scarf_sky.dmi'
 
 /////////
 
@@ -3524,6 +3534,11 @@ obj/items
 			icon_state = "blue"
 			drops      = "community1"
 
+		community2_chest
+			name = "community #2 chest"
+			icon_state = "blue"
+			drops      = "community2"
+
 		wigs
 
 			Open()
@@ -3660,6 +3675,11 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 							 					     /obj/items/wearable/scarves/booster_scarf = 25,
 							 					     /obj/items/wearable/scarves/sunrise_scarf = 10,
 							 					     /obj/items/wearable/scarves/icarus_scarf  = 16),
+
+							 "community2"     = list(/obj/items/wearable/scarves/sky_scarf     = 20,
+							 					     /obj/items/wearable/scarves/hello_scarf   = 20,
+							 					     /obj/items/wearable/scarves/party_scarf   = 20,
+							 					     /obj/items/bucket                         = 30),
 
 							 "gold only" = list(/obj/items/magic_stone/memory     = 10,
 							                    /obj/items/herosbrace             = 20,
