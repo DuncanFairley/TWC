@@ -535,6 +535,11 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/Luck
 		seconds    = 180
 
+	taming_potion
+		icon_state = "orange"
+		effect     = /StatusEffect/Potions/Tame
+		seconds    = 600
+
 	pets
 
 		growth
@@ -554,6 +559,8 @@ obj/items/potions
 
 				animate(p.pet, transform = matrix() * (item.currentSize / 4), time = 10)
 
+				. = 1
+
 		shrink
 			name = "pet shrink potion"
 			icon_state = "orange"
@@ -571,6 +578,8 @@ obj/items/potions
 
 				animate(p.pet, transform = matrix() * (item.currentSize / 4), time = 10)
 
+				. = 1
+
 		color
 			name = "pet coloring potion"
 			icon_state = "green"
@@ -582,6 +591,8 @@ obj/items/potions
 				item.color = rgb(rand(60, 240), rand(60, 240), rand(60, 240))
 
 				animate(p.pet, color = item.color, time = 10)
+
+				. = 1
 
 		decolor
 			name = "pet decoloring potion"
@@ -598,6 +609,27 @@ obj/items/potions
 				item.color = null
 
 				animate(p.pet, color = null, time = 10)
+
+				. = 1
+
+		ghost
+			name = "pet ghosting potion"
+			icon_state = "gray"
+
+			Effect(mob/Player/p)
+
+				var/obj/items/wearable/pets/item = locate() in p.Lwearing
+
+				if(item.alpha == 255)
+					item.alpha = 190
+				else if(item.alpha == 190)
+					item.alpha = 120
+				else
+					item.alpha = 255
+
+				animate(p.pet, alpha = item.alpha, time = 10)
+
+				. = 1
 
 		proc/Effect(mob/Player/p)
 

@@ -114,7 +114,7 @@ obj/items/wearable/pets
 
 				owner.pet = new (get_step(owner, owner.dir), src)
 
-				if(!overridetext) hearers(owner) << infomsg("[owner] puts on \his [src.name].")
+				if(!overridetext) hearers(owner) << infomsg("[owner] pets \his [src.name].")
 
 		else if(. == REMOVED || forceremove)
 
@@ -149,7 +149,7 @@ obj/pet
 	layer = 4
 
 	var
-		iconSize    = 128
+		iconSize    = 4
 		currentSize = 1
 
 	New(loc, obj/items/wearable/pets/pet)
@@ -176,7 +176,7 @@ obj/pet
 		if(dir & NORTH)
 			pixel_y = -48 - (currentSize - 1) * 4
 		else if(dir & SOUTH)
-			pixel_y = -48 + (currentSize - 1) * 8
+			pixel_y = -48 + (currentSize - 1) * 16
 		else
 			pixel_y = -48
 

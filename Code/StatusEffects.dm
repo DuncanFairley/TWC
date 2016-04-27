@@ -316,7 +316,32 @@ StatusEffect
 
 	Potions
 
+		Tame
+			var/factor = 10
 
+			Activate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+
+					p.clothDmg -= 160
+					p.clothDef -= 480
+					p.resetMaxHP()
+
+					if(p.Def + p.extraDef - 480 <= 0)
+						p.HP = 0
+						p.Death_Check()
+						Deactivate()
+
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.clothDmg += 160
+					p.clothDef += 480
+					p.resetMaxHP()
+
+				..()
 
 		Luck
 			var/factor = 3

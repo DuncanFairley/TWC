@@ -394,7 +394,7 @@ mob
 				prizePoolSize = 1
 				damageReq     = 15
 
-				iconSize      = 32
+				iconSize      = 1
 
 			Dispose()
 				..()
@@ -433,6 +433,38 @@ mob
 				Expg = round(src.level * 5)
 				HP = MHP
 //NEWMONSTERS
+
+			proc/SpawnPet(mob/Player/killer, chance, defaultColor, spawnType)
+
+				if(color == "#dd0000")
+					color = defaultColor
+
+					var/StatusEffect/Potions/Luck/l = killer.findStatusEffect(/StatusEffect/Potions/Luck)
+					if(l)
+						chance *= l.factor
+					else
+						var/StatusEffect/Potions/Tame/t = killer.findStatusEffect(/StatusEffect/Potions/Tame)
+						if(t)
+							chance *= t
+
+					if(prob(chance * 10))
+						var/obj/items/wearable/w = new spawnType (loc)
+
+						w.antiTheft = 1
+						w.owner     = killer.ckey
+
+						spawn(300)
+							if(w && isturf(w.loc) && w.antiTheft)
+								w.Dispose()
+
+				else
+
+					if(killer.findStatusEffect(/StatusEffect/Lamps/Farming))
+						chance *= 4
+
+					if(prob(chance))
+						color = "#d00"
+
 			proc/Death(mob/Player/killer)
 				if(state == INACTIVE || state == WANDER) return
 				state = INACTIVE
@@ -741,7 +773,7 @@ mob
 
 				Acromantula
 					icon = 'Mobs_128x128.dmi'
-					iconSize = 128
+					iconSize = 4
 					pixel_x = -48
 					pixel_y = -48
 					name = "Tiny Spider"
@@ -818,7 +850,7 @@ mob
 
 					Basilisk
 						icon = 'Mobs_128x128.dmi'
-						iconSize = 128
+						iconSize = 4
 						icon_state = "basilisk"
 						name = "Mini Basilisk"
 						HPmodifier = 3
@@ -851,7 +883,7 @@ mob
 
 					Acromantula
 						icon = 'Mobs_128x128.dmi'
-						iconSize = 128
+						iconSize = 4
 						pixel_x = -48
 						pixel_y = -48
 						name = "Bubbles the Spider"
@@ -1082,7 +1114,7 @@ mob
 
 					Wisp
 						icon = 'Mobs_128x128.dmi'
-						iconSize = 128
+						iconSize = 4
 						pixel_x = -48
 						pixel_y = -48
 						icon_state = "wisp"
@@ -1298,7 +1330,7 @@ mob
 
 			Stickman
 				icon = 'Mobs_128x128.dmi'
-				iconSize = 128
+				iconSize = 4
 				pixel_x = -48
 				pixel_y = -48
 				icon_state = "stickman"
@@ -1405,25 +1437,61 @@ mob
 				HPmodifier = 0.2
 				DMGmodifier = 0.1
 
+				Death(mob/Player/killer)
+					..()
+
+					SpawnPet(killer, 0.1, color, /obj/items/wearable/pets/rat)
+
+
 			Demon_Rat
 				icon_state = "rat"
 				level = 700
+
+				Death(mob/Player/killer)
+					..()
+
+					SpawnPet(killer, 0.5, color, /obj/items/wearable/pets/rat)
+
 			Pixie
 				icon_state = "pixie"
 				level = 100
 				HPmodifier = 0.75
 				DMGmodifier = 0.40
+
+				Death(mob/Player/killer)
+					..()
+
+					SpawnPet(killer, 0.4, color, /obj/items/wearable/pets/pixie)
+
 			Dog
 				icon_state = "dog"
 				level = 150
 				HPmodifier = 0.8
 				DMGmodifier = 0.45
+
+				Death(mob/Player/killer)
+					..()
+
+					SpawnPet(killer, 0.3, color, /obj/items/wearable/pets/dog)
+
 			Snake
 				icon_state = "snake"
 				level = 200
+
+				Death(mob/Player/killer)
+					..()
+
+					SpawnPet(killer, 0.2, color, /obj/items/wearable/pets/snake)
+
 			Wolf
 				icon_state = "wolf"
 				level = 300
+
+				Death(mob/Player/killer)
+					..()
+
+					SpawnPet(killer, 0.1, color, /obj/items/wearable/pets/wolf)
+
 			Snowman
 				icon = 'Snowman.dmi'
 				level = 700
@@ -1435,7 +1503,7 @@ mob
 
 			Acromantula
 				icon = 'Mobs_128x128.dmi'
-				iconSize = 128
+				iconSize = 4
 				pixel_x = -48
 				pixel_y = -48
 
@@ -1461,7 +1529,7 @@ mob
 							if(!i) break
 							sleep(1)
 
-				Death()
+				Death(mob/Player/killer)
 					emit(loc    = loc,
 						 ptype  = /obj/particle/fluid/blood,
 					     amount = 25,
@@ -1473,6 +1541,9 @@ mob
 					var/s = prob(45) ? 2 : 1
 					for(var/i = 1 to s)
 						new /mob/NPC/Enemies/Summoned/Acromantula (loc)
+
+
+					SpawnPet(killer, 0.03, color, /obj/items/wearable/pets/acromantula)
 
 				New()
 					..()
@@ -1570,7 +1641,7 @@ mob
 
 			Wisp
 				icon = 'Mobs_128x128.dmi'
-				iconSize = 128
+				iconSize = 4
 				pixel_x = -48
 				pixel_y = -48
 
@@ -1629,10 +1700,15 @@ mob
 
 					SetSize(1 + (rand(-5,15) / 50)) // -10% to +30% size change
 
+				Death(mob/Player/killer)
+					..()
+
+					SpawnPet(killer, 0.02, color, /obj/items/wearable/pets/wisp)
+
 
 			Floating_Eye
 				icon = 'Mobs_128x128.dmi'
-				iconSize = 128
+				iconSize = 4
 				pixel_x = -48
 				pixel_y = -48
 
@@ -1741,7 +1817,7 @@ mob
 
 			Troll
 				icon = 'Mobs_128x128.dmi'
-				iconSize = 128
+				iconSize = 4
 				pixel_x = -48
 				pixel_y = -48
 
@@ -1771,13 +1847,14 @@ mob
 					extraDmg = tmpdmg
 					level    = tmplvl
 
+				Death(mob/Player/killer)
+					..()
+
+					SpawnPet(killer, 0.04, color, /obj/items/wearable/pets/troll)
+
 			House_Elf
 				icon_state = "houseelf"
 				level = 5
-			/*Stone_Golem
-				icon = 'Mobs.dmi'
-				icon_state="stonegolem"
-				level = 6*/
 			Dementor
 				icon_state = "dementor"
 				level = 750
@@ -1858,7 +1935,7 @@ mob
 				level = 650
 			Basilisk
 				icon = 'Mobs_128x128.dmi'
-				iconSize = 128
+				iconSize = 4
 				pixel_x = -48
 				pixel_y = -48
 
