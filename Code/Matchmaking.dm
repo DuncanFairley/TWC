@@ -821,6 +821,8 @@ area/arenas
 			var/obj/items/wearable/invisibility_cloak/Cloak = locate() in user.Lwearing
 			if(Cloak) Cloak.Equip(user,1)
 
+			if(user.pet) user.pet.item.Equip(user,1)
+
 			if(user.LStatusEffects)
 				var/StatusEffect/Potions/p = locate() in user.LStatusEffects
 				if(p)
