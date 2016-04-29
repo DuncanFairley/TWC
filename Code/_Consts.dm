@@ -23,6 +23,6 @@ var/const
 #define PET_LIGHT 1
 #define PET_FOLLOW_FAR 2
 #define MAX_PET_LEVEL 3
-#define MAX_PET_EXP(pet) ((pet.quality * 10 + 1) * 30000)
+#define MAX_PET_EXP(pet) ((pet.quality * 10 + 1) * 20000)
 #define MAX_WAND_LEVEL 3
 #define MAX_WAND_EXP(wand) ((wand.quality * 10 + 1) * 20000)
