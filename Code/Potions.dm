@@ -552,7 +552,7 @@ obj/items/potions
 					p << errormsg("You can't make your pet grow further.")
 					return
 
-				var/obj/items/wearable/pets/item = locate() in p.Lwearing
+				var/obj/items/wearable/pets/item = p.pet.item
 
 				p.pet.currentSize += 0.25
 				item.currentSize  += 0.25
@@ -571,7 +571,7 @@ obj/items/potions
 					p << errormsg("You can't make your pet shrink further.")
 					return
 
-				var/obj/items/wearable/pets/item = locate() in p.Lwearing
+				var/obj/items/wearable/pets/item = p.pet.item
 
 				p.pet.currentSize -= 0.25
 				item.currentSize  -= 0.25
@@ -586,7 +586,7 @@ obj/items/potions
 
 			Effect(mob/Player/p)
 
-				var/obj/items/wearable/pets/item = locate() in p.Lwearing
+				var/obj/items/wearable/pets/item = p.pet.item
 
 				item.color = rgb(rand(60, 240), rand(60, 240), rand(60, 240))
 
@@ -604,7 +604,7 @@ obj/items/potions
 					p << errormsg("Your pet doesn't have a color.")
 					return
 
-				var/obj/items/wearable/pets/item = locate() in p.Lwearing
+				var/obj/items/wearable/pets/item = p.pet.item
 
 				item.color = null
 
@@ -618,7 +618,7 @@ obj/items/potions
 
 			Effect(mob/Player/p)
 
-				var/obj/items/wearable/pets/item = locate() in p.Lwearing
+				var/obj/items/wearable/pets/item = p.pet.item
 
 				if(item.alpha == 255)
 					item.alpha = 190
@@ -630,6 +630,19 @@ obj/items/potions
 				animate(p.pet, alpha = item.alpha, time = 10)
 
 				. = 1
+
+		exp
+			name = "pet experience potion"
+			icon_state = "green"
+
+			Effect(mob/Player/p)
+
+				var/obj/items/wearable/pets/item = p.pet.item
+
+				item.addExp(p, 10000)
+
+				. = 1
+
 
 		proc/Effect(mob/Player/p)
 
