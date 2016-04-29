@@ -517,6 +517,7 @@ expRank
 			                        	/obj/items/chest/pentakill_chest = 20,
 										/obj/items/chest/prom_chest      = 15,
 										/obj/items/chest/winter_chest    = 15,
+										/obj/items/chest/pet_chest       = 10,
 			                        	/obj/items/chest/sunset_chest    = 6))
 
 				var/obj/items/i = new t (parent)
@@ -569,6 +570,7 @@ proc/rewardExpWeek()
 		                        /obj/items/chest/pentakill_chest = 15,
 								/obj/items/chest/prom_chest      = 10,
 								/obj/items/chest/winter_chest    = 10,
+								/obj/items/chest/pet_chest       = 10,
 		                        /obj/items/chest/sunset_chest    = 5))
 
 			var/obj/o = new t

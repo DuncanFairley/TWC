@@ -92,9 +92,12 @@ obj/items/wearable/pets
 	showoverlay = FALSE
 	max_stack   = 1
 	destroyable = 1
+	bonus       = NOENCHANT
 
 	var
 		currentSize = 0.75
+		function    = 2
+		exp         = 0
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		.=..(owner, 1, forceremove)
@@ -113,15 +116,40 @@ obj/items/wearable/pets
 					verbs   -= /obj/items/verb/Drop
 
 				owner.pet = new (get_step(owner, owner.dir), src)
+				owner.pet.owner = owner.ckey
 
 				if(!overridetext) hearers(owner) << infomsg("[owner] pets \his [src.name].")
 
 		else if(. == REMOVED || forceremove)
 
-			owner.pet.loc = null
-			owner.pet     = null
+			owner.pet.Dispose()
+			owner.pet = null
 
 			if(!overridetext) hearers(owner) << infomsg("[owner] puts \his [src.name] away.")
+
+	proc/addExp(mob/Player/owner, amount)
+		if(quality >= MAX_PET_LEVEL)
+			exp = 0
+			return
+
+		exp += amount
+
+		var/i = 0
+		while(exp >= MAX_PET_EXP(src))
+			exp -= MAX_PET_EXP(src)
+
+			if(quality + i >= MAX_PET_LEVEL)
+				exp = 0
+				break
+
+			i += 0.1
+
+		if(i)
+			Equip(owner, 1)
+			quality += i
+			Equip(owner, 1)
+
+			owner << infomsg("Your [name] leveled up to [quality * 10]!")
 
 	rat
 		icon_state = "rat"
@@ -152,32 +180,81 @@ obj/pet
 		iconSize    = 4
 		currentSize = 1
 
+		tmp
+			obj/light/light
+			obj/items/wearable/pets/item
+
 	New(loc, obj/items/wearable/pets/pet)
 		..()
 
+		item        = pet
 		icon_state  = pet.icon_state
-		name        = pet.name
 		currentSize = pet.currentSize
 		color       = pet.color
+		name        = uppertext(copytext(pet.name, 1, 2)) + copytext(pet.name, 2)
 
 		SetSize(pet.currentSize)
 
-	proc/follow(turf/oldLoc)
-		dir = get_dir(loc, oldLoc)
-		loc = oldLoc
+		if(pet.function & PET_LIGHT)
+			light = new (loc)
+			animate(light, transform = matrix() * 1.8, time = 10, loop = -1)
+			animate(       transform = matrix() * 1.7, time = 10)
 
-		if(dir & EAST)
-			pixel_x = -48 - (currentSize - 1) * 4
-		else if(dir & WEST)
-			pixel_x = -48 + (currentSize - 1) * 4
+	proc/follow(turf/oldLoc, mob/Player/p)
+
+		if(item.function & PET_FOLLOW_FAR)
+			var/d = get_dist(src, p)
+
+			if(p.z != z || d > 4)
+				loc = p.loc
+
+			else if(d > 3)
+				step_towards(src, p)
+
+			if(light)
+				light.loc = loc
+
 		else
-			pixel_x = -48
+			dir = get_dir(loc, oldLoc)
+			loc = oldLoc
 
-		if(dir & NORTH)
-			pixel_y = -48 - (currentSize - 1) * 4
-		else if(dir & SOUTH)
-			pixel_y = -48 + (currentSize - 1) * 16
-		else
-			pixel_y = -48
+			var/offset = (iconSize - 1) * -16
 
+			if(dir & EAST)
+				pixel_x = offset - (currentSize - 1) * 4
+			else if(dir & WEST)
+				pixel_x = offset + (currentSize - 1) * 4
+			else
+				pixel_x = offset
+
+			if(dir & NORTH)
+				pixel_y = offset - (currentSize - 1) * 4
+			else if(dir & SOUTH)
+				pixel_y = offset + (currentSize - 1) * 16
+			else
+				pixel_y = offset
+
+			if(light)
+				light.loc     = loc
+				light.pixel_x = pixel_x - offset - 64
+				light.pixel_y = pixel_y - offset - 64
+
+	Click()
+		..()
+
+		if(usr.ckey == owner)
+
+			if(item.function & PET_FOLLOW_FAR)
+				item.function -= PET_FOLLOW_FAR
+				usr << infomsg("[name] will follow your footsteps closely.")
+			else
+				item.function += PET_FOLLOW_FAR
+				usr << infomsg("[name] will be further back.")
+
+	Dispose()
+		..()
+
+		if(light)
+			light.loc = null
+			light     = null
 

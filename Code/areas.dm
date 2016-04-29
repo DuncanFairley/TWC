@@ -721,7 +721,7 @@ turf
 					o.loc = src
 
 			if(p.pet && p.pet.loc)
-				p.pet.follow(oldLoc)
+				p.pet.follow(oldLoc, p)
 
 	Exited(atom/movable/Obj, atom/newloc)
 

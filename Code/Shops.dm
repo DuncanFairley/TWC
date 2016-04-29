@@ -842,7 +842,8 @@ mob/TalkNPC/Artifacts_Salesman
 		"Title: Rich - 1,000,000 gold and 10 artifacts",
 		"Title: Treasure Hunter - 1,000,000 gold and 10 artifacts",
 		"Title: Genie's Friend - 2,000,000 gold and 20 artifacts",
-		"Community Key - 900,000 gold and 9 artifacts")
+		"Community Key - 900,000 gold and 9 artifacts",
+		"Pet Key - 200,000 gold and 2 artifacts")
 		switch(input("[name]: Hello... I sell lamps and magical rarities! Now now, they're not just lamps, they're magical lamps! My lamps will help you make your wishes come true! For the right price you might also net yourself something rare!", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
 			if("Farmer Lamp - 100,000 gold and 1 artifact")
 				selecteditem  = /obj/items/lamps/farmer_lamp
@@ -868,6 +869,9 @@ mob/TalkNPC/Artifacts_Salesman
 			if("Community Key - 900,000 gold and 9 artifacts")
 				selecteditem  = /obj/items/key/community_key
 				selectedprice = 9
+			if("Pet Key - 200,000 gold and 2 artifacts")
+				selecteditem  = /obj/items/key/pet_key
+				selectedprice = 2
 			if(null)
 				usr << npcsay("[name]: I only sell to the rich! Begone!")
 				return
