@@ -4014,11 +4014,14 @@ obj/items/vault_key
 			..()
 
 obj/items/treats
+	icon = 'candy.dmi'
+
 	var/levelReq = 1
 
 	red
-		name     = "fire candy"
-		levelReq = 5
+		name       = "fire candy"
+		icon_state = "red"
+		levelReq   = 5
 
 		Feed(mob/Player/p)
 			var/obj/items/wearable/pets/i = p.pet.item
@@ -4027,8 +4030,9 @@ obj/items/treats
 			i.Equip(p, 1)
 
 	green
-		name     = "leaf candy"
-		levelReq = 5
+		name       = "leaf candy"
+		icon_state = "green"
+		levelReq   = 5
 
 		Feed(mob/Player/p)
 			var/obj/items/wearable/pets/i = p.pet.item
@@ -4037,14 +4041,16 @@ obj/items/treats
 			i.Equip(p, 1)
 
 	blue
-		name = "rare candy"
+		name       = "rare candy"
+		icon_state = "blue"
 
 		Feed(mob/Player/p)
 			p.pet.item.addExp(p, MAX_PET_EXP(p.pet.item))
 
 	yellow
-		name     = "sun candy"
-		levelReq = 15
+		name       = "sun candy"
+		icon_state = "yellow"
+		levelReq   = 15
 
 		Feed(mob/Player/p)
 			p.pet.item.function |= PET_LIGHT
