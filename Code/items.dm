@@ -3524,6 +3524,10 @@ obj/items
 			icon_state = "red"
 			drops      = "blood"
 
+		pet_chest
+			icon_state = "green"
+			drops      = "treats"
+
 		community1_chest
 			name = "community #1 chest"
 			icon_state = "blue"
@@ -3578,6 +3582,8 @@ obj/items
 			icon_state = "blue"
 		prom_key
 			icon_state = "pink"
+		pet_key
+			icon_state = "green"
 		special_key
 			icon_state = "master"
 		community_key
@@ -3675,6 +3681,13 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 							 					     /obj/items/wearable/scarves/hello_scarf   = 20,
 							 					     /obj/items/wearable/scarves/party_scarf   = 20,
 							 					     /obj/items/bucket                         = 30),
+
+							 "treats"         = list(/obj/items/potions/pets/exp = 35,
+							                         /obj/items/treats/red       = 25,
+							 					     /obj/items/treats/green     = 25,
+							 					     /obj/items/treats/yellow    = 10,
+							 					     /obj/items/treats/blue      = 5),
+
 
 							 "gold only" = list(/obj/items/magic_stone/memory     = 10,
 							                    /obj/items/herosbrace             = 20,
@@ -3996,6 +4009,68 @@ obj/items/vault_key
 				Consume()
 			else
 				usr << errormsg("You need to use this near a locked vault door.")
+
+		else
+			..()
+
+obj/items/treats
+	var/levelReq = 1
+
+	red
+		name     = "fire candy"
+		levelReq = 5
+
+		Feed(mob/Player/p)
+			var/obj/items/wearable/pets/i = p.pet.item
+			i.Equip(p, 1)
+			i.bonus |= 1
+			i.Equip(p, 1)
+
+	green
+		name     = "leaf candy"
+		levelReq = 5
+
+		Feed(mob/Player/p)
+			var/obj/items/wearable/pets/i = p.pet.item
+			i.Equip(p, 1)
+			i.bonus |= 2
+			i.Equip(p, 1)
+
+	blue
+		name = "rare candy"
+
+		Feed(mob/Player/p)
+			p.pet.item.addExp(p, MAX_PET_EXP(p.pet.item))
+
+	yellow
+		name     = "sun candy"
+		levelReq = 15
+
+		Feed(mob/Player/p)
+			p.pet.item.function |= PET_LIGHT
+
+			p.pet.light = new (loc)
+			animate(p.pet.light, transform = matrix() * 1.8, time = 10, loop = -1)
+			animate(             transform = matrix() * 1.7, time = 10)
+
+	proc/Feed(mob/Player/p)
+
+
+	Click()
+		if(src in usr)
+			var/mob/Player/p = usr
+
+			if(!p.pet)
+				p << errormsg("Equip a pet first in order to feed it a treat.")
+				return
+
+			if(p.pet.item.quality * 10 < levelReq)
+				p << errormsg("Your [p.pet.name] needs to be level [levelReq] to eat [name].")
+				return
+
+			p << "You fed your [p.pet.name] a [name]."
+			Feed(p)
+			Consume()
 
 		else
 			..()
