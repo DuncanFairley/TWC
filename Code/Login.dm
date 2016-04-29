@@ -1389,8 +1389,13 @@ mob/Player
 				var/percent = round((Exp / Mexp) * 100)
 				stat("EXP:", "[comma(src.Exp)]/[comma(src.Mexp)] ([percent]%)")
 			if(wand && (wand.exp + wand.quality > 0))
-				var/percent = round((wand.exp / wand.maxExp()) * 100)
-				stat("Wand:", "Level: [wand.quality * 10]   Exp: [comma(wand.exp)]/[comma(wand.maxExp())] ([percent]%)")
+				var/maxExp = MAX_WAND_EXP(wand)
+				var/percent = round((wand.exp / maxExp) * 100)
+				stat("Wand:", "Level: [wand.quality * 10]   Exp: [comma(wand.exp)]/[comma(maxExp)] ([percent]%)")
+			if(pet && (pet.item.exp + pet.item.quality > 0))
+				var/maxExp = MAX_PET_EXP(pet.item)
+				var/percent = round((pet.item.exp / maxExp) * 100)
+				stat("[pet.name]:", "Level: [pet.item.quality * 10]   Exp: [comma(pet.item.exp)]/[comma(maxExp)] ([percent]%)")
 			stat("Stat points:",src.StatPoints)
 			stat("Spell points:",src.spellpoints)
 			if(learning)
@@ -1853,6 +1858,10 @@ mob/proc/Death_Check(mob/killer = src)
 						var/obj/items/wearable/wands/w = killer:wand
 						w.addExp(killer, round(rndexp / 30))
 
+					if(killer:pet)
+						var/obj/items/wearable/pets/pet = killer:pet.item
+						pet.addExp(killer, round(rndexp / 30))
+
 					if(killer.level < lvlcap)
 						killer << infomsg("You knocked [src] out and gained [rndexp] exp.")
 					else
@@ -1908,6 +1917,10 @@ mob/proc/Death_Check(mob/killer = src)
 					if(killer:wand)
 						var/obj/items/wearable/wands/w = killer:wand
 						w.addExp(killer, round(exp2give / 50))
+
+					if(killer:pet)
+						var/obj/items/wearable/pets/pet = killer:pet.item
+						pet.addExp(killer, round(exp2give / 50))
 
 			if(src.type == /mob/Slug)
 				del src
