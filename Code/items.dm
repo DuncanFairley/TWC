@@ -1116,17 +1116,12 @@ obj/items/wearable/wands
 
 		lastused
 
-		const
-			MAX = 3
-
 	bonus = NOENCHANT
 	max_stack = 1
 
 	proc
-		maxExp()
-			return round((1 + (quality * 10)) * 20000)
 		addExp(mob/Player/owner, amount)
-			if(quality >= MAX)
+			if(quality >= MAX_WAND_LEVEL)
 				exp = 0
 				return
 
@@ -1145,10 +1140,10 @@ obj/items/wearable/wands
 				exp += amount
 
 				var/i = 0
-				while(exp >= maxExp())
-					exp -= maxExp()
+				while(exp >= MAX_WAND_EXP(src))
+					exp -= MAX_WAND_EXP(src)
 
-					if(quality + i >= MAX)
+					if(quality + i >= MAX_WAND_LEVEL)
 						exp = 0
 						break
 
