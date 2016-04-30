@@ -17,7 +17,7 @@ var/const
 	lvlcap    = 750
 
 #define WINTER 0
-#define NIGHTCOLOR "#66d"
+#define NIGHTCOLOR "#6464d0"
 
 
 #define PET_LIGHT 1
