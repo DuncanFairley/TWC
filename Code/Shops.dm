@@ -744,16 +744,21 @@ var/list/shops = list("malewigshop" = newlist(
 						/obj/items/wearable/wigs/female_silver_wig),
 
 					  "peace" = newlist(
-					  	/obj/items/spellbook/peace),
+					  	/obj/items/spellbook/peace,
+					  	/obj/items/spellbook/lumos),
 
 					  "chaos" = newlist(
-					  	/obj/items/spellbook/blood),
+					  	/obj/items/spellbook/blood,
+					  	/obj/items/spellbook/aggravate),
 
 					  "random" = list()
 					)
 
 obj/items/spellbook/peace/price = 666
 obj/items/spellbook/blood/price = -666
+
+obj/items/spellbook/lumos/price = 1111
+obj/items/spellbook/aggravate/price = -1111
 
 mob/TalkNPC/Vault_Salesman
 	icon_state="goblin1"

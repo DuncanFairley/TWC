@@ -2440,10 +2440,23 @@ obj/items/spellbook
 		spell = /mob/Spells/verb/Sanguinis_Iactus
 		r = 0.6
 
+	aggravate
+		name = "Book of Chaos: Vol III"
+		icon_state = "chaos"
+		spell = /mob/Spells/verb/Aggravate
+		r = 0.6
+
 	peace
 		name = "Book of Peace: Vol II"
 		icon_state = "peace"
 		spell = /mob/Spells/verb/Immobulus
+		b = 0.6
+		g = 0.5
+
+	lumos
+		name = "Book of Peace: Vol III"
+		icon_state = "peace"
+		spell = /mob/Spells/verb/Lumos_Maxima
 		b = 0.6
 		g = 0.5
 
