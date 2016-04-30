@@ -302,6 +302,7 @@ StatusEffect
 	UsedArcesso
 	UsedProtego
 	UsedShelleh
+	UsedAggro
 	Permoveo
 	UsedDisperse
 	SpellText

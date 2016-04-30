@@ -385,6 +385,39 @@ mob/Spells/verb/Lumos()
 				p.removeFollower(l)
 				l.loc = null
 
+mob/Spells/verb/Lumos_Maxima()
+	set category = "Spells"
+	if(canUse(src,cooldown=/StatusEffect/UsedLumos,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=300,againstocclumens=1))
+		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=white>Lumos Maxima!"
+		MP -= 300
+		updateHPMP()
+
+		new /StatusEffect/UsedLumos(src, 90)
+
+		castproj(MPreq = 300, Type = /obj/projectile/Lumos, icon_state = "light", name = "Lumos Maxima", lag = 2)
+
+mob/Spells/verb/Aggravate()
+	set category = "Spells"
+	if(!loc) return
+	if(canUse(src,cooldown=/StatusEffect/UsedAggro,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=150,againstocclumens=1))
+		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=white>Aggravate!"
+		MP -= 150
+		updateHPMP()
+
+		new /StatusEffect/UsedAggro(src, 30)
+
+		var/area/pArea = loc.loc
+
+		for(var/mob/NPC/Enemies/e in ohearers(13))
+			var/area/eArea = loc.loc
+
+			if(eArea != pArea) continue
+			if(e.state == 0)   continue
+
+			e.state  = e.HOSTILE
+			e.target = src
+
+
 mob/Spells/verb/Basilio()
 	set category = "Staff"
 	if(clanrobed())return
@@ -1821,6 +1854,23 @@ obj
 
 				color      = "#08ffff"
 				blend_mode = BLEND_SUBTRACT
+
+		Lumos
+			New()
+				..()
+
+				overlays += /obj/light
+
+				animate(src, transform = matrix() * 3.2, time = 10, loop = -1)
+				animate(     transform = matrix() * 3.3, time = 10)
+
+			Dispose()
+				density = 0
+				walk(src, 0)
+
+				sleep(600)
+
+				..()
 
 		Grav
 			life = 15
