@@ -1997,43 +1997,36 @@ mob
 					src<<"<b><span style=\"color:blue;\">You are now level [src.level]!</span></b>"
 					src<<"You have gained a statpoint."
 				var/theiryear = (src.Year == "Hogwarts Graduate" ? 8 : text2num(copytext(src.Year, 1, 2)))
-				if(src.level > 1 && src.level < 16)
-					src.Year = "1st Year"
-
-				else if(src.level > 15 && theiryear < 2)
-					src.Year = "2nd Year"
-					src << infomsg("Congratulations, you are now on your Second Year at Hogwarts.")
+				if(src.level>1 && src.level < 16)
+					src.Year="1st Year"
+				else if(src.level>15 && theiryear < 2)
+					src.Year="2nd Year"
+					src<<"<b>Congratulations, [src]! You are now a 2nd Year!</b>"
 					src.verbs += /mob/Spells/verb/Episky
-					src << infomsg("You learned Episkey.")
-
-				else if(src.level > 50 && theiryear < 3)
-					src.Year = "3rd Year"
-					src << infomsg("Congratulations on attaining your 3rd Year rank promotion!")
-					src << infomsg("You learned how to cancel transfigurations!")
+					src<<infomsg("You learned Episkey.")
+				else if(src.level>50 && theiryear < 3)
+					src.Year="3rd Year"
+					src<<"<b>Congratulations, [src]! You are now a 3rd Year!</b>"
+					src<<infomsg("You learned how to cancel transfigurations!")
 					src.verbs += /mob/Spells/verb/Self_To_Human
-
-				else if(src.level > 100 && theiryear < 4)
-					src.Year = "4th Year"
-					src << infomsg("Congratulations to [src]. You are now a 4th Year.")
+				else if(src.level>100 && theiryear < 4)
+					src.Year="4th Year"
+					src<<"<b>Congratulations, [src]! You are now a 4th Year!</b>"
 					src.verbs += /mob/Spells/verb/Self_To_Dragon
-					src << infomsg("You learned how to Transfigure yourself into a fearsome Dragon!")
-
-				else if(src.level > 200 && theiryear < 5)
-					src.Year = "5th Year"
-					src << infomsg("Congratulations to [src]. You are now a 5th Year.")
-
-				else if(src.level > 300 && theiryear < 6)
-					src.Year = "6th Year"
-					src << infomsg("Congratulations to [src]. You are now a 6th Year.")
-
-				else if(src.level > 400 && theiryear < 7)
-					src.Year = "7th Year"
-					src << infomsg("Congratulations to [src]. You are now a 7th Year.")
-
-				else if(src.level > 500 && theiryear < 8)
-					src.Year = "Hogwarts Graduate"
-					src << infomsg("Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate.")
-					src << infomsg("You can now view your damage & defense stats in the stats tab.")
+					src<<infomsg("You learned how to Transfigure yourself into a fearsome Dragon!")
+				else if(src.level>200 && theiryear < 5)
+					src.Year="5th Year"
+					src<<"<b>Congratulations, [src]! You are now a 5th Year!</b>"
+				else if(src.level>300 && theiryear < 6)
+					src.Year="6th Year"
+					src<<"<b>Congratulations, [src]! You are now a 6th Year!</b>"
+				else if(src.level>400 && theiryear < 7)
+					src.Year="7th Year"
+					src<<"<b>Congratulations, [src]! You are now a 7th Year!</b>"
+				else if(src.level>500 && theiryear < 8)
+					src.Year="Hogwarts Graduate"
+					src<<"<b>Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate.</b>"
+					src<<infomsg("You can now view your damage & defense stats in the stats tab.")
 
 obj/Banker
 	icon = 'NPCs.dmi'
