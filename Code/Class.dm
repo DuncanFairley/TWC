@@ -185,7 +185,7 @@ class
 		subject = "Transfiguration"
 		wand    = TRUE
 		cd      = 15
-		uses    = 300
+		uses    = 200
 		start()
 			..()
 			say("[name] is a transfiguration-based spell. When casted the form of the target will change.")
