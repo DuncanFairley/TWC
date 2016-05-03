@@ -45,6 +45,7 @@
 #include "potinf.dmf"
 #include "world.dmp"
 #include "Code\_Consts.dm"
+#include "Code\_Hidden.dm"
 #include "Code\Actionbar.dm"
 #include "Code\Animagus.dm"
 #include "Code\Announce.dm"
