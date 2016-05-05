@@ -630,3 +630,12 @@ obj/PyramidScroll4
 		..()
 		spawn(1)
 			loc = null
+
+mob/verb/DisableBetaMapMode()
+	set hidden = 1
+mob/verb/EnableBetaMapMode()
+	set hidden = 1
+mob/verb/ToggleBetaMapMode()
+	set hidden = 1
+mob/verb/Mapmodetoggle()
+	set hidden = 1

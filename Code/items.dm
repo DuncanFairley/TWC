@@ -3698,6 +3698,7 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 							 "treats"         = list(/obj/items/potions/pets/exp = 35,
 							                         /obj/items/treats/red       = 25,
 							 					     /obj/items/treats/green     = 25,
+							 					     /obj/items/treats/pink      = 20,
 							 					     /obj/items/treats/yellow    = 10,
 							 					     /obj/items/treats/blue      = 5),
 
@@ -4034,9 +4035,10 @@ obj/items/treats
 	red
 		name       = "fire candy"
 		icon_state = "red"
-		levelReq   = 5
+		levelReq   = 6
 
 		Feed(mob/Player/p)
+			. = 1
 			var/obj/items/wearable/pets/i = p.pet.item
 			i.Equip(p, 1)
 			i.bonus |= 1
@@ -4045,9 +4047,10 @@ obj/items/treats
 	green
 		name       = "leaf candy"
 		icon_state = "green"
-		levelReq   = 5
+		levelReq   = 6
 
 		Feed(mob/Player/p)
+			. = 1
 			var/obj/items/wearable/pets/i = p.pet.item
 			i.Equip(p, 1)
 			i.bonus |= 2
@@ -4058,7 +4061,11 @@ obj/items/treats
 		icon_state = "blue"
 
 		Feed(mob/Player/p)
-			p.pet.item.addExp(p, MAX_PET_EXP(p.pet.item))
+			if(p.pet.item.quality < MAX_PET_LEVEL)
+				. = 1
+				p.pet.item.addExp(p, MAX_PET_EXP(p.pet.item))
+			else
+				p << errormsg("Your pet reached max level")
 
 	yellow
 		name       = "sun candy"
@@ -4066,11 +4073,40 @@ obj/items/treats
 		levelReq   = 15
 
 		Feed(mob/Player/p)
+			. = 1
 			p.pet.item.function |= PET_LIGHT
 
 			p.pet.light = new (loc)
 			animate(p.pet.light, transform = matrix() * 1.8, time = 10, loop = -1)
 			animate(             transform = matrix() * 1.7, time = 10)
+
+
+	pink
+		name       = "love candy"
+		icon_state = "pink"
+		levelReq   = 3
+
+		Feed(mob/Player/p)
+			var/mob/create_character/c = new
+			var/desiredname = input("What name would you like? (Keep in mind that you cannot use a popular name from the Harry Potter franchise, nor numbers or special characters)") as text|null
+			if(!desiredname)
+				del c
+				return
+			var/passfilter = c.name_filter(desiredname)
+			while(passfilter)
+				alert("Your desired name is not allowed as it [passfilter].")
+				desiredname = input("Please select a name that does not use a popular name from the Harry Potter franchise, nor numbers or special characters.") as text|null
+				if(!desiredname)
+					del c
+					return
+				passfilter = c.name_filter(desiredname)
+			del c
+			if(name == desiredname) return
+			. = 1
+			desiredname = uppertext(copytext(desiredname, 1, 2)) + copytext(desiredname, 2)
+
+			p.pet.item.name = desiredname
+			p.pet.name = desiredname
 
 	proc/Feed(mob/Player/p)
 
@@ -4087,9 +4123,9 @@ obj/items/treats
 				p << errormsg("Your [p.pet.name] needs to be level [levelReq] to eat [name].")
 				return
 
-			p << "You fed your [p.pet.name] a [name]."
-			Feed(p)
-			Consume()
+			if(Feed(p))
+				p << "You fed your [p.pet.name] a [name]."
+				Consume()
 
 		else
 			..()

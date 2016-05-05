@@ -167,7 +167,10 @@ obj/items/wearable/pets
 		icon_state = "spider"
 	wisp
 		icon_state = "wisp"
-
+	floating_eye
+		icon_state = "eye1"
+	mad_eye
+		icon_state = "eye2"
 
 obj/pet
 	icon = 'Mobs_128x128.dmi'
@@ -191,7 +194,7 @@ obj/pet
 		icon_state  = pet.icon_state
 		currentSize = pet.currentSize
 		color       = pet.color
-		name        = uppertext(copytext(pet.name, 1, 2)) + copytext(pet.name, 2)
+		name        = pet.name
 
 		SetSize(pet.currentSize)
 

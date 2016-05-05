@@ -435,7 +435,7 @@ mob
 //NEWMONSTERS
 
 			proc/SpawnPet(mob/Player/killer, chance, defaultColor, spawnType)
-
+				if(!origloc) return
 				if(color == "#dd0000")
 					color = defaultColor
 
@@ -1771,12 +1771,14 @@ mob
 							state  = HOSTILE
 							break
 
-				Death()
+				Death(mob/Player/killer)
 					..()
 					var/obj/eye_counter/count = locate("EyeCounter")
 					if(count.add())
 						Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
 						new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
+
+					SpawnPet(killer, 0.01, color, /obj/items/wearable/pets/floating_eye)
 
 				Blocked()
 					density = 0
