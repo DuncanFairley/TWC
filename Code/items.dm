@@ -3698,6 +3698,7 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 							 "treats"         = list(/obj/items/potions/pets/exp = 35,
 							                         /obj/items/treats/red       = 25,
 							 					     /obj/items/treats/green     = 25,
+							 					     /obj/items/treats/pink      = 20,
 							 					     /obj/items/treats/yellow    = 10,
 							 					     /obj/items/treats/blue      = 5),
 
