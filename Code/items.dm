@@ -4080,6 +4080,33 @@ obj/items/treats
 			animate(             transform = matrix() * 1.7, time = 10)
 
 
+	pink
+		name       = "love candy"
+		icon_state = "pink"
+		levelReq   = 3
+
+		Feed(mob/Player/p)
+			var/mob/create_character/c = new
+			var/desiredname = input("What name would you like? (Keep in mind that you cannot use a popular name from the Harry Potter franchise, nor numbers or special characters)") as text|null
+			if(!desiredname)
+				del c
+				return
+			var/passfilter = c.name_filter(desiredname)
+			while(passfilter)
+				alert("Your desired name is not allowed as it [passfilter].")
+				desiredname = input("Please select a name that does not use a popular name from the Harry Potter franchise, nor numbers or special characters.") as text|null
+				if(!desiredname)
+					del c
+					return
+				passfilter = c.name_filter(desiredname)
+			del c
+			if(name == desiredname) return
+			. = 1
+			desiredname = uppertext(copytext(desiredname, 1, 2)) + copytext(desiredname, 2)
+
+			p.pet.item.name = desiredname
+			p.pet.name = desiredname
+
 	proc/Feed(mob/Player/p)
 
 

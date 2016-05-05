@@ -194,7 +194,7 @@ obj/pet
 		icon_state  = pet.icon_state
 		currentSize = pet.currentSize
 		color       = pet.color
-		name        = uppertext(copytext(pet.name, 1, 2)) + copytext(pet.name, 2)
+		name        = pet.name
 
 		SetSize(pet.currentSize)
 
