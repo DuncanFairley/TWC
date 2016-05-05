@@ -4034,9 +4034,10 @@ obj/items/treats
 	red
 		name       = "fire candy"
 		icon_state = "red"
-		levelReq   = 5
+		levelReq   = 6
 
 		Feed(mob/Player/p)
+			. = 1
 			var/obj/items/wearable/pets/i = p.pet.item
 			i.Equip(p, 1)
 			i.bonus |= 1
@@ -4045,9 +4046,10 @@ obj/items/treats
 	green
 		name       = "leaf candy"
 		icon_state = "green"
-		levelReq   = 5
+		levelReq   = 6
 
 		Feed(mob/Player/p)
+			. = 1
 			var/obj/items/wearable/pets/i = p.pet.item
 			i.Equip(p, 1)
 			i.bonus |= 2
@@ -4058,7 +4060,11 @@ obj/items/treats
 		icon_state = "blue"
 
 		Feed(mob/Player/p)
-			p.pet.item.addExp(p, MAX_PET_EXP(p.pet.item))
+			if(p.pet.item.quality < MAX_PET_LEVEL)
+				. = 1
+				p.pet.item.addExp(p, MAX_PET_EXP(p.pet.item))
+			else
+				p << errormsg("Your pet reached max level")
 
 	yellow
 		name       = "sun candy"
@@ -4066,11 +4072,13 @@ obj/items/treats
 		levelReq   = 15
 
 		Feed(mob/Player/p)
+			. = 1
 			p.pet.item.function |= PET_LIGHT
 
 			p.pet.light = new (loc)
 			animate(p.pet.light, transform = matrix() * 1.8, time = 10, loop = -1)
 			animate(             transform = matrix() * 1.7, time = 10)
+
 
 	proc/Feed(mob/Player/p)
 
@@ -4087,9 +4095,9 @@ obj/items/treats
 				p << errormsg("Your [p.pet.name] needs to be level [levelReq] to eat [name].")
 				return
 
-			p << "You fed your [p.pet.name] a [name]."
-			Feed(p)
-			Consume()
+			if(Feed(p))
+				p << "You fed your [p.pet.name] a [name]."
+				Consume()
 
 		else
 			..()
