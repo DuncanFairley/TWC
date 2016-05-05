@@ -167,7 +167,10 @@ obj/items/wearable/pets
 		icon_state = "spider"
 	wisp
 		icon_state = "wisp"
-
+	floating_eye
+		icon_state = "eye1"
+	mad_eye
+		icon_state = "eye2"
 
 obj/pet
 	icon = 'Mobs_128x128.dmi'
