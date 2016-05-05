@@ -372,6 +372,8 @@ mob
 			monster = 1
 			NPC = 1
 
+			appearance_flags = LONG_GLIDE
+
 			var
 				const
 					INACTIVE   = 0
@@ -580,25 +582,28 @@ mob
 							Attack()
 						if(CONTROLLED)
 							BlindAttack()
-					sleep(getStateLag(state))
+					sleep(lag)
 				active = 0
 			var/tmp
 				mob/target
 				blockCount = 0
+				lag = 10
 
 
 			proc
-				getStateLag(var/i_State)
-					if(state == WANDER)   return 10
-					if(state == SEARCH)   return 10
-					if(state == HOSTILE)  return max(MoveDelay, 1)
-					if(state == CONTROLLED) return 12
-					return 1
-
 				ChangeState(var/i_State)
 					state = i_State
 
 					if(state != 0)
+						switch(state)
+							if(WANDER)     lag = 10
+							if(SEARCH)     lag = 10
+							if(HOSTILE)    lag = max(MoveDelay, 1)
+							if(CONTROLLED) lag = 12
+
+						glide_size = 32/lag
+
+
 						state()
 
 				Search()
@@ -609,7 +614,7 @@ mob
 
 						if(!isPathBlocked(M, src, 1, src.density))
 							target = M
-							state  = HOSTILE
+							ChangeState(HOSTILE)
 							break
 						else
 							Ignore(M)
@@ -629,7 +634,6 @@ mob
 
 				Wander()
 					step_rand(src)
-					sleep(1)
 
 				Ignore(mob/M)
 					set waitfor = 0
@@ -699,7 +703,7 @@ mob
 
 				if(prob(20))
 					step_rand(src)
-					sleep(2)
+					sleep(MoveDelay)
 
 				if(state != HOSTILE) return
 
@@ -820,7 +824,7 @@ mob
 							if(M.Immortal && M.admin) continue
 
 							target = M
-							state  = HOSTILE
+							ChangeState(HOSTILE)
 
 							spawn()
 								var/time = 5
@@ -865,7 +869,7 @@ mob
 								if(M.Immortal) continue
 
 								target = M
-								state  = HOSTILE
+								ChangeState(HOSTILE)
 
 								spawn()
 									var/time = 5
@@ -1768,7 +1772,7 @@ mob
 					for(var/mob/Player/M in ohearers(src, Range))
 						if(M.loc.loc == src.loc.loc)
 							target = M
-							state  = HOSTILE
+							ChangeState(HOSTILE)
 							break
 
 				Death(mob/Player/killer)

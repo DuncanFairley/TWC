@@ -414,7 +414,7 @@ mob/Spells/verb/Aggravate()
 			if(eArea != pArea) continue
 			if(e.state == 0)   continue
 
-			e.state  = e.HOSTILE
+			e.ChangeState(e.HOSTILE)
 			e.target = src
 
 
