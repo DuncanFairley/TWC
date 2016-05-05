@@ -89,6 +89,9 @@ mob
 							del c
 							if(name == desiredname) return
 							Log_admin("[usr] has changed their name to [desiredname].")
+
+							desiredname = uppertext(copytext(desiredname, 1, 2)) + lowertext(copytext(desiredname, 2))
+
 							usr.name = desiredname
 							usr:addNameTag()
 							usr:spellpoints -= 25
