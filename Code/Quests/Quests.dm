@@ -1140,7 +1140,7 @@ obj/hud/screentext
 					if(a && a.region)
 						var/obj/hud/screentext/questPath/path = new
 						path.name = pointer.reqs[1]
-						path.screen_loc = "WEST+7,SOUTH+[offset]:[pixel_offset]"
+						path.screen_loc = "WEST+9,SOUTH+[offset]:[pixel_offset]"
 						path.maptext = "<span style=\"color:[p.mapTextColor];\">[path.maptext]</span>"
 						p.client.screen += path
 
