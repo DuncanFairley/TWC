@@ -372,6 +372,8 @@ mob
 			monster = 1
 			NPC = 1
 
+			appearance_flags = LONG_GLIDE
+
 			var
 				const
 					INACTIVE   = 0
@@ -570,46 +572,49 @@ mob
 				set waitfor = 0
 				if(active) return
 				active = 1
-				while(src && src.loc && state != 0)
+				while(src.loc && state != 0)
 					switch(state)
 						if(WANDER)
-							Wander()
+							step_rand(src)
 						if(SEARCH)
 							Search()
 						if(HOSTILE)
 							Attack()
 						if(CONTROLLED)
 							BlindAttack()
-					sleep(getStateLag(state))
+					sleep(lag)
 				active = 0
 			var/tmp
 				mob/target
 				blockCount = 0
+				lag = 10
 
 
 			proc
-				getStateLag(var/i_State)
-					if(state == WANDER)   return 10
-					if(state == SEARCH)   return 10
-					if(state == HOSTILE)  return max(MoveDelay, 1)
-					if(state == CONTROLLED) return 12
-					return 1
-
 				ChangeState(var/i_State)
 					state = i_State
 
 					if(state != 0)
+						switch(state)
+							if(WANDER)     lag = 10
+							if(SEARCH)     lag = 10
+							if(HOSTILE)    lag = max(MoveDelay, 1)
+							if(CONTROLLED) lag = 12
+
+						glide_size = 32/lag
+
+
 						state()
 
 				Search()
-					Wander()
+					step_rand(src)
 					for(var/mob/Player/M in ohearers(src, Range))
 						if(M.loc.loc != src.loc.loc) continue
 						if(ignore && (M in ignore)) continue
 
 						if(!isPathBlocked(M, src, 1, src.density))
 							target = M
-							state  = HOSTILE
+							ChangeState(HOSTILE)
 							break
 						else
 							Ignore(M)
@@ -626,10 +631,6 @@ mob
 								target = M
 						else
 							Ignore(M)
-
-				Wander()
-					step_rand(src)
-					sleep(1)
 
 				Ignore(mob/M)
 					set waitfor = 0
@@ -699,7 +700,7 @@ mob
 
 				if(prob(20))
 					step_rand(src)
-					sleep(2)
+					sleep(lag)
 
 				if(state != HOSTILE) return
 
@@ -814,13 +815,13 @@ mob
 						..()
 
 					Search()
-						Wander()
+						step_rand(src)
 						for(var/mob/Player/M in ohearers(src, Range))
 							if(M.loc.loc != src.loc.loc) continue
 							if(M.Immortal && M.admin) continue
 
 							target = M
-							state  = HOSTILE
+							ChangeState(HOSTILE)
 
 							spawn()
 								var/time = 5
@@ -859,13 +860,13 @@ mob
 						level = 2000
 
 						Search()
-							Wander()
+							step_rand(src)
 							for(var/mob/Player/M in ohearers(src, Range))
 								if(M.loc.loc != src.loc.loc) continue
 								if(M.Immortal) continue
 
 								target = M
-								state  = HOSTILE
+								ChangeState(HOSTILE)
 
 								spawn()
 									var/time = 5
@@ -1310,7 +1311,7 @@ mob
 					level = 6
 
 					Search()
-						Wander()
+						step_rand(src)
 						sleep(3)
 						Heal()
 
@@ -1764,11 +1765,11 @@ mob
 						transform *= 1 + (rand(-15,30) / 50) // -30% to +60% size change
 
 				Search()
-					Wander()
+					step_rand(src)
 					for(var/mob/Player/M in ohearers(src, Range))
 						if(M.loc.loc == src.loc.loc)
 							target = M
-							state  = HOSTILE
+							ChangeState(HOSTILE)
 							break
 
 				Death(mob/Player/killer)
