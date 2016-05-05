@@ -112,7 +112,8 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							"40"   =      /obj/items/chest/blood_chest),
 
 
-"Eye of The Fallen"  = list("10"   = list(/obj/items/artifact,
+"Eye of The Fallen"  = list("2"    = /obj/items/wearable/pets/mad_eye,
+                            "10"   = list(/obj/items/artifact,
 										  /obj/items/crystal/soul,
 				                          /obj/items/wearable/title/Fallen,
 				                          /obj/items/rosesbook,
