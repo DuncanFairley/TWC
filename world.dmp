@@ -2079,7 +2079,7 @@
 "aNY" = (/obj/Fountain__,/turf/woodenfloor,/area/hogwarts/Third_Floor)
 "aNZ" = (/obj/books/EXP_BOOK_lvl0,/turf/woodenfloor,/area/hogwarts/Gryffindor_Common_Room)
 "aOa" = (/turf/stonefloor,/obj/Neptune,/turf/bathroomstall/s2,/area/hogwarts/Bathroom)
-"aOb" = (/turf/stonefloor,/obj/toilet,/turf/bathroomstall/s3,/area/hogwarts/Bathroom)
+"aOb" = (/turf/stonefloor,/obj/toilet,/turf/bathroomstall/s3{density = 0},/area/hogwarts/Bathroom)
 "aOc" = (/turf/stonefloor,/obj/Neptune,/turf/bathroomstall/s4,/area/hogwarts/Bathroom)
 "aOd" = (/turf/stonefloor,/area/hogwarts/Bathroom)
 "aOe" = (/turf/Black_Tile,/area/hogwarts/Bathroom)

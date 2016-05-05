@@ -889,7 +889,6 @@ obj
 	toilet
 		name = "toilet"
 		icon = 'toilet.dmi'
-		density = 0
 
 		proc
 			poop(mob/Player/P)
@@ -897,9 +896,6 @@ obj
 					P.Pooping = 0
 					P << infomsg("You feel a lot better.")
 
-		New()
-			..()
-			loc.density = 0
 obj
 	pumpkin
 		icon='pumpkin.dmi'
