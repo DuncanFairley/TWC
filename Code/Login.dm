@@ -2323,7 +2323,17 @@ proc
 					if(E)
 						E.loc = E.origloc
 						E.HP = E.MHP
-						E.ShouldIBeActive()
+						var/active = E.ShouldIBeActive()
+
+						if(!active && istype(E.origloc.loc, /area/newareas))
+							var/area/newareas/a = E.origloc.loc
+
+							active = a.region && a.region.active
+
+						if(active)
+							E.alpha = 0
+							animate(E, alpha = 255, time = 15)
+
 			else
 				E.loc = null
 
