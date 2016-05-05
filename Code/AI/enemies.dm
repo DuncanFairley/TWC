@@ -572,10 +572,10 @@ mob
 				set waitfor = 0
 				if(active) return
 				active = 1
-				while(src && src.loc && state != 0)
+				while(src.loc && state != 0)
 					switch(state)
 						if(WANDER)
-							Wander()
+							step_rand(src)
 						if(SEARCH)
 							Search()
 						if(HOSTILE)
@@ -607,7 +607,7 @@ mob
 						state()
 
 				Search()
-					Wander()
+					step_rand(src)
 					for(var/mob/Player/M in ohearers(src, Range))
 						if(M.loc.loc != src.loc.loc) continue
 						if(ignore && (M in ignore)) continue
@@ -631,9 +631,6 @@ mob
 								target = M
 						else
 							Ignore(M)
-
-				Wander()
-					step_rand(src)
 
 				Ignore(mob/M)
 					set waitfor = 0
@@ -703,7 +700,7 @@ mob
 
 				if(prob(20))
 					step_rand(src)
-					sleep(MoveDelay)
+					sleep(lag)
 
 				if(state != HOSTILE) return
 
@@ -818,7 +815,7 @@ mob
 						..()
 
 					Search()
-						Wander()
+						step_rand(src)
 						for(var/mob/Player/M in ohearers(src, Range))
 							if(M.loc.loc != src.loc.loc) continue
 							if(M.Immortal && M.admin) continue
@@ -863,7 +860,7 @@ mob
 						level = 2000
 
 						Search()
-							Wander()
+							step_rand(src)
 							for(var/mob/Player/M in ohearers(src, Range))
 								if(M.loc.loc != src.loc.loc) continue
 								if(M.Immortal) continue
@@ -1314,7 +1311,7 @@ mob
 					level = 6
 
 					Search()
-						Wander()
+						step_rand(src)
 						sleep(3)
 						Heal()
 
@@ -1768,7 +1765,7 @@ mob
 						transform *= 1 + (rand(-15,30) / 50) // -30% to +60% size change
 
 				Search()
-					Wander()
+					step_rand(src)
 					for(var/mob/Player/M in ohearers(src, Range))
 						if(M.loc.loc == src.loc.loc)
 							target = M
