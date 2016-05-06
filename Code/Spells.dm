@@ -225,11 +225,9 @@ mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
 		usr << "You must hold a wand to cast this spell."
 mob/Spells/verb/Depulso()
 	set category="Spells"
-	var/mob/M
-	var/found = FALSE
-	for(M in get_step(usr,usr.dir))
-		if(!M.key && !istype(M,/mob/Victims)) return
 
+	var/found = FALSE
+	for(var/mob/Player/M in get_step(usr,usr.dir))
 		if(!M.findStatusEffect(/StatusEffect/Potions/Stone))
 			var/turf/t = get_step_away(M,usr,15)
 			if(!t || (issafezone(M.loc.loc) && !issafezone(t.loc))) return
@@ -596,14 +594,12 @@ mob/Spells/verb/Anapneo(var/mob/M in view(usr.client.view,usr)&Players)
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		if(!M.flying == 0){src<<"<b><span style=\"color:red;\">Error:</b></span> You can't cast this spell on someone who is flying.";return}
 		hearers()<<"<B><span style=\"color:red;\">[usr]:</span><font color=blue> <I>Anapneo!</I>"
-		M.Rictusempra=0
-		M.Rictalk=0
 		M.silence=0
 		M.muff=0
 		sleep(20)
 		hearers(usr.client.view,usr)<<"[usr] flicks \his wand, clearing the airway of [M]."
 		usr:learnSpell("Anapneo")
-mob/Spells/verb/Reducto(var/mob/M in (view(usr.client.view,usr)&Players)|src)
+mob/Spells/verb/Reducto(var/mob/Player/M in (view(usr.client.view,usr)&Players)|src)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		if(M.flying){src<<"<b><span style=\"color:red;\">Error:</b></span> You can't cast this spell on someone who is flying.";return}
@@ -1342,7 +1338,7 @@ mob/Spells/verb/Telendevour()
 			var/mob/M = input("Which person would you like to view?") as null|anything in Players(list(src))
 			if(!M) return
 			if(usr.client.eye != usr) return
-			if(istext(M) || istype(M.loc.loc, /area/blindness) || M.occlumens>0 || istype(M.loc.loc, /area/ministry_of_magic))
+			if(istext(M) || M.occlumens>0 || istype(M.loc.loc, /area/ministry_of_magic))
 				src<<"<b>You feel magic repelling your spell.</b>"
 			else
 				usr.client.eye = M
@@ -2176,9 +2172,11 @@ mob/GM/verb/Remote_View(mob/M in world)
 	set popup_menu = 0
 	if(clanrobed())return
 	if(M.loc == null) return
-	if(istype(M.loc.loc, /area/ministry_of_magic||istype(M.loc.loc, /area/blindness))){src<<"<b>You cannot use remote view on this person.";return}
-	usr.client.eye=M
-	usr.client.perspective=EYE_PERSPECTIVE
+	if(istype(M.loc.loc, /area/ministry_of_magic))
+		src << errormsg("You cannot use remote view on this person.")
+		return
+	client.eye=M
+	client.perspective=EYE_PERSPECTIVE
 	hearers()<<"[usr] sends \his view elsewhere."
 mob/GM/verb/HM_Remote_View(mob/M in world)
 	set category="Staff"

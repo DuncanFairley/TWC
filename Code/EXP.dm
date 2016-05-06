@@ -18,32 +18,29 @@ obj/hud/class
 	screen_loc = "14,1"
 	mouse_over_pointer = MOUSE_HAND_POINTER
 	Click()
-		if(usr.classpathfinding)
+		var/mob/Player/p = usr
+		if(p.classpathfinding)
 			//Turn OFF path finding
-			usr.classpathfinding = 0
+			p.classpathfinding = 0
 			if(!classdest)
-				usr.client.screen.Remove(src)
+				p.client.screen.Remove(src)
 			else
 				src.icon_state = "0"
-			usr.client.images = list()
+			p.client.images = list()
 		else
 			//turn ON path finding
-			usr.classpathfinding = 1
+			p.classpathfinding = 1
 			if(!classdest)
-				usr.client.screen.Remove(src)
-				usr << "The class is no longer accepting new students"
-				usr.classpathfinding = 0
+				p.client.screen.Remove(src)
+				p << "The class is no longer accepting new students"
+				p.classpathfinding = 0
 			else
 				src.icon_state = "1"
-				usr << link("?src=\ref[usr];action=class_path")
-
-mob/var/tmp/classpathfinding = 0
-
-mob/var/tmp/readbooks
-
-mob/var/rest = 1
+				p << link("?src=\ref[p];action=class_path")
 
 mob/Player/var/tmp
+	classpathfinding = 0
+	readbooks
 	Checking
 	answered
 
@@ -110,30 +107,31 @@ obj
 
 		verb/Read_book()
 			set src in oview(1)
+			var/mob/Player/p = usr
 			if(!worldData.canReadBooks)
-				usr << errormsg("You find this book too boring to read.")
+				p << errormsg("You find this book too boring to read.")
 				return
-			if(usr.readbooks == 1)
-				usr.readbooks = 2
-				usr.movable = 0
-				usr:presence = null
-				usr << infomsg("You stop reading.")
-			else if(!usr.readbooks)
-				var/hudobj/reading/R = new(null, usr.client, null, 1)
-				usr.readbooks = 1
-				usr.movable = 0
-				usr << infomsg("You begin reading.")
+			if(p.readbooks == 1)
+				p.readbooks = 2
+				p.movable = 0
+				p:presence = null
+				p << infomsg("You stop reading.")
+			else if(!p.readbooks)
+				var/hudobj/reading/R = new(null, p.client, null, 1)
+				p.readbooks = 1
+				p.movable = 0
+				p << infomsg("You begin reading.")
 				spawn(15)
-					while(src && usr && usr.readbooks == 1 && (usr in ohearers(src, 1)))
-						var/exp = get_exp(usr.level) / (usr:presence ? 1 : 3)
+					while(src && p && p.readbooks == 1 && (p in ohearers(src, 1)))
+						var/exp = get_exp(p.level) / (p.presence ? 1 : 3)
 						exp = round(rand(exp - exp / 10, exp + exp / 10))
-						usr:addExp(exp, 1, 0)
-						if(usr.level > 500) usr.gold.add(round(rand(3,6) / (usr:presence ? 1 : 3)))
+						p.addExp(exp, 1, 0)
+						if(p.level > 500) p.gold.add(round(rand(3,6) / (p.presence ? 1 : 3)))
 						sleep(15)
-					if(usr)
-						usr.client.screen -= R
-						usr.readbooks = 0
-						usr:presence = null
+					if(p)
+						p.client.screen -= R
+						p.readbooks = 0
+						p.presence = null
 
 
 		EXP_BOOK_lvl0

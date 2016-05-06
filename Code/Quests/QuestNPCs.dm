@@ -502,7 +502,7 @@ obj/AlyssaChest
 
 	proc/open(mob/Player/p)
 		alert(p, "You open the chest")
-		if(usr.ror == r)
+		if(p.ror == r)
 			return 1
 		else
 			alert("You find nothing.")

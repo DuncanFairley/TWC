@@ -430,6 +430,8 @@ mob/var/silverspiderlegs
 mob/var/salamanderdrop
 mob/var/talkedtosanta
 mob/var/talkedtoalyssa
+mob/var/delinterwand
+mob/var/easterwand
 
 mob
 	longap/verb
@@ -516,7 +518,7 @@ obj/screenobj/conjunct
 		icon_state = "conjunct"
 proc/view2screenloc(view)
 	//example result "1,1 to 33,29
-	view = dd_replacetext(view,"x",",")
+	view = replacetext(view,"x",",")
 	return "1,1 to [view]"
 mob/Spells/verb/Conjunctivis(mob/M in oview()&Players)
 	set hidden = 1

@@ -16,23 +16,6 @@ mob
 				else
 					alert("Couldn't find specified log")
 
-mob
- proc
-  Deathcheck(mob/M)
-   if(!src.client)
-    if(src.HP<=0)
-     del(src)
-     sleep(600)
-     world.Repop(src)
-   else
-    if(src.HP<=0)
-     src.MP = src.MMP +extraMMP
-     src.HP = src.MHP+extraMHP
-     del(src)
-     world.Repop(src)
-
-mob/var/GMFrozen
-
 area
 	nofly
 		antiFly = TRUE
@@ -52,13 +35,12 @@ mob
 			spawn()sql_add_plyr_log(M.ckey,"wa",Reason)
 			M<<"<p><span style=\"color:red;\">You have been issued a warning by [usr]. <p><b><font color=white>Reason: [Reason].</b></span> <p></font><span style=\"color:red;\">If you proceed in these actions, you could be Expelled/Booted/Muted or sent to Detention.</span></p>"
 			M<< browse(rules,"window=1")
-mob/var/tmp
-	mprevicon
 
-mob/var/tmp/Rictalk
+mob/Player/var
 
-obj/var/followplayer
-obj/var/loco
+	tmp
+		mprevicon
+	GMFrozen
 
 mob
 	proc
@@ -89,8 +71,8 @@ mob
 				usr.MP = min(maxMP, MP + maxMP*0.4)
 				updateHPMP()
 
-mob/var/questionius = 2
 mob
+	var/questionius = 2
 	verb
 		Questionius()
 			set category = "Commands"

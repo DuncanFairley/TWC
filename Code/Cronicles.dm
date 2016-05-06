@@ -4,7 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-mob/var/ror=0
+mob/Player/var/ror=0
 
 var/list/mob/Player/Players = list()
 turf/var/flyblock=0
@@ -414,9 +414,9 @@ mob
 						usr.density = 0
 						usr.loc.loc.Enter(usr)
 						usr.density = 1
-			if(usr.ror==0)
+			if(src:ror==0)
 				var/rorrand=rand(1,3)
-				usr.ror=rorrand
+				src:ror=rorrand
 			usr.occlumens = 0
 			usr.icon_state = ""
 			if(usr.Gm)
@@ -656,7 +656,6 @@ proc/HTMLOutput(mob/M,page,list/href_list)
 
 mob/tmpmob
 mob/BaseCamp/ChoosingCharacter
-	movable=1
 	Login()
 
 		usr << output(HTMLOutput(src),"broLogin")

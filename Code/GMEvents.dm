@@ -77,7 +77,7 @@ mob/TalkNPC
 				id.Add(usr.client.computer_id)
 				return 1
 
-mob
+mob/Player
 	var/tmp
 		EditVar
 		EditVal
@@ -88,50 +88,50 @@ mob/GM
 	verb
 		Toggle_Click_Create()
 			set category = "Events"
-			if(clanrobed())return
-			if(ClickCreate)
-				ClickCreate = 0
-				CreatePath = null
-				src << "Click Creating mode toggled off."
+			var/mob/Player/p = src
+			if(p.ClickCreate)
+				p.ClickCreate = 0
+				p.CreatePath = null
+				p << "Click Creating mode toggled off."
 			else
-				if(ClickEdit)Toggle_Click_Editing()
-				ClickCreate = 1
-				src << "Click Creating mode toggled on."
+				if(p.ClickEdit) Toggle_Click_Editing()
+				p.ClickCreate = 1
+				p << "Click Creating mode toggled on."
 		Toggle_Click_Editing()
 			set category = "Events"
-			if(clanrobed())return
-			if(ClickEdit)
-				ClickEdit = 0
-				EditVar = null
-				EditVal = null
-				src << "Click Editing mode toggled off."
+			var/mob/Player/p = src
+			if(p.ClickEdit)
+				p.ClickEdit = 0
+				p.EditVar = null
+				p.EditVal = null
+				p << "Click Editing mode toggled off."
 			else
-				if(ClickCreate)Toggle_Click_Create()
-				ClickEdit = 1
-				src << "Click Editing mode toggled on."
+				if(p.ClickCreate) Toggle_Click_Create()
+				p.ClickEdit = 1
+				p << "Click Editing mode toggled on."
 		CreatePath(Path as null|anything in typesof(/area,/turf,/obj,/mob) + list("Delete"))
 			set category = "Events"
-			if(clanrobed())return
-			CreatePath = Path
-			usr << "Your CreatePath is now set to [Path]."
+			var/mob/Player/p = src
+			p.CreatePath = Path
+			p << "Your CreatePath is now set to [Path]."
 		MassEdit(Var as text)
 			set category = "Events"
-			if(clanrobed())return
+			var/mob/Player/p = src
 			var/Type = input("What type?","Var Type") as null|anything in list("text","num","reference","null")
 			if(Type)
-				EditVar = Var
+				p.EditVar = Var
 				switch(Type)
 					if("text")
-						EditVal = input("Value:","Text") as text
-						usr << "Your MassEdit variable is now [EditVar] with the text value [EditVal]."
+						p.EditVal = input("Value:","Text") as text
+						p << "Your MassEdit variable is now [p.EditVar] with the text value [p.EditVal]."
 					if("num")
-						EditVal = input("Value:","Number") as num
-						usr << "Your MassEdit variable is now [EditVar] with the number value [EditVal]."
+						p.EditVal = input("Value:","Number") as num
+						p << "Your MassEdit variable is now [p.EditVar] with the number value [p.EditVal]."
 					if("reference")
-						EditVal = input("Value:","Reference") as area|turf|obj|mob in world
-						usr << "Your MassEdit variable is now [EditVar] with the reference [EditVal]."
+						p.EditVal = input("Value:","Reference") as area|turf|obj|mob in world
+						p << "Your MassEdit variable is now [p.EditVar] with the reference [p.EditVal]."
 					if("null")
-						EditVal = null
+						p.EditVal = null
 		FFA_Mode(var/dmg as num, var/os as anything in list("On", "Off"))
 			set category = "Events"
 			var/area/a = locate(/area/arenas/MapThree/PlayArea)
@@ -143,27 +143,26 @@ mob/GM
 
 atom/Click(location)
 	..()
-	if(usr.ClickEdit)
-		if(!usr.admin)
-			usr << errormsg("Only Admins can use this.")
+
+	var/mob/Player/p = usr
+	if(p.ClickEdit)
+		if(!p.admin)
+			p << errormsg("Only Admins can use this.")
 			return
-		if(!usr.EditVar)
-			usr << "Pick a var to edit using MassEdit verb."
-		else if(usr.EditVar in vars)
-			vars[usr.EditVar] = usr.EditVal
-	else if(usr.ClickCreate)
-		if(!usr.CreatePath)
-			usr << "Pick a path to create using CreatePath verb."
+		if(!p.EditVar)
+			p << "Pick a var to edit using MassEdit verb."
+		else if(p.EditVar in vars)
+			vars[p.EditVar] = p.EditVal
+	else if(p.ClickCreate)
+		if(!p.CreatePath)
+			p << "Pick a path to create using CreatePath verb."
 		else
 
-			if(!usr.admin && (usr.z < SWAPMAP_Z || src.z < SWAPMAP_Z || ispath(usr.CreatePath, /obj/items) || ispath(usr.CreatePath, /mob)))
-				usr << errormsg("Can't use outside swap maps or create items/mobs.")
+			if(!p.admin && (p.z < SWAPMAP_Z || src.z < SWAPMAP_Z || ispath(p.CreatePath, /obj/items) || ispath(p.CreatePath, /mob)))
+				p << errormsg("Can't use outside swap maps or create items/mobs.")
 				return
 
-			if(usr.CreatePath == "Delete" && !isplayer(src))
+			if(p.CreatePath == "Delete" && !isplayer(src))
 				del src
 			else if(isturf(location))
-				new usr.CreatePath (location)
-			//  Owner var
-			//var/item = new usr.CreatePath(location)
-			//item:owner = usr.key
+				new p.CreatePath (location)

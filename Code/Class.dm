@@ -565,12 +565,6 @@ proc
 
 		return cut == end
 
-	replace(string, needle, new_string, start=1, end=0)
-		while(findtext(string,needle,start,end))
-			var/pos = findtext(string,needle,start,end)
-			string = copytext(string,1,pos) + new_string + copytext(string,pos+length(needle))
-		return string
-
 mob/Player
 	var/tmp/learnSpell/learning
 

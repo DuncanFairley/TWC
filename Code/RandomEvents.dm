@@ -75,7 +75,6 @@ RandomEvent
 				currentArena.roundtype = FFA_WARS
 				for(var/mob/M in locate(/area/arenas/MapThree/WaitingArea))
 					if(M.client)
-						M.DuelRespawn = 0
 						currentArena.players.Add(M)
 				if(currentArena.players.len < 2)
 					currentArena.players << "There isn't enough players to start the round."
@@ -146,7 +145,7 @@ RandomEvent
 			var/class/c
 
 			for(var/t in typesof(/class/))
-				if(ends_with("[t]", replace(spellList[spell], " ", "_")))
+				if(ends_with("[t]", replacetext(spellList[spell], " ", "_")))
 					c = new t
 					break
 
@@ -176,7 +175,7 @@ RandomEvent
 				c.professor = null
 				classdest = null
 
-				for(var/mob/M in Players)
+				for(var/mob/Player/M in Players)
 					if(M.classpathfinding)
 						for(var/image/C in M.client.images)
 							if(C.icon == 'arrows.dmi')

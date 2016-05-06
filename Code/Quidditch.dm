@@ -28,8 +28,6 @@ turf/quidHuffle/Entered(mob/M) M.loc = locate(69,49,14)
 turf/quidSlyth/Entered(mob/M) M.loc = locate(28,58,14)
 turf/quidRaven/Entered(mob/M) M.loc = locate(28,49,14)
 turf/quidGryff/Entered(mob/M) M.loc = locate(69,58,14)
-turf/quidEntrance/Entered(mob/M) M.loc = locate(49,29,14)
-turf/quidExit/Entered(mob/Player/M) if(istype(M,/mob/Player))M.Say("Reception")
 
 turf/quidditch
 	icon = 'obj.dmi'

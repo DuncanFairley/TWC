@@ -9,9 +9,7 @@ var/obj/ministrybox/ministrybox
 turf
 	teleport
 		var/turf/dest //tag referring to turf/destination
-		//layer = 5
-		//icon = 'x.dmi'
-		//icon_state = "red"
+
 		Entered(atom/movable/E)
 			if(dest)
 				if(isplayer(E))
@@ -19,8 +17,6 @@ turf
 					var/atom/A = locate(dest) //can be some turf, or some obj
 					if(isobj(A))
 						A = A.loc
-
-						//E.loc = locate(src.dest)
 					p.Transfer(A)
 
 					p.removePath()
@@ -29,9 +25,6 @@ turf
 					else if(p.pathdest)
 						p.pathTo()
 	destination
-		//layer = 5
-		//icon = 'x.dmi'
-		//icon_state = "green"
 
 turf/gotoministry
 	Entered()

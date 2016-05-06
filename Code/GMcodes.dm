@@ -24,7 +24,7 @@ mob
 				if("Rat","Demon Rat")
 					if((monsterkills["Rat"] + monsterkills["Demon Rat"]) == 500)
 						spawn()Award("Need a cat?")
-mob/var
+mob/Player/var
 	timerDet = 0
 	timerMute = 0
 
@@ -43,7 +43,6 @@ proc/reset_winAT(var/mob/Player/M)
 	panATMain["anchor1"] = "0,0"
 	panATMain["anchor2"] = "100,100"
 	panATMain["title"] = "Main"
-//	panATMain["background-color"] = "#00FF00"
 	winset(M,"panATMain",list2params(panATMain))
 
 	var/list/tabAT = list()
@@ -277,15 +276,8 @@ mob/GM/verb/Administration_Tools()
 		winset(src,"tabATLogs","tabs=%2BpanATLogsKill")
 		usr << browse("[file2text(killlog)]","window=broATLogsKill")
 	winshow(src,"winAT",1)
-mob
+mob/Player
 	proc
-		/*mute_countdown(var/length)
-			sleep(length)
-			if(mute)
-				mute = 0
-				world << "<b><span style=\"color:red;\">[src] has been unsilenced.</span></b>"
-				verbs += /mob/verb/Emote
-				verbs += /mob/verb/PM*/
 		mute_countdown()
 			sleep(600)
 			timerMute--
@@ -309,18 +301,7 @@ mob
 				src.client.update_individual()
 			else
 				detention_countdown()
-		/*detention_countdown(var/length,mob/M)
-			sleep(length)
-			if(M.Detention)return
-			flick('dlo.dmi',M)
-			M.loc=locate(13,7,21)
-			M.client.view="17x17"
 
-			M.verbs += /mob/verb/PM
-			M.Detention=1
-			M.OOCNo=0
-			world<<"[M] has been released from Detention."
-			M.updateClanPermissions()*/
 mob/test/verb/Remove_Junk()
 	var/input = input("Which junk are we talkin'?","Junk Removal") as null|anything in list("PM Inbox","PM Outbox","Inventory","Bank Deposit Items")
 	if(!input) return
@@ -681,7 +662,7 @@ mob
 
 
 
-		Detention(mob/M in Players)
+		Detention(mob/Player/M in Players)
 			set category = "Staff"
 			for(var/mob/Player/A in Players)
 				if(A.Gm) A << "<b><u><span style=\"color:#FF14E0;\">[src] has opened the Detention window on [M].</span></u></b>"
@@ -690,7 +671,10 @@ mob
 			var/Reason = input(src,"You are being Detentioned because you: <finish sentence>","Specify Why","harmed somebody within a safe zone (Hogwarts or Diagon Alley).") as null|text
 			if(Reason == null) return
 			if(M.key)
-				if(M && M.removeoMob) spawn()M:Permoveo()
+				if(M && M.removeoMob)
+					spawn()
+						var/mob/m = M
+						m:Permoveo()
 				M.density = 1
 				flick('dlo.dmi',M)
 				M.Detention=1
@@ -837,7 +821,7 @@ mob
 			set category = "Teach"
 			set name = "End Floor Guidance"
 			var/stillpathing = ""
-			for(var/mob/M in Players)
+			for(var/mob/Player/M in Players)
 				if(M.classpathfinding)
 					stillpathing += "\n  [M.name]"
 					for(var/image/C in M.client.images)
@@ -910,7 +894,7 @@ mob
 				flick('mist.dmi',M)
 				M<<"<b><span style=\"color:blue;\">[usr] has made you a Mortal. You are now vulnerable to Death.</span>"
 				M.Immortal=0
-		Mute(mob/M in Players)
+		Mute(mob/Player/M in Players)
 			set category = "Staff"
 			if(M.mute==0)
 				M.mute=1
@@ -1228,47 +1212,45 @@ mob
 
 		Cloak()
 			set category = "Staff"
-			if(usr.cloaked==0)
+			var/mob/Player/p = src
+			if(p.cloaked==0)
 				if(clanrobed())return
 				hearers() << "<b>[usr] has vanished."
 				//usr.picon_state=usr.icon_state
 				flick('GMOrb.dmi',usr)
 				sleep(9)
 				//usr.mprevicon = usr.icon
-				usr.icon = null
+				p.icon = null
 				//usr.icon_state="bl"
-				usr.cloaked=1
+				p.cloaked=1
 			//	sight |= SEE_SELF     // They can see themselves
-				usr.density=0
-				usr.underlays = list()
-				usr.overlays = list()
+				p.density=0
+				p.underlays = list()
+				p.overlays = list()
 			else
 				hearers() << "<b>[usr] has appeared."
 				//usr.icon = usr.mprevicon
 				flick('GMOrb.dmi',usr)
 				sleep(11)
-				usr.icon = usr.baseicon
-				usr:ApplyOverlays()
-				usr.invisibility=0
+				p.icon = usr.baseicon
+				p.ApplyOverlays()
+				p.invisibility=0
 				//usr.icon_state=""
 			//	sight &= ~SEE_SELF   // turn off the sight bit
 				//usr.icon_state=picon_state
-				usr.cloaked=0
-				usr.density=1
+				p.cloaked=0
+				p.density=1
 
-				usr:addNameTag()
-		Freeze(var/mob/M in Players)
+				p.addNameTag()
+		Freeze(var/mob/Player/M in Players)
 			set popup_menu = 0
 			set category="Staff"
 			if(clanrobed())return
-			if(M.movable==0 && M.GMFrozen != 1)
-				M.movable=1
+			if(M.GMFrozen != 1)
 				M.GMFrozen=1
 				M.overlays+='freeze.dmi'
 				M<<"You have been frozen."
 			else if(M.movable==1)
-				M.movable=0
-				M.frozen=0
 				M.GMFrozen=0
 				M.overlays-='freeze.dmi'
 				M<<"You have been unfrozen."
@@ -1316,36 +1298,26 @@ mob/GM/verb
 		src << browse("The following keys are banned: [bban]","window=1")
 
 
-//EXTRA VARS NEEDED FOR GM COMMANDS
-mob/var/picon_state
-mob/var/tmp/movable=0
-client.Move()
-	if(!mob.movable)
-		return..()
-	else
-		return
+mob/Player/var/tmp/cloaked=0
+mob/var/tmp/movable
 var/OOCMute=0
-var/RA=0
-var/NoVisitors=0
-mob/var/cloaked=0
-obj/var/description
+mob/Player/var/shortapparate = 0
 
-/////////Apparate\\\\\\\\\
-
-mob/var/shortapparate = 0
-turf//client
+turf
 	DblClick()
-		if(usr.shortapparate && !(usr.prevname))
+		..()
+
+		var/mob/Player/p = usr
+		if(p.shortapparate && !(p.prevname))
 			if(!density)// && get_dist(usr,src) <25)
-				flick('apparate.dmi',usr)
-				if(usr.density)
-					usr.density = 0
-					usr.Move(src)
-					usr.density = 1
+				flick('apparate.dmi',p)
+				if(p.density)
+					p.density = 0
+					p.Move(src)
+					p.density = 1
 				else
-					usr.Move(src)
-				flick('apparate.dmi',usr)
-///////////////////////////////////////////////////////////////////
+					p.Move(src)
+				flick('apparate.dmi',p)
 
 mob/GM
 	verb
@@ -1403,31 +1375,23 @@ mob/GM
 			set category="Staff"
 			if(clanrobed())return
 			usr<<"With a flick of your wand, you Freeze your view!"
-			for(var/mob/M in view())
-				if(M.key!=usr.key)
+			for(var/mob/Player/M in oview())
+				if(M != src)
 					if(M.GMFrozen)
-						M.frozen = 0
-						M.movable=0
 						M.GMFrozen=0
 						M.overlays-='freeze.dmi'
 					else
-						M.movable=1
 						M.GMFrozen=1
 						M.overlays+='freeze.dmi'
 
-						//M<<"[usr] holds their wand up, and with a quick *Flick!* freezes EVERYONE in their sight!"
 		Unfreeze_Area()
 			set category="Staff"
 			if(clanrobed())return
 			usr<<"With a flick of your wand, you UnFreeze your view!"
-			for(var/mob/M in view())
-				if(M.key!=usr.key)
-					M.frozen = 0
-					M.movable=0
+			for(var/mob/Player/M in oview())
+				if(M != src)
 					M.GMFrozen=0
 					M.overlays-='freeze.dmi'
-				//	M<<"[usr] holds up their wand, and with a quick *Flick!* unfrezes EVERYONE in their sight!"
-
 
 		AddItem(var/s in shops, var/path in (typesof(/obj/items)-/obj/items))
 			set category="Staff"
@@ -1813,7 +1777,6 @@ var/list/obj/Bed/Map1Hbeds = list()
 var/list/obj/Bed/Map2DEbeds = list()
 var/list/obj/Bed/Map2Aurorbeds = list()
 var/list/turf/MapThreeWaitingAreaTurfs = list()
-mob/see_in_dark = 10
 var
 	mysql_enabled = 0
 	mysql_host = "127.0.0.1"
@@ -1903,3 +1866,5 @@ world/proc/Save_Bans()
 	S["unban"] << crban_unbanned
 
 var/list/rankIcons
+
+

@@ -419,13 +419,13 @@ mob
 						damage[p.owner.ckey] = perc
 
 			New()
+				set waitfor = 0
 				. = ..()
-				spawn(1) // fix for monsters not setting their variables if loaded from swap maps
-					calcStats()
-					origloc = loc
-					sleep(rand(10,60))
-					ShouldIBeActive()
 
+				sleep(1)
+				calcStats()
+				origloc = loc
+				ShouldIBeActive()
 
 
 			proc/calcStats()
@@ -746,8 +746,7 @@ mob
 				state = SEARCH
 				New()
 					calcStats()
-					spawn(1)
-						state()
+					state()
 
 				ShouldIBeActive()
 					if(!loc)
@@ -1749,6 +1748,7 @@ mob
 							t.density = 0
 
 					New()
+						set waitfor = 0
 						..()
 						animate(src, color = rgb(255, 0, 0), time = 10, loop = -1)
 						animate(color = rgb(255, 0, 255), time = 10)
@@ -1756,7 +1756,8 @@ mob
 
 						SetSize(3)
 
-						spawn(2) origloc = null
+						sleep(2)
+						origloc = null
 				New()
 					..()
 					SetSize(1)

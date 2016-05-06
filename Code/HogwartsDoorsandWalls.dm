@@ -58,21 +58,6 @@ turf
 		density=1
 		flyblock=1
 		icon='wall1.dmi'
-	Hogwarts_Stone_Wall_
-		bumpable=0
-		opacity=0
-		name="Hogwarts Stone Wall"
-		density=1
-		icon='wall1.dmi'
-		flyblock = 1
-	/*	Enter(atom/movable/O)
-			if(ismob(O))
-				if(!density) return ..()
-				if(!O:Gm) return ..()
-				if(!O:key) return ..()
-				else if(density)
-					return 0
-			return ..()*/
 	Ministry_Red_Carpet
 		name = "Red Carpet"
 		icon='floors2.dmi'
@@ -83,12 +68,6 @@ turf
 	Black_Tile
 		icon='floors2.dmi'
 		icon_state="greycarpet"
-	FlashTile
-		icon='floors2.dmi'
-		icon_state="greycarpet"
-
-
-
 	Duel_Star
 		icon='DuelArena.dmi'
 		icon_state="d"
@@ -151,6 +130,7 @@ obj
 
 			New()
 				..()
+
 				spawn()
 					loc.name = "roofb"
 
@@ -161,7 +141,7 @@ obj
 					for(var/d in dirs)
 						if((n & d) > 0)
 
-							var/obj/roofedge/o
+							var/obj/static_obj/roofedge/o
 
 							if(d == SOUTH)
 								var/turf/t = locate(floor.x + 1, floor.y, floor.z)

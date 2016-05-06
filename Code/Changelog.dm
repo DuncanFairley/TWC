@@ -4,7 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-/obj/destination
+obj/destination
 	invisibility=2
 mob
 	ministryfinancer
@@ -48,7 +48,7 @@ mob
 							hearers() << npcsay("Head of Finance: The tax rate is now [worldData.taxrate]%.")
 				else
 					hearers() << npcsay("Head of Finance: Unfortunately, I can only discuss the finances of the Ministry with the Minister.")
-/obj/ministrybox
+obj/ministrybox
 	name = "Ministry Mail Box"
 	icon = 'desk.dmi'
 	icon_state = "ministrybox"
@@ -84,110 +84,3 @@ mob
 				S.Move(src)
 				view(src) << "<b>Ministry Box:</b> <i>Thank you!</i>"
 
-var/list/bugfixes = list()
-var/list/unvoteablebugfixes = list()
-var/list/changes = list()
-
-mob/test
-	verb
-		ChangelogAdmin()
-			set name = "Changelog Admin"
-			switch(alert("Edit or delete changelog?","Changelog Admin","Edit","Delete"))
-				if("Edit")
-					var/input = input("Changelog contents:","Changelog admin",file2text(file("changelog.html"))) as null|message
-					if(!input) return
-					fdel("changelog.html")
-					file("changelog.html") << "[input]"
-					src << "Changelog updated. Thank you Murra, you ROCK.;)"
-				if("Delete")
-					fdel("changelog.html")
-
-	//src << browse(file("changelog.html"),"window=1;size=500x500")
-	/*var/input = input("What would you like to do?") as null|anything in list("Add change","Remove change","View votes")
-	switch(input)
-		if("Add change")
-			input = input("What type of change?") as  null|anything in list("Bugfix","Unvoteable Bugfix","Addition/change")
-			switch(input)
-				if("Bugfix")
-					input = input("What's the bugfix?") as null|text
-					if(input)
-						bugfixes["[input]"] = 0
-				if("Unvoteable Bugfix")
-					input = input("What's the bugfix?") as null|text
-					if(input)
-						unvoteablebugfixes["[input]"] = 0
-				if("Addition/change")
-					input = input("What's the Addition/change?") as null|text
-					if(input)
-						changes["[input]"] = 0
-		if("Remove change")
-			input = alert("Would you like to remove all, or remove a specific change?",,"Remove all","Remove one","Cancel")
-			switch(input)
-				if("Remove all")
-					bugfixes = list()
-				if("Remove one")
-					input = alert("Type?",,"Bugfix","Unvoteable Bugfix","Change")
-					switch(input)
-						if("Bugfix")
-							input = input("Which one?") as null|anything in bugfixes
-							if(!input)return
-							bugfixes.Remove(input)
-						if("Unvoteable Bugfix")
-							input = input("Which one?") as null|anything in unvoteablebugfixes
-							if(!input)return
-							unvoteablebugfixes.Remove(input)
-						if("Change")
-							input = input("Which one?") as null|anything in changes
-							if(!input)return
-							changes.Remove(input)
-		if("View votes")
-			var/middle = "</table>Bugfixes:<table border=1>"
-			for(var/A in bugfixes)
-				middle += "<tr><td>[A]</td><td>[bugfixes[A]]</td></tr>"
-			var/html = {"
-<html>
-<head>
-<title>Change log display</title>
-</head>
-<body>
-	[middle]
-</body>
-</html>"}
-			usr << browse(html,"window=1;size=500x500")
-mob/You/var/list/mybugs = list()
-
-mob/You/verb/Changelog()
-	var/middle = "<b>Version [VERSION]</b><br />"
-	if(changes.len)
-		middle += {"<u>Additions/Changes</u>:<br />
-<table>
-	"}
-		for(var/A in changes)
-			middle += "<tr><td>-[A]</td></tr>"
-		middle += "</table>"
-	if(bugfixes.len)
-		middle += {"<u>Bugfixes</u>:<br />
-<table>
-	"}
-		for(var/A in bugfixes)
-			if(mybugs["[copytext(A,1,15)]"])
-				if(mybugs["[copytext(A,1,15)]"] == "1")
-					middle += "<tr><td>-[A]</td><td>(Fixed/<a href='?src=\ref[src];action=changelog_vote;index=[copytext(A,1,15)];vote=-1'>Unfixed</a>)</td></tr>"
-				else
-					middle += "<tr><td>-[A]</td><td>(<a href='?src=\ref[src];action=changelog_vote;index=[copytext(A,1,15)];vote=1'>Fixed</a>/Unfixed</a>)</td></tr>"
-			else
-				middle += "<tr><td>-[A]</td><td>(<a href='?src=\ref[src];action=changelog_vote;index=[copytext(A,1,15)];vote=1'>Fixed</a>/<a href='?src=\ref[src];action=changelog_vote;index=[copytext(A,1,15)];vote=-1'>Unfixed</a>)</td></tr>"
-		middle += "</table>"
-		for(var/A in unvoteablebugfixes)
-			middle += "<tr><td>-[A]</td></tr>"
-		middle += "</table>"
-	var/html = {"
-<html>
-<head>
-<title>Changelog</title>
-</head>
-<body>
-	[middle]
-</body>
-</html>"}
-	usr << browse(html,"window=1;size=500x500")*/
