@@ -578,7 +578,7 @@ obj/items/scroll
 				inuse = 0
 				return
 			msg = copytext(msg,1,1000)
-			msg = dd_replacetext(msg,"\n","<br>")
+			msg = replacetext(msg,"\n","<br>")
 
 			var/obj/items/scroll/s = stack > 1 ? Split(1) : src
 			s.content += "<body style=\"background-color:black; color:white\"><b><span style=\"color:blue; font-size:large; \"><u>[name]</u></span><br><span style=\"color:red; font-size:xx-small;\">by [usr]</span></b><br><p><span style=\"font-size:small;\">[msg]</span></p></body>"

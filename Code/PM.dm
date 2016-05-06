@@ -266,7 +266,7 @@ mob/Player/Topic(href,href_list[])
 			var/atom/movable/PM/msg = src.pmsRec[text2num(href_list["msgid"])]
 			src.pmsRec.Remove(msg)
 			src << link("byond://?src=\ref[src];action=pm_inbox")
-			msg.body = dd_replacetext(msg.body,"\n","<br>")
+			msg.body = replacetext(msg.body,"\n","<br>")
 			src << browse(null,"window=pm_Read")
 		if("pm_outbox_readmsg")
 			var/msgid = text2num(href_list["msgid"])
@@ -275,7 +275,7 @@ mob/Player/Topic(href,href_list[])
 			var/i = msgid
 			msg.read=1
 			src << link("byond://?src=\ref[src];action=pm_outbox")
-			msg.body = dd_replacetext(msg.body,"\n","<br>")
+			msg.body = replacetext(msg.body,"\n","<br>")
 			src << browse({"[PMheader]
 	<div class = "header">Sent Messages</div>
 	<br />
@@ -293,7 +293,7 @@ mob/Player/Topic(href,href_list[])
 			var/i = msgid
 			msg.read=1
 			src << link("byond://?src=\ref[src];action=pm_inbox")
-			msg.body = dd_replacetext(msg.body,"\n","<br>")
+			msg.body = replacetext(msg.body,"\n","<br>")
 			src << browse({"[PMheader]
 	<div class = "header">Inbox</div>
 	<br />
