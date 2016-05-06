@@ -99,7 +99,7 @@ mob
 				var/offset_pos_end = findtext(txt, "]", offset_pos_start + NEEDLE)
 
 				offset = text2num(copytext(txt, offset_pos_start + NEEDLE, offset_pos_end))
-				txt = replace(txt, "\[Offset=[offset]]", "", offset_pos_start)
+				txt = replacetext(txt, "\[Offset=[offset]]", "", offset_pos_start)
 
 			for(var/t in tags)
 				var/pos = findtext(txt, "\[[t]]")
@@ -150,7 +150,7 @@ mob
 			<td class="time:saturday">&nbsp;</td>
 		</tr>"}
 
-					txt = replace(txt, "\[[t]]", html, pos)
+					txt = replacetext(txt, "\[[t]]", html, pos)
 
 			src << browse(txt)
 mob/verb/Use_Spellpoints()

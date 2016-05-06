@@ -4,8 +4,6 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-mob/var/delinterwand
-mob/var/easterwand
 
 obj/Broom3
 	icon='icons.dmi'
@@ -14,20 +12,13 @@ obj/Broom3
 obj/DeskFilled
 	icon='desk.dmi'
 	icon_state="TD2"
-	dontsave=1
 	density=1
-	verb
-		Examine()
-			set src in oview(3)
-			usr << "An ordinary desk filled with various papers and such."
+
 obj/DeskEmpty
 	icon='desk.dmi'
 	icon_state="S1"
-	dontsave=1
-	verb
-		Examine()
-			set src in oview(3)
-			usr << "An ordinary wooden desk."
+	density=1
+
 obj/Desk3
 	icon='desk.dmi'
 	icon_state="S3"
@@ -173,13 +164,6 @@ obj/Angel_Top
 	dontsave=1
 	density=0
 	layer = MOB_LAYER + 1
-obj/Black
-	icon='turf.dmi'
-	icon_state="black"
-	wlable=0
-	accioable=0
-	dontsave=1
-	density=1
 obj/redroses
 	var/GM_Made = 0
 	icon='attacks.dmi'
@@ -241,9 +225,12 @@ obj
 		accioable = 1
 		wlable = 1
 		New()
+			set waitfor = 0
 			..()
 			pixel_x = rand(-7,7)
 			pixel_y = rand(-7,7)
+
+			sleep(1)
 			origloc = loc
 
 		proc/respawn()
@@ -359,24 +346,6 @@ obj/Golden_Candles_
 	density=1
 	pixel_y = -16
 
-////////////////\
-	End Spells  \
-/////////////////
-
-obj/Portal
-	icon='portal.dmi'
-	layer=MOB_LAYER+7
-	verb
-		Touch()
-			set src in oview(1)
-			step_towards(usr,src)
-			sleep(10)
-			hearers()<<"[usr] touched the portal and vanished."
-			usr.loc=locate(src.lastx,src.lasty,src.lastz)
-			step(usr,SOUTH)
-			hearers()<<"[usr] emerges."
-			return
-
 obj/plate
 	icon='turf.dmi'
 	icon_state="plate"
@@ -397,42 +366,34 @@ obj/gryffindor
 	icon='shields.dmi'
 	icon_state="gryffindor"
 	density=1
-	dontsave=1
 obj/slytherin
 	icon='shields.dmi'
 	icon_state="slytherin"
 	density=1
-	dontsave=1
 obj/hufflepuff
 	icon='shields.dmi'
 	icon_state="hufflepuff"
 	density=1
-	dontsave=1
 obj/ravenclaw
 	icon='shields.dmi'
 	icon_state="ravenclaw"
 	density=1
-	dontsave=1
 obj/gryffindorbanner
 	icon='shields.dmi'
 	icon_state="gryffindorbanner"
 	density=1
-	dontsave=1
 obj/slytherinbanner
 	icon='shields.dmi'
 	icon_state="slytherinbanner"
 	density=1
-	dontsave=1
 obj/hufflepuffbanner
 	icon='shields.dmi'
 	icon_state="hufflepuffbanner"
 	density=1
-	dontsave=1
 obj/ravenclawbanner
 	icon='shields.dmi'
 	icon_state="ravenclawbanner"
 	density=1
-	dontsave=1
 obj/hogwartshield
 	icon='shields.dmi'
 	icon_state="hogwartsshield"
@@ -442,15 +403,12 @@ obj/hogwartbanner
 	icon='shields.dmi'
 	icon_state="hogwartsbanner"
 	density=1
-	dontsave=1
 obj/Fountain
 	icon='shields.dmi'
 	icon_state="fountain"
 	density=1
-	dontsave=1
 	accioable=1
 	wlable = 1
-	value=2500
 	rubbleable=1
 	verb
 		Drink()
@@ -466,38 +424,6 @@ obj/Fountain
 						usr.MP=usr.MMP+usr.extraMMP
 						usr.updateHPMP()
 						usr<<"You feel much better."
-
-//FURNITURE
-obj/Bed_
-	icon='turf.dmi'
-	icon_state="Bed"
-	density=1
-
-	verb
-		Take()
-			set src in oview(1)
-			usr<<"You take the [src]"
-			Move(usr)
-			usr:Resort_Stacking_Inv()
-	verb
-		Drop()
-
-			new/obj/Bed_(usr.loc)
-			usr<<"You drop your [src]"
-			del src
-
-obj/Dresser
-	icon='items.dmi'
-	icon_state="cabinet"
-	density=1
-	value=2500
-	dontsave=1
-	rubbleable=1
-	verb
-		Drop()
-			new/obj/Dresser(usr.loc)
-			usr<<"You drop your [src]"
-			del src
 
 obj/Lamp_Table_Top
 	icon='house.dmi'
@@ -533,67 +459,44 @@ obj/Desk
 	icon='desk.dmi'
 	icon_state="S1"
 	density=1
-	value=2500
-	dontsave=1
 
 obj/Book_Shelf
 	icon='Desk.dmi'
 	icon_state="1"
 	density=1
-	dontsave=1
-	value=2500
-/*
-	verb
-		Search()
-			set src in view(2)
-			switch(input(usr,"What book would you like to Grab?","Bookshelf") in list ("Transfiguration for Dummies","Cancel"))
-				if("Transfiguration for Dummies")
-					new/obj/TFD(usr)
-					usr<<"You grab 'Transfiguration for Dummies' from the Bookshelf."
-*/
+
 obj/Book_Shelf1
 	icon='Desk.dmi'
 	icon_state="2"
 	density=1
-	dontsave=1
-	value=2500
 
 obj/Wand_Shelf
 	icon='Desk.dmi'
 	icon_state="3"
 	density=1
-	dontsave=1
-	value=2500
-/*
-	verb
-		Search()
-			set src in view(2)
-			switch(input(usr,"What book would you like to Grab?","Bookshelf") in list ("Transfiguration for Dummies","Cancel"))
-				if("Transfiguration for Dummies")
-					new/obj/TFD(usr)
-					usr<<"You grab 'Transfiguration for Dummies' from the Bookshelf."*/
+
 obj/stone
 	icon='turf.dmi'
 	icon_state="stone"
 	density=1
-	dontsave=1
+
 	New()
-		..()
-		spawn(600)del(src)
+		set waitfor = 0
+		sleep(600)
+		loc = null
+
 obj/Dual_Swords
 	icon='wallobjs.dmi'
 	icon_state="sword"
-	wlable=0
 	density=1
-	dontsave=1
+
 obj/Fireplace
 	icon='misc.dmi'
 	icon_state="fireplace"
 	wlable=0
 	density=1
 	accioable=0
-	dontsave=1
-	luminosity = 7
+
 turf
 	Fireplace
 		icon='misc.dmi'
@@ -612,9 +515,7 @@ turf
 
 obj/Microphone
 	icon='Microphone.dmi'
-	wlable=0
-	density=1
-	accioable=0
+
 	verb
 		Speak()
 			set src in oview(1)
@@ -624,30 +525,24 @@ obj/Microphone
 obj/Reserved
 	icon='misc.dmi'
 	icon_state="reserved"
-	wlable=0
 	density=1
-	accioable=0
+
 obj/Exit
 	icon='misc.dmi'
 	icon_state="exit"
-	wlable=0
 	density=1
-	accioable=0
 obj/Blackboard_
 	icon='bb.dmi'
 	icon_state="1"
 	density=1
-	dontsave=1
 obj/Blackboard__
 	icon='bb.dmi'
 	icon_state="2"
 	density=1
-	dontsave=1
 obj/Blackboard___
 	icon='bb.dmi'
 	icon_state="3"
 	density=1
-	dontsave=1
 obj
 	air1
 		name = "Sign"
@@ -691,151 +586,39 @@ obj
 		icon='turf.dmi'
 		icon_state="barrels"
 		density=1
-		verb
-			Examine()
-				set src in oview(3)
-				usr << "A big ol' pile of barrels."
 obj
 	bigbluechair
 		name="Big Blue Chair"
 		icon='Thrones.dmi'
 		icon_state="blue"
-		density=0
-		dontsave=1
-		wlable=0
 	biggreenchair
 		name="Big Green Chair"
 		icon='Thrones.dmi'
 		icon_state="green"
-		density=0
-		dontsave=1
-		wlable=0
 	bigtealchair
 		name="Big Teal Chair"
 		icon='Thrones.dmi'
 		icon_state="teal"
-		density=0
-		dontsave=1
-		wlable=0
 	bigwhitechair
 		name="Big White Chair"
 		icon='Thrones.dmi'
 		icon_state="white"
-		density=0
-		dontsave=1
-		wlable=0
 	bigblackchair
 		name="Big Black Chair"
 		icon='Thrones.dmi'
 		icon_state="black"
-		density=0
-		wlable=0
-		dontsave=1
 	bigpurplechair
 		name="Big Purple Chair"
 		icon='Thrones.dmi'
 		icon_state="purple"
-		density=0
-		dontsave=1
-		wlable=0
 	bigredchair
 		name="Big Red Chair"
 		icon='Thrones.dmi'
 		icon_state="red"
-		density=0
-		dontsave=1
-		wlable=0
 	bigyellowchair
 		name="Big Yellow Chair"
 		icon='Thrones.dmi'
 		icon_state="yellow"
-		density=0
-		dontsave=1
-		wlable=0
-turf
-	rift1
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="red"
-		Entered(mob/Player/M)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(26,70,7)
-
-turf
-	rift2
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="blue"
-		Entered(mob/Player/M)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(26,70,7)
-
-turf
-	rift3
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="gold"
-		Entered(mob/Player/M)
-			if(M.monster==1)
-				return
-			else
-				M.loc=locate(26,70,7)
-
-turf
-	rift4
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="purple"
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(26,70,7)
-
-turf
-	rift5
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="green"
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(26,70,7)
-
-turf
-	rift6
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="orange"
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(26,70,7)
-
-turf
-	rift7
-		name="Rift"
-		icon='tele.dmi'
-		icon_state="pink"
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(26,70,7)
 turf
 	ror
 		var
@@ -857,12 +640,6 @@ turf
 			if(isplayer(M))
 				if(M.ror==n || M.ror==-1)
 					M.Transfer(locate(dest))
-turf
-	shadow
-		icon = 'turf.dmi'
-		icon_state = "shadow"
-		layer = 5
-		mouse_opacity = 0
 turf
 	bathroomstall
 		icon = 'Stall.dmi'
@@ -1013,41 +790,6 @@ obj
 	Trophy_Rack
 		icon='trophy-rack.dmi'
 		density=1
-		verb
-			Examine()
-				usr << "This rack is to store the House Cup for the winning house!"
-
-obj/Chest2
-	name="Chest"
-	icon='turf.dmi'
-	icon_state="chest2"
-	density=1
-	value=0
-	verb
-		Examine()
-			set src in oview(3)
-			usr<<"A chest! I wonder what's inside!"
-	verb
-		Open()
-			set src in oview(1)
-			alert("You open the chest")
-			sleep(10)
-			del src
-obj/Chest
-	name="Chest"
-	icon='turf.dmi'
-	icon_state="chest"
-	density=1
-	value=0
-	verb
-		Examine()
-			set src in oview(3)
-			usr<<"A chest! I wonder what's inside!"
-	verb
-		Open()
-			set src in oview(1)
-			alert("You open the chest")
-			del src
 turf
 	stonefloor
 		icon='Gener.dmi'
@@ -1092,28 +834,22 @@ obj/items/quidditchbox
 		name="Quidditch Ball Box"
 		icon='ballbox.dmi'
 		icon_state="game"
-obj/Trophy
-	name = "Trophy"
-	icon = 'trophies.dmi'
-	Gold
-		icon_state = "Gold"
-	Yellow
-		icon_state = "Yellow"
-	Silver
-		icon_state = "Silver"
-	Bronze
-		icon_state = "Bronze"
+
 mob/Cow
 	icon = 'Cow.dmi'
 	Immortal = 1
+	appearance_flags = LONG_GLIDE
+	glide_size = 4
 	New()
 		..()
-		walk_rand(src,8)
+		walk_rand(src, 8)
 		Moo()
 	proc/Moo()
-		spawn()while(src)
+		set waitfor = 0
+		while(src)
 			hearers(src) << "Cow: [pick("MooooooOOOoOo!","Moo!","MOOOOOOOOOOOOOOOOOOOOOOOOO","Moooooo!","Moo moo moo!")]"
-			sleep(600)
+			sleep(600 * rand(1, 5))
+
 obj/Turntable
 	icon='dj.dmi'
 	pixel_y=-15
@@ -1385,22 +1121,6 @@ obj/drop_on_death
 
 			if(showicon == 1) M.overlays += icon
 			else if(showicon) M.overlays += showicon
-turf
-	leavereception
-		icon = 'portal.dmi'
-		name = "Portal"
-		Entered(atom/movable/A)
-			if(ismob(A) && A:key)
-				A.density = 0
-				A.Move(locate(50,22,15))
-				A.density = 1
-
-turf
-	leaveauror
-		icon = 'portal.dmi'
-		name = "Portal"
-		Entered(atom/movable/A)
-			A.loc = locate(87,70,22)
 
 turf
 	leavecellar
@@ -1490,24 +1210,6 @@ turf
 					flick("m-blue", usr)
 
 turf
-	floo_triwizard
-		icon = 'misc.dmi'
-		icon_state="blue fireplace"
-		name = "Fireplace"
-		Entered(atom/movable/A)
-			if(!ismob(A)) return
-			switch(input("Which class would you like to go to?","Select a classroom")in list("Defense Against the Dark Arts","Charms","Care of Magical Creatures","Transfiguration","General Course of Magic","Cancel"))
-				if("Underwater")
-					usr.loc = locate(8,8,9)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-				if("Sky")
-					usr.loc = locate(47,7,24)
-					usr << "You step into the fireplace, and are wooshed away."
-					flick("m-blue", usr)
-
-
-turf
 	floo_charms
 		icon = 'misc.dmi'
 		icon_state="fireplace"
@@ -1519,35 +1221,14 @@ turf
 			flick('mist.dmi',usr)
 			usr << "You step into the fireplace, and are wooshed away in a blaze of green fire."
 
-turf
-	floo_housewars
-		icon = 'misc.dmi'
-		icon_state="fireplace"
-		name = "Fireplace"
-		Entered(atom/movable/A)
-			if(!ismob(A)) return
-			flick('mist.dmi',usr)
-			usr.loc = locate(23,28,20)
-			flick('mist.dmi',usr)
-			usr << "You step into the fireplace, and are wooshed away in a blaze of green fire."
 obj/Bed
 	icon='turf.dmi'
 	icon_state="Bed"
-	density=0
-	dontsave=1
 obj/Table
 	icon = 'desk.dmi'
 	icon_state="S1"
 	density=1
-	dontsave=1
-	verb
-		Examine()
-			set src in oview(1)
-			switch(input("What would you like to do?","Table")in list("Examine","Search"))
-				if("Examine")
-					usr<<"Just an old table."
-				if("Search")
-					usr<<"You dont find anything useful."
+
 obj
 	chairleft
 		icon='turf.dmi'
@@ -1630,9 +1311,7 @@ obj
 		c4
 			icon_state="c4"
 
-//TURFS
 turf
-	layer=TURF_LAYER
 	icon='turf.dmi'
 	grass
 		#if WINTER
@@ -1642,8 +1321,6 @@ turf
 		name       = "grass"
 		icon_state = "grass1"
 		#endif
-
-		density=0
 
 		edges
 			#if !WINTER
@@ -1804,44 +1481,47 @@ turf
 		opacity    = 1
 		flyblock   = 1
 
-		New()
-			..()
-
+		proc/init()
+			set waitfor = 0
+			sleep(1)
 			if(icon_state != "broof" && icon_state != "broofr" && icon_state != "broofl")
-				spawn(1)
-					var/n = 15 - autojoin("name", "roofb")
 
-					var/dirs = list(NORTH, SOUTH, EAST, WEST)
-					for(var/d in dirs)
-						if((n & d) > 0)
+				var/n = 15 - autojoin("name", "roofb")
 
-							var/obj/roofedge/o
+				var/dirs = list(NORTH, SOUTH, EAST, WEST)
+				for(var/d in dirs)
+					if((n & d) > 0)
 
-							if(d == SOUTH)
-								var/turf/t = locate(x + 1, y, z)
-								if(!t || istype(t, /turf/blankturf)) continue
-								o = new (t)
-								o.pixel_x = -32
-							else if(d == EAST)
-								var/turf/t = locate(x, y - 1, z)
-								if(!t || istype(t, /turf/blankturf)) continue
-								o = new (t)
-								o.pixel_y = 32
-							else if(d == WEST)
-								var/turf/t = locate(x - 1, y, z)
-								if(!t || istype(t, /turf/blankturf)) continue
-								o = new (t)
-								o.pixel_x = 32
-							else
-								var/turf/t = locate(x, y + 1, z)
-								if(!t || istype(t, /turf/blankturf)) continue
-								o = new (t)
-								o.pixel_y = -32
+						var/obj/static_obj/roofedge/o
 
-							o.layer = (d == NORTH ? 4 : 5) + layer
-							o.icon_state = "edge-[15 - d]"
-							n -= d
-					icon_state = "roof-15"
+						if(d == SOUTH)
+							var/turf/t = locate(x + 1, y, z)
+							if(!t || istype(t, /turf/blankturf)) continue
+							o = new (t)
+							o.pixel_x = -32
+						else if(d == EAST)
+							var/turf/t = locate(x, y - 1, z)
+							if(!t || istype(t, /turf/blankturf)) continue
+							o = new (t)
+							o.pixel_y = 32
+						else if(d == WEST)
+							var/turf/t = locate(x - 1, y, z)
+							if(!t || istype(t, /turf/blankturf)) continue
+							o = new (t)
+							o.pixel_x = 32
+						else
+							var/turf/t = locate(x, y + 1, z)
+							if(!t || istype(t, /turf/blankturf)) continue
+							o = new (t)
+							o.pixel_y = -32
+
+						o.layer = (d == NORTH ? 4 : 5) + layer
+						o.icon_state = "edge-[15 - d]"
+						n -= d
+				icon_state = "roof-15"
+
+		New()
+			init()
 
 	roofa
 		icon_state = "broof"
@@ -1873,10 +1553,6 @@ turf
 	bush
 		icon_state="bush"
 		layer=MOB_LAYER+1
-	sign
-		icon='statues.dmi'
-		icon_state="sign"
-		density=1
 	ice
 		icon_state="ice"
 	snow
@@ -1891,17 +1567,25 @@ turf
 		icon_state="bc"
 		density=1
 obj
-	walltorch
-		icon = 'turf.dmi'
-		icon_state="walltorch"
-		density=1
-		luminosity = 6
+	static_obj
+		appearance_flags = RESET_COLOR|RESET_ALPHA
+		New()
+			loc.overlays += src
+			loc = null
 
+		walltorch
+			icon = 'turf.dmi'
+			icon_state="walltorch"
 
-obj/roofedge
-	icon = 'StoneRoof.dmi'
-	canSave = FALSE
-	appearance_flags = TILE_BOUND
+		roofedge
+			icon = 'StoneRoof.dmi'
+			canSave = FALSE
+			appearance_flags = TILE_BOUND|RESET_COLOR|RESET_ALPHA
+
+			New()
+				set waitfor = 0
+				sleep(1)
+				..()
 
 obj
 	tabletop
@@ -1955,21 +1639,9 @@ obj
 		density=1
 		layer=2
 obj
-	guard_statue
-		icon='Mobs.dmi'
-		icon_state="guard"
-		New()
-			..()
-			var/turf/T = src.loc
-			if(T)T.flyblock=1
-
 	snowman
 		icon='snowman.dmi'
 		name="Snow Man"
-		verb
-			Examine()
-				set src in oview(3)
-				usr << "So creative!"
 
 	art
 		icon    = 'Decoration.dmi'

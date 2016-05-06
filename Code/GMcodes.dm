@@ -1903,3 +1903,5 @@ world/proc/Save_Bans()
 	S["unban"] << crban_unbanned
 
 var/list/rankIcons
+
+

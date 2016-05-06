@@ -4,9 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-mob
-	var
-		WNDone
+
 obj
 	var
 		rubbleable
@@ -15,6 +13,7 @@ obj
 mob
 	var
 		rubble
+		WNDone
 		ClassNotifications = 1 // If set to 1, your window will flash when a class is announced
 		EventNotifications = 1
 		MonsterMessages = 1

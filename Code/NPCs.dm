@@ -194,6 +194,8 @@ obj
 		density = 0
 		layer = 10
 		mouse_over_pointer = MOUSE_HAND_POINTER
+		appearance_flags = LONG_GLIDE
+		glide_size = 4
 
 		New()
 			..()
@@ -212,13 +214,7 @@ obj
 			animate(src, pixel_y = pixel_y +1, time = 7, loop = -1)
 			animate(pixel_y = pixel_y -1, time = 7)
 
-			Wander()
-
-		proc
-			Wander()
-				while(src)
-					step_rand(src)
-					sleep(25)
+			walk_rand(src, 8)
 
 
 mob/TalkNPC

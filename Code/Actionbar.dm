@@ -64,7 +64,7 @@ hudobj
 						parent.UsedKeys[key] = a
 
 						if(istype(a, /obj/spells))
-							var/m = replace(a.name, " ", "-")
+							var/m = replacetext(a.name, " ", "-")
 							winset(parent, "[key]Rep", "parent=macro;name=\"[key]+REP\";command=\"[m]\"")
 						else
 							winset(parent, "[key]Rep", "parent=macro;name=\"[key]+REP\";command=\"keyPress [key]\"")

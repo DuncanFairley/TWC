@@ -129,7 +129,7 @@ obj/brick2door
 				for(var/d in dirs)
 					if((n & d) > 0)
 
-						var/obj/roofedge/o
+						var/obj/static_obj/roofedge/o
 
 						if(d == SOUTH)
 							var/turf/t = locate(floor.x + 1, floor.y, floor.z)

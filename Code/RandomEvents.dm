@@ -146,7 +146,7 @@ RandomEvent
 			var/class/c
 
 			for(var/t in typesof(/class/))
-				if(ends_with("[t]", replace(spellList[spell], " ", "_")))
+				if(ends_with("[t]", replacetext(spellList[spell], " ", "_")))
 					c = new t
 					break
 

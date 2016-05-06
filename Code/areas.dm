@@ -4,9 +4,6 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-world
-	//map_format=TILED_ICON_MAP
-
 
 teleportNode
 	var
@@ -176,36 +173,6 @@ area/var/tmp/teleportNode/region
 		world << "Areas: [textareas]"*/
 
 
-
-/************************************************
-Common Room Areas
-************************************************/
-var/const
-	GROUND_FLOOR = 1
-	SEC_FLOOR_EAST = 2
-	SEC_FLOOR_WEST = 3
-	THIRD_FLOOR = 4
-	FORTH_FLOOR = 5
-
-proc/getFloor(destination)
-	switch(destination)
-		if("DADA")
-			return GROUND_FLOOR
-		if("Charms")
-			return SEC_FLOOR_WEST
-		if("COMC")
-			return GROUND_FLOOR
-		if("Transfiguration")
-			return THIRD_FLOOR
-		if("Muggle Studies")
-			return GROUND_FLOOR
-		if("Headmasters")
-			return SEC_FLOOR_EAST
-		if("GCOM")
-			return THIRD_FLOOR
-		if("Duel")
-			return FORTH_FLOOR
-	Players << "Error 3b07d"
 var/curClass
 area
 	var/list/AI_directions
@@ -496,57 +463,6 @@ area
 mob/var/DuelRespawn
 
 area
-	To_Fourth_Floor
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(45,89,23)
-
-area
-	From_Fourth_Floor
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(16,58,22)
-
-
-area
-	To_Owlery
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(42,11,23)
-
-area
-	From_Owlery
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(43,36,23)
-
-area
-	From_Santa
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(31,98,18)
-
-area
 	FredHouseTrap
 	FredHouse
 	tofred
@@ -560,15 +476,6 @@ area
 					M.Transfer(locate("@Fred"))
 					return
 			M.Transfer(locate("@FredTrap"))
-area
-	fromauror
-		Entered(mob/Player/M)
-			if(!ismob(M))
-				return
-			if(!M.key)
-				return
-			else
-				M.loc=locate(87,69,22)
 
 area
 	Desert
@@ -578,36 +485,8 @@ area
 				M.Move(locate(rand(4,97),rand(4,97),4))
 				M.density = 1
 
-area
-	Ander_Back
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(93,91,21)
-	HMG
-
-	CoS_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(63,53,22)
-				M<<"You climb back up the tunnel and into the Bathroom."
-	DE_Enter
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(35,2,22)
-	DE_Exit
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.loc=locate(57,98,22)
-
-mob
-	var
-		hogwarts
-
-
 mob/var/tmp
 	flying = 0
-
-
 
 
 ////First you could jst lay this turf on everything that you dont wont people to go
@@ -624,26 +503,6 @@ area
 				M.icon_state=""
 				return
 */
-
-area
-	blindness
-		layer=3
-		Enter(mob/Player/M)
-			if(isplayer(M))
-				M.sight |= BLIND
-				M.sight &= ~SEE_SELF
-				for(var/mob/Player/A in world)
-					if(A.key)
-						if(A.client.eye == M)
-							A.client.eye = A
-			else if(istype(M, /mob/NPC)) return 0
-			return 1
-		Exited(mob/Player/M)
-			if(istype(M, /mob))
-				if(M.key)
-					M.sight |= SEE_SELF
-					M.sight &= ~BLIND
-			return
 
 area
 	Diagon_Alley

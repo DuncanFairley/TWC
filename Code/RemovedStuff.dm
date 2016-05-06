@@ -430,6 +430,8 @@ mob/var/silverspiderlegs
 mob/var/salamanderdrop
 mob/var/talkedtosanta
 mob/var/talkedtoalyssa
+mob/var/delinterwand
+mob/var/easterwand
 
 mob
 	longap/verb

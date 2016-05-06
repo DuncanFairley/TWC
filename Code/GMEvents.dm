@@ -164,6 +164,3 @@ atom/Click(location)
 				del src
 			else if(isturf(location))
 				new usr.CreatePath (location)
-			//  Owner var
-			//var/item = new usr.CreatePath(location)
-			//item:owner = usr.key

@@ -15,19 +15,6 @@ mob/verb/updateHPMP()
 mob
 	var
 		Gender
-proc
-	GetFiles(dir, extension)
-		var/list/L
-		var/list/L2
-		var/F
-		L = flist(dir)
-		L2 = new /list()
-		for(F in L)
-			if(copytext(F,length(F)) == "/")
-				L2 += GetFiles(dir + F, extension)
-			else if(!extension || copytext(F,length(F) - length(extension)+1) == extension)
-				L2.Add(dir + F)
-		return L2
 
 mob/var/tmp/usedpermoveo
 mob/var/tmp/removeoMob
