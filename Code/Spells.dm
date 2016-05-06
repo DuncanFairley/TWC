@@ -225,11 +225,9 @@ mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
 		usr << "You must hold a wand to cast this spell."
 mob/Spells/verb/Depulso()
 	set category="Spells"
-	var/mob/M
-	var/found = FALSE
-	for(M in get_step(usr,usr.dir))
-		if(!M.key && !istype(M,/mob/Victims)) return
 
+	var/found = FALSE
+	for(var/mob/Player/M in get_step(usr,usr.dir))
 		if(!M.findStatusEffect(/StatusEffect/Potions/Stone))
 			var/turf/t = get_step_away(M,usr,15)
 			if(!t || (issafezone(M.loc.loc) && !issafezone(t.loc))) return
@@ -596,8 +594,6 @@ mob/Spells/verb/Anapneo(var/mob/M in view(usr.client.view,usr)&Players)
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		if(!M.flying == 0){src<<"<b><span style=\"color:red;\">Error:</b></span> You can't cast this spell on someone who is flying.";return}
 		hearers()<<"<B><span style=\"color:red;\">[usr]:</span><font color=blue> <I>Anapneo!</I>"
-		M.Rictusempra=0
-		M.Rictalk=0
 		M.silence=0
 		M.muff=0
 		sleep(20)
