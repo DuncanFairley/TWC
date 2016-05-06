@@ -2003,8 +2003,6 @@ mob/GM/verb/Arena()
 						plyrs.Add(M)
 					for(var/mob/M in locate(/area/arenas/MapTwo))
 						plyrs.Add(M)
-					for(var/mob/Player/M in plyrs)
-						M.DuelRespawn = 0
 				if("4 (House wars)")
 					alert("Players (and you) must be on MapOne when you click OK to be loaded into the round. Arena Summon is disabled when you press OK")
 					arenaSummon = 0
@@ -2019,8 +2017,6 @@ mob/GM/verb/Arena()
 						plyrs.Add(M)
 					for(var/mob/M in locate(/area/arenas/MapOne))
 						plyrs.Add(M)
-					for(var/mob/Player/M in plyrs)
-						M.DuelRespawn = 0
 				if("Cancel")
 					del currentArena
 					return
@@ -2030,7 +2026,6 @@ mob/GM/verb/Arena()
 			currentArena.roundtype = FFA_WARS
 			for(var/mob/M in locate(/area/arenas/MapThree/WaitingArea))
 				if(M.client)
-					M.DuelRespawn = 0
 					plyrs.Add(M)
 		if("Cancel")
 			del currentArena
@@ -2202,7 +2197,7 @@ arena_round
 		goalpoints //	points/kills needed to win
 		plyrSpawnTime = 0
 	Del()
-		for(var/mob/M in players)
+		for(var/mob/Player/M in players)
 			M.GMFrozen = 0
 		clanevent1 = 0
 		for(var/obj/clanpillar/C in world)

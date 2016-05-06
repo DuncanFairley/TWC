@@ -9,11 +9,11 @@ obj
 	var
 		rubbleable
 		rubble
+		pname
+		piconstate
 
 mob
 	var
-		rubble
-		WNDone
 		ClassNotifications = 1 // If set to 1, your window will flash when a class is announced
 		EventNotifications = 1
 		MonsterMessages = 1
@@ -132,8 +132,6 @@ mob
 
 mob/Player/var/HideQuestTracker = FALSE
 mob/var/pname
-obj/var/pname
-obj/var/piconstate
 
 mob/var/PMBlock=0
 mob/test/verb/Transfer_Savefile()

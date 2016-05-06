@@ -989,14 +989,6 @@ mob/Player
 			if(!usr.mute)
 				if(usr.silence)
 					src << "Your tongue is stuck to the roof of your mouth. You can't speak."
-					return
-				if(usr.Rictusempra==1)
-					if(usr.Rictalk==1)
-						return
-					else
-						hearers(client.view) << "[usr.name] tries to speak but only laughs uncontrollably."
-						usr.Rictalk=1
-						return
 				else
 					if(usr.spam<=5 || Gm)
 						if(t)
@@ -1715,7 +1707,7 @@ mob/proc/Death_Check(mob/killer = src)
 				src.loc = B.loc
 				src.dir = SOUTH
 				if(currentArena)
-					src.GMFrozen = 1
+					src:GMFrozen = 1
 					spawn()currentArena.handleSpawnDelay(src)
 				src.HP=src.MHP+extraMHP
 				src.MP=src.MMP+extraMMP
@@ -1750,7 +1742,7 @@ mob/proc/Death_Check(mob/killer = src)
 				src.loc = B.loc
 				src.dir = SOUTH
 				if(currentArena)
-					src.GMFrozen = 1
+					src:GMFrozen = 1
 					spawn()currentArena.handleSpawnDelay(src)
 				src.HP=src.MHP+extraMHP
 				src.MP=src.MMP+extraMMP

@@ -36,16 +36,11 @@ mob
 			M<<"<p><span style=\"color:red;\">You have been issued a warning by [usr]. <p><b><font color=white>Reason: [Reason].</b></span> <p></font><span style=\"color:red;\">If you proceed in these actions, you could be Expelled/Booted/Muted or sent to Detention.</span></p>"
 			M<< browse(rules,"window=1")
 
-mob/var
+mob/Player/var
 
 	tmp
 		mprevicon
-		Rictalk
 	GMFrozen
-
-obj/var
-	followplayer
-	loco
 
 mob
 	proc

@@ -250,7 +250,7 @@ area
 			Defence_Against_the_Dark_Arts
 			Matchmaking/Duel_Class
 
-		Entered(mob/M)
+		Entered(mob/Player/M)
 			..()
 			if(isplayer(M))
 				if(M.classpathfinding && classdest)
@@ -322,23 +322,23 @@ mob
 							usr << arrow
 					return 1
 
-	proc
-		Class_Path_to()
-			if(src:pathdest) src:pathdest = null
+		proc
+			Class_Path_to()
+				pathdest = null
 
-			. = src:pathTo(classdest)
-			if(!.)
-				src:removePath()
-				usr << "A path cannot be mapped to the class from this area. Please go to a main area of Hogwarts and try again."
-				var/obj/hud/class/C = null
-				for(var/obj/O in usr.client.screen)
-					if(O.type == /obj/hud/class)
-						C = O
-				usr.classpathfinding = 0
-				if(!classdest)
-					if(C) usr.client.screen.Remove(C)
-				else
-					if(C) C.icon_state = "0"
+				. = pathTo(classdest)
+				if(!.)
+					removePath()
+					src << "A path cannot be mapped to the class from this area. Please go to a main area of Hogwarts and try again."
+					var/obj/hud/class/C = null
+					for(var/obj/O in client.screen)
+						if(O.type == /obj/hud/class)
+							C = O
+					classpathfinding = 0
+					if(!classdest)
+						if(C) client.screen.Remove(C)
+					else
+						if(C) C.icon_state = "0"
 
 
 area
@@ -455,13 +455,6 @@ area
 		SlytherinCommon_Back
 			dest  = "slythCRBack"
 
-/************************************************
-************************************************/
-
-//AREAS
-
-mob/var/DuelRespawn
-
 area
 	FredHouseTrap
 	FredHouse
@@ -485,24 +478,7 @@ area
 				M.Move(locate(rand(4,97),rand(4,97),4))
 				M.density = 1
 
-mob/var/tmp
-	flying = 0
-
-
-////First you could jst lay this turf on everything that you dont wont people to go
-////through (fly through)
-
-/*
-area
-	nofly
-		Entered(mob/Player/M)
-			if(M.flying==1)
-				M.flying=0
-				M<<"Some invisible force knocks you off your broom."
-				M.density=100
-				M.icon_state=""
-				return
-*/
+mob/var/tmp/flying = 0
 
 area
 	Diagon_Alley

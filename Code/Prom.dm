@@ -298,8 +298,8 @@ area/hogwarts/promChangeRoom
 			var/mob/Player/p = O
 			if(promicons[p.ckey] && !p.mprevicon)
 				if(promicons[usr.ckey] != usr.icon)
-					usr.mprevicon = usr.icon
-				usr.icon = promicons[usr.ckey]
+					p.mprevicon = usr.icon
+				p.icon = promicons[usr.ckey]
 
 	New()
 		..()
@@ -316,40 +316,41 @@ area/hogwarts/promChangeRoom
 			set category = "Prom"
 			if(usr.loc.loc != src)return
 			if(alert("This will remove any uploaded icon of yours. Do this if you decide against having a custom icon for Prom. Do you wish to clear your prom icon?",,"Yes","No")=="Yes")
-				usr.mprevicon = null
-				promicons[usr.ckey] = null
+				var/mob/Player/p = usr
+				p.mprevicon = null
+				promicons[p.ckey] = null
 				if(usr.Gender=="Male")
-					if(usr.Gm)
-						usr.icon = 'MaleStaff.dmi'
-						usr.icon_state = ""
-					else if(usr.House == "Gryffindor")
-						usr.icon = 'MaleGryffindor.dmi'
-						usr.icon_state = ""
-					else if(usr.House == "Ravenclaw")
-						usr.icon = 'MaleRavenclaw.dmi'
-						usr.icon_state = ""
-					else if(usr.House == "Slytherin")
-						usr.icon = 'MaleSlytherin.dmi'
-						usr.icon_state = ""
+					if(p.Gm)
+						p.icon = 'MaleStaff.dmi'
+						p.icon_state = ""
+					else if(p.House == "Gryffindor")
+						p.icon = 'MaleGryffindor.dmi'
+						p.icon_state = ""
+					else if(p.House == "Ravenclaw")
+						p.icon = 'MaleRavenclaw.dmi'
+						p.icon_state = ""
+					else if(p.House == "Slytherin")
+						p.icon = 'MaleSlytherin.dmi'
+						p.icon_state = ""
 					else if(usr.House == "Hufflepuff")
-						usr.icon = 'MaleHufflepuff.dmi'
-						usr.icon_state = ""
+						p.icon = 'MaleHufflepuff.dmi'
+						p.icon_state = ""
 				else
-					if(usr.Gm)
-						usr.icon = 'FemaleStaff.dmi'
-						usr.icon_state = ""
-					else if(usr.House == "Gryffindor")
-						usr.icon = 'FemaleGryffindor.dmi'
-						usr.icon_state = ""
-					else if(usr.House == "Ravenclaw")
-						usr.icon = 'FemaleRavenclaw.dmi'
-						usr.icon_state = ""
-					else if(usr.House == "Slytherin")
-						usr.icon = 'FemaleSlytherin.dmi'
-						usr.icon_state = ""
-					else if(usr.House == "Hufflepuff")
-						usr.icon = 'FemaleHufflepuff.dmi'
-						usr.icon_state = ""
+					if(p.Gm)
+						p.icon = 'FemaleStaff.dmi'
+						p.icon_state = ""
+					else if(p.House == "Gryffindor")
+						p.icon = 'FemaleGryffindor.dmi'
+						p.icon_state = ""
+					else if(p.House == "Ravenclaw")
+						p.icon = 'FemaleRavenclaw.dmi'
+						p.icon_state = ""
+					else if(p.House == "Slytherin")
+						p.icon = 'FemaleSlytherin.dmi'
+						p.icon_state = ""
+					else if(p.House == "Hufflepuff")
+						p.icon = 'FemaleHufflepuff.dmi'
+						p.icon_state = ""
 
 		Change_Prom_Icon()
 			set category = "Prom"
@@ -359,11 +360,12 @@ area/hogwarts/promChangeRoom
 			if(!I)return
 			if(!istype(usr.loc.loc,/area/hogwarts/promChangeRoom))return
 			if(I.Width() <= 32 && I.Height() <= 32)
-				promicons[usr.ckey] = I
-				if(!usr.mprevicon)
-					usr.mprevicon = usr.icon
+				var/mob/Player/p = usr
+				promicons[p.ckey] = I
+				if(!p.mprevicon)
+					p.mprevicon = p.icon
 				//usr.loc.loc.Enter(usr)
-				usr.icon = promicons[usr.ckey]
+				p.icon = promicons[p.ckey]
 			else
 				alert("Uploaded icons must be no larger than 32 pixels wide and 32 pixels high.")
 

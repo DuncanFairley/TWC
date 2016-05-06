@@ -599,7 +599,7 @@ mob/Spells/verb/Anapneo(var/mob/M in view(usr.client.view,usr)&Players)
 		sleep(20)
 		hearers(usr.client.view,usr)<<"[usr] flicks \his wand, clearing the airway of [M]."
 		usr:learnSpell("Anapneo")
-mob/Spells/verb/Reducto(var/mob/M in (view(usr.client.view,usr)&Players)|src)
+mob/Spells/verb/Reducto(var/mob/Player/M in (view(usr.client.view,usr)&Players)|src)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		if(M.flying){src<<"<b><span style=\"color:red;\">Error:</b></span> You can't cast this spell on someone who is flying.";return}

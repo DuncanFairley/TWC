@@ -19,10 +19,6 @@ mob
 			//sleep(2) // sleep 1 second before displaying Saved
 			src<<"Saved [src]."
 
-mob
-	var
-		ratpoints
-
 mob/GM/verb
 	Award_House_Cup()
 		var/rspnse = alert("This verb, when activated on a house, will make that house gain a 25% increase to gold + EXP gained from monster kills. Are you sure you wish to proceed?",,"Yes","Cancel")
@@ -37,19 +33,9 @@ mob/GM/verb
 				if("Hufflepuff")
 					worldData.housecupwinner = "Hufflepuff"
 
-
-mob/DblClick()
-	usr<<"Right click to bring up the menu."
-mob/Click()
-	if(!usr.ClickEdit)
-		usr<<"Right click to bring up the menu."
-	else
-		..()
-
 mob/Headmasters_Office
 	invisibility=2
 
-//all
 obj/ball
 	icon='pointer.dmi'
 obj/wholist

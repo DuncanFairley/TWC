@@ -8,80 +8,50 @@
 obj/Broom3
 	icon='icons.dmi'
 	icon_state="nimbus"
-
 obj/DeskFilled
 	icon='desk.dmi'
 	icon_state="TD2"
 	density=1
-
 obj/DeskEmpty
 	icon='desk.dmi'
 	icon_state="S1"
 	density=1
-
 obj/Desk3
 	icon='desk.dmi'
 	icon_state="S3"
 	density = 1
-	dontsave=1
 obj/Chair
 	icon='desk.dmi'
 	icon_state="Chair"
-	dontsave=1
 	accioable=1
 	wlable=1
 obj/Lantern
 	icon='Decoration.dmi'
 	icon_state="lantern"
-	dontsave=1
-	wlable=0
-	luminosity=4
 	density=1
 obj/lineR
 	icon='table house lines.dmi'
 	icon_state="r"
-	dontsave=1
-	wlable=0
-	luminosity=1
-	density=0
 obj/lineS
 	icon='table house lines.dmi'
 	icon_state="s"
-	dontsave=1
-	wlable=0
-	luminosity=1
-	density=0
 obj/lineG
 	icon='table house lines.dmi'
 	icon_state="g"
-	dontsave=1
-	wlable=0
-	luminosity=1
-	density=0
 obj/lineH
 	icon='table house lines.dmi'
 	icon_state="h"
-	dontsave=1
-	wlable=0
-	luminosity=1
-	density=0
 obj/Armor_Head
 	icon='statues.dmi'
 	icon_state="head"
-	density = 0
 	layer = MOB_LAYER + 1
-	wlable=0
-	accioable=0
-	dontsave=1
 obj/gargoylerighttop
 	icon='statues.dmi'
 	icon_state="top3"
-	density=0
 	layer = MOB_LAYER + 1
 obj/gargoylelefttop
 	icon='statues.dmi'
 	icon_state="top2"
-	density=0
 	layer = MOB_LAYER + 1
 obj/gargoylerightbottom
 	icon='statues.dmi'
@@ -98,71 +68,39 @@ obj/statuebody
 obj/statuehead
 	icon='statues.dmi'
 	icon_state="sh"
-	density=0
 	layer = MOB_LAYER + 1
 obj/Grave
 	icon='statues.dmi'
 	icon_state="grave5"
-	wlable=0
-	accioable=0
-	dontsave=1
 obj/Grave_Rip
 	icon='statues.dmi'
 	icon_state="rip"
-	wlable=0
-	accioable=0
-	dontsave=1
 obj/Ghost_Top
 	icon='statues.dmi'
 	icon_state="stat1a"
-	wlable=0
 	layer = MOB_LAYER + 1
-	density=0
-	accioable=0
-	dontsave=1
 obj/Ghost_Bottom
 	icon='statues.dmi'
 	icon_state="stat2a"
-	wlable=0
 	layer = MOB_LAYER + 1
-	density = 0
-	accioable=0
-	dontsave=1
 obj/Ghost_Top2
 	icon='statues.dmi'
 	icon_state="stat1b"
-	wlable=0
-	accioable=0
-	dontsave=1
 	density = 1
 obj/Ghost_Bottom2
 	icon='statues.dmi'
 	icon_state="stat2b"
-	wlable=0
-	accioable=0
-	dontsave=1
 	density=1
 obj/Torch_
 	icon='misc.dmi'
 	icon_state="torch"
-	wlable=0
-	accioable=0
-	dontsave=1
 obj/Angel_Bottom
 	icon='statues.dmi'
 	icon_state="bottom1"
-	wlable=0
-	accioable=0
-	dontsave=1
 	density=1
-
 obj/Angel_Top
 	icon='statues.dmi'
 	icon_state="top1"
-	wlable=0
-	accioable=0
-	dontsave=1
-	density=0
 	layer = MOB_LAYER + 1
 obj/redroses
 	var/GM_Made = 0
@@ -174,44 +112,26 @@ obj/Armor_Feet
 	icon='statues.dmi'
 	icon_state="feet"
 	density=1
-	wlable=0
-	accioable=0
-	dontsave=1
-
 obj/Fountain_
 	icon='statues.dmi'
 	icon_state="foun1"
 	density=1
-	accioable=0
-	wlable=0
-	dontsave=1
 obj/Fountain__
 	icon='statues.dmi'
 	icon_state="foun2"
 	density=1
-	accioable=0
-	wlable=0
-	dontsave=1
 obj/Fountain___
 	icon='statues.dmi'
 	icon_state="foun3"
 	density=1
-	accioable=0
-	wlable=0
-	dontsave=1
 obj/Fountain____
 	icon='statues.dmi'
 	icon_state="foun4"
 	density=1
-	accioable=0
-	wlable=0
-	dontsave=1
-
 obj/Force_Field
 	icon='teleport2.dmi'
 	icon_state="shield"
 	density=1
-	dontsave=1
 	appearance_flags = RESET_COLOR
 
 obj
@@ -219,9 +139,7 @@ obj
 		var/tmp/turf/origloc
 		icon = 'turf.dmi'
 		icon_state = "candle"
-		luminosity = 7
 		layer = 7
-		dontsave = 1
 		accioable = 1
 		wlable = 1
 		New()
@@ -354,8 +272,6 @@ obj/plate
 obj/Cauldron
 	icon = 'cau.dmi'
 	icon_state = "C1"
-	accioable = 0
-	wlable = 0
 	density = 1
 	rubbleable = 1
 	New()
@@ -493,9 +409,7 @@ obj/Dual_Swords
 obj/Fireplace
 	icon='misc.dmi'
 	icon_state="fireplace"
-	wlable=0
 	density=1
-	accioable=0
 
 turf
 	Fireplace
@@ -677,104 +591,86 @@ obj
 	pumpkin
 		icon='pumpkin.dmi'
 		density=1
-		accioable=0
 obj
 	egg1
 		icon='Eggs.dmi'
 		icon_state="1"
 		density=1
-		accioable=0
-
 obj
 	egg2
 		icon='Eggs.dmi'
 		icon_state="2"
 		density=1
-		accioable=0
 obj
 	egg3
 		icon='Eggs.dmi'
 		icon_state="3"
 		density=1
-		accioable=0
 obj
 	egg4
 		icon='Eggs.dmi'
 		icon_state="4"
 		density=1
-		accioable=0
 obj
 	egg5
 		icon='Eggs.dmi'
 		icon_state="5"
 		density=1
-		accioable=0
 obj
 	egg6
 		icon='Eggs.dmi'
 		icon_state="6"
 		density=1
-		accioable=0
 obj
 	egg7
 		icon='Eggs.dmi'
 		icon_state="7"
 		density=1
-		accioable=0
 obj
 	egg8
 		icon='Eggs.dmi'
 		icon_state="8"
 		density=1
-		accioable=0
 obj
 	egg9
 		icon='Eggs.dmi'
 		icon_state="9"
 		density=1
-		accioable=0
 obj
 	egg10
 		icon='Eggs.dmi'
 		icon_state="10"
 		density=1
-		accioable=0
 obj
 	egg11
 		icon='Eggs.dmi'
 		icon_state="11"
 		density=1
-		accioable=0
 obj
 	egg12
 		icon='Eggs.dmi'
 		icon_state="12"
 		density=1
-		accioable=0
 obj
 	egg13
 		icon='Eggs.dmi'
 		icon_state="13"
 		density=1
-		accioable=0
 obj
 	egg14
 		icon='Eggs.dmi'
 		icon_state="14"
 		density=1
-		accioable=0
 obj
 	egg15
 		icon='Eggs.dmi'
 		icon_state="15"
 		density=1
-		accioable=0
 obj
 	egg16
 		icon='Eggs.dmi'
 		icon_state="16"
 		density=1
-		accioable=0
 obj
 	sandwind
 		layer = 8
@@ -849,14 +745,6 @@ mob/Cow
 		while(src)
 			hearers(src) << "Cow: [pick("MooooooOOOoOo!","Moo!","MOOOOOOOOOOOOOOOOOOOOOOOOO","Moooooo!","Moo moo moo!")]"
 			sleep(600 * rand(1, 5))
-
-obj/Turntable
-	icon='dj.dmi'
-	pixel_y=-15
-	layer=99
-	Click()
-		usr.dir = SOUTH
-
 obj/Speaker1
 	name="Speaker"
 	icon='dj.dmi'
@@ -948,53 +836,33 @@ obj
 obj/Stable
 	icon='General.dmi'
 	icon_state="tile73"
-	accioable=0
-	wlable=0
 	density=1
-	dontsave=1
 
 obj/Stable_
 	icon='General.dmi'
 	icon_state="tile74"
-	accioable=0
-	wlable=0
 	density=1
-	dontsave=1
 
 obj/Stable__
 	icon='General.dmi'
 	icon_state="tile75"
-	accioable=0
-	wlable=0
 	density=1
-	dontsave=1
 
 obj/Triple_Candle
 	icon='General.dmi'
 	icon_state="tile80"
-	accioable=0
-	wlable=0
 	density=1
-	luminosity = 7
-	dontsave=1
 
 obj/Couch
 	icon='General.dmi'
 	icon_state="tile83"
-	accioable=0
-	wlable=0
-	dontsave=1
 
 obj/Couch2
 	icon='General.dmi'
 	icon_state="tile84"
-	accioable=0
-	wlable=0
-	dontsave=1
 
 obj/housecouch
 	name = "Couch"
-	dontsave=1
 	icon = 'couch.dmi'
 	icon_state = "green"
 
@@ -1017,10 +885,7 @@ turf/Staircase2
 obj/Clock
 	icon='General.dmi'
 	icon_state="tile79"
-	accioable=0
-	wlable=0
 	density=1
-	dontsave=1
 
 obj/Quidditch_Sign
 	icon='quidditch.png'
@@ -1030,57 +895,36 @@ obj/Quidditch_Sign
 obj/Neptune
 	icon='statues.dmi'
 	icon_state="top6"
-	accioable=0
-	wlable=0
 	density=1
-	dontsave=1
 
 obj/NeptuneBottom
 	icon='statues.dmi'
 	icon_state="bottom6"
-	accioable=0
-	wlable=0
 	density=1
-	dontsave=1
 
 obj/Column
 	icon='General.dmi'
 	icon_state="tile93"
-	accioable=0
-	wlable=0
 	density=1
-	dontsave=1
 
 obj/Columb
 	icon='General.dmi'
 	icon_state="tile94"
-	accioable=0
-	wlable=0
 	layer = MOB_LAYER + 1
-	density=0
-	dontsave=1
 
 obj/Endtable
 	icon='General.dmi'
 	icon_state="tile72"
-	accioable=0
-	wlable=0
 	density=1
-	dontsave=1
 
 obj/Pink_Flowers
 	icon='Plants.dmi'
 	icon_state="Pink Flowers"
-	accioable=0
-	wlable=0
 	density=1
-	dontsave=1
 
 obj/Blue_Flowers
 	icon = 'Plants.dmi'
 	icon_state = "Blue Flowers"
-	accioable = 0
-	wlable = 0
 	density = 1
 obj/drop_on_death
 	var
@@ -1122,14 +966,6 @@ obj/drop_on_death
 			if(showicon == 1) M.overlays += icon
 			else if(showicon) M.overlays += showicon
 
-turf
-	leavecellar
-		icon = 'portal.dmi'
-		name = "Portal"
-		Entered(mob/M)
-			if(ismob(M))
-				M.loc = locate(31,53,26)
-				M << "You leave the Cellar."
 turf
 	floo_aurorhosp
 		icon = 'misc.dmi'
@@ -1176,8 +1012,6 @@ turf
 			usr.loc = locate(80,26,1)
 			flick('mist.dmi',usr)
 			usr << "You step into the fireplace, and are wooshed away."
-
-
 
 turf
 	floo_slythern_class
@@ -1233,22 +1067,18 @@ obj
 	chairleft
 		icon='turf.dmi'
 		icon_state="cleft"
-		density=0
 
 	chairright
 		icon='turf.dmi'
 		icon_state="cright"
-		density=0
 
 	chairback
 		icon='turf.dmi'
 		icon_state="cback"
-		density=0
 		layer = MOB_LAYER +1
 	chairfront
 		icon='turf.dmi'
 		icon_state="cfront"
-		density=0
 
 obj/BFrontChair
 	icon='turf.dmi'
@@ -1300,7 +1130,6 @@ obj
 
 	curtains
 		icon='turf.dmi'
-		density = 0
 		layer = 5
 		c1
 			icon_state="c1"
@@ -1355,7 +1184,6 @@ turf
 	woodenfloor
 		icon_state = "wood"
 		color = "#704f32"
-		density=0
 		New()
 			..()
 			icon_state = "wood[rand(1,8)]"
@@ -1379,7 +1207,6 @@ turf
 		icon='Water.dmi'
 		icon_state="water"
 		name = "water"
-		density=0
 		layer=4
 		var
 			tmp/obj/rain
@@ -1461,7 +1288,6 @@ turf
 
 	lava
 		icon_state="hplava"
-		density = 0
 
 		Enter(atom/movable/O, atom/oldloc)
 			if(isplayer(O) && O.density) return 0

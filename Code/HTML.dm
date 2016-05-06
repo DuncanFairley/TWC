@@ -232,21 +232,22 @@ mob/Topic(href,href_list[])
 					if(C.mob.admin)
 						C.mob << "HACKING ATTEMPT - DFgm354 - [usr]"
 		if("class_path")
+			var/mob/Player/p = usr
 			if(classdest)
 				if(href_list["latejoiner"] == "true")
 					for(var/mob/Player/M in Players)
 						if(M.Gm)
 							M << infomsg("GMs, [usr] just logged in and clicked the class guidance system.")
-				if(usr.loc.loc == classdest.loc.loc)
-					usr << "You're already in class."
-					usr:removePath()
+				if(p.loc.loc == classdest.loc.loc)
+					p << "You're already in class."
+					p.removePath()
 				else
-					if(usr.Class_Path_to())
-						usr.classpathfinding = 1
-						usr << infomsg("Follow the blue markers to class.")
+					if(p.Class_Path_to())
+						p.classpathfinding = 1
+						p << infomsg("Follow the blue markers to class.")
 			else
-				usr << "The class is no longer accepting new players."
-				usr.classpathfinding = 0
+				p << "The class is no longer accepting new players."
+				p.classpathfinding = 0
 		if("listen_radio")
 			usr.client.linkenable_radio()
 		if("teach_valorus")
