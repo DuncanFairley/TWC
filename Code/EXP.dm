@@ -113,13 +113,13 @@ obj
 				return
 			if(p.readbooks == 1)
 				p.readbooks = 2
-				p.movable = 0
-				p:presence = null
+				p.nomove = 0
+				p.presence = null
 				p << infomsg("You stop reading.")
 			else if(!p.readbooks)
 				var/hudobj/reading/R = new(null, p.client, null, 1)
 				p.readbooks = 1
-				p.movable = 0
+				p.nomove = 0
 				p << infomsg("You begin reading.")
 				spawn(15)
 					while(src && p && p.readbooks == 1 && (p in ohearers(src, 1)))

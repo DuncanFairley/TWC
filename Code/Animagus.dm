@@ -54,7 +54,7 @@ turf
 		AdjacentTurfs()
 			var/L = list()
 			for(var/turf/t in orange(1, src))
-				if(!t.density||t.door)
+				if(!t.density)
 					L += t
 			return L
 

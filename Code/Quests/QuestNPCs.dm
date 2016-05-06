@@ -568,8 +568,6 @@ obj/AlyssaChest
 mob/TalkNPC/quest
 	Alyssa
 		icon_state="alyssa"
-		Gm=1
-		Immortal=1
 		questPointers = "Make a Potion"
 		Talk()
 			set src in oview(3)

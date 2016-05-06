@@ -332,7 +332,7 @@ area/hogwarts/promChangeRoom
 					else if(p.House == "Slytherin")
 						p.icon = 'MaleSlytherin.dmi'
 						p.icon_state = ""
-					else if(usr.House == "Hufflepuff")
+					else if(p.House == "Hufflepuff")
 						p.icon = 'MaleHufflepuff.dmi'
 						p.icon_state = ""
 				else

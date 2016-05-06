@@ -314,7 +314,6 @@ obj/hogwartshield
 	icon='shields.dmi'
 	icon_state="hogwartsshield"
 	density=1
-	dontsave=1
 obj/hogwartbanner
 	icon='shields.dmi'
 	icon_state="hogwartsbanner"
@@ -733,7 +732,6 @@ obj/items/quidditchbox
 
 mob/Cow
 	icon = 'Cow.dmi'
-	Immortal = 1
 	appearance_flags = LONG_GLIDE
 	glide_size = 4
 	New()

@@ -64,8 +64,8 @@ var/list/turf/duelsystemcenter/duelsystems = list()
 #define DUEL_DISTANCE 9
 
 Duel
-	var/mob/player1 = null
-	var/mob/player2 = null
+	var/mob/Player/player1 = null
+	var/mob/Player/player2 = null
 	var/ready1 = 0
 	var/ready2 = 0
 	var/countdown = 5
@@ -76,8 +76,8 @@ Duel
 	Del()
 		for(var/turf/duelblock/B in block(locate(duelcenter.x-5,duelcenter.y,duelcenter.z),locate(duelcenter.x+5,duelcenter.y,duelcenter.z)))
 			B.density = 0
-		if(player1)player1.movable = 0
-		if(player2)player2.movable = 0
+		if(player1)player1.nomove = 0
+		if(player2)player2.nomove = 0
 		..()
 	proc
 		Pre_Duel()
@@ -86,8 +86,8 @@ Duel
 			sleep(100)
 			if(!(ready1 && ready2))
 				range(9,duelcenter) << errormsg("<i>The players did not ready themselves within the time limit. Duel cancelled.</i>")
-				player1.movable = 0
-				player2.movable = 0
+				player1.nomove = 0
+				player2.nomove = 0
 				del src
 			else
 				player1.followplayer = 0
@@ -111,8 +111,8 @@ Duel
 				else
 					for(var/turf/duelblock/B in block(locate(duelcenter.x-5,duelcenter.y,duelcenter.z),locate(duelcenter.x+5,duelcenter.y,duelcenter.z)))
 						B.density = 0
-				player1.movable = 0
-				player2.movable = 0
+				player1.nomove = 0
+				player2.nomove = 0
 				View_Check_Ticker()
 		View_Check_Ticker()
 			spawn() while(src)
@@ -154,13 +154,13 @@ turf
 					D.player1 = usr
 					D.player1:Transfer(locate(x-3,y,z))
 					D.player1.dir = EAST
-					D.player1.movable = 1
+					D.player1.nomove = 1
 					range(9) << "[usr] enters the duel."
 				else if(!D.player2 && D.player1 != usr)
 					D.player2 = usr
 					D.player2:Transfer(locate(x+3,y,z))
 					D.player2.dir = WEST
-					D.player2.movable = 1
+					D.player2.nomove = 1
 					range(9) << "[usr] enters the duel."
 					for(var/turf/duelblock/B in block(locate(x-5,y,z),locate(x+5,y,z)))
 						B.density = 1
@@ -170,7 +170,7 @@ turf
 				else if(D.player1 == usr)
 					if(!D.player2)
 						range(9) << "[usr] withdraws."
-						usr.movable = 0
+						D.player1.nomove = 0
 						del D
 					else
 						if(!D.ready1)
@@ -183,8 +183,8 @@ turf
 								usr << "Duel will end in 10 seconds."
 								sleep(100)
 								range(9) << "The duel has been forfeited by [usr]."
-								if(D.player1)D.player1.movable = 0
-								if(D.player2)D.player2.movable = 0
+								if(D.player1)D.player1.nomove = 0
+								if(D.player2)D.player2.nomove = 0
 								spawn(60)
 									for(var/turf/duelblock/B in block(locate(x-5,y,z),locate(x+5,y,z)))
 										B.density = 0
@@ -192,7 +192,7 @@ turf
 				else if(D.player2 == usr)
 					if(!D.player1)
 						range(9) << "[usr] withdraws."
-						usr.movable = 0
+						D.player2.nomove = 0
 						del D
 					else
 						if(!D.ready2)
@@ -219,4 +219,4 @@ turf
 				D.player1 = usr
 				D.player1:Transfer(locate(x-3,y,z))
 				D.player1.dir = EAST
-				D.player1.movable = 1
+				D.player1.nomove = 1

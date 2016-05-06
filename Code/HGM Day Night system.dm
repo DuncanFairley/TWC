@@ -183,8 +183,8 @@ area
 
 			var/area/newArea = a.loc.loc
 
-			if(istype(newArea, /area/outside) || istype(newArea, /area/newareas/outside))
-				p.Interface.SetDarknessColor(src:lit ? "#ffff" : NIGHTCOLOR)
+			if(istype(newArea, /area/outside/) || istype(newArea, /area/newareas/outside/))
+				p.Interface.SetDarknessColor(newArea:lit ? "#ffff" : NIGHTCOLOR)
 			else
 				p.Interface.SetDarknessColor("#ffff")
 
@@ -257,7 +257,6 @@ mob/GM/verb
 
 obj/weather
 	layer = 7	// weather appears over the darkness because I think it looks better that way
-	dontsave=1
 	rain
 		icon = 'weather.dmi'
 		icon_state = "rain"

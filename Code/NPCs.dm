@@ -12,9 +12,6 @@ mob
 		mouse_over_pointer = MOUSE_HAND_POINTER
 
 		density = 1
-		Immortal = 1
-		NPC = 1
-		Gm=1
 
 		verb
 			Talk()
@@ -63,8 +60,8 @@ mob
 					if("Reset Kills/Deaths - 60 Spell Points")
 						if(usr:spellpoints >= 60)
 							usr:spellpoints -= 60
-							usr.pdeaths = 0
-							usr.pkills = 0
+							usr:pdeaths = 0
+							usr:pkills = 0
 							usr << infomsg("Your player kills and deaths have been reset.")
 						else
 							usr << errormsg("You don't have enough spell points. You need [60 - usr:spellpoints] more spell points.")
@@ -101,7 +98,6 @@ mob
 			name="Mysterious Old Man"
 			icon_state="pyramid"
 			density=1
-			Immortal=1
 
 			verb
 				Examine()
@@ -121,24 +117,6 @@ mob
 				if(worldData.globalvaults[usr.ckey])
 					var/vault/V = worldData.globalvaults[usr.ckey]
 					switch(input("What would you like to change about your vault?")as null|anything in list("Change who can enter my vault", "Transfer items from old vault to new vault"))
-						if("Transfer items from old vault to new vault")
-							if(alert("This will move all items from your old-style vault into your current vault. Are you sure you wish to do this?",,"Yes","No")=="Yes")
-								var/swapmap/map = SwapMaps_Find("[usr.ckey]")
-								if(!map)
-									map = SwapMaps_Load("[usr.ckey]")
-								var/foundundroppable = 0 // Set if you have an object with no drop verb
-								if(usr.bank)for(var/atom/movable/A in usr.bank.items)
-									if((text2path("[A.type]/verb/Drop") in A.verbs))
-										A.loc = get_step(map.LoCorner(),NORTHEAST)
-									else
-										A.loc = usr
-										foundundroppable = 1
-									usr.bank.items -= A
-								if(foundundroppable)
-									usr << "Undroppable items have been moved to your personal inventory, instead of your vault."
-								usr << npcsay("Vault Master: Your items have been transferred successfully.")
-								usr:Resort_Stacking_Inv()
-
 						if("Change who can enter my vault")
 							if(V.allowedpeople && V.allowedpeople.len)
 								switch(alert("Would you like to allow someone to enter your vault, or remove someone's permission from entering?",,"Allow someone","Deny someone","Cancel"))

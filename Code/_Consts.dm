@@ -10,6 +10,7 @@
 #define floor(x) round(x)
 #define ceil(x) (-round(-x))
 #define isplayer(x) istype(x, /mob/Player)
+#define ismonster(x) istype(x, /mob/NPC/Enemies)
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
 
 #define VERSION "16.55"
@@ -25,3 +26,12 @@
 
 #define MAX_WAND_LEVEL 3
 #define MAX_WAND_EXP(wand) ((wand.quality * 10 + 1) * 20000)
+
+/*
+
+files to clean:
+login.dm - end of file, variables
+protego.dm
+Spells.dm
+
+*/

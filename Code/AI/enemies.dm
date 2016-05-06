@@ -367,11 +367,6 @@ mob
 		var/tmp/turf/origloc
 
 		Enemies
-			player = 0
-			Gm = 1
-			monster = 1
-			NPC = 1
-
 			appearance_flags = LONG_GLIDE
 
 			var
@@ -1913,8 +1908,7 @@ mob
 
 			Slug
 				icon_state = "slug"
-				monster=1
-				player=0
+
 				New()
 					move()
 				proc/move()
@@ -2002,18 +1996,18 @@ mob
 							fired = 1
 							spawn(rand(50,150)) fired = 0
 
-							var/mob/M = target
+							var/mob/Player/M = target
 							if(!M.trnsed)
 								M:StateChange()
 							else
-								M.movable = 1
+								M.nomove = 1
 							spawn(rand(10,30))
-								if(M && M.movable)
+								if(M && M.nomove)
 									if(!M.trnsed)
-										M:StateChange()
-										M:ApplyOverlays()
+										M.StateChange()
+										M.ApplyOverlays()
 									else
-										M.movable = 0
+										M.nomove = 0
 
 				Death(mob/Player/killer)
 					..(killer)
@@ -2038,11 +2032,8 @@ mob
 	Slug
 		icon='Mobs.dmi'
 		icon_state="slug"
-		monster=1
-		see_invisible = 1
 		HP=25
 		gold=0
-		player=0
 		New()
 			move()
 			..()

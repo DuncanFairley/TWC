@@ -5,55 +5,27 @@
  * For the full license text, see LICENSE.txt.
  */
 
-turf/var/pass
-turf/var/door=0
-turf/var/tmp/owner=""
-turf/var/bumpable=0
-obj/var/bumpable=0
-mob/var/bumpable=0
-area/var/bumpable=0
-
 mob
-	Bump(var/turf/T)
-		if(T.bumpable==1)
-			if(ismob(T))return
-			if(T.door==1)
-				if(istype(T,/obj/brick2door))
-					var/obj/brick2door/O = T
-					spawn()O.Bumped(src)
-					return
-				if(istype(T,/obj/Hogwarts_Door))
-					var/obj/Hogwarts_Door/O = T
-					spawn()O.Bumped(src)
-					return
+	Bump(var/atom/movable/a)
+		.=..()
 
+		if(istype(a, /obj/brick2door) || istype(a, /obj/Hogwarts_Door))
+			var/obj/brick2door/o = a
+			if(o.door)
+				spawn()
+					o.Bumped(src)
 
-obj
+obj/static_obj
 	Red_Carpet_Corners
 		icon='floors2.dmi'
 		name = "Red Carpet"
-		icon_state="corner"
+		icon_state="south"
 	Hogwarts_Stone_Arch
-		bumpable = 0
-		opacity = 0
-		density = 0
 		icon = 'wall1.dmi'
 		icon_state = "arch"
 
 turf
-	var/lastopener
-	stonedoor1
-		bumpable=1
-		name="Hogwarts Stone Wall"
-		flyblock=1
-		door=1
-		icon='door1.dmi'
-		density=1
-		icon_state="closed"
-		opacity=1
-		pass="Roar"
 	Hogwarts_Stone_Wall
-		bumpable=0
 		opacity=0
 		density=1
 		flyblock=1
@@ -105,8 +77,6 @@ turf
 
 obj
 	Hogwarts_Door
-		bumpable=1
-		dontsave=0
 		icon='Door.dmi'
 		density=1
 		icon_state="closed"
@@ -114,7 +84,7 @@ obj
 
 		var
 			pass=""
-			lastopener
+			tmp/lastopener
 			door=1
 
 			claimed
@@ -175,7 +145,6 @@ obj
 			spawn(1)
 				density    = 1
 				icon_state = "closed"
-				bumpable   = 1
 
 				if(!vaultOwner)
 					verbs -= /obj/Hogwarts_Door/verb/Claim
@@ -203,7 +172,6 @@ obj
 				return
 
 			if(icon_state != "open")
-				bumpable = 0
 				lastopener = usr.key
 				flick("opening", src)
 				opacity = 0
@@ -217,4 +185,3 @@ obj
 				sleep(4)
 				opacity = initial(opacity)
 				icon_state="closed"
-				bumpable = 1

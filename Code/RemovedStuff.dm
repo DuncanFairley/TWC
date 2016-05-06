@@ -58,7 +58,6 @@ obj/Blue_Mushroom
 	icon_state="bluemushroom"
 	wlable = 1
 	accioable=1
-	dontsave=1
 	rubbleable=1
 	verb
 		Examine()
@@ -423,15 +422,6 @@ obj/items/scroll/prize
 
 	write()
 		set hidden = 1
-
-mob/var/onionroot
-mob/var/indigoseeds
-mob/var/silverspiderlegs
-mob/var/salamanderdrop
-mob/var/talkedtosanta
-mob/var/talkedtoalyssa
-mob/var/delinterwand
-mob/var/easterwand
 
 mob
 	longap/verb

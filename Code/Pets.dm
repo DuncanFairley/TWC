@@ -64,23 +64,21 @@ world/IsBanned(key,address)
 obj/Sanctuario
 	icon='attacks.dmi'
 	icon_state="alohomora"
-	density=1
-	Bump(mob/M)
-		if(!istype(M, /mob)) return
-		if(M.monster||M.player)
-			src.owner<<""
-		del src
-	New() spawn(60)del(src)
+	density=0
+	New()
+		set waitfor = 0
+		sleep(60)
+		loc = null
 
 
 mob/Player/proc
 	StateChange()
-		if(movable == 0)
-			movable = 1
+		if(nomove == 0)
+			nomove = 1
 			icon_state = "stone"
 			overlays = null
 		else
-			movable = 0
+			nomove = 0
 			icon_state = ""
 
 

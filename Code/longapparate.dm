@@ -13,14 +13,15 @@ obj
 		Click()
 			if(src in oview(1))
 				var/choice
-				if(usr.Rank == "Minister of Magic")
+				var/mob/Player/p = usr
+				if(p.Rank == "Minister of Magic")
 					choice = input("What would you like to do?") as null|anything in list(
 					"Make Ministry-wide announcement",
 					"Lock/Unlock Ministry offices",
 					"Open/Close Ministry entrance",
 					"Ban person from entering",
 					"Unban person")
-				else if(usr.House == "Ministry")
+				else if(p.House == "Ministry")
 					choice = input("What would you like to do?") as null|anything in list(
 					"Make Ministry-wide announcement",
 					"Lock/Unlock Ministry offices",
@@ -34,12 +35,12 @@ obj
 						var/newtaxrate = input("What will the new taxrate be? (%)","New Tax Rate",worldData.taxrate) as null|text
 						if(!newtaxrate)return
 						worldData.taxrate = newtaxrate
-						usr << "The tax rate is now [worldData.taxrate]"
+						p << "The tax rate is now [worldData.taxrate]"
 					if("Make Ministry-wide announcement")
 						var/announcement = input("What would you like to announce to anyone in the Ministry of Magic's premises?") as null|text
 						if(!announcement)return
 						var/area/A = locate(/area/ministry_of_magic)
-						for(var/mob/M in A)
+						for(var/mob/Player/M in A)
 							M << "<i><b>Ministry Announcement: [html_encode(announcement)]</b></i>"
 					if("Lock/Unlock Ministry offices")
 						var/obj/brick2door/door = locate("ministryoffice")
@@ -59,11 +60,11 @@ obj
 					if("Ban person from entering")
 						var/mob/M = input("Who would you like to ban from using the Ministry's entrance?") as null|mob in Players
 						if(!M)return
-						usr << "[M] is now banned from entering the Ministry of Magic."
+						p << "[M] is now banned from entering the Ministry of Magic."
 						worldData.ministrybanlist.Remove(M.name)
 						worldData.ministrybanlist.Add(M.name)
 					if("Unban person")
 						var/M = input("Who would you like to unban from using the Ministry's entrance?") as null|anything in worldData.ministrybanlist
 						if(!M)return
 						worldData.ministrybanlist.Remove(M)
-						usr << "[M] is now unbanned from entering the Ministry of Magic."
+						p << "[M] is now unbanned from entering the Ministry of Magic."

@@ -214,20 +214,10 @@ mob
 			if(savefile_version < 3)
 				src.resetStatPoints()
 				src << infomsg("Your statpoints have been reset.")
-			if(savefile_version < 4)
-				if(learnedslug) // replaces var with verb for eat slugs
-					learnedslug = null
-					verbs += /mob/Spells/verb/Eat_Slugs
-
-				if(Disperse) // replaces var with verb for eat slugs
-					Disperse = null
-					verbs += /mob/Spells/verb/Disperse
-
-				Resort_Stacking_Inv()
 
 			if(savefile_version < 5)
-				pdeaths = edeaths
-				edeaths = 0
+				p.pdeaths = p.edeaths
+				p.edeaths = 0
 
 			if(savefile_version < 7)
 				spawn()
@@ -238,51 +228,6 @@ mob
 					verbs -= /mob/Spells/verb/Basilio
 					verbs -= /mob/Spells/verb/Shelleh
 					verbs -= /mob/Spells/verb/Imperio
-
-			if(savefile_version < 8)
-				spawn()
-					p.MMP = p.level * 6
-
-					if(ratquest==1)
-						var/questPointer/pointer = new
-						pointer.time = world.realtime
-						p.questPointers["Rats in the Cellar"] = pointer
-					if(babyquest==1)
-						var/questPointer/pointer = new
-						pointer.time = world.realtime
-						p.questPointers["Stolen by the Lord"] = pointer
-					if(talkedtoalyssa==2)
-						var/questPointer/pointer = new
-						pointer.time = world.realtime
-						p.questPointers["Make a Potion"] = pointer
-					if(talkedtofred==3)
-						var/questPointer/pointer = new
-						pointer.time = world.realtime
-						p.questPointers["On House Arrest"] = pointer
-
-					talkedtogirl = null
-					babyquest = null
-					babyfound = null
-					foundlord = null
-					talkedtofred = null
-					onionroot = null
-					indigoseeds = null
-					silverspiderlegs = null
-					salamanderdrop = null
-					talkedtosanta = null
-					palmer = null
-					quests = null
-					talktotom = null
-					ratquest = null
-
-			if(savefile_version < 9)
-				spawn()
-					if(talkedtobunny == 3)
-						var/questPointer/pointer = new
-						pointer.time = world.realtime
-						p.questPointers["Sweet Easter"] = pointer
-
-					talkedtobunny = null
 
 			if(savefile_version < 10 && (last_z == 21 || last_z == 22))
 				var/turf/t = locate("@Hogwarts")
@@ -409,55 +354,55 @@ mob
 						loc = t
 
 			spawn()
-				if(usr.loc)
-					if(usr.loc.loc)
-						usr.density = 0
-						usr.loc.loc.Enter(usr)
-						usr.density = 1
-			if(src:ror==0)
+				if(p.loc)
+					if(p.loc.loc)
+						p.density = 0
+						p.loc.loc.Enter(usr)
+						p.density = 1
+			if(p.ror==0)
 				var/rorrand=rand(1,3)
-				src:ror=rorrand
-			usr.occlumens = 0
-			usr.icon_state = ""
-			if(usr.Gm)
-				if(usr.Gender == "Female")
-					usr.icon = 'FemaleStaff.dmi'
+				p.ror=rorrand
+			p.occlumens = 0
+			p.icon_state = ""
+			if(p.Gm)
+				if(p.Gender == "Female")
+					p.icon = 'FemaleStaff.dmi'
 				else
-					usr.icon = 'MaleStaff.dmi'
+					p.icon = 'MaleStaff.dmi'
 			else
-				if(usr.Gender == "Male")
-					switch(usr.House)
+				if(p.Gender == "Male")
+					switch(p.House)
 						if("Gryffindor")
-							usr.icon = 'MaleGryffindor.dmi'
-							usr.verbs += /mob/GM/verb/Gryffindor_Chat
+							p.icon = 'MaleGryffindor.dmi'
+							p.verbs += /mob/GM/verb/Gryffindor_Chat
 						if("Ravenclaw")
-							usr.icon = 'MaleRavenclaw.dmi'
-							usr.verbs += /mob/GM/verb/Ravenclaw_Chat
+							p.icon = 'MaleRavenclaw.dmi'
+							p.verbs += /mob/GM/verb/Ravenclaw_Chat
 						if("Slytherin")
-							usr.icon = 'MaleSlytherin.dmi'
-							usr.verbs += /mob/GM/verb/Slytherin_Chat
+							p.icon = 'MaleSlytherin.dmi'
+							p.verbs += /mob/GM/verb/Slytherin_Chat
 						if("Hufflepuff")
-							usr.icon = 'MaleHufflepuff.dmi'
-							usr.verbs += /mob/GM/verb/Hufflepuff_Chat
+							p.icon = 'MaleHufflepuff.dmi'
+							p.verbs += /mob/GM/verb/Hufflepuff_Chat
 						if("Ministry")
-							usr.icon = 'suit.dmi'
-				else if(usr.Gender == "Female")
-					switch(usr.House)
+							p.icon = 'suit.dmi'
+				else if(p.Gender == "Female")
+					switch(p.House)
 						if("Gryffindor")
-							usr.icon = 'FemaleGryffindor.dmi'
-							usr.verbs += /mob/GM/verb/Gryffindor_Chat
+							p.icon = 'FemaleGryffindor.dmi'
+							p.verbs += /mob/GM/verb/Gryffindor_Chat
 						if("Ravenclaw")
-							usr.icon = 'FemaleRavenclaw.dmi'
-							usr.verbs += /mob/GM/verb/Ravenclaw_Chat
+							p.icon = 'FemaleRavenclaw.dmi'
+							p.verbs += /mob/GM/verb/Ravenclaw_Chat
 						if("Slytherin")
-							usr.icon = 'FemaleSlytherin.dmi'
-							usr.verbs += /mob/GM/verb/Slytherin_Chat
+							p.icon = 'FemaleSlytherin.dmi'
+							p.verbs += /mob/GM/verb/Slytherin_Chat
 						if("Hufflepuff")
-							usr.icon = 'FemaleHufflepuff.dmi'
-							usr.verbs += /mob/GM/verb/Hufflepuff_Chat
+							p.icon = 'FemaleHufflepuff.dmi'
+							p.verbs += /mob/GM/verb/Hufflepuff_Chat
 						if("Ministry")
-							usr.icon = 'suit.dmi'
-			usr.baseicon = usr.icon
+							p.icon = 'suit.dmi'
+			p.baseicon = p.icon
 			if(client)
 				src << output(null,"browser1:Resize")
 				for(var/mob/Player/c in Players)
@@ -465,18 +410,17 @@ mob
 						c <<"<b><i>[src][refererckey == c.client.ckey ? "(referral)" : ""] ([client.address])([ckey])([client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</i></b>"
 					else
 						c <<"<b><i>[src][refererckey == c.client.ckey ? "(referral)" : ""] logged in.</i></b>"
-				usr.Teleblock=0
-				usr<<browse(rules,"window=1;size=500x400")
+				p<<browse(rules,"window=1;size=500x400")
 				src<<"<b><span style=\"font-size:2; color:#3636F5;\">Welcome to Harry Potter: The Wizards Chronicles</span> <u><a href='http://wizardschronicles.com/?ver=[VERSION]'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://www.wizardschronicles.com\">here.</a>"
 
 				//if(!usr.Gm)usr.see_invisible = 0
 				if(radioOnline)
 					var/obj/hud/radio/Z = new()
-					usr.client.screen += Z
+					p.client.screen += Z
 				if(src:lastreadDP < worldData.dplastupdate)
-					usr << "<span style=\"color:red;\">The Daily Prophet has an issue that you haven't yet read. <a href='?src=\ref[src];action=daily_prophet'>Click here</a> to view.</span>"
-				if(VERSION != src:lastversion)
-					src:lastversion = VERSION
+					p << "<span style=\"color:red;\">The Daily Prophet has an issue that you haven't yet read. <a href='?src=\ref[src];action=daily_prophet'>Click here</a> to view.</span>"
+				if(VERSION != p.lastversion)
+					p.lastversion = VERSION
 					src<<"<b><span style=\"font-size:2;\">TWC had an update since you last logged in! A list of changes can be found <a href='http://wizardschronicles.com/?ver=[VERSION]'>here.</a></span></b>"
 
 
