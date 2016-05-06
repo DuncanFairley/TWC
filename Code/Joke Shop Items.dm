@@ -8,40 +8,37 @@ mob/TalkNPC/Zonko
 	icon = 'NPCs.dmi'
 	icon_state="zonko"
 	name="Zonko the Prankster"
-	NPC = 1
-	Immortal=1
-	item="Potion"
 
 	Talk()
 		set src in oview(3)
 		var/mob/Player/p = usr
 		var/questPointer/pointer = p.questPointers["Sweet Easter"]
 		if(pointer && pointer.stage == 1)
-			usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white> Yes? Can I help you?"
+			usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span></b>:<font color=white> Yes? Can I help you?"
 			sleep(10)
 			switch(input("Your Response","Respond")in list("Anything new for sale?","No, I'm ok."))
 				if("Anything new for sale?")
-					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white> Actually I have this batch of Chocolate Eggs here. But they're not for sale. This is the only batch I have."
+					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span></b>:<font color=white> Actually I have this batch of Chocolate Eggs here. But they're not for sale. This is the only batch I have."
 					sleep(30)
 					switch(input("Your Response","Respond")in list("Oh come on, I'll give you 50,000 gold.","Oh, ok."))
 						if("Oh come on, I'll give you 50,000 gold.")
-							usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white> 50,000! That's a lot of money..."
+							usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span></b>:<font color=white> 50,000! That's a lot of money..."
 							if(usr.gold.get()>=50000)
-								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white> Hm...Alright alright. Its a deal."
+								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span></b>:<font color=white> Hm...Alright alright. Its a deal."
 								usr.gold.add(-50000)
 								p.checkQuestProgress("Zonko")
 								return
 							else
-								usr<<"\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white> Hm...Doesn't look like you have enough money. Sorry."
+								usr<<"\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span></b>:<font color=white> Hm...Doesn't look like you have enough money. Sorry."
 								return
 						if("Oh, ok.")
 							return
 				if("No, I'm ok.")
-					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white>Stop wasting my time!"
+					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span></b>:<font color=white>Stop wasting my time!"
 					return
 
 		else
-			usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span> [GMTag]</b>:<font color=white> Excuse me kid, I'm quite busy."
+			usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span></b>:<font color=white> Excuse me kid, I'm quite busy."
 
 
 obj
@@ -183,16 +180,19 @@ obj
 
 					return Lt
 
-mob/var/tmp/atom/smokepelletdest=null
-mob/var/tmp/obj/items/Smoke_Pellet/smokepelletthrowing
+mob/Player/var/tmp
+	atom/smokepelletdest=null
+	obj/items/Smoke_Pellet/smokepelletthrowing
 
 atom/Click()
 	. = ..()
-	if(usr.smokepelletthrowing)
-		if(usr.client.eye!=usr)return
-		usr.smokepelletdest=src
-		if(isobj(usr.smokepelletdest))usr.smokepelletdest = src.loc
-		spawn()usr.smokepelletthrowing.Throwit()
+
+	var/mob/Player/p = usr
+	if(p.smokepelletthrowing)
+		if(p.client.eye!=p)return
+		p.smokepelletdest=src
+		if(isobj(p.smokepelletdest))p.smokepelletdest = src.loc
+		spawn()p.smokepelletthrowing.Throwit(p)
 obj
 	hud
 		cancelthrow
@@ -202,7 +202,8 @@ obj
 			screen_loc = "9,8"
 			mouse_over_pointer = MOUSE_HAND_POINTER
 			Click()
-				usr.smokepelletthrowing.Cancel()
+				var/mob/Player/p = usr
+				p.smokepelletthrowing.Cancel(p)
 
 obj
 	smokeeffect
@@ -276,29 +277,30 @@ obj
 			var/thrown=0
 			Click()
 				if(src in usr)
-					if(usr.smokepelletthrowing)
-						Cancel()
-					else if(canUse(M=usr, inarena=0))
-						usr.smokepelletthrowing = src
+					var/mob/Player/p = usr
+					if(p.smokepelletthrowing)
+						Cancel(p)
+					else if(canUse(M=p, inarena=0))
+						p.smokepelletthrowing = src
 						var/obj/hud/cancelthrow/C = new()
-						usr.client.screen += C
-						usr << infomsg("You have five seconds to click where you would like to throw the [src].")
+						p.client.screen += C
+						p << infomsg("You have five seconds to click where you would like to throw the [src].")
 						var/obj/items/Smoke_Pellet/P = src
 						src = null
 						spawn(50)
-							if(!P.thrown&&usr.smokepelletthrowing)P.Cancel()
+							if(!P.thrown&&p.smokepelletthrowing)P.Cancel(p)
 				else
 					..()
 
 			proc
-				Cancel(var/silent = FALSE)
-					if(!silent) usr << "You put the [src] back into your robes."
-					usr.smokepelletthrowing = null
-					for(var/obj/hud/cancelthrow/R in usr.client.screen)
+				Cancel(mob/Player/p, var/silent = FALSE)
+					if(!silent) p << "You put the [src] back into your robes."
+					p.smokepelletthrowing = null
+					for(var/obj/hud/cancelthrow/R in p.client.screen)
 						del(R)
-				Throwit()
+				Throwit(mob/Player/p)
 					thrown=1
-					Cancel(TRUE)
+					Cancel(p, TRUE)
 					hearers() << "[usr] throws a smoke pellet!"
 
 					var/obj/items/Smoke_Pellet/s = Split(1)
@@ -306,8 +308,8 @@ obj
 					s.verbs.Remove(/obj/items/verb/Take)
 					s.loc = usr.loc
 
-					var/turf/t = usr.smokepelletdest
-					usr.smokepelletdest = null
+					var/turf/t = p.smokepelletdest
+					p.smokepelletdest = null
 					src=null
 					spawn()
 						while(s && t && t != s.loc)
@@ -343,7 +345,6 @@ obj
 					for(var/i=0; i<rnd; i++)
 						sleep(rand(1,3))
 						new /obj/smokeeffect (src.loc)
-					//del(src)
 					src.loc = null
 
 

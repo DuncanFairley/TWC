@@ -6,7 +6,7 @@
  */
 mob/Player/var/list/atom/movable/PM/pmsRec = list()
 mob/Player/var/list/atom/movable/PM/pmsSen = list()
-mob/Player/var/atom/movable/PM/curPM
+mob/Player/var/tmp/atom/movable/PM/curPM
 
 atom/movable/PM
 	var

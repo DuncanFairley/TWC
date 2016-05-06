@@ -444,28 +444,18 @@ obj/items/herosbrace
 	Click()
 		if(src in usr)
 			if(canUse(M=usr, needwand=0, inarena=0, inhogwarts=0, antiTeleport=1))
-				if(usr.bracecharges>=1)
-					var/turf/t
-					switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Forbidden Forest","Graveyard"))
-						if("Diagon Alley")
-							t = locate("@DiagonAlley")
-						if("Forbidden Forest")
-							t = locate("@Forest")
-						if("Graveyard")
-							t = locate("@Graveyard")
-					if(t && canUse(M=usr, needwand=0, inarena=0, inhogwarts=0) && usr.bracecharges>0)
-						if(usr.bracecharges<1) return
-						flick('tele2.dmi',usr)
-						usr.bracecharges--
-						usr:Transfer(t)
-					if(usr.removeoMob) spawn()usr:Permoveo()
-					for(var/obj/hud/player/R in usr.client.screen)
-						del(R)
-					for(var/obj/hud/cancel/C in usr.client.screen)
-						del(C)
-
-				else
-					alert("Your brace is too drained to teleport. Try recharging it at Gringotts Wizarding Bank.")
+				var/turf/t
+				switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Forbidden Forest","Graveyard"))
+					if("Diagon Alley")
+						t = locate("@DiagonAlley")
+					if("Forbidden Forest")
+						t = locate("@Forest")
+					if("Graveyard")
+						t = locate("@Graveyard")
+				if(t && canUse(M=usr, needwand=0, inarena=0, inhogwarts=0))
+					flick('tele2.dmi',usr)
+					usr:Transfer(t)
+				if(usr.removeoMob) spawn()usr:Permoveo()
 		else
 			..()
 
@@ -501,15 +491,16 @@ obj/items/Zombie_Head
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1,againstflying=0,againstcloaked=1))
 				new /StatusEffect/UsedTransfiguration(usr,15)
 				if(usr.CanTrans(usr))
-					flick("transfigure",usr)
+					var/mob/Player/p = usr
+					flick("transfigure",p)
 					hearers()<<"<b><span style=\"color:red;\">[usr]</span>:<b><span style=\"color:green;\"> Personio Inter vivos.</b></span>"
-					usr.trnsed = 1
-					usr.overlays = null
-					if(usr.away)usr.ApplyAFKOverlay()
-					if(usr.Gender=="Female")
-						usr.icon = 'FemaleZombie.dmi'
+					p.trnsed = 1
+					p.overlays = null
+					if(p.away)p.ApplyAFKOverlay()
+					if(p.Gender=="Female")
+						p.icon = 'FemaleZombie.dmi'
 					else
-						usr.icon = 'MaleZombie.dmi'
+						p.icon = 'MaleZombie.dmi'
 		else
 			..()
 
@@ -2115,7 +2106,7 @@ mob/GM/verb/Arena()
 			currentArena.teampoints = list("Gryffindor" = 0, "Ravenclaw" = 0, "Slytherin" = 0,"Hufflepuff" = 0)
 			currentArena.plyrSpawnTime = input("How long must a player wait to respawn (in seconds)?",,10) as num
 			currentArena.amountforwin = input("How many house points does the winning team receive?",,10) as num
-			for(var/mob/M in currentArena.players)
+			for(var/mob/Player/M in currentArena.players)
 				switch(M.House)
 					if("Hufflepuff")
 						var/obj/Bed/B = pick(Map1Hbeds)
@@ -2489,7 +2480,6 @@ obj/egg
 	icon='Eggs.dmi'
 	icon_state="egg"
 	density=1
-	dontsave=1
 	var/HP
 
 	proc
@@ -2810,7 +2800,7 @@ obj/items
 						D.player1 = usr
 						D.player1:Transfer(t)
 						D.player1.dir = EAST
-						D.player1.movable = 1
+						D.player1.nomove = 1
 						range(9) << "[usr] enters the duel."
 					else if(!D.player2 && D.player1 != usr)
 						var/turf/t = locate(x+3,y,z)
@@ -2820,7 +2810,7 @@ obj/items
 						D.player2 = usr
 						D.player2:Transfer(t)
 						D.player2.dir = WEST
-						D.player2.movable = 1
+						D.player2.nomove = 1
 						range(9) << "[usr] enters the duel."
 						var/obj/duelblock/B1 = locate(/obj/duelblock) in locate(x-2,y,z)
 						var/obj/duelblock/B2 = locate(/obj/duelblock) in locate(x+2,y,z)
@@ -2832,7 +2822,7 @@ obj/items
 					else if(D.player1 == usr)
 						if(!D.player2)
 							range(9) << "[usr] withdraws."
-							usr.movable = 0
+							D.player1.nomove = 0
 							del D
 						else
 							if(!D.ready1)
@@ -2845,8 +2835,8 @@ obj/items
 									usr << "Duel will end in 10 seconds."
 									sleep(100)
 									range(9) << "The duel has been forfeited by [usr]."
-									D.player1.movable = 0
-									D.player2.movable = 0
+									D.player1.nomove = 0
+									D.player2.nomove = 0
 									spawn(60)
 										var/obj/duelblock/B1 = locate(/obj/duelblock) in locate(x-2,y,z)
 										var/obj/duelblock/B2 = locate(/obj/duelblock) in locate(x+2,y,z)
@@ -2856,7 +2846,7 @@ obj/items
 					else if(D.player2 == usr)
 						if(!D.player1)
 							range(9) << "[usr] withdraws."
-							usr.movable = 0
+							D.player2.nomove = 0
 							del D
 						else
 							if(!D.ready2)
@@ -2889,7 +2879,7 @@ obj/items
 					D.player1 = usr
 					D.player1:Transfer(t)
 					D.player1.dir = EAST
-					D.player1.movable = 1
+					D.player1.nomove = 1
 
 obj/items/crystal
 	icon = 'Crystal.dmi'
@@ -4014,7 +4004,6 @@ obj/items/vault_key
 				usr << errormsg("You unlocked the door.")
 				flick('Alohomora.dmi', d)
 				d.door     = 1
-				d.bumpable = 1
 				Consume()
 			else
 				usr << errormsg("You need to use this near a locked vault door.")

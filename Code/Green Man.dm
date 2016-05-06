@@ -8,7 +8,6 @@ mob/TalkNPC/greenman
 	name="Green Man"
 	icon='statues.dmi'
 	icon_state = "green"
-	Immortal=1
 	Gm=1
 
 	Talk()
@@ -74,31 +73,3 @@ mob/TalkNPC/greenman
 							usr.gold.add(-3000)
 							worldData.ministrybank += worldData.taxrate*3000/100
 							return
-
-mob/TalkNPC/greenmanno
-	name="Green Man"
-	icon='statues.dmi'
-	icon_state = "green"
-	Immortal=1
-	Gm=1
-	verb
-		Shop()
-			set src in oview(2)
-			alert("The Green Man Group is currently working on their new products for this month.")
-
-mob/var/bracecharges
-
-obj
-	bracecharger
-		name="Re-Charger"
-		icon='tele.dmi'
-		icon_state="rainbow"
-		density=1
-		dontsave=1
-		verb
-			Recharge()
-				set src in oview(2)
-				usr << "<span style=\"color:red;\">Re-charging...</span>"
-				sleep(20)
-				usr << "<span style=\"color:green\">Complete.</span>"
-				usr.bracecharges=3

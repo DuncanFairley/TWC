@@ -578,7 +578,7 @@ obj/quidditch
 				M << "A bludger hits you and knocks the quaffle out of your hand!"
 			if(prob(CHANCEBLUDGERSTUN))
 				var/time = rand(5,10)
-				M.frozen = 1
+				M.nomove = 1
 				src.target = null
 				src.dontgettarget = 1
 				spawn(40)
@@ -586,7 +586,7 @@ obj/quidditch
 				M << "You are hit by a bludger and it stuns you for [time] seconds!"
 				src = null
 				spawn(time * 10)
-					M.frozen = 0
+					M.nomove = 0
 					M << "You have been unfrozen."
 
 

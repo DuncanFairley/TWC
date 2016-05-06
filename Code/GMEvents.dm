@@ -10,7 +10,6 @@ mob/TalkNPC
 		icon = 'NPCs.dmi'
 		icon_state = "palmer"
 		name = "Event Mob"
-		Immortal = 1
 		Gm = 1
 
 		var

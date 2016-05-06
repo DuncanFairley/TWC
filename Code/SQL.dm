@@ -285,7 +285,7 @@ mob/GM/verb/Associated_Keys()
 		src << browse(result)
 	else
 		src << browse("<b>Invalid/non-existent ckey</b>")
-proc/sql_update_ckey_in_table(mob/M)
+proc/sql_update_ckey_in_table(mob/Player/M)
 	//Either creates a new player listing, or updates the old
 	if(!mysql_enabled) return
 	var/DBQuery/qry = my_connection.NewQuery("SELECT timeloggedin FROM tblPlayers WHERE ckey=[mysql_quote(M.ckey)];")

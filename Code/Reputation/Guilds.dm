@@ -78,12 +78,12 @@ mob/GM
 	verb
 		Guild_Chat(var/message as text)
 			set name="Guild Chat"
-			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
+			var/mob/Player/p = src
+			if(p.mute==1||p.Detention){p<<errormsg("You can't speak while silenced.");return}
 
 			if(!message || message == "") return
 			message = copytext(check(message),1,350)
 
-			var/mob/Player/p = src
 			if(!p.guild) return
 			var/guild/g = worldData.guilds[p.guild]
 

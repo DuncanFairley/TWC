@@ -107,11 +107,13 @@ obj/brick2door
 	icon = 'hogwartsbrick.dmi'
 	icon_state = "closed"
 	density = 1
-	var/door = 0
-	var/HP
-	var/MHP = 150
-	bumpable = 1
-	var/inuse = 0
+	var
+		door = 0
+		MHP = 150
+		tmp
+			inuse = 0
+			HP
+
 	name = "brick"
 
 	roofb
@@ -227,70 +229,6 @@ obj
 	Goblet_of_Fire
 		icon = 'goblet.dmi'
 		icon_state = "blue-idle"
-		var/list/names = list()
-		var/started = 0
-		var/Gpicked = 0
-		var/Rpicked = 0
-		var/Spicked = 0
-		var/Hpicked = 0
-		verb
-			Enter_Name()
-				set src in oview(1)
-				if(usr.level < 101)
-					alert("You need to be at least a 4th year (level 101) to enter the Triwizard Tournament")
-					return
-				if(started)
-					alert("The Goblet is no longer taking names.")
-					return
-				if(usr.name in names)
-					alert("You've already entered your name in the Goblet")
-				else
-					var/reply = alert("Are you sure you wish to drop your slip of parchment into the Goblet of Fire?",,"Yes","No")
-					if(reply == "Yes")
-						if(!(usr.name in names))
-							names.Add(usr.name)
-							icon_state = "blue-large"
-							spawn(40)
-							icon_state = "blue-idle"
-							hearers() << "<b>The Goblet of Fire burns ferociously as [usr]'s piece of parchment falls in.</b>"
-
-		Click()
-			if(usr.Gm)
-				if(started==0)
-					var/reply = alert("Do you wish to start the ceremony? The goblet will turn red, and wait for you to click it again.",,"Yes","No")
-					if(reply == "Yes")
-						started = 1
-						hearers() << "<h3>The Goblet of Fire changes its colour to a firey red.</h3>"
-						icon_state = "red-idle"
-					return
-				else
-					var/list/options = list()
-					if(Gpicked == 0) options.Add("Gryffindor")
-					if(Spicked == 0) options.Add("Slytherin")
-					if(Rpicked == 0) options.Add("Ravenclaw")
-					if(Hpicked == 0) options.Add("Hufflepuff")
-					var/house = input("Which House is the Goblet drawing?") as null|anything in options
-					if(!house)return
-					var/list/mob/onlineplayers = list()
-					for(var/mob/M in world) if(M.key) onlineplayers.Add(M)
-					for(var/mob/M in onlineplayers)
-						if(!(M.name in names))
-							onlineplayers.Remove(M)
-					//onlineplayers now contains only players that are online, and have entered the goblet
-					for(var/mob/M in onlineplayers)
-						if(M.House != house)
-							onlineplayers.Remove(M)
-					//onlineplayers now only contains players from the house
-					var/mob/winner = pick(onlineplayers)
-					icon_state = "red-large"
-					hearers() << "<b>The Goblet of Fire burns ferociously</b>"
-					sleep(50)
-					if(winner)
-						hearers() << "<h2>A thin sliver of charred parchment with <u>[winner.name]<u>  written on it flies out of the Goblet.</h2>"
-					else
-						hearers() << "<h3>The Goblet fizzles out</h3>"
-					sleep(10)
-					icon_state = "red-idle"
 
 obj
 	MouseDrop(over_object,src_location,over_location)

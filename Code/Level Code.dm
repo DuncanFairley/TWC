@@ -8,6 +8,10 @@ mob/Player
 	var/tmp
 		slow       = 0
 		move_delay = 1
+		reading    = 0
+		nomove     = 0
+
+//mob/var/tmp/movable = 0
 
 turf
 	Exit(atom/movable/O, atom/newloc)
@@ -15,7 +19,7 @@ turf
 
 		if(isplayer(O) && .)
 			var/mob/Player/p = O
-			if(p.frozen || p.stuned || p.GMFrozen || p.arcessoing) return 0
+			if(p.GMFrozen || p.arcessoing) return
 			if(p.teleporting) return
 			if(isobj(newloc)) return
 
@@ -27,11 +31,6 @@ turf
 
 turf/var/tmp/slow = 0
 
-mob
-	var
-		reading=0
-		frozen=0
-		stuned=0
 
 turf
 	Huffleblocker

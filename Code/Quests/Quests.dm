@@ -11,13 +11,6 @@ mob/Player
 		set name = ".questBookClosed"
 		questBookOpen = FALSE
 
-mob
-	var
-		palmer
-		quests
-		talktotom
-		ratquest
-
 mob/TalkNPC/quest
 	var/questPointers
 
@@ -97,8 +90,6 @@ mob/TalkNPC/quest
 	professor_palmer
 		icon_state="palmer"
 		name="Professor Palmer"
-		Immortal=1
-		Gm=1
 		questPointers = list("Tutorial: Quests", "Master of Keys", "Strength of Graduate \[Weekly]")
 		Talk()
 			set src in oview(1)
@@ -152,17 +143,10 @@ mob/TalkNPC/quest
 			var/ScreenText/s = new(i_Player, src)
 			s.AddText("Have a good day.")
 
-mob/var/talkedtogirl
-mob/var/babyquest
-mob/var/babyfound
-mob/var/foundlord
-mob/var/talkedtofred
-
 mob/TalkNPC/quest
 	Fred
 		icon_state="fred"
 		density=1
-		Immortal=1
 		questPointers = "On House Arrest"
 		Talk()
 			set src in oview(3)
@@ -232,7 +216,6 @@ mob/TalkNPC/quest
 	Girl
 		icon_state="girl"
 		density=1
-		Immortal=1
 		questPointers = "Stolen by the Lord"
 		verb
 			Examine()
@@ -297,7 +280,6 @@ mob
 		icon = 'NPCs.dmi'
 		icon_state="baby"
 		density=1
-		Immortal=1
 		verb
 			Examine()
 				set src in oview(5)
@@ -307,7 +289,6 @@ mob/TalkNPC
 	Lord
 		icon_state="lord"
 		density=1
-		Immortal=1
 
 		verb
 			Examine()
@@ -361,14 +342,11 @@ turf
 					if("No")
 						return
 
-mob/var/talkedtobunny
-
 mob/TalkNPC/quest
 	easterbunny
 		icon_state = "easter"
 		name= "Easter Bunny"
 		density=1
-		Immortal=1
 		questPointers = "Sweet Easter"
 		verb
 			Examine()
@@ -429,252 +407,6 @@ mob/TalkNPC/quest
 						step_away(usr, src)
 			else
 				usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=#FF3399>Easter Bunny</span> </b>:<font color=white> THANKS AGAIN!"
-
-mob/var/talkedzombie=0
-
-obj
-	chocolatebar
-		name="Chocolate Bar"
-		icon='chocolate_bar.dmi'
-		icon_state="1"
-		verb
-			Take()
-				set src in oview(0)
-				hearers()<<"[usr] takes \the [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-		verb
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-
-	tootsieroll
-		name="Tootsie Roll"
-		icon='tootsie_roll.dmi'
-		icon_state="2"
-		verb
-			Take()
-				set src in oview(0)
-				hearers()<<"[usr] takes \the [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-		verb
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-
-	candycorn
-		name="Candy Corn"
-		icon='candy_corn.dmi'
-		icon_state="3"
-		verb
-			Take()
-				set src in oview(0)
-				hearers()<<"[usr] takes \the [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-		verb
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-
-	caramelapple
-		name="Caramel Apple"
-		icon='caramel_apple.dmi'
-		icon_state="4"
-		verb
-			Take()
-				set src in oview(0)
-				hearers()<<"[usr] takes \the [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-		verb
-			Drop()
-				Move(usr.loc)
-				usr:Resort_Stacking_Inv()
-				hearers()<<"[usr] drops \his [src]."
-
-obj
-	Halloween_Bucket
-		icon='halloween_bucket.dmi'
-		icon_state="bag1"
-		verb
-			Take_Out_Candy()
-				hearers() << "<span style=\"color:#FFA600;\"><b>[usr] pulls some candy out of \his halloween bucket!</b></span>"
-				var/rnd=rand(1,4)
-				if(rnd==1)
-					var/obj/chocolatebar/p = new
-					p:loc = locate(src.x,src.y-1,src.z)
-					p:owner = "[usr.key]"
-				if(rnd==2)
-					var/obj/tootsieroll/p = new
-					p:loc = locate(src.x,src.y-1,src.z)
-					p:owner = "[usr.key]"
-				if(rnd==3)
-					var/obj/candycorn/p = new
-					p:loc = locate(src.x,src.y-1,src.z)
-					p:owner = "[usr.key]"
-				if(rnd==4)
-					var/obj/caramelapple/p = new
-					p:loc = locate(src.x,src.y-1,src.z)
-					p:owner = "[usr.key]"
-
-
-		verb
-			Use()
-				hearers() << "<span style=\"color:#FFA600;\"><b>[usr] pulls out \his halloween bucket.</b></span>"
-				usr.overlays+=image('halloween-bag.dmi')
-
-		verb
-			Take_Off()
-				hearers() << "<span style=\"color:#FFA600;\"><b>[usr] puts away \his halloween bucket.</b></span>"
-				usr.overlays-=image('halloween-bag.dmi')
-		verb
-			Take()
-				set src in oview(0)
-				hearers()<<"[usr] takes \the [src]."
-				Move(usr)
-				usr:Resort_Stacking_Inv()
-		verb
-			Destroy()
-				switch(input("Are you sure you want to destroy this?","Destroy?")in list("Yes","No"))
-					if("Yes")
-						del src
-						usr.overlays-=image('halloween-bag.dmi')
-					if("No")
-						return
-
-			Examine()
-				set src in view(3)
-				usr << "<span style=\"color:#FFA600;\">It's a Halloween Bucket from 2011!</span>"
-
-
-
-obj
-	ground_silver_knife
-		name="Silver Knife"
-		icon='halloween.dmi'
-		icon_state="silver knife"
-		verb
-			Take()
-				set src in oview(2)
-				if(locate(/obj/Stupid/silver_knife) in usr.contents)
-					usr << "<b>You already have a Silver Knife!</b>"
-				else if(locate(/obj/items/wearable/halloween_bucket) in usr.contents)
-					usr << errormsg("You've already completed this quest!")
-				else
-					hearers() << "<b>[usr] picks up the Silver Knife.</b>"
-					new/obj/Stupid/silver_knife(usr)
-					usr:Resort_Stacking_Inv()
-
-obj
-	ground_blessed_torch
-		name="Blessed Torch"
-		icon='halloween.dmi'
-		icon_state="torch"
-		verb
-			Take()
-				set src in oview(2)
-				if(locate(/obj/Stupid/Blessed_Torch) in usr.contents)
-					usr << "<b>You already have a Blessed Torch!</b>"
-				else if(locate(/obj/items/wearable/halloween_bucket) in usr.contents)
-					usr << errormsg("You've already completed this quest!")
-				else
-					hearers() << "<b>[usr] picks up the Blessed Torch.</b>"
-					new/obj/Stupid/Blessed_Torch(usr)
-					usr:Resort_Stacking_Inv()
-
-obj
-	ground_holy_grenade
-		name="Holy Grenade"
-		icon='halloween.dmi'
-		icon_state="bomb"
-		verb
-			Take()
-				set src in oview(2)
-				if(locate(/obj/Stupid/Holy_Grenade) in usr.contents)
-					usr << "<b>You already have a Holy Grenade!</b>"
-				else if(locate(/obj/items/wearable/halloween_bucket) in usr.contents)
-					usr << errormsg("You've already completed this quest!")
-				else
-					hearers() << "<b>[usr] picks up the Holy Grenade.</b>"
-					new/obj/Stupid/Holy_Grenade(usr)
-					usr:Resort_Stacking_Inv()
-
-obj
-	Stupid/silver_knife
-		name="Silver Knife"
-		icon='halloween.dmi'
-		icon_state="silver knife"
-
-obj
-	Stupid/Blessed_Torch
-		icon='halloween.dmi'
-		icon_state="torch"
-
-obj
-	Stupid/Holy_Grenade
-		icon='halloween.dmi'
-		icon_state="bomb"
-
-
-mob/TalkNPC
-	Zombie
-		NPC=1
-		bumpable=0
-		Immortal=1
-		icon='MaleZombie.dmi'
-		icon_state=""
-		Gm=1
-
-		Talk()
-			set src in oview(3)
-			if(usr.talkedzombie==2)
-				usr << npcsay("Thanks for helping! Those innocent people will be slain soon!")
-			else
-				if(usr.talkedzombie==1)
-					usr << npcsay("Did you find everything!?")
-					if(locate(/obj/Stupid/silver_knife) in usr.contents)
-						if(locate(/obj/Stupid/Blessed_Torch) in usr.contents)
-							if(locate(/obj/Stupid/Holy_Grenade) in usr.contents)
-								for(var/obj/O in usr.contents)
-									if(istype(O,/obj/Stupid))
-										del(O)
-								usr << npcsay("You got everything! You've done enough, leave the rest to me. Thanks!")
-								usr << npcsay("Here is your reward.")
-								new/obj/items/wearable/halloween_bucket(usr)
-								usr:Resort_Stacking_Inv()
-								usr.talkedzombie=2
-							else
-								usr << npcsay("You don't have the Holy Grenade!")
-						else
-							usr << npcsay("You don't have the Blessed Torch!")
-					else
-						usr << npcsay("You don't have the Silver Knife!")
-				else
-					usr << npcsay("Hello. In a fit of rage I believe I have gone and infected 7 people last night with this curse I currently have bestowed upon me. If something is not done about this, you will be looking at a rather large problem.")
-					switch(input("Your response?","Make a selection")in list("Why do you want to kill other zombies?","What can I do to help?"))
-						if("Why do you want to kill other zombies?")
-							usr << npcsay("Simple! I don't like competition, I'm a lazy zombie.")
-							switch(input("Your response?","Make a selection")in list("What can I do to help?"))
-								if("What can I do to help?")
-									usr << npcsay("There are other Zombie killers in the area, you'll need their tools. One in Diagon Alley, one in Hogwarts, and one in Hogsmeade. You will be looking for a silver knife, blessed torch, and a holy grenade. Hurry and return when you've found what we need!")
-									usr.talkedzombie=1
-						if("What can I do to help?")
-							usr << npcsay("There are other Zombie killers in the area, you'll need their tools. One in Diagon Alley, one in Hogwarts, and one in Hogsmeade. You will be looking for a silver knife, blessed torch, and a holy grenade. Hurry and return when you've found what we need!")
-							usr.talkedzombie=1
-		New()
-			..()
-			wander()
-		proc/wander()
-
-			while(src)
-				walk_rand(src,rand(5,30))
-				sleep(5)
-
 
 image/questMarker
 	icon    = 'QuestMarker.dmi'

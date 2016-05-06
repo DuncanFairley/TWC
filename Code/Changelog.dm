@@ -10,25 +10,23 @@ mob
 	ministryfinancer
 		icon_state="divo"
 		icon = 'NPCs.dmi'
-		NPC = 1
-		Gm = 1
-		Immortal=1
 		density=1
 		name = "Head of Finance"
 		verb
 			Talk()
 				set src in oview(3)
-				if(usr.Rank == "Minister of Magic")
+				var/mob/Player/p = usr
+				if(p.Rank == "Minister of Magic")
 					hearers() << npcsay("Head of Finance: Hello, Minister. We currently have [worldData.ministrybank] gold.")
 					var/choice = input("What would you like to do?") as null|anything in list("Deposit gold","Withdraw gold","Change tax rate")
 					switch(choice)
 						if("Deposit gold")
 							var/amount = input("How much would you like to deposit?",,usr.gold.get()) as null|num
 							if(!amount)return
-							if(usr.gold.get() >= amount && amount > 0)
+							if(p.gold.get() >= amount && amount > 0)
 								hearers() << npcsay("Head of Finance: I've placed the [amount] gold into the account.")
 								worldData.ministrybank += amount
-								usr.gold.add(-amount)
+								p.gold.add(-amount)
 							else
 								hearers() << npcsay("Head of Finance: You don't have that much gold.")
 						if("Withdraw gold")
@@ -37,7 +35,7 @@ mob
 							if(amount <= worldData.ministrybank && amount > 0)
 								hearers() << npcsay("Head of Finance: Here is the [amount] gold.")
 								worldData.ministrybank -= amount
-								usr.gold.add(amount)
+								p.gold.add(amount)
 							else
 								hearers() << npcsay("Head of Finance: There isn't that much gold in the ministry account.")
 
@@ -58,7 +56,8 @@ obj/ministrybox
 		ministrybox = src
 	Click()
 		if(!(src in oview(1)))return
-		if(usr.House=="Ministry")
+		var/mob/Player/p = usr
+		if(p.House=="Ministry")
 			var/reply = alert("Do you wish to retrieve the mail, or add something?",,"Retrieve","Add","Cancel")
 			if(reply=="Cancel")return
 			else if(reply == "Retrieve")
@@ -66,8 +65,8 @@ obj/ministrybox
 				for(var/obj/O in src.contents)
 					O.Move(usr)
 					i++
-				usr:Resort_Stacking_Inv()
-				usr << "<b>Ministry Box:</b> <i> [i] item[i==1 ? "" : "s"] of mail [i==1 ? "has" : "have"] been added to your inventory.</i>"
+				p.Resort_Stacking_Inv()
+				p << "<b>Ministry Box:</b> <i> [i] item[i==1 ? "" : "s"] of mail [i==1 ? "has" : "have"] been added to your inventory.</i>"
 				return
 
 		var/list/obj/items/scroll/scrolls = list()

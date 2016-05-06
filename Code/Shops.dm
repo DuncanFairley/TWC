@@ -40,8 +40,6 @@ proc/infomsg(T as text)
 mob/TalkNPC/male_wigseller
 	name="Wig Salesman"
 	icon_state="mwig"
-	Immortal=1
-	Gm=1
 
 	Talk()
 		set src in oview(4)
@@ -50,8 +48,6 @@ mob/TalkNPC/male_wigseller
 mob/TalkNPC/female_wigseller
 	name="Wig Saleswoman"
 	icon_state="fwig"
-	Immortal=1
-	Gm=1
 
 	Talk()
 		set src in oview(4)
@@ -59,8 +55,6 @@ mob/TalkNPC/female_wigseller
 
 mob/TalkNPC/quest/Tammie
 	icon_state = "tammie"
-	NPC = 1
-	Immortal=1
 	questPointers = "Demonic Ritual"
 	Talk()
 		set src in oview(3)
@@ -83,17 +77,11 @@ mob/TalkNPC/quest/Tammie
 mob/Tom_
 	icon = 'NPCs.dmi'
 	icon_state="tom"
-	NPC = 1
-	Immortal=1
-	Gm=1
 	density=1
 
 mob/TalkNPC/quest/Tom
 	icon_state="tom"
-	NPC = 1
 	density=1
-	Immortal=1
-	Gm=1
 	questPointers = "Rats in the Cellar"
 	Talk()
 		set src in oview(2)
@@ -159,32 +147,12 @@ mob/TalkNPC/quest/Tom
 							usr << npcsay("Tom: My mistake. Carry on.")
 							return
 			if("Shop")
-				if(usr.Year in list("1st Year","2nd Year","3rd Year",""))
-					usr << npcsay("Tom: Sorry mate. Come back when you're older.")
+				if(p.Year in list("1st Year","2nd Year","3rd Year",""))
+					p << npcsay("Tom: Sorry mate. Come back when you're older.")
 				else
-					usr << npcsay("Tom: Sorry mate. Those rats drank all of the beer.")
-					/*var/obj/selecteditem
-					var/selectedprice
-					switch(input("Tom: What can I get for ya?","You have [comma(usr.gold)] gold")as null|anything in list("Draft Beer  50g","Iced Tea  50g"))
-						if("Draft Beer  50g")
-							selecteditem = /obj/Beer
-							selectedprice = 50
-						if("Iced Tea  50g")
-							selectedprice = 50
-							selecteditem = /obj/Tea
-						if(null)
-							usr << npcsay("Tom: Just gimme a holler if ya want anything.")
-							return
-					if(usr.gold < selectedprice)
-						usr << npcsay("Tom: Ya don't have enough coin for that. I ain't budging on these prices - it's [selectedprice]g or nothing.")
-					else
-						usr.gold -= selectedprice
-						ministrybank += taxrate*selectedprice/100
-						new selecteditem(usr)
-						usr << npcsay("Tom: There ya go. Enjoy.")
-						usr:Resort_Stacking_Inv()*/
+					p << npcsay("Tom: Sorry mate. Those rats drank all of the beer.")
 			if(null)
-				usr << npcsay("Tom: Seeya later then.")
+				p << npcsay("Tom: Seeya later then.")
 
 mob/test/verb/MagicEyes()
 	alert("There are currently [worldData.magicEyesLeft] magic eyes left at Divo.")
@@ -192,8 +160,6 @@ mob/test/verb/MagicEyes()
 
 mob/TalkNPC/Divo
 	icon_state="divo"
-	NPC = 1
-	Immortal=1
 
 	Talk()
 		set src in oview(2)
@@ -227,8 +193,6 @@ mob/TalkNPC/Divo
 
 mob/TalkNPC/Blotts
 	icon_state="blotts"
-	NPC = 1
-	Immortal=1
 
 	Talk()
 		set src in oview(2)
@@ -418,7 +382,6 @@ mob/TalkNPC/Ollivander
 					Olli.busy = 0
 
 obj/Madame_Pomfrey
-	bumpable=0
 	density = 1
 	icon='NPCs.dmi'
 	icon_state="nurse"
@@ -456,10 +419,6 @@ obj/Madame_Pomfrey
 
 
 mob/Madame_Pomfrey
-	NPC=1
-	bumpable=0
-	Gm=1
-	Immortal=1
 	icon='NPCs.dmi'
 	icon_state="nurse"
 
@@ -475,45 +434,9 @@ mob/Madame_Pomfrey
 				if(usr)
 					usr.overlays-=image('attacks.dmi',icon_state="heal")
 
-mob/AndersGoat
-	NPC=1
-	bumpable=0
-	Immortal=1
-	icon='Mobs.dmi'
-	icon_state="goat"
-	Gm=1
-	//Names the NPC//Do i really need to say... Sets their ICON STATE
-	New()//States that its calling a new something ^_^
-		..()
-		wander()//Calls the following PROC, which makes the NPC move by itself
-	proc/wander()//Self-Explanatory
-		//I have no idea what it does, but its required
-		while(src)//As long as the src exists...
-			walk_rand(src,rand(5,30))//This will happen...
-			sleep(5)//And this tells it how long between each step it takes
-
-mob/Turkey
-	NPC=1
-	bumpable=0
-	Immortal=1
-	icon='Turkey.dmi'
-	Gm=1
-	//Names the NPC//Do i really need to say... Sets their ICON STATE
-	New()//States that its calling a new something ^_^
-		..()
-		wander()//Calls the following PROC, which makes the NPC move by itself
-	proc/wander()//Self-Explanatory
-		//I have no idea what it does, but its required
-		while(src)//As long as the src exists...
-			walk_rand(src,rand(5,30))//This will happen...
-			sleep(5)
-
-
-
 mob/TalkNPC/Broom_Salesman
 	icon = 'NPCs.dmi'
 	icon_state="wizard"
-	item="Potion"
 	name="Chrono"
 
 	Talk()

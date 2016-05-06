@@ -20,11 +20,6 @@ mob/proc/learnspell(path)
 		verbs += path
 		return 1
 
-
-
-mob/var/learnedslug
-
-
 mob/GM
 	verb
 		Teach_Lumos()

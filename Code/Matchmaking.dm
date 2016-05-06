@@ -1,8 +1,7 @@
-var/const
-	WINS_REQ        = 10
-	RANK_LIMIT      = 350
-	START_RATING    = 500
-	ARENA_POOL_SIZE = 5
+#define WINS_REQ 10
+#define RANK_LIMIT 350
+#define START_RATING 500
+#define ARENA_POOL_SIZE 5
 
 var/list/duel_chairs = list()
 

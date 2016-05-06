@@ -335,17 +335,6 @@ mob/test/verb/Remove_Junk()
 			if(!person)return
 			var/alrt2 = alert("[person] has [person.contents.len] items. Would you like to delete them?",,"Yes","No")
 			if(alrt2 == "Yes") person.contents = list()
-	else if(input == "Bank Deposit Items")
-		var/alrt = alert("View amount of items in world, or delete individual's items.",,"View","Delete")
-		if(alrt == "View")
-			for(var/mob/Player/M in world)
-				if(M.bank)
-					src << "[M] has [M.bank.items.len] items "
-		if(alrt == "Delete")
-			var/mob/Player/person = input("Which person would you like to delete their items?") as null|mob in world
-			if(!person)return
-			var/alrt2 = alert("[person] has [person.bank.items.len] items. Would you like to delete them?",,"Yes","No")
-			if(alrt2 == "Yes") person.bank.items = list()
 proc/Log_admin(adminaction)
 	file("Logs/Adminlog.html")<<"[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [adminaction]<br />"
 proc/Log_gold(gold,var/mob/Player/from,var/mob/Player/too)
@@ -395,7 +384,8 @@ mob/GM
 			if(!listenhousechat)
 				usr << "You are not listening to Gryffindor chat."
 				return
-			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
+			var/mob/Player/m = src
+			if(m.mute==1||m.Detention){m<<errormsg("You can't speak while silenced.");return}
 			if(!message || message == "") return
 			message = copytext(check(message),1,350)
 
@@ -410,7 +400,8 @@ mob/GM
 			if(!listenhousechat)
 				usr << "You are not listening to Ravenclaw chat."
 				return
-			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
+			var/mob/Player/m = src
+			if(m.mute==1||m.Detention){m<<errormsg("You can't speak while silenced.");return}
 			if(!message || message == "") return
 			message = copytext(check(message),1,350)
 
@@ -426,7 +417,8 @@ mob/GM
 			if(!listenhousechat)
 				usr << "You are not listening to Slytherin chat."
 				return
-			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
+			var/mob/Player/m = src
+			if(m.mute==1||m.Detention){m<<errormsg("You can't speak while silenced.");return}
 			if(!message || message == "") return
 			message = copytext(check(message),1,350)
 
@@ -442,7 +434,8 @@ mob/GM
 			if(!listenhousechat)
 				usr << "You are not listening to Hufflepuff chat."
 				return
-			if(usr.mute==1||usr.Detention){usr<<errormsg("You can't speak while silenced.");return}
+			var/mob/Player/m = src
+			if(m.mute==1||m.Detention){m<<errormsg("You can't speak while silenced.");return}
 			if(!message || message == "") return
 
 			for(var/mob/Player/p in Players)
@@ -454,7 +447,6 @@ mob/GM
 
 		Sanctuario(mob/M in view()&Players)
 			set category="Staff"
-			if(clanrobed())return
 			switch(input("Teleport [M] to where? || Reminder, this spell fires a burst of teleporting magic at the target. Be sure to face your target.","Sanctuario Charm Destination") in list ("Entrance Hall","Silverblood","Student Housing","Dark Forest","Windhowl Manor","Azkaban","Cancel"))
 				if("Entrance Hall")
 					var/obj/S=new/obj/Sanctuario
@@ -545,7 +537,7 @@ mob/GM
 
 mob
 	test/verb
-		Levelup(mob/M in Players)
+		Levelup(mob/Player/M in Players)
 			set category = "Staff"
 			var/lvls = input("Select number of levels to gain.") as null|num
 			if(!lvls) return
@@ -584,7 +576,6 @@ mob/GM/verb
 	Goto(mob/M in world)
 		set category = "Staff"
 		if(clanrobed())return
-		if(!M.Teleblock == 0){src<<"[M] is protected by the Antiportus Charm. Your orbs bounced off the shield and re-materialized you where you were.";return}
 		var/dense = density
 		src.density=0
 		src.Move(locate(M.x,M.y+1,M.z))
@@ -853,12 +844,15 @@ mob
 				src << "<b>Players can no longer use offensive spells in [loc.loc].</b>"
 				A.safezoneoverride = 0
 
-		Release_From_Detention(mob/M in Players)
+		Release_From_Detention(mob/Player/M in Players)
 			set category = "Staff"
 			set popup_menu = 0
-			if(M && M.removeoMob) spawn()M:Permoveo()
+			if(M && M.removeoMob)
+				spawn()
+					var/mob/m = M
+					m:Permoveo()
 			flick('dlo.dmi',M)
-			M:Transfer(locate("@Hogwarts"))
+			M.Transfer(locate("@Hogwarts"))
 			M.Detention=0
 			M.MuteOOC=0
 			Players<<"[M] has been released from Detention."
@@ -875,30 +869,32 @@ mob
 		Immortal()
 			set category="Staff"
 			if(clanrobed())return
-			if(usr.Immortal==0)
-				flick('mist.dmi',usr)
-				usr<<"You are now Immortal."
-				usr.Immortal=1
-			else if(usr.Immortal==1)
-				flick('mist.dmi',usr)
-				usr<<"You are now a Mortal."
-				usr.Immortal=0
-		Give_Immortality(mob/M in world)
+
+			var/mob/Player/p = src
+			if(p.Immortal==0)
+				flick('mist.dmi',p)
+				p<<"You are now Immortal."
+				p.Immortal=1
+			else if(p.Immortal==1)
+				flick('mist.dmi',p)
+				p<<"You are now a Mortal."
+				p.Immortal=0
+		Give_Immortality(mob/Player/M in world)
 			set category="Staff"
 			set popup_menu = 0
 			if(M.Immortal==0)
 				flick('mist.dmi',M)
-				M<<"<b><span style=\"color:aqua;\">[usr] has made you an Immortal. You can no longer die.</span>"
+				M<<"<b><span style=\"color:aqua;\">[src] has made you an Immortal. You can no longer die.</span>"
 				M.Immortal=1
 			else if(M.Immortal==1)
 				flick('mist.dmi',M)
-				M<<"<b><span style=\"color:blue;\">[usr] has made you a Mortal. You are now vulnerable to Death.</span>"
+				M<<"<b><span style=\"color:blue;\">[src] has made you a Mortal. You are now vulnerable to Death.</span>"
 				M.Immortal=0
 		Mute(mob/Player/M in Players)
 			set category = "Staff"
 			if(M.mute==0)
 				M.mute=1
-				Players << "\red <b>[M] has been silenced by [usr].</b>"
+				Players << "\red <b>[M] has been silenced by [src].</b>"
 				var/timer = input("Set timer for mute in /minutes/ (Leave as 0 for mute to stick until you remove it)","Mute timer",0) as num|null
 				if(timer==null)return
 				var/Reason = input(src,"You are being muted because you: <finish sentence>","Specify Why","spammed OOC.") as null|text
@@ -1246,11 +1242,11 @@ mob
 			set popup_menu = 0
 			set category="Staff"
 			if(clanrobed())return
-			if(M.GMFrozen != 1)
+			if(!M.GMFrozen)
 				M.GMFrozen=1
 				M.overlays+='freeze.dmi'
 				M<<"You have been frozen."
-			else if(M.movable==1)
+			else
 				M.GMFrozen=0
 				M.overlays-='freeze.dmi'
 				M<<"You have been unfrozen."
@@ -1299,7 +1295,6 @@ mob/GM/verb
 
 
 mob/Player/var/tmp/cloaked=0
-mob/var/tmp/movable
 var/OOCMute=0
 mob/Player/var/shortapparate = 0
 
@@ -1841,10 +1836,8 @@ world/New()
 	for(var/turf/T in locate(/area/arenas/MapThree/WaitingArea))
 		MapThreeWaitingAreaTurfs.Add(T)
 	world.status = "<b><span style=\"font-family:'Comic Sans MS'; color:black;\">Server: <span style=\"color:blue;\">Main Server</span> || Version: <span style=\"color:red;\">[VERSION]</span></span></b>"
-	for(var/mob/M in world)
-		if(!M.key)
-			if(M.monster == 0)
-				M.GenerateNameOverlay(255,255,255)
+	for(var/mob/TalkNPC/M in world)
+		M.GenerateNameOverlay(255,255,255)
 
 	rankIcons = list()
 	for(var/state in icon_states('Ranks.dmi'))

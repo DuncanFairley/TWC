@@ -735,7 +735,6 @@ mob
 			character.client.eye = character
 			character.client.perspective = MOB_PERSPECTIVE
 			character.loc=locate(45,60,26)
-			character.notmonster=1
 			character.verbs += /mob/Spells/verb/Inflamari
 
 			character << output(null,"browser1:Resize")
@@ -745,7 +744,6 @@ mob
 					p << "<span style=\"font-size:2; color:#C0C0C0;\"><b><i>[character][character.refererckey==p.client.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey])([character.client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</i></b></span>"
 				else
 					p << "<span style=\"font-size:2; color:#C0C0C0;\"><b><i>[character][character.refererckey==p.client.ckey ? "(referral)" : ""] logged in.</i></b></span>"
-			character.Teleblock=0
 			if(!character.Interface) character.Interface = new(character)
 			character.startQuest("Tutorial: The Wand Maker")
 			character.BaseIcon()
@@ -763,8 +761,6 @@ mob/var
 		clothDmg = 0
 		clothDef = 0
 mob/Player
-	player=1
-	NPC=0
 
 	proc
 		addNameTag()
@@ -986,6 +982,7 @@ mob/Player
 
 	verb
 		Say(t as text)
+
 			if(!usr.mute)
 				if(usr.silence)
 					src << "Your tongue is stuck to the roof of your mouth. You can't speak."
@@ -1055,7 +1052,7 @@ mob/Player
 													C << errormsg("Your Telendevour wears off.")
 													C.eye=C.mob
 										usr.loc = dest
-							if(usr.House == "Ministry")
+							if(House == "Ministry")
 								switch(lowertext(t))
 									if("code black")
 										var/area/ministry_of_magic/A = locate(/area/ministry_of_magic)
@@ -1111,7 +1108,6 @@ mob/Player
 										for(var/obj/Hogwarts_Door/T in oview(client.view))
 											if(!admin && T.vaultOwner) continue
 											T.door=0
-											T.bumpable=0
 								if("alohomora")
 									if(src.Gm)
 										sleep(20)
@@ -1120,7 +1116,6 @@ mob/Player
 											if(!admin && T.vaultOwner) continue
 											flick('Alohomora.dmi',T)
 											T.door=1
-											T.bumpable=1
 								if("quillis")
 									if(src.Gm)
 										for(var/obj/Desk/T in view(client.view))
@@ -1241,17 +1236,16 @@ mob/Player
 				usr<<"Access to the OOC Chat System has been restricted by a Staff Member."
 			else
 				if(usr.spam<=5)
-					if(!usr.MuteOOC)
+					if(!MuteOOC)
 						if(T)
 							T = copytext(T,1,300)
 							T = check(T)
-							for(var/client/C)
-
-								if(C.mob)if(C.mob.type == /mob/Player)if(C.mob.listenooc)
+							for(var/mob/Player/p in Players)
+								if(p.listenooc)
 									if(prevname)
-										C << "<b><a style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\" href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\">OOC></a></b><b><span style=\"font-size:2; color:#3636F5;\">[usr.prevname][usr.GMTag]:</span></b> <span style=\"color:white; font-size:2;\"> [T]</span>"
+										p << "<b><a style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\" href=\"?src=\ref[p];action=pm_reply;replynametext=[formatName(src)]\">OOC></a></b><b><span style=\"font-size:2; color:#3636F5;\">[prevname][GMTag]:</span></b> <span style=\"color:white; font-size:2;\"> [T]</span>"
 									else
-										C << "<b><a style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\" href=\"?src=\ref[C.mob];action=pm_reply;replynametext=[formatName(src)]\">OOC></a></b><b><span style=\"font-size:2; color:#3636F5;\">[usr][usr.GMTag]:</span></b> <span style=\"color:white; font-size:2;\"> [T]</span>"
+										p << "<b><a style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\" href=\"?src=\ref[p];action=pm_reply;replynametext=[formatName(src)]\">OOC></a></b><b><span style=\"font-size:2; color:#3636F5;\">[src][GMTag]:</span></b> <span style=\"color:white; font-size:2;\"> [T]</span>"
 
 
 							if(prevname)
@@ -1326,28 +1320,27 @@ mob/Player
 				Players<<"<span style=\"color:red;\">[usr]</span> is no longer AFK."
 				RemoveAFKOverlay()
 
-mob
+mob/Player
 	proc/ApplyAFKOverlay()
 		RemoveAFKOverlay()
 
 		if(!away) return
 
-		var/mob/Player/user = src
-		if(locate(/obj/items/wearable/afk/pimp_ring) in user.Lwearing)
-			if(src.House=="Slytherin")
-				src.overlays += image('AFK.dmi', icon_state = "S")
-			else if(src.House=="Gryffindor")
-				src.overlays += image('AFK.dmi', icon_state = "G")
+		if(locate(/obj/items/wearable/afk/pimp_ring) in Lwearing)
+			if(House=="Slytherin")
+				overlays += image('AFK.dmi', icon_state = "S")
+			else if(House=="Gryffindor")
+				overlays += image('AFK.dmi', icon_state = "G")
 			else if(src.House=="Hufflepuff")
-				src.overlays += image('AFK.dmi', icon_state = "H")
+				overlays += image('AFK.dmi', icon_state = "H")
 			else
-				src.overlays += image('AFK.dmi', icon_state = "R")
-		else if(locate(/obj/items/wearable/afk/hot_chocolate) in user.Lwearing)
-			src.overlays+=image('AFK.dmi',icon_state="AFK2")
-		else if(locate(/obj/items/wearable/afk/heart_ring) in user.Lwearing)
-			src.overlays+=image('AFK.dmi',icon_state="AFK3")
+				overlays += image('AFK.dmi', icon_state = "R")
+		else if(locate(/obj/items/wearable/afk/hot_chocolate) in Lwearing)
+			overlays+=image('AFK.dmi',icon_state="AFK2")
+		else if(locate(/obj/items/wearable/afk/heart_ring) in Lwearing)
+			overlays+=image('AFK.dmi',icon_state="AFK3")
 		else
-			src.overlays+=image('AFK.dmi',icon_state="AFK1")
+			overlays+=image('AFK.dmi',icon_state="AFK1")
 
 mob
 	proc/RemoveAFKOverlay()
@@ -1541,7 +1534,8 @@ mob/proc/Death_Check(mob/killer = src)
 	killer.updateHPMP()
 	src.updateHPMP()
 	if(src.HP<1)
-		if(src.player)
+		if(isplayer(src))
+			var/mob/Player/p = src
 			Check_Death_Drop()
 			for(var/turf/duelsystemcenter/T in duelsystems)
 				if(T.D)
@@ -1561,21 +1555,18 @@ mob/proc/Death_Check(mob/killer = src)
 						del T.D
 			if(src.arcessoing == 1)
 				hearers() << "[src] stops waiting for a partner."
-				src.arcessoing = 0
+				p.arcessoing = 0
 			else if(ismob(arcessoing))
 				hearers() << "[src] pulls out of the spell."
 				stop_arcesso()
-			if(src.Detention)
+			if(p.Detention)
 				sleep(1)
-				flick('teleboom.dmi',src)
+				flick('teleboom.dmi',p)
 				return
 				//src<<"<b><span style=\"color:red;\">Advice:</b></span> You can't kill yourself to get out of detention. Attempt to do it again and all of your spells will be erased from your memory."
-			if(src.Immortal==1 && (src.admin || !istype(killer, /mob/NPC/Enemies)))
-				src<<"[killer] tried to knock you out, but you are immortal."
+			if(p.Immortal==1 && (p.admin || !istype(killer, /mob/NPC/Enemies)))
+				p<<"[killer] tried to knock you out, but you are immortal."
 				killer<<"<span style=\"color:blue;\"><b>[src] is immortal and cannot die.</b></span>"
-				return
-			if(src.monster==1)
-				del src
 				return
 			if(istype(src.loc.loc,/area/hogwarts/Duel_Arenas))
 				src.followplayer=0
@@ -1583,7 +1574,6 @@ mob/proc/Death_Check(mob/killer = src)
 				src.MP=src.MMP+src.extraMMP
 				src.updateHPMP()
 				flick('mist.dmi',src)
-				var/mob/Player/p = src
 				switch(src.loc.loc.type)
 					if(/area/hogwarts/Duel_Arenas/Main_Arena_Bottom)
 						p.Transfer(locate("DuelArena_Death"))
@@ -1615,19 +1605,6 @@ mob/proc/Death_Check(mob/killer = src)
 				src.HP=src.MHP+src.extraMHP
 				src.updateHPMP()
 				return
-			if(src.loc.loc.type == /area/Underwater)
-				src.followplayer=0
-				src.HP=src.MHP+src.extraMHP
-				src.MP=src.MMP+src.extraMMP
-				src.updateHPMP()
-				flick('mist.dmi',src)
-				src.loc=locate(8,8,9)
-				flick('dlo.dmi',src)
-				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
-				if(src.removeoMob) spawn()src:Permoveo()
-				src.sight &= ~BLIND
-				return
-
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/WaitingArea))
 				killer << "Do not attack in the waiting area.."
 				src.HP = src.MHP+extraMHP
@@ -1714,13 +1691,13 @@ mob/proc/Death_Check(mob/killer = src)
 				src.updateHPMP()
 				return
 			/////HOUSE WARS/////
-			if(src.loc.loc.type in typesof(/area/arenas/MapOne))
-				if(src.House != killer.House)
+			if((src.loc.loc.type in typesof(/area/arenas/MapOne)) && isplayer(killer))
+				if(p.House != killer:House)
 					if(currentArena)
 						if(currentArena.roundtype == HOUSE_WARS && currentArena.started)
-							currentArena.Add_Point(killer.House,1)
-							src << "You were killed by [killer] of [killer.House]"
-							killer << "You killed [src] of [src.House]"
+							currentArena.Add_Point(killer:House,1)
+							src << "You were killed by [killer] of [killer:House]"
+							killer << "You killed [src] of [p.House]"
 				else if(src == killer)
 					src << "You killed yourself!"
 				else
@@ -1730,7 +1707,7 @@ mob/proc/Death_Check(mob/killer = src)
 					if(currentArena.plyrSpawnTime > 0)
 						src << "<i>You must wait [currentArena.plyrSpawnTime] seconds until you respawn.</i>"
 				var/obj/Bed/B
-				switch(House)
+				switch(p.House)
 					if("Gryffindor")
 						B = pick(Map1Gbeds)
 					if("Hufflepuff")
@@ -1758,9 +1735,9 @@ mob/proc/Death_Check(mob/killer = src)
 					B = pick(Beds)
 			else
 				B = pick(Beds)
-			if(!src.Detention)
-				if(killer != src && !src:rankedArena)
-					if(killer.client && src.client && killer.loc.loc.name != "outside")
+			if(!p.Detention)
+				if(killer != p && !p.rankedArena)
+					if(killer.client && client && killer.loc.loc.name != "outside")
 						if(killer.prevname)
 							if(src.prevname)
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer.prevname](DE robed) killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
@@ -1794,13 +1771,11 @@ mob/proc/Death_Check(mob/killer = src)
 					src.dir = SOUTH
 				flick('dlo.dmi',src)
 
-			if(killer.player)
-				src.pdeaths+=1
-				if(src:rankedArena)
-					src:rankedArena.death(src)
+			if(isplayer(killer))
+				p.pdeaths+=1
+				if(p.rankedArena)
+					p.rankedArena.death(src)
 				if(killer != src)
-					var/mob/Player/p = src
-
 					if(clanwars)
 						if(p.getRep() < -100)
 							clanwars_event.add_auror(1)
@@ -1808,7 +1783,7 @@ mob/proc/Death_Check(mob/killer = src)
 						else if(p.getRep() > 100)
 							clanwars_event.add_de(1)
 
-					killer.pkills+=1
+					killer:pkills+=1
 					displayKills(killer, 1, 1)
 
 					var/spamKilled      = killer.findStatusEffect(/StatusEffect/KilledPlayer)
@@ -1817,7 +1792,7 @@ mob/proc/Death_Check(mob/killer = src)
 					var/rndexp = round(src.level * 1.2) + rand(-200,200)
 					if(rndexp < 0) rndexp = rand(20,30)
 
-					if(killer.House == worldData.housecupwinner)
+					if(killer:House == worldData.housecupwinner)
 						rndexp *= 1.25
 						rndexp = round(rndexp)
 
@@ -1862,18 +1837,18 @@ mob/proc/Death_Check(mob/killer = src)
 				else
 					src<<"You knocked yourself out!"
 			else
-				src.edeaths+=1
+				p.edeaths+=1
 
 
 		else
-			if(killer.client)
+			if(isplayer(killer))
 				if(istype(src, /mob/NPC/Enemies))
 					if(!istype(src, /mob/NPC/Enemies/Summoned))
 						killer.AddKill(src.name)
 					killer:checkQuestProgress("Kill [src.name]")
 				if(killer.MonsterMessages)killer<<"<i><small>You knocked [src] out!</small></i>"
 
-				killer.ekills+=1
+				killer:ekills+=1
 				displayKills(killer, 1, 2)
 				var/gold2give = (rand(7,14)/10)*gold
 				var/exp2give  = (rand(9,14)/10)*Expg
@@ -1882,7 +1857,7 @@ mob/proc/Death_Check(mob/killer = src)
 					gold2give -= gold2give * ((killer.level-src.level)/150)
 					exp2give  -= exp2give  * ((killer.level-src.level)/150)
 
-				if(killer.House == worldData.housecupwinner)
+				if(killer:House == worldData.housecupwinner)
 					gold2give *= 1.25
 					exp2give  *= 1.25
 
@@ -1960,63 +1935,62 @@ mob/proc/resetMaxHP()
 	src.MHP = 4 * (src.level - 1) + 200 + 2 * (src.Def + src.extraDef + src.clothDef)
 	if(HP > MHP)
 		HP = MHP
-mob
+mob/Player
 	proc
 		LvlCheck(var/fakelevels=0)
 			if(level >= lvlcap)
 				Exp = 0
 				return
 			if(src.Exp>=src.Mexp)
-				src.level++
-				src.MMP = level * 6
-				src.MP=src.MMP+extraMMP
-				src.Dmg+=1
-				src.Def+=1
-				src.resetMaxHP()
-				src.HP=src.MHP+extraMHP
-				src.updateHPMP()
-				//src.Expg=src.Texp
-				src.Exp=0
-				src.verbs.Remove(/mob/Player/verb/Use_Statpoints)
-				src.verbs.Add(/mob/Player/verb/Use_Statpoints)
-				src.StatPoints++
-				if(src.Mexp<2000)
-					src.Mexp*=1.5
-				else if(src.Mexp>2000)
-					src.Mexp+=500
+				level++
+				MMP = level * 6
+				MP=src.MMP+extraMMP
+				Dmg+=1
+				Def+=1
+				resetMaxHP()
+				HP=src.MHP+extraMHP
+				updateHPMP()
+				Exp=0
+				verbs.Remove(/mob/Player/verb/Use_Statpoints)
+				verbs.Add(/mob/Player/verb/Use_Statpoints)
+				StatPoints++
+				if(Mexp<2000)
+					Mexp*=1.5
+				else if(Mexp>2000)
+					Mexp+=500
 				Mexp = round(Mexp)
 				if(!fakelevels)
 					src<<"<b><span style=\"color:blue;\">You are now level [src.level]!</span></b>"
 					src<<"You have gained a statpoint."
-				var/theiryear = (src.Year == "Hogwarts Graduate" ? 8 : text2num(copytext(src.Year, 1, 2)))
-				if(src.level>1 && src.level < 16)
+				var/theiryear = (Year == "Hogwarts Graduate" ? 8 : text2num(copytext(Year, 1, 2)))
+				if(level>1 && level < 16)
 					src.Year="1st Year"
-				else if(src.level>15 && theiryear < 2)
+				else if(level>15 && theiryear < 2)
 					src.Year="2nd Year"
 					src<<"<b>Congratulations, [src]! You are now a 2nd Year!</b>"
-					src.verbs += /mob/Spells/verb/Episky
+					verbs += /mob/Spells/verb/Episky
 					src<<infomsg("You learned Episkey.")
 				else if(src.level>50 && theiryear < 3)
-					src.Year="3rd Year"
+					Year="3rd Year"
 					src<<"<b>Congratulations, [src]! You are now a 3rd Year!</b>"
 					src<<infomsg("You learned how to cancel transfigurations!")
-					src.verbs += /mob/Spells/verb/Self_To_Human
-				else if(src.level>100 && theiryear < 4)
-					src.Year="4th Year"
+					verbs += /mob/Spells/verb/Self_To_Human
+				else if(level>100 && theiryear < 4)
+					Year="4th Year"
 					src<<"<b>Congratulations, [src]! You are now a 4th Year!</b>"
-					src.verbs += /mob/Spells/verb/Self_To_Dragon
+					verbs += /mob/Spells/verb/Self_To_Dragon
 					src<<infomsg("You learned how to Transfigure yourself into a fearsome Dragon!")
-				else if(src.level>200 && theiryear < 5)
+				else if(level>200 && theiryear < 5)
 					src.Year="5th Year"
 					src<<"<b>Congratulations, [src]! You are now a 5th Year!</b>"
-				else if(src.level>300 && theiryear < 6)
+				else if(level>300 && theiryear < 6)
 					src.Year="6th Year"
 					src<<"<b>Congratulations, [src]! You are now a 6th Year!</b>"
-				else if(src.level>400 && theiryear < 7)
+				else if(level>400 && theiryear < 7)
 					src.Year="7th Year"
 					src<<"<b>Congratulations, [src]! You are now a 7th Year!</b>"
-				else if(src.level>500 && theiryear < 8)
-					src.Year="Hogwarts Graduate"
+				else if(level>500 && theiryear < 8)
+					Year="Hogwarts Graduate"
 					src<<"<b>Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate.</b>"
 					src<<infomsg("You can now view your damage & defense stats in the stats tab.")
 
@@ -2113,95 +2087,26 @@ obj/Banker
 					usr << "You have [comma(getGold(usr))] gold in the bank."
 
 
-obj
-	Bank
-		Vault
-			icon = 'vault.dmi'
-			density=1
-			accioable=0
-			dontsave = 1
-			verb
-				Examine()
-					set src in oview(3)
-					usr << "I wonder how everything I have fits into this vault..."
-				Bank()
-					set src in oview(3)
-
-					if(!usr.bank)
-						usr.bank = new/BankClass
-					switch(alert("Would you like to deposit or withdraw an item?","Banking", "Deposit", "Withdraw"))
-
-						if("Deposit")
-							var/list/obj/inventory = list()
-							for(var/obj/O in usr.contents)
-								if(!istype(O,/obj/stackobj))
-									inventory += O
-							var/obj/O = input("Which item would you like to deposit?") as null|obj in inventory
-							if(O)
-								if(get_dist(usr,src)>4)return
-								if(!(O in usr))return
-								usr.bank.DepositItem(O)
-								usr << "You have deposited [O.name]!"
-								usr:Resort_Stacking_Inv()
-						else if("Withdraw")
-							var/obj/O = input("Which item would you like to withdraw?") as null|obj in usr.bank.GetItems()
-							if(O)
-								if(get_dist(usr,src)>4)return
-								usr.bank.WithdrawItem(O)
-								usr << "You have withdrawn [O.name]!"
-								usr:Resort_Stacking_Inv()
-
-BankClass
-	var
-		balance = 0
-		list/items = list()
-	proc
-		GetBalance()
-			return src.balance
-
-		DepositMoney(var/num)
-			src.balance += num
-			return num
-
-		WithdrawMoney(var/num)
-			balance -= num
-			return num
-
-		DepositItem(var/obj/O)
-			src.items.Add(O)
-			usr.contents.Remove(O)
-
-		WithdrawItem(var/obj/O)
-			src.items.Remove(O)
-			usr.contents.Add(O)
-
-		GetItems()
-			return src.items
-
-
-mob
-	var
-		BankClass/bank = null
-
 //VARS
-//appearance
-mob/var/Detention=0
-mob/var/Rank=""
-mob/var/Immortal=0
-mob/var/Disperse
-mob/var/Aero
+
 obj/var/accioable=0
-obj/var/clothes
-mob/var/MuteOOC=0
-mob/var/Year=""
-mob/var/Teleblock=0
-mob/var/House
-mob/var/Tag=null
-mob/var/GMTag=null
 
+mob/Player/var
+	Detention=0
+	Rank
+	Immortal=0
 
-obj/var/dontsave=0
-//others
+	MuteOOC=0
+	Year
+
+	House
+	Tag
+	GMTag
+	edeaths=0
+	ekills=0
+	pdeaths=0
+	pkills=0
+
 mob/var/base_num_characters_allowed=0
 mob/var/level=1
 mob/var/Dmg=5
@@ -2216,48 +2121,25 @@ mob/var/Exp=0
 mob/var/Expg=1
 mob/var/draganddrop=0
 mob/var/picon=null
-mob/var/Texp=0
-mob/var/NPC=1
 mob/var/mute=0
 mob/var/listenooc=1
 mob/var/listenhousechat=1
-mob/var/player=0
 mob/var/gold/gold
 mob/var/goldg=1
 mob/var/gold/goldinbank
 
-mob/var/monster=0
 mob/var/follow=0
-mob/var/attack=0
-mob/var/wander=0
 mob/var/tmp/away=0
 mob/var/followplayer=0
-mob/var/rank=0
-mob/var/description="No extra information provided."
-//mob/var/summonable=0
-mob/var/skills=0
-mob/var/item=0
-mob/var/location
-mob/var/turf
 mob/var/tmp/status=""
 mob/var/here=""
-mob/var/potion=0
-mob/var/ether=0
-mob/var/notmonster=1
-mob/var/edeaths=0
-mob/var/ekills=0
-mob/var/pdeaths=0
-mob/var/pkills=0
-mob/var/carry=0
 mob/var/Gm=0
 
 mob/var/StatPoints=0
 
 
 
-var/mob/HA=0
 obj/var/picon=null
-obj/var/value=0
 obj/var/lastx
 obj/var/lasty
 obj/var/lastz
@@ -2265,23 +2147,8 @@ obj/var/lastz
 obj/var/damage=0
 obj/var/tmp/mob/owner
 
-var/autoheal=0
-//playerhouses
-
-var
-	Flash = 0
-	System = 0
-
 mob/var/tmp
 	spam=0
-//layers
-var/const
-	clothes=MOB_LAYER+1
-	Mail=MOB_LAYER+2
-	head=MOB_LAYER+3
-	ears=MOB_LAYER+4
-	cape=MOB_LAYER+5
-	weapon=MOB_LAYER+6
 
 proc
 	textcheck(t as text)

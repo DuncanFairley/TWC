@@ -121,7 +121,8 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 		if(prevname)
 			hearers() << "<span style=\"font-size:2;\"><font color=red><b><font color=red>[usr]</span></b> :<font color=white> Eat Slugs, [M.name]!"
 		else
-			hearers() << "<span style=\"font-size:2;\"><font color=red><b>[Tag]<font color=red>[usr]</span> [GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
+			var/mob/m = src
+			hearers() << "<span style=\"font-size:2;\"><font color=red><b>[m:Tag]<font color=red>[usr]</span> [m:GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
 
 		M << errormsg("[usr] has casted the slug vomiting curse on you.")
 		usr:learnSpell("Eat Slugs")
@@ -164,11 +165,11 @@ mob/Spells/verb/Disperse()
 
 		if(dm)
 			dm.counter(src)
-			movable = 1
 			var/mob/Player/p = src
+			p.nomove = 1
 			p << errormsg("Dispersing the dark mark took a bit of effort, you stand still for a bit.")
 			spawn(15)
-				if(p) p.movable = 0
+				if(p) p.nomove = 0
 		src = null
 
 mob/Spells/verb/Herbificus()
@@ -605,7 +606,7 @@ mob/Spells/verb/Reducto(var/mob/Player/M in (view(usr.client.view,usr)&Players)|
 		if(M.flying){src<<"<b><span style=\"color:red;\">Error:</b></span> You can't cast this spell on someone who is flying.";return}
 		if(M.GMFrozen){alert("You can't free [M]. They have been frozen by a Game Master.");return}
 		hearers(usr.client.view,usr)<<"<B><span style=\"color:red;\">[usr]:</span><font color=white> <I>Reducto!</I>"
-		M.movable=0
+		M.nomove=0
 		if(!M.trnsed) M:ApplyOverlays()
 		hearers(usr.client.view,usr)<<"White light emits from [usr]'s wand, freeing [M]."
 		flick('Reducto.dmi',M)
@@ -807,7 +808,7 @@ mob/Spells/verb/Arcesso()
 				stop_arcesso()
 				return
 			var/Input/popup = new(arcessoing, "Arcesso")
-			var/mob/summonee = popup.InputList(arcessoing,"Who would you like to summon?", "Arcesso", null, Players(list(src, arcessoing)))
+			var/mob/Player/summonee = popup.InputList(arcessoing,"Who would you like to summon?", "Arcesso", null, Players(list(src, arcessoing)))
 			if(!summonee||!arcessoing)
 				stop_arcesso()
 				return
@@ -854,7 +855,6 @@ mob/Spells/verb/Arcesso()
 										sleep(1)
 										del(C)
 									spawn()
-										summonee.stuned = 1
 										var/obj/circle/c3_3/D = new (summonee.loc)
 										flick("a",D)
 										sleep(1)
@@ -871,10 +871,12 @@ mob/Spells/verb/Arcesso()
 										flick("c",D)
 										sleep(1)
 										del(D)
-									if(summonee.removeoMob) spawn()summonee:Permoveo()
+									if(summonee.removeoMob)
+										spawn()
+											var/mob/m = summonee
+											m:Permoveo()
 									sleep(5)
 									summonee << "You've been summoned by [src] and [src.arcessoing]."
-									summonee.stuned = 0
 									summonee:Transfer(middle)
 									stop_arcesso()
 									summonee.icon_state = ""
@@ -1029,7 +1031,7 @@ mob/Spells/verb/Obliviate(mob/M in oview()&Players)
 		usr.MP-=700
 		new /StatusEffect/UsedAnnoying(src,30)
 		usr.updateHPMP()
-mob/Spells/verb/Tarantallegra(mob/M in view()&Players)
+mob/Spells/verb/Tarantallegra(mob/Player/M in view()&Players)
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=100,againstocclumens=1))
 		if(M.dance) return
@@ -1047,7 +1049,7 @@ mob/Spells/verb/Tarantallegra(mob/M in view()&Players)
 			var/dirs = list(NORTH,EAST,SOUTH,WEST,NORTHWEST,NORTHEAST,SOUTHWEST,SOUTHEAST)
 			while(M && timer < 24)
 				timer++
-				if(!M.movable)
+				if(!M.nomove)
 					var/turf/t = get_step_rand(M)
 					if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
 						M.Move(t)
@@ -1117,7 +1119,7 @@ mob/Spells/verb/Incendio()
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=20,againstocclumens=1))
 		castproj(Type = /obj/projectile/BurnRoses, MPreq = 10, icon_state = "fireball", name = "Incendio")
 
-mob/proc/BaseIcon()
+mob/Player/proc/BaseIcon()
 	if(Gender == "Female")
 		if(Gm)
 			icon = 'FemaleStaff.dmi'
@@ -1141,7 +1143,7 @@ mob/proc/BaseIcon()
 		else if(House == "Hufflepuff")
 			icon = 'MaleHufflepuff.dmi'
 
-mob/Spells/verb/Reddikulus(mob/M in view()&Players)
+mob/Spells/verb/Reddikulus(mob/Player/M in view()&Players)
 	set category="Spells"
 	set name = "Riddikulus"
 	if(canUse(src,cooldown=/StatusEffect/UsedRiddikulus,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
@@ -1214,48 +1216,51 @@ mob/Spells/verb/Self_To_Dragon()
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
-			usr<<"You transformed yourself into a fearsome Dragon!"
+			var/mob/Player/p = src
+			p<<"You transformed yourself into a fearsome Dragon!"
 			flick("transfigure",src)
-			usr.trnsed = 1
-			usr.overlays = null
-			if(usr.away)usr.ApplyAFKOverlay()
-			usr.icon = 'Dragon.dmi'
+			p.trnsed = 1
+			p.overlays = null
+			if(p.away)p.ApplyAFKOverlay()
+			p.icon = 'Dragon.dmi'
 mob/Spells/verb/Self_To_Mushroom()
 	set name = "Personio Musashi"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
-			usr<<"You transformed yourself into a Mushroom!"
+			var/mob/Player/p = src
+			p<<"You transformed yourself into a Mushroom!"
 			flick("transfigure",src)
-			usr.overlays = null
-			if(usr.away)usr.ApplyAFKOverlay()
-			usr.trnsed = 1
-			usr:learnSpell("Personio Musashi")
-			switch(usr.House)
+			p.overlays = null
+			if(p.away) p.ApplyAFKOverlay()
+			p.trnsed = 1
+			p.learnSpell("Personio Musashi")
+			switch(p.House)
 				if("Gryffindor")
-					usr.icon = 'Red_Mushroom.dmi'
+					p.icon = 'Red_Mushroom.dmi'
 				if("Slytherin")
-					usr.icon = 'Green_Mushroom.dmi'
+					p.icon = 'Green_Mushroom.dmi'
 				if("Ravenclaw")
-					usr.icon = 'Blue_Mushroom.dmi'
+					p.icon = 'Blue_Mushroom.dmi'
 				if("Hufflepuff")
-					usr.icon = 'Yellow_Mushroom.dmi'
+					p.icon = 'Yellow_Mushroom.dmi'
 				else
-					usr.icon = 'Yellow_Mushroom.dmi'
+					p.icon = 'Yellow_Mushroom.dmi'
 mob/Spells/verb/Self_To_Skeleton()
 	set name = "Personio Sceletus"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		new /StatusEffect/UsedTransfiguration(src,15)
 		if(CanTrans(src))
-			usr<<"You transformed yourself into a Skeleton!"
-			flick("transfigure",usr)
-			usr.trnsed = 1
-			usr.overlays = null
-			if(usr.away)usr.ApplyAFKOverlay()
-			usr.icon = 'Skeleton.dmi'
-			usr:learnSpell("Personio Sceletus")
+			var/mob/Player/p = src
+			p<<"You transformed yourself into a Skeleton!"
+			flick("transfigure",p)
+			p.trnsed = 1
+			p.overlays = null
+			if(p.away)p.ApplyAFKOverlay()
+			p.icon = 'Skeleton.dmi'
+			p.learnSpell("Personio Sceletus")
 mob/Spells/verb/Other_To_Human(mob/Player/M in oview(usr.client.view,usr)&Players)
 	set name = "Transfiguro Revertio"
 	set category="Spells"
@@ -1273,14 +1278,14 @@ mob/Spells/verb/Other_To_Human(mob/Player/M in oview(usr.client.view,usr)&Player
 mob/Spells/verb/Self_To_Human()
 	set name = "Personio Humaium"
 	set category="Spells"
-	var/mob/Player/user = usr
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
 		if(CanTrans(src))
-			flick("transfigure",usr)
-			usr.trnsed = 0
-			usr.BaseIcon()
-			user.ApplyOverlays()
-			usr<<"You reversed your transfiguration."
+			var/mob/Player/p = src
+			flick("transfigure",p)
+			p.trnsed = 0
+			p.BaseIcon()
+			p.ApplyOverlays()
+			p<<"You reversed your transfiguration."
 mob/Spells/verb/Harvesto()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
@@ -1369,7 +1374,7 @@ obj/Avada_Kedavra
 		if(isturf(M)||isobj(M))
 			del src
 			return
-		if(M.monster||M.player)
+		if(ismonster(M) || isplayer(M))
 			src.owner<<"Your [src] hit [M]!"
 			M.HP=0
 			M.Death_Check(src.owner)
@@ -1394,17 +1399,18 @@ mob/Spells/verb/Episky()
 	set name = "Episkey"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedEpiskey,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		hearers()<<"<span style=\"color:red;\"><b>[usr]:</span></b> <font color=aqua>Episkey!"
+		var/mob/Player/p = src
+		hearers()<<"<span style=\"color:red;\"><b>[p]:</span></b> <font color=aqua>Episkey!"
 		new /StatusEffect/UsedEpiskey(src,15)
 
 		var/maxHP = MHP + extraMHP
-		if(level <= 300 || (Immortal && HP < 0))
+		if(level <= 300 || (p.Immortal && HP < 0))
 			HP = maxHP
 		else
 			HP = min(maxHP, round(HP + maxHP * 0.35 + rand(-15, 15), 1))
 
-		usr.updateHPMP()
-		usr.overlays+=image('attacks.dmi', icon_state = "heal")
+		p.updateHPMP()
+		overlays+=image('attacks.dmi', icon_state = "heal")
 		sleep(10)
 		hearers()<<"<font color=aqua>[usr] heals \himself."
 		usr.overlays-=image('attacks.dmi', icon_state = "heal")
@@ -1466,7 +1472,7 @@ mob/Spells/verb/Wingardium_Leviosa()
 		wingobject=null
 		Wingardiumleviosa = null
 
-mob/Spells/verb/Imperio(mob/other in oview()&Players)
+mob/Spells/verb/Imperio(mob/Player/other in oview()&Players)
 	set category="Spells"
 	if(!Imperio)
 
@@ -1555,7 +1561,7 @@ mob/Spells/verb/Portus()
 		usr.MP-=25
 		usr.updateHPMP()
 		usr:learnSpell("Portus")
-mob/Spells/verb/Sense(mob/M in view()&Players)
+mob/Spells/verb/Sense(mob/Player/M in view()&Players)
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=0))
 		hearers() << "[usr]'s eyes flicker."
@@ -1685,10 +1691,10 @@ mob/Player
 			     life   = new /Random(15,25))
 
 			if(isplayer(p.owner))
-				var/tmp_pkills = p.owner.pkills
+				var/tmp_pkills = p.owner:pkills
 				Death_Check(p.owner)
 
-				if(p.owner.pkills > tmp_pkills)
+				if(p.owner:pkills > tmp_pkills)
 					p.owner:learnSpell(p.name, 100)
 			else
 				Death_Check(p.owner)
@@ -1721,10 +1727,10 @@ mob/NPC/Enemies
 
 			HP -= p.damage
 
-			var/tmp_ekills = p.owner.ekills
+			var/tmp_ekills = p.owner:ekills
 			Death_Check(p.owner)
 
-			if(p.owner.ekills > tmp_ekills)
+			if(p.owner:ekills > tmp_ekills)
 				p.owner:learnSpell(p.name, 5)
 
 			..()
@@ -2006,7 +2012,7 @@ obj
 
 					p << errormsg("You were hit by [owner]'s [name].")
 
-					p.movable=1
+					p.nomove=1
 					if(!p.trnsed)
 						p.icon_state = icon_state
 						p.overlays   = null
@@ -2015,12 +2021,12 @@ obj
 
 					spawn()
 						var/t = round(time * 10)
-						while(p && p.movable && t > 0)
+						while(p && p.nomove && t > 0)
 							t--
 							sleep(1)
 
 						if(p)
-							p.movable = 0
+							p.nomove = 0
 							if(!p.trnsed)
 								p.icon_state = ""
 								p.ApplyOverlays()
@@ -2154,9 +2160,6 @@ mob/Player/proc/OcclumensCounter()
 mob/var/occlumens = 0
 mob/var/dance=0
 
-mob/var/Immobile=0
-mob/var/IImmobile=0
-
 mob/var/tmp/list/stoverlays = list()
 proc/overlaylist(var/list/overlays)
 	var/list/returnlist = list()
@@ -2190,8 +2193,6 @@ mob/GM/verb/Return_View()
 	usr.client.perspective=MOB_PERSPECTIVE
 	usr<<"You return to your body."
 
-mob/var/tmp/episkying = 0
-mob/var/tmp/meditating = 0
 obj/var
 	wlable = 0
 
@@ -2232,6 +2233,8 @@ client
 		if(isplayer(mob))
 			var/mob/Player/p = mob
 
+			if(p.nomove) return
+
 			if(p.auctionInfo)
 				p.auctionClosed()
 				winshow(src, "Auction", 0)
@@ -2243,7 +2246,7 @@ client
 			mob.overlays-=icon('hand.dmi')
 			mob.questionius=0
 
-		if(move_queue)
+		if(move_queue || mob:move_delay > 1)
 			if(!movements) movements = list()
 			if(movements.len < 10)
 				movements += dir
