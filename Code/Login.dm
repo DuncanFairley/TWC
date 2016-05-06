@@ -480,7 +480,7 @@ mob/test/verb/Modify_Housepoints()
 	worldData.housepointsGSRH[5] = input("Select Auror's housepoints:","Housepoints",worldData.housepointsGSRH[5]) as num
 	worldData.housepointsGSRH[6] = input("Select Deatheater's housepoints:","Housepoints",worldData.housepointsGSRH[6]) as num
 	Save_World()
-mob/var/tmp/Rictusempra
+
 var/radioOnline = 0
 
 proc/check(msg as text)
@@ -850,7 +850,6 @@ mob/Player
 		else if(Gender=="Male")
 			gender = MALE
 		Resort_Stacking_Inv()
-		shielded = 0
 		resetSettings()
 		if(usr.StatPoints<1)usr.verbs.Remove(/mob/Player/verb/Use_Statpoints)
 		shieldamount = 0
@@ -1030,9 +1029,9 @@ mob/Player
 
 
 							if(prevname)
-								chatlog << "<span style=\"color:red;\"><b>[usr.prevname] (ROBED)</b></span><span style=\"color:white;\"> says '[t]'</span><br>"
+								chatlog << "<span style=\"color:red;\"><b>[prevname] (ROBED)</b></span><span style=\"color:white;\"> says '[t]'</span><br>"
 							else
-								chatlog << "<span style=\"color:red;\"><b>[usr]</b></span><span style=\"color:white;\"> says '[t]'</span><br>"
+								chatlog << "<span style=\"color:red;\"><b>[src]</b></span><span style=\"color:white;\"> says '[t]'</span><br>"
 
 							if(t == worldData.ministrypw)
 								if(istype(usr.loc,/turf/gotoministry))
@@ -1059,16 +1058,10 @@ mob/Player
 										if(A.code_black)
 											A.code_black = 0
 											for(var/mob/M in Players)
-												if(M.Auror)
-													M << "<b><span style=\"color:red;\">Ministry of Magic - Code Black cancelled</span></b>"
-											if(!usr.Auror)
-												usr << "<b><span style=\"color:red;\">Ministry of Magic - Code Black cancelled</span></b>"
+												M << "<b><span style=\"color:red;\">Ministry of Magic - Code Black cancelled</span></b>"
 										else
 											for(var/mob/M in Players)
-												if(M.Auror)
-													M << "<b><span style=\"color:red;\">Ministry of Magic is under attack. Code Black initiated</span></b>"
-											if(!usr.Auror)
-												usr << "<b><span style=\"color:red;\">Ministry of Magic is under attack. Code Black initiated</span></b>"
+												M << "<b><span style=\"color:red;\">Ministry of Magic is under attack. Code Black initiated</span></b>"
 											A.code_black = 1
 											var/list/turf/seeds = list()
 											for(var/turf/T in A)
@@ -1192,25 +1185,25 @@ mob/Player
 								if("disable ooc")
 									if(src.Gm)
 										OOCMute=1
-										src<<infomsg("OOC has been disabled.")
+										src << infomsg("OOC has been disabled.")
 								if("enable ooc")
 									if(src.Gm)
-										src<<infomsg("OOC has been enabled.")
+										src << infomsg("OOC has been enabled.")
 										OOCMute = 0
 								if("access admin log files")
 									if(src.admin==1)
-										usr <<browse(file("Logs/Adminlog.html"))
+										src <<browse(file("Logs/Adminlog.html"))
 										src<<infomsg("Access Granted.")
 								if("access gold log files")
 									if(src.admin==1)
-										usr <<browse(goldlog)
+										src <<browse(goldlog)
 										src<<infomsg("Access Granted.")
 								if("access log files")
 									if(src.admin==1)
-										usr <<browse("<body bgcolor=\"black\"> [file2text(chatlog)]</body>","window=1")
-										src<<infomsg("Access Granted.")
+										src << browse("<body bgcolor=\"black\"> [file2text(chatlog)]</body>","window=1")
+										src << infomsg("Access Granted.")
 								if("restricto")
-									if(src.Gm)
+									if(Gm)
 										hearers()<<"[usr] encases \himself within a magical barrier."
 										for(var/turf/T in view(1))
 											var/inflamari = /obj/Force_Field
@@ -1219,9 +1212,9 @@ mob/Player
 											T.density=1
 											T.invisibility=0
 							if(!Gm)
-								usr.spam++
+								spam++
 								spawn(30)
-									usr.spam--
+									spam--
 			else
 				usr << errormsg("You can't send messages while you are muted.")
 		OOC(T as text)
@@ -1249,32 +1242,26 @@ mob/Player
 
 
 							if(prevname)
-								chatlog << "<span style=\"color:blue;\"><b>[usr.prevname] (ROBED)</b></span><span style=\"color:green;\"> OOC's '[T]'</span>"+"<br>"//This is what it adds to the log!
+								chatlog << "<span style=\"color:blue;\"><b>[prevname] (ROBED)</b></span><span style=\"color:green;\"> OOC's '[T]'</span>"+"<br>"//This is what it adds to the log!
 							else
-								chatlog << "<span style=\"color:blue;\"><b>[usr]</b></span><span style=\"color:green;\"> OOC's '[T]'</span>"+"<br>"//This is what it adds to the log!
-							usr.spam++
+								chatlog << "<span style=\"color:blue;\"><b>[src]</b></span><span style=\"color:green;\"> OOC's '[T]'</span>"+"<br>"//This is what it adds to the log!
+							spam++
 							spawn(30)
-								usr.spam--
+								spam--
 							if(findtext(T, "://"))
-								usr.spam++
+								spam++
 								spawn(40)
-									usr.spam--
+									spam--
 						else
-							usr<<"Please enter something."
+							src<<"Please enter something."
 					else
-						usr << errormsg("OOC is muted.")
+						src << errormsg("OOC is muted.")
 				else
 					spam+=0.1
 					spawn(300)
 						spam-=0.1
 					if(spam > 7)
 						Auto_Mute(15, "spammed OOC")
-//					usr.Auto_Ban()
-				//	else
-				//		usr.Auto_Mute()
-
-
-
 
 		Listen_OOC()
 			set name = ""
@@ -1394,12 +1381,6 @@ mob/Player
 			stat("Slytherin",worldData.housepointsGSRH[2])
 			stat("Ravenclaw",worldData.housepointsGSRH[3])
 			stat("Hufflepuff",worldData.housepointsGSRH[4])
-			if(src.Auror)
-				stat("---Clan points---")
-				stat("-Aurors-",worldData.housepointsGSRH[5])
-			if(src.DeathEater)
-				stat("---Clan points---")
-				stat("-Deatheaters-",worldData.housepointsGSRH[6])
 			stat("","")
 			if(currentEvents)
 				stat("Current Events:","")
@@ -1412,10 +1393,6 @@ mob/Player
 					stat("Slytherin",currentArena.teampoints["Slytherin"])
 					stat("Hufflepuff",currentArena.teampoints["Hufflepuff"])
 					stat("Ravenclaw",currentArena.teampoints["Ravenclaw"])
-				else if(currentArena.roundtype == CLAN_WARS)
-					stat("Arena:")
-					stat("Aurors",currentArena.teampoints["Aurors"])
-					stat("Deatheaters",currentArena.teampoints["Deatheaters"])
 				else if(currentArena.roundtype == FFA_WARS)
 					stat("Arena: (Players Alive)")
 					for(var/mob/M in currentArena.players)
@@ -1654,42 +1631,6 @@ mob/proc/Death_Check(mob/killer = src)
 					killer << "Do not attack before a round has started."
 					src.HP = src.MHP+extraMHP
 					return
-
-			if(src.loc.loc.type in typesof(/area/arenas/MapTwo))
-			/////CLAN WARS//////
-				if(!(src.derobe && killer.derobe)&&!(src.aurorrobe && killer.aurorrobe))
-					if(currentArena)
-						if (currentArena.roundtype == CLAN_WARS)
-							if(killer.aurorrobe)
-								currentArena.Add_Point("Aurors",1)
-								src << "You were killed by [killer] of the Aurors"
-								killer << "You killed [src]"
-							else if(killer.derobe)
-								currentArena.Add_Point("Deatheaters",1)
-								src << "You were killed by [killer]."
-								killer << "You killed [src] of the Aurors"
-				else if(src == killer)
-					src << "You killed yourself!"
-				else
-					src << "You were killed by [killer], from your own team!"
-					killer << "You killed [src] of your own team!"
-				if(currentArena)
-					if(currentArena.plyrSpawnTime > 0)
-						src << "<i>You must wait [currentArena.plyrSpawnTime] seconds until you respawn.</i>"
-				var/obj/Bed/B
-				if(derobe)
-					B = pick(Map2DEbeds)
-				else if(aurorrobe)
-					B = pick(Map2Aurorbeds)
-				src.loc = B.loc
-				src.dir = SOUTH
-				if(currentArena)
-					src:GMFrozen = 1
-					spawn()currentArena.handleSpawnDelay(src)
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
-				return
 			/////HOUSE WARS/////
 			if((src.loc.loc.type in typesof(/area/arenas/MapOne)) && isplayer(killer))
 				if(p.House != killer:House)
@@ -1726,10 +1667,10 @@ mob/proc/Death_Check(mob/killer = src)
 				src.updateHPMP()
 				return
 			var/obj/Bed/B
-			if(src.prevname)
-				if(src:guild == worldData.majorChaos)
+			if(p.prevname)
+				if(p.guild == worldData.majorChaos)
 					B = pick(DEBeds)
-				else if(src:guild == worldData.majorPeace)
+				else if(p.guild == worldData.majorPeace)
 					B = pick(AurorBeds)
 				else
 					B = pick(Beds)
@@ -1738,14 +1679,14 @@ mob/proc/Death_Check(mob/killer = src)
 			if(!p.Detention)
 				if(killer != p && !p.rankedArena)
 					if(killer.client && client && killer.loc.loc.name != "outside")
-						if(killer.prevname)
-							if(src.prevname)
-								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer.prevname](DE robed) killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
+						if(killer:prevname)
+							if(p.prevname)
+								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer:prevname](DE robed) killed [p.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 							else
-								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer.prevname](DE robed) killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
+								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer:prevname](DE robed) killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 						else
-							if(src.prevname)
-								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer] killed [src.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
+							if(p.prevname)
+								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer] killed [p.prevname](DE robed): [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 							else
 								file("Logs/kill_log.html") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [killer] killed [src]: [src.loc.loc](<a href='?action=teleport;x=[src.x];y=[src.y];z=[src.z]'>Teleport</a>)<br>"
 					if(killer.client && get_dist(src, killer) == 1 && get_dir(src, killer) == turn(src.dir,180))

@@ -311,19 +311,6 @@ mob
 
 
 			if(savefile_version < 22)
-				DeathEater = null
-				HA         = null
-				Auror      = null
-				HDE        = null
-				DE         = null
-				if(aurorrobe)
-					icon = baseicon
-				else if(derobe)
-					if(prevname) name = prevname
-					icon = baseicon
-				aurorrobe = null
-				derobe = null
-
 				spawn()
 					verbs -= /mob/GM/verb/Auror_chat
 					verbs -= /mob/GM/verb/Auror_Robes
@@ -404,7 +391,6 @@ mob
 							p.icon = 'suit.dmi'
 			p.baseicon = p.icon
 			if(client)
-				src << output(null,"browser1:Resize")
 				for(var/mob/Player/c in Players)
 					if(c.Gm)
 						c <<"<b><i>[src][refererckey == c.client.ckey ? "(referral)" : ""] ([client.address])([ckey])([client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</i></b>"
@@ -413,7 +399,6 @@ mob
 				p<<browse(rules,"window=1;size=500x400")
 				src<<"<b><span style=\"font-size:2; color:#3636F5;\">Welcome to Harry Potter: The Wizards Chronicles</span> <u><a href='http://wizardschronicles.com/?ver=[VERSION]'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://www.wizardschronicles.com\">here.</a>"
 
-				//if(!usr.Gm)usr.see_invisible = 0
 				if(radioOnline)
 					var/obj/hud/radio/Z = new()
 					p.client.screen += Z
@@ -732,8 +717,8 @@ client
 			mob:auctionClosed()
 			var/StatusEffect/S = mob.findStatusEffect(/StatusEffect/Lamps)
 			if(S) S.Deactivate()
-			if(mob.prevname)
-				mob.name = mob.prevname
+			if(mob:prevname)
+				mob.name = mob:prevname
 			mob.occlumens = 0
 			if(mob.xp4referer)
 				sql_upload_refererxp(mob.ckey,mob.refererckey,mob.xp4referer)
@@ -833,10 +818,10 @@ client
 		var/savefile/F = base_PlayerSavefile()
 		var/wasDE = 0
 		var/maskedName
-		if(mob.prevname)
+		if(mob:prevname)
 			maskedName = mob.name
 			wasDE = 1
-			mob.name = mob.prevname
+			mob.name = mob:prevname
 		var/mob_ckey = ckey(mob.name)
 
 		var/directory = "/players/[ckey]/mobs/[mob_ckey]"

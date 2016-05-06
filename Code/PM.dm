@@ -21,10 +21,10 @@ atom/movable/PM
 		pmTo = Pto
 		..()
 proc/text2mob(var/txtMob)
-	for(var/mob/M in Players)
+	for(var/mob/Player/M in Players)
 		if(M.name == txtMob || M.pname == txtMob || M.prevname == txtMob)
 			return M
-proc/formatName(mob/M,force=1)
+proc/formatName(mob/Player/M,force=1)
 	if(M.prevname) return force ? (M.pname ? M.pname : M.prevname) : "[M]"
 	if(M.pname)  return M.pname
 	return "[M]"
@@ -65,8 +65,8 @@ proc/ckey2auth(ckey)
 	return md5("[clanadmin_hash][ckey]")
 mob/Player/proc/PMHome()
 	var/unreadmsgs = 0
-	var/clanadministration = "<div class = \"header\">Clan Administration</div>"
-////////////
+/*	var/clanadministration = "<div class = \"header\">Clan Administration</div>"
+
 	if(DeathEater)
 		clanadministration += {"
 							<br />
@@ -76,7 +76,7 @@ mob/Player/proc/PMHome()
 							<br />
 							<a href='http://wizardschronicles.com/clanadmin.php?action=view_home&myckey=[ckey]&auth=[ckey2auth(ckey)]'>Auror HQ</a>"}
 
-////////////
+
 	if(clanadministration == "<div class = \"header\">Clan Administration</div>")
 		clanadministration = {"
 							...
@@ -86,7 +86,7 @@ mob/Player/proc/PMHome()
 							<br />
 							...
 							<br />
-							<br />"}
+							<br />"}*/
 	for(var/atom/movable/PM/A in src.pmsRec)
 		if(!A.read) unreadmsgs++
 	src << browse({"[PMheader]
@@ -100,7 +100,6 @@ mob/Player/proc/PMHome()
 	<br />
 	<a href='?src=\ref[src];action=pm_blockedplyrs'>Block/Unblock Players</a>
 	<br />
-	[clanadministration]
 	<a href='?src=\ref[src];action=pm_MainMenu'>Refresh</a>
 			"})
 mob/Player/var/list/blockedpeeps = list()
@@ -169,17 +168,6 @@ mob/Player/Topic(href,href_list[])
 						Move(M.loc)
 						density = 1
 						src << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[src];action=arena_leave\">clicking here.</a></b>"
-				if(2) //Clan Wars
-					if(!Detention)
-						if(src.DeathEater || src.Auror)
-							src.flying=0
-							var/mob/M = locate("MapTwo")
-							density = 0
-							Move(M.loc)
-							density = 1
-							src << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[src];action=arena_leave\">clicking here.</a></b>"
-						else
-							src << "Only clan members can participate."
 				if(3) //FFA
 					if(!Detention)
 						src.flying=0

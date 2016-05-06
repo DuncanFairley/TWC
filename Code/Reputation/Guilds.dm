@@ -96,7 +96,7 @@ mob/GM
 					else
 						m << "<b><span style=\"color:[f]; font-size:2;\">Guild Channel> <span style=\"color:silver;\">[p]:</span></b> <span style=\"color:white;\">[message]</span>"
 
-			chatlog << "<b><span style=\"color:silver;\">[g.name]> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+			chatlog << "<b><span style=\"color:silver;\">[g.name]> [p.prevname ? p.prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
 
 
 guild

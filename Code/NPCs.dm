@@ -66,7 +66,7 @@ mob
 						else
 							usr << errormsg("You don't have enough spell points. You need [60 - usr:spellpoints] more spell points.")
 					if("Rename - 25 Spell Points")
-						if(usr.derobe||usr.aurorrobe)
+						if(usr:prevname)
 							usr << errormsg("You can not do this while wearing clan robes.")
 							return
 						if(usr:spellpoints >= 25)
@@ -121,7 +121,7 @@ mob
 							if(V.allowedpeople && V.allowedpeople.len)
 								switch(alert("Would you like to allow someone to enter your vault, or remove someone's permission from entering?",,"Allow someone","Deny someone","Cancel"))
 									if("Allow someone")
-										var/mob/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in Players(list(usr))
+										var/mob/Player/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in Players(list(usr))
 										if(M)
 											if(istext(M))
 												M = text2mob(M)
@@ -138,7 +138,7 @@ mob
 									//Not any people to do anything with
 									alert("There's nobody left you can add.")
 									return
-								var/mob/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in Players(list(usr))
+								var/mob/Player/M = input("Who would you like to allow to enter your vault at any time?") as null|anything in Players(list(usr))
 								if(M)
 									if(istext(M))
 										M = text2mob(M)

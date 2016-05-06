@@ -233,7 +233,6 @@ obj
 obj
 	MouseDrop(over_object,src_location,over_location)
 		.=..()
-		if(usr.clanrobed())return
 		if(!isturf(over_location))return
 		if(usr.draganddrop)
 			if(istype(src, /obj/items/wearable))
@@ -248,7 +247,6 @@ obj
 				src.Move(over_location)
 mob
 	MouseDrop(over_object,src_location,over_location)
-		if(usr.clanrobed())return
 		if(!isturf(over_location))return ..()
 		if(usr.draganddrop==1)
 			if(density)

@@ -1939,21 +1939,15 @@ mob/GM/verb/Arena_Summon()
 		src << "Arena summon can't be used while a match has already started."
 		return
 	if(arenaSummon == 0)
-		var/map = input("Which Map do you want to allow teleportation to?") as null|anything in list("House Wars", "Clan Wars", "Free-For-All")
+		var/map = input("Which Map do you want to allow teleportation to?") as null|anything in list("House Wars", "Free-For-All")
 		if(!map) return
 		switch(map)
 			if("House Wars")
 				arenaSummon = 1
-			if("Clan Wars")
-				arenaSummon = 2
 			if("Free-For-All")
 				arenaSummon = 3
-		for(var/client/C)
-			if(arenaSummon == 2)
-				if(C.mob.DeathEater || C.mob.Auror)
-					C << "<h3>[map] is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[C.mob];action=arena_teleport\">click here to teleport.</a></h3>"
-			else
-				C << "<h3>[map] is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[C.mob];action=arena_teleport\">click here to teleport.</a></h3>"
+		for(var/mob/Player/p in Players)
+			p << "<h3>[map] is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a></h3>"
 	else
 		var/ans = alert("Do you want to re-announce the teleport message, or disable it?",,"Re-announce","Disable","Cancel")
 		switch(ans)
@@ -1962,16 +1956,10 @@ mob/GM/verb/Arena_Summon()
 				switch(arenaSummon)
 					if(1)
 						map = "House Wars"
-					if(2)
-						map = "Clan Wars"
 					if(3)
 						map = "Free-For-All"
-				for(var/client/C)
-					if(arenaSummon == 2)
-						if(C.mob.DeathEater || C.mob.Auror)
-							C << "<h3>[map] is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[C.mob];action=arena_teleport\">click here to teleport.</a></h3>"
-					else
-						C << "<h3>[map] is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[C.mob];action=arena_teleport\">click here to teleport.</a></h3>"
+				for(var/mob/Player/p in Players)
+					p << "<h3>[map] is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a></h3>"
 			if("Disable")
 				arenaSummon = 0
 mob/GM/verb/Arena()
@@ -1981,36 +1969,24 @@ mob/GM/verb/Arena()
 		return
 	var/list/plyrs = list()
 	currentArena = new()
-	switch(alert("Teams or Free For All?","Game type","Team","FFA","Cancel"))
-		if("Team")
-			switch(alert("How many teams?","Number of teams","2 (Auror vs DE)","4 (House wars)","Cancel"))
-				if("2 (Auror vs DE)")
-					alert("Players (and you) must be on MapTwo when you click OK to be loaded into the round. Arena Summon is disabled when you press OK")
-					arenaSummon = 0
-					currentArena.roundtype = CLAN_WARS
-					for(var/mob/M in locate(/area/arenas/MapTwo/Auror))
-						plyrs.Add(M)
-					for(var/mob/M in locate(/area/arenas/MapTwo/DE))
-						plyrs.Add(M)
-					for(var/mob/M in locate(/area/arenas/MapTwo))
-						plyrs.Add(M)
-				if("4 (House wars)")
-					alert("Players (and you) must be on MapOne when you click OK to be loaded into the round. Arena Summon is disabled when you press OK")
-					arenaSummon = 0
-					currentArena.roundtype = HOUSE_WARS
-					for(var/mob/M in locate(/area/arenas/MapOne/Gryff))
-						plyrs.Add(M)
-					for(var/mob/M in locate(/area/arenas/MapOne/Slyth))
-						plyrs.Add(M)
-					for(var/mob/M in locate(/area/arenas/MapOne/Huffle))
-						plyrs.Add(M)
-					for(var/mob/M in locate(/area/arenas/MapOne/Raven))
-						plyrs.Add(M)
-					for(var/mob/M in locate(/area/arenas/MapOne))
-						plyrs.Add(M)
-				if("Cancel")
-					del currentArena
-					return
+	switch(alert("House Wars or Free For All?","Game type","House Wars","FFA","Cancel"))
+		if("House Wars")
+			alert("Players (and you) must be on MapOne when you click OK to be loaded into the round. Arena Summon is disabled when you press OK")
+			arenaSummon = 0
+			currentArena.roundtype = HOUSE_WARS
+			for(var/mob/M in locate(/area/arenas/MapOne/Gryff))
+				plyrs.Add(M)
+			for(var/mob/M in locate(/area/arenas/MapOne/Slyth))
+				plyrs.Add(M)
+			for(var/mob/M in locate(/area/arenas/MapOne/Huffle))
+				plyrs.Add(M)
+			for(var/mob/M in locate(/area/arenas/MapOne/Raven))
+				plyrs.Add(M)
+			for(var/mob/M in locate(/area/arenas/MapOne))
+				plyrs.Add(M)
+			if("Cancel")
+				del currentArena
+				return
 		if("FFA")
 			alert("Players (and you) must be on MapThree when you click OK to be loaded into the round. Arena Summon is disabled when you press OK")
 			arenaSummon = 0
@@ -2051,51 +2027,6 @@ mob/GM/verb/Arena()
 				M.HP = M.MHP+M.extraMHP
 				M.MP = M.MMP+M.extraMMP
 				M.updateHPMP()
-		if(CLAN_WARS)
-			if(!currentArena) return
-			src << "Clan wars map selected"
-			for(var/mob/M in currentArena.players)
-				M << "<u>Preparing arena round...</u>"
-			switch(alert("Do you want to enable clan pillars?","Enable Clan Pillars","Yes","No"))
-				if("Yes")
-					clanevent1 = 1
-					clanevent1_respawntime = input("Seconds before respawn of destroyed pillar?",,60)
-					clanevent1_pointsgivenforpillarkill = input ("Number of points given for destroyed pillar?",,5)
-					var/MHP = input("Hits required to destroy pillar?",,100)
-					for(var/obj/clanpillar/C in locate(/area/arenas/MapTwo/Auror))
-						C.enable(MHP)
-					for(var/obj/clanpillar/C in locate(/area/arenas/MapTwo/DE))
-						C.enable(MHP)
-				if("No")
-					clanevent1 = 0
-					for(var/obj/clanpillar/C in locate(/area/arenas/MapTwo/Auror))
-						C.disable(MHP)
-					for(var/obj/clanpillar/C in locate(/area/arenas/MapTwo/DE))
-						C.disable(MHP)
-			var/killsreq = input("How many points must a team have to win?",,10) as num
-			currentArena.goalpoints = killsreq
-			currentArena.teampoints = list("Aurors" = 0, "Deatheaters" = 0)
-			currentArena.plyrSpawnTime = input("How long must a player wait to respawn (in seconds)?",,10) as num
-			currentArena.amountforwin = input("How many clan points does the winning team receive?",,10) as num
-			for(var/mob/M in currentArena.players)
-				if(M.aurorrobe)
-					var/obj/Bed/B = pick(Map2Aurorbeds)
-					M.loc = B.loc
-				else if(M.derobe)
-					var/obj/Bed/B = pick(Map2DEbeds)
-					M.loc = B.loc
-				M.HP = M.MHP+M.extraMHP
-				M.MP = M.MMP+M.extraMMP
-				M.updateHPMP()
-				M.dir = SOUTH
-			currentArena.players << "<center><font size = 4>The arena mode is <u>Clan Wars</u>. Aurors vs Deatheaters.<br>The first clan to reach [currentArena.goalpoints] points wins!</center>"
-			sleep(30)
-			if(!currentArena) return
-			currentArena.players << "<h5>Round starting in 10 seconds</h5>"
-			sleep(100)
-			if(!currentArena) return
-			currentArena.players << "<h4>Go!</h5>"
-			currentArena.started = 1
 		if(HOUSE_WARS)
 			if(!currentArena) return
 			src << "House wars map selected"
@@ -2166,8 +2097,6 @@ mob/Player/Logout()
 var/const
 	HOUSE_WARS = 1
 		//First team to get to a specific number of kills, wins.
-	CLAN_WARS = 2
-		//Teams are eliminated if they lose all of their players. Players get set amount of lives. Last team standing wins.
 	FFA_WARS = 3
 		//First player to get a specific number of kills, wins.
 	REWARD_GOLD = 1
@@ -2250,54 +2179,33 @@ obj/clanpillar
 	proc
 		Death_Check(mob/Player/attacker)
 			if(HP<1)
-				if(currentArena)
-					currentArena.players << "[attacker] has destroyed [name]."
-					if(attacker.DeathEater)
-						currentArena.Add_Point("Deatheaters",clanevent1_pointsgivenforpillarkill)
-					else if(attacker.Auror)
-						currentArena.Add_Point("Aurors",clanevent1_pointsgivenforpillarkill)
-				else
-					//If world ClanWars
-					if(clan == "Deatheater")
-				//		worldData.housepointsGSRH[5] += 10
-						clanwars_event.add_auror(10)
+				if(clan == "Deatheater")
+					clanwars_event.add_auror(10)
+					attacker.addRep(8)
+				else if(clan == "Auror")
+					clanwars_event.add_de(10)
+					attacker.addRep(-8)
 
-						attacker.addRep(8)
-					else if(clan == "Auror")
-				//		worldData.housepointsGSRH[6] += 10
-						clanwars_event.add_de(10)
-
-						attacker.addRep(-8)
-
-
-					Players << "[attacker] has destroyed [name] and earned 10 points for the [clan == "Deatheater" ? "peace" : "chaos"] clan."
+				Players << "[attacker] has destroyed [name] and earned 10 points for the [clan == "Deatheater" ? "peace" : "chaos"] clan."
 
 				density = 0
-				invisibility = 101
-				spawn()respawn_count()
+				invisibility = 100
+				spawn() respawn_count()
 			..()
 		enable(MHP2)
 			density = 1
 			invisibility = 0
 			MHP = MHP2
 			HP = MHP
-			if(currentArena)
-				if(clan == "Auror")
-					for(var/mob/Player/M in currentArena.players)
-						if(M.Auror)M << "Aurors - <font color = white><i>\The [src] has respawned."
-				else if(clan == "Deatheater")
-					for(var/mob/Player/M in currentArena.players)
-						if(M.DeathEater)M << "Deatheaters - <font color = white><i>\The [src] has respawned."
-			else
-				//If world ClanWars
-				for(var/mob/Player/M in Players)
-					if(clan == "Deatheater" && M.getRep() < -100)
-						M << infomsg("Chaos: <i>\The [src] has respawned.</i>")
-					else if(clan == "Auror" && M.getRep() > 100)
-						M << infomsg("Peace: <i>\The [src] has respawned.</i>")
+
+			for(var/mob/Player/M in Players)
+				if(clan == "Deatheater" && M.getRep() < -100)
+					M << infomsg("Chaos: <i>\The [src] has respawned.</i>")
+				else if(clan == "Auror" && M.getRep() > 100)
+					M << infomsg("Peace: <i>\The [src] has respawned.</i>")
 		disable()
 			density = 0
-			invisibility = 101
+			invisibility = 100
 		respawn_count()
 			spawn()
 				if(clanwars)
@@ -2312,13 +2220,7 @@ obj/clanpillar
 				density = 1
 				invisibility = 0
 				HP = MHP
-				if(currentArena)
-					if(clan == "Auror")
-						for(var/mob/Player/M in currentArena.players)
-							if(M.Auror)M << "Aurors - <font color = white><i>\The [src] has respawned."
-					else if(clan == "Deatheater")
-						for(var/mob/Player/M in currentArena.players)
-							if(M.DeathEater)M << "Deatheaters - <font color = white><i>\The [src] has respawned."
+
 				if(clanwars)
 					for(var/mob/Player/M in Players)
 						if(clan == "Auror" && M.getRep() > 100)
