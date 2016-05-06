@@ -250,7 +250,7 @@ StatusEffect
 			src.AttachedAtom.icon = src.AttachedAtom.TransLastIcon
 			src.AttachedAtom.icon_state = src.AttachedAtom.TransLastIconState
 			..()
-	ClanWars
+/*	ClanWars
 		ReinforcedDoors
 			Activate()
 				..()
@@ -272,7 +272,7 @@ StatusEffect
 					for(var/obj/brick2door/clandoor/D in AttachedAtom)//An /area
 						D.MHP = initial(D.MHP)
 						if(D.HP > D.MHP) D.HP = D.HP
-				..()
+				..()*/
 	GotSpellpoint
 	Poisoned
 	SteppedOnPoop

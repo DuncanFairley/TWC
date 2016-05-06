@@ -96,7 +96,8 @@ client
 		onLoad()
 			set hidden = 1
 			browser_loaded = 1
-			src << output(null,"browser1:CenterWindow")
+		//	src << output(null,"browser1:CenterWindow")
+			src << output(null,"browser1:Resize")
 
 		onResize(VW as num,VH as num,BX as num,BY as num,Z as num)
 			set hidden = 1

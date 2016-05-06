@@ -36,8 +36,8 @@ proc
 		var i, j
 		for(i=L.len,i>0,i--)
 			for(j=1,j<i,j++)
-				var/mob/j1 = L[j]
-				var/mob/j2 = L[j+1]
+				var/mob/Player/j1 = L[j]
+				var/mob/Player/j2 = L[j+1]
 				if(j1 && j2)
 					if(j1.prevname && !j2.prevname)
 						if(j1.prevname>j2.name) L.Swap(j,j+1)

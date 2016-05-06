@@ -25,74 +25,6 @@ world/Topic(T,Addr,Master,Key)
 			Players << "<br><hr><b>Rebooting the world now!</b><hr><br>"
 			world.Reboot(2)
 
-proc
-	Aurors()
-		var/list/members = list()
-		for(var/mob/M in Players)
-			if(M.Auror) members += M
-		return members
-	Deatheaters()
-		var/list/members = list()
-		for(var/mob/M in Players)
-			if(M.DeathEater) members += M
-		return members
-mob/proc
-	ClanMembers()
-		if(Auror)      return Aurors()
-		if(DeathEater) return Deatheaters()
-
-mob/GM/verb/Clan_store()
-	set category = "Clan"
-	set name = "Clan Store"
-	var/index = Auror ? 5 : 6
-	var/area/_area = Auror ? /area/AurorHQ : /area/DEHQ
-	switch(input("This is pretty well a beta test! I expect there will be a better interface if I decide to go with this idea. Select what you want to spend your clan points on. You will have the option to confirm your choice after you click one.") as null|anything in list(\
-		"Repair Doors - 5 points", "Reinforce Doors - 10 points", "Break Invisibility - 1 point"))
-		if("Repair Doors - 5 points")
-			if(alert("This will rebuild all the doors inside your clan HQ for 5 points.",,"Yes","No") == "Yes")
-				if(worldData.housepointsGSRH[index] >= 5)
-					worldData.housepointsGSRH[index] -= 5
-					ClanMembers() << "<b>[src] used Repair Doors for 5 points.</b>"
-					for(var/obj/brick2door/clandoor/D in locate(_area))
-						if(D.icon_state == "brokeopen")
-							var/obj/brick2door/clandoor/newdoor = new(D.loc)
-							var/StatusEffect/S = D.loc.loc.findStatusEffect(/StatusEffect/ClanWars/ReinforcedDoors)
-							if(S)newdoor.MHP *= 2
-							del(D)
-						else
-							D.HP = D.MHP
-				else
-					src << "<b>You don't have the required amount of points.</b>"
-
-		if("Reinforce Doors - 10 points")
-			if(alert("This will double the max HP of each door in your HQ for 30 minutes. Note: This will not increase each door's HP to maximum, it only affects the Max HP. You would need to use Repair Doors seperately, or wait for the door to regenerate itself after being destroyed.",,"Yes","No") == "Yes")
-				if(worldData.housepointsGSRH[index] >= 10)
-					var/atom/A = locate(_area)
-					var/StatusEffect/S = A.findStatusEffect(/StatusEffect/ClanWars/ReinforcedDoors)
-					if(S)
-						S.cantUseMsg(src)
-					else
-						new /StatusEffect/ClanWars/ReinforcedDoors(A,1800)
-						worldData.housepointsGSRH[index] -= 10
-						ClanMembers() << "<b>[src] used Reinforce Doors for 10 points.</b>"
-				else
-					src << "<b>You don't have the required amount of points.</b>"
-
-		if("Break Invisibility - 1 point")
-			if(alert("This will uncloak any invisible people inside your HQ(not a part of your clan) for 1 point.",,"Yes","No") == "Yes")
-				if(worldData.housepointsGSRH[index] >= 1)
-					worldData.housepointsGSRH[index] -= 1
-					ClanMembers() << "<b>[src] used Break Invisibility for 1 point.</b>"
-					for(var/mob/Player/M in locate(_area))
-						if(M.key&&(M.invisibility==1))
-							flick('teleboom.dmi',M)
-							M.invisibility=0
-							M.alpha=255
-							M<<"You have been revealed!"
-							new /StatusEffect/Decloaked(M,15)
-				else
-					src << "<b>You don't have the required amount of points.</b>"
-
 var/const
 	DE_INVITE = 0
 	AUROR_INVITE = 1
@@ -228,7 +160,7 @@ client/proc
 			tmpmsg = qry.ErrorMsg()
 			if(tmpmsg) world.log << "Mysql error update_individual for tblReferralAmounts - couldn't delete: [tmpmsg] - SQL: DELETE FROM tblReferralAmounts WHERE [sql_rows2delete];"
 
-proc
+/*proc
 	update_all_clans()
 		set background=1
 		if(!mysql_enabled)return
@@ -281,4 +213,4 @@ proc
 						if(2)//Auror
 							C.mob:Auror = 1
 							C.mob.verbs.Add(/mob/GM/verb/Auror_chat)
-							C.mob.verbs.Add(/mob/GM/verb/Auror_Robes)
+							C.mob.verbs.Add(/mob/GM/verb/Auror_Robes)*/

@@ -373,11 +373,11 @@ mob/GM
 			set category="Staff"
 			set name="GM Chat"
 			if(!message || message == "") return
-
+			var/mob/Player/m = src
 			for(var/mob/Player/p in Players)
 				if(p.Gm)
-					p << "<b><span style=\"color:silver; font-size:2;\">GM> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
-			chatlog << "<b><span style=\"color:silver;\">GM> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+					p << "<b><span style=\"color:silver; font-size:2;\">GM> [m.prevname ? m.prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
+			chatlog << "<b><span style=\"color:silver;\">GM> [m.prevname ? m.prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
 
 
 		Gryffindor_Chat(var/message as text)
@@ -391,9 +391,9 @@ mob/GM
 
 			for(var/mob/Player/p in Players)
 				if((p.House == "Gryffindor" || p.admin) && p.listenhousechat)
-					p << "<b><span style=\"font-size:2; color:red\">Gryffindor Channel> </span><span style=\"font-size:2; color:silver\">[prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
+					p << "<b><span style=\"font-size:2; color:red\">Gryffindor Channel> </span><span style=\"font-size:2; color:silver\">[m.prevname ? m.prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
 
-			chatlog << "<b><span style=\"color:red;\">Gryffindor> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+			chatlog << "<b><span style=\"color:red;\">Gryffindor> [m.prevname ? m.prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
 
 
 		Ravenclaw_Chat(var/message as text)
@@ -407,9 +407,9 @@ mob/GM
 
 			for(var/mob/Player/p in Players)
 				if((p.House == "Ravenclaw" || p.admin) && p.listenhousechat)
-					p << "<b><span style=\"font-size:2; color:blue\">Ravenclaw Channel> </span><span style=\"font-size:2; color:silver\">[prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
+					p << "<b><span style=\"font-size:2; color:blue\">Ravenclaw Channel> </span><span style=\"font-size:2; color:silver\">[m.prevname ? m.prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
 
-			chatlog << "<b><span style=\"color:blue;\">Ravenclaw> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+			chatlog << "<b><span style=\"color:blue;\">Ravenclaw> [m.prevname ? m.prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
 
 
 
@@ -424,9 +424,9 @@ mob/GM
 
 			for(var/mob/Player/p in Players)
 				if((p.House == "Slytherin" || p.admin) && p.listenhousechat)
-					p << "<b><span style=\"font-size:2; color:green\">Slytherin Channel> </span><span style=\"font-size:2; color:silver\">[prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
+					p << "<b><span style=\"font-size:2; color:green\">Slytherin Channel> </span><span style=\"font-size:2; color:silver\">[m.prevname ? m.prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
 
-			chatlog << "<b><span style=\"color:green;\">Slytherin> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+			chatlog << "<b><span style=\"color:green;\">Slytherin> [m.prevname ? m.prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
 
 
 
@@ -440,9 +440,9 @@ mob/GM
 
 			for(var/mob/Player/p in Players)
 				if((p.House == "Hufflepuff" || p.admin) && p.listenhousechat)
-					p << "<b><span style=\"font-size:2; color:yellow\">Hufflepuff Channel> </span><span style=\"font-size:2; color:silver\">[prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
+					p << "<b><span style=\"font-size:2; color:yellow\">Hufflepuff Channel> </span><span style=\"font-size:2; color:silver\">[m.prevname ? m.prevname : name]:</span></b> <span style=\"color:white;\">[message]</span>"
 
-			chatlog << "<b><span style=\"color:yellow;\">Hufflepuff> [prevname ? prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
+			chatlog << "<b><span style=\"color:yellow;\">Hufflepuff> [m.prevname ? m.prevname : name]:</span></b> <span style=\"color:white;\">[message]</span><br>"
 
 
 		Sanctuario(mob/M in view()&Players)
@@ -575,7 +575,6 @@ mob/proc/manual_view_player_log(ckey)
 mob/GM/verb
 	Goto(mob/M in world)
 		set category = "Staff"
-		if(clanrobed())return
 		var/dense = density
 		src.density=0
 		src.Move(locate(M.x,M.y+1,M.z))
@@ -588,7 +587,6 @@ mob/GM/verb
 mob/GM/verb/Orb_Surroundings(var/mob/M in world)
 	set category = "Staff"
 	set popup_menu = 0
-	if(clanrobed())return
 	for(var/mob/K in oview(1))
 
 		flick('Dissapear.dmi',K)
@@ -608,7 +606,6 @@ mob/GM/verb/Orb_Surroundings(var/mob/M in world)
 	flick('Appear.dmi',usr)
 mob/GM/verb/Bring(mob/M in world)
 	set category = "Staff"
-	if(clanrobed())return
 	view(M)<<"[M] disappears (GM Summon)."
 	M.flying = 0
 	M.density = 1
@@ -860,7 +857,6 @@ mob
 		Stealth_Orb(mob/M in world)
 			set category = "Staff"
 			set popup_menu = 0
-			if(clanrobed())return
 			src.x = M.x
 			src.y = M.y+1
 			src.z = M.z
@@ -868,8 +864,6 @@ mob
 
 		Immortal()
 			set category="Staff"
-			if(clanrobed())return
-
 			var/mob/Player/p = src
 			if(p.Immortal==0)
 				flick('mist.dmi',p)
@@ -962,8 +956,6 @@ mob
 			set category = "Staff"
 			set name = "Create"
 			set desc="(object) Create a new mob, or obj"
-			if(clanrobed())return
-
 
 			if(!O)
 				return
@@ -990,7 +982,6 @@ mob
 			set category = "Staff"
 			set name = "Edit"
 			set desc="(target) Edit a target item's variables"
-			if(clanrobed())return
 
 			if(O==null)return
 
@@ -1196,30 +1187,21 @@ mob
 					Log_admin("[src] has disconnected [tmpname].")
 		Phase()
 			set category = "Staff"
-			if(clanrobed())return
 			if(usr.density == 1)
 				usr << "You phase out, allowing you to walk on water and through walls."//sends the msg to the user
 				usr.density = 0
 			else if(usr.density == 0)
 				usr << "You are solid again."
 				usr.density = 1
-
-		//GM STANDARD CLOAK COMMAND//
-
 		Cloak()
 			set category = "Staff"
 			var/mob/Player/p = src
 			if(p.cloaked==0)
-				if(clanrobed())return
 				hearers() << "<b>[usr] has vanished."
-				//usr.picon_state=usr.icon_state
 				flick('GMOrb.dmi',usr)
 				sleep(9)
-				//usr.mprevicon = usr.icon
 				p.icon = null
-				//usr.icon_state="bl"
 				p.cloaked=1
-			//	sight |= SEE_SELF     // They can see themselves
 				p.density=0
 				p.underlays = list()
 				p.overlays = list()
@@ -1231,17 +1213,12 @@ mob
 				p.icon = usr.baseicon
 				p.ApplyOverlays()
 				p.invisibility=0
-				//usr.icon_state=""
-			//	sight &= ~SEE_SELF   // turn off the sight bit
-				//usr.icon_state=picon_state
 				p.cloaked=0
 				p.density=1
-
 				p.addNameTag()
 		Freeze(var/mob/Player/M in Players)
 			set popup_menu = 0
 			set category="Staff"
-			if(clanrobed())return
 			if(!M.GMFrozen)
 				M.GMFrozen=1
 				M.overlays+='freeze.dmi'
@@ -1253,7 +1230,6 @@ mob
 		Teleport_Someone(mob/teleportee as mob in world, mob/destination as mob in world)
 			set category="Staff"
 			set desc="Teleport Self or Other to Target"
-			if(clanrobed())return
 			var/originalden = teleportee.density
 			teleportee.density = 0
 			teleportee.loc = destination.loc
@@ -1368,7 +1344,6 @@ mob/GM
 	verb
 		Freeze_Area()
 			set category="Staff"
-			if(clanrobed())return
 			usr<<"With a flick of your wand, you Freeze your view!"
 			for(var/mob/Player/M in oview())
 				if(M != src)
@@ -1381,7 +1356,6 @@ mob/GM
 
 		Unfreeze_Area()
 			set category="Staff"
-			if(clanrobed())return
 			usr<<"With a flick of your wand, you UnFreeze your view!"
 			for(var/mob/Player/M in oview())
 				if(M != src)

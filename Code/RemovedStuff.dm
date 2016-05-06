@@ -350,15 +350,6 @@ mob/GM/verb
 		set hidden = 1
 
 mob
-	var
-		derobe
-		aurorrobe
-		DeathEater
-		HA
-		HDE
-		Auror
-		DE
-
 	GM/verb
 		Auror_Robes()
 			set hidden = 1
@@ -369,7 +360,8 @@ mob
 
 		Auror_chat(var/messsage as text)
 			set hidden = 1
-
+		Clan_store()
+			set hidden = 1
 mob/test/verb/FloorColor(c as color)
 	for(var/turf/t in world)
 		if(t.z >= 21 && t.z <= 22)

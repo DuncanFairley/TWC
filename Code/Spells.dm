@@ -102,12 +102,12 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 		del _input["Eat Slugs"]
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
 		var/list/people = ohearers(client.view)&Players
-		var/mob/M
-
+		var/mob/Player/M
+		var/mob/Player/p = src
 		if(n)
-			for(var/mob/Player/p in people)
-				if(findtext(n, p.name) && length(p.name) + 2 >= length(n))
-					M = p
+			for(var/mob/Player/i in people)
+				if(findtext(n, i.name) && length(i.name) + 2 >= length(n))
+					M = i
 					break
 		if(!M && people.len)
 			var/Input/popup = new (src, "Eat Slugs")
@@ -117,15 +117,14 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 		if(!(M in ohearers(client.view))) return
 		new /StatusEffect/Summoned(src,15)
 		MP = max(MP - 100, 0)
-		updateHPMP()
-		if(prevname)
+		p.updateHPMP()
+		if(p.prevname)
 			hearers() << "<span style=\"font-size:2;\"><font color=red><b><font color=red>[usr]</span></b> :<font color=white> Eat Slugs, [M.name]!"
 		else
-			var/mob/m = src
-			hearers() << "<span style=\"font-size:2;\"><font color=red><b>[m:Tag]<font color=red>[usr]</span> [m:GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
+			hearers() << "<span style=\"font-size:2;\"><font color=red><b>[p.Tag]<font color=red>[usr]</span> [p.GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
 
 		M << errormsg("[usr] has casted the slug vomiting curse on you.")
-		usr:learnSpell("Eat Slugs")
+		p.learnSpell("Eat Slugs")
 		src=null
 		spawn()
 			var/slugs = rand(4,12)
@@ -185,28 +184,24 @@ mob/Spells/verb/Herbificus()
 			usr:learnSpell("Herbificus")
 mob/Spells/verb/Protego()
 	set category = "Spells"
-	if(!usr.shielded)
+	var/mob/Player/p = src
+	if(!p.shieldamount)
 		if(canUse(src,cooldown=/StatusEffect/UsedProtego,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 			new /StatusEffect/UsedProtego(src,60)
-			usr.overlays += /obj/Shield
+			p.overlays += /obj/Shield
 			hearers()<< "<b><span style=\"color:red;\">[usr]</b></span>: PROTEGO!"
-			usr << "You shield yourself magically"
-			usr.shielded = 1
-			usr.shieldamount = (usr.Def+usr.extraDef) * 2.5
-			usr:learnSpell("Protego")
+			p << "You shield yourself magically"
+			p.shieldamount = (usr.Def+usr.extraDef) * 2.5
+			p.learnSpell("Protego")
 			sleep(100)
-			if(usr.shielded==1)
-				usr.shielded = 0
-				usr.shieldamount = 0
-				usr.overlays -= /obj/Shield
-				usr<<"You are no longer shielded!"
-			else return
+			if(p.shieldamount)
+				p.shieldamount = 0
+				p.overlays -= /obj/Shield
+				p<<"You are no longer shielded!"
 	else
-		if(shielded)
-			usr.shielded = 0
-			usr.shieldamount = 0
-			usr << "You are no longer shielded!"
-		usr.overlays -= /obj/Shield
+		p.shieldamount = 0
+		p << "You are no longer shielded!"
+		p.overlays -= /obj/Shield
 mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
 	set category="Spells"
 	var/mob/Player/user = usr
@@ -419,7 +414,6 @@ mob/Spells/verb/Aggravate()
 
 mob/Spells/verb/Basilio()
 	set category = "Staff"
-	if(clanrobed())return
 	hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Basilio!"
 	sleep(20)
 	hearers()<<"[usr]'s wand emits a bright flash of light."
@@ -1382,7 +1376,6 @@ obj/Avada_Kedavra
 
 mob/Spells/verb/Avada_Kedavra()
 	set category="Spells"
-	if(clanrobed())return
 	if(key != "Murrawhip")
 		hearers()<<"<b><span style=\"color:red;\">[src]:</b></span> <font color= #00FF33>Avada Kedavra !"
 	var/obj/S=new/obj/Avada_Kedavra
@@ -1393,7 +1386,6 @@ mob/Spells/verb/Avada_Kedavra()
 	walk(S,src.dir,2)
 	sleep(20)
 	del S
-	return
 
 mob/Spells/verb/Episky()
 	set name = "Episkey"
@@ -1668,13 +1660,12 @@ mob/Player
 			else
 				src << "[p.owner] hit you for [p.damage] with their [p]."
 
-		if(shielded)
+		if(shieldamount)
 			var/tmpdmg = shieldamount - p.damage
 			if(tmpdmg < 0)
 				HP += tmpdmg
 				src << "You are no longer shielded!"
 				overlays    -= /obj/Shield
-				shielded     = 0
 				shieldamount = 0
 				Death_Check(p.owner)
 			else
@@ -2173,7 +2164,6 @@ mob
 mob/GM/verb/Remote_View(mob/M in world)
 	set category="Staff"
 	set popup_menu = 0
-	if(clanrobed())return
 	if(M.loc == null) return
 	if(istype(M.loc.loc, /area/ministry_of_magic))
 		src << errormsg("You cannot use remote view on this person.")
@@ -2184,7 +2174,6 @@ mob/GM/verb/Remote_View(mob/M in world)
 mob/GM/verb/HM_Remote_View(mob/M in world)
 	set category="Staff"
 	set popup_menu = 0
-	if(clanrobed())return
 	usr.client.eye=M
 	usr.client.perspective=EYE_PERSPECTIVE
 mob/GM/verb/Return_View()

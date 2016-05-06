@@ -31,7 +31,6 @@
 
 files to clean:
 login.dm - end of file, variables
-protego.dm
 Spells.dm
 
 */

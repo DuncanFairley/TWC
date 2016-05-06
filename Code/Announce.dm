@@ -42,13 +42,6 @@ mob/Player/var
 		mprevicon
 	GMFrozen
 
-mob
-	proc
-		clanrobed()
-			if((locate(/mob/GM/verb/GM_chat) in usr.verbs) && (prevname))
-				src << errormsg("You cannot use any GM verbs while wearing clan clothing.")
-				return 1
-
 mob/test/verb/Download_Savefile()
 	var/ckeyname = input("Ckeyyyyy?") as null|text
 	if(!ckeyname) return
@@ -91,10 +84,9 @@ mob
 				hearers(usr.client.view,usr)<<"<span style=\"color:red;\">[usr] raises \his hand.</span>"
 				usr.questionius=1
 mob/verb/Emote(t as text)
-	if(usr.Rictusempra==10) return
 	if(usr.mute==1)
 		usr << errormsg("You can't emote while you are muted.")
 		return
-	t=check(t)//run the text through the cleaner
+	t=check(t)
 	t = copytext(t,1,350)
 	hearers()<<"<i>[usr] [t]</i>"

@@ -8,14 +8,11 @@ mob/GM
 	verb
 		Delete(S as turf|obj|mob in view(17))
 			set category = "Staff"
-			if(clanrobed())return
 			if(isplayer(S))
 				switch(alert("Deleting Player: [S]","Are you sure you want to delete [S]?","Yes","No"))
 					if("No")
 						return
 			del S
-
-
 
 obj/Shield
 	icon='teleport2.dmi'
@@ -23,6 +20,6 @@ obj/Shield
 	layer = 5
 	density = 1
 
-mob/var/shielded
-mob/var/tmp/prevname
-mob/var/shieldamount
+mob/Player/var/tmp
+	prevname
+	shieldamount
