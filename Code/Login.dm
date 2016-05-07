@@ -839,6 +839,7 @@ mob/Player
 				name = prevname
 
 	Login()
+
 		if(client.byond_version < world.byond_version)
 			src << errormsg("Your installed BYOND version is older than the one the game is using, please update to BYOND version [world.byond_version] or higher. You can continue to play but unpredicted errors may occur.")
 
@@ -918,10 +919,10 @@ mob/Player
 		if(!Interface) Interface = new(src)
 		isDJ(src)
 		checkMail()
-		buildActionBar()
 		logintime = world.realtime
 		spawn()
 			//CheckSavefileVersion()
+			buildActionBar()
 			if(istype(src.loc.loc,/area/arenas) && !rankedArena)
 				src.loc = locate(50,22,15)
 			unreadmessagelooper()
