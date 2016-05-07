@@ -202,6 +202,8 @@ obj/teleport
 		icon = 'DesertTeleport.dmi'
 		dest = "teleportPointCoS Floor 3"
 		invisibility = 0
+		appearance_flags = LONG_GLIDE
+		glide_size = 4
 		Teleport(mob/M)
 			if(prob(10)) return
 			if(prob(40))
@@ -657,7 +659,6 @@ mob
 					return 1
 			return 0
 		Login()
-
 			var/mob/Player/character=new()
 			//character.savefileversion = currentsavefilversion
 			var/desiredname = input("What would you like to name your Harry Potter: The Wizards' Chronicles character? Keep in mind that you cannot use a popular name from the Harry Potter franchise, nor numbers or special characters.")
@@ -734,7 +735,7 @@ mob
 			character.goldinbank = new /gold(100)
 			character.client.eye = character
 			character.client.perspective = MOB_PERSPECTIVE
-			character.loc=locate(45,60,26)
+			character.loc=locate("@Diagon")
 			character.verbs += /mob/Spells/verb/Inflamari
 
 			character << output(null,"browser1:Resize")
@@ -839,7 +840,6 @@ mob/Player
 				name = prevname
 
 	Login()
-
 		if(client.byond_version < world.byond_version)
 			src << errormsg("Your installed BYOND version is older than the one the game is using, please update to BYOND version [world.byond_version] or higher. You can continue to play but unpredicted errors may occur.")
 
