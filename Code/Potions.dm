@@ -210,7 +210,7 @@ obj/potions
 					if(!worldData.potions) worldData.potions = list()
 
 					potion = worldData.potions["[pool]"]
-					if(!potion)
+					if(potion==null)
 						var/chance = max(5, 100 - (worldData.potionsAmount * 5))
 
 						if(prob(chance))
