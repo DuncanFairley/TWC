@@ -106,7 +106,7 @@ RandomEvent
 					for(var/turf/T in locate(/area/arenas/MapThree/PlayArea))
 						rndturfs.Add(T)
 					currentArena.speaker = pick(MapThreeWaitingAreaTurfs)
-					for(var/mob/M in currentArena.players)
+					for(var/mob/Player/M in currentArena.players)
 						var/turf/T = pick(rndturfs)
 						M.loc = T
 						M.density = 1

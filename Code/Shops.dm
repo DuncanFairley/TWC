@@ -395,18 +395,19 @@ obj/Madame_Pomfrey
 		Heal_Me()
 			if(canUse(usr,cooldown=/StatusEffect/UsedFerulaToHeal))
 				set src in oview(1)
-				usr<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [usr]!"
-				new /StatusEffect/UsedFerulaToHeal(usr,10)
-				usr.overlays+=image('attacks.dmi',icon_state="heal")
+				var/mob/Player/p = usr
+				p<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [p]!"
+				new /StatusEffect/UsedFerulaToHeal(p,10)
+				p.overlays+=image('attacks.dmi',icon_state="heal")
 
-				var/maxHP = usr.MHP + usr.extraMHP
-				usr.HP = min(maxHP, round(usr.HP + maxHP * 0.15 + rand(-15, 15), 1))
+				var/maxHP = p.MHP + p.extraMHP
+				p.HP = min(maxHP, round(p.HP + maxHP * 0.15 + rand(-15, 15), 1))
 
-				usr.updateHPMP()
+				p.updateHPMP()
 				src = null
 				spawn(10)
-					if(usr)
-						usr.overlays-=image('attacks.dmi',icon_state="heal")
+					if(p)
+						p.overlays-=image('attacks.dmi',icon_state="heal")
 
 	New()
 		..()
@@ -425,14 +426,15 @@ mob/Madame_Pomfrey
 	verb
 		Heal_Me()
 			set src in oview(1)
-			usr<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [usr]!"
-			usr.overlays+=image('attacks.dmi',icon_state="heal")
-			usr.HP=usr.MHP+usr.extraMHP
-			usr.updateHPMP()
+			var/mob/Player/p = usr
+			p<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [p]!"
+			p.overlays+=image('attacks.dmi',icon_state="heal")
+			p.HP=p.MHP+p.extraMHP
+			p.updateHPMP()
 			src = null
 			spawn(10)
-				if(usr)
-					usr.overlays-=image('attacks.dmi',icon_state="heal")
+				if(p)
+					p.overlays-=image('attacks.dmi',icon_state="heal")
 
 mob/TalkNPC/Broom_Salesman
 	icon = 'NPCs.dmi'

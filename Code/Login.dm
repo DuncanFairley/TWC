@@ -780,58 +780,58 @@ mob/Player
 	verb
 		Use_Statpoints()
 			set category = "Commands"
-			if(usr.StatPoints>0)
-				switch(input("Which stat would you like to improve?","You have [usr.StatPoints] stat points.")as null|anything in list ("Mana Points","Damage","Defense"))
+			if(StatPoints>0)
+				switch(input("Which stat would you like to improve?","You have [StatPoints] stat points.")as null|anything in list ("Mana Points","Damage","Defense"))
 					if("Health")
-						if(src.StatPoints>0)
-							var/SP = round(input("How many stat points do you want to put into Health? You have [usr.StatPoints]",,usr.StatPoints) as num|null)
+						if(StatPoints>0)
+							var/SP = round(input("How many stat points do you want to put into Health? You have [StatPoints]",,StatPoints) as num|null)
 							if(!SP || SP < 0)return
-							if(SP <= usr.StatPoints)
+							if(SP <= StatPoints)
 								var/addstat = 10*SP
-								usr.extraMHP+=addstat
-								usr<<infomsg("You gained [addstat] HP!")
-								usr.StatPoints -= SP
+								extraMHP += addstat
+								src << infomsg("You gained [addstat] HP!")
+								StatPoints -= SP
 							else
-								usr <<errormsg("You cannot put [SP] stat points into Health as you only have [usr.StatPoints]")
+								src << errormsg("You cannot put [SP] stat points into Health as you only have [StatPoints]")
 					if("Mana Points")
 						if(src.StatPoints>0)
-							var/SP = round(input("How many stat points do you want to put into Mana Points? You have [usr.StatPoints]",,usr.StatPoints) as num|null)
+							var/SP = round(input("How many stat points do you want to put into Mana Points? You have [StatPoints]",,StatPoints) as num|null)
 							if(!SP || SP < 0)return
-							if(SP <= usr.StatPoints)
+							if(SP <= StatPoints)
 								var/addstat = 10*SP
-								usr.extraMMP+=addstat
-								usr<<infomsg("You gained [addstat] MP!")
-								usr.StatPoints -= SP
+								extraMMP += addstat
+								src << infomsg("You gained [addstat] MP!")
+								StatPoints -= SP
 							else
-								usr <<errormsg("You cannot put [SP] stat points into Mana Points as you only have [usr.StatPoints]")
+								src << errormsg("You cannot put [SP] stat points into Mana Points as you only have [StatPoints]")
 					if("Damage")
-						if(src.StatPoints>0)
-							var/SP = round(input("How many stat points do you want to put into Damage? You have [usr.StatPoints]",,usr.StatPoints) as num|null)
+						if(StatPoints>0)
+							var/SP = round(input("How many stat points do you want to put into Damage? You have [StatPoints]",,StatPoints) as num|null)
 							if(!SP || SP < 0)return
-							if(SP <= usr.StatPoints)
+							if(SP <= StatPoints)
 								var/addstat = 1*SP
-								usr.extraDmg+=addstat
-								usr<<infomsg("You gained [addstat] damage!")
-								usr.StatPoints -= SP
+								extraDmg+=addstat
+								src<<infomsg("You gained [addstat] damage!")
+								StatPoints -= SP
 							else
-								usr <<errormsg("You cannot put [SP] stat points into Damage as you only have [usr.StatPoints]")
+								src << errormsg("You cannot put [SP] stat points into Damage as you only have [StatPoints]")
 					if("Defense")
-						if(src.StatPoints>0)
-							var/SP = round(input("How many stat points do you want to put into Defense? You have [usr.StatPoints]",,usr.StatPoints) as num|null)
+						if(StatPoints>0)
+							var/SP = round(input("How many stat points do you want to put into Defense? You have [StatPoints]",,StatPoints) as num|null)
 							if(!SP || SP < 0)return
-							if(SP <= usr.StatPoints)
+							if(SP <= StatPoints)
 								var/addstat = 3*SP
-								usr.extraDef+=addstat
-								usr<<infomsg("You gained [addstat] defense!")
-								usr.StatPoints -= SP
+								extraDef += addstat
+								src<<infomsg("You gained [addstat] defense!")
+								StatPoints -= SP
 							else
-								usr <<errormsg("You cannot put [SP] stat points into Defense as you only have [usr.StatPoints]")
-				usr.resetMaxHP()
-				usr.updateHPMP()
-				if(usr.StatPoints == 0)
-					usr.verbs.Remove(/mob/Player/verb/Use_Statpoints)
+								src << errormsg("You cannot put [SP] stat points into Defense as you only have [StatPoints]")
+				resetMaxHP()
+				updateHPMP()
+				if(StatPoints == 0)
+					verbs.Remove(/mob/Player/verb/Use_Statpoints)
 			else
-				usr.verbs.Remove(/mob/Player/verb/Use_Statpoints)
+				verbs.Remove(/mob/Player/verb/Use_Statpoints)
 
 	proc
 		Saveme()
@@ -839,10 +839,10 @@ mob/Player
 				name = prevname
 
 	Login()
-		//..()
-
 		if(client.byond_version < world.byond_version)
 			src << errormsg("Your installed BYOND version is older than the one the game is using, please update to BYOND version [world.byond_version] or higher. You can continue to play but unpredicted errors may occur.")
+
+			spawn() alert(src, "Please make sure to update your BYOND version to the latest beta ([world.byond_version]), otherwise you may experience graphical glitches and probably have a white screen.")
 
 		dance = 0
 		if(Gender=="Female")
@@ -851,7 +851,7 @@ mob/Player
 			gender = MALE
 		Resort_Stacking_Inv()
 		resetSettings()
-		if(usr.StatPoints<1)usr.verbs.Remove(/mob/Player/verb/Use_Statpoints)
+		if(StatPoints<1)verbs.Remove(/mob/Player/verb/Use_Statpoints)
 		shieldamount = 0
 		mouse_drag_pointer = MOUSE_DRAG_POINTER
 		if(client.connection == "web")
@@ -982,11 +982,11 @@ mob/Player
 	verb
 		Say(t as text)
 
-			if(!usr.mute)
-				if(usr.silence)
+			if(!mute)
+				if(silence)
 					src << "Your tongue is stuck to the roof of your mouth. You can't speak."
 				else
-					if(usr.spam<=5 || Gm)
+					if(spam<=5 || Gm)
 						if(t)
 							t=check(t)//run the text through the cleaner
 							t = copytext(t,1,500)
@@ -1018,7 +1018,7 @@ mob/Player
 										silent = usr:Eat_Slugs(copytext(t, 11))
 
 								if(!silent)
-									for(var/mob/M in hearers(client.view))
+									for(var/mob/Player/M in hearers(client.view))
 										if(!M.muff)
 											if(prevname)
 												M<<"<span style=\"font-size:2; color:red;\"><b>[usr]</b></span> : <span style=\"color:white\">[t]</span>"
@@ -1219,16 +1219,16 @@ mob/Player
 				usr << errormsg("You can't send messages while you are muted.")
 		OOC(T as text)
 			set desc = "Speak on OOC"
-			if(!usr.listenooc)
-				usr << "Your OOC is turned off."
+			if(!listenooc)
+				src << "Your OOC is turned off."
 				return
-			if(usr.mute)
-				usr << errormsg("You can't send messages while you are muted.")
+			if(mute)
+				src << errormsg("You can't send messages while you are muted.")
 				return
 			if(OOCMute)
 				usr<<"Access to the OOC Chat System has been restricted by a Staff Member."
 			else
-				if(usr.spam<=5)
+				if(spam<=5)
 					if(!MuteOOC)
 						if(T)
 							T = copytext(T,1,300)
@@ -1508,8 +1508,7 @@ mob/proc/Check_Death_Drop()
 		O.Drop()
 
 mob/proc/Death_Check(mob/killer = src)
-	killer.updateHPMP()
-	src.updateHPMP()
+
 	if(src.HP<1)
 		if(isplayer(src))
 			var/mob/Player/p = src
@@ -1546,10 +1545,10 @@ mob/proc/Death_Check(mob/killer = src)
 				killer<<"<span style=\"color:blue;\"><b>[src] is immortal and cannot die.</b></span>"
 				return
 			if(istype(src.loc.loc,/area/hogwarts/Duel_Arenas))
-				src.followplayer=0
-				src.HP=src.MHP+src.extraMHP
-				src.MP=src.MMP+src.extraMMP
-				src.updateHPMP()
+				p.followplayer=0
+				p.HP=p.MHP+p.extraMHP
+				p.MP=p.MMP+p.extraMMP
+				p.updateHPMP()
 				flick('mist.dmi',src)
 				switch(src.loc.loc.type)
 					if(/area/hogwarts/Duel_Arenas/Main_Arena_Bottom)
@@ -1579,12 +1578,12 @@ mob/proc/Death_Check(mob/killer = src)
 				src.sight &= ~BLIND
 				return
 			if(src.loc.loc.type == /area/hogwarts/Hospital_Wing)
-				src.HP=src.MHP+src.extraMHP
-				src.updateHPMP()
+				p.HP=p.MHP+p.extraMHP
+				p.updateHPMP()
 				return
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/WaitingArea))
 				killer << "Do not attack in the waiting area.."
-				src.HP = src.MHP+extraMHP
+				p.HP = p.MHP+p.extraMHP
 				return
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/PlayArea))
 				if(currentArena)
@@ -1594,9 +1593,9 @@ mob/proc/Death_Check(mob/killer = src)
 					else
 						players << "<b>Arena</b>: [killer] killed themself."
 					currentArena.players.Remove(src)
-					src.HP=src.MHP+extraMHP
-					src.MP=src.MMP+extraMMP
-					src.updateHPMP()
+					p.HP=p.MHP+p.extraMHP
+					p.MP=p.MMP+p.extraMMP
+					p.updateHPMP()
 					if(currentArena.players.len == 1)
 						var/mob/winner
 						for(var/mob/M in currentArena.players)
@@ -1662,9 +1661,9 @@ mob/proc/Death_Check(mob/killer = src)
 				if(currentArena)
 					src:GMFrozen = 1
 					spawn()currentArena.handleSpawnDelay(src)
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
+				p.HP=p.MHP+p.extraMHP
+				p.MP=p.MMP+p.extraMMP
+				p.updateHPMP()
 				return
 			var/obj/Bed/B
 			if(p.prevname)
@@ -1699,9 +1698,9 @@ mob/proc/Death_Check(mob/killer = src)
 
 				src.followplayer=0
 				Zitt = 0
-				src.HP=src.MHP+extraMHP
-				src.MP=src.MMP+extraMMP
-				src.updateHPMP()
+				p.HP=p.MHP+p.extraMHP
+				p.MP=p.MMP+p.extraMMP
+				p.updateHPMP()
 				src.gold.add(-gold.get() / 2)
 				if(src.level < lvlcap)
 					src.Exp = round(src.Exp / 2)
@@ -1862,7 +1861,7 @@ mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
 		spawn()sql_add_plyr_log(ckey,"si",reason,timer)
 
 
-mob/proc/resetStatPoints()
+mob/Player/proc/resetStatPoints()
 	src.StatPoints = src.level - 1
 	src.extraMHP = 0
 	src.extraMMP = 0
@@ -1872,7 +1871,7 @@ mob/proc/resetStatPoints()
 	src.Def = (src.level - 1) + 5
 	resetMaxHP()
 	src.verbs.Add(/mob/Player/verb/Use_Statpoints)
-mob/proc/resetMaxHP()
+mob/Player/proc/resetMaxHP()
 	src.MHP = 4 * (src.level - 1) + 200 + 2 * (src.Def + src.extraDef + src.clothDef)
 	if(HP > MHP)
 		HP = MHP
@@ -2048,21 +2047,26 @@ mob/Player/var
 	pdeaths=0
 	pkills=0
 
-mob/var/base_num_characters_allowed=0
-mob/var/level=1
-mob/var/Dmg=5
-mob/var/Def=5
-mob/var/HP=200
-mob/var/MHP=200
-mob/var/MP=10
-mob/var/MMP=10
+	draganddrop=0
+	StatPoints=0
+	mute=0
+
+	tmp
+		spam=0
+
+mob/var
+	level=1
+	Dmg=5
+	Def=5
+	HP=200
+	MHP=200
+	MP=10
+	MMP=10
 
 mob/var/Mexp=5
 mob/var/Exp=0
 mob/var/Expg=1
-mob/var/draganddrop=0
 mob/var/picon=null
-mob/var/mute=0
 mob/var/listenooc=1
 mob/var/listenhousechat=1
 mob/var/gold/gold
@@ -2076,20 +2080,11 @@ mob/var/tmp/status=""
 mob/var/here=""
 mob/var/Gm=0
 
-mob/var/StatPoints=0
-
-
-
 obj/var/picon=null
 obj/var/lastx
 obj/var/lasty
 obj/var/lastz
-
-obj/var/damage=0
 obj/var/tmp/mob/owner
-
-mob/var/tmp
-	spam=0
 
 proc
 	textcheck(t as text)

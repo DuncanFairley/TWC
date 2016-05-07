@@ -212,8 +212,8 @@ mob
 			F["savefileversion"] >> savefile_version
 			if(!savefile_version) savefile_version = 3
 			if(savefile_version < 3)
-				src.resetStatPoints()
-				src << infomsg("Your statpoints have been reset.")
+				p.resetStatPoints()
+				p << infomsg("Your statpoints have been reset.")
 
 			if(savefile_version < 5)
 				p.pdeaths = p.edeaths
@@ -603,7 +603,6 @@ mob/BaseCamp/ChoosingCharacter
 			usr << output(HTMLOutput(src,"login"),"broLogin")*/
 		winset(src,null,"guild.is-visible=false;splitStack.is-visible=false;SpellBook.is-visible=false;Quests.is-visible=false;Auction.is-visible=false;winSettings.is-visible=false;broLogin.is-visible=true;radio_enabled.is-checked=false;barHP.is-visible=false;barMP.is-visible=false;[radioEnabled ? "mnu_radio.is-disabled=false;" : ""]")
 		loc=locate(93,85,2)
-		..()
 
 	proc/Choose_Character()
 		var/list/available_char_names=client.base_CharacterNames()
@@ -719,7 +718,7 @@ client
 			if(S) S.Deactivate()
 			if(mob:prevname)
 				mob.name = mob:prevname
-			mob.occlumens = 0
+			mob:occlumens = 0
 			if(mob.xp4referer)
 				sql_upload_refererxp(mob.ckey,mob.refererckey,mob.xp4referer)
 				mob.xp4referer = 0

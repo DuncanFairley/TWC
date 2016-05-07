@@ -28,23 +28,24 @@ mob
 
 			Talk()
 				set src in oview(3)
-				if(usr.level < lvlcap)
-					hearers(usr) << npcsay("Demetrius: Well hello there, [usr.gender == MALE ? "sonny" : "young lady"]. Unfortunately I cannot help you until you are of a higher level!")
+				var/mob/Player/p = usr
+				if(p.level < lvlcap)
+					hearers(usr) << npcsay("Demetrius: Well hello there, [p.gender == MALE ? "sonny" : "young lady"]. Unfortunately I cannot help you until you are of a higher level!")
 				else
-					if(usr.gold.get() < 50000)
-						hearers(usr) << npcsay("Demetrius: Well hello there, [usr.gender == MALE ? "sonny" : "young lady"]. Unfortunately you need 50,000 gold before I am able to help you.")
+					if(p.gold.get() < 50000)
+						hearers(p) << npcsay("Demetrius: Well hello there, [usr.gender == MALE ? "sonny" : "young lady"]. Unfortunately you need 50,000 gold before I am able to help you.")
 					else
 						switch(alert("Would you like to reset your stat points? It will cost 50,000 gold.",,"Yes","No"))
 							if("Yes")
-								if(usr.gold.get() >= 50000)
-									hearers(usr) << npcsay("Demetrius: There you go, [usr.gender == MALE ? "sonny" : "young lady"] - your stats are reset!")
-									usr.gold.add(-50000)
-									usr.resetStatPoints()
-									usr.HP = usr.MHP + usr.extraMHP
-									usr.MP = usr.MMP + usr.extraMMP
-									usr.updateHPMP()
+								if(p.gold.get() >= 50000)
+									hearers(p) << npcsay("Demetrius: There you go, [p.gender == MALE ? "sonny" : "young lady"] - your stats are reset!")
+									p.gold.add(-50000)
+									p.resetStatPoints()
+									p.HP = usr.MHP + usr.extraMHP
+									p.MP = usr.MMP + usr.extraMMP
+									p.updateHPMP()
 							if("No")
-								hearers(usr) << npcsay("Demetrius: Maybe next time then. Have a nice day!")
+								hearers(p) << npcsay("Demetrius: Maybe next time then. Have a nice day!")
 
 		StatMan
 			name="Mysterious Caped Fellow"

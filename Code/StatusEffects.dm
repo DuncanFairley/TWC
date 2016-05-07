@@ -160,15 +160,6 @@ proc
 		TeleportMap = new
 		TeleportMap.init()
 
-mob/proc/RevertTrans()
-	if(src.LStatusEffects)
-		var/StatusEffect/Transfiguration/S = locate() in src.LStatusEffects
-		if(S)
-			S.Deactivate()
-atom/var/TransLastIcon
-atom/var/TransLastIconState
-
-
 atom/proc/findStatusEffect(var/type)
 	return src.LStatusEffects ? locate(type) in src.LStatusEffects : 0
 proc/issafezone(area/A)
@@ -236,20 +227,6 @@ proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inare
 			return 0
 	return 1
 StatusEffect
-	Transfiguration
-		var
-			icon
-			icon_state
-		Activate()
-			..()
-			src.AttachedAtom.TransLastIcon = src.AttachedAtom.icon
-			src.AttachedAtom.TransLastIconState = src.AttachedAtom.icon_state
-			src.AttachedAtom.icon = src.icon
-			src.AttachedAtom.icon_state = src.icon_state
-		Deactivate()
-			src.AttachedAtom.icon = src.AttachedAtom.TransLastIcon
-			src.AttachedAtom.icon_state = src.AttachedAtom.TransLastIconState
-			..()
 /*	ClanWars
 		ReinforcedDoors
 			Activate()

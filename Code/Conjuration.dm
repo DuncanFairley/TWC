@@ -4,6 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
+
 mob/verb/updateHPMP()
 	set name = ".updateHPMP"
 	if(!key)return

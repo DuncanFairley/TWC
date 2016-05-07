@@ -580,7 +580,7 @@ mob
 					sleep(lag)
 				active = 0
 			var/tmp
-				mob/target
+				mob/Player/target
 				blockCount = 0
 				lag = 10
 
@@ -2032,15 +2032,12 @@ mob
 	Slug
 		icon='Mobs.dmi'
 		icon_state="slug"
-		HP=25
-		gold=0
 		New()
 			move()
-			..()
+
 		proc/move()
-			spawn(5)
-				while(src)
-					walk_rand(src,15)
-					sleep(100)
-					del src
-			..()
+			set waitfor = 0
+			while(src)
+				walk_rand(src,15)
+				sleep(100)
+				del src
