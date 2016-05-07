@@ -234,7 +234,8 @@ obj
 	MouseDrop(over_object,src_location,over_location)
 		.=..()
 		if(!isturf(over_location))return
-		if(usr.draganddrop)
+
+		if(usr:draganddrop)
 			if(istype(src, /obj/items/wearable))
 				var/mob/Player/user = usr
 				if(src in user.Lwearing)
@@ -248,7 +249,7 @@ obj
 mob
 	MouseDrop(over_object,src_location,over_location)
 		if(!isturf(over_location))return ..()
-		if(usr.draganddrop==1)
+		if(usr:draganddrop==1)
 			if(density)
 				density = 0
 				src.Move(over_location)

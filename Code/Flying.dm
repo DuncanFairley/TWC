@@ -325,21 +325,6 @@ obj/Fountain
 	accioable=1
 	wlable = 1
 	rubbleable=1
-	verb
-		Drink()
-			set src in oview(1)
-			if(src.rubble==1)
-				usr << "I'm not sure you want to drink this..."
-			else
-				switch(input("Recover?","Fountain")in list("Yes","No"))
-					if("Yes")
-						if(get_dist(src,usr)>1)return
-						hearers()<<"[usr] drinks from the [src]."
-						usr.HP=usr.MHP+usr.extraMHP
-						usr.MP=usr.MMP+usr.extraMMP
-						usr.updateHPMP()
-						usr<<"You feel much better."
-
 obj/Lamp_Table_Top
 	icon='house.dmi'
 	icon_state="Lamp Table Top"

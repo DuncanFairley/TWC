@@ -49,19 +49,21 @@ mob/test/verb/Download_Savefile()
 
 image/meditate/icon = 'Meditate.dmi'
 
+
+
 mob
 	verb
 		Meditate()
 			set category = "Commands"
 			if(canUse(src,cooldown=/StatusEffect/UsedMeditate,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 				new /StatusEffect/UsedMeditate(src,10)
-				usr.overlays+=/image/meditate
-				hearers()<<"<span style=\"color:red;\">[usr] meditates.</span>"
+				overlays+=/image/meditate
+				hearers()<<"<span style=\"color:red;\">[src] meditates.</span>"
 				sleep(50)
-				usr.overlays-=/image/meditate
+				overlays-=/image/meditate
 
-				var/maxMP = usr.MMP + usr.extraMMP
-				usr.MP = min(maxMP, MP + maxMP*0.4)
+				var/maxMP = MMP + extraMMP
+				MP = min(maxMP, MP + maxMP*0.4)
 				updateHPMP()
 
 mob
@@ -84,7 +86,7 @@ mob
 				hearers(usr.client.view,usr)<<"<span style=\"color:red;\">[usr] raises \his hand.</span>"
 				usr.questionius=1
 mob/verb/Emote(t as text)
-	if(usr.mute==1)
+	if(src:mute==1)
 		usr << errormsg("You can't emote while you are muted.")
 		return
 	t=check(t)

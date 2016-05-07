@@ -26,11 +26,3 @@
 
 #define MAX_WAND_LEVEL 3
 #define MAX_WAND_EXP(wand) ((wand.quality * 10 + 1) * 20000)
-
-/*
-
-files to clean:
-login.dm - end of file, variables
-Spells.dm
-
-*/
