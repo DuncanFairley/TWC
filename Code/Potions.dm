@@ -164,7 +164,6 @@ obj/potions
 
 		var/tmp
 			list/smoke
-
 			pool = 0
 
 		New()
@@ -211,7 +210,7 @@ obj/potions
 
 					potion = worldData.potions["[pool]"]
 					if(potion==null)
-						var/chance = max(5, 100 - (worldData.potionsAmount * 5))
+						var/chance = max(5, 50 + POTIONS_AMOUNT - worldData.potionsAmount)
 
 						if(prob(chance))
 							potion = pick(childTypes(/obj/items/potions))
@@ -220,7 +219,7 @@ obj/potions
 
 						else
 							chance = worldData.potionsAmount / (worldData.potions.len + 1)
-							if(prob(chance * 75))
+							if(prob(chance * 70))
 								potion = 0
 								worldData.potions["[pool]"] = potion
 
