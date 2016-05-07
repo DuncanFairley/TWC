@@ -367,7 +367,7 @@ mob
 		var/tmp/turf/origloc
 
 		Enemies
-			appearance_flags = LONG_GLIDE
+			appearance_flags = LONG_GLIDE|TILE_BOUND
 
 			var
 				const
@@ -434,7 +434,16 @@ mob
 			proc/SpawnPet(mob/Player/killer, chance, defaultColor, spawnType)
 				if(!origloc) return
 				if(color == "#dd0000")
-					color = defaultColor
+					if(defaultColor == "rand")
+						var/color1 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+						var/color2 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+						var/color3 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
+
+						animate(src, color = color1, time = 10, loop = -1)
+						animate(color = color2, time = 10)
+						animate(color = color3, time = 10)
+					else
+						color = defaultColor
 
 					var/StatusEffect/Potions/Luck/l = killer.findStatusEffect(/StatusEffect/Potions/Luck)
 					if(l)
@@ -455,11 +464,13 @@ mob
 								w.Dispose()
 
 				else
-
 					if(killer.findStatusEffect(/StatusEffect/Lamps/Farming))
 						chance *= 4
 
 					if(prob(chance))
+						if(defaultColor == "rand")
+							animate(src)
+
 						color = "#d00"
 
 			proc/Death(mob/Player/killer)
@@ -730,6 +741,7 @@ mob
 						//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 					else
 						target.HP -= dmg
+						target.updateHPMP()
 						hearers(target)<<"<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
 						spawn()target.Death_Check(src)
 					sleep(AttackDelay)
@@ -1435,7 +1447,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.1, color, /obj/items/wearable/pets/rat)
+					SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/rat)
 
 
 			Demon_Rat
@@ -1445,7 +1457,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.5, color, /obj/items/wearable/pets/rat)
+					SpawnPet(killer, 0.5, null, /obj/items/wearable/pets/rat)
 
 			Pixie
 				icon_state = "pixie"
@@ -1456,7 +1468,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.4, color, /obj/items/wearable/pets/pixie)
+					SpawnPet(killer, 0.4, null, /obj/items/wearable/pets/pixie)
 
 			Dog
 				icon_state = "dog"
@@ -1467,7 +1479,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.3, color, /obj/items/wearable/pets/dog)
+					SpawnPet(killer, 0.3, null, /obj/items/wearable/pets/dog)
 
 			Snake
 				icon_state = "snake"
@@ -1476,7 +1488,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.2, color, /obj/items/wearable/pets/snake)
+					SpawnPet(killer, 0.2, null, /obj/items/wearable/pets/snake)
 
 			Wolf
 				icon_state = "wolf"
@@ -1485,7 +1497,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.1, color, /obj/items/wearable/pets/wolf)
+					SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/wolf)
 
 			Snowman
 				icon = 'Snowman.dmi'
@@ -1538,7 +1550,7 @@ mob
 						new /mob/NPC/Enemies/Summoned/Acromantula (loc)
 
 
-					SpawnPet(killer, 0.03, color, /obj/items/wearable/pets/acromantula)
+					SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/acromantula)
 
 				New()
 					..()
@@ -1698,7 +1710,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.02, color, /obj/items/wearable/pets/wisp)
+					SpawnPet(killer, 0.02, "rand", /obj/items/wearable/pets/wisp)
 
 
 			Floating_Eye
@@ -1775,7 +1787,7 @@ mob
 						Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
 						new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
 
-					SpawnPet(killer, 0.01, color, /obj/items/wearable/pets/floating_eye)
+					SpawnPet(killer, 0.01, null, /obj/items/wearable/pets/floating_eye)
 
 				Blocked()
 					density = 0
@@ -1849,7 +1861,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.04, color, /obj/items/wearable/pets/troll)
+					SpawnPet(killer, 0.04, null, /obj/items/wearable/pets/troll)
 
 			House_Elf
 				icon_state = "houseelf"
