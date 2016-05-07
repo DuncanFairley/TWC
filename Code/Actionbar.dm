@@ -56,6 +56,7 @@ hudobj
 					else
 						var/origLayer = a.layer
 						a.layer = layer + 1
+						a.plane = plane
 						mouse_drag_pointer = a
 						overlays += a
 						a.layer = origLayer
