@@ -2268,7 +2268,9 @@ client
 			movements = null
 			moving = 0
 		else
+			moving = 1
 			..()
+			moving = 0
 
 obj/var
 	controllable = 0
