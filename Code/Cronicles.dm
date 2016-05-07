@@ -186,7 +186,6 @@ mob
 			F["last_z"] << z
 		F["UsedKeys"] << src:saveSpells()
 		detectStoopidBug(__FILE__, __LINE__)
-		return
 
 	Read(savefile/F)
 		var/testtype
