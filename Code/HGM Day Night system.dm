@@ -118,8 +118,10 @@ obj/cloud
 	mouse_opacity = 0
 	var/obj/shadow
 	glide_size = 6
-	New()
-		..()
+	post_init = 1
+
+	MapInit()
+
 		if(!("[z]" in weather.clouds))
 			weather.clouds["[z]"] = list()
 		weather.clouds["[z]"] += src
@@ -150,26 +152,27 @@ obj/cloud
 
 
 		loop()
-			spawn()
-				while(src && src.loc)
-					if(y == 1 || x == world.maxx)
-						var/new_x = 1
-						var/new_y = world.maxy
+			set waitfor = 0
 
-						if(prob(50))
-							new_x = rand(1, world.maxx)
-						else
-							new_y = rand(1, world.maxy)
+			while(src && src.loc)
+				if(y == 1 || x == world.maxx)
+					var/new_x = 1
+					var/new_y = world.maxy
 
-						loc = locate(new_x, new_y, z)
-						if(shadow) shadow.loc = locate(new_x, new_y - rand(6,10), z)
+					if(prob(50))
+						new_x = rand(1, world.maxx)
 					else
-						var/turf/t = get_step(src, SOUTHEAST)
-						loc = t
-						if(shadow && shadow.loc)
-							t = get_step(shadow, SOUTHEAST)
-							shadow.loc = t
-					sleep(8)
+						new_y = rand(1, world.maxy)
+
+					loc = locate(new_x, new_y, z)
+					if(shadow) shadow.loc = locate(new_x, new_y - rand(6,10), z)
+				else
+					var/turf/t = get_step(src, SOUTHEAST)
+					loc = t
+					if(shadow && shadow.loc)
+						t = get_step(shadow, SOUTHEAST)
+						shadow.loc = t
+				sleep(8)
 
 var/list/outside_areas = list()
 area

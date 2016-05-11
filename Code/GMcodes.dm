@@ -1817,6 +1817,8 @@ world/New()
 	for(var/state in icon_states('Ranks.dmi'))
 		rankIcons[state] = icon('Ranks.dmi', state)
 
+	MapInitialized()
+
 //	worldlooper()
 world/proc/Load_Bans()
 	var/savefile/S=new("players/cr_full.ban")
@@ -1835,3 +1837,45 @@ world/proc/Save_Bans()
 var/list/rankIcons
 
 
+var
+	list/__post_init = list()
+	map_initialized = 0
+
+proc
+	MapInitialized()
+		if(!map_initialized)
+			map_initialized = 1
+			for(var/atom/o in __post_init)
+				o.MapInit()
+			__post_init = null
+
+atom
+	var/post_init = 0
+
+	New()
+		if(map_initialized)
+			post_init && MapInit()
+		else if(post_init)
+			__post_init[src] = 1
+
+	proc/MapInit()
+
+image
+	roofedge
+		icon = 'StoneRoof.dmi'
+		appearance_flags = TILE_BOUND|RESET_COLOR|RESET_ALPHA
+		layer = 7
+
+		east
+			icon_state = "edge-4"
+			pixel_x = -32
+		west
+			icon_state = "edge-8"
+			pixel_x = 32
+		north
+			icon_state = "edge-1"
+			layer = 6
+			pixel_y = -32
+		south
+			icon_state = "edge-2"
+			pixel_y = 32
