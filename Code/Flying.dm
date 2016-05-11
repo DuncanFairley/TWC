@@ -1289,48 +1289,30 @@ turf
 		density    = 1
 		opacity    = 1
 		flyblock   = 1
+		post_init  = 1
 
-		proc/init()
-			set waitfor = 0
-			sleep(1)
+		MapInit()
 			if(icon_state != "broof" && icon_state != "broofr" && icon_state != "broofl")
 
 				var/n = 15 - autojoin("name", "roofb")
 
-				var/dirs = list(NORTH, SOUTH, EAST, WEST)
+				var/list
+					dirs  = list(NORTH, SOUTH, EAST, WEST)
+					edges = list()
+
+				edges["4"] = list(/image/roofedge/east)
+				edges["8"] = list(/image/roofedge/west)
+				edges["1"] = list(/image/roofedge/north)
+				edges["2"] = list(/image/roofedge/south)
+
 				for(var/d in dirs)
 					if((n & d) > 0)
 
-						var/obj/static_obj/roofedge/o
+						var/turf/t = get_step(src, d)
+						if(!t || istype(t, /turf/blankturf)) continue
+						t.overlays = t.overlays.Copy() + edges["[d]"]
 
-						if(d == SOUTH)
-							var/turf/t = locate(x + 1, y, z)
-							if(!t || istype(t, /turf/blankturf)) continue
-							o = new (t)
-							o.pixel_x = -32
-						else if(d == EAST)
-							var/turf/t = locate(x, y - 1, z)
-							if(!t || istype(t, /turf/blankturf)) continue
-							o = new (t)
-							o.pixel_y = 32
-						else if(d == WEST)
-							var/turf/t = locate(x - 1, y, z)
-							if(!t || istype(t, /turf/blankturf)) continue
-							o = new (t)
-							o.pixel_x = 32
-						else
-							var/turf/t = locate(x, y + 1, z)
-							if(!t || istype(t, /turf/blankturf)) continue
-							o = new (t)
-							o.pixel_y = -32
-
-						o.layer = (d == NORTH ? 4 : 5) + layer
-						o.icon_state = "edge-[15 - d]"
 						n -= d
-				icon_state = "roof-15"
-
-		New()
-			init()
 
 	roofa
 		icon_state = "broof"
@@ -1385,16 +1367,6 @@ obj
 		walltorch
 			icon = 'turf.dmi'
 			icon_state="walltorch"
-
-		roofedge
-			icon = 'StoneRoof.dmi'
-			canSave = FALSE
-			appearance_flags = TILE_BOUND|RESET_COLOR|RESET_ALPHA
-
-			New()
-				set waitfor = 0
-				sleep(1)
-				..()
 
 obj
 	tabletop
