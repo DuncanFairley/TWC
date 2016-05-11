@@ -601,7 +601,7 @@ mob/BaseCamp/ChoosingCharacter
 			//alert("An old savefile is detected and needs to be converted into a new email-based savefile. The detected character is named \"[M.name]\" and is level [M.level].")
 			usr << output(HTMLOutput(src,"login"),"broLogin")*/
 		winset(src,null,"guild.is-visible=false;splitStack.is-visible=false;SpellBook.is-visible=false;Quests.is-visible=false;Auction.is-visible=false;winSettings.is-visible=false;broLogin.is-visible=true;radio_enabled.is-checked=false;barHP.is-visible=false;barMP.is-visible=false;[radioEnabled ? "mnu_radio.is-disabled=false;" : ""]")
-		loc=locate(100,100,1)
+
 
 	proc/Choose_Character()
 		var/list/available_char_names=client.base_CharacterNames()
