@@ -81,6 +81,7 @@ obj
 		density=1
 		icon_state="closed"
 		opacity=1
+		post_init = 1
 
 		var
 			pass=""
@@ -97,57 +98,47 @@ obj
 			icon = 'Stall.dmi'
 		roofb
 			icon = 'roofbdoor.dmi'
+			icon_state = "roof-15"
 
 			New()
+				loc.name = "roofb"
 				..()
 
-				spawn()
-					loc.name = "roofb"
+			MapInit()
 
-					var/turf/floor = loc
-					var/n = 15 - floor.autojoin("name", "roofb")
+				..()
 
-					var/dirs = list(NORTH, SOUTH, EAST, WEST)
-					for(var/d in dirs)
-						if((n & d) > 0)
+				var/turf/floor = loc
+				var/n = 15 - floor.autojoin("name", "roofb")
 
-							var/obj/static_obj/roofedge/o
+				var/list
+					dirs  = list(NORTH, SOUTH, EAST, WEST)
+					edges = list()
 
-							if(d == SOUTH)
-								var/turf/t = locate(floor.x + 1, floor.y, floor.z)
-								if(!t || istype(t, /turf/blankturf)) continue
-								o = new (t)
-								o.pixel_x = -32
-							else if(d == EAST)
-								var/turf/t = locate(floor.x, floor.y - 1, floor.z)
-								if(!t || istype(t, /turf/blankturf)) continue
-								o = new (t)
-								o.pixel_y = 32
-							else if(d == WEST)
-								var/turf/t = locate(floor.x - 1, floor.y, floor.z)
-								if(!t || istype(t, /turf/blankturf)) continue
-								o = new (t)
-								o.pixel_x = 32
-							else
-								var/turf/t = locate(floor.x, floor.y + 1, floor.z)
-								if(!t || istype(t, /turf/blankturf)) continue
-								o = new (t)
-								o.pixel_y = -32
+				edges["4"] = list(/image/roofedge/east)
+				edges["8"] = list(/image/roofedge/west)
+				edges["1"] = list(/image/roofedge/north)
+				edges["2"] = list(/image/roofedge/south)
 
-							o.layer = d == NORTH ? 6 : 7
-							o.icon_state = "edge-[15 - d]"
-							n -= d
-		New()
-			..()
+				for(var/d in dirs)
+					if((n & d) > 0)
+
+						var/turf/t = get_step(src, d)
+						if(!t || istype(t, /turf/blankturf)) continue
+						t.overlays = t.overlays.Copy() + edges["[d]"]
+
+						n -= d
+
+		MapInit()
 			var/turf/T = src.loc
 			if(T)T.flyblock=2
 
-			spawn(1)
-				density    = 1
-				icon_state = "closed"
+			density    = 1
+			icon_state = "closed"
 
-				if(!vaultOwner)
-					verbs -= /obj/Hogwarts_Door/verb/Claim
+			if(!vaultOwner)
+				verbs -= /obj/Hogwarts_Door/verb/Claim
+
 		verb/Claim()
 			set src in oview(1)
 

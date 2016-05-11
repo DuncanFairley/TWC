@@ -107,6 +107,7 @@ obj/brick2door
 	icon = 'hogwartsbrick.dmi'
 	icon_state = "closed"
 	density = 1
+	post_init = 1
 	var
 		door = 0
 		MHP = 150
@@ -119,44 +120,35 @@ obj/brick2door
 	roofb
 		icon = 'roofbdoor.dmi'
 		MHP  = 20
+
 		New()
+			loc.name = "roofb"
 			..()
-			spawn()
-				loc.name = "roofb"
 
-				var/turf/floor = loc
-				var/n = 15 - floor.autojoin("name", "roofb")
+		MapInit()
 
-				var/dirs = list(NORTH, SOUTH, EAST, WEST)
-				for(var/d in dirs)
-					if((n & d) > 0)
+			..()
 
-						var/obj/static_obj/roofedge/o
+			var/turf/floor = loc
+			var/n = 15 - floor.autojoin("name", "roofb")
 
-						if(d == SOUTH)
-							var/turf/t = locate(floor.x + 1, floor.y, floor.z)
-							if(!t || istype(t, /turf/blankturf)) continue
-							o = new (t)
-							o.pixel_x = -32
-						else if(d == EAST)
-							var/turf/t = locate(floor.x, floor.y - 1, floor.z)
-							if(!t || istype(t, /turf/blankturf)) continue
-							o = new (t)
-							o.pixel_y = 32
-						else if(d == WEST)
-							var/turf/t = locate(floor.x - 1, floor.y, floor.z)
-							if(!t || istype(t, /turf/blankturf)) continue
-							o = new (t)
-							o.pixel_x = 32
-						else
-							var/turf/t = locate(floor.x, floor.y + 1, floor.z)
-							if(!t || istype(t, /turf/blankturf)) continue
-							o = new (t)
-							o.pixel_y = -32
+			var/list
+				dirs  = list(NORTH, SOUTH, EAST, WEST)
+				edges = list()
 
-						o.layer = d == NORTH ? 6 : 7
-						o.icon_state = "edge-[15 - d]"
-						n -= d
+			edges["4"] = list(/image/roofedge/east)
+			edges["8"] = list(/image/roofedge/west)
+			edges["1"] = list(/image/roofedge/north)
+			edges["2"] = list(/image/roofedge/south)
+
+			for(var/d in dirs)
+				if((n & d) > 0)
+
+					var/turf/t = get_step(src, d)
+					if(!t || istype(t, /turf/blankturf)) continue
+					t.overlays = t.overlays.Copy() + edges["[d]"]
+
+					n -= d
 
 	clandoor
 		name = "door"
@@ -165,7 +157,8 @@ obj/brick2door
 		door = 1
 		MHP = 100
 		var/clan = "" //"DE" or "Auror"
-		New()
+
+		MapInit()
 			..()
 			if(istype(src.loc.loc, /area/AurorHQ))
 				clan = "Auror"
@@ -220,11 +213,11 @@ obj/brick2door
 			flick("closing",src)
 			density = 1
 			opacity = initial(opacity)
-	New()
+	MapInit()
 		HP = MHP
 		var/turf/T = src.loc
 		if(T)T.flyblock=2
-		..()
+
 obj
 	Goblet_of_Fire
 		icon = 'goblet.dmi'

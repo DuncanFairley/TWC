@@ -368,7 +368,7 @@ mob
 
 		Enemies
 			appearance_flags = LONG_GLIDE|TILE_BOUND
-
+			post_init = 1
 			var
 				const
 					INACTIVE   = 0
@@ -413,11 +413,8 @@ mob
 					else
 						damage[p.owner.ckey] = perc
 
-			New()
+			MapInit()
 				set waitfor = 0
-				. = ..()
-
-				sleep(1)
 				calcStats()
 				origloc = loc
 				ShouldIBeActive()
@@ -751,7 +748,7 @@ mob
 
 			Summoned
 				state = SEARCH
-				New()
+				MapInit()
 					calcStats()
 					state()
 
@@ -800,7 +797,7 @@ mob
 						     speed  = 5,
 						     life   = new /Random(1,10))
 
-					New()
+					MapInit()
 						..()
 
 						SetSize(rand(5,15) / 10)
@@ -905,7 +902,7 @@ mob
 							fired       = 0
 							damageTaken = 0
 
-						New()
+						MapInit()
 							..()
 							SetSize(5 + (rand(-10, 10) / 10))
 
@@ -956,7 +953,7 @@ mob
 						canBleed = FALSE
 						prizePoolSize = 1
 
-						New()
+						MapInit()
 							..()
 
 							if(prob(51))
@@ -1019,7 +1016,7 @@ mob
 
 						var/tmp/fired = 0
 
-						New()
+						MapInit()
 							..()
 
 							if(prob(49))
@@ -1137,7 +1134,7 @@ mob
 						var/proj = "gum"
 						canBleed = FALSE
 
-						New()
+						MapInit()
 							..()
 							alpha = rand(190,240)
 
@@ -1330,7 +1327,7 @@ mob
 					BlindAttack()//removeoMob
 						Heal()
 
-					New()
+					MapInit()
 						light(src, 3, 600, "orange")
 						..()
 
@@ -1355,7 +1352,7 @@ mob
 				Range = 16
 				respawnTime = 6000
 
-				New()
+				MapInit()
 					..()
 					SetSize(2)
 
@@ -1552,7 +1549,7 @@ mob
 
 					SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/acromantula)
 
-				New()
+				MapInit()
 					..()
 
 					SetSize(rand(15,30) / 10)
@@ -1570,7 +1567,7 @@ mob
 
 				var/rep = 2
 
-				New()
+				MapInit()
 					..()
 					if(prob(49))
 						icon   = 'MaleVampire.dmi'
@@ -1693,7 +1690,7 @@ mob
 						     speed  = 2,
 						     life   = new /Random(15,20))
 
-				New()
+				MapInit()
 					..()
 					alpha = rand(190,255)
 
@@ -1754,7 +1751,7 @@ mob
 							step_rand(t)
 							t.density = 0
 
-					New()
+					MapInit()
 						set waitfor = 0
 						..()
 						animate(src, color = rgb(255, 0, 0), time = 10, loop = -1)
@@ -1762,8 +1759,6 @@ mob
 						animate(color = rgb(rand(60,255), rand(60,255), rand(60,255)), time = 10)
 
 						SetSize(3)
-
-						sleep(2)
 						origloc = null
 				New()
 					..()
@@ -1839,7 +1834,7 @@ mob
 				MoveDelay   = 4
 				AttackDelay = 3
 
-				New()
+				MapInit()
 					..()
 					SetSize(rand(10,20) / 10)
 
@@ -1924,11 +1919,12 @@ mob
 				New()
 					move()
 				proc/move()
-					spawn(5)
-						while(src)
-							walk_rand(src,15)
-							sleep(100)
-							del src
+					set waitfor = 0
+					walk_rand(src,15)
+
+					sleep(100)
+					walk(src, 0)
+					loc = null
 			Archangel
 				icon_state = "archangel"
 				level = 500
@@ -1966,7 +1962,7 @@ mob
 					if(state == 0 && origloc && HP > 0)
 						loc = origloc
 
-				New()
+				MapInit()
 					..()
 					SetSize(2)
 
@@ -2040,16 +2036,3 @@ mob
 							step_rand(t)
 							t.density = 0
 
-mob
-	Slug
-		icon='Mobs.dmi'
-		icon_state="slug"
-		New()
-			move()
-
-		proc/move()
-			set waitfor = 0
-			while(src)
-				walk_rand(src,15)
-				sleep(100)
-				del src

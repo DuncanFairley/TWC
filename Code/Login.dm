@@ -738,8 +738,6 @@ mob
 			character.loc=locate("@Diagon")
 			character.verbs += /mob/Spells/verb/Inflamari
 
-			character << output(null,"browser1:Resize")
-
 			for(var/mob/Player/p in Players)
 				if(p.Gm)
 					p << "<span style=\"font-size:2; color:#C0C0C0;\"><b><i>[character][character.refererckey==p.client.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey])([character.client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</i></b></span>"
@@ -1830,13 +1828,6 @@ mob/proc/Death_Check(mob/killer = src)
 						var/obj/items/wearable/pets/pet = killer:pet.item
 						pet.addExp(killer, round(exp2give / 50))
 
-			if(src.type == /mob/Slug)
-				del src
-				return ..()
-			//else Statpoints for monster killz.
-			//	if(rand(1,80)==1 && killer.client)
-			//		killer.verbs.Add(/mob/Player/verb/Use_Statpoints)
-			//		killer.StatPoints++
 			if(istype(src, /mob/NPC/Enemies))
 				src:Death(killer)
 			src.loc=locate(0,0,0)
@@ -2138,9 +2129,9 @@ turf/proc/autojoin(var_name, var_value = 1)
 	var/turf/t
 	t = locate(x, y + 1, z)
 	if(t && t.vars[var_name] == var_value) n |= 1
-	t = locate(x + 1, y, z)
-	if(t && t.vars[var_name] == var_value) n |= 2
 	t = locate(x, y - 1, z)
+	if(t && t.vars[var_name] == var_value) n |= 2
+	t = locate(x + 1, y, z)
 	if(t && t.vars[var_name] == var_value) n |= 4
 	t = locate(x - 1, y, z)
 	if(t && t.vars[var_name] == var_value) n |= 8
