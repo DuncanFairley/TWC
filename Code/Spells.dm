@@ -130,7 +130,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 			var/slugs = rand(4,12)
 			while(M && slugs > 0 && M.MP > 0)
 				M.MP -= rand(20,60) * round(M.level/100)
-				new/mob/Slug(M.loc)
+				new/mob/NPC/Enemies/Slug(M.loc)
 				if(M.MP < 0)
 					M.MP = 0
 					M.updateHPMP()
@@ -2216,30 +2216,30 @@ client
 
 	Move(loc,dir)
 
-		if(mob.wingobject)
-			var/turf/t = get_step(mob.wingobject,dir)
-			if(istype(mob.wingobject.loc,/mob))
-				src << infomsg("You let go of the object you were holding.")
-				mob.wingobject.overlays = null
-				mob.wingobject=null
-				mob.Wingardiumleviosa = null
-			else if(t && (t in view(view)))
-				mob.wingobject.Move(t)
-			return
-
-		if(mob.removeoMob)
-			step(mob.removeoMob,dir)
-			return
-
-		if(mob.away)
-			mob.away = 0
-			mob.status=usr.here
-			mob.RemoveAFKOverlay()
-
 		if(isplayer(mob))
 			var/mob/Player/p = mob
 
+			if(mob.wingobject)
+				var/turf/t = get_step(mob.wingobject,dir)
+				if(istype(mob.wingobject.loc,/mob))
+					src << infomsg("You let go of the object you were holding.")
+					mob.wingobject.overlays = null
+					mob.wingobject=null
+					mob.Wingardiumleviosa = null
+				else if(t && (t in view(view)))
+					mob.wingobject.Move(t)
+				return
+
+			if(mob.removeoMob)
+				step(mob.removeoMob,dir)
+				return
+
 			if(p.nomove) return
+
+			if(mob.away)
+				mob.away = 0
+				mob.status=usr.here
+				mob.RemoveAFKOverlay()
 
 			if(p.auctionInfo)
 				p.auctionClosed()
@@ -2248,29 +2248,30 @@ client
 			if(p.screen_text)
 				p.screen_text.Dispose()
 
-		if(mob.questionius==1)
-			mob.overlays-=icon('hand.dmi')
-			mob.questionius=0
+			if(mob.questionius==1)
+				mob.overlays-=icon('hand.dmi')
+				mob.questionius=0
 
-		if(move_queue || mob:move_delay > 1)
-			if(!movements) movements = list()
-			if(movements.len < 10)
-				movements += dir
-			if(moving) return
-			moving = 1
+			if(move_queue || mob:move_delay > 1)
+				if(!movements) movements = list()
+				if(movements.len < 10)
+					movements += dir
+				if(moving) return
+				moving = 1
 
-			var/index = 0
-			while(movements && index < movements.len)
-				index++
-				var/d = movements[index]
-				..(get_step(mob, d), d)
-				sleep(mob:move_delay + mob:slow)
-			movements = null
-			moving = 0
-		else
-			moving = 1
-			..()
-			moving = 0
+				var/index = 0
+				while(movements && index < movements.len)
+					index++
+					var/d = movements[index]
+					..(get_step(mob, d), d)
+					sleep(mob:move_delay + mob:slow)
+				movements = null
+				moving = 0
+			else
+				moving = 1
+				..()
+				moving = 0
+
 
 obj/var
 	controllable = 0
