@@ -98,8 +98,9 @@ mob/TalkNPC/quest/Tom
 						usr << npcsay("Tom: I will take you down to the cellar")
 						sleep(10)
 						if(get_dist(usr,src)<5)
-							p.Transfer(locate(70,55,26))
-							var/mob/TheTom = new/mob/Tom_(locate(70,56,26))
+							var/turf/t = locate("@TomCellar")
+							p.Transfer(t)
+							var/mob/TheTom = new/mob/Tom_(get_step(t, NORTH))
 							usr << npcsay("Tom: This is as far as I'll go. Thank you again.")
 							sleep(50)
 							del TheTom
@@ -132,8 +133,9 @@ mob/TalkNPC/quest/Tom
 									sleep(10)
 									if(get_dist(usr,src)<5)
 										p.startQuest("Rats in the Cellar")
-										usr.loc = locate(70,55,26)
-										var/mob/TheTom = new/mob/Tom_(locate(70,56,26))
+										var/turf/t = locate("@TomCellar")
+										p.Transfer(t)
+										var/mob/TheTom = new/mob/Tom_(get_step(t, NORTH))
 										usr << npcsay("Tom: This is as far as I'll go. Thank you again.")
 										sleep(20)
 										del TheTom

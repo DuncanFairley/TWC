@@ -635,7 +635,7 @@
 "amk" = (/obj/tablemiddle2,/turf/woodenfloor,/area/Diagon_Alley)
 "aml" = (/turf/woodenfloor,/turf/lever,/area/newareas/inside/Ratcellar)
 "amm" = (/mob/TalkNPC/quest/Tom,/turf/woodenfloor,/area/Diagon_Alley)
-"amn" = (/turf/woodenfloor,/area/hogwarts/DiagonAlley)
+"amn" = (/turf/woodenfloor{tag = "@TomCellar"},/area/hogwarts/DiagonAlley)
 "amo" = (/obj/tableleft,/turf/woodenfloor,/area/Diagon_Alley)
 "amp" = (/obj/tablebottom,/turf/woodenfloor,/area/Diagon_Alley)
 "amq" = (/obj/tableright,/turf/woodenfloor,/area/Diagon_Alley)
