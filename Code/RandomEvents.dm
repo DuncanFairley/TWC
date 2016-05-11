@@ -19,7 +19,6 @@ var/list/spawners = list()
 obj/spawner
 	invisibility = 10
 	New()
-		..()
 		spawners += src
 
 var/list/currentEvents
