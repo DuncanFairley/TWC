@@ -101,8 +101,10 @@ obj
 			icon_state = "roof-15"
 
 			New()
-				loc.name = "roofb"
 				..()
+
+				if(loc)
+					loc.name = "roofb"
 
 			MapInit()
 
