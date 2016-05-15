@@ -6,7 +6,7 @@
  */
 
 
-
+mob/AndersGoat
 obj/Green_Mushroom
 	New()
 		..()
