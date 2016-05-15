@@ -323,7 +323,11 @@ obj/potions
 		Process(mob/Player/p, obj/items/ingredients/i)
 			if(isBusy)          return
 			if(i.form != SOLID) return
+			if(i.stack < 2)
+				p << errormsg("You need 2 ingredients to produce powder.")
+				return
 
+			i.stack     -= 2
 			i.form       = POWDER
 			i.name       = "powdered [i.name]"
 			i.icon_state = "[i.icon_state]_powder"
@@ -336,7 +340,11 @@ obj/potions
 		Process(mob/Player/p, obj/items/ingredients/i)
 			if(isBusy)          return
 			if(i.form != SOLID) return
+			if(i.stack < 3)
+				p << errormsg("You need 3 ingredients to produce liquid.")
+				return
 
+			i.stack     -= 3
 			i.form       = LIQUID
 			i.name       = "[i.name] extract"
 			i.icon_state = "[i.icon_state]_liquid"
