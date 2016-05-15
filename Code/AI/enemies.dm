@@ -981,7 +981,7 @@ mob
 										var/d = pick(dirs)
 										dirs -= d
 										var/turf/t = get_step(p.owner, d)
-										if(t.loc == loc.loc)
+										if(t && t.loc == loc.loc)
 											target = p.owner
 											loc    = t
 											break
