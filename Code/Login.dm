@@ -841,8 +841,6 @@ mob/Player
 		if(client.byond_version < world.byond_version)
 			src << errormsg("Your installed BYOND version is older than the one the game is using, please update to BYOND version [world.byond_version] or higher. You can continue to play but unpredicted errors may occur.")
 
-			spawn() alert(src, "Please make sure to update your BYOND version to the latest beta ([world.byond_version]), otherwise you may experience graphical glitches and probably have a white screen.")
-
 		dance = 0
 		if(Gender=="Female")
 			gender = FEMALE
