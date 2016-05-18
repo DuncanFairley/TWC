@@ -336,11 +336,11 @@ obj/items/wearable/masks
 
 			if(!owner.prevname)
 				owner.prevname = owner.name
-				owner.name     = n
 				owner.gender   = NEUTER
 
-				owner.underlays = list()
-				owner.GenerateNameOverlay(r,g,b, TRUE)
+			owner.name = n
+			owner.underlays = list()
+			owner.GenerateNameOverlay(r,g,b, TRUE)
 
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
@@ -376,17 +376,39 @@ obj/items/wearable/masks/chaos_mask
 
 obj/items/wearable/masks/black_mask
 	icon = 'mask_black.dmi'
-	dropable = 0
 	r = 77
 	g = 77
 	b = 77
 
 obj/items/wearable/masks/white_mask
 	icon = 'mask_white.dmi'
-	dropable = 0
 	r = 200
 	g = 200
 	b = 200
+
+obj/items/wearable/masks/purple_mask
+	icon = 'mask_peace.dmi'
+	r = 128
+	g = 0
+	b = 128
+
+obj/items/wearable/masks/pink_mask
+	icon = 'mask_chaos.dmi'
+	r = 255
+	g = 192
+	b = 203
+
+obj/items/wearable/masks/orange_mask
+	icon = 'mask_black.dmi'
+	r = 255
+	g = 165
+	b = 0
+
+obj/items/wearable/masks/teal_mask
+	icon = 'mask_white.dmi'
+	r = 0
+	g = 128
+	b = 128
 
 area
 	hogwarts
