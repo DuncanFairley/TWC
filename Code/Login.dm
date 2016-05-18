@@ -496,6 +496,8 @@ proc/check(msg as text)
 var/list/illegalnames = list(
 	"robed figure",
 	"masked figure",
+	"deatheater",
+	"auror",
 	"harry",
 	"potter",
 	"weasley",
