@@ -165,6 +165,7 @@ obj/potions
 		var/tmp
 			list/smoke
 			pool = 0
+			flags = 0
 
 		New()
 			set waitfor = 0
@@ -192,17 +193,33 @@ obj/potions
 			usr << infomsg("Shoot with Inflamari to heat up.")
 
 		Attacked(obj/projectile/p)
-			if(!isBusy && p.owner && p.icon_state == "fireball" && isplayer(p.owner))
+			if(!isBusy && p.owner && isplayer(p.owner))
 
-				var/c = pool
-
-				c = c - ((c >> 1) & 0x5555)
-				c = (c & 0x3333) + ((c >> 2) & 0x3333)
-				c = ((c + (c >> 4) & 0x0F0F) * 0x0101) >> 8
+				var/c = countBits(pool)
 
 				if(c  < 1) return
 
+				var/list/projs = list()
+
+				projs["aqua"]     = 1
+				projs["quake"]    = 2
+				projs["chaotica"] = 3
+				projs["gum"]      = 4
+				projs["iceball"]  = 5
+				projs["blood"]    = 6
+
 				var/potion
+				var/quality = 1
+
+				if(p.icon_state in projs)
+					var/f = countBits(flags) - 1
+					quality = f - 1
+					f = abs(projs[p.icon_state] - f)
+
+					if(f == 0)     quality++
+					else if(f > 2) quality--
+
+					quality = max(1, quality)
 
 				if(c >= 4)
 
@@ -234,9 +251,14 @@ obj/potions
 					     life   = new /Random(15,25),
 					     color  = o.color)
 
-					var/obj/items/i = new potion (loc)
+					var/obj/items/potions/i = new potion (loc)
 					i.antiTheft = 1
 					i.owner     = p.owner.ckey
+					i.quality   = quality
+					var/list/letters = list("T", "D", "P", "A", "E", "O")
+					i.name += " - [letters[quality]]"
+					if(i.seconds) i.seconds *= 1 + (quality - 3) * 0.1
+
 					spawn(600)
 						if(i)
 							i.antiTheft = 0
@@ -267,7 +289,8 @@ obj/potions
 								p.owner.Death_Check(p.owner)
 
 				setColor("#090")
-				pool = 0
+				pool    = 0
+				flags   = 0
 
 			..()
 
@@ -281,8 +304,9 @@ obj/potions
 		Process(mob/Player/p, obj/items/ingredients/i)
 			if(isBusy) return
 
-
-			pool |= 2 ** ((i.id - 1) * 3 + i.form)
+			pool  |= 2 ** ((i.id - 1) * 3 + i.form)
+			flags |= 2 ** (i.id - 1)
+			flags |= 2 ** (i.form + 4)
 
 			if(worldData.potions && ("[pool]" in worldData.potions))
 				var/potion = worldData.potions["[pool]"]
@@ -433,6 +457,7 @@ obj/items/potions
 	var
 		effect
 		seconds
+		quality = 0
 
 	Click()
 		if((src in usr) && canUse(M=usr, inarena=0))
@@ -676,3 +701,8 @@ proc/childTypes(var/typesOf)
 		if(ispath(lastType, t)) continue
 		. += t
 		lastType = t
+
+proc/countBits(c)
+	. = c - ((c >> 1) & 0x5555)
+	. = (. & 0x3333) + ((. >> 2) & 0x3333)
+	. = ((. + (. >> 4) & 0x0F0F) * 0x0101) >> 8
