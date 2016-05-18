@@ -370,10 +370,23 @@ obj/items/wearable/masks/peace_mask
 obj/items/wearable/masks/chaos_mask
 	icon = 'mask_chaos.dmi'
 	dropable = 0
+	r = 140
+	g = 10
+	b = 10
+
+obj/items/wearable/masks/black_mask
+	icon = 'mask_black.dmi'
+	dropable = 0
 	r = 77
 	g = 77
 	b = 77
 
+obj/items/wearable/masks/white_mask
+	icon = 'mask_white.dmi'
+	dropable = 0
+	r = 200
+	g = 200
+	b = 200
 
 area
 	hogwarts
