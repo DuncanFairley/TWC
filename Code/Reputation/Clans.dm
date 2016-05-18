@@ -338,7 +338,11 @@ obj/items/wearable/masks
 				owner.prevname = owner.name
 				owner.gender   = NEUTER
 
-			owner.name = n
+			var/guild/i = worldData.guilds[owner.guild]
+			if(i)
+				owner.name = i.ranks[1]
+			else
+				owner.name = n
 			owner.underlays = list()
 			owner.GenerateNameOverlay(r,g,b, TRUE)
 
@@ -387,25 +391,25 @@ obj/items/wearable/masks/white_mask
 	b = 200
 
 obj/items/wearable/masks/purple_mask
-	icon = 'mask_peace.dmi'
+	icon = 'mask_purple.dmi'
 	r = 128
 	g = 0
 	b = 128
 
 obj/items/wearable/masks/pink_mask
-	icon = 'mask_chaos.dmi'
+	icon = 'mask_pink.dmi'
 	r = 255
 	g = 192
 	b = 203
 
 obj/items/wearable/masks/orange_mask
-	icon = 'mask_black.dmi'
+	icon = 'mask_orange.dmi'
 	r = 255
 	g = 165
 	b = 0
 
 obj/items/wearable/masks/teal_mask
-	icon = 'mask_white.dmi'
+	icon = 'mask_teal.dmi'
 	r = 0
 	g = 128
 	b = 128
