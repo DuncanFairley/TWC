@@ -1269,10 +1269,12 @@ mob/GM/verb
 			bban += "<br>[A]"
 		src << browse("The following keys are banned: [bban]","window=1")
 
-
-mob/Player/var/tmp/cloaked=0
 var/OOCMute=0
-mob/Player/var/shortapparate = 0
+mob/Player/var
+	shortapparate  = 0
+	tmp
+		superspeed = 0
+		cloaked    = 0
 
 turf
 	DblClick()
@@ -1289,6 +1291,82 @@ turf
 				else
 					p.Move(src)
 				flick('apparate.dmi',p)
+		else
+			if(p.superspeed && p.nomove == 0)
+
+				var/turf/t
+				if(!p.admin)
+					if(density) return
+
+					var/obj/o = new (p.loc)
+					o.density = 1
+
+					var/steps = 10
+					while(o.loc != src && steps > 0)
+						steps--
+						var/check = get_step_to(o, src)
+						if(!check) break
+
+						o.loc = check
+						t     = check
+
+					o.loc = null
+				else
+					t = src
+
+				if(t)
+					p.jumpTo(t)
+
+
+mob/Player/proc/jumpTo(turf/t)
+	set waitfor = 0
+	nomove = 1
+	var
+		px = (x * 32) - (t.x * 32)
+		py = (y * 32) - (t.y * 32)
+
+	dir = get_dir(src, t)
+
+	var/time = round(((abs(px) + abs(py)) / 32) * 0.5)
+
+	var/list/ghosts = list()
+	for(var/i = 1 to 4)
+		var/image/o = new
+		o.appearance = appearance
+		o.alpha = 255 - i * 50
+
+		o.pixel_x = px * 0.1 * i
+		o.pixel_y = py * 0.1 * i
+
+		ghosts += o
+
+	var/underlaysTmp = underlays.Copy()
+	underlays += ghosts
+
+	animate(src, pixel_x = -px,
+	             pixel_y = -py, time = time)
+
+
+	animate(client, pixel_x = -px,
+	                pixel_y = -py, time = time)
+
+	sleep(time + 1)
+	pixel_x = 0
+	pixel_y = 0
+
+	var/dense = density
+	density = 0
+	Move(t)
+	if(!density)
+		density = dense
+
+	client.pixel_x = 0
+	client.pixel_y = 0
+
+	underlays = underlaysTmp
+	nomove = 0
+
+
 
 mob/GM
 	verb
