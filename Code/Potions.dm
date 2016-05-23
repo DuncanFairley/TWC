@@ -212,9 +212,8 @@ obj/potions
 				var/quality = 1
 
 				if(p.icon_state in projs)
-					var/f = countBits(flags) - 1
-					quality = f - 1
-					f = abs(projs[p.icon_state] - f)
+					quality = countBits(flags) - 1
+					var/f = abs(projs[p.icon_state] - quality)
 
 					if(f == 0)     quality++
 					else if(f > 2) quality--
@@ -231,8 +230,12 @@ obj/potions
 
 						if(prob(chance))
 							potion = pick(childTypes(/obj/items/potions))
-							worldData.potions["[pool]"] = potion
-							worldData.potionsAmount++
+
+							if(ispath(potion, /obj/items/potions/super) && prob(75))
+								potion = null
+							else
+								worldData.potions["[pool]"] = potion
+								worldData.potionsAmount++
 
 						else
 							chance = worldData.potionsAmount / (worldData.potions.len + 1)
@@ -255,9 +258,11 @@ obj/potions
 					i.antiTheft = 1
 					i.owner     = p.owner.ckey
 					i.quality   = quality
-					var/list/letters = list("T", "D", "P", "A", "E", "O")
-					i.name += " - [letters[quality]]"
-					if(i.seconds) i.seconds *= 1 + (quality - 3) * 0.1
+					var/list/letters = list("T", "D", "P", null, "A", "E", "O")
+					var/letter = letters[quality]
+					if(letter)
+						i.name += " - [letters[quality + 1]]"
+						if(i.seconds) i.seconds *= 1 + (quality - 4) * 0.1
 
 					spawn(600)
 						if(i)
@@ -305,8 +310,11 @@ obj/potions
 			if(isBusy) return
 
 			pool  |= 2 ** ((i.id - 1) * 3 + i.form)
-			flags |= 2 ** (i.id - 1)
-			flags |= 2 ** (i.form + 4)
+
+			var/f = 2 ** (i.id - 1)
+			if(!(flags & f))
+				flags |= f
+				flags |= 2 ** (i.form + 4)
 
 			if(worldData.potions && ("[pool]" in worldData.potions))
 				var/potion = worldData.potions["[pool]"]
@@ -572,6 +580,21 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/Tame
 		seconds    = 600
 
+	super
+		luck
+			name       = "super felix felicis"
+			icon_state = "gray"
+			effect     = /StatusEffect/Potions/Luck { factor = 10 }
+			seconds    = 180
+
+		immortality_potion
+			effect = /StatusEffect/Potions/Health { amount = 99999 }
+			seconds = 120
+
+		speed_potion
+			effect = /StatusEffect/Potions/Speed
+			seconds = 120
+
 	pets
 
 		growth
@@ -671,7 +694,7 @@ obj/items/potions
 
 				var/obj/items/wearable/pets/item = p.pet.item
 
-				item.addExp(p, 10000)
+				item.addExp(p, 10000 + (quality - 4) * 1600)
 
 				. = 1
 
@@ -693,7 +716,7 @@ obj/items/potions
 			else
 				..()
 
-proc/childTypes(var/typesOf)
+proc/childTypes(typesOf)
 	. = list()
 
 	var/lastType
