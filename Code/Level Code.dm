@@ -11,8 +11,6 @@ mob/Player
 		reading    = 0
 		nomove     = 0
 
-//mob/var/tmp/movable = 0
-
 turf
 	Exit(atom/movable/O, atom/newloc)
 		.=..()
