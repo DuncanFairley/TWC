@@ -297,7 +297,7 @@ obj
 
 	mapplane
 		plane            = 0
-		appearance_flags = PLANE_MASTER | NO_CLIENT_COLOR
+		appearance_flags = PLANE_MASTER
 		mouse_opacity    = 1
 
 		screen_loc = "1,1"

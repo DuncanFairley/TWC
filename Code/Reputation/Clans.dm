@@ -336,11 +336,15 @@ obj/items/wearable/masks
 
 			if(!owner.prevname)
 				owner.prevname = owner.name
-				owner.name     = n
 				owner.gender   = NEUTER
 
-				owner.underlays = list()
-				owner.GenerateNameOverlay(r,g,b, TRUE)
+			var/guild/i = worldData.guilds[owner.guild]
+			if(i)
+				owner.name = i.ranks[1]
+			else
+				owner.name = n
+			owner.underlays = list()
+			owner.GenerateNameOverlay(r,g,b, TRUE)
 
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
@@ -370,10 +374,45 @@ obj/items/wearable/masks/peace_mask
 obj/items/wearable/masks/chaos_mask
 	icon = 'mask_chaos.dmi'
 	dropable = 0
+	r = 140
+	g = 10
+	b = 10
+
+obj/items/wearable/masks/black_mask
+	icon = 'mask_black.dmi'
 	r = 77
 	g = 77
 	b = 77
 
+obj/items/wearable/masks/white_mask
+	icon = 'mask_white.dmi'
+	r = 200
+	g = 200
+	b = 200
+
+obj/items/wearable/masks/purple_mask
+	icon = 'mask_purple.dmi'
+	r = 128
+	g = 0
+	b = 128
+
+obj/items/wearable/masks/pink_mask
+	icon = 'mask_pink.dmi'
+	r = 255
+	g = 192
+	b = 203
+
+obj/items/wearable/masks/orange_mask
+	icon = 'mask_orange.dmi'
+	r = 255
+	g = 165
+	b = 0
+
+obj/items/wearable/masks/teal_mask
+	icon = 'mask_teal.dmi'
+	r = 0
+	g = 128
+	b = 128
 
 area
 	hogwarts

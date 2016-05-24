@@ -165,6 +165,7 @@ obj/potions
 		var/tmp
 			list/smoke
 			pool = 0
+			flags = 0
 
 		New()
 			set waitfor = 0
@@ -192,17 +193,32 @@ obj/potions
 			usr << infomsg("Shoot with Inflamari to heat up.")
 
 		Attacked(obj/projectile/p)
-			if(!isBusy && p.owner && p.icon_state == "fireball" && isplayer(p.owner))
+			if(!isBusy && p.owner && isplayer(p.owner))
 
-				var/c = pool
-
-				c = c - ((c >> 1) & 0x5555)
-				c = (c & 0x3333) + ((c >> 2) & 0x3333)
-				c = ((c + (c >> 4) & 0x0F0F) * 0x0101) >> 8
+				var/c = countBits(pool)
 
 				if(c  < 1) return
 
+				var/list/projs = list()
+
+				projs["aqua"]     = 1
+				projs["quake"]    = 2
+				projs["chaotica"] = 3
+				projs["gum"]      = 4
+				projs["iceball"]  = 5
+				projs["blood"]    = 6
+
 				var/potion
+				var/quality = 1
+
+				if(p.icon_state in projs)
+					quality = countBits(flags) - 1
+					var/f = abs(projs[p.icon_state] - quality)
+
+					if(f == 0)     quality++
+					else if(f > 2) quality--
+
+					quality = max(1, quality)
 
 				if(c >= 4)
 
@@ -214,8 +230,12 @@ obj/potions
 
 						if(prob(chance))
 							potion = pick(childTypes(/obj/items/potions))
-							worldData.potions["[pool]"] = potion
-							worldData.potionsAmount++
+
+							if(ispath(potion, /obj/items/potions/super) && prob(75))
+								potion = null
+							else
+								worldData.potions["[pool]"] = potion
+								worldData.potionsAmount++
 
 						else
 							chance = worldData.potionsAmount / (worldData.potions.len + 1)
@@ -234,9 +254,16 @@ obj/potions
 					     life   = new /Random(15,25),
 					     color  = o.color)
 
-					var/obj/items/i = new potion (loc)
+					var/obj/items/potions/i = new potion (loc)
 					i.antiTheft = 1
 					i.owner     = p.owner.ckey
+					i.quality   = quality
+					var/list/letters = list("T", "D", "P", null, "A", "E", "O")
+					var/letter = letters[quality]
+					if(letter)
+						i.name += " - [letters[quality + 1]]"
+						if(i.seconds) i.seconds *= 1 + (quality - 4) * 0.1
+
 					spawn(600)
 						if(i)
 							i.antiTheft = 0
@@ -267,7 +294,8 @@ obj/potions
 								p.owner.Death_Check(p.owner)
 
 				setColor("#090")
-				pool = 0
+				pool    = 0
+				flags   = 0
 
 			..()
 
@@ -281,8 +309,12 @@ obj/potions
 		Process(mob/Player/p, obj/items/ingredients/i)
 			if(isBusy) return
 
+			pool  |= 2 ** ((i.id - 1) * 3 + i.form)
 
-			pool |= 2 ** ((i.id - 1) * 3 + i.form)
+			var/f = 2 ** (i.id - 1)
+			if(!(flags & f))
+				flags |= f
+				flags |= 2 ** (i.form + 4)
 
 			if(worldData.potions && ("[pool]" in worldData.potions))
 				var/potion = worldData.potions["[pool]"]
@@ -323,7 +355,11 @@ obj/potions
 		Process(mob/Player/p, obj/items/ingredients/i)
 			if(isBusy)          return
 			if(i.form != SOLID) return
+			if(i.stack < 2)
+				p << errormsg("You need 2 ingredients to produce powder.")
+				return
 
+			i.stack     -= 2
 			i.form       = POWDER
 			i.name       = "powdered [i.name]"
 			i.icon_state = "[i.icon_state]_powder"
@@ -336,7 +372,11 @@ obj/potions
 		Process(mob/Player/p, obj/items/ingredients/i)
 			if(isBusy)          return
 			if(i.form != SOLID) return
+			if(i.stack < 3)
+				p << errormsg("You need 3 ingredients to produce liquid.")
+				return
 
+			i.stack     -= 3
 			i.form       = LIQUID
 			i.name       = "[i.name] extract"
 			i.icon_state = "[i.icon_state]_liquid"
@@ -425,6 +465,7 @@ obj/items/potions
 	var
 		effect
 		seconds
+		quality = 0
 
 	Click()
 		if((src in usr) && canUse(M=usr, inarena=0))
@@ -539,6 +580,21 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/Tame
 		seconds    = 600
 
+	super
+		luck
+			name       = "super felix felicis"
+			icon_state = "gray"
+			effect     = /StatusEffect/Potions/Luck { factor = 10 }
+			seconds    = 180
+
+		immortality_potion
+			effect = /StatusEffect/Potions/Health { amount = 99999 }
+			seconds = 120
+
+		speed_potion
+			effect = /StatusEffect/Potions/Speed
+			seconds = 120
+
 	pets
 
 		growth
@@ -638,7 +694,7 @@ obj/items/potions
 
 				var/obj/items/wearable/pets/item = p.pet.item
 
-				item.addExp(p, 10000)
+				item.addExp(p, 10000 + (quality - 4) * 1600)
 
 				. = 1
 
@@ -660,7 +716,7 @@ obj/items/potions
 			else
 				..()
 
-proc/childTypes(var/typesOf)
+proc/childTypes(typesOf)
 	. = list()
 
 	var/lastType
@@ -668,3 +724,8 @@ proc/childTypes(var/typesOf)
 		if(ispath(lastType, t)) continue
 		. += t
 		lastType = t
+
+proc/countBits(c)
+	. = c - ((c >> 1) & 0x5555)
+	. = (. & 0x3333) + ((. >> 2) & 0x3333)
+	. = ((. + (. >> 4) & 0x0F0F) * 0x0101) >> 8

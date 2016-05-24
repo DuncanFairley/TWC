@@ -476,6 +476,9 @@ mob
 
 				if(!killer) return
 
+				if(canBleed)
+					new /obj/corpse(loc, src)
+
 				var/rate        = 1
 				var/rate_factor = DropRateModifier
 
@@ -749,6 +752,7 @@ mob
 			Summoned
 				state = SEARCH
 				MapInit()
+					set waitfor = 0
 					calcStats()
 					state()
 
@@ -798,6 +802,7 @@ mob
 						     life   = new /Random(1,10))
 
 					MapInit()
+						set waitfor = 0
 						..()
 
 						SetSize(rand(5,15) / 10)
@@ -903,6 +908,7 @@ mob
 							damageTaken = 0
 
 						MapInit()
+							set waitfor = 0
 							..()
 							SetSize(5 + (rand(-10, 10) / 10))
 
@@ -954,6 +960,7 @@ mob
 						prizePoolSize = 1
 
 						MapInit()
+							set waitfor = 0
 							..()
 
 							if(prob(51))
@@ -981,7 +988,7 @@ mob
 										var/d = pick(dirs)
 										dirs -= d
 										var/turf/t = get_step(p.owner, d)
-										if(t.loc == loc.loc)
+										if(t && t.loc == loc.loc)
 											target = p.owner
 											loc    = t
 											break
@@ -1017,6 +1024,7 @@ mob
 						var/tmp/fired = 0
 
 						MapInit()
+							set waitfor = 0
 							..()
 
 							if(prob(49))
@@ -1135,6 +1143,7 @@ mob
 						canBleed = FALSE
 
 						MapInit()
+							set waitfor = 0
 							..()
 							alpha = rand(190,240)
 
@@ -1328,6 +1337,7 @@ mob
 						Heal()
 
 					MapInit()
+						set waitfor = 0
 						light(src, 3, 600, "orange")
 						..()
 
@@ -1353,6 +1363,7 @@ mob
 				respawnTime = 6000
 
 				MapInit()
+					set waitfor = 0
 					..()
 					SetSize(2)
 
@@ -1550,6 +1561,7 @@ mob
 					SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/acromantula)
 
 				MapInit()
+					set waitfor = 0
 					..()
 
 					SetSize(rand(15,30) / 10)
@@ -1568,6 +1580,7 @@ mob
 				var/rep = 2
 
 				MapInit()
+					set waitfor = 0
 					..()
 					if(prob(49))
 						icon   = 'MaleVampire.dmi'
@@ -1691,6 +1704,7 @@ mob
 						     life   = new /Random(15,20))
 
 				MapInit()
+					set waitfor = 0
 					..()
 					alpha = rand(190,255)
 
@@ -1835,6 +1849,7 @@ mob
 				AttackDelay = 3
 
 				MapInit()
+					set waitfor = 0
 					..()
 					SetSize(rand(10,20) / 10)
 
@@ -1963,6 +1978,7 @@ mob
 						loc = origloc
 
 				MapInit()
+					set waitfor = 0
 					..()
 					SetSize(2)
 
@@ -2036,3 +2052,21 @@ mob
 							step_rand(t)
 							t.density = 0
 
+
+obj/corpse
+	New(loc, mob/NPC/Enemies/monster)
+		set waitfor = 0
+		..()
+
+		appearance = monster.appearance
+		dir        = monster.dir
+		layer      = 2
+
+		var/matrix/m = transform
+		m.Turn(90 * pick(1, -1))
+		animate(src, transform = m, time = 10, easing = pick(BOUNCE_EASING, BACK_EASING))
+
+		sleep(monster.respawnTime / 2 + 10)
+		animate(src, alpha = 0, time = 10)
+		sleep(10)
+		loc = null

@@ -160,9 +160,10 @@ mob/proc/detectStoopidBug(sourcefile, line)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
 #define SAVEFILE_VERSION 22
+mob/Player/base_save_allowed = 1
 mob
 	var/tmp
-		base_save_allowed = 1
+		base_save_allowed = 0
 		base_save_location = 1
 
 	var/list/base_saved_verbs

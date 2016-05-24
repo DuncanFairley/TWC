@@ -671,10 +671,20 @@ var/list/shops = list("malewigshop" = newlist(
 						/obj/items/wearable/wigs/female_silver_wig),
 
 					  "peace" = newlist(
+					  	/obj/items/wearable/masks/white_mask,
+					  	/obj/items/wearable/masks/teal_mask,
+					  	/obj/items/wearable/masks/purple_mask,
+					  	/obj/items/wearable/masks/pink_mask,
+					  	/obj/items/wearable/masks/orange_mask,
 					  	/obj/items/spellbook/peace,
 					  	/obj/items/spellbook/lumos),
 
 					  "chaos" = newlist(
+					  	/obj/items/wearable/masks/black_mask,
+					  	/obj/items/wearable/masks/teal_mask,
+					  	/obj/items/wearable/masks/purple_mask,
+					  	/obj/items/wearable/masks/pink_mask,
+					  	/obj/items/wearable/masks/orange_mask,
 					  	/obj/items/spellbook/blood,
 					  	/obj/items/spellbook/aggravate),
 
@@ -686,6 +696,8 @@ obj/items/spellbook/blood/price = -666
 
 obj/items/spellbook/lumos/price = 1111
 obj/items/spellbook/aggravate/price = -1111
+
+obj/items/wearable/masks/price = 444
 
 mob/TalkNPC/Vault_Salesman
 	icon_state="goblin1"

@@ -101,10 +101,16 @@ obj
 			icon_state = "roof-15"
 
 			New()
-				loc.name = "roofb"
+				if(loc)
+					loc.name = "roofb"
+				else
+					spawn(1) loc.name = "roofb"
+
 				..()
 
 			MapInit()
+				set waitfor = 0
+				if(!loc) sleep(2)
 
 				..()
 

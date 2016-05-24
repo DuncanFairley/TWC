@@ -496,6 +496,8 @@ proc/check(msg as text)
 var/list/illegalnames = list(
 	"robed figure",
 	"masked figure",
+	"deatheater",
+	"auror",
 	"harry",
 	"potter",
 	"weasley",
@@ -840,8 +842,6 @@ mob/Player
 	Login()
 		if(client.byond_version < world.byond_version)
 			src << errormsg("Your installed BYOND version is older than the one the game is using, please update to BYOND version [world.byond_version] or higher. You can continue to play but unpredicted errors may occur.")
-
-			spawn() alert(src, "Please make sure to update your BYOND version to the latest beta ([world.byond_version]), otherwise you may experience graphical glitches and probably have a white screen.")
 
 		dance = 0
 		if(Gender=="Female")
@@ -1830,7 +1830,7 @@ mob/proc/Death_Check(mob/killer = src)
 
 			if(istype(src, /mob/NPC/Enemies))
 				src:Death(killer)
-			src.loc=locate(0,0,0)
+			src.loc=null
 			Respawn(src)
 
 mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
@@ -2096,6 +2096,7 @@ proc
 				open = 0
 		return t
 	Respawn(mob/NPC/Enemies/E)
+		set waitfor = 0
 		if(!E)return
 		if(E.removeoMob)
 			var/tmpmob = E.removeoMob
@@ -2106,20 +2107,20 @@ proc
 		else
 			E.ChangeState(E.INACTIVE)
 			if(E.origloc)
-				spawn(E.respawnTime)// + rand(-50,100))////1200
-					if(E)
-						E.loc = E.origloc
-						E.HP = E.MHP
-						var/active = E.ShouldIBeActive()
+				sleep(E.respawnTime)// + rand(-50,100))////1200
+				if(E)
+					E.loc = E.origloc
+					E.HP = E.MHP
+					var/active = E.ShouldIBeActive()
 
-						if(!active && istype(E.origloc.loc, /area/newareas))
-							var/area/newareas/a = E.origloc.loc
+					if(!active && istype(E.origloc.loc, /area/newareas))
+						var/area/newareas/a = E.origloc.loc
 
-							active = a.region && a.region.active
+						active = a.region && a.region.active
 
-						if(active)
-							E.alpha = 0
-							animate(E, alpha = 255, time = 15)
+					if(active)
+						E.alpha = 0
+						animate(E, alpha = 255, time = 15)
 
 			else
 				E.loc = null

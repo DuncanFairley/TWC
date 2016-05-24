@@ -293,6 +293,10 @@ StatusEffect
 
 
 	Potions
+		var/obj/items/potions/potion
+		New(atom/pAttachedAtom,t,obj/items/potions/p)
+			potion = p
+			.=..()
 
 		Tame
 			var/factor = 10
@@ -324,18 +328,38 @@ StatusEffect
 		Luck
 			var/factor = 3
 
-		Damage
+			Activate()
+				factor = 3 + (potion.quality - 4) * 0.1
+
+				..()
+
+		Speed
 			Activate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDmg += 40
+					p.superspeed = 1
 
 				..()
 
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDmg -= 40
+					p.superspeed = 0
+
+				..()
+
+		Damage
+			Activate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.clothDmg += 40 + (potion.quality - 4) * 4
+
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.clothDmg -= 40 + (potion.quality - 4) * 4
 
 				..()
 
@@ -343,7 +367,7 @@ StatusEffect
 			Activate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDef += 120
+					p.clothDef += 120 + (potion.quality - 4) * 12
 					p.resetMaxHP()
 
 				..()
@@ -351,7 +375,7 @@ StatusEffect
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDef -= 120
+					p.clothDef -= 120 + (potion.quality - 4) * 12
 					p.resetMaxHP()
 
 				..()
@@ -379,6 +403,9 @@ StatusEffect
 				set waitfor = 0
 
 				var/mob/Player/p = AttachedAtom
+
+				amount += (potion.quality - 4) * 10
+
 				while(p)
 					p.HP = min(p.HP + amount + rand(-10, 10), p.MHP + p.extraMHP)
 					p.updateHPMP()
@@ -402,6 +429,9 @@ StatusEffect
 				set waitfor = 0
 
 				var/mob/Player/p = AttachedAtom
+
+				amount += (potion.quality - 4) * 10
+
 				while(p)
 					p.MP = min(p.MP + amount + rand(-10, 10), p.MMP + p.extraMMP)
 					p.updateHPMP()
