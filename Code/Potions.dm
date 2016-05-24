@@ -45,9 +45,13 @@ obj/items/ingredients
 					usr << errormsg("The tool is busy.")
 					return
 
+				if(stack < p.req)
+					usr << errormsg("You need [p.req] ingredients to extract.")
+					return
+
 				var/obj/items/i
-				if(stack > 1)
-					i = Split(1)
+				if(stack > p.req)
+					i = Split(p.req)
 				else
 					i = src
 					loc = null
@@ -70,8 +74,13 @@ obj/items/ingredients
 				return
 
 			var/obj/items/i
-			if(stack > 1)
-				i = Split(1)
+
+			if(stack < p.req)
+				usr << errormsg("You need [p.req] ingredients to extract.")
+				return
+
+			if(stack > p.req)
+				i = Split(p.req)
 			else
 				i = src
 				loc = null
@@ -147,7 +156,9 @@ obj/smoke
 		animate(src, pixel_x = pixel_x + rand(-10, 10), pixel_y = pixel_y + 36, alpha = 50, transform = matrix()*3, time = 24, loop = -1)
 
 obj/potions
-	var/tmp/isBusy = FALSE
+	var
+		tmp/isBusy = FALSE
+		req = 1
 
 	icon = 'potions_tools.dmi'
 
@@ -351,15 +362,13 @@ obj/potions
 	grind
 		name       = "pestle and mortar"
 		icon_state = "pestle"
+		req = 2
 
 		Process(mob/Player/p, obj/items/ingredients/i)
 			if(isBusy)          return
 			if(i.form != SOLID) return
-			if(i.stack < 2)
-				p << errormsg("You need 2 ingredients to produce powder.")
-				return
 
-			i.stack     -= 2
+			i.stack      = 1
 			i.form       = POWDER
 			i.name       = "powdered [i.name]"
 			i.icon_state = "[i.icon_state]_powder"
@@ -368,15 +377,13 @@ obj/potions
 
 	dropper
 		icon_state = "dropper"
+		req = 3
 
 		Process(mob/Player/p, obj/items/ingredients/i)
 			if(isBusy)          return
 			if(i.form != SOLID) return
-			if(i.stack < 3)
-				p << errormsg("You need 3 ingredients to produce liquid.")
-				return
 
-			i.stack     -= 3
+			i.stack      = 1
 			i.form       = LIQUID
 			i.name       = "[i.name] extract"
 			i.icon_state = "[i.icon_state]_liquid"
