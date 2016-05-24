@@ -1196,6 +1196,7 @@ obj/items/wearable/wands
 					viewers(owner) << infomsg({"[owner] puts \his <span style=\"color:[displayColor];\">[src.name]</span> away."})
 				else
 					viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
+			owner.nowand()
 
 proc/displayKills(mob/Player/i_Player, count=0, countType=1)
 	set waitfor = 0

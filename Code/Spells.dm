@@ -266,15 +266,27 @@ mob/Spells/verb/Expelliarmus(mob/M in view()&Players)
 			hearers()<<"<b>[M] loses \his wand.</b>"
 			new /StatusEffect/UsedAnnoying(src,15)
 			usr:learnSpell("Expelliarmus")
-			if(M.removeoMob)
-				M << "Your Permoveo spell failed.."
-				M.client.eye=M
-				M.client.perspective=MOB_PERSPECTIVE
-				M.removeoMob:ReturnToStart()
-				M.removeoMob:removeoMob = null
-				M.removeoMob = null
+			M.nowand()
 		else
 			usr << "[M] doesn't have \his wand drawn."
+
+mob/proc/nowand()
+	if(removeoMob)
+		src << "Your Permoveo spell failed.."
+		client.eye = src
+		client.perspective = MOB_PERSPECTIVE
+		removeoMob:ReturnToStart()
+		removeoMob:removeoMob = null
+		removeoMob = null
+	if(Wingardiumleviosa)
+		src << "You let go of the object you were holding."
+		wingobject = null
+		Wingardiumleviosa = null
+	if(client.eye != usr)
+		src << "Your Telendevour wears off."
+		client.eye = usr
+		client.perspective = EYE_PERSPECTIVE
+
 mob/Spells/verb/Eparo_Evanesca()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedEvanesca,needwand=1,insafezone=1,inhogwarts=1))
