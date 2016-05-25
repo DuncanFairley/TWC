@@ -230,6 +230,7 @@ obj/potions
 					else if(f > 2) quality--
 
 					quality = max(1, quality)
+					quality = min(7, quality)
 
 				if(c >= 4)
 
@@ -269,10 +270,9 @@ obj/potions
 					i.antiTheft = 1
 					i.owner     = p.owner.ckey
 					i.quality   = quality
-					var/list/letters = list("T", "D", "P", null, "A", "E", "O")
-					var/letter = letters[quality]
-					if(letter)
-						i.name += " - [letters[quality + 1]]"
+					if(quality != 4)
+						var/list/letters = list("T", "D", "P", null, "A", "E", "O")
+						i.name += " - [letters[quality]]"
 						if(i.seconds) i.seconds *= 1 + (quality - 4) * 0.1
 
 					spawn(600)
@@ -472,7 +472,15 @@ obj/items/potions
 	var
 		effect
 		seconds
-		quality = 0
+		quality = 1
+
+	Clone()
+		var/obj/items/potions/i = ..()
+
+		i.quality = quality
+		i.seconds = seconds
+
+		return i
 
 	Click()
 		if((src in usr) && canUse(M=usr, inarena=0))
