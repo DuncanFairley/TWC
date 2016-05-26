@@ -985,7 +985,7 @@ mob
 
 			if(O==null)return
 
-			if(!admin && (istype(O, /obj/items) || isarea(O) || O.z < SWAPMAP_Z || z < SWAPMAP_Z || ismob(O)))
+			if(!admin && (istype(O, /obj/items) || istype(O, /obj/pet) || isarea(O) || O.z < SWAPMAP_Z || z < SWAPMAP_Z || ismob(O)))
 				return
 
 			var/list/builtin[0]
