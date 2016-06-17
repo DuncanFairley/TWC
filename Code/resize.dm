@@ -114,7 +114,7 @@ client
 				h.updatePos()
 
 	New()
-		spawn()
+		spawn(1)
 			while(!browser_loaded)
 				src << browse('mapbrowser.html',"window=browser1")
 				sleep(50)
