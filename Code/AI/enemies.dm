@@ -242,7 +242,7 @@ area
 		proc/faction()
 			var/AreaData/data = worldData.areaData["area_[name]"]
 			if(data && icon)
-				var/c = data.rep > 0 ? "#0cf" : "#600606"
+				var/c = data.rep > 0 ? "#600606" : "#0cf"
 
 				if(region && region.areas)
 					for(var/area/a in region.areas)
@@ -2054,7 +2054,7 @@ mob
 
 
 obj/corpse
-	New(loc, mob/NPC/Enemies/monster)
+	New(Loc, mob/NPC/Enemies/monster)
 		set waitfor = 0
 		..()
 
