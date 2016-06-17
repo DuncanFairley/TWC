@@ -256,7 +256,7 @@ mob/Spells/verb/Deletrius()
 		hearers(usr.client.view,usr)<<"[usr] flicks \his wand, causing the roses to dissolve into the air."
 	else
 		usr << errormsg("This spell requires a wand.")
-mob/Spells/verb/Expelliarmus(mob/M in view()&Players)
+mob/Spells/verb/Expelliarmus(mob/Player/M in view()&Players)
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		var/obj/items/wearable/wands/W = locate(/obj/items/wearable/wands) in M:Lwearing
@@ -266,15 +266,27 @@ mob/Spells/verb/Expelliarmus(mob/M in view()&Players)
 			hearers()<<"<b>[M] loses \his wand.</b>"
 			new /StatusEffect/UsedAnnoying(src,15)
 			usr:learnSpell("Expelliarmus")
-			if(M.removeoMob)
-				M << "Your Permoveo spell failed.."
-				M.client.eye=M
-				M.client.perspective=MOB_PERSPECTIVE
-				M.removeoMob:ReturnToStart()
-				M.removeoMob:removeoMob = null
-				M.removeoMob = null
+			M.nowand()
 		else
 			usr << "[M] doesn't have \his wand drawn."
+
+mob/Player/proc/nowand()
+	if(client.eye != usr)
+		src << "Your Telendevour wears off."
+		client.eye = usr
+		client.perspective = EYE_PERSPECTIVE
+	if(removeoMob)
+		src << "Your Permoveo spell failed.."
+		client.eye = src
+		client.perspective = MOB_PERSPECTIVE
+		removeoMob:ReturnToStart()
+		removeoMob:removeoMob = null
+		removeoMob = null
+	else if(Wingardiumleviosa)
+		src << "You let go of the object you were holding."
+		wingobject = null
+		Wingardiumleviosa = null
+
 mob/Spells/verb/Eparo_Evanesca()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedEvanesca,needwand=1,insafezone=1,inhogwarts=1))

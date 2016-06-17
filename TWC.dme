@@ -38,7 +38,6 @@
 
 // BEGIN_INCLUDE
 #include <audeuro\inireader2\INI Reader 2\INI Reader 2.dme>
-#include <deadron\texthandling\TextHandling.dme>
 #include <rotem12\colormatrix\ColorMatrix.dme>
 #include <stephen001\eventscheduling\Events\Events.dme>
 #include <theodis\pathfinder\Pathfinder.dme>
