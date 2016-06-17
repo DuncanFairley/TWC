@@ -243,8 +243,9 @@ obj/potions
 						if(prob(chance))
 							potion = pick(childTypes(/obj/items/potions))
 
-							if(ispath(potion, /obj/items/potions/super) && prob(75))
-								potion = null
+							if(ispath(potion, /obj/items/potions/super))
+								if(prob(75))
+									potion = null
 							else
 								worldData.potions["[pool]"] = potion
 								worldData.potionsAmount++
@@ -369,6 +370,7 @@ obj/potions
 			if(i.form != SOLID) return
 
 			i.stack      = 1
+			i.UpdateDisplay()
 			i.form       = POWDER
 			i.name       = "powdered [i.name]"
 			i.icon_state = "[i.icon_state]_powder"
@@ -384,6 +386,7 @@ obj/potions
 			if(i.form != SOLID) return
 
 			i.stack      = 1
+			i.UpdateDisplay()
 			i.form       = LIQUID
 			i.name       = "[i.name] extract"
 			i.icon_state = "[i.icon_state]_liquid"
@@ -489,7 +492,10 @@ obj/items/potions
 				usr << errormsg("[name] washed out the previous potion you consumed.")
 				p.Deactivate()
 
-			Consume()
+			if(Consume())
+				var/mob/Player/player = usr
+				player.Resort_Stacking_Inv()
+
 			new effect (usr, seconds, src)
 		else
 			..()
