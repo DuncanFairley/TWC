@@ -1688,6 +1688,7 @@ mob/Player
 				shieldamount -= p.damage
 		else
 			HP -= p.damage
+			updateHPMP()
 
 			var/n = dir2angle(get_dir(src, p))
 			emit(loc    = src,
