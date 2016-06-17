@@ -93,104 +93,6 @@ mob/Player/proc
 
 		return r.fame
 
-clan
-	var/points = 0
-
-	Light
-	Dark
-
-
-obj/items/wearable/clan_robes
-
-	var/hiddenID = FALSE
-	canAuction = FALSE
-	dropable = 1
-	takeable = 1
-
-	Equip(var/mob/Player/owner,var/overridetext=0)
-		. = ..(owner)
-		if(. == WORN)
-			if(!overridetext)viewers(owner) << infomsg("[owner] wears \his [name].")
-			for(var/obj/items/wearable/clan_robes/W in owner.Lwearing)
-				if(W != src)
-					W.Equip(owner,1,1)
-			wear(owner)
-		else if(. == REMOVED)
-			if(!overridetext)viewers(owner) << infomsg("[owner] removes \his [name].")
-
-			remove(owner)
-
-	proc/toggle_hood(mob/Player/p, on)
-		if(!on && p.prevname)
-			p.name     = p.prevname
-			p.prevname = null
-
-			if(p.Gender == "Male")
-				p.gender = MALE
-			else if(p.Gender == "Female")
-				p.gender = FEMALE
-			else
-				p.gender = MALE
-
-		else if(on && !p.prevname)
-			p.prevname = p.name
-			p.name     = "Robed Figure"
-			p.gender   = NEUTER
-
-	verb/wear_hood()
-		set src in usr
-		if(src in usr:Lwearing)
-			hiddenID = !hiddenID
-			toggle_hood(usr, hiddenID)
-
-			usr.underlays = list()
-			wear(usr, FALSE)
-
-	proc/getIcon(var/mob/Player/p)
-		if(p.trnsed) return
-		if(p.Gender == "Male")
-			p.icon = 'MaleAuror.dmi'
-		else
-			p.icon = 'FemaleAuror.dmi'
-
-	proc/remove(var/mob/Player/p)
-		toggle_hood(p, 0)
-		p.addNameTag()
-		if(locate(/mob/GM/verb/GM_chat) in p.verbs) p.Gm = 1
-		p.trnsed = 0
-		p.BaseIcon()
-		p.ApplyOverlays()
-
-
-	proc/wear(var/mob/Player/p)
-		for(var/mob/Player/watcher in Players)
-			var/client/C = watcher.client
-			if(C.eye)
-				if(C.eye == p && watcher != p)
-					C << errormsg("Your Telendevour wears off.")
-					C.eye = watcher
-		p.density=1
-		p.underlays = list()
-		p.Immortal = 0
-		p.Gm = 0
-
-		if(!p.trnsed)
-			getIcon(p)
-
-		toggle_hood(p, hiddenID)
-
-	light_robes
-
-		wear(var/mob/Player/p, base = TRUE)
-			if(base) ..(p)
-			p.GenerateNameOverlay(196,237,255, hiddenID)
-
-	dark_robes
-
-		wear(var/mob/Player/p, base = TRUE)
-			if(base) ..(p)
-			p.GenerateNameOverlay(77,77,77, hiddenID)
-
 
 proc/getRepRank(var/rating)
 
@@ -338,13 +240,10 @@ obj/items/wearable/masks
 				owner.prevname = owner.name
 				owner.gender   = NEUTER
 
-			var/guild/i = worldData.guilds[owner.guild]
-			if(i)
-				owner.name = i.ranks[1]
-			else
-				owner.name = n
+			owner.name = n
 			owner.underlays = list()
-			owner.GenerateNameOverlay(r,g,b, TRUE)
+			var/guild/i = worldData.guilds[owner.guild]
+			owner.GenerateNameOverlay(r,g,b, i ? i.ranks[1] : 1)
 
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")

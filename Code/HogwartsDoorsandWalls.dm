@@ -110,7 +110,6 @@ obj
 
 			MapInit()
 				set waitfor = 0
-				if(!loc) sleep(2)
 
 				..()
 
@@ -121,21 +120,24 @@ obj
 					dirs  = list(NORTH, SOUTH, EAST, WEST)
 					edges = list()
 
-				edges["4"] = list(/image/roofedge/east)
-				edges["8"] = list(/image/roofedge/west)
-				edges["1"] = list(/image/roofedge/north)
-				edges["2"] = list(/image/roofedge/south)
+				edges["4"] = /image/roofedge/east
+				edges["8"] = /image/roofedge/west
+				edges["1"] = /image/roofedge/north
+				edges["2"] = /image/roofedge/south
 
 				for(var/d in dirs)
 					if((n & d) > 0)
 
 						var/turf/t = get_step(src, d)
 						if(!t || istype(t, /turf/blankturf)) continue
-						t.overlays = t.overlays.Copy() + edges["[d]"]
+						t.overlays += edges["[d]"]
 
 						n -= d
 
 		MapInit()
+			set waitfor = 0
+			if(!loc) sleep(2)
+
 			var/turf/T = src.loc
 			if(T)T.flyblock=2
 

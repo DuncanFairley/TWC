@@ -463,6 +463,8 @@ client/Command(T)
 	var/n
 	if(pname && !de)
 		n = pname
+	else if(istext(de))
+		n = de
 	else
 		n = name
 
@@ -933,8 +935,6 @@ mob/Player
 
 			loc.loc.Enter(src, src.loc)
 			loc.loc.Entered(src, src.loc)
-			src.ApplyOverlays(0)
-			BaseIcon()
 
 			if(!worldData.playersData) worldData.playersData = list()
 			var/PlayerData/data = worldData.playersData[ckey]
@@ -949,6 +949,9 @@ mob/Player
 					guild = data.guild
 
 					src << infomsg(g.motd)
+
+			src.ApplyOverlays(0)
+			BaseIcon()
 
 	proc/ApplyOverlays(ignoreBonus = 1)
 		src.overlays = list()
