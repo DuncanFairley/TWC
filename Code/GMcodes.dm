@@ -1485,7 +1485,8 @@ mob/GM
 										   /obj/items/artifact              = 25,
 		                        		   /obj/items/chest/wizard_chest    = 15,
 		                        		   /obj/items/chest/pentakill_chest = 15,
-										   /obj/items/chest/winter_chest    = 10))
+										   /obj/items/chest/summer_chest    = 10,
+										   /obj/items/chest/prom_chest      = 20))
 
 
 						var/obj/items/item_prize = new i (p)
@@ -1942,7 +1943,7 @@ image
 	roofedge
 		icon = 'StoneRoof.dmi'
 		appearance_flags = TILE_BOUND|RESET_COLOR|RESET_ALPHA
-		layer = 7
+		layer = 10
 
 		east
 			icon_state = "edge-4"
@@ -1952,7 +1953,6 @@ image
 			pixel_x = 32
 		north
 			icon_state = "edge-1"
-			layer = 6
 			pixel_y = -32
 		south
 			icon_state = "edge-2"
