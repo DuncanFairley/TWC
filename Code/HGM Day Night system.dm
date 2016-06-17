@@ -154,7 +154,7 @@ obj/cloud
 		loop()
 			set waitfor = 0
 
-			while(src && src.loc)
+			while(src.loc)
 				if(y == 1 || x == world.maxx)
 					var/new_x = 1
 					var/new_y = world.maxy
