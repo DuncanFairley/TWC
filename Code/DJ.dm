@@ -52,7 +52,7 @@ mob/GM/verb/Prize_Draw()
 	set category = "DJ"
 	var/txt = input("Enter the names going into the draw, seperating them so that there's one name on each line.") as null|message
 	if(!txt)return
-	var/txt_list = dd_text2list(txt, "\n")
+	var/txt_list = splittext(txt, "\n")
 
 	switch(alert("Would you like to display the list?", "Prize Draw", "Yes", "No"))
 		if("Yes")
