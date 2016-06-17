@@ -1123,6 +1123,7 @@ obj/items/wearable/wands
 				if(o.exp < amount) amount = o.exp
 
 				o.exp -= amount
+				o.desc = "When equipped, your equipped wand will earn experience and level up by killing monsters. Durability: [round((o.exp / initial(o.exp)) * 100, 1)]%"
 				if(o.exp == 0)
 					o.Equip(owner)
 					o.Consume()
