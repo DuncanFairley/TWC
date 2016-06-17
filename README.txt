@@ -22,7 +22,6 @@ The following libraries:
 http://www.byond.com/developer/Stephen001.EventScheduling
 http://www.byond.com/developer/Audeuro.INIReader2
 http://www.byond.com/developer/Theodis.Pathfinder
-http://www.byond.com/developer/Deadron.TextHandling
 http://www.byond.com/developer/Deadron.Basecamp
 http://www.byond.com/developer/Rotem12.ColorMatrix
 
