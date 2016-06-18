@@ -1107,8 +1107,10 @@ mob
 											break
 								else if(MoveDelay == 2 && prob(45))
 									MoveDelay = 1
+									ChangeState(state)
 									spawn(rand(40,60))
 										MoveDelay = 2
+										ChangeState(state)
 
 							p.damage = round(p.damage * rand(5, 10)/10)
 
@@ -1264,10 +1266,12 @@ mob
 
 								if(percent <= 30)
 									MoveDelay = 1
+									ChangeState(state)
 								else if(percent <= 60)
 									AttackDelay = 1
 								else if(percent <= 80)
 									MoveDelay = 2
+									ChangeState(state)
 
 					Stickman
 						icon_state = "stickman"
@@ -1639,8 +1643,10 @@ mob
 					p.damage = round(p.damage * rand(7, 10)/10)
 					if(MoveDelay == 3 && p.owner && p.owner.loc.loc == loc.loc && prob(60))
 						MoveDelay = 1
+						ChangeState(state)
 						spawn(80)
 							MoveDelay = 2
+							ChangeState(state)
 					..()
 
 				ChangeState(var/i_State)
