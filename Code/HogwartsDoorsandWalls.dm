@@ -110,7 +110,7 @@ obj
 
 			MapInit()
 				set waitfor = 0
-
+				sleep(1)
 				..()
 
 				var/turf/floor = loc
