@@ -1063,6 +1063,7 @@ obj/items/wearable/orb
 
 	Consume()
 		exp = initial(exp)
+		desc = initial(desc)
 
 		..()
 
@@ -1126,7 +1127,8 @@ obj/items/wearable/wands
 				o.desc = "When equipped, your equipped wand will earn experience and level up by killing monsters. Durability: [round((o.exp / initial(o.exp)) * 100, 1)]%"
 				if(o.exp == 0)
 					o.Equip(owner)
-					o.Consume()
+					if(o.Consume())
+						owner.Resort_Stacking_Inv()
 					owner << errormsg("[o.name] shatters.")
 
 				exp += amount
@@ -1197,7 +1199,7 @@ obj/items/wearable/wands
 					viewers(owner) << infomsg({"[owner] puts \his <span style=\"color:[displayColor];\">[src.name]</span> away."})
 				else
 					viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
-			owner.nowand()
+				owner.nowand()
 
 proc/displayKills(mob/Player/i_Player, count=0, countType=1)
 	set waitfor = 0

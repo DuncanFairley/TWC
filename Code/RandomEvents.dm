@@ -680,7 +680,7 @@ obj/items/treasure
 		                        /obj/items/chest/wizard_chest         = 15,
 		                        /obj/items/chest/pentakill_chest      = 15,
 								/obj/items/chest/prom_chest           = 10,
-								/obj/items/chest/winter_chest         = 10,
+								/obj/items/chest/summer_chest         = 10,
 								/obj/items/chest/pet_chest            = 10,
 		                        /obj/items/chest/sunset_chest         = 5,
 		                        /obj/items/chest/wigs/basic_wig_chest = 3,

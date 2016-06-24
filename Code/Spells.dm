@@ -273,7 +273,7 @@ mob/Spells/verb/Expelliarmus(mob/Player/M in view()&Players)
 mob/Player/proc/nowand()
 	if(client.eye != usr)
 		src << "Your Telendevour wears off."
-		client.eye = usr
+		client.eye = src
 		client.perspective = EYE_PERSPECTIVE
 	if(removeoMob)
 		src << "Your Permoveo spell failed.."
@@ -415,7 +415,7 @@ mob/Spells/verb/Aggravate()
 		new /StatusEffect/UsedAggro(src, 30)
 
 		var/area/pArea = loc.loc
-
+		light(src, range=13, ticks=10, state = "red")
 		for(var/mob/NPC/Enemies/e in ohearers(13))
 			var/area/eArea = loc.loc
 

@@ -264,6 +264,7 @@ mob/TalkNPC
 					if(i > shopRef.len) i = 1
 					o = shopRef[i]
 
+					s.displayImage.name = name
 					s.SetText("Would you like [o.name] for [abs(o.price)] reputation?")
 					s.SetImage(o)
 
@@ -287,7 +288,7 @@ mob/TalkNPC
 				else
 					s.SetText("Hopefully I'll have something you want next time.")
 
-			Buy(mob/Player/p, obj/items/i, price)
+			Buy(mob/Player/p, obj/items/i)
 				p.gold.subtract(i.price)
 
 				var/obj/items/newItem = new i.type
