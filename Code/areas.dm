@@ -222,6 +222,7 @@ area
 		Gryffindor_Common_Room
 		Dungeons
 		Potions
+			antiTeleport = 1
 		Hospital_Wing
 		Muggle_Studdies
 		Restricted_Section
