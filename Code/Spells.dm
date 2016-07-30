@@ -322,8 +322,8 @@ mob/Spells/verb/Imitatus(mob/M in view()&Players, T as text)
 	set category = "Spells"
 	var/mob/Player/p = src
 	if(p.mute==1){src<<"You cannot cast this spell while muted.";return}
-	hearers()<<"</font><span style=\";\">[p]: Imitatus.</span>"
-	hearers() << " <b><span style=\";\">[M]</B> <font color = red>:</span> </font> [html_encode(T)]"
+	hearers()<<"<span style=\"color:red;\">[p]:</span> Imitatus."
+	hearers() << "<span style=\"color:red;\"><b>[M]</b> : </span>[html_encode(T)]"
 	p.learnSpell("Imitatus")
 mob/Spells/verb/Morsmordre()
 	set category = "Clan"

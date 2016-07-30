@@ -153,7 +153,7 @@ obj
 				a.faction()
 
 				for(var/mob/NPC/Enemies/Vampire/v in a)
-					v.rep = -v.rep
+					v.rep = data.rep
 					v.faction()
 
 
@@ -1988,23 +1988,6 @@ mob
 					..()
 					SetSize(2)
 
-				drops = list("2"    = /obj/items/key/pentakill_key,
-							 "10"   = list(/obj/items/artifact,
-										   /obj/items/wearable/title/Petrified,
-										   /obj/items/crystal/soul,
-										   /obj/items/crystal/magic,
-						     			   /obj/items/crystal/strong_luck),
-							 "15"   = list(/obj/items/artifact,
-										   /obj/items/crystal/damage,
-										   /obj/items/crystal/defense,
-						     			   /obj/items/crystal/luck),
-							 "16"   = list(/obj/items/DarknessPowder,
-								 		   /obj/items/Whoopie_Cushion,
-										   /obj/items/U_No_Poo,
-							 			   /obj/items/Smoke_Pellet,
-							 			   /obj/items/Tube_of_fun,
-							 			   /obj/items/Swamp))
-
 				var/tmp/fired = 0
 
 				Blocked()
@@ -2072,7 +2055,11 @@ obj/corpse
 		m.Turn(90 * pick(1, -1))
 		animate(src, transform = m, time = 10, easing = pick(BOUNCE_EASING, BACK_EASING))
 
-		sleep(monster.respawnTime / 2 + 10)
+		if(monster.level >= 1000)
+			sleep(monster.respawnTime / 2 + 10)
+		else
+			sleep(40)
+
 		animate(src, alpha = 0, time = 10)
 		sleep(10)
 		loc = null

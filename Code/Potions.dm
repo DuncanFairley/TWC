@@ -321,7 +321,7 @@ obj/potions
 		Process(mob/Player/p, obj/items/ingredients/i)
 			if(isBusy) return
 
-			pool  |= 2 ** ((i.id - 1) * 3 + i.form)
+			pool |= 2 ** ((i.id - 1) * 3 + i.form)
 
 			var/f = 2 ** (i.id - 1)
 			if(!(flags & f))
