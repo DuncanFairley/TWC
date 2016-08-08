@@ -452,14 +452,7 @@ mob
 
 					if(prob(chance * 10))
 						var/obj/items/wearable/w = new spawnType (loc)
-
-						w.antiTheft = 1
-						w.owner     = killer.ckey
-
-						spawn(300)
-							if(w && isturf(w.loc) && w.antiTheft)
-								w.Dispose()
-
+						w.prizeDrop(killer.ckey, 300)
 				else
 					if(killer.findStatusEffect(/StatusEffect/Lamps/Farming))
 						chance *= 4
@@ -522,14 +515,7 @@ mob
 					var/obj/items/wearable/title/Slayer/t = new (loc)
 					t.title = "[name] Slayer"
 					t.name  = "Title: [name] Slayer"
-
-					t.antiTheft = 1
-					t.owner     = killer.ckey
-
-					spawn(150)
-						if(t)
-							t.antiTheft = 0
-							t.owner     = null
+					t.prizeDrop(killer.ckey, protection=150, decay=FALSE)
 
 				if(prize)
 
@@ -545,9 +531,7 @@ mob
 							if(damage[damage[i]] < damageReq) break
 
 							var/obj/items/item = new prize (loc)
-
-							item.antiTheft = 1
-							item.owner     = damage[i]
+							item.prizeDrop(damage[i], 602)
 
 							var/randomDir
 							if(dirs.len)
@@ -557,21 +541,9 @@ mob
 							spawn(2)
 								if(randomDir)
 									step(item, randomDir)
-
-								sleep(600)
-								if(item && isturf(item.loc) && item.antiTheft)
-									item.Dispose()
-
 					else
 						prize = new prize (loc)
-
-						prize.antiTheft = 1
-						prize.owner     = killer.ckey
-						spawn(150)
-							if(prize)
-								prize.antiTheft = 0
-								prize.owner     = null
-
+						prize.prizeDrop(killer.ckey, protection=150, decay=FALSE)
 				damage = null
 
 			proc/state()
@@ -2056,7 +2028,10 @@ obj/corpse
 		animate(src, transform = m, time = 10, easing = pick(BOUNCE_EASING, BACK_EASING))
 
 		if(monster.level >= 1000)
-			sleep(monster.respawnTime / 2 + 10)
+			if(!monster.respawnTime)
+				sleep(300)
+			else
+				sleep(monster.respawnTime / 2 + 10)
 		else
 			sleep(40)
 

@@ -27,6 +27,9 @@ area
 		if(antiFly && isplayer(Obj))
 			Obj:nofly()
 
+image/dropGlow
+	icon = 'drop_glows.dmi'
+
 obj/items
 	var
 		dropable      = 1
@@ -37,6 +40,8 @@ obj/items
 
 		stack     = 1
 		max_stack = 0
+
+		dropColor
 
 	mouse_over_pointer = MOUSE_HAND_POINTER
 
@@ -174,6 +179,31 @@ obj/items
 			hearers(owner) << infomsg("[usr] drops all of \his [src.name] items.")
 			drop(usr, stack)
 
+		prizeDrop(ownerCkey, protection=150, decay=TRUE)
+			set waitfor = 0
+
+			antiTheft = 1
+			owner     = ownerCkey
+
+			if(dropColor)
+				var/image/dropGlow/i = new
+				var/list/t = splittext("[type]", "/")
+				var/s = t[t.len - 1]
+				i.icon_state = s
+				i.color = dropColor
+				underlays += i
+
+			sleep(protection)
+
+			if(isturf(loc) && antiTheft)
+
+				if(decay)
+					Dispose()
+				else
+					antiTheft = 0
+					owner = null
+					underlays = list()
+
 obj/items/Click()
 	if((src in oview(1)) && takeable)
 		Take()
@@ -185,7 +215,9 @@ obj/items/verb/Take()
 		usr << errormsg("This item isn't yours, a charm prevents you from picking it up.")
 		return
 
-	antiTheft = 0
+	if(antiTheft)
+		antiTheft = 0
+		underlays = list()
 
 	viewers() << infomsg("[usr] takes \the [src.name].")
 
@@ -3239,6 +3271,7 @@ obj/items
 
 	key
 		icon = 'ChestKey.dmi'
+		dropColor = "#0f0"
 
 		master_key
 			icon_state = "master"
@@ -3793,3 +3826,4 @@ obj/items/treats
 
 		else
 			..()
+
