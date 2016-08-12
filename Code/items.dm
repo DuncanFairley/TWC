@@ -3271,29 +3271,37 @@ obj/items
 
 	key
 		icon = 'ChestKey.dmi'
-		dropColor = "#0f0"
+		dropColor = "#0e0"
 
 		master_key
 			icon_state = "master"
 		wizard_key
+			dropColor = "#3366ff"
 			icon_state = "blue"
 		duel_key
 			icon_state = "duel"
 		pentakill_key
+			dropColor = "#3366ff"
 			icon_state = "red"
 		blood_key
+			dropColor = "#ff9900"
 			icon_state = "red"
 		basic_key
 			icon_state = "green"
 		sunset_key
+			dropColor = "#ff9900"
 			icon_state = "purple"
 		summer_key
+			dropColor = "#ff9900"
 			icon_state = "orange"
 		winter_key
+			dropColor = "#ff9900"
 			icon_state = "blue"
 		prom_key
+			dropColor = "#ff9900"
 			icon_state = "pink"
 		pet_key
+			dropColor = "#ff9900"
 			icon_state = "green"
 		special_key
 			icon_state = "master"
@@ -3507,15 +3515,9 @@ obj/roulette
 		var/obj/items/i = new prize (loc)
 		ohearers(src) << infomsg("<b>[playerName] opened a chest and won \a [i]!</b>")
 
-		i.antiTheft = 1
-		i.owner     = playerCkey
+		i.prizeDrop(playerCkey, 600, decay=FALSE)
 
 		goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [playerName]([playerCkey]) got a [i.name] from a chest.<br />"
-
-		spawn(600)
-			if(i)
-				i.antiTheft = 0
-				i.owner     = null
 
 		loc = null
 
