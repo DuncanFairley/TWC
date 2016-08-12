@@ -268,18 +268,12 @@ obj/potions
 					     color  = o.color)
 
 					var/obj/items/potions/i = new potion (loc)
-					i.antiTheft = 1
-					i.owner     = p.owner.ckey
+					i.prizeDrop(p.owner.ckey, 600, decay=FALSE)
 					i.quality   = quality
 					if(quality != 4)
 						var/list/letters = list("T", "D", "P", null, "A", "E", "O")
 						i.name += " - [letters[quality]]"
 						if(i.seconds) i.seconds *= 1 + (quality - 4) * 0.1
-
-					spawn(600)
-						if(i)
-							i.antiTheft = 0
-							i.owner     = null
 
 				else
 					emit(loc    = loc,
@@ -408,14 +402,7 @@ obj/potions
 
 		if(i)
 			i.loc = loc
-			i.antiTheft = 1
-			i.owner     = p.ckey
-
-			sleep(600)
-
-			if(i)
-				i.antiTheft = 0
-				i.owner     = null
+			i.prizeDrop(p.ckey, 600, decay=FALSE)
 
 obj/custom
 obj/bar
