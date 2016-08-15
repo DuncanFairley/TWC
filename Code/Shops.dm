@@ -169,14 +169,14 @@ mob/TalkNPC/Divo
 		var/selectedprice
 		var/itemlist
 		if(worldData.magicEyesLeft)
-			itemlist = list("Magical Eye 20,000,000g","Invisibility Cloak 9000g")
+			itemlist = list("Magical Eye 20,000,000g","Invisibility Cloak 30,000g")
 		else
-			itemlist = list("Invisibility Cloak 9000g")
+			itemlist = list("Invisibility Cloak 30,000g")
 		switch(input("Divo: Hi there! Welcome to Divo's Magical Wares. [worldData.magicEyesLeft ? "I've got a limited supply of these ultra rare magical eyes. They let you see invisible people. Very powerful stuff. I'm only going to sell a limited amount though, otherwise my cloak business would be pointless wouldn't it? I have [worldData.magicEyesLeft] left." : ""]","You have [comma(usr.gold)] gold")as null|anything in itemlist)
 			if("Magical Eye 20,000,000g")
 				selecteditem = /obj/items/wearable/magic_eye
 				selectedprice = 20000000
-			if("Invisibility Cloak 9000g")
+			if("Invisibility Cloak 30,000g")
 				selectedprice = 9000
 				selecteditem = /obj/items/wearable/invisibility_cloak
 			if(null)
