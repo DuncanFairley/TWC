@@ -735,6 +735,7 @@ mob
 			src<<"<h3>For a full player guide, visit http://guide.wizardschronicles.com.</h3>"
 			var/oldmob = src
 			src.client.mob = character
+			character.client.initMapBrowser()
 			character.gold = new /gold(100)
 			character.goldinbank = new /gold(100)
 			character.client.eye = character
@@ -844,7 +845,7 @@ mob/Player
 	Login()
 		if(client.byond_version < world.byond_version)
 			src << errormsg("Your installed BYOND version is older than the one the game is using, please update to BYOND version [world.byond_version] or higher. You can continue to play but unpredicted errors may occur.")
-
+		client.initMapBrowser()
 		dance = 0
 		if(Gender=="Female")
 			gender = FEMALE

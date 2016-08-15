@@ -33,12 +33,8 @@ window.onresize = function() {
 };
 
 window.onload = function() {
-	setTimeout(load, 100);
+	CallVerb("onLoad");
 };
-
-function load() {
-    CallVerb("onLoad");
-}
 
 var isfullscreen = 0;
 
