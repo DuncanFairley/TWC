@@ -1922,18 +1922,16 @@ obj
 				light(src, DIST, TICKS)
 
 				for(var/t = TICKS to 0 step -1)
-					for(var/mob/p in oview(DIST, src))
-						if(istype(p, /mob/NPC/Enemies) || isplayer(p))
-							step_towards(p, src)
+					for(var/mob/Player/p in oview(DIST, src))
+						step_towards(p, src)
 
 					sleep(1)
 
 				var/b = FALSE
-				for(var/mob/p in oview(DIST, src))
-					if(istype(p, /mob/NPC/Enemies) || isplayer(p))
-						p.HP = 0
-						p.Death_Check(owner)
-						b = TRUE
+				for(var/mob/Player/p in oview(DIST, src))
+					p.HP = 0
+					p.Death_Check(owner)
+					b = TRUE
 
 				if(b)
 					emit(loc    = loc,
