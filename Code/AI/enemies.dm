@@ -1196,6 +1196,62 @@ mob
 								     speed  = 2,
 								     life   = new /Random(15,20))
 
+
+					Golem
+						icon = 'Golem.dmi'
+						iconSize = 2
+						pixel_x = -16
+						pixel_y = -8
+						name = "Stone Golem"
+						HPmodifier = 12
+						DMGmodifier = 2
+						layer = 5
+						MoveDelay = 2
+						AttackDelay = 1
+						Range = 15
+						level = 1800
+						canBleed = FALSE
+						var/tmp/fired = 0
+
+						Attack(mob/M)
+							..()
+							if(!fired && target && state == HOSTILE && prob(75))
+								fired = 1
+								spawn(rand(20,40)) fired = 0
+
+								var/r = rand(1,5)
+								var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+								var/tmp_d = dir
+
+								for(var/i = 1 to r)
+									dir = pick(dirs)
+									dirs -= dir
+									castproj(Type = /obj/projectile/Grav, icon_state = "grav", name = "Gravitate", cd = 0, lag = rand(1,3))
+								dir = tmp_d
+								sleep(AttackDelay)
+
+						Attacked(obj/projectile/p)
+							if(p.icon_state == "iceball" || p.icon_state == "aqua" || (p.icon_state == "blood" && prob(60)))
+								..()
+								emit(loc    = src,
+									 ptype  = /obj/particle/red,
+								     amount = 2,
+								     angle  = new /Random(1, 359),
+								     speed  = 2,
+								     life   = new /Random(15,20))
+							else
+								emit(loc    = src,
+									 ptype  = /obj/particle/green,
+								     amount = 2,
+								     angle  = new /Random(1, 359),
+								     speed  = 2,
+								     life   = new /Random(15,20))
+
+						Death(mob/Player/killer)
+							if(killer)
+								worldData.elderWand = killer.ckey
+							..()
+
 					Snowman
 						icon = 'Snowman.dmi'
 						name = "The Evil Snowman"
