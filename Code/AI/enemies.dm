@@ -1198,10 +1198,11 @@ mob
 
 
 					Golem
-						icon = 'Golem.dmi'
-						iconSize = 2
-						pixel_x = -16
-						pixel_y = -8
+						icon = 'Mobs_128x128.dmi'
+						icon_state = "golem"
+						iconSize = 4
+						pixel_x = -48
+						pixel_y = -24
 						name = "Stone Golem"
 						HPmodifier = 12
 						DMGmodifier = 2
@@ -1250,6 +1251,7 @@ mob
 						Death(mob/Player/killer)
 							if(killer)
 								worldData.elderWand = killer.ckey
+								Players << infomsg("Stone Golem was defeated and the elder wand's magic power was harnessed by <b>[killer.name]</b> ")
 							..()
 
 					Snowman
