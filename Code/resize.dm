@@ -113,13 +113,12 @@ client
 			for(var/hudobj/h in screen)
 				h.updatePos()
 
-	New()
-		spawn(1)
+	proc
+		initMapBrowser()
+			set waitfor = 0
 			while(!browser_loaded)
 				src << browse('mapbrowser.html',"window=browser1")
 				sleep(50)
-		..()
-
 
 hudobj
 	icon               = 'HUD.dmi'

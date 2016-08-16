@@ -346,6 +346,10 @@ obj/items/wearable
 		quality = 0
 		scale   = 1
 
+		tmp
+			clothDmg
+			clothDef
+
 		showoverlay = TRUE
 		wear_layer  = FLOAT_LAYER - 5
 
@@ -416,9 +420,11 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		UpdateDisplay()
 		if(bonus != -1)
 			if(bonus & DAMAGE)
-				owner.clothDmg -= 10 * quality * scale
+				owner.clothDmg -= clothDmg
+				clothDmg        = null
 			if(bonus & DEFENSE)
-				owner.clothDef -= 30 * quality * scale
+				owner.clothDef -= clothDef
+				clothDef        = null
 				owner.resetMaxHP()
 		return REMOVED
 	else
@@ -434,10 +440,13 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		suffix = "worn"
 		UpdateDisplay()
 		if(bonus != -1)
+			var/s = worldData.elderWand == owner.ckey ? 4 : scale
 			if(bonus & DAMAGE)
-				owner.clothDmg += 10 * quality * scale
+				clothDmg        = round(10 * quality * s)
+				owner.clothDmg += clothDmg
 			if(bonus & DEFENSE)
-				owner.clothDef += 30 * quality * scale
+				clothDef        = round(30 * quality * s)
+				owner.clothDef += clothDef
 				owner.resetMaxHP()
 		return WORN
 
@@ -900,6 +909,9 @@ obj/items/wearable/brooms
 		if(!(src in owner.Lwearing) && owner.trnsed)
 			owner << errormsg("You can't fly while transfigured.")
 			return
+		if(owner.findStatusEffect(/StatusEffect/Potions/Vampire))
+			owner << errormsg("You are already flying.")
+			return
 		if(locate(/obj/items/wearable/invisibility_cloak) in owner.Lwearing)
 			owner << errormsg("Your cloak isn't big enough to cover you and your broom.")
 			return
@@ -1220,17 +1232,19 @@ obj/items/wearable/wands
 				if(track)
 					displayKills(owner, 0, 1)
 					displayKills(owner, 0, 2)
+				var/n = worldData.elderWand == owner.ckey ? "[name] (elder)" : name
 				if(track && displayColor)
-					viewers(owner) << infomsg({"[owner] draws \his <span style=\"color:[displayColor];\">[src.name]</span>."})
+					viewers(owner) << infomsg({"[owner] draws \his <span style=\"color:[displayColor];\">[n]</span>."})
 				else
-					viewers(owner) << infomsg("[owner] draws \his [src.name].")
+					viewers(owner) << infomsg("[owner] draws \his [n].")
 		else if(. == REMOVED)
 			owner.wand = null
 			if(!overridetext)
+				var/n = worldData.elderWand == owner.ckey ? "[name] (elder)" : name
 				if(track && displayColor)
-					viewers(owner) << infomsg({"[owner] puts \his <span style=\"color:[displayColor];\">[src.name]</span> away."})
+					viewers(owner) << infomsg({"[owner] puts \his <span style=\"color:[displayColor];\">[n]</span> away."})
 				else
-					viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
+					viewers(owner) << infomsg("[owner] puts \his [n] away.")
 				owner.nowand()
 
 proc/displayKills(mob/Player/i_Player, count=0, countType=1)
@@ -1343,9 +1357,11 @@ area/var/disableEffects = FALSE
 
 obj/items/wearable/wands/interruption_wand //Fred's quest
 	icon = 'interruption_wand.dmi'
+	scale = 2.75
 obj/items/wearable/wands/salamander_wand //Bag of goodies
 	icon = 'salamander_wand.dmi'
 	displayColor = "#FFa500"
+	scale = 2.75
 obj/items/wearable/wands/mithril_wand
 	icon = 'mithril_wand.dmi'
 obj/items/wearable/wands/mulberry_wand
@@ -1359,21 +1375,27 @@ obj/items/wearable/wands/pimp_cane //Sylar's wand thing
 obj/items/wearable/wands/birch_wand
 	icon = 'birch_wand.dmi'
 	displayColor = "#fff"
+	scale = 2.5
 obj/items/wearable/wands/oak_wand
 	icon = 'oak_wand.dmi'
 	displayColor = "#960"
+	scale = 2.5
 obj/items/wearable/wands/mahogany_wand
 	icon = 'mahogany_wand.dmi'
 	displayColor = "#966"
+	scale = 2.5
 obj/items/wearable/wands/elder_wand
 	icon = 'elder_wand.dmi'
 	displayColor = "#ff0"
+	scale = 2.5
 obj/items/wearable/wands/willow_wand
 	icon = 'willow_wand.dmi'
 	displayColor = "#f00"
+	scale = 2.5
 obj/items/wearable/wands/ash_wand
 	icon = 'ash_wand.dmi'
 	displayColor = "#cab5b5"
+	scale = 2.5
 obj/items/wearable/wands/duel_wand
 	icon = 'duel_wand.dmi'
 	displayColor = "#088"
@@ -1920,6 +1942,9 @@ obj/items/wearable/title
 	TWC
 		title = "I <3 TWC"
 		name  = "Title: I <3 TWC"
+	Earthbender
+		title = "Earthbender"
+		name  = "Title: Earthbender"
 
 
 mob/Bump(obj/ball/B)
@@ -3271,29 +3296,37 @@ obj/items
 
 	key
 		icon = 'ChestKey.dmi'
-		dropColor = "#0f0"
+		dropColor = "#0e0"
 
 		master_key
 			icon_state = "master"
 		wizard_key
+			dropColor = "#3366ff"
 			icon_state = "blue"
 		duel_key
 			icon_state = "duel"
 		pentakill_key
+			dropColor = "#3366ff"
 			icon_state = "red"
 		blood_key
+			dropColor = "#ff9900"
 			icon_state = "red"
 		basic_key
 			icon_state = "green"
 		sunset_key
+			dropColor = "#ff9900"
 			icon_state = "purple"
 		summer_key
+			dropColor = "#ff9900"
 			icon_state = "orange"
 		winter_key
+			dropColor = "#ff9900"
 			icon_state = "blue"
 		prom_key
+			dropColor = "#ff9900"
 			icon_state = "pink"
 		pet_key
+			dropColor = "#ff9900"
 			icon_state = "green"
 		special_key
 			icon_state = "master"
@@ -3507,15 +3540,9 @@ obj/roulette
 		var/obj/items/i = new prize (loc)
 		ohearers(src) << infomsg("<b>[playerName] opened a chest and won \a [i]!</b>")
 
-		i.antiTheft = 1
-		i.owner     = playerCkey
+		i.prizeDrop(playerCkey, 600, decay=FALSE)
 
 		goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [playerName]([playerCkey]) got a [i.name] from a chest.<br />"
-
-		spawn(600)
-			if(i)
-				i.antiTheft = 0
-				i.owner     = null
 
 		loc = null
 

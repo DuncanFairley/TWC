@@ -399,6 +399,38 @@ RandomEvent
 			if(message) Players << infomsg("The vampire lord and his army vanished to darkness.")
 			end()
 
+	Golem
+		name   = "Stone Golem"
+		chance = 0
+		start()
+			..()
+			var/minutes = rand(15,45)
+			var/list/m = list()
+			Players << infomsg("The elder wand's magical force is possessing a stone construct outside the castle for [minutes] minutes, destroy the stone construct to harness the power of the broken elder wand!")
+
+			var/obj/spawner/spawn_loc = pick(spawners)
+			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/Golem(spawn_loc.loc)
+			m += monster
+
+			for(var/i = 1 to rand(15, 30))
+				spawn_loc = pick(spawners)
+				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
+
+				m += monster
+
+			sleep(minutes * 600)
+
+			var/message = 0
+			for(var/mob/NPC/Enemies/Summoned/mon in m)
+				if(mon.loc != null) message = 1
+				mon.loc = null
+				mon.ChangeState(monster.INACTIVE)
+				m -= mon
+			m = null
+
+			if(message) Players << infomsg("The stone golem's magic force vanished.")
+			end()
+
 	EntranceKillZone
 		name = "Entrance Kill Zone"
 		start()

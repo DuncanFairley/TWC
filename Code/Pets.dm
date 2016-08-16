@@ -97,6 +97,8 @@ obj/items/wearable/pets
 		function    = 2
 		exp         = 0
 
+		minSize     = 0.75
+
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		.=..(owner, 1, forceremove)
 
@@ -169,6 +171,11 @@ obj/items/wearable/pets
 		icon_state = "eye1"
 	mad_eye
 		icon_state = "eye2"
+	golem
+		icon_state  = "golem"
+		currentSize = 2
+		minSize     = 2
+
 
 obj/pet
 	icon = 'Mobs_128x128.dmi'

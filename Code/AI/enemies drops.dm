@@ -32,6 +32,13 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							/obj/items/lamps/triple_gold_lamp,
 							/obj/items/wearable/afk/hot_chocolate),
 
+"Stone Golem"        = list(/obj/items/vault_key,
+                            /obj/items/wearable/title/Earthbender,
+							/obj/items/chest/wigs/basic_wig_chest,
+							/obj/items/chest/wizard_chest,
+							/obj/items/lamps/triple_drop_rate_lamp,
+							/obj/items/lamps/triple_gold_lamp),
+
 
 "Stickman"           = list("2"    =      /obj/items/key/wizard_key,
 				            "10"   = list(/obj/items/artifact,

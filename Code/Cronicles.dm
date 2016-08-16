@@ -61,6 +61,7 @@ WorldData
 			vault/globalvaults
 			customMap/customMaps
 
+		elderWand
 		canReadBooks
 		allowGifts
 		dplastupdate
