@@ -909,6 +909,9 @@ obj/items/wearable/brooms
 		if(!(src in owner.Lwearing) && owner.trnsed)
 			owner << errormsg("You can't fly while transfigured.")
 			return
+		if(owner.findStatusEffect(/StatusEffect/Potions/Vampire))
+			owner << errormsg("You are already flying.")
+			return
 		if(locate(/obj/items/wearable/invisibility_cloak) in owner.Lwearing)
 			owner << errormsg("Your cloak isn't big enough to cover you and your broom.")
 			return

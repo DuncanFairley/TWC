@@ -300,6 +300,67 @@ StatusEffect
 			potion = p
 			.=..()
 
+		Vampire
+			var/tmp/c
+			Activate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+
+					p.density = 0
+					p.flying = 1
+					p.icon_state = "flying"
+
+					for(var/obj/items/wearable/brooms/W in p.Lwearing)
+						if(W != src)
+							W.Equip(p,1,1)
+
+					p.layer   = 5
+					animateFly(p)
+
+					if(!p.followers || !(locate(/obj/Shadow) in p.followers))
+						var/obj/Shadow/s = new (p.loc)
+						p.addFollower(s)
+
+					var/image/i = new('VampireWings.dmi', "flying")
+					i.layer = FLOAT_LAYER - 3
+					i.pixel_x = -16
+					i.pixel_y = -16
+					i.color = rgb(rand(20,240), rand(20,240), rand(20,240))
+					c = i.color
+
+					p.overlays += i
+
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+
+					p.density = 1
+					p.flying = 0
+					p.icon_state = ""
+
+					animate(p, pixel_y = 0, time = 5)
+					p.layer   = 4
+
+					spawn(5)
+						if(p.followers && !p.flying)
+							var/obj/Shadow/s = locate(/obj/Shadow) in p.followers
+							if(s)
+								s.Dispose()
+								p.removeFollower(s)
+								animate(p)
+
+					var/image/i = new('VampireWings.dmi', "flying")
+					i.layer = FLOAT_LAYER - 3
+					i.pixel_x = -16
+					i.pixel_y = -16
+					i.color = c
+
+					p.overlays -= i
+
+				..()
+
 		Tame
 			var/factor = 10
 

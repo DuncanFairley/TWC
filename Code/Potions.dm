@@ -603,6 +603,13 @@ obj/items/potions
 			effect = /StatusEffect/Potions/Speed
 			seconds = 120
 
+		vampire
+			name       = "ego sanguinare"
+			icon_state = "red"
+			seconds    = 600
+			effect     = /StatusEffect/Potions/Vampire
+
+
 	pets
 
 		growth
