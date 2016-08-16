@@ -1229,17 +1229,19 @@ obj/items/wearable/wands
 				if(track)
 					displayKills(owner, 0, 1)
 					displayKills(owner, 0, 2)
+				var/n = worldData.elderWand == owner.ckey ? "[name] (elder)" : name
 				if(track && displayColor)
-					viewers(owner) << infomsg({"[owner] draws \his <span style=\"color:[displayColor];\">[src.name]</span>."})
+					viewers(owner) << infomsg({"[owner] draws \his <span style=\"color:[displayColor];\">[n]</span>."})
 				else
-					viewers(owner) << infomsg("[owner] draws \his [src.name].")
+					viewers(owner) << infomsg("[owner] draws \his [n].")
 		else if(. == REMOVED)
 			owner.wand = null
 			if(!overridetext)
+				var/n = worldData.elderWand == owner.ckey ? "[name] (elder)" : name
 				if(track && displayColor)
-					viewers(owner) << infomsg({"[owner] puts \his <span style=\"color:[displayColor];\">[src.name]</span> away."})
+					viewers(owner) << infomsg({"[owner] puts \his <span style=\"color:[displayColor];\">[n]</span> away."})
 				else
-					viewers(owner) << infomsg("[owner] puts \his [src.name] away.")
+					viewers(owner) << infomsg("[owner] puts \his [n] away.")
 				owner.nowand()
 
 proc/displayKills(mob/Player/i_Player, count=0, countType=1)
