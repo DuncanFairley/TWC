@@ -630,7 +630,7 @@ obj/items/potions
 
 			Effect(mob/Player/p)
 
-				if(p.pet.currentSize <= 0.75)
+				if(p.pet.currentSize <= 0.75 || p.pet.currentSize <= p.pet.item.minSize)
 					p << errormsg("You can't make your pet shrink further.")
 					return
 
