@@ -346,6 +346,10 @@ obj/items/wearable
 		quality = 0
 		scale   = 1
 
+		tmp
+			clothDmg
+			clothDef
+
 		showoverlay = TRUE
 		wear_layer  = FLOAT_LAYER - 5
 
@@ -416,9 +420,11 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		UpdateDisplay()
 		if(bonus != -1)
 			if(bonus & DAMAGE)
-				owner.clothDmg -= round(10 * quality * scale)
+				owner.clothDmg -= clothDmg
+				clothDmg        = null
 			if(bonus & DEFENSE)
-				owner.clothDef -= round(30 * quality * scale)
+				owner.clothDef -= clothDef
+				clothDef        = null
 				owner.resetMaxHP()
 		return REMOVED
 	else
@@ -434,10 +440,13 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		suffix = "worn"
 		UpdateDisplay()
 		if(bonus != -1)
+			var/s = worldData.elderWand == owner.ckey ? 4 : scale
 			if(bonus & DAMAGE)
-				owner.clothDmg += round(10 * quality * scale)
+				clothDmg        = round(10 * quality * s)
+				owner.clothDmg += clothDmg
 			if(bonus & DEFENSE)
-				owner.clothDef += round(30 * quality * scale)
+				clothDef        = round(30 * quality * s)
+				owner.clothDef += clothDef
 				owner.resetMaxHP()
 		return WORN
 
