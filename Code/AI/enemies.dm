@@ -1133,7 +1133,7 @@ mob
 
 							spawn()
 								while(src.loc)
-									proj = pick(list("gum", "quake", "iceball","fireball", "", "black") - proj)
+									proj = pick(list("gum", "quake", "iceball","fireball", "aqua", "black") - proj)
 									switch(proj)
 										if("gum")
 											animate(src, color = "#fa8bd8", time = 10, loop = -1)
@@ -1154,7 +1154,7 @@ mob
 										if("black")
 											animate(src, color = "#000000", time = 10, loop = -1)
 											animate(color = "#ffffff", time = 10)
-										if("")
+										if("aqua")
 											animate(src, color = "#0e3492", time = 10, loop = -1)
 											animate(color = "#2a32fb", time = 10)
 											animate(color = "#cdf0e3", time = 10)
