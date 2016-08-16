@@ -621,8 +621,10 @@ tr.grey
 	border: solid 1px #EEEEEE;
 }
 }</style></head>"}
-
-			var/html = {"<body><center><table align="center" class="colored"><tr><td colspan="3"><center>Experience Earned Leaderboard</center></td></tr><tr><td>#</td><td>Name</td><td>Score</td></tr>"}
+			var/s
+			if(worldData.elderWand)
+				s = "[sql_get_name_from(worldData.elderWand)] possess the elder wand"
+			var/html = {"<body><center>[s]<table align="center" class="colored"><tr><td colspan="3"><center>Experience Earned Leaderboard</center></td></tr><tr><td>#</td><td>Name</td><td>Score</td></tr>"}
 			var/rankNum = 1
 			var/isWhite = TRUE
 			for(var/i = worldData.expScoreboard.len to 1 step -1)
