@@ -1185,6 +1185,9 @@ turf
 		proc
 			ice()
 				if(icon_state == "ice") return
+
+				new /obj/fade/water (src)
+
 				name       = "ice"
 				icon_state = "ice"
 				layer      = 2
@@ -1199,9 +1202,13 @@ turf
 						if(istype(src, /turf/water)) water()
 			water()
 				if(icon_state == "water") return
+
+				new /obj/fade/ice (src)
+
 				name       = "water"
 				icon_state = "water"
 				layer      = 4
+
 				if(rain)
 					rain.layer = 4
 				if(isice)
@@ -1411,3 +1418,22 @@ obj
 				icon_state="big bl"
 			p4
 				icon_state="big br"
+
+obj/fade
+	layer = 4
+
+	water
+		icon='Water.dmi'
+		icon_state="water"
+		name = "water"
+	ice
+		icon='Water.dmi'
+		icon_state="ice"
+		name = "ice"
+
+	New()
+		set waitfor = 0
+		..()
+		animate(src, alpha = 0, time = 5)
+		sleep(6)
+		loc = null
