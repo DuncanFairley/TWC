@@ -91,6 +91,8 @@ Event
 				RandomizeShop()
 				rewardExpWeek()
 
+				worldData.elderWand = null
+
 				// elects major guilds
 				if(worldData.guilds && worldData.guilds.len >= 2)
 
