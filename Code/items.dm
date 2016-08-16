@@ -416,9 +416,9 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		UpdateDisplay()
 		if(bonus != -1)
 			if(bonus & DAMAGE)
-				owner.clothDmg -= 10 * quality * scale
+				owner.clothDmg -= round(10 * quality * scale)
 			if(bonus & DEFENSE)
-				owner.clothDef -= 30 * quality * scale
+				owner.clothDef -= round(30 * quality * scale)
 				owner.resetMaxHP()
 		return REMOVED
 	else
@@ -435,9 +435,9 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		UpdateDisplay()
 		if(bonus != -1)
 			if(bonus & DAMAGE)
-				owner.clothDmg += 10 * quality * scale
+				owner.clothDmg += round(10 * quality * scale)
 			if(bonus & DEFENSE)
-				owner.clothDef += 30 * quality * scale
+				owner.clothDef += round(30 * quality * scale)
 				owner.resetMaxHP()
 		return WORN
 
@@ -1343,9 +1343,11 @@ area/var/disableEffects = FALSE
 
 obj/items/wearable/wands/interruption_wand //Fred's quest
 	icon = 'interruption_wand.dmi'
+	scale = 2.75
 obj/items/wearable/wands/salamander_wand //Bag of goodies
 	icon = 'salamander_wand.dmi'
 	displayColor = "#FFa500"
+	scale = 2.75
 obj/items/wearable/wands/mithril_wand
 	icon = 'mithril_wand.dmi'
 obj/items/wearable/wands/mulberry_wand
@@ -1359,21 +1361,27 @@ obj/items/wearable/wands/pimp_cane //Sylar's wand thing
 obj/items/wearable/wands/birch_wand
 	icon = 'birch_wand.dmi'
 	displayColor = "#fff"
+	scale = 2.5
 obj/items/wearable/wands/oak_wand
 	icon = 'oak_wand.dmi'
 	displayColor = "#960"
+	scale = 2.5
 obj/items/wearable/wands/mahogany_wand
 	icon = 'mahogany_wand.dmi'
 	displayColor = "#966"
+	scale = 2.5
 obj/items/wearable/wands/elder_wand
 	icon = 'elder_wand.dmi'
 	displayColor = "#ff0"
+	scale = 2.5
 obj/items/wearable/wands/willow_wand
 	icon = 'willow_wand.dmi'
 	displayColor = "#f00"
+	scale = 2.5
 obj/items/wearable/wands/ash_wand
 	icon = 'ash_wand.dmi'
 	displayColor = "#cab5b5"
+	scale = 2.5
 obj/items/wearable/wands/duel_wand
 	icon = 'duel_wand.dmi'
 	displayColor = "#088"
