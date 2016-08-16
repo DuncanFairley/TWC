@@ -1937,6 +1937,9 @@ obj/items/wearable/title
 	TWC
 		title = "I <3 TWC"
 		name  = "Title: I <3 TWC"
+	Earthbender
+		title = "Earthbender"
+		name  = "Title: Earthbender"
 
 
 mob/Bump(obj/ball/B)
