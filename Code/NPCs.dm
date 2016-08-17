@@ -419,3 +419,5 @@ obj/magic_force
 
 		riddle = riddles[i]
 		item   = riddles[riddle]
+
+		animate(loc, color = rgb(rand(60, 220), rand(60, 220), rand(60, 220)), time = 15)
