@@ -153,7 +153,7 @@ obj
 				a.faction()
 
 				for(var/mob/NPC/Enemies/Vampire/v in a)
-					v.rep = data.rep
+					v.rep = abs(v.rep) * data.rep
 					v.faction()
 
 
