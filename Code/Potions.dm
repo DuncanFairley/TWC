@@ -618,13 +618,11 @@ obj/items/potions
 
 			Effect(mob/Player/p)
 
-				if(p.pet.currentSize >= 3)
+				if(p.pet.item.currentSize >= 3)
 					p << errormsg("You can't make your pet grow further.")
 					return
 
 				var/obj/items/wearable/pets/item = p.pet.item
-
-				p.pet.currentSize += 0.25
 				item.currentSize  += 0.25
 
 				animate(p.pet, transform = matrix() * (item.currentSize / 4), time = 10)
@@ -637,13 +635,11 @@ obj/items/potions
 
 			Effect(mob/Player/p)
 
-				if(p.pet.currentSize <= 0.75 || p.pet.currentSize <= p.pet.item.minSize)
+				if(p.pet.item.currentSize <= 0.75 || p.pet.item.currentSize <= p.pet.item.minSize)
 					p << errormsg("You can't make your pet shrink further.")
 					return
 
 				var/obj/items/wearable/pets/item = p.pet.item
-
-				p.pet.currentSize -= 0.25
 				item.currentSize  -= 0.25
 
 				animate(p.pet, transform = matrix() * (item.currentSize / 4), time = 10)

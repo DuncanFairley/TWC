@@ -171,7 +171,7 @@ obj/items/wearable/pets
 		icon_state = "eye1"
 	mad_eye
 		icon_state = "eye2"
-	golem
+	rock
 		icon_state  = "golem"
 		currentSize = 2
 		minSize     = 2
@@ -186,7 +186,6 @@ obj/pet
 
 	var
 		iconSize    = 4
-		currentSize = 1
 
 		tmp
 			obj/light/light
@@ -197,7 +196,6 @@ obj/pet
 
 		item        = pet
 		icon_state  = pet.icon_state
-		currentSize = pet.currentSize
 		color       = pet.color
 		name        = pet.name
 
@@ -229,16 +227,16 @@ obj/pet
 			var/offset = (iconSize - 1) * -16
 
 			if(dir & EAST)
-				pixel_x = offset - (currentSize - 1) * 4
+				pixel_x = offset - (item.currentSize - 1) * 4
 			else if(dir & WEST)
-				pixel_x = offset + (currentSize - 1) * 4
+				pixel_x = offset + (item.currentSize - 1) * 4
 			else
 				pixel_x = offset
 
 			if(dir & NORTH)
-				pixel_y = offset - (currentSize - 1) * 4
+				pixel_y = offset - (item.currentSize - 1) * 4
 			else if(dir & SOUTH)
-				pixel_y = offset + (currentSize - 1) * 16
+				pixel_y = offset + (item.currentSize - 1) * 16
 			else
 				pixel_y = offset
 
