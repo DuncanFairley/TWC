@@ -337,3 +337,85 @@ mob/TalkNPC
 		New()
 			..()
 			GenerateIcon(src, wig = 0, shoes = 1, scarf = 1)
+
+obj/magic_force
+
+	icon               = 'misc.dmi'
+	icon_state         = "black"
+
+	mouse_over_pointer = MOUSE_HAND_POINTER
+	mouse_opacity      = 2
+	layer              = 4
+
+	var
+		riddle
+		item
+
+		tmp
+			count = 8
+
+	Click()
+
+		if(src in oview(3))
+			var/mob/Player/p = usr
+
+			if(count <= 0)
+
+				if(currentEvents)
+					p << errormsg("You can't use this while an event is running.")
+					return
+
+				count = 8
+
+				for(var/obj/fadeIn/flame/f in orange(5, src))
+					f.Dispose()
+
+				if(!worldData.elderWand && prob(65))
+					var/RandomEvent/Golem/event = locate() in events
+					spawn() event.start()
+				else if(prob(45))
+					var/RandomEvent/Ghosts/event = locate() in events
+					spawn() event.start()
+				else
+					var/RandomEvent/Invasion/event = locate() in events
+					spawn() event.start()
+			else
+				var/ScreenText/s = new(p, src)
+
+				var/obj/o = locate(item) in loc
+				if(o)
+					count--
+					o.Dispose()
+
+					for(var/obj/Columb/c in orange(5, src))
+						if(!(locate(/obj/fadeIn/flame) in c.loc))
+							new /obj/fadeIn/flame (c.loc)
+							break
+					pickRiddle()
+					s.AddText("You solved the riddle.")
+				else
+					s.AddText("A voice whispers in your ear...<br>[riddle]")
+
+	New()
+		..()
+
+		pickRiddle()
+
+	proc/pickRiddle()
+		var/list/riddles = list(
+		"Rare... magical... desired by goblins."                 = /obj/items/artifact,
+		"Let's make a deal... with the devil..."                 = /obj/items/crystal/soul,
+		"Are you lucky?"                                         = /obj/items/crystal/luck,
+		"I like both the sword and the shield."                  = /obj/items/crystal/magic,
+		"The sword is my favorite tool."                         = /obj/items/crystal/damage,
+		"The shield is my favorite tool."                        = /obj/items/crystal/defense,
+		"Before you say goodbye, I am the ones you have to tie!" = /obj/items/wearable/shoes,
+		"It's cold..."                                           = /obj/items/wearable/scarves,
+		"I name thee..."                                         = /obj/items/wearable/title,
+		"I wear thee..."                                         = /obj/items/wearable,
+		"Unlock me!"                                             = /obj/items/key)
+
+		var/i = rand(1, riddles.len)
+
+		riddle = riddles[i]
+		item   = riddles[riddle]

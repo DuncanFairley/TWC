@@ -1186,7 +1186,7 @@ turf
 			ice()
 				if(icon_state == "ice") return
 
-				new /obj/fade/water (src)
+				new /obj/fadeOut/water (src)
 
 				name       = "ice"
 				icon_state = "ice"
@@ -1203,7 +1203,7 @@ turf
 			water()
 				if(icon_state == "water") return
 
-				new /obj/fade/ice (src)
+				new /obj/fadeOut/ice (src)
 
 				name       = "water"
 				icon_state = "water"
@@ -1419,21 +1419,58 @@ obj
 			p4
 				icon_state="big br"
 
-obj/fade
-	layer = 4
+obj
+	fadeIn
+		alpha = 0
 
-	water
-		icon='Water.dmi'
-		icon_state="water"
-		name = "water"
-	ice
-		icon='Water.dmi'
-		icon_state="ice"
-		name = "ice"
+		flame
+			icon='attacks.dmi'
+			icon_state="fireball"
+			layer = 6
 
-	New()
-		set waitfor = 0
-		..()
-		animate(src, alpha = 0, time = 5)
-		sleep(6)
-		loc = null
+			var/tmp/obj/light/light
+
+			Dispose()
+				set waitfor = 0
+
+				var/t = rand(5, 15)
+				animate(src, alpha = 0, time = t)
+				animate(light, transform = matrix() * 0.1, time = t)
+
+				sleep(t + 1)
+
+				loc       = null
+				light.loc = null
+				light     = null
+
+			New()
+				set waitfor = 0
+				..()
+
+				light = new (loc)
+				animate(light, transform = matrix() * 1.3, time = 10, loop = -1)
+				animate(       transform = matrix() * 1.2, time = 10)
+
+		New()
+			set waitfor = 0
+			..()
+			animate(src, alpha = 255, time = 30)
+
+	fadeOut
+		layer = 4
+
+		water
+			icon='Water.dmi'
+			icon_state="water"
+			name = "water"
+		ice
+			icon='Water.dmi'
+			icon_state="ice"
+			name = "ice"
+
+		New()
+			set waitfor = 0
+			..()
+			animate(src, alpha = 0, time = 5)
+			sleep(6)
+			loc = null
