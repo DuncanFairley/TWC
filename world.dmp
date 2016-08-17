@@ -1329,7 +1329,7 @@
 "azC" = (/obj/Columb{color = "#17e99a"},/turf/grass,/area/outside/Hogsmeade)
 "azD" = (/obj/Columb{color = "#fe7049"},/turf/grass,/area/outside/Hogsmeade)
 "azE" = (/obj/Column{color = "#17e99a"},/turf/grass,/area/outside/Hogsmeade)
-"azF" = (/obj/Magic_Sphere,/turf/grass,/area/outside/Hogsmeade)
+"azF" = (/obj/magic_force,/turf/grass,/area/outside/Hogsmeade)
 "azG" = (/obj/Column{color = "#fe7049"},/turf/grass,/area/outside/Hogsmeade)
 "azH" = (/obj/Columb{color = "#f3a11d"},/turf/grass,/area/outside/Hogsmeade)
 "azI" = (/obj/Columb{color = "#fd4668"},/turf/grass,/area/outside/Hogsmeade)
