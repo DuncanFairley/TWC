@@ -1216,18 +1216,18 @@ mob
 
 						Attack(mob/M)
 							..()
-							if(!fired && target && state == HOSTILE && prob(75))
+							if(!fired && target && state == HOSTILE)
 								fired = 1
-								spawn(rand(20,40)) fired = 0
+								spawn(rand(18,38)) fired = 0
 
-								var/r = rand(1,5)
+								var/r = rand(3,8)
 								var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 								var/tmp_d = dir
 
 								for(var/i = 1 to r)
 									dir = pick(dirs)
 									dirs -= dir
-									castproj(Type = /obj/projectile/Grav, icon_state = "grav", name = "Gravitate", cd = 0, lag = rand(1,3))
+									castproj(Type = /obj/projectile/Grav, icon_state = "grav", name = "Gravitate", cd = 0, lag = 1)
 								dir = tmp_d
 								sleep(AttackDelay)
 
