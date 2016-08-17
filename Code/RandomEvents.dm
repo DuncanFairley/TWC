@@ -412,7 +412,7 @@ RandomEvent
 			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/Golem(spawn_loc.loc)
 			m += monster
 
-			for(var/i = 1 to rand(15, 30))
+			for(var/i = 1 to rand(5, 15))
 				spawn_loc = pick(spawners)
 				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
