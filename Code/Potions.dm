@@ -596,10 +596,12 @@ obj/items/potions
 			seconds    = 180
 
 		immortality_potion
+			icon_state = "green"
 			effect = /StatusEffect/Potions/Health { amount = 99999 }
 			seconds = 120
 
 		speed_potion
+			icon_state = "green"
 			effect = /StatusEffect/Potions/Speed
 			seconds = 120
 
