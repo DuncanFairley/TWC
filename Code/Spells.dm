@@ -1900,7 +1900,7 @@ obj
 
 			shoot()
 				..()
-				velocity+=2
+				velocity+=100
 
 			New()
 				..()
