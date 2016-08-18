@@ -157,38 +157,39 @@ obj/teleport
 					M.pathTo(M.pathdest)
 				return 1
 	entervault
-		Teleport(mob/M)
-			if(M.key)
-				var/list/accessible_vaults = M.get_accessible_vaults()
-				var/hasownvault = 	fexists("[swapmaps_directory]/map_[usr.ckey].sav")
-				if(hasownvault || accessible_vaults.len)
-					var/list/result = list()
-					for(var/ckey in accessible_vaults)
-						result[sql_get_name_from(ckey)] = ckey
-					var/chosenvault
-					var/response
-					if(result.len && hasownvault)
-						response = input("Which vault do you wish to enter?") as null|anything in result + "My own"
-						if(response == "My own")
-							chosenvault = usr.ckey
-					else if(result.len)
-						response = input("Which vault do you wish to enter?") as null|anything in result
-					else if(hasownvault)
-						chosenvault = usr.ckey
-					if(usr.loc != src.loc) return
-					if(chosenvault == usr.ckey)
-						usr << npcsay("Vault Master: Welcome back to your vault, [usr].[pick(" Remember good security! If you let someone inside and they steal something, there's not much you can do about it!!"," Only let people into your vault if you completely trust them!","")]")
-					else
-						if(!response) return
-						usr << npcsay("Vault Master: Welcome to [response]'s vault, [usr].")
-						chosenvault = result[response]
-					var/swapmap/map = SwapMaps_Find("[chosenvault]")
-					if(!map)
-						map = SwapMaps_Load("[chosenvault]")
-					var/width = (map.x2+1) - map.x1
-					usr.loc = locate(map.x1 + round((width)/2), map.y1+1, map.z1 )
+		Teleport(mob/Player/M)
+			var/list/accessible_vaults = M.get_accessible_vaults()
+			var/hasownvault = 	fexists("[swapmaps_directory]/map_[M.ckey].sav")
+			if(hasownvault || accessible_vaults.len)
+				var/list/result = list()
+				for(var/ckey in accessible_vaults)
+					var/n = sql_get_name_from(ckey)
+					if(n in M.blockedpeeps) continue
+					result[n] = ckey
+				var/chosenvault
+				var/response
+				if(result.len && hasownvault)
+					response = input("Which vault do you wish to enter?") as null|anything in result + "My own"
+					if(response == "My own")
+						chosenvault = M.ckey
+				else if(result.len)
+					response = input("Which vault do you wish to enter?") as null|anything in result
+				else if(hasownvault)
+					chosenvault = M.ckey
+				if(M.loc != src.loc) return
+				if(chosenvault == M.ckey)
+					M << npcsay("Vault Master: Welcome back to your vault, [M].[pick(" Remember good security! If you let someone inside and they steal something, there's not much you can do about it!!"," Only let people into your vault if you completely trust them!","")]")
 				else
-					M << npcsay("Vault Master: You don't have a vault here, [usr]. Come speak to me and let's see if we can change that.")
+					if(!response) return
+					M << npcsay("Vault Master: Welcome to [response]'s vault, [M].")
+					chosenvault = result[response]
+				var/swapmap/map = SwapMaps_Find("[chosenvault]")
+				if(!map)
+					map = SwapMaps_Load("[chosenvault]")
+				var/width = (map.x2+1) - map.x1
+				M.loc = locate(map.x1 + round((width)/2), map.y1+1, map.z1 )
+			else
+				M << npcsay("Vault Master: You don't have a vault here, [M]. Come speak to me and let's see if we can change that.")
 	leavevault
 		icon = 'turf.dmi'
 		icon_state = "exit"
