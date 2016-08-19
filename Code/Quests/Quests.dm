@@ -109,7 +109,7 @@ mob/TalkNPC/quest
 
 				if("Master of Keys")
 
-					if(i_Player.level < lvlcap || !i_Player.rankLevel || i_Player.rankLevel.level > i_Player.rankLevel.TIER)
+					if(i_Player.level < lvlcap || !i_Player.rankLevel || i_Player.rankLevel.level <= i_Player.rankLevel.TIER)
 
 						s.AddText("You're too young for this, talk to me again when you've gained some more experience.")
 						return
