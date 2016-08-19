@@ -383,6 +383,17 @@ obj/items/wearable
 			else
 				suffix  = null
 
+	proc
+		calcBonus(mob/Player/owner)
+			if(bonus & DAMAGE)
+				clothDmg = round(10 * quality * scale)
+				owner.clothDmg += clothDmg
+			if(bonus & DEFENSE)
+				clothDef = round(30 * quality * scale)
+				owner.clothDef += clothDef
+				owner.resetMaxHP()
+
+
 obj/items/wearable/Destroy(var/mob/Player/owner)
 	if(alert(owner,"Are you sure you wish to destroy your [src.name]?",,"Yes","Cancel") == "Yes")
 		if(src in owner.Lwearing)
@@ -440,14 +451,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		suffix = "worn"
 		UpdateDisplay()
 		if(bonus != -1)
-			var/s = worldData.elderWand == owner.ckey ? 4 : scale
-			if(bonus & DAMAGE)
-				clothDmg        = round(10 * quality * s)
-				owner.clothDmg += clothDmg
-			if(bonus & DEFENSE)
-				clothDef        = round(30 * quality * s)
-				owner.clothDef += clothDef
-				owner.resetMaxHP()
+			calcBonus(owner)
 		return WORN
 
 obj/items/food
@@ -1154,6 +1158,16 @@ obj/items/wearable/wands
 
 	bonus = NOENCHANT
 	max_stack = 1
+
+	calcBonus(mob/Player/owner)
+		var/s = worldData.elderWand == owner.ckey ? 4 : scale
+		if(bonus & DAMAGE)
+			clothDmg = round(10 * quality * s)
+			owner.clothDmg += clothDmg
+		if(bonus & DEFENSE)
+			clothDef = round(30 * quality * s)
+			owner.clothDef += clothDef
+			owner.resetMaxHP()
 
 	proc
 		addExp(mob/Player/owner, amount)
