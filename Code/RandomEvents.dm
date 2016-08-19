@@ -597,7 +597,7 @@ RandomEvent
 			var/minutes = rand(10,30)
 			var/monsters = rand(50,100)
 			var/tier = rand(1,7)
-			var/list/types = list("Rat", "Demon Rat", "Pixie", "Dog", "Snake", "Wolf", "Troll")
+			var/list/types = list("Slug", "Rat", "Pixie", "Dog", "Snake", "Wolf", "Troll")
 
 			Players << infomsg("[types[tier]]s are invading for [minutes] minutes, they're right outside Hogwarts, defend the castle!<br>(The monsters have a leader, stronger than the rest, he drops a valuable prize based on level)")
 
