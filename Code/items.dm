@@ -1959,6 +1959,15 @@ obj/items/wearable/title
 	Earthbender
 		title = "Earthbender"
 		name  = "Title: Earthbender"
+	Airhbender
+		title = "Airbender"
+		name  = "Title: Airbender"
+	Firebender
+		title = "Firebender"
+		name  = "Title: Firebender"
+	Waterbender
+		title = "Waterbender"
+		name  = "Title: Waterbender"
 
 
 mob/Bump(obj/ball/B)
