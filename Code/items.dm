@@ -903,6 +903,8 @@ proc/animateFly(mob/Player/p)
 			animate(   pixel_y = p.pixel_y - 1,time = 2)
 
 obj/items/wearable/brooms
+	var/tmp/protection = 1
+
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && (owner.loc.loc:antiFly||istype(owner.loc.loc,/area/ministry_of_magic)))
 			owner << errormsg("You cannot fly here.")
@@ -927,6 +929,7 @@ obj/items/wearable/brooms
 			owner.density = 0
 			owner.flying = 1
 			owner.icon_state = "flying"
+			protection = initial(protection)
 			for(var/obj/items/wearable/brooms/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
@@ -957,12 +960,15 @@ obj/items/wearable/brooms
 
 obj/items/wearable/brooms/firebolt
 	icon = 'firebolt_broom.dmi'
+	protection = 3
 obj/items/wearable/brooms/nimbus_2000
 	icon = 'nimbus_2000_broom.dmi'
+	protection = 2
 obj/items/wearable/brooms/cleansweep_seven
 	icon = 'cleansweep_seven_broom.dmi'
 
 obj/items/wearable/brooms/vampire_wings
+	protection = 99
 	showoverlay = FALSE
 	color = "#ff0000"
 
@@ -994,6 +1000,7 @@ obj/items/wearable/brooms/vampire_wings
 
 obj/items/wearable/brooms/floating_rock
 	showoverlay = FALSE
+	protection = 99
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		.=..(owner, 1, forceremove)
