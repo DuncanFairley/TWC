@@ -630,7 +630,8 @@ RandomEvent
 						                     /obj/items/chest/basic_chest,
 											 /obj/items/lamps/double_drop_rate_lamp,
 											 /obj/items/lamps/double_exp_lamp,
-											 /obj/items/lamps/double_gold_lamp)
+											 /obj/items/lamps/double_gold_lamp,
+											 /obj/items/wearable/title/Warrior)
 					else if(tier == 4)
 						monster.drops = list(/obj/items/artifact,
 						                     /obj/items/chest/basic_chest,
@@ -651,7 +652,7 @@ RandomEvent
 											 /obj/items/lamps/triple_exp_lamp,
 											 /obj/items/lamps/triple_gold_lamp,
 											 /obj/items/lamps/farmer_lamp,
-											 /obj/items/wearable/title/Warrior)
+											 /obj/items/wearable/title/Warmonger)
 					else if(tier == 6)
 						monster.drops = list(/obj/items/artifact,
 						                     /obj/items/chest/wizard_chest,
@@ -659,7 +660,6 @@ RandomEvent
 											 /obj/items/lamps/triple_drop_rate_lamp,
 											 /obj/items/lamps/triple_exp_lamp,
 											 /obj/items/lamps/triple_gold_lamp,
-											 /obj/items/wearable/title/Warrior,
 											 /obj/items/wearable/title/Warmonger)
 
 					else if(tier == 7)
@@ -674,7 +674,7 @@ RandomEvent
 											 /obj/items/lamps/quadaple_drop_rate_lamp,
 											 /obj/items/lamps/quadaple_gold_lamp,
 											 /obj/items/lamps/quadaple_exp_lamp,
-											 /obj/items/wearable/title/Warmonger)
+											 /obj/items/wearable/title/Legionnaire)
 					else if(tier == 8)
 						monster.drops = list(/obj/items/artifact,
 											 /obj/items/chest/sunset_chest,
@@ -682,8 +682,7 @@ RandomEvent
 											 /obj/items/lamps/quadaple_drop_rate_lamp,
 											 /obj/items/lamps/quadaple_gold_lamp,
 											 /obj/items/lamps/quadaple_exp_lamp,
-											 /obj/items/wearable/title/Myrmidon,
-											 /obj/items/wearable/title/Warmonger)
+											 /obj/items/wearable/title/Legionnaire)
 					else if(tier == 9)
 						monster.drops = list(/obj/items/artifact,
 											 /obj/items/chest/sunset_chest,
