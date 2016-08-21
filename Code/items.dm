@@ -1378,6 +1378,7 @@ area/var/disableEffects = FALSE
 
 obj/items/wearable/wands/interruption_wand //Fred's quest
 	icon = 'interruption_wand.dmi'
+	displayColor = "#fff"
 	scale = 2.75
 obj/items/wearable/wands/salamander_wand //Bag of goodies
 	icon = 'salamander_wand.dmi'
