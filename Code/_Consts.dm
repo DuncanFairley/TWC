@@ -28,3 +28,9 @@
 #define MAX_WAND_EXP(wand) ((wand.quality * 10 + 1) * 20000)
 
 #define POTIONS_AMOUNT 29
+
+
+#define EARTH 1
+#define FIRE  2
+#define WATER 4
+#define GHOST 8

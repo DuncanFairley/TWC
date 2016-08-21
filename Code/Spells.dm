@@ -722,7 +722,7 @@ mob/Spells/verb/Aqua_Eructo()
 		var/dmg = p.Def + (p.extraDef / 3) + (p.clothDmg / 5)
 		dmg *= 0.8
 
-		castproj(icon_state = "aqua", damage = dmg, name = "Aqua Eructo")
+		castproj(icon_state = "aqua", damage = dmg, name = "Aqua Eructo", element = WATER)
 
 
 mob/Spells/verb/Sanguinis_Iactus()
@@ -754,19 +754,19 @@ mob/Spells/verb/Inflamari()
 		dmg = round(dmg, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
-		castproj(icon_state = "fireball", damage = dmg, name = "Inflamari")
+		castproj(icon_state = "fireball", damage = dmg, name = "Inflamari", element = FIRE)
 mob/Spells/verb/Glacius()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
-		castproj(MPreq = 10, icon_state = "iceball", damage = usr.Dmg+usr.extraDmg + clothDmg, name = "Glacius")
+		castproj(MPreq = 10, icon_state = "iceball", damage = usr.Dmg+usr.extraDmg + clothDmg, name = "Glacius", element = WATER)
 mob/Spells/verb/Waddiwasi()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
-		castproj(MPreq = 10, icon_state = "gum", damage = usr.Dmg+usr.extraDmg + clothDmg, name = "Waddiwasi")
+		castproj(MPreq = 10, icon_state = "gum", damage = usr.Dmg+usr.extraDmg + clothDmg, name = "Waddiwasi", element = GHOST)
 mob/Spells/verb/Tremorio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
-		castproj(MPreq = 5, icon_state = "quake", damage = usr.Dmg+usr.extraDmg + clothDmg, name = "Tremorio")
+		castproj(MPreq = 5, icon_state = "quake", damage = usr.Dmg+usr.extraDmg + clothDmg, name = "Tremorio", element = EARTH)
 
 mob/var/tmp/list/_input
 
@@ -999,7 +999,7 @@ mob/Spells/verb/Incindia()
 		p.learnSpell("Incindia")
 		for(var/d in dirs)
 			dir = d
-			castproj(icon_state = "fireball", damage = damage, name = "incindia", cd = 0, lag = 1)
+			castproj(icon_state = "fireball", damage = damage, name = "incindia", cd = 0, lag = 1, element = FIRE)
 		dir = t
 mob/Spells/verb/Replacio(mob/Player/M in oview()&Players)
 	set category="Spells"
@@ -1607,7 +1607,7 @@ mob/var/Zitt
 var/safemode = 1
 mob/var/tmp/lastproj = 0
 mob
-	proc/castproj(Type = /obj/projectile, MPreq = 0, icon = 'attacks.dmi', icon_state = "", damage = 0, name = "projectile", cd = 1, lag = 2)
+	proc/castproj(Type = /obj/projectile, MPreq = 0, icon = 'attacks.dmi', icon_state = "", damage = 0, name = "projectile", cd = 1, lag = 2, element = 0)
 		if(cd && (world.time - lastproj) < 2 && !inOldArena()) return
 		if(!loc) return
 		lastproj = world.time
@@ -1615,7 +1615,7 @@ mob
 		damage *= loc.loc:dmg
 		damage = round(damage)
 
-		var/obj/projectile/P = new Type (src.loc,src.dir,src,icon,icon_state,damage,name)
+		var/obj/projectile/P = new Type (src.loc,src.dir,src,icon,icon_state,damage,name,element)
 		P.shoot(lag)
 		. = P
 		if(client)
@@ -1727,10 +1727,9 @@ mob/Player
 
 			return src
 
-
-
 mob/NPC/Enemies
 	var/canBleed = TRUE
+	var/element
 
 	Attacked(obj/projectile/p)
 
@@ -1738,6 +1737,15 @@ mob/NPC/Enemies
 
 			if(p.icon_state == "blood")
 				p.damage += round(p.damage / 20, 1)
+			else
+				if(element == p.element)
+					p.damage -= round(p.damage / 20, 1)
+
+				else if((element & EARTH|FIRE) && (p.element & WATER|GHOST))
+					p.damage += round(p.damage / 20, 1)
+
+				else if((element & WATER) && (p.element & FIRE|EARTH))
+					p.damage += round(p.damage / 20, 1)
 
 			if(canBleed)
 				var/n = dir2angle(get_dir(src, p))
@@ -1770,6 +1778,7 @@ obj
 			const/MAX_VELOCITY = 10
 			life = 20
 			damage = 0
+			element = 0
 
 		SteppedOn(atom/movable/A)
 			if(!A.density && (isplayer(A) || istype(A,/mob/NPC/Enemies)))
@@ -1777,9 +1786,10 @@ obj
 			else if(damage && istype(A,/obj/portkey))
 				src.Bump(A)
 
-		New(loc,dir,mob/mob,icon,icon_state,damage,name)
+		New(loc,dir,mob/mob,icon,icon_state,damage,name,element)
 			..()
 
+			src.element = element
 			src.dir = dir
 			src.icon = icon
 			src.icon_state = icon_state
