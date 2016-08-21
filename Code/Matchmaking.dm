@@ -7,7 +7,9 @@ var/list/duel_chairs = list()
 
 obj/duel_chair
 	invisibility = 10
+
 	New()
+		set waitfor = 0
 		..()
 		duel_chairs += src
 
