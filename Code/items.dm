@@ -1976,6 +1976,9 @@ obj/items/wearable/title
 	Waterbender
 		title = "Waterbender"
 		name  = "Title: Waterbender"
+	Legionnaire
+		title = "Legionnaire"
+		name  = "Title: Legionnaire"
 	Myrmidon
 		title = "Myrmidon"
 		name  = "Title: Myrmidon"
