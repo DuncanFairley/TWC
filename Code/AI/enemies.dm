@@ -1266,7 +1266,7 @@ mob
 						level = 1000
 						var/tmp/fired = 0
 						extraDmg = 400
-
+						element = WATER
 
 						Attack(mob/M)
 							..()
@@ -1549,6 +1549,7 @@ mob
 				MoveDelay = 4
 				AttackDelay = 3
 				respawnTime = 1800
+				element = WATER
 
 			Acromantula
 				icon = 'Mobs_128x128.dmi'
@@ -1979,14 +1980,17 @@ mob
 			Archangel
 				icon_state = "archangel"
 				level = 500
+				element = EARTH
 			Water_Elemental
 				icon_state = "water elemental"
 				level = 550
 				canBleed = FALSE
+				element = WATER
 			Fire_Elemental
 				icon_state = "fire elemental"
 				level = 600
 				canBleed = FALSE
+				element = FIRE
 			Wyvern
 				icon_state = "wyvern"
 				level = 650
