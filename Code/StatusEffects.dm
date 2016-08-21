@@ -343,14 +343,6 @@ StatusEffect
 					animate(p, pixel_y = 0, time = 5)
 					p.layer   = 4
 
-					spawn(5)
-						if(p.followers && !p.flying)
-							var/obj/Shadow/s = locate(/obj/Shadow) in p.followers
-							if(s)
-								s.Dispose()
-								p.removeFollower(s)
-								animate(p)
-
 					var/image/i = new('VampireWings.dmi', "flying")
 					i.layer = FLOAT_LAYER - 3
 					i.pixel_x = -16
@@ -358,6 +350,15 @@ StatusEffect
 					i.color = c
 
 					p.overlays -= i
+
+					src=null
+					spawn(5)
+						if(p.followers && !p.flying)
+							var/obj/Shadow/s = locate(/obj/Shadow) in p.followers
+							if(s)
+								s.Dispose()
+								p.removeFollower(s)
+								animate(p)
 
 				..()
 
