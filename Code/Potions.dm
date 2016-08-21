@@ -487,6 +487,17 @@ obj/items/potions
 		else
 			..()
 
+
+	frost_potion
+		icon_state = "blue"
+		effect     = /StatusEffect/Potions/Frost
+		seconds    = 60
+
+	heat_potion
+		icon_state = "red"
+		effect     = /StatusEffect/Potions/Heat
+		seconds    = 60
+
 	health
 		icon_state = "red"
 		effect     = /StatusEffect/Potions/Health

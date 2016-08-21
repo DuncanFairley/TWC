@@ -460,6 +460,58 @@ StatusEffect
 
 				..()
 
+		Frost
+			Activate()
+				set waitfor = 0
+
+				var/mob/Player/p = AttachedAtom
+				var/i = 0
+				while(p)
+					if(i == 4) i = 0
+					for(var/turf/water/t in oview(i, p))
+						if(prob(40)) continue
+						if(t.icon_state == "water") t.ice()
+
+					i++
+
+					emit(loc    = p,
+						 ptype  = /obj/particle/smoke,
+						 amount = 2,
+						 angle  = new /Random(1, 359),
+					     speed  = 4,
+						 life   = new /Random(4, 8),
+						 color  = "#6bc")
+
+					sleep(10)
+
+				..()
+
+		Heat
+			Activate()
+				set waitfor = 0
+
+				var/mob/Player/p = AttachedAtom
+				var/i = 0
+				while(p)
+					if(i == 4) i = 0
+					for(var/turf/water/t in oview(i, p))
+						if(prob(40)) continue
+						if(t.icon_state == "ice") t.water()
+
+					i++
+
+					emit(loc    = p,
+						 ptype  = /obj/particle/smoke,
+						 amount = 2,
+						 angle  = new /Random(1, 359),
+					     speed  = 4,
+						 life   = new /Random(4, 8),
+						 color  = "#c60")
+
+					sleep(10)
+
+				..()
+
 		Health
 			var/amount = 100
 
