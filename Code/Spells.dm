@@ -271,7 +271,7 @@ mob/Spells/verb/Expelliarmus(mob/Player/M in view()&Players)
 			usr << "[M] doesn't have \his wand drawn."
 
 mob/Player/proc/nowand()
-	if(client.eye != usr)
+	if(client.eye != src)
 		src << "Your Telendevour wears off."
 		client.eye = src
 		client.perspective = EYE_PERSPECTIVE
