@@ -345,11 +345,8 @@ mob
 						loc = t
 
 			spawn()
-				if(p.loc)
-					if(p.loc.loc)
-						p.density = 0
-						p.loc.loc.Enter(usr)
-						p.density = 1
+				if(p.loc && p.loc.loc)
+					p.loc.loc.Enter(usr)
 			if(p.ror==0)
 				var/rorrand=rand(1,3)
 				p.ror=rorrand
