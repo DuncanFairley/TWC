@@ -666,6 +666,7 @@ mob
 		Login()
 			var/mob/Player/character=new()
 			//character.savefileversion = currentsavefilversion
+			character.save_loaded = 1
 			var/desiredname = input("What would you like to name your Harry Potter: The Wizards' Chronicles character? Keep in mind that you cannot use a popular name from the Harry Potter franchise, nor numbers or special characters.")
 			var/passfilter = name_filter(desiredname)
 			while(passfilter)
@@ -846,6 +847,14 @@ mob/Player
 	Login()
 		if(client.byond_version < world.byond_version)
 			src << errormsg("Your installed BYOND version is older than the one the game is using, please update to BYOND version [world.byond_version] or higher. You can continue to play but unpredicted errors may occur.")
+
+		spawn(10)
+			if(!save_loaded)
+				src << errormsg("Your save didn't load properly, please talk to a GM as fast as possible. You also can't save right now so your save will remain intact without losing anything.")
+				for(var/mob/Player/p in Players)
+					if(p.Gm)
+						p << errormsg("[src.ckey] - [src.name] encountered a save problem, please check it out.")
+
 		client.initMapBrowser()
 		dance = 0
 		if(Gender=="Female")
@@ -1702,7 +1711,7 @@ mob/proc/Death_Check(mob/killer = src)
 				p.updateHPMP()
 				src.gold.add(-gold.get() / 2)
 				if(src.level < lvlcap)
-					src.Exp = round(src.Exp / 2)
+					src.Exp = round(src.Exp * 0.75)
 				src.sight &= ~BLIND
 				flick('mist.dmi',src)
 				if(!src:rankedArena)
