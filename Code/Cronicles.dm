@@ -167,6 +167,8 @@ mob
 		base_save_allowed = 0
 		base_save_location = 1
 
+		save_loaded = FALSE
+
 	var/list/base_saved_verbs
 
 	proc/base_InitFromSavefile()
@@ -197,6 +199,7 @@ mob
 			return
 		//F["key"] << null
 		..()
+		save_loaded = TRUE
 		if(testtype != /mob/Player)
 			return
 		detectStoopidBug(__FILE__, __LINE__)
@@ -808,7 +811,7 @@ client
 
 
 	proc/base_SaveMob()
-		if (!mob || !mob.base_save_allowed)
+		if (!mob || !mob.base_save_allowed || !mob.save_loaded)
 			return
 
 		if (base_save_verbs)
