@@ -1922,6 +1922,7 @@ var
 
 proc
 	MapInitialized()
+		set waitfor = 0
 		if(!map_initialized)
 			map_initialized = 1
 			for(var/atom/o in __post_init)

@@ -210,13 +210,16 @@ mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
 		hearers() << "[usr] flicks \his wand towards [M]"
 		usr:learnSpell("Valorus")
 		if(M.flying)
-			for(var/obj/items/wearable/brooms/B in M.Lwearing)
-				B.Equip(M,1)
+			var/obj/items/wearable/brooms/B = locate() in M.Lwearing
+			if(B)
+				B.protection--
+				if(B.protection <= 0)
+					B.Equip(M,1)
 				//M.flying=0
 				//M.icon_state=""
 				//M.density=1
-				hearers()<<"[M] is knocked off \his broom!"
-				new /StatusEffect/Knockedfrombroom(M,15)
+					hearers()<<"[M] is knocked off \his broom!"
+					new /StatusEffect/Knockedfrombroom(M, max(1, 16 - B.protection*2))
 	else
 		usr << "You must hold a wand to cast this spell."
 mob/Spells/verb/Depulso()
@@ -237,10 +240,13 @@ mob/Spells/verb/Depulso()
 			found = TRUE
 			M<<"You were pushed backwards by [usr]'s Depulso Charm."
 			if(M.flying)
-				for(var/obj/items/wearable/brooms/B in M:Lwearing)
-					B.Equip(M,1)
-					hearers()<<"[usr]'s Depulso knocked [M] off \his broom!"
-					new /StatusEffect/Knockedfrombroom(M,15)
+				var/obj/items/wearable/brooms/B = locate() in M.Lwearing
+				if(B)
+					B.protection--
+					if(B.protection <= 0)
+						B.Equip(M,1)
+						hearers()<<"[usr]'s Depulso knocked [M] off \his broom!"
+						new /StatusEffect/Knockedfrombroom(M, max(1, 16 - B.protection*2))
 	if(found)
 		usr:learnSpell("Depulso")
 
@@ -271,7 +277,7 @@ mob/Spells/verb/Expelliarmus(mob/Player/M in view()&Players)
 			usr << "[M] doesn't have \his wand drawn."
 
 mob/Player/proc/nowand()
-	if(client.eye != usr)
+	if(client.eye != src)
 		src << "Your Telendevour wears off."
 		client.eye = src
 		client.perspective = EYE_PERSPECTIVE
