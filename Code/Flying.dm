@@ -1184,6 +1184,7 @@ turf
 
 		proc
 			ice()
+				set waitfor = 0
 				if(icon_state == "ice") return
 
 				new /obj/fadeOut/water (src)
@@ -1194,13 +1195,13 @@ turf
 				if(rain)
 					rain.layer = 0
 				if(!isice)
-					spawn()
-						var/time = rand(40,120)
-						while(time > 0 && icon_state == "ice")
-							time--
-							sleep(10)
-						if(istype(src, /turf/water)) water()
+					var/time = rand(40,120)
+					while(time > 0 && icon_state == "ice")
+						time--
+						sleep(10)
+					if(istype(src, /turf/water)) water()
 			water()
+				set waitfor = 0
 				if(icon_state == "water") return
 
 				new /obj/fadeOut/ice (src)
@@ -1212,23 +1213,24 @@ turf
 				if(rain)
 					rain.layer = 4
 				if(isice)
-					spawn()
-						var/time = rand(40,120)
-						while(time > 0 && icon_state == "water")
-							time--
-							sleep(10)
-						if(istype(src, /turf/water)) ice()
+					var/time = rand(40,120)
+					while(time > 0 && icon_state == "water")
+						time--
+						sleep(10)
+					if(istype(src, /turf/water)) ice()
 			rain()
+				set waitfor = 0
 				if(rain) return
 				rain = new (src)
 
-				spawn(rand(1,150))
-					if(rain)
-						rain.icon = 'water_drop.dmi'
-						rain.layer = name == "ice" ? 0 : 4
-						rain.icon_state = pick(icon_states(rain.icon))
-						rain.pixel_x = rand(-12,12)
-						rain.pixel_y = rand(-13,14)
+				sleep(rand(1,150))
+				if(rain)
+					rain.icon = 'water_drop.dmi'
+					rain.layer = name == "ice" ? 0 : 4
+					rain.icon_state = pick(icon_states(rain.icon))
+					rain.pixel_x = rand(-12,12)
+					rain.pixel_y = rand(-13,14)
+
 			clear()
 				if(rain)
 					rain.loc = null
