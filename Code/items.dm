@@ -1975,6 +1975,9 @@ obj/items/wearable/title
 	Waterbender
 		title = "Waterbender"
 		name  = "Title: Waterbender"
+	Legionnaire
+		title = "Legionnaire"
+		name  = "Title: Legionnaire"
 
 
 mob/Bump(obj/ball/B)
