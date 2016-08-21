@@ -596,8 +596,8 @@ RandomEvent
 			..()
 			var/minutes = rand(10,30)
 			var/monsters = rand(50,100)
-			var/tier = rand(1,7)
-			var/list/types = list("Slug", "Rat", "Pixie", "Dog", "Snake", "Wolf", "Troll")
+			var/tier = rand(1,9)
+			var/list/types = list("Slug", "Rat", "Pixie", "Dog", "Snake", "Wolf", "Troll", "Spider", "Stickman")
 
 			Players << infomsg("[types[tier]]s are invading for [minutes] minutes, they're right outside Hogwarts, defend the castle!<br>(The monsters have a leader, stronger than the rest, he drops a valuable prize based on level)")
 
@@ -606,9 +606,9 @@ RandomEvent
 				var/obj/spawner/spawn_loc = pick(spawners)
 				var/mob/NPC/Enemies/Summoned/monster = new (spawn_loc.loc)
 
-				monster.DMGmodifier = 1
-				monster.HPmodifier  = 1
-				monster.level       = tier * 100
+				monster.DMGmodifier = 0.8
+				monster.HPmodifier  = 1.2
+				monster.level       = tier * 100 + rand(0, 10)
 				monster.name        = types[tier]
 				monster.icon_state  = lowertext(types[tier])
 
@@ -623,46 +623,76 @@ RandomEvent
 					monster.pixel_y = -48
 
 					if(tier < 3)
-						monster.drops = list("100" = list(/obj/items/bagofgoodies))
+						monster.drops = list(/obj/items/bagofgoodies,
+						                     /obj/items/chest/basic_chest)
 					else if(tier == 3)
-						monster.drops = list("100" = list(/obj/items/bagofgoodies,
-														  /obj/items/lamps/double_drop_rate_lamp,
-														  /obj/items/lamps/double_exp_lamp,
-														  /obj/items/lamps/double_gold_lamp))
+						monster.drops = list(/obj/items/bagofgoodies,
+						                     /obj/items/chest/basic_chest,
+											 /obj/items/lamps/double_drop_rate_lamp,
+											 /obj/items/lamps/double_exp_lamp,
+											 /obj/items/lamps/double_gold_lamp)
 					else if(tier == 4)
-						monster.drops = list("100" = list(/obj/items/artifact,
-														  /obj/items/lamps/double_drop_rate_lamp,
-														  /obj/items/lamps/double_exp_lamp,
-														  /obj/items/lamps/double_gold_lamp,
-														  /obj/items/lamps/farmer_lamp,
-														  /obj/items/wearable/title/Warrior))
+						monster.drops = list(/obj/items/artifact,
+						                     /obj/items/chest/basic_chest,
+											 /obj/items/lamps/double_drop_rate_lamp,
+											 /obj/items/lamps/double_exp_lamp,
+											 /obj/items/lamps/double_gold_lamp,
+											 /obj/items/lamps/farmer_lamp,
+											 /obj/items/wearable/title/Warrior)
 					else if(tier == 5)
-						monster.drops = list("100" = list(/obj/items/artifact,
-														  /obj/items/lamps/double_drop_rate_lamp,
-														  /obj/items/lamps/double_exp_lamp,
-														  /obj/items/lamps/double_gold_lamp,
-														  /obj/items/lamps/triple_drop_rate_lamp,
-														  /obj/items/lamps/triple_exp_lamp,
-														  /obj/items/lamps/triple_gold_lamp,
-														  /obj/items/lamps/farmer_lamp,
-														  /obj/items/wearable/title/Warrior))
+						monster.drops = list(/obj/items/artifact,
+						                     /obj/items/chest/basic_chest,
+						                     /obj/items/chest/wizard_chest,
+						                     /obj/items/chest/pentakill_chest,
+											 /obj/items/lamps/double_drop_rate_lamp,
+											 /obj/items/lamps/double_exp_lamp,
+											 /obj/items/lamps/double_gold_lamp,
+											 /obj/items/lamps/triple_drop_rate_lamp,
+											 /obj/items/lamps/triple_exp_lamp,
+											 /obj/items/lamps/triple_gold_lamp,
+											 /obj/items/lamps/farmer_lamp,
+											 /obj/items/wearable/title/Warrior)
 					else if(tier == 6)
-						monster.drops = list("100" = list(/obj/items/artifact,
-												 		  /obj/items/lamps/triple_drop_rate_lamp,
-												  		  /obj/items/lamps/triple_exp_lamp,
-												  		  /obj/items/lamps/triple_gold_lamp,
-												  		  /obj/items/wearable/title/Warrior,
-												  		  /obj/items/wearable/title/Warmonger))
+						monster.drops = list(/obj/items/artifact,
+						                     /obj/items/chest/wizard_chest,
+						                     /obj/items/chest/pentakill_chest,
+											 /obj/items/lamps/triple_drop_rate_lamp,
+											 /obj/items/lamps/triple_exp_lamp,
+											 /obj/items/lamps/triple_gold_lamp,
+											 /obj/items/wearable/title/Warrior,
+											 /obj/items/wearable/title/Warmonger)
 
 					else if(tier == 7)
-						monster.drops = list("100" = list(/obj/items/artifact,
-												  		  /obj/items/wearable/scarves/red_scarf,
-												  		  /obj/items/wearable/scarves/blue_scarf,
-												  		  /obj/items/wearable/scarves/green_scarf,
-												  		  /obj/items/wearable/scarves/yellow_scarf,
-												  		  /obj/items/lamps/triple_drop_rate_lamp,
-												  		  /obj/items/lamps/triple_gold_lamp,
-												  		  /obj/items/wearable/title/Warmonger))
+						monster.drops = list(/obj/items/artifact,
+											 /obj/items/chest/wizard_chest,
+											 /obj/items/chest/pentakill_chest,
+											 /obj/items/chest/sunset_chest,
+											 /obj/items/chest/pet_chest,
+											 /obj/items/lamps/triple_drop_rate_lamp,
+											 /obj/items/lamps/triple_gold_lamp,
+											 /obj/items/lamps/triple_exp_lamp,
+											 /obj/items/lamps/quadaple_drop_rate_lamp,
+											 /obj/items/lamps/quadaple_gold_lamp,
+											 /obj/items/lamps/quadaple_exp_lamp,
+											 /obj/items/wearable/title/Warmonger)
+					else if(tier == 8)
+						monster.drops = list(/obj/items/artifact,
+											 /obj/items/chest/sunset_chest,
+											 /obj/items/chest/pet_chest,
+											 /obj/items/lamps/quadaple_drop_rate_lamp,
+											 /obj/items/lamps/quadaple_gold_lamp,
+											 /obj/items/lamps/quadaple_exp_lamp,
+											 /obj/items/wearable/title/Legionnaire,
+											 /obj/items/wearable/title/Warmonger)
+					else if(tier == 9)
+						monster.drops = list(/obj/items/artifact,
+											 /obj/items/chest/sunset_chest,
+											 /obj/items/chest/pet_chest,
+											 /obj/items/crystal/soul,
+											 /obj/items/lamps/quadaple_drop_rate_lamp,
+											 /obj/items/lamps/quadaple_gold_lamp,
+											 /obj/items/lamps/quadaple_exp_lamp,
+											 /obj/items/wearable/title/Legionnaire)
 				else
 					monster.icon = 'Mobs.dmi'
 
