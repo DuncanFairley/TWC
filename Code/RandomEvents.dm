@@ -682,7 +682,7 @@ RandomEvent
 											 /obj/items/lamps/quadaple_drop_rate_lamp,
 											 /obj/items/lamps/quadaple_gold_lamp,
 											 /obj/items/lamps/quadaple_exp_lamp,
-											 /obj/items/wearable/title/Legionnaire,
+											 /obj/items/wearable/title/Myrmidon,
 											 /obj/items/wearable/title/Warmonger)
 					else if(tier == 9)
 						monster.drops = list(/obj/items/artifact,
@@ -692,7 +692,7 @@ RandomEvent
 											 /obj/items/lamps/quadaple_drop_rate_lamp,
 											 /obj/items/lamps/quadaple_gold_lamp,
 											 /obj/items/lamps/quadaple_exp_lamp,
-											 /obj/items/wearable/title/Legionnaire)
+											 /obj/items/wearable/title/Myrmidon)
 				else
 					monster.icon = 'Mobs.dmi'
 
