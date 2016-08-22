@@ -177,7 +177,7 @@ mob/TalkNPC/Divo
 				selecteditem = /obj/items/wearable/magic_eye
 				selectedprice = 20000000
 			if("Invisibility Cloak 60,000g")
-				selectedprice = 9000
+				selectedprice = 60000
 				selecteditem = /obj/items/wearable/invisibility_cloak
 			if(null)
 				usr << npcsay("Divo: Sorry that I don't have anything interesting to ya... ")
@@ -447,12 +447,12 @@ mob/TalkNPC/Broom_Salesman
 		set src in oview(2)
 		var/obj/selecteditem
 		var/selectedprice
-		switch(input("Chrono: Hi there! Welcome to Chrono's Brooms. We have two models in stock right now - would you like to purchase one?","You have [comma(usr.gold)] gold")as null|anything in list("Cleansweep Seven - 10,000g","Nimbus 2000 - 20,000g"))
+		switch(input("Chrono: Hi there! Welcome to Chrono's Brooms. We have two models in stock right now - would you like to purchase one?","You have [comma(usr.gold)] gold")as null|anything in list("Cleansweep Seven - 10,000g","Nimbus 2000 - 30,000g"))
 			if("Cleansweep Seven - 10,000g")
 				selecteditem = /obj/items/wearable/brooms/cleansweep_seven
-				selectedprice = 5000
-			if("Nimbus 2000 - 20,000g")
 				selectedprice = 10000
+			if("Nimbus 2000 - 30,000g")
+				selectedprice = 30000
 				selecteditem = /obj/items/wearable/brooms/nimbus_2000
 			if(null)
 				usr << npcsay("Chrono: Come see me any time if you change your mind.")
