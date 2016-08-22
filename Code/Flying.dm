@@ -1039,14 +1039,14 @@ turf
 		Enter(atom/movable/O)
 			.=..()
 
-			if(O.density && (get_dir(src, O) & blockDir))
+			if(O.density && (get_dir(src, O) & blockDir) && isplayer(O))
 				O.Bump(src)
 				return 0
 
 		Exit(atom/movable/O, atom/newloc)
 			.=..()
 
-			if(O.density && (get_dir(O, newloc) & blockDir))
+			if(O.density && (get_dir(O, newloc) & blockDir) && isplayer(O))
 				O.Bump(src)
 				return 0
 
