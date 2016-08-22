@@ -2635,6 +2635,7 @@ obj/items
 		name = "Portable Duel System"
 		icon = 'DuelArena.dmi'
 		icon_state = "c4"
+		max_stack = 1
 		var/tmp/Duel/D
 		var/unpacked = 0
 		var/ckeyowner
