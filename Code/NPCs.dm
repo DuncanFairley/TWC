@@ -403,17 +403,22 @@ obj/magic_force
 
 	proc/pickRiddle()
 		var/list/riddles = list(
-		"Rare... magical... desired by goblins."                 = /obj/items/artifact,
-		"Let's make a deal... with the devil..."                 = /obj/items/crystal/soul,
-		"Are you lucky?"                                         = /obj/items/crystal/luck,
-		"I like both the sword and the shield."                  = /obj/items/crystal/magic,
-		"The sword is my favorite tool."                         = /obj/items/crystal/damage,
-		"The shield is my favorite tool."                        = /obj/items/crystal/defense,
-		"Before you say goodbye, I am the ones you have to tie!" = /obj/items/wearable/shoes,
-		"It's cold..."                                           = /obj/items/wearable/scarves,
-		"I name thee..."                                         = /obj/items/wearable/title,
-		"I wear thee..."                                         = /obj/items/wearable,
-		"Unlock me!"                                             = /obj/items/key)
+		"Rare... magical... desired by goblins."                                    = /obj/items/artifact,
+		"Let's make a deal... with the devil..."                                    = /obj/items/crystal/soul,
+		"Are you lucky?"                                                            = /obj/items/crystal/luck,
+		"I like both the sword and the shield."                                     = /obj/items/crystal/magic,
+		"The sword is my favorite tool."                                            = /obj/items/crystal/damage,
+		"The shield is my favorite tool."                                           = /obj/items/crystal/defense,
+		"Before you say goodbye, I am the ones you have to tie!"                    = /obj/items/wearable/shoes,
+		"It's cold..."                                                              = /obj/items/wearable/scarves,
+		"I name thee..."                                                            = /obj/items/wearable/title,
+		"I wear thee..."                                                            = /obj/items/wearable,
+		"Color me blind but your wand could use a little shine!"                    = /obj/items/colors,
+		"Come to the Dark side."                                                    = /obj/items/DarknessPowder,
+		"This item prevents a liquid's spill, and for its use to the brim we fill." = /obj/items/bucket,
+		"You and I, are thick as theives.\nOur enemies never see us coming.\n" +\
+		"Be fearful though, of watchfull eyes."                                     = /obj/items/wearable/invisibility_cloak,
+		"Unlock me!"                                                                = /obj/items/key)
 
 		var/i = rand(1, riddles.len)
 
