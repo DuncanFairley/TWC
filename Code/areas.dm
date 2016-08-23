@@ -205,6 +205,16 @@ area
 		DEHQ
 		AurorHQ
 
+		Exited(atom/movable/Obj, atom/newloc)
+			..()
+
+			if(isplayer(Obj))
+				var/mob/Player/p = Obj
+
+				var/hudobj/teleport/o = locate() in p.client.screen
+				if(o)
+					p.client.screen -= o
+
 	hogwarts
 		TrophyRoom
 		Entrance_Hall
@@ -224,6 +234,16 @@ area
 		Potions
 			antiTeleport = 1
 		Hospital_Wing
+			Exited(atom/movable/Obj, atom/newloc)
+				..()
+
+				if(isplayer(Obj))
+					var/mob/Player/p = Obj
+
+					var/hudobj/teleport/o = locate() in p.client.screen
+					if(o)
+						p.client.screen -= o
+
 		Muggle_Studdies
 		Restricted_Section
 		Detention

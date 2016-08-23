@@ -113,7 +113,7 @@ Event
 					if(abs(p.fame) <= 100) continue
 					if(world.realtime - p.time < 2592000) continue
 
-					p.fame -= round(p.fame / 6)
+					p.fame -= round(p.fame * 0.05)
 
 	RandomEvents
 		fire()

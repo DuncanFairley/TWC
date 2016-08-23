@@ -1021,6 +1021,7 @@ mob/Player
 											T.overlays += inflamari
 											T.density=1
 											T.invisibility=0
+											T.canDisperse = 1
 								else if(cmptext(copytext(t, 1, 10),"eat slugs"))
 									if(/mob/Spells/verb/Eat_Slugs in verbs)
 										silent = usr:Eat_Slugs(copytext(t, 11))
@@ -1134,10 +1135,12 @@ mob/Player
 								if("disperse")
 									if(src.Gm)
 										for(var/turf/T in view(client.view))
-											if(length(T.overlays))
-												T.overlays += image('mist.dmi',layer=10)
+											if(T.canDisperse)
+												T.canDisperse = 0
+												flick('mist.dmi',T)
 												spawn(9)
-													T.overlays = null
+													var/inflamari = /obj/Force_Field
+													T.overlays -= inflamari
 													T.density=initial(T.density)
 									if(/mob/Spells/verb/Disperse in verbs)
 										usr:Disperse()
@@ -1219,6 +1222,7 @@ mob/Player
 											T.overlays += inflamari
 											T.density=1
 											T.invisibility=0
+											T.canDisperse = 1
 							if(!Gm)
 								spam++
 								spawn(30)
@@ -2134,6 +2138,7 @@ proc
 			else
 				E.loc = null
 
+turf/var/tmp/canDisperse = 0
 turf/proc/autojoin(var_name, var_value = 1)
 	var/n = 0
 	var/turf/t

@@ -674,6 +674,10 @@ mob
 					target = null
 					ShouldIBeActive()
 
+			proc/Kill(mob/Player/p)
+				set waitfor = 0
+				p.Death_Check(src)
+
 			proc/Attack()
 
 				if(prob(20))
@@ -715,7 +719,8 @@ mob
 						target.HP -= dmg
 						target.updateHPMP()
 						hearers(target)<<"<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
-						spawn()target.Death_Check(src)
+						if(target.HP <= 0)
+							Kill(target)
 					sleep(AttackDelay)
 
 
@@ -1453,6 +1458,15 @@ mob
 						..()
 					density = 1
 
+				Kill(mob/Player/p)
+					set waitfor = 0
+					..(p)
+
+					sleep(1)
+
+					var/hudobj/teleport/t = new (null, p.client, null, show=1)
+					t.dest = "CoSBoss2Out"
+
 				Death(mob/Player/killer)
 					..(killer)
 
@@ -2055,6 +2069,17 @@ mob
 										M.ApplyOverlays()
 									else
 										M.nomove = 0
+
+				Kill(mob/Player/p)
+					set waitfor = 0
+					..(p)
+
+					sleep(1)
+
+					var/hudobj/teleport/t = new (null, p.client, null, show=1)
+					t.dest = "CoSBasOut"
+
+
 
 				Death(mob/Player/killer)
 					..(killer)

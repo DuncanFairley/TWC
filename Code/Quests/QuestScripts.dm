@@ -6,6 +6,20 @@
  */
 
 quest
+	PotionTutorial
+		name   = "Brother Trouble"
+		desc   = "Simon's brother has big lacerations on his legs. Create a health potion to quickly heal him before it's too late."
+		reward = /questReward/Potions1
+		repeat = 0
+
+		Brew
+			desc = "The ingredients list says using rat powder, daisy powder, aconite, and aconite powder to make a regular health potion. Of course, you can do better than that however."
+			reqs = list("Brew Potion" = 1)
+
+		Reward
+			desc = "Go back to Simon to save his brother!"
+			reqs = list("Simon" = 1)
+
 	TWCIdol1
 		name   = "Pixie Wisdom \[Weekly]"
 		desc   = "An extremely sassy pixie asked you for your help collecting ingredients for a birthday party."
@@ -637,6 +651,12 @@ questReward
 	Gold
 		exp  = 1000
 		gold = 10000
+	Potions1
+		exp   = 1000
+		gold  = 1000
+		items = list(/obj/items/ingredients/aconite,
+					 /obj/items/ingredients/daisy,
+					 /obj/items/ingredients/rat_tail)
 	Mon1
 		gold = 1000
 		exp  = 10000
