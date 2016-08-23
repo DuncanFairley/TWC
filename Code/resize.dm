@@ -126,6 +126,39 @@ hudobj
 	appearance_flags   = NO_CLIENT_COLOR
 	plane              = 2
 
+	teleport
+		name       = "Teleport Back"
+		icon_state = "teleport"
+		anchor_x    = "EAST"
+		screen_x    = -32
+		anchor_y    = "SOUTH"
+		screen_y    = 32
+
+		var
+			dest
+			cost = 1
+
+		Click()
+			var/mob/Player/p = usr
+			if(!color)
+				color = "#0f0"
+				p << infomsg("Click again to confirm, this will teleport you back and cost [cost] teleport crystal[cost > 1 ? "s" : ""].")
+			else
+				var/obj/items/magic_stone/teleport/t = locate() in p
+
+				if(!t)
+					p << errormsg("You don't have [cost] teleport crystal[cost > 1 ? "s" : ""] to teleport back.")
+					return
+
+				var/turf/d = locate(dest)
+				if(d)
+					hearers(p) << infomsg("[p.name] disappears in a flash of light.")
+					p.Transfer(d)
+					hearers(p) << infomsg("[p.name] appears in a flash of light.")
+
+				p.client.screen -= src
+
+
 	PMHome
 
 		name        = "Private Messaging"

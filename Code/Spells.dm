@@ -1716,14 +1716,12 @@ mob/Player
 			     speed  = 2,
 			     life   = new /Random(15,25))
 
-			if(isplayer(p.owner))
-				var/tmp_pkills = p.owner:pkills
-				Death_Check(p.owner)
-
-				if(p.owner:pkills > tmp_pkills)
+			if(HP <= 0)
+				if(isplayer(p.owner))
 					p.owner:learnSpell(p.name, 100)
-			else
-				Death_Check(p.owner)
+					Death_Check(p.owner)
+				else if(ismonster(p.owner))
+					p.owner:Kill(src)
 
 			return src
 
