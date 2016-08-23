@@ -168,6 +168,53 @@ mob/TalkNPC/quest
 				var/ScreenText/s = new(i_Player, src)
 				s.AddText("Not bad for a human. Come back next week, I'll help you make another bait.")
 
+	Simon
+		icon = 'NPCs.dmi'
+		icon_state="sean"
+		questPointers = "Brother Trouble"
+		Talk()
+			set src in oview(3)
+			Quest(usr)
+
+		questStart(mob/Player/i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
+
+			s.AddText("Hello there! Can you help me?")
+			i_Player << "<i>You check if the scene is clear.</i>"
+			s.AddText("My brother was badly injured by some thugs wearing masks. I need you to brew a health potion of any sort.")
+			i_Player << "<i>You notice paleness in the brother's face as well as the red gashes all over his legs. He certainly won't be conscious for very long if he doesn't get treatment.</i>"
+			s.AddText("You can create a potion in the <b>Potions Classroom</b> near the Slytherin Common room in Hogwarts.")
+			s.AddText("Before you go, take these ingredients. You'll need them to create a potion.")
+			for(var/i = 1 to 5)
+				new /obj/items/ingredients/aconite (i_Player)
+				new /obj/items/ingredients/daisy (i_Player)
+				new /obj/items/ingredients/rat_tail (i_Player)
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
+			if(.)
+				s.AddText("Did you get it?")
+				i_Player << "<i>You nod.</i>"
+				s.AddText("Thank goodness!")
+				s.AddText("Here, drink some of this Todd.")
+				i_Player << "<i>[name] quickly shoves the health potion into Todd's mouth.</i>"
+				i_Player << "<i>Todd regains color to his face and the gashes on his leg quickly sow themselves together.</i>"
+				i_Player << "<i>[name] turns towards you.</i>"
+				s.AddText("Thank you so much! If you hadn't shown up, my brother may not have lived!")
+			else
+				s.AddText("Please, hurry! He may not have much time.")
+
+		questCompleted(mob/Player/i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
+
+			s.AddText("Thanks again for the save! My brother says he wants to be a young wizard just like you!")
+
+
 
 	Sassy_Pixie
 		icon = 'Mobs.dmi'
