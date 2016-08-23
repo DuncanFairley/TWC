@@ -267,6 +267,8 @@ obj/potions
 					     life   = new /Random(15,25),
 					     color  = o.color)
 
+					p.owner:checkQuestProgress("Brew Potion")
+
 					var/obj/items/potions/i = new potion (loc)
 					i.prizeDrop(p.owner.ckey, 600, decay=FALSE)
 					i.quality   = quality
