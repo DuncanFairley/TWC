@@ -1466,6 +1466,7 @@ mob
 
 					var/hudobj/teleport/t = new (null, p.client, null, show=1)
 					t.dest = "CoSBoss2Out"
+					p << errormsg("Click the teleport stone on screen button at the bottom right to go back to the Stickman.")
 
 				Death(mob/Player/killer)
 					..(killer)
@@ -2078,6 +2079,7 @@ mob
 
 					var/hudobj/teleport/t = new (null, p.client, null, show=1)
 					t.dest = "CoSBasOut"
+					p << errormsg("Click the teleport stone on screen button at the bottom right to go back to the Basilisk.")
 
 
 
