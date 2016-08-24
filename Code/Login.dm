@@ -988,12 +988,15 @@ mob/Player
 			for(var/obj/items/wearable/W in tmpwearing)
 				var/b = W.bonus
 
+				W.bonus = -1
+				W.Equip(src,1)
+				W.bonus = b
+
 				if(!ignoreBonus)
-					W.Equip(src,1)
-				else
-					W.bonus = -1
-					W.Equip(src,1)
-					W.bonus = b
+					W.calcBonus(src, 0)
+
+			if(!ignoreBonus)
+				resetMaxHP()
 
 		if(src.away)
 			src.ApplyAFKOverlay()

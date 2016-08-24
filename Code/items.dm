@@ -384,14 +384,14 @@ obj/items/wearable
 				suffix  = null
 
 	proc
-		calcBonus(mob/Player/owner)
+		calcBonus(mob/Player/owner, reset=1)
 			if(bonus & DAMAGE)
 				clothDmg = round(10 * quality * scale)
 				owner.clothDmg += clothDmg
 			if(bonus & DEFENSE)
 				clothDef = round(30 * quality * scale)
 				owner.clothDef += clothDef
-				owner.resetMaxHP()
+				if(reset) owner.resetMaxHP()
 
 
 obj/items/wearable/Destroy(var/mob/Player/owner)
