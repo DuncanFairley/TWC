@@ -41,7 +41,8 @@ obj/items/Underwater_Bean
 					p.icon = 'MaleFish.dmi'
 				p.unslow()
 				if(p.away) p.ApplyAFKOverlay()
-				Consume()
+				if(Consume())
+					p.Resort_Stacking_Inv()
 		else
 			..()
 

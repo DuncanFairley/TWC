@@ -322,7 +322,8 @@ obj/items/crystal
 				e.bonusChance += luck
 				if(ignoreItem) e.ignoreItem++
 				e.showBonus()
-				Consume()
+				if(Consume())
+					usr:Resort_Stacking_Inv()
 			else
 				usr << errormsg("You hold [src.name] but nothing happens.")
 
