@@ -748,7 +748,8 @@ obj/items/potions
 					return
 
 				if(Effect(p))
-					Consume()
+					if(Consume())
+						p.Resort_Stacking_Inv()
 			else
 				..()
 
@@ -765,3 +766,63 @@ proc/countBits(c)
 	. = c - ((c >> 1) & 0x5555)
 	. = (. & 0x3333) + ((. >> 2) & 0x3333)
 	. = ((. + (. >> 4) & 0x0F0F) * 0x0101) >> 8
+
+
+obj
+	herb
+		icon    = 'bucket.dmi'
+		pixel_y = 8
+		density = 1
+
+		var
+			tier
+			soil
+			water
+
+		New()
+			..()
+
+			tier  = rand(1, 3)
+			soil  = tier * 50 * (11 - tier) / 10
+			water = tier * 25 * (11 - tier) / 10
+
+		Attacked(obj/projectile/p)
+			set waitfor = 0
+
+			var/animate = 0
+
+			if(soil > 0 && p.icon_state == "quake")
+				soil--
+				animate = 1
+
+			else if(water > 0 && p.icon_state == "aqua")
+				water--
+				animate = 1
+
+			if(soil == 0 && water == 0)
+				pixel_x = 0
+
+				var/obj/bar/b = new (y == world.maxy ? locate(x, y - 1, z) : locate(x, y + 1, z))
+				b.countdown(320)
+
+				var/matrix/m1 = matrix()
+				var/matrix/m2 = matrix()
+				m1.Scale(1.3, 1)
+				m2.Scale(1,   1.3)
+
+				animate(src, transform = m1, time = 5, loop = 32)
+				animate(transform = m2, time = 5)
+
+				sleep(320)
+				var/obj/items/ingredients/i = pick(/obj/items/ingredients/daisy, /obj/items/ingredients/aconite)
+				i = new i (loc)
+				i.stack = rand(2, 4) * tier
+				i.UpdateDisplay()
+				loc = null
+
+			else if(animate && pixel_x == 0)
+				animate(src, pixel_x = 1, time = 1, loop = 5)
+				animate(pixel_x = -1, time = 1)
+
+				sleep(11)
+				pixel_x   = 0
