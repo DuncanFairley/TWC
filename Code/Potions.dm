@@ -484,11 +484,21 @@ obj/items/potions
 			if(Consume())
 				var/mob/Player/player = usr
 				player.Resort_Stacking_Inv()
-			usr << infomsg("You drink [src.name].")
+			usr << infomsg("You drink \a [src].")
 			new effect (usr, seconds, src)
 		else
 			..()
 
+	blackout_potion
+		name       = "blackout express"
+		icon_state = "gray"
+		effect     = /StatusEffect/Potions/Blackout
+		seconds    = 30
+
+	rainbow_potion
+		icon_state = "purple"
+		effect     = /StatusEffect/Potions/Rainbow
+		seconds    = 60
 
 	frost_potion
 		icon_state = "blue"

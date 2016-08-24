@@ -300,6 +300,45 @@ StatusEffect
 			potion = p
 			.=..()
 
+		Blackout
+			Activate()
+				set waitfor = 0
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					animate(p.client, color = "#222", time = 30)
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					animate(p.client, color = null, time = 30)
+
+				..()
+
+		Rainbow
+			Activate()
+				set waitfor = 0
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					var/list/colors = list("#ff0000", "#ff7f00", "#ffff00", "#00ff00", "#0000ff", "#4b0082", "8f00ff")
+					for(var/i = 1 to 7)
+						var/ColorMatrix/c = new(colors[i], 0.7)
+						colors[i] = c.matrix
+
+					while(p)
+						for(var/i = 1 to 7)
+							animate(p.client, color = colors[i], time = 24)
+							sleep(25)
+
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					animate(p.client, color = null, time = 10)
+
+				..()
+
 		Vampire
 			var/tmp/c
 			Activate()
