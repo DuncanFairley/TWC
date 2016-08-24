@@ -108,7 +108,7 @@ obj/items/ingredients
 
 proc/spawnHerbs()
 
-	for(var/a = 1 to rand(4, 10))
+	for(var/a = 1 to rand(4, 8))
 
 		var/t = pick(/obj/items/ingredients/daisy, /obj/items/ingredients/aconite)
 		var/obj/items/i = new t()
@@ -484,7 +484,7 @@ obj/items/potions
 			if(Consume())
 				var/mob/Player/player = usr
 				player.Resort_Stacking_Inv()
-
+			usr << infomsg("You drink [src.name].")
 			new effect (usr, seconds, src)
 		else
 			..()
