@@ -301,6 +301,12 @@ obj/potions
 								p.owner.HP = 0
 								p.owner.Death_Check(p.owner)
 
+				var/i = worldData.potions.Find("[pool]")
+				if(i)
+					if(!p.owner:knownPotions) p.owner:knownPotions = list()
+					if(!(i in p.owner:knownPotions))
+						p.owner:knownPotions += i
+
 				setColor("#090")
 				pool    = 0
 				flags   = 0
@@ -826,3 +832,93 @@ obj
 
 				sleep(11)
 				pixel_x   = 0
+
+mob/Player/var/list/knownPotions
+
+obj/items/potion_book
+	icon       = 'Books.dmi'
+	icon_state = "potion"
+	var/master = 0
+
+	Click()
+		if(src in usr)
+			if(!usr:knownPotions && !master) return
+			var/const/HEADER = {"<html><head><title>Potion Book</title><style>
+body
+{
+	background-image: url('http://www.wizardschronicles.com/dpbg.jpg');
+	margin: 8px;
+	padding:0px;
+}
+
+table.colored
+{
+	background-color: #FAFAFA;
+	filter: alpha(opacity=56);
+	border-collapse: collapse;
+	text-align: left;
+	width:100%;
+	font: normal 13px/100% Verdana, Tahoma, sans-serif;
+	border: solid 1px #E5E5E5;
+	padding:3px;
+	margin: 4px;
+}
+tr.white
+{
+	background-color:#FAFAFA;
+	border: solid 1px #E5E5E5;
+}
+tr.black
+{
+	background-color:#DFDFDF;
+	border: solid 1px #E5E5E5;
+}
+</style></head><body><table align="center" class="colored"><tr><td><b># &nbsp &nbsp &nbsp </b></td><td><b>Name</b></td><td><b>Ingredients</b></td></tr>"}
+
+			var/html = ""
+			var/c = 0
+
+			var/list/kp
+			if(master)
+				kp = list()
+				for(var/i = 1 to worldData.potions.len)
+					kp += i
+			else
+				kp = usr:knownPotions
+
+			for(var/i in kp)
+				c++
+				var/ing    = worldData.potions[i]
+				var/potion = worldData.potions[ing]
+
+				if(potion == 0)
+					potion = "explosion"
+				else
+					var/list/t = splittext("[potion]", "/")
+					potion = replacetext(t[t.len], "_", " ")
+
+				ing = text2num(ing)
+				var/ingredients = ""
+
+				if(ing & 1)    ingredients += "daisy, "
+				if(ing & 2)    ingredients += "powdered daisy, "
+				if(ing & 4)    ingredients += "daisy extract, "
+
+				if(ing & 8)    ingredients += "aconite, "
+				if(ing & 16)   ingredients += "powdered aconite, "
+				if(ing & 32)   ingredients += "aconite extract, "
+
+				if(ing & 64)   ingredients += "eyes, "
+				if(ing & 128)  ingredients += "powdered eyes, "
+				if(ing & 256)  ingredients += "eyes extract, "
+
+				if(ing & 512)  ingredients += "rat tail, "
+				if(ing & 1024) ingredients += "powdered rat tail, "
+				if(ing & 2048) ingredients += "rat tail extract, "
+
+				html += "<tr class=[c % 2 == 0 ? "white" : "black"]><td>[c]</td><td>[potion]</td><td>[copytext(ingredients, 1, lentext(ingredients) - 2)]</td></tr>"
+
+			usr << browse(HEADER + html + "</table></body></html>", "window=potions")
+		else
+			..()
+
