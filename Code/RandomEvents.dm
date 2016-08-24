@@ -139,7 +139,15 @@ RandomEvent
 		name = "Class"
 		beepType = 2
 		start()
-			var/spell = pick(spellList ^ list(/mob/Spells/verb/Self_To_Dragon, /mob/Spells/verb/Self_To_Human, /mob/Spells/verb/Episky, /mob/Spells/verb/Inflamari))
+			var/list/spells = spellList ^ list(/mob/Spells/verb/Self_To_Dragon, /mob/Spells/verb/Self_To_Human, /mob/Spells/verb/Episky, /mob/Spells/verb/Inflamari)
+
+			if(spells.len == worldData.spellsHistory.len)
+				worldData.spellsHistory = list()
+			else
+				spells ^= worldData.spellsHistory
+
+			var/spell = pick(spells)
+			worldData.spellsHistory += spell
 
 			var/class/c
 
@@ -158,6 +166,10 @@ RandomEvent
 				t.classInfo = c
 				c.professor = t
 
+				var/area/hogwarts/h = t.loc.loc
+				if(istype(h, /area/hogwarts))
+					h.class = c
+
 				..()
 
 				for(var/i = 5; i > 0; i--)
@@ -169,6 +181,9 @@ RandomEvent
 				c.start()
 				sleep(600 * 30)
 				Players << announcemsg("[c.subject] class has ended.")
+
+				if(h) h.class = null
+
 				t.loc = null
 				t.classInfo = null
 				c.professor = null

@@ -57,6 +57,7 @@ WorldData
 			ministrybanlist
 			mailTracker
 			auctionItems
+			spellsHistory
 
 			vault/globalvaults
 			customMap/customMaps
@@ -81,6 +82,9 @@ proc
 
 		X["worldData"] >> worldData
 		if(!worldData) worldData = new
+
+		if(!worldData.spellsHistory)
+			worldData.spellsHistory = list()
 
 		if(!worldData.ministrybanlist)
 			worldData.ministrybanlist = new/list()
