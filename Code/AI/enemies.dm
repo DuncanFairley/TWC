@@ -1992,6 +1992,8 @@ mob
 					sleep(100)
 					walk(src, 0)
 					loc = null
+				BlindAttack()
+
 			Archangel
 				icon_state = "archangel"
 				level = 500
