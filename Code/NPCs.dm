@@ -159,7 +159,9 @@ mob
 							usr << npcsay("Vault Master: Anything you drop in there will be safely kept and available to you at any time. ((If you create a new character, your vault will retain its contents, so it's a good way to transfer your stuff if you want to remake.))")
 							if(!islist(worldData.globalvaults))
 								worldData.globalvaults = list()
-							worldData.globalvaults[usr.ckey] = new /vault()
+							var/vault/v = new
+							v.version = VAULT_VERSION
+							worldData.globalvaults[usr.ckey] = v
 							var/swapmap/map = SwapMaps_CreateFromTemplate("vault1")
 							map.SetID("[usr.ckey]")
 							map.Save()
