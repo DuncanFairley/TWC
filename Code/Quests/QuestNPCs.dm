@@ -169,8 +169,7 @@ mob/TalkNPC/quest
 				s.AddText("Not bad for a human. Come back next week, I'll help you make another bait.")
 
 	Simon
-		icon = 'NPCs.dmi'
-		icon_state="sean"
+		icon = 'Simon.dmi'
 		questPointers = "Brother Trouble"
 		Talk()
 			set src in oview(3)
@@ -202,6 +201,11 @@ mob/TalkNPC/quest
 				i_Player << "<i>You nod.</i>"
 				s.AddText("Thank goodness!")
 				s.AddText("Here, drink some of this Todd.")
+
+				var/obj/questDecor/Todd/t = locate("SimonTodd")
+				if(t)
+					t.Animation()
+
 				i_Player << "<i>[name] quickly shoves the health potion into Todd's mouth.</i>"
 				i_Player << "<i>Todd regains color to his face and the gashes on his leg quickly sow themselves together.</i>"
 				i_Player << "<i>[name] turns towards you.</i>"
@@ -711,3 +715,21 @@ obj/items
 				read()
 			else
 				..()
+
+obj/questDecor/Todd
+	icon = 'Todd.dmi'
+	icon_state = "Lacerated Todd"
+
+	proc
+		Animation()
+			set waitfor = 0
+
+			if(icon_state == "Healthy Todd") return
+
+			icon_state = "Healthy Todd"
+			sleep(1)
+			animate(src, transform = turn(matrix(), 90), time = 10)
+			sleep(200)
+			animate(src, transform = null, time = 10)
+			sleep(11)
+			icon_state = "Lacerated Todd"
