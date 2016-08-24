@@ -31,7 +31,6 @@ proc/str_count(haystack, needle)
 client
 	mouse_pointer_icon='pointer.dmi'
 #include <deadron/basecamp>
-#define DEBUG 1
 #define BASE_MENU_CREATE_CHARACTER	"Create New Character"
 #define BASE_MENU_DELETE_CHARACTER	"Delete Character"
 #define BASE_MENU_CANCEL			"Cancel"
@@ -164,7 +163,7 @@ mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
 			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
-#define SAVEFILE_VERSION 22
+
 mob/Player/base_save_allowed = 1
 mob
 	var/tmp
@@ -326,6 +325,11 @@ mob
 					verbs -= /mob/GM/verb/DE_chat
 					verbs -= /mob/GM/verb/Clan_store
 					verbs -= /mob/Spells/verb/Morsmordre
+
+			if(savefile_version < 23)
+				for(var/obj/items/ingredients/i in src)
+					if(istype(i, /obj/items/ingredients/daisy) || istype(i, /obj/items/ingredients/aconite))
+						i.Dispose()
 
 			if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
