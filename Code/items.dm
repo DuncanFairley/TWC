@@ -1967,7 +1967,7 @@ obj/items/wearable/title
 	Earthbender
 		title = "Earthbender"
 		name  = "Title: Earthbender"
-	Airhbender
+	Airbender
 		title = "Airbender"
 		name  = "Title: Airbender"
 	Firebender
