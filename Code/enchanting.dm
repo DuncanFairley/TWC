@@ -161,6 +161,9 @@ obj
 			..()
 			colors()
 
+		Attacked(obj/projectile/p)
+			enchant(p.owner)
+
 		var
 			tmp
 				inUse       = FALSE
@@ -202,7 +205,7 @@ obj
 					if(e.check(i, bonus, souls))
 						return e
 
-			enchant()
+			enchant(mob/Player/attacker)
 				if(inUse) return
 				inUse = TRUE
 				spawn(13)
@@ -273,6 +276,9 @@ obj
 
 				bigcolor("#f84b7a")
 
+				if(attacker)
+					attacker.checkQuestProgress("Enchant")
+
 				spawn(1)
 					emit(loc    = src,
 						 ptype  = /obj/particle/magic,
@@ -322,7 +328,8 @@ obj/items/crystal
 				e.bonusChance += luck
 				if(ignoreItem) e.ignoreItem++
 				e.showBonus()
-				Consume()
+				if(Consume())
+					usr:Resort_Stacking_Inv()
 			else
 				usr << errormsg("You hold [src.name] but nothing happens.")
 

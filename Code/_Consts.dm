@@ -5,6 +5,7 @@
  * For the full license text, see LICENSE.txt.
  */
 
+#define DEBUG 1
 #define TICK_LAG 1
 #define islist(x) istype(x,/list)
 #define floor(x) round(x)
@@ -14,6 +15,8 @@
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
 
 #define VERSION "16.60"
+#define SAVEFILE_VERSION 23
+#define VAULT_VERSION 2
 #define lvlcap 750
 #define SWAPMAP_Z 23
 #define WINTER 0
@@ -34,3 +37,5 @@
 #define FIRE  2
 #define WATER 4
 #define GHOST 8
+
+#define DIRS_LIST list(NORTH,SOUTH,EAST,WEST,NORTHEAST,NORTHWEST,SOUTHEAST,SOUTHWEST)

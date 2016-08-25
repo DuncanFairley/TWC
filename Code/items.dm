@@ -384,14 +384,14 @@ obj/items/wearable
 				suffix  = null
 
 	proc
-		calcBonus(mob/Player/owner)
+		calcBonus(mob/Player/owner, reset=1)
 			if(bonus & DAMAGE)
 				clothDmg = round(10 * quality * scale)
 				owner.clothDmg += clothDmg
 			if(bonus & DEFENSE)
 				clothDef = round(30 * quality * scale)
 				owner.clothDef += clothDef
-				owner.resetMaxHP()
+				if(reset) owner.resetMaxHP()
 
 
 obj/items/wearable/Destroy(var/mob/Player/owner)
@@ -456,12 +456,14 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 
 obj/items/food
 	canAuction = FALSE
+	canSave    = FALSE
 	Click()
 		if(src in usr)
 			Eat()
 		..()
 	proc/Eat()
-		Consume()
+		if(Consume())
+			usr:Resort_Stacking_Inv()
 
 	chocolate_bar
 		icon = 'chocolate_bar.dmi'
@@ -779,7 +781,8 @@ obj/items/bagofgoodies
 					usr << "Inside you find a Scroll"
 					new/obj/items/scroll(usr)
 
-				Consume()
+				if(Consume())
+					usr:Resort_Stacking_Inv()
 
 obj/items/pokeby
 	icon = 'pokeby.dmi'
@@ -836,7 +839,41 @@ obj/items/trophies
 
 obj/items/bucket
 	icon = 'bucket.dmi'
-	canAuction = FALSE
+
+	Click()
+		if(src in usr)
+
+			var/turf/t = usr.loc
+			var/foundWater = 0
+			for(var/turf/water/i in orange(1, t))
+				if(i.icon_state != "water")
+					usr << errormsg("You have to melt nearby ice.")
+					return
+				foundWater = 1
+
+			if(!istype(t, /turf/grass) || !foundWater)
+				usr << errormsg("Place this bucket at a place with grass near water.")
+				return
+
+			if(Consume())
+				usr.Resort_Stacking_Inv()
+
+			var/list/dirs = DIRS_LIST
+			var/opDir
+			for(var/d in dirs)
+				if(step(usr, d))
+					opDir = turn(d, 180)
+					break
+
+			sleep(3)
+			usr.dir = opDir
+			sleep(1)
+
+			new /obj/herb (t)
+
+		else
+			..()
+
 obj/items/freds_key
 	name = "Fred's key"
 	icon = 'key.dmi'
@@ -2349,7 +2386,8 @@ obj/items/easterbook
 		if(src in usr)
 			usr.verbs += /mob/Spells/verb/Shelleh
 			usr<<"<b><font color=white><font size=3>You learned Shelleh."
-			Consume()
+			if(Consume())
+				usr:Resort_Stacking_Inv()
 		else
 			..()
 
@@ -2362,7 +2400,8 @@ obj/items/rosesbook
 		if(src in usr)
 			usr<<"<b><font color=red><font size=3>You learned Herbificus Maxima."
 			usr.verbs += /mob/Spells/verb/Herbificus_Maxima
-			Consume()
+			if(Consume())
+				usr:Resort_Stacking_Inv()
 		else
 			..()
 
@@ -2412,7 +2451,8 @@ obj/items/spellbook
 
 				usr << infomsg("You learned [generic.name].")
 				usr.verbs += spell
-				Consume()
+				if(Consume())
+					usr:Resort_Stacking_Inv()
 
 			sleep(15)
 			animate(usr.client, color = null, time = 10)
@@ -2456,7 +2496,8 @@ obj/items/stickbook
 		if(src in usr)
 			usr << infomsg("You learned Crapus Sticketh.")
 			usr.verbs += /mob/Spells/verb/Crapus_Sticketh
-			Consume()
+			if(Consume())
+				usr:Resort_Stacking_Inv()
 		else
 			..()
 
@@ -2473,7 +2514,8 @@ obj/items/easter_egg
 	Click()
 		if(src in usr)
 			new/obj/egg(usr.loc)
-			Consume()
+			if(Consume())
+				usr:Resort_Stacking_Inv()
 		else
 			..()
 obj/egg
@@ -3148,7 +3190,8 @@ obj/items/magic_stone
 			if(p && source)
 				if(p.loc == tmploc)
 					if(!source.effect(p))
-						source.Consume()
+						if(source.Consume())
+							p.Resort_Stacking_Inv()
 				else
 					p << errormsg("The ritual failed.")
 				source.inUse = FALSE
@@ -3239,8 +3282,8 @@ obj/items
 
 					usr << infomsg("You opened a [name]!")
 
-					chestKey.Consume()
-					Consume()
+					if(chestKey.Consume() || Consume())
+						usr:Resort_Stacking_Inv()
 				else
 					usr << errormsg("You don't have a [name] key to open this!")
 
@@ -3782,7 +3825,8 @@ obj/items/vault_key
 				usr << errormsg("You unlocked the door.")
 				flick('Alohomora.dmi', d)
 				d.door     = 1
-				Consume()
+				if(Consume())
+					usr:Resort_Stacking_Inv()
 			else
 				usr << errormsg("You need to use this near a locked vault door.")
 
@@ -3887,7 +3931,8 @@ obj/items/treats
 
 			if(Feed(p))
 				p << "You fed your [p.pet.name] a [name]."
-				Consume()
+				if(Consume())
+					p.Resort_Stacking_Inv()
 
 		else
 			..()

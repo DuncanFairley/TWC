@@ -237,7 +237,7 @@ area
 			Exited(atom/movable/Obj, atom/newloc)
 				..()
 
-				if(isplayer(Obj))
+				if(Obj && newloc && isplayer(Obj))
 					var/mob/Player/p = Obj
 
 					var/hudobj/teleport/o = locate() in p.client.screen

@@ -6,15 +6,40 @@
  */
 
 quest
+	EnchantingTutorial
+		name   = "Secret of the Crypt"
+		desc   = "The crypt has a powerful tool, an enchantment circle. Figure out how it works and enchant anything to prove yourself worthy."
+		reward = /questReward/TutorialOther
+
+		Enchant
+			desc = "Prove that you can do the enchantment ritual."
+			reqs = list("Enchant" = 1)
+
+		Reward
+			desc = "Go back to the Vengeful Wisp."
+			reqs = list("Vengeful Wisp" = 1)
+
 	PotionTutorial
 		name   = "Brother Trouble"
 		desc   = "Simon's brother has big lacerations on his legs. Create a health potion to quickly heal him before it's too late."
-		reward = /questReward/Potions1
-		repeat = 0
+		reward = /questReward/TutorialOther
 
 		Brew
 			desc = "The ingredients list says using rat powder, daisy powder, aconite, and aconite powder to make a regular health potion. Of course, you can do better than that however."
 			reqs = list("Brew Potion" = 1)
+
+		Reward
+			desc = "Go back to Simon to save his brother!"
+			reqs = list("Simon" = 1)
+
+	PotionBook
+		name   = "Brewing Practice"
+		desc   = "Practice never hurts..."
+		reward = /questReward/PotionsBook
+
+		Brew
+			desc = "Simon says you need to brew more potions."
+			reqs = list("Brew Potion" = 15)
 
 		Reward
 			desc = "Go back to Simon to save his brother!"
@@ -651,12 +676,10 @@ questReward
 	Gold
 		exp  = 1000
 		gold = 10000
-	Potions1
-		exp   = 1000
-		gold  = 1000
-		items = list(/obj/items/ingredients/aconite,
-					 /obj/items/ingredients/daisy,
-					 /obj/items/ingredients/rat_tail)
+	PotionsBook
+		exp   = 2000
+		gold  = 2000
+		items = /obj/items/potions_book
 	Mon1
 		gold = 1000
 		exp  = 10000
@@ -774,6 +797,9 @@ questReward
 	TutorialQuests
 		exp   = 200
 		gold  = 800
+	TutorialOther
+		exp   = 1000
+		gold  = 1000
 
 	Masterkey
 		exp   = 32000

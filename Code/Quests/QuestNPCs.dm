@@ -170,7 +170,8 @@ mob/TalkNPC/quest
 
 	Simon
 		icon = 'Simon.dmi'
-		questPointers = "Brother Trouble"
+		questPointers = list("Brother Trouble",
+		                     "Brewing Practice")
 		Talk()
 			set src in oview(3)
 			Quest(usr)
@@ -178,16 +179,21 @@ mob/TalkNPC/quest
 		questStart(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
 
-			s.AddText("Hello there! Can you help me?")
-			i_Player << "<i>You check if the scene is clear.</i>"
-			s.AddText("My brother was badly injured by some thugs wearing masks. I need you to brew a health potion of any sort.")
-			i_Player << "<i>You notice paleness in the brother's face as well as the red gashes all over his legs. He certainly won't be conscious for very long if he doesn't get treatment.</i>"
-			s.AddText("You can create a potion in the <b>Potions Classroom</b> near the Slytherin Common room in Hogwarts.")
-			s.AddText("Before you go, take these ingredients. You'll need them to create a potion.")
-			for(var/i = 1 to 5)
-				new /obj/items/ingredients/aconite (i_Player)
-				new /obj/items/ingredients/daisy (i_Player)
-				new /obj/items/ingredients/rat_tail (i_Player)
+			switch(questName)
+				if("Brother Trouble")
+					s.AddText("Hello there! Can you help me?")
+					i_Player << "<i>You check if the scene is clear.</i>"
+					s.AddText("My brother was badly injured by some thugs wearing masks. I need you to brew a health potion of any sort.")
+					i_Player << "<i>You notice paleness in the brother's face as well as the red gashes all over his legs. He certainly won't be conscious for very long if he doesn't get treatment.</i>"
+					s.AddText("You can create a potion in the <b>Potions Classroom</b> near the Slytherin Common room in Hogwarts.")
+					s.AddText("Before you go, take these ingredients. You'll need them to create a potion.")
+					for(var/i = 1 to 5)
+						new /obj/items/ingredients/aconite (i_Player)
+						new /obj/items/ingredients/daisy (i_Player)
+						new /obj/items/ingredients/rat_tail (i_Player)
+
+				if("Brewing Practice")
+					s.AddText("Hey, you might have a talent for potion brewing, why don't you go brew some more?")
 
 			..(i_Player, questName)
 
@@ -196,22 +202,29 @@ mob/TalkNPC/quest
 
 			var/ScreenText/s = new(i_Player, src)
 
-			if(.)
-				s.AddText("Did you get it?")
-				i_Player << "<i>You nod.</i>"
-				s.AddText("Thank goodness!")
-				s.AddText("Here, drink some of this Todd.")
+			switch(questName)
+				if("Brother Trouble")
+					if(.)
+						s.AddText("Did you get it?")
+						i_Player << "<i>You nod.</i>"
+						s.AddText("Thank goodness!")
+						s.AddText("Here, drink some of this Todd.")
 
-				var/obj/questDecor/Todd/t = locate("SimonTodd")
-				if(t)
-					t.Animation()
+						var/obj/questDecor/Todd/t = locate("SimonTodd")
+						if(t)
+							t.Animation()
 
-				i_Player << "<i>[name] quickly shoves the health potion into Todd's mouth.</i>"
-				i_Player << "<i>Todd regains color to his face and the gashes on his leg quickly sow themselves together.</i>"
-				i_Player << "<i>[name] turns towards you.</i>"
-				s.AddText("Thank you so much! If you hadn't shown up, my brother may not have lived!")
-			else
-				s.AddText("Please, hurry! He may not have much time.")
+						i_Player << "<i>[name] quickly shoves the health potion into Todd's mouth.</i>"
+						i_Player << "<i>Todd regains color to his face and the gashes on his leg quickly sow themselves together.</i>"
+						i_Player << "<i>[name] turns towards you.</i>"
+						s.AddText("Thank you so much! If you hadn't shown up, my brother may not have lived!")
+					else
+						s.AddText("Please, hurry! He may not have much time.")
+				if("Brewing Practice")
+					if(.)
+						s.AddText("I hope you had fun brewing those, I tell you what, take this book and record the potion recipes you find, I'm sure it'll be fun!")
+					else
+						s.AddText("Thanks again for the save! Are you having fun brewing potions?")
 
 		questCompleted(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
@@ -254,7 +267,8 @@ mob/TalkNPC/quest
 	Vengeful_Wisp
 		icon = 'Mobs.dmi'
 		icon_state="wisp"
-		questPointers = "Will of the Wisp \[Daily]"
+		questPointers = list("Secret of the Crypt",
+		                     "Will of the Wisp \[Daily]")
 		New()
 			..()
 			alpha = rand(190,255)
@@ -274,8 +288,21 @@ mob/TalkNPC/quest
 		questStart(mob/Player/i_Player, questName)
 
 			var/ScreenText/s = new(i_Player, src)
+			switch(questName)
+				if("Secret of the Crypt")
+					s.AddText("Hello there Human! Why do you disturb us? Do you wish to learn the ways of enchantment?")
+					s.AddText("Oh, you don't know what enchanting is?")
+					s.AddText("The enchanter merges two identical elements to create a greater element.")
+					s.AddText("It also requires the power of two artifacts.")
+					s.AddText("There might be hints on how to enchant hidden in the bookshelves.")
+					s.AddText("Before you go, have some of these. They're called <b>Luck Crystals</b>.")
+					s.AddText("They will improve the chance that your enchantment succeeds. Because humans sure can fail, mawhahaha...")
 
-			s.AddText("You, human! I want you to help me express my rage, kill every wisp you face, vengeance shall be mine! Mawhahahaha!!!")
+					for(var/i = 1 to 3)
+						new /obj/items/crystal/luck (i_Player)
+
+				if("Will of the Wisp \[Daily]")
+					s.AddText("You, human! I want you to help me express my rage, kill every wisp you face, vengeance shall be mine! Mawhahahaha!!!")
 
 			..(i_Player, questName)
 
@@ -284,10 +311,18 @@ mob/TalkNPC/quest
 
 			var/ScreenText/s = new(i_Player, src)
 
-			if(.)
-				s.AddText("I love the irony in sending you to kill dead creatures. May they rest in pea-- I will send you to kill them again tomorrow.")
-			else
-				s.AddText("Don't waste time talking to me, actions speak louder than words!")
+			switch(questName)
+				if("Secret of the Crypt")
+					if(.)
+						s.AddText("Good job. I honestly didn't believe a human like yourself would figure it out.")
+						s.AddText("Then again, I did give a good amount of clues...")
+					else
+						s.AddText("Don't worry, I have an eternity.")
+				if("Will of the Wisp \[Daily]")
+					if(.)
+						s.AddText("I love the irony in sending you to kill dead creatures. May they rest in pea-- I will send you to kill them again tomorrow.")
+					else
+						s.AddText("Don't waste time talking to me, actions speak louder than words!")
 
 		questCompleted(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)

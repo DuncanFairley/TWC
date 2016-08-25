@@ -1452,12 +1452,15 @@ mob/Spells/verb/Confundus(mob/Player/M in oview()&Players)
 		var/matrix/m = M.Interface.mapplane.transform
 		m.Turn(90 * rand(-2, 2))
 		m.Scale(1.25,1.25)
+		M.client.screen += M.Interface.mapplane
 		animate(M.Interface.mapplane, transform = m, time = 10)
 
 		src=null
 		spawn(200)
 			if(M)
 				animate(M.Interface.mapplane, transform = null, time = 10)
+				sleep(11)
+				if(M) M.client.screen -= M.Interface.mapplane
 
 mob/Spells/verb/Flippendo()
 	set category="Spells"
@@ -1659,10 +1662,6 @@ obj/portkey
 obj/egg
 	Attacked()
 		Hit()
-
-obj/enchanter
-	Attacked()
-		enchant()
 
 obj/clanpillar
 

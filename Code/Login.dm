@@ -81,9 +81,6 @@ mob/Player/proc/change_vault(var/vault)
 	if(!map)
 		map = SwapMaps_Load("[ckey]")
 	if(map)
-
-		for(var/obj/items/i in map)
-			i.loc = src
 		if(!map.InUse())
 			for(var/turf/t in map.AllTurfs())
 				for(var/obj/items/i in t)
@@ -98,6 +95,7 @@ mob/Player/proc/change_vault(var/vault)
 		worldData.globalvaults = list()
 	var/vault/v = new
 	v.tmpl = vault
+	v.version = VAULT_VERSION
 	worldData.globalvaults[src.ckey] = v
 	map = SwapMaps_CreateFromTemplate("vault[vault]")
 	if(!map)
@@ -122,7 +120,6 @@ mob/Player/proc/change_vault(var/vault)
 	map.SetID("[src.ckey]")
 	map.Save()
 	return 1
-
 
 obj/teleport
 	var/dest = ""
@@ -187,6 +184,12 @@ obj/teleport
 				if(!map)
 					map = SwapMaps_Load("[chosenvault]")
 				var/width = (map.x2+1) - map.x1
+
+				var/vault/v = worldData.globalvaults[chosenvault]
+				if(v && v.version < VAULT_VERSION && map)
+					updateVault(map, chosenvault, v.version)
+					v.version = VAULT_VERSION
+
 				M.loc = locate(map.x1 + round((width)/2), map.y1+1, map.z1 )
 			else
 				M << npcsay("Vault Master: You don't have a vault here, [M]. Come speak to me and let's see if we can change that.")
@@ -259,6 +262,13 @@ proc/unload_vault(updateTime = TRUE)
 				vault_last_exit = null
 			sleep(VAULT_TIMEOUT)
 
+proc/updateVault(swapmap/map, owner, version)
+
+	if(version < 2)
+		for(var/turf/t in map.AllTurfs())
+			for(var/obj/items/i in t)
+				if(istype(i, /obj/items/ingredients/daisy) || istype(i, /obj/items/ingredients/aconite) || istype(i, /obj/items/food))
+					i.Dispose()
 
 mob/GM/verb/UnloadMap()
 	set category = "Custom Maps"
@@ -399,6 +409,7 @@ customMap
 vault
 	var/list/allowedpeople = list()	//ckeys of people with permission to enter
 	var/tmpl = "1"// used template, 1 by default
+	var/version = 1
 	proc/can_ckey_enter(ckey)
 		return (ckey in allowedpeople)
 	proc/add_ckey_allowedpeople(ckey)
@@ -977,12 +988,15 @@ mob/Player
 			for(var/obj/items/wearable/W in tmpwearing)
 				var/b = W.bonus
 
+				W.bonus = -1
+				W.Equip(src,1)
+				W.bonus = b
+
 				if(!ignoreBonus)
-					W.Equip(src,1)
-				else
-					W.bonus = -1
-					W.Equip(src,1)
-					W.bonus = b
+					W.calcBonus(src, 0)
+
+			if(!ignoreBonus)
+				resetMaxHP()
 
 		if(src.away)
 			src.ApplyAFKOverlay()

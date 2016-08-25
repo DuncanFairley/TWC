@@ -301,6 +301,12 @@ obj/potions
 								p.owner.HP = 0
 								p.owner.Death_Check(p.owner)
 
+				var/i = worldData.potions.Find("[pool]")
+				if(i)
+					if(!p.owner:knownPotions) p.owner:knownPotions = list()
+					if(!(i in p.owner:knownPotions))
+						p.owner:knownPotions += i
+
 				setColor("#090")
 				pool    = 0
 				flags   = 0
@@ -748,7 +754,8 @@ obj/items/potions
 					return
 
 				if(Effect(p))
-					Consume()
+					if(Consume())
+						p.Resort_Stacking_Inv()
 			else
 				..()
 
@@ -765,3 +772,157 @@ proc/countBits(c)
 	. = c - ((c >> 1) & 0x5555)
 	. = (. & 0x3333) + ((. >> 2) & 0x3333)
 	. = ((. + (. >> 4) & 0x0F0F) * 0x0101) >> 8
+
+
+obj
+	herb
+		icon       = 'bucket.dmi'
+		icon_state = "big"
+		density    = 1
+
+		var
+			tier
+			soil
+			water
+
+		New()
+			..()
+
+			tier  = rand(1, 3)
+			soil  = tier * 50 * (11 - tier) / 10
+			water = tier * 25 * (11 - tier) / 10
+
+			transform = matrix() * 0.5
+
+		Attacked(obj/projectile/p)
+			set waitfor = 0
+
+			var/animate = 0
+
+			if(soil > 0 && p.icon_state == "quake")
+				soil--
+				animate = 1
+
+			else if(water > 0 && p.icon_state == "aqua")
+				water--
+				animate = 1
+
+			if(soil == 0 && water == 0)
+				pixel_x = 0
+
+				var/obj/bar/b = new (y == world.maxy ? locate(x, y - 1, z) : locate(x, y + 1, z))
+				b.countdown(320)
+
+				var/matrix/m1 = matrix() * 0.5
+				var/matrix/m2 = matrix() * 0.5
+				m1.Scale(1.3, 1)
+				m2.Scale(1,   1.3)
+
+				animate(src, transform = m1, time = 5, loop = 32)
+				animate(transform = m2, time = 5)
+
+				sleep(320)
+				var/obj/items/ingredients/i = pick(/obj/items/ingredients/daisy, /obj/items/ingredients/aconite)
+				i = new i (loc)
+				i.stack = rand(2, 4) * tier
+				i.UpdateDisplay()
+				loc = null
+
+			else if(animate && pixel_x == 0)
+				animate(src, pixel_x = 1, time = 1, loop = 5)
+				animate(pixel_x = -1, time = 1)
+
+				sleep(11)
+				pixel_x   = 0
+
+mob/Player/var/list/knownPotions
+
+obj/items/potions_book
+	icon       = 'Books.dmi'
+	icon_state = "potion"
+	var/master = 0
+
+	Click()
+		if(src in usr)
+			if(!usr:knownPotions && !master)
+				usr << errormsg("Your book is empty, go brew potions!")
+				return
+			var/const/HEADER = {"<html><head><title>Potion Book</title><style>
+body
+{
+	background-image: url('http://www.wizardschronicles.com/dpbg.jpg');
+	margin: 8px;
+	padding:0px;
+}
+
+table.colored
+{
+	background-color: #FAFAFA;
+	filter: alpha(opacity=56);
+	border-collapse: collapse;
+	text-align: left;
+	width:100%;
+	font: normal 13px/100% Verdana, Tahoma, sans-serif;
+	border: solid 1px #E5E5E5;
+	padding:3px;
+	margin: 4px;
+}
+tr.white
+{
+	background-color:#FAFAFA;
+	border: solid 1px #E5E5E5;
+}
+tr.black
+{
+	background-color:#DFDFDF;
+	border: solid 1px #E5E5E5;
+}
+</style></head><body><table align="center" class="colored"><tr><td><b># &nbsp &nbsp &nbsp </b></td><td><b>Name</b></td><td><b>Ingredients</b></td></tr>"}
+
+			var/html = ""
+			var/c = 0
+
+			var/list/kp
+			if(master)
+				kp = list()
+				for(var/i = 1 to worldData.potions.len)
+					kp += i
+			else
+				kp = usr:knownPotions
+
+			for(var/i in kp)
+				c++
+				var/ing    = worldData.potions[i]
+				var/potion = worldData.potions[ing]
+
+				if(potion == 0)
+					potion = "explosion"
+				else
+					var/list/t = splittext("[potion]", "/")
+					potion = replacetext(t[t.len], "_", " ")
+
+				ing = text2num(ing)
+				var/ingredients = ""
+
+				if(ing & 1)    ingredients += "daisy, "
+				if(ing & 2)    ingredients += "powdered daisy, "
+				if(ing & 4)    ingredients += "daisy extract, "
+
+				if(ing & 8)    ingredients += "aconite, "
+				if(ing & 16)   ingredients += "powdered aconite, "
+				if(ing & 32)   ingredients += "aconite extract, "
+
+				if(ing & 64)   ingredients += "eyes, "
+				if(ing & 128)  ingredients += "powdered eyes, "
+				if(ing & 256)  ingredients += "eyes extract, "
+
+				if(ing & 512)  ingredients += "rat tail, "
+				if(ing & 1024) ingredients += "powdered rat tail, "
+				if(ing & 2048) ingredients += "rat tail extract, "
+
+				html += "<tr class=[c % 2 == 0 ? "white" : "black"]><td>[c]</td><td>[potion]</td><td>[copytext(ingredients, 1, lentext(ingredients) - 1)].</td></tr>"
+
+			usr << browse(HEADER + html + "</table></body></html>", "window=potions")
+		else
+			..()
+

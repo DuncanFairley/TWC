@@ -455,7 +455,7 @@ mob
 						w.prizeDrop(killer.ckey, 300)
 				else
 					if(killer.findStatusEffect(/StatusEffect/Lamps/Farming))
-						chance *= 4
+						chance *= 6
 
 					if(prob(chance))
 						if(defaultColor == "rand")
