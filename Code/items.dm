@@ -456,6 +456,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 
 obj/items/food
 	canAuction = FALSE
+	canSave    = FALSE
 	Click()
 		if(src in usr)
 			Eat()

@@ -327,8 +327,8 @@ mob
 					verbs -= /mob/Spells/verb/Morsmordre
 
 			if(savefile_version < 23)
-				for(var/obj/items/ingredients/i in src)
-					if(istype(i, /obj/items/ingredients/daisy) || istype(i, /obj/items/ingredients/aconite))
+				for(var/obj/items/i in src)
+					if(istype(i, /obj/items/ingredients/daisy) || istype(i, /obj/items/ingredients/aconite) || istype(i, /obj/items/food))
 						i.Dispose()
 
 			if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts

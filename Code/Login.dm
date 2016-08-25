@@ -266,8 +266,8 @@ proc/updateVault(swapmap/map, owner, version)
 
 	if(version < 2)
 		for(var/turf/t in map.AllTurfs())
-			for(var/obj/items/ingredients/i in t)
-				if(istype(i, /obj/items/ingredients/daisy) || istype(i, /obj/items/ingredients/aconite))
+			for(var/obj/items/i in t)
+				if(istype(i, /obj/items/ingredients/daisy) || istype(i, /obj/items/ingredients/aconite) || istype(i, /obj/items/food))
 					i.Dispose()
 
 mob/GM/verb/UnloadMap()
