@@ -10,11 +10,23 @@ quest
 		name   = "Brother Trouble"
 		desc   = "Simon's brother has big lacerations on his legs. Create a health potion to quickly heal him before it's too late."
 		reward = /questReward/Potions1
-		repeat = 0
 
 		Brew
 			desc = "The ingredients list says using rat powder, daisy powder, aconite, and aconite powder to make a regular health potion. Of course, you can do better than that however."
 			reqs = list("Brew Potion" = 1)
+
+		Reward
+			desc = "Go back to Simon to save his brother!"
+			reqs = list("Simon" = 1)
+
+	PotionTutorial
+		name   = "Brewing Practice"
+		desc   = "Practice never hurts..."
+		reward = /questReward/PotionsBook
+
+		Brew
+			desc = "Simon says you need to brew more potions."
+			reqs = list("Brew Potion" = 10)
 
 		Reward
 			desc = "Go back to Simon to save his brother!"
@@ -657,6 +669,10 @@ questReward
 		items = list(/obj/items/ingredients/aconite,
 					 /obj/items/ingredients/daisy,
 					 /obj/items/ingredients/rat_tail)
+	PotionsBook
+		exp   = 2000
+		gold  = 2000
+		items = /obj/items/potions_book
 	Mon1
 		gold = 1000
 		exp  = 10000

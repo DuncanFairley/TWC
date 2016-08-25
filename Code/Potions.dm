@@ -835,7 +835,7 @@ obj
 
 mob/Player/var/list/knownPotions
 
-obj/items/potion_book
+obj/items/potions_book
 	icon       = 'Books.dmi'
 	icon_state = "potion"
 	var/master = 0
@@ -916,7 +916,7 @@ tr.black
 				if(ing & 1024) ingredients += "powdered rat tail, "
 				if(ing & 2048) ingredients += "rat tail extract, "
 
-				html += "<tr class=[c % 2 == 0 ? "white" : "black"]><td>[c]</td><td>[potion]</td><td>[copytext(ingredients, 1, lentext(ingredients) - 2)]</td></tr>"
+				html += "<tr class=[c % 2 == 0 ? "white" : "black"]><td>[c]</td><td>[potion]</td><td>[copytext(ingredients, 1, lentext(ingredients) - 1)].</td></tr>"
 
 			usr << browse(HEADER + html + "</table></body></html>", "window=potions")
 		else

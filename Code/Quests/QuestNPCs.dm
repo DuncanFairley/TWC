@@ -170,7 +170,8 @@ mob/TalkNPC/quest
 
 	Simon
 		icon = 'Simon.dmi'
-		questPointers = "Brother Trouble"
+		questPointers = list("Brother Trouble",
+		                     "Brewing Practice")
 		Talk()
 			set src in oview(3)
 			Quest(usr)
@@ -178,16 +179,21 @@ mob/TalkNPC/quest
 		questStart(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
 
-			s.AddText("Hello there! Can you help me?")
-			i_Player << "<i>You check if the scene is clear.</i>"
-			s.AddText("My brother was badly injured by some thugs wearing masks. I need you to brew a health potion of any sort.")
-			i_Player << "<i>You notice paleness in the brother's face as well as the red gashes all over his legs. He certainly won't be conscious for very long if he doesn't get treatment.</i>"
-			s.AddText("You can create a potion in the <b>Potions Classroom</b> near the Slytherin Common room in Hogwarts.")
-			s.AddText("Before you go, take these ingredients. You'll need them to create a potion.")
-			for(var/i = 1 to 5)
-				new /obj/items/ingredients/aconite (i_Player)
-				new /obj/items/ingredients/daisy (i_Player)
-				new /obj/items/ingredients/rat_tail (i_Player)
+			switch(questName)
+				if("Brother Trouble")
+					s.AddText("Hello there! Can you help me?")
+					i_Player << "<i>You check if the scene is clear.</i>"
+					s.AddText("My brother was badly injured by some thugs wearing masks. I need you to brew a health potion of any sort.")
+					i_Player << "<i>You notice paleness in the brother's face as well as the red gashes all over his legs. He certainly won't be conscious for very long if he doesn't get treatment.</i>"
+					s.AddText("You can create a potion in the <b>Potions Classroom</b> near the Slytherin Common room in Hogwarts.")
+					s.AddText("Before you go, take these ingredients. You'll need them to create a potion.")
+					for(var/i = 1 to 5)
+						new /obj/items/ingredients/aconite (i_Player)
+						new /obj/items/ingredients/daisy (i_Player)
+						new /obj/items/ingredients/rat_tail (i_Player)
+
+				if("Brewing Practice")
+					s.AddText("Hey, you might have a talent for potion brewing, why don't you go brew some more?")
 
 			..(i_Player, questName)
 
@@ -196,22 +202,29 @@ mob/TalkNPC/quest
 
 			var/ScreenText/s = new(i_Player, src)
 
-			if(.)
-				s.AddText("Did you get it?")
-				i_Player << "<i>You nod.</i>"
-				s.AddText("Thank goodness!")
-				s.AddText("Here, drink some of this Todd.")
+			switch(questName)
+				if("Brother Trouble")
+					if(.)
+						s.AddText("Did you get it?")
+						i_Player << "<i>You nod.</i>"
+						s.AddText("Thank goodness!")
+						s.AddText("Here, drink some of this Todd.")
 
-				var/obj/questDecor/Todd/t = locate("SimonTodd")
-				if(t)
-					t.Animation()
+						var/obj/questDecor/Todd/t = locate("SimonTodd")
+						if(t)
+							t.Animation()
 
-				i_Player << "<i>[name] quickly shoves the health potion into Todd's mouth.</i>"
-				i_Player << "<i>Todd regains color to his face and the gashes on his leg quickly sow themselves together.</i>"
-				i_Player << "<i>[name] turns towards you.</i>"
-				s.AddText("Thank you so much! If you hadn't shown up, my brother may not have lived!")
-			else
-				s.AddText("Please, hurry! He may not have much time.")
+						i_Player << "<i>[name] quickly shoves the health potion into Todd's mouth.</i>"
+						i_Player << "<i>Todd regains color to his face and the gashes on his leg quickly sow themselves together.</i>"
+						i_Player << "<i>[name] turns towards you.</i>"
+						s.AddText("Thank you so much! If you hadn't shown up, my brother may not have lived!")
+					else
+						s.AddText("Please, hurry! He may not have much time.")
+				if("Brewing Practice")
+					if(.)
+						s.AddText("I hope you had fun brewing those, I tell you what, take this book and record the potion recipes you find, I'm sure it'll be fun!")
+					else
+						s.AddText("Thanks again for the save! Are you having fun brewing potions?")
 
 		questCompleted(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
