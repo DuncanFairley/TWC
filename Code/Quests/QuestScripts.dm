@@ -26,7 +26,7 @@ quest
 
 		Brew
 			desc = "Simon says you need to brew more potions."
-			reqs = list("Brew Potion" = 10)
+			reqs = list("Brew Potion" = 15)
 
 		Reward
 			desc = "Go back to Simon to save his brother!"
