@@ -844,6 +844,11 @@ obj/items/bucket
 		if(src in usr)
 
 			var/turf/t = usr.loc
+
+			if(locate(/obj/herb) in t)
+				usr << errormsg("There's a bucket placed here already.")
+				return
+
 			var/foundWater = 0
 			for(var/turf/water/i in orange(1, t))
 				if(i.icon_state != "water")
