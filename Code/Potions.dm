@@ -776,9 +776,9 @@ proc/countBits(c)
 
 obj
 	herb
-		icon    = 'bucket.dmi'
-		pixel_y = 8
-		density = 1
+		icon       = 'bucket.dmi'
+		icon_state = "big"
+		density    = 1
 
 		var
 			tier
@@ -791,6 +791,8 @@ obj
 			tier  = rand(1, 3)
 			soil  = tier * 50 * (11 - tier) / 10
 			water = tier * 25 * (11 - tier) / 10
+
+			transform = matrix() * 0.5
 
 		Attacked(obj/projectile/p)
 			set waitfor = 0
@@ -811,8 +813,8 @@ obj
 				var/obj/bar/b = new (y == world.maxy ? locate(x, y - 1, z) : locate(x, y + 1, z))
 				b.countdown(320)
 
-				var/matrix/m1 = matrix()
-				var/matrix/m2 = matrix()
+				var/matrix/m1 = matrix() * 0.5
+				var/matrix/m2 = matrix() * 0.5
 				m1.Scale(1.3, 1)
 				m2.Scale(1,   1.3)
 
