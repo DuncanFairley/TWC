@@ -267,7 +267,8 @@ mob/TalkNPC/quest
 	Vengeful_Wisp
 		icon = 'Mobs.dmi'
 		icon_state="wisp"
-		questPointers = "Will of the Wisp \[Daily]"
+		questPointers = list("Secret of the Crypt",
+		                     "Will of the Wisp \[Daily]")
 		New()
 			..()
 			alpha = rand(190,255)
@@ -287,8 +288,21 @@ mob/TalkNPC/quest
 		questStart(mob/Player/i_Player, questName)
 
 			var/ScreenText/s = new(i_Player, src)
+			switch(questName)
+				if("Secret of the Crypt")
+					s.AddText("Hello there Human! Why do you disturb us? Do you wish to learn the ways of enchantment?")
+					s.AddText("Oh, you don't know what enchanting is?")
+					s.AddText("The enchanter merges two identical elements to create a greater element.")
+					s.AddText("It also requires the power of two artifacts.")
+					s.AddText("There might be hints on how to enchant hidden in the bookshelves.")
+					s.AddText("Before you go, have some of these. They're called <b>Luck Crystals</b>.")
+					s.AddText("They will improve the chance that your enchantment succeeds. Because humans sure can fail, mawhahaha...")
 
-			s.AddText("You, human! I want you to help me express my rage, kill every wisp you face, vengeance shall be mine! Mawhahahaha!!!")
+					for(var/i = 1 to 3)
+						new /obj/items/crystal/luck (i_Player)
+
+				if("Will of the Wisp \[Daily]")
+					s.AddText("You, human! I want you to help me express my rage, kill every wisp you face, vengeance shall be mine! Mawhahahaha!!!")
 
 			..(i_Player, questName)
 
@@ -297,10 +311,18 @@ mob/TalkNPC/quest
 
 			var/ScreenText/s = new(i_Player, src)
 
-			if(.)
-				s.AddText("I love the irony in sending you to kill dead creatures. May they rest in pea-- I will send you to kill them again tomorrow.")
-			else
-				s.AddText("Don't waste time talking to me, actions speak louder than words!")
+			switch(questName)
+				if("Secret of the Crypt")
+					if(.)
+						s.AddText("Good job. I honestly didn't believe a human like yourself would figure it out.")
+						s.AddText("Then again, I did give a good amount of clues...")
+					else
+						s.AddText("Don't worry, I have an eternity.")
+				if("Will of the Wisp \[Daily]")
+					if(.)
+						s.AddText("I love the irony in sending you to kill dead creatures. May they rest in pea-- I will send you to kill them again tomorrow.")
+					else
+						s.AddText("Don't waste time talking to me, actions speak louder than words!")
 
 		questCompleted(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
