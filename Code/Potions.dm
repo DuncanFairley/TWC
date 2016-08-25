@@ -842,7 +842,9 @@ obj/items/potions_book
 
 	Click()
 		if(src in usr)
-			if(!usr:knownPotions && !master) return
+			if(!usr:knownPotions && !master)
+				usr << errormsg("Your book is empty, go brew potions!")
+				return
 			var/const/HEADER = {"<html><head><title>Potion Book</title><style>
 body
 {
