@@ -321,7 +321,7 @@ interface
 
 		parent.client.screen += lightplane
 		parent.client.screen += darkness
-		parent.client.screen += mapplane
+	//	parent.client.screen += mapplane
 
 	proc/SetDarknessColor(c)
 		if(ignoreDarkness) return
