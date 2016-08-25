@@ -784,6 +784,7 @@ obj
 			tier
 			soil
 			water
+			tmp/wait
 
 		New()
 			..()
@@ -797,6 +798,8 @@ obj
 		Attacked(obj/projectile/p)
 			set waitfor = 0
 
+			if(wait) return
+
 			var/animate = 0
 
 			if(soil > 0 && p.icon_state == "quake")
@@ -809,6 +812,7 @@ obj
 
 			if(soil == 0 && water == 0)
 				pixel_x = 0
+				wait    = 1
 
 				var/obj/bar/b = new (y == world.maxy ? locate(x, y - 1, z) : locate(x, y + 1, z))
 				b.countdown(320)
