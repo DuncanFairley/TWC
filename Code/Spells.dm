@@ -1663,10 +1663,6 @@ obj/egg
 	Attacked()
 		Hit()
 
-obj/enchanter
-	Attacked()
-		enchant()
-
 obj/clanpillar
 
 	Attacked(obj/projectile/p)

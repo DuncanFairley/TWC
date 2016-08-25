@@ -161,6 +161,9 @@ obj
 			..()
 			colors()
 
+		Attacked(obj/projectile/p)
+			enchant(p.owner)
+
 		var
 			tmp
 				inUse       = FALSE
@@ -202,7 +205,7 @@ obj
 					if(e.check(i, bonus, souls))
 						return e
 
-			enchant()
+			enchant(mob/Player/attacker)
 				if(inUse) return
 				inUse = TRUE
 				spawn(13)
@@ -272,6 +275,9 @@ obj
 				i4.Consume()
 
 				bigcolor("#f84b7a")
+
+				if(attacker)
+					attacker.checkQuestProgress("Enchant")
 
 				spawn(1)
 					emit(loc    = src,
