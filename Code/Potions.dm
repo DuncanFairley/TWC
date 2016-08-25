@@ -840,6 +840,7 @@ mob/Player/var/list/knownPotions
 obj/items/potions_book
 	icon       = 'Books.dmi'
 	icon_state = "potion"
+	dropable   = 0
 	var/master = 0
 
 	Click()
