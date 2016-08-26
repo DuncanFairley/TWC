@@ -360,8 +360,7 @@ obj/items/U_No_Poo
 			if(!usr:Pooping)
 				usr:Pooping = 1
 
-				if(Consume())
-					usr:Resort_Stacking_Inv()
+				Consume()
 
 				src=null
 				spawn()

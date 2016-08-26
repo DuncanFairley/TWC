@@ -462,8 +462,7 @@ obj/items/food
 			Eat()
 		..()
 	proc/Eat()
-		if(Consume())
-			usr:Resort_Stacking_Inv()
+		Consume()
 
 	chocolate_bar
 		icon = 'chocolate_bar.dmi'
@@ -781,8 +780,7 @@ obj/items/bagofgoodies
 					usr << "Inside you find a Scroll"
 					new/obj/items/scroll(usr)
 
-				if(Consume())
-					usr:Resort_Stacking_Inv()
+				Consume()
 
 obj/items/pokeby
 	icon = 'pokeby.dmi'
@@ -860,8 +858,7 @@ obj/items/bucket
 				usr << errormsg("Place this bucket at a place with grass near water.")
 				return
 
-			if(Consume())
-				usr.Resort_Stacking_Inv()
+			Consume()
 
 			var/list/dirs = DIRS_LIST
 			var/opDir
@@ -874,7 +871,7 @@ obj/items/bucket
 			usr.dir = opDir
 			sleep(1)
 
-			new /obj/herb (t)
+			new /obj/herb (t, usr.ckey)
 
 		else
 			..()
@@ -2391,8 +2388,7 @@ obj/items/easterbook
 		if(src in usr)
 			usr.verbs += /mob/Spells/verb/Shelleh
 			usr<<"<b><font color=white><font size=3>You learned Shelleh."
-			if(Consume())
-				usr:Resort_Stacking_Inv()
+			Consume()
 		else
 			..()
 
@@ -2405,8 +2401,7 @@ obj/items/rosesbook
 		if(src in usr)
 			usr<<"<b><font color=red><font size=3>You learned Herbificus Maxima."
 			usr.verbs += /mob/Spells/verb/Herbificus_Maxima
-			if(Consume())
-				usr:Resort_Stacking_Inv()
+			Consume()
 		else
 			..()
 
@@ -2501,8 +2496,7 @@ obj/items/stickbook
 		if(src in usr)
 			usr << infomsg("You learned Crapus Sticketh.")
 			usr.verbs += /mob/Spells/verb/Crapus_Sticketh
-			if(Consume())
-				usr:Resort_Stacking_Inv()
+			Consume()
 		else
 			..()
 
@@ -3195,8 +3189,7 @@ obj/items/magic_stone
 			if(p && source)
 				if(p.loc == tmploc)
 					if(!source.effect(p))
-						if(source.Consume())
-							p.Resort_Stacking_Inv()
+						source.Consume()
 				else
 					p << errormsg("The ritual failed.")
 				source.inUse = FALSE
@@ -3287,8 +3280,8 @@ obj/items
 
 					usr << infomsg("You opened a [name]!")
 
-					if(chestKey.Consume() || Consume())
-						usr:Resort_Stacking_Inv()
+					chestKey.Consume()
+					Consume()
 				else
 					usr << errormsg("You don't have a [name] key to open this!")
 
@@ -3830,8 +3823,7 @@ obj/items/vault_key
 				usr << errormsg("You unlocked the door.")
 				flick('Alohomora.dmi', d)
 				d.door     = 1
-				if(Consume())
-					usr:Resort_Stacking_Inv()
+				Consume()
 			else
 				usr << errormsg("You need to use this near a locked vault door.")
 
@@ -3936,8 +3928,7 @@ obj/items/treats
 
 			if(Feed(p))
 				p << "You fed your [p.pet.name] a [name]."
-				if(Consume())
-					p.Resort_Stacking_Inv()
+				Consume()
 
 		else
 			..()
