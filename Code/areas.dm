@@ -254,6 +254,10 @@ area
 		Meeting_Room
 		Third_Floor
 		Study_Hall
+		Greenhouse
+			antiTeleport     = 1
+			friendlyFire     = 0
+			safezoneoverride = 1
 		Forth_Floor
 		Matchmaking/Duel_Class
 		Duel_Arenas
