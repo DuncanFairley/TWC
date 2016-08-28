@@ -151,8 +151,9 @@ obj/items
 				owner.splitItem = null
 				winset(owner, null, "splitStack.is-visible=false;")
 
+			var/obj/items/i = src
 			if(stack > 1 && amount < stack)
-				var/obj/items/i = Split(amount)
+				i = Split(amount)
 				var/area/a = getArea(loc)
 				if(a.antiTheft) i.owner = owner.ckey
 				i.Move(owner.loc)
@@ -162,6 +163,12 @@ obj/items
 				Move(owner.loc)
 
 				Unmacro(owner)
+
+			var/obj/playerShop/stand/s = locate() in owner.loc
+			if(s)
+				var/playerShop/shop = worldData.playerShops[s.shopID]
+				if(shop.owner == owner.ckey)
+					s.add(i)
 
 			owner.Resort_Stacking_Inv()
 

@@ -93,6 +93,26 @@ Event
 
 				worldData.elderWand = null
 
+				// player shops
+				if(worldData.playerShops)
+					for(var/shopId in worldData.playerShops)
+						var/playerShop/shop = worldData.playerShops[shopId]
+
+						if(!shop.loaded && !shop.owner && !shop.bidCkey)
+							worldData.playerShops -= shopId
+							continue
+
+						if(shop.owner != shop.bidCkey)
+							if(shop.owner)
+								shop.reset()
+
+							if(shop.bidCkey)
+								shop.owner = shop.bidCkey
+								mail(shop.owner, "You won the bid on [shop.id] shop.")
+
+						shop.bidCkey  = null
+						shop.bidCount = 0
+
 				// elects major guilds
 				if(worldData.guilds && worldData.guilds.len >= 2)
 
