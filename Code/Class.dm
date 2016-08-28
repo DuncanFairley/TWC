@@ -51,7 +51,7 @@ obj/teacher
 			icon   = 'FemaleStaff.dmi'
 			gender = FEMALE
 		else
-			name   = pick("Palmer", "Bob", "Jorge", "Davis", "Shayne", "Clayton", "Olin", "Ty", "Jayson", "Owen", "Ned", "Benito", "Prince", "Cyrus", "Art", "Derek", "Kendrick", "Frances", "Garry", "Man", "Federico", "Clifford")
+			name   = pick("Palmer", "Bob", "Jorge", "Davis", "Shayne", "Clayton", "Olin", "Ty", "Jayson", "Owen", "Ned", "Benito", "Prince", "Cyrus", "Art", "Ben", "Derek", "Kendrick", "Frances", "Garry", "Man", "Federico", "Clifford")
 			icon   = 'MaleStaff.dmi'
 			gender = MALE
 
@@ -540,12 +540,12 @@ class
 				..()
 				say("Using this spell, you get to switch places with yourself and the target you have chosen.", p)
 		Ferula
-			cd = 30
+			cd = 60
 			start(mob/Player/p)
 				..()
 				say("This summons our wonderful nurse and she will be there to help heal any minor wounds that you may have.", p)
 				sleep(30)
-				say("[name]'s heal has a 5 second cooldown.", p)
+				say("[name]'s heal has a 10 second cooldown.", p)
 		Tarantallegra
 			mp = 100
 			cd = 15
