@@ -1425,12 +1425,8 @@ mob/GM
 			usr<<"With a flick of your wand, you Freeze your view!"
 			for(var/mob/Player/M in oview())
 				if(M != src)
-					if(M.GMFrozen)
-						M.GMFrozen=0
-						M.overlays-='freeze.dmi'
-					else
-						M.GMFrozen=1
-						M.overlays+='freeze.dmi'
+					M.GMFrozen=1
+					M.overlays+='freeze.dmi'
 
 		Unfreeze_Area()
 			set category="Staff"
