@@ -52,3 +52,16 @@ turf/gender_easter_egg
 		..()
 		if(isplayer(Obj) && (Obj.gender == "male" || Obj.gender == "female"))
 			trigger()
+
+obj/Bar_Stuff
+	icon = 'Bar Sign.dmi'
+	Special_Offers
+		icon_state = "Special Offers"
+		density = 1
+		opacity = 0
+		layer   = 4
+
+obj/Market_Stall
+	icon       = 'Market Stall.dmi'
+	icon_state = "market stall"
+	layer      = 5
