@@ -843,6 +843,10 @@ obj/items/bucket
 
 			var/turf/t = usr.loc
 
+			if(issafezone(t.loc))
+				usr << errormsg("You can't place your bucket here.")
+				return
+
 			if(locate(/obj/herb) in t)
 				usr << errormsg("There's a bucket placed here already.")
 				return
@@ -2121,9 +2125,6 @@ mob/GM/verb/Arena()
 				plyrs.Add(M)
 			for(var/mob/M in locate(/area/arenas/MapOne))
 				plyrs.Add(M)
-			if("Cancel")
-				del currentArena
-				return
 		if("FFA")
 			alert("Players (and you) must be on MapThree when you click OK to be loaded into the round. Arena Summon is disabled when you press OK")
 			arenaSummon = 0
