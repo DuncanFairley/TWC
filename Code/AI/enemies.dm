@@ -122,27 +122,25 @@ obj
 		pixel_x        = 8
 		layer          = 11
 		maptext_y      = 32
+		post_init      = 1
 
-		New()
-			..()
+		MapInit()
 			if(!istype(loc.loc, /area/newareas)) return
 
 			var/area/newareas/a = loc.loc
 
 			tag = "area_[a.name]"
 
-			spawn(1)
+			if(!worldData.areaData) worldData.areaData = list()
 
-				if(!worldData.areaData) worldData.areaData = list()
+			var/AreaData/data = worldData.areaData[tag]
+			if(!data)
+				data = new(500, prob(50) ? 1 : -1)
+				worldData.areaData[tag] = data
 
-				var/AreaData/data = worldData.areaData[tag]
-				if(!data)
-					data = new(500, prob(50) ? 1 : -1)
-					worldData.areaData[tag] = data
-
-				data.rep = -data.rep
-				Completed()
-				updateDisplay()
+			data.rep = -data.rep
+			Completed()
+			updateDisplay()
 
 		proc
 			Completed()
