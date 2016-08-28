@@ -37,21 +37,6 @@ proc/announcemsg(T as text)
 	return "<span style=\"color:#27BBF5; font-size:3;\"><b>[T]</b></span>"
 proc/infomsg(T as text)
 	return "<span style=\"color:#27BBF5;\">[T]</span>"
-mob/TalkNPC/male_wigseller
-	name="Wig Salesman"
-	icon_state="mwig"
-
-	Talk()
-		set src in oview(4)
-		usr << npcsay("Wig Seller says: Welcome to our little wig shop, use the mirrors to select a wig of your liking!")
-
-mob/TalkNPC/female_wigseller
-	name="Wig Saleswoman"
-	icon_state="fwig"
-
-	Talk()
-		set src in oview(4)
-		usr << npcsay("Wig Seller says: Welcome to our little wig shop, use the mirrors to select a wig of your liking!")
 
 mob/TalkNPC/quest/Tammie
 	icon_state = "tammie"
@@ -191,32 +176,6 @@ mob/TalkNPC/Divo
 			worldData.ministrybank += worldData.taxrate*selectedprice/100
 			new selecteditem(usr)
 			usr << npcsay("Divo: Thank you.")
-			usr:Resort_Stacking_Inv()
-
-mob/TalkNPC/Blotts
-	icon_state="blotts"
-
-	Talk()
-		set src in oview(2)
-		var/obj/selecteditem
-		var/selectedprice
-		switch(input("Blotts: Hi there! Welcome to Flourish and Blotts. Do any titles interest you?","You have [comma(usr.gold)] gold")as null|anything in list("Basic COMC 500g","Monster book of Monsters 500g"))
-			if("Basic COMC 500g")
-				selecteditem = /obj/COMCText
-				selectedprice = 500
-			if("Monster book of Monsters 500g")
-				selectedprice = 500
-				selecteditem = /obj/MonBookMon
-			if(null)
-				usr << npcsay("Blotts: Come see me any time if you change your mind.")
-				return
-		if(usr.gold.get() < selectedprice)
-			usr << npcsay("Blotts: Unfortunately you don't have enough for this book - it's [selectedprice]g.")
-		else
-			usr.gold.add(-selectedprice)
-			worldData.ministrybank += worldData.taxrate*selectedprice/100
-			new selecteditem(usr)
-			usr << npcsay("Blotts: Thanks very much for your business!")
 			usr:Resort_Stacking_Inv()
 
 mob/TalkNPC/Ollivander
