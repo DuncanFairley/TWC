@@ -1392,7 +1392,7 @@ mob
 				DMGmodifier = 1.3
 
 				MoveDelay   = 2
-				AttackDelay = 1
+				AttackDelay = 0
 
 				prizePoolSize = 2
 
