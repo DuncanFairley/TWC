@@ -14,7 +14,7 @@
 #define ismonster(x) istype(x, /mob/NPC/Enemies)
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
 
-#define VERSION "16.61"
+#define VERSION "16.62"
 #define SAVEFILE_VERSION 23
 #define VAULT_VERSION 2
 #define lvlcap 800
