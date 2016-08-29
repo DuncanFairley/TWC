@@ -462,6 +462,7 @@ obj/playerShop
 	bid
 		icon       = 'statues.dmi'
 		icon_state = "sign3"
+		density    = 1
 
 		Click()
 			..()
@@ -532,12 +533,13 @@ obj/playerShop
 
 					else if(s.Result == "Price")
 						i.price = input(p, "How much would you like to sell [i.name] for?", "Price", i.price) as num
+						i.price = max(0, round(i.price, 1))
 				else
 					p << errormsg("This stand is empty. Drop an item ontop of the stand to place.")
 
 			else if(i)
 				var/ScreenText/s = new(p, src)
-				s.AddText("Would you like [i.name] for [comma(i.price)] gold?")
+				s.AddText("Would you like to buy [i.name] for [comma(i.price)] gold?<br>Description: [i.desc]")
 
 				if(p.gold.get() >= i.price)
 					s.SetButtons("Buy", "#00ff00", "Cancel", "#ff0000", null)
@@ -566,6 +568,7 @@ obj/playerShop
 				name       = "stand"
 				icon       = null
 				icon_state = null
+				density    = 0
 
 			add(obj/items/i)
 				var/playerShop/shop = worldData.playerShops[shopID]
@@ -579,10 +582,15 @@ obj/playerShop
 				name       = i.name
 				icon       = i.icon
 				icon_state = i.icon_state
+				density    = 1
 
-/*
-
-discount
-bid on shop sign
-
-*/
+obj
+	market_stall
+		icon          = 'Market Stall.dmi'
+		icon_state    = "stall"
+		mouse_opacity = 0
+	market_stall_top
+		icon          = 'Market Stall.dmi'
+		icon_state    = "top"
+		layer         = 5
+		mouse_opacity = 0
