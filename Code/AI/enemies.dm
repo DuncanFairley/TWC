@@ -446,14 +446,14 @@ mob
 					else
 						var/StatusEffect/Potions/Tame/t = killer.findStatusEffect(/StatusEffect/Potions/Tame)
 						if(t)
-							chance *= t
+							chance *= t.factor
 
 					if(prob(chance * 10))
 						var/obj/items/wearable/w = new spawnType (loc)
 						w.prizeDrop(killer.ckey, 300)
 				else
 					if(killer.findStatusEffect(/StatusEffect/Lamps/Farming))
-						chance *= 6
+						chance *= 10
 
 					if(prob(chance))
 						if(defaultColor == "rand")
