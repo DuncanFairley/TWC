@@ -167,7 +167,8 @@ obj/items
 			var/obj/playerShop/stand/s = locate() in owner.loc
 			if(s)
 				var/playerShop/shop = worldData.playerShops[s.shopID]
-				if(shop.owner == owner.ckey && shop.items && !(s.standID in shop.items))
+				if(shop.owner == owner.ckey && (!shop.items || !(s.standID in shop.items)))
+					i.price = -1
 					s.add(i)
 
 			owner.Resort_Stacking_Inv()
