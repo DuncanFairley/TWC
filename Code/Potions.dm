@@ -620,7 +620,7 @@ obj/items/potions
 		luck
 			name       = "super felix felicis"
 			icon_state = "gray"
-			effect     = /StatusEffect/Potions/Luck { factor = 10 }
+			effect     = /StatusEffect/Potions/Luck { factor = 10.3 }
 			seconds    = 180
 
 		immortality_potion

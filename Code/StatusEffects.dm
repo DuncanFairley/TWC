@@ -451,7 +451,7 @@ StatusEffect
 			var/factor = 3
 
 			Activate()
-				factor = 3 + (potion.quality - 4) * 0.1
+				factor = factor + (potion.quality - 4) * 0.1
 
 				..()
 
