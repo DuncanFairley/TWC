@@ -2243,24 +2243,24 @@ client
 		if(isplayer(mob))
 			var/mob/Player/p = mob
 
-			if(mob.wingobject)
-				var/turf/t = get_step(mob.wingobject,dir)
-				if(istype(mob.wingobject.loc,/mob))
+			if(p.nomove || p.GMFrozen || p.arcessoing) return
+
+			if(p.wingobject)
+				var/turf/t = get_step(p.wingobject,dir)
+				if(istype(p.wingobject.loc, /mob))
 					src << infomsg("You let go of the object you were holding.")
-					mob.wingobject.overlays = null
-					mob.wingobject=null
-					mob.Wingardiumleviosa = null
+					p.wingobject.overlays = null
+					p.wingobject=null
+					p.Wingardiumleviosa = null
 				else if(t && (t in view(view)))
-					mob.wingobject.Move(t)
+					p.wingobject.Move(t)
 				return
 
-			if(mob.removeoMob)
+			if(p.removeoMob)
 				step(mob.removeoMob,dir)
 				return
 
-			if(p.nomove) return
-
-			if(mob.away)
+			if(p.away)
 				mob.away = 0
 				mob.status=usr.here
 				mob.RemoveAFKOverlay()
@@ -2272,11 +2272,11 @@ client
 			if(p.screen_text)
 				p.screen_text.Dispose()
 
-			if(mob.questionius==1)
+			if(p.questionius==1)
 				mob.overlays-=icon('hand.dmi')
 				mob.questionius=0
 
-			if(move_queue || mob:move_delay > 1)
+			if(move_queue || p.move_delay > 1)
 				if(!movements) movements = list()
 				if(movements.len < 10)
 					movements += dir
@@ -2287,8 +2287,8 @@ client
 				while(movements && index < movements.len)
 					index++
 					var/d = movements[index]
-					..(get_step(mob, d), d)
-					sleep(mob:move_delay + mob:slow)
+					..(get_step(p, d), d)
+					sleep(p.move_delay + p.slow)
 				movements = null
 				moving = 0
 			else

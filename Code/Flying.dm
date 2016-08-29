@@ -1144,6 +1144,8 @@ turf
 		density=1
 	water/ice
 		isice = 1
+	water/water
+		isice = 0
 	water
 		icon='Water.dmi'
 		icon_state="water"

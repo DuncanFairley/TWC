@@ -17,7 +17,6 @@ turf
 
 		if(isplayer(O) && .)
 			var/mob/Player/p = O
-			if(p.GMFrozen || p.arcessoing) return
 			if(p.teleporting) return
 			if(isobj(newloc)) return
 

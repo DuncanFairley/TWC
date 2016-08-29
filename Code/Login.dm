@@ -753,7 +753,7 @@ mob
 			character.goldinbank = new /gold(100)
 			character.client.eye = character
 			character.client.perspective = MOB_PERSPECTIVE
-			character.loc=locate("@Diagon")
+			character.loc=locate("@DiagonAlley")
 			character.verbs += /mob/Spells/verb/Inflamari
 
 			for(var/mob/Player/p in Players)

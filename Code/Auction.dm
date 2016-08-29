@@ -425,3 +425,172 @@ obj/items
 			P.Resort_Stacking_Inv()
 		else
 			..()
+
+WorldData
+	var/list/playerShops
+
+playerShop
+	var
+		id
+		owner
+
+		bidCkey
+		bidCount = 0
+		list/items
+
+		tmp/loaded = 0
+
+	New(id)
+		src.id = id
+
+	proc
+
+		reset()
+			for(var/standID in items)
+				var/obj/items/i = items[standID]
+				mail(owner, null, i)
+			mail(owner, "Your shop items were returned to you.")
+
+			items = null
+			owner = null
+
+obj/playerShop
+
+	mouse_opacity      = 2
+	mouse_over_pointer = MOUSE_HAND_POINTER
+
+	bid
+		icon       = 'statues.dmi'
+		icon_state = "sign3"
+		density    = 1
+
+		Click()
+			..()
+			var/mob/Player/p = usr
+			var/playerShop/shop = worldData.playerShops[name]
+
+			var/ScreenText/s = new(p, src)
+
+			if(shop.bidCkey == p.ckey)
+				s.AddText("You currently have the leading bid for this shop.")
+			else
+				var/bidPrice = (shop.bidCount + 1) * 100000
+				s.AddText("Bid on this shop with [comma(bidPrice)] gold?")
+
+				if(p.gold.get() >= bidPrice)
+					s.SetButtons("Yes", "#00ff00", "No", "#ff0000", null)
+
+					if(!s.Wait()) return
+
+					if(s.Result == "Yes")
+						p.gold.subtract(bidPrice)
+
+						if(shop.bidCkey)
+							mail(shop.bidCkey, "You were outbid for [shop.id]", shop.bidCount * 100000)
+
+						shop.bidCount++
+						shop.bidCkey = p.ckey
+
+
+	stand
+		post_init = 1
+		var
+			standID
+			shopID
+
+		MapInit()
+
+			if(!worldData.playerShops)
+				worldData.playerShops = list()
+
+			var/playerShop/shop = worldData.playerShops[shopID]
+			if(shop)
+				shop.loaded = 1
+				if(shop.items)
+					var/obj/items/i = shop.items[standID]
+					if(i) add(i)
+			else
+				shop = new (shopID)
+				worldData.playerShops[shopID] = shop
+
+		Click()
+			..()
+			var/mob/Player/p = usr
+			var/playerShop/shop = worldData.playerShops[shopID]
+			var/obj/items/i     = shop.items ? shop.items[standID] : null
+
+			if(shop.owner == p.ckey)
+				if(i)
+					var/ScreenText/s = new(p, src)
+					s.AddText("[i.name] for [comma(i.price)] gold. Remove or change price per unit?")
+					s.SetButtons("Remove", "#2299d0", "Cancel", "#2299d0", "Price", "#2299d0")
+
+					if(!s.Wait()) return
+
+					if(s.Result == "Remove")
+						remove()
+						mail(p.ckey, "You removed [i.name].", i)
+
+					else if(s.Result == "Price")
+						i.price = input(p, "How much would you like to sell [i.name] for?", "Price", i.price) as num
+						i.price = max(0, round(i.price, 1))
+				else
+					p << errormsg("This stand is empty. Drop an item ontop of the stand to place.")
+
+			else if(i)
+				var/ScreenText/s = new(p, src)
+				s.AddText("Would you like to buy [i.name] for [comma(i.price)] gold?<br>Description: [i.desc]")
+
+				if(p.gold.get() >= i.price)
+					s.SetButtons("Buy", "#00ff00", "Cancel", "#ff0000", null)
+
+					if(!s.Wait()) return
+
+					if(s.Result == "Buy")
+						p.gold.subtract(i.price)
+
+						var/obj/items/newItem = i
+						if(i.stack > 1)
+							newItem = i.Split(1)
+						else
+							remove()
+						mail(p.ckey, "You bought [i.name] for [comma(i.price)]", newItem)
+			else p << errormsg("This stand is empty.")
+
+		proc
+			remove()
+				var/playerShop/shop = worldData.playerShops[shopID]
+				var/obj/items/i     = shop.items[standID]
+				i.price = initial(i.price)
+
+				shop.items -= standID
+
+				name       = "stand"
+				icon       = null
+				icon_state = null
+				density    = 0
+
+			add(obj/items/i)
+				var/playerShop/shop = worldData.playerShops[shopID]
+
+				if(!shop.items) shop.items = list()
+
+				shop.items[standID] = i
+
+				i.loc = null
+
+				name       = i.name
+				icon       = i.icon
+				icon_state = i.icon_state
+				density    = 1
+
+obj
+	market_stall
+		icon          = 'Market Stall.dmi'
+		icon_state    = "stall"
+		mouse_opacity = 0
+	market_stall_top
+		icon          = 'Market Stall.dmi'
+		icon_state    = "top"
+		layer         = 5
+		mouse_opacity = 0

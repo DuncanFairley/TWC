@@ -487,9 +487,8 @@ obj/items/potions
 				usr << errormsg("[name] washed out the previous potion you consumed.")
 				p.Deactivate()
 
-			if(Consume())
-				var/mob/Player/player = usr
-				player.Resort_Stacking_Inv()
+			Consume()
+
 			usr << infomsg("You drink \a [src].")
 			new effect (usr, seconds, src)
 		else
@@ -754,8 +753,7 @@ obj/items/potions
 					return
 
 				if(Effect(p))
-					if(Consume())
-						p.Resort_Stacking_Inv()
+					Consume()
 			else
 				..()
 
@@ -784,9 +782,11 @@ obj
 			tier
 			soil
 			water
+			ownerCkey
+			tmp/wait
 
-		New()
-			..()
+		New(Loc, ownerCkey)
+			..(Loc)
 
 			tier  = rand(1, 3)
 			soil  = tier * 50 * (11 - tier) / 10
@@ -794,8 +794,12 @@ obj
 
 			transform = matrix() * 0.5
 
+			src.ownerCkey = ownerCkey
+
 		Attacked(obj/projectile/p)
 			set waitfor = 0
+
+			if(wait) return
 
 			var/animate = 0
 
@@ -809,6 +813,7 @@ obj
 
 			if(soil == 0 && water == 0)
 				pixel_x = 0
+				wait    = 1
 
 				var/obj/bar/b = new (y == world.maxy ? locate(x, y - 1, z) : locate(x, y + 1, z))
 				b.countdown(320)
@@ -826,6 +831,7 @@ obj
 				i = new i (loc)
 				i.stack = rand(2, 4) * tier
 				i.UpdateDisplay()
+				i.prizeDrop(ownerCkey, protection=600, decay=FALSE)
 				loc = null
 
 			else if(animate && pixel_x == 0)
