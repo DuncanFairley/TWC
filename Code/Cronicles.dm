@@ -269,6 +269,9 @@ mob
 				p.Resort_Stacking_Inv()
 
 			if(savefile_version < 17)
+				if(!gold       || isnum(gold))       gold       = new /gold(gold)
+				if(!goldinbank || isnum(goldinbank)) goldinbank = new /gold(goldinbank)
+
 				gold       = new /gold(gold.get())
 				goldinbank = new /gold(goldinbank.get())
 
