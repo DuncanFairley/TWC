@@ -1386,8 +1386,8 @@ mob
 				pixel_y = -48
 				icon_state = "stickman"
 				level = 2200
-				HPmodifier  = 2
-				DMGmodifier = 1.3
+				HPmodifier  = 3
+				DMGmodifier = 1.4
 
 				MoveDelay   = 2
 				AttackDelay = 0
@@ -1432,12 +1432,12 @@ mob
 					else if(distance > 3)
 						step_rand(src)
 
-					if(prob(15) && !fired)
+					if(prob(20) && !fired)
 						fired = 1
 						spawn(100) fired = 0
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 						var/tmp_d = dir
-						var/dmg = round(Dmg * 0.75) + rand(-4,8)
+						var/dmg = round(Dmg * 0.8) + rand(-4, 12)
 						for(var/d in dirs)
 							dir = d
 							castproj(icon_state = "fireball", damage = dmg, name = "Incindia", cd = 0, lag = 1)
@@ -1445,7 +1445,7 @@ mob
 					else
 						dir=get_dir(src, target)
 						if(AttackDelay)	sleep(AttackDelay)
-						castproj(icon_state = "gum", damage = Dmg + rand(-4,8), name = "Waddiwasi")
+						castproj(icon_state = "gum", damage = Dmg + rand(-4, 12), name = "Waddiwasi")
 
 				Blocked()
 					density = 0

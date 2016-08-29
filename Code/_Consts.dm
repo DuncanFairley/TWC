@@ -17,7 +17,7 @@
 #define VERSION "16.61"
 #define SAVEFILE_VERSION 23
 #define VAULT_VERSION 2
-#define lvlcap 750
+#define lvlcap 800
 #define SWAPMAP_Z 23
 #define WINTER 0
 #define NIGHTCOLOR "#6464d0"
