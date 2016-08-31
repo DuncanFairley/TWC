@@ -164,12 +164,18 @@ obj/items
 
 				Unmacro(owner)
 
-			var/obj/playerShop/stand/s = locate() in owner.loc
-			if(s)
-				var/playerShop/shop = worldData.playerShops[s.shopID]
-				if(shop.owner == owner.ckey && (!shop.items || !(s.standID in shop.items)))
-					i.price = -1
-					s.add(i)
+			if(!("ckeyowner" in i.vars) || !src:ckeyowner)
+				var/obj/playerShop/stand/s = locate() in owner.loc
+				if(s)
+					var/playerShop/shop = worldData.playerShops[s.shopID]
+					if(shop.owner == owner.ckey)
+						if(!shop.items || !(s.standID in shop.items))
+							i.price = -1
+							s.add(i)
+						else
+							var/obj/items/shopItem = shop.items[s.standID]
+							if(i.Compare(shopItem))
+								i.Stack(shopItem)
 
 			owner.Resort_Stacking_Inv()
 
