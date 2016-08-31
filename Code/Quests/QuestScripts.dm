@@ -619,7 +619,7 @@ quest
 
 	Fred
 		name = "On House Arrest"
-		reward = /questReward/Mon3
+		reward = /questReward/Mon5
 
 		GetWand
 			desc = "Fred wants you to go withdraw a special wand from his vault at Gringotts, one of the bank goblins will help you."
@@ -678,57 +678,57 @@ questReward
 		items = /obj/items/potions_book
 	Mon1
 		gold = 1000
-		exp  = 10000
+		exp  = 12000
 	Mon2
 		gold = 2000
-		exp  = 20000
+		exp  = 24000
 		items = /obj/items/lamps/double_exp_lamp
 	Mon3
 		gold = 3000
-		exp  = 30000
+		exp  = 36000
 	Mon4
 		gold  = 4000
-		exp   = 40000
+		exp   = 48000
 		items = list(/obj/items/wearable/title/Hunter,
 				     /obj/items/lamps/triple_exp_lamp)
 	Mon5
 		gold = 5000
-		exp  = 50000
+		exp  = 60000
 	Mon6
 		gold = 6000
-		exp  = 60000
+		exp  = 72000
 		items = /obj/items/lamps/triple_exp_lamp
 	Mon7
 		gold = 7000
-		exp  = 70000
+		exp  = 84000
 	Mon8
 		gold = 8000
-		exp  = 80000
+		exp  = 96000
 		items = /obj/items/lamps/quadaple_exp_lamp
 	Mon9
 		gold  = 9000
-		exp   = 90000
+		exp   = 108000
 		items = list(/obj/items/wearable/title/Pest,
 					 /obj/items/lamps/penta_exp_lamp)
 	Mon10
 		gold = 10000
-		exp  = 100000
+		exp  = 120000
 	Mon11
 		gold = 11000
 		exp  = 110000
 		items = /obj/items/lamps/quadaple_exp_lamp
 	Mon12
 		gold = 12000
-		exp  = 120000
+		exp  = 144000
 		items = /obj/items/lamps/triple_exp_lamp
 	Mon13
 		gold  = 13000
-		exp   = 130000
+		exp   = 156000
 		items = list(/obj/items/wearable/title/Exterminator,
 					 /obj/items/lamps/sextuple_exp_lamp)
 	Mon14
 		gold = 14000
-		exp  = 140000
+		exp  = 168000
 		items = list(/obj/items/artifact,
 					 /obj/items/artifact,
 					 /obj/items/magic_stone/summoning/random)
