@@ -64,7 +64,7 @@ mail
 			else
 				var/obj/o = content
 				i_Player << infomsg("[o.name] was sent to you.")
-				o.loc = i_Player
+				o.Move(i_Player)
 				i_Player.Resort_Stacking_Inv()
 
 
@@ -487,7 +487,7 @@ obj/playerShop
 						p.gold.subtract(bidPrice)
 
 						if(shop.bidCkey)
-							mail(shop.bidCkey, "You were outbid for [shop.id]", shop.bidCount * 100000)
+							mail(shop.bidCkey, errormsg("You were outbid for [shop.id]"), shop.bidCount * 100000)
 
 						shop.bidCount++
 						shop.bidCkey = p.ckey
@@ -534,14 +534,14 @@ obj/playerShop
 			if(shop.owner == p.ckey)
 				if(i)
 					var/ScreenText/s = new(p, src)
-					s.AddText("[i.name] for [comma(i.price)] gold. Remove or change price per unit?")
+					s.AddText("[i.name] for [comma(i.price)] gold.<br>Stock: [i.stack]<br>Remove or change price per unit?")
 					s.SetButtons("Remove", "#2299d0", "Cancel", "#2299d0", "Price", "#2299d0")
 
 					if(!s.Wait()) return
 
 					if(s.Result == "Remove")
 						remove()
-						mail(p.ckey, "You removed [i.name].", i)
+						mail(p.ckey, errormsg("You removed [i.name]."), i)
 
 					else if(s.Result == "Price")
 						i.price = input(p, "How much would you like to sell [i.name] for?", "Price", i.price) as num
@@ -565,13 +565,14 @@ obj/playerShop
 
 					if(s.Result == "Buy")
 						p.gold.subtract(i.price)
-						mail(shop.owner, "[i.name] was bought for [comma(i.price)].", i.price)
-						var/obj/items/newItem = i
+						mail(shop.owner, infomsg("[i.name] was bought for [comma(i.price)]."), i.price)
+
 						if(i.stack > 1)
-							newItem = i.Split(1)
+							mail(p.ckey, infomsg("You bought [i.name] for [comma(i.price)]."), i.Split(1))
 						else
+							mail(p.ckey, infomsg("You bought [i.name] for [comma(i.price)]."), i)
 							remove()
-						mail(p.ckey, "You bought [i.name] for [comma(i.price)].", newItem)
+
 			else p << errormsg("This stand is empty.")
 
 		proc
