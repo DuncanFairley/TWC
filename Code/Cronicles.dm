@@ -268,11 +268,10 @@ mob
 
 				p.Resort_Stacking_Inv()
 
-			if(savefile_version < 16)
+			if(savefile_version < 17)
 				if(!gold       || isnum(gold))       gold       = new /gold(gold)
 				if(!goldinbank || isnum(goldinbank)) goldinbank = new /gold(goldinbank)
 
-			if(savefile_version < 17)
 				gold       = new /gold(gold.get())
 				goldinbank = new /gold(goldinbank.get())
 
@@ -330,6 +329,14 @@ mob
 				for(var/obj/items/i in src)
 					if(istype(i, /obj/items/ingredients/daisy) || istype(i, /obj/items/ingredients/aconite) || istype(i, /obj/items/food))
 						i.Dispose()
+
+			if(savefile_version < 24)
+				if(last_z == 13)
+					var/turf/t = locate("@Hogwarts")
+					last_x = t.x
+					last_y = t.y
+					last_z = t.z
+				p.GMFrozen = 0
 
 			if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")

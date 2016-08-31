@@ -42,7 +42,7 @@ quest
 			reqs = list("Brew Potion" = 15)
 
 		Reward
-			desc = "Go back to Simon to save his brother!"
+			desc = "Go back to Simon."
 			reqs = list("Simon" = 1)
 
 	TWCIdol1

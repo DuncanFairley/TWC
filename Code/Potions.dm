@@ -620,7 +620,7 @@ obj/items/potions
 		luck
 			name       = "super felix felicis"
 			icon_state = "gray"
-			effect     = /StatusEffect/Potions/Luck { factor = 10 }
+			effect     = /StatusEffect/Potions/Luck { factor = 10.3 }
 			seconds    = 180
 
 		immortality_potion
@@ -851,9 +851,25 @@ obj/items/potions_book
 
 	Click()
 		if(src in usr)
-			if(!usr:knownPotions && !master)
+
+			if((!usr:knownPotions && !master) || !worldData.potions)
 				usr << errormsg("Your book is empty, go brew potions!")
 				return
+
+			display(usr)
+		else
+			..()
+
+	Topic(href, href_list[])
+		if(href_list["action"] == "All")
+			display(usr)
+		else
+			display(usr, href_list["action"])
+		..()
+
+	proc
+		display(mob/Player/i_Player, sort)
+
 			var/const/HEADER = {"<html><head><title>Potion Book</title><style>
 body
 {
@@ -884,9 +900,14 @@ tr.black
 	background-color:#DFDFDF;
 	border: solid 1px #E5E5E5;
 }
-</style></head><body><table align="center" class="colored"><tr><td><b># &nbsp &nbsp &nbsp </b></td><td><b>Name</b></td><td><b>Ingredients</b></td></tr>"}
+</style></head><body><table align="center" class="colored"><tr><td colspan="4"><center>"}
 
-			var/html = ""
+			var/sortText = sort ? "<a href='?src=\ref[src];action=All'>All</a>" : "All"
+			var/list/types = list("Health", "Mana", "Explosion", "Taming", "Pets", "Luck", "Defense", "Damage")
+			for(var/t in types)
+				sortText += t == sort ? " | [t]" : " | <a href='?src=\ref[src];action=[t]'>[t]</a>"
+
+			var/html = {"</center></td></tr><tr><td><b># &nbsp &nbsp &nbsp </b></td><td><b>Name</b></td><td><b>Ingredients</b></td></tr>"}
 			var/c = 0
 
 			var/list/kp
@@ -895,16 +916,19 @@ tr.black
 				for(var/i = 1 to worldData.potions.len)
 					kp += i
 			else
-				kp = usr:knownPotions
+				kp = i_Player.knownPotions
 
 			for(var/i in kp)
-				c++
 				var/ing    = worldData.potions[i]
 				var/potion = worldData.potions[ing]
 
 				if(potion == 0)
-					potion = "explosion"
+					if(sort != "Explosion") continue
+					potion = "Explosion"
 				else
+					if(sort == "Explosion") continue
+					if(sort && !findtext("[potion]", sort)) continue
+
 					var/list/t = splittext("[potion]", "/")
 					potion = replacetext(t[t.len], "_", " ")
 
@@ -926,10 +950,9 @@ tr.black
 				if(ing & 512)  ingredients += "rat tail, "
 				if(ing & 1024) ingredients += "powdered rat tail, "
 				if(ing & 2048) ingredients += "rat tail extract, "
-
+				c++
 				html += "<tr class=[c % 2 == 0 ? "white" : "black"]><td>[c]</td><td>[potion]</td><td>[copytext(ingredients, 1, lentext(ingredients) - 1)].</td></tr>"
 
-			usr << browse(HEADER + html + "</table></body></html>", "window=potions")
-		else
-			..()
+			i_Player << browse(HEADER + sortText + html + "</table></body></html>", "window=potions")
+
 

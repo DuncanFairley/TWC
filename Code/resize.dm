@@ -150,6 +150,9 @@ hudobj
 					p << errormsg("You don't have [cost] teleport crystal[cost > 1 ? "s" : ""] to teleport back.")
 					return
 
+				if(t.Consume())
+					p.Resort_Stacking_Inv()
+
 				var/turf/d = locate(dest)
 				if(d)
 					hearers(p) << infomsg("[p.name] disappears in a flash of light.")

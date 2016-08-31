@@ -821,7 +821,7 @@ dmifont
 		var/obj/O = new
 		O.layer = layer
 		O.icon = s
-		O.appearance_flags = RESET_COLOR|RESET_ALPHA
+		O.appearance_flags = RESET_COLOR|RESET_ALPHA|RESET_TRANSFORM
 #if DM_VERSION >= 455
 		var/xinc = icon_width
 		var/yinc = 0

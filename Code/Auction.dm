@@ -64,7 +64,7 @@ mail
 			else
 				var/obj/o = content
 				i_Player << infomsg("[o.name] was sent to you.")
-				o.loc = i_Player
+				o.Move(i_Player)
 				i_Player.Resort_Stacking_Inv()
 
 
@@ -466,6 +466,7 @@ obj/playerShop
 
 		Click()
 			..()
+			if(!(src in oview(3))) return
 			var/mob/Player/p = usr
 			var/playerShop/shop = worldData.playerShops[name]
 
@@ -486,7 +487,7 @@ obj/playerShop
 						p.gold.subtract(bidPrice)
 
 						if(shop.bidCkey)
-							mail(shop.bidCkey, "You were outbid for [shop.id]", shop.bidCount * 100000)
+							mail(shop.bidCkey, errormsg("You were outbid for [shop.id]"), shop.bidCount * 100000)
 
 						shop.bidCount++
 						shop.bidCkey = p.ckey
@@ -494,9 +495,19 @@ obj/playerShop
 
 	stand
 		post_init = 1
+		layer     = 4
 		var
 			standID
 			shopID
+
+		Cross(atom/movable/O)
+			. = ..()
+
+			if(. && !density && O.density && isplayer(O))
+				var/mob/Player/p = O
+				var/playerShop/shop = worldData.playerShops[shopID]
+
+				. = p.ckey == shop.owner
 
 		MapInit()
 
@@ -515,6 +526,7 @@ obj/playerShop
 
 		Click()
 			..()
+			if(!(src in oview(3))) return
 			var/mob/Player/p = usr
 			var/playerShop/shop = worldData.playerShops[shopID]
 			var/obj/items/i     = shop.items ? shop.items[standID] : null
@@ -522,14 +534,14 @@ obj/playerShop
 			if(shop.owner == p.ckey)
 				if(i)
 					var/ScreenText/s = new(p, src)
-					s.AddText("[i.name] for [comma(i.price)] gold. Remove or change price per unit?")
+					s.AddText("[i.name] for [comma(i.price)] gold.<br>Stock: [i.stack]<br>Remove or change price per unit?")
 					s.SetButtons("Remove", "#2299d0", "Cancel", "#2299d0", "Price", "#2299d0")
 
 					if(!s.Wait()) return
 
 					if(s.Result == "Remove")
 						remove()
-						mail(p.ckey, "You removed [i.name].", i)
+						mail(p.ckey, errormsg("You removed [i.name]."), i)
 
 					else if(s.Result == "Price")
 						i.price = input(p, "How much would you like to sell [i.name] for?", "Price", i.price) as num
@@ -538,6 +550,11 @@ obj/playerShop
 					p << errormsg("This stand is empty. Drop an item ontop of the stand to place.")
 
 			else if(i)
+
+				if(i.price == -1)
+					p << errormsg("This is not for sale.")
+					return
+
 				var/ScreenText/s = new(p, src)
 				s.AddText("Would you like to buy [i.name] for [comma(i.price)] gold?<br>Description: [i.desc]")
 
@@ -548,13 +565,14 @@ obj/playerShop
 
 					if(s.Result == "Buy")
 						p.gold.subtract(i.price)
+						mail(shop.owner, infomsg("[i.name] was bought for [comma(i.price)]."), i.price)
 
-						var/obj/items/newItem = i
 						if(i.stack > 1)
-							newItem = i.Split(1)
+							mail(p.ckey, infomsg("You bought [i.name] for [comma(i.price)]."), i.Split(1))
 						else
+							mail(p.ckey, infomsg("You bought [i.name] for [comma(i.price)]."), i)
 							remove()
-						mail(p.ckey, "You bought [i.name] for [comma(i.price)]", newItem)
+
 			else p << errormsg("This stand is empty.")
 
 		proc

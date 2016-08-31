@@ -15,7 +15,7 @@ turf
 	Exit(atom/movable/O, atom/newloc)
 		.=..()
 
-		if(isplayer(O) && .)
+		if(isplayer(O) && . && newloc)
 			var/mob/Player/p = O
 			if(p.teleporting) return
 			if(isobj(newloc)) return

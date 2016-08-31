@@ -154,7 +154,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 "Troll"              = list("8"    = list(/obj/items/Whoopie_Cushion,
 			 				  			  /obj/items/Smoke_Pellet,
 			 			  				  /obj/items/Tube_of_fun),
-			 			  	"0.7"  = list(/obj/items/wearable/bling,
+			 			  	"1"    = list(/obj/items/wearable/bling,
 			 			  	 			  /obj/items/bucket,
 			 			  	 			  /obj/items/scroll,
 			 			  	 			  /obj/items/ingredients/eyes,
