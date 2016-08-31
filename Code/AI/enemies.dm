@@ -1516,10 +1516,11 @@ mob
 					SpawnPet(killer, 0.5, null, /obj/items/wearable/pets/rat)
 
 			Pixie
-				icon_state = "pixie"
-				level = 100
-				HPmodifier = 0.75
+				icon_state  = "pixie"
+				level       = 100
+				HPmodifier  = 0.75
 				DMGmodifier = 0.40
+				respawnTime = 900
 
 				Death(mob/Player/killer)
 					..()
@@ -1527,10 +1528,11 @@ mob
 					SpawnPet(killer, 0.4, null, /obj/items/wearable/pets/pixie)
 
 			Dog
-				icon_state = "dog"
-				level = 150
-				HPmodifier = 0.8
+				icon_state  = "dog"
+				level       = 150
+				HPmodifier  = 0.8
 				DMGmodifier = 0.45
+				respawnTime = 900
 
 				Death(mob/Player/killer)
 					..()
@@ -1538,8 +1540,9 @@ mob
 					SpawnPet(killer, 0.3, null, /obj/items/wearable/pets/dog)
 
 			Snake
-				icon_state = "snake"
-				level = 200
+				icon_state  = "snake"
+				level       = 200
+				respawnTime = 900
 
 				Death(mob/Player/killer)
 					..()
@@ -1547,8 +1550,9 @@ mob
 					SpawnPet(killer, 0.2, null, /obj/items/wearable/pets/snake)
 
 			Wolf
-				icon_state = "wolf"
-				level = 300
+				icon_state  = "wolf"
+				level       = 300
+				respawnTime = 900
 
 				Death(mob/Player/killer)
 					..()
