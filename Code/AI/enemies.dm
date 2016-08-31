@@ -1518,8 +1518,8 @@ mob
 			Pixie
 				icon_state  = "pixie"
 				level       = 100
-				HPmodifier  = 0.5
-				DMGmodifier = 0.3
+				HPmodifier  = 0.4
+				DMGmodifier = 0.2
 				respawnTime = 900
 
 				Death(mob/Player/killer)
