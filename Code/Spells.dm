@@ -1734,14 +1734,14 @@ mob/NPC/Enemies
 
 			if(p.icon_state == "blood")
 				p.damage += round(p.damage / 20, 1)
-			else
+			else if(element && p.element)
 				if(element == p.element)
 					p.damage -= round(p.damage / 20, 1)
 
-				else if((element & EARTH|FIRE) && (p.element & WATER|GHOST))
+				else if((element & (EARTH|FIRE)) && (p.element & (WATER|GHOST)))
 					p.damage += round(p.damage / 20, 1)
 
-				else if((element & WATER) && (p.element & FIRE|EARTH))
+				else if((element & WATER) && (p.element & (FIRE|EARTH)))
 					p.damage += round(p.damage / 20, 1)
 
 			if(canBleed)
