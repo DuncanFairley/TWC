@@ -129,7 +129,7 @@ obj
 						if(p.level > 500) p.gold.add(round(rand(3,6) / (p.presence ? 1 : 3)))
 						sleep(15)
 					if(p)
-						p.client.screen -= R
+						R.hide()
 						p.readbooks = 0
 						p.presence = null
 

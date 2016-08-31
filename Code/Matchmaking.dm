@@ -36,7 +36,7 @@ area/hogwarts/Duel_Arenas/Matchmaking
 
 			var/hudobj/Find_Duel/o = locate(/hudobj/Find_Duel) in p.client.screen
 			if(o)
-				p.client.screen -= o
+				o.hide()
 
 				if(p in currentMatches.queue)
 					currentMatches.removeQueue(p)
@@ -115,7 +115,7 @@ hudobj
 		anchor_y    = "SOUTH"
 
 		Click()
-			if(usr:matchmaking_ready) return
+			if(usr:matchmaking_ready || alpha == 0) return
 
 			if(usr in currentMatches.queue)
 				currentMatches.removeQueue(usr)

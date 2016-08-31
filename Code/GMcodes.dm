@@ -1546,7 +1546,7 @@ mob/GM
 				if(p.ckey == k)
 					var/hudobj/Find_Duel/o = locate(/hudobj/Find_Duel) in p.client.screen
 					if(o)
-						p.client.screen -= o
+						o.hide()
 						if(p in currentMatches.queue)
 							currentMatches.removeQueue(p)
 

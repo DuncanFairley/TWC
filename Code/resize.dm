@@ -72,9 +72,14 @@ hudobj
 
 		show()
 			updatePos()
+			alpha = 0
+			animate(src, alpha = 255, time = 5)
 			client.screen += src
 
 		hide()
+			set waitfor = 0
+			animate(src, alpha = 0, time = 5)
+			sleep(6)
 			client.screen -= src
 
 	New(loc=null,client/Client,list/Params,show=1)
@@ -140,6 +145,7 @@ hudobj
 
 		Click()
 			var/mob/Player/p = usr
+			if(alpha == 0) return
 			if(!color)
 				color = "#0f0"
 				p << infomsg("Click again to confirm, this will teleport you back and cost [cost] teleport crystal[cost > 1 ? "s" : ""].")
@@ -159,7 +165,7 @@ hudobj
 					p.Transfer(d)
 					hearers(p) << infomsg("[p.name] appears in a flash of light.")
 
-				p.client.screen -= src
+				hide()
 
 
 	PMHome
@@ -224,3 +230,10 @@ hudobj
 		screen_x    = -96
 		screen_y    = 32
 		anchor_y    = "SOUTH"
+
+	potion
+		icon_state         = "potions"
+		mouse_over_pointer = MOUSE_INACTIVE_POINTER
+
+		anchor_x    = "EAST"
+		anchor_y    = "NORTH"
