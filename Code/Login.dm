@@ -1031,6 +1031,7 @@ mob/Player
 										else if(text2num(value) < 1) value = 5
 										else value = text2num(value)
 										for(var/turf/T in (oview(value) - oview(value-1)))
+											if(T.density && T.canDisperse) continue
 											var/inflamari = /obj/Force_Field
 											flick('mist.dmi',T)
 											T.overlays += inflamari
@@ -1232,6 +1233,7 @@ mob/Player
 									if(Gm)
 										hearers()<<"[usr] encases \himself within a magical barrier."
 										for(var/turf/T in view(1))
+											if(T.density && T.canDisperse) continue
 											var/inflamari = /obj/Force_Field
 											flick('mist.dmi',T)
 											T.overlays += inflamari
@@ -1934,6 +1936,7 @@ mob/Player
 					Year="3rd Year"
 					src<<"<b>Congratulations, [src]! You are now a 3rd Year!</b>"
 					src<<infomsg("You learned how to cancel transfigurations!")
+					verbs += /mob/Spells/verb/Episky
 					verbs += /mob/Spells/verb/Self_To_Human
 				else if(level>100 && theiryear < 4)
 					Year="4th Year"
