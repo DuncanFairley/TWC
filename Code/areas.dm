@@ -509,8 +509,8 @@ area
 	Diagon_Alley
 		HogsmeadeSafeZone
 		Bank
+		TomsCellar
 	hogwarts
-		DiagonAlley
 		Azkaban
 		DEHQ
 		AurorHQ
