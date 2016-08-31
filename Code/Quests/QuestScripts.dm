@@ -524,7 +524,7 @@ quest
 
 	Tom
 		name   = "Rats in the Cellar"
-		reward = /questReward/Gold
+		reward = /questReward/Mon3
 
 		Clear
 			desc = "Tom wants you to clear his cellar of rats, kill 35 rats and pull the lever at the end of the cellar."
@@ -535,7 +535,7 @@ quest
 
 	Lord
 		name = "Stolen by the Lord"
-		reward = /questReward/Gold
+		reward = /questReward/Mon10
 
 		FindLord
 			desc = "Girl wants you to find and rescue her baby from Lord, you heard a rumour he's at a place called Silverblood, maybe you can get there from the forest."
@@ -619,7 +619,7 @@ quest
 
 	Fred
 		name = "On House Arrest"
-		reward = /questReward/Gold
+		reward = /questReward/Mon3
 
 		GetWand
 			desc = "Fred wants you to go withdraw a special wand from his vault at Gringotts, one of the bank goblins will help you."
@@ -672,10 +672,6 @@ quest
 			reqs = list("Professor Palmer" = 1)
 
 questReward
-
-	Gold
-		exp  = 1000
-		gold = 10000
 	PotionsBook
 		exp   = 2000
 		gold  = 2000
