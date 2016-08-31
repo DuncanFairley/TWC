@@ -180,6 +180,10 @@ RandomEvent
 
 				c.start()
 				sleep(600 * 30)
+
+				while(world.time - c.lastTaught >= 1200)
+					sleep(1200)
+
 				Players << announcemsg("[c.subject] class has ended.")
 
 				if(h) h.class = null
