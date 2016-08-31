@@ -198,7 +198,8 @@ obj/pet
 
 		item        = pet
 		icon_state  = pet.icon_state
-		color       = pet.color
+		var/ColorMatrix/c = new(pet.color, 0.75)
+		color       = c.matrix
 		name        = pet.name
 
 		SetSize(pet.currentSize)

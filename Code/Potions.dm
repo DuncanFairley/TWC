@@ -685,8 +685,8 @@ obj/items/potions
 				var/obj/items/wearable/pets/item = p.pet.item
 
 				item.color = rgb(rand(40, 200), rand(40, 200), rand(40, 200))
-
-				animate(p.pet, color = item.color, time = 10)
+				var/ColorMatrix/c = new(item.color, 0.75)
+				animate(p.pet, color = c.matrix, time = 10)
 
 				. = 1
 
