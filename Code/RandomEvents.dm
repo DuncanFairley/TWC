@@ -477,6 +477,7 @@ RandomEvent
 
 	OldSystem
 		name = "Old Dueling System"
+		chance = 8
 		start()
 			..()
 			var/minutes = rand(10,30)
