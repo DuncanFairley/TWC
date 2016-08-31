@@ -785,13 +785,13 @@ questReward
 		items = /obj/items/wearable/wands/maple_wand
 
 	TutorialWand
-		exp   = 50
+		exp   = 100
 		gold  = 200
 	TutorialPalmer
-		exp   = 100
+		exp   = 200
 		gold  = 400
 	TutorialQuests
-		exp   = 200
+		exp   = 400
 		gold  = 800
 	TutorialOther
 		exp   = 1000
