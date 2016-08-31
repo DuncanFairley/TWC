@@ -30,9 +30,13 @@ hudobj
 						winset(parent, "[key]Rep", "parent=")
 					SetKey(swap)
 
-
 			proc
-
+				invisible()
+					animate(src, alpha = 0, time = 5)
+					mouse_opacity = 0
+				visible()
+					animate(src, alpha = 255, time = 5)
+					mouse_opacity = 1
 				Do()
 					if(!parent.UsedKeys) return
 
@@ -52,7 +56,7 @@ hudobj
 							if(!parent.UsedKeys.len) parent.UsedKeys = null
 
 							if(!parent.displayActionbar)
-								invisibility = 10
+								invisible()
 					else
 						var/origLayer = a.layer
 						a.layer = layer + 1
@@ -100,7 +104,7 @@ mob/Player
 
 				if(UsedKeys && UsedKeys[A.key])
 					A.SetKey(UsedKeys[A.key])
-				else A.invisibility = 10
+				else A.invisible()
 
 		toggle_actionbar(on=0)
 			if(displayActionbar == on) return
@@ -108,11 +112,11 @@ mob/Player
 			if(on)
 				displayActionbar = TRUE
 				for(var/hudobj/actionbar/keys/k in client.screen)
-					k.invisibility = 0
+					if(k.alpha == 0) k.visible()
 			else
 				displayActionbar = FALSE
 				for(var/hudobj/actionbar/keys/k in client.screen)
-					if(!(k.key in UsedKeys)) k.invisibility = 10
+					if(!(k.key in UsedKeys) && alpha == 255) k.invisible()
 
 	verb
 		keyPress(k as text)

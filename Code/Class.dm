@@ -107,7 +107,9 @@ class
 		spelltype
 		uses = 10
 
-		tmp/members
+		tmp
+			members
+			lastTaught
 
 	proc/say(var/msg, mob/Player/p)
 		if(!p)
@@ -119,6 +121,7 @@ class
 		if(!professor.canTeach)
 			spawn(300)
 				professor.canTeach = TRUE
+		lastTaught = world.time
 		say("Welcome students to [subject] class. Today you will be learning about the spell [name].", p)
 		sleep(30)
 		say("When I'm done explaining the spell, please come to me and take a practice wand, use that wand to practice the spell until you've learned it. Of course if you already have a practice wand of another spell, you will not be able to get another.", p)

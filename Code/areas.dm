@@ -213,7 +213,7 @@ area
 
 				var/hudobj/teleport/o = locate() in p.client.screen
 				if(o)
-					p.client.screen -= o
+					o.hide()
 
 	hogwarts
 		TrophyRoom
@@ -242,7 +242,7 @@ area
 
 					var/hudobj/teleport/o = locate() in p.client.screen
 					if(o)
-						p.client.screen -= o
+						o.hide()
 
 		Muggle_Studdies
 		Restricted_Section

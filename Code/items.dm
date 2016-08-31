@@ -1007,13 +1007,13 @@ obj/items/wearable/brooms
 			animate(owner, pixel_y = 0, time = 5)
 			owner.layer   = 4
 
-			spawn(5)
+			spawn(6)
 				if(owner.followers && !owner.flying)
 					var/obj/Shadow/s = locate(/obj/Shadow) in owner.followers
 					if(s)
 						s.Dispose()
 						owner.removeFollower(s)
-						animate(owner)
+						animate(owner, flags = ANIMATION_END_NOW)
 
 obj/items/wearable/brooms/firebolt
 	icon = 'firebolt_broom.dmi'
@@ -3694,7 +3694,7 @@ obj/items/colors
 			if(locate(/obj/wand_desk) in oview(1))
 				p << infomsg("You applied new <span style=\"color:[projColor == "blood" ? "#a00" : projColor];\">magical color</span> to your equipped wand.")
 				p.wand.projColor = projColor
-				Dispose()
+				Consume()
 				p.Resort_Stacking_Inv()
 		else
 			..()

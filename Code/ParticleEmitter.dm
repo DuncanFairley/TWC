@@ -146,17 +146,18 @@ obj/particle
 
 			sleep(t * l + 1)
 			impact()
-			sleep(afterlife)
-			die()
+			if(afterlife)
+				sleep(afterlife - 6)
+				animate(src, alpha = 0, time = 5)
+				sleep(6)
+
+			particle_emitter.pool(src)
 			alpha = alphaDest
 
 		reset()
 			pixel_x = 0
 			pixel_y = 0
 			transform = null
-
-		die()
-			particle_emitter.pool(src)
 
 	balloon
 		icon       = 'balloon.dmi'

@@ -319,9 +319,14 @@ interface
 		darkness   = new
 		mapplane   = new
 
-		parent.client.screen += lightplane
-		parent.client.screen += darkness
-	//	parent.client.screen += mapplane
+		if(parent.client.byond_version < 510)
+			parent << errormsg("You are using an older BYOND version which doesn't support certain features in this game, those features will be inaccessible to you.")
+			for(var/mob/Player/p in Players)
+				if(p.Gm)
+					p << errormsg("[parent] is using an older BYOND version. Try to convinice them gently to upgrade.")
+		else
+			parent.client.screen += lightplane
+			parent.client.screen += darkness
 
 	proc/SetDarknessColor(c)
 		if(ignoreDarkness) return

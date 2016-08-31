@@ -319,6 +319,22 @@ StatusEffect
 			potion = p
 			.=..()
 
+		Activate()
+			..()
+			var/mob/Player/p = AttachedAtom
+			if(p)
+				new /hudobj/potion (null, p.client, null, 1)
+
+		Deactivate()
+			var/mob/Player/p = AttachedAtom
+			if(p)
+				var/hudobj/potion/h = locate() in p.client.screen
+				h.hide()
+				p << errormsg("Your potion's effect fades.")
+
+			..()
+
+
 		Blackout
 			Activate()
 				set waitfor = 0
@@ -337,6 +353,7 @@ StatusEffect
 		Rainbow
 			Activate()
 				set waitfor = 0
+				..()
 				var/mob/Player/p = AttachedAtom
 				if(p)
 					var/list/colors = list("#ff0000", "#ff7f00", "#ffff00", "#00ff00", "#0000ff", "#4b0082", "8f00ff")
@@ -349,7 +366,6 @@ StatusEffect
 							animate(p.client, color = colors[i], time = 24)
 							sleep(25)
 
-				..()
 
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
@@ -410,13 +426,13 @@ StatusEffect
 					p.overlays -= i
 
 					src=null
-					spawn(5)
+					spawn(6)
 						if(p.followers && !p.flying)
 							var/obj/Shadow/s = locate(/obj/Shadow) in p.followers
 							if(s)
 								s.Dispose()
 								p.removeFollower(s)
-								animate(p)
+								animate(p, flags = ANIMATION_END_NOW)
 
 				..()
 
@@ -521,7 +537,7 @@ StatusEffect
 		Frost
 			Activate()
 				set waitfor = 0
-
+				..()
 				var/mob/Player/p = AttachedAtom
 				var/i = 0
 				while(p)
@@ -542,12 +558,11 @@ StatusEffect
 
 					sleep(10)
 
-				..()
 
 		Heat
 			Activate()
 				set waitfor = 0
-
+				..()
 				var/mob/Player/p = AttachedAtom
 				var/i = 0
 				while(p)
@@ -568,14 +583,12 @@ StatusEffect
 
 					sleep(10)
 
-				..()
-
 		Health
 			var/amount = 100
 
 			Activate()
 				set waitfor = 0
-
+				..()
 				var/mob/Player/p = AttachedAtom
 
 				amount += (potion.quality - 4) * 10
@@ -594,14 +607,13 @@ StatusEffect
 
 					sleep(10)
 
-				..()
 
 		Mana
 			var/amount = 100
 
 			Activate()
 				set waitfor = 0
-
+				..()
 				var/mob/Player/p = AttachedAtom
 
 				amount += (potion.quality - 4) * 10
@@ -620,7 +632,6 @@ StatusEffect
 
 					sleep(10)
 
-				..()
 
 		Invisibility
 
@@ -672,13 +683,6 @@ StatusEffect
 					p.Interface.SetDarknessColor(islit ? "#fff" : NIGHTCOLOR)
 
 				..()
-
-		Deactivate()
-			var/mob/Player/p = AttachedAtom
-			if(p)
-				p << errormsg("Your potion's effect fades.")
-
-			..()
 
 	Lamps
 		var/tmp/obj/items/lamps/lamp

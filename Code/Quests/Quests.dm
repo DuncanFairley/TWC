@@ -710,6 +710,17 @@ mob/Player
 
 				updateQuestMarkers()
 
+				if(!pathdest && stage.reqs.len == 1)
+					var/obj/dest = locate(stage.reqs[1])
+					if(dest)
+						var/area/a = getArea(dest)
+						if(a && a.region)
+							pathdest = dest
+							if(!pathTo(pathdest))
+								pathdest = null
+
+
+
 		trackQuest(var/questName)
 			var/questPointer/pointer = questPointers[questName]
 
