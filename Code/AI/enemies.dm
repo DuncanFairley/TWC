@@ -1494,10 +1494,11 @@ mob
 
 
 			Rat
-				icon_state = "rat"
-				level = 50
-				HPmodifier = 0.2
+				icon_state  = "rat"
+				level       = 50
+				HPmodifier  = 0.2
 				DMGmodifier = 0.1
+				respawnTime = 900
 
 				Death(mob/Player/killer)
 					..()
