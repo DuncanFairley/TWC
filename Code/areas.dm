@@ -344,7 +344,7 @@ mob
 							else
 								arrow.icon_state = "0"
 
-							usr << arrow
+							src << arrow
 					return 1
 
 		proc

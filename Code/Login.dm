@@ -1732,7 +1732,7 @@ mob/proc/Death_Check(mob/killer = src)
 				p.updateHPMP()
 				src.gold.add(-gold.get() / 2)
 				if(src.level < lvlcap)
-					src.Exp = round(src.Exp * 0.75)
+					src.Exp = round(src.Exp * 0.8)
 				src.sight &= ~BLIND
 				flick('mist.dmi',src)
 				if(!src:rankedArena)

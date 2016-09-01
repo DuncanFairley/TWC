@@ -350,7 +350,7 @@ quest
 
 		Kill
 			desc = "Kill 50 rats."
-			reqs = list("Kill Rat" = 50)
+			reqs = list("Kill Rat" = 80)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -361,7 +361,7 @@ quest
 
 		Kill
 			desc = "Kill 50 rats and 50 pixies."
-			reqs = list("Kill Rat"   = 50,
+			reqs = list("Kill Rat"   = 100,
 						"Kill Pixie" = 50)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
@@ -524,18 +524,18 @@ quest
 
 	Tom
 		name   = "Rats in the Cellar"
-		reward = /questReward/Gold
+		reward = /questReward/Mon3
 
 		Clear
 			desc = "Tom wants you to clear his cellar of rats, kill 35 rats and pull the lever at the end of the cellar."
-			reqs = list("Lever" = 1, "Kill Rat" = 35)
+			reqs = list("Lever" = 1, "Kill Rat" = 50)
 		Reward
 			desc = "Go back to Tom to get your reward!"
 			reqs = list("Tom" = 1)
 
 	Lord
 		name = "Stolen by the Lord"
-		reward = /questReward/Gold
+		reward = /questReward/Mon10
 
 		FindLord
 			desc = "Girl wants you to find and rescue her baby from Lord, you heard a rumour he's at a place called Silverblood, maybe you can get there from the forest."
@@ -619,7 +619,7 @@ quest
 
 	Fred
 		name = "On House Arrest"
-		reward = /questReward/Gold
+		reward = /questReward/Mon5
 
 		GetWand
 			desc = "Fred wants you to go withdraw a special wand from his vault at Gringotts, one of the bank goblins will help you."
@@ -672,67 +672,63 @@ quest
 			reqs = list("Professor Palmer" = 1)
 
 questReward
-
-	Gold
-		exp  = 1000
-		gold = 10000
 	PotionsBook
 		exp   = 2000
 		gold  = 2000
 		items = /obj/items/potions_book
 	Mon1
 		gold = 1000
-		exp  = 10000
+		exp  = 12000
 	Mon2
 		gold = 2000
-		exp  = 20000
+		exp  = 24000
 		items = /obj/items/lamps/double_exp_lamp
 	Mon3
 		gold = 3000
-		exp  = 30000
+		exp  = 36000
 	Mon4
 		gold  = 4000
-		exp   = 40000
+		exp   = 48000
 		items = list(/obj/items/wearable/title/Hunter,
 				     /obj/items/lamps/triple_exp_lamp)
 	Mon5
 		gold = 5000
-		exp  = 50000
+		exp  = 60000
 	Mon6
 		gold = 6000
-		exp  = 60000
+		exp  = 72000
 		items = /obj/items/lamps/triple_exp_lamp
 	Mon7
 		gold = 7000
-		exp  = 70000
+		exp  = 84000
 	Mon8
 		gold = 8000
-		exp  = 80000
+		exp  = 96000
 		items = /obj/items/lamps/quadaple_exp_lamp
 	Mon9
 		gold  = 9000
-		exp   = 90000
+		exp   = 108000
 		items = list(/obj/items/wearable/title/Pest,
 					 /obj/items/lamps/penta_exp_lamp)
 	Mon10
 		gold = 10000
-		exp  = 100000
+		exp  = 120000
 	Mon11
 		gold = 11000
 		exp  = 110000
 		items = /obj/items/lamps/quadaple_exp_lamp
 	Mon12
 		gold = 12000
-		exp  = 120000
+		exp  = 144000
 		items = /obj/items/lamps/triple_exp_lamp
 	Mon13
 		gold  = 13000
-		exp   = 130000
+		exp   = 156000
 		items = list(/obj/items/wearable/title/Exterminator,
 					 /obj/items/lamps/sextuple_exp_lamp)
 	Mon14
 		gold = 14000
-		exp  = 140000
+		exp  = 168000
 		items = list(/obj/items/artifact,
 					 /obj/items/artifact,
 					 /obj/items/magic_stone/summoning/random)
@@ -789,13 +785,13 @@ questReward
 		items = /obj/items/wearable/wands/maple_wand
 
 	TutorialWand
-		exp   = 50
+		exp   = 100
 		gold  = 200
 	TutorialPalmer
-		exp   = 100
+		exp   = 200
 		gold  = 400
 	TutorialQuests
-		exp   = 200
+		exp   = 400
 		gold  = 800
 	TutorialOther
 		exp   = 1000
