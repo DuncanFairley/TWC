@@ -5,6 +5,7 @@
  * For the full license text, see LICENSE.txt.
  */
 
+obj/roofedge/canSave = 0
 
 mob/AndersGoat
 obj/Green_Mushroom
