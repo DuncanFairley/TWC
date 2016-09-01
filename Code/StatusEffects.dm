@@ -675,12 +675,7 @@ StatusEffect
 					p.Interface.ignoreDarkness = FALSE
 
 					var/area/a = p.loc.loc
-					var/islit = 1
-
-					if((istype(a, /area/outside) || istype(a, /area/newareas/outside)) && !a:lit)
-						islit = 0
-
-					p.Interface.SetDarknessColor(islit ? "#fff" : NIGHTCOLOR)
+					p.Interface.SetDarknessColor(a.planeColor)
 
 				..()
 

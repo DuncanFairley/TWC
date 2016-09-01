@@ -3124,7 +3124,7 @@ obj/items/magic_stone
 					return
 
 				var/area/outside/a = p.loc.loc
-				if(a.lit)
+				if(a.planeColor == NIGHTCOLOR)
 					p << errormsg("You can only use this at night.")
 					return
 
