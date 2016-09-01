@@ -24,13 +24,14 @@ proc/global_loops()
 		day = !day
 
 		for(var/area/O in outside_areas)
-			O:lit = day
+			O.planeColor = day ? null : NIGHTCOLOR
 
 		for(var/mob/Player/p in Players)
 			if(!p.loc) continue
 
-			if(istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))
-				p.Interface.SetDarknessColor(day ? "#fff" : NIGHTCOLOR)
+			var/area/a = p.loc.loc
+			if(istype(a, /area/outside) || istype(a, /area/newareas/outside))
+				p.Interface.SetDarknessColor(a.planeColor)
 
 		sleep(9000)
 
@@ -176,7 +177,7 @@ obj/cloud
 
 var/list/outside_areas = list()
 area
-
+	var/planeColor
 
 	Entered(atom/movable/a, atom/OldLoc)
 		..()
@@ -185,17 +186,12 @@ area
 			var/mob/Player/p = a
 
 			var/area/newArea = a.loc.loc
-
-			if(istype(newArea, /area/outside/) || istype(newArea, /area/newareas/outside/))
-				p.Interface.SetDarknessColor(newArea:lit ? "#ffff" : NIGHTCOLOR)
-			else
-				p.Interface.SetDarknessColor("#ffff")
+			p.Interface.SetDarknessColor(newArea.planeColor)
 
 	outside	// lay this area on the map anywhere you want it to change from night to day
 		layer = 7	// set this layer above everything else so the overlay obscures everything
 
 		var
-			lit = 1	// determines if the area is lit or dark.
 			obj/weather/Weather	// what type of weather the area is having
 
 		New()
@@ -229,7 +225,6 @@ area
 						overlays += Weather	// display it as an overlay for the area
 
 			var
-				lit = 1	// determines if the area is lit or dark.
 				obj/weather/Weather	// what type of weather the area is having
 
 			New()
@@ -293,7 +288,7 @@ obj
 		blend_mode       = BLEND_ADD
 		icon             = 'darkness.dmi'
 
-		screen_loc = "SOUTHWEST to NORTHEAST"
+		screen_loc = "CENTER,CENTER"
 
 	mapplane
 		plane            = 0

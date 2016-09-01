@@ -115,6 +115,13 @@ client
 			map_zoom = Z
 			view = "[VW]x[VH]"
 
+
+			var/obj/darkness/d = locate() in screen
+			if(d)
+				var/matrix/m = matrix()
+				m.Scale(VW, VH)
+				d.transform = m
+
 			for(var/hudobj/h in screen)
 				h.updatePos()
 
