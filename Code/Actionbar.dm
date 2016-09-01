@@ -32,9 +32,13 @@ hudobj
 
 			proc
 				invisible()
+					set waitfor = 0
 					animate(src, alpha = 0, time = 5)
 					mouse_opacity = 0
+					sleep(6)
+					invisibility = 10
 				visible()
+					invisibility = 0
 					animate(src, alpha = 255, time = 5)
 					mouse_opacity = 1
 				Do()
@@ -104,7 +108,10 @@ mob/Player
 
 				if(UsedKeys && UsedKeys[A.key])
 					A.SetKey(UsedKeys[A.key])
-				else A.invisible()
+				else
+					A.invisibility  = 10
+					A.alpha         = 0
+					A.mouse_opacity = 0
 
 		toggle_actionbar(on=0)
 			if(displayActionbar == on) return

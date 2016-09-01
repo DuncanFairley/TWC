@@ -152,12 +152,22 @@ mob/Spells/verb/Disperse()
 		for(var/obj/smokeeffect/S in oview(client.view))
 			del(S)
 		for(var/turf/T in oview())
-			if(T.specialtype == "Swamp")
+			if(T.specialtype & SWAMP)
 				T.slow -= 5
-				T.specialtype = null
-				T.overlays += image('mist.dmi',layer=10)
+				T.specialtype -= SWAMP
+				var/image/i = image('mist.dmi',layer=10)
+				T.overlays += i
+				var/list/decor = list()
+				for(var/obj/o in T)
+					if(o.name == "swamp")
+						decor += o
+						animate(o, alpha = 0, time = 8)
+
 				spawn(9)
-					T.overlays = null
+					T.overlays -= i
+
+					for(var/obj/o in decor)
+						o.loc = null
 
 
 		var/obj/The_Dark_Mark/dm = locate() in oview(5, src)
@@ -1605,7 +1615,6 @@ mob/Spells/verb/Scan(mob/Player/M in view()&Players)
 		else
 			p<<"\n<b>[M.name]'s Max HP:</b> [M.MHP+M.extraMHP]<br><b>[M.name]'s Max MP:</b> [M.MMP+M.extraMMP]"
 		p.learnSpell("Scan")
-mob/var/Zitt
 
 var/safemode = 1
 mob/var/tmp/lastproj = 0
@@ -2192,12 +2201,6 @@ mob/Player/var/tmp
 	muff
 	occlumens = 0
 
-mob/var/tmp/list/stoverlays = list()
-proc/overlaylist(var/list/overlays)
-	var/list/returnlist = list()
-	for(var/X in overlays)
-		returnlist.Add(X)
-	return returnlist
 mob/var/tmp/trnsed = 0
 mob
 	mouse_drag_pointer = MOUSE_DRAG_POINTER
@@ -2296,9 +2299,6 @@ client
 				..()
 				moving = 0
 
-
-obj/var
-	controllable = 0
 mob/var/Imperio = 0
 mob/GM
 	var

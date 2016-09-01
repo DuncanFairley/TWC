@@ -49,7 +49,7 @@ obj
 		icon='jokeitems.dmi'
 		icon_state="DarknessPowderEffect"
 
-turf/var/tmp/specialtype
+turf/var/tmp/specialtype = 0
 obj
 	items
 		DarknessPowder
@@ -125,31 +125,34 @@ obj
 
 						s.verbs.Remove(/obj/items/verb/Take)
 						s.loc = usr.loc
+						s.name = "swamp"
 						flick("swampopen", s)
 						sleep(20)
 						var/list/turf/Lt = s.getArea()
+						var/list/decor = list()
 						for(var/turf/T in Lt)
-							if(T.specialtype != "Swamp")
-
+							if(!(T.specialtype & SWAMP))
+								var/obj/o = new (T)
+								o.name = "swamp"
 								var/image/i = image('jokeitems.dmi',"swamp")
 								i.appearance_flags = RESET_COLOR
-								T.overlays += i
 								T.slow += 1
-								T.specialtype = "Swamp"
+								T.specialtype |= SWAMP
 								if(rand(1,4)==1)
-									i = image('jokeitems.dmi', pick("swamp1","swamp2","swamp3","swamp4","swamp5","swamp6","swamp7"))
-									i.appearance_flags = RESET_COLOR
-									T.overlays += i
+									i.icon_state = pick("swamp1","swamp2","swamp3","swamp4","swamp5","swamp6","swamp7")
+								decor += o
+								o.overlays += i
 							else
 								Lt -= T
 
 						src = null
 						spawn(600)
 							for(var/turf/T in Lt)
-								if(T.specialtype == "Swamp")
-									T.overlays = list()
-									T.specialtype = null
+								if(T.specialtype & SWAMP)
+									T.specialtype -= SWAMP
 									T.slow -= 1
+							for(var/obj/o in decor)
+								o.loc = null
 							s.Dispose()
 
 				else

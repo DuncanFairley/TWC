@@ -1031,13 +1031,13 @@ mob/Player
 										else if(text2num(value) < 1) value = 5
 										else value = text2num(value)
 										for(var/turf/T in (oview(value) - oview(value-1)))
-											if(T.density && T.canDisperse) continue
-											var/inflamari = /obj/Force_Field
+											if(T.specialtype & SHIELD) continue
+											var/shield = /obj/Force_Field
 											flick('mist.dmi',T)
-											T.overlays += inflamari
+											T.overlays += shield
 											T.density=1
 											T.invisibility=0
-											T.canDisperse = 1
+											T.specialtype |= SHIELD
 								else if(cmptext(copytext(t, 1, 10),"eat slugs"))
 									if(/mob/Spells/verb/Eat_Slugs in verbs)
 										silent = usr:Eat_Slugs(copytext(t, 11))
@@ -1151,12 +1151,12 @@ mob/Player
 								if("disperse")
 									if(src.Gm)
 										for(var/turf/T in view(client.view))
-											if(T.canDisperse)
-												T.canDisperse = 0
+											if(T.specialtype & SHIELD)
+												T.specialtype -= SHIELD
 												flick('mist.dmi',T)
 												spawn(9)
-													var/inflamari = /obj/Force_Field
-													T.overlays -= inflamari
+													var/shield = /obj/Force_Field
+													T.overlays -= shield
 													T.density=initial(T.density)
 									if(/mob/Spells/verb/Disperse in verbs)
 										usr:Disperse()
@@ -1233,13 +1233,13 @@ mob/Player
 									if(Gm)
 										hearers()<<"[usr] encases \himself within a magical barrier."
 										for(var/turf/T in view(1))
-											if(T.density && T.canDisperse) continue
-											var/inflamari = /obj/Force_Field
+											if(T.specialtype & SHIELD) continue
+											var/shield = /obj/Force_Field
 											flick('mist.dmi',T)
-											T.overlays += inflamari
+											T.overlays += shield
 											T.density=1
 											T.invisibility=0
-											T.canDisperse = 1
+											T.specialtype -= SHIELD
 							if(!Gm)
 								spam++
 								spawn(30)
@@ -1726,7 +1726,6 @@ mob/proc/Death_Check(mob/killer = src)
 				if(src.removeoMob) spawn()src:Permoveo()
 
 				src.followplayer=0
-				Zitt = 0
 				p.HP=p.MHP+p.extraMHP
 				p.MP=p.MMP+p.extraMMP
 				p.updateHPMP()
@@ -2089,24 +2088,20 @@ mob/var
 mob/var/Mexp=5
 mob/var/Exp=0
 mob/var/Expg=1
-mob/var/picon=null
 mob/var/listenooc=1
 mob/var/listenhousechat=1
 mob/var/gold/gold
 mob/var/goldg=1
 mob/var/gold/goldinbank
 
-mob/var/follow=0
+mob/var/tmp/follow=0
 mob/var/tmp/away=0
-mob/var/followplayer=0
+mob/var/tmp/followplayer=0
 mob/var/tmp/status=""
-mob/var/here=""
+mob/var/tmp/here=""
 mob/var/Gm=0
 
 obj/var/picon=null
-obj/var/lastx
-obj/var/lasty
-obj/var/lastz
 obj/var/tmp/mob/owner
 
 proc
@@ -2156,7 +2151,6 @@ proc
 			else
 				E.loc = null
 
-turf/var/tmp/canDisperse = 0
 turf/proc/autojoin(var_name, var_value = 1)
 	var/n = 0
 	var/turf/t

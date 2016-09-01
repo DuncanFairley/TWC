@@ -93,8 +93,6 @@ proc
 		if(!worldData.globalvaults) worldData.globalvaults = list()
 		if(worldData.magicEyesLeft == null)
 			worldData.magicEyesLeft = 10
-		if(ministrybox)
-			ministrybox.loc = locate(ministrybox.lastx,ministrybox.lasty,ministrybox.lastz)
 		if(!worldData.DP)
 			worldData.DP = new/list()
 		if(!worldData.housepointsGSRH)
@@ -140,12 +138,6 @@ proc
 		X["worldData"] << worldData
 		X["ClanWars"] << cw
 		X["AutoClasses"] << classes
-
-		if(ministrybox)
-			ministrybox.lastx = ministrybox.x
-			ministrybox.lasty = ministrybox.y
-			ministrybox.lastz = ministrybox.z
-			X["ministrybox"] << ministrybox
 
 world/Del()
 	Save_World()

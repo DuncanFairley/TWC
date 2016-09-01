@@ -619,10 +619,6 @@ mob/GM/verb/Bring(mob/M in world)
 	M << "You have been summoned."
 	src << "You have summoned <b><span style=\"color:red;\">[M].</span></b>"
 
-
-mob/var/iconreset
-
-mob/var/HeadA
 mob
 	GM/verb
 		Check_IP(mob/M in Players)

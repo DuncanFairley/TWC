@@ -5,7 +5,6 @@
  * For the full license text, see LICENSE.txt.
  */
 
-mob/var/StatMan
 mob
 	TalkNPC
 		icon = 'NPCs.dmi'
