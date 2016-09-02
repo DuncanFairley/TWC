@@ -798,9 +798,6 @@ mob/Player/Topic(href, href_list[])
 mob/Player
 	var/tmp/interface/Interface
 
-client/New()
-	..()
-
 interface
 	var/obj/hud/screentext/quest/quest
 	var/mob/Player/parent
