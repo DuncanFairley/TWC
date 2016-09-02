@@ -281,14 +281,15 @@ obj
 		color            = list(null,null,null,"#0000","#000f")
 		mouse_opacity    = 0
 
-		screen_loc = "1,1"
+		screen_loc = "CENTER"
 
 	darkness
 		plane            = 1
-		blend_mode       = BLEND_ADD
+		blend_mode       = BLEND_OVERLAY
+		layer            = BACKGROUND_LAYER
 		icon             = 'darkness.dmi'
 
-		screen_loc = "CENTER,CENTER"
+		screen_loc = "CENTER"
 
 	mapplane
 		plane            = 0
@@ -309,9 +310,8 @@ interface
 
 	New()
 		..()
-
-		lightplane = new
 		darkness   = new
+		lightplane = new
 		mapplane   = new
 
 		if(parent.client.byond_version < 510)

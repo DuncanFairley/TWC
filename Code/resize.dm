@@ -118,9 +118,7 @@ client
 
 			var/obj/darkness/d = locate() in screen
 			if(d)
-				var/matrix/m = matrix()
-				m.Scale(VW, VH)
-				d.transform = m
+				d.transform = matrix(VW, 0, 0, 0, VH, 0)
 
 			for(var/hudobj/h in screen)
 				h.updatePos()
