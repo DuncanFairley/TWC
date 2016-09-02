@@ -253,7 +253,7 @@ mob/TalkNPC/quest
 			.=..(i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
 			if(.)
-				is.AddText("Finally, what took you so long? Jeeze. Now I can finally take over that miserable place you call a school and--")
+				s.AddText("Finally, what took you so long? Jeeze. Now I can finally take over that miserable place you call a school and--")
 				i_Player << "<i>You blink.</i>"
 				s.AddText("I mean... Plan the best party ever for, uhm... Ben! Yes, Ben...")
 				i_Player << "<i>Sassy Pixie laughs evilly.</i>"
