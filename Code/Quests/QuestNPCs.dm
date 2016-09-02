@@ -242,26 +242,28 @@ mob/TalkNPC/quest
 			Quest(usr)
 
 		questStart(mob/Player/i_Player, questName)
-			i_Player << npcsay("[name]: Get away from me, you creep.")
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("Get away from me, you creep.")
 			i_Player << "<i>You blink.</i>"
-			i_Player << npcsay("[name]: What? Are you bored? Okay, well I've got a task for you then, you pathetic imbecile. I'm in need of a few... ingredients, let's say. Not for anything sinister, like taking over your idiotic wizard school or anything. They're for a... birthday party... yeah, that's it! A birthday party.")
+			s.AddText("What? Are you bored? Okay, well I've got a task for you then, you pathetic imbecile. I'm in need of a few... ingredients, let's say. Not for anything sinister, like taking over your idiotic wizard school or anything. They're for a... birthday party... yeah, that's it! A birthday party.")
 
 			..(i_Player, questName)
 
 		questOngoing(mob/Player/i_Player, questName)
 			.=..(i_Player, questName)
-
+			var/ScreenText/s = new(i_Player, src)
 			if(.)
-				i_Player << npcsay("[name]: Finally, what took you so long? Jeeze. Now I can finally take over that miserable place you call a school and--")
+				is.AddText("Finally, what took you so long? Jeeze. Now I can finally take over that miserable place you call a school and--")
 				i_Player << "<i>You blink.</i>"
-				i_Player << npcsay("[name]: I mean... Plan the best party ever for, uhm... Ben! Yes, Ben...")
+				s.AddText("I mean... Plan the best party ever for, uhm... Ben! Yes, Ben...")
 				i_Player << "<i>Sassy Pixie laughs evilly.</i>"
-				i_Player << npcsay("[name]: Thanks, mortal!")
+				s.AddText("Thanks, mortal!")
 			else
-				i_Player << npcsay("[name]: Well? What are you still standing there for? Get me what I need!")
+				s.AddText("Well? What are you still standing there for? Get me what I need!")
 
 		questCompleted(mob/Player/i_Player, questName)
-			i_Player << npcsay("[name]: Get away from me, you creep.")
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("Get away from me, you creep.")
 
 
 	Vengeful_Wisp
