@@ -2432,6 +2432,18 @@ obj/items/spellbook
 		g = 0
 		b = 0
 
+	projectile
+		g = 0.5
+		b = 0.5
+		New()
+
+			spell = pick(/mob/Spells/verb/Glacius, /mob/Spells/verb/Tremorio, /mob/Spells/verb/Waddiwasi)
+			name  = spellList[spell]
+
+			name = pick("All about [name]", "Book of [name]", "Mystery of [name]", "[name]: 101")
+
+			..()
+
 	New()
 		..()
 
