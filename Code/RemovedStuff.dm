@@ -6,6 +6,7 @@
  */
 
 obj/roofedge/canSave = 0
+obj/Flippendo/canSave = 0
 
 mob/AndersGoat
 obj/Green_Mushroom
