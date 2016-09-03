@@ -2276,8 +2276,10 @@ arena_round
 			C.disable()
 	proc
 		handleSpawnDelay(mob/Player/M)
+			set waitfor = 0
+			M.nomove = 1
 			sleep(plyrSpawnTime*10)
-			M.GMFrozen = 0
+			M.nomove = 0
 			M << "<i><u>You can now move again.</u></i>"
 		Add_Point(team,amount)
 			//Only used in Arena
