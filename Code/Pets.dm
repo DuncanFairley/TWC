@@ -198,9 +198,21 @@ obj/pet
 
 		item        = pet
 		icon_state  = pet.icon_state
-		var/ColorMatrix/c = new(pet.color, 0.75)
-		color       = c.matrix
 		name        = pet.name
+
+		if(pet.color)
+			if(pet.function & PET_SHINY)
+				refresh()
+
+				emit(loc    = loc,
+					 ptype  = /obj/particle/star,
+					 amount = 3,
+					 angle  = new /Random(0, 360),
+					 speed  = 5,
+					 life   = new /Random(4,8))
+			else
+				var/ColorMatrix/c = new(pet.color, 0.75)
+				color = c.matrix
 
 		SetSize(pet.currentSize)
 
@@ -208,6 +220,19 @@ obj/pet
 			light = new (loc)
 			animate(light, transform = matrix() * 1.8, time = 10, loop = -1)
 			animate(       transform = matrix() * 1.7, time = 10)
+
+	proc/refresh(var/wait)
+		set waitfor = 0
+
+		if(wait) sleep(wait + 1)
+
+		if(item.color && (item.function & PET_SHINY))
+			var/ColorMatrix/c1 = new(item.color, 0.64)
+			var/ColorMatrix/c2 = new(item.color, 0.9)
+			color = c1.matrix
+			animate(src, color = c2.matrix, time = 15, loop = -1)
+			animate(     color = c1.matrix, time = 15)
+
 
 	proc/follow(turf/oldLoc, mob/Player/p)
 

@@ -657,6 +657,8 @@ obj/items/potions
 
 				animate(p.pet, transform = matrix() * (item.currentSize / 4), time = 10)
 
+				p.pet.refresh(10)
+
 				. = 1
 
 		shrink
@@ -674,6 +676,8 @@ obj/items/potions
 
 				animate(p.pet, transform = matrix() * (item.currentSize / 4), time = 10)
 
+				p.pet.refresh(10)
+
 				. = 1
 
 		color
@@ -687,6 +691,8 @@ obj/items/potions
 				item.color = rgb(rand(40, 200), rand(40, 200), rand(40, 200))
 				var/ColorMatrix/c = new(item.color, 0.75)
 				animate(p.pet, color = c.matrix, time = 10)
+
+				p.pet.refresh(10)
 
 				. = 1
 
@@ -724,6 +730,8 @@ obj/items/potions
 					item.alpha = 255
 
 				animate(p.pet, alpha = item.alpha, time = 10)
+
+				p.pet.refresh(10)
 
 				. = 1
 
