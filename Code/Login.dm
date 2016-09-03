@@ -1688,8 +1688,7 @@ mob/proc/Death_Check(mob/killer = src)
 				src.loc = B.loc
 				src.dir = SOUTH
 				if(currentArena)
-					src:GMFrozen = 1
-					spawn()currentArena.handleSpawnDelay(src)
+					currentArena.handleSpawnDelay(src)
 				p.HP=p.MHP+p.extraMHP
 				p.MP=p.MMP+p.extraMMP
 				p.updateHPMP()
@@ -2147,6 +2146,14 @@ proc
 					if(active)
 						E.alpha = 0
 						animate(E, alpha = 255, time = 15)
+
+						if(E.color && (E.color in SHINY_LIST))
+							emit(loc    = E.loc,
+								 ptype  = /obj/particle/star,
+								 amount = 5,
+								 angle  = new /Random(0, 360),
+								 speed  = 5,
+								 life   = new /Random(5,10))
 
 			else
 				E.loc = null
