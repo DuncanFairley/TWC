@@ -428,7 +428,11 @@ mob
 
 			proc/SpawnPet(mob/Player/killer, chance, defaultColor, spawnType)
 				if(!origloc) return
-				if(color == "#dd0000")
+
+				var/list/shinyList = SHINY_LIST
+				var/isShiny = (color in shinyList) ? color : 0
+
+				if(color == "#dd0000" || isShiny)
 					if(defaultColor == "rand")
 						var/color1 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
 						var/color2 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
@@ -449,7 +453,10 @@ mob
 							chance *= t.factor
 
 					if(prob(chance * 10))
-						var/obj/items/wearable/w = new spawnType (loc)
+						var/obj/items/wearable/pets/w = new spawnType (loc)
+						if(isShiny)
+							w.function |= PET_SHINY|PET_LIGHT
+							w.color = isShiny
 						w.prizeDrop(killer.ckey, 300)
 				else
 					if(killer.findStatusEffect(/StatusEffect/Lamps/Farming))
@@ -459,7 +466,10 @@ mob
 						if(defaultColor == "rand")
 							animate(src)
 
-						color = "#d00"
+						if(prob(2))
+							color = pick(shinyList)
+						else
+							color = "#d00"
 
 			proc/Death(mob/Player/killer)
 				if(state == INACTIVE || state == WANDER) return
@@ -1576,7 +1586,7 @@ mob
 				pixel_y = -48
 
 				icon_state = "spider"
-				level = 800
+				level = 850
 				MoveDelay = 3
 				AttackDelay = 3
 
@@ -1621,7 +1631,7 @@ mob
 
 			Vampire
 				icon = 'FemaleVampire.dmi'
-				level = 850
+				level = 900
 				HPmodifier  = 1.8
 				DMGmodifier = 0.6
 				MoveDelay   = 2
@@ -1718,7 +1728,7 @@ mob
 				pixel_y = -48
 
 				icon_state = "wisp"
-				level = 800
+				level = 850
 
 				HPmodifier  = 1.4
 				DMGmodifier = 0.8
