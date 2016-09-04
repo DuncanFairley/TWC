@@ -242,6 +242,8 @@ obj/pet
 			animate(     color = c1.matrix, time = 15)
 
 	proc/follow(turf/oldLoc, mob/Player/p)
+		if(p.z != z) // temp workaround for animate bug
+			refresh(1)
 		if(item.function & PET_FOLLOW_FAR)
 			var/d = get_dist(src, p)
 
