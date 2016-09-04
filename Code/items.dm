@@ -2039,7 +2039,15 @@ obj/items/wearable/title
 	Myrmidon
 		title = "Myrmidon"
 		name  = "Title: Myrmidon"
-
+	Myrmidon
+		title = "Myrmidon"
+		name  = "Title: Myrmidon"
+	Best_Friend
+		title = "Best Friend"
+		name  = "Title: Best Friend"
+	Scavenger
+		title = "Scavenger"
+		name  = "Title: Scavenger"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
@@ -3906,11 +3914,18 @@ obj/items/treats
 
 		Feed(mob/Player/p)
 			. = 1
-			p.pet.item.function |= PET_LIGHT
 
-			p.pet.light = new (loc)
-			animate(p.pet.light, transform = matrix() * 1.8, time = 10, loop = -1)
-			animate(             transform = matrix() * 1.7, time = 10)
+			if(p.pet.item.function & PET_LIGHT)
+				p.pet.item.function &= ~PET_LIGHT
+
+				p.pet.light.Dispose()
+				p.pet.light = null
+			else
+				p.pet.item.function |= PET_LIGHT
+
+				p.pet.light = new (loc)
+				animate(p.pet.light, transform = matrix() * 1.8, time = 10, loop = -1)
+				animate(             transform = matrix() * 1.7, time = 10)
 
 
 	pink
