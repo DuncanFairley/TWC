@@ -449,6 +449,13 @@ playerShop
 			for(var/standID in items)
 				var/obj/items/i = items[standID]
 				mail(owner, null, i)
+
+				var/obj/playerShop/stand/s = locate("[id]_[standID]")
+				s.name       = "stand"
+				s.icon       = null
+				s.icon_state = null
+				s.density    = 0
+
 			mail(owner, "Your shop items were returned to you.")
 
 			items = null
@@ -523,6 +530,8 @@ obj/playerShop
 			else
 				shop = new (shopID)
 				worldData.playerShops[shopID] = shop
+
+			tag = "[shopID]_[standID]"
 
 		Click()
 			..()
