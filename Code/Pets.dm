@@ -118,6 +118,9 @@ obj/items/wearable/pets
 				owner.pet = new (get_step(owner, owner.dir), src)
 				owner.pet.owner = owner.ckey
 				owner.pet.alpha = 0
+			else
+				owner.pet.isDisposing = 0
+				owner.pet.refresh(5)
 
 			animate(owner.pet, alpha = alpha, time = 5)
 
@@ -193,11 +196,12 @@ obj/pet
 		tmp
 			obj/light/light
 			obj/items/wearable/pets/item
-			turf/target
 
-			stepCount = 0
+			stepCount   = 0
+			isDisposing = 0
 
 	New(loc, obj/items/wearable/pets/pet)
+		set waitfor = 0
 		..()
 
 		item        = pet
@@ -205,8 +209,11 @@ obj/pet
 		name        = pet.name
 
 		if(pet.color)
+			var/ColorMatrix/c = new(pet.color, 0.75)
+			color = c.matrix
+
 			if(pet.function & PET_SHINY)
-				refresh()
+				refresh(5)
 
 				emit(loc    = loc,
 					 ptype  = /obj/particle/star,
@@ -214,9 +221,6 @@ obj/pet
 					 angle  = new /Random(0, 360),
 					 speed  = 5,
 					 life   = new /Random(4,8))
-			else
-				var/ColorMatrix/c = new(pet.color, 0.75)
-				color = c.matrix
 
 		SetSize(pet.currentSize)
 
@@ -323,12 +327,11 @@ obj/pet
 
 	Dispose(mob/Player/p)
 		set waitfor = 0
-
-		animate(src, alpha = 0, time = 5)
+		isDisposing = 1
+		animate(src, alpha = 0, time = 5, loop = 1)
 		sleep(6)
-
-		if(alpha == 0)
-			if(p.pet == src) p.pet = null
+		if(isDisposing)
+			if(p && p.pet == src) p.pet = null
 
 			..()
 
