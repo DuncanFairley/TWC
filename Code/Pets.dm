@@ -91,6 +91,7 @@ obj/items/wearable/pets
 	max_stack   = 1
 	destroyable = 1
 	bonus       = NOENCHANT
+	scale       = 0.1
 
 	var
 		currentSize = 0.75
@@ -133,7 +134,7 @@ obj/items/wearable/pets
 			if(!overridetext) hearers(owner) << infomsg("[owner] puts \his [src.name] away.")
 
 	proc/addExp(mob/Player/owner, amount)
-		if(quality >= MAX_PET_LEVEL)
+		if(quality > MAX_PET_LEVEL)
 			exp = 0
 			return
 
@@ -147,14 +148,14 @@ obj/items/wearable/pets
 				exp = 0
 				break
 
-			i += 0.1
+			i += 1
 
 		if(i)
 			Equip(owner, 1)
 			quality += i
 			Equip(owner, 1)
 
-			owner << infomsg("Your [name] leveled up to [quality * 10]!")
+			owner << infomsg("Your [name] leveled up to [quality]!")
 
 	rat
 		icon_state = "rat"
@@ -220,7 +221,7 @@ obj/pet
 					 amount = 3,
 					 angle  = new /Random(0, 360),
 					 speed  = 5,
-					 life   = new /Random(4,8))
+					 life   = new /Random(5,10))
 
 		SetSize(pet.currentSize)
 
@@ -293,16 +294,21 @@ obj/pet
 				light.pixel_x = pixel_x - offset - 64
 				light.pixel_y = pixel_y - offset - 64
 
-		if(p.client.moving && (istype(loc.loc, /area/outside) || istype(loc.loc, /area/newareas/outside)))
+		if(p.client.moving && loc && (istype(loc.loc, /area/outside) || istype(loc.loc, /area/newareas/outside)))
 			if(++stepCount > 1000 && prob(1))
 				stepCount = 0
 
-				var/prize = PET_LOST_AND_FOUND
-				var/obj/items/i = new prize (loc)
+				if(prob(10))
+					var/g = rand(2, 500)
+					p << infomsg("Your [name] has found [g] gold while walking.")
+					p.gold.add(g)
+				else
+					var/prize = PET_LOST_AND_FOUND
+					var/obj/items/i = new prize (loc)
 
-				i.prizeDrop(p.ckey)
+					i.prizeDrop(p.ckey)
 
-				p << infomsg("Your [p.name] has found \a [i.name] while walking.")
+					p << infomsg("Your [name] has found \a [i.name] while walking.")
 
 	Click()
 		..()
