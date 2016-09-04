@@ -30,6 +30,7 @@
 #define SHINY_LIST list("#dd1111", "#11dd11", "#1111dd", "#dd11dd", "#11dddd", "#dddd11")
 #define MAX_PET_LEVEL 3
 #define MAX_PET_EXP(pet) ((pet.quality * 10 + 1) * 20000)
+#define PET_LOST_AND_FOUND pick(/obj/items/bucket, /obj/items/wearable/title/Best_Friend, /obj/items/wearable/title/Scavenger)
 
 #define MAX_WAND_LEVEL 3
 #define MAX_WAND_EXP(wand) ((wand.quality * 10 + 1) * 20000)
