@@ -303,7 +303,13 @@ obj/pet
 					p << infomsg("Your [name] has found [g] gold while walking.")
 					p.gold.add(g)
 				else
-					var/prize = PET_LOST_AND_FOUND
+					var/prize = pickweight(list(/obj/items/bucket                     = 20,
+					                            /obj/items/wearable/title/Best_Friend = 15,
+					                            /obj/items/wearable/title/Scavenger   = 15,
+					                            /obj/items/treats/berry               = 20,
+					                            /obj/items/treats/sweet_berry         = 20,
+					                            /obj/items/treats/grape_berry         = 10))
+
 					var/obj/items/i = new prize (loc)
 
 					i.prizeDrop(p.ckey)
