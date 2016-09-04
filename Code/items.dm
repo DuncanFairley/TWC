@@ -193,7 +193,7 @@ obj/items
 			hearers(owner) << infomsg("[usr] drops all of \his [src.name] items.")
 			drop(usr, stack)
 
-		prizeDrop(ownerCkey, protection=150, decay=TRUE)
+		prizeDrop(ownerCkey, protection=300, decay=TRUE)
 			set waitfor = 0
 
 			antiTheft = 1
@@ -1208,7 +1208,7 @@ obj/items/wearable/orb
 mob/Player/var/tmp/obj/items/wearable/wands/wand
 
 obj/items/wearable/wands
-	scale = 3
+	scale = 0.3
 	var
 		track
 		displayColor
@@ -1224,7 +1224,7 @@ obj/items/wearable/wands
 	max_stack = 1
 
 	calcBonus(mob/Player/owner)
-		var/s = worldData.elderWand == owner.ckey ? 4 : scale
+		var/s = worldData.elderWand == owner.ckey ? 0.4 : scale
 		if(bonus & DAMAGE)
 			clothDmg = round(10 * quality * s)
 			owner.clothDmg += clothDmg
@@ -1263,7 +1263,7 @@ obj/items/wearable/wands
 						exp = 0
 						break
 
-					i += 0.1
+					i += 1
 
 				if(i)
 					Equip(owner, 1)
@@ -1274,9 +1274,9 @@ obj/items/wearable/wands
 					Equip(owner, 1)
 
 					var/list/s = split(name, " +")
-					name = "[s[1]] +[quality * 10]"
+					name = "[s[1]] +[quality]"
 
-					owner << infomsg("[s[1]] leveled up to [quality * 10]!")
+					owner << infomsg("[s[1]] leveled up to [quality]!")
 
 	Compare(obj/items/i)
 		. = ..()
@@ -1436,11 +1436,11 @@ area/var/disableEffects = FALSE
 obj/items/wearable/wands/interruption_wand //Fred's quest
 	icon = 'interruption_wand.dmi'
 	displayColor = "#fff"
-	scale = 2.75
+	scale = 0.275
 obj/items/wearable/wands/salamander_wand //Bag of goodies
 	icon = 'salamander_wand.dmi'
 	displayColor = "#FFa500"
-	scale = 2.75
+	scale = 0.275
 obj/items/wearable/wands/mithril_wand
 	icon = 'mithril_wand.dmi'
 obj/items/wearable/wands/mulberry_wand
@@ -1454,27 +1454,27 @@ obj/items/wearable/wands/pimp_cane //Sylar's wand thing
 obj/items/wearable/wands/birch_wand
 	icon = 'birch_wand.dmi'
 	displayColor = "#fff"
-	scale = 2.5
+	scale = 0.25
 obj/items/wearable/wands/oak_wand
 	icon = 'oak_wand.dmi'
 	displayColor = "#960"
-	scale = 2.5
+	scale = 0.25
 obj/items/wearable/wands/mahogany_wand
 	icon = 'mahogany_wand.dmi'
 	displayColor = "#966"
-	scale = 2.5
+	scale = 0.25
 obj/items/wearable/wands/elder_wand
 	icon = 'elder_wand.dmi'
 	displayColor = "#ff0"
-	scale = 2.5
+	scale = 0.25
 obj/items/wearable/wands/willow_wand
 	icon = 'willow_wand.dmi'
 	displayColor = "#f00"
-	scale = 2.5
+	scale = 0.25
 obj/items/wearable/wands/ash_wand
 	icon = 'ash_wand.dmi'
 	displayColor = "#cab5b5"
-	scale = 2.5
+	scale = 0.25
 obj/items/wearable/wands/duel_wand
 	icon = 'duel_wand.dmi'
 	displayColor = "#088"
@@ -3706,7 +3706,7 @@ obj/items/colors
 			if(!p.wand)
 				p << errormsg("You have to have a wand equipped.")
 				return
-			if(p.wand.quality * 10 < reqLevel)
+			if(p.wand.quality < reqLevel)
 				p << errormsg("Your wand has to be at least level [reqLevel].")
 				return
 
@@ -3903,7 +3903,7 @@ obj/items/treats
 		Feed(mob/Player/p)
 			if(p.pet.item.quality < MAX_PET_LEVEL)
 				. = 1
-				p.pet.item.addExp(p, MAX_PET_EXP(p.pet.item))
+				p.pet.item.addExp(p, MAX_PET_EXP(p.pet.item) - p.pet.item.exp)
 			else
 				p << errormsg("Your pet reached max level")
 
@@ -3955,6 +3955,45 @@ obj/items/treats
 			p.pet.item.name = desiredname
 			p.pet.name = desiredname
 
+	berry
+		icon_state = "berry"
+
+		Feed(mob/Player/p)
+			if(p.pet.item.quality < MAX_PET_LEVEL)
+				. = 1
+				var/e = rand(1800, 2200)
+				p << infomsg("Your pet gained [e] experience.")
+				p.pet.item.addExp(p, e)
+			else
+				p << errormsg("Your pet reached max level")
+
+	sweet_berry
+		icon_state = "sweet"
+
+		Feed(mob/Player/p)
+			. = 1
+
+			var/c = rand(20, 40)
+			p.pet.stepCount += 10 * c
+
+			p << infomsg("Your pet enjoys the berry.")
+
+	grape_berry
+		icon_state = "grape"
+
+		Feed(mob/Player/p)
+			. = 1
+
+			var/c = rand(30, 60)
+			p.pet.stepCount += 10 * c
+			p << infomsg("Your pet enjoys the berry.")
+
+
+			if(p.pet.item.quality < MAX_PET_LEVEL)
+				var/e = rand(2000, 2400)
+				p << infomsg("Your pet gained [e] experience.")
+				p.pet.item.addExp(p, e)
+
 	proc/Feed(mob/Player/p)
 
 
@@ -3966,7 +4005,7 @@ obj/items/treats
 				p << errormsg("Equip a pet first in order to feed it a treat.")
 				return
 
-			if(p.pet.item.quality * 10 < levelReq)
+			if(p.pet.item.quality < levelReq)
 				p << errormsg("Your [p.pet.name] needs to be level [levelReq] to eat [name].")
 				return
 
@@ -3976,4 +4015,3 @@ obj/items/treats
 
 		else
 			..()
-
