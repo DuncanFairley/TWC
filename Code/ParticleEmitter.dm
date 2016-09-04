@@ -65,11 +65,11 @@ ParticleEmitter
 
 /*mob/verb/Test_Particles()
 	emit(loc    = loc,
-						 ptype  = /obj/particle/fluid/blood,
-					     amount = 80,
-					     angle  = new /Random(0, 360),
-					     speed  = 5,
-					     life   = new /Random(1,15))*/
+		 ptype  = /obj/particle/star,
+		 amount = 5,
+		 angle  = new /Random(0, 360),
+		 speed  = 5,
+		 life   = new /Random(5,10))*/
 
 proc/dir2angle(dir)
 	if(dir == EAST)      return 0
@@ -101,6 +101,8 @@ proc/emit(var/atom/loc, ptype, amount=10, Random/angle, speed, Random/life, colo
 obj/particle
 	icon       = 'dot.dmi'
 	icon_state = "default"
+
+	canSave = FALSE
 
 	var/life
 	var/afterlife = 0
@@ -158,6 +160,16 @@ obj/particle
 			pixel_x = 0
 			pixel_y = 0
 			transform = null
+
+	star
+		icon_state = "star"
+		color      = "#ff6"
+		size       = 1
+
+		config()
+			..()
+
+			transform = matrix() * 0.5
 
 	balloon
 		icon       = 'balloon.dmi'

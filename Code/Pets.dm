@@ -104,26 +104,28 @@ obj/items/wearable/pets
 
 
 		if(. == WORN)
-
 			for(var/obj/items/wearable/pets/P in owner.Lwearing)
-				if(P != src)
+				if(src != P)
 					P.Equip(owner,1,1)
+					owner.pet = null
+					break
+
+			if(dropable)
+				dropable = 0
+				verbs   -= /obj/items/verb/Drop
 
 			if(!owner.pet)
-
-				if(dropable)
-					dropable = 0
-					verbs   -= /obj/items/verb/Drop
-
 				owner.pet = new (get_step(owner, owner.dir), src)
 				owner.pet.owner = owner.ckey
+				owner.pet.alpha = 0
 
-				if(!overridetext) hearers(owner) << infomsg("[owner] pets \his [src.name].")
+			animate(owner.pet, alpha = alpha, time = 5)
+
+			if(!overridetext) hearers(owner) << infomsg("[owner] pets \his [src.name].")
 
 		else if(. == REMOVED || forceremove)
 
-			owner.pet.Dispose()
-			owner.pet = null
+			owner.pet.Dispose(owner)
 
 			if(!overridetext) hearers(owner) << infomsg("[owner] puts \his [src.name] away.")
 
@@ -157,10 +159,10 @@ obj/items/wearable/pets
 		icon_state = "pixie"
 	dog
 		icon_state = "dog"
-	wolf
-		icon_state = "wolf"
 	snake
 		icon_state = "snake"
+	wolf
+		icon_state = "wolf"
 	troll
 		icon_state = "troll"
 	acromantula
@@ -176,7 +178,6 @@ obj/items/wearable/pets
 		currentSize = 2
 		minSize     = 2
 
-
 obj/pet
 	icon = 'Mobs_128x128.dmi'
 	pixel_x = -48
@@ -187,20 +188,35 @@ obj/pet
 	appearance_flags = LONG_GLIDE|TILE_BOUND
 
 	var
-		iconSize    = 4
+		iconSize = 4
 
 		tmp
 			obj/light/light
 			obj/items/wearable/pets/item
+			turf/target
+
+			stepCount = 0
 
 	New(loc, obj/items/wearable/pets/pet)
 		..()
 
 		item        = pet
 		icon_state  = pet.icon_state
-		var/ColorMatrix/c = new(pet.color, 0.75)
-		color       = c.matrix
 		name        = pet.name
+
+		if(pet.color)
+			if(pet.function & PET_SHINY)
+				refresh()
+
+				emit(loc    = loc,
+					 ptype  = /obj/particle/star,
+					 amount = 3,
+					 angle  = new /Random(0, 360),
+					 speed  = 5,
+					 life   = new /Random(4,8))
+			else
+				var/ColorMatrix/c = new(pet.color, 0.75)
+				color = c.matrix
 
 		SetSize(pet.currentSize)
 
@@ -209,8 +225,19 @@ obj/pet
 			animate(light, transform = matrix() * 1.8, time = 10, loop = -1)
 			animate(       transform = matrix() * 1.7, time = 10)
 
-	proc/follow(turf/oldLoc, mob/Player/p)
+	proc/refresh(var/wait)
+		set waitfor = 0
 
+		if(wait) sleep(wait + 1)
+
+		if(item.color && (item.function & PET_SHINY))
+			var/ColorMatrix/c1 = new(item.color, 0.64)
+			var/ColorMatrix/c2 = new(item.color, 0.9)
+			color = c1.matrix
+			animate(src, color = c2.matrix, time = 15, loop = -1)
+			animate(     color = c1.matrix, time = 15)
+
+	proc/follow(turf/oldLoc, mob/Player/p)
 		if(item.function & PET_FOLLOW_FAR)
 			var/d = get_dist(src, p)
 
@@ -218,28 +245,40 @@ obj/pet
 				loc = p.loc
 
 			else if(d > 3)
-				step_towards(src, p)
+				dir = get_dir(src, p)
+				loc = get_step_towards(src, p)
 
 			if(light)
 				light.loc = loc
 
 		else
-			dir = get_dir(loc, oldLoc)
-			loc = oldLoc
+			if(item.function & PET_FOLLOW_RIGHT)
+				dir = p.dir
+				loc = get_step(p, turn(p.dir, 90))
+			else if(item.function & PET_FOLLOW_LEFT)
+				dir = p.dir
+				loc = get_step(p, turn(p.dir, -90))
+			else
+				dir = get_dir(loc, oldLoc)
+				loc = oldLoc
+
+			var/const/stepSize = 16
 
 			var/offset = (iconSize - 1) * -16
 
-			if(dir & EAST)
-				pixel_x = offset - (item.currentSize - 1) * 4
-			else if(dir & WEST)
-				pixel_x = offset + (item.currentSize - 1) * 4
+			var/d = get_dir(loc, p)
+
+			if(d & EAST)
+				pixel_x = offset - (item.currentSize - 1) * stepSize
+			else if(d & WEST)
+				pixel_x = offset + (item.currentSize - 1) * stepSize
 			else
 				pixel_x = offset
 
-			if(dir & NORTH)
-				pixel_y = offset - (item.currentSize - 1) * 4
-			else if(dir & SOUTH)
-				pixel_y = offset + (item.currentSize - 1) * 16
+			if(d & NORTH)
+				pixel_y = offset - (item.currentSize - 1) * stepSize
+			else if(d & SOUTH)
+				pixel_y = offset + (item.currentSize - 1) * stepSize
 			else
 				pixel_y = offset
 
@@ -248,22 +287,52 @@ obj/pet
 				light.pixel_x = pixel_x - offset - 64
 				light.pixel_y = pixel_y - offset - 64
 
+		if(p.client.moving && (istype(loc.loc, /area/outside) || istype(loc.loc, /area/newareas/outside)))
+			if(++stepCount > 1000 && prob(1))
+				stepCount = 0
+
+				var/prize = PET_LOST_AND_FOUND
+				var/obj/items/i = new prize (loc)
+
+				i.prizeDrop(p.ckey)
+
+				p << infomsg("Your [p.name] has found \a [i.name] while walking.")
+
 	Click()
 		..()
 
 		if(usr.ckey == owner)
 
-			if(item.function & PET_FOLLOW_FAR)
-				item.function -= PET_FOLLOW_FAR
-				usr << infomsg("[name] will follow your footsteps closely.")
-			else
+			if(item.function & PET_FOLLOW_RIGHT)
+				item.function -= PET_FOLLOW_RIGHT
+				item.function += PET_FOLLOW_LEFT
+				usr << infomsg("[name] will be at your left.")
+
+			else if(item.function & PET_FOLLOW_LEFT)
+				item.function -= PET_FOLLOW_LEFT
 				item.function += PET_FOLLOW_FAR
 				usr << infomsg("[name] will be further back.")
 
-	Dispose()
-		..()
+			else if(item.function & PET_FOLLOW_FAR)
+				item.function -= PET_FOLLOW_FAR
+				usr << infomsg("[name] will follow your footsteps closely.")
 
-		if(light)
-			light.loc = null
-			light     = null
+			else
+				item.function += PET_FOLLOW_RIGHT
+				usr << infomsg("[name] will be at your right.")
+
+	Dispose(mob/Player/p)
+		set waitfor = 0
+
+		animate(src, alpha = 0, time = 5)
+		sleep(6)
+
+		if(alpha == 0)
+			if(p.pet == src) p.pet = null
+
+			..()
+
+			if(light)
+				light.loc = null
+				light     = null
 

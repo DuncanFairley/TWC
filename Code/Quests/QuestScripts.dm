@@ -45,6 +45,19 @@ quest
 			desc = "Go back to Simon."
 			reqs = list("Simon" = 1)
 
+	ProjectileBook
+		name   = "Pixie Love"
+		desc   = "An extremely sassy pixie asked you to kill the other pixies."
+		reward = /questReward/ProjectileBook
+
+		Kill
+			desc = "Kill them all"
+			reqs = list("Kill Pixie" = 200)
+
+		Reward
+			desc = "Go back to the Sassy Pixie to get your reward."
+			reqs = list("Sassy Pixie" = 1)
+
 	TWCIdol1
 		name   = "Pixie Wisdom \[Weekly]"
 		desc   = "An extremely sassy pixie asked you for your help collecting ingredients for a birthday party."
@@ -672,9 +685,13 @@ quest
 			reqs = list("Professor Palmer" = 1)
 
 questReward
+	ProjectileBook
+		gold  = 1000
+		exp   = 40000
+		items = /obj/items/spellbook/projectile
 	PotionsBook
-		exp   = 2000
 		gold  = 2000
+		exp   = 2000
 		items = /obj/items/potions_book
 	Mon1
 		gold = 1000

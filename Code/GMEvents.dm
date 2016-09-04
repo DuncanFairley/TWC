@@ -6,6 +6,23 @@
  */
 
 mob/TalkNPC
+	Custom
+		var/message
+
+		Talk()
+			set src in oview(3)
+
+			if(!message) return
+
+			if(istext(message))
+				message = splittext(message, ";")
+
+			var/ScreenText/s = new(usr, src)
+			for(var/m in message)
+				s.AddText(m)
+
+
+
 	EventMob
 		icon = 'NPCs.dmi'
 		icon_state = "palmer"

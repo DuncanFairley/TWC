@@ -198,7 +198,7 @@ class
 		uses    = 200
 		start(mob/Player/p)
 			..()
-			say("[name] is a transfiguration-based spell. When casted the form of the target will change.", p)
+			say("[name] is a transfiguration-based spell. When casted the form of the target will change. When you practice this spell, you will get 10 uses when used on players.", p)
 			sleep(30)
 
 		Scurries

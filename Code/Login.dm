@@ -1393,10 +1393,17 @@ mob/Player
 				var/maxExp = MAX_WAND_EXP(wand)
 				var/percent = round((wand.exp / maxExp) * 100)
 				stat("Wand:", "Level: [wand.quality * 10]   Exp: [comma(wand.exp)]/[comma(maxExp)] ([percent]%)")
-			if(pet && (pet.item.exp + pet.item.quality > 0))
-				var/maxExp = MAX_PET_EXP(pet.item)
-				var/percent = round((pet.item.exp / maxExp) * 100)
-				stat("[pet.name]:", "Level: [pet.item.quality * 10]   Exp: [comma(pet.item.exp)]/[comma(maxExp)] ([percent]%)")
+			if(pet)
+				if(pet.item.exp + pet.item.quality > 0)
+					var/maxExp = MAX_PET_EXP(pet.item)
+					var/percent = round((pet.item.exp / maxExp) * 100)
+					stat("[pet.name]:", "Level: [pet.item.quality * 10]   Exp: [comma(pet.item.exp)]/[comma(maxExp)] ([percent]%)")
+
+					percent = min(round(pet.stepCount / 10, 1), 100)
+					stat("",            "Happiness: [percent]%")
+				else
+					var/percent = min(round(pet.stepCount / 10, 1), 100)
+					stat("[pet.name]:", "Happiness: [percent]%")
 			stat("Stat points:",src.StatPoints)
 			stat("Spell points:",src.spellpoints)
 			if(learning)
@@ -1688,8 +1695,7 @@ mob/proc/Death_Check(mob/killer = src)
 				src.loc = B.loc
 				src.dir = SOUTH
 				if(currentArena)
-					src:GMFrozen = 1
-					spawn()currentArena.handleSpawnDelay(src)
+					currentArena.handleSpawnDelay(src)
 				p.HP=p.MHP+p.extraMHP
 				p.MP=p.MMP+p.extraMMP
 				p.updateHPMP()
@@ -2147,6 +2153,14 @@ proc
 					if(active)
 						E.alpha = 0
 						animate(E, alpha = 255, time = 15)
+
+						if(E.color && (E.color in SHINY_LIST))
+							emit(loc    = E.loc,
+								 ptype  = /obj/particle/star,
+								 amount = 5,
+								 angle  = new /Random(0, 360),
+								 speed  = 5,
+								 life   = new /Random(5,10))
 
 			else
 				E.loc = null

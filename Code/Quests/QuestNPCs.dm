@@ -236,32 +236,47 @@ mob/TalkNPC/quest
 	Sassy_Pixie
 		icon = 'Mobs.dmi'
 		icon_state="pixie"
-		questPointers = "Pixie Wisdom \[Weekly]"
+		questPointers = list("Pixie Love", "Pixie Wisdom \[Weekly]")
 		Talk()
 			set src in oview(3)
 			Quest(usr)
 
 		questStart(mob/Player/i_Player, questName)
-			i_Player << npcsay("[name]: Get away from me, you creep.")
-			i_Player << "<i>You blink.</i>"
-			i_Player << npcsay("[name]: What? Are you bored? Okay, well I've got a task for you then, you pathetic imbecile. I'm in need of a few... ingredients, let's say. Not for anything sinister, like taking over your idiotic wizard school or anything. They're for a... birthday party... yeah, that's it! A birthday party.")
+			var/ScreenText/s = new(i_Player, src)
+
+			switch(questName)
+				if("Pixie Love")
+					s.AddText("Look at my lovely pixie family, I love them all, each and every one of them. Now kill them all for me.")
+				if("Pixie Wisdom \[Weekly]")
+					s.AddText("Get away from me, you creep.")
+					i_Player << "<i>You blink.</i>"
+					s.AddText("What? Are you bored? Okay, well I've got a task for you then, you pathetic imbecile. I'm in need of a few... ingredients, let's say. Not for anything sinister, like taking over your idiotic wizard school or anything. They're for a... birthday party... yeah, that's it! A birthday party.")
 
 			..(i_Player, questName)
 
 		questOngoing(mob/Player/i_Player, questName)
 			.=..(i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
 
-			if(.)
-				i_Player << npcsay("[name]: Finally, what took you so long? Jeeze. Now I can finally take over that miserable place you call a school and--")
-				i_Player << "<i>You blink.</i>"
-				i_Player << npcsay("[name]: I mean... Plan the best party ever for, uhm... Ben! Yes, Ben...")
-				i_Player << "<i>Sassy Pixie laughs evilly.</i>"
-				i_Player << npcsay("[name]: Thanks, mortal!")
-			else
-				i_Player << npcsay("[name]: Well? What are you still standing there for? Get me what I need!")
+			switch(questName)
+				if("Pixie Love")
+					if(.)
+						s.AddText("Finally, what took you so long? Jeeze. Now I can finally take over.")
+					else
+						s.AddText("Well? What are you still standing there for? Murder my family!")
+				if("Pixie Wisdom \[Weekly]")
+					if(.)
+						s.AddText("Finally, what took you so long? Jeeze. Now I can finally take over that miserable place you call a school and--")
+						i_Player << "<i>You blink.</i>"
+						s.AddText("I mean... Plan the best party ever for, uhm... Ben! Yes, Ben...")
+						i_Player << "<i>Sassy Pixie laughs evilly.</i>"
+						s.AddText("Thanks, mortal!")
+					else
+						s.AddText("Well? What are you still standing there for? Get me what I need!")
 
 		questCompleted(mob/Player/i_Player, questName)
-			i_Player << npcsay("[name]: Get away from me, you creep.")
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("Get away from me, you creep.")
 
 
 	Vengeful_Wisp

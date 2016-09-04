@@ -2039,7 +2039,15 @@ obj/items/wearable/title
 	Myrmidon
 		title = "Myrmidon"
 		name  = "Title: Myrmidon"
-
+	Myrmidon
+		title = "Myrmidon"
+		name  = "Title: Myrmidon"
+	Best_Friend
+		title = "Best Friend"
+		name  = "Title: Best Friend"
+	Scavenger
+		title = "Scavenger"
+		name  = "Title: Scavenger"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
@@ -2276,8 +2284,10 @@ arena_round
 			C.disable()
 	proc
 		handleSpawnDelay(mob/Player/M)
+			set waitfor = 0
+			M.nomove = 1
 			sleep(plyrSpawnTime*10)
-			M.GMFrozen = 0
+			M.nomove = 0
 			M << "<i><u>You can now move again.</u></i>"
 		Add_Point(team,amount)
 			//Only used in Arena
@@ -2431,6 +2441,18 @@ obj/items/spellbook
 		r = 0
 		g = 0
 		b = 0
+
+	projectile
+		g = 0.5
+		b = 0.5
+		New()
+
+			spell = pick(/mob/Spells/verb/Glacius, /mob/Spells/verb/Tremorio, /mob/Spells/verb/Waddiwasi)
+			name  = spellList[spell]
+
+			name = pick("All about [name]", "Book of [name]", "Mystery of [name]", "[name]: 101")
+
+			..()
 
 	New()
 		..()
@@ -3892,11 +3914,18 @@ obj/items/treats
 
 		Feed(mob/Player/p)
 			. = 1
-			p.pet.item.function |= PET_LIGHT
 
-			p.pet.light = new (loc)
-			animate(p.pet.light, transform = matrix() * 1.8, time = 10, loop = -1)
-			animate(             transform = matrix() * 1.7, time = 10)
+			if(p.pet.item.function & PET_LIGHT)
+				p.pet.item.function &= ~PET_LIGHT
+
+				p.pet.light.Dispose()
+				p.pet.light = null
+			else
+				p.pet.item.function |= PET_LIGHT
+
+				p.pet.light = new (loc)
+				animate(p.pet.light, transform = matrix() * 1.8, time = 10, loop = -1)
+				animate(             transform = matrix() * 1.7, time = 10)
 
 
 	pink

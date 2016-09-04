@@ -281,14 +281,15 @@ obj
 		color            = list(null,null,null,"#0000","#000f")
 		mouse_opacity    = 0
 
-		screen_loc = "1,1"
+		screen_loc = "CENTER"
 
 	darkness
 		plane            = 1
-		blend_mode       = BLEND_ADD
+		blend_mode       = BLEND_OVERLAY
+		layer            = BACKGROUND_LAYER
 		icon             = 'darkness.dmi'
 
-		screen_loc = "CENTER,CENTER"
+		screen_loc = "CENTER"
 
 	mapplane
 		plane            = 0
@@ -309,16 +310,15 @@ interface
 
 	New()
 		..()
-
-		lightplane = new
 		darkness   = new
+		lightplane = new
 		mapplane   = new
 
 		if(parent.client.byond_version < 510)
 			parent << errormsg("You are using an older BYOND version which doesn't support certain features in this game, those features will be inaccessible to you.")
 			for(var/mob/Player/p in Players)
 				if(p.Gm)
-					p << errormsg("[parent] is using an older BYOND version. Try to convinice them gently to upgrade.")
+					p << errormsg("[parent] is using an older BYOND version. Try to convince them gently to upgrade.")
 		else
 			parent.client.screen += lightplane
 			parent.client.screen += darkness
