@@ -740,13 +740,15 @@ obj/items/potions
 			icon_state = "green"
 
 			Effect(mob/Player/p)
-
 				var/obj/items/wearable/pets/item = p.pet.item
 
-				item.addExp(p, 10000 + (quality - 4) * 1600)
-
-				. = 1
-
+				if(p.pet.item.quality < MAX_PET_LEVEL)
+					. = 1
+					var/e = 10000 + (quality - 4) * 1600
+					p << infomsg("Your pet gained [e] experience.")
+					item.addExp(p, e)
+				else
+					p << errormsg("Your pet reached max level")
 
 		proc/Effect(mob/Player/p)
 
