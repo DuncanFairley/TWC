@@ -1941,11 +1941,13 @@ mob
 						level       = 1000
 						MoveDelay   = 2
 						AttackDelay = 2
+						ChangeState(state)
 					..()
 					extraDmg    = 0
 					level       = initial(level)
 					MoveDelay   = initial(MoveDelay)
 					AttackDelay = initial(AttackDelay)
+					ChangeState(state)
 
 				Death(mob/Player/killer)
 					..()
