@@ -225,18 +225,17 @@ obj/potions
 				projs["blood"]    = 6
 
 				var/potion
-				var/quality = 1
+				var/quality = countBits(flags) - 1
 				var/potionId
 
 				if(p.icon_state in projs)
-					quality = countBits(flags) - 1
 					var/f = abs(projs[p.icon_state] - quality)
 
 					if(f == 0)     quality++
 					else if(f > 2) quality--
 
-					quality = max(1, quality)
-					quality = min(7, quality)
+				quality = max(1, quality)
+				quality = min(7, quality)
 
 				if(c >= 4)
 
@@ -300,7 +299,7 @@ obj/potions
 					     life   = new /Random(15,25),
 					     color  = "#000")
 
-					if(potion == 0)
+					if(potion == 0 && prob(70))
 						emit(loc    = loc,
 							 ptype  = /obj/particle/smoke,
 							 amount = 60,
@@ -942,9 +941,9 @@ tr.black
 	border: solid 1px #E5E5E5;
 }
 </style></head><body><table align="center" class="colored"><tr><td colspan="4"><center>"}
-
+			var/const/BOOM = "Bad Mix"
 			var/sortText = sort ? "<a href='?src=\ref[src];action=All'>All</a>" : "All"
-			var/list/types = list("Health", "Mana", "Explosion", "Taming", "Pets", "Luck", "Defense", "Damage")
+			var/list/types = list("Health", "Mana", BOOM, "Taming", "Pets", "Luck", "Defense", "Damage")
 			for(var/t in types)
 				sortText += t == sort ? " | [t]" : " | <a href='?src=\ref[src];action=[t]'>[t]</a>"
 
@@ -964,10 +963,10 @@ tr.black
 				var/potion = worldData.potions[ing]
 
 				if(potion == 0)
-					if(sort != "Explosion") continue
-					potion = "Explosion"
+					if(sort != BOOM) continue
+					potion = BOOM
 				else
-					if(sort == "Explosion") continue
+					if(sort == BOOM) continue
 					if(sort && !findtext("[potion]", sort)) continue
 
 					var/list/t = splittext("[potion]", "/")
