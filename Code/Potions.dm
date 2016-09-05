@@ -775,10 +775,10 @@ obj/items/potions
 				if(p.pet.item.quality < MAX_PET_LEVEL)
 					. = 1
 					var/e = 10000 + (quality - 4) * 1600
-					p << infomsg("Your pet gained [e] experience.")
+					p << infomsg("Your [item.name] gained [e] experience.")
 					item.addExp(p, e)
 				else
-					p << errormsg("Your pet reached max level")
+					p << errormsg("Your [item.name] already reached max level")
 
 		proc/Effect(mob/Player/p)
 
