@@ -204,6 +204,7 @@ obj/pet
 
 			turf/target
 			finalDir
+			fetching = 0
 
 	New(loc, obj/items/wearable/pets/pet)
 		set waitfor = 0
@@ -258,14 +259,14 @@ obj/pet
 		target = turfDest
 
 		var/d  = get_dist(src, target)
-		while(loc && loc != target && target.z == loc.z && d < 5)
+		while(loc && loc != target && target.z == loc.z && d < 16)
 			dir = get_dir(loc, target)
 			loc = get_step(loc, dir)
 
 			sleep(dir != finalDir ? 2 : 1)
 			d = get_dist(src, target)
 
-		if(target.z != loc.z || d > 4)
+		if(target.z != loc.z || d > 15)
 			loc = target
 		dir = finalDir
 
@@ -275,6 +276,7 @@ obj/pet
 	proc/follow(turf/oldLoc, mob/Player/p)
 		if(p.z != z) // temp workaround for animate bug
 			refresh(1)
+		if(fetching) return
 		if(item.function & PET_FOLLOW_FAR)
 			var/d = get_dist(src, p)
 
@@ -335,7 +337,8 @@ obj/pet
 					                            /obj/items/wearable/title/Scavenger   = 15,
 					                            /obj/items/treats/berry               = 20,
 					                            /obj/items/treats/sweet_berry         = 20,
-					                            /obj/items/treats/grape_berry         = 10))
+					                            /obj/items/treats/grape_berry         = 10,
+					                            /obj/items/treats/stick               = 20,))
 
 					var/obj/items/i = new prize (loc)
 

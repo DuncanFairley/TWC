@@ -3871,6 +3871,7 @@ obj/items/treats
 	icon = 'candy.dmi'
 
 	var/levelReq = 1
+	var/message  = 1
 
 	red
 		name       = "fire candy"
@@ -3905,7 +3906,7 @@ obj/items/treats
 				. = 1
 				p.pet.item.addExp(p, MAX_PET_EXP(p.pet.item) - p.pet.item.exp)
 			else
-				p << errormsg("Your pet reached max level")
+				p << errormsg("Your [p.pet.name] already reached max level")
 
 	yellow
 		name       = "sun candy"
@@ -3957,18 +3958,20 @@ obj/items/treats
 
 	berry
 		icon_state = "berry"
+		levelReq   = 0
 
 		Feed(mob/Player/p)
 			if(p.pet.item.quality < MAX_PET_LEVEL)
 				. = 1
 				var/e = rand(1800, 2200)
-				p << infomsg("Your pet gained [e] experience.")
+				p << infomsg("Your [p.pet.name] gained [e] experience.")
 				p.pet.item.addExp(p, e)
 			else
-				p << errormsg("Your pet reached max level")
+				p << errormsg("Your [p.pet.name] already reached max level")
 
 	sweet_berry
 		icon_state = "sweet"
+		levelReq   = 0
 
 		Feed(mob/Player/p)
 			. = 1
@@ -3976,23 +3979,76 @@ obj/items/treats
 			var/c = rand(20, 40)
 			p.pet.stepCount += 10 * c
 
-			p << infomsg("Your pet enjoys the berry.")
+			p << infomsg("Your [p.pet.name] enjoys the berry.")
 
 	grape_berry
 		icon_state = "grape"
+		levelReq   = 0
 
 		Feed(mob/Player/p)
 			. = 1
 
 			var/c = rand(30, 60)
 			p.pet.stepCount += 10 * c
-			p << infomsg("Your pet enjoys the berry.")
+			p << infomsg("Your [p.pet.name] enjoys the berry.")
 
 
 			if(p.pet.item.quality < MAX_PET_LEVEL)
 				var/e = rand(2000, 2400)
-				p << infomsg("Your pet gained [e] experience.")
+				p << infomsg("Your [p.pet.name] gained [e] experience.")
 				p.pet.item.addExp(p, e)
+
+	stick
+		icon_state = "stick"
+		levelReq   = 0
+		message    = 0
+
+		Feed(mob/Player/p)
+
+			if(p.pet.fetching)
+				p << errormsg("Your [p.pet.name] is already fetching.")
+				return
+
+			var/turf/t = get_step(p, p.dir)
+			for(var/dist = 1 to 8)
+				t = get_step(t, p.dir)
+				if(!t)
+					p << errormsg("You don't have enough space to throw the stick here.")
+					return
+
+			p.pet.fetching = 1
+
+			p << infomsg("You threw \a [name] for your [p.pet.name] to fetch.")
+
+			var/obj/o = new (p.loc)
+			o.icon = 'candy.dmi'
+			o.icon_state = "stick"
+			while(o.loc && o.loc != t)
+				o.loc = get_step_towards(o, t)
+				sleep(2)
+
+			p.pet.walkTo(t, p.dir)
+			sleep(15)
+			o.loc = null
+			t = get_step(p, p.dir)
+			if(!t) t = p.loc
+			p.pet.walkTo(t, get_dir(p.pet, p))
+			sleep(10)
+
+			if(prob(8))
+				. = 1
+				p << errormsg("Your [p.pet.name] couldn't find your [name]")
+
+			var/c = rand(5, 15)
+			p.pet.stepCount += 10 * c
+			p << infomsg("Your [p.pet.name] enjoys playing with you.")
+
+			if(p.pet.item.quality < MAX_PET_LEVEL)
+				var/e = rand(100, 500)
+				p << infomsg("Your [p.pet.name] gained [e] experience.")
+				p.pet.item.addExp(p, e)
+
+			p.pet.fetching = 0
 
 	proc/Feed(mob/Player/p)
 
@@ -4002,7 +4058,7 @@ obj/items/treats
 			var/mob/Player/p = usr
 
 			if(!p.pet)
-				p << errormsg("Equip a pet first in order to feed it a treat.")
+				p << errormsg("Equip a pet first in order to feed or play with it.")
 				return
 
 			if(p.pet.item.quality < levelReq)
@@ -4010,7 +4066,7 @@ obj/items/treats
 				return
 
 			if(Feed(p))
-				p << "You fed your [p.pet.name] a [name]."
+				if(message) p << "You fed your [p.pet.name] a [name]."
 				Consume()
 
 		else
