@@ -257,13 +257,15 @@ obj/pet
 
 		target = turfDest
 
-		while(loc && loc != target && target.z == loc.z)
+		var/d  = get_dist(src, target)
+		while(loc && loc != target && target.z == loc.z && d < 5)
 			dir = get_dir(loc, target)
 			loc = get_step(loc, dir)
 
 			sleep(dir != finalDir ? 2 : 1)
+			d = get_dist(src, target)
 
-		if(target.z != loc.z)
+		if(target.z != loc.z || d > 4)
 			loc = target
 		dir = finalDir
 
