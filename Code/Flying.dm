@@ -1332,6 +1332,11 @@ obj
 	static_obj
 		appearance_flags = RESET_COLOR|RESET_ALPHA
 		New()
+			if(density)
+				loc.density = 1
+			if(opacity)
+				loc.opacity = 1
+
 			loc.overlays += src
 			loc = null
 
