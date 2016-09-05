@@ -202,6 +202,9 @@ obj/pet
 			stepCount   = 0
 			isDisposing = 0
 
+			turf/target
+			finalDir
+
 	New(loc, obj/items/wearable/pets/pet)
 		set waitfor = 0
 		..()
@@ -243,6 +246,30 @@ obj/pet
 			animate(src, color = c2.matrix, time = 15, loop = -1)
 			animate(     color = c1.matrix, time = 15)
 
+	proc/walkTo(var/turf/turfDest, var/dirDest)
+		set waitfor = 0
+
+		finalDir = dirDest
+
+		if(target)
+			target = turfDest
+			return
+
+		target = turfDest
+
+		while(loc && loc != target && target.z == loc.z)
+			dir = get_dir(loc, target)
+			loc = get_step(loc, dir)
+
+			sleep(dir != finalDir ? 2 : 1)
+
+		if(target.z != loc.z)
+			loc = target
+		dir = finalDir
+
+		target   = null
+		finalDir = null
+
 	proc/follow(turf/oldLoc, mob/Player/p)
 		if(p.z != z) // temp workaround for animate bug
 			refresh(1)
@@ -254,21 +281,18 @@ obj/pet
 
 			else if(d > 3)
 				dir = get_dir(src, p)
-				loc = get_step_towards(src, p)
+				loc = get_step(src, dir)
 
 			if(light)
 				light.loc = loc
 
 		else
 			if(item.function & PET_FOLLOW_RIGHT)
-				dir = p.dir
-				loc = get_step(p, turn(p.dir, 90))
+				walkTo(get_step(p, turn(p.dir, 90)), p.dir)
 			else if(item.function & PET_FOLLOW_LEFT)
-				dir = p.dir
-				loc = get_step(p, turn(p.dir, -90))
+				walkTo(get_step(p, turn(p.dir, -90)), p.dir)
 			else
-				dir = get_dir(loc, oldLoc)
-				loc = oldLoc
+				walkTo(oldLoc, get_dir(loc, oldLoc))
 
 			var/const/stepSize = 16
 
