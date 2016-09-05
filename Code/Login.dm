@@ -1836,8 +1836,8 @@ mob/proc/Death_Check(mob/killer = src)
 
 				killer:ekills+=1
 				displayKills(killer, 1, 2)
-				var/gold2give = (rand(7,14)/10)*gold
-				var/exp2give  = (rand(9,14)/10)*Expg
+				var/gold2give = (rand(6,14)/10)*gold
+				var/exp2give  = (rand(6,14)/10)*Expg
 
 				if(killer.level > src.level && !killer.findStatusEffect(/StatusEffect/Lamps/Farming))
 					gold2give -= gold2give * ((killer.level-src.level)/150)
