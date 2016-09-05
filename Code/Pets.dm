@@ -190,6 +190,7 @@ obj/pet
 	layer = 4
 
 	appearance_flags = LONG_GLIDE|TILE_BOUND
+	canSave = 0
 
 	var
 		iconSize = 4
