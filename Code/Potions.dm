@@ -206,7 +206,12 @@ obj/potions
 		Attacked(obj/projectile/p)
 			if(!isBusy && p.owner && isplayer(p.owner))
 
-				var/c = countBits(pool)
+				var/c = 0
+
+				if(isnum(pool)) c = countBits(pool)
+				else
+					for(var/poolId in pool)
+						c += countBits(pool[poolId])
 
 				if(c  < 1) return
 
@@ -214,13 +219,14 @@ obj/potions
 
 				projs["aqua"]     = 1
 				projs["quake"]    = 2
-				projs["chaotica"] = 3
+				projs["iceball"]  = 3
 				projs["gum"]      = 4
-				projs["iceball"]  = 5
+				projs["chaotica"] = 5
 				projs["blood"]    = 6
 
 				var/potion
 				var/quality = 1
+				var/potionId
 
 				if(p.icon_state in projs)
 					quality = countBits(flags) - 1
@@ -236,7 +242,15 @@ obj/potions
 
 					if(!worldData.potions) worldData.potions = list()
 
-					potion = worldData.potions["[pool]"]
+					if(isnum(pool))
+						potionId = "[pool]"
+					else
+						potionId = ""
+						for(var/poolId in pool)
+							potionId += "[poolId];"
+						potionId = copytext(potionId, 1, lentext(potionId) - 1)
+
+					potion = worldData.potions[potionId]
 					if(potion==null)
 						var/chance = max(5, 50 + POTIONS_AMOUNT - worldData.potionsAmount)
 
@@ -247,14 +261,14 @@ obj/potions
 								if(prob(75))
 									potion = null
 							else
-								worldData.potions["[pool]"] = potion
+								worldData.potions[potionId] = potion
 								worldData.potionsAmount++
 
 						else
 							chance = worldData.potionsAmount / (worldData.potions.len + 1)
 							if(prob(chance * 70))
 								potion = 0
-								worldData.potions["[pool]"] = potion
+								worldData.potions[potionId] = potion
 
 
 				if(potion)
@@ -301,7 +315,7 @@ obj/potions
 								p.owner.HP = 0
 								p.owner.Death_Check(p.owner)
 
-				var/i = worldData.potions.Find("[pool]")
+				var/i = worldData.potions.Find(potionId)
 				if(i)
 					if(!p.owner:knownPotions) p.owner:knownPotions = list()
 					if(!(i in p.owner:knownPotions))
@@ -323,12 +337,29 @@ obj/potions
 		Process(mob/Player/p, obj/items/ingredients/i)
 			if(isBusy) return
 
-			pool |= 2 ** ((i.id - 1) * 3 + i.form)
+			var/id     = (i.id - 1) * 3 + i.form
+			var/poolId = 0
 
-			var/f = 2 ** (i.id - 1)
+			while(id > 15)
+				poolId++
+				id -= 16
+
+			if(poolId > 0)
+				if(isnum(pool))
+					var/t = pool
+					pool = list()
+					pool["0"] = t
+
+			if(isnum(pool))
+				pool |= 2 ** id
+			else
+				if("[poolId]" in pool) pool["[poolId]"] = 0
+				pool["[poolId]"] |= 2 ** id
+
+			var/f = 2 ** (i.id + 2)
 			if(!(flags & f))
 				flags |= f
-				flags |= 2 ** (i.form + 4)
+				flags |= 2 ** (i.form)
 
 			if(worldData.potions && ("[pool]" in worldData.potions))
 				var/potion = worldData.potions["[pool]"]
