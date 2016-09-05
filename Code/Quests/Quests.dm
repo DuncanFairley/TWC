@@ -286,6 +286,9 @@ mob
 				usr << "A widdle baby."
 
 mob/TalkNPC
+	New()
+		..()
+		tag = "Lord"
 	Lord
 		icon_state="lord"
 		density=1
