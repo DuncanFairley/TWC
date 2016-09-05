@@ -1932,7 +1932,7 @@ mob
 					SetSize(rand(10,20) / 10)
 
 				Attack()
-					var/p = 0
+					var/p = 15
 					for(var/mob/NPC/Enemies/m in orange(1, src))
 						p += 20
 
