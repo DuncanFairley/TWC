@@ -4009,12 +4009,16 @@ obj/items/treats
 				p << errormsg("Your [p.pet.name] is already fetching.")
 				return
 
-			var/turf/t = get_step(p, p.dir)
+			var/turf/target = get_step(p, p.dir)
 			for(var/dist = 1 to 8)
-				t = get_step(t, p.dir)
-				if(!t)
+				var/turf/t = get_step(target, p.dir)
+				if(!t || (dist < 6 && t.density))
 					p << errormsg("You don't have enough space to throw the stick here.")
 					return
+
+				if(t.density) break
+
+				target = t
 
 			p.pet.fetching = 1
 
@@ -4023,16 +4027,16 @@ obj/items/treats
 			var/obj/o = new (p.loc)
 			o.icon = 'candy.dmi'
 			o.icon_state = "stick"
-			while(o.loc && o.loc != t)
-				o.loc = get_step_towards(o, t)
+			while(o.loc && o.loc != target)
+				o.loc = get_step_towards(o, target)
 				sleep(2)
 
-			p.pet.walkTo(t, p.dir)
+			p.pet.walkTo(target, p.dir)
 			sleep(15)
 			o.loc = null
-			t = get_step(p, p.dir)
-			if(!t) t = p.loc
-			p.pet.walkTo(t, get_dir(p.pet, p))
+			target = get_step(p, p.dir)
+			if(!target) target = p.loc
+			p.pet.walkTo(target, get_dir(p.pet, p))
 			sleep(10)
 
 			if(prob(8))
