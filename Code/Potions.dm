@@ -716,13 +716,9 @@ obj/items/potions
 
 			Effect(mob/Player/p)
 
-				var/obj/items/wearable/pets/item = p.pet.item
+				new /obj/click2confirm/petColor (p.pet.loc, p)
 
-				item.color = rgb(rand(40, 200), rand(40, 200), rand(40, 200))
-				var/ColorMatrix/c = new(item.color, 0.75)
-				animate(p.pet, color = c.matrix, time = 10)
-
-				p.pet.refresh(10)
+				p << infomsg("Click the preview to confirm color change.")
 
 				. = 1
 
@@ -796,6 +792,65 @@ obj/items/potions
 					Consume()
 			else
 				..()
+
+obj/click2confirm
+	canSave             = FALSE
+	mouse_over_pointer  = MOUSE_HAND_POINTER
+
+	var/tmp/isDisposing = 0
+
+	proc
+		onConfirm(mob/Player/p)
+
+	New(Loc, mob/Player/p)
+		..()
+
+		owner = p.ckey
+
+	petColor
+		var/itemColor
+
+		onConfirm(mob/Player/p)
+			p.pet.item.color = itemColor
+			animate(p.pet, color = color, time = 10)
+
+			p.pet.refresh(10)
+
+			Dispose()
+
+		New(Loc, mob/Player/p)
+			set waitfor = 0
+
+			appearance = p.pet
+			mouse_over_pointer = MOUSE_HAND_POINTER
+
+			itemColor = rgb(rand(40, 200), rand(40, 200), rand(40, 200))
+			var/ColorMatrix/c = new(itemColor, 0.75)
+
+			var/offset = p.pet.item.currentSize * 32
+			var/px     = pixel_x + rand(-offset, offset)
+			var/py     = pixel_y + rand(-offset, offset)
+
+			animate(src, pixel_x = px, pixel_y = py, color = c.matrix, time = 15)
+
+			..()
+
+			sleep(100)
+
+			if(!isDisposing) Dispose()
+
+		Dispose()
+			isDisposing = 1
+
+			animate(src, alpha = 0, time = 8)
+			sleep(6)
+			loc = null
+	Click()
+		..()
+
+		if(!isDisposing && owner == usr.ckey) onConfirm(usr)
+
+
 
 proc/childTypes(typesOf)
 	. = list()
