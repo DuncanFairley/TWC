@@ -270,6 +270,18 @@ proc/updateVault(swapmap/map, owner, version)
 				if(istype(i, /obj/items/ingredients/daisy) || istype(i, /obj/items/ingredients/aconite) || istype(i, /obj/items/food))
 					i.Dispose()
 
+	if(version < 3)
+		for(var/turf/t in map.AllTurfs())
+
+			for(var/obj/items/wearable/w in t)
+				if(w.quality == 0) continue
+
+				if(istype(w, /obj/items/wearable/wands))
+					w.quality = min(round(w.quality * 10, 1), MAX_WAND_LEVEL)
+
+				else if(istype(w, /obj/items/wearable/pets))
+					w.quality = min(round(w.quality * 10, 1), MAX_PET_LEVEL)
+
 mob/GM/verb/UnloadMap()
 	set category = "Custom Maps"
 	if(!length(loadedMaps))
@@ -1392,12 +1404,12 @@ mob/Player
 			if(wand && (wand.exp + wand.quality > 0))
 				var/maxExp = MAX_WAND_EXP(wand)
 				var/percent = round((wand.exp / maxExp) * 100)
-				stat("Wand:", "Level: [wand.quality * 10]   Exp: [comma(wand.exp)]/[comma(maxExp)] ([percent]%)")
+				stat("Wand:", "Level: [wand.quality]   Exp: [comma(wand.exp)]/[comma(maxExp)] ([percent]%)")
 			if(pet)
 				if(pet.item.exp + pet.item.quality > 0)
 					var/maxExp = MAX_PET_EXP(pet.item)
 					var/percent = round((pet.item.exp / maxExp) * 100)
-					stat("[pet.name]:", "Level: [pet.item.quality * 10]   Exp: [comma(pet.item.exp)]/[comma(maxExp)] ([percent]%)")
+					stat("[pet.name]:", "Level: [pet.item.quality]   Exp: [comma(pet.item.exp)]/[comma(maxExp)] ([percent]%)")
 
 					percent = min(round(pet.stepCount / 10, 1), 100)
 					stat("",            "Happiness: [percent]%")
@@ -1824,8 +1836,8 @@ mob/proc/Death_Check(mob/killer = src)
 
 				killer:ekills+=1
 				displayKills(killer, 1, 2)
-				var/gold2give = (rand(7,14)/10)*gold
-				var/exp2give  = (rand(9,14)/10)*Expg
+				var/gold2give = (rand(6,14)/10)*gold
+				var/exp2give  = (rand(6,14)/10)*Expg
 
 				if(killer.level > src.level && !killer.findStatusEffect(/StatusEffect/Lamps/Farming))
 					gold2give -= gold2give * ((killer.level-src.level)/150)

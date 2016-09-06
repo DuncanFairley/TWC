@@ -91,6 +91,7 @@ obj/items/wearable/pets
 	max_stack   = 1
 	destroyable = 1
 	bonus       = NOENCHANT
+	scale       = 0.1
 
 	var
 		currentSize = 0.75
@@ -133,7 +134,7 @@ obj/items/wearable/pets
 			if(!overridetext) hearers(owner) << infomsg("[owner] puts \his [src.name] away.")
 
 	proc/addExp(mob/Player/owner, amount)
-		if(quality >= MAX_PET_LEVEL)
+		if(quality > MAX_PET_LEVEL)
 			exp = 0
 			return
 
@@ -147,14 +148,14 @@ obj/items/wearable/pets
 				exp = 0
 				break
 
-			i += 0.1
+			i += 1
 
 		if(i)
 			Equip(owner, 1)
 			quality += i
 			Equip(owner, 1)
 
-			owner << infomsg("Your [name] leveled up to [quality * 10]!")
+			owner << infomsg("Your [name] leveled up to [quality]!")
 
 	rat
 		icon_state = "rat"
@@ -189,6 +190,7 @@ obj/pet
 	layer = 4
 
 	appearance_flags = LONG_GLIDE|TILE_BOUND
+	canSave = 0
 
 	var
 		iconSize = 4
@@ -199,6 +201,10 @@ obj/pet
 
 			stepCount   = 0
 			isDisposing = 0
+
+			turf/target
+			finalDir
+			fetching = 0
 
 	New(loc, obj/items/wearable/pets/pet)
 		set waitfor = 0
@@ -220,7 +226,7 @@ obj/pet
 					 amount = 3,
 					 angle  = new /Random(0, 360),
 					 speed  = 5,
-					 life   = new /Random(4,8))
+					 life   = new /Random(5,10))
 
 		SetSize(pet.currentSize)
 
@@ -241,9 +247,36 @@ obj/pet
 			animate(src, color = c2.matrix, time = 15, loop = -1)
 			animate(     color = c1.matrix, time = 15)
 
+	proc/walkTo(var/turf/turfDest, var/dirDest)
+		set waitfor = 0
+
+		finalDir = dirDest
+
+		if(target)
+			target = turfDest
+			return
+
+		target = turfDest
+
+		var/d  = get_dist(src, target)
+		while(loc && target && loc != target && target.z == z && d < 16)
+			dir = get_dir(loc, target)
+			loc = get_step(loc, dir)
+
+			sleep(dir != finalDir ? 2 : 1)
+			d = get_dist(src, target)
+
+		if(target && target.z != z || d > 15)
+			loc = target
+		dir = finalDir
+
+		target   = null
+		finalDir = null
+
 	proc/follow(turf/oldLoc, mob/Player/p)
 		if(p.z != z) // temp workaround for animate bug
 			refresh(1)
+		if(fetching) return
 		if(item.function & PET_FOLLOW_FAR)
 			var/d = get_dist(src, p)
 
@@ -252,21 +285,22 @@ obj/pet
 
 			else if(d > 3)
 				dir = get_dir(src, p)
-				loc = get_step_towards(src, p)
+				loc = get_step(src, dir)
 
 			if(light)
 				light.loc = loc
 
 		else
+			var/turf/newLoc
 			if(item.function & PET_FOLLOW_RIGHT)
-				dir = p.dir
-				loc = get_step(p, turn(p.dir, 90))
+				newLoc = get_step(p, turn(p.dir, 90))
 			else if(item.function & PET_FOLLOW_LEFT)
-				dir = p.dir
-				loc = get_step(p, turn(p.dir, -90))
+				newLoc = get_step(p, turn(p.dir, -90))
+
+			if(newLoc && !newLoc.density)
+				walkTo(newLoc, p.dir)
 			else
-				dir = get_dir(loc, oldLoc)
-				loc = oldLoc
+				walkTo(oldLoc, get_dir(loc, oldLoc))
 
 			var/const/stepSize = 16
 
@@ -293,16 +327,28 @@ obj/pet
 				light.pixel_x = pixel_x - offset - 64
 				light.pixel_y = pixel_y - offset - 64
 
-		if(p.client.moving && (istype(loc.loc, /area/outside) || istype(loc.loc, /area/newareas/outside)))
+		if(p.client.moving && loc && (istype(loc.loc, /area/outside) || istype(loc.loc, /area/newareas/outside)))
 			if(++stepCount > 1000 && prob(1))
 				stepCount = 0
 
-				var/prize = PET_LOST_AND_FOUND
-				var/obj/items/i = new prize (loc)
+				if(prob(10))
+					var/g = rand(2, 500)
+					p << infomsg("Your [name] has found [g] gold while walking.")
+					p.gold.add(g)
+				else
+					var/prize = pickweight(list(/obj/items/bucket                     = 20,
+					                            /obj/items/wearable/title/Best_Friend = 15,
+					                            /obj/items/wearable/title/Scavenger   = 15,
+					                            /obj/items/treats/berry               = 20,
+					                            /obj/items/treats/sweet_berry         = 20,
+					                            /obj/items/treats/grape_berry         = 10,
+					                            /obj/items/treats/stick               = 20,))
 
-				i.prizeDrop(p.ckey)
+					var/obj/items/i = new prize (loc)
 
-				p << infomsg("Your [p.name] has found \a [i.name] while walking.")
+					i.prizeDrop(p.ckey)
+
+					p << infomsg("Your [name] has found \a [i.name] while walking.")
 
 	Click()
 		..()

@@ -290,6 +290,10 @@ mob/TalkNPC
 		icon_state="lord"
 		density=1
 
+		New()
+			..()
+			tag = "Lord"
+
 		verb
 			Examine()
 				set src in oview(3)

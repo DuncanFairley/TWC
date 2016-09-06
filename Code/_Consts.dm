@@ -15,8 +15,8 @@
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
 
 #define VERSION "16.64"
-#define SAVEFILE_VERSION 24
-#define VAULT_VERSION 2
+#define SAVEFILE_VERSION 25
+#define VAULT_VERSION 3
 #define lvlcap 800
 #define SWAPMAP_Z 23
 #define WINTER 0
@@ -28,12 +28,11 @@
 #define PET_FOLLOW_LEFT 8
 #define PET_SHINY 128
 #define SHINY_LIST list("#dd1111", "#11dd11", "#1111dd", "#dd11dd", "#11dddd", "#dddd11")
-#define MAX_PET_LEVEL 3
-#define MAX_PET_EXP(pet) ((pet.quality * 10 + 1) * 20000)
-#define PET_LOST_AND_FOUND pick(/obj/items/bucket, /obj/items/wearable/title/Best_Friend, /obj/items/wearable/title/Scavenger)
+#define MAX_PET_LEVEL 30
+#define MAX_PET_EXP(pet) ((pet.quality + 1) * 20000)
 
-#define MAX_WAND_LEVEL 3
-#define MAX_WAND_EXP(wand) ((wand.quality * 10 + 1) * 20000)
+#define MAX_WAND_LEVEL 30
+#define MAX_WAND_EXP(wand) ((wand.quality + 1) * 20000)
 
 #define POTIONS_AMOUNT 37
 

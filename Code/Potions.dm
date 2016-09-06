@@ -206,7 +206,12 @@ obj/potions
 		Attacked(obj/projectile/p)
 			if(!isBusy && p.owner && isplayer(p.owner))
 
-				var/c = countBits(pool)
+				var/c = 0
+
+				if(isnum(pool)) c = countBits(pool)
+				else
+					for(var/poolId in pool)
+						c += countBits(pool[poolId])
 
 				if(c  < 1) return
 
@@ -214,29 +219,37 @@ obj/potions
 
 				projs["aqua"]     = 1
 				projs["quake"]    = 2
-				projs["chaotica"] = 3
+				projs["iceball"]  = 3
 				projs["gum"]      = 4
-				projs["iceball"]  = 5
+				projs["chaotica"] = 5
 				projs["blood"]    = 6
 
 				var/potion
-				var/quality = 1
+				var/quality = countBits(flags) - 1
+				var/potionId
 
 				if(p.icon_state in projs)
-					quality = countBits(flags) - 1
 					var/f = abs(projs[p.icon_state] - quality)
 
 					if(f == 0)     quality++
 					else if(f > 2) quality--
 
-					quality = max(1, quality)
-					quality = min(7, quality)
+				quality = max(1, quality)
+				quality = min(7, quality)
 
 				if(c >= 4)
 
 					if(!worldData.potions) worldData.potions = list()
 
-					potion = worldData.potions["[pool]"]
+					if(isnum(pool))
+						potionId = "[pool]"
+					else
+						potionId = ""
+						for(var/poolId in pool)
+							potionId += "[poolId];"
+						potionId = copytext(potionId, 1, lentext(potionId) - 1)
+
+					potion = worldData.potions[potionId]
 					if(potion==null)
 						var/chance = max(5, 50 + POTIONS_AMOUNT - worldData.potionsAmount)
 
@@ -247,14 +260,14 @@ obj/potions
 								if(prob(75))
 									potion = null
 							else
-								worldData.potions["[pool]"] = potion
+								worldData.potions[potionId] = potion
 								worldData.potionsAmount++
 
 						else
 							chance = worldData.potionsAmount / (worldData.potions.len + 1)
 							if(prob(chance * 70))
 								potion = 0
-								worldData.potions["[pool]"] = potion
+								worldData.potions[potionId] = potion
 
 
 				if(potion)
@@ -286,7 +299,7 @@ obj/potions
 					     life   = new /Random(15,25),
 					     color  = "#000")
 
-					if(potion == 0)
+					if(potion == 0 && prob(70))
 						emit(loc    = loc,
 							 ptype  = /obj/particle/smoke,
 							 amount = 60,
@@ -301,7 +314,7 @@ obj/potions
 								p.owner.HP = 0
 								p.owner.Death_Check(p.owner)
 
-				var/i = worldData.potions.Find("[pool]")
+				var/i = worldData.potions.Find(potionId)
 				if(i)
 					if(!p.owner:knownPotions) p.owner:knownPotions = list()
 					if(!(i in p.owner:knownPotions))
@@ -323,12 +336,29 @@ obj/potions
 		Process(mob/Player/p, obj/items/ingredients/i)
 			if(isBusy) return
 
-			pool |= 2 ** ((i.id - 1) * 3 + i.form)
+			var/id     = (i.id - 1) * 3 + i.form
+			var/poolId = 0
 
-			var/f = 2 ** (i.id - 1)
+			while(id > 15)
+				poolId++
+				id -= 16
+
+			if(poolId > 0)
+				if(isnum(pool))
+					var/t = pool
+					pool = list()
+					pool["0"] = t
+
+			if(isnum(pool))
+				pool |= 2 ** id
+			else
+				if("[poolId]" in pool) pool["[poolId]"] = 0
+				pool["[poolId]"] |= 2 ** id
+
+			var/f = 2 ** (i.id + 2)
 			if(!(flags & f))
 				flags |= f
-				flags |= 2 ** (i.form + 4)
+				flags |= 2 ** (i.form)
 
 			if(worldData.potions && ("[pool]" in worldData.potions))
 				var/potion = worldData.potions["[pool]"]
@@ -686,13 +716,9 @@ obj/items/potions
 
 			Effect(mob/Player/p)
 
-				var/obj/items/wearable/pets/item = p.pet.item
+				new /obj/click2confirm/petColor (p.pet.loc, p)
 
-				item.color = rgb(rand(40, 200), rand(40, 200), rand(40, 200))
-				var/ColorMatrix/c = new(item.color, 0.75)
-				animate(p.pet, color = c.matrix, time = 10)
-
-				p.pet.refresh(10)
+				p << infomsg("Click the preview to confirm color change.")
 
 				. = 1
 
@@ -740,13 +766,15 @@ obj/items/potions
 			icon_state = "green"
 
 			Effect(mob/Player/p)
-
 				var/obj/items/wearable/pets/item = p.pet.item
 
-				item.addExp(p, 10000 + (quality - 4) * 1600)
-
-				. = 1
-
+				if(p.pet.item.quality < MAX_PET_LEVEL)
+					. = 1
+					var/e = 10000 + (quality - 4) * 1600
+					p << infomsg("Your [item.name] gained [e] experience.")
+					item.addExp(p, e)
+				else
+					p << errormsg("Your [item.name] already reached max level")
 
 		proc/Effect(mob/Player/p)
 
@@ -764,6 +792,65 @@ obj/items/potions
 					Consume()
 			else
 				..()
+
+obj/click2confirm
+	canSave             = FALSE
+	mouse_over_pointer  = MOUSE_HAND_POINTER
+
+	var/tmp/isDisposing = 0
+
+	proc
+		onConfirm(mob/Player/p)
+
+	New(Loc, mob/Player/p)
+		..()
+
+		owner = p.ckey
+
+	petColor
+		var/itemColor
+
+		onConfirm(mob/Player/p)
+			p.pet.item.color = itemColor
+			animate(p.pet, color = color, time = 10)
+
+			p.pet.refresh(10)
+
+			Dispose()
+
+		New(Loc, mob/Player/p)
+			set waitfor = 0
+
+			appearance = p.pet
+			mouse_over_pointer = MOUSE_HAND_POINTER
+
+			itemColor = rgb(rand(40, 200), rand(40, 200), rand(40, 200))
+			var/ColorMatrix/c = new(itemColor, 0.75)
+
+			var/offset = p.pet.item.currentSize * 32
+			var/px     = pixel_x + rand(-offset, offset)
+			var/py     = pixel_y + rand(-offset, offset)
+
+			animate(src, pixel_x = px, pixel_y = py, color = c.matrix, time = 15)
+
+			..()
+
+			sleep(100)
+
+			if(!isDisposing) Dispose()
+
+		Dispose()
+			isDisposing = 1
+
+			animate(src, alpha = 0, time = 8)
+			sleep(6)
+			loc = null
+	Click()
+		..()
+
+		if(!isDisposing && owner == usr.ckey) onConfirm(usr)
+
+
 
 proc/childTypes(typesOf)
 	. = list()
@@ -909,9 +996,9 @@ tr.black
 	border: solid 1px #E5E5E5;
 }
 </style></head><body><table align="center" class="colored"><tr><td colspan="4"><center>"}
-
+			var/const/BOOM = "Bad Mix"
 			var/sortText = sort ? "<a href='?src=\ref[src];action=All'>All</a>" : "All"
-			var/list/types = list("Health", "Mana", "Explosion", "Taming", "Pets", "Luck", "Defense", "Damage")
+			var/list/types = list("Health", "Mana", BOOM, "Taming", "Pets", "Luck", "Defense", "Damage")
 			for(var/t in types)
 				sortText += t == sort ? " | [t]" : " | <a href='?src=\ref[src];action=[t]'>[t]</a>"
 
@@ -931,10 +1018,10 @@ tr.black
 				var/potion = worldData.potions[ing]
 
 				if(potion == 0)
-					if(sort != "Explosion") continue
-					potion = "Explosion"
+					if(sort != BOOM) continue
+					potion = BOOM
 				else
-					if(sort == "Explosion") continue
+					if(sort == BOOM) continue
 					if(sort && !findtext("[potion]", sort)) continue
 
 					var/list/t = splittext("[potion]", "/")

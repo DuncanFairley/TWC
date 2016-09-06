@@ -1970,9 +1970,17 @@ obj
 
 		Flippendo
 
-			shoot()
-				..()
-				velocity--
+			shoot(lag=2)
+				set waitfor = 0
+				velocity = MAX_VELOCITY - lag - 1
+
+				if(lag > 1)
+					var/obj/projectile/p = locate() in get_step(src, dir)
+					if(p && p.owner == owner && p.type != type)
+						step(src, dir)
+						sleep(lag)
+						if(!loc) return
+				walk(src, dir, lag)
 
 			Attacked(obj/projectile/p)
 

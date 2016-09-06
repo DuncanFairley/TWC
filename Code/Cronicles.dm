@@ -330,6 +330,16 @@ mob
 					last_z = t.z
 				p.GMFrozen = 0
 
+			if(savefile_version < 25)
+				for(var/obj/items/wearable/w in src)
+					if(w.quality == 0) continue
+
+					if(istype(w, /obj/items/wearable/wands))
+						w.quality = min(round(w.quality * 10, 1), MAX_WAND_LEVEL)
+
+					else if(istype(w, /obj/items/wearable/pets))
+						w.quality = min(round(w.quality * 10, 1), MAX_PET_LEVEL)
+
 			if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else

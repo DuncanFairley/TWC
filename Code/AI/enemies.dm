@@ -419,10 +419,14 @@ mob
 
 
 			proc/calcStats()
-				Dmg = round(DMGmodifier * ((src.level -1) + 5))
-				MHP = round(HPmodifier * (4 * (src.level - 1) + 200))
+				Dmg = DMGmodifier * (    (src.level)  + 5)
+				MHP = HPmodifier  * (4 * (src.level)  + 200)
+
+				Dmg *= round(rand(10,14)/10, 1)
+				MHP *= round(rand(10,14)/10, 1)
+
 				gold = round(src.level / 2)
-				Expg = round(src.level * 5)
+				Expg = round(src.level * 6)
 				HP = MHP
 //NEWMONSTERS
 
@@ -501,9 +505,16 @@ mob
 				var/obj/items/prize
 
 				var/list/possible_drops = istext(drops)	? drops_list[drops] : drops
+				var/isDefault = 0
 
 				if(!possible_drops && name == initial(name))
-					possible_drops = (name in drops_list) ? drops_list[name] : drops_list["default"]
+
+					if(name in drops_list)
+						possible_drops = drops_list[name]
+					else
+						possible_drops = drops_list["default"]
+						isDefault = 1
+
 
 				if(islist(possible_drops))
 					for(var/i in possible_drops)
@@ -523,7 +534,7 @@ mob
 					var/obj/items/wearable/title/Slayer/t = new (loc)
 					t.title = "[name] Slayer"
 					t.name  = "Title: [name] Slayer"
-					t.prizeDrop(killer.ckey, protection=150, decay=FALSE)
+					t.prizeDrop(killer.ckey, decay=FALSE)
 
 				if(prize)
 
@@ -551,7 +562,7 @@ mob
 									step(item, randomDir)
 					else
 						prize = new prize (loc)
-						prize.prizeDrop(killer.ckey, protection=150, decay=FALSE)
+						prize.prizeDrop(killer.ckey, decay=isDefault)
 				damage = null
 
 			proc/state()
@@ -578,6 +589,8 @@ mob
 
 			proc
 				ChangeState(var/i_State)
+					set waitfor = 0
+
 					state = i_State
 
 					if(state != 0)
@@ -1909,7 +1922,7 @@ mob
 				icon_state = "troll"
 				level = 750
 				HPmodifier  = 4
-				DMGmodifier = 0.55
+				DMGmodifier = 0.6
 				MoveDelay   = 4
 				AttackDelay = 3
 
@@ -1919,24 +1932,39 @@ mob
 					SetSize(rand(10,20) / 10)
 
 				Attack()
-					var/p = 20
-					for(var/mob/NPC/Enemies/m in oview(1, src))
-						if(src == m) continue
-						p += 15
+					var/p = 15
+					for(var/mob/NPC/Enemies/m in orange(1, src))
+						p += 20
 
-					var/tmpdmg = extraDmg
-					var/tmplvl = level
 					if(prob(p))
-						extraDmg = 1000
-						level    = 1000
+						extraDmg    = 1200
+						level       = 1000
+						MoveDelay   = 2
+						AttackDelay = 2
+						ChangeState(state)
 					..()
-					extraDmg = tmpdmg
-					level    = tmplvl
+					extraDmg    = 0
+					level       = initial(level)
+					MoveDelay   = initial(MoveDelay)
+					AttackDelay = initial(AttackDelay)
+					ChangeState(state)
 
 				Death(mob/Player/killer)
 					..()
 
 					SpawnPet(killer, 0.04, null, /obj/items/wearable/pets/troll)
+
+				ChangeState(var/i_State)
+					set waitfor = FALSE
+
+					..(i_State)
+
+					if(i_State == WANDER && origloc && HP > 0)
+						HP = MHP
+						while(state == WANDER && get_dist(loc, origloc) > 2)
+							var/i = step_to(src, origloc)
+							if(!i) break
+							sleep(1)
 
 			House_Elf
 				icon_state = "houseelf"
