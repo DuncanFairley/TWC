@@ -297,7 +297,7 @@ obj/pet
 			else if(item.function & PET_FOLLOW_LEFT)
 				newLoc = get_step(p, turn(p.dir, -90))
 
-			if(newLoc)
+			if(newLoc && !newLoc.density)
 				walkTo(newLoc, p.dir)
 			else
 				walkTo(oldLoc, get_dir(loc, oldLoc))
