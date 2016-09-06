@@ -259,14 +259,14 @@ obj/pet
 		target = turfDest
 
 		var/d  = get_dist(src, target)
-		while(loc && loc != target && target.z == loc.z && d < 16)
+		while(loc && target && loc != target && target.z == z && d < 16)
 			dir = get_dir(loc, target)
 			loc = get_step(loc, dir)
 
 			sleep(dir != finalDir ? 2 : 1)
 			d = get_dist(src, target)
 
-		if(target.z != loc.z || d > 15)
+		if(target && target.z != z || d > 15)
 			loc = target
 		dir = finalDir
 
@@ -291,10 +291,14 @@ obj/pet
 				light.loc = loc
 
 		else
+			var/turf/newLoc
 			if(item.function & PET_FOLLOW_RIGHT)
-				walkTo(get_step(p, turn(p.dir, 90)), p.dir)
+				newLoc = get_step(p, turn(p.dir, 90))
 			else if(item.function & PET_FOLLOW_LEFT)
-				walkTo(get_step(p, turn(p.dir, -90)), p.dir)
+				newLoc = get_step(p, turn(p.dir, -90))
+
+			if(newLoc)
+				walkTo(newLoc, p.dir)
 			else
 				walkTo(oldLoc, get_dir(loc, oldLoc))
 
