@@ -151,6 +151,25 @@ proc/reset_panATLogsChat(var/mob/Player/M)
 	broATLogsChat["anchor2"] = "100,100"
 	winset(M,"broATLogsChat",list2params(broATLogsChat))
 
+proc/reset_panATLogsAdmin(var/mob/Player/M)
+	if(winexists(M,"panATLogsAdmin"))
+		winset(M,"panATLogsAdmin","parent=none")
+	winclone(M,"pane","panATLogsAdmin")
+	var/list/panATLogsAdmin = list()
+	panATLogsAdmin["anchor1"] = "0,0"
+	panATLogsAdmin["anchor2"] = "100,100"
+	panATLogsAdmin["size"] = "740x500"
+	panATLogsAdmin["title"] = "Admin"
+	winset(M,"panATLogsAdmin",list2params(panATLogsAdmin))
+
+	var/list/broATLogsAdmin = list()
+	broATLogsAdmin["type"] = "browser"
+	broATLogsAdmin["parent"] = "panATLogsAdmin"
+	broATLogsAdmin["size"] = "640x480"
+	broATLogsAdmin["anchor1"] = "0,0"
+	broATLogsAdmin["anchor2"] = "100,100"
+	winset(M,"broATLogsAdmin",list2params(broATLogsAdmin))
+
 proc/reset_panATLogsEvents(var/mob/Player/M)
 	if(winexists(M,"panATLogsEvents"))
 		winset(M,"panATLogsEvents","parent=none")
@@ -239,6 +258,8 @@ proc/reset_panATVerbs(var/mob/Player/M)
 	winset(M,"panATVerbs",list2params(panATVerbs))
 mob/GM/verb/ChatLogs()
 	set hidden = 1
+mob/GM/verb/AdminLogs()
+	set hidden = 1
 mob/GM/verb/EventLogs()
 	set hidden = 1
 mob/GM/verb/ClassLogs()
@@ -259,6 +280,10 @@ mob/GM/verb/Administration_Tools()
 		reset_panATLogsChat(usr)
 		winset(src,"tabATLogs","tabs=%2BpanATLogsChat")
 		usr << browse("<body bgcolor=\"black\"> [file2text(chatlog)]</body>","window=broATLogsChat")
+	if(/mob/GM/verb/AdminLogs in verbs)
+		reset_panATLogsAdmin(usr)
+		winset(src,"tabATLogs","tabs=%2BpanATLogsAdmin")
+		usr << browse("[file2text(adminlog)]","window=broATLogsAdmin")
 	if(/mob/GM/verb/EventLogs in verbs)
 		reset_panATLogsEvents(usr)
 		winset(src,"tabATLogs","tabs=%2BpanATLogsEvents")
@@ -270,7 +295,6 @@ mob/GM/verb/Administration_Tools()
 	if(/mob/GM/verb/GoldLogs in verbs)
 		reset_panATLogsGold(usr)
 		winset(src,"tabATLogs","tabs=%2BpanATLogsGold")
-		usr << browse("[file2text(goldlog)]","window=broATLogsGold")
 	if(/mob/GM/verb/KillLogs in verbs)
 		reset_panATLogsKill(usr)
 		winset(src,"tabATLogs","tabs=%2BpanATLogsKill")
@@ -339,7 +363,7 @@ proc/Log_admin(adminaction)
 	file("Logs/Adminlog.html")<<"[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [adminaction]<br />"
 proc/Log_gold(gold,var/mob/Player/from,var/mob/Player/too)
 	if(from.client.address == too.client.address)
-		goldlog<<"<b>[time2text(world.realtime,"MMM DD - hh:mm")]: [from]([from.key])([from.client.address]) gave [comma(gold)] gold to [too]([too.key])([too.client.address])</b><br />"
+		goldlog<<"<b>[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [from]([from.key])([from.client.address]) gave [comma(gold)] gold to [too]([too.key])([too.client.address])</b><br />"
 	else if(gold>1000)goldlog<<"[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [from]([from.key])([from.client.address]) gave [gold] gold to [too]([too.key])([too.client.address])<br />"
 mob/GM/verb
 	Check_EXP(mob/Player/p in Players)
@@ -367,6 +391,7 @@ var
 	DJlog = file("Logs/DJlog.html")
 	killlog = file("Logs/kill_log.html")
 	goldlog = file("Logs/goldlog.html")
+	adminlog = file("Logs/Adminlog.html")
 mob/GM
 	verb
 		GM_chat(var/message as text)
@@ -541,7 +566,7 @@ mob
 			set category = "Staff"
 			var/lvls = input("Select number of levels to gain.") as null|num
 			if(!lvls) return
-			Log_admin("[src] has made [M] gain [lvls] levels.")
+			Log_admin("[src] has made [M] gain [lvls] levels")
 			while(lvls>0)
 				M.Exp = M.Mexp
 				M.LvlCheck(1)
@@ -675,13 +700,13 @@ mob
 					M << "Review the rules."
 				spawn(55)M << browse(rules,"window=1")
 			if(timer)
-				Log_admin("[src] has detentioned [M]([M.ckey]) for [timer] minutes for [Reason].")
+				Log_admin("[src] has detentioned [M]([M.ckey]) for [timer] minutes for [Reason]")
 				M.timerDet = timer
 				if(timer != 0)
 					M << "<u>You're in detention for [timer] minute[timer==1 ? "" : "s"].</u>"
 				spawn()M.detention_countdown()
 			else
-				Log_admin("[src] has detentioned [M]([M.ckey]) indefinately for [Reason].")
+				Log_admin("[src] has detentioned [M]([M.ckey]) indefinitely for [Reason]")
 			spawn()sql_add_plyr_log(M.ckey,"de",Reason,timer)
 
 ///////////// Floor Guidance \\\\\\\\\\\\
@@ -891,9 +916,9 @@ mob
 				if(Reason)
 					M << "<b>You've been muted because you [Reason]</b>"
 				if(timer==0)
-					Log_admin("[src] has muted [M]([M.ckey]) indefinately for [Reason].")
+					Log_admin("[src] has muted [M]([M.ckey]) indefinitely for [Reason]")
 				else
-					Log_admin("[src] has muted [M]([M.ckey]) for [timer] minutes for [Reason].")
+					Log_admin("[src] has muted [M]([M.ckey]) for [timer] minutes for [Reason]")
 					M.timerMute = timer
 					if(timer != 0)
 						M << "<u>You've been muted for [timer] minute[timer==1 ? "" : "s"].</u>"
@@ -905,7 +930,7 @@ mob
 				M.timerMute = 0
 				M.mute=0
 				Players<<"<b><span stlye=\"color:red;\">[M] has been unsilenced.</span></b>"
-				Log_admin("[src] has unmuted [M].")
+				Log_admin("[src] has unmuted [M]")
 
 		Event_Announce(message as message)
 			set category = "Staff"
@@ -967,7 +992,7 @@ mob
 			var/item = new O(usr.loc)
 			if(isobj(item))item:owner = usr.key
 			if(isobj(item)||ismob(item))hearers() << "With a flick of [usr]'s wand, a [item:name] appears."
-			if(ispath(O, /obj/items)) Log_admin("<b>[src.name] ([src.ckey]) has created [item:name].</b>")
+			if(ispath(O, /obj/items)) Log_admin("<b>[src.name] ([src.ckey]) has created [item:name]</b>")
 		Search_Create()
 			set category="Staff"
 			usr.client<<link("?command=create;")
@@ -1180,7 +1205,7 @@ mob
 					del(M)
 					var/Reason = input("Why was [tmpname] disconnected?")
 					spawn()sql_add_plyr_log(tmpckey,"di",Reason,-1)
-					Log_admin("[src] has disconnected [tmpname].")
+					Log_admin("[src] has disconnected [tmpname]")
 		Phase()
 			set category = "Staff"
 			if(usr.density == 1)
@@ -1236,7 +1261,7 @@ mob/GM/verb
 		set category = "Staff"
 		if(M.key=="Murrawhip")
 			Players<<"<b>[src] tried to ban [M] but it bounced off and [usr] banned themself!"
-			Log_admin("[src] tried to ban [M] but banned themself by default.")
+			Log_admin("[src] tried to ban [M] but banned themself by default")
 			crban_fullban(usr)
 		else
 			M.Save()
@@ -1247,9 +1272,9 @@ mob/GM/verb
 			var/Reason = input("Why was [tmpname] banned?")
 			var/timer = input("Set timer for ban in /days/ (Leave as 0 for ban to stick indefinitely)","Ban timer",0) as num
 			if(!timer)
-				Log_admin("[src] has fullbanned [tmpname]([tmpckey]) indefinitely.")
+				Log_admin("[src] has fullbanned [tmpname]([tmpckey]) indefinitely")
 			else
-				Log_admin("[src] has fullbanned [tmpname]([tmpckey]) for [timer] days.")
+				Log_admin("[src] has fullbanned [tmpname]([tmpckey]) for [timer] days")
 			sql_add_plyr_log(tmpckey,"ba",Reason,timer)
 
 	Unban(key as text)
