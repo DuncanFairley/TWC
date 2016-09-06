@@ -85,7 +85,7 @@ mob
 								passfilter = c.name_filter(desiredname)
 							del c
 							if(name == desiredname) return
-							Log_admin("[usr] has changed their name to [desiredname].")
+							Log_admin("[usr] has changed their name to [desiredname]")
 
 							desiredname = uppertext(copytext(desiredname, 1, 2)) + copytext(desiredname, 2)
 
