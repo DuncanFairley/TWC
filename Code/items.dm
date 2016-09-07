@@ -1434,6 +1434,7 @@ obj/items/wearable/wands/sonic_wand
 area/var/disableEffects = FALSE
 
 obj/items/wearable/wands/interruption_wand //Fred's quest
+	canAuction = FALSE
 	icon = 'interruption_wand.dmi'
 	displayColor = "#fff"
 	scale = 0.275

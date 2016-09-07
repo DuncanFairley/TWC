@@ -77,7 +77,7 @@ proc/sql_get_name_from(ckey)
 		var/list/row_data = qry.GetRowData()
 		return row_data["name"]
 	else
-		Log_admin("No rows returned for sql_get_name_from([ckey]).")
+		Log_admin("No rows returned for sql_get_name_from([ckey])")
 
 proc/sql_check_for_referral(mob/Player/M)
 	if(!mysql_enabled) return

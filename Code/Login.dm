@@ -1233,14 +1233,6 @@ mob/Player
 									if(src.admin==1)
 										src <<browse(file("Logs/Adminlog.html"))
 										src<<infomsg("Access Granted.")
-								if("access gold log files")
-									if(src.admin==1)
-										src <<browse(goldlog)
-										src<<infomsg("Access Granted.")
-								if("access log files")
-									if(src.admin==1)
-										src << browse("<body bgcolor=\"black\"> [file2text(chatlog)]</body>","window=1")
-										src << infomsg("Access Granted.")
 								if("restricto")
 									if(Gm)
 										hearers()<<"[usr] encases \himself within a magical barrier."
@@ -1889,9 +1881,9 @@ mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
 			src << "<b>You've been muted because you [reason].</b>"
 
 		if(timer==0)
-			Log_admin("[src] has been muted automatically.")
+			Log_admin("[src] has been muted automatically")
 		else
-			Log_admin("[src] has been muted automatically for [timer] minutes.")
+			Log_admin("[src] has been muted automatically for [timer] minutes")
 			timerMute = timer
 			if(timer != 0)
 				src << "<u>You've been muted for [timer] minute[timer==1 ? "" : "s"].</u>"
