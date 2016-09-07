@@ -1195,11 +1195,11 @@ mob
 			set category="Staff"
 			switch(alert("Disconnect: [M]","Disconnect Player","Yes","No"))
 				if("Yes")
-					M.Save()
 					Players<<"<b><span style=\"color:red;\">[M] has been disconnected from the server.</b></span>"
 					if(!M.key)
 						del(M)
 						return
+					M.Save()
 					var/tmpckey = M.ckey
 					var/tmpname = M.name
 					del(M)
