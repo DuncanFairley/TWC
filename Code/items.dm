@@ -2963,6 +2963,7 @@ obj/items
 obj/items/magic_stone
 	var
 		tmp/inUse = FALSE
+		seconds = 10
 
 
 	icon = 'trophies.dmi'
@@ -3023,8 +3024,9 @@ obj/items/magic_stone
 
 
 	teleport
-		icon = 'Crystal.dmi'
-		name = "teleport stone"
+		icon    = 'Crystal.dmi'
+		name    = "teleport stone"
+		seconds = 3
 		var/dest
 
 		desc = "Used for teleportation."
@@ -3080,6 +3082,7 @@ obj/items/magic_stone
 				hearers(p) << infomsg("[p.name] appears in a flash of light.")
 
 	weather
+		seconds = 5
 		acid
 			name = "acid stone"
 			icon_state = "Emerald"
@@ -3218,7 +3221,7 @@ obj/items/magic_stone
 		src=null
 		spawn()
 			var/tmploc = p.loc
-			var/secs = 10
+			var/secs = seconds
 
 			while(secs > 0 && p && p.loc == tmploc)
 				secs--
