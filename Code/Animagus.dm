@@ -29,7 +29,7 @@ turf
 turf/gotoministry
 	Entered()
 		if(usr)
-			if(!worldData.ministrypw || ministryopen)
+			if(!worldData.ministrypw || worldData.ministryopen)
 				if(usr.name in worldData.ministrybanlist)
 					view(src) << "<b>Toilet</b>: <i>The Ministry of Magic is not currently open to you. Sorry!</i>"
 				else
