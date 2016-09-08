@@ -119,17 +119,18 @@ obj/items/wearable/pets
 				owner.pet = new (get_step(owner, owner.dir), src)
 				owner.pet.owner = owner.ckey
 				owner.pet.alpha = 0
-			else
-				owner.pet.isDisposing = 0
-				owner.pet.refresh(5)
+		//	else
+		//		owner.pet.isDisposing = 0
+		//		owner.pet.refresh(5)
 
-			animate(owner.pet, alpha = alpha, time = 5)
+				animate(owner.pet, alpha = alpha, time = 5)
 
-			if(!overridetext) hearers(owner) << infomsg("[owner] pets \his [src.name].")
+				if(!overridetext) hearers(owner) << infomsg("[owner] pets \his [src.name].")
 
 		else if(. == REMOVED || forceremove)
 
-			owner.pet.Dispose(owner)
+			owner.pet.Dispose()
+			owner.pet = null
 
 			if(!overridetext) hearers(owner) << infomsg("[owner] puts \his [src.name] away.")
 
@@ -375,15 +376,21 @@ obj/pet
 
 	Dispose(mob/Player/p)
 		set waitfor = 0
-		isDisposing = 1
-		animate(src, alpha = 0, time = 5, loop = 1)
-		sleep(6)
-		if(isDisposing)
-			if(p && p.pet == src) p.pet = null
 
-			..()
+	//	isDisposing = 1
+	//	animate(src, alpha = 0, time = 5, loop = 1)
+	//	sleep(6)
+	//	if(isDisposing)
 
-			if(light)
-				light.loc = null
-				light     = null
+	//		if(p && p.pet == src)
+	//			p.pet = null
+
+		loc = null
+
+		item   = null
+		target = null
+
+		if(light)
+			light.loc = null
+			light     = null
 
