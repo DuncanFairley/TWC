@@ -1580,6 +1580,8 @@ mob/GM
 			set category = "Staff"
 
 			worldData.competitiveBans -= k
+			if(!worldData.competitiveBans.len) worldData.competitiveBans = null
+
 			src << infomsg("[k] is now unbanned from competitive matchmaking.")
 
 

@@ -191,6 +191,8 @@ proc/sql_retrieve_plyr_log(ckey,mob/caller)
 						length = " ([tmplength] days)"
 					else
 						length = " ([tmplength] minutes)"
+			else if(type == "Warning")
+				length = null
 			var/msg = url_decode(row_data["msg"])
 			if(caller.admin)
 				log += "<tr [trclass]><td>[time]:</td><td>[type][length]</td><td>[msg]</td><td><a href='?src=\ref[caller];action=delete_log_entry;id=[row_data["timestamp"]];return2ckey=[ckey]'>X</a></td></font></b></tr>"
@@ -201,7 +203,7 @@ proc/sql_retrieve_plyr_log(ckey,mob/caller)
 	return log
 
 
-proc/sql_add_plyr_log(ckey,code,msg,length)
+proc/sql_add_plyr_log(ckey,code,msg,length=0)
 	if(!mysql_enabled) return
 	msg = url_encode(msg,0)
 	var/DBQuery/qry = my_connection.NewQuery({"INSERT INTO tblWarnings(ckey,code,msg,timestamp,length) VALUES('[ckey]','[code]',[mysql_quote(msg)],

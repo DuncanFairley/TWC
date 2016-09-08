@@ -136,6 +136,7 @@ obj
 					if(!s) return
 
 					worldData.stories -= s
+					if(!worldData.stories.len) worldData.stories = null
 
 					usr << "<b>[s] was removed.</b>"
 
@@ -203,6 +204,7 @@ obj
 								</div>"}
 				worldData.dplastupdate = world.realtime
 				worldData.stories -= s
+				if(!worldData.stories.len) worldData.stories = null
 
 			has_story(mob/Player/p)
 				for(var/story/s in worldData.stories)

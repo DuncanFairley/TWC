@@ -51,20 +51,22 @@ obj
 							door.door = 1
 							view(door) << "<i>You hear a door unlock.</i>"
 					if("Open/Close Ministry entrance")
-						if(ministryopen)
-							ministryopen = 0
+						if(worldData.ministryopen)
+							worldData.ministryopen = 0
 							usr << "<u>The Ministry's entrance is now closed.</u>"
 						else
-							ministryopen = 1
+							worldData.ministryopen = 1
 							usr << "<u>The Ministry's entrance is now open.</u>"
 					if("Ban person from entering")
 						var/mob/M = input("Who would you like to ban from using the Ministry's entrance?") as null|mob in Players
 						if(!M)return
 						p << "[M] is now banned from entering the Ministry of Magic."
-						worldData.ministrybanlist.Remove(M.name)
-						worldData.ministrybanlist.Add(M.name)
+						if(!worldData.ministrybanlist) worldData.ministrybanlist = list()
+						if(!(M.name in worldData.ministrybanlist))
+							worldData.ministrybanlist += M.name
 					if("Unban person")
 						var/M = input("Who would you like to unban from using the Ministry's entrance?") as null|anything in worldData.ministrybanlist
 						if(!M)return
-						worldData.ministrybanlist.Remove(M)
+						worldData.ministrybanlist -=M
+						if(worldData.ministrybanlist.len) worldData.ministrybanlist = null
 						p << "[M] is now unbanned from entering the Ministry of Magic."

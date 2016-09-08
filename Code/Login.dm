@@ -505,8 +505,6 @@ mob/test/verb/Modify_Housepoints()
 	worldData.housepointsGSRH[2] = input("Select Slytherin's housepoints:","Housepoints",worldData.housepointsGSRH[2]) as num
 	worldData.housepointsGSRH[3] = input("Select Ravenclaw's housepoints:","Housepoints",worldData.housepointsGSRH[3]) as num
 	worldData.housepointsGSRH[4] = input("Select Hufflepuff's housepoints:","Housepoints",worldData.housepointsGSRH[4]) as num
-	worldData.housepointsGSRH[5] = input("Select Auror's housepoints:","Housepoints",worldData.housepointsGSRH[5]) as num
-	worldData.housepointsGSRH[6] = input("Select Deatheater's housepoints:","Housepoints",worldData.housepointsGSRH[6]) as num
 	Save_World()
 
 var/radioOnline = 0
@@ -1072,7 +1070,7 @@ mob/Player
 
 							if(t == worldData.ministrypw)
 								if(istype(usr.loc,/turf/gotoministry))
-									if(usr.name in worldData.ministrybanlist)
+									if(worldData.ministrybanlist && (usr.name in worldData.ministrybanlist))
 										view(src) << "<b>Toilet</b>: <i>The Ministry of Magic is not currently open to you. Sorry!</i>"
 									else
 										oviewers() << "[usr] disappears."

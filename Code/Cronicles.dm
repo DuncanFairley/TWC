@@ -62,18 +62,19 @@ WorldData
 			customMap/customMaps
 
 		elderWand
-		canReadBooks
-		allowGifts
+		canReadBooks = 1
+		allowGifts   = 1
 		dplastupdate
 		housecupwinner
-		lastusedAFKCheck
 
-		magicEyesLeft = 10
+		magicEyesLeft = 0
 		ministrypw    = "ketchup"
 		ministrybank  = 0
-		taxrate       = 0
+		taxrate       = 15
 
-var/ministryopen = 0
+		tmp
+			lastusedAFKCheck
+			ministryopen
 
 proc
 	Load_World()
@@ -96,13 +97,11 @@ proc
 		if(!worldData.DP)
 			worldData.DP = new/list()
 		if(!worldData.housepointsGSRH)
-			worldData.housepointsGSRH = new/list(6)
+			worldData.housepointsGSRH = new/list(4)
 			worldData.housepointsGSRH[1] = 0
 			worldData.housepointsGSRH[2] = 0
 			worldData.housepointsGSRH[3] = 0
 			worldData.housepointsGSRH[4] = 0
-			worldData.housepointsGSRH[5] = 0
-			worldData.housepointsGSRH[6] = 0
 
 		var/list/cw
 		X["ClanWars"] >> cw

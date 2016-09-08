@@ -126,14 +126,8 @@ Event
 					worldData.majorChaos = guilds[1]
 					worldData.majorPeace = guilds[guilds.len]
 
-				// rep/fame decay
-				for(var/ckey in worldData.playersData)
-					var/PlayerData/p = worldData.playersData[ckey]
-
-					if(abs(p.fame) <= 100) continue
-					if(world.realtime - p.time < 2592000) continue
-
-					p.fame -= round(p.fame * 0.05)
+				// rep/fame decay + clean player data
+				cleanPlayerData(1)
 
 	RandomEvents
 		fire()
@@ -161,6 +155,27 @@ var/list/weather_effects = list("acid"        = 4,
 								"half cloudy" = 15,
 								"sunny"       = 100)
 
+proc/cleanPlayerData(decay = 0)
+	for(var/ckey in worldData.playersData)
+
+		var/PlayerData/p = worldData.playersData[ckey]
+
+		if(abs(p.fame) <= 100)
+			if(p.mmWins != initial(p.mmWins) ||\
+			   p.mmRating != initial(p.mmRating) ||\
+			   p.guild) continue
+
+			if(p.mmTime == initial(p.mmTime) || world.realtime - p.mmTime < 25920000)
+				if(p.time == initial(p.time) || world.realtime - p.time < 25920000)
+					worldData.playersData -= ckey
+
+			continue
+
+		if(decay)
+			if(world.realtime - p.time < 2592000) continue
+			p.fame -= round(p.fame * 0.05)
+
+		if (world.tick_usage > 90) lagstopsleep()
 
 proc
 	init_events()
@@ -834,3 +849,11 @@ StatusEffect
 			if(AttachedAtom)//If they're still logged in
 				src.AttachedAtom.RemoveStatusEffect(src)
 			del(src)
+
+proc
+	lagstopsleep()
+		var/tickstosleep = 1
+		do
+			sleep(world.tick_lag*tickstosleep)
+			tickstosleep *= 2
+		while(world.tick_usage > 75 && (tickstosleep*world.tick_lag) < 32)
