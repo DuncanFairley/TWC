@@ -12,8 +12,8 @@ ParticleEmitter
 		list/pool
 
 		decay = FALSE
-		const/DECAY_TIME = 3000
-		const/DECAY_SIZE = 1000
+		const/DECAY_TIME = 1200
+		const/DECAY_SIZE = 500
 
 	proc
 		get_particle(ptype)
