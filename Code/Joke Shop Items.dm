@@ -217,17 +217,17 @@ obj
 		New()
 			. = ..()
 			icon_state = pick("smoke1","smoke2","smoke3","smoke4")
-			spawn()smoke_about_the_place()
+			smoke_about_the_place()
 
 		proc
 			smoke_about_the_place()
-				while(1)
-					step(src,pick(NORTH,SOUTH,WEST,EAST,NORTHEAST,NORTHWEST,SOUTHEAST,SOUTHWEST))
+				set waitfor = 0
+				while(loc)
+					if(prob(25))
+						loc = null
+					else
+						loc = get_step(src, pick(NORTH,SOUTH,WEST,EAST,NORTHEAST,NORTHWEST,SOUTHEAST,SOUTHWEST))
 					sleep(15)
-					if(rand(1,4)==1)
-						//del(src)
-						src.loc = null
-						break
 obj
 	ballooneffect
 		icon='balloon.dmi'
@@ -237,10 +237,11 @@ obj
 		New()
 			. = ..()
 			icon_state = pick("blue","red","black","yellow","green","orange")
-			spawn()float_about_the_place()
+			float_about_the_place()
 
 		proc
 			float_about_the_place()
+				set waitfor = 0
 				walk_rand(src,rand(9,13))
 				sleep(rand(75,180))
 				src.loc = null
