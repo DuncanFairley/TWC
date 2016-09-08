@@ -78,6 +78,7 @@ Duel
 			B.density = 0
 		if(player1)player1.nomove = 0
 		if(player2)player2.nomove = 0
+		duelcenter.overlays = list()
 		..()
 	proc
 		Pre_Duel()
