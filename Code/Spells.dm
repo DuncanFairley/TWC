@@ -997,6 +997,7 @@ mob/Spells/verb/Muffliato(mob/Player/M in view()&Players)
 				M.muff=0
 mob/Spells/verb/Incindia()
 	set category="Spells"
+	if(inOldArena()) return
 	if(canUse(src,cooldown=/StatusEffect/UsedIncindia,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=450,againstocclumens=1,projectile=1))
 		var/mob/Player/p = src
 		hearers()<<"[src] raises \his wand into the air. <font color=red><b><i>INCINDIA!</b></i>"

@@ -2147,24 +2147,28 @@ mob
 
 
 obj/corpse
-	New(Loc, mob/NPC/Enemies/monster)
+	New(Loc, mob/dead)
 		set waitfor = 0
 		..()
 
-		appearance = monster.appearance
-		dir        = monster.dir
+		appearance = dead.appearance
+		dir        = dead.dir
 		layer      = 2
 
 		var/matrix/m = transform
 		m.Turn(90 * pick(1, -1))
 		animate(src, transform = m, time = 10, easing = pick(BOUNCE_EASING, BACK_EASING))
 
-		if(monster.level >= 1000)
-			if(!monster.respawnTime)
-				sleep(300)
+		if(ismonster(dead))
+			var/mob/NPC/Enemies/e
+			if(e.level >= 1000)
+				if(!e.respawnTime)
+					sleep(300)
+				else
+					sleep(e.respawnTime / 2 + 10)
 			else
-				sleep(monster.respawnTime / 2 + 10)
-		else
+				sleep(40)
+		else // player fade time
 			sleep(40)
 
 		animate(src, alpha = 0, time = 10)

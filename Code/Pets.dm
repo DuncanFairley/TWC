@@ -241,7 +241,7 @@ obj/pet
 
 		if(wait) sleep(wait + 1)
 
-		if(item.color && (item.function & PET_SHINY))
+		if(item && item.color && (item.function & PET_SHINY))
 			var/ColorMatrix/c1 = new(item.color, 0.64)
 			var/ColorMatrix/c2 = new(item.color, 0.9)
 			color = c1.matrix

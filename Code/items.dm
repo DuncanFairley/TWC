@@ -2898,8 +2898,7 @@ obj/items
 					else if(D.player1 == usr)
 						if(!D.player2)
 							range(9) << "[usr] withdraws."
-							D.player1.nomove = 0
-							del D
+							D.Dispose()
 						else
 							if(!D.ready1)
 								range(9) << "<i>[usr] bows.</i>"
@@ -2911,19 +2910,11 @@ obj/items
 									usr << "Duel will end in 10 seconds."
 									sleep(100)
 									range(9) << "The duel has been forfeited by [usr]."
-									D.player1.nomove = 0
-									D.player2.nomove = 0
-									spawn(60)
-										var/obj/duelblock/B1 = locate(/obj/duelblock) in locate(x-2,y,z)
-										var/obj/duelblock/B2 = locate(/obj/duelblock) in locate(x+2,y,z)
-										B1.density = 0
-										B2.density = 0
-									del D
+									D.Dispose()
 					else if(D.player2 == usr)
 						if(!D.player1)
 							range(9) << "[usr] withdraws."
-							D.player2.nomove = 0
-							del D
+							D.Dispose()
 						else
 							if(!D.ready2)
 								range(9) << "<i>[usr] bows.</i>"
@@ -2935,13 +2926,7 @@ obj/items
 									usr << "Duel will end in 10 seconds."
 									sleep(100)
 									range(9) << "The duel has been forfeited by [usr]."
-									spawn(60)
-										var/obj/duelblock/B1 = locate(/obj/duelblock) in locate(x-2,y,z)
-										var/obj/duelblock/B2 = locate(/obj/duelblock) in locate(x+2,y,z)
-										B1.density = 0
-										B2.density = 0
-									del D
-
+									D.Dispose()
 					else
 						usr << "Both player positions are already occupied."
 				else
@@ -2950,7 +2935,6 @@ obj/items
 						return
 
 					D = new(src)
-					D.countdown = 5//input("Select count-down timer, for when both players have readied. (between 3 and 10 seconds)","Count-down Timer",D.countdown) as null|num
 					range(9) << "[usr] initiates a duel."
 					D.player1 = usr
 					D.player1:Transfer(t)
