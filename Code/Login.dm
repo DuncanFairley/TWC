@@ -1741,12 +1741,11 @@ mob/proc/Death_Check(mob/killer = src)
 				if(src.level < lvlcap)
 					src.Exp = round(src.Exp * 0.8)
 				src.sight &= ~BLIND
-				flick('mist.dmi',src)
+				new /obj/corpse (loc, src)
 				if(!src:rankedArena)
 					src:Transfer(B.loc)
 					src.dir = SOUTH
 				flick('dlo.dmi',src)
-
 			if(isplayer(killer))
 				p.pdeaths+=1
 				if(p.rankedArena)
