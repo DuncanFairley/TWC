@@ -64,22 +64,33 @@ var/list/turf/duelsystemcenter/duelsystems = list()
 #define DUEL_DISTANCE 9
 
 Duel
-	var/mob/Player/player1 = null
-	var/mob/Player/player2 = null
+	var/mob/Player/player1
+	var/mob/Player/player2
 	var/ready1 = 0
 	var/ready2 = 0
-	var/countdown = 5
 	var/atom/duelcenter
 	New(var/atom/duelcenter)
 		..()
 		src.duelcenter = duelcenter
-	Del()
-		for(var/turf/duelblock/B in block(locate(duelcenter.x-5,duelcenter.y,duelcenter.z),locate(duelcenter.x+5,duelcenter.y,duelcenter.z)))
-			B.density = 0
-		if(player1)player1.nomove = 0
-		if(player2)player2.nomove = 0
+	proc/Dispose()
+
+		for(var/i = 2 to -2 step -4)
+			var/turf/t = locate(duelcenter.x + i, duelcenter.y, duelcenter.z)
+
+			if(istype(t, /turf/duelblock))
+				t.density = 0
+			else
+				var/obj/duelblock/o = locate() in t
+				o.density = 0
+
+		if(player1) player1.nomove = 0
+		if(player2) player2.nomove = 0
+
 		duelcenter.overlays = list()
+		duelcenter:D = null
+		duelcenter = null
 		..()
+
 	proc
 		Pre_Duel()
 			player1.followplayer = 0
@@ -87,17 +98,14 @@ Duel
 			sleep(100)
 			if(!(ready1 && ready2))
 				range(9,duelcenter) << errormsg("<i>The players did not ready themselves within the time limit. Duel cancelled.</i>")
-				player1.nomove = 0
-				player2.nomove = 0
-				del src
+				Dispose()
 			else
 				player1.followplayer = 0
 				player2.followplayer = 0
-				range(9,duelcenter) << "<i><span style=\"font-size:3\">The duel will now start in [countdown] seconds!</span></i>"
+				range(9,duelcenter) << "<i><span style=\"font-size:3\">The duel will now start in 5 seconds!</span></i>"
 				var/obj/o = new
 				o.pixel_y = 32
 				for(var/i=5;i>0;i--)
-			//		range(9,duelcenter) << i
 					duelcenter.overlays -= o
 					o.maptext = "<b><span style=\"font-size:4; color:#FF4500;\"> [i]</span></b>"
 					duelcenter.overlays += o
@@ -116,16 +124,17 @@ Duel
 				player2.nomove = 0
 				View_Check_Ticker()
 		View_Check_Ticker()
-			spawn() while(src)
+			set waitfor = 0
+			while(src)
 				sleep(5)
 				if(get_dist(player1,duelcenter) > DUEL_DISTANCE)
 					range(DUEL_DISTANCE,duelcenter) << infomsg("<span style=\"font-size:3;\">[player1] has left the duel area. [player2] wins!</span>")
 					player1 << errormsg("<span style=\"font-size:3;\">You have left the duel area. [player2] wins.</span>")
-					del(src)
+					Dispose()
 				else if(get_dist(player2,duelcenter) > DUEL_DISTANCE)
 					range(DUEL_DISTANCE,duelcenter) << infomsg("<span style=\"font-size:3;\">[player2] has left the duel area. [player1] wins!</span>")
 					player2 << errormsg("<span style=\"font-size:3;\">You have left the duel area. [player1] wins.</span>")
-					del(src)
+					Dispose()
 turf/duelblock/density=0
 obj
 	portduelsystemtiles
@@ -171,8 +180,7 @@ turf
 				else if(D.player1 == usr)
 					if(!D.player2)
 						range(9) << "[usr] withdraws."
-						D.player1.nomove = 0
-						del D
+						D.Dispose()
 					else
 						if(!D.ready1)
 							range(9) << "<i>[usr] bows.</i>"
@@ -184,17 +192,11 @@ turf
 								usr << "Duel will end in 10 seconds."
 								sleep(100)
 								range(9) << "The duel has been forfeited by [usr]."
-								if(D.player1)D.player1.nomove = 0
-								if(D.player2)D.player2.nomove = 0
-								spawn(60)
-									for(var/turf/duelblock/B in block(locate(x-5,y,z),locate(x+5,y,z)))
-										B.density = 0
-								del D
+								if(D) D.Dispose()
 				else if(D.player2 == usr)
 					if(!D.player1)
 						range(9) << "[usr] withdraws."
-						D.player2.nomove = 0
-						del D
+						D.Dispose()
 					else
 						if(!D.ready2)
 							range(9) << "<i>[usr] bows.</i>"
@@ -206,16 +208,11 @@ turf
 								usr << "Duel will end in 10 seconds."
 								sleep(100)
 								range(9) << "The duel has been forfeited by [usr]."
-								spawn(60)
-									for(var/turf/duelblock/B in block(locate(x-5,y,z),locate(x+5,y,z)))
-										B.density = 0
-								del D
-
+								D.Dispose()
 				else
 					usr << "Both player positions are already occupied."
 			else
 				D = new(src)
-				D.countdown = 5//input("Select count-down timer, for when both players have readied. (between 3 and 10 seconds)","Count-down Timer",D.countdown) as null|num
 				range(9) << "[usr] initiates a duel."
 				D.player1 = usr
 				D.player1:Transfer(locate(x-3,y,z))
