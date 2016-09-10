@@ -2147,13 +2147,28 @@ mob
 
 
 obj/corpse
-	New(Loc, mob/dead)
+	var/gold
+
+	Click()
+		..()
+		if(gold)
+			if(src in orange(1))
+				usr << infomsg("You looted [gold] gold from [name]'s corpse.")
+				usr.gold.add(gold)
+
+				gold = null
+				mouse_over_pointer = 0
+			else
+				usr << errormsg("You need to be closer.")
+
+	New(Loc, mob/dead, gold = 0)
 		set waitfor = 0
 		..()
 
-		appearance = dead.appearance
-		dir        = dead.dir
-		layer      = 2
+		appearance         = dead.appearance
+		dir                = dead.dir
+		layer              = 2
+		mouse_over_pointer = gold != 0
 
 		var/matrix/m = transform
 		m.Turn(90 * pick(1, -1))
@@ -2169,7 +2184,7 @@ obj/corpse
 			else
 				sleep(40)
 		else // player fade time
-			sleep(40)
+			sleep(150)
 
 		animate(src, alpha = 0, time = 10)
 		sleep(10)

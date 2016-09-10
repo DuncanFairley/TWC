@@ -747,5 +747,7 @@ gold
 			silver = round(plat * factor, 1)
 			bronze = round(plat * factor, 1)
 
+			return bronze + (silver * 100) + (gold * 10000) + (plat * 1000000)
+
 		get()
 			return bronze + (silver * 100) + (gold * 10000) + (plat * 1000000)

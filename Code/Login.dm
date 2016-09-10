@@ -1729,11 +1729,15 @@ mob/proc/Death_Check(mob/killer = src)
 				p.HP=p.MHP+p.extraMHP
 				p.MP=p.MMP+p.extraMMP
 				p.updateHPMP()
-				src.gold.add(-gold.get() / 2)
+
 				if(src.level < lvlcap)
 					src.Exp = round(src.Exp * 0.8)
+
+				var/goldLoss = gold.modify(0.5)
+				goldLoss = round(rand(goldLoss * 0.1, goldLoss * 0.2), 1)
+				new /obj/corpse (loc, src, goldLoss)
+
 				src.sight &= ~BLIND
-				new /obj/corpse (loc, src)
 				if(!src:rankedArena)
 					src:Transfer(B.loc)
 					src.dir = SOUTH
