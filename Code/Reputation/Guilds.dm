@@ -299,8 +299,8 @@ mob/TalkNPC/Guildmaster
 
 				s.AddText("Would you like to increase your guild's capacity for 5 artifacts and 500,000 gold?")
 
-				var/list/artifacts = getArtifacts(p, 5)
-				if(p.gold.get() >= 500000 && artifacts)
+				var/obj/items/artifact/a = locate() in p
+				if(a.stack >= 5 && p.gold.get() >= 500000)
 					s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
 				else
 					s.AddButtons(0, 0, "No", "#ff0000", 0, 0)
@@ -308,19 +308,19 @@ mob/TalkNPC/Guildmaster
 
 				if(s.WaitEnd() && s.Result == "Yes")
 					if(p.gold.get() < 500000) return
-
-					for(var/obj/i in artifacts)
-						if(i.loc != p) return
+					if(a.loc != p || a.stack < 5) return
 
 					p.gold.subtract(500000)
-					for(var/obj/o in artifacts)
-						o.Dispose()
 
-					p.Resort_Stacking_Inv()
+					a.stack -= 5
+					if(!a.stack)
+						a.loc = null
+					else
+						a.UpdateDisplay()
+
 					g.limit++
 
 					p << infomsg("Your guild capacity has increased to [g.limit].")
-
 			else
 				s.AddText("Tell your leader to come see me himself if he wishes to buy.")
 

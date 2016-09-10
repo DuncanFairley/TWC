@@ -15,8 +15,8 @@
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
 
 #define VERSION "16.64"
-#define SAVEFILE_VERSION 25
-#define VAULT_VERSION 3
+#define SAVEFILE_VERSION 26
+#define VAULT_VERSION 4
 #define lvlcap 800
 #define SWAPMAP_Z 23
 #define WINTER 0

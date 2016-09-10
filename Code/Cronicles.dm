@@ -339,6 +339,18 @@ mob
 					else if(istype(w, /obj/items/wearable/pets))
 						w.quality = min(round(w.quality * 10, 1), MAX_PET_LEVEL)
 
+			if(savefile_version < 26)
+				var/amount = 0
+				for(var/obj/items/artifact/a in src)
+					amount += a.stack
+					a.loc = null
+
+				if(amount)
+					var/obj/items/artifact/a = new (src)
+					a.stack = amount
+					a.UpdateDisplay()
+					p.Resort_Stacking_Inv()
+
 			if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else

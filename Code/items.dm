@@ -2584,22 +2584,8 @@ obj/egg
 			loc=null
 
 obj/items/artifact
-	name = "Artifact"
-	icon = 'trophies.dmi'
-
-	max_stack = 1
-
-	New()
-		..()
-		spawn(1)
-			if(name == "Artifact")
-				name = ""
-				var/time = pick("Ancient","Old","")
-				var/prop = pick("Magical", "Shiny", "Mysterious", "")
-				if(time) name += time + " "
-				if(prop) name += prop + " "
-				name += "Artifact"
-			if(!icon_state) icon_state = pick(icon_states(icon))
+	icon       = 'trophies.dmi'
+	icon_state = "Shield"
 
 
 obj/items/lamps
@@ -4059,3 +4045,15 @@ obj/items/treats
 
 		else
 			..()
+
+obj/items/money
+	icon = 'trophies.dmi'
+
+	platinum
+		icon_state = "platinum"
+	gold
+		icon_state = "gold"
+	silver
+		icon_state = "silver"
+	bronze
+		icon_state = "bronze"

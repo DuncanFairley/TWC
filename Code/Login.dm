@@ -272,7 +272,6 @@ proc/updateVault(swapmap/map, owner, version)
 
 	if(version < 3)
 		for(var/turf/t in map.AllTurfs())
-
 			for(var/obj/items/wearable/w in t)
 				if(w.quality == 0) continue
 
@@ -281,6 +280,20 @@ proc/updateVault(swapmap/map, owner, version)
 
 				else if(istype(w, /obj/items/wearable/pets))
 					w.quality = min(round(w.quality * 10, 1), MAX_PET_LEVEL)
+
+	if(version < 4)
+		var/turf/lastLoc
+		var/amount = 0
+		for(var/turf/t in map.AllTurfs())
+			for(var/obj/items/artifact/a in t)
+				amount += a.stack
+				a.loc = null
+				lastLoc = t
+
+		if(amount)
+			var/obj/items/artifact/a = new (lastLoc)
+			a.stack = amount
+			a.UpdateDisplay()
 
 mob/GM/verb/UnloadMap()
 	set category = "Custom Maps"

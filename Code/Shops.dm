@@ -703,30 +703,22 @@ mob/TalkNPC/Vault_Salesman
 					usr << infomsg("Selling your existing vault reduces the price to [selectedprice] artifacts and [selectedprice * 100000] gold.")
 					break
 
-			var/list/artifacts = list()
-			var/amount = 0
-			for(var/obj/items/artifact/a in usr)
-				artifacts += a
-				amount    += a.stack
 
-			if(usr.gold.get() < selectedprice * 100000 || amount < selectedprice)
+			var/obj/items/artifact/a = locate() in usr
+
+			if(!a || a.stack < selectedprice || usr.gold.get() < selectedprice * 100000)
 				usr << npcsay("[name]: I'm running a business here - you can't afford this.")
 			else
 				if(usr:change_vault(selectedvault))
 					usr.gold.add(-selectedprice * 100000)
 					worldData.ministrybank += worldData.taxrate*selectedprice*1000
 
-					for(var/obj/items/o in artifacts)
-						selectedprice -= o.stack
+					a.stack -= selectedprice
+					if(!a.stack)
+						a.loc = null
+					else
+						a.UpdateDisplay()
 
-						if(selectedprice < 0)
-							o.stack = abs(selectedprice)
-							o.UpdateDisplay()
-						else
-							o.loc = null
-
-						if(selectedprice<=0) break
-					usr:Resort_Stacking_Inv()
 					usr << npcsay("[name]: Thank you.")
 
 mob/TalkNPC/Artifacts_Salesman
@@ -782,29 +774,22 @@ mob/TalkNPC/Artifacts_Salesman
 				usr << npcsay("[name]: I only sell to the rich! Begone!")
 				return
 
-		var/list/artifacts = list()
-		var/amount = 0
-		for(var/obj/items/artifact/a in usr)
-			artifacts += a
-			amount += a.stack
-		if(usr.gold.get() < selectedprice * 100000 || amount < selectedprice)
+
+		var/obj/items/artifact/a = locate() in usr
+
+		if(!a || a.stack < selectedprice || usr.gold.get() < selectedprice * 100000)
 			usr << npcsay("[name]: I'm running a business here - you can't afford this.")
 		else
 			usr.gold.add(-selectedprice * 100000)
 			worldData.ministrybank += worldData.taxrate*selectedprice*1000
 			new selecteditem (usr)
-			for(var/obj/items/o in artifacts)
-				selectedprice -= o.stack
 
-				if(selectedprice < 0)
-					o.stack = abs(selectedprice)
-					o.UpdateDisplay()
-				else
-					o.loc = null
+			a.stack -= selectedprice
+			if(!a.stack)
+				a.loc = null
+			else
+				a.UpdateDisplay()
 
-				if(selectedprice<=0) break
-
-			usr:Resort_Stacking_Inv()
 			usr << npcsay("[name]: Thank you.")
 
 proc
