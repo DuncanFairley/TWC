@@ -1634,14 +1634,16 @@ mob/proc/Death_Check(mob/killer = src)
 					p.HP=p.MHP+p.extraMHP
 					p.MP=p.MMP+p.extraMMP
 					p.updateHPMP()
-					if(currentArena.players.len == 1)
+					if(currentArena.players.len < 2)
 						var/mob/winner
-						for(var/mob/M in currentArena.players)
-							winner = M
+						if(currentArena.players.len != 0)
+							winner = currentArena.players[1]
+							var/turf/T = pick(MapThreeWaitingAreaTurfs)
+							winner.loc = T
+							winner.density = 1
+						else
+							winner = src
 						players << "<b>Arena</b>: [winner] wins the round!"
-						var/turf/T = pick(MapThreeWaitingAreaTurfs)
-						winner.loc = T
-						winner.density = 1
 						for(var/mob/Z in view(8,currentArena.speaker))
 							Z << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[Z];action=arena_leave\">clicking here.</a></b>"
 
@@ -1649,16 +1651,6 @@ mob/proc/Death_Check(mob/killer = src)
 						if(e)
 							e.winner = winner
 
-						del(currentArena)
-					else if(currentArena.players.len == 0)
-						var/mob/winner
-						winner = src
-						players << "<b>Arena</b>: [winner] wins the round!"
-						var/turf/T = pick(MapThreeWaitingAreaTurfs)
-						winner.loc = T
-						winner.density = 1
-						for(var/mob/Z in view(8,currentArena.speaker))
-							Z << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[Z];action=arena_leave\">clicking here.</a></b>"
 						del(currentArena)
 					var/turf/T = pick(MapThreeWaitingAreaTurfs)
 					src.loc = T
