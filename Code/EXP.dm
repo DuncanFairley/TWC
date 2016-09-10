@@ -662,52 +662,67 @@ gold
 
 	proc
 		add(amount)
+			if(isnum(amount))
 
-			if(amount < 0)
-				subtract(abs(amount))
-				return
+				if(amount < 0)
+					subtract(abs(amount))
+					return
 
-			amount = round(amount)
+				amount = round(amount)
 
-			var/list/variables = list("plat", "gold", "silver", "bronze")
+				var/list/variables = list("plat", "gold", "silver", "bronze")
 
-			var/i = 8
-			for(var/v in variables)
-				if(i <= 0) break
+				var/i = 8
+				for(var/v in variables)
+					if(i <= 0) break
 
-				i -= 2
-				if(amount < 10 ** i) continue
+					i -= 2
+					if(amount < 10 ** i) continue
 
-				var/c = round(amount / (10 ** i))
-				vars[v] += c
-				amount  -= c * (10 ** i)
+					var/c = round(amount / (10 ** i))
+					vars[v] += c
+					amount  -= c * (10 ** i)
 
-			setVars()
+				setVars()
+			else
+				var/gold/g = amount
+				plat   += g.plat
+				gold   += g.gold
+				silver += g.silver
+				bronze += g.bronze
 
 		subtract(amount)
+			if(isnum(amount))
 
-			if(amount < 0)
-				add(abs(amount))
-				return
+				if(amount < 0)
+					add(abs(amount))
+					return
 
-			amount = round(amount)
+				amount = round(amount)
 
-			var/i = 8
+				var/i = 8
 
-			var/list/variables = list("plat", "gold", "silver", "bronze")
+				var/list/variables = list("plat", "gold", "silver", "bronze")
 
-			for(var/v in variables)
-				if(i <= 0) break
+				for(var/v in variables)
+					if(i <= 0) break
 
-				i -= 2
-				if(amount < 10 ** i) continue
+					i -= 2
+					if(amount < 10 ** i) continue
 
-				var/c = round(amount / (10 ** i))
+					var/c = round(amount / (10 ** i))
 
-				vars[v] -= c
-				amount  -= c * (10 ** i)
+					vars[v] -= c
+					amount  -= c * (10 ** i)
 
-			setVars()
+				setVars()
+
+			else
+				var/gold/g = amount
+				plat   -= g.plat
+				gold   -= g.gold
+				silver -= g.silver
+				bronze -= g.bronze
 
 		setVars()
 
@@ -726,7 +741,11 @@ gold
 				plat   += c
 				gold   -= c * 100
 
-
+		modify(factor)
+			plat   = round(plat * factor, 1)
+			gold   = round(plat * factor, 1)
+			silver = round(plat * factor, 1)
+			bronze = round(plat * factor, 1)
 
 		get()
 			return bronze + (silver * 100) + (gold * 10000) + (plat * 1000000)
