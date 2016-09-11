@@ -9,7 +9,7 @@
 #define TICK_LAG 1
 #define islist(x) istype(x,/list)
 #define floor(x) round(x)
-#define ceil(x) (-round(-x))
+#define ceil(x) (-round(-(x)))
 #define isplayer(x) istype(x, /mob/Player)
 #define ismonster(x) istype(x, /mob/NPC/Enemies)
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
