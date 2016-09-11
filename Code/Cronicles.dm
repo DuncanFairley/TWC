@@ -331,6 +331,8 @@ mob
 				last_y = t.y
 				last_z = t.z
 
+				src << errormsg("Your entire gold savings was converted to the new currency coins, this includes your banked gold, make sure to drop your currency coins at your vault to avoid any loss.")
+
 				if(gold)
 					var/gold/g = new
 					g.plat   = gold.plat   + goldinbank.plat

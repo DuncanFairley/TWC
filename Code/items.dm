@@ -2589,7 +2589,7 @@ obj/egg
 
 obj/items/artifact
 	icon       = 'trophies.dmi'
-	icon_state = "Shield"
+	icon_state = "Ring"
 
 
 obj/items/lamps

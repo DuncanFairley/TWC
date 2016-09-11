@@ -175,9 +175,6 @@ area/var/tmp/teleportNode/region
 
 var/curClass
 area
-	var/list/AI_directions
-	var/location
-
 	inside/ToWisps
 	inside/Pixie_Pit
 
