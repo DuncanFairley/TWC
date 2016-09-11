@@ -179,13 +179,18 @@ area
 	var/location
 
 	inside/ToWisps
+	inside/Pixie_Pit
 
 	outsideHogwarts           // pathfinding related
 		name = "Hogwarts"
 	outside/insideHogwarts
 		name = "Entrance Hall"
+	outside/insidePorchLeft
+		name = "West Wing"
+	outside/insidePorchRight
+		name = "Third Floor"
 	outsideDEHQ
-		name = "Hogwarts"
+		name = "Hogwarts Grounds"
 	outside/insideDEHQ
 		name = "DEHQ"
 	outside
@@ -194,6 +199,9 @@ area
 			antiTeleport = TRUE
 		Hogsmeade
 		Hogwarts
+		PorchLeft
+		PorchRight
+		Hogwarts_Grounds
 		Quidditch
 			icon         = 'black50.dmi'
 			icon_state   = "white"
@@ -219,6 +227,8 @@ area
 		TrophyRoom
 		Entrance_Hall
 		Great_Hall
+		PorchLeft
+		PorchRight
 		Defence_Against_the_Dark_Arts
 		Charms
 		Care_of_Magical_Creatures
@@ -296,6 +306,31 @@ mob
 				for(var/image/C in client.images)
 					if(C.icon == 'arrows.dmi')
 						client.images.Remove(C)
+			getPathTo(atom/target)
+				if(!loc) return
+
+				var/turf/t
+
+				if(istype(target, /atom/movable))
+					t = target.loc
+				else
+					t = target
+
+				var/area/startarea = loc.loc
+				var/area/destarea  = t.loc
+
+				if(!startarea.region || !destarea.region) return
+
+				if(destarea in startarea.region.areas)
+					. = AStar(loc, t, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
+				else
+					var/teleport_path[]
+					teleport_path = AStar(startarea.region, destarea.region, /teleportNode/proc/AdjacentNodes, /teleportNode/proc/Distance)
+
+					if(teleport_path && teleport_path.len >= 2)
+						var/teleportNode/nextNode = teleport_path[2]
+						t = locate(startarea.region.nodes[nextNode]) //the teleport turf on your current floor
+						. = AStar(loc, t, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
 			pathTo(atom/target)
 				if(!loc) return
 

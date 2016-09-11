@@ -232,6 +232,7 @@ area
 			icon       = 'black50.dmi'
 			icon_state = "white"
 			antiTeleport = 1
+		Pixie_Pit
 
 	newareas
 		var/tmp
@@ -272,8 +273,6 @@ area
 				icon         = 'black50.dmi'
 				icon_state   = "white"
 				antiTeleport = 1
-
-			Pixie_Pit
 			Desert1
 				antiTeleport = TRUE
 			Desert2
@@ -286,6 +285,7 @@ area
 			layer = 6	// set this layer above everything else so the overlay obscures everything
 
 		inside
+			Pixie_Pit
 			Silverblood_Maze
 				antiTeleport = TRUE
 				antiFly      = TRUE
@@ -602,7 +602,6 @@ mob
 
 						glide_size = 32/lag
 
-
 						state()
 
 				Search()
@@ -635,7 +634,7 @@ mob
 					set waitfor = 0
 					if(!ignore) ignore = list()
 					ignore += M
-					sleep(50)
+					sleep(30)
 					if(M && ignore)
 						ignore -= M
 						if(ignore.len == 0)

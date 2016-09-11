@@ -747,8 +747,26 @@ obj/items/treasure
 	var/event = "Treasure Hunt"
 	max_stack = 1
 
+	New()
+		set waitfor = 0
+		..()
+
+		sleep(150)
+		while(loc)
+			var/turf/t = locate(x + rand(-3, 3), y + rand(-3, 3), z)
+			if(t)
+				emit(loc    = t,
+				 	 ptype  = /obj/particle/star,
+				 	 amount = 3,
+				 	 angle  = new /Random(0, 360),
+				 	 speed  = 5,
+				 	 life   = new /Random(4,8))
+
+			sleep(rand(150, 300))
+
 	Take()
 		set src in oview(1)
+		set category = null
 
 		if(event == "Treasure Hunt")
 			var/RandomEvent/TreasureHunt/e = locate() in events

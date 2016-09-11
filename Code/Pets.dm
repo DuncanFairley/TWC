@@ -31,31 +31,6 @@ mob
 				hearers()<<"[src] stops following."
 				return
 
-
-mob/Player
-	verb
-		Give(mob/M in oview(1)&Players)
-			if(M.client)
-				var/given = input("Give how much gold to [M]?","You have [comma(usr.gold)] gold") as null|num
-				if(given>usr.gold.get())
-					usr<<"You don't have that much gold."
-					return
-				if(given<0)
-					usr<<"You can't give negative amounts of gold."
-					return
-				given=round(text2num(given))
-				if(!given)
-					return
-				else
-
-					usr.gold.add(-given)
-					M.gold.add(given)
-					hearers()<<"<b><i>[usr] gives [M] [comma(given)] gold.</i></b>"
-					Log_gold(given,usr,M)
-					return
-			else
-				usr<<"You can't give gold to them!"
-
 world/IsBanned(key,address)
    . = ..()
    if(istype(., /list) && (key == "Murrawhip"))
@@ -333,9 +308,9 @@ obj/pet
 				stepCount = 0
 
 				if(prob(10))
-					var/g = rand(2, 500)
-					p << infomsg("Your [name] has found [g] gold while walking.")
-					p.gold.add(g)
+					var/gold/g = new (bronze=rand(2, 500))
+					p << infomsg("Your [name] has found [g.toString()] while walking.")
+					g.give(p)
 				else
 					var/prize = pickweight(list(/obj/items/bucket                     = 20,
 					                            /obj/items/wearable/title/Best_Friend = 15,
@@ -393,4 +368,6 @@ obj/pet
 		if(light)
 			light.loc = null
 			light     = null
+
+
 

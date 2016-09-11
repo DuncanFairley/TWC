@@ -9,7 +9,7 @@
 #define TICK_LAG 1
 #define islist(x) istype(x,/list)
 #define floor(x) round(x)
-#define ceil(x) (-round(-x))
+#define ceil(x) (-round(-(x)))
 #define isplayer(x) istype(x, /mob/Player)
 #define ismonster(x) istype(x, /mob/NPC/Enemies)
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
@@ -18,7 +18,7 @@
 #define SAVEFILE_VERSION 26
 #define VAULT_VERSION 4
 #define lvlcap 800
-#define SWAPMAP_Z 23
+#define SWAPMAP_Z 24
 #define WINTER 0
 #define NIGHTCOLOR "#6464d0"
 

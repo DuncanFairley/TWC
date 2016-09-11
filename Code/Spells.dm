@@ -1548,7 +1548,7 @@ mob/Spells/verb/Portus()
 			del _input["Portus"]
 
 		var/Input/popup = new (src, "Portus")
-		var/locations = list("Hogsmeade", "Pixie Pit", "The Dark Forest Entrance")
+		var/locations = list("Hogsmeade", "Hogwarts Courtyard", "The Dark Forest Entrance")
 		var/d = popup.InputList(src, "Create a Portkey to Where?", "Portus Charm", locations[1], locations)
 		del popup
 
@@ -1566,7 +1566,7 @@ mob/Spells/verb/Portus()
 					var/obj/portkey/P2 = new(locate(39,53,18))
 					P1.partner = P2
 					P2.partner = P1
-			if("Pixie Pit")
+			if("Hogwarts Courtyard")
 				if(src.loc.density)
 					src << errormsg("Portus can't be used on top of something else.")
 					return
@@ -1576,7 +1576,7 @@ mob/Spells/verb/Portus()
 						return
 				if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25))
 					var/obj/portkey/P1 = new(src.loc)
-					var/obj/portkey/P2 = new(locate(86,26,15))
+					var/obj/portkey/P2 = new(locate("@Courtyard"))
 					P1.partner = P2
 					P2.partner = P1
 			if("The Dark Forest Entrance")
@@ -1589,7 +1589,7 @@ mob/Spells/verb/Portus()
 						return
 				if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25))
 					var/obj/portkey/P1 = new(src.loc)
-					var/obj/portkey/P2 = new(locate(13,22,15))
+					var/obj/portkey/P2 = new(locate(48,92,23))
 					P1.partner = P2
 					P2.partner = P1
 			if(null)

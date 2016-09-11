@@ -954,8 +954,8 @@ turf
 		icon = 'misc.dmi'
 		icon_state="fireplace"
 		name = "Fireplace"
-		Entered(mob/M)
-			if(ismob(M))
+		Entered(mob/Player/M)
+			if(isplayer(M))
 				flick('mist.dmi',usr)
 				var/obj/O = locate("hogshospital")
 				M.loc = O.loc
@@ -964,37 +964,12 @@ turf
 		icon = 'misc.dmi'
 		icon_state="fireplace"
 		name = "Fireplace"
-		Entered(mob/M)
-			if(ismob(M))
+		Entered(mob/Player/M)
+			if(isplayer(M))
 				flick('mist.dmi',usr)
-				var/obj/O = locate("DEspawn[rand(1,3)]")
+				var/obj/O = pick(spawners)
 				M.loc = O.loc
 				flick('mist.dmi',usr)
-	floo_dada
-		icon = 'misc.dmi'
-		icon_state="fireplace"
-		name = "Fireplace"
-		Entered(atom/movable/A)
-			if(!ismob(A)) return
-			if(usr.key != "Murrawhip")
-				usr << "You burn your feet in the fireplace. Ouch!"
-				return
-			flick('mist.dmi',usr)
-			usr.loc = locate(29,58,21)
-			flick('mist.dmi',usr)
-			usr << "You step into the fireplace, and are wooshed away."
-	floo_shirou
-		icon = 'misc.dmi'
-		icon_state="fireplace"
-		name = "Fireplace"
-		Entered(atom/movable/A)
-			if(!ismob(A)) return
-			if(A:key != "Murrawhip")
-				usr << "You burn your feet in the fireplace. Ouch!"
-				return
-			usr.loc = locate(80,26,1)
-			flick('mist.dmi',usr)
-			usr << "You step into the fireplace, and are wooshed away."
 
 obj/Bed
 	icon='turf.dmi'
@@ -1029,12 +1004,18 @@ turf
 
 		var/blockDir
 
-		icon_state = "wood"
-		color = "#704f32"
+		wood
+			icon_state = "wood"
+			color = "#704f32"
 
-		New()
-			..()
-			icon_state = "wood[rand(1,8)]"
+			New()
+				..()
+				icon_state = "wood[rand(1,8)]"
+
+			East
+				blockDir = EAST
+			West
+				blockDir = WEST
 
 		Enter(atom/movable/O)
 			.=..()
@@ -1054,6 +1035,9 @@ turf
 			blockDir = EAST
 		West
 			blockDir = WEST
+		South
+			blockDir = SOUTH
+
 
 obj
 	fence
