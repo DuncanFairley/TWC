@@ -227,20 +227,7 @@ mob
 					verbs -= /mob/Spells/verb/Shelleh
 					verbs -= /mob/Spells/verb/Imperio
 
-			if(savefile_version < 10 && (last_z == 21 || last_z == 22))
-				var/turf/t = locate("@Hogwarts")
-				last_x = t.x
-				last_y = t.y
-				last_z = t.z
-
 			if(savefile_version < 11)
-
-				if(last_z == 18)
-					var/turf/t = locate("@Hogwarts")
-					last_x = t.x
-					last_y = t.y
-					last_z = t.z
-
 				spawn()
 					if(!p.Interface) p.Interface = new(src)
 
@@ -325,11 +312,6 @@ mob
 						i.Dispose()
 
 			if(savefile_version < 24)
-				if(last_z == 13)
-					var/turf/t = locate("@Hogwarts")
-					last_x = t.x
-					last_y = t.y
-					last_z = t.z
 				p.GMFrozen = 0
 
 			if(savefile_version < 25)
@@ -343,6 +325,12 @@ mob
 						w.quality = min(round(w.quality * 10, 1), MAX_PET_LEVEL)
 
 			if(savefile_version < 26)
+
+				var/turf/t = locate("@DiagonAlley")
+				last_x = t.x
+				last_y = t.y
+				last_z = t.z
+
 				if(gold)
 					var/gold/g = new
 					g.plat   = gold.plat   + goldinbank.plat
