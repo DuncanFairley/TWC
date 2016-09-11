@@ -151,7 +151,8 @@ mob/Player/Topic(href,href_list[])
 					return
 
 			if(istype(src.loc.loc,/area/arenas))
-				src.loc = locate(50,22,15)
+				var/obj/o = locate("@Courtyard")
+				src.loc = o.loc
 		if("arena_teleport")
 			if(src.rankedArena) return
 			if(ckey in worldData.competitiveBans) return
