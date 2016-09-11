@@ -408,6 +408,10 @@ mob
 
 				refundSpells(removedSpells)
 
+			refundSpells3()
+				var/list/removedSpells = list(/mob/Spells/verb/Evanesco, /mob/Spells/verb/Eparo_Evanesca)
+				refundSpells(removedSpells)
+
 			refundSpells(list/removedSpells)
 				set waitfor = 0
 				sleep(1)
@@ -580,3 +584,41 @@ mob/verb/ToggleBetaMapMode()
 	set hidden = 1
 mob/verb/Mapmodetoggle()
 	set hidden = 1
+
+mob/Player/verb/Give()
+	set hidden = 1
+
+gold
+	proc
+		convert(mob/Player/p)
+			var/nBronze = bronze + (silver * 100) + (gold * 10000) + (plat * 1000000)
+
+			if(nBronze > 0)
+				var/nPlat = round(nBronze / 1000000)
+				nBronze -= nPlat * 1000000
+
+				var/nGold = round(nBronze / 10000)
+				nBronze -= nGold * 10000
+
+				var/nSilver = round(nBronze / 10)
+				nBronze -= nSilver * 1000000
+
+				if(nPlat > 0)
+					var/obj/items/money/iPlat = new (p)
+					iPlat.stack = nPlat
+					iPlat.UpdateDisplay()
+
+				if(nGold > 0)
+					var/obj/items/money/iGold = new (p)
+					iGold.stack = nGold
+					iGold.UpdateDisplay()
+
+				if(nSilver > 0)
+					var/obj/items/money/iSilver = new (p)
+					iSilver.stack = nSilver
+					iSilver.UpdateDisplay()
+
+				if(nBronze > 0)
+					var/obj/items/money/iBronze = new (p)
+					iBronze.stack = nBronze
+					iBronze.UpdateDisplay()

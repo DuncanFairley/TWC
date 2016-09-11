@@ -20,12 +20,13 @@ mob/TalkNPC/Zonko
 				if("Anything new for sale?")
 					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span></b>:<font color=white> Actually I have this batch of Chocolate Eggs here. But they're not for sale. This is the only batch I have."
 					sleep(30)
-					switch(input("Your Response","Respond")in list("Oh come on, I'll give you 50,000 gold.","Oh, ok."))
-						if("Oh come on, I'll give you 50,000 gold.")
-							usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span></b>:<font color=white> 50,000! That's a lot of money..."
-							if(usr.gold.get()>=50000)
+					switch(input("Your Response","Respond")in list("Oh come on, I'll give you 5 gold coins.","Oh, ok."))
+						if("Oh come on, I'll give you 5 gold coins.")
+							usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span></b>:<font color=white> 5 gold coins! That's a lot of money..."
+							var/gold/g = new (usr)
+							if(g.have(50000))
 								usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Zonko</span></b>:<font color=white> Hm...Alright alright. Its a deal."
-								usr.gold.add(-50000)
+								g.change(usr, gold=-5)
 								p.checkQuestProgress("Zonko")
 								return
 							else

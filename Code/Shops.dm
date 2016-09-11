@@ -75,7 +75,7 @@ mob/TalkNPC/quest/Tom
 		var/questPointer/pointer = p.questPointers["Tutorial: Quests"]
 		if(pointer && pointer.stage == 2)
 			p.checkQuestProgress("Tom")
-		switch(input("Tom: Welcome to the Leaky Cauldron. What do ya wanna do?","You have [comma(usr.gold)] gold")as null|anything in list("Shop","Talk"))
+		switch(input("Tom: Welcome to the Leaky Cauldron. What do ya wanna do?","Tom")as null|anything in list("Shop","Talk"))
 			if("Talk")
 				if("Rats in the Cellar" in p.questPointers)
 					pointer = p.questPointers["Rats in the Cellar"]
@@ -154,25 +154,27 @@ mob/TalkNPC/Divo
 		var/selectedprice
 		var/itemlist
 		if(worldData.magicEyesLeft)
-			itemlist = list("Magical Eye 20,000,000g","Invisibility Cloak 60,000g")
+			itemlist = list("Magical Eye 20 platinum coins","Invisibility Cloak 6 gold coins")
 		else
-			itemlist = list("Invisibility Cloak 60,000g")
-		switch(input("Divo: Hi there! Welcome to Divo's Magical Wares. [worldData.magicEyesLeft ? "I've got a limited supply of these ultra rare magical eyes. They let you see invisible people. Very powerful stuff. I'm only going to sell a limited amount though, otherwise my cloak business would be pointless wouldn't it? I have [worldData.magicEyesLeft] left." : ""]","You have [comma(usr.gold)] gold")as null|anything in itemlist)
-			if("Magical Eye 20,000,000g")
+			itemlist = list("Invisibility Cloak 6 gold coins")
+		var/gold/g = new (usr)
+		switch(input("Divo: Hi there! Welcome to Divo's Magical Wares. [worldData.magicEyesLeft ? "I've got a limited supply of these ultra rare magical eyes. They let you see invisible people. Very powerful stuff. I'm only going to sell a limited amount though, otherwise my cloak business would be pointless wouldn't it? I have [worldData.magicEyesLeft] left." : ""]","You have [g.toString()]")as null|anything in itemlist)
+			if("Magical Eye 20 platinum coins")
 				selecteditem = /obj/items/wearable/magic_eye
 				selectedprice = 20000000
-			if("Invisibility Cloak 60,000g")
+			if("Invisibility Cloak 6 gold coins")
 				selectedprice = 60000
 				selecteditem = /obj/items/wearable/invisibility_cloak
 			if(null)
 				usr << npcsay("Divo: Sorry that I don't have anything interesting to ya... ")
 				return
-		if(usr.gold.get() < selectedprice)
-			usr<< npcsay("Divo: I'm running a business here - you don't have enough gold for this.")
+		g = new (usr)
+		if(!g.have(selectedprice))
+			usr<< npcsay("Divo: I'm running a business here - you don't have enough for this.")
 		else
 			if(selecteditem == /obj/items/wearable/magic_eye)
 				worldData.magicEyesLeft--
-			usr.gold.add(-selectedprice)
+			g.change(usr, bronze=-selectedprice)
 			worldData.ministrybank += worldData.taxrate*selectedprice/100
 			new selecteditem(usr)
 			usr << npcsay("Divo: Thank you.")
@@ -190,19 +192,21 @@ mob/TalkNPC/Ollivander
 		set src in oview(3)
 		var/mob/TalkNPC/Ollivander/Olli = src
 		var/mob/Player/p = usr
+		var/gold/g = new(p)
 		if(swiftmode)
-			switch(alert("Ollivander: Welcome to Ollivander's Wand Shop - may I sell you a wand? They're 100 gold","You have [comma(usr.gold)] gold","Yes","No"))
+			switch(alert("Ollivander: Welcome to Ollivander's Wand Shop - may I sell you a wand? They're 100 gold","You have [g.toString()]","Yes","No"))
 				if("Yes")
 					start
 					var/length = rand(8,13)
 					var/core = pick("Phoenix Feather", "Dragon Heartstring", "Veela Hair", "Unicorn Hair")
 					var/wood = pick("Birch", "Oak", "Ash", "Willow", "Mahogany", "Elder")
 					var/wandname = "[length] inch [wood] wand ([core])"
-					switch(alert("This [wandname] costs 100 gold. Would you like to purchase it?","You have [comma(usr.gold)]","Yes","No"))
+					switch(alert("This [wandname] costs a silver coin. Would you like to purchase it?","You have [g.toString()]","Yes","No"))
 						if("Yes")
-							if(usr.gold.get()>=100)
+							g = new (usr)
+							if(g.have(100))
 								view(7,Olli) << "[nametext] Here's your new [wandname], [usr]!"
-								usr.gold.add(-100)
+								g.change(usr, silver=-1)
 								worldData.ministrybank += worldData.taxrate*100/100
 								var/obj/newwand
 								switch(wood)
@@ -226,7 +230,7 @@ mob/TalkNPC/Ollivander
 							else
 								usr << "You do not have enough gold at this time. Maybe you should check your bank account at Gringotts?"
 						if("No")
-							switch(alert("Would you like me to find you another wand?","You have [comma(usr.gold)]","Yes","No"))
+							switch(alert("Would you like me to find you another wand?","You have [g.toString()]","Yes","No"))
 								if("Yes")
 									var/rnd = rand(12,15)
 									usr << "[nametext] [Olli.phrases[rnd]]"
@@ -253,7 +257,7 @@ mob/TalkNPC/Ollivander
 						if(!answered)
 							Olli.busy = 0
 							return
-					switch(alert("Ollivander: Welcome to Ollivander's Wand Shop - may I sell you a wand? They're 100 gold","You have [comma(usr.gold)] gold","Yes","No"))
+					switch(alert("Ollivander: Welcome to Ollivander's Wand Shop - may I sell you a wand? They're a silver coin each","You have [g.toString()]","Yes","No"))
 						if("Yes")
 							view(5,Olli) << "[nametext] Let me just take a look for you."
 							start
@@ -303,11 +307,12 @@ mob/TalkNPC/Ollivander
 								sleep(2)
 								Olli.busy = 0
 								return
-							switch(alert("This [wandname] costs 100 gold. Would you like to purchase it?","You have [comma(usr.gold)] gold.","Yes","No"))
+							switch(alert("This [wandname] costs a silver coin. Would you like to purchase it?","You have [g.toString()]","Yes","No"))
 								if("Yes")
-									if(usr.gold.get()>=100)
+									g = new(usr)
+									if(g.have(100))
 										view(7,Olli) << "[nametext] Here's your new [wandname], [usr]!"
-										usr.gold.add(-100)
+										g.change(usr, silver=-1)
 										worldData.ministrybank += worldData.taxrate*100/100
 										var/obj/newwand
 										switch(wood)
@@ -331,7 +336,7 @@ mob/TalkNPC/Ollivander
 									else
 										usr << "You do not have enough gold at this time. Maybe you should check your bank account at Gringotts?"
 								if("No")
-									switch(alert("Would you like me to find you another wand?","You have [comma(usr.gold)] gold.","Yes","No"))
+									switch(alert("Would you like me to find you another wand?","You have [g.toString()]","Yes","No"))
 										if("Yes")
 											rnd = rand(12,15)
 											view(7,Olli) << "[nametext] [Olli.phrases[rnd]]"
@@ -406,20 +411,22 @@ mob/TalkNPC/Broom_Salesman
 		set src in oview(2)
 		var/obj/selecteditem
 		var/selectedprice
-		switch(input("Chrono: Hi there! Welcome to Chrono's Brooms. We have two models in stock right now - would you like to purchase one?","You have [comma(usr.gold)] gold")as null|anything in list("Cleansweep Seven - 10,000g","Nimbus 2000 - 30,000g"))
-			if("Cleansweep Seven - 10,000g")
+		var/gold/g = new(usr)
+		switch(input("Chrono: Hi there! Welcome to Chrono's Brooms. We have two models in stock right now - would you like to purchase one?","You have [g.toString()]")as null|anything in list("Cleansweep Seven - 1 gold coin","Nimbus 2000 - 3 gold coins"))
+			if("Cleansweep Seven - 1 gold coin")
 				selecteditem = /obj/items/wearable/brooms/cleansweep_seven
 				selectedprice = 10000
-			if("Nimbus 2000 - 30,000g")
+			if("Nimbus 2000 - 3 gold coins")
 				selectedprice = 30000
 				selecteditem = /obj/items/wearable/brooms/nimbus_2000
 			if(null)
 				usr << npcsay("Chrono: Come see me any time if you change your mind.")
 				return
-		if(usr.gold.get() < selectedprice)
+		g = new(usr)
+		if(!g.have(selectedprice))
 			usr << npcsay("Chrono: Unfortunately you don't have enough for this broom - it's [selectedprice]g.")
 		else
-			usr.gold.add(-selectedprice)
+			g.change(usr, bronze=-selectedprice)
 			worldData.ministrybank += worldData.taxrate*selectedprice/100
 			new selecteditem(usr)
 			usr << npcsay("Chrono: Thanks very much for your business, and be careful on the pitch!")
@@ -582,16 +589,18 @@ obj/shop
 				var/obj/items/i = parent:items[usr:shop_index]
 
 				var/actualPrice = round(i.price * shopPriceModifier, 1)
-
-				if(usr.gold.get() < actualPrice)
-					usr << infomsg("You don't have enough money for [i.name]. It costs [comma(actualPrice)]. You need [comma(actualPrice - usr.gold.get())] more gold.")
+				var/gold/g = new(usr)
+				var/gold/price = new (bronze=actualPrice)
+				if(!g.have(actualPrice))
+					var/gold/diff = new(bronze=actualPrice - g.toNumber())
+					usr << infomsg("You don't have enough money for [i.name]. It costs [price.toString()]. You need [diff.toString()].")
 					return
-
-				if(alert(usr, "Are you sure you want to buy [i.name] for [comma(actualPrice)] gold?","Are you sure?","Yes","No") == "Yes")
-					if(usr.gold.get() >= actualPrice)
+				if(alert(usr, "Are you sure you want to buy [i.name] for [price.toString()]","Are you sure?","Yes","No") == "Yes")
+					g.setVars(usr)
+					if(g.have(actualPrice))
 						new i.type (usr)
-						usr << infomsg("You bought [i] for [comma(actualPrice)] gold.")
-						usr.gold.add(-actualPrice)
+						usr << infomsg("You bought [i] for [price.toString()].")
+						g.change(usr, bronze=-actualPrice)
 						worldData.ministrybank += worldData.taxrate*actualPrice/100
 						usr:Resort_Stacking_Inv()
 
@@ -668,15 +677,15 @@ mob/TalkNPC/Vault_Salesman
 		..()
 		icon_state = "goblin[rand(1,3)]"
 
-		itemlist["Free Vault - Free!"]                                = list("1",       0)
-		itemlist["Medium Vault - 3,000,000 gold and 30 artifacts"]    = list("_med",    30)
-		itemlist["Big Vault - 6,000,000 gold and 60 artifacts"]       = list("_big",    60)
-		itemlist["Huge Vault - 10,000,000 gold and 100 artifacts"]    = list("_huge",   100)
-		itemlist["2 Rooms Vault - 15,000,000 gold and 150 artifacts"] = list("_2rooms", 150)
-		itemlist["4 Rooms Vault - 24,000,000 gold and 240 artifacts"] = list("_4rooms", 240)
-		itemlist["Luxury Vault - 36,000,000 gold and 360 artifacts"]  = list("_luxury", 360)
-		itemlist["HQ Vault - 40,000,000 gold and 400 artifacts"]      = list("_hq",     400)
-		itemlist["Wizard Vault - 66,600,000 gold and 666 artifacts"]  = list("_wizard", 666)
+		itemlist["Free Vault - Free!"]                                  = list("1",       0)
+		itemlist["Medium Vault - 3 platinum coins and 30 artifacts"]    = list("_med",    30)
+		itemlist["Big Vault - 6 platinum coins and 60 artifacts"]       = list("_big",    60)
+		itemlist["Huge Vault - 10 platinum coins and 100 artifacts"]    = list("_huge",   100)
+		itemlist["2 Rooms Vault - 15 platinum coins and 150 artifacts"] = list("_2rooms", 150)
+		itemlist["4 Rooms Vault - 24 platinum coins and 240 artifacts"] = list("_4rooms", 240)
+		itemlist["Luxury Vault - 36 platinum coins and 360 artifacts"]  = list("_luxury", 360)
+		itemlist["HQ Vault - 40 platinum coins and 400 artifacts"]      = list("_hq",     400)
+		itemlist["Wizard Vault - 66 platinum coins, 60 gold coins and 666 artifacts"]  = list("_wizard", 666)
 
 	Talk()
 		set src in oview(2)
@@ -684,8 +693,8 @@ mob/TalkNPC/Vault_Salesman
 		if(!(usr.ckey in worldData.globalvaults) || !fexists("[swapmaps_directory]/map_[usr.ckey].sav"))
 			usr << npcsay("Vault Salesman: Please go talk to the vault master before coming to me.")
 			return
-
-		var/index = input("[name]: Hi there! Welcome to Gringotts, perhaps you wish to purchase one of our vaults?", "You have [comma(usr.gold)] gold")as null|anything in itemlist
+		var/gold/g = new (usr)
+		var/index = input("[name]: Hi there! Welcome to Gringotts, perhaps you wish to purchase one of our vaults?", "You have [g.toString()]")as null|anything in itemlist
 		if(!index)
 			usr << npcsay("[name]: I only sell to the rich! Begone!")
 			return
@@ -703,30 +712,22 @@ mob/TalkNPC/Vault_Salesman
 					usr << infomsg("Selling your existing vault reduces the price to [selectedprice] artifacts and [selectedprice * 100000] gold.")
 					break
 
-			var/list/artifacts = list()
-			var/amount = 0
-			for(var/obj/items/artifact/a in usr)
-				artifacts += a
-				amount    += a.stack
 
-			if(usr.gold.get() < selectedprice * 100000 || amount < selectedprice)
+			var/obj/items/artifact/a = locate() in usr
+			g = new(usr)
+			if(!a || a.stack < selectedprice || !g.have(selectedprice * 100000))
 				usr << npcsay("[name]: I'm running a business here - you can't afford this.")
 			else
 				if(usr:change_vault(selectedvault))
-					usr.gold.add(-selectedprice * 100000)
+					g.change(usr, gold=-selectedprice * 10)
 					worldData.ministrybank += worldData.taxrate*selectedprice*1000
 
-					for(var/obj/items/o in artifacts)
-						selectedprice -= o.stack
+					a.stack -= selectedprice
+					if(!a.stack)
+						a.loc = null
+					else
+						a.UpdateDisplay()
 
-						if(selectedprice < 0)
-							o.stack = abs(selectedprice)
-							o.UpdateDisplay()
-						else
-							o.loc = null
-
-						if(selectedprice<=0) break
-					usr:Resort_Stacking_Inv()
 					usr << npcsay("[name]: Thank you.")
 
 mob/TalkNPC/Artifacts_Salesman
@@ -741,70 +742,65 @@ mob/TalkNPC/Artifacts_Salesman
 		var/selecteditem
 		var/selectedprice
 		var/itemlist = list(
-		"Farmer Lamp - 100,000 gold and 1 artifact",
-		"Double Exp Lamp - 200,000 gold and 2 artifacts",
-		"Double Gold Lamp - 200,000 gold and 2 artifacts",
-		"Double Drop Rate Lamp - 300,000 gold and 3 artifacts",
-		"Title: Rich - 1,000,000 gold and 10 artifacts",
-		"Title: Treasure Hunter - 1,000,000 gold and 10 artifacts",
-		"Title: Genie's Friend - 2,000,000 gold and 20 artifacts",
-		"Community Key - 900,000 gold and 9 artifacts",
-		"Pet Key - 200,000 gold and 2 artifacts")
-		switch(input("[name]: Hello... I sell lamps and magical rarities! Now now, they're not just lamps, they're magical lamps! My lamps will help you make your wishes come true! For the right price you might also net yourself something rare!", "You have [comma(usr.gold)] gold")as null|anything in itemlist)
-			if("Farmer Lamp - 100,000 gold and 1 artifact")
+		"Farmer Lamp - 10 gold coins and 1 artifact",
+		"Double Exp Lamp - 20 gold coins and 2 artifacts",
+		"Double Gold Lamp - 20 gold coins and 2 artifacts",
+		"Double Drop Rate Lamp - 30 gold coins and 3 artifacts",
+		"Title: Rich - 1 platinum coin and 10 artifacts",
+		"Title: Treasure Hunter - 1 platinum coin and 10 artifacts",
+		"Title: Genie's Friend - 2 platinum coins and 20 artifacts",
+		"Community Key - 90 gold coins and 9 artifacts",
+		"Pet Key - 20 gold coins and 2 artifacts")
+
+		var/gold/g = new (usr)
+		switch(input("[name]: Hello... I sell lamps and magical rarities! Now now, they're not just lamps, they're magical lamps! My lamps will help you make your wishes come true! For the right price you might also net yourself something rare!", "You have [g.toString()]")as null|anything in itemlist)
+			if("Farmer Lamp - 10 gold coins and 1 artifact")
 				selecteditem  = /obj/items/lamps/farmer_lamp
 				selectedprice = 1
-			if("Double Exp Lamp - 200,000 gold and 2 artifacts")
+			if("Double Exp Lamp - 20 gold coins and 2 artifacts")
 				selecteditem  = /obj/items/lamps/double_exp_lamp
 				selectedprice = 2
-			if("Double Gold Lamp - 200,000 gold and 2 artifacts")
+			if("Double Gold Lamp - 20 gold coins and 2 artifacts")
 				selecteditem  = /obj/items/lamps/double_gold_lamp
 				selectedprice = 2
-			if("Double Drop Rate Lamp - 300,000 gold and 3 artifacts")
+			if("Double Drop Rate Lamp - 30 gold coins and 3 artifacts")
 				selecteditem  = /obj/items/lamps/double_drop_rate_lamp
 				selectedprice = 3
-			if("Title: Rich - 1,000,000 gold and 10 artifacts")
+			if("Title: Rich - 1 platinum coin and 10 artifacts")
 				selecteditem  = /obj/items/wearable/title/Rich
 				selectedprice = 10
-			if("Title: Treasure Hunter - 1,000,000 gold and 10 artifacts")
+			if("Title: Treasure Hunter - 1 platinum coin and 10 artifacts")
 				selecteditem  = /obj/items/wearable/title/Treasure_Hunter
 				selectedprice = 10
-			if("Title: Genie's Friend - 2,000,000 gold and 20 artifacts")
+			if("Title: Genie's Friend - 2 platinum coins and 20 artifacts")
 				selecteditem  = /obj/items/wearable/title/Genie
 				selectedprice = 20
-			if("Community Key - 900,000 gold and 9 artifacts")
+			if("Community Key - 90 gold coins and 9 artifacts")
 				selecteditem  = /obj/items/key/community_key
 				selectedprice = 9
-			if("Pet Key - 200,000 gold and 2 artifacts")
+			if("Pet Key - 20 gold coins and 2 artifacts")
 				selecteditem  = /obj/items/key/pet_key
 				selectedprice = 2
 			if(null)
 				usr << npcsay("[name]: I only sell to the rich! Begone!")
 				return
 
-		var/list/artifacts = list()
-		var/amount = 0
-		for(var/obj/items/artifact/a in usr)
-			artifacts += a
-			amount += a.stack
-		if(usr.gold.get() < selectedprice * 100000 || amount < selectedprice)
+		g = new (usr)
+		var/obj/items/artifact/a = locate() in usr
+
+		if(!a || a.stack < selectedprice || !g.have(selectedprice * 100000))
 			usr << npcsay("[name]: I'm running a business here - you can't afford this.")
 		else
-			usr.gold.add(-selectedprice * 100000)
+			g.change(usr, bronze=-selectedprice * 100000)
 			worldData.ministrybank += worldData.taxrate*selectedprice*1000
 			new selecteditem (usr)
-			for(var/obj/items/o in artifacts)
-				selectedprice -= o.stack
 
-				if(selectedprice < 0)
-					o.stack = abs(selectedprice)
-					o.UpdateDisplay()
-				else
-					o.loc = null
+			a.stack -= selectedprice
+			if(!a.stack)
+				a.loc = null
+			else
+				a.UpdateDisplay()
 
-				if(selectedprice<=0) break
-
-			usr:Resort_Stacking_Inv()
 			usr << npcsay("[name]: Thank you.")
 
 proc

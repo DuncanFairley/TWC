@@ -260,11 +260,14 @@ mob
 				p.Resort_Stacking_Inv()
 
 			if(savefile_version < 17)
-				if(!gold       || isnum(gold))       gold       = new /gold(gold)
-				if(!goldinbank || isnum(goldinbank)) goldinbank = new /gold(goldinbank)
-
-				gold       = new /gold(gold.get())
-				goldinbank = new /gold(goldinbank.get())
+				var/gold/g = new
+				if(isnum(gold))
+					g.change(bronze=gold)
+				if(isnum(goldinbank))
+					g.change(bronze=goldinbank)
+				g.give(src)
+				gold       = null
+				goldinbank = null
 
 			if(savefile_version < 18)
 				if("Royal Blood \[Weekly]" in p.questPointers)
@@ -338,6 +341,37 @@ mob
 
 					else if(istype(w, /obj/items/wearable/pets))
 						w.quality = min(round(w.quality * 10, 1), MAX_PET_LEVEL)
+
+			if(savefile_version < 26)
+				if(gold)
+					var/gold/g = new
+					g.plat   = gold.plat   + goldinbank.plat
+					g.gold   = gold.gold   + goldinbank.gold
+					g.silver = gold.silver + goldinbank.silver
+					g.bronze = gold.bronze + goldinbank.bronze
+
+					g.sort()
+					g.give(src)
+
+					gold = null
+					goldinbank = null
+
+				var/amount = 0
+				for(var/obj/items/artifact/a in src)
+					amount += a.stack
+					a.loc = null
+
+				if(amount)
+					var/obj/items/artifact/a = new (src)
+					a.stack = amount
+					a.UpdateDisplay()
+
+				for(var/obj/items/wearable/invisibility_cloak/c in src)
+					c.loc = null
+
+				p.Resort_Stacking_Inv()
+
+				p.refundSpells3()
 
 			if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")

@@ -297,39 +297,41 @@ mob/TalkNPC/Guildmaster
 					s.AddText("Your guild is already at max capacity.")
 					return
 
-				s.AddText("Would you like to increase your guild's capacity for 5 artifacts and 500,000 gold?")
-
-				var/list/artifacts = getArtifacts(p, 5)
-				if(p.gold.get() >= 500000 && artifacts)
+				s.AddText("Would you like to increase your guild's capacity for 5 artifacts and 50 gold coins?")
+				var/gold/money = new(p)
+				var/obj/items/artifact/a = locate() in p
+				if(a.stack >= 5 && money.have(500000))
 					s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
 				else
 					s.AddButtons(0, 0, "No", "#ff0000", 0, 0)
 					return
 
 				if(s.WaitEnd() && s.Result == "Yes")
-					if(p.gold.get() < 500000) return
+					money = new(p)
+					if(!money.have(500000)) return
+					if(a.loc != p || a.stack < 5) return
 
-					for(var/obj/i in artifacts)
-						if(i.loc != p) return
+					money.change(p, gold=-50)
 
-					p.gold.subtract(500000)
-					for(var/obj/o in artifacts)
-						o.Dispose()
+					a.stack -= 5
+					if(!a.stack)
+						a.loc = null
+					else
+						a.UpdateDisplay()
 
-					p.Resort_Stacking_Inv()
 					g.limit++
 
 					p << infomsg("Your guild capacity has increased to [g.limit].")
-
 			else
 				s.AddText("Tell your leader to come see me himself if he wishes to buy.")
 
 		else
 
-			s.AddText("Would you like to create your own guild? A guild charter costs 1,500,000 gold and 15 artifacts.")
+			s.AddText("Would you like to create your own guild? A guild charter costs 1 platinum coin and 50 gold coins and 15 artifacts.")
 
-			var/list/artifacts = getArtifacts(p, 15)
-			if(p.gold.get() >= 1500000 && artifacts)
+			var/gold/money = new(p)
+			var/obj/items/artifact/a = locate() in p
+			if(a.stack >= 15 && money.have(1500000))
 				s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
 			else
 				s.AddButtons(0, 0, "No", "#ff0000", 0, 0)
@@ -375,14 +377,16 @@ mob/TalkNPC/Guildmaster
 						passfilter = "it [passfilter]"
 
 				del c
+				money = new(p)
+				if(money.have(1500000))
+					if(a.loc != p) return
 
-				if(p.gold.get() >= 1500000)
-					for(var/obj/o in artifacts)
-						if(o.loc != p) return
-
-					p.gold.subtract(1500000)
-					for(var/obj/o in artifacts)
-						o.Dispose()
+					money.change(p, plat=-1, gold=-50)
+					a.stack -= 15
+					if(!a.stack)
+						a.loc = null
+					else
+						a.UpdateDisplay()
 
 					p.Resort_Stacking_Inv()
 
@@ -408,21 +412,6 @@ proc/trimLeft(text)
 
 proc/trimAll(text)
     return trimRight(trimLeft(text))
-
-
-// BUG: can take more than required artifacts if using combined old+new stacking
-proc/getArtifacts(mob/Player/p, amount)
-
-	var/list/artifacts = list()
-	var/i = 0
-	for(var/obj/items/artifact/a in p)
-		artifacts += a
-		i         += a.stack
-
-		if(i >= amount) break
-
-	return i >= amount ? artifacts : null
-
 
 obj/guild
 	icon='statues.dmi'
@@ -473,20 +462,21 @@ mob/Player/verb/guild_command(var/action as text)
 			src << errormsg("Your guild is at max capacity.")
 			return
 
-		var/mob/Player/p = input("Who would you like to invite? (Invite costs 200,000 Gold, even if they decline)", "Guild Invite") as null|anything in Players(list(usr))
+		var/mob/Player/p = input("Who would you like to invite? (Invite costs 20 gold coins, even if they decline)", "Guild Invite") as null|anything in Players(list(usr))
 		if(p)
 			if(istext(p))
 				p = text2mob(p)
 
-			if(gold.get() < 200000)
-				src << errormsg("You don't have enough gold.")
+			var/gold/money = new(src)
+			if(money.have(200000))
+				src << errormsg("You can't afford this.")
 				return
 
 			if(p.guild)
 				src << errormsg("They are already in a guild.")
 				return
 
-			gold.subtract(200000)
+			money.change(src, gold=-20)
 
 			src=null
 			spawn()

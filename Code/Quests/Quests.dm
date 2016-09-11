@@ -608,8 +608,9 @@ questReward
 
 	proc/get(mob/Player/p)
 		if(gold)
-			p.gold.add(gold)
-			p << infomsg("You receive [comma(gold)] gold.")
+			var/gold/g = new(bronze=gold)
+			g.give(p)
+			p << infomsg("You receive [g.toString()].")
 		if(exp)
 			if(p.level < lvlcap)
 				p << infomsg("You receive [comma(exp)] experience.")

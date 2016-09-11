@@ -59,8 +59,9 @@ mail
 			i_Player << message
 		if(content)
 			if(isnum(content))
-				i_Player << infomsg("[comma(content)] gold was sent to your bank.")
-				i_Player.goldinbank.add(content)
+				var/gold/g = new(bronze=content)
+				g.give(i_Player)
+				i_Player << infomsg("[g.toString()] was sent to you.")
 			else
 				var/obj/o = content
 				i_Player << infomsg("[o.name] was sent to you.")
@@ -128,8 +129,9 @@ auction
 		if(href_list["action"] == "bidAuction")
 
 			if(bid && owner != p.ckey && bidder != p.ckey)
+				var/gold/g = new(p)
 				var/price = max(round(minPrice + (minPrice/10), 1), 1)
-				if(p.gold.get() >= price)
+				if(g.have(price))
 
 					if(bidder)
 						mail(bidder, errormsg("<b>Auction:</b> You were outbid for the [item.name] auction."), minPrice)
@@ -137,16 +139,18 @@ auction
 					bid++
 					bidder   = p.ckey
 					minPrice = price
-					p.gold.add(-price)
+					g.change(p, bronze=-price)
 					p.auctionBuild()
 				else
-					p << errormsg("You don't have enough money, the item costs [comma(price)] gold, you need [comma(price - p.gold.get())] more gold.")
+					var/gold/diff = new(bronze=price - g.toNumber())
+					var/gold/actualPrice = new(bronze=price)
+					p << errormsg("You don't have enough money, the item costs [actualPrice.toString()], you need [diff.toString()].")
 
 		else if(href_list["action"] == "buyoutAuction")
 			if(buyout && owner != p.ckey)
-
-				if(p.gold.get() >= buyoutPrice)
-					p.gold.add(-buyoutPrice)
+				var/gold/g = new(p)
+				if(g.have(buyoutPrice))
+					g.change(p, bronze=-buyoutPrice)
 
 					if(bid && bidder)
 						mail(bidder, errormsg("<b>Auction:</b> The [item.name] auction was bought out at the auction, your bid is cancelled."), minPrice)
@@ -157,14 +161,16 @@ auction
 
 					worldData.auctionItems -= src
 					if(!worldData.auctionItems.len) worldData.auctionItems = null
-					p << infomsg("<b>Auction:</b> You bought [item.name] for [buyoutPrice] gold.")
+					g.setVars(bronze=buyoutPrice)
+					p << infomsg("<b>Auction:</b> You bought [item.name] for [g.toString()] gold.")
 					item.loc = p
 					item = null
 					p.Resort_Stacking_Inv()
 					p.auctionBuild()
 				else
-					p << errormsg("You don't have enough money, the item costs [comma(buyoutPrice)] gold, you need [comma(buyoutPrice - p.gold.get())] more gold.")
-
+					var/gold/diff = new(bronze=buyoutPrice - g.toNumber())
+					var/gold/price = new(bronze=buyoutPrice)
+					p << errormsg("You don't have enough money, the item costs [price.toString()], you need [diff.toString()].")
 
 		else if(href_list["action"] == "removeAuction")
 			if(owner == p.ckey)
@@ -255,15 +261,18 @@ body
 					src << output("<span class='content'>[a.item.desc]</span>",   "Auction.gridAuction:3,[count]")
 
 					if(a.buyout)
-						src << output("<span class='content'><a href=\"?src=\ref[a];action=buyoutAuction\">Buyout</a> [comma(a.buyoutPrice)]</span>", "Auction.gridAuction:4,[count]")
+						var/gold/g = new(bronze=a.buyoutPrice)
+						src << output("<span class='content'><a href=\"?src=\ref[a];action=buyoutAuction\">Buyout</a> [g.toString()]</span>", "Auction.gridAuction:4,[count]")
 					else
 						src << output(null, "Auction.gridAuction:4,[count]")
 
 					if(a.bid)
 						if(a.bidder == ckey)
-							src << output("<span class='content'>You're at lead bidding [comma(a.minPrice)] gold. (Bids: [a.bid - 1])</span>", "Auction.gridAuction:5,[count]")
+							var/gold/g = new(bronze=a.minPrice)
+							src << output("<span class='content'>You're at lead bidding [g.toString()]. (Bids: [a.bid - 1])</span>", "Auction.gridAuction:5,[count]")
 						else
-							src << output("<span class='content'><a href=\"?src=\ref[a];action=bidAuction\">Bid</a> [comma(round(a.minPrice + (a.minPrice / 10), 1))] (Bids: [a.bid - 1])</span>", "Auction.gridAuction:5,[count]")
+							var/gold/g = new(bronze=round(a.minPrice + (a.minPrice / 10), 1))
+							src << output("<span class='content'><a href=\"?src=\ref[a];action=bidAuction\">Bid</a> [g.toString()] (Bids: [a.bid - 1])</span>", "Auction.gridAuction:5,[count]")
 					else
 						src << output(null, "Auction.gridAuction:5,[count]")
 
@@ -482,16 +491,16 @@ obj/playerShop
 			if(shop.bidCkey == p.ckey)
 				s.AddText("You currently have the leading bid for this shop.")
 			else
-				var/bidPrice = (shop.bidCount + 1) * 100000
-				s.AddText("Bid on this shop with [comma(bidPrice)] gold?")
-
-				if(p.gold.get() >= bidPrice)
+				var/gold/bidPrice = new(bronze=(shop.bidCount + 1) * 100000)
+				s.AddText("Bid on this shop with [bidPrice.toString()]?")
+				var/gold/g = new(p)
+				if(g.have(bidPrice))
 					s.SetButtons("Yes", "#00ff00", "No", "#ff0000", null)
 
 					if(!s.Wait()) return
 
 					if(s.Result == "Yes")
-						p.gold.subtract(bidPrice)
+						g.change(p, bronze=-bidPrice)
 
 						if(shop.bidCkey)
 							mail(shop.bidCkey, errormsg("You were outbid for [shop.id]"), shop.bidCount * 100000)
@@ -543,7 +552,8 @@ obj/playerShop
 			if(shop.owner == p.ckey)
 				if(i)
 					var/ScreenText/s = new(p, src)
-					s.AddText("[i.name] for [comma(i.price)] gold.<br>Stock: [i.stack]<br>Remove or change price per unit?")
+					var/gold/g = new(bronze=i.price)
+					s.AddText("[i.name] for [comma(i.price)] bronze ([g.toString()]).<br>Stock: [i.stack]<br>Remove or change price per unit (in bronze)?")
 					s.SetButtons("Remove", "#2299d0", "Cancel", "#2299d0", "Price", "#2299d0")
 
 					if(!s.Wait()) return
@@ -565,21 +575,23 @@ obj/playerShop
 					return
 
 				var/ScreenText/s = new(p, src)
-				s.AddText("Would you like to buy [i.name] for [comma(i.price)] gold?<br>Description: [i.desc]")
+				var/gold/price = new(bronze=i.price)
+				var/gold/g = new(p)
+				s.AddText("Would you like to buy [i.name] for [price.toString()]?<br>Description: [i.desc]")
 
-				if(p.gold.get() >= i.price)
+				if(g.have(price))
 					s.SetButtons("Buy", "#00ff00", "Cancel", "#ff0000", null)
 
 					if(!s.Wait()) return
 
 					if(s.Result == "Buy")
-						p.gold.subtract(i.price)
-						mail(shop.owner, infomsg("[i.name] was bought for [comma(i.price)]."), i.price)
+						g.change(p, bronze=-i.price)
+						mail(shop.owner, infomsg("[i.name] was bought for [price.toString()]."), i.price)
 
 						if(i.stack > 1)
-							mail(p.ckey, infomsg("You bought [i.name] for [comma(i.price)]."), i.Split(1))
+							mail(p.ckey, infomsg("You bought [i.name] for [price.toString()]."), i.Split(1))
 						else
-							mail(p.ckey, infomsg("You bought [i.name] for [comma(i.price)]."), i)
+							mail(p.ckey, infomsg("You bought [i.name] for [price.toString()]."), i)
 							remove()
 
 			else p << errormsg("This stand is empty.")

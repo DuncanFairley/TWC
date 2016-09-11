@@ -108,7 +108,7 @@ obj/items
 
 		Split(size)
 			if(max_stack)
-				size = min(stack, max_stack)
+				size = min(size, max_stack)
 
 			if(size)
 				var/obj/items/i = Clone()
@@ -146,6 +146,9 @@ obj/items
 
 		drop(mob/Player/owner, amount = 1)
 
+			if(owner.screen_text)
+				owner.screen_text.Dispose()
+
 			if(owner.splitSize || owner.splitItem)
 				owner.splitSize = null
 				owner.splitItem = null
@@ -154,11 +157,11 @@ obj/items
 			var/obj/items/i = src
 			if(stack > 1 && amount < stack)
 				i = Split(amount)
-				var/area/a = getArea(loc)
+				var/area/a = getArea(owner)
 				if(a.antiTheft) i.owner = owner.ckey
 				i.Move(owner.loc)
 			else
-				var/area/a = getArea(loc)
+				var/area/a = getArea(owner)
 				if(a.antiTheft) src.owner = owner.ckey
 				Move(owner.loc)
 
@@ -2313,8 +2316,9 @@ arena_round
 		Reward(var/mob/Player/plyr,amount)
 			//ONly used in Arena
 			if(rewardforwin == REWARD_GOLD)
-				plyr.gold.add(amount)
-				plyr << "You have been awarded [amount] gold."
+				var/gold/g = new(bronze=amount)
+				g.give(plyr)
+				plyr << "You have been awarded [g.toString()]."
 			else if(rewardforwin == REWARD_POINTS)
 				plyr << "You have earnt [amount] points for [plyr.House]"
 				switch(plyr.House)
@@ -2584,22 +2588,8 @@ obj/egg
 			loc=null
 
 obj/items/artifact
-	name = "Artifact"
-	icon = 'trophies.dmi'
-
-	max_stack = 1
-
-	New()
-		..()
-		spawn(1)
-			if(name == "Artifact")
-				name = ""
-				var/time = pick("Ancient","Old","")
-				var/prop = pick("Magical", "Shiny", "Mysterious", "")
-				if(time) name += time + " "
-				if(prop) name += prop + " "
-				name += "Artifact"
-			if(!icon_state) icon_state = pick(icon_states(icon))
+	icon       = 'trophies.dmi'
+	icon_state = "Shield"
 
 
 obj/items/lamps
@@ -4059,3 +4049,35 @@ obj/items/treats
 
 		else
 			..()
+
+obj/items/money
+	icon = 'Gold.dmi'
+
+	max_stack = 9999
+	canAuction = FALSE
+
+	var/factor = 1
+
+	platinum
+		icon_state = "platinum"
+		factor = 1000000
+	gold
+		icon_state = "gold"
+		factor = 10000
+	silver
+		icon_state = "silver"
+		factor = 100
+	bronze
+		icon_state = "bronze"
+
+	Compare(obj/items/i)
+		return i.name == name && i.type == type && i.owner == owner
+
+	UpdateDisplay()
+		..()
+		if(stack > 50)
+			icon_state = "[initial(icon_state)]3"
+		else if(stack > 10)
+			icon_state = "[initial(icon_state)]2"
+		else
+			icon_state = initial(icon_state)

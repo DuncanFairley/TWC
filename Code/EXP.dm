@@ -122,16 +122,22 @@ obj
 				p.nomove = 0
 				p << infomsg("You begin reading.")
 				spawn(15)
+					var/amount = 0
 					while(src && p && p.readbooks == 1 && (p in ohearers(src, 1)))
 						var/exp = get_exp(p.level) / (p.presence ? 1 : 3)
 						exp = round(rand(exp - exp / 10, exp + exp / 10))
 						p.addExp(exp, 1, 0)
-						if(p.level > 500) p.gold.add(round(rand(3,6) / (p.presence ? 1 : 3)))
-						sleep(15)
+						if(p.level > 500) amount += rand(3,6) / (p.presence ? 1 : 3)
+						sleep(p.presence ? 15 : 30)
 					if(p)
 						R.hide()
 						p.readbooks = 0
 						p.presence = null
+
+						if(amount)
+							var/gold/g = new (bronze=amount)
+							p << infomsg("You share the knowledge you gained as a reward for your hard work you were given [g.toString()]")
+							g.give(p)
 
 
 		EXP_BOOK_lvl0
@@ -645,7 +651,6 @@ tr.grey
 
 			usr << browse(SCOREBOARD_HEADER + html + "</table></center></body></html>","window=scoreboard")
 
-
 gold
 	var
 		plat   = 0
@@ -653,80 +658,119 @@ gold
 		silver = 0
 		bronze = 0
 
-	New(amount)
-		..()
+		tmp/sorted = 0
 
-		add(amount)
-
-
+	New(mob/Player/p, plat = 0, gold = 0, silver = 0, bronze = 0)
+		setVars(p, plat, gold, silver, bronze)
 
 	proc
-		add(amount)
+		setVars(mob/Player/p, plat = 0, gold = 0, silver = 0, bronze = 0)
+			src.plat   = plat
+			src.gold   = gold
+			src.silver = silver
+			src.bronze = bronze
 
-			if(amount < 0)
-				subtract(abs(amount))
-				return
+			if(p)
+				for(var/obj/items/money/m in p)
+					switch(m.factor)
+						if(1000000)
+							src.plat   += m.stack
+						if(10000)
+							src.gold   += m.stack
+						if(100)
+							src.silver += m.stack
+						if(1)
+							src.bronze += m.stack
 
-			amount = round(amount)
+			sort()
+		combine(var/gold/g)
+			plat   = g.plat
+			gold   = g.gold
+			silver = g.silver
+			bronze = g.bronze
 
-			var/list/variables = list("plat", "gold", "silver", "bronze")
+			sort()
 
-			var/i = 8
-			for(var/v in variables)
-				if(i <= 0) break
+		sort()
+			var/list/variables = list("bronze", "silver", "gold", "plat")
+			for(var/i = 1 to variables.len - 1)
+				var/v    = variables[i]
+				var/next = variables[i+1]
 
-				i -= 2
-				if(amount < 10 ** i) continue
+				if(vars[v] > 100)
+					var/c       = round(vars[v] / 100)
+					vars[v]    -= c * 100
+					vars[next] += c
 
-				var/c = round(amount / (10 ** i))
-				vars[v] += c
-				amount  -= c * (10 ** i)
+					sorted = 1
 
-			setVars()
+				else if(vars[v] < 0)
+					var/c       = ceil(abs(vars[v]) / 100)
+					vars[next] -= c
+					vars[v]    += c * 100
 
-		subtract(amount)
-
-			if(amount < 0)
-				add(abs(amount))
-				return
-
-			amount = round(amount)
-
-			var/i = 8
-
-			var/list/variables = list("plat", "gold", "silver", "bronze")
-
-			for(var/v in variables)
-				if(i <= 0) break
-
-				i -= 2
-				if(amount < 10 ** i) continue
-
-				var/c = round(amount / (10 ** i))
-
-				vars[v] -= c
-				amount  -= c * (10 ** i)
-
-			setVars()
-
-		setVars()
-
-			if(bronze > 99 || bronze < 0)
-				var/c   = round(bronze / (100))
-				silver += c
-				bronze -= c * 100
-
-			if(silver > 99 || silver < 0)
-				var/c   = round(silver / (100))
-				gold   += c
-				silver -= c * 100
-
-			if(gold > 99 || gold < 0)
-				var/c   = round(gold / (100))
-				plat   += c
-				gold   -= c * 100
+					sorted = 1
 
 
+		change(mob/Player/p, plat = 0, gold = 0, silver = 0, bronze = 0)
+			src.plat   += plat
+			src.gold   += gold
+			src.silver += silver
+			src.bronze += round(bronze, 1)
 
-		get()
+			sort()
+
+			if(p)
+				give(p, 1)
+
+		toString()
+			. = ""
+			if(plat > 0)
+				. += "[plat] platinum, "
+			if(gold > 0)
+				. += "[gold] gold, "
+			if(silver > 0)
+				. += "[silver] silver, "
+			if(bronze > 0)
+				. += "[bronze] bronze"
+			else
+				. = copytext(., 1, lentext(.) - 1)
+
+		give(mob/Player/p, replace=0)
+			if(replace)
+				for(var/obj/items/money/m in p)
+					m.loc = null
+			if(plat > 0)
+				var/obj/items/money/platinum/i = new
+				i.stack = plat
+				i.UpdateDisplay()
+				i.Move(p)
+
+			if(gold > 0)
+				var/obj/items/money/gold/i = new
+				i.stack = gold
+				i.UpdateDisplay()
+				i.Move(p)
+
+			if(silver > 0)
+				var/obj/items/money/silver/i = new
+				i.stack = silver
+				i.UpdateDisplay()
+				i.Move(p)
+
+			if(bronze > 0)
+				var/obj/items/money/bronze/i = new
+				i.stack = bronze
+				i.UpdateDisplay()
+				i.Move(p)
+			p.Resort_Stacking_Inv()
+
+		have(amount)
+			if(istype(amount, /gold)) amount = amount:toNumber()
+
+			var/c = bronze + (silver * 100) + (gold * 10000) + (plat * 1000000) - amount
+
+			return c >= 0
+
+		toNumber()
 			return bronze + (silver * 100) + (gold * 10000) + (plat * 1000000)

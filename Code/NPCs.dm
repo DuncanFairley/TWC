@@ -31,14 +31,17 @@ mob
 				if(p.level < lvlcap)
 					hearers(usr) << npcsay("Demetrius: Well hello there, [p.gender == MALE ? "sonny" : "young lady"]. Unfortunately I cannot help you until you are of a higher level!")
 				else
-					if(p.gold.get() < 50000)
-						hearers(p) << npcsay("Demetrius: Well hello there, [usr.gender == MALE ? "sonny" : "young lady"]. Unfortunately you need 50,000 gold before I am able to help you.")
+					var/gold/g = new (p)
+					if(!g.have(50000))
+						hearers(p) << npcsay("Demetrius: Well hello there, [usr.gender == MALE ? "sonny" : "young lady"]. Unfortunately you need 5 gold coins before I am able to help you.")
 					else
-						switch(alert("Would you like to reset your stat points? It will cost 50,000 gold.",,"Yes","No"))
+						switch(alert("Would you like to reset your stat points? It will cost 5 gold coins.",,"Yes","No"))
 							if("Yes")
-								if(p.gold.get() >= 50000)
+								g = new (p)
+								if(g.have(50000))
 									hearers(p) << npcsay("Demetrius: There you go, [p.gender == MALE ? "sonny" : "young lady"] - your stats are reset!")
-									p.gold.add(-50000)
+									g.change(gold=-5)
+									g.give(p, 1)
 									p.resetStatPoints()
 									p.HP = usr.MHP + usr.extraMHP
 									p.MP = usr.MMP + usr.extraMMP
@@ -290,14 +293,16 @@ mob/TalkNPC
 					s.SetText("Hopefully I'll have something you want next time.")
 
 			Buy(mob/Player/p, obj/items/i)
-				p.gold.subtract(i.price)
+				var/gold/g = new (p)
+				g.change(p, bronze=-i.price)
 
 				var/obj/items/newItem = new i.type
 				newItem.Move(p)
 
 
 			canAfford(mob/Player/p)
-				return p.gold.get()
+				var/gold/g = new (p)
+				return g.toNumber()
 
 
 
