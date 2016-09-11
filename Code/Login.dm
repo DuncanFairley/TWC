@@ -289,6 +289,8 @@ proc/updateVault(swapmap/map, owner, version)
 				amount += a.stack
 				a.loc = null
 				lastLoc = t
+			for(var/obj/items/wearable/invisibility_cloak/c in t)
+				c.loc = null
 
 		if(amount)
 			var/obj/items/artifact/a = new (lastLoc)
@@ -1389,7 +1391,6 @@ mob/Player
 		if(statpanel("Stats"))
 			stat("Name:",src.name)
 			stat("Year:",src.Year)
-			stat("Gold:",comma(src.gold))
 			stat("Level:",src.level)
 			stat("HP:","[src.HP]/[src.MHP+src.extraMHP]")
 			stat("MP:","[src.MP]/[src.MMP+src.extraMMP] ([src.extraMMP/10])")
@@ -1746,7 +1747,9 @@ mob/proc/Death_Check(mob/killer = src)
 				if(src.level < lvlcap)
 					src.Exp = round(src.Exp * 0.8)
 
-				var/goldLoss = gold.modify(0.5)
+				var/gold/g = new(src)
+				var/goldLoss = g.toNumber() * 0.5
+				g.change(src, bronze=-goldLoss)
 				goldLoss = round(rand(goldLoss * 0.1, goldLoss * 0.2), 1)
 				new /obj/corpse (loc, src, goldLoss)
 
@@ -1816,8 +1819,9 @@ mob/proc/Death_Check(mob/killer = src)
 					if(killer.level < lvlcap)
 						killer << infomsg("You knocked [src] out and gained [rndexp] exp.")
 					else
-						killer.gold.add(rndexp)
-						killer<<infomsg("You knocked [src] out and gained [rndexp] gold.")
+						var/gold/g = new(bronze=rndexp)
+						g.give(killer)
+						killer<<infomsg("You knocked [src] out and gained [g.toString()].")
 				else
 					src<<"You knocked yourself out!"
 			else
@@ -1852,16 +1856,17 @@ mob/proc/Death_Check(mob/killer = src)
 				if(exp_rate)  exp2give  *= exp_rate.rate
 
 				gold2give = round(gold2give)
+				var/gold/g = new(bronze=gold2give)
 
 				if(killer.MonsterMessages)
 
 					if(exp2give > 0 && killer.level < lvlcap)
-						killer<<"<i><small>You gained [exp2give] exp[gold2give > 0 ? " and [gold2give] gold" : ""].</small></i>"
+						killer<<"<i><small>You gained [exp2give] exp[gold2give > 0 ? " and [g.toString()]" : ""].</small></i>"
 					else if(gold2give > 0)
-						killer<<"<i><small>You gained [gold2give] gold.</small></i>"
+						killer<<"<i><small>You gained [g.toString()].</small></i>"
 
 				if(gold2give > 0)
-					killer.gold.add(gold2give)
+					g.give(killer)
 				if(exp2give > 0)
 					killer:addExp(exp2give, !killer.MonsterMessages)
 
@@ -1991,18 +1996,6 @@ obj/Banker
 		else
 			usr << errormsg("You need to be closer.")
 
-	proc
-		addGold(var/amount, mob/Player/p)
-			if(goldinbank != null)
-				if(isnum(goldinbank)) goldinbank = new /gold(goldinbank)
-				goldinbank.add(amount)
-			else
-				p.goldinbank.add(amount)
-		getGold(mob/Player/p)
-			if(goldinbank && isnum(goldinbank)) goldinbank = new /gold(goldinbank)
-			return goldinbank != null ? goldinbank.get() : p.goldinbank.get()
-
-
 	verb
 		Examine()
 			set src in oview(3)
@@ -2011,58 +2004,34 @@ obj/Banker
 			set src in oview(3)
 
 			var/mob/Player/p = usr
-			var/list/choices = list("Deposit","Withdraw","Balance")
 
 			if("On House Arrest" in p.questPointers)
 				var/questPointer/pointer = p.questPointers["On House Arrest"]
-				if(pointer.stage == 1) choices += "I'd like to withdraw something from Fred's vault"
+				if(pointer.stage == 1)
+					alert("The banker takes the key and unlocks a small compartment under his desk.")
+					alert("He pulls out a box, and removes the wand from it")
+					alert("The banker hands you the wand")
 
-			switch(input("How may I help you?","Banker") in choices)
-				if("I'd like to withdraw something from Fred's vault")
-					alert("You hand the banker the key")
-					switch(input("And what would you like to withdraw?","Banker")in list("Wand of Interuption","Cancel"))
-						if("Wand of Interuption")
-							alert("The banker takes the key and unlocks a small compartment under his desk.")
-							alert("He pulls out a box, and removes the wand from it")
-							alert("The banker hands you the wand")
-							new/obj/items/wearable/wands/interruption_wand(usr)
+					new/obj/items/wearable/wands/interruption_wand(usr)
+					var/obj/items/freds_key/k = locate() in usr
+					if(k)
+						k.loc = null
 
-							var/obj/items/freds_key/k = locate() in usr
-							if(k)
-								k.loc = null
+					p.checkQuestProgress("Fred's Wand")
+					return
 
-							p.Resort_Stacking_Inv()
-							p.checkQuestProgress("Fred's Wand")
-				if("Deposit")
-					var/heh = input("You have [comma(usr.gold)] gold. How much do you wish to deposit?","Deposit",usr.gold.get()) as null|num
-					if(heh==null)return
-					if (heh < 0)
-						alert("Don't try cheating me!","Bank Keeper")
-						return()
-					if (heh > usr.gold.get())
-						alert("You don't have that much!", "Deposit")
-						return()
-					if(get_dist(usr,src)>4)return
-					usr << "You deposit [comma(heh)] gold."
-					usr.gold.add(-heh)
-					addGold(heh, usr)
-					usr << "You now have [comma(getGold(usr))] gold in the bank."
-				if("Withdraw")
-					var/heh = input("You have [comma(getGold(usr))] gold in the bank. How much do you wish to withdraw?","Withdraw",getGold(usr)) as null|num
-					if(heh==null)return
-					if (heh < 0)
-						alert("Don't try cheating me!","Bank Keeper")
-						return()
-					if (heh > getGold(usr))
-						alert("You don't have that much in your bank account!", "Bank Keeper")
-						return()
-					if(get_dist(usr,src)>4)return
-					usr << "You withdraw [comma(heh)] gold."
-					usr.gold.add(heh)
-					addGold(-heh, usr)
-					usr << "You now have [comma(getGold(usr))] gold in the bank."
-				if("Balance")
-					usr << "You have [comma(getGold(usr))] gold in the bank."
+			if(goldinbank)
+				goldinbank.give(usr)
+				usr << infomsg("You withdraw [goldinbank.toString()]")
+				goldinbank = null
+				return
+
+			var/gold/g = new(usr)
+			if(g.sorted)
+				g.give(usr, 1)
+				usr << infomsg("You exchanged coins with the banker.")
+			else
+				usr << infomsg("You have no coins to exchange.")
 
 
 //VARS

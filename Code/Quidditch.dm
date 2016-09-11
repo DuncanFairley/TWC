@@ -410,9 +410,9 @@ obj/quidditch
 						quidditchmatch.Score(user, "Snitch")
 					else if(prize)
 						if(prob(50)) // gold prize
-							var/g = rand(5000,10000)
-							user.gold.add(g)
-							user << infomsg("You won [comma(g)] gold.")
+							var/gold/g = new (bronze=rand(5000,10000))
+							g.give(user)
+							user << infomsg("You won [g.toString()].")
 						else // house points prize
 							var/housenum = 1
 							var/points = rand(1,2)

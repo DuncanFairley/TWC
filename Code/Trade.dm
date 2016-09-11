@@ -9,7 +9,6 @@ trading
 		mob/Player/parent
 		mob/Player/with
 		list/items = list()
-		gold = 0
 		accept = 0
 		y = 1
 
@@ -26,10 +25,6 @@ trading
 				O.Move(with)
 			items = list()
 
-			with.gold.add(gold)
-
-			gold = 0
-
 			if(!end) with.trade.Deal(1)
 
 			parent.Resort_Stacking_Inv()
@@ -38,8 +33,6 @@ trading
 		Clean(end = 0)
 			for(var/obj/O in items)
 				O.Move(parent)
-
-			parent.gold.add(gold)
 
 			if(!end && with && with.isTrading()) with.trade.Clean(1)
 
@@ -114,9 +107,6 @@ mob/Player
 								html += "<li>" + i.name + (istype(i, /obj/items/scroll) ? " (scroll)" : "") + "</li>"
 
 							html += "</ul></td></tr>"
-						if(trade.gold > 0 || trade.with.trade.gold > 0)
-							log = TRUE
-							html += "<tr><td>[comma(trade.gold)] Gold</td><td>[comma(trade.with.trade.gold)] Gold</td></tr>"
 						if(log)
 							html = {"
 <table border="1">
@@ -137,27 +127,6 @@ mob/Player
 					else
 						winset(src, "Trade.grid1", "background-color=green")
 						winset(trade.with, "Trade.grid2", "background-color=green")
-
-			else
-				if((!trade.accept) && (!trade.with.trade.accept))
-					var/gcheck = text2num(action)
-					if(!isnum(gcheck) || gcheck == null)
-						winset(src, "Trade.error", {"text="Please write a number""})
-					else
-						gcheck = round(gcheck)
-						if(gcheck < 0)
-							winset(src, "Trade.error", {"text="Number must be larger than 0""})
-						else if(gcheck > gold.get() + trade.gold)
-							winset(src, "Trade.error", {"text="You don't have that much gold""})
-						else
-							gold.add(trade.gold)
-							trade.gold = gcheck
-							gold.add(-gcheck)
-							winset(src, null, {"Trade.gold1.text=[comma(gcheck)];Trade.error.text="""})
-							winset(trade.with, "Trade.gold2", "text = [comma(gcheck)]")
-				else
-					src << errormsg("You can't change terms of the trade while one of you already accepted.")
-
 
 
 obj/items
