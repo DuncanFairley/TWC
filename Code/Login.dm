@@ -1942,7 +1942,8 @@ mob/Player
 					Mexp+=500
 				Mexp = round(Mexp)
 				if(!fakelevels)
-					src<<"<b><span style=\"color:blue;\">You are now level [src.level]!</span></b>"
+					screenAlert("You are now level [level]!")
+
 					src<<"You have gained a statpoint."
 				var/theiryear = (Year == "Hogwarts Graduate" ? 8 : text2num(copytext(Year, 1, 2)))
 				if(level>1 && level < 16)

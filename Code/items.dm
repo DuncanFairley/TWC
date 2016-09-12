@@ -1279,7 +1279,7 @@ obj/items/wearable/wands
 					var/list/s = split(name, " +")
 					name = "[s[1]] +[quality]"
 
-					owner << infomsg("[s[1]] leveled up to [quality]!")
+					owner.screenAlert("[s[1]] leveled up to [quality]!")
 
 	Compare(obj/items/i)
 		. = ..()
@@ -3192,7 +3192,7 @@ obj/items/magic_stone
 		src=null
 		spawn()
 			var/tmploc = p.loc
-			var/secs = seconds
+			var/secs = source.seconds
 
 			while(secs > 0 && p && p.loc == tmploc)
 				secs--
