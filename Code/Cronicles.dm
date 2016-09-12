@@ -363,6 +363,10 @@ mob
 
 				p.refundSpells3()
 
+			if(savefile_version < 27)
+				gold = null
+				goldinbank = null
+
 			if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else
