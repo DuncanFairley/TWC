@@ -131,7 +131,7 @@ obj/items/wearable/pets
 			quality += i
 			Equip(owner, 1)
 
-			new /obj/TextMessage(owner, "Your [name] leveled up to [quality]!")
+			owner.screenAlert("Your [name] leveled up to [quality]!")
 
 	rat
 		icon_state = "rat"

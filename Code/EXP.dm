@@ -509,7 +509,7 @@ expRank
 				exp -= maxExp
 				level++
 				maxExp = 100000 + (level * 30000)
-				new /obj/TextMessage(parent, "You leveled up to rank [level]!")
+				parent.screenAlert("You leveled up to rank [level]!")
 
 				var/t
 

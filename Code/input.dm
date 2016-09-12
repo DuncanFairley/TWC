@@ -5,24 +5,28 @@
  * For the full license text, see LICENSE.txt.
  */
 
-obj/TextMessage
+obj/hud/TextMessage
 	screen_loc = "CENTER,CENTER+5"
 	icon       = 'black50.dmi'
 	icon_state = "input"
 	color      = "#111"
 
-	New(mob/Player/p, message, time=100)
+	var/tmp/count = 5
+
+	New(Loc, mob/Player/p, message, time=100)
 		set waitfor = 0
 
 		p << infomsg(message)
 
 		var/obj/o = new
 		o.appearance_flags = RESET_COLOR|RESET_TRANSFORM
+		o.layer = layer + 1
+		o.plane = 2
 		o.maptext = {"<span style="font-size: 12px">[message]</span>"}
-		var/pixelsize = lentext(message) * 8
+		var/pixelsize = lentext(message) * 9
 
 		o.maptext_width = pixelsize
-		o.maptext_x     = -pixelsize/3
+		o.maptext_x     = -ceil(pixelsize/3)
 		o.maptext_y     = 6
 
 		var/matrix/m = matrix()
@@ -30,11 +34,16 @@ obj/TextMessage
 
 		transform = m
 
-		var/count = 5
-		for(var/obj/TextMessage/t in p.client.screen)
+		var/list/l = list()
+		for(var/obj/hud/TextMessage/t in p.client.screen)
+			if(count == t.count)
+				count++
+			else
+				l += t.count
+		while(count in l)
 			count++
 
-		screen_loc = "CENTER,CENTER+[count]"
+		screen_loc = "CENTER,CENTER+[count]:[count*4]"
 
 		src.overlays += o
 		p.client.screen += src
@@ -47,6 +56,9 @@ obj/TextMessage
 		animate(src, alpha = 0, time = 5)
 		sleep(6)
 		p.client.screen -= src
+
+mob/Player/proc/screenAlert(message, time=100)
+	new /obj/hud/TextMessage(null, src, message, time)
 
 Input
 	var/mob/Player/parent
