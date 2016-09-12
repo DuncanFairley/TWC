@@ -715,11 +715,12 @@ mob/TalkNPC/Vault_Salesman
 
 
 			var/obj/items/artifact/a = locate() in usr
-			g = new(usr)
+			g.setVars(usr)
 			if(!a || a.stack < selectedprice || !g.have(selectedprice * 100000))
 				usr << npcsay("[name]: I'm running a business here - you can't afford this.")
 			else
 				if(usr:change_vault(selectedvault))
+					g.setVars(usr)
 					g.change(usr, gold=-selectedprice * 10)
 					worldData.ministrybank += worldData.taxrate*selectedprice*1000
 
