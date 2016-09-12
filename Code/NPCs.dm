@@ -422,8 +422,6 @@ obj/magic_force
 		"Color me blind but your wand could use a little shine!"                    = /obj/items/colors,
 		"Come to the Dark side."                                                    = /obj/items/DarknessPowder,
 		"This item prevents a liquid's spill, and for its use to the brim we fill." = /obj/items/bucket,
-		"You and I, are thick as theives.\nOur enemies never see us coming.\n" +\
-		"Be fearful though, of watchfull eyes."                                     = /obj/items/wearable/invisibility_cloak,
 		"Unlock me!"                                                                = /obj/items/key)
 
 		var/i = rand(1, riddles.len)
