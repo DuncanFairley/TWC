@@ -336,3 +336,5 @@ obj/light
 
 	pixel_x = -64
 	pixel_y = -64
+
+	canSave = FALSE
