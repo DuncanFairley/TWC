@@ -326,22 +326,6 @@ mob/GM
 					M << infomsg("You learned Depulso!")
 			src << infomsg("You've taught your class the Depulso spell.")
 
-		Teach_Eparo_Evanesca()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Eparo_Evanesca))
-					M << infomsg("You learned Eparo Evanesca!")
-			src << infomsg("You've taught your class the Eparo Evanesca spell.")
-
-		Teach_Evanesco()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Evanesco))
-					M << infomsg("You learned Evanesco!")
-			src << infomsg("You've taught your class the Evanesco spell.")
-
 		Teach_Transfigure_Turkey()
 			set category = "Teach"
 			set hidden = 1

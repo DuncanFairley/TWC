@@ -536,6 +536,10 @@ mob/GM
 			set hidden = 1
 		Teach_Expecto_Patronum()
 			set hidden = 1
+		Teach_Eparo_Evanesca()
+			set hidden = 1
+		Teach_Evanesco()
+			set hidden = 1
 
 		DayNight()
 			set hidden = 1
