@@ -52,6 +52,21 @@ obj/Lantern
 		Dispose()
 			..()
 
+			if(light) light.loc = null
+			if(shadow) shadow.loc = null
+
+		Del()
+			Dispose()
+			..()
+
+		Move()
+			..()
+
+			if(light)
+				light.loc = loc
+			if(shadow)
+				shadow.loc = loc
+
 
 obj/lineR
 	icon='table house lines.dmi'
