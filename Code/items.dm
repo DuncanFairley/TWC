@@ -2309,7 +2309,7 @@ arena_round
 						worldData.housepointsGSRH[3] += amountforwin
 					if("Hufflepuff")
 						worldData.housepointsGSRH[4] += amountforwin
-				Players << "<span style=\";\">[team] have earned [amountforwin] points.</span>"
+				Players << "<span style=\"font-color:red;\">[team] have earned [amountforwin] points.</span>"
 				Save_World()
 				del(currentArena)
 
