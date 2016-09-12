@@ -1279,7 +1279,7 @@ obj/items/wearable/wands
 					var/list/s = split(name, " +")
 					name = "[s[1]] +[quality]"
 
-					owner << infomsg("[s[1]] leveled up to [quality]!")
+					new /obj/TextMessage(owner, "[s[1]] leveled up to [quality]!")
 
 	Compare(obj/items/i)
 		. = ..()

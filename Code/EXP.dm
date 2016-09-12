@@ -509,7 +509,7 @@ expRank
 				exp -= maxExp
 				level++
 				maxExp = 100000 + (level * 30000)
-				parent << infomsg("<b>You leveled up to rank [level]!</b>")
+				new /obj/TextMessage(parent, "You leveled up to rank [level]!")
 
 				var/t
 

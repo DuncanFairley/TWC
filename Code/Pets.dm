@@ -131,7 +131,7 @@ obj/items/wearable/pets
 			quality += i
 			Equip(owner, 1)
 
-			owner << infomsg("Your [name] leveled up to [quality]!")
+			new /obj/TextMessage(owner, "Your [name] leveled up to [quality]!")
 
 	rat
 		icon_state = "rat"
