@@ -5,6 +5,49 @@
  * For the full license text, see LICENSE.txt.
  */
 
+obj/TextMessage
+	screen_loc = "CENTER,CENTER+5"
+	icon       = 'black50.dmi'
+	icon_state = "input"
+	color      = "#111"
+
+	New(mob/Player/p, message, time=100)
+		set waitfor = 0
+
+		p << infomsg(message)
+
+		var/obj/o = new
+		o.appearance_flags = RESET_COLOR|RESET_TRANSFORM
+		o.maptext = {"<span style="font-size: 12px">[message]</span>"}
+		var/pixelsize = lentext(message) * 8
+
+		o.maptext_width = pixelsize
+		o.maptext_x     = -pixelsize/3
+		o.maptext_y     = 6
+
+		var/matrix/m = matrix()
+		m.Scale(ceil(pixelsize / 32), 1)
+
+		transform = m
+
+		var/count = 5
+		for(var/obj/TextMessage/t in p.client.screen)
+			count++
+
+		screen_loc = "CENTER,CENTER+[count]"
+
+		src.overlays += o
+		p.client.screen += src
+
+		alpha = 0
+		animate(src, alpha = 255, time = 5)
+
+		sleep(time + 6)
+
+		animate(src, alpha = 0, time = 5)
+		sleep(6)
+		p.client.screen -= src
+
 Input
 	var/mob/Player/parent
 	var/index
