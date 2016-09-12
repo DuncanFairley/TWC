@@ -6,13 +6,14 @@
  */
 mob/var/spellpoints = 0 //Earn 5, and you get to choose a spell
 var/spellpointlog = file("Logs/spellpointlog.txt")
-mob/proc/learnspell(path)
+mob/Player/proc/learnspell(path)
 	if(path in verbs)
 		var/StatusEffect/S = findStatusEffect(/StatusEffect/GotSpellpoint)
 		if(!S)
 			new/StatusEffect/GotSpellpoint(src,60) //A silent marker to prevent people from gaining multiple spell points accidently.
 			spellpoints++
-			src << "<b>You earnt a spell point! When you've gained at least 5, you can learn a spell with the Use Spellpoints button in Commands.</b>"
+			screenAlert("You earnt a spell point!")
+			src << "<b>When you've gained at least 5, you can learn a spell with the Use Spellpoints button in Commands.</b>"
 			//src << "<i>As you've learned this spell previously, you've earnt a spellpoint instead. Each time you earn 5 spellpoints, you can learn a spell of your choice.</i>"
 			spellpointlog << "[time2text(world.realtime,"MMM DD YYYY- hh:mm")]: [src] earnt a spell point."
 		return 0
@@ -25,534 +26,526 @@ mob/GM
 		Teach_Lumos()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Lumos))
-					M << infomsg("You learned Lumos!")
+					M.screenAlert("You learned a new spell: Lumos!")
 			src << infomsg("You've taught your class the Lumos spell.")
 
 		Teach_Langlock()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Langlock))
-					M << infomsg("You learned Langlock!")
+					M.screenAlert("You learned a new spell: Langlock!")
 			src << infomsg("You've taught your class the Langlock spell.")
 
 		Teach_Muffliato()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Muffliato))
-					M << infomsg("You learned Muffliato!")
+					M.screenAlert("You learned a new spell: Muffliato!")
 			src << infomsg("You've taught your class the Muffliato spell.")
 
 		Teach_Flagrate()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Flagrate))
-					M << infomsg("You learned Flagrate!")
+					M.screenAlert("You learned a new spell: Flagrate!")
 			src << infomsg("You've taught your class the Flagrate spell.")
 
 		Teach_Incindia()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Incindia))
-					M << infomsg("You learned Incindia!")
+					M.screenAlert("You learned a new spell: Incindia!")
 			src << infomsg("You've taught your class the Incindia spell.")
 
 		Teach_Replacio()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Replacio))
-					M << infomsg("You learned Replacio!")
+					M.screenAlert("You learned a new spell: Replacio!")
 			src << infomsg("You've taught your class the Replacio spell.")
 
 		Teach_Obliviate()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Obliviate))
-					M << infomsg("You learned Obliviate!")
+					M.screenAlert("You learned a new spell: Obliviate!")
 			src << infomsg("You've taught your class the Obliviate spell.")
 
 		Teach_Occlumency()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Occlumency))
-					M << infomsg("You learned Occlumency!")
+					M.screenAlert("You learned a new spell: Occlumency!")
 			src << infomsg("You've taught your class the Occlumency spell.")
 
 		Teach_Antifigura()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Antifigura))
-					M << infomsg("You learned Antifigura!")
+					M.screenAlert("You learned a new spell: Antifigura!")
 			src << infomsg("You've taught your class the Antifigura spell.")
 
 		Teach_Deletrius()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Deletrius))
-					M << infomsg("You learned Deletrius!")
+					M.screenAlert("You learned a new spell: Deletrius!")
 			src << infomsg("You've taught your class the Deletrius spell.")
 
 		Teach_Eat_Slugs()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Eat_Slugs))
-					M << infomsg("You learned Eat Slugs!")
+					M.screenAlert("You learned a new spell: Eat Slugs!")
 			src << infomsg("You've taught your class the Eat Slugs spell.")
 
 		Teach_Impedimenta()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Impedimenta))
-					M << infomsg("You learned Impedimenta!")
+					M.screenAlert("You learned a new spell: Impedimenta!")
 			src << infomsg("You've taught your class the Impedimenta spell.")
 
 		Teach_Tarantallegra()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Tarantallegra))
-					M << infomsg("You learned Tarantallegra!")
+					M.screenAlert("You learned a new spell: Tarantallegra!")
 			src << infomsg("You've taught your class the Tarantallegra spell.")
 
 		Teach_Flippendo()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Flippendo))
-					M << infomsg("You learned Flippendo!")
+					M.screenAlert("You learned a new spell: Flippendo!")
 			src << infomsg("You've taught your class the Flippendo spell.")
 
 		Teach_Reducto()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Reducto))
-					M << infomsg("You learned Reducto!")
+					M.screenAlert("You learned a new spell: Reducto!")
 			src << infomsg("You've taught your class the Reducto spell.")
 
 		Teach_Anapneo()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Anapneo))
-					M << infomsg("You learned Anapneo!")
+					M.screenAlert("You learned a new spell: Anapneo!")
 			src << infomsg("You've taught your class the Anapneo spell.")
 
 		Teach_Arcesso()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Arcesso))
-					M << infomsg("You learned Arcesso!")
+					M.screenAlert("You learned a new spell: Arcesso!")
 			src << infomsg("You've taught your class the Arcesso spell.")
 
 		Teach_Glacius()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Glacius))
-					M << infomsg("You learned Glacius!")
+					M.screenAlert("You learned a new spell: Glacius!")
 			src << infomsg("You've taught your class the Glacius spell.")
-
-		/*Teach_Cugeo()
-			set category = "Teach"
-			set hidden = 1
-			for(var/mob/M in oview(client.view))
-				if(M.learnspell(/mob/Spells/verb/Cugeo))
-					M << infomsg("You learned Cugeo!")
-			src << infomsg("You've taught your class the Cugeo spell.")*/
 
 		Teach_Reddikulus()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Reddikulus))
-					M << infomsg("You learned Riddikulus!")
+					M.screenAlert("You learned a new spell: Riddikulus!")
 			src << infomsg("You've taught your class the Riddikulus spell.")
 
 		Teach_Sense()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Sense))
-					M << infomsg("You learned Sense!")
+					M.screenAlert("You learned a new spell: Sense!")
 			src << infomsg("You've taught your class the Sense spell.")
 
 		Teach_Scan()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Scan))
-					M << infomsg("You learned Scan!")
+					M.screenAlert("You learned a new spell: Scan!")
 			src << infomsg("You've taught your class the Scan spell.")
 
 		Teach_Expelliarmus()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Expelliarmus))
-					M << infomsg("You learned Expelliarmus!")
+					M.screenAlert("You learned a new spell: Expelliarmus!")
 			src << infomsg("You've taught your class the Expelliarmus spell.")
 
 		Teach_Reparo()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Reparo))
-					M << infomsg("You learned Reparo!")
+					M.screenAlert("You learned a new spell: Reparo!")
 			src << infomsg("You've taught your class the Reparo spell.")
 
 		Teach_Wingardium()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Wingardium_Leviosa))
-					M << infomsg("You learned Wingardium Leviosa!")
+					M.screenAlert("You learned a new spell: Wingardium Leviosa!")
 			src << infomsg("You've taught your class the Wingardium Leviosa spell.")
 
 		Teach_Confundus()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Confundus))
-					M << infomsg("You learned Confundus!")
+					M.screenAlert("You learned a new spell: Confundus!")
 			src << infomsg("You've taught your class the Confundus spell.")
 
 		Teach_Bombarda()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Bombarda))
-					M << infomsg("You learned Bombarda!")
+					M.screenAlert("You learned a new spell: Bombarda!")
 			src << infomsg("You've taught your class the Bombarda spell.")
 
 		Teach_Chaotica()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Chaotica))
-					M << infomsg("You learned Chaotica!")
+					M.screenAlert("You learned a new spell: Chaotica!")
 			src << infomsg("You've taught your class the Chaotica spell.")
 
 		Teach_Episky()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Episky))
-					M << infomsg("You learned Episkey!")
+					M.screenAlert("You learned a new spell: Episkey!")
 			src << infomsg("You've taught your class the Episkey spell.")
 
 		Teach_Protego()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Protego))
-					M << infomsg("You learned Protego!")
+					M.screenAlert("You learned a new spell: Protego!")
 			src << infomsg("You've taught your class the Protego spell.")
 
 		Teach_Incendio()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Incendio))
-					M << infomsg("You learned Incendio!")
+					M.screenAlert("You learned a new spell: Incendio!")
 			src << infomsg("You've taught your class the Incendio spell.")
 
 		Teach_Inflamari()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Inflamari))
-					M << infomsg("You learned Inflamari!")
+					M.screenAlert("You learned a new spell: Inflamari!")
 			src << infomsg("You've taught your class the Inflamari spell.")
 
 		Teach_Serpensortia()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Serpensortia))
-					M << infomsg("You learned Serpensortia!")
+					M.screenAlert("You learned a new spell: Serpensortia!")
 			src << infomsg("You've taught your class the Serpensortia spell.")
 
 		Teach_Repellium()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Repellium))
-					M << infomsg("You learned Repellium!")
+					M.screenAlert("You learned a new spell: Repellium!")
 			src << infomsg("You've taught your class the Repellium spell.")
 
 		Teach_Tremorio()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Tremorio))
-					M << infomsg("You learned Tremorio!")
+					M.screenAlert("You learned a new spell: Tremorio!")
 			src << infomsg("You've taught your class the Tremorio spell.")
 
 		Teach_Aqua_Eructo()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Aqua_Eructo))
-					M << infomsg("You learned Aqua Eructo!")
+					M.screenAlert("You learned a new spell: Aqua Eructo!")
 			src << infomsg("You've taught your class the Aqua Eructo spell.")
 
 		Teach_Imitatus()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Imitatus))
-					M << infomsg("You learned Imitatus!")
+					M.screenAlert("You learned a new spell: Imitatus!")
 			src << infomsg("You've taught your class the Imitatus spell.")
 
 		Teach_Depulso()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Depulso))
-					M << infomsg("You learned Depulso!")
+					M.screenAlert("You learned a new spell: Depulso!")
 			src << infomsg("You've taught your class the Depulso spell.")
 
 		Teach_Transfigure_Turkey()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Delicio"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Delicio))
-					M << infomsg("You learned Delicio!")
+					M.screenAlert("You learned a new spell: Delicio!")
 			src << infomsg("You've taught your class the Delicio spell.")
 
 		Teach_Transfigure_Crow()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Avifors"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Avifors))
-					M << infomsg("You learned Avifors!")
+					M.screenAlert("You learned a new spell: Avifors!")
 			src << infomsg("You've taught your class the Avifors spell.")
 
 		Teach_Transfigure_Mushroom()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Personio Mushashi"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Mushroom))
-					M << infomsg("You learned Personio Mushashi!")
+					M.screenAlert("You learned a new spell: Personio Mushashi!")
 			src << infomsg("You've taught your class the Personio Mushashi spell.")
 
 		Teach_Transfigure_Frog()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Ribbitous"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Ribbitous))
-					M << infomsg("You learned Ribbitous!")
+					M.screenAlert("You learned a new spell: Ribbitous!")
 			src << infomsg("You've taught your class the Ribbitous spell.")
 
 		Teach_Transfigure_Rabbit()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Carrotosi"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Carrotosi))
-					M << infomsg("You learned Carrotosi!")
+					M.screenAlert("You learned a new spell: Carrotosi!")
 			src << infomsg("You've taught your class the Carrotosi spell.")
 
 		Teach_Transfigure_Skeleton()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Personio Sceletus"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Skeleton))
-					M << infomsg("You learned Personio Sceletus!")
+					M.screenAlert("You learned a new spell: Personio Sceletus!")
 			src << infomsg("You've taught your class the Personio Sceletus spell.")
 
 		Teach_Transfigure_Dragon()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Personio Draconum"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Dragon))
-					M << infomsg("You learned Personio Draconum!")
+					M.screenAlert("You learned a new spell: Personio Draconum!")
 			src << infomsg("You've taught your class the Personio Draconum spell.")
 
 		Teach_Transfigure_Human()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Transfiguro Revertio"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Other_To_Human))
-					M << infomsg("You learned Transfiguro Revertio!")
+					M.screenAlert("You learned a new spell: Transfiguro Revertio!")
 			src << infomsg("You've taught your class the Transfiguro Revertio spell.")
 
 		Teach_Transfigure_Onion()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Harvesto"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Harvesto))
-					M << infomsg("You learned Harvesto!")
+					M.screenAlert("You learned a new spell: Harvesto!")
 			src << infomsg("You've taught your class the Harvesto spell.")
 
 		Teach_Transfigure_Cat()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Felinious"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Felinious))
-					M << infomsg("You learned Felinious!")
+					M.screenAlert("You learned a new spell: Felinious!")
 			src << infomsg("You've taught your class the Felinious spell.")
 
 		Teach_Transfigure_Mouse()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Scurries"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Scurries))
-					M << infomsg("You learned Scurries!")
+					M.screenAlert("You learned a new spell: Scurries!")
 			src << infomsg("You've taught your class the Scurries spell.")
 
 		Teach_Transfigure_Chair()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Seatio"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Seatio))
-					M << infomsg("You learned Seatio!")
+					M.screenAlert("You learned a new spell: Seatio!")
 			src << infomsg("You've taught your class the Seatio spell.")
 
 		Teach_Transfigure_Bat()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Nightus"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Nightus))
-					M << infomsg("You learned Nightus!")
+					M.screenAlert("You learned a new spell: Nightus!")
 			src << infomsg("You've taught your class the Nightus spell.")
 
 		Teach_Transfigure_Pixie()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Peskipixie Pestermi"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Peskipixie_Pesternomae))
-					M << infomsg("You learned Peskipixie Pestermi!")
+					M.screenAlert("You learned a new spell: Peskipixie Pestermi!")
 			src << infomsg("You've taught your class the Peskipixie Pestermi spell.")
 
 		Teach_Petreficus_Totalus()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Petreficus_Totalus))
-					M << infomsg("You learned Petrificus Totalus!")
+					M.screenAlert("You learned a new spell: Petrificus Totalus!")
 			src << infomsg("You've taught your class the Petrificus Totalus spell.")
 
 		Teach_Telendevour()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Telendevour))
-					M << infomsg("You learned Telendevour!")
+					M.screenAlert("You learned a new spell: Telendevour!")
 			src << infomsg("You've taught your class the Telendevour spell.")
 
 		Teach_Accio()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Accio))
-					M << infomsg("You learned Accio!")
+					M.screenAlert("You learned a new spell: Accio!")
 			src << infomsg("You've taught your class the Accio spell.")
 
 		Teach_Ferula()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Ferula))
-					M << infomsg("You learned Ferula!")
+					M.screenAlert("You learned a new spell: Ferula!")
 			src << infomsg("You've taught your class the Ferula spell.")
 
 		Teach_Avis()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Avis))
-					M << infomsg("You learned Avis!")
+					M.screenAlert("You learned a new spell: Avis!")
 			src << infomsg("You've taught your class the Avis spell.")
 
 		Teach_Portus()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Portus))
-					M << infomsg("You learned Portus!")
+					M.screenAlert("You learned a new spell: Portus!")
 			src << infomsg("You've taught your class the Portus spell.")
 
 		Teach_Valorus()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Valorus))
-					M << infomsg("You learned Valorus!")
+					M.screenAlert("You learned a new spell: Valorus!")
 			src << infomsg("You've taught your class the Valorus spell.")
 
 		Teach_Permoveo()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Permoveo))
-					M << infomsg("You learned Permoveo!")
+					M.screenAlert("You learned a new spell: Permoveo!")
 			src << infomsg("You've taught your class the Permoveo spell.")
 
 		Teach_Waddiwasi()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Waddiwasi))
-					M << infomsg("You learned Waddiwasi!")
+					M.screenAlert("You learned a new spell: Waddiwasi!")
 			src << infomsg("You've taught your class the Waddiwasi spell.")
 
 		Teach_Transfigure_Self_Human()
 			set category = "Teach"
 			set hidden = 1
 			set name = "Teach Self to Human"
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Self_To_Human))
-					M << infomsg("You learned Personio Humaium!")
+					M.screenAlert("You learned a new spell: Personio Humaium!")
 			src << infomsg("You've taught your class the Personio Humaium spell.")
 
 		Teach_Incarcerous()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Incarcerous))
-					M << infomsg("You learned Incarcerous!")
+					M.screenAlert("You learned a new spell: Incarcerous!")
 			src << infomsg("You've taught your class the Incarcerous spell.")
 
 		Teach_Disperse()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Disperse))
-					M << infomsg("You learned Disperse!")
+					M.screenAlert("You learned a new spell: Disperse!")
 			src << infomsg("You've taught your class the Disperse spell.")
 
 		Teach_Herbificus()
 			set category = "Teach"
 			set hidden = 1
-			for(var/mob/M in oview(client.view))
+			for(var/mob/Player/M in oview(client.view))
 				if(M.learnspell(/mob/Spells/verb/Herbificus))
-					M << infomsg("You learned Herbificus!")
+					M.screenAlert("You learned a new spell: Herbificus!")
 			src << infomsg("You've taught your class the Herbificus spell.")
