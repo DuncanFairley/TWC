@@ -489,9 +489,18 @@ obj/playerShop
 			var/ScreenText/s = new(p, src)
 
 			if(shop.bidCkey == p.ckey)
-				s.AddText("You currently have the leading bid for this shop.")
+				s.AddText("You currently have the leading bid for this shop. Add another 10 gold coins to further secure your bid? (Current [10 * shop.bidCount])")
+				var/gold/g = new(p)
+				if(g.have(100000))
+					s.SetButtons("Yes", "#00ff00", "No", "#ff0000", null)
+
+					if(!s.Wait()) return
+
+					if(s.Result == "Yes")
+						g.change(p, gold=-10)
+						shop.bidCount++
 			else
-				var/gold/bidPrice = new(bronze=(shop.bidCount + 1) * 100000)
+				var/gold/bidPrice = new(gold=(shop.bidCount + 1) * 10)
 				s.AddText("Bid on this shop with [bidPrice.toString()]?")
 				var/gold/g = new(p)
 				if(g.have(bidPrice))
@@ -500,7 +509,7 @@ obj/playerShop
 					if(!s.Wait()) return
 
 					if(s.Result == "Yes")
-						g.change(p, bronze=-bidPrice)
+						g.change(p, bronze=-bidPrice.toNumber())
 
 						if(shop.bidCkey)
 							mail(shop.bidCkey, errormsg("You were outbid for [shop.id]"), shop.bidCount * 100000)

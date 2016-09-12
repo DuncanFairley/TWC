@@ -29,6 +29,30 @@ obj/Lantern
 	icon='Decoration.dmi'
 	icon_state="lantern"
 	density=1
+
+	flying
+		density   = 0
+		post_init = 1
+		layer     = 5
+
+		var/tmp
+			obj/light/light
+			obj/Shadow/shadow
+
+		MapInit()
+			light  = new(loc)
+			shadow = new(loc)
+
+			var/const/HEIGHT = 16
+			animate(src, pixel_y = HEIGHT, time = 2, loop = -1)
+			animate(pixel_y = HEIGHT + 1,  time = 2)
+			animate(pixel_y = HEIGHT,      time = 2)
+			animate(pixel_y = HEIGHT - 1,  time = 2)
+
+		Dispose()
+			..()
+
+
 obj/lineR
 	icon='table house lines.dmi'
 	icon_state="r"

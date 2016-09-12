@@ -711,12 +711,14 @@ gold
 
 					sorted = 1
 
+			bronze = round(bronze, 1)
+
 
 		change(mob/Player/p, plat = 0, gold = 0, silver = 0, bronze = 0)
 			src.plat   += plat
 			src.gold   += gold
 			src.silver += silver
-			src.bronze += round(bronze, 1)
+			src.bronze += bronze
 
 			sort()
 

@@ -629,6 +629,7 @@ turf
 obj/Shadow
 	icon          = 'shadow.dmi'
 	mouse_opacity = 0
+	canSave       = FALSE
 
 mob/Player
 	var/tmp
