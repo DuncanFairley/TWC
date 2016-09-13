@@ -42,33 +42,28 @@ mob/Player/var/tmp
 	classpathfinding = 0
 	readbooks
 	Checking
-	answered
 
 proc
 	AFK_Train_Scan()
 		worldData.lastusedAFKCheck = world.realtime
 		var/mob/Player/list/readers = list()
-		for(var/mob/Player/M in world)
-			if(M.readbooks)
-				readers.Add(M)
-		sleep(3)
-		for(var/mob/Player/M in world)
-			if(M.readbooks)
-				readers.Remove(M)
-				readers.Add(M)
+		for(var/mob/Player/M in Players)
+			if(M.readbooks > 0)
+				readers += M
 		for(var/mob/Player/M in readers)
 			spawn()
 				M.Checking = 1
-				M.answered = 0
 				var/question/q = pick(questions)
 
 				M << "<u>50 seconds left to reply.</u>"
 				spawn(200)
 					if(!M)return
-					if(!M.answered) M << "<u>30 seconds left to reply.</u>"
+					if(M.Checking) M << "<u>30 seconds left to reply.</u>"
+					else return
 					sleep(200)
 					if(!M)return
-					if(!M.answered) M << "<u><b>10 seconds left to reply.</b></u>"
+					if(M.Checking) M << "<u><b>10 seconds left to reply.</b></u>"
+					else return
 					sleep(100)
 					if(M && IsInputOpen(M, "AFK"))
 						del M._input["AFK"]
@@ -81,17 +76,19 @@ proc
 				else
 					alrt = popup.Alert(M, q.question, "Presence Check", answers[1], answers[2], answers.len == 3 ? answers[3] : null)
 
-				M.answered=1
 				M.Checking = 0
-				if(alrt != q.correct)M.Checking=1
+				if(alrt == q.correct) M.Checking = null
 		sleep(500)
 		for(var/mob/Player/M in readers)
-			if(M && !M.Checking)
-				M.presence = 1
-				M << infomsg("You read faster.")
-			else
-				M.presence = null
-				M << infomsg("You feel sleepy and start reading slower.")
+			if(M)
+				if(M.Checking==null)
+					M.presence = 1
+					M << infomsg("You read faster.")
+				else
+					M.presence = null
+					M << infomsg("You feel sleepy and start reading slower.")
+				M.Checking = null
+
 
 mob/Player/var/tmp/presence
 
@@ -111,33 +108,39 @@ obj
 			if(!worldData.canReadBooks)
 				p << errormsg("You find this book too boring to read.")
 				return
-			if(p.readbooks == 1)
-				p.readbooks = 2
-				p.nomove = 0
+			if(p.readbooks > 0)
+				p.readbooks = -p.readbooks
 				p.presence = null
 				p << infomsg("You stop reading.")
-			else if(!p.readbooks)
+			else if(p.readbooks==null)
 				var/hudobj/reading/R = new(null, p.client, null, 1)
 				p.readbooks = 1
-				p.nomove = 0
 				p << infomsg("You begin reading.")
 				spawn(15)
-					var/amount = 0
-					while(src && p && p.readbooks == 1 && (p in ohearers(src, 1)))
-						var/exp = get_exp(p.level) / (p.presence ? 1 : 3)
-						exp = round(rand(exp - exp / 10, exp + exp / 10))
-						p.addExp(exp, 1, 0)
-						if(p.level > 500) amount += rand(3,6) / (p.presence ? 1 : 3)
-						sleep(p.presence ? 15 : 30)
+					while(p && p.readbooks > 0 && get_dist(src, p) <= 1)
+						var/exp  = get_exp(p.level)
+						if(p.presence)
+							exp = round(rand(exp - exp / 10, exp + exp / 10))
+							p.addExp(exp, 1, 0)
+							if(p.level > 500) p.readbooks += rand(2, 4)
+							sleep(20)
+						else
+							exp /= 3
+							exp = round(rand(exp - exp / 10, exp + exp / 10))
+							p.addExp(exp, 1, 0)
+							if(p.level > 500) p.readbooks += rand(1, 2)
+							sleep(40)
+
 					if(p)
 						R.hide()
-						p.readbooks = 0
-						p.presence = null
-
+						var/amount = abs(p.readbooks) - 1
 						if(amount)
 							var/gold/g = new (bronze=amount)
 							p << infomsg("You share the knowledge you gained as a reward for your hard work you were given [g.toString()]")
 							g.give(p)
+
+						p.readbooks = null
+						p.presence = null
 
 
 		EXP_BOOK_lvl0
@@ -553,8 +556,8 @@ mob/test/verb
 
 		if(!worldData.canReadBooks)
 			for(var/mob/Player/p in Players)
-				if(p.readbooks == 1)
-					p.readbooks = 2
+				if(p.readbooks > 0)
+					p.readbooks = -p.readbooks
 
 	Clear_Exp_Log()
 		worldData.expScoreboard = null
