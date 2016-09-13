@@ -289,6 +289,8 @@ mob/Player/proc/nowand()
 		src << "Your Telendevour wears off."
 		client.eye = src
 		client.perspective = EYE_PERSPECTIVE
+		Interface.SetDarknessColor(TELENDEVOUR_COLOR)
+
 	if(removeoMob)
 		src << "Your Permoveo spell failed.."
 		client.eye = src
@@ -1033,20 +1035,21 @@ mob/Spells/verb/Occlumency()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=1,againstocclumens=1))
 		var/mob/Player/p = src
-		if(!p.occlumens)
+		if(p.occlumens == 0)
 			for(var/mob/Player/c in Players)
 				if(c == p) continue
 				if(c.client.eye == p)
 					c << errormsg("Your Telendevour wears off.")
 					c.client.eye = c
+					c.Interface.SetDarknessColor(TELENDEVOUR_COLOR)
 			hearers() << "<b><span style=\"color:red;\">[usr]</span></b>: <span style=\"color:white;\"><i>Occlumens!</i></span>"
 			p << "You can no longer be viewed by Telendevour."
 			p.occlumens = p.MMP+p.extraMMP
 			p.OcclumensCounter()
 			p.learnSpell("Occlumency")
-		else
+		else if(p.occlumens > 0)
 			src << "You release the barriers around your mind."
-			p.occlumens = 0
+			p.occlumens = -1
 
 mob/Spells/verb/Obliviate(mob/Player/M in oview()&Players)
 	set category="Spells"
@@ -1381,6 +1384,8 @@ mob/Spells/verb/Telendevour()
 			if(istext(M) || M.occlumens>0 || istype(M.loc.loc, /area/ministry_of_magic))
 				src<<"<b>You feel magic repelling your spell.</b>"
 			else
+				var/mob/Player/p = usr
+				p.Interface.SetDarknessColor(TELENDEVOUR_COLOR, 2)
 				usr.client.eye = M
 				usr.client.perspective = EYE_PERSPECTIVE
 				file("Logs/Telenlog.text") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] telendevoured [M]"
@@ -1395,6 +1400,9 @@ mob/Spells/verb/Telendevour()
 		usr.client.eye = usr
 		usr.client.perspective = EYE_PERSPECTIVE
 		hearers() << "[usr]'s eyes appear again."
+		var/mob/Player/p = usr
+		p.Interface.SetDarknessColor(TELENDEVOUR_COLOR)
+
 
 //AVADA//
 
@@ -2198,9 +2206,10 @@ obj/circle
 		yoffset = 2
 
 mob/Player/proc/OcclumensCounter()
+	set waitfor = 0
 	while(occlumens > 0)
+		occlumens--
 		sleep(10)
-		occlumens --
 	src << "Your Occlumency has worn off."
 	occlumens = 0
 
