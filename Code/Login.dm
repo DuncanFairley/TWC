@@ -1097,11 +1097,11 @@ mob/Player
 											usr << "You've been knocked off your broom."
 										var/atom/a = locate("ministryentrance")
 										var/turf/dest = isturf(a) ? a : a.loc
-										for(var/client/C)
-											if(C.eye)
-												if(C.eye == usr && C.mob != usr)
-													C << errormsg("Your Telendevour wears off.")
-													C.eye=C.mob
+										for(var/mob/Player/p in Players)
+											if(p.client.eye == usr && p != usr)
+												p << errormsg("Your Telendevour wears off.")
+												p.client.eye = p
+												p.Interface.SetDarknessColor(TELENDEVOUR_COLOR)
 										usr.loc = dest
 							if(House == "Ministry")
 								switch(lowertext(t))

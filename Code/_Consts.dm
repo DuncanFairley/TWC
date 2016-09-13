@@ -21,6 +21,7 @@
 #define SWAPMAP_Z 24
 #define WINTER 0
 #define NIGHTCOLOR "#6464d0"
+#define TELENDEVOUR_COLOR "#64d0d0"
 
 #define PET_LIGHT 1
 #define PET_FOLLOW_FAR 2
