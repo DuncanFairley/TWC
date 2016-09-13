@@ -1226,7 +1226,7 @@ obj/items/wearable/wands
 	bonus = NOENCHANT
 	max_stack = 1
 
-	calcBonus(mob/Player/owner)
+	calcBonus(mob/Player/owner, reset=1)
 		var/s = worldData.elderWand == owner.ckey ? 0.4 : scale
 		if(bonus & DAMAGE)
 			clothDmg = round(10 * quality * s)
@@ -1234,7 +1234,7 @@ obj/items/wearable/wands
 		if(bonus & DEFENSE)
 			clothDef = round(30 * quality * s)
 			owner.clothDef += clothDef
-			owner.resetMaxHP()
+			if(reset) owner.resetMaxHP()
 
 	proc
 		addExp(mob/Player/owner, amount)
@@ -2309,7 +2309,7 @@ arena_round
 						worldData.housepointsGSRH[3] += amountforwin
 					if("Hufflepuff")
 						worldData.housepointsGSRH[4] += amountforwin
-				Players << "<span style=\";\">[team] have earned [amountforwin] points.</span>"
+				Players << "<span style=\"font-color:red;\">[team] have earned [amountforwin] points.</span>"
 				Save_World()
 				del(currentArena)
 

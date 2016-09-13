@@ -84,18 +84,21 @@ mob/Player/proc/change_vault(var/vault)
 		if(!map.InUse())
 			for(var/turf/t in map.AllTurfs())
 				for(var/obj/items/i in t)
-					i.loc = src
-			map.Unload()
+					i.Move(src)
 			src:Resort_Stacking_Inv()
+			map.Unload()
 		else
 			src << errormsg("Please evacuate everyone from your vault first.")
 			return
+
+	sleep(1)
 
 	if(!islist(worldData.globalvaults))
 		worldData.globalvaults = list()
 	var/vault/v = new
 	v.tmpl = vault
 	v.version = VAULT_VERSION
+	sleep(1)
 	worldData.globalvaults[src.ckey] = v
 	map = SwapMaps_CreateFromTemplate("vault[vault]")
 	if(!map)
@@ -774,8 +777,7 @@ mob
 			var/oldmob = src
 			src.client.mob = character
 			character.client.initMapBrowser()
-			character.gold = new /gold(100)
-			character.goldinbank = new /gold(100)
+			new /obj/items/money/gold (character)
 			character.client.eye = character
 			character.client.perspective = MOB_PERSPECTIVE
 			var/obj/o = locate("@DiagonAlley")
@@ -1095,11 +1097,11 @@ mob/Player
 											usr << "You've been knocked off your broom."
 										var/atom/a = locate("ministryentrance")
 										var/turf/dest = isturf(a) ? a : a.loc
-										for(var/client/C)
-											if(C.eye)
-												if(C.eye == usr && C.mob != usr)
-													C << errormsg("Your Telendevour wears off.")
-													C.eye=C.mob
+										for(var/mob/Player/p in Players)
+											if(p.client.eye == usr && p != usr)
+												p << errormsg("Your Telendevour wears off.")
+												p.client.eye = p
+												p.Interface.SetDarknessColor(TELENDEVOUR_COLOR)
 										usr.loc = dest
 							if(House == "Ministry")
 								switch(lowertext(t))

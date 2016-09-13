@@ -709,16 +709,18 @@ mob/TalkNPC/Vault_Salesman
 			for(var/i in itemlist)
 				if(itemlist[i][1] == v.tmpl)
 					selectedprice = max(selectedprice - itemlist[i][2], 0)
-					usr << infomsg("Selling your existing vault reduces the price to [selectedprice] artifacts and [selectedprice * 100000] gold.")
+					var/gold/price = new(gold=selectedprice * 10)
+					usr << infomsg("Selling your existing vault reduces the price to [selectedprice] artifacts and [price.toString()].")
 					break
 
 
 			var/obj/items/artifact/a = locate() in usr
-			g = new(usr)
+			g.setVars(usr)
 			if(!a || a.stack < selectedprice || !g.have(selectedprice * 100000))
 				usr << npcsay("[name]: I'm running a business here - you can't afford this.")
 			else
 				if(usr:change_vault(selectedvault))
+					g.setVars(usr)
 					g.change(usr, gold=-selectedprice * 10)
 					worldData.ministrybank += worldData.taxrate*selectedprice*1000
 

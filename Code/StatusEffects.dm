@@ -679,18 +679,14 @@ StatusEffect
 			Activate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.Interface.SetDarknessColor("#dd9")
-					p.Interface.ignoreDarkness = TRUE
+					p.Interface.SetDarknessColor("#dd9", 1)
 
 				..()
 
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.Interface.ignoreDarkness = FALSE
-
-					var/area/a = p.loc.loc
-					p.Interface.SetDarknessColor(a.planeColor)
+					p.Interface.SetDarknessColor("#dd9")
 
 				..()
 

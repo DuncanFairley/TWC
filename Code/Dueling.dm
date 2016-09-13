@@ -83,8 +83,12 @@ Duel
 				var/obj/duelblock/o = locate() in t
 				o.density = 0
 
-		if(player1) player1.nomove = 0
-		if(player2) player2.nomove = 0
+		if(player1)
+			player1.nomove = 0
+			player1 = null
+		if(player2)
+			player2.nomove = 0
+			player2 = null
 
 		duelcenter.overlays = list()
 		duelcenter:D = null
@@ -125,8 +129,8 @@ Duel
 				View_Check_Ticker()
 		View_Check_Ticker()
 			set waitfor = 0
-			while(src)
-				sleep(5)
+			sleep(5)
+			while(duelcenter)
 				if(get_dist(player1,duelcenter) > DUEL_DISTANCE)
 					range(DUEL_DISTANCE,duelcenter) << infomsg("<span style=\"font-size:3;\">[player1] has left the duel area. [player2] wins!</span>")
 					player1 << errormsg("<span style=\"font-size:3;\">You have left the duel area. [player2] wins.</span>")
@@ -135,6 +139,7 @@ Duel
 					range(DUEL_DISTANCE,duelcenter) << infomsg("<span style=\"font-size:3;\">[player2] has left the duel area. [player1] wins!</span>")
 					player2 << errormsg("<span style=\"font-size:3;\">You have left the duel area. [player1] wins.</span>")
 					Dispose()
+				sleep(5)
 turf/duelblock/density=0
 obj
 	portduelsystemtiles

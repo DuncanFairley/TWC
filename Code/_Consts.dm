@@ -15,12 +15,13 @@
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
 
 #define VERSION "16.65"
-#define SAVEFILE_VERSION 26
+#define SAVEFILE_VERSION 27
 #define VAULT_VERSION 4
 #define lvlcap 800
 #define SWAPMAP_Z 24
 #define WINTER 0
 #define NIGHTCOLOR "#6464d0"
+#define TELENDEVOUR_COLOR "#64d0d0"
 
 #define PET_LIGHT 1
 #define PET_FOLLOW_FAR 2
