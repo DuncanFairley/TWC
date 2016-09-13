@@ -31,7 +31,7 @@ proc/global_loops()
 
 			var/area/a = p.loc.loc
 			if(istype(a, /area/outside) || istype(a, /area/newareas/outside))
-				p.Interface.SetDarknessColor(a.planeColor)
+				p.Interface.SetDarknessColor()
 
 		sleep(9000)
 
@@ -186,8 +186,7 @@ area
 		if(isplayer(a))
 			var/mob/Player/p = a
 
-			var/area/newArea = a.loc.loc
-			p.Interface.SetDarknessColor(newArea.planeColor)
+			p.Interface.SetDarknessColor()
 
 	outside	// lay this area on the map anywhere you want it to change from night to day
 		layer = 7	// set this layer above everything else so the overlay obscures everything
@@ -299,6 +298,7 @@ obj
 
 		screen_loc = "1,1"
 
+
 interface
 	var
 		obj
@@ -307,7 +307,7 @@ interface
 			darkness/darkness
 
 
-		ignoreDarkness = FALSE
+		list/lightStates
 
 	New()
 		..()
@@ -324,10 +324,33 @@ interface
 			parent.client.screen += lightplane
 			parent.client.screen += darkness
 
-	proc/SetDarknessColor(c)
-		if(ignoreDarkness) return
+	proc/SetDarknessColor(c, priorty=0)
 
-		animate(darkness, color = c, time = 5)
+		if(c)
+			if(priorty)
+				if(!lightStates)
+					lightStates = list()
+				lightStates[c] = priorty
+
+			else if(lightStates && (c in lightStates))
+				lightStates -= c
+
+			if(!lightStates.len)
+				lightStates = null
+			else
+				var/highest = 0
+				var/index = 1
+				for(var/i = 1 to lightStates.len)
+					var/indexColor = lightStates[i]
+					if(lightStates[indexColor] > highest)
+						highest = lightStates[indexColor]
+						index = i
+				animate(darkness, color = lightStates[index], time = 5)
+
+		if(!lightStates)
+			var/area/a = parent.loc.loc
+			animate(darkness, color = a.planeColor, time = 5)
+
 
 obj/light
 	plane = 1
