@@ -777,6 +777,11 @@ client
 			if(mob:pet)
 				mob:pet.Dispose()
 				mob:pet = null
+			if(mob:readbooks > 0)
+				var/amount = mob:readbooks - 1
+				if(amount)
+					var/gold/g = new (bronze=amount)
+					g.give(mob)
 
 		if (base_autosave_character)
 			base_SaveMob()
