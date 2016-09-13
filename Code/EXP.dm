@@ -697,7 +697,7 @@ gold
 				var/v    = variables[i]
 				var/next = variables[i+1]
 
-				if(vars[v] > 100)
+				if(vars[v] >= 100)
 					var/c       = round(vars[v] / 100)
 					vars[v]    -= c * 100
 					vars[next] += c
