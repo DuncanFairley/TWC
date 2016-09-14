@@ -52,10 +52,10 @@ obj/hud/TextMessage
 		animate(src, alpha = 255, time = 5)
 
 		sleep(time + 6)
-
-		animate(src, alpha = 0, time = 5)
-		sleep(6)
-		p.client.screen -= src
+		if(p)
+			animate(src, alpha = 0, time = 5)
+			sleep(6)
+			if(p) p.client.screen -= src
 
 mob/Player/proc/screenAlert(message, time=100)
 	new /obj/hud/TextMessage(null, src, message, time)
