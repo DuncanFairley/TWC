@@ -444,9 +444,6 @@ mob
 				p<<browse(rules,"window=1;size=500x400")
 				src<<"<b><span style=\"font-size:2; color:#3636F5;\">Welcome to Harry Potter: The Wizards Chronicles</span> <u><a href='http://wizardschronicles.com/?ver=[VERSION]'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://www.wizardschronicles.com\">here.</a>"
 
-				if(radioOnline)
-					var/obj/hud/radio/Z = new()
-					p.client.screen += Z
 				if(src:lastreadDP < worldData.dplastupdate)
 					p << "<span style=\"color:red;\">The Daily Prophet has an issue that you haven't yet read. <a href='?src=\ref[src];action=daily_prophet'>Click here</a> to view.</span>"
 				if(VERSION != p.lastversion)

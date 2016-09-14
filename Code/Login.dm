@@ -437,27 +437,27 @@ customMap
 	var/name = ""
 	var/tmp/swapmap/swapmap = null
 vault
-	var/list/allowedpeople = list()	//ckeys of people with permission to enter
+	var/list/allowedpeople	//ckeys of people with permission to enter
 	var/tmpl = "1"// used template, 1 by default
 	var/version = 1
-	proc/can_ckey_enter(ckey)
-		return (ckey in allowedpeople)
 	proc/add_ckey_allowedpeople(ckey)
+		if(!allowedpeople) allowedpeople = list()
 		allowedpeople += ckey
 	proc/remove_ckey_allowedpeople(ckey)
 		allowedpeople -= ckey
+		if(!allowedpeople.len) allowedpeople = null
 	proc/name_ckey_assoc()
 		//Returns an associated list in list[ckey] = name format
 		var/list/result = list()
-		for(var/V in src.allowedpeople)
+		for(var/V in allowedpeople)
 			result[sql_get_name_from(V)] = V
 		return result
 
-mob/proc/get_accessible_vaults()
+mob/Player/proc/get_accessible_vaults()
 	var/list/accessible_vaults = list()
 	for(var/ckey in worldData.globalvaults)
 		var/vault/V = worldData.globalvaults[ckey]
-		if(V.can_ckey_enter(src.ckey))
+		if(src.ckey in V.allowedpeople)
 			accessible_vaults += ckey
 	return accessible_vaults
 
@@ -514,9 +514,6 @@ client/Command(T)
 
 mob/test/verb/Tick_Lag(newnum as num)
 	world.tick_lag = newnum
-mob/test/verb/CurrentRefNum()
-	var/obj/o = new()
-	src << "\ref[o]"
 mob/test/verb/Modify_Housepoints()
 
 	worldData.housepointsGSRH[1] = input("Select Gryffindor's housepoints:","Housepoints",worldData.housepointsGSRH[1]) as num
@@ -524,8 +521,6 @@ mob/test/verb/Modify_Housepoints()
 	worldData.housepointsGSRH[3] = input("Select Ravenclaw's housepoints:","Housepoints",worldData.housepointsGSRH[3]) as num
 	worldData.housepointsGSRH[4] = input("Select Hufflepuff's housepoints:","Housepoints",worldData.housepointsGSRH[4]) as num
 	Save_World()
-
-var/radioOnline = 0
 
 proc/check(msg as text)
     var/search = list("\n")//this is a list of stuff you want to make sure is not in the msg
@@ -535,38 +530,6 @@ proc/check(msg as text)
             msg = "[copytext(msg,1,pos)][copytext(msg,pos+1)]"//It makes the unwanted text(in this case "\n") display in the chat rather than it maknig a new line.
             pos = findtext(msg,c,pos)//looks for anymore unwanted text after the first one is found
     return html_encode(msg)
-var/list/illegalnames = list(
-	"robed figure",
-	"masked figure",
-	"deatheater",
-	"auror",
-	"harry",
-	"potter",
-	"weasley",
-	"hermione",
-	"granger",
-	"albus",
-	"dumbledore",
-	"malfoy",
-	"lestrange",
-	"sirius",
-	"voldemort",
-	"1",
-	"2",
-	"3",
-	"4",
-	"5",
-	"6",
-	"7",
-	"8",
-	"9",
-	"0")
-//client
-//	script = "<STYLE>BODY {background: black; color: white; font-family: Arial,sans-serif}a:link {color: #3636F5}</STYLE>"
-//	macros return "Attack"
-
-var/DevMode
-
 
 world
 	hub = "TheWizardsChronicles.TWC"
@@ -650,7 +613,14 @@ mob
 				"z",
 				" ")
 			var/list/unallowed_names = list(
+				"robed figure",
+				"masked figure",
+				"deatheater",
+				"auror",
 				"harry",
+				"potter",
+				"albus",
+				"malfoy",
 				"snape",
 				"hermoine",
 				"voldemort",
@@ -665,17 +635,7 @@ mob
 				"riddle",
 				"lestrange",
 				"black",
-				"marvello",
-				"1",
-				"2",
-				"3",
-				"4",
-				"5",
-				"6",
-				"7",
-				"8",
-				"9",
-				"0")
+				"marvello")
 			var/list/foundinvalids = ""
 			alert(length(name))
 			for(var/i=1;i<length(name)+1;i++)
@@ -695,13 +655,6 @@ mob
 			for(var/unallowed_name in unallowed_names)
 				if(findtext(name, unallowed_name))
 					return "contains \"[unallowed_name]\""
-		proc/filtername(var/charname)
-			if(charname=="" || charname == " ")
-				return 1
-			for(var/W in illegalnames)
-				if(findtext(charname,W))
-					return 1
-			return 0
 		Login()
 			var/mob/Player/character=new()
 			//character.savefileversion = currentsavefilversion
@@ -1098,10 +1051,9 @@ mob/Player
 										var/atom/a = locate("ministryentrance")
 										var/turf/dest = isturf(a) ? a : a.loc
 										for(var/mob/Player/p in Players)
-											if(p.client.eye == usr && p != usr)
+											if(p.client.eye == usr && p != usr && p.Interface.SetDarknessColor(TELENDEVOUR_COLOR))
 												p << errormsg("Your Telendevour wears off.")
 												p.client.eye = p
-												p.Interface.SetDarknessColor(TELENDEVOUR_COLOR)
 										usr.loc = dest
 							if(House == "Ministry")
 								switch(lowertext(t))
