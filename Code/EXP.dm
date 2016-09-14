@@ -50,34 +50,29 @@ proc
 		for(var/mob/Player/M in Players)
 			if(M.readbooks > 0)
 				readers += M
-		for(var/mob/Player/M in readers)
-			spawn()
+
 				M.Checking = 1
-				var/question/q = pick(questions)
-
 				M << "<u>50 seconds left to reply.</u>"
-				spawn(200)
-					if(!M)return
-					if(M.Checking) M << "<u>30 seconds left to reply.</u>"
-					else return
-					sleep(200)
-					if(!M)return
-					if(M.Checking) M << "<u><b>10 seconds left to reply.</b></u>"
-					else return
-					sleep(100)
-					if(M && IsInputOpen(M, "AFK"))
-						del M._input["AFK"]
-				var
-					Input/popup = new (M, "AFK")
-					list/answers = Shuffle(q.wrong + q.correct)
-					alrt
-				if(answers.len > 3)
-					alrt = popup.InputList(M, q.question, "Presence Check", answers[1], answers)
-				else
-					alrt = popup.Alert(M, q.question, "Presence Check", answers[1], answers[2], answers.len == 3 ? answers[3] : null)
+				spawn()
+					var/question/q = pick(questions)
 
-				M.Checking = 0
-				if(alrt == q.correct) M.Checking = null
+					spawn(200)
+						if(M && M.Checking)
+							M << "<u>30 seconds left to reply.</u>"
+							sleep(200)
+							if(M && M.Checking)
+								M << "<u><b>10 seconds left to reply.</b></u>"
+					var
+						Input/popup = new (M, "AFK")
+						list/answers = Shuffle(q.wrong + q.correct)
+						alrt
+					if(answers.len > 3)
+						alrt = popup.InputList(M, q.question, "Presence Check", answers[1], answers)
+					else
+						alrt = popup.Alert(M, q.question, "Presence Check", answers[1], answers[2], answers.len == 3 ? answers[3] : null)
+
+					M.Checking = 0
+					if(alrt == q.correct) M.Checking = null
 		sleep(500)
 		for(var/mob/Player/M in readers)
 			if(M)
@@ -87,7 +82,10 @@ proc
 				else
 					M.presence = null
 					M << infomsg("You feel sleepy and start reading slower.")
-				M.Checking = null
+
+					if(M.Checking && IsInputOpen(M, "AFK"))
+						del M._input["AFK"]
+					M.Checking = null
 
 
 mob/Player/var/tmp/presence
