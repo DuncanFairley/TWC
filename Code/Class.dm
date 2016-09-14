@@ -286,7 +286,7 @@ class
 				..()
 				say("Careful when you use this. It fires projectiles in all 8 directions! It's quite a useful spell in my opinion.", p)
 		Protego
-			cd = 10
+			cd = 60
 			wand = TRUE
 			start(mob/Player/p)
 				..()
