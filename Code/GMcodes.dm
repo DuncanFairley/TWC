@@ -1439,16 +1439,16 @@ mob/GM
 		Freeze_Area()
 			set category="Staff"
 			usr<<"With a flick of your wand, you Freeze your view!"
-			for(var/mob/Player/M in oview())
-				if(M != src)
+			for(var/mob/Player/M in ohearers(client.view, src))
+				if(M != src && !M.GMFrozen)
 					M.GMFrozen=1
 					M.overlays+='freeze.dmi'
 
 		Unfreeze_Area()
 			set category="Staff"
 			usr<<"With a flick of your wand, you UnFreeze your view!"
-			for(var/mob/Player/M in oview())
-				if(M != src)
+			for(var/mob/Player/M in ohearers(client.view, src))
+				if(M != src && M.GMFrozen)
 					M.GMFrozen=0
 					M.overlays-='freeze.dmi'
 
