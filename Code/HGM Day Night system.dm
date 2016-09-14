@@ -331,13 +331,16 @@ interface
 				if(!lightStates)
 					lightStates = list()
 				lightStates[c] = priorty
+				. = 1
 
 			else if(lightStates && (c in lightStates))
 				lightStates -= c
+				. = 1
 
-			if(!lightStates.len)
-				lightStates = null
-			else
+				if(!lightStates.len)
+					lightStates = null
+
+			if(lightStates)
 				var/highest = 0
 				var/index = 1
 				for(var/i = 1 to lightStates.len)

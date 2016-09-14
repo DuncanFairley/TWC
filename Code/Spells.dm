@@ -1038,10 +1038,9 @@ mob/Spells/verb/Occlumency()
 		if(p.occlumens == 0)
 			for(var/mob/Player/c in Players)
 				if(c == p) continue
-				if(c.client.eye == p)
+				if(c.client.eye == p && c.Interface.SetDarknessColor(TELENDEVOUR_COLOR))
 					c << errormsg("Your Telendevour wears off.")
 					c.client.eye = c
-					c.Interface.SetDarknessColor(TELENDEVOUR_COLOR)
 			hearers() << "<b><span style=\"color:red;\">[usr]</span></b>: <span style=\"color:white;\"><i>Occlumens!</i></span>"
 			p << "You can no longer be viewed by Telendevour."
 			p.occlumens = p.MMP+p.extraMMP

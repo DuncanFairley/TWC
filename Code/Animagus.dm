@@ -41,10 +41,9 @@ turf/gotoministry
 						for(var/obj/items/wearable/brooms/Broom in user.Lwearing)
 							Broom.Equip(user,1)
 					for(var/mob/Player/p in Players)
-						if(p.client.eye == usr && p != usr)
+						if(p.client.eye == usr && p != usr && p.Interface.SetDarknessColor(TELENDEVOUR_COLOR))
 							p << errormsg("Your Telendevour wears off.")
 							p.client.eye = p
-							p.Interface.SetDarknessColor(TELENDEVOUR_COLOR)
 					usr:Transfer(dest)
 			else
 				view(src) << "<b>Toilet</b>: <i>The Ministry of Magic is not currently open to visitors. Sorry!</i>"
