@@ -1199,7 +1199,7 @@ mob
 					var/tmpname = M.name
 					del(M)
 					var/Reason = input("Why was [tmpname] disconnected?")
-					spawn()sql_add_plyr_log(tmpckey,"di",Reason,-1)
+					spawn()sql_add_plyr_log(tmpckey,"di",Reason)
 					Log_admin("[src] has disconnected [tmpname]")
 		Phase()
 			set category = "Staff"
