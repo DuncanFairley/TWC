@@ -362,7 +362,7 @@ quest
 		reward = /questReward/Mon1
 
 		Kill
-			desc = "Kill 50 rats."
+			desc = "Kill 80 rats."
 			reqs = list("Kill Rat" = 80)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
@@ -373,7 +373,7 @@ quest
 		reward = /questReward/Mon2
 
 		Kill
-			desc = "Kill 50 rats and 50 pixies."
+			desc = "Kill 100 rats and 50 pixies."
 			reqs = list("Kill Rat"   = 100,
 						"Kill Pixie" = 50)
 		Reward
@@ -540,7 +540,7 @@ quest
 		reward = /questReward/Mon3
 
 		Clear
-			desc = "Tom wants you to clear his cellar of rats, kill 35 rats and pull the lever at the end of the cellar."
+			desc = "Tom wants you to clear his cellar of rats, kill 50 rats and pull the lever at the end of the cellar."
 			reqs = list("Lever" = 1, "Kill Rat" = 50)
 		Reward
 			desc = "Go back to Tom to get your reward!"
