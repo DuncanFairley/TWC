@@ -1081,16 +1081,18 @@ turf
 obj
 	fence
 		icon='turf.dmi'
-		icon_state="hpfence"
+		icon_state="fence"
 		density=1
+		pixel_y = 16
 	downfence
 		icon='turf.dmi'
-		icon_state = "post"
+		icon_state = "fence side"
 		density = 1
 	halffence
 		icon='turf.dmi'
-		icon_state="halffence"
+		icon_state="fence"
 		layer = 5
+		pixel_y = -2
 
 	curtains
 		icon='turf.dmi'
