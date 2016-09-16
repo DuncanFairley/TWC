@@ -331,7 +331,7 @@ mob/TalkNPC/Guildmaster
 
 			var/gold/money = new(p)
 			var/obj/items/artifact/a = locate() in p
-			if(a.stack >= 15 && money.have(1500000))
+			if(a && a.stack >= 15 && money.have(1500000))
 				s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
 			else
 				s.AddButtons(0, 0, "No", "#ff0000", 0, 0)

@@ -191,7 +191,7 @@ proc/sql_retrieve_plyr_log(ckey,mob/caller)
 						length = " ([tmplength] days)"
 					else
 						length = " ([tmplength] minutes)"
-			else if(type == "Warning")
+			else if(type == "Warning" || type == "Disconnect")
 				length = null
 			var/msg = url_decode(row_data["msg"])
 			if(caller.admin)

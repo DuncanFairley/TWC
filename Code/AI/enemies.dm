@@ -857,12 +857,19 @@ mob
 					Basilisk
 						icon = 'Mobs_128x128.dmi'
 						iconSize = 4
+						pixel_x = -48
+						pixel_y = -48
 						icon_state = "basilisk"
 						name = "Mini Basilisk"
 						HPmodifier = 3
 						DMGmodifier = 3
 						MoveDelay = 3
 						level = 2000
+
+						MapInit()
+							set waitfor = 0
+							..()
+							SetSize(2)
 
 						Search()
 							step_rand(src)

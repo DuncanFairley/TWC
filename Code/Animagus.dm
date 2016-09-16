@@ -41,22 +41,27 @@ turf/gotoministry
 						for(var/obj/items/wearable/brooms/Broom in user.Lwearing)
 							Broom.Equip(user,1)
 					for(var/mob/Player/p in Players)
-						if(p.client.eye == usr && p != usr)
+						if(p.client.eye == usr && p != usr && p.Interface.SetDarknessColor(TELENDEVOUR_COLOR))
 							p << errormsg("Your Telendevour wears off.")
 							p.client.eye = p
-							p.Interface.SetDarknessColor(TELENDEVOUR_COLOR)
 					usr:Transfer(dest)
 			else
 				view(src) << "<b>Toilet</b>: <i>The Ministry of Magic is not currently open to visitors. Sorry!</i>"
 
 turf
+	var/tmp/skip = 0
 	proc
 		AdjacentTurfs()
 			var/L = list()
 			for(var/turf/t in orange(1, src))
+				if(skip) continue
 				if(!t.density)
 					L += t
 			return L
 
 		Distance(turf/t)
 			return get_dist(src,t)
+
+turf
+	blankturf/skip = 1
+	sideBlock/skip = 1

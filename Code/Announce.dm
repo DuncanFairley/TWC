@@ -86,6 +86,7 @@ mob
 				hearers(usr.client.view,usr)<<"<span style=\"color:red;\">[usr] raises \his hand.</span>"
 				usr.questionius=1
 mob/verb/Emote(t as text)
+	if(!base_save_allowed) return
 	if(src:mute==1)
 		usr << errormsg("You can't emote while you are muted.")
 		return

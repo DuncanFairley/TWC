@@ -1038,10 +1038,9 @@ mob/Spells/verb/Occlumency()
 		if(p.occlumens == 0)
 			for(var/mob/Player/c in Players)
 				if(c == p) continue
-				if(c.client.eye == p)
+				if(c.client.eye == p && c.Interface.SetDarknessColor(TELENDEVOUR_COLOR))
 					c << errormsg("Your Telendevour wears off.")
 					c.client.eye = c
-					c.Interface.SetDarknessColor(TELENDEVOUR_COLOR)
 			hearers() << "<b><span style=\"color:red;\">[usr]</span></b>: <span style=\"color:white;\"><i>Occlumens!</i></span>"
 			p << "You can no longer be viewed by Telendevour."
 			p.occlumens = p.MMP+p.extraMMP
@@ -1570,7 +1569,7 @@ mob/Spells/verb/Portus()
 						src << errormsg("Portus can't be used on top of something else.")
 						return
 				if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25))
-					var/obj/portkey/P1 = new(src.loc)
+					var/obj/portkey/P1 = new(loc)
 					var/obj/portkey/P2 = new(locate(39,53,18))
 					P1.partner = P2
 					P2.partner = P1
@@ -1583,8 +1582,9 @@ mob/Spells/verb/Portus()
 						src << errormsg("Portus can't be used on top of something else.")
 						return
 				if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25))
-					var/obj/portkey/P1 = new(src.loc)
-					var/obj/portkey/P2 = new(locate("@Courtyard"))
+					var/obj/target = locate("@Courtyard")
+					var/obj/portkey/P1 = new(loc)
+					var/obj/portkey/P2 = new(target.loc)
 					P1.partner = P2
 					P2.partner = P1
 			if("The Dark Forest Entrance")
@@ -1596,7 +1596,7 @@ mob/Spells/verb/Portus()
 						src << errormsg("Portus can't be used on top of something else.")
 						return
 				if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25))
-					var/obj/portkey/P1 = new(src.loc)
+					var/obj/portkey/P1 = new(loc)
 					var/obj/portkey/P2 = new(locate(48,92,23))
 					P1.partner = P2
 					P2.partner = P1

@@ -753,7 +753,7 @@ obj/items/treasure
 
 		sleep(150)
 		while(loc)
-			var/turf/t = locate(x + rand(-3, 3), y + rand(-3, 3), z)
+			var/turf/t = locate(x + rand(-4, 4), y + rand(-4, 4), z)
 			if(t)
 				emit(loc    = t,
 				 	 ptype  = /obj/particle/star,
@@ -762,7 +762,7 @@ obj/items/treasure
 				 	 speed  = 5,
 				 	 life   = new /Random(4,8))
 
-			sleep(rand(150, 300))
+			sleep(rand(150, 450))
 
 	Take()
 		set src in oview(1)

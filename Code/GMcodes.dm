@@ -1199,7 +1199,7 @@ mob
 					var/tmpname = M.name
 					del(M)
 					var/Reason = input("Why was [tmpname] disconnected?")
-					spawn()sql_add_plyr_log(tmpckey,"di",Reason,-1)
+					spawn()sql_add_plyr_log(tmpckey,"di",Reason)
 					Log_admin("[src] has disconnected [tmpname]")
 		Phase()
 			set category = "Staff"
@@ -1439,16 +1439,16 @@ mob/GM
 		Freeze_Area()
 			set category="Staff"
 			usr<<"With a flick of your wand, you Freeze your view!"
-			for(var/mob/Player/M in oview())
-				if(M != src)
+			for(var/mob/Player/M in ohearers(client.view, src))
+				if(M != src && !M.GMFrozen)
 					M.GMFrozen=1
 					M.overlays+='freeze.dmi'
 
 		Unfreeze_Area()
 			set category="Staff"
 			usr<<"With a flick of your wand, you UnFreeze your view!"
-			for(var/mob/Player/M in oview())
-				if(M != src)
+			for(var/mob/Player/M in ohearers(client.view, src))
+				if(M != src && M.GMFrozen)
 					M.GMFrozen=0
 					M.overlays-='freeze.dmi'
 
