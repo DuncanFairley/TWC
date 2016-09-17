@@ -456,7 +456,7 @@ mob
 						if(t)
 							chance *= t.factor
 
-					if(prob(chance * 10))
+					if(prob(chance * 8))
 						var/obj/items/wearable/pets/w = new spawnType (loc)
 						if(isShiny)
 							w.function |= PET_SHINY|PET_LIGHT
@@ -464,13 +464,13 @@ mob
 						w.prizeDrop(killer.ckey, 300)
 				else
 					if(killer.findStatusEffect(/StatusEffect/Lamps/Farming))
-						chance *= 10
+						chance *= 5
 
 					if(prob(chance))
 						if(defaultColor == "rand")
 							animate(src)
 
-						if(prob(2))
+						if(prob(1))
 							color = pick(shinyList)
 						else
 							color = "#d00"
