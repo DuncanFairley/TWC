@@ -2055,6 +2055,9 @@ obj/items/wearable/title
 	Samurai
 		title = "Samurai"
 		name  = "Title: Samurai"
+	Undead
+		title = "Undead"
+		name  = "Title: Undead"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
