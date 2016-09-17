@@ -104,8 +104,9 @@ obj/items/wearable/pets
 
 		else if(. == REMOVED || forceremove)
 
-			owner.pet.Dispose()
-			owner.pet = null
+			if(owner.pet)
+				owner.pet.Dispose()
+				owner.pet = null
 
 			if(!overridetext) hearers(owner) << infomsg("[owner] puts \his [src.name] away.")
 
