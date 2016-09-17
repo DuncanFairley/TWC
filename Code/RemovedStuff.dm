@@ -463,11 +463,11 @@ proc/view2screenloc(view)
 	//example result "1,1 to 33,29
 	view = replacetext(view,"x",",")
 	return "1,1 to [view]"
-mob/Spells/verb/Conjunctivis(mob/M in oview()&Players)
+mob/Spells/verb/Conjunctivis()
 	set hidden = 1
-mob/Spells/verb/Melofors(mob/M in oview()&Players)
+mob/Spells/verb/Melofors()
 	set hidden = 1
-mob/Spells/verb/Rictusempra(mob/M in oview(2)&Players)
+mob/Spells/verb/Rictusempra()
 	set hidden = 1
 mob/Spells/verb/Expecto_Patronum()
 	set hidden = 1
