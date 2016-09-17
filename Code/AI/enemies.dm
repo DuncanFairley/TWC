@@ -991,6 +991,47 @@ mob
 							     life   = new /Random(1,25))
 							..()
 
+					Zombie
+						name = "Zombie"
+						HPmodifier = 6
+						DMGmodifier = 2
+						MoveDelay = 2
+						AttackDelay = 1
+						Range = 15
+						level = 1500
+
+						MapInit()
+							set waitfor = 0
+							..()
+
+							if(prob(51))
+								icon   = 'FemaleZombie.dmi'
+								gender = FEMALE
+							else
+								icon   = 'MaleZombie.dmi'
+								gender = MALE
+
+							GenerateIcon(src)
+
+						Attacked(obj/projectile/p)
+							if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
+								if(MoveDelay == 2 && prob(60))
+									MoveDelay = 1
+									ChangeState(state)
+									spawn(60)
+										MoveDelay = 2
+										ChangeState(state)
+
+								if(p.icon_state == "blood")
+									emit(loc    = src,
+										 ptype  = /obj/particle/green,
+									     amount = 2,
+									     angle  = new /Random(1, 359),
+									     speed  = 2,
+									     life   = new /Random(15,20))
+								else
+									..()
+
 					Ghost
 						name = "Vengeful Ghost"
 						icon = 'NPCs.dmi'
@@ -2309,17 +2350,13 @@ obj/corpse
 			else
 				usr << errormsg("You need to be closer.")
 
-	New(Loc, mob/dead, gold = 0)
+	New(turf/Loc, mob/dead, gold = 0)
 		set waitfor = 0
 		..()
 
 		appearance         = dead.appearance
 		dir                = dead.dir
 		layer              = 2
-
-		if(gold)
-			mouse_over_pointer = MOUSE_HAND_POINTER
-			src.gold = gold
 
 		var/matrix/m = transform
 		m.Turn(90 * pick(1, -1))
@@ -2335,8 +2372,50 @@ obj/corpse
 			else
 				sleep(40)
 		else // player fade time
+			sleep(20)
+			var/area/a = Loc.loc
+
+			if(a.undead)
+				var/mob/Player/p = dead
+				if(p.Gender == "Female")
+					icon = 'FemaleZombie.dmi'
+				else
+					icon = 'MaleZombie.dmi'
+
+				animate(src, transform = null, time = 10)
+
+				sleep(10)
+				new /mob/NPC/Enemies/Summoned/Zombie (loc, p, src)
+				loc = null
+				return
+
+			else if(gold)
+				mouse_over_pointer = MOUSE_HAND_POINTER
+				src.gold = gold
+
 			sleep(450)
 
 		animate(src, alpha = 0, time = 10)
 		sleep(10)
 		loc = null
+
+area/var/undead = 0
+
+mob/NPC/Enemies/Summoned/Zombie
+	DMGmodifier = 2
+	HPmodifier  = 4
+	MoveDelay   = 2
+	AttackDelay = 1
+
+	New(Loc, mob/Player/p, obj/corpse/c)
+		..()
+
+		appearance = c.appearance
+		level      = p.level + rand(0, 50)
+		extraDmg   = p.extraDmg + p.clothDmg + rand(0, 100)
+
+	MapInit()
+		set waitfor = 0
+		calcStats()
+		sleep(2)
+		state()

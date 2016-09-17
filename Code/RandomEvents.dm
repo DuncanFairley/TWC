@@ -419,6 +419,47 @@ RandomEvent
 			if(message) Players << infomsg("The vampire lord and his army vanished to darkness.")
 			end()
 
+	Zombie
+		name   = "Zombie"
+		chance = 0
+		start()
+			..()
+			var/minutes = rand(15,45)
+			var/list/m = list()
+			Players << infomsg("A zombie has appeared outside for [minutes] minutes, kill zombie before it infects others!")
+
+			var/obj/spawner/spawn_loc = pick(spawners)
+			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/Zombie(spawn_loc.loc)
+			m += monster
+
+			for(var/i = 1 to 15)
+				spawn_loc = pick(spawners)
+				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
+
+				m += monster
+
+			var/area/a = spawn_loc.loc.loc
+			a.undead = 1
+
+			sleep(minutes * 600)
+
+			for(var/mob/NPC/Enemies/Summoned/Zombie/z in a)
+				z.loc = null
+				z.ChangeState(monster.INACTIVE)
+
+			a.undead = 0
+
+			var/message = 0
+			for(var/mob/NPC/Enemies/Summoned/mon in m)
+				if(mon.loc != null) message = 1
+				mon.loc = null
+				mon.ChangeState(monster.INACTIVE)
+				m -= mon
+			m = null
+
+			if(message) Players << infomsg("The zombies are gone... for now.")
+			end()
+
 	Sword
 		name   = "The Black Blade"
 		chance = 0

@@ -42,12 +42,22 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							/obj/items/lamps/triple_drop_rate_lamp,
 							/obj/items/lamps/triple_gold_lamp),
 
+"Zombie"             = list(/obj/items/wearable/scarves/halloween_scarf,
+							/obj/items/key/summer_key,
+							/obj/items/artifact,
+							/obj/items/crystal/soul,
+							/obj/items/lamps/triple_drop_rate_lamp,
+							/obj/items/lamps/triple_gold_lamp,
+							/obj/items/wearable/title/Undead),
+
 "The Dark Blade"     = list(/obj/items/key/wizard_key,
 		                    /obj/items/key/pentakill_key,
+		                    /obj/items/key/sunset_key,
 							/obj/items/key/summer_key,
 							/obj/items/key/prom_key,
 							/obj/items/key/pet_key,
 							/obj/items/key/community_key,
+                            /obj/items/wearable/pets/sword,
 							/obj/items/wearable/title/Samurai,
 							/obj/items/vault_key),
 
