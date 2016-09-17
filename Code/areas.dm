@@ -627,9 +627,11 @@ turf
 		..()
 
 obj/Shadow
-	icon          = 'shadow.dmi'
-	mouse_opacity = 0
-	canSave       = FALSE
+	icon             = 'shadow.dmi'
+	mouse_opacity    = 0
+	canSave          = FALSE
+	appearance_flags = LONG_GLIDE|TILE_BOUND
+
 
 mob/Player
 	var/tmp
