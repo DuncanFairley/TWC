@@ -37,6 +37,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
                             /obj/items/wearable/pets/rock,
 							/obj/items/chest/wigs/basic_wig_chest,
 							/obj/items/chest/pet_chest,
+							/obj/items/spellbook/peace,
 							/obj/items/chest/wizard_chest,
 							/obj/items/lamps/triple_drop_rate_lamp,
 							/obj/items/lamps/triple_gold_lamp),
