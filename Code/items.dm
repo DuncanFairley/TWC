@@ -2052,6 +2052,9 @@ obj/items/wearable/title
 	Scavenger
 		title = "Scavenger"
 		name  = "Title: Scavenger"
+	Samurai
+		title = "Samurai"
+		name  = "Title: Samurai"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
