@@ -1835,7 +1835,7 @@ mob/proc/Death_Check(mob/killer = src)
 			if(istype(src, /mob/NPC/Enemies))
 				src:Death(killer)
 			src.loc=null
-			Respawn(src)
+			Respawn(src, killer)
 
 mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
 	if(mute==0)
@@ -2061,7 +2061,7 @@ proc
 			else
 				open = 0
 		return t
-	Respawn(mob/NPC/Enemies/E)
+	Respawn(mob/NPC/Enemies/E, mob/killer)
 		set waitfor = 0
 		if(!E)return
 		if(E.removeoMob)
@@ -2073,7 +2073,11 @@ proc
 		else
 			E.ChangeState(E.INACTIVE)
 			if(E.origloc)
-				sleep(E.respawnTime)// + rand(-50,100))////1200
+
+				var/time = E.respawnTime + rand(-30, 30)
+				if(killer && E.level <= killer.level)
+					time += (E.level - killer.level)
+				sleep(time)
 				if(E)
 					E.loc = E.origloc
 					E.HP = E.MHP
