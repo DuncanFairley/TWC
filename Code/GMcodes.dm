@@ -1498,6 +1498,7 @@ mob/GM
 										   /obj/items/artifact           = 20,
 		                        		   /obj/items/key/wizard_key     = 20,
 		                        		   /obj/items/key/pentakill_key  = 20,
+								   		   /obj/items/key/sunset_key     = 10,
 										   /obj/items/key/summer_key     = 10,
 										   /obj/items/key/prom_key       = 5))
 
