@@ -324,7 +324,7 @@ obj/pet
 			else
 				pixel_y = offset
 
-		if(p.client.moving && loc && (istype(loc.loc, /area/outside) || istype(loc.loc, /area/newareas/outside)))
+		if(p.client.moving && !p.teleporting && loc && (istype(loc.loc, /area/outside) || istype(loc.loc, /area/newareas/outside)))
 			if(++stepCount > 1000 && prob(1))
 				stepCount = 0
 
