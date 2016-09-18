@@ -884,24 +884,26 @@ mob/Player
 		sight &= ~(SEE_SELF|BLIND)
 		switch(key)
 			if("Murrawhip")
-				src.verbs+=typesof(/mob/GM/verb/)
-				src.verbs+=typesof(/mob/Spells/verb/)
-				src.verbs+=typesof(/mob/test/verb/)
-				src.verbs+=typesof(/mob/Quidditch/verb)
-				src.Gm=1
-				src.shortapparate=1
-				src.draganddrop=1
-				src.admin=1
+				verbs+=typesof(/mob/GM/verb/)
+				verbs+=typesof(/mob/Spells/verb/)
+				verbs+=typesof(/mob/test/verb/)
+				verbs+=typesof(/mob/Quidditch/verb)
+				Gm=1
+				shortapparate=1
+				draganddrop=1
+				admin=1
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
 			if("Rotem12")
-				src.verbs+=typesof(/mob/GM/verb/)
-				src.verbs+=typesof(/mob/Spells/verb/)
-				src.verbs+=typesof(/mob/test/verb/)
-				src.verbs+=typesof(/mob/Quidditch/verb)
-				src.Gm=1
-				src.draganddrop=1
-				src.admin=1
+				verbs+=typesof(/mob/GM/verb/)
+				verbs+=typesof(/mob/Spells/verb/)
+				verbs+=typesof(/mob/test/verb/)
+				verbs+=typesof(/mob/Quidditch/verb)
+				Gm=1
+				draganddrop=1
+				admin=1
+			else if(Gm && !(ckey in worldData.Gms))
+				removeStaff()
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
@@ -1057,27 +1059,6 @@ mob/Player
 										usr.loc = dest
 							if(House == "Ministry")
 								switch(lowertext(t))
-									if("code black")
-										var/area/ministry_of_magic/A = locate(/area/ministry_of_magic)
-										if(A.code_black)
-											A.code_black = 0
-											for(var/mob/M in Players)
-												M << "<b><span style=\"color:red;\">Ministry of Magic - Code Black cancelled</span></b>"
-										else
-											for(var/mob/M in Players)
-												M << "<b><span style=\"color:red;\">Ministry of Magic is under attack. Code Black initiated</span></b>"
-											A.code_black = 1
-											var/list/turf/seeds = list()
-											for(var/turf/T in A)
-												if(rand(1,13)==1)
-													seeds += T
-											var/obj/items/Smoke_Pellet/Pellet
-											while(A.code_black)
-												for(var/turf/T in seeds)
-													Pellet = new(T)
-													spawn(rand(1,30))Pellet.Explode()
-												sleep(150)
-
 									if("change ministry password")
 										if(key=="Murrawhip")
 											var/input = input("New password?", "Ministry Password", worldData.ministrypw) as null|text
@@ -1388,24 +1369,24 @@ mob/Player
 			stat("Ravenclaw",worldData.housepointsGSRH[3])
 			stat("Hufflepuff",worldData.housepointsGSRH[4])
 			stat("","")
-			if(currentEvents)
+			if(worldData.currentEvents)
 				stat("Current Events:","")
-				for(var/key in currentEvents)
+				for(var/key in worldData.currentEvents)
 					stat("", key)
-			if(currentArena)
-				if(currentArena.roundtype == HOUSE_WARS)
+			if(worldData.currentArena)
+				if(worldData.currentArena.roundtype == HOUSE_WARS)
 					stat("Arena:")
-					stat("Gryffindor",currentArena.teampoints["Gryffindor"])
-					stat("Slytherin",currentArena.teampoints["Slytherin"])
-					stat("Hufflepuff",currentArena.teampoints["Hufflepuff"])
-					stat("Ravenclaw",currentArena.teampoints["Ravenclaw"])
-				else if(currentArena.roundtype == FFA_WARS)
+					stat("Gryffindor",worldData.currentArena.teampoints["Gryffindor"])
+					stat("Slytherin",worldData.currentArena.teampoints["Slytherin"])
+					stat("Hufflepuff",worldData.currentArena.teampoints["Hufflepuff"])
+					stat("Ravenclaw",worldData.currentArena.teampoints["Ravenclaw"])
+				else if(worldData.currentArena.roundtype == FFA_WARS)
 					stat("Arena: (Players Alive)")
-					for(var/mob/M in currentArena.players)
+					for(var/mob/M in worldData.currentArena.players)
 						stat("-",M.name)
-			if(currentMatches.arenas)
+			if(worldData.currentMatches.arenas)
 				stat("Matchmaking:", "(Click to spectate. Click again to stop.)")
-				for(var/arena/a in currentMatches.arenas)
+				for(var/arena/a in worldData.currentMatches.arenas)
 					stat(a.spectateObj)
 
 
@@ -1560,7 +1541,7 @@ mob/proc/Death_Check(mob/killer = src)
 					if(/area/hogwarts/Duel_Arenas/Main_Arena_Bottom)
 						p.Transfer(locate("DuelArena_Death"))
 					if(/area/hogwarts/Duel_Arenas/Matchmaking/Main_Arena_Top)
-						var/obj/o = pick(duel_chairs)
+						var/obj/o = pick(worldData.duel_chairs)
 						p.Transfer(o.loc)
 					if(/area/hogwarts/Duel_Arenas/Slytherin)
 						p.Transfer(locate("Slyth_Death"))
@@ -1592,34 +1573,34 @@ mob/proc/Death_Check(mob/killer = src)
 				p.HP = p.MHP+p.extraMHP
 				return
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/PlayArea))
-				if(currentArena)
-					var/list/players = range(8,currentArena.speaker)|currentArena.players
+				if(worldData.currentArena)
+					var/list/players = range(8,worldData.currentArena.speaker)|worldData.currentArena.players
 					if(killer != src)
 						players << "<b>Arena</b>: [killer] killed [src]."
 					else
 						players << "<b>Arena</b>: [killer] killed themself."
-					currentArena.players.Remove(src)
+					worldData.currentArena.players.Remove(src)
 					p.HP=p.MHP+p.extraMHP
 					p.MP=p.MMP+p.extraMMP
 					p.updateHPMP()
-					if(currentArena.players.len < 2)
+					if(worldData.currentArena.players.len < 2)
 						var/mob/winner
-						if(currentArena.players.len != 0)
-							winner = currentArena.players[1]
+						if(worldData.currentArena.players.len != 0)
+							winner = worldData.currentArena.players[1]
 							var/turf/T = pick(MapThreeWaitingAreaTurfs)
 							winner.loc = T
 							winner.density = 1
 						else
 							winner = src
 						players << "<b>Arena</b>: [winner] wins the round!"
-						for(var/mob/Z in view(8,currentArena.speaker))
+						for(var/mob/Z in view(8,worldData.currentArena.speaker))
 							Z << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[Z];action=arena_leave\">clicking here.</a></b>"
 
-						var/RandomEvent/FFA/e = locate() in events
+						var/RandomEvent/FFA/e = locate() in worldData.events
 						if(e)
 							e.winner = winner
 
-						del(currentArena)
+						del(worldData.currentArena)
 					var/turf/T = pick(MapThreeWaitingAreaTurfs)
 					src.loc = T
 					density = 1
@@ -1631,9 +1612,9 @@ mob/proc/Death_Check(mob/killer = src)
 			/////HOUSE WARS/////
 			if((src.loc.loc.type in typesof(/area/arenas/MapOne)) && isplayer(killer))
 				if(p.House != killer:House)
-					if(currentArena)
-						if(currentArena.roundtype == HOUSE_WARS && currentArena.started)
-							currentArena.Add_Point(killer:House,1)
+					if(worldData.currentArena)
+						if(worldData.currentArena.roundtype == HOUSE_WARS && worldData.currentArena.started)
+							worldData.currentArena.Add_Point(killer:House,1)
 							src << "You were killed by [killer] of [killer:House]"
 							killer << "You killed [src] of [p.House]"
 				else if(src == killer)
@@ -1641,9 +1622,9 @@ mob/proc/Death_Check(mob/killer = src)
 				else
 					src << "You were killed by [killer], from your own team!"
 					killer << "You killed [src] of your own team!"
-				if(currentArena)
-					if(currentArena.plyrSpawnTime > 0)
-						src << "<i>You must wait [currentArena.plyrSpawnTime] seconds until you respawn.</i>"
+				if(worldData.currentArena)
+					if(worldData.currentArena.plyrSpawnTime > 0)
+						src << "<i>You must wait [worldData.currentArena.plyrSpawnTime] seconds until you respawn.</i>"
 				var/obj/Bed/B
 				switch(p.House)
 					if("Gryffindor")
@@ -1656,8 +1637,8 @@ mob/proc/Death_Check(mob/killer = src)
 						B = pick(Map1Rbeds)
 				src.loc = B.loc
 				src.dir = SOUTH
-				if(currentArena)
-					currentArena.handleSpawnDelay(src)
+				if(worldData.currentArena)
+					worldData.currentArena.handleSpawnDelay(src)
 				p.HP=p.MHP+p.extraMHP
 				p.MP=p.MMP+p.extraMMP
 				p.updateHPMP()
@@ -2074,9 +2055,10 @@ proc
 			E.ChangeState(E.INACTIVE)
 			if(E.origloc)
 
-				var/time = E.respawnTime + rand(-30, 30)
-				if(killer && E.level <= killer.level)
-					time += (E.level - killer.level)
+				var/time = E.respawnTime
+				if(killer && E.level + 1 < killer.level)
+					time += time * ((1 + E.level - killer.level)/400)
+					time = max(round(time), 100)
 				sleep(time)
 				if(E)
 					E.loc = E.origloc
