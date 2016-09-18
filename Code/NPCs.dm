@@ -367,7 +367,7 @@ obj/magic_force
 
 			if(count <= 0)
 
-				if(currentEvents)
+				if(worldData.currentEvents)
 					p << errormsg("You can't use this while an event is running.")
 					return
 
@@ -377,13 +377,13 @@ obj/magic_force
 					f.Dispose()
 
 				if(!worldData.elderWand && prob(65))
-					var/RandomEvent/Golem/event = locate() in events
+					var/RandomEvent/Golem/event = locate() in worldData.events
 					spawn() event.start()
 				else if(prob(45))
-					var/RandomEvent/Ghosts/event = locate() in events
+					var/RandomEvent/Ghosts/event = locate() in worldData.events
 					spawn() event.start()
 				else
-					var/RandomEvent/Invasion/event = locate() in events
+					var/RandomEvent/Invasion/event = locate() in worldData.events
 					spawn() event.start()
 			else
 				var/ScreenText/s = new(p, src)

@@ -145,8 +145,8 @@ mob/Player/Topic(href,href_list[])
 		if("daily_prophet")
 			src:Daily_Prophet()
 		if("arena_leave")
-			if(currentArena)
-				if(src in currentArena.players)
+			if(worldData.currentArena)
+				if(src in worldData.currentArena.players)
 					src << "<b>You cannot leave while you are involved in a round.</b>"
 					return
 
@@ -156,7 +156,7 @@ mob/Player/Topic(href,href_list[])
 		if("arena_teleport")
 			if(src.rankedArena) return
 			if(ckey in worldData.competitiveBans) return
-			switch(arenaSummon)
+			switch(worldData.arenaSummon)
 				if(0) //disabled
 					alert("The round is no longer allowing teleportation.")
 					return

@@ -15,7 +15,7 @@
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
 
 #define VERSION "16.65"
-#define SAVEFILE_VERSION 27
+#define SAVEFILE_VERSION 28
 #define VAULT_VERSION 4
 #define lvlcap 800
 #define SWAPMAP_Z 24
@@ -28,6 +28,7 @@
 #define PET_FOLLOW_RIGHT 4
 #define PET_FOLLOW_LEFT 8
 #define PET_SHINY 128
+#define PET_FLY 256
 #define SHINY_LIST list("#dd1111", "#11dd11", "#1111dd", "#dd11dd", "#11dddd", "#dddd11")
 #define MAX_PET_LEVEL 30
 #define MAX_PET_EXP(pet) ((pet.quality + 1) * 20000)

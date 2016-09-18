@@ -2052,6 +2052,12 @@ obj/items/wearable/title
 	Scavenger
 		title = "Scavenger"
 		name  = "Title: Scavenger"
+	Samurai
+		title = "Samurai"
+		name  = "Title: Samurai"
+	Undead
+		title = "Undead"
+		name  = "Title: Undead"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
@@ -2096,23 +2102,23 @@ turf/DynamicArena
 	name = "Arena"
 	icon = 'turf.dmi'
 	icon_state = "grass1"
-var/arenaSummon = 0
+WorldData/var/tmp/arenaSummon = 0
 	//0 = off
 	//1 = mapOne	House Wars
 	//2 = mapTwo	Clan Wars
 	//3 = MapThree	FFA
 mob/GM/verb/Arena_Summon()
-	if(currentArena)
+	if(worldData.currentArena)
 		src << "Arena summon can't be used while a match has already started."
 		return
-	if(arenaSummon == 0)
+	if(worldData.arenaSummon == 0)
 		var/map = input("Which Map do you want to allow teleportation to?") as null|anything in list("House Wars", "Free-For-All")
 		if(!map) return
 		switch(map)
 			if("House Wars")
-				arenaSummon = 1
+				worldData.arenaSummon = 1
 			if("Free-For-All")
-				arenaSummon = 3
+				worldData.arenaSummon = 3
 		for(var/mob/Player/p in Players)
 			p << "<h3>[map] is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a></h3>"
 	else
@@ -2120,7 +2126,7 @@ mob/GM/verb/Arena_Summon()
 		switch(ans)
 			if("Re-announce")
 				var/map
-				switch(arenaSummon)
+				switch(worldData.arenaSummon)
 					if(1)
 						map = "House Wars"
 					if(3)
@@ -2128,19 +2134,19 @@ mob/GM/verb/Arena_Summon()
 				for(var/mob/Player/p in Players)
 					p << "<h3>[map] is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a></h3>"
 			if("Disable")
-				arenaSummon = 0
+				worldData.arenaSummon = 0
 mob/GM/verb/Arena()
-	if(currentArena)
-		del currentArena
+	if(worldData.currentArena)
+		del worldData.currentArena
 		src << "Previous round deleted."
 		return
 	var/list/plyrs = list()
-	currentArena = new()
+	worldData.currentArena = new()
 	switch(alert("House Wars or Free For All?","Game type","House Wars","FFA","Cancel"))
 		if("House Wars")
 			alert("Players (and you) must be on MapOne when you click OK to be loaded into the round. Arena Summon is disabled when you press OK")
-			arenaSummon = 0
-			currentArena.roundtype = HOUSE_WARS
+			worldData.arenaSummon = 0
+			worldData.currentArena.roundtype = HOUSE_WARS
 			for(var/mob/M in locate(/area/arenas/MapOne/Gryff))
 				plyrs.Add(M)
 			for(var/mob/M in locate(/area/arenas/MapOne/Slyth))
@@ -2153,38 +2159,38 @@ mob/GM/verb/Arena()
 				plyrs.Add(M)
 		if("FFA")
 			alert("Players (and you) must be on MapThree when you click OK to be loaded into the round. Arena Summon is disabled when you press OK")
-			arenaSummon = 0
-			currentArena.roundtype = FFA_WARS
+			worldData.arenaSummon = 0
+			worldData.currentArena.roundtype = FFA_WARS
 			for(var/mob/M in locate(/area/arenas/MapThree/WaitingArea))
 				if(M.client)
 					plyrs.Add(M)
 		if("Cancel")
-			del currentArena
+			del worldData.currentArena
 			return
-	currentArena.players.Add(plyrs)
-	switch(currentArena.roundtype)
+	worldData.currentArena.players.Add(plyrs)
+	switch(worldData.currentArena.roundtype)
 		if(FFA_WARS)
-			if(!currentArena) return
+			if(!worldData.currentArena) return
 			src << "FFA map selected"
-			for(var/mob/M in currentArena.players)
+			for(var/mob/M in worldData.currentArena.players)
 				M << "<u>Preparing arena round...</u>"
 			alert("Prizes are not automatically given in this Arena Mode. Round will start when you press OK.")
-			currentArena.players << "<center><font size = 4>The arena mode is <u>Free For All</u>. Everyone is your enemy.<br>The last person standing wins!</center>"
+			worldData.currentArena.players << "<center><font size = 4>The arena mode is <u>Free For All</u>. Everyone is your enemy.<br>The last person standing wins!</center>"
 			sleep(30)
-			if(!currentArena) return
-			currentArena.players << "<h5>Round starting in 10 seconds</h5>"
+			if(!worldData.currentArena) return
+			worldData.currentArena.players << "<h5>Round starting in 10 seconds</h5>"
 			sleep(50)
-			if(!currentArena) return
-			currentArena.players << "<h5>5 seconds</h5>"
+			if(!worldData.currentArena) return
+			worldData.currentArena.players << "<h5>5 seconds</h5>"
 			sleep(50)
-			if(!currentArena) return
-			currentArena.players << "<h4>Go!</h5>"
-			currentArena.started = 1
+			if(!worldData.currentArena) return
+			worldData.currentArena.players << "<h4>Go!</h5>"
+			worldData.currentArena.started = 1
 			var/list/rndturfs = list()
 			for(var/turf/T in locate(/area/arenas/MapThree/PlayArea))
 				rndturfs.Add(T)
-			currentArena.speaker = pick(MapThreeWaitingAreaTurfs)
-			for(var/mob/Player/M in currentArena.players)
+			worldData.currentArena.speaker = pick(MapThreeWaitingAreaTurfs)
+			for(var/mob/Player/M in worldData.currentArena.players)
 				var/turf/T = pick(rndturfs)
 				M.loc = T
 				M.density = 1
@@ -2192,16 +2198,16 @@ mob/GM/verb/Arena()
 				M.MP = M.MMP+M.extraMMP
 				M.updateHPMP()
 		if(HOUSE_WARS)
-			if(!currentArena) return
+			if(!worldData.currentArena) return
 			src << "House wars map selected"
-			for(var/mob/M in currentArena.players)
+			for(var/mob/M in worldData.currentArena.players)
 				M << "<u>Preparing arena round...</u>"
 			var/killsreq = input("How many kills must a team have to win?",,10) as num
-			currentArena.goalpoints = killsreq
-			currentArena.teampoints = list("Gryffindor" = 0, "Ravenclaw" = 0, "Slytherin" = 0,"Hufflepuff" = 0)
-			currentArena.plyrSpawnTime = input("How long must a player wait to respawn (in seconds)?",,10) as num
-			currentArena.amountforwin = input("How many house points does the winning team receive?",,10) as num
-			for(var/mob/Player/M in currentArena.players)
+			worldData.currentArena.goalpoints = killsreq
+			worldData.currentArena.teampoints = list("Gryffindor" = 0, "Ravenclaw" = 0, "Slytherin" = 0,"Hufflepuff" = 0)
+			worldData.currentArena.plyrSpawnTime = input("How long must a player wait to respawn (in seconds)?",,10) as num
+			worldData.currentArena.amountforwin = input("How many house points does the winning team receive?",,10) as num
+			for(var/mob/Player/M in worldData.currentArena.players)
 				switch(M.House)
 					if("Hufflepuff")
 						var/obj/Bed/B = pick(Map1Hbeds)
@@ -2219,14 +2225,14 @@ mob/GM/verb/Arena()
 				M.HP = M.MHP+M.extraMHP
 				M.MP = M.MMP+M.extraMMP
 				M.updateHPMP()
-			currentArena.players << "<center><font size = 4>The arena mode is <u>House Wars</u>.<br>The first house to reach [currentArena.goalpoints] arena points wins [currentArena.amountforwin] house points!"
+			worldData.currentArena.players << "<center><font size = 4>The arena mode is <u>House Wars</u>.<br>The first house to reach [worldData.currentArena.goalpoints] arena points wins [worldData.currentArena.amountforwin] house points!"
 			sleep(30)
-			if(!currentArena) return
-			currentArena.players << "<h5>Round starting in 10 seconds</h5>"
+			if(!worldData.currentArena) return
+			worldData.currentArena.players << "<h5>Round starting in 10 seconds</h5>"
 			sleep(100)
-			if(!currentArena) return
-			currentArena.players << "<h4>Go!</h5>"
-			currentArena.started = 1
+			if(!worldData.currentArena) return
+			worldData.currentArena.players << "<h4>Go!</h5>"
+			worldData.currentArena.started = 1
 mob/NPC/var/walkingBack = 0
 
 mob/Del()
@@ -2239,10 +2245,10 @@ mob/Player/Logout()
 		stop_arcesso()
 	if(rankedArena)
 		rankedArena.disconnect(src)
-	else if(currentMatches.queue && (src in currentMatches.queue))
-		currentMatches.removeQueue(src)
-	if(currentArena)
-		if(src in currentArena.players)
+	else if(worldData.currentMatches.queue && (src in worldData.currentMatches.queue))
+		worldData.currentMatches.removeQueue(src)
+	if(worldData.currentArena)
+		if(src in worldData.currentArena.players)
 			//currentArena.players.Remove(src)
 			src.HP = 0
 			src.Death_Check(src)
@@ -2265,7 +2271,7 @@ var/const
 		//First player to get a specific number of kills, wins.
 	REWARD_GOLD = 1
 	REWARD_POINTS = 2
-var/arena_round/currentArena = null
+WorldData/var/tmp/arena_round/currentArena = null
 
 arena_round
 
@@ -2311,7 +2317,7 @@ arena_round
 						worldData.housepointsGSRH[4] += amountforwin
 				Players << "<span style=\"font-color:red;\">[team] have earned [amountforwin] points.</span>"
 				Save_World()
-				del(currentArena)
+				del(worldData.currentArena)
 
 		Reward(var/mob/Player/plyr,amount)
 			//ONly used in Arena
@@ -3084,7 +3090,7 @@ obj/items/magic_stone
 
 	summoning
 		circle(mob/Player/P)
-			if(currentEvents)
+			if(worldData.currentEvents)
 				P << errormsg("You can't use this while an event is running.")
 				return
 			..(P)
@@ -3094,20 +3100,20 @@ obj/items/magic_stone
 			icon_state = "Coin"
 			effect()
 				var/random_type = pick(/RandomEvent/TheEvilSnowman, /RandomEvent/WillytheWhisp, /RandomEvent/Invasion)
-				var/RandomEvent/event = locate(random_type) in events
+				var/RandomEvent/event = locate(random_type) in worldData.events
 				spawn() event.start()
 
 		snowman
 			name = "snowy coin"
 			icon_state = "Coin"
 			effect()
-				var/RandomEvent/TheEvilSnowman/event = locate() in events
+				var/RandomEvent/TheEvilSnowman/event = locate() in worldData.events
 				spawn() event.start()
 		willy
 			name = "mysterious coin"
 			icon_state = "Coin"
 			effect()
-				var/RandomEvent/WillytheWhisp/event = locate() in events
+				var/RandomEvent/WillytheWhisp/event = locate() in worldData.events
 				spawn() event.start()
 
 		blood
@@ -3127,14 +3133,14 @@ obj/items/magic_stone
 				..(p)
 
 			effect()
-				var/RandomEvent/VampireLord/event = locate() in events
+				var/RandomEvent/VampireLord/event = locate() in worldData.events
 				spawn() event.start()
 
 		monsters
 			name = "stinky coin"
 			icon_state = "Coin"
 			effect()
-				var/RandomEvent/Invasion/event = locate() in events
+				var/RandomEvent/Invasion/event = locate() in worldData.events
 				spawn() event.start()
 
 	eye

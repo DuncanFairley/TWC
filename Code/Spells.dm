@@ -1153,7 +1153,7 @@ mob/Spells/verb/Impedimenta()
 					T.slow -= 1
 mob/Spells/verb/Incendio()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=20,againstocclumens=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=10,againstocclumens=1))
 		castproj(Type = /obj/projectile/BurnRoses, MPreq = 10, icon_state = "fireball", name = "Incendio")
 
 mob/Player/proc/BaseIcon()

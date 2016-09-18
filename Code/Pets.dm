@@ -104,8 +104,9 @@ obj/items/wearable/pets
 
 		else if(. == REMOVED || forceremove)
 
-			owner.pet.Dispose()
-			owner.pet = null
+			if(owner.pet)
+				owner.pet.Dispose()
+				owner.pet = null
 
 			if(!overridetext) hearers(owner) << infomsg("[owner] puts \his [src.name] away.")
 
@@ -157,6 +158,9 @@ obj/items/wearable/pets
 		icon_state  = "golem"
 		currentSize = 2
 		minSize     = 2
+	sword
+		icon_state  = "sword"
+		function    = PET_FLY
 
 obj/pet
 	icon = 'Mobs_128x128.dmi'
@@ -173,6 +177,7 @@ obj/pet
 
 		tmp
 			obj/light/light
+			obj/Shadow/shadow
 			obj/items/wearable/pets/item
 
 			stepCount   = 0
@@ -211,17 +216,40 @@ obj/pet
 			animate(light, transform = matrix() * 1.8, time = 10, loop = -1)
 			animate(       transform = matrix() * 1.7, time = 10)
 
+		if(pet.function & PET_FLY)
+			shadow = new (loc)
+			shadow.transform = matrix() * pet.currentSize
+			refresh(5)
+
+	proc/updateFollowers()
+		var/offset = (iconSize - 1) * -16
+		if(light)
+			light.loc     = loc
+			light.pixel_x = pixel_x - offset - 64
+			light.pixel_y = pixel_y - offset - 64
+		if(shadow)
+			shadow.loc     = loc
+			shadow.pixel_x = pixel_x - offset
+			shadow.pixel_y = pixel_y - offset
+
 	proc/refresh(var/wait)
 		set waitfor = 0
 
 		if(wait) sleep(wait + 1)
 
-		if(item && item.color && (item.function & PET_SHINY))
-			var/ColorMatrix/c1 = new(item.color, 0.64)
-			var/ColorMatrix/c2 = new(item.color, 0.9)
-			color = c1.matrix
-			animate(src, color = c2.matrix, time = 15, loop = -1)
-			animate(     color = c1.matrix, time = 15)
+		if(item)
+			if(item.color && (item.function & PET_SHINY))
+				var/ColorMatrix/c1 = new(item.color, 0.64)
+				var/ColorMatrix/c2 = new(item.color, 0.9)
+				color = c1.matrix
+				animate(src, color = c2.matrix, time = 15, loop = -1)
+				animate(     color = c1.matrix, time = 15)
+			else if(item.function & PET_FLY)
+				var/offset = (iconSize - 1) * -16
+				animate(src, pixel_y = offset + 1, time = 2, loop = -1)
+				animate(     pixel_y = offset,     time = 2)
+				animate(     pixel_y = offset - 1, time = 2)
+				animate(     pixel_y = offset,     time = 2)
 
 	proc/walkTo(var/turf/turfDest, var/dirDest)
 		set waitfor = 0
@@ -238,7 +266,7 @@ obj/pet
 		while(loc && target && loc != target && target.z == z && d < 16)
 			dir = get_dir(loc, target)
 			loc = get_step(loc, dir)
-
+			updateFollowers()
 			sleep(dir != finalDir ? 2 : 1)
 			d = get_dist(src, target)
 
@@ -263,9 +291,7 @@ obj/pet
 				dir = get_dir(src, p)
 				loc = get_step(src, dir)
 
-			if(light)
-				light.loc = loc
-
+			updateFollowers()
 		else
 			var/turf/newLoc
 			if(item.function & PET_FOLLOW_RIGHT)
@@ -298,12 +324,7 @@ obj/pet
 			else
 				pixel_y = offset
 
-			if(light)
-				light.loc     = loc
-				light.pixel_x = pixel_x - offset - 64
-				light.pixel_y = pixel_y - offset - 64
-
-		if(p.client.moving && loc && (istype(loc.loc, /area/outside) || istype(loc.loc, /area/newareas/outside)))
+		if(p.client.moving && !p.teleporting && loc && (istype(loc.loc, /area/outside) || istype(loc.loc, /area/newareas/outside)))
 			if(++stepCount > 1000 && prob(1))
 				stepCount = 0
 
@@ -368,6 +389,10 @@ obj/pet
 		if(light)
 			light.loc = null
 			light     = null
+
+		if(shadow)
+			shadow.loc = null
+			shadow     = null
 
 
 

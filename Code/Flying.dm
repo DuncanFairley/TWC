@@ -1006,7 +1006,7 @@ turf
 		Entered(mob/Player/M)
 			if(isplayer(M))
 				flick('mist.dmi',usr)
-				var/obj/O = pick(spawners)
+				var/obj/O = pick(worldData.spawners)
 				M.loc = O.loc
 				flick('mist.dmi',usr)
 

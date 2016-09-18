@@ -51,16 +51,14 @@ mob/GM/verb
 		else
 			usr << errormsg("Could not schedule auto class.")
 
-	Weather(var/effect in weather_effects, var/prob as num)
+	Weather(var/effect in worldData.weather_effects, var/prob as num)
 		set category = "Staff"
-		weather_effects[effect] = prob
-		bubblesort_by_value(weather_effects)
+		worldData.weather_effects[effect] = prob
 		src << infomsg("[effect] has [prob] probability to occur.")
 
-	Events(var/RandomEvent/e in events, var/prob as num)
+	Events(var/RandomEvent/e in worldData.events, var/prob as num)
 		set category = "Events"
 		e.chance = prob
-		bubblesort_by_value(events, "chance")
 		src << infomsg("[e] has [e.chance] probability to occur.")
 
 	Set_Drop_Rate(var/rate as num)
@@ -81,12 +79,10 @@ mob/GM/verb
 		else
 			usr << errormsg("Could not schedule clan wars.")
 
-	Start_Random_Event(var/RandomEvent/event in events+"random")
+	Start_Random_Event(var/RandomEvent/event in worldData.events+"random")
 		if(event == "random")
-			for(var/RandomEvent/e in events)
-				if(prob(e.chance))
-					e.start()
-					break
+			var/RandomEvent/e = pickweight(worldData.events)
+			e.start()
 		else
 			event.start()
 

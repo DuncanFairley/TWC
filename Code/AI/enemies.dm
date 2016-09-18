@@ -456,7 +456,7 @@ mob
 						if(t)
 							chance *= t.factor
 
-					if(prob(chance * 10))
+					if(prob(chance * 9))
 						var/obj/items/wearable/pets/w = new spawnType (loc)
 						if(isShiny)
 							w.function |= PET_SHINY|PET_LIGHT
@@ -464,13 +464,13 @@ mob
 						w.prizeDrop(killer.ckey, 300)
 				else
 					if(killer.findStatusEffect(/StatusEffect/Lamps/Farming))
-						chance *= 10
+						chance *= 6
 
 					if(prob(chance))
 						if(defaultColor == "rand")
 							animate(src)
 
-						if(prob(2))
+						if(prob(1))
 							color = pick(shinyList)
 						else
 							color = "#d00"
@@ -776,6 +776,51 @@ mob
 
 					Death()
 
+				Sword
+					icon = 'Mobs_128x128.dmi'
+					iconSize = 4
+					pixel_x = -48
+					pixel_y = -48
+					name = "Flying Sword"
+					icon_state = "sword"
+					level = 800
+					MoveDelay = 1
+					AttackDelay = 3
+					Range = 20
+					HPmodifier = 1.3
+					DMGmodifier = 0.7
+					var/tmp/obj/Shadow/s
+
+					Death()
+						if(s)
+							s.loc = null
+							s = null
+
+						if("The Black Blade" in worldData.currentEvents)
+							var/RandomEvent/Sword/e = locate() in worldData.events
+							e.swords--
+
+					MapInit()
+						set waitfor = 0
+						..()
+
+						var/size = rand(10,30) / 10
+						SetSize(size)
+
+						s = new (loc)
+						s.transform = matrix() * size
+
+						animate(src, pixel_y = -31, time = 2, loop = -1)
+						animate(pixel_y = -32, time = 2)
+						animate(pixel_y = -33, time = 2)
+						animate(pixel_y = -32, time = 2)
+
+					Move(newLoc)
+						if(s)
+							s.glide_size = glide_size
+							s.loc = newLoc
+						..()
+
 				Acromantula
 					icon = 'Mobs_128x128.dmi'
 					iconSize = 4
@@ -949,6 +994,47 @@ mob
 							     speed  = 6,
 							     life   = new /Random(1,25))
 							..()
+
+					Zombie
+						name = "Zombie"
+						HPmodifier = 6
+						DMGmodifier = 2
+						MoveDelay = 2
+						AttackDelay = 1
+						Range = 15
+						level = 1500
+
+						MapInit()
+							set waitfor = 0
+							..()
+
+							if(prob(51))
+								icon   = 'FemaleZombie.dmi'
+								gender = FEMALE
+							else
+								icon   = 'MaleZombie.dmi'
+								gender = MALE
+
+							GenerateIcon(src)
+
+						Attacked(obj/projectile/p)
+							if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
+								if(MoveDelay == 2 && prob(60))
+									MoveDelay = 1
+									ChangeState(state)
+									spawn(60)
+										MoveDelay = 2
+										ChangeState(state)
+
+								if(p.icon_state == "blood")
+									emit(loc    = src,
+										 ptype  = /obj/particle/green,
+									     amount = 2,
+									     angle  = new /Random(1, 359),
+									     speed  = 2,
+									     life   = new /Random(15,20))
+								else
+									..()
 
 					Ghost
 						name = "Vengeful Ghost"
@@ -1163,34 +1249,33 @@ mob
 
 							SetSize(3 + (rand(-10, 10) / 10))
 
-							spawn()
-								while(src.loc)
-									proj = pick(list("gum", "quake", "iceball","fireball", "aqua", "black") - proj)
-									switch(proj)
-										if("gum")
-											animate(src, color = "#fa8bd8", time = 10, loop = -1)
-											animate(color = "#c811f1", time = 10)
-											animate(color = "#ec06a3", time = 10)
-										if("quake")
-											animate(src, color = "#aa8d84", time = 10, loop = -1)
-											animate(color = "#767309", time = 10)
-											animate(color = "#a4903d", time = 10)
-										if("iceball")
-											animate(src, color = "#24e3f3", time = 10, loop = -1)
-											animate(color = "#a4bcd3", time = 10)
-											animate(color = "#4a9ee0", time = 10)
-										if("fireball")
-											animate(src, color = "#dd6103", time = 10, loop = -1)
-											animate(color = "#b21039", time = 10)
-											animate(color = "#b81114", time = 10)
-										if("black")
-											animate(src, color = "#000000", time = 10, loop = -1)
-											animate(color = "#ffffff", time = 10)
-										if("aqua")
-											animate(src, color = "#0e3492", time = 10, loop = -1)
-											animate(color = "#2a32fb", time = 10)
-											animate(color = "#cdf0e3", time = 10)
-									sleep(200)
+							while(loc)
+								proj = pick(list("gum", "quake", "iceball","fireball", "aqua", "black") - proj)
+								switch(proj)
+									if("gum")
+										animate(src, color = "#fa8bd8", time = 10, loop = -1)
+										animate(color = "#c811f1", time = 10)
+										animate(color = "#ec06a3", time = 10)
+									if("quake")
+										animate(src, color = "#aa8d84", time = 10, loop = -1)
+										animate(color = "#767309", time = 10)
+										animate(color = "#a4903d", time = 10)
+									if("iceball")
+										animate(src, color = "#24e3f3", time = 10, loop = -1)
+										animate(color = "#a4bcd3", time = 10)
+										animate(color = "#4a9ee0", time = 10)
+									if("fireball")
+										animate(src, color = "#dd6103", time = 10, loop = -1)
+										animate(color = "#b21039", time = 10)
+										animate(color = "#b81114", time = 10)
+									if("black")
+										animate(src, color = "#000000", time = 10, loop = -1)
+										animate(color = "#ffffff", time = 10)
+									if("aqua")
+										animate(src, color = "#0e3492", time = 10, loop = -1)
+										animate(color = "#2a32fb", time = 10)
+										animate(color = "#cdf0e3", time = 10)
+								sleep(200)
 
 						Attack(mob/M)
 							..()
@@ -1227,6 +1312,111 @@ mob
 								     angle  = new /Random(1, 359),
 								     speed  = 2,
 								     life   = new /Random(15,20))
+
+
+					Sword
+						icon = 'Mobs_128x128.dmi'
+						icon_state = "sword"
+						iconSize = 4
+						pixel_x = -48
+						pixel_y = -48
+						name = "The Black Blade"
+						HPmodifier = 7
+						DMGmodifier = 3
+						layer = 5
+						MoveDelay = 2
+						AttackDelay = 1
+						Range = 15
+						level = 1700
+						canBleed = FALSE
+						var/tmp
+							fired = 0
+							diag  = 0
+							obj/Shadow/s
+
+						Move(newLoc)
+							if(s)
+								s.glide_size = glide_size
+								s.loc = newLoc
+							..()
+
+						MapInit()
+							set waitfor = 0
+							..()
+
+							s = new (loc)
+							s.transform = matrix() * 4
+
+							animate(src, pixel_y = -31, time = 2, loop = -1)
+							animate(pixel_y = -32, time = 2)
+							animate(pixel_y = -33, time = 2)
+							animate(pixel_y = -32, time = 2)
+
+							while(loc)
+
+								icon_state = "shield"
+								MoveDelay = 50
+								ChangeState(state)
+
+
+								var/spawns = 4
+								while(loc && spawns > 0)
+									spawns--
+
+									if("The Black Blade" in worldData.currentEvents)
+										var/RandomEvent/Sword/e = locate() in worldData.events
+
+										if(e.swords <= 30)
+											e.swords++
+											new /mob/NPC/Enemies/Summoned/Sword (loc)
+
+									sleep(50)
+
+								icon_state = "sword"
+								MoveDelay = 2
+								ChangeState(state)
+
+								sleep(400)
+
+						Attack(mob/M)
+							..()
+
+							if(!fired && target && state == HOSTILE && icon_state == "sword")
+								fired = 1
+								spawn(15) fired = 0
+
+								var/list/dirs
+								if(diag == 0)
+									dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+									diag = 1
+								else if(diag == 1)
+									dirs = list(NORTH, SOUTH, EAST, WEST)
+									diag = 2
+								else if(diag == 2)
+									dirs = list(NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+									diag = 0
+								var/tmp_d = dir
+								for(var/d in dirs)
+									dir = d
+									castproj(icon_state = "sword", name = "flying sword", cd = 0, lag = 1)
+								dir = tmp_d
+
+						Attacked(obj/projectile/p)
+							if(icon_state == "shield" || p.icon_state == "blood")
+								emit(loc    = src,
+									 ptype  = /obj/particle/green,
+								     amount = 2,
+								     angle  = new /Random(1, 359),
+								     speed  = 2,
+								     life   = new /Random(15,20))
+							else
+								..()
+
+						Death(mob/Player/killer)
+							if(s)
+								s.loc = null
+								s = null
+							..()
 
 
 					Golem
@@ -2168,17 +2358,13 @@ obj/corpse
 			else
 				usr << errormsg("You need to be closer.")
 
-	New(Loc, mob/dead, gold = 0)
+	New(turf/Loc, mob/dead, gold = 0)
 		set waitfor = 0
 		..()
 
 		appearance         = dead.appearance
 		dir                = dead.dir
 		layer              = 2
-
-		if(gold)
-			mouse_over_pointer = MOUSE_HAND_POINTER
-			src.gold = gold
 
 		var/matrix/m = transform
 		m.Turn(90 * pick(1, -1))
@@ -2194,8 +2380,57 @@ obj/corpse
 			else
 				sleep(40)
 		else // player fade time
+			sleep(20)
+			var/area/a = Loc.loc
+
+			if(a.undead && a.undead < 30)
+				a.undead++
+				var/mob/Player/p = dead
+				if(p.Gender == "Female")
+					icon = 'FemaleZombie.dmi'
+				else
+					icon = 'MaleZombie.dmi'
+
+				animate(src, transform = null, time = 10)
+
+				sleep(10)
+				new /mob/NPC/Enemies/Summoned/Zombie (loc, p, src)
+				loc = null
+				return
+
+			else if(gold)
+				mouse_over_pointer = MOUSE_HAND_POINTER
+				src.gold = gold
+
 			sleep(450)
 
 		animate(src, alpha = 0, time = 10)
 		sleep(10)
 		loc = null
+
+area/var/undead = 0
+
+mob/NPC/Enemies/Summoned/Zombie
+	DMGmodifier = 2
+	HPmodifier  = 4
+	MoveDelay   = 2
+	AttackDelay = 1
+
+	New(Loc, mob/Player/p, obj/corpse/c)
+		..()
+
+		appearance = c.appearance
+		level      = p.level + rand(0, 50)
+		extraDmg   = round((p.extraDef + p.clothDef)/2 + p.extraDmg + p.clothDmg)
+
+	MapInit()
+		set waitfor = 0
+		calcStats()
+		sleep(2)
+		state()
+
+	Death(mob/Player/killer)
+		var/area/a = loc.loc
+
+		if(a && a.undead > 1)
+			a.undead--

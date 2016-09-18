@@ -28,132 +28,119 @@ Event
 			src.AttachedStatusEffect = pStatusEffect
 
 		fire()
-			..()
 			if(AttachedStatusEffect)AttachedStatusEffect.Deactivate()
 
 	AFKCheck
 
 		fire()
-			..()
-			spawn()
-				scheduler.schedule(src, world.tick_lag * rand(9000, 12000) + 600) // 16 to 21 minutes
-				AFK_Train_Scan()
+			set waitfor = 0
+			scheduler.schedule(src, world.tick_lag * rand(9000, 12000) + 600) // 16 to 21 minutes
+			AFK_Train_Scan()
 
 	Auction
 
 		fire()
-			..()
-			spawn()
-				scheduler.schedule(src, world.tick_lag * 36000)
-				auctionBidTime()
+			set waitfor = 0
+			scheduler.schedule(src, world.tick_lag * 36000)
+			auctionBidTime()
 
 	AutoClass
 
 		fire()
-			..()
-			spawn()
-				scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
-				var/RandomEvent/Class/auto_class = locate() in events
-				auto_class.start()
+			set waitfor = 0
+			scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
+			var/RandomEvent/Class/auto_class = locate() in worldData.events
+			auto_class.start()
 
 	ClanWars
 
 		fire()
-			..()
-			spawn()
-				scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
-				toggle_clanwars()
+			set waitfor = 0
+			scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
+			toggle_clanwars()
 
 	Weather
 		fire()
-			..()
-			spawn()
-				scheduler.schedule(src, world.tick_lag * rand(9000, 27000)) // // 15 to 45 minutes
-				var/disable = TRUE
-				for(var/i in weather_effects)
-					if(prob(weather_effects[i]))
-						switch(i)
-							if("acid")        weather.acid()
-							if("snow")        weather.snow()
-							if("rain")        weather.rain()
-							if("cloudy")      weather.clear(50)
-							if("half cloudy") weather.clear(25)
-							if("sunny")       weather.clear()
-						disable = FALSE
-						break
-				if(disable)	weather.clear(0)
+			set waitfor = 0
+
+			scheduler.schedule(src, world.tick_lag * rand(9000, 27000)) // // 15 to 45 minutes
+			var/i = pickweight(worldData.weather_effects)
+			switch(i)
+				if("acid")        weather.acid()
+				if("snow")        weather.snow()
+				if("rain")        weather.rain()
+				if("cloudy")      weather.clear(40)
+				if("half cloudy") weather.clear(20)
+				if("sunny")       weather.clear()
 
 	WeeklyEvents
 		fire()
-			..()
-			spawn()
-				scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
-				RandomizeShop()
-				rewardExpWeek()
+			set waitfor = 0
+			scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
+			RandomizeShop()
+			rewardExpWeek()
 
-				worldData.elderWand = null
+			worldData.elderWand = null
 
-				// player shops
-				if(worldData.playerShops)
-					for(var/shopId in worldData.playerShops)
-						var/playerShop/shop = worldData.playerShops[shopId]
+			// player shops
+			if(worldData.playerShops)
+				for(var/shopId in worldData.playerShops)
+					var/playerShop/shop = worldData.playerShops[shopId]
 
-						if(!shop.loaded && !shop.owner && !shop.bidCkey)
-							worldData.playerShops -= shopId
-							continue
+					if(!shop.loaded && !shop.owner && !shop.bidCkey)
+						worldData.playerShops -= shopId
+						continue
 
-						if(shop.owner != shop.bidCkey)
-							if(shop.owner)
-								shop.reset()
+					if(shop.owner != shop.bidCkey)
+						if(shop.owner)
+							shop.reset()
 
-							if(shop.bidCkey)
-								shop.owner = shop.bidCkey
-								mail(shop.owner, "You won the bid on [shop.id] shop.")
+						if(shop.bidCkey)
+							shop.owner = shop.bidCkey
+							mail(shop.owner, "You won the bid on [shop.id] shop.")
 
-						shop.bidCkey  = null
-						shop.bidCount = 0
+					shop.bidCkey  = null
+					shop.bidCount = 0
 
-				// elects major guilds
-				if(worldData.guilds && worldData.guilds.len >= 2)
+			// elects major guilds
+			if(worldData.guilds && worldData.guilds.len >= 2)
 
-					var/list/guilds = list()
-					for(var/id in worldData.guilds)
-						var/guild/g = worldData.guilds[id]
-						guilds[id] = g.Score()
+				var/list/guilds = list()
+				for(var/id in worldData.guilds)
+					var/guild/g = worldData.guilds[id]
+					guilds[id] = g.Score()
 
-					bubblesort_by_value(guilds)
+				bubblesort_by_value(guilds)
 
-					worldData.majorChaos = guilds[1]
-					worldData.majorPeace = guilds[guilds.len]
+				worldData.majorChaos = guilds[1]
+				worldData.majorPeace = guilds[guilds.len]
 
-				// rep/fame decay + clean player data
-				cleanPlayerData(1)
+			// rep/fame decay + clean player data
+			cleanPlayerData(1)
 
 	RandomEvents
 		fire()
-			..()
-			spawn()
-				if(classdest || clanwars)
-					scheduler.schedule(src, world.tick_lag * rand(18000, 36000))  // 30 minutes to 1 hour
+			set waitfor = 0
 
-					if(classdest)
-						for(var/mob/Player/p in Players)
-							if(p.Gm)
-								p << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
-				else
-					scheduler.schedule(src, world.tick_lag * rand(30000, 90000))  // 50 minutes to 2.5 hours
-					for(var/RandomEvent/e in events)
-						if(prob(e.chance))
-							e.start()
-							break
+			if(classdest || clanwars)
+				scheduler.schedule(src, world.tick_lag * rand(18000, 36000))  // 30 minutes to 1 hour
+
+				if(classdest)
+					for(var/mob/Player/p in Players)
+						if(p.Gm)
+							p << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
+			else
+				scheduler.schedule(src, world.tick_lag * rand(30000, 90000))  // 50 minutes to 2.5 hours
+				var/RandomEvent/e = pickweight(worldData.events)
+				e.start()
 
 
-var/list/weather_effects = list("acid"        = 4,
-								"snow"        = 2,
-								"rain"        = 7,
-								"cloudy"      = 10,
-								"half cloudy" = 15,
-								"sunny"       = 100)
+WorldData/var/tmp/list/weather_effects = list("acid"        = 4,
+											  "snow"        = 2,
+										  	  "rain"        = 7,
+											  "cloudy"      = 10,
+											  "half cloudy" = 15,
+											  "sunny"       = 50)
 
 proc/cleanPlayerData(decay = 0)
 	for(var/ckey in worldData.playersData)
@@ -193,8 +180,8 @@ proc
 				scheduler.schedule(e, world.tick_lag * 10 * date)
 		init_quests()
 
-		TeleportMap = new
-		TeleportMap.init()
+		worldData.TeleportMap = new
+		worldData.TeleportMap.init()
 
 atom/proc/findStatusEffect(var/type)
 	return src.LStatusEffects ? locate(type) in src.LStatusEffects : 0

@@ -1498,6 +1498,7 @@ mob/GM
 										   /obj/items/artifact           = 20,
 		                        		   /obj/items/key/wizard_key     = 20,
 		                        		   /obj/items/key/pentakill_key  = 20,
+								   		   /obj/items/key/sunset_key     = 10,
 										   /obj/items/key/summer_key     = 10,
 										   /obj/items/key/prom_key       = 5))
 
@@ -1564,8 +1565,8 @@ mob/GM
 					var/hudobj/Find_Duel/o = locate(/hudobj/Find_Duel) in p.client.screen
 					if(o)
 						o.hide()
-						if(p in currentMatches.queue)
-							currentMatches.removeQueue(p)
+						if(p in worldData.currentMatches.queue)
+							worldData.currentMatches.removeQueue(p)
 
 					p.matchmaking_ready = 0
 					for(var/obj/hud/duel/d in p.client.screen)
@@ -1973,3 +1974,174 @@ image
 		south
 			icon_state = "edge-2"
 			pixel_y = 32
+
+mob/test/verb/hireStaff((mob/Player/p in Players), color as text)
+
+	if(!worldData.Gms) worldData.Gms = list()
+
+	if(!(p.ckey in worldData.Gms))
+		worldData.Gms += p.ckey
+
+	if(!p.Gm)
+		if(!p.pname)
+			p.pname = p.name
+		p.name = "<[p.pname]><span style='color:[color];'><b>[p.pname]</b></span>"
+		p.Tag = "</b><span style='color:[color];'>\[Professor] <b>"
+		p.GMTag = "<span style='color:[color];'>"
+		p.Gm = 1
+		p.shortapparate = 1
+		p.see_invisible = 2
+
+		var/list/verbsList = list(/mob/GM/verb/Remote_View,
+		                          /mob/GM/verb/Return_View,
+		                          /mob/GM/verb/Give_Prize,
+		                          /mob/test/verb/Teach_Spells,
+		                          /mob/GM/verb/House_Points,
+		                          /mob/GM/verb/Create,
+		                          /mob/GM/verb/Edit,
+		                          /mob/GM/verb/Delete,
+		                          /mob/GM/verb/LoadMap,
+		                          /mob/GM/verb/UnloadMap,
+		                          /mob/GM/verb/FloodFill,
+		                          /mob/GM/verb/Arena,
+		                          /mob/GM/verb/Arena_Summon,
+		                          /mob/GM/verb/FFA_Mode,
+		                          /mob/GM/verb/Toggle_Click_Create,
+		                          /mob/GM/verb/CreatePath,
+		                          /mob/GM/verb/Freeze_Area,
+		                          /mob/GM/verb/Unfreeze_Area,
+		                          /mob/GM/verb/Freeze,
+		                          /mob/GM/verb/Cloak,
+		                          /mob/GM/verb/Phase,
+		                          /mob/GM/verb/Disconnect,
+		                          /mob/GM/verb/Mute,
+		                          /mob/GM/verb/Check_EXP,
+		                          /mob/GM/verb/Check_Inactivity,
+		                          /mob/GM/verb/Event_Announce,
+		                          /mob/GM/verb/Announce,
+		                          /mob/GM/verb/Immortal,
+		                          /mob/GM/verb/Detention,
+		                          /mob/GM/verb/Release_From_Detention,
+		                          /mob/GM/verb/Toggle_Area_Safemode,
+		                          /mob/GM/verb/Toggle_Safemode,
+		                          /mob/GM/verb/End_Floor_Guidence,
+		                          /mob/GM/verb/Teach_Herbificus,
+								  /mob/GM/verb/Teach_Incarcerous,
+								  /mob/GM/verb/Teach_Waddiwasi,
+								  /mob/GM/verb/Teach_Valorus,
+						  		  /mob/GM/verb/Teach_Avis,
+								  /mob/GM/verb/Teach_Accio,
+								  /mob/GM/verb/Teach_Petreficus_Totalus,
+								  /mob/GM/verb/Teach_Transfigure_Bat,
+								  /mob/GM/verb/Teach_Transfigure_Mouse,
+								  /mob/GM/verb/Teach_Transfigure_Onion,
+								  /mob/GM/verb/Teach_Transfigure_Dragon,
+								  /mob/GM/verb/Teach_Transfigure_Rabbit,
+								  /mob/GM/verb/Teach_Transfigure_Skeleton,
+								  /mob/GM/verb/Teach_Transfigure_Human,
+								  /mob/GM/verb/Teach_Transfigure_Cat,
+								  /mob/GM/verb/Teach_Transfigure_Chair,
+								  /mob/GM/verb/Teach_Transfigure_Pixie,
+								  /mob/GM/verb/Teach_Telendevour,
+								  /mob/GM/verb/Teach_Ferula,
+								  /mob/GM/verb/Teach_Portus,
+								  /mob/GM/verb/Teach_Permoveo,
+								  /mob/GM/verb/Teach_Transfigure_Self_Human,
+								  /mob/GM/verb/Teach_Disperse,
+								  /mob/GM/verb/Teach_Transfigure_Turkey,
+								  /mob/GM/verb/Teach_Eparo_Evanesca,
+								  /mob/GM/verb/Teach_Imitatus,
+								  /mob/GM/verb/Teach_Tremorio,
+								  /mob/GM/verb/Teach_Serpensortia,
+								  /mob/GM/verb/Teach_Incendio,
+								  /mob/GM/verb/Teach_Episky,
+								  /mob/GM/verb/Teach_Bombarda,
+								  /mob/GM/verb/Teach_Wingardium,
+								  /mob/GM/verb/Teach_Expelliarmus,
+								  /mob/GM/verb/Teach_Reparo,
+								  /mob/GM/verb/Teach_Confundus,
+								  /mob/GM/verb/Teach_Chaotica,
+								  /mob/GM/verb/Teach_Protego,
+								  /mob/GM/verb/Teach_Inflamari,
+								  /mob/GM/verb/Teach_Repellium,
+								  /mob/GM/verb/Teach_Aqua_Eructo,
+								  /mob/GM/verb/Teach_Depulso,
+								  /mob/GM/verb/Teach_Evanesco,
+								  /mob/GM/verb/Teach_Transfigure_Crow,
+								  /mob/GM/verb/Teach_Transfigure_Frog,
+								  /mob/GM/verb/Teach_Transfigure_Mushroom,
+								  /mob/GM/verb/Teach_Sense,
+								  /mob/GM/verb/Teach_Glacius,
+								  /mob/GM/verb/Teach_Anapneo,
+								  /mob/GM/verb/Teach_Flippendo,
+								  /mob/GM/verb/Teach_Impedimenta,
+								  /mob/GM/verb/Teach_Deletrius,
+								  /mob/GM/verb/Teach_Occlumency,
+								  /mob/GM/verb/Teach_Replacio,
+								  /mob/GM/verb/Teach_Flagrate,
+								  /mob/GM/verb/Teach_Langlock,
+								  /mob/GM/verb/Teach_Scan,
+								  /mob/GM/verb/Teach_Reddikulus,
+								  /mob/GM/verb/Teach_Arcesso,
+								  /mob/GM/verb/Teach_Reducto,
+								  /mob/GM/verb/Teach_Tarantallegra,
+								  /mob/GM/verb/Teach_Eat_Slugs,
+								  /mob/GM/verb/Teach_Antifigura,
+								  /mob/GM/verb/Teach_Obliviate,
+								  /mob/GM/verb/Teach_Incindia,
+								  /mob/GM/verb/Teach_Muffliato,
+								  /mob/GM/verb/Teach_Lumos,
+								  /mob/GM/verb/Host_Muggle_Studies_Class,
+								  /mob/GM/verb/Host_Headmaster_Class,
+								  /mob/GM/verb/Host_Duel_Class,
+								  /mob/GM/verb/Host_COMC_Class,
+								  /mob/GM/verb/Host_HM_Class,
+								  /mob/GM/verb/Host_Trans_Class,
+								  /mob/GM/verb/Host_DADA_Class,
+								  /mob/GM/verb/Host_Charms_Class,
+								  /mob/GM/verb/Bring,
+								  /mob/GM/verb/Goto,
+								  /mob/GM/verb/Warn,
+								  /mob/GM/verb/HGM_Message,
+								  /mob/GM/verb/Prize_Draw,
+								  /mob/GM/verb/GM_Herbificus,
+								  /mob/GM/verb/Orb_Surroundings,
+								  /mob/GM/verb/View_Player_Log,
+								  /mob/GM/verb/Sanctuario,
+								  /mob/GM/verb/GM_chat)
+
+		p.verbs += verbsList
+
+
+mob/test/verb/fireStaff(var/Ckey in worldData.Gms)
+
+	worldData.Gms -= Ckey
+	if(!worldData.Gms.len) worldData.Gms = null
+
+	var/mob/Player/p
+	for(var/mob/Player/player in Players)
+		if(player.ckey == Ckey)
+			p = player
+			break
+
+	if(p)
+		p.removeStaff()
+
+mob/Player/proc/removeStaff()
+	if(pname)
+		name = pname
+	Tag = null
+	GMTag = null
+	Gm = 0
+	shortapparate = 0
+	see_invisible = 0
+	draganddrop = 0
+	pname = null
+
+	verbs -= typesof(/mob/GM/verb/)
+	verbs -= /mob/test/verb/Teach_Spells
+	verbs -= /mob/Spells/verb/Avada_Kedavra
+	verbs -= /mob/Spells/verb/Imperio
+	verbs -= /mob/Spells/verb/Ecliptica
+	verbs -= /mob/Spells/verb/Basilio
+	verbs -= /mob/Spells/verb/Gravitate
