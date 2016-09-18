@@ -60,6 +60,7 @@ WorldData
 
 			vault/globalvaults
 			customMap/customMaps
+			Gms
 
 		elderWand
 		canReadBooks = 1
@@ -367,7 +368,12 @@ mob
 				gold = null
 				goldinbank = null
 
-			if(last_z >= SWAPMAP_Z && !currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
+			if(savefile_version < 28 && Gm)
+				if(!worldData.Gms) worldData.Gms = list()
+
+				worldData.Gms += ckey
+
+			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else
 				var/turf/t = locate(last_x, last_y, last_z)
