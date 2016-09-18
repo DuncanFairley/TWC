@@ -44,7 +44,7 @@ Weather
 			generate_clouds(23, p, color)
 
 		rain()
-			clouds(70, "rain")
+			clouds(60, "rain")
 			for(var/area/A in outside_areas)
 				for(var/turf/water/w in A)
 					if(prob(10)) continue
@@ -52,7 +52,7 @@ Weather
 				A:SetWeather(/obj/weather/rain)
 				A.dmg = 1
 		acid()
-			clouds(70, "rain")
+			clouds(60, "rain")
 			for(var/area/A in outside_areas)
 				for(var/turf/water/w in A)
 					if(prob(10)) continue
@@ -61,7 +61,7 @@ Weather
 				A.dmg = 2
 
 		snow()
-			clouds(70)
+			clouds(60)
 			for(var/area/A in outside_areas)
 				A:SetWeather(/obj/weather/snow)
 				A.dmg = 0.75
