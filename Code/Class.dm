@@ -323,13 +323,13 @@ class
 			start(mob/Player/p)
 				..()
 				say("Known as the disarming charm. You lose your wand and have to re-draw it.", p)
-	Flippendo
-		subject = "DADA"
-		mp      = 10
-		wand    = TRUE
-		start(mob/Player/p)
-			..()
-			say("Once this projectile hits the person, it moves them one space.", p)
+		Flippendo
+			cd = 25
+			mp      = 10
+			wand    = TRUE
+			start(mob/Player/p)
+				..()
+				say("Once this projectile hits the person, it moves them one space.", p)
 	gcom
 		Sense
 			start(mob/Player/p)

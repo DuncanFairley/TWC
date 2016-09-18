@@ -297,6 +297,7 @@ StatusEffect
 	Knockedfrombroom
 	UsedFerulaToHeal
 	UsedFerula
+	UsedFlippendo
 	UsedLevicorpus
 	UsedEvanesco
 	UsedEvanesca
