@@ -122,7 +122,7 @@ teleportMap
 				if(a.region == node) continue
 				node.nodes[a.region] = "[p.name]_to_[p.dest]:0"
 
-var/teleportMap/TeleportMap
+WorldData/var/tmp/teleportMap/TeleportMap
 
 obj/teleportPath
 	var
@@ -403,8 +403,8 @@ area
 		MapTwo
 			Auror/Exit(atom/movable/O)
 				if(ismob(O))
-					if(currentArena)
-						if(currentArena.started)
+					if(worldData.currentArena)
+						if(worldData.currentArena.started)
 							return ..()
 						else
 							O << "Round hasn't started yet."
@@ -414,8 +414,8 @@ area
 					return ..()
 			DE/Exit(atom/movable/O)
 				if(ismob(O))
-					if(currentArena)
-						if(currentArena.started)
+					if(worldData.currentArena)
+						if(worldData.currentArena.started)
 							return ..()
 						else
 							O << "Round hasn't started yet."
@@ -429,8 +429,8 @@ area
 		MapOne
 			Gryff/Exit(atom/movable/O)
 				if(ismob(O))
-					if(currentArena)
-						if(currentArena.started)
+					if(worldData.currentArena)
+						if(worldData.currentArena.started)
 							return ..()
 						else
 							O << "Round hasn't started yet."
@@ -440,8 +440,8 @@ area
 					return ..()
 			Raven/Exit(atom/movable/O)
 				if(ismob(O))
-					if(currentArena)
-						if(currentArena.started)
+					if(worldData.currentArena)
+						if(worldData.currentArena.started)
 							return ..()
 						else
 							O << "Round hasn't started yet."
@@ -451,8 +451,8 @@ area
 					return ..()
 			Huffle/Exit(atom/movable/O)
 				if(ismob(O))
-					if(currentArena)
-						if(currentArena.started)
+					if(worldData.currentArena)
+						if(worldData.currentArena.started)
 							return ..()
 						else
 							O << "Round hasn't started yet."
@@ -462,8 +462,8 @@ area
 					return ..()
 			Slyth/Exit(atom/movable/O)
 				if(ismob(O))
-					if(currentArena)
-						if(currentArena.started)
+					if(worldData.currentArena)
+						if(worldData.currentArena.started)
 							return ..()
 						else
 							O << "Round hasn't started yet."

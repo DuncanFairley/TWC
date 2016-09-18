@@ -123,7 +123,7 @@ proc/spawnHerbs()
 				retry--
 
 		if(!istype(i.loc, /turf/grass))
-			var/obj/spawner/spawn_loc = pick(spawners)
+			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 
 			i.loc = locate(spawn_loc.x + rand(-3, 3), spawn_loc.y + rand(-3, 3), spawn_loc.z)
 

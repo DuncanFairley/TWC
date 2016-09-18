@@ -3,7 +3,7 @@
 #define START_RATING 500
 #define ARENA_POOL_SIZE 5
 
-var/list/duel_chairs = list()
+WorldData/var/tmp/list/duel_chairs = list()
 
 obj/duel_chair
 	invisibility = 10
@@ -11,7 +11,7 @@ obj/duel_chair
 	New()
 		set waitfor = 0
 		..()
-		duel_chairs += src
+		worldData.duel_chairs += src
 
 area/hogwarts/Duel_Arenas/Matchmaking
 	Main_Arena_Top
@@ -38,8 +38,8 @@ area/hogwarts/Duel_Arenas/Matchmaking
 			if(o)
 				o.hide()
 
-				if(p in currentMatches.queue)
-					currentMatches.removeQueue(p)
+				if(p in worldData.currentMatches.queue)
+					worldData.currentMatches.removeQueue(p)
 
 			p.matchmaking_ready = 0
 
@@ -117,17 +117,17 @@ hudobj
 		Click()
 			if(usr:matchmaking_ready || alpha == 0) return
 
-			if(usr in currentMatches.queue)
-				currentMatches.removeQueue(usr)
+			if(usr in worldData.currentMatches.queue)
+				worldData.currentMatches.removeQueue(usr)
 				color = null
 				usr << infomsg("You were removed from the matchmaking queue.")
 			else
-				currentMatches.addQueue(usr)
+				worldData.currentMatches.addQueue(usr)
 				color = "#00ff00"
 				usr << infomsg("You were added to the matchmaking queue.")
 
 
-var/matchmaking/currentMatches = new
+WorldData/var/tmp/matchmaking/currentMatches = new
 matchmaking
 	var/list/arenas
 	var/list/queue
@@ -350,7 +350,7 @@ arena
 				countdown()
 
 		addSpectator(mob/Player/p)
-			for(var/arena/a in currentMatches.arenas)
+			for(var/arena/a in worldData.currentMatches.arenas)
 				if(a == src)    continue
 				if(!a.spectators) continue
 				if(p in a.spectators)
@@ -485,7 +485,7 @@ arena
 					team1.player << infomsg("You won the match against [team2.name]")
 					team2.player << errormsg("You lost the match against [team1.name]")
 
-					currentMatches.reward(team1, team2)
+					worldData.currentMatches.reward(team1, team2)
 					state = 0
 
 					if(spectators) spectators << infomsg("[spectateObj.name] - [team1.name] won.")
@@ -493,7 +493,7 @@ arena
 					team2.player << infomsg("You won the match against [team1.name]")
 					team1.player << errormsg("You lost the match against [team2.name]")
 
-					currentMatches.reward(team2, team1)
+					worldData.currentMatches.reward(team2, team1)
 					state = 0
 
 					if(spectators) spectators << infomsg("[spectateObj.name] - [team2.name] won.")
@@ -503,12 +503,12 @@ arena
 				spawn()
 					countdown()
 			else
-				if(!currentMatches.records) currentMatches.records = list()
-				currentMatches.records += "[time2text(world.realtime, "DD Month")]  |  [team1.name] Vs [team2.name]  |  [team1.score]:[team2.score]"
+				if(!worldData.currentMatches.records) worldData.currentMatches.records = list()
+				worldData.currentMatches.records += "[time2text(world.realtime, "DD Month")]  |  [team1.name] Vs [team2.name]  |  [team1.score]:[team2.score]"
 
-				if(currentMatches.records.len > 10)
-					currentMatches.records[1] += "unique"
-					currentMatches.records -= currentMatches.records[1]
+				if(worldData.currentMatches.records.len > 10)
+					worldData.currentMatches.records[1] += "unique"
+					worldData.currentMatches.records -= worldData.currentMatches.records[1]
 
 				dispose()
 
@@ -552,10 +552,10 @@ arena
 				team2.timer.invisibility = 0
 
 		dispose()
-			arena.used = !currentMatches.removeArena(src)
+			arena.used = !worldData.currentMatches.removeArena(src)
 			if(spectators)
 				var/arena/a
-				if(currentMatches.arenas) a = pick(currentMatches.arenas)
+				if(worldData.currentMatches.arenas) a = pick(worldData.currentMatches.arenas)
 				for(var/mob/Player/p in spectators)
 					removeSpectator(p)
 
@@ -567,12 +567,12 @@ arena
 			spectateObj = null
 
 			if(team1.player)
-				var/obj/o = pick(duel_chairs)
+				var/obj/o = pick(worldData.duel_chairs)
 				team1.player.Transfer(o.loc)
 				team1.player.rankedArena = null
 				team1.player = null
 			if(team2.player)
-				var/obj/o = pick(duel_chairs)
+				var/obj/o = pick(worldData.duel_chairs)
 				team2.player.Transfer(o.loc)
 				team2.player.rankedArena = null
 				team2.player = null
@@ -806,10 +806,10 @@ tr.grey
 				rankNum++
 			html += "</table>"
 
-			if(currentMatches.records)
+			if(worldData.currentMatches.records)
 				html += "<br>Recent Matches:<br>"
-				for(var/i = currentMatches.records.len to 1 step -1)
-					html += {"<table class="colored"><tr class="grey" align="center"><td>[currentMatches.records[i]]</td></tr></table>"}
+				for(var/i = worldData.currentMatches.records.len to 1 step -1)
+					html += {"<table class="colored"><tr class="grey" align="center"><td>[worldData.currentMatches.records[i]]</td></tr></table>"}
 			usr << browse(SCOREBOARD_HEADER + html + "</center></body></html>","window=scoreboard")
 
 area/arenas

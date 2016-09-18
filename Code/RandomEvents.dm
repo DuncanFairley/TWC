@@ -4,24 +4,23 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-var/list/events
+WorldData/var/tmp/list/events
 
 proc/init_random_events()
-	events = list()
+	worldData.events = list()
 	for(var/e in typesof(/RandomEvent/)-/RandomEvent)
-		events += new e
-	bubblesort_by_value(events, "chance")
+		worldData.events += new e
 	scheduler.schedule(new/Event/RandomEvents, world.tick_lag * rand(3000, 36000)) // 5 minutes to 1 hour
 
 
-var/list/spawners = list()
+WorldData/var/tmp/var/list/spawners = list()
 
 obj/spawner
 	invisibility = 10
 	New()
-		spawners += src
+		worldData.spawners += src
 
-var/list/currentEvents
+WorldData/var/tmp/var/list/currentEvents
 
 RandomEvent
 	var/chance = 13
@@ -30,21 +29,21 @@ RandomEvent
 
 	proc
 		start()
-			if(!currentEvents) currentEvents = list()
+			if(!worldData.currentEvents) worldData.currentEvents = list()
 
-			if(name in currentEvents)
-				currentEvents[name]++
+			if(name in worldData.currentEvents)
+				worldData.currentEvents[name]++
 			else
-				currentEvents[name] = 1
+				worldData.currentEvents[name] = 1
 
 			for(var/mob/Player/p in Players)
 				p.beep(beepType)
 		end()
-			currentEvents[name]--
-			if(currentEvents[name] <= 0)
-				currentEvents -= name
+			worldData.currentEvents[name]--
+			if(worldData.currentEvents[name] <= 0)
+				worldData.currentEvents -= name
 
-			if(currentEvents.len == 0) currentEvents = null
+			if(worldData.currentEvents.len == 0) worldData.currentEvents = null
 
 	FFA
 		name = "Free For All"
@@ -52,10 +51,10 @@ RandomEvent
 		var/tmp/mob/Player/winner
 
 		start()
-			if(currentArena || (name in currentEvents))	return
+			if(worldData.currentArena || (name in worldData.currentEvents))	return
 
 			..()
-			arenaSummon = 3
+			worldData.arenaSummon = 3
 
 			var/rounds = rand(2,4)
 			var/obj/clock/timer = locate("FFAtimer")
@@ -65,47 +64,47 @@ RandomEvent
 			sleep(1200)
 			while(rounds)
 				rounds--
-				arenaSummon = 3
+				worldData.arenaSummon = 3
 				for(var/mob/Player/p in Players)
 					p << "<h3>An automated FFA is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a> The [rounds==0 ? "last" : ""] round will start in 1 minute.</h3>"
 				sleep(600)
-				currentArena = new()
-				arenaSummon = 0
-				currentArena.roundtype = FFA_WARS
+				worldData.currentArena = new()
+				worldData.arenaSummon = 0
+				worldData.currentArena.roundtype = FFA_WARS
 				for(var/mob/M in locate(/area/arenas/MapThree/WaitingArea))
 					if(M.client)
-						currentArena.players.Add(M)
-				if(currentArena.players.len < 2)
-					currentArena.players << "There isn't enough players to start the round."
+						worldData.currentArena.players.Add(M)
+				if(worldData.currentArena.players.len < 2)
+					worldData.currentArena.players << "There isn't enough players to start the round."
 
-					for(var/mob/m in currentArena.players)
+					for(var/mob/m in worldData.currentArena.players)
 						m << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[m];action=arena_leave\">clicking here.</a></b>"
-					del(currentArena)
+					del(worldData.currentArena)
 				else
-					currentArena.players << "<center><font size = 4>The arena mode is <u>Free For All</u>. Everyone is your enemy.<br>The last person standing wins!</center>"
+					worldData.currentArena.players << "<center><font size = 4>The arena mode is <u>Free For All</u>. Everyone is your enemy.<br>The last person standing wins!</center>"
 					sleep(30)
-					currentArena.players << "<h5>Round starting in 10 seconds</h5>"
+					worldData.currentArena.players << "<h5>Round starting in 10 seconds</h5>"
 					sleep(50)
-					currentArena.players << "<h5>5 seconds</h5>"
+					worldData.currentArena.players << "<h5>5 seconds</h5>"
 					sleep(10)
-					currentArena.players << "<h5>4 seconds</h5>"
+					worldData.currentArena.players << "<h5>4 seconds</h5>"
 					sleep(10)
-					currentArena.players << "<h5>3 seconds</h5>"
+					worldData.currentArena.players << "<h5>3 seconds</h5>"
 					sleep(10)
-					currentArena.players << "<h5>2 seconds</h5>"
+					worldData.currentArena.players << "<h5>2 seconds</h5>"
 					sleep(10)
-					currentArena.players << "<h5>1 seconds</h5>"
+					worldData.currentArena.players << "<h5>1 seconds</h5>"
 					sleep(10)
-					currentArena.players << "<h4>Go!</h5>"
-					currentArena.started = 1
+					worldData.currentArena.players << "<h4>Go!</h5>"
+					worldData.currentArena.started = 1
 
-					var/count = currentArena.players.len
+					var/count = worldData.currentArena.players.len
 
 					var/list/rndturfs = list()
 					for(var/turf/T in locate(/area/arenas/MapThree/PlayArea))
 						rndturfs.Add(T)
-					currentArena.speaker = pick(MapThreeWaitingAreaTurfs)
-					for(var/mob/Player/M in currentArena.players)
+					worldData.currentArena.speaker = pick(MapThreeWaitingAreaTurfs)
+					for(var/mob/Player/M in worldData.currentArena.players)
 						var/turf/T = pick(rndturfs)
 						M.loc = T
 						M.density = 1
@@ -116,14 +115,14 @@ RandomEvent
 					timer.invisibility = 0
 					timer.setTime(6)
 
-					while(currentArena && !timer.countdown())
+					while(worldData.currentArena && !timer.countdown())
 						sleep(10)
 
 					timer.invisibility = 2
 
-					if(currentArena)
-						while(currentArena && currentArena.players && currentArena.players.len > 1)
-							var/mob/Player/p = pick(currentArena.players)
+					if(worldData.currentArena)
+						while(worldData.currentArena && worldData.currentArena.players && worldData.currentArena.players.len > 1)
+							var/mob/Player/p = pick(worldData.currentArena.players)
 							p.HP = 0
 							p.Death_Check()
 
@@ -213,11 +212,11 @@ RandomEvent
 			var/list/m = list()
 			Players << infomsg("The Evil Snowman and his army appeared outside Hogwarts, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
 
-			var/obj/spawner/spawn_loc = pick(spawners)
+			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/NPC/Enemies/Summoned/Boss/monster = new /mob/NPC/Enemies/Summoned/Boss/Snowman(spawn_loc.loc)
 			m += monster
 			for(var/i = 1 to rand(15,40))
-				spawn_loc = pick(spawners)
+				spawn_loc = pick(worldData.spawners)
 				monster = new (spawn_loc.loc)
 
 				monster.DMGmodifier = 1
@@ -252,11 +251,11 @@ RandomEvent
 			var/list/m = list()
 			Players << infomsg("Willy the Whisp and his army are haunting right outside Hogwarts, defend yourselves until ghostbus---- reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill Willy the Whisp before then you might be able to get a nice prize!")
 
-			var/obj/spawner/spawn_loc = pick(spawners)
+			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/NPC/Enemies/Summoned/Boss/monster = new /mob/NPC/Enemies/Summoned/Boss/Wisp(spawn_loc.loc)
 			m += monster
 			for(var/i = 1 to rand(15,40))
-				spawn_loc = pick(spawners)
+				spawn_loc = pick(worldData.spawners)
 				monster = new (spawn_loc.loc)
 
 				monster.DMGmodifier = 1
@@ -338,7 +337,7 @@ RandomEvent
 			Players << infomsg("Vengeful ghosts are lurking outside the castle for [minutes] minutes, chase them away!")
 
 			for(var/i = 1 to rand(18,30))
-				var/obj/spawner/spawn_loc = pick(spawners)
+				var/obj/spawner/spawn_loc = pick(worldData.spawners)
 				m += new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
 			sleep(minutes * 600)
@@ -362,11 +361,11 @@ RandomEvent
 			var/list/m = list()
 			Players << infomsg("Something doesn't quite smell right outside Hogwarts, be cautious, evil forces are crawling, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to ...butcher them... before then you might be able to get a nice prize!")
 
-			var/obj/spawner/spawn_loc = pick(spawners)
+			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/Acromantula(spawn_loc.loc)
 			m += monster
 			for(var/i = 1 to rand(10,30))
-				spawn_loc = pick(spawners)
+				spawn_loc = pick(worldData.spawners)
 				monster = new /mob/NPC/Enemies/Summoned/Acromantula (spawn_loc.loc)
 
 				m += monster
@@ -393,15 +392,15 @@ RandomEvent
 			var/list/m = list()
 			Players << infomsg("A vampire lord has been lured outside of the castle for [minutes] minutes, the vicious creature brought an army, it appears old and wealthy, maybe it carries valuables, slay it to find out!")
 
-			var/obj/spawner/spawn_loc = pick(spawners)
+			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/VampireLord(spawn_loc.loc)
 			m += monster
 			for(var/i = 1 to rand(15, 30))
-				spawn_loc = pick(spawners)
+				spawn_loc = pick(worldData.spawners)
 				monster = new /mob/NPC/Enemies/Summoned/Acromantula (spawn_loc.loc)
 
 			for(var/i = 1 to rand(5, 10))
-				spawn_loc = pick(spawners)
+				spawn_loc = pick(worldData.spawners)
 				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
 				m += monster
@@ -428,12 +427,12 @@ RandomEvent
 			var/list/m = list()
 			Players << infomsg("A zombie has appeared outside for [minutes] minutes, kill zombie before it infects others!")
 
-			var/obj/spawner/spawn_loc = pick(spawners)
+			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/Zombie(spawn_loc.loc)
 			m += monster
 
 			for(var/i = 1 to 15)
-				spawn_loc = pick(spawners)
+				spawn_loc = pick(worldData.spawners)
 				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
 				m += monster
@@ -463,23 +462,29 @@ RandomEvent
 	Sword
 		name   = "The Black Blade"
 		chance = 0
+		var/swords = 0
 		start()
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
 			Players << infomsg("The Black Blade has appeared outside the castle for [minutes] minutes, destroy the blade!")
 
-			var/obj/spawner/spawn_loc = pick(spawners)
+			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/Sword(spawn_loc.loc)
 			m += monster
 
 			for(var/i = 1 to 5)
-				spawn_loc = pick(spawners)
+				spawn_loc = pick(worldData.spawners)
 				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
 				m += monster
 
 			sleep(minutes * 600)
+
+			var/area/a = spawn_loc.loc.loc
+			for(var/mob/NPC/Enemies/Summoned/Sword/s in a)
+				s.loc = null
+				s.ChangeState(monster.INACTIVE)
 
 			var/message = 0
 			for(var/mob/NPC/Enemies/Summoned/mon in m)
@@ -501,12 +506,12 @@ RandomEvent
 			var/list/m = list()
 			Players << infomsg("The elder wand's magical force is possessing a stone construct outside the castle for [minutes] minutes, destroy the stone construct to harness the power of the broken elder wand!")
 
-			var/obj/spawner/spawn_loc = pick(spawners)
+			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/Golem(spawn_loc.loc)
 			m += monster
 
 			for(var/i = 1 to rand(5, 15))
-				spawn_loc = pick(spawners)
+				spawn_loc = pick(worldData.spawners)
 				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
 				m += monster
@@ -588,7 +593,7 @@ RandomEvent
 			if(!winners) winners = list()
 			if(!totalTreasures) totalTreasures = list()
 
-			var/obj/spawner/spawn_loc = pick(spawners)
+			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mapZ = spawn_loc.z
 
 			for(var/i = 1 to chests)
@@ -622,9 +627,9 @@ RandomEvent
 			winners = null
 
 			Players << infomsg("Treasure Hunt is over.")
-			currentEvents -= name
+			worldData.currentEvents -= name
 
-			if(currentEvents.len == 0) currentEvents = null
+			if(worldData.currentEvents.len == 0) worldData.currentEvents = null
 
 	Snitches
 		name = "Catch Snitches"
@@ -636,7 +641,7 @@ RandomEvent
 
 			var/list/s = list()
 			for(var/i = 0; i < snitches; i++)
-				var/obj/spawner/spawn_loc = pick(spawners)
+				var/obj/spawner/spawn_loc = pick(worldData.spawners)
 				s += new/obj/quidditch/snitch { prize = 1 } (spawn_loc.loc)
 
 			sleep(minutes * 600)
@@ -697,7 +702,7 @@ RandomEvent
 
 			var/list/m = list()
 			for(var/i = 0; i <= monsters; i++)
-				var/obj/spawner/spawn_loc = pick(spawners)
+				var/obj/spawner/spawn_loc = pick(worldData.spawners)
 				var/mob/NPC/Enemies/Summoned/monster = new (spawn_loc.loc)
 
 				monster.DMGmodifier = 0.8
@@ -842,7 +847,7 @@ obj/items/treasure
 		set category = null
 
 		if(event == "Treasure Hunt")
-			var/RandomEvent/TreasureHunt/e = locate() in events
+			var/RandomEvent/TreasureHunt/e = locate() in worldData.events
 			if(e && (usr.ckey in e.winners))
 				usr << errormsg("You already found a chest!")
 				return
@@ -865,7 +870,7 @@ obj/items/treasure
 		Players << infomsg("<b>[event]:</b> [usr] found a [i.name]!")
 
 		if(event == "Treasure Hunt")
-			var/RandomEvent/TreasureHunt/e = locate() in events
+			var/RandomEvent/TreasureHunt/e = locate() in worldData.events
 			if(e && e.totalTreasures && (src in e.totalTreasures))
 				e.totalTreasures -= src
 
