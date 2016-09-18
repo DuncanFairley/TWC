@@ -456,7 +456,7 @@ mob
 						if(t)
 							chance *= t.factor
 
-					if(prob(chance * 8))
+					if(prob(chance * 9))
 						var/obj/items/wearable/pets/w = new spawnType (loc)
 						if(isShiny)
 							w.function |= PET_SHINY|PET_LIGHT
@@ -464,7 +464,7 @@ mob
 						w.prizeDrop(killer.ckey, 300)
 				else
 					if(killer.findStatusEffect(/StatusEffect/Lamps/Farming))
-						chance *= 5
+						chance *= 6
 
 					if(prob(chance))
 						if(defaultColor == "rand")
@@ -795,6 +795,10 @@ mob
 						if(s)
 							s.loc = null
 							s = null
+
+						if("The Black Blade" in worldData.currentEvents)
+							var/RandomEvent/Sword/e = locate() in worldData.events
+							e.swords--
 
 					MapInit()
 						set waitfor = 0
@@ -1351,23 +1355,28 @@ mob
 							while(loc)
 
 								icon_state = "shield"
-								lag = 50
-								glide_size = 32/lag
+								MoveDelay = 50
+								ChangeState(state)
 
 
 								var/spawns = 4
 								while(loc && spawns > 0)
 									spawns--
 
-									new /mob/NPC/Enemies/Summoned/Sword (loc)
+									if("The Black Blade" in worldData.currentEvents)
+										var/RandomEvent/Sword/e = locate() in worldData.events
+
+										if(e.swords <= 30)
+											e.swords++
+											new /mob/NPC/Enemies/Summoned/Sword (loc)
 
 									sleep(50)
 
 								icon_state = "sword"
-								lag = MoveDelay
-								glide_size = 32/lag
+								MoveDelay = 2
+								ChangeState(state)
 
-								sleep(200)
+								sleep(400)
 
 						Attack(mob/M)
 							..()
@@ -1391,7 +1400,6 @@ mob
 									dir = d
 									castproj(icon_state = "sword", name = "flying sword", cd = 0, lag = 1)
 								dir = tmp_d
-							sleep(AttackDelay)
 
 						Attacked(obj/projectile/p)
 							if(icon_state == "shield" || p.icon_state == "blood")
@@ -2375,7 +2383,8 @@ obj/corpse
 			sleep(20)
 			var/area/a = Loc.loc
 
-			if(a.undead)
+			if(a.undead && a.undead < 30)
+				a.undead++
 				var/mob/Player/p = dead
 				if(p.Gender == "Female")
 					icon = 'FemaleZombie.dmi'
@@ -2412,10 +2421,16 @@ mob/NPC/Enemies/Summoned/Zombie
 
 		appearance = c.appearance
 		level      = p.level + rand(0, 50)
-		extraDmg   = p.extraDmg + p.clothDmg + rand(0, 100)
+		extraDmg   = round((p.extraDef + p.clothDef)/2 + p.extraDmg + p.clothDmg)
 
 	MapInit()
 		set waitfor = 0
 		calcStats()
 		sleep(2)
 		state()
+
+	Death(mob/Player/killer)
+		var/area/a = loc.loc
+
+		if(a && a.undead > 1)
+			a.undead--
