@@ -268,7 +268,7 @@ obj
 
 			#else
 
-			if(prob(80)) color = rgb(0, rand(150, 220), 0)
+			if(prob(80)) color = rgb(rand(150, 220), rand(100, 150), 0)
 
 			#endif
 
