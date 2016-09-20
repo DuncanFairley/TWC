@@ -4004,12 +4004,14 @@ obj/items/treats
 
 			p << infomsg("You threw \a [name] for your [p.pet.name] to fetch.")
 
-			var/obj/o = new (p.loc)
-			o.icon = 'candy.dmi'
-			o.icon_state = "stick"
+			var/obj/throwStick/o = new (p.loc)
 			while(o.loc && o.loc != target)
 				o.loc = get_step_towards(o, target)
 				sleep(2)
+
+				if(!p || !p.loc)
+					o.loc = null
+					return
 
 			p.pet.walkTo(target, p.dir)
 			sleep(15)
@@ -4055,6 +4057,18 @@ obj/items/treats
 
 		else
 			..()
+
+obj/throwStick
+	icon = 'candy.dmi'
+	icon_state = "stick"
+
+	New()
+		set waitfor = 0
+		..()
+
+		sleep(35)
+		loc = null
+
 
 obj/items/money
 	icon = 'Gold.dmi'

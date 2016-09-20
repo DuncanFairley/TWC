@@ -626,3 +626,154 @@ gold
 					var/obj/items/money/iBronze = new (p)
 					iBronze.stack = nBronze
 					iBronze.UpdateDisplay()
+
+obj
+	Pink_Flowers
+		icon       = 'Plants.dmi'
+		icon_state = "Pink Flowers"
+		density    = 1
+	Blue_Flowers
+		icon       = 'Plants.dmi'
+		icon_state = "Blue Flowers"
+		density    = 1
+	tabletop
+		icon       = 'turf.dmi'
+		icon_state = "t1"
+		density    = 1
+		layer      = 2
+	tableleft
+		icon       = 'turf.dmi'
+		icon_state = "t2"
+		density    = 1
+		layer      = 2
+	tablemiddle2
+		icon       = 'turf.dmi'
+		icon_state = "mid2"
+		density    = 1
+		layer      = 2
+	tablemiddle
+		icon       = 'turf.dmi'
+		icon_state = "middle"
+		density    = 1
+		layer      = 2
+	tablecornerL
+		icon       = 'turf.dmi'
+		icon_state = "t2"
+		density    = 1
+		layer      = 2
+	tablecornerR
+		icon       = 'turf.dmi'
+		icon_state = "t3"
+		density    = 1
+		layer      = 2
+	tableright
+		icon       = 'turf.dmi'
+		icon_state = "bottomright"
+		density    = 1
+		layer      = 2
+	tableleft
+		icon       = 'turf.dmi'
+		icon_state = "bottom1"
+		density    = 1
+		layer      = 2
+	tablebottom
+		icon       = 'turf.dmi'
+		icon_state = "bottom"
+		density    = 1
+		layer      = 2
+	tablemid3
+		icon       = 'turf.dmi'
+		icon_state = "mid3"
+		density    = 1
+		layer      = 2
+
+	art
+		icon    = 'Decoration.dmi'
+		density = 1
+
+		Art_Tree
+			icon_state = "tree top"
+		Art_Tree2
+			icon_state = "tree"
+		Art
+			icon_state = "royal top1"
+		Art1
+			icon_state = "royal1"
+		Art_Man
+			icon_state = "royal top"
+		Art_Man2
+			icon_state = "royal"
+
+		painting
+			density = 0
+			p1
+				icon_state = "big tl"
+			p2
+				icon_state = "big tr"
+			p3
+				icon_state = "big bl"
+			p4
+				icon_state = "big br"
+
+	Hogwarts_Stairs
+		icon = 'General.dmi'
+		icon_state = "Stairs"
+
+	tree
+		name       = "Tree"
+		icon       = 'BigTree.dmi'
+		icon_state = "stump"
+
+		density    = 1
+		pixel_x    = -64
+
+
+		New()
+			..()
+
+			var/obj/tree_top/t = new(loc)
+			t.y++
+
+			#if WINTER
+
+			invisibility = 100
+
+			#else
+
+			if(prob(60))
+				var/r = rand(160, 255)
+				var/g = rand(82, r)
+				var/b = rand(45, g)
+				color = rgb(r, g, b)
+
+			#endif
+
+	tree_top
+		name       = "Tree"
+		icon       = 'BigTree.dmi'
+		icon_state = "top"
+		density = 1
+		pixel_x = -64
+		pixel_y = -32
+		layer   = 5
+
+		New()
+			..()
+
+			#if WINTER
+
+			if(prob(70)) color = rgb(170, rand(170, 240), 170)
+
+			var/r = rand(1,3)
+			icon_state = "stump[r]_winter"
+
+			if(prob(75))
+				var/image/i = new('BigTree.dmi', "snow[r]")
+				i.appearance_flags = RESET_COLOR
+				overlays += i
+
+			#else
+
+			if(prob(80)) color = rgb(rand(150, 220), rand(100, 150), 0)
+
+			#endif
