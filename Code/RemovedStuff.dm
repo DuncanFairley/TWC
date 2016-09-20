@@ -777,3 +777,85 @@ obj
 			if(prob(80)) color = rgb(rand(150, 220), rand(100, 150), 0)
 
 			#endif
+
+	Armor_Head
+		icon       = 'statues.dmi'
+		icon_state = "head"
+		layer      = MOB_LAYER + 1
+	gargoylerighttop
+		icon       = 'statues.dmi'
+		icon_state = "top3"
+		layer      = MOB_LAYER + 1
+	gargoylelefttop
+		icon       = 'statues.dmi'
+		icon_state = "top2"
+		layer      = MOB_LAYER + 1
+	gargoylerightbottom
+		icon       = 'statues.dmi'
+		icon_state = "bottom3"
+		density    = 1
+	gargoyleleftbottom
+		icon       = 'statues.dmi'
+		icon_state = "bottom2"
+		density    = 1
+	Torch_
+		icon       = 'misc.dmi'
+		icon_state = "torch"
+	Angel_Bottom
+		icon       = 'statues.dmi'
+		icon_state = "bottom1"
+		density    = 1
+	Angel_Top
+		icon       = 'statues.dmi'
+		icon_state = "top1"
+		layer      = MOB_LAYER + 1
+	Armor_Feet
+		icon       = 'statues.dmi'
+		icon_state = "feet"
+		density    = 1
+	Dual_Swords
+		icon       = 'wallobjs.dmi'
+		icon_state = "sword"
+		density    = 1
+	Fireplace
+		icon       = 'misc.dmi'
+		icon_state = "fireplace"
+		density    = 1
+	fence
+		icon       = 'turf.dmi'
+		icon_state = "fence"
+		density    = 1
+		pixel_y    = 16
+	downfence
+		icon       = 'turf.dmi'
+		icon_state = "fence side"
+		density    = 1
+	halffence
+		icon       = 'turf.dmi'
+		icon_state = "fence"
+		layer      = 5
+		pixel_y    = -2
+	Clock
+		icon       = 'General.dmi'
+		icon_state = "tile79"
+		density    = 1
+	gryffindorbanner
+		icon       = 'shields.dmi'
+		icon_state = "gryffindorbanner"
+		density    = 1
+	slytherinbanner
+		icon       = 'shields.dmi'
+		icon_state = "slytherinbanner"
+		density    = 1
+	hufflepuffbanner
+		icon       = 'shields.dmi'
+		icon_state = "hufflepuffbanner"
+		density    = 1
+	ravenclawbanner
+		icon       = 'shields.dmi'
+		icon_state = "ravenclawbanner"
+		density    = 1
+	hogwartshield
+		icon       = 'shields.dmi'
+		icon_state = "hogwartsshield"
+		density    = 1

@@ -66,107 +66,12 @@ obj/Lantern
 				light.loc = loc
 			if(shadow)
 				shadow.loc = loc
-
-
-obj/lineR
-	icon='table house lines.dmi'
-	icon_state="r"
-obj/lineS
-	icon='table house lines.dmi'
-	icon_state="s"
-obj/lineG
-	icon='table house lines.dmi'
-	icon_state="g"
-obj/lineH
-	icon='table house lines.dmi'
-	icon_state="h"
-obj/Armor_Head
-	icon='statues.dmi'
-	icon_state="head"
-	layer = MOB_LAYER + 1
-obj/gargoylerighttop
-	icon='statues.dmi'
-	icon_state="top3"
-	layer = MOB_LAYER + 1
-obj/gargoylelefttop
-	icon='statues.dmi'
-	icon_state="top2"
-	layer = MOB_LAYER + 1
-obj/gargoylerightbottom
-	icon='statues.dmi'
-	icon_state="bottom3"
-	density=1
-obj/gargoyleleftbottom
-	icon = 'statues.dmi'
-	icon_state = "bottom2"
-	density = 1
-obj/statuebody
-	icon='statues.dmi'
-	icon_state="stat"
-	density=1
-obj/statuehead
-	icon='statues.dmi'
-	icon_state="sh"
-	layer = MOB_LAYER + 1
-obj/Grave
-	icon='statues.dmi'
-	icon_state="grave5"
-obj/Grave_Rip
-	icon='statues.dmi'
-	icon_state="rip"
-obj/Ghost_Top
-	icon='statues.dmi'
-	icon_state="stat1a"
-	layer = MOB_LAYER + 1
-obj/Ghost_Bottom
-	icon='statues.dmi'
-	icon_state="stat2a"
-	layer = MOB_LAYER + 1
-obj/Ghost_Top2
-	icon='statues.dmi'
-	icon_state="stat1b"
-	density = 1
-obj/Ghost_Bottom2
-	icon='statues.dmi'
-	icon_state="stat2b"
-	density=1
-obj/Torch_
-	icon='misc.dmi'
-	icon_state="torch"
-obj/Angel_Bottom
-	icon='statues.dmi'
-	icon_state="bottom1"
-	density=1
-obj/Angel_Top
-	icon='statues.dmi'
-	icon_state="top1"
-	layer = MOB_LAYER + 1
 obj/redroses
 	var/GM_Made = 0
 	icon='attacks.dmi'
 	icon_state="herbificus"
 	density=1
 	layer = 6
-obj/Armor_Feet
-	icon='statues.dmi'
-	icon_state="feet"
-	density=1
-obj/Fountain_
-	icon='statues.dmi'
-	icon_state="foun1"
-	density=1
-obj/Fountain__
-	icon='statues.dmi'
-	icon_state="foun2"
-	density=1
-obj/Fountain___
-	icon='statues.dmi'
-	icon_state="foun3"
-	density=1
-obj/Fountain____
-	icon='statues.dmi'
-	icon_state="foun4"
-	density=1
 obj/Force_Field
 	icon='teleport2.dmi'
 	icon_state="shield"
@@ -255,65 +160,6 @@ obj/Cauldron
 		..()
 		icon_state = "C[rand(1,8)]"
 
-obj/gryffindor
-	icon='shields.dmi'
-	icon_state="gryffindor"
-	density=1
-obj/slytherin
-	icon='shields.dmi'
-	icon_state="slytherin"
-	density=1
-obj/hufflepuff
-	icon='shields.dmi'
-	icon_state="hufflepuff"
-	density=1
-obj/ravenclaw
-	icon='shields.dmi'
-	icon_state="ravenclaw"
-	density=1
-obj/gryffindorbanner
-	icon='shields.dmi'
-	icon_state="gryffindorbanner"
-	density=1
-obj/slytherinbanner
-	icon='shields.dmi'
-	icon_state="slytherinbanner"
-	density=1
-obj/hufflepuffbanner
-	icon='shields.dmi'
-	icon_state="hufflepuffbanner"
-	density=1
-obj/ravenclawbanner
-	icon='shields.dmi'
-	icon_state="ravenclawbanner"
-	density=1
-obj/hogwartshield
-	icon='shields.dmi'
-	icon_state="hogwartsshield"
-	density=1
-obj/hogwartbanner
-	icon='shields.dmi'
-	icon_state="hogwartsbanner"
-	density=1
-obj/Fountain
-	icon='shields.dmi'
-	icon_state="fountain"
-	density=1
-	accioable=1
-	wlable = 1
-	rubbleable=1
-obj/Lamp_Table_Top
-	icon='house.dmi'
-	icon_state="Lamp Table Top"
-	density=1
-	pixel_y=-10
-
-obj/Lamp_Table_Bottom
-	icon='house.dmi'
-	icon_state="Table Bottom"
-	density=1
-	pixel_y=-10
-
 obj/Cabinet1
 	name="Cabinet"
 	icon='house.dmi'
@@ -324,12 +170,6 @@ obj/Cabinet2
 	name="Cabinet"
 	icon='house.dmi'
 	icon_state="dress2"
-	density=1
-
-obj/Lamp1
-	name="Lamp"
-	icon='house.dmi'
-	icon_state="lamp"
 	density=1
 
 obj/Desk
@@ -345,31 +185,6 @@ obj/Book_Shelf
 obj/Book_Shelf1
 	icon='Desk.dmi'
 	icon_state="2"
-	density=1
-
-obj/Wand_Shelf
-	icon='Desk.dmi'
-	icon_state="3"
-	density=1
-
-obj/stone
-	icon='turf.dmi'
-	icon_state="stone"
-	density=1
-
-	New()
-		set waitfor = 0
-		sleep(600)
-		loc = null
-
-obj/Dual_Swords
-	icon='wallobjs.dmi'
-	icon_state="sword"
-	density=1
-
-obj/Fireplace
-	icon='misc.dmi'
-	icon_state="fireplace"
 	density=1
 
 turf
@@ -769,29 +584,6 @@ turf
 			icon_state = "22"
 		detable
 			icon_state = "d22"
-obj
-	redballoon
-		icon='balloon.dmi'
-		icon_state="red"
-
-	orangeballoon
-		icon='balloon.dmi'
-		icon_state="orange"
-	blackballoon
-		icon='balloon.dmi'
-		icon_state="black"
-
-	blueballoon
-		icon='balloon.dmi'
-		icon_state="blue"
-
-	yellowballoon
-		icon='balloon.dmi'
-		icon_state="yellow"
-
-	greenballoon
-		icon='balloon.dmi'
-		icon_state="green"
 
 obj/Stable
 	icon='General.dmi'
@@ -838,25 +630,10 @@ turf/Staircase2
 	icon='General.dmi'
 	icon_state="tile86"
 
-obj/Clock
-	icon='General.dmi'
-	icon_state="tile79"
-	density=1
-
 obj/Quidditch_Sign
 	icon='quidditch.png'
 	pixel_x = -10
 	pixel_y = -5
-
-obj/Neptune
-	icon='statues.dmi'
-	icon_state="top6"
-	density=1
-
-obj/NeptuneBottom
-	icon='statues.dmi'
-	icon_state="bottom6"
-	density=1
 
 obj/Column
 	icon='General.dmi'
@@ -1001,35 +778,6 @@ turf
 			blockDir = WEST
 		South
 			blockDir = SOUTH
-
-
-obj
-	fence
-		icon='turf.dmi'
-		icon_state="fence"
-		density=1
-		pixel_y = 16
-	downfence
-		icon='turf.dmi'
-		icon_state = "fence side"
-		density = 1
-	halffence
-		icon='turf.dmi'
-		icon_state="fence"
-		layer = 5
-		pixel_y = -2
-
-	curtains
-		icon='turf.dmi'
-		layer = 5
-		c1
-			icon_state="c1"
-		c2
-			icon_state="c2"
-		c3
-			icon_state="c3"
-		c4
-			icon_state="c4"
 
 turf
 	icon='turf.dmi'
@@ -1447,6 +1195,189 @@ obj
 		Hogwarts_Stairs
 			icon       = 'General.dmi'
 			icon_state = "Stairs"
+
+		lineR
+			icon       = 'table house lines.dmi'
+			icon_state = "r"
+		lineS
+			icon       = 'table house lines.dmi'
+			icon_state = "s"
+		lineG
+			icon       = 'table house lines.dmi'
+			icon_state = "g"
+		lineH
+			icon	   = 'table house lines.dmi'
+			icon_state = "h"
+		Armor_Head
+			icon       = 'statues.dmi'
+			icon_state = "head"
+			layer      = MOB_LAYER + 1
+		gargoylerighttop
+			icon       = 'statues.dmi'
+			icon_state = "top3"
+			layer      = MOB_LAYER + 1
+		gargoylelefttop
+			icon       = 'statues.dmi'
+			icon_state = "top2"
+			layer      = MOB_LAYER + 1
+		gargoylerightbottom
+			icon       = 'statues.dmi'
+			icon_state = "bottom3"
+			density    = 1
+		gargoyleleftbottom
+			icon       = 'statues.dmi'
+			icon_state = "bottom2"
+			density    = 1
+		statuebody
+			icon       = 'statues.dmi'
+			icon_state = "stat"
+			density    = 1
+		statuehead
+			icon       = 'statues.dmi'
+			icon_state = "sh"
+			layer      = MOB_LAYER + 1
+		Grave
+			icon       = 'statues.dmi'
+			icon_state = "grave5"
+		Grave_Rip
+			icon       = 'statues.dmi'
+			icon_state = "rip"
+		Ghost_Top
+			icon       = 'statues.dmi'
+			icon_state = "stat1a"
+			layer      = MOB_LAYER + 1
+		Ghost_Bottom
+			icon       ='statues.dmi'
+			icon_state ="stat2a"
+			layer      = MOB_LAYER + 1
+		Ghost_Top2
+			icon       = 'statues.dmi'
+			icon_state = "stat1b"
+			density    = 1
+		Ghost_Bottom2
+			icon       = 'statues.dmi'
+			icon_state = "stat2b"
+			density    = 1
+		Torch_
+			icon       = 'misc.dmi'
+			icon_state = "torch"
+		Angel_Bottom
+			icon       = 'statues.dmi'
+			icon_state = "bottom1"
+			density    = 1
+		Angel_Top
+			icon       = 'statues.dmi'
+			icon_state = "top1"
+			layer      = MOB_LAYER + 1
+		Armor_Feet
+			icon       = 'statues.dmi'
+			icon_state = "feet"
+			density    = 1
+		Fountain_
+			icon       = 'statues.dmi'
+			icon_state = "foun1"
+			density    = 1
+		Fountain__
+			icon       = 'statues.dmi'
+			icon_state = "foun2"
+			density    = 1
+		Fountain___
+			icon       = 'statues.dmi'
+			icon_state = "foun3"
+			density    = 1
+		Fountain____
+			icon       = 'statues.dmi'
+			icon_state = "foun4"
+			density    = 1
+		Wand_Shelf
+			icon       = 'Desk.dmi'
+			icon_state = "3"
+			density    = 1
+		Dual_Swords
+			icon       = 'wallobjs.dmi'
+			icon_state = "sword"
+			density    = 1
+		Fireplace
+			icon       = 'misc.dmi'
+			icon_state = "fireplace"
+			density    = 1
+		gryffindor
+			icon       = 'shields.dmi'
+			icon_state = "gryffindor"
+			density    = 1
+		slytherin
+			icon       = 'shields.dmi'
+			icon_state = "slytherin"
+			density    = 1
+		hufflepuff
+			icon       = 'shields.dmi'
+			icon_state = "hufflepuff"
+			density    = 1
+		ravenclaw
+			icon       = 'shields.dmi'
+			icon_state = "ravenclaw"
+			density    = 1
+		gryffindorbanner
+			icon       = 'shields.dmi'
+			icon_state = "gryffindorbanner"
+			density    = 1
+		slytherinbanner
+			icon       = 'shields.dmi'
+			icon_state = "slytherinbanner"
+			density    = 1
+		hufflepuffbanner
+			icon       = 'shields.dmi'
+			icon_state = "hufflepuffbanner"
+			density    = 1
+		ravenclawbanner
+			icon       = 'shields.dmi'
+			icon_state = "ravenclawbanner"
+			density    = 1
+		hogwartshield
+			icon       = 'shields.dmi'
+			icon_state = "hogwartsshield"
+			density    = 1
+		hogwartbanner
+			icon       = 'shields.dmi'
+			icon_state = "hogwartsbanner"
+			density    = 1
+		fence
+			icon       = 'turf.dmi'
+			icon_state = "fence"
+			density    = 1
+			pixel_y    = 16
+		downfence
+			icon       = 'turf.dmi'
+			icon_state = "fence side"
+			density    = 1
+		halffence
+			icon       = 'turf.dmi'
+			icon_state = "fence"
+			layer      = 5
+			pixel_y    = -2
+		curtains
+			icon       = 'turf.dmi'
+			layer      = 5
+			c1
+				icon_state = "c1"
+			c2
+				icon_state = "c2"
+			c3
+				icon_state = "c3"
+			c4
+				icon_state = "c4"
+		Neptune
+			icon       = 'statues.dmi'
+			icon_state = "top6"
+			density    = 1
+		NeptuneBottom
+			icon       = 'statues.dmi'
+			icon_state = "bottom6"
+			density    = 1
+		Clock
+			icon       = 'General.dmi'
+			icon_state = "tile79"
+			density    = 1
 
 obj
 	snowman
