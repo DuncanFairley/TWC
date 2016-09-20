@@ -1484,7 +1484,7 @@ mob/Spells/verb/Confundus(mob/Player/M in oview()&Players)
 mob/Spells/verb/Flippendo()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedFlippendo,needwand=1,inarena=1,insafezone=1,target=null,mpreq=10))
-		new /StatusEffect/UsedFlippendo(src,25)
+		new /StatusEffect/UsedFlippendo(src,5)
 		castproj(Type = /obj/projectile/Flippendo, MPreq = 10, icon_state = "flippendo", name = "Flippendo")
 
 mob/Spells/verb/Wingardium_Leviosa()
