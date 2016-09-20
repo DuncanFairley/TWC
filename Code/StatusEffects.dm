@@ -95,9 +95,9 @@ Event
 						if(shop.owner)
 							shop.reset()
 
-						if(shop.bidCkey)
-							shop.owner = shop.bidCkey
-							mail(shop.owner, "You won the bid on [shop.id] shop.")
+					if(shop.bidCkey)
+						shop.owner = shop.bidCkey
+						mail(shop.owner, "You won the bid on [shop.id] shop.")
 
 					shop.bidCkey  = null
 					shop.bidCount = 0
@@ -130,8 +130,13 @@ Event
 						if(p.Gm)
 							p << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
 			else
-				scheduler.schedule(src, world.tick_lag * rand(30000, 90000))  // 50 minutes to 2.5 hours
-				var/RandomEvent/e = pickweight(worldData.events)
+				scheduler.schedule(src, world.tick_lag * rand(36000, 72000))  // 1 hour to 2 hours
+				var/list/l = list()
+				for(var/RandomEvent/e in worldData.events)
+					if(e.chance == 0) continue
+					l[e] = e.chance
+
+				var/RandomEvent/e = pickweight(l)
 				e.start()
 
 

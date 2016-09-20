@@ -81,7 +81,12 @@ mob/GM/verb
 
 	Start_Random_Event(var/RandomEvent/event in worldData.events+"random")
 		if(event == "random")
-			var/RandomEvent/e = pickweight(worldData.events)
+			var/list/l = list()
+			for(var/RandomEvent/e in worldData.events)
+				if(e.chance == 0) continue
+				l[e] = e.chance
+
+			var/RandomEvent/e = pickweight(l)
 			e.start()
 		else
 			event.start()
