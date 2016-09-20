@@ -456,7 +456,7 @@ mob
 						if(t)
 							chance *= t.factor
 
-					if(prob(chance * 9))
+					if(prob(chance * 10))
 						var/obj/items/wearable/pets/w = new spawnType (loc)
 						if(isShiny)
 							w.function |= PET_SHINY|PET_LIGHT
@@ -464,7 +464,7 @@ mob
 						w.prizeDrop(killer.ckey, 300)
 				else
 					if(killer.findStatusEffect(/StatusEffect/Lamps/Farming))
-						chance *= 6
+						chance *= 4
 
 					if(prob(chance))
 						if(defaultColor == "rand")
@@ -727,10 +727,13 @@ mob
 				else
 					var/dmg = Dmg + extraDmg + rand(0, 12)
 
-					if(target.level > level && !target.findStatusEffect(/StatusEffect/Lamps/Farming))
-						dmg -= dmg * ((target.level - (level + 1))/150)
-					else if(target.level < level)
-						dmg += dmg * ((1 + level - target.level)/200)
+					if(target.findStatusEffect(/StatusEffect/Lamps/Farming))
+						dmg = dmg * (1 + abs(level - target.level)/200) + 100
+					else
+						if(target.level > level)
+							dmg -= dmg * ((target.level - (level + 1))/150)
+						else if(target.level < level)
+							dmg += dmg * ((1 + level - target.level)/200)
 					dmg = round(dmg)
 
 					if(dmg<1)
@@ -1722,7 +1725,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/rat)
+					SpawnPet(killer, 0.4, null, /obj/items/wearable/pets/rat)
 
 
 			Demon_Rat
@@ -1732,7 +1735,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.5, null, /obj/items/wearable/pets/rat)
+					SpawnPet(killer, 0.8, null, /obj/items/wearable/pets/rat)
 
 			Pixie
 				icon_state  = "pixie"
@@ -1756,7 +1759,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.3, null, /obj/items/wearable/pets/dog)
+					SpawnPet(killer, 0.2, null, /obj/items/wearable/pets/dog)
 
 			Snake
 				icon_state  = "snake"
@@ -1766,7 +1769,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.2, null, /obj/items/wearable/pets/snake)
+					SpawnPet(killer, 0.3, null, /obj/items/wearable/pets/snake)
 
 			Wolf
 				icon_state  = "wolf"
