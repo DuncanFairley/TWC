@@ -10,20 +10,23 @@ proc/init_random_events()
 	worldData.events = list()
 	for(var/e in typesof(/RandomEvent/)-/RandomEvent)
 		worldData.events += new e
+	bubblesort_by_value(worldData.events, "chance")
 	scheduler.schedule(new/Event/RandomEvents, world.tick_lag * rand(3000, 36000)) // 5 minutes to 1 hour
 
 
-WorldData/var/tmp/var/list/spawners = list()
+WorldData/var/tmp/list/spawners = list()
 
 obj/spawner
 	invisibility = 10
-	New()
+	post_init = 1
+
+	MapInit()
 		worldData.spawners += src
 
-WorldData/var/tmp/var/list/currentEvents
+WorldData/var/tmp/list/currentEvents
 
 RandomEvent
-	var/chance = 13
+	var/chance = 10
 	var/name
 	var/beepType = 1
 
@@ -46,8 +49,8 @@ RandomEvent
 			if(worldData.currentEvents.len == 0) worldData.currentEvents = null
 
 	FFA
-		name = "Free For All"
-
+		name   = "Free For All"
+		chance = 8
 		var/tmp/mob/Player/winner
 
 		start()
@@ -286,6 +289,7 @@ RandomEvent
 
 	Haunted_Castle
 		name   = "Haunted Castle"
+		chance = 7
 
 		start()
 			..()
@@ -486,6 +490,8 @@ RandomEvent
 				s.loc = null
 				s.ChangeState(monster.INACTIVE)
 
+			swords = 0
+
 			var/message = 0
 			for(var/mob/NPC/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
@@ -530,7 +536,8 @@ RandomEvent
 			end()
 
 	EntranceKillZone
-		name = "Entrance Kill Zone"
+		name   = "Entrance Kill Zone"
+		chance = 7
 		start()
 			..()
 			var/minutes = rand(10,30)
@@ -559,8 +566,8 @@ RandomEvent
 			end()
 
 	OldSystem
-		name = "Old Dueling System"
-		chance = 8
+		name   = "Old Dueling System"
+		chance = 1
 		start()
 			..()
 			var/minutes = rand(10,30)
@@ -577,7 +584,6 @@ RandomEvent
 
 	TreasureHunt
 		name = "Treasure Hunt"
-		chance = 15
 		var/list
 			totalTreasures
 			winners
@@ -655,7 +661,8 @@ RandomEvent
 			end()
 
 	DropRate
-		name = "Drop Rate Bonus"
+		name   = "Drop Rate Bonus"
+		chance = 7
 		start()
 			..()
 			var/minutes = rand(30,60)
@@ -672,7 +679,8 @@ RandomEvent
 					DropRateModifier -= bonus / 100
 
 	Sale
-		name = "Crazy Sale"
+		name   = "Crazy Sale"
+		chance = 5
 		start()
 			..()
 			var/minutes = rand(30,60)
