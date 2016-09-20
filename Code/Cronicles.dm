@@ -368,10 +368,7 @@ mob
 				gold = null
 				goldinbank = null
 
-			if(savefile_version < 28 && Gm)
-				if(!worldData.Gms) worldData.Gms = list()
-
-				worldData.Gms += ckey
+			// 28 removed, continue with 29
 
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")

@@ -242,7 +242,8 @@ obj/push
 			push = 4
 
 		var
-			push = 1
+			push  = 1
+			speed = 3
 			tmp
 				list
 					dirs
@@ -327,7 +328,7 @@ obj/push
 								else
 									p.loc = spot.loc
 
-						sleep(4 + push)
+						sleep(speed + push)
 
 						if(!(moving & 2))
 							if(i == 1)
@@ -362,7 +363,7 @@ obj/push
 					if(!dirs) dirs = list()
 
 					dirs += opposite
-					sleep(4 + push)
+					sleep(speed + push)
 
 				moving &= ~1
 

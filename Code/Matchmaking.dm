@@ -8,9 +8,9 @@ WorldData/var/tmp/list/duel_chairs = list()
 obj/duel_chair
 	invisibility = 10
 
-	New()
-		set waitfor = 0
-		..()
+	post_init = 1
+
+	MapInit()
 		worldData.duel_chairs += src
 
 area/hogwarts/Duel_Arenas/Matchmaking

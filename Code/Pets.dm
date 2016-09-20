@@ -37,14 +37,9 @@ world/IsBanned(key,address)
       .["Login"] = 1
 
 obj/Sanctuario
-	icon='attacks.dmi'
-	icon_state="alohomora"
-	density=0
-	New()
-		set waitfor = 0
-		sleep(60)
-		loc = null
-
+	icon = 'attacks.dmi'
+	icon_state = "alohomora"
+	density = 0
 
 mob/Player/proc
 	StateChange()
