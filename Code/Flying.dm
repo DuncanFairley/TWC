@@ -209,68 +209,6 @@ obj
 				else
 					loc = origloc
 
-obj
-	tree
-		name       = "Tree"
-		icon       = 'BigTree.dmi'
-		icon_state = "stump"
-
-		density    = 1
-		pixel_x    = -64
-
-
-		New()
-			..()
-
-			var/obj/tree_top/t = new(loc)
-			t.y++
-
-			#if WINTER
-
-			invisibility = 100
-
-			#else
-
-			if(prob(60))
-				var/r = rand(160, 255)
-				var/g = rand(82, r)
-				var/b = rand(45, g)
-				color = rgb(r, g, b)
-
-			#endif
-
-
-
-
-	tree_top
-		name       = "Tree"
-		icon       = 'BigTree.dmi'
-		icon_state = "top"
-		density = 1
-		pixel_x = -64
-		pixel_y = -32
-		layer   = 5
-
-		New()
-			..()
-
-			#if WINTER
-
-			if(prob(70)) color = rgb(170, rand(170, 240), 170)
-
-			var/r = rand(1,3)
-			icon_state = "stump[r]_winter"
-
-			if(prob(75))
-				var/image/i = new('BigTree.dmi', "snow[r]")
-				i.appearance_flags = RESET_COLOR
-				overlays += i
-
-			#else
-
-			if(prob(80)) color = rgb(rand(150, 220), rand(100, 150), 0)
-
-			#endif
 
 	flyblock
 		invisibility = 10
@@ -896,10 +834,6 @@ turf/Staircase3
 	icon='misc.dmi'
 	icon_state="blank"
 
-obj/Hogwarts_Stairs
-	icon = 'General.dmi'
-	icon_state = "Stairs"
-
 turf/Staircase2
 	icon='General.dmi'
 	icon_state="tile86"
@@ -939,15 +873,6 @@ obj/Endtable
 	icon_state="tile72"
 	density=1
 
-obj/Pink_Flowers
-	icon='Plants.dmi'
-	icon_state="Pink Flowers"
-	density=1
-
-obj/Blue_Flowers
-	icon = 'Plants.dmi'
-	icon_state = "Blue Flowers"
-	density = 1
 obj/drop_on_death
 	var
 		announceToWorld = 1
@@ -1356,7 +1281,9 @@ turf
 obj
 	static_obj
 		appearance_flags = RESET_COLOR|RESET_ALPHA
-		New()
+		post_init = 1
+
+		MapInit()
 			if(density)
 				loc.density = 1
 			if(opacity)
@@ -1366,92 +1293,165 @@ obj
 			loc = null
 
 		walltorch
-			icon = 'turf.dmi'
-			icon_state="walltorch"
+			icon       = 'turf.dmi'
+			icon_state = "walltorch"
 
-obj
-	tabletop
-		icon='turf.dmi'
-		icon_state="t1"
-		density=1
-		layer=2
-	tableleft
-		icon='turf.dmi'
-		icon_state="t2"
-		density=1
-		layer=2
-	tablemiddle2
-		icon='turf.dmi'
-		icon_state="mid2"
-		density=1
-		layer=2
-	tablemiddle
-		icon='turf.dmi'
-		icon_state="middle"
-		density=1
-		layer=2
-	tablecornerL
-		icon='turf.dmi'
-		icon_state="t2"
-		density=1
-		layer=2
-	tablecornerR
-		icon='turf.dmi'
-		icon_state="t3"
-		density=1
-		layer=2
-	tableright
-		icon='turf.dmi'
-		icon_state="bottomright"
-		density=1
-		layer=2
-	tableleft
-		icon='turf.dmi'
-		icon_state="bottom1"
-		density=1
-		layer=2
-	tablebottom
-		icon='turf.dmi'
-		icon_state="bottom"
-		density=1
-		layer=2
-	tablemid3
-		icon='turf.dmi'
-		icon_state="mid3"
-		density=1
-		layer=2
+		Pink_Flowers
+			icon       = 'Plants.dmi'
+			icon_state = "Pink Flowers"
+			density    = 1
+
+		Blue_Flowers
+			icon       = 'Plants.dmi'
+			icon_state = "Blue Flowers"
+			density    = 1
+
+		tabletop
+			icon       = 'turf.dmi'
+			icon_state = "t1"
+			density    = 1
+			layer      = 2
+		tableleft
+			icon       = 'turf.dmi'
+			icon_state = "t2"
+			density    = 1
+			layer      = 2
+		tablemiddle2
+			icon       = 'turf.dmi'
+			icon_state = "mid2"
+			density    = 1
+			layer      = 2
+		tablemiddle
+			icon       = 'turf.dmi'
+			icon_state = "middle"
+			density    = 1
+			layer      = 2
+		tablecornerL
+			icon       = 'turf.dmi'
+			icon_state = "t2"
+			density    = 1
+			layer      = 2
+		tablecornerR
+			icon       = 'turf.dmi'
+			icon_state = "t3"
+			density    = 1
+			layer      = 2
+		tableright
+			icon       = 'turf.dmi'
+			icon_state = "bottomright"
+			density    = 1
+			layer      = 2
+		tableleft
+			icon       = 'turf.dmi'
+			icon_state = "bottom1"
+			density    = 1
+			layer      = 2
+		tablebottom
+			icon       = 'turf.dmi'
+			icon_state = "bottom"
+			density    = 1
+			layer      = 2
+		tablemid3
+			icon       = 'turf.dmi'
+			icon_state = "mid3"
+			density    = 1
+			layer      = 2
+		art
+			icon    = 'Decoration.dmi'
+			density = 1
+
+			Art_Tree
+				icon_state = "tree top"
+			Art_Tree2
+				icon_state = "tree"
+			Art
+				icon_state = "royal top1"
+			Art1
+				icon_state = "royal1"
+			Art_Man
+				icon_state = "royal top"
+			Art_Man2
+				icon_state = "royal"
+
+			painting
+				density = 0
+				p1
+					icon_state = "big tl"
+				p2
+					icon_state = "big tr"
+				p3
+					icon_state = "big bl"
+				p4
+					icon_state = "big br"
+
+		tree
+			name       = "Tree"
+			#if !WINTER
+			icon       = 'BigTree.dmi'
+			icon_state = "stump"
+			#endif
+			density    = 1
+			pixel_x    = -64
+
+			MapInit()
+				new /obj/static_obj/tree_top (locate(x, y+1, z))
+
+				#if !WINTER
+
+				if(prob(60))
+					var/r = rand(160, 255)
+					var/g = rand(82, r)
+					var/b = rand(45, g)
+					color = rgb(r, g, b)
+
+				#endif
+
+				..()
+
+
+		tree_top
+			name       = "Tree"
+			icon       = 'BigTree.dmi'
+			#if WINTER
+			icon_state = "stump1_winter"
+			#else
+			icon_state = "top"
+			#endif
+			density = 1
+			pixel_x = -64
+			pixel_y = -32
+			layer   = 5
+
+			MapInit()
+				#if WINTER
+
+				if(prob(70)) color = rgb(170, rand(170, 240), 170)
+
+				var/r = rand(1,3)
+				icon_state = "stump[r]_winter"
+
+				if(prob(75))
+					var/image/i = new('BigTree.dmi', "snow[r]")
+					i.appearance_flags = RESET_COLOR
+					overlays += i
+
+				#else
+
+				if(prob(80)) color = rgb(rand(150, 220), rand(100, 150), 0)
+
+				#endif
+
+				..()
+
+
+		Hogwarts_Stairs
+			icon       = 'General.dmi'
+			icon_state = "Stairs"
+
 obj
 	snowman
 		icon='snowman.dmi'
 		name="Snow Man"
-
-	art
-		icon    = 'Decoration.dmi'
-		density = 1
-
-		Art_Tree
-			icon_state="tree top"
-		Art_Tree2
-			icon_state="tree"
-		Art
-			icon_state="royal top1"
-		Art1
-			icon_state="royal1"
-		Art_Man
-			icon_state="royal top"
-		Art_Man2
-			icon_state="royal"
-
-		painting
-			density = 0
-			p1
-				icon_state="big tl"
-			p2
-				icon_state="big tr"
-			p3
-				icon_state="big bl"
-			p4
-				icon_state="big br"
 
 obj
 	fadeIn
