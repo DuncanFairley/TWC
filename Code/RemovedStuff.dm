@@ -839,6 +839,22 @@ obj
 		icon       = 'General.dmi'
 		icon_state = "tile79"
 		density    = 1
+	gryffindor
+		icon       = 'shields.dmi'
+		icon_state = "gryffindor"
+		density    = 1
+	slytherin
+		icon       = 'shields.dmi'
+		icon_state = "slytherin"
+		density    = 1
+	hufflepuff
+		icon       = 'shields.dmi'
+		icon_state = "hufflepuff"
+		density    = 1
+	ravenclaw
+		icon       = 'shields.dmi'
+		icon_state = "ravenclaw"
+		density    = 1
 	gryffindorbanner
 		icon       = 'shields.dmi'
 		icon_state = "gryffindorbanner"
@@ -859,3 +875,24 @@ obj
 		icon       = 'shields.dmi'
 		icon_state = "hogwartsshield"
 		density    = 1
+	hogwartbanner
+		icon       = 'shields.dmi'
+		icon_state = "hogwartsbanner"
+		density    = 1
+	Neptune
+		icon       = 'statues.dmi'
+		icon_state = "top6"
+		density    = 1
+	NeptuneBottom
+		icon       = 'statues.dmi'
+		icon_state = "bottom6"
+		density    = 1
+	Grave_Rip
+		icon       = 'statues.dmi'
+		icon_state = "rip"
+
+obj/Fountain
+	New()
+		..()
+		spawn(1)
+			loc = null
