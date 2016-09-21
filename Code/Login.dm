@@ -2058,7 +2058,7 @@ proc
 				var/time = E.respawnTime
 				if(killer && E.level + 1 < killer.level)
 					time += time * ((1 + E.level - killer.level)/400)
-					time = max(round(time), 200) + rand(-30, 30)
+					time = max(round(time), 230) + rand(-30, 30)
 				sleep(time)
 				if(E)
 					E.loc = E.origloc

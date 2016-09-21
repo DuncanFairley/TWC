@@ -162,7 +162,7 @@ auction
 					worldData.auctionItems -= src
 					if(!worldData.auctionItems.len) worldData.auctionItems = null
 					g.setVars(bronze=buyoutPrice)
-					p << infomsg("<b>Auction:</b> You bought [item.name] for [g.toString()] gold.")
+					p << infomsg("<b>Auction:</b> You bought [item.name] for [g.toString()].")
 					item.loc = p
 					item = null
 					p.Resort_Stacking_Inv()

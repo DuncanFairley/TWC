@@ -376,15 +376,12 @@ obj/magic_force
 				for(var/obj/fadeIn/flame/f in orange(5, src))
 					f.Dispose()
 
-				if(!worldData.elderWand && prob(65))
-					var/RandomEvent/Golem/event = locate() in worldData.events
-					spawn() event.start()
-				else if(prob(45))
-					var/RandomEvent/Ghosts/event = locate() in worldData.events
-					spawn() event.start()
-				else
-					var/RandomEvent/Invasion/event = locate() in worldData.events
-					spawn() event.start()
+				var/list/events = list("Sword" = 40, "Ghosts" = 30, "Invasion" = 20)
+				if(!worldData.elderWand) events["Golem"] = 25
+
+				var/event = pickweight(events)
+				var/RandomEvent/e = locate(text2path("/RandomEvent/[event]")) in worldData.events
+				e.start()
 			else
 				var/ScreenText/s = new(p, src)
 

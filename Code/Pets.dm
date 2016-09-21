@@ -290,9 +290,9 @@ obj/pet
 		else
 			var/turf/newLoc
 			if(item.function & PET_FOLLOW_RIGHT)
-				newLoc = get_step(p, turn(p.dir, 90))
-			else if(item.function & PET_FOLLOW_LEFT)
 				newLoc = get_step(p, turn(p.dir, -90))
+			else if(item.function & PET_FOLLOW_LEFT)
+				newLoc = get_step(p, turn(p.dir, 90))
 
 			if(newLoc && !newLoc.density)
 				walkTo(newLoc, p.dir)
