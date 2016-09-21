@@ -464,7 +464,7 @@ mob
 						w.prizeDrop(killer.ckey, 300)
 				else
 					if(killer.findStatusEffect(/StatusEffect/Lamps/Farming))
-						chance *= 4
+						chance *= 3
 
 					if(prob(chance))
 						if(defaultColor == "rand")
@@ -1735,7 +1735,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.8, null, /obj/items/wearable/pets/rat)
+					SpawnPet(killer, 0.5, null, /obj/items/wearable/pets/rat)
 
 			Pixie
 				icon_state  = "pixie"
@@ -1747,7 +1747,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.4, null, /obj/items/wearable/pets/pixie)
+					SpawnPet(killer, 0.3, null, /obj/items/wearable/pets/pixie)
 
 			Dog
 				icon_state  = "dog"
@@ -1759,7 +1759,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.2, null, /obj/items/wearable/pets/dog)
+					SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/dog)
 
 			Snake
 				icon_state  = "snake"
@@ -1769,7 +1769,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.3, null, /obj/items/wearable/pets/snake)
+					SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/snake)
 
 			Wolf
 				icon_state  = "wolf"
@@ -2073,7 +2073,7 @@ mob
 						Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
 						new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
 
-					SpawnPet(killer, 0.01, null, /obj/items/wearable/pets/floating_eye)
+					SpawnPet(killer, 0.02, null, /obj/items/wearable/pets/floating_eye)
 
 				Blocked()
 					density = 0
@@ -2151,7 +2151,7 @@ mob
 				Death(mob/Player/killer)
 					..()
 
-					SpawnPet(killer, 0.04, null, /obj/items/wearable/pets/troll)
+					SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/troll)
 
 				ChangeState(var/i_State)
 					set waitfor = FALSE
