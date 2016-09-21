@@ -32,6 +32,7 @@ RandomEvent
 
 	proc
 		start()
+			set waitfor = 0
 			if(!worldData.currentEvents) worldData.currentEvents = list()
 
 			if(name in worldData.currentEvents)
@@ -54,6 +55,7 @@ RandomEvent
 		var/tmp/mob/Player/winner
 
 		start()
+			set waitfor = 0
 			if(worldData.currentArena || (name in worldData.currentEvents))	return
 
 			..()
@@ -142,6 +144,7 @@ RandomEvent
 		name = "Class"
 		beepType = 2
 		start()
+			set waitfor = 0
 			var/list/spells = spellList ^ list(/mob/Spells/verb/Self_To_Dragon, /mob/Spells/verb/Self_To_Human, /mob/Spells/verb/Episky, /mob/Spells/verb/Inflamari)
 
 			if(spells.len == worldData.spellsHistory.len)
@@ -210,6 +213,7 @@ RandomEvent
 	TheEvilSnowman
 		name = "The Evil Snowman"
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
@@ -249,6 +253,7 @@ RandomEvent
 	WillytheWhisp
 		name = "Willy the Whisp"
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
@@ -292,6 +297,7 @@ RandomEvent
 		chance = 7
 
 		start()
+			set waitfor = 0
 			..()
 
 			var/waves = rand(3,5)
@@ -335,6 +341,7 @@ RandomEvent
 	Ghosts
 		name = "Ghost Invasion"
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(10,20)
 			var/list/m = list()
@@ -360,6 +367,7 @@ RandomEvent
 	Spider
 		name = "Spiders"
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
@@ -391,6 +399,7 @@ RandomEvent
 		name   = "Vampire Lord"
 		chance = 0
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
@@ -426,6 +435,7 @@ RandomEvent
 		name   = "Zombie"
 		chance = 0
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
@@ -468,6 +478,7 @@ RandomEvent
 		chance = 0
 		var/swords = 0
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
@@ -507,6 +518,7 @@ RandomEvent
 		name   = "Stone Golem"
 		chance = 0
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
@@ -539,6 +551,7 @@ RandomEvent
 		name   = "Entrance Kill Zone"
 		chance = 7
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(10,30)
 			Players << errormsg("<b>Warning:</b> Hogwarts magical defenses are being suppressed by a dark evil magic, Entrance Hall will become a kill zone in 5 minutes for [minutes] minutes!<br>Move to another area (The library, common room, second floor etc) if you wish to remain safe.")
@@ -569,6 +582,7 @@ RandomEvent
 		name   = "Old Dueling System"
 		chance = 1
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(10,30)
 			Players << infomsg("Old dueling system is active for [minutes] minutes outside!")
@@ -589,6 +603,7 @@ RandomEvent
 			winners
 
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(9, 16)
 			var/chests  = rand(2, 6)
@@ -640,6 +655,7 @@ RandomEvent
 	Snitches
 		name = "Catch Snitches"
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(10,30)
 			var/snitches = rand(15,30)
@@ -664,6 +680,7 @@ RandomEvent
 		name   = "Drop Rate Bonus"
 		chance = 7
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(30,60)
 			var/bonus = rand(25,100)
@@ -682,6 +699,7 @@ RandomEvent
 		name   = "Crazy Sale"
 		chance = 5
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(30,60)
 			var/sale = rand(10,30)
@@ -700,6 +718,7 @@ RandomEvent
 	Invasion
 		name = "Monster Invasion"
 		start()
+			set waitfor = 0
 			..()
 			var/minutes = rand(10,30)
 			var/monsters = rand(50,100)
