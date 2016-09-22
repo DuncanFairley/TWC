@@ -422,25 +422,22 @@ proc
 		if(num == 2) return "2nd"
 		if(num == 3) return "3rd"
 
-	split(txt, d)
-		#ifdef DEBUG
-		ASSERT(istext(txt))
-		ASSERT(istext(d))
-		ASSERT(d)
-		#endif
+	hex2value(hex)
+		var/num1 = copytext(hex, 1, 2)
+		var/num2 = copytext(hex, 2)
 
-		var/pos = findtext(txt, d)
-		var/start = 1
-		var/dlen = length(d)
+		if(isnum(text2num(num1)))
+			num1 = text2num(num1)
+		else
+			num1 = text2ascii(lowertext(num1)) - 87
 
-		. = list()
+		if(isnum(text2num(num1)))
+			num2 = text2num(num1)
+		else
+			num2 = text2ascii(lowertext(num2)) - 87
 
-		while(pos > 0)
-			. += copytext(txt, start, pos)
-			start = pos + dlen
-			pos = findtext(txt, d, start)
+		return num1 * 16 + num2
 
-		. += copytext(txt, start)
 
 mob/Player
 

@@ -110,7 +110,7 @@ proc
 			spawn()
 				for(var/c in cw)
 					if(!(c in clanwars_schedule))
-						var/list/l = split(c, " - ")
+						var/list/l = splittext(c, " - ")
 						add_clan_wars(l[1], l[2])
 
 		var/list/classes
@@ -119,7 +119,7 @@ proc
 			spawn()
 				for(var/class in classes)
 					if(!(class in autoclass_schedule))
-						var/list/l = split(class, " - ")
+						var/list/l = splittext(class, " - ")
 						add_autoclass(l[1], l[2])
 
 	Save_World()
