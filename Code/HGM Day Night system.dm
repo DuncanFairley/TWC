@@ -47,18 +47,22 @@ Weather
 			clouds(60, "rain")
 			for(var/area/A in outside_areas)
 				for(var/turf/water/w in A)
-					if(prob(10)) continue
+					if(prob(30)) continue
 					w.rain()
 				A:SetWeather(/obj/weather/rain)
 				A.dmg = 1
+
+				if (world.tick_usage > 80) lagstopsleep()
 		acid()
 			clouds(60, "rain")
 			for(var/area/A in outside_areas)
 				for(var/turf/water/w in A)
-					if(prob(10)) continue
+					if(prob(30)) continue
 					w.rain()
 				A:SetWeather(/obj/weather/acid)
 				A.dmg = 2
+
+				if (world.tick_usage > 80) lagstopsleep()
 
 		snow()
 			clouds(60)
@@ -70,9 +74,12 @@ Weather
 			clouds(p)
 			for(var/area/A in outside_areas)
 				for(var/turf/water/w in A)
-					w.clear()
+					w.overlays = list()
+					w.rain     = 0
 				A:SetWeather()
 				A.dmg = 1
+
+				if (world.tick_usage > 80) lagstopsleep()
 
 		// relocates / removes / adds existing clouds according to requirement per z level
 		generate_clouds(z, p=0, color=null)

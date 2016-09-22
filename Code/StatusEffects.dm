@@ -167,7 +167,7 @@ proc/cleanPlayerData(decay = 0)
 			if(world.realtime - p.time < 2592000) continue
 			p.fame -= round(p.fame * 0.05)
 
-		if (world.tick_usage > 90) lagstopsleep()
+		if (world.tick_usage > 80) lagstopsleep()
 
 proc
 	init_events()

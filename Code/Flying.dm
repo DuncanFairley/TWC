@@ -850,8 +850,8 @@ turf
 		name = "water"
 		layer=4
 		var
-			tmp/obj/rain
-			isice = 0
+			tmp/rain = 0
+			isice    = 0
 
 		New()
 			..()
@@ -893,7 +893,7 @@ turf
 				icon_state = "ice"
 				layer      = 2
 				if(rain)
-					rain.layer = 0
+					overlays = list()
 				if(!isice)
 					var/time = rand(40,120)
 					while(time > 0 && icon_state == "ice")
@@ -910,8 +910,8 @@ turf
 				icon_state = "water"
 				layer      = 4
 
-				if(rain)
-					rain.layer = 4
+				if(rain && prob(50))
+					rain()
 				if(isice)
 					var/time = rand(40,120)
 					while(time > 0 && icon_state == "water")
@@ -921,20 +921,14 @@ turf
 			rain()
 				set waitfor = 0
 				if(rain) return
-				rain = new (src)
+				rain = 1
 
 				sleep(rand(1,150))
 				if(rain)
-					rain.icon = 'water_drop.dmi'
-					rain.layer = name == "ice" ? 0 : 4
-					rain.icon_state = pick(icon_states(rain.icon))
-					rain.pixel_x = rand(-12,12)
-					rain.pixel_y = rand(-13,14)
-
-			clear()
-				if(rain)
-					rain.loc = null
-					rain = null
+					var/image/i = new ('water_drop.dmi', icon_state = "drop[rand(1, 12)]", layer = 4)
+					i.pixel_x = rand(-12,12)
+					i.pixel_y = rand(-13,14)
+					overlays += i
 
 	lava
 		icon_state="hplava"
