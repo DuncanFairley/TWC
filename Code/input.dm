@@ -19,10 +19,20 @@ obj/hud/TextMessage
 		p << infomsg(message)
 
 		var/obj/o = new
-		o.appearance_flags = RESET_COLOR|RESET_TRANSFORM
+		o.appearance_flags = RESET_COLOR|RESET_TRANSFORM|NO_CLIENT_COLOR
 		o.layer = layer + 1
 		o.plane = 2
-		o.maptext = {"<span style="font-size: 12px">[message]</span>"}
+
+		if(p.mapTextColor != "#ffffff")
+			o.maptext = {"<span style="font-size:12px;color:[p.mapTextColor]">[message]</span>"}
+
+			var/rr = 255 - hex2value(copytext(p.mapTextColor, 2, 4))
+			var/gg = 255 - hex2value(copytext(p.mapTextColor, 4, 6))
+			var/bb = 255 - hex2value(copytext(p.mapTextColor, 6, 8))
+			color = rgb(rr, gg, bb)
+		else
+			o.maptext = {"<span style="font-size:12px">[message]</span>"}
+
 		var/pixelsize = lentext(message) * 9
 
 		o.maptext_width = pixelsize
