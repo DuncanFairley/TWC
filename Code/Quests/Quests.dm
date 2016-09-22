@@ -918,6 +918,7 @@ mob/Player
 			set name = ".setInterfaceColor"
 			if(!c) return
 
+			winset(src, "winSettings.button5", "background-color=\"[c]\"")
 			mapTextColor = "[c]"
 			Interface.Update()
 
