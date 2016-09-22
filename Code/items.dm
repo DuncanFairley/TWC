@@ -1276,7 +1276,7 @@ obj/items/wearable/wands
 
 					Equip(owner, 1)
 
-					var/list/s = split(name, " +")
+					var/list/s = splittext(name, " +")
 					name = "[s[1]] +[quality]"
 
 					owner.screenAlert("[s[1]] leveled up to [quality]!")
@@ -1303,7 +1303,7 @@ obj/items/wearable/wands
 				quality = 0
 				exp     = 0
 
-				var/list/s = split(name, " +")
+				var/list/s = splittext(name, " +")
 				name = s[1]
 
 			lastused = owner.ckey
@@ -3285,7 +3285,7 @@ obj/items
 			Open()
 				set src in usr
 
-				var/obj/items/chestKey = locate(text2path("/obj/items/key/[split(name, " ")[1]]_key")) in usr
+				var/obj/items/chestKey = locate(text2path("/obj/items/key/[splittext(name, " ")[1]]_key")) in usr
 
 				if(!chestKey)
 					chestKey = locate(/obj/items/key/master_key) in usr

@@ -65,7 +65,8 @@ mob
 			winset(src,null,winset)
 		ShowSettings()
 			set name = ".ShowSettings"
-			winset(src,"winSettings","is-visible=true")
+			var/mob/Player/p = src
+			winset(src, null, "winSettings.is-visible=true;winSettings.button5.background-color=\"[p.mapTextColor]\"")
 		Soundtoggle()
 			set name = ".Soundtoggle"
 			if(winget(src,"butSoundtoggle","is-checked") == "true")
