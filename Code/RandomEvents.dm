@@ -625,8 +625,6 @@ RandomEvent
 				while(!t.loc || t.loc.density)
 					t.loc = locate(rand(1,100), rand(1,100), mapZ)
 
-				t.name = "Bush"
-
 			sleep(minutes * 600)
 
 			var/end = FALSE
