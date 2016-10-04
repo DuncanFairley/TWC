@@ -13,28 +13,6 @@ obj/Green_Mushroom
 	New()
 		..()
 		spawn(1) loc = null
-obj/Red_Mushroom
-	New()
-		..()
-		spawn(1) loc = null
-obj/Blue_Mushroom
-	New()
-		..()
-		spawn(1) loc = null
-
-obj/Stupid/Blessed_Torch
-	New()
-		..()
-		spawn(1) loc = null
-obj/Stupid/silver_knife
-	New()
-		..()
-		spawn(1) loc = null
-obj/Stupid/Holy_Grenade
-	New()
-		..()
-		spawn(1) loc = null
-
 
 mob/GM/verb
 	Change_Area()
@@ -208,25 +186,6 @@ obj/items/weather/sun
 		spawn(1)
 			new /obj/items/magic_stone/weather/sun (loc)
 			loc = null
-obj/MasterBed
-	New()
-		..()
-		loc = null
-
-obj/MasterBed_
-	New()
-		..()
-		loc = null
-
-obj/MasterBed__
-	New()
-		..()
-		loc = null
-
-obj/MasterBed___
-	New()
-		..()
-		loc = null
 
 obj/items
 	key
@@ -890,6 +849,67 @@ obj
 	Grave_Rip
 		icon       = 'statues.dmi'
 		icon_state = "rip"
+	curtains
+		icon       = 'turf.dmi'
+		layer      = 5
+		c1
+			icon_state = "c1"
+		c2
+			icon_state = "c2"
+		c3
+			icon_state = "c3"
+		c4
+			icon_state = "c4"
+/*	Golden_Candles
+		icon       = 'Decoration.dmi'
+		icon_state = "gcandle"
+		pixel_y    = -16
+	Golden_Candles_
+		icon       ='Decoration.dmi'
+		icon_state = "gcandle1"
+		pixel_y    = -16
+	plate
+		icon       ='turf.dmi'
+		icon_state="plate"
+	Desk
+		icon       ='desk.dmi'
+		icon_state = "S1"
+		density    = 1
+	Book_Shelf
+		icon       ='Desk.dmi'
+		icon_state = "1"
+		density    = 1
+	Book_Shelf1
+		icon       ='Desk.dmi'
+		icon_state = "2"
+		density    = 1
+	Reserved
+		icon       = 'misc.dmi'
+		icon_state = "reserved"
+		density    = 1
+	Exit
+		icon       = 'misc.dmi'
+		icon_state = "exit"
+		density    = 1
+	Blackboard_
+		icon       = 'bb.dmi'
+		icon_state = "1"
+	Blackboard__
+		icon       = 'bb.dmi'
+		icon_state = "2"
+	Blackboard___
+		icon       = 'bb.dmi'
+		icon_state = "3"
+	Barrels
+		icon       = 'turf.dmi'
+		icon_state = "barrels"
+		density    = 1
+	sink
+		icon       = 'sink.dmi'
+		density    = 1
+	Magic_Sphere
+		icon       ='misc.dmi'
+		icon_state = "black"*/
 
 obj/Fountain
 	New()

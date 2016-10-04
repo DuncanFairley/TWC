@@ -24,16 +24,24 @@ obj/static_obj
 		icon = 'wall1.dmi'
 		icon_state = "arch"
 
+obj/static_obj
+	Metal_Fence_Vertical
+		name = "Metal Fence"
+		icon = 'Halloween Fence.dmi'
+		icon_state = "Vertical"
+	Metal_Fence_Horizontal
+		name = "Metal Fence"
+		icon = 'Halloween Fence.dmi'
+		icon_state = "Horizontal"
+		density = 1
+
+
 turf
 	Hogwarts_Stone_Wall
 		opacity=0
 		density=1
 		flyblock=1
 		icon='wall1.dmi'
-	Ministry_Red_Carpet
-		name = "Red Carpet"
-		icon='floors2.dmi'
-		icon_state="carpet"
 	Red_Carpet
 		icon='floors2.dmi'
 		icon_state="carpet"
@@ -65,12 +73,6 @@ turf
 		icon='DuelArena.dmi'
 		icon_state="d7"
 turf
-	C2
-		icon='COMC Icons.dmi'
-		icon_state="C2"
-	C1
-		icon='COMC Icons.dmi'
-		icon_state="C1"
 	darkstairs
 		icon='turf.dmi'
 		icon_state="darkstairs"
