@@ -7,8 +7,6 @@
 
 #define CHANCEFORSNITCH	25 //% chance of catching the snitch
 
-var/list/quidditchspectators = list()
-
 turf/quidditch
 	icon = 'obj.dmi'
 	density = 0
