@@ -779,6 +779,19 @@ mob
 
 					Death()
 
+				Slug
+					icon_state = "slug"
+
+					MapInit()
+						set waitfor = 0
+						walk_rand(src,15)
+
+						sleep(100)
+						walk(src, 0)
+						loc = null
+					BlindAttack()
+					Death()
+
 				Sword
 					icon = 'Mobs_128x128.dmi'
 					iconSize = 4
@@ -792,6 +805,7 @@ mob
 					Range = 20
 					HPmodifier = 1.3
 					DMGmodifier = 0.7
+					canBleed = FALSE
 					var/tmp/obj/Shadow/s
 
 					Death()
@@ -1022,10 +1036,10 @@ mob
 
 						Attacked(obj/projectile/p)
 							if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
-								if(MoveDelay == 2 && prob(60))
+								if(MoveDelay == 2 && prob(50))
 									MoveDelay = 1
 									ChangeState(state)
-									spawn(60)
+									spawn(rand(40, 60))
 										MoveDelay = 2
 										ChangeState(state)
 
@@ -1358,35 +1372,35 @@ mob
 							while(loc)
 
 								icon_state = "shield"
-								MoveDelay = 50
+								MoveDelay = 40
 								ChangeState(state)
 
 
-								var/spawns = 4
+								var/spawns = 5
 								while(loc && spawns > 0)
 									spawns--
 
 									if("The Black Blade" in worldData.currentEvents)
 										var/RandomEvent/Sword/e = locate() in worldData.events
 
-										if(e.swords <= 30)
+										if(e.swords <= 40)
 											e.swords++
 											new /mob/NPC/Enemies/Summoned/Sword (loc)
 
-									sleep(50)
+									sleep(40)
 
 								icon_state = "sword"
 								MoveDelay = 2
 								ChangeState(state)
 
-								sleep(400)
+								sleep(300)
 
 						Attack(mob/M)
 							..()
 
 							if(!fired && target && state == HOSTILE && icon_state == "sword")
 								fired = 1
-								spawn(15) fired = 0
+								spawn(10) fired = 0
 
 								var/list/dirs
 								if(diag == 0)
@@ -2220,20 +2234,6 @@ mob
 						step_rand(src)
 						sleep(2)
 
-			Slug
-				icon_state = "slug"
-
-				New()
-					move()
-				proc/move()
-					set waitfor = 0
-					walk_rand(src,15)
-
-					sleep(100)
-					walk(src, 0)
-					loc = null
-				BlindAttack()
-
 			Archangel
 				icon_state = "archangel"
 				level = 500
@@ -2415,16 +2415,15 @@ area/var/undead = 0
 
 mob/NPC/Enemies/Summoned/Zombie
 	DMGmodifier = 2
-	HPmodifier  = 4
+	HPmodifier  = 3
 	MoveDelay   = 2
 	AttackDelay = 1
 
 	New(Loc, mob/Player/p, obj/corpse/c)
-		..()
-
 		appearance = c.appearance
 		level      = p.level + rand(0, 50)
-		extraDmg   = round((p.extraDef + p.clothDef)/2 + p.extraDmg + p.clothDmg)
+
+		..()
 
 	MapInit()
 		set waitfor = 0
