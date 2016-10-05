@@ -496,30 +496,23 @@ turf
 				M.loc = O.loc
 				flick('mist.dmi',usr)
 
-obj/Bed
-	icon='turf.dmi'
-	icon_state="Bed"
-obj/Table
-	icon = 'desk.dmi'
-	icon_state="S1"
-	density=1
-
 obj
+	Bed
+		icon       = 'turf.dmi'
+		icon_state = "Bed"
 	chairleft
-		icon='desk.dmi'
-		icon_state="cleft"
-
+		icon       = 'desk.dmi'
+		icon_state = "cleft"
 	chairright
-		icon='desk.dmi'
-		icon_state="cright"
-
+		icon       = 'desk.dmi'
+		icon_state = "cright"
 	chairback
-		icon='desk.dmi'
-		icon_state="cback"
-		layer = MOB_LAYER +1
+		icon       = 'desk.dmi'
+		icon_state = "cback"
+		layer      = MOB_LAYER +1
 	chairfront
-		icon='desk.dmi'
-		icon_state="cfront"
+		icon       ='desk.dmi'
+		icon_state = "cfront"
 
 obj/BFrontChair
 	icon='turf.dmi'
