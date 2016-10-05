@@ -132,6 +132,12 @@ mob/Player/proc/unreadmessagelooper()
 			if(unreadmsgs)
 				src << "<b><a href='?src=\ref[src];action=pm_inbox'>You have [unreadmsgs] unread message[unreadmsgs > 1 ? "s":] in your inbox.</a></b>"
 
+WorldData/var/tmp
+	list
+		tournamentLobby
+		tournamentPlayers
+	tournamentSummon = 0
+
 mob/Player/Topic(href,href_list[])
 	..()
 	if(usr)
@@ -144,6 +150,14 @@ mob/Player/Topic(href,href_list[])
 			src << link("http://wizardschronicles.com/?ver=[VERSION]")
 		if("daily_prophet")
 			src:Daily_Prophet()
+		if("tournament")
+			if(worldData.tournamentSummon > 0)
+				if(ckey in worldData.tournamentLobby)
+					worldData.tournamentLobby -= ckey
+					src << errormsg("You left the tournament.")
+				else
+					worldData.tournamentLobby += ckey
+					src << errormsg("You joined the tournament.")
 		if("arena_leave")
 			if(worldData.currentArena)
 				if(src in worldData.currentArena.players)

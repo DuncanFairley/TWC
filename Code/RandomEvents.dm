@@ -49,6 +49,107 @@ RandomEvent
 
 			if(worldData.currentEvents.len == 0) worldData.currentEvents = null
 
+	Tournament
+		name   = "Tournament"
+		chance = 8
+		var/tmp/mob/Player/winner
+
+		start()
+			set waitfor = 0
+			if(name in worldData.currentEvents)	return
+
+			worldData.tournamentSummon = 1
+			worldData.tournamentLobby = list()
+
+			..()
+
+			for(var/minutes = 5 to 1 step -1)
+				for(var/mob/Player/p in Players)
+					p << "<h3>An automated tournament is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[p];action=tournament\">click here.</a> It will start in [minutes] minutes.</h3>"
+
+				sleep(600)
+
+			worldData.tournamentPlayers = list()
+			worldData.tournamentSummon = 0
+
+			for(var/c in worldData.tournamentLobby)
+				var/mob/Player/player
+				for(var/mob/Player/p in Players)
+					if(p.ckey == c)
+						player = p
+						break
+
+				if(player)
+					worldData.tournamentPlayers += player
+				else
+					worldData.tournamentLobby -= c
+
+			if(worldData.tournamentLobby.len < 2)
+				worldData.tournamentLobby = null
+				worldData.tournamentPlayers = null
+				worldData.tournamentSummon = 0
+				Players << errormsg("Tournament cancelled, not enough players.")
+				end()
+				return
+
+			while(worldData.tournamentLobby.len > 1)
+
+				while(worldData.tournamentPlayers.len > 1)
+					var/player1 = pick(worldData.tournamentPlayers)
+					worldData.tournamentPlayers -= player1
+
+					var/player2 = pick(worldData.tournamentPlayers)
+					worldData.tournamentPlayers -= player2
+
+					worldData.tournamentSummon--
+
+					spawn()
+						worldData.currentMatches.addArena(player1, player2)
+
+				worldData.tournamentPlayers = list()
+
+				while(worldData.tournamentSummon < 0)
+					sleep(1)
+
+				for(var/c in worldData.tournamentLobby)
+					var/mob/Player/player
+					for(var/mob/Player/p in Players)
+						if(p.ckey == c)
+							player = p
+							break
+
+					if(player)
+						worldData.tournamentPlayers += player
+					else
+						worldData.tournamentLobby -= c
+
+			if(worldData.tournamentLobby.len == 1)
+				var/mob/Player/winner
+				for(var/mob/Player/p in Players)
+					if(p.ckey == worldData.tournamentLobby[1])
+						winner = p
+						break
+
+				if(winner)
+					Players << infomsg("<b>[winner] has won the duel tournament.</b>")
+
+					var/i = pickweight(list(/obj/items/key/duel_key       = 10,
+										    /obj/items/artifact           = 20,
+		                        		    /obj/items/key/wizard_key     = 20,
+		                        		    /obj/items/key/pentakill_key  = 20,
+								   		    /obj/items/key/sunset_key     = 10,
+										    /obj/items/key/summer_key     = 10,
+										    /obj/items/key/prom_key       = 10))
+
+					var/obj/items/item_prize = new i (winner)
+					winner << infomsg("You recieve [item_prize.name] as prize for winning the tournament, congratulations!")
+
+			worldData.tournamentLobby = null
+			worldData.tournamentPlayers = null
+			worldData.tournamentSummon = 0
+
+			end()
+
 	FFA
 		name   = "Free For All"
 		chance = 8
