@@ -71,6 +71,11 @@ enchanting
 		souls   = 3
 		prize   = /obj/items/magic_stone/memory
 
+	memory
+		reqType = /obj/items/magic_stone/summoning/resurrection
+		chance  = 40
+		prize   = /obj/items/wearable/resurrection_stone
+
 	chest
 		reqType = /obj/items/chest
 		bonus   = 3
