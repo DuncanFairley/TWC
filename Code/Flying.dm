@@ -568,6 +568,7 @@ turf
 		#endif
 
 		edges
+			appearance_flags = RESET_COLOR
 			#if !WINTER
 			icon='GrassEdge.dmi'
 			#endif
@@ -626,6 +627,11 @@ turf
 		icon_state="water"
 		name = "water"
 		layer=4
+
+		#if HALLOWEEN
+		color = "#ef1"
+		#endif
+
 		var
 			tmp/rain = 0
 			isice    = 0
