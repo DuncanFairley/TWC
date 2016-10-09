@@ -1820,7 +1820,7 @@ mob
 						var/percent = 1 + (1 - HP / MHP) * 2
 						percent = min(3, percent)
 						percent = max(1, percent)
-						SetSize(percent)
+						animate(src, SetSize(percent), time = 5, easing = ELASTIC_EASING)
 
 				Death(mob/Player/killer)
 					..()
@@ -1843,10 +1843,15 @@ mob
 						var/d =  round((p.MHP+p.extraMHP) * 0.2, 1) + rand(-100, 100)
 						p << errormsg("The pumpkin's explosion hit you for [d] damage.")
 
+						p.HP -= d
+
 						if(p.HP <= 0)
 							p.Death_Check(src)
+						else
+							p.updateHPMP()
 
 					SpawnPet(killer, 0.05, null, /obj/items/wearable/pets/pumpkin)
+					SetSize(1)
 
 
 			Snowman
