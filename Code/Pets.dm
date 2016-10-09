@@ -64,11 +64,11 @@ obj/items/wearable/pets
 	scale       = 0.1
 
 	var
-		currentSize = 0.75
+		currentSize = 1
 		function    = 2
 		exp         = 0
 
-		minSize     = 0.75
+		minSize     = 1
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		.=..(owner, 1, forceremove)
@@ -156,6 +156,8 @@ obj/items/wearable/pets
 	sword
 		icon_state  = "sword"
 		function    = PET_FLY
+	pumpkin
+		icon_state  = "pumpkin"
 
 obj/pet
 	icon = 'Mobs_128x128.dmi'
