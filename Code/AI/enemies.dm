@@ -1795,6 +1795,20 @@ mob
 
 					SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/wolf)
 
+			Pumpkin
+				icon_state  = "pumpkin"
+				level       = 750
+				HPmodifier  = 3
+				DMGmodifier = 1
+				MoveDelay = 3
+				AttackDelay = 2
+				respawnTime = 600
+
+				Death(mob/Player/killer)
+					..()
+
+					SpawnPet(killer, 0.05, null, /obj/items/wearable/pets/pumpkin)
+
 			Snowman
 				icon = 'Snowman.dmi'
 				level = 700
@@ -2082,12 +2096,13 @@ mob
 
 				Death(mob/Player/killer)
 					..()
-					var/obj/eye_counter/count = locate("EyeCounter")
-					if(count.add())
-						Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
-						new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
+					if(origloc)
+						var/obj/eye_counter/count = locate("EyeCounter")
+						if(count.add())
+							Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
+							new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
 
-					SpawnPet(killer, 0.02, null, /obj/items/wearable/pets/floating_eye)
+						SpawnPet(killer, 0.02, null, /obj/items/wearable/pets/floating_eye)
 
 				Blocked()
 					density = 0
