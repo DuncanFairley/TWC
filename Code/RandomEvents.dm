@@ -138,8 +138,7 @@ RandomEvent
 		                        		    /obj/items/key/wizard_key     = 20,
 		                        		    /obj/items/key/pentakill_key  = 20,
 								   		    /obj/items/key/sunset_key     = 10,
-										    /obj/items/key/summer_key     = 10,
-										    /obj/items/key/prom_key       = 10))
+										    /obj/items/key/winter_key     = 10))
 
 					var/obj/items/item_prize = new i (winner)
 					winner << infomsg("You recieve [item_prize.name] as prize for winning the tournament, congratulations!")
@@ -983,8 +982,7 @@ obj/items/treasure
 		var/t = pickweight(list(/obj/items/chest/basic_chest          = 45,
 		                        /obj/items/chest/wizard_chest         = 15,
 		                        /obj/items/chest/pentakill_chest      = 15,
-								/obj/items/chest/prom_chest           = 10,
-								/obj/items/chest/summer_chest         = 10,
+								/obj/items/chest/winter_chest         = 10,
 								/obj/items/chest/pet_chest            = 10,
 		                        /obj/items/chest/sunset_chest         = 5,
 		                        /obj/items/chest/wigs/basic_wig_chest = 3,

@@ -1430,8 +1430,7 @@ mob/GM
 		                        		   /obj/items/key/wizard_key     = 20,
 		                        		   /obj/items/key/pentakill_key  = 20,
 								   		   /obj/items/key/sunset_key     = 10,
-										   /obj/items/key/summer_key     = 10,
-										   /obj/items/key/prom_key       = 5))
+										   /obj/items/key/winter_key     = 10))
 
 
 						var/obj/items/item_prize = new i (p)

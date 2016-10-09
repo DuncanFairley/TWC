@@ -26,7 +26,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							/obj/items/wearable/afk/heart_ring),
 
 
-"The Evil Snowman"	 = list(/obj/items/key/summer_key,
+"The Evil Snowman"	 = list(/obj/items/key/winter_key,
 						    /obj/items/wearable/title/Snowflakes,
 							/obj/items/lamps/triple_drop_rate_lamp,
 							/obj/items/lamps/triple_gold_lamp,
@@ -43,7 +43,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							/obj/items/lamps/triple_gold_lamp),
 
 "Zombie"             = list(/obj/items/wearable/scarves/halloween_scarf,
-							/obj/items/key/summer_key,
+							/obj/items/key/winter_key,
 							/obj/items/artifact,
 							/obj/items/crystal/soul,
 							/obj/items/lamps/triple_drop_rate_lamp,
@@ -53,8 +53,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 "The Black Blade"     = list(/obj/items/key/wizard_key,
 		                    /obj/items/key/pentakill_key,
 		                    /obj/items/key/sunset_key,
-							/obj/items/key/summer_key,
-							/obj/items/key/prom_key,
+							/obj/items/key/winter_key,
 							/obj/items/key/pet_key,
 							/obj/items/key/community_key,
                       //      /obj/items/wearable/pets/sword,
@@ -179,14 +178,14 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 			 			  	 			  /obj/items/ingredients/eyes,
 			 			  	 			  /obj/items/wearable/title/Troll)),
 
-"Acromantula"        = list("0.3"  = list(/obj/items/key/summer_key,
+"Acromantula"        = list("0.3"  = list(/obj/items/key/winter_key,
 			 			  	 			  /obj/items/key/blood_key,
 						     			  /obj/items/colors/yellow_stone,
 						     			  /obj/items/colors/blue_stone),
 			 			  	"6"    =      /obj/items/blood_sack),
 
 
-"Vampire"            = list("0.3"  = list(/obj/items/key/summer_key,
+"Vampire"            = list("0.3"  = list(/obj/items/key/winter_key,
 			 			  	 			  /obj/items/key/blood_key,
 			 			  	 			  /obj/items/colors/red_stone,
 							 			  /obj/items/colors/green_stone),
