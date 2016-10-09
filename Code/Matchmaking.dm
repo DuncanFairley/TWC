@@ -252,30 +252,35 @@ matchmaking
 			var/PlayerData/winner = worldData.playersData[winTeam.id]
 			var/PlayerData/loser  = worldData.playersData[loseTeam.id]
 
-			winner.name = winTeam.name
-			loser.name  = loseTeam.name
+			if(worldData.tournamentLobby && (winTeam.id in worldData.tournamentLobby))
+				worldData.tournamentLobby -= loseTeam.id
+				worldData.tournamentSummon++
 
-			winner.mmWins++
+			else
+				winner.name = winTeam.name
+				loser.name  = loseTeam.name
 
-			var/origRank
-			if(winTeam.player && winner.mmWins > WINS_REQ)
-				origRank = getSkillGroup(winTeam.id)
+				winner.mmWins++
 
-			var/winnerExpectedScore = 1 / (1 + 10 ** ((loser.mmRating  - winner.mmRating) / 400))
-			var/loserExpectedScore  = 1 / (1 + 10 ** ((winner.mmRating - loser.mmRating)  / 400))
+				var/origRank
+				if(winTeam.player && winner.mmWins > WINS_REQ)
+					origRank = getSkillGroup(winTeam.id)
 
-			winner.mmRating = round(winner.mmRating + winner.getFactor() * (1 - winnerExpectedScore), 1)
-			loser.mmRating  = round(loser.mmRating  + loser.getFactor()  * (0 - loserExpectedScore), 1)
-			loser.mmRating  = max(100, loser.mmRating)
+				var/winnerExpectedScore = 1 / (1 + 10 ** ((loser.mmRating  - winner.mmRating) / 400))
+				var/loserExpectedScore  = 1 / (1 + 10 ** ((winner.mmRating - loser.mmRating)  / 400))
 
-			loser.mmTime  = world.realtime
-			winner.mmTime = world.realtime
+				winner.mmRating = round(winner.mmRating + winner.getFactor() * (1 - winnerExpectedScore), 1)
+				loser.mmRating  = round(loser.mmRating  + loser.getFactor()  * (0 - loserExpectedScore), 1)
+				loser.mmRating  = max(100, loser.mmRating)
 
-			if(winner.mmTime == WINS_REQ)
-				Players << infomsg("<b>Matchmaking:</b> [winTeam.name] is now ranked!")
-			else if(origRank)
-				var/rank = getSkillGroup(winTeam.id)
-				if(origRank != rank) Players << infomsg("<b>Matchmaking:</b> [winTeam.name] ranked up to [rank]!")
+				loser.mmTime  = world.realtime
+				winner.mmTime = world.realtime
+
+				if(winner.mmTime == WINS_REQ)
+					Players << infomsg("<b>Matchmaking:</b> [winTeam.name] is now ranked!")
+				else if(origRank)
+					var/rank = getSkillGroup(winTeam.id)
+					if(origRank != rank) Players << infomsg("<b>Matchmaking:</b> [winTeam.name] ranked up to [rank]!")
 
 			var/list/L = list(winTeam.player, loseTeam.player)
 			for(var/mob/Player/p in L)
@@ -480,6 +485,10 @@ arena
 						state = 0
 
 						if(spectators) spectators << infomsg("[spectateObj.name] ended in a draw.")
+
+						if(worldData.tournamentLobby && (team1.id in worldData.tournamentLobby))
+							worldData.tournamentSummon++
+
 			if(!skip)
 				if(!team1.lost && team1.won())
 					team1.player << infomsg("You won the match against [team2.name]")
@@ -497,6 +506,7 @@ arena
 					state = 0
 
 					if(spectators) spectators << infomsg("[spectateObj.name] - [team2.name] won.")
+
 			scoreboard.maptext = "<b><span style=\"font-size:4; color:#FF4500;\">[team1.score]:[team2.score]</span></b>"
 
 			if(state)

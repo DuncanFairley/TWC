@@ -1679,14 +1679,20 @@ mob/proc/Death_Check(mob/killer = src)
 				p.MP=p.MMP+p.extraMMP
 				p.updateHPMP()
 
-				if(src.level < lvlcap)
-					src.Exp = round(src.Exp * 0.8)
+				var/obj/items/wearable/resurrection_stone/resurrect = locate() in p.Lwearing
+				if(resurrect)
+					if(resurrect.Consume())
+						resurrect.Equip(p, 1)
+					new /obj/corpse (loc, src, -1)
+				else
+					if(src.level < lvlcap)
+						src.Exp = round(src.Exp * 0.8)
 
-				var/gold/g = new(src)
-				var/goldLoss = g.toNumber() * 0.5
-				g.change(src, bronze=-goldLoss)
-				goldLoss = round(rand(goldLoss * 0.1, goldLoss * 0.2), 1)
-				new /obj/corpse (loc, src, goldLoss)
+					var/gold/g = new(src)
+					var/goldLoss = g.toNumber() * 0.5
+					g.change(src, bronze=-goldLoss)
+					goldLoss = round(rand(goldLoss * 0.1, goldLoss * 0.2), 1)
+					new /obj/corpse (loc, src, goldLoss)
 
 				src.sight &= ~BLIND
 				if(!src:rankedArena)

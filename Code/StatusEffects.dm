@@ -49,8 +49,9 @@ Event
 		fire()
 			set waitfor = 0
 			scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
-			var/RandomEvent/Class/auto_class = locate() in worldData.events
-			auto_class.start()
+			spawn()
+				var/RandomEvent/Class/auto_class = locate() in worldData.events
+				auto_class.start()
 
 	ClanWars
 

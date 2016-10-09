@@ -8,18 +8,6 @@
 obj/Broom3
 	icon='icons.dmi'
 	icon_state="nimbus"
-obj/DeskFilled
-	icon='desk.dmi'
-	icon_state="TD2"
-	density=1
-obj/DeskEmpty
-	icon='desk.dmi'
-	icon_state="S1"
-	density=1
-obj/Desk3
-	icon='desk.dmi'
-	icon_state="S3"
-	density = 1
 obj/Chair
 	icon='desk.dmi'
 	icon_state="Chair"
@@ -117,8 +105,8 @@ obj
 
 	flyblock
 		invisibility = 10
-		New()
-			..()
+		post_init = 1
+		MapInit()
 			var/turf/t = loc
 			t.flyblock = 1
 			t.density  = 1
@@ -135,22 +123,6 @@ turf
 	dirt_west
 		icon_state="dirt west"
 
-obj/Golden_Candles
-	icon='Decoration.dmi'
-	icon_state="gcandle"
-	density=1
-	pixel_y = -16
-obj/Golden_Candles_
-	icon='Decoration.dmi'
-	icon_state="gcandle1"
-	density=1
-	pixel_y = -16
-
-obj/plate
-	icon='turf.dmi'
-	icon_state="plate"
-	density=1
-
 obj/Cauldron
 	icon = 'cau.dmi'
 	icon_state = "C1"
@@ -159,33 +131,6 @@ obj/Cauldron
 	New()
 		..()
 		icon_state = "C[rand(1,8)]"
-
-obj/Cabinet1
-	name="Cabinet"
-	icon='house.dmi'
-	icon_state="dress1"
-	density=1
-
-obj/Cabinet2
-	name="Cabinet"
-	icon='house.dmi'
-	icon_state="dress2"
-	density=1
-
-obj/Desk
-	icon='desk.dmi'
-	icon_state="S1"
-	density=1
-
-obj/Book_Shelf
-	icon='Desk.dmi'
-	icon_state="1"
-	density=1
-
-obj/Book_Shelf1
-	icon='Desk.dmi'
-	icon_state="2"
-	density=1
 
 turf
 	Fireplace
@@ -212,27 +157,6 @@ obj/Microphone
 			var/Reason = input(usr,"What do you want to say?","Microphone")
 			view(50)<<"<span style=\"color:silver\"><b>Microphone> [usr]:</b> [html_encode(Reason)]</span>"
 
-obj/Reserved
-	icon='misc.dmi'
-	icon_state="reserved"
-	density=1
-
-obj/Exit
-	icon='misc.dmi'
-	icon_state="exit"
-	density=1
-obj/Blackboard_
-	icon='bb.dmi'
-	icon_state="1"
-	density=1
-obj/Blackboard__
-	icon='bb.dmi'
-	icon_state="2"
-	density=1
-obj/Blackboard___
-	icon='bb.dmi'
-	icon_state="3"
-	density=1
 obj
 	air1
 		name = "Sign"
@@ -271,11 +195,6 @@ mob
 		name = "Marker3"
 		invisibility = 2
 		density = 0
-obj
-	Barrels
-		icon='turf.dmi'
-		icon_state="barrels"
-		density=1
 obj
 	bigbluechair
 		name="Big Blue Chair"
@@ -348,11 +267,6 @@ turf
 			icon_state = "5"
 
 obj
-	sink
-		icon = 'sink.dmi'
-		density = 1
-		opacity = 0
-obj
 	toilet
 		name = "toilet"
 		icon = 'toilet.dmi'
@@ -368,95 +282,13 @@ obj
 		icon='pumpkin.dmi'
 		density=1
 obj
-	egg1
+	egg
 		icon='Eggs.dmi'
 		icon_state="1"
 		density=1
-obj
-	egg2
-		icon='Eggs.dmi'
-		icon_state="2"
-		density=1
-obj
-	egg3
-		icon='Eggs.dmi'
-		icon_state="3"
-		density=1
-obj
-	egg4
-		icon='Eggs.dmi'
-		icon_state="4"
-		density=1
-obj
-	egg5
-		icon='Eggs.dmi'
-		icon_state="5"
-		density=1
-obj
-	egg6
-		icon='Eggs.dmi'
-		icon_state="6"
-		density=1
-obj
-	egg7
-		icon='Eggs.dmi'
-		icon_state="7"
-		density=1
-obj
-	egg8
-		icon='Eggs.dmi'
-		icon_state="8"
-		density=1
-obj
-	egg9
-		icon='Eggs.dmi'
-		icon_state="9"
-		density=1
-obj
-	egg10
-		icon='Eggs.dmi'
-		icon_state="10"
-		density=1
-obj
-	egg11
-		icon='Eggs.dmi'
-		icon_state="11"
-		density=1
-obj
-	egg12
-		icon='Eggs.dmi'
-		icon_state="12"
-		density=1
-obj
-	egg13
-		icon='Eggs.dmi'
-		icon_state="13"
-		density=1
-obj
-	egg14
-		icon='Eggs.dmi'
-		icon_state="14"
-		density=1
-obj
-	egg15
-		icon='Eggs.dmi'
-		icon_state="15"
-		density=1
-obj
-	egg16
-		icon='Eggs.dmi'
-		icon_state="16"
-		density=1
-obj
-	sandwind
-		layer = 8
-		name = ""
-		icon = 'misc.dmi'
-		icon_state = "sandstorm"
-obj/Magic_Sphere
-	icon='misc.dmi'
-	icon_state="black"
-	density=1
+		New()
+			..()
+			icon_state = "[rand(1, 16)]"
 
 obj
 	Trophy_Rack
@@ -467,45 +299,6 @@ turf
 		icon='Gener.dmi'
 		icon_state="blackfloor"
 		name="floor"
-obj/items/quidditchbox
-	verb
-		Withdraw_Quaffle()
-			set category = "Quidditch"
-			usr<<"You remove the quaffle from the box."
-			new/obj/quidditch/quaffle(usr)
-		Withdraw_Bludger()
-			set category = "Quidditch"
-			usr<<"You release the restraints on the bludger and it flies from the box."
-			new/obj/quidditch/bludger(usr.loc)
-		Withdraw_Snitch()
-			set category = "Quidditch"
-			usr<<"You release the Snitch from the box, and it flies away."
-			new/obj/quidditch/snitch(usr.loc)
-
-	GryffBox
-		name="Quidditch Ball Box"
-		icon='ballbox.dmi'
-		icon_state="gryff"
-
-	SlythBox
-		name="Quidditch Ball Box"
-		icon='ballbox.dmi'
-		icon_state="slyth"
-
-	HuffleBox
-		name="Quidditch Ball Box"
-		icon='ballbox.dmi'
-		icon_state="huffle"
-
-	RavenBox
-		name="Quidditch Ball Box"
-		icon='ballbox.dmi'
-		icon_state="raven"
-
-	GameBox
-		name="Quidditch Ball Box"
-		icon='ballbox.dmi'
-		icon_state="game"
 
 mob/Cow
 	icon = 'Cow.dmi'
@@ -571,11 +364,7 @@ obj/stage9
 	icon='stage.dmi'
 	icon_state="9"
 
-obj/WTable
-	icon='stage.dmi'
-	icon_state="w"
-	density=1
-turf
+obj
 	tables
 		icon = 'Tables.dmi'
 		name = "Table"
@@ -629,11 +418,6 @@ turf/Staircase3
 turf/Staircase2
 	icon='General.dmi'
 	icon_state="tile86"
-
-obj/Quidditch_Sign
-	icon='quidditch.png'
-	pixel_x = -10
-	pixel_y = -5
 
 obj/Column
 	icon='General.dmi'
@@ -712,30 +496,23 @@ turf
 				M.loc = O.loc
 				flick('mist.dmi',usr)
 
-obj/Bed
-	icon='turf.dmi'
-	icon_state="Bed"
-obj/Table
-	icon = 'desk.dmi'
-	icon_state="S1"
-	density=1
-
 obj
+	Bed
+		icon       = 'turf.dmi'
+		icon_state = "Bed"
 	chairleft
-		icon='turf.dmi'
-		icon_state="cleft"
-
+		icon       = 'desk.dmi'
+		icon_state = "cleft"
 	chairright
-		icon='turf.dmi'
-		icon_state="cright"
-
+		icon       = 'desk.dmi'
+		icon_state = "cright"
 	chairback
-		icon='turf.dmi'
-		icon_state="cback"
-		layer = MOB_LAYER +1
+		icon       = 'desk.dmi'
+		icon_state = "cback"
+		layer      = MOB_LAYER +1
 	chairfront
-		icon='turf.dmi'
-		icon_state="cfront"
+		icon       ='desk.dmi'
+		icon_state = "cfront"
 
 obj/BFrontChair
 	icon='turf.dmi'
@@ -791,6 +568,7 @@ turf
 		#endif
 
 		edges
+			appearance_flags = RESET_COLOR
 			#if !WINTER
 			icon='GrassEdge.dmi'
 			#endif
@@ -849,6 +627,11 @@ turf
 		icon_state="water"
 		name = "water"
 		layer=4
+
+		#if HALLOWEEN
+		color = "#ef1"
+		#endif
+
 		var
 			tmp/rain = 0
 			isice    = 0
@@ -1372,11 +1155,70 @@ obj
 			icon       = 'General.dmi'
 			icon_state = "tile79"
 			density    = 1
+		Golden_Candles
+			icon       = 'Decoration.dmi'
+			icon_state = "gcandle"
+			pixel_y    = -16
+		Golden_Candles_
+			icon       ='Decoration.dmi'
+			icon_state = "gcandle1"
+			pixel_y    = -16
+		plate
+			icon       ='turf.dmi'
+			icon_state="plate"
+		Book_Shelf
+			icon       ='Desk.dmi'
+			icon_state = "1"
+			density    = 1
+		Book_Shelf1
+			icon       ='Desk.dmi'
+			icon_state = "2"
+			density    = 1
+		Reserved
+			icon       = 'misc.dmi'
+			icon_state = "reserved"
+			density    = 1
+		Exit
+			icon       = 'misc.dmi'
+			icon_state = "exit"
+			density    = 1
+		Blackboard_
+			icon       = 'bb.dmi'
+			icon_state = "1"
+		Blackboard__
+			icon       = 'bb.dmi'
+			icon_state = "2"
+		Blackboard___
+			icon       = 'bb.dmi'
+			icon_state = "3"
+		Barrels
+			icon       = 'turf.dmi'
+			icon_state = "barrels"
+			density    = 1
+		sink
+			icon       = 'sink.dmi'
+			density    = 1
+		Magic_Sphere
+			icon       ='misc.dmi'
+			icon_state = "black"
+		WTable
+			icon       = 'stage.dmi'
+			icon_state = "w"
+			density    = 1
 
 obj
 	snowman
-		icon='snowman.dmi'
-		name="Snow Man"
+		icon = 'snowman.dmi'
+		name = "Snow Man"
+	Desk
+		icon       = 'desk.dmi'
+		icon_state = "S1"
+		density    = 1
+	WTable
+		icon       = 'stage.dmi'
+		icon_state = "w"
+		density    = 1
+		layer      = 2
 
 obj
 	fadeIn

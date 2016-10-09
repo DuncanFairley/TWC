@@ -168,6 +168,10 @@ atom/Click(location)
 		if(!p.EditVar)
 			p << "Pick a var to edit using MassEdit verb."
 		else if(p.EditVar in vars)
+
+			if(!p.admin && (istype(src, /obj/items) || istype(src, /obj/pet) || isarea(src) || z < SWAPMAP_Z || p.z < SWAPMAP_Z || ismob(src)))
+				return
+
 			vars[p.EditVar] = p.EditVal
 	else if(p.ClickCreate)
 		if(!p.CreatePath)

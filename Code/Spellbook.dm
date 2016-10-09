@@ -4,6 +4,10 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
+
+
+WorldData/var/tmp/spellObjects = list()
+
 mob/Player
 	var/tmp
 		spellBookOpen = FALSE
@@ -49,10 +53,17 @@ mob/Player
 			for(var/v in verbList)
 				if(v in spells) continue
 				count++
-				var/obj/spells/o = new (null, v, null)
+
+				var/obj/spells/o = worldData.spellObjects[v]
+				if(!o)
+					o = new (null, v, null)
+					worldData.spellObjects[v] = o
+
 				spells[v] = o
 
 				src << output(o, "SpellBook.gridSpellbook:[count]")
+
+
 
 			for(var/v in verbs)
 				var/mob/Spells/verb/generic = v
@@ -60,7 +71,10 @@ mob/Player
 				if(!findtext("[v]", "/mob/Spells/verb")) continue
 				count++
 
-				var/obj/spells/o = new (null, generic.name, text2path("[v]"))
+				var/obj/spells/o = worldData.spellObjects[generic.name]
+				if(!o)
+					o = new (null, generic.name, text2path("[v]"))
+					worldData.spellObjects[generic.name] = o
 				spells[generic.name] = o
 
 				src << output(o, "SpellBook.gridSpellbook:[count]")

@@ -128,7 +128,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 			var/slugs = rand(4,12)
 			while(M && slugs > 0 && M.MP > 0)
 				M.MP -= rand(20,60) * round(M.level/100)
-				new/mob/NPC/Enemies/Slug(M.loc)
+				new/mob/NPC/Enemies/Summoned/Slug(M.loc)
 				if(M.MP < 0)
 					M.MP = 0
 					M.updateHPMP()

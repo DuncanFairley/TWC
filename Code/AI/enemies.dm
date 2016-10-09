@@ -779,6 +779,19 @@ mob
 
 					Death()
 
+				Slug
+					icon_state = "slug"
+
+					MapInit()
+						set waitfor = 0
+						walk_rand(src,15)
+
+						sleep(100)
+						walk(src, 0)
+						loc = null
+					BlindAttack()
+					Death()
+
 				Sword
 					icon = 'Mobs_128x128.dmi'
 					iconSize = 4
@@ -792,6 +805,7 @@ mob
 					Range = 20
 					HPmodifier = 1.3
 					DMGmodifier = 0.7
+					canBleed = FALSE
 					var/tmp/obj/Shadow/s
 
 					Death()
@@ -1022,10 +1036,10 @@ mob
 
 						Attacked(obj/projectile/p)
 							if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
-								if(MoveDelay == 2 && prob(60))
+								if(MoveDelay == 2 && prob(50))
 									MoveDelay = 1
 									ChangeState(state)
-									spawn(60)
+									spawn(rand(40, 60))
 										MoveDelay = 2
 										ChangeState(state)
 
@@ -1358,35 +1372,35 @@ mob
 							while(loc)
 
 								icon_state = "shield"
-								MoveDelay = 50
+								MoveDelay = 40
 								ChangeState(state)
 
 
-								var/spawns = 4
+								var/spawns = 5
 								while(loc && spawns > 0)
 									spawns--
 
 									if("The Black Blade" in worldData.currentEvents)
 										var/RandomEvent/Sword/e = locate() in worldData.events
 
-										if(e.swords <= 30)
+										if(e.swords <= 40)
 											e.swords++
 											new /mob/NPC/Enemies/Summoned/Sword (loc)
 
-									sleep(50)
+									sleep(40)
 
 								icon_state = "sword"
 								MoveDelay = 2
 								ChangeState(state)
 
-								sleep(400)
+								sleep(300)
 
 						Attack(mob/M)
 							..()
 
 							if(!fired && target && state == HOSTILE && icon_state == "sword")
 								fired = 1
-								spawn(15) fired = 0
+								spawn(10) fired = 0
 
 								var/list/dirs
 								if(diag == 0)
@@ -1781,6 +1795,60 @@ mob
 
 					SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/wolf)
 
+			Pumpkin
+				icon = 'Mobs_128x128.dmi'
+				iconSize = 4
+				pixel_x = -48
+				pixel_y = -48
+				icon_state  = "pumpkin"
+				canBleed    = FALSE
+				level       = 750
+				HPmodifier  = 3
+				DMGmodifier = 1
+				MoveDelay = 3
+				AttackDelay = 2
+				respawnTime = 600
+
+				MapInit()
+					set waitfor = 0
+					..()
+					SetSize(1)
+
+				Attacked()
+					..()
+					if(HP > 0)
+						var/percent = 1 + (1 - HP / MHP) * 2
+						percent = min(3, percent)
+						percent = max(1, percent)
+						SetSize(percent)
+
+				Death(mob/Player/killer)
+					..()
+
+					var/rr = rand(40, 240)
+					var/gg = rand(40, 240)
+					var/bb = rand(40, 240)
+
+					if(abs(rr - gg) < 20)      rr = 255 - gg
+
+					emit(loc    = loc,
+						 ptype  = /obj/particle/smoke/green,
+					     amount = 10,
+					     angle  = new /Random(1, 359),
+					     speed  = 2,
+					     life   = new /Random(15,25),
+					     color  = rgb(rr,gg,bb))
+
+					for(var/mob/Player/p in oview(src, 2))
+						var/d =  round((p.MHP+p.extraMHP) * 0.2, 1) + rand(-100, 100)
+						p << errormsg("The pumpkin's explosion hit you for [d] damage.")
+
+						if(p.HP <= 0)
+							p.Death_Check(src)
+
+					SpawnPet(killer, 0.05, null, /obj/items/wearable/pets/pumpkin)
+
+
 			Snowman
 				icon = 'Snowman.dmi'
 				level = 700
@@ -2068,12 +2136,13 @@ mob
 
 				Death(mob/Player/killer)
 					..()
-					var/obj/eye_counter/count = locate("EyeCounter")
-					if(count.add())
-						Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
-						new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
+					if(origloc)
+						var/obj/eye_counter/count = locate("EyeCounter")
+						if(count.add())
+							Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
+							new /mob/NPC/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
 
-					SpawnPet(killer, 0.02, null, /obj/items/wearable/pets/floating_eye)
+						SpawnPet(killer, 0.02, null, /obj/items/wearable/pets/floating_eye)
 
 				Blocked()
 					density = 0
@@ -2164,19 +2233,6 @@ mob
 							var/i = step_to(src, origloc)
 							if(!i) break
 							sleep(1)
-
-			House_Elf
-				icon_state = "houseelf"
-				level = 5
-			Dementor
-				icon_state = "dementor"
-				level = 750
-			Dementor_ /////SUMMONED/////
-				icon_state = "dementor"
-				level = 300
-			Stickman_ ///SUMMONED///
-				icon_state = "stickman"
-				level = 500
 			Bird_    ///SUMMONED///
 				icon_state = "bird"
 				level = 6
@@ -2219,20 +2275,6 @@ mob
 					else if(distance > 3)
 						step_rand(src)
 						sleep(2)
-
-			Slug
-				icon_state = "slug"
-
-				New()
-					move()
-				proc/move()
-					set waitfor = 0
-					walk_rand(src,15)
-
-					sleep(100)
-					walk(src, 0)
-					loc = null
-				BlindAttack()
 
 			Archangel
 				icon_state = "archangel"
@@ -2386,7 +2428,16 @@ obj/corpse
 			sleep(20)
 			var/area/a = Loc.loc
 
-			if(a.undead && a.undead < 30)
+			if(gold == -1)
+				animate(src, transform = null, time = 10)
+				sleep(10)
+				if(dead)
+					dead:Transfer(loc)
+					dead.dir = dir
+				loc = null
+				return
+
+			else if(a.undead && a.undead < 30)
 				a.undead++
 				var/mob/Player/p = dead
 				if(p.Gender == "Female")
@@ -2401,7 +2452,7 @@ obj/corpse
 				loc = null
 				return
 
-			else if(gold)
+			else if(gold > 0)
 				mouse_over_pointer = MOUSE_HAND_POINTER
 				src.gold = gold
 
@@ -2415,16 +2466,15 @@ area/var/undead = 0
 
 mob/NPC/Enemies/Summoned/Zombie
 	DMGmodifier = 2
-	HPmodifier  = 4
+	HPmodifier  = 3
 	MoveDelay   = 2
 	AttackDelay = 1
 
 	New(Loc, mob/Player/p, obj/corpse/c)
-		..()
-
 		appearance = c.appearance
 		level      = p.level + rand(0, 50)
-		extraDmg   = round((p.extraDef + p.clothDef)/2 + p.extraDmg + p.clothDmg)
+
+		..()
 
 	MapInit()
 		set waitfor = 0

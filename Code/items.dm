@@ -1802,6 +1802,18 @@ obj/items/wearable/scarves/sky_scarf
 
 /////////
 
+obj/items/wearable/resurrection_stone
+	showoverlay=0
+	icon = 'trophies.dmi'
+	icon_state = "res"
+
+	Equip(var/mob/Player/owner,var/overridetext=0, var/forceremove=0)
+		. = ..(owner, overridetext, forceremove)
+		if(. == WORN)
+			if(!overridetext)viewers(owner) << infomsg("[owner] holds onto \his [src.name].")
+		else if(. == REMOVED)
+			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
+
 obj/items/wearable/afk
 	showoverlay=0
 	Equip(var/mob/Player/owner, var/overridetext=0,var/forceremove=0)
@@ -3114,6 +3126,13 @@ obj/items/magic_stone
 			icon_state = "Coin"
 			effect()
 				var/RandomEvent/WillytheWhisp/event = locate() in worldData.events
+				spawn() event.start()
+
+		resurrection
+			name = "resurrection stone fragment"
+			icon_state = "fragment"
+			effect()
+				var/RandomEvent/Zombie/event = locate() in worldData.events
 				spawn() event.start()
 
 		blood

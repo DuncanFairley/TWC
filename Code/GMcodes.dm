@@ -82,17 +82,17 @@ client/verb/tabATChange()
 	if(!mob.admin)return
 	switch(winget(src,"tabAT","current-tab"))
 		if("panATLogs")
-			if(/mob/GM/verb/ChatLogs in verbs)
+			if(/mob/GM/verb/ChatLogs in mob.verbs)
 				src << browse("<body bgcolor=\"black\"> [file2text(chatlog)]</body>","window=broATLogsChat")
-			if(/mob/GM/verb/AdminLogs in verbs)
+			if(/mob/GM/verb/AdminLogs in mob.verbs)
 				src << browse("[file2text(adminlog)]","window=broATLogsAdmin")
-			if(/mob/GM/verb/EventLogs in verbs)
+			if(/mob/GM/verb/EventLogs in mob.verbs)
 				src << browse("<table>[file2text(eventlog)]</table>","window=broATLogsEvents")
-			if(/mob/GM/verb/ClassLogs in verbs)
+			if(/mob/GM/verb/ClassLogs in mob.verbs)
 				src << browse("[file2text(classlog)]","window=broATLogsClass")
-			if(/mob/GM/verb/GoldLogs in verbs)
+			if(/mob/GM/verb/GoldLogs in mob.verbs)
 				src << browse("[file2text(goldlog)]","window=broATLogsGold")
-			if(/mob/GM/verb/KillLogs in verbs)
+			if(/mob/GM/verb/KillLogs in mob.verbs)
 				src << browse("[file2text(killlog)]","window=broATLogsKill")
 		if("panATVerbs")
 			var/mob/Player/M = input("Pick player to view the verbs of") as null|anything in Players
@@ -1430,8 +1430,7 @@ mob/GM
 		                        		   /obj/items/key/wizard_key     = 20,
 		                        		   /obj/items/key/pentakill_key  = 20,
 								   		   /obj/items/key/sunset_key     = 10,
-										   /obj/items/key/summer_key     = 10,
-										   /obj/items/key/prom_key       = 5))
+										   /obj/items/key/winter_key     = 10))
 
 
 						var/obj/items/item_prize = new i (p)

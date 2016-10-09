@@ -49,6 +49,106 @@ RandomEvent
 
 			if(worldData.currentEvents.len == 0) worldData.currentEvents = null
 
+	Tournament
+		name   = "Tournament"
+		chance = 8
+		var/tmp/mob/Player/winner
+
+		start()
+			set waitfor = 0
+			if(name in worldData.currentEvents)	return
+
+			worldData.tournamentSummon = 1
+			worldData.tournamentLobby = list()
+
+			..()
+
+			for(var/minutes = 5 to 1 step -1)
+				for(var/mob/Player/p in Players)
+					p << "<h3>An automated tournament is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[p];action=tournament\">click here.</a> It will start in [minutes] minutes.</h3>"
+
+				sleep(600)
+
+			worldData.tournamentPlayers = list()
+			worldData.tournamentSummon = 0
+
+			for(var/c in worldData.tournamentLobby)
+				var/mob/Player/player
+				for(var/mob/Player/p in Players)
+					if(p.ckey == c)
+						player = p
+						break
+
+				if(player)
+					worldData.tournamentPlayers += player
+				else
+					worldData.tournamentLobby -= c
+
+			if(worldData.tournamentLobby.len < 2)
+				worldData.tournamentLobby = null
+				worldData.tournamentPlayers = null
+				worldData.tournamentSummon = 0
+				Players << errormsg("Tournament cancelled, not enough players.")
+				end()
+				return
+
+			while(worldData.tournamentLobby.len > 1)
+
+				while(worldData.tournamentPlayers.len > 1)
+					var/player1 = pick(worldData.tournamentPlayers)
+					worldData.tournamentPlayers -= player1
+
+					var/player2 = pick(worldData.tournamentPlayers)
+					worldData.tournamentPlayers -= player2
+
+					worldData.tournamentSummon--
+
+					spawn()
+						worldData.currentMatches.addArena(player1, player2)
+
+				worldData.tournamentPlayers = list()
+
+				while(worldData.tournamentSummon < 0)
+					sleep(1)
+
+				for(var/c in worldData.tournamentLobby)
+					var/mob/Player/player
+					for(var/mob/Player/p in Players)
+						if(p.ckey == c)
+							player = p
+							break
+
+					if(player)
+						worldData.tournamentPlayers += player
+					else
+						worldData.tournamentLobby -= c
+
+			if(worldData.tournamentLobby.len == 1)
+				var/mob/Player/winner
+				for(var/mob/Player/p in Players)
+					if(p.ckey == worldData.tournamentLobby[1])
+						winner = p
+						break
+
+				if(winner)
+					Players << infomsg("<b>[winner] has won the duel tournament.</b>")
+
+					var/i = pickweight(list(/obj/items/key/duel_key       = 10,
+										    /obj/items/artifact           = 20,
+		                        		    /obj/items/key/wizard_key     = 20,
+		                        		    /obj/items/key/pentakill_key  = 20,
+								   		    /obj/items/key/sunset_key     = 10,
+										    /obj/items/key/winter_key     = 10))
+
+					var/obj/items/item_prize = new i (winner)
+					winner << infomsg("You recieve [item_prize.name] as prize for winning the tournament, congratulations!")
+
+			worldData.tournamentLobby = null
+			worldData.tournamentPlayers = null
+			worldData.tournamentSummon = 0
+
+			end()
+
 	FFA
 		name   = "Free For All"
 		chance = 8
@@ -625,8 +725,6 @@ RandomEvent
 				while(!t.loc || t.loc.density)
 					t.loc = locate(rand(1,100), rand(1,100), mapZ)
 
-				t.name = "Bush"
-
 			sleep(minutes * 600)
 
 			var/end = FALSE
@@ -659,7 +757,7 @@ RandomEvent
 			..()
 			var/minutes = rand(10,30)
 			var/snitches = rand(15,30)
-			Players << infomsg("[snitches] snitches were released right outside Hogwarts, each snitch you catch will reward you!<br>The snitches will disappear in [minutes] minutes. To catch snitches you need to fly on a broom and use \"Catch-Snitch\" verb (The verb will only appear when you are near the snitch, it is recommended to macro it).")
+			Players << infomsg("[snitches] snitches were released right outside Hogwarts, each snitch you catch will reward you!<br>The snitches will disappear in [minutes] minutes. To catch snitches you need to fly on a broom and use \"Take\" verb (The verb will only appear when you are near the snitch, it is recommended to macro it).")
 
 			var/list/s = list()
 			for(var/i = 0; i < snitches; i++)
@@ -884,8 +982,7 @@ obj/items/treasure
 		var/t = pickweight(list(/obj/items/chest/basic_chest          = 45,
 		                        /obj/items/chest/wizard_chest         = 15,
 		                        /obj/items/chest/pentakill_chest      = 15,
-								/obj/items/chest/prom_chest           = 10,
-								/obj/items/chest/summer_chest         = 10,
+								/obj/items/chest/winter_chest         = 10,
 								/obj/items/chest/pet_chest            = 10,
 		                        /obj/items/chest/sunset_chest         = 5,
 		                        /obj/items/chest/wigs/basic_wig_chest = 3,
