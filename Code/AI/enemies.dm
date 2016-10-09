@@ -1796,7 +1796,12 @@ mob
 					SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/wolf)
 
 			Pumpkin
+				icon = 'Mobs_128x128.dmi'
+				iconSize = 4
+				pixel_x = -48
+				pixel_y = -48
 				icon_state  = "pumpkin"
+				canBleed    = FALSE
 				level       = 750
 				HPmodifier  = 3
 				DMGmodifier = 1
@@ -1804,10 +1809,45 @@ mob
 				AttackDelay = 2
 				respawnTime = 600
 
+				MapInit()
+					set waitfor = 0
+					..()
+					SetSize(1)
+
+				Attacked()
+					..()
+					if(HP > 0)
+						var/percent = 1 + (1 - HP / MHP) * 2
+						percent = min(3, percent)
+						percent = max(1, percent)
+						SetSize(percent)
+
 				Death(mob/Player/killer)
 					..()
 
+					var/rr = rand(40, 240)
+					var/gg = rand(40, 240)
+					var/bb = rand(40, 240)
+
+					if(abs(rr - gg) < 20)      rr = 255 - gg
+
+					emit(loc    = loc,
+						 ptype  = /obj/particle/smoke/green,
+					     amount = 10,
+					     angle  = new /Random(1, 359),
+					     speed  = 2,
+					     life   = new /Random(15,25),
+					     color  = rgb(rr,gg,bb))
+
+					for(var/mob/Player/p in oview(src, 2))
+						var/d =  round((p.MHP+p.extraMHP) * 0.2, 1) + rand(-100, 100)
+						p << errormsg("The pumpkin's explosion hit you for [d] damage.")
+
+						if(p.HP <= 0)
+							p.Death_Check(src)
+
 					SpawnPet(killer, 0.05, null, /obj/items/wearable/pets/pumpkin)
+
 
 			Snowman
 				icon = 'Snowman.dmi'
@@ -2193,19 +2233,6 @@ mob
 							var/i = step_to(src, origloc)
 							if(!i) break
 							sleep(1)
-
-			House_Elf
-				icon_state = "houseelf"
-				level = 5
-			Dementor
-				icon_state = "dementor"
-				level = 750
-			Dementor_ /////SUMMONED/////
-				icon_state = "dementor"
-				level = 300
-			Stickman_ ///SUMMONED///
-				icon_state = "stickman"
-				level = 500
 			Bird_    ///SUMMONED///
 				icon_state = "bird"
 				level = 6
@@ -2401,7 +2428,16 @@ obj/corpse
 			sleep(20)
 			var/area/a = Loc.loc
 
-			if(a.undead && a.undead < 30)
+			if(gold == -1)
+				animate(src, transform = null, time = 10)
+				sleep(10)
+				if(dead)
+					dead:Transfer(loc)
+					dead.dir = dir
+				loc = null
+				return
+
+			else if(a.undead && a.undead < 30)
 				a.undead++
 				var/mob/Player/p = dead
 				if(p.Gender == "Female")
@@ -2416,7 +2452,7 @@ obj/corpse
 				loc = null
 				return
 
-			else if(gold)
+			else if(gold > 0)
 				mouse_over_pointer = MOUSE_HAND_POINTER
 				src.gold = gold
 
