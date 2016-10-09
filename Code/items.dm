@@ -956,6 +956,7 @@ proc/animateFly(mob/Player/p)
 		animate(p, pixel_y = max, time = 5)
 		sleep(5)
 
+	if(!p)
 		if(p.flying)
 			animate(p, pixel_y = p.pixel_y,    time = 2, loop = -1)
 			animate(   pixel_y = p.pixel_y + 1,time = 2)
