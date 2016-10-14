@@ -2105,7 +2105,12 @@ mob/Player/proc/onDeath(turf/oldLoc, killerName)
 	var/randomMessage = pick("Say \"hi\" to Satan for me!",
 	                         "Did you trip and fall over like those chicks from horror flicks?",
 	                         "YOU ARE DEAD. Sorry, that was a little dramatic. Seriously though, you've died.",
-	                         "Well, look at the bright side, now you won't have to do your homework.")
+	                         "Well, look at the bright side, now you won't have to do your homework.",
+	                         "Theme music from Titanic plays as your screen fades to black...",
+	                         "You died! What's that all about?",
+	                         "Dang, you were doing so well! Such a shame.",
+	                         "I saw that coming...",
+	                         Gender == "Female" ? "RIP guuurl, RIP" : "RIP bro, RIP")
 
 	o.maptext        = "<center><span style=\"color:#e50000;font-size:32pt;font-family:'Comic Sans MS';\">You died!</span><br>" +\
 	                   "<span style=\"color:#e50000;\">[randomMessage]</span></center>"
