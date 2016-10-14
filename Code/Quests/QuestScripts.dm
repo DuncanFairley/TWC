@@ -207,7 +207,7 @@ quest
 
 	Halloween1
 		name   = "Pumpkin Harvest"
-		desc   = "Bob the Zombie wants you to clean up the pumpkins that invaded his crypt."
+		desc   = "Bob the Zombie wants you to clear out the pumpkins that have invaded his crypt."
 		reward = /questReward/Mon10
 
 		Kill
@@ -219,11 +219,11 @@ quest
 
 	Halloween2
 		name   = "Breath of Life"
-		desc   = "Bob the Zombie wants you to help him gather ingredients that will help him be more human-like."
+		desc   = "Bob the Zombie wants you to help him gather ingredients that will help him appear more human-like."
 		reward = /questReward/Artifact
 
 		Kill
-			desc = "Harvest some pumpkins, demon essence and other ingredients."
+			desc = "Harvest some pumpkins, demonic essence and other ingredients."
 			reqs = list("Kill Pumpkin"         = 200,
 			            "Demonic Essence"      = 5,
 			            "Blood Sack"           = 10,
@@ -236,11 +236,11 @@ quest
 
 	Halloween3
 		name   = "Breath of Death \[Daily]"
-		desc   = "Bob the Zombie offered you the stone fragment that resurrected him for one more favour"
+		desc   = "Bob the Zombie offered you a fragment of the stone that resurrected him for one last favour."
 		reward = /questReward/Halloween
 
 		Kill
-			desc = "Bob desires to be the only one, kill the other zombies."
+			desc = "Bob desires to be the only undead, kill the other zombies."
 			reqs = list("Kill Zombie"  = 6,
 			            "Kill Pumpkin" = 120)
 		Reward
