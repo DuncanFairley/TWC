@@ -415,9 +415,9 @@ quest
 		reward = /questReward/Mon2
 
 		Kill
-			desc = "Kill 100 rats and 50 pixies."
-			reqs = list("Kill Rat"   = 100,
-						"Kill Pixie" = 50)
+			desc = "Kill 100 rats and 80 pixies."
+			reqs = list("Kill Rat"   = 120,
+						"Kill Pixie" = 80)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -427,8 +427,8 @@ quest
 		reward = /questReward/Mon3
 
 		Kill
-			desc = "Kill 150 pixies."
-			reqs = list("Kill Pixie" = 150)
+			desc = "Kill 160 pixies."
+			reqs = list("Kill Pixie" = 160)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -438,8 +438,8 @@ quest
 		reward = /questReward/Mon4
 
 		Kill
-			desc = "Kill 200 dogs."
-			reqs = list("Kill Dog" = 200)
+			desc = "Kill 240 dogs."
+			reqs = list("Kill Dog" = 240)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -449,8 +449,8 @@ quest
 		reward = /questReward/Mon5
 
 		Kill
-			desc = "Kill 250 snakes."
-			reqs = list("Kill Snake" = 250)
+			desc = "Kill 320 snakes."
+			reqs = list("Kill Snake" = 320)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -460,8 +460,8 @@ quest
 		reward = /questReward/Mon6
 
 		Kill
-			desc = "Kill 300 wolves."
-			reqs = list("Kill Wolf" = 300)
+			desc = "Kill 400 wolves."
+			reqs = list("Kill Wolf" = 400)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -471,9 +471,9 @@ quest
 		reward = /questReward/Mon7
 
 		Kill
-			desc = "Kill 150 snakes and 200 wolves."
-			reqs = list("Kill Snake" = 150,
-						"Kill Wolf"  = 200)
+			desc = "Kill 160 snakes and 240 wolves."
+			reqs = list("Kill Snake" = 160,
+						"Kill Wolf"  = 240)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -483,8 +483,8 @@ quest
 		reward = /questReward/Mon8
 
 		Kill
-			desc = "Kill 300 fire bats."
-			reqs = list("Kill Fire Bat" = 300)
+			desc = "Kill 320 fire bats."
+			reqs = list("Kill Fire Bat" = 320)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -494,8 +494,8 @@ quest
 		reward = /questReward/Mon9
 
 		Kill
-			desc = "Kill 350 fire golems."
-			reqs = list("Kill Fire Golem" = 350)
+			desc = "Kill 320 fire golems."
+			reqs = list("Kill Fire Golem" = 320)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -516,8 +516,8 @@ quest
 		reward = /questReward/Mon11
 
 		Kill
-			desc = "Kill 400 water elementals."
-			reqs = list("Kill Water Elemental" = 400)
+			desc = "Kill 420 water elementals."
+			reqs = list("Kill Water Elemental" = 420)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -527,8 +527,8 @@ quest
 		reward = /questReward/Mon12
 
 		Kill
-			desc = "Kill 400 fire elementals."
-			reqs = list("Kill Fire Elemental" = 400)
+			desc = "Kill 450 fire elementals."
+			reqs = list("Kill Fire Elemental" = 450)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -538,8 +538,8 @@ quest
 		reward = /questReward/Mon13
 
 		Kill
-			desc = "Kill 400 wyverns."
-			reqs = list("Kill Wyvern" = 400)
+			desc = "Kill 500 wyverns."
+			reqs = list("Kill Wyvern" = 500)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
