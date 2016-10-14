@@ -205,6 +205,48 @@ quest
 			desc = "Go back to Tammie for your reward!"
 			reqs = list("Tammie" = 1)
 
+	Halloween1
+		name   = "Pumpkin Harvest"
+		desc   = "Bob the Zombie wants you to clean up the pumpkins that invaded his crypt."
+		reward = /questReward/Mon10
+
+		Kill
+			desc = "Kill all the pumpkins."
+			reqs = list("Kill Pumpkin" = 500)
+		Reward
+			desc = "Go back to Bob."
+			reqs = list("Bob the Zombie" = 1)
+
+	Halloween2
+		name   = "Breath of Life"
+		desc   = "Bob the Zombie wants you to help him gather ingredients that will help him be more human-like."
+		reward = /questReward/Artifact
+
+		Kill
+			desc = "Harvest some pumpkins, demon essence and other ingredients."
+			reqs = list("Kill Pumpkin"         = 200,
+			            "Demonic Essence"      = 5,
+			            "Blood Sack"           = 10,
+			            "Kill Snake"           = 100,
+			            "Kill Water Elemental" = 100,
+			            "Kill Troll"           = 50)
+		Reward
+			desc = "Go back to Bob."
+			reqs = list("Bob the Zombie" = 1)
+
+	Halloween3
+		name   = "Breath of Death \[Daily]"
+		desc   = "Bob the Zombie offered you the stone fragment that resurrected him for one more favour"
+		reward = /questReward/Halloween
+
+		Kill
+			desc = "Bob desires to be the only one, kill the other zombies."
+			reqs = list("Kill Zombie"  = 6,
+			            "Kill Pumpkin" = 120)
+		Reward
+			desc = "Go back to Bob."
+			reqs = list("Bob the Zombie" = 1)
+
 	Easter
 		name   = "Sweet Easter"
 		desc   = "The easter bunny wants you to help him find a new brand of chocolate he made but seem to have lost."
@@ -718,6 +760,7 @@ questReward
 	Mon7
 		gold = 7000
 		exp  = 84000
+		items = /obj/items/lamps/triple_exp_lamp
 	Mon8
 		gold = 8000
 		exp  = 96000
@@ -800,6 +843,9 @@ questReward
 	Easter
 		exp   = 10000
 		items = /obj/items/wearable/wands/maple_wand
+	Halloween
+		exp   = 10000
+		items = /obj/items/magic_stone/summoning/resurrection
 
 	TutorialWand
 		exp   = 100
