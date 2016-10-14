@@ -903,7 +903,8 @@ mob/Player
 				draganddrop=1
 				admin=1
 			else if(Gm && !(ckey in worldData.Gms))
-				removeStaff()
+				spawn()
+					removeStaff()
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
@@ -1695,6 +1696,8 @@ mob/proc/Death_Check(mob/killer = src)
 						goldLoss = round(rand(goldLoss * 0.1, goldLoss * 0.2), 1)
 						new /obj/corpse (loc, src, goldLoss)
 
+					p.onDeath(loc, resurrect)
+
 					src.sight &= ~BLIND
 					src:Transfer(B.loc)
 					src.dir = SOUTH
@@ -2090,6 +2093,53 @@ proc
 
 			else
 				E.loc = null
+
+mob/Player/proc/onDeath(turf/oldLoc, killerName)
+	set waitfor = 0
+
+	var/obj/o        = new
+	o.screen_loc     = "CENTER,CENTER+3"
+
+	var/randomMessage = pick("Say \"hi\" to Satan for me!",
+	                         "Did you trip and fall over like those chicks from horror flicks?",
+	                         "YOU ARE DEAD. Sorry, that was a little dramatic. Seriously though, you've died.",
+	                         "Well, look at the bright side, now you won't have to do your homework.")
+
+	o.maptext        = "<center><span style=\"color:#e50000;font-size:32pt;font-family:'Comic Sans MS';\">You died!</span><br>" +\
+	                   "<span style=\"color:#e50000;\">[randomMessage]</span></center>"
+	o.maptext_height = 128
+	o.alpha          = 0
+	o.plane          = 2
+
+	var/pixelsize = lentext(randomMessage) * 14
+
+	o.maptext_width = pixelsize
+	o.maptext_x     = -ceil(pixelsize/2)
+
+	client.screen += o
+
+	animate(o, alpha = 255, time = 5)
+
+	nomove = 2
+	client.eye = oldLoc
+	client.perspective = EYE_PERSPECTIVE
+
+	sleep(20)
+	Interface.SetDarknessColor("#000000", 10, 30)
+
+	var/time = 50
+	var/spawnLoc = loc
+	while(spawnLoc == loc && time-- > 0)
+		sleep(1)
+
+	animate(o, alpha = 0, time = 5)
+	client.eye = src
+	client.perspective = MOB_PERSPECTIVE
+	Interface.SetDarknessColor("#000000")
+	nomove = 0
+
+	sleep(6)
+	client.screen -= o
 
 turf/proc/autojoin(var_name, var_value = 1)
 	var/n = 0
