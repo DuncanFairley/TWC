@@ -331,7 +331,7 @@ interface
 			parent.client.screen += lightplane
 			parent.client.screen += darkness
 
-	proc/SetDarknessColor(c, priorty=0)
+	proc/SetDarknessColor(c, priorty=0, t = 5)
 
 		if(c)
 			if(priorty)
@@ -355,7 +355,7 @@ interface
 					if(lightStates[indexColor] > highest)
 						highest = lightStates[indexColor]
 						index = i
-				animate(darkness, color = lightStates[index], time = 5)
+				animate(darkness, color = lightStates[index], time = t)
 
 		if(!lightStates)
 			var/area/a = parent.loc.loc
