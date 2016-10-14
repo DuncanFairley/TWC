@@ -1267,7 +1267,7 @@ turf
 
 mob/Player/proc/jumpTo(turf/t)
 	set waitfor = 0
-	nomove = 1
+	nomove = 2
 	var
 		px = (x * 32) - (t.x * 32)
 		py = (y * 32) - (t.y * 32)

@@ -14,6 +14,10 @@ mob/Player
 mob/TalkNPC/quest
 	var/questPointers
 
+	Talk()
+		set src in oview(3)
+		Quest(usr)
+
 	New()
 		..()
 		tag = name
@@ -91,9 +95,6 @@ mob/TalkNPC/quest
 		icon_state="palmer"
 		name="Professor Palmer"
 		questPointers = list("Tutorial: Quests", "Master of Keys", "Strength of Graduate \[Weekly]")
-		Talk()
-			set src in oview(1)
-			Quest(usr)
 
 		questStart(mob/Player/i_Player, questName)
 
@@ -150,7 +151,6 @@ mob/TalkNPC/quest
 		questPointers = "On House Arrest"
 		Talk()
 			set src in oview(3)
-			..()
 			var/mob/Player/p = usr
 			if("On House Arrest" in p.questPointers)
 				var/questPointer/pointer = p.questPointers["On House Arrest"]
@@ -224,7 +224,6 @@ mob/TalkNPC/quest
 
 		Talk()
 			set src in oview(3)
-			..()
 			var/mob/Player/p = usr
 			if("Stolen by the Lord" in p.questPointers)
 				var/questPointer/pointer = p.questPointers["Stolen by the Lord"]
@@ -359,7 +358,6 @@ mob/TalkNPC/quest
 
 		Talk()
 			set src in oview(3)
-			..()
 			var/mob/Player/p = usr
 			var/questPointer/pointer = p.questPointers["Sweet Easter"]
 			if(pointer)

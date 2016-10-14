@@ -1806,6 +1806,7 @@ obj/items/wearable/resurrection_stone
 	showoverlay=0
 	icon = 'trophies.dmi'
 	icon_state = "res"
+	var/chance = 40
 
 	Equip(var/mob/Player/owner,var/overridetext=0, var/forceremove=0)
 		. = ..(owner, overridetext, forceremove)
@@ -2307,7 +2308,7 @@ arena_round
 	proc
 		handleSpawnDelay(mob/Player/M)
 			set waitfor = 0
-			M.nomove = 1
+			M.nomove = 2
 			sleep(plyrSpawnTime*10)
 			M.nomove = 0
 			M << "<i><u>You can now move again.</u></i>"

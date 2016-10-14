@@ -312,6 +312,7 @@ RandomEvent
 
 	TheEvilSnowman
 		name = "The Evil Snowman"
+		chance = 5
 		start()
 			set waitfor = 0
 			..()
@@ -533,7 +534,7 @@ RandomEvent
 
 	Zombie
 		name   = "Zombie"
-		chance = 0
+		chance = 20
 		start()
 			set waitfor = 0
 			..()

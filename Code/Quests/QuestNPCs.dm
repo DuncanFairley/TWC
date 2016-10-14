@@ -10,10 +10,6 @@ mob/TalkNPC/quest
 	vampires
 		icon = 'FemaleVampire.dmi'
 
-		Talk()
-			set src in oview(3)
-			Quest(usr)
-
 		New()
 			..()
 			GenerateIcon(src, wig = 0, shoes = 1, scarf = 1)
@@ -172,9 +168,6 @@ mob/TalkNPC/quest
 		icon = 'Simon.dmi'
 		questPointers = list("Brother Trouble",
 		                     "Brewing Practice")
-		Talk()
-			set src in oview(3)
-			Quest(usr)
 
 		questStart(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
@@ -237,9 +230,6 @@ mob/TalkNPC/quest
 		icon = 'Mobs.dmi'
 		icon_state="pixie"
 		questPointers = list("Pixie Love", "Pixie Wisdom \[Weekly]")
-		Talk()
-			set src in oview(3)
-			Quest(usr)
 
 		questStart(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
@@ -278,6 +268,53 @@ mob/TalkNPC/quest
 			var/ScreenText/s = new(i_Player, src)
 			s.AddText("Get away from me, you creep.")
 
+	Zombie
+		name = "Bob the Zombie"
+		icon = 'MaleZombie.dmi'
+		questPointers = list("Pumpkin Harvest", "Breath of Life", "Breath of Death")
+
+		questStart(mob/Player/i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
+
+			switch(questName)
+				if("Pumpkin Harvest")
+					s.AddText("You there! Fresh meat! Why don't you clean up my crypt, it's full of disgusting pumpkins. You fresh meat love pumpkins, go harvest!")
+				if("Breath of Life")
+					s.AddText("I desire to become more human-like, why don't you help me gather a few ingredients, I'll make it worth your while!")
+				if("Breath of Death")
+					s.AddText("You must be wondering how I came to be, I wasn't always this sexy, I used to be a lifeless corpse, just one of many.")
+					s.AddText("One day, this mysterious masked wizard hid inside my crpyt, when he left he accidently dropped this dark greenish stone fragment right ontop of my grave.")
+					s.AddText("That day I was reborn, alive but not, I will stay here forever!")
+					s.AddText("The stone is of no use to me again and the wizard might come back for it, tell you what. If you do one more task for me, I will give you the stone fragment.")
+					s.AddText("I may have resurrected a few more corpses with this fragment, go kill them, I want to be the only one. While you're at it, also kill some more pumpkins for me, I hate pumpkins.")
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
+
+			switch(questName)
+				if("Pumpkin Harvest")
+					if(.)
+						s.AddText("I hope you didn't break anything, you cleaning people are always so clumsy but oh well I suppose a ghost will haunt you if you did, at least my grave is finally clean.")
+					else
+						s.AddText("Yuck, pumpkins!")
+				if("Breath of Life")
+					if(.)
+						s.AddText("Now I can disguise myself and walk amongst the living!")
+					else
+						s.AddText("I actually used to be a professor at Hogwarts years ago.")
+				if("Breath of Death")
+					if(.)
+						s.AddText("As agreed, you can have the stone fragment now.")
+					else
+						s.AddText("Remember to slay all the pumpkins, I really hate pumpkins.")
+
+		questCompleted(mob/Player/i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
+
+			s.AddText("I wonder what happens if you merge it with more fragments...")
 
 	Vengeful_Wisp
 		icon = 'Mobs.dmi'
@@ -295,10 +332,6 @@ mob/TalkNPC/quest
 			animate(src, color = color1, time = 10, loop = -1)
 			animate(color = color2, time = 10)
 			animate(color = color3, time = 10)
-
-		Talk()
-			set src in oview(3)
-			Quest(usr)
 
 		questStart(mob/Player/i_Player, questName)
 
@@ -348,9 +381,6 @@ mob/TalkNPC/quest
 	Mysterious_Wizard
 		icon_state="wizard"
 		questPointers = "The Eyes in the Sand \[Daily]"
-		Talk()
-			set src in oview(3)
-			Quest(usr)
 
 		questStart(mob/Player/i_Player, questName)
 
@@ -377,10 +407,6 @@ mob/TalkNPC/quest
 	Saratri
 		icon_state="lord"
 		questPointers = "To kill a Boss \[Daily]"
-		Talk()
-			set src in oview(3)
-			Quest(usr)
-
 
 		questStart(mob/Player/i_Player, questName)
 
@@ -405,10 +431,6 @@ mob/TalkNPC/quest
 	Malcolm
 		icon_state="goblin1"
 		questPointers = "Draw Me a Stick \[Daily]"
-		Talk()
-			set src in oview(3)
-			Quest(usr)
-
 
 		questStart(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
@@ -450,10 +472,6 @@ mob/TalkNPC/quest
 		                     "Pest Extermination \[Daily]")
 
 
-		Talk()
-			set src in oview(3)
-			Quest(usr)
-
 		questStart(mob/Player/i_Player, questName)
 
 			var/ScreenText/s = new(i_Player, src)
@@ -480,9 +498,6 @@ mob/TalkNPC/quest
 	Zerf
 		icon_state = "stat"
 		questPointers = list("PvP Introduction", "Culling the Herd", "Strength of Dragons")
-		Talk()
-			set src in oview(3)
-			Quest(usr)
 
 		questStart(mob/Player/i_Player, questName)
 			switch(questName)
@@ -523,10 +538,6 @@ mob/TalkNPC/quest
 	Cassandra
 		icon_state="alyssa"
 		questPointers = list("Make a Fortune", "Make a Spell", "Make a Wig")
-		Talk()
-			set src in oview(3)
-			Quest(usr)
-
 
 		questStart(mob/Player/i_Player, questName)
 
@@ -672,7 +683,6 @@ mob/TalkNPC/quest
 		questPointers = "Make a Potion"
 		Talk()
 			set src in oview(3)
-			..()
 			var/mob/Player/p = usr
 			if("Make a Potion" in p.questPointers)
 				var/questPointer/pointer = p.questPointers["Make a Potion"]
