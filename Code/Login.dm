@@ -1683,8 +1683,10 @@ mob/proc/Death_Check(mob/killer = src)
 				if(!src:rankedArena)
 					var/obj/items/wearable/resurrection_stone/resurrect = locate() in p.Lwearing
 					if(resurrect)
-						if(resurrect.Consume())
-							resurrect.Equip(p, 1)
+						if(prob(resurrect.chance))
+							p << errormsg("Upon being resurrected you lost your resurrection stone.")
+							if(resurrect.Consume())
+								resurrect.Equip(p, 1)
 						new /obj/corpse (loc, src, -1)
 					else
 						if(src.level < lvlcap)
