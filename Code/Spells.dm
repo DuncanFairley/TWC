@@ -128,7 +128,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 			var/slugs = rand(4,12)
 			while(M && slugs > 0 && M.MP > 0)
 				M.MP -= rand(20,60) * round(M.level/100)
-				new/mob/NPC/Enemies/Summoned/Slug(M.loc)
+				new/mob/Enemies/Summoned/Slug(M.loc)
 				if(M.MP < 0)
 					M.MP = 0
 					M.updateHPMP()
@@ -369,7 +369,7 @@ mob/Spells/verb/Repellium()
 		new /StatusEffect/DisableProjectiles(src, 30)
 		var/time = 75
 		while(time > 0)
-			for(var/mob/NPC/Enemies/D in ohearers(3, src))
+			for(var/mob/Enemies/D in ohearers(3, src))
 				step_away(D, src)
 			time--
 			sleep(4)
@@ -431,7 +431,7 @@ mob/Spells/verb/Aggravate()
 
 		var/area/pArea = loc.loc
 		light(src, range=13, ticks=10, state = "red")
-		for(var/mob/NPC/Enemies/e in ohearers(13))
+		for(var/mob/Enemies/e in ohearers(13))
 			var/area/eArea = loc.loc
 
 			if(eArea != pArea) continue
@@ -452,7 +452,7 @@ mob/Spells/verb/Basilio()
 		return
 	hearers()<<"A Black Basilisk, emerges from [usr]'s wand."
 	hearers()<<"<b>Basilisk</b>: Hissssssss!"
-	var/mob/NPC/Enemies/Summoned/Boss/Basilisk/D = new (locate(src.x,src.y-1,src.z))
+	var/mob/Enemies/Summoned/Boss/Basilisk/D = new (locate(src.x,src.y-1,src.z))
 	flick('mist.dmi',D)
 
 mob/Spells/verb/Serpensortia()
@@ -468,7 +468,7 @@ mob/Spells/verb/Serpensortia()
 			return
 		hearers()<<"A Red-Spotted Green Snake, emerges from the wand."
 		hearers()<<"<b>Snake</b>: Hissssssss!"
-		var/mob/NPC/Enemies/Summoned/Snake/D = new (loc)
+		var/mob/Enemies/Summoned/Snake/D = new (loc)
 		D.Ignore(src)
 		flick('mist.dmi',D)
 		usr:learnSpell("Serpensortia")
@@ -529,7 +529,7 @@ mob/Spells/verb/Avis()
 		hearers()<<"A bright white flash shoots out of [usr]'s wand."
 		sleep(20)
 		hearers()<<"A Phoenix emerges."
-		var/mob/NPC/Enemies/Summoned/Phoenix/D = new (loc)
+		var/mob/Enemies/Summoned/Phoenix/D = new (loc)
 		flick('mist.dmi',D)
 		usr:learnSpell("Avis")
 		src = null
@@ -550,7 +550,7 @@ mob/Spells/verb/Crapus_Sticketh()
 			src << "<b>You can't use this inside a safezone.</b>"
 			return
 		hearers()<<"A stick figure appears."
-		var/mob/NPC/Enemies/Summoned/Boss/Stickman/D = new (loc)
+		var/mob/Enemies/Summoned/Boss/Stickman/D = new (loc)
 		flick('mist.dmi',D)
 		src = null
 		spawn(600)
@@ -563,7 +563,7 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 	var/mob/Player/p = src
 	if(p.removeoMob)
 		p << "You release your hold of the monster you were controlling."
-		var/mob/NPC/Enemies/E = p.removeoMob
+		var/mob/Enemies/E = p.removeoMob
 		if(E.removeoMob)
 			spawn()
 				E.ReturnToStart()
@@ -573,13 +573,13 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 		client.perspective=MOB_PERSPECTIVE
 		return
 	var/list/enemies = list()
-	for(var/mob/NPC/Enemies/M in ohearers())
+	for(var/mob/Enemies/M in ohearers())
 		enemies.Add(M)
 	if(!enemies.len)
 		src << "There are no monsters in your view"
 	else
 		if(canUse(src,cooldown=/StatusEffect/Permoveo,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=300,againstocclumens=1))
-			var/mob/NPC/Enemies/selmonster = input("Which monster do you cast Permoveo on?","Permoveo") as null|anything in enemies
+			var/mob/Enemies/selmonster = input("Which monster do you cast Permoveo on?","Permoveo") as null|anything in enemies
 			if(!selmonster) return
 			if(!(selmonster in view())) return
 			if(p.removeoMob) return
@@ -1740,7 +1740,7 @@ mob/Player
 
 			return src
 
-mob/NPC/Enemies
+mob/Enemies
 	var/canBleed = TRUE
 	var/element
 
@@ -1794,7 +1794,7 @@ obj
 			element = 0
 
 		SteppedOn(atom/movable/A)
-			if(!A.density && (isplayer(A) || istype(A,/mob/NPC/Enemies)))
+			if(!A.density && (isplayer(A) || istype(A,/mob/Enemies)))
 				src.Bump(A)
 			else if(damage && istype(A,/obj/portkey))
 				src.Bump(A)
@@ -1996,7 +1996,7 @@ obj
 
 			Effect(atom/movable/a)
 
-				if(isplayer(a) || istype(a, /mob/NPC/Enemies))
+				if(isplayer(a) || istype(a, /mob/Enemies))
 
 					owner << "Your [src] hit [a]!"
 

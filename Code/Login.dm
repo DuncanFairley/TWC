@@ -1528,7 +1528,7 @@ mob/proc/Death_Check(mob/killer = src)
 				flick('teleboom.dmi',p)
 				return
 				//src<<"<b><span style=\"color:red;\">Advice:</b></span> You can't kill yourself to get out of detention. Attempt to do it again and all of your spells will be erased from your memory."
-			if(p.Immortal==1 && (p.admin || !istype(killer, /mob/NPC/Enemies)))
+			if(p.Immortal==1 && (p.admin || !istype(killer, /mob/Enemies)))
 				p<<"[killer] tried to knock you out, but you are immortal."
 				killer<<"<span style=\"color:blue;\"><b>[src] is immortal and cannot die.</b></span>"
 				return
@@ -1776,8 +1776,8 @@ mob/proc/Death_Check(mob/killer = src)
 
 		else
 			if(isplayer(killer))
-				if(istype(src, /mob/NPC/Enemies))
-					if(!istype(src, /mob/NPC/Enemies/Summoned))
+				if(istype(src, /mob/Enemies))
+					if(!istype(src, /mob/Enemies/Summoned))
 						killer.AddKill(src.name)
 					killer:checkQuestProgress("Kill [src.name]")
 				if(killer.MonsterMessages)killer<<"<i><small>You knocked [src] out!</small></i>"
@@ -1824,7 +1824,7 @@ mob/proc/Death_Check(mob/killer = src)
 						var/obj/items/wearable/pets/pet = killer:pet.item
 						pet.addExp(killer, round(exp2give / 50))
 
-			if(istype(src, /mob/NPC/Enemies))
+			if(istype(src, /mob/Enemies))
 				src:Death(killer)
 			src.loc=null
 			Respawn(src, killer)
@@ -2053,14 +2053,14 @@ proc
 			else
 				open = 0
 		return t
-	Respawn(mob/NPC/Enemies/E, mob/killer)
+	Respawn(mob/Enemies/E, mob/killer)
 		set waitfor = 0
 		if(!E)return
 		if(E.removeoMob)
 			var/tmpmob = E.removeoMob
 			E.removeoMob = null
 			spawn()tmpmob:Permoveo()
-		if(!istype(E,/mob/NPC/Enemies))
+		if(!istype(E,/mob/Enemies))
 			E.loc = null
 		else
 			E.ChangeState(E.INACTIVE)
