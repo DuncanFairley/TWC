@@ -285,11 +285,10 @@ mob/Spells/verb/Expelliarmus(mob/Player/M in view()&Players)
 			usr << "[M] doesn't have \his wand drawn."
 
 mob/Player/proc/nowand()
-	if(client.eye != src)
+	if(client.eye != src && Interface.SetDarknessColor(TELENDEVOUR_COLOR))
 		src << "Your Telendevour wears off."
 		client.eye = src
 		client.perspective = EYE_PERSPECTIVE
-		Interface.SetDarknessColor(TELENDEVOUR_COLOR)
 
 	if(removeoMob)
 		src << "Your Permoveo spell failed.."
@@ -631,7 +630,7 @@ mob/Spells/verb/Reducto(var/mob/Player/M in (view(usr.client.view,usr)&Players)|
 		if(M.flying){src<<"<b><span style=\"color:red;\">Error:</b></span> You can't cast this spell on someone who is flying.";return}
 		if(M.GMFrozen){alert("You can't free [M]. They have been frozen by a Game Master.");return}
 		hearers(usr.client.view,usr)<<"<B><span style=\"color:red;\">[usr]:</span><font color=white> <I>Reducto!</I>"
-		M.nomove=0
+		if(M.nomove < 2) M.nomove=0
 		if(!M.trnsed) M:ApplyOverlays()
 		hearers(usr.client.view,usr)<<"White light emits from [usr]'s wand, freeing [M]."
 		flick('Reducto.dmi',M)
@@ -1375,6 +1374,7 @@ mob/Spells/verb/Peskipixie_Pesternomae()
 mob/Spells/verb/Telendevour()
 	set category="Spells"
 	set popup_menu = 0
+	var/mob/Player/p = usr
 	if(usr.client.eye == usr)
 		if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 			var/mob/Player/M = input("Which person would you like to view?") as null|anything in Players(list(src))
@@ -1383,7 +1383,6 @@ mob/Spells/verb/Telendevour()
 			if(istext(M) || M.occlumens>0 || istype(M.loc.loc, /area/ministry_of_magic))
 				src<<"<b>You feel magic repelling your spell.</b>"
 			else
-				var/mob/Player/p = usr
 				p.Interface.SetDarknessColor(TELENDEVOUR_COLOR, 2)
 				usr.client.eye = M
 				usr.client.perspective = EYE_PERSPECTIVE
@@ -1395,12 +1394,10 @@ mob/Spells/verb/Telendevour()
 					M << "You feel that <b>[usr]</b> is watching you."
 				else
 					M << "The hair on the back of your neck tingles."
-	else
+	else if(p.Interface.SetDarknessColor(TELENDEVOUR_COLOR))
 		usr.client.eye = usr
 		usr.client.perspective = EYE_PERSPECTIVE
 		hearers() << "[usr]'s eyes appear again."
-		var/mob/Player/p = usr
-		p.Interface.SetDarknessColor(TELENDEVOUR_COLOR)
 
 
 //AVADA//
