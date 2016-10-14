@@ -321,7 +321,7 @@ RandomEvent
 			Players << infomsg("The Evil Snowman and his army appeared outside Hogwarts, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
-			var/mob/NPC/Enemies/Summoned/Boss/monster = new /mob/NPC/Enemies/Summoned/Boss/Snowman(spawn_loc.loc)
+			var/mob/Enemies/Summoned/Boss/monster = new /mob/Enemies/Summoned/Boss/Snowman(spawn_loc.loc)
 			m += monster
 			for(var/i = 1 to rand(15,40))
 				spawn_loc = pick(worldData.spawners)
@@ -341,7 +341,7 @@ RandomEvent
 			sleep(minutes * 600)
 
 			var/message = 0
-			for(var/mob/NPC/Enemies/Summoned/mon in m)
+			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
 				mon.loc = null
 				mon.ChangeState(monster.INACTIVE)
@@ -361,7 +361,7 @@ RandomEvent
 			Players << infomsg("Willy the Whisp and his army are haunting right outside Hogwarts, defend yourselves until ghostbus---- reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill Willy the Whisp before then you might be able to get a nice prize!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
-			var/mob/NPC/Enemies/Summoned/Boss/monster = new /mob/NPC/Enemies/Summoned/Boss/Wisp(spawn_loc.loc)
+			var/mob/Enemies/Summoned/Boss/monster = new /mob/Enemies/Summoned/Boss/Wisp(spawn_loc.loc)
 			m += monster
 			for(var/i = 1 to rand(15,40))
 				spawn_loc = pick(worldData.spawners)
@@ -383,7 +383,7 @@ RandomEvent
 			sleep(minutes * 600)
 
 			var/message = 0
-			for(var/mob/NPC/Enemies/Summoned/mon in m)
+			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
 				mon.loc = null
 				mon.ChangeState(monster.INACTIVE)
@@ -426,11 +426,11 @@ RandomEvent
 				var/list/monsters = list()
 
 				for(var/j = 1 to rand(5,10))
-					monsters += new /mob/NPC/Enemies/Summoned/Boss/Ghost(spawn_loc)
+					monsters += new /mob/Enemies/Summoned/Boss/Ghost(spawn_loc)
 
 				sleep(2400)
 
-				for(var/mob/NPC/Enemies/ai in monsters)
+				for(var/mob/Enemies/ai in monsters)
 					Respawn(ai)
 
 			entrance.friendlyFire     = 1
@@ -450,12 +450,12 @@ RandomEvent
 
 			for(var/i = 1 to rand(18,30))
 				var/obj/spawner/spawn_loc = pick(worldData.spawners)
-				m += new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
+				m += new /mob/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
 			sleep(minutes * 600)
 
 			var/message = 0
-			for(var/mob/NPC/Enemies/Summoned/mon in m)
+			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
 				mon.loc = null
 				mon.ChangeState(mon.INACTIVE)
@@ -475,18 +475,18 @@ RandomEvent
 			Players << infomsg("Something doesn't quite smell right outside Hogwarts, be cautious, evil forces are crawling, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to ...butcher them... before then you might be able to get a nice prize!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
-			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/Acromantula(spawn_loc.loc)
+			var/mob/Enemies/Summoned/monster = new /mob/Enemies/Summoned/Boss/Acromantula(spawn_loc.loc)
 			m += monster
 			for(var/i = 1 to rand(10,30))
 				spawn_loc = pick(worldData.spawners)
-				monster = new /mob/NPC/Enemies/Summoned/Acromantula (spawn_loc.loc)
+				monster = new /mob/Enemies/Summoned/Acromantula (spawn_loc.loc)
 
 				m += monster
 
 			sleep(minutes * 600)
 
 			var/message = 0
-			for(var/mob/NPC/Enemies/Summoned/mon in m)
+			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
 				mon.loc = null
 				mon.ChangeState(monster.INACTIVE)
@@ -507,22 +507,22 @@ RandomEvent
 			Players << infomsg("A vampire lord has been lured outside of the castle for [minutes] minutes, the vicious creature brought an army, it appears old and wealthy, maybe it carries valuables, slay it to find out!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
-			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/VampireLord(spawn_loc.loc)
+			var/mob/Enemies/Summoned/monster = new /mob/Enemies/Summoned/Boss/VampireLord(spawn_loc.loc)
 			m += monster
 			for(var/i = 1 to rand(15, 30))
 				spawn_loc = pick(worldData.spawners)
-				monster = new /mob/NPC/Enemies/Summoned/Acromantula (spawn_loc.loc)
+				monster = new /mob/Enemies/Summoned/Acromantula (spawn_loc.loc)
 
 			for(var/i = 1 to rand(5, 10))
 				spawn_loc = pick(worldData.spawners)
-				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
+				monster = new /mob/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
 				m += monster
 
 			sleep(minutes * 600)
 
 			var/message = 0
-			for(var/mob/NPC/Enemies/Summoned/mon in m)
+			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
 				mon.loc = null
 				mon.ChangeState(monster.INACTIVE)
@@ -543,12 +543,12 @@ RandomEvent
 			Players << infomsg("A zombie has appeared outside for [minutes] minutes, kill zombie before it infects others!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
-			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/Zombie(spawn_loc.loc)
+			var/mob/Enemies/Summoned/monster = new /mob/Enemies/Summoned/Boss/Zombie(spawn_loc.loc)
 			m += monster
 
 			for(var/i = 1 to 15)
 				spawn_loc = pick(worldData.spawners)
-				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
+				monster = new /mob/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
 				m += monster
 
@@ -557,14 +557,14 @@ RandomEvent
 
 			sleep(minutes * 600)
 
-			for(var/mob/NPC/Enemies/Summoned/Zombie/z in a)
+			for(var/mob/Enemies/Summoned/Zombie/z in a)
 				z.loc = null
 				z.ChangeState(monster.INACTIVE)
 
 			a.undead = 0
 
 			var/message = 0
-			for(var/mob/NPC/Enemies/Summoned/mon in m)
+			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
 				mon.loc = null
 				mon.ChangeState(monster.INACTIVE)
@@ -586,26 +586,26 @@ RandomEvent
 			Players << infomsg("The Black Blade has appeared outside the castle for [minutes] minutes, destroy the blade!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
-			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/Sword(spawn_loc.loc)
+			var/mob/Enemies/Summoned/monster = new /mob/Enemies/Summoned/Boss/Sword(spawn_loc.loc)
 			m += monster
 
 			for(var/i = 1 to 5)
 				spawn_loc = pick(worldData.spawners)
-				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
+				monster = new /mob/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
 				m += monster
 
 			sleep(minutes * 600)
 
 			var/area/a = spawn_loc.loc.loc
-			for(var/mob/NPC/Enemies/Summoned/Sword/s in a)
+			for(var/mob/Enemies/Summoned/Sword/s in a)
 				s.loc = null
 				s.ChangeState(monster.INACTIVE)
 
 			swords = 0
 
 			var/message = 0
-			for(var/mob/NPC/Enemies/Summoned/mon in m)
+			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
 				mon.loc = null
 				mon.ChangeState(monster.INACTIVE)
@@ -626,19 +626,19 @@ RandomEvent
 			Players << infomsg("The elder wand's magical force is possessing a stone construct outside the castle for [minutes] minutes, destroy the stone construct to harness the power of the broken elder wand!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
-			var/mob/NPC/Enemies/Summoned/monster = new /mob/NPC/Enemies/Summoned/Boss/Golem(spawn_loc.loc)
+			var/mob/Enemies/Summoned/monster = new /mob/Enemies/Summoned/Boss/Golem(spawn_loc.loc)
 			m += monster
 
 			for(var/i = 1 to rand(5, 15))
 				spawn_loc = pick(worldData.spawners)
-				monster = new /mob/NPC/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
+				monster = new /mob/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
 				m += monster
 
 			sleep(minutes * 600)
 
 			var/message = 0
-			for(var/mob/NPC/Enemies/Summoned/mon in m)
+			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
 				mon.loc = null
 				mon.ChangeState(monster.INACTIVE)
@@ -672,7 +672,7 @@ RandomEvent
 			entrance.safezoneoverride = 1
 			sleep(minutes * 600)
 
-			for(var/mob/NPC/Enemies/ai in entrance)
+			for(var/mob/Enemies/ai in entrance)
 				Respawn(ai)
 
 			entrance.safezoneoverride = 0
@@ -829,7 +829,7 @@ RandomEvent
 			var/list/m = list()
 			for(var/i = 0; i <= monsters; i++)
 				var/obj/spawner/spawn_loc = pick(worldData.spawners)
-				var/mob/NPC/Enemies/Summoned/monster = new (spawn_loc.loc)
+				var/mob/Enemies/Summoned/monster = new (spawn_loc.loc)
 
 				monster.DMGmodifier = 0.8
 				monster.HPmodifier  = 1.2
@@ -927,7 +927,7 @@ RandomEvent
 			sleep(minutes * 600)
 			end()
 			var/message = 0
-			for(var/mob/NPC/Enemies/Summoned/monster in m)
+			for(var/mob/Enemies/Summoned/monster in m)
 				if(monster.loc != null) message = 1
 				monster.loc = null
 				monster.ChangeState(monster.INACTIVE)

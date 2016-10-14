@@ -2246,7 +2246,6 @@ mob/GM/verb/Arena()
 			if(!worldData.currentArena) return
 			worldData.currentArena.players << "<h4>Go!</h5>"
 			worldData.currentArena.started = 1
-mob/NPC/var/walkingBack = 0
 
 mob/Del()
 	Players -= src

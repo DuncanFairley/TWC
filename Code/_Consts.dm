@@ -11,7 +11,7 @@
 #define floor(x) round(x)
 #define ceil(x) (-round(-(x)))
 #define isplayer(x) istype(x, /mob/Player)
-#define ismonster(x) istype(x, /mob/NPC/Enemies)
+#define ismonster(x) istype(x, /mob/Enemies)
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
 
 #define VERSION "16.66"

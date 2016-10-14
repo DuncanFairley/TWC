@@ -23,7 +23,7 @@ teleportNode
 
 			active = TRUE
 			for(var/area/newareas/a in areas)
-				for(var/mob/NPC/Enemies/M in a)
+				for(var/mob/Enemies/M in a)
 					if(M.state == M.INACTIVE)
 						M.ChangeState(M.WANDER)
 
@@ -40,7 +40,7 @@ teleportNode
 			if(isempty)
 				active = FALSE
 				for(var/area/newareas/a in areas)
-					for(var/mob/NPC/Enemies/M in a)
+					for(var/mob/Enemies/M in a)
 						M.ChangeState(M.INACTIVE)
 
 
