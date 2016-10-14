@@ -624,29 +624,39 @@ turf
 		isice = 0
 	water
 		icon='Water.dmi'
-		icon_state="water"
+		icon_state = "water"
 		name = "water"
 		layer=4
+		post_init = 1
 
 		#if HALLOWEEN
-		color = "#ef1"
+		color = "#f15802"
+		icon_state = "water_white"
+		#else
+		icon_state = "water"
+		#endif
+
+		#if WINTER
+		isice = 1
 		#endif
 
 		var
 			tmp/rain = 0
 			isice    = 0
 
-		New()
-			..()
-
-			#if WINTER
-			isice = 1
-			#endif
-
+		MapInit()
 			if(isice)  ice()
 
+			#if HALLOWEEN
+			if(!(loc.name in worldData.waterColors))
+				var/c = pick("#f15802", "#1ba52c", "#7c10ad", "#e50000")
+				worldData.waterColors[loc.name] = c
+
+			color = worldData.waterColors[loc.name]
+			#endif
+
 		Enter(atom/movable/O, atom/oldloc)
-			if(icon_state == "water")
+			if(name == "water")
 				if(isplayer(O) && O.density) return 0
 				if(istype(O, /obj/projectile) && O.icon_state == "iceball")
 					if(prob(20))
@@ -660,7 +670,7 @@ turf
 					if(O:damage <= 0)
 						walk(O,0)
 						O.loc = null
-			else if(icon_state == "ice")
+			else if(name == "ice")
 				if(istype(O, /obj/projectile) && O.icon_state == "fireball")
 					water()
 			return ..()
@@ -668,7 +678,7 @@ turf
 		proc
 			ice()
 				set waitfor = 0
-				if(icon_state == "ice") return
+				if(name == "ice") return
 
 				new /obj/fadeOut/water (src)
 
@@ -679,25 +689,29 @@ turf
 					overlays = list()
 				if(!isice)
 					var/time = rand(40,120)
-					while(time > 0 && icon_state == "ice")
+					while(time > 0 && name == "ice")
 						time--
 						sleep(10)
 					if(istype(src, /turf/water)) water()
 			water()
 				set waitfor = 0
-				if(icon_state == "water") return
+				if(name == "water") return
 
 				new /obj/fadeOut/ice (src)
 
 				name       = "water"
+				#if HALLOWEEN
+				icon_state = "water_white"
+				#else
 				icon_state = "water"
+				#endif
 				layer      = 4
 
 				if(rain && prob(50))
 					rain()
 				if(isice)
 					var/time = rand(40,120)
-					while(time > 0 && icon_state == "water")
+					while(time > 0 && name == "water")
 						time--
 						sleep(10)
 					if(istype(src, /turf/water)) ice()

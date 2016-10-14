@@ -49,3 +49,8 @@
 #define SHIELD 2
 
 #define DIRS_LIST list(NORTH,SOUTH,EAST,WEST,NORTHEAST,NORTHWEST,SOUTHEAST,SOUTHWEST)
+
+
+#if HALLOWEEN
+WorldData/var/tmp/list/waterColors = list()
+#endif
