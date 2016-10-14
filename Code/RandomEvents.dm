@@ -724,7 +724,7 @@ RandomEvent
 				totalTreasures += t
 
 				while(!t.loc || t.loc.density)
-					t.loc = locate(rand(1,100), rand(1,100), mapZ)
+					t.loc = locate(rand(1,82), rand(1,100), mapZ)
 
 			sleep(minutes * 600)
 

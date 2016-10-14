@@ -43,11 +43,11 @@ clan_wars
 			else if(deatheater < aurors)
 				var/aurorwinner = pick(aurorWon)
 				Players << "<span style=\"color:'#66CCFF'; font-size:'3';\"><b>[aurorwinner]<b></span>"
-				c = "#aed3e2"
+				c = "#56859B"
 			else
 				var/wardraw = pick(draw)
 				Players << "<span style=\"color:'#E5E4E2'; font-size:'3';\"><b>[wardraw]</b></span>"
-				c = "#704f32"
+				c = "#704F32"
 
 			for(var/turf/t in world)
 				if(t.z >= 21 && t.z <= 22)

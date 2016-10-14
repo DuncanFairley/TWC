@@ -80,7 +80,8 @@ hudobj
 			set waitfor = 0
 			animate(src, alpha = 0, time = 5)
 			sleep(6)
-			client.screen -= src
+			if(client)
+				client.screen -= src
 
 	New(loc=null,client/Client,list/Params,show=1)
 		client = Client
