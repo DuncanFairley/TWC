@@ -271,7 +271,7 @@ mob/TalkNPC/quest
 	Zombie
 		name = "Bob the Zombie"
 		icon = 'MaleZombie.dmi'
-		questPointers = list("Pumpkin Harvest", "Breath of Life", "Breath of Death")
+		questPointers = list("Pumpkin Harvest", "Breath of Life", "Breath of Death \[Daily]")
 
 		questStart(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
