@@ -5,9 +5,6 @@
  * For the full license text, see LICENSE.txt.
  */
 
-obj/Broom3
-	icon='icons.dmi'
-	icon_state="nimbus"
 obj/Chair
 	icon='desk.dmi'
 	icon_state="Chair"
@@ -178,10 +175,6 @@ obj
 		name = "Sign"
 		icon = 'dj.dmi'
 		icon_state="2off"
-turf
-	blackblock
-		icon='turf.dmi'
-		icon_state="blackz"
 mob
 	Anderoffice
 		invisibility = 2
@@ -389,11 +382,6 @@ obj/Stable__
 	icon_state="tile75"
 	density=1
 
-obj/Triple_Candle
-	icon='General.dmi'
-	icon_state="tile80"
-	density=1
-
 obj/Couch
 	icon='General.dmi'
 	icon_state="tile83"
@@ -514,9 +502,6 @@ obj
 		icon       ='desk.dmi'
 		icon_state = "cfront"
 
-obj/BFrontChair
-	icon='turf.dmi'
-	icon_state="cfront"
 turf
 	sideBlock
 
@@ -1219,7 +1204,13 @@ obj
 			icon       = 'stage.dmi'
 			icon_state = "w"
 			density    = 1
-
+		Broom3
+			icon       = 'icons.dmi'
+			icon_state = "nimbus"
+		Triple_Candle
+			icon       = 'General.dmi'
+			icon_state = "tile80"
+			density    = 1
 obj
 	snowman
 		icon = 'snowman.dmi'
