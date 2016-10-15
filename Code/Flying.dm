@@ -633,11 +633,12 @@ turf
 			if(isice)  ice()
 
 			#if HALLOWEEN
-			if(!(loc.name in worldData.waterColors))
-				var/c = pick("#f15802", "#1ba52c", "#7c10ad", "#e50000")
-				worldData.waterColors[loc.name] = c
+			if(loc)
+				if(!(loc.name in worldData.waterColors))
+					var/c = pick("#f15802", "#1ba52c", "#7c10ad", "#e50000")
+					worldData.waterColors[loc.name] = c
 
-			color = worldData.waterColors[loc.name]
+				color = worldData.waterColors[loc.name]
 			#endif
 
 		Enter(atom/movable/O, atom/oldloc)
