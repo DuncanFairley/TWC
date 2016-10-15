@@ -860,7 +860,7 @@ obj
 			icon_state = "c3"
 		c4
 			icon_state = "c4"
-/*	Golden_Candles
+	Golden_Candles
 		icon       = 'Decoration.dmi'
 		icon_state = "gcandle"
 		pixel_y    = -16
@@ -909,7 +909,11 @@ obj
 		density    = 1
 	Magic_Sphere
 		icon       ='misc.dmi'
-		icon_state = "black"*/
+		icon_state = "black"
+	Triple_Candle
+		icon       = 'General.dmi'
+		icon_state = "tile80"
+		density    = 1
 
 obj/Fountain
 	New()

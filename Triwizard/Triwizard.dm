@@ -50,14 +50,6 @@ obj
 		icon = 'Goblet.dmi'
 		name = "Triwizard Cup"
 		icon_state = "blue-idle"
-		//This will have the same icon as the goblet of fire, but will teleport the first person who touches it to
-		//the great hall, announce the winner, then delete itself.
-		Click()
-			if(usr in oview(1))
-				usr << "You reach up and touch the Triwizard Cup."
-				usr.loc = locate(38,37,21)
-				Players << "<h2>Congratulations to <b>[usr]</b> who has reached the Triwizard Cup first! Assemble in the Great Hall for the 2011 Triwizard Tournament Closing Ceremony</h2>"
-				del(src)
 
 turf
 	Sea_Floor
