@@ -883,14 +883,6 @@ obj
 		icon       ='Desk.dmi'
 		icon_state = "2"
 		density    = 1
-	Reserved
-		icon       = 'misc.dmi'
-		icon_state = "reserved"
-		density    = 1
-	Exit
-		icon       = 'misc.dmi'
-		icon_state = "exit"
-		density    = 1
 	Blackboard_
 		icon       = 'bb.dmi'
 		icon_state = "1"
