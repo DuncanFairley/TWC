@@ -29,11 +29,20 @@ obj/static_obj
 		name = "Metal Fence"
 		icon = 'Halloween Fence.dmi'
 		icon_state = "Vertical"
+		density = 1
+
+		MapInit()
+			if(loc)
+				var/turf/t = locate(x, y+1, z)
+				if(t)
+					t.density = 1
+			..()
 	Metal_Fence_Horizontal
 		name = "Metal Fence"
 		icon = 'Halloween Fence.dmi'
 		icon_state = "Horizontal"
 		density = 1
+		layer = MOB_LAYER+1
 
 
 turf
