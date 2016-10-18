@@ -241,8 +241,8 @@ quest
 
 		Kill
 			desc = "Bob desires to be the only undead, kill the other zombies."
-			reqs = list("Kill Zombie"  = 6,
-			            "Kill Pumpkin" = 120)
+			reqs = list("Kill Zombie"  = 4,
+			            "Kill Pumpkin" = 200)
 		Reward
 			desc = "Go back to Bob."
 			reqs = list("Bob the Zombie" = 1)
