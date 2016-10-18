@@ -534,7 +534,7 @@ RandomEvent
 
 	Zombie
 		name   = "Zombie"
-		chance = 20
+		chance = 25
 		start()
 			set waitfor = 0
 			..()
