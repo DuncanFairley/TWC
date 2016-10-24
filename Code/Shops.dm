@@ -588,7 +588,7 @@ obj/shop
 				if(usr.loc != parent.loc) return
 				var/obj/items/i = parent:items[usr:shop_index]
 
-				var/actualPrice = round(i.price * shopPriceModifier, 1)
+				var/actualPrice = round(i.price * worldData.shopPriceModifier, 1)
 				var/gold/g = new(usr)
 				var/gold/price = new (bronze=actualPrice)
 				if(!g.have(actualPrice))
@@ -617,7 +617,6 @@ obj/shop
 							parent:shop(p)
 
 obj/items/var/tmp/limit = 0
-var/shopPriceModifier = 1
 var/list/shops = list("malewigshop" = newlist(
 						/obj/items/wearable/wigs/male_black_wig,
 						/obj/items/wearable/wigs/male_blond_wig,

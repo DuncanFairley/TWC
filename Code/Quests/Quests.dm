@@ -324,7 +324,7 @@ mob/TalkNPC
 
 			usr << "He looks like a mix between Count Choculah and an elf. You decide not to bother him."
 
-turf
+obj
 	lever
 		icon='lever.dmi'
 		density=1
@@ -340,7 +340,7 @@ turf
 						alert("The trapdoor in the wall slowly creeks shut")
 						var/mob/Player/p = usr
 						p.checkQuestProgress("Lever")
-						for(var/turf/lever/L in oview())
+						for(var/obj/lever/L in oview())
 							flick("pull",L)
 					if("No")
 						return

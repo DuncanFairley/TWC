@@ -357,6 +357,10 @@ mob
 					a.stack = amount
 					a.UpdateDisplay()
 
+				var/obj/items/wearable/invisibility_cloak/cloak = locate() in p.Lwearing
+				if(cloak)
+					cloak.Equip(p, 1, 1)
+
 				for(var/obj/items/wearable/invisibility_cloak/c in src)
 					c.loc = null
 

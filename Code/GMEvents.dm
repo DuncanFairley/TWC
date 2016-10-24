@@ -162,9 +162,6 @@ atom/Click(location)
 
 	var/mob/Player/p = usr
 	if(p.ClickEdit)
-		if(!p.admin)
-			p << errormsg("Only Admins can use this.")
-			return
 		if(!p.EditVar)
 			p << "Pick a var to edit using MassEdit verb."
 		else if(p.EditVar in vars)

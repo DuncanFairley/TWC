@@ -7,6 +7,11 @@
 var/list/clanwars_schedule  = list()
 var/list/autoclass_schedule = list()
 
+WorldData/var/tmp
+	shopPriceModifier = 1
+	DropRateModifier  = 1
+	expModifier       = 1
+
 proc/time_until(day, hour)
 
 	var/http[] = world.Export("http://wizardschronicles.com/time_functions.php?day=[day]&hour=[hour]")
@@ -19,7 +24,6 @@ proc/time_until(day, hour)
 
 	return -1
 
-var/DropRateModifier = 1
 mob/GM/verb
 	Clan_Wars_Schedule(var/Event/e in clanwars_schedule)
 		set category = "Staff"
@@ -63,13 +67,18 @@ mob/GM/verb
 
 	Set_Drop_Rate(var/rate as num)
 		set category = "Staff"
-		DropRateModifier = rate
+		worldData.DropRateModifier = rate
 		src << infomsg("Drop rate modifier set to [rate]")
 
 	Set_Price_Modifier(var/modifier as num)
 		set category = "Staff"
-		shopPriceModifier = modifier
+		worldData.shopPriceModifier = modifier
 		src << infomsg("Drop rate modifier set to [modifier]")
+
+	Set_Exp_Modifier(var/modifier as num)
+		set category = "Staff"
+		worldData.expModifier = modifier
+		src << infomsg("Exp modifier set to [modifier]")
 
 	Schedule_Clanwars(var/day as text, var/hour as text)
 		set category = "Staff"

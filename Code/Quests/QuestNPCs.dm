@@ -281,7 +281,7 @@ mob/TalkNPC/quest
 					s.AddText("You there! Fresh meat! Why don't you clean up my crypt, it's full of disgusting pumpkins. You fresh meats love pumpkins, now go harvest!")
 				if("Breath of Life")
 					s.AddText("I desire to become more human-like. Why don't you put your fleshy fingers to good use and help me gather a few ingredients, I'll make it worth your while!")
-				if("Breath of Death")
+				if("Breath of Death \[Daily]")
 					s.AddText("You must be wondering how I came to be - I wasn't always this sexy. I used to be a lifeless corpse, just one of many.")
 					s.AddText("One day, this mysterious masked wizard hid inside my crpyt. Once he'd left, he accidently dropped this dark greenish stone fragment right ontop of my grave.")
 					s.AddText("It was on this day that I was reborn! Alive but not, I will roam this earth forever!")
@@ -305,7 +305,7 @@ mob/TalkNPC/quest
 						s.AddText("Finally I can disguise myself as one of you and walk amongst the living! I'll be the prettiest human in town!")
 					else
 						s.AddText("I actually used to be a professor at Hogwarts, many years ago...")
-				if("Breath of Death")
+				if("Breath of Death \[Daily]")
 					if(.)
 						s.AddText("As agreed, here is the stone fragment I spoke of.")
 					else
