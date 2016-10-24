@@ -740,7 +740,7 @@
 "aol" = (/obj/static_obj/Hogwarts_Stairs,/obj/teleportPath,/turf/woodenfloor,/area/Diagon_Alley)
 "aom" = (/obj/static_obj{density = 0; icon = 'house.dmi'; icon_state = "red3"; name = "Rug"; pixel_x = 16},/turf/woodenfloor,/area/Diagon_Alley)
 "aon" = (/obj/static_obj{density = 0; icon = 'house.dmi'; icon_state = "red4"; name = "Rug"; pixel_x = 16},/turf/woodenfloor,/area/Diagon_Alley)
-"aoo" = (/turf/woodenfloor,/turf/lever,/area/newareas/inside/Ratcellar)
+"aoo" = (/obj/lever,/turf/woodenfloor,/area/newareas/inside/Ratcellar)
 "aop" = (/obj/static_obj{density = 0; icon = 'house.dmi'; icon_state = "red1"; name = "Rug"; pixel_x = 16},/turf/stonefloor,/area/Diagon_Alley)
 "aoq" = (/obj/teleportPath,/obj/static_obj{density = 0; icon = 'house.dmi'; icon_state = "red2"; name = "Rug"; pixel_x = 16},/turf/stonefloor,/area/Diagon_Alley)
 "aor" = (/turf/stonefloor,/area/Diagon_Alley)
