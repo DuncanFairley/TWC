@@ -327,26 +327,36 @@ area
 					active = 0
 					for(var/mob/Enemies/M in src)
 						if(M.state != M.INACTIVE)
-							M.ChangeState(region ? M.WANDER : M.INACTIVE)
+							if(!region)
+								M.ChangeState(M.INACTIVE)
+							else if(!M.target)
+								M.ChangeState(M.WANDER)
 
 area/Exit(atom/movable/O, atom/newloc)
 	.=..()
 
 	if(istype(O, /mob/Enemies) && . && newloc && O:state)
-		if(O:removeoMob)
+		var/mob/Enemies/e = O
+		if(e.removeoMob)
 			if(!issafezone(src) && issafezone(newloc.loc)) return 0
 		else
+			if(e.target || !e.origloc)
+				if(issafezone(newloc.loc))
+					e.target = null
+				else
+					return
+
 			var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-			dirs -= O.dir
+			dirs -= e.dir
 
 			. = 0
 			while(dirs.len)
 				var/d = pick(dirs)
 				dirs -= d
 
-				var/turf/t = get_step(O, d)
+				var/turf/t = get_step(e, d)
 				if(t && t.loc == src)
-					step(O, d)
+					step(e, d)
 					break
 
 
@@ -489,7 +499,7 @@ mob
 				new /obj/corpse(loc, src)
 
 			var/rate        = 1
-			var/rate_factor = DropRateModifier
+			var/rate_factor = worldData.DropRateModifier
 
 			if(killer.House == worldData.housecupwinner)
 				rate += 0.25
@@ -599,14 +609,24 @@ mob
 
 				if(state != 0)
 					switch(state)
-						if(WANDER)     lag = 10
-						if(SEARCH)     lag = 10
-						if(HOSTILE)    lag = max(MoveDelay, 1)
-						if(CONTROLLED) lag = 12
+						if(WANDER)
+							lag    = 10
+							target = null
+						if(SEARCH)
+							lag = 10
+						if(HOSTILE)
+							lag = max(MoveDelay, 1)
+						if(CONTROLLED)
+							target = null
+							lag = 12
 
 					glide_size = 32/lag
 
 					state()
+				else
+					target = null
+					if(loc && origloc && origloc.loc != loc.loc)
+						loc = origloc
 
 			Search()
 				step_rand(src)
@@ -710,8 +730,17 @@ mob
 
 			if(state != HOSTILE) return
 
+			var/active = 1
+			if(origloc)
+				var/area/newareas/a = origloc.loc
+				if(istype(a, /area/newareas) && !a.active)
+					if(a.region)
+						active = a.region.active
+					else
+						active = 0
+
 			var/distance = get_dist(src, target)
-			if(!target || !target.loc || target.loc.loc != loc.loc || distance > Range)
+			if(!active || !target || !target.loc || distance > Range)
 				target = null
 				ChangeTarget()
 				if(!target)
@@ -2314,7 +2343,7 @@ mob
 			DMGmodifier = 3
 			MoveDelay = 3
 			AttackDelay = 1
-			Range = 16
+			Range = 24
 			respawnTime = 6000
 
 			prizePoolSize = 2
