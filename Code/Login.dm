@@ -921,6 +921,18 @@ mob/Player
 			src << "<b><span style=\"color:#CF21C0;\">[worldData.housecupwinner] is the House Cup winner for this month. They receive +25% drop rate/gold/XP from monster kills.</span></b>"
 		if(classdest)
 			src << announcemsg("[curClass] class is starting. Click <a href=\"?src=\ref[src];action=class_path;latejoiner=true\">here</a> for directions.")
+
+		if(worldData.expModifier > 1 && worldData.DropRateModifier > 1)
+			var/drop = (worldData.DropRateModifier - 1) * 100
+			var/exp  = (worldData.expModifier - 1)      * 100
+			src << infomsg("The world is enjoying a [drop]% drop rate bonus and a [exp]% experience bonus from monsters.")
+		else if(worldData.expModifier > 1)
+			var/exp  = (worldData.expModifier - 1)      * 100
+			src << infomsg("The world is enjoying a [exp]% experience bonus from monsters.")
+		else if(worldData.DropRateModifier > 1)
+			var/drop = (worldData.DropRateModifier - 1) * 100
+			src << infomsg("The world is enjoying a [drop]% drop rate bonus.")
+
 		updateHPMP()
 		if(!Interface) Interface = new(src)
 		isDJ(src)
