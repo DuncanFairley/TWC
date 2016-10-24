@@ -784,15 +784,16 @@ RandomEvent
 			var/minutes = rand(30,60)
 			var/bonus = rand(25,100)
 
-			DropRateModifier += bonus / 100
-			var/tmpDropRate = DropRateModifier
+			var/b = bonus / 100
+			worldData.DropRateModifier += b
+			var/tmpDropRate = worldData.DropRateModifier
 			Players << infomsg("You feel a strange magic surrounding you, increasing your drop rate by [bonus]% for [minutes] minutes (This stacks on top of any other bonuses).")
 
 			spawn(minutes * 600)
 				end()
-				if(DropRateModifier == tmpDropRate)
+				if(worldData.DropRateModifier >= tmpDropRate)
 					Players << infomsg("The drop rate bonus event is over.")
-					DropRateModifier -= bonus / 100
+					worldData.DropRateModifier -= b
 
 	Sale
 		name   = "Crazy Sale"
@@ -803,15 +804,36 @@ RandomEvent
 			var/minutes = rand(30,60)
 			var/sale = rand(10,30)
 
-			shopPriceModifier -= sale / 100
-			var/tmpShopModifier = shopPriceModifier
+			var/b = sale / 100
+			worldData.shopPriceModifier -= b
+			var/tmpShopModifier = worldData.shopPriceModifier
 			Players << infomsg("There's a crazy sale going on! You should check out Marvelous Magical Mystery or wig shops, they have a [sale]% discount for the next [minutes] minutes!")
 
 			spawn(minutes * 600)
 				end()
-				if(shopPriceModifier == tmpShopModifier)
+				if(worldData.shopPriceModifier >= tmpShopModifier)
 					Players << infomsg("The sale ended.")
-					shopPriceModifier += sale / 100
+					worldData.shopPriceModifier += b
+
+	Exp
+		name   = "Experience Bonus"
+		chance = 7
+		start()
+			set waitfor = 0
+			..()
+			var/minutes = rand(30,60)
+			var/bonus = rand(25,100)
+
+			var/b = bonus / 100
+			worldData.expModifier += b
+			var/tmpExpModifier = worldData.expModifier
+			Players << infomsg("You feel a strange magic surrounding you, increasing your experience gain rate from monsters by [bonus]% for [minutes] minutes (This stacks on top of any other bonuses).")
+
+			spawn(minutes * 600)
+				end()
+				if(worldData.expModifier >= tmpExpModifier)
+					Players << infomsg("The sale ended.")
+					worldData.expModifier -= b
 
 
 	Invasion
