@@ -415,7 +415,7 @@ quest
 		reward = /questReward/Mon2
 
 		Kill
-			desc = "Kill 100 rats and 80 pixies."
+			desc = "Kill 120 rats and 80 pixies."
 			reqs = list("Kill Rat"   = 120,
 						"Kill Pixie" = 80)
 		Reward
