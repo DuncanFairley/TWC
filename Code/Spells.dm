@@ -1182,7 +1182,7 @@ mob/Player/proc/BaseIcon()
 mob/Spells/verb/Reddikulus(mob/Player/M in view()&Players)
 	set category="Spells"
 	set name = "Riddikulus"
-	if(canUse(src,cooldown=/StatusEffect/UsedRiddikulus,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedRiddikulus,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		if(M.trnsed == 1)
 			usr << "That person is already transfigured."
 			return
