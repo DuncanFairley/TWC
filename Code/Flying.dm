@@ -672,7 +672,7 @@ turf
 				icon_state = "ice"
 				layer      = 2
 				if(rain)
-					overlays = list()
+					underlays = list()
 				if(!isice)
 					var/time = rand(40,120)
 					while(time > 0 && name == "ice")
@@ -711,7 +711,7 @@ turf
 					var/image/i = new ('water_drop.dmi', icon_state = "drop[rand(1, 12)]", layer = 4)
 					i.pixel_x = rand(-12,12)
 					i.pixel_y = rand(-13,14)
-					overlays += i
+					underlays += i
 
 	lava
 		icon_state="hplava"

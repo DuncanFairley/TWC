@@ -74,7 +74,7 @@ Weather
 			clouds(p)
 			for(var/area/A in outside_areas)
 				for(var/turf/water/w in A)
-					w.overlays = list()
+					w.underlays = list()
 					w.rain     = 0
 				A:SetWeather()
 				A.dmg = 1
