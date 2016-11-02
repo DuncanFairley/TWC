@@ -72,6 +72,15 @@ mob/GM
 					else
 						Players << "\red[points] points have been subtracted from [house]!"
 			Save_World()
+		Edit_Schedule()
+			set category = "Staff"
+
+			var/input = input("Class Schedule - Make sure you back up the contents of this window in notepad before making changes.","Class Schedule", worldData.GMSchedule) as null|message
+
+			if(input != null)
+				worldData.GMSchedule = input
+				src << infomsg("Changed schedule.")
+
 		Schedule_Admin()
 			set category = "Staff"
 			set name = "Class Scheduler"
@@ -88,6 +97,8 @@ mob
 	verb
 		Class_Schedule()
 			var/txt = file2text(Sched)
+
+			txt = replacetext(txt, "\[GMSchedule]", worldData.GMSchedule)
 
 			var/list/tags = list("Auto Class", "Clan Wars")
 
