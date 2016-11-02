@@ -238,6 +238,7 @@ quest
 		name   = "Breath of Death \[Daily]"
 		desc   = "Bob the Zombie offered you a fragment of the stone that resurrected him for one last favour."
 		reward = /questReward/Halloween
+		repeat = 864000
 
 		Kill
 			desc = "Bob desires to be the only undead, kill the other zombies."
