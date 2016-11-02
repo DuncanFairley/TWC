@@ -158,10 +158,10 @@ obj/teleportPath
 area/var/tmp/teleportNode/region
 
 /*mob/verb/testMap()
-	for(var/i in TeleportMap.teleports)
+	for(var/i in worldData.TeleportMap.teleports)
 		world << i
 
-		var/teleportNode/n = TeleportMap.teleports[i]
+		var/teleportNode/n = worldData.TeleportMap.teleports[i]
 		var/nodes = ""
 		for(var/node in n.nodes)
 			nodes += "[node], "
