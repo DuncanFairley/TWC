@@ -357,7 +357,7 @@ obj/stage9
 	icon='stage.dmi'
 	icon_state="9"
 
-obj
+obj/static_obj
 	tables
 		icon = 'Tables.dmi'
 		name = "Table"
