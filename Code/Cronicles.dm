@@ -72,6 +72,7 @@ WorldData
 		ministrypw    = "ketchup"
 		ministrybank  = 0
 		taxrate       = 15
+		GMSchedule
 
 		tmp
 			lastusedAFKCheck
@@ -194,7 +195,6 @@ mob
 			return
 		//F["key"] << null
 		..()
-		save_loaded = TRUE
 		if(testtype != /mob/Player)
 			return
 		detectStoopidBug(__FILE__, __LINE__)
@@ -207,6 +207,7 @@ mob
 			F["last_y"] >> last_y
 			F["last_z"] >> last_z
 			F["UsedKeys"] >> src:UsedKeys
+			save_loaded = TRUE
 			var/savefile_version
 			F["savefileversion"] >> savefile_version
 			if(!savefile_version) savefile_version = 3
