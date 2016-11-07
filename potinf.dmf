@@ -2928,7 +2928,7 @@ window "winSettings"
 	elem "winSettings"
 		type = MAIN
 		pos = 281,0
-		size = 258x286
+		size = 258x305
 		anchor1 = none
 		anchor2 = none
 		font-family = ""
@@ -2964,6 +2964,34 @@ window "winSettings"
 		macro = "macro"
 		menu = ""
 		on-close = ""
+	elem "buttonControlSet"
+		type = BUTTON
+		pos = 9,276
+		size = 167x24
+		anchor1 = none
+		anchor2 = none
+		font-family = ""
+		font-size = 0
+		font-style = ""
+		text-color = #000000
+		background-color = none
+		is-visible = true
+		is-disabled = false
+		is-transparent = false
+		is-default = false
+		border = none
+		drop-zone = false
+		right-click = false
+		saved-params = "is-checked"
+		on-size = ""
+		text = "Use experimental movement"
+		image = ""
+		command = "swapControls"
+		is-flat = false
+		stretch = false
+		is-checked = false
+		group = ""
+		button-type = checkbox
 	elem "button5"
 		type = BUTTON
 		pos = 8,9
