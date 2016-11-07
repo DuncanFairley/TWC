@@ -83,6 +83,7 @@
 #include "Code\Login.dm"
 #include "Code\longapparate.dm"
 #include "Code\Matchmaking.dm"
+#include "Code\Movement.dm"
 #include "Code\NPCs.dm"
 #include "Code\ParticleEmitter.dm"
 #include "Code\Pets.dm"
