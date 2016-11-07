@@ -34,22 +34,22 @@ Event
 
 		fire()
 			set waitfor = 0
-			scheduler.schedule(src, world.tick_lag * rand(9000, 12000) + 600) // 16 to 21 minutes
+			scheduler.schedule(src, rand(9000, 12000) + 600) // 16 to 21 minutes
 			AFK_Train_Scan()
 
 	Auction
 
 		fire()
 			set waitfor = 0
-			scheduler.schedule(src, world.tick_lag * 36000)
+			scheduler.schedule(src, 36000)
 			auctionBidTime()
 
 	AutoClass
 
 		fire()
 			set waitfor = 0
-			scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
 			spawn()
+				scheduler.schedule(src, 6048000) // 1 week
 				var/RandomEvent/Class/auto_class = locate() in worldData.events
 				auto_class.start()
 
@@ -57,14 +57,15 @@ Event
 
 		fire()
 			set waitfor = 0
-			scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
-			toggle_clanwars()
+			spawn()
+				scheduler.schedule(src, 6048000) // 1 week
+				toggle_clanwars()
 
 	Weather
 		fire()
 			set waitfor = 0
 
-			scheduler.schedule(src, world.tick_lag * rand(9000, 27000)) // // 15 to 45 minutes
+			scheduler.schedule(src, rand(9000, 27000)) // // 15 to 45 minutes
 			var/i = pickweight(worldData.weather_effects)
 			switch(i)
 				if("acid")        weather.acid()
@@ -77,7 +78,7 @@ Event
 	WeeklyEvents
 		fire()
 			set waitfor = 0
-			scheduler.schedule(src, world.tick_lag * 6048000) // 1 week
+			scheduler.schedule(src, 6048000) // 1 week
 			RandomizeShop()
 			rewardExpWeek()
 
@@ -124,14 +125,14 @@ Event
 			set waitfor = 0
 
 			if(classdest || clanwars)
-				scheduler.schedule(src, world.tick_lag * rand(18000, 36000))  // 30 minutes to 1 hour
+				scheduler.schedule(src, rand(18000, 36000))  // 30 minutes to 1 hour
 
 				if(classdest)
 					for(var/mob/Player/p in Players)
 						if(p.Gm)
 							p << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
 			else
-				scheduler.schedule(src, world.tick_lag * rand(36000, 72000))  // 1 hour to 2 hours
+				scheduler.schedule(src, rand(36000, 72000))  // 1 hour to 2 hours
 				var/list/l = list()
 				for(var/RandomEvent/e in worldData.events)
 					if(e.chance == 0) continue
@@ -183,7 +184,7 @@ proc
 			var/date = time_until("Sunday", "00")
 			if(date != -1)
 				var/Event/WeeklyEvents/e = new
-				scheduler.schedule(e, world.tick_lag * 10 * date)
+				scheduler.schedule(e, 10 * date)
 		init_quests()
 
 		worldData.TeleportMap = new
