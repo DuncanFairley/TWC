@@ -127,7 +127,9 @@ mob
 							days[i] = "&nbsp;"
 
 						for(var/e in events)
-							var/ticks = scheduler.time_to_fire(events[e]) + world.realtime + 600 + (offset*36000)// + world.timeofday
+							var/time2fire = scheduler.time_to_fire(events[e])
+							if(time2fire == -1) continue
+							var/ticks = time2fire + world.realtime + 600 + (offset*36000)// + world.timeofday
 							var/day  = time2text(ticks, "DDD")
 							var/hour = text2num(time2text(ticks, "hh"))
 
