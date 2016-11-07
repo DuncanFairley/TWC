@@ -41,8 +41,6 @@ obj/items
 		stack     = 1
 		max_stack = 0
 
-		dropColor
-
 	mouse_over_pointer = MOUSE_HAND_POINTER
 
 	New()
@@ -202,12 +200,26 @@ obj/items
 			antiTheft = 1
 			owner     = ownerCkey
 
-			if(dropColor)
+			var/list/dropColors = list(/obj/items/key               = "#0e0",
+									   /obj/items/key/wizard_key    = "#3366ff",
+									   /obj/items/key/blood_key     = "#ff9900",
+									   /obj/items/key/pentakill_key = "#3366ff",
+									   /obj/items/key/sunset_key    = "#ff9900",
+									   /obj/items/key/summer_key    = "#ff9900",
+									   /obj/items/key/winter_key    = "#ff9900",
+									   /obj/items/key/prom_key      = "#ff9900",
+									   /obj/items/key/pet_key       = "#ff9900")
+
+			var/c = dropColors[type]
+			if(!c)
+				c = dropColors[parent_type]
+
+			if(c)
 				var/image/dropGlow/i = new
 				var/list/t = splittext("[type]", "/")
 				var/s = t[t.len - 1]
 				i.icon_state = s
-				i.color = dropColor
+				i.color = c
 				underlays += i
 
 			sleep(protection)
@@ -220,6 +232,8 @@ obj/items
 					antiTheft = 0
 					owner = null
 					underlays = list()
+
+WorldData/var/tmp/list/dropColors = list(/obj/items/key = "#0e0")
 
 obj/items/Click()
 	if((src in oview(1)) && takeable)
@@ -239,7 +253,7 @@ obj/items/verb/Take()
 	viewers() << infomsg("[usr] takes \the [src.name].")
 
 	owner = null
-	Move(usr)//loc = usr
+	Move(usr)
 
 	usr.Resort_Stacking_Inv()
 
@@ -435,6 +449,7 @@ obj/items/wearable/Click()
 	..()
 obj/items/wearable/proc/Equip(var/mob/Player/owner)
 	src.gender = owner.gender
+
 	if(src in owner.Lwearing)
 		owner.Lwearing.Remove(src)
 		if(!owner.Lwearing) owner.Lwearing = null// deinitiliaze the list if not in use
@@ -444,6 +459,9 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			o.layer = wear_layer
 
 			owner.overlays -= o
+
+			if(owner.reflection)
+				owner.GenerateReflection()
 		suffix = null
 		UpdateDisplay()
 		if(bonus != -1)
@@ -462,6 +480,9 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			o.layer = wear_layer
 
 			owner.overlays += o
+
+			if(owner.reflection)
+				owner.GenerateReflection()
 
 		if(!owner.Lwearing) owner.Lwearing = list()
 		owner.Lwearing.Add(src)
@@ -870,7 +891,7 @@ obj/items/bucket
 
 			var/foundWater = 0
 			for(var/turf/water/i in orange(1, t))
-				if(i.icon_state != "water")
+				if(i.name != "water")
 					usr << errormsg("You have to melt nearby ice.")
 					return
 				foundWater = 1
@@ -3411,37 +3432,28 @@ obj/items
 
 	key
 		icon = 'ChestKey.dmi'
-		dropColor = "#0e0"
 
 		master_key
 			icon_state = "master"
 		wizard_key
-			dropColor = "#3366ff"
 			icon_state = "blue"
 		duel_key
 			icon_state = "duel"
 		pentakill_key
-			dropColor = "#3366ff"
 			icon_state = "red"
 		blood_key
-			dropColor = "#ff9900"
 			icon_state = "red"
 		basic_key
 			icon_state = "green"
 		sunset_key
-			dropColor = "#ff9900"
 			icon_state = "purple"
 		summer_key
-			dropColor = "#ff9900"
 			icon_state = "orange"
 		winter_key
-			dropColor = "#ff9900"
 			icon_state = "blue"
 		prom_key
-			dropColor = "#ff9900"
 			icon_state = "pink"
 		pet_key
-			dropColor = "#ff9900"
 			icon_state = "green"
 		special_key
 			icon_state = "master"

@@ -608,11 +608,12 @@ turf
 	water/water
 		isice = 0
 	water
-		icon='Water.dmi'
+		icon       = 'Water.dmi'
 		icon_state = "water"
-		name = "water"
-		layer=4
-		post_init = 1
+		name       = "water"
+		layer      = 2
+		post_init  = 1
+		reflect    = 1
 
 		#if HALLOWEEN
 		color = "#f15802"
@@ -630,7 +631,14 @@ turf
 			isice    = 0
 
 		MapInit()
-			if(isice)  ice()
+			if(isice)
+				ice()
+			else
+				layer = 1
+
+			var/turf/t = locate(x, y + 1, z)
+			if(t && !istype(t, /turf/water))
+				t.reflect = 1
 
 			#if HALLOWEEN
 			if(loc)
@@ -691,7 +699,7 @@ turf
 				#else
 				icon_state = "water"
 				#endif
-				layer      = 4
+				layer      = 1
 
 				if(rain && prob(50))
 					rain()
