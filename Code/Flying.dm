@@ -541,6 +541,18 @@ turf
 		South
 			blockDir = SOUTH
 
+obj/static_obj
+	road
+		icon = 'turf.dmi'
+		SE
+			icon_state = "stoneSE"
+		SW
+			icon_state = "stoneSW"
+		NE
+			icon_state = "stoneNE"
+		NW
+			icon_state = "stoneNW"
+
 turf
 	icon='turf.dmi'
 	grass
@@ -551,29 +563,6 @@ turf
 		name       = "grass"
 		icon_state = "grass1"
 		#endif
-
-		edges
-			appearance_flags = RESET_COLOR
-			#if !WINTER
-			icon='GrassEdge.dmi'
-			#endif
-			north
-				dir = NORTH
-			west
-				dir = WEST
-			east
-				dir = EAST
-			south
-				dir = SOUTH
-			northeast
-				dir = NORTHEAST
-			northwest
-				dir = NORTHWEST
-			southeast
-				dir = SOUTHEAST
-			southwest
-				dir = SOUTHWEST
-
 
 	woodenfloorblack
 		icon_state = "wood"
@@ -638,7 +627,21 @@ turf
 
 			var/turf/t = locate(x, y + 1, z)
 			if(t && !istype(t, /turf/water))
+				if(istype(t, /turf/grass))
+					t.overlays += /image/grassedge/south
 				t.reflect = 1
+
+			t = locate(x, y - 1, z)
+			if(t && istype(t, /turf/grass))
+				t.overlays += /image/grassedge/north
+
+			t = locate(x + 1, y, z)
+			if(t && istype(t, /turf/grass))
+				t.overlays += /image/grassedge/west
+
+			t = locate(x - 1, y, z)
+			if(t && istype(t, /turf/grass))
+				t.overlays += /image/grassedge/east
 
 			#if HALLOWEEN
 			if(loc)
