@@ -1212,6 +1212,7 @@ obj
 		Magic_Sphere
 			icon       ='misc.dmi'
 			icon_state = "black"
+			density    = 1
 		WTable
 			icon       = 'stage.dmi'
 			icon_state = "w"
