@@ -1819,7 +1819,7 @@ mob/proc/Death_Check(mob/killer = src)
 				if(killer.MonsterMessages)
 
 					if(exp2give > 0 && killer.level < lvlcap)
-						killer<<"<i><small>You gained [exp2give] exp[gold2give > 0 ? " and [g.toString()]" : ""].</small></i>"
+						killer<<"<i><small>You gained [comma(exp2give)] exp[gold2give > 0 ? " and [g.toString()]" : ""].</small></i>"
 					else if(gold2give > 0)
 						killer<<"<i><small>You gained [g.toString()].</small></i>"
 
