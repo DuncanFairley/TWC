@@ -142,12 +142,12 @@ Event
 				e.start()
 
 
-WorldData/var/tmp/list/weather_effects = list("acid"        = 4,
-											  "snow"        = 2,
-										  	  "rain"        = 7,
-											  "cloudy"      = 10,
-											  "half cloudy" = 15,
-											  "sunny"       = 50)
+WorldData/var/tmp/list/weather_effects = list("acid"        = 7,
+											  "snow"        = 15,
+										  	  "rain"        = 15,
+											  "cloudy"      = 20,
+											  "half cloudy" = 30,
+											  "sunny"       = 45)
 
 proc/cleanPlayerData(decay = 0)
 	for(var/ckey in worldData.playersData)
@@ -167,7 +167,7 @@ proc/cleanPlayerData(decay = 0)
 
 		if(decay)
 			if(world.realtime - p.time < 2592000) continue
-			p.fame -= round(p.fame * 0.05)
+			p.fame -= round(p.fame * 0.01) // temp reduced from 0.05
 
 		if (world.tick_usage > 80) lagstopsleep()
 
