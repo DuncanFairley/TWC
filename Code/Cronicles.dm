@@ -373,7 +373,11 @@ mob
 				gold = null
 				goldinbank = null
 
-			// 28 removed, continue with 29
+			if(savefile_version < 29)
+				var/obj/items/wearable/invisibility_cloak/cloak = locate() in p.Lwearing
+				if(cloak)
+					cloak.Equip(p, 1, 1)
+					cloak.loc = null
 
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")

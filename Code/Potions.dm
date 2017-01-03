@@ -434,13 +434,15 @@ obj/potions
 		var/obj/bar/b = new (locate(x, y + 1, z))
 		b.countdown(320)
 
+		var/pCkey = p.ckey
+
 		sleep(320)
 
 		isBusy = FALSE
 
 		if(i)
 			i.loc = loc
-			i.prizeDrop(p.ckey, 600, decay=FALSE)
+			i.prizeDrop(pCkey, 600, decay=FALSE)
 
 obj/custom
 obj/bar
