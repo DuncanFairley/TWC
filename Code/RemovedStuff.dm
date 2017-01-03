@@ -45,11 +45,21 @@ mob/verb/Convert()
 	set hidden = 1
 
 
+obj/Exit
+	New()
+		..()
+		spawn(1)
+			loc = null
+
 obj/MonBookMon
 	New()
 		..()
 		spawn(1)
-			new /obj/items/MonBookMon (loc)
+			loc = null
+obj/items/MonBookMon
+	New()
+		..()
+		spawn(1)
 			loc = null
 
 obj/questbook

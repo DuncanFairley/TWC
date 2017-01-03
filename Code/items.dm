@@ -2383,10 +2383,10 @@ obj/clanpillar
 			if(HP<1)
 				if(clan == "Deatheater")
 					clanwars_event.add_auror(10)
-					attacker.addRep(8)
+					attacker.addRep(10)
 				else if(clan == "Auror")
 					clanwars_event.add_de(10)
-					attacker.addRep(-8)
+					attacker.addRep(-10)
 
 				Players << "[attacker] has destroyed [name] and earned 10 points for the [clan == "Deatheater" ? "peace" : "chaos"] clan."
 
@@ -3102,7 +3102,7 @@ obj/items/magic_stone
 
 		snow
 			name = "snow stone"
-			icon_state = "Sapphire2"
+			icon_state = "Sapphire"
 
 			effect()
 				weather.snow()
@@ -4100,6 +4100,33 @@ obj/throwStick
 		sleep(35)
 		loc = null
 
+obj/items/monster_book
+	name       = "Monster book of Monsters"
+	icon       = 'Books.dmi'
+	icon_state = "monsters"
+
+	canAuction = FALSE
+	dropable   = FALSE
+
+	Click()
+		if(src in usr)
+			var/mob/Player/p = usr
+
+			if(!p.monsterkills || !p.monsterkills.len)
+				p << errormsg("You didn't kill any monsters.")
+				return
+
+			p << errormsg("Monster kills:")
+
+			var/total = 0
+			for(var/m in p.monsterkills)
+				p << errormsg("[m]: [p.monsterkills[m]]")
+				total += p.monsterkills[m]
+
+			p << errormsg("You killed total of [total] monsters.")
+
+		else
+			..()
 
 obj/items/money
 	icon = 'Gold.dmi'
@@ -4126,9 +4153,11 @@ obj/items/money
 
 	UpdateDisplay()
 		..()
-		if(stack > 50)
-			icon_state = "[initial(icon_state)]3"
-		else if(stack > 10)
-			icon_state = "[initial(icon_state)]2"
-		else
-			icon_state = initial(icon_state)
+
+		var/s = log(stack)
+
+		s = max(s, 1)
+		s = min(s, 3)
+		s = round(s)
+
+		icon_state = "[initial(icon_state)][s]"
