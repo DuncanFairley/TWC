@@ -312,7 +312,7 @@ RandomEvent
 
 	TheEvilSnowman
 		name = "The Evil Snowman"
-		chance = 5
+		chance = 15
 		start()
 			set waitfor = 0
 			..()

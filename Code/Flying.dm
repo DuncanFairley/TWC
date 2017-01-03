@@ -611,13 +611,13 @@ turf
 		icon_state = "water"
 		#endif
 
-		#if WINTER
-		isice = 1
-		#endif
-
 		var
 			tmp/rain = 0
 			isice    = 0
+
+		#if WINTER
+		isice = 1
+		#endif
 
 		MapInit()
 			if(isice)
@@ -627,9 +627,13 @@ turf
 
 			var/turf/t = locate(x, y + 1, z)
 			if(t && !istype(t, /turf/water))
+				#if !WINTER
 				if(istype(t, /turf/grass))
 					t.overlays += /image/grassedge/south
+				#endif
 				t.reflect = 1
+
+			#if !WINTER
 
 			t = locate(x, y - 1, z)
 			if(t && istype(t, /turf/grass))
@@ -642,6 +646,8 @@ turf
 			t = locate(x - 1, y, z)
 			if(t && istype(t, /turf/grass))
 				t.overlays += /image/grassedge/east
+
+			#endif
 
 			#if HALLOWEEN
 			if(loc)
