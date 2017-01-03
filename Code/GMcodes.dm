@@ -2078,6 +2078,9 @@ mob/Player/proc/removeStaff()
 	shortapparate = 0
 	see_invisible = 0
 	draganddrop = 0
+	Immortal = 0
+	if(!flying)
+		density = 1
 	pname = null
 
 	verbs -= typesof(/mob/GM/verb/)
