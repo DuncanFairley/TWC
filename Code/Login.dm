@@ -1756,7 +1756,7 @@ mob/proc/Death_Check(mob/killer = src)
 						else
 							rep = min(rep, -1)
 
-						killer:addRep(rep)
+						killer:addRep(rep*2)
 
 						if(abs(player_rating) > 200 && ((player_rating > 0 && killer_rating < 0) || (player_rating < 0 && killer_rating > 0)))
 							src:addRep(round(rep))

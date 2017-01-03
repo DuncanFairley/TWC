@@ -426,6 +426,12 @@ obj/magic_force
 
 		var/i = rand(1, riddles.len)
 
+		if(riddle == riddles[i])
+			for(var/j = 1 to riddles.len)
+				if(riddles[j] != riddle)
+					i = j
+					break
+
 		riddle = riddles[i]
 		item   = riddles[riddle]
 

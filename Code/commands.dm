@@ -62,6 +62,12 @@ mob
 			winset += "mnu_Settings.is-disabled=false;"
 			winset += "broLogin.is-visible=false;"
 			winset += "map.focus=true;"
+
+			if(p.loopedMove)
+				winset += "buttonControlSet.is-checked=true;"
+			else
+				winset += "buttonControlSet.is-checked=false;"
+
 			winset(src,null,winset)
 		ShowSettings()
 			set name = ".ShowSettings"

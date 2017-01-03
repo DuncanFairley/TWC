@@ -75,7 +75,7 @@ obj/mirror
 		var/list/obj/reflection/reflections = list() //associative
 		New()
 			..()
-			frame = new(src)
+			overlays += new /obj/mirror/frame
 			base = new(src)
 			action()
 		proc
@@ -145,8 +145,6 @@ obj/mirror
 		icon_state = "frame"
 		layer = 7
 		density = 1
-		New(obj/mirror/parent)
-			loc = parent.loc
 	base
 		var/obj/mirror/glass/parent
 		proc
@@ -173,115 +171,6 @@ obj/mirror
 			loc = locate(parent.x,parent.y-1,parent.z)
 			src.parent = parent
 
-
-
-
-/*
-
-obj/reflection
-	layer = 4
-	pixel_y = 16
-obj/mirror
-	icon = 'mirror.dmi'
-	glass
-		icon_state = "glass"
-		layer = 3
-		density = 1
-		var/obj/mirror/frame/frame
-		var/obj/mirror/base/base
-		var/obj/reflection
-		var/atom/movable/user
-		New()
-			..()
-			frame = new(src)
-			base = new(src)
-			action()
-		proc
-			action()
-				spawn()while(src)
-					sleep(1)
-					if(user)
-						reflection.overlays = user.overlays
-						reflection.icon_state = user.icon_state
-						var/newdir
-						newdir = user.dir
-						if(user.dir == NORTH)
-							newdir = SOUTH
-						else if(user.dir == SOUTH)
-							newdir = NORTH
-						reflection.dir = newdir
-					else if(reflection)
-						del(reflection)
-
-	frame
-		icon_state = "frame"
-		layer = 5
-		density = 1
-		New(obj/mirror/parent)
-			loc = parent.loc
-	base
-		var/obj/mirror/glass/parent
-		proc
-			mirror(atom/movable/M)
-				del(parent.reflection)
-				parent.user = M
-				var/newdir
-				newdir = M.dir
-				if(M.dir == NORTH)
-					newdir = SOUTH
-				else if(M.dir == SOUTH)
-					newdir = NORTH
-				parent.reflection = new(locate(x,y+1,z))
-				parent.reflection.icon = M.icon
-				parent.reflection.icon_state = M.icon_state
-				parent.reflection.layer = 4
-				parent.reflection.pixel_y = 16
-				parent.reflection.dir = newdir
-				parent.reflection.overlays = M.overlays
-			unmirror(atom/movable/M)
-				parent.user = null
-
-		New(obj/mirror/glass/parent)
-			loc = locate(parent.x,parent.y-1,parent.z)
-			src.parent = parent
-
-obj/mirror
-	icon = 'mirror.dmi'
-	glass
-		icon_state = "glass"
-		layer = 3
-		var/obj/mirror/frame/frame
-		var/obj/mirror/base/base
-		var/obj/reflection
-		New()
-			..()
-			frame = new(src)
-			base = new(src)
-
-	frame
-		icon_state = "frame"
-		layer = 5
-		New(obj/mirror/parent)
-			loc = parent.loc
-	base
-		var/obj/mirror/glass/parent
-		proc
-			mirror(mob/M)
-				var/newdir
-				newdir = M.dir
-				if(M.dir == NORTH)
-					newdir = SOUTH
-				else if(M.dir == SOUTH)
-					newdir = NORTH
-				var/image/i = image(M.icon,M.icon_state,dir=newdir,pixel_y=16,layer=4)
-				i.overlays = M.overlays
-				parent.overlays = list(i)
-			unmirror(mob/M)
-				parent.overlays = list()
-
-		New(obj/mirror/glass/parent)
-			loc = locate(parent.x,parent.y-1,parent.z)
-			src.parent = parent*/
 
 mob/var/tmp/baseicon
 area/hogwarts/promChangeRoom

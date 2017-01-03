@@ -1182,7 +1182,7 @@ mob/Player/proc/BaseIcon()
 mob/Spells/verb/Reddikulus(mob/Player/M in view()&Players)
 	set category="Spells"
 	set name = "Riddikulus"
-	if(canUse(src,cooldown=/StatusEffect/UsedRiddikulus,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedRiddikulus,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		if(M.trnsed == 1)
 			usr << "That person is already transfigured."
 			return
@@ -2244,76 +2244,6 @@ mob/GM/verb/Return_View()
 
 obj/var
 	wlable = 0
-
-var/move_queue = FALSE
-
-mob
-	var
-		tmp/obj/wingobject
-		tmp/Wingardiumleviosa
-
-client
-	var/tmp
-		moving = 0
-		list/movements
-
-	Move(loc,dir)
-
-		if(isplayer(mob))
-			var/mob/Player/p = mob
-
-			if(p.nomove || p.GMFrozen || p.arcessoing) return
-
-			if(p.wingobject)
-				var/turf/t = get_step(p.wingobject,dir)
-				if(istype(p.wingobject.loc, /mob))
-					src << infomsg("You let go of the object you were holding.")
-					p.wingobject.overlays = null
-					p.wingobject=null
-					p.Wingardiumleviosa = null
-				else if(t && (t in view(view)))
-					p.wingobject.Move(t)
-				return
-
-			if(p.removeoMob)
-				step(mob.removeoMob,dir)
-				return
-
-			if(p.away)
-				mob.away = 0
-				mob.status=usr.here
-				mob.RemoveAFKOverlay()
-
-			if(p.auctionInfo)
-				p.auctionClosed()
-				winshow(src, "Auction", 0)
-
-			if(p.screen_text)
-				p.screen_text.Dispose()
-
-			if(p.questionius==1)
-				mob.overlays-=icon('hand.dmi')
-				mob.questionius=0
-
-			if(move_queue || p.move_delay > 1)
-				if(!movements) movements = list()
-				if(movements.len < 10)
-					movements += dir
-				if(moving) return
-				moving = 1
-
-				var/index = 0
-				while(movements && index < movements.len)
-					index++
-					var/d = movements[index]
-					..(get_step(p, d), d)
-					sleep(p.move_delay + p.slow)
-				movements = null
-				moving = 0
-			else
-				moving = 1
-				..()
-				moving = 0
 
 mob/var/Imperio = 0
 mob/GM

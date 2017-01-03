@@ -1904,6 +1904,18 @@ image
 		south
 			icon_state = "edge-2"
 			pixel_y = 32
+	grassedge
+		appearance_flags = RESET_COLOR
+		icon = 'GrassEdge.dmi'
+
+		north
+			icon_state = "north"
+		west
+			icon_state = "west"
+		east
+			icon_state = "east"
+		south
+			icon_state = "south"
 
 mob/test/verb/hireStaff((mob/Player/p in Players), color as text)
 
@@ -2066,6 +2078,9 @@ mob/Player/proc/removeStaff()
 	shortapparate = 0
 	see_invisible = 0
 	draganddrop = 0
+	Immortal = 0
+	if(!flying)
+		density = 1
 	pname = null
 
 	verbs -= typesof(/mob/GM/verb/)

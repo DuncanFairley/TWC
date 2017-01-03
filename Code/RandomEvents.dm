@@ -312,7 +312,7 @@ RandomEvent
 
 	TheEvilSnowman
 		name = "The Evil Snowman"
-		chance = 5
+		chance = 15
 		start()
 			set waitfor = 0
 			..()
@@ -534,7 +534,7 @@ RandomEvent
 
 	Zombie
 		name   = "Zombie"
-		chance = 25
+		chance = 1
 		start()
 			set waitfor = 0
 			..()
@@ -832,7 +832,7 @@ RandomEvent
 			spawn(minutes * 600)
 				end()
 				if(worldData.expModifier >= tmpExpModifier)
-					Players << infomsg("The sale ended.")
+					Players << infomsg("The experience bonus event is over.")
 					worldData.expModifier -= b
 
 

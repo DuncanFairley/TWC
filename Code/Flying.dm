@@ -357,7 +357,7 @@ obj/stage9
 	icon='stage.dmi'
 	icon_state="9"
 
-obj
+obj/static_obj
 	tables
 		icon = 'Tables.dmi'
 		name = "Table"
@@ -541,6 +541,18 @@ turf
 		South
 			blockDir = SOUTH
 
+obj/static_obj
+	road
+		icon = 'turf.dmi'
+		SE
+			icon_state = "stoneSE"
+		SW
+			icon_state = "stoneSW"
+		NE
+			icon_state = "stoneNE"
+		NW
+			icon_state = "stoneNW"
+
 turf
 	icon='turf.dmi'
 	grass
@@ -551,29 +563,6 @@ turf
 		name       = "grass"
 		icon_state = "grass1"
 		#endif
-
-		edges
-			appearance_flags = RESET_COLOR
-			#if !WINTER
-			icon='GrassEdge.dmi'
-			#endif
-			north
-				dir = NORTH
-			west
-				dir = WEST
-			east
-				dir = EAST
-			south
-				dir = SOUTH
-			northeast
-				dir = NORTHEAST
-			northwest
-				dir = NORTHWEST
-			southeast
-				dir = SOUTHEAST
-			southwest
-				dir = SOUTHWEST
-
 
 	woodenfloorblack
 		icon_state = "wood"
@@ -608,11 +597,12 @@ turf
 	water/water
 		isice = 0
 	water
-		icon='Water.dmi'
+		icon       = 'Water.dmi'
 		icon_state = "water"
-		name = "water"
-		layer=4
-		post_init = 1
+		name       = "water"
+		layer      = 2
+		post_init  = 1
+		reflect    = 1
 
 		#if HALLOWEEN
 		color = "#f15802"
@@ -621,16 +611,43 @@ turf
 		icon_state = "water"
 		#endif
 
-		#if WINTER
-		isice = 1
-		#endif
-
 		var
 			tmp/rain = 0
 			isice    = 0
 
+		#if WINTER
+		isice = 1
+		#endif
+
 		MapInit()
-			if(isice)  ice()
+			if(isice)
+				ice()
+			else
+				layer = 1
+
+			var/turf/t = locate(x, y + 1, z)
+			if(t && !istype(t, /turf/water))
+				#if !WINTER
+				if(istype(t, /turf/grass))
+					t.overlays += /image/grassedge/south
+				#endif
+				t.reflect = 1
+
+			#if !WINTER
+
+			t = locate(x, y - 1, z)
+			if(t && istype(t, /turf/grass))
+				t.overlays += /image/grassedge/north
+
+			t = locate(x + 1, y, z)
+			if(t && istype(t, /turf/grass))
+				t.overlays += /image/grassedge/west
+
+			t = locate(x - 1, y, z)
+			if(t && istype(t, /turf/grass))
+				t.overlays += /image/grassedge/east
+
+			#endif
 
 			#if HALLOWEEN
 			if(loc)
@@ -672,7 +689,7 @@ turf
 				icon_state = "ice"
 				layer      = 2
 				if(rain)
-					overlays = list()
+					underlays = list()
 				if(!isice)
 					var/time = rand(40,120)
 					while(time > 0 && name == "ice")
@@ -691,7 +708,7 @@ turf
 				#else
 				icon_state = "water"
 				#endif
-				layer      = 4
+				layer      = 1
 
 				if(rain && prob(50))
 					rain()
@@ -711,7 +728,7 @@ turf
 					var/image/i = new ('water_drop.dmi', icon_state = "drop[rand(1, 12)]", layer = 4)
 					i.pixel_x = rand(-12,12)
 					i.pixel_y = rand(-13,14)
-					overlays += i
+					underlays += i
 
 	lava
 		icon_state="hplava"

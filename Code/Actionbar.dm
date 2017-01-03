@@ -27,7 +27,7 @@ hudobj
 
 						k.SetKey(parent.UsedKeys[key], icon_state)
 					if(!swap)
-						winset(parent, "[key]Rep", "parent=")
+						winset(parent, "macro.[key]rep", "parent=")
 					SetKey(swap)
 
 			proc
@@ -74,10 +74,9 @@ hudobj
 
 						if(istype(a, /obj/spells))
 							var/m = replacetext(a.name, " ", "-")
-							winset(parent, "[key]Rep", "parent=macro;name=\"[key]+REP\";command=\"[m]\"")
+							winset(parent, "[key]rep", "parent=macro;name=\"[key]+rep\";command=\"[m]\"")
 						else
-							winset(parent, "[key]Rep", "parent=macro;name=\"[key]+REP\";command=\"keyPress [key]\"")
-
+							winset(parent, "[key]rep", "parent=macro;name=\"[key]+rep\";command=\"keyPress [key]\"")
 
 mob/Player
 	var

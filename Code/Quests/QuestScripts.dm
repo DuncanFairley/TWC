@@ -140,14 +140,14 @@ quest
 
 	ChaosRankUp
 		name   = "Spread Chaos \[Rank Up]"
-		desc   = "A stranger with pale skin asked you to kill other strangers with pale skin supposedly for the fun of it. Why not kill everyone while you're at it."
+		desc   = "A stranger with pale skin asked you to kill other strangers with pale skin supposedly for the fun of it. Why not kill some spiders while you're at it."
 		reward = /questReward/clanReward/chaosRankUp
 		repeat = 36000
 
 		Kill
 			desc = "Spread chaos."
 			reqs = list("Kill Peace Vampire" = 50,
-			            "Kill Player"        = 20,
+			            "Kill Acromantula"   = 25,
 			            "Blood Sack"         = 5,
 			            "Demonic Essence"    = 1)
 
@@ -238,6 +238,7 @@ quest
 		name   = "Breath of Death \[Daily]"
 		desc   = "Bob the Zombie offered you a fragment of the stone that resurrected him for one last favour."
 		reward = /questReward/Halloween
+		repeat = 864000
 
 		Kill
 			desc = "Bob desires to be the only undead, kill the other zombies."
@@ -320,6 +321,30 @@ quest
 		Reward
 			desc = "Go back to the Zerf and fool him to get your reward!"
 			reqs = list("Zerf" = 1)
+
+
+	ExtremeExtermination
+		name   = "Extreme Pest Extermination"
+		desc   = "The hunter wants you to help him exterminate even more monsters."
+		reward = /questReward/MonsterBook
+		repeat = 864000
+
+		Kill
+			desc = "Exterminate!"
+			reqs = list("Kill Rat"             = 100,
+			            "Kill Pixie"           = 100,
+			            "Kill Dog"             = 100,
+			            "Kill Snake"           = 100,
+			            "Kill Wolf"            = 100,
+			            "Kill Troll"           = 50,
+			            "Kill Archangel"       = 50,
+			            "Kill Water Elemental" = 50,
+			            "Kill Fire Elemental"  = 50,
+			            "Kill Wyvern"          = 50,
+			            "Kill Acromantula"     = 50)
+		Reward
+			desc = "Go back to the hunter to get your reward!"
+			reqs = list("Hunter" = 1)
 
 	Extermination
 		name   = "Pest Extermination \[Daily]"
@@ -735,6 +760,10 @@ questReward
 		gold  = 2000
 		exp   = 2000
 		items = /obj/items/potions_book
+	MonsterBook
+		gold  = 15000
+		exp   = 180000
+		items = /obj/items/monster_book
 	Mon1
 		gold = 1000
 		exp  = 12000

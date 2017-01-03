@@ -30,7 +30,7 @@ mob/GM/verb
 		switch(alert(src, "What do you want to do?", "Events", "Cancel Event", "Check Time", "Nothing"))
 			if("Cancel Event")
 				scheduler.cancel(clanwars_schedule[e])
-				clanwars_schedule.Remove(e)
+				clanwars_schedule -=e
 				src << infomsg("Event cancelled.")
 			if("Check Time")
 				var/ticks = scheduler.time_to_fire(clanwars_schedule[e])
@@ -41,11 +41,28 @@ mob/GM/verb
 		switch(alert(src, "What do you want to do?", "Events", "Cancel Event", "Check Time", "Nothing"))
 			if("Cancel Event")
 				scheduler.cancel(autoclass_schedule[e])
-				autoclass_schedule.Remove(e)
+				autoclass_schedule -= e
 				src << infomsg("Event cancelled.")
 			if("Check Time")
 				var/ticks = scheduler.time_to_fire(autoclass_schedule[e])
 				src << infomsg("[comma(ticks)] ticks until event starts.")
+
+				var/Event/event = autoclass_schedule[e]
+				var/__Trigger/T = scheduler.__trigger_mapping[event]
+				if(T)
+					src << infomsg("found event, vars:")
+					for(var/v in event.vars)
+						src << "[v] = [event.vars[v]]"
+				else
+					src << infomsg("didn't found event, mapping:")
+
+					for(var/E in scheduler.__trigger_mapping)
+						src << "[E]"
+
+						T = scheduler.__trigger_mapping[E]
+
+						for(var/v in T.vars)
+							src << "[v] = [T.vars[v]]"
 
 	Add_AutoClass(var/day as text, var/hour as text)
 		set category = "Staff"
@@ -111,14 +128,14 @@ proc
 		if(date != -1)
 			var/Event/ClanWars/e = new
 			clanwars_schedule["[day] - [hour]"] = e
-			scheduler.schedule(e, world.tick_lag * 10 * date)
+			scheduler.schedule(e, 10 * date)
 		return date
 	add_autoclass(var/day, var/hour)
 		var/date = time_until(day, hour)
 		if(date != -1)
 			var/Event/AutoClass/e = new
 			autoclass_schedule["[day] - [hour]"] = e
-			scheduler.schedule(e, world.tick_lag * 10 * date)
+			scheduler.schedule(e, 10 * date)
 		return date
 
 mob/test/verb/Movement_Queue()

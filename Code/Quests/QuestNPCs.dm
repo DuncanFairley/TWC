@@ -469,6 +469,7 @@ mob/TalkNPC/quest
 		                     "Pest Extermination: Demon Rat",
 		                     "Pest Extermination: Troll",
 		                     "Pest Extermination: Acromantula",
+		                     "Extreme Pest Extermination",
 		                     "Pest Extermination \[Daily]")
 
 
