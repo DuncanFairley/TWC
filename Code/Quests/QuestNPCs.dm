@@ -180,10 +180,11 @@ mob/TalkNPC/quest
 					i_Player << "<i>You notice paleness in the brother's face as well as the red gashes all over his legs. He certainly won't be conscious for very long if he doesn't get treatment.</i>"
 					s.AddText("You can create a potion in the <b>Potions Classroom</b> near the Slytherin Common room in Hogwarts.")
 					s.AddText("Before you go, take these ingredients. You'll need them to create a potion.")
-					for(var/i = 1 to 5)
-						new /obj/items/ingredients/aconite (i_Player)
-						new /obj/items/ingredients/daisy (i_Player)
-						new /obj/items/ingredients/rat_tail (i_Player)
+					if(s.Result == "Ok")
+						for(var/i = 1 to 5)
+							new /obj/items/ingredients/aconite (i_Player)
+							new /obj/items/ingredients/daisy (i_Player)
+							new /obj/items/ingredients/rat_tail (i_Player)
 
 				if("Brewing Practice")
 					s.AddText("Hey, you might have a talent for potion brewing, why don't you go brew some more?")
