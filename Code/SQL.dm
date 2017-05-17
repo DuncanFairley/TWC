@@ -69,15 +69,22 @@ proc/sql_upload_refererxp(pckey, prefererckey, pxp4referer)
 			world.log << "[qry.RowsAffected()] rows effected for SQL query: INSERT INTO tblReferralAmounts(RefererCkey,EarnerCkey,Amount) VALUES([my_connection.Quote(prefererckey)],[my_connection.Quote(pckey)],[pxp4referer])"
 
 proc/sql_get_name_from(ckey)
-	if(!mysql_enabled) return
-	var/DBQuery/qry = my_connection.NewQuery({"SELECT name FROM tblPlayers WHERE ckey=[mysql_quote(ckey)];"})
-	qry.Execute()
-	if(qry.RowCount() > 0)
-		qry.NextRow()
-		var/list/row_data = qry.GetRowData()
-		return row_data["name"]
+	if(!mysql_enabled)
+		var/PlayerData/p = worldData.playersData[ckey]
+		if(p && p.name)
+			return p.name
+		else
+			return ckey
+
 	else
-		Log_admin("No rows returned for sql_get_name_from([ckey])")
+		var/DBQuery/qry = my_connection.NewQuery({"SELECT name FROM tblPlayers WHERE ckey=[mysql_quote(ckey)];"})
+		qry.Execute()
+		if(qry.RowCount() > 0)
+			qry.NextRow()
+			var/list/row_data = qry.GetRowData()
+			return row_data["name"]
+		else
+			Log_admin("No rows returned for sql_get_name_from([ckey])")
 
 proc/sql_check_for_referral(mob/Player/M)
 	if(!mysql_enabled) return
