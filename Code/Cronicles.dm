@@ -194,6 +194,7 @@ mob
 			F["type"] << /mob/Player
 			return
 		//F["key"] << null
+		saveError = 0
 		..()
 		if(testtype != /mob/Player)
 			return
@@ -207,7 +208,8 @@ mob
 			F["last_y"] >> last_y
 			F["last_z"] >> last_z
 			F["UsedKeys"] >> src:UsedKeys
-			save_loaded = TRUE
+			if(saveError == 0)
+				save_loaded = TRUE
 			var/savefile_version
 			F["savefileversion"] >> savefile_version
 			if(!savefile_version) savefile_version = 3
