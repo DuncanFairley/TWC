@@ -968,6 +968,26 @@ mob/Player
 
 					src << infomsg(g.motd)
 
+			var/obj/items/wearable/masks/robe/deatheater_robes/de = locate() in src
+			var/obj/items/wearable/masks/robe/auror_robes/auror = locate() in src
+			if(guild == worldData.majorPeace && worldData.majorPeace)
+
+				if(!auror)
+					auror = new(src)
+					src << infomsg("You were given auror robes.")
+				if(de) de.Dispose()
+
+			else if(guild == worldData.majorChaos && worldData.majorChaos)
+
+				if(!de)
+					de = new(src)
+					src << infomsg("You were given deatheater robes.")
+
+				if(auror) auror.Dispose()
+			else
+				if(auror) auror.Dispose()
+				if(de) de.Dispose()
+
 			src.ApplyOverlays(0)
 			BaseIcon()
 

@@ -657,8 +657,8 @@ var/list/shops = list("malewigshop" = newlist(
 obj/items/spellbook/peace/price = 666
 obj/items/spellbook/blood/price = -666
 
-obj/items/spellbook/lumos/price = 1111
-obj/items/spellbook/aggravate/price = -1111
+obj/items/spellbook/lumos/price = 999
+obj/items/spellbook/aggravate/price = -999
 
 obj/items/wearable/masks/black_mask/price  = -444
 obj/items/wearable/masks/teal_mask/price   = -444

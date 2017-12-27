@@ -672,6 +672,30 @@ obj/items/potions
 			effect     = /StatusEffect/Potions/Vampire
 
 
+	instant
+
+		proc/Effect(mob/Player/p)
+
+		Click()
+			if((src in usr) && canUse(M=usr, inarena=0))
+
+				var/mob/Player/p = usr
+
+				if(Effect(p))
+					Consume()
+			else
+				..()
+
+		wisdom_potion
+			icon_state = "green"
+
+			var/exp = 50000
+
+			Effect(mob/Player/p)
+				if(p.level < lvlcap)
+					p << infomsg("You receive [comma(exp)] experience.")
+				p.addExp(exp)
+
 	pets
 
 		growth

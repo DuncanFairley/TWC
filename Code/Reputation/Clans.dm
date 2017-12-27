@@ -210,8 +210,6 @@ tr.grey
 			usr << browse(SCOREBOARD_HEADER + html + "</table></center></body></html>","window=scoreboard")
 
 
-
-
 obj/items/wearable/masks
 	desc = "A mask to hide your identity."
 	wear_layer = FLOAT_LAYER - 3
@@ -236,9 +234,26 @@ obj/items/wearable/masks
 				if(W != src)
 					W.Equip(owner,1,1)
 
+			if(n == "Auror")
+
+				if(owner.Gender == "Female")
+					owner.icon = 'FemaleAuror.dmi'
+				else
+					owner.icon = 'MaleAuror.dmi'
+
+				owner.underlays = list()
+				owner.GenerateNameOverlay(r,g,b)
+				return
+
 			if(!owner.prevname)
 				owner.prevname = owner.name
 				owner.gender   = NEUTER
+
+			if(n == "Deatheater")
+				owner.icon = 'Deatheater.dmi'
+				owner.trnsed = 1
+				owner.overlays = null
+				if(owner.away) owner.ApplyAFKOverlay()
 
 			owner.name = n
 			owner.underlays = list()
@@ -248,7 +263,12 @@ obj/items/wearable/masks
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
 
-			if(owner.prevname)
+			if(n == "Auror")
+				owner.BaseIcon()
+
+				owner.underlays = list()
+				owner.addNameTag()
+			else if(owner.prevname)
 				owner.name     = owner.prevname
 				owner.prevname = null
 
@@ -261,6 +281,11 @@ obj/items/wearable/masks
 
 				owner.underlays = list()
 				owner.addNameTag()
+
+				if(n == "Deatheater")
+					owner.trnsed = 0
+					owner.BaseIcon()
+					owner.ApplyOverlays()
 
 
 obj/items/wearable/masks/peace_mask
@@ -325,3 +350,24 @@ area
 
 				if(m)
 					spawn(1) m.Equip(p, 1, 0)
+
+
+obj/items/wearable/masks/robe
+	desc = "A robe to hide your identity."
+	dropable = 0
+	showoverlay = FALSE
+
+	deatheater_robes
+		icon = 'Deatheater.dmi'
+		r = 77
+		g = 77
+		b = 77
+		n = "Deatheater"
+
+	auror_robes
+		icon = 'MaleAuror.dmi'
+		r = 196
+		g = 237
+		b = 255
+		n = "Auror"
+

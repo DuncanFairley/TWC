@@ -468,7 +468,7 @@ mob/Player/verb/guild_command(var/action as text)
 				p = text2mob(p)
 
 			var/gold/money = new(src)
-			if(money.have(200000))
+			if(!money.have(200000))
 				src << errormsg("You can't afford this.")
 				return
 

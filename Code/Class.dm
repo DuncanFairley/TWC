@@ -314,6 +314,7 @@ class
 			cd = 15
 			wand = TRUE
 			uses = 200
+			mp = 50
 			start(mob/Player/p)
 				..()
 				say("This ties someone or something up with ropes.", p)

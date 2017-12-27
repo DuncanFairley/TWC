@@ -956,6 +956,8 @@ obj
 			icon       = 'BigTree.dmi'
 			#if WINTER
 			icon_state = "stump1_winter"
+			#elif AUTUMN
+			icon_state = "top_autumn"
 			#else
 			icon_state = "top"
 			#endif

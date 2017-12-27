@@ -454,6 +454,7 @@ swapmap
 		for(var/T in turfs) new item(T)
 
 obj/var/canSave = TRUE
+var/saveError = 0
 atom
 	Write(savefile/S)
 		for(var/V in vars-"x"-"y"-"z"-"contents"-"icon"-"overlays"-"underlays")
@@ -483,6 +484,7 @@ atom
 			if(l.len) S["contents"]<<l
 			if(l!=contents) del(l)
 	Read(savefile/S)
+		saveError++
 		var/list/l
 		if(contents.len) l=contents
 		..()
@@ -495,6 +497,7 @@ atom
 		if(l && contents!=l)
 			contents+=l
 			del(l)
+		saveError--
 
 
 // set this up (at runtime) as follows:
