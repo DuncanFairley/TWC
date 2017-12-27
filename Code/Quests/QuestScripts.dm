@@ -242,7 +242,7 @@ quest
 
 		Kill
 			desc = "Bob desires to be the only undead, kill the other zombies."
-			reqs = list("Kill Zombie"  = 4,
+			reqs = list("Kill Zombie"  = 2,
 			            "Kill Pumpkin" = 200)
 		Reward
 			desc = "Go back to Bob."
@@ -291,7 +291,7 @@ quest
 
 		Players
 			desc = "Time to show some strength, let's kill stuff!"
-			reqs = list("Kill Player"            = 1000,
+			reqs = list("Kill Player"            = 500,
 			            "Kill Floating Eye"      = 200,
 			            "Kill Wisp"              = 200)
 
