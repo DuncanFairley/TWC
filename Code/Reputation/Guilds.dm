@@ -293,7 +293,7 @@ mob/TalkNPC/Guildmaster
 
 			if(p.guild == p.ckey)
 				var/guild/g = worldData.guilds[p.guild]
-				if(g.limit >= 5)
+				if(g.limit >= 6)
 					s.AddText("Your guild is already at max capacity.")
 					return
 
