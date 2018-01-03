@@ -728,7 +728,7 @@ mob/Spells/verb/Aqua_Eructo()
 		p.HP -= 45
 		Death_Check()
 
-		var/dmg = p.Def + (p.extraDef / 3) + (p.clothDmg / 5)
+		var/dmg = p.Def + (p.extraDef / 3) + (p.clothDmg / 5) + p.Water.level
 		dmg *= 0.8
 
 		castproj(icon_state = "aqua", damage = dmg, name = "Aqua Eructo", element = WATER)
@@ -763,19 +763,19 @@ mob/Spells/verb/Inflamari()
 		dmg = round(dmg, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
-		castproj(icon_state = "fireball", damage = dmg, name = "Inflamari", element = FIRE)
+		castproj(icon_state = "fireball", damage = dmg + usr:Fire.level, name = "Inflamari", element = FIRE)
 mob/Spells/verb/Glacius()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
-		castproj(MPreq = 10, icon_state = "iceball", damage = usr.Dmg+usr.extraDmg + clothDmg, name = "Glacius", element = WATER)
+		castproj(MPreq = 10, icon_state = "iceball", damage = usr.Dmg+usr.extraDmg + clothDmg + usr:Water.level, name = "Glacius", element = WATER)
 mob/Spells/verb/Waddiwasi()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
-		castproj(MPreq = 10, icon_state = "gum", damage = usr.Dmg+usr.extraDmg + clothDmg, name = "Waddiwasi", element = GHOST)
+		castproj(MPreq = 10, icon_state = "gum", damage = usr.Dmg+usr.extraDmg + clothDmg + usr:Ghost.level, name = "Waddiwasi", element = GHOST)
 mob/Spells/verb/Tremorio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
-		castproj(MPreq = 5, icon_state = "quake", damage = usr.Dmg+usr.extraDmg + clothDmg, name = "Tremorio", element = EARTH)
+		castproj(MPreq = 5, icon_state = "quake", damage = usr.Dmg+usr.extraDmg + clothDmg + usr:Earth.level, name = "Tremorio", element = EARTH)
 
 mob/var/tmp/list/_input
 
@@ -1004,7 +1004,7 @@ mob/Spells/verb/Incindia()
 		p.updateHPMP()
 		new /StatusEffect/UsedIncindia(src,15)
 		var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-		var/damage = round((p.Dmg + p.extraDmg + p.clothDmg) * 0.75)
+		var/damage = round((p.Dmg + p.extraDmg + p.clothDmg + p.Fire.level) * 0.75)
 		var/t = dir
 		p.learnSpell("Incindia")
 		for(var/d in dirs)
@@ -1694,6 +1694,44 @@ obj/brick2door
 
 area/var/friendlyFire = TRUE
 
+
+mob/Player/var/element
+	Fire
+	Water
+	Earth
+	Ghost
+
+element
+	var
+		name
+		level = 0
+		exp = 0
+		maxExp = 1000
+
+
+		const
+			MAX  = 1000
+
+	New(n)
+		name = n
+		..()
+
+	proc
+		add(amount, mob/Player/parent)
+			if(level >= MAX) return
+
+			exp += amount
+
+			while(exp > maxExp && level < MAX)
+				exp -= maxExp
+				level++
+				maxExp = 1000 + (level * 1000)
+				parent.screenAlert("[name] element leveled up to [level]!")
+
+			if(level == MAX) exp = 0
+
+
+
 mob/Player
 
 	Attacked(obj/projectile/p)
@@ -1720,6 +1758,20 @@ mob/Player
 			else
 				shieldamount -= p.damage
 		else
+			if(p.element == FIRE)
+				p.damage -= round(Fire.level / 2)
+
+			else if(p.element == WATER)
+				p.damage -= round(Water.level / 2)
+
+			else if(p.element == EARTH)
+				p.damage -= round(Earth.level / 2)
+
+			else if(p.element == GHOST)
+				p.damage -= round(Ghost.level / 2)
+
+			if(p.damage <= 0) return
+
 			HP -= p.damage
 			updateHPMP()
 
@@ -1779,6 +1831,30 @@ mob/Enemies
 
 			if(p.owner:ekills > tmp_ekills)
 				p.owner:learnSpell(p.name, 5)
+
+				if(p.element != 0)
+
+					var/exp2give  = (rand(6,14)/10)*Expg
+
+					if(p.owner.level > src.level && !p.owner.findStatusEffect(/StatusEffect/Lamps/Farming))
+						exp2give  -= exp2give  * ((p.owner.level-src.level)/150)
+
+						if(exp2give <= 0) return
+
+					if(p.owner:House == worldData.housecupwinner)
+						exp2give  *= 1.25
+
+					var/StatusEffect/Lamps/Exp/exp_rate   = p.owner.findStatusEffect(/StatusEffect/Lamps/Exp)
+
+					if(exp_rate)  exp2give  *= exp_rate.rate
+
+					if(p.element == FIRE) p.owner:Fire.add(exp2give, p.owner)
+
+					else if(p.element == WATER) p.owner:Water.add(exp2give, p.owner)
+
+					else if(p.element == EARTH) p.owner:Earth.add(exp2give, p.owner)
+
+					else if(p.element == GHOST) p.owner:Ghost.add(exp2give, p.owner)
 
 			..()
 

@@ -736,6 +736,10 @@ mob
 			var/obj/o = locate("@DiagonAlley")
 			character.loc = o.loc
 			character.verbs += /mob/Spells/verb/Inflamari
+			character.Fire  = new("Fire")
+			character.Earth = new("Earth")
+			character.Water = new("Water")
+			character.Ghost = new("Ghost")
 
 			for(var/mob/Player/p in Players)
 				if(p.Gm)
@@ -915,8 +919,18 @@ mob/Player
 			src << "<u>You're in detention for [timerDet] minute[timerDet==1 ? "" : "s"].</u>"
 			spawn() detention_countdown()
 		addNameTag()
-		Players.Add(src)
-		bubblesort_atom_name(Players)
+		if(canLogout)
+			Players.Add(src)
+			bubblesort_atom_name(Players)
+		else
+			if(!(src in Players))
+				Players.Add(src)
+				bubblesort_atom_name(Players)
+			else if(away)
+				away = 0
+				status=here
+				Players<<"<span style=\"color:red;\">[usr]</span> is no longer AFK."
+				RemoveAFKOverlay()
 		if(worldData.housecupwinner)
 			src << "<b><span style=\"color:#CF21C0;\">[worldData.housecupwinner] is the House Cup winner for this month. They receive +25% drop rate/gold/XP from monster kills.</span></b>"
 		if(classdest)
@@ -938,6 +952,12 @@ mob/Player
 		isDJ(src)
 		checkMail()
 		logintime = world.realtime
+
+		if(!Fire)  Fire  = new("Fire")
+		if(!Earth) Earth = new("Earth")
+		if(!Water) Water = new("Water")
+		if(!Ghost) Ghost = new("Ghost")
+
 		spawn()
 			//CheckSavefileVersion()
 			buildActionBar()
@@ -1365,6 +1385,21 @@ mob/Player
 			if (src.level>500)
 				stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
 				stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
+			if(Fire)
+				var/percent = round((Fire.exp / Fire.maxExp) * 100)
+				stat("Fire:", "[Fire.level]   Exp: [comma(Fire.exp)]/[comma(Fire.maxExp)] ([percent]%)")
+
+			if(Earth)
+				var/percent = round((Earth.exp / Earth.maxExp) * 100)
+				stat("Earth:", "[Earth.level]   Exp: [comma(Earth.exp)]/[comma(Earth.maxExp)] ([percent]%)")
+
+			if(Water)
+				var/percent = round((Water.exp / Water.maxExp) * 100)
+				stat("Water:", "[Water.level]   Exp: [comma(Water.exp)]/[comma(Water.maxExp)] ([percent]%)")
+
+			if(Ghost)
+				var/percent = round((Ghost.exp / Ghost.maxExp) * 100)
+				stat("Ghost:", "[Ghost.level]   Exp: [comma(Ghost.exp)]/[comma(Ghost.maxExp)] ([percent]%)")
 			stat("House:",src.House)
 			if(level >= lvlcap && rankLevel)
 				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100)
