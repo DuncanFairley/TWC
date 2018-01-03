@@ -1706,11 +1706,11 @@ element
 		name
 		level = 0
 		exp = 0
-		maxExp = 1000
+		maxExp = 2000
 
 
 		const
-			MAX  = 1000
+			MAX  = 100000 // what is cap?
 
 	New(n)
 		name = n
@@ -1720,12 +1720,12 @@ element
 		add(amount, mob/Player/parent)
 			if(level >= MAX) return
 
-			exp += amount
+			exp += round(amount/20)
 
 			while(exp > maxExp && level < MAX)
 				exp -= maxExp
 				level++
-				maxExp = 1000 + (level * 1000)
+				maxExp = 2000 + (level * 1500)
 				parent.screenAlert("[name] element leveled up to [level]!")
 
 			if(level == MAX) exp = 0
