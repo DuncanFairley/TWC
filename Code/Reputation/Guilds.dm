@@ -297,10 +297,10 @@ mob/TalkNPC/Guildmaster
 					s.AddText("Your guild is already at max capacity.")
 					return
 
-				s.AddText("Would you like to increase your guild's capacity for 5 artifacts and 50 gold coins?")
+				s.AddText("Would you like to increase your guild's capacity for 1 artifacts and 10 gold coins?")
 				var/gold/money = new(p)
 				var/obj/items/artifact/a = locate() in p
-				if(a.stack >= 5 && money.have(500000))
+				if(a.stack >= 1 && money.have(100000))
 					s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
 				else
 					s.AddButtons(0, 0, "No", "#ff0000", 0, 0)
@@ -308,12 +308,12 @@ mob/TalkNPC/Guildmaster
 
 				if(s.WaitEnd() && s.Result == "Yes")
 					money = new(p)
-					if(!money.have(500000)) return
-					if(a.loc != p || a.stack < 5) return
+					if(!money.have(100000)) return
+					if(a.loc != p || a.stack < 1) return
 
-					money.change(p, gold=-50)
+					money.change(p, gold=-10)
 
-					a.stack -= 5
+					a.stack -= 1
 					if(!a.stack)
 						a.loc = null
 					else
@@ -327,11 +327,11 @@ mob/TalkNPC/Guildmaster
 
 		else
 
-			s.AddText("Would you like to create your own guild? A guild charter costs 1 platinum coin and 50 gold coins and 15 artifacts.")
+			s.AddText("Would you like to create your own guild? A guild charter costs 1 platinum coin and 5 gold coins and 5 artifacts.")
 
 			var/gold/money = new(p)
 			var/obj/items/artifact/a = locate() in p
-			if(a && a.stack >= 15 && money.have(1500000))
+			if(a && a.stack >= 5 && money.have(500000))
 				s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
 			else
 				s.AddButtons(0, 0, "No", "#ff0000", 0, 0)
@@ -378,11 +378,11 @@ mob/TalkNPC/Guildmaster
 
 				del c
 				money = new(p)
-				if(money.have(1500000))
+				if(money.have(500000))
 					if(a.loc != p) return
 
-					money.change(p, plat=-1, gold=-50)
-					a.stack -= 15
+					money.change(p, gold=-50)
+					a.stack -= 5
 					if(!a.stack)
 						a.loc = null
 					else
