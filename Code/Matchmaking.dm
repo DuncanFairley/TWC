@@ -3,6 +3,8 @@
 #define START_RATING 500
 #define ARENA_POOL_SIZE 5
 
+#define MIN_LEVEL 500
+
 WorldData/var/tmp/list/duel_chairs = list()
 
 obj/duel_chair
@@ -22,7 +24,7 @@ area/hogwarts/Duel_Arenas/Matchmaking
 
 		if(isplayer(Obj))
 			var/mob/Player/p = Obj
-			if(p.level < lvlcap || (p.ckey in worldData.competitiveBans)) return
+			if(p.level < MIN_LEVEL || (p.ckey in worldData.competitiveBans)) return
 
 			new /hudobj/Find_Duel(null, p.client, null, 1)
 
@@ -32,7 +34,7 @@ area/hogwarts/Duel_Arenas/Matchmaking
 
 		if(isplayer(Obj))
 			var/mob/Player/p = Obj
-			if(!p.client || p.level < lvlcap || (p.ckey in worldData.competitiveBans)) return
+			if(!p.client || p.level < MIN_LEVEL || (p.ckey in worldData.competitiveBans)) return
 
 			var/hudobj/Find_Duel/o = locate(/hudobj/Find_Duel) in p.client.screen
 			if(o)
