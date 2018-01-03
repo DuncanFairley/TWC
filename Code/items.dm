@@ -2269,11 +2269,20 @@ mob/GM/verb/Arena()
 			worldData.currentArena.started = 1
 
 mob/Del()
-	Players -= src
+	if(canLogout)
+		Players -= src
 	..()
 
 mob/Player/Logout()
-	Players<<"<B><span style=\"font-size:2; color:red;\"><I>[usr] <b>logged out.</b></I></span></B>"
+	if(canLogout)
+		Players<<"<B><span style=\"font-size:2; color:red;\"><I>[src] <b>logged out.</b></I></span></B>"
+	else
+		away = 1
+		here=status
+		status=" (AFK)"
+		Players<<"~ <span style=\"color:red;\">[src]</span> is <u>AFK</u> ~"
+		ApplyAFKOverlay()
+
 	if(arcessoing)
 		stop_arcesso()
 	if(rankedArena)

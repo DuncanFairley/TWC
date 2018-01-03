@@ -1682,6 +1682,13 @@ world/IsBanned(key, ip)
 				src << crban_bannedmsg
 				return 1
 client/New()
+
+	if(!canLogout)
+		for(var/k in fakePlayers)
+			if(k == ckey)
+				fakePlayers -= ckey
+				break
+
 	for (var/X in crban_ipranges)
 		if (findtext(address,X)==1)
 			crban_fullbanclient(src)
