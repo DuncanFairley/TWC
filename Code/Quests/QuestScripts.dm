@@ -349,7 +349,7 @@ quest
 	Extermination
 		name   = "Pest Extermination \[Daily]"
 		desc   = "The hunter wants you to help him exterminate monsters."
-		reward = /questReward/Teleport
+		reward = /questReward/Artifact
 		repeat = 864000
 
 		Kill
@@ -371,7 +371,7 @@ quest
 	Basilisk
 		name   = "To kill a Boss \[Daily]"
 		desc   = "The basilisk is found at the Chamber of Secrets, kill the Basilisk and any demon rat that gets in your way!"
-		reward = /questReward/Teleport
+		reward = /questReward/Boss
 		repeat = 864000
 
 		Kill
@@ -385,7 +385,7 @@ quest
 	Stickman
 		name   = "Draw Me a Stick \[Daily]"
 		desc   = "The stickman is found at the Chamber of Secrets floor 2, kill the Stickman and any Troll that gets in your way!"
-		reward = /questReward/Teleport
+		reward = /questReward/Boss
 		repeat = 864000
 
 		Kill
@@ -821,6 +821,11 @@ questReward
 		items = list(/obj/items/artifact,
 					 /obj/items/artifact,
 					 /obj/items/magic_stone/summoning/random)
+	Boss
+		gold  = 20000
+		exp   = 200000
+		items = /obj/items/artifact
+		items = /obj/items/magic_stone/teleport
 	Artifact
 		gold  = 14000
 		exp   = 140000
