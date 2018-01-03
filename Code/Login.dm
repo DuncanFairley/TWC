@@ -740,6 +740,7 @@ mob
 			character.Earth = new("Earth")
 			character.Water = new("Water")
 			character.Ghost = new("Ghost")
+			character.hpBar = new(character)
 
 			for(var/mob/Player/p in Players)
 				if(p.Gm)
@@ -936,18 +937,19 @@ mob/Player
 		if(classdest)
 			src << announcemsg("[curClass] class is starting. Click <a href=\"?src=\ref[src];action=class_path;latejoiner=true\">here</a> for directions.")
 
-		if(worldData.expModifier > 1 && worldData.DropRateModifier > 1)
-			var/drop = (worldData.DropRateModifier - 1) * 100
-			var/exp  = (worldData.expModifier - 1)      * 100
-			src << infomsg("The world is enjoying a [drop]% drop rate bonus and a [exp]% experience bonus from monsters.")
-		else if(worldData.expModifier > 1)
-			var/exp  = (worldData.expModifier - 1)      * 100
-			src << infomsg("The world is enjoying a [exp]% experience bonus from monsters.")
-		else if(worldData.DropRateModifier > 1)
-			var/drop = (worldData.DropRateModifier - 1) * 100
-			src << infomsg("The world is enjoying a [drop]% drop rate bonus.")
+		if(worldData.expModifier > 1 || worldData.DropRateModifier > 1 || worldData.expBookModifier > 1)
 
-		updateHPMP()
+			src << infomsg("The world is enjoying the following bonuses:")
+			if(worldData.expBookModifier > 1)
+				var/drop = (worldData.expBookModifier - 1) * 100
+				src << infomsg("[drop]% experience from books.")
+			if(worldData.expModifier > 1)
+				var/exp  = (worldData.expModifier - 1)      * 100
+				src << infomsg("[exp]% experience bonus from monsters.")
+			if(worldData.DropRateModifier > 1)
+				var/drop = (worldData.DropRateModifier - 1) * 100
+				src << infomsg("[drop]% drop rate bonus.")
+
 		if(!Interface) Interface = new(src)
 		isDJ(src)
 		checkMail()
@@ -1010,6 +1012,9 @@ mob/Player
 
 			src.ApplyOverlays(0)
 			BaseIcon()
+
+			hpBar = new(src)
+			updateHPMP()
 
 	proc/ApplyOverlays(ignoreBonus = 1)
 		src.overlays = list()

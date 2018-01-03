@@ -11,6 +11,7 @@ WorldData/var/tmp
 	shopPriceModifier = 1
 	DropRateModifier  = 1
 	expModifier       = 1
+	expBookModifier       = 1
 
 proc/time_until(day, hour)
 
@@ -96,6 +97,11 @@ mob/GM/verb
 		set category = "Staff"
 		worldData.expModifier = modifier
 		src << infomsg("Exp modifier set to [modifier]")
+
+	Set_Book_Exp_Modifier(var/modifier as num)
+		set category = "Staff"
+		worldData.expBookModifier = modifier
+		src << infomsg("Book exp modifier set to [modifier]")
 
 	Schedule_Clanwars(var/day as text, var/hour as text)
 		set category = "Staff"
