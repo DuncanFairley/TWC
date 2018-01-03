@@ -1442,11 +1442,11 @@ mob/Spells/verb/Episky()
 		var/maxHP = p.MHP + p.extraMHP
 		if(p.level <= 300 || (p.Immortal && p.HP < 0))
 			p.HP = maxHP
-		else if(p.level <= 400)
-			var/perc = (436 - p.level) / 100
-			p.HP = min(maxHP, round(p.HP + maxHP * perc + rand(-15, 15), 1))
+	//	else if(p.level <= 400)
+	//		var/perc = (436 - p.level) / 100
+	//		p.HP = min(maxHP, round(p.HP + maxHP * perc + rand(-15, 15), 1))
 		else
-			p.HP = min(maxHP, round(p.HP + maxHP * 0.35 + rand(-15, 15), 1))
+			p.HP = min(maxHP, round(p.HP + maxHP * 0.9 + rand(-15, 15), 1))
 
 		p.updateHPMP()
 		overlays+=image('attacks.dmi', icon_state = "heal")

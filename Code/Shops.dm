@@ -367,7 +367,7 @@ obj/Madame_Pomfrey
 				p.overlays+=image('attacks.dmi',icon_state="heal")
 
 				var/maxHP = p.MHP + p.extraMHP
-				p.HP = min(maxHP, round(p.HP + maxHP * 0.15 + rand(-15, 15), 1))
+				p.HP = min(maxHP, round(p.HP + maxHP * 0.9 + rand(-15, 15), 1))
 
 				p.updateHPMP()
 				src = null
