@@ -31,8 +31,8 @@ clan_wars
 				toggle_clanwars()
 
 		end()
-			var/deatheaterWon = list("The chaos clan have successfully raided peace clan HQ!","The peace clan have been defeated by the chaos clan!","Chaos clan have defeated the peace clan in the war of the clans!")
-			var/aurorWon = list("The chaos clan have been defeated by the peace clan!","The peace clan have successfully held back the chaos clan!","The peace clan have emerged victorious in the war of the clans!")
+			var/deatheaterWon = list("The deatheaters clan have successfully raided Auror clan HQ!","The aurors have been defeated by the deatheaters!","Deatheaters have defeated the aurors in the war of the clans!")
+			var/aurorWon = list("The deatheaters have been defeated by the aurors!","The aurors have successfully held back the deatheaters!","The Aurors have emerged victorious in the war of the clans!")
 			var/draw = list("Nobody did anything interesting in the clan war so it resulted in a draw!","The clan war has ended in a draw! How boring!","The clans managed to hold each other off! Clan Wars is a draw!")
 
 			var/c
@@ -96,7 +96,7 @@ proc/toggle_clanwars()
 			C.disable()
 
 mob/Player/proc/ClanwarsInfo()
-	src << infomsg({"<b>Clan wars has now begun.</b><br>A special object called a "pillar" has spawned inside the chaos and peace HQs.<br>\
+	src << infomsg({"<b>Clan wars has now begun.</b><br>A special object called a "pillar" has spawned inside the deatheater and auror HQs.<br>\
 				The goal during clan wars is to protect yours, and destroy the enemy's.<br>\
 				Doors inside your enemy's HQ can be destroyed by firing at them with a projectile damage spell. Doors will respawn in 60 seconds.<br>\
 				Your side will receive 1 point for each player you kill.<br>\
