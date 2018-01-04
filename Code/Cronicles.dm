@@ -381,6 +381,48 @@ mob
 					cloak.Equip(p, 1, 1)
 					cloak.loc = null
 
+			if(savefile_version < 30)
+				p.level = 1
+				p.resetStatPoints()
+				spawn()
+					if(!p.Interface) p.Interface = new(src)
+
+					for(var/s in p.questPointers)
+						if(s == "Brother Trouble") continue
+						if(s == "Brewing Practice") continue
+						if(s == "Sweet Easter") continue
+						if(s == "PvP Introduction") continue
+						if(s == "Culling the Herd") continue
+						if(s == "Strength of Dragons") continue
+						if(s == "Make a Potion") continue
+						if(s == "Make a Fortune") continue
+						if(s == "Make a Spell") continue
+						if(s == "Make a Wig") continue
+						if(s == "On House Arrest") continue
+
+						p.questPointers -= s
+
+					p.startQuest("Tutorial: The Wand Maker")
+
+					for(var/obj/items/wearable/w in p)
+						if(w.quality > 0)
+							w.quality = 0
+							w.bonus &= ~3
+
+							var/list/split = splittext(w.name, " +")
+
+							w.name = split[0]
+
+						if(istype(w, /obj/items/wearable/wands) || istype(w, /obj/items/wearable/pets))
+							w:exp = 0
+
+
+					p << infomsg("The majority of your quests, your level and any stat bonuses from items had were wiped, the rest of your wealth is untouched.")
+
+
+
+
+
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else

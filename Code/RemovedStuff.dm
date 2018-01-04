@@ -5,6 +5,12 @@
  * For the full license text, see LICENSE.txt.
  */
 
+obj/items/wearable/magic_eye
+	New()
+		..()
+		spawn(1)
+			loc = null
+
 obj/roofedge/canSave = 0
 obj/Flippendo/canSave = 0
 

@@ -1930,7 +1930,8 @@ mob/Player/proc/resetStatPoints()
 	src.Dmg = (src.level - 1) + 5
 	src.Def = (src.level - 1) + 5
 	resetMaxHP()
-	src.verbs.Add(/mob/Player/verb/Use_Statpoints)
+	if(level > 1)
+		src.verbs.Add(/mob/Player/verb/Use_Statpoints)
 mob/Player/proc/resetMaxHP()
 	src.MHP = 4 * (src.level - 1) + 200 + 2 * (src.Def + src.extraDef + src.clothDef)
 	if(HP > MHP)
