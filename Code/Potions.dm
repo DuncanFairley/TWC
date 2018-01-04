@@ -694,7 +694,8 @@ obj/items/potions
 			Effect(mob/Player/p)
 				if(p.level < lvlcap)
 					p << infomsg("You receive [comma(exp)] experience.")
-				p.addExp(exp)
+					p.addExp(exp)
+					. = 1
 
 	pets
 
