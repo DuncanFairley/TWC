@@ -808,7 +808,7 @@ dmifont
 
 	// quicky means of adding a name overlay to an atom
 	// this routine assumes client.dir=NORTH (the default)
-	proc/QuickName(atom/A, txt, color="#fff", outline, top, size=3, layer=8)
+	proc/QuickName(atom/A, txt, color="#fff", outline, top, size=3, layer=8, px=0, py=0)
 		if(outline && !istext(outline)) outline = "#000"
 		txt = GetLines(KeyToBreakable(txt), width=size*icon_width, maxlines=round(icon_height/height), flags=DF_WRAP_ELLIPSIS)
 		var/icon/s = DrawText(txt, x=round(size*icon_width/2), y=(top?(icon_height-height-(outline?1:0)):(outline?1:0)),\
@@ -838,6 +838,8 @@ dmifont
 		else
 			O.pixel_y = top ? icon_height : -icon_height
 			O.pixel_x = round((icon_width-s.fullwidth)/2)
+		O.pixel_x += px
+		O.pixel_y += py
 		if(icon_native)
 			A.underlays += O
 		else

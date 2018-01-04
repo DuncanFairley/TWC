@@ -865,6 +865,7 @@ mob
 					animate(pixel_y = -33, time = 2)
 					animate(pixel_y = -32, time = 2)
 
+
 				Move(newLoc)
 					if(s)
 						s.glide_size = glide_size
@@ -1011,6 +1012,8 @@ mob
 						..()
 						SetSize(5 + (rand(-10, 10) / 10))
 
+						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, px=48, py=64)
+
 					Attack(mob/M)
 						..()
 						if(!fired && target && state == HOSTILE)
@@ -1066,6 +1069,8 @@ mob
 							gender = MALE
 
 						GenerateIcon(src)
+
+						namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1)
 
 					Attacked(obj/projectile/p)
 						if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
@@ -1188,6 +1193,8 @@ mob
 						animate(     pixel_y = pixel_y,      time = 2)
 						animate(     pixel_y = pixel_y - 1,  time = 2)
 
+						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, px=0, py=2)
+
 					Attack(mob/M)
 						..()
 						if(!fired && target && state == HOSTILE)
@@ -1299,6 +1306,8 @@ mob
 
 						SetSize(3 + (rand(-10, 10) / 10))
 
+						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, px=48, py=84)
+
 						while(loc)
 							proj = pick(list("gum", "quake", "iceball","fireball", "aqua", "black") - proj)
 							switch(proj)
@@ -1401,6 +1410,8 @@ mob
 						animate(pixel_y = -32, time = 2)
 						animate(pixel_y = -33, time = 2)
 						animate(pixel_y = -32, time = 2)
+
+						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, px=48, py=64)
 
 						while(loc)
 
@@ -1672,6 +1683,8 @@ mob
 				set waitfor = 0
 				..()
 				SetSize(2)
+
+				namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, px=48, py=64)
 
 			ChangeState(var/i_State)
 				..(i_State)
@@ -2156,6 +2169,9 @@ mob
 					animate(color = rgb(rand(60,255), rand(60,255), rand(60,255)), time = 10)
 
 					SetSize(3)
+
+					namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, px=48, py=64)
+
 					origloc = null
 			New()
 				..()
@@ -2358,6 +2374,8 @@ mob
 				set waitfor = 0
 				..()
 				SetSize(2)
+
+				namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, px=48, py=64)
 
 			var/tmp/fired = 0
 
