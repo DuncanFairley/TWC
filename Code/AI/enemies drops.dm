@@ -56,7 +56,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							/obj/items/key/winter_key,
 							/obj/items/key/pet_key,
 							/obj/items/key/community_key,
-                      //      /obj/items/wearable/pets/sword,
+                            /obj/items/wearable/pets/sword,
 							/obj/items/wearable/title/Samurai,
 							/obj/items/vault_key),
 
