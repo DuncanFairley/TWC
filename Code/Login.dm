@@ -955,11 +955,6 @@ mob/Player
 		checkMail()
 		logintime = world.realtime
 
-		if(!Fire)  Fire  = new("Fire")
-		if(!Earth) Earth = new("Earth")
-		if(!Water) Water = new("Water")
-		if(!Ghost) Ghost = new("Ghost")
-
 		spawn()
 			//CheckSavefileVersion()
 			buildActionBar()
@@ -1886,7 +1881,10 @@ mob/proc/Death_Check(mob/killer = src)
 				if(gold2give > 0)
 					g.give(killer)
 				if(exp2give > 0)
-					killer:addExp(exp2give, !killer.MonsterMessages)
+					if(killer:party)
+						killer:party.addExp(exp2give, killer)
+					else
+						killer:addExp(exp2give, !killer.MonsterMessages)
 
 					if(killer:wand)
 						var/obj/items/wearable/wands/w = killer:wand
@@ -2138,7 +2136,8 @@ proc
 		else
 			E.ChangeState(E.INACTIVE)
 			if(E.origloc)
-
+				if(E.hpbar)
+					E.hpbar.loc = null
 				var/time = E.respawnTime
 				if(killer && E.level + 1 < killer.level)
 					time += time * ((1 + E.level - killer.level)/400)
@@ -2147,6 +2146,8 @@ proc
 				if(E)
 					E.loc = E.origloc
 					E.HP = E.MHP
+					if(E.hpbar)
+						E.hpbar.Set(1, E)
 					var/active = E.ShouldIBeActive()
 
 					if(!active && istype(E.origloc.loc, /area/newareas))
@@ -2168,6 +2169,9 @@ proc
 
 			else
 				E.loc = null
+				if(E.hpbar)
+					E.hpbar.loc = null
+					E.hpbar = null
 
 mob/Player/proc/onDeath(turf/oldLoc, killerName)
 	set waitfor = 0

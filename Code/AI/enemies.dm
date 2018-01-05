@@ -377,7 +377,7 @@ mob
 		var/DMGmodifier = 0.6
 		var/list/drops
 		var/tmp/turf/origloc
-
+		var/tmp/obj/healthbar/big/hpbar
 
 		appearance_flags = LONG_GLIDE|TILE_BOUND
 		post_init = 1
@@ -424,6 +424,16 @@ mob
 					damage[p.owner.ckey] += perc
 				else
 					damage[p.owner.ckey] = perc
+
+			if(HP > 0 && hpbar)
+				var/percent = HP / MHP
+				hpbar.Set(percent, src)
+
+		Move(NewLoc)
+			if(hpbar)
+				hpbar.glide_size = glide_size
+				hpbar.loc = NewLoc
+			.=..()
 
 		MapInit()
 			set waitfor = 0
@@ -2376,6 +2386,8 @@ mob
 				SetSize(2)
 
 				namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, px=48, py=64)
+
+				hpbar = new(src)
 
 			var/tmp/fired = 0
 

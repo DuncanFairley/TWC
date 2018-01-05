@@ -610,6 +610,7 @@ turf
 
 			if(p.followers)
 				for(var/obj/o in p.followers)
+					o.glide_size = p.glide_size
 					o.loc = src
 
 			if(p.pet && p.pet.loc)
