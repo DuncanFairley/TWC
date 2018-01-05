@@ -55,4 +55,3 @@ turf
 	Sea_Floor
 		icon = 'Underwater.dmi'
 		icon_state = "Sand Floor"
-		slow = 2
