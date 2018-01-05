@@ -2283,6 +2283,9 @@ mob/Player/Logout()
 		Players<<"~ <span style=\"color:red;\">[src]</span> is <u>AFK</u> ~"
 		ApplyAFKOverlay()
 
+	if(party)
+		party.remove(src)
+
 	if(arcessoing)
 		stop_arcesso()
 	if(rankedArena)
@@ -2693,7 +2696,7 @@ obj/items/lamps
 		seconds = 600
 
 	double_gold_lamp
-		desc    = "Doubles your gold gain rate."
+		desc    = "\"Doubling money!\""
 		effect  = /StatusEffect/Lamps/Gold/Double
 		seconds = 1800
 	triple_gold_lamp
@@ -3315,7 +3318,6 @@ obj/memory_rune
 	Vault
 
 
-
 obj/items
 
 
@@ -3611,7 +3613,7 @@ obj/roulette
 		else if(istext(drops) && (drops in chest_prizes))
 			L = chest_prizes[drops]
 		else if(islist(drops))
-			L = chest_prizes[drops]
+			L = drops
 		else
 			return
 
@@ -4170,3 +4172,42 @@ obj/items/money
 		s = round(s)
 
 		icon_state = "[initial(icon_state)][s]"
+
+
+obj/items/packs
+	icon = 'Chest.dmi'
+	icon_state = "golden"
+	dropable = 0
+
+	pokeby_pack
+		Open()
+			set src in usr
+
+			var/list/pokeby = list(/obj/items/wearable/pets/pokeby = 100,
+				 				   /obj/items/DarknessPowder       = 0,
+				                   /obj/items/Whoopie_Cushion      = 0,
+				                   /obj/items/U_No_Poo             = 0,
+				                   /obj/items/Tube_of_fun          = 0),
+
+			var/obj/roulette/pok = new (usr.loc)
+			pok.getPrize(pokeby, usr.name, usr.ckey)
+
+			new /obj/items/treats/stick (usr)
+			usr << infomsg("Enjoy your pokeby, why don't you try to throw a stick for your pet to fetch?")
+
+			..()
+
+
+	verb
+		Open()
+			set src in usr
+
+			usr << infomsg("You opened a [name]!")
+			Consume()
+
+
+	Click()
+		if(src in usr)
+			Open()
+		else
+			..()

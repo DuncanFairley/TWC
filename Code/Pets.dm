@@ -158,6 +158,9 @@ obj/items/wearable/pets
 		function    = PET_FLY
 	pumpkin
 		icon_state  = "pumpkin"
+	pokeby
+		icon_state = "pokeby"
+		dropable = 0
 
 obj/pet
 	icon = 'Mobs_128x128.dmi'

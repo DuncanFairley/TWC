@@ -382,6 +382,8 @@ mob
 					cloak.loc = null
 
 			if(savefile_version < 30)
+				p.MMP = 10
+				p.MP = 10
 				p.level = 1
 				p.resetStatPoints()
 				spawn()
@@ -411,14 +413,24 @@ mob
 
 							var/list/split = splittext(w.name, " +")
 
-							w.name = split[0]
+							w.name = split[1]
 
 						if(istype(w, /obj/items/wearable/wands) || istype(w, /obj/items/wearable/pets))
 							w:exp = 0
 
+					p.verbs -= typesof(/mob/Spells/verb/)
+					p.verbs += new/mob/Spells/verb/Inflamari
+					p.spellpoints = 0
 
-					p << infomsg("The majority of your quests, your level and any stat bonuses from items had were wiped, the rest of your wealth is untouched.")
+					p.Fire  = new("Fire")
+					p.Earth = new("Earth")
+					p.Water = new("Water")
+					p.Ghost = new("Ghost")
 
+					p << infomsg("The majority of your quests, your spells, level and any stat bonuses from items had were wiped, the rest of your wealth is untouched.")
+
+					new /obj/items/packs/pokeby_pack(p)
+					p << infomsg("You were given a pokeby pack, open it!")
 
 
 
