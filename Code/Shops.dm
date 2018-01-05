@@ -359,7 +359,7 @@ obj/Madame_Pomfrey
 			Heal_Me()
 	verb
 		Heal_Me()
-			if(canUse(usr,cooldown=/StatusEffect/UsedFerulaToHeal))
+			if(canUse(usr,needwand=0,cooldown=/StatusEffect/UsedFerulaToHeal))
 				set src in oview(1)
 				var/mob/Player/p = usr
 				p<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [p]!"
