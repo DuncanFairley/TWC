@@ -169,7 +169,7 @@ obj/pet
 
 	layer = 4
 
-	appearance_flags = LONG_GLIDE|TILE_BOUND
+	appearance_flags = LONG_GLIDE|TILE_BOUND|PIXEL_SCALE
 	canSave = 0
 
 	var
