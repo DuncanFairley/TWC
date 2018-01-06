@@ -712,7 +712,7 @@ obj/items/potions
 				var/obj/items/wearable/pets/item = p.pet.item
 				item.currentSize  += 0.25
 
-				animate(p.pet, transform = matrix() * (item.currentSize / 4), time = 10)
+				animate(p.pet, transform = matrix() * (item.currentSize / p.pet.iconSize), time = 10)
 
 				p.pet.refresh(10)
 
