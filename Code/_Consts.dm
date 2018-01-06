@@ -51,6 +51,9 @@
 
 #define DIRS_LIST list(NORTH,SOUTH,EAST,WEST,NORTHEAST,NORTHWEST,SOUTHEAST,SOUTHWEST)
 
+#define WORN 1
+#define REMOVED 2
+
 
 #if HALLOWEEN
 WorldData/var/tmp/list/waterColors = list()

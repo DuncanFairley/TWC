@@ -4,8 +4,7 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-#define WORN 1
-#define REMOVED 2
+
 mob/Player/var/list/Lwearing
 
 area
@@ -2282,10 +2281,6 @@ mob/Player/Logout()
 		status=" (AFK)"
 		Players<<"~ <span style=\"color:red;\">[src]</span> is <u>AFK</u> ~"
 		ApplyAFKOverlay()
-
-	if(party)
-		party.remove(src)
-
 	if(arcessoing)
 		stop_arcesso()
 	if(rankedArena)

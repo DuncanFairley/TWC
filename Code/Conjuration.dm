@@ -13,22 +13,11 @@ mob/verb/updateHPMP()
 		var/mppercent = MP / (MMP+extraMMP) * 100
 		winset(src,null,"barHP.value=[hppercent];barMP.value=[mppercent];")
 
-		if(src:hpBar)
-			var/newWidth = hppercent/100
-			var/newX     = (newWidth - 1) * 14
+		if(hppercent > 0 && src:hpBar)
+			src:hpBar.Set(hppercent/100, src)
 
-			var/matrix/m = matrix(newWidth, 0, newX, 0, 1, 0)
-
-			if(src:hpBar.alpha == 0 && newWidth != 1)
-				animate(src:hpBar, alpha = 255, time = 5)
-				sleep(5)
-
-			animate(src:hpBar, transform = m, time = 10)
-
-			if(newWidth == 1)
-				sleep(15)
-				if(HP == MHP+extraMHP)
-					animate(src:hpBar, alpha = 0, time = 5)
+			if(src:party)
+				src:party.updateHP(src, hppercent/100)
 
 mob
 	var
@@ -55,24 +44,88 @@ mob/GM
 
 obj/healthbar
 	mouse_opacity = 0
-	icon = 'healthbar.dmi'
+	icon = 'healthbar_28.dmi'
+
+	var/barSize = 14
+
+	pixel_x = 2
+	pixel_y = -6
+	color   = "#0d0"
+	appearance_flags = LONG_GLIDE|TILE_BOUND
+	layer = 4
+	canSave = 0
 
 	New(mob/Player/p)
-		pixel_x = 2
-		pixel_y = -6
-		color   = "#0d0"
+		overlays += /obj/hpframe/small
 
-		p.addFollower(src)
-		overlays += /obj/healthbar/frame
+		if(p)
+			loc = p.loc
 
-		if(p.HP == p.MHP + p.extraMHP)
-			alpha = 0
+			if(isplayer(p))
+				if(p.HP == p.MHP + p.extraMHP)
+					alpha = 0
+				p:addFollower(src)
 
-		loc = p.loc
+				glide_size = p.glide_size
 
-	frame
+	big
+		barSize = 32
+		icon = 'healthbar_64.dmi'
+
+		pixel_x = -20
+		pixel_y = -24
+		layer = 5
+
+		New(mob/p, hud)
+
+			overlays += /obj/hpframe/big
+
+			if(p)
+				if(p.HP == p.MHP + p.extraMHP)
+					alpha = 0
+
+				loc = p.loc
+
+				glide_size = p.glide_size
+
+
+	proc
+		Set(var/perc, mob/M, instant=0)
+			set waitfor = 0
+			var/newX     = (perc - 1) * barSize
+
+			var/matrix/m = matrix(perc, 0, newX, 0, 1, 0)
+
+			if(alpha == 0 && perc != 1)
+				animate(src, alpha = 255, time = 5)
+				sleep(5)
+
+			var/c
+			if(perc > 0.6) c = "#0d0"
+			else if(perc >= 0.3) c = "#d90"
+			else c = "#d00"
+
+			if(instant)
+				color = c
+				transform = m
+			else
+				animate(src, color = c, transform = m, time = 10)
+
+			if(perc == 1 && M)
+				sleep(15)
+				if(M.HP == M.MHP+M.extraMHP)
+					animate(src, alpha = 0, time = 5)
+
+obj/hpframe
+	layer = FLOAT_LAYER
+	small
+		icon = 'healthbar_28.dmi'
 		icon_state = "frame"
-		appearance_flags = RESET_TRANSFORM|RESET_COLOR
+	big
+		icon = 'healthbar_64.dmi'
+		icon_state = "frame"
+
+	appearance_flags = RESET_TRANSFORM|RESET_COLOR
 
 
 mob/Player/var/tmp/obj/healthbar/hpBar

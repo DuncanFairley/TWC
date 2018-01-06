@@ -812,6 +812,7 @@ interface
 		new /hudobj/PMHome(null, parent.client, null, show=1)
 		new /hudobj/spellbook(null, parent.client, null, show=1)
 		new /hudobj/questbook(null, parent.client, null, show=1)
+		new /hudobj/Party_Invite(null, parent.client, null, 1)
 
 		Update()
 

@@ -252,7 +252,6 @@ mob/Player/Topic(href,href_list[])
 			src.pmsSen = list()
 			src << browse(null,"window=pm_Read")
 			src << link("byond://?src=\ref[src];action=pm_outbox")
-
 		if("pm_reply")
 			var/mob/online = text2mob(href_list["replynametext"])
 			if(online)
@@ -375,6 +374,22 @@ mob/Player/Topic(href,href_list[])
 			src.PMHome()
 		if("pm_Send")
 			src.pm_Send()
+		if("party_join")
+			var/mob/Player/who = href_list["leader"]
+			if(who && !usr:party)
+				who = locate(who)
+				if(who && (!who.party || who.party.leader == who.ckey))
+
+					if(who.partyTokens && (usr.ckey in who.partyTokens))
+						who.partyTokens -= usr.ckey
+
+						if(!who.partyTokens.len)
+							who.partyTokens = null
+
+						if(!who.party)
+							who.party = new(who)
+
+						who.party.add(usr)
 
 mob/Player/verb/PM(var/p in Players())
 	if(src.mute)

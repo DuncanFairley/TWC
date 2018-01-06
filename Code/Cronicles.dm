@@ -433,9 +433,7 @@ mob
 					p << infomsg("You were given a pokeby pack, open it!")
 
 
-
-
-			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src)) //If player is on a swap map, move them to gringotts
+			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && worldData.sandboxZ != last_z) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else
 				var/turf/t = locate(last_x, last_y, last_z)
@@ -823,6 +821,10 @@ client
 			mob:playedtime += world.realtime  - mob:logintime
 			if(mob:isTrading())
 				mob:trade.Clean()
+			if(mob:party)
+				mob:party.remove(mob)
+			if(mob:buildItemDisplay)
+				mob:buildItemDisplay.loc = null
 			mob:auctionClosed()
 			var/StatusEffect/S = mob.findStatusEffect(/StatusEffect/Lamps)
 			if(S) S.Deactivate()
