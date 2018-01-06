@@ -1023,6 +1023,7 @@ mob
 						SetSize(5 + (rand(-10, 10) / 10))
 
 						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, px=48, py=64)
+						hpbar = new(src)
 
 					Attack(mob/M)
 						..()
@@ -1317,6 +1318,7 @@ mob
 						SetSize(3 + (rand(-10, 10) / 10))
 
 						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, px=48, py=84)
+						hpbar = new(src)
 
 						while(loc)
 							proj = pick(list("gum", "quake", "iceball","fireball", "aqua", "black") - proj)
@@ -1422,6 +1424,7 @@ mob
 						animate(pixel_y = -32, time = 2)
 
 						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, px=48, py=64)
+						hpbar = new(src)
 
 						while(loc)
 
@@ -1695,6 +1698,7 @@ mob
 				SetSize(2)
 
 				namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, px=48, py=64)
+				hpbar = new(src)
 
 			ChangeState(var/i_State)
 				..(i_State)
@@ -2181,6 +2185,7 @@ mob
 					SetSize(3)
 
 					namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, px=48, py=64)
+					hpbar = new(src)
 
 					origloc = null
 			New()
