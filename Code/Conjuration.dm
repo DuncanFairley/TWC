@@ -51,7 +51,7 @@ obj/healthbar
 	pixel_x = 2
 	pixel_y = -6
 	color   = "#0d0"
-	appearance_flags = LONG_GLIDE|TILE_BOUND
+	appearance_flags = LONG_GLIDE|TILE_BOUND|PIXEL_SCALE
 	layer = 4
 	canSave = 0
 

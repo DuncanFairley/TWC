@@ -379,7 +379,7 @@ mob
 		var/tmp/turf/origloc
 		var/tmp/obj/healthbar/big/hpbar
 
-		appearance_flags = LONG_GLIDE|TILE_BOUND
+		appearance_flags = LONG_GLIDE|TILE_BOUND|PIXEL_SCALE
 		post_init = 1
 		var
 			const
@@ -836,10 +836,7 @@ mob
 				Death()
 
 			Sword
-				icon = 'Mobs_128x128.dmi'
-				iconSize = 4
-				pixel_x = -48
-				pixel_y = -48
+				icon = 'Mobs.dmi'
 				name = "Flying Sword"
 				icon_state = "sword"
 				level = 800
@@ -870,10 +867,10 @@ mob
 					s = new (loc)
 					s.transform = matrix() * size
 
-					animate(src, pixel_y = -31, time = 2, loop = -1)
-					animate(pixel_y = -32, time = 2)
-					animate(pixel_y = -33, time = 2)
-					animate(pixel_y = -32, time = 2)
+					animate(src, pixel_y = 0, time = 2, loop = -1)
+					animate(pixel_y = 1, time = 2)
+					animate(pixel_y = 0, time = 2)
+					animate(pixel_y = -1, time = 2)
 
 
 				Move(newLoc)
@@ -883,10 +880,7 @@ mob
 					..()
 
 			Acromantula
-				icon = 'Mobs_128x128.dmi'
-				iconSize = 4
-				pixel_x = -48
-				pixel_y = -48
+				icon = 'Mobs.dmi'
 				name = "Tiny Spider"
 				icon_state = "spider"
 				level = 700
@@ -961,10 +955,7 @@ mob
 							Ignore(M)
 
 				Basilisk
-					icon = 'Mobs_128x128.dmi'
-					iconSize = 4
-					pixel_x = -48
-					pixel_y = -48
+					icon = 'Mobs.dmi'
 					icon_state = "basilisk"
 					name = "Mini Basilisk"
 					HPmodifier = 3
@@ -1001,10 +992,7 @@ mob
 					Death()
 
 				Acromantula
-					icon = 'Mobs_128x128.dmi'
-					iconSize = 4
-					pixel_x = -48
-					pixel_y = -48
+					icon = 'Mobs.dmi'
 					name = "Bubbles the Spider"
 					icon_state = "spider"
 					level = 1400
@@ -1022,7 +1010,7 @@ mob
 						..()
 						SetSize(5 + (rand(-10, 10) / 10))
 
-						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, px=48, py=64)
+						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, py=16)
 						hpbar = new(src)
 
 					Attack(mob/M)
@@ -1285,10 +1273,7 @@ mob
 
 
 				Wisp
-					icon = 'Mobs_128x128.dmi'
-					iconSize = 4
-					pixel_x = -48
-					pixel_y = -48
+					icon = 'Mobs.dmi'
 					icon_state = "wisp"
 					name = "Willy the Whisp"
 					HPmodifier = 6
@@ -1317,7 +1302,7 @@ mob
 
 						SetSize(3 + (rand(-10, 10) / 10))
 
-						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, px=48, py=84)
+						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, py=16)
 						hpbar = new(src)
 
 						while(loc)
@@ -1386,11 +1371,8 @@ mob
 
 
 				Sword
-					icon = 'Mobs_128x128.dmi'
+					icon = 'Mobs.dmi'
 					icon_state = "sword"
-					iconSize = 4
-					pixel_x = -48
-					pixel_y = -48
 					name = "The Black Blade"
 					HPmodifier = 7
 					DMGmodifier = 3
@@ -1418,12 +1400,14 @@ mob
 						s = new (loc)
 						s.transform = matrix() * 4
 
-						animate(src, pixel_y = -31, time = 2, loop = -1)
-						animate(pixel_y = -32, time = 2)
-						animate(pixel_y = -33, time = 2)
-						animate(pixel_y = -32, time = 2)
+						SetSize(4)
 
-						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, px=48, py=64)
+						animate(src, pixel_y = 0, time = 2, loop = -1)
+						animate(pixel_y = 1, time = 2)
+						animate(pixel_y = 0, time = 2)
+						animate(pixel_y = -1, time = 2)
+
+						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, py=16)
 						hpbar = new(src)
 
 						while(loc)
@@ -1673,10 +1657,7 @@ mob
 
 
 		Stickman
-			icon = 'Mobs_128x128.dmi'
-			iconSize = 4
-			pixel_x = -48
-			pixel_y = -48
+			icon = 'Mobs.dmi'
 			icon_state = "stickman"
 			level = 2200
 			HPmodifier  = 3
@@ -1697,7 +1678,7 @@ mob
 				..()
 				SetSize(2)
 
-				namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, px=48, py=64)
+				namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, py=16)
 				hpbar = new(src)
 
 			ChangeState(var/i_State)
@@ -1856,10 +1837,7 @@ mob
 				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/wolf)
 
 		Pumpkin
-			icon = 'Mobs_128x128.dmi'
-			iconSize = 4
-			pixel_x = -48
-			pixel_y = -48
+			icon = 'Mobs.dmi'
 			icon_state  = "pumpkin"
 			canBleed    = FALSE
 			level       = 750
@@ -1869,10 +1847,6 @@ mob
 			AttackDelay = 2
 			respawnTime = 600
 
-			MapInit()
-				set waitfor = 0
-				..()
-				SetSize(1)
 
 			Attacked()
 				..()
@@ -1911,7 +1885,6 @@ mob
 						p.updateHPMP()
 
 				SpawnPet(killer, 0.05, null, /obj/items/wearable/pets/pumpkin)
-				SetSize(1)
 
 
 		Snowman
@@ -1925,10 +1898,7 @@ mob
 			element = WATER
 
 		Acromantula
-			icon = 'Mobs_128x128.dmi'
-			iconSize = 4
-			pixel_x = -48
-			pixel_y = -48
+			icon = 'Mobs.dmi'
 
 			icon_state = "spider"
 			level = 850
@@ -2067,10 +2037,7 @@ mob
 
 
 		Wisp
-			icon = 'Mobs_128x128.dmi'
-			iconSize = 4
-			pixel_x = -48
-			pixel_y = -48
+			icon = 'Mobs.dmi'
 
 			icon_state = "wisp"
 			level = 850
@@ -2135,10 +2102,7 @@ mob
 
 
 		Floating_Eye
-			icon = 'Mobs_128x128.dmi'
-			iconSize = 4
-			pixel_x = -48
-			pixel_y = -48
+			icon = 'Mobs.dmi'
 
 			icon_state = "eye1"
 			level = 900
@@ -2184,13 +2148,12 @@ mob
 
 					SetSize(3)
 
-					namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, px=48, py=64)
+					namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, py=16)
 					hpbar = new(src)
 
 					origloc = null
 			New()
 				..()
-				SetSize(1)
 				icon_state = "eye[rand(1,2)]"
 				if(prob(60))
 					transform *= 1 + (rand(-15,30) / 50) // -30% to +60% size change
@@ -2251,11 +2214,7 @@ mob
 						sleep(AttackDelay)
 
 		Troll
-			icon = 'Mobs_128x128.dmi'
-			iconSize = 4
-			pixel_x = -48
-			pixel_y = -48
-
+			icon = 'Mobs.dmi'
 			icon_state = "troll"
 			level = 750
 			HPmodifier  = 4
@@ -2363,11 +2322,7 @@ mob
 			icon_state = "wyvern"
 			level = 650
 		Basilisk
-			icon = 'Mobs_128x128.dmi'
-			iconSize = 4
-			pixel_x = -48
-			pixel_y = -48
-
+			icon = 'Mobs.dmi'
 			icon_state = "basilisk"
 			level = 2000
 			HPmodifier = 4
@@ -2390,7 +2345,7 @@ mob
 				..()
 				SetSize(2)
 
-				namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, px=48, py=64)
+				namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, py=16)
 
 				hpbar = new(src)
 
