@@ -126,7 +126,7 @@ obj/cloud
 	layer = 8
 	mouse_opacity = 0
 	var/obj/shadow
-	glide_size = 6
+	glide_size = 4
 	post_init = 1
 
 	MapInit()
@@ -316,20 +316,13 @@ interface
 
 		list/lightStates
 
-	New()
-		..()
+	New(client/c)
 		darkness   = new
 		lightplane = new
 		mapplane   = new
 
-		if(parent.client.byond_version < 510)
-			parent << errormsg("You are using an older BYOND version which doesn't support certain features in this game, those features will be inaccessible to you.")
-			for(var/mob/Player/p in Players)
-				if(p.Gm)
-					p << errormsg("[parent] is using an older BYOND version. Try to convince them gently to upgrade.")
-		else
-			parent.client.screen += lightplane
-			parent.client.screen += darkness
+		c.screen += lightplane
+		c.screen += darkness
 
 	proc/SetDarknessColor(c, priorty=0, t = 5)
 
