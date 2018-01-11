@@ -59,7 +59,7 @@ turf
 			return L
 
 		Distance(turf/t)
-			return get_dist(src,t)
+			return abs(x - t.x) + abs(y - t.y)
 
 turf
 	blankturf/skip = 1
