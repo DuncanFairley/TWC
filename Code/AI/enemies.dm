@@ -2418,7 +2418,7 @@ mob
 
 obj/corpse
 	var/gold
-
+	canSave = 0
 	Click()
 		..()
 		if(gold)
