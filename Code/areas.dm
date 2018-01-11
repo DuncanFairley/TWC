@@ -128,6 +128,7 @@ obj/teleportPath
 	var
 		tmp/dest
 		axisY = FALSE
+		house
 	New()
 		..()
 		var/area/a = loc.loc
@@ -144,7 +145,13 @@ obj/teleportPath
 			if(nearby_area && nearby_area != a)
 				dest = nearby_area.name
 
-				var/obj/teleport/tele = new (t)
+				var/obj/teleport/tele
+
+				if(house)
+					tele = new /obj/teleport/house (t)
+					tele:house = house
+				else
+					tele = new (t)
 
 				var/offset = axisY ? y - t.y : x - t.x
 				var/turf/tagTurf = axisY ? locate(x, tele.y, z) : locate(tele.x, y, z)

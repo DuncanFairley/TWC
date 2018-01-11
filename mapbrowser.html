@@ -34,6 +34,19 @@ window.onresize = function() {
 
 window.onload = function() {
 	CallVerb("onLoad");
+	WinSet("input","is-visible","false");
+	WinSet("saybutton","is-visible","false");
+	WinSet("macrobutton","is-visible","false");
+	WinSet("mainvsplit","right","mapwindow");
+	WinSet("barHP","is-visible","false");
+	WinSet("barMP","is-visible","false");
+	WinSet("guild","is-visible","false");
+	WinSet("splitStack","is-visible","false");
+	WinSet("SpellBook","is-visible","false");
+	WinSet("Quests","is-visible","false");
+	WinSet("Auction","is-visible","false");
+	WinSet("winSettings","is-visible","false");
+	WinSet("radio_enabled","is-checked","false");
 };
 
 var isfullscreen = 0;
@@ -47,6 +60,17 @@ function ToggleFullscreen() {
         WinSet("mainwindow","is-maximized","true","can-resize","false");
         isfullscreen = 1;
     }
+}
+
+function Login() 
+{
+	WinSet("input","is-visible","true");
+	WinSet("saybutton","is-visible","true");
+	WinSet("macrobutton","is-visible","true");
+	WinSet("mainvsplit","right","rpane");
+	WinSet("barHP","is-visible","true");
+	WinSet("barMP","is-visible","true");
+    Resize();
 }
 
 var resolution_x;

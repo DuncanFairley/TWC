@@ -806,8 +806,11 @@ interface
 	var/obj/hud/screentext/quest/quest
 	var/mob/Player/parent
 
-	New(mob/Player/p)
+
+	proc/Init(mob/Player/p)
 		parent = p
+
+		p.client.tmpInterface = null
 
 		new /hudobj/PMHome(null, parent.client, null, show=1)
 		new /hudobj/spellbook(null, parent.client, null, show=1)
@@ -815,8 +818,6 @@ interface
 		new /hudobj/Party_Invite(null, parent.client, null, 1)
 
 		Update()
-
-		..()
 
 	proc/Update()
 		if(parent.HideQuestTracker && quest)

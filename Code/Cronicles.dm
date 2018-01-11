@@ -233,7 +233,9 @@ mob
 
 			if(savefile_version < 11)
 				spawn()
-					if(!p.Interface) p.Interface = new(src)
+					if(p.client.tmpInterface)
+						p.Interface = p.client.tmpInterface
+						p.Interface.Init(p)
 
 					if(!("Tutorial: The Wand Maker" in p.questPointers))
 						p.startQuest("Tutorial: The Wand Maker")
@@ -387,7 +389,9 @@ mob
 				p.level = 1
 				p.resetStatPoints()
 				spawn()
-					if(!p.Interface) p.Interface = new(src)
+					if(p.client.tmpInterface)
+						p.Interface = p.client.tmpInterface
+						p.Interface.Init(p)
 
 					for(var/s in p.questPointers)
 						if(s == "Brother Trouble") continue
@@ -406,17 +410,28 @@ mob
 
 					p.startQuest("Tutorial: The Wand Maker")
 
+					for(var/obj/items/reputation/r in p)
+						r.loc = null
+
 					for(var/obj/items/wearable/w in p)
-						if(w.quality > 0)
-							w.quality = 0
-							w.bonus &= ~3
+						if(istype(w, /obj/items/wearable/orb) || istype(w, /obj/items/wearable/title) || istype(w, /obj/items/wearable/magic_eye) || istype(w, /obj/items/wearable/halloween_bucket))
+							w.Equip(p, 1, 1)
+							w.loc = null
+						else
+							if(w.quality > 0)
+								w.quality = 0
+								w.bonus &= ~3
 
-							var/list/split = splittext(w.name, " +")
+								var/list/split = splittext(w.name, " +")
 
-							w.name = split[1]
+								w.name = split[1]
 
-						if(istype(w, /obj/items/wearable/wands) || istype(w, /obj/items/wearable/pets))
-							w:exp = 0
+							if(istype(w, /obj/items/wearable/wands))
+								w:exp = 0
+								w:projColor = null
+							if(istype(w, /obj/items/wearable/pets))
+								w:exp = 0
+
 
 					p.verbs -= typesof(/mob/Spells/verb/)
 					p.verbs += new/mob/Spells/verb/Inflamari
@@ -690,12 +705,51 @@ proc/HTMLOutput(mob/M,page,list/href_list)
 </body>
 </html>"}
 
+client/var/tmp/interface/tmpInterface
+
+hudobj
+	login
+		anchor_x = "CENTER"
+		anchor_y = "CENTER"
+
+		mouse_opacity = 2
+
+		Load
+			maptext = "<b><span style=\"font-size:14px;color:#EEF400\">Load</span></b>"
+			maptext_width = 64
+
+			screen_x = 64
+
+			Click()
+				if(istype(usr,/mob/BaseCamp/ChoosingCharacter))
+					usr:Choose_Character()
+
+		New
+			maptext = "<b><span style=\"font-size:14px;color:#EEF400\">New</span></b>"
+			maptext_width = 64
+
+			screen_x = -64
+
+			Click()
+				if(istype(usr,/mob/BaseCamp/ChoosingCharacter))
+					usr:New_Character()
+
+
 
 mob/tmpmob
 mob/BaseCamp/ChoosingCharacter
 	Login()
+		client.initMapBrowser()
+		new /hudobj/login/New(null, client, null, 1)
+		new /hudobj/login/Load(null, client, null, 1)
 
-		usr << output(HTMLOutput(src),"broLogin")
+		client.tmpInterface = new (client)
+
+		var/obj/o = locate("@Courtyard")
+		client.eye = o
+		client.perspective = EYE_PERSPECTIVE
+
+	//	usr << output(HTMLOutput(src),"broLogin")
 		/*var/first_initial = copytext(ckey, 1, 2)
 		if(fexists("players/[first_initial]/[ckey].sav"))
 			var/mob/tmpmob/A
@@ -709,14 +763,14 @@ mob/BaseCamp/ChoosingCharacter
 				break
 			//alert("An old savefile is detected and needs to be converted into a new email-based savefile. The detected character is named \"[M.name]\" and is level [M.level].")
 			usr << output(HTMLOutput(src,"login"),"broLogin")*/
-		winset(src,null,"guild.is-visible=false;splitStack.is-visible=false;SpellBook.is-visible=false;Quests.is-visible=false;Auction.is-visible=false;winSettings.is-visible=false;broLogin.is-visible=true;radio_enabled.is-checked=false;barHP.is-visible=false;barMP.is-visible=false;[radioEnabled ? "mnu_radio.is-disabled=false;" : ""]")
+	//	winset(src,null,"guild.is-visible=false;splitStack.is-visible=false;SpellBook.is-visible=false;Quests.is-visible=false;Auction.is-visible=false;winSettings.is-visible=false;broLogin.is-visible=true;radio_enabled.is-checked=false;barHP.is-visible=false;barMP.is-visible=false;[radioEnabled ? "mnu_radio.is-disabled=false;" : ""]")
+
 
 
 	proc/Choose_Character()
 		var/list/available_char_names=client.base_CharacterNames()
 		if(length(available_char_names) < 1)
 			src<<errormsg("You don't have a character to load, forwarding to creation process.")
-			src.sight=1
 			client.base_NewMob()
 			del(src)
 			return
@@ -725,21 +779,17 @@ mob/BaseCamp/ChoosingCharacter
 			del(src)
 			return
 	proc/New_Character()
-		src.sight=1
 		var/list/names=client.base_CharacterNames()
 		if(length(names) < client.base_num_characters_allowed)
 			client.base_NewMob()
-			src.sight=0
 			del(src)
 			return
 		else
 			switch(input(src,"You have the maximum amount of allowed characters. Delete one?") in list ("Yes","No"))
 				if("Yes")
 					DeleteCharacter()
-					usr.sight=0
 					return
 				if("No")
-					usr.sight=0
 					return
 	proc/ChooseCharacter()
 		var/list/available_char_names = client.base_CharacterNames()
@@ -802,7 +852,6 @@ mob/BaseCamp/ChoosingCharacter
 				return
 
 		client.base_DeleteMob(result)
-		sight=0
 		return
 
 client

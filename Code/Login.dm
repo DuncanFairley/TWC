@@ -156,6 +156,21 @@ obj/teleport
 				else if(M.pathdest)
 					M.pathTo(M.pathdest)
 				return 1
+	house
+		var/house
+		Teleport(mob/Player/M)
+			if(!isplayer(M)) return
+			if(house == M.House)
+				..()
+				M << infomsg("<b>Welcome to your common room.</b>")
+			else
+				M.followplayer = 0
+				var/dense = M.density
+				M.density = 0
+				step(M, turn(M.dir, 180))
+				M.density = dense
+				M << errormsg("<b>This isn't your common room.</b>")
+
 	entervault
 		Teleport(mob/Player/M)
 			var/list/accessible_vaults = M.get_accessible_vaults()
@@ -299,6 +314,30 @@ proc/updateVault(swapmap/map, owner, version)
 			var/obj/items/artifact/a = new (lastLoc)
 			a.stack = amount
 			a.UpdateDisplay()
+
+	if(version < 5)
+		for(var/turf/t in map.AllTurfs())
+
+			for(var/obj/items/reputation/r in t)
+				r.loc = null
+
+			for(var/obj/items/wearable/w in t)
+				if(istype(w, /obj/items/wearable/orb) || istype(w, /obj/items/wearable/title) || istype(w, /obj/items/wearable/magic_eye))
+					w.loc = null
+				else
+					if(w.quality > 0)
+						w.quality = 0
+						w.bonus &= ~3
+
+						var/list/split = splittext(w.name, " +")
+
+						w.name = split[1]
+
+					if(istype(w, /obj/items/wearable/wands))
+						w:exp = 0
+						w:projColor = null
+					if(istype(w, /obj/items/wearable/pets))
+						w:exp = 0
 
 mob/GM/verb/UnloadMap()
 	set category = "Custom Maps"
@@ -729,10 +768,7 @@ mob
 			src<<"<h3>For a full player guide, visit http://guide.wizardschronicles.com.</h3>"
 			var/oldmob = src
 			src.client.mob = character
-			character.client.initMapBrowser()
 			new /obj/items/money/gold (character)
-			character.client.eye = character
-			character.client.perspective = MOB_PERSPECTIVE
 			var/obj/o = locate("@DiagonAlley")
 			character.loc = o.loc
 			character.verbs += /mob/Spells/verb/Inflamari
@@ -747,9 +783,20 @@ mob
 					p << "<span style=\"font-size:2; color:#C0C0C0;\"><b><i>[character][character.refererckey==p.client.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey])([character.client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</i></b></span>"
 				else
 					p << "<span style=\"font-size:2; color:#C0C0C0;\"><b><i>[character][character.refererckey==p.client.ckey ? "(referral)" : ""] logged in.</i></b></span>"
-			if(!character.Interface) character.Interface = new(character)
+			if(character.client.tmpInterface)
+				character.Interface = character.client.tmpInterface
+				character.Interface.Init(character)
 			character.startQuest("Tutorial: The Wand Maker")
 			character.BaseIcon()
+
+			for(var/hudobj/login/l in character.client.screen)
+				client.screen -= l
+
+			character << output(null,"browser1:Login")
+
+			character.client.eye = character
+			character.client.perspective = MOB_PERSPECTIVE
+
 			src = null
 			spawn()
 				sql_check_for_referral(character)
@@ -852,7 +899,6 @@ mob/Player
 					if(p.Gm)
 						p << errormsg("[src.ckey] - [src.name] encountered a save problem, please check it out.")
 
-		client.initMapBrowser()
 		dance = 0
 		if(Gender=="Female")
 			gender = FEMALE
@@ -882,6 +928,15 @@ mob/Player
 				for(var/mob/Player/p in Players)
 					if(p.Gm)
 						p << "<h2>Multikeyers: [multikey](key: [multikey.key] | ip: [multikey.client.address]) & just logged in: [src] (key: [key] | ip: [client.address]) ([client.connection == "web" ? "webclient" : "dreamseeker"])</h2>"
+
+		for(var/hudobj/login/l in client.screen)
+			client.screen -= l
+
+		src << output(null,"browser1:Login")
+
+		client.eye = src
+		client.perspective = MOB_PERSPECTIVE
+
 		listenooc = 1
 		listenhousechat = 1
 		invisibility = 0
@@ -950,7 +1005,9 @@ mob/Player
 				var/drop = (worldData.DropRateModifier - 1) * 100
 				src << infomsg("[drop]% drop rate bonus.")
 
-		if(!Interface) Interface = new(src)
+		if(client.tmpInterface)
+			Interface = client.tmpInterface
+			Interface.Init(src)
 		isDJ(src)
 		checkMail()
 		logintime = world.realtime
@@ -966,7 +1023,6 @@ mob/Player
 			src.client.update_individual()
 			if(global.clanwars)
 				src.ClanwarsInfo()
-			winset(src,null,"barHP.is-visible=true;barMP.is-visible=true")
 
 			loc.loc.Enter(src, src.loc)
 			loc.loc.Entered(src, src.loc)
@@ -1771,6 +1827,7 @@ mob/proc/Death_Check(mob/killer = src)
 					src:Transfer(B.loc)
 					src.dir = SOUTH
 					flick('dlo.dmi',src)
+					p.lastHostile = 0
 			if(isplayer(killer))
 				p.pdeaths+=1
 				if(p.rankedArena)
@@ -2202,6 +2259,11 @@ mob/Player/proc/onDeath(turf/oldLoc, killerName)
 
 	client.screen += o
 
+	var/obj/bed = locate("respawn_" + ckey)
+	var/hudobj/respawn/r
+	if(bed)
+		r = new (null, client, list("maptext_width" = o.maptext_width, "maptext_x" = o.maptext_x ), 1)
+
 	animate(o, alpha = 255, time = 5)
 
 	nomove = 2
@@ -2221,7 +2283,7 @@ mob/Player/proc/onDeath(turf/oldLoc, killerName)
 	client.perspective = MOB_PERSPECTIVE
 	Interface.SetDarknessColor("#000000")
 	nomove = 0
-
+	if(r) r.hide()
 	sleep(6)
 	client.screen -= o
 
@@ -2233,6 +2295,20 @@ turf/proc/autojoin(var_name, var_value = 1)
 	t = locate(x, y - 1, z)
 	if(t && t.vars[var_name] == var_value) n |= 2
 	t = locate(x + 1, y, z)
+	if(t && t.vars[var_name] == var_value) n |= 4
+	t = locate(x - 1, y, z)
+	if(t && t.vars[var_name] == var_value) n |= 8
+
+	return n
+
+turf/proc/autojoin1(var_name, var_value = 1)
+	var/n = 0
+	var/turf/t
+	t = locate(x, y + 1, z)
+	if(t && t.vars[var_name] == var_value) n |= 1
+	t = locate(x + 1, y, z)
+	if(t && t.vars[var_name] == var_value) n |= 2
+	t = locate(x, y - 1, z)
 	if(t && t.vars[var_name] == var_value) n |= 4
 	t = locate(x - 1, y, z)
 	if(t && t.vars[var_name] == var_value) n |= 8

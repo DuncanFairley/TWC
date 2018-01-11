@@ -60,7 +60,6 @@ mob
 				winset += "butQuestTrackertoggle.is-checked=false;"
 			winset += "mnu_Settings.command=.ShowSettings;"
 			winset += "mnu_Settings.is-disabled=false;"
-			winset += "broLogin.is-visible=false;"
 			winset += "map.focus=true;"
 
 			if(p.loopedMove)

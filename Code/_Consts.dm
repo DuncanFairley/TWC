@@ -16,7 +16,7 @@
 
 #define VERSION "16.69"
 #define SAVEFILE_VERSION 30
-#define VAULT_VERSION 4
+#define VAULT_VERSION 5
 #define lvlcap 800
 #define SWAPMAP_Z 24
 #define WINTER 1
