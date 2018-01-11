@@ -1850,6 +1850,7 @@ world/New()
 		rankIcons[state] = icon('Ranks.dmi', state)
 
 	MapInitialized()
+	InitSandbox()
 
 //	worldlooper()
 world/proc/Load_Bans()
@@ -1890,6 +1891,7 @@ atom
 			post_init && MapInit()
 		else if(post_init)
 			__post_init[src] = 1
+		..()
 
 	proc/MapInit()
 

@@ -9,7 +9,7 @@ mob
 	Bump(var/atom/movable/a)
 		.=..()
 
-		if(istype(a, /obj/brick2door) || istype(a, /obj/Hogwarts_Door))
+		if(istype(a, /obj/brick2door) || istype(a, /obj/Hogwarts_Door) || istype(a, /obj/buildable/door))
 			var/obj/brick2door/o = a
 			if(o.door)
 				spawn()
