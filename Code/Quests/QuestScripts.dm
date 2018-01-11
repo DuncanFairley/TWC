@@ -508,8 +508,8 @@ quest
 		reward = /questReward/Mon8
 
 		Kill
-			desc = "Kill 320 fire bats."
-			reqs = list("Kill Fire Bat" = 320)
+			desc = "Kill 300 fire bats."
+			reqs = list("Kill Fire Bat" = 300)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -519,8 +519,8 @@ quest
 		reward = /questReward/Mon9
 
 		Kill
-			desc = "Kill 320 fire golems."
-			reqs = list("Kill Fire Golem" = 320)
+			desc = "Kill 300 fire golems."
+			reqs = list("Kill Fire Golem" = 300)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
