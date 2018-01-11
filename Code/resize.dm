@@ -129,7 +129,7 @@ client
 			set waitfor = 0
 			while(!browser_loaded)
 				src << browse('mapbrowser.html',"window=browser1")
-				sleep(50)
+				sleep(40)
 
 hudobj
 	icon               = 'HUD.dmi'
