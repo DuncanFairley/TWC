@@ -237,7 +237,7 @@ mob/Spells/verb/Depulso()
 	for(var/mob/Player/M in get_step(usr,usr.dir))
 		if(!M.findStatusEffect(/StatusEffect/Potions/Stone))
 			var/turf/t = get_step_away(M,usr,15)
-			if(!t || (issafezone(M.loc.loc) && !issafezone(t.loc))) return
+			if(!t || (issafezone(M.loc.loc, 0) && !issafezone(t.loc, 0))) return
 			M.Move(t)
 
 		if(!findStatusEffect(/StatusEffect/SpellText))
@@ -1014,7 +1014,7 @@ mob/Spells/verb/Incindia()
 mob/Spells/verb/Replacio(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
-		if(issafezone(M.loc.loc) && !issafezone(loc.loc))
+		if(issafezone(M.loc.loc, 0) && !issafezone(loc.loc, 0))
 			src << "<b>[M] is inside a safezone.</b>"
 			return
 		var/mob/Player/p = src
@@ -1086,7 +1086,7 @@ mob/Spells/verb/Tarantallegra(mob/Player/M in view()&Players)
 				timer++
 				if(!M.nomove)
 					var/turf/t = get_step_rand(M)
-					if(t && !(issafezone(M.loc.loc) && !issafezone(t.loc)))
+					if(t && !(issafezone(M.loc.loc, 0) && !issafezone(t.loc, 0)))
 						M.Move(t)
 				M.dir = pick(dirs)
 				sleep(5)
@@ -1624,7 +1624,9 @@ mob/Spells/verb/Scan(mob/Player/M in view()&Players)
 		p.learnSpell("Scan")
 
 var/safemode = 1
-mob/var/tmp/lastproj = 0
+mob/var/tmp
+	lastproj = 0
+	lastHostile = 0
 mob
 	proc/castproj(Type = /obj/projectile, MPreq = 0, icon = 'attacks.dmi', icon_state = "", damage = 0, name = "projectile", cd = 1, lag = 2, element = 0)
 		if(cd && (world.time - lastproj) < 2 && !inOldArena()) return
@@ -1633,6 +1635,9 @@ mob
 
 		damage *= loc.loc:dmg
 		damage = round(damage)
+
+		if(damage > 0)
+			lastHostile = world.time
 
 		var/obj/projectile/P = new Type (src.loc,src.dir,src,icon,icon_state,damage,name,element)
 		P.shoot(lag)
@@ -1692,7 +1697,9 @@ obj/brick2door
 		if(density)
 			Take_Hit(p.owner)
 
-area/var/friendlyFire = TRUE
+area/var
+	friendlyFire = TRUE
+	timedProtection = FALSE
 
 
 mob/Player/var/element
@@ -1742,6 +1749,8 @@ mob/Player
 
 				var/area/a = loc.loc
 				if(!a.friendlyFire) return
+
+				if(a.timedProtection && (lastHostile == 0 || world.time - lastHostile > 600)) return
 
 				p.owner << "Your [p] does [p.damage] damage to [src]."
 			else
@@ -2078,7 +2087,7 @@ obj
 
 					if(!a.findStatusEffect(/StatusEffect/Potions/Stone))
 						var/turf/t = get_step_away(a, src)
-						if(t && !(issafezone(a.loc.loc) && !issafezone(t.loc)))
+						if(t && !(issafezone(a.loc.loc, 0) && !issafezone(t.loc, 0)))
 							a.Move(t)
 							a << "You were pushed backwards by [owner]'s Flippendo!"
 
@@ -2358,7 +2367,7 @@ obj/portkey
 	proc/Teleport(mob/Player/M)
 		if(!partner) return
 
-		if(!(!M.client.moving && issafezone(M.loc.loc)) && M.Transfer(partner.loc))
+		if(!(!M.client.moving && issafezone(M.loc.loc, 0)) && M.Transfer(partner.loc, 0))
 			M << "You step through the portkey."
 			..()
 
