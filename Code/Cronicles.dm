@@ -714,9 +714,14 @@ hudobj
 
 		mouse_opacity = 2
 
+		icon = 'Login Stone.dmi'
+		icon_state = "moss"
+
 		Load
-			maptext = "<b><span style=\"font-size:14px;color:#EEF400\">Load</span></b>"
+			maptext = "<b><span style=\"font-size:14px;color:#34d\">Load</span></b>"
 			maptext_width = 64
+			maptext_x = 9
+			maptext_y = 4
 
 			screen_x = 64
 
@@ -725,10 +730,12 @@ hudobj
 					usr:Choose_Character()
 
 		New
-			maptext = "<b><span style=\"font-size:14px;color:#EEF400\">New</span></b>"
+			maptext = "<b><span style=\"font-size:14px;color:#34d\">New</span></b>"
 			maptext_width = 64
+			maptext_x = 10
+			maptext_y = 4
 
-			screen_x = -64
+			screen_x = -94
 
 			Click()
 				if(istype(usr,/mob/BaseCamp/ChoosingCharacter))
