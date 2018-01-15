@@ -13,6 +13,7 @@
 #define isplayer(x) istype(x, /mob/Player)
 #define ismonster(x) istype(x, /mob/Enemies)
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
+#define clamp(n, low, high) min(max((n), low), high)
 
 #define VERSION "16.69"
 #define SAVEFILE_VERSION 30
