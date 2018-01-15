@@ -4,26 +4,6 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-world/Topic(T,Addr,Master,Key)
-	switch(copytext(T,1,5))
-		if("7ann")
-			//Announce to world
-			Players << copytext(T,5)
-		if("7cla")
-			//Reload clan permissions for specified ckey
-			for(var/client/C)
-				if(C.ckey == copytext(T,5))
-					C.update_individual()
-		if("7sav")
-			//Save the world
-			for(var/client/C)
-				spawn() C.mob.Save()
-				sleep(1)
-			return "Saved"
-		if("7reb")
-			//Reboot the game
-			Players << "<br><hr><b>Rebooting the world now!</b><hr><br>"
-			world.Reboot(2)
 
 var/const
 	DE_INVITE = 0
