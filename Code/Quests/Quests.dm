@@ -804,6 +804,8 @@ mob/Player
 
 interface
 	var/obj/hud/screentext/quest/quest
+	var/obj/healthbar/screen/hpbar
+	var/obj/healthbar/screen/mpbar
 	var/mob/Player/parent
 
 
@@ -816,6 +818,17 @@ interface
 		new /hudobj/spellbook(null, parent.client, null, show=1)
 		new /hudobj/questbook(null, parent.client, null, show=1)
 		new /hudobj/Party_Invite(null, parent.client, null, 1)
+
+		hpbar = new()
+		hpbar.screen_loc = "NORTH-1:15,WEST+1"
+		hpbar.Set(p.HP / (p.MHP + p.extraMHP), instant=1)
+		p.client.screen += hpbar
+
+		mpbar = new()
+		mpbar.isMana = 1
+		mpbar.screen_loc = "NORTH-1,WEST+1"
+		mpbar.Set(p.MP / (p.MMP + p.extraMMP), instant=1)
+		p.client.screen += mpbar
 
 		Update()
 

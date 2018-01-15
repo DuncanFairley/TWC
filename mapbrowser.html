@@ -4,9 +4,6 @@
 <SCRIPT type="text/javascript">
 var map_width;
 var map_height;
-var TILE_WIDTH = 32;
-var TILE_HEIGHT = 32;
-var MAX_VIEW_TILES = 2000;
 
 function CallVerb() {
     var locstr = "byond://winset?command=" + arguments[0];
@@ -38,8 +35,6 @@ window.onload = function() {
 	WinSet("saybutton","is-visible","false");
 	WinSet("macrobutton","is-visible","false");
 	WinSet("mainvsplit","right","mapwindow");
-	WinSet("barHP","is-visible","false");
-	WinSet("barMP","is-visible","false");
 	WinSet("guild","is-visible","false");
 	WinSet("splitStack","is-visible","false");
 	WinSet("SpellBook","is-visible","false");
@@ -56,7 +51,7 @@ function ToggleFullscreen() {
         WinSet("mainwindow","titlebar","true","is-maximized","false","can-resize","true");
         isfullscreen = 0;
     } else {
-        WinSet("mainwindow","titlebar","false")
+        WinSet("mainwindow","titlebar","false");
         WinSet("mainwindow","is-maximized","true","can-resize","false");
         isfullscreen = 1;
     }
@@ -68,8 +63,6 @@ function Login()
 	WinSet("saybutton","is-visible","true");
 	WinSet("macrobutton","is-visible","true");
 	WinSet("mainvsplit","right","rpane");
-	WinSet("barHP","is-visible","true");
-	WinSet("barMP","is-visible","true");
     Resize();
 }
 
@@ -82,25 +75,25 @@ function CenterWindow() {
 
 function Resize() {
     var body = document.getElementsByTagName('body')[0];
-    map_width = body.clientWidth;
-    map_height = body.clientHeight;
+    var map_width = body.clientWidth;
+    var map_height = body.clientHeight;
+	
+	var map_zoom = 1
 
-    var map_zoom = 1;
-
-    var view_width = Math.ceil(map_width/TILE_WIDTH);
+    var view_width = Math.ceil(map_width/32);
     if(!(view_width%2)) ++view_width;
-    var view_height = Math.ceil(map_height/TILE_HEIGHT);
+    var view_height = Math.ceil(map_height/32);
     if(!(view_height%2)) ++view_height;
 
-    while(view_width*view_height>MAX_VIEW_TILES) {
-        view_width = Math.ceil(map_width/TILE_WIDTH/++map_zoom);
+    while(view_width*view_height>2000) {
+        view_width = Math.ceil(map_width/32/++map_zoom);
         if(!(view_width%2)) ++view_width;
-        view_height = Math.ceil(map_height/TILE_HEIGHT/map_zoom);
+        view_height = Math.ceil(map_height/32/map_zoom);
         if(!(view_height%2)) ++view_height;
     }
 
-    var buffer_x = Math.floor((view_width*TILE_WIDTH - map_width/map_zoom)/2);
-    var buffer_y = Math.floor((view_height*TILE_HEIGHT - map_height/map_zoom)/2);
+    var buffer_x = Math.floor((view_width*32 - map_width/map_zoom)/2);
+    var buffer_y = Math.floor((view_height*32 - map_height/map_zoom)/2);
 
     WinSet("map","zoom",map_zoom);
     CallVerb("onResize",view_width,view_height,buffer_x,buffer_y,map_zoom);

@@ -797,6 +797,8 @@ mob
 			character.client.eye = character
 			character.client.perspective = MOB_PERSPECTIVE
 
+			character.hpBar = new(character)
+
 			src = null
 			spawn()
 				sql_check_for_referral(character)
@@ -1065,7 +1067,6 @@ mob/Player
 			BaseIcon()
 
 			hpBar = new(src)
-			updateHPMP()
 
 	proc/ApplyOverlays(ignoreBonus = 1)
 		src.overlays = list()

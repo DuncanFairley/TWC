@@ -7,17 +7,17 @@
 
 mob/verb/updateHPMP()
 	set name = ".updateHPMP"
-	if(!key)return
 	spawn()
-		var/hppercent = HP / (MHP+extraMHP) * 100
-		var/mppercent = MP / (MMP+extraMMP) * 100
-		winset(src,null,"barHP.value=[hppercent];barMP.value=[mppercent];")
+		var/hppercent = clamp(HP / (MHP+extraMHP), 0, 1)
+		var/mppercent = clamp(MP / (MMP+extraMMP), 0, 1)
 
-		if(hppercent > 0 && src:hpBar)
-			src:hpBar.Set(hppercent/100, src)
+		src:Interface.hpbar.Set(hppercent)
+		src:Interface.mpbar.Set(mppercent)
 
-			if(src:party)
-				src:party.updateHP(src, hppercent/100)
+		src:hpBar.Set(hppercent, src)
+
+		if(src:party)
+			src:party.updateHP(src, hppercent)
 
 mob
 	var
@@ -46,7 +46,9 @@ obj/healthbar
 	mouse_opacity = 0
 	icon = 'healthbar_28.dmi'
 
-	var/barSize = 14
+	var
+		barSize = 14
+		isMana = 0
 
 	pixel_x = 2
 	pixel_y = -6
@@ -76,7 +78,7 @@ obj/healthbar
 		pixel_y = -24
 		layer = 5
 
-		New(mob/p, hud)
+		New(mob/p)
 
 			overlays += /obj/hpframe/big
 
@@ -88,6 +90,14 @@ obj/healthbar
 
 				glide_size = p.glide_size
 
+	screen
+		barSize = 128
+		icon = 'healthbar_256.dmi'
+		plane = 2
+		layer = 10
+
+		New()
+			overlays += /obj/hpframe/screen
 
 	proc
 		Set(var/perc, mob/M, instant=0)
@@ -101,9 +111,14 @@ obj/healthbar
 				sleep(5)
 
 			var/c
-			if(perc > 0.6) c = "#0d0"
-			else if(perc >= 0.3) c = "#d90"
-			else c = "#d00"
+			if(isMana)
+				if(perc > 0.6) c = "#39f"
+				else if(perc >= 0.3) c = "#66b2ff"
+				else c = "#9cf"
+			else
+				if(perc > 0.6) c = "#0d0"
+				else if(perc >= 0.3) c = "#d90"
+				else c = "#d00"
 
 			if(instant)
 				color = c
@@ -124,6 +139,10 @@ obj/hpframe
 	big
 		icon = 'healthbar_64.dmi'
 		icon_state = "frame"
+	screen
+		icon = 'healthbar_256.dmi'
+		icon_state = "frame"
+		plane = 2
 
 	appearance_flags = RESET_TRANSFORM|RESET_COLOR
 

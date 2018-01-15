@@ -826,34 +826,6 @@ window "mainwindow"
 		is-maximized = true
 		macro = "macro"
 		menu = "menu"
-	elem "barMP"
-		type = BAR
-		pos = 165,403
-		size = 149x15
-		anchor1 = 0,100
-		anchor2 = none
-		background-color = #e3e3e3
-		is-visible = false
-		saved-params = ""
-		bar-color = #2109ff
-		is-slider = false
-		width = 0
-		dir = east
-		value = 50
-	elem "barHP"
-		type = BAR
-		pos = 3,403
-		size = 149x15
-		anchor1 = 0,100
-		anchor2 = none
-		background-color = #ff6f6f
-		is-visible = false
-		saved-params = ""
-		bar-color = #ff0909
-		is-slider = false
-		width = 0
-		dir = east
-		value = 50
 	elem "radiobrowser"
 		type = BROWSER
 		pos = 352,152
@@ -865,8 +837,8 @@ window "mainwindow"
 		saved-params = ""
 	elem "mainvsplit"
 		type = CHILD
-		pos = 3,0
-		size = 634x400
+		pos = 0,0
+		size = 634x416
 		anchor1 = 0,0
 		anchor2 = 100,100
 		background-color = none
@@ -875,7 +847,7 @@ window "mainwindow"
 		is-vert = true
 	elem "input"
 		type = INPUT
-		pos = 3,420
+		pos = 0,420
 		size = 517x20
 		anchor1 = 0,100
 		anchor2 = 100,100
@@ -886,7 +858,7 @@ window "mainwindow"
 		saved-params = "command"
 	elem "saybutton"
 		type = BUTTON
-		pos = 520,420
+		pos = 517,420
 		size = 40x20
 		anchor1 = 100,100
 		anchor2 = none
@@ -898,7 +870,7 @@ window "mainwindow"
 		button-type = pushbox
 	elem "macrobutton"
 		type = BUTTON
-		pos = 560,420
+		pos = 557,420
 		size = 30x20
 		anchor1 = 100,100
 		anchor2 = none
