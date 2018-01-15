@@ -838,7 +838,7 @@ window "mainwindow"
 	elem "mainvsplit"
 		type = CHILD
 		pos = 0,0
-		size = 634x416
+		size = 640x417
 		anchor1 = 0,0
 		anchor2 = 100,100
 		background-color = none
@@ -888,7 +888,6 @@ window "mapwindow"
 		size = 645x490
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		titlebar = false
 		statusbar = false
@@ -902,7 +901,6 @@ window "mapwindow"
 		size = 645x490
 		anchor1 = 0,0
 		anchor2 = 100,100
-		background-color = none
 		saved-params = ""
 	elem "map"
 		type = MAP
