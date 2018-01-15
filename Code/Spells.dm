@@ -1727,7 +1727,7 @@ element
 		add(amount, mob/Player/parent)
 			if(level >= MAX) return
 
-			exp += round(amount/20)
+			exp += round(amount/10)
 
 			while(exp > maxExp && level < MAX)
 				exp -= maxExp
