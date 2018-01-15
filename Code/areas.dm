@@ -16,7 +16,8 @@ teleportNode
 		AdjacentNodes()
 			return nodes
 		Distance(teleportNode/t)
-			return 1
+			if(t in nodes) return 1
+			return 10
 
 		Entered(atom/movable/Obj)
 			if(active) return
