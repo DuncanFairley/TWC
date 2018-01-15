@@ -1,7 +1,11 @@
+/*
+ * Copyright © 2014 Duncan Fairley
+ * Distributed under the GNU Affero General Public License, version 3.
+ * Your changes must be made public.
+ * For the full license text, see LICENSE.txt.
+ */
 
-WorldData
-	var/tmp
-		sandboxZ
+WorldData/var/tmp/sandboxZ
 
 proc
 	InitSandbox(attempts=3)
@@ -52,6 +56,7 @@ obj
 			var
 				hp    = 20000
 				maxhp = 20000
+				amount = 20
 				obj/healthbar/hpbar
 
 			New()
@@ -68,6 +73,7 @@ obj
 				pixel_y = 0
 				layer   = 5
 				transform = null
+				amount = initial(amount)
 
 				for(var/i = 1 to 10)
 					var/x = rand(10, 90)
@@ -76,9 +82,9 @@ obj
 					var/turf/t = locate(x, y, worldData.sandboxZ)
 
 					#if WINTER
-					if(t.icon_state == "snow")
+					if(t.icon_state == "snow" && !t.flyblock)
 					#else
-					if(t.icon_state == "grass1")
+					if(t.icon_state == "grass1" && !t.flyblock)
 					#endif
 						loc = t
 						hpbar.loc = t
@@ -87,8 +93,7 @@ obj
 						animate(src, alpha = 255, time = 10)
 						break
 				if(!loc)
-					hpbar.loc = null
-					hpbar = null
+					spawn() respawn()
 
 			Attacked(obj/projectile/p)
 				set waitfor = 0
@@ -102,12 +107,26 @@ obj
 					hpbar = new(src)
 					hpbar.alpha = 0
 
-				hpbar.Set(perc)
+				var/s = round((maxhp - hp) / (maxhp / amount))
+				if(s >= 1)
+					amount -= s
 
+					var/px = rand(-2,2)
+					var/py = rand(-2,0)
+					if(px == 0 && py == 0) py = -1
+					var/obj/items/wood_log/w = new(locate(x + px, y + py, z))
+					w.stack = s
+					w.UpdateDisplay()
+					w.pixel_y = 64 - py*32
+					w.pixel_x = -px*32
+					w.transform = turn(matrix(), 90 * pick(1, -1))
+					w.layer = 6
+					animate(w, pixel_x = 0, pixel_y = 0, transform = null, time = 20, easing = BOUNCE_EASING)
+					animate(layer = 3, time = 0)
 				if(hp <= 0)
 					layer = 2
 					var/obj/items/wood_log/w = new(loc)
-					w.stack = rand(1,9)
+					w.stack = amount + rand(3,6)
 					w.UpdateDisplay()
 					w.pixel_y = 64
 					w.transform = turn(matrix(), 90 * pick(1, -1))
@@ -122,17 +141,17 @@ obj
 						m.Turn(90)
 						animate(src, pixel_x = 0, pixel_y = -64, transform = m, time = 50, easing = BOUNCE_EASING)
 					density = 0
-					sleep(51)
 					animate(hpbar, alpha = 0, time = 5)
 					sleep(6)
 					hpbar.loc = null
-					sleep(50)
+					sleep(100)
 					animate(src, alpha = 0, time = 10)
 					sleep(11)
 					loc = null
 					respawn()
 
 				else
+					hpbar.Set(perc)
 					animate(src, pixel_x = pixel_x-1, time = 1)
 					animate(pixel_x = pixel_x+1, time = 2)
 					animate(pixel_x = pixel_x, time = 1)
@@ -298,7 +317,7 @@ obj/buildable
 			t.flyblock = 2
 
 		var/perc = hp / maxhp
-		if(perc < 1 && icon_state != "15")
+		if(perc < 1)
 			hpbar = new(src)
 			hpbar.Set(perc)
 
@@ -346,6 +365,9 @@ obj/buildable
 			animate(pixel_x = pixel_x, time = 1)
 
 	wall
+		var
+			tmp/regen = 0
+			rate = 500
 		opacity = 1
 		wood
 			icon = 'wood_wall.dmi'
@@ -358,10 +380,41 @@ obj/buildable
 
 			updateState()
 
-		proc/updateState()
-			var/turf/t = loc
-			var/n = t.autojoin1("flyblock", 2)
-			icon_state = "[n]"
+			if(hp < maxhp)
+				regen()
+
+		Attacked(obj/projectile/p)
+			set waitfor = 0
+			..()
+			if(!regen && hp > 0 && hp < maxhp)
+				regen()
+
+		proc
+			updateState()
+				var/turf/t = loc
+				var/n = t.autojoin1("flyblock", 2)
+				icon_state = "[n]"
+
+			regen()
+				set waitfor = 0
+				if(regen) return
+				regen = 1
+				sleep(50)
+				while(hp > 0 && hp < maxhp)
+					hp += rate
+					if(hp >= maxhp)
+						hp = maxhp
+						animate(hpbar, transform = null, alpha = 0, time = 5)
+					else
+						var/perc = hp / maxhp
+						hpbar.Set(perc)
+					sleep(50)
+
+				if(hp >= maxhp)
+					hpbar.loc = null
+					hpbar = null
+					hp = maxhp
+					regen = 0
 
 		Dispose()
 			var/turf/t = loc
