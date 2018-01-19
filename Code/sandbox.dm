@@ -32,9 +32,9 @@ proc
 			var/turf/t = locate(x, y, worldData.sandboxZ)
 
 			#if WINTER
-			if(t.icon_state == "snow")
+			if(t.icon_state == "snow" && !t.flyblock)
 			#else
-			if(t.icon_state == "grass1")
+			if(t.icon_state == "grass1" && !t.flyblock)
 			#endif
 				new /obj/farm/tree (t)
 
@@ -259,10 +259,14 @@ turf/buildable
 				if(p.buildItem.path)
 					if(!flyblock && !(locate(p.buildItem.path) in src))
 						Clear()
-						new p.buildItem.path(src)
+						var/obj/buildable/wall/o = new p.buildItem.path(src)
 
-						spawn(2)
-							if(flyblock)
+						if(istype(o, /obj/buildable/wall))
+							o.hp = 10000
+							o.hpbar = new(o)
+							o.hpbar.Set(o.hp / o.maxhp, instant=1)
+
+							spawn(2)
 								for(var/obj/buildable/wall/w in orange(1, src))
 									w.updateState()
 
@@ -367,7 +371,7 @@ obj/buildable
 	wall
 		var
 			tmp/regen = 0
-			rate = 500
+			rate = 5000
 		opacity = 1
 		wood
 			icon = 'wood_wall.dmi'
@@ -554,6 +558,13 @@ hudobj
 
 			if(M.buildItemDisplay)
 				M.buildItemDisplay.loc = null
+				M.buildItem.color = initial(M.buildItem.color)
+
+				if(M.buildItem == src)
+					M.buildItem = null
+					M.buildItemDisplay = null
+					return
+
 
 			var/obj/preview/o = new
 			o.appearance = appearance
@@ -565,6 +576,7 @@ hudobj
 
 			M.buildItem = src
 			M.buildItemDisplay = o
+			color = "#0f0"
 
 		shared
 			guide
