@@ -233,8 +233,6 @@ area
 			icon_state = "white"
 			antiTeleport = 1
 		Pixie_Pit
-	inside
-		ToPumpkin_Pit
 
 	newareas
 		var/tmp
@@ -285,7 +283,6 @@ area
 			Silverblood_Golems
 			Graveyard
 			layer = 6	// set this layer above everything else so the overlay obscures everything
-			Pumpkin
 
 		inside
 			Pixie_Pit
@@ -2438,7 +2435,7 @@ obj/corpse
 
 		appearance         = dead.appearance
 		dir                = dead.dir
-		layer              = 2
+		layer              = 3
 
 		var/matrix/m = transform
 		m.Turn(90 * pick(1, -1))
