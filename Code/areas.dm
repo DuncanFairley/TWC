@@ -229,15 +229,22 @@ area
 					o.hide()
 
 	hogwarts
+		safezoneoverride = 1
+		timedProtection = 1
+
 		TrophyRoom
 		Entrance_Hall
 		Great_Hall
 		PorchLeft
 		PorchRight
 		Defence_Against_the_Dark_Arts
+			safezoneoverride = 0
 		Charms
+			safezoneoverride = 0
 		Care_of_Magical_Creatures
+			safezoneoverride = 0
 		Transfiguration
+			safezoneoverride = 0
 		Bathroom
 		Library
 		Hufflepuff_Common_Room
@@ -249,6 +256,7 @@ area
 		Potions
 			antiTeleport = 1
 		Hospital_Wing
+			safezoneoverride = 0
 			Exited(atom/movable/Obj, atom/newloc)
 				..()
 
@@ -259,23 +267,26 @@ area
 					if(o)
 						o.hide()
 
-		Muggle_Studdies
-		Restricted_Section
 		Detention
 		Headmasters_Class_West
+			safezoneoverride = 0
 		Headmasters_Class_East
+			safezoneoverride = 0
 		East_Wing
 		West_Wing
-		Meeting_Room
 		Third_Floor
 		Study_Hall
 		Greenhouse
 			antiTeleport     = 1
 			friendlyFire     = 0
 			safezoneoverride = 1
+			timedProtection  = 0
 		Forth_Floor
-		Matchmaking/Duel_Class
+		Matchmaking
+			timedProtection = 0
+			Duel_Class
 		Duel_Arenas
+			timedProtection = 0
 			Gryffindor
 			Hufflepuff
 			Slytherin
@@ -479,46 +490,6 @@ area
 						return ..()
 				else
 					return ..()
-area
-	CommonRooms
-		var/house
-		var/dest
-		layer = 6
-		Entered(mob/Player/M)
-			if(!isplayer(M)) return
-			if(!house)
-				M.Transfer(locate(dest))
-			else if(M.House == house)
-				M.Transfer(locate(dest))
-				M << infomsg("<b>Welcome to your common room.</b>")
-			else
-				M.followplayer = 0
-				var/dense = M.density
-				M.density = 0
-				step(M, turn(M.dir, 180))
-				M.density = dense
-				M << errormsg("<b>This isn't your common room.</b>")
-
-		GryffindorCommon
-			house = "Gryffindor"
-			dest  = "gryfCR"
-		GryffindorCommon_Back
-			dest  = "gryfCRBack"
-		RavenclawCommon
-			house = "Ravenclaw"
-			dest  = "ravenCR"
-		RavenclawCommon_Back
-			dest  = "ravenCRBack"
-		HufflepuffCommon
-			house = "Hufflepuff"
-			dest  = "huffleCR"
-		HufflepuffCommon_Back
-			dest  = "huffleCRBack"
-		SlytherinCommon
-			house = "Slytherin"
-			dest  = "slythCR"
-		SlytherinCommon_Back
-			dest  = "slythCRBack"
 
 area
 	FredHouseTrap
@@ -535,46 +506,19 @@ area
 					return
 			M.Transfer(locate("@FredTrap"))
 
-area
-	Desert
-		Entered(mob/Player/M)
-			if(istype(M, /mob/Player))
-				M.density = 0
-				M.Move(locate(rand(4,97),rand(4,97),4))
-				M.density = 1
-
 mob/var/tmp/flying = 0
 
 area
 	Diagon_Alley
+		safezoneoverride = 1
+		timedProtection = 1
+
 		HogsmeadeSafeZone
 		Bank
 		TomsCellar
 	hogwarts
-		Azkaban
-		DEHQ
-		AurorHQ
 		DuelArena
-		Desert
-		Pyramid
 		CoS
-		JulyMaze
-
-		Class_Paths
-			DADAClass
-
-			COMCClass
-
-			TransClass
-
-			CharmsClass
-
-			HMClass
-
-			AnderClass
-
-			DuelClass
-
 
 	Enter(atom/movable/o, atom/oldloc)
 		if(istype(o, /obj/projectile))
