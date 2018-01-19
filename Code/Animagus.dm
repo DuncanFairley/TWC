@@ -23,7 +23,6 @@ turf
 						p.Class_Path_to()
 					else if(p.pathdest)
 						p.pathTo()
-	destination
 
 turf/gotoministry
 	Entered()
