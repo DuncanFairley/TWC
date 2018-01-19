@@ -11,6 +11,32 @@ obj/items/wearable/magic_eye
 		spawn(1)
 			loc = null
 
+obj/items/herosbrace
+/*	name = "Hero's brace"
+	icon = 'herosbrace.dmi'
+	Click()
+		if(src in usr)
+			if(canUse(M=usr, needwand=0, inarena=0, inhogwarts=0, antiTeleport=1))
+				var/turf/t
+				switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Forbidden Forest","Graveyard"))
+					if("Diagon Alley")
+						t = locate("@DiagonAlley")
+					if("Forbidden Forest")
+						t = locate("@Forest")
+					if("Graveyard")
+						t = locate("@Graveyard")
+				if(t && canUse(M=usr, needwand=0, inarena=0, inhogwarts=0))
+					flick('tele2.dmi',usr)
+					usr:Transfer(t)
+				if(usr.removeoMob) spawn()usr:Permoveo()
+		else
+			..()*/
+
+	New()
+		..()
+		spawn(1)
+			loc = null
+
 obj/roofedge/canSave = 0
 obj/Flippendo/canSave = 0
 

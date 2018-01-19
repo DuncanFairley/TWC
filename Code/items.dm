@@ -521,26 +521,6 @@ obj/items/food
 		Eat()
 			viewers(usr) << infomsg("[usr] pops a tootsie roll into \his mouth.")
 			..()
-obj/items/herosbrace
-	name = "Hero's brace"
-	icon = 'herosbrace.dmi'
-	Click()
-		if(src in usr)
-			if(canUse(M=usr, needwand=0, inarena=0, inhogwarts=0, antiTeleport=1))
-				var/turf/t
-				switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Forbidden Forest","Graveyard"))
-					if("Diagon Alley")
-						t = locate("@DiagonAlley")
-					if("Forbidden Forest")
-						t = locate("@Forest")
-					if("Graveyard")
-						t = locate("@Graveyard")
-				if(t && canUse(M=usr, needwand=0, inarena=0, inhogwarts=0))
-					flick('tele2.dmi',usr)
-					usr:Transfer(t)
-				if(usr.removeoMob) spawn()usr:Permoveo()
-		else
-			..()
 
 obj/items/snowring
 	icon='ammy.dmi'
@@ -1909,6 +1889,15 @@ obj/items/wearable/invisibility_cloak
 	icon = 'invis_cloak.dmi'
 	showoverlay=0
 	desc = "This magical cloak renders the wearer invisible."
+	max_stack = 1
+
+	var/time
+
+	New()
+		..()
+
+		time = world.realtime
+
 	Equip(var/mob/Player/owner,var/overridetext=0)
 		if(owner.findStatusEffect(/StatusEffect/Decloaked))
 			owner << errormsg("You are unable to cloak right now.")
@@ -1922,27 +1911,28 @@ obj/items/wearable/invisibility_cloak
 		. = ..(owner)
 		if(. == WORN)
 			if(!overridetext)viewers(owner) << infomsg("[owner] fastens \the [src.name] around \his shoulders and disappears.")
-			var/wascloaked = 0
 			for(var/obj/items/wearable/invisibility_cloak/W in owner.Lwearing)
 				if(W != src)
-					wascloaked = 1
 					W.Equip(owner,1,1)
-			if(!wascloaked)
-				owner<<"You put on the cloak and become invisible to others."
 
-				if(owner.invisibility == 0)
-					flick('mist.dmi',owner)
-					owner.invisibility=1
-					owner.sight |= SEE_SELF
-					owner.alpha = 125
+			var/a = clamp(round((world.realtime - time) / 18000), 0, 255)
+			if(a < 100)
+				owner << infomsg("You put on the cloak and become invisible to others.")
+				flick('mist.dmi',owner)
+				owner.alpha = a
+			else
+				owner << errormsg("The invisibility cloak crumbles to dust.")
+				owner.alpha = 255
+				Dispose()
 
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] appears from nowhere as \he removes \his [src.name].")
 
-			if(owner.invisibility == 1)
-				owner.invisibility=0
-				owner.sight &= ~SEE_SELF
-				owner.alpha = 255
+			if(owner.alpha >= 100)
+				owner << errormsg("The invisibility cloak crumbles to dust.")
+				Dispose()
+
+			owner.alpha = 255
 
 obj/items/wearable/title
 	var/title = ""
@@ -3043,7 +3033,7 @@ obj/items/magic_stone
 	teleport
 		icon    = 'Crystal.dmi'
 		name    = "teleport stone"
-		seconds = 3
+		seconds = 2
 		var/dest
 
 		desc = "Used for teleportation."
