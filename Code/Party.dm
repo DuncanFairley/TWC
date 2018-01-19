@@ -63,6 +63,7 @@ party
 			var/mob/Player/m = members[1]
 			var/offset = 2
 			for(var/obj/healthbar/bar in m.client.screen)
+				if(bar.name == "screen") continue
 				bar.screen_loc = "NORTH-[offset],WEST+2"
 				offset++
 				m.client.screen += bar
@@ -82,13 +83,17 @@ party
 			p.verbs += new/mob/Party/verb/Party_Chat
 
 			var/obj/healthbar/big/hpbar = new()
+			hpbar.plane = 2
 			var/obj/hpMaptext = new
-			hpMaptext.maptext = p.name
+			if(p.pname)
+				hpMaptext.maptext = "<b>[p.pname]</b>"
+			else
+				hpMaptext.maptext = "<b>[p.name]</b>"
 			hpMaptext.maptext_width = 96
 			hpMaptext.maptext_y = 6
 			hpMaptext.appearance_flags = RESET_TRANSFORM
 			hpbar.overlays += hpMaptext
-			hpbar.screen_loc = "NORTH-[members.len],WEST+2"
+			hpbar.screen_loc = "NORTH-[members.len-1],WEST+2"
 
 			hpbar.Set(p.HP / (p.MHP + p.extraMHP), instant=1)
 			healths[p.ckey] = hpbar
@@ -110,6 +115,7 @@ party
 			healths -= p.ckey
 
 			for(var/obj/healthbar/bar in p.client.screen)
+				if(bar.name == "screen") continue
 				p.client.screen -= bar
 
 			members -= p
