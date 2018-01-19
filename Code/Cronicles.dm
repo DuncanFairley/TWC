@@ -554,7 +554,7 @@ mob/BaseCamp/FirstTimePlayer
 
 world
 	mob = /mob/BaseCamp/ChoosingCharacter
-var/HTML/HTML
+/*var/HTML/HTML
 var/HTMLres = list('logo_banner.png', 'logo.png', 'mainstyle.css')
 mob/BaseCamp/ChoosingCharacter/Topic(href,href_list[])
 	switch(href_list["action"])
@@ -704,7 +704,7 @@ proc/HTMLOutput(mob/M,page,list/href_list)
 	</script>
 </body>
 </html>"}
-
+*/
 client/var/tmp/interface/tmpInterface
 
 hudobj
@@ -742,7 +742,6 @@ hudobj
 					usr:New_Character()
 
 
-
 mob/tmpmob
 mob/BaseCamp/ChoosingCharacter
 	Login()
@@ -751,6 +750,7 @@ mob/BaseCamp/ChoosingCharacter
 		new /hudobj/login/Load(null, client, null, 1)
 
 		client.tmpInterface = new (client)
+		client.onResize(60, 31, 0, 0, 1)
 
 		var/obj/o = locate("@Courtyard")
 		client.eye = o
