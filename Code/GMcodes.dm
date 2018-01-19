@@ -2099,3 +2099,83 @@ mob/Player/proc/removeStaff()
 	verbs -= /mob/Spells/verb/Ecliptica
 	verbs -= /mob/Spells/verb/Basilio
 	verbs -= /mob/Spells/verb/Gravitate
+
+var/list/fakePlayers = list()
+
+mob/test/verb/LoadPeople(var/amount as num)
+
+	var/tries = amount * 10
+	var/i = amount
+	while(i > 0 && tries > 0)
+		var/list/letters = flist("players/")
+
+		var/letter = pick(letters)
+
+		if(findtext(letter, ".")) continue
+
+		letter = copytext(letter, -2, -1)
+
+		var/list/players = flist("players/[letter]/")
+
+		var/playerCkey = pick(players)
+		if(findtext(playerCkey, "guest")) continue
+
+		playerCkey = replacetext(playerCkey, ".sav", "")
+
+		tries--
+		if(playerCkey in fakePlayers) continue
+		if(LoadPlayer(playerCkey, 500))
+			i--
+
+mob/test/verb/RealWho()
+
+	for(var/client/c)
+		src << c.ckey
+
+mob/test/verb/LoadSave(var/c as text)
+
+	src << LoadPlayer(c)
+
+
+proc/LoadPlayer(var/playerCkey, var/levelReq=0)
+	playerCkey = ckey(playerCkey)
+	var/first_initial = copytext(playerCkey, 1, 2)
+	var/savefile/oldF = new("players/[first_initial]/[playerCkey].sav")
+	oldF.cd = "/players/[playerCkey]/mobs/"
+	var/mob/Player/old_mob
+	for (var/entry in oldF.dir)
+		oldF["[entry]/mob"] >> old_mob
+		break
+
+	if(old_mob && old_mob.level > levelReq)
+
+		old_mob.addNameTag()
+		old_mob.ApplyOverlays()
+		Players += old_mob
+		bubblesort_atom_name(Players)
+
+	//	old_mob.ckey = null
+
+		fakePlayers += playerCkey
+
+		if(!old_mob.away)
+			old_mob.away = 1
+			old_mob.ApplyAFKOverlay()
+			old_mob.here=old_mob.status
+			old_mob.status=" (AFK)"
+
+		return 1
+	return 0
+
+var/canLogout = 1
+mob/test/verb/ToggleLogout()
+	canLogout = !canLogout
+
+	if(canLogout) src << infomsg("players can now logout.")
+	else  src << infomsg("logout? what's that?")
+
+mob/test/verb/ResetReputation()
+	for(var/ckey in worldData.playersData)
+		var/PlayerData/p = worldData.playersData[ckey]
+		p.fame = 0
+	src << infomsg("Done")
