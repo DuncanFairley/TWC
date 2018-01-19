@@ -58,7 +58,7 @@ obj/healthbar
 	canSave = 0
 
 	New(mob/Player/p)
-		overlays += /obj/hpframe/small
+		underlays += /obj/hpframe/small
 
 		if(p)
 			loc = p.loc
@@ -80,7 +80,7 @@ obj/healthbar
 
 		New(mob/p)
 
-			overlays += /obj/hpframe/big
+			underlays += /obj/hpframe/big
 
 			if(p)
 				if(p.HP == p.MHP + p.extraMHP)
@@ -93,11 +93,12 @@ obj/healthbar
 	screen
 		barSize = 128
 		icon = 'healthbar_256.dmi'
+		icon_state = "top"
 		plane = 2
 		layer = 10
 
 		New()
-			overlays += /obj/hpframe/screen
+			underlays += /obj/hpframe/screen
 
 	proc
 		Set(var/perc, mob/M, instant=0)
