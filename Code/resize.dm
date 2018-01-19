@@ -105,6 +105,9 @@ client
 		//	src << output(null,"browser1:CenterWindow")
 			src << output(null,"browser1:Resize")
 
+			if(isplayer(mob)) // if mapbrowser loaded after login()
+				src << output(null,"browser1:Login")
+
 		onResize(VW as num,VH as num,BX as num,BY as num,Z as num)
 			set hidden = 1
 			if(VW*VH>MAX_VIEW_TILES) return
@@ -115,7 +118,6 @@ client
 			buffer_y = BY
 			map_zoom = Z
 			view = "[VW]x[VH]"
-
 
 			var/obj/darkness/d = locate() in screen
 			if(d)

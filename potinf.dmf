@@ -1,81 +1,81 @@
 macro "macro"
 	elem 
-		name = "CENTER+REP"
+		name = "Center+REP"
 		command = ".center"
 	elem 
-		name = "ALT+RETURN"
+		name = "ALT+Return"
 		command = ".output browser1:ToggleFullscreen null"
 	elem 
-		name = "CTRL+NORTHEAST"
+		name = "CTRL+Northeast"
 		command = "anortheast"
 	elem 
-		name = "SHIFT+NORTHEAST"
+		name = "SHIFT+Northeast"
 		command = "anortheast"
 	elem 
-		name = "NORTHEAST+REP"
+		name = "Northeast+REP"
 		command = ".northeast"
 	elem 
-		name = "CTRL+SOUTHEAST"
+		name = "CTRL+Southeast"
 		command = "asoutheast"
 	elem 
-		name = "SHIFT+SOUTHEAST"
+		name = "SHIFT+Southeast"
 		command = "asoutheast"
 	elem 
-		name = "SOUTHEAST+REP"
+		name = "Southeast+REP"
 		command = ".southeast"
 	elem 
-		name = "CTRL+SOUTHWEST"
+		name = "CTRL+Southwest"
 		command = "asouthwest"
 	elem 
-		name = "SHIFT+SOUTHWEST"
+		name = "SHIFT+Southwest"
 		command = "asouthwest"
 	elem 
-		name = "SOUTHWEST+REP"
+		name = "Southwest+REP"
 		command = ".southwest"
 	elem 
-		name = "CTRL+NORTHWEST"
+		name = "CTRL+Northwest"
 		command = "anorthwest"
 	elem 
-		name = "SHIFT+NORTHWEST"
+		name = "SHIFT+Northwest"
 		command = "anorthwest"
 	elem 
-		name = "NORTHWEST+REP"
+		name = "Northwest+REP"
 		command = ".northwest"
 	elem 
-		name = "CTRL+WEST"
+		name = "CTRL+West"
 		command = "awest"
 	elem 
-		name = "SHIFT+WEST"
+		name = "SHIFT+West"
 		command = "awest"
 	elem 
-		name = "WEST+REP"
+		name = "West+REP"
 		command = ".west"
 	elem 
-		name = "CTRL+NORTH"
+		name = "CTRL+North"
 		command = "anorth"
 	elem 
-		name = "SHIFT+NORTH"
+		name = "SHIFT+North"
 		command = "anorth"
 	elem 
-		name = "NORTH+REP"
+		name = "North+REP"
 		command = ".north"
 	elem 
-		name = "CTRL+EAST"
+		name = "CTRL+East"
 		command = "aeast"
 	elem 
-		name = "SHIFT+EAST"
+		name = "SHIFT+East"
 		command = "aeast"
 	elem 
-		name = "EAST+REP"
+		name = "East+REP"
 		command = ".east"
 	elem 
-		name = "CTRL+SOUTH"
+		name = "CTRL+South"
 		command = "asouth"
 	elem 
-		name = "SHIFT+SOUTH"
+		name = "SHIFT+South"
 		command = "asouth"
 	elem 
-		name = "SOUTH+REP"
+		name = "South+REP"
 		command = ".south"
 
 
@@ -949,14 +949,16 @@ window "rpane"
 		size = 640x480
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		is-pane = true
 	elem "rpanewindow"
 		type = CHILD
 		pos = 0,0
-		size = 636x480
+		size = 640x480
 		anchor1 = 0,0
 		anchor2 = 100,100
+		background-color = none
 		saved-params = "splitter"
 		right = "outputwindow"
 		is-vert = false
@@ -966,6 +968,7 @@ window "rpane"
 		size = 60x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Text"
@@ -979,6 +982,7 @@ window "rpane"
 		size = 60x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Browser"
@@ -991,6 +995,7 @@ window "rpane"
 		size = 60x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Info"
@@ -1028,6 +1033,7 @@ window "infowindow"
 		size = 640x480
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Info"
 		titlebar = false
@@ -1045,6 +1051,7 @@ window "infowindow"
 		is-default = true
 		saved-params = ""
 		highlight-color = #00aa00
+		tab-background-color = none
 		on-show = ".winset\"rpane.infob.is-visible=true;rpane.browseb.is-visible=true?rpane.infob.pos=130,0:rpane.infob.pos=65,0 rpane.textb.is-visible=true rpane.infob.is-checked=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=infowindow\""
 		on-hide = ".winset\"rpane.infob.is-visible=false;rpane.browseb.is-visible=true?rpane.browseb.is-checked=true rpane.rpanewindow.left=browserwindow:rpane.textb.is-visible=false rpane.rpanewindow.pos=0,0 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=\""
 
@@ -1255,6 +1262,7 @@ window "winSettings"
 		size = 258x305
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		is-visible = false
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Settings"
@@ -1262,25 +1270,60 @@ window "winSettings"
 		can-minimize = false
 		can-resize = false
 		macro = "macro"
+	elem "label1"
+		type = LABEL
+		pos = 0,7
+		size = 60x20
+		anchor1 = none
+		anchor2 = none
+		background-color = none
+		saved-params = ""
+		text = "Colors:"
+	elem "buttonForeColor"
+		type = BUTTON
+		pos = 152,34
+		size = 72x28
+		anchor1 = none
+		anchor2 = none
+		background-color = none
+		border = line
+		saved-params = "is-checked"
+		text = "Foreground"
+		command = ".setForeColor"
+		is-flat = true
+	elem "buttonBackColor"
+		type = BUTTON
+		pos = 152,3
+		size = 72x28
+		anchor1 = none
+		anchor2 = none
+		background-color = none
+		border = line
+		saved-params = "is-checked"
+		text = "Background"
+		command = ".setBackColor"
+		is-flat = true
 	elem "buttonControlSet"
 		type = BUTTON
 		pos = 9,276
 		size = 167x24
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Use experimental movement"
 		command = "swapControls"
 		button-type = checkbox
-	elem "button5"
+	elem "buttonTextColor"
 		type = BUTTON
-		pos = 8,9
-		size = 120x28
+		pos = 56,3
+		size = 88x28
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		border = line
 		saved-params = "is-checked"
-		text = "On-Screen Text Color"
+		text = "On-Screen Text"
 		command = ".setInterfaceColor"
 		is-flat = true
 	elem "butQuestTrackertoggle"
@@ -1289,6 +1332,7 @@ window "winSettings"
 		size = 119x24
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Hide quest tracker"
 		command = ".QuestTrackertoggle"
@@ -1299,6 +1343,7 @@ window "winSettings"
 		size = 247x24
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable automatic AFK (Use at your own risk!)"
 		command = ".AFKtoggle"
@@ -1309,6 +1354,7 @@ window "winSettings"
 		size = 232x24
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable sounds (PMs, Events, Classes etc)"
 		command = ".Soundtoggle"
@@ -1319,6 +1365,7 @@ window "winSettings"
 		size = 200x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Block trade requests                       "
 		command = ".Tradetoggle"
@@ -1329,6 +1376,7 @@ window "winSettings"
 		size = 239x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving flashing event notifications"
 		command = ".EventNotificationstoggle"
@@ -1339,6 +1387,7 @@ window "winSettings"
 		size = 240x24
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving monster attack messages  "
 		command = ".MonsterMessagestoggle"
@@ -1349,6 +1398,7 @@ window "winSettings"
 		size = 239x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving flashing class notifications"
 		command = ".ClassNotificationstoggle"
@@ -1359,6 +1409,7 @@ window "winSettings"
 		size = 126x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable Housechat"
 		command = ".Housechattoggle"
@@ -1369,6 +1420,7 @@ window "winSettings"
 		size = 200x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving private messages"
 		command = ".PMtoggle"
@@ -1379,6 +1431,7 @@ window "winSettings"
 		size = 96x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable OOC"
 		command = ".OOCtoggle"

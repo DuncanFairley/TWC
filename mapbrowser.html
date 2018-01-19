@@ -4,6 +4,7 @@
 <SCRIPT type="text/javascript">
 var map_width;
 var map_height;
+var winset = 0;
 
 function CallVerb() {
     var locstr = "byond://winset?command=" + arguments[0];
@@ -14,11 +15,13 @@ function CallVerb() {
 }
 
 function WinSet() {
+	winset = 1;
     var locstr = "byond://winset?id=" + arguments[0];
     for(var count=1;count<arguments.length;count+=2) {
         locstr += "&" + arguments[count] + "=" + arguments[count+1];
     }
     window.location = locstr;
+	setTimeout(function(){ winset = 0; }, 100);
 }
 
 function Output() {
@@ -31,17 +34,7 @@ window.onresize = function() {
 
 window.onload = function() {
 	CallVerb("onLoad");
-	WinSet("input","is-visible","false");
-	WinSet("saybutton","is-visible","false");
-	WinSet("macrobutton","is-visible","false");
-	WinSet("mainvsplit","right","mapwindow");
-	WinSet("guild","is-visible","false");
-	WinSet("splitStack","is-visible","false");
-	WinSet("SpellBook","is-visible","false");
-	WinSet("Quests","is-visible","false");
-	WinSet("Auction","is-visible","false");
-	WinSet("winSettings","is-visible","false");
-	WinSet("radio_enabled","is-checked","false");
+	WinSet("","input.is-visible","false","saybutton.is-visible","false","macrobutton.is-visible","false","mainvsplit.right","mapwindow","guild.is-visible","false","splitStack.is-visible","false","SpellBook.is-visible","false","Quests.is-visible","false","Auction.is-visible","false","winSettings.is-visible","false","radio_enabled.is-checked","false");
 };
 
 var isfullscreen = 0;
@@ -57,13 +50,19 @@ function ToggleFullscreen() {
     }
 }
 
-function Login() 
-{
-	WinSet("input","is-visible","true");
-	WinSet("saybutton","is-visible","true");
-	WinSet("macrobutton","is-visible","true");
-	WinSet("mainvsplit","right","rpane");
-    Resize();
+function Login() {
+	WinSet("","input.is-visible","true","saybutton.is-visible","true","macrobutton.is-visible","true","mainvsplit.right","rpane","mnu_Settings.command",".ShowSettings","mnu_Settings.is-disabled","false");
+	Resize(1);
+}
+
+function BackColor() {
+	var c = encodeURIComponent(arguments[0]);
+	WinSet("","buttonBackColor.background-color",c,"saybutton.background-color",c,"macrobutton.background-color",c,"mainvsplit.background-color",c,"info.tab-background-color",c,"mainwindow.background-color",c,"rpanewindow.background-color",c,"rpane.background-color",c,"textb.background-color",c,"browseb.background-color",c,"infob.background-color",c);
+}
+
+function ForeColor() {
+	var c = encodeURIComponent(arguments[0]);
+	WinSet("","buttonForeColor.background-color",c,"saybutton.text-color",c,"macrobutton.text-color",c,"mainvsplit.text-color",c,"info.tab-text-color",c,"mainwindow.text-color",c,"rpanewindow.text-color",c,"rpane.text-color",c,"textb.text-color",c,"browseb.text-color",c,"infob.text-color",c);
 }
 
 var resolution_x;
@@ -74,6 +73,11 @@ function CenterWindow() {
 }
 
 function Resize() {
+	if(winset)
+	{
+		if(!arguments[0]) return;
+	}
+
     var body = document.getElementsByTagName('body')[0];
     var map_width = body.clientWidth;
     var map_height = body.clientHeight;

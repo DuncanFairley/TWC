@@ -820,15 +820,20 @@ interface
 		new /hudobj/Party_Invite(null, parent.client, null, 1)
 
 		hpbar = new()
-		hpbar.screen_loc = "NORTH-1:15,WEST+1"
+		hpbar.screen_loc = "NORTH-1:15,WEST+2"
 		hpbar.Set(p.HP / (p.MHP + p.extraMHP), instant=1)
 		p.client.screen += hpbar
 
 		mpbar = new()
 		mpbar.isMana = 1
-		mpbar.screen_loc = "NORTH-1,WEST+1"
+		mpbar.screen_loc = "NORTH-1,WEST+2"
 		mpbar.Set(p.MP / (p.MMP + p.extraMMP), instant=1)
 		p.client.screen += mpbar
+
+		if(p.foreColor != "#000000")
+			p << output("[p.foreColor]","browser1:ForeColor")
+		if(p.backColor != "#f0f0f0")
+			p << output("[p.backColor]","browser1:BackColor")
 
 		Update()
 
@@ -925,16 +930,35 @@ proc/getArea(atom/a)
 		if(isturf(a))                         return a.loc
 
 mob/Player
-	var/mapTextColor = "#ffffff"
+	var
+		mapTextColor = "#ffffff"
+		backColor = "#f0f0f0"
+		foreColor = "#000000"
 	verb
 		setInterfaceColor(c as color)
 			set hidden=1
 			set name = ".setInterfaceColor"
 			if(!c) return
 
-			winset(src, "winSettings.button5", "background-color=\"[c]\"")
+			winset(src, "winSettings.buttonTextColor", "background-color=\"[c]\"")
 			mapTextColor = "[c]"
-			Interface.Update()
+
+		setBackColor(c as color)
+			set hidden=1
+			set name = ".setBackColor"
+			if(!c) return
+
+			backColor = "[c]"
+			src << output("[c]","browser1:BackColor")
+
+		setForeColor(c as color)
+			set hidden=1
+			set name = ".setForeColor"
+			if(!c) return
+
+			foreColor = "[c]"
+			src << output("[c]","browser1:ForeColor")
+
 
 mob/Player
 	var

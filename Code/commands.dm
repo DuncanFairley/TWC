@@ -17,6 +17,10 @@ mob
 		ClassNotifications = 1 // If set to 1, your window will flash when a class is announced
 		EventNotifications = 1
 		MonsterMessages = 1
+
+	Player
+		var/tmp/openedSettings = 0
+
 mob
 	verb
 		resetSettings()
@@ -58,8 +62,6 @@ mob
 				winset += "butQuestTrackertoggle.is-checked=true;"
 			else
 				winset += "butQuestTrackertoggle.is-checked=false;"
-			winset += "mnu_Settings.command=.ShowSettings;"
-			winset += "mnu_Settings.is-disabled=false;"
 			winset += "map.focus=true;"
 
 			if(p.loopedMove)
@@ -67,11 +69,16 @@ mob
 			else
 				winset += "buttonControlSet.is-checked=false;"
 
+			winset += "winSettings.buttonTextColor.background-color=\"[p.mapTextColor]\";"
+
 			winset(src,null,winset)
 		ShowSettings()
 			set name = ".ShowSettings"
 			var/mob/Player/p = src
-			winset(src, null, "winSettings.is-visible=true;winSettings.button5.background-color=\"[p.mapTextColor]\"")
+			if(!p.openedSettings)
+				p.openedSettings = 1
+				resetSettings()
+			winshow(src, "winSettings", 1)
 		Soundtoggle()
 			set name = ".Soundtoggle"
 			if(winget(src,"butSoundtoggle","is-checked") == "true")
