@@ -191,12 +191,13 @@ mob/Player/var/tmp
 atom/Click()
 	. = ..()
 
-	var/mob/Player/p = usr
-	if(p.smokepelletthrowing)
-		if(p.client.eye!=p)return
-		p.smokepelletdest=src
-		if(isobj(p.smokepelletdest))p.smokepelletdest = src.loc
-		spawn()p.smokepelletthrowing.Throwit(p)
+	if(isplayer(usr))
+		var/mob/Player/p = usr
+		if(p.smokepelletthrowing)
+			if(p.client.eye!=p)return
+			p.smokepelletdest=src
+			if(isobj(p.smokepelletdest))p.smokepelletdest = src.loc
+			spawn()p.smokepelletthrowing.Throwit(p)
 obj
 	hud
 		cancelthrow

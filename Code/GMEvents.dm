@@ -160,29 +160,30 @@ mob/GM
 atom/Click(location)
 	..()
 
-	var/mob/Player/p = usr
-	if(p.ClickEdit)
-		if(!p.EditVar)
-			p << "Pick a var to edit using MassEdit verb."
-		else if(p.EditVar in vars)
+	if(isplayer(usr))
+		var/mob/Player/p = usr
+		if(p.ClickEdit)
+			if(!p.EditVar)
+				p << "Pick a var to edit using MassEdit verb."
+			else if(p.EditVar in vars)
 
-			if(!p.admin && (istype(src, /obj/items) || istype(src, /obj/pet) || isarea(src) || z < SWAPMAP_Z || p.z < SWAPMAP_Z || ismob(src)))
-				return
+				if(!p.admin && (istype(src, /obj/items) || istype(src, /obj/pet) || isarea(src) || z < SWAPMAP_Z || p.z < SWAPMAP_Z || ismob(src)))
+					return
 
-			vars[p.EditVar] = p.EditVal
-	else if(p.ClickCreate)
-		if(!p.CreatePath)
-			p << "Pick a path to create using CreatePath verb."
-		else
+				vars[p.EditVar] = p.EditVal
+		else if(p.ClickCreate)
+			if(!p.CreatePath)
+				p << "Pick a path to create using CreatePath verb."
+			else
 
-			if(!p.admin && (p.z < SWAPMAP_Z || src.z < SWAPMAP_Z || ispath(p.CreatePath, /obj/items) || ispath(p.CreatePath, /mob)))
-				p << errormsg("Can't use outside swap maps or create items/mobs.")
-				return
+				if(!p.admin && (p.z < SWAPMAP_Z || src.z < SWAPMAP_Z || ispath(p.CreatePath, /obj/items) || ispath(p.CreatePath, /mob)))
+					p << errormsg("Can't use outside swap maps or create items/mobs.")
+					return
 
-			if(p.CreatePath == "Delete" && !isplayer(src))
-				del src
-			else if(isturf(location))
-				new p.CreatePath (location)
+				if(p.CreatePath == "Delete" && !isplayer(src))
+					del src
+				else if(isturf(location))
+					new p.CreatePath (location)
 
 
 obj/push
