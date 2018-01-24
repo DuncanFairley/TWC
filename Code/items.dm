@@ -1920,6 +1920,7 @@ obj/items/wearable/invisibility_cloak
 	showoverlay=0
 	desc = "This magical cloak renders the wearer invisible."
 	max_stack = 1
+	dropable = 0
 
 	var/time
 
@@ -1946,21 +1947,12 @@ obj/items/wearable/invisibility_cloak
 					W.Equip(owner,1,1)
 
 			var/a = clamp(round((world.realtime - time) / 18000), 0, 255)
-			if(a < 100)
-				owner << infomsg("You put on the cloak and become invisible to others.")
-				flick('mist.dmi',owner)
-				owner.alpha = a
-			else
-				owner << errormsg("The invisibility cloak crumbles to dust.")
-				owner.alpha = 255
-				Dispose()
+			if(!overridetext) owner << infomsg("You put on the cloak and become invisible to others.")
+			flick('mist.dmi',owner)
+			owner.alpha = a
 
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] appears from nowhere as \he removes \his [src.name].")
-
-			if(owner.alpha >= 100)
-				owner << errormsg("The invisibility cloak crumbles to dust.")
-				Dispose()
 
 			owner.alpha = 255
 
