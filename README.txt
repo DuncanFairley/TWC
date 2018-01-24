@@ -35,8 +35,6 @@ LummoxJR.DmiFontsPlus, LummoxJR.SwapMaps, Theodis.Region and Dantom.DB are
 included in the distribution due to modifications required and are copyright
 their respective owners.
 
-Clans are currently not available as parts of the online component need to be
-made secure.
 Certain logging features inside TWC such as player logs, associated keys,
 event logs, etc. require a MySQL database. If you do not want these features,
 leave mysql_enabled set to false in the config.ini.
