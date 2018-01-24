@@ -313,6 +313,31 @@ area
 								M.client.screen.Remove(O)
 
 var/mob/classdest = null
+
+proc/getPathTo(turf/source, atom/target)
+	var/turf/t
+
+	if(istype(target, /atom/movable))
+		t = target.loc
+	else
+		t = target
+
+	var/area/startarea = source.loc
+	var/area/destarea  = t.loc
+
+	if(!startarea.region || !destarea.region) return
+
+	if(destarea in startarea.region.areas)
+		. = AStar(source, t, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
+	else
+		var/teleport_path[]
+		teleport_path = AStar(startarea.region, destarea.region, /teleportNode/proc/AdjacentNodes, /teleportNode/proc/Distance)
+
+		if(teleport_path && teleport_path.len >= 2)
+			var/teleportNode/nextNode = teleport_path[2]
+			t = locate(startarea.region.nodes[nextNode]) //the teleport turf on your current floor
+			. = AStar(source, t, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
+
 mob
 	Player
 		var/tmp/pathdest
@@ -322,31 +347,6 @@ mob
 				for(var/image/C in client.images)
 					if(C.icon == 'arrows.dmi')
 						client.images.Remove(C)
-			getPathTo(atom/target)
-				if(!loc) return
-
-				var/turf/t
-
-				if(istype(target, /atom/movable))
-					t = target.loc
-				else
-					t = target
-
-				var/area/startarea = loc.loc
-				var/area/destarea  = t.loc
-
-				if(!startarea.region || !destarea.region) return
-
-				if(destarea in startarea.region.areas)
-					. = AStar(loc, t, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
-				else
-					var/teleport_path[]
-					teleport_path = AStar(startarea.region, destarea.region, /teleportNode/proc/AdjacentNodes, /teleportNode/proc/Distance)
-
-					if(teleport_path && teleport_path.len >= 2)
-						var/teleportNode/nextNode = teleport_path[2]
-						t = locate(startarea.region.nodes[nextNode]) //the teleport turf on your current floor
-						. = AStar(loc, t, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
 			pathTo(atom/target)
 				if(!loc) return
 

@@ -209,6 +209,13 @@ obj/teleport
 					v.version = VAULT_VERSION
 
 				M.loc = locate(map.x1 + round((width)/2), map.y1+1, map.z1 )
+
+				if(chosenvault == M.ckey && M.addToVault)
+					var/turf/t = locate(M.x, M.y + 2, M.z)
+					for(var/obj/o in M.addToVault)
+						o.loc = t
+					M.addToVault = null
+
 			else
 				M << npcsay("Vault Master: You don't have a vault here, [M]. Come speak to me and let's see if we can change that.")
 	leavevault

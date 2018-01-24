@@ -264,8 +264,10 @@ obj/items/verb
 		drop(usr, 1)
 
 obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
-	if(isturf(over_object))
-		if(src in usr)
+	var/default = 1
+	if(src in usr)
+		if(isturf(over_object))
+			default = 0
 			if(dropable && destroyable)
 				switch(alert("Do you wish to drop or destroy this item?","","Drop","Destroy","Cancel"))
 					if("Drop")
@@ -286,7 +288,35 @@ obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_cont
 					Drop(usr)
 			else if(destroyable)
 				Destroy(usr)
-	..()
+		else if(dropable)
+			var/mob/Player/p = usr
+			if(p.pet && over_object == p.pet)
+
+				var/area/a = p.loc.loc
+				if(!a.region)
+					p << errormsg("Your pet doesn't know how to get to the bank from here.")
+					return
+
+				if(p.pet.busy)
+					p << errormsg("Your pet is busy right now.")
+					return
+
+				if(!p.addToVault)
+					p.addToVault = list(src)
+				else
+					p.addToVault += src
+
+				if(src in p.Lwearing)
+					src:Equip(p,1,1)
+
+				loc = null
+
+				p.pet.gotoBank(p)
+
+				default = 0
+
+	if(default)
+		..()
 
 mob/Player
 	var/tmp
@@ -4012,8 +4042,8 @@ obj/items/treats
 
 		Feed(mob/Player/p)
 
-			if(p.pet.fetching)
-				p << errormsg("Your [p.pet.name] is already fetching.")
+			if(p.pet.busy)
+				p << errormsg("Your [p.pet.name] is already busy.")
 				return
 
 			var/turf/target = get_step(p, p.dir)
@@ -4027,7 +4057,7 @@ obj/items/treats
 
 				target = t
 
-			p.pet.fetching = 1
+			p.pet.busy = 1
 
 			p << infomsg("You threw \a [name] for your [p.pet.name] to fetch.")
 
@@ -4061,7 +4091,7 @@ obj/items/treats
 				p << infomsg("Your [p.pet.name] gained [e] experience.")
 				p.pet.item.addExp(p, e)
 
-			p.pet.fetching = 0
+			p.pet.busy = 0
 
 	proc/Feed(mob/Player/p)
 

@@ -4,32 +4,34 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-mob
-	verb
-		Follow(mob/M in (oview()&Players)|null)
+
+
+mob/Player/var/list/addToVault
+
+mob/verb/Follow(mob/M in (oview()&Players)|null)
+	if(!M)
+		if(followplayer)
+			followplayer = 0
+			hearers() << "[src] stops following."
+		return
+	if(client.eye != src)
+		src << "You cannot follow someone whilst using telendevour."
+		return
+	if(followplayer == 0)
+		followplayer = 1
+		M << "[src] is now following you."
+		src << "You begin following [M]."
+		while(followplayer == 1 && client.eye == src)
+			step_to(src, M, 2)
+			sleep(1)
 			if(!M)
-				if(followplayer)
-					followplayer = 0
-					hearers()<<"[src] stops following."
-				return
-			if(client.eye!=src)
-				src<<"You cannot follow someone whilst using telendevour."
-				return
-			if(followplayer==0)
-				followplayer=1
-				M<<"[src] is now following you."
-				src<<"You begin following [M]."
-				while(src.followplayer == 1 && client.eye == src)
-					step_to(src,M,2)
-					sleep(1)
-					if(!M)
-						src.followplayer = 0
-					else if(src.z != M.z)
-						src.followplayer=0
-			else
-				src.followplayer=0
-				hearers()<<"[src] stops following."
-				return
+				followplayer = 0
+			else if(z != M.z)
+				followplayer = 0
+	else
+		followplayer = 0
+		hearers() << "[src] stops following."
+
 
 world/IsBanned(key,address)
    . = ..()
@@ -41,15 +43,14 @@ obj/Sanctuario
 	icon_state = "alohomora"
 	density = 0
 
-mob/Player/proc
-	StateChange()
-		if(nomove == 0)
-			nomove = 1
-			icon_state = "stone"
-			overlays = null
-		else
-			nomove = 0
-			icon_state = ""
+mob/Player/proc/StateChange()
+	if(nomove == 0)
+		nomove = 1
+		icon_state = "stone"
+		overlays = null
+	else
+		nomove = 0
+		icon_state = ""
 
 
 mob/Player/var/tmp/obj/pet/pet
@@ -71,8 +72,11 @@ obj/items/wearable/pets
 		minSize     = 1
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		.=..(owner, 1, forceremove)
+		if(owner.pet && owner.pet.busy)
+			owner << errormsg("Your pet is busy right now.")
+			return
 
+		.=..(owner, 1, forceremove)
 
 		if(. == WORN)
 			for(var/obj/items/wearable/pets/P in owner.Lwearing)
@@ -185,7 +189,7 @@ obj/pet
 
 			turf/target
 			finalDir
-			fetching = 0
+			busy = 0
 
 	New(loc, obj/items/wearable/pets/pet)
 		set waitfor = 0
@@ -277,10 +281,45 @@ obj/pet
 		target   = null
 		finalDir = null
 
+	proc/gotoBank(mob/Player/p)
+		set waitfor = 0
+
+		busy = 1
+
+		var/turf/bank = locate("leavevault")
+
+		while(loc != bank && loc)
+
+			var/list/path = getPathTo(loc, bank)
+			if(!path) break
+
+			for(var/turf/t in path)
+				if(!loc) break
+				dir = get_dir(loc, t)
+				loc = t
+				updateFollowers()
+				sleep(1)
+
+			if(loc == bank || !loc) break
+
+			var/obj/teleport/o = locate() in orange(1, loc)
+			if(o)
+				var/turf/d = locate(o.dest)
+				loc = d
+			else break
+
+		busy = 0
+
+		if(p)
+			loc = get_step(p, p.dir)
+			updateFollowers()
+		else
+			loc = null
+
 	proc/follow(turf/oldLoc, mob/Player/p)
 		if(p.z != z) // temp workaround for animate bug
 			refresh(1)
-		if(fetching) return
+		if(busy) return
 		if(item.function & PET_FOLLOW_FAR)
 			var/d = get_dist(src, p)
 
