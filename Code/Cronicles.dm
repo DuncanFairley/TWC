@@ -717,6 +717,14 @@ hudobj
 		icon = 'Login Stone.dmi'
 		icon_state = "moss"
 
+		appearance_flags = PIXEL_SCALE
+
+		MouseEntered()
+			transform *= 1.25
+		MouseExited()
+			transform = null
+
+
 		Load
 			maptext = "<b><span style=\"font-size:14px;color:#34d\">Load</span></b>"
 			maptext_width = 64
