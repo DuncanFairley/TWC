@@ -3580,7 +3580,6 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 
 
 							 "gold only" = list(/obj/items/magic_stone/memory     = 10,
-							                    /obj/items/herosbrace             = 20,
 							                    /obj/items/wearable/afk/pimp_ring = 30,
 							                    /obj/items/wearable/title/Gambler = 40))
 
