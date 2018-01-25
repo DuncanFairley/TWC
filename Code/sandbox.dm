@@ -553,6 +553,15 @@ hudobj
 			path
 			price = 0
 
+		appearance_flags = PIXEL_SCALE
+
+		MouseEntered()
+			transform *= 1.25
+			layer++
+		MouseExited()
+			transform = null
+			layer = initial(layer)
+
 		Click()
 			var/mob/Player/M = usr
 
@@ -573,6 +582,7 @@ hudobj
 			o.maptext = null
 			o.canSave = 0
 			o.mouse_over_pointer = 0
+			o.transform = null
 
 			M.buildItem = src
 			M.buildItemDisplay = o
