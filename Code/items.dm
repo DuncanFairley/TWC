@@ -3372,7 +3372,7 @@ obj/items
 
 		duel_chest
 			icon_state = "duel"
-			drops      = "duel"
+			drops      = "(limited)duel"
 
 		wizard_chest
 			icon_state = "blue"
@@ -3397,7 +3397,7 @@ obj/items
 
 			limited_edition
 				name  = "special summer 2015 chest"
-				drops = "2015 sum"
+				drops = "(limited)2015 sum"
 
 		winter_chest
 			icon_state = "blue"
@@ -3406,7 +3406,7 @@ obj/items
 
 			limited_edition
 				name  = "special winter 2015 chest"
-				drops = "2015 winter"
+				drops = "(limited)2015 winter"
 
 		prom_chest
 			icon_state = "pink"
@@ -3414,7 +3414,7 @@ obj/items
 
 			limited_edition
 				name = "special prom 2015 chest"
-				drops = "2015 prom"
+				drops = "(limited)2015 prom"
 
 		blood_chest
 			icon_state = "red"
@@ -3485,7 +3485,7 @@ obj/items
 		community_key
 			icon_state = "blue"
 
-var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel_scarf       = 50,
+var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/duel_scarf       = 50,
 					                            /obj/items/wearable/shoes/duel_shoes         = 30,
 					                            /obj/items/wearable/wands/duel_wand          = 20),
 
@@ -3519,7 +3519,7 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 							                    /obj/items/wearable/shoes/red_shoes          = 21,
 							                    /obj/items/wearable/shoes/blue_shoes         = 21),
 
-							 "2015 sum"  = list(/obj/items/wearable/hats/orange_earmuffs     = 9,
+							 "(limited)2015 sum" = list(/obj/items/wearable/hats/orange_earmuffs     = 9,
 							                    /obj/items/wearable/hats/yellow_earmuffs     = 9,
 												/obj/items/wearable/shoes/orange_shoes       = 13,
 							                    /obj/items/wearable/shoes/yellow_shoes       = 23,
@@ -3531,7 +3531,7 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 							                    /obj/items/wearable/shoes/darkpink_shoes     = 10,
 							                    /obj/items/wearable/scarves/darkpink_scarf   = 20),
 
-							 "2015 prom" = list(/obj/items/wearable/hats/darkpink_earmuffs   = 5,
+							 "(limited)2015 prom" = list(/obj/items/wearable/hats/darkpink_earmuffs   = 5,
 												/obj/items/wearable/hats/lightpink_earmuffs  = 5,
 												/obj/items/wearable/scarves/pink_scarf       = 35,
 							                    /obj/items/wearable/shoes/pink_shoes         = 25,
@@ -3545,7 +3545,7 @@ var/list/chest_prizes = list("duel"      = list(/obj/items/wearable/scarves/duel
 							                    /obj/items/wearable/shoes/red_shoes          = 18,
 							                    /obj/items/wearable/shoes/white_shoes        = 15),
 
-							 "2015 winter"  = list(/obj/items/wearable/hats/red_earmuffs        = 10,
+							 "(limited)2015 winter" = list(/obj/items/wearable/hats/red_earmuffs        = 10,
 							                       /obj/items/wearable/hats/white_earmuffs      = 10,
 							                       /obj/items/wearable/shoes/candycane_shoes    = 35,
 							                       /obj/items/wearable/scarves/candycane_scarf  = 39,
@@ -3617,7 +3617,7 @@ obj/roulette
 			for(var/i = 1 to amount)
 				var/category = pick(chest_prizes)
 
-				if(category == "duel")
+				if(findtext(category, "(limited)"))
 					i--
 					continue
 
