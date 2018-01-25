@@ -3343,22 +3343,29 @@ obj/items
 			Open()
 				set src in usr
 
-				var/obj/items/chestKey = locate(text2path("/obj/items/key/[splittext(name, " ")[1]]_key")) in usr
-
-				if(!chestKey)
-					chestKey = locate(/obj/items/key/master_key) in usr
-
-				if(chestKey)
-
+				if(!drops) // if golden chest
 					var/obj/roulette/r = new (usr.loc)
 					r.getPrize(drops, usr.name, usr.ckey)
 
 					usr << infomsg("You opened a [name]!")
-
-					chestKey.Consume()
 					Consume()
 				else
-					usr << errormsg("You don't have a [name] key to open this!")
+					var/obj/items/chestKey = locate(text2path("/obj/items/key/[splittext(name, " ")[1]]_key")) in usr
+
+					if(!chestKey)
+						chestKey = locate(/obj/items/key/master_key) in usr
+
+					if(chestKey)
+
+						var/obj/roulette/r = new (usr.loc)
+						r.getPrize(drops, usr.name, usr.ckey)
+
+						usr << infomsg("You opened a [name]!")
+
+						chestKey.Consume()
+						Consume()
+					else
+						usr << errormsg("You don't have a [name] key to open this!")
 
 		legendary_golden_chest
 			icon_state = "golden"
