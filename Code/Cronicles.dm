@@ -444,10 +444,6 @@ mob
 
 					p << infomsg("The majority of your quests, your spells, level and any stat bonuses from items had were wiped, the rest of your wealth is untouched.")
 
-					new /obj/items/packs/pokeby_pack(p)
-					p << infomsg("You were given a pokeby pack, open it!")
-
-
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && worldData.sandboxZ != last_z) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else

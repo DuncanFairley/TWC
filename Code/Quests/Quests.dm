@@ -94,7 +94,7 @@ mob/TalkNPC/quest
 	professor_palmer
 		icon_state="palmer"
 		name="Professor Palmer"
-		questPointers = list("Tutorial: Quests", "Master of Keys", "Strength of Graduate \[Weekly]")
+		questPointers = list("Tutorial: Quests", "Isn't it cute?", "Master of Keys", "Strength of Graduate \[Weekly]")
 
 		questStart(mob/Player/i_Player, questName)
 
@@ -107,6 +107,8 @@ mob/TalkNPC/quest
 					s.AddText("You can click the quest book found in your \"Items\" tab to view quests you have or quests you completed.")
 					s.AddText("How would you like to put something in that book? I have a few friends who can help you out with that, why don't you go and meet them?")
 
+				if("Isn't it cute?")
+					s.AddText("Hey, would you like to have this cute little pet?")
 
 				if("Master of Keys")
 
@@ -137,8 +139,10 @@ mob/TalkNPC/quest
 					if("Strength of Graduate \[Weekly]")
 						s.AddText("Are you up for the challenge?")
 			else
-
-				s.AddText("Good work!")
+				if(questName == "Isn't it cute?")
+					s.AddText("It's called a pokeby, take care of it.")
+				else
+					s.AddText("Good work!")
 
 		questCompleted(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)

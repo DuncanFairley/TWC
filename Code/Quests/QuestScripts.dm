@@ -6,6 +6,15 @@
  */
 
 quest
+	Pokeby
+		name = "Isn't it cute?"
+		desc = "Palmer decided to give you a cute reward."
+		reward = /questReward/Pokeby
+
+		Reward
+			desc = "Palmer offered you a pokeby pet."
+			reqs = list("Professor Palmer" = 1)
+
 	EnchantingTutorial
 		name   = "Secret of the Crypt"
 		desc   = "The crypt has a powerful tool, an enchantment circle. Figure out how it works and enchant anything to prove yourself worthy."
@@ -898,6 +907,11 @@ questReward
 		exp   = 32000
 		gold  = 3200
 		items = /obj/items/key/master_key
+
+	Pokeby
+		gold  = 100
+		exp   = 200
+		items = /obj/items/packs/pokeby_pack
 
 	clanReward
 		BloodCoin
