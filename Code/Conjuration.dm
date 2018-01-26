@@ -14,6 +14,9 @@ mob/verb/updateHPMP()
 		src:Interface.hpbar.Set(hppercent)
 		src:Interface.mpbar.Set(mppercent)
 
+		src:Interface.hpbar.UpdateText(HP, MHP+extraMHP)
+		src:Interface.mpbar.UpdateText(MP, MMP+extraMMP)
+
 		src:hpBar.Set(hppercent, src)
 
 		if(src:party)
@@ -49,6 +52,7 @@ obj/healthbar
 	var
 		barSize = 14
 		isMana = 0
+		tmp/obj/mtext
 
 	pixel_x = 2
 	pixel_y = -6
@@ -101,6 +105,17 @@ obj/healthbar
 			underlays += /obj/hpframe/screen
 
 	proc
+		InitText(current, max)
+			mtext.maptext_width = 256
+			mtext.maptext_height = 16
+			mtext.layer = 11
+			mtext.plane = 2
+			UpdateText(current, max)
+
+		UpdateText(current, max)
+			mtext.maptext = "<b style=\"text-align: center;\">[current]/[max]</b>"
+
+
 		Set(var/perc, mob/M, instant=0)
 			set waitfor = 0
 			var/newX     = (perc - 1) * barSize
