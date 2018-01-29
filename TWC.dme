@@ -8,6 +8,11 @@
 #define FILE_DIR .
 #define FILE_DIR "Icons"
 #define FILE_DIR "Icons/bases"
+#define FILE_DIR "Icons/bases/enemies"
+#define FILE_DIR "Icons/bases/npc"
+#define FILE_DIR "Icons/bases/player"
+#define FILE_DIR "Icons/hud"
+#define FILE_DIR "Icons/img"
 #define FILE_DIR "Icons/items"
 #define FILE_DIR "Icons/items/food"
 #define FILE_DIR "Icons/items/wearables"
