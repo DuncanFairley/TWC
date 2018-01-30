@@ -22,10 +22,7 @@ mob/verb/updateHPMP()
 		if(src:party)
 			src:party.updateHP(src, hppercent)
 
-mob
-	var
-		Gender
-
+mob/var/Gender
 mob/var/tmp/usedpermoveo
 mob/var/tmp/removeoMob
 
@@ -101,8 +98,10 @@ obj/healthbar
 		plane = 2
 		layer = 10
 
-		New()
-			underlays += /obj/hpframe/screen
+		New(mana=0)
+			isMana     = mana
+			overlays  += /obj/hpframe/screen
+			underlays += /obj/hpframe/screenBack
 
 	proc
 		InitText(current, max)
@@ -155,6 +154,10 @@ obj/hpframe
 	big
 		icon = 'healthbar_64.dmi'
 		icon_state = "frame"
+	screenBack
+		icon = 'healthbar_256.dmi'
+		icon_state = "frameBack"
+		plane = 2
 	screen
 		icon = 'healthbar_256.dmi'
 		icon_state = "frame"

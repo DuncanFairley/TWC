@@ -834,8 +834,7 @@ interface
 		hpbar.InitText(p.HP, p.MHP + p.extraMHP)
 		p.client.screen += text
 
-		mpbar = new()
-		mpbar.isMana = 1
+		mpbar = new(mana=1)
 		mpbar.screen_loc = "NORTH-1,WEST+2"
 		mpbar.Set(p.MP / (p.MMP + p.extraMMP), instant=1)
 		p.client.screen += mpbar
