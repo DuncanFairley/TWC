@@ -745,6 +745,30 @@ hudobj
 				if(istype(usr,/mob/BaseCamp/ChoosingCharacter))
 					usr:New_Character()
 
+obj/loginCamera
+	mouse_opacity = 0
+	invisibility = 10
+	glide_size = 8
+
+	New()
+		..()
+		tag = "loginCamera"
+		wander()
+
+	proc/wander()
+		set waitfor = 0
+		var/turf/target
+		while(src)
+			if(!target || loc == target)
+				target = locate(rand(50,70), rand(25,85), z)
+
+			var/turf/t = get_step_towards(loc, target)
+			if(t)
+				loc = t
+			else
+				target = null
+			sleep(4)
+
 
 mob/tmpmob
 mob/BaseCamp/ChoosingCharacter
@@ -756,7 +780,7 @@ mob/BaseCamp/ChoosingCharacter
 		client.tmpInterface = new (client)
 		client.onResize(60, 31, 0, 0, 1)
 
-		var/obj/o = locate("@Courtyard")
+		var/obj/o = locate("loginCamera")
 		client.eye = o
 		client.perspective = EYE_PERSPECTIVE
 
