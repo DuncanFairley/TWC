@@ -2149,8 +2149,8 @@ mob/var
 	Def=5
 	HP=200
 	MHP=200
-	MP=10
-	MMP=10
+	MP=200
+	MMP=200
 
 mob/var/Mexp=5
 mob/var/Exp=0
