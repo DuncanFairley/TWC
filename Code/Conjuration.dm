@@ -6,21 +6,21 @@
  */
 
 mob/verb/updateHPMP()
-	set name = ".updateHPMP"
-	spawn()
-		var/hppercent = clamp(HP / (MHP+extraMHP), 0, 1)
-		var/mppercent = clamp(MP / (MMP+extraMMP), 0, 1)
+	set hidden = 1
 
-		src:Interface.hpbar.Set(hppercent)
-		src:Interface.mpbar.Set(mppercent)
+	var/hppercent = clamp(HP / (MHP+extraMHP), 0, 1)
+	var/mppercent = clamp(MP / (MMP+extraMMP), 0, 1)
 
-		src:Interface.hpbar.UpdateText(HP, MHP+extraMHP)
-		src:Interface.mpbar.UpdateText(MP, MMP+extraMMP)
+	src:Interface.hpbar.Set(hppercent)
+	src:Interface.mpbar.Set(mppercent)
 
-		src:hpBar.Set(hppercent, src)
+	src:Interface.hpbar.UpdateText(HP, MHP+extraMHP)
+	src:Interface.mpbar.UpdateText(MP, MMP+extraMMP)
 
-		if(src:party)
-			src:party.updateHP(src, hppercent)
+	src:hpBar.Set(hppercent, src)
+
+	if(src:party)
+		src:party.updateHP(src, hppercent)
 
 mob/var/Gender
 mob/var/tmp/usedpermoveo
@@ -46,7 +46,7 @@ obj/healthbar
 	mouse_opacity = 0
 	icon = 'healthbar_28.dmi'
 
-	var/barSize = 28
+	var/barSize = 13.5
 
 	pixel_x = 2
 	pixel_y = -6
@@ -69,7 +69,7 @@ obj/healthbar
 				glide_size = p.glide_size
 
 	big
-		barSize = 64
+		barSize = 31.5
 		icon = 'healthbar_64.dmi'
 
 		pixel_x = -20
@@ -89,7 +89,7 @@ obj/healthbar
 				glide_size = p.glide_size
 
 	screen
-		barSize = 256
+		barSize = 127.5
 		icon = 'healthbar_256.dmi'
 		icon_state = "pixel"
 		plane = 2
@@ -110,7 +110,6 @@ obj/healthbar
 			p.client.screen += back
 
 			screen_loc = loc
-			Set(p.HP / (p.MHP + p.extraMHP), instant=1)
 			p.client.screen += src
 
 			mtext = new
@@ -122,10 +121,11 @@ obj/healthbar
 			p.client.screen += mtext
 
 			if(isMana)
-				Set(p.MP / (p.MMP + p.extraMMP), instant=1)
+
+				Set(clamp(p.MP / p.MMP + p.extraMMP, 0, 1), instant=1)
 				UpdateText(p.MP, p.MMP + p.extraMMP)
 			else
-				Set(p.HP / (p.MHP + p.extraMHP), instant=1)
+				Set(clamp(p.HP / (p.MHP + p.extraMHP), 0, 1), instant=1)
 				UpdateText(p.HP, p.MHP + p.extraMHP)
 
 		proc
@@ -134,7 +134,7 @@ obj/healthbar
 
 		Set(var/perc, instant=0)
 			set waitfor = 0
-			var/newX = (perc * barSize - 1) / 2
+			var/newX = perc * barSize
 			var/matrix/m = matrix(1 - perc, 0, newX, 0, 1, 0)
 
 			var/c
@@ -157,7 +157,7 @@ obj/healthbar
 	proc
 		Set(var/perc, mob/M, instant=0)
 			set waitfor = 0
-			var/newX     = ((perc - 1) * barSize - 1) / 2
+			var/newX     = (perc - 1) * barSize
 
 			var/matrix/m = matrix(perc, 0, newX, 0, 1, 0)
 
