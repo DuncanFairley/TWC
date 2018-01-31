@@ -46,10 +46,7 @@ obj/healthbar
 	mouse_opacity = 0
 	icon = 'healthbar_28.dmi'
 
-	var
-		barSize = 14
-		isMana = 0
-		tmp/obj/mtext
+	var/barSize = 28
 
 	pixel_x = 2
 	pixel_y = -6
@@ -72,7 +69,7 @@ obj/healthbar
 				glide_size = p.glide_size
 
 	big
-		barSize = 32
+		barSize = 64
 		icon = 'healthbar_64.dmi'
 
 		pixel_x = -20
@@ -81,7 +78,7 @@ obj/healthbar
 
 		New(mob/p)
 
-			underlays += /obj/hpframe/big
+			overlays += /obj/hpframe/big
 
 			if(p)
 				if(p.HP == p.MHP + p.extraMHP)
@@ -92,38 +89,53 @@ obj/healthbar
 				glide_size = p.glide_size
 
 	screen
-		barSize = 128
+		barSize = 256
 		icon = 'healthbar_256.dmi'
-		icon_state = "top"
+		icon_state = "pixel"
 		plane = 2
 		layer = 10
 
-		New(mana=0)
+		var
+			isMana = 0
+			tmp/obj/mtext
+			tmp/obj/hpframe/screenBack/back
+
+
+		New(mob/Player/p, loc, mana=0)
 			isMana     = mana
 			overlays  += /obj/hpframe/screen
-			underlays += /obj/hpframe/screenBack
 
-	proc
-		InitText(current, max)
+			back = new
+			back.screen_loc = loc
+			p.client.screen += back
+
+			screen_loc = loc
+			Set(p.HP / (p.MHP + p.extraMHP), instant=1)
+			p.client.screen += src
+
+			mtext = new
+			mtext.screen_loc = loc
 			mtext.maptext_width = 256
 			mtext.maptext_height = 16
-			mtext.layer = 11
+			mtext.layer = 12
 			mtext.plane = 2
+			p.client.screen += mtext
+
+			if(isMana)
+				Set(p.MP / (p.MMP + p.extraMMP), instant=1)
+				UpdateText(p.MP, p.MMP + p.extraMMP)
+			else
+				Set(p.HP / (p.MHP + p.extraMHP), instant=1)
+				UpdateText(p.HP, p.MHP + p.extraMHP)
+
+		proc
 			UpdateText(current, max)
+				mtext.maptext = "<b style=\"text-align: center;\">[current]/[max]</b>"
 
-		UpdateText(current, max)
-			mtext.maptext = "<b style=\"text-align: center;\">[current]/[max]</b>"
-
-
-		Set(var/perc, mob/M, instant=0)
+		Set(var/perc, instant=0)
 			set waitfor = 0
-			var/newX     = (perc - 1) * barSize
-
-			var/matrix/m = matrix(perc, 0, newX, 0, 1, 0)
-
-			if(alpha == 0 && perc != 1)
-				animate(src, alpha = 255, time = 5)
-				sleep(5)
+			var/newX = (perc * barSize - 1) / 2
+			var/matrix/m = matrix(1 - perc, 0, newX, 0, 1, 0)
 
 			var/c
 			if(isMana)
@@ -134,6 +146,30 @@ obj/healthbar
 				if(perc > 0.6) c = "#0d0"
 				else if(perc >= 0.3) c = "#d90"
 				else c = "#d00"
+
+			if(instant)
+				color = c
+				back.transform = m
+			else
+				animate(back, transform = m, time = 10)
+				animate(src, color = c, time = 10)
+
+	proc
+		Set(var/perc, mob/M, instant=0)
+			set waitfor = 0
+			var/newX     = ((perc - 1) * barSize - 1) / 2
+
+			var/matrix/m = matrix(perc, 0, newX, 0, 1, 0)
+
+			if(alpha == 0 && perc != 1)
+				animate(src, alpha = 255, time = 5)
+				sleep(5)
+
+			var/c
+			if(perc > 0.6) c = "#0d0"
+			else if(perc >= 0.3) c = "#d90"
+			else c = "#d00"
+
 
 			if(instant)
 				color = c
@@ -158,9 +194,11 @@ obj/hpframe
 		icon = 'healthbar_256.dmi'
 		icon_state = "frameBack"
 		plane = 2
+		layer = 11
 	screen
 		icon = 'healthbar_256.dmi'
 		icon_state = "frame"
+		layer = 12
 		plane = 2
 
 	appearance_flags = RESET_TRANSFORM|RESET_COLOR

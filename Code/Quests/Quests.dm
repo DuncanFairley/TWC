@@ -823,27 +823,8 @@ interface
 		new /hudobj/questbook(null, parent.client, null, show=1)
 		new /hudobj/Party_Invite(null, parent.client, null, 1)
 
-		hpbar = new()
-		hpbar.screen_loc = "NORTH-1:15,WEST+2"
-		hpbar.Set(p.HP / (p.MHP + p.extraMHP), instant=1)
-		p.client.screen += hpbar
-
-		var/obj/text = new
-		text.screen_loc = "NORTH-1:15,WEST+2"
-		hpbar.mtext = text
-		hpbar.InitText(p.HP, p.MHP + p.extraMHP)
-		p.client.screen += text
-
-		mpbar = new(mana=1)
-		mpbar.screen_loc = "NORTH-1,WEST+2"
-		mpbar.Set(p.MP / (p.MMP + p.extraMMP), instant=1)
-		p.client.screen += mpbar
-
-		text = new
-		text.screen_loc = "NORTH-1,WEST+2"
-		mpbar.mtext = text
-		mpbar.InitText(p.MP, p.MMP + p.extraMMP)
-		p.client.screen += text
+		hpbar = new(p, "NORTH-1:15,WEST+2")
+		mpbar = new(p, "NORTH-1,WEST+2", mana=1)
 
 		if(p.foreColor != "#000000")
 			p << output("[p.foreColor]","browser1:ForeColor")
