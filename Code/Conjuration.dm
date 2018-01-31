@@ -56,7 +56,7 @@ obj/healthbar
 	canSave = 0
 
 	New(mob/Player/p)
-		underlays += /obj/hpframe/small
+		overlays += /obj/hpframe/small
 
 		if(p)
 			loc = p.loc
@@ -201,7 +201,7 @@ obj/hpframe
 		layer = 12
 		plane = 2
 
-	appearance_flags = RESET_TRANSFORM|RESET_COLOR
+	appearance_flags = RESET_TRANSFORM|RESET_COLOR|PIXEL_SCALE
 
 
 mob/Player/var/tmp/obj/healthbar/hpBar
