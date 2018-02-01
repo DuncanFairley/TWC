@@ -384,8 +384,8 @@ mob
 					cloak.loc = null
 
 			if(savefile_version < 30)
-				p.MMP = 10
-				p.MP = 10
+				p.MMP = 200
+				p.MP = 200
 				p.level = 1
 				p.resetStatPoints()
 				spawn()
