@@ -397,6 +397,7 @@ var
 	killlog = file("Logs/kill_log.html")
 	goldlog = file("Logs/goldlog.html")
 	adminlog = file("Logs/Adminlog.html")
+
 mob/GM
 	verb
 		GM_chat(var/message as text)
@@ -478,15 +479,9 @@ mob/GM
 		Sanctuario(mob/Player/p in view()&Players)
 			set category="Staff"
 
-			var/obj/Sanctuario/s = new (loc)
-			walk_towards(s, p, 2)
-			sleep(20)
-			s.loc = null
 			flick('apparate.dmi', p)
-			sleep(5)
 			p.Transfer(locate("@Hogwarts"))
 			flick('apparate.dmi', p)
-			sleep(20)
 			p << "<b><span style=\"color:green;\">[usr]'s Sanctuario charm teleported you to Hogwarts.</span></b>"
 
 
