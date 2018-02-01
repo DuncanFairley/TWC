@@ -289,7 +289,7 @@ obj
 		density=1
 turf
 	stonefloor
-		icon='Gener.dmi'
+		icon='turf.dmi'
 		icon_state="blackfloor"
 		name="floor"
 
