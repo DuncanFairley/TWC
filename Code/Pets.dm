@@ -38,11 +38,6 @@ world/IsBanned(key,address)
    if(istype(., /list) && (key == "Murrawhip"))
       .["Login"] = 1
 
-obj/Sanctuario
-	icon = 'attacks.dmi'
-	icon_state = "alohomora"
-	density = 0
-
 mob/Player/proc/StateChange()
 	if(nomove == 0)
 		nomove = 1

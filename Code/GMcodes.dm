@@ -481,7 +481,6 @@ mob/GM
 
 			flick('apparate.dmi', p)
 			p.Transfer(locate("@Hogwarts"))
-			flick('apparate.dmi', p)
 			p << "<b><span style=\"color:green;\">[usr]'s Sanctuario charm teleported you to Hogwarts.</span></b>"
 
 
