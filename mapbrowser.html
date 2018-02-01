@@ -34,7 +34,7 @@ window.onresize = function() {
 
 window.onload = function() {
 	CallVerb("onLoad");
-	WinSet("","input.is-visible","false","saybutton.is-visible","false","macrobutton.is-visible","false","mainvsplit.right","mapwindow","guild.is-visible","false","splitStack.is-visible","false","SpellBook.is-visible","false","Quests.is-visible","false","Auction.is-visible","false","winSettings.is-visible","false","radio_enabled.is-checked","false");
+	WinSet("","mainvsplit.right","mapwindow","guild.is-visible","false","splitStack.is-visible","false","SpellBook.is-visible","false","Quests.is-visible","false","Auction.is-visible","false","winSettings.is-visible","false","radio_enabled.is-checked","false");
 };
 
 var isfullscreen = 0;
@@ -51,7 +51,7 @@ function ToggleFullscreen() {
 }
 
 function Login() {
-	WinSet("","input.is-visible","true","saybutton.is-visible","true","macrobutton.is-visible","true","mainvsplit.right","rpane","mnu_Settings.command",".ShowSettings","mnu_Settings.is-disabled","false");
+	WinSet("","mainvsplit.right","rpane","mnu_Settings.command",".ShowSettings","mnu_Settings.is-disabled","false");
 	Resize(1);
 }
 
