@@ -633,7 +633,7 @@ mob/Spells/verb/Reducto(var/mob/Player/M in (view(usr.client.view,usr)&Players)|
 		if(M.nomove < 2) M.nomove=0
 		if(!M.trnsed) M:ApplyOverlays()
 		hearers(usr.client.view,usr)<<"White light emits from [usr]'s wand, freeing [M]."
-		flick('Reducto.dmi',M)
+		flick('apparate.dmi',M)
 		if(!M.trnsed) M.icon_state=""
 		usr:learnSpell("Reducto")
 mob/Spells/verb/Reparo(obj/M in oview(src.client.view,src))
