@@ -929,7 +929,8 @@ obj/items/bucket
 
 obj/items/freds_key
 	name = "Fred's key"
-	icon = 'key.dmi'
+	icon = 'ChestKey.dmi'
+	icon_state = "master"
 	destroyable = 1
 	dropable = 0
 	Destroy()
