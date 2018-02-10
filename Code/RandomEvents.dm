@@ -243,17 +243,24 @@ RandomEvent
 	Class
 		name = "Class"
 		beepType = 2
-		start()
+
+		start(var/spell, var/time=30)
 			set waitfor = 0
-			var/list/spells = spellList ^ list(/mob/Spells/verb/Self_To_Dragon, /mob/Spells/verb/Self_To_Human, /mob/Spells/verb/Episky, /mob/Spells/verb/Inflamari)
 
-			if(spells.len == worldData.spellsHistory.len)
-				worldData.spellsHistory = list()
-			else
-				spells ^= worldData.spellsHistory
 
-			var/spell = pick(spells)
-			worldData.spellsHistory += spell
+			if(!spell)
+				var/list/spells = spellList ^ list(/mob/Spells/verb/Self_To_Dragon, /mob/Spells/verb/Self_To_Human, /mob/Spells/verb/Episky, /mob/Spells/verb/Inflamari)
+
+				if(spells.len == worldData.spellsHistory.len)
+					worldData.spellsHistory = list()
+				else
+					spells ^= worldData.spellsHistory
+
+				spell = pick(spells)
+				worldData.spellsHistory += spell
+
+			else if(!(spell in worldData.spellsHistory))
+				worldData.spellsHistory += spell
 
 			var/class/c
 
@@ -285,7 +292,7 @@ RandomEvent
 
 
 				c.start()
-				sleep(600 * 30)
+				sleep(600 * time)
 
 				while(world.time - c.lastTaught <= 1200)
 					sleep(1200)

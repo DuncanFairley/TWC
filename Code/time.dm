@@ -120,6 +120,14 @@ mob/GM/verb
 
 			var/RandomEvent/e = pickweight(l)
 			e.start()
+		else if(istype(event, /RandomEvent/Class))
+			var/list/spells = spellList ^ list(/mob/Spells/verb/Self_To_Dragon, /mob/Spells/verb/Self_To_Human, /mob/Spells/verb/Episky, /mob/Spells/verb/Inflamari)
+			var/spell = input(src, "Which spell? (Cancel for random)", "Start Auto Class", "Random") as null|anything in spells
+
+			var/time = input(src, "How long? (in minutes)", "Start Auto Class", 30) as num|null
+			if(!time || time <= 0) return
+
+			event.start(spell, time)
 		else
 			event.start()
 
