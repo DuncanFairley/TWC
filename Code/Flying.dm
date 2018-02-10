@@ -1203,13 +1203,7 @@ obj
 			density    = 1
 		Blackboard_
 			icon       = 'bb.dmi'
-			icon_state = "1"
-		Blackboard__
-			icon       = 'bb.dmi'
-			icon_state = "2"
-		Blackboard___
-			icon       = 'bb.dmi'
-			icon_state = "3"
+			layer = 4
 		Barrels
 			icon       = 'turf.dmi'
 			icon_state = "barrels"

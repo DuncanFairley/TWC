@@ -244,7 +244,7 @@ RandomEvent
 		name = "Class"
 		beepType = 2
 
-		start(var/spell, var/time=30)
+		start(var/spell, var/time=30, var/subject)
 			set waitfor = 0
 
 
@@ -273,15 +273,21 @@ RandomEvent
 				c.name      = spellList[spell]
 				c.spelltype = spell
 				curClass    = c.subject
-				classdest   = locate("[c.subject] Class")
+
+				if(!subject) subject = c.subject
+
+				classdest   = locate("[subject] Class")
 
 				var/obj/teacher/t = new (classdest.loc)
 				t.classInfo = c
 				c.professor = t
 
-				var/area/hogwarts/h = t.loc.loc
-				if(istype(h, /area/hogwarts))
+				var/area/hogwarts/class/h = t.loc.loc
+				if(istype(h, /area/hogwarts/class))
 					h.class = c
+				else
+					end()
+					return
 
 				..()
 

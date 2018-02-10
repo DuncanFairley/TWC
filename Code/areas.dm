@@ -237,14 +237,6 @@ area
 		Great_Hall
 		PorchLeft
 		PorchRight
-		Defence_Against_the_Dark_Arts
-			safezoneoverride = 0
-		Charms
-			safezoneoverride = 0
-		Care_of_Magical_Creatures
-			safezoneoverride = 0
-		Transfiguration
-			safezoneoverride = 0
 		Bathroom
 		Library
 		Hufflepuff_Common_Room
@@ -268,10 +260,6 @@ area
 						o.hide()
 
 		Detention
-		Headmasters_Class_West
-			safezoneoverride = 0
-		Headmasters_Class_East
-			safezoneoverride = 0
 		East_Wing
 		West_Wing
 		Third_Floor

@@ -601,7 +601,16 @@ learnSpell
 	var/name
 	var/uses
 
-area/hogwarts
+area/hogwarts/class
+	safezoneoverride = 0
+
+	Defence_Against_the_Dark_Arts
+	Charms
+	Care_of_Magical_Creatures
+	Transfiguration
+	Headmasters_Class_West
+	Headmasters_Class_East
+
 	var/tmp/class/class
 	Entered(atom/movable/Obj, atom/OldLoc)
 		..()
@@ -619,3 +628,51 @@ area/hogwarts
 					class.start(p)
 				else
 					p << infomsg("Take a seat and wait for the teacher to give their lecture.")
+
+
+WorldData/var/classReqPlayers = 4
+WorldData/var/classCooldown = 72000 // 2 hours
+WorldData/var/lastClass = 0
+
+obj/startClass
+	mouse_opacity = 2
+	maptext_width = 96
+	layer = 5
+	maptext_y = 8
+	mouse_over_pointer = MOUSE_HAND_POINTER
+
+	maptext = "<b style=\"text-align:center;\">C L A S S</b>"
+
+	icon = 'bb.dmi'
+
+	var/subject
+
+	Click()
+		if(worldData.currentEvents)
+			usr << errormsg("You can't use this while an event is running.")
+			return
+
+		var/ticks = worldData.classCooldown - (world.realtime - worldData.lastClass)
+		if(ticks > 0)
+			usr << errormsg("Try again in about [round(ticks / 600, 1)] minutes.")
+			return
+
+		var/area/a = loc.loc
+		var/count = 0
+		for(var/mob/Player/p in a)
+			count++
+
+		if(count < worldData.classReqPlayers)
+			usr << errormsg("Not enough players to start a class, try inviting your friends over to the classroom.")
+			return
+
+		var/RandomEvent/Class/c = locate() in worldData.events
+		c.start(subject=src.subject)
+
+
+
+
+
+
+
+
