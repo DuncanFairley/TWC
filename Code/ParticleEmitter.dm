@@ -112,7 +112,7 @@ obj/particle
 	var/Random/time = new /Random(5, 10)
 	mouse_opacity = 0
 
-	layer = 5
+	layer = 7
 
 	proc
 		config(angle, speed, life, color = null)
