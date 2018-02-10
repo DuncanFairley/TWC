@@ -666,6 +666,8 @@ obj/startClass
 			usr << errormsg("Not enough players to start a class, try inviting your friends over to the classroom.")
 			return
 
+		worldData.lastClass = world.realtime
+
 		var/RandomEvent/Class/c = locate() in worldData.events
 		c.start(subject=src.subject)
 
