@@ -262,13 +262,6 @@ obj/items
 					new /obj/items/key/sunset_key (loc)
 					loc = null
 
-	chest
-		New()
-			..()
-			spawn(1)
-				if(drops && islist(drops))
-					drops = initial(drops)
-
 		Wizard
 			New()
 				..()
