@@ -101,19 +101,19 @@ obj/healthbar
 			tmp/obj/hpframe/screenBack/back
 
 
-		New(mob/Player/p, loc, mana=0)
+		New(loc, mob/Player/p, sloc, mana=0)
 			isMana     = mana
 			overlays  += /obj/hpframe/screen
 
 			back = new
-			back.screen_loc = loc
+			back.screen_loc = sloc
 			p.client.screen += back
 
-			screen_loc = loc
+			screen_loc = sloc
 			p.client.screen += src
 
 			mtext = new
-			mtext.screen_loc = loc
+			mtext.screen_loc = sloc
 			mtext.maptext_width = 256
 			mtext.maptext_height = 16
 			mtext.layer = 12

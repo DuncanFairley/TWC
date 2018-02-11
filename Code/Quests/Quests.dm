@@ -823,8 +823,8 @@ interface
 		new /hudobj/questbook(null, parent.client, null, show=1)
 		new /hudobj/Party_Invite(null, parent.client, null, 1)
 
-		hpbar = new(p, "NORTH-1:15,WEST+2")
-		mpbar = new(p, "NORTH-1,WEST+2", mana=1)
+		hpbar = new(null, p, "NORTH-1:15,WEST+2")
+		mpbar = new(null, p, "NORTH-1,WEST+2", mana=1)
 
 		if(p.foreColor != "#000000")
 			p << output("[p.foreColor]","browser1:ForeColor")
