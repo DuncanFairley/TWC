@@ -1361,6 +1361,13 @@ mob/GM
 
 mob/GM
 	verb
+		Delete(S as turf|obj|mob in view(17))
+			set category = "Staff"
+			if(isplayer(S))
+				switch(alert("Deleting Player: [S]","Are you sure you want to delete [S]?","Yes","No"))
+					if("No")
+						return
+			del S
 		Freeze_Area()
 			set category="Staff"
 			usr<<"With a flick of your wand, you Freeze your view!"
@@ -2173,3 +2180,5 @@ mob/test/verb/ResetReputation()
 		var/PlayerData/p = worldData.playersData[ckey]
 		p.fame = 0
 	src << infomsg("Done")
+
+mob/Player/var/tmp/prevname

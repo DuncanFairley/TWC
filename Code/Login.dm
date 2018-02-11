@@ -915,7 +915,6 @@ mob/Player
 			gender = MALE
 		Resort_Stacking_Inv()
 		if(StatPoints<1)verbs.Remove(/mob/Player/verb/Use_Statpoints)
-		shieldamount = 0
 		mouse_drag_pointer = MOUSE_DRAG_POINTER
 		if(client.connection == "web")
 			winset(src, "mapwindow.map", "icon-size=32")

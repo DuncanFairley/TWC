@@ -193,21 +193,21 @@ mob/Spells/verb/Herbificus()
 mob/Spells/verb/Protego()
 	set category = "Spells"
 	var/mob/Player/p = src
-	if(!p.shieldamount)
-		if(canUse(src,cooldown=/StatusEffect/UsedProtego,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-			new /StatusEffect/UsedProtego(src,60)
+	if(!p.reflect)
+		if(canUse(src,cooldown=/StatusEffect/UsedProtego,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+			new /StatusEffect/UsedProtego(src,30)
 			p.overlays += /obj/Shield
 			hearers()<< "<b><span style=\"color:red;\">[usr]</b></span>: PROTEGO!"
 			p << "You shield yourself magically"
-			p.shieldamount = (usr.Def+usr.extraDef) * 2.5
+			p.reflect = 0.25
 			p.learnSpell("Protego")
-			sleep(100)
-			if(p.shieldamount)
-				p.shieldamount = 0
+			sleep(30)
+			if(p.reflect)
+				p.reflect = 0
 				p.overlays -= /obj/Shield
 				p<<"You are no longer shielded!"
 	else
-		p.shieldamount = 0
+		p.reflect = 0
 		p << "You are no longer shielded!"
 		p.overlays -= /obj/Shield
 mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
@@ -1756,50 +1756,39 @@ mob/Player
 			else
 				src << "[p.owner] hit you for [p.damage] with their [p]."
 
-		if(shieldamount)
-			var/tmpdmg = shieldamount - p.damage
-			if(tmpdmg < 0)
-				HP += tmpdmg
-				src << "You are no longer shielded!"
-				overlays    -= /obj/Shield
-				shieldamount = 0
+		if(p.element == FIRE)
+			p.damage -= round(Fire.level / 2)
+
+		else if(p.element == WATER)
+			p.damage -= round(Water.level / 2)
+
+		else if(p.element == EARTH)
+			p.damage -= round(Earth.level / 2)
+
+		else if(p.element == GHOST)
+			p.damage -= round(Ghost.level / 2)
+
+		if(p.damage <= 0) return
+
+		HP -= p.damage
+		updateHPMP()
+
+		var/n = dir2angle(get_dir(src, p))
+		emit(loc    = src,
+			 ptype  = /obj/particle/fluid/blood,
+		     amount = 5,
+		     angle  = new /Random(n - 25, n + 25),
+		     speed  = 2,
+		     life   = new /Random(15,25))
+
+		if(HP <= 0)
+			if(isplayer(p.owner))
+				p.owner:learnSpell(p.name, 100)
 				Death_Check(p.owner)
-			else
-				shieldamount -= p.damage
-		else
-			if(p.element == FIRE)
-				p.damage -= round(Fire.level / 2)
+			else if(ismonster(p.owner))
+				p.owner:Kill(src)
 
-			else if(p.element == WATER)
-				p.damage -= round(Water.level / 2)
-
-			else if(p.element == EARTH)
-				p.damage -= round(Earth.level / 2)
-
-			else if(p.element == GHOST)
-				p.damage -= round(Ghost.level / 2)
-
-			if(p.damage <= 0) return
-
-			HP -= p.damage
-			updateHPMP()
-
-			var/n = dir2angle(get_dir(src, p))
-			emit(loc    = src,
-				 ptype  = /obj/particle/fluid/blood,
-			     amount = 5,
-			     angle  = new /Random(n - 25, n + 25),
-			     speed  = 2,
-			     life   = new /Random(15,25))
-
-			if(HP <= 0)
-				if(isplayer(p.owner))
-					p.owner:learnSpell(p.name, 100)
-					Death_Check(p.owner)
-				else if(ismonster(p.owner))
-					p.owner:Kill(src)
-
-			return src
+		return src
 
 mob/Enemies
 	var/canBleed = TRUE
@@ -1977,9 +1966,15 @@ obj
 			var/count = 0
 			for(var/atom/movable/O in t)
 				if(O.invisibility >= 2) continue
-				Effect(O)
-				if(damage)
-					O.Attacked(src)
+				if(O.reflect)
+					Effect(owner)
+					if(damage)
+						damage = round(O.reflect * damage, 1)
+						owner.Attacked(src)
+				else
+					Effect(O)
+					if(damage)
+						O.Attacked(src)
 				count++
 
 			if(Impact(a, t) || count > 1)
@@ -2392,3 +2387,11 @@ mob/Player
 		teleporting = 0
 
 		return 1
+
+atom/movable/var/tmp/reflect
+
+obj/Shield
+	icon='teleport2.dmi'
+	icon_state = "shield"
+	layer = 5
+	density = 1
