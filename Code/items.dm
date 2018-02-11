@@ -3816,19 +3816,14 @@ obj/items/reputation
 
 
 	New()
-		set waitfor = 0
-		..()
-		sleep(1)
-
-		if(name == initial(name))
-			if(prob(10))
-				rep *= 2
-				name = "greater [name]"
-			else if(prob(55))
-				rep /= 2
-				name = "small [name]"
-			else
-				name = "medium [name]"
+		if(prob(10))
+			rep *= 2
+			name = "greater [name]"
+		else if(prob(55))
+			rep /= 2
+			name = "small [name]"
+		else
+			name = "medium [name]"
 
 	proc/Add(mob/Player/i_Player)
 		var/r1 = i_Player.getRep()
