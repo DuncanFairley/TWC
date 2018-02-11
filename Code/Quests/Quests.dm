@@ -958,13 +958,11 @@ mob/Player
 
 mob/Player
 	var
-		tmp
-			logintime = 0
 		playedtime = 0
 	proc
 		getPlayTime()
 			var
-				playtime = (world.realtime - logintime) + playedtime
+				playtime = (world.realtime - timelog) + playedtime
 				sec      = round(playtime / 10)
 				min      = round(sec      / 60)
 				hour     = round(min      / 60)

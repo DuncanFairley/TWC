@@ -892,11 +892,6 @@ mob/Player
 			else
 				verbs.Remove(/mob/Player/verb/Use_Statpoints)
 
-	proc
-		Saveme()
-			if(prevname)
-				name = prevname
-
 	Login()
 		if(client.byond_version < world.byond_version)
 			src << errormsg("Your installed BYOND version is older than the one the game is using, please update to BYOND version [world.byond_version] or higher. You can continue to play but unpredicted errors may occur.")
@@ -908,7 +903,6 @@ mob/Player
 					if(p.Gm)
 						p << errormsg("[src.ckey] - [src.name] encountered a save problem, please check it out.")
 
-		dance = 0
 		if(Gender=="Female")
 			gender = FEMALE
 		else if(Gender=="Male")
@@ -918,23 +912,6 @@ mob/Player
 		mouse_drag_pointer = MOUSE_DRAG_POINTER
 		if(client.connection == "web")
 			winset(src, "mapwindow.map", "icon-size=32")
-		spawn()
-			var/mob/multikey
-			for(var/mob/Player/p in Players)
-				if(client == p.client) continue
-				if(client.connection == "web")
-					if(p.client.address == client.address || p.client.computer_id == client.computer_id)
-						multikey = p
-						break
-				else
-					if(p.client.computer_id == client.computer_id)
-						multikey = p
-						break
-
-			if(multikey)
-				for(var/mob/Player/p in Players)
-					if(p.Gm)
-						p << "<h2>Multikeyers: [multikey](key: [multikey.key] | ip: [multikey.client.address]) & just logged in: [src] (key: [key] | ip: [client.address]) ([client.connection == "web" ? "webclient" : "dreamseeker"])</h2>"
 
 		for(var/hudobj/login/l in client.screen)
 			client.screen -= l
@@ -944,8 +921,6 @@ mob/Player
 		client.eye = src
 		client.perspective = MOB_PERSPECTIVE
 
-		listenooc = 1
-		listenhousechat = 1
 		invisibility = 0
 		alpha = 255
 		sight &= ~(SEE_SELF|BLIND)
@@ -977,10 +952,10 @@ mob/Player
 		timelog = world.realtime
 		if(timerMute > 0)
 			src << "<u>You're muted for [timerMute] minute[timerMute==1 ? "" : "s"].</u>"
-			spawn() mute_countdown()
+			mute_countdown()
 		if(timerDet > 0)
 			src << "<u>You're in detention for [timerDet] minute[timerDet==1 ? "" : "s"].</u>"
-			spawn() detention_countdown()
+			detention_countdown()
 		addNameTag()
 		if(canLogout)
 			Players.Add(src)
@@ -1017,10 +992,25 @@ mob/Player
 			Interface.Init(src)
 		isDJ(src)
 		checkMail()
-		logintime = world.realtime
 
 		spawn()
-			//CheckSavefileVersion()
+			var/mob/multikey
+			for(var/mob/Player/p in Players)
+				if(client == p.client) continue
+				if(client.connection == "web")
+					if(p.client.address == client.address || p.client.computer_id == client.computer_id)
+						multikey = p
+						break
+				else
+					if(p.client.computer_id == client.computer_id)
+						multikey = p
+						break
+
+			if(multikey)
+				for(var/mob/Player/p in Players)
+					if(p.Gm)
+						p << "<h2>Multikeyers: [multikey](key: [multikey.key] | ip: [multikey.client.address]) & just logged in: [src] (key: [key] | ip: [client.address]) ([client.connection == "web" ? "webclient" : "dreamseeker"])</h2>"
+
 			buildActionBar()
 			if(istype(src.loc.loc,/area/arenas) && !rankedArena)
 				src.loc = locate(50,22,15)
@@ -1977,7 +1967,7 @@ mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
 			timerMute = timer
 			if(timer != 0)
 				src << "<u>You've been muted for [timer] minute[timer==1 ? "" : "s"].</u>"
-			spawn()mute_countdown()
+			mute_countdown()
 
 		spawn()sql_add_plyr_log(ckey,"si",reason,timer)
 
@@ -2154,8 +2144,8 @@ mob/var
 mob/var/Mexp=5
 mob/var/Exp=0
 mob/var/Expg=1
-mob/var/listenooc=1
-mob/var/listenhousechat=1
+mob/var/tmp/listenooc=1
+mob/var/tmp/listenhousechat=1
 mob/var/gold/gold
 mob/var/goldg=1
 mob/var/gold/goldinbank

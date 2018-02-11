@@ -103,7 +103,7 @@ mob/Player/proc/PMHome()
 	<a href='?src=\ref[src];action=pm_MainMenu'>Refresh</a>
 			"})
 mob/Player/var/list/blockedpeeps = list()
-mob/var/tmp/timelog = 0
+mob/Player/var/tmp/timelog = 0
 var/list/emotes = list("farts","burps","coughs","yawns","sneezes","picks their nose","breathes heavily","scratches their arm","fidgets")
 mob/var/autoAFK = TRUE
 mob/Player/proc/unreadmessagelooper()

@@ -152,10 +152,6 @@ client/var/tmp
 	base_save_verbs = 1
 obj/stackobj/Write(savefile/F)
 	return
-mob/proc/detectStoopidBug(sourcefile, line)
-	if(!Gender)
-		for(var/mob/Player/M in Players)
-			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
 
 mob/Player/base_save_allowed = 1
 mob
@@ -185,7 +181,6 @@ mob
 			F["last_y"] << y
 			F["last_z"] << z
 		F["UsedKeys"] << src:saveSpells()
-		detectStoopidBug(__FILE__, __LINE__)
 
 	Read(savefile/F)
 		var/testtype
@@ -198,7 +193,6 @@ mob
 		..()
 		if(testtype != /mob/Player)
 			return
-		detectStoopidBug(__FILE__, __LINE__)
 		if (base_save_location && world.maxx)
 			var/mob/Player/p = src
 			var/last_x
@@ -213,44 +207,6 @@ mob
 			var/savefile_version
 			F["savefileversion"] >> savefile_version
 			if(!savefile_version) savefile_version = 3
-			if(savefile_version < 3)
-				p.resetStatPoints()
-				p << infomsg("Your statpoints have been reset.")
-
-			if(savefile_version < 5)
-				p.pdeaths = p.edeaths
-				p.edeaths = 0
-
-			if(savefile_version < 7)
-				spawn()
-					verbs -= /mob/Spells/verb/Avada_Kedavra
-					verbs -= /mob/Spells/verb/Ecliptica
-					verbs -= /mob/Spells/verb/Crapus_Sticketh
-					verbs -= /mob/Spells/verb/Herbificus_Maxima
-					verbs -= /mob/Spells/verb/Basilio
-					verbs -= /mob/Spells/verb/Shelleh
-					verbs -= /mob/Spells/verb/Imperio
-
-			if(savefile_version < 11)
-				spawn()
-					if(p.client.tmpInterface)
-						p.Interface = p.client.tmpInterface
-						p.Interface.Init(p)
-
-					if(!("Tutorial: The Wand Maker" in p.questPointers))
-						p.startQuest("Tutorial: The Wand Maker")
-
-			if(savefile_version < 12)
-				p.playedtime = 0
-
-			if(savefile_version < 13)
-				p.refundSpells1()
-
-			if(savefile_version < 14)
-				for(var/obj/items/i in p)
-					i.Sort()
-
-				p.Resort_Stacking_Inv()
 
 			if(savefile_version < 17)
 				var/gold/g = new
@@ -261,47 +217,6 @@ mob
 				g.give(src)
 				gold       = null
 				goldinbank = null
-
-			if(savefile_version < 18)
-				if("Royal Blood \[Weekly]" in p.questPointers)
-					p.questPointers -= "Royal Blood \[Weekly]"
-
-			if(savefile_version < 19)
-				p.refundSpells2()
-
-			if(savefile_version < 20)
-
-				if(ckey in worldData.playersData)
-					var/PlayerData/r = worldData.playersData[ckey]
-
-					var/d = 0
-					if(r.fame > 200)
-						d = r.fame - 200
-						r.fame = 200
-					else if(r.fame < -200)
-						d = r.fame + 200
-						r.fame = -200
-
-					if(d > 0)
-						var/obj/items/reputation/peace_tablet/t = new
-						t.name  = "massive peace tablet"
-						t.rep   = 10
-						t.stack = max(round(d / 10, 1), 1)
-						t.Move(src)
-						t.UpdateDisplay()
-
-						src << infomsg("You were given [t.stack] massive peace tablets.")
-
-					else if(d < 0)
-						var/obj/items/reputation/chaos_tablet/t = new
-						t.name  = "massive chaos tablet"
-						t.rep   = -10
-						t.stack = max(round(abs(d) / 10, 1), 1)
-						t.Move(src)
-						t.UpdateDisplay()
-
-						src << infomsg("You were given [t.stack] massive chaos tablets.")
-
 
 			if(savefile_version < 22)
 				spawn()
@@ -319,16 +234,6 @@ mob
 
 			if(savefile_version < 24)
 				p.GMFrozen = 0
-
-			if(savefile_version < 25)
-				for(var/obj/items/wearable/w in src)
-					if(w.quality == 0) continue
-
-					if(istype(w, /obj/items/wearable/wands))
-						w.quality = min(round(w.quality * 10, 1), MAX_WAND_LEVEL)
-
-					else if(istype(w, /obj/items/wearable/pets))
-						w.quality = min(round(w.quality * 10, 1), MAX_PET_LEVEL)
 
 			if(savefile_version < 26)
 
@@ -471,7 +376,6 @@ mob
 			if(p.ror==0)
 				var/rorrand=rand(1,3)
 				p.ror=rorrand
-			p.occlumens = 0
 			p.icon_state = ""
 			if(p.Gm)
 				if(p.Gender == "Female")
@@ -902,7 +806,7 @@ client
 
 	Del()
 		if(mob && isplayer(mob))
-			mob:playedtime += world.realtime  - mob:logintime
+			mob:playedtime += world.realtime  - mob:timelog
 			if(mob:isTrading())
 				mob:trade.Clean()
 			if(mob:party)
@@ -914,7 +818,6 @@ client
 			if(S) S.Deactivate()
 			if(mob:prevname)
 				mob.name = mob:prevname
-			mob:occlumens = 0
 			if(mob.xp4referer)
 				sql_upload_refererxp(mob.ckey,mob.refererckey,mob.xp4referer)
 				mob.xp4referer = 0
