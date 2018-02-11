@@ -5,12 +5,6 @@
  * For the full license text, see LICENSE.txt.
  */
 
-obj/items/wearable/magic_eye
-	New()
-		..()
-		spawn(1)
-			loc = null
-
 obj/items/herosbrace
 /*	name = "Hero's brace"
 	icon = 'herosbrace.dmi'

@@ -491,6 +491,12 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 
 			if(owner.reflection)
 				owner.GenerateReflection()
+			if(owner.cloakReflection)
+				owner.cloakReflection.appearance = owner.appearance
+				owner.cloakReflection.alpha = 200
+				owner.cloakReflection.mouse_opacity = 0
+				owner.cloakReflection.invisibility = 1
+
 		suffix = null
 		UpdateDisplay()
 		if(bonus != -1)
@@ -512,6 +518,11 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 
 			if(owner.reflection)
 				owner.GenerateReflection()
+			if(owner.cloakReflection)
+				owner.cloakReflection.appearance = owner.appearance
+				owner.cloakReflection.alpha = 200
+				owner.cloakReflection.mouse_opacity = 0
+				owner.cloakReflection.invisibility = 1
 
 		if(!owner.Lwearing) owner.Lwearing = list()
 		owner.Lwearing.Add(src)
@@ -1901,6 +1912,9 @@ obj/items/wearable/bling
 					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] stuffs \his copious amounts of [src.name] into \his pocket.")
+
+mob/Player/var/tmp/obj/cloakReflection
+
 obj/items/wearable/magic_eye
 	icon = 'MoodyEye.dmi'
 	desc = "This magical eye allows the wearer to see through basic and intermediate invisibility magic."
@@ -1909,13 +1923,15 @@ obj/items/wearable/magic_eye
 		. = ..(owner)
 		if(. == WORN)
 			if(!overridetext)viewers(owner) << infomsg("[owner] jams \his magical eye into \his eye socket.")
-			if(!owner.Gm)owner.see_invisible = 1
+			if(!owner.see_invisible)owner.see_invisible = 1
 			for(var/obj/items/wearable/magic_eye/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
+			owner.Interface.SetDarknessColor(MAGICEYE_COLOR, 1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes out \his magical eye from its socket.")
-			if(!owner.Gm)owner.see_invisible = 0
+			if(owner.see_invisible < 2)owner.see_invisible = 0
+			owner.Interface.SetDarknessColor(MAGICEYE_COLOR)
 obj/items/wearable/invisibility_cloak
 	icon = 'invis_cloak.dmi'
 	showoverlay=0
@@ -1952,10 +1968,23 @@ obj/items/wearable/invisibility_cloak
 			flick('mist.dmi',owner)
 			owner.alpha = a
 
+			if(!owner.cloakReflection)
+				owner.cloakReflection = new
+				owner.cloakReflection.loc = owner.loc
+				owner.cloakReflection.appearance = owner.appearance
+				owner.cloakReflection.alpha = 200
+				owner.cloakReflection.mouse_opacity = 0
+				owner.cloakReflection.invisibility = 1
+				owner.addFollower(owner.cloakReflection)
+
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] appears from nowhere as \he removes \his [src.name].")
 
 			owner.alpha = 255
+			if(owner.cloakReflection)
+				owner.removeFollower(owner.cloakReflection)
+				owner.cloakReflection.loc = null
+				owner.cloakReflection = null
 
 obj/items/wearable/title
 	var/title = ""

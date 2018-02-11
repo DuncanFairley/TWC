@@ -25,6 +25,7 @@
 #define HALLOWEEN 0
 #define NIGHTCOLOR "#6464d0"
 #define TELENDEVOUR_COLOR "#64d0d0"
+#define MAGICEYE_COLOR "#9df"
 
 #define PET_LIGHT 1
 #define PET_FOLLOW_FAR 2
