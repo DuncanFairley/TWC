@@ -311,28 +311,31 @@ mob/GM/verb/Administration_Tools()
 mob/Player
 	proc
 		mute_countdown()
-			sleep(600)
-			timerMute--
-			if(timerMute < 1)
-				if(!src.mute)return
-				mute = 0
-				Players << "<b><span style=\"color:red;\">[src] has been unsilenced.</span></b>"
-			else
-				mute_countdown()
-		detention_countdown()
-			sleep(600)//Minutes babbby.
-			timerDet--
-			if(timerDet < 1)
-				if(!Detention)return
-				flick('dlo.dmi',src)
-				src:Transfer(locate("@Hogwarts"))
+			set waitfor = 0
 
-				src.Detention=0
-				src.MuteOOC=0
-				Players<<"[src] has been released from Detention."
-				src.client.update_individual()
-			else
-				detention_countdown()
+			while(timerMute-- > 0)
+				sleep(600)
+
+			if(!src.mute) return
+			mute = 0
+			Players << "<b><span style=\"color:red;\">[src] has been unsilenced.</span></b>"
+
+		detention_countdown()
+			set waitfor = 0
+
+			while(timerDet-- > 0)
+				sleep(600)
+
+			if(!Detention) return
+
+			flick('dlo.dmi',src)
+			Transfer(locate("@Hogwarts"))
+
+			Detention = 0
+			MuteOOC = 0
+			Players << "[src] has been released from Detention."
+			client.update_individual()
+
 
 mob/test/verb/Remove_Junk()
 	var/input = input("Which junk are we talkin'?","Junk Removal") as null|anything in list("PM Inbox","PM Outbox","Inventory","Bank Deposit Items")
@@ -629,7 +632,7 @@ mob
 				M.timerDet = timer
 				if(timer != 0)
 					M << "<u>You're in detention for [timer] minute[timer==1 ? "" : "s"].</u>"
-				spawn()M.detention_countdown()
+				M.detention_countdown()
 			else
 				Log_admin("[src] has detentioned [M]([M.ckey]) indefinitely for [Reason]")
 			spawn()sql_add_plyr_log(M.ckey,"de",Reason,timer)
@@ -847,7 +850,7 @@ mob
 					M.timerMute = timer
 					if(timer != 0)
 						M << "<u>You've been muted for [timer] minute[timer==1 ? "" : "s"].</u>"
-					spawn()M.mute_countdown()
+					M.mute_countdown()
 
 				spawn()sql_add_plyr_log(M.ckey,"si",Reason,timer)
 
