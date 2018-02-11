@@ -286,11 +286,11 @@ class
 				..()
 				say("Careful when you use this. It fires projectiles in all 8 directions! It's quite a useful spell in my opinion.", p)
 		Protego
-			cd = 60
+			cd = 30
 			wand = TRUE
 			start(mob/Player/p)
 				..()
-				say("The Shield Charm causes minor to moderate jinxes, curses, and hexes to rebound upon the attacker.", p)
+				say("Protego is a shield charm, for 3 seconds any spell you are hit with will effect the caster and not to you, as if you are a mirror.", p)
 		Impedimenta
 			mp = 750
 			cd = 20
