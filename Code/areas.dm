@@ -551,6 +551,7 @@ turf
 			if(p.followers)
 				for(var/obj/o in p.followers)
 					o.glide_size = p.glide_size
+					o.dir = get_dir(o.loc, src)
 					o.loc = src
 
 			if(p.pet && p.pet.loc)
