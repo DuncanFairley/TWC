@@ -231,6 +231,13 @@ turf/buildable
 		if(p.buildItemDisplay)
 			if(z == p.z && get_dist(src, p) < 30)
 				p.buildItemDisplay.loc = src
+
+				if(p.buildItem.reqWall)
+					var/turf/t = locate(x,y+1,z)
+					if(!t || !t.flyblock)
+						p.buildItemDisplay.color = "#f00"
+						return
+
 				var/obj/buildable/shield_totem/c = locate() in range(20, src)
 				if(!c || !c.allowed || (usr.ckey in c.allowed))
 					p.buildItemDisplay.loc = src
@@ -258,6 +265,12 @@ turf/buildable
 
 				if(p.buildItem.path)
 					if(!flyblock && !(locate(p.buildItem.path) in src))
+
+						if(p.buildItem.reqWall)
+							var/turf/t = locate(x,y+1,z)
+							if(!t || !t.flyblock)
+								return
+
 						Clear()
 						var/obj/buildable/wall/o = new p.buildItem.path(src)
 
@@ -531,8 +544,6 @@ hudobj
 		maptext        = "<center><span style=\"color:#e50000;\">Respawn at bed</span></center>"
 		maptext_height = 128
 		alpha          = 0
-		plane          = 2
-		mouse_opacity  = 2
 
 		Click()
 			var/mob/Player/p = usr
@@ -549,9 +560,12 @@ hudobj
 		maptext_x = 34
 		maptext_width = 256
 
+		mouse_opacity  = 2
+
 		var
 			path
 			price = 0
+			reqWall = 0
 
 		appearance_flags = PIXEL_SCALE
 
@@ -583,6 +597,8 @@ hudobj
 			o.canSave = 0
 			o.mouse_over_pointer = 0
 			o.transform = null
+			if(reqWall)
+				o.pixel_y += 32
 
 			M.buildItem = src
 			M.buildItemDisplay = o
@@ -630,6 +646,9 @@ hudobj
 				screen_x = 32
 				screen_y = 64
 
+				maptext_x = 0
+				maptext_width = 32
+
 			chairright
 				icon       = 'desk.dmi'
 				icon_state = "cright"
@@ -639,6 +658,9 @@ hudobj
 
 				screen_x = 64
 				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
 
 			chairback
 				icon       = 'desk.dmi'
@@ -651,6 +673,9 @@ hudobj
 				screen_x = 96
 				screen_y = 64
 
+				maptext_x = 0
+				maptext_width = 32
+
 			chairfront
 				icon       ='desk.dmi'
 				icon_state = "cfront"
@@ -661,15 +686,33 @@ hudobj
 				screen_x = 128
 				screen_y = 64
 
+				maptext_x = 0
+				maptext_width = 32
+
 			WTable
 				icon       ='stage.dmi'
 				icon_state = "w"
 
 				price = 1
-				maptext = "Decoration: 1 wooden logs"
 				path = /obj/WTable
 
 				screen_x = 160
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
+			wall_torch
+				icon       ='turf.dmi'
+				icon_state = "walltorch"
+
+				price = 1
+				maptext = "Decoration: 1 wooden logs"
+				path = /obj/static_obj/walltorch { post_init = 0; pixel_y = 32 }
+				reqWall = 1
+				mouse_opacity = 2
+
+				screen_x = 200
 				screen_y = 64
 
 			Bed
