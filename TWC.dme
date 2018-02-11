@@ -104,7 +104,6 @@
 #include "Code\PM.dm"
 #include "Code\Potions.dm"
 #include "Code\Prom.dm"
-#include "Code\Protego.dm"
 #include "Code\Quidditch.dm"
 #include "Code\RandomEvents.dm"
 #include "Code\Region.dm"
