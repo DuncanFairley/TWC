@@ -383,7 +383,9 @@ obj/buildable
 
 	wall
 		var
-			tmp/regen = 0
+			tmp
+				regen  = 0
+			onFire = 0
 			rate = 5000
 		opacity = 1
 		wood
@@ -405,6 +407,21 @@ obj/buildable
 			..()
 			if(!regen && hp > 0 && hp < maxhp)
 				regen()
+			else if(!onFire && hp / maxhp < 0.3)
+				onFire = 1
+
+				var/px = rand(-6,6) * 2
+				var/py = rand(-4,4) * 2
+
+				for(var/i = -1 to 1 step 2)
+					var/obj/o = new
+					var/mutable_appearance/ma = new
+					ma.pixel_x = px * i
+					ma.pixel_y = py * i
+					ma.icon = 'attacks.dmi'
+					ma.icon_state = "flame"
+					o.appearance = ma
+					overlays += o
 
 		proc
 			updateState()
@@ -425,13 +442,18 @@ obj/buildable
 					else
 						var/perc = hp / maxhp
 						hpbar.Set(perc)
+
+					if(onFire && hp / maxhp > 0.35)
+						overlays = list()
+						onFire = 0
+
 					sleep(50)
 
 				if(hp >= maxhp)
 					hpbar.loc = null
 					hpbar = null
 					hp = maxhp
-					regen = 0
+				regen = 0
 
 		Dispose()
 			var/turf/t = loc
@@ -795,5 +817,4 @@ hudobj
 				screen_y = 192
 
 				path = /obj/teleport/portkey { dest = "@Courtyard"}
-
 
