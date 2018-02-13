@@ -105,57 +105,8 @@ obj/quidditch
 					sleep(15)
 					canCatch = 1
 
-turf/Entered(atom/movable/M)
-	..()
-	if(M)
-		for(var/atom/A in src)
-			if(A == M) continue
-			if(!M || !M.loc)break
-			M.SteppedOn(A)
-turf/Exited(atom/movable/M)
-	..()
-	for(var/atom/A in src)
-		if(A == M) continue
-		if(!M)break
-		M.SteppedOff(A)
 
 
 
-atom/movable/proc/SteppedOn(atom/movable/A)
-
-atom/movable/proc/SteppedOff(atom/movable/A)
 
 
-
-mob/Player/SteppedOn(atom/movable/A)
-	if(istype(A,/obj/items/Whoopie_Cushion))
-		if(A:isset)
-			A:Fart(src)
-	else if(istype(A,/obj/drop_on_death))
-		A:take(src)
-	else if(istype(A,/obj/mirror/base))
-		A:mirror(src)
-	else if(istype(A,/obj/teleport))
-		A:Teleport(src)
-	else if(istype(A,/obj/portkey))
-		A:Teleport(src)
-	else if(istype(A,/obj/shop/base))
-		A:shop(src)
-	else if(istype(A,/obj/Poop))
-		A:stepped(src)
-	else if(istype(A,/obj/toilet))
-		A:poop(src)
-
-mob/Player/SteppedOff(atom/movable/A)
-	..()
-	if(istype(A,/obj/shop/base))
-		A:unshop(src)
-
-
-atom/movable/SteppedOn(atom/movable/A)
-	if(istype(A,/obj/mirror/base))
-		A:mirror(src)
-
-atom/movable/SteppedOff(atom/movable/A)
-	if(istype(A,/obj/mirror/base))
-		A:unmirror(src)

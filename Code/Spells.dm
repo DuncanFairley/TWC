@@ -1867,11 +1867,17 @@ obj
 			damage = 0
 			element = 0
 
-		SteppedOn(atom/movable/A)
-			if(!A.density && (isplayer(A) || istype(A,/mob/Enemies)))
-				src.Bump(A)
-			else if(damage && istype(A,/obj/portkey))
-				src.Bump(A)
+		Move()
+			.=..()
+
+			for(var/atom/movable/a in loc)
+				if(a == src) continue
+
+				if(!a.density && (isplayer(a) || istype(a, /mob/Enemies)))
+					Bump(a)
+				else if(damage && istype(a, /obj/portkey))
+					Bump(a)
+
 
 		New(loc,dir,mob/mob,icon,icon_state,damage,name,element)
 			..()
@@ -2359,6 +2365,11 @@ obj/portkey
 		spawn(300)
 			view(src) << "The portkey collapses and closes."
 			del(src)
+
+	Crossed(mob/Player/p)
+		if(isplayer(p))
+			Teleport(p)
+
 	proc/Teleport(mob/Player/M)
 		if(!partner) return
 

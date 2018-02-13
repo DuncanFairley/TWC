@@ -616,7 +616,7 @@ obj/items/Whoopie_Cushion
 	proc
 		Fart(sitter)
 			hearers() << "<span style=\"color:#FD857D; font-size:3;\"><b>A loud fart is heard from [sitter]'s direction.</b></span>"
-			del(src)
+			loc = null
 	Click()
 		if(src in usr)
 			hearers() << "[usr] sets a [src]."
@@ -633,6 +633,10 @@ obj/items/Whoopie_Cushion
 		. = ..()
 
 		return isset ? 0 : .
+
+	Crossed(mob/Player/p)
+		if(isset && isplayer(p))
+			Fart(p)
 
 obj/items/scroll
 	icon = 'Scroll.dmi'

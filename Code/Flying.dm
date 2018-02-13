@@ -264,11 +264,10 @@ obj
 		name = "toilet"
 		icon = 'toilet.dmi'
 
-		proc
-			poop(mob/Player/P)
-				if(P.Pooping)
-					P.Pooping = 0
-					P << infomsg("You feel a lot better.")
+		Crossed(mob/Player/p)
+			if(isplayer(p) && p.Pooping)
+				p.Pooping = 0
+				p << infomsg("You feel a lot better.")
 
 obj
 	pumpkin
@@ -428,6 +427,23 @@ obj/drop_on_death
 		showicon
 		slow = 0
 
+	Crossed(mob/Player/p)
+		if(isplayer(p))
+			if(locate(type) in p) return
+			if(slow) p.slow += slow
+			if(announceToWorld)
+				Players << "<b>[p] takes \the [src].</b>"
+			else
+				hearers()<<"[p] takes \the [src]."
+			var/dense = density
+			density = 0
+			Move(p)
+			density = dense
+			p.Resort_Stacking_Inv()
+
+			if(showicon == 1) p.overlays += icon
+			else if(showicon) p.overlays += showicon
+
 	verb
 		Drop()
 			var/dense = density
@@ -444,23 +460,6 @@ obj/drop_on_death
 			else if(showicon) usr.overlays -= showicon
 
 			if(slow) usr:slow -= slow
-
-	proc
-		take(mob/Player/M)
-			if(locate(type) in M) return
-			if(slow) M.slow += slow
-			if(announceToWorld)
-				Players << "<b>[M] takes \the [src].</b>"
-			else
-				hearers()<<"[M] takes \the [src]."
-			var/dense = density
-			density = 0
-			Move(M)
-			density = dense
-			M:Resort_Stacking_Inv()
-
-			if(showicon == 1) M.overlays += icon
-			else if(showicon) M.overlays += showicon
 
 turf
 	floo_aurorhosp

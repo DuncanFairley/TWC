@@ -514,6 +514,14 @@ obj/shop
 				if(!items && (name in shops))
 					items = shops[name]
 
+		Crossed(mob/Player/p)
+			if(isplayer(p))
+				shop(p)
+
+		Uncrossed(mob/Player/p)
+			if(isplayer(p))
+				unshop(p)
+
 		proc
 			shop(mob/Player/M)
 				if(!items)

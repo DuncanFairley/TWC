@@ -147,6 +147,13 @@ obj/mirror
 		density = 1
 	base
 		var/obj/mirror/glass/parent
+
+		Crossed(atom/movable/m)
+			mirror(m)
+
+		Uncrossed(atom/movable/m)
+			unmirror(m)
+
 		proc
 			mirror(atom/movable/M)
 

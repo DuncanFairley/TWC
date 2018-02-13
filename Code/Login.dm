@@ -133,6 +133,11 @@ obj/teleport
 		icon_state="portkey"
 		name = "Port key"
 		invisibility = 0
+
+	Crossed(mob/Player/p)
+		if(isplayer(p))
+			Teleport(p)
+
 	proc/Teleport(mob/Player/M)
 		if(dest)
 			if(pass && pass != "")

@@ -451,16 +451,16 @@ obj/Poop
 		spawn(rand(400,1200))
 			loc = null
 
-	proc
-		stepped(mob/Player/P)
-			var/StatusEffect/S = P.findStatusEffect(/StatusEffect/SteppedOnPoop)
+	Crossed(mob/Player/p)
+		if(isplayer(p))
+			var/StatusEffect/S = p.findStatusEffect(/StatusEffect/SteppedOnPoop)
 			if(!S)
-				P << "<i><span style=\"color:yellow;\">Ewww... You just stepped in poop.</span></i>"
-				new /StatusEffect/SteppedOnPoop(P,rand(5,10))
+				p << "<i><span style=\"color:yellow;\">Ewww... You just stepped in poop.</span></i>"
+				new /StatusEffect/SteppedOnPoop(p, rand(5,10))
 
 				if(prob(30))
 					loc=null
-
+	proc
 		get_to(turf/t)
 			set waitfor = 0
 			while(src && t && t != loc)
