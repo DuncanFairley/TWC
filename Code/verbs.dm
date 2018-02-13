@@ -100,6 +100,9 @@ mob
 
 			txt = replacetext(txt, "\[GMSchedule]", worldData.GMSchedule)
 
+			var/Event/RandomEvents/re = locate() in scheduler.__trigger_mapping
+			txt = replacetext(txt, "\[Random Event]", scheduler.time_to_fire(re))
+
 			var/list/tags = list("Auto Class", "Clan Wars")
 
 			var/offset_pos_start = findtext(txt, "\[Offset=")
