@@ -7,6 +7,37 @@
 
 mob/TalkNPC/quest
 
+	Divo
+		questPointers = list("Cloak of Invisibility", "Cloak of Visibility")
+		icon_state = "divo"
+
+		questStart(mob/Player/i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
+			if(questName == "Cloak of Invisibility")
+				s.AddText("You there! You see this shop? It used to be mine, I sold the best invisibility cloak knock offs.")
+				s.AddText("Tell you what, if you bring me a certain combination of furr and skins I'll make you a nice invisibility cloak.")
+			else
+				s.AddText("So, your invisibility cloak is losing it's effect? Don't worry, all we need to do is apply some demonic essences.")
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
+			if(.)
+				s.AddText("This cloak is not as good as my previous knock offs, that damned minister of magic prohibted hunting the creatures whose skins I used.")
+				s.AddText("Don't worry, when the cloak loses it's magic come back to me and I'll help you.")
+			else
+				s.AddText("Those demonic essences are very annoying to get.")
+
+		questCompleted(mob/Player/i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("Come back later when the cloak becomes less... invisible, I'll help you renew it's charm.")
+
 	vampires
 		icon = 'FemaleVampire.dmi'
 

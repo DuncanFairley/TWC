@@ -6,6 +6,36 @@
  */
 
 quest
+	Cloak1
+		name   = "Cloak of Invisibility"
+		desc   = "Divo can make you an invisibility cloak knock offs using creatures skins and furrs."
+		reward = /questReward/Cloak
+
+		Kill
+			desc = "Time to harvest some creatures!"
+			reqs = list("Kill Dog"             = 50,
+			            "Kill Snake"           = 50,
+			            "Kill Wolf"            = 50,
+			            "Demonic Essence"      = 3)
+
+		Reward
+			desc = "Go back to Divo."
+			reqs = list("Divo" = 1)
+
+	Cloak2
+		name   = "Cloak of Visibility"
+		desc   = "Divo can restore your invisibility cloak."
+		reward = /questReward/Cloak
+		repeat = 36000
+
+		Kill
+			desc = "Time to kill some demon rats!"
+			reqs = list("Demonic Essence" = 3)
+
+		Reward
+			desc = "Go back to Divo."
+			reqs = list("Divo" = 1)
+
 	Pokeby
 		name = "Isn't it cute?"
 		desc = "Palmer decided to give you a cute reward."
@@ -912,6 +942,18 @@ questReward
 		gold  = 100
 		exp   = 200
 		items = /obj/items/packs/pokeby_pack
+
+	Cloak
+		exp   = 84000
+		items = /obj/items/wearable/invisibility_cloak
+		get(mob/Player/p)
+			var/obj/items/wearable/invisibility_cloak/c = locate() in p
+			if(c)
+				if(c in p.Lwearing)
+					c.Equip(p,1,1)
+				c.time = world.realtime
+			else
+				..(p)
 
 	clanReward
 		BloodCoin
