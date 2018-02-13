@@ -77,21 +77,26 @@ proc/name2spellpath(name)
 
 mob/Spells/verb/Accio(obj/M in oview(usr.client.view,usr))
 	set category = "Spells"
+	set waitfor = 0
 	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		if(!M.accioable){src<<"<b><span style=\"color:red;\">Error:</b></span> This object cannot be teleported.";return}
+		if(!M.accioable)
+			src << errormsg("This object cannot be moved.")
+			return
+
 		hearers(usr.client.view,usr)<< " <b>[usr]:<i><font color=aqua> Accio [M.name]!</i>"
-		sleep(3)
-		flick('Dissapear.dmi',M)
-		sleep(20)
-		if(M in oview(usr.client.view,usr))
-			usr:learnSpell("Accio")
-			M.x = src:x
-			M.y = src:y-1
-			M.z = src:z
-			flick('Appear.dmi',M)
-			if(istype(M,/obj/candle)) M:respawn()
-		else
-			usr << "The object is no longer in your view."
+		usr:learnSpell("Accio")
+
+		var/turf/dest = locate(x, y-1, z)
+		if(!dest) dest = loc
+		var/turf/t = M.loc
+
+		while(M.loc == t && t != dest)
+			t = get_step_towards(M, dest)
+			if(!t) break
+			M.loc = t
+			sleep(2)
+
+		if(istype(M,/obj/candle)) M:respawn()
 
 mob/Spells/verb/Eat_Slugs(var/n as text)
 	set category = "Spells"
