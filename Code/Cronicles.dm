@@ -68,7 +68,6 @@ WorldData
 		dplastupdate
 		housecupwinner
 
-		magicEyesLeft = 0
 		ministrypw    = "ketchup"
 		ministrybank  = 0
 		taxrate       = 15
@@ -94,8 +93,6 @@ proc
 		if(!promicons) promicons = list()
 		if(!worldData.customMaps) worldData.customMaps = list()
 		if(!worldData.globalvaults) worldData.globalvaults = list()
-		if(worldData.magicEyesLeft == null)
-			worldData.magicEyesLeft = 10
 		if(!worldData.DP)
 			worldData.DP = new/list()
 		if(!worldData.housepointsGSRH)

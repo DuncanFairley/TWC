@@ -141,45 +141,6 @@ mob/TalkNPC/quest/Tom
 			if(null)
 				p << npcsay("Tom: Seeya later then.")
 
-mob/test/verb/MagicEyes()
-	alert("There are currently [worldData.magicEyesLeft] magic eyes left at Divo.")
-	worldData.magicEyesLeft = input("How many would you like there to be?",,worldData.magicEyesLeft) as num
-
-mob/TalkNPC/Divo
-	icon_state="divo"
-
-	Talk()
-		set src in oview(2)
-		var/obj/selecteditem
-		var/selectedprice
-		var/itemlist
-		if(worldData.magicEyesLeft)
-			itemlist = list("Magical Eye 20 platinum coins","Invisibility Cloak 6 gold coins")
-		else
-			itemlist = list("Invisibility Cloak 6 gold coins")
-		var/gold/g = new (usr)
-		switch(input("Divo: Hi there! Welcome to Divo's Magical Wares. [worldData.magicEyesLeft ? "I've got a limited supply of these ultra rare magical eyes. They let you see invisible people. Very powerful stuff. I'm only going to sell a limited amount though, otherwise my cloak business would be pointless wouldn't it? I have [worldData.magicEyesLeft] left." : ""]","You have [g.toString()]")as null|anything in itemlist)
-			if("Magical Eye 20 platinum coins")
-				selecteditem = /obj/items/wearable/magic_eye
-				selectedprice = 20000000
-			if("Invisibility Cloak 6 gold coins")
-				selectedprice = 60000
-				selecteditem = /obj/items/wearable/invisibility_cloak
-			if(null)
-				usr << npcsay("Divo: Sorry that I don't have anything interesting to ya... ")
-				return
-		g = new (usr)
-		if(!g.have(selectedprice))
-			usr<< npcsay("Divo: I'm running a business here - you don't have enough for this.")
-		else
-			if(selecteditem == /obj/items/wearable/magic_eye)
-				worldData.magicEyesLeft--
-			g.change(usr, bronze=-selectedprice)
-			worldData.ministrybank += worldData.taxrate*selectedprice/100
-			new selecteditem(usr)
-			usr << npcsay("Divo: Thank you.")
-			usr:Resort_Stacking_Inv()
-
 mob/TalkNPC/Ollivander
 	icon_state="ollivander"
 	var/swiftmode=0
