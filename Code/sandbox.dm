@@ -296,7 +296,7 @@ turf/buildable
 						icon_state = "wood[rand(1,8)]"
 					else
 						icon_state = p.buildItem.icon_state
-					color = p.buildItem.color
+					color = initial(p.buildItem.color)
 
 		else
 			..()
@@ -417,15 +417,13 @@ obj/buildable
 
 				var/px = rand(-6,6) * 2
 				var/py = rand(-4,4) * 2
+				var/obj/o = new
+				o.icon = 'attacks.dmi'
+				o.icon_state = "flame"
 
 				for(var/i = -1 to 1 step 2)
-					var/obj/o = new
-					var/mutable_appearance/ma = new
-					ma.pixel_x = px * i
-					ma.pixel_y = py * i
-					ma.icon = 'attacks.dmi'
-					ma.icon_state = "flame"
-					o.appearance = ma
+					o.pixel_x = px * i
+					o.pixel_y = py * i
 					overlays += o
 
 		proc
