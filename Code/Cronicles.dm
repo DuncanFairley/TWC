@@ -673,6 +673,7 @@ obj/loginCamera
 
 mob/tmpmob
 mob/BaseCamp/ChoosingCharacter
+	sight = SEE_THRU
 	Login()
 		client.initMapBrowser()
 		new /hudobj/login/New(null, client, null, 1)
