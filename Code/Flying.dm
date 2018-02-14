@@ -795,8 +795,6 @@ turf
 	wall
 		icon='wall1.dmi'
 		density=1
-	black
-		icon_state="black"
 	floor
 		icon_state="brick"
 	brick

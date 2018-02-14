@@ -5,13 +5,6 @@
  * For the full license text, see LICENSE.txt.
  */
 
-obj/hud/radio
-	icon = 'HUD.dmi'
-	icon_state = "radio"
-	screen_loc = "15,1"
-	mouse_over_pointer = MOUSE_HAND_POINTER
-	Click()
-		usr << link("http://radio.wizardschronicles.com")
 obj/hud/class
 	icon = 'classhud.dmi'
 	icon_state = "0"

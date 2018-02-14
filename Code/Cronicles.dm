@@ -670,8 +670,6 @@ obj/loginCamera
 				target = null
 			sleep(4)
 
-
-mob/tmpmob
 mob/BaseCamp/ChoosingCharacter
 	sight = SEE_THRU
 	Login()

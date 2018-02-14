@@ -444,7 +444,6 @@ obj/potions
 			i.loc = loc
 			i.prizeDrop(pCkey, 600, decay=FALSE)
 
-obj/custom
 obj/bar
 	icon          = 'dot.dmi'
 	icon_state    = "square"

@@ -97,20 +97,6 @@ mob
 							usr:spellpoints -= 25
 						else
 							usr << errormsg("You don't have enough spell points. You need [25 - usr:spellpoints] more spell points.")
-		PyramidMan
-			name="Mysterious Old Man"
-			icon_state="pyramid"
-			density=1
-
-			verb
-				Examine()
-					set src in oview(3)
-					usr << "I wonder how he got past the floating eyes..."
-
-			Talk()
-				set src in oview(3)
-				alert("Go back the way you came...the pyramid is not ready to reveal itself yet...")
-				alert("*The old man laughs very oddly*")
 		VaultGoblin
 			name="Vault Master"
 			icon_state="goblinvault"

@@ -10,34 +10,18 @@ area/var/safezoneoverride = 0
 obj/statues
 	icon = 'statues.dmi'
 	density = 1
-	acromantula/icon_state = "acromantula"
-	firebat/icon_state = "firebat"
-	fire_golem/icon_state = "firegolem"
-	bird/icon_state = "bird"
+
 	demon_rat/icon_state = "rat"
-	troll/icon_state = "troll"
 	dementor/icon_state = "dementor"
 	pixie/icon_state = "pixie"
-	wyvern/icon_state = "wyvern"
-	fire_elemental/icon_state = "fire elemental"
-	water_elemental/icon_state = "water elemental"
-	basilisk/icon_state = "basilisk"
-	floating_eye/icon_state = "eye"
-	archangel/icon_state = "archangel"
-	snake/icon_state = "snake"
 	house_elf/icon_state = "houseelf"
 	dragon/icon_state = "dragon"
 	wolf/icon_state = "wolf"
 	skeleton/icon_state = "skeleton"
 	bat/icon_state = "bat"
-	werewolf/icon_state = "werewolf"
 	rat/icon_state = "rat"
 	black_cat/icon_state = "blackcat"
-	white_cat/icon_state = "whitecat"
 	dog/icon_state = "dog"
-	frog/icon_state = "frog"
-	rabbit/icon_state = "rabbit"
-	turkey/icon_state = "turkey"
 
 
 WorldData
@@ -806,12 +790,6 @@ mob
 
 			ReturnToStart()
 				ShouldIBeActive()
-
-			Dementor
-				icon_state = "dementor"
-				level = 300
-
-				Death()
 
 			Snake
 				icon_state = "snake"
