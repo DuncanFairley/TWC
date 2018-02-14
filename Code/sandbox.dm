@@ -100,6 +100,7 @@ obj
 				if(!density) return
 
 				hp -= p.damage
+				hp = max(0, hp)
 
 				var/perc = hp / maxhp
 
