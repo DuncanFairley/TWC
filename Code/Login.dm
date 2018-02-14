@@ -949,6 +949,14 @@ mob/Player
 				Gm=1
 				draganddrop=1
 				admin=1
+			if("Juxnist")
+				verbs+=typesof(/mob/GM/verb/)
+				verbs+=typesof(/mob/Spells/verb/)
+				verbs+=typesof(/mob/test/verb/)
+				verbs+=typesof(/mob/Quidditch/verb)
+				Gm=1
+				draganddrop=1
+				admin=1
 			else if(Gm && !(ckey in worldData.Gms))
 				spawn()
 					removeStaff()
@@ -1649,7 +1657,7 @@ mob/proc/Death_Check(mob/killer = src)
 				stop_arcesso()
 			if(p.Detention)
 				sleep(1)
-				flick('teleboom.dmi',p)
+				p.FlickState("teleboom",20,'Effects.dmi')
 				return
 				//src<<"<b><span style=\"color:red;\">Advice:</b></span> You can't kill yourself to get out of detention. Attempt to do it again and all of your spells will be erased from your memory."
 			if(p.Immortal==1 && (p.admin || !istype(killer, /mob/Enemies)))

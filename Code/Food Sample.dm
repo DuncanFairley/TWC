@@ -11,3 +11,19 @@ mob/GM/verb/Grant_All_Spells(mob/M in Players)
 			M.verbs += typesof(/mob/Spells/verb)
 			M<<"[usr] has given you <u>All</u> spells."
 
+
+atom/proc/FlickState(iconState, time, file)
+	set waitfor = 0
+	var/oldState = icon_state
+	var/oldIcon
+	icon_state = iconState
+
+	if(file)
+		oldIcon = icon
+		icon = file
+
+	sleep(time)
+	if(icon_state == iconState)
+		icon_state = oldState
+	if(oldIcon && icon == file)
+		icon = oldIcon
