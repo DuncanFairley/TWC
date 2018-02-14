@@ -142,6 +142,10 @@ obj
 						m.Turn(90)
 						animate(src, pixel_x = 0, pixel_y = -64, transform = m, time = 50, easing = BOUNCE_EASING)
 					density = 0
+
+					if(p.owner && isplayer(p.owner))
+						p.owner:checkQuestProgress("Chop Tree")
+
 					animate(hpbar, alpha = 0, time = 5)
 					sleep(6)
 					hpbar.loc = null

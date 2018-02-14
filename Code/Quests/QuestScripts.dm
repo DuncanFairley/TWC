@@ -6,6 +6,19 @@
  */
 
 quest
+	Blueprint1
+		name   = "Blue Books: Vol I"
+		desc   = "Blotts found a basic blueprint you can use at student housing to construct wooden structures."
+		reward = /questReward/Blueprint1
+
+		Wood
+			desc = "Blotts wants you to gather some wood, try shooting trees found in student housing (west of the castle)."
+			reqs = list("Chop Tree" = 10)
+
+		Reward
+			desc = "Go back to Blotts."
+			reqs = list("Blotts" = 1)
+
 	Cloak1
 		name   = "Cloak of Invisibility"
 		desc   = "Divo can make you an invisibility cloak knock offs using creatures skins and furrs."
@@ -791,6 +804,9 @@ quest
 			reqs = list("Professor Palmer" = 1)
 
 questReward
+	Blueprint1
+		exp   = 20000
+		items = /obj/items/wearable/blueprint/basic_blueprint
 	ProjectileBook
 		gold  = 1000
 		exp   = 40000

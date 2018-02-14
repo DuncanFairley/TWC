@@ -7,9 +7,38 @@
 
 mob/TalkNPC/quest
 
+	Blotts
+		icon_state = "blotts"
+		questPointers = list("Blue Books: Vol I")
+
+		questStart(mob/Player/i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
+			s.AddText("Hey there, you look quite strong, the other day I found this blueprint you can use to build wood structures.")
+			s.AddText("You can probably use student housing area west of the castle to build.")
+			s.AddText("Why don't you gather some wood and come back to me.")
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
+			if(.)
+				s.AddText("Nice, you're quite the woodcutter. Here you can have this blueprint.")
+				s.AddText("Equip it in student housing area, I'm sure you'll build great things.")
+			else
+				s.AddText("You can find quality trees in student housing, try using some spells on those.")
+
+		questCompleted(mob/Player/i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("Those bookshelves might contain more blueprints, who knows.")
+
 	Divo
-		questPointers = list("Cloak of Invisibility", "Cloak of Visibility")
 		icon_state = "divo"
+		questPointers = list("Cloak of Invisibility", "Cloak of Visibility")
 
 		questStart(mob/Player/i_Player, questName)
 
