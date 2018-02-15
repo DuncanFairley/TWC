@@ -44,7 +44,7 @@ mob
 									g.give(p, 1)
 									p.resetStatPoints()
 									p.HP = usr.MHP + usr.extraMHP
-									p.MP = usr.MMP + usr.extraMMP
+									p.MP = usr.MMP
 									p.updateHPMP()
 							if("No")
 								hearers(p) << npcsay("Demetrius: Maybe next time then. Have a nice day!")

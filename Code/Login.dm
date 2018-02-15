@@ -817,7 +817,6 @@ mob
 			del(oldmob)
 mob/var
 	extraMHP = 0
-	extraMMP = 0
 	extraDmg = 0
 	extraDef = 0
 
@@ -845,29 +844,7 @@ mob/Player
 		Use_Statpoints()
 			set category = "Commands"
 			if(StatPoints>0)
-				switch(input("Which stat would you like to improve?","You have [StatPoints] stat points.")as null|anything in list ("Mana Points","Damage","Defense"))
-					if("Health")
-						if(StatPoints>0)
-							var/SP = round(input("How many stat points do you want to put into Health? You have [StatPoints]",,StatPoints) as num|null)
-							if(!SP || SP < 0)return
-							if(SP <= StatPoints)
-								var/addstat = 10*SP
-								extraMHP += addstat
-								src << infomsg("You gained [addstat] HP!")
-								StatPoints -= SP
-							else
-								src << errormsg("You cannot put [SP] stat points into Health as you only have [StatPoints]")
-					if("Mana Points")
-						if(src.StatPoints>0)
-							var/SP = round(input("How many stat points do you want to put into Mana Points? You have [StatPoints]",,StatPoints) as num|null)
-							if(!SP || SP < 0)return
-							if(SP <= StatPoints)
-								var/addstat = 10*SP
-								extraMMP += addstat
-								src << infomsg("You gained [addstat] MP!")
-								StatPoints -= SP
-							else
-								src << errormsg("You cannot put [SP] stat points into Mana Points as you only have [StatPoints]")
+				switch(input("Which stat would you like to improve?","You have [StatPoints] stat points.")as null|anything in list ("Damage","Defense"))
 					if("Damage")
 						if(StatPoints>0)
 							var/SP = round(input("How many stat points do you want to put into Damage? You have [StatPoints]",,StatPoints) as num|null)
@@ -1447,7 +1424,7 @@ mob/Player
 			stat("Year:",src.Year)
 			stat("Level:",src.level)
 			stat("HP:","[src.HP]/[src.MHP+src.extraMHP]")
-			stat("MP:","[src.MP]/[src.MMP+src.extraMMP] ([src.extraMMP/10])")
+			stat("MP:","[src.MP]/[src.MMP]")
 			if (src.level>500)
 				stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
 				stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
@@ -1668,7 +1645,7 @@ mob/proc/Death_Check(mob/killer = src)
 			if(istype(src.loc.loc,/area/hogwarts/Duel_Arenas))
 				p.followplayer=0
 				p.HP=p.MHP+p.extraMHP
-				p.MP=p.MMP+p.extraMMP
+				p.MP=p.MMP
 				p.updateHPMP()
 				flick('mist.dmi',src)
 				switch(src.loc.loc.type)
@@ -1715,7 +1692,7 @@ mob/proc/Death_Check(mob/killer = src)
 						players << "<b>Arena</b>: [killer] killed themself."
 					worldData.currentArena.players.Remove(src)
 					p.HP=p.MHP+p.extraMHP
-					p.MP=p.MMP+p.extraMMP
+					p.MP=p.MMP
 					p.updateHPMP()
 					if(worldData.currentArena.players.len < 2)
 						var/mob/winner
@@ -1774,7 +1751,7 @@ mob/proc/Death_Check(mob/killer = src)
 				if(worldData.currentArena)
 					worldData.currentArena.handleSpawnDelay(src)
 				p.HP=p.MHP+p.extraMHP
-				p.MP=p.MMP+p.extraMMP
+				p.MP=p.MMP
 				p.updateHPMP()
 				return
 			var/obj/Bed/B
@@ -1810,7 +1787,7 @@ mob/proc/Death_Check(mob/killer = src)
 
 				src.followplayer=0
 				p.HP=p.MHP+p.extraMHP
-				p.MP=p.MMP+p.extraMMP
+				p.MP=p.MMP
 				p.updateHPMP()
 
 				if(!src:rankedArena)
@@ -1989,7 +1966,6 @@ mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
 mob/Player/proc/resetStatPoints()
 	src.StatPoints = src.level - 1
 	src.extraMHP = 0
-	src.extraMMP = 0
 	src.extraDmg = 0
 	src.extraDef = 0
 	src.Dmg = (src.level - 1) + 5
@@ -2003,7 +1979,7 @@ mob/Player/proc/resetMaxHP()
 	if(HP > MHP)
 		HP = MHP
 mob/Player/proc/resetMaxMP()
-	src.MMP = 4 * (src.level - 1) + 200 + 2 * (src.extraMMP)
+	src.MMP = 6 * (src.level - 1) + 6
 	if(MP > MMP)
 		MP = MMP
 
@@ -2020,7 +1996,7 @@ mob/Player
 				resetMaxHP()
 				resetMaxMP()
 				HP=src.MHP+extraMHP
-				MP=src.MMP+extraMMP
+				MP=src.MMP
 				updateHPMP()
 				Exp=0
 				verbs.Remove(/mob/Player/verb/Use_Statpoints)

@@ -214,7 +214,7 @@ RandomEvent
 						M.loc = T
 						M.density = 1
 						M.HP = M.MHP+M.extraMHP
-						M.MP = M.MMP+M.extraMMP
+						M.MP = M.MMP
 						M.updateHPMP()
 
 					timer.invisibility = 0

@@ -2274,7 +2274,7 @@ mob/GM/verb/Arena()
 				M.loc = T
 				M.density = 1
 				M.HP = M.MHP+M.extraMHP
-				M.MP = M.MMP+M.extraMMP
+				M.MP = M.MMP
 				M.updateHPMP()
 		if(HOUSE_WARS)
 			if(!worldData.currentArena) return
@@ -2302,7 +2302,7 @@ mob/GM/verb/Arena()
 						M.loc = B.loc
 				M.dir = SOUTH
 				M.HP = M.MHP+M.extraMHP
-				M.MP = M.MMP+M.extraMMP
+				M.MP = M.MMP
 				M.updateHPMP()
 			worldData.currentArena.players << "<center><font size = 4>The arena mode is <u>House Wars</u>.<br>The first house to reach [worldData.currentArena.goalpoints] arena points wins [worldData.currentArena.amountforwin] house points!"
 			sleep(30)

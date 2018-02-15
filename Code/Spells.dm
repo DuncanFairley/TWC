@@ -713,7 +713,7 @@ mob/Spells/verb/Antifigura()
 		p.antifigura = 0
 	else if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=50,againstocclumens=1))
 		hearers() << "<b><span style=\"color:red;\">[usr]</span></b>: <span style=\"color:white;\"><i>Antifigura!</i></span>"
-		p.antifigura = max(round((p.MMP+p.extraMMP) / rand(500,1500)), 1)
+		p.antifigura = max(round((p.MMP) / rand(500,1500)), 1)
 		p.MP -= 50
 		p.updateHPMP()
 		usr:learnSpell("Antifigura")
@@ -1047,7 +1047,7 @@ mob/Spells/verb/Occlumency()
 					c.client.eye = c
 			hearers() << "<b><span style=\"color:red;\">[usr]</span></b>: <span style=\"color:white;\"><i>Occlumens!</i></span>"
 			p << "You can no longer be viewed by Telendevour."
-			p.occlumens = p.MMP+p.extraMMP
+			p.occlumens = p.MMP
 			p.OcclumensCounter()
 			p.learnSpell("Occlumency")
 		else if(p.occlumens > 0)
@@ -1623,9 +1623,9 @@ mob/Spells/verb/Scan(mob/Player/M in view()&Players)
 		hearers() << "[usr]'s eyes glint."
 		var/mob/Player/p = src
 		if((p.Dmg+p.extraDmg)>=1000)
-			p<<"\n<b>[M.name]'s Max HP:</b> [M.MHP+M.extraMHP] - <b>Current HP:</b> [M.HP]<br><b>[M.name]'s Max MP:</b> [M.MMP+M.extraMMP] - <b>Current MP:</b> [M.MP]"
+			p<<"\n<b>[M.name]'s Max HP:</b> [M.MHP+M.extraMHP] - <b>Current HP:</b> [M.HP]<br><b>[M.name]'s Max MP:</b> [M.MMP] - <b>Current MP:</b> [M.MP]"
 		else
-			p<<"\n<b>[M.name]'s Max HP:</b> [M.MHP+M.extraMHP]<br><b>[M.name]'s Max MP:</b> [M.MMP+M.extraMMP]"
+			p<<"\n<b>[M.name]'s Max HP:</b> [M.MHP+M.extraMHP]<br><b>[M.name]'s Max MP:</b> [M.MMP]"
 		p.learnSpell("Scan")
 
 var/safemode = 1

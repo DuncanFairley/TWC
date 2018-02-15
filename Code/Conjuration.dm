@@ -9,13 +9,13 @@ mob/verb/updateHPMP()
 	set hidden = 1
 
 	var/hppercent = clamp(HP / (MHP+extraMHP), 0, 1)
-	var/mppercent = clamp(MP / (MMP+extraMMP), 0, 1)
+	var/mppercent = clamp(MP / MMP, 0, 1)
 
 	src:Interface.hpbar.Set(hppercent)
 	src:Interface.mpbar.Set(mppercent)
 
 	src:Interface.hpbar.UpdateText(HP, MHP+extraMHP)
-	src:Interface.mpbar.UpdateText(MP, MMP+extraMMP)
+	src:Interface.mpbar.UpdateText(MP, MMP)
 
 	src:hpBar.Set(hppercent, src)
 
@@ -122,8 +122,8 @@ obj/healthbar
 
 			if(isMana)
 
-				Set(clamp(p.MP / p.MMP + p.extraMMP, 0, 1), instant=1)
-				UpdateText(p.MP, p.MMP + p.extraMMP)
+				Set(clamp(p.MP / p.MMP, 0, 1), instant=1)
+				UpdateText(p.MP, p.MMP)
 			else
 				Set(clamp(p.HP / (p.MHP + p.extraMHP), 0, 1), instant=1)
 				UpdateText(p.HP, p.MHP + p.extraMHP)

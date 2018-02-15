@@ -62,7 +62,7 @@ mob
 				sleep(50)
 				overlays-=/image/meditate
 
-				var/maxMP = MMP + extraMMP
+				var/maxMP = MMP
 				MP = min(maxMP, MP + maxMP*0.8)
 				updateHPMP()
 
