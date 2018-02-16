@@ -1633,10 +1633,7 @@ mob/proc/Death_Check(mob/killer = src)
 				hearers() << "[src] pulls out of the spell."
 				stop_arcesso()
 			if(p.Detention)
-				sleep(1)
-				p.FlickState("teleboom",20,'Effects.dmi')
 				return
-				//src<<"<b><span style=\"color:red;\">Advice:</b></span> You can't kill yourself to get out of detention. Attempt to do it again and all of your spells will be erased from your memory."
 			if(p.Immortal==1 && (p.admin || !istype(killer, /mob/Enemies)))
 				p<<"[killer] tried to knock you out, but you are immortal."
 				killer<<"<span style=\"color:blue;\"><b>[src] is immortal and cannot die.</b></span>"
