@@ -868,7 +868,6 @@ mob/Player
 							else
 								src << errormsg("You cannot put [SP] stat points into Defense as you only have [StatPoints]")
 				resetMaxHP()
-				resetMaxMP()
 				updateHPMP()
 				if(StatPoints == 0)
 					verbs.Remove(/mob/Player/verb/Use_Statpoints)
@@ -1971,17 +1970,12 @@ mob/Player/proc/resetStatPoints()
 	src.Dmg = (src.level - 1) + 5
 	src.Def = (src.level - 1) + 5
 	resetMaxHP()
-	resetMaxMP()
 	if(level > 1)
 		src.verbs.Add(/mob/Player/verb/Use_Statpoints)
 mob/Player/proc/resetMaxHP()
-	src.MHP = 4 * (src.level - 1) + 200 + 2 * (src.Def + src.extraDef + src.clothDef)
+	MHP = 4 * (level - 1) + 200 + 2 * (Def + extraDef + clothDef)
 	if(HP > MHP)
 		HP = MHP
-mob/Player/proc/resetMaxMP()
-	src.MMP = 6 * (src.level - 1) + 6
-	if(MP > MMP)
-		MP = MMP
 
 mob/Player
 	proc
@@ -1994,7 +1988,7 @@ mob/Player
 				Dmg+=1
 				Def+=1
 				resetMaxHP()
-				resetMaxMP()
+				MMP = 6 * level + 196
 				HP=src.MHP+extraMHP
 				MP=src.MMP
 				updateHPMP()
