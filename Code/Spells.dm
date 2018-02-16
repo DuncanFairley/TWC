@@ -315,7 +315,6 @@ mob/Spells/verb/Eparo_Evanesca()
 		usr:learnSpell("Eparo Evanesca")
 		for(var/mob/Player/M in hearers())
 			if(M.key&&(M.invisibility==1))
-				M.FlickState("teleboom",20,'Effects.dmi')
 				M.invisibility = 0
 				M.alpha = 255
 				var/obj/items/wearable/invisibility_cloak/C = locate(/obj/items/wearable/invisibility_cloak) in M.Lwearing
@@ -331,7 +330,6 @@ mob/Spells/verb/Evanesco(mob/M in Players&oview())
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedEvanesco,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
 		new /StatusEffect/UsedEvanesco(src,15)
-		M.FlickState("teleboom",20,'Effects.dmi')
 		M.invisibility=1
 		M.sight |= SEE_SELF
 		M.alpha = 125
@@ -1198,14 +1196,14 @@ mob/Spells/verb/Reddikulus(mob/Player/M in view()&Players)
 		M.Gender = M.Gender == "Male" ? "Female" : "Male"
 		M.BaseIcon()
 		M.Gender = M.Gender == "Male" ? "Female" : "Male"
-		M.FlickState("teleboom",20,'Effects.dmi')
+		flick("transfigure",src)
 		usr:learnSpell("Riddikulus")
 		src=null
 		spawn(1200)
 			if(M)
 				M << "<b>You turn back to Normal</b>."
 				M.BaseIcon()
-				M.FlickState("teleboom",20,'Effects.dmi')
+				flick("transfigure",src)
 
 mob/Spells/verb/Ecliptica()
 	set category="Spells"
