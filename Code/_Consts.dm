@@ -20,8 +20,8 @@
 #define VAULT_VERSION 5
 #define lvlcap 800
 #define SWAPMAP_Z 25 // world map z + 1 (the +1 is for buildable area, don't add if not using sandbox)
-#define WINTER 1
-#define AUTUMN 0
+#define WINTER 0
+#define AUTUMN 1
 #define HALLOWEEN 0
 #define NIGHTCOLOR "#6464d0"
 #define TELENDEVOUR_COLOR "#64d0d0"
