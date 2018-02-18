@@ -64,6 +64,8 @@ obj/healthbar
 			if(isplayer(p))
 				if(p.HP == p.MHP)
 					alpha = 0
+				else
+					Set(p.HP / p.MHP, src, instant=1)
 				p:addFollower(src)
 
 				glide_size = p.glide_size
