@@ -2273,7 +2273,7 @@ mob/GM/verb/Arena()
 				var/turf/T = pick(rndturfs)
 				M.loc = T
 				M.density = 1
-				M.HP = M.MHP+M.extraMHP
+				M.HP = M.MHP
 				M.MP = M.MMP
 				M.updateHPMP()
 		if(HOUSE_WARS)
@@ -2301,7 +2301,7 @@ mob/GM/verb/Arena()
 						var/obj/Bed/B = pick(Map1Sbeds)
 						M.loc = B.loc
 				M.dir = SOUTH
-				M.HP = M.MHP+M.extraMHP
+				M.HP = M.MHP
 				M.MP = M.MMP
 				M.updateHPMP()
 			worldData.currentArena.players << "<center><font size = 4>The arena mode is <u>House Wars</u>.<br>The first house to reach [worldData.currentArena.goalpoints] arena points wins [worldData.currentArena.amountforwin] house points!"

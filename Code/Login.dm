@@ -816,7 +816,6 @@ mob
 				sql_check_for_referral(character)
 			del(oldmob)
 mob/var
-	extraMHP = 0
 	extraDmg = 0
 	extraDef = 0
 
@@ -1422,7 +1421,7 @@ mob/Player
 			stat("Name:",src.name)
 			stat("Year:",src.Year)
 			stat("Level:",src.level)
-			stat("HP:","[src.HP]/[src.MHP+src.extraMHP]")
+			stat("HP:","[src.HP]/[src.MHP]")
 			stat("MP:","[src.MP]/[src.MMP]")
 			if (src.level>500)
 				stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
@@ -1640,7 +1639,7 @@ mob/proc/Death_Check(mob/killer = src)
 				return
 			if(istype(src.loc.loc,/area/hogwarts/Duel_Arenas))
 				p.followplayer=0
-				p.HP=p.MHP+p.extraMHP
+				p.HP=p.MHP
 				p.MP=p.MMP
 				p.updateHPMP()
 				flick('mist.dmi',src)
@@ -1672,12 +1671,12 @@ mob/proc/Death_Check(mob/killer = src)
 				src.sight &= ~BLIND
 				return
 			if(src.loc.loc.type == /area/hogwarts/Hospital_Wing)
-				p.HP=p.MHP+p.extraMHP
+				p.HP=p.MHP
 				p.updateHPMP()
 				return
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/WaitingArea))
 				killer << "Do not attack in the waiting area.."
-				p.HP = p.MHP+p.extraMHP
+				p.HP = p.MHP
 				return
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/PlayArea))
 				if(worldData.currentArena)
@@ -1687,7 +1686,7 @@ mob/proc/Death_Check(mob/killer = src)
 					else
 						players << "<b>Arena</b>: [killer] killed themself."
 					worldData.currentArena.players.Remove(src)
-					p.HP=p.MHP+p.extraMHP
+					p.HP=p.MHP
 					p.MP=p.MMP
 					p.updateHPMP()
 					if(worldData.currentArena.players.len < 2)
@@ -1714,7 +1713,7 @@ mob/proc/Death_Check(mob/killer = src)
 					return
 				else
 					killer << "Do not attack before a round has started."
-					src.HP = src.MHP+extraMHP
+					src.HP = src.MHP
 					return
 			/////HOUSE WARS/////
 			if((src.loc.loc.type in typesof(/area/arenas/MapOne)) && isplayer(killer))
@@ -1746,7 +1745,7 @@ mob/proc/Death_Check(mob/killer = src)
 				src.dir = SOUTH
 				if(worldData.currentArena)
 					worldData.currentArena.handleSpawnDelay(src)
-				p.HP=p.MHP+p.extraMHP
+				p.HP=p.MHP
 				p.MP=p.MMP
 				p.updateHPMP()
 				return
@@ -1782,7 +1781,7 @@ mob/proc/Death_Check(mob/killer = src)
 				if(src.removeoMob) spawn()src:Permoveo()
 
 				src.followplayer=0
-				p.HP=p.MHP+p.extraMHP
+				p.HP=p.MHP
 				p.MP=p.MMP
 				p.updateHPMP()
 
@@ -1961,7 +1960,6 @@ mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
 
 mob/Player/proc/resetStatPoints()
 	src.StatPoints = src.level - 1
-	src.extraMHP = 0
 	src.extraDmg = 0
 	src.extraDef = 0
 	src.Dmg = (src.level - 1) + 5
@@ -1986,8 +1984,8 @@ mob/Player
 				Def+=1
 				resetMaxHP()
 				MMP = 6 * level + 196
-				HP=src.MHP+extraMHP
-				MP=src.MMP
+				HP=MHP
+				MP=MMP
 				updateHPMP()
 				Exp=0
 				verbs.Remove(/mob/Player/verb/Use_Statpoints)

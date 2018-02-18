@@ -8,13 +8,13 @@
 mob/verb/updateHPMP()
 	set hidden = 1
 
-	var/hppercent = clamp(HP / (MHP+extraMHP), 0, 1)
+	var/hppercent = clamp(HP / MHP, 0, 1)
 	var/mppercent = clamp(MP / MMP, 0, 1)
 
 	src:Interface.hpbar.Set(hppercent)
 	src:Interface.mpbar.Set(mppercent)
 
-	src:Interface.hpbar.UpdateText(HP, MHP+extraMHP)
+	src:Interface.hpbar.UpdateText(HP, MHP)
 	src:Interface.mpbar.UpdateText(MP, MMP)
 
 	src:hpBar.Set(hppercent, src)
@@ -62,7 +62,7 @@ obj/healthbar
 			loc = p.loc
 
 			if(isplayer(p))
-				if(p.HP == p.MHP + p.extraMHP)
+				if(p.HP == p.MHP)
 					alpha = 0
 				p:addFollower(src)
 
@@ -81,7 +81,7 @@ obj/healthbar
 			overlays += /obj/hpframe/big
 
 			if(p)
-				if(p.HP == p.MHP + p.extraMHP)
+				if(p.HP == p.MHP)
 					alpha = 0
 
 				loc = p.loc
@@ -125,8 +125,8 @@ obj/healthbar
 				Set(clamp(p.MP / p.MMP, 0, 1), instant=1)
 				UpdateText(p.MP, p.MMP)
 			else
-				Set(clamp(p.HP / (p.MHP + p.extraMHP), 0, 1), instant=1)
-				UpdateText(p.HP, p.MHP + p.extraMHP)
+				Set(clamp(p.HP / p.MHP, 0, 1), instant=1)
+				UpdateText(p.HP, p.MHP)
 
 		proc
 			UpdateText(current, max)
@@ -179,7 +179,7 @@ obj/healthbar
 
 			if(perc == 1 && M)
 				sleep(15)
-				if(M.HP == M.MHP+M.extraMHP)
+				if(M.HP == M.MHP)
 					animate(src, alpha = 0, time = 5)
 
 obj/hpframe

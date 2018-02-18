@@ -43,7 +43,7 @@ mob
 									g.change(gold=-5)
 									g.give(p, 1)
 									p.resetStatPoints()
-									p.HP = usr.MHP + usr.extraMHP
+									p.HP = usr.MHP
 									p.MP = usr.MMP
 									p.updateHPMP()
 							if("No")

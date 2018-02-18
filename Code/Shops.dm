@@ -327,8 +327,7 @@ obj/Madame_Pomfrey
 				new /StatusEffect/UsedFerulaToHeal(p,10)
 				p.overlays+=image('attacks.dmi',icon_state="heal")
 
-				var/maxHP = p.MHP + p.extraMHP
-				p.HP = min(maxHP, round(p.HP + maxHP * 0.9 + rand(-15, 15), 1))
+				p.HP = p.MHP
 
 				p.updateHPMP()
 				src = null
@@ -356,7 +355,7 @@ mob/Madame_Pomfrey
 			var/mob/Player/p = usr
 			p<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [p]!"
 			p.overlays+=image('attacks.dmi',icon_state="heal")
-			p.HP=p.MHP+p.extraMHP
+			p.HP=p.MHP
 			p.updateHPMP()
 			src = null
 			spawn(10)

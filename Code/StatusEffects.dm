@@ -604,7 +604,7 @@ StatusEffect
 				amount += (potion.quality - 4) * 10
 
 				while(p)
-					p.HP = min(p.HP + amount + rand(-10, 10), p.MHP + p.extraMHP)
+					p.HP = min(p.HP + amount + rand(-10, 10), p.MHP)
 					p.updateHPMP()
 
 					emit(loc    = p,

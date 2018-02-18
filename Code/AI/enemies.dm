@@ -1849,7 +1849,7 @@ mob
 					 color  = rgb(rr,gg,bb))
 
 				for(var/mob/Player/p in oview(src, 2))
-					var/d =  round((p.MHP+p.extraMHP) * 0.2, 1) + rand(-100, 100)
+					var/d =  round((p.MHP) * 0.2, 1) + rand(-100, 100)
 					p << errormsg("The pumpkin's explosion hit you for [d] damage.")
 
 					p.HP -= d

@@ -1442,14 +1442,7 @@ mob/Spells/verb/Episky()
 		hearers()<<"<span style=\"color:red;\"><b>[p]:</span></b> <font color=aqua>Episkey!"
 		new /StatusEffect/UsedEpiskey(src,15)
 
-		var/maxHP = p.MHP + p.extraMHP
-		if(p.level <= 300 || (p.Immortal && p.HP < 0))
-			p.HP = maxHP
-	//	else if(p.level <= 400)
-	//		var/perc = (436 - p.level) / 100
-	//		p.HP = min(maxHP, round(p.HP + maxHP * perc + rand(-15, 15), 1))
-		else
-			p.HP = min(maxHP, round(p.HP + maxHP * 0.9 + rand(-15, 15), 1))
+		p.HP = p.MHP
 
 		p.updateHPMP()
 		overlays+=image('attacks.dmi', icon_state = "heal")
@@ -1621,9 +1614,9 @@ mob/Spells/verb/Scan(mob/Player/M in view()&Players)
 		hearers() << "[usr]'s eyes glint."
 		var/mob/Player/p = src
 		if((p.Dmg+p.extraDmg)>=1000)
-			p<<"\n<b>[M.name]'s Max HP:</b> [M.MHP+M.extraMHP] - <b>Current HP:</b> [M.HP]<br><b>[M.name]'s Max MP:</b> [M.MMP] - <b>Current MP:</b> [M.MP]"
+			p<<"\n<b>[M.name]'s Max HP:</b> [M.MHP] - <b>Current HP:</b> [M.HP]<br><b>[M.name]'s Max MP:</b> [M.MMP] - <b>Current MP:</b> [M.MP]"
 		else
-			p<<"\n<b>[M.name]'s Max HP:</b> [M.MHP+M.extraMHP]<br><b>[M.name]'s Max MP:</b> [M.MMP]"
+			p<<"\n<b>[M.name]'s Max HP:</b> [M.MHP]<br><b>[M.name]'s Max MP:</b> [M.MMP]"
 		p.learnSpell("Scan")
 
 var/safemode = 1

@@ -95,7 +95,7 @@ party
 			hpbar.overlays += hpMaptext
 			hpbar.screen_loc = "NORTH-[members.len-1],WEST+2"
 
-			hpbar.Set(p.HP / (p.MHP + p.extraMHP), instant=1)
+			hpbar.Set(p.HP / p.MHP, instant=1)
 			healths[p.ckey] = hpbar
 
 			for(var/c in healths)

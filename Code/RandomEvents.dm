@@ -213,7 +213,7 @@ RandomEvent
 						var/turf/T = pick(rndturfs)
 						M.loc = T
 						M.density = 1
-						M.HP = M.MHP+M.extraMHP
+						M.HP = M.MHP
 						M.MP = M.MMP
 						M.updateHPMP()
 
