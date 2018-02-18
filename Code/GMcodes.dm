@@ -542,33 +542,27 @@ mob/GM/verb/Orb_Surroundings(var/mob/M in world)
 	set popup_menu = 0
 	for(var/mob/K in oview(1))
 
-		flick('Dissapear.dmi',K)
-		spawn(8)
-			var/rnd = rand(-1,1)
-			var/rnd2 = rand(-1,1)
-			if(isplayer(K))
-				K:Transfer(locate(M.x+rnd,M.y+rnd2,M.z))
-			else
-				K.loc = locate(M.x+rnd,M.y+rnd2,M.z)
-			flick('Appear.dmi',K)
-	sleep(8)
-	flick('Dissapear.dmi',usr)
+		var/rnd = rand(-1,1)
+		var/rnd2 = rand(-1,1)
+		if(isplayer(K))
+			K:Transfer(locate(M.x+rnd,M.y+rnd2,M.z))
+		else
+			K.loc = locate(M.x+rnd,M.y+rnd2,M.z)
+
 	usr.x = M.x
 	usr.y = M.y+1
 	usr.z = M.z
-	flick('Appear.dmi',usr)
+
+
 mob/GM/verb/Bring(mob/M in world)
 	set category = "Staff"
 	view(M)<<"[M] disappears (GM Summon)."
 	M.flying = 0
 	M.density = 1
-	flick('Dissapear.dmi',M)
-	sleep(20)
 	if(isplayer(M))
 		M:Transfer(locate(x,y,z))
 	else
 		M.loc = locate(x,y,z)
-	flick('Appear.dmi',M)
 	M << "You have been summoned."
 	src << "You have summoned <b><span style=\"color:red;\">[M].</span></b>"
 
