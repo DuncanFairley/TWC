@@ -91,36 +91,36 @@ obj/healthbar
 				glide_size = p.glide_size
 
 	screen
-		barSize = 127.5
 		icon = 'healthbar_256.dmi'
 		icon_state = "pixel"
 		plane = 2
 		layer = 10
+		parent_type = /hudobj
 
 		var
+			const/barSize = 127.5
 			isMana = 0
 			tmp/obj/mtext
 			tmp/obj/hpframe/screenBack/back
 
 
-		New(loc, mob/Player/p, sloc, mana=0)
+		New(loc, mob/Player/p, anchorX, screenX, anchorY, screenY, mana=0)
+			client = p.client
 			isMana     = mana
 			overlays  += /obj/hpframe/screen
 
 			back = new
-			back.screen_loc = sloc
-			p.client.screen += back
 
-			screen_loc = sloc
-			p.client.screen += src
+			anchor_x = anchorX
+			screen_x = screenX
+			anchor_y = anchorY
+			screen_y = screenY
 
 			mtext = new
-			mtext.screen_loc = sloc
 			mtext.maptext_width = 256
 			mtext.maptext_height = 16
 			mtext.layer = 12
 			mtext.plane = 2
-			p.client.screen += mtext
 
 			if(isMana)
 
@@ -130,31 +130,42 @@ obj/healthbar
 				Set(clamp(p.HP / p.MHP, 0, 1), instant=1)
 				UpdateText(p.HP, p.MHP)
 
+			updatePos()
+
+			p.client.screen += mtext
+			p.client.screen += src
+			p.client.screen += back
+
 		proc
 			UpdateText(current, max)
 				mtext.maptext = "<b style=\"text-align: center;\">[current]/[max]</b>"
 
-		Set(var/perc, instant=0)
-			set waitfor = 0
-			var/newX = perc * barSize
-			var/matrix/m = matrix(1 - perc, 0, newX, 0, 1, 0)
+			Set(var/perc, instant=0)
+				set waitfor = 0
+				var/newX = perc * barSize
+				var/matrix/m = matrix(1 - perc, 0, newX, 0, 1, 0)
 
-			var/c
-			if(isMana)
-				if(perc > 0.6) c = "#39f"
-				else if(perc >= 0.3) c = "#66b2ff"
-				else c = "#9cf"
-			else
-				if(perc > 0.6) c = "#0d0"
-				else if(perc >= 0.3) c = "#d90"
-				else c = "#d00"
+				var/c
+				if(isMana)
+					if(perc > 0.6) c = "#39f"
+					else if(perc >= 0.3) c = "#66b2ff"
+					else c = "#9cf"
+				else
+					if(perc > 0.6) c = "#0d0"
+					else if(perc >= 0.3) c = "#d90"
+					else c = "#d00"
 
-			if(instant)
-				color = c
-				back.transform = m
-			else
-				animate(back, transform = m, time = 10)
-				animate(src, color = c, time = 10)
+				if(instant)
+					color = c
+					back.transform = m
+				else
+					animate(back, transform = m, time = 10)
+					animate(src, color = c, time = 10)
+
+		updatePos()
+			..()
+			mtext.screen_loc = screen_loc
+			back.screen_loc = screen_loc
 
 	proc
 		Set(var/perc, mob/M, instant=0)

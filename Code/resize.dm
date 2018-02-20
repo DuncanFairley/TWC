@@ -234,14 +234,16 @@ hudobj
 		icon_state         = "reading"
 		mouse_over_pointer = MOUSE_INACTIVE_POINTER
 
-		anchor_x    = "EAST"
-		screen_x    = -96
-		screen_y    = 32
-		anchor_y    = "SOUTH"
+		anchor_x    = "WEST"
+		screen_x    = 240
+		screen_y    = -44
+		anchor_y    = "NORTH"
 
 	potion
 		icon_state         = "potions"
 		mouse_over_pointer = MOUSE_INACTIVE_POINTER
 
-		anchor_x    = "EAST"
+		anchor_x    = "WEST"
+		screen_x    = 208
+		screen_y    = -44
 		anchor_y    = "NORTH"
