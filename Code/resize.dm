@@ -142,10 +142,12 @@ hudobj
 	teleport
 		name       = "Teleport Back"
 		icon_state = "teleport"
-		anchor_x    = "EAST"
-		screen_x    = -32
-		anchor_y    = "SOUTH"
-		screen_y    = 32
+		anchor_x   = "EAST"
+		screen_x   = -48
+		screen_y   = -16
+		anchor_y   = "NORTH"
+
+		mouse_opacity = 2
 
 		var
 			dest
@@ -182,9 +184,11 @@ hudobj
 		icon_state  = "PM"
 
 		anchor_x    = "EAST"
-		screen_x   = -16
+		screen_x    = -16
 		screen_y    = -16
 		anchor_y    = "NORTH"
+
+		mouse_opacity = 2
 
 		Click()
 			var/mob/Player/M = usr
@@ -199,6 +203,8 @@ hudobj
 		screen_x   = -16
 		screen_y   = -48
 		anchor_y   = "NORTH"
+
+		mouse_opacity = 2
 
 		Click()
 			..()
@@ -219,9 +225,11 @@ hudobj
 		icon_state  = "questbook"
 
 		anchor_x    = "EAST"
-		screen_x   = -16
+		screen_x    = -16
 		screen_y    = -80
 		anchor_y    = "NORTH"
+
+		mouse_opacity = 2
 
 		Click()
 			..()

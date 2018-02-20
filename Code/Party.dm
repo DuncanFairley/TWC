@@ -177,9 +177,11 @@ hudobj
 		icon_state = "party_add"
 
 		anchor_x    = "EAST"
-		screen_x    = -96
-		screen_y    = 64
-		anchor_y    = "SOUTH"
+		screen_x    = -16
+		screen_y    = -112
+		anchor_y    = "NORTH"
+
+		mouse_opacity = 2
 
 		Click()
 			var/mob/Player/p = usr
@@ -211,9 +213,11 @@ hudobj
 		icon_state = "party_remove"
 
 		anchor_x    = "EAST"
-		screen_x    = -64
-		screen_y    = 64
-		anchor_y    = "SOUTH"
+		screen_x    = -80
+		screen_y    = -112
+		anchor_y    = "NORTH"
+
+		mouse_opacity = 2
 
 		Click()
 			var/mob/Player/p = usr
@@ -236,9 +240,11 @@ hudobj
 		icon_state = "party_leave"
 
 		anchor_x    = "EAST"
-		screen_x    = -32
-		screen_y    = 64
-		anchor_y    = "SOUTH"
+		screen_x    = -48
+		screen_y    = -112
+		anchor_y    = "NORTH"
+
+		mouse_opacity = 2
 
 		Click()
 			var/mob/Player/p = usr
