@@ -77,6 +77,9 @@ macro "macro"
 	elem 
 		name = "South+REP"
 		command = ".south"
+	elem 
+		name = "F3"
+		command = ".winset \"mainvsplit.right==rpane?mainvsplit.right=mapwindow:mainvsplit.right=rpane\""
 
 
 menu "menu"
@@ -92,6 +95,11 @@ menu "menu"
 	elem 
 		name = "&Save screenshot...\tF2"
 		command = ".screenshot"
+		category = "&File"
+		saved-params = "is-checked"
+	elem 
+		name = "&Hide Stats/Commands\tF3"
+		command = ".winset \"mainvsplit.right==rpane?mainvsplit.right=mapwindow:mainvsplit.right=rpane\""
 		category = "&File"
 		saved-params = "is-checked"
 	elem 
@@ -947,6 +955,7 @@ window "rpane"
 		size = 640x480
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		is-pane = true
 	elem "rpanewindow"
@@ -955,6 +964,7 @@ window "rpane"
 		size = 640x480
 		anchor1 = 0,0
 		anchor2 = 100,100
+		background-color = none
 		saved-params = "splitter"
 		right = "outputwindow"
 		is-vert = false
@@ -964,6 +974,7 @@ window "rpane"
 		size = 60x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Text"
@@ -977,6 +988,7 @@ window "rpane"
 		size = 60x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Browser"
@@ -989,6 +1001,7 @@ window "rpane"
 		size = 60x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Info"
@@ -1026,6 +1039,7 @@ window "infowindow"
 		size = 640x480
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Info"
 		titlebar = false
@@ -1043,6 +1057,7 @@ window "infowindow"
 		is-default = true
 		saved-params = ""
 		highlight-color = #00aa00
+		tab-background-color = none
 		on-show = ".winset\"rpane.infob.is-visible=true;rpane.browseb.is-visible=true?rpane.infob.pos=130,0:rpane.infob.pos=65,0 rpane.textb.is-visible=true rpane.infob.is-checked=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=infowindow\""
 		on-hide = ".winset\"rpane.infob.is-visible=false;rpane.browseb.is-visible=true?rpane.browseb.is-checked=true rpane.rpanewindow.left=browserwindow:rpane.textb.is-visible=false rpane.rpanewindow.pos=0,0 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=\""
 
