@@ -954,6 +954,25 @@ mob/Player
 
 			foreColor = "[c]"
 			src << output("[c]","browser1:ForeColor")
+		hideHud()
+			set hidden=1
+			set name = ".hideHud"
+			client.hideHud = !client.hideHud
+
+			if(client.hideHud)
+				for(var/hudobj/h in client.screen)
+					h.alpha = 0
+				Interface.hpbar.mtext.alpha = 0
+				Interface.hpbar.back.alpha  = 0
+				Interface.mpbar.mtext.alpha = 0
+				Interface.mpbar.back.alpha  = 0
+			else
+				for(var/hudobj/h in client.screen)
+					h.alpha = 255
+				Interface.hpbar.mtext.alpha = 255
+				Interface.hpbar.back.alpha  = 255
+				Interface.mpbar.mtext.alpha = 255
+				Interface.mpbar.back.alpha  = 255
 
 
 mob/Player

@@ -71,6 +71,8 @@ mob
 
 			winset += "winSettings.buttonTextColor.background-color=\"[p.mapTextColor]\";"
 
+			winset += "winSettings.butHideHud.is-checked=false;"
+
 			winset(src,null,winset)
 		ShowSettings()
 			set name = ".ShowSettings"

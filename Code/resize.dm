@@ -72,7 +72,9 @@ hudobj
 
 		show(instant=0)
 			updatePos()
-			if(!instant)
+			if(client.hideHud)
+				alpha = 0
+			else if(!instant)
 				alpha = 0
 				animate(src, alpha = 255, time = 5)
 			client.screen += src
@@ -99,6 +101,7 @@ client
 		map_zoom
 
 		browser_loaded = 0
+		hideHud = 0
 	verb
 		onLoad()
 			set hidden = 1
