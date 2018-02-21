@@ -70,10 +70,11 @@ hudobj
 					oy = floor((TILE_HEIGHT - height)/2) + screen_y
 			screen_loc = "[ax]:[ox],[ay]:[oy]"
 
-		show()
+		show(instant=0)
 			updatePos()
-			alpha = 0
-			animate(src, alpha = 255, time = 5)
+			if(!instant)
+				alpha = 0
+				animate(src, alpha = 255, time = 5)
 			client.screen += src
 
 		hide()
@@ -87,7 +88,7 @@ hudobj
 		client = Client
 		for(var/v in Params)
 			vars[v] = Params[v]
-		if(show) show()
+		if(show) show(show-1)
 
 client
 	var
@@ -142,8 +143,8 @@ hudobj
 	teleport
 		name       = "Teleport Back"
 		icon_state = "teleport"
-		anchor_x   = "EAST"
-		screen_x   = -48
+		anchor_x   = "WEST"
+		screen_x   = 274
 		screen_y   = -16
 		anchor_y   = "NORTH"
 
@@ -184,7 +185,7 @@ hudobj
 		icon_state  = "PM"
 
 		anchor_x    = "EAST"
-		screen_x    = -16
+		screen_x    = -4
 		screen_y    = -16
 		anchor_y    = "NORTH"
 
@@ -200,7 +201,7 @@ hudobj
 		icon_state = "spellbook"
 
 		anchor_x   = "EAST"
-		screen_x   = -16
+		screen_x   = -4
 		screen_y   = -48
 		anchor_y   = "NORTH"
 
@@ -225,7 +226,7 @@ hudobj
 		icon_state  = "questbook"
 
 		anchor_x    = "EAST"
-		screen_x    = -16
+		screen_x    = -4
 		screen_y    = -80
 		anchor_y    = "NORTH"
 

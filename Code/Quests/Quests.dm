@@ -818,10 +818,10 @@ interface
 
 		p.client.tmpInterface = null
 
-		new /hudobj/PMHome(null, parent.client, null, show=1)
-		new /hudobj/spellbook(null, parent.client, null, show=1)
-		new /hudobj/questbook(null, parent.client, null, show=1)
-		new /hudobj/Party_Invite(null, parent.client, null, 1)
+		new /hudobj/PMHome(null, parent.client, null, show=2)
+		new /hudobj/spellbook(null, parent.client, null, show=2)
+		new /hudobj/questbook(null, parent.client, null, show=2)
+		new /hudobj/Party_Invite(null, parent.client, null, 2)
 
 		hpbar = new(null, p, "WEST", 16, "NORTH", -1)
 		mpbar = new(null, p, "WEST", 16, "NORTH", -16, mana=1)
