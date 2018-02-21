@@ -371,24 +371,6 @@ obj/Stable
 	icon_state="tile73"
 	density=1
 
-obj/Stable_
-	icon='General.dmi'
-	icon_state="tile74"
-	density=1
-
-obj/Stable__
-	icon='General.dmi'
-	icon_state="tile75"
-	density=1
-
-obj/Couch
-	icon='General.dmi'
-	icon_state="tile83"
-
-obj/Couch2
-	icon='General.dmi'
-	icon_state="tile84"
-
 obj/housecouch
 	name = "Couch"
 	icon = 'couch.dmi'

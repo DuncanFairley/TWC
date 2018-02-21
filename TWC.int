@@ -1,18 +1,20 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1519228350
+LAST_COMPILE_TIME: 1519248841
+DIR: Code Code\AI Code\Reputation Icons Icons\environment Icons\environment\obj 
 PACKAGE_RSC_NAME: E:\Dropbox\TWC\TWC_rsc.zip
-DIR: Code Icons 
-AUTO_FILE_DIR: ON
 HIDDENPATHS: /obj/custom /obj/items /obj/teacher /obj/hpframe /obj/stackobj /obj/portduelsystemtiles /obj/mapplane /obj/lightplane /obj/darkness /obj/healthbar /obj/shop/buttons /obj/duelblock /obj/hud /hudobj /obj/weather /obj/roulette /obj/throwStick /obj/e 
+AUTO_FILE_DIR: ON
 PACKAGE_DMB_INFO: 
 MAP_ICON_TYPE: 0
 PACKAGE_DME_NAME: E:\Dropbox\TWC\TWC_src.zip
 LAST_COMPILE_VERSION: 511.1385
-PACKAGE_DME_START: 
 PACKAGE_TYPE: 0
+PACKAGE_DME_START: 
+WINDOW: Icons\attacks.dmi;Icons\dlo.dmi;Icons\Effects.dmi;Icons\environment\obj\statues.dmi;Code\Daily Prophet.dm;Code\Flying.dm;Code\Green Man.dm;Code\RemovedStuff.dm;Code\signs.dm;Code\Statues.dm;Code\AI\enemies.dm;Code\Reputation\Guilds.dm;Code\Auction.dm;world.dmp;Icons\environment\obj\couch.dmi;Code\Spells.dm;Code\Teach.dm;Code\Class.dm;Code\GMcodes.dm;Code\HTML.dm;Code\items.dm;Code\Spellbook.dm
 PACKAGE_DME_INFO: 
-PACKAGE_DMB_NAME: E:\Dropbox\TWC\TWC.zip
+FILE: Code\Spells.dm
 PACKAGE_DME_DEMO: 
+PACKAGE_DMB_NAME: E:\Dropbox\TWC\TWC.zip
 */
 // END_INTERNALS

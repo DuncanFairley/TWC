@@ -1405,34 +1405,11 @@ mob/Spells/verb/Telendevour()
 
 //AVADA//
 
-obj/Avada_Kedavra
-	icon='attacks.dmi'
-	icon_state="avada"
-	density=1
-	var/player=0
-	layer = 4
-	Bump(mob/M)
-		if(inOldArena())if(!istype(M, /mob)) return
-		if(isturf(M)||isobj(M))
-			del src
-			return
-		if(ismonster(M) || isplayer(M))
-			src.owner<<"Your [src] hit [M]!"
-			M.HP=0
-			M.Death_Check(src.owner)
-		del src
-
 mob/Spells/verb/Avada_Kedavra()
 	set category="Spells"
-	if(key != "Murrawhip")
-		hearers()<<"<b><span style=\"color:red;\">[src]:</b></span> <font color= #00FF33>Avada Kedavra !"
-	var/obj/S=new/obj/Avada_Kedavra
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
 
-	S.loc=(src.loc)
-	S.owner=usr
-	walk(S,src.dir,2)
-	sleep(20)
-	del S
+		castproj(icon_state = "avada", name = "Avada Kedavra", damage = 1000)
 
 mob/Spells/verb/Episky()
 	set name = "Episkey"
