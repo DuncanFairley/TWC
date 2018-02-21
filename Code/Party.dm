@@ -177,7 +177,7 @@ hudobj
 		icon_state = "party_add"
 
 		anchor_x    = "EAST"
-		screen_x    = -16
+		screen_x    = -4
 		screen_y    = -112
 		anchor_y    = "NORTH"
 
@@ -213,7 +213,7 @@ hudobj
 		icon_state = "party_remove"
 
 		anchor_x    = "EAST"
-		screen_x    = -80
+		screen_x    = -68
 		screen_y    = -112
 		anchor_y    = "NORTH"
 
@@ -240,7 +240,7 @@ hudobj
 		icon_state = "party_leave"
 
 		anchor_x    = "EAST"
-		screen_x    = -48
+		screen_x    = -36
 		screen_y    = -112
 		anchor_y    = "NORTH"
 

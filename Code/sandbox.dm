@@ -641,7 +641,7 @@ hudobj
 
 			clear
 				icon = 'HUD.DMI'
-				icon_state = "obsself"
+				icon_state = "x"
 				maptext = "Clear Decoration/Portkeys"
 
 				screen_x = 32

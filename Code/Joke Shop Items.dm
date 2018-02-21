@@ -203,7 +203,7 @@ obj
 		cancelthrow
 			name = "Cancel throw"
 			icon = 'HUD.dmi'
-			icon_state = "cancelthrow"
+			icon_state = "x"
 			screen_loc = "9,8"
 			mouse_over_pointer = MOUSE_HAND_POINTER
 			Click()
