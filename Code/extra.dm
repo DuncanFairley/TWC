@@ -36,8 +36,6 @@ mob/GM/verb
 mob/Headmasters_Office
 	invisibility=2
 
-obj/ball
-	icon='pointer.dmi'
 obj/wholist
 	icon='wholist.dmi'
 	Gryffindor
