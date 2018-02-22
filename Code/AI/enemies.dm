@@ -7,22 +7,6 @@
 
 
 area/var/safezoneoverride = 0
-obj/statues
-	icon = 'statues.dmi'
-	density = 1
-
-	demon_rat/icon_state = "rat"
-	dementor/icon_state = "dementor"
-	pixie/icon_state = "pixie"
-	house_elf/icon_state = "houseelf"
-	dragon/icon_state = "dragon"
-	wolf/icon_state = "wolf"
-	skeleton/icon_state = "skeleton"
-	bat/icon_state = "bat"
-	rat/icon_state = "rat"
-	black_cat/icon_state = "blackcat"
-	dog/icon_state = "dog"
-
 
 WorldData
 	var
