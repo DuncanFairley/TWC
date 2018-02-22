@@ -19,7 +19,7 @@ obj/hud/TextMessage
 		p << infomsg(message)
 
 		var/obj/o = new
-		o.appearance_flags = RESET_COLOR|RESET_TRANSFORM|NO_CLIENT_COLOR
+		o.appearance_flags = RESET_COLOR|RESET_TRANSFORM|NO_CLIENT_COLOR|PIXEL_SCALE
 		o.layer = layer + 1
 		o.plane = 2
 
@@ -180,6 +180,7 @@ ScreenText
 			displayImage.transform *= 6.5
 			displayImage.underlays  = null
 			displayImage.layer      = 18
+			displayImage.appearance_flags |= PIXEL_SCALE
 
 			if(animate)
 				displayImage.Show(5)
@@ -448,6 +449,13 @@ obj/hud
 			maptext_width = 72
 			maptext_y     = 6
 			layer         = 20
+			mouse_opacity = 2
+
+			MouseEntered()
+				if(alpha)
+					transform *= 1.25
+			MouseExited()
+				transform = null
 
 			var/ScreenText/parent
 
