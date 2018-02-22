@@ -1897,7 +1897,7 @@ image
 	roofedge
 		icon = 'StoneRoof.dmi'
 		appearance_flags = TILE_BOUND|RESET_COLOR|RESET_ALPHA
-		layer = 6
+		layer = 10
 
 		east
 			icon_state = "edge-4"
