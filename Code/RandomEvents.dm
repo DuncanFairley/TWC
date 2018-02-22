@@ -871,16 +871,14 @@ RandomEvent
 				monster.level       = tier * 100 + rand(0, 10)
 				monster.name        = types[tier]
 				monster.icon_state  = lowertext(types[tier])
+				monster.icon        = 'Mobs.dmi'
 
 				if(i == monsters)
 					monster.MoveDelay = 2
 					monster.AttackDelay = 2
 					monster.level *= 2
 					monster.name   = "[pick("Odd ", "Big ", "Giant ", "Mysteriously Big ", "Enormous ", "Magical ", "")][monster.name][pick(" King", " Queen", " Leader", "")]"
-
-					monster.icon = 'Mobs_128x128.dmi'
-					monster.pixel_x = -48
-					monster.pixel_y = -48
+					monster.transform *= 4
 
 					if(tier < 3)
 						monster.drops = list(/obj/items/bagofgoodies,
@@ -952,8 +950,6 @@ RandomEvent
 											 /obj/items/lamps/quadaple_gold_lamp,
 											 /obj/items/lamps/quadaple_exp_lamp,
 											 /obj/items/wearable/title/Myrmidon)
-				else
-					monster.icon = 'Mobs.dmi'
 
 				monster.calcStats()
 

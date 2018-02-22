@@ -162,7 +162,7 @@ obj/items/wearable/pets
 		dropable = 0
 
 obj/pet
-	icon = 'Mobs_128x128.dmi'
+	icon = 'Mobs.dmi'
 	pixel_x = -48
 	pixel_y = -48
 
@@ -172,7 +172,7 @@ obj/pet
 	canSave = 0
 
 	var
-		iconSize = 4
+		iconSize = 1
 
 		tmp
 			obj/light/light
@@ -193,6 +193,10 @@ obj/pet
 		item        = pet
 		icon_state  = pet.icon_state
 		name        = pet.name
+
+		if(pet.minSize > 1)
+			iconSize = 4
+			icon = 'Mobs_128x128.dmi'
 
 		if(pet.color)
 			var/ColorMatrix/c = new(pet.color, 0.75)
