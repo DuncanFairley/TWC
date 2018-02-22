@@ -183,6 +183,11 @@ hudobj
 
 		mouse_opacity = 2
 
+		MouseEntered()
+			transform *= 1.25
+		MouseExited()
+			transform = null
+
 		Click()
 			var/mob/Player/p = usr
 
@@ -219,6 +224,11 @@ hudobj
 
 		mouse_opacity = 2
 
+		MouseEntered()
+			transform *= 1.25
+		MouseExited()
+			transform = null
+
 		Click()
 			var/mob/Player/p = usr
 
@@ -245,6 +255,11 @@ hudobj
 		anchor_y    = "NORTH"
 
 		mouse_opacity = 2
+
+		MouseEntered()
+			transform *= 1.25
+		MouseExited()
+			transform = null
 
 		Click()
 			var/mob/Player/p = usr

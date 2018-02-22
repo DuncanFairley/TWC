@@ -140,7 +140,7 @@ client
 hudobj
 	icon               = 'HUD.dmi'
 	mouse_over_pointer = MOUSE_HAND_POINTER
-	appearance_flags   = NO_CLIENT_COLOR
+	appearance_flags   = NO_CLIENT_COLOR|PIXEL_SCALE
 	plane              = 2
 
 	teleport
@@ -156,6 +156,11 @@ hudobj
 		var
 			dest
 			cost = 1
+
+		MouseEntered()
+			transform *= 1.25
+		MouseExited()
+			transform = null
 
 		Click()
 			var/mob/Player/p = usr
@@ -198,6 +203,11 @@ hudobj
 			var/mob/Player/M = usr
 			M.PMHome()
 
+		MouseEntered()
+			transform *= 1.25
+		MouseExited()
+			transform = null
+
 
 	spellbook
 
@@ -223,6 +233,11 @@ hudobj
 
 			p.toggle_actionbar(p.spellBookOpen)
 
+		MouseEntered()
+			transform *= 1.25
+		MouseExited()
+			transform = null
+
 
 	questbook
 		name        = "Quest Book"
@@ -244,6 +259,11 @@ hudobj
 			else
 				p.questBookOpen = TRUE
 				p.buildQuestBook()
+
+		MouseEntered()
+			transform *= 1.25
+		MouseExited()
+			transform = null
 
 	reading
 		icon_state         = "reading"
