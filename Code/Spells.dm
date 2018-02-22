@@ -1409,7 +1409,7 @@ mob/Spells/verb/Avada_Kedavra()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
 
-		castproj(icon_state = "avada", name = "Avada Kedavra", damage = 1000)
+		castproj(icon_state = "avada", name = "Avada Kedavra", damage = 10000, lag = 1)
 
 mob/Spells/verb/Episky()
 	set name = "Episkey"
