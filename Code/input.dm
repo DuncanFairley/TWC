@@ -227,6 +227,8 @@ ScreenText
 
 			if(i_Button1)
 				if(button1)
+					animate(button1)
+					button1.invisibility = 10 // workaround for animate not changing colors
 					button1.Set(i_Button1, i_Button1Color)
 				else
 					button1 = new(src, i_Button1, i_Button1Color, "CENTER:24-1,CENTER-2")

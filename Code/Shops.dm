@@ -810,7 +810,7 @@ obj/shopStand
 				s.AddText("Would you like to buy this item for [artifactPrice] artifacts?")
 
 			if((!goldPrice || g.have(goldPrice)) && (!artifactPrice || (a && a.stack >= artifactPrice)))
-				s.SetButtons("Buy", "#00ff00", "Cancel", "#ff0000", null, time=0)
+				s.SetButtons("Buy", "#00ff00", "Cancel", "#ff0000", null)
 
 			if(!s.Wait()) return
 
