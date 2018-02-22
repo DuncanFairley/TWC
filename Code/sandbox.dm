@@ -258,12 +258,25 @@ turf/buildable
 			var/obj/buildable/shield_totem/c = locate() in range(20, src)
 			if(!c || !c.allowed || (usr.ckey in c.allowed))
 
+				if(islist(p.buildItem.price))
+					var/list/items = list()
+					for(var/t in p.buildItem.price)
+						var/obj/items/i = locate(t) in p
 
-				if(p.buildItem.price > 0)
+						if(!i || i.stack < p.buildItem.price)
+							p << errormsg("You don't have enough resources.")
+							return
+
+						items += i
+
+					for(var/obj/items/i in items)
+						i.Consume(p.buildItem.price[i.type])
+
+				else if(p.buildItem.price > 0)
 					var/obj/items/wood_log/w = locate() in p
 
 					if(!w || w.stack < p.buildItem.price)
-						p << errormsg("You don't have enough wood.")
+						p << errormsg("You don't have enough resources.")
 						return
 
 					w.Consume(p.buildItem.price)
