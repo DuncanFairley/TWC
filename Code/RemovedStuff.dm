@@ -306,32 +306,11 @@ mob/test/verb/pickColorPreset(newColor in list("Invert", "BGR", "Greyscale", "Se
 		animate(p.client, color = c.matrix, time = 10)
 
 obj/items/scroll/prize
-
-	icon = 'Scroll.dmi'
-	icon_state = "wrote"
-	destroyable = 0
-	accioable = 0
-	wlable = 0
-	name = "Prize Ticket"
-	content = "<body bgcolor=black><u><span style=\"color:blue; font-size:3;\"><b>Prize Ticket</b></u></span><br><p><span style=\"color:white; font-size:2;\">Turn this scroll to an admin+ to recieve a prize decided by the admin+.</span></p></body>"
-
-
 	Name(msg as text)
 		set hidden = 1
-
 	write()
 		set hidden = 1
 
-mob
-	longap/verb
-		Apparate_To_Three_Broomsticks()
-			set hidden = 1
-	longap/verb
-		Apparate_To_Diagon_Alley()
-			set hidden = 1
-	longap/verb
-		Apparate_To_Crossroads()
-			set hidden = 1
 
 
 mob
@@ -405,14 +384,6 @@ mob/Spells/verb/Crucio(mob/M in oview()&Players)
 mob/Spells/verb/Dementia()
 	set hidden = 1
 
-obj/screenobj/conjunct
-		mouse_opacity = 0
-		icon = 'black50.dmi'
-		icon_state = "conjunct"
-proc/view2screenloc(view)
-	//example result "1,1 to 33,29
-	view = replacetext(view,"x",",")
-	return "1,1 to [view]"
 mob/Spells/verb/Conjunctivis()
 	set hidden = 1
 mob/Spells/verb/Melofors()
@@ -512,6 +483,96 @@ gold
 					iBronze.UpdateDisplay()
 
 obj
+	Pink_Flowers
+		icon       = 'Plants.dmi'
+		icon_state = "Pink Flowers"
+		density    = 1
+	Blue_Flowers
+		icon       = 'Plants.dmi'
+		icon_state = "Blue Flowers"
+		density    = 1
+	tabletop
+		icon       = 'turf.dmi'
+		icon_state = "t1"
+		density    = 1
+		layer      = 2
+	tableleft
+		icon       = 'turf.dmi'
+		icon_state = "t2"
+		density    = 1
+		layer      = 2
+	tablemiddle2
+		icon       = 'turf.dmi'
+		icon_state = "mid2"
+		density    = 1
+		layer      = 2
+	tablemiddle
+		icon       = 'turf.dmi'
+		icon_state = "middle"
+		density    = 1
+		layer      = 2
+	tablecornerL
+		icon       = 'turf.dmi'
+		icon_state = "t2"
+		density    = 1
+		layer      = 2
+	tablecornerR
+		icon       = 'turf.dmi'
+		icon_state = "t3"
+		density    = 1
+		layer      = 2
+	tableright
+		icon       = 'turf.dmi'
+		icon_state = "bottomright"
+		density    = 1
+		layer      = 2
+	tableleft
+		icon       = 'turf.dmi'
+		icon_state = "bottom1"
+		density    = 1
+		layer      = 2
+	tablebottom
+		icon       = 'turf.dmi'
+		icon_state = "bottom"
+		density    = 1
+		layer      = 2
+	tablemid3
+		icon       = 'turf.dmi'
+		icon_state = "mid3"
+		density    = 1
+		layer      = 2
+
+	art
+		icon    = 'Decoration.dmi'
+		density = 1
+
+		Art_Tree
+			icon_state = "tree top"
+		Art_Tree2
+			icon_state = "tree"
+		Art
+			icon_state = "royal top1"
+		Art1
+			icon_state = "royal1"
+		Art_Man
+			icon_state = "royal top"
+		Art_Man2
+			icon_state = "royal"
+
+		painting
+			density = 0
+			p1
+				icon_state = "big tl"
+			p2
+				icon_state = "big tr"
+			p3
+				icon_state = "big bl"
+			p4
+				icon_state = "big br"
+
+	Hogwarts_Stairs
+		icon = 'General.dmi'
+		icon_state = "Stairs"
 
 	tree
 		name       = "Tree"
@@ -571,3 +632,173 @@ obj
 			if(prob(80)) color = rgb(rand(150, 220), rand(100, 150), 0)
 
 			#endif
+
+	Armor_Head
+		icon       = 'statues.dmi'
+		icon_state = "head"
+		layer      = MOB_LAYER + 1
+	gargoylerighttop
+		icon       = 'statues.dmi'
+		icon_state = "top3"
+		layer      = MOB_LAYER + 1
+	gargoylelefttop
+		icon       = 'statues.dmi'
+		icon_state = "top2"
+		layer      = MOB_LAYER + 1
+	gargoylerightbottom
+		icon       = 'statues.dmi'
+		icon_state = "bottom3"
+		density    = 1
+	gargoyleleftbottom
+		icon       = 'statues.dmi'
+		icon_state = "bottom2"
+		density    = 1
+	Torch_
+		icon       = 'misc.dmi'
+		icon_state = "torch"
+	Angel_Bottom
+		icon       = 'statues.dmi'
+		icon_state = "bottom1"
+		density    = 1
+	Angel_Top
+		icon       = 'statues.dmi'
+		icon_state = "top1"
+		layer      = MOB_LAYER + 1
+	Armor_Feet
+		icon       = 'statues.dmi'
+		icon_state = "feet"
+		density    = 1
+	Dual_Swords
+		icon       = 'wallobjs.dmi'
+		icon_state = "sword"
+		density    = 1
+	Fireplace
+		icon       = 'misc.dmi'
+		icon_state = "fireplace"
+		density    = 1
+	fence
+		icon       = 'turf.dmi'
+		icon_state = "fence"
+		density    = 1
+		pixel_y    = 16
+	downfence
+		icon       = 'turf.dmi'
+		icon_state = "fence side"
+		density    = 1
+	halffence
+		icon       = 'turf.dmi'
+		icon_state = "fence"
+		layer      = 5
+		pixel_y    = -2
+	Clock
+		icon       = 'General.dmi'
+		icon_state = "tile79"
+		density    = 1
+	gryffindor
+		icon       = 'shields.dmi'
+		icon_state = "gryffindor"
+		density    = 1
+	slytherin
+		icon       = 'shields.dmi'
+		icon_state = "slytherin"
+		density    = 1
+	hufflepuff
+		icon       = 'shields.dmi'
+		icon_state = "hufflepuff"
+		density    = 1
+	ravenclaw
+		icon       = 'shields.dmi'
+		icon_state = "ravenclaw"
+		density    = 1
+	gryffindorbanner
+		icon       = 'shields.dmi'
+		icon_state = "gryffindorbanner"
+		density    = 1
+	slytherinbanner
+		icon       = 'shields.dmi'
+		icon_state = "slytherinbanner"
+		density    = 1
+	hufflepuffbanner
+		icon       = 'shields.dmi'
+		icon_state = "hufflepuffbanner"
+		density    = 1
+	ravenclawbanner
+		icon       = 'shields.dmi'
+		icon_state = "ravenclawbanner"
+		density    = 1
+	hogwartshield
+		icon       = 'shields.dmi'
+		icon_state = "hogwartsshield"
+		density    = 1
+	hogwartbanner
+		icon       = 'shields.dmi'
+		icon_state = "hogwartsbanner"
+		density    = 1
+	Neptune
+		icon       = 'statues.dmi'
+		icon_state = "top6"
+		density    = 1
+	NeptuneBottom
+		icon       = 'statues.dmi'
+		icon_state = "bottom6"
+		density    = 1
+	Grave_Rip
+		icon       = 'statues.dmi'
+		icon_state = "rip"
+	curtains
+		icon       = 'turf.dmi'
+		layer      = 5
+		c1
+			icon_state = "c1"
+		c2
+			icon_state = "c2"
+		c3
+			icon_state = "c3"
+		c4
+			icon_state = "c4"
+	Golden_Candles
+		icon       = 'Decoration.dmi'
+		icon_state = "gcandle"
+		pixel_y    = -16
+	Golden_Candles_
+		icon       ='Decoration.dmi'
+		icon_state = "gcandle1"
+		pixel_y    = -16
+	plate
+		icon       ='turf.dmi'
+		icon_state="plate"
+	Desk
+		icon       ='desk.dmi'
+		icon_state = "S1"
+		density    = 1
+	Book_Shelf
+		icon       ='Desk.dmi'
+		icon_state = "1"
+		density    = 1
+	Book_Shelf1
+		icon       ='Desk.dmi'
+		icon_state = "2"
+		density    = 1
+	Blackboard_
+		icon       = 'bb.dmi'
+		icon_state = "1"
+	Blackboard__
+		icon       = 'bb.dmi'
+		icon_state = "2"
+	Blackboard___
+		icon       = 'bb.dmi'
+		icon_state = "3"
+	Barrels
+		icon       = 'turf.dmi'
+		icon_state = "barrels"
+		density    = 1
+	sink
+		icon       = 'sink.dmi'
+		density    = 1
+	Magic_Sphere
+		icon       ='misc.dmi'
+		icon_state = "black"
+	Triple_Candle
+		icon       = 'General.dmi'
+		icon_state = "tile80"
+		density    = 1
