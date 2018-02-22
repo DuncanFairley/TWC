@@ -706,71 +706,9 @@ mob/TalkNPC/Artifacts_Salesman
 		icon_state = "goblin[rand(1,3)]"
 
 	Talk()
-		set src in oview(2)
+		set src in oview(3)
 
-		var/selecteditem
-		var/selectedprice
-		var/itemlist = list(
-		"Farmer Lamp - 10 gold coins and 1 artifact",
-		"Double Exp Lamp - 20 gold coins and 2 artifacts",
-		"Double Gold Lamp - 20 gold coins and 2 artifacts",
-		"Double Drop Rate Lamp - 30 gold coins and 3 artifacts",
-		"Title: Rich - 1 platinum coin and 10 artifacts",
-		"Title: Treasure Hunter - 1 platinum coin and 10 artifacts",
-		"Title: Genie's Friend - 2 platinum coins and 20 artifacts",
-		"Community Key - 90 gold coins and 9 artifacts",
-		"Pet Key - 20 gold coins and 2 artifacts")
-
-		var/gold/g = new (usr)
-		switch(input("[name]: Hello... I sell lamps and magical rarities! Now now, they're not just lamps, they're magical lamps! My lamps will help you make your wishes come true! For the right price you might also net yourself something rare!", "You have [g.toString()]")as null|anything in itemlist)
-			if("Farmer Lamp - 10 gold coins and 1 artifact")
-				selecteditem  = /obj/items/lamps/farmer_lamp
-				selectedprice = 1
-			if("Double Exp Lamp - 20 gold coins and 2 artifacts")
-				selecteditem  = /obj/items/lamps/double_exp_lamp
-				selectedprice = 2
-			if("Double Gold Lamp - 20 gold coins and 2 artifacts")
-				selecteditem  = /obj/items/lamps/double_gold_lamp
-				selectedprice = 2
-			if("Double Drop Rate Lamp - 30 gold coins and 3 artifacts")
-				selecteditem  = /obj/items/lamps/double_drop_rate_lamp
-				selectedprice = 3
-			if("Title: Rich - 1 platinum coin and 10 artifacts")
-				selecteditem  = /obj/items/wearable/title/Rich
-				selectedprice = 10
-			if("Title: Treasure Hunter - 1 platinum coin and 10 artifacts")
-				selecteditem  = /obj/items/wearable/title/Treasure_Hunter
-				selectedprice = 10
-			if("Title: Genie's Friend - 2 platinum coins and 20 artifacts")
-				selecteditem  = /obj/items/wearable/title/Genie
-				selectedprice = 20
-			if("Community Key - 90 gold coins and 9 artifacts")
-				selecteditem  = /obj/items/key/community_key
-				selectedprice = 9
-			if("Pet Key - 20 gold coins and 2 artifacts")
-				selecteditem  = /obj/items/key/pet_key
-				selectedprice = 2
-			if(null)
-				usr << npcsay("[name]: I only sell to the rich! Begone!")
-				return
-
-		g = new (usr)
-		var/obj/items/artifact/a = locate() in usr
-
-		if(!a || a.stack < selectedprice || !g.have(selectedprice * 100000))
-			usr << npcsay("[name]: I'm running a business here - you can't afford this.")
-		else
-			g.change(usr, bronze=-selectedprice * 100000)
-			worldData.ministrybank += worldData.taxrate*selectedprice*1000
-			new selecteditem (usr)
-
-			a.stack -= selectedprice
-			if(!a.stack)
-				a.loc = null
-			else
-				a.UpdateDisplay()
-
-			usr << npcsay("[name]: Thank you.")
+		usr << npcsay("Artifacts Salesman: I have some exquisite rarties for sale, check the items on display.")
 
 proc
 	comma(n)
@@ -842,3 +780,55 @@ proc/RandomizeShop()
 		shops["random"] += item
 
 		items -= path
+
+
+// stock
+obj/shopStand
+
+	mouse_opacity      = 2
+	mouse_over_pointer = MOUSE_HAND_POINTER
+
+	var
+		artifactPrice = 0
+		goldPrice = 0
+		item
+
+	Click()
+		if(src in oview(3))
+			var/mob/Player/p = usr
+
+			var/ScreenText/s = new(p, src)
+			var/gold/gPrice = new(bronze=goldPrice)
+			var/gold/g = new(p)
+			var/obj/items/artifact/a = locate() in p
+
+			if(goldPrice && artifactPrice)
+				s.AddText("Would you like to buy this item for [gPrice.toString()] and [artifactPrice] artifacts?")
+			else if(goldPrice)
+				s.AddText("Would you like to buy this item for [gPrice.toString()]?")
+			else
+				s.AddText("Would you like to buy this item for [artifactPrice] artifacts?")
+
+			if((!goldPrice || g.have(goldPrice)) && (!artifactPrice || (a && a.stack >= artifactPrice)))
+				s.SetButtons("Buy", "#00ff00", "Cancel", "#ff0000", null, time=0)
+
+			if(!s.Wait()) return
+
+			if(s.Result == "Buy")
+				var/txt = "You bought [name] for "
+				if(goldPrice)
+					g.change(p, bronze=-goldPrice)
+					txt += gPrice.toString()
+
+				if(artifactPrice)
+					if(goldPrice) txt += " and "
+					a.Consume(artifactPrice)
+					txt += "[artifactPrice] artifacts."
+				else
+					txt += "."
+
+				new item (p)
+				p << infomsg(txt)
+
+		else
+			..()
