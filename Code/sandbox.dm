@@ -417,9 +417,7 @@ obj/buildable
 
 				var/px = rand(-6,6) * 2
 				var/py = rand(-4,4) * 2
-				var/obj/o = new
-				o.icon = 'attacks.dmi'
-				o.icon_state = "flame"
+				var/obj/o = new /obj/custom { icon = 'attacks.dmi'; icon_state = "flame" }
 
 				for(var/i = -1 to 1 step 2)
 					o.pixel_x = px * i
