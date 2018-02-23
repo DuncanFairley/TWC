@@ -2338,9 +2338,9 @@ hudobj/login_reward
 		..(loc,Client,Params,show)
 		player = Player
 
-		var/obj/o = new /obj/custom { appearance_flags = RESET_TRANSFORM; maptext_y = -112; maptext_x = -112; maptext_width = 256; maptext_height = 48 }
+		var/obj/o = new /obj/custom { appearance_flags = RESET_TRANSFORM; maptext_y = -120; maptext_x = -112; maptext_width = 256; maptext_height = 48; plane = 2 }
 
-		o.maptext = "<b style=\"text-align:center;\">You logged in for [player.loginRewardDays] days.<br>Click the chest to get your reward!</b>"
+		o.maptext = "<b style=\"text-align:center;\">You logged in for [player.loginRewardDays] days.<br>Click the chest to get your reward!<br>Special prize every 50 days.</b>"
 
 		overlays += o
 
@@ -2385,65 +2385,79 @@ hudobj/login_reward
 			else
 				worldData.loggedIn[client.computer_id] = client.ckey
 
-			if(prob(15))
-				var/gold/g = new (bronze=rand(50, 50000))
+			if(player.loginRewardDays % 50 == 0)
+				var/gold/g = new (bronze=rand(5000, 100000))
 				player << infomsg("[g.toString()] magically appeared in your pocket.")
 				g.give(player)
+
+				rewardItem(/obj/items/lamps/penta_drop_rate_lamp)
+				rewardItem(/obj/items/lamps/penta_gold_lamp)
+				rewardItem(/obj/items/lamps/penta_exp_lamp)
+				rewardItem(/obj/items/chest/legendary_golden_chest)
 			else
-				var/prize = pickweight(list(/obj/items/bucket                        = 10,
-				                            /obj/items/key/basic_key                 = 10,
-				                            /obj/items/key/wizard_key                = 9,
-				                            /obj/items/key/winter_key                = 9,
-				                            /obj/items/key/pentakill_key             = 9,
-				                            /obj/items/key/sunset_key                = 8,
-				                            /obj/items/key/community_key             = 8,
-				                            /obj/items/chest/basic_chest             = 10,
-				                            /obj/items/chest/wizard_chest            = 10,
-				                            /obj/items/chest/winter_chest            = 10,
-				                            /obj/items/chest/pentakill_chest         = 10,
-				                            /obj/items/chest/sunset_chest            = 9,
-				                            /obj/items/chest/community1_chest        = 9,
-				                            /obj/items/artifact                      = 9,
-				                            /obj/items/crystal/soul                  = 5,
-				                            /obj/items/wearable/orb/peace            = 5,
-				                            /obj/items/wearable/orb/chaos            = 5,
-				                            /obj/items/lamps/double_drop_rate_lamp   = 10,
-				                            /obj/items/lamps/double_gold_lamp        = 10,
-				                            /obj/items/lamps/double_exp_lamp         = 10,
-				                            /obj/items/lamps/triple_drop_rate_lamp   = 7,
-				                            /obj/items/lamps/triple_gold_lamp        = 8,
-				                            /obj/items/lamps/triple_exp_lamp         = 8,
-				                            /obj/items/lamps/quadaple_drop_rate_lamp = 5,
-				                            /obj/items/lamps/quadaple_gold_lamp      = 6,
-				                            /obj/items/lamps/quadaple_exp_lamp       = 6))
+				if(prob(15))
+					var/gold/g = new (bronze=rand(50, 50000))
+					player << infomsg("[g.toString()] magically appeared in your pocket.")
+					g.give(player)
+				else
+					var/prize = pickweight(list(/obj/items/bucket                        = 10,
+					                            /obj/items/key/basic_key                 = 10,
+					                            /obj/items/key/wizard_key                = 9,
+					                            /obj/items/key/winter_key                = 9,
+					                            /obj/items/key/pentakill_key             = 9,
+					                            /obj/items/key/sunset_key                = 8,
+					                            /obj/items/key/community_key             = 8,
+					                            /obj/items/chest/basic_chest             = 10,
+					                            /obj/items/chest/wizard_chest            = 10,
+					                            /obj/items/chest/winter_chest            = 10,
+					                            /obj/items/chest/pentakill_chest         = 10,
+					                            /obj/items/chest/sunset_chest            = 9,
+					                            /obj/items/chest/community1_chest        = 9,
+					                            /obj/items/artifact                      = 9,
+					                            /obj/items/crystal/soul                  = 5,
+					                            /obj/items/wearable/orb/peace            = 5,
+					                            /obj/items/wearable/orb/chaos            = 5,
+					                            /obj/items/lamps/double_drop_rate_lamp   = 10,
+					                            /obj/items/lamps/double_gold_lamp        = 10,
+					                            /obj/items/lamps/double_exp_lamp         = 10,
+					                            /obj/items/lamps/triple_drop_rate_lamp   = 7,
+					                            /obj/items/lamps/triple_gold_lamp        = 8,
+					                            /obj/items/lamps/triple_exp_lamp         = 8,
+					                            /obj/items/lamps/quadaple_drop_rate_lamp = 5,
+					                            /obj/items/lamps/quadaple_gold_lamp      = 6,
+					                            /obj/items/lamps/quadaple_exp_lamp       = 6))
 
+					rewardItem(prize)
 
-				var/obj/items/i = new prize (player)
+	proc/rewardItem(item)
+		set waitfor = 0
 
-				player << infomsg("[i.name] magically appeared in your pocket.")
+		var/obj/items/i = new item (player)
 
-				var/obj/o = new
-				o.appearance = i.appearance
-				o.appearance_flags |= PIXEL_SCALE
-				o.plane = 2
-				o.mouse_over_pointer = MOUSE_INACTIVE_POINTER
-				o.screen_loc = "CENTER,CENTER"
+		player << infomsg("[i.name] magically appeared in your pocket.")
 
-				client.screen += o
+		var/obj/o = new
+		o.appearance = i.appearance
+		o.appearance_flags |= PIXEL_SCALE
+		o.plane = 2
+		o.mouse_over_pointer = MOUSE_INACTIVE_POINTER
+		o.screen_loc = "CENTER,CENTER"
 
-				o.alpha = 0
-				var/ox = rand(-128,128)
-				var/oy = rand(-128,128)
+		client.screen += o
 
-				var/matrix/m1 = matrix()*6
-				var/matrix/m2 = matrix()*8
+		o.alpha = 0
+		var/ox = rand(-128,128)
+		var/oy = rand(-128,128)
 
-				m1.Translate(ox, oy)
-				m2.Translate(ox * 1.25, oy * 1.25)
+		var/matrix/m1 = matrix()*6
+		var/matrix/m2 = matrix()*8
 
-				animate(o, transform = m1, alpha = 255, time = 12)
-				animate(transform = m2, alpha = 0, time = 4)
+		m1.Translate(ox, oy)
+		m2.Translate(ox * 1.25, oy * 1.25)
 
-				sleep(17)
-				if(client)
-					client.screen -= o
+		animate(o, transform = m1, alpha = 255, time = 12)
+		animate(transform = m2, alpha = 0, time = 4)
+
+		sleep(17)
+		if(client)
+			client.screen -= o
