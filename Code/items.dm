@@ -2671,7 +2671,7 @@ obj/egg
 		..()
 		HP=rand(5,10)
 
-		flick('magic.dmi',src)
+		flick('GMOrb.dmi',src)
 
 		pixel_x = rand(-6,6)
 		pixel_y = rand(-6,6)
