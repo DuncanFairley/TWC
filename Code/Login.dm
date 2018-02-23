@@ -904,37 +904,29 @@ mob/Player
 		invisibility = 0
 		alpha = 255
 		sight &= ~(SEE_SELF|BLIND)
-		switch(key)
-			if("Murrawhip")
-				verbs+=typesof(/mob/GM/verb/)
-				verbs+=typesof(/mob/Spells/verb/)
-				verbs+=typesof(/mob/test/verb/)
-				verbs+=typesof(/mob/Quidditch/verb)
-				Gm=1
-				shortapparate=1
-				draganddrop=1
-				admin=1
-				//src.icon = 'Murrawhip.dmi'
-				//src.icon_state = ""
-			if("Rotem12")
-				verbs+=typesof(/mob/GM/verb/)
-				verbs+=typesof(/mob/Spells/verb/)
-				verbs+=typesof(/mob/test/verb/)
-				verbs+=typesof(/mob/Quidditch/verb)
-				Gm=1
-				draganddrop=1
-				admin=1
-			if("Juxnist")
-				verbs+=typesof(/mob/GM/verb/)
-				verbs+=typesof(/mob/Spells/verb/)
-				verbs+=typesof(/mob/test/verb/)
-				verbs+=typesof(/mob/Quidditch/verb)
-				Gm=1
-				draganddrop=1
-				admin=1
-			else if(Gm && !(ckey in worldData.Gms))
-				spawn()
-					removeStaff()
+
+		if(key == "Murrawhip")
+			verbs+=typesof(/mob/GM/verb/)
+			verbs+=typesof(/mob/Spells/verb/)
+			verbs+=typesof(/mob/test/verb/)
+			verbs+=typesof(/mob/Quidditch/verb)
+			Gm=1
+			shortapparate=1
+			draganddrop=1
+			admin=1
+			//src.icon = 'Murrawhip.dmi'
+			//src.icon_state = ""
+		else if(key == "Rotem12" || key == "Juxnist" || key == world.host)
+			verbs+=typesof(/mob/GM/verb/)
+			verbs+=typesof(/mob/Spells/verb/)
+			verbs+=typesof(/mob/test/verb/)
+			verbs+=typesof(/mob/Quidditch/verb)
+			Gm=1
+			draganddrop=1
+			admin=1
+		else if(Gm && !(ckey in worldData.Gms))
+			spawn()
+				removeStaff()
 
 		//spawn()world.Export("http://www.wizardschronicles.com/player_stats_process.php?playername=[name]&level=[level]&house=[House]&rank=[Rank]&login=1&ckey=[ckey]&ip_address=[client.address]")
 		timelog = world.realtime
