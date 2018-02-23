@@ -34,6 +34,10 @@ ParticleEmitter
 		pool(obj/particle/p)
 			p.loc = null
 
+			if(p.client)
+				p.client.screen -= p
+				p.client = null
+
 			if(!pool) pool = list()
 
 			if("[p.type]" in pool)
@@ -95,7 +99,11 @@ proc/emit(var/atom/loc, ptype, amount=10, Random/angle, speed, Random/life, colo
 	for(var/i = 1 to amount)
 		var/obj/particle/p = particle_emitter.get_particle(ptype)
 		p.config(angle.get(), speed, life.get(), color)
-		p.loc = loc
+		if(istype(loc, /client))
+			p.client = loc
+			p.client.screen += p
+		else
+			p.loc = loc
 		p.update()
 
 obj/particle
@@ -104,6 +112,9 @@ obj/particle
 
 	canSave = FALSE
 
+	screen_loc = "CENTER,CENTER"
+
+	var/client/client
 	var/life
 	var/afterlife = 0
 	var/velocity/v = new
@@ -138,10 +149,11 @@ obj/particle
 			var/alphaDest = alpha
 			alpha = 255
 
+			var/matrix/m = matrix() * size
+			m.Translate(v.x * (life), v.y * (life))
+
 			animate(src,
-					transform = matrix() * size,
-					pixel_x = v.x * (life),
-					pixel_y = v.y * (life),
+					transform = m,
 					alpha = alphaDest,
 				    time = t,
 				    loop = l)
