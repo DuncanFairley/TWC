@@ -44,6 +44,14 @@ Event
 			scheduler.schedule(src, 36000)
 			auctionBidTime()
 
+	DailyEvents
+
+		fire()
+			set waitfor = 0
+			scheduler.schedule(src, 864000)
+
+			worldData.loggedIn = null
+
 	AutoClass
 
 		fire()
@@ -186,6 +194,9 @@ proc
 				var/Event/WeeklyEvents/e = new
 				scheduler.schedule(e, 10 * date)
 		init_quests()
+
+		var/Event/DailyEvents/e = new
+		scheduler.schedule(e, 864000)
 
 		worldData.TeleportMap = new
 		worldData.TeleportMap.init()
