@@ -79,8 +79,7 @@ Event
 				if("acid")        weather.acid()
 				if("snow")        weather.snow()
 				if("rain")        weather.rain()
-				if("cloudy")      weather.clear(40)
-				if("half cloudy") weather.clear(20)
+				if("cloudy")      weather.clear(10)
 				if("sunny")       weather.clear()
 
 	WeeklyEvents
@@ -153,8 +152,7 @@ Event
 WorldData/var/tmp/list/weather_effects = list("acid"        = 7,
 											  "snow"        = 15,
 										  	  "rain"        = 15,
-											  "cloudy"      = 20,
-											  "half cloudy" = 30,
+											  "cloudy"      = 25,
 											  "sunny"       = 45)
 
 proc/cleanPlayerData(decay = 0)

@@ -44,7 +44,7 @@ Weather
 			generate_clouds(23, p, color)
 
 		rain()
-			clouds(60, "rain")
+			clouds(20, "rain")
 			for(var/area/A in outside_areas)
 				for(var/turf/water/w in A)
 					if(prob(30)) continue
@@ -54,7 +54,7 @@ Weather
 
 				if (world.tick_usage > 80) lagstopsleep()
 		acid()
-			clouds(60, "rain")
+			clouds(20, "rain")
 			for(var/area/A in outside_areas)
 				for(var/turf/water/w in A)
 					if(prob(30)) continue
@@ -65,12 +65,12 @@ Weather
 				if (world.tick_usage > 80) lagstopsleep()
 
 		snow()
-			clouds(60)
+			clouds(20)
 			for(var/area/A in outside_areas)
 				A:SetWeather(/obj/weather/snow)
 				A.dmg = 0.75
 
-		clear(p = 10)
+		clear(p = 5)
 			clouds(p)
 			for(var/area/A in outside_areas)
 				for(var/turf/water/w in A)
@@ -100,10 +100,6 @@ Weather
 
 				for(var/obj/cloud/c in z_clouds)
 					c.loc = locate(rand(10,world.maxx), rand(20,world.maxy), z)
-					if(c.shadow)
-						c.shadow.loc = c.loc
-						c.shadow.y -= rand(6,10)
-					c.set_color(color)
 			else
 				clouds["[z]"] = list()
 
@@ -112,8 +108,7 @@ Weather
 				var/count = p - z_clouds.len
 				while(count > 0)
 					count--
-					var/obj/cloud/c = new (locate(rand(10,world.maxx), rand(10,world.maxy), z))
-					c.set_color(color)
+					new /obj/cloud (locate(rand(10,world.maxx), rand(10,world.maxy), z))
 
 var/Weather/weather
 
@@ -123,10 +118,9 @@ proc/init_weather()
 
 obj/cloud
 	icon  = 'clouds.dmi'
-	layer = 8
+	layer = 6
 	mouse_opacity = 0
-	var/obj/shadow
-	glide_size = 4
+	glide_size = 2
 	post_init = 1
 
 	MapInit()
@@ -135,35 +129,20 @@ obj/cloud
 			weather.clouds["[z]"] = list()
 		weather.clouds["[z]"] += src
 
-		pixel_y    = rand(1,10)
+		pixel_y = rand(1,4)
 		icon_state = "[pixel_y]"
-
-		shadow               = new
-		shadow.icon          = icon
-		shadow.icon_state    = "[icon_state]_shadow"
-		shadow.layer         = 6
-		shadow.mouse_opacity = 0
-		shadow.loc           = locate(x, y - rand(6,10), z)
+		transform *= 4
 
 		loop()
 
 	proc
 		dispose()
 			loc        = null
-			if(shadow)
-				shadow.loc = null
-				shadow     = null
-
-		set_color(color=null)
-			icon_state = "[pixel_y]"
-			if(color)
-				icon_state = "[icon_state]_[color]"
-
 
 		loop()
 			set waitfor = 0
 
-			while(src.loc)
+			while(loc)
 				if(y == 1 || x == world.maxx)
 					var/new_x = 1
 					var/new_y = world.maxy
@@ -174,14 +153,11 @@ obj/cloud
 						new_y = rand(1, world.maxy)
 
 					loc = locate(new_x, new_y, z)
-					if(shadow) shadow.loc = locate(new_x, new_y - rand(6,10), z)
 				else
 					var/turf/t = get_step(src, SOUTHEAST)
 					loc = t
-					if(shadow && shadow.loc)
-						t = get_step(shadow, SOUTHEAST)
-						shadow.loc = t
-				sleep(8)
+
+				sleep(16)
 
 var/list/outside_areas = list()
 area
