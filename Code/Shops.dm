@@ -339,8 +339,8 @@ obj/Madame_Pomfrey
 		..()
 		view(src)<<"<b>Madame Pomfrey</b>: Hello. Need healing? Click me."
 		spawn(500)
-			flick('dlo.dmi',src)
-			sleep(10)
+			src.FlickState("Orb",12,'Effects.dmi')
+			sleep(12)
 			view(src)<<"The nurse orbs out."
 			Dispose()
 

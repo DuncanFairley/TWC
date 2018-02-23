@@ -802,3 +802,7 @@ obj
 		icon       = 'General.dmi'
 		icon_state = "tile80"
 		density    = 1
+
+mob/GM/verb
+	Release_From_Detention(mob/Player/M in Players)
+		set hidden = 1

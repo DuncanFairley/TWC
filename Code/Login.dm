@@ -1657,7 +1657,7 @@ mob/proc/Death_Check(mob/killer = src)
 						var/obj/Bed/B = pick(Beds)
 						p.Transfer(B.loc)
 						src.dir = SOUTH
-				flick('dlo.dmi',src)
+				src.FlickState("Orb",12,'Effects.dmi')
 				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
 				if(src.removeoMob) spawn()src:Permoveo()
 				src.sight &= ~BLIND
@@ -1800,7 +1800,7 @@ mob/proc/Death_Check(mob/killer = src)
 					src.sight &= ~BLIND
 					src:Transfer(B.loc)
 					src.dir = SOUTH
-					flick('dlo.dmi',src)
+					src.FlickState("Orb",12,'Effects.dmi')
 					p.lastHostile = 0
 			if(isplayer(killer))
 				p.pdeaths+=1

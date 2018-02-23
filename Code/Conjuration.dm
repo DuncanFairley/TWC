@@ -37,7 +37,7 @@ mob/GM
 				p.GM_Made = 1
 				p.accioable = 0
 				p:loc = locate(src.x,src.y-1,src.z)
-				flick('dlo.dmi',p)
+				p.FlickState("Orb",12,'Effects.dmi')
 				p:owner = "[usr.key]"
 				hearers()<<"<b><span style=\"color:red;\">[usr]:</span> Herbificus."
 

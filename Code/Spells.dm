@@ -189,7 +189,7 @@ mob/Spells/verb/Herbificus()
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,antiTeleport=1))
 		var/obj/redroses/p = new
 		p:loc = locate(src.x,src.y-1,src.z)
-		flick('dlo.dmi',p)
+		p.FlickState("Orb",12,'Effects.dmi')
 		p:owner = "[usr.key]"
 		if(!findStatusEffect(/StatusEffect/SpellText))
 			new /StatusEffect/SpellText(src,5)
@@ -270,7 +270,7 @@ mob/Spells/verb/Deletrius()
 		usr:learnSpell("Deletrius")
 		for(var/obj/redroses/S in oview(usr.client.view,usr))
 			if(!S.GM_Made || (S.GM_Made && usr.Gm))
-				flick('GMOrb.dmi',S)
+				S.FlickState("Orb",12,'Effects.dmi')
 				S.Dispose()
 		hearers(usr.client.view,usr)<<"[usr] flicks \his wand, causing the roses to dissolve into the air."
 	else
@@ -490,9 +490,9 @@ mob/Spells/verb/Herbificus_Maxima()
 		a.loc = get_step(usr,turn(usr.dir,-45))
 		b.loc = get_step(usr,usr.dir)
 		c.loc = get_step(usr,turn(usr.dir,45))
-		flick('dlo.dmi',a)
-		flick('dlo.dmi',b)
-		flick('dlo.dmi',c)
+		a.FlickState("Orb",12,'Effects.dmi')
+		b.FlickState("Orb",12,'Effects.dmi')
+		c.FlickState("Orb",12,'Effects.dmi')
 		a:owner = "[usr.key]"
 		b:owner = "[usr.key]"
 		c:owner = "[usr.key]"
@@ -518,7 +518,7 @@ mob/Spells/verb/Ferula()
 		new /StatusEffect/UsedFerula(src, 60)
 		var/obj/Madame_Pomfrey/p = new /obj/Madame_Pomfrey
 		p:loc = locate(src.x,src.y+1,src.z)
-		p.FlickState("teleboom",20,'Effects.dmi')
+		p.FlickState("Orb",12,'Effects.dmi')
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=aqua> Ferula!"
 		hearers()<<"[usr] has summoned Madame Pomfrey!"
 		usr:learnSpell("Ferula")
@@ -1023,12 +1023,12 @@ mob/Spells/verb/Replacio(mob/Player/M in oview()&Players)
 		var/mob/Player/p = src
 		hearers()<<"<b><span style=\"color:red;\">[usr]:</b></span> <font color=blue><B> <i>Replacio Duo.</i></B>"
 		var/startloc = usr.loc
-		flick('GMOrb.dmi',M)
-		flick('GMOrb.dmi',usr)
+		M.FlickState("Orb",12,'Effects.dmi')
+		usr.FlickState("Orb",12,'Effects.dmi')
 		p.Transfer(M.loc)
 		M.Transfer(startloc)
-		flick('GMOrb.dmi',usr)
-		flick('GMOrb.dmi',M)
+		usr.FlickState("Orb",12,'Effects.dmi')
+		M.FlickState("Orb",12,'Effects.dmi')
 		hearers()<<"[usr] trades places with [M]"
 		p.MP-=500
 		p.updateHPMP()

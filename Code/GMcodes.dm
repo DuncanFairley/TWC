@@ -328,7 +328,7 @@ mob/Player
 
 			if(!Detention) return
 
-			flick('dlo.dmi',src)
+			src.FlickState("Orb",12,'Effects.dmi')
 			Transfer(locate("@Hogwarts"))
 
 			Detention = 0
@@ -595,41 +595,49 @@ mob
 
 		Detention(mob/Player/M in Players)
 			set category = "Staff"
-			for(var/mob/Player/A in Players)
-				if(A.Gm) A << "<b><u><span style=\"color:#FF14E0;\">[src] has opened the Detention window on [M].</span></u></b>"
-			var/timer = input("Set timer for detention in /minutes/ (Leave as 0 for detention to stick until you remove it)","Detention timer",0) as num|null
-			if(timer == null) return
-			var/Reason = input(src,"You are being Detentioned because you: <finish sentence>","Specify Why","harmed somebody within a safe zone (Hogwarts or Diagon Alley).") as null|text
-			if(Reason == null) return
-			if(M.key)
-				if(M && M.removeoMob)
-					spawn()
-						var/mob/m = M
-						m:Permoveo()
-				M.density = 1
-				flick('dlo.dmi',M)
-				M.Detention=1
-				sleep(10)
-				M:Transfer(locate("Detention"))
-				flick('dlo.dmi',M)
-				M.MuteOOC=1
-				hearers()<<"[name]: <b><span style=\"font-size:2;color:aqua;\">Incarcifors, [M].</span></b>"
-				Players<<"[M] has been sent to Detention."
-				M << "<b>Welcome to Detention.</b>"
-				if(Reason)
-					M << "You have been sent here because you [Reason]"
+			if(M.Detention==0)
+				for(var/mob/Player/A in Players)
+					if(A.Gm) A << "<b><u><span style=\"color:#FF14E0;\">[src] has opened the Detention window on [M].</span></u></b>"
+				var/timer = input("Set timer for detention in /minutes/ (Leave as 0 for detention to stick until you remove it)","Detention timer",0) as num|null
+				if(timer == null) return
+				var/Reason = input(src,"You are being Detentioned because you: <finish sentence>","Specify Why","harmed somebody within a safe zone (Hogwarts or Diagon Alley).") as null|text
+				if(Reason == null) return
+				if(M.key)
+					if(M && M.removeoMob)
+						spawn()
+							var/mob/m = M
+							m:Permoveo()
+					M.density = 1
+					M.FlickState("Orb",12,'Effects.dmi')
+					M.Detention=1
+					sleep(12)
+					M:Transfer(locate("Detention"))
+					M.MuteOOC=1
+					hearers()<<"[name]: <b><span style=\"font-size:2;color:aqua;\">Incarcifors, [M].</span></b>"
+					Players<<"[M] has been sent to Detention."
+					M << "<b>Welcome to Detention.</b>"
+					if(Reason)
+						M << "You have been sent here because you [Reason]"
+						M << "Rules will be posted shortly. Please review them."
+					else
+						M << "Rules will be posted shortly. Please review them."
+					spawn(20)M << browse(rules,"window=1")
+				if(timer)
+					Log_admin("[src] has detentioned [M]([M.ckey]) for [timer] minutes for [Reason]")
+					M.timerDet = timer
+					if(timer != 0)
+						M << "<u>You're in detention for [timer] minute[timer==1 ? "" : "s"].</u>"
+					M.detention_countdown()
 				else
-					M << "Review the rules."
-				spawn(55)M << browse(rules,"window=1")
-			if(timer)
-				Log_admin("[src] has detentioned [M]([M.ckey]) for [timer] minutes for [Reason]")
-				M.timerDet = timer
-				if(timer != 0)
-					M << "<u>You're in detention for [timer] minute[timer==1 ? "" : "s"].</u>"
-				M.detention_countdown()
+					Log_admin("[src] has detentioned [M]([M.ckey]) indefinitely for [Reason]")
+				spawn()sql_add_plyr_log(M.ckey,"de",Reason,timer)
 			else
-				Log_admin("[src] has detentioned [M]([M.ckey]) indefinitely for [Reason]")
-			spawn()sql_add_plyr_log(M.ckey,"de",Reason,timer)
+				M.FlickState("Orb",12,'Effects.dmi')
+				M.Transfer(locate("@Hogwarts"))
+				M.Detention=0
+				M.MuteOOC=0
+				Players<<"[M] has been released from Detention."
+				spawn()M.client.update_individual()
 
 ///////////// Floor Guidance \\\\\\\\\\\\
 
@@ -784,19 +792,6 @@ mob
 				src << "<b>Players can no longer use offensive spells in [loc.loc].</b>"
 				A.safezoneoverride = 0
 
-		Release_From_Detention(mob/Player/M in Players)
-			set category = "Staff"
-			set popup_menu = 0
-			if(M && M.removeoMob)
-				spawn()
-					var/mob/m = M
-					m:Permoveo()
-			flick('dlo.dmi',M)
-			M.Transfer(locate("@Hogwarts"))
-			M.Detention=0
-			M.MuteOOC=0
-			Players<<"[M] has been released from Detention."
-			spawn()M.client.update_individual()
 		Stealth_Orb(mob/M in world)
 			set category = "Staff"
 			set popup_menu = 0
@@ -1136,8 +1131,8 @@ mob
 			var/mob/Player/p = src
 			if(p.cloaked==0)
 				hearers() << "<b>[usr] has vanished."
-				flick('GMOrb.dmi',usr)
-				sleep(9)
+				p.FlickState("Orb",12,'Effects.dmi')
+				sleep(12)
 				p.icon = null
 				p.cloaked=1
 				p.density=0
@@ -1146,8 +1141,8 @@ mob
 			else
 				hearers() << "<b>[usr] has appeared."
 				//usr.icon = usr.mprevicon
-				flick('GMOrb.dmi',usr)
-				sleep(11)
+				p.FlickState("Orb",12,'Effects.dmi')
+				sleep(12)
 				p.icon = usr.baseicon
 				p.ApplyOverlays()
 				p.invisibility=0
@@ -1159,11 +1154,11 @@ mob
 			set category="Staff"
 			if(!M.GMFrozen)
 				M.GMFrozen=1
-				M.overlays+='freeze.dmi'
+				M.overlays+='Effects.dmi'
 				M<<"You have been frozen."
 			else
 				M.GMFrozen=0
-				M.overlays-='freeze.dmi'
+				M.overlays-='Effects.dmi'
 				M<<"You have been unfrozen."
 		Teleport_Someone(mob/teleportee as mob in world, mob/destination as mob in world)
 			set category="Staff"
@@ -1371,7 +1366,7 @@ mob/GM
 			for(var/mob/Player/M in ohearers(client.view, src))
 				if(M != src && !M.GMFrozen)
 					M.GMFrozen=1
-					M.overlays+='freeze.dmi'
+					M.overlays+='Effects.dmi'
 
 		Unfreeze_Area()
 			set category="Staff"
@@ -1379,7 +1374,7 @@ mob/GM
 			for(var/mob/Player/M in ohearers(client.view, src))
 				if(M != src && M.GMFrozen)
 					M.GMFrozen=0
-					M.overlays-='freeze.dmi'
+					M.overlays-='Effects.dmi'
 
 		AddItem(var/s in shops, var/path in (typesof(/obj/items)-/obj/items))
 			set category="Staff"
