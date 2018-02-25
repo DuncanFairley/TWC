@@ -2340,7 +2340,7 @@ hudobj/login_reward
 
 		var/obj/o = new /obj/custom { appearance_flags = RESET_TRANSFORM; maptext_y = -120; maptext_x = -112; maptext_width = 256; maptext_height = 48; plane = 2 }
 
-		o.maptext = "<b style=\"text-align:center;\">You logged in for [player.loginRewardDays] days.<br>Click the chest to get your reward!<br>Special prize every 50 days.</b>"
+		o.maptext = "<b style=\"text-align:center;color:[player.mapTextColor];\">You logged in for [player.loginRewardDays] days.<br>Click the chest to get your reward!<br>Special prize every 50 days.</b>"
 
 		overlays += o
 
