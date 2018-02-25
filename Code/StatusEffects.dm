@@ -4,8 +4,20 @@
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
  */
-var/EventScheduler/scheduler = new()
+var/EventScheduler/tempFix/scheduler = new()
 atom/var/tmp/list/StatusEffect/LStatusEffects
+
+EventScheduler/tempFix
+	__iteration()
+		src.__tick+=__sleep_delay
+		var/list/execute = src.__shift_down_events()
+		if (execute)
+			QuickSort(execute, /EventScheduler/proc/__sort_priorities)
+			for (var/__Trigger/T in execute)
+				T.__event.fire()
+				src.__trigger_mapping.Remove(T.__event)
+		if (src.__tick == 16777216)
+			src.__tick = 0
 
 atom/proc/AddStatusEffect(StatusEffect/pStatusEffect)
 	if(src.LStatusEffects)
@@ -179,6 +191,7 @@ proc/cleanPlayerData(decay = 0)
 
 proc
 	init_events()
+		scheduler.set_sleep_delay(10)
 		scheduler.start()
 		init_books()
 		init_weather()
@@ -819,11 +832,10 @@ StatusEffect
 		cantUseMsg(M)
 			//Return 1 if it's a genuine event
 			var/timeleft = round(scheduler.time_to_fire(AttachedEvent)/10)
-			if(timeleft < 0)
+			if(timeleft <= 0)
 				//scheduler.cancel(src.AttachedEvent)
 				del(src)
 				return 0
-			if(timeleft == 0) timeleft = 1
 			M << "<b>This can't be used for another [timeleft] second[timeleft==1 ? "" : "s"].</b>"
 			return 1
 	New(atom/pAttachedAtom,t)
@@ -832,7 +844,7 @@ StatusEffect
 		src.AttachedAtom.AddStatusEffect(src)
 		if(t)
 			src.AttachedEvent = new(src)
-			scheduler.schedule(src.AttachedEvent,world.tick_lag * t * 10)//Accomodate for non-one ticklags.
+			scheduler.schedule(src.AttachedEvent,t * 10)
 		Activate()
 
 	Del()

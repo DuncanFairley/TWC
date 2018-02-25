@@ -11,7 +11,7 @@ proc/init_random_events()
 	for(var/e in typesof(/RandomEvent/)-/RandomEvent)
 		worldData.events += new e
 	bubblesort_by_value(worldData.events, "chance")
-	scheduler.schedule(new/Event/RandomEvents, world.tick_lag * rand(3000, 36000)) // 5 minutes to 1 hour
+	scheduler.schedule(new/Event/RandomEvents, rand(3000, 36000)) // 5 minutes to 1 hour
 
 
 WorldData/var/tmp/list/spawners = list()
