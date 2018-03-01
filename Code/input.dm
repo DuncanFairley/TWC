@@ -444,7 +444,7 @@ obj/hud
 			mouse_over_pointer = MOUSE_HAND_POINTER
 			color = "#2299d0"
 
-			alpha         = 235
+			alpha         = 220
 			maptext_x     = 26
 			maptext_width = 72
 			maptext_y     = 6
@@ -453,9 +453,10 @@ obj/hud
 
 			MouseEntered()
 				if(alpha)
-					transform *= 1.25
+					alpha = 254
 			MouseExited()
-				transform = null
+				if(alpha == 254)
+					alpha = initial(alpha)
 
 			var/ScreenText/parent
 
@@ -481,7 +482,7 @@ obj/hud
 
 			Click()
 				..()
-				if(parent && alpha == 235 && invisibility == 0)
+				if(parent && alpha > 0 && invisibility == 0)
 					parent.Next(name)
 
 		New()
