@@ -1933,6 +1933,8 @@ obj
 		proc
 			shoot(lag=2)
 				velocity = MAX_VELOCITY - lag
+				lag = max(1, lag)
+				glide_size = 32/lag
 				walk(src, dir, lag)
 
 		Bump(atom/movable/a)
