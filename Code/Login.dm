@@ -2312,7 +2312,6 @@ mob/Player
 
 			return
 
-		loginRewardDays++
 		new /hudobj/login_reward(null, client, null, show=1, Player=src)
 
 hudobj/login_reward
@@ -2340,7 +2339,9 @@ hudobj/login_reward
 
 		var/obj/o = new /obj/custom { appearance_flags = RESET_TRANSFORM; maptext_y = -120; maptext_x = -112; maptext_width = 256; maptext_height = 48; plane = 2 }
 
-		o.maptext = "<b style=\"text-align:center;color:[player.mapTextColor];\">You logged in for [player.loginRewardDays] days.<br>Click the chest to get your reward!<br>Special prize every 50 days.</b>"
+		var/daysRemaining = 50 - ((player.loginRewardDays + 1) % 50)
+
+		o.maptext = "<b style=\"text-align:center;color:[player.mapTextColor];\">You logged in for [player.loginRewardDays+1] days.<br>Click the chest to get your reward!<br>Special reward in [daysRemaining] day[daysRemaining > 1 ? "s" : ""].</b>"
 
 		overlays += o
 
@@ -2376,6 +2377,8 @@ hudobj/login_reward
 				 angle  = new /Random(1, 359),
 				 speed  = 1,
 				 life   = new /Random(40,80))
+
+			player.loginRewardDays++
 
 			if(!worldData.loggedIn)
 				worldData.loggedIn = list()
