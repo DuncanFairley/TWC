@@ -369,28 +369,7 @@ mob/TalkNPC/Broom_Salesman
 
 	Talk()
 		set src in oview(2)
-		var/obj/selecteditem
-		var/selectedprice
-		var/gold/g = new(usr)
-		switch(input("Chrono: Hi there! Welcome to Chrono's Brooms. We have two models in stock right now - would you like to purchase one?","You have [g.toString()]")as null|anything in list("Cleansweep Seven - 1 gold coin","Nimbus 2000 - 3 gold coins"))
-			if("Cleansweep Seven - 1 gold coin")
-				selecteditem = /obj/items/wearable/brooms/cleansweep_seven
-				selectedprice = 10000
-			if("Nimbus 2000 - 3 gold coins")
-				selectedprice = 30000
-				selecteditem = /obj/items/wearable/brooms/nimbus_2000
-			if(null)
-				usr << npcsay("Chrono: Come see me any time if you change your mind.")
-				return
-		g = new(usr)
-		if(!g.have(selectedprice))
-			usr << npcsay("Chrono: Unfortunately you don't have enough for this broom - it's [selectedprice]g.")
-		else
-			g.change(usr, bronze=-selectedprice)
-			worldData.ministrybank += worldData.taxrate*selectedprice/100
-			new selecteditem(usr)
-			usr << npcsay("Chrono: Thanks very much for your business, and be careful on the pitch!")
-			usr:Resort_Stacking_Inv()
+		usr << npcsay("Chrono: Check the brooms I got on the wall, they're all for sale.")
 
 
 obj/The_Dark_Mark
