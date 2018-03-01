@@ -1201,7 +1201,7 @@ obj
 		Broom3
 			icon       = 'nimbus_2000_broom.dmi'
 			icon_state = "item"
-			icon_state = "nimbus"
+			icon_state = "item"
 		Triple_Candle
 			icon       = 'General.dmi'
 			icon_state = "tile80"
