@@ -2323,24 +2323,50 @@ mob
 				..()
 
 				if(!fired && target)
-					var/d = get_dir(src, target)
-					if(!(d & (d - 1)))
 
-						fired = 1
-						spawn(rand(50,150)) fired = 0
+					fired = 1
+					spawn()
 
-						var/mob/Player/M = target
-						if(!M.trnsed)
-							M:StateChange()
-						else
-							M.nomove = 1
-						spawn(rand(10,30))
-							if(M && M.nomove)
-								if(!M.trnsed)
-									M.StateChange()
-									M.ApplyOverlays()
+						var/obj/warnWidth  = new /obj/custom { icon = 'dot.dmi'; icon_state = "circle"; color = "#8A0707"; alpha = 20; appearance_flags = PIXEL_SCALE; } (loc)
+						var/obj/warnHeight = new /obj/custom { icon = 'dot.dmi'; icon_state = "circle"; color = "#8A0707"; alpha = 20; appearance_flags = PIXEL_SCALE; } (loc)
+
+						walk_towards(warnWidth, src)
+						walk_towards(warnHeight, src)
+
+						var/matrix/mWidth = matrix()
+						mWidth.Scale(17,1)
+
+						var/matrix/mHeight = matrix()
+						mHeight.Scale(1,17)
+
+						animate(warnWidth,  alpha = 100, transform = mWidth, time = 7)
+						animate(warnHeight, alpha = 100, transform = mHeight, time = 7)
+
+						sleep(40)
+
+						walk(warnWidth, 0)
+						warnWidth.loc = null
+
+						walk(warnHeight, 0)
+						warnHeight.loc = null
+
+						for(var/mob/Player/p in ohearers(8, src))
+							if(p.x == x || p.y == y)
+								if(!p.trnsed)
+									p:StateChange()
 								else
-									M.nomove = 0
+									p.nomove = 1
+								spawn(rand(10,30))
+									if(p && p.nomove)
+										if(!p.trnsed)
+											p.StateChange()
+											p.ApplyOverlays()
+										else
+											p.nomove = 0
+
+						sleep(rand(50,150))
+						fired = 0
+
 
 			Kill(mob/Player/p)
 				set waitfor = 0
