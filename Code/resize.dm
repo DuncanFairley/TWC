@@ -76,7 +76,7 @@ hudobj
 				alpha = 0
 			else if(!instant)
 				alpha = 0
-				animate(src, alpha = 255, time = 5)
+				animate(src, alpha = initial(alpha), time = 5)
 			client.screen += src
 
 		hide()
@@ -203,11 +203,11 @@ hudobj
 			var/mob/Player/M = usr
 			M.PMHome()
 
+		alpha = 110
 		MouseEntered()
-			transform *= 1.25
+			alpha = 255
 		MouseExited()
-			transform = null
-
+			alpha = 110
 
 	spellbook
 
@@ -233,10 +233,11 @@ hudobj
 
 			p.toggle_actionbar(p.spellBookOpen)
 
+		alpha = 110
 		MouseEntered()
-			transform *= 1.25
+			alpha = 255
 		MouseExited()
-			transform = null
+			alpha = 110
 
 
 	questbook
@@ -260,10 +261,11 @@ hudobj
 				p.questBookOpen = TRUE
 				p.buildQuestBook()
 
+		alpha = 110
 		MouseEntered()
-			transform *= 1.25
+			alpha = 255
 		MouseExited()
-			transform = null
+			alpha = 110
 
 	reading
 		icon_state         = "reading"

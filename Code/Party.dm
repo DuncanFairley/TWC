@@ -183,10 +183,11 @@ hudobj
 
 		mouse_opacity = 2
 
+		alpha = 110
 		MouseEntered()
-			transform *= 1.25
+			alpha = 255
 		MouseExited()
-			transform = null
+			alpha = 110
 
 		Click()
 			var/mob/Player/p = usr
@@ -224,10 +225,11 @@ hudobj
 
 		mouse_opacity = 2
 
+		alpha = 110
 		MouseEntered()
-			transform *= 1.25
+			alpha = 255
 		MouseExited()
-			transform = null
+			alpha = 110
 
 		Click()
 			var/mob/Player/p = usr
@@ -256,10 +258,11 @@ hudobj
 
 		mouse_opacity = 2
 
+		alpha = 110
 		MouseEntered()
-			transform *= 1.25
+			alpha = 255
 		MouseExited()
-			transform = null
+			alpha = 110
 
 		Click()
 			var/mob/Player/p = usr
