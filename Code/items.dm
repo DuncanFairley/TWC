@@ -1969,7 +1969,7 @@ obj/items/wearable/invisibility_cloak
 
 			var/a = clamp(round((world.realtime - time) / 36000), 0, 255)
 			if(!overridetext) owner << infomsg("You put on the cloak and become invisible to others.")
-			flick('mist.dmi',owner)
+			owner.FlickState("m-black",8,'Effects.dmi')
 			owner.alpha = a
 
 			if(!owner.cloakReflection)
@@ -3922,7 +3922,7 @@ obj/items/vault_key
 			var/obj/Hogwarts_Door/d = locate() in oview(1)
 			if(d && d.vaultOwner == usr.ckey)
 				usr << errormsg("You unlocked the door.")
-				flick('Alohomora.dmi', d)
+				d.FlickState("alohomora",20,'Effects.dmi')
 				d.door     = 1
 				Consume()
 			else

@@ -482,7 +482,7 @@ mob/GM
 		Sanctuario(mob/Player/p in view()&Players)
 			set category="Staff"
 
-			flick('apparate.dmi', p)
+			p.FlickState("apparate",8,'Effects.dmi')
 			p.Transfer(locate("@Hogwarts"))
 			p << "<b><span style=\"color:green;\">[usr]'s Sanctuario charm teleported you to Hogwarts.</span></b>"
 
@@ -804,22 +804,22 @@ mob
 			set category="Staff"
 			var/mob/Player/p = src
 			if(p.Immortal==0)
-				flick('mist.dmi',p)
+				p.FlickState("m-black",8,'Effects.dmi')
 				p<<"You are now Immortal."
 				p.Immortal=1
 			else if(p.Immortal==1)
-				flick('mist.dmi',p)
+				p.FlickState("m-black",8,'Effects.dmi')
 				p<<"You are now a Mortal."
 				p.Immortal=0
 		Give_Immortality(mob/Player/M in world)
 			set category="Staff"
 			set popup_menu = 0
 			if(M.Immortal==0)
-				flick('mist.dmi',M)
+				M.FlickState("m-black",8,'Effects.dmi')
 				M<<"<b><span style=\"color:aqua;\">[src] has made you an Immortal. You can no longer die.</span>"
 				M.Immortal=1
 			else if(M.Immortal==1)
-				flick('mist.dmi',M)
+				M.FlickState("m-black",8,'Effects.dmi')
 				M<<"<b><span style=\"color:blue;\">[src] has made you a Mortal. You are now vulnerable to Death.</span>"
 				M.Immortal=0
 		Mute(mob/Player/M in Players)
@@ -1216,14 +1216,14 @@ turf
 		var/mob/Player/p = usr
 		if(p.shortapparate && !(p.prevname))
 			if(!density)// && get_dist(usr,src) <25)
-				flick('apparate.dmi',p)
+				p.FlickState("apparate",8,'Effects.dmi')
 				if(p.density)
 					p.density = 0
 					p.Move(src)
 					p.density = 1
 				else
 					p.Move(src)
-				flick('apparate.dmi',p)
+				p.FlickState("apparate",8,'Effects.dmi')
 		else
 			if(p.superspeed && p.nomove == 0)
 

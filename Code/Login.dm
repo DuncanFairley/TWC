@@ -1101,7 +1101,7 @@ mob/Player
 										for(var/turf/T in (oview(value) - oview(value-1)))
 											if(T.specialtype & SHIELD) continue
 											var/shield = /obj/Force_Field
-											flick('mist.dmi',T)
+											T.FlickState("m-black",8,'Effects.dmi')
 											T.overlays += shield
 											T.density=1
 											T.invisibility=0
@@ -1178,19 +1178,19 @@ mob/Player
 										view(client.view)<<"<span style=\"font-size:1;\">[usr] has unlocked the door.</span>"
 										for(var/obj/Hogwarts_Door/T in oview(client.view))
 											if(!admin && T.vaultOwner) continue
-											flick('Alohomora.dmi',T)
+											T.FlickState("alohomora",20,'Effects.dmi')
 											T.door=1
 								if("quillis")
 									if(src.Gm)
 										for(var/obj/Desk/T in view(client.view))
 											var/scroll = /obj/items/scroll
-											flick('mist.dmi',T)
+											T.FlickState("m-black",8,'Effects.dmi')
 											new scroll(T.loc)
 										hearers()<<"[usr] flicks \his wand, causing scrolls to appear on the desks."
 								if("quillis deletio")
 									if(src.Gm)
 										for(var/obj/items/scroll/T in oview(client.view))
-											flick('mist.dmi',T)
+											T.FlickState("m-black",8,'Effects.dmi')
 											del T
 										hearers()<<"[usr] flicks \his wand, causing scrolls to vanish"
 
@@ -1199,7 +1199,7 @@ mob/Player
 										for(var/turf/T in view(client.view))
 											if(T.specialtype & SHIELD)
 												T.specialtype -= SHIELD
-												flick('mist.dmi',T)
+												T.FlickState("m-black",8,'Effects.dmi')
 												spawn(9)
 													var/shield = /obj/Force_Field
 													T.overlays -= shield
@@ -1273,7 +1273,7 @@ mob/Player
 										for(var/turf/T in view(1))
 											if(T.specialtype & SHIELD) continue
 											var/shield = /obj/Force_Field
-											flick('mist.dmi',T)
+											T.FlickState("m-black",8,'Effects.dmi')
 											T.overlays += shield
 											T.density=1
 											T.invisibility=0
@@ -1634,7 +1634,7 @@ mob/proc/Death_Check(mob/killer = src)
 				p.HP=p.MHP
 				p.MP=p.MMP
 				p.updateHPMP()
-				flick('mist.dmi',src)
+				p.FlickState("m-black",8,'Effects.dmi')
 				switch(src.loc.loc.type)
 					if(/area/hogwarts/Duel_Arenas/Main_Arena_Bottom)
 						p.Transfer(locate("DuelArena_Death"))

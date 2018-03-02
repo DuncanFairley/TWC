@@ -158,7 +158,7 @@ mob/Spells/verb/Disperse()
 			if(T.specialtype & SWAMP)
 				T.slow -= 5
 				T.specialtype -= SWAMP
-				var/image/i = image('mist.dmi',layer=10)
+				var/image/i = image('Effects.dmi',icon_state = "m-black",layer=10)
 				T.overlays += i
 				var/list/decor = list()
 				for(var/obj/o in T)
@@ -355,7 +355,7 @@ mob/Spells/verb/Morsmordre()
 		D = new (locate(src.x,src.y+1,src.z))
 		D.density=0
 		D.owner = ckey
-		flick('mist.dmi',D)
+		D.FlickState("m-black",8,'Effects.dmi')
 		hearers() <<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green>MORSMORDRE!"
 		Players<<"The sky darkens as a sneering skull appears in the clouds with a snake slithering from its mouth."
 
@@ -456,7 +456,7 @@ mob/Spells/verb/Basilio()
 	hearers()<<"A Black Basilisk, emerges from [usr]'s wand."
 	hearers()<<"<b>Basilisk</b>: Hissssssss!"
 	var/mob/Enemies/Summoned/Boss/Basilisk/D = new (locate(src.x,src.y-1,src.z))
-	flick('mist.dmi',D)
+	D.FlickState("m-black",8,'Effects.dmi')
 
 mob/Spells/verb/Serpensortia()
 	set category = "Spells"
@@ -473,11 +473,11 @@ mob/Spells/verb/Serpensortia()
 		hearers()<<"<b>Snake</b>: Hissssssss!"
 		var/mob/Enemies/Summoned/Snake/D = new (loc)
 		D.Ignore(src)
-		flick('mist.dmi',D)
+		D.FlickState("m-black",8,'Effects.dmi')
 		usr:learnSpell("Serpensortia")
 		src = null
 		spawn(600)
-			flick('mist.dmi',D)
+			D.FlickState("m-black",8,'Effects.dmi')
 			if(D)
 				view(D)<<"The snake disappears."
 				Respawn(D)
@@ -533,11 +533,11 @@ mob/Spells/verb/Avis()
 		sleep(20)
 		hearers()<<"A Phoenix emerges."
 		var/mob/Enemies/Summoned/Phoenix/D = new (loc)
-		flick('mist.dmi',D)
+		D.FlickState("m-black",8,'Effects.dmi')
 		usr:learnSpell("Avis")
 		src = null
 		spawn(600)
-			flick('mist.dmi',D)
+			D.FlickState("m-black",8,'Effects.dmi')
 			if(D)
 				view(D)<<"The Phoenix flies away."
 				Respawn(D)
@@ -554,10 +554,10 @@ mob/Spells/verb/Crapus_Sticketh()
 			return
 		hearers()<<"A stick figure appears."
 		var/mob/Enemies/Summoned/Boss/Stickman/D = new (loc)
-		flick('mist.dmi',D)
+		D.FlickState("m-black",8,'Effects.dmi')
 		src = null
 		spawn(600)
-			flick('mist.dmi',D)
+			D.FlickState("m-black",8,'Effects.dmi')
 			if(D)
 				view(D)<<"The Stickman fades away."
 				Respawn(D)
@@ -636,7 +636,7 @@ mob/Spells/verb/Reducto(var/mob/Player/M in (view(usr.client.view,usr)&Players)|
 		if(M.nomove < 2) M.nomove=0
 		if(!M.trnsed) M:ApplyOverlays()
 		hearers(usr.client.view,usr)<<"White light emits from [usr]'s wand, freeing [M]."
-		flick('apparate.dmi',M)
+		M.FlickState("apparate",8,'Effects.dmi')
 		if(!M.trnsed) M.icon_state=""
 		usr:learnSpell("Reducto")
 mob/Spells/verb/Reparo(obj/M in oview(src.client.view,src))
@@ -2377,7 +2377,7 @@ mob/Player
 atom/movable/var/tmp/reflect
 
 obj/Shield
-	icon='teleport2.dmi'
+	icon='portal.dmi'
 	icon_state = "shield"
 	layer = 5
 	density = 1

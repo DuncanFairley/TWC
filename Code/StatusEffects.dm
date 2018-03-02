@@ -670,7 +670,7 @@ StatusEffect
 			Activate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					flick('mist.dmi', p)
+					p.FlickState("m-black",8,'Effects.dmi')
 					p.invisibility = 2
 					p.sight |= SEE_SELF
 					p.alpha = 125

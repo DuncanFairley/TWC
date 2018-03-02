@@ -58,7 +58,7 @@ obj/redroses
 	density=1
 	layer = 6
 obj/Force_Field
-	icon='teleport2.dmi'
+	icon='portal.dmi'
 	icon_state="shield"
 	density=1
 	appearance_flags = RESET_COLOR
@@ -450,20 +450,20 @@ turf
 		name = "Fireplace"
 		Entered(mob/Player/M)
 			if(isplayer(M))
-				flick('mist.dmi',usr)
+				M.FlickState("m-black",8,'Effects.dmi')
 				var/obj/O = locate("hogshospital")
 				M.loc = O.loc
-				flick('mist.dmi',usr)
+				M.FlickState("m-black",8,'Effects.dmi')
 	floo_dehosp
 		icon = 'misc.dmi'
 		icon_state="fireplace"
 		name = "Fireplace"
 		Entered(mob/Player/M)
 			if(isplayer(M))
-				flick('mist.dmi',usr)
+				M.FlickState("m-black",8,'Effects.dmi')
 				var/obj/O = pick(worldData.spawners)
 				M.loc = O.loc
-				flick('mist.dmi',usr)
+				M.FlickState("m-black",8,'Effects.dmi')
 
 obj
 	Bed
