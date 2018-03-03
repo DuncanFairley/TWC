@@ -123,6 +123,8 @@ obj/cloud
 	glide_size = 2
 	post_init = 1
 
+	var/const/SIZE = 5
+
 	MapInit()
 
 		if(!("[z]" in weather.clouds))
@@ -131,7 +133,7 @@ obj/cloud
 
 		pixel_y = rand(1,4)
 		icon_state = "[pixel_y]"
-		transform *= 4
+		transform *= SIZE
 
 		loop()
 
@@ -152,7 +154,17 @@ obj/cloud
 					else
 						new_y = rand(1, world.maxy)
 
+					animate(src, pixel_x = 64 * SIZE, pixel_y = -64 * SIZE, time = 32 * SIZE)
+
+					sleep(32 * SIZE + 1)
+
 					loc = locate(new_x, new_y, z)
+					pixel_x = -64 * SIZE
+					pixel_y = 64 * SIZE
+
+					animate(src, pixel_x = 0, pixel_y = 0, time = 32 * SIZE)
+
+					sleep(32 * SIZE + 1)
 				else
 					var/turf/t = get_step(src, SOUTHEAST)
 					loc = t
