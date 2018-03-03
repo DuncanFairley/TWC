@@ -58,8 +58,7 @@ mob/Player
 						moveDir |= odir
 
 				if(moveKeys && !okeys)
-					var/firstStep = moveDir
-					MoveLoop(firstStep)
+					MoveLoop(moveDir)
 
 		swapControls()
 			set instant = 1
