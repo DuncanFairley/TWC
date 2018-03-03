@@ -59,8 +59,7 @@ mob/Player
 
 				if(moveKeys && !okeys)
 					var/firstStep = moveDir
-					spawn(0)
-						MoveLoop(firstStep)
+					MoveLoop(firstStep)
 
 		swapControls()
 			set instant = 1
