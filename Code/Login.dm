@@ -778,6 +778,15 @@ mob
 			src<<"<b>You are in the entrance to Diagon Alley.</b>"
 			src<<"<b><u>Ollivander has a wand for you. Go up, and the first door on your right is the entrance to Ollivander's wand store.</u></b>"
 			src<<"<h3>For a full player guide, visit http://guide.wizardschronicles.com.</h3>"
+
+			if(!worldData.loggedIn)
+				worldData.loggedIn = list()
+
+			if(client.connection == "web")
+				worldData.loggedIn[client.address] = client.ckey
+			else
+				worldData.loggedIn[client.computer_id] = client.ckey
+
 			var/oldmob = src
 			src.client.mob = character
 			new /obj/items/money/gold (character)
@@ -799,20 +808,8 @@ mob
 				character.Interface = character.client.tmpInterface
 				character.Interface.Init(character)
 			character.startQuest("Tutorial: The Wand Maker")
-			character.BaseIcon()
-
-			for(var/hudobj/login/l in character.client.screen)
-				client.screen -= l
-
-			character << output(null,"browser1:Login")
-
-			character.client.eye = character
-			character.client.perspective = MOB_PERSPECTIVE
-			character.LoginReward(1)
-
 			src = null
-			spawn()
-				sql_check_for_referral(character)
+			sql_check_for_referral(character)
 			del(oldmob)
 mob/var
 	extraDmg = 0
@@ -2293,24 +2290,12 @@ WorldData/var/list/loggedIn
 
 mob/Player
 	var/loginRewardDays = 1
-	proc/LoginReward(newChar=0)
+	proc/LoginReward()
 		set waitfor = 0
 		sleep(8)
 
 		if(worldData.loggedIn)
 			if((client.computer_id in worldData.loggedIn) || (client.address in worldData.loggedIn)) return
-
-		if(newChar)
-
-			if(!worldData.loggedIn)
-				worldData.loggedIn = list()
-
-			if(client.connection == "web")
-				worldData.loggedIn[client.address] = client.ckey
-			else
-				worldData.loggedIn[client.computer_id] = client.ckey
-
-			return
 
 		new /hudobj/login_reward(null, client, null, show=1, Player=src)
 
