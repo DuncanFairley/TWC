@@ -325,7 +325,7 @@ mob/Player
 
 	proc/split(obj/items/i_Item, loc)
 
-		winset(src, null, "splitStack.is-visible=true;splitStack.splitPercent.value=100;splitStack.splitBar.value=100;splitButton.text=[i_Item.stack];")
+		src << output("[i_Item.stack]","browser1:ShowSplitStack")
 		splitItem = i_Item
 
 		while(splitItem && (i_Item in src) && i_Item && splitItem == i_Item)

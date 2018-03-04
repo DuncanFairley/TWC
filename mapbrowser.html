@@ -110,5 +110,17 @@ function CenterWindowCallback(properties) {
     resolution_y = screen.height;
     WinSet("mainwindow","pos",Math.floor((resolution_x-win_width)/2) + "," + Math.floor((resolution_y-win_height)/2));
 }
+
+function ShowSplitStack() {
+	var s = encodeURIComponent(arguments[0]);
+	
+	var body = document.getElementsByTagName('body')[0];
+    var map_width = body.clientWidth;
+    var map_height = body.clientHeight;
+	
+	var X = window.screenLeft + map_width/2;
+	var Y = window.screenTop + map_height/2;
+	WinSet("","splitStack.pos",X + "," + Y,"splitStack.is-visible","true","splitStack.splitPercent.value","100","splitStack.splitBar.value","100","splitButton.text",s);
+}
 </SCRIPT>
 </HTML>
