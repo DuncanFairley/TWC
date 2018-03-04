@@ -787,6 +787,8 @@ mob
 			else
 				worldData.loggedIn[client.computer_id] = client.ckey
 
+			worldData.loggedIn[client.ckey] = 1
+
 			var/oldmob = src
 			src.client.mob = character
 			new /obj/items/money/gold (character)
@@ -2295,7 +2297,7 @@ mob/Player
 		sleep(8)
 
 		if(worldData.loggedIn)
-			if((client.computer_id in worldData.loggedIn) || (client.address in worldData.loggedIn)) return
+			if((client.computer_id in worldData.loggedIn) || (client.address in worldData.loggedIn) || (client.ckey in worldData.loggedIn)) return
 
 		new /hudobj/login_reward(null, client, null, show=1, Player=src)
 
@@ -2372,6 +2374,8 @@ hudobj/login_reward
 				worldData.loggedIn[client.address] = client.ckey
 			else
 				worldData.loggedIn[client.computer_id] = client.ckey
+
+			worldData.loggedIn[client.ckey] = 1
 
 			if(player.loginRewardDays % 50 == 0)
 				var/gold/g = new (bronze=rand(5000, 100000))
