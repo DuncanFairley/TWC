@@ -107,30 +107,30 @@ mob/Player/var/tmp/timelog = 0
 var/list/emotes = list("farts","burps","coughs","yawns","sneezes","picks their nose","breathes heavily","scratches their arm","fidgets")
 mob/var/autoAFK = TRUE
 mob/Player/proc/unreadmessagelooper()
-	set background = 1
+	set waitfor = 0
 	var/unreadmsgs = 0
-	spawn()
-		while(src)
-			sleep(2650)
-			sql_update_ckey_in_table(src)
-			unreadmsgs = 0
-			for(var/atom/movable/PM/A in src.pmsRec)
-				if(!A.read)
-					unreadmsgs++
-			var/rndnum = rand(1,200)
-			switch(rndnum)
-				if(1)
-					Emote("[pick(emotes)].")
 
-			if(!away && autoAFK && client.inactivity > 9000)
-				//Been inactive for over 600 seconds/5 minutes
-				away = 1
-				here=status
-				status=" (AFK)"
-				ApplyAFKOverlay()
+	while(src)
+		sleep(2650)
+		sql_update_ckey_in_table(src)
+		unreadmsgs = 0
+		for(var/atom/movable/PM/A in src.pmsRec)
+			if(!A.read)
+				unreadmsgs++
+		var/rndnum = rand(1,200)
+		switch(rndnum)
+			if(1)
+				Emote("[pick(emotes)].")
 
-			if(unreadmsgs)
-				src << "<b><a href='?src=\ref[src];action=pm_inbox'>You have [unreadmsgs] unread message[unreadmsgs > 1 ? "s":] in your inbox.</a></b>"
+		if(!away && autoAFK && client.inactivity > 9000)
+			//Been inactive for over 600 seconds/5 minutes
+			away = 1
+			here=status
+			status=" (AFK)"
+			ApplyAFKOverlay()
+
+		if(unreadmsgs)
+			src << "<b><a href='?src=\ref[src];action=pm_inbox'>You have [unreadmsgs] unread message[unreadmsgs > 1 ? "s":] in your inbox.</a></b>"
 
 WorldData/var/tmp
 	list

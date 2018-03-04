@@ -87,6 +87,7 @@ proc/sql_get_name_from(ckey)
 			Log_admin("No rows returned for sql_get_name_from([ckey])")
 
 proc/sql_check_for_referral(mob/Player/M)
+	set waitfor = 0
 	if(!mysql_enabled) return
 	var/DBQuery/qry = my_connection.NewQuery({"SELECT ID,RefererCkey FROM tblReferrals WHERE IPAddress=INET_ATON('[M.client.address]');"})
 	//var/DBQuery/qry = my_connection.NewQuery({"SELECT ID,RefererCkey FROM tblReferrals WHERE IPAddress=INET_ATON('24.67.89.35');"})
