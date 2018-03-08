@@ -791,7 +791,9 @@ mob
 
 			var/oldmob = src
 			src.client.mob = character
-			new /obj/items/money/gold (character)
+			var/obj/items/money/gold/g = new (character)
+			g.UpdateDisplay()
+
 			var/obj/o = locate("@DiagonAlley")
 			character.loc = o.loc
 			character.verbs += /mob/Spells/verb/Inflamari
