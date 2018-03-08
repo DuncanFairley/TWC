@@ -107,20 +107,19 @@ obj
 				var/hudobj/reading/R = new(null, p.client, null, 1)
 				p.readbooks = 1
 				p << infomsg("You begin reading.")
-				spawn(15)
+				spawn(20)
 					while(p && p.readbooks > 0 && get_dist(src, p) <= 1)
 						var/exp  = get_exp(p.level) * worldData.expBookModifier
-						if(p.presence)
-							exp = round(rand(exp - exp / 10, exp + exp / 10))
+						if(p.presence || p.level <= 50)
+							exp = round(rand(exp * 0.9, exp * 1.1))
 							p.addExp(exp, 1, 0)
-							if(p.level > 500) p.readbooks += rand(2, 4)
+							if(p.level > 600) p.readbooks += 3
 							sleep(20)
 						else
-							exp /= 3
-							exp = round(rand(exp - exp / 10, exp + exp / 10))
+							exp = round(rand(exp * 0.9, exp * 1.1) / 4)
 							p.addExp(exp, 1, 0)
-							if(p.level > 500) p.readbooks += rand(1, 2)
-							sleep(40)
+							if(p.level > 600) p.readbooks += 1
+							sleep(50)
 
 					if(p)
 						R.hide()
@@ -210,19 +209,16 @@ obj
 			name = "Godric's Journal"
 			icon_state="gryffup"
 
+
 proc
 	get_exp(var/level)
 		if(level >= 100) return 350
 		if(level >= 70)  return 300
 		if(level >= 60)  return 250
 		if(level >= 40)  return 150
-		if(level >= 25)  return 100
+		if(level >= 30)  return 100
 		if(level >= 20)  return 50
-		if(level >= 12)  return 40
-		if(level >= 6)   return 25
-		return 10
-
-
+		return 25
 
 
 var/list/questions = list()
