@@ -1965,7 +1965,7 @@ mob/Player/proc/resetMaxHP()
 
 mob/Player
 	proc
-		LvlCheck(var/fakelevels=0)
+		LvlCheck()
 			if(level >= lvlcap)
 				Exp = 0
 				return
@@ -1982,47 +1982,56 @@ mob/Player
 				verbs.Remove(/mob/Player/verb/Use_Statpoints)
 				verbs.Add(/mob/Player/verb/Use_Statpoints)
 				StatPoints++
-				if(Mexp<2000)
-					Mexp*=1.5
-				else if(Mexp>2000)
-					Mexp+=500
-				Mexp = round(Mexp)
-				if(!fakelevels)
-					screenAlert("You are now level [level]!")
+				screenAlert("You are now level [level]!")
+				src<<"You have gained a statpoint."
 
-					src<<"You have gained a statpoint."
 				var/theiryear = (Year == "Hogwarts Graduate" ? 8 : text2num(copytext(Year, 1, 2)))
 				if(level>1 && level < 16)
 					src.Year="1st Year"
+					theiryear = 1
 				else if(level>15 && theiryear < 2)
 					src.Year="2nd Year"
 					src<<"<b>Congratulations, [src]! You are now a 2nd Year!</b>"
 					verbs += /mob/Spells/verb/Episky
 					src<<infomsg("You learned Episkey.")
+					theiryear = 2
 				else if(src.level>50 && theiryear < 3)
 					Year="3rd Year"
 					src<<"<b>Congratulations, [src]! You are now a 3rd Year!</b>"
 					src<<infomsg("You learned how to cancel transfigurations!")
 					verbs += /mob/Spells/verb/Episky
 					verbs += /mob/Spells/verb/Self_To_Human
+					theiryear = 3
 				else if(level>100 && theiryear < 4)
 					Year="4th Year"
 					src<<"<b>Congratulations, [src]! You are now a 4th Year!</b>"
 					verbs += /mob/Spells/verb/Self_To_Dragon
 					src<<infomsg("You learned how to Transfigure yourself into a fearsome Dragon!")
+					theiryear = 4
 				else if(level>200 && theiryear < 5)
 					src.Year="5th Year"
 					src<<"<b>Congratulations, [src]! You are now a 5th Year!</b>"
+					theiryear = 5
 				else if(level>300 && theiryear < 6)
 					src.Year="6th Year"
 					src<<"<b>Congratulations, [src]! You are now a 6th Year!</b>"
+					theiryear = 6
 				else if(level>400 && theiryear < 7)
 					src.Year="7th Year"
 					src<<"<b>Congratulations, [src]! You are now a 7th Year!</b>"
+					theiryear = 7
 				else if(level>500 && theiryear < 8)
 					Year="Hogwarts Graduate"
 					src<<"<b>Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate.</b>"
 					src<<infomsg("You can now view your damage & defense stats in the stats tab.")
+					theiryear = 8
+
+				if(level <= 600)
+					Mexp += 50 * theiryear + 60 * (theiryear - 1)
+				else
+					var/tier = round(level / 50)
+					Mexp += 100 * tier
+
 
 obj/Banker
 	icon = 'NPCs.dmi'
@@ -2117,7 +2126,7 @@ mob/var
 	MP=200
 	MMP=200
 
-mob/var/Mexp=5
+mob/var/Mexp=50
 mob/var/Exp=0
 mob/var/Expg=1
 mob/var/tmp/listenooc=1

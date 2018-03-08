@@ -289,6 +289,8 @@ mob
 				p.MMP = 200
 				p.MP = 200
 				p.level = 1
+				p.Mexp = 50
+				p.Exp = 0
 				p.resetStatPoints()
 				spawn()
 					if(p.client.tmpInterface)
