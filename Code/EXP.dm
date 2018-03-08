@@ -218,7 +218,7 @@ proc
 		if(level >= 40)  return 150
 		if(level >= 30)  return 100
 		if(level >= 20)  return 50
-		return 25
+		return 30
 
 
 var/list/questions = list()
