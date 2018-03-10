@@ -199,15 +199,34 @@ hudobj
 
 		mouse_opacity = 2
 
+		var/tmp/unread = 0
+
 		Click()
 			var/mob/Player/M = usr
+
+			if(unread)
+				unread = 0
+				maptext = null
+				alpha = 255
+				animate(src)
+
 			M.PMHome()
 
 		alpha = 110
 		MouseEntered()
-			alpha = 255
+			if(!unread) alpha = 255
 		MouseExited()
-			alpha = 110
+			if(!unread) alpha = 110
+
+		New(loc=null,client/Client,list/Params,show=1)
+			..(loc,Client,Params,show)
+
+			for(var/atom/movable/PM/A in client.mob:pmsRec)
+				if(!A.read) unread++
+
+			maptext = "<span style=\"color:[client.mob:mapTextColor];font-size:2px;\">[unread]</span>"
+			animate(src, alpha = 250, time = 10, loop = -1)
+			animate(alpha = 150, time = 10)
 
 	spellbook
 

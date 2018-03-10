@@ -108,15 +108,10 @@ var/list/emotes = list("farts","burps","coughs","yawns","sneezes","picks their n
 mob/var/autoAFK = TRUE
 mob/Player/proc/unreadmessagelooper()
 	set waitfor = 0
-	var/unreadmsgs = 0
 
 	while(src)
 		sleep(2650)
 		sql_update_ckey_in_table(src)
-		unreadmsgs = 0
-		for(var/atom/movable/PM/A in src.pmsRec)
-			if(!A.read)
-				unreadmsgs++
 		var/rndnum = rand(1,200)
 		switch(rndnum)
 			if(1)
@@ -128,9 +123,6 @@ mob/Player/proc/unreadmessagelooper()
 			here=status
 			status=" (AFK)"
 			ApplyAFKOverlay()
-
-		if(unreadmsgs)
-			src << "<b><a href='?src=\ref[src];action=pm_inbox'>You have [unreadmsgs] unread message[unreadmsgs > 1 ? "s":] in your inbox.</a></b>"
 
 WorldData/var/tmp
 	list
@@ -485,3 +477,10 @@ mob
 			src << "Private Message Sent to <a href='?src=\ref[src];action=pm_reply;replynametext=[formatName(Y)]'>[formatName(Y)]</a>."
 			Y << "You have received a <a href='?src=\ref[Y];action=pm_inbox_readmsg;msgid=[pmcounter]'>new private message</a> from <a href='?src=\ref[Y];action=pm_reply;replynametext=[formatName(src)]'>[formatName(src)]</a>."
 			Y.beep()
+
+			var/hudobj/PMHome/pm = locate() in Y.client.screen
+			if(pm)
+				pm.unread++
+				pm.maptext = "<span style=\"font-size:2px;\">[pm.unread]</span>"
+				animate(pm, alpha = 250, time = 10, loop = -1)
+				animate(alpha = 150, time = 10)
