@@ -837,6 +837,9 @@ interface
 		if(parent.HideQuestTracker && quest)
 			parent.client.screen -= quest
 			quest = null
+
+			for(var/obj/hud/screentext/questPath/path in parent.client.screen)
+				parent.client.screen -= path
 		else if(!parent.HideQuestTracker && !quest)
 			quest = new
 			parent.client.screen += quest
@@ -961,18 +964,18 @@ mob/Player
 
 			if(client.hideHud)
 				for(var/hudobj/h in client.screen)
-					h.alpha = 0
-				Interface.hpbar.mtext.alpha = 0
-				Interface.hpbar.back.alpha  = 0
-				Interface.mpbar.mtext.alpha = 0
-				Interface.mpbar.back.alpha  = 0
+					h.invisibility = 10
+				Interface.hpbar.mtext.invisibility = 10
+				Interface.hpbar.back.invisibility  = 10
+				Interface.mpbar.mtext.invisibility = 10
+				Interface.mpbar.back.invisibility  = 10
 			else
 				for(var/hudobj/h in client.screen)
-					h.alpha = 255
-				Interface.hpbar.mtext.alpha = 255
-				Interface.hpbar.back.alpha  = 255
-				Interface.mpbar.mtext.alpha = 255
-				Interface.mpbar.back.alpha  = 255
+					h.invisibility = 0
+				Interface.hpbar.mtext.invisibility = 0
+				Interface.hpbar.back.invisibility  = 0
+				Interface.mpbar.mtext.invisibility = 0
+				Interface.mpbar.back.invisibility  = 0
 
 
 mob/Player
