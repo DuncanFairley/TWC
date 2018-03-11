@@ -662,7 +662,7 @@ obj/loginCamera
 		var/turf/target
 		while(src)
 			if(!target || loc == target)
-				target = locate(rand(50,70), rand(25,85), z)
+				target = locate(rand(50,70), rand(25,75), z)
 
 			var/turf/t = get_step_towards(loc, target)
 			if(t)
