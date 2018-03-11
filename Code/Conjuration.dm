@@ -97,6 +97,8 @@ obj/healthbar
 		layer = 10
 		parent_type = /hudobj
 
+		mouse_opacity = 0
+
 		var
 			const/barSize = 127.5
 			isMana = 0
