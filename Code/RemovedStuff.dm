@@ -5,6 +5,7 @@
  * For the full license text, see LICENSE.txt.
  */
 
+
 obj/items/herosbrace
 /*	name = "Hero's brace"
 	icon = 'herosbrace.dmi'
@@ -33,6 +34,9 @@ obj/items/herosbrace
 
 obj/roofedge/canSave = 0
 obj/Flippendo/canSave = 0
+
+mob/verb/Meditate()
+	set hidden = 1
 
 mob/AndersGoat
 obj/Green_Mushroom

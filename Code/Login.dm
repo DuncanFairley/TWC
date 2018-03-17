@@ -1044,6 +1044,8 @@ mob/Player
 			BaseIcon()
 
 			hpBar = new(src)
+			if(MP / MMP)
+				MPRegen()
 
 	proc/ApplyOverlays(ignoreBonus = 1)
 		src.overlays = list()
@@ -1976,7 +1978,7 @@ mob/Player
 				Dmg+=1
 				Def+=1
 				resetMaxHP()
-				MMP = 6 * level + 196
+				MMP = 6 * level + 194
 				HP=MHP
 				MP=MMP
 				updateHPMP()

@@ -325,7 +325,6 @@ StatusEffect
 	UsedTransfiguration
 	UsedAnnoying
 	UsedPortus
-	UsedMeditate
 	UsedHalloweenBucket
 	UsedSonic
 	UsedSnowRing

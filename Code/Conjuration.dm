@@ -17,10 +17,33 @@ mob/verb/updateHPMP()
 	src:Interface.hpbar.UpdateText(HP, MHP)
 	src:Interface.mpbar.UpdateText(MP, MMP)
 
+	if(!src:mpRegen && MP < MMP)
+		src:MPRegen()
+
 	src:hpBar.Set(hppercent, src)
 
 	if(src:party)
 		src:party.updateHP(src, hppercent)
+
+mob/Player
+	var/tmp/mpRegen = 0
+
+	proc/MPRegen()
+		set waitfor = 0
+
+		mpRegen = 1
+		sleep(50)
+
+		while(src)
+			if(MP < MMP)
+				MP = min(MP + level*2, MMP)
+				var/mppercent = clamp(MP / MMP, 0, 1)
+
+				Interface.mpbar.Set(mppercent)
+				Interface.mpbar.UpdateText(MP, MMP)
+			sleep(50)
+
+		mpRegen = 0
 
 mob/var/Gender
 mob/var/tmp/usedpermoveo
@@ -65,7 +88,7 @@ obj/healthbar
 				if(p.HP == p.MHP)
 					alpha = 0
 				else
-					Set(p.HP / p.MHP, src, instant=1)
+					Set(clamp(p.HP / p.MHP, 0, 1), src, instant=1)
 				p:addFollower(src)
 
 				glide_size = p.glide_size

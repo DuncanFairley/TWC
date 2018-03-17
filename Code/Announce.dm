@@ -47,25 +47,6 @@ mob/test/verb/Download_Savefile()
 	if(!ckeyname) return
 	usr << ftp(file("players/[copytext(ckeyname,1,2)]/[ckeyname].sav"))
 
-image/meditate/icon = 'Meditate.dmi'
-
-
-
-mob
-	verb
-		Meditate()
-			set category = "Commands"
-			if(canUse(src,cooldown=/StatusEffect/UsedMeditate,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-				new /StatusEffect/UsedMeditate(src,10)
-				overlays+=/image/meditate
-				hearers()<<"<span style=\"color:red;\">[src] meditates.</span>"
-				sleep(50)
-				overlays-=/image/meditate
-
-				var/maxMP = MMP
-				MP = min(maxMP, MP + maxMP*0.8)
-				updateHPMP()
-
 mob
 	var/questionius = 2
 	verb

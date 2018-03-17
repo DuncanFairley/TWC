@@ -45,7 +45,7 @@ mob/Player
 
 		updateSpellbook()
 
-			var/list/verbList = list("Meditate", "Take")
+			var/list/verbList = list("Take")
 
 			if(!spells) spells = list()
 			var/count = spells.len
@@ -125,8 +125,6 @@ obj/spells
 				m:Aqua_Eructo()
 			if("Chaotica")
 				m:Chaotica()
-			if("Meditate")
-				m.Meditate()
 			if("Episkey")
 				m:Episky()
 			if("Sanguinis Iactus")
