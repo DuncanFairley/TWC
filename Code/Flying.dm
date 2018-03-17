@@ -71,6 +71,7 @@ obj
 		layer = 7
 		accioable = 1
 		wlable = 1
+		glide_size = 32
 		New()
 			set waitfor = 0
 			..()
@@ -87,6 +88,7 @@ obj
 				if(z == origloc.z)
 					accioable = 0
 					wlable    = 0
+					glide_size = 16
 					while(loc != origloc)
 						var/t = get_step_towards(src, origloc)
 						if(!t)
@@ -96,6 +98,7 @@ obj
 						sleep(2)
 					accioable = 1
 					wlable    = 1
+					glide_size = 32
 				else
 					loc = origloc
 
