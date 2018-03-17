@@ -2341,7 +2341,7 @@ hudobj/login_reward
 
 		var/daysRemaining = 50 - ((player.loginRewardDays + 1) % 50)
 
-		o.maptext = "<b style=\"text-align:center;color:[player.mapTextColor];\">You logged in for [player.loginRewardDays+1] days.<br>Click the chest to get your reward!<br>Special reward in [daysRemaining] day[daysRemaining > 1 ? "s" : ""].</b>"
+		o.maptext = "<b style=\"text-align:center;color:[player.mapTextColor];\">Days played: [player.loginRewardDays+1]<br>Click the chest to get your reward!<br>Special reward in [daysRemaining] day[daysRemaining > 1 ? "s" : ""].</b>"
 
 		overlays += o
 
