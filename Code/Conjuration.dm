@@ -36,7 +36,7 @@ mob/Player
 
 		while(src)
 			if(MP < MMP)
-				MP = min(MP + level*2, MMP)
+				MP = min(MP + 50 + round(level/10)*2, MMP)
 				var/mppercent = clamp(MP / MMP, 0, 1)
 
 				Interface.mpbar.Set(mppercent)
