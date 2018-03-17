@@ -45,7 +45,7 @@ mob/Player
 
 		updateSpellbook()
 
-			var/list/verbList = list("Take")
+			var/list/verbList = list("Take","Attack")
 
 			if(!spells) spells = list()
 			var/count = spells.len

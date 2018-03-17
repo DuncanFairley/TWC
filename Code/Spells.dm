@@ -723,6 +723,7 @@ mob/Spells/verb/Chaotica()
 	if(dmg<20)dmg=20
 	else if(dmg>2000)dmg = 2000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
+		usr:lastAttack = "Chaotica"
 		castproj(MPreq = 30, icon_state = "chaotica", damage = dmg, name = "Chaotica")
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
@@ -734,6 +735,7 @@ mob/Spells/verb/Aqua_Eructo()
 		var/dmg = p.Def + (p.extraDef / 3) + (p.clothDmg / 5) + p.Water.level
 		dmg *= 0.8
 
+		usr:lastAttack = "Aqua Eructo"
 		castproj(icon_state = "aqua", damage = dmg, name = "Aqua Eructo", element = WATER)
 
 
@@ -741,7 +743,7 @@ mob/Spells/verb/Sanguinis_Iactus()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
 
-
+		usr:lastAttack = "Sanguinis Iactus"
 		castproj(Type = /obj/projectile/Blood, MPreq = 5, icon_state = "blood", damage = usr.Dmg + usr.extraDmg + clothDmg, name = "Blood")
 
 mob/Spells/verb/Gravitate()
@@ -766,18 +768,22 @@ mob/Spells/verb/Inflamari()
 		dmg = round(dmg, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
+		usr:lastAttack = "Inflamari"
 		castproj(icon_state = "fireball", damage = dmg + usr:Fire.level, name = "Inflamari", element = FIRE)
 mob/Spells/verb/Glacius()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
+		usr:lastAttack = "Glacius"
 		castproj(MPreq = 10, icon_state = "iceball", damage = usr.Dmg+usr.extraDmg + clothDmg + usr:Water.level, name = "Glacius", element = WATER)
 mob/Spells/verb/Waddiwasi()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
+		usr:lastAttack = "Waddiwasi"
 		castproj(MPreq = 10, icon_state = "gum", damage = usr.Dmg+usr.extraDmg + clothDmg + usr:Ghost.level, name = "Waddiwasi", element = GHOST)
 mob/Spells/verb/Tremorio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
+		usr:lastAttack = "Tremorio"
 		castproj(MPreq = 5, icon_state = "quake", damage = usr.Dmg+usr.extraDmg + clothDmg + usr:Earth.level, name = "Tremorio", element = EARTH)
 
 mob/var/tmp/list/_input
@@ -2381,3 +2387,23 @@ obj/Shield
 	icon_state = "shield"
 	layer = 5
 	density = 1
+
+mob/Player
+	var/lastAttack = "Inflamari"
+	verb/Attack()
+		var/mob/m = src
+		switch(lastAttack)
+			if("Glacius")
+				m:Glacius()
+			if("Inflamari")
+				m:Inflamari()
+			if("Waddiwasi")
+				m:Waddiwasi()
+			if("Tremorio")
+				m:Tremorio()
+			if("Aqua Eructo")
+				m:Aqua_Eructo()
+			if("Chaotica")
+				m:Chaotica()
+			if("Sanguinis Iactus")
+				m:Sanguinis_Iactus()
