@@ -612,7 +612,7 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 mob/Spells/verb/Incarcerous()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=50,againstocclumens=1))
-		new /StatusEffect/UsedStun(src,15)
+		new /StatusEffect/UsedStun(src,15,"Incarcerous")
 		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Incarcerous!</b>"
 
 		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 1 }, icon_state = "bind", name = "Incarcerous", lag = 1)
@@ -684,7 +684,7 @@ mob/Spells/verb/Petreficus_Totalus()
 	set category="Spells"
 	set name = "Petrificus Totalus"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=50,againstocclumens=1))
-		new /StatusEffect/UsedStun(src,15)
+		new /StatusEffect/UsedStun(src,15,"Petrificus Totalus")
 		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Petrificus Totalus!</b>"
 
 		castproj(MPreq = 50, Type = /obj/projectile/Bind { min_time = 0.4; max_time = 2.4 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
@@ -1005,7 +1005,7 @@ mob/Spells/verb/Incindia()
 		hearers()<<"[src] raises \his wand into the air. <font color=red><b><i>INCINDIA!</b></i>"
 		p.MP-=450
 		p.updateHPMP()
-		new /StatusEffect/UsedIncindia(src,15)
+		new /StatusEffect/UsedIncindia(src,15,"Incindia")
 		var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 		var/damage = round((p.Dmg + p.extraDmg + p.clothDmg + p.Fire.level) * 0.75)
 		var/t = dir
@@ -1219,7 +1219,7 @@ mob/Spells/verb/Ecliptica()
 mob/Spells/verb/Delicio()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
-		new /StatusEffect/UsedTransfiguration(src,15)
+		new /StatusEffect/UsedTransfiguration(src,15,"Delicio")
 		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>: <b>Delicio!</b>"
 		usr:learnSpell("Delicio")
 
@@ -1228,7 +1228,7 @@ mob/Spells/verb/Delicio()
 mob/Spells/verb/Avifors()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
-		new /StatusEffect/UsedTransfiguration(src,15)
+		new /StatusEffect/UsedTransfiguration(src,15,"Avifors")
 		hearers(usr.client.view,usr)<<"<b><span style=\"color:gray;\">[usr]</span>: <b>Avifors!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Avifors", lag = 0)
@@ -1236,7 +1236,7 @@ mob/Spells/verb/Avifors()
 mob/Spells/verb/Ribbitous()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
-		new /StatusEffect/UsedTransfiguration(src,15)
+		new /StatusEffect/UsedTransfiguration(src,15,"Ribbitous")
 		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b><span style=\"color:green;\"> Ribbitous!</b></span>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Ribbitous", lag = 0)
@@ -1244,7 +1244,7 @@ mob/Spells/verb/Ribbitous()
 mob/Spells/verb/Carrotosi()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
-		new /StatusEffect/UsedTransfiguration(src,15)
+		new /StatusEffect/UsedTransfiguration(src,15,"Carrotosi")
 		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b><span style=\"color:red;\"> Carrotosi!</b></span>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Carrotosi", lag = 0)
@@ -1253,7 +1253,7 @@ mob/Spells/verb/Self_To_Dragon()
 	set name = "Personio Draconum"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
-		new /StatusEffect/UsedTransfiguration(src,15)
+		new /StatusEffect/UsedTransfiguration(src,15,"Personio Draconum")
 		if(CanTrans(src))
 			var/mob/Player/p = src
 			p<<"You transformed yourself into a fearsome Dragon!"
@@ -1266,7 +1266,7 @@ mob/Spells/verb/Self_To_Mushroom()
 	set name = "Personio Musashi"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
-		new /StatusEffect/UsedTransfiguration(src,15)
+		new /StatusEffect/UsedTransfiguration(src,15,"Personio Musashi")
 		if(CanTrans(src))
 			var/mob/Player/p = src
 			p<<"You transformed yourself into a Mushroom!"
@@ -1290,7 +1290,7 @@ mob/Spells/verb/Self_To_Skeleton()
 	set name = "Personio Sceletus"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
-		new /StatusEffect/UsedTransfiguration(src,15)
+		new /StatusEffect/UsedTransfiguration(src,15,"Personio Sceletus")
 		if(CanTrans(src))
 			var/mob/Player/p = src
 			p<<"You transformed yourself into a Skeleton!"
@@ -1328,7 +1328,7 @@ mob/Spells/verb/Self_To_Human()
 mob/Spells/verb/Harvesto()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
-		new /StatusEffect/UsedTransfiguration(src,15)
+		new /StatusEffect/UsedTransfiguration(src,15,"Harvesto")
 		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Harvesto!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Harvesto", lag = 0)
@@ -1336,7 +1336,7 @@ mob/Spells/verb/Harvesto()
 mob/Spells/verb/Felinious()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
-		new /StatusEffect/UsedTransfiguration(src,15)
+		new /StatusEffect/UsedTransfiguration(src,15,"Felinious")
 		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Felinious!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Felinious", lag = 0)
@@ -1344,7 +1344,7 @@ mob/Spells/verb/Felinious()
 mob/Spells/verb/Scurries()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
-		new /StatusEffect/UsedTransfiguration(src,15)
+		new /StatusEffect/UsedTransfiguration(src,15,"Scurries")
 		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>: <b>Scurries!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Scurries", lag = 0)
@@ -1352,7 +1352,7 @@ mob/Spells/verb/Scurries()
 mob/Spells/verb/Seatio()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
-		new /StatusEffect/UsedTransfiguration(src,15)
+		new /StatusEffect/UsedTransfiguration(src,15,"Seatio")
 		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>: <b>Seatio!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Seatio", lag = 0)
@@ -1360,7 +1360,7 @@ mob/Spells/verb/Seatio()
 mob/Spells/verb/Nightus()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
-		new /StatusEffect/UsedTransfiguration(src,15)
+		new /StatusEffect/UsedTransfiguration(src,15,"Nightus")
 		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>: <b>Nightus!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Nightus", lag = 0)
@@ -1369,7 +1369,7 @@ mob/Spells/verb/Peskipixie_Pesternomae()
 	set category="Spells"
 	set name = "Peskipiksi Pestermi"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1))
-		new /StatusEffect/UsedTransfiguration(src,15)
+		new /StatusEffect/UsedTransfiguration(src,15,"Peskipiksi Pestermi")
 		hearers(usr.client.view,usr)<<"<b><span style=\"color:red;\">[usr]</span>: <b>Peskipiksi Pestermi!</b>"
 
 		castproj(Type = /obj/projectile/Transfiguration, icon_state = "trans", name = "Peskipiksi Pestermi", lag = 0)
@@ -1417,7 +1417,7 @@ mob/Spells/verb/Episky()
 	if(canUse(src,cooldown=/StatusEffect/UsedEpiskey,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		var/mob/Player/p = src
 		hearers()<<"<span style=\"color:red;\"><b>[p]:</span></b> <font color=aqua>Episkey!"
-		new /StatusEffect/UsedEpiskey(src,15)
+		new /StatusEffect/UsedEpiskey(src,15,"Episkey")
 
 		p.HP = p.MHP
 

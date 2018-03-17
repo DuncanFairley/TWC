@@ -838,13 +838,16 @@ StatusEffect
 				return 0
 			M << "<b>This can't be used for another [timeleft] second[timeleft==1 ? "" : "s"].</b>"
 			return 1
-	New(atom/pAttachedAtom,t)
+	New(atom/pAttachedAtom,t,cooldownName)
 		//Attaches a StatusEffect to an atom - if t is specified, an /Event is attached also
 		src.AttachedAtom = pAttachedAtom
 		src.AttachedAtom.AddStatusEffect(src)
 		if(t)
 			src.AttachedEvent = new(src)
 			scheduler.schedule(src.AttachedEvent,t * 10)
+			if(cooldownName)
+				var/mob/Player/p = AttachedAtom
+				new /hudobj/Cooldown (null, p.client, null, cooldownName, t, show=1)
 		Activate()
 
 	Del()
@@ -869,3 +872,45 @@ proc
 			sleep(world.tick_lag*tickstosleep)
 			tickstosleep *= 2
 		while(world.tick_usage > 75 && (tickstosleep*world.tick_lag) < 32)
+
+hudobj
+	Cooldown
+		mouse_over_pointer = MOUSE_INACTIVE_POINTER
+
+		anchor_x    = "CENTER"
+		screen_x    = -80
+		screen_y    = -16
+		anchor_y    = "NORTH"
+		maptext_y   = -4
+		maptext_x   = -4
+
+		icon = 'SpellbookIcons.dmi'
+
+		var/count = 0
+
+		New(loc=null,client/Client,list/Params, name, time, show=1)
+			set waitfor = 0
+
+			src.name = name
+			icon_state = name
+
+			var/list/l = list()
+			for(var/hudobj/Cooldown/c in Client.screen)
+				if(count == c.count)
+					count++
+				else
+					l += c.count
+			while(count in l)
+				count++
+
+			screen_x += (count % 4) * 36
+			screen_y += round(count / 4) * 36
+
+			..(loc,Client,Params,show)
+
+			animate(src, maptext = "<span style=\"color:[Client.mob:mapTextColor];font-size:2px;\"><b>[time]</b></span>", time = 10)
+			for(var/i = time - 1 to 1 step -1)
+				animate(maptext = "<span style=\"color:[Client.mob:mapTextColor];font-size:2px;\"><b>[i]</b></span>", time = 10)
+
+			sleep(time * 10)
+			hide()
