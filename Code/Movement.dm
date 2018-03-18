@@ -10,6 +10,8 @@ mob/Player
 
 		loopedMove = 0
 
+		pauseMove = 0
+
 	proc
 		MoveLoop(var/firstStep)
 			set waitfor = 0
@@ -22,16 +24,26 @@ mob/Player
 				sleep(1)
 
 				if(!moveKeys && onMoveEvents(firstStep))
+					glide_size = 32 / (move_delay + slow)
 					step(src, firstStep)
 					sleep(move_delay + slow)
 
 				var/diag
-				while(moveKeys && client.moveStart == time && onMoveEvents(moveDir))
-					diag   = moveDir & moveDir-1
-					if(!step(src, moveDir) && diag)
-						step(src, diag) || step(src, moveDir - diag)
+				while(moveKeys && client.moveStart == time)
+
+					if(pauseMove)
+						pauseMove--
+
+					else if(onMoveEvents(moveDir))
+
+						diag = moveDir & moveDir-1
+						glide_size = 32 / (move_delay + slow)
+						if(!step(src, moveDir) && diag)
+							step(src, diag) || step(src, moveDir - diag)
+
 					sleep(move_delay + slow)
 
+				glide_size = 32
 				client.moving = 0
 				client.moveStart = null
 
@@ -40,31 +52,30 @@ mob/Player
 			set hidden  = 1
 			set instant = 1
 
-			if(loopedMove || client.moveStart)
-				var/okeys = moveKeys
-				var/odir  = turn(dir, 180)
+			var/okeys = moveKeys
+			var/odir  = turn(dir, 180)
 
-				if(state)
-					moveKeys |= dir
-					moveDir  |= dir
+			if(state)
+				moveKeys |= dir
+				moveDir  |= dir
 
-					if(moveKeys & odir)
-						moveDir &= ~odir
-				else
-					moveKeys &= ~dir
-					moveDir  &= ~dir
+				if(moveKeys & odir)
+					moveDir &= ~odir
+			else
+				moveKeys &= ~dir
+				moveDir  &= ~dir
 
-					if(moveKeys & odir)
-						moveDir |= odir
+				if(moveKeys & odir)
+					moveDir |= odir
 
-				if(moveKeys && !okeys)
-					MoveLoop(moveDir)
+			if(moveKeys && !okeys)
+				MoveLoop(moveDir)
 
 		swapControls()
-			set instant = 1
+	//		set instant = 1
 			set hidden  = 1
 
-			if(loopedMove)
+		/*	if(loopedMove)
 				winset(src, "north", "parent=")
 				winset(src, "south", "parent=")
 				winset(src, "east",  "parent=")
@@ -91,7 +102,7 @@ mob/Player
 
 				moveKeys = 0
 
-				loopedMove = 1
+				loopedMove = 1*/
 
 
 var/move_queue = FALSE

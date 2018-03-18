@@ -62,3 +62,10 @@ WorldData/var/tmp/list/waterColors = list()
 #endif
 
 obj/custom // used for defining custom objects with { } constructor
+
+client
+	fps = 30
+	glide_size = 32
+
+mob/Player
+	glide_size = 32

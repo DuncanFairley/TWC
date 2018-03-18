@@ -24,12 +24,14 @@ mob
 				if(client.moving||GMFrozen||arcessoing||inOldArena()) return
 				client.moving = 1
 				dir = SOUTH
+				pauseMove = 1
 				sleep(0)
 				client.moving = 0
 			awest()
 				set hidden = 1
 				if(client.moving||GMFrozen||arcessoing||inOldArena()) return
 				client.moving = 1
+				pauseMove = 1
 				dir = WEST
 				sleep(0)
 				client.moving = 0

@@ -633,6 +633,7 @@ hudobj
 
 			Click()
 				if(istype(usr,/mob/BaseCamp/ChoosingCharacter))
+					usr.client.glide_size = 32
 					usr:Choose_Character()
 
 		New
@@ -645,6 +646,7 @@ hudobj
 
 			Click()
 				if(istype(usr,/mob/BaseCamp/ChoosingCharacter))
+					usr.client.glide_size = 32
 					usr:New_Character()
 
 obj/loginCamera
@@ -684,6 +686,7 @@ mob/BaseCamp/ChoosingCharacter
 		var/obj/o = locate("loginCamera")
 		client.eye = o
 		client.perspective = EYE_PERSPECTIVE
+		client.glide_size = 8
 
 	//	usr << output(HTMLOutput(src),"broLogin")
 		/*var/first_initial = copytext(ckey, 1, 2)
