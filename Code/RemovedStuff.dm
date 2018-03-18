@@ -38,6 +38,9 @@ obj/Flippendo/canSave = 0
 mob/verb/Meditate()
 	set hidden = 1
 
+mob/Player/verb/swapControls()
+	set hidden  = 1
+
 mob/AndersGoat
 obj/Green_Mushroom
 	New()

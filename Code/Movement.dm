@@ -8,10 +8,6 @@ mob/Player
 		moveKeys = 0
 		moveDir  = 0
 
-		loopedMove = 0
-
-		pauseMove = 0
-
 	proc
 		MoveLoop(var/firstStep)
 			set waitfor = 0
@@ -21,25 +17,29 @@ mob/Player
 				client.moveStart = time
 				client.moving = 1
 
-				sleep(1)
-
 				if(!moveKeys && onMoveEvents(firstStep))
 					glide_size = 32 / (move_delay + slow)
 					step(src, firstStep)
 					sleep(move_delay + slow)
 
 				var/diag
-				while(moveKeys && client.moveStart == time)
+				while((moveKeys || client.movements) && client.moveStart == time)
 
-					if(pauseMove)
-						pauseMove--
+					if(client.movements)
+						var/d = client.movements[1]
+						client.movements.Cut(1,2)
 
-					else if(onMoveEvents(moveDir))
+						if(client.movements.len == 0) client.movements = null
 
-						diag = moveDir & moveDir-1
-						glide_size = 32 / (move_delay + slow)
-						if(!step(src, moveDir) && diag)
-							step(src, diag) || step(src, moveDir - diag)
+						if(onMoveEvents(d))
+							glide_size = 32 / (move_delay + slow)
+							step(src, d)
+					else if(world.time - lastproj >= 2)
+						if(onMoveEvents(moveDir))
+							diag = moveDir & moveDir-1
+							glide_size = 32 / (move_delay + slow)
+							if(!step(src, moveDir) && diag)
+								step(src, diag) || step(src, moveDir - diag)
 
 					sleep(move_delay + slow)
 
@@ -69,44 +69,7 @@ mob/Player
 					moveDir |= odir
 
 			if(moveKeys && !okeys)
-				MoveLoop(moveDir)
-
-		swapControls()
-	//		set instant = 1
-			set hidden  = 1
-
-		/*	if(loopedMove)
-				winset(src, "north", "parent=")
-				winset(src, "south", "parent=")
-				winset(src, "east",  "parent=")
-				winset(src, "west",  "parent=")
-
-				winset(src, "north+up", "parent=")
-				winset(src, "south+up", "parent=")
-				winset(src, "east+up",  "parent=")
-				winset(src, "west+up",  "parent=")
-
-				moveKeys = 0
-
-				loopedMove = 0
-			else
-				winset(src, "north", "parent=macro;name=\"north\";command=\"MoveKey 1 1\"")
-				winset(src, "south", "parent=macro;name=\"south\";command=\"MoveKey 2 1\"")
-				winset(src, "east",  "parent=macro;name=\"east\";command=\"MoveKey 4 1\"")
-				winset(src, "west",  "parent=macro;name=\"west\";command=\"MoveKey 8 1\"")
-
-				winset(src, "north+up", "parent=macro;name=\"north+up\";command=\"MoveKey 1 0\"")
-				winset(src, "south+up", "parent=macro;name=\"south+up\";command=\"MoveKey 2 0\"")
-				winset(src, "east+up",  "parent=macro;name=\"east+up\";command=\"MoveKey 4 0\"")
-				winset(src, "west+up",  "parent=macro;name=\"west+up\";command=\"MoveKey 8 0\"")
-
-				moveKeys = 0
-
-				loopedMove = 1*/
-
-
-var/move_queue = FALSE
-
+				spawn(1) MoveLoop(moveDir)
 mob
 	var/tmp
 		obj/wingobject
@@ -157,55 +120,53 @@ client
 
 	North()
 		if(moveStart == null)
-			.=..()
+			mob:MoveLoop(NORTH)
+		else
+			if(!movements) movements = list(NORTH)
+			else if(movements.len < 10) movements += NORTH
+
 	South()
 		if(moveStart == null)
-			.=..()
+			mob:MoveLoop(SOUTH)
+		else
+			if(!movements) movements = list(SOUTH)
+			else if(movements.len < 10) movements += SOUTH
 	East()
 		if(moveStart == null)
-			.=..()
+			mob:MoveLoop(EAST)
+		else
+			if(!movements) movements = list(EAST)
+			else if(movements.len < 10) movements += EAST
 	West()
 		if(moveStart == null)
-			.=..()
+			mob:MoveLoop(WEST)
+		else
+			if(!movements) movements = list(WEST)
+			else if(movements.len < 10) movements += WEST
 	Northeast()
 		if(moveStart == null)
-			.=..()
+			mob:MoveLoop(NORTHEAST)
+		else
+			if(!movements) movements = list(NORTHEAST)
+			else if(movements.len < 10) movements += NORTHEAST
 	Southeast()
 		if(moveStart == null)
-			.=..()
+			mob:MoveLoop(SOUTHEAST)
+		else
+			if(!movements) movements = list(SOUTHEAST)
+			else if(movements.len < 10) movements += SOUTHEAST
 	Northwest()
 		if(moveStart == null)
-			.=..()
+			mob:MoveLoop(NORTHWEST)
+		else
+			if(!movements) movements = list(NORTHWEST)
+			else if(movements.len < 10) movements += NORTHWEST
 	Southwest()
 		if(moveStart == null)
-			.=..()
-
-	Move(loc,dir)
-
-		if(isplayer(mob))
-			var/mob/Player/p = mob
-
-			if(!p.onMoveEvents(dir)) return
-
-			if(move_queue || p.move_delay > 1)
-				if(!movements) movements = list()
-				if(movements.len < 10)
-					movements += dir
-				if(moving) return
-				moving = 1
-
-				var/index = 0
-				while(movements && index < movements.len)
-					index++
-					var/d = movements[index]
-					.=..(get_step(p, d), d)
-					sleep(p.move_delay + p.slow)
-				movements = null
-				moving = 0
-			else
-				moving = 1
-				.=..(loc, dir)
-				moving = 0
+			mob:MoveLoop(SOUTHWEST)
+		else
+			if(!movements) movements = list(SOUTHWEST)
+			else if(movements.len < 10) movements += SOUTHWEST
 
 mob/Player
 	var/tmp/image/reflection

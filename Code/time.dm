@@ -152,6 +152,3 @@ proc
 			scheduler.schedule(e, 10 * date)
 		return date
 
-mob/test/verb/Movement_Queue()
-	move_queue = !move_queue
-	src << infomsg("Movement queue toggled [move_queue ? "on" : "off"].")

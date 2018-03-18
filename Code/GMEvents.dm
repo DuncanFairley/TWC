@@ -352,7 +352,7 @@ obj/push
 					for(var/turf/t in getBlock(opposite))
 						for(var/mob/Player/p in t)
 							if(p.dir != d) continue
-							if(p.client.moving || !move_queue)
+							if(p.client.moving)
 								count++
 
 					if(count < push)
