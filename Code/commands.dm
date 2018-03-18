@@ -64,11 +64,6 @@ mob
 				winset += "butQuestTrackertoggle.is-checked=false;"
 			winset += "map.focus=true;"
 
-			if(p.loopedMove)
-				winset += "buttonControlSet.is-checked=true;"
-			else
-				winset += "buttonControlSet.is-checked=false;"
-
 			winset += "winSettings.buttonTextColor.background-color=\"[p.mapTextColor]\";"
 
 			winset += "winSettings.butHideHud.is-checked=false;"
