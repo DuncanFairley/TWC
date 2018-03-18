@@ -154,7 +154,7 @@ obj/teleport
 				if(isobj(A))
 					A = A.loc
 				M:Transfer(A)
-				M.lastproj = world.time + 10
+				M.lastproj = world.time
 				M.removePath()
 				if(M.classpathfinding)
 					M.Class_Path_to()
