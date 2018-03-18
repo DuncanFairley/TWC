@@ -974,6 +974,7 @@ mob/Player
 		isDJ(src)
 		checkMail()
 		LoginReward()
+		if(worldData.eventPrize) EventReward()
 
 		spawn()
 			var/mob/multikey
@@ -2301,18 +2302,40 @@ turf/proc/autojoin1(var_name, var_value = 1)
 	return n
 
 
-WorldData/var/list/loggedIn
+WorldData
+	var
+		list/loggedIn
+		list/eventTaken
+		eventPrize
 
 mob/Player
 	var/loginRewardDays = 1
 	proc/LoginReward()
 		set waitfor = 0
-		sleep(8)
 
 		if(worldData.loggedIn)
 			if((client.computer_id in worldData.loggedIn) || (client.address in worldData.loggedIn) || (client.ckey in worldData.loggedIn)) return
 
+		sleep(8)
+
+		while(locate(/hudobj/login_reward) in client.screen)
+			sleep(10)
+
 		new /hudobj/login_reward(null, client, null, show=1, Player=src)
+
+	proc/EventReward()
+		set waitfor = 0
+
+		if(worldData.eventTaken)
+			if((client.computer_id in worldData.eventTaken) || (client.address in worldData.eventTaken) || (client.ckey in worldData.eventTaken)) return
+
+		sleep(8)
+
+		while(locate(/hudobj/login_reward) in client.screen)
+			sleep(10)
+
+		new /hudobj/login_reward(null, client, null, show=1, Player=src, Prize=worldData.eventPrize)
+
 
 hudobj/login_reward
 
@@ -2327,21 +2350,26 @@ hudobj/login_reward
 	var/tmp
 		canClick = FALSE
 		mob/Player/player
+		prize
 
 	MouseEntered()
 		if(alpha == 255) transform = matrix()*9
 	MouseExited()
 		if(alpha == 255) transform = matrix()*8
 
-	New(loc=null,client/Client,list/Params,show=1,Player=null)
+	New(loc=null,client/Client,list/Params,show=1,Player=null,Prize=null)
 		..(loc,Client,Params,show)
 		player = Player
 
 		var/obj/o = new /obj/custom { appearance_flags = RESET_TRANSFORM; maptext_y = -120; maptext_x = -112; maptext_width = 256; maptext_height = 48; plane = 2 }
 
-		var/daysRemaining = 50 - ((player.loginRewardDays + 1) % 50)
 
-		o.maptext = "<b style=\"text-align:center;color:[player.mapTextColor];\">Days played: [player.loginRewardDays+1]<br>Click the chest to get your reward!<br>Special reward in [daysRemaining] day[daysRemaining > 1 ? "s" : ""].</b>"
+		if(Prize)
+			o.maptext = "<b style=\"text-align:center;color:[player.mapTextColor];\">Thank you for playing.</b>"
+			prize = Prize
+		else
+			var/daysRemaining = 50 - ((player.loginRewardDays + 1) % 50)
+			o.maptext = "<b style=\"text-align:center;color:[player.mapTextColor];\">Days played: [player.loginRewardDays+1]<br>Click the chest to get your reward!<br>Special reward in [daysRemaining] day[daysRemaining > 1 ? "s" : ""].</b>"
 
 		overlays += o
 
@@ -2378,61 +2406,79 @@ hudobj/login_reward
 				 speed  = 1,
 				 life   = new /Random(40,80))
 
-			player.loginRewardDays++
+			if(prize)
+				if(!worldData.eventTaken)
+					worldData.eventTaken = list()
 
-			if(!worldData.loggedIn)
-				worldData.loggedIn = list()
+				if(client.connection == "web")
+					worldData.eventTaken[client.address] = client.ckey
+				else
+					worldData.eventTaken[client.computer_id] = client.ckey
 
-			if(client.connection == "web")
-				worldData.loggedIn[client.address] = client.ckey
+				worldData.eventTaken[client.ckey] = 1
+
+				if(islist(prize))
+					for(var/p in prize)
+						rewardItem(p)
+				else
+					rewardItem(prize)
+
 			else
-				worldData.loggedIn[client.computer_id] = client.ckey
+				player.loginRewardDays++
 
-			worldData.loggedIn[client.ckey] = 1
+				if(!worldData.loggedIn)
+					worldData.loggedIn = list()
 
-			if(player.loginRewardDays % 50 == 0)
-				var/gold/g = new (bronze=rand(5000, 100000))
-				player << infomsg("[g.toString()] magically appeared in your pocket.")
-				g.give(player)
+				if(client.connection == "web")
+					worldData.loggedIn[client.address] = client.ckey
+				else
+					worldData.loggedIn[client.computer_id] = client.ckey
 
-				rewardItem(/obj/items/lamps/penta_drop_rate_lamp)
-				rewardItem(/obj/items/lamps/penta_gold_lamp)
-				rewardItem(/obj/items/lamps/penta_exp_lamp)
-				rewardItem(/obj/items/chest/legendary_golden_chest)
-			else
-				if(prob(15))
-					var/gold/g = new (bronze=rand(50, 50000))
+				worldData.loggedIn[client.ckey] = 1
+
+				if(player.loginRewardDays % 50 == 0)
+					var/gold/g = new (bronze=rand(5000, 100000))
 					player << infomsg("[g.toString()] magically appeared in your pocket.")
 					g.give(player)
-				else
-					var/prize = pickweight(list(/obj/items/bucket                        = 10,
-					                            /obj/items/key/basic_key                 = 10,
-					                            /obj/items/key/wizard_key                = 9,
-					                            /obj/items/key/winter_key                = 9,
-					                            /obj/items/key/pentakill_key             = 9,
-					                            /obj/items/key/sunset_key                = 8,
-					                            /obj/items/key/community_key             = 8,
-					                            /obj/items/chest/basic_chest             = 10,
-					                            /obj/items/chest/wizard_chest            = 10,
-					                            /obj/items/chest/winter_chest            = 10,
-					                            /obj/items/chest/pentakill_chest         = 10,
-					                            /obj/items/chest/sunset_chest            = 9,
-					                            /obj/items/chest/community1_chest        = 9,
-					                            /obj/items/artifact                      = 9,
-					                            /obj/items/crystal/soul                  = 5,
-					                            /obj/items/wearable/orb/peace            = 5,
-					                            /obj/items/wearable/orb/chaos            = 5,
-					                            /obj/items/lamps/double_drop_rate_lamp   = 10,
-					                            /obj/items/lamps/double_gold_lamp        = 10,
-					                            /obj/items/lamps/double_exp_lamp         = 10,
-					                            /obj/items/lamps/triple_drop_rate_lamp   = 7,
-					                            /obj/items/lamps/triple_gold_lamp        = 8,
-					                            /obj/items/lamps/triple_exp_lamp         = 8,
-					                            /obj/items/lamps/quadaple_drop_rate_lamp = 5,
-					                            /obj/items/lamps/quadaple_gold_lamp      = 6,
-					                            /obj/items/lamps/quadaple_exp_lamp       = 6))
 
-					rewardItem(prize)
+					rewardItem(/obj/items/lamps/penta_drop_rate_lamp)
+					rewardItem(/obj/items/lamps/penta_gold_lamp)
+					rewardItem(/obj/items/lamps/penta_exp_lamp)
+					rewardItem(/obj/items/chest/legendary_golden_chest)
+				else
+					if(prob(15))
+						var/gold/g = new (bronze=rand(50, 50000))
+						player << infomsg("[g.toString()] magically appeared in your pocket.")
+						g.give(player)
+					else
+						var/prize = pickweight(list(/obj/items/bucket                        = 10,
+						                            /obj/items/key/basic_key                 = 10,
+						                            /obj/items/key/wizard_key                = 9,
+						                            /obj/items/key/winter_key                = 9,
+						                            /obj/items/key/pentakill_key             = 9,
+						                            /obj/items/key/sunset_key                = 8,
+						                            /obj/items/key/community_key             = 8,
+						                            /obj/items/chest/basic_chest             = 10,
+						                            /obj/items/chest/wizard_chest            = 10,
+						                            /obj/items/chest/winter_chest            = 10,
+						                            /obj/items/chest/pentakill_chest         = 10,
+						                            /obj/items/chest/sunset_chest            = 9,
+						                            /obj/items/chest/community1_chest        = 9,
+						                            /obj/items/artifact                      = 9,
+						                            /obj/items/crystal/soul                  = 5,
+						                            /obj/items/wearable/orb/peace            = 5,
+						                            /obj/items/wearable/orb/chaos            = 5,
+						                            /obj/items/lamps/double_drop_rate_lamp   = 10,
+						                            /obj/items/lamps/double_gold_lamp        = 10,
+						                            /obj/items/lamps/double_exp_lamp         = 10,
+						                            /obj/items/lamps/triple_drop_rate_lamp   = 7,
+						                            /obj/items/lamps/triple_gold_lamp        = 8,
+						                            /obj/items/lamps/triple_exp_lamp         = 8,
+						                            /obj/items/lamps/quadaple_drop_rate_lamp = 5,
+						                            /obj/items/lamps/quadaple_gold_lamp      = 6,
+						                            /obj/items/lamps/quadaple_exp_lamp       = 6))
+
+						rewardItem(prize)
 
 	proc/rewardItem(item)
 		set waitfor = 0

@@ -49,14 +49,6 @@ quest
 			desc = "Go back to Divo."
 			reqs = list("Divo" = 1)
 
-	Pokeby
-		name = "Isn't it cute?"
-		desc = "Palmer decided to give you a cute reward."
-		reward = /questReward/Pokeby
-
-		Reward
-			desc = "Palmer offered you a pokeby pet."
-			reqs = list("Professor Palmer" = 1)
 
 	EnchantingTutorial
 		name   = "Secret of the Crypt"
@@ -953,11 +945,6 @@ questReward
 		exp   = 32000
 		gold  = 3200
 		items = /obj/items/key/master_key
-
-	Pokeby
-		gold  = 100
-		exp   = 200
-		items = /obj/items/packs/pokeby_pack
 
 	Cloak
 		exp   = 84000

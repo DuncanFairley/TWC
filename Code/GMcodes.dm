@@ -1396,6 +1396,35 @@ mob/GM
 			worldData.prizeItems += path
 			src << infomsg("[path] added to prize list.")
 
+		Set_Login_Prize(var/path in (typesof(/obj/items)-/obj/items+"None"))
+			set category="Staff"
+
+			worldData.eventTaken = null
+
+			if(path != "None")
+
+				if(alert(usr, "Add more?", "Login Prize", "Yes","No") == "Yes")
+
+					var/list/prizes = list(path)
+					var/p = input(usr, "Which item?", "Login Prize", null) as null|anything in (typesof(/obj/items)-/obj/items)
+
+					while(p != null)
+						prizes += p
+						p = input(usr, "Which item?", "Login Prize", null) as null|anything in (typesof(/obj/items)-/obj/items)
+
+					if(prizes.len == 1)
+						worldData.eventPrize = path
+					else
+						worldData.eventPrize = prizes
+
+
+				else
+					worldData.eventPrize = path
+
+			if(worldData.eventPrize)
+				for(var/mob/Player/p in Players)
+					p.EventReward()
+
 		Remove_Prize(var/path in worldData.prizeItems)
 			set category="Staff"
 			worldData.prizeItems -= path
