@@ -1917,7 +1917,7 @@ mob/proc/Death_Check(mob/killer = src)
 					g.give(killer)
 				if(exp2give > 0)
 					if(killer:party)
-						killer:party.addExp(exp2give, killer)
+						killer:party.addExp(exp2give, killer, exp_rate ? exp_rate.rate : 1)
 					else
 						killer:addExp(exp2give, !killer.MonsterMessages)
 

@@ -161,12 +161,16 @@ party
 				members = null
 				healths = null
 
-		addExp(var/amount, var/mob/Player/p)
+		addExp(var/amount, var/mob/Player/p, rate)
+
+			amount /= rate
 			amount = round(amount / members.len, 1)
 
-			var/area/a = p.loc.loc
+			p.addExp(round(amount * rate, 1), !m.MonsterMessages)
 
+			var/area/a = p.loc.loc
 			for(var/mob/Player/m in members)
+				if(m == p) continue
 				var/area/checkArea = m.loc.loc
 				if(checkArea.region == a.region)
 					m.addExp(amount, !m.MonsterMessages)
