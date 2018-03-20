@@ -143,170 +143,73 @@ mob/TalkNPC/quest/Tom
 
 mob/TalkNPC/Ollivander
 	icon_state="ollivander"
-	var/swiftmode=0
-	var/busy=0
-	var/gdir
-	var/const/nametext = "<b><span style=\";\">Ollivander</b>:</span><font color = white>"
-	var/list/phrases = list("Hmm...","Uhmm...","Let's see here...","Possibly..? No. No that won't do.","Probably not.","I don't think so.", "Too flexible, I would think.","Oh yes; this will do very nicely.","Ahah! One of my finest!", "Oh yes. Nice and springy.","This one should suit perfectly.","Oh. Okay then.","I thought this one would be perfect, but you're the customer!","Pity... You could be great with this wand.","Fair enough.")
 
 	Talk()
 		set src in oview(3)
-		var/mob/TalkNPC/Ollivander/Olli = src
+
 		var/mob/Player/p = usr
 		var/gold/g = new(p)
-		if(swiftmode)
-			switch(alert("Ollivander: Welcome to Ollivander's Wand Shop - may I sell you a wand? They're 100 gold","You have [g.toString()]","Yes","No"))
-				if("Yes")
-					start
-					var/length = rand(8,13)
-					var/core = pick("Phoenix Feather", "Dragon Heartstring", "Veela Hair", "Unicorn Hair")
-					var/wood = pick("Birch", "Oak", "Ash", "Willow", "Mahogany", "Elder")
-					var/wandname = "[length] inch [wood] wand ([core])"
-					switch(alert("This [wandname] costs a silver coin. Would you like to purchase it?","You have [g.toString()]","Yes","No"))
-						if("Yes")
-							g = new (usr)
-							if(g.have(100))
-								view(7,Olli) << "[nametext] Here's your new [wandname], [usr]!"
-								g.change(usr, silver=-1)
-								worldData.ministrybank += worldData.taxrate*100/100
-								var/obj/newwand
-								switch(wood)
-									if("Birch")
-										newwand = new/obj/items/wearable/wands/birch_wand(usr)
-									if("Oak")
-										newwand = new/obj/items/wearable/wands/oak_wand(usr)
-									if("Ash")
-										newwand = new/obj/items/wearable/wands/ash_wand(usr)
-									if("Willow")
-										newwand = new/obj/items/wearable/wands/willow_wand(usr)
-									if("Mahogany")
-										newwand = new/obj/items/wearable/wands/mahogany_wand(usr)
-									if("Elder")
-										newwand = new/obj/items/wearable/wands/elder_wand(usr)
-								newwand.name = wandname
-								p.Resort_Stacking_Inv()
-								if(p.checkQuestProgress("Ollivander"))
-									p << npcsay("Ollivander: Oh you're just starting out eh? My friend Palmer can help you out, his name is Palmer, he is quite friendly.")
-									p.startQuest("Tutorial: Friendly Professor")
-							else
-								usr << "You do not have enough gold at this time. Maybe you should check your bank account at Gringotts?"
-						if("No")
-							switch(alert("Would you like me to find you another wand?","You have [g.toString()]","Yes","No"))
-								if("Yes")
-									var/rnd = rand(12,15)
-									usr << "[nametext] [Olli.phrases[rnd]]"
-									goto start
-								else
-									usr << "[nametext] Have a nice day then!"
-		else
-			src = null
-			spawn()
-				if(Olli.busy)
-					view(7,Olli) << "[nametext] I'm a little busy at the moment, [usr]. I'll be able to help you in a moment."
-					return
-				Olli.busy = 1
 
-				if(locate(/obj/items/wearable/wands) in usr.contents)
-					Olli.busy = 0
-					view(7,Olli) << "[nametext] Ah, I remember you, [usr]. I believe I've already sold you a wand."
-					if(p.checkQuestProgress("Ollivander"))
-						p << npcsay("Ollivander: Oh you're just starting out eh? My friend Palmer can help you out, his name is Palmer, he is quite friendly.")
-						p.startQuest("Tutorial: Friendly Professor")
-				else
-					var/answered = 0
-					spawn(200)
-						if(!answered)
-							Olli.busy = 0
-							return
-					switch(alert("Ollivander: Welcome to Ollivander's Wand Shop - may I sell you a wand? They're a silver coin each","You have [g.toString()]","Yes","No"))
-						if("Yes")
-							view(5,Olli) << "[nametext] Let me just take a look for you."
-							start
-							step(Olli, NORTH)
-							sleep(4)
-							Olli.gdir = WEST
-							if(rand(0,1) == 1) Olli.gdir = EAST
-							step(Olli, Olli.gdir)
-							sleep(4)
-							step(Olli, Olli.gdir)
-							sleep(4)
-							if(rand(0,1))
-								step(Olli, Olli.gdir)
-								sleep(4)
-							if(rand(0,1))
-								step(Olli, Olli.gdir)
-								sleep(4)
-							Olli.dir = NORTH
-							sleep(4)
-							var/rnd = rand(1,3)
-							view(7,Olli) << "[nametext] [Olli.phrases[rnd]]"
-							sleep(40)
-							rnd = rand(4,7)
-							view(7,Olli) << "[nametext] [Olli.phrases[rnd]]"
-							sleep(4)
-							step(Olli, Olli.gdir)
-							sleep(4)
-							if(rand(0,1))
-								step(Olli, Olli.gdir)
-								sleep(4)
-							step(Olli,Olli.gdir)
-							sleep(4)
-							Olli.dir = NORTH
-							sleep(35)
-							rnd = rand(8,11)
-							view(7,Olli) << "[nametext] [Olli.phrases[rnd]]"
-							while(Olli.loc != initial(Olli.loc))
-								sleep(3)
-								step_to(Olli,initial(Olli.loc))
-							Olli.dir = SOUTH
-							var/length = rand(8,13)
-							var/core = pick("Phoenix Feather", "Dragon Heartstring", "Veela Hair", "Unicorn Hair")
-							var/wood = pick("Birch", "Oak", "Ash", "Willow", "Mahogany", "Elder")
-							var/wandname = "[length] inch [wood] wand ([core])"
-							if(!usr)
-								view(7,Olli) << "How rude... I just got this wand ready, and they leave!"
-								sleep(2)
-								Olli.busy = 0
-								return
-							switch(alert("This [wandname] costs a silver coin. Would you like to purchase it?","You have [g.toString()]","Yes","No"))
-								if("Yes")
-									g = new(usr)
-									if(g.have(100))
-										view(7,Olli) << "[nametext] Here's your new [wandname], [usr]!"
-										g.change(usr, silver=-1)
-										worldData.ministrybank += worldData.taxrate*100/100
-										var/obj/newwand
-										switch(wood)
-											if("Birch")
-												newwand = new/obj/items/wearable/wands/birch_wand(usr)
-											if("Oak")
-												newwand = new/obj/items/wearable/wands/oak_wand(usr)
-											if("Ash")
-												newwand = new/obj/items/wearable/wands/ash_wand(usr)
-											if("Willow")
-												newwand = new/obj/items/wearable/wands/willow_wand(usr)
-											if("Mahogany")
-												newwand = new/obj/items/wearable/wands/mahogany_wand(usr)
-											if("Elder")
-												newwand = new/obj/items/wearable/wands/elder_wand(usr)
-										newwand.name = wandname
-										p.Resort_Stacking_Inv()
-										if(p.checkQuestProgress("Ollivander"))
-											p << npcsay("Ollivander: Oh you're just starting out eh? My friend Palmer can help you out, his name is Palmer, he is quite friendly.")
-											p.startQuest("Tutorial: Friendly Professor")
-									else
-										usr << "You do not have enough gold at this time. Maybe you should check your bank account at Gringotts?"
-								if("No")
-									switch(alert("Would you like me to find you another wand?","You have [g.toString()]","Yes","No"))
-										if("Yes")
-											rnd = rand(12,15)
-											view(7,Olli) << "[nametext] [Olli.phrases[rnd]]"
-											goto start
-										else
-											view(7,Olli) << "[nametext] Have a nice day then!"
+		var/ScreenText/s = new(p, src)
 
+		if(locate(/obj/items/wearable/wands) in p.contents)
+			s.AddText("Ah, I remember you, [p.name]. I believe I've already sold you a wand.")
+			if(p.checkQuestProgress("Ollivander"))
+				s.AddText("Oh you're just starting out eh? My friend Palmer can help you out, his name is Palmer, he is quite friendly.")
+				p.startQuest("Tutorial: Friendly Professor")
+			return
 
-					Olli.busy = 0
+		s.AddText("Welcome to Ollivander's Wand Shop - may I sell you a wand? A wand costs 1 silver.")
+
+		if(g.have(100))
+			s.SetButtons("Yes", "#00ff00", "No", "#ff0000", null)
+
+		if(!s.Wait()) return
+
+		if(s.Result == "Yes")
+			var/core = pick("Phoenix Feather", "Dragon Heartstring", "Veela Hair", "Unicorn Hair")
+			var/wood = pick("Birch", "Oak", "Ash", "Willow", "Mahogany", "Elder")
+			var/wandname = "[rand(8,13)] inch [wood] wand ([core])"
+
+			s.AddText("This [wandname] costs a silver coin. Would you like to purchase it?")
+
+			s.SetButtons("Yes", "#00ff00", "Another", "#2299d0", "No", "#ff0000")
+
+			if(!s.Wait()) return
+
+			while(s.Result == "Another")
+				core = pick("Phoenix Feather", "Dragon Heartstring", "Veela Hair", "Unicorn Hair")
+				wood = pick("Birch", "Oak", "Ash", "Willow", "Mahogany", "Elder")
+				wandname = "[rand(8,13)] inch [wood] wand ([core])"
+
+				s.AddText("This [wandname] costs a silver coin. Would you like to purchase it?")
+
+				if(!s.Wait()) return
+
+			if(s.Result == "Yes")
+				s.AddText("Enjoy your new wand, [p.name].")
+				g.change(p, silver=-1)
+
+				var/obj/newwand
+				switch(wood)
+					if("Birch")
+						newwand = new/obj/items/wearable/wands/birch_wand(usr)
+					if("Oak")
+						newwand = new/obj/items/wearable/wands/oak_wand(usr)
+					if("Ash")
+						newwand = new/obj/items/wearable/wands/ash_wand(usr)
+					if("Willow")
+						newwand = new/obj/items/wearable/wands/willow_wand(usr)
+					if("Mahogany")
+						newwand = new/obj/items/wearable/wands/mahogany_wand(usr)
+					if("Elder")
+						newwand = new/obj/items/wearable/wands/elder_wand(usr)
+				newwand.name = wandname
+				p.Resort_Stacking_Inv()
+				if(p.checkQuestProgress("Ollivander"))
+					s.AddText("Oh you're just starting out eh? My friend Palmer can help you out, his name is Palmer, he is quite friendly.")
+					p.startQuest("Tutorial: Friendly Professor")
+
 
 obj/Madame_Pomfrey
 	density = 1
