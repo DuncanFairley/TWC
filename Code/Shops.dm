@@ -486,38 +486,8 @@ var/list/shops = list("malewigshop" = newlist(
 						/obj/items/wearable/wigs/female_pink_wig,
 						/obj/items/wearable/wigs/female_purple_wig,
 						/obj/items/wearable/wigs/female_silver_wig),
-
-					  "peace" = newlist(
-					  	/obj/items/wearable/masks/white_mask,
-					  	/obj/items/wearable/masks/pink_mask,
-					  	/obj/items/wearable/masks/orange_mask,
-					  	/obj/items/spellbook/peace,
-					  	/obj/items/spellbook/lumos),
-
-					  "chaos" = newlist(
-					  	/obj/items/wearable/masks/black_mask,
-					  	/obj/items/wearable/masks/teal_mask,
-					  	/obj/items/wearable/masks/purple_mask,
-					  	/obj/items/spellbook/blood,
-					  	/obj/items/spellbook/aggravate),
-
 					  "random" = list()
 					)
-
-obj/items/spellbook/peace/price = 666
-obj/items/spellbook/blood/price = -666
-
-obj/items/spellbook/lumos/price = 999
-obj/items/spellbook/aggravate/price = -999
-
-obj/items/wearable/masks/black_mask/price  = -444
-obj/items/wearable/masks/teal_mask/price   = -444
-obj/items/wearable/masks/purple_mask/price = -444
-
-obj/items/wearable/masks/white_mask/price  = 444
-obj/items/wearable/masks/pink_mask/price   = 444
-obj/items/wearable/masks/orange_mask/price = 444
-
 
 mob/TalkNPC/Vault_Salesman
 	icon_state="goblin1"
@@ -674,6 +644,7 @@ obj/shopStand
 		goldPrice = 0
 		item
 		stock
+		reqRep
 
 	Click()
 		if(src in oview(3))
@@ -684,6 +655,11 @@ obj/shopStand
 				return
 
 			var/ScreenText/s = new(p, src)
+
+			if(reqRep && ((reqRep < 0 && p.getRep() > reqRep) || (reqRep > 0 && p.getRep() < reqRep)))
+				s.AddText("You aren't famous enough to buy this.")
+				return
+
 			var/gold/gPrice = new(bronze=goldPrice)
 			var/gold/g = new(p)
 			var/obj/items/artifact/a = locate() in p
