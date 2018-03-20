@@ -166,7 +166,7 @@ party
 			amount /= rate
 			amount = round(amount / members.len, 1)
 
-			p.addExp(round(amount * rate, 1), !m.MonsterMessages)
+			p.addExp(round(amount * rate, 1), !p.MonsterMessages)
 
 			var/area/a = p.loc.loc
 			for(var/mob/Player/m in members)
