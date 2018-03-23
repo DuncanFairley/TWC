@@ -9,8 +9,12 @@ mob/Player
 		moveDir  = 0
 
 	proc
-		MoveLoop(var/firstStep)
+		MoveLoop(var/firstStep, var/wait=0)
 			set waitfor = 0
+
+			if(wait)
+				sleep(1)
+
 			if(client.moveStart == null)
 
 				var/time = world.time
@@ -34,7 +38,7 @@ mob/Player
 						if(onMoveEvents(d))
 							glide_size = 32 / (move_delay + slow)
 							step(src, d)
-					else if(world.time - lastproj >= 2)
+					else
 						if(onMoveEvents(moveDir))
 							diag = moveDir & moveDir-1
 							glide_size = 32 / (move_delay + slow)
@@ -69,7 +73,7 @@ mob/Player
 					moveDir |= odir
 
 			if(moveKeys && !okeys)
-				spawn(1) MoveLoop(moveDir)
+				MoveLoop(moveDir, 1)
 mob
 	var/tmp
 		obj/wingobject
