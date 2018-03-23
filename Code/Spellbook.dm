@@ -63,13 +63,12 @@ mob/Player
 
 				src << output(o, "SpellBook.gridSpellbook:[count]")
 
-
+			var/list/objs = list()
 
 			for(var/v in verbs)
 				var/mob/Spells/verb/generic = v
 				if(generic.name in spells)               continue
 				if(!findtext("[v]", "/mob/Spells/verb")) continue
-				count++
 
 				var/obj/spells/o = worldData.spellObjects[generic.name]
 				if(!o)
@@ -77,6 +76,12 @@ mob/Player
 					worldData.spellObjects[generic.name] = o
 				spells[generic.name] = o
 
+				objs += o
+
+			bubblesort_by_value(objs, "name")
+
+			for(var/o in objs)
+				count++
 				src << output(o, "SpellBook.gridSpellbook:[count]")
 
 obj/spells
