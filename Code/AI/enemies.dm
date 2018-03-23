@@ -390,9 +390,15 @@ mob
 				else
 					damage[p.owner.ckey] = perc
 
-			if(HP > 0 && hpbar)
-				var/percent = HP / MHP
-				hpbar.Set(percent, src)
+			if(HP > 0)
+
+				if((state == WANDER || state == SEARCH) && p.owner)
+					target = p.owner
+					ChangeState(HOSTILE)
+
+				if(hpbar)
+					var/percent = HP / MHP
+					hpbar.Set(percent, src)
 
 		Move(NewLoc)
 			if(hpbar)
