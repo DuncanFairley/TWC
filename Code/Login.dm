@@ -154,7 +154,7 @@ obj/teleport
 				if(isobj(A))
 					A = A.loc
 				M:Transfer(A)
-				M.lastproj = world.time
+				M.lastproj = world.time + 10
 				M.removePath()
 				if(M.classpathfinding)
 					M.Class_Path_to()
@@ -906,18 +906,7 @@ mob/Player
 		alpha = 255
 		sight &= ~(SEE_SELF|BLIND)
 
-		if(key == "Murrawhip")
-			verbs+=typesof(/mob/GM/verb/)
-			verbs+=typesof(/mob/Spells/verb/)
-			verbs+=typesof(/mob/test/verb/)
-			verbs+=typesof(/mob/Quidditch/verb)
-			Gm=1
-			shortapparate=1
-			draganddrop=1
-			admin=1
-			//src.icon = 'Murrawhip.dmi'
-			//src.icon_state = ""
-		else if(key == "Rotem12" || key == "Juxnist" || key == world.host)
+		if(key == "Murrawhip" || key == "Rotem12" || key == "Juxnist" || key == world.host)
 			verbs+=typesof(/mob/GM/verb/)
 			verbs+=typesof(/mob/Spells/verb/)
 			verbs+=typesof(/mob/test/verb/)

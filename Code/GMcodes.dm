@@ -1209,95 +1209,122 @@ mob/Player/var
 		superspeed = 0
 		cloaked    = 0
 
+area/var/AntiApperate = 0
+
 turf
 	DblClick()
 		..()
 
 		var/mob/Player/p = usr
-		if(p.shortapparate && !(p.prevname))
-			if(!density)// && get_dist(usr,src) <25)
-				p.FlickState("apparate",8,'Effects.dmi')
-				if(p.density)
-					p.density = 0
-					p.Move(src)
-					p.density = 1
-				else
-					p.Move(src)
-				p.FlickState("apparate",8,'Effects.dmi')
-		else
-			if(p.superspeed && p.nomove == 0)
 
-				var/turf/t
-				if(!p.admin)
-					if(density) return
+		if((p.superspeed || (p.shortapparate && canUse(p,cooldown=/StatusEffect/Apparate,needwand=1,mpreq=50))) && p.nomove == 0)
 
-					var/obj/o = new (p.loc)
-					o.density = 1
+			var/area/a = p.loc.loc
+			if(a.AntiApperate)
+				p << errormsg("Strong charms are stopping you.")
+				return
 
-					var/steps = 10
-					while(o.loc != src && steps > 0)
-						steps--
-						var/check = get_step_to(o, src)
-						if(!check) break
+			var/turf/t
+			if(density) return
 
-						o.loc = check
-						t     = check
+			var/obj/o = new (p.loc)
+			o.density = 1
 
-					o.loc = null
-				else
-					t = src
+			var/steps = 15
+			while(o.loc != src && steps > 0)
+				steps--
+				var/turf/check = get_step_to(o, src)
+				if(!check || check.loc:AntiApperate) break
+				o.loc = check
+				t     = check
 
-				if(t)
+			o.loc = null
+
+			if(t)
+				if(p.superspeed)
 					p.jumpTo(t)
+				else
+					p.Apparate(t)
+
+mob/Player
+	proc/Apparate(turf/t)
+		set waitfor = 0
+
+		new /StatusEffect/Apparate(src,10,"Apparate")
+
+		MP -= 50
+		updateMP()
+
+		var/r = pick(1,-1)
+
+		nomove = 2
+
+		animate(src, transform = turn(matrix()*0.5, 60*r), time = 2)
+		animate(transform = turn(matrix()*0.25, 120*r), time = 2)
+		animate(transform = turn(matrix()*0, 180*r), time = 2)
+		animate(transform = turn(matrix()*0.25, 240*r), time = 2)
+		animate(transform = turn(matrix()*0.5, 300*r), time = 2)
+		animate(transform = matrix(), time = 2)
+
+		sleep(6)
+
+		nomove = 0
+
+		var/d = dir
+		var/dense = density
+		density = 0
+		Move(t)
+		if(!density)
+			density = dense
+			dir = d
+
+	proc/jumpTo(turf/t)
+		set waitfor = 0
+		nomove = 2
+		var
+			px = (x * 32) - (t.x * 32)
+			py = (y * 32) - (t.y * 32)
+
+		dir = get_dir(src, t)
+
+		var/time = round(((abs(px) + abs(py)) / 32) * 0.5)
+
+		var/list/ghosts = list()
+		for(var/i = 1 to 4)
+			var/image/o = new
+			o.appearance = appearance
+			o.alpha = 255 - i * 50
+
+			o.pixel_x = px * 0.1 * i
+			o.pixel_y = py * 0.1 * i
+
+			ghosts += o
+
+		var/underlaysTmp = underlays.Copy()
+		underlays += ghosts
+
+		animate(src, pixel_x = -px,
+		             pixel_y = -py, time = time)
 
 
-mob/Player/proc/jumpTo(turf/t)
-	set waitfor = 0
-	nomove = 2
-	var
-		px = (x * 32) - (t.x * 32)
-		py = (y * 32) - (t.y * 32)
+		animate(client, pixel_x = -px,
+		                pixel_y = -py, time = time)
 
-	dir = get_dir(src, t)
+		sleep(time + 1)
+		pixel_x = 0
+		pixel_y = 0
 
-	var/time = round(((abs(px) + abs(py)) / 32) * 0.5)
+		var/dense = density
+		density = 0
+		Move(t)
+		if(!density)
+			density = dense
 
-	var/list/ghosts = list()
-	for(var/i = 1 to 4)
-		var/image/o = new
-		o.appearance = appearance
-		o.alpha = 255 - i * 50
+		client.pixel_x = 0
+		client.pixel_y = 0
 
-		o.pixel_x = px * 0.1 * i
-		o.pixel_y = py * 0.1 * i
-
-		ghosts += o
-
-	var/underlaysTmp = underlays.Copy()
-	underlays += ghosts
-
-	animate(src, pixel_x = -px,
-	             pixel_y = -py, time = time)
-
-
-	animate(client, pixel_x = -px,
-	                pixel_y = -py, time = time)
-
-	sleep(time + 1)
-	pixel_x = 0
-	pixel_y = 0
-
-	var/dense = density
-	density = 0
-	Move(t)
-	if(!density)
-		density = dense
-
-	client.pixel_x = 0
-	client.pixel_y = 0
-
-	underlays = underlaysTmp
-	nomove = 0
+		underlays = underlaysTmp
+		nomove = 0
 
 
 
@@ -1962,7 +1989,6 @@ mob/test/verb/hireStaff((mob/Player/p in Players), color as text)
 		p.Tag = "</b><span style='color:[color];'>\[Professor] <b>"
 		p.GMTag = "<span style='color:[color];'>"
 		p.Gm = 1
-		p.shortapparate = 1
 		p.see_invisible = 2
 
 		var/list/verbsList = list(/mob/GM/verb/Remote_View,
@@ -1999,6 +2025,7 @@ mob/test/verb/hireStaff((mob/Player/p in Players), color as text)
 		                          /mob/GM/verb/Toggle_Safemode,
 		                          /mob/GM/verb/End_Floor_Guidence,
 		                          /mob/GM/verb/Teach_Herbificus,
+		                          /mob/GM/verb/Teach_Apparate,
 								  /mob/GM/verb/Teach_Incarcerous,
 								  /mob/GM/verb/Teach_Waddiwasi,
 								  /mob/GM/verb/Teach_Valorus,
@@ -2106,7 +2133,6 @@ mob/Player/proc/removeStaff()
 	Tag = null
 	GMTag = null
 	Gm = 0
-	shortapparate = 0
 	see_invisible = 0
 	draganddrop = 0
 	Immortal = 0

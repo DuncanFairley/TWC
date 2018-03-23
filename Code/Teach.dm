@@ -23,6 +23,14 @@ mob/Player/proc/learnspell(path)
 
 mob/GM
 	verb
+		Teach_Apparate()
+			set category = "Teach"
+			set hidden = 1
+			for(var/mob/Player/M in oview(client.view))
+				if(M.learnspell(/mob/Spells/verb/Apparate))
+					M.screenAlert("You learned a new spell: Apparate!")
+					M.shortapparate = 1
+			src << infomsg("You've taught your class apparate.")
 		Teach_Lumos()
 			set category = "Teach"
 			set hidden = 1

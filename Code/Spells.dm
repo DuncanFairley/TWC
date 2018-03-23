@@ -1417,6 +1417,32 @@ mob/Spells/verb/Avada_Kedavra()
 
 		castproj(icon_state = "avada", name = "Avada Kedavra", damage = 10000, lag = 1)
 
+mob/Spells/verb/Apparate()
+	set category="Spells"
+	if(canUse(src,cooldown=/StatusEffect/Apparate,needwand=1,mpreq=50))
+
+		var/area/a = loc.loc
+		if(a.AntiApperate)
+			src << errormsg("Strong charms are stopping you.")
+			return
+
+		var/turf/t
+
+		var/obj/o = new (loc)
+		o.density = 1
+
+		var/steps = 15
+		while(o.loc != src && steps > 0)
+			steps--
+			if(!step(o, dir) || o.loc.loc:AntiApperate) break
+			t = o.loc
+
+		o.loc = null
+
+		if(t)
+			var/mob/Player/p = src
+			p.Apparate(t)
+
 mob/Spells/verb/Episky()
 	set name = "Episkey"
 	set category="Spells"

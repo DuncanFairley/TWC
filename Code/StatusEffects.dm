@@ -307,6 +307,7 @@ StatusEffect
 	Poisoned
 	SteppedOnPoop
 	Flying
+	Apparate
 	UsedEpiskey
 	UsedImmobulus
 	Summoned
@@ -902,8 +903,8 @@ hudobj
 			while(count in l)
 				count++
 
-			screen_x += (count % 4) * 36
-			screen_y += round(count / 4) * 36
+			screen_x += (count % 5) * 36
+			screen_y -= round(count / 5) * 36
 
 			..(loc,Client,Params,show)
 
