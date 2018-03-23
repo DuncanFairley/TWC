@@ -513,18 +513,11 @@ area
 			if(issafezone(src))
 				o.Dispose()
 				return
-			if(!istype(oldloc.loc, /area/newareas) && istype(src, /area/newareas))
-				o.Dispose()
-				return
 		return ..()
 
 	Exit(atom/movable/o, atom/newloc)
 		if(istype(o, /obj/projectile))
 			if(issafezone(newloc.loc))
-				o.Dispose()
-				return
-
-			if(!istype(src, /area/newareas) && istype(newloc.loc, /area/newareas))
 				o.Dispose()
 				return
 		return ..()
