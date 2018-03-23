@@ -26,6 +26,26 @@ mob/verb/updateHPMP()
 		src:party.updateHP(src, hppercent)
 
 mob/Player
+	proc/updateMP()
+		var/mppercent = clamp(MP / MMP, 0, 1)
+
+		src:Interface.mpbar.Set(mppercent)
+		src:Interface.mpbar.UpdateText(MP, MMP)
+
+		if(!src:mpRegen && MP < MMP)
+			src:MPRegen()
+
+	proc/updateHP()
+		var/hppercent = clamp(HP / MHP, 0, 1)
+		src:Interface.hpbar.Set(hppercent)
+		src:Interface.hpbar.UpdateText(HP, MHP)
+
+		src:hpBar.Set(hppercent, src)
+
+		if(src:party)
+			src:party.updateHP(src, hppercent)
+
+mob/Player
 	var/tmp/mpRegen = 0
 
 	proc/MPRegen()
