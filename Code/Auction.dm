@@ -306,7 +306,7 @@ body
 
 			auctionBuild()
 
-			winshow(src, "Auction", 1)
+			winshowCenter(src, "Auction")
 
 		auctionError(var/msg)
 

@@ -248,7 +248,7 @@ hudobj
 			else
 				p.spellBookOpen = 1
 				p.updateSpellbook()
-				winshow(p, "SpellBook", 1)
+				winshowCenter(p, "SpellBook")
 
 			p.toggle_actionbar(p.spellBookOpen)
 

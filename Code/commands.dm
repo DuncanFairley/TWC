@@ -75,7 +75,7 @@ mob
 			if(!p.openedSettings)
 				p.openedSettings = 1
 				resetSettings()
-			winshow(src, "winSettings", 1)
+			winshowCenter(src, "winSettings")
 		Soundtoggle()
 			set name = ".Soundtoggle"
 			if(winget(src,"butSoundtoggle","is-checked") == "true")

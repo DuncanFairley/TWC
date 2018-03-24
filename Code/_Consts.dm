@@ -14,6 +14,7 @@
 #define ismonster(x) istype(x, /mob/Enemies)
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
 #define clamp(n, low, high) min(max((n), low), high)
+#define winshowCenter(player, window) player << output(window,"browser1:ShowCenterWindow")
 
 #define VERSION "16.69"
 #define SAVEFILE_VERSION 30

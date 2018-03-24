@@ -307,7 +307,7 @@ mob/GM/verb/Administration_Tools()
 	if(/mob/GM/verb/KillLogs in verbs)
 		reset_panATLogsKill(usr)
 		winset(src,"tabATLogs","tabs=%2BpanATLogsKill")
-	winshow(src,"winAT",1)
+	winshowCenter(src,"winAT")
 mob/Player
 	proc
 		mute_countdown()

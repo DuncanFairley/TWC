@@ -5,6 +5,7 @@
 var map_width;
 var map_height;
 var winset = 0;
+var win_name;
 
 function CallVerb() {
     var locstr = "byond://winset?command=" + arguments[0];
@@ -113,14 +114,28 @@ function CenterWindowCallback(properties) {
 
 function ShowSplitStack() {
 	var s = encodeURIComponent(arguments[0]);
+	WinSet("","splitStack.splitPercent.value","100","splitStack.splitBar.value","100","splitButton.text",s);
+	ShowCenterWindow("splitStack")
+}
+
+function ShowCenterWindow() {
+	var w = encodeURIComponent(arguments[0]);
+	win_name = w;
+	window.location = "byond://winget?callback=ShowCenterWindowCallback&id=" + w + "&property=size";
+}
+
+function ShowCenterWindowCallback(properties) {
+    var win_width = properties.size.x;
+    var win_height = properties.size.y;
 	
 	var body = document.getElementsByTagName('body')[0];
     var map_width = body.clientWidth;
     var map_height = body.clientHeight;
 	
-	var X = window.screenLeft + map_width/2;
-	var Y = window.screenTop + map_height/2;
-	WinSet("","splitStack.pos",X + "," + Y,"splitStack.is-visible","true","splitStack.splitPercent.value","100","splitStack.splitBar.value","100","splitButton.text",s);
+	var x = window.screenLeft + Math.floor((map_width-win_width)/2);
+	var y = window.screenTop + Math.floor((map_height-win_width)/2);
+	
+    WinSet("",win_name + ".pos",x + "," + y,win_name + ".is-visible","true");
 }
 </SCRIPT>
 </HTML>

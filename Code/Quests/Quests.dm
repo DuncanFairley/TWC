@@ -673,7 +673,7 @@ mob/Player
 			var/header  = "You completed [percent]% of the available quests.\nAdventure Time: [getPlayTime()]."
 			winset(src, null, "Quests.gridQuests.cells=2x[i];Quests.labelText.text=\"[header]\"")
 
-			winshow(src, "Quests", 1)
+			winshowCenter(src, "Quests")
 
 		displayQuest(var/questName)
 

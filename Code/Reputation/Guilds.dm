@@ -135,8 +135,7 @@ guild
 		Show(mob/Player/p)
 
 			var/params = list()
-			params["guild.is-visible"] = "true"
-
+			winshowCenter(p,"guild")
 			var/rank = members[p.ckey]
 
 			params["guild.buttonMotd.is-visible"]   = rank > 1 ? "true" : "false"
