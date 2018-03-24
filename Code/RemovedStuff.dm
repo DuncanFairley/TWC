@@ -32,6 +32,18 @@ obj/items/herosbrace
 		spawn(1)
 			loc = null
 
+obj/items/MonBookMon
+	New()
+		..()
+		spawn(1)
+			loc = null
+
+obj/items/COMCText
+	New()
+		..()
+		spawn(1)
+			loc = null
+
 obj/roofedge/canSave = 0
 obj/Flippendo/canSave = 0
 
@@ -139,7 +151,6 @@ obj/COMCText
 	New()
 		..()
 		spawn(1)
-			new /obj/items/COMCText (loc)
 			loc = null
 
 obj/items/wearable/pimp_ring
