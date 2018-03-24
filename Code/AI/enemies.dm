@@ -44,6 +44,102 @@ obj
 
 				maptext = "<b><span style=\"font-size:4; color:#FF4500;\">[worldData.eyesKilled]</span></b>"
 
+obj
+	guildPillar
+		maptext_height = 64
+		maptext_y      = 32
+		layer          = 11
+		post_init      = 1
+		density        = 1
+
+		name = "Guild Conquest Pillar"
+
+		icon       = 'clanpillar.dmi'
+		icon_state = "Slyth"
+
+		var
+			HP = 100
+			tmp/obj/healthbar/hpbar
+
+		Attacked(obj/projectile/p)
+			if(HP > 0 && p.owner && isplayer(p.owner))
+
+				var/mob/Player/player = p.owner
+				if(!player.guild) return
+
+				flick("[icon_state]-V", src)
+
+				HP--
+
+				if(HP <= 0)
+					var/AreaData/data = worldData.areaData[tag]
+					data.guild = player.guild
+
+					updateDisplay()
+					respawn()
+				else
+					var/percent = HP / initial(HP)
+					hpbar.Set(percent, src)
+
+
+		MapInit()
+			var/area/a = loc.loc
+
+			tag = "area_[a.name]"
+
+			icon_state = pick("Slyth","Huffle","Raven","Gryff")
+
+			if(!worldData.areaData) worldData.areaData = list()
+
+			var/AreaData/data = worldData.areaData[tag]
+			if(!data)
+				data = new
+				worldData.areaData[tag] = data
+
+			hpbar = new(src)
+
+			updateDisplay()
+
+		proc
+			respawn()
+				set waitfor = 0
+
+				hpbar.loc = null
+				hpbar = null
+
+				var/obj/clock/timer = new(get_step(src, SOUTH))
+
+				timer.setTime(6,0)
+
+				var/isHours = 1
+				while(!timer.countdown())
+
+					if(isHours)
+						if(timer.minutes == 0)
+							isHours = 0
+							timer.setTime(60,0)
+							continue
+
+						sleep(600)
+					else
+						sleep(10)
+
+				timer.loc = null
+
+				HP = initial(HP)
+				hpbar = new(src)
+
+
+			updateDisplay()
+				var/AreaData/data = worldData.areaData[tag]
+				if(data.guild)
+					var/guild/g = worldData.guilds[data.guild]
+					maptext = "<b style=\"font-size:3;color:#FF4500;\">[g.name]</b>"
+
+					var/pixelsize = length(g.name) * 11
+					maptext_width = pixelsize
+					maptext_x     = -ceil(pixelsize/3)
+
 
 AreaData
 	var
@@ -485,7 +581,7 @@ mob
 			if(killer.House == worldData.housecupwinner)
 				rate += 0.25
 
-			rate += killer.getGuildAreas() * 0.05
+			if(killer.guild) rate += killer.getGuildAreas() * 0.05
 
 			var/knowledge = monsterkills[name] + 1
 			if(knowledge)
