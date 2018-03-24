@@ -24,14 +24,14 @@ obj/hud/TextMessage
 		o.plane = 2
 
 		if(p.mapTextColor != "#ffffff")
-			o.maptext = {"<span style="font-size:12px;color:[p.mapTextColor]">[message]</span>"}
+			o.maptext = {"<b style="font-size:12px;color:[p.mapTextColor]">[message]</b>"}
 
 			var/rr = 255 - hex2value(copytext(p.mapTextColor, 2, 4))
 			var/gg = 255 - hex2value(copytext(p.mapTextColor, 4, 6))
 			var/bb = 255 - hex2value(copytext(p.mapTextColor, 6, 8))
 			color = rgb(rr, gg, bb)
 		else
-			o.maptext = {"<span style="font-size:12px">[message]</span>"}
+			o.maptext = {"<b style="font-size:12px">[message]</b>"}
 
 		var/pixelsize = lentext(message) * 9
 
