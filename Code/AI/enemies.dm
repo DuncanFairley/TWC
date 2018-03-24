@@ -685,7 +685,7 @@ mob
 			for(var/mob/Player/p in range(1, src))
 				if(p.loc.loc != loc.loc) continue
 
-				var/dmg = Dmg+extraDmg+rand(0,4)
+				var/dmg = Dmg+rand(0,4)
 				if(dmg<1)
 					//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 				else
@@ -743,7 +743,7 @@ mob
 				else
 					Blocked()
 			else
-				var/dmg = Dmg + extraDmg + rand(0, 12)
+				var/dmg = Dmg + rand(0, 12)
 
 				if(target.findStatusEffect(/StatusEffect/Lamps/Farming))
 					dmg = dmg * (1 + abs(level - target.level)/200) + 100
@@ -1513,8 +1513,9 @@ mob
 					AttackDelay = 2
 					Range = 15
 					level = 1000
-					var/tmp/fired = 0
-					extraDmg = 400
+					var/tmp
+						fired = 0
+						extraDmg = 400
 					element = WATER
 
 					Attack(mob/M)
@@ -1526,7 +1527,7 @@ mob
 
 								var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 								var/tmp_d = dir
-								var/dmg = round((Dmg+extraDmg) * 1.5 + rand(-4,8))
+								var/dmg = round(Dmg * 1.5 + rand(-4,8))
 								for(var/d in dirs)
 									dir = d
 									castproj(icon_state = "snowball", damage = dmg, name = "snowball", cd = 0, lag = 1)
@@ -1539,7 +1540,7 @@ mob
 							var/matrix/M = matrix() * min(percent, 10)
 							transform = M
 
-							extraDmg = percent * 400
+							Dmg = DMGmodifier * (level + 5) + (percent * 400)
 
 							percent = (1 / percent) * 100
 
@@ -2192,13 +2193,13 @@ mob
 					p += 20
 
 				if(prob(p))
-					extraDmg    = 1200
+					Dmg        += 1200
 					level       = 1000
 					MoveDelay   = 2
 					AttackDelay = 2
 					ChangeState(state)
 				..()
-				extraDmg    = 0
+				Dmg        -= 1200
 				level       = initial(level)
 				MoveDelay   = initial(MoveDelay)
 				AttackDelay = initial(AttackDelay)

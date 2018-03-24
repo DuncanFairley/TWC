@@ -732,8 +732,7 @@ mob/Spells/verb/Aqua_Eructo()
 		p.HP -= 45
 		Death_Check()
 
-		var/dmg = p.Def + (p.extraDef / 3) + (p.clothDmg / 5) + p.Water.level
-		dmg *= 0.8
+		var/dmg = (p.Def + p.clothDmg) / 3 + p.Water.level
 
 		usr:lastAttack = "Aqua Eructo"
 		castproj(icon_state = "aqua", damage = dmg, name = "Aqua Eructo", element = WATER)
@@ -744,7 +743,7 @@ mob/Spells/verb/Sanguinis_Iactus()
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
 
 		usr:lastAttack = "Sanguinis Iactus"
-		castproj(Type = /obj/projectile/Blood, MPreq = 5, icon_state = "blood", damage = usr.Dmg + usr.extraDmg + clothDmg, name = "Blood")
+		castproj(Type = /obj/projectile/Blood, MPreq = 5, icon_state = "blood", damage = usr.Dmg + clothDmg, name = "Blood")
 
 mob/Spells/verb/Gravitate()
 	set category="Spells"
@@ -774,17 +773,17 @@ mob/Spells/verb/Glacius()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Glacius"
-		castproj(MPreq = 10, icon_state = "iceball", damage = usr.Dmg+usr.extraDmg + clothDmg + usr:Water.level, name = "Glacius", element = WATER)
+		castproj(MPreq = 10, icon_state = "iceball", damage = usr.Dmg + clothDmg + usr:Water.level, name = "Glacius", element = WATER)
 mob/Spells/verb/Waddiwasi()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Waddiwasi"
-		castproj(MPreq = 10, icon_state = "gum", damage = usr.Dmg+usr.extraDmg + clothDmg + usr:Ghost.level, name = "Waddiwasi", element = GHOST)
+		castproj(MPreq = 10, icon_state = "gum", damage = usr.Dmg + clothDmg + usr:Ghost.level, name = "Waddiwasi", element = GHOST)
 mob/Spells/verb/Tremorio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Tremorio"
-		castproj(MPreq = 5, icon_state = "quake", damage = usr.Dmg+usr.extraDmg + clothDmg + usr:Earth.level, name = "Tremorio", element = EARTH)
+		castproj(MPreq = 5, icon_state = "quake", damage = usr.Dmg + clothDmg + usr:Earth.level, name = "Tremorio", element = EARTH)
 
 mob/var/tmp/list/_input
 
@@ -1013,7 +1012,7 @@ mob/Spells/verb/Incindia()
 		p.updateMP()
 		new /StatusEffect/UsedIncindia(src,15,"Incindia")
 		var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-		var/damage = round((p.Dmg + p.extraDmg + p.clothDmg + p.Fire.level) * 0.75)
+		var/damage = round((p.Dmg + p.clothDmg + p.Fire.level) * 0.75)
 		var/t = dir
 		p.learnSpell("Incindia")
 		for(var/d in dirs)
@@ -1622,7 +1621,7 @@ mob/Spells/verb/Scan(mob/Player/M in view()&Players)
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=0))
 		hearers() << "[usr]'s eyes glint."
 		var/mob/Player/p = src
-		if((p.Dmg+p.extraDmg)>=1000)
+		if((p.Dmg)>=1000)
 			p<<"\n<b>[M.name]'s Max HP:</b> [M.MHP] - <b>Current HP:</b> [M.HP]<br><b>[M.name]'s Max MP:</b> [M.MMP] - <b>Current MP:</b> [M.MP]"
 		else
 			p<<"\n<b>[M.name]'s Max HP:</b> [M.MHP]<br><b>[M.name]'s Max MP:</b> [M.MMP]"

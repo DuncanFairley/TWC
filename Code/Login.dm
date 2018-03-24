@@ -815,13 +815,9 @@ mob
 			src = null
 			sql_check_for_referral(character)
 			del(oldmob)
-mob/var
-	extraDmg = 0
-	extraDef = 0
-
-	tmp
-		clothDmg = 0
-		clothDef = 0
+mob/var/tmp
+	clothDmg = 0
+	clothDef = 0
 mob/Player
 
 	proc
@@ -850,7 +846,7 @@ mob/Player
 							if(!SP || SP < 0)return
 							if(SP <= StatPoints)
 								var/addstat = 1*SP
-								extraDmg+=addstat
+								Dmg+=addstat
 								src<<infomsg("You gained [addstat] damage!")
 								StatPoints -= SP
 							else
@@ -861,7 +857,7 @@ mob/Player
 							if(!SP || SP < 0)return
 							if(SP <= StatPoints)
 								var/addstat = 3*SP
-								extraDef += addstat
+								Def += addstat
 								src<<infomsg("You gained [addstat] defense!")
 								StatPoints -= SP
 							else
@@ -1408,9 +1404,8 @@ mob/Player
 			stat("Level:",src.level)
 			stat("HP:","[src.HP]/[src.MHP]")
 			stat("MP:","[src.MP]/[src.MMP]")
-			if (src.level>500)
-				stat("Damage:","[src.Dmg+src.extraDmg] ([src.extraDmg])")
-				stat("Defense:","[src.Def+src.extraDef] ([src.extraDef/3])")
+			stat("Damage:","[Dmg] ([Dmg - (level + 4)])")
+			stat("Defense:","[Def] ([(Def - (level + 4))/3])")
 			if(Fire)
 				var/percent = round((Fire.exp / Fire.maxExp) * 100)
 				stat("Fire:", "[Fire.level]   Exp: [comma(Fire.exp)]/[comma(Fire.maxExp)] ([percent]%)")
@@ -1944,16 +1939,14 @@ mob/Player/proc/Auto_Mute(timer=15, reason="spammed")
 
 
 mob/Player/proc/resetStatPoints()
-	src.StatPoints = src.level - 1
-	src.extraDmg = 0
-	src.extraDef = 0
-	src.Dmg = (src.level - 1) + 5
-	src.Def = (src.level - 1) + 5
+	StatPoints = level - 1
+	Dmg = level + 4
+	Def = level + 4
 	resetMaxHP()
 	if(level > 1)
 		src.verbs.Add(/mob/Player/verb/Use_Statpoints)
 mob/Player/proc/resetMaxHP()
-	MHP = 4 * (level - 1) + 200 + 2 * (Def + extraDef + clothDef)
+	MHP = 4 * (level - 1) + 200 + 2 * (Def + clothDef)
 	if(HP > MHP)
 		HP = MHP
 

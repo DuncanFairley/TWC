@@ -479,7 +479,7 @@ StatusEffect
 					p.clothDef -= 480
 					p.resetMaxHP()
 
-					if(p.Def + p.extraDef - 480 <= 0)
+					if(p.Def - 480 <= 0)
 						p.HP = 0
 						p.Death_Check()
 						Deactivate()
