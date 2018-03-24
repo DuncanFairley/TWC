@@ -326,7 +326,7 @@ mob/TalkNPC/Guildmaster
 
 		else
 
-			s.AddText("Would you like to create your own guild? A guild charter costs 1 platinum coin and 5 gold coins and 5 artifacts.")
+			s.AddText("Would you like to create your own guild? A guild charter costs 50 gold coins and 5 artifacts.")
 
 			var/gold/money = new(p)
 			var/obj/items/artifact/a = locate() in p
@@ -498,8 +498,6 @@ mob/Player/verb/guild_command(var/action as text)
 
 
 mob/Player/proc/getGuildAreas()
-	if(!guild) return
-
 	. = 0
 
 	for(var/a in worldData.areaData)
