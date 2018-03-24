@@ -6,10 +6,16 @@
  */
 
 mob/Player
-	var/tmp/questBookOpen = FALSE
+	var/tmp
+		questBookOpen = FALSE
+		monsterBookOpen = FALSE
 	verb/questBookClosed()
 		set name = ".questBookClosed"
 		questBookOpen = FALSE
+
+	verb/monsterBookClosed()
+		set name = ".monsterBookClosed"
+		monsterBookOpen = FALSE
 
 mob/TalkNPC/quest
 	var/questPointers
@@ -651,6 +657,16 @@ mob/Player
 			buildQuestBook()
 
 	proc
+		buildMonsterBook()
+			src << output(null, "Monsters.outputMonsters")
+			var/i = 0
+			for(var/monster in monsterkills)
+				i++
+				src << output("<a href=\"?src=\ref[src];action=selectMonster;monsterName=[monster]\">[monster]</a>", "Monsters.gridMonsters:1,[i]")
+
+			winset(src, null, "Monsters.gridMonsters.cells=1x[i]")
+			winshowCenter(src, "Monsters")
+
 		buildQuestBook()
 			src << output(null, "Quests.outputQuests")
 			var/i = 0
@@ -795,6 +811,126 @@ mob/Player/Topic(href, href_list[])
 	else if(href_list["action"] == "trackQuest")
 		var/questName = href_list["questName"]
 		trackQuest(questName)
+	else if(href_list["action"] == "selectMonster")
+
+		var/monster = href_list["monsterName"]
+		var/level
+		var/find
+		var/ability
+		var/list/drops
+
+		switch(monster)
+			if("Rat")
+				level = 50
+				find = "Forbidden Forest, Tom's Cellar"
+			if("Demon Rat")
+				level = 700
+				find = "Chamber of Secrets"
+			if("Pixie")
+				level = 100
+				find = "Pixie Pit"
+			if("Dog")
+				level = 150
+				find = "Forbidden Forest"
+			if("Snake")
+				level = 200
+				find = "Graveyard"
+			if("Wolf")
+				level = 300
+				find = "Forbidden Forest"
+			if("Pumpkin")
+				level = 750
+			if("Snowman")
+				level = 700
+			if("Wisp")
+				level = 850
+				find = "Graveyard Underground"
+			if("Troll")
+				level = 750
+				find = "Forbidden Forest"
+			if("Fire Bat")
+				level = 10
+				find = "Silverblood Grounds"
+			if("Fire Golem")
+				level = 10
+				find = "Silverblood Grounds"
+			if("Archangel")
+				level = 500
+				find = "Silverblood Castle"
+			if("Water Elemental")
+				level = 550
+				find = "Silverblood Castle"
+			if("Fire Elemental")
+				level = 600
+				find = "Silverblood Castle"
+			if("Wyvern")
+				level = 650
+				find = "Silverblood Castle"
+			if("Acromantula")
+				level = 850
+				find = "Forbidden Forest"
+			if("Floating Eyes")
+				level = 900
+				find = "The Desert"
+				ability = "Death Ball"
+			if("Basilisk")
+				level = 2000
+				find = "Chamber of Secrets"
+				ability = "Freeze"
+			if("Stickman")
+				level = 2200
+				find = "Chamber of Secrets"
+				ability = "Duelist"
+			if("Stickman")
+				level = 2200
+				find = "Chamber of Secrets"
+				ability = "Duelist"
+			if("Peace Vampire")
+				level = 900
+				ability = "Damage Resistence, Superspeed"
+				drops = drops_list["Vampire"]
+			if("Chaos Vampire")
+				level = 900
+				ability = "Damage Resistence, Superspeed"
+				drops = drops_list["Vampire"]
+
+		var/knowlevel = round(log(10, monsterkills[monster]) + 1)
+
+		src << output(null, "Monsters.outputMonsters")
+		src << output("<b><u>[monster]</u></b><br>", "Monsters.outputMonsters")
+		src << output("Knowledge level: [knowlevel]<br>Extra drop rate: [5 * knowlevel]%<br>Killed: [monsterkills[monster]]<br>", "Monsters.outputMonsters")
+		if(level)
+			src << output("Level: [level]", "Monsters.outputMonsters")
+			src << output("Gold: [round(level / 2)]", "Monsters.outputMonsters")
+			src << output("Experience: [level * 6]", "Monsters.outputMonsters")
+		if(find)
+			src << output("Where to find: [find]", "Monsters.outputMonsters")
+		if(ability)
+			src << output("Special Ability: [ability]", "Monsters.outputMonsters")
+
+		if(!drops)
+			drops = drops_list[monster]
+		if(drops)
+			var/list/items = list()
+
+			for(var/d in drops)
+				if(!istext(d))
+					var/list/split = splittext ("[d]", "/")
+					items += split[split.len]
+				else
+					var/pointer = drops[d]
+					if(islist(pointer))
+						for(var/p in pointer)
+							var/list/split = splittext ("[p]", "/")
+							items += split[split.len]
+					else
+						var/list/split = splittext ("[pointer]", "/")
+						items += split[split.len]
+
+			src << output("<br><br>Item Drops: [replacetext(replacetext(list2params(items), "&", ", "), "_", " ")]", "Monsters.outputMonsters")
+
+
+
 	.=..()
 
 mob/Player
@@ -815,6 +951,7 @@ interface
 		new /hudobj/PMHome(null, parent.client, null, show=2)
 		new /hudobj/spellbook(null, parent.client, null, show=2)
 		new /hudobj/questbook(null, parent.client, null, show=2)
+		new /hudobj/monsterbook(null, parent.client, null, show=2)
 		new /hudobj/Party_Invite(null, parent.client, null, 2)
 
 		hpbar = new(null, p, "WEST", 16, "NORTH", -1)

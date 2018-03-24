@@ -370,7 +370,7 @@ quest
 	ExtremeExtermination
 		name   = "Extreme Pest Extermination"
 		desc   = "The hunter wants you to help him exterminate even more monsters."
-		reward = /questReward/MonsterBook
+		reward = /questReward/Monster
 		repeat = 864000
 
 		Kill
@@ -807,10 +807,9 @@ questReward
 		gold  = 2000
 		exp   = 2000
 		items = /obj/items/potions_book
-	MonsterBook
-		gold  = 15000
-		exp   = 180000
-		items = /obj/items/monster_book
+	Monster
+		gold  = 16000
+		exp   = 200000
 	Mon1
 		gold = 1000
 		exp  = 12000

@@ -182,7 +182,7 @@ hudobj
 
 		anchor_x    = "EAST"
 		screen_x    = -4
-		screen_y    = -112
+		screen_y    = -144
 		anchor_y    = "NORTH"
 
 		mouse_opacity = 2
@@ -224,7 +224,7 @@ hudobj
 
 		anchor_x    = "EAST"
 		screen_x    = -68
-		screen_y    = -112
+		screen_y    = -144
 		anchor_y    = "NORTH"
 
 		mouse_opacity = 2
@@ -257,7 +257,7 @@ hudobj
 
 		anchor_x    = "EAST"
 		screen_x    = -36
-		screen_y    = -112
+		screen_y    = -144
 		anchor_y    = "NORTH"
 
 		mouse_opacity = 2

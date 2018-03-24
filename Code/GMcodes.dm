@@ -15,6 +15,10 @@ mob
 			world.SetMedal(medalname,src)
 		AddKill(var/monster)
 			monsterkills[monster]++
+
+			if(monsterkills[monster] == 1)
+				bubblesort(monsterkills)
+
 			switch(monster)
 				if("Basilisk")
 					if(monsterkills[monster] == 1)

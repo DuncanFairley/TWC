@@ -230,7 +230,8 @@ hudobj
 
 	spellbook
 
-		icon_state = "spellbook"
+		icon       = 'Books.dmi'
+		icon_state = "spell"
 
 		anchor_x   = "EAST"
 		screen_x   = -4
@@ -261,7 +262,8 @@ hudobj
 
 	questbook
 		name        = "Quest Book"
-		icon_state  = "questbook"
+		icon        = 'Books.dmi'
+		icon_state  = "quest"
 
 		anchor_x    = "EAST"
 		screen_x    = -4
@@ -279,6 +281,34 @@ hudobj
 			else
 				p.questBookOpen = TRUE
 				p.buildQuestBook()
+
+		alpha = 110
+		MouseEntered()
+			alpha = 255
+		MouseExited()
+			alpha = 110
+
+	monsterbook
+		name        = "Monster Book"
+		icon        = 'Books.dmi'
+		icon_state  = "monsters"
+
+		anchor_x    = "EAST"
+		screen_x    = -4
+		screen_y    = -112
+		anchor_y    = "NORTH"
+
+		mouse_opacity = 2
+
+		Click()
+			..()
+			var/mob/Player/p = usr
+			if(p.monsterBookOpen)
+				p.monsterBookOpen = FALSE
+				winshow(p, "Monsters", 0)
+			else
+				p.monsterBookOpen = TRUE
+				p.buildMonsterBook()
 
 		alpha = 110
 		MouseEntered()

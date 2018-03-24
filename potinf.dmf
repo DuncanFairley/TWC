@@ -218,7 +218,7 @@ window "Auction"
 	elem "Auction"
 		type = MAIN
 		pos = 281,0
-		size = 551x452
+		size = 554x452
 		anchor1 = none
 		anchor2 = none
 		background-color = #a8d8f0
@@ -531,7 +531,7 @@ window "Auction"
 	elem "gridAuction"
 		type = GRID
 		pos = 175,32
-		size = 372x414
+		size = 375x414
 		anchor1 = 0,7
 		anchor2 = 99,99
 		text-color = #508cb4
@@ -547,7 +547,7 @@ window "Auction"
 	elem "label6"
 		type = LABEL
 		pos = 0,0
-		size = 551x24
+		size = 554x24
 		anchor1 = 0,0
 		anchor2 = 100,0
 		font-size = 16
@@ -558,7 +558,7 @@ window "Auction"
 		text = "Auction"
 	elem "buttonRefresh"
 		type = BUTTON
-		pos = 492,2
+		pos = 495,2
 		size = 56x20
 		anchor1 = 100,0
 		anchor2 = none
@@ -569,11 +569,86 @@ window "Auction"
 		text = "Refresh"
 		command = ".auctionRefresh"
 
+window "Monsters"
+	elem "Monsters"
+		type = MAIN
+		pos = 281,0
+		size = 419x315
+		anchor1 = none
+		anchor2 = none
+		background-color = #a9d8f0
+		is-visible = false
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "Monster Book"
+		statusbar = false
+		can-minimize = false
+		macro = "macro"
+		on-close = ".monsterBookClosed"
+	elem "label2"
+		type = LABEL
+		pos = 10,32
+		size = 192x20
+		anchor1 = none
+		anchor2 = none
+		text-color = #e3e3e3
+		background-color = #508cb4
+		border = line
+		saved-params = ""
+		text = "Monsters"
+	elem "outputMonsters"
+		type = OUTPUT
+		pos = 217,60
+		size = 192x245
+		anchor1 = 0,0
+		anchor2 = 100,100
+		text-color = #e3e3e3
+		background-color = #508cb4
+		border = line
+		saved-params = "max-lines"
+	elem "label7"
+		type = LABEL
+		pos = 217,32
+		size = 192x20
+		anchor1 = 0,0
+		anchor2 = 100,0
+		text-color = #e3e3e3
+		background-color = #508cb4
+		border = line
+		saved-params = ""
+		text = "Description"
+	elem "label6"
+		type = LABEL
+		pos = 0,0
+		size = 420x24
+		anchor1 = 0,0
+		anchor2 = 100,0
+		font-size = 16
+		font-style = "bold"
+		text-color = #a8d8f0
+		background-color = #508cb4
+		saved-params = ""
+		text = "Monster Book"
+	elem "gridMonsters"
+		type = GRID
+		pos = 10,60
+		size = 192x245
+		anchor1 = 0,0
+		anchor2 = 0,100
+		text-color = #e3e3e3
+		background-color = #508cb4
+		border = line
+		saved-params = ""
+		show-lines = none
+		link-color = #e3e3e3
+		visited-color = #e3e3e3
+		line-color = #0b81ff
+		highlight-color = #000000
+
 window "Quests"
 	elem "Quests"
 		type = MAIN
 		pos = 281,0
-		size = 420x349
+		size = 419x351
 		anchor1 = none
 		anchor2 = none
 		background-color = #a9d8f0
@@ -582,15 +657,14 @@ window "Quests"
 		title = "Quest Book"
 		statusbar = false
 		can-minimize = false
-		can-resize = false
 		macro = "macro"
 		on-close = ".questBookClosed"
 	elem "labelText"
 		type = LABEL
 		pos = 10,32
 		size = 400x32
-		anchor1 = none
-		anchor2 = none
+		anchor1 = 0,0
+		anchor2 = 100,0
 		font-style = "bold"
 		text-color = #e3e3e3
 		background-color = #508cb4
@@ -603,18 +677,18 @@ window "Quests"
 		type = OUTPUT
 		pos = 217,96
 		size = 192x245
-		anchor1 = none
-		anchor2 = none
+		anchor1 = 0,0
+		anchor2 = 100,100
 		text-color = #e3e3e3
 		background-color = #508cb4
-		border = sunken
+		border = line
 		saved-params = "max-lines"
 	elem "label7"
 		type = LABEL
 		pos = 217,68
 		size = 192x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = 0,0
+		anchor2 = 100,0
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -624,8 +698,8 @@ window "Quests"
 		type = LABEL
 		pos = 0,0
 		size = 420x24
-		anchor1 = none
-		anchor2 = none
+		anchor1 = 0,0
+		anchor2 = 100,0
 		font-size = 16
 		font-style = "bold"
 		text-color = #a8d8f0
@@ -649,11 +723,11 @@ window "Quests"
 		type = GRID
 		pos = 10,96
 		size = 192x245
-		anchor1 = none
-		anchor2 = none
+		anchor1 = 0,0
+		anchor2 = 0,100
 		text-color = #e3e3e3
 		background-color = #508cb4
-		border = sunken
+		border = line
 		saved-params = ""
 		show-lines = none
 		link-color = #e3e3e3
@@ -668,6 +742,7 @@ window "SpellBook"
 		size = 285x232
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		is-visible = false
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Spellbook"
@@ -682,7 +757,7 @@ window "SpellBook"
 		anchor2 = 100,100
 		text-color = #e3e3e3
 		background-color = #508cb4
-		border = sunken
+		border = line
 		saved-params = ""
 		cells = 1x0
 		current-cell = 1,1
@@ -1112,6 +1187,7 @@ window "infowindow"
 		size = 640x480
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Info"
 		titlebar = false
@@ -1129,6 +1205,7 @@ window "infowindow"
 		is-default = true
 		saved-params = ""
 		highlight-color = #00aa00
+		tab-background-color = none
 		on-show = ".winset\"rpane.infob.is-visible=true;rpane.browseb.is-visible=true?rpane.infob.pos=130,0:rpane.infob.pos=65,0 rpane.textb.is-visible=true rpane.infob.is-checked=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=infowindow\""
 		on-hide = ".winset\"rpane.infob.is-visible=false;rpane.browseb.is-visible=true?rpane.browseb.is-checked=true rpane.rpanewindow.left=browserwindow:rpane.textb.is-visible=false rpane.rpanewindow.pos=0,0 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=\""
 
@@ -1250,7 +1327,7 @@ window "Trade"
 		anchor2 = none
 		text-color = #e3e3e3
 		background-color = #508cb4
-		border = sunken
+		border = line
 		saved-params = ""
 		cells = 1x1
 		current-cell = 1,1
@@ -1264,7 +1341,7 @@ window "Trade"
 		anchor2 = none
 		text-color = #e3e3e3
 		background-color = #508cb4
-		border = sunken
+		border = line
 		drop-zone = false
 		saved-params = ""
 		cells = 1x1
