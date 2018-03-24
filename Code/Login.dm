@@ -909,6 +909,7 @@ mob/Player
 			verbs+=typesof(/mob/Quidditch/verb)
 			Gm=1
 			draganddrop=1
+			shortapparate=1
 			admin=1
 		else if(Gm && !(ckey in worldData.Gms))
 			spawn()
