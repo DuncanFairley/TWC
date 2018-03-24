@@ -10,20 +10,27 @@ mob/var/list/monsterkills = list()
 mob
 	proc
 		Award(medalname)
+			set waitfor = 0
 			Players << "<h3>[src] has gained the [medalname] achievement!</h3>"
 			world.SetMedal(medalname,src)
 		AddKill(var/monster)
-			monsterkills["[monster]"]++
+			monsterkills[monster]++
 			switch(monster)
 				if("Basilisk")
-					if(monsterkills["[monster]"] == 1)
-						spawn()Award("Bassy Attacks!")
+					if(monsterkills[monster] == 1)
+						Award("Bassy Attacks!")
 				if("Dementor")
-					if(monsterkills["[monster]"] == 100)
-						spawn()Award("Where's the chocolate!?")
+					if(monsterkills[monster] == 100)
+						Award("Where's the chocolate!?")
 				if("Rat","Demon Rat")
 					if((monsterkills["Rat"] + monsterkills["Demon Rat"]) == 500)
-						spawn()Award("Need a cat?")
+						Award("Need a cat?")
+
+			var/l = log(10, monsterkills[monster]) + 1
+			if(l == round(l))
+				var/mob/Player/p = src
+				p.screenAlert("Monster Knowledge: \[[monster]] leveled up to [round(l)]")
+
 mob/Player/var
 	timerDet = 0
 	timerMute = 0

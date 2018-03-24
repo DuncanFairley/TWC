@@ -487,6 +487,10 @@ mob
 
 			rate += killer.getGuildAreas() * 0.05
 
+			var/knowledge = monsterkills[name]
+			if(knowledge)
+				rate += round(log(10, knowledge)) * 0.05
+
 			var/StatusEffect/Lamps/DropRate/d = killer.findStatusEffect(/StatusEffect/Lamps/DropRate)
 			if(d)
 				rate_factor *= d.rate
