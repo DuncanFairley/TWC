@@ -247,7 +247,7 @@ obj/potions
 						potionId = ""
 						for(var/poolId in pool)
 							potionId += "[poolId];"
-						potionId = copytext(potionId, 1, lentext(potionId) - 1)
+						potionId = copytext(potionId, 1, length(potionId) - 1)
 
 					potion = worldData.potions[potionId]
 					if(potion==null)
@@ -1072,7 +1072,7 @@ tr.black
 				if(ing & 1024) ingredients += "powdered rat tail, "
 				if(ing & 2048) ingredients += "rat tail extract, "
 				c++
-				html += "<tr class=[c % 2 == 0 ? "white" : "black"]><td>[c]</td><td>[potion]</td><td>[copytext(ingredients, 1, lentext(ingredients) - 1)].</td></tr>"
+				html += "<tr class=[c % 2 == 0 ? "white" : "black"]><td>[c]</td><td>[potion]</td><td>[copytext(ingredients, 1, length(ingredients) - 1)].</td></tr>"
 
 			i_Player << browse(HEADER + sortText + html + "</table></body></html>", "window=potions")
 

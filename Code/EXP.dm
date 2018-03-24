@@ -720,8 +720,8 @@ gold
 				. += "[silver] silver, "
 			if(bronze > 0)
 				. += "[bronze] bronze"
-			else if(lentext(.) > 1)
-				. = copytext(., 1, lentext(.) - 1)
+			else if(length(.) > 1)
+				. = copytext(., 1, length(.) - 1)
 			else
 				. = "0 coins"
 

@@ -33,7 +33,7 @@ obj/hud/TextMessage
 		else
 			o.maptext = {"<b style="font-size:12px">[message]</b>"}
 
-		var/pixelsize = lentext(message) * 9
+		var/pixelsize = length(message) * 11
 
 		o.maptext_width = pixelsize
 		o.maptext_x     = -ceil(pixelsize/3)

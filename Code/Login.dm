@@ -2144,7 +2144,7 @@ proc
 		while(open)
 			var/close = findtext(t,"&gt;",open)
 			if(close)
-				if(close < lentext(t))
+				if(close < length(t))
 					t = copytext(t,1,open)+copytext(t,close+4)//+copytext(t,close+1)
 				else
 					t = copytext(t,1,open)
@@ -2223,7 +2223,7 @@ mob/Player/proc/onDeath(turf/oldLoc, killerName)
 	o.alpha          = 0
 	o.plane          = 2
 
-	var/pixelsize = lentext(randomMessage) * 14
+	var/pixelsize = length(randomMessage) * 14
 
 	o.maptext_width = pixelsize
 	o.maptext_x     = -ceil(pixelsize/2)
