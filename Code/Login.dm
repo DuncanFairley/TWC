@@ -1959,7 +1959,7 @@ mob/Player/proc/resetMaxHP()
 
 mob/Player
 	proc
-		LvlCheck()
+		LvlCheck(var/nomsg=0)
 			if(level >= lvlcap)
 				Exp = 0
 				return
@@ -1976,8 +1976,10 @@ mob/Player
 				verbs.Remove(/mob/Player/verb/Use_Statpoints)
 				verbs.Add(/mob/Player/verb/Use_Statpoints)
 				StatPoints++
-				screenAlert("You are now level [level]!")
-				src<<"You have gained a statpoint."
+
+				if(nomsg)
+					screenAlert("You are now level [level]!")
+					src<<"You have gained a statpoint."
 
 				var/theiryear = (Year == "Hogwarts Graduate" ? 8 : text2num(copytext(Year, 1, 2)))
 				if(level>1 && level < 16)

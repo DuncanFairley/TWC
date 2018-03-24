@@ -507,9 +507,9 @@ mob
 			if(!lvls) return
 			Log_admin("[src] has made [M] gain [lvls] levels")
 			while(lvls>0)
-				M.Exp = M.Mexp
-				M.LvlCheck(1)
 				lvls--
+				M.Exp = M.Mexp
+				M.LvlCheck(lvls != 0)
 			src << "[M] is now level [M.level]."
 mob
 	GM/verb
