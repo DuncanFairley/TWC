@@ -421,7 +421,7 @@ mob
 			MHP *= round(rand(10,14)/10, 1)
 
 			gold = round(src.level / 2)
-			Expg = round(src.level * 6)
+			Expg = src.level * 6
 			HP = MHP
 //NEWMONSTERS
 
@@ -2157,26 +2157,16 @@ mob
 			Attack(mob/M)
 				..()
 				if(!fired && target && state == HOSTILE)
-					var/fire = 0
-					if(prob(40))
-						fire = 1
-					else if(prob(10))
-						fire = 2
-					if(fire)
+					if(prob(45))
 						fired = 1
 						spawn(cd.get()) fired = 0
 
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 						var/tmp_d = dir
-						if(fire == 1)
-							var/dmg = round(Dmg * 1.5 + rand(-4,8))
-							for(var/d in dirs)
-								dir = d
-								castproj(icon_state = "crucio2", damage = dmg, name = "death ball", cd = 0, lag = 1)
-						else
-							for(var/d in dirs)
-								dir = d
-								castproj(Type = /obj/projectile/Flippendo, icon_state = "flippendo", name = "Flippendo", cd = 0, lag = 1)
+						var/dmg = round(Dmg * 1.5 + rand(-4,8))
+						for(var/d in dirs)
+							dir = d
+							castproj(icon_state = "crucio2", damage = dmg, name = "death ball", cd = 0, lag = 1)
 
 						dir = tmp_d
 

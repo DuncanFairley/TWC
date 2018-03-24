@@ -64,7 +64,6 @@
 #include "Code\areas.dm"
 #include "Code\Arial7pt.dm"
 #include "Code\Auction.dm"
-#include "Code\Books.dm"
 #include "Code\Changelog.dm"
 #include "Code\Class.dm"
 #include "Code\commands.dm"
