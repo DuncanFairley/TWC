@@ -487,7 +487,7 @@ mob
 
 			rate += killer.getGuildAreas() * 0.05
 
-			var/knowledge = monsterkills[name]
+			var/knowledge = monsterkills[name] + 1
 			if(knowledge)
 				rate += round(log(10, knowledge)) * 0.05
 
