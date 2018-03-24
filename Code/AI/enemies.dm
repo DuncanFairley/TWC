@@ -754,7 +754,7 @@ mob
 					//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 				else
 					target.HP -= dmg
-					target.updateHPMP()
+					target.updateHP()
 					hearers(target)<<"<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
 					if(target.HP <= 0)
 						Kill(target)
@@ -1611,7 +1611,7 @@ mob
 						for(var/mob/Player/M in ohearers(3, src))
 							M.HP += round((M.MHP/100) + rand(-10, 10))
 							if(M.HP > M.MHP) M.HP = M.MHP
-							M.updateHPMP()
+							M.updateHP()
 				BlindAttack()//removeoMob
 					Heal()
 
@@ -1847,7 +1847,7 @@ mob
 					if(p.HP <= 0)
 						p.Death_Check(src)
 					else
-						p.updateHPMP()
+						p.updateHP()
 
 				SpawnPet(killer, 0.05, null, /obj/items/wearable/pets/pumpkin)
 

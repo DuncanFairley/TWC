@@ -120,7 +120,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 		if(!(M in ohearers(client.view))) return
 		new /StatusEffect/Summoned(src,15)
 		p.MP = max(p.MP - 100, 0)
-		p.updateHPMP()
+		p.updateMP()
 		if(p.prevname)
 			hearers() << "<span style=\"font-size:2;\"><font color=red><b><font color=red>[usr]</span></b> :<font color=white> Eat Slugs, [M.name]!"
 		else
@@ -136,11 +136,11 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 				new/mob/Enemies/Summoned/Slug(M.loc)
 				if(M.MP < 0)
 					M.MP = 0
-					M.updateHPMP()
+					M.updateMP()
 					M << errormsg("You feel drained from the slug vomiting curse.")
 					break
 				else
-					M.updateHPMP()
+					M.updateMP()
 				slugs--
 				sleep(rand(20,90))
 		return TRUE
@@ -365,7 +365,7 @@ mob/Spells/verb/Repellium()
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=white>Repellium!"
 		var/mob/Player/p = src
 		p.MP -= 100
-		p.updateHPMP()
+		p.updateMP()
 		light(src, 3, 300, "light")
 		p.learnSpell("Repellium")
 		new /StatusEffect/UsedRepel(src, 90)
@@ -393,7 +393,7 @@ mob/Spells/verb/Lumos()
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=white>Lumos!"
 		var/mob/Player/p = src
 		p.MP -= 100
-		p.updateHPMP()
+		p.updateMP()
 
 		p.learnSpell("Lumos")
 		new /StatusEffect/UsedLumos(src, 60)
@@ -428,7 +428,7 @@ mob/Spells/verb/Aggravate()
 		var/mob/Player/p = src
 		hearers()<<"<b><span style=\"color:red;\">[p]</b></span>: <b><font size=3><font color=white>Aggravate!"
 		p.MP -= 150
-		p.updateHPMP()
+		p.updateMP()
 
 		new /StatusEffect/UsedAggro(src, 30)
 
@@ -599,7 +599,7 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 				B.client.perspective=MOB_PERSPECTIVE
 				B.removeoMob = null
 			p.MP -= 300
-			p.updateHPMP()
+			p.updateMP()
 
 			p.removeoMob = selmonster
 			client.eye = selmonster
@@ -713,7 +713,7 @@ mob/Spells/verb/Antifigura()
 		hearers() << "<b><span style=\"color:red;\">[usr]</span></b>: <span style=\"color:white;\"><i>Antifigura!</i></span>"
 		p.antifigura = max(round((p.MMP) / rand(500,1500)), 1)
 		p.MP -= 50
-		p.updateHPMP()
+		p.updateMP()
 		usr:learnSpell("Antifigura")
 
 
@@ -867,8 +867,8 @@ mob/Spells/verb/Arcesso()
 									p1.learnSpell("Arcesso")
 									p2.learnSpell("Arcesso")
 
-									p1.updateHPMP()
-									p2.updateHPMP()
+									p1.updateMP()
+									p2.updateMP()
 									spawn()
 										var/obj/circle/c3_3/C = new (middle)
 										flick("a",C)
@@ -965,7 +965,7 @@ mob/Spells/verb/Flagrate(message as message)
 				sleep(10)
 				hearers(client.view)<<"<span style=\"color:red;\"><b>[usr]:</span> <span style=\"color:#FF9933;\"><font size=3><font face='Comic Sans MS'> [html_encode(message)]</span>"
 				p.MP-=300
-				p.updateHPMP()
+				p.updateMP()
 				p.learnSpell("Flagrate")
 		else
 			alert("You cannot cast this while muted.")
@@ -977,7 +977,7 @@ mob/Spells/verb/Langlock(mob/Player/M in oview()&Players)
 			M.silence=1
 			var/mob/Player/p = src
 			p.MP -= 600
-			p.updateHPMP()
+			p.updateMP()
 			hearers()<<"[usr] flicks \his wand towards [M] and mutters, 'Langlock'"
 			hearers() << "<b>[M]'s tongue has been stuck to the roof of \his mouth. They are unable to speak.</b>"
 			p.learnSpell("Langlock")
@@ -1010,7 +1010,7 @@ mob/Spells/verb/Incindia()
 		var/mob/Player/p = src
 		hearers()<<"[src] raises \his wand into the air. <font color=red><b><i>INCINDIA!</b></i>"
 		p.MP-=450
-		p.updateHPMP()
+		p.updateMP()
 		new /StatusEffect/UsedIncindia(src,15,"Incindia")
 		var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 		var/damage = round((p.Dmg + p.extraDmg + p.clothDmg + p.Fire.level) * 0.75)
@@ -1037,7 +1037,7 @@ mob/Spells/verb/Replacio(mob/Player/M in oview()&Players)
 		M.FlickState("Orb",12,'Effects.dmi')
 		hearers()<<"[usr] trades places with [M]"
 		p.MP-=500
-		p.updateHPMP()
+		p.updateMP()
 		p.learnSpell("Replacio")
 mob/Spells/verb/Occlumency()
 	set category = "Spells"
@@ -1073,7 +1073,7 @@ mob/Spells/verb/Obliviate(mob/Player/M in oview()&Players)
 			p.learnSpell("Obliviate")
 		p.MP-=700
 		new /StatusEffect/UsedAnnoying(src,30)
-		p.updateHPMP()
+		p.updateMP()
 mob/Spells/verb/Tarantallegra(mob/Player/M in view()&Players)
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=100,againstocclumens=1))
@@ -1082,7 +1082,7 @@ mob/Spells/verb/Tarantallegra(mob/Player/M in view()&Players)
 		new /StatusEffect/UsedAnnoying(src,15)
 		var/mob/Player/p = src
 		p.MP-=100
-		p.updateHPMP()
+		p.updateMP()
 		if(key != "Murrawhip")
 			M.dance=1
 		p.learnSpell("Tarantallegra")
@@ -1107,7 +1107,7 @@ mob/Spells/verb/Immobulus()
 
 		new /StatusEffect/UsedImmobulus(src, 20)
 		player.MP-=500
-		player.updateHPMP()
+		player.updateMP()
 
 		hearers()<<"<b>[usr]:</b> <font color=blue>Immobulus!"
 		hearers()<<"A sudden wave of energy emits from [usr]'s wand, immobilizing every projectile in sight."
@@ -1145,7 +1145,7 @@ mob/Spells/verb/Impedimenta()
 		hearers()<<"A sharp blast of energy emits from [usr]'s wand, slowing down everything in the area."
 		var/mob/Player/p = src
 		p.MP-=750
-		p.updateHPMP()
+		p.updateMP()
 		new /StatusEffect/UsedStun(src,20)
 		var/turf/lt = list()
 		for(var/turf/T in view(7))
@@ -1453,7 +1453,7 @@ mob/Spells/verb/Episky()
 
 		p.HP = p.MHP
 
-		p.updateHPMP()
+		p.updateHP()
 		overlays+=image('attacks.dmi', icon_state = "heal")
 		sleep(10)
 		hearers()<<"<font color=aqua>[usr] heals \himself."
@@ -1466,7 +1466,7 @@ mob/Spells/verb/Confundus(mob/Player/M in oview()&Players)
 		hearers()<<"<b><span style=\"color:red;\">[usr]:</b></span> <font color= #7CFC00>Confundus, [M]!"
 		var/mob/Player/p = src
 		p.MP-=300
-		p.updateHPMP()
+		p.updateMP()
 		p.learnSpell("Confundus")
 		M << errormsg("You feel confused...")
 
@@ -1609,7 +1609,7 @@ mob/Spells/verb/Portus()
 		hearers()<<"A portkey flys out of [usr]'s wand, and opens."
 		var/mob/Player/p = src
 		p.MP-=25
-		p.updateHPMP()
+		p.updateMP()
 		p.learnSpell("Portus")
 mob/Spells/verb/Sense(mob/Player/M in view()&Players)
 	set category = "Spells"
@@ -1651,7 +1651,7 @@ mob
 
 			var/mob/Player/p = src
 			p.MP -= MPreq
-			p.updateHPMP()
+			p.updateMP()
 
 			if(p.wand)
 				p.learnSpell(name)
@@ -1776,7 +1776,7 @@ mob/Player
 		if(p.damage <= 0) return
 
 		HP -= p.damage
-		updateHPMP()
+		updateHP()
 
 		var/n = dir2angle(get_dir(src, p))
 		emit(loc    = src,

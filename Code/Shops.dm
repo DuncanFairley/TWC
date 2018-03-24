@@ -232,7 +232,7 @@ obj/Madame_Pomfrey
 
 				p.HP = p.MHP
 
-				p.updateHPMP()
+				p.updateHP()
 				src = null
 				spawn(10)
 					if(p)
@@ -259,7 +259,7 @@ mob/Madame_Pomfrey
 			p<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [p]!"
 			p.overlays+=image('attacks.dmi',icon_state="heal")
 			p.HP=p.MHP
-			p.updateHPMP()
+			p.updateHP()
 			src = null
 			spawn(10)
 				if(p)

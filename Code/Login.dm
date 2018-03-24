@@ -1657,7 +1657,7 @@ mob/proc/Death_Check(mob/killer = src)
 				return
 			if(src.loc.loc.type == /area/hogwarts/Hospital_Wing)
 				p.HP=p.MHP
-				p.updateHPMP()
+				p.updateHP()
 				return
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/WaitingArea))
 				killer << "Do not attack in the waiting area.."
