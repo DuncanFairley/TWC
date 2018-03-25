@@ -345,6 +345,7 @@ mob
 					p.Earth = new("Earth")
 					p.Water = new("Water")
 					p.Ghost = new("Ghost")
+					p.shortapparate = 0
 
 					p << infomsg("The majority of your quests, your spells, level and any stat bonuses from items had were wiped, the rest of your wealth is untouched.")
 
