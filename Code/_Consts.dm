@@ -70,3 +70,29 @@ client
 
 mob/Player
 	glide_size = 32
+
+
+var
+	list/__post_init = list()
+	map_initialized = 0
+
+proc
+	MapInitialized()
+		set waitfor = 0
+		if(!map_initialized)
+			map_initialized = 1
+			for(var/atom/o in __post_init)
+				o.MapInit()
+			__post_init = null
+
+atom
+	var/post_init = 0
+
+	New()
+		if(map_initialized)
+			post_init && MapInit()
+		else if(post_init)
+			__post_init[src] = 1
+		..()
+
+	proc/MapInit()
