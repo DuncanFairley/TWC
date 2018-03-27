@@ -238,32 +238,17 @@ obj/Madame_Pomfrey
 					if(p)
 						p.overlays-=image('attacks.dmi',icon_state="heal")
 
-	New()
-		..()
-		view(src)<<"<b>Madame Pomfrey</b>: Hello. Need healing? Click me."
-		spawn(500)
-			src.FlickState("Orb",12,'Effects.dmi')
+	New(loc, time=0)
+		set waitfor = 0
+		..(loc)
+
+		if(time)
+			hearers() << "<b>Madame Pomfrey</b>: Hello. Need healing? Click me."
+			sleep(time)
+			FlickState("Orb",12,'Effects.dmi')
 			sleep(12)
-			view(src)<<"The nurse orbs out."
+			hearers() << "The nurse orbs out."
 			Dispose()
-
-
-mob/Madame_Pomfrey
-	icon='NPCs.dmi'
-	icon_state="nurse"
-
-	verb
-		Heal_Me()
-			set src in oview(1)
-			var/mob/Player/p = usr
-			p<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [p]!"
-			p.overlays+=image('attacks.dmi',icon_state="heal")
-			p.HP=p.MHP
-			p.updateHP()
-			src = null
-			spawn(10)
-				if(p)
-					p.overlays-=image('attacks.dmi',icon_state="heal")
 
 mob/TalkNPC/Broom_Salesman
 	icon = 'NPCs.dmi'
