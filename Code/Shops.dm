@@ -38,27 +38,6 @@ proc/announcemsg(T as text)
 proc/infomsg(T as text)
 	return "<span style=\"color:#27BBF5;\">[T]</span>"
 
-mob/TalkNPC/quest/Tammie
-	icon_state = "tammie"
-	questPointers = "Demonic Ritual"
-	Talk()
-		set src in oview(3)
-		..()
-		var/mob/Player/p = usr
-		var/questPointer/pointer = p.questPointers["Demonic Ritual"]
-		if(pointer)
-			if(pointer.stage)
-				if(p.checkQuestProgress("Tammie"))
-					p << npcsay("Tammie: Wow, I can't believe you went and killed all those little innocent cute rats.")
-				else
-					p << npcsay("Tammie: It will be a little cruel to collect demonic essences...")
-				return
-			else
-				p << npcsay("Tammie: You're evil.")
-		else
-			p << npcsay("Tammie: Did you know there's a ritual that makes you stronger, apparently it involves gathering demonic essences, I wonder how you do that, maybe you have to kill a demonic creature.")
-			p.startQuest("Demonic Ritual")
-
 mob/Tom_
 	icon = 'NPCs.dmi'
 	icon_state="tom"

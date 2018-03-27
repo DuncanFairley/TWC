@@ -7,6 +7,32 @@
 
 mob/TalkNPC/quest
 
+	Tammie
+		icon_state = "tammie"
+		questPointers = "Demonic Ritual"
+
+		questStart(mob/Player/i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
+			s.AddText("Did you know there's a ritual that makes you stronger, apparently it involves gathering demonic essences, I wonder how you do that, maybe you have to kill a demonic creature.")
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
+			if(.)
+				s.AddText("Wow, I can't believe you went and killed all those little innocent cute rats.")
+			else
+				s.AddText("It will be a little cruel to collect demonic essences...")
+
+		questCompleted(mob/Player/i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("You're evil.")
+
 	Blotts
 		icon_state = "blotts"
 		questPointers = list("Blue Books: Vol I")
@@ -849,3 +875,4 @@ obj/questDecor/Todd
 			animate(src, transform = null, time = 10)
 			sleep(11)
 			icon_state = "Lacerated Todd"
+
