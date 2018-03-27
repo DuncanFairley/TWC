@@ -516,8 +516,12 @@ mob/Spells/verb/Ferula()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedFerula,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		new /StatusEffect/UsedFerula(src, 60)
-		var/obj/Madame_Pomfrey/p = new /obj/Madame_Pomfrey
-		p:loc = locate(src.x,src.y+1,src.z)
+		var/obj/Madame_Pomfrey/p = new /obj/Madame_Pomfrey (loc, 500)
+
+		var/turf/t = locate(x,y+1,z)
+		if(t)
+			p.loc = t
+
 		p.FlickState("Orb",12,'Effects.dmi')
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=aqua> Ferula!"
 		hearers()<<"[usr] has summoned Madame Pomfrey!"
