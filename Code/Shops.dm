@@ -238,6 +238,15 @@ mob/TalkNPC/Broom_Salesman
 		set src in oview(2)
 		usr << npcsay("Chrono: Check the brooms I got on the wall, they're all for sale.")
 
+mob/TalkNPC/greenman
+	name="Green Man"
+	icon='statues.dmi'
+	icon_state = "green"
+
+	Talk()
+		set src in oview(3)
+		usr << npcsay("Green Man: Hello, we are the Green Man Group. We are merchants who travel around selling things from far away places.")
+
 
 obj/The_Dark_Mark
 	icon = 'Mobs.dmi'
