@@ -588,35 +588,8 @@ world
 	turf=/turf/blankturf
 	view="17x17"
 
-world/proc/playtimelogger()
-	return
-	var/today_d = time2text(world.realtime,"DD")
-	var/today_m = time2text(world.realtime,"MM")
-	var/today_y = time2text(world.realtime,"YY")
-	var/today_h = time2text(world.timeofday,"hh")
-	for(var/client/C)
-		var/sql = "SELECT ckey FROM tblPlayinglogs WHERE ckey=[mysql_quote(C.ckey)] AND day='[today_d]' AND month='[today_m]' AND year='[today_y]'"
-		var/DBQuery/qry = my_connection.NewQuery(sql)
-		qry.Execute()
-		if(qry.RowCount() > 0)
-			//Already has a listing for today - update it
-			sql = "UPDATE tblPlayinglogs SET `[today_h]`='1' WHERE ckey=[mysql_quote(C.ckey)] AND day='[today_d]' AND month='[today_m]' AND year='[today_y]'"
-			qry = my_connection.NewQuery(sql)
-			qry.Execute()
-			if(qry.RowsAffected() < 1 && qry.ErrorMsg())
-				world.log << "0 rows were affected - (([sql])) - Errormsg: [qry.ErrorMsg()]"
-		else
-			//Create a listing for today and populate it
-			sql = "INSERT INTO tblPlayinglogs(ckey,day,month,year,`[today_h]`) VALUES('[C.ckey]','[today_d]','[today_m]','[today_y]','1')"
-			qry = my_connection.NewQuery(sql)
-			qry.Execute()
-			if(qry.RowsAffected() < 1 && qry.ErrorMsg())
-				world.log << "0 rows were affected - (([sql])) - Errormsg: [qry.ErrorMsg()]"
-		sleep(2)
 world/proc/worldlooper()
 	sleep(9000)
-	spawn()
-		world.playtimelogger()
 	if(radioEnabled)
 		var/rndnum = rand(1,2)
 		for(var/client/C)
