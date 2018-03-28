@@ -569,52 +569,60 @@ mob/TalkNPC/quest
 
 			s.AddText("Did you kill the monsters I requested yet?")
 			if(.)
-				s.AddText("Hunter: Good job!")
+				s.AddText("Good job!")
 			else
-				s.AddText("Hunter: Go back out there and exterminate some pests!")
+				s.AddText("Go back out there and exterminate some pests!")
 
 		questCompleted(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)
-			s.AddText("Hunter: You've done a really good job exterminating all those monsters.")
+			s.AddText("You've done a really good job exterminating all those monsters.")
 
 	Zerf
 		icon_state = "stat"
 		questPointers = list("PvP Introduction", "Culling the Herd", "Strength of Dragons")
 
 		questStart(mob/Player/i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
 			switch(questName)
 				if("PvP Introduction")
-					i_Player << npcsay("Zerf: Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
+					s.AddText("Your skin looks so young and fresh, you haven't done much fighting eh? Why don't you try to fight a bunch of players?")
 				if("Culling the Herd")
-					i_Player << npcsay("Zerf: Let's kill some people... A lot of people!")
+					s.AddText("Let's kill some people... A lot of people!")
 				if("Strength of Dragons")
-					i_Player << npcsay("Zerf: Show me what you're made of, if you're strong enough I will give you a wand so powerful it contains the strength of dragons!")
+					s.AddText("Show me what you're made of, if you're strong enough I will give you a wand so powerful it contains the strength of dragons!")
 
 			..(i_Player, questName)
 
 		questOngoing(mob/Player/i_Player, questName)
 			.=..(i_Player, questName)
 
+			var/ScreenText/s = new(i_Player, src)
+
 			switch(questName)
 				if("PvP Introduction")
 					if(.)
-						i_Player << npcsay("Zerf: Good job but we're just getting started!")
+						s.AddText("Good job but we're just getting started!")
 					else
-						i_Player << npcsay("Zerf: You aren't going to get any better by not fighting!")
+						s.AddText("You aren't going to get any better by not fighting!")
 				if("Culling the Herd")
 					if(.)
-						i_Player << npcsay("Zerf: Mawhahahaha! THEY'RE ALL DEAD!")
+						s.AddText("Mawhahahaha! THEY'RE ALL DEAD!")
 					else
-						i_Player << npcsay("Zerf: Kill or be killed, my friend.")
+						s.AddText("Kill or be killed, my friend.")
 				if("Strength of Dragons")
-					i_Player << npcsay("Zerf: Hmm... I don't know, are you really ready?")
+					s.AddText("Hmm... I don't know, are you really ready?")
 
 
 		questCompleted(mob/Player/i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
 			if(i_Player.level == lvlcap)
-				i_Player << npcsay("Zerf: Why not try some matchmaking in the ranked arena?")
+				s.AddText("Why not try some matchmaking in the ranked arena?")
 			else
-				i_Player << npcsay("Zerf: When you reach level cap, why not try some matchmaking in the ranked arena?")
+				s.AddText("When you reach level cap, why not try some matchmaking in the ranked arena?")
 
 
 	Cassandra
@@ -623,48 +631,56 @@ mob/TalkNPC/quest
 
 		questStart(mob/Player/i_Player, questName)
 
+			var/ScreenText/s = new(i_Player, src)
+
 			var/questPointer/pointer = i_Player.questPointers["Make a Potion"]
 			if(!pointer || pointer.stage)
-				i_Player << npcsay("Cassandra: You should try helping my twin sister Alyssa, she's sitting at Three Broom Sticks, I hear she seeks an immortality potion.")
+				s.AddText("You should try helping my twin sister Alyssa, she's sitting at Three Broom Sticks, I hear she seeks an immortality potion.")
 				return
 
 			if(i_Player.level < lvlcap)
-				i_Player << npcsay("Cassandra: Look at you, such a weakling can not possibly help me.")
+				s.AddText("Look at you, such a weakling can not possibly help me.")
 				return
 
 			switch(questName)
 				if("Make a Fortune")
-					i_Player << npcsay("Cassandra: Hey there, do you wish to make a fortune?! Well, you've come to the right place, I have a task for you, go out there to the world and collect a peice of the rarest monsters to be found, their fine essence will be sold for millions!")
+					s.AddText("Hey there, do you wish to make a fortune?! Well, you've come to the right place, I have a task for you, go out there to the world and collect a peice of the rarest monsters to be found, their fine essence will be sold for millions!")
 				if("Make a Spell")
-					i_Player << npcsay("Cassandra: You who helped me once before, how about you help me again, thanks to you I'm rich but sadly gold can not buy me true love, however, I did manage to find a way to fulfil my desires.")
-					i_Player << npcsay("Cassandra: There is a spell capable of changing the laws of magic, this will help me find what I seek. You'll have to do what you did last time only this time I need you to collect more powerful elements.")
+					s.AddText("You who helped me once before, how about you help me again, thanks to you I'm rich but sadly gold can not buy me true love, however, I did manage to find a way to fulfil my desires.")
+					s.AddText("There is a spell capable of changing the laws of magic, this will help me find what I seek. You'll have to do what you did last time only this time I need you to collect more powerful elements.")
 				if("Make a Wig")
-					i_Player << npcsay("Cassandra: Hey... Am I pretty? This boy rejected me... I'm rich and powerful but it's not enough, I want to be the most beautiful girl in the world-- nay, the universe! You my dear slave will help me accomplish that goal!")
+					s.AddText("Hey... Am I pretty? This boy rejected me... I'm rich and powerful but it's not enough, I want to be the most beautiful girl in the world-- nay, the universe! You my dear slave will help me accomplish that goal!")
 
 			..(i_Player, questName)
 
 		questOngoing(mob/Player/i_Player, questName)
 			.=..(i_Player, questName)
 
+			var/ScreenText/s = new(i_Player, src)
+
 			if(.)
 				switch(questName)
 					if("Make a Fortune")
-						i_Player << npcsay("Cassandra: Hmmph! I could've done it myself but I'm a lady, here you can have this scarf, I don't need it anymore...")
+						s.AddText("Hmmph! I could've done it myself but I'm a lady, here you can have this scarf, I don't need it anymore...")
 						i_Player << errormsg("Cassandra takes the monster essences you've collected, she's going to make a fortune while you can warm yourself up with her old scarf.")
 					if("Make a Spell")
-						i_Player << npcsay("Cassandra: Hmmph! I could've done it myself but I'm a lady, here you can have this wand, I don't need it anymore...")
+						s.AddText("Hmmph! I could've done it myself but I'm a lady, here you can have this wand, I don't need it anymore...")
 						i_Player << errormsg("Cassandra takes the monster essences you've collected. She's going to be extremely powerful and get all her heart's desires while you are stuck with an old stick.")
 					if("Make a Wig")
-						i_Player << npcsay("Cassandra: GIVE ME, GIVE ME, I will be the fairest of them all!")
+						s.AddText("GIVE ME, GIVE ME, I will be the fairest of them all!")
 						i_Player << errormsg("You decide Cassandra is a bitch and you're done running errands for her, you create and keep the wig for yourself, this girl is nothing but trouble.")
 
 						for(var/obj/items/Alyssa/i in i_Player)
 							i.Dispose()
 			else
-				i_Player << npcsay("Cassandra: Maybe I was wrong about you, maybe you aren't capable of defeating such rare monsters.")
+				s.AddText("Maybe I was wrong about you, maybe you aren't capable of defeating such rare monsters.")
 
 		questCompleted(mob/Player/i_Player, questName)
-			i_Player << npcsay("Cassandra: I hate you...")
+
+			var/ScreenText/s = new(i_Player, src)
+
+			s.AddText("I hate you...")
+
 
 obj/items/Alyssa
 	icon='ingred.dmi'
