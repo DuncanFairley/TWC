@@ -2471,8 +2471,9 @@ obj/clanpillar
 		disable()
 			density = 0
 			invisibility = 100
-			hpbar.loc = null
-			hpbar = null
+			if(hpbar)
+				hpbar.loc = null
+				hpbar = null
 		respawn_count()
 			spawn()
 				if(clanwars)
