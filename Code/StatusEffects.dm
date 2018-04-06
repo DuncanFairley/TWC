@@ -616,7 +616,7 @@ StatusEffect
 					sleep(10)
 
 		Health
-			var/amount = 100
+			var/amount = 1000
 
 			Activate()
 				set waitfor = 0
@@ -641,7 +641,7 @@ StatusEffect
 
 
 		Mana
-			var/amount = 100
+			var/amount = 150
 
 			Activate()
 				set waitfor = 0

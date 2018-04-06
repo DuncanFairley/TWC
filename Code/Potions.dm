@@ -551,49 +551,49 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/Health
 
 		small_health_potion
-			seconds = 10
+			seconds = 1
 
 		health_potion
-			seconds = 20
+			seconds = 2
 
 		large_health_potion
-			seconds = 30
+			seconds = 3
 
 		greater
-			effect = /StatusEffect/Potions/Health { amount = 200 }
+			/StatusEffect/Potions/Health { amount = 2000 }
 			small_greater_health_potion
-				seconds = 10
+				seconds = 1
 
 			greater_health_potion
-				seconds = 20
+				seconds = 2
 
 			large_greater_health_potion
-				seconds = 30
+				seconds = 3
 
 	mana
 		icon_state = "blue"
 		effect     = /StatusEffect/Potions/Mana
 
 		small_mana_potion
-			seconds = 10
+			seconds = 5
 
 		mana_potion
-			seconds = 20
+			seconds = 10
 
 		large_mana_potion
-			seconds = 30
+			seconds = 15
 
 		greater
-			effect = /StatusEffect/Potions/Mana { amount = 200 }
+			effect = /StatusEffect/Potions/Mana { amount = 300 }
 
 			small_greater_mana_potion
-				seconds = 10
+				seconds = 5
 
 			greater_mana_potion
-				seconds = 20
+				seconds = 10
 
 			large_greater_mana_potion
-				seconds = 30
+				seconds = 15
 
 	invisibility_potion
 		icon_state = "gray"
