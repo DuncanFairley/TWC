@@ -7,7 +7,9 @@
 
 var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cushion,
 			 	                                         /obj/items/Smoke_Pellet,
-			 	                                         /obj/items/Tube_of_fun)),
+			 	                                         /obj/items/Tube_of_fun,
+			 	                                         /obj/items/potions/health/small_health_potion,
+														 /obj/items/potions/mana/small_mana_potion)),
 
 
 "Bubbles the Spider" = list(/obj/items/key/basic_key,
@@ -82,7 +84,9 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
                                           /obj/items/ingredients/rat_tail),
 							"1"    = list(/obj/items/Whoopie_Cushion,
 			 	 			 			  /obj/items/Smoke_Pellet,
-			 	 			 			  /obj/items/Tube_of_fun)),
+			 	 			 			  /obj/items/Tube_of_fun,
+			 	 			 			  /obj/items/potions/health/health_potion,
+			 	 			 			  /obj/items/potions/mana/mana_potion)),
 
 
 "Snowman"            = list("0.02" = list(/obj/items/artifact,
@@ -113,7 +117,9 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 						     			  /obj/items/crystal/soul),
 							"2"    = list(/obj/items/DarknessPowder,
 							 			  /obj/items/Smoke_Pellet,
-							 			  /obj/items/Tube_of_fun)),
+							 			  /obj/items/Tube_of_fun,
+							 			  /obj/items/potions/health/large_health_potion,
+										  /obj/items/potions/mana/large_mana_potion)),
 
 "Vengeful Ghost"     = list("0.5"   = list(/obj/items/colors/purple_stone,
 							 			 /obj/items/colors/pink_stone,
@@ -166,12 +172,16 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 								 	 	  /obj/items/Whoopie_Cushion,
 									 	  /obj/items/U_No_Poo,
 									 	  /obj/items/ingredients/eyes,
-							 		 	  /obj/items/Tube_of_fun)),
+							 		 	  /obj/items/Tube_of_fun,
+							 		 	  /obj/items/potions/health/large_health_potion,
+							 		 	  /obj/items/potions/mana/large_mana_potion)),
 
 
 "Troll"              = list("7"    = list(/obj/items/Whoopie_Cushion,
 			 				  			  /obj/items/Smoke_Pellet,
-			 			  				  /obj/items/Tube_of_fun),
+			 			  				  /obj/items/Tube_of_fun,
+			 			  				  /obj/items/potions/health/health_potion,
+			 	 			 			  /obj/items/potions/mana/mana_potion),
 			 			  	"2"    = list(/obj/items/wearable/bling,
 			 			  	 			  /obj/items/bucket,
 			 			  	 			  /obj/items/scroll,

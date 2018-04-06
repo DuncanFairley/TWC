@@ -560,7 +560,7 @@ obj/items/potions
 			seconds = 3
 
 		greater
-			/StatusEffect/Potions/Health { amount = 2000 }
+			effect = /StatusEffect/Potions/Health { amount = 2000 }
 			small_greater_health_potion
 				seconds = 1
 
