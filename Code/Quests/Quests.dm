@@ -216,77 +216,11 @@ mob/TalkNPC/quest
 								p.startQuest("On House Arrest")
 								p.Resort_Stacking_Inv()
 
-mob/TalkNPC/quest
-	Girl
-		icon_state="girl"
-		density=1
-		questPointers = "Stolen by the Lord"
-		verb
-			Examine()
-				set src in oview(3)
-				usr << "A local townsgirl."
-
-		Talk()
-			set src in oview(3)
-			var/mob/Player/p = usr
-			if("Stolen by the Lord" in p.questPointers)
-				var/questPointer/pointer = p.questPointers["Stolen by the Lord"]
-				if(pointer.stage)
-					usr << "The girl looks up at you quickly"
-					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> Did you find him yet?!?"
-
-					if(pointer.stage == 2)
-						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>[usr]</span> </b>:<font color=white> Yep, I found him. Here you are."
-						usr << "You hand the little baby boy to the girl"
-						usr << "The girl throws her arms around you"
-						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> THANK YOU THANK YOU THANK YOU!"
-						usr << "You find yourself smiling slightly"
-						usr << "\n<span style=\"font-size:2;\"><ont color=red><b> <font color=red>Girl</span> </b>:<font color=white> Here, this is my allowance that I saved up, you can have it."
-						usr << "The girl hands you a hand full of gold."
-						p.checkQuestProgress("Girl")
-					else
-						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>[usr]</span> </b>:<font color=white> Not yet, sorry."
-						usr << "The girl frowns."
-				else
-					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> Thanks again!!!"
-					sleep(10)
-					usr << "The girl smiles bigger than any you've ever seen."
-
-			else
-				usr << "\n\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> Help help!"
-				alert("The girl waves her arms in distress")
-				sleep(30)
-				switch(input("Girl: Are you here to help me?","Help?")in list("Yes","No"))
-					if("Yes")
-						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> Oh THANK YOU!"
-						sleep(20)
-						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> My mom left to go to the store, and told me to watch my little brother."
-						sleep(30)
-						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> I needed to get something from my room and when I came back, my little brother was gone."
-						alert("The girl bursts into tears")
-						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>[usr]</span> </b>:<font color=white> Well where did you see him last?"
-						alert("The girl scratches her head")
-						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Girl</span> </b>:<font color=white> Uhm, I'm not sure, I just came back and he was gone."
-						sleep(30)
-						usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>[usr]</span> </b>:<font color=white> Maybe I will ask some of the towns people around here."
-						alert("The girl nods somberly")
-						p.startQuest("Stolen by the Lord")
-					if("No")
-						alert("The girl frowns")
-
-
-
-
-
 mob
 	Baby
 		icon = 'NPCs.dmi'
 		icon_state="baby"
 		density=1
-		verb
-			Examine()
-				set src in oview(5)
-				usr << "A widdle baby."
 
 mob/TalkNPC
 	Lord
@@ -297,36 +231,24 @@ mob/TalkNPC
 			..()
 			tag = "Lord"
 
-		verb
-			Examine()
-				set src in oview(3)
-				usr << "He looks like a mix between Count Choculah and an elf."
-
 		Talk()
 			set src in oview(3)
 			var/mob/Player/p = usr
+
+			var/ScreenText/s = new(p, src)
+
 			if("Stolen by the Lord" in p.questPointers)
 				var/questPointer/pointer = p.questPointers["Stolen by the Lord"]
 				if(pointer.stage == 1)
-					switch(input("Lord: How did you get here!","Lord")in list("Your maze was pretty lame","Give back the girls baby"))
-						if("Your maze was pretty lame")
-							switch(input("Lord: WHAT! NEVER!!! I will demolish you!","Lord")in list("Bring it on!","No! I'm sorry."))
-								if("Bring it on!")
-									usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Lord</span> </b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
-									p.checkQuestProgress("Lord")
-								if("No! I'm sorry.")
-									alert("The Lord squints his eyes at you and turns his back")
-						if("Give back the girls baby")
-							switch(input("Lord: Never! You'll have to take it!","Lord")in list("So it shall be."))
-								if("So it shall be.")
-									usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Lord</span> </b>:<font color=white> You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win."
-									p.checkQuestProgress("Lord")
+					s.AddText("How did you get here!")
+					s.AddText("You want to...fight me? Uh, no bodys ever taken the challenge before...HERE! You win.")
+					p.checkQuestProgress("Lord")
 					return
 				else if(pointer.stage == 2)
-					usr << "You won, go back to the girl."
+					s.AddText("You won, go back to the girl.")
 					return
 
-			usr << "He looks like a mix between Count Choculah and an elf. You decide not to bother him."
+			s.AddText("He looks like a mix between Count Choculah and an elf. You decide not to bother him.")
 
 obj
 	lever

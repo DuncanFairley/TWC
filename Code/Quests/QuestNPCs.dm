@@ -7,6 +7,38 @@
 
 mob/TalkNPC/quest
 
+	Girl
+		icon_state = "girl"
+		questPointers = "Stolen by the Lord"
+
+		questStart(mob/Player/i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
+			s.AddText("Help help!")
+			s.AddText("My mom left to go to the store and told me to watch my little brother.")
+			s.AddText("I needed to get something from my room and when I came back, my little brother was gone, help me find my little brother!")
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
+			s.AddText("Did you find him yet?!?")
+
+			if(.)
+				s.AddText("THANK YOU THANK YOU THANK YOU!")
+				s.AddText("Here, this is my allowance that I saved up, you can have it.")
+			else
+				s.AddText("No?! What is taking you so long, my poor little brother is in danger!")
+
+		questCompleted(mob/Player/i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("Thanks again!")
+
+
 	Tammie
 		icon_state = "tammie"
 		questPointers = "Demonic Ritual"
