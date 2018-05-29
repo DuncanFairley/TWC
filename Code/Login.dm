@@ -536,6 +536,7 @@ world
 	name = "The Wizards' Chronicles"
 	turf=/turf/blankturf
 	view="18x18"
+	fps = 60
 
 world/proc/playtimelogger()
 	return
