@@ -155,7 +155,7 @@ obj/stackobj/Write(savefile/F)
 mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
-			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
+			if(M.Gm) M << "<h4>[src] has that save bug. Tell a developer that it occured on [sourcefile] line [line]</h4>"
 
 mob/Player/base_save_allowed = 1
 mob

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 Duncan Fairley
+ * Copyright ï¿½ 2014 Duncan Fairley
  * Distributed under the GNU Affero General Public License, version 3.
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
@@ -104,7 +104,7 @@ mob/Player/proc/PMHome()
 			"})
 mob/Player/var/list/blockedpeeps = list()
 mob/var/tmp/timelog = 0
-var/list/emotes = list("farts","burps","coughs","yawns","sneezes","picks their nose","breathes heavily","scratches their arm","fidgets")
+var/list/emotes = list("farts","burps","coughs","yawns","sneezes","picks their nose","breathes heavily","scratches their arm","fidgets","plays with their fingers","plays with their hair")
 mob/var/autoAFK = TRUE
 mob/Player/proc/unreadmessagelooper()
 	set background = 1
@@ -378,10 +378,10 @@ mob/Player/Topic(href,href_list[])
 
 mob/Player/verb/PM(var/p in Players())
 	if(src.mute)
-		alert("You are not allowed to send messages.")
+		alert("You are not allowed to send messages while you are muted.")
 		return
 	if(src.Detention)
-		alert("You are not allowed to send messages.")
+		alert("You are not allowed to send messages while in detention.")
 		return
 	var/mob/M = p
 	if(istext(M))

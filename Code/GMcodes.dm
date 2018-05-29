@@ -1185,7 +1185,7 @@ mob
 mob/GM/verb
 	Ban(mob/M in Players)
 		set category = "Staff"
-		if(M.key=="Murrawhip")
+		if(M.key=="MaxIsJoe")
 			Players<<"<b>[src] tried to ban [M] but it bounced off and [usr] banned themself!"
 			Log_admin("[src] tried to ban [M] but banned themself by default")
 			crban_fullban(usr)

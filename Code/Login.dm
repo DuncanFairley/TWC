@@ -348,7 +348,7 @@ mob/GM/verb/CopyMap()
 		worldData.customMaps.Add(newmap)
 		Save_World()
 	else
-		src << errormsg("Report error ID 3feOP to Murrawhip.")
+		src << errormsg("Report error ID 3feOP to developer(s).")
 mob/GM/verb/NewMap()
 	set category = "Custom Maps"
 	var/customMap/newmap = new()
@@ -535,7 +535,7 @@ world
 	hub = "TheWizardsChronicles.TWC"
 	name = "The Wizards' Chronicles"
 	turf=/turf/blankturf
-	view="17x17"
+	view="18x18"
 
 world/proc/playtimelogger()
 	return
@@ -635,7 +635,11 @@ mob
 				"riddle",
 				"lestrange",
 				"black",
-				"marvello")
+				"marvello",
+				"ben copper",
+				"penny haywood",
+				"muller sydney",
+				"muller")
 			var/list/foundinvalids = ""
 			alert(length(name))
 			for(var/i=1;i<length(name)+1;i++)
@@ -723,10 +727,11 @@ mob
 			else if(character.Gender=="Male")
 				character.gender = MALE
 
-			src<<"<b><span style=\"font-size:2;color:#3636F5;\">Welcome to Harry Potter: The Wizards Chronicles</span> <u><a href='http://wizardschronicles.com/?ver=[VERSION]'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://forum.wizardschronicles.com\">here.</a>"
+			src<<"<b><span style=\"font-size:2;color:#3636F5;\">Welcome to Harry Potter: The Wizards Chronicles</span> <u><a href='https://github.com/MaxIsJoe/TWC'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://forum.wizardschronicles.com\">here.</a>"
 			src<<"<b>You are in the entrance to Diagon Alley.</b>"
 			src<<"<b><u>Ollivander has a wand for you. Go up, and the first door on your right is the entrance to Ollivander's wand store.</u></b>"
 			src<<"<h3>For a full player guide, visit http://guide.wizardschronicles.com.</h3>"
+			src<<"<font color=grey>This is a slightly modifed version of TWC, expect some changes</font>"
 			var/oldmob = src
 			src.client.mob = character
 			character.client.initMapBrowser()
@@ -894,7 +899,7 @@ mob/Player
 				admin=1
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
-			if("Rotem12")
+			if("MaxIsJoe")
 				verbs+=typesof(/mob/GM/verb/)
 				verbs+=typesof(/mob/Spells/verb/)
 				verbs+=typesof(/mob/test/verb/)
