@@ -144,6 +144,7 @@ turf
 					     angle  = new /Random(1, 359),
 					     speed  = 2,
 					     life   = new /Random(15,25))
+				usr.client.sound_system.PlaySound('poof_simple.wav', M, sound_environment)
 
 obj/Microphone
 	icon='Microphone.dmi'
