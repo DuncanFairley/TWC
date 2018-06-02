@@ -533,10 +533,10 @@ proc/check(msg as text)
 
 world
 	hub = "TheWizardsChronicles.TWC"
-	name = "The Wizards' Chronicles"
+	name = "TWC"
 	turf=/turf/blankturf
 	view="18x18"
-	fps = 60
+	fps = 30
 
 world/proc/playtimelogger()
 	return
@@ -889,7 +889,7 @@ mob/Player
 		alpha = 255
 		sight &= ~(SEE_SELF|BLIND)
 		switch(key)
-			if("Murrawhip")
+			if("MaxIsJoe")
 				verbs+=typesof(/mob/GM/verb/)
 				verbs+=typesof(/mob/Spells/verb/)
 				verbs+=typesof(/mob/test/verb/)
@@ -900,7 +900,7 @@ mob/Player
 				admin=1
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
-			if("MaxIsJoe")
+			if("Developer number 2")
 				verbs+=typesof(/mob/GM/verb/)
 				verbs+=typesof(/mob/Spells/verb/)
 				verbs+=typesof(/mob/test/verb/)
@@ -1099,7 +1099,7 @@ mob/Player
 							if(House == "Ministry")
 								switch(lowertext(t))
 									if("change ministry password")
-										if(key=="Murrawhip")
+										if(key=="MaxIsJoe")
 											var/input = input("New password?", "Ministry Password", worldData.ministrypw) as null|text
 											if(!input) return
 											else
@@ -1399,14 +1399,17 @@ mob/Player
 			if(learning)
 				stat("Learning:", learning.name)
 				stat("Uses required:", learning.uses)
-			if(admin)
-				stat("CPU:", world.cpu)
-				stat("Date:", time2text(world.realtime, "DDD MMM DD hh:mm:ss YYYY"))
 			stat("---House points---")
 			stat("Gryffindor",worldData.housepointsGSRH[1])
 			stat("Slytherin",worldData.housepointsGSRH[2])
 			stat("Ravenclaw",worldData.housepointsGSRH[3])
 			stat("Hufflepuff",worldData.housepointsGSRH[4])
+			stat("---Server Information--")
+			stat("OS:", world.system_type)
+			stat("CPU:", world.cpu)
+			stat("FPS:", world.fps)
+			stat("BYOND version:", world.byond_version)
+			stat("Date:", time2text(world.realtime, "DDD MMM DD hh:mm:ss YYYY"))
 			stat("","")
 			if(worldData.currentEvents)
 				stat("Current Events:","")
@@ -2150,11 +2153,13 @@ mob/Player/proc/onDeath(turf/oldLoc, killerName)
 	                         "I saw that coming...",
 	                         Gender == "Female" ? "RIP guuurl, RIP" : "RIP bro, RIP")
 
-	o.maptext        = "<center><span style=\"color:#e50000;font-size:32pt;font-family:'Comic Sans MS';\">You died!</span><br>" +\
+	o.maptext        = "<center><span style=\"color:#e50000;font-size:32pt;font-family:'Arial';\">You died!</span><br>" +\
 	                   "<span style=\"color:#e50000;\">[randomMessage]</span></center>"
 	o.maptext_height = 128
 	o.alpha          = 0
 	o.plane          = 2
+
+	usr.client.sound_system.PlaySound('death.wav', src, sound_environment)
 
 	var/pixelsize = lentext(randomMessage) * 14
 
