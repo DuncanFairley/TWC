@@ -2159,7 +2159,8 @@ mob/Player/proc/onDeath(turf/oldLoc, killerName)
 	o.alpha          = 0
 	o.plane          = 2
 
-	usr.client.sound_system.PlaySound('death.wav', src, sound_environment)
+	//usr.client.sound_system.PlaySound('death.wav', src, sound_environment)
+	spawn _SoundEngine('death.wav')
 
 	var/pixelsize = lentext(randomMessage) * 14
 

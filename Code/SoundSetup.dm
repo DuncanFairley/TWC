@@ -27,7 +27,7 @@ var/list/environments = list(
 	"psychotic" = 25,
 		)
 
-
+/*
 var/sound_environment = 0
 mob/verb/SetEnvironment(new_env as anything in environments)
 	set hidden = 1
@@ -41,3 +41,4 @@ mob/verb/SetSoundVolume(new_volume as num)
 		return
 	src.client.sound_system.SetSoundVolume(min(max(new_volume, 0), 100))
 	src << "Sound Volume: [src.client.sound_system.sound_volume]"
+*/

@@ -24,9 +24,11 @@ mob/Bump(obj/movablewall/O)
 		spawn()
 			functioning = 1
 			for(var/obj/movablewall/W in range(20,O))
+				spawn _SoundEngine('stonedoor_openclose.ogg', O, range = 5, volume=15)
 				spawn(rand(1,30))W.rumble()
 			sleep(150)
 			for(var/obj/movablewall/W in range(20,O))
+				spawn _SoundEngine('stonedoor_openclose.ogg', O, range = 5, volume =15)
 				spawn(rand(1,30))W.rumble()
 			functioning = 0
 proc/npcsay(T as text)
