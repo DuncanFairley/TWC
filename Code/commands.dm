@@ -190,3 +190,8 @@ mob/GM/verb/HGM_Message(msg as message)
 			set hidden = 1
 			if(!usr.Gm) return
 			Players<<"[msg]"
+
+mob/GM/verb/server_fps(N as num)
+	set category="Staff"
+	set name = "Server FPS"
+	world.fps = N
