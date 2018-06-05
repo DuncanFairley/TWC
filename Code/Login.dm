@@ -536,7 +536,22 @@ world
 	name = "TWC"
 	turf=/turf/blankturf
 	view="18x18"
-	fps = 30
+
+
+mob/verb/client_fps()
+	set name = "Client FPS"
+	set hidden = 1
+	switch(input("Please select the FPS cap your game will run on.","Set FPS for Client") as null|anything in list("10 (default)","20","30 (accaptable framerate)","40","50 (Blocky movment)"))
+		if("10 (default)")
+			client.tick_lag = 0
+		if("20")
+			client.tick_lag = 0.5
+		if("30 (accaptable framerate)")
+			client.tick_lag = 0.35
+		if("40")
+			client.tick_lag = 0.25
+		if("50 (Blocky movment)")
+			client.tick_lag = 0.2
 
 world/proc/playtimelogger()
 	return
@@ -664,7 +679,7 @@ mob
 			var/mob/Player/character=new()
 			//character.savefileversion = currentsavefilversion
 			character.save_loaded = 1
-			var/desiredname = input("What would you like to name your Harry Potter: The Wizards' Chronicles character? Keep in mind that you cannot use a popular name from the Harry Potter franchise, nor numbers or special characters.")
+			var/desiredname = input("What would you like to name your Wizards' Chronicles character? Keep in mind that you cannot use a popular name from the Harry Potter franchise, nor numbers or special characters.")
 			var/passfilter = name_filter(desiredname)
 			while(passfilter)
 				alert("Your desired name is not allowed as it [passfilter].")
@@ -769,6 +784,8 @@ mob/Player
 	proc
 		addNameTag()
 			underlays = list()
+			if(developer)
+				GenerateNameOverlay(255,0,255)
 			switch(House)
 				if("Hufflepuff")
 					GenerateNameOverlay(242,228,22)
@@ -898,6 +915,7 @@ mob/Player
 				shortapparate=1
 				draganddrop=1
 				admin=1
+				developer=1
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
 			if("Developer number 2")
@@ -908,6 +926,7 @@ mob/Player
 				Gm=1
 				draganddrop=1
 				admin=1
+				developer=1
 			else if(Gm && !(ckey in worldData.Gms))
 				spawn()
 					removeStaff()
@@ -1404,11 +1423,12 @@ mob/Player
 			stat("Slytherin",worldData.housepointsGSRH[2])
 			stat("Ravenclaw",worldData.housepointsGSRH[3])
 			stat("Hufflepuff",worldData.housepointsGSRH[4])
-			stat("---Server Information--")
+			stat("---Information--")
 			stat("OS:", world.system_type)
 			stat("CPU:", world.cpu)
-			stat("FPS:", world.fps)
 			stat("BYOND version:", world.byond_version)
+			stat("Client FPS:", client.fps)
+			stat("Server FPS:", world.fps)
 			stat("Date:", time2text(world.realtime, "DDD MMM DD hh:mm:ss YYYY"))
 			stat("","")
 			if(worldData.currentEvents)
@@ -1964,7 +1984,6 @@ mob/Player
 					Year="Hogwarts Graduate"
 					src<<"<b>Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate.</b>"
 					src<<infomsg("You can now view your damage & defense stats in the stats tab.")
-
 obj/Banker
 	icon = 'NPCs.dmi'
 	density=1
@@ -2045,6 +2064,7 @@ mob/Player/var
 	draganddrop=0
 	StatPoints=0
 	mute=0
+	developer=0
 
 	tmp
 		spam=0
@@ -2055,8 +2075,8 @@ mob/var
 	Def=5
 	HP=200
 	MHP=200
-	MP=10
-	MMP=10
+	MP=30
+	MMP=30
 
 mob/var/Mexp=5
 mob/var/Exp=0
