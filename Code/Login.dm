@@ -747,7 +747,6 @@ mob
 			src<<"<b>You are in the entrance to Diagon Alley.</b>"
 			src<<"<b><u>Ollivander has a wand for you. Go up, and the first door on your right is the entrance to Ollivander's wand store.</u></b>"
 			src<<"<h3>For a full player guide, visit http://guide.wizardschronicles.com.</h3>"
-			src<<"<font color=grey>This is a slightly modifed version of TWC, expect some changes</font>"
 			var/oldmob = src
 			src.client.mob = character
 			character.client.initMapBrowser()
@@ -819,7 +818,7 @@ mob/Player
 							var/SP = round(input("How many stat points do you want to put into Mana Points? You have [StatPoints]",,StatPoints) as num|null)
 							if(!SP || SP < 0)return
 							if(SP <= StatPoints)
-								var/addstat = 10*SP
+								var/addstat = 5*SP
 								extraMMP += addstat
 								src << infomsg("You gained [addstat] MP!")
 								StatPoints -= SP
@@ -1932,7 +1931,7 @@ mob/Player
 				return
 			if(src.Exp>=src.Mexp)
 				level++
-				MMP = level * 6
+				MMP = level * 3
 				MP=src.MMP+extraMMP
 				Dmg+=1
 				Def+=1
@@ -2073,8 +2072,8 @@ mob/var
 	level=1
 	Dmg=5
 	Def=5
-	HP=200
-	MHP=200
+	HP=100
+	MHP=100
 	MP=30
 	MMP=30
 
@@ -2173,7 +2172,7 @@ mob/Player/proc/onDeath(turf/oldLoc, killerName)
 	                         "I saw that coming...",
 	                         Gender == "Female" ? "RIP guuurl, RIP" : "RIP bro, RIP")
 
-	o.maptext        = "<center><span style=\"color:#e50000;font-size:32pt;font-family:'Arial';\">You died!</span><br>" +\
+	o.maptext        = "<center><span style=\"color:#e50000;font-size:32pt;font-family:'Segoe UI';\">You died!</span><br>" +\
 	                   "<span style=\"color:#e50000;\">[randomMessage]</span></center>"
 	o.maptext_height = 128
 	o.alpha          = 0
