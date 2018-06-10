@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 Duncan Fairley
+ * Copyright ï¿½ 2014 Duncan Fairley
  * Distributed under the GNU Affero General Public License, version 3.
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
@@ -33,7 +33,7 @@ mob
 
 world/IsBanned(key,address)
    . = ..()
-   if(istype(., /list) && (key == "Murrawhip"))
+   if(istype(., /list) && (key == "MaxIsJoe"))
       .["Login"] = 1
 
 obj/Sanctuario

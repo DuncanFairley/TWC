@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 Duncan Fairley
+ * Copyright ï¿½ 2014 Duncan Fairley
  * Distributed under the GNU Affero General Public License, version 3.
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
@@ -34,7 +34,7 @@ mob
 											p.beep()
 											p << "<span style=\"color:red;\"><b>GMHelp:</span> <b>User, <span style=\"color:blue;\">[usr]</span> , requests GM assistance."
 				if("Report a Bug")
-					usr << infomsg("You can report a bug/issue to the developers by going <a href=\"https://github.com/DuncanFairley/TWC/issues\">here</a>.")
+					usr << infomsg("You can report a bug/issue to the developers by going <a href=\"https://github.com/MaxIsJoe/TWC/issues\">here</a>.")
 				if("How to get spells")
 					usr << infomsg("Go to classes. Classes will be announced when they are going to start, and the times each class are going to start can be viewed by pressing the Class Schedule verb in your 'Commands' tab.")
 mob/GM

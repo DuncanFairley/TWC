@@ -1074,7 +1074,7 @@ mob/Spells/verb/Tarantallegra(mob/Player/M in view()&Players)
 		var/mob/Player/p = src
 		p.MP-=100
 		p.updateHPMP()
-		if(key != "Murrawhip")
+		if(key != "MaxIsJoe")
 			M.dance=1
 		p.learnSpell("Tarantallegra")
 		src=null
@@ -1421,7 +1421,7 @@ obj/Avada_Kedavra
 
 mob/Spells/verb/Avada_Kedavra()
 	set category="Spells"
-	if(key != "Murrawhip")
+	if(key != "MaxIsJoe")
 		hearers()<<"<b><span style=\"color:red;\">[src]:</b></span> <font color= #00FF33>Avada Kedavra !"
 	var/obj/S=new/obj/Avada_Kedavra
 

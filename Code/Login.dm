@@ -348,7 +348,7 @@ mob/GM/verb/CopyMap()
 		worldData.customMaps.Add(newmap)
 		Save_World()
 	else
-		src << errormsg("Report error ID 3feOP to Murrawhip.")
+		src << errormsg("Report error ID 3feOP to developer(s).")
 mob/GM/verb/NewMap()
 	set category = "Custom Maps"
 	var/customMap/newmap = new()
@@ -533,9 +533,25 @@ proc/check(msg as text)
 
 world
 	hub = "TheWizardsChronicles.TWC"
-	name = "The Wizards' Chronicles"
+	name = "TWC"
 	turf=/turf/blankturf
-	view="17x17"
+	view="18x18"
+
+
+mob/verb/client_fps()
+	set name = "Client FPS"
+	set hidden = 1
+	switch(input("Please select the FPS cap your game will run on.","Set FPS for Client") as null|anything in list("10 (default)","20","30 (accaptable framerate)","40","50 (Blocky movment)"))
+		if("10 (default)")
+			client.tick_lag = 0
+		if("20")
+			client.tick_lag = 0.5
+		if("30 (accaptable framerate)")
+			client.tick_lag = 0.35
+		if("40")
+			client.tick_lag = 0.25
+		if("50 (Blocky movment)")
+			client.tick_lag = 0.2
 
 world/proc/playtimelogger()
 	return
@@ -635,7 +651,11 @@ mob
 				"riddle",
 				"lestrange",
 				"black",
-				"marvello")
+				"marvello",
+				"ben copper",
+				"penny haywood",
+				"muller sydney",
+				"muller")
 			var/list/foundinvalids = ""
 			alert(length(name))
 			for(var/i=1;i<length(name)+1;i++)
@@ -659,7 +679,7 @@ mob
 			var/mob/Player/character=new()
 			//character.savefileversion = currentsavefilversion
 			character.save_loaded = 1
-			var/desiredname = input("What would you like to name your Harry Potter: The Wizards' Chronicles character? Keep in mind that you cannot use a popular name from the Harry Potter franchise, nor numbers or special characters.")
+			var/desiredname = input("What would you like to name your Wizards' Chronicles character? Keep in mind that you cannot use a popular name from the Harry Potter franchise, nor numbers or special characters.")
 			var/passfilter = name_filter(desiredname)
 			while(passfilter)
 				alert("Your desired name is not allowed as it [passfilter].")
@@ -723,7 +743,7 @@ mob
 			else if(character.Gender=="Male")
 				character.gender = MALE
 
-			src<<"<b><span style=\"font-size:2;color:#3636F5;\">Welcome to Harry Potter: The Wizards Chronicles</span> <u><a href='http://wizardschronicles.com/?ver=[VERSION]'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://forum.wizardschronicles.com\">here.</a>"
+			src<<"<b><span style=\"font-size:2;color:#3636F5;\">Welcome to Harry Potter: The Wizards Chronicles</span> <u><a href='https://github.com/MaxIsJoe/TWC'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://forum.wizardschronicles.com\">here.</a>"
 			src<<"<b>You are in the entrance to Diagon Alley.</b>"
 			src<<"<b><u>Ollivander has a wand for you. Go up, and the first door on your right is the entrance to Ollivander's wand store.</u></b>"
 			src<<"<h3>For a full player guide, visit http://guide.wizardschronicles.com.</h3>"
@@ -763,6 +783,8 @@ mob/Player
 	proc
 		addNameTag()
 			underlays = list()
+			if(developer)
+				GenerateNameOverlay(255,0,255)
 			switch(House)
 				if("Hufflepuff")
 					GenerateNameOverlay(242,228,22)
@@ -796,7 +818,7 @@ mob/Player
 							var/SP = round(input("How many stat points do you want to put into Mana Points? You have [StatPoints]",,StatPoints) as num|null)
 							if(!SP || SP < 0)return
 							if(SP <= StatPoints)
-								var/addstat = 10*SP
+								var/addstat = 5*SP
 								extraMMP += addstat
 								src << infomsg("You gained [addstat] MP!")
 								StatPoints -= SP
@@ -883,7 +905,7 @@ mob/Player
 		alpha = 255
 		sight &= ~(SEE_SELF|BLIND)
 		switch(key)
-			if("Murrawhip")
+			if("MaxIsJoe")
 				verbs+=typesof(/mob/GM/verb/)
 				verbs+=typesof(/mob/Spells/verb/)
 				verbs+=typesof(/mob/test/verb/)
@@ -892,9 +914,10 @@ mob/Player
 				shortapparate=1
 				draganddrop=1
 				admin=1
+				developer=1
 				//src.icon = 'Murrawhip.dmi'
 				//src.icon_state = ""
-			if("Rotem12")
+			if("Developer number 2")
 				verbs+=typesof(/mob/GM/verb/)
 				verbs+=typesof(/mob/Spells/verb/)
 				verbs+=typesof(/mob/test/verb/)
@@ -902,6 +925,7 @@ mob/Player
 				Gm=1
 				draganddrop=1
 				admin=1
+				developer=1
 			else if(Gm && !(ckey in worldData.Gms))
 				spawn()
 					removeStaff()
@@ -1093,7 +1117,7 @@ mob/Player
 							if(House == "Ministry")
 								switch(lowertext(t))
 									if("change ministry password")
-										if(key=="Murrawhip")
+										if(key=="MaxIsJoe")
 											var/input = input("New password?", "Ministry Password", worldData.ministrypw) as null|text
 											if(!input) return
 											else
@@ -1393,14 +1417,18 @@ mob/Player
 			if(learning)
 				stat("Learning:", learning.name)
 				stat("Uses required:", learning.uses)
-			if(admin)
-				stat("CPU:", world.cpu)
-				stat("Date:", time2text(world.realtime, "DDD MMM DD hh:mm:ss YYYY"))
 			stat("---House points---")
 			stat("Gryffindor",worldData.housepointsGSRH[1])
 			stat("Slytherin",worldData.housepointsGSRH[2])
 			stat("Ravenclaw",worldData.housepointsGSRH[3])
 			stat("Hufflepuff",worldData.housepointsGSRH[4])
+			stat("---Information--")
+			stat("OS:", world.system_type)
+			stat("CPU:", world.cpu)
+			stat("BYOND version:", world.byond_version)
+			stat("Client FPS:", client.fps)
+			stat("Server FPS:", world.fps)
+			stat("Date:", time2text(world.realtime, "DDD MMM DD hh:mm:ss YYYY"))
 			stat("","")
 			if(worldData.currentEvents)
 				stat("Current Events:","")
@@ -1903,7 +1931,7 @@ mob/Player
 				return
 			if(src.Exp>=src.Mexp)
 				level++
-				MMP = level * 6
+				MMP = level * 3
 				MP=src.MMP+extraMMP
 				Dmg+=1
 				Def+=1
@@ -1955,7 +1983,6 @@ mob/Player
 					Year="Hogwarts Graduate"
 					src<<"<b>Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate.</b>"
 					src<<infomsg("You can now view your damage & defense stats in the stats tab.")
-
 obj/Banker
 	icon = 'NPCs.dmi'
 	density=1
@@ -2036,6 +2063,7 @@ mob/Player/var
 	draganddrop=0
 	StatPoints=0
 	mute=0
+	developer=0
 
 	tmp
 		spam=0
@@ -2044,10 +2072,10 @@ mob/var
 	level=1
 	Dmg=5
 	Def=5
-	HP=200
-	MHP=200
-	MP=10
-	MMP=10
+	HP=100
+	MHP=100
+	MP=30
+	MMP=30
 
 mob/var/Mexp=5
 mob/var/Exp=0
@@ -2144,11 +2172,14 @@ mob/Player/proc/onDeath(turf/oldLoc, killerName)
 	                         "I saw that coming...",
 	                         Gender == "Female" ? "RIP guuurl, RIP" : "RIP bro, RIP")
 
-	o.maptext        = "<center><span style=\"color:#e50000;font-size:32pt;font-family:'Comic Sans MS';\">You died!</span><br>" +\
+	o.maptext        = "<center><span style=\"color:#e50000;font-size:32pt;font-family:'Segoe UI';\">You died!</span><br>" +\
 	                   "<span style=\"color:#e50000;\">[randomMessage]</span></center>"
 	o.maptext_height = 128
 	o.alpha          = 0
 	o.plane          = 2
+
+	//usr.client.sound_system.PlaySound('death.wav', src, sound_environment)
+	spawn _SoundEngine('death.wav')
 
 	var/pixelsize = lentext(randomMessage) * 14
 

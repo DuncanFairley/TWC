@@ -155,7 +155,7 @@ obj/stackobj/Write(savefile/F)
 mob/proc/detectStoopidBug(sourcefile, line)
 	if(!Gender)
 		for(var/mob/Player/M in Players)
-			if(M.Gm) M << "<h4>[src] has that save bug. Tell Rotem/Murrawhip that it occured on [sourcefile] line [line]</h4>"
+			if(M.Gm) M << "<h4>[src] has that save bug. Tell a developer that it occured on [sourcefile] line [line]</h4>"
 
 mob/Player/base_save_allowed = 1
 mob
@@ -456,13 +456,13 @@ mob
 					else
 						c <<"<b><i>[src][refererckey == c.client.ckey ? "(referral)" : ""] logged in.</i></b>"
 				p<<browse(rules,"window=1;size=500x400")
-				src<<"<b><span style=\"font-size:2; color:#3636F5;\">Welcome to Harry Potter: The Wizards Chronicles</span> <u><a href='http://wizardschronicles.com/?ver=[VERSION]'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://www.wizardschronicles.com\">here.</a>"
+				src<<"<b><span style=\"font-size:2; color:#3636F5;\">Welcome to Harry Potter: The Wizards Chronicles</span> <u><a href='https://github.com/MaxIsJoe/TWC'>Version [VERSION]</a></u></b> <br>Visit the forums <a href=\"http://www.wizardschronicles.com\">here.</a>"
 
 				if(src:lastreadDP < worldData.dplastupdate)
 					p << "<span style=\"color:red;\">The Daily Prophet has an issue that you haven't yet read. <a href='?src=\ref[src];action=daily_prophet'>Click here</a> to view.</span>"
 				if(VERSION != p.lastversion)
 					p.lastversion = VERSION
-					src<<"<b><span style=\"font-size:2;\">TWC had an update since you last logged in! A list of changes can be found <a href='http://wizardschronicles.com/?ver=[VERSION]'>here.</a></span></b>"
+					src<<"<b><span style=\"font-size:2;\">TWC had an update since you last logged in! A list of changes can be found <a href='https://github.com/MaxIsJoe/TWC/tree/MIJ-HostVer'>here.</a></span></b>"
 
 
 mob/Player/var/lastversion
