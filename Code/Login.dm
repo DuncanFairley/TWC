@@ -348,7 +348,7 @@ mob/GM/verb/CopyMap()
 		worldData.customMaps.Add(newmap)
 		Save_World()
 	else
-		src << errormsg("Report error ID 3feOP to Murrawhip.")
+		src << errormsg("Report error ID 3feOP to developer(s).")
 mob/GM/verb/NewMap()
 	set category = "Custom Maps"
 	var/customMap/newmap = new()
@@ -635,7 +635,11 @@ mob
 				"riddle",
 				"lestrange",
 				"black",
-				"marvello")
+				"marvello",
+				"ben copper",
+				"penny haywood",
+				"muller sydney",
+				"muller")
 			var/list/foundinvalids = ""
 			alert(length(name))
 			for(var/i=1;i<length(name)+1;i++)
