@@ -6,7 +6,7 @@ The Wizards' Chronicles is a 2D RPG written with the BYOND engine
 
 License
 --------------------------------------------------------------------------------
-The Wizards' Chronicles is Copyright © 2014 Duncan Fairley, and is licensed
+The Wizards' Chronicles is Copyright ï¿½ 2014 Duncan Fairley, and is licensed
 under the GNU Affero General Public License, version 3. The full license is
 included in the distribution. For an easier understanding of what the license
 entails, see:
@@ -24,6 +24,7 @@ http://www.byond.com/developer/Audeuro.INIReader2
 http://www.byond.com/developer/Theodis.Pathfinder
 http://www.byond.com/developer/Deadron.Basecamp
 http://www.byond.com/developer/Rotem12.ColorMatrix
+http://www.byond.com/developer/Foomer/SoundSystem
 
 Ensure you put the source in a folder named TWC, as your DME name must match the
 name of the folder it's in.
