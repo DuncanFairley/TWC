@@ -83,6 +83,94 @@ proc
 
 mob/Player/var/tmp/presence
 
+
+hudobj/readClicker
+
+	anchor_x   = "CENTER"
+	anchor_y   = "CENTER"
+
+	mouse_over_pointer = MOUSE_HAND_POINTER
+
+	icon = 'Scroll.dmi'
+	icon_state = "wrote"
+
+	var/tmp
+		canClick = FALSE
+		mob/Player/player
+		dx
+		dy
+
+	MouseEntered()
+		if(alpha == 255)
+			var/matrix/m = matrix()*3
+			m.Translate(dx, dy)
+			transform = m
+	MouseExited()
+		if(alpha == 255)
+			var/matrix/m = matrix()*2.5
+			m.Translate(dx, dy)
+			transform = m
+
+	New(loc=null,client/Client,list/Params,show=1,Player=null)
+		..(loc,Client,Params,show)
+		player = Player
+
+		name = "[pick("Page ", "Spell #")][rand(1,3000)]"
+
+	show()
+		set waitfor = 0
+		updatePos()
+		client.screen += src
+
+		alpha = 0
+
+		dx = rand(-128, 128)
+		dy = rand(-128, 128)
+
+		var/matrix/m = matrix()
+		m.Translate(0.25 * dx, 0.25 * dy)
+
+		animate(src, alpha = 64, transform = turn(m, 90), time = 2)
+		m = matrix()*1.5
+		m.Translate(0.5 * dx, 0.5 * dy)
+		animate(alpha = 128,  transform = turn(m, 180), time = 2)
+		m = matrix()*2
+		m.Translate(0.75 * dx, 0.75 * dy)
+		animate(alpha = 192,  transform = turn(m, 270), time = 2)
+		m = matrix()*2.5
+		m.Translate(dx, dy)
+		animate(alpha = 255,  transform = m, time = 2)
+
+		sleep(8)
+		canClick = TRUE
+
+		sleep(50)
+		if(player && alpha == 255)
+			canClick = FALSE
+			hide()
+
+	Click()
+		if(canClick && alpha == 255)
+			canClick = FALSE
+
+			var/exp = get_exp(player.level) * worldData.expBookModifier
+			exp = round(rand(exp * 0.9, exp * 1.1))
+			player.addExp(exp, 1, 0)
+
+			if(player.MonsterMessages)
+				player << infomsg("You receive [comma(exp)] experience.")
+
+			var/matrix/m = transform
+			m.Translate(0, 32)
+
+			animate(src, transform = m, alpha = 0, time = 4)
+
+			sleep(4)
+
+			hide()
+			player = null
+
+
 obj
 	books
 		icon = 'Books.dmi'
@@ -104,7 +192,7 @@ obj
 				p.presence = null
 				p << infomsg("You stop reading.")
 			else if(p.readbooks==null)
-				var/hudobj/reading/R = new(null, p.client, null, 1)
+				var/hudobj/reading/R = new(null, p.client, null, 1, p)
 				p.readbooks = 1
 				p << infomsg("You begin reading.")
 				spawn(20)
@@ -113,6 +201,8 @@ obj
 						if(p.presence || p.level <= 50)
 							exp = round(rand(exp * 0.9, exp * 1.1))
 							p.addExp(exp, 1, 0)
+							if(prob(25))
+								new /hudobj/readClicker (null, p.client, null, 1, p)
 							if(p.level > 600) p.readbooks += 3
 							sleep(20)
 						else
