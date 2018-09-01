@@ -1261,7 +1261,7 @@ mob/Player
 	proc/Apparate(turf/t)
 		set waitfor = 0
 
-		new /StatusEffect/Apparate(src,10,"Apparate")
+		new /StatusEffect/Apparate(src,10*cooldownModifier,"Apparate")
 
 		MP -= 50
 		updateMP()

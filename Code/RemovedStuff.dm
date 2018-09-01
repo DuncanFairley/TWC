@@ -5,6 +5,43 @@
  * For the full license text, see LICENSE.txt.
  */
 
+mob/Player
+	verb
+		Use_Statpoints()
+			set hidden = 1
+
+
+		/*	if(StatPoints>0)
+				switch(input("Which stat would you like to improve?","You have [StatPoints] stat points.")as null|anything in list ("Damage","Defense"))
+					if("Damage")
+						if(StatPoints>0)
+							var/SP = round(input("How many stat points do you want to put into Damage? You have [StatPoints]",,StatPoints) as num|null)
+							if(!SP || SP < 0)return
+							if(SP <= StatPoints)
+								var/addstat = 1*SP
+								Dmg+=addstat
+								src<<infomsg("You gained [addstat] damage!")
+								StatPoints -= SP
+							else
+								src << errormsg("You cannot put [SP] stat points into Damage as you only have [StatPoints]")
+					if("Defense")
+						if(StatPoints>0)
+							var/SP = round(input("How many stat points do you want to put into Defense? You have [StatPoints]",,StatPoints) as num|null)
+							if(!SP || SP < 0)return
+							if(SP <= StatPoints)
+								var/addstat = 3*SP
+								Def += addstat
+								src<<infomsg("You gained [addstat] defense!")
+								StatPoints -= SP
+							else
+								src << errormsg("You cannot put [SP] stat points into Defense as you only have [StatPoints]")
+				resetMaxHP()
+				updateHPMP()
+				if(StatPoints == 0)
+					verbs.Remove(/mob/Player/verb/Use_Statpoints)
+			else
+				verbs.Remove(/mob/Player/verb/Use_Statpoints)*/
+
 
 obj/items/herosbrace
 /*	name = "Hero's brace"

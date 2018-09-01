@@ -85,6 +85,7 @@ hudobj
 			sleep(6)
 			if(client)
 				client.screen -= src
+				client = null
 
 	New(loc=null,client/Client,list/Params,show=1)
 		client = Client
@@ -143,11 +144,185 @@ hudobj
 	appearance_flags   = NO_CLIENT_COLOR|PIXEL_SCALE
 	plane              = 2
 
+	UseStatpoints
+		name       = "Use Statpoints"
+		icon_state = "lvlup"
+		anchor_x   = "WEST"
+		screen_x   = 274
+		screen_y   = -16
+		anchor_y   = "NORTH"
+
+		mouse_opacity = 2
+
+		var/tmp/on = 0
+
+		MouseEntered()
+			transform *= 1.25
+		MouseExited()
+			transform = null
+
+		Click()
+			var/mob/Player/p = usr
+			if(alpha == 0) return
+
+			if(on)
+				for(var/hudobj/statpoints/b in p.client.screen)
+					b.hide()
+
+				on = 0
+				icon_state = "lvlup"
+			else
+				for(var/t in (typesof(/hudobj/statpoints)-/hudobj/statpoints))
+					new t (null, p.client, null, 1)
+
+				on = 1
+				icon_state = "lvlup_red"
+
+	statpoints
+
+		anchor_x    = "CENTER"
+		anchor_y    = "CENTER"
+
+		maptext_y = 8
+		maptext_x = 34
+		maptext_width = 256
+
+		mouse_opacity  = 2
+
+		appearance_flags = PIXEL_SCALE
+
+		MouseEntered()
+			transform *= 1.25
+		MouseExited()
+			transform = null
+
+		Damage
+			icon = 'trophies.dmi'
+			icon_state = "Sword"
+			maptext = "Damage"
+
+			screen_x = -64
+			screen_y = 128
+
+			Click()
+				var/mob/Player/p = usr
+				if(alpha == 0) return
+				if(p.StatPoints > 0)
+					var/SP = round(input("How many stat points do you want to put into Damage?","You have [p.StatPoints]",p.StatPoints) as num|null)
+					if(!SP || SP <= 0) return
+					SP = min(p.StatPoints, SP)
+
+					var/addstat = 1*SP
+					p.Dmg += addstat
+					p << infomsg("You gained [addstat] damage!")
+					p.StatPoints -= SP
+
+				if(p.StatPoints == 0)
+					for(var/hudobj/statpoints/b in p.client.screen)
+						b.hide()
+
+					for(var/hudobj/UseStatpoints/b in p.client.screen)
+						b.hide()
+
+		Defense
+			icon = 'trophies.dmi'
+			icon_state = "Shield"
+			maptext = "Defense"
+
+			screen_x = -64
+			screen_y = 96
+
+			Click()
+				var/mob/Player/p = usr
+				if(alpha == 0) return
+				if(p.StatPoints > 0)
+					var/SP = round(input("How many stat points do you want to put into Defense?","You have [p.StatPoints]",p.StatPoints) as num|null)
+					if(!SP || SP <= 0) return
+					SP = min(p.StatPoints, SP)
+
+					var/addstat = 1*SP
+					p.Def += addstat
+					p << infomsg("You gained [addstat] defense!")
+					p.StatPoints -= SP
+
+				if(p.StatPoints == 0)
+					for(var/hudobj/statpoints/b in p.client.screen)
+						b.hide()
+
+					for(var/hudobj/UseStatpoints/b in p.client.screen)
+						b.hide()
+
+		Cooldown_Reduction
+			icon = 'HUD.DMI'
+			icon_state = "cdr"
+			maptext = "Cooldown Reduction"
+
+			screen_x = -64
+			screen_y = 64
+
+			Click()
+				var/mob/Player/p = usr
+				if(alpha == 0) return
+
+				var/remaining = (p.cooldownModifier - 0.5) / 0.005
+
+				if(remaining == 0)
+					p << errormsg("Cooldown Reduction is already at max of 50%.")
+					return
+
+				if(p.StatPoints > 0)
+					var/SP = round(input("How many stat points do you want to put into Cooldown Reduction?","You have [p.StatPoints]",p.StatPoints) as num|null)
+					if(!SP || SP <= 0) return
+					SP = min(p.StatPoints, SP)
+
+					SP = min(remaining, SP)
+
+					var/addstat = 0.005*SP
+					p.cooldownModifier -= addstat
+					p << infomsg("You now have [(1 - p.cooldownModifier)*100]% cooldown reduction.")
+					p.StatPoints -= SP
+
+				if(p.StatPoints == 0)
+					for(var/hudobj/statpoints/b in p.client.screen)
+						b.hide()
+
+					for(var/hudobj/UseStatpoints/b in p.client.screen)
+						b.hide()
+
+		MP_Regeneration
+			icon = 'HUD.DMI'
+			icon_state = "mp"
+			maptext = "MP Regeneration"
+
+			screen_x = -64
+			screen_y = 32
+
+			Click()
+				var/mob/Player/p = usr
+				if(alpha == 0) return
+
+				if(p.StatPoints > 0)
+					var/SP = round(input("How many stat points do you want to put into MP regeneration?","You have [p.StatPoints]",p.StatPoints) as num|null)
+					if(!SP || SP <= 0) return
+					SP = min(p.StatPoints, SP)
+
+					var/addstat = 2*SP
+					p.MPRegen += addstat
+					p << infomsg("You gained [addstat] MP regeneration!")
+					p.StatPoints -= SP
+
+				if(p.StatPoints == 0)
+					for(var/hudobj/statpoints/b in p.client.screen)
+						b.hide()
+
+					for(var/hudobj/UseStatpoints/b in p.client.screen)
+						b.hide()
+
 	teleport
 		name       = "Teleport Back"
 		icon_state = "teleport"
 		anchor_x   = "WEST"
-		screen_x   = 274
+		screen_x   = 306
 		screen_y   = -16
 		anchor_y   = "NORTH"
 
@@ -224,9 +399,10 @@ hudobj
 			for(var/atom/movable/PM/A in client.mob:pmsRec)
 				if(!A.read) unread++
 
-			maptext = "<span style=\"color:[client.mob:mapTextColor];font-size:2px;\">[unread]</span>"
-			animate(src, alpha = 250, time = 10, loop = -1)
-			animate(alpha = 150, time = 10)
+			if(unread)
+				maptext = "<span style=\"color:[client.mob:mapTextColor];font-size:2px;\">[unread]</span>"
+				animate(src, alpha = 250, time = 10, loop = -1)
+				animate(alpha = 150, time = 10)
 
 	spellbook
 

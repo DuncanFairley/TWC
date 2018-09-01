@@ -808,40 +808,6 @@ mob/Player
 				if("Ministry")
 					GenerateNameOverlay(255,255,255)
 
-	verb
-		Use_Statpoints()
-			set category = "Commands"
-			if(StatPoints>0)
-				switch(input("Which stat would you like to improve?","You have [StatPoints] stat points.")as null|anything in list ("Damage","Defense"))
-					if("Damage")
-						if(StatPoints>0)
-							var/SP = round(input("How many stat points do you want to put into Damage? You have [StatPoints]",,StatPoints) as num|null)
-							if(!SP || SP < 0)return
-							if(SP <= StatPoints)
-								var/addstat = 1*SP
-								Dmg+=addstat
-								src<<infomsg("You gained [addstat] damage!")
-								StatPoints -= SP
-							else
-								src << errormsg("You cannot put [SP] stat points into Damage as you only have [StatPoints]")
-					if("Defense")
-						if(StatPoints>0)
-							var/SP = round(input("How many stat points do you want to put into Defense? You have [StatPoints]",,StatPoints) as num|null)
-							if(!SP || SP < 0)return
-							if(SP <= StatPoints)
-								var/addstat = 3*SP
-								Def += addstat
-								src<<infomsg("You gained [addstat] defense!")
-								StatPoints -= SP
-							else
-								src << errormsg("You cannot put [SP] stat points into Defense as you only have [StatPoints]")
-				resetMaxHP()
-				updateHPMP()
-				if(StatPoints == 0)
-					verbs.Remove(/mob/Player/verb/Use_Statpoints)
-			else
-				verbs.Remove(/mob/Player/verb/Use_Statpoints)
-
 	Login()
 		if(client.byond_version < world.byond_version)
 			src << errormsg("Your installed BYOND version is older than the one the game is using, please update to BYOND version [world.byond_version] or higher. You can continue to play but unpredicted errors may occur.")
@@ -858,7 +824,6 @@ mob/Player
 		else if(Gender=="Male")
 			gender = MALE
 		Resort_Stacking_Inv()
-		if(StatPoints<1)verbs.Remove(/mob/Player/verb/Use_Statpoints)
 		mouse_drag_pointer = MOUSE_DRAG_POINTER
 		if(client.connection == "web")
 			winset(src, "mapwindow.map", "icon-size=32")
@@ -1380,6 +1345,8 @@ mob/Player
 			stat("MP:","[src.MP]/[src.MMP]")
 			stat("Damage:","[Dmg] ([Dmg - (level + 4)])")
 			stat("Defense:","[Def] ([(Def - (level + 4))/3])")
+			stat("Cooldown Reduction:","[(1 - cooldownModifier)*100]%")
+			stat("MP Regeneration:", "[50 + round(level/10)*2 + MPRegen]")
 			if(Fire)
 				var/percent = round((Fire.exp / Fire.maxExp) * 100)
 				stat("Fire:", "[Fire.level]   Exp: [comma(Fire.exp)]/[comma(Fire.maxExp)] ([percent]%)")
@@ -1916,9 +1883,11 @@ mob/Player/proc/resetStatPoints()
 	StatPoints = level - 1
 	Dmg = level + 4
 	Def = level + 4
+	cooldownModifier = 1
+	MPRegen = 0
 	resetMaxHP()
-	if(level > 1)
-		src.verbs.Add(/mob/Player/verb/Use_Statpoints)
+	if(level > 1 && !(locate(/hudobj/UseStatpoints) in client.screen))
+		new /hudobj/UseStatpoints(null, client, null, show=1)
 mob/Player/proc/resetMaxHP()
 	MHP = 4 * (level - 1) + 200 + 2 * (Def + clothDef)
 	if(HP > MHP)
@@ -1940,9 +1909,11 @@ mob/Player
 				MP=MMP
 				updateHPMP()
 				Exp=0
-				verbs.Remove(/mob/Player/verb/Use_Statpoints)
-				verbs.Add(/mob/Player/verb/Use_Statpoints)
+
 				StatPoints++
+
+				if(!(locate(/hudobj/UseStatpoints) in client.screen))
+					new /hudobj/UseStatpoints(null, client, null, show=1)
 
 				if(nomsg)
 					screenAlert("You are now level [level]!")
@@ -2470,3 +2441,5 @@ hudobj/login_reward
 		sleep(17)
 		if(client)
 			client.screen -= o
+			client = null
+			player = null

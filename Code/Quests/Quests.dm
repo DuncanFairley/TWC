@@ -876,6 +876,9 @@ interface
 		new /hudobj/monsterbook(null, parent.client, null, show=2)
 		new /hudobj/Party_Invite(null, parent.client, null, 2)
 
+		if(p.StatPoints > 0)
+			new /hudobj/UseStatpoints(null, parent.client, null, show=2)
+
 		hpbar = new(null, p, "WEST", 16, "NORTH", -1)
 		mpbar = new(null, p, "WEST", 16, "NORTH", -16, mana=1)
 

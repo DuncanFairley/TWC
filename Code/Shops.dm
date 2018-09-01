@@ -206,7 +206,7 @@ obj/Madame_Pomfrey
 				set src in oview(1)
 				var/mob/Player/p = usr
 				p<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [p]!"
-				new /StatusEffect/UsedFerulaToHeal(p,10)
+				new /StatusEffect/UsedFerulaToHeal(p,10*p.cooldownModifier)
 				p.overlays+=image('attacks.dmi',icon_state="heal")
 
 				p.HP = p.MHP
