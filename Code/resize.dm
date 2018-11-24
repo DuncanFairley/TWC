@@ -134,9 +134,13 @@ client
 	proc
 		initMapBrowser()
 			set waitfor = 0
-			while(!browser_loaded)
+			src << output(null,"browser1:Load")
+			sleep(10)
+			if(!browser_loaded)
 				src << browse('mapbrowser.html',"window=browser1")
-				sleep(40)
+				while(!browser_loaded)
+					src << output(null,"browser1:Load")
+					sleep(40)
 
 hudobj
 	icon               = 'HUD.dmi'
