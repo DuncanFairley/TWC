@@ -7,6 +7,7 @@ mob/Player
 	var/tmp
 		moveKeys = 0
 		moveDir  = 0
+		GLIDE = GLIDE_SIZE
 
 	proc
 		MoveLoop(var/firstStep, var/wait=0)
@@ -22,7 +23,7 @@ mob/Player
 				client.moving = 1
 
 				if(!moveKeys && onMoveEvents(firstStep))
-					glide_size = 32 / (move_delay + slow)
+					glide_size = GLIDE / (move_delay + slow)
 					step(src, firstStep)
 					sleep(move_delay + slow)
 
@@ -36,18 +37,18 @@ mob/Player
 						if(client.movements.len == 0) client.movements = null
 
 						if(onMoveEvents(d))
-							glide_size = 32 / (move_delay + slow)
+							glide_size = GLIDE / (move_delay + slow)
 							step(src, d)
 					else
 						if(onMoveEvents(moveDir))
 							diag = moveDir & moveDir-1
-							glide_size = 32 / (move_delay + slow)
+							glide_size = GLIDE / (move_delay + slow)
 							if(!step(src, moveDir) && diag)
 								step(src, diag) || step(src, moveDir - diag)
 
 					sleep(move_delay + slow)
 
-				glide_size = 32
+				glide_size = GLIDE
 				client.moving = 0
 				client.moveStart = null
 
