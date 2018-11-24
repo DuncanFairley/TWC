@@ -19,6 +19,7 @@ proc
 			return
 
 		worldData.sandboxZ = map.z1
+		map.used = 1
 
 		spawnTrees()
 
@@ -102,7 +103,7 @@ obj
 				hp -= p.damage
 				hp = max(0, hp)
 
-				var/perc = hp / maxhp
+				var/perc = clamp(hp / maxhp, 0, 1)
 
 				if(!hpbar)
 					hpbar = new(src)
@@ -294,7 +295,8 @@ turf/buildable
 
 						if(istype(o, /obj/buildable/wall))
 							o.hp = 10000
-							o.hpbar = new(o)
+							if(!o.hpbar)
+								o.hpbar = new(o)
 							o.hpbar.Set(o.hp / o.maxhp, instant=1)
 
 							spawn(2)
@@ -351,10 +353,11 @@ obj/buildable
 			var/turf/t = loc
 			t.flyblock = 2
 
-		var/perc = hp / maxhp
-		if(perc < 1)
-			hpbar = new(src)
-			hpbar.Set(perc)
+		if(!hpbar)
+			var/perc = clamp(hp / maxhp, 0, 1)
+			if(perc < 1)
+				hpbar = new(src)
+				hpbar.Set(perc)
 
 		..()
 
@@ -377,7 +380,7 @@ obj/buildable
 		else
 			hp -= p.damage
 
-		var/perc = hp / maxhp
+		var/perc = clamp(hp / maxhp, 0, 1)
 
 		if(!hpbar)
 			hpbar = new(src)
@@ -385,7 +388,7 @@ obj/buildable
 
 		hpbar.Set(perc)
 
-		if(perc == 1 && hpbar.alpha == 255)
+		if(perc >= 1 && hpbar.alpha == 255)
 			animate(hpbar, alpha = 0, time = 5)
 
 		else if(hp <= 0)
@@ -454,7 +457,7 @@ obj/buildable
 						hp = maxhp
 						animate(hpbar, transform = null, alpha = 0, time = 5)
 					else
-						var/perc = hp / maxhp
+						var/perc = clamp(hp / maxhp, 0, 1)
 						hpbar.Set(perc)
 
 					if(onFire && hp / maxhp > 0.35)

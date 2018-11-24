@@ -634,7 +634,7 @@ hudobj
 
 			Click()
 				if(istype(usr,/mob/BaseCamp/ChoosingCharacter))
-					usr.client.glide_size = 32
+					usr.client.glide_size = GLIDE_SIZE
 					usr:Choose_Character()
 
 		New
@@ -647,7 +647,7 @@ hudobj
 
 			Click()
 				if(istype(usr,/mob/BaseCamp/ChoosingCharacter))
-					usr.client.glide_size = 32
+					usr.client.glide_size = GLIDE_SIZE
 					usr:New_Character()
 
 obj/loginCamera

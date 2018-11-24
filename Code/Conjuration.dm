@@ -237,9 +237,9 @@ obj/healthbar
 			else
 				animate(src, color = c, transform = m, time = 10)
 
-			if(perc == 1 && M)
+			if(perc >= 1 && M)
 				sleep(15)
-				if(M.HP == M.MHP)
+				if(M.HP >= M.MHP)
 					animate(src, alpha = 0, time = 5)
 
 obj/hpframe
