@@ -163,10 +163,10 @@ obj/items/wearable/pets
 
 obj/pet
 	icon = 'Mobs.dmi'
-	pixel_x = -48
-	pixel_y = -48
 
 	layer = 4
+
+	glide_size = 32
 
 	appearance_flags = LONG_GLIDE|TILE_BOUND|PIXEL_SCALE
 	canSave = 0
@@ -197,6 +197,8 @@ obj/pet
 		if(pet.minSize > 1)
 			iconSize = 4
 			icon = 'Mobs_128x128.dmi'
+			pixel_x = -48
+			pixel_y = -48
 
 		if(pet.color)
 			var/ColorMatrix/c = new(pet.color, 0.75)
