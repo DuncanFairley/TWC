@@ -286,6 +286,21 @@ mob/Player/Topic(href,href_list[])
 			var/atom/movable/PM/msg = src.pmsRec[msgid]
 			var/i = msgid
 			msg.read=1
+
+			var/hudobj/PMHome/pm = locate() in client.screen
+			if(pm)
+				pm.unread = 0
+				for(var/atom/movable/PM/A in pmsRec)
+					if(!A.read) pm.unread++
+
+				if(pm.unread)
+					pm.maptext = "<span style=\"color:[mapTextColor];font-size:2px;\">[pm.unread]</span>"
+					animate(pm, alpha = 250, time = 10, loop = -1)
+					animate(alpha = 150, time = 10)
+				else
+					pm.maptext = null
+					pm.alpha = 110
+					animate(pm)
 			src << link("byond://?src=\ref[src];action=pm_inbox")
 			msg.body = replacetext(msg.body,"\n","<br>")
 			src << browse({"[PMheader]
