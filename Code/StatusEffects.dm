@@ -19,6 +19,33 @@ EventScheduler/tempFix
 		if (src.__tick == 16777216)
 			src.__tick = 0
 
+	__shift_down_events()
+		var/list/result = null
+		for (var/T in src.__scheduled_events)
+			var/A = src.__scheduled_events[T]
+			src.__scheduled_events.Remove(T)
+			var/index = text2num(T) - __sleep_delay
+			if (index > 0)
+				src.__scheduled_events[num2text(index, 8)] = A
+			else
+				for (var/__Trigger/Tr in A)
+					if (Tr.__scheduled_iterations > 0)
+						Tr.__scheduled_iterations--
+						var/new_index = Tr.__scheduled_iterations ? 16777216 : Tr.__scheduled_time
+						var/list/S = src.__scheduled_events[text2num(new_index)]
+						if (S)
+							S += Tr
+						else
+							src.__scheduled_events[text2num(new_index)] = list(Tr)
+					else
+						if (result)
+							result += Tr
+						else
+							result = list(Tr)
+
+				result = A
+		return result
+
 atom/proc/AddStatusEffect(StatusEffect/pStatusEffect)
 	if(src.LStatusEffects)
 		src.LStatusEffects += pStatusEffect
@@ -46,21 +73,21 @@ Event
 
 		fire()
 			set waitfor = 0
-			scheduler.schedule(src, rand(9000, 12000) + 600) // 16 to 21 minutes
+			spawn(600) scheduler.schedule(src, rand(9000, 12000) + 600) // 16 to 21 minutes
 			AFK_Train_Scan()
 
 	Auction
 
 		fire()
 			set waitfor = 0
-			scheduler.schedule(src, 36000)
+			spawn() scheduler.schedule(src, 36000)
 			auctionBidTime()
 
 	DailyEvents
 
 		fire()
 			set waitfor = 0
-			scheduler.schedule(src, 864000)
+			spawn() scheduler.schedule(src, 864000)
 
 			worldData.loggedIn = null
 
@@ -85,7 +112,7 @@ Event
 		fire()
 			set waitfor = 0
 
-			scheduler.schedule(src, rand(9000, 27000)) // // 15 to 45 minutes
+			spawn() scheduler.schedule(src, rand(9000, 27000)) // // 15 to 45 minutes
 			var/i = pickweight(worldData.weather_effects)
 			switch(i)
 				if("acid")        weather.acid()
@@ -97,7 +124,7 @@ Event
 	WeeklyEvents
 		fire()
 			set waitfor = 0
-			scheduler.schedule(src, 6048000) // 1 week
+			spawn() scheduler.schedule(src, 6048000) // 1 week
 			RandomizeShop()
 			rewardExpWeek()
 
@@ -144,14 +171,14 @@ Event
 			set waitfor = 0
 
 			if(classdest || clanwars)
-				scheduler.schedule(src, rand(18000, 36000))  // 30 minutes to 1 hour
+				spawn(100) scheduler.schedule(src, rand(18000, 36000))  // 30 minutes to 1 hour
 
 				if(classdest)
 					for(var/mob/Player/p in Players)
 						if(p.Gm)
 							p << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
 			else
-				scheduler.schedule(src, rand(36000, 72000))  // 1 hour to 2 hours
+				spawn(100) scheduler.schedule(src, rand(36000, 72000))  // 1 hour to 2 hours
 				var/list/l = list()
 				for(var/RandomEvent/e in worldData.events)
 					if(e.chance == 0) continue
