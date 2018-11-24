@@ -85,7 +85,7 @@ hudobj
 			sleep(6)
 			if(client)
 				client.screen -= src
-				client = null
+
 
 	New(loc=null,client/Client,list/Params,show=1)
 		client = Client

@@ -1915,7 +1915,7 @@ mob/Player
 				if(!(locate(/hudobj/UseStatpoints) in client.screen))
 					new /hudobj/UseStatpoints(null, client, null, show=1)
 
-				if(nomsg)
+				if(!nomsg)
 					screenAlert("You are now level [level]!")
 					src<<"You have gained a statpoint."
 
@@ -2441,5 +2441,3 @@ hudobj/login_reward
 		sleep(17)
 		if(client)
 			client.screen -= o
-			client = null
-			player = null
