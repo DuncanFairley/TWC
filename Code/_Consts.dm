@@ -57,6 +57,8 @@
 #define WORN 1
 #define REMOVED 2
 
+#define GLIDE_SIZE 0
+
 
 #if HALLOWEEN
 WorldData/var/tmp/list/waterColors = list()
@@ -64,12 +66,25 @@ WorldData/var/tmp/list/waterColors = list()
 
 obj/custom // used for defining custom objects with { } constructor
 
-client
+
+/*client
 	fps = 30
 	glide_size = 32
 
 mob/Player
-	glide_size = 32
+	glide_size = 32*/
+
+mob/Player/verb/ToggleFPS()
+	set category = null
+	if(client.fps == 30)
+		client.fps = 10
+		client.glide_size = 0
+		GLIDE = 0
+	else
+		client.fps = 30
+		client.glide_size = 32
+		GLIDE = 32
+	src << infomsg("FPS set to [client.fps].")
 
 
 var
