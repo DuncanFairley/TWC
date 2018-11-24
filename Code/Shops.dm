@@ -166,6 +166,7 @@ mob/TalkNPC/Ollivander
 				if(!s.Wait()) return
 
 			if(s.Result == "Yes")
+				s.SetButtons("Ok", "#2299d0", null, "#2299d0", null, "#ff0000")
 				s.AddText("Enjoy your new wand, [p.name].")
 				g.change(p, silver=-1)
 
