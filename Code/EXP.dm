@@ -130,13 +130,15 @@ hudobj/readClicker
 		var/matrix/m = matrix()
 		m.Translate(0.25 * dx, 0.25 * dy)
 
-		animate(src, alpha = 64, transform = turn(m, 90), time = 2)
+		var/d = pick(1,-1)
+
+		animate(src, alpha = 64, transform = turn(m, 90*d), time = 2)
 		m = matrix()*1.5
 		m.Translate(0.5 * dx, 0.5 * dy)
-		animate(alpha = 128,  transform = turn(m, 180), time = 2)
+		animate(alpha = 128,  transform = turn(m, 180*d), time = 2)
 		m = matrix()*2
 		m.Translate(0.75 * dx, 0.75 * dy)
-		animate(alpha = 192,  transform = turn(m, 270), time = 2)
+		animate(alpha = 192,  transform = turn(m, 270*d), time = 2)
 		m = matrix()*2.5
 		m.Translate(dx, dy)
 		animate(alpha = 255,  transform = m, time = 2)
@@ -168,7 +170,6 @@ hudobj/readClicker
 			sleep(4)
 
 			hide()
-			player = null
 
 
 obj
@@ -197,12 +198,14 @@ obj
 				p << infomsg("You begin reading.")
 				spawn(20)
 					while(p && p.readbooks > 0 && get_dist(src, p) <= 1)
+
+						if((p.client.inactivity < 600 || p.presence) && prob(25))
+							new /hudobj/readClicker (null, p.client, null, 1, p)
+
 						var/exp  = get_exp(p.level) * worldData.expBookModifier
 						if(p.presence || p.level <= 50)
 							exp = round(rand(exp * 0.9, exp * 1.1))
 							p.addExp(exp, 1, 0)
-							if(prob(25))
-								new /hudobj/readClicker (null, p.client, null, 1, p)
 							if(p.level > 600) p.readbooks += 3
 							sleep(20)
 						else
