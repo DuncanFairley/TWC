@@ -314,14 +314,14 @@ proc/sql_update_ckey_in_table(mob/Player/M)
 		M.timelog = world.realtime
 		if(M.prevname)
 			qry = my_connection.NewQuery({"UPDATE tblPlayers
-			SET name=[mysql_quote(M.prevname)],level=[M.level],house=[mysql_quote(M.House)],rank=[mysql_quote(M.Rank)],IP=INET_ATON('[M.client.address]'),timeloggedin='[time]',lastLoggedIn=CURDATE() WHERE ckey=[mysql_quote(M.ckey)];"})
+			SET name=[mysql_quote(M.prevname)],level=[M.level],house=[mysql_quote(M.House)],'rank'=[mysql_quote(M.Rank)],IP=INET_ATON('[M.client.address]'),timeloggedin='[time]',lastLoggedIn=CURDATE() WHERE ckey=[mysql_quote(M.ckey)];"})
 		else
 			qry = my_connection.NewQuery({"UPDATE tblPlayers
-			SET name=[mysql_quote(M.name)],level=[M.level],house=[mysql_quote(M.House)],rank=[mysql_quote(M.Rank)],IP=INET_ATON('[M.client.address]'),timeloggedin='[time]',lastLoggedIn=CURDATE() WHERE ckey=[mysql_quote(M.ckey)];"})
+			SET name=[mysql_quote(M.name)],level=[M.level],house=[mysql_quote(M.House)],'rank'=[mysql_quote(M.Rank)],IP=INET_ATON('[M.client.address]'),timeloggedin='[time]',lastLoggedIn=CURDATE() WHERE ckey=[mysql_quote(M.ckey)];"})
 		qry.Execute()
 	else
 		//Make new listing
-		qry = my_connection.NewQuery({"INSERT INTO tblPlayers(ckey,name,level,house,rank,IP,timeloggedin)
+		qry = my_connection.NewQuery({"INSERT INTO tblPlayers(ckey,name,level,house,'rank',IP,timeloggedin)
 		VALUES ([mysql_quote(M.ckey)],[mysql_quote(M.name)],[M.level],[mysql_quote(M.House)],[mysql_quote(M.Rank)],INET_ATON('[M.client.address]'),0);"})
 		qry.Execute()
 		var/tmpmsg = qry.ErrorMsg()
