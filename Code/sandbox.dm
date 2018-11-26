@@ -41,38 +41,41 @@ proc
 
 			lagstopsleep()
 
+		for(var/i = 1 to 10)
+			var/x = rand(10, 90)
+			var/y = rand(10, 90)
+
+			var/turf/t = locate(x, y, worldData.sandboxZ)
+
+			#if WINTER
+			if(t.icon_state == "snow" && !t.flyblock)
+			#else
+			if(t.icon_state == "grass1" && !t.flyblock)
+			#endif
+				new /obj/farm/rocks (t)
+
+			lagstopsleep()
+
 obj
 	farm
 		appearance_flags = PIXEL_SCALE|TILE_BOUND
 		canSave = 0
 
-		tree
-			name       = "Tree"
-			icon       = 'BigTree.dmi'
-			density    = 1
-			pixel_x    = -64
-			pixel_y    = 0
-			layer      = 5
+		var
+			hp    = 25000
+			maxhp = 25000
+			amount = 16
+			obj/healthbar/hpbar
 
-			var
-				hp    = 20000
-				maxhp = 20000
-				amount = 20
-				obj/healthbar/hpbar
-
-			New()
-				icon_state = "stump[rand(2,3)]_winter"
-
-				..()
-
-			proc/respawn()
+		proc
+			respawn()
 				set waitfor = 0
 
 				sleep(600)
 				density    = 1
-				pixel_x = -64
-				pixel_y = 0
-				layer   = 5
+				pixel_x = initial(pixel_x)
+				pixel_y = initial(pixel_y)
+				layer   = initial(layer)
 				transform = null
 				amount = initial(amount)
 
@@ -96,77 +99,147 @@ obj
 				if(!loc)
 					spawn() respawn()
 
-			Attacked(obj/projectile/p)
-				set waitfor = 0
-				if(!density) return
+			drops(stack)
+			dead()
 
-				hp -= p.damage
-				hp = max(0, hp)
+		Attacked(obj/projectile/p)
+			set waitfor = 0
+			if(!density) return
 
-				var/perc = clamp(hp / maxhp, 0, 1)
+			hp -= p.damage
+			hp = max(0, hp)
 
-				if(!hpbar)
-					hpbar = new(src)
-					hpbar.alpha = 0
+			var/perc = clamp(hp / maxhp, 0, 1)
 
-				var/s = round((maxhp - hp) / (maxhp / amount))
-				if(s >= 1)
-					amount -= s
+			if(!hpbar)
+				hpbar = new(src)
+				hpbar.alpha = 0
 
-					var/px = rand(-2,2)
-					var/py = rand(-2,0)
-					if(px == 0 && py == 0) py = -1
-					var/obj/items/wood_log/w = new(locate(x + px, y + py, z))
-					w.stack = s
-					w.UpdateDisplay()
-					w.pixel_y = 64 - py*32
-					w.pixel_x = -px*32
-					w.transform = turn(matrix(), 90 * pick(1, -1))
-					w.layer = 6
-					animate(w, pixel_x = 0, pixel_y = 0, transform = null, time = 20, easing = BOUNCE_EASING)
-					animate(layer = 3, time = 0)
-				if(hp <= 0)
-					layer = 2
-					var/obj/items/wood_log/w = new(loc)
-					w.stack = amount + rand(3,6)
-					w.UpdateDisplay()
-					w.pixel_y = 64
-					w.transform = turn(matrix(), 90 * pick(1, -1))
-					animate(w, pixel_y = 0, transform = null, time = 20, easing = BOUNCE_EASING)
+			var/s = round((maxhp - hp) / (maxhp / amount))
+			if(s >= 1)
+				amount -= s
+				drops(p, s)
 
+			if(hp <= 0)
+				dead(p)
+				loc = null
+				respawn()
 
-					var/matrix/m = transform
-					if(prob(50))
-						m.Turn(-90)
-						animate(src, pixel_x = -128, pixel_y = -64, transform = m, time = 50, easing = BOUNCE_EASING)
-					else
-						m.Turn(90)
-						animate(src, pixel_x = 0, pixel_y = -64, transform = m, time = 50, easing = BOUNCE_EASING)
-					density = 0
+			else
+				hpbar.Set(perc)
+				animate(src, pixel_x = pixel_x-1, time = 1)
+				animate(pixel_x = pixel_x+1, time = 2)
+				animate(pixel_x = pixel_x, time = 1)
 
-					if(p.owner && isplayer(p.owner))
-						p.owner:checkQuestProgress("Chop Tree")
+		rocks
+			name       = "Rocks"
+			icon       = 'Moss_Rocks.dmi'
+			icon_state = "1"
+			density    = 1
 
-					animate(hpbar, alpha = 0, time = 5)
-					sleep(6)
-					hpbar.loc = null
-					sleep(100)
-					animate(src, alpha = 0, time = 10)
-					sleep(11)
-					loc = null
-					respawn()
+			hp    = 40000
+			maxhp = 40000
+			amount = 9
 
+			drops(obj/projectile/p, s)
+
+				if(amount <= 3)
+					icon_state = "3"
+				else if(amount <= 6)
+					icon_state = "2"
+
+				var/px = rand(-1,1)
+				var/py = rand(-1,1)
+				if(px == 0 && py == 0) py = -1
+				var/obj/items/stones/w = new(locate(x + px, y + py, z))
+				w.stack = s
+				w.UpdateDisplay()
+				w.pixel_y = -py*32
+				w.pixel_x = -px*32
+				w.transform = turn(matrix(), 90 * pick(1, -1))
+				animate(w, pixel_x = 0, pixel_y = 0, transform = null, time = 10)
+
+			dead(obj/projectile/p)
+				var/obj/items/stones/w = new(loc)
+				w.stack = amount + rand(2,4)
+				w.UpdateDisplay()
+
+				var/matrix/m = matrix()*2
+				animate(src, transform = m, alpha=0, time = 5)
+				animate(hpbar, alpha = 0, time = 5)
+
+				density = 0
+
+				if(p.owner && isplayer(p.owner))
+					p.owner:checkQuestProgress("Smash Rocks")
+
+				sleep(6)
+				hpbar.loc = null
+
+		tree
+			name       = "Tree"
+			icon       = 'BigTree.dmi'
+			density    = 1
+			pixel_x    = -64
+			pixel_y    = 0
+			layer      = 5
+
+			New()
+				icon_state = "stump[rand(2,3)]_winter"
+
+				..()
+
+			drops(obj/projectile/p, s)
+				var/px = rand(-2,2)
+				var/py = rand(-2,0)
+				if(px == 0 && py == 0) py = -1
+				var/obj/items/wood_log/w = new(locate(x + px, y + py, z))
+				w.stack = s
+				w.UpdateDisplay()
+				w.pixel_y = 64 - py*32
+				w.pixel_x = -px*32
+				w.transform = turn(matrix(), 90 * pick(1, -1))
+				w.layer = 6
+				animate(w, pixel_x = 0, pixel_y = 0, transform = null, time = 20, easing = BOUNCE_EASING)
+				animate(layer = 3, time = 0)
+
+			dead(obj/projectile/p)
+				layer = 2
+				var/obj/items/wood_log/w = new(loc)
+				w.stack = amount + rand(2,6)
+				w.UpdateDisplay()
+				w.pixel_y = 64
+				w.transform = turn(matrix(), 90 * pick(1, -1))
+				animate(w, pixel_y = 0, transform = null, time = 20, easing = BOUNCE_EASING)
+
+				var/matrix/m = transform
+				if(prob(50))
+					m.Turn(-90)
+					animate(src, pixel_x = -128, pixel_y = -64, transform = m, time = 50, easing = BOUNCE_EASING)
 				else
-					hpbar.Set(perc)
-					animate(src, pixel_x = pixel_x-1, time = 1)
-					animate(pixel_x = pixel_x+1, time = 2)
-					animate(pixel_x = pixel_x, time = 1)
+					m.Turn(90)
+					animate(src, pixel_x = 0, pixel_y = -64, transform = m, time = 50, easing = BOUNCE_EASING)
+				density = 0
+
+				if(p.owner && isplayer(p.owner))
+					p.owner:checkQuestProgress("Chop Tree")
+
+				animate(hpbar, alpha = 0, time = 5)
+				sleep(6)
+				hpbar.loc = null
+				sleep(100)
+				animate(src, alpha = 0, time = 10)
+				sleep(11)
+
 
 
 obj/items
 	wood_log
 		icon = 'Wood Log.dmi'
 		icon_state = "log1"
+	stones
+		icon = 'Moss_Rocks.dmi'
+		icon_state = "small"
 
 
 	wearable/blueprint
@@ -244,8 +317,14 @@ turf/buildable
 						p.buildItemDisplay.color = "#f00"
 						return
 
-				var/obj/buildable/shield_totem/c = locate() in range(20, src)
-				if(!c || !c.allowed || (usr.ckey in c.allowed))
+				var/found = 0
+				for(var/obj/buildable/shield_totem/c in range(20, src))
+					if(!c.allowed) continue
+					if(usr.ckey in c.allowed) continue
+					found = 1
+					break
+
+				if(!found)
 					p.buildItemDisplay.loc = src
 					p.buildItemDisplay.color = "#0f0"
 				else
@@ -256,62 +335,66 @@ turf/buildable
 	Click()
 		var/mob/Player/p = usr
 		if(p.buildItemDisplay && z == p.z && get_dist(src, p) < 30)
-			var/obj/buildable/shield_totem/c = locate() in range(20, src)
-			if(!c || !c.allowed || (usr.ckey in c.allowed))
 
-				if(islist(p.buildItem.price))
-					var/list/items = list()
-					for(var/t in p.buildItem.price)
-						var/obj/items/i = locate(t) in p
 
-						if(!i || i.stack < p.buildItem.price)
-							p << errormsg("You don't have enough resources.")
-							return
+			for(var/obj/buildable/shield_totem/c in range(20, src))
+				if(!c.allowed) continue
+				if(usr.ckey in c.allowed) continue
+				return
 
-						items += i
+			if(islist(p.buildItem.price))
+				var/list/items = list()
+				for(var/t in p.buildItem.price)
+					var/obj/items/i = locate(t) in p
 
-					for(var/obj/items/i in items)
-						i.Consume(p.buildItem.price[i.type])
-
-				else if(p.buildItem.price > 0)
-					var/obj/items/wood_log/w = locate() in p
-
-					if(!w || w.stack < p.buildItem.price)
+					if(!i || i.stack < p.buildItem.price)
 						p << errormsg("You don't have enough resources.")
 						return
 
-					w.Consume(p.buildItem.price)
+					items += i
 
-				if(p.buildItem.path)
-					if(!flyblock && !(locate(p.buildItem.path) in src))
+				for(var/obj/items/i in items)
+					i.Consume(p.buildItem.price[i.type])
 
-						if(p.buildItem.reqWall)
-							var/turf/t = locate(x,y+1,z)
-							if(!t || !t.flyblock)
-								return
+			else if(p.buildItem.price > 0)
+				var/obj/items/wood_log/w = locate() in p
 
-						Clear()
-						var/obj/buildable/wall/o = new p.buildItem.path(src)
+				if(!w || w.stack < p.buildItem.price)
+					p << errormsg("You don't have enough resources.")
+					return
 
-						if(istype(o, /obj/buildable/wall))
-							o.hp = 10000
-							if(!o.hpbar)
-								o.hpbar = new(o)
-							o.hpbar.Set(o.hp / o.maxhp, instant=1)
+				w.Consume(p.buildItem.price)
 
-							spawn(2)
-								for(var/obj/buildable/wall/w in orange(1, src))
-									w.updateState()
+			if(p.buildItem.path)
+				if(!flyblock && !(locate(p.buildItem.path) in src))
 
-				else if(p.buildItem.name == "clear")
+					if(p.buildItem.reqWall)
+						var/turf/t = locate(x,y+1,z)
+						if(!t || !t.flyblock)
+							return
+
 					Clear()
+					var/obj/buildable/wall/o = new p.buildItem.path(src)
+
+					if(istype(o, /obj/buildable/wall))
+						o.hp = 10000
+						if(!o.hpbar)
+							o.hpbar = new(o)
+						o.hpbar.Set(o.hp / o.maxhp, instant=1)
+
+						spawn(2)
+							for(var/obj/buildable/wall/w in orange(1, src))
+								w.updateState()
+
+			else if(p.buildItem.name == "clear")
+				Clear()
+			else
+				name = p.buildItem.name
+				if(p.buildItem.icon_state == "wood")
+					icon_state = "wood[rand(1,8)]"
 				else
-					name = p.buildItem.name
-					if(p.buildItem.icon_state == "wood")
-						icon_state = "wood[rand(1,8)]"
-					else
-						icon_state = p.buildItem.icon_state
-					color = initial(p.buildItem.color)
+					icon_state = p.buildItem.icon_state
+				color = initial(p.buildItem.color)
 
 		else
 			..()
@@ -340,9 +423,17 @@ mob/Player/var/tmp
 
 obj/buildable
 	var
+		tmp
+			obj/healthbar/hpbar
+			regen = 0
+
 		hp    = 50000
 		maxhp = 50000
-		tmp/obj/healthbar/hpbar
+
+		onFire = 0
+		rate = 5000
+
+		canHeal = 0
 
 	density = 1
 
@@ -359,6 +450,8 @@ obj/buildable
 				hpbar = new(src)
 				hpbar.Set(perc)
 
+		if(canHeal && hp < maxhp)
+			regen()
 		..()
 
 	Dispose()
@@ -402,30 +495,7 @@ obj/buildable
 			animate(pixel_x = pixel_x+1, time = 2)
 			animate(pixel_x = pixel_x, time = 1)
 
-	wall
-		var
-			tmp
-				regen  = 0
-			onFire = 0
-			rate = 5000
-		opacity = 1
-		wood
-			icon = 'wood_wall.dmi'
-			icon_state = "10"
-
-		New()
-			set waitfor = 0
-			..()
-			sleep(2)
-
-			updateState()
-
-			if(hp < maxhp)
-				regen()
-
-		Attacked(obj/projectile/p)
-			set waitfor = 0
-			..()
+		if(canHeal)
 			if(!regen && hp > 0 && hp < maxhp)
 				regen()
 			else if(!onFire && hp / maxhp < 0.3)
@@ -440,37 +510,56 @@ obj/buildable
 					o.pixel_y = py * i
 					overlays += o
 
+	proc
+		regen()
+			set waitfor = 0
+			if(regen) return
+			regen = 1
+			sleep(50)
+			while(hp > 0 && hp < maxhp)
+				hp += rate
+				if(hp >= maxhp)
+					hp = maxhp
+					animate(hpbar, transform = null, alpha = 0, time = 5)
+				else
+					var/perc = clamp(hp / maxhp, 0, 1)
+					hpbar.Set(perc)
+
+				if(onFire && hp / maxhp > 0.35)
+					overlays = list()
+					onFire = 0
+
+				sleep(50)
+
+			if(hp >= maxhp)
+				hpbar.loc = null
+				hpbar = null
+				hp = maxhp
+			regen = 0
+
+	wall
+		canHeal = 1
+		hp    = 60000
+		maxhp = 60000
+		rate = 6000
+
+		opacity = 1
+		wood
+			icon = 'wood_wall.dmi'
+			icon_state = "10"
+
+		New()
+			set waitfor = 0
+			..()
+			sleep(2)
+
+			updateState()
+
 		proc
 			updateState()
 				var/turf/t = loc
 				var/n = t.autojoin1("flyblock", 2)
 				icon_state = "[n]"
-
-			regen()
-				set waitfor = 0
-				if(regen) return
-				regen = 1
-				sleep(50)
-				while(hp > 0 && hp < maxhp)
-					hp += rate
-					if(hp >= maxhp)
-						hp = maxhp
-						animate(hpbar, transform = null, alpha = 0, time = 5)
-					else
-						var/perc = clamp(hp / maxhp, 0, 1)
-						hpbar.Set(perc)
-
-					if(onFire && hp / maxhp > 0.35)
-						overlays = list()
-						onFire = 0
-
-					sleep(50)
-
-				if(hp >= maxhp)
-					hpbar.loc = null
-					hpbar = null
-					hp = maxhp
-				regen = 0
 
 		Dispose()
 			var/turf/t = loc
@@ -480,6 +569,11 @@ obj/buildable
 
 
 	door
+		canHeal = 1
+		hp    = 60000
+		maxhp = 60000
+		rate = 6000
+
 		wood
 			icon='Door.dmi'
 			icon_state="closed"
@@ -490,8 +584,10 @@ obj/buildable
 
 		proc/Bumped(mob/Player/p)
 
-			var/obj/buildable/shield_totem/c = locate() in range(20, src)
-			if(c && c.allowed && !(p.ckey in c.allowed)) return
+			for(var/obj/buildable/shield_totem/c in range(20, src))
+				if(!c.allowed) continue
+				if(usr.ckey in c.allowed) continue
+				return
 
 			if(icon_state != "open")
 				flick("opening", src)
@@ -583,6 +679,8 @@ hudobj
 		maptext        = "<center><span style=\"color:#e50000;\">Respawn at bed</span></center>"
 		maptext_height = 128
 		alpha          = 0
+
+		mouse_opacity  = 2
 
 		Click()
 			var/mob/Player/p = usr
