@@ -235,7 +235,7 @@ class
 			uses = 15
 			start(mob/Player/p)
 				..()
-				say("Let's say you turned transfigured someone bu accident. This handy spell turns them back to normal.", p)
+				say("Let's say you turned transfigured someone by accident. This handy spell turns them back to normal.", p)
 		Felinious
 			start(mob/Player/p)
 				..()
