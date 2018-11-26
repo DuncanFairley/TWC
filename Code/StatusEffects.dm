@@ -374,22 +374,23 @@ StatusEffect
 
 	Potions
 		var/obj/items/potions/potion
-		New(atom/pAttachedAtom,t,obj/items/potions/p)
+		New(atom/pAttachedAtom,t,cooldownname,obj/items/potions/p)
 			potion = p
 			.=..()
 
 		Activate()
 			..()
-			var/mob/Player/p = AttachedAtom
-			if(p)
-				new /hudobj/potion (null, p.client, null, 1)
 
 		Deactivate()
 			var/mob/Player/p = AttachedAtom
 			if(p)
-				var/hudobj/potion/h = locate() in p.client.screen
-				h.hide()
 				p << errormsg("Your potion's effect fades.")
+
+				for(var/hudobj/Cooldown/c in p.client.screen)
+					if(c.name == "Potion")
+						c.maptext = null
+						c.hide()
+						break
 
 			..()
 
@@ -847,9 +848,15 @@ StatusEffect
 					time += "[sec] seconds."
 				lamp.desc = "[initial(lamp.desc)] Time Remaining: [time]"
 				lamp.icon_state = "inactive"
+			if(isplayer(AttachedAtom))
+				for(var/hudobj/Cooldown/c in AttachedAtom:client.screen)
+					if(c.name == "Lamp")
+						c.maptext = null
+						c.hide()
+						break
 			..()
 
-		New(atom/pAttachedAtom,t,obj/items/lamps/p)
+		New(atom/pAttachedAtom,t,cooldownName,obj/items/lamps/p)
 			lamp = p
 			.=..()
 

@@ -206,6 +206,8 @@ obj/potions
 		Attacked(obj/projectile/p)
 			if(!isBusy && p.owner && isplayer(p.owner))
 
+				if(!worldData.potions) worldData.potions = list()
+
 				var/c = 0
 
 				if(isnum(pool)) c = countBits(pool)
@@ -238,8 +240,6 @@ obj/potions
 				quality = min(7, quality)
 
 				if(c >= 4)
-
-					if(!worldData.potions) worldData.potions = list()
 
 					if(isnum(pool))
 						potionId = "[pool]"
@@ -512,7 +512,7 @@ obj/items/potions
 		return i
 
 	Click()
-		if((src in usr) && canUse(M=usr, inarena=0))
+		if((src in usr) && canUse(M=usr, inarena=0,needwand=0))
 			var/StatusEffect/Potions/p = locate() in usr.LStatusEffects
 			if(p)
 				usr << errormsg("[name] washed out the previous potion you consumed.")
@@ -521,7 +521,7 @@ obj/items/potions
 			Consume()
 
 			usr << infomsg("You drink \a [src].")
-			new effect (usr, seconds, src)
+			new effect (usr, seconds, "Potion", src)
 		else
 			..()
 
