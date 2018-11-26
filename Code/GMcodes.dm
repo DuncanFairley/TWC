@@ -1277,9 +1277,13 @@ mob/Player
 		animate(transform = turn(matrix()*0.5, 300*r), time = 2)
 		animate(transform = matrix(), time = 2)
 
+		var/turf/oldLoc = loc
+
 		sleep(6)
 
 		nomove = 0
+
+		if(loc != oldLoc) return
 
 		var/d = dir
 		var/dense = density
