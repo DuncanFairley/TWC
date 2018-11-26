@@ -734,6 +734,7 @@ mob/Spells/verb/Aqua_Eructo()
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
 		var/mob/Player/p = src
 		p.HP -= 45
+		p.updateHP()
 		Death_Check()
 
 		var/dmg = (p.Def + p.clothDmg) / 3 + p.Water.level
