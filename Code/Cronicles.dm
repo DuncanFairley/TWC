@@ -349,6 +349,39 @@ mob
 
 					p << infomsg("The majority of your quests, your spells, level and any stat bonuses from items had were wiped, the rest of your wealth is untouched.")
 
+			if(savefile_version < 31)
+				spawn()
+					var/year = level2year(level)
+					if(year == 8)
+						p.Year = "Hogwarts Graduate"
+					else if(year == 1)
+						p.Year = "1st Year"
+					else if(year == 2)
+						p.Year = "2nd Year"
+					else if(year == 1)
+						p.Year = "3rd Year"
+					else
+						p.Year = "[year]th Year"
+
+					p.Mexp = 50
+
+					for(var/i = 2 to p.level)
+						if(i <= 600)
+							var/y = level2year(i)
+							p.Mexp += 50 * y + 60 * (y - 1)
+						else
+							var/tier = round(i / 50)
+							p.Mexp += 100 * tier
+			if(savefile_version < 32)
+				spawn()
+					p.Rank = "Player"
+					for(var/obj/items/wearable/w in p.Lwearing)
+						if(istype(w, /obj/items/wearable/orb) || istype(w, /obj/items/wearable/title) || istype(w, /obj/items/wearable/magic_eye) || istype(w, /obj/items/wearable/halloween_bucket))
+							p.Lwearing -= w
+							p.overlays -= w
+							w.loc = null
+
+
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && worldData.sandboxZ != last_z) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else

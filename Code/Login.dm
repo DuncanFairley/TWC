@@ -831,7 +831,8 @@ mob/Player
 		for(var/hudobj/login/l in client.screen)
 			client.screen -= l
 
-		src << output(null,"browser1:Login")
+		if(client.browser_loaded)
+			src << output(null,"browser1:Login")
 
 		client.eye = src
 		client.perspective = MOB_PERSPECTIVE
@@ -1822,6 +1823,8 @@ mob/proc/Death_Check(mob/killer = src)
 					gold2give *= 1.25
 					exp2give  *= 1.25
 
+				exp2give *= worldData.expModifier
+
 				var/StatusEffect/Lamps/Gold/gold_rate = killer.findStatusEffect(/StatusEffect/Lamps/Gold)
 				var/StatusEffect/Lamps/Exp/exp_rate   = killer.findStatusEffect(/StatusEffect/Lamps/Exp)
 
@@ -1917,9 +1920,10 @@ mob/Player
 
 				if(!nomsg)
 					screenAlert("You are now level [level]!")
-					src<<"You have gained a statpoint."
+					src<<"You have gained a statpoint, click + next to your health bar."
 
-				var/theiryear = (Year == "Hogwarts Graduate" ? 8 : text2num(copytext(Year, 1, 2)))
+				var/theiryear = level2year(level)
+
 				if(level>1 && level < 16)
 					src.Year="1st Year"
 					theiryear = 1
@@ -1966,6 +1970,15 @@ mob/Player
 					var/tier = round(level / 50)
 					Mexp += 100 * tier
 
+proc/level2year(level)
+	if(level < 16) return 1
+	if(level < 51) return 2
+	if(level < 101) return 3
+	if(level < 201) return 4
+	if(level < 301) return 5
+	if(level < 401) return 6
+	if(level < 501) return 7
+	return 8
 
 obj/Banker
 	icon = 'NPCs.dmi'
@@ -2178,6 +2191,7 @@ mob/Player/proc/onDeath(turf/oldLoc, killerName)
 	var/hudobj/respawn/r
 	if(bed)
 		r = new (null, client, list("maptext_width" = o.maptext_width, "maptext_x" = o.maptext_x ), 1)
+		animate(r, alpha = 255, time = 5)
 
 	animate(o, alpha = 255, time = 5)
 

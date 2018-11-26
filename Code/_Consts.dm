@@ -17,12 +17,12 @@
 #define winshowCenter(player, window) player << output(window,"browser1:ShowCenterWindow")
 
 #define VERSION "16.69"
-#define SAVEFILE_VERSION 30
+#define SAVEFILE_VERSION 33
 #define VAULT_VERSION 5
 #define lvlcap 800
 #define SWAPMAP_Z 25 // world map z + 1 (the +1 is for buildable area, don't add if not using sandbox)
-#define WINTER 0
-#define AUTUMN 1
+#define WINTER 1
+#define AUTUMN 0
 #define HALLOWEEN 0
 #define NIGHTCOLOR "#6464d0"
 #define TELENDEVOUR_COLOR "#64d0d0"
@@ -104,10 +104,11 @@ atom
 	var/post_init = 0
 
 	New()
-		if(map_initialized)
-			post_init && MapInit()
-		else if(post_init)
-			__post_init[src] = 1
+		if(post_init)
+			if(map_initialized)
+				MapInit()
+			else
+				__post_init[src] = 1
 		..()
 
 	proc/MapInit()
