@@ -106,12 +106,14 @@ client
 	verb
 		onLoad()
 			set hidden = 1
-			browser_loaded = 1
-		//	src << output(null,"browser1:CenterWindow")
-			src << output(null,"browser1:Resize")
+			if(!browser_loaded)
+				browser_loaded = 1
+			//	src << output(null,"browser1:CenterWindow")
 
-			if(isplayer(mob)) // if mapbrowser loaded after login()
-				src << output(null,"browser1:Login")
+				if(isplayer(mob)) // if mapbrowser loaded after login()
+					src << output(null,"browser1:Login")
+				else
+					src << output(null,"browser1:Resize")
 
 		onResize(VW as num,VH as num,BX as num,BY as num,Z as num)
 			set hidden = 1
@@ -134,13 +136,9 @@ client
 	proc
 		initMapBrowser()
 			set waitfor = 0
-			src << output(null,"browser1:Load")
-			sleep(10)
-			if(!browser_loaded)
+			while(!browser_loaded)
 				src << browse('mapbrowser.html',"window=browser1")
-				while(!browser_loaded)
-					src << output(null,"browser1:Load")
-					sleep(40)
+				sleep(50)
 
 hudobj
 	icon               = 'HUD.dmi'
@@ -502,14 +500,5 @@ hudobj
 
 		anchor_x    = "WEST"
 		screen_x    = 240
-		screen_y    = -44
-		anchor_y    = "NORTH"
-
-	potion
-		icon_state         = "potions"
-		mouse_over_pointer = MOUSE_INACTIVE_POINTER
-
-		anchor_x    = "WEST"
-		screen_x    = 208
 		screen_y    = -44
 		anchor_y    = "NORTH"

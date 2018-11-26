@@ -95,7 +95,7 @@ Input
 		parent = p
 
 	Del()
-		if(parent._input && (index in parent._input))
+		if(parent && parent._input && (index in parent._input))
 			parent._input -= index
 			if(!parent._input.len) parent._input = null
 		..()
