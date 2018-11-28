@@ -18,6 +18,7 @@
 #define FILE_DIR "Icons/environment/obj/potions"
 #define FILE_DIR "Icons/environment/turf"
 #define FILE_DIR "Icons/environment/turf/floors"
+#define FILE_DIR "Icons/environment/walls"
 #define FILE_DIR "Icons/hud"
 #define FILE_DIR "Icons/hud/login"
 #define FILE_DIR "Icons/img"
