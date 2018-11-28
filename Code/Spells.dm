@@ -200,21 +200,18 @@ mob/Spells/verb/Protego()
 	var/mob/Player/p = src
 	if(!p.reflect)
 		if(canUse(src,cooldown=/StatusEffect/UsedProtego,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-			new /StatusEffect/UsedProtego(src,30*p.cooldownModifier)
+			new /StatusEffect/UsedProtego(src,30*p.cooldownModifier,"Protego")
 			p.overlays += /obj/Shield
 			hearers()<< "<b><span style=\"color:red;\">[usr]</b></span>: PROTEGO!"
 			p << "You shield yourself magically"
 			p.reflect = 0.25
 			p.learnSpell("Protego")
-			sleep(30)
+			sleep(50)
 			if(p.reflect)
 				p.reflect = 0
 				p.overlays -= /obj/Shield
 				p<<"You are no longer shielded!"
-	else
-		p.reflect = 0
-		p << "You are no longer shielded!"
-		p.overlays -= /obj/Shield
+
 mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
 	set category="Spells"
 	var/mob/Player/user = usr
@@ -460,7 +457,7 @@ mob/Spells/verb/Basilio()
 
 mob/Spells/verb/Serpensortia()
 	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,useTimedProtection=1,target=null,mpreq=0,againstocclumens=1))
 		new /StatusEffect/Summoned(src,15*usr:cooldownModifier)
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Serpensortia!"
 		sleep(20)
@@ -547,15 +544,12 @@ mob/Spells/verb/Avis()
 				Respawn(D)
 mob/Spells/verb/Crapus_Sticketh()
 	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,useTimedProtection=1,target=null,mpreq=0,againstocclumens=1))
 		new /StatusEffect/Summoned(src,15*usr:cooldownModifier)
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Crapus...Sticketh!!"
 		sleep(20)
 		hearers()<<"A flash of black light shoots from [usr]'s wand."
 		sleep(20)
-		if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
-			src << "<b>You can't use this inside a safezone.</b>"
-			return
 		hearers()<<"A stick figure appears."
 		var/mob/Enemies/Summoned/Boss/Stickman/D = new (loc)
 		D.FlickState("m-black",8,'Effects.dmi')
@@ -723,7 +717,7 @@ mob/Spells/verb/Antifigura()
 
 mob/Spells/verb/Chaotica()
 	set category="Spells"
-	var/dmg = round(usr.level * 1.1) + round(clothDmg/5)
+	var/dmg = round(usr.level * 1.5) + round(clothDmg/5)
 	if(dmg<20)dmg=20
 	else if(dmg>2000)dmg = 2000
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
@@ -1828,8 +1822,7 @@ mob/Enemies
 				     speed  = 2,
 				     life   = new /Random(15,25))
 
-			if(p.owner.MonsterMessages)
-				p.owner << "Your [p] does [p.damage] damage to [src]."
+			p.owner << "Your [p] does [p.damage] damage to [src]."
 
 			HP -= p.damage
 
@@ -1876,8 +1869,12 @@ obj
 			damage = 0
 			element = 0
 
+			steps = 0
+
 		Move()
 			.=..()
+
+			steps++
 
 			for(var/atom/movable/a in loc)
 				if(a == src) continue
@@ -1886,7 +1883,6 @@ obj
 					Bump(a)
 				else if(damage && istype(a, /obj/portkey))
 					Bump(a)
-
 
 		New(loc,dir,mob/mob,icon,icon_state,damage,name,element)
 			..()
@@ -1979,6 +1975,11 @@ obj
 
 			var/oldSystem = inOldArena()
 			if(oldSystem && !istype(a, /mob)) return
+
+			if(a.density && owner == a && !steps)
+				loc = a.loc
+				steps++
+				return
 
 			var/count = 0
 			for(var/atom/movable/O in t)

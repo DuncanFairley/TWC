@@ -510,14 +510,14 @@ area
 
 	Enter(atom/movable/o, atom/oldloc)
 		if(istype(o, /obj/projectile))
-			if(issafezone(src))
+			if(issafezone(src, 1, 0))
 				o.Dispose()
 				return
 		return ..()
 
 	Exit(atom/movable/o, atom/newloc)
 		if(istype(o, /obj/projectile))
-			if(issafezone(newloc.loc))
+			if(issafezone(newloc.loc, 1, 0))
 				o.Dispose()
 				return
 		return ..()

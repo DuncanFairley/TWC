@@ -905,7 +905,7 @@ obj/items/bucket
 
 			var/turf/t = usr.loc
 
-			if(issafezone(t.loc))
+			if(issafezone(t.loc, 1, 0))
 				usr << errormsg("You can't place your bucket here.")
 				return
 
