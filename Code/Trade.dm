@@ -16,7 +16,7 @@ trading
 		..()
 		src.parent = parent
 		src.with   = with
-		winset(parent, null, {"Trade.Name1.text="[formatName(parent,0)]";Trade.Name2.text="[formatName(with,0)]";Trade.GoldInput.text=0"})
+		winset(parent, null, {"Trade.Name1.text="[formatName(parent,0)]";Trade.Name2.text="[formatName(with,0)]";"})
 		winshowCenter(parent, "Trade")
 
 	proc
@@ -41,7 +41,7 @@ trading
 
 			if(parent)
 				if(parent.client)
-					winset(parent, null, {"Trade.is-visible=false;Trade.grid1.background-color=white;Trade.grid2.background-color=white;Trade.grid1.cells=0x0;Trade.grid2.cells=0x0;Trade.gold1.text=0;Trade.gold2.text=0"})
+					winset(parent, null, {"Trade.is-visible=false;Trade.grid1.background-color=white;Trade.grid2.background-color=white;Trade.grid1.cells=0x0;Trade.grid2.cells=0x0;"})
 					parent.Resort_Stacking_Inv()
 				parent.trade = null
 				parent = null
