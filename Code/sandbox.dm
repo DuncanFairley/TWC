@@ -64,7 +64,7 @@ obj
 		var
 			hp    = 25000
 			maxhp = 25000
-			amount = 16
+			amount = 14
 			obj/healthbar/hpbar
 
 		proc
@@ -139,7 +139,7 @@ obj
 
 			hp    = 40000
 			maxhp = 40000
-			amount = 9
+			amount = 6
 
 			drops(obj/projectile/p, s)
 
@@ -255,6 +255,12 @@ obj/items
 		portkey_blueprint
 			buildType = /hudobj/build/portkey
 
+		house_blueprint
+			buildType = /hudobj/build/house
+
+		book_blueprint
+			buildType = /hudobj/build/book
+
 		Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 			if(!overridetext && !forceremove && !(src in owner.Lwearing) && !istype(owner.loc, /turf/buildable))
 				owner << errormsg("You can't use this here.")
@@ -318,7 +324,7 @@ turf/buildable
 						return
 
 				var/found = 0
-				for(var/obj/buildable/shield_totem/c in range(20, src))
+				for(var/obj/buildable/shield_totem/c in range(10, src))
 					if(!c.allowed) continue
 					if(usr.ckey in c.allowed) continue
 					found = 1
@@ -337,7 +343,7 @@ turf/buildable
 		if(p.buildItemDisplay && z == p.z && get_dist(src, p) < 30)
 
 
-			for(var/obj/buildable/shield_totem/c in range(20, src))
+			for(var/obj/buildable/shield_totem/c in range(10, src))
 				if(!c.allowed) continue
 				if(usr.ckey in c.allowed) continue
 				return
@@ -435,12 +441,14 @@ obj/buildable
 
 		canHeal = 0
 
+		block = 0
+
 	density = 1
 
 	New()
 		set waitfor = 0
 		sleep(1)
-		if(density && opacity)
+		if(density && opacity || block)
 			var/turf/t = loc
 			t.flyblock = 2
 
@@ -544,9 +552,19 @@ obj/buildable
 		rate = 6000
 
 		opacity = 1
+
 		wood
 			icon = 'wood_wall.dmi'
 			icon_state = "10"
+
+		fence
+			opacity = 0
+			icon = 'fence.dmi'
+			icon_state = "10"
+			hp    = 30000
+			maxhp = 30000
+			rate = 3000
+			block = 1
 
 		New()
 			set waitfor = 0
@@ -584,7 +602,7 @@ obj/buildable
 
 		proc/Bumped(mob/Player/p)
 
-			for(var/obj/buildable/shield_totem/c in range(20, src))
+			for(var/obj/buildable/shield_totem/c in range(10, src))
 				if(!c.allowed) continue
 				if(usr.ckey in c.allowed) continue
 				return
@@ -777,7 +795,7 @@ hudobj
 				icon       = 'desk.dmi'
 				icon_state = "cleft"
 
-				price = 1
+				price = 2
 				path = /obj/chairleft
 
 				screen_x = 32
@@ -790,7 +808,7 @@ hudobj
 				icon       = 'desk.dmi'
 				icon_state = "cright"
 
-				price = 1
+				price = 2
 				path = /obj/chairright
 
 				screen_x = 64
@@ -804,7 +822,7 @@ hudobj
 				icon_state = "cback"
 				layer      = MOB_LAYER +1
 
-				price = 1
+				price = 2
 				path = /obj/chairback
 
 				screen_x = 96
@@ -817,7 +835,7 @@ hudobj
 				icon       ='desk.dmi'
 				icon_state = "cfront"
 
-				price = 1
+				price = 2
 				path = /obj/chairfront
 
 				screen_x = 128
@@ -830,7 +848,7 @@ hudobj
 				icon       ='stage.dmi'
 				icon_state = "w"
 
-				price = 1
+				price = 2
 				path = /obj/WTable
 
 				screen_x = 160
@@ -843,8 +861,8 @@ hudobj
 				icon       ='turf.dmi'
 				icon_state = "walltorch"
 
-				price = 1
-				maptext = "Decoration: 1 wooden logs"
+				price = 2
+				maptext = "Decoration: 2 wooden logs"
 				path = /obj/static_obj/walltorch { post_init = 0; pixel_y = 32 }
 				reqWall = 1
 				mouse_opacity = 2
@@ -856,8 +874,8 @@ hudobj
 				icon       = 'turf.dmi'
 				icon_state = "Bed"
 
-				price = 5
-				maptext = "Bed: 5 wooden logs"
+				price = 20
+				maptext = "Bed: 20 wooden logs"
 				path = /obj/buildable/Bed
 
 				screen_x = 32
@@ -867,8 +885,8 @@ hudobj
 				icon = 'Totem.dmi'
 				icon_state = "Shield"
 
-				price = 10
-				maptext = "Shield Totem: 10 wooden logs"
+				price = 100
+				maptext = "Shield Totem: 100 wooden logs"
 
 				screen_x = 32
 				screen_y = 128
@@ -879,8 +897,8 @@ hudobj
 				icon='Door.dmi'
 				icon_state="closed"
 
-				price = 10
-				maptext = "Door: 10 wooden logs"
+				price = 30
+				maptext = "Door: 30 wooden logs"
 
 				screen_x = 32
 				screen_y = 160
@@ -891,8 +909,8 @@ hudobj
 				icon = 'wood_wall.dmi'
 				icon_state = "10"
 
-				price = 5
-				maptext = "Wood Wall: 5 wooden logs"
+				price = 20
+				maptext = "Wood Wall: 20 wooden logs"
 
 				screen_x = 32
 				screen_y = 192
@@ -904,11 +922,303 @@ hudobj
 				icon_state = "wood"
 				color      = "#704f32"
 
-				price = 1
-				maptext = "Wood Floor: 1 wooden logs"
+				price = 2
+				maptext = "Wood Floor: 2 wooden logs"
 
 				screen_x = 32
 				screen_y = 224
+
+		house
+			red
+				icon       = 'turf.dmi'
+				icon_state = "wood"
+				color      = "#990000"
+
+				price = 3
+
+				screen_x = 32
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
+			green
+				icon       = 'turf.dmi'
+				icon_state = "wood"
+				color      = "#009900"
+
+				price = 3
+
+				screen_x = 64
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
+			yellow
+				icon       = 'turf.dmi'
+				icon_state = "wood"
+				color      = "#d5d500"
+
+				price = 3
+
+				screen_x = 96
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
+			blue
+				icon       = 'turf.dmi'
+				icon_state = "wood"
+				color      = "#0d74db"
+
+				maptext = "Wood floors: 3 wooden logs"
+				price = 3
+
+				screen_x = 128
+				screen_y = 64
+
+			gryffindor
+				icon       = 'shields.dmi'
+				icon_state = "gryffindor"
+
+				price = 2
+				path = /obj/static_obj/gryffindor { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+
+				screen_x = 32
+				screen_y = 96
+
+				maptext_x = 0
+				maptext_width = 32
+
+			slytherin
+				icon       = 'shields.dmi'
+				icon_state = "slytherin"
+
+				price = 2
+				path = /obj/static_obj/slytherin { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+
+				screen_x = 64
+				screen_y = 96
+
+				maptext_x = 0
+				maptext_width = 32
+
+			hufflepuff
+				icon       = 'shields.dmi'
+				icon_state = "hufflepuff"
+				layer      = MOB_LAYER +1
+
+				price = 2
+				path = /obj/static_obj/hufflepuff { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+
+				screen_x = 96
+				screen_y = 96
+
+				maptext_x = 0
+				maptext_width = 32
+
+			ravenclaw
+				icon       = 'shields.dmi'
+				icon_state = "ravenclaw"
+
+				maptext = "Shields: 2 wooden logs"
+				price = 2
+				path = /obj/static_obj/ravenclaw { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+
+				screen_x = 128
+				screen_y = 96
+
+			gryffindor_banner
+				icon       = 'shields.dmi'
+				icon_state = "gryffindorbanner"
+
+				price = 2
+				path = /obj/static_obj/gryffindorbanner { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+
+				screen_x = 32
+				screen_y = 128
+
+				maptext_x = 0
+				maptext_width = 32
+
+			slytherin_banner
+				icon       = 'shields.dmi'
+				icon_state = "slytherinbanner"
+
+				price = 2
+				path = /obj/static_obj/slytherinbanner { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+
+				screen_x = 64
+				screen_y = 128
+
+				maptext_x = 0
+				maptext_width = 32
+
+			hufflepuff_banner
+				icon       = 'shields.dmi'
+				icon_state = "hufflepuffbanner"
+				layer      = MOB_LAYER +1
+
+				price = 2
+				path = /obj/static_obj/hufflepuffbanner { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+
+				screen_x = 96
+				screen_y = 128
+
+				maptext_x = 0
+				maptext_width = 32
+
+			ravenclaw_banner
+				icon       = 'shields.dmi'
+				icon_state = "ravenclawbanner"
+
+				maptext = "Banners: 2 wooden logs"
+				price = 2
+				path = /obj/static_obj/ravenclawbanner { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+
+				screen_x = 128
+				screen_y = 128
+
+			hogwarts_shield
+				icon = 'shields.dmi'
+				icon_state = "hogwartsshield"
+
+				maptext = "Hogwarts Shield: 3 wooden logs"
+				price = 3
+				path = /obj/static_obj/hogwartshield { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+
+				screen_x = 32
+				screen_y = 160
+
+			hogwarts_banner
+				icon = 'shields.dmi'
+				icon_state = "hogwartsbanner"
+
+				maptext = "Hogwarts Banner: 3 wooden logs"
+				price = 3
+				path = /obj/static_obj/hogwartbanner { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+
+				screen_x = 32
+				screen_y = 192
+
+			fence
+				icon = 'fence.dmi'
+				icon_state = "10"
+
+				price = 15
+				maptext = "Fence: 15 wooden logs"
+
+				screen_x = 32
+				screen_y = 224
+
+				path = /obj/buildable/wall/fence
+
+		book
+			icon = 'Books.dmi'
+
+			peacebook
+				icon_state="peace"
+
+				price = 100
+				path = /obj/books/EXP_BOOK_lvl0 { life = 14400 }
+
+				screen_x = 32
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
+			chaosbook
+				icon_state="chaos"
+
+				price = 100
+				path = /obj/books/EXP_BOOK_lvl1 { life = 14400 }
+
+				screen_x = 64
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
+			bankbook
+				icon_state="bank"
+
+				price = 100
+				path = /obj/books/EXP_BOOK_lvl2 { life = 14400 }
+
+				screen_x = 96
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
+			magicbook
+				icon_state="rmagic"
+
+				maptext = "Books (4 hours): 100 wooden logs"
+				price = 100
+				path = /obj/books/EXP_BOOK_lvl3 { life = 14400 }
+
+				screen_x = 128
+				screen_y = 64
+
+			hogwartsbook
+				icon_state="Hogwarts"
+
+				price = 180
+				path = /obj/books/EXP_BOOK_lvl4 { life = 28800 }
+
+				screen_x = 32
+				screen_y = 96
+
+				maptext_x = 0
+				maptext_width = 32
+
+			herbbook
+				icon_state="herb"
+
+				price = 180
+				path = /obj/books/EXP_BOOK_lvl5 { life = 28800 }
+
+				screen_x = 64
+				screen_y = 96
+
+				maptext_x = 0
+				maptext_width = 32
+
+			potionbook
+				icon_state="potion"
+
+				price = 180
+				path = /obj/books/EXP_BOOK_lvl6 { life = 28800 }
+
+				screen_x = 96
+				screen_y = 96
+
+				maptext_x = 0
+				maptext_width = 32
+
+			successbook
+				icon_state="key"
+
+				maptext = "Books (8 hours): 180 wooden logs"
+				price = 180
+				path = /obj/books/EXP_BOOK_lvl7 { life = 28800 }
+
+				screen_x = 128
+				screen_y = 96
 
 		portkey
 			icon='portal.dmi'

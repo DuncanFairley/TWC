@@ -815,6 +815,9 @@ mob/Player/Topic(href, href_list[])
 				level = 900
 				ability = "Damage Resistence, Superspeed"
 				drops = drops_list["Vampire"]
+			if("Floating Eye")
+				level = 900
+				ability = "Deathball"
 
 		var/knowlevel = round(log(10, monsterkills[monster]) + 1)
 

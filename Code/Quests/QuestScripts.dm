@@ -19,6 +19,36 @@ quest
 			desc = "Go back to Blotts."
 			reqs = list("Blotts" = 1)
 
+	Blueprint2
+		name   = "Blue Books: Vol II"
+		desc   = "Blotts found a house blueprint you can use at student housing to construct hogwarts house related structures."
+		reward = /questReward/Blueprint2
+
+		Monsters
+			desc = "Blotts wants you to slay some monsters and gather some wood, like a proper Hogwarts student."
+			reqs = list("Kill Dog"             = 50,
+			            "Kill Snake"           = 50,
+			            "Kill Wolf"            = 50,
+			            "Kill Pixie"           = 50,
+			            "Chop Tree"            = 20)
+
+		Reward
+			desc = "Go back to Blotts."
+			reqs = list("Blotts" = 1)
+
+	Blueprint3
+		name   = "Blue Books: Vol III"
+		desc   = "Blotts offered to sell you books."
+		reward = /questReward/Blueprint3
+
+		Monsters
+			desc = "Blotts wants you to help out Tom clear his basement of rats."
+			reqs = list("Kill Rat"             = 200)
+
+		Reward
+			desc = "Go back to Blotts."
+			reqs = list("Blotts" = 1)
+
 	Cloak1
 		name   = "Cloak of Invisibility"
 		desc   = "Divo can make you an invisibility cloak knock offs using creatures skins and furrs."
@@ -799,6 +829,12 @@ questReward
 	Blueprint1
 		exp   = 20000
 		items = /obj/items/wearable/blueprint/basic_blueprint
+	Blueprint2
+		exp   = 20000
+		items = /obj/items/wearable/blueprint/house_blueprint
+	Blueprint3
+		exp   = 20000
+		items = /obj/items/wearable/blueprint/book_blueprint
 	ProjectileBook
 		gold  = 1000
 		exp   = 40000

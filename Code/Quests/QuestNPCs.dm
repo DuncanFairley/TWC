@@ -67,15 +67,23 @@ mob/TalkNPC/quest
 
 	Blotts
 		icon_state = "blotts"
-		questPointers = list("Blue Books: Vol I")
+		questPointers = list("Blue Books: Vol I", "Blue Books: Vol II","Blue Books: Vol III")
 
 		questStart(mob/Player/i_Player, questName)
 
 			var/ScreenText/s = new(i_Player, src)
 
-			s.AddText("Hey there, you look quite strong, the other day I found this blueprint you can use to build wood structures.")
-			s.AddText("You can probably use student housing area west of the castle to build.")
-			s.AddText("Why don't you gather some wood and come back to me.")
+			switch(questName)
+				if("Blue Books: Vol I")
+					s.AddText("Hey there, you look quite strong, the other day I found this blueprint you can use to build wood structures.")
+					s.AddText("You can probably use student housing area west of the castle to build.")
+					s.AddText("Why don't you gather some wood and come back to me.")
+				if("Blue Books: Vol II")
+					s.AddText("Hello, I can get Hogwarts to give you a special blueprint if you help them get rid of some threats.")
+					s.AddText("Slay some monsters and chop some wood, return to me when you are done.")
+				if("Blue Books: Vol III")
+					s.AddText("Hey, if you want, maybe you should place some books in your house, some reading can't hurt.")
+					s.AddText("I tell you what, my friend Tom has a serious rat problem, help him out and I'll give you a new blueprint.")
 
 			..(i_Player, questName)
 
@@ -84,11 +92,23 @@ mob/TalkNPC/quest
 
 			var/ScreenText/s = new(i_Player, src)
 
-			if(.)
-				s.AddText("Nice, you're quite the woodcutter. Here you can have this blueprint.")
-				s.AddText("Equip it in student housing area, I'm sure you'll build great things.")
-			else
-				s.AddText("You can find quality trees in student housing, try using some spells on those.")
+			switch(questName)
+				if("Blue Books: Vol I")
+					if(.)
+						s.AddText("Nice, you're quite the woodcutter. Here you can have this blueprint.")
+						s.AddText("Equip it in student housing area, I'm sure you'll build great things.")
+					else
+						s.AddText("You can find quality trees in student housing, try using some spells on those.")
+				if("Blue Books: Vol II")
+					if(.)
+						s.AddText("Nice, I hope you build great things with this.")
+					else
+						s.AddText("I'll be waiting for you here.")
+				if("Blue Books: Vol III")
+					if(.)
+						s.AddText("You should probably read actual books while you are reading in this game.")
+					else
+						s.AddText("I wonder who is the evil rat breeder who keeps releasing rats in his bar's basement.")
 
 		questCompleted(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)

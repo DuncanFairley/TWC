@@ -177,6 +177,9 @@ obj
 		icon = 'Books.dmi'
 		density = 1
 		mouse_over_pointer = MOUSE_HAND_POINTER
+
+		var/life
+
 		Click()
 			..()
 			if(src in view(1))
@@ -188,6 +191,9 @@ obj
 			if(!worldData.canReadBooks)
 				p << errormsg("You find this book too boring to read.")
 				return
+			if(life != null && life <= 0)
+				p << errormsg("This book is too old to read.")
+				return
 			if(p.readbooks > 0)
 				p.readbooks = -p.readbooks
 				p.presence = null
@@ -198,6 +204,10 @@ obj
 				p << infomsg("You begin reading.")
 				spawn(20)
 					while(p && p.readbooks > 0 && get_dist(src, p) <= 1)
+
+						if(life != null)
+							life -= p.presence ? 2 : 5
+							if(life <= 0) break
 
 						if((p.client.inactivity < 600 || p.presence) && prob(25))
 							new /hudobj/readClicker (null, p.client, null, 1, p)
