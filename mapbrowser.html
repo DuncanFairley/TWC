@@ -4,8 +4,8 @@
 <SCRIPT type="text/javascript">
 var map_width;
 var map_height;
-var winset = 0;
 var win_name;
+var resizing = 1;
 
 function CallVerb() {
     var locstr = "byond://winset?command=" + arguments[0];
@@ -16,13 +16,11 @@ function CallVerb() {
 }
 
 function WinSet() {
-	winset = 1;
     var locstr = "byond://winset?id=" + arguments[0];
     for(var count=1;count<arguments.length;count+=2) {
         locstr += "&" + arguments[count] + "=" + arguments[count+1];
     }
     window.location = locstr;
-	setTimeout(function(){ winset = 0; }, 100);
 }
 
 function Output() {
@@ -30,13 +28,16 @@ function Output() {
 }
 
 window.onresize = function() {
-    Resize();
+	if(resizing) return;
+	resizing = 1
+	Resize();
+	resizing = 0
 };
 
 window.onload = function() {
 	CallVerb("onLoad");
 	WinSet("","mainvsplit.right","mapwindow","guild.is-visible","false","splitStack.is-visible","false","SpellBook.is-visible","false","Quests.is-visible","false","Monsters.is-visible","false","Auction.is-visible","false","winSettings.is-visible","false","radio_enabled.is-checked","false");
-
+	Resize();
 };
 
 var isfullscreen = 0;
@@ -54,7 +55,8 @@ function ToggleFullscreen() {
 
 function Login() {
 	WinSet("","mainvsplit.right","rpane","mnu_Settings.command",".ShowSettings","mnu_Settings.is-disabled","false");
-	Resize(1);
+	Resize();
+	resizing = 0;
 }
 
 function BackColor() {
@@ -75,11 +77,6 @@ function CenterWindow() {
 }
 
 function Resize() {
-	if(winset)
-	{
-		if(!arguments[0]) return;
-	}
-
     var body = document.getElementsByTagName('body')[0];
     var map_width = body.clientWidth;
     var map_height = body.clientHeight;
