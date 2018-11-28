@@ -112,8 +112,6 @@ client
 
 				if(isplayer(mob)) // if mapbrowser loaded after login()
 					src << output(null,"browser1:Login")
-				else
-					src << output(null,"browser1:Resize")
 
 		onResize(VW as num,VH as num,BX as num,BY as num,Z as num)
 			set hidden = 1
@@ -242,10 +240,11 @@ hudobj
 					if(!SP || SP <= 0) return
 					SP = min(p.StatPoints, SP)
 
-					var/addstat = 1*SP
+					var/addstat = 3*SP
 					p.Def += addstat
 					p << infomsg("You gained [addstat] defense!")
 					p.StatPoints -= SP
+					p.resetMaxHP()
 
 				if(p.StatPoints == 0)
 					for(var/hudobj/statpoints/b in p.client.screen)
@@ -266,9 +265,9 @@ hudobj
 				var/mob/Player/p = usr
 				if(alpha == 0) return
 
-				var/remaining = (p.cooldownModifier - 0.5) / 0.005
+				var/remaining = (p.cooldownModifier * 100 - 50)*2
 
-				if(remaining == 0)
+				if(remaining <= 0)
 					p << errormsg("Cooldown Reduction is already at max of 50%.")
 					return
 
@@ -281,7 +280,7 @@ hudobj
 
 					var/addstat = 0.005*SP
 					p.cooldownModifier -= addstat
-					p << infomsg("You now have [(1 - p.cooldownModifier)*100]% cooldown reduction.")
+					p << infomsg("You now have [round(1000 - p.cooldownModifier*1000, 1)/10]% cooldown reduction.")
 					p.StatPoints -= SP
 
 				if(p.StatPoints == 0)

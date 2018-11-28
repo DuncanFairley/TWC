@@ -319,7 +319,7 @@ mob
 
 					for(var/obj/items/wearable/w in p)
 						if(istype(w, /obj/items/wearable/orb) || istype(w, /obj/items/wearable/title) || istype(w, /obj/items/wearable/magic_eye) || istype(w, /obj/items/wearable/halloween_bucket))
-							w.Equip(p, 1, 1)
+							if(w in p.Lwearing) w.Equip(p, 1, 1)
 							w.loc = null
 						else
 							if(w.quality > 0)
@@ -373,14 +373,10 @@ mob
 							var/tier = round(i / 50)
 							p.Mexp += 100 * tier
 			if(savefile_version < 32)
-				spawn()
-					p.Rank = "Player"
-					for(var/obj/items/wearable/w in p.Lwearing)
-						if(istype(w, /obj/items/wearable/orb) || istype(w, /obj/items/wearable/title) || istype(w, /obj/items/wearable/magic_eye) || istype(w, /obj/items/wearable/halloween_bucket))
-							p.Lwearing -= w
-							p.overlays -= w
-							w.loc = null
+				p.Rank = "Player"
 
+			if(savefile_version < 36)
+				p.resetStatPoints()
 
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && worldData.sandboxZ != last_z) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
