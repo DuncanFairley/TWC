@@ -551,19 +551,13 @@ mob/GM/verb
 mob/GM/verb/Orb_Surroundings(var/mob/M in world)
 	set category = "Staff"
 	set popup_menu = 0
-	for(var/mob/K in oview(1))
+	for(var/mob/Player/K in oview(1))
 
 		var/rnd = rand(-1,1)
 		var/rnd2 = rand(-1,1)
-		if(isplayer(K))
-			K:Transfer(locate(M.x+rnd,M.y+rnd2,M.z))
-		else
-			K.loc = locate(M.x+rnd,M.y+rnd2,M.z)
+		K:Transfer(locate(M.x+rnd,M.y+rnd2,M.z))
 
-	usr.x = M.x
-	usr.y = M.y+1
-	usr.z = M.z
-
+	usr:Transfer(locate(M.x,M.y+1,M.z))
 
 mob/GM/verb/Bring(mob/M in world)
 	set category = "Staff"
