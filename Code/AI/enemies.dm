@@ -475,6 +475,9 @@ mob
 			state   = INACTIVE
 
 		Attacked(obj/projectile/p)
+			if(!isplayer(p.owner)) return
+			if(!origloc && p.owner && p.owner.loc.loc != loc.loc) return
+
 			..()
 			if(prizePoolSize > 1 && p.owner && p.damage && HP > 0)
 				if(!damage) damage = list()
@@ -2284,6 +2287,7 @@ mob
 				SetSize(rand(10,20) / 10)
 
 			Attack()
+				var/reset = 0
 				var/p = 15
 				for(var/mob/Enemies/m in orange(1, src))
 					p += 20
@@ -2294,12 +2298,14 @@ mob
 					MoveDelay   = 2
 					AttackDelay = 2
 					ChangeState(state)
+					reset = 1
 				..()
-				Dmg        -= 1200
-				level       = initial(level)
-				MoveDelay   = initial(MoveDelay)
-				AttackDelay = initial(AttackDelay)
-				ChangeState(state)
+				if(reset)
+					Dmg        -= 1200
+					level       = initial(level)
+					MoveDelay   = initial(MoveDelay)
+					AttackDelay = initial(AttackDelay)
+					ChangeState(state)
 
 			Death(mob/Player/killer)
 				..()
