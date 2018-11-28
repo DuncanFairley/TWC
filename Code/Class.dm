@@ -290,7 +290,7 @@ class
 			wand = TRUE
 			start(mob/Player/p)
 				..()
-				say("Protego is a shield charm, for 3 seconds any spell you are hit with will effect the caster and not to you, as if you are a mirror.", p)
+				say("Protego is a shield charm, for 5 seconds any spell you are hit with will effect the caster and not to you, as if you are a mirror.", p)
 		Impedimenta
 			mp = 750
 			cd = 20
