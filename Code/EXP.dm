@@ -198,10 +198,14 @@ obj
 				p.readbooks = -p.readbooks
 				p.presence = null
 				p << infomsg("You stop reading.")
+				if(life != null)
+					p << infomsg("[ticks2time(life*10)] remaining.")
 			else if(p.readbooks==null)
 				var/hudobj/reading/R = new(null, p.client, null, 1, p)
 				p.readbooks = 1
 				p << infomsg("You begin reading.")
+				if(life != null)
+					p << infomsg("[ticks2time(life*10)] remaining.")
 				spawn(20)
 					while(p && p.readbooks > 0 && get_dist(src, p) <= 1)
 
@@ -866,3 +870,27 @@ gold
 
 		toNumber()
 			return bronze + (silver * 100) + (gold * 10000) + (plat * 1000000)
+
+
+proc/ticks2time(ticks)
+	var/sec      = round(ticks / 10)
+	var/min      = round(sec   / 60)
+	var/hour     = round(min   / 60)
+	var/day      = round(hour  / 24)
+
+	sec  -= min  * 60
+	min  -= hour * 60
+	hour -= day  * 24
+
+	. = ""
+	if(day)
+		. += "[day] [day > 1 ? "days" : "day"]"
+	if(hour)
+		if(.) . += ", "
+		. += "[hour] [hour > 1 ? "hours" : "hour"]"
+	if(min)
+		if(.) . += ", "
+		. += "[min] [min > 1 ? "minutes" : "minute"]"
+	if(sec)
+		if(.) . += " and "
+		. += "[sec] [sec > 1 ? "seconds" : "second"]"
