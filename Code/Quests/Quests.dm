@@ -771,10 +771,10 @@ mob/Player/Topic(href, href_list[])
 				level = 750
 				find = "Forbidden Forest"
 			if("Fire Bat")
-				level = 10
+				level = 400
 				find = "Silverblood Grounds"
 			if("Fire Golem")
-				level = 10
+				level = 450
 				find = "Silverblood Grounds"
 			if("Archangel")
 				level = 500
