@@ -1710,6 +1710,9 @@ mob/Player/var/element
 	Water
 	Earth
 	Ghost
+	Gathering
+	Taming
+
 
 element
 	var

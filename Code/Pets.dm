@@ -88,6 +88,7 @@ obj/items/wearable/pets
 				owner.pet = new (get_step(owner, owner.dir), src)
 				owner.pet.owner = owner.ckey
 				owner.pet.alpha = 0
+				owner.pet.glide_size = owner.glide_size
 		//	else
 		//		owner.pet.isDisposing = 0
 		//		owner.pet.refresh(5)
@@ -109,6 +110,9 @@ obj/items/wearable/pets
 			exp = 0
 			return
 
+		if(owner.Taming.level >= 1)
+			amount = round(amount * (1 + owner.Taming.level / 100), 1) + owner.Taming.level*2
+
 		exp += amount
 
 		var/i = 0
@@ -125,6 +129,8 @@ obj/items/wearable/pets
 			Equip(owner, 1)
 			quality += i
 			Equip(owner, 1)
+
+			owner.Taming.add(i*1000 + rand(2,30)*10)
 
 			owner.screenAlert("Your [name] leveled up to [quality]!")
 
@@ -165,8 +171,6 @@ obj/pet
 	icon = 'Mobs.dmi'
 
 	layer = 4
-
-	glide_size = 32
 
 	appearance_flags = LONG_GLIDE|TILE_BOUND|PIXEL_SCALE
 	canSave = 0

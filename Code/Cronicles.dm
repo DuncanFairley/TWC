@@ -378,6 +378,10 @@ mob
 			if(savefile_version < 36)
 				p.resetStatPoints()
 
+			if(savefile_version < 37)
+				p.Gathering = new("Gathering")
+				p.Taming = new("Taming")
+
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && worldData.sandboxZ != last_z) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else

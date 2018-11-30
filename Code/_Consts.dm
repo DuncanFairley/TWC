@@ -16,8 +16,8 @@
 #define clamp(n, low, high) min(max((n), low), high)
 #define winshowCenter(player, window) player << output(window,"browser1:ShowCenterWindow")
 
-#define VERSION "16.69"
-#define SAVEFILE_VERSION 36
+#define VERSION "16.70"
+#define SAVEFILE_VERSION 37
 #define VAULT_VERSION 5
 #define lvlcap 800
 #define SWAPMAP_Z 25 // world map z + 1 (the +1 is for buildable area, don't add if not using sandbox)
@@ -102,6 +102,8 @@ proc
 
 atom
 	var/post_init = 0
+
+	appearance_flags = PIXEL_SCALE
 
 	New()
 		if(post_init)

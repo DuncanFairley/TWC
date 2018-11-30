@@ -10,6 +10,7 @@ obj/hud
 hudobj
 	parent_type = /obj
 	layer = HUD_LAYER
+	appearance_flags = PIXEL_SCALE
 
 	var
 		client/client
@@ -188,8 +189,6 @@ hudobj
 		maptext_width = 256
 
 		mouse_opacity  = 2
-
-		appearance_flags = PIXEL_SCALE
 
 		MouseEntered()
 			transform *= 1.25

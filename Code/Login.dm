@@ -776,6 +776,8 @@ mob
 			character.Earth = new("Earth")
 			character.Water = new("Water")
 			character.Ghost = new("Ghost")
+			character.Gathering = new("Gathering")
+			character.Taming = new("Taming")
 			character.hpBar = new(character)
 
 			for(var/mob/Player/p in Players)
@@ -1365,6 +1367,13 @@ mob/Player
 			if(Ghost)
 				var/percent = round((Ghost.exp / Ghost.maxExp) * 100)
 				stat("Ghost:", "[Ghost.level]   Exp: [comma(Ghost.exp)]/[comma(Ghost.maxExp)] ([percent]%)")
+			stat("Professions:","")
+			if(Gathering)
+				var/percent = round((Gathering.exp / Gathering.maxExp) * 100)
+				stat("Gathering:", "[Gathering.level]   Exp: [comma(Gathering.exp)]/[comma(Gathering.maxExp)] ([percent]%)")
+			if(Taming)
+				var/percent = round((Taming.exp / Taming.maxExp) * 100)
+				stat("Taming:", "[Taming.level]   Exp: [comma(Taming.exp)]/[comma(Taming.maxExp)] ([percent]%)")
 			stat("House:",src.House)
 			if(level >= lvlcap && rankLevel)
 				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100)
@@ -1805,7 +1814,7 @@ mob/proc/Death_Check(mob/killer = src)
 
 
 		else
-			if(isplayer(killer))
+			if(isplayer(killer) && !killer:Immortal)
 				if(istype(src, /mob/Enemies))
 					if(!istype(src, /mob/Enemies/Summoned))
 						killer.AddKill(src.name)
