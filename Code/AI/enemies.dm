@@ -401,7 +401,7 @@ area/Exit(atom/movable/O, atom/newloc)
 		if(e.removeoMob)
 			if(!issafezone(src) && issafezone(newloc.loc)) return 0
 		else
-			if(e.target || !e.origloc)
+			if(e.target)
 				if(issafezone(newloc.loc))
 					e.target = null
 				else
@@ -573,7 +573,7 @@ mob
 			if(state == INACTIVE || state == WANDER) return
 			state = INACTIVE
 
-			if(!killer) return
+			if(!killer || killer.Immortal) return
 
 			if(canBleed)
 				new /obj/corpse(loc, src)
@@ -716,6 +716,7 @@ mob
 				step_rand(src)
 				for(var/mob/Player/M in ohearers(src, Range))
 					if(M.loc.loc != src.loc.loc) continue
+					if(M.Immortal) continue
 					if(ignore && (M in ignore)) continue
 
 					if(!isPathBlocked(M, src, 1, src.density))
@@ -729,6 +730,7 @@ mob
 				var/min_dist = Range
 				for(var/mob/Player/M in ohearers(src, Range))
 					if(M.loc.loc != src.loc.loc) continue
+					if(M.Immortal) continue
 					if(ignore && (M in ignore)) continue
 
 					if(!isPathBlocked(M, src, 1, src.density))
@@ -991,7 +993,7 @@ mob
 					step_rand(src)
 					for(var/mob/Player/M in ohearers(src, Range))
 						if(M.loc.loc != src.loc.loc) continue
-						if(M.Immortal && M.admin) continue
+						if(M.Immortal) continue
 
 						target = M
 						ChangeState(HOSTILE)
@@ -2066,7 +2068,7 @@ mob
 					 speed  = 5,
 					 life   = new /Random(1,10))
 
-				if(killer)
+				if(killer && !killer.Immortal)
 
 					var/r = rep
 					if(prob(52)) r /= 2
