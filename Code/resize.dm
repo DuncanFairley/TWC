@@ -10,7 +10,6 @@ obj/hud
 hudobj
 	parent_type = /obj
 	layer = HUD_LAYER
-	appearance_flags = PIXEL_SCALE
 
 	var
 		client/client
@@ -264,7 +263,7 @@ hudobj
 				var/mob/Player/p = usr
 				if(alpha == 0) return
 
-				var/remaining = (p.cooldownModifier * 100 - 50)*2
+				var/remaining = round((p.cooldownModifier * 100 - 50)*2, 1)
 
 				if(remaining <= 0)
 					p << errormsg("Cooldown Reduction is already at max of 50%.")
@@ -273,8 +272,8 @@ hudobj
 				if(p.StatPoints > 0)
 					var/SP = round(input("How many stat points do you want to put into Cooldown Reduction?","You have [p.StatPoints]",p.StatPoints) as num|null)
 					if(!SP || SP <= 0) return
-					SP = min(p.StatPoints, SP)
 
+					SP = min(p.StatPoints, SP)
 					SP = min(remaining, SP)
 
 					var/addstat = 0.005*SP
