@@ -218,7 +218,7 @@ proc/cleanPlayerData(decay = 0)
 
 proc
 	init_events()
-		scheduler.set_sleep_delay(10)
+	//	scheduler.set_sleep_delay(10)
 		scheduler.start()
 		init_books()
 		init_weather()
