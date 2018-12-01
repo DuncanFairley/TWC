@@ -311,6 +311,8 @@ obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_cont
 
 				loc = null
 
+				p.Resort_Stacking_Inv()
+
 				p.pet.gotoBank(p)
 
 				default = 0
@@ -4198,7 +4200,6 @@ obj/items/monster_book
 obj/items/money
 	icon = 'Gold.dmi'
 
-	max_stack = 9999
 	canAuction = FALSE
 
 	var/factor = 1
