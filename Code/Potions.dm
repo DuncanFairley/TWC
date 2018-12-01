@@ -947,10 +947,17 @@ obj
 				animate(src, transform = m1, time = 5, loop = 32)
 				animate(transform = m2, time = 5)
 
+				var/amount = rand(2, 4) * tier
+
+				if(isplayer(p.owner))
+					var/mob/Player/player = p.owner
+					amount += player.Gathering.level
+					player.Gathering.add(amount*20, player)
+
 				sleep(320)
 				var/obj/items/ingredients/i = pick(/obj/items/ingredients/daisy, /obj/items/ingredients/aconite)
 				i = new i (loc)
-				i.stack = rand(2, 4) * tier
+				i.stack = amount
 				i.UpdateDisplay()
 				i.prizeDrop(ownerCkey, protection=600, decay=FALSE)
 				loc = null
