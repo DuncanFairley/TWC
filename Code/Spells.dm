@@ -717,12 +717,11 @@ mob/Spells/verb/Antifigura()
 
 mob/Spells/verb/Chaotica()
 	set category="Spells"
-	var/dmg = round(usr.level * 1.5) + round(clothDmg/5)
-	if(dmg<20)dmg=20
-	else if(dmg>2000)dmg = 2000
+	var/dmg = round(usr.level * 1.1) + round(clothDmg/5) + usr:Fire.level
+
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Chaotica"
-		castproj(MPreq = 30, icon_state = "chaotica", damage = dmg, name = "Chaotica")
+		castproj(MPreq = 30, Type = /obj/projectile/NoImpact, icon_state = "chaotica", damage = dmg, name = "Chaotica", cd = 3)
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
@@ -1012,12 +1011,9 @@ mob/Spells/verb/Incindia()
 		new /StatusEffect/UsedIncindia(src,15*p.cooldownModifier,"Incindia")
 		var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 		var/damage = round((p.Dmg + p.clothDmg + p.Fire.level) * 0.75)
-		var/t = dir
 		p.learnSpell("Incindia")
 		for(var/d in dirs)
-			dir = d
-			castproj(icon_state = "fireball", damage = damage, name = "incindia", cd = 0, lag = 1, element = FIRE)
-		dir = t
+			castproj(icon_state = "fireball", damage = damage, name = "incindia", cd = 0, lag = 1, element = FIRE, Dir=d)
 mob/Spells/verb/Replacio(mob/Player/M in oview()&Players)
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
@@ -1631,8 +1627,8 @@ mob/var/tmp
 	lastproj = 0
 	lastHostile = 0
 mob
-	proc/castproj(Type = /obj/projectile, MPreq = 0, icon = 'attacks.dmi', icon_state = "", damage = 0, name = "projectile", cd = 1, lag = 2, element = 0)
-		if(cd && (world.time - lastproj) < 2 && !inOldArena()) return
+	proc/castproj(Type = /obj/projectile, MPreq = 0, icon = 'attacks.dmi', icon_state = "", damage = 0, name = "projectile", cd = 2, lag = 2, element = 0, Loc = loc, Dir = dir)
+		if(cd && (world.time - lastproj) < cd && !inOldArena()) return
 		if(!loc) return
 		lastproj = world.time
 
@@ -1642,7 +1638,7 @@ mob
 		if(damage > 0)
 			lastHostile = world.time
 
-		var/obj/projectile/P = new Type (src.loc,src.dir,src,icon,icon_state,damage,name,element)
+		var/obj/projectile/P = new Type (Loc,Dir,src,icon,icon_state,damage,name,element)
 		P.shoot(lag)
 		. = P
 		if(client)
@@ -1723,7 +1719,7 @@ element
 
 
 		const
-			MAX  = 100000 // what is cap?
+			MAX  = 150 // soft cap
 
 	New(n)
 		name = n
@@ -1731,19 +1727,30 @@ element
 
 	proc
 		add(amount, mob/Player/parent)
-			if(level >= MAX) return
 
-			exp += round(amount/10)
+			if(level >= MAX)
+				amount *= max(1 - (level - MAX) / MAX, 0.1)
 
-			while(exp > maxExp && level < MAX)
+				var/r = (level - MAX)*10
+				if(amount > r)
+					amount -= r
+				else if(amount > 10)
+					amount = 10
+
+			exp += round(amount/10, 1)
+
+			while(exp > maxExp)
 				exp -= maxExp
 				level++
-				maxExp = 2000 + (level * 1500)
-				parent.screenAlert("[name] element leveled up to [level]!")
+				maxExp = 2000 + (level * 2500)
 
-			if(level == MAX) exp = 0
+				var/t
+				if(name == "Gathering" || name == "Taming")
+					t = "profession"
+				else
+					t = "element"
 
-
+				parent.screenAlert("[name] [t] leveled up to [level]!")
 
 mob/Player
 
@@ -1873,6 +1880,7 @@ obj
 			element = 0
 
 			steps = 0
+			impact = 1
 
 		Move()
 			.=..()
@@ -1998,7 +2006,7 @@ obj
 						O.Attacked(src)
 				count++
 
-			if(Impact(a, t) || count > 1)
+			if(Impact(a, t) || (count > 1 && impact))
 				Dispose()
 
 		Blood
@@ -2197,6 +2205,44 @@ obj
 					flick("burning", r)
 					if(!r.GM_Made)
 						spawn(4) r.Dispose()
+
+		NoImpact
+			var/list/bumped
+			steps = 0
+			impact = 0
+			Impact(atom/movable/a, turf/oldloc)
+
+				if(ismonster(a) || isplayer(a))
+					loc = oldloc
+					. = 0
+				else
+					. = ..(a, oldloc)
+
+			Bump(atom/movable/a)
+
+				if(a == owner)
+					loc = a.loc
+					return
+
+				if(isplayer(a) || ismonster(a))
+					if(bumped)
+						if(a in bumped)
+							loc = a.loc
+							return
+					else
+						bumped = list()
+
+					bumped += a
+
+				.=..(a)
+
+			Effect(atom/movable/a)
+				if(owner && (isplayer(a) || istype(a, /mob/Enemies)))
+					var/mob/m = a
+					if(m.HP - damage <= 0 && prob(40))
+						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+						for(var/d in dirs)
+							owner.castproj(Type = /obj/projectile/NoImpact, icon_state = "chaotica", damage = round(damage/2), name = "Chaotica", cd = 0, lag = 1, Loc = a.loc, Dir = d)
 
 obj/circle
 	icon = 'circle1.dmi'
