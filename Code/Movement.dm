@@ -1,6 +1,6 @@
 atom
 	movable
-		appearance_flags = LONG_GLIDE
+		appearance_flags = LONG_GLIDE|PIXEL_SCALE
 
 mob/Player
 

@@ -85,6 +85,7 @@ mob/Player/var/tmp/presence
 
 
 hudobj/readClicker
+	appearance_flags   = NO_CLIENT_COLOR|PIXEL_SCALE
 
 	anchor_x   = "CENTER"
 	anchor_y   = "CENTER"

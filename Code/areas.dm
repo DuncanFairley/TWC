@@ -565,7 +565,7 @@ obj/Shadow
 	icon             = 'shadow.dmi'
 	mouse_opacity    = 0
 	canSave          = FALSE
-	appearance_flags = LONG_GLIDE|TILE_BOUND
+	appearance_flags = LONG_GLIDE|TILE_BOUND|PIXEL_SCALE
 
 
 mob/Player
