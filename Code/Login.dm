@@ -902,8 +902,6 @@ mob/Player
 			Interface.Init(src)
 		isDJ(src)
 		checkMail()
-		LoginReward()
-		if(worldData.eventPrize) EventReward()
 
 		spawn()
 			var/mob/multikey
@@ -972,6 +970,9 @@ mob/Player
 
 			src.ApplyOverlays(0)
 			BaseIcon()
+
+			LoginReward()
+			if(worldData.eventPrize) EventReward()
 
 			hpBar = new(src)
 			if(MP / MMP)
@@ -1433,20 +1434,39 @@ mob/Player
 
 
 		if(statpanel("Items"))
-			for(var/obj/stackobj/S in contents)
-				stat("Click to expand stacked items.")
-				break
+
+			var/list/money
+			var/list/stacked
+			var/list/other
+
 			for(var/obj/O in src.contents)
-				if(istype(O,/obj/stackobj))
-					stat("+",O)
-					if(O:isopen)
-						for(var/obj/B in O:contains)
-							stat("-",B)
-					//	stat(O:contains)//Display all the objects inside the stack obj
-				else
-					if(istype(src,/mob/Player))
-						if(!src:stackobjects || !(src:stackobjects.Find(O.type))) //If there's NOT a stack object for this obj type, print it
-							stat(O)
+				if(istype(O, /obj/items/money))
+					if(!money) money = list()
+					money += O
+				else if(istype(O,/obj/stackobj))
+
+					if(!stacked) stacked = list()
+					stacked += O
+
+				else if(!src:stackobjects || !(src:stackobjects.Find(O.type))) //If there's NOT a stack object for this obj type, print it
+					if(!other) other = list()
+					other += O
+
+			if(money)
+				stat("Money:")
+				stat(money)
+
+			stat("Items:")
+			if(other)
+				stat(other)
+
+			if(stacked)
+				stat("Click to expand stacked items.")
+				for(var/obj/stackobj/s in stacked)
+					stat("+", s)
+					if(s.isopen)
+						for(var/obj/B in s.contains)
+							stat("-", B)
 obj
 	stackobj
 		var/isopen=0
@@ -1500,7 +1520,6 @@ mob/proc/Resort_Stacking_Inv()
 	var/list/counts = list()
 
 	for(var/obj/O in contents)
-		//if(istype(O,/Spell)) continue
 		if(istype(O,/obj/stackobj))
 			O.loc = null
 		else
@@ -2264,7 +2283,7 @@ mob/Player
 		if(worldData.loggedIn)
 			if((client.computer_id in worldData.loggedIn) || (client.address in worldData.loggedIn) || (client.ckey in worldData.loggedIn)) return
 
-		sleep(8)
+		sleep(20)
 
 		while(locate(/hudobj/login_reward) in client.screen)
 			sleep(10)
@@ -2277,7 +2296,7 @@ mob/Player
 		if(worldData.eventTaken)
 			if((client.computer_id in worldData.eventTaken) || (client.address in worldData.eventTaken) || (client.ckey in worldData.eventTaken)) return
 
-		sleep(8)
+		sleep(20)
 
 		while(locate(/hudobj/login_reward) in client.screen)
 			sleep(10)
