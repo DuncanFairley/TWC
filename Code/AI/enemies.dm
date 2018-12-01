@@ -661,6 +661,14 @@ mob
 				else
 					prize = new prize (loc)
 					prize.prizeDrop(killer.ckey, decay=isDefault)
+					killer << infomsg("<i>[name] dropped [prize.name]</i>")
+
+				emit(loc    = loc,
+				 	 ptype  = /obj/particle/star,
+				 	 amount = 3,
+				 	 angle  = new /Random(0, 360),
+				 	 speed  = 5,
+				 	 life   = new /Random(4,8))
 			damage = null
 
 		proc/state()
@@ -1090,11 +1098,8 @@ mob
 							spawn(rand(10,20)) fired = 0
 
 							var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-							var/tmp_d = dir
 							for(var/d in dirs)
-								dir = d
-								castproj(icon_state = "quake", damage = Dmg + rand(-4,8), name = "rubble", cd = 0, lag = 1)
-							dir = tmp_d
+								castproj(icon_state = "quake", damage = Dmg + rand(-4,8), name = "rubble", cd = 0, lag = 1,Dir=d)
 							sleep(AttackDelay)
 
 					Attacked(obj/projectile/p)
@@ -1300,11 +1305,8 @@ mob
 
 
 								var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-								var/tmp_d = dir
 								for(var/d in dirs)
-									dir = d
-									castproj(Type = /obj/projectile/Blood, icon_state = "blood", damage = Dmg + rand(-4,8), name = "Cruor", cd = 0, lag = 1)
-								dir = tmp_d
+									castproj(Type = /obj/projectile/Blood, icon_state = "blood", damage = Dmg + rand(-4,8), name = "Cruor", cd = 0, lag = 1, Dir=d)
 								sleep(AttackDelay)
 
 					Attacked(obj/projectile/p)
@@ -1415,11 +1417,8 @@ mob
 
 							if(prob(80))
 								var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-								var/tmp_d = dir
 								for(var/d in dirs)
-									dir = d
-									castproj(icon_state = "fireball", damage = Dmg + rand(-4,8), name = "fire ball", cd = 0, lag = 1)
-								dir = tmp_d
+									castproj(icon_state = "fireball", damage = Dmg + rand(-4,8), name = "fire ball", cd = 0, lag = 1,Dir=d)
 								sleep(AttackDelay)
 
 					Attacked(obj/projectile/p)
@@ -1523,11 +1522,8 @@ mob
 							else if(diag == 2)
 								dirs = list(NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 								diag = 0
-							var/tmp_d = dir
 							for(var/d in dirs)
-								dir = d
-								castproj(icon_state = "sword", name = "flying sword", cd = 0, lag = 1)
-							dir = tmp_d
+								castproj(icon_state = "sword", name = "flying sword", cd = 0, lag = 1,Dir=d)
 
 					Attacked(obj/projectile/p)
 						if(icon_state == "shield" || p.icon_state == "blood")
@@ -1572,13 +1568,11 @@ mob
 
 							var/r = rand(3,8)
 							var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-							var/tmp_d = dir
 
 							for(var/i = 1 to r)
-								dir = pick(dirs)
-								dirs -= dir
-								castproj(Type = /obj/projectile/Grav, icon_state = "grav", name = "Gravitate", cd = 0, lag = 1)
-							dir = tmp_d
+								var/d = pick(dirs)
+								dirs -= d
+								castproj(Type = /obj/projectile/Grav, icon_state = "grav", name = "Gravitate", cd = 0, lag = 1, Dir=d)
 							sleep(AttackDelay)
 
 					Attacked(obj/projectile/p)
@@ -1627,12 +1621,9 @@ mob
 								spawn(rand(30,50)) fired = 0
 
 								var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-								var/tmp_d = dir
 								var/dmg = round(Dmg * 1.5 + rand(-4,8))
 								for(var/d in dirs)
-									dir = d
-									castproj(icon_state = "snowball", damage = dmg, name = "snowball", cd = 0, lag = 1)
-								dir = tmp_d
+									castproj(icon_state = "snowball", damage = dmg, name = "snowball", cd = 0, lag = 1, Dir=d)
 								sleep(AttackDelay)
 					Attacked()
 						..()
