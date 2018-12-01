@@ -5,32 +5,43 @@
  * For the full license text, see LICENSE.txt.
  */
 
-WorldData/var/tmp/sandboxZ
+WorldData/var/tmp/list/sandboxZ
 
 proc
 	InitSandbox(attempts=3)
 		set waitfor = 0
-		var/swapmap/map = SwapMaps_Load("custom_buildable")
+
+		Loadbuildable("custom_buildable")
+		Loadbuildable("custom_buildable2")
+
+		if(!worldData.sandboxZ)
+			spawnFarmable()
+
+	Loadbuildable(name, attempts=3)
+		set waitfor = 0
+
+		var/swapmap/map = SwapMaps_Load(name)
 		if(!map)
 			if(attempts > 0)
 				spawn(10)
 					lagstopsleep()
-					InitSandbox(attempts-1)
+					Loadbuildable(name, attempts-1)
 			return
 
-		worldData.sandboxZ = map.z1
+		if(!worldData.sandboxZ)
+			worldData.sandboxZ = list()
+		worldData.sandboxZ += map.z1
 		map.used = 1
 
-		spawnTrees()
-
-	spawnTrees()
+	spawnFarmable()
 		set waitfor = 0
 		sleep(100)
-		for(var/i = 1 to 30)
+		for(var/i = 1 to 40)
 			var/x = rand(10, 90)
 			var/y = rand(10, 90)
+			var/z = pick(worldData.sandboxZ)
 
-			var/turf/t = locate(x, y, worldData.sandboxZ)
+			var/turf/t = locate(x, y, z)
 
 			#if WINTER
 			if(t.icon_state == "snow" && !t.flyblock)
@@ -41,11 +52,12 @@ proc
 
 			lagstopsleep()
 
-		for(var/i = 1 to 10)
+		for(var/i = 1 to 16)
 			var/x = rand(10, 90)
 			var/y = rand(10, 90)
+			var/z = pick(worldData.sandboxZ)
 
-			var/turf/t = locate(x, y, worldData.sandboxZ)
+			var/turf/t = locate(x, y, z)
 
 			#if WINTER
 			if(t.icon_state == "snow" && !t.flyblock)
@@ -79,11 +91,14 @@ obj
 				transform = null
 				amount = initial(amount)
 
+				hp = maxhp
+
 				for(var/i = 1 to 10)
 					var/x = rand(10, 90)
 					var/y = rand(10, 90)
+					var/z = pick(worldData.sandboxZ)
 
-					var/turf/t = locate(x, y, worldData.sandboxZ)
+					var/turf/t = locate(x, y, z)
 
 					#if WINTER
 					if(t.icon_state == "snow" && !t.flyblock)
@@ -118,6 +133,16 @@ obj
 			var/s = round((maxhp - hp) / (maxhp / amount))
 			if(s >= 1)
 				amount -= s
+
+				if(isplayer(p.owner))
+					var/mob/Player/player = p.owner
+					if(player.Gathering.level >= 1)
+						var/r = rand(1, player.Gathering.level)
+						if(prob(player.Gathering.level + player.Gathering.level - r))
+							s += r
+
+					player.Gathering.add(s*20, player)
+
 				drops(p, s)
 
 			if(hp <= 0)
@@ -171,7 +196,7 @@ obj
 				density = 0
 
 				if(p.owner && isplayer(p.owner))
-					p.owner:checkQuestProgress("Smash Rocks")
+					p.owner:checkQuestProgress("Smash Rock")
 
 				sleep(6)
 				hpbar.loc = null
@@ -261,6 +286,9 @@ obj/items
 		book_blueprint
 			buildType = /hudobj/build/book
 
+		stone_blueprint
+			buildType = /hudobj/build/stone
+
 		Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 			if(!overridetext && !forceremove && !(src in owner.Lwearing) && !istype(owner.loc, /turf/buildable))
 				owner << errormsg("You can't use this here.")
@@ -272,7 +300,7 @@ obj/items
 				if(!overridetext)viewers(owner) << infomsg("[owner] looks at \his [src.name].")
 				for(var/obj/items/wearable/blueprint/W in owner.Lwearing)
 					if(W != src)
-						W.Equip(owner,1,1)
+						W.Equip(owner,1,0)
 
 
 				for(var/t in (typesof(buildType)-buildType+typesof(/hudobj/build/shared)-/hudobj/build/shared))
@@ -342,18 +370,21 @@ turf/buildable
 		var/mob/Player/p = usr
 		if(p.buildItemDisplay && z == p.z && get_dist(src, p) < 30)
 
-
 			for(var/obj/buildable/shield_totem/c in range(10, src))
 				if(!c.allowed) continue
 				if(usr.ckey in c.allowed) continue
 				return
+
+			if(p.buildItem.path && (flyblock || (locate(p.buildItem.path) in src)))
+				if(!p.buildItem.replace || !(locate(p.buildItem.replace) in src))
+					return
 
 			if(islist(p.buildItem.price))
 				var/list/items = list()
 				for(var/t in p.buildItem.price)
 					var/obj/items/i = locate(t) in p
 
-					if(!i || i.stack < p.buildItem.price)
+					if(!i || i.stack < p.buildItem.price[t])
 						p << errormsg("You don't have enough resources.")
 						return
 
@@ -372,25 +403,23 @@ turf/buildable
 				w.Consume(p.buildItem.price)
 
 			if(p.buildItem.path)
-				if(!flyblock && !(locate(p.buildItem.path) in src))
 
-					if(p.buildItem.reqWall)
-						var/turf/t = locate(x,y+1,z)
-						if(!t || !t.flyblock)
-							return
+				if(p.buildItem.replace)
+					var/obj/o = locate(p.buildItem.replace) in src
+					if(o) o.Dispose()
 
-					Clear()
-					var/obj/buildable/wall/o = new p.buildItem.path(src)
+				Clear(p.buildItem.clear)
+				var/obj/buildable/wall/o = new p.buildItem.path(src)
 
-					if(istype(o, /obj/buildable/wall))
-						o.hp = 10000
-						if(!o.hpbar)
-							o.hpbar = new(o)
-						o.hpbar.Set(o.hp / o.maxhp, instant=1)
+				if(istype(o, /obj/buildable/wall))
+					o.hp = 10000
+					if(!o.hpbar)
+						o.hpbar = new(o)
+					o.hpbar.Set(o.hp / o.maxhp, instant=1)
 
-						spawn(2)
-							for(var/obj/buildable/wall/w in orange(1, src))
-								w.updateState()
+					spawn(2)
+						for(var/obj/buildable/wall/w in orange(1, src))
+							w.updateState()
 
 			else if(p.buildItem.name == "clear")
 				Clear()
@@ -406,12 +435,17 @@ turf/buildable
 			..()
 
 	proc
-		Clear()
+		Clear(clear)
 			for(var/obj/o in src)
 				if(!o.canSave) continue
 				if(istype(o, /obj/items)) continue
 				if(istype(o, /obj/buildable)) continue
-				o.Dispose()
+
+				if(clear)
+					if(istype(o, clear))
+						o.Dispose()
+				else
+					o.Dispose()
 
 /*	post_init = 1  // in case GMs use delete on walls
 	MapInit()
@@ -463,12 +497,38 @@ obj/buildable
 		..()
 
 	Dispose()
-		if(opacity)
+		if(opacity || block)
 			var/turf/t = loc
 			t.flyblock = 0
-		hpbar.loc = null
-		hpbar = null
+
+		if(hpbar)
+			hpbar.loc = null
+			hpbar = null
 		..()
+
+	MouseEntered()
+		var/mob/Player/p = usr
+		if(p.buildItemDisplay)
+			if(z == p.z && get_dist(loc, p) < 30)
+
+				if(!p.buildItem.replace || !istype(src, p.buildItem.replace)) return
+
+				p.buildItemDisplay.loc = loc
+
+				var/found = 0
+				for(var/obj/buildable/shield_totem/c in range(10, loc))
+					if(!c.allowed) continue
+					if(usr.ckey in c.allowed) continue
+					found = 1
+					break
+
+				if(!found)
+					p.buildItemDisplay.loc = loc
+					p.buildItemDisplay.color = "#0f0"
+				else
+					p.buildItemDisplay.color = "#f00"
+			else
+				p.buildItemDisplay.loc = null
 
 	Attacked(obj/projectile/p)
 		set waitfor = 0
@@ -545,17 +605,25 @@ obj/buildable
 				hp = maxhp
 			regen = 0
 
+
 	wall
 		canHeal = 1
 		hp    = 60000
 		maxhp = 60000
-		rate = 6000
+		rate = 10000
 
 		opacity = 1
 
 		wood
 			icon = 'wood_wall.dmi'
 			icon_state = "10"
+
+		stone
+			icon = 'stone.dmi'
+			icon_state = "10"
+			hp    = 120000
+			maxhp = 120000
+			rate = 20000
 
 		fence
 			opacity = 0
@@ -588,13 +656,19 @@ obj/buildable
 
 	door
 		canHeal = 1
-		hp    = 60000
-		maxhp = 60000
-		rate = 6000
+		hp    = 50000
+		maxhp = 50000
+		rate = 9000
 
 		wood
 			icon='Door.dmi'
 			icon_state="closed"
+		gate
+			icon='gate.dmi'
+			icon_state="closed"
+			hp    = 100000
+			maxhp = 100000
+			rate = 19000
 
 		opacity=1
 
@@ -721,8 +795,8 @@ hudobj
 			path
 			price = 0
 			reqWall = 0
-
-		appearance_flags = PIXEL_SCALE
+			clear
+			replace
 
 		MouseEntered()
 			transform *= 1.25
@@ -857,6 +931,19 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+			Torch
+				icon       ='misc.dmi'
+				icon_state = "torch"
+
+				price = 2
+				path = /obj/Torch_
+
+				screen_x = 192
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
 			wall_torch
 				icon       ='turf.dmi'
 				icon_state = "walltorch"
@@ -867,7 +954,7 @@ hudobj
 				reqWall = 1
 				mouse_opacity = 2
 
-				screen_x = 200
+				screen_x = 232
 				screen_y = 64
 
 			Bed
@@ -916,6 +1003,7 @@ hudobj
 				screen_y = 192
 
 				path = /obj/buildable/wall/wood
+				replace = /obj/buildable/wall/fence
 
 			woodenfloor
 				icon       = 'turf.dmi'
@@ -928,6 +1016,142 @@ hudobj
 				screen_x = 32
 				screen_y = 224
 
+		stone
+			black_throne
+				icon       = 'Thrones.dmi'
+				icon_state = "black"
+
+				price = list(/obj/items/stones = 15)
+				path = /obj/bigblackchair
+
+				screen_x = 32
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
+			white_throne
+				icon       = 'Thrones.dmi'
+				icon_state = "white"
+
+				price = list(/obj/items/stones = 15)
+				path = /obj/bigwhitechair
+
+				screen_x = 64
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
+			purple_throne
+				icon       = 'Thrones.dmi'
+				icon_state = "purple"
+
+				price = list(/obj/items/stones = 15)
+				path = /obj/bigpurplechair
+
+				screen_x = 96
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
+			teal_throne
+				icon       = 'Thrones.dmi'
+				icon_state = "teal"
+
+				maptext = "Thrones: 15 stones"
+				price = list(/obj/items/stones = 15)
+				path = /obj/bigtealchair
+
+				screen_x = 128
+				screen_y = 64
+
+			Angel
+				icon       = 'statues_64x64.dmi'
+				icon_state = "angel"
+
+				price = list(/obj/items/stones = 20)
+				path = /obj/static_obj/Angel { post_init = 0; }
+
+				screen_x = 32
+				screen_y = 96
+
+				maptext_x = 0
+				maptext_width = 32
+
+			Gargoyleleft
+				icon       = 'statues_64x64.dmi'
+				icon_state = "grag left"
+
+				price = list(/obj/items/stones = 20)
+				path = /obj/static_obj/Gargoyleleft { post_init = 0; }
+
+				screen_x = 64
+				screen_y = 96
+
+				maptext_x = 0
+				maptext_width = 32
+
+			Gargoyleright
+				icon       = 'statues_64x64.dmi'
+				icon_state = "grag right"
+
+				price = list(/obj/items/stones = 20)
+				path = /obj/static_obj/Gargoyleright { post_init = 0; }
+
+				screen_x = 96
+				screen_y = 96
+
+				maptext_x = 0
+				maptext_width = 32
+
+			Armor
+				icon       = 'statues_64x64.dmi'
+				icon_state = "armor"
+
+				maptext = "Statues: 20 stones"
+				price = list(/obj/items/stones = 20)
+				path = /obj/static_obj/Armor { post_init = 0; }
+
+				screen_x = 128
+				screen_y = 96
+
+			door
+				icon = 'gate.dmi'
+				icon_state = "closed"
+
+				price = list(/obj/items/stones = 30)
+				maptext = "Gate: 30 stones"
+
+				screen_x = 32
+				screen_y = 160
+
+				path = /obj/buildable/door/gate
+				replace = /obj/buildable/door/wood
+
+			stone_wall
+				icon = 'stone.dmi'
+				icon_state = "10"
+
+				price = list(/obj/items/stones = 20)
+				maptext = "Stone Wall: 20 stones"
+
+				screen_x = 32
+				screen_y = 192
+
+				path = /obj/buildable/wall/stone
+				replace = /obj/buildable/wall/wood
+
+			road
+				icon       = 'turf.dmi'
+				icon_state = "stonefloor2"
+
+				price = list(/obj/items/stones = 2)
+				maptext = "Road: 2 stones"
+
+				screen_x = 32
+				screen_y = 224
 		house
 			red
 				icon       = 'turf.dmi'
@@ -1010,7 +1234,6 @@ hudobj
 			hufflepuff
 				icon       = 'shields.dmi'
 				icon_state = "hufflepuff"
-				layer      = MOB_LAYER +1
 
 				price = 2
 				path = /obj/static_obj/hufflepuff { post_init = 0; pixel_y = 32; density = 0 }
@@ -1065,7 +1288,6 @@ hudobj
 			hufflepuff_banner
 				icon       = 'shields.dmi'
 				icon_state = "hufflepuffbanner"
-				layer      = MOB_LAYER +1
 
 				price = 2
 				path = /obj/static_obj/hufflepuffbanner { post_init = 0; pixel_y = 32; density = 0 }
@@ -1089,28 +1311,80 @@ hudobj
 				screen_x = 128
 				screen_y = 128
 
+			red_throne
+				icon       = 'Thrones.dmi'
+				icon_state = "red"
+
+				price = list(/obj/items/stones = 15)
+				path = /obj/bigredchair
+
+				screen_x = 32
+				screen_y = 160
+
+				maptext_x = 0
+				maptext_width = 32
+
+			green_throne
+				icon       = 'Thrones.dmi'
+				icon_state = "green"
+
+				price = list(/obj/items/stones = 15)
+				path = /obj/biggreenchair
+
+				screen_x = 64
+				screen_y = 160
+
+				maptext_x = 0
+				maptext_width = 32
+
+			yellow_throne
+				icon       = 'Thrones.dmi'
+				icon_state = "yellow"
+
+				price = list(/obj/items/stones = 15)
+				path = /obj/bigyellowchair
+
+				screen_x = 96
+				screen_y = 160
+
+				maptext_x = 0
+				maptext_width = 32
+
+			blue_throne
+				icon       = 'Thrones.dmi'
+				icon_state = "blue"
+
+				maptext = "Thrones: 15 stones"
+				price = list(/obj/items/stones = 15)
+				path = /obj/bigbluechair
+
+				screen_x = 128
+				screen_y = 160
+
 			hogwarts_shield
 				icon = 'shields.dmi'
 				icon_state = "hogwartsshield"
 
-				maptext = "Hogwarts Shield: 3 wooden logs"
 				price = 3
 				path = /obj/static_obj/hogwartshield { post_init = 0; pixel_y = 32; density = 0 }
 				reqWall = 1
 
 				screen_x = 32
-				screen_y = 160
+				screen_y = 192
+
+				maptext_x = 0
+				maptext_width = 32
 
 			hogwarts_banner
 				icon = 'shields.dmi'
 				icon_state = "hogwartsbanner"
 
-				maptext = "Hogwarts Banner: 3 wooden logs"
+				maptext = "Hogwarts Shield/Banner: 3 wooden logs"
 				price = 3
 				path = /obj/static_obj/hogwartbanner { post_init = 0; pixel_y = 32; density = 0 }
 				reqWall = 1
 
-				screen_x = 32
+				screen_x = 64
 				screen_y = 192
 
 			fence
@@ -1124,9 +1398,11 @@ hudobj
 				screen_y = 224
 
 				path = /obj/buildable/wall/fence
+				replace = /obj/buildable/wall/wood
 
 		book
-			icon = 'Books.dmi'
+			icon  = 'Books.dmi'
+			clear = /obj/books/
 
 			peacebook
 				icon_state="peace"

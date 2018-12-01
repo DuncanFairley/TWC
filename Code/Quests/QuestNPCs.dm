@@ -67,7 +67,7 @@ mob/TalkNPC/quest
 
 	Blotts
 		icon_state = "blotts"
-		questPointers = list("Blue Books: Vol I", "Blue Books: Vol II","Blue Books: Vol III")
+		questPointers = list("Blue Books: Vol I", "Blue Books: Vol II","Blue Books: Vol III", "Blue Books: Vol IV")
 
 		questStart(mob/Player/i_Player, questName)
 
@@ -84,6 +84,8 @@ mob/TalkNPC/quest
 				if("Blue Books: Vol III")
 					s.AddText("Hey, if you want, maybe you should place some books in your house, some reading can't hurt.")
 					s.AddText("I tell you what, my friend Tom has a serious rat problem, help him out and I'll give you a new blueprint.")
+				if("Blue Books: Vol IV")
+					s.AddText("Hey, I found another blueprint involving stone, why don't you go smash some rocks and come back to me.")
 
 			..(i_Player, questName)
 
@@ -109,6 +111,11 @@ mob/TalkNPC/quest
 						s.AddText("You should probably read actual books while you are reading in this game.")
 					else
 						s.AddText("I wonder who is the evil rat breeder who keeps releasing rats in his bar's basement.")
+				if("Blue Books: Vol IV")
+					if(.)
+						s.AddText("Nice, quite the miner, here you can have the blueprint.")
+					else
+						s.AddText("Stones are harder to get compared to wood.")
 
 		questCompleted(mob/Player/i_Player, questName)
 			var/ScreenText/s = new(i_Player, src)

@@ -382,7 +382,7 @@ mob
 				p.Gathering = new("Gathering")
 				p.Taming = new("Taming")
 
-			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && worldData.sandboxZ != last_z) //If player is on a swap map, move them to gringotts
+			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else
 				var/turf/t = locate(last_x, last_y, last_z)

@@ -804,7 +804,7 @@ turf
 		density=1
 obj
 	static_obj
-		appearance_flags = RESET_COLOR|RESET_ALPHA
+		appearance_flags = RESET_COLOR|RESET_ALPHA|PIXEL_SCALE
 		post_init = 1
 
 		MapInit()
@@ -1007,6 +1007,26 @@ obj
 			icon       = 'statues.dmi'
 			icon_state = "bottom2"
 			density    = 1
+		Armor
+			icon       = 'statues_64x64.dmi'
+			icon_state = "armor"
+			density    = 1
+			layer      = MOB_LAYER + 1
+		Gargoyleleft
+			icon       = 'statues_64x64.dmi'
+			icon_state = "grag left"
+			density    = 1
+			layer      = MOB_LAYER + 1
+		Gargoyleright
+			icon       = 'statues_64x64.dmi'
+			icon_state = "grag right"
+			density    = 1
+			layer      = MOB_LAYER + 1
+		Angel
+			icon       = 'statues_64x64.dmi'
+			icon_state = "angel"
+			density    = 1
+			layer      = MOB_LAYER + 1
 		statuebody
 			icon       = 'statues.dmi'
 			icon_state = "stat"

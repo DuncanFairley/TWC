@@ -49,6 +49,19 @@ quest
 			desc = "Go back to Blotts."
 			reqs = list("Blotts" = 1)
 
+	Blueprint4
+		name   = "Blue Books: Vol IV"
+		desc   = "Blotts offered to sell you books."
+		reward = /questReward/Blueprint4
+
+		Rock
+			desc = "Blotts found a new blueprint involving rocks, go smash some."
+			reqs = list("Smash Rock" = 10)
+
+		Reward
+			desc = "Go back to Blotts."
+			reqs = list("Blotts" = 1)
+
 	Cloak1
 		name   = "Cloak of Invisibility"
 		desc   = "Divo can make you an invisibility cloak knock offs using creatures skins and furrs."
@@ -835,6 +848,9 @@ questReward
 	Blueprint3
 		exp   = 20000
 		items = /obj/items/wearable/blueprint/book_blueprint
+	Blueprint4
+		exp   = 20000
+		items = /obj/items/wearable/blueprint/stone_blueprint
 	ProjectileBook
 		gold  = 1000
 		exp   = 40000
