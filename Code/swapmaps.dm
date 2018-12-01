@@ -276,6 +276,7 @@ swapmap
 					var/tp
 					S["type"]>>tp
 					var/turf/T=locate(x,y,z)
+					T.tag = null
 					T.loc.contents-=T
 					T=new tp(locate(x,y,z))
 					if("AREA" in S.dir)
@@ -471,6 +472,8 @@ atom
 		if(!isturf(src))
 			if(overlays.len) S["overlays"]<<overlays
 			if(underlays.len) S["underlays"]<<underlays
+		else
+			S.dir.Remove("tag")
 		if(contents.len && !isarea(src))
 			var/list/l=contents
 			if(M)
