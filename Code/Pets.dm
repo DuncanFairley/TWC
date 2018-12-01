@@ -378,12 +378,12 @@ obj/pet
 					g.give(p)
 				else
 					var/prize = pickweight(list(/obj/items/bucket                     = 30,
-					                            /obj/items/wearable/title/Best_Friend = 15,
-					                            /obj/items/wearable/title/Scavenger   = 15,
+					                            /obj/items/wearable/title/Best_Friend = 5,
+					                            /obj/items/wearable/title/Scavenger   = 10,
 					                            /obj/items/treats/berry               = 20,
 					                            /obj/items/treats/sweet_berry         = 20,
 					                            /obj/items/treats/grape_berry         = 10,
-					                            /obj/items/treats/stick               = 20,))
+					                            /obj/items/treats/stick               = 25,))
 
 					var/obj/items/i = new prize (loc)
 
