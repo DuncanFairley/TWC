@@ -5,7 +5,7 @@
  * For the full license text, see LICENSE.txt.
  */
 
-var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cushion,
+var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cushion,
 			 	                                         /obj/items/Smoke_Pellet,
 			 	                                         /obj/items/Tube_of_fun,
 			 	                                         /obj/items/potions/health/small_health_potion,
@@ -81,12 +81,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 "Rat"                = list("10"   =      /obj/items/ingredients/rat_tail),
 
 "Demon Rat"          = list("10"   = list(/obj/items/demonic_essence,
-                                          /obj/items/ingredients/rat_tail),
-							"1"    = list(/obj/items/Whoopie_Cushion,
-			 	 			 			  /obj/items/Smoke_Pellet,
-			 	 			 			  /obj/items/Tube_of_fun,
-			 	 			 			  /obj/items/potions/health/health_potion,
-			 	 			 			  /obj/items/potions/mana/mana_potion)),
+                                          /obj/items/ingredients/rat_tail)),
 
 
 "Snowman"            = list("0.02" = list(/obj/items/artifact,
@@ -95,12 +90,6 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							              /obj/items/key/winter_key,
 							              /obj/items/chest/winter_chest,
 							              /obj/items/wearable/wands/mulberry_wand),
-							 "5"   = list(/obj/items/DarknessPowder,
-								 		  /obj/items/Whoopie_Cushion,
-										  /obj/items/U_No_Poo,
-							 			  /obj/items/Smoke_Pellet,
-							 			  /obj/items/Tube_of_fun,
-							 			  /obj/items/Swamp),
 							 "25"  =      /obj/items/gift),
 
 
@@ -115,10 +104,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							 			  /obj/items/crystal/magic,
 						     			  /obj/items/crystal/strong_luck,
 						     			  /obj/items/crystal/soul),
-							"2"    = list(/obj/items/DarknessPowder,
-							 			  /obj/items/Smoke_Pellet,
-							 			  /obj/items/Tube_of_fun,
-							 			  /obj/items/potions/health/large_health_potion,
+							"2"    = list(/obj/items/potions/health/large_health_potion,
 										  /obj/items/potions/mana/large_mana_potion)),
 
 "Vengeful Ghost"     = list("0.5"   = list(/obj/items/colors/purple_stone,
@@ -168,11 +154,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 							              /obj/items/key/pentakill_key,
 							              /obj/items/key/sunset_key),
 							"1"    =      /obj/items/artifact,
-							"8"    = list(/obj/items/DarknessPowder,
-								 	 	  /obj/items/Whoopie_Cushion,
-									 	  /obj/items/U_No_Poo,
-									 	  /obj/items/ingredients/eyes,
-							 		 	  /obj/items/Tube_of_fun,
+							"8"    = list(/obj/items/ingredients/eyes,
 							 		 	  /obj/items/potions/health/large_health_potion,
 							 		 	  /obj/items/potions/mana/large_mana_potion)),
 
@@ -182,8 +164,7 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 			 			  				  /obj/items/Tube_of_fun,
 			 			  				  /obj/items/potions/health/health_potion,
 			 	 			 			  /obj/items/potions/mana/mana_potion),
-			 			  	"2"    = list(/obj/items/wearable/bling,
-			 			  	 			  /obj/items/bucket,
+			 			  	"3"    = list(/obj/items/bucket,
 			 			  	 			  /obj/items/scroll,
 			 			  	 			  /obj/items/ingredients/eyes,
 			 			  	 			  /obj/items/wearable/title/Troll)),
@@ -204,8 +185,8 @@ var/list/drops_list = list("default" = list("0.5" = list(/obj/items/Whoopie_Cush
 			 			  	              /obj/items/reputation/peace_tablet)),
 
 
-"Basilisk"           = list("5"    =      /obj/items/key/pentakill_key,
-							"25"   = list(/obj/items/artifact,
+"Basilisk"           = list("8"    =      /obj/items/key/pentakill_key,
+							"30"   = list(/obj/items/artifact,
 										  /obj/items/wearable/title/Petrified,
 										  /obj/items/crystal/soul,
 										  /obj/items/crystal/magic,
