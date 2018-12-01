@@ -721,7 +721,7 @@ mob/Spells/verb/Chaotica()
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Chaotica"
-		castproj(MPreq = 30, Type = /obj/projectile/NoImpact, icon_state = "chaotica", damage = dmg, name = "Chaotica", cd = 3)
+		castproj(MPreq = 30, Type = /obj/projectile/NoImpact, icon_state = "chaotica", damage = dmg, name = "Chaotica", cd = 3, element = FIRE)
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
@@ -2242,7 +2242,7 @@ obj
 					if(m.HP - damage <= 0 && prob(40))
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 						for(var/d in dirs)
-							owner.castproj(Type = /obj/projectile/NoImpact, icon_state = "chaotica", damage = round(damage/2), name = "Chaotica", cd = 0, lag = 1, Loc = a.loc, Dir = d)
+							owner.castproj(Type = /obj/projectile/NoImpact, icon_state = "chaotica", damage = round(damage/2), name = "Chaotica", cd = 0, Loc = a.loc, Dir = d, element = FIRE)
 
 obj/circle
 	icon = 'circle1.dmi'
