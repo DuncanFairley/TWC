@@ -36,7 +36,7 @@ proc
 	spawnFarmable()
 		set waitfor = 0
 		sleep(100)
-		for(var/i = 1 to 40)
+		for(var/i = 1 to 50)
 			var/x = rand(10, 90)
 			var/y = rand(10, 90)
 			var/z = pick(worldData.sandboxZ)
@@ -76,7 +76,7 @@ obj
 		var
 			hp    = 25000
 			maxhp = 25000
-			amount = 14
+			amount = 16
 			obj/healthbar/hpbar
 
 		proc
@@ -165,6 +165,11 @@ obj
 			hp    = 40000
 			maxhp = 40000
 			amount = 6
+
+			respawn()
+				set waitfor = 0
+				icon_state = "1"
+				..()
 
 			drops(obj/projectile/p, s)
 
@@ -302,10 +307,8 @@ obj/items
 					if(W != src)
 						W.Equip(owner,1,0)
 
-
 				for(var/t in (typesof(buildType)-buildType+typesof(/hudobj/build/shared)-/hudobj/build/shared))
 					var/obj/o = new t (null, owner.client, null, 1)
-
 					o.maptext = {"<span style=\"color:[owner.mapTextColor]\">[o.maptext]</span>"}
 
 			else if(. == REMOVED)
