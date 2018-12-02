@@ -101,9 +101,10 @@ proc
 			__post_init = null
 
 atom
-	var/post_init = 0
+	movable
+		appearance_flags = PIXEL_SCALE
 
-	appearance_flags = PIXEL_SCALE
+	var/post_init = 0
 
 	New()
 		if(post_init)
