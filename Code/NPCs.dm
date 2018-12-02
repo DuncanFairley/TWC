@@ -292,6 +292,8 @@ obj/magic_force
 		var/list/riddles = list(
 		"Rare... magical... desired by goblins."                                    = /obj/items/artifact,
 		"Let's make a deal... with the devil..."                                    = /obj/items/crystal/soul,
+		"I used to be a tree like you then I took an arrow in the knee."            = /obj/items/wood_log,
+		"Do you wanna build a stoneman"                                             = /obj/items/stones,
 		"Are you lucky?"                                                            = /obj/items/crystal/luck,
 		"I like both the sword and the shield."                                     = /obj/items/crystal/magic,
 		"The sword is my favorite tool."                                            = /obj/items/crystal/damage,
