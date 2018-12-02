@@ -615,6 +615,10 @@ RandomEvent
 				s.loc = null
 				s.ChangeState(monster.INACTIVE)
 
+				if(s.s)
+					s.s.loc = null
+					s.s = null
+
 			swords = 0
 
 			var/message = 0
