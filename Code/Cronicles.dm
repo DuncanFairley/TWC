@@ -649,8 +649,6 @@ hudobj
 		icon = 'Login Stone.dmi'
 		icon_state = "moss"
 
-		appearance_flags = PIXEL_SCALE
-
 		MouseEntered()
 			transform *= 1.25
 		MouseExited()
