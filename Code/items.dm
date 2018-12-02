@@ -1286,6 +1286,7 @@ obj/items/wearable/wands
 
 	proc
 		addExp(mob/Player/owner, amount)
+			if(istype(src, /obj/items/wearable/wands/practice_wand)) return
 			if(quality >= MAX_WAND_LEVEL)
 				exp = 0
 				return
