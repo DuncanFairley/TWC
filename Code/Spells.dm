@@ -1814,16 +1814,22 @@ mob/Enemies
 		if(isplayer(p.owner))
 
 			if(p.icon_state == "blood")
-				p.damage += round(p.damage / 20, 1)
+				p.damage += round(p.damage / 10, 1)
 			else if(element && p.element)
 				if(element == p.element)
-					p.damage -= round(p.damage / 20, 1)
+					p.damage -= round(p.damage / 10, 1)
+
+				else if(element == FIRE && p.element == WATER)
+					p.damage += round(p.damage / 2, 1)
 
 				else if((element & (EARTH|FIRE)) && (p.element & (WATER|GHOST)))
-					p.damage += round(p.damage / 20, 1)
+					p.damage += round(p.damage / 10, 1)
 
-				else if((element & WATER) && (p.element & (FIRE|EARTH)))
-					p.damage += round(p.damage / 20, 1)
+				else if((element & WATER))
+					if(p.element & EARTH)
+						p.damage += round(p.damage / 10, 1)
+					else if(p.element & FIRE)
+						p.damage += round(p.damage / 2, 1)
 
 			if(canBleed)
 				var/n = dir2angle(get_dir(src, p))
