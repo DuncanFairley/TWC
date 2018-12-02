@@ -189,10 +189,10 @@ Event
 
 
 WorldData/var/tmp/list/weather_effects = list("acid"        = 7,
-											  "snow"        = 15,
+											  "snow"        = 7,
 										  	  "rain"        = 15,
 											  "cloudy"      = 25,
-											  "sunny"       = 45)
+											  "sunny"       = 60)
 
 proc/cleanPlayerData(decay = 0)
 	for(var/ckey in worldData.playersData)
