@@ -1760,6 +1760,8 @@ mob/Player
 		if(p.owner)
 			if(isplayer(p.owner))
 
+				if(p.owner == src && istype(p, /obj/projectile/NoImpact)) return
+
 				var/area/a = loc.loc
 				if(!a.friendlyFire) return
 
@@ -2208,7 +2210,6 @@ obj
 
 		NoImpact
 			var/list/bumped
-			steps = 0
 			impact = 0
 			Impact(atom/movable/a, turf/oldloc)
 
