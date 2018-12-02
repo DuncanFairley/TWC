@@ -658,7 +658,7 @@ turf
 						walk(O,0)
 						O.loc = null
 			else if(name == "ice")
-				if(istype(O, /obj/projectile) && O.icon_state == "fireball")
+				if(istype(O, /obj/projectile) && O:element == FIRE)
 					water()
 			return ..()
 
