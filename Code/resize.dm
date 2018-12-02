@@ -173,7 +173,9 @@ hudobj
 				icon_state = "lvlup"
 			else
 				for(var/t in (typesof(/hudobj/statpoints)-/hudobj/statpoints))
-					new t (null, p.client, null, 1)
+					var/hudobj/o = new t (null, p.client, null, 1)
+					o.maptext = {"<span style=\"color:[p.mapTextColor]\">[o.maptext]</span>"}
+					new /obj/background(o, 6, 1)
 
 				on = 1
 				icon_state = "lvlup_red"
@@ -499,3 +501,18 @@ hudobj
 		screen_x    = 240
 		screen_y    = -44
 		anchor_y    = "NORTH"
+
+obj/background
+	icon = 'black50.dmi'
+	color = "#000"
+	appearance_flags = RESET_TRANSFORM|PIXEL_SCALE
+
+	New(atom/Loc,x,y)
+		var/matrix/m = matrix()
+		m.Scale(x,y)
+		m.Translate((x - 1) * 16, (y - 1) * -16)
+		transform = m
+		Loc.underlays += src
+
+		loc = null
+
