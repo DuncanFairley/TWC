@@ -368,6 +368,13 @@ area
 			Graveyard_Underground
 				antiTeleport = TRUE
 				antiFly      = TRUE
+
+			Dungeon
+				antiTeleport = TRUE
+				antiFly      = TRUE
+				Snowman
+				SnowmanBoss
+
 		Entered(atom/movable/O)
 			. = ..()
 			if(!active && isplayer(O))
@@ -1956,8 +1963,20 @@ mob
 			DMGmodifier = 1
 			MoveDelay = 4
 			AttackDelay = 3
-			respawnTime = 1800
 			element = WATER
+
+			Attacked()
+				..()
+				if(HP > 0)
+					var/percent = 1 + (1 - HP / MHP)*2
+					var/matrix/M = matrix() * percent
+					transform = M
+
+					Dmg = round(DMGmodifier * (level + 5) * (percent))
+				else
+					transform = null
+					Dmg = DMGmodifier * (level + 5)
+
 
 		Acromantula
 			icon = 'Mobs.dmi'

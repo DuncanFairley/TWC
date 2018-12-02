@@ -84,13 +84,11 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
                                           /obj/items/ingredients/rat_tail)),
 
 
-"Snowman"            = list("0.02" = list(/obj/items/artifact,
+"Snowman"            = list("0.5" = list(/obj/items/artifact,
                                           /obj/items/wearable/orb/peace,
 							              /obj/items/wearable/orb/chaos,
 							              /obj/items/key/winter_key,
-							              /obj/items/chest/winter_chest,
-							              /obj/items/wearable/wands/mulberry_wand),
-							 "25"  =      /obj/items/gift),
+							              /obj/items/chest/winter_chest)),
 
 
 "Wisp"               = list("5"    =      /obj/items/crystal/luck,
