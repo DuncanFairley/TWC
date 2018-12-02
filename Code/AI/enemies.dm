@@ -576,6 +576,37 @@ mob
 					else
 						color = "#d00"
 
+		proc/SpawnPortal(dest, var/obj/Hogwarts_Door/gate/door, chance = 100, lava=0)
+			set waitfor = 0
+
+			if(prob(100 - chance)) return
+
+			if(door)
+				door = locate(door)
+				if(door)
+					door.door = 1
+
+			var/obj/teleport/portkey/t = new (loc)
+			t.dest = dest
+
+			sleep(2)
+
+			t.density = 1
+			step_rand(t)
+			t.density = 0
+
+			if(lava)
+				var/limit = 3
+				while(istype(t.loc, /turf/lava) && limit--)
+					sleep(1)
+					t.density = 1
+					step_rand(t)
+					t.density = 0
+
+			sleep(respawnTime-2)
+			if(door) door.door = 0
+			t.loc = null
+
 		proc/Death(mob/Player/killer)
 			if(state == INACTIVE || state == WANDER) return
 			state = INACTIVE
@@ -1620,6 +1651,10 @@ mob
 						extraDmg = 400
 					element = WATER
 
+					Death()
+						..()
+						SpawnPortal("SnowmanDungeonEntrance")
+
 					Attack(mob/M)
 						..()
 						if(!fired && target && state == HOSTILE)
@@ -1815,28 +1850,7 @@ mob
 			Death(mob/Player/killer)
 				..(killer)
 
-				var/obj/Hogwarts_Door/gate/door = locate("CoSBoss2LockDoor")
-				if(door)
-					door.door = 1
-
-					var/obj/teleport/portkey/t = new (loc)
-					t.dest = "teleportPointCoS Floor 3"
-
-					spawn(respawnTime)
-						door.door = 0
-						t.loc = null
-
-					spawn(2)
-						t.density = 1
-						step_rand(t)
-						t.density = 0
-
-						var/limit = 3
-						while(istype(t.loc, /turf/water) && limit--)
-							sleep(1)
-							t.density = 1
-							step_rand(t)
-							t.density = 0
+				SpawnPortal("teleportPointCoS Floor 3", "CoSBoss2LockDoor", lava=1)
 
 
 		Rat
@@ -1860,6 +1874,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.5, null, /obj/items/wearable/pets/rat)
+				SpawnPortal("SnowmanDungeonEntrance", chance=0.2)
 
 		Pixie
 			icon_state  = "pixie"
@@ -1956,6 +1971,88 @@ mob
 				SpawnPet(killer, 0.05, null, /obj/items/wearable/pets/pumpkin)
 
 
+		The_Good_Snowman
+			icon_state = "snowman"
+			level = 2100
+			HPmodifier = 4
+			DMGmodifier = 3
+			MoveDelay = 3
+			AttackDelay = 1
+			Range = 24
+			respawnTime = 6000
+			prizePoolSize = 2
+
+			element = WATER
+
+			ChangeState(var/i_State)
+				..(i_State)
+
+				if(state == 0 && origloc && HP > 0)
+					loc = origloc
+
+			MapInit()
+				set waitfor = 0
+				..()
+				SetSize(3)
+
+				namefont.QuickName(src, name, "#eee", "#e00", top=1, py=16)
+
+				hpbar = new(src)
+
+			var/tmp/fired = 0
+
+			Blocked()
+				density = 0
+				var/turf/t = get_step_to(src, target, 1)
+				if(t)
+					Move(t)
+				else
+					..()
+				density = 1
+
+			Attack()
+				..()
+
+				if(target && !fired)
+					fired = 1
+					spawn(10)
+						fired = 0
+
+					var/obj/boss/death/d = new (target.loc, src)
+					d.density = 1
+					for(var/i = 1 to rand(0,3))
+						step_rand(d)
+					d.density = 0
+
+			Attacked()
+				..()
+				if(HP > 0)
+					var/percent = 1 + (HP / MHP)*2
+					var/matrix/M = matrix() * percent
+					transform = M
+				else
+					transform = matrix() * 3
+
+
+
+			Kill(mob/Player/p)
+				set waitfor = 0
+				..(p)
+
+				sleep(1)
+
+				var/hudobj/teleport/t = new (null, p.client, null, show=1)
+				t.dest = "SnowmanDungeonEntrance"
+				p << errormsg("Click the teleport stone on screen button at the bottom right to go back to the snowman dungeon.")
+
+
+
+			Death(mob/Player/killer)
+				set waitfor = 0
+				..(killer)
+
+				SpawnPortal("SnowmanDungeonEntrance")
+
 		Snowman
 			icon = 'Snowman.dmi'
 			level = 700
@@ -2018,6 +2115,7 @@ mob
 
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/acromantula)
+				SpawnPortal("SnowmanDungeonEntrance", chance=0.4)
 
 			MapInit()
 				set waitfor = 0
@@ -2185,6 +2283,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.02, "rand", /obj/items/wearable/pets/wisp)
+				SpawnPortal("SnowmanDungeonEntrance", chance=0.4)
 
 
 		Floating_Eye
@@ -2214,16 +2313,8 @@ mob
 
 				Death()
 					..()
-					var/obj/teleport/portkey/t = new (loc)
-					t.dest = "@Hogwarts"
 
-					spawn(respawnTime)
-						t.loc = null
-
-					spawn(2)
-						t.density = 1
-						step_rand(t)
-						t.density = 0
+					SpawnPortal("@Hogwarts")
 
 				MapInit()
 					set waitfor = 0
@@ -2261,6 +2352,7 @@ mob
 						new /mob/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
 
 					SpawnPet(killer, 0.02, null, /obj/items/wearable/pets/floating_eye)
+					SpawnPortal("SnowmanDungeonEntrance", chance=0.5)
 
 			Blocked()
 				density = 0
@@ -2328,6 +2420,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/troll)
+				SpawnPortal("SnowmanDungeonEntrance", chance=0.3)
 
 			ChangeState(var/i_State)
 				set waitfor = FALSE
@@ -2503,22 +2596,7 @@ mob
 			Death(mob/Player/killer)
 				..(killer)
 
-				var/obj/Hogwarts_Door/gate/door = locate("CoSLockDoor")
-				if(door)
-					door.door = 1
-
-					var/obj/teleport/portkey/t = new (loc)
-					t.dest = "CoSFloor2"
-
-					spawn(respawnTime)
-						door.door = 0
-						t.loc = null
-
-					spawn(2)
-						t.density = 1
-						step_rand(t)
-						t.density = 0
-
+				SpawnPortal("CoSFloor2", "CoSLockDoor")
 
 
 obj/corpse
@@ -2621,3 +2699,44 @@ mob/Enemies/Summoned/Zombie
 
 		if(a && a.undead > 1)
 			a.undead--
+
+obj/boss/death
+
+	icon       = 'dot.dmi'
+	icon_state = "circle"
+	color      = "#8A0707"
+	alpha      = 20
+	appearance_flags = PIXEL_SCALE
+
+	var
+		range = 3
+
+	New(Loc, mob/Enemies/boss)
+		set waitfor = 0
+		..(Loc)
+
+		var/matrix/m = matrix()
+		m.Scale(range + 0.5, range)
+
+		animate(src,  alpha = 100, transform = m, time = 7)
+
+		sleep(25)
+
+		var/obj/o = new(loc)
+		o.icon = 'Cow.dmi'
+		o.transform = matrix()*range
+		o.pixel_y = 160
+		o.dir = pick(1,2,4,8)
+		o.appearance_flags = PIXEL_SCALE
+
+		animate(o, pixel_y = 0, time = 5)
+
+		sleep(5)
+
+		for(var/mob/Player/p in range(range-2, loc))
+			p << errormsg("A giant cow fell on you, oops.")
+			p.HP = 0
+			p.Death_Check(boss)
+
+		loc = null
+		o.loc = null
