@@ -166,6 +166,8 @@ obj/items/wearable/pets
 	pokeby
 		icon_state = "pokeby"
 		dropable = 0
+	snowman
+		icon_state = "snowman"
 
 obj/pet
 	icon = 'Mobs.dmi'
