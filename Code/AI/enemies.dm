@@ -2039,9 +2039,14 @@ mob
 
 					var/AreaData/data = worldData.areaData["area_[a.name]"]
 
-					if(data && ((data.rep > 0 && rep > 0) || (data.rep < 0 && rep < 0)))
-						rep    = -rep
+					if(data)
+						if(data.rep > 0)
+							rep = abs(rep)
+						else if(data.rep < 0)
+							rep = -abs(rep)
 						faction()
+
+
 
 			proc/faction()
 				if(rep < 0)
