@@ -481,6 +481,10 @@ mob
 			drops   = null
 			state   = INACTIVE
 
+			if(hpbar)
+				hpbar.loc = null
+				hpbar = null
+
 		Attacked(obj/projectile/p)
 			if(!isplayer(p.owner)) return
 			if(!origloc && p.owner && p.owner.loc.loc != loc.loc) return
@@ -972,6 +976,12 @@ mob
 					if("The Black Blade" in worldData.currentEvents)
 						var/RandomEvent/Sword/e = locate() in worldData.events
 						e.swords--
+				Dispose()
+					..()
+
+					if(s)
+						s.loc = null
+						s = null
 
 				MapInit()
 					set waitfor = 0

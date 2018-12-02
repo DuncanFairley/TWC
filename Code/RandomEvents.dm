@@ -356,7 +356,7 @@ RandomEvent
 			var/message = 0
 			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
-				mon.loc = null
+				mon.Dispose()
 				mon.ChangeState(monster.INACTIVE)
 				m -= mon
 			m = null
@@ -398,7 +398,7 @@ RandomEvent
 			var/message = 0
 			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
-				mon.loc = null
+				mon.Dispose()
 				mon.ChangeState(monster.INACTIVE)
 				m -= mon
 			m = null
@@ -501,7 +501,7 @@ RandomEvent
 			var/message = 0
 			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
-				mon.loc = null
+				mon.Dispose()
 				mon.ChangeState(monster.INACTIVE)
 				m -= mon
 			m = null
@@ -537,7 +537,7 @@ RandomEvent
 			var/message = 0
 			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
-				mon.loc = null
+				mon.Dispose()
 				mon.ChangeState(monster.INACTIVE)
 				m -= mon
 			m = null
@@ -571,7 +571,7 @@ RandomEvent
 			sleep(minutes * 600)
 
 			for(var/mob/Enemies/Summoned/Zombie/z in a)
-				z.loc = null
+				z.Dispose()
 				z.ChangeState(monster.INACTIVE)
 
 			a.undead = 0
@@ -579,7 +579,7 @@ RandomEvent
 			var/message = 0
 			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
-				mon.loc = null
+				mon.Dispose()
 				mon.ChangeState(monster.INACTIVE)
 				m -= mon
 			m = null
@@ -612,7 +612,7 @@ RandomEvent
 
 			var/area/a = spawn_loc.loc.loc
 			for(var/mob/Enemies/Summoned/Sword/s in a)
-				s.loc = null
+				s.Dispose()
 				s.ChangeState(monster.INACTIVE)
 
 				if(s.s)
@@ -624,7 +624,7 @@ RandomEvent
 			var/message = 0
 			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
-				mon.loc = null
+				mon.Dispose()
 				mon.ChangeState(monster.INACTIVE)
 				m -= mon
 			m = null
@@ -657,7 +657,7 @@ RandomEvent
 			var/message = 0
 			for(var/mob/Enemies/Summoned/mon in m)
 				if(mon.loc != null) message = 1
-				mon.loc = null
+				mon.Dispose()
 				mon.ChangeState(monster.INACTIVE)
 				m -= mon
 			m = null
@@ -964,7 +964,7 @@ RandomEvent
 			var/message = 0
 			for(var/mob/Enemies/Summoned/monster in m)
 				if(monster.loc != null) message = 1
-				monster.loc = null
+				monster.Dispose()
 				monster.ChangeState(monster.INACTIVE)
 				m -= monster
 			m = null
