@@ -232,7 +232,7 @@ obj/items/wearable/masks
 			if(!overridetext)viewers(owner) << infomsg("[owner] wears \his [src.name].")
 			for(var/obj/items/wearable/masks/W in owner.Lwearing)
 				if(W != src)
-					W.Equip(owner,1,1)
+					W.Equip(owner,1,0)
 
 			if(n == "Auror")
 
@@ -257,7 +257,8 @@ obj/items/wearable/masks
 
 			owner.name = n
 			owner.underlays = list()
-			var/guild/i = worldData.guilds[owner.guild]
+			var/guild/i
+			if(worldData.guilds) i = worldData.guilds[owner.guild]
 			owner.GenerateNameOverlay(r,g,b, i ? i.ranks[1] : 1)
 
 		else if(. == REMOVED)
