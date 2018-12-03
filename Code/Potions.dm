@@ -265,7 +265,7 @@ obj/potions
 
 						else
 							chance = worldData.potionsAmount / (worldData.potions.len + 1)
-							if(prob(chance * 70))
+							if(prob(chance * 60))
 								potion = 0
 								worldData.potions[potionId] = potion
 
@@ -299,7 +299,7 @@ obj/potions
 					     life   = new /Random(15,25),
 					     color  = "#000")
 
-					if(potion == 0 && prob(70))
+					if(potion == 0)
 						emit(loc    = loc,
 							 ptype  = /obj/particle/smoke,
 							 amount = 60,
@@ -308,11 +308,11 @@ obj/potions
 							 life   = new /Random(1,50),
 							 color  = "#c60")
 
-						spawn(4)
+				/*		spawn(4)
 							if(p.owner)
 								hearers(src) << errormsg("[p.owner]'s mixture caused an explosion.")
 								p.owner.HP = 0
-								p.owner.Death_Check(p.owner)
+								p.owner.Death_Check(p.owner)*/
 
 				var/i = worldData.potions.Find(potionId)
 				if(i)
