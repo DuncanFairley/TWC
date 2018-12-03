@@ -372,6 +372,7 @@ area
 			Dungeon
 				antiTeleport = TRUE
 				antiFly      = TRUE
+				SnowmmanEntrance
 				Snowman
 				SnowmanBoss
 
@@ -2067,9 +2068,7 @@ mob
 			icon = 'Snowman.dmi'
 			level = 700
 			HPmodifier  = 3
-			DMGmodifier = 1
-			MoveDelay = 4
-			AttackDelay = 3
+			DMGmodifier = 0.8
 			element = WATER
 
 			Attacked()
