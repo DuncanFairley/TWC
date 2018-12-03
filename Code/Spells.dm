@@ -1564,7 +1564,7 @@ mob/Spells/verb/Portus()
 					if(A.density && !ismob(A))
 						src << errormsg("Portus can't be used on top of something else.")
 						return
-				if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25))
+				if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25,useTimedProtection=1))
 					var/obj/portkey/P1 = new(loc)
 					var/obj/portkey/P2 = new(locate(39,53,18))
 					P1.partner = P2
@@ -1577,7 +1577,7 @@ mob/Spells/verb/Portus()
 					if(A.density && !ismob(A))
 						src << errormsg("Portus can't be used on top of something else.")
 						return
-				if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25))
+				if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25,useTimedProtection=1))
 					var/obj/target = locate("@Courtyard")
 					var/obj/portkey/P1 = new(loc)
 					var/obj/portkey/P2 = new(target.loc)
@@ -1591,7 +1591,7 @@ mob/Spells/verb/Portus()
 					if(A.density && !ismob(A))
 						src << errormsg("Portus can't be used on top of something else.")
 						return
-				if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25))
+				if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25,useTimedProtection=1))
 					var/obj/portkey/P1 = new(loc)
 					var/obj/portkey/P2 = new(locate(48,92,23))
 					P1.partner = P2
@@ -1798,7 +1798,7 @@ mob/Player
 
 		if(HP <= 0)
 			if(isplayer(p.owner))
-				p.owner:learnSpell(p.name, 100)
+				p.owner:learnSpell(p.name, 300)
 				Death_Check(p.owner)
 			else if(ismonster(p.owner))
 				p.owner:Kill(src)
@@ -1848,7 +1848,7 @@ mob/Enemies
 			Death_Check(p.owner)
 
 			if(p.owner:ekills > tmp_ekills)
-				p.owner:learnSpell(p.name, 5)
+				p.owner:learnSpell(p.name, 30)
 
 				if(p.element != 0)
 
