@@ -652,6 +652,7 @@ obj/items/scroll
 	book
 		accioable = 0
 		wlable = 0
+		icon = 'Books.dmi'
 		icon_state = "COMC"
 
 	New()
