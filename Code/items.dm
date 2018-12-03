@@ -648,6 +648,12 @@ obj/items/scroll
 	canAuction = FALSE
 	var/content
 	var/tmp/inuse = 0
+
+	book
+		accioable = 0
+		wlable = 0
+		icon_state = "COMC"
+
 	New()
 		..()
 		pixel_x = rand(-5,5)
