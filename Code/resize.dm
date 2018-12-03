@@ -508,6 +508,7 @@ obj/background
 	appearance_flags = RESET_TRANSFORM|PIXEL_SCALE
 
 	New(atom/Loc,x,y)
+		if(!Loc) return
 		var/matrix/m = matrix()
 		m.Scale(x,y)
 		m.Translate((x - 1) * 16, (y - 1) * -16)
