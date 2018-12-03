@@ -1885,7 +1885,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.5, null, /obj/items/wearable/pets/rat)
-				SpawnPortal("SnowmanDungeonEntrance", chance=0.2)
+				SpawnPortal("SnowmanDungeonEntrance", chance=0.3)
 
 		Pixie
 			icon_state  = "pixie"
@@ -2124,7 +2124,7 @@ mob
 
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/acromantula)
-				SpawnPortal("SnowmanDungeonEntrance", chance=0.4)
+				SpawnPortal("SnowmanDungeonEntrance", chance=0.5)
 
 			MapInit()
 				set waitfor = 0
@@ -2292,7 +2292,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.02, "rand", /obj/items/wearable/pets/wisp)
-				SpawnPortal("SnowmanDungeonEntrance", chance=0.4)
+				SpawnPortal("SnowmanDungeonEntrance", chance=0.5)
 
 
 		Floating_Eye
@@ -2361,7 +2361,7 @@ mob
 						new /mob/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
 
 					SpawnPet(killer, 0.02, null, /obj/items/wearable/pets/floating_eye)
-					SpawnPortal("SnowmanDungeonEntrance", chance=0.5)
+					SpawnPortal("SnowmanDungeonEntrance", chance=0.6)
 
 			Blocked()
 				density = 0
@@ -2429,7 +2429,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/troll)
-				SpawnPortal("SnowmanDungeonEntrance", chance=0.3)
+				SpawnPortal("SnowmanDungeonEntrance", chance=0.4)
 
 			ChangeState(var/i_State)
 				set waitfor = FALSE
