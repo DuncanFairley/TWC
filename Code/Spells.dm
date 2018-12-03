@@ -717,11 +717,11 @@ mob/Spells/verb/Antifigura()
 
 mob/Spells/verb/Chaotica()
 	set category="Spells"
-	var/dmg = round(usr.level * 1.1) + round(clothDmg/5) + usr:Fire.level
+	var/dmg = round(usr.level * 1.15) + round(clothDmg/5) + usr:Fire.level
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Chaotica"
-		castproj(MPreq = 30, Type = /obj/projectile/NoImpact, icon_state = "chaotica", damage = dmg, name = "Chaotica", cd = 3, element = FIRE)
+		castproj(MPreq = 30, Type = /obj/projectile/NoImpact, icon_state = "chaotica", damage = dmg, name = "Chaotica", element = FIRE)
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
