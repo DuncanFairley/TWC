@@ -246,7 +246,11 @@ mob/TalkNPC/greenman
 
 	Talk()
 		set src in oview(3)
-		usr << npcsay("Green Man: Hello, we are the Green Man Group. We are merchants who travel around selling things from far away places.")
+		var/mob/Player/p = usr
+		if(p.checkQuestProgress("Green Men"))
+			p << npcsay("Green Man: I heard you liked building, here you can have those papers... If you can read them hahahaha.")
+		else
+			p << npcsay("Green Man: Hello, we are the Green Man Group. We are merchants who travel around selling things from far away places.")
 
 
 obj/The_Dark_Mark

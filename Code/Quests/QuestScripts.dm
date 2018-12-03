@@ -62,6 +62,18 @@ quest
 			desc = "Go back to Blotts."
 			reqs = list("Blotts" = 1)
 
+	Blueprint5
+		name   = "Blue Books: Vol V"
+		desc   = "Blotts heard green men have a blueprint you could use."
+		reward = /questReward/Blueprint5
+
+		GreenMen
+			desc = "Blotts sent you to receive a new blueprint from the green men."
+			reqs = list("Green Men" = 1)
+
+		Reward
+			desc = "You can't read those papers, you should go back to Blotts to have them translated."
+			reqs = list("Blotts" = 1)
 	Cloak1
 		name   = "Cloak of Invisibility"
 		desc   = "Divo can make you an invisibility cloak knock offs using creatures skins and furrs."
@@ -851,6 +863,9 @@ questReward
 	Blueprint4
 		exp   = 20000
 		items = /obj/items/wearable/blueprint/stone_blueprint
+	Blueprint5
+		exp   = 5000
+		items = /obj/items/wearable/blueprint/utility_blueprint
 	ProjectileBook
 		gold  = 1000
 		exp   = 40000

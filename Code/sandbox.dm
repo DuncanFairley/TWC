@@ -280,9 +280,6 @@ obj/items
 		basic_blueprint
 			buildType = /hudobj/build/basic
 
-		portkey_blueprint
-			buildType = /hudobj/build/portkey
-
 		house_blueprint
 			buildType = /hudobj/build/house
 
@@ -291,6 +288,9 @@ obj/items
 
 		stone_blueprint
 			buildType = /hudobj/build/stone
+
+		utility_blueprint
+			buildType = /hudobj/build/utility
 
 		Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 			if(!overridetext && !forceremove && !(src in owner.Lwearing) && !istype(owner.loc, /turf/buildable))
@@ -412,15 +412,18 @@ turf/buildable
 				Clear(p.buildItem.clear)
 				var/obj/buildable/wall/o = new p.buildItem.path(src)
 
-				if(istype(o, /obj/buildable/wall))
+				if(istype(o, /obj/buildable/wall) || istype(o, /obj/buildable/door/secret))
 					o.hp = 10000
 					if(!o.hpbar)
 						o.hpbar = new(o)
 					o.hpbar.Set(o.hp / o.maxhp, instant=1)
 
 					spawn(2)
-						for(var/obj/buildable/wall/w in orange(1, src))
-							w.updateState()
+						for(var/obj/buildable/w in orange(1, src))
+							if(istype(w, /obj/buildable/wall) || istype(w, /obj/buildable/door/secret))
+								w:updateState()
+
+
 
 			else if(p.buildItem.name == "clear")
 				Clear()
@@ -611,9 +614,24 @@ obj/buildable
 		canHeal = 1
 		hp    = 60000
 		maxhp = 60000
-		rate = 10000
+		rate = 12000
 
 		opacity = 1
+		block = 1
+
+		window
+			opacity = 0
+			alpha = 200
+			wood
+				icon = 'wood_wall.dmi'
+				icon_state = "10"
+
+			stone
+				icon = 'stone.dmi'
+				icon_state = "10"
+				hp    = 120000
+				maxhp = 120000
+				rate = 22000
 
 		wood
 			icon = 'wood_wall.dmi'
@@ -624,7 +642,7 @@ obj/buildable
 			icon_state = "10"
 			hp    = 120000
 			maxhp = 120000
-			rate = 20000
+			rate = 22000
 
 		fence
 			opacity = 0
@@ -659,7 +677,8 @@ obj/buildable
 		canHeal = 1
 		hp    = 50000
 		maxhp = 50000
-		rate = 9000
+		rate = 10000
+		block = 1
 
 		wood
 			icon='Door.dmi'
@@ -669,7 +688,56 @@ obj/buildable
 			icon_state="closed"
 			hp    = 100000
 			maxhp = 100000
-			rate = 19000
+			rate = 20000
+
+		secret
+			wood
+				icon = 'wood_wall.dmi'
+				icon_state = "10"
+			stone
+				icon = 'stone.dmi'
+				icon_state = "10"
+				hp    = 100000
+				maxhp = 100000
+				rate = 20000
+
+			New()
+				set waitfor = 0
+				..()
+				sleep(2)
+
+				alpha = 255
+				opacity = 1
+				layer = 3
+				density = 1
+				updateState()
+
+			Bumped(mob/Player/p)
+
+				for(var/obj/buildable/shield_totem/c in range(10, src))
+					if(!c.allowed) continue
+					if(usr.ckey in c.allowed) continue
+					return
+
+				if(opacity)
+					opacity = 0
+					animate(src, alpha = 150, time = 4)
+					sleep(4)
+					density=0
+					layer = 5
+					sleep(50)
+					while(locate(/mob) in loc) sleep(10)
+					animate(src, alpha = 255, time = 4)
+					density=1
+					layer = 3
+					sleep(4)
+					opacity = 1
+
+			proc
+				updateState()
+					var/turf/t = loc
+					var/n = t.autojoin1("flyblock", 2)
+					icon_state = "[n]"
 
 		opacity=1
 
@@ -950,7 +1018,7 @@ hudobj
 				icon_state = "walltorch"
 
 				price = 2
-				maptext = "Decoration: 2 wooden logs"
+				maptext = "Decoration: 2 wood logs"
 				path = /obj/static_obj/walltorch { post_init = 0; pixel_y = 32 }
 				reqWall = 1
 				mouse_opacity = 2
@@ -963,7 +1031,7 @@ hudobj
 				icon_state = "Bed"
 
 				price = 20
-				maptext = "Bed: 20 wooden logs"
+				maptext = "Bed: 20 wood logs"
 				path = /obj/buildable/Bed
 
 				screen_x = 32
@@ -974,7 +1042,7 @@ hudobj
 				icon_state = "Shield"
 
 				price = 100
-				maptext = "Shield Totem: 100 wooden logs"
+				maptext = "Shield Totem: 100 wood logs"
 
 				screen_x = 32
 				screen_y = 128
@@ -986,7 +1054,7 @@ hudobj
 				icon_state="closed"
 
 				price = 30
-				maptext = "Door: 30 wooden logs"
+				maptext = "Door: 30 wood logs"
 
 				screen_x = 32
 				screen_y = 160
@@ -998,7 +1066,7 @@ hudobj
 				icon_state = "10"
 
 				price = 20
-				maptext = "Wood Wall: 20 wooden logs"
+				maptext = "Wood Wall: 20 wood logs"
 
 				screen_x = 32
 				screen_y = 192
@@ -1006,13 +1074,13 @@ hudobj
 				path = /obj/buildable/wall/wood
 				replace = /obj/buildable/wall/fence
 
-			woodenfloor
+			woodfloor
 				icon       = 'turf.dmi'
 				icon_state = "wood"
 				color      = "#704f32"
 
 				price = 2
-				maptext = "Wood Floor: 2 wooden logs"
+				maptext = "Wood Floor: 2 wood logs"
 
 				screen_x = 32
 				screen_y = 224
@@ -1198,7 +1266,7 @@ hudobj
 				icon_state = "wood"
 				color      = "#0d74db"
 
-				maptext = "Wood floors: 3 wooden logs"
+				maptext = "Wood floors: 3 wood logs"
 				price = 3
 
 				screen_x = 128
@@ -1250,7 +1318,7 @@ hudobj
 				icon       = 'shields.dmi'
 				icon_state = "ravenclaw"
 
-				maptext = "Shields: 2 wooden logs"
+				maptext = "Shields: 2 wood logs"
 				price = 2
 				path = /obj/static_obj/ravenclaw { post_init = 0; pixel_y = 32; density = 0 }
 				reqWall = 1
@@ -1304,7 +1372,7 @@ hudobj
 				icon       = 'shields.dmi'
 				icon_state = "ravenclawbanner"
 
-				maptext = "Banners: 2 wooden logs"
+				maptext = "Banners: 2 wood logs"
 				price = 2
 				path = /obj/static_obj/ravenclawbanner { post_init = 0; pixel_y = 32; density = 0 }
 				reqWall = 1
@@ -1380,7 +1448,7 @@ hudobj
 				icon = 'shields.dmi'
 				icon_state = "hogwartsbanner"
 
-				maptext = "Hogwarts Shield/Banner: 3 wooden logs"
+				maptext = "Hogwarts Shield/Banner: 3 wood logs"
 				price = 3
 				path = /obj/static_obj/hogwartbanner { post_init = 0; pixel_y = 32; density = 0 }
 				reqWall = 1
@@ -1393,7 +1461,7 @@ hudobj
 				icon_state = "10"
 
 				price = 15
-				maptext = "Fence: 15 wooden logs"
+				maptext = "Fence: 15 wood logs"
 
 				screen_x = 32
 				screen_y = 224
@@ -1444,7 +1512,7 @@ hudobj
 			magicbook
 				icon_state="rmagic"
 
-				maptext = "Books (4 hours): 100 wooden logs"
+				maptext = "Books (4 hours): 100 wood logs"
 				price = 100
 				path = /obj/books/EXP_BOOK_lvl3 { life = 14400 }
 
@@ -1454,7 +1522,7 @@ hudobj
 			hogwartsbook
 				icon_state="Hogwarts"
 
-				price = 180
+				price = 200
 				path = /obj/books/EXP_BOOK_lvl4 { life = 28800 }
 
 				screen_x = 32
@@ -1466,7 +1534,7 @@ hudobj
 			herbbook
 				icon_state="herb"
 
-				price = 180
+				price = 200
 				path = /obj/books/EXP_BOOK_lvl5 { life = 28800 }
 
 				screen_x = 64
@@ -1478,7 +1546,7 @@ hudobj
 			potionbook
 				icon_state="potion"
 
-				price = 180
+				price = 200
 				path = /obj/books/EXP_BOOK_lvl6 { life = 28800 }
 
 				screen_x = 96
@@ -1490,32 +1558,189 @@ hudobj
 			successbook
 				icon_state="key"
 
-				maptext = "Books (8 hours): 180 wooden logs"
-				price = 180
+				maptext = "Books (8 hours): 200 wood logs"
+				price = 200
 				path = /obj/books/EXP_BOOK_lvl7 { life = 28800 }
 
 				screen_x = 128
 				screen_y = 96
 
-		portkey
-			icon='portal.dmi'
-			icon_state="portkey"
+			slythbook
+				icon_state="slyth"
 
-			Hogwarts
-				price = 1
-				maptext = "Hogwarts: 1 wooden logs"
+				price = 300
+				path = /obj/books/EXP_BOOK_lvlslytherin { life = 43200 }
 
 				screen_x = 32
-				screen_y = 224
+				screen_y = 128
+
+				maptext_x = 0
+				maptext_width = 32
+
+			hufflebook
+				icon_state="huffle"
+
+				price = 300
+				path = /obj/books/EXP_BOOK_lvlhufflepuff { life = 43200 }
+
+				screen_x = 64
+				screen_y = 128
+
+				maptext_x = 0
+				maptext_width = 32
+
+			ravenbook
+				icon_state="raven"
+
+				price = 300
+				path = /obj/books/EXP_BOOK_lvlravenclaw { life = 43200 }
+
+				screen_x = 96
+				screen_y = 128
+
+				maptext_x = 0
+				maptext_width = 32
+
+			gryffbook
+				icon_state="gryff"
+
+				maptext = "Books (12 hours): 300 wood logs"
+				price = 300
+				path = /obj/books/EXP_BOOK_lvlgryffindor { life = 43200 }
+
+				screen_x = 128
+				screen_y = 128
+
+		utility
+			secret_wood_door
+				icon = 'wood_wall.dmi'
+				icon_state = "10"
+
+				price = 40
+
+				screen_x = 32
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
+				path = /obj/buildable/door/secret/wood
+				replace = /obj/buildable/wall/wood
+
+			secret_stone_door
+				icon = 'stone.dmi'
+				icon_state = "10"
+
+				price = list(/obj/items/stones = 40)
+				maptext = "Secret door: 40 wood/stone"
+
+				screen_x = 64
+				screen_y = 64
+
+				path = /obj/buildable/door/secret/stone
+				replace = /obj/buildable/wall/stone
+
+			wood_window
+				icon = 'wood_wall.dmi'
+				icon_state = "10"
+
+				price = 30
+
+				screen_x = 32
+				screen_y = 96
+
+				maptext_x = 0
+				maptext_width = 32
+
+				path = /obj/buildable/wall/window/wood
+				replace = /obj/buildable/wall/wood
+
+			stone_window
+				icon = 'stone.dmi'
+				icon_state = "10"
+
+				price = list(/obj/items/stones = 30)
+				maptext = "Windows: 30 wood/stone"
+
+				screen_x = 64
+				screen_y = 96
+
+				path = /obj/buildable/wall/window/stone
+				replace = /obj/buildable/wall/stone
+
+			toilet
+				icon = 'toilet.dmi'
+
+				price = 10
+				path = /obj/toilet
+
+				screen_x = 32
+				screen_y = 128
+
+				maptext_x = 0
+				maptext_width = 32
+
+			sink
+				icon = 'sink.dmi'
+
+				maptext = "Bathroom utility: 10 wood logs"
+				price = 10
+				path = /obj/sink
+
+				screen_x = 64
+				screen_y = 128
+
+			sign
+				icon = 'statues.dmi'
+				icon_state = "sign"
+
+				maptext = "Sign: 10 wood logs"
+				price = 10
+				path = /obj/Signs/custom
+				reqWall = 1
+
+				screen_x = 32
+				screen_y = 160
+
+			Silverblood_Portkey
+				icon='portal.dmi'
+				icon_state="portkey"
+
+				price = list(/obj/items/artifact = 1,
+				             /obj/items/magic_stone/teleport = 1)
+
+				screen_x = 32
+				screen_y = 192
+
+				maptext_x = 0
+				maptext_width = 32
+
+				path = /obj/teleport/portkey { dest = "teleportPointSilverblood"}
+
+			Hogwarts_Portkey
+				icon='portal.dmi'
+				icon_state="portkey"
+
+				price = list(/obj/items/artifact = 1,
+				             /obj/items/magic_stone/teleport = 1)
+
+				screen_x = 64
+				screen_y = 192
+
+				maptext_x = 0
+				maptext_width = 32
 
 				path = /obj/teleport/portkey { dest = "@Hogwarts"}
 
-			Courtyard
+			Courtyard_Portkey
+				icon='portal.dmi'
+				icon_state="portkey"
 
-				price = 1
-				maptext = "Courtyard: 1 wooden logs"
+				price = list(/obj/items/artifact = 1,
+				             /obj/items/magic_stone/teleport = 1)
+				maptext = "Silverblood/Hogwarts/Courtyard Portkeys: 1 teleport stone & artifact"
 
-				screen_x = 32
+				screen_x = 96
 				screen_y = 192
 
 				path = /obj/teleport/portkey { dest = "@Courtyard"}
