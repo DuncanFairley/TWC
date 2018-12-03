@@ -36,37 +36,36 @@ proc
 	spawnFarmable()
 		set waitfor = 0
 		sleep(100)
-		for(var/i = 1 to 50)
-			var/x = rand(10, 90)
-			var/y = rand(10, 90)
-			var/z = pick(worldData.sandboxZ)
+		for(var/z in worldData.sandboxZ)
+			for(var/i = 1 to 30)
+				var/x = rand(10, 90)
+				var/y = rand(10, 90)
 
-			var/turf/t = locate(x, y, z)
+				var/turf/t = locate(x, y, z)
 
-			#if WINTER
-			if(t.icon_state == "snow" && !t.flyblock)
-			#else
-			if(t.icon_state == "grass1" && !t.flyblock)
-			#endif
-				new /obj/farm/tree (t)
+				#if WINTER
+				if(t.icon_state == "snow" && !t.flyblock)
+				#else
+				if(t.icon_state == "grass1" && !t.flyblock)
+				#endif
+					new /obj/farm/tree (t)
 
-			lagstopsleep()
+				lagstopsleep()
 
-		for(var/i = 1 to 16)
-			var/x = rand(10, 90)
-			var/y = rand(10, 90)
-			var/z = pick(worldData.sandboxZ)
+			for(var/i = 1 to 10)
+				var/x = rand(10, 90)
+				var/y = rand(10, 90)
 
-			var/turf/t = locate(x, y, z)
+				var/turf/t = locate(x, y, z)
 
-			#if WINTER
-			if(t.icon_state == "snow" && !t.flyblock)
-			#else
-			if(t.icon_state == "grass1" && !t.flyblock)
-			#endif
-				new /obj/farm/rocks (t)
+				#if WINTER
+				if(t.icon_state == "snow" && !t.flyblock)
+				#else
+				if(t.icon_state == "grass1" && !t.flyblock)
+				#endif
+					new /obj/farm/rocks (t)
 
-			lagstopsleep()
+				lagstopsleep()
 
 obj
 	farm
@@ -76,7 +75,7 @@ obj
 		var
 			hp    = 25000
 			maxhp = 25000
-			amount = 16
+			amount = 20
 			obj/healthbar/hpbar
 
 		proc
@@ -96,7 +95,6 @@ obj
 				for(var/i = 1 to 10)
 					var/x = rand(10, 90)
 					var/y = rand(10, 90)
-					var/z = pick(worldData.sandboxZ)
 
 					var/turf/t = locate(x, y, z)
 
@@ -164,7 +162,7 @@ obj
 
 			hp    = 40000
 			maxhp = 40000
-			amount = 6
+			amount = 10
 
 			respawn()
 				set waitfor = 0
