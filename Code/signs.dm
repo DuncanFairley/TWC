@@ -36,3 +36,25 @@ obj
 
 		sign2
 			icon_state = "sign3"
+
+		custom
+			density = 0
+			pixel_y = 32
+
+			name = "Right click -> write sign"
+
+			verb
+				write_sign(var/t as text)
+					set src in oview(10)
+					if(!t) return
+
+					name = t
+
+					verbs -= new/obj/Signs/custom/verb/write_sign()
+
+			New()
+				set waitfor = 0
+				..()
+				sleep(1)
+				if(name != "Right click -> write sign")
+					verbs -= new/obj/Signs/custom/verb/write_sign()
