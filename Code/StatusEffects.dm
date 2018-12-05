@@ -944,9 +944,15 @@ hudobj
 
 			..(loc,Client,Params,show)
 
-			animate(src, maptext = "<span style=\"color:[Client.mob:mapTextColor];font-size:2px;\"><b>[time]</b></span>", time = 10)
-			for(var/i = time - 1 to 1 step -1)
-				animate(maptext = "<span style=\"color:[Client.mob:mapTextColor];font-size:2px;\"><b>[i]</b></span>", time = 10)
+			var/roundedTime = round(time, 1)
+			var/extraTicks = abs(roundedTime - time)
 
-			sleep(time * 10)
+			maptext = "<span style=\"color:[Client.mob:mapTextColor];font-size:2px;\"><b>[roundedTime]</b></span>"
+			while(maptext != null && roundedTime > 1)
+				roundedTime--
+				maptext = "<span style=\"color:[Client.mob:mapTextColor];font-size:2px;\"><b>[roundedTime]</b></span>"
+				sleep(10)
+
+			if(maptext != null)
+				sleep(extraTicks*10)
 			hide()
