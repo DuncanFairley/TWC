@@ -818,18 +818,13 @@ StatusEffect
 				..()
 
 		Activate()
-			var/found = FALSE
 			for(var/StatusEffect/Lamps/s in AttachedAtom.LStatusEffects)
 				if(s != src && istype(s, /StatusEffect/Lamps))
-					found = TRUE
+					s.Deactivate()
 					break
-			if(found)
-				AttachedAtom << errormsg("You can only use one lamp at a time.")
-				Deactivate()
-			else
-				AttachedAtom << infomsg("You feel the warmth of [lamp]'s magical light.")
-				lamp.icon_state = "active"
-				..()
+			AttachedAtom << infomsg("You feel the warmth of [lamp]'s magical light.")
+			lamp.icon_state = "active"
+			..()
 
 		Deactivate()
 			AttachedAtom << infomsg("[lamp]'s effect fades.")
@@ -860,7 +855,7 @@ StatusEffect
 
 		New(atom/pAttachedAtom,t,cooldownName,obj/items/lamps/p)
 			lamp = p
-			.=..()
+			.=..(pAttachedAtom, t, cooldownName)
 
 	var/Event/e_StatusEffect/AttachedEvent	//Not required - Contains /Event/e_StatusEffect to automatically cancel the StatusEffect
 	var/atom/AttachedAtom	//Required - Contains the /atom which the StatusEffect is attached to
