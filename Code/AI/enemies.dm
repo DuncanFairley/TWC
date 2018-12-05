@@ -1664,7 +1664,7 @@ mob
 
 					Death()
 						..()
-						SpawnPortal("SnowmanDungeonEntrance")
+						SpawnPortal("teleportPointSnowman Dungeon")
 
 					Attack(mob/M)
 						..()
@@ -1885,7 +1885,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.5, null, /obj/items/wearable/pets/rat)
-				SpawnPortal("SnowmanDungeonEntrance", chance=0.3)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=0.3)
 
 		Pixie
 			icon_state  = "pixie"
@@ -2053,7 +2053,7 @@ mob
 				sleep(1)
 
 				var/hudobj/teleport/t = new (null, p.client, null, show=1)
-				t.dest = "SnowmanDungeonEntrance"
+				t.dest = "teleportPointSnowman Dungeon"
 				p << errormsg("Click the teleport stone on screen button at the bottom right to go back to the snowman dungeon.")
 
 
@@ -2062,7 +2062,7 @@ mob
 				set waitfor = 0
 				..(killer)
 
-				SpawnPortal("SnowmanDungeonEntrance")
+				SpawnPortal("teleportPointSnowman Dungeon")
 
 		Snowman
 			icon = 'Snowman.dmi'
@@ -2124,7 +2124,7 @@ mob
 
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/acromantula)
-				SpawnPortal("SnowmanDungeonEntrance", chance=0.5)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=0.3)
 
 			MapInit()
 				set waitfor = 0
@@ -2292,7 +2292,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.02, "rand", /obj/items/wearable/pets/wisp)
-				SpawnPortal("SnowmanDungeonEntrance", chance=0.5)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=0.3)
 
 
 		Floating_Eye
@@ -2361,7 +2361,7 @@ mob
 						new /mob/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
 
 					SpawnPet(killer, 0.02, null, /obj/items/wearable/pets/floating_eye)
-					SpawnPortal("SnowmanDungeonEntrance", chance=0.6)
+					SpawnPortal("teleportPointSnowman Dungeon", chance=0.6)
 
 			Blocked()
 				density = 0
@@ -2429,7 +2429,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/troll)
-				SpawnPortal("SnowmanDungeonEntrance", chance=0.4)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=1)
 
 			ChangeState(var/i_State)
 				set waitfor = FALSE

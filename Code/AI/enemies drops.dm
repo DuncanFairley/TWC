@@ -7,9 +7,7 @@
 
 var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cushion,
 			 	                                         /obj/items/Smoke_Pellet,
-			 	                                         /obj/items/Tube_of_fun,
-			 	                                         /obj/items/potions/health/small_health_potion,
-														 /obj/items/potions/mana/small_mana_potion)),
+			 	                                         /obj/items/Tube_of_fun)),
 
 
 "Bubbles the Spider" = list(/obj/items/key/basic_key,
@@ -78,7 +76,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							 			  /obj/items/Swamp)),
 
 
-"Rat"                = list("10"   =      /obj/items/ingredients/rat_tail),
+"Rat"                = list("10"   =      /obj/items/ingredients/rat_tail)),
 
 "Demon Rat"          = list("10"   = list(/obj/items/demonic_essence,
                                           /obj/items/ingredients/rat_tail)),
@@ -101,9 +99,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							"0.03" = list(/obj/items/wearable/title/Magic,
 							 			  /obj/items/crystal/magic,
 						     			  /obj/items/crystal/strong_luck,
-						     			  /obj/items/crystal/soul),
-							"2"    = list(/obj/items/potions/health/large_health_potion,
-										  /obj/items/potions/mana/large_mana_potion)),
+						     			  /obj/items/crystal/soul)),
 
 "Vengeful Ghost"     = list("0.5"   = list(/obj/items/colors/purple_stone,
 							 			 /obj/items/colors/pink_stone,
@@ -152,16 +148,12 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							              /obj/items/key/pentakill_key,
 							              /obj/items/key/sunset_key),
 							"1"    =      /obj/items/artifact,
-							"8"    = list(/obj/items/ingredients/eyes,
-							 		 	  /obj/items/potions/health/large_health_potion,
-							 		 	  /obj/items/potions/mana/large_mana_potion)),
+							"8"    = list(/obj/items/ingredients/eyes),
 
 
 "Troll"              = list("7"    = list(/obj/items/Whoopie_Cushion,
 			 				  			  /obj/items/Smoke_Pellet,
-			 			  				  /obj/items/Tube_of_fun,
-			 			  				  /obj/items/potions/health/health_potion,
-			 	 			 			  /obj/items/potions/mana/mana_potion),
+			 			  				  /obj/items/Tube_of_fun),
 			 			  	"3"    = list(/obj/items/bucket,
 			 			  	 			  /obj/items/scroll,
 			 			  	 			  /obj/items/ingredients/eyes,
@@ -199,7 +191,9 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							 			  /obj/items/Tube_of_fun,
 							 			  /obj/items/Swamp)),
 
-"The Good Snowman"   = list("15"   = list(/obj/items/key/winter_key,
+"The Good Snowman"   = list("5"    = list(/obj/items/chest/wigs/sunset_wig_chest,
+										  /obj/items/chest/sunset_chest),
+							"15"   = list(/obj/items/key/winter_key,
 										  /obj/items/key/pet_key,
 										  /obj/items/wearable/pets/snowman),
 							"35"   = list(/obj/items/artifact,
