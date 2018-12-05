@@ -52,12 +52,14 @@ mob/Player/var/tmp/obj/pet/pet
 
 obj/items/wearable/pets
 
-	icon        = 'Mobs.dmi'
-	showoverlay = FALSE
-	max_stack   = 1
-	destroyable = 1
-	bonus       = NOENCHANT
-	scale       = 0.1
+	icon         = 'Mobs.dmi'
+	showoverlay  = FALSE
+	max_stack    = 1
+	destroyable  = 1
+	bonus        = NOENCHANT
+	scale        = 0.1
+	useTypeStack = 1
+	stackName    = "Pets:"
 
 	var
 		currentSize = 1
@@ -130,7 +132,7 @@ obj/items/wearable/pets
 			quality += i
 			Equip(owner, 1)
 
-			owner.Taming.add(i*1000 + rand(2,30)*10)
+			owner.Taming.add(i*1000 + rand(2,40)*10)
 
 			owner.screenAlert("Your [name] leveled up to [quality]!")
 

@@ -6,6 +6,7 @@
  */
 
 mob/Player/var/list/Lwearing
+mob/Player/var/list/Lfavorites
 
 area
 	var/tmp
@@ -47,18 +48,26 @@ obj/items
 		Sort()
 
 	Move(NewLoc,Dir=0)
+		if(isplayer(loc) && loc != NewLoc)
+			var/mob/Player/p = loc
+			if(p.Lfavorites && (src in p.Lfavorites))
+				p.Lfavorites -= src
+				if(p.Lfavorites.len == 0) p.Lfavorites = null
+
 		.=..()
 
 		Sort()
 
 	Dispose()
+		var/mob/Player/p
+		if(isplayer(loc))
+			p = loc
+
 		..()
 
-		if(isplayer(loc))
-			Unmacro(loc)
-			loc:Resort_Stacking_Inv()
-
-
+		if(p)
+			Unmacro(p)
+			p.Resort_Stacking_Inv()
 	proc
 		Sort()
 			if(istype(loc, /atom))
@@ -266,6 +275,23 @@ obj/items/verb
 obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
 	var/default = 1
 	if(src in usr)
+		var/mob/Player/p = usr
+		if(istype(over_object, /obj/favorites))
+
+			if(!p.Lfavorites || !(src in p.Lfavorites))
+
+				if(!p.Lfavorites)
+					p.Lfavorites = list()
+				p.Lfavorites += src
+				p << infomsg("[name] added to favorites.")
+
+			else if(src in p.Lfavorites)
+				p.Lfavorites -= src
+
+				if(p.Lfavorites.len == 0) p.Lfavorites = null
+
+				p << infomsg("[name] removed from favorites.")
+
 		if(isturf(over_object))
 			default = 0
 			if(dropable && destroyable)
@@ -289,7 +315,6 @@ obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_cont
 			else if(destroyable)
 				Destroy(usr)
 		else if(dropable)
-			var/mob/Player/p = usr
 			if(p.pet && over_object == p.pet)
 
 				var/area/a = p.loc.loc
@@ -1019,6 +1044,9 @@ proc/animateFly(mob/Player/p)
 
 obj/items/wearable/brooms
 	var/tmp/protection = 1
+	useTypeStack = 1
+	stackName = "Brooms:"
+	icon = 'firebolt_broom.dmi'
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && (owner.loc.loc:antiFly||istype(owner.loc.loc,/area/ministry_of_magic)))
@@ -1207,6 +1235,8 @@ obj/items/wearable/hats/teal_earmuffs
 	icon = 'teal_earmuffs_hat.dmi'
 
 obj/items/wearable/orb
+
+	useTypeStack = /obj/items/wearable/orb
 
 	desc = "When equipped, your equipped wand will earn experience and level up by killing monsters."
 
@@ -1441,6 +1471,9 @@ obj/items/wearable/wands/maple_wand //Easter
 	icon = 'maple_wand.dmi'
 	displayColor = "#D6968F"
 	dropable = 0
+
+	useTypeStack = 1
+
 	verb/Carrotosi_Maxima()
 		set category = "Spells"
 		if(src in usr:Lwearing)
@@ -1697,6 +1730,7 @@ obj/items/wearable/shoes
 	desc   = "A pair of shoes. They look comfy!"
 	bonus  = 0
 	gender = PLURAL
+
 	Equip(var/mob/Player/owner, var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(. == WORN)
@@ -1757,6 +1791,7 @@ obj/items/wearable/shoes/blood_shoes
 obj/items/wearable/scarves
 	bonus = 0
 	desc = "A finely knit scarf designed to keep your neck toasty warm."
+
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
 		if(. == WORN)
@@ -1979,8 +2014,6 @@ obj/items/wearable/invisibility_cloak
 
 			var/a = clamp(round((world.realtime - time) / 36000), 0, 255)
 			if(!overridetext) owner << infomsg("You put on the cloak and become invisible to others.")
-			owner.FlickState("m-black",8,'Effects.dmi')
-			owner.alpha = a
 
 			if(!owner.cloakReflection)
 				owner.cloakReflection = new
@@ -1990,6 +2023,9 @@ obj/items/wearable/invisibility_cloak
 				owner.cloakReflection.mouse_opacity = 0
 				owner.cloakReflection.invisibility = 1
 				owner.addFollower(owner.cloakReflection)
+
+			owner.FlickState("m-black",8,'Effects.dmi')
+			owner.alpha = a
 
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] appears from nowhere as \he removes \his [src.name].")
@@ -2005,6 +2041,10 @@ obj/items/wearable/title
 	icon = 'scrolls.dmi'
 	icon_state = "title"
 	desc = ""
+
+	stackName = "Titles:"
+
+	useTypeStack = 1
 
 	Compare(obj/items/i)
 		. = ..()
@@ -2720,6 +2760,8 @@ obj/items/lamps
 		tmp/StatusEffect/S
 
 	max_stack = 1
+	useTypeStack = 1
+	stackName = "Lamps:"
 
 	double_drop_rate_lamp
 		desc    = "Doubles your drop rate."
@@ -3376,6 +3418,7 @@ obj/memory_rune
 
 			loc.tag = "teleportPoint[name]"
 
+	Snowman_Dungeon
 	Silverblood
 	CoSFloor1
 		name = "CoS Floor 1"
@@ -3391,6 +3434,10 @@ obj/items
 
 	chest
 		icon = 'Chest.dmi'
+		icon_state = "golden"
+		stackName = "Chests:"
+
+		useTypeStack = 1
 
 		var/drops
 
@@ -3515,9 +3562,16 @@ obj/items
 				icon_state = "green"
 				drops      = "basic"
 
+			sunset_wig_chest
+				icon_state = "purple"
+				drops      = "sunset"
 
 	key
 		icon = 'ChestKey.dmi'
+		icon_state = "master"
+		stackName = "Keys:"
+
+		useTypeStack = 1
 
 		master_key
 			icon_state = "master"
@@ -3574,6 +3628,7 @@ var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/
 							                    /obj/items/wearable/shoes/darkpurple_shoes   = 12,
 							                    /obj/items/wearable/scarves/darkpurple_scarf = 21),
 
+
 	                     	 "summer"    = list(/obj/items/wearable/shoes/orange_shoes       = 8,
 							                    /obj/items/wearable/shoes/yellow_shoes       = 21,
 							                    /obj/items/wearable/shoes/green_shoes        = 21,
@@ -3625,6 +3680,18 @@ var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/
 							 					     /obj/items/wearable/wigs/female_blonde_wig = 32,
 							 					     /obj/items/wearable/wigs/female_grey_wig   = 32,
 							 					     /obj/items/wearable/wigs/female_brown_wig  = 4),
+
+							 "male_sunset" = list(/obj/items/wearable/wigs/male_darkpurple_wig = 15,
+							 					   /obj/items/wearable/wigs/male_darkblue_wig  = 15,
+							 					   /obj/items/wearable/wigs/male_cyan_wig      = 15,
+							 					   /obj/items/key/sunset_key     = 30,
+							 					   /obj/items/chest/sunset_chest = 30),
+
+							 "female_sunset" = list(/obj/items/wearable/wigs/female_darkpurple_wig = 15,
+							 					    /obj/items/wearable/wigs/female_darkblue_wig   = 15,
+							 					    /obj/items/wearable/wigs/female_cyan_wig       = 15,
+							 					    /obj/items/key/sunset_key     = 30,
+							 					    /obj/items/chest/sunset_chest = 30),
 
 
 							 "community1"     = list(/obj/items/wearable/scarves/heartscarf    = 16,
@@ -4214,6 +4281,9 @@ obj/items/money
 	canAuction = FALSE
 
 	var/factor = 1
+
+//	useTypeStack = 1
+//	name = "Money:"
 
 	platinum
 		icon_state = "platinum"

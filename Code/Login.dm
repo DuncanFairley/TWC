@@ -778,6 +778,7 @@ mob
 			character.Ghost = new("Ghost")
 			character.Gathering = new("Gathering")
 			character.Taming = new("Taming")
+			character.Alchemy = new("Alchemy")
 			character.hpBar = new(character)
 
 			for(var/mob/Player/p in Players)
@@ -1342,6 +1343,7 @@ mob
 
 
 mob/Player
+	var/tmp/obj/favorites/objFavorites = new
 	Stat()
 		if(statpanel("Stats"))
 			stat("Name:",src.name)
@@ -1375,6 +1377,9 @@ mob/Player
 			if(Taming)
 				var/percent = round((Taming.exp / Taming.maxExp) * 100)
 				stat("Taming:", "[Taming.level]   Exp: [comma(Taming.exp)]/[comma(Taming.maxExp)] ([percent]%)")
+			if(Alchemy)
+				var/percent = round((Alchemy.exp / Alchemy.maxExp) * 100)
+				stat("Alchemy:", "[Alchemy.level]   Exp: [comma(Alchemy.exp)]/[comma(Alchemy.maxExp)] ([percent]%)")
 			stat("House:",src.House)
 			if(level >= lvlcap && rankLevel)
 				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100)
@@ -1448,13 +1453,34 @@ mob/Player
 					if(!stacked) stacked = list()
 					stacked += O
 
-				else if(!src:stackobjects || !(src:stackobjects.Find(O.type))) //If there's NOT a stack object for this obj type, print it
-					if(!other) other = list()
-					other += O
+				else
+					if(Lwearing && (O in Lwearing)) continue
+					if(Lfavorites && (O in Lfavorites)) continue
+
+					var/t
+					if(O.useTypeStack == 0)
+						t = O.type
+					else if(O.useTypeStack == 1)
+						t = O.parent_type
+					else
+						t = O.useTypeStack
+					if(!src:stackobjects || !(src:stackobjects.Find(t))) //If there's NOT a stack object for this obj type, print it
+						if(!other) other = list()
+						other += O
 
 			if(money)
 				stat("Money:")
 				stat(money)
+
+			if(Lwearing)
+				stat("Worn:")
+				stat(Lwearing)
+
+			stat(objFavorites)
+			if(Lfavorites)
+				for(var/obj/B in Lfavorites)
+					if(Lwearing && (B in Lwearing)) continue
+					stat(B)
 
 			stat("Items:")
 			if(other)
@@ -1466,8 +1492,12 @@ mob/Player
 					stat("+", s)
 					if(s.isopen)
 						for(var/obj/B in s.contains)
+							if(Lwearing && (B in Lwearing)) continue
+							if(Lfavorites && (B in Lfavorites)) continue
 							stat("-", B)
 obj
+	favorites
+		name = "Favorites:"
 	stackobj
 		var/isopen=0
 		var/containstype
@@ -1483,6 +1513,9 @@ obj
 			//	var/tmpname = ""
 				//var/isscroll=0
 				for(var/obj/items/O in contains)
+				//	if(O.loc != usr)
+				//		contains -= O
+				//		continue
 					var/founddrop = 0
 					for(var/V in O.verbs)
 						if(V:name == "Drop")
@@ -1513,17 +1546,32 @@ obj
 
 mob/Player/var/tmp/list/obj/stackobj/stackobjects
 
+obj/var/useTypeStack = 0
+obj/var/stackName
+
 mob/proc/Resort_Stacking_Inv()
 	if(!istype(src,/mob/Player))
 		world.log << "[src] is of the wrong type ([src.type]) in /mob/proc/Resort_Stacking_Inv()"
 		return
+
+	if(src:Lfavorites)
+		for(var/obj/o in src:Lfavorites)
+			if(o.loc != src)
+				src:Lfavorites -= o
+
+		if(src:Lfavorites.len == 0) src:Lfavorites = null
+
 	var/list/counts = list()
 
 	for(var/obj/O in contents)
 		if(istype(O,/obj/stackobj))
 			O.loc = null
-		else
+		else if(O.useTypeStack == 0)
 			counts[O.type]++
+		else if(O.useTypeStack == 1)
+			counts[O.parent_type]++
+		else
+			counts[O.useTypeStack]++
 	if(length(counts))
 		var/list/obj/stackobj/tmpstackobjects = list()
 		for(var/V in counts)
@@ -1537,7 +1585,7 @@ mob/proc/Resort_Stacking_Inv()
 						stack.isopen = tmpstack.isopen
 				stack.icon = tmpV.icon
 				stack.icon_state = tmpV.icon_state
-				stack.name = tmpV.name
+				stack.name = tmpV.stackName ? tmpV.stackName : tmpV.name
 				contents += stack
 				for(var/obj/O in contents)
 					if(istype(O,stack.containstype))
