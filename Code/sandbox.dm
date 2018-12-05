@@ -77,6 +77,13 @@ obj
 			maxhp = 25000
 			amount = 20
 			obj/healthbar/hpbar
+			origZ
+
+		New()
+			set waitfor = 0
+			..()
+			sleep(1)
+			origZ = z
 
 		proc
 			respawn()
@@ -96,7 +103,7 @@ obj
 					var/x = rand(10, 90)
 					var/y = rand(10, 90)
 
-					var/turf/t = locate(x, y, z)
+					var/turf/t = locate(x, y, origZ)
 
 					#if WINTER
 					if(t.icon_state == "snow" && !t.flyblock)
@@ -274,6 +281,9 @@ obj/items
 		icon = 'blueprint.dmi'
 		showoverlay = FALSE
 		dropable = 0
+
+		useTypeStack = 1
+		stackName = "Blueprints"
 
 		var/buildType
 
@@ -653,6 +663,10 @@ obj/buildable
 			rate = 3000
 			block = 1
 
+		bricks
+			opacity = 0
+			icon = 'wall1.dmi'
+
 		New()
 			set waitfor = 0
 			..()
@@ -923,16 +937,35 @@ hudobj
 			#if WINTER
 			snow
 				icon_state = "snow"
-				maptext = "Snow: free"
 			#else
 			grass
 				icon_state = "grass1"
-				maptext = "Grass: free"
 			#endif
 				icon = 'turf.dmi'
 
 				screen_x = 32
 				screen_y = 256
+
+				maptext_x = 0
+				maptext_width = 32
+
+			dirt
+				icon = 'turf.dmi'
+				icon_state = "dirt"
+
+				screen_x = 64
+				screen_y = 256
+
+				maptext_x = 0
+				maptext_width = 32
+			sand
+				icon = 'turf.dmi'
+				icon_state = "sand"
+
+				screen_x = 96
+				screen_y = 256
+
+				maptext = "Floors: free"
 		basic
 			chairleft
 				icon       = 'desk.dmi'
@@ -1074,6 +1107,19 @@ hudobj
 				path = /obj/buildable/wall/wood
 				replace = /obj/buildable/wall/fence
 
+			stairs
+				icon       = 'General.dmi'
+				icon_state = "Stairs"
+
+				price = 2
+				path = /obj/static_obj/Hogwarts_Stairs { post_init = 0 }
+
+				screen_x = 32
+				screen_y = 224
+
+				maptext_x = 0
+				maptext_width = 32
+
 			woodfloor
 				icon       = 'turf.dmi'
 				icon_state = "wood"
@@ -1082,10 +1128,24 @@ hudobj
 				price = 2
 				maptext = "Wood Floor: 2 wood logs"
 
-				screen_x = 32
+				screen_x = 64
 				screen_y = 224
 
 		stone
+			fireplace
+				icon       = 'misc.dmi'
+				icon_state = "fireplace"
+
+				price = list(/obj/items/stones = 15)
+				path = /obj/static_obj/Fireplace { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+
+				screen_x = 32
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
 			black_throne
 				icon       = 'Thrones.dmi'
 				icon_state = "black"
@@ -1093,7 +1153,7 @@ hudobj
 				price = list(/obj/items/stones = 15)
 				path = /obj/bigblackchair
 
-				screen_x = 32
+				screen_x = 64
 				screen_y = 64
 
 				maptext_x = 0
@@ -1106,7 +1166,7 @@ hudobj
 				price = list(/obj/items/stones = 15)
 				path = /obj/bigwhitechair
 
-				screen_x = 64
+				screen_x = 96
 				screen_y = 64
 
 				maptext_x = 0
@@ -1119,7 +1179,7 @@ hudobj
 				price = list(/obj/items/stones = 15)
 				path = /obj/bigpurplechair
 
-				screen_x = 96
+				screen_x = 128
 				screen_y = 64
 
 				maptext_x = 0
@@ -1129,11 +1189,11 @@ hudobj
 				icon       = 'Thrones.dmi'
 				icon_state = "teal"
 
-				maptext = "Thrones: 15 stones"
+				maptext = "Decor: 15 stones"
 				price = list(/obj/items/stones = 15)
 				path = /obj/bigtealchair
 
-				screen_x = 128
+				screen_x = 160
 				screen_y = 64
 
 			Angel
@@ -1199,6 +1259,19 @@ hudobj
 				path = /obj/buildable/door/gate
 				replace = /obj/buildable/door/wood
 
+			bricks
+				icon = 'wall1.dmi'
+
+				price = list(/obj/items/stones = 20)
+				path = /obj/buildable/wall/bricks
+				replace = /obj/buildable/wall/wood
+
+				screen_x = 32
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
 			stone_wall
 				icon = 'stone.dmi'
 				icon_state = "10"
@@ -1206,20 +1279,44 @@ hudobj
 				price = list(/obj/items/stones = 20)
 				maptext = "Stone Wall: 20 stones"
 
-				screen_x = 32
+				screen_x = 64
 				screen_y = 192
 
 				path = /obj/buildable/wall/stone
 				replace = /obj/buildable/wall/wood
+
+			brickfloor
+				icon       = 'turf.dmi'
+				icon_state = "brick"
+
+				price = list(/obj/items/stones = 2)
+
+				screen_x = 32
+				screen_y = 224
+
+				maptext_x = 0
+				maptext_width = 32
+
+			blackfloor
+				icon       = 'turf.dmi'
+				icon_state = "blackfloor"
+
+				price = list(/obj/items/stones = 2)
+
+				screen_x = 64
+				screen_y = 224
+
+				maptext_x = 0
+				maptext_width = 32
 
 			road
 				icon       = 'turf.dmi'
 				icon_state = "stonefloor2"
 
 				price = list(/obj/items/stones = 2)
-				maptext = "Road: 2 stones"
+				maptext = "Floors: 2 stones"
 
-				screen_x = 32
+				screen_x = 96
 				screen_y = 224
 		house
 			red
