@@ -146,7 +146,7 @@ obj
 						if(prob(player.Gathering.level + player.Gathering.level - r))
 							s += r
 
-					player.Gathering.add(s*20, player)
+					player.Gathering.add(s*50, player)
 
 				drops(p, s)
 

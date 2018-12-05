@@ -41,7 +41,7 @@
 #define MAX_WAND_LEVEL 30
 #define MAX_WAND_EXP(wand) ((wand.quality + 1) * 20000)
 
-#define POTIONS_AMOUNT 50
+#define POTIONS_AMOUNT 60
 
 
 #define EARTH 1

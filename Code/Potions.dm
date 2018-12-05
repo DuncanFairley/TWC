@@ -253,7 +253,7 @@ obj/potions
 
 					potion = worldData.potions[potionId]
 					if(potion==null)
-						var/chance = clamp(50 + POTIONS_AMOUNT - worldData.potionsAmount + player.Alchemy.level, 5, 90)
+						var/chance = clamp(50 + POTIONS_AMOUNT - worldData.potionsAmount + player.Alchemy.level, 10, 90)
 
 						if(prob(chance))
 							potion = pick(childTypes(/obj/items/potions, list(/obj/items/potions/health, /obj/items/potions/mana)))
@@ -436,12 +436,17 @@ obj/potions
 
 		isBusy = TRUE
 
+		var/time = 320
+
+		if(p)
+			time = max(time - round(p.Alchemy.level/5)*10, 50)
+
 		var/obj/bar/b = new (locate(x, y + 1, z))
-		b.countdown(320)
+		b.countdown(time)
 
 		var/pCkey = p.ckey
 
-		sleep(320)
+		sleep(time)
 
 		isBusy = FALSE
 
@@ -953,9 +958,6 @@ obj
 				pixel_x = 0
 				wait    = 1
 
-				var/obj/bar/b = new (y == world.maxy ? locate(x, y - 1, z) : locate(x, y + 1, z))
-				b.countdown(320)
-
 				var/matrix/m1 = matrix() * 0.5
 				var/matrix/m2 = matrix() * 0.5
 				m1.Scale(1.3, 1)
@@ -965,13 +967,19 @@ obj
 				animate(transform = m2, time = 5)
 
 				var/amount = rand(2, 4) * tier
+				var/time = 320
 
 				if(isplayer(p.owner))
 					var/mob/Player/player = p.owner
 					amount += player.Gathering.level
-					player.Gathering.add((amount + rand(2,4))*20, player)
+					player.Gathering.add((amount*10 + rand(4,6))*50, player)
 
-				sleep(320)
+					time = max(time - round(player.Gathering.level/5)*10, 50)
+
+				var/obj/bar/b = new (y == world.maxy ? locate(x, y - 1, z) : locate(x, y + 1, z))
+				b.countdown(time)
+
+				sleep(time)
 				var/obj/items/ingredients/i = pick(/obj/items/ingredients/daisy, /obj/items/ingredients/aconite)
 				i = new i (loc)
 				i.stack = amount

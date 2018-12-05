@@ -1545,7 +1545,7 @@ mob/Spells/verb/Imperio(mob/Player/other in oview()&Players)
 		usr.client.perspective=MOB_PERSPECTIVE
 mob/Spells/verb/Portus()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25,antiTeleport=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25,antiTeleport=1,useTimedProtection=1))
 
 		if(IsInputOpen(src, "Portus"))
 			del _input["Portus"]
@@ -1901,7 +1901,7 @@ obj
 
 				if(!a.density && (isplayer(a) || istype(a, /mob/Enemies)))
 					Bump(a)
-				else if(damage && istype(a, /obj/portkey))
+				else if(damage && istype(a, /obj/portkey) && a:canDamage)
 					Bump(a)
 
 		New(loc,dir,mob/mob,icon,icon_state,damage,name,element)
@@ -2413,31 +2413,48 @@ obj/overlay
 
 obj/portkey
 	var/obj/portkey/partner
-	var/HP = 15
+	var
+		HP = 15
+		canDamage = 1
 	icon='portal.dmi'
 	icon_state="portkey"
-	New()
+	accioable = 1
+	wlable = 1
+
+	New(Loc, dmg=1, iconState="random", time=300)
+		set waitfor = 0
 		..()
-		switch(rand(1,3))
-			if(1)
-				icon='bucket.dmi'
-				icon_state="bucket"
-			if(2)
-				icon='misc.dmi'
-				icon_state="tea"
-			if(3)
-				icon = 'scrolls.dmi'
-				icon_state = "blank"
-			if(4)
-				icon = 'turf.dmi'
-				icon_state="candle"
-		spawn(300)
-			view(src) << "The portkey collapses and closes."
-			del(src)
+
+		canDamage = dmg
+
+		if(iconState == "random")
+			switch(rand(1,4))
+				if(1)
+					icon='bucket.dmi'
+					icon_state="bucket"
+				if(2)
+					icon='misc.dmi'
+					icon_state="tea"
+				if(3)
+					icon = 'scrolls.dmi'
+					icon_state = "blank"
+				if(4)
+					icon = 'turf.dmi'
+					icon_state="candle"
+		else
+			icon_state = iconState
+		sleep(time)
+		view(src) << "The portkey collapses and closes."
+		Dispose()
 
 	Crossed(mob/Player/p)
 		if(isplayer(p))
 			Teleport(p)
+
+	Move(atom/NewLoc)
+		if(NewLoc.density && get_dist(loc, NewLoc) == 1) return
+
+		.=..()
 
 	proc/Teleport(mob/Player/M)
 		if(!partner) return
