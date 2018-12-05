@@ -100,6 +100,7 @@ mob/Player
 		ClickEdit = 0
 		ClickCreate = 0
 		CreatePath
+		list/CreateVars
 mob/GM
 	verb
 		Toggle_Click_Create()
@@ -108,6 +109,7 @@ mob/GM
 			if(p.ClickCreate)
 				p.ClickCreate = 0
 				p.CreatePath = null
+				p.CreateVars = null
 				p << "Click Creating mode toggled off."
 			else
 				if(p.ClickEdit) Toggle_Click_Editing()
@@ -130,6 +132,11 @@ mob/GM
 			var/mob/Player/p = src
 			p.CreatePath = Path
 			p << "Your CreatePath is now set to [Path]."
+		CreateVars(var/text as null|message)
+			set category = "Events"
+			var/mob/Player/p = src
+			p.CreateVars = splittext(text, "\n")
+			p << "Your CreateVars is now set to [text]."
 		MassEdit(Var as text)
 			set category = "Events"
 			var/mob/Player/p = src
@@ -183,7 +190,23 @@ atom/Click(location)
 				if(p.CreatePath == "Delete" && !isplayer(src))
 					del src
 				else if(isturf(location))
-					new p.CreatePath (location)
+					var/atom/a = new p.CreatePath (location)
+
+					if(p.CreateVars)
+						for(var/line in p.CreateVars)
+
+							var/list/split = splittext(line, "=")
+
+							if(!(split[1] in a.vars))
+								p.CreateVars -= split[1]
+								continue
+
+							var/n = text2num(split[2])
+							if(isnum(n))
+								a.vars[split[1]] = n
+							else
+								a.vars[split[1]] = split[2]
+
 
 
 obj/push
