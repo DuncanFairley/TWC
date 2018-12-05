@@ -32,7 +32,7 @@ teleportNode
 			if(!active) return
 
 			var/isempty = 1
-			for(var/area/newareas/a in areas)
+			for(var/area/a in areas)
 				for(var/mob/Player/M in a)
 					if(M != Obj)
 						isempty = 0
@@ -40,7 +40,7 @@ teleportNode
 				if(!isempty) break
 			if(isempty)
 				active = FALSE
-				for(var/area/newareas/a in areas)
+				for(var/area/a in areas)
 					for(var/mob/Enemies/M in a)
 						M.ChangeState(M.INACTIVE)
 
@@ -165,7 +165,7 @@ obj/teleportPath
 
 area/var/tmp/teleportNode/region
 
-/*mob/verb/testMap()
+/*mob/test/verb/testMap()
 	for(var/i in worldData.TeleportMap.teleports)
 		world << i
 
