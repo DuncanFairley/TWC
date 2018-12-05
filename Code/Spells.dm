@@ -1708,6 +1708,7 @@ mob/Player/var/element
 	Ghost
 	Gathering
 	Taming
+	Alchemy
 
 
 element
@@ -1745,10 +1746,10 @@ element
 				maxExp = 2000 + (level * 2500)
 
 				var/t
-				if(name == "Gathering" || name == "Taming")
-					t = "profession"
-				else
+				if(name in list("Water", "Fire", "Earth", "Ghost"))
 					t = "element"
+				else
+					t = "profession"
 
 				parent.screenAlert("[name] [t] leveled up to [level]!")
 

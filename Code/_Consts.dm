@@ -17,7 +17,7 @@
 #define winshowCenter(player, window) player << output(window,"browser1:ShowCenterWindow")
 
 #define VERSION "16.70"
-#define SAVEFILE_VERSION 37
+#define SAVEFILE_VERSION 38
 #define VAULT_VERSION 5
 #define lvlcap 800
 #define SWAPMAP_Z 25 // world map z + 1 (the +1 is for buildable area, don't add if not using sandbox)
@@ -41,7 +41,7 @@
 #define MAX_WAND_LEVEL 30
 #define MAX_WAND_EXP(wand) ((wand.quality + 1) * 20000)
 
-#define POTIONS_AMOUNT 37
+#define POTIONS_AMOUNT 50
 
 
 #define EARTH 1

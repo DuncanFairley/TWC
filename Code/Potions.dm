@@ -240,6 +240,8 @@ obj/potions
 				quality = min(7, quality)
 
 				if(c >= 4)
+					var/mob/Player/player = p.owner
+					player.Alchemy.add((quality*4 + rand(4,6))*30, player)
 
 					if(isnum(pool))
 						potionId = "[pool]"
@@ -251,20 +253,20 @@ obj/potions
 
 					potion = worldData.potions[potionId]
 					if(potion==null)
-						var/chance = max(5, 50 + POTIONS_AMOUNT - worldData.potionsAmount)
+						var/chance = clamp(50 + POTIONS_AMOUNT - worldData.potionsAmount + player.Alchemy.level, 5, 90)
 
 						if(prob(chance))
-							potion = pick(childTypes(/obj/items/potions))
+							potion = pick(childTypes(/obj/items/potions, list(/obj/items/potions/health, /obj/items/potions/mana)))
 
 							if(ispath(potion, /obj/items/potions/super))
-								if(prob(75))
+								if(prob(max(75 - player.Alchemy.level, 25)))
 									potion = null
 							else
 								worldData.potions[potionId] = potion
 								worldData.potionsAmount++
 
 						else
-							chance = worldData.potionsAmount / (worldData.potions.len + 1)
+							chance = clamp(worldData.potionsAmount / (worldData.potions.len + 1) - player.Alchemy.level, 10, 90)
 							if(prob(chance * 60))
 								potion = 0
 								worldData.potions[potionId] = potion
@@ -335,6 +337,9 @@ obj/potions
 
 		Process(mob/Player/p, obj/items/ingredients/i)
 			if(isBusy) return
+
+			if(p)
+				p.Alchemy.add(rand(1,3)*20, p)
 
 			var/id     = (i.id - 1) * 3 + i.form
 			var/poolId = 0
@@ -497,6 +502,7 @@ obj/bar
 obj/items/potions
 
 	icon = 'potions.dmi'
+	icon_state = "red"
 
 	var
 		effect
@@ -510,6 +516,9 @@ obj/items/potions
 		i.seconds = seconds
 
 		return i
+
+	useTypeStack = /obj/items/potions
+	stackName = "Potions:"
 
 	Click()
 		if((src in usr) && canUse(M=usr, inarena=0,needwand=0))
@@ -569,6 +578,7 @@ obj/items/potions
 
 			large_greater_health_potion
 				seconds = 3
+
 
 	mana
 		icon_state = "blue"
@@ -688,7 +698,7 @@ obj/items/potions
 		wisdom_potion
 			icon_state = "green"
 
-			var/exp = 50000
+			var/exp = 40000
 
 			Effect(mob/Player/p)
 				if(p.level < lvlcap)
@@ -878,12 +888,19 @@ obj/click2confirm
 
 
 
-proc/childTypes(typesOf)
+proc/childTypes(typesOf, exclude)
 	. = list()
 
 	var/lastType
 	for(var/t in typesof(typesOf))
 		if(ispath(lastType, t)) continue
+		if(exclude)
+			var/skip = 0
+			for(var/p in exclude)
+				if(ispath(t, p))
+					skip =  1
+					break
+			if(skip) continue
 		. += t
 		lastType = t
 
@@ -952,7 +969,7 @@ obj
 				if(isplayer(p.owner))
 					var/mob/Player/player = p.owner
 					amount += player.Gathering.level
-					player.Gathering.add(amount*20, player)
+					player.Gathering.add((amount + rand(2,4))*20, player)
 
 				sleep(320)
 				var/obj/items/ingredients/i = pick(/obj/items/ingredients/daisy, /obj/items/ingredients/aconite)

@@ -283,6 +283,7 @@ obj
 
 				if(attacker)
 					attacker.checkQuestProgress("Enchant")
+					attacker.Alchemy.add(rand(4,6)*20, attacker)
 
 				spawn(1)
 					emit(loc    = src,
@@ -327,6 +328,9 @@ obj/items/crystal
 		bonus      = 0 // 1 for damage, 2 for defense, 3 for both
 		luck       = 0 // bonus chance
 		ignoreItem = FALSE// ignores fourth item
+
+	useTypeStack = 1
+	stackName = "Crystals:"
 
 	Click()
 		if(src in usr)
