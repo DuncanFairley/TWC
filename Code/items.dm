@@ -160,6 +160,8 @@ obj/items
 				owner.splitItem = null
 				winset(owner, null, "splitStack.is-visible=false;")
 
+			if(!loc || loc != owner) return
+
 			var/obj/items/i = src
 			if(stack > 1 && amount < stack)
 				i = Split(amount)

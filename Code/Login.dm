@@ -1513,9 +1513,9 @@ obj
 			//	var/tmpname = ""
 				//var/isscroll=0
 				for(var/obj/items/O in contains)
-				//	if(O.loc != usr)
-				//		contains -= O
-				//		continue
+					if(O.loc != usr)
+						contains -= O
+						continue
 					var/founddrop = 0
 					for(var/V in O.verbs)
 						if(V:name == "Drop")
