@@ -257,9 +257,12 @@ obj/items/wearable/masks
 
 			owner.name = n
 			owner.underlays = list()
-			var/guild/i
-			if(worldData.guilds) i = worldData.guilds[owner.guild]
-			owner.GenerateNameOverlay(r,g,b, i ? i.ranks[1] : 1)
+			if(n == "Masked Figure")
+				var/guild/i
+				if(worldData.guilds) i = worldData.guilds[owner.guild]
+				owner.GenerateNameOverlay(r,g,b, i ? i.ranks[1] : 1)
+			else
+				owner.GenerateNameOverlay(r,g,b, 1)
 
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
