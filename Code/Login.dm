@@ -1354,7 +1354,7 @@ mob/Player
 			stat("Damage:","[Dmg] ([Dmg - (level + 4)])")
 			stat("Defense:","[Def] ([(Def - (level + 4))/3])")
 			stat("Cooldown Reduction:","[round(1000 - cooldownModifier*1000, 1)/10]%")
-			stat("MP Regeneration:", "[50 + round(level/10)*2 + MPRegen]")
+			stat("MP Regeneration:", "[50 + round(level/10)*5 + MPRegen]")
 			if(Fire)
 				var/percent = round((Fire.exp / Fire.maxExp) * 100)
 				stat("Fire:", "[Fire.level]   Exp: [comma(Fire.exp)]/[comma(Fire.maxExp)] ([percent]%)")
@@ -2197,8 +2197,8 @@ proc
 					E.hpbar.loc = null
 				var/time = E.respawnTime
 				if(killer && E.level + 1 < killer.level)
-					time += time * ((1 + E.level - killer.level)/400)
-					time = max(round(time), 230) + rand(-30, 30)
+					time = time * ((1 + E.level - killer.level)/200)
+					time = max(round(time), 200) + rand(-30, 30)
 				sleep(time)
 				if(E)
 					E.loc = E.origloc

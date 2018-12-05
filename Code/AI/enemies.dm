@@ -370,7 +370,7 @@ area
 				antiFly      = TRUE
 
 			Dungeon
-				antiTeleport = TRUE
+				antiTeleport = FALSE
 				antiFly      = TRUE
 				SnowmmanEntrance
 				Snowman
@@ -467,7 +467,7 @@ mob
 			Range         = 12
 			MoveDelay     = 4
 			AttackDelay   = 4
-			respawnTime   = 1200
+			respawnTime   = 600
 
 			prizePoolSize = 1
 			damageReq     = 15
@@ -591,26 +591,30 @@ mob
 				if(door)
 					door.door = 1
 
-			var/obj/teleport/portkey/t = new (loc)
-			t.dest = dest
+			var/turf/target = locate(dest)
+			if(istype(target, /atom/movable)) target = target.loc
+
+			var/obj/portkey/P1 = new(loc, 0, "portkey", respawnTime-50)
+			var/obj/portkey/P2 = new(target, 0, "portkey", respawnTime-50)
+			P1.partner = P2
+			P2.partner = P1
 
 			sleep(2)
 
-			t.density = 1
-			step_rand(t)
-			t.density = 0
+			P1.density = 1
+			step_rand(P1)
 
 			if(lava)
 				var/limit = 3
-				while(istype(t.loc, /turf/lava) && limit--)
+				while(istype(P1.loc, /turf/lava) && limit--)
 					sleep(1)
-					t.density = 1
-					step_rand(t)
-					t.density = 0
+					step_rand(P1)
 
-			sleep(respawnTime-2)
+			P1.density = 0
+
+			sleep(respawnTime-50)
 			if(door) door.door = 0
-			t.loc = null
+
 
 		proc/Death(mob/Player/killer)
 			if(state == INACTIVE || state == WANDER) return
@@ -1869,7 +1873,6 @@ mob
 			level       = 50
 			HPmodifier  = 0.2
 			DMGmodifier = 0.1
-			respawnTime = 900
 
 			Death(mob/Player/killer)
 				..()
@@ -1885,14 +1888,13 @@ mob
 				..()
 
 				SpawnPet(killer, 0.5, null, /obj/items/wearable/pets/rat)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=0.3)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=0.6)
 
 		Pixie
 			icon_state  = "pixie"
 			level       = 100
 			HPmodifier  = 0.4
 			DMGmodifier = 0.2
-			respawnTime = 900
 
 			Death(mob/Player/killer)
 				..()
@@ -1904,7 +1906,6 @@ mob
 			level       = 150
 			HPmodifier  = 0.8
 			DMGmodifier = 0.4
-			respawnTime = 900
 
 			Death(mob/Player/killer)
 				..()
@@ -1914,7 +1915,6 @@ mob
 		Snake
 			icon_state  = "snake"
 			level       = 200
-			respawnTime = 900
 
 			Death(mob/Player/killer)
 				..()
@@ -1924,7 +1924,6 @@ mob
 		Wolf
 			icon_state  = "wolf"
 			level       = 300
-			respawnTime = 900
 
 			Death(mob/Player/killer)
 				..()
@@ -1940,7 +1939,6 @@ mob
 			DMGmodifier = 1
 			MoveDelay = 3
 			AttackDelay = 2
-			respawnTime = 600
 
 
 			Attacked()
@@ -2124,7 +2122,7 @@ mob
 
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/acromantula)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=0.3)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=0.6)
 
 			MapInit()
 				set waitfor = 0
@@ -2292,7 +2290,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.02, "rand", /obj/items/wearable/pets/wisp)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=0.3)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=0.6)
 
 
 		Floating_Eye
@@ -2448,7 +2446,10 @@ mob
 
 		Projectile
 			var/tmp/fired = 0
-			AttackDelay = 3
+			AttackDelay = 5
+			MoveDelay = 5
+			element = FIRE
+			HPmodifier = 0.8
 
 			Fire_Bat
 				icon_state = "firebat"
@@ -2464,11 +2465,11 @@ mob
 					ShouldIBeActive()
 					return
 
-				if(!fired && prob(80))
+				if(!fired)
 					fired = 1
 					dir=get_dir(src, target)
 					castproj(icon_state = "fireball", damage = Dmg + rand(-4,8), name = "fire ball")
-					spawn(rand(15,30)) fired = 0
+					spawn(30) fired = 0
 					sleep(AttackDelay)
 
 				var/distance = get_dist(src, target)
@@ -2483,7 +2484,6 @@ mob
 					step_away(src, target)
 				else if(distance > 3)
 					step_rand(src)
-					sleep(2)
 
 		Archangel
 			icon_state = "archangel"
