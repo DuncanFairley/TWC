@@ -408,7 +408,7 @@ RandomEvent
 
 	Haunted_Castle
 		name   = "Haunted Castle"
-		chance = 7
+		chance = 0
 
 		start()
 			set waitfor = 0
@@ -454,6 +454,7 @@ RandomEvent
 
 	Ghosts
 		name = "Ghost Invasion"
+		chance = 15
 		start()
 			set waitfor = 0
 			..()
@@ -667,7 +668,7 @@ RandomEvent
 
 	EntranceKillZone
 		name   = "Entrance Kill Zone"
-		chance = 7
+		chance = 0
 		start()
 			set waitfor = 0
 			..()
