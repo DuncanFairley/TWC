@@ -23,6 +23,7 @@ obj/static_obj
 	Hogwarts_Stone_Arch
 		icon = 'wall1.dmi'
 		icon_state = "arch"
+		layer = 5
 
 turf
 	Hogwarts_Stone_Wall
