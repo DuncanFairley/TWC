@@ -1772,21 +1772,23 @@ mob/Player
 			else
 				src << "[p.owner] hit you for [p.damage] with their [p]."
 
+		var/dmg = p.damage
+
 		if(p.element == FIRE)
-			p.damage -= round(Fire.level / 2)
+			dmg -= round(Fire.level / 2)
 
 		else if(p.element == WATER)
-			p.damage -= round(Water.level / 2)
+			dmg -= round(Water.level / 2)
 
 		else if(p.element == EARTH)
-			p.damage -= round(Earth.level / 2)
+			dmg -= round(Earth.level / 2)
 
 		else if(p.element == GHOST)
-			p.damage -= round(Ghost.level / 2)
+			dmg -= round(Ghost.level / 2)
 
-		if(p.damage <= 0) return
+		if(dmg <= 0) return
 
-		HP -= p.damage
+		HP -= dmg
 		updateHP()
 
 		var/n = dir2angle(get_dir(src, p))
@@ -1814,23 +1816,25 @@ mob/Enemies
 
 		if(isplayer(p.owner))
 
+			var/dmg = p.damage
+
 			if(p.icon_state == "blood")
-				p.damage += round(p.damage / 10, 1)
+				dmg += round(p.damage / 10, 1)
 			else if(element && p.element)
 				if(element == p.element)
-					p.damage -= round(p.damage / 10, 1)
+					dmg -= round(p.damage / 10, 1)
 
 				else if(element == FIRE && p.element == WATER)
-					p.damage += round(p.damage / 2, 1)
+					dmg += round(p.damage / 2, 1)
 
 				else if((element & (EARTH|FIRE)) && (p.element & (WATER|GHOST)))
-					p.damage += round(p.damage / 10, 1)
+					dmg += round(p.damage / 10, 1)
 
 				else if((element & WATER))
 					if(p.element & EARTH)
-						p.damage += round(p.damage / 10, 1)
+						dmg += round(p.damage / 10, 1)
 					else if(p.element & FIRE)
-						p.damage += round(p.damage / 2, 1)
+						dmg += round(p.damage / 2, 1)
 
 			if(canBleed)
 				var/n = dir2angle(get_dir(src, p))
@@ -1841,9 +1845,9 @@ mob/Enemies
 				     speed  = 2,
 				     life   = new /Random(15,25))
 
-			p.owner << "Your [p] does [p.damage] damage to [src]."
+			p.owner << "Your [p] does [dmg] damage to [src]."
 
-			HP -= p.damage
+			HP -= dmg
 
 			var/tmp_ekills = p.owner:ekills
 			Death_Check(p.owner)
