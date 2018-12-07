@@ -458,7 +458,7 @@ obj/var/canSave = TRUE
 var/saveError = 0
 atom
 	Write(savefile/S)
-		for(var/V in vars-"x"-"y"-"z"-"contents"-"icon"-"overlays"-"underlays")
+		for(var/V in vars-"x"-"y"-"z"-"contents"-"icon"-"overlays"-"underlays"-"transform")
 			if(issaved(vars[V]))
 				if(vars[V]!=initial(vars[V])) S[V]<<vars[V]
 				else S.dir.Remove(V)

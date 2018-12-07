@@ -177,7 +177,10 @@ mob
 			F["last_x"] << x
 			F["last_y"] << y
 			F["last_z"] << z
-		F["UsedKeys"] << src:saveSpells()
+
+		var/list/spells = src:saveSpells()
+		if(spells && spells.len)
+			F["UsedKeys"] << src:saveSpells()
 
 	Read(savefile/F)
 		var/testtype
@@ -198,12 +201,18 @@ mob
 			F["last_x"] >> last_x
 			F["last_y"] >> last_y
 			F["last_z"] >> last_z
-			F["UsedKeys"] >> src:UsedKeys
+
+			var/list/usedKeys
+			F["UsedKeys"] >> usedKeys
+
+			if(usedKeys && usedKeys.len)
+				src:UsedKeys = usedKeys
+
 			if(saveError == 0)
 				save_loaded = TRUE
 			var/savefile_version
 			F["savefileversion"] >> savefile_version
-			if(!savefile_version) savefile_version = 3
+			if(!savefile_version) savefile_version = 16
 
 			if(savefile_version < 17)
 				var/gold/g = new
