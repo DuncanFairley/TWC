@@ -188,8 +188,8 @@ Event
 				e.start()
 
 
-WorldData/var/tmp/list/weather_effects = list("acid"        = 7,
-											  "snow"        = 7,
+WorldData/var/tmp/list/weather_effects = list("acid"        = 5,
+											  "snow"        = 5,
 										  	  "rain"        = 15,
 											  "cloudy"      = 25,
 											  "sunny"       = 60)
@@ -221,7 +221,7 @@ proc
 	//	scheduler.set_sleep_delay(10)
 		scheduler.start()
 		init_books()
-		init_weather()
+	//	init_weather()
 		init_random_events()
 		init_auction()
 
@@ -943,11 +943,12 @@ hudobj
 			var/extraTicks = abs(roundedTime - time)
 
 			maptext = "<span style=\"color:[Client.mob:mapTextColor];font-size:2px;\"><b>[roundedTime]</b></span>"
-			while(maptext != null && roundedTime > 1)
+			while(maptext != null && roundedTime > 1 && Client)
 				roundedTime--
 				maptext = "<span style=\"color:[Client.mob:mapTextColor];font-size:2px;\"><b>[roundedTime]</b></span>"
 				sleep(10)
 
-			if(maptext != null)
-				sleep(extraTicks*10)
-			hide()
+			if(Client)
+				if(maptext != null)
+					sleep(extraTicks*10)
+				hide()
