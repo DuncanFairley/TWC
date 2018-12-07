@@ -19,35 +19,30 @@ teleportNode
 			if(t in nodes) return 1
 			return 10
 
-		Entered(atom/movable/Obj)
-			if(active) return
+		Entered(atom/movable/Obj, area/area)
+			active++
 
-			active = TRUE
-			for(var/area/newareas/a in areas)
-				for(var/mob/Enemies/M in a)
-					if(M.state == M.INACTIVE)
-						M.ChangeState(M.WANDER)
-
-		Exited(atom/movable/Obj)
-			if(!active) return
-
-			var/isempty = 1
-			for(var/area/a in areas)
-				for(var/mob/Player/M in a)
-					if(M != Obj)
-						isempty = 0
-						break
-				if(!isempty) break
-			if(isempty)
-				active = FALSE
+			if(active==1)
 				for(var/area/a in areas)
+					if(!a.containsMonsters || a.active || area == a) continue
+
+					for(var/mob/Enemies/M in a)
+						if(M.state == M.INACTIVE)
+							M.ChangeState(M.origloc ? M.WANDER : M.SEARCH)
+
+		Exited(atom/movable/Obj, area/area)
+			if(active <= 0) return
+
+			if(--active <= 0)
+				for(var/area/a in areas)
+					if(!a.containsMonsters) continue
+					a.active = 0
 					for(var/mob/Enemies/M in a)
 						M.ChangeState(M.INACTIVE)
 
 
 area
 	Entered(atom/movable/O, atom/oldloc)
-		.=..()
 		if(isplayer(O))
 			var/area/a
 			if(oldloc && isturf(oldloc)) a = oldloc.loc
@@ -55,10 +50,11 @@ area
 			if(a && a != src &&  a.region)
 				if(!(src in a.region.areas))
 					if(region)
-						region.Entered(O)
-					a.region.Exited(O)
+						region.Entered(O, src)
+					a.region.Exited(O, a)
 			else if(region)
-				region.Entered(O)
+				region.Entered(O, src)
+		.=..()
 
 proc
 	AccessibleAreas(turf/t)

@@ -291,6 +291,10 @@ proc
 			return 1
 		return 0
 area
+	var
+		containsMonsters = 0
+		tmp
+			active = 0
 	outside
 		Spider_Pit
 			icon       = 'black50.dmi'
@@ -299,8 +303,8 @@ area
 		Pixie_Pit
 
 	newareas
-		var/tmp
-			active = 0
+
+		containsMonsters = 1
 
 		proc/faction()
 			var/AreaData/data = worldData.areaData["area_[name]"]
@@ -378,22 +382,18 @@ area
 
 		Entered(atom/movable/O)
 			. = ..()
-			if(!active && isplayer(O))
-				active = 1
+
+			if(isplayer(O) && ++active == 1)
 				for(var/mob/Enemies/M in src)
 					if(M.state == M.WANDER || M.state == M.INACTIVE)
 						M.ChangeState(M.SEARCH)
 
 		Exited(atom/movable/O)
+			set waitfor = 0
 			. = ..()
-			if(active && isplayer(O))
-				var/isempty = 1
-				for(var/mob/Player/M in src)
-					if(M != O)
-						isempty = 0
-						break
-				if(isempty)
-					active = 0
+			sleep(1)
+			if(isplayer(O) && active > 0)
+				if(--active == 0)
 					for(var/mob/Enemies/M in src)
 						if(M.state != M.INACTIVE)
 							if(!region)
@@ -2064,7 +2064,7 @@ mob
 
 		Snowman
 			icon = 'Snowman.dmi'
-			level = 700
+			level = 750
 			HPmodifier  = 3
 			DMGmodifier = 0.8
 			element = WATER
