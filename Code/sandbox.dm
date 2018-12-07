@@ -381,14 +381,23 @@ turf/buildable
 		var/mob/Player/p = usr
 		if(p.buildItemDisplay && z == p.z && get_dist(src, p) < 30)
 
+
+			if(p.buildItem.path)
+
+				if(p.buildItem.reqWall)
+					var/turf/t = locate(x,y+1,z)
+					if(!t || !t.flyblock)
+						p.buildItemDisplay.color = "#f00"
+						return
+
+				if(flyblock || (locate(p.buildItem.path) in src))
+					if(!p.buildItem.replace || !(locate(p.buildItem.replace) in src))
+						return
+
 			for(var/obj/buildable/shield_totem/c in range(10, src))
 				if(!c.allowed) continue
 				if(usr.ckey in c.allowed) continue
 				return
-
-			if(p.buildItem.path && (flyblock || (locate(p.buildItem.path) in src)))
-				if(!p.buildItem.replace || !(locate(p.buildItem.replace) in src))
-					return
 
 			if(islist(p.buildItem.price))
 				var/list/items = list()
@@ -694,6 +703,8 @@ obj/buildable
 		rate = 10000
 		block = 1
 
+		var/tmp/open = 0
+
 		wood
 			icon='Door.dmi'
 			icon_state="closed"
@@ -714,6 +725,9 @@ obj/buildable
 				hp    = 100000
 				maxhp = 100000
 				rate = 20000
+			bricks
+				opacity = 0
+				icon = 'wall1.dmi'
 
 			New()
 				set waitfor = 0
@@ -721,7 +735,7 @@ obj/buildable
 				sleep(2)
 
 				alpha = 255
-				opacity = 1
+				opacity = initial(opacity)
 				layer = 3
 				density = 1
 				updateState()
@@ -733,7 +747,8 @@ obj/buildable
 					if(usr.ckey in c.allowed) continue
 					return
 
-				if(opacity)
+				if(!open)
+					open = 1
 					opacity = 0
 					animate(src, alpha = 150, time = 4)
 					sleep(4)
@@ -745,7 +760,8 @@ obj/buildable
 					density=1
 					layer = 3
 					sleep(4)
-					opacity = 1
+					opacity = initial(opacity)
+					open = 0
 
 			proc
 				updateState()
@@ -1153,7 +1169,7 @@ hudobj
 				price = list(/obj/items/stones = 15)
 				path = /obj/bigblackchair
 
-				screen_x = 64
+				screen_x = 32
 				screen_y = 64
 
 				maptext_x = 0
@@ -1166,7 +1182,7 @@ hudobj
 				price = list(/obj/items/stones = 15)
 				path = /obj/bigwhitechair
 
-				screen_x = 96
+				screen_x = 64
 				screen_y = 64
 
 				maptext_x = 0
@@ -1179,7 +1195,7 @@ hudobj
 				price = list(/obj/items/stones = 15)
 				path = /obj/bigpurplechair
 
-				screen_x = 128
+				screen_x = 96
 				screen_y = 64
 
 				maptext_x = 0
@@ -1193,7 +1209,7 @@ hudobj
 				price = list(/obj/items/stones = 15)
 				path = /obj/bigtealchair
 
-				screen_x = 160
+				screen_x = 128
 				screen_y = 64
 
 			Angel
@@ -1259,6 +1275,19 @@ hudobj
 				path = /obj/buildable/door/gate
 				replace = /obj/buildable/door/wood
 
+			arch
+				icon = 'wall1.dmi'
+				icon_state = "arch"
+
+				price = list(/obj/items/stones = 20)
+				path = /obj/static_obj/Hogwarts_Stone_Arch { post_init = 0; }
+
+				screen_x = 32
+				screen_y = 192
+
+				maptext_x = 0
+				maptext_width = 32
+
 			bricks
 				icon = 'wall1.dmi'
 
@@ -1266,8 +1295,8 @@ hudobj
 				path = /obj/buildable/wall/bricks
 				replace = /obj/buildable/wall/wood
 
-				screen_x = 32
-				screen_y = 64
+				screen_x = 64
+				screen_y = 192
 
 				maptext_x = 0
 				maptext_width = 32
@@ -1279,7 +1308,7 @@ hudobj
 				price = list(/obj/items/stones = 20)
 				maptext = "Stone Wall: 20 stones"
 
-				screen_x = 64
+				screen_x = 96
 				screen_y = 192
 
 				path = /obj/buildable/wall/stone
@@ -1708,6 +1737,56 @@ hudobj
 				screen_x = 128
 				screen_y = 128
 
+			bookshelf
+				icon       ='Desk.dmi'
+				icon_state = "1"
+
+				maptext = "Bookshelf: 15 wood logs"
+				price = 15
+				path = /obj/Bookshelf
+				reqWall = 1
+
+				screen_x = 32
+				screen_y = 160
+
+			pinkflowers
+				icon       ='Plants.dmi'
+				icon_state = "Pink Flowers"
+
+				price = 5
+				path = /obj/static_obj/Pink_Flowers { post_init = 0; }
+
+				screen_x = 32
+				screen_y = 192
+
+				maptext_x = 0
+				maptext_width = 32
+
+			blueflowers
+				icon       ='Plants.dmi'
+				icon_state = "Blue Flowers"
+
+				price = 5
+				path = /obj/static_obj/Blue_Flowers { post_init = 0; }
+
+				screen_x = 64
+				screen_y = 192
+
+				maptext_x = 0
+				maptext_width = 32
+
+			redflowers
+				icon       ='Plants.dmi'
+				icon_state = "Rose Bush"
+
+				maptext = "Plants: 5 wood logs"
+				price = 5
+				path = /obj/static_obj/Pink_Flowers { post_init = 0; icon_state = "Rose Bush"; name = "Rose Bush" }
+
+				screen_x = 96
+				screen_y = 192
+
+
 		utility
 			secret_wood_door
 				icon = 'wood_wall.dmi'
@@ -1724,6 +1803,20 @@ hudobj
 				path = /obj/buildable/door/secret/wood
 				replace = /obj/buildable/wall/wood
 
+			secret_bricks_door
+				icon = 'wall1.dmi'
+
+				price = list(/obj/items/stones = 40)
+
+				screen_x = 64
+				screen_y = 64
+
+				path = /obj/buildable/door/secret/bricks
+				replace = /obj/buildable/wall/bricks
+
+				maptext_x = 0
+				maptext_width = 32
+
 			secret_stone_door
 				icon = 'stone.dmi'
 				icon_state = "10"
@@ -1731,7 +1824,7 @@ hudobj
 				price = list(/obj/items/stones = 40)
 				maptext = "Secret door: 40 wood/stone"
 
-				screen_x = 64
+				screen_x = 96
 				screen_y = 64
 
 				path = /obj/buildable/door/secret/stone
@@ -1842,3 +1935,35 @@ hudobj
 
 				path = /obj/teleport/portkey { dest = "@Courtyard"}
 
+
+
+obj
+	Bookshelf
+		icon       ='Desk.dmi'
+		icon_state = "1"
+		pixel_y = 32
+
+		New()
+			..()
+
+
+			var/turf/t = locate(x-1, y, z)
+
+			if(t)
+				var/obj/Bookshelf/b = locate() in t
+				if(b && b.icon_state == "1")
+					icon_state = "2"
+					return
+
+			t = locate(x+1, y, z)
+
+			if(t)
+				var/obj/Bookshelf/b = locate() in t
+				if(b)
+
+					var/turf/t2 = locate(x+2, y, z)
+					if(t2)
+						var/obj/Bookshelf/b2 = locate() in t2
+						if(b2 && b2.icon_state == "2") return
+
+					b.icon_state = "2"
