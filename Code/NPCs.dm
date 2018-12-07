@@ -28,26 +28,29 @@ mob
 			Talk()
 				set src in oview(3)
 				var/mob/Player/p = usr
-				if(p.level < lvlcap)
-					hearers(usr) << npcsay("Demetrius: Well hello there, [p.gender == MALE ? "sonny" : "young lady"]. Unfortunately I cannot help you until you are of a higher level!")
+
+				var/ScreenText/s = new(p, src)
+
+				var/gold/g = new (p)
+				if(!g.have(50000))
+					s.AddText("Well hello there, [usr.gender == MALE ? "sonny" : "young lady"]. Unfortunately you need 5 gold coins before I am able to help you.")
 				else
-					var/gold/g = new (p)
-					if(!g.have(50000))
-						hearers(p) << npcsay("Demetrius: Well hello there, [usr.gender == MALE ? "sonny" : "young lady"]. Unfortunately you need 5 gold coins before I am able to help you.")
-					else
-						switch(alert("Would you like to reset your stat points? It will cost 5 gold coins.",,"Yes","No"))
-							if("Yes")
-								g = new (p)
-								if(g.have(50000))
-									hearers(p) << npcsay("Demetrius: There you go, [p.gender == MALE ? "sonny" : "young lady"] - your stats are reset!")
-									g.change(gold=-5)
-									g.give(p, 1)
-									p.resetStatPoints()
-									p.HP = usr.MHP
-									p.MP = usr.MMP
-									p.updateHPMP()
-							if("No")
-								hearers(p) << npcsay("Demetrius: Maybe next time then. Have a nice day!")
+					s.AddText("Would you like to reset your stat points? It will cost 5 gold coins.")
+					s.SetButtons("Yes", "#00ff00", "No", "#ff0000", null)
+
+					if(!s.Wait()) return
+
+					if(s.Result == "Yes")
+						g = new (p)
+						if(g.have(50000))
+							hearers(p) << npcsay("Demetrius: There you go, [p.gender == MALE ? "sonny" : "young lady"] - your stats are reset!")
+							g.change(gold=-5)
+							g.give(p, 1)
+							p.resetStatPoints()
+							p.HP = usr.MHP
+							p.MP = usr.MMP
+							p.updateHPMP()
+
 
 		StatMan
 			name="Mysterious Caped Fellow"
