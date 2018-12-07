@@ -1472,14 +1472,15 @@ mob/Player
 				stat("Money:")
 				stat(money)
 
-			if(Lwearing)
-				stat("Worn:")
-				stat(Lwearing)
 
 			stat(objFavorites)
 			if(Lfavorites)
-				for(var/obj/B in Lfavorites)
-					if(Lwearing && (B in Lwearing)) continue
+				stat(Lfavorites)
+
+			if(Lwearing)
+				stat("Worn:")
+				for(var/obj/B in Lwearing)
+					if(Lfavorites && (B in Lfavorites)) continue
 					stat(B)
 
 			stat("Items:")
@@ -1503,6 +1504,7 @@ obj
 		var/containstype
 		var/list/obj/contains = list()
 		mouse_over_pointer = MOUSE_HAND_POINTER
+		canSave = FALSE
 
 		Click()
 			if(src in usr)
