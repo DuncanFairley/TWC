@@ -73,9 +73,9 @@ obj
 		canSave = 0
 
 		var
-			hp    = 25000
-			maxhp = 25000
-			amount = 20
+			hp    = 20000
+			maxhp = 20000
+			amount = 25
 			obj/healthbar/hpbar
 			origZ
 
@@ -146,7 +146,7 @@ obj
 						if(prob(player.Gathering.level + player.Gathering.level - r))
 							s += r
 
-					player.Gathering.add(s*50, player)
+					player.Gathering.add(s*50, player, 1)
 
 				drops(p, s)
 
@@ -169,7 +169,7 @@ obj
 
 			hp    = 40000
 			maxhp = 40000
-			amount = 10
+			amount = 15
 
 			respawn()
 				set waitfor = 0
