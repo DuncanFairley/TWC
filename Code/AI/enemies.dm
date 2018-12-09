@@ -379,6 +379,7 @@ area
 				SnowmmanEntrance
 				Snowman
 				SnowmanBoss
+					antiTeleport = TRUE
 
 		Entered(atom/movable/O)
 			. = ..()
@@ -600,7 +601,7 @@ mob
 					else
 						color = "#d00"
 
-		proc/SpawnPortal(dest, var/obj/Hogwarts_Door/gate/door, chance = 100, lava=0)
+		proc/SpawnPortal(dest, var/obj/Hogwarts_Door/gate/door, chance = 100, lava=0, timer=0)
 			set waitfor = 0
 
 			if(isElite) chance *= 5
@@ -633,7 +634,21 @@ mob
 
 			P1.density = 0
 
-			sleep(respawnTime-50)
+			if(timer)
+				var/obj/clock/c = new(get_step(P1, SOUTH))
+
+				var/min = round(respawnTime/600)
+				var/sec = respawnTime - min*600
+
+				c.setTime(min,sec)
+
+				while(!c.countdown())
+					sleep(10)
+
+				c.loc = null
+			else
+				sleep(respawnTime-50)
+
 			if(door) door.door = 0
 
 
@@ -938,7 +953,7 @@ mob
 			else
 				var/dmg = Dmg + rand(0, 12)
 
-				if(target.findStatusEffect(/StatusEffect/Lamps/Farming))
+				if(isElite || target.findStatusEffect(/StatusEffect/Lamps/Farming))
 					dmg = dmg * (1 + abs(level - target.level)/200) + 100
 				else
 					if(target.level > level)
@@ -1903,7 +1918,7 @@ mob
 			Death(mob/Player/killer)
 				..(killer)
 
-				SpawnPortal("teleportPointCoS Floor 3", "CoSBoss2LockDoor", lava=1)
+				SpawnPortal("teleportPointCoS Floor 3", "CoSBoss2LockDoor", lava=1, timer=1)
 
 
 		Rat
@@ -2023,7 +2038,7 @@ mob
 
 		The_Good_Snowman
 			icon_state = "snowman"
-			level = 2100
+			level = 2400
 			HPmodifier = 4
 			DMGmodifier = 3
 			MoveDelay = 3
@@ -2068,10 +2083,10 @@ mob
 					spawn(10)
 						fired = 0
 
-					var/obj/boss/death/d = new (target.loc, src)
+					var/obj/boss/death/d = new (target.loc, src, pick(3,5,7))
 					d.density = 1
-					for(var/i = 1 to rand(0,3))
-						step_rand(d)
+					for(var/i = 1 to rand(0,4))
+						step_away(d, src)
 					d.density = 0
 
 			Attacked()
@@ -2101,7 +2116,7 @@ mob
 				set waitfor = 0
 				..(killer)
 
-				SpawnPortal("teleportPointSnowman Dungeon")
+				SpawnPortal("teleportPointSnowman Dungeon", timer=1)
 
 		Snowman
 			icon = 'Snowman.dmi'
@@ -2609,7 +2624,7 @@ mob
 						animate(warnWidth,  alpha = 100, transform = mWidth, time = 7)
 						animate(warnHeight, alpha = 100, transform = mHeight, time = 7)
 
-						sleep(40)
+						sleep(30)
 
 						walk(warnWidth, 0)
 						warnWidth.loc = null
@@ -2650,7 +2665,7 @@ mob
 			Death(mob/Player/killer)
 				..(killer)
 
-				SpawnPortal("CoSFloor2", "CoSLockDoor")
+				SpawnPortal("CoSFloor2", "CoSLockDoor", timer=1)
 
 
 obj/corpse
@@ -2765,16 +2780,18 @@ obj/boss/death
 	var
 		range = 3
 
-	New(Loc, mob/Enemies/boss)
+	New(Loc, mob/Enemies/boss, r=3)
 		set waitfor = 0
 		..(Loc)
 
+		range = r
+		sleep(1)
 		var/matrix/m = matrix()
 		m.Scale(range + 0.5, range)
 
 		animate(src,  alpha = 100, transform = m, time = 7)
 
-		sleep(25)
+		sleep(15)
 
 		var/obj/o = new(loc)
 		o.icon = 'Cow.dmi'
@@ -2787,7 +2804,7 @@ obj/boss/death
 
 		sleep(5)
 
-		for(var/mob/Player/p in range(range-2, loc))
+		for(var/mob/Player/p in range((range-1)/2, loc))
 			p << errormsg("A giant cow fell on you, oops.")
 			p.HP = 0
 			p.Death_Check(boss)
