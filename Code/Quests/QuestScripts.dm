@@ -14,7 +14,7 @@ quest
 
 		Kill
 			desc = "Impress Todd by killing elite monsters."
-			reqs = list("Kill Elites" = 50)
+			reqs = list("Kill Elites" = 40)
 
 		Reward
 			desc = "Go back to Todd One Eye."
