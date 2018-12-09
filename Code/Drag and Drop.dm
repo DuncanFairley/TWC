@@ -228,7 +228,7 @@ obj
 		.=..()
 		if(!isturf(over_location))return
 
-		if(usr:draganddrop)
+		if(isplayer(usr) && usr:draganddrop)
 			if(istype(src, /obj/items/wearable))
 				var/mob/Player/user = usr
 				if(src in user.Lwearing)
