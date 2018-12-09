@@ -1018,7 +1018,7 @@ mob
 				name = "Flying Sword"
 				icon_state = "sword"
 				level = 800
-				MoveDelay = 1
+				MoveDelay = 2
 				AttackDelay = 3
 				Range = 20
 				HPmodifier = 1.3
@@ -1068,7 +1068,7 @@ mob
 				name = "Tiny Spider"
 				icon_state = "spider"
 				level = 700
-				MoveDelay = 1
+				MoveDelay = 2
 				AttackDelay = 3
 				Range = 20
 				HPmodifier = 1.3
@@ -2339,11 +2339,13 @@ mob
 				var/color2 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
 				var/color3 = rgb(rand(20, 255), rand(20, 255), rand(20, 255))
 
+				if(!isElite)
+					SetSize(1 + (rand(-5,15) / 50)) // -10% to +30% size change
+
 				animate(src, color = color1, time = 10, loop = -1)
 				animate(color = color2, time = 10)
 				animate(color = color3, time = 10)
 
-				SetSize(1 + (rand(-5,15) / 50)) // -10% to +30% size change
 
 			Death(mob/Player/killer)
 				..()
