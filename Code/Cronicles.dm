@@ -395,6 +395,8 @@ mob
 				p.Alchemy = new("Alchemy")
 				p.see_invisible = 0
 
+			if(savefile_version < 39)
+				p.Slayer = new("Slayer")
 
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")

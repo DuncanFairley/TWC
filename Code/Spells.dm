@@ -1709,6 +1709,7 @@ mob/Player/var/element
 	Gathering
 	Taming
 	Alchemy
+	Slayer
 
 
 element
@@ -1727,7 +1728,7 @@ element
 		..()
 
 	proc
-		add(amount, mob/Player/parent)
+		add(amount, mob/Player/parent, msg=0)
 
 			if(level >= MAX)
 				amount *= max(1 - (level - MAX) / MAX, 0.1)
@@ -1738,7 +1739,11 @@ element
 				else if(amount > 10)
 					amount = 10
 
-			exp += round(amount/10, 1)
+			amount = round(amount/10, 1)
+
+			exp += amount
+			if(msg)
+				parent << infomsg("You gained [amount] [name] experience.")
 
 			while(exp > maxExp)
 				exp -= maxExp
@@ -1816,7 +1821,7 @@ mob/Enemies
 
 		if(isplayer(p.owner))
 
-			var/dmg = p.damage
+			var/dmg = p.damage + p.owner:Slayer.level
 
 			if(p.icon_state == "blood")
 				dmg += round(p.damage / 10, 1)

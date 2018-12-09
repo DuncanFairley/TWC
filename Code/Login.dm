@@ -220,7 +220,7 @@ obj/teleport
 				if(chosenvault == M.ckey && M.addToVault)
 					var/turf/t = locate(M.x, M.y + 2, M.z)
 					for(var/obj/o in M.addToVault)
-						o.loc = t
+						o.Move(t)
 					M.addToVault = null
 
 			else
@@ -779,6 +779,7 @@ mob
 			character.Gathering = new("Gathering")
 			character.Taming = new("Taming")
 			character.Alchemy = new("Alchemy")
+			character.Slayer = new("Slayer")
 			character.hpBar = new(character)
 
 			for(var/mob/Player/p in Players)
@@ -1380,6 +1381,9 @@ mob/Player
 			if(Alchemy)
 				var/percent = round((Alchemy.exp / Alchemy.maxExp) * 100)
 				stat("Alchemy:", "[Alchemy.level]   Exp: [comma(Alchemy.exp)]/[comma(Alchemy.maxExp)] ([percent]%)")
+			if(Slayer)
+				var/percent = round((Slayer.exp / Slayer.maxExp) * 100)
+				stat("Slayer:", "[Slayer.level]   Exp: [comma(Slayer.exp)]/[comma(Slayer.maxExp)] ([percent]%)")
 			stat("House:",src.House)
 			if(level >= lvlcap && rankLevel)
 				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100)
@@ -1888,6 +1892,8 @@ mob/proc/Death_Check(mob/killer = src)
 					if(!istype(src, /mob/Enemies/Summoned))
 						killer.AddKill(src.name)
 					killer:checkQuestProgress("Kill [src.name]")
+					if(src:isElite)
+						killer:checkQuestProgress("Kill Elites")
 				if(killer.MonsterMessages)killer<<"<i><small>You knocked [src] out!</small></i>"
 
 				killer:ekills+=1
@@ -2198,9 +2204,13 @@ proc
 				if(E.hpbar)
 					E.hpbar.loc = null
 				var/time = E.respawnTime
-				if(killer && E.level + 1 < killer.level)
-					time = time * ((1 + E.level - killer.level)/200)
-					time = max(round(time), 200) + rand(-30, 30)
+				if(E.isElite)
+					time *= 2
+					time += rand(0, 100)
+				else
+					if(killer && E.level + 1 < killer.level)
+						time = time * ((1 + E.level - killer.level)/200)
+						time = max(round(time), 200) + rand(-30, 30)
 				sleep(time)
 				if(E)
 					E.loc = E.origloc

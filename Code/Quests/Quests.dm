@@ -529,6 +529,17 @@ questReward
 
 			if(points)
 				p.addRep(points, !max, max)
+	Slayer
+		var/points
+
+		get(mob/Player/p)
+			if(points)
+				p.Slayer.add(round(p.level/100,1)*points*10, p, 1)
+
+			if(prob(60))
+				var/obj/items/artifact/o = new (p)
+				p << infomsg("You receive [o.name].")
+				p.Resort_Stacking_Inv()
 
 	proc/get(mob/Player/p)
 		if(gold)

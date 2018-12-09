@@ -12,12 +12,13 @@
 #define ceil(x) (-round(-(x)))
 #define isplayer(x) istype(x, /mob/Player)
 #define ismonster(x) istype(x, /mob/Enemies)
+#define ismovable(x) istype(x, /atom/movable)
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
 #define clamp(n, low, high) min(max((n), low), high)
 #define winshowCenter(player, window) player << output(window,"browser1:ShowCenterWindow")
 
 #define VERSION "16.70"
-#define SAVEFILE_VERSION 38
+#define SAVEFILE_VERSION 39
 #define VAULT_VERSION 5
 #define lvlcap 800
 #define SWAPMAP_Z 25 // world map z + 1 (the +1 is for buildable area, don't add if not using sandbox)

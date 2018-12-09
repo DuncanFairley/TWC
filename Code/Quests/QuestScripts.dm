@@ -6,6 +6,20 @@
  */
 
 quest
+	Elites
+		name   = "The Elite \[Repeatable]"
+		desc   = "Todd spoke about elite monsters that are harder to kill but are also more rewarding."
+		reward = /questReward/Slayer
+		repeat = 1
+
+		Kill
+			desc = "Impress Todd by killing elite monsters."
+			reqs = list("Kill Elites" = 50)
+
+		Reward
+			desc = "Go back to Todd One Eye."
+			reqs = list("Todd One Eye" = 1)
+
 	Blueprint1
 		name   = "Blue Books: Vol I"
 		desc   = "Blotts found a basic blueprint you can use at student housing to construct wooden structures."
@@ -1046,3 +1060,5 @@ questReward
 		chaosRankUp
 			points = -15
 			max    = 0
+	Slayer
+		points = 2000

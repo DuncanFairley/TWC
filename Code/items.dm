@@ -4314,3 +4314,11 @@ obj/items/money
 		icon_state = "[initial(icon_state)][s]"
 
 
+obj/items/elite
+	icon       = 'trophies.dmi'
+	icon_state = "Sword"
+
+	name = "sword of might"
+
+	var/level = 1
+

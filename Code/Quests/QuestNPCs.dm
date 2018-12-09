@@ -5,7 +5,83 @@
  * For the full license text, see LICENSE.txt.
  */
 
+mob/TalkNPC
+
+	Chase
+		icon_state="tim"
+
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+
+			var/ScreenText/s = new(p, src)
+
+			var/turf/t = locate(x, y-1, z)
+			var/amount = 0
+			for(var/obj/items/wearable/title/Slayer/title in t)
+				if(title.owner == p.ckey)
+					amount += title.stack
+					title.Dispose()
+
+			if(amount > 0)
+				s.AddText("Make good use of my teachings.")
+
+				p.Slayer.add(amount * 200, p, 1)
+			else
+				s.AddText("I heard you've slain a lot of monsters, place slayer titles in the blood plate as proof and I will teach you how to make gods bleed.")
+
+	Todd
+		icon_state="fred"
+		name = "Todd The Elite"
+
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+
+			var/ScreenText/s = new(p, src)
+
+			var/amount = 0
+			for(var/obj/items/elite/e in p)
+				amount += e.stack * e.level * e.level * 100
+				e.Dispose()
+
+			if(amount > 0)
+				s.AddText("Let me show you the difference between us and the wild monsters.")
+
+				p.Slayer.add(amount, p, 1)
+			else
+				s.AddText("Bring me proof you've slain elites or we have nothing to discuess.")
+
+
 mob/TalkNPC/quest
+
+	Todd
+		icon_state="lord"
+		name = "Todd One Eye"
+		questPointers = "The Elite \[Repeatable]"
+
+		questStart(mob/Player/i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
+			s.AddText("Hello there young slayer, I see you've wandered into our humble guild, we are experts in slaying.")
+			s.AddText("Some people like reading books but not me, I like to feel the heat of blood spilling from the corpses of my enemies. It's got nothing to do with the fact I have one eye... I can still read...")
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
+			if(.)
+				s.AddText("You smell of blood.")
+			else
+				s.AddText("Yes, I am Todd and Todd is my brother. We are Todd.")
+
+		questCompleted(mob/Player/i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("Yes, I am Todd and Todd is my brother. We are Todd.")
 
 	Girl
 		icon_state = "girl"

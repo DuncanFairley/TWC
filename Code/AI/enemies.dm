@@ -474,6 +474,8 @@ mob
 
 			iconSize      = 1
 
+			isElite       = 0
+
 		Dispose()
 			..()
 
@@ -521,6 +523,13 @@ mob
 			set waitfor = 0
 			calcStats()
 			origloc = loc
+
+			if(isElite)
+				SetSize(3)
+
+				namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, py=16)
+				hpbar = new(src)
+
 			ShouldIBeActive()
 
 
@@ -528,12 +537,20 @@ mob
 			Dmg = DMGmodifier * (    (src.level)  + 5)
 			MHP = HPmodifier  * (4 * (src.level)  + 200)
 
-			Dmg *= round(rand(10,14)/10, 1)
-			MHP *= round(rand(10,14)/10, 1)
+			Dmg = round(Dmg * (rand(10,14)/10), 1)
+			MHP = round(MHP * (rand(10,14)/10), 1)
 
 			gold = round(src.level / 2)
 			Expg = src.level * 6
+
+			if(isElite)
+				Dmg  *= 3
+				MHP  *= 4
+				gold *= 3
+				Expg *= 3
+
 			HP = MHP
+
 //NEWMONSTERS
 
 		proc/SpawnPet(mob/Player/killer, chance, defaultColor, spawnType)
@@ -562,6 +579,8 @@ mob
 					if(t)
 						chance *= t.factor
 
+				if(isElite) chance *= 2
+
 				if(prob(chance * 10))
 					var/obj/items/wearable/pets/w = new spawnType (loc)
 					if(isShiny)
@@ -583,6 +602,8 @@ mob
 
 		proc/SpawnPortal(dest, var/obj/Hogwarts_Door/gate/door, chance = 100, lava=0)
 			set waitfor = 0
+
+			if(isElite) chance *= 5
 
 			if(prob(100 - chance)) return
 
@@ -645,6 +666,15 @@ mob
 			if(l)
 				rate_factor *= l.factor
 
+			var/sparks = isElite
+			if(isElite)
+				rate += 0.5
+				var/obj/items/elite/e = new (loc)
+				e.level = level/50
+				e.name  = "sword of might: level [e.level]"
+				e.prizeDrop(killer.ckey, decay=FALSE)
+				killer << infomsg("<i>[name] dropped [e.name]</i>")
+
 			rate *= rate_factor
 
 			var/obj/items/prize
@@ -677,12 +707,18 @@ mob
 
 			if(name == initial(name) && prob(0.1))
 				var/obj/items/wearable/title/Slayer/t = new (loc)
-				t.title = "[name] Slayer"
-				t.name  = "Title: [name] Slayer"
+				if(isElite)
+					t.title = "Elite [name] Slayer"
+					t.name  = "Title: Elite [name] Slayer"
+				else
+					t.title = "[name] Slayer"
+					t.name  = "Title: [name] Slayer"
 				t.prizeDrop(killer.ckey, decay=FALSE)
+				killer << infomsg("<i>[name] dropped [t.name]</i>")
+				sparks = 1
 
 			if(prize)
-
+				sparks = 1
 				if(prizePoolSize > 1 && damage && damage.len > 1)
 					if(!(killer.ckey in damage) || damage[killer.ckey] < damageReq)
 						damage[killer.ckey] = damageReq
@@ -710,6 +746,7 @@ mob
 					prize.prizeDrop(killer.ckey, decay=isDefault)
 					killer << infomsg("<i>[name] dropped [prize.name]</i>")
 
+			if(sparks)
 				emit(loc    = loc,
 				 	 ptype  = /obj/particle/star,
 				 	 amount = 3,
@@ -908,9 +945,10 @@ mob
 						dmg -= dmg * ((target.level - (level + 1))/150)
 					else if(target.level < level)
 						dmg += dmg * ((1 + level - target.level)/200)
-				dmg = round(dmg)
 
-				if(dmg<1)
+				dmg = round(dmg - target.Slayer.level)
+
+				if(dmg < 1)
 					//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 				else
 					target.HP -= dmg
@@ -2073,6 +2111,9 @@ mob
 				..()
 				if(HP > 0)
 					var/percent = 1 + (1 - HP / MHP)*2
+
+					if(isElite) percent += 2
+
 					var/matrix/M = matrix() * percent
 					transform = M
 
@@ -2339,7 +2380,7 @@ mob
 			New()
 				..()
 				icon_state = "eye[rand(1,2)]"
-				if(prob(60))
+				if(!isElite && prob(60))
 					transform *= 1 + (rand(-15,30) / 50) // -30% to +60% size change
 
 			Search()
@@ -2400,7 +2441,8 @@ mob
 			MapInit()
 				set waitfor = 0
 				..()
-				SetSize(rand(10,20) / 10)
+				if(!isElite)
+					SetSize(rand(10,20) / 10)
 
 			Attack()
 				var/reset = 0
