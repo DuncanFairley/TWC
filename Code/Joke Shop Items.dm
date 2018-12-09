@@ -196,8 +196,8 @@ atom/Click()
 		if(p.smokepelletthrowing)
 			if(p.client.eye!=p)return
 			p.smokepelletdest=src
-			if(isobj(p.smokepelletdest))p.smokepelletdest = src.loc
-			spawn()p.smokepelletthrowing.Throwit(p)
+			if(ismovable(p.smokepelletdest)) p.smokepelletdest = src.loc
+			spawn() p.smokepelletthrowing.Throwit(p)
 obj
 	hud
 		cancelthrow
