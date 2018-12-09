@@ -537,7 +537,8 @@ questReward
 				p.Slayer.add(round(p.level/100,1)*points*10, p, 1)
 
 			if(prob(60))
-				var/obj/items/artifact/o = new (p)
+				var/t = pick(/obj/items/artifact, /obj/items/magic_stone/teleport)
+				var/obj/o = new t (p)
 				p << infomsg("You receive [o.name].")
 				p.Resort_Stacking_Inv()
 
