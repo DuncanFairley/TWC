@@ -76,7 +76,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							 			  /obj/items/Swamp)),
 
 
-"Rat"                = list("10"   =      /obj/items/ingredients/rat_tail)),
+"Rat"                = list("10"   = /obj/items/ingredients/rat_tail),
 
 "Demon Rat"          = list("10"   = list(/obj/items/demonic_essence,
                                           /obj/items/ingredients/rat_tail)),
@@ -148,7 +148,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							              /obj/items/key/pentakill_key,
 							              /obj/items/key/sunset_key),
 							"1"    =      /obj/items/artifact,
-							"8"    = list(/obj/items/ingredients/eyes),
+							"8"    = list(/obj/items/ingredients/eyes)),
 
 
 "Troll"              = list("7"    = list(/obj/items/Whoopie_Cushion,
