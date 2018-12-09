@@ -283,7 +283,7 @@ obj
 
 				if(attacker)
 					attacker.checkQuestProgress("Enchant")
-					attacker.Alchemy.add(rand(4,6)*20, attacker)
+					attacker.Alchemy.add(rand(4,6)*20, attacker, 1)
 
 				spawn(1)
 					emit(loc    = src,

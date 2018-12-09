@@ -241,7 +241,7 @@ obj/potions
 
 				if(c >= 4)
 					var/mob/Player/player = p.owner
-					player.Alchemy.add((quality*4 + rand(4,6))*30, player)
+					player.Alchemy.add((quality*4 + rand(4,6))*30, player, 1)
 
 					if(isnum(pool))
 						potionId = "[pool]"
@@ -339,7 +339,7 @@ obj/potions
 			if(isBusy) return
 
 			if(p)
-				p.Alchemy.add(rand(1,3)*20, p)
+				p.Alchemy.add(rand(1,3)*20, p, 1)
 
 			var/id     = (i.id - 1) * 3 + i.form
 			var/poolId = 0
@@ -972,7 +972,7 @@ obj
 				if(isplayer(p.owner))
 					var/mob/Player/player = p.owner
 					amount += player.Gathering.level
-					player.Gathering.add((amount*10 + rand(4,6))*50, player)
+					player.Gathering.add((amount*10 + rand(4,6))*50, player, 1)
 
 					time = max(time - round(player.Gathering.level/5)*10, 50)
 

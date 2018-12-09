@@ -132,7 +132,7 @@ obj/items/wearable/pets
 			quality += i
 			Equip(owner, 1)
 
-			owner.Taming.add(quality*i*5000 + rand(4,90)*10, owner)
+			owner.Taming.add(quality*i*5000 + rand(4,90)*10, owner, 1)
 
 			owner.screenAlert("Your [name] leveled up to [quality]!")
 
