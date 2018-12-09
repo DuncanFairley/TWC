@@ -3609,7 +3609,7 @@ obj/items
 			icon_state = "master"
 		community_key
 			icon_state = "blue"
-		chess_chest
+		chess_key
 			icon_state = "red"
 
 var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/duel_scarf       = 50,
