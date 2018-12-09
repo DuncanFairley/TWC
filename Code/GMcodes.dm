@@ -1170,7 +1170,7 @@ mob
 			set desc="Teleport Self or Other to Target"
 			var/originalden = teleportee.density
 			teleportee.density = 0
-			teleportee.loc = destination.loc
+			teleportee.Move(destination.loc)
 			teleportee.density = originalden
 			hearers(teleportee) << "[teleportee] appears in a flash of light."
 mob/GM/verb
