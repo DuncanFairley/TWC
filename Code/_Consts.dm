@@ -33,6 +33,7 @@
 #define PET_FOLLOW_FAR 2
 #define PET_FOLLOW_RIGHT 4
 #define PET_FOLLOW_LEFT 8
+#define PET_HIDE 64
 #define PET_SHINY 128
 #define PET_FLY 256
 #define SHINY_LIST list("#dd1111", "#11dd11", "#1111dd", "#dd11dd", "#11dddd", "#dddd11")

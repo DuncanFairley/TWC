@@ -58,8 +58,8 @@ obj/items/wearable/pets
 	destroyable  = 1
 	bonus        = NOENCHANT
 	scale        = 0.1
-	useTypeStack = 1
-	stackName    = "Pets:"
+//	useTypeStack = 1
+//	stackName    = "Pets:"
 
 	var
 		currentSize = 1
@@ -87,8 +87,15 @@ obj/items/wearable/pets
 				verbs   -= /obj/items/verb/Drop
 
 			if(!owner.pet)
-				owner.pet = new (get_step(owner, owner.dir), src)
-				owner.pet.owner = owner.ckey
+				var/obj/buildable/hammer_totem/t = locate("pet_[owner.ckey]")
+				if(t && (src in t.pets))
+					owner.pet = t.pets[src]
+					owner.pet.loc = get_step(owner, owner.dir)
+					owner.pet.wander = 0
+					t.pets -= src
+				else
+					owner.pet = new (get_step(owner, owner.dir), src)
+					owner.pet.owner = owner.ckey
 				owner.pet.alpha = 0
 				owner.pet.glide_size = owner.glide_size
 		//	else
@@ -97,12 +104,20 @@ obj/items/wearable/pets
 
 				animate(owner.pet, alpha = alpha, time = 5)
 
+				function &= ~PET_HIDE
+
 				if(!overridetext) hearers(owner) << infomsg("[owner] pets \his [src.name].")
 
 		else if(. == REMOVED || forceremove)
 
 			if(owner.pet)
-				owner.pet.Dispose()
+				var/obj/buildable/hammer_totem/t = locate("pet_[owner.ckey]")
+				if(t)
+					owner.pet.loc = t.loc
+					owner.pet.walkRand()
+					t.pets[src] = owner.pet
+				else
+					owner.pet.Dispose()
 				owner.pet = null
 
 			if(!overridetext) hearers(owner) << infomsg("[owner] puts \his [src.name] away.")
@@ -193,6 +208,7 @@ obj/pet
 			turf/target
 			finalDir
 			busy = 0
+			wander = 0
 
 	New(loc, obj/items/wearable/pets/pet)
 		set waitfor = 0
@@ -202,7 +218,7 @@ obj/pet
 		icon_state  = pet.icon_state
 		name        = pet.name
 
-		if(pet.minSize > 1)
+		if(pet.minSize > 1 || icon_state == "sword")
 			iconSize = 4
 			icon = 'Mobs_128x128.dmi'
 			pixel_x = -48
@@ -237,10 +253,12 @@ obj/pet
 	proc/updateFollowers()
 		var/offset = (iconSize - 1) * -16
 		if(light)
+			light.glide_size = glide_size
 			light.loc     = loc
 			light.pixel_x = pixel_x - offset - 64
 			light.pixel_y = pixel_y - offset - 64
 		if(shadow)
+			shadow.glide_size = glide_size
 			shadow.loc     = loc
 			shadow.pixel_x = pixel_x - offset
 			shadow.pixel_y = pixel_y - offset
@@ -325,6 +343,21 @@ obj/pet
 		else
 			loc = null
 
+	proc/walkRand()
+		set waitfor = 0
+
+		var/const/DELAY = 16
+
+		glide_size = 32 / DELAY
+		density = 1
+
+		wander = 1
+
+		while(loc && wander)
+			step_rand(src)
+			updateFollowers()
+			sleep(DELAY)
+
 	proc/follow(turf/oldLoc, mob/Player/p)
 		if(p.z != z) // temp workaround for animate bug
 			refresh(1)
@@ -400,23 +433,33 @@ obj/pet
 
 		if(usr.ckey == owner)
 
-			if(item.function & PET_FOLLOW_RIGHT)
-				item.function -= PET_FOLLOW_RIGHT
-				item.function += PET_FOLLOW_LEFT
-				usr << infomsg("[name] will be at your left.")
-
-			else if(item.function & PET_FOLLOW_LEFT)
-				item.function -= PET_FOLLOW_LEFT
-				item.function += PET_FOLLOW_FAR
-				usr << infomsg("[name] will be further back.")
-
-			else if(item.function & PET_FOLLOW_FAR)
-				item.function -= PET_FOLLOW_FAR
-				usr << infomsg("[name] will follow your footsteps closely.")
-
+			if(wander)
+				usr << infomsg("Double click to hide this pet.")
 			else
-				item.function += PET_FOLLOW_RIGHT
-				usr << infomsg("[name] will be at your right.")
+				if(item.function & PET_FOLLOW_RIGHT)
+					item.function -= PET_FOLLOW_RIGHT
+					item.function += PET_FOLLOW_LEFT
+					usr << infomsg("[name] will be at your left.")
+
+				else if(item.function & PET_FOLLOW_LEFT)
+					item.function -= PET_FOLLOW_LEFT
+					item.function += PET_FOLLOW_FAR
+					usr << infomsg("[name] will be further back.")
+
+				else if(item.function & PET_FOLLOW_FAR)
+					item.function -= PET_FOLLOW_FAR
+					usr << infomsg("[name] will follow your footsteps closely.")
+
+				else
+					item.function += PET_FOLLOW_RIGHT
+					usr << infomsg("[name] will be at your right.")
+	DblClick()
+		..()
+
+		if(usr.ckey == owner && wander)
+			item.function += PET_HIDE
+			usr << errormsg("[name] will no longer roam freely. Equip [name] again to unhide.")
+			Dispose()
 
 	Dispose(mob/Player/p)
 		set waitfor = 0
@@ -428,6 +471,12 @@ obj/pet
 
 	//		if(p && p.pet == src)
 	//			p.pet = null
+
+		var/obj/buildable/hammer_totem/o = locate("pet_[owner]")
+		if(o && (item in o.pets))
+			o.pets -= item
+
+		wander = 0
 
 		loc = null
 
@@ -442,5 +491,27 @@ obj/pet
 			shadow.loc = null
 			shadow     = null
 
+mob/test/verb/testPets()
+	var/obj/buildable/hammer_totem/t = new (loc)
+	t.tag = "pet_[ckey]"
+	usr:DisplayPets()
 
+mob/Player/proc/DisplayPets()
+	var/obj/buildable/hammer_totem/o = locate("pet_[ckey]")
+	if(o)
+		o.pets = list()
+		for(var/obj/items/wearable/pets/i in src)
+			if(i in Lwearing) continue
+			if(i.dropable) continue
+			if(i.function & PET_HIDE) continue
 
+			var/obj/pet/p = new (o.loc, i)
+			p.owner = ckey
+			p.walkRand()
+			p.alpha = 0
+
+			o.pets[i] = p
+
+			animate(p, alpha = i.alpha, time = 5)
+
+		if(!o.pets.len) o.pets = null

@@ -879,6 +879,9 @@ client
 			if(mob:pet)
 				mob:pet.Dispose()
 				mob:pet = null
+			var/obj/buildable/hammer_totem/o = locate("pet_[ckey]")
+			if(o)
+				o.cleanPets()
 			if(mob:readbooks > 0)
 				var/amount = mob:readbooks - 1
 				if(amount)

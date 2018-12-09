@@ -976,6 +976,8 @@ mob/Player
 			LoginReward()
 			if(worldData.eventPrize) EventReward()
 
+			DisplayPets()
+
 			hpBar = new(src)
 			if(MP / MMP)
 				MPRegen()

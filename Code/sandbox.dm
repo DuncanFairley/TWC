@@ -836,6 +836,39 @@ obj/buildable
 
 			else
 				..()
+	hammer_totem
+		var/tmp/list/pets
+
+		mouse_over_pointer = MOUSE_HAND_POINTER
+		icon = 'Totem.dmi'
+		icon_state = "Hammer"
+
+		Click()
+			if(src in range(1))
+				if(tag == "pet_" + usr.ckey)
+					usr << errormsg("Your unused pets will no longer appear here.")
+					tag = null
+					cleanPets()
+				else if(tag)
+					usr << errormsg("Someone else owns this totem.")
+				else
+					var/obj/buildable/hammer_totem/o = locate("pet_" + usr.ckey)
+					if(o)
+						o.tag = null
+						o.cleanPets()
+						usr << errormsg("Your previous totem is replaced by this one.")
+
+					tag = "pet_" + usr.ckey
+					usr << infomsg("Your unused pets will now appear here.")
+
+					usr:DisplayPets()
+			else
+				..()
+		proc/cleanPets()
+			for(var/obj/items/i in pets)
+				var/obj/pet/p = pets[i]
+				p.Dispose()
+			pets = null
 	Bed
 		icon       = 'turf.dmi'
 		icon_state = "Bed"
@@ -844,6 +877,9 @@ obj/buildable
 			if(src in range(1))
 				if(tag == "respawn_" + usr.ckey)
 					usr << errormsg("You will no longer respawn here.")
+					tag = null
+				else if(tag)
+					usr << errormsg("Someone else owns this bed.")
 				else
 					var/obj/o = locate("respawn_" + usr.ckey)
 					if(o)
@@ -1786,6 +1822,17 @@ hudobj
 				screen_x = 96
 				screen_y = 192
 
+			pet_totem
+				icon = 'Totem.dmi'
+				icon_state = "Hammer"
+
+				maptext = "Pet Totem: 100 wood logs & 50 stones"
+				price = list(/obj/items/stones = 50,
+				             /obj/items/wood_log = 100)
+				path = /obj/buildable/hammer_totem
+
+				screen_x = 32
+				screen_y = 224
 
 		utility
 			secret_wood_door
