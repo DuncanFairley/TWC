@@ -952,7 +952,7 @@ obj/items/bucket
 					return
 				foundWater = 1
 
-			if(!istype(t, /turf/grass) || !foundWater)
+			if(t.icon_state != "grass1" || !foundWater)
 				usr << errormsg("Place this bucket at a place with grass near water.")
 				return
 
