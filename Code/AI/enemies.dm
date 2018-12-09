@@ -1926,7 +1926,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.5, null, /obj/items/wearable/pets/rat)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=0.6)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=2)
 
 		Pixie
 			icon_state  = "pixie"
@@ -1949,6 +1949,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/dog)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=0.5)
 
 		Snake
 			icon_state  = "snake"
@@ -1958,6 +1959,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/snake)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=0.5)
 
 		Wolf
 			icon_state  = "wolf"
@@ -1967,6 +1969,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/wolf)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=0.5)
 
 		Pumpkin
 			icon = 'Mobs.dmi'
@@ -2163,7 +2166,7 @@ mob
 
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/acromantula)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=0.6)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=2)
 
 			MapInit()
 				set waitfor = 0
@@ -2331,7 +2334,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.02, "rand", /obj/items/wearable/pets/wisp)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=0.6)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=2)
 
 
 		Floating_Eye
@@ -2400,7 +2403,7 @@ mob
 						new /mob/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
 
 					SpawnPet(killer, 0.02, null, /obj/items/wearable/pets/floating_eye)
-					SpawnPortal("teleportPointSnowman Dungeon", chance=0.6)
+					SpawnPortal("teleportPointSnowman Dungeon", chance=2)
 
 			Blocked()
 				density = 0
@@ -2469,7 +2472,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/troll)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=1)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=5)
 
 			ChangeState(var/i_State)
 				set waitfor = FALSE
