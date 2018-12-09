@@ -242,7 +242,7 @@ obj
 mob
 	MouseDrop(over_object,src_location,over_location)
 		if(!isturf(over_location))return ..()
-		if(usr:draganddrop==1)
+		if(isplayer(usr) && usr:draganddrop==1)
 			if(density)
 				density = 0
 				src.Move(over_location)
