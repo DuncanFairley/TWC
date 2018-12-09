@@ -725,7 +725,7 @@ RandomEvent
 			set waitfor = 0
 			..()
 			var/minutes = rand(9, 16)
-			var/chests  = rand(2, 6)
+			var/chests  = rand(4, 8)
 
 			Players << infomsg("A wizard-pirate dropped [chests] chests off his ship while casually flying through the castle's restricted airspace, he might've dropped those chests because we might've fired our magic-space guns at him.<br>Find the treasure chests before other pesky looters get them! You have [minutes] minutes.<br>(Treasure is not visible, it's hidden somewhere outside the castle.)")
 
@@ -1016,13 +1016,13 @@ obj/items/treasure
 
 		loc = null
 
-		var/t = pickweight(list(/obj/items/chest/basic_chest          = 45,
-		                        /obj/items/chest/wizard_chest         = 15,
-		                        /obj/items/chest/pentakill_chest      = 15,
-								/obj/items/chest/winter_chest         = 10,
-								/obj/items/chest/pet_chest            = 10,
-		                        /obj/items/chest/sunset_chest         = 5,
-		                        /obj/items/chest/wigs/basic_wig_chest = 3,
+		var/t = pickweight(list(/obj/items/chest/basic_chest          = 35,
+		                        /obj/items/chest/wizard_chest         = 25,
+		                        /obj/items/chest/pentakill_chest      = 25,
+								/obj/items/chest/winter_chest         = 15,
+								/obj/items/chest/pet_chest            = 15,
+		                        /obj/items/chest/sunset_chest         = 10,
+		                        /obj/items/chest/wigs/basic_wig_chest = 5,
 		                        /obj/items/wearable/title/Pirate      = 2))
 
 		var/obj/items/i = new t (usr)
