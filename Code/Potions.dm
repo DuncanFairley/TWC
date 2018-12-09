@@ -136,6 +136,7 @@ obj/smoke
 	icon_state    = "default"
 	mouse_opacity = 0
 	layer         = 5
+	canSave       = FALSE
 
 	alpha         = 168
 	pixel_x       = 0
@@ -186,7 +187,7 @@ obj/potions
 
 			smoke = list()
 
-			var/obj/o = new (loc)
+			var/obj/o = new /obj/custom { canSave = 0 } (loc)
 
 			o.icon       = 'potions_tools.dmi'
 			o.icon_state = "liquid"
@@ -460,6 +461,7 @@ obj/bar
 	layer         = 6
 	mouse_opacity = 0
 	pixel_y       = -14
+	canSave       = FALSE
 
 	proc/countdown(time)
 		set waitfor = 0
@@ -661,6 +663,18 @@ obj/items/potions
 		icon_state = "orange"
 		effect     = /StatusEffect/Potions/Tame
 		seconds    = 600
+
+	giant
+		name       = "giant's draught"
+		icon_state = "red"
+		effect     = /StatusEffect/Potions/Size { size=2 }
+		seconds    = 90
+
+	dwarf
+		name       = "dwarf's draught"
+		icon_state = "green"
+		effect     = /StatusEffect/Potions/Size { size=0.5 }
+		seconds    = 90
 
 	super
 		luck

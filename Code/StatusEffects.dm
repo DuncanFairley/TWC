@@ -548,6 +548,23 @@ StatusEffect
 
 				..()
 
+		Size
+			var/size = 1
+			Activate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					animate(p, transform = matrix()*size, time=10)
+
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					animate(p, transform = null, time=10)
+
+				..()
+
+
 		Damage
 			Activate()
 				var/mob/Player/p = AttachedAtom
