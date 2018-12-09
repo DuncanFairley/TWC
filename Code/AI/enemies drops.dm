@@ -192,8 +192,9 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							 			  /obj/items/Swamp)),
 
 "The Good Snowman"   = list("5"    = list(/obj/items/chest/wigs/sunset_wig_chest,
+										  /obj/items/chest/wigs/chess_chest,
 										  /obj/items/chest/sunset_chest),
-							"15"   = list(/obj/items/key/winter_key,
+							"15"   = list(/obj/items/key/chess_key,
 										  /obj/items/key/pet_key,
 										  /obj/items/wearable/pets/snowman),
 							"35"   = list(/obj/items/artifact,

@@ -1660,6 +1660,8 @@ obj/items/wearable/wigs/male_darkpink_wig
 	name = "male dark pink wig"
 obj/items/wearable/wigs/male_orange_wig
 	icon = 'male_orange_wig.dmi'
+obj/items/wearable/wigs/male_chess_wig
+	icon = 'male_chess_wig.dmi'
 
 //Holiday//
 obj/items/wearable/wigs/male_christmas_wig
@@ -1719,6 +1721,8 @@ obj/items/wearable/wigs/female_teal_wig
 	icon = 'female_teal_wig.dmi'
 obj/items/wearable/wigs/female_royale_wig
 	icon = 'female_royale_wig.dmi'
+obj/items/wearable/wigs/female_chess_wig
+	icon = 'female_chess_wig.dmi'
 
 //Holiday//
 obj/items/wearable/wigs/female_christmas_wig
@@ -3568,6 +3572,10 @@ obj/items
 				icon_state = "purple"
 				drops      = "sunset"
 
+			chess_chest
+				icon_state = "red"
+				drops      = "chess"
+
 	key
 		icon = 'ChestKey.dmi'
 		icon_state = "master"
@@ -3601,6 +3609,8 @@ obj/items
 			icon_state = "master"
 		community_key
 			icon_state = "blue"
+		chess_chest
+			icon_state = "red"
 
 var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/duel_scarf       = 50,
 					                            /obj/items/wearable/shoes/duel_shoes         = 30,
@@ -3695,6 +3705,21 @@ var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/
 							 					    /obj/items/key/sunset_key     = 30,
 							 					    /obj/items/chest/sunset_chest = 30),
 
+							 "male_chess" = list(/obj/items/wearable/wigs/male_chess_wig = 15,
+							                     /obj/items/wearable/hats/white_earmuffs = 15,
+							                     /obj/items/wearable/hats/black_earmuffs = 15,
+							                     /obj/items/wearable/shoes/white_shoes   = 25,
+							                     /obj/items/wearable/shoes/black_shoes   = 25,
+							                     /obj/items/wearable/scarves/white_scarf = 35,
+							                     /obj/items/wearable/scarves/black_scarf = 35),
+
+							 "female_chess" = list(/obj/items/wearable/wigs/male_chess_wig = 15,
+							                       /obj/items/wearable/hats/white_earmuffs = 15,
+							                       /obj/items/wearable/hats/black_earmuffs = 15,
+							                       /obj/items/wearable/shoes/white_shoes   = 25,
+							                       /obj/items/wearable/shoes/black_shoes   = 25,
+							                       /obj/items/wearable/scarves/white_scarf = 35,
+							                       /obj/items/wearable/scarves/black_scarf = 35),
 
 							 "community1"     = list(/obj/items/wearable/scarves/heartscarf    = 16,
 							 					     /obj/items/wearable/scarves/alien_scarf   = 22,

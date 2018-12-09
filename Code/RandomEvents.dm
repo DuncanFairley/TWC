@@ -1023,7 +1023,8 @@ obj/items/treasure
 								/obj/items/chest/pet_chest            = 15,
 		                        /obj/items/chest/sunset_chest         = 10,
 		                        /obj/items/chest/wigs/basic_wig_chest = 5,
-		                        /obj/items/wearable/title/Pirate      = 2))
+		                        /obj/items/chest/wigs/chess_chest     = 3,
+		                        /obj/items/wearable/title/Pirate      = 1))
 
 		var/obj/items/i = new t (usr)
 		usr:Resort_Stacking_Inv()
