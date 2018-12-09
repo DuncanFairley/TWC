@@ -92,6 +92,7 @@ obj/items/wearable/pets
 					owner.pet = t.pets[src]
 					owner.pet.loc = get_step(owner, owner.dir)
 					owner.pet.wander = 0
+					owner.pet.density = 0
 					t.pets -= src
 				else
 					owner.pet = new (get_step(owner, owner.dir), src)
@@ -114,6 +115,7 @@ obj/items/wearable/pets
 				var/obj/buildable/hammer_totem/t = locate("pet_[owner.ckey]")
 				if(t)
 					owner.pet.loc = t.loc
+					owner.pet.density = 1
 					owner.pet.walkRand()
 					t.pets[src] = owner.pet
 				else
@@ -354,7 +356,10 @@ obj/pet
 		wander = 1
 
 		while(loc && wander)
-			step_rand(src)
+			if(wander == 1)
+				step_rand(src)
+			else
+				step_to(src, wander, 1)
 			updateFollowers()
 			sleep(DELAY)
 
@@ -433,8 +438,12 @@ obj/pet
 
 		if(usr.ckey == owner)
 
-			if(wander)
-				usr << infomsg("Double click to hide this pet.")
+			if(wander == 1)
+				usr << infomsg("[name] will now follow you.")
+				wander = usr
+			else if(wander)
+				wander = 1
+				usr << infomsg("[name] will wander.")
 			else
 				if(item.function & PET_FOLLOW_RIGHT)
 					item.function -= PET_FOLLOW_RIGHT
