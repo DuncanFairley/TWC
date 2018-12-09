@@ -398,9 +398,7 @@ obj/items/verb/Examine()
 	usr << infomsg("<i>[desc]</i>")
 obj/items/proc/Destroy(var/mob/Player/owner)
 	if(alert(owner,"Are you sure you wish to destroy your [src.name]?",,"Yes","Cancel") == "Yes")
-		var/obj/item = src
-		src = null
-		del(item)
+		Dispose()
 		owner.Resort_Stacking_Inv()
 		return 1
 
@@ -487,9 +485,7 @@ obj/items/wearable/Destroy(var/mob/Player/owner)
 	if(alert(owner,"Are you sure you wish to destroy your [src.name]?",,"Yes","Cancel") == "Yes")
 		if(src in owner.Lwearing)
 			Equip(owner)
-		var/obj/item = src
-		src = null
-		del(item)
+		Dispose()
 		owner.Resort_Stacking_Inv()
 		return 1
 
