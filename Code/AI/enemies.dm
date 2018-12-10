@@ -1014,15 +1014,18 @@ mob
 				Death()
 
 			Sword
-				icon = 'Mobs.dmi'
-				name = "Flying Sword"
+				icon = 'Mobs_128x128.dmi'
 				icon_state = "sword"
+				iconSize = 4
+				pixel_x = -48
+				pixel_y = -24
+				name = "Flying Sword"
 				level = 800
-				MoveDelay = 2
-				AttackDelay = 3
+				MoveDelay = 3
+				AttackDelay = 5
 				Range = 20
-				HPmodifier = 1.3
-				DMGmodifier = 0.7
+				HPmodifier = 2
+				DMGmodifier = 1
 				canBleed = FALSE
 				var/tmp/obj/Shadow/s
 
@@ -1068,11 +1071,11 @@ mob
 				name = "Tiny Spider"
 				icon_state = "spider"
 				level = 700
-				MoveDelay = 2
-				AttackDelay = 3
+				MoveDelay = 3
+				AttackDelay = 5
 				Range = 20
-				HPmodifier = 1.3
-				DMGmodifier = 0.7
+				HPmodifier = 2
+				DMGmodifier = 1
 
 				Death()
 					emit(loc    = loc,
@@ -1179,12 +1182,12 @@ mob
 					icon = 'Mobs.dmi'
 					name = "Bubbles the Spider"
 					icon_state = "spider"
-					level = 1400
-					HPmodifier = 12
+					level = 2000
+					HPmodifier = 25
 					DMGmodifier = 4
-					MoveDelay = 2
-					AttackDelay = 0
-					Range = 16
+					MoveDelay = 3
+					AttackDelay = 1
+					Range = 20
 					var/tmp
 						fired       = 0
 						damageTaken = 0
@@ -1230,12 +1233,12 @@ mob
 
 				Zombie
 					name = "Zombie"
-					HPmodifier = 6
+					HPmodifier = 20
 					DMGmodifier = 2
-					MoveDelay = 2
+					MoveDelay = 3
 					AttackDelay = 1
-					Range = 15
-					level = 1500
+					Range = 20
+					level = 2000
 
 					MapInit()
 						set waitfor = 0
@@ -1254,11 +1257,11 @@ mob
 
 					Attacked(obj/projectile/p)
 						if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
-							if(MoveDelay == 2 && prob(50))
+							if(MoveDelay == 3 && prob(50))
 								MoveDelay = 1
 								ChangeState(state)
 								spawn(rand(40, 60))
-									MoveDelay = 2
+									MoveDelay = 3
 									ChangeState(state)
 
 							if(p.icon_state == "blood")
@@ -1339,12 +1342,12 @@ mob
 					name = "Vampire Lord"
 					icon = 'FemaleVampire.dmi'
 					icon_state = "flying"
-					HPmodifier = 8
+					HPmodifier = 25
 					DMGmodifier = 3
-					MoveDelay = 2
-					AttackDelay = 0
-					Range = 15
-					level = 1600
+					MoveDelay = 3
+					AttackDelay = 1
+					Range = 20
+					level = 2000
 
 					var/tmp/fired = 0
 
@@ -1429,11 +1432,11 @@ mob
 										target = p.owner
 										loc    = t
 										break
-							else if(MoveDelay == 2 && prob(45))
+							else if(MoveDelay == 3 && prob(45))
 								MoveDelay = 1
 								ChangeState(state)
 								spawn(rand(40,60))
-									MoveDelay = 2
+									MoveDelay = 3
 									ChangeState(state)
 
 						p.damage = round(p.damage * rand(5, 10)/10)
@@ -1454,13 +1457,13 @@ mob
 					icon = 'Mobs.dmi'
 					icon_state = "wisp"
 					name = "Willy the Whisp"
-					HPmodifier = 6
+					HPmodifier = 20
 					DMGmodifier = 2
 					layer = 5
-					MoveDelay = 2
+					MoveDelay = 3
 					AttackDelay = 1
 					Range = 15
-					level = 1200
+					level = 2000
 					var/tmp/fired = 0
 					var/proj = "gum"
 					canBleed = FALSE
@@ -1546,16 +1549,19 @@ mob
 
 
 				Sword
-					icon = 'Mobs.dmi'
+					icon = 'Mobs_128x128.dmi'
 					icon_state = "sword"
+					iconSize = 4
+					pixel_x = -48
+					pixel_y = -24
 					name = "The Black Blade"
-					HPmodifier = 7
+					HPmodifier = 20
 					DMGmodifier = 3
 					layer = 5
-					MoveDelay = 2
+					MoveDelay = 3
 					AttackDelay = 1
-					Range = 15
-					level = 1700
+					Range = 20
+					level = 2000
 					canBleed = FALSE
 					var/tmp
 						fired = 0
@@ -1590,7 +1596,7 @@ mob
 							icon_state = "shield"
 							MoveDelay = 40
 							ChangeState(state)
-
+							reflect = 2
 
 							var/spawns = 5
 							while(loc && spawns > 0)
@@ -1602,11 +1608,14 @@ mob
 									if(e.swords <= 40)
 										e.swords++
 										new /mob/Enemies/Summoned/Sword (loc)
+										new /mob/Enemies/Summoned/Sword (loc)
+										new /mob/Enemies/Summoned/Sword (loc)
 
 								sleep(40)
 
 							icon_state = "sword"
-							MoveDelay = 2
+							reflect = 0
+							MoveDelay = 3
 							ChangeState(state)
 
 							sleep(300)
@@ -1656,13 +1665,13 @@ mob
 					pixel_x = -48
 					pixel_y = -24
 					name = "Stone Golem"
-					HPmodifier = 9
+					HPmodifier = 25
 					DMGmodifier = 2
 					layer = 5
-					MoveDelay = 2
+					MoveDelay = 3
 					AttackDelay = 1
 					Range = 15
-					level = 1800
+					level = 2000
 					canBleed = FALSE
 					var/tmp/fired = 0
 
@@ -1707,13 +1716,13 @@ mob
 				Snowman
 					icon = 'Snowman.dmi'
 					name = "The Evil Snowman"
-					HPmodifier = 12
+					HPmodifier = 20
 					DMGmodifier = 0.8
 					layer = 5
 					MoveDelay = 3
-					AttackDelay = 2
+					AttackDelay = 1
 					Range = 15
-					level = 1000
+					level = 2000
 					var/tmp
 						fired = 0
 						extraDmg = 400
@@ -1726,32 +1735,27 @@ mob
 					Attack(mob/M)
 						..()
 						if(!fired && target && state == HOSTILE)
-							if(prob(40))
-								fired = 1
-								spawn(rand(30,50)) fired = 0
+							fired = 1
+							spawn(50) fired = 0
 
-								var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-								var/dmg = round(Dmg * 1.5 + rand(-4,8))
-								for(var/d in dirs)
-									castproj(icon_state = "snowball", damage = dmg, name = "snowball", cd = 0, lag = 1, Dir=d)
-								sleep(AttackDelay)
+							var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+							var/dmg = round(Dmg * 1.5 + rand(-4,8))
+							for(var/d in dirs)
+								castproj(icon_state = "snowball", damage = dmg, name = "snowball", cd = 0, lag = 1, Dir=d)
+							sleep(AttackDelay)
+
 					Attacked()
 						..()
 						if(HP > 0)
 							var/percent = MHP / HP
-							var/matrix/M = matrix() * min(percent, 10)
+							var/matrix/M = matrix() * min(percent, 8)
 							transform = M
 
 							Dmg = DMGmodifier * (level + 5) + (percent * 400)
 
 							percent = (1 / percent) * 100
 
-							if(percent <= 30)
-								MoveDelay = 1
-								ChangeState(state)
-							else if(percent <= 60)
-								AttackDelay = 1
-							else if(percent <= 80)
+							if(percent <= 50 && MoveDelay == 3)
 								MoveDelay = 2
 								ChangeState(state)
 

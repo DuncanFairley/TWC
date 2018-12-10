@@ -880,10 +880,12 @@ RandomEvent
 
 				if(i == monsters)
 					monster.MoveDelay = 2
-					monster.AttackDelay = 2
+					monster.AttackDelay = 1
 					monster.level *= 2
 					monster.name   = "[pick("Odd ", "Big ", "Giant ", "Mysteriously Big ", "Enormous ", "Magical ", "")][monster.name][pick(" King", " Queen", " Leader", "")]"
 					monster.transform *= 4
+					monster.DMGmodifier = 4
+					monster.HPmodifier  = 10
 
 					if(tier < 3)
 						monster.drops = list(/obj/items/bagofgoodies,
