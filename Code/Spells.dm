@@ -2430,6 +2430,7 @@ obj/portkey
 	icon_state="portkey"
 	accioable = 1
 	wlable = 1
+	canSave = FALSE
 
 	New(Loc, dmg=1, iconState="random", time=300)
 		set waitfor = 0
