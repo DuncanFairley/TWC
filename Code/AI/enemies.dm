@@ -413,7 +413,7 @@ area/Exit(atom/movable/O, atom/newloc)
 			if(e.target)
 				if(issafezone(newloc.loc))
 					e.target = null
-				else
+				else if(e.target.loc.loc == newloc.loc)
 					return
 
 			var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
@@ -2043,7 +2043,7 @@ mob
 		The_Good_Snowman
 			icon_state = "snowman"
 			level = 2400
-			HPmodifier = 4
+			HPmodifier = 10
 			DMGmodifier = 3
 			MoveDelay = 3
 			AttackDelay = 1
@@ -2198,7 +2198,7 @@ mob
 			level = 900
 			HPmodifier  = 1.8
 			DMGmodifier = 0.6
-			MoveDelay   = 2
+			MoveDelay   = 3
 			AttackDelay = 3
 			respawnTime = 2400
 
@@ -2269,11 +2269,11 @@ mob
 
 			Attacked(obj/projectile/p)
 				p.damage = round(p.damage * rand(7, 10)/10)
-				if(MoveDelay == 3 && p.owner && p.owner.loc.loc == loc.loc && prob(60))
+				if(MoveDelay == 3 && p.owner && p.owner.loc.loc == loc.loc && prob(55))
 					MoveDelay = 1
 					ChangeState(state)
 					spawn(80)
-						MoveDelay = 2
+						MoveDelay = 3
 						ChangeState(state)
 				..()
 
@@ -2375,7 +2375,7 @@ mob
 			Eye_of_The_Fallen
 				level = 2400
 				cd = new(3, 6)
-				HPmodifier = 3.2
+				HPmodifier = 10
 
 				prizePoolSize = 2
 
@@ -2572,7 +2572,7 @@ mob
 			icon = 'Mobs.dmi'
 			icon_state = "basilisk"
 			level = 2000
-			HPmodifier = 4
+			HPmodifier = 10
 			DMGmodifier = 3
 			MoveDelay = 3
 			AttackDelay = 1
