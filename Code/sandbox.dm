@@ -1939,7 +1939,7 @@ hudobj
 				screen_x = 32
 				screen_y = 160
 
-			Silverblood_Portkey
+			DiagonAlley_Portkey
 				icon='portal.dmi'
 				icon_state="portkey"
 
@@ -1947,6 +1947,21 @@ hudobj
 				             /obj/items/magic_stone/teleport = 1)
 
 				screen_x = 32
+				screen_y = 192
+
+				maptext_x = 0
+				maptext_width = 32
+
+				path = /obj/teleport/portkey { dest = "@DiagonAlley"}
+
+			Silverblood_Portkey
+				icon='portal.dmi'
+				icon_state="portkey"
+
+				price = list(/obj/items/artifact = 1,
+				             /obj/items/magic_stone/teleport = 1)
+
+				screen_x = 64
 				screen_y = 192
 
 				maptext_x = 0
@@ -1961,7 +1976,7 @@ hudobj
 				price = list(/obj/items/artifact = 1,
 				             /obj/items/magic_stone/teleport = 1)
 
-				screen_x = 64
+				screen_x = 96
 				screen_y = 192
 
 				maptext_x = 0
@@ -1977,10 +1992,50 @@ hudobj
 				             /obj/items/magic_stone/teleport = 1)
 				maptext = "Silverblood/Hogwarts/Courtyard Portkeys: 1 teleport stone & artifact"
 
-				screen_x = 96
+				screen_x = 128
 				screen_y = 192
 
 				path = /obj/teleport/portkey { dest = "@Courtyard"}
+
+			cauldron
+				icon='potions_tools.dmi'
+				icon_state="cauldron"
+
+				price = list(/obj/items/artifact = 1)
+
+				screen_x = 32
+				screen_y = 224
+
+				maptext_x = 0
+				maptext_width = 32
+
+				path = /obj/potions/cauldron
+
+			dropper
+				icon='potions_tools.dmi'
+				icon_state = "dropper"
+
+				price = list(/obj/items/artifact = 1)
+
+				screen_x = 64
+				screen_y = 224
+
+				maptext_x = 0
+				maptext_width = 32
+
+				path = /obj/potions/dropper
+
+			grind
+				icon='potions_tools.dmi'
+				icon_state="pestle"
+
+				price = list(/obj/items/artifact = 1)
+				maptext = "Potion Tools: 1 artifact"
+
+				screen_x = 96
+				screen_y = 224
+
+				path = /obj/potions/grind
 
 
 

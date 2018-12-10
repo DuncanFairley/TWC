@@ -166,6 +166,8 @@ obj/potions
 	mouse_over_pointer = MOUSE_HAND_POINTER
 	mouse_opacity = 2
 
+	density = 1
+
 	Click()
 		..()
 
