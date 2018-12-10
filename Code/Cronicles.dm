@@ -887,11 +887,10 @@ client
 				if(amount)
 					var/gold/g = new (bronze=amount)
 					g.give(mob)
-		if(canLogout)
-			if (base_autosave_character)
-				base_SaveMob()
-			if (base_autodelete_mob && mob)
-				del(mob)
+		if (base_autosave_character)
+			base_SaveMob()
+		if (base_autodelete_mob && mob)
+			del(mob)
 		return ..()
 
 

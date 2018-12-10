@@ -2369,19 +2369,11 @@ mob/GM/verb/Arena()
 			worldData.currentArena.started = 1
 
 mob/Del()
-	if(canLogout)
-		Players -= src
+	Players -= src
 	..()
 
 mob/Player/Logout()
-	if(canLogout)
-		Players<<"<B><span style=\"font-size:2; color:red;\"><I>[src] <b>logged out.</b></I></span></B>"
-	else
-		away = 1
-		here=status
-		status=" (AFK)"
-		Players<<"~ <span style=\"color:red;\">[src]</span> is <u>AFK</u> ~"
-		ApplyAFKOverlay()
+	Players<<"<B><span style=\"font-size:2; color:red;\"><I>[src] <b>logged out.</b></I></span></B>"
 	if(arcessoing)
 		stop_arcesso()
 	if(rankedArena)
@@ -2396,8 +2388,12 @@ mob/Player/Logout()
 			src.loc = locate(50,49,15)
 			src.GMFrozen = 0
 	if(loc && loc.loc)
-		loc.loc.Exit(src)
-		loc.loc.Exited(src)
+		var/area/a = loc.loc
+		if(a.region)
+			a.Exited(src)
+			a.region.Exited(src)
+		else
+			loc.loc.Exited(src)
 	if(removeoMob)
 		var/tmpmob = removeoMob
 		removeoMob:removeoMob = null

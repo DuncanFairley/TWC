@@ -869,18 +869,9 @@ mob/Player
 			src << "<u>You're in detention for [timerDet] minute[timerDet==1 ? "" : "s"].</u>"
 			detention_countdown()
 		addNameTag()
-		if(canLogout)
-			Players.Add(src)
-			bubblesort_atom_name(Players)
-		else
-			if(!(src in Players))
-				Players.Add(src)
-				bubblesort_atom_name(Players)
-			else if(away)
-				away = 0
-				status=here
-				Players<<"<span style=\"color:red;\">[usr]</span> is no longer AFK."
-				RemoveAFKOverlay()
+		Players.Add(src)
+		bubblesort_atom_name(Players)
+
 		if(worldData.housecupwinner)
 			src << "<b><span style=\"color:#CF21C0;\">[worldData.housecupwinner] is the House Cup winner for this month. They receive +25% drop rate/gold/XP from monster kills.</span></b>"
 		if(classdest)
