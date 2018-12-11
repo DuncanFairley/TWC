@@ -2,6 +2,8 @@ atom
 	movable
 		appearance_flags = LONG_GLIDE|PIXEL_SCALE
 
+mob/proc/MoveLoop()
+
 mob/Player
 
 	var/tmp
@@ -9,48 +11,47 @@ mob/Player
 		moveDir  = 0
 		GLIDE = GLIDE_SIZE
 
-	proc
-		MoveLoop(var/firstStep, var/wait=0)
-			set waitfor = 0
+	MoveLoop(var/firstStep, var/wait=0)
+		set waitfor = 0
 
-			if(wait)
-				sleep(1)
+		if(wait)
+			sleep(1)
 
-			if(client.moveStart == null)
+		if(client.moveStart == null)
 
-				var/time = world.time
-				client.moveStart = time
-				client.moving = 1
+			var/time = world.time
+			client.moveStart = time
+			client.moving = 1
 
-				if(!moveKeys && onMoveEvents(firstStep))
-					glide_size = GLIDE / (move_delay + slow)
-					step(src, firstStep)
-					sleep(move_delay + slow)
+			if(!moveKeys && onMoveEvents(firstStep))
+				glide_size = GLIDE / (move_delay + slow)
+				step(src, firstStep)
+				sleep(move_delay + slow)
 
-				var/diag
-				while((moveKeys || client.movements) && client.moveStart == time)
+			var/diag
+			while((moveKeys || client.movements) && client.moveStart == time)
 
-					if(client.movements)
-						var/d = client.movements[1]
-						client.movements.Cut(1,2)
+				if(client.movements)
+					var/d = client.movements[1]
+					client.movements.Cut(1,2)
 
-						if(client.movements.len == 0) client.movements = null
+					if(client.movements.len == 0) client.movements = null
 
-						if(onMoveEvents(d))
-							glide_size = GLIDE / (move_delay + slow)
-							step(src, d)
-					else
-						if(onMoveEvents(moveDir))
-							diag = moveDir & moveDir-1
-							glide_size = GLIDE / (move_delay + slow)
-							if(!step(src, moveDir) && diag)
-								step(src, diag) || step(src, moveDir - diag)
+					if(onMoveEvents(d))
+						glide_size = GLIDE / (move_delay + slow)
+						step(src, d)
+				else
+					if(onMoveEvents(moveDir))
+						diag = moveDir & moveDir-1
+						glide_size = GLIDE / (move_delay + slow)
+						if(!step(src, moveDir) && diag)
+							step(src, diag) || step(src, moveDir - diag)
 
-					sleep(move_delay + slow)
+				sleep(move_delay + slow)
 
-				glide_size = GLIDE
-				client.moving = 0
-				client.moveStart = null
+			glide_size = GLIDE
+			client.moving = 0
+			client.moveStart = null
 
 	verb
 		MoveKey(dir as num,state as num)
@@ -125,50 +126,50 @@ client
 
 	North()
 		if(moveStart == null)
-			mob:MoveLoop(NORTH)
+			mob.MoveLoop(NORTH)
 		else
 			if(!movements) movements = list(NORTH)
 			else if(movements.len < 10) movements += NORTH
 
 	South()
 		if(moveStart == null)
-			mob:MoveLoop(SOUTH)
+			mob.MoveLoop(SOUTH)
 		else
 			if(!movements) movements = list(SOUTH)
 			else if(movements.len < 10) movements += SOUTH
 	East()
 		if(moveStart == null)
-			mob:MoveLoop(EAST)
+			mob.MoveLoop(EAST)
 		else
 			if(!movements) movements = list(EAST)
 			else if(movements.len < 10) movements += EAST
 	West()
 		if(moveStart == null)
-			mob:MoveLoop(WEST)
+			mob.MoveLoop(WEST)
 		else
 			if(!movements) movements = list(WEST)
 			else if(movements.len < 10) movements += WEST
 	Northeast()
 		if(moveStart == null)
-			mob:MoveLoop(NORTHEAST)
+			mob.MoveLoop(NORTHEAST)
 		else
 			if(!movements) movements = list(NORTHEAST)
 			else if(movements.len < 10) movements += NORTHEAST
 	Southeast()
 		if(moveStart == null)
-			mob:MoveLoop(SOUTHEAST)
+			mob.MoveLoop(SOUTHEAST)
 		else
 			if(!movements) movements = list(SOUTHEAST)
 			else if(movements.len < 10) movements += SOUTHEAST
 	Northwest()
 		if(moveStart == null)
-			mob:MoveLoop(NORTHWEST)
+			mob.MoveLoop(NORTHWEST)
 		else
 			if(!movements) movements = list(NORTHWEST)
 			else if(movements.len < 10) movements += NORTHWEST
 	Southwest()
 		if(moveStart == null)
-			mob:MoveLoop(SOUTHWEST)
+			mob.MoveLoop(SOUTHWEST)
 		else
 			if(!movements) movements = list(SOUTHWEST)
 			else if(movements.len < 10) movements += SOUTHWEST
