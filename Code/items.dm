@@ -952,7 +952,11 @@ obj/items/bucket
 					return
 				foundWater = 1
 
+			#if WINTER
+			if(t.icon_state != "snow" || !foundWater)
+			#else
 			if(t.icon_state != "grass1" || !foundWater)
+			#endif
 				usr << errormsg("Place this bucket at a place with grass near water.")
 				return
 
@@ -3437,7 +3441,9 @@ obj/items
 
 		useTypeStack = 1
 
-		var/drops
+		var
+			drops
+			keyType
 
 		Click()
 			if(src in usr)
@@ -3456,7 +3462,7 @@ obj/items
 					usr << infomsg("You opened a [name]!")
 					Consume()
 				else
-					var/obj/items/chestKey = locate(text2path("/obj/items/key/[splittext(name, " ")[1]]_key")) in usr
+					var/obj/items/chestKey = locate(keyType) in usr
 
 					if(!chestKey)
 						chestKey = locate(/obj/items/key/master_key) in usr
@@ -3479,27 +3485,32 @@ obj/items
 		duel_chest
 			icon_state = "duel"
 			drops      = "(limited)duel"
+			keyType = /obj/items/key/duel_key
 
 		wizard_chest
 			icon_state = "blue"
 			drops      = "wizard"
+			keyType = /obj/items/key/wizard_key
 
 		pentakill_chest
 			icon_state = "red"
 			drops      = "pentakill"
+			keyType = /obj/items/key/pentakill_key
 
 		basic_chest
 			icon_state = "green"
 			drops      = "basic"
+			keyType = /obj/items/key/basic_key
 
 		sunset_chest
 			icon_state = "purple"
 			drops      = "sunset"
+			keyType = /obj/items/key/sunset_key
 
 		summer_chest
 			icon_state = "orange"
 			drops      = "summer"
-
+			keyType = /obj/items/key/summer_key
 
 			limited_edition
 				name  = "special summer 2015 chest"
@@ -3508,6 +3519,7 @@ obj/items
 		winter_chest
 			icon_state = "blue"
 			drops      = "winter"
+			keyType = /obj/items/key/winter_key
 
 
 			limited_edition
@@ -3517,6 +3529,7 @@ obj/items
 		prom_chest
 			icon_state = "pink"
 			drops      = "prom"
+			keyType = /obj/items/key/prom_key
 
 			limited_edition
 				name = "special prom 2015 chest"
@@ -3525,20 +3538,24 @@ obj/items
 		blood_chest
 			icon_state = "red"
 			drops      = "blood"
+			keyType = /obj/items/key/blood_key
 
 		pet_chest
 			icon_state = "green"
 			drops      = "treats"
+			keyType = /obj/items/key/pet_key
 
 		community1_chest
 			name = "community #1 chest"
 			icon_state = "blue"
 			drops      = "community1"
+			keyType = /obj/items/key/community_key
 
 		community2_chest
 			name = "community #2 chest"
 			icon_state = "blue"
 			drops      = "community2"
+			keyType = /obj/items/key/community_key
 
 		wigs
 
@@ -3559,14 +3576,17 @@ obj/items
 			basic_wig_chest
 				icon_state = "green"
 				drops      = "basic"
+				keyType = /obj/items/key/basic_key
 
 			sunset_wig_chest
 				icon_state = "purple"
 				drops      = "sunset"
+				keyType = /obj/items/key/sunset_key
 
 			chess_chest
 				icon_state = "red"
 				drops      = "chess"
+				keyType = /obj/items/key/chess_key
 
 	key
 		icon = 'ChestKey.dmi'
@@ -3698,16 +3718,14 @@ var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/
 							 					    /obj/items/chest/sunset_chest = 30),
 
 							 "male_chess" = list(/obj/items/wearable/wigs/male_chess_wig = 15,
-							                     /obj/items/wearable/hats/white_earmuffs = 15,
-							                     /obj/items/wearable/hats/black_earmuffs = 15,
+							                     /obj/items/wearable/hats/grey_earmuffs  = 15,
 							                     /obj/items/wearable/shoes/white_shoes   = 25,
 							                     /obj/items/wearable/shoes/black_shoes   = 25,
 							                     /obj/items/wearable/scarves/white_scarf = 35,
 							                     /obj/items/wearable/scarves/black_scarf = 35),
 
 							 "female_chess" = list(/obj/items/wearable/wigs/male_chess_wig = 15,
-							                       /obj/items/wearable/hats/white_earmuffs = 15,
-							                       /obj/items/wearable/hats/black_earmuffs = 15,
+							                       /obj/items/wearable/hats/grey_earmuffs  = 15,
 							                       /obj/items/wearable/shoes/white_shoes   = 25,
 							                       /obj/items/wearable/shoes/black_shoes   = 25,
 							                       /obj/items/wearable/scarves/white_scarf = 35,
