@@ -1827,32 +1827,19 @@ mob/proc/Death_Check(mob/killer = src)
 					var/spamKilled      = killer.findStatusEffect(/StatusEffect/KilledPlayer)
 					var/spamKilledQuest = killer.findStatusEffect(/StatusEffect/KilledPlayerQuest)
 
-					var/rndexp = round(src.level * 1.2) + rand(-200,200)
+					var/rndexp = round(src.level * 1.5) + rand(-200,200)
 					if(rndexp < 0) rndexp = rand(20,30)
 
 					if(killer:House == worldData.housecupwinner)
 						rndexp *= 1.25
-						rndexp = round(rndexp)
 
 					if(spamKilled)
-						rndexp = round(rndexp * 0.1)
+						rndexp = rndexp * 0.1
 					else if(killer.level >= lvlcap)
 						new /StatusEffect/KilledPlayer (killer, 40)
-						rndexp *= rand(2,4)
+						rndexp *= 6
 
-						var/player_rating = p.getRep()
-						var/killer_rating = killer:getRep()
-						var/rep = -round(1 + (player_rating / 200), 1)
-
-						if(rep >= 0)
-							rep = max(rep, 1)
-						else
-							rep = min(rep, -1)
-
-						killer:addRep(rep*2)
-
-						if(abs(player_rating) > 200 && ((player_rating > 0 && killer_rating < 0) || (player_rating < 0 && killer_rating > 0)))
-							src:addRep(round(rep))
+					rndexp = round(rndexp, 1)
 
 					if(!spamKilledQuest)
 						new /StatusEffect/KilledPlayerQuest (killer, 20)
