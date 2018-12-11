@@ -1024,8 +1024,8 @@ mob
 				MoveDelay = 3
 				AttackDelay = 5
 				Range = 20
-				HPmodifier = 2
-				DMGmodifier = 1
+				HPmodifier = 1.5
+				DMGmodifier = 0.8
 				canBleed = FALSE
 				var/tmp/obj/Shadow/s
 
@@ -1598,27 +1598,27 @@ mob
 							ChangeState(state)
 							reflect = 2
 
-							var/spawns = 5
+							var/spawns = 4
 							while(loc && spawns > 0)
 								spawns--
 
 								if("The Black Blade" in worldData.currentEvents)
 									var/RandomEvent/Sword/e = locate() in worldData.events
 
-									if(e.swords <= 40)
-										e.swords++
+									if(e.swords < 30)
+										e.swords+=3
 										new /mob/Enemies/Summoned/Sword (loc)
 										new /mob/Enemies/Summoned/Sword (loc)
 										new /mob/Enemies/Summoned/Sword (loc)
 
-								sleep(40)
+								sleep(50)
 
 							icon_state = "sword"
 							reflect = 0
 							MoveDelay = 3
 							ChangeState(state)
 
-							sleep(300)
+							sleep(400)
 
 					Attack(mob/M)
 						..()
@@ -2268,11 +2268,11 @@ mob
 				..()
 
 			Attacked(obj/projectile/p)
-				p.damage = round(p.damage * rand(7, 10)/10)
-				if(MoveDelay == 3 && p.owner && p.owner.loc.loc == loc.loc && prob(55))
+				p.damage = round(p.damage * rand(7, 9)/10)
+				if(MoveDelay == 3 && p.owner && prob(55))
 					MoveDelay = 1
 					ChangeState(state)
-					spawn(80)
+					spawn(30)
 						MoveDelay = 3
 						ChangeState(state)
 				..()
@@ -2752,14 +2752,14 @@ obj/corpse
 area/var/undead = 0
 
 mob/Enemies/Summoned/Zombie
-	DMGmodifier = 2
-	HPmodifier  = 3
+	DMGmodifier = 1
+	HPmodifier  = 2
 	MoveDelay   = 2
-	AttackDelay = 1
+	AttackDelay = 3
 
 	New(Loc, mob/Player/p, obj/corpse/c)
 		appearance = c.appearance
-		level      = p.level + rand(0, 50)
+		level      = p.level
 
 		..()
 
