@@ -359,7 +359,11 @@ obj/pet
 			if(wander == 1)
 				step_rand(src)
 			else
-				step_to(src, wander, 1)
+				if(z != wander:z)
+					wander = 1
+				else if(get_dist(src, wander) >= 2)
+					if(!step_to(src, wander, 1))
+						wander = 1
 			updateFollowers()
 			sleep(DELAY)
 
