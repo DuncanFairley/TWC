@@ -427,8 +427,13 @@ RandomEvent
 			for(var/mob/Player/p in entrance)
 				if(p.away) p.loc = locate("@GreatHall")
 
+			var/useOverride = entrance.safezoneoverride
+			var/useTime    = entrance.timedProtection
+
 			entrance.friendlyFire     = 0
 			entrance.safezoneoverride = 1
+			entrance.timedProtection = 0
+
 
 			var/turf/spawn_loc = locate("@Hogwarts")
 
@@ -447,7 +452,8 @@ RandomEvent
 					Respawn(ai)
 
 			entrance.friendlyFire     = 1
-			entrance.safezoneoverride = 0
+			entrance.safezoneoverride = useOverride
+			entrance.timedProtection = useTime
 
 			Players << infomsg("Hogwarts magical defenses are restored. Entrance Hall is safe again.")
 			end()
@@ -686,14 +692,19 @@ RandomEvent
 			for(var/mob/Player/p in entrance)
 				if(p.away) p.loc = locate("@GreatHall")
 
+			var/useOverride = entrance.safezoneoverride
+			var/useTime    = entrance.timedProtection
 
 			entrance.safezoneoverride = 1
+			entrance.timedProtection = 0
 			sleep(minutes * 600)
 
 			for(var/mob/Enemies/ai in entrance)
 				Respawn(ai)
 
-			entrance.safezoneoverride = 0
+			entrance.safezoneoverride = useOverride
+			entrance.timedProtection = useTime
+
 			Players << infomsg("Hogwarts magical defenses are restored. Entrance Hall is safe again.")
 			end()
 
