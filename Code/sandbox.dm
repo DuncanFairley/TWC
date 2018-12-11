@@ -810,6 +810,12 @@ obj/buildable
 
 	shield_totem
 		var/list/allowed
+		var/locked = 0
+
+		canHeal = 1
+		hp    = 75000
+		maxhp = 75000
+		rate = 13500
 
 		mouse_over_pointer = MOUSE_HAND_POINTER
 		icon = 'Totem.dmi'
@@ -817,9 +823,19 @@ obj/buildable
 
 		Click()
 			if(src in range(1))
+
+				if(locked && allowed && !(usr.ckey in allowed))
+					usr << errormsg("This totem is locked.")
+					return
+
+				if(allowed)
+					usr << infomsg("Allowed:")
+					for(var/i in allowed)
+						usr << infomsg(" - [i]")
+
 				if(!IsInputOpen(usr, "BuildProtection"))
 					var/Input/popup = new (usr, "BuildProtection")
-					var/response = popup.Alert(usr, "Add yourself or clean the access list?", "Build Protection", "Add", "Clean")
+					var/response = popup.Alert(usr, "Add yourself or clean the access list?", "Build Protection", "Add", "Clean", locked ? "Unlock" : "Lock")
 					del popup
 					if(response == "Add")
 						if(!allowed)
@@ -829,6 +845,10 @@ obj/buildable
 
 						allowed += usr.ckey
 						usr << infomsg("You were added to the build list.")
+					else if(response == "Lock")
+						locked = 1
+					else if(response == "Unlock")
+						locked = 0
 					else
 						allowed = null
 						usr << infomsg("You cleaned the build list.")
