@@ -468,8 +468,26 @@ mob/GM/verb/FloodFill(path as null|anything in typesof(/turf)|typesof(/area))
 		src << errormsg("You can only use it inside swap maps.")
 		return
 	var/Region/r = new(usr.loc, /proc/AccessibleTurfs)
+
+	var/mob/Player/p = usr
 	for(var/T in r.contents)
-		new path (T)
+		var/atom/a = new path (T)
+
+		if(p.CreateVars)
+			for(var/line in p.CreateVars)
+
+				var/list/split = splittext(line, "=")
+
+				if(split.len != 2 || !(split[1] in a.vars))
+					p.CreateVars -= line
+					continue
+
+				var/n = text2num(split[2])
+				if(isnum(n))
+					a.vars[split[1]] = n
+				else
+					a.vars[split[1]] = split[2]
+
 mob/GM/verb/LoadMap()
 	set category = "Custom Maps"
 	if(!length(worldData.customMaps))
@@ -1797,9 +1815,8 @@ mob/proc/Death_Check(mob/killer = src)
 							src.Exp = round(src.Exp * 0.8)
 
 						var/gold/g = new(src)
-						var/goldLoss = g.toNumber() * 0.5
+						var/goldLoss = g.toNumber() * 0.2
 						g.change(src, bronze=-goldLoss)
-						goldLoss = round(rand(goldLoss * 0.1, goldLoss * 0.2), 1)
 						new /obj/corpse (loc, src, goldLoss)
 
 					p.onDeath(loc, resurrect)
