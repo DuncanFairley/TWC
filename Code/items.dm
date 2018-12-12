@@ -4346,12 +4346,12 @@ obj/items/wearable/ring
 		. = ..(owner)
 		if(. == WORN)
 			src.gender = owner.gender
-			if(!overridetext)viewers(owner) << infomsg("[owner] wraps \his [src.name] around \his neck.")
+			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his finger.")
 			for(var/obj/items/wearable/ring/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
 		else if(. == REMOVED)
-			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
+			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
 
 
 obj/items/wearable/ring/snowring
@@ -4360,3 +4360,4 @@ obj/items/wearable/ring/snowring
 	name="Ring of Snow"
 	desc="A magical ring that can manipulate water."
 	passive = WATERWALK
+
