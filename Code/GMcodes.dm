@@ -1453,9 +1453,8 @@ mob/GM
 					else
 						worldData.eventPrize = prizes
 
-
-				else
-					worldData.eventPrize = path
+			else
+				worldData.eventPrize = path
 
 			if(worldData.eventPrize)
 				for(var/mob/Player/p in Players)
