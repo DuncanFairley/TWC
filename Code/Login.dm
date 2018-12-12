@@ -984,6 +984,7 @@ mob/Player
 
 			LoginReward()
 			if(worldData.eventPrize) EventReward()
+			secretSanta()
 
 			DisplayPets()
 
@@ -2360,6 +2361,7 @@ mob/Player
 
 		new /hudobj/login_reward(null, client, null, show=1, Player=src, Prize=worldData.eventPrize)
 
+mob/proc/secretSanta()
 
 hudobj/login_reward
 
