@@ -644,7 +644,11 @@ turf
 
 		Enter(atom/movable/O, atom/oldloc)
 			if(name == "water")
-				if(isplayer(O) && O.density) return 0
+				if(isplayer(O) && O.density)
+					if(O:passives & WATERWALK)
+						ice()
+					else
+						return 0
 				if(istype(O, /obj/projectile) && O.icon_state == "iceball")
 					if(prob(20))
 						for(var/turf/water/w in range(prob(10) ? 2 : 1,O))
