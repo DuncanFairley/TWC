@@ -69,7 +69,7 @@ obj/items/wearable/pets
 		minSize     = 1
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		if(owner.pet && owner.pet.busy)
+		if(owner.pet && owner.pet.busy && !forceremove)
 			owner << errormsg("Your pet is busy right now.")
 			return
 
@@ -114,10 +114,12 @@ obj/items/wearable/pets
 			if(owner.pet)
 				var/obj/buildable/hammer_totem/t = locate("pet_[owner.ckey]")
 				if(t)
-					owner.pet.loc = t.loc
-					owner.pet.density = 1
-					owner.pet.walkRand()
-					t.pets[src] = owner.pet
+					var/obj/pet/p = owner.pet
+					spawn(1)
+						p.loc = t.loc
+						p.density = 1
+						p.walkRand()
+						t.pets[src] = p
 				else
 					owner.pet.Dispose()
 				owner.pet = null
