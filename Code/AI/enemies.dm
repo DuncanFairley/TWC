@@ -1183,7 +1183,7 @@ mob
 					name = "Bubbles the Spider"
 					icon_state = "spider"
 					level = 2000
-					HPmodifier = 25
+					HPmodifier = 20
 					DMGmodifier = 4
 					MoveDelay = 3
 					AttackDelay = 1
@@ -1204,11 +1204,11 @@ mob
 						..()
 						if(!fired && target && state == HOSTILE)
 							fired = 1
-							spawn(rand(10,20)) fired = 0
+							spawn(50) fired = 0
 
 							var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 							for(var/d in dirs)
-								castproj(icon_state = "quake", damage = Dmg + rand(-4,8), name = "rubble", cd = 0, lag = 1,Dir=d)
+								castproj(icon_state = "quake", damage = Dmg, name = "rubble", cd = 0, lag = 1,Dir=d)
 							sleep(AttackDelay)
 
 					Attacked(obj/projectile/p)
@@ -1217,9 +1217,10 @@ mob
 							damageTaken += p.damage
 
 							var/limit = 3
-							while(damageTaken >= 1000 && limit)
+							var/threshold = max(MHP / 10, 2000)
+							while(damageTaken >= threshold && limit)
 								new /mob/Enemies/Summoned/Acromantula (loc)
-								damageTaken -= 1000
+								damageTaken -= threshold
 								limit--
 
 					Death()
@@ -1342,7 +1343,7 @@ mob
 					name = "Vampire Lord"
 					icon = 'FemaleVampire.dmi'
 					icon_state = "flying"
-					HPmodifier = 25
+					HPmodifier = 20
 					DMGmodifier = 3
 					MoveDelay = 3
 					AttackDelay = 1
@@ -1518,7 +1519,7 @@ mob
 						..()
 						if(!fired && target && state == HOSTILE)
 							fired = 1
-							spawn(rand(30,50)) fired = 0
+							spawn(50) fired = 0
 
 							for(var/obj/redroses/S in oview(3, src))
 								flick("burning", S)
@@ -1665,7 +1666,7 @@ mob
 					pixel_x = -48
 					pixel_y = -24
 					name = "Stone Golem"
-					HPmodifier = 25
+					HPmodifier = 20
 					DMGmodifier = 2
 					layer = 5
 					MoveDelay = 3
@@ -2363,18 +2364,18 @@ mob
 
 			icon_state = "eye1"
 			level = 900
-			HPmodifier  = 2
+			HPmodifier  = 1.4
 			DMGmodifier = 0.8
 			var
 				tmp/fired = 0
-				Random/cd = new(30, 50)
+				cd = 60
 
 			MoveDelay = 3
-			AttackDelay = 1
+			AttackDelay = 3
 
 			Eye_of_The_Fallen
 				level = 2400
-				cd = new(3, 6)
+				cd = 10
 				HPmodifier = 10
 
 				prizePoolSize = 2
@@ -2440,7 +2441,7 @@ mob
 				if(!fired && target && state == HOSTILE)
 					if(prob(45))
 						fired = 1
-						spawn(cd.get()) fired = 0
+						spawn(cd) fired = 0
 
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 						var/tmp_d = dir
