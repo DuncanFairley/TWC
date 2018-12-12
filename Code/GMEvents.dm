@@ -197,8 +197,8 @@ atom/Click(location)
 
 							var/list/split = splittext(line, "=")
 
-							if(!(split[1] in a.vars))
-								p.CreateVars -= split[1]
+							if(split.len != 2 || !(split[1] in a.vars))
+								p.CreateVars -= line
 								continue
 
 							var/n = text2num(split[2])
