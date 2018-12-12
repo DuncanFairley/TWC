@@ -360,7 +360,6 @@ StatusEffect
 	UsedPortus
 	UsedHalloweenBucket
 	UsedSonic
-	UsedSnowRing
 	UsedArcesso
 	UsedProtego
 	UsedShelleh

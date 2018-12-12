@@ -432,6 +432,7 @@ obj/items/wearable
 		bonus   = NOUPGRADE
 		quality = 0
 		scale   = 1
+		passive = 0
 
 		tmp
 			clothDmg
@@ -532,6 +533,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 				owner.clothDef -= clothDef
 				clothDef        = null
 				owner.resetMaxHP()
+		owner.passives &= ~passive
 		return REMOVED
 	else
 		if(showoverlay && !owner.trnsed)
@@ -555,6 +557,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		UpdateDisplay()
 		if(bonus != -1)
 			calcBonus(owner)
+		owner.passives |= passive
 		return WORN
 
 obj/items/food
@@ -587,28 +590,6 @@ obj/items/food
 		Eat()
 			viewers(usr) << infomsg("[usr] pops a tootsie roll into \his mouth.")
 			..()
-
-obj/items/snowring
-	icon='ammy.dmi'
-	icon_state="snow"
-	name="Ring of Snow"
-	desc="A magical ring that can manipulate snow."
-
-	Click()
-		if(src in usr)
-
-			if(canUse(usr,cooldown=/StatusEffect/UsedSnowRing,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-				new /StatusEffect/UsedSnowRing(usr,60*usr:cooldownModifier)
-				var/obj/snowman/O = new(usr.loc)
-				O.owner = "[usr.key]"
-
-				src = null
-				spawn(600)
-					hearers(O) << "The snowman melts away."
-					del O
-		else
-			..()
-
 
 obj/items/Zombie_Head
 	icon='halloween.dmi'
@@ -3688,8 +3669,7 @@ var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/
 							 "(limited)2015 winter" = list(/obj/items/wearable/hats/red_earmuffs        = 10,
 							                       /obj/items/wearable/hats/white_earmuffs      = 10,
 							                       /obj/items/wearable/shoes/candycane_shoes    = 35,
-							                       /obj/items/wearable/scarves/candycane_scarf  = 39,
-												   /obj/items/snowring                          = 6),
+							                       /obj/items/wearable/scarves/candycane_scarf  = 39),
 
 							 "blood"     = list(/obj/items/wearable/scarves/blood_scarf = 50,
 							 					/obj/items/wearable/shoes/blood_shoes   = 30,
@@ -4357,3 +4337,26 @@ obj/items/elite
 
 	var/level = 1
 
+
+obj/items/wearable/ring
+	bonus = 0
+	desc = "A finely knit scarf designed to keep your neck toasty warm."
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		. = ..(owner)
+		if(. == WORN)
+			src.gender = owner.gender
+			if(!overridetext)viewers(owner) << infomsg("[owner] wraps \his [src.name] around \his neck.")
+			for(var/obj/items/wearable/ring/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+		else if(. == REMOVED)
+			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
+
+
+obj/items/wearable/ring/snowring
+	icon='ammy.dmi'
+	icon_state="snow"
+	name="Ring of Snow"
+	desc="A magical ring that can manipulate water."
+	passive = WATERWALK

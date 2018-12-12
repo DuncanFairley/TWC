@@ -2526,3 +2526,4 @@ mob/Player
 
 
 mob/Player/var/cooldownModifier = 1
+mob/Player/var/tmp/passives = 0

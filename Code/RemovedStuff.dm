@@ -240,6 +240,13 @@ obj/items/weather/sun
 			new /obj/items/magic_stone/weather/sun (loc)
 			loc = null
 
+obj/items/snowring
+	New()
+		..()
+		spawn(1)
+			new /obj/items/wearable/ring/snowring (loc)
+			loc = null
+
 obj/items
 	key
 		Master
