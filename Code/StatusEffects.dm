@@ -231,10 +231,13 @@ proc
 			if(date != -1)
 				var/Event/WeeklyEvents/e = new
 				scheduler.schedule(e, 10 * date)
-		init_quests()
 
-		var/Event/DailyEvents/e = new
-		scheduler.schedule(e, 864000)
+			date = time_until(time2text(world.realtime, "Day"), "00")
+			if(date != -1)
+				var/Event/DailyEvents/e = new
+				scheduler.schedule(e, 10 * date)
+
+		init_quests()
 
 		worldData.TeleportMap = new
 		worldData.TeleportMap.init()
