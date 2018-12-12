@@ -1985,6 +1985,7 @@ mob/test/verb/hireStaff((mob/Player/p in Players), color as text)
 		                          /mob/GM/verb/FFA_Mode,
 		                          /mob/GM/verb/Toggle_Click_Create,
 		                          /mob/GM/verb/CreatePath,
+		                          /mob/GM/verb/CreateVars,
 		                          /mob/GM/verb/Freeze_Area,
 		                          /mob/GM/verb/Unfreeze_Area,
 		                          /mob/GM/verb/Freeze,
