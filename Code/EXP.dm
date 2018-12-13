@@ -100,6 +100,7 @@ hudobj/readClicker
 		mob/Player/player
 		dx
 		dy
+		isGold = 0
 
 	MouseEntered()
 		if(alpha == 255)
@@ -117,6 +118,10 @@ hudobj/readClicker
 		player = Player
 
 		name = "[pick("Page ", "Spell #")][rand(1,3000)]"
+
+		if(prob(30))
+			isGold = 1
+			icon_state = "gold"
 
 	show()
 		set waitfor = 0
@@ -158,6 +163,13 @@ hudobj/readClicker
 
 			var/exp = get_exp(player.level) * worldData.expBookModifier
 			exp = round(rand(exp * 0.9, exp * 1.1))
+
+			if(isGold)
+				exp *= 3
+				var/gold/g = new (bronze=rand(1,200))
+				usr << infomsg("You found [g.toString()] in between the book's pages")
+				g.give(usr)
+
 			player.addExp(exp, 1, 0)
 
 			if(player.MonsterMessages)
