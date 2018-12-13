@@ -760,6 +760,8 @@ mob
 					prize = new prize (loc)
 					prize.prizeDrop(killer.ckey, decay=isDefault)
 					killer << infomsg("<i>[name] dropped [prize.name]</i>")
+					if(killer.pet)
+						killer.pet.fetch(prize)
 
 			if(sparks)
 				emit(loc    = loc,
@@ -1021,7 +1023,7 @@ mob
 				pixel_y = -24
 				name = "Flying Sword"
 				level = 800
-				MoveDelay = 3
+				MoveDelay = 2
 				AttackDelay = 5
 				Range = 20
 				HPmodifier = 1.5
@@ -1071,7 +1073,7 @@ mob
 				name = "Tiny Spider"
 				icon_state = "spider"
 				level = 700
-				MoveDelay = 3
+				MoveDelay = 2
 				AttackDelay = 5
 				Range = 20
 				HPmodifier = 2
@@ -1204,7 +1206,7 @@ mob
 						..()
 						if(!fired && target && state == HOSTILE)
 							fired = 1
-							spawn(50) fired = 0
+							spawn(40) fired = 0
 
 							var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 							for(var/d in dirs)
@@ -1519,7 +1521,7 @@ mob
 						..()
 						if(!fired && target && state == HOSTILE)
 							fired = 1
-							spawn(50) fired = 0
+							spawn(40) fired = 0
 
 							for(var/obj/redroses/S in oview(3, src))
 								flick("burning", S)
@@ -1737,7 +1739,7 @@ mob
 						..()
 						if(!fired && target && state == HOSTILE)
 							fired = 1
-							spawn(50) fired = 0
+							spawn(40) fired = 0
 
 							var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 							var/dmg = round(Dmg * 1.5 + rand(-4,8))
@@ -2561,6 +2563,7 @@ mob
 			level = 550
 			canBleed = FALSE
 			element = WATER
+			respawnTime = 900
 		Fire_Elemental
 			icon_state = "fire elemental"
 			level = 600
