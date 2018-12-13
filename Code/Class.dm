@@ -479,6 +479,10 @@ class
 			start(mob/Player/p)
 				..()
 				say("Known as the summoning charm. It summons an object to the caster.", p)
+		Accio_Maxima
+			start(mob/Player/p)
+				..()
+				say("Known as the summoning charm. It summons every item you own to the caster, like monster drops or scrolls.", p)
 		Reparo
 			start(mob/Player/p)
 				..()

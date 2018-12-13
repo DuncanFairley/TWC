@@ -90,6 +90,7 @@ Event
 			spawn() scheduler.schedule(src, 864000)
 
 			worldData.loggedIn = null
+			worldData.secretSanta = null
 
 	AutoClass
 
@@ -232,7 +233,7 @@ proc
 				var/Event/WeeklyEvents/e = new
 				scheduler.schedule(e, 10 * date)
 
-			date = time_until(time2text(world.realtime, "Day"), "00")
+			date = time_until("Tomorrow", "00")
 			if(date != -1)
 				var/Event/DailyEvents/e = new
 				scheduler.schedule(e, 10 * date)
@@ -364,6 +365,7 @@ StatusEffect
 	UsedProtego
 	UsedShelleh
 	UsedAggro
+	UsedAccio
 	Permoveo
 	UsedDisperse
 	SpellText

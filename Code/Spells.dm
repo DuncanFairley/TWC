@@ -12,6 +12,7 @@ var/list/spellList = list(
 	/mob/Spells/verb/Deletrius = "Deletrius",
 	/mob/Spells/verb/Serpensortia = "Serpensortia",
 	/mob/Spells/verb/Accio = "Accio",
+	/mob/Spells/verb/Accio_Maxima = "Accio Maxima",
 	/mob/Spells/verb/Reparo = "Reparo",
 	/mob/Spells/verb/Herbificus = "Herbificus",
 	/mob/Spells/verb/Bombarda = "Bombarda",
@@ -79,7 +80,8 @@ mob/Spells/verb/Accio(obj/M in oview(usr.client.view,usr))
 	set category = "Spells"
 	set waitfor = 0
 	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		if(!M.accioable)
+
+		if((!M.accioable && M.owner != usr.ckey) || M.loc.density)
 			src << errormsg("This object cannot be moved.")
 			return
 
@@ -97,6 +99,31 @@ mob/Spells/verb/Accio(obj/M in oview(usr.client.view,usr))
 			sleep(2)
 
 		if(istype(M,/obj/candle)) M:respawn()
+
+mob/Spells/verb/Accio_Maxima()
+	set category = "Spells"
+	set waitfor = 0
+	if(canUse(src,cooldown=/StatusEffect/UsedAccio,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		var/mob/Player/p = src
+		new /StatusEffect/Summoned(src,10*p.cooldownModifier)
+		hearers(client.view, p)<< " <b>[p]:<i><font color=aqua> Accio Maxima!</i>"
+		p.learnSpell("Accio Maxima")
+
+		for(var/obj/items/i in range(p, 10))
+			if((!i.accioable && i.owner != ckey) || i.loc.density) continue
+			i.walkTo(src, 1)
+
+
+
+obj/items/proc/walkTo(atom/movable/a, pickup=0)
+	set waitfor = 0
+	while(a && loc && a.loc && a.loc != loc)
+		loc = get_step_towards(src, a.loc)
+		sleep(1)
+	if(pickup)
+		Move(a)
+		a:Resort_Stacking_Inv()
+
 
 mob/Spells/verb/Eat_Slugs(var/n as text)
 	set category = "Spells"
