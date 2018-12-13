@@ -377,16 +377,17 @@ mob/Player
 		splitItem = null
 
 
-
-
-	verb/updateSplitStack()
+	verb/updateSplitStack(var/n=0 as num)
 		set hidden = 1
 		if(!splitItem) return
 
-		var/val = text2num(winget(src, "splitStack.splitPercent", "value"))
+		var/val = clamp(text2num(winget(src, "splitStack.splitPercent", "value")) + n, 1, 100)
 		var/s   = round(splitItem.stack * val / 100, 1)
 
-		winset(src, null, "splitStack.splitButton.text=\"[s]\";splitStack.splitBar.value=[val];")
+		if(n != 0)
+			winset(src, null, "splitStack.splitButton.text=\"[s]\";splitStack.splitBar.value=[val];splitStack.splitPercent.value=[val];")
+		else
+			winset(src, null, "splitStack.splitButton.text=\"[s]\";splitStack.splitBar.value=[val]")
 
 		s = min(s, splitItem.stack)
 		s = max(s, 1)
@@ -4223,6 +4224,10 @@ obj/items/treats
 			var/c = rand(5, 15)
 			p.pet.stepCount += 10 * c
 			p << infomsg("Your [p.pet.name] enjoys playing with you.")
+
+			if((p.pet.item.function & PET_FETCH) == 0 && prob(10+p.pet.item.quality))
+				p << infomsg("<b>Your [p.pet.name] learned how to fetch drops!</b>")
+				p.pet.item.function |= PET_FETCH
 
 			if(p.pet.item.quality < MAX_PET_LEVEL)
 				var/e = rand(100, 500)

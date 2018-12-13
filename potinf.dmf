@@ -1355,7 +1355,7 @@ window "splitStack"
 	elem "splitStack"
 		type = MAIN
 		pos = 281,0
-		size = 64x60
+		size = 87x61
 		anchor1 = none
 		anchor2 = none
 		background-color = #ff8080
@@ -1369,6 +1369,30 @@ window "splitStack"
 		can-resize = false
 		transparent-color = #ff8080
 		macro = "macro"
+	elem "buttonSplitStack"
+		type = BUTTON
+		pos = 66,31
+		size = 18x18
+		anchor1 = none
+		anchor2 = none
+		font-style = "bold"
+		text-color = #e3e3e3
+		background-color = #508cb4
+		saved-params = "is-checked"
+		text = "-"
+		command = "updateSplitStack -1"
+	elem "buttonSplitPlus"
+		type = BUTTON
+		pos = 66,8
+		size = 18x18
+		anchor1 = none
+		anchor2 = none
+		font-style = "bold"
+		text-color = #e3e3e3
+		background-color = #508cb4
+		saved-params = "is-checked"
+		text = "+"
+		command = "updateSplitStack 1"
 	elem "splitButton"
 		type = BUTTON
 		pos = 9,10
