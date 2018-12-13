@@ -2331,6 +2331,7 @@ WorldData
 	var
 		list/loggedIn
 		list/eventTaken
+		list/secretSanta
 		eventPrize
 
 mob/Player

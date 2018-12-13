@@ -33,6 +33,7 @@
 #define PET_FOLLOW_FAR 2
 #define PET_FOLLOW_RIGHT 4
 #define PET_FOLLOW_LEFT 8
+#define PET_FETCH 32
 #define PET_HIDE 64
 #define PET_SHINY 128
 #define PET_FLY 256

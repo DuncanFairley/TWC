@@ -153,6 +153,10 @@ obj/items/wearable/pets
 
 			owner.Taming.add(quality*i*5000 + rand(4,90)*10, owner, 1)
 
+			if((function & PET_FETCH) == 0 && prob(10+i*quality))
+				owner << infomsg("<b>Your [name] learned how to fetch drops!</b>")
+				function |= PET_FETCH
+
 			owner.screenAlert("Your [name] leveled up to [quality]!")
 
 	rat
@@ -213,6 +217,8 @@ obj/pet
 			finalDir
 			busy = 0
 			wander = 0
+
+			list/fetch
 
 	New(loc, obj/items/wearable/pets/pet)
 		set waitfor = 0
@@ -288,7 +294,10 @@ obj/pet
 
 	proc/walkTo(var/turf/turfDest, var/dirDest)
 		set waitfor = 0
-
+		if(fetch)
+			target = null
+			finalDir = null
+			return
 		finalDir = dirDest
 
 		if(target)
@@ -299,6 +308,10 @@ obj/pet
 
 		var/d  = get_dist(src, target)
 		while(loc && target && loc != target && target.z == z && d < 16)
+			if(fetch)
+				target = null
+				finalDir = null
+				return
 			dir = get_dir(loc, target)
 			loc = get_step(loc, dir)
 			updateFollowers()
@@ -307,10 +320,12 @@ obj/pet
 
 		if(target && target.z != z || d > 15)
 			loc = target
+
 		dir = finalDir
 
 		target   = null
 		finalDir = null
+
 
 	proc/gotoBank(mob/Player/p)
 		set waitfor = 0
@@ -346,6 +361,44 @@ obj/pet
 			updateFollowers()
 		else
 			loc = null
+
+	proc/fetch(obj/items/add)
+		set waitfor = 0
+		if(!add.loc || (item.function & PET_FETCH) == 0) return
+		if(fetch)
+			fetch[add] = add.loc
+			return
+
+		if(busy) return
+		busy = 1
+
+		fetch = list()
+		fetch[add] = add.loc
+
+		var/glide = glide_size
+		glide_size = 16
+
+		while(fetch.len > 0)
+			var/obj/items/i = fetch[1]
+			var/turf/tempLoc = fetch[i]
+
+			fetch.Cut(1,2)
+
+			var/mob/Player/p = item.loc
+			while(loc && p && item.loc == p && i && i.loc && i.loc == tempLoc && loc != i.loc)
+				dir = get_dir(loc, i.loc)
+				loc = get_step(loc, dir)
+				updateFollowers()
+				sleep(2)
+
+			if(p && item.loc == p && i && i.loc && i.loc == tempLoc)
+				i.Move(p)
+				p.Resort_Stacking_Inv()
+
+		fetch = null
+		glide_size = glide
+
+		busy = 0
 
 	proc/walkRand()
 		set waitfor = 0
@@ -505,11 +558,6 @@ obj/pet
 		if(shadow)
 			shadow.loc = null
 			shadow     = null
-
-mob/test/verb/testPets()
-	var/obj/buildable/hammer_totem/t = new (loc)
-	t.tag = "pet_[ckey]"
-	usr:DisplayPets()
 
 mob/Player/proc/DisplayPets()
 	var/obj/buildable/hammer_totem/o = locate("pet_[ckey]")
