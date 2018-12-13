@@ -47,7 +47,26 @@
 #define POTIONS_AMOUNT 60
 
 // passives
-#define WATERWALK 1
+#define RING_WATERWALK 1
+#define RING_APPARATE 2
+#define RING_3 4
+#define RING_4 8
+#define RING_5 16
+
+#define SHIELD_MP 32
+#define SHIELD_SLAYER 64
+#define SHIELD_3 128
+#define SHIELD_4 256
+#define SHIELD_5 512
+
+#define SWORD_SLAYER 1024
+#define SWORD_2 2048
+#define SWORD_3 4096
+#define SWORD_4 8192
+#define SWORD_5 16384
+
+#define EXTRA_EFFECT 32768
+
 
 
 #define EARTH 1

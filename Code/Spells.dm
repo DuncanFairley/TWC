@@ -1440,7 +1440,8 @@ mob/Spells/verb/Avada_Kedavra()
 
 mob/Spells/verb/Apparate()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/Apparate,needwand=1,mpreq=50))
+	var/mpCost = (usr:passives & RING_APPARATE) ? 350 : 150
+	if(canUse(src,cooldown=/StatusEffect/Apparate,needwand=1,mpreq=mpCost))
 
 		var/area/a = loc.loc
 		if(a.AntiApperate)
@@ -1788,6 +1789,23 @@ element
 
 mob/Player
 
+	proc/onDamage(dmg, mob/attacker)
+
+		if((passives & SHIELD_MP) && MP < MMP)
+			var/regen = round(dmg / 10, 1)
+			MP = min(MP + regen, MMP)
+			updateMP()
+
+		if((passives & SHIELD_SLAYER) && ismonster(attacker))
+			dmg *= 0.9
+
+		dmg = round(dmg, 1)
+		HP -= dmg
+		updateHP()
+
+		return dmg
+
+
 	Attacked(obj/projectile/p)
 		..()
 
@@ -1800,10 +1818,6 @@ mob/Player
 				if(!a.friendlyFire) return
 
 				if(a.timedProtection && (lastHostile == 0 || world.time - lastHostile > 600)) return
-
-				p.owner << "Your [p] does [p.damage] damage to [src]."
-			else
-				src << "[p.owner] hit you for [p.damage] with their [p]."
 
 		var/dmg = p.damage
 
@@ -1821,8 +1835,10 @@ mob/Player
 
 		if(dmg <= 0) return
 
-		HP -= dmg
-		updateHP()
+		dmg = onDamage(dmg, p.owner)
+
+		p.owner << "Your [p] does [dmg] damage to [src]."
+		src << "[p.owner] hit you for [dmg] with their [p]."
 
 		var/n = dir2angle(get_dir(src, p))
 		emit(loc    = src,
@@ -1850,6 +1866,9 @@ mob/Enemies
 		if(isplayer(p.owner))
 
 			var/dmg = p.damage + p.owner:Slayer.level
+
+			if(p.owner:passives & SWORD_SLAYER)
+				dmg *= 1.1
 
 			if(p.icon_state == "blood")
 				dmg += round(p.damage / 10, 1)

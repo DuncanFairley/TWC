@@ -1220,9 +1220,11 @@ turf
 	DblClick()
 		..()
 
+		if(!isplayer(usr)) return
 		var/mob/Player/p = usr
 
-		if((p.superspeed || (p.shortapparate && canUse(p,cooldown=/StatusEffect/Apparate,needwand=1,mpreq=50))) && p.nomove == 0)
+		var/mpCost = (p.passives & RING_APPARATE) ? 350 : 150
+		if((p.superspeed || (p.shortapparate && canUse(p,cooldown=/StatusEffect/Apparate,needwand=1,mpreq=mpCost))) && p.nomove == 0)
 
 			var/area/a = p.loc.loc
 			if(a.AntiApperate)
@@ -1255,10 +1257,13 @@ mob/Player
 	proc/Apparate(turf/t)
 		set waitfor = 0
 
-		new /StatusEffect/Apparate(src,10*cooldownModifier,"Apparate")
-
-		MP -= 50
-		updateMP()
+		if(passives & RING_APPARATE)
+			MP -= 350
+			updateMP()
+		else
+			new /StatusEffect/Apparate(src,10*cooldownModifier,"Apparate")
+			MP -= 150
+			updateMP()
 
 		var/r = pick(1,-1)
 

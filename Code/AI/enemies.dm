@@ -899,7 +899,7 @@ mob
 				if(dmg<1)
 					//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 				else
-					p.HP -= dmg
+					dmg = p.onDamage(dmg, src)
 					hearers(p)<<"<SPAN STYLE='color: red'>[src] attacks [p] and causes [dmg] damage!</SPAN>"
 					if(src.removeoMob)
 						spawn() p.Death_Check(src.removeoMob)
@@ -968,8 +968,7 @@ mob
 				if(dmg < 1)
 					//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 				else
-					target.HP -= dmg
-					target.updateHP()
+					dmg = target.onDamage(dmg, src)
 					hearers(target)<<"<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
 					if(target.HP <= 0)
 						Kill(target)
@@ -1402,7 +1401,7 @@ mob
 
 									p << errormsg("[name] fed on your blood.")
 
-									p.HP -= 1500
+									p.onDamage(1500, src)
 									p.Death_Check(src)
 
 								HP += hp * 250

@@ -4364,5 +4364,62 @@ obj/items/wearable/ring/snowring
 	icon_state="snow"
 	name="Ring of Snow"
 	desc="A magical ring that can manipulate water."
-	passive = WATERWALK
+	passive = RING_WATERWALK
 
+obj/items/wearable/ring/aetherwalker_ring
+	icon='ammy.dmi'
+	icon_state="snow"
+	desc="A magical ring that allows you apparate without cooldown."
+	passive = RING_APPARATE
+
+
+obj/items/wearable/shield
+	bonus = 0
+	desc = "A finely knit scarf designed to keep your neck toasty warm."
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		. = ..(owner)
+		if(. == WORN)
+			src.gender = owner.gender
+			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his arm.")
+			for(var/obj/items/wearable/shield/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+		else if(. == REMOVED)
+			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
+
+obj/items/wearable/shield/mana
+	icon='ammy.dmi'
+	icon_state="snow"
+	name="Emperor's bracelet"
+	desc="A magical bracelet that converts 10% of damage taken into mana."
+	passive = SHIELD_MP
+
+obj/items/wearable/shield/slayer
+	icon='trophies.dmi'
+	icon_state="Shield"
+	name="Todd's shield"
+	desc="Todd's magical shield, granting the weilder 10% damage reduction from monsters."
+	passive = SHIELD_SLAYER
+
+obj/items/wearable/sword
+	bonus = 0
+	desc = "A finely knit scarf designed to keep your neck toasty warm."
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		. = ..(owner)
+		if(. == WORN)
+			src.gender = owner.gender
+			if(!overridetext)viewers(owner) << infomsg("[owner] wields \his [src.name].")
+			for(var/obj/items/wearable/sword/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+		else if(. == REMOVED)
+			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
+
+obj/items/wearable/sword/slayer
+	icon='trophies.dmi'
+	icon_state="Sword"
+	name="Todd's sword"
+	desc="Todd's magical sword, granting the wielder 10% damage to monsters."
+	passive = SWORD_SLAYER

@@ -645,7 +645,7 @@ turf
 		Enter(atom/movable/O, atom/oldloc)
 			if(name == "water")
 				if(isplayer(O) && O.density)
-					if(O:passives & WATERWALK)
+					if(O:passives & RING_WATERWALK)
 						ice()
 					else
 						return 0
