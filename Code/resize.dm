@@ -79,12 +79,15 @@ hudobj
 				animate(src, alpha = initial(alpha), time = 5)
 			client.screen += src
 
-		hide()
+		hide(instant=0)
 			set waitfor = 0
-			animate(src, alpha = 0, time = 5)
-			sleep(6)
-			if(client)
+			if(instant)
 				client.screen -= src
+			else
+				animate(src, alpha = 0, time = 5)
+				sleep(6)
+				if(client)
+					client.screen -= src
 
 
 	New(loc=null,client/Client,list/Params,show=1)

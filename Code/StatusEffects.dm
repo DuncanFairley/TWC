@@ -395,7 +395,7 @@ StatusEffect
 				for(var/hudobj/Cooldown/c in p.client.screen)
 					if(c.name == "Potion")
 						c.maptext = null
-						c.hide()
+						c.hide(1)
 						break
 
 			..()
@@ -870,7 +870,7 @@ StatusEffect
 				for(var/hudobj/Cooldown/c in AttachedAtom:client.screen)
 					if(c.name == "Lamp")
 						c.maptext = null
-						c.hide()
+						c.hide(1)
 						break
 			..()
 
