@@ -430,6 +430,8 @@ obj/pet
 			if(p && item.loc == p && i && i.loc && i.loc == tempLoc)
 				i.owner = null
 				i.Move(p)
+				i.antiTheft = 0
+				i.underlays = list()
 				p.Resort_Stacking_Inv()
 
 		fetch = null
