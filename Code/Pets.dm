@@ -364,7 +364,7 @@ obj/pet
 
 	proc/fetch(obj/items/add)
 		set waitfor = 0
-		if(!add.loc || (item.function & PET_FETCH) == 0 || z != add.z) return
+		if(!add.loc || !add.fetchable || (item.function & PET_FETCH) == 0 || z != add.z) return
 		if(fetch)
 			fetch[add] = add.loc
 			return
@@ -392,6 +392,7 @@ obj/pet
 				sleep(2)
 
 			if(p && item.loc == p && i && i.loc && i.loc == tempLoc)
+				i.owner = null
 				i.Move(p)
 				p.Resort_Stacking_Inv()
 

@@ -428,6 +428,8 @@ obj/items/demonic_essence
 	icon       = 'jokeitems.dmi'
 	icon_state = "DarknessPowder"
 	max_stack  = 1
+	canSave    = FALSE
+	fetchable  = 0
 
 	Take()
 		set src in oview(1)
@@ -457,6 +459,8 @@ obj/items/blood_sack
 	icon       = 'jokeitems.dmi'
 	icon_state = "Blood Sack"
 	max_stack  = 1
+	canSave    = FALSE
+	fetchable  = 0
 
 	Take()
 		set src in oview(1)
