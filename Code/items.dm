@@ -3483,6 +3483,20 @@ obj/items
 			else
 				..()
 
+		MouseEntered(location,control,params)
+			if(src in usr)
+
+				if(!desc)
+					var/info = ""
+					for(var/d in chest_prizes[drops])
+						var/list/split = splittext ("[d]", "/")
+						info += "[split[split.len]]\n"
+					winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[replacetext(info, "_", " ")]\"")
+				else
+					winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[desc]\"")
+
+				winshowRight(usr, "infobubble")
+
 		verb
 			Open()
 				set src in usr
@@ -3513,6 +3527,7 @@ obj/items
 
 		legendary_golden_chest
 			icon_state = "golden"
+			desc = "3 to 6 random items from every chest."
 
 		duel_chest
 			icon_state = "duel"
@@ -3590,6 +3605,23 @@ obj/items
 			keyType = /obj/items/key/community_key
 
 		wigs
+
+			MouseEntered(location,control,params)
+				if(src in usr)
+
+					if(!desc)
+						var/info = ""
+
+						var/id = usr.Gender == "Female" ? "female_[drops]" : "male_[drops]"
+
+						for(var/d in chest_prizes[id])
+							var/list/split = splittext ("[d]", "/")
+							info += "[split[split.len]]\n"
+						winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[replacetext(info, "_", " ")]\"")
+					else
+						winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[desc]\"")
+
+					winshowRight(usr, "infobubble")
 
 			Open()
 				set src in usr
@@ -3755,7 +3787,7 @@ var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/
 							                     /obj/items/wearable/scarves/white_scarf = 35,
 							                     /obj/items/wearable/scarves/black_scarf = 35),
 
-							 "female_chess" = list(/obj/items/wearable/wigs/male_chess_wig = 15,
+							 "female_chess" = list(/obj/items/wearable/wigs/female_chess_wig = 15,
 							                       /obj/items/wearable/hats/grey_earmuffs  = 15,
 							                       /obj/items/wearable/shoes/white_shoes   = 25,
 							                       /obj/items/wearable/shoes/black_shoes   = 25,
