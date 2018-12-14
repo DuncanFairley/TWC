@@ -61,12 +61,12 @@ function Login() {
 
 function BackColor() {
 	var c = encodeURIComponent(arguments[0]);
-	WinSet("","buttonBackColor.background-color",c,"saybutton.background-color",c,"macrobutton.background-color",c,"mainvsplit.background-color",c,"info.tab-background-color",c,"mainwindow.background-color",c,"rpanewindow.background-color",c,"rpane.background-color",c,"textb.background-color",c,"browseb.background-color",c,"infob.background-color",c);
+	WinSet("","buttonBackColor.background-color",c,"saybutton.background-color",c,"macrobutton.background-color",c,"mainvsplit.background-color",c,"info.tab-background-color",c,"mainwindow.background-color",c,"rpanewindow.background-color",c,"rpane.background-color",c,"textb.background-color",c,"browseb.background-color",c,"infob.background-color",c,"infobubble.labelInfo.background-color",c,"infobubble.labelTitle.background-color",c,"infobubble.background-color",c);
 }
 
 function ForeColor() {
 	var c = encodeURIComponent(arguments[0]);
-	WinSet("","buttonForeColor.background-color",c,"saybutton.text-color",c,"macrobutton.text-color",c,"mainvsplit.text-color",c,"info.tab-text-color",c,"mainwindow.text-color",c,"rpanewindow.text-color",c,"rpane.text-color",c,"textb.text-color",c,"browseb.text-color",c,"infob.text-color",c);
+	WinSet("","buttonForeColor.background-color",c,"saybutton.text-color",c,"macrobutton.text-color",c,"mainvsplit.text-color",c,"info.tab-text-color",c,"mainwindow.text-color",c,"rpanewindow.text-color",c,"rpane.text-color",c,"textb.text-color",c,"browseb.text-color",c,"infob.text-color",c,"infobubble.labelInfo.text-color",c,"infobubble.labelTitle.text-color",c);
 }
 
 var resolution_x;
@@ -113,7 +113,7 @@ function CenterWindowCallback(properties) {
 function ShowSplitStack() {
 	var s = encodeURIComponent(arguments[0]);
 	WinSet("","splitStack.splitPercent.value","100","splitStack.splitBar.value","100","splitButton.text",s);
-	ShowCenterWindow("splitStack")
+	ShowRightWindow("splitStack");
 }
 
 function ShowCenterWindow() {
@@ -132,6 +132,26 @@ function ShowCenterWindowCallback(properties) {
 	
 	var x = window.screenLeft + Math.floor((map_width-win_width)/2);
 	var y = window.screenTop + Math.floor((map_height-win_width)/2);
+	
+    WinSet("",win_name + ".pos",x + "," + y,win_name + ".is-visible","true");
+}
+
+function ShowRightWindow() {
+	var w = encodeURIComponent(arguments[0]);
+	win_name = w;
+	window.location = "byond://winget?callback=ShowRightWindowCallback&id=" + w + "&property=size";
+}
+
+function ShowRightWindowCallback(properties) {
+    var win_width = properties.size.x;
+    var win_height = properties.size.y;
+	
+	var body = document.getElementsByTagName('body')[0];
+    var map_width = body.clientWidth;
+    var map_height = body.clientHeight;
+	
+	var x = window.screenLeft + map_width - win_width;
+	var y = window.screenTop + Math.floor((map_height-win_width)/3);
 	
     WinSet("",win_name + ".pos",x + "," + y,win_name + ".is-visible","true");
 }

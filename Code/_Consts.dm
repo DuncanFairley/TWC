@@ -16,6 +16,7 @@
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
 #define clamp(n, low, high) min(max((n), low), high)
 #define winshowCenter(player, window) player << output(window,"browser1:ShowCenterWindow")
+#define winshowRight(player, window) player << output(window,"browser1:ShowRightWindow")
 
 #define VERSION "16.70"
 #define SAVEFILE_VERSION 39

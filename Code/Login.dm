@@ -482,11 +482,20 @@ mob/GM/verb/FloodFill(path as null|anything in typesof(/turf)|typesof(/area))
 					p.CreateVars -= line
 					continue
 
-				var/n = text2num(split[2])
-				if(isnum(n))
-					a.vars[split[1]] = n
+				if(findtext(split[2], "@"))
+					var/ref = locate(copytext(split[2], 2))
+					if(!ref)
+						p.CreateVars -= line
+						continue
+					a.vars[split[1]] = ref
+				else if(split[2] == "null")
+					a.vars[split[1]] = null
 				else
-					a.vars[split[1]] = split[2]
+					var/n = text2num(split[2])
+					if(isnum(n))
+						a.vars[split[1]] = n
+					else
+						a.vars[split[1]] = split[2]
 
 mob/GM/verb/LoadMap()
 	set category = "Custom Maps"
@@ -833,6 +842,8 @@ mob/Player
 					GenerateNameOverlay(255,255,255)
 
 	Login()
+		if(client.byond_version <= 511)
+			src << errormsg("BYOND version 512 is out, please always update to the latest stable version.")
 		if(client.byond_version < world.byond_version)
 			src << errormsg("Your installed BYOND version is older than the one the game is using, please update to BYOND version [world.byond_version] or higher. You can continue to play but unpredicted errors may occur.")
 
@@ -1470,7 +1481,6 @@ mob/Player
 					stacked += O
 
 				else
-					if(Lwearing && (O in Lwearing)) continue
 					if(Lfavorites && (O in Lfavorites)) continue
 
 					var/t
@@ -1484,20 +1494,14 @@ mob/Player
 						if(!other) other = list()
 						other += O
 
+
 			if(money)
 				stat("Money:")
 				stat(money)
 
-
-			stat(objFavorites)
-			if(Lfavorites)
+			stat(objFavorites.isopen ? "-" : "+", objFavorites)
+			if(objFavorites.isopen && Lfavorites)
 				stat(Lfavorites)
-
-			if(Lwearing)
-				stat("Worn:")
-				for(var/obj/B in Lwearing)
-					if(Lfavorites && (B in Lfavorites)) continue
-					stat(B)
 
 			stat("Items:")
 			if(other)
@@ -1509,12 +1513,17 @@ mob/Player
 					stat("+", s)
 					if(s.isopen)
 						for(var/obj/B in s.contains)
-							if(Lwearing && (B in Lwearing)) continue
 							if(Lfavorites && (B in Lfavorites)) continue
 							stat("-", B)
 obj
 	favorites
 		name = "Favorites:"
+		canSave = FALSE
+		var/isopen=1
+
+		Click()
+			isopen = !isopen
+
 	stackobj
 		var/isopen=0
 		var/containstype

@@ -68,6 +68,16 @@ obj/items
 		if(p)
 			Unmacro(p)
 			p.Resort_Stacking_Inv()
+
+	MouseEntered(location,control,params)
+		if(desc && (src in usr))
+			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[desc]\"")
+			winshowRight(usr, "infobubble")
+
+	MouseExited(location,control,params)
+		if(src in usr)
+			winshow(usr, "infobubble", 0)
+
 	proc
 		Sort()
 			if(istype(loc, /atom))
@@ -293,8 +303,14 @@ obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_cont
 				if(p.Lfavorites.len == 0) p.Lfavorites = null
 
 				p << infomsg("[name] removed from favorites.")
+			default = 0
+		else if(istype(over_object, /obj/items/) && (over_object in usr))
+			var/list/C = usr.contents.Copy()
+			C.Swap(usr.contents.Find(src),usr.contents.Find(over_object))
+			usr.contents = C
+			default = 0
 
-		if(isturf(over_object))
+		else if(isturf(over_object))
 			default = 0
 			if(dropable && destroyable)
 				switch(alert("Do you wish to drop or destroy this item?","","Drop","Destroy","Cancel"))
@@ -418,7 +434,6 @@ obj/items/New()
 			src.verbs -= /obj/items/verb/Take
 	..()
 
-
 obj/items/wearable
 	icon_state = "item"
 
@@ -455,22 +470,48 @@ obj/items/wearable
 
 		return w
 
+	MouseEntered(location,control,params)
+		if((desc || quality) && (src in usr))
+
+			var/info
+
+			if(quality)
+				if((bonus & 3) == 3)
+					info = "[desc]\n\n +[quality*scale] Damage\n +[quality*scale] Defense"
+				else if(bonus & DAMAGE)
+					info = "[desc]\n\n +[quality*scale] Damage"
+				else
+					info = "[desc]\n\n +[quality*scale] Defense"
+			else
+				info = desc
+
+			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[info]\"")
+			winshowRight(usr, "infobubble")
+
+
 	UpdateDisplay()
 		var/const/WORN_TEXT = "<span style=\"color:blue;\">(Worn)</span>"
 		var/worn = findtext(suffix, "worn")
+		var/txt  = initial(suffix)
 
 		if(stack > 1)
 			suffix  = "<span style=\"color:#c00;\">(x[stack])</span>"
 			maptext = "<span style=\"font-size:1; color:#c00;\"><b>[stack]</b></span>"
 
 			if(worn)
-				suffix  = "[suffix] [WORN_TEXT]"
+				suffix = "[suffix] [WORN_TEXT]"
+
+			if(txt)
+				suffix = "[suffix] [txt]"
 		else
 			maptext = null
 			if(worn)
 				suffix = WORN_TEXT
+
+				if(txt)
+					suffix = "[suffix] [txt]"
 			else
-				suffix  = null
+				suffix = txt
 
 	proc
 		calcBonus(mob/Player/owner, reset=1)
@@ -524,7 +565,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 				owner.cloakReflection.mouse_opacity = 0
 				owner.cloakReflection.invisibility = 1
 
-		suffix = null
+		suffix = initial(suffix)
 		UpdateDisplay()
 		if(bonus != -1)
 			if(bonus & DAMAGE)
@@ -4364,12 +4405,14 @@ obj/items/wearable/ring/snowring
 	icon_state="snow"
 	name="Ring of Snow"
 	desc="A magical ring that can manipulate water."
+	suffix = "<span style=\"color:#ffa500;\">Allows you to walk on water.</span>"
 	passive = RING_WATERWALK
 
 obj/items/wearable/ring/aetherwalker_ring
 	icon='ammy.dmi'
 	icon_state="snow"
 	desc="A magical ring that allows you apparate without cooldown."
+	suffix = "<span style=\"color:#ffa500;\">Apparate's cooldown will be replaced with increased mana cost.</span>"
 	passive = RING_APPARATE
 
 
@@ -4393,13 +4436,15 @@ obj/items/wearable/shield/mana
 	icon_state="snow"
 	name="Emperor's bracelet"
 	desc="A magical bracelet that converts 10% of damage taken into mana."
+	suffix = "<span style=\"color:#ffa500;\">10% of damage taken will turn to mana.</span>"
 	passive = SHIELD_MP
 
 obj/items/wearable/shield/slayer
 	icon='trophies.dmi'
 	icon_state="Shield"
 	name="Todd's shield"
-	desc="Todd's magical shield, granting the weilder 10% damage reduction from monsters."
+	desc="Todd's magical shield, provides 10% damage reduction from monsters."
+	suffix = "<span style=\"color:#ffa500;\">10% damage reduction from monsters.</span>"
 	passive = SHIELD_SLAYER
 
 obj/items/wearable/sword
@@ -4422,4 +4467,5 @@ obj/items/wearable/sword/slayer
 	icon_state="Sword"
 	name="Todd's sword"
 	desc="Todd's magical sword, granting the wielder 10% damage to monsters."
+	suffix = "<span style=\"color:#ffa500;\">10% bonus damage to monsters.</span>"
 	passive = SWORD_SLAYER

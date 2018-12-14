@@ -983,6 +983,49 @@ window "guild"
 		command = ".guildcommand \"motd\""
 		is-flat = true
 
+window "infobubble"
+	elem "infobubble"
+		type = MAIN
+		pos = 281,0
+		size = 150x150
+		anchor1 = none
+		anchor2 = none
+		background-color = #000000
+		is-visible = false
+		border = line
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "infobubble"
+		titlebar = false
+		statusbar = false
+		can-close = false
+		can-minimize = false
+		can-resize = false
+		alpha = 200
+	elem "labelTitle"
+		type = LABEL
+		pos = 0,0
+		size = 150x25
+		anchor1 = none
+		anchor2 = none
+		font-style = "bold"
+		text-color = #ffffff
+		background-color = #000000
+		saved-params = ""
+		text = "Item name"
+		text-wrap = true
+	elem "labelInfo"
+		type = LABEL
+		pos = 5,25
+		size = 140x125
+		anchor1 = none
+		anchor2 = none
+		text-color = #ffffff
+		background-color = #000000
+		saved-params = ""
+		text = "desc"
+		align = left
+		text-wrap = true
+
 window "mainwindow"
 	elem "mainwindow"
 		type = MAIN
@@ -1442,6 +1485,7 @@ window "winSettings"
 		size = 256x302
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		is-visible = false
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Settings"
@@ -1455,6 +1499,7 @@ window "winSettings"
 		size = 127x24
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Hide screen objects"
 		command = ".hideHud"
@@ -1465,6 +1510,7 @@ window "winSettings"
 		size = 60x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = ""
 		text = "Colors:"
 	elem "buttonForeColor"
@@ -1473,6 +1519,7 @@ window "winSettings"
 		size = 72x28
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "Foreground"
@@ -1484,6 +1531,7 @@ window "winSettings"
 		size = 72x28
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "Background"
@@ -1495,6 +1543,7 @@ window "winSettings"
 		size = 88x28
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "On-Screen Text"
@@ -1506,6 +1555,7 @@ window "winSettings"
 		size = 119x24
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Hide quest tracker"
 		command = ".QuestTrackertoggle"
@@ -1516,6 +1566,7 @@ window "winSettings"
 		size = 247x24
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable automatic AFK (Use at your own risk!)"
 		command = ".AFKtoggle"
@@ -1526,6 +1577,7 @@ window "winSettings"
 		size = 232x24
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable sounds (PMs, Events, Classes etc)"
 		command = ".Soundtoggle"
@@ -1536,6 +1588,7 @@ window "winSettings"
 		size = 200x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Block trade requests                       "
 		command = ".Tradetoggle"
@@ -1546,6 +1599,7 @@ window "winSettings"
 		size = 239x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving flashing event notifications"
 		command = ".EventNotificationstoggle"
@@ -1556,6 +1610,7 @@ window "winSettings"
 		size = 240x24
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving monster attack messages  "
 		command = ".MonsterMessagestoggle"
@@ -1566,6 +1621,7 @@ window "winSettings"
 		size = 239x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving flashing class notifications"
 		command = ".ClassNotificationstoggle"
@@ -1576,6 +1632,7 @@ window "winSettings"
 		size = 126x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable Housechat"
 		command = ".Housechattoggle"
@@ -1586,6 +1643,7 @@ window "winSettings"
 		size = 200x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving private messages"
 		command = ".PMtoggle"
@@ -1596,6 +1654,7 @@ window "winSettings"
 		size = 96x20
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable OOC"
 		command = ".OOCtoggle"
