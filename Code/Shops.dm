@@ -37,6 +37,8 @@ proc/announcemsg(T as text)
 	return "<span style=\"color:#27BBF5; font-size:3;\"><b>[T]</b></span>"
 proc/infomsg(T as text)
 	return "<span style=\"color:#27BBF5;\">[T]</span>"
+proc/colormsg(T as text, c)
+	return "<span style=\"color:[c];\">[T]</span>"
 
 mob/Tom_
 	icon = 'NPCs.dmi'

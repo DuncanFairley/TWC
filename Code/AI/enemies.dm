@@ -695,7 +695,6 @@ mob
 			var/obj/items/prize
 
 			var/list/possible_drops = istext(drops)	? drops_list[drops] : drops
-			var/isDefault = 0
 
 			if(!possible_drops && name == initial(name))
 
@@ -703,8 +702,6 @@ mob
 					possible_drops = drops_list[name]
 				else
 					possible_drops = drops_list["default"]
-					isDefault = 1
-
 
 			if(islist(possible_drops))
 				for(var/i in possible_drops)
@@ -758,10 +755,17 @@ mob
 								step(item, randomDir)
 				else
 					prize = new prize (loc)
-					prize.prizeDrop(killer.ckey, decay=isDefault)
+					prize.prizeDrop(killer.ckey, decay=1)
 					killer << infomsg("<i>[name] dropped [prize.name]</i>")
 					if(killer.pet)
 						killer.pet.fetch(prize)
+
+			if(prob((level / killer.level)**3 * 0.01 * rate))
+				sparks = 1
+				prize = pick(drops_list["legendary"])
+				prize = new prize (loc)
+				prize.prizeDrop(killer.ckey, decay=1)
+				killer << colormsg("<i>[name] dropped [prize.name]</i>", "#FFA500")
 
 			if(sparks)
 				emit(loc    = loc,
@@ -1238,7 +1242,7 @@ mob
 					HPmodifier = 20
 					DMGmodifier = 2
 					MoveDelay = 3
-					AttackDelay = 1
+					AttackDelay = 3
 					Range = 20
 					level = 2000
 
@@ -1256,13 +1260,14 @@ mob
 						GenerateIcon(src)
 
 						namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1)
+						hpbar = new(src)
 
 					Attacked(obj/projectile/p)
 						if(p.owner && isplayer(p.owner) && p.owner.loc.loc == loc.loc)
-							if(MoveDelay == 3 && prob(50))
+							if(MoveDelay == 3 && prob(30))
 								MoveDelay = 1
 								ChangeState(state)
-								spawn(rand(40, 60))
+								spawn(30)
 									MoveDelay = 3
 									ChangeState(state)
 
@@ -1379,6 +1384,7 @@ mob
 						animate(     pixel_y = pixel_y - 1,  time = 2)
 
 						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, px=0, py=2)
+						hpbar = new(src)
 
 					Attack(mob/M)
 						..()
@@ -1514,7 +1520,7 @@ mob
 									animate(src, color = "#0e3492", time = 10, loop = -1)
 									animate(color = "#2a32fb", time = 10)
 									animate(color = "#cdf0e3", time = 10)
-							sleep(200)
+							sleep(600)
 
 					Attack(mob/M)
 						..()
@@ -1608,8 +1614,7 @@ mob
 									var/RandomEvent/Sword/e = locate() in worldData.events
 
 									if(e.swords < 30)
-										e.swords+=3
-										new /mob/Enemies/Summoned/Sword (loc)
+										e.swords+=2
 										new /mob/Enemies/Summoned/Sword (loc)
 										new /mob/Enemies/Summoned/Sword (loc)
 
@@ -1620,14 +1625,14 @@ mob
 							MoveDelay = 3
 							ChangeState(state)
 
-							sleep(400)
+							sleep(600)
 
 					Attack(mob/M)
 						..()
 
 						if(!fired && target && state == HOSTILE && icon_state == "sword")
 							fired = 1
-							spawn(10) fired = 0
+							spawn(30) fired = 0
 
 							var/list/dirs
 							if(diag == 0)
@@ -1676,6 +1681,12 @@ mob
 					level = 2000
 					canBleed = FALSE
 					var/tmp/fired = 0
+
+					MapInit()
+						set waitfor = 0
+						..()
+						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, py=16)
+						hpbar = new(src)
 
 					Attack(mob/M)
 						..()
@@ -1729,6 +1740,12 @@ mob
 						fired = 0
 						extraDmg = 400
 					element = WATER
+
+					MapInit()
+						set waitfor = 0
+						..()
+						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, py=16)
+						hpbar = new(src)
 
 					Death()
 						..()
@@ -2755,10 +2772,10 @@ obj/corpse
 area/var/undead = 0
 
 mob/Enemies/Summoned/Zombie
-	DMGmodifier = 1
-	HPmodifier  = 2
+	DMGmodifier = 0.8
+	HPmodifier  = 1
 	MoveDelay   = 2
-	AttackDelay = 3
+	AttackDelay = 5
 
 	New(Loc, mob/Player/p, obj/corpse/c)
 		appearance = c.appearance
