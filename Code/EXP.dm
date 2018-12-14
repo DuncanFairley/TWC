@@ -119,7 +119,7 @@ hudobj/readClicker
 
 		name = "[pick("Page ", "Spell #")][rand(1,3000)]"
 
-		if(prob(30))
+		if(prob(20))
 			isGold = 1
 			icon_state = "gold"
 
