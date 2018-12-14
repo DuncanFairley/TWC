@@ -364,7 +364,7 @@ obj/pet
 
 	proc/fetch(obj/items/add)
 		set waitfor = 0
-		if(!add.loc || (item.function & PET_FETCH) == 0) return
+		if(!add.loc || (item.function & PET_FETCH) == 0 || z != add.z) return
 		if(fetch)
 			fetch[add] = add.loc
 			return
