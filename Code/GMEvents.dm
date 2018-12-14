@@ -201,11 +201,20 @@ atom/Click(location)
 								p.CreateVars -= line
 								continue
 
-							var/n = text2num(split[2])
-							if(isnum(n))
-								a.vars[split[1]] = n
+							if(findtext(split[2], "@"))
+								var/ref = locate(copytext(split[2], 2))
+								if(!ref)
+									p.CreateVars -= line
+									continue
+								a.vars[split[1]] = ref
+							else if(split[2] == "null")
+								a.vars[split[1]] = null
 							else
-								a.vars[split[1]] = split[2]
+								var/n = text2num(split[2])
+								if(isnum(n))
+									a.vars[split[1]] = n
+								else
+									a.vars[split[1]] = split[2]
 
 
 
