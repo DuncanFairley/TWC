@@ -2,6 +2,16 @@ atom
 	movable
 		appearance_flags = LONG_GLIDE|PIXEL_SCALE
 
+#define FACE_NORTH 16
+#define FACE_SOUTH 32
+#define FACE_EAST 64
+#define FACE_WEST 128
+
+#define FACE_NORTHEAST 80
+#define FACE_NORTHWEST 144
+#define FACE_SOUTHEAST 96
+#define FACE_SOUTHWEST 160
+
 mob/proc/MoveLoop()
 
 mob/Player
@@ -11,7 +21,7 @@ mob/Player
 		moveDir  = 0
 		GLIDE = GLIDE_SIZE
 
-	MoveLoop(var/firstStep, var/wait=0)
+	MoveLoop(var/firstStep, var/wait=0, var/isDir=0)
 		set waitfor = 0
 
 		if(wait)
@@ -23,7 +33,10 @@ mob/Player
 			client.moveStart = time
 			client.moving = 1
 
-			if(!moveKeys && onMoveEvents(firstStep))
+			if(isDir)
+				dir = firstStep
+				sleep(move_delay + slow)
+			else if(!moveKeys && onMoveEvents(firstStep))
 				glide_size = GLIDE / (move_delay + slow)
 				step(src, firstStep)
 				sleep(move_delay + slow)
@@ -37,7 +50,17 @@ mob/Player
 
 					if(client.movements.len == 0) client.movements = null
 
-					if(onMoveEvents(d))
+					if(d >= 16)
+						switch(d)
+							if(FACE_NORTH)     dir = NORTH
+							if(FACE_SOUTH)     dir = SOUTH
+							if(FACE_EAST)      dir = EAST
+							if(FACE_WEST)      dir = WEST
+							if(FACE_NORTHEAST) dir = NORTHEAST
+							if(FACE_NORTHWEST) dir = NORTHWEST
+							if(FACE_SOUTHEAST) dir = SOUTHEAST
+							if(FACE_SOUTHWEST) dir = SOUTHWEST
+					else if(onMoveEvents(d))
 						glide_size = GLIDE / (move_delay + slow)
 						step(src, d)
 				else
@@ -173,6 +196,84 @@ client
 		else
 			if(!movements) movements = list(SOUTHWEST)
 			else if(movements.len < 10) movements += SOUTHWEST
+
+mob
+	Player
+		verb
+			anorth()
+				set hidden = 1
+				if(GMFrozen||arcessoing||inOldArena()) return
+
+				if(client.moveStart == null)
+					MoveLoop(NORTH, isDir=1)
+				else
+					if(!client.movements) client.movements = list(FACE_NORTH)
+					else if(client.movements.len < 10) client.movements += FACE_NORTH
+
+
+			asouth()
+				set hidden = 1
+				if(GMFrozen||arcessoing||inOldArena()) return
+
+				if(client.moveStart == null)
+					MoveLoop(SOUTH, isDir=1)
+				else
+					if(!client.movements) client.movements = list(FACE_SOUTH)
+					else if(client.movements.len < 10) client.movements += FACE_SOUTH
+			awest()
+				set hidden = 1
+				if(GMFrozen||arcessoing||inOldArena()) return
+
+				if(client.moveStart == null)
+					MoveLoop(WEST, isDir=1)
+				else
+					if(!client.movements) client.movements = list(FACE_WEST)
+					else if(client.movements.len < 10) client.movements += FACE_WEST
+			aeast()
+				set hidden = 1
+				if(GMFrozen||arcessoing||inOldArena()) return
+
+				if(client.moveStart == null)
+					MoveLoop(EAST, isDir=1)
+				else
+					if(!client.movements) client.movements = list(FACE_EAST)
+					else if(client.movements.len < 10) client.movements += FACE_EAST
+			anorthwest()
+				set hidden = 1
+				if(GMFrozen||arcessoing||inOldArena()) return
+
+				if(client.moveStart == null)
+					MoveLoop(NORTHWEST, isDir=1)
+				else
+					if(!client.movements) client.movements = list(FACE_NORTHWEST)
+					else if(client.movements.len < 10) client.movements += FACE_NORTHWEST
+			anortheast()
+				set hidden = 1
+				if(GMFrozen||arcessoing||inOldArena()) return
+
+				if(client.moveStart == null)
+					MoveLoop(NORTHEAST, isDir=1)
+				else
+					if(!client.movements) client.movements = list(FACE_NORTHEAST)
+					else if(client.movements.len < 10) client.movements += FACE_NORTHEAST
+			asouthwest()
+				set hidden = 1
+				if(GMFrozen||arcessoing||inOldArena()) return
+
+				if(client.moveStart == null)
+					MoveLoop(SOUTHWEST, isDir=1)
+				else
+					if(!client.movements) client.movements = list(FACE_SOUTHWEST)
+					else if(client.movements.len < 10) client.movements += FACE_SOUTHWEST
+			asoutheast()
+				set hidden = 1
+				if(GMFrozen||arcessoing||inOldArena()) return
+
+				if(client.moveStart == null)
+					MoveLoop(SOUTHEAST, isDir=1)
+				else
+					if(!client.movements) client.movements = list(FACE_SOUTHEAST)
+					else if(client.movements.len < 10) client.movements += FACE_SOUTHEAST
 
 mob/Player
 	var/tmp/image/reflection
