@@ -1898,7 +1898,7 @@ world/New()
 		if(B.icon_state == "Top") Map2Aurorbeds.Add(B)
 	for(var/turf/T in locate(/area/arenas/MapThree/WaitingArea))
 		MapThreeWaitingAreaTurfs.Add(T)
-	world.status = "<b><span style=\"font-family:'Comic Sans MS'; color:black;\">Server: <span style=\"color:blue;\">Main Server</span> || Version: <span style=\"color:red;\">[VERSION]</span></span></b>"
+	world.status = "<b><span style=\"font-family:'Comic Sans MS'; color:black;\">Server: <span style=\"color:blue;\">Main Server</span> || Version: <span style=\"color:red;\">[VERSION].[SUB_VERSION]</span></span></b>"
 	for(var/mob/TalkNPC/M in world)
 		M.GenerateNameOverlay(255,255,255)
 

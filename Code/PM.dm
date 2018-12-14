@@ -139,7 +139,7 @@ mob/Player/Topic(href,href_list[])
 	switch(href_list["action"])
 		//<a href='?src=\ref[src];action=teleport;x=[killer.x];y=[killer.y];z=[killer.z]'>Teleport</a>
 		if("view_changelog")
-			src << link("http://wizardschronicles.com/?ver=[VERSION]")
+			src << link("https://github.com/DuncanFairley/TWC/commits/master")
 		if("daily_prophet")
 			src:Daily_Prophet()
 		if("tournament")
