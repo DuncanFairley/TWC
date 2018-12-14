@@ -36,6 +36,7 @@ obj/items
 		takeable      = 1
 		destroyable   = 0
 		price         = 0
+		fetchable     = 1
 		tmp/antiTheft = 0
 
 		stack     = 1
@@ -477,11 +478,19 @@ obj/items/wearable
 
 			if(quality)
 				if((bonus & 3) == 3)
-					info = "[desc]\n\n +[quality*scale] Damage\n +[quality*scale] Defense"
+					var/dmg = 10*quality*scale
+					var/def = 30*quality*scale
+					if(dmg > 0) dmg = "+[dmg]"
+					if(def > 0) def = "+[def]"
+					info = "[desc]\n\n [dmg] Damage\n [def] Defense"
 				else if(bonus & DAMAGE)
-					info = "[desc]\n\n +[quality*scale] Damage"
+					var/dmg = 10*quality*scale
+					if(dmg > 0) dmg = "+[dmg]"
+					info = "[desc]\n\n [dmg] Damage"
 				else
-					info = "[desc]\n\n +[quality*scale] Defense"
+					var/def = 30*quality*scale
+					if(def > 0) def = "+[def]"
+					info = "[desc]\n\n [def] Defense"
 			else
 				info = desc
 
@@ -516,10 +525,10 @@ obj/items/wearable
 	proc
 		calcBonus(mob/Player/owner, reset=1)
 			if(bonus & DAMAGE)
-				clothDmg = round(10 * quality * scale)
+				clothDmg = round(10 * quality * scale, 1)
 				owner.clothDmg += clothDmg
 			if(bonus & DEFENSE)
-				clothDef = round(30 * quality * scale)
+				clothDef = round(30 * quality * scale, 1)
 				owner.clothDef += clothDef
 				if(reset) owner.resetMaxHP()
 
@@ -1321,7 +1330,7 @@ obj/items/wearable/orb
 mob/Player/var/tmp/obj/items/wearable/wands/wand
 
 obj/items/wearable/wands
-	scale = 0.3
+	scale = 0.6
 	var
 		track
 		displayColor
@@ -1337,12 +1346,12 @@ obj/items/wearable/wands
 	max_stack = 1
 
 	calcBonus(mob/Player/owner, reset=1)
-		var/s = worldData.elderWand == owner.ckey ? 0.4 : scale
+		var/s = worldData.elderWand == owner.ckey ? scale + 0.1 : scale
 		if(bonus & DAMAGE)
-			clothDmg = round(10 * quality * s)
+			clothDmg = round(10 * quality * s, 1)
 			owner.clothDmg += clothDmg
 		if(bonus & DEFENSE)
-			clothDef = round(30 * quality * s)
+			clothDef = round(30 * quality * s, 1)
 			owner.clothDef += clothDef
 			if(reset) owner.resetMaxHP()
 
