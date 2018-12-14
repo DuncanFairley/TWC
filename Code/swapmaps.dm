@@ -458,7 +458,7 @@ obj/var/canSave = TRUE
 var/saveError = 0
 atom
 	Write(savefile/S)
-		for(var/V in vars-"x"-"y"-"z"-"contents"-"icon"-"overlays"-"underlays"-"transform")
+		for(var/V in vars-"x"-"y"-"z"-"contents"-"icon"-"overlays"-"underlays"-"transform"-"filters"-"vis_contents")
 			if(issaved(vars[V]))
 				if(vars[V]!=initial(vars[V])) S[V]<<vars[V]
 				else S.dir.Remove(V)
@@ -469,10 +469,11 @@ atom
 		// do not save mobs with keys; do save other mobs
 		var/mob/M
 		for(M in src) if(M.key) break
-		if(!isturf(src))
-			if(overlays.len) S["overlays"]<<overlays
-			if(underlays.len) S["underlays"]<<underlays
-		else
+	//	if(!isturf(src))
+	//		if(overlays.len) S["overlays"]<<overlays
+	//		if(underlays.len) S["underlays"]<<underlays
+	//	else
+		if(isturf(src))
 			S.dir.Remove("tag")
 		if(contents.len && !isarea(src))
 			var/list/l=contents

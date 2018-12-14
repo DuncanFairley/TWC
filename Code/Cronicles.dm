@@ -169,9 +169,9 @@ mob
 		..()
 		if(src.type != /mob/Player)
 			return
-		F["overlays"] << null
+//		F["overlays"] << null
 		F["icon"] << null
-		F["underlays"] << null
+//		F["underlays"] << null
 		F["savefileversion"] << SAVEFILE_VERSION
 		if (base_save_location && world.maxx)
 			F["last_x"] << x
