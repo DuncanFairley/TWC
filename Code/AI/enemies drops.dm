@@ -9,6 +9,13 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 			 	                                         /obj/items/Smoke_Pellet,
 			 	                                         /obj/items/Tube_of_fun)),
 
+"legendary"          = list(/obj/items/artifact,
+                            /obj/items/wearable/ring/snowring,
+					        /obj/items/wearable/ring/aetherwalker_ring,
+					        /obj/items/wearable/shield/mana,
+					        /obj/items/wearable/shield/slayer,
+					        /obj/items/wearable/sword/slayer),
+
 
 "Bubbles the Spider" = list(/obj/items/key/basic_key,
 						    /obj/items/wearable/title/Crawler,
