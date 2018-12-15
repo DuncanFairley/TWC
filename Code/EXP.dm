@@ -666,8 +666,6 @@ mob/test/verb
 				if(p.readbooks > 0)
 					p.readbooks = -p.readbooks
 
-	Clear_Exp_Log()
-		worldData.expScoreboard = null
 
 proc/rewardExpWeek()
 	if(worldData.expScoreboard)
