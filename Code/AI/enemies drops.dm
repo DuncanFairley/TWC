@@ -84,6 +84,8 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 
 
 "Rat"                = list("10"   = /obj/items/ingredients/rat_tail),
+"Dog"                = list("1"    = /obj/items/ingredients/eyes),
+"Wolf"               = list("2"    = /obj/items/ingredients/eyes),
 
 "Demon Rat"          = list("10"   = list(/obj/items/demonic_essence,
                                           /obj/items/ingredients/rat_tail)),
