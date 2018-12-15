@@ -8,7 +8,24 @@
 mob/GM/verb/Grant_All_Spells(mob/M in Players)
 			set category="Staff"
 			set popup_menu = 0
+
 			M.verbs += typesof(/mob/Spells/verb)
+
+			M.verbs -= list(/mob/Spells/verb/Conjunctivis,
+							/mob/Spells/verb/Expecto_Patronum,
+							/mob/Spells/verb/Rictusempra,
+							/mob/Spells/verb/Dementia,
+							/mob/Spells/verb/Crucio,
+							/mob/Spells/verb/Melofors,
+							/mob/Spells/verb/Levicorpus,
+							/mob/Spells/verb/Densuago,
+							/mob/Spells/verb/Solidus,
+							/mob/Spells/verb/Arania_Eximae,
+							/mob/Spells/verb/Furnunculus,
+							/mob/Spells/verb/Evanesco,
+							/mob/Spells/verb/Eparo_Evanesca,
+							/mob/Spells/verb/Gravitate)
+
 			M<<"[usr] has given you <u>All</u> spells."
 
 
