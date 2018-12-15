@@ -2177,9 +2177,8 @@ mob
 			icon_state = "spider"
 			level = 850
 			MoveDelay = 3
-			AttackDelay = 3
 
-			HPmodifier = 1.6
+			HPmodifier = 1.4
 			DMGmodifier = 0.6
 
 			respawnTime = 900
@@ -2222,10 +2221,9 @@ mob
 		Vampire
 			icon = 'FemaleVampire.dmi'
 			level = 900
-			HPmodifier  = 1.8
+			HPmodifier  = 1.4
 			DMGmodifier = 0.6
 			MoveDelay   = 3
-			AttackDelay = 3
 			respawnTime = 900
 
 			drops = "Vampire"
@@ -2323,7 +2321,7 @@ mob
 			level = 850
 
 			HPmodifier  = 1.4
-			DMGmodifier = 0.8
+			DMGmodifier = 0.7
 			MoveDelay = 3
 			canBleed = FALSE
 			var/tmp/fired = 0
