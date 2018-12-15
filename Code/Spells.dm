@@ -204,11 +204,6 @@ mob/Spells/verb/Disperse()
 
 		if(dm)
 			dm.counter(src)
-			var/mob/Player/p = src
-			p.nomove = 1
-			p << errormsg("Dispersing the dark mark took a bit of effort, you stand still for a bit.")
-			spawn(15)
-				if(p) p.nomove = 0
 		src = null
 
 mob/Spells/verb/Herbificus()
@@ -368,14 +363,14 @@ mob/Spells/verb/Imitatus(mob/M in view()&Players, T as text)
 	hearers() << "<span style=\"color:red;\"><b>[M]</b> : </span>[html_encode(T)]"
 	p.learnSpell("Imitatus")
 mob/Spells/verb/Morsmordre()
-	set category = "Clan"
+	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedClanAbilities,inarena=0, insafezone=0, needwand=1))
 		var/obj/The_Dark_Mark/D = locate("DarkMark")
 		if(D && D.loc)
 			src << errormsg("A dark mark already exists in the sky.")
 			return
 
-		new /StatusEffect/UsedClanAbilities(src, 300)
+		new /StatusEffect/UsedClanAbilities(src, 600)
 		D = new (locate(src.x,src.y+1,src.z))
 		D.density=0
 		D.owner = ckey
