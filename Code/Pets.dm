@@ -69,7 +69,7 @@ obj/items/wearable/pets
 		minSize     = 1
 
 	MouseEntered(location,control,params)
-		if(src in usr)
+		if((src in usr) && usr:infoBubble)
 
 			var/info = ""
 			if(quality > 0)

@@ -69,7 +69,7 @@ obj/items
 			p.Resort_Stacking_Inv()
 
 	MouseEntered(location,control,params)
-		if(desc && (src in usr))
+		if(desc && (src in usr) && usr:infoBubble)
 			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[desc]\"")
 			winshowRight(usr, "infobubble")
 
@@ -461,7 +461,7 @@ obj/items/wearable
 		return w
 
 	MouseEntered(location,control,params)
-		if((desc || quality) && (src in usr))
+		if((desc || quality) && (src in usr) && usr:infoBubble)
 
 			var/info
 
@@ -3489,7 +3489,7 @@ obj/items
 				..()
 
 		MouseEntered(location,control,params)
-			if(src in usr)
+			if((src in usr) && usr:infoBubble)
 
 				if(!desc)
 					var/info = ""
@@ -3508,7 +3508,7 @@ obj/items
 
 				if(!drops) // if golden chest
 					var/obj/roulette/r = new (usr.loc)
-					r.getPrize(drops, usr.name, usr.ckey)
+					r.getPrize(drops, usr.name, usr.ckey, usr.Gender)
 
 					usr << infomsg("You opened a [name]!")
 					Consume()
@@ -3521,7 +3521,7 @@ obj/items
 					if(chestKey)
 
 						var/obj/roulette/r = new (usr.loc)
-						r.getPrize(drops, usr.name, usr.ckey)
+						r.getPrize(drops, usr.name, usr.ckey, usr.Gender)
 
 						usr << infomsg("You opened a [name]!")
 
@@ -3612,7 +3612,7 @@ obj/items
 		wigs
 
 			MouseEntered(location,control,params)
-				if(src in usr)
+				if((src in usr) && usr:infoBubble)
 
 					if(!desc)
 						var/info = ""
@@ -3837,7 +3837,7 @@ obj/roulette
 
 		return angle
 
-	proc/getPrize(drops, pname, pckey)
+	proc/getPrize(drops, pname, pckey, Gender)
 		set waitfor = FALSE
 
 		playerName = pname
@@ -3854,6 +3854,10 @@ obj/roulette
 				if(findtext(category, "(limited)"))
 					i--
 					continue
+
+				if(findtext(category, "male_"))
+					var/list/s = splittext(category, "_")
+					category = "[lowertext(Gender)]_[s[2]]"
 
 				L += pickweight(chest_prizes[category])
 

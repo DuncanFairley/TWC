@@ -1008,6 +1008,8 @@ mob/Player
 		mapTextColor = "#ffffff"
 		backColor = "#f0f0f0"
 		foreColor = "#000000"
+		infoBubble = 1
+
 	verb
 		setInterfaceColor(c as color)
 			set hidden=1
@@ -1032,6 +1034,13 @@ mob/Player
 
 			foreColor = "[c]"
 			src << output("[c]","browser1:ForeColor")
+
+		toggleInfoBubble()
+			set hidden=1
+			set name = ".toggleInfoBubble"
+
+			infoBubble = !infoBubble
+
 		hideHud()
 			set hidden=1
 			set name = ".hideHud"
