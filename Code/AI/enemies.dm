@@ -2181,7 +2181,7 @@ mob
 			HPmodifier = 1.6
 			DMGmodifier = 0.6
 
-			respawnTime = 1800
+			respawnTime = 900
 
 			ChangeState(var/i_State)
 				set waitfor = FALSE
@@ -2225,7 +2225,7 @@ mob
 			DMGmodifier = 0.6
 			MoveDelay   = 3
 			AttackDelay = 3
-			respawnTime = 2400
+			respawnTime = 900
 
 			drops = "Vampire"
 
