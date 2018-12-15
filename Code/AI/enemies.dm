@@ -2229,7 +2229,7 @@ mob
 
 			drops = "Vampire"
 
-			var/rep = 2
+			var/rep = 4
 
 			MapInit()
 				set waitfor = 0
