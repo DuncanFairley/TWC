@@ -2325,16 +2325,15 @@ mob
 				..()
 				if(!fired && target && state == HOSTILE)
 					fired = 1
-					spawn(rand(50,150)) fired = 0
+					spawn(90) fired = 0
 
 					for(var/obj/redroses/S in oview(3, src))
 						flick("burning", S)
 						spawn(8) S.loc = null
 
-					if(prob(80))
-						dir=get_dir(src, target)
-						castproj(icon_state = "fireball", damage = Dmg + rand(-4,8), name = "fire ball")
-						sleep(AttackDelay)
+					dir=get_dir(src, target)
+					castproj(icon_state = "fireball", damage = Dmg + rand(-4,8), name = "fire ball")
+					sleep(AttackDelay)
 
 			Attacked(obj/projectile/p)
 				if(p.icon_state == "gum" || (p.icon_state == "blood" && prob(75)))
