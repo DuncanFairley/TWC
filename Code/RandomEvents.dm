@@ -691,7 +691,7 @@ RandomEvent
 
 	EntranceKillZone
 		name   = "Entrance Kill Zone"
-		chance = 0
+		chance = 5
 		start()
 			set waitfor = 0
 			..()
