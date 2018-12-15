@@ -1061,4 +1061,4 @@ questReward
 			points = -15
 			max    = 0
 	Slayer
-		points = 2000
+		points = 5000

@@ -538,9 +538,9 @@ questReward
 
 		get(mob/Player/p)
 			if(points)
-				p.Slayer.add(round(p.level/100,1)*points*10, p, 1)
+				p.Slayer.add(round(p.level/50,1)*points*10, p, 1)
 
-			if(prob(65))
+			if(prob(75))
 				var/t = pick(/obj/items/artifact, /obj/items/magic_stone/teleport)
 				var/obj/o = new t (p)
 				p << infomsg("You receive [o.name].")

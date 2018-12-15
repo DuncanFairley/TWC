@@ -26,7 +26,7 @@ mob/TalkNPC
 			if(amount > 0)
 				s.AddText("Make good use of my teachings.")
 
-				p.Slayer.add(amount * 2500, p, 1)
+				p.Slayer.add(amount * 5000, p, 1)
 			else
 				s.AddText("I heard you've slain a lot of monsters, place slayer titles in the blood plate as proof and I will teach you how to make gods bleed.")
 
@@ -42,7 +42,7 @@ mob/TalkNPC
 
 			var/amount = 0
 			for(var/obj/items/elite/e in p)
-				amount += e.stack * e.level * e.level * 100
+				amount += e.stack * (e.level) ** 3 * 20
 				e.Dispose()
 
 			if(amount > 0)
