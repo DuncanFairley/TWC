@@ -760,7 +760,8 @@ mob
 					if(killer.pet)
 						killer.pet.fetch(prize)
 
-			if(prob((level / killer.level)**3 * 0.01 * rate))
+			var/base = 0.01 * clamp(level / 100, 1, 10)
+			if(prob((level / killer.level)**3 * base * rate))
 				sparks = 1
 				prize = pick(drops_list["legendary"])
 				prize = new prize (loc)
