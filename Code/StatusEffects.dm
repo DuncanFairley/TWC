@@ -83,6 +83,26 @@ Event
 			spawn() scheduler.schedule(src, 36000)
 			auctionBidTime()
 
+
+			var/max = 0
+			var/house = 0
+
+			for(var/i = 1 to 4)
+				if(worldData.housepointsGSRH[i] > max)
+					max = worldData.housepointsGSRH[i]
+					house = i
+
+			switch(house)
+				if(1) house = "Gryffindor"
+				if(2) house = "Slytherin"
+				if(3) house = "Ravenclaw"
+				if(4) house = "Hufflepuff"
+
+			if(house != worldData.housecupwinner)
+				worldData.housecupwinner = house
+				Players << "<b><span style=\"color:#CF21C0;\">[worldData.housecupwinner] moved to the top and gained favour. They receive +25% drop rate/gold/XP from monster kills.</span></b>"
+
+
 	DailyEvents
 
 		fire()
