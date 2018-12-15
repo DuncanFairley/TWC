@@ -142,3 +142,8 @@ atom
 		..()
 
 	proc/MapInit()
+
+
+var/snowCurse = 0
+obj/snow_counter
+obj/clock/Curse_Clock

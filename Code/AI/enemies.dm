@@ -1751,6 +1751,12 @@ mob
 						..()
 						SpawnPortal("teleportPointSnowman Dungeon")
 
+						var/obj/snow_counter/count = locate("SnowCounter")
+						if(count.add())
+							new /mob/Enemies/Summoned/Boss/Snowman/Super (loc)
+ 							world << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
+
+
 					Attack(mob/M)
 						..()
 						if(!fired && target && state == HOSTILE)

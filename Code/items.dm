@@ -576,7 +576,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.passives &= ~passive
 		return REMOVED
 	else
-		if(showoverlay && !owner.trnsed)
+		if(showoverlay && !owner.trnsed && !snowCurse)
 			var/image/o = new
 			o.icon = src.icon
 			o.layer = wear_layer
