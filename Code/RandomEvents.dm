@@ -164,8 +164,17 @@ RandomEvent
 			var/rounds = rand(2,4)
 			var/obj/clock/timer = locate("FFAtimer")
 
+			var/gameMode = pick("Normal","One Hit Kill", "Undying")
+
+			var/area/a = locate(/area/arenas/MapThree/PlayArea)
+			if(gameMode == "One Hit Kill")
+				a = locate(/area/arenas/MapThree/PlayArea)
+				a.dmg = 100
+			else if(gameMode == "Undying")
+				a.undead = 1
+
 			for(var/mob/Player/p in Players)
-				p << "<h3>An automated FFA is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a> The first round will start in 2 minutes.</h3>"
+				p << "<h3>An automated FFA is beginning soon. Game mode: <span  style=\"color:red\">[gameMode]</span>. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a> The first round will start in 2 minutes.</h3>"
 			sleep(1200)
 			while(rounds)
 				rounds--
@@ -232,11 +241,19 @@ RandomEvent
 							p.Death_Check()
 
 					if(winner)
-						var/prize = 10000 * count
+						var/prize = 15000 * (count + 1)
 						var/gold/g = new(bronze=prize)
 						g.give(winner)
 						winner << infomsg("You won [g.toString()] for winning the round.")
 						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: (FFA) [winner.name] won [comma(prize)] gold.<br />"
+
+			if(a)
+				a.dmg = 1
+				if(a.undead)
+					a.undead = 0
+					for(var/mob/Enemies/Summoned/Zombie/z in a)
+						z.Dispose()
+						z.ChangeState(z.INACTIVE)
 
 			end()
 
