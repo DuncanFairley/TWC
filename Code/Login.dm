@@ -1984,6 +1984,11 @@ mob/Player/proc/resetStatPoints()
 	resetMaxHP()
 	if(level > 1 && !(locate(/hudobj/UseStatpoints) in client.screen))
 		new /hudobj/UseStatpoints(null, client, null, show=1)
+
+	if(level == lvlcap && rankLevel)
+		StatPoints += rankLevel.level
+
+
 mob/Player/proc/resetMaxHP()
 	MHP = 4 * (level - 1) + 200 + 2 * (Def + clothDef)
 	if(HP > MHP)
@@ -2007,6 +2012,11 @@ mob/Player
 				Exp=0
 
 				StatPoints++
+
+				lvlGlow()
+
+				if(level == lvlcap && rankLevel)
+					StatPoints += rankLevel.level
 
 				if(!(locate(/hudobj/UseStatpoints) in client.screen))
 					new /hudobj/UseStatpoints(null, client, null, show=1)
