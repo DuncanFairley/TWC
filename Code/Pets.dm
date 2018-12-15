@@ -431,7 +431,7 @@ obj/pet
 				i.owner = null
 				i.Move(p)
 				i.antiTheft = 0
-				i.underlays = list()
+				i.filters = null
 				p.Resort_Stacking_Inv()
 
 		fetch = null

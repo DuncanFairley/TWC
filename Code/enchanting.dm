@@ -331,6 +331,7 @@ obj/items/crystal
 
 	useTypeStack = 1
 	stackName = "Crystals:"
+	rarity = 2
 
 	Click()
 		if(src in usr)
@@ -373,3 +374,4 @@ obj/items/crystal
 		icon_state = "soul"
 		luck = 5
 		ignoreItem = TRUE
+		rarity = 3
