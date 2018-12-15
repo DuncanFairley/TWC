@@ -617,6 +617,10 @@ expRank
 				level++
 				maxExp = 100000 + (level * 30000)
 				parent.screenAlert("You leveled up to rank [level]!")
+				parent << infomsg("You leveled up to rank [level]!")
+				parent << infomsg("You have gained a statpoint, click + next to your health bar.")
+				parent.StatPoints++
+				parent.lvlGlow()
 
 				var/t
 
@@ -907,3 +911,12 @@ proc/ticks2time(ticks)
 	if(sec)
 		if(.) . += " and "
 		. += "[sec] [sec > 1 ? "seconds" : "second"]"
+
+mob/Player/proc/lvlGlow()
+	appearance_flags |= KEEP_TOGETHER
+	filters += filter(type="drop_shadow", y=0, size=4, offset=2, color="#ffa")
+	var/f = filters[filters.len]
+	animate(f, size=9, offset=5, y=7, time=14)
+	animate(size=12, offset=10, y=12, color="#ffa4", time=10)
+	filters -= f
+	appearance_flags &= ~KEEP_TOGETHER
