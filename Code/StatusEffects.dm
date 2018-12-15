@@ -97,6 +97,7 @@ Event
 				if(2) house = "Slytherin"
 				if(3) house = "Ravenclaw"
 				if(4) house = "Hufflepuff"
+				if(0) return
 
 			if(house != worldData.housecupwinner)
 				worldData.housecupwinner = house
