@@ -398,6 +398,11 @@ mob
 			if(savefile_version < 39)
 				p.Slayer = new("Slayer")
 
+			if(savefile_version < 40)
+				if(p.level == lvlcap && p.rankLevel)
+					p.StatPoints += p.rankLevel.level
+					p << infomsg("You were given [p.rankLevel.level] additional stat points due to your rank level.")
+
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else
