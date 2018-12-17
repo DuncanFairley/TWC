@@ -9,7 +9,8 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 			 	                                         /obj/items/Smoke_Pellet,
 			 	                                         /obj/items/Tube_of_fun)),
 
-"legendary"          = list(/obj/items/artifact,
+"legendary"          = list(/obj/items/crystal/soul,
+							/obj/items/artifact,
                             /obj/items/wearable/ring/snowring,
 					        /obj/items/wearable/ring/aetherwalker_ring,
 					        /obj/items/wearable/shield/mana,
@@ -67,13 +68,12 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							/obj/items/wearable/title/Samurai,
 							/obj/items/vault_key),
 
-"Stickman"           = list("10"    =      /obj/items/key/wizard_key,
-				            "35"   = list(/obj/items/artifact,
+"Stickman"           = list("10"    =     /obj/items/key/wizard_key,
+				            "25"   = list(/obj/items/artifact,
 							   		      /obj/items/stickbook,
 									      /obj/items/crystal/soul,
 				                          /obj/items/wearable/title/Surf),
-							"55"   = list(/obj/items/artifact,
-							              /obj/items/crystal/magic,
+							"55"   = list(/obj/items/crystal/magic,
 							              /obj/items/crystal/strong_luck),
 							"10"   = list(/obj/items/DarknessPowder,
 								 		  /obj/items/Whoopie_Cushion,
@@ -83,7 +83,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							 			  /obj/items/Swamp)),
 
 
-"Rat"                = list("10"   = /obj/items/ingredients/rat_tail),
+"Rat"                = list("5"    = /obj/items/ingredients/rat_tail),
 "Dog"                = list("1"    = /obj/items/ingredients/eyes),
 "Wolf"               = list("2"    = /obj/items/ingredients/eyes),
 
@@ -91,15 +91,13 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
                                           /obj/items/ingredients/rat_tail)),
 
 
-"Snowman"            = list("0.5" = list(/obj/items/artifact,
-                                          /obj/items/wearable/orb/peace,
-							              /obj/items/wearable/orb/chaos,
-							              /obj/items/key/winter_key,
-							              /obj/items/chest/winter_chest)),
+"Snowman"            = list("0.5" = list(/obj/items/wearable/orb/peace,
+							             /obj/items/wearable/orb/chaos,
+							             /obj/items/key/winter_key,
+							             /obj/items/chest/winter_chest)),
 
 
-"Wisp"               = list("0.1" = list(/obj/items/wearable/title/Magic,
-						     			 /obj/items/crystal/soul),
+"Wisp"               = list("0.1" = /obj/items/wearable/title/Magic,
 							"0.5" = list(/obj/items/key/basic_key,
 							             /obj/items/key/wizard_key,
 							             /obj/items/key/pentakill_key,
@@ -114,13 +112,11 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 "Vengeful Ghost"     = list("2"   = list(/obj/items/colors/purple_stone,
 							 			 /obj/items/colors/pink_stone,
 						     			 /obj/items/colors/teal_stone,
-						     			 /obj/items/colors/orange_stone,
-						     			 /obj/items/artifact),
+						     			 /obj/items/colors/orange_stone),
 							"4"   = list(/obj/items/colors/red_stone,
 							 			 /obj/items/colors/green_stone,
 						     			 /obj/items/colors/yellow_stone,
-						     			 /obj/items/colors/blue_stone,
-						     			 /obj/items/artifact),
+						     			 /obj/items/colors/blue_stone),
 							"8"   = list(/obj/items/wearable/orb/chaos,
 							 			 /obj/items/wearable/orb/peace)),
 
@@ -157,7 +153,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							              /obj/items/key/wizard_key,
 							              /obj/items/key/pentakill_key,
 							              /obj/items/key/sunset_key),
-							"1"    =      /obj/items/artifact,
+							"0.6"    =      /obj/items/artifact,
 							"8"    = list(/obj/items/ingredients/eyes)),
 
 
@@ -185,8 +181,8 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 			 			  	              /obj/items/reputation/peace_tablet)),
 
 
-"Basilisk"           = list("10"    =      /obj/items/key/pentakill_key,
-							"35"   = list(/obj/items/artifact,
+"Basilisk"           = list("5"    = list(/obj/items/key/pentakill_key,
+										  /obj/items/artifact,
 										  /obj/items/wearable/title/Petrified,
 										  /obj/items/crystal/soul),
 							"55"   = list(/obj/items/crystal/damage,
@@ -203,11 +199,11 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 
 "The Good Snowman"   = list("5"    = list(/obj/items/chest/wigs/sunset_wig_chest,
 										  /obj/items/chest/wigs/chess_chest,
-										  /obj/items/chest/sunset_chest),
-							"15"   = list(/obj/items/key/chess_key,
+										  /obj/items/chest/sunset_chest,
+										  /obj/items/key/chess_key,
 										  /obj/items/key/pet_key,
-										  /obj/items/wearable/pets/snowman),
-							"35"   = list(/obj/items/artifact,
+										  /obj/items/wearable/pets/snowman,
+										  /obj/items/artifact,
 										  /obj/items/wearable/title/Frozen,
 										  /obj/items/crystal/soul),
 							"60"   = list(/obj/items/crystal/damage,
