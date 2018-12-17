@@ -365,17 +365,13 @@ mob
 					for(var/i=1, i < length, i++)
 						if(i % gap == 0)
 							var/turf/A = path[i]
-							var/image/arrow = image('arrows.dmi', A)
+							var/image/arrow = image('arrows.dmi', A, icon_state = "d")
 							arrow.appearance_flags = NO_CLIENT_COLOR|RESET_COLOR
 							arrow.layer = 10
 
 							var/j = min(path.len - i, gap)
 							if(path.len >= i + j)
-								var/image/a = image('arrows.dmi', "arrow")
-								var/angle = get_angle(path[i], path[i + j])
-
-								a.transform = turn(matrix(), angle)
-								arrow.overlays += a
+								arrow.transform = turn(matrix(), get_angle(path[i], path[i + j]))
 							else
 								arrow.icon_state = "0"
 
