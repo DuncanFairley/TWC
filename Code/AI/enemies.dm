@@ -687,7 +687,7 @@ mob
 				var/obj/items/elite/e = new (loc)
 				e.level = level/50
 				e.name  = "sword of might: level [e.level]"
-				e.prizeDrop(killer.ckey, decay=FALSE)
+				e.prizeDrop(killer.ckey, decay=1)
 				killer << infomsg("<i>[name] dropped [e.name]</i>")
 
 			rate *= rate_factor
@@ -760,12 +760,7 @@ mob
 					if(killer.pet)
 						killer.pet.fetch(prize)
 
-			var/base
-			if(level >= killer.level)
-				base = worldData.baseChance * clamp(level / 100, 1, 10)
-			else
-				base = worldData.baseChance * clamp(level / 200, 1, 10)
-
+			var/base = worldData.baseChance * clamp(1 + (level - killer.level) / 200, 0.1, 10)
 			if(prob((level / killer.level)**4 * base * rate))
 				sparks = 1
 				prize = pick(drops_list["legendary"])
@@ -1879,6 +1874,8 @@ mob
 
 			Range = 16
 			respawnTime = 6000
+
+			drops = "duelist"
 
 			MapInit()
 				set waitfor = 0
