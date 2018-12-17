@@ -126,9 +126,10 @@ obj/items/wearable/pets
 				var/obj/buildable/hammer_totem/t = locate("pet_[owner.ckey]")
 				if(t && (src in t.pets))
 					owner.pet = t.pets[src]
-					owner.pet.loc = get_step(owner, owner.dir)
-					owner.pet.wander = 0
-					owner.pet.density = 0
+					spawn(1)
+						owner.pet.loc = get_step(owner, owner.dir)
+						owner.pet.wander = 0
+						owner.pet.density = 0
 					t.pets -= src
 				else
 					owner.pet = new (get_step(owner, owner.dir), src)
@@ -151,11 +152,11 @@ obj/items/wearable/pets
 				var/obj/buildable/hammer_totem/t = locate("pet_[owner.ckey]")
 				if(t)
 					var/obj/pet/p = owner.pet
+					t.pets[src] = p
 					spawn(1)
 						p.loc = t.loc
 						p.density = 1
 						p.walkRand()
-						t.pets[src] = p
 				else
 					owner.pet.Dispose()
 				owner.pet = null
@@ -229,6 +230,10 @@ obj/items/wearable/pets
 		dropable = 0
 	snowman
 		icon_state = "snowman"
+	mouse
+		icon_state = "mouse"
+		currentSize = 1
+		minSize     = 1
 
 obj/pet
 	icon = 'Mobs.dmi'
