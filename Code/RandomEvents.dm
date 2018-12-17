@@ -348,7 +348,7 @@ RandomEvent
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
-			Players << infomsg("The Evil Snowman and his army appeared outside Hogwarts, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
+			Players << infomsg("The Evil Snowman and his army appeared at Hogwarts grounds (behind the castle), defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/Enemies/Summoned/Boss/monster = new /mob/Enemies/Summoned/Boss/Snowman(spawn_loc.loc)
@@ -388,7 +388,7 @@ RandomEvent
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
-			Players << infomsg("Willy the Whisp and his army are haunting right outside Hogwarts, defend yourselves until ghostbus---- reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill Willy the Whisp before then you might be able to get a nice prize!")
+			Players << infomsg("Willy the Whisp and his army are haunting right outside at Hogwarts grounds (behind the castle), defend yourselves until ghostbus---- reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill Willy the Whisp before then you might be able to get a nice prize!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/Enemies/Summoned/Boss/monster = new /mob/Enemies/Summoned/Boss/Wisp(spawn_loc.loc)
@@ -483,7 +483,7 @@ RandomEvent
 			..()
 			var/minutes = rand(10,20)
 			var/list/m = list()
-			Players << infomsg("Vengeful ghosts are lurking outside the castle for [minutes] minutes, chase them away!")
+			Players << infomsg("Vengeful ghosts are lurking outside the castle at Hogwarts grounds (behind the castle) for [minutes] minutes, chase them away!")
 
 			for(var/i = 1 to rand(18,30))
 				var/obj/spawner/spawn_loc = pick(worldData.spawners)
@@ -509,7 +509,7 @@ RandomEvent
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
-			Players << infomsg("Something doesn't quite smell right outside Hogwarts, be cautious, evil forces are crawling, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to ...butcher them... before then you might be able to get a nice prize!")
+			Players << infomsg("Something doesn't quite smell right outside at Hogwarts grounds (behind the castle), be cautious, evil forces are crawling, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to ...butcher them... before then you might be able to get a nice prize!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/Enemies/Summoned/monster = new /mob/Enemies/Summoned/Boss/Acromantula(spawn_loc.loc)
@@ -541,7 +541,7 @@ RandomEvent
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
-			Players << infomsg("A vampire lord has been lured outside of the castle for [minutes] minutes, the vicious creature brought an army, it appears old and wealthy, maybe it carries valuables, slay it to find out!")
+			Players << infomsg("A vampire lord has been lured outside of the castle at Hogwarts grounds (behind the castle) for [minutes] minutes, the vicious creature brought an army, it appears old and wealthy, maybe it carries valuables, slay it to find out!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/Enemies/Summoned/monster = new /mob/Enemies/Summoned/Boss/VampireLord(spawn_loc.loc)
@@ -577,7 +577,7 @@ RandomEvent
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
-			Players << infomsg("A zombie has appeared outside for [minutes] minutes, kill zombie before it infects others!")
+			Players << infomsg("A zombie has appeared outside (behind the castle) for [minutes] minutes, kill zombie before it infects others!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/Enemies/Summoned/monster = new /mob/Enemies/Summoned/Boss/Zombie(spawn_loc.loc)
@@ -620,7 +620,7 @@ RandomEvent
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
-			Players << infomsg("The Black Blade has appeared outside the castle for [minutes] minutes, destroy the blade!")
+			Players << infomsg("The Black Blade has appeared outside (behind the castle) for [minutes] minutes, destroy the blade!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/Enemies/Summoned/monster = new /mob/Enemies/Summoned/Boss/Sword(spawn_loc.loc)
@@ -664,7 +664,7 @@ RandomEvent
 			..()
 			var/minutes = rand(15,45)
 			var/list/m = list()
-			Players << infomsg("The elder wand's magical force is possessing a stone construct outside the castle for [minutes] minutes, destroy the stone construct to harness the power of the broken elder wand!")
+			Players << infomsg("The elder wand's magical force is possessing a stone construct outside (behind the castle) for [minutes] minutes, destroy the stone construct to harness the power of the broken elder wand!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/Enemies/Summoned/monster = new /mob/Enemies/Summoned/Boss/Golem(spawn_loc.loc)
@@ -755,7 +755,7 @@ RandomEvent
 			var/minutes = rand(9, 16)
 			var/chests  = rand(4, 8)
 
-			Players << infomsg("A wizard-pirate dropped [chests] chests off his ship while casually flying through the castle's restricted airspace, he might've dropped those chests because we might've fired our magic-space guns at him.<br>Find the treasure chests before other pesky looters get them! You have [minutes] minutes.<br>(Treasure is not visible, it's hidden somewhere outside the castle.)")
+			Players << infomsg("A wizard-pirate dropped [chests] chests off his ship while casually flying through the castle's restricted airspace, he might've dropped those chests because we might've fired our magic-space guns at him.<br>Find the treasure chests before other pesky looters get them! You have [minutes] minutes.<br>(Treasure is not visible, it's hidden somewhere behind the castle at Hogwarts grounds.)")
 
 			var/list/treasures = list()
 			if(!winners) winners = list()
@@ -804,7 +804,7 @@ RandomEvent
 			..()
 			var/minutes = rand(10,30)
 			var/snitches = rand(15,30)
-			Players << infomsg("[snitches] snitches were released right outside Hogwarts, each snitch you catch will reward you!<br>The snitches will disappear in [minutes] minutes. To catch snitches you need to fly on a broom and use \"Take\" verb (The verb will only appear when you are near the snitch, it is recommended to macro it).")
+			Players << infomsg("[snitches] snitches were released outside behind Hogwarts, each snitch you catch will reward you!<br>The snitches will disappear in [minutes] minutes. To catch snitches you need to fly on a broom and use \"Take\" verb (The verb will only appear when you are near the snitch, it is recommended to macro it).")
 
 			var/list/s = list()
 			for(var/i = 0; i < snitches; i++)
@@ -892,7 +892,7 @@ RandomEvent
 			var/tier = rand(1,9)
 			var/list/types = list("Slug", "Rat", "Pixie", "Dog", "Snake", "Wolf", "Troll", "Spider", "Stickman")
 
-			Players << infomsg("[types[tier]]s are invading for [minutes] minutes, they're right outside Hogwarts, defend the castle!<br>(The monsters have a leader, stronger than the rest, he drops a valuable prize based on level)")
+			Players << infomsg("[types[tier]]s are invading for [minutes] minutes, they're right outside behind Hogwarts, defend the castle!<br>(The monsters have a leader, stronger than the rest, he drops a valuable prize based on level)")
 
 			var/list/m = list()
 			for(var/i = 0; i <= monsters; i++)
