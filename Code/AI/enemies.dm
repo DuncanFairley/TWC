@@ -760,8 +760,13 @@ mob
 					if(killer.pet)
 						killer.pet.fetch(prize)
 
-			var/base = 0.01 * clamp(level / 100, 1, 10)
-			if(prob((level / killer.level)**3 * base * rate))
+			var/base
+			if(level >= killer.level)
+				base = worldData.baseChance * clamp(level / 100, 1, 10)
+			else
+				base = worldData.baseChance * clamp(level / 200, 1, 10)
+
+			if(prob((level / killer.level)**4 * base * rate))
 				sparks = 1
 				prize = pick(drops_list["legendary"])
 				prize = new prize (loc)
@@ -1753,7 +1758,7 @@ mob
 						SpawnPortal("teleportPointSnowman Dungeon")
 
 						var/obj/snow_counter/count = locate("SnowCounter")
-						if(count.add())
+						if(count.add(100))
 							new /mob/Enemies/Summoned/Boss/Snowman/Super (loc)
  							world << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
 
@@ -2170,6 +2175,13 @@ mob
 					transform = null
 					Dmg = DMGmodifier * (level + 5)
 
+			Death()
+				..()
+				var/obj/snow_counter/count = locate("SnowCounter")
+				if(count.add())
+					var/obj/spawner/spawn_loc = pick(worldData.spawners)
+					new /mob/Enemies/Summoned/Boss/Snowman/Super (spawn_loc.loc)
+					world << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
 
 		Acromantula
 			icon = 'Mobs.dmi'

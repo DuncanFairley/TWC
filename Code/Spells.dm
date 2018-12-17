@@ -1180,7 +1180,13 @@ mob/Spells/verb/Incendio()
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=10,againstocclumens=1))
 		castproj(Type = /obj/projectile/BurnRoses, MPreq = 10, icon_state = "fireball", name = "Incendio")
 
+mob/proc/Haha()
+
 mob/Player/proc/BaseIcon()
+
+	if(snowCurse)
+		if(Haha()) return
+
 	if(Gender == "Female")
 		if(Gm)
 			icon = snowCurse ? 'SnowmanStaff.dmi' : 'FemaleStaff.dmi'
