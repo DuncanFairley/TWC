@@ -210,7 +210,7 @@ obj/items
 		Drop_All()
 			set src in usr
 
-			hearers(owner) << infomsg("[usr] drops all of \his [src.name] items.")
+			hearers(usr) << infomsg("[usr] drops all of \his [src.name] items.")
 			drop(usr, stack)
 
 		prizeDrop(ownerCkey, protection=300, decay=TRUE)
@@ -219,18 +219,19 @@ obj/items
 			antiTheft = 1
 			owner     = ownerCkey
 
-			var/c
-			switch(rarity)
-				if(1)
-					c = "#0e0"
-				if(2)
-					c = "#00a5ff"
-				if(3)
-					c = "#ffa500"
+			if(rarity != 0)
+				var/c
+				switch(rarity)
+					if(1)
+						c = "#0e0"
+					if(2)
+						c = "#00a5ff"
+					if(3)
+						c = "#ffa500"
 
 
-			if(c)
-				filters = filter(type="outline", size=1, color=c)
+				if(c)
+					filters = filter(type="outline", size=1, color=c)
 
 			sleep(protection)
 
@@ -271,7 +272,7 @@ obj/items/verb
 	Drop()
 		set src in usr
 
-		hearers(owner) << infomsg("[usr] drops \his [src.name].")
+		hearers(usr) << infomsg("[usr] drops \his [src.name].")
 		drop(usr, 1)
 
 obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
