@@ -3568,6 +3568,7 @@ obj/items
 			limited_edition
 				name  = "special summer 2015 chest"
 				drops = "(limited)2015 sum"
+				keyType = /obj/items/key/special_key
 
 		winter_chest
 			icon_state = "blue"
@@ -3578,6 +3579,7 @@ obj/items
 			limited_edition
 				name  = "special winter 2015 chest"
 				drops = "(limited)2015 winter"
+				keyType = /obj/items/key/special_key
 
 		prom_chest
 			icon_state = "pink"
@@ -3587,6 +3589,7 @@ obj/items
 			limited_edition
 				name = "special prom 2015 chest"
 				drops = "(limited)2015 prom"
+				keyType = /obj/items/key/special_key
 
 		blood_chest
 			icon_state = "red"
@@ -3657,6 +3660,32 @@ obj/items
 				icon_state = "red"
 				drops      = "chess"
 				keyType = /obj/items/key/chess_key
+
+	mystery_key
+		icon = 'ChestKey.dmi'
+		icon_state = "master"
+		rarity = 3
+
+		desc = "Click to get a random key."
+
+		Click()
+			if(src in usr)
+				var/obj/items/key/k = pick(/obj/items/key/basic_key,
+		               			  /obj/items/key/wizard_key,
+		               			  /obj/items/key/pentakill_key,
+					   			  /obj/items/key/prom_key,
+					  			  /obj/items/key/summer_key,
+					   			  /obj/items/key/winter_key,
+					  			  /obj/items/key/blood_key,
+								  /obj/items/key/pet_key,
+								  /obj/items/key/chess_key,
+							      /obj/items/key/community_key,
+		              			  /obj/items/key/sunset_key)
+				k = new k (usr)
+				usr << infomsg("You received [k.name].")
+				Consume()
+			else
+				..()
 
 	key
 		icon = 'ChestKey.dmi'
@@ -4278,6 +4307,12 @@ obj/items/treats
 		levelReq   = 0
 		message    = 0
 
+		var/chance = 8
+
+		ball
+			icon_state = "ball"
+			chance = 1
+
 		Feed(mob/Player/p)
 
 			if(p.pet.busy)
@@ -4316,7 +4351,7 @@ obj/items/treats
 			p.pet.walkTo(target, get_dir(p.pet, p))
 			sleep(10)
 
-			if(prob(8))
+			if(prob(chance))
 				. = 1
 				p << errormsg("Your [p.pet.name] couldn't find your [name]")
 
