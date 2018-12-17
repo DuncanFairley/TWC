@@ -1325,12 +1325,12 @@ mob/Player
 				usr.away = 1
 				usr.here=usr.status
 				usr.status=" (AFK)"
-				Players<<"~ <span style=\"color:red;\">[usr]</span> is <u>AFK</u> ~"
+	//			Players<<"~ <span style=\"color:red;\">[usr]</span> is <u>AFK</u> ~"
 				ApplyAFKOverlay()
 			else
 				usr.away = 0
 				usr.status=usr.here
-				Players<<"<span style=\"color:red;\">[usr]</span> is no longer AFK."
+	//			Players<<"<span style=\"color:red;\">[usr]</span> is no longer AFK."
 				RemoveAFKOverlay()
 
 mob/Player
