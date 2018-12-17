@@ -39,7 +39,9 @@ mob/Player
 			else if(!moveKeys && onMoveEvents(firstStep))
 				glide_size = GLIDE / (move_delay + slow)
 				step(src, firstStep)
-				sleep(move_delay + slow)
+
+				if(move_delay + slow > 1)
+					sleep(move_delay + slow - 1)
 
 			var/diag
 			while((moveKeys || client.movements) && client.moveStart == time)
@@ -47,8 +49,6 @@ mob/Player
 				if(client.movements)
 					var/d = client.movements[1]
 					client.movements.Cut(1,2)
-
-					if(client.movements.len == 0) client.movements = null
 
 					if(d >= 16)
 						switch(d)
@@ -63,6 +63,10 @@ mob/Player
 					else if(onMoveEvents(d))
 						glide_size = GLIDE / (move_delay + slow)
 						step(src, d)
+
+					if(client.movements.len == 0)
+						client.movements = null
+
 				else
 					if(onMoveEvents(moveDir))
 						diag = moveDir & moveDir-1
