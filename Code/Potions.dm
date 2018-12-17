@@ -17,6 +17,7 @@ WorldData/var
 obj/items/ingredients
 	icon      = 'potions_ingredients.dmi'
 	accioable = 1
+	rarity    = 0
 	var
 		id
 
@@ -269,8 +270,8 @@ obj/potions
 								worldData.potionsAmount++
 
 						else
-							chance = clamp(worldData.potionsAmount / (worldData.potions.len + 1) - player.Alchemy.level, 10, 90)
-							if(prob(chance * 60))
+							chance = clamp((worldData.potionsAmount / (worldData.potions.len + 1))*50 - player.Alchemy.level, 1, 90)
+							if(prob(chance))
 								potion = 0
 								worldData.potions[potionId] = potion
 
