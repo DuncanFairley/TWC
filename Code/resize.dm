@@ -134,9 +134,13 @@ client
 			for(var/hudobj/h in screen)
 				h.updatePos()
 
+	New()
+		..()
+		initMapBrowser()
 	proc
 		initMapBrowser()
 			set waitfor = 0
+			src << browse('mapbrowser.html',"window=browser1")
 			while(!browser_loaded)
 				src << browse('mapbrowser.html',"window=browser1")
 				sleep(50)

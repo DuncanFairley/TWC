@@ -729,7 +729,6 @@ obj/loginCamera
 mob/BaseCamp/ChoosingCharacter
 	sight = SEE_THRU
 	Login()
-		client.initMapBrowser()
 		new /hudobj/login/New(null, client, null, 1)
 		new /hudobj/login/Load(null, client, null, 1)
 
