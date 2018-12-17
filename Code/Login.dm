@@ -1378,7 +1378,7 @@ mob/Player
 			stat("Damage:","[Dmg] ([Dmg - (level + 4)])")
 			stat("Defense:","[Def] ([(Def - (level + 4))/3])")
 			stat("Cooldown Reduction:","[round(1000 - cooldownModifier*1000, 1)/10]%")
-			stat("MP Regeneration:", "[50 + round(level/10)*5 + MPRegen]")
+			stat("MP Regeneration:", "[50 + round(level/10)*2 + MPRegen]")
 			if(Fire)
 				var/percent = round((Fire.exp / Fire.maxExp) * 100)
 				stat("Fire:", "[Fire.level]   Exp: [comma(Fire.exp)]/[comma(Fire.maxExp)] ([percent]%)")
