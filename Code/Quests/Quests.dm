@@ -173,7 +173,8 @@ mob/TalkNPC/quest
 					sleep(20)
 					alert("You point the wand at the barriers")
 					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>[usr]</span> </b>:<font color=white> <b>Finte Incantum!</b>"
-					usr.x += 23
+					if(usr.x > 21) return
+					usr.x += 21
 					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> Finally! I'm free!!!"
 					alert("Fred jumps up and down")
 					usr << "\n<span style=\"font-size:2;\"><font color=red><b> <font color=red>Fred</span> </b>:<font color=white> Thank you so much. You can keep that wand if you'd like."
