@@ -2846,7 +2846,10 @@ obj/boss/death
 		for(var/mob/Player/p in range((range-1)/2, loc))
 			p << errormsg("A giant cow fell on you, oops.")
 			p.HP = 0
-			p.Death_Check(boss)
+			if(boss)
+				boss.Kill(p)
+			else
+				p.Death_Check(boss)
 
 		loc = null
 		o.loc = null
