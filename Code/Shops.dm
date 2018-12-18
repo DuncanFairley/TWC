@@ -225,6 +225,7 @@ obj/Madame_Pomfrey
 		..(loc)
 
 		if(time)
+			density = 0
 			hearers() << "<b>Madame Pomfrey</b>: Hello. Need healing? Click me."
 			sleep(time)
 			FlickState("Orb",12,'Effects.dmi')
@@ -240,6 +241,15 @@ mob/TalkNPC/Broom_Salesman
 	Talk()
 		set src in oview(2)
 		usr << npcsay("Chrono: Check the brooms I got on the wall, they're all for sale.")
+
+mob/TalkNPC/Pet_Saleswoman
+	icon = 'NPCs.dmi'
+	icon_state="girl"
+	name="Bree"
+
+	Talk()
+		set src in oview(2)
+		usr << npcsay("Bree: Welcome! I just opened the shop I apologize for lack of wares.")
 
 mob/TalkNPC/greenman
 	name="Green Man"
@@ -539,8 +549,28 @@ mob/TalkNPC/Artifacts_Salesman
 
 	Talk()
 		set src in oview(3)
+		var/mob/Player/p = usr
 
-		usr << npcsay("Artifacts Salesman: I have some exquisite rarties for sale, check the items on display.")
+		var/ScreenText/s = new(p, src)
+
+		var/amount = 0
+		for(var/turf/t in block(locate(x-2,y-2,z),locate(x+2,y-2,z)))
+			for(var/obj/items/wearable/i in t)
+				if(i.owner == p.ckey && i.passive)
+					amount += i.stack
+					i.Dispose()
+
+		if(amount > 0)
+			if(amount == 1)
+				s.AddText("You have an ancient artifact of old and you chose to give it to me? I'm flattered.")
+			else
+				s.AddText("I'll give you [amount] artifacts for those.")
+
+			var/obj/items/artifact/a = new
+			a.stack = amount
+			a.Move(p)
+		else
+			s.AddText("I love legendary artifacts, if you've got any legendary items, I'll be willing to trade with you, drop them on the purple floor and talk to me.")
 
 proc
 	comma(n)
