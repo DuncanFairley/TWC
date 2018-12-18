@@ -352,14 +352,17 @@ hudobj
 				color = "#0f0"
 				p << infomsg("Click again to confirm, this will teleport you back and cost [cost] teleport crystal[cost > 1 ? "s" : ""].")
 			else
-				var/obj/items/magic_stone/teleport/t = locate() in p
+				var/obj/items/magic_stone/teleport/t
+				for(var/obj/items/magic_stone/teleport/i)
+					if(!i.dest)
+						t = i
+						break
 
-				if(!t)
+				if(!t || t.stack < cost)
 					p << errormsg("You don't have [cost] teleport crystal[cost > 1 ? "s" : ""] to teleport back.")
 					return
 
-				if(t.Consume())
-					p.Resort_Stacking_Inv()
+				t.Consume(cost)
 
 				var/turf/d = locate(dest)
 				if(d)
