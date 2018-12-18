@@ -3228,7 +3228,7 @@ obj/items/magic_stone
 						s.Move(p)
 						p.Resort_Stacking_Inv()
 
-					p << infomsg("You charged your teleport stone to [dest].")
+					p << infomsg("You charged your teleport stone to [s.dest].")
 				else
 					p << errormsg("You can't use it here, find a memory rune to charge this teleport stone.")
 
