@@ -19,7 +19,7 @@
 #define winshowRight(player, window) player << output(window,"browser1:ShowRightWindow")
 
 #define VERSION "16.70"
-#define SUB_VERSION "2"
+#define SUB_VERSION "3"
 #define SAVEFILE_VERSION 40
 #define VAULT_VERSION 5
 #define lvlcap 800
@@ -147,3 +147,5 @@ atom
 var/snowCurse = 0
 obj/snow_counter
 obj/clock/Curse_Clock
+
+WorldData/var/tmp/baseChance = 0.01
