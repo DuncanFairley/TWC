@@ -708,12 +708,12 @@ obj/items/potions
 		proc/Effect(mob/Player/p)
 
 		Click()
-			if((src in usr) && canUse(M=usr, inarena=0))
+			if(src in usr)
+				if(canUse(M=usr, inarena=0, needwand=0))
+					var/mob/Player/p = usr
 
-				var/mob/Player/p = usr
-
-				if(Effect(p))
-					Consume()
+					if(Effect(p))
+						Consume()
 			else
 				..()
 
@@ -724,9 +724,12 @@ obj/items/potions
 
 			Effect(mob/Player/p)
 				if(p.level < lvlcap)
-					p << infomsg("You receive [comma(exp)] experience.")
-					p.addExp(exp)
+					var/e = exp * (1 + (quality - 4) * 0.1)
+					p << infomsg("You receive [comma(e)] experience.")
+					p.addExp(e)
 					. = 1
+				else
+					p << errormsg("You can't use this, you're already super smart.")
 
 	pets
 
