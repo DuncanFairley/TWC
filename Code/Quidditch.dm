@@ -27,30 +27,21 @@ turf/quidditch
 	right
 		icon_state = "right"
 
+
 obj/quidditch
 	snitch
 		icon = 'obj.dmi'
 		icon_state = "snitch"
+		appearance_flags = LONG_GLIDE|PIXEL_SCALE
 		density = 1
 
 		var
 			caught
 			prize
 
-			tmp
-				canCatch = 0
-
 		New()
 			..()
 			Wander()
-
-		proc/Wander()
-			set waitfor = 0
-			sleep(1)
-			while(loc)
-				step_rand(src)
-				if(prob(30)) step_rand(src)
-				sleep(world.tick_lag)
 
 		Bump(atom/movable/O)
 			if(!istype(O, /mob/Player)) return
@@ -58,52 +49,93 @@ obj/quidditch
 			O.Move(loc, get_dir(O.loc, loc))
 			density = 1
 
-		verb
-			Take()
-				set waitfor = 0
-				set src in oview(1)
-				if(!usr.flying)
-					usr << "<b>You must be flying to catch the snitch!</b>"
-					return
-				var/mob/Player/user = usr
+		proc/Wander()
+			set waitfor = 0
+			sleep(1)
 
-				if(prob(CHANCEFORSNITCH))
-					user << infomsg("You caught the snitch!")
-					if(prize)
-						if(prob(50)) // gold prize
-							var/gold/g = new (bronze=rand(5000,10000))
-							g.give(user)
-							user << infomsg("You won [g.toString()].")
-						else // house points prize
-							var/housenum = 1
-							var/points = rand(1,2)
-							switch(user.House)
-								if("Gryffindor")
-									housenum = 1
-								if("Slytherin")
-									housenum = 2
-								if("Ravenclaw")
-									housenum = 3
-								if("Hufflepuff")
-									housenum = 4
+			var/const/RANGE = 20
 
-							worldData.housepointsGSRH[housenum] += points
+			var/min_dist = RANGE
+			var/mob/Player/target
+			var/turf/lastLoc = loc
+			var/alt = 0
+			var/sprint = 0
 
-							user << infomsg("You won [points] house point[points != 1 ? "s" : ""].")
-							Players << "\red[points] point[points != 1 ? "s have" : " has"] been added to [user.House]!"
+			while(loc)
+				var/count = 0
+				for(var/mob/Player/M in ohearers(src, RANGE))
+					count++
+					var/dist = get_dist(src, M)
+					if(min_dist > dist)
+						target = M
 
+				if(!count) target = null
+
+				if(target)
+					var/delay = 1
+
+					if(sprint<=0)
+						if(prob(40))
+							sprint = rand(4,8)
+							glide_size = 32
 					else
-						Players << infomsg("[user] has caught the [name]!")
-					loc = null
-					walk(src, 0)
+						sprint--
+
+					if(sprint<=0)
+						glide_size = 16
+						delay = 2
+
+					var/turf/newLoc = get_step_away(src, target, RANGE)
+
+					if(lastLoc == newLoc)
+						loc = target.loc
+					else
+						loc = newLoc
+
+					alt = !alt
+					if(alt)	lastLoc = loc
+					sleep(delay)
+
 				else
-					var/message = pick("You reach as high as you can, but just miss the snitch.",
-						"The snitch flies out of your reach as you try to grab it.",
-						"You miss the snitch by a mile")
-					canCatch = 0
-					user << errormsg(message)
-					sleep(15)
-					canCatch = 1
+					lastLoc = null
+					step_rand(src)
+					glide_size = 8
+					sleep(3)
+
+		Crossed(atom/movable/O)
+			if(isplayer(O))
+				var/mob/Player/p = O
+				if(!p.flying) return
+
+				p << infomsg("You caught the snitch!")
+				if(prize)
+					if(prob(50)) // gold prize
+						var/gold/g = new (bronze=rand(5000,10000))
+						g.give(p)
+						p << infomsg("You won [g.toString()].")
+					else // house points prize
+						var/housenum = 1
+						var/points = rand(1,2)
+						switch(p.House)
+							if("Gryffindor")
+								housenum = 1
+							if("Slytherin")
+								housenum = 2
+							if("Ravenclaw")
+								housenum = 3
+							if("Hufflepuff")
+								housenum = 4
+
+						worldData.housepointsGSRH[housenum] += points
+
+						p << infomsg("You won [points] house point[points != 1 ? "s" : ""].")
+						Players << "\red[points] point[points != 1 ? "s have" : " has"] been added to [p.House]!"
+
+				else
+					Players << infomsg("[p] has caught the [name]!")
+
+				loc = null
+
 
 
 

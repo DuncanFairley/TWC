@@ -804,7 +804,7 @@ RandomEvent
 			..()
 			var/minutes = rand(10,30)
 			var/snitches = rand(15,30)
-			Players << infomsg("[snitches] snitches were released outside behind Hogwarts, each snitch you catch will reward you!<br>The snitches will disappear in [minutes] minutes. To catch snitches you need to fly on a broom and use \"Take\" verb (The verb will only appear when you are near the snitch, it is recommended to macro it).")
+			Players << infomsg("[snitches] snitches were released outside behind Hogwarts, each snitch you catch will reward you!<br>The snitches will disappear in [minutes] minutes. To catch snitches you need to fly on a broom and walk on them.")
 
 			var/list/s = list()
 			for(var/i = 0; i < snitches; i++)
