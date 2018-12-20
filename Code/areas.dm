@@ -426,6 +426,7 @@ area
 			WaitingArea
 			PlayArea
 		MapOne
+			selfDamage = 0
 			Gryff/Exit(atom/movable/O)
 				if(ismob(O))
 					if(worldData.currentArena)
