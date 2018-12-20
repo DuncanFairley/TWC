@@ -4569,3 +4569,11 @@ obj/items/wearable/sword/slayer
 	desc="Todd's magical sword, granting the wielder 10% damage to monsters."
 	suffix = "<span style=\"color:#ffa500;\">10% bonus damage to monsters.</span>"
 	passive = SWORD_SLAYER
+
+obj/items/wearable/sword/dragon
+	icon='trophies.dmi'
+	icon_state="Sword"
+	name="Dragon's breath"
+	desc="Dragon's breath allows you to use fire spells with full damage."
+	suffix = "<span style=\"color:#ffa500;\">Fire spells now use full damage.</span>"
+	passive = SWORD_FIRE

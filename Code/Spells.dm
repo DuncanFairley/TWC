@@ -739,10 +739,12 @@ mob/Spells/verb/Antifigura()
 
 mob/Spells/verb/Chaotica()
 	set category="Spells"
-	var/dmg = round(usr.level * 1.15 + clothDmg/3 + usr:Fire.level, 1)
+
+	var/mob/Player/p = src
+	var/dmg = ((p.passives & SWORD_FIRE) ? Dmg + clothDmg : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
-		usr:lastAttack = "Chaotica"
+		p.lastAttack = "Chaotica"
 		castproj(MPreq = 30, Type = /obj/projectile/NoImpact, icon_state = "chaotica", damage = dmg, name = "Chaotica", element = FIRE)
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
@@ -774,21 +776,25 @@ mob/Spells/verb/Gravitate()
 
 mob/Spells/verb/Inflamari()
 	set category="Spells"
-	var/dmg = usr.level * 0.9 + clothDmg
 
-	if(usr.level < 200)
-		dmg *= 1 + (200 - usr.level)/100
-
-	if(dmg <= 10)
-		dmg = 10 + rand(1,5)
-	else if(dmg > 1000)
-		dmg = 1000
+	var/mob/Player/p = src
+	var/dmg
+	if(p.passives & SWORD_FIRE)
+		dmg = Dmg + clothDmg
 	else
-		dmg = round(dmg, 1)
+		dmg = level * 0.9 + clothDmg
+
+		if(level < 200)
+			dmg *= 1 + (200 - level)/100
+
+		if(dmg <= 10)
+			dmg = 10 + rand(1,5)
+		else
+			dmg = round(dmg, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
-		usr:lastAttack = "Inflamari"
-		castproj(icon_state = "fireball", damage = dmg + usr:Fire.level, name = "Inflamari", element = FIRE)
+		p.lastAttack = "Inflamari"
+		castproj(icon_state = "fireball", damage = dmg + p.Fire.level, name = "Inflamari", element = FIRE)
 mob/Spells/verb/Glacius()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
