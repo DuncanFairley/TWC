@@ -2313,15 +2313,17 @@ mob/GM/verb/Arena()
 			alert("Players (and you) must be on MapOne when you click OK to be loaded into the round. Arena Summon is disabled when you press OK")
 			worldData.arenaSummon = 0
 			worldData.currentArena.roundtype = HOUSE_WARS
-			for(var/mob/M in locate(/area/arenas/MapOne/Gryff))
+			for(var/mob/Player/M in locate(/area/arenas/MapOne/Gryff))
 				plyrs.Add(M)
-			for(var/mob/M in locate(/area/arenas/MapOne/Slyth))
+			for(var/mob/Player/M in locate(/area/arenas/MapOne/Slyth))
 				plyrs.Add(M)
-			for(var/mob/M in locate(/area/arenas/MapOne/Huffle))
+			for(var/mob/Player/M in locate(/area/arenas/MapOne/Huffle))
 				plyrs.Add(M)
-			for(var/mob/M in locate(/area/arenas/MapOne/Raven))
+			for(var/mob/Player/M in locate(/area/arenas/MapOne/Raven))
 				plyrs.Add(M)
-			for(var/mob/M in locate(/area/arenas/MapOne))
+
+			var/mob/m = locate("MapOne")
+			for(var/mob/Player/M in m.loc.loc)
 				plyrs.Add(M)
 		if("FFA")
 			alert("Players (and you) must be on MapThree when you click OK to be loaded into the round. Arena Summon is disabled when you press OK")
@@ -2366,12 +2368,11 @@ mob/GM/verb/Arena()
 		if(HOUSE_WARS)
 			if(!worldData.currentArena) return
 			src << "House wars map selected"
-			for(var/mob/M in worldData.currentArena.players)
-				M << "<u>Preparing arena round...</u>"
+			worldData.currentArena.players << "<u>Preparing arena round...</u>"
 			var/killsreq = input("How many kills must a team have to win?",,10) as num
 			worldData.currentArena.goalpoints = killsreq
 			worldData.currentArena.teampoints = list("Gryffindor" = 0, "Ravenclaw" = 0, "Slytherin" = 0,"Hufflepuff" = 0)
-			worldData.currentArena.plyrSpawnTime = input("How long must a player wait to respawn (in seconds)?",,10) as num
+			worldData.currentArena.plyrSpawnTime = input("How long must a player wait to respawn (in seconds)?",,5) as num
 			worldData.currentArena.amountforwin = input("How many house points does the winning team receive?",,10) as num
 			for(var/mob/Player/M in worldData.currentArena.players)
 				switch(M.House)
@@ -2484,7 +2485,7 @@ arena_round
 						worldData.housepointsGSRH[3] += amountforwin
 					if("Hufflepuff")
 						worldData.housepointsGSRH[4] += amountforwin
-				Players << "<span style=\"font-color:red;\">[team] have earned [amountforwin] points.</span>"
+				Players << "\red[team] have earned [amountforwin] points."
 				Save_World()
 				del(worldData.currentArena)
 
