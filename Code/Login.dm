@@ -1734,6 +1734,8 @@ mob/proc/Death_Check(mob/killer = src)
 							e.winner = winner
 
 						del(worldData.currentArena)
+					else
+						new /obj/corpse (loc, src, -1)
 					var/turf/T = pick(MapThreeWaitingAreaTurfs)
 					src.loc = T
 					density = 1
