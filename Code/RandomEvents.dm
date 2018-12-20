@@ -164,30 +164,31 @@ RandomEvent
 			var/rounds = rand(2,4)
 			var/obj/clock/timer = locate("FFAtimer")
 
-			var/gameMode = pick("Normal","One Hit Kill", "Undying")
+			var/gameMode = pick("Normal","One Hit Kill", "Undying", "4 Hit Kill")
 
 			var/area/a = locate(/area/arenas/MapThree/PlayArea)
 			if(gameMode == "One Hit Kill")
-				a = locate(/area/arenas/MapThree/PlayArea)
-				a.dmg = 100
+				a.scaleDamage = 1
 			else if(gameMode == "Undying")
 				a.undead = 1
+			else if(gameMode == "Undying")
+				a.scaleDamage = 4
 
 			for(var/mob/Player/p in Players)
 				p << "<h3>An automated FFA is beginning soon. Game mode: <span  style=\"color:red\">[gameMode]</span>. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a> The first round will start in 2 minutes.</h3>"
-			sleep(1200)
+
+			sleep(600)
 			while(rounds)
 				rounds--
 				worldData.arenaSummon = 3
 				for(var/mob/Player/p in Players)
-					p << "<h3>An automated FFA is beginning soon. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a> The [rounds==0 ? "last" : ""] round will start in 1 minute.</h3>"
+					p << "<h3>An automated FFA is beginning soon. Game mode: <span  style=\"color:red\">[gameMode]</span>. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a> The [rounds==0 ? "last" : ""] round will start in 1 minute.</h3>"
 				sleep(600)
 				worldData.currentArena = new()
 				worldData.arenaSummon = 0
 				worldData.currentArena.roundtype = FFA_WARS
-				for(var/mob/M in locate(/area/arenas/MapThree/WaitingArea))
-					if(M.client)
-						worldData.currentArena.players.Add(M)
+				for(var/mob/Player/M in locate(/area/arenas/MapThree/WaitingArea))
+					worldData.currentArena.players.Add(M)
 				if(worldData.currentArena.players.len < 2)
 					worldData.currentArena.players << "There isn't enough players to start the round."
 
@@ -248,12 +249,146 @@ RandomEvent
 						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: (FFA) [winner.name] won [comma(prize)] gold.<br />"
 
 			if(a)
-				a.dmg = 1
+				a.scaleDamage = 0
 				if(a.undead)
 					a.undead = 0
 					for(var/mob/Enemies/Summoned/Zombie/z in a)
 						z.Dispose()
 						z.ChangeState(z.INACTIVE)
+
+			end()
+
+	HouseWars
+		name   = "House Wars"
+		chance = 8
+		var/tmp/mob/Player/winner
+
+		start()
+			set waitfor = 0
+			if(worldData.currentArena || (name in worldData.currentEvents))	return
+
+			..()
+			worldData.arenaSummon = 1
+
+			var/obj/clock/timer = locate("HWtimer")
+
+			var/gameMode = pick("Normal","One Hit Kill","4 Hit Kill")
+
+			var/list/areas = list()
+
+			areas += locate(/area/arenas/MapOne/Gryff)
+			areas += locate(/area/arenas/MapOne/Slyth)
+			areas += locate(/area/arenas/MapOne/Huffle)
+			areas += locate(/area/arenas/MapOne/Raven)
+
+			var/mob/mapName = locate("MapOne")
+			areas += mapName.loc.loc
+
+			if(gameMode == "One Hit Kill")
+				for(var/area/a in areas)
+					a.scaleDamage = 1
+			else if(gameMode == "4 Hit Kill")
+				for(var/area/a in areas)
+					a.scaleDamage = 4
+
+			for(var/mob/Player/p in Players)
+				p << "<h3>An automated House Wars is beginning soon. Game mode: <span  style=\"color:red\">[gameMode]</span>. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a> Starts in 2 minutes.</h3>"
+			sleep(600)
+			for(var/mob/Player/p in Players)
+				p << "<h3>An automated House Wars is beginning soon. Game mode: <span  style=\"color:red\">[gameMode]</span>. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a> Starts in 1 minute.</h3>"
+			sleep(600)
+			worldData.currentArena = new()
+			worldData.arenaSummon = 0
+			worldData.currentArena.roundtype = HOUSE_WARS
+
+			var/list/houses = list()
+			for(var/area/a in areas)
+				for(var/mob/Player/p in a)
+					worldData.currentArena.players.Add(p)
+
+					if(p.House in houses)
+						houses[p.House]++
+					else
+						houses[p.House] = 0
+
+			if(houses.len < 2)
+				worldData.currentArena.players << "There isn't enough players to start the round."
+
+				for(var/mob/m in worldData.currentArena.players)
+					m << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[m];action=arena_leave\">clicking here.</a></b>"
+				del(worldData.currentArena)
+			else
+				worldData.currentArena.players << "<u>Preparing arena round...</u>"
+
+				worldData.currentArena.goalpoints = 10
+				worldData.currentArena.teampoints = list("Gryffindor" = 0, "Ravenclaw" = 0, "Slytherin" = 0,"Hufflepuff" = 0)
+				worldData.currentArena.plyrSpawnTime = 5
+				worldData.currentArena.amountforwin = 10
+				for(var/mob/Player/M in worldData.currentArena.players)
+					switch(M.House)
+						if("Hufflepuff")
+							var/obj/Bed/B = pick(Map1Hbeds)
+							M.loc = B.loc
+						if("Gryffindor")
+							var/obj/Bed/B = pick(Map1Gbeds)
+							M.loc = B.loc
+						if("Ravenclaw")
+							var/obj/Bed/B = pick(Map1Rbeds)
+							M.loc = B.loc
+						if("Slytherin")
+							var/obj/Bed/B = pick(Map1Sbeds)
+							M.loc = B.loc
+					M.dir = SOUTH
+					M.HP = M.MHP
+					M.MP = M.MMP
+					M.updateHPMP()
+				worldData.currentArena.players << "<center><font size = 4>The arena mode is <u>House Wars</u>.<br>The first house to reach [worldData.currentArena.goalpoints] arena points wins [worldData.currentArena.amountforwin] house points!"
+				sleep(30)
+				if(!worldData.currentArena) return
+				worldData.currentArena.players << "<h5>Round starting in 10 seconds</h5>"
+				sleep(100)
+				if(!worldData.currentArena) return
+				worldData.currentArena.players << "<h4>Go!</h5>"
+				worldData.currentArena.started = 1
+
+				timer.invisibility = 0
+				timer.setTime(6)
+
+				while(worldData.currentArena && !timer.countdown())
+					sleep(10)
+
+				timer.invisibility = 2
+
+				if(worldData.currentArena)
+					var/team
+					var/points = 0
+
+					for(var/i in worldData.currentArena.teampoints)
+						if(worldData.currentArena.teampoints[i] > points)
+							points = worldData.currentArena.teampoints[i]
+							team = i
+
+					worldData.currentArena.players << "<h4>[team] win!</h4>"
+					for(var/mob/M in worldData.currentArena.players)
+						M << "<b>You can leave at any time when a round hasn't started by <a href=\"byond://?src=\ref[M];action=arena_leave\">clicking here.</a></b>"
+					switch(team)
+						if("Gryffindor")
+							worldData.housepointsGSRH[1] += worldData.currentArena.amountforwin
+						if("Slytherin")
+							worldData.housepointsGSRH[2] += worldData.currentArena.amountforwin
+						if("Ravenclaw")
+							worldData.housepointsGSRH[3] += worldData.currentArena.amountforwin
+						if("Hufflepuff")
+							worldData.housepointsGSRH[4] += worldData.currentArena.amountforwin
+
+					if(team && points != 0)
+						Players << "\red[team] have earned [worldData.currentArena.amountforwin] points."
+						Save_World()
+					del(worldData.currentArena)
+
+			if(gameMode == "One Hit Kill" || gameMode == "One Hit Kill")
+				for(var/area/a in areas)
+					a.scaleDamage = 0
 
 			end()
 
