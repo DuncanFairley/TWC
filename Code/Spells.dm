@@ -222,13 +222,13 @@ mob/Spells/verb/Protego()
 	var/mob/Player/p = src
 	if(!p.reflect)
 		if(canUse(src,cooldown=/StatusEffect/UsedProtego,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-			new /StatusEffect/UsedProtego(src,30*p.cooldownModifier,"Protego")
+			new /StatusEffect/UsedProtego(src,40*p.cooldownModifier,"Protego")
 			p.overlays += /obj/Shield
 			hearers()<< "<b><span style=\"color:red;\">[usr]</b></span>: PROTEGO!"
 			p << "You shield yourself magically"
-			p.reflect = 0.25
+			p.reflect = 0.5
 			p.learnSpell("Protego")
-			sleep(50)
+			sleep(30)
 			if(p.reflect)
 				p.reflect = 0
 				p.overlays -= /obj/Shield
@@ -1471,6 +1471,16 @@ mob/Spells/verb/Episky()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedEpiskey,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		var/mob/Player/p = src
+
+		var/obj/The_Dark_Mark/D = locate("DarkMark")
+		if(get_dist(p, D) <= 10)
+			p << errormsg("You can't use this near such evil presence.")
+			return
+
+		if(world.time - p.lastCombat <= 100)
+			p << errormsg("You can't use while in combat.")
+			return
+
 		hearers()<<"<span style=\"color:red;\"><b>[p]:</span></b> <font color=aqua>Episkey!"
 		new /StatusEffect/UsedEpiskey(src,15*p.cooldownModifier,"Episkey")
 
@@ -1789,7 +1799,7 @@ element
 				parent.screenAlert("[name] [t] leveled up to [level]!")
 
 mob/Player
-
+	var/tmp/lastCombat = 0
 	proc/onDamage(dmg, mob/attacker)
 
 		if((passives & SHIELD_MP) && MP < MMP)
@@ -1819,6 +1829,10 @@ mob/Player
 				if(!a.friendlyFire) return
 
 				if(a.timedProtection && (lastHostile == 0 || world.time - lastHostile > 600)) return
+
+				lastCombat = world.time
+				p.owner:lastCombat = world.time
+
 
 		var/dmg = p.damage
 
