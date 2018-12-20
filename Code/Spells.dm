@@ -1739,6 +1739,8 @@ obj/brick2door
 area/var
 	friendlyFire = TRUE
 	timedProtection = FALSE
+	selfDamage = TRUE
+	scaleDamage = 0
 
 
 mob/Player/var/element
@@ -1820,12 +1822,12 @@ mob/Player
 	Attacked(obj/projectile/p)
 		..()
 
+		var/area/a = loc.loc
 		if(p.owner)
 			if(isplayer(p.owner))
 
-				if(p.owner == src && istype(p, /obj/projectile/NoImpact)) return
+				if(p.owner == src && (istype(p, /obj/projectile/NoImpact) || !a.selfDamage)) return
 
-				var/area/a = loc.loc
 				if(!a.friendlyFire) return
 
 				if(a.timedProtection && (lastHostile == 0 || world.time - lastHostile > 600)) return
@@ -1849,6 +1851,9 @@ mob/Player
 			dmg -= round(Ghost.level / 2)
 
 		if(dmg <= 0) return
+
+		if(a.scaleDamage && p.owner != src)
+			dmg = round(MHP / a.scaleDamage, 1)
 
 		dmg = onDamage(dmg, p.owner)
 
