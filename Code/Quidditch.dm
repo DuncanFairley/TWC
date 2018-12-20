@@ -29,10 +29,49 @@ turf/quidditch
 
 
 obj/quidditch
+
+	quaffle
+		icon = 'obj.dmi'
+		icon_state = "quaffle"
+		density = 1
+
+		New()
+			..()
+
+			walk(src, dir, 2)
+
+		Bump(atom/movable/O)
+			if(isplayer(O))
+				density = 0
+				O.Move(loc, get_dir(O.loc, loc))
+				density = 1
+			else
+				var/d = turn(dir, 90 * pick(1,-1))
+				var/turf/t = get_step(src, d)
+				if(!t || t.density)
+					d = turn(d, 180)
+					t = get_step(src, d)
+					if(!t || t.density)
+						d = turn(dir, 180)
+						t = get_step(src, d)
+
+				if(t && !t.density)
+					loc = t
+
+				walk(src, d, 2)
+
+
+		Crossed(atom/movable/O)
+			if(isplayer(O))
+				var/mob/Player/p = O
+				if(!p.flying) return
+
+				walk(src, p.dir, 2)
+
+
 	snitch
 		icon = 'obj.dmi'
 		icon_state = "snitch"
-		appearance_flags = LONG_GLIDE|PIXEL_SCALE
 		density = 1
 
 		var
@@ -44,7 +83,6 @@ obj/quidditch
 			Wander()
 
 		Bump(atom/movable/O)
-			if(!istype(O, /mob/Player)) return
 			density = 0
 			O.Move(loc, get_dir(O.loc, loc))
 			density = 1
