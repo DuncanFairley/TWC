@@ -148,4 +148,4 @@ var/snowCurse = 0
 obj/snow_counter
 obj/clock/Curse_Clock
 
-WorldData/var/tmp/baseChance = 0.01
+WorldData/var/tmp/baseChance = 0.03
