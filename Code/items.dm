@@ -2001,15 +2001,20 @@ obj/items/wearable/magic_eye
 		. = ..(owner)
 		if(. == WORN)
 			if(!overridetext)viewers(owner) << infomsg("[owner] jams \his magical eye into \his eye socket.")
-			if(!owner.see_invisible)owner.see_invisible = 1
+//			if(!owner.see_invisible)owner.see_invisible = 1
 			for(var/obj/items/wearable/magic_eye/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
-			owner.Interface.SetDarknessColor(MAGICEYE_COLOR, 1)
+//			owner.Interface.SetDarknessColor(MAGICEYE_COLOR, 1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes out \his magical eye from its socket.")
-			if(owner.see_invisible < 2)owner.see_invisible = 0
-			owner.Interface.SetDarknessColor(MAGICEYE_COLOR)
+//			if(owner.see_invisible < 2)owner.see_invisible = 0
+//			owner.Interface.SetDarknessColor(MAGICEYE_COLOR)
+
+	silly_eye
+		desc = "A silly eye that has no purpose but has a long history."
+
+
 obj/items/wearable/invisibility_cloak
 	icon = 'invis_cloak.dmi'
 	showoverlay=0
@@ -4335,6 +4340,7 @@ obj/items/treats
 			p << infomsg("You threw \a [name] for your [p.pet.name] to fetch.")
 
 			var/obj/throwStick/o = new (p.loc)
+			o.icon_state = icon_state
 			while(o.loc && o.loc != target)
 				o.loc = get_step_towards(o, target)
 				sleep(2)
