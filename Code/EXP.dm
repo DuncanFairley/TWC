@@ -657,6 +657,7 @@ area
 
 mob/test/verb
 	Toggle_Book_Read()
+		set category = "Server"
 		worldData.canReadBooks = !worldData.canReadBooks
 
 		src << infomsg("read books set to [worldData.canReadBooks]")

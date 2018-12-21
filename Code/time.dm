@@ -27,7 +27,7 @@ proc/time_until(day, hour)
 
 mob/GM/verb
 	Clan_Wars_Schedule(var/Event/e in clanwars_schedule)
-		set category = "Staff"
+		set category = "Server"
 		switch(alert(src, "What do you want to do?", "Events", "Cancel Event", "Check Time", "Nothing"))
 			if("Cancel Event")
 				scheduler.cancel(clanwars_schedule[e])
@@ -38,7 +38,7 @@ mob/GM/verb
 				src << infomsg("[comma(ticks)] ticks until event starts.")
 
 	AutoClass_Schedule(var/Event/e in autoclass_schedule)
-		set category = "Staff"
+		set category = "Server"
 		switch(alert(src, "What do you want to do?", "Events", "Cancel Event", "Check Time", "Nothing"))
 			if("Cancel Event")
 				scheduler.cancel(autoclass_schedule[e])
@@ -66,7 +66,7 @@ mob/GM/verb
 							src << "[v] = [T.vars[v]]"
 
 	Add_AutoClass(var/day as text, var/hour as text)
-		set category = "Staff"
+		set category = "Server"
 		var/date = add_autoclass(day, hour)
 		if(date != -1)
 			usr << infomsg("Auto class scheduled ([comma(date)])")
@@ -74,7 +74,7 @@ mob/GM/verb
 			usr << errormsg("Could not schedule auto class.")
 
 	Weather(var/effect in worldData.weather_effects, var/prob as num)
-		set category = "Staff"
+		set category = "Events"
 		worldData.weather_effects[effect] = prob
 		src << infomsg("[effect] has [prob] probability to occur.")
 
@@ -84,27 +84,27 @@ mob/GM/verb
 		src << infomsg("[e] has [e.chance] probability to occur.")
 
 	Set_Drop_Rate(var/rate as num)
-		set category = "Staff"
+		set category = "Server"
 		worldData.DropRateModifier = rate
 		src << infomsg("Drop rate modifier set to [rate]")
 
 	Set_Price_Modifier(var/modifier as num)
-		set category = "Staff"
+		set category = "Server"
 		worldData.shopPriceModifier = modifier
 		src << infomsg("Drop rate modifier set to [modifier]")
 
 	Set_Exp_Modifier(var/modifier as num)
-		set category = "Staff"
+		set category = "Server"
 		worldData.expModifier = modifier
 		src << infomsg("Exp modifier set to [modifier]")
 
 	Set_Book_Exp_Modifier(var/modifier as num)
-		set category = "Staff"
+		set category = "Server"
 		worldData.expBookModifier = modifier
 		src << infomsg("Book exp modifier set to [modifier]")
 
 	Schedule_Clanwars(var/day as text, var/hour as text)
-		set category = "Staff"
+		set category = "Server"
 		var/date = add_clan_wars(day, hour)
 		if(date != -1)
 			usr << infomsg("Clan wars scheduled ([comma(date)])")
@@ -112,6 +112,7 @@ mob/GM/verb
 			usr << errormsg("Could not schedule clan wars.")
 
 	Start_Random_Event(var/RandomEvent/event in worldData.events+"random")
+		set category = "Events"
 		if(event == "random")
 			var/list/l = list()
 			for(var/RandomEvent/e in worldData.events)
@@ -132,7 +133,7 @@ mob/GM/verb
 			event.start()
 
 	Toggle_GiftOpening()
-		set category = "Staff"
+		set category = "Server"
 		worldData.allowGifts = !worldData.allowGifts
 		usr << infomsg("Gifts [worldData.allowGifts ? "can" : "can't"] be opened.")
 

@@ -21,6 +21,7 @@ mob
 
 mob/GM/verb
 	Award_House_Cup()
+		set category = "Events"
 		var/rspnse = alert("This verb, when activated on a house, will make that house gain a 25% increase to gold + EXP gained from monster kills. Are you sure you wish to proceed?",,"Yes","Cancel")
 		if(rspnse == "Yes")
 			switch(input("Which house do you want to apply the award to?") as null|anything in list("Gryffindor","Slytherin","Ravenclaw","Hufflepuff"))
