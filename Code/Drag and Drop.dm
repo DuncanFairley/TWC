@@ -66,6 +66,7 @@ clan_wars
 			toggle_clanwars()
 
 mob/test/verb/Toggle_Clanwars()
+	set category = "Events"
 	toggle_clanwars()
 	if(clanwars)
 		usr << "Clan wars enabled."

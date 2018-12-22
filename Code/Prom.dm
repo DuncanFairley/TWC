@@ -270,7 +270,7 @@ var/list/icon/promicons = list()
 var/prom = 0
 
 mob/test/verb/Toggle_Prom()
-	set category = "Staff"
+	set category = "Events"
 
 	switch(alert("Toggle to?", "Toggle Prom", "Active", "Inactive", "Changeroom"))
 		if("Active")

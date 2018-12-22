@@ -464,7 +464,7 @@ mob/Spells/verb/Aggravate()
 
 
 mob/Spells/verb/Basilio()
-	set category = "Staff"
+	set category = "Spells"
 	hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Basilio!"
 	sleep(20)
 	hearers()<<"[usr]'s wand emits a bright flash of light."

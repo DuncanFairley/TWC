@@ -349,6 +349,7 @@ mob/Player
 
 
 mob/test/verb/Remove_Junk()
+	set category = "Server"
 	var/input = input("Which junk are we talkin'?","Junk Removal") as null|anything in list("PM Inbox","PM Outbox","Inventory","Bank Deposit Items")
 	if(!input) return
 	if(input == "PM Inbox")
@@ -780,7 +781,7 @@ mob
 			classdest = null
 
 		Toggle_Safemode()
-			set category = "Staff"
+			set category = "Server"
 			if(safemode)
 				src << "<b>Players can now use offensive spells in <u>all</u> safezones.</b>"
 				safemode = 0
@@ -788,7 +789,7 @@ mob
 				src << "<b>Players can no longer use offensive spells in <u>all</u> safezones.</b>"
 				safemode = 1
 		Toggle_Area_Safemode()
-			set category = "Staff"
+			set category = "Server"
 			var/area/A = loc.loc
 			if(!A.safezoneoverride)
 				src << "<b>Players can now use offensive spells in [loc.loc].</b>"
@@ -855,7 +856,7 @@ mob
 				Log_admin("[src] has unmuted [M]")
 
 		Event_Announce(message as message)
-			set category = "Staff"
+			set category = "Events"
 			set desc = "(message) Announce something to all players logged in"
 			if(!message)return
 			eventlog << "<tr><td><b>[src.name]</b></td><td>[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]</td><td>[message]</td></tr>"
@@ -874,7 +875,7 @@ mob
 			for(var/client/C)
 				C.mob << "<hr><center><span style=\"color:blue;\"><b>Announcement From [src]:</b></span><br><span style=\"color:red;\"><b>[message]</span><hr></center>"
 		Reboot()
-			set category = "Staff"
+			set category = "Server"
 			switch(input("Are you sure you'd like to reboot?","?") in list("Yes", "Yes & Save", "No"))
 				if("Yes")
 					world.Reboot()
@@ -887,7 +888,7 @@ mob
 					sleep(1)
 					world.Reboot()
 		Shutdown()
-			set category = "Staff"
+			set category = "Server"
 			switch(input("Are you sure you'd like to shut down?","?")in list("Yes","No"))
 				if("Yes")
 					Players << "<B><p align=center><span style=\"color:red;\"><u>ATTENTION</u></span><p align=center><b>The Server is being shutdown temporarily.<p align=center><b><span style=\"color:blue;\">See you again soon!</span></b>"
@@ -1355,6 +1356,7 @@ mob/GM
 mob/GM
 	verb
 		Reset_Matchmaking()
+			set category = "Server"
 			if(alert(src, "Are you sure you want to reset matchmaking?", "Reset Matchmaking Scoreboard", "Yes", "No") == "Yes")
 
 				for(var/k in worldData.playersData)
@@ -1431,14 +1433,14 @@ mob/GM
 				i.limit = new_limit	? new_limit : 0
 
 		Add_Prize(var/path in (typesof(/obj/items)-/obj/items))
-			set category="Staff"
+			set category="Events"
 			if(!worldData.prizeItems) worldData.prizeItems = list()
 
 			worldData.prizeItems += path
 			src << infomsg("[path] added to prize list.")
 
 		Set_Login_Prize(var/path in (typesof(/obj/items)-/obj/items+"None"))
-			set category="Staff"
+			set category="Events"
 
 			worldData.eventTaken = null
 
@@ -1466,7 +1468,7 @@ mob/GM
 					p.EventReward()
 
 		Remove_Prize(var/path in worldData.prizeItems)
-			set category="Staff"
+			set category="Events"
 			worldData.prizeItems -= path
 
 			if(!worldData.prizeItems.len) worldData.prizeItems = null
@@ -1544,7 +1546,7 @@ mob/GM
 
 
 		Competitive_Ban(var/k as text)
-			set category = "Staff"
+			set category = "Server"
 			k = ckey(k)
 			if(!k || k == "") return
 			if(!worldData.competitiveBans) worldData.competitiveBans = list()
@@ -1566,7 +1568,7 @@ mob/GM
 					break
 
 		Competitive_Unban(var/k in worldData.competitiveBans)
-			set category = "Staff"
+			set category = "Server"
 
 			worldData.competitiveBans -= k
 			if(!worldData.competitiveBans.len) worldData.competitiveBans = null
@@ -2097,6 +2099,7 @@ mob/test/verb/hireStaff((mob/Player/p in Players), color as text)
 
 
 mob/test/verb/fireStaff(var/Ckey in worldData.Gms)
+	set category = "Staff"
 
 	worldData.Gms -= Ckey
 	if(!worldData.Gms.len) worldData.Gms = null
@@ -2111,6 +2114,7 @@ mob/test/verb/fireStaff(var/Ckey in worldData.Gms)
 		p.removeStaff()
 
 mob/Player/proc/removeStaff()
+	set category = "Staff"
 	if(pname)
 		name = pname
 	Tag = null

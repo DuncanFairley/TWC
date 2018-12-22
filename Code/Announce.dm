@@ -8,6 +8,7 @@ mob
 	test
 		verb
 			View_Specific_Log()
+				set category="Staff"
 				var/year = input("Year in 20xx format",,time2text(world.realtime,"YY"))
 				var/month = input("Month in numerical format, with preceding 0 if singular.",,time2text(world.realtime,"MM"))
 				var/day = input("Day in numerical format, with preceding 0 if singular.",,time2text(world.realtime,"DD"))
@@ -43,6 +44,7 @@ mob/Player/var
 	GMFrozen
 
 mob/test/verb/Download_Savefile()
+	set category="Staff"
 	var/ckeyname = input("Ckeyyyyy?") as null|text
 	if(!ckeyname) return
 	usr << ftp(file("players/[copytext(ckeyname,1,2)]/[ckeyname].sav"))
