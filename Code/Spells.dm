@@ -482,12 +482,6 @@ mob/Spells/verb/Serpensortia()
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,useTimedProtection=1,target=null,mpreq=0,againstocclumens=1))
 		new /StatusEffect/Summoned(src,15*usr:cooldownModifier)
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Serpensortia!"
-		sleep(20)
-		hearers()<<"[usr]'s wand emits a bright flash of light."
-		sleep(20)
-		if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
-			src << "<b>You can't use this inside a safezone.</b>"
-			return
 		hearers()<<"A Red-Spotted Green Snake, emerges from the wand."
 		hearers()<<"<b>Snake</b>: Hissssssss!"
 		var/mob/Enemies/Summoned/Snake/D = new (loc)
@@ -1838,8 +1832,9 @@ mob/Player
 
 				if(a.timedProtection && (lastHostile == 0 || world.time - lastHostile > 600)) return
 
-				lastCombat = world.time
-				p.owner:lastCombat = world.time
+				if(src != p.owner)
+					lastCombat = world.time
+					p.owner:lastCombat = world.time
 
 
 		var/dmg = p.damage
