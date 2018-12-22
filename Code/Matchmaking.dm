@@ -3,7 +3,7 @@
 #define START_RATING 500
 #define ARENA_POOL_SIZE 5
 
-#define MIN_LEVEL 500
+#define MIN_LEVEL 200
 
 WorldData/var/tmp/list/duel_chairs = list()
 
