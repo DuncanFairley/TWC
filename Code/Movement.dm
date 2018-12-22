@@ -109,6 +109,7 @@ mob
 		Wingardiumleviosa
 
 	Player
+		var/tmp/atom/movable/control
 		proc/onMoveEvents(newDir)
 			if(nomove || GMFrozen || arcessoing) return
 
@@ -125,6 +126,12 @@ mob
 
 			if(removeoMob)
 				step(removeoMob, newDir)
+				return
+
+			if(control)
+				var/diag = newDir & newDir-1
+				if(!step(control, newDir) && diag)
+					step(control, diag) || step(control, newDir - diag)
 				return
 
 			if(away)
