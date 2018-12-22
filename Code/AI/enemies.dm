@@ -760,8 +760,11 @@ mob
 					if(killer.pet)
 						killer.pet.fetch(prize)
 
-			var/base = worldData.baseChance * clamp(1 + (level - killer.level) / 200, 0.1, 10)
-			if(prob((level / killer.level)**4 * base * rate))
+			var/base = worldData.baseChance * clamp(1 + (level - killer.level) / 200, 0.1, 10) * clamp(level/100, 0.1, 10)
+
+			if(level < killer.level) base *= (level / 800) * 0.5
+
+			if(prob(base * rate))
 				sparks = 1
 				prize = pick(drops_list["legendary"])
 				prize = new prize (loc)
