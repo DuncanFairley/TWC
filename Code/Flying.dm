@@ -305,7 +305,7 @@ mob/Cow
 		Moo()
 	proc/Moo()
 		set waitfor = 0
-		while(src)
+		while(src && name == "Cow")
 			hearers(src) << "Cow: [pick("MooooooOOOoOo!","Moo!","MOOOOOOOOOOOOOOOOOOOOOOOOO","Moooooo!","Moo moo moo!")]"
 			sleep(600 * rand(1, 5))
 obj/Speaker1
