@@ -2434,8 +2434,7 @@ mob/Player/Logout()
 		spawn()
 			tmpmob:ReturnToStart()
 	if(control)
-		control:control = 0
-		control:underlays = list()
+		control:uncontrol(src)
 	..()
 var/const
 	HOUSE_WARS = 1
