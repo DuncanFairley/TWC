@@ -61,27 +61,50 @@ hudobj
 					return
 				p << errormsg("No available spots on the team.")
 
+mob/Player/var/tmp/eyeMoving = 0
 obj/stepSpectate
 	invisibility = 2
 	var/dest
 
 	Crossed(atom/movable/O)
+		set waitfor = 0
 		..()
 
 		if(dest && isplayer(O))
 			var/turf/t = locate(dest)
 			if(t)
 				if(ismovable(O)) t = t.loc
-
 				var/mob/Player/p = O
+
+				if(p.client.eye != p || p.eyeMoving) return
+
 				p.client.eye=t
 				p.client.perspective=EYE_PERSPECTIVE
 
+				if(t.z == p.z && get_dist(p, t) < 20)
+					p.eyeMoving = 1
+					p.client.pixel_x = (p.x - t.x) * 32
+					p.client.pixel_y = (p.y - t.y) * 32
+
+					animate(p.client, pixel_x = 0, pixel_y = 0, time = 10)
+					sleep(10)
+					if(p) p.eyeMoving = 0
+
 	Uncrossed(atom/movable/O)
+		set waitfor = 0
 		if(dest && isplayer(O))
 			var/mob/Player/p = O
+
+			var/obj/stepSpectate/s = locate() in p.loc
+			if(s && s.dest == dest) return
+
 			p.client.eye=p
 			p.client.perspective=MOB_PERSPECTIVE
+
+			if(p.eyeMoving)
+				p.eyeMoving = 0
+				animate(p.client, pixel_x = 0, pixel_y = 0, time = 0)
+
 
 mob/Quidditch
 	density = 0
