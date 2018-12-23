@@ -938,26 +938,83 @@ proc/countBits(c)
 obj
 	herb
 		icon       = 'bucket.dmi'
-		icon_state = "big"
+		icon_state = "plant"
 		density    = 1
 
 		var
-			tier
-			soil
-			water
+			plantType
+			yields
+			delay
+			lastUsed
 			ownerCkey
+			water = 0
 			tmp/wait
 
-		New(Loc, ownerCkey)
+		New(Loc, ownerCkey, plantType, delay, amount, seedName)
 			..(Loc)
 
-			tier  = rand(1, 3)
-			soil  = tier * 50 * (11 - tier) / 10
-			water = tier * 25 * (11 - tier) / 10
-
-			transform = matrix() * 0.5
+			src.plantType = plantType
+			src.delay     = delay
+			src.yields    = amount
 
 			src.ownerCkey = ownerCkey
+
+			if(istype(Loc, /turf/buildable))
+				lastUsed = world.realtime
+
+			name = splittext(seedName, " ")[1]
+
+		MouseEntered(location,control,params)
+			var/info = "Water helps with plant growth."
+
+			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[info]\"")
+			winshowRight(usr, "infobubble")
+
+		MouseExited(location,control,params)
+			winshow(usr, "infobubble", 0)
+
+		Click()
+			if(lastUsed && (usr in range(1, src)))
+				if(world.realtime - lastUsed >= delay)
+					pixel_x = 0
+					wait    = 1
+
+					var/matrix/m1 = matrix()
+					var/matrix/m2 = matrix()
+					m1.Scale(1.3, 1)
+					m2.Scale(1,   1.3)
+
+					animate(src, transform = m1, time = 5, loop = 32)
+					animate(transform = m2, time = 5)
+
+					var/amount = rand(2, 4)
+
+					var/time = 320
+
+					var/mob/Player/player = usr
+					amount += player.Gathering.level
+					player.Gathering.add((amount*10 + rand(4,6))*50, player, 1)
+
+					time = max(time - round(player.Gathering.level/5)*10, 50)
+
+					var/obj/bar/b = new (y == world.maxy ? locate(x, y - 1, z) : locate(x, y + 1, z))
+					b.countdown(time)
+
+					sleep(time)
+					var/obj/items/ingredients/i = new plantType (loc)
+					i.stack = amount
+					i.UpdateDisplay()
+					i.prizeDrop(ownerCkey, protection=600, decay=FALSE)
+
+					if(--yields <= 0)
+						loc = null
+					else
+						transform = null
+					return
+				else
+					usr << errormsg("[name] is not ready for harvest")
+
+
 
 		Attacked(obj/projectile/p)
 			set waitfor = 0
@@ -966,48 +1023,46 @@ obj
 
 			var/animate = 0
 
-			if(soil > 0 && p.icon_state == "quake")
-				soil--
+			if(p.icon_state == "aqua")
+				water++
 				animate = 1
 
-			else if(water > 0 && p.icon_state == "aqua")
-				water--
-				animate = 1
+				if(water >= 25 && !lastUsed)
 
-			if(soil == 0 && water == 0)
-				pixel_x = 0
-				wait    = 1
+					pixel_x = 0
+					wait    = 1
 
-				var/matrix/m1 = matrix() * 0.5
-				var/matrix/m2 = matrix() * 0.5
-				m1.Scale(1.3, 1)
-				m2.Scale(1,   1.3)
+					var/matrix/m1 = matrix()
+					var/matrix/m2 = matrix()
+					m1.Scale(1.3, 1)
+					m2.Scale(1,   1.3)
 
-				animate(src, transform = m1, time = 5, loop = 32)
-				animate(transform = m2, time = 5)
+					animate(src, transform = m1, time = 5, loop = 32)
+					animate(transform = m2, time = 5)
 
-				var/amount = rand(2, 4) * tier
-				var/time = 320
+					var/amount = rand(2, 4)
 
-				if(isplayer(p.owner))
-					var/mob/Player/player = p.owner
-					amount += player.Gathering.level
-					player.Gathering.add((amount*10 + rand(4,6))*50, player, 1)
+					var/time = 320
 
-					time = max(time - round(player.Gathering.level/5)*10, 50)
+					if(isplayer(p.owner))
+						var/mob/Player/player = p.owner
+						amount += player.Gathering.level
+						player.Gathering.add((amount*10 + rand(4,6))*50, player, 1)
 
-				var/obj/bar/b = new (y == world.maxy ? locate(x, y - 1, z) : locate(x, y + 1, z))
-				b.countdown(time)
+						time = max(time - round(player.Gathering.level/5)*10, 50)
 
-				sleep(time)
-				var/obj/items/ingredients/i = pick(/obj/items/ingredients/daisy, /obj/items/ingredients/aconite)
-				i = new i (loc)
-				i.stack = amount
-				i.UpdateDisplay()
-				i.prizeDrop(ownerCkey, protection=600, decay=FALSE)
-				loc = null
+					var/obj/bar/b = new (y == world.maxy ? locate(x, y - 1, z) : locate(x, y + 1, z))
+					b.countdown(time)
 
-			else if(animate && pixel_x == 0)
+					sleep(time)
+					var/obj/items/ingredients/i = new plantType (loc)
+					i.stack = amount
+					i.UpdateDisplay()
+					i.prizeDrop(ownerCkey, protection=600, decay=FALSE)
+					loc = null
+					return
+
+			if(animate && pixel_x == 0)
 				animate(src, pixel_x = 1, time = 1, loop = 5)
 				animate(pixel_x = -1, time = 1)
 

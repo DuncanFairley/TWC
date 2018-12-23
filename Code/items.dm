@@ -954,35 +954,96 @@ obj/items/trophies
 obj/items/bucket
 	icon = 'bucket.dmi'
 
+	var/filled = 0
+
+	Clone()
+		var/obj/items/bucket/b = ..()
+
+		b.filled     = filled
+		b.name       = name
+		b.icon_state = icon_state
+
+		return b
+
+	Click()
+		if(src in usr)
+			if(filled == 0)
+				var/turf/water/w = get_step(usr, usr.dir)
+				if(!w || !istype(w, /turf/water))
+					usr << errormsg("You need to face water to fill the bucket.")
+					return
+				if(w.name != "water")
+					usr << errormsg("You have to melt nearby ice.")
+					return
+
+				var/obj/items/bucket/s = stack > 1 ? Split(1) : src
+
+				s.name = "bucket \[Water]"
+				s.icon_state = "water"
+				s.filled = WATER
+
+				var/mob/Player/p = usr
+				s.Move(p)
+				p.Resort_Stacking_Inv()
+
+				usr << errormsg("You fill a bucket with water.")
+			else
+				var/mob/Player/p = usr
+				p.castproj(icon_state = "aqua", name = "Water", damage = 1, element = WATER)
+				if(prob(5))
+					var/obj/items/bucket/s = stack > 1 ? Split(1) : src
+
+					s.name = "bucket"
+					s.icon_state = null
+					s.filled = 0
+
+					s.Move(p)
+					p.Resort_Stacking_Inv()
+					p << errormsg("You ran out of water.")
+		else
+			..()
+
+obj/items/seeds
+	var
+		plantType
+		delay = 36000
+		amount = 4
+
+	icon = 'potions_ingredients.dmi'
+	icon_state = "seeds"
+
 	Click()
 		if(src in usr)
 
+			var/obj/items/bucket/b
+			for(b in usr)
+				if(b.filled == 0)
+					break
+			if(!b)
+				usr << errormsg("You need an empty bucket to plant this in.")
+				return
 			var/turf/t = usr.loc
 
-			if(issafezone(t.loc, 1, 0))
-				usr << errormsg("You can't place your bucket here.")
+			if(!t || issafezone(t.loc, 1, 0))
+				usr << errormsg("You can't plant here.")
 				return
 
 			if(locate(/obj/herb) in t)
 				usr << errormsg("There's a bucket placed here already.")
 				return
 
-			var/foundWater = 0
-			for(var/turf/water/i in orange(1, t))
-				if(i.name != "water")
-					usr << errormsg("You have to melt nearby ice.")
-					return
-				foundWater = 1
-
 			#if WINTER
-			if(t.icon_state != "snow" || !foundWater)
+			if(t.icon_state != "snow")
 			#else
-			if(t.icon_state != "grass1" || !foundWater)
+			if(t.icon_state != "grass1")
 			#endif
-				usr << errormsg("Place this bucket at a place with grass near water.")
+				usr << errormsg("Place this bucket at a place with grass.")
 				return
 
+			b.Consume()
 			Consume()
+
+			new /obj/herb (t, usr.ckey, plantType, delay, amount, name)
 
 			var/list/dirs = DIRS_LIST
 			var/opDir
@@ -994,11 +1055,34 @@ obj/items/bucket
 			sleep(3)
 			usr.dir = opDir
 			sleep(1)
-
-			new /obj/herb (t, usr.ckey)
-
 		else
 			..()
+
+	daisy_seeds
+		plantType = /obj/items/ingredients/daisy
+		delay = 288000
+		amount = 4
+	aconite_seeds
+		plantType = /obj/items/ingredients/aconite
+		delay = 288000
+		amount = 4
+	berry_seeds
+		plantType = /obj/items/treats/berry
+		delay = 144000
+		amount = 4
+	sweet_berry_seeds
+		plantType = /obj/items/treats/sweet_berry
+		delay = 36000
+		amount = 4
+	grape_berry_seeds
+		plantType = /obj/items/treats/grape_berry
+		delay = 72000
+		amount = 4
+	artifact_seeds
+		plantType = /obj/items/artifact
+		delay = 288000
+		amount = 3
+
 
 obj/items/freds_key
 	name = "Fred's key"
@@ -4161,6 +4245,7 @@ obj/items/vault_key
 
 	icon       = 'ChestKey.dmi'
 	icon_state = "master"
+	desc       = "Unlocks doors in high end vaults like wizard vault."
 
 	rarity     = 3
 

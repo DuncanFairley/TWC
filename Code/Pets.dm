@@ -522,12 +522,12 @@ obj/pet
 					p << infomsg("Your [name] has found [g.toString()] while walking.")
 					g.give(p)
 				else
-					var/prize = pickweight(list(/obj/items/bucket                     = 30,
-					                            /obj/items/wearable/title/Best_Friend = 5,
-					                            /obj/items/wearable/title/Scavenger   = 10,
+					var/prize = pickweight(list(/obj/items/wearable/title/Best_Friend = 3,
+					                            /obj/items/wearable/title/Scavenger   = 3,
+					                            /obj/items/bucket                     = 10,
 					                            /obj/items/treats/berry               = 20,
 					                            /obj/items/treats/sweet_berry         = 20,
-					                            /obj/items/treats/grape_berry         = 10,
+					                            /obj/items/treats/grape_berry         = 20,
 					                            /obj/items/treats/stick               = 25,))
 
 					var/obj/items/i = new prize (loc)

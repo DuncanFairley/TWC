@@ -2499,8 +2499,7 @@ hudobj/login_reward
 						player << infomsg("[g.toString()] magically appeared in your pocket.")
 						g.give(player)
 					else
-						var/prize = pickweight(list(/obj/items/bucket                        = 10,
-						                            /obj/items/key/basic_key                 = 10,
+						var/prize = pickweight(list(/obj/items/key/basic_key                 = 10,
 						                            /obj/items/key/wizard_key                = 9,
 						                            /obj/items/key/winter_key                = 9,
 						                            /obj/items/key/pentakill_key             = 9,
