@@ -649,11 +649,11 @@ obj/shopStand
 			var/obj/items/artifact/a = locate() in p
 
 			if(goldPrice && artifactPrice)
-				s.AddText("Would you like to buy this item for [gPrice.toString()] and [artifactPrice] artifacts?")
+				s.AddText("Would you like to buy this item for [gPrice.toString()] and [artifactPrice] artifacts?\n[desc]")
 			else if(goldPrice)
-				s.AddText("Would you like to buy this item for [gPrice.toString()]?")
+				s.AddText("Would you like to buy this item for [gPrice.toString()]?\n[desc]")
 			else
-				s.AddText("Would you like to buy this item for [artifactPrice] artifacts?")
+				s.AddText("Would you like to buy this item for [artifactPrice] artifacts?\n[desc]")
 
 			if((!goldPrice || g.have(goldPrice)) && (!artifactPrice || (a && a.stack >= artifactPrice)))
 				s.SetButtons("Buy", "#00ff00", "Cancel", "#ff0000", null)
