@@ -42,8 +42,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							/obj/items/lamps/triple_gold_lamp,
 							/obj/items/wearable/afk/hot_chocolate),
 
-"Stone Golem"        = list(/obj/items/vault_key,
-                            /obj/items/wearable/title/Earthbender,
+"Stone Golem"        = list(/obj/items/wearable/title/Earthbender,
                             /obj/items/wearable/pets/rock,
 							/obj/items/chest/wigs/basic_wig_chest,
 							/obj/items/chest/pet_chest,
@@ -117,8 +116,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							 			 /obj/items/wearable/orb/peace)),
 
 "Vampire Lord"       = list("10"   = list(/obj/items/colors/blood_stone,
-										  /obj/items/spellbook/blood,
-										  /obj/items/vault_key),
+										  /obj/items/spellbook/blood),
 							"30"   = list(/obj/items/colors/purple_stone,
 							 			  /obj/items/colors/pink_stone,
 						     			  /obj/items/colors/teal_stone,
