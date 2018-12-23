@@ -198,12 +198,6 @@ mob/Spells/verb/Disperse()
 
 					for(var/obj/o in decor)
 						o.loc = null
-
-
-		var/obj/The_Dark_Mark/dm = locate() in oview(5, src)
-
-		if(dm)
-			dm.counter(src)
 		src = null
 
 mob/Spells/verb/Herbificus()

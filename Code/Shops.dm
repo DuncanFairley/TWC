@@ -268,48 +268,22 @@ mob/TalkNPC/greenman
 obj/The_Dark_Mark
 	icon = 'Mobs.dmi'
 	icon_state="Darkmark"
-	luminosity=21
+
+	canSave = FALSE
 
 	New()
+		set waitfor = 0
 		..()
-		HP = rand(4,6)
 		tag = "DarkMark"
 		light(src, 10, 600, "green")
-		spawn(600)
-			if(loc)
-				Players<<"The Dark Mark fades back into the clouds."
-				Dispose()
-	var/tmp
-		HP
-		list/people = list()
-	proc/counter(mob/Player/i_Player)
-		HP--
-		if(!(i_Player in people))
-			people += i_Player
-		if(HP <= 0)
-			var/txt = ""
-
-			for(var/i = 1; i <= people.len; i++)
-				if(!people[i]) continue
-
-				var/mob/Player/p = people[i]
-
-				if(i == 1)
-					txt += p.name
-				else if(i != people.len)
-					txt += "[p.name], "
-				else
-					txt += " and [p.name]"
-
-				if(p.ckey != owner)
-					p.addRep(3)
-
-
-			Players << "The Dark Mark was dispersed by [txt]."
+		sleep(600)
+		if(loc)
+			Players<<"The Dark Mark fades back into the clouds."
 			Dispose()
+
 	Dispose()
+		tag = null
 		..()
-		people = null
 
 mob/Player/var/tmp/shop_index = 1
 obj/shop
