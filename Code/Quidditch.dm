@@ -156,7 +156,7 @@ mob/Quidditch
 						p << infomsg("<b>Team 1 scored!</b>")
 
 			else
-				if(score2++ >= 5)
+				if(++score2 >= 5)
 					for(var/mob/Player/p in hearers(20, src))
 						p << infomsg("<b>Team 2 ([names(2)]) won! [score1]:[score2]</b>")
 					start()
@@ -171,12 +171,15 @@ mob/Quidditch
 			scored = 0
 
 		countdown()
-
-			ball.loc = loc
+			ball.stop = 1
 			ball.caught = null
+			ball.loc = loc
+			if(ball.shadow)
+				ball.shadow.loc = loc
 			walk(ball, 0)
 
-			for(var/obj/quidditch/bludger/b in range(20, src))
+			for(var/obj/quidditch/bludger/b in range(25, src))
+				b.stop = 1
 				walk(b, 0)
 
 			for(var/i = 1 to 3)
@@ -192,17 +195,31 @@ mob/Quidditch
 			maptext = null
 
 			for(var/i = 1 to 3)
-				team1[i].nomove--
+				team1[i].nomove = 0
 				team1[i].flying = 1
 
-				team2[i].nomove--
+				team2[i].nomove = 0
 				team2[i].flying = 1
+
+				if(team1[i].pixel_y == 8)
+					animate(team1[i], pixel_y = 64, time = 2, loop = -1)
+					animate(     pixel_y = 65, time = 2)
+					animate(     pixel_y = 64, time = 2)
+					animate(     pixel_y = 63, time = 2)
+
+				if(team2[i].pixel_y == 8)
+					animate(team2[i], pixel_y = 64, time = 2, loop = -1)
+					animate(     pixel_y = 65, time = 2)
+					animate(     pixel_y = 64, time = 2)
+					animate(     pixel_y = 63, time = 2)
 
 			if(players == 0) return
 
+			ball.stop = 0
 			walk(ball, pick(NORTH, SOUTH), 2)
 
-			for(var/obj/quidditch/bludger/b in range(20, src))
+			for(var/obj/quidditch/bludger/b in range(25, src))
+				b.stop = 0
 				walk(b, b.dir, BLUDGER_SPEED)
 
 		reset(afterStop = 0)
@@ -456,7 +473,9 @@ obj/quidditch
 
 		glide_size = 16
 
-		var/tmp/cd = 0
+		var/tmp
+			cd = 0
+			stop = 0
 
 		New()
 			..()
@@ -468,7 +487,7 @@ obj/quidditch
 			p.nomove++
 			var/count = rand(6,12)
 			var/d = pick(dir, turn(dir, 90), turn(dir, -90))
-			while(p && count-- > 0)
+			while(p && count-- > 0 && !stop)
 				var/turf/t = get_step(p, d)
 				p.Move(t, -1)
 				p.dir = pick(1,2,4,8)
@@ -486,7 +505,7 @@ obj/quidditch
 		Move()
 			.=..()
 
-			if(!cd && prob(20))
+			if(!cd && !stop && prob(20))
 				cd = 1
 				walk(src, 0)
 				spawn()
@@ -501,6 +520,7 @@ obj/quidditch
 					hit(a)
 
 		Bump(atom/movable/O)
+			if(stop) return
 			var/d = turn(dir, 90 * pick(1,-1))
 			var/turf/t = get_step(src, d)
 			if(!t || t.density)
@@ -518,7 +538,7 @@ obj/quidditch
 		Crossed(atom/movable/O)
 			if(isplayer(O) || istype(O, /obj/quidditch/player))
 				var/mob/Player/p = O
-				if(!p.flying || p.nomove > 0) return
+				if(!p.flying || p.nomove > 0 || stop) return
 				hit(p)
 
 	quaffle
@@ -526,7 +546,9 @@ obj/quidditch
 		icon_state = "quaffle"
 		density = 1
 
-		var/tmp/caught
+		var/tmp
+			caught
+			stop = 0
 
 		New()
 			..()
@@ -534,6 +556,7 @@ obj/quidditch
 			if(!float) walk(src, dir, 2)
 
 		Bump(atom/movable/O)
+			if(stop) return
 			var/d = turn(dir, 90 * pick(1,-1))
 			var/turf/t = get_step(src, d)
 			if(!t || t.density)
@@ -565,7 +588,7 @@ obj/quidditch
 
 		Uncrossed(atom/movable/O)
 			set waitfor = 0
-			if(O == caught)
+			if(O == caught && !stop)
 				caught = 1
 				Move(O.loc)
 				walk(src, O.dir, 2)
