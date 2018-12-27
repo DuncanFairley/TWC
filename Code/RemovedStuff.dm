@@ -75,6 +75,12 @@ obj/items/MonBookMon
 		spawn(1)
 			loc = null
 
+obj/Beer
+	New()
+		..()
+		spawn(1)
+			loc = null
+
 obj/items/COMCText
 	New()
 		..()
