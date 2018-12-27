@@ -57,7 +57,7 @@
 
 #define SHIELD_MP 32
 #define SHIELD_SLAYER 64
-#define SHIELD_3 128
+#define SHIELD_SELFDAMAGE 128
 #define SHIELD_4 256
 #define SHIELD_5 512
 

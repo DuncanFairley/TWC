@@ -20,7 +20,7 @@ quest
 			            "Demonic Essence" = 3)
 
 		Reward
-			desc = "You gathered the ingredients. Now go to the animagus chamber."
+			desc = "You gathered the ingredients. Go to the animagus chamber."
 			reqs = list("Go to Animagus Chamber" = 1)
 
 	Elites

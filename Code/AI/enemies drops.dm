@@ -16,6 +16,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 					        /obj/items/wearable/ring/aetherwalker_ring,
 					        /obj/items/wearable/shield/mana,
 					        /obj/items/wearable/shield/slayer,
+					        /obj/items/wearable/shield/selfdamage,
 					        /obj/items/wearable/sword/slayer,
 					        /obj/items/wearable/sword/dragon),
 

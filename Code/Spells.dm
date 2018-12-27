@@ -1680,6 +1680,9 @@ mob
 			p.MP -= MPreq
 			p.updateMP()
 
+			if(p.passives & SHIELD_SELFDAMAGE)
+				P.selfDamage = 0
+
 			if(p.wand)
 				p.learnSpell(name)
 
@@ -1813,14 +1816,14 @@ mob/Player
 		return dmg
 
 
-	Attacked(obj/projectile/p)
+	Attacked(obj/projectile/p, isReflected=0)
 		..()
 
 		var/area/a = loc.loc
 		if(p.owner)
 			if(isplayer(p.owner))
 
-				if(p.owner == src && (istype(p, /obj/projectile/NoImpact) || !a.selfDamage)) return
+				if(p.owner == src && !isReflected && (!p.selfDamage || !a.selfDamage)) return
 
 				if(!a.friendlyFire) return
 
@@ -1961,6 +1964,7 @@ obj
 
 			steps = 0
 			impact = 1
+			selfDamage = 1
 
 		Move()
 			.=..()
@@ -2079,7 +2083,7 @@ obj
 					Effect(owner)
 					if(damage)
 						damage = round(O.reflect * damage, 1)
-						owner.Attacked(src)
+						owner.Attacked(src, 1)
 				else
 					Effect(O)
 					if(damage)
@@ -2289,6 +2293,7 @@ obj
 		NoImpact
 			var/list/bumped
 			impact = 0
+			selfDamage = 0
 			Impact(atom/movable/a, turf/oldloc)
 
 				if(ismonster(a) || isplayer(a))

@@ -577,7 +577,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.passives &= ~passive
 		return REMOVED
 	else
-		if(showoverlay && !owner.trnsed && !snowCurse)
+		if(showoverlay && !owner.trnsed && !owner.animagusOn)
 			var/image/o = new
 			o.icon = src.icon
 			o.layer = wear_layer
@@ -1157,7 +1157,7 @@ obj/items/wearable/brooms
 	icon = 'firebolt_broom.dmi'
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && (owner.loc.loc:antiFly||istype(owner.loc.loc,/area/ministry_of_magic)))
+		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiFly)
 			owner << errormsg("You cannot fly here.")
 			return
 		if(!forceremove && !(src in owner.Lwearing) && owner.findStatusEffect(/StatusEffect/Knockedfrombroom))
@@ -4576,6 +4576,9 @@ obj/items/wearable/ring
 	rarity = 3
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= 100)
+			owner << errormsg("You can't equip this while in combat.")
+			return
 		. = ..(owner)
 		if(. == WORN)
 			src.gender = owner.gender
@@ -4608,6 +4611,9 @@ obj/items/wearable/shield
 	rarity = 3
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= 100)
+			owner << errormsg("You can't equip this while in combat.")
+			return
 		. = ..(owner)
 		if(. == WORN)
 			src.gender = owner.gender
@@ -4634,11 +4640,22 @@ obj/items/wearable/shield/slayer
 	suffix = "<span style=\"color:#ffa500;\">10% damage reduction from monsters.</span>"
 	passive = SHIELD_SLAYER
 
+obj/items/wearable/shield/selfdamage
+	icon='trophies.dmi'
+	icon_state="Shield"
+	name="clown's shield"
+	desc="A clown's shield, provides protection against accidents."
+	suffix = "<span style=\"color:#ffa500;\">No damage from your own projectiles.</span>"
+	passive = SHIELD_SELFDAMAGE
+
 obj/items/wearable/sword
 	bonus  = 0
 	rarity = 3
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= 100)
+			owner << errormsg("You can't equip this while in combat.")
+			return
 		. = ..(owner)
 		if(. == WORN)
 			src.gender = owner.gender
