@@ -169,8 +169,8 @@ hudobj
 			transform = null
 
 		Click()
-			var/mob/Player/p = usr
 			if(alpha == 0) return
+			var/mob/Player/p = usr
 
 			if(on)
 				for(var/hudobj/statpoints/b in p.client.screen)
