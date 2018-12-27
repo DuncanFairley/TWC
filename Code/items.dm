@@ -1007,6 +1007,7 @@ obj/items/seeds
 	var
 		plantType
 		delay = 36000
+		cycles = 4
 		amount = 4
 
 	icon = 'potions_ingredients.dmi'
@@ -1061,27 +1062,33 @@ obj/items/seeds
 	daisy_seeds
 		plantType = /obj/items/ingredients/daisy
 		delay = 288000
-		amount = 4
+		cycles = 4
+		amount = 8
 	aconite_seeds
 		plantType = /obj/items/ingredients/aconite
 		delay = 288000
-		amount = 4
+		cycles = 4
+		amount = 8
 	berry_seeds
 		plantType = /obj/items/treats/berry
 		delay = 144000
-		amount = 4
+		cycles = 4
+		amount = 6
 	sweet_berry_seeds
 		plantType = /obj/items/treats/sweet_berry
 		delay = 36000
-		amount = 4
+		cycles = 4
+		amount = 6
 	grape_berry_seeds
 		plantType = /obj/items/treats/grape_berry
 		delay = 72000
-		amount = 4
+		cycles = 4
+		amount = 6
 	artifact_seeds
 		plantType = /obj/items/artifact
 		delay = 288000
-		amount = 3
+		cycles = 3
+		amount = 1
 
 
 obj/items/freds_key

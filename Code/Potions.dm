@@ -948,19 +948,21 @@ obj
 
 		var
 			plantType
-			yields
+			yields = 4
 			delay
 			lastUsed
 			ownerCkey
 			water = 0
+			amount = 1
 			tmp/wait
 
-		New(Loc, ownerCkey, plantType, delay, amount, seedName)
+		New(Loc, ownerCkey, plantType, delay, yields, seedName)
 			..(Loc)
 
 			src.plantType = plantType
 			src.delay     = delay
-			src.yields    = amount
+			src.yields    = yields
+			src.amount    = amount
 
 			src.ownerCkey = ownerCkey
 
@@ -991,8 +993,6 @@ obj
 
 					animate(src, transform = m1, time = 5, loop = 32)
 					animate(transform = m2, time = 5)
-
-					var/amount = rand(2, 4)
 
 					var/time = 320
 
