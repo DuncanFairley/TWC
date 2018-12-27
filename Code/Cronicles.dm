@@ -403,6 +403,10 @@ mob
 					p.StatPoints += p.rankLevel.level
 					p << infomsg("You were given [p.rankLevel.level] additional stat points due to your rank level.")
 
+			if(savefile_version < 41)
+				if(p.level > 500)
+					spawn() p.startQuest("Amato Animo Animato Animagus")
+
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else

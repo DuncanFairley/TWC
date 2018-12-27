@@ -461,6 +461,8 @@ StatusEffect
 
 				..()
 
+		Animagus
+
 		Vampire
 			var/tmp/c
 			Activate()

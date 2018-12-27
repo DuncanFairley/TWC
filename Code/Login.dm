@@ -352,6 +352,14 @@ proc/updateVault(swapmap/map, owner, version)
 						w:projColor = null
 					if(istype(w, /obj/items/wearable/pets))
 						w:exp = 0
+/*	if(version < 6)
+		for(var/turf/t in map.AllTurfs())
+			var/fly = t.flyblock
+			var/turf/newTurf
+			if(istype(t, /turf/floor))
+				newTurf = new /turf/buildable/vault (t)
+				if(fly) newTurf.flyblock = flyblock*/
+
 
 mob/GM/verb/UnloadMap()
 	set category = "Custom Maps"
@@ -1394,6 +1402,9 @@ mob/Player
 			if(Ghost)
 				var/percent = round((Ghost.exp / Ghost.maxExp) * 100)
 				stat("Ghost:", "[Ghost.level]   Exp: [comma(Ghost.exp)]/[comma(Ghost.maxExp)] ([percent]%)")
+			if(animagusState && Animagus)
+				var/percent = round((Animagus.exp / Animagus.maxExp) * 100)
+				stat("Animagus:", "[Animagus.level]   Exp: [comma(Animagus.exp)]/[comma(Animagus.maxExp)] ([percent]%)")
 			stat("Professions:","")
 			if(Gathering)
 				var/percent = round((Gathering.exp / Gathering.maxExp) * 100)
@@ -2062,6 +2073,8 @@ mob/Player
 							Year="Hogwarts Graduate"
 							src<<"<b>Congratulations, [src]! You have graduated from Hogwarts and attained the rank of Hogwarts Graduate.</b>"
 							src<<infomsg("You can now view your damage & defense stats in the stats tab.")
+
+							startQuest("Amato Animo Animato Animagus")
 
 				if(level <= 600)
 					Mexp += 50 * theiryear + 60 * (theiryear - 1)

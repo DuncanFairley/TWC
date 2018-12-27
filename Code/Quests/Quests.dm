@@ -896,6 +896,9 @@ interface
 		new /hudobj/monsterbook(null, parent.client, null, show=2)
 		new /hudobj/Party_Invite(null, parent.client, null, 2)
 
+		if(p.animagusState)
+			new /hudobj/Animagus(null, parent.client, null, show=2)
+
 		if(p.StatPoints > 0)
 			new /hudobj/UseStatpoints(null, parent.client, null, show=2)
 
@@ -974,11 +977,19 @@ obj/hud/screentext
 					pixel_offset -= 32
 					offset++
 
+				var/displayReq = TRUE
+
 				if(pointer.reqs.len == 1)
-					var/area/a = getArea(locate(pointer.reqs[1]))
+					var/txt = pointer.reqs[1]
+					var/area/a
+					if(findtext(txt, "Go to ", 1, 7))
+						txt = copytext(pointer.reqs[1], 7)
+
+					displayReq = FALSE
+					a = getArea(locate(txt))
 					if(a && a.region)
 						var/obj/hud/screentext/questPath/path = new
-						path.name = pointer.reqs[1]
+						path.name = txt
 						path.screen_loc = "WEST+9,SOUTH+[offset]:[pixel_offset]"
 						path.maptext = "<span style=\"color:[p.mapTextColor];\">[path.maptext]</span>"
 						p.client.screen += path
@@ -986,11 +997,15 @@ obj/hud/screentext
 						if(removePath && path.name == p.pathdest:tag)
 							removePath = FALSE
 
-				var/reqsText = ""
-				for(var/i in pointer.reqs)
-					reqsText += "  - [i]: [pointer.reqs[i]]<br>"
 
-				maptext = "<b>[questName]</b><br>[reqsText][maptext]"
+				if(displayReq)
+					var/reqsText = ""
+					for(var/i in pointer.reqs)
+						reqsText += "  - [i]: [pointer.reqs[i]]<br>"
+
+					maptext = "<b>[questName]</b><br>[reqsText][maptext]"
+				else
+					maptext = "<b>[questName]</b><br>  - [pointer.reqs[1]]<br>[maptext]"
 
 			if(maptext)
 				maptext = "<span style=\"color:[p.mapTextColor];\">[maptext] </span>"
@@ -1062,6 +1077,19 @@ mob/Player
 				Interface.mpbar.mtext.invisibility = 0
 				Interface.mpbar.back.invisibility  = 0
 
+obj/questStepTrigger
+
+	invisibility = 2
+
+	New()
+		..()
+
+		tag = name
+
+	Crossed(atom/movable/O)
+		if(isplayer(O))
+			var/mob/Player/p = O
+			p.checkQuestProgress("Go to [name]")
 
 mob/Player
 	var

@@ -6,6 +6,23 @@
  */
 
 quest
+	Animagus
+		name = "Amato Animo Animato Animagus"
+		desc = "You decided to start animagus training and placed a leaf of a mandrake in your mouth."
+		reward = /questReward/Animagus
+
+		Potion
+			desc = "You also need to make animagus potion."
+			reqs = list("Kill Elites" = 5,
+						"Kill Dog"    = 50,
+			            "Kill Snake"  = 50,
+			            "Kill Wolf"   = 50,
+			            "Demonic Essence" = 3)
+
+		Reward
+			desc = "You gathered the ingredients. Now go to the animagus chamber."
+			reqs = list("Go to Animagus Chamber" = 1)
+
 	Elites
 		name   = "The Elite \[Repeatable]"
 		desc   = "Todd spoke about elite monsters that are harder to kill but are also more rewarding."
@@ -1062,3 +1079,6 @@ questReward
 			max    = 0
 	Slayer
 		points = 5000
+	Animagus
+		exp   = 40000
+		items = /obj/items/potions/animagus_potion

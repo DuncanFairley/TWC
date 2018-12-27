@@ -679,6 +679,11 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/Size { size=0.5 }
 		seconds    = 90
 
+	animagus_potion
+		icon_state = "orange"
+		effect     = /StatusEffect/Potions/Animagus
+		seconds    = 120
+
 	super
 		luck
 			name       = "super felix felicis"
