@@ -974,7 +974,7 @@ obj
 			winshow(usr, "infobubble", 0)
 
 		Click()
-			if(lastUsed && (usr in range(1, src)))
+			if(lastUsed && (usr in range(1, src)) && !wait)
 				if(world.realtime - lastUsed >= delay)
 					pixel_x = 0
 					wait    = 1
@@ -1010,6 +1010,7 @@ obj
 						loc = null
 					else
 						transform = null
+						wait = 0
 					return
 				else
 					usr << errormsg("[name] is not ready for harvest")
