@@ -701,6 +701,9 @@ mob
 	Player/var/tmp/antifigura = 0
 	proc
 		CanTrans(mob/Player/p)
+			if(p.animagusOn)
+				src << errormsg("You can't transfigure [p].")
+				return 0
 			if(p.antifigura > 0)
 				p.antifigura--
 				src << errormsg("Your spell failed, [p] is protected from transfiguring spells.")
@@ -1177,32 +1180,28 @@ mob/Spells/verb/Incendio()
 mob/proc/Haha()
 
 mob/Player/proc/BaseIcon()
-
-	if(snowCurse)
-		if(Haha()) return
-
 	if(Gender == "Female")
 		if(Gm)
-			icon = snowCurse ? 'SnowmanStaff.dmi' : 'FemaleStaff.dmi'
+			icon = 'FemaleStaff.dmi'
 		else if(House == "Gryffindor")
-			icon = snowCurse ? 'SnowmanRed.dmi' : 'FemaleGryffindor.dmi'
+			icon = 'FemaleGryffindor.dmi'
 		else if(House == "Ravenclaw")
-			icon = snowCurse ? 'SnowmanBlue.dmi' : 'FemaleRavenclaw.dmi'
+			icon = 'FemaleRavenclaw.dmi'
 		else if(House == "Slytherin")
-			icon = snowCurse ? 'SnowmanGreen.dmi' : 'FemaleSlytherin.dmi'
+			icon = 'FemaleSlytherin.dmi'
 		else if(House == "Hufflepuff")
-			icon = snowCurse ? 'SnowmanYellow.dmi' : 'FemaleHufflepuff.dmi'
+			icon = 'FemaleHufflepuff.dmi'
 	else
 		if(Gm)
-			icon = snowCurse ? 'SnowmanStaff.dmi' : 'MaleStaff.dmi'
+			icon = 'MaleStaff.dmi'
 		else if(House == "Gryffindor")
-			icon = snowCurse ? 'SnowmanRed.dmi' : 'MaleGryffindor.dmi'
+			icon = 'MaleGryffindor.dmi'
 		else if(House == "Ravenclaw")
-			icon = snowCurse ? 'SnowmanBlue.dmi' : 'MaleRavenclaw.dmi'
+			icon = 'MaleRavenclaw.dmi'
 		else if(House == "Slytherin")
-			icon = snowCurse ? 'SnowmanGreen.dmi' : 'MaleSlytherin.dmi'
+			icon = 'MaleSlytherin.dmi'
 		else if(House == "Hufflepuff")
-			icon = snowCurse ? 'SnowmanYellow.dmi' : 'MaleHufflepuff.dmi'
+			icon = 'MaleHufflepuff.dmi'
 
 mob/Spells/verb/Reddikulus(mob/Player/M in view()&Players)
 	set category="Spells"
@@ -1746,6 +1745,7 @@ mob/Player/var/element
 	Taming
 	Alchemy
 	Slayer
+	Animagus
 
 
 element
@@ -1858,7 +1858,7 @@ mob/Player
 		var/n = dir2angle(get_dir(src, p))
 		emit(loc    = src,
 			 ptype  = /obj/particle/fluid/blood,
-		     amount = 5,
+		     amount = 4,
 		     angle  = new /Random(n - 25, n + 25),
 		     speed  = 2,
 		     life   = new /Random(15,25))
@@ -1907,7 +1907,7 @@ mob/Enemies
 				var/n = dir2angle(get_dir(src, p))
 				emit(loc    = src,
 					 ptype  = /obj/particle/fluid/blood,
-				     amount = 5,
+				     amount = 4,
 				     angle  = new /Random(n - 25, n + 25),
 				     speed  = 2,
 				     life   = new /Random(15,25))

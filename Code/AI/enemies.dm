@@ -1755,12 +1755,6 @@ mob
 						..()
 						SpawnPortal("teleportPointSnowman Dungeon")
 
-						var/obj/snow_counter/count = locate("SnowCounter")
-						if(count.add(100))
-							new /mob/Enemies/Summoned/Boss/Snowman/Super (loc)
- 							world << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
-
-
 					Attack(mob/M)
 						..()
 						if(!fired && target && state == HOSTILE)
@@ -2174,14 +2168,6 @@ mob
 				else
 					transform = null
 					Dmg = DMGmodifier * (level + 5)
-
-			Death()
-				..()
-				var/obj/snow_counter/count = locate("SnowCounter")
-				if(count.add())
-					var/obj/spawner/spawn_loc = pick(worldData.spawners)
-					new /mob/Enemies/Summoned/Boss/Snowman/Super (spawn_loc.loc)
-					world << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
 
 		Acromantula
 			icon = 'Mobs.dmi'
