@@ -430,6 +430,7 @@ area
 		MapOne
 			scaleDamage = 0
 			selfDamage = 0
+			antiApparate = 1
 			Gryff/Exit(atom/movable/O)
 				if(ismob(O))
 					if(worldData.currentArena)
