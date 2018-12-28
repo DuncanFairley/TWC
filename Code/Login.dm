@@ -1703,7 +1703,6 @@ mob/proc/Death_Check(mob/killer = src)
 						var/obj/Bed/B = pick(Beds)
 						p.Transfer(B.loc)
 						src.dir = SOUTH
-				src.FlickState("Orb",12,'Effects.dmi')
 				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
 				if(src.removeoMob) spawn()src:Permoveo()
 				src.sight &= ~BLIND

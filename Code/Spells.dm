@@ -120,7 +120,7 @@ obj/items/proc/walkTo(atom/movable/a, pickup=0)
 	while(a && loc && a.loc && a.loc != loc)
 		loc = get_step_towards(src, a.loc)
 		sleep(1)
-	if(pickup)
+	if(pickup && fetchable)
 		Move(a)
 		a:Resort_Stacking_Inv()
 
@@ -1180,6 +1180,9 @@ mob/Spells/verb/Incendio()
 mob/proc/Haha()
 
 mob/Player/proc/BaseIcon()
+
+	if(animagusOn) return
+
 	if(Gender == "Female")
 		if(Gm)
 			icon = 'FemaleStaff.dmi'
