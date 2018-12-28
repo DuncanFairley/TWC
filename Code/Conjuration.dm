@@ -17,7 +17,7 @@ mob/verb/updateHPMP()
 	src:Interface.hpbar.UpdateText(HP, MHP)
 	src:Interface.mpbar.UpdateText(MP, MMP)
 
-	if(!src:mpRegen && MP < MMP)
+	if(!(src:tickers & MP_REGEN) && MP < MMP)
 		src:MPRegen()
 
 	src:hpBar.Set(hppercent, src)
@@ -32,7 +32,7 @@ mob/Player
 		src:Interface.mpbar.Set(mppercent)
 		src:Interface.mpbar.UpdateText(MP, MMP)
 
-		if(!src:mpRegen && MP < MMP)
+		if(!(tickers & MP_REGEN) && MP < MMP)
 			src:MPRegen()
 
 	proc/updateHP()
@@ -48,24 +48,40 @@ mob/Player
 mob/Player
 	var
 		MPRegen = 0
-		tmp/mpRegen = 0
+		tmp/tickers = 0
 
 	proc/MPRegen()
 		set waitfor = 0
 
-		mpRegen = 1
+		tickers |= MP_REGEN
 		sleep(50)
 
-		while(src)
-			if(MP < MMP)
-				MP = min(MP + 50 + round(level/10)*2 + MPRegen, MMP)
-				var/mppercent = clamp(MP / MMP, 0, 1)
+		while(MP < MMP)
+			MP = min(MP + 50 + round(level/10)*2 + MPRegen, MMP)
+			var/mppercent = clamp(MP / MMP, 0, 1)
 
-				Interface.mpbar.Set(mppercent)
-				Interface.mpbar.UpdateText(MP, MMP)
+			Interface.mpbar.Set(mppercent)
+			Interface.mpbar.UpdateText(MP, MMP)
 			sleep(50)
 
-		mpRegen = 0
+		tickers &= ~MP_REGEN
+
+	proc/HPRegen()
+		set waitfor = 0
+
+		if(tickers & HP_REGEN) return
+		tickers |= HP_REGEN
+		sleep(10)
+
+		while(HP < MHP && animagusOn)
+			HP = min(HP + 10 + round(level/10)*2 + Animagus.level*2, MHP)
+			var/hppercent = clamp(HP / MHP, 0, 1)
+
+			Interface.hpbar.Set(hppercent)
+			Interface.hpbar.UpdateText(HP, MHP)
+			sleep(10)
+
+		tickers &= ~HP_REGEN
 
 mob/var/Gender
 mob/var/tmp/usedpermoveo

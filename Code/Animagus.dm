@@ -68,8 +68,9 @@ turf
 mob/Player
 	var
 		animagusState
-		tmp/animagusOn = 0
-		tmp/animagusPower = 0
+		tmp
+			animagusOn = 0
+			animagusPower = 0
 
 	Bump(atom/movable/O)
 		..()
@@ -79,7 +80,7 @@ mob/Player
 
 			var/mob/Enemies/e = O
 
-			var/dmg = round(rand(10) + (Dmg + Slayer.level) * (1 + Animagus.level/100), 1)
+			var/dmg = round(rand(10) + (Dmg + Slayer.level) * (1.1 + Animagus.level/100), 1)
 
 			if(passives & SWORD_SLAYER)
 				dmg *= 1.1
@@ -120,31 +121,40 @@ mob/Player
 		AnimagusTick(hudobj/Animagus/a)
 			set waitfor = 0
 
-			if(animagusOn) return
 			animagusOn = 1
+
+			if(tickers & ANIMAGUS_TICK) return
+			tickers |= ANIMAGUS_TICK
+
+			HPRegen()
 
 			while(animagusOn)
 				a.maptext = {"<span style=\"color:[mapTextColor];font-size:2px;\"><b>[--animagusPower]%</b></span>"}
-				sleep(10 + Animagus.level)
+				sleep(20 + Animagus.level*2)
 
 				if(animagusPower <= 0)
 					a.color = null
 					flick("transfigure", src)
+					AnimagusRecover(a)
 					BaseIcon()
 					ApplyOverlays()
-					AnimagusRecover(a)
 					break
 
-		AnimagusRecover(hudobj/Animagus/a, fromStart=0)
+			tickers &= ~ANIMAGUS_TICK
+
+		AnimagusRecover(hudobj/Animagus/a)
 			set waitfor = 0
 
-			if(!fromStart)
-				if(!animagusOn) return
-				animagusOn = 0
+			animagusOn = 0
+
+			if((tickers & ANIMAGUS_RECOVER) > 0) return
+			tickers |= ANIMAGUS_RECOVER
 
 			while(!animagusOn && animagusPower < 100 + Animagus.level)
 				a.maptext = {"<span style=\"color:[mapTextColor];font-size:2px;\"><b>[++animagusPower]%</b></span>"}
 				sleep(50)
+
+			tickers &= ~ANIMAGUS_RECOVER
 
 hudobj
 
@@ -172,6 +182,7 @@ hudobj
 
 			if(!p.animagusOn)
 				if(p.animagusPower < 5) return
+				if(istype(p.loc.loc, /area/arenas)) return
 				color = "#0c0"
 				p.AnimagusTick(src)
 
@@ -194,7 +205,7 @@ hudobj
 
 			var/mob/Player/p = Client.mob
 			icon_state = p.animagusState
-			p.AnimagusRecover(src, 1)
+			p.AnimagusRecover(src)
 
 area/hogwarts/Animagus
 
@@ -211,9 +222,9 @@ obj/animagus
 			if(a)
 				p.animagusState = name
 				if(!p.Animagus) p.Animagus = new("Animagus")
-				a.Deactivate()
 
 				p << infomsg("You unlocked [name] animagus.")
+				p.animagusPower = 100
 
 				var/hudobj/Animagus/hud = locate() in p.client.screen
 				if(hud)
