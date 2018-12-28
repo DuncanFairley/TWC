@@ -981,7 +981,8 @@ obj
 			if(istype(Loc, /turf/buildable))
 				lastUsed = world.realtime
 
-			name = splittext(seedName, " ")[1]
+			if(seedName)
+				name = splittext(seedName, " ")[1]
 
 		MouseEntered(location,control,params)
 			var/info = "Water helps with plant growth."
@@ -1028,6 +1029,7 @@ obj
 					else
 						transform = null
 						wait = 0
+						lastUsed = world.realtime
 					return
 				else
 					usr << errormsg("[name] is not ready for harvest")
