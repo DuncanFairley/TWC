@@ -1441,7 +1441,7 @@ mob/Spells/verb/Apparate()
 	if(canUse(src,cooldown=/StatusEffect/Apparate,needwand=1,mpreq=mpCost))
 
 		var/area/a = loc.loc
-		if(a.AntiApperate)
+		if(a.antiApparate)
 			src << errormsg("Strong charms are stopping you.")
 			return
 
@@ -1453,7 +1453,7 @@ mob/Spells/verb/Apparate()
 		var/steps = 15
 		while(o.loc != src && steps > 0)
 			steps--
-			if(!step(o, dir) || o.loc.loc:AntiApperate) break
+			if(!step(o, dir) || o.loc.loc:antiApparate) break
 			t = o.loc
 
 		o.loc = null

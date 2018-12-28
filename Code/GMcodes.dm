@@ -1215,7 +1215,7 @@ mob/Player/var
 		superspeed = 0
 		cloaked    = 0
 
-area/var/AntiApperate = 0
+area/var/antiApparate = 0
 
 turf
 	DblClick()
@@ -1228,7 +1228,7 @@ turf
 		if((p.superspeed || (p.shortapparate && canUse(p,cooldown=/StatusEffect/Apparate,needwand=1,mpreq=mpCost))) && p.nomove == 0)
 
 			var/area/a = p.loc.loc
-			if(a.AntiApperate)
+			if(a.antiApparate)
 				p << errormsg("Strong charms are stopping you.")
 				return
 
@@ -1242,7 +1242,7 @@ turf
 			while(o.loc != src && steps > 0)
 				steps--
 				var/turf/check = get_step_to(o, src)
-				if(!check || check.loc:AntiApperate) break
+				if(!check || check.loc:antiApparate) break
 				o.loc = check
 				t     = check
 
