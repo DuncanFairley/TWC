@@ -1170,7 +1170,7 @@ obj/items/wearable/brooms
 		if(!forceremove && !(src in owner.Lwearing) && owner.findStatusEffect(/StatusEffect/Knockedfrombroom))
 			owner << errormsg("You can't get back on your broom right now because you were recently knocked off.")
 			return
-		if(!(src in owner.Lwearing) && owner.trnsed)
+		if(!(src in owner.Lwearing) && (owner.trnsed || owner.animagusOn))
 			owner << errormsg("You can't fly while transfigured.")
 			return
 		if(owner.findStatusEffect(/StatusEffect/Potions/Vampire))
@@ -4611,7 +4611,6 @@ obj/items/wearable/ring/aetherwalker_ring
 	desc="A magical ring that allows you apparate without cooldown."
 	suffix = "<span style=\"color:#ffa500;\">Apparate's cooldown will be replaced with increased mana cost.</span>"
 	passive = RING_APPARATE
-
 
 obj/items/wearable/shield
 	bonus  = 0
