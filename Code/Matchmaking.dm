@@ -840,3 +840,11 @@ area/arenas
 				var/StatusEffect/Potions/p = locate() in user.LStatusEffects
 				if(p)
 					p.Deactivate()
+
+			if(user.animagusOn)
+				var/hudobj/Animagus/a = locate() in user.client.screen
+				a.color = null
+				flick("transfigure", user)
+				user.AnimagusRecover(a)
+				user.BaseIcon()
+				user.ApplyOverlays()
