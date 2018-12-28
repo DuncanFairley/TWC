@@ -973,6 +973,8 @@ mob
 
 				dmg = round(dmg - target.Slayer.level)
 
+				if(target.animagusOn) dmg *= 0.75
+
 				if(dmg < 1)
 					//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 				else
