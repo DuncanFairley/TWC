@@ -462,6 +462,10 @@ StatusEffect
 				..()
 
 		Animagus
+			Activate()
+				set waitfor = 0
+				AttachedAtom << infomsg("Walk on animal statue you wish to select as your animagus, you can change while this potion is in effect.")
+				..()
 
 		Vampire
 			var/tmp/c
