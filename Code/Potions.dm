@@ -684,6 +684,18 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/Animagus
 		seconds    = 120
 
+		Click()
+			if(src in usr)
+
+				var/area/a = usr.loc.loc
+				if(!istype(a, /area/hogwarts/Animagus))
+					usr << errormsg("You can only drink this in Animagus Chamber.")
+					return
+
+				..()
+			else
+				..()
+
 	super
 		luck
 			name       = "super felix felicis"
