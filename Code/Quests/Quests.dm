@@ -985,9 +985,9 @@ obj/hud/screentext
 					if(findtext(txt, "Go to ", 1, 7))
 						txt = copytext(pointer.reqs[1], 7)
 
-					displayReq = FALSE
 					a = getArea(locate(txt))
 					if(a && a.region)
+						displayReq = FALSE
 						var/obj/hud/screentext/questPath/path = new
 						path.name = txt
 						path.screen_loc = "WEST+9,SOUTH+[offset]:[pixel_offset]"
