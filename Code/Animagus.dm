@@ -70,7 +70,7 @@ mob/Player
 		animagusState
 		tmp
 			animagusOn = 0
-			animagusPower = 0
+		animagusPower = 0
 
 	Bump(atom/movable/O)
 		..()
@@ -80,7 +80,7 @@ mob/Player
 
 			var/mob/Enemies/e = O
 
-			var/dmg = round(rand(10) + (Dmg + Slayer.level) * (1.1 + Animagus.level/100), 1)
+			var/dmg = round(rand(10) + (Dmg + clothDmg + Slayer.level) * (1.1 + Animagus.level/100), 1)
 
 			if(passives & SWORD_SLAYER)
 				dmg *= 1.1
