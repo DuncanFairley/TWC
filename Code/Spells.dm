@@ -15,6 +15,7 @@ var/list/spellList = list(
 	/mob/Spells/verb/Accio_Maxima = "Accio Maxima",
 	/mob/Spells/verb/Reparo = "Reparo",
 	/mob/Spells/verb/Herbificus = "Herbificus",
+	/mob/Spells/verb/Herbivicus = "Herbivicus",
 	/mob/Spells/verb/Bombarda = "Bombarda",
 	/mob/Spells/verb/Carrotosi = "Carrotosi",
 	/mob/Spells/verb/Flippendo = "Flippendo",
@@ -98,7 +99,7 @@ mob/Spells/verb/Accio(obj/M in oview(usr.client.view,usr))
 			M.loc = t
 			sleep(2)
 
-		if(istype(M,/obj/candle)) M:respawn()
+		if(istype(M,/obj/candle) || istype(M,/obj/books)) M:respawn()
 
 mob/Spells/verb/Accio_Maxima()
 	set category = "Spells"
@@ -211,6 +212,32 @@ mob/Spells/verb/Herbificus()
 			new /StatusEffect/SpellText(src,5)
 			hearers()<<"<b><span style=\"color:red;\">[usr]:</span> Herbificus."
 			usr:learnSpell("Herbificus")
+
+mob/Spells/verb/Herbivicus()
+	set category = "Spells"
+	if(canUse(src,needwand=1,insafezone=1,inhogwarts=1))
+		hearers()<<"<b><span style=\"color:red;\">[usr]:</span> Herbivicus."
+
+		for(var/obj/herb/h in oview(15, src))
+			if(h.wait) continue
+
+			var/image/i = image('attacks.dmi',icon_state="heal")
+			h.overlays += i
+			sleep(10)
+			h.overlays -= i
+
+			if(h.lastUsed)
+				if(h.water == 1)
+					h.water = 2
+				else if(h.water == -1)
+					h.water = 0
+				else if(h.water == 2 && world.realtime - h.lastUsed >= h.delay*0.75)
+					h.grow(src)
+			else
+				h.grow(src)
+
+		usr:learnSpell("Herbivicus")
+
 mob/Spells/verb/Protego()
 	set category = "Spells"
 	var/mob/Player/p = src
@@ -1529,7 +1556,7 @@ mob/Spells/verb/Wingardium_Leviosa()
 				hearers(client.view)<<"<B>[usr.name]: <I>Wingardium Leviosa.</I>"
 				other.overlays += new /obj/overlay/flash
 				usr:learnSpell("Wingardium Leviosa")
-				if(istype(other,/obj/candle)) other:respawn()
+				if(istype(other, /obj/candle) || istype(other, /obj/books)) other:respawn()
 				src=null
 				spawn()
 					var/seconds = 60

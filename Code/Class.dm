@@ -491,6 +491,10 @@ class
 			start(mob/Player/p)
 				..()
 				say("This summons roses. It is perfect for Valentine's Day!", p)
+		Herbivicus
+			start(mob/Player/p)
+				..()
+				say("This spell helps growing herbs, you still have to plant the seed in a bucket though.", p)
 		Bombarda
 			start(mob/Player/p)
 				..()
