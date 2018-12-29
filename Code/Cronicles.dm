@@ -63,7 +63,6 @@ WorldData
 			Gms
 
 		elderWand
-		canReadBooks = 1
 		allowGifts   = 1
 		dplastupdate
 		housecupwinner

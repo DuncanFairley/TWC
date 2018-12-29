@@ -100,7 +100,7 @@ hudobj/readClicker
 		mob/Player/player
 		dx
 		dy
-		isGold = 0
+		spell
 
 	MouseEntered()
 		if(alpha == 255)
@@ -113,15 +113,19 @@ hudobj/readClicker
 			m.Translate(dx, dy)
 			transform = m
 
-	New(loc=null,client/Client,list/Params,show=1,Player=null)
+	New(loc=null,client/Client,list/Params,show=1,spell=null, spellProb)
 		..(loc,Client,Params,show)
-		player = Player
+		player = Client.mob
 
 		name = "[pick("Page ", "Spell #")][rand(1,3000)]"
 
 		if(prob(20))
-			isGold = 1
 			icon_state = "gold"
+		else if(spell && prob(spellProb))
+			if(!(spell in usr.verbs))
+				icon_state = "spell"
+				src.spell = spell
+
 
 	show()
 		set waitfor = 0
@@ -164,11 +168,22 @@ hudobj/readClicker
 			var/exp = get_exp(player.level) * worldData.expBookModifier
 			exp = round(rand(exp * 0.9, exp * 1.1))
 
-			if(isGold)
+			if(icon_state == "gold")
 				exp *= 3
 				var/gold/g = new (bronze=rand(1,200))
 				usr << infomsg("You found [g.toString()] in between the book's pages")
 				g.give(usr)
+			else if(icon_state == "spell")
+				var/mob/Spells/verb/generic = spell
+				animate(client, color = list(1,1.5,1.5,
+		                          				 1,1.5,1.5,
+		                          				 1,1.5,1.5,
+		                         				 -1,-1,-1), time = 10)
+
+				player << infomsg("You learned [generic.name].")
+				player.verbs += spell
+				spawn(15)
+					animate(client, color = null, time = 10)
 
 			player.addExp(exp, 1, 0)
 
@@ -191,7 +206,49 @@ obj
 		density = 1
 		mouse_over_pointer = MOUSE_HAND_POINTER
 
-		var/life
+		accioable = 1
+		wlable = 1
+
+		var
+			life
+			spell
+			spellProb
+			tmp/turf/origloc
+
+		New()
+			set waitfor = 0
+			..()
+			sleep(1)
+			if(life == null)
+				origloc = loc
+			else
+				accioable = 0
+				wlable = 0
+
+		proc/respawn()
+			set waitfor = 0
+			if(!origloc) return
+
+			do
+				sleep(100)//rand(700, 2400))
+			while (locate(/mob/Player) in range(1, src))
+
+			if(z == origloc.z)
+				accioable = 0
+				wlable    = 0
+				glide_size = 16
+				while(loc != origloc)
+					var/t = get_step_towards(src, origloc)
+					if(!t)
+						loc = origloc
+						break
+					loc = t
+					sleep(2)
+				accioable = 1
+				wlable    = 1
+				glide_size = 32
+			else
+				loc = origloc
 
 		Click()
 			..()
@@ -201,9 +258,6 @@ obj
 		verb/Read_book()
 			set src in oview(1)
 			var/mob/Player/p = usr
-			if(!worldData.canReadBooks)
-				p << errormsg("You find this book too boring to read.")
-				return
 			if(life != null && life <= 0)
 				p << errormsg("This book is too old to read.")
 				return
@@ -227,7 +281,7 @@ obj
 							if(life <= 0) break
 
 						if((p.client.inactivity < 600 || p.presence) && prob(25))
-							new /hudobj/readClicker (null, p.client, null, 1, p)
+							new /hudobj/readClicker (null, p.client, null, 1, spell)
 
 						var/exp  = get_exp(p.level) * worldData.expBookModifier
 						if(p.presence || p.level <= 50)
@@ -256,78 +310,116 @@ obj
 		EXP_BOOK_lvl0
 			icon_state="peace"
 			name = "Book of Peace"
+			spell = /mob/Spells/verb/Ferula
+			spellProb = 7
 
 		EXP_BOOK_lvl1
 			name = "Book of Chaos"
 			icon_state="chaos"
+			spell = /mob/Spells/verb/Chaotica
+			spellProb = 1
 
 		EXP_BOOK_lvl2
 			name = "Gringott's Guide to Banking"
 			icon_state="bank"
+			spell = /mob/Spells/verb/Accio
+			spellProb = 7
 
 		EXP_BOOK_lvl3
 			name = "Guide to Magic"
 			icon_state="rmagic"
+			spell = /mob/Spells/verb/Lumos
+			spellProb = 7
 
 		EXP_BOOK_lvl4
 			name = "Hogwarts: A History"
 			icon_state="Hogwarts"
+			spell = /mob/Spells/verb/Portus
+			spellProb = 4
 
 		EXP_BOOK_lvl5
 			name = "Gawshawks Guide to Herbology"
 			icon_state="herb"
+			spell = /mob/Spells/verb/Herbivicus
+			spellProb = 2
 
 		EXP_BOOK_lvl6
 			name = "How to Brew Potions"
 			icon_state="potion"
+			spell = /mob/Spells/verb/Aqua_Eructo
+			spellProb = 3
 
 		EXP_BOOK_lvl7
 			name = "The Key to Success"
 			icon_state="key"
+			spell = /mob/Spells/verb/Flagrate
+			spellProb = 5
 
 		EXP_BOOK_lvl8
 			name = "Fencing for Dummies"
 			icon_state="sword"
+			spell = /mob/Spells/verb/Imitatus
+			spellProb = 6
 
 		EXP_BOOK_lvlde
 			name = "Death Eaters Guide"
 			icon_state="de"
+			spell = /mob/Spells/verb/Glacius
+			spellProb = 3
 
 		EXP_BOOK_lvlauror
 			name = "Aurors Guide"
 			icon_state="auror"
+			spell = /mob/Spells/verb/Tremorio
+			spellProb = 3
 
 		EXP_BOOK_lvlslytherin
 			name = "Slytherin's Strategies of Battle"
 			icon_state="slyth"
+			spell = /mob/Spells/verb/Serpensortia
+			spellProb = 3
 
 		EXP_BOOK_lvlslytherinupgraded
 			name = "Salazar's Journal"
 			icon_state="slythup"
+			spell = /mob/Spells/verb/Repellium
+			spellProb = 3
 
 		EXP_BOOK_lvlhufflepuff
 			name = "Hufflepuff's Fable Encyclopedia"
 			icon_state="huffle"
+			spell = /mob/Spells/verb/Deletrius
+			spellProb = 5
 
 		EXP_BOOK_lvlhufflepuffupgraded
 			name = "Helga's Journal"
 			icon_state="huffleup"
+			spell = /mob/Spells/verb/Confundus
+			spellProb = 2
 
 		EXP_BOOK_lvlravenclaw
 			name = "Ravenclaw's Vast Dictionary"
 			icon_state="raven"
+			spell = /mob/Spells/verb/Nightus
+			spellProb = 5
 
 		EXP_BOOK_lvlravenclawupgraded
 			name = "Rowena's Journal"
 			icon_state="ravenup"
+			spell = /mob/Spells/verb/Avifors
+			spellProb = 5
 
 		EXP_BOOK_lvlgryffindor
 			name = "Gryffindor's Guide to Valor"
 			icon_state="gryff"
+			spell = /mob/Spells/verb/Incendio
+			spellProb = 5
 
 		EXP_BOOK_lvlgryffindorupgraded
 			name = "Godric's Journal"
 			icon_state="gryffup"
+			spell = /mob/Spells/verb/Incindia
+			spellProb = 1
 
 
 proc
@@ -653,19 +745,6 @@ area
 
 	hogwarts/Duel_Arenas/Main_Arena_Bottom
 		oldsystem = TRUE
-
-
-mob/test/verb
-	Toggle_Book_Read()
-		set category = "Server"
-		worldData.canReadBooks = !worldData.canReadBooks
-
-		src << infomsg("read books set to [worldData.canReadBooks]")
-
-		if(!worldData.canReadBooks)
-			for(var/mob/Player/p in Players)
-				if(p.readbooks > 0)
-					p.readbooks = -p.readbooks
 
 
 proc/rewardExpWeek()
