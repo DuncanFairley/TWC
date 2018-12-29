@@ -683,7 +683,7 @@ mob
 
 			var/sparks = isElite
 			if(isElite)
-				rate += 0.5
+				rate += 1
 				var/obj/items/elite/e = new (loc)
 				e.level = level/50
 				e.name  = "sword of might: level [e.level]"
