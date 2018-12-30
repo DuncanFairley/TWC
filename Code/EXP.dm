@@ -281,7 +281,7 @@ obj
 							if(life <= 0) break
 
 						if((p.client.inactivity < 600 || p.presence) && prob(25))
-							new /hudobj/readClicker (null, p.client, null, 1, spell)
+							new /hudobj/readClicker (null, p.client, null, 1, spell, spellProb)
 
 						var/exp  = get_exp(p.level) * worldData.expBookModifier
 						if(p.presence || p.level <= 50)
