@@ -674,33 +674,37 @@ mob/Spells/verb/Reducto(var/mob/Player/M in (view(usr.client.view,usr)&Players)|
 		M.FlickState("apparate",8,'Effects.dmi')
 		if(!M.trnsed) M.icon_state=""
 		usr:learnSpell("Reducto")
-mob/Spells/verb/Reparo(obj/M in oview(src.client.view,src))
+mob/Spells/verb/Reparo()
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		if(!M.rubbleable == 1){src<<"<b><span style=\"color:red;\">Error:</b></span> This object has Protection Charms placed upon it.";return}
-		if(M.rubble==1)
-			hearers(src.client.view,src) << "[src]: <b>Reparo!</b>"
-			M.icon=M.picon
-			M.name=M.pname
-			M.icon_state=M.piconstate
-			M.rubble=0
-			usr:learnSpell("Reparo")
-mob/Spells/verb/Bombarda(obj/M in oview(src.client.view,src))
+	if(canUse(src,cooldown=/StatusEffect/UsedReparo,needwand=1,insafezone=1,inhogwarts=1,mpreq=150))
+		var/mob/Player/p = src
+		new /StatusEffect/UsedReparo(src,10*p.cooldownModifier,"Reparo")
+		hearers(client.view,src) << "[src]: <b>Reparo!</b>"
+		p.MP -= 150
+		p.updateMP()
+		p.learnSpell("Reparo")
+
+		for(var/obj/o in oview(15, src))
+			if(!o.rubbleable || !o.rubble) continue
+
+			var/image/i = image('attacks.dmi',icon_state="heal")
+			o.overlays += i
+			sleep(10)
+			o.overlays -= i
+
+			o.icon=o.picon
+			o.name=o.pname
+			o.icon_state=o.piconstate
+			o.rubble=0
+
+mob/Spells/verb/Bombarda()
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		if(!M.rubbleable == 1){src<<"<b><span style=\"color:red;\">Error:</b></span> This object has Protection Charms placed upon it.";return}
-		if(M.rubble==1)
-			return
-		else
-			hearers(src.client.view,src) << "[src]: <b>Bombarda!</b>"
-			M.picon=M.icon
-			M.pname=M.name
-			M.piconstate=M.icon_state
-			M.name="Pile of Rubble"
-			M.icon='rubble.dmi'
-			M.icon_state=""
-			M.rubble=1
-			usr:learnSpell("Bombarda")
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,mpreq=100,projectile=1))
+		var/mob/Player/p = src
+		p.lastAttack = "Bombarda"
+		var/dmg = p.Dmg + p.clothDmg
+		castproj(MPreq = 100, Type = /obj/projectile/Bomb, icon_state = "bombarda", damage = dmg, name = "Bombarda", cd=3)
+
 mob/Spells/verb/Petreficus_Totalus()
 	set category="Spells"
 	set name = "Petrificus Totalus"
@@ -2138,6 +2142,47 @@ obj
 
 				..()
 
+		Bomb
+			var/tmp/mob/dontHit
+			Effect(atom/movable/a)
+				if(isobj(a))
+					var/obj/o = a
+					if(o.rubbleable && !o.rubble)
+						o.picon = o.icon
+						o.pname = o.name
+						o.piconstate = o.icon_state
+						o.name = "Pile of Rubble"
+						o.icon = 'rubble.dmi'
+						o.icon_state = ""
+						o.rubble = 1
+				else
+					dontHit = a
+
+
+			Dispose()
+
+				for(var/mob/M in orange(1, src))
+					if(M == dontHit) continue
+					if(M == owner)
+						var/d = damage
+						damage = damage*0.5
+						M.Attacked(src)
+						damage = d
+					else
+						M.Attacked(src)
+
+				dontHit = null
+
+				emit(loc    = loc,
+					 ptype  = /obj/particle/smoke,
+				     amount = 5,
+				     angle  = new /Random(1, 359),
+				     speed  = 2,
+				     life   = new /Random(15,25),
+				     color  = null)
+
+				..()
+
 		Grav
 			life = 15
 
@@ -2613,6 +2658,8 @@ mob/Player
 				m:Sanguinis_Iactus()
 			if("Incendio")
 				m:Incendio()
+			if("Bombarda")
+				m:Bombarda()
 
 
 mob/Player/var/cooldownModifier = 1

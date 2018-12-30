@@ -376,6 +376,7 @@ StatusEffect
 	UsedClanAbilities
 	UsedIncindia
 	UsedStun
+	UsedReparo
 	UsedFlagrate
 	UsedTransfiguration
 	UsedAnnoying
