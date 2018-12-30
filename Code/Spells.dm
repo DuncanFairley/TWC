@@ -82,7 +82,7 @@ mob/Spells/verb/Accio(obj/M in oview(usr.client.view,usr))
 	set waitfor = 0
 	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 
-		if((!M.accioable && M.owner != usr.ckey) || M.loc.density)
+		if(!M.accioable && M.owner != usr.ckey)
 			src << errormsg("This object cannot be moved.")
 			return
 
