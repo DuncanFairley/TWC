@@ -688,33 +688,19 @@ mob/Spells/verb/Reparo(obj/M in oview(src.client.view,src))
 mob/Spells/verb/Bombarda(obj/M in oview(src.client.view,src))
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		if(istype(M,/obj/items/wearable/wands/salamander_wand))
-			if(M.accioable==1)
-				return
-			else
-				var/mob/Player/p = usr
-				if(p.checkQuestProgress("Salamander Drop"))
-					hearers(src.client.view,src) << "[src]: <b>Bombarda!</b>"
-					usr << "You get some Salamander Drop!"
-					new/obj/items/Alyssa/Salamander_Drop(usr)
-					M.loc = null
-					p.Resort_Stacking_Inv()
-				else
-					usr << "There's no reason to ruin a perfectly good wand."
+		if(!M.rubbleable == 1){src<<"<b><span style=\"color:red;\">Error:</b></span> This object has Protection Charms placed upon it.";return}
+		if(M.rubble==1)
+			return
 		else
-			if(!M.rubbleable == 1){src<<"<b><span style=\"color:red;\">Error:</b></span> This object has Protection Charms placed upon it.";return}
-			if(M.rubble==1)
-				return
-			else
-				hearers(src.client.view,src) << "[src]: <b>Bombarda!</b>"
-				M.picon=M.icon
-				M.pname=M.name
-				M.piconstate=M.icon_state
-				M.name="Pile of Rubble"
-				M.icon='rubble.dmi'
-				M.icon_state=""
-				M.rubble=1
-				usr:learnSpell("Bombarda")
+			hearers(src.client.view,src) << "[src]: <b>Bombarda!</b>"
+			M.picon=M.icon
+			M.pname=M.name
+			M.piconstate=M.icon_state
+			M.name="Pile of Rubble"
+			M.icon='rubble.dmi'
+			M.icon_state=""
+			M.rubble=1
+			usr:learnSpell("Bombarda")
 mob/Spells/verb/Petreficus_Totalus()
 	set category="Spells"
 	set name = "Petrificus Totalus"

@@ -884,7 +884,7 @@ obj/AlyssaChest
 		open(mob/Player/p)
 			.=..()
 			if(. && p.checkQuestProgress("Onion Root"))
-				alert("You find an Onion Root!")
+				p << infomsg("You find an Onion Root!")
 				new/obj/items/Alyssa/Onion_Root(usr)
 				p.Resort_Stacking_Inv()
 
@@ -898,7 +898,7 @@ obj/AlyssaChest
 		open(mob/Player/p)
 			.=..()
 			if(. && p.checkQuestProgress("Indigo Seeds"))
-				alert("You find some Indigo Seeds!")
+				p << infomsg("You find some Indigo Seeds!")
 				new/obj/items/Alyssa/Indigo_Seeds(usr)
 				p.Resort_Stacking_Inv()
 
@@ -912,8 +912,22 @@ obj/AlyssaChest
 		open(mob/Player/p)
 			.=..()
 			if(. && p.checkQuestProgress("Silver Spider Legs"))
-				alert("You find some Silver Spider Legs!")
+				p << infomsg("You find some Silver Spider Legs!")
 				new/obj/items/Alyssa/Silver_Spider_Legs(usr)
+				p.Resort_Stacking_Inv()
+
+	Salamander_Drop
+		Ror1
+			r = 1
+		Ror2
+			r = 2
+		Ror3
+			r = 3
+		open(mob/Player/p)
+			.=..()
+			if(. && p.checkQuestProgress("Salamander Drop"))
+				p << infomsg("You find some Salamander Drop!")
+				new/obj/items/Alyssa/Salamander_Drop(usr)
 				p.Resort_Stacking_Inv()
 
 mob/TalkNPC/quest
