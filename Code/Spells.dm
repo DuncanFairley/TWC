@@ -1202,7 +1202,12 @@ mob/Spells/verb/Impedimenta()
 mob/Spells/verb/Incendio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=10,againstocclumens=1))
-		castproj(Type = /obj/projectile/BurnRoses, MPreq = 10, icon_state = "fireball", name = "Incendio")
+
+		var/mob/Player/p = src
+		var/dmg = ((p.passives & SWORD_FIRE) ? Dmg + clothDmg : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
+
+		p.lastAttack = "Incendio"
+		castproj(Type = /obj/projectile/BurnRoses, damage = dmg, MPreq = 10, icon_state = "fireball", name = "Incendio", element = FIRE)
 
 mob/proc/Haha()
 
@@ -2320,6 +2325,7 @@ obj
 					if(!r.GM_Made)
 						spawn(4) r.Dispose()
 
+
 		NoImpact
 			var/list/bumped
 			impact = 0
@@ -2619,6 +2625,8 @@ mob/Player
 				m:Chaotica()
 			if("Sanguinis Iactus")
 				m:Sanguinis_Iactus()
+			if("Incendio")
+				m:Incendio()
 
 
 mob/Player/var/cooldownModifier = 1
