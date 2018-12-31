@@ -9,7 +9,7 @@ mob/Player/var/list/Lwearing
 mob/Player/var/list/Lfavorites
 
 area
-	var/tmp
+	var
 		antiTheft    = FALSE
 		antiTeleport = FALSE
 		antiFly      = FALSE
