@@ -73,6 +73,7 @@ mob/Player
 		animagusPower = 0
 
 	Bump(atom/movable/O)
+		set waitfor = 0
 		..()
 		if(animagusOn && ismonster(O))
 			if(world.time - lastproj < 2) return
@@ -93,6 +94,15 @@ mob/Player
 				     angle  = new /Random(n - 25, n + 25),
 				     speed  = 2,
 				     life   = new /Random(15,25))
+
+			var/angle = dir2angle(dir)
+			var/px = round(6  * cos(angle), 1)
+			var/py = round(-6 * sin(angle), 1)
+			pixel_x += px
+			pixel_y += py
+			sleep(2)
+			pixel_x -= px
+			pixel_y -= py
 
 			src << "You do [dmg] damage to [e.name]."
 
@@ -155,7 +165,6 @@ mob/Player
 				sleep(50)
 
 			tickers &= ~ANIMAGUS_RECOVER
-
 hudobj
 
 	Animagus
