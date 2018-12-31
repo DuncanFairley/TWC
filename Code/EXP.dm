@@ -709,7 +709,6 @@ expRank
 				level++
 				maxExp = 100000 + (level * 30000)
 				parent.screenAlert("You leveled up to rank [level]!")
-				parent << infomsg("You leveled up to rank [level]!")
 				parent << infomsg("You have gained a statpoint, click + next to your health bar.")
 				parent.StatPoints++
 				parent.lvlGlow()
