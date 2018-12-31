@@ -532,8 +532,8 @@ turf
 		if(isplayer(Obj))
 			var/mob/Player/p = Obj
 
-			if(clientColor)
-				p.stepColor = 1
+			if(clientColor && clientColor != p.stepColor)
+				p.stepColor = clientColor
 
 				var/ColorMatrix/c = new(clientColor)
 
@@ -555,7 +555,7 @@ turf
 
 		if(isplayer(Obj) && Obj:stepColor)
 			var/mob/Player/p = Obj
-			p.stepColor = 0
+			p.stepColor = null
 			spawn(1)
 				if(p && !p.stepColor)
 					animate(p.client, color = null, time = 10)
@@ -572,7 +572,7 @@ obj/Shadow
 mob/Player
 	var/tmp
 		list/followers
-		stepColor = 0
+		stepColor
 
 	proc
 		addFollower(obj/o)
