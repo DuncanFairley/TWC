@@ -6,6 +6,23 @@
  */
 
 quest
+	Puzzle1
+		name = "Light a Way"
+		desc = "You found a secret door, find out where it leads."
+		reward = /questReward/CatBook
+
+		Room1
+			desc = "This room is dark, are there no torches here?"
+			reqs = list("Get to the next room" = 1)
+
+		Room2
+			desc = "There must be something cool hidden behind that door."
+			reqs = list("Get to the final room" = 1)
+
+		Reward
+			desc = "A book, I wonder if it contains any spells I could learn."
+			reqs = list("Approach the book" = 1)
+
 	Animagus
 		name = "Amato Animo Animato Animagus"
 		desc = "You decided to start animagus training and placed a leaf of a mandrake in your mouth."
@@ -901,6 +918,9 @@ questReward
 		gold  = 1000
 		exp   = 40000
 		items = /obj/items/spellbook/projectile
+	CatBook
+		exp   = 10000
+		items = /obj/items/spellbook/felinious
 	PotionsBook
 		gold  = 2000
 		exp   = 2000

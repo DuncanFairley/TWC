@@ -2789,6 +2789,13 @@ obj/items/spellbook
 		spell = /mob/Spells/verb/Sanguinis_Iactus
 		r = 0.6
 
+	felinious
+		name = "Book of Bad Luck"
+		icon_state = "spell"
+		spell = /mob/Spells/verb/Felinious
+		g = 0.5
+		b = 0.5
+
 	aggravate
 		name = "Book of Chaos: Vol III"
 		icon_state = "chaos"

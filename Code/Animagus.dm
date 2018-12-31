@@ -191,7 +191,10 @@ hudobj
 
 				flick("transfigure", p)
 
-				p.icon       = 'Transfiguration.dmi'
+				if(p.animagusState == "Crocodile")
+					p.icon       = 'Transfiguration_64x64.dmi'
+				else
+					p.icon       = 'Transfiguration.dmi'
 				p.icon_state = p.animagusState
 			else
 				color = null
@@ -209,6 +212,7 @@ hudobj
 
 area/hogwarts/Animagus
 	antiFly = 1
+	antiTeleport = 1
 
 obj/animagus
 
