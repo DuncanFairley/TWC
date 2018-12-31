@@ -433,25 +433,18 @@ mob
 
 mob/Spells/verb/Furnunculus(mob/M in view()&Players)
 	set hidden = 1
-
 mob/Spells/verb/Arania_Eximae()
 	set hidden = 1
-
 mob/Spells/verb/Solidus()
 	set hidden = 1
-
 mob/Spells/verb/Densuago(mob/M in view()&Players)
 	set hidden = 1
-
 mob/Spells/verb/Levicorpus(mob/M in view()&Players)
 	set hidden = 1
-
 mob/Spells/verb/Crucio(mob/M in oview()&Players)
 	set hidden = 1
-
 mob/Spells/verb/Dementia()
 	set hidden = 1
-
 mob/Spells/verb/Conjunctivis()
 	set hidden = 1
 mob/Spells/verb/Melofors()
@@ -459,6 +452,8 @@ mob/Spells/verb/Melofors()
 mob/Spells/verb/Rictusempra()
 	set hidden = 1
 mob/Spells/verb/Expecto_Patronum()
+	set hidden = 1
+mob/Spells/verb/Evanesco()
 	set hidden = 1
 
 mob/GM
@@ -721,9 +716,6 @@ obj
 		icon       = 'statues.dmi'
 		icon_state = "bottom2"
 		density    = 1
-	Torch_
-		icon       = 'misc.dmi'
-		icon_state = "torch"
 	Angel_Bottom
 		icon       = 'statues.dmi'
 		icon_state = "bottom1"

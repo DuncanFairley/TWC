@@ -208,6 +208,7 @@ hudobj
 			p.AnimagusRecover(src)
 
 area/hogwarts/Animagus
+	antiFly = 1
 
 obj/animagus
 

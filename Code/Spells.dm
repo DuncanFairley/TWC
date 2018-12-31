@@ -77,7 +77,7 @@ proc/name2spellpath(name)
 			return V
 	world.log << "Was unable to find a spellpath in proc/name2spellpath with name=[name]"
 
-mob/Spells/verb/Accio(obj/M in oview(usr.client.view,usr))
+mob/Spells/verb/Accio(obj/M in oview(15,usr))
 	set category = "Spells"
 	set waitfor = 0
 	if(canUse(src,cooldown=null,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
@@ -366,16 +366,7 @@ mob/Spells/verb/Eparo_Evanesca()
 					M.alpha = 255
 				M<<"You have been revealed!"
 				new /StatusEffect/Decloaked(M,15*usr:cooldownModifier)
-mob/Spells/verb/Evanesco(mob/M in Players&oview())
-	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedEvanesco,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-		new /StatusEffect/UsedEvanesco(src,15*usr:cooldownModifier)
-		M.invisibility=1
-		M.sight |= SEE_SELF
-		M.alpha = 125
-		hearers(usr.client.view,usr)<<"<b><font color=red>[usr]: <font color=blue>Evanesco!"
-		M<<"You have been hidden!"
-		usr:learnSpell("Evanesco")
+
 mob/Spells/verb/Imitatus(mob/M in view()&Players, T as text)
 	set category = "Spells"
 	var/mob/Player/p = src
@@ -2349,13 +2340,16 @@ obj
 		BurnRoses
 
 			Effect(atom/movable/a)
+				set waitfor = 0
 				if(istype(a, /obj/redroses))
 					var/obj/redroses/r = a
-
 					flick("burning", r)
 					if(!r.GM_Made)
-						spawn(4) r.Dispose()
-
+						sleep(4)
+						r.Dispose()
+				else if(istype(a, /obj/Torch_/Torch))
+					if(a.icon_state == "torch_off")
+						a:lit()
 
 		NoImpact
 			var/list/bumped

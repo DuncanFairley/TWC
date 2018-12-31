@@ -76,8 +76,10 @@ obj
 
 		var
 			pass=""
-			tmp/lastopener
 			door=1
+			tmp
+				lightLock
+				lastopener
 
 			claimed
 			vaultOwner
@@ -149,9 +151,27 @@ obj
 				claimed = null
 				usr << infomsg("This door is now unclaimed")
 
+		proc/lightOpen()
+			set waitfor = 0
+
+			if(icon_state != "open" && lightLock == 0)
+				flick("opening", src)
+				opacity = 0
+				sleep(4)
+				icon_state="open"
+				density=0
+				sleep(100)
+
+				while(lightLock == 0 || (locate(/mob) in loc)) sleep(10)
+
+				flick("closing", src)
+				density=1
+				sleep(4)
+				opacity = initial(opacity)
+				icon_state="closed"
 
 		proc/Bumped(mob/Player/p)
-
+			if(lightLock != null) return
 			if(pass != "" && owner != p.key)
 				var/passtry = input(p, "This is a Secure Area. Please enter Authorization Code.","Incarcerous Charm","") as text
 				passtry = copytext(passtry, 1, 500)

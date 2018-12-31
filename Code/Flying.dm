@@ -53,10 +53,24 @@ obj/Lantern
 				shadow.loc = loc
 obj/redroses
 	var/GM_Made = 0
+	var/respawn = 0
 	icon='attacks.dmi'
 	icon_state="herbificus"
 	density=1
 	layer = 6
+
+	Dispose()
+		set waitfor = 0
+		if(respawn)
+			if(invisibility == 2) return
+			density = 0
+			invisibility = 2
+			sleep(300)
+			density = 1
+			invisibility = 0
+		else
+			..()
+
 obj/Force_Field
 	icon='portal.dmi'
 	icon_state="shield"
@@ -1303,3 +1317,34 @@ obj
 			animate(src, alpha = 0, time = 5)
 			sleep(6)
 			loc = null
+
+obj
+	Torch_
+		icon       = 'misc.dmi'
+		icon_state = "torch"
+
+		Torch
+			icon_state = "torch_off"
+			density = 1
+
+			var/dest
+
+			proc/lit()
+				set waitfor = 0
+
+				icon_state = "torch"
+
+				var/obj/Hogwarts_Door/d
+				if(dest)
+					d = locate(dest)
+					if(d.lightLock > 0)
+						d.lightLock--
+						if(d.lightLock == 0)
+							d.lightOpen()
+
+				sleep(300)
+				icon_state = "torch_off"
+
+				if(d)
+					d.lightLock++
+
