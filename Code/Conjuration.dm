@@ -74,7 +74,7 @@ mob/Player
 		sleep(10)
 
 		while(HP < MHP && animagusOn)
-			HP = min(HP + 10 + round(level/10)*2 + Animagus.level*2, MHP)
+			HP = min(HP + 20 + round(level/10)*3 + Animagus.level*3, MHP)
 			var/hppercent = clamp(HP / MHP, 0, 1)
 
 			Interface.hpbar.Set(hppercent)
