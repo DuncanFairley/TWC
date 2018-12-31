@@ -1087,7 +1087,8 @@ obj/questStepTrigger
 	New()
 		..()
 
-		tag = name
+		if(!questName)
+			tag = name
 
 	Crossed(atom/movable/O)
 		if(isplayer(O))
@@ -1096,7 +1097,8 @@ obj/questStepTrigger
 			if(questName)
 				var/questPointer/pointer = p.questPointers[questName]
 				if(src.args)
-					if(pointer) p.questProgress(questName, src.args, FALSE)
+					if(pointer && p.questProgress(questName, src.args, FALSE))
+						p.Interface.Update()
 				else if(!pointer)
 					p.startQuest(questName)
 			else
