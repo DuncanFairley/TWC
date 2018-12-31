@@ -54,20 +54,6 @@ mob/test/verb
 		else
 			var/width = (map.x2+1) - map.x1
 			usr.loc = locate(map.x1 + round((width)/2), map.y1+1, map.z1 )
-	load_undroppables_into_mob(mob/M as mob in Players)
-		set category = "Vault Debug"
-		var/swapmap/map = SwapMaps_Find("[M.ckey]")
-		if(!map)
-			map = SwapMaps_Load("[M.ckey]")
-		if(!map)
-			usr << "<i>Couldn't find map.</i>"
-		else
-			for(var/turf/T in map.AllTurfs())
-				for(var/obj/O in T)
-					if(!(text2path("[O.type]/verb/Drop") in O.verbs) && !istype(O,/obj/teleport/leavevault) )
-						O.loc = M
-			M:Resort_Stacking_Inv()
-
 	Change_Vault(var/vault as text, var/mob/Player/p in Players)
 		set category = "Vault Debug"
 		if(fexists("[swapmaps_directory]/tmpl_vault[vault].sav"))
