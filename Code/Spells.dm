@@ -1197,6 +1197,9 @@ mob/Player/proc/BaseIcon()
 
 	if(animagusOn) return
 
+	if(icon_state == "Crocodile")
+		transform = null
+
 	if(Gender == "Female")
 		if(Gm)
 			icon = 'FemaleStaff.dmi'

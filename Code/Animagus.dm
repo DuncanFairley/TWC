@@ -134,9 +134,9 @@ mob/Player
 
 				if(animagusPower <= 0)
 					a.color = null
-					flick("transfigure", src)
 					AnimagusRecover(a)
 					BaseIcon()
+					flick("transfigure", src)
 					ApplyOverlays()
 					break
 
@@ -189,18 +189,21 @@ hudobj
 				p.overlays = null
 				if(p.away) p.ApplyAFKOverlay()
 
-				flick("transfigure", p)
-
 				if(p.animagusState == "Crocodile")
-					p.icon       = 'Transfiguration_64x64.dmi'
+					p.icon    = 'Transfiguration_64x64.dmi'
+					var/matrix/m = matrix()
+					m.Translate(-16,-16)
+					p.transform = m
 				else
-					p.icon       = 'Transfiguration.dmi'
+					p.icon    = 'Transfiguration.dmi'
 				p.icon_state = p.animagusState
+
+				flick("transfigure", p)
 			else
 				color = null
-				flick("transfigure", p)
 				p.AnimagusRecover(src)
 				p.BaseIcon()
+				flick("transfigure", p)
 				p.ApplyOverlays()
 
 		New(loc=null,client/Client,list/Params,show=1)

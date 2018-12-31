@@ -661,10 +661,8 @@ turf
 				if(isplayer(O) && O.density)
 					if(O:passives & RING_WATERWALK)
 						ice()
-					else if(O.icon_state == "Crocodile")
-						O.icon_state = "Crocodile_swim"
-					else if(O.icon_state != "Crocodile_swim")
-						return 0
+					else if(O.icon_state == "Crocodile") return 1
+					return 0
 				else if(istype(O, /obj/projectile) && O.icon_state == "iceball")
 					if(prob(20))
 						for(var/turf/water/w in range(prob(10) ? 2 : 1,O))
@@ -681,14 +679,6 @@ turf
 				if(istype(O, /obj/projectile) && O:element == FIRE)
 					water()
 			return ..()
-
-		Exited(atom/movable/Obj, atom/newloc)
-			if(isplayer(Obj))
-				var/pos = findtext(Obj.icon_state, "_swim")
-				if(pos)
-					Obj.icon_state = copytext(icon_state, 1, pos)
-
-			..()
 
 		proc
 			ice()
