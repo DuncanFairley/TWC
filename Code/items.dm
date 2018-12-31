@@ -257,14 +257,20 @@ obj/items/verb/Take()
 		usr << errormsg("This item isn't yours, a charm prevents you from picking it up.")
 		return
 
-	if(antiTheft)
-		antiTheft = 0
-		filters = null
+	var/amount = -1
+	if(args.len == 1)
+		amount = clamp(round(args[1]), 1, stack)
 
-	viewers() << infomsg("[usr] takes \the [src.name].")
+	var/obj/items/i = amount > 0 && amount < stack ? Split(amount) : src
 
-	owner = null
-	Move(usr)
+	if(i.antiTheft)
+		i.antiTheft = 0
+		i.filters = null
+
+	viewers() << infomsg("[usr] takes \the [name].")
+
+	i.owner = null
+	i.Move(usr)
 
 	usr.Resort_Stacking_Inv()
 
@@ -350,6 +356,11 @@ obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_cont
 				p.pet.gotoBank(p)
 
 				default = 0
+	else
+		if(stack > 1 && takeable && over_location == "Items" && (src in view(1, usr)))
+			var/s = usr:split(src, over_object)
+			if(s)
+				Take(s)
 
 	if(default)
 		..()
@@ -364,10 +375,13 @@ mob/Player
 		src << output("[i_Item.stack]","browser1:ShowSplitStack")
 		splitItem = i_Item
 
-		while(splitItem && (i_Item in src) && i_Item && splitItem == i_Item)
+		var/tmpLoc = i_Item.loc
+		var/tmpAmount = i_Item.stack
+
+		while(splitItem && i_Item.loc == tmpLoc && i_Item && splitItem == i_Item && tmpAmount == i_Item.stack)
 			sleep(1)
 
-		if(i_Item && splitItem == null && splitSize && (i_Item in src))
+		if(i_Item && splitItem == null && splitSize && i_Item.loc == tmpLoc && tmpAmount == i_Item.stack)
 			var/s = splitSize
 			splitSize = null
 			return s
