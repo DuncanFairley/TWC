@@ -1327,7 +1327,17 @@ obj
 			icon_state = "torch_off"
 			density = 1
 
-			var/dest
+			var
+				dest
+				tmp/obj/light/light
+
+			New()
+				set waitfor = 0
+				..()
+				sleep(1)
+				if(dest)
+					var/obj/Hogwarts_Door/d = locate(dest)
+					if(d) d.lightLock++
 
 			proc/lit()
 				set waitfor = 0
@@ -1342,9 +1352,22 @@ obj
 						if(d.lightLock == 0)
 							d.lightOpen()
 
+					var/area/a = loc.loc
+					if(a.planeColor)
+						light = new (loc)
+						animate(light, transform = matrix() * 1.3, time = 10, loop = -1)
+						animate(       transform = matrix() * 1.2, time = 10)
+
 				sleep(300)
 				icon_state = "torch_off"
 
 				if(d)
 					d.lightLock++
+
+					if(light)
+						var/t = rand(5, 15)
+						animate(light, transform = matrix() * 0.1, time = t)
+						sleep(t + 1)
+						light.loc = null
+						light = null
 
