@@ -1480,7 +1480,7 @@ mob/GM
 			var/note = input("Special notes, you would usually write name of the event and the round this reward was given, for example: \"Free For All - Round 2\"", "Notes") as null|text
 			if(note && note != "")
 
-				switch(alert("Which prize?", "Give Prize", "Gold", "Common Item", "Rare Item"))
+				switch(alert("Which prize?", "Give Prize", "Gold", "Key", "Artifact", "Rare Item"))
 					if("Gold")
 						var/gold_prize = input("How much gold?", "Gold Prize") as null|num
 						if(gold_prize)
@@ -1488,16 +1488,13 @@ mob/GM
 							g.give(p)
 							hearers() << infomsg("<i>[name] gives [p] [g.toString()].</i>")
 							goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [name]([key])([client.address]) gave [comma(gold_prize)] <b>prize</b> gold to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
-					if("Common Item")
-						var/i = pickweight(list(/obj/items/key/basic_key = 25,
-										   /obj/items/artifact           = 20,
-		                        		   /obj/items/key/wizard_key     = 20,
-		                        		   /obj/items/key/pentakill_key  = 20,
-								   		   /obj/items/key/sunset_key     = 10,
-										   /obj/items/key/winter_key     = 10))
+					if("Key")
+						var/obj/items/item_prize = new /obj/items/mystery_key (p)
+						hearers() << infomsg("<i>[name] gives [p] [item_prize.name].</i>")
+						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [name]([key])([client.address]) gave [item_prize.name] <b>prize</b> common item to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 
-
-						var/obj/items/item_prize = new i (p)
+					if("Key")
+						var/obj/items/item_prize = new /obj/items/artifact (p)
 						hearers() << infomsg("<i>[name] gives [p] [item_prize.name].</i>")
 						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [name]([key])([client.address]) gave [item_prize.name] <b>prize</b> common item to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 
