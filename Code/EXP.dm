@@ -719,7 +719,7 @@ expRank
 				if(level % TIER == 1)
 					t = /obj/items/chest/legendary_golden_chest
 				else
-					t = pickweight(list(/obj/items/chest/basic_chest     = 30,
+					t = pickweight(list(/obj/items/chest/basic_chest     = 20,
 			                        	/obj/items/chest/wizard_chest    = 20,
 			                        	/obj/items/chest/pentakill_chest = 20,
 										/obj/items/chest/winter_chest    = 15,
@@ -758,7 +758,7 @@ proc/rewardExpWeek()
 
 			mail(winnerCkey, infomsg("Experience Week [ordinal(i + 1)] Prize, congratulations!"), 150000 - 50000*i)
 
-			var/t = pickweight(list(/obj/items/chest/basic_chest = 45,
+			var/t = pickweight(list(/obj/items/chest/basic_chest = 15,
 		                        /obj/items/chest/wizard_chest    = 15,
 		                        /obj/items/chest/pentakill_chest = 15,
 								/obj/items/chest/prom_chest      = 10,

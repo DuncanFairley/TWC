@@ -1181,9 +1181,9 @@ obj/items/treasure
 
 		loc = null
 
-		var/t = pickweight(list(/obj/items/chest/basic_chest          = 35,
-		                        /obj/items/chest/wizard_chest         = 25,
-		                        /obj/items/chest/pentakill_chest      = 25,
+		var/t = pickweight(list(/obj/items/chest/basic_chest          = 20,
+		                        /obj/items/chest/wizard_chest         = 20,
+		                        /obj/items/chest/pentakill_chest      = 20,
 								/obj/items/chest/winter_chest         = 15,
 								/obj/items/chest/pet_chest            = 15,
 		                        /obj/items/chest/sunset_chest         = 10,

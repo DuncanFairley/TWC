@@ -80,7 +80,7 @@ enchanting
 		reqType = /obj/items/chest
 		bonus   = 3
 		chance  = 50
-		prize   = list(/obj/items/chest/basic_chest            = 45,
+		prize   = list(/obj/items/chest/basic_chest            = 15,
 		               /obj/items/chest/wizard_chest           = 15,
 		               /obj/items/chest/pentakill_chest        = 15,
 					   /obj/items/chest/prom_chest             = 10,
@@ -95,7 +95,7 @@ enchanting
 		reqType = /obj/items/key
 		bonus   = 3
 		chance  = 50
-		prize   = list(/obj/items/key/basic_key            = 46,
+		prize   = list(/obj/items/key/basic_key            = 15,
 		               /obj/items/key/wizard_key           = 15,
 		               /obj/items/key/pentakill_key        = 15,
 					   /obj/items/key/prom_key             = 10,
