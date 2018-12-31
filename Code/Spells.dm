@@ -653,18 +653,19 @@ mob/Spells/verb/Anapneo(var/mob/Player/M in view(usr.client.view,usr)&Players)
 		sleep(20)
 		hearers(usr.client.view,usr)<<"[usr] flicks \his wand, clearing the airway of [M]."
 		usr:learnSpell("Anapneo")
-mob/Spells/verb/Reducto(var/mob/Player/M in (view(usr.client.view,usr)&Players)|src)
+mob/Spells/verb/Reducto()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
-		if(M.flying){src<<"<b><span style=\"color:red;\">Error:</b></span> You can't cast this spell on someone who is flying.";return}
-		if(M.GMFrozen){alert("You can't free [M]. They have been frozen by a Game Master.");return}
-		hearers(usr.client.view,usr)<<"<B><span style=\"color:red;\">[usr]:</span><font color=white> <I>Reducto!</I>"
-		if(M.nomove < 2) M.nomove=0
-		if(!M.trnsed) M:ApplyOverlays()
-		hearers(usr.client.view,usr)<<"White light emits from [usr]'s wand, freeing [M]."
-		M.FlickState("apparate",8,'Effects.dmi')
-		if(!M.trnsed) M.icon_state=""
-		usr:learnSpell("Reducto")
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,mpreq=0,againstocclumens=1))
+		var/mob/Player/p = src
+		if(flying)
+			src << "<b><span style=\"color:red;\">Error:</b></span> You can't cast this spell while flying."
+			return
+		if(p.GMFrozen) return
+		hearers(client.view, src) << "<B><span style=\"color:red;\">[src]:</span><font color=white> <I>Reducto!</I>"
+		if(p.nomove < 2) p.nomove = 0
+		if(!trnsed) p.ApplyOverlays()
+		FlickState("apparate",8,'Effects.dmi')
+		p.learnSpell("Reducto")
 mob/Spells/verb/Reparo()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedReparo,needwand=1,insafezone=1,inhogwarts=1,mpreq=150))
