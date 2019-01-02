@@ -1971,7 +1971,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.5, null, /obj/items/wearable/pets/rat)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=2)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=1)
 
 		Pixie
 			icon_state  = "pixie"
@@ -1994,7 +1994,6 @@ mob
 				..()
 
 				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/dog)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=0.5)
 
 		Snake
 			icon_state  = "snake"
@@ -2004,7 +2003,6 @@ mob
 				..()
 
 				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/snake)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=0.5)
 
 		Wolf
 			icon_state  = "wolf"
@@ -2014,7 +2012,6 @@ mob
 				..()
 
 				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/wolf)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=0.5)
 
 		Pumpkin
 			icon = 'Mobs.dmi'
@@ -2377,7 +2374,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.02, "rand", /obj/items/wearable/pets/wisp)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=2)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=1)
 
 
 		Floating_Eye
@@ -2386,23 +2383,23 @@ mob
 			icon_state = "eye1"
 			level = 900
 			HPmodifier  = 1.4
-			DMGmodifier = 0.8
+			DMGmodifier = 0.75
 			var
 				tmp/fired = 0
-				cd = 60
+				cd = 120
 
 			MoveDelay = 3
-			AttackDelay = 3
 
 			Eye_of_The_Fallen
 				level = 2400
-				cd = 10
+				cd = 20
 				HPmodifier = 10
 
 				prizePoolSize = 2
 
 				Range     = 20
 				MoveDelay = 2
+				AttackDelay = 3
 
 
 				Death()
@@ -2460,20 +2457,19 @@ mob
 			Attack(mob/M)
 				..()
 				if(!fired && target && state == HOSTILE)
-					if(prob(45))
-						fired = 1
-						spawn(cd) fired = 0
+					fired = 1
+					spawn(cd) fired = 0
 
-						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-						var/tmp_d = dir
-						var/dmg = round(Dmg * 1.5 + rand(-4,8))
-						for(var/d in dirs)
-							dir = d
-							castproj(icon_state = "crucio2", damage = dmg, name = "death ball", cd = 0, lag = 1)
+					var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+					var/tmp_d = dir
+					var/dmg = round(Dmg * 1.5 + rand(-4,8))
+					for(var/d in dirs)
+						dir = d
+						castproj(icon_state = "crucio2", damage = dmg, name = "death ball", cd = 0, lag = 1)
 
-						dir = tmp_d
+					dir = tmp_d
 
-						sleep(AttackDelay)
+					sleep(AttackDelay)
 
 		Troll
 			icon = 'Mobs.dmi'
@@ -2515,7 +2511,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/troll)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=5)
+				SpawnPortal("teleportPointSnowman Dungeon", chance=1)
 
 			ChangeState(var/i_State)
 				set waitfor = FALSE
