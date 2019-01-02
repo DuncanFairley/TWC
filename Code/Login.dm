@@ -1922,6 +1922,8 @@ mob/proc/Death_Check(mob/killer = src)
 				if(gold_rate) gold2give *= gold_rate.rate
 				if(exp_rate)  exp2give  *= exp_rate.rate
 
+				if(killer.guild) exp2give *= 1 + killer.getGuildAreas() * 0.05
+
 				gold2give = round(gold2give)
 				var/gold/g = new(bronze=gold2give)
 
