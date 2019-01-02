@@ -1256,11 +1256,13 @@ obj
 		icon       = 'desk.dmi'
 		icon_state = "S1"
 		density    = 1
+		rubbleable = 1
 	WTable
 		icon       = 'stage.dmi'
 		icon_state = "w"
 		density    = 1
 		layer      = 2
+		rubbleable = 1
 
 obj
 	fadeIn
