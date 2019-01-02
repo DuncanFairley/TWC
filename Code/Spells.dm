@@ -1750,7 +1750,7 @@ obj/clanpillar
 obj/brick2door
 	Attacked(obj/projectile/p)
 		if(density)
-			Take_Hit(p.owner)
+			Take_Hit(p)
 
 area/var
 	friendlyFire = TRUE

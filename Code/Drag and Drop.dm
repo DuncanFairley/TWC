@@ -174,7 +174,7 @@ obj/brick2door
 			if(clan == "DE" && M.guild != worldData.majorChaos)
 				return
 			..()
-		Take_Hit(mob/M)
+		Take_Hit(obj/projectile/p)
 			if(!clanwars)return
 			return ..()
 
@@ -187,8 +187,11 @@ obj/brick2door
 				sleep(40)
 				Close()
 				inuse = 0
-		Take_Hit(mob/M)
-			HP--
+		Take_Hit(obj/projectile/p)
+			if(istype(p, /obj/projectile/Bomb))
+				HP -= 10
+			else
+				HP--
 			flick("hit",src)
 			if(HP < 1)
 				view(src) << "The door blows open."
