@@ -166,7 +166,7 @@ hudobj/readClicker
 			canClick = FALSE
 
 			var/exp = get_exp(player.level) * worldData.expBookModifier
-			exp = round(rand(exp * 0.9, exp * 1.1))
+			exp = round(rand(exp * 0.9, exp * 1.1)) + player.level
 
 			if(icon_state == "gold")
 				exp *= 3
@@ -174,6 +174,7 @@ hudobj/readClicker
 				usr << infomsg("You found [g.toString()] in between the book's pages")
 				g.give(usr)
 			else if(icon_state == "spell")
+				exp *= 6
 				var/mob/Spells/verb/generic = spell
 				animate(client, color = list(1,1.5,1.5,
 		                          				 1,1.5,1.5,
@@ -290,7 +291,7 @@ obj
 							if(p.level > 600) p.readbooks += 3
 							sleep(20)
 						else
-							exp = round(rand(exp * 0.9, exp * 1.1) / 4)
+							exp = round(rand(exp * 0.9, exp * 1.1) / 3)
 							p.addExp(exp, 1, 0)
 							if(p.level > 600) p.readbooks += 1
 							sleep(50)
@@ -424,6 +425,7 @@ obj
 
 proc
 	get_exp(var/level)
+		if(level >= 200) return 450
 		if(level >= 100) return 350
 		if(level >= 70)  return 300
 		if(level >= 60)  return 250
