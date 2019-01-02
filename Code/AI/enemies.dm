@@ -973,13 +973,12 @@ mob
 
 				dmg = round(dmg - target.Slayer.level)
 
-				if(target.animagusOn) dmg *= 0.75
+				if(target.animagusOn)
+					dmg = dmg * 0.7 - target.Animagus.level
 
-				if(dmg < 1)
-					//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
-				else
+				if(dmg > 0)
 					dmg = target.onDamage(dmg, src)
-					hearers(target)<<"<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
+					if(target.MonsterMessages) hearers(target)<<"<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
 					if(target.HP <= 0)
 						Kill(target)
 				sleep(AttackDelay)
