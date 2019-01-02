@@ -1402,25 +1402,38 @@ obj/items/wearable/orb
 	chaos
 		name       = "orb of chaos"
 		bonus      = 5
-		exp   	   = 15000
+		exp   	   = 60000
 		icon_state = "chaos"
 
 		greater
 			name     = "greater orb of chaos"
-			exp      = 60000
-			modifier = 1.5
+			exp      = 300000
+			modifier = 2
 			quality  = -2
 
 	peace
 		name       = "orb of peace"
 		bonus      = 6
-		exp        = 15000
+		exp        = 60000
 		icon_state = "peace"
 
 		greater
 			name     = "greater orb of peace"
-			exp      = 60000
-			modifier = 1.5
+			exp      = 300000
+			modifier = 2
+			quality  = -2
+
+	magic
+		name       = "orb of magic"
+		bonus      = 7
+		exp   	   = 100000
+		modifier   = 1.5
+		rarity     = 3
+
+		greater
+			name     = "greater orb of magic"
+			exp      = 500000
+			modifier = 3
 			quality  = -2
 
 mob/Player/var/tmp/obj/items/wearable/wands/wand

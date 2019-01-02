@@ -122,6 +122,12 @@ enchanting
 		chance  = 60
 		prize   = /obj/items/wearable/orb/peace/greater
 
+	magic_orb
+		reqType = /obj/items/wearable/orb/magic
+		bonus   = 3
+		chance  = 60
+		prize   = /obj/items/wearable/orb/magic/greater
+
 	colors
 		reqType = /obj/items/colors
 		chance  = 55
