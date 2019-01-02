@@ -186,7 +186,7 @@ quest
 
 		Brew
 			desc = "Simon says you need to brew more potions."
-			reqs = list("Brew Potion" = 15)
+			reqs = list("Brew Potion" = 10)
 
 		Reward
 			desc = "Go back to Simon."
@@ -213,8 +213,8 @@ quest
 
 		Kill
 			desc = "The ingredients list includes demonic essence, pixie parts and what appears to be... Human parts?"
-			reqs = list("Demonic Essence"         = 15,
-						"Kill Player"             = 100,
+			reqs = list("Demonic Essence"         = 10,
+						"Kill Player"             = 10,
 			            "Kill Pixie"              = 200,
 			            "Kill Bubbles the Spider" = 1)
 
@@ -230,7 +230,7 @@ quest
 
 		Gather
 			desc = "Gather 50 blood sacks from acromantulas. You also feel the need to violently attack vengeful ghosts for some odd unexplained reason."
-			reqs = list("Blood Sack"          = 50,
+			reqs = list("Blood Sack"          = 40,
 			            "Kill Vengeful Ghost" = 50)
 
 		Reward
@@ -522,9 +522,9 @@ quest
 		repeat = 864000
 
 		Kill
-			desc = "Kill 1 basilisk and 50 demon rats."
+			desc = "Kill 1 basilisk and 10 demon rats."
 			reqs = list("Kill Basilisk"        = 1,
-			            "Kill Demon Rat"       = 50)
+			            "Kill Demon Rat"       = 10)
 		Reward
 			desc = "Go back to Saratri to get your reward!"
 			reqs = list("Saratri" = 1)
@@ -536,9 +536,9 @@ quest
 		repeat = 864000
 
 		Kill
-			desc = "Kill 1 stickman and 50 trolls."
-			reqs = list("Kill Stickman"        = 1,
-			            "Kill Troll"       = 50)
+			desc = "Kill 1 stickman and 10 trolls."
+			reqs = list("Kill Stickman"    = 1,
+			            "Kill Troll"       = 10)
 		Reward
 			desc = "Go back to Malcolm to get your reward!"
 			reqs = list("Malcolm" = 1)
@@ -551,8 +551,8 @@ quest
 		repeat = 864000
 
 		Kill
-			desc = "Kill 60 floating eyes."
-			reqs = list("Kill Floating Eye" = 60)
+			desc = "Kill 50 floating eyes."
+			reqs = list("Kill Floating Eye" = 50)
 		Reward
 			desc = "Go back to the Mysterious Wizard to get your reward!"
 			reqs = list("Mysterious Wizard" = 1)
@@ -564,8 +564,8 @@ quest
 		repeat = 864000
 
 		Kill
-			desc = "Kill 80 wisps."
-			reqs = list("Kill Wisp" = 80)
+			desc = "Kill 50 wisps."
+			reqs = list("Kill Wisp" = 50)
 		Reward
 			desc = "Go back to the Vengeful Wisp to get your reward!"
 			reqs = list("Vengeful Wisp" = 1)
@@ -864,14 +864,14 @@ quest
 			desc = "It'll be a bit of a grind but everything worthawhile takes work, go fight some of the most worthy monsters."
 			reqs = list("Kill Wisp"               = 200,
 			            "Kill Floating Eye"       = 100,
-			            "Kill Player"             = 50,
+			            "Kill Player"             = 30,
 			            "Kill Basilisk"           = 3,
 			            "Kill Stickman"           = 2,
 			            "Kill Eye of The Fallen"  = 1,
 			            "Kill Tamed Dog"          = 5,
-			            "Kill The Evil Snowman"   = 10,
-			            "Kill Willy the Whisp"    = 5,
-			            "Kill Bubbles the Spider" = 2)
+			            "Kill The Evil Snowman"   = 3,
+			            "Kill Willy the Whisp"    = 3,
+			            "Kill Bubbles the Spider" = 3)
 
 		Reward
 			desc = "Go back to Palmer."
