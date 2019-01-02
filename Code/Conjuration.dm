@@ -29,21 +29,24 @@ mob/Player
 	proc/updateMP()
 		var/mppercent = clamp(MP / MMP, 0, 1)
 
-		src:Interface.mpbar.Set(mppercent)
-		src:Interface.mpbar.UpdateText(MP, MMP)
+		Interface.mpbar.Set(mppercent)
+		Interface.mpbar.UpdateText(MP, MMP)
 
 		if(!(tickers & MP_REGEN) && MP < MMP)
-			src:MPRegen()
+			MPRegen()
 
 	proc/updateHP()
 		var/hppercent = clamp(HP / MHP, 0, 1)
-		src:Interface.hpbar.Set(hppercent)
-		src:Interface.hpbar.UpdateText(HP, MHP)
+		Interface.hpbar.Set(hppercent)
+		Interface.hpbar.UpdateText(HP, MHP)
 
-		src:hpBar.Set(hppercent, src)
+		hpBar.Set(hppercent, src)
 
-		if(src:party)
-			src:party.updateHP(src, hppercent)
+		if(party)
+			party.updateHP(src, hppercent)
+
+		if(!(tickers & HP_REGEN) && HP < MHP && animagusOn)
+			HPRegen()
 
 mob/Player
 	var
@@ -74,7 +77,7 @@ mob/Player
 		sleep(10)
 
 		while(HP < MHP && animagusOn)
-			HP = min(HP + 20 + round(level/10)*3 + Animagus.level*3, MHP)
+			HP = min(HP + 50 + round(level/10)*5 + Animagus.level*5, MHP)
 			var/hppercent = clamp(HP / MHP, 0, 1)
 
 			Interface.hpbar.Set(hppercent)
