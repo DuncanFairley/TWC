@@ -25,6 +25,9 @@ mob/verb/updateHPMP()
 	if(src:party)
 		src:party.updateHP(src, hppercent)
 
+	if(!(src:tickers & HP_REGEN) && HP < MHP && src:animagusOn)
+		src:HPRegen()
+
 mob/Player
 	proc/updateMP()
 		var/mppercent = clamp(MP / MMP, 0, 1)
@@ -82,6 +85,8 @@ mob/Player
 
 			Interface.hpbar.Set(hppercent)
 			Interface.hpbar.UpdateText(HP, MHP)
+
+			hpBar.Set(hppercent, src)
 			sleep(10)
 
 		tickers &= ~HP_REGEN
