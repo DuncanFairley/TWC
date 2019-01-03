@@ -764,12 +764,15 @@ mob
 
 			if(level < killer.level) base *= (level / 800) * 0.5
 
-			if(prob(base * rate))
+			if(prob(base * rate + killer.pity))
 				sparks = 1
 				prize = pick(drops_list["legendary"])
 				prize = new prize (loc)
 				prize.prizeDrop(killer.ckey, decay=1)
 				killer << colormsg("<i>[name] dropped [prize.name]</i>", "#FFA500")
+				killer.pity = 0
+			else
+				killer.pity += base/100
 
 			if(sparks)
 				emit(loc    = loc,

@@ -206,3 +206,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 						     			  /obj/items/crystal/luck,
 						     			  /obj/items/crystal/magic,
 						     			  /obj/items/crystal/strong_luck)))
+
+
+
+mob/Player/var/pity = 0
