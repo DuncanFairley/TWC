@@ -129,6 +129,12 @@ mob/GM/verb
 			if(!time || time <= 0) return
 
 			event.start(spell, time)
+		else if(istype(event, /RandomEvent/FFA))
+			var/gameMode = input(src, "Game Mode? (Cancel for random)", "Start FFA", "Random") as null|anything in list("Normal","One Hit Kill", "Undying", "4 Hit Kill", "Survival")
+			event.start(gameMode)
+		else if(istype(event, /RandomEvent/HouseWars))
+			var/gameMode = input(src, "Game Mode? (Cancel for random)", "Start House Wars", "Random") as null|anything in list("Normal","One Hit Kill","4 Hit Kill")
+			event.start(gameMode)
 		else
 			event.start()
 

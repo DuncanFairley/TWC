@@ -154,7 +154,7 @@ RandomEvent
 		chance = 8
 		var/tmp/mob/Player/winner
 
-		start()
+		start(gameMode)
 			set waitfor = 0
 			if(worldData.currentArena || (name in worldData.currentEvents))	return
 
@@ -164,7 +164,7 @@ RandomEvent
 			var/rounds = rand(2,4)
 			var/obj/clock/timer = locate("FFAtimer")
 
-			var/gameMode = pick("Normal","One Hit Kill", "Undying", "4 Hit Kill")
+			if(!gameMode) gameMode = pick("Normal","One Hit Kill", "Undying", "4 Hit Kill", "Survival")
 
 			var/area/a = locate(/area/arenas/MapThree/PlayArea)
 			if(gameMode == "One Hit Kill")
@@ -173,6 +173,8 @@ RandomEvent
 				a.undead = 1
 			else if(gameMode == "Undying")
 				a.scaleDamage = 4
+			else if(gameMode == "Survival")
+				a.friendlyFire = 0
 
 			for(var/mob/Player/p in Players)
 				p << "<h3>An automated FFA is beginning soon. Game mode: <span  style=\"color:red\">[gameMode]</span>. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a> The first round will start in 2 minutes.</h3>"
@@ -219,6 +221,8 @@ RandomEvent
 					for(var/turf/T in locate(/area/arenas/MapThree/PlayArea))
 						rndturfs.Add(T)
 					worldData.currentArena.speaker = pick(MapThreeWaitingAreaTurfs)
+
+					var/highestLevel = 1
 					for(var/mob/Player/M in worldData.currentArena.players)
 						var/turf/T = pick(rndturfs)
 						M.loc = T
@@ -227,13 +231,38 @@ RandomEvent
 						M.MP = M.MMP
 						M.updateHPMP()
 
+						if(M.level > highestLevel) highestLevel = M.level
+
 					timer.invisibility = 0
-					timer.setTime(6)
+					timer.setTime(gameMode == "Survival" ? 4 : 6)
+
+					var/list/m = gameMode == "Survival" ? list() : null
 
 					while(worldData.currentArena && !timer.countdown())
+						if(gameMode == "Survival")
+							var/turf/spawnLoc = pick(rndturfs)
+							var/monsterType = pick("Slug", "Rat", "Pixie", "Dog", "Snake", "Wolf", "Troll", "Spider", "Stickman")
+							var/mob/Enemies/Summoned/monster = new (spawnLoc)
+
+							monster.DMGmodifier = 0.8
+							monster.HPmodifier  = 1.2
+							monster.level       = highestLevel + rand(50)
+							monster.name        = monsterType
+							monster.icon_state  = lowertext(monsterType)
+							monster.icon        = 'Mobs.dmi'
+							monster.calcStats()
+
+							m += monster
 						sleep(10)
 
 					timer.invisibility = 2
+
+					if(m)
+						for(var/mob/Enemies/Summoned/monster in m)
+							monster.Dispose()
+							monster.ChangeState(monster.INACTIVE)
+							m -= monster
+						m = null
 
 					if(worldData.currentArena)
 						while(worldData.currentArena && worldData.currentArena.players && worldData.currentArena.players.len > 1)
@@ -250,6 +279,7 @@ RandomEvent
 
 			if(a)
 				a.scaleDamage = 0
+				a.friendlyFire = 1
 				if(a.undead)
 					a.undead = 0
 					for(var/mob/Enemies/Summoned/Zombie/z in a)
@@ -263,7 +293,7 @@ RandomEvent
 		chance = 8
 		var/tmp/mob/Player/winner
 
-		start()
+		start(gameMode)
 			set waitfor = 0
 			if(worldData.currentArena || (name in worldData.currentEvents))	return
 
@@ -272,7 +302,7 @@ RandomEvent
 
 			var/obj/clock/timer = locate("HWtimer")
 
-			var/gameMode = pick("Normal","One Hit Kill","4 Hit Kill")
+			if(!gameMode) gameMode = pick("Normal","One Hit Kill","4 Hit Kill")
 
 			var/list/areas = list()
 
@@ -477,7 +507,6 @@ RandomEvent
 
 	TheEvilSnowman
 		name = "The Evil Snowman"
-		chance = 27
 		start()
 			set waitfor = 0
 			..()
