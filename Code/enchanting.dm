@@ -181,7 +181,7 @@ obj
 				bonusChance = 0
 				applyBonus  = 0
 				ignoreItem  = 0
-			max_upgrade = 3
+			max_upgrade = 5
 
 		proc
 			colors()
@@ -339,6 +339,23 @@ obj/items/crystal
 	stackName = "Crystals:"
 	rarity = 2
 
+	desc = "Drag and drop to item with a socket. Also used in enchanting."
+
+	MouseDrop(over_object)
+		if(bonus > 0 && istype(over_object, /obj/items/wearable) && (src in usr) && (over_object in usr) && over_object:socket != -1)
+			var/obj/items/wearable/w = over_object
+			var/mob/Player/p = usr
+			if(w in p.Lwearing)
+				w.Equip(p, 1)
+				w.socket = bonus
+				w.Equip(p, 1)
+			else
+				w.socket = bonus
+			Consume()
+			usr << infomsg("You insert [name] in [w.name]")
+		else
+			..()
+
 	Click()
 		if(src in usr)
 			var/obj/enchanter/e = locate() in oview(2, usr)
@@ -371,13 +388,16 @@ obj/items/crystal
 		name  = "luck crystal"
 		icon_state = "luck"
 		luck  = 5
+		desc = null
 	strong_luck
 		name  = "strong luck crystal"
 		icon_state = "luck2"
 		luck  = 10
+		desc = null
 	soul
 		name = "soul crystal"
 		icon_state = "soul"
 		luck = 5
 		ignoreItem = TRUE
 		rarity = 3
+		desc = null

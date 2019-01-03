@@ -454,6 +454,7 @@ obj/items/wearable
 		quality = 0
 		scale   = 1
 		passive = 0
+		socket  = NOUPGRADE
 
 		tmp
 			clothDmg
@@ -476,7 +477,7 @@ obj/items/wearable
 		return w
 
 	MouseEntered(location,control,params)
-		if((desc || quality) && (src in usr) && usr:infoBubble)
+		if((desc || quality || socket > 0) && (src in usr) && usr:infoBubble)
 
 			var/info
 
@@ -497,6 +498,10 @@ obj/items/wearable
 					info = "[desc]\n\n [def] Defense"
 			else
 				info = desc
+
+			if(socket == 1)      info = "[info]\n Red Crystal +10 Damage"
+			else if(socket == 2) info = "[info]\n Green Crystal +30 Defense"
+			else if(socket == 3) info = "[info]\n Magic Crystal +10 Damage +30 Defense"
 
 			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[info]\"")
 			winshowRight(usr, "infobubble")
@@ -534,7 +539,13 @@ obj/items/wearable
 			if(bonus & DEFENSE)
 				clothDef = round(30 * quality * scale, 1)
 				owner.clothDef += clothDef
-				if(reset) owner.resetMaxHP()
+			if(socket & DAMAGE)
+				clothDmg += 10
+				owner.clothDmg += clothDmg
+			if(socket & DEFENSE)
+				clothDef += 30
+				owner.clothDef += clothDef
+			if(reset) owner.resetMaxHP()
 
 
 obj/items/wearable/Destroy(var/mob/Player/owner)
@@ -1453,6 +1464,7 @@ obj/items/wearable/wands
 
 	bonus = NOENCHANT
 	max_stack = 1
+	socket = 0
 
 	calcBonus(mob/Player/owner, reset=1)
 		var/s = worldData.elderWand == owner.ckey ? scale + 0.1 : scale
@@ -1462,7 +1474,13 @@ obj/items/wearable/wands
 		if(bonus & DEFENSE)
 			clothDef = round(30 * quality * s, 1)
 			owner.clothDef += clothDef
-			if(reset) owner.resetMaxHP()
+		if(socket & DAMAGE)
+			clothDmg += 10
+			owner.clothDmg += clothDmg
+		if(socket & DEFENSE)
+			clothDef += 30
+			owner.clothDef += clothDef
+		if(reset) owner.resetMaxHP()
 
 	proc
 		addExp(mob/Player/owner, amount)
@@ -4614,6 +4632,7 @@ obj/items/elite
 
 obj/items/wearable/ring
 	bonus  = 0
+	socket = 0
 	rarity = 3
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
@@ -4648,6 +4667,7 @@ obj/items/wearable/ring/aetherwalker_ring
 
 obj/items/wearable/shield
 	bonus  = 0
+	socket = 0
 	rarity = 3
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
@@ -4690,6 +4710,7 @@ obj/items/wearable/shield/selfdamage
 
 obj/items/wearable/sword
 	bonus  = 0
+	socket = 0
 	rarity = 3
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
