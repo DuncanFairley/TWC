@@ -5,7 +5,6 @@
  * For the full license text, see LICENSE.txt.
  */
 
-#define DEBUG 1
 #define TICK_LAG 1
 #define islist(x) istype(x,/list)
 #define floor(x) round(x)
