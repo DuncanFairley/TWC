@@ -535,17 +535,20 @@ obj/items/wearable
 		calcBonus(mob/Player/owner, reset=1)
 			if(bonus & DAMAGE)
 				clothDmg = round(10 * quality * scale, 1)
-				owner.clothDmg += clothDmg
+
 			if(bonus & DEFENSE)
 				clothDef = round(30 * quality * scale, 1)
-				owner.clothDef += clothDef
+
 			if(socket & DAMAGE)
 				clothDmg += 10
-				owner.clothDmg += clothDmg
+
 			if(socket & DEFENSE)
 				clothDef += 30
+
+			if(clothDmg != 0) owner.clothDmg += clothDmg
+			if(clothDef != 0)
 				owner.clothDef += clothDef
-			if(reset) owner.resetMaxHP()
+				if(reset) owner.resetMaxHP()
 
 
 obj/items/wearable/Destroy(var/mob/Player/owner)
@@ -1470,17 +1473,20 @@ obj/items/wearable/wands
 		var/s = worldData.elderWand == owner.ckey ? scale + 0.1 : scale
 		if(bonus & DAMAGE)
 			clothDmg = round(10 * quality * s, 1)
-			owner.clothDmg += clothDmg
+
 		if(bonus & DEFENSE)
 			clothDef = round(30 * quality * s, 1)
-			owner.clothDef += clothDef
+
 		if(socket & DAMAGE)
 			clothDmg += 10
-			owner.clothDmg += clothDmg
+
 		if(socket & DEFENSE)
 			clothDef += 30
+
+		if(clothDmg != 0) owner.clothDmg += clothDmg
+		if(clothDef != 0)
 			owner.clothDef += clothDef
-		if(reset) owner.resetMaxHP()
+			if(reset) owner.resetMaxHP()
 
 	proc
 		addExp(mob/Player/owner, amount)
@@ -3765,7 +3771,7 @@ obj/items
 			keyType = /obj/items/key/community_key
 
 		wigs
-
+			useTypeStack = /obj/items/chest
 			MouseEntered(location,control,params)
 				if((src in usr) && usr:infoBubble)
 
@@ -4336,10 +4342,22 @@ obj/items/treats
 
 		Feed(mob/Player/p)
 			. = 1
+
 			var/obj/items/wearable/pets/i = p.pet.item
-			i.Equip(p, 1)
-			i.bonus |= 1
-			i.Equip(p, 1)
+
+			if(!(i.bonus & 1))
+				i.Equip(p, 1)
+				i.bonus |= 1
+				i.Equip(p, 1)
+
+			var/c = rand(40, 80)
+			p.pet.stepCount += 10 * c
+			p << infomsg("Your [p.pet.name] enjoys the candy.")
+
+			if(i.quality < MAX_PET_LEVEL)
+				var/e = rand(5000, 10000)
+				p << infomsg("Your [p.pet.name] gained [e] experience.")
+				i.addExp(p, e)
 
 	green
 		name       = "leaf candy"
@@ -4349,9 +4367,19 @@ obj/items/treats
 		Feed(mob/Player/p)
 			. = 1
 			var/obj/items/wearable/pets/i = p.pet.item
-			i.Equip(p, 1)
-			i.bonus |= 2
-			i.Equip(p, 1)
+			if(!(i.bonus & 2))
+				i.Equip(p, 1)
+				i.bonus |= 2
+				i.Equip(p, 1)
+
+			var/c = rand(40, 80)
+			p.pet.stepCount += 10 * c
+			p << infomsg("Your [p.pet.name] enjoys the candy.")
+
+			if(i.quality < MAX_PET_LEVEL)
+				var/e = rand(5000, 10000)
+				p << infomsg("Your [p.pet.name] gained [e] experience.")
+				i.addExp(p, e)
 
 	blue
 		name       = "rare candy"
