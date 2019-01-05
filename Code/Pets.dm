@@ -234,6 +234,19 @@ obj/items/wearable/pets
 		icon_state = "mouse"
 		currentSize = 1
 		minSize     = 1
+	white_cat
+		icon_state = "cat"
+		currentSize = 1
+		minSize     = 1
+	black_cat
+		icon_state = "Felinious"
+		currentSize = 1
+		minSize     = 1
+	rabbit
+		icon_state = "Carrotosi"
+		currentSize = 1
+		minSize     = 1
+
 
 obj/pet
 	icon = 'Mobs.dmi'
