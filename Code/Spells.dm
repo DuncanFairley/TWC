@@ -99,7 +99,7 @@ mob/Spells/verb/Accio(obj/M in oview(15,usr))
 			M.loc = t
 			sleep(2)
 
-		if(istype(M,/obj/candle) || istype(M,/obj/books)) M:respawn()
+		if(istype(M,/obj/candle) || istype(M,/obj/books) || istype(M,/obj/Cauldron)) M:respawn()
 
 mob/Spells/verb/Accio_Maxima()
 	set category = "Spells"

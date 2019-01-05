@@ -142,10 +142,38 @@ obj/Cauldron
 	icon_state = "C1"
 	density = 1
 	rubbleable = 1
+	wlable = 1
+	accioable = 1
+
+	var/tmp/turf/origloc
 	New()
+		set waitfor = 0
 		..()
 		icon_state = "C[rand(1,8)]"
 
+		sleep(1)
+		origloc = loc
+
+	proc/respawn()
+		set waitfor = 0
+		sleep(rand(700, 2400))
+		if(origloc)
+			if(z == origloc.z)
+				accioable = 0
+				wlable    = 0
+				glide_size = 16
+				while(loc != origloc)
+					var/t = get_step_towards(src, origloc)
+					if(!t)
+						loc = origloc
+						break
+					loc = t
+					sleep(2)
+				accioable = 1
+				wlable    = 1
+				glide_size = 32
+			else
+				loc = origloc
 turf
 	Fireplace
 		icon='misc.dmi'
