@@ -760,7 +760,7 @@ mob
 					if(killer.pet)
 						killer.pet.fetch(prize)
 
-			var/base = worldData.baseChance * clamp(1 + (level - killer.level) / 200, 0.1, 10) * clamp(level/100, 0.1, 10)
+			var/base = worldData.baseChance * clamp(1 + (level - killer.level) / 200, 0.1, 20) * clamp(level/100, 0.1, 20)
 
 			if(level < killer.level) base *= (level / 800) * 0.5
 
@@ -772,7 +772,7 @@ mob
 				killer << colormsg("<i>[name] dropped [prize.name]</i>", "#FFA500")
 				killer.pity = 0
 			else
-				killer.pity += base/100
+				killer.pity += base/200
 
 			if(sparks)
 				emit(loc    = loc,
