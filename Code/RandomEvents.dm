@@ -26,9 +26,14 @@ obj/spawner
 WorldData/var/tmp/list/currentEvents
 
 RandomEvent
-	var/chance = 10
-	var/name
-	var/beepType = 1
+	var
+		chance = 10
+		name
+		beepType = 1
+
+		tmp
+			endTime
+			desc
 
 	proc
 		start()
@@ -36,18 +41,22 @@ RandomEvent
 			if(!worldData.currentEvents) worldData.currentEvents = list()
 
 			if(name in worldData.currentEvents)
-				worldData.currentEvents[name]++
+				worldData.currentEvents[src]++
 			else
-				worldData.currentEvents[name] = 1
+				worldData.currentEvents[src] = 1
 
 			for(var/mob/Player/p in Players)
 				p.beep(beepType)
+
 		end()
-			worldData.currentEvents[name]--
-			if(worldData.currentEvents[name] <= 0)
-				worldData.currentEvents -= name
+			worldData.currentEvents[src]--
+			if(worldData.currentEvents[src] <= 0)
+				worldData.currentEvents -= src
 
 			if(worldData.currentEvents.len == 0) worldData.currentEvents = null
+
+			endTime = null
+			desc = null
 
 	Tournament
 		name   = "Tournament"
@@ -176,12 +185,15 @@ RandomEvent
 			else if(gameMode == "Survival")
 				a.friendlyFire = 0
 
+			var/maxRounds = rounds
+
 			for(var/mob/Player/p in Players)
 				p << "<h3>An automated FFA is beginning soon. Game mode: <span  style=\"color:red\">[gameMode]</span>. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a> The first round will start in 2 minutes.</h3>"
 
 			sleep(600)
 			while(rounds)
 				rounds--
+				desc = "Round [maxRounds-rounds]/[maxRounds]"
 				worldData.arenaSummon = 3
 				for(var/mob/Player/p in Players)
 					p << "<h3>An automated FFA is beginning soon. Game mode: <span  style=\"color:red\">[gameMode]</span>. If you wish to participate, <a href=\"byond://?src=\ref[p];action=arena_teleport\">click here to teleport.</a> The [rounds==0 ? "last" : ""] round will start in 1 minute.</h3>"
@@ -473,6 +485,8 @@ RandomEvent
 
 				..()
 
+				endTime = world.time + 600*5
+
 				for(var/i = 5; i > 0; i--)
 					for(var/mob/Player/p in Players)
 						p << announcemsg("[c.subject] class is starting in [i] minute[i > 1 ? "s" : ""] for [c.name]. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
@@ -480,6 +494,9 @@ RandomEvent
 
 
 				c.start()
+
+				endTime = world.time + 600*time
+
 				sleep(600 * time)
 
 				while(world.time - c.lastTaught <= 1200)
@@ -532,6 +549,7 @@ RandomEvent
 				monster.calcStats()
 				m += monster
 
+			endTime = world.time + 600*minutes
 			sleep(minutes * 600)
 
 			var/message = 0
@@ -574,6 +592,7 @@ RandomEvent
 				monster.calcStats()
 				m += monster
 
+			endTime = world.time + 600*minutes
 			sleep(minutes * 600)
 
 			var/message = 0
@@ -653,6 +672,7 @@ RandomEvent
 				var/obj/spawner/spawn_loc = pick(worldData.spawners)
 				m += new /mob/Enemies/Summoned/Boss/Ghost (spawn_loc.loc)
 
+			endTime = world.time + 600*minutes
 			sleep(minutes * 600)
 
 			var/message = 0
@@ -684,6 +704,7 @@ RandomEvent
 
 				m += monster
 
+			endTime = world.time + 600*minutes
 			sleep(minutes * 600)
 
 			var/message = 0
@@ -720,6 +741,7 @@ RandomEvent
 
 				m += monster
 
+			endTime = world.time + 600*minutes
 			sleep(minutes * 600)
 
 			var/message = 0
@@ -756,6 +778,7 @@ RandomEvent
 			var/area/a = spawn_loc.loc.loc
 			a.undead = 1
 
+			endTime = world.time + 600*minutes
 			sleep(minutes * 600)
 
 			for(var/mob/Enemies/Summoned/Zombie/z in a)
@@ -796,6 +819,7 @@ RandomEvent
 
 				m += monster
 
+			endTime = world.time + 600*minutes
 			sleep(minutes * 600)
 
 			var/area/a = spawn_loc.loc.loc
@@ -840,6 +864,7 @@ RandomEvent
 
 				m += monster
 
+			endTime = world.time + 600*minutes
 			sleep(minutes * 600)
 
 			var/message = 0
@@ -878,6 +903,7 @@ RandomEvent
 
 			entrance.safezoneoverride = 1
 			entrance.timedProtection = 0
+			endTime = world.time + 600*minutes
 			sleep(minutes * 600)
 
 			for(var/mob/Enemies/ai in entrance)
@@ -902,6 +928,7 @@ RandomEvent
 				A.oldsystem = 1
 				spawn(minutes * 600) A.oldsystem = 0
 
+			endTime = world.time + 600*minutes
 			sleep(minutes * 600)
 
 			Players << infomsg("Old dueling system event is over.")
@@ -936,6 +963,7 @@ RandomEvent
 				while(!t.loc || t.loc.density)
 					t.loc = locate(rand(1,82), rand(1,100), mapZ)
 
+			endTime = world.time + 600*minutes
 			sleep(minutes * 600)
 
 			var/end = FALSE
@@ -975,6 +1003,7 @@ RandomEvent
 				var/obj/spawner/spawn_loc = pick(worldData.spawners)
 				s += new/obj/quidditch/snitch { prize = 1 } (spawn_loc.loc)
 
+			endTime = world.time + 600*minutes
 			sleep(minutes * 600)
 			var/message = 0
 			for(var/obj/quidditch/snitch/sn in s)
@@ -999,6 +1028,7 @@ RandomEvent
 			var/tmpDropRate = worldData.DropRateModifier
 			Players << infomsg("You feel a strange magic surrounding you, increasing your drop rate by [bonus]% for [minutes] minutes (This stacks on top of any other bonuses).")
 
+			endTime = world.time + 600*minutes
 			spawn(minutes * 600)
 				end()
 				if(worldData.DropRateModifier >= tmpDropRate)
@@ -1019,6 +1049,7 @@ RandomEvent
 			var/tmpShopModifier = worldData.shopPriceModifier
 			Players << infomsg("There's a crazy sale going on! You should check out Marvelous Magical Mystery or wig shops, they have a [sale]% discount for the next [minutes] minutes!")
 
+			endTime = world.time + 600*minutes
 			spawn(minutes * 600)
 				end()
 				if(worldData.shopPriceModifier >= tmpShopModifier)
@@ -1039,6 +1070,7 @@ RandomEvent
 			var/tmpExpModifier = worldData.expModifier
 			Players << infomsg("You feel a strange magic surrounding you, increasing your experience gain rate from monsters by [bonus]% for [minutes] minutes (This stacks on top of any other bonuses).")
 
+			endTime = world.time + 600*minutes
 			spawn(minutes * 600)
 				end()
 				if(worldData.expModifier >= tmpExpModifier)
@@ -1154,6 +1186,7 @@ RandomEvent
 
 				m += monster
 
+			endTime = world.time + 600*minutes
 			sleep(minutes * 600)
 			end()
 			var/message = 0

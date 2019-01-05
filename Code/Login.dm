@@ -1443,8 +1443,13 @@ mob/Player
 			stat("","")
 			if(worldData.currentEvents)
 				stat("Current Events:","")
-				for(var/key in worldData.currentEvents)
-					stat("", key)
+				for(var/RandomEvent/e in worldData.currentEvents)
+					if(e.desc)
+						stat("", "[e.name] - [e.desc]")
+					else if(e.endTime)
+						stat("", "[e.name] - [ticks2time(e.endTime - world.time)]")
+					else
+						stat("", e.name)
 			if(worldData.currentArena)
 				if(worldData.currentArena.roundtype == HOUSE_WARS)
 					stat("Arena:")
@@ -1993,6 +1998,7 @@ mob/Player/proc/resetMaxHP()
 	MHP = 4 * (level - 1) + 200 + 2 * (Def + clothDef)
 	if(HP > MHP)
 		HP = MHP
+		updateHP()
 
 mob/Player
 	proc
