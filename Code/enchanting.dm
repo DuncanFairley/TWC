@@ -71,6 +71,13 @@ enchanting
 		souls   = 3
 		prize   = /obj/items/magic_stone/memory
 
+	memory_teleport
+		reqType = /obj/items/magic_stone/memory
+		bonus   = 3
+		chance  = 40
+		souls   = 2
+		prize   = /obj/items/magic_stone/teleport/memory
+
 	resurrection
 		reqType = /obj/items/magic_stone/summoning/resurrection
 		chance  = 40
@@ -335,23 +342,35 @@ obj/items/crystal
 		luck       = 0 // bonus chance
 		ignoreItem = FALSE// ignores fourth item
 
+		Dmg = 0
+		Def = 0
+
 	useTypeStack = 1
 	stackName = "Crystals:"
 	rarity = 2
 
-	desc = "Drag and drop to item with a socket. Also used in enchanting."
+	desc = "Drag and drop to item with a empty socket."
+
+	proc/ToString()
+		if(Dmg && Def) return "+10 Damage +30 Defense"
+		if(Dmg) return "+10 Damage"
+		if(Def) return "+30 Defense"
 
 	MouseDrop(over_object)
-		if(bonus > 0 && istype(over_object, /obj/items/wearable) && (src in usr) && (over_object in usr) && over_object:socket != -1)
+		if((Dmg || Def) && istype(over_object, /obj/items/wearable) && (src in usr) && (over_object in usr) && over_object:socket != null)
 			var/obj/items/wearable/w = over_object
 			var/mob/Player/p = usr
+			var/obj/items/crystal/s = stack > 1 ? Split(1) : src
 			if(w in p.Lwearing)
 				w.Equip(p, 1)
-				w.socket = bonus
+				w.socket = s
 				w.Equip(p, 1)
 			else
-				w.socket = bonus
-			Consume()
+				w.socket = s
+			if(s == src)
+				loc = null
+				Unmacro(p)
+				p.Resort_Stacking_Inv()
 			usr << infomsg("You insert [name] in [w.name]")
 		else
 			..()
@@ -375,15 +394,19 @@ obj/items/crystal
 		name  = "red crystal"
 		icon_state = "damage"
 		bonus = 1
+		Dmg = 10
 	defense
 		name  = "green crystal"
 		icon_state = "defense"
 		bonus = 2
+		Dmg = 30
 	magic
 		name  = "magic crystal"
 		icon_state = "magic"
 		bonus = 3
 		luck  = 5
+		Dmg = 10
+		Def = 30
 	luck
 		name  = "luck crystal"
 		icon_state = "luck"
