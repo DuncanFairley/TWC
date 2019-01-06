@@ -134,6 +134,8 @@ obj/spells
 				m:Episky()
 			if("Sanguinis Iactus")
 				m:Sanguinis_Iactus()
+			else
+				winset(m, null, "command=\"[replacetext(name, " ", "-")]\"")
 
 	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
 		..()
