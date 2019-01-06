@@ -1466,7 +1466,6 @@ mob/Player
 				for(var/arena/a in worldData.currentMatches.arenas)
 					stat(a.spectateObj)
 
-
 		if(statpanel("Items"))
 
 			var/list/money
@@ -2369,7 +2368,7 @@ mob/Player
 		if(worldData.loggedIn)
 			if((client.computer_id in worldData.loggedIn) || (client.address in worldData.loggedIn) || (client.ckey in worldData.loggedIn)) return
 
-		sleep(20)
+		sleep(50)
 
 		while(locate(/hudobj/login_reward) in client.screen)
 			sleep(10)
@@ -2382,7 +2381,7 @@ mob/Player
 		if(worldData.eventTaken)
 			if((client.computer_id in worldData.eventTaken) || (client.address in worldData.eventTaken) || (client.ckey in worldData.eventTaken)) return
 
-		sleep(20)
+		sleep(50)
 
 		while(locate(/hudobj/login_reward) in client.screen)
 			sleep(10)
