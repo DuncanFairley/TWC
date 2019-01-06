@@ -19,7 +19,7 @@
 
 #define VERSION "16.70"
 #define SUB_VERSION "11"
-#define SAVEFILE_VERSION 41
+#define SAVEFILE_VERSION 42
 #define VAULT_VERSION 5
 #define lvlcap 800
 #define SWAPMAP_Z 25 // world map z + 1 (the +1 is for buildable area, don't add if not using sandbox)

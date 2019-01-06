@@ -71,6 +71,7 @@ var/list/spellList = list(
 	/mob/Spells/verb/Disperse = "Disperse",
 	/mob/Spells/verb/Wingardium_Leviosa = "Wingardium Leviosa",
 	/mob/Spells/verb/Antifigura = "Antifigura")
+
 proc/name2spellpath(name)
 	for(var/V in spellList)
 		if(spellList[V] == name)
@@ -255,7 +256,7 @@ mob/Spells/verb/Protego()
 				p.overlays -= /obj/Shield
 				p<<"You are no longer shielded!"
 
-mob/Spells/verb/Valorus(mob/Player/M in view()&Players)
+mob/Spells/verb/Valorus(mob/Player/M in view())
 	set category="Spells"
 	var/mob/Player/user = usr
 	if(locate(/obj/items/wearable/wands) in user.Lwearing)
@@ -315,7 +316,7 @@ mob/Spells/verb/Deletrius()
 		hearers(usr.client.view,usr)<<"[usr] flicks \his wand, causing the roses to dissolve into the air."
 	else
 		usr << errormsg("This spell requires a wand.")
-mob/Spells/verb/Expelliarmus(mob/Player/M in view()&Players)
+mob/Spells/verb/Expelliarmus(mob/Player/M in view())
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		var/obj/items/wearable/wands/W = locate(/obj/items/wearable/wands) in M:Lwearing
@@ -643,9 +644,9 @@ mob/Spells/verb/Incarcerous()
 
 		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 1 }, icon_state = "bind", name = "Incarcerous", lag = 1)
 
-mob/Spells/verb/Anapneo(var/mob/Player/M in view(usr.client.view,usr)&Players)
+mob/Spells/verb/Anapneo(var/mob/Player/M in view())
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		if(!M.flying == 0){src<<"<b><span style=\"color:red;\">Error:</b></span> You can't cast this spell on someone who is flying.";return}
 		hearers()<<"<B><span style=\"color:red;\">[usr]:</span><font color=blue> <I>Anapneo!</I>"
 		M.silence=0
@@ -994,7 +995,7 @@ mob/Spells/verb/Flagrate(message as message)
 				p.learnSpell("Flagrate")
 		else
 			alert("You cannot cast this while muted.")
-mob/Spells/verb/Langlock(mob/Player/M in oview()&Players)
+mob/Spells/verb/Langlock(mob/Player/M in oview())
 	set category = "Spells"
 	set name = "Langlock"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=600,againstocclumens=1))
@@ -1011,9 +1012,9 @@ mob/Spells/verb/Langlock(mob/Player/M in oview()&Players)
 				if(M && M.silence)
 					M<<"<b>Your tongue unsticks from the roof of your mouth.</b>"
 					M.silence=0
-mob/Spells/verb/Muffliato(mob/Player/M in view()&Players)
+mob/Spells/verb/Muffliato(mob/Player/M in view())
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		if(M.muff==1)
 			usr << "This person already has been charmed with Muffliato."
 			return
@@ -1042,7 +1043,7 @@ mob/Spells/verb/Incindia()
 		p.learnSpell("Incindia")
 		for(var/d in dirs)
 			castproj(icon_state = "fireball", damage = damage, name = "incindia", cd = 0, lag = 1, element = FIRE, Dir=d)
-mob/Spells/verb/Replacio(mob/Player/M in oview()&Players)
+mob/Spells/verb/Replacio(mob/Player/M in oview())
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=500,againstocclumens=1))
 		if(issafezone(M.loc.loc, 0) && !issafezone(loc.loc, 0))
@@ -1080,7 +1081,7 @@ mob/Spells/verb/Occlumency()
 			src << "You release the barriers around your mind."
 			p.occlumens = -1
 
-mob/Spells/verb/Obliviate(mob/Player/M in oview()&Players)
+mob/Spells/verb/Obliviate(mob/Player/M in oview())
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=700,againstocclumens=0))
 		hearers()<<"<b><span style=\"color:red;\">[usr]:<font color=green> Obliviate!</b></span>"
@@ -1096,7 +1097,7 @@ mob/Spells/verb/Obliviate(mob/Player/M in oview()&Players)
 		p.MP-=700
 		new /StatusEffect/UsedAnnoying(src,30*p.cooldownModifier)
 		p.updateMP()
-mob/Spells/verb/Tarantallegra(mob/Player/M in view()&Players)
+mob/Spells/verb/Tarantallegra(mob/Player/M in view())
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=100,againstocclumens=1))
 		if(M.dance) return
@@ -1223,10 +1224,10 @@ mob/Player/proc/BaseIcon()
 		else if(House == "Hufflepuff")
 			icon = 'MaleHufflepuff.dmi'
 
-mob/Spells/verb/Reddikulus(mob/Player/M in view()&Players)
+mob/Spells/verb/Reddikulus(mob/Player/M in view())
 	set category="Spells"
 	set name = "Riddikulus"
-	if(canUse(src,cooldown=/StatusEffect/UsedRiddikulus,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedRiddikulus,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
 		if(M.trnsed == 1)
 			usr << "That person is already transfigured."
 			return
@@ -1341,7 +1342,7 @@ mob/Spells/verb/Self_To_Skeleton()
 			if(p.away)p.ApplyAFKOverlay()
 			p.icon = 'Skeleton.dmi'
 			p.learnSpell("Personio Sceletus")
-mob/Spells/verb/Other_To_Human(mob/Player/M in oview(usr.client.view,usr)&Players)
+mob/Spells/verb/Other_To_Human(mob/Player/M in oview())
 	set name = "Transfiguro Revertio"
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=1))
@@ -1505,7 +1506,7 @@ mob/Spells/verb/Episky()
 		hearers()<<"<font color=aqua>[usr] heals \himself."
 		usr.overlays-=image('attacks.dmi', icon_state = "heal")
 
-mob/Spells/verb/Confundus(mob/Player/M in oview()&Players)
+mob/Spells/verb/Confundus(mob/Player/M in oview())
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=300,againstocclumens=1))
 		new /StatusEffect/UsedAnnoying(src,20*usr:cooldownModifier)
@@ -1566,7 +1567,7 @@ mob/Spells/verb/Wingardium_Leviosa()
 		wingobject=null
 		Wingardiumleviosa = null
 
-mob/Spells/verb/Imperio(mob/Player/other in oview()&Players)
+mob/Spells/verb/Imperio(mob/Player/other in oview())
 	set category="Spells"
 	if(!Imperio)
 
@@ -1658,13 +1659,13 @@ mob/Spells/verb/Portus()
 		p.MP-=25
 		p.updateMP()
 		p.learnSpell("Portus")
-mob/Spells/verb/Sense(mob/Player/M in view()&Players)
+mob/Spells/verb/Sense(mob/Player/M in view())
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=0))
 		hearers() << "[usr]'s eyes flicker."
 		usr<<errormsg("[M.name]'s Kills: [M.pkills]<br>[M.name]'s Deaths: [M.pdeaths]")
 		usr:learnSpell("Sense")
-mob/Spells/verb/Scan(mob/Player/M in view()&Players)
+mob/Spells/verb/Scan(mob/Player/M in view())
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=0))
 		hearers() << "[usr]'s eyes glint."
@@ -1826,8 +1827,8 @@ mob/Player
 			MP = min(MP + regen, MMP)
 			updateMP()
 
-		if((passives & SHIELD_SLAYER) && ismonster(attacker))
-			dmg *= 0.9
+		if(monsterDef > 0 && ismonster(attacker))
+			dmg *= 1 - monsterDef/100
 
 		dmg = round(dmg, 1)
 		HP -= dmg
@@ -1905,8 +1906,8 @@ mob/Enemies
 
 			var/dmg = p.damage + p.owner:Slayer.level
 
-			if(p.owner:passives & SWORD_SLAYER)
-				dmg *= 1.1
+			if(p.owner:monsterDmg > 0)
+				dmg *= 1 + p.owner:monsterDmg/100
 
 			if(p.icon_state == "blood")
 				dmg += round(p.damage / 10, 1)

@@ -406,6 +406,17 @@ mob
 				if(p.level > 500)
 					spawn() p.startQuest("Amato Animo Animato Animagus")
 
+			if(savefile_version < 42)
+				for(var/obj/items/wearable/w in p)
+					if(w.socket)
+						switch(w.socket)
+							if(1)
+								w.socket = new /obj/items/crystal/damage
+							if(2)
+								w.socket = new /obj/items/crystal/defense
+							if(3)
+								w.socket = new /obj/items/crystal/magic
+
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
 			else

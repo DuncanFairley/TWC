@@ -5,8 +5,14 @@
  * For the full license text, see LICENSE.txt.
  */
 
-mob/Player/var/list/Lwearing
-mob/Player/var/list/Lfavorites
+mob/Player/var
+	list
+		Lwearing
+		Lfavorites
+	tmp
+		monsterDmg = 0
+		monsterDef = 0
+
 
 area
 	var
@@ -454,7 +460,9 @@ obj/items/wearable
 		quality = 0
 		scale   = 1
 		passive = 0
-		socket  = NOUPGRADE
+		monsterDef = 0
+		monsterDmg = 0
+		obj/items/crystal/socket
 
 		tmp
 			clothDmg
@@ -477,7 +485,7 @@ obj/items/wearable
 		return w
 
 	MouseEntered(location,control,params)
-		if((desc || quality || socket > 0) && (src in usr) && usr:infoBubble)
+		if((desc || quality || socket) && (src in usr) && usr:infoBubble)
 
 			var/info
 
@@ -499,9 +507,11 @@ obj/items/wearable
 			else
 				info = desc
 
-			if(socket == 1)      info = "[info]\n Red Crystal +10 Damage"
-			else if(socket == 2) info = "[info]\n Green Crystal +30 Defense"
-			else if(socket == 3) info = "[info]\n Magic Crystal +10 Damage +30 Defense"
+			if(socket)
+				info = "[info]\n [socket.name] [socket.ToString()]"
+			else if(socket == 0)
+				info = "[info]\n Empty Socket"
+
 
 			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[info]\"")
 			winshowRight(usr, "infobubble")
@@ -535,18 +545,10 @@ obj/items/wearable
 		calcBonus(mob/Player/owner, reset=1)
 			if(bonus & DAMAGE)
 				clothDmg = round(10 * quality * scale, 1)
+				owner.clothDmg += clothDmg
 
 			if(bonus & DEFENSE)
 				clothDef = round(30 * quality * scale, 1)
-
-			if(socket & DAMAGE)
-				clothDmg += 10
-
-			if(socket & DEFENSE)
-				clothDef += 30
-
-			if(clothDmg != 0) owner.clothDmg += clothDmg
-			if(clothDef != 0)
 				owner.clothDef += clothDef
 				if(reset) owner.resetMaxHP()
 
@@ -594,15 +596,19 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 
 		suffix = initial(suffix)
 		UpdateDisplay()
-		if(bonus != -1)
-			if(bonus & DAMAGE)
-				owner.clothDmg -= clothDmg
-				clothDmg        = null
-			if(bonus & DEFENSE)
-				owner.clothDef -= clothDef
-				clothDef        = null
-				owner.resetMaxHP()
+		if(clothDmg)
+			owner.clothDmg -= clothDmg
+			clothDmg        = null
+		if(clothDef)
+			owner.clothDef -= clothDef
+			clothDef        = null
+			owner.resetMaxHP()
+		if(socket)
+			owner.clothDmg -= socket.Dmg
+			owner.clothDef -= socket.Def
 		owner.passives &= ~passive
+		owner.monsterDmg -= monsterDmg
+		owner.monsterDef -= monsterDef
 		return REMOVED
 	else
 		if(showoverlay && !owner.trnsed && !owner.animagusOn)
@@ -626,7 +632,12 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		UpdateDisplay()
 		if(bonus != -1)
 			calcBonus(owner)
+		if(socket)
+			owner.clothDmg += socket.Dmg
+			owner.clothDef += socket.Def
 		owner.passives |= passive
+		owner.monsterDmg += monsterDmg
+		owner.monsterDef += monsterDef
 		return WORN
 
 obj/items/food
@@ -1473,18 +1484,10 @@ obj/items/wearable/wands
 		var/s = worldData.elderWand == owner.ckey ? scale + 0.1 : scale
 		if(bonus & DAMAGE)
 			clothDmg = round(10 * quality * s, 1)
+			owner.clothDmg += clothDmg
 
 		if(bonus & DEFENSE)
 			clothDef = round(30 * quality * s, 1)
-
-		if(socket & DAMAGE)
-			clothDmg += 10
-
-		if(socket & DEFENSE)
-			clothDef += 30
-
-		if(clothDmg != 0) owner.clothDmg += clothDmg
-		if(clothDef != 0)
 			owner.clothDef += clothDef
 			if(reset) owner.resetMaxHP()
 
@@ -3378,7 +3381,7 @@ obj/items/magic_stone
 					var/obj/items/magic_stone/teleport/s = stack > 1 ? Split(1) : src
 
 					s.dest = copytext(t.tag, 14)
-					s.name = "teleport stone \[[s.dest]]"
+					s.name = "[name] \[[s.dest]]"
 					s.icon_state = "teleport"
 
 					if(s != src)
@@ -3408,6 +3411,13 @@ obj/items/magic_stone
 				hearers(p) << infomsg("[p.name] disappears in a flash of light.")
 				p.Transfer(t)
 				hearers(p) << infomsg("[p.name] appears in a flash of light.")
+
+		memory
+			name = "memory teleport stone"
+
+			effect(mob/Player/p)
+				..()
+				. = 1
 
 	weather
 		seconds = 5
@@ -3534,7 +3544,7 @@ obj/items/magic_stone
 		if(!(p.loc && (istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))))
 			p << errormsg("You can only use this outside.")
 			return
-		p.MP -= 3000
+		p.MP -= 500
 		p.updateMP()
 
 		if(inUse) return
@@ -4726,7 +4736,7 @@ obj/items/wearable/shield/slayer
 	name="Todd's shield"
 	desc="Todd's magical shield, provides 10% damage reduction from monsters."
 	suffix = "<span style=\"color:#ffa500;\">10% damage reduction from monsters.</span>"
-	passive = SHIELD_SLAYER
+	monsterDef = 10
 
 obj/items/wearable/shield/selfdamage
 	icon='trophies.dmi'
@@ -4761,7 +4771,7 @@ obj/items/wearable/sword/slayer
 	name="Todd's sword"
 	desc="Todd's magical sword, granting the wielder 10% damage to monsters."
 	suffix = "<span style=\"color:#ffa500;\">10% bonus damage to monsters.</span>"
-	passive = SWORD_SLAYER
+	monsterDmg = 10
 
 obj/items/wearable/sword/dragon
 	icon='trophies.dmi'
