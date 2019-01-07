@@ -1891,6 +1891,11 @@ mob/Player
 			if(isplayer(p.owner))
 				p.owner:learnSpell(p.name, 300)
 				Death_Check(p.owner)
+
+				if(p.owner:passives & SWORD_HEALONKILL)
+					p.owner.HP = min( round(p.owner.HP + MHP/10, 1), p.owner.MHP)
+					p.owner:updateHP()
+
 			else if(ismonster(p.owner))
 				p.owner:Kill(src)
 
@@ -1944,6 +1949,11 @@ mob/Enemies
 			Death_Check(p.owner)
 
 			if(p.owner:ekills > tmp_ekills)
+
+				if(p.owner:passives & SWORD_HEALONKILL)
+					p.owner.HP = min( round(p.owner.HP + MHP/10, 1), p.owner.MHP)
+					p.owner:updateHP()
+
 				p.owner:learnSpell(p.name, 30)
 
 				if(p.element != 0)

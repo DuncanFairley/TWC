@@ -4780,3 +4780,11 @@ obj/items/wearable/sword/dragon
 	desc="Dragon's breath allows you to use fire spells with full damage."
 	suffix = "<span style=\"color:#ffa500;\">Fire spells now use full damage.</span>"
 	passive = SWORD_FIRE
+
+obj/items/wearable/sword/vladmir
+	icon='trophies.dmi'
+	icon_state="Sword"
+	name="Vladmir's Cutlass"
+	desc="Lifesteal 10% of max HP on kill."
+	suffix = "<span style=\"color:#ffa500;\">Lifesteal 10% of max HP on kill.</span>"
+	passive = SWORD_HEALONKILL

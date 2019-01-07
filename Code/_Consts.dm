@@ -62,7 +62,7 @@
 
 #define SWORD_SLAYER 1024
 #define SWORD_FIRE 2048
-#define SWORD_3 4096
+#define SWORD_HEALONKILL 4096
 #define SWORD_4 8192
 #define SWORD_5 16384
 
