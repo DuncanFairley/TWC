@@ -356,6 +356,20 @@ obj/items/crystal
 		if(Dmg) return "+10 Damage"
 		if(Def) return "+30 Defense"
 
+	New(Loc, tier)
+		..(Loc)
+
+		if(tier)
+			tier = min(tier, 20)
+			name = "[name]: level [tier]"
+
+			if(Dmg)
+				Dmg = tier
+			if(Def)
+				Def = tier*3
+			if(luck)
+				luck = tier
+
 	MouseDrop(over_object)
 		if((Dmg || Def) && istype(over_object, /obj/items/wearable) && (src in usr) && (over_object in usr) && over_object:socket != null)
 			var/obj/items/wearable/w = over_object
@@ -399,7 +413,7 @@ obj/items/crystal
 		name  = "green crystal"
 		icon_state = "defense"
 		bonus = 2
-		Dmg = 30
+		Def = 30
 	magic
 		name  = "magic crystal"
 		icon_state = "magic"
@@ -415,7 +429,7 @@ obj/items/crystal
 	strong_luck
 		name  = "strong luck crystal"
 		icon_state = "luck2"
-		luck  = 10
+		luck  = 20
 		desc = null
 	soul
 		name = "soul crystal"

@@ -21,7 +21,6 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 					        /obj/items/wearable/sword/slayer,
 					        /obj/items/wearable/sword/dragon),
 
-
 "Bubbles the Spider" = list(/obj/items/key/basic_key,
 						    /obj/items/wearable/title/Crawler,
 						    /obj/items/chest/blood_chest,
@@ -100,12 +99,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							             /obj/items/key/wizard_key,
 							             /obj/items/key/pentakill_key,
 							             /obj/items/key/winter_key,
-							             /obj/items/key/sunset_key),
-							"1"   = list(/obj/items/crystal/strong_luck,
-                                         /obj/items/crystal/defense,
-							 		     /obj/items/crystal/damage,
-							 	 	     /obj/items/crystal/magic),
-							"5"   =      /obj/items/crystal/luck),
+							             /obj/items/key/sunset_key)),
 
 "Vengeful Ghost"     = list("2"   = list(/obj/items/colors/purple_stone,
 							 			 /obj/items/colors/pink_stone,
@@ -183,10 +177,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 										  /obj/items/wearable/orb/peace,
 							              /obj/items/wearable/orb/chaos,
 							              /obj/items/wearable/orb/magic),
-							"45"   = list(/obj/items/crystal/damage,
-										  /obj/items/crystal/defense,
-						     			  /obj/items/crystal/luck,
-						     			  /obj/items/crystal/magic,
+							"45"   = list(/obj/items/crystal/magic,
 						     			  /obj/items/crystal/strong_luck)),
 
 "The Good Snowman"   = list("5"    = list(/obj/items/chest/wigs/sunset_wig_chest,
@@ -201,10 +192,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							              /obj/items/wearable/orb/chaos,
 							              /obj/items/wearable/orb/magic,
 										  /obj/items/crystal/soul),
-							"50"   = list(/obj/items/crystal/damage,
-										  /obj/items/crystal/defense,
-						     			  /obj/items/crystal/luck,
-						     			  /obj/items/crystal/magic,
+							"50"   = list(/obj/items/crystal/magic,
 						     			  /obj/items/crystal/strong_luck)))
 
 

@@ -729,6 +729,9 @@ mob
 				killer << infomsg("<i>[name] dropped [t.name]</i>")
 				sparks = 1
 
+			var/base = worldData.baseChance * clamp(1 + (level - killer.level) / 200, 0.1, 20) * clamp(level/100, 0.1, 20)
+			if(level < killer.level) base *= (level / 800) * 0.5
+
 			if(prize)
 				sparks = 1
 				if(prizePoolSize > 1 && damage && damage.len > 1)
@@ -760,9 +763,17 @@ mob
 					if(killer.pet)
 						killer.pet.fetch(prize)
 
-			var/base = worldData.baseChance * clamp(1 + (level - killer.level) / 200, 0.1, 20) * clamp(level/100, 0.1, 20)
+			else if(base*rate*3)
+				sparks = 1
+				prize = pickweight(list(/obj/items/crystal/defense = 1,
+										/obj/items/crystal/damage  = 1,
+										/obj/items/crystal/luck    = 3))
 
-			if(level < killer.level) base *= (level / 800) * 0.5
+				prize = new prize (loc, level/50)
+				prize.prizeDrop(killer.ckey, decay=1)
+				killer << infomsg("<i>[name] dropped [prize.name]</i>")
+				if(killer.pet)
+					killer.pet.fetch(prize)
 
 			if(prob(base * rate + killer.pity))
 				sparks = 1
@@ -772,7 +783,7 @@ mob
 				killer << colormsg("<i>[name] dropped [prize.name]</i>", "#FFA500")
 				killer.pity = 0
 			else
-				killer.pity += base/200
+				killer.pity += base/250
 
 			if(sparks)
 				emit(loc    = loc,
