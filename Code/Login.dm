@@ -220,41 +220,6 @@ obj/teleport
 			if(..())
 				unload_vault()
 
-	desert_exit
-		icon = 'DesertTeleport.dmi'
-		dest = "teleportPointCoS Floor 3"
-		invisibility = 0
-		appearance_flags = LONG_GLIDE
-		glide_size = 4
-		Teleport(mob/M)
-			if(prob(10)) return
-			if(prob(40))
-				..()
-				M << infomsg("You magically found yourself at the entrance!")
-			else
-				var/turf/t
-				while(!t || t.density)
-					t = locate(rand(4,97), rand(4,97), rand(4,6))
-				M:Transfer(t)
-
-		New()
-			..()
-			wander()
-
-		proc/wander()
-			set waitfor = 0
-			var/turf/target
-			while(src)
-				if(!target || loc == target)
-					target = locate(rand(4,97), rand(4,97), z)
-
-				var/turf/t = get_step_towards(loc, target)
-				if(t)
-					loc = t
-				else
-					target = null
-				sleep(8)
-
 var/tmp/vault_last_exit
 proc/unload_vault(updateTime = TRUE)
 	if(vault_last_exit && updateTime)
@@ -801,6 +766,7 @@ mob
 			character.Taming = new("Taming")
 			character.Alchemy = new("Alchemy")
 			character.Slayer = new("Slayer")
+			character.Summoning = new("Summoning")
 			character.hpBar = new(character)
 
 			for(var/mob/Player/p in Players)
@@ -989,7 +955,6 @@ mob/Player
 
 			LoginReward()
 			if(worldData.eventPrize) EventReward()
-			secretSanta()
 
 			DisplayPets()
 
@@ -1404,6 +1369,9 @@ mob/Player
 			if(Slayer)
 				var/percent = round((Slayer.exp / Slayer.maxExp) * 100)
 				stat("Slayer:", "[Slayer.level]   Exp: [comma(Slayer.exp)]/[comma(Slayer.maxExp)] ([percent]%)")
+			if(Summoning)
+				var/percent = round((Summoning.exp / Summoning.maxExp) * 100)
+				stat("Summoning:", "[Summoning.level]   Exp: [comma(Summoning.exp)]/[comma(Summoning.maxExp)] ([percent]%)")
 			stat("House:",src.House)
 			if(level >= lvlcap && rankLevel)
 				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100)
@@ -2357,7 +2325,6 @@ WorldData
 	var
 		list/loggedIn
 		list/eventTaken
-		list/secretSanta
 		eventPrize
 
 mob/Player
@@ -2387,8 +2354,6 @@ mob/Player
 			sleep(10)
 
 		new /hudobj/login_reward(null, client, null, show=1, Player=src, Prize=worldData.eventPrize)
-
-mob/proc/secretSanta()
 
 hudobj/login_reward
 

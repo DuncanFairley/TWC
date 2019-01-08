@@ -57,7 +57,7 @@
 #include <stephen001\eventscheduling\Events\Events.dme>
 #include <theodis\pathfinder\Pathfinder.dme>
 #include "potinf.dmf"
-#include "world.dmp"
+#include "world.dmm"
 #include "Code\_Consts.dm"
 #include "Code\_Hidden.dm"
 #include "Code\Actionbar.dm"
@@ -117,6 +117,7 @@
 #include "Code\Spells.dm"
 #include "Code\SQL.dm"
 #include "Code\StatusEffects.dm"
+#include "Code\Summoning.dm"
 #include "Code\swapmaps.dm"
 #include "Code\Teach.dm"
 #include "Code\time.dm"

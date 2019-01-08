@@ -19,10 +19,10 @@
 
 #define VERSION "16.70"
 #define SUB_VERSION "12"
-#define SAVEFILE_VERSION 42
+#define SAVEFILE_VERSION 43
 #define VAULT_VERSION 5
 #define lvlcap 800
-#define SWAPMAP_Z 25 // world map z + 1 (the +1 is for buildable area, don't add if not using sandbox)
+#define SWAPMAP_Z 18 // world map z + 1 (the +1 is for buildable area, don't add if not using sandbox)
 #define WINTER 1
 #define AUTUMN 0
 #define HALLOWEEN 0

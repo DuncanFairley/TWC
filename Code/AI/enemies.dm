@@ -341,11 +341,7 @@ area
 				icon         = 'black50.dmi'
 				icon_state   = "white"
 				antiTeleport = 1
-			Desert1
-				antiTeleport = TRUE
-			Desert2
-				antiTeleport = TRUE
-			Desert3
+			Desert
 				antiTeleport = TRUE
 			Silverblood_Bats
 			Silverblood_Golems
@@ -458,6 +454,7 @@ mob
 				SEARCH     = 2
 				HOSTILE    = 4
 				CONTROLLED = 8
+				AGGRO      = 16
 
 			tmp
 				state = INACTIVE
@@ -690,6 +687,9 @@ mob
 				e.prizeDrop(killer.ckey, decay=1)
 				killer << infomsg("<i>[name] dropped [e.name]</i>")
 
+				if(killer.pet)
+					killer.pet.fetch(e)
+
 			rate *= rate_factor
 
 			var/obj/items/prize
@@ -729,6 +729,9 @@ mob
 				killer << infomsg("<i>[name] dropped [t.name]</i>")
 				sparks = 1
 
+				if(killer.pet)
+					killer.pet.fetch(t)
+
 			var/base = worldData.baseChance * clamp(1 + (level - killer.level) / 200, 0.1, 20) * clamp(level/100, 0.1, 20)
 			if(level < killer.level) base *= (level / 800) * 0.5
 
@@ -763,7 +766,7 @@ mob
 					if(killer.pet)
 						killer.pet.fetch(prize)
 
-			else if(base*rate*3)
+			else if(prob(base*rate*3))
 				sparks = 1
 				prize = pickweight(list(/obj/items/crystal/defense = 1,
 										/obj/items/crystal/damage  = 1,
@@ -901,8 +904,9 @@ mob
 			ShouldIBeActive()
 
 		proc/ShouldIBeActive()
-			ChangeState(INACTIVE)
-			if(!loc) return 0
+			if(!loc)
+				ChangeState(INACTIVE)
+				return 0
 
 			if(istype(loc.loc, /area/newareas))
 				var/area/newareas/a = loc.loc
@@ -912,6 +916,10 @@ mob
 					return 1
 				if(a.region && a.region.active)
 					ChangeState(WANDER)
+					return 0
+
+			ChangeState(INACTIVE)
+
 
 		proc/BlindAttack()//removeoMob
 			for(var/mob/Player/p in range(1, src))
@@ -2744,7 +2752,7 @@ obj/corpse
 					sleep(e.respawnTime / 2 + 10)
 			else
 				sleep(40)
-		else // player fade time
+		else if(isplayer(dead))
 			sleep(20)
 			var/area/a = Loc.loc
 
@@ -2777,6 +2785,8 @@ obj/corpse
 				src.gold = gold
 
 			sleep(450)
+		else
+			sleep(40)
 
 		animate(src, alpha = 0, time = 10)
 		sleep(10)
