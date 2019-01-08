@@ -46,6 +46,7 @@ obj/summon
 
 		hpbar = new(src)
 
+		sleep(4)
 		state()
 
 	Move(NewLoc)
@@ -109,7 +110,7 @@ obj/summon
 					target = p.owner
 			else
 				p.owner << infomsg("<i>You killed [summoner]'s [name].</i>")
-				duration = 0
+				Dispose()
 
 	proc/state()
 		set waitfor = 0
@@ -188,4 +189,4 @@ obj/summon
 			duration -= delay
 			sleep(delay)
 
-		Dispose()
+		if(loc) Dispose()
