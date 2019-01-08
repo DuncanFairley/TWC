@@ -1671,6 +1671,29 @@ mob/Spells/verb/Scan(mob/Player/M in view())
 			p<<"\n<b>[M.name]'s Max HP:</b> [M.MHP]<br><b>[M.name]'s Max MP:</b> [M.MMP]"
 		p.learnSpell("Scan")
 
+mob/Spells/verb/Inferius()
+	var/mob/Player/p = src
+
+	var/limit = 1 + round(p.Summoning.level / 10)
+
+	if(p.Summons && p.Summons.len >= limit)
+		p << errormsg("You need higher summoning level to summon more.")
+		return
+
+	hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=silver> Inferius!"
+
+	for(var/obj/corpse/c in view(15, src))
+		c.revive = 1
+		animate(c, transform = null, time = 10)
+
+		sleep(10)
+		var/obj/summon/s = new  (c.loc, src)
+		c.loc = null
+		s.appearance = c.appearance
+		s.dir = c.dir
+
+		if(p.Summons.len >= limit) break
+
 var/safemode = 1
 mob/var/tmp
 	lastproj = 0

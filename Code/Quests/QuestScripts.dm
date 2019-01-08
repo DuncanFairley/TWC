@@ -23,6 +23,27 @@ quest
 			desc = "A book, I wonder if it contains any spells I could learn."
 			reqs = list("Approach the book" = 1)
 
+	Puzzle2
+		name = "Inferi"
+		desc = "You walked through the fireplace, it teleported you here, where does this lead?"
+		reward = /questReward/InferiBook
+
+		Room1
+			desc = "Those torches seem odd."
+			reqs = list("Unlock the two gates" = 1)
+
+		Room2
+			desc = "I can see my own reflection in the water."
+			reqs = list("Get to the other side" = 1)
+
+		Room3
+			desc = "A hallway, this seems too easy"
+			reqs = list("Get to the final room" = 1)
+
+		Reward
+			desc = "A book, I wonder if it contains any spells I could learn."
+			reqs = list("Approach the book" = 1)
+
 	Animagus
 		name = "Amato Animo Animato Animagus"
 		desc = "You decided to start animagus training and placed a leaf of a mandrake in your mouth."
@@ -921,6 +942,9 @@ questReward
 	CatBook
 		exp   = 10000
 		items = /obj/items/spellbook/felinious
+	InferiBook
+		exp   = 40000
+		items = /obj/items/spellbook/inferi
 	PotionsBook
 		gold  = 2000
 		exp   = 2000

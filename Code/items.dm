@@ -2850,6 +2850,12 @@ obj/items/spellbook
 		g = 0.5
 		b = 0.5
 
+	inferi
+		name = "Book of The Dead"
+		icon_state = "de"
+		spell = /mob/Spells/verb/Inferius
+		r = 0.6
+
 	aggravate
 		name = "Book of Chaos: Vol III"
 		icon_state = "chaos"
