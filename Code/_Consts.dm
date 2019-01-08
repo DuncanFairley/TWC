@@ -18,7 +18,7 @@
 #define winshowRight(player, window) player << output(window,"browser1:ShowRightWindow")
 
 #define VERSION "16.70"
-#define SUB_VERSION "12"
+#define SUB_VERSION "13"
 #define SAVEFILE_VERSION 43
 #define VAULT_VERSION 5
 #define lvlcap 800
