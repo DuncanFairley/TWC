@@ -492,21 +492,14 @@ mob/Spells/verb/Basilio()
 
 mob/Spells/verb/Serpensortia()
 	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,useTimedProtection=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
 		new /StatusEffect/Summoned(src,15*usr:cooldownModifier)
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Serpensortia!"
 		hearers()<<"A Red-Spotted Green Snake, emerges from the wand."
-		hearers()<<"<b>Snake</b>: Hissssssss!"
-		var/mob/Enemies/Summoned/Snake/D = new (loc)
-		D.Ignore(src)
-		D.FlickState("m-black",8,'Effects.dmi')
+		var/obj/summon/snake/s = new  (loc, src)
+		s.FlickState("m-black",8,'Effects.dmi')
 		usr:learnSpell("Serpensortia")
-		src = null
-		spawn(600)
-			D.FlickState("m-black",8,'Effects.dmi')
-			if(D)
-				view(D)<<"The snake disappears."
-				Respawn(D)
+
 mob/Spells/verb/Herbificus_Maxima()
 	set category = "Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,antiTeleport=1))
@@ -1770,6 +1763,7 @@ mob/Player/var/element
 	Alchemy
 	Slayer
 	Animagus
+	Summoning
 
 
 element
@@ -1833,6 +1827,10 @@ mob/Player
 		dmg = round(dmg, 1)
 		HP -= dmg
 		updateHP()
+
+		for(var/obj/summon/s in Summons)
+			if(!s.target)
+				s.target = attacker
 
 		return dmg
 
@@ -1979,6 +1977,10 @@ mob/Enemies
 					else if(p.element == EARTH) p.owner:Earth.add(exp2give, p.owner)
 
 					else if(p.element == GHOST) p.owner:Ghost.add(exp2give, p.owner)
+			else
+				for(var/obj/summon/s in p.owner:Summons)
+					if(!s.target)
+						s.target = src
 
 			..()
 
