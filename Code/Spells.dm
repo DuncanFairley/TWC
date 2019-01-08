@@ -1613,8 +1613,9 @@ mob/Spells/verb/Portus()
 						src << errormsg("Portus can't be used on top of something else.")
 						return
 				if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25,useTimedProtection=1))
+					var/obj/target = locate("@Hogsmeade")
 					var/obj/portkey/P1 = new(loc)
-					var/obj/portkey/P2 = new(locate(39,53,18))
+					var/obj/portkey/P2 = new(target.loc)
 					P1.partner = P2
 					P2.partner = P1
 			if("Hogwarts Courtyard")
