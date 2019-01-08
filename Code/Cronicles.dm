@@ -66,6 +66,7 @@ WorldData
 		allowGifts   = 1
 		dplastupdate
 		housecupwinner
+		weekcupwinner
 
 		ministrypw    = "ketchup"
 		ministrybank  = 0
@@ -416,6 +417,9 @@ mob
 								w.socket = new /obj/items/crystal/defense
 							if(3)
 								w.socket = new /obj/items/crystal/magic
+
+			if(savefile_version < 43)
+				p.Summoning = new("Summoning")
 
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")

@@ -34,6 +34,30 @@ mob/GM/verb
 				if("Hufflepuff")
 					worldData.housecupwinner = "Hufflepuff"
 
+			awardcup()
+
+proc/awardcup(newhouse=1)
+	if(newhouse || !worldData.weekcupwinner)
+		worldData.weekcupwinner = worldData.housecupwinner
+		Players << "<b><span style=\"color:#CF21C0;\">[worldData.housecupwinner] won the house cup for this week, their common room will enjoy special benefits.</span></b>"
+
+	var/obj/d = locate("[worldData.weekcupwinner]_cup")
+
+	for(var/i = 1 to 3)
+		var/obj/o = locate("cup[i]")
+		var/obj/od = locate("cupdesk[i]")
+
+		o.loc = d.loc
+		od.loc = d.loc
+
+		var/obj/newLoc = locate("[worldData.weekcupwinner]_floo[i]")
+		var/obj/fireplace = locate("cupfloo[i]")
+
+		fireplace.loc.density = initial(fireplace.loc.density)
+		fireplace.loc = newLoc.loc
+		newLoc.loc.density = 0
+
+
 mob/Headmasters_Office
 	invisibility=2
 

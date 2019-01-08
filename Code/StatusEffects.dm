@@ -111,7 +111,6 @@ Event
 			spawn() scheduler.schedule(src, 864000)
 
 			worldData.loggedIn = null
-			worldData.secretSanta = null
 
 	AutoClass
 
@@ -151,6 +150,11 @@ Event
 			rewardExpWeek()
 
 			worldData.elderWand = null
+
+			awardcup()
+
+			for(var/i = 1 to 4)
+				worldData.housepointsGSRH[i] = 0
 
 			// player shops
 			if(worldData.playerShops)

@@ -1912,6 +1912,7 @@ world/New()
 		rankIcons[state] = icon('Ranks.dmi', state)
 
 	MapInitialized()
+	awardcup(0)
 	InitSandbox()
 
 //	worldlooper()
@@ -1963,7 +1964,7 @@ image
 			icon_state = "south"
 
 mob/test/verb/hireStaff((mob/Player/p in Players), color as text)
-
+	set category = "Staff"
 	if(!worldData.Gms) worldData.Gms = list()
 
 	if(!(p.ckey in worldData.Gms))
