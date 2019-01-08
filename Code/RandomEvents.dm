@@ -985,7 +985,7 @@ RandomEvent
 			winners = null
 
 			Players << infomsg("Treasure Hunt is over.")
-			worldData.currentEvents -= name
+			worldData.currentEvents -= src
 
 			if(worldData.currentEvents.len == 0) worldData.currentEvents = null
 
