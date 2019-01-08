@@ -562,8 +562,9 @@ mob/TalkNPC/Cosmetic_Salesman
 		var/amount = 0
 		for(var/turf/t in block(locate(x-2,y-2,z),locate(x+2,y-2,z)))
 			for(var/obj/items/wearable/i in t)
-				amount += i.stack
-				i.Dispose()
+				if(istype(i, /obj/items/wearable/scarves) || istype(i, /obj/items/wearable/shoes) || istype(i, /obj/items/wearable/wigs) || istype(i, /obj/items/wearable/hats))
+					amount += i.stack
+					i.Dispose()
 
 		if(amount > 0)
 			if(amount == 1)
