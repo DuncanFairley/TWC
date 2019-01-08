@@ -2689,6 +2689,7 @@ mob
 
 obj/corpse
 	var/gold
+	var/revive = 0
 	canSave = 0
 	Click()
 		..()
@@ -2756,9 +2757,11 @@ obj/corpse
 				mouse_over_pointer = MOUSE_HAND_POINTER
 				src.gold = gold
 
-			sleep(450)
+			sleep(600)
 		else
 			sleep(40)
+
+		if(revive) return
 
 		animate(src, alpha = 0, time = 10)
 		sleep(10)
