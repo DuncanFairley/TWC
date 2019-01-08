@@ -2693,13 +2693,13 @@ obj/corpse
 	canSave = 0
 	Click()
 		..()
-		if(gold)
+		if(gold > 0)
 			if(src in orange(1))
 				var/gold/g = new(bronze=gold)
 				usr << infomsg("You looted [g.toString()] from [name]'s corpse.")
 				g.give(usr)
 
-				gold = null
+				gold = 0
 				mouse_over_pointer = 0
 			else
 				usr << errormsg("You need to be closer.")
@@ -2728,8 +2728,9 @@ obj/corpse
 		else if(isplayer(dead))
 			sleep(20)
 			var/area/a = Loc.loc
-
+			src.gold = 0
 			if(gold == -1)
+				src.gold = -1
 				animate(src, transform = null, time = 10)
 				sleep(10)
 				if(dead)
@@ -2739,6 +2740,7 @@ obj/corpse
 				return
 
 			else if(a.undead && a.undead < 30)
+				src.gold = -1
 				a.undead++
 				var/mob/Player/p = dead
 				if(p.Gender == "Female")

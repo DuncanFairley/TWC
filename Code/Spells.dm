@@ -1683,6 +1683,8 @@ mob/Spells/verb/Inferius()
 	hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=silver> Inferius!"
 
 	for(var/obj/corpse/c in view(15, src))
+		if(c.gold == -1) continue
+
 		c.revive = 1
 		animate(c, transform = null, time = 10)
 
@@ -1691,6 +1693,12 @@ mob/Spells/verb/Inferius()
 		c.loc = null
 		s.appearance = c.appearance
 		s.dir = c.dir
+
+		if(c.gold >= 0)
+			if(c.gender == FEMALE)
+				s.icon = 'FemaleZombie.dmi'
+			else
+				s.icon = 'MaleZombie.dmi'
 
 		if(p.Summons.len >= limit) break
 
