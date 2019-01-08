@@ -420,6 +420,11 @@ mob
 
 			if(savefile_version < 43)
 				p.Summoning = new("Summoning")
+				var/turf/t = locate("@Hogwarts")
+				last_x = t.x
+				last_y = t.y
+				last_z = t.z
+
 
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
