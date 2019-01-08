@@ -1395,8 +1395,9 @@ mob/Player
 				else
 					var/percent = min(round(pet.stepCount / 10, 1), 100)
 					stat("[pet.name]:", "Happiness: [percent]%")
-			stat("Stat points:",src.StatPoints)
-			stat("Spell points:",src.spellpoints)
+			stat("Stat points:", StatPoints)
+			stat("Spell points:", spellpoints)
+			stat("Threads:", threads)
 			if(learning)
 				stat("Learning:", learning.name)
 				stat("Uses required:", learning.uses)

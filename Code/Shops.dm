@@ -530,7 +530,7 @@ mob/TalkNPC/Artifacts_Salesman
 		var/amount = 0
 		for(var/turf/t in block(locate(x-2,y-2,z),locate(x+2,y-2,z)))
 			for(var/obj/items/wearable/i in t)
-				if(i.owner == p.ckey && i.passive)
+				if(i.owner == p.ckey && (i.passive || i.monsterDmg || i.monsterDef))
 					amount += i.stack
 					i.Dispose()
 
@@ -545,6 +545,35 @@ mob/TalkNPC/Artifacts_Salesman
 			a.Move(p)
 		else
 			s.AddText("I love legendary artifacts, if you've got any legendary items, I'll be willing to trade with you, drop them on the purple floor and talk to me.")
+
+mob/Player/var/threads = 0
+mob/TalkNPC/Cosmetic_Salesman
+	icon_state="goblin1"
+	New()
+		..()
+		icon_state = "goblin[rand(1,3)]"
+
+	Talk()
+		set src in oview(3)
+		var/mob/Player/p = usr
+
+		var/ScreenText/s = new(p, src)
+
+		var/amount = 0
+		for(var/turf/t in block(locate(x-2,y-2,z),locate(x+2,y-2,z)))
+			for(var/obj/items/wearable/i in t)
+				amount += i.stack
+				i.Dispose()
+
+		if(amount > 0)
+			if(amount == 1)
+				s.AddText("Just one? I hope you're not too cold, almost feels like a crime to take a clothing piece from you.")
+			else
+				s.AddText("I'll give you [amount] threads for those.")
+
+			p.threads += amount
+		else
+			s.AddText("Hey, if you've got any used clothing I'll buy them off you, I'll give you my finest threads, drop them on the purple floor and talk to me.")
 
 proc
 	comma(n)
@@ -626,6 +655,7 @@ obj/shopStand
 	var
 		artifactPrice = 0
 		goldPrice = 0
+		threads = 0
 		item
 		stock
 		reqRep
@@ -648,30 +678,42 @@ obj/shopStand
 			var/gold/g = new(p)
 			var/obj/items/artifact/a = locate() in p
 
+			var/txt
 			if(goldPrice && artifactPrice)
-				s.AddText("Would you like to buy this item for [gPrice.toString()] and [artifactPrice] artifacts?\n[desc]")
+				txt = "Would you like to buy this item for [gPrice.toString()] and [artifactPrice] artifacts?"
 			else if(goldPrice)
-				s.AddText("Would you like to buy this item for [gPrice.toString()]?\n[desc]")
+				txt = "Would you like to buy this item for [gPrice.toString()]?"
+			else if(artifactPrice)
+				txt = "Would you like to buy this item for [artifactPrice] artifacts?"
 			else
-				s.AddText("Would you like to buy this item for [artifactPrice] artifacts?\n[desc]")
+				txt = "Would you like to buy this item for [threads] threads?"
 
-			if((!goldPrice || g.have(goldPrice)) && (!artifactPrice || (a && a.stack >= artifactPrice)))
+			if(desc)
+				txt += "\n[desc]"
+
+			s.AddText(txt)
+
+			if((!goldPrice || g.have(goldPrice)) && (!artifactPrice || (a && a.stack >= artifactPrice)) && (!threads || (p.threads >= threads)))
 				s.SetButtons("Buy", "#00ff00", "Cancel", "#ff0000", null)
 
 			if(!s.Wait()) return
 
 			if(s.Result == "Buy")
-				var/txt = "You bought [name] for "
-				if(goldPrice)
-					g.change(p, bronze=-goldPrice)
-					txt += gPrice.toString()
-
-				if(artifactPrice)
-					if(goldPrice) txt += " and "
-					a.Consume(artifactPrice)
-					txt += "[artifactPrice] artifacts."
+				txt = "You bought [name] for "
+				if(threads)
+					txt += "[threads] threads."
+					p.threads -= threads
 				else
-					txt += "."
+					if(goldPrice)
+						g.change(p, bronze=-goldPrice)
+						txt += gPrice.toString()
+
+					if(artifactPrice)
+						if(goldPrice) txt += " and "
+						a.Consume(artifactPrice)
+						txt += "[artifactPrice] artifacts."
+					else
+						txt += "."
 
 				new item (p)
 				p << infomsg(txt)
