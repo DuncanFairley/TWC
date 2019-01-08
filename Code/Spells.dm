@@ -493,12 +493,18 @@ mob/Spells/verb/Basilio()
 mob/Spells/verb/Serpensortia()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
-		new /StatusEffect/Summoned(src,15*usr:cooldownModifier)
+		var/mob/Player/p = src
+		if(p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
+			p << errormsg("You need higher summoning level to summon more.")
+			return
+
+		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
+
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Serpensortia!"
 		hearers()<<"A Red-Spotted Green Snake, emerges from the wand."
 		var/obj/summon/snake/s = new  (loc, src)
 		s.FlickState("m-black",8,'Effects.dmi')
-		usr:learnSpell("Serpensortia")
+		p.learnSpell("Serpensortia")
 
 mob/Spells/verb/Herbificus_Maxima()
 	set category = "Spells"
@@ -549,38 +555,34 @@ mob/Spells/verb/Ferula()
 mob/Spells/verb/Avis()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		new /StatusEffect/Summoned(src, 15*usr:cooldownModifier)
+		var/mob/Player/p = src
+		if(p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
+			p << errormsg("You need higher summoning level to summon more.")
+			return
+
+		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
+
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=yellow> Avis!"
-		sleep(20)
-		hearers()<<"A bright white flash shoots out of [usr]'s wand."
-		sleep(20)
 		hearers()<<"A Phoenix emerges."
-		var/mob/Enemies/Summoned/Phoenix/D = new (loc)
-		D.FlickState("m-black",8,'Effects.dmi')
-		usr:learnSpell("Avis")
-		src = null
-		spawn(600)
-			D.FlickState("m-black",8,'Effects.dmi')
-			if(D)
-				view(D)<<"The Phoenix flies away."
-				Respawn(D)
+		var/obj/summon/phoenix/s = new  (loc, src)
+		s.FlickState("m-black",8,'Effects.dmi')
+		p.learnSpell("Avis")
+
 mob/Spells/verb/Crapus_Sticketh()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,useTimedProtection=1,target=null,mpreq=0,againstocclumens=1))
-		new /StatusEffect/Summoned(src,15*usr:cooldownModifier)
+		var/mob/Player/p = src
+		if(p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
+			p << errormsg("You need higher summoning level to summon more.")
+			return
+
+		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
+
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Crapus...Sticketh!!"
-		sleep(20)
-		hearers()<<"A flash of black light shoots from [usr]'s wand."
-		sleep(20)
 		hearers()<<"A stick figure appears."
-		var/mob/Enemies/Summoned/Boss/Stickman/D = new (loc)
-		D.FlickState("m-black",8,'Effects.dmi')
-		src = null
-		spawn(600)
-			D.FlickState("m-black",8,'Effects.dmi')
-			if(D)
-				view(D)<<"The Stickman fades away."
-				Respawn(D)
+		var/obj/summon/stickman/s = new  (loc, src)
+		s.FlickState("m-black",8,'Effects.dmi')
+
 mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at least 30 seconds/?
 	set category = "Spells"
 	var/mob/Player/p = src

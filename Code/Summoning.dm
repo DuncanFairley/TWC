@@ -25,7 +25,10 @@ obj/summon
 
 	snake
 		icon_state = "snake"
-
+	phoenix
+		icon_state = "bird"
+	stickman
+		icon_state = "bird"
 
 	New(loc, mob/Player/p)
 		set waitfor = 0
@@ -57,17 +60,21 @@ obj/summon
 
 		..()
 
+		if(target)
+			if(ismonster(target))
+				if(summoner)
+					target:target = summoner
+					target:ChangeState(target:HOSTILE)
+				else
+					target:ShouldIBeActive()
+			target = null
+
 		if(summoner)
 			summoner.Summons -= src
 			if(summoner.Summons.len == 0)
 				summoner.Summons = null
 
 			summoner = null
-
-		if(target)
-			if(ismonster(target))
-				target:ShouldIBeActive()
-			target = null
 
 		if(hpbar)
 			hpbar.loc = null
@@ -136,12 +143,26 @@ obj/summon
 								e.Death_Check(summoner)
 								target = null
 
-							HP -= e.Dmg
-							if(HP <= 0)	break
+								var/exp2give = (rand(6,14)/10)*e.Expg
 
-							if(hpbar)
-								var/percent = HP / MHP
-								hpbar.Set(percent, src)
+								if(summoner.level > e.level && !summoner.findStatusEffect(/StatusEffect/Lamps/Farming))
+									exp2give -= exp2give * ((summoner.level-e.level)/150)
+
+								if(exp2give > 0)
+									if(summoner.House == worldData.housecupwinner)
+										exp2give *= 1.25
+
+									var/StatusEffect/Lamps/Exp/exp_rate = summoner.findStatusEffect(/StatusEffect/Lamps/Exp)
+									if(exp_rate) exp2give *= exp_rate.rate
+
+									summoner.Summoning.add(exp2give, summoner, 1)
+							else
+								HP -= e.Dmg
+								if(HP <= 0)	break
+
+								if(hpbar)
+									var/percent = HP / MHP
+									hpbar.Set(percent, src)
 
 					else
 						var/mob/Player/p = target

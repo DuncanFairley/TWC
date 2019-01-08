@@ -1003,6 +1003,9 @@ mob
 					if(target.MonsterMessages) hearers(target)<<"<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
 					if(target.HP <= 0)
 						Kill(target)
+				else
+					for(var/obj/summon/s in target.Summons)
+						if(!s.target) s.target = src
 				sleep(AttackDelay)
 
 
@@ -1025,12 +1028,6 @@ mob
 
 			ReturnToStart()
 				ShouldIBeActive()
-
-			Snake
-				icon_state = "snake"
-				level = 250
-
-				Death()
 
 			Slug
 				icon_state = "slug"
@@ -1851,31 +1848,6 @@ mob
 						dir=get_dir(src, target)
 						if(AttackDelay)	sleep(AttackDelay)
 						castproj(icon_state = "gum", damage = Dmg + rand(-4,8), name = "Waddiwasi")
-
-
-
-			Phoenix
-				icon_state = "bird"
-				level = 6
-
-				Search()
-					step_rand(src)
-					sleep(3)
-					Heal()
-
-				proc
-					Heal()
-						for(var/mob/Player/M in ohearers(3, src))
-							M.HP += round((M.MHP/100) + rand(-10, 10))
-							if(M.HP > M.MHP) M.HP = M.MHP
-							M.updateHP()
-				BlindAttack()//removeoMob
-					Heal()
-
-				MapInit()
-					set waitfor = 0
-					light(src, 3, 600, "orange")
-					..()
 
 
 		Stickman
