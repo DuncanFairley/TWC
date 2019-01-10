@@ -7,7 +7,7 @@
 mob/Player/var/ror=0
 
 var/list/mob/Player/Players = list()
-turf/var/flyblock=0
+turf/var/tmp/flyblock=0
 
 turf
 	Enter(atom/movable/O)
