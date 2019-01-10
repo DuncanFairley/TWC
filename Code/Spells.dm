@@ -1685,7 +1685,7 @@ mob/Spells/verb/Inferius()
 	hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=silver> Inferius!"
 
 	for(var/obj/corpse/c in view(15, src))
-		if(c.gold == -1) continue
+		if(c.gold == -1 || c.revive == 1) continue
 
 		c.revive = 1
 		animate(c, transform = null, alpha = 255, time = 10)
@@ -1926,7 +1926,7 @@ mob/Player
 				Death_Check(p.owner)
 
 				if(p.owner:passives & SWORD_HEALONKILL)
-					p.owner.HP = min( round(p.owner.HP + MHP/10, 1), p.owner.MHP)
+					p.owner.HP = min( round(p.owner.HP + MHP*0.15, 1), p.owner.MHP)
 					p.owner:updateHP()
 
 			else if(ismonster(p.owner))
@@ -1984,7 +1984,7 @@ mob/Enemies
 			if(p.owner:ekills > tmp_ekills)
 
 				if(p.owner:passives & SWORD_HEALONKILL)
-					p.owner.HP = min( round(p.owner.HP + MHP/10, 1), p.owner.MHP)
+					p.owner.HP = min( round(p.owner.HP + MHP*0.15, 1), p.owner.MHP)
 					p.owner:updateHP()
 
 				p.owner:learnSpell(p.name, 30)
