@@ -83,8 +83,8 @@ mob/Player
 
 			var/dmg = round(rand(10) + (Dmg + clothDmg + Slayer.level) * (1.3 + Animagus.level/100), 1)
 
-			if(passives & SWORD_SLAYER)
-				dmg *= 1.1
+			if(p.owner:monsterDmg > 0)
+				dmg *= 1 + p.owner:monsterDmg/100
 
 			if(e.canBleed)
 				var/n = dir2angle(get_dir(O, src))
@@ -111,6 +111,11 @@ mob/Player
 			var/tmp_ekills = ekills
 			e.Death_Check(src)
 			if(ekills > tmp_ekills)
+
+				if(passives & SWORD_HEALONKILL)
+					HP = min( round(HP + e.MHP*0.15, 1), MHP)
+					updateHP()
+
 				var/exp2give = (rand(6,14)/10)*e.Expg
 
 				if(level > e.level && !findStatusEffect(/StatusEffect/Lamps/Farming))
