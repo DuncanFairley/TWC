@@ -2272,8 +2272,8 @@ mob
 
 					killer.addRep(r)
 
-					var/area/newareas/a = loc.loc
-					if(a && istype(a, /area/newareas))
+					var/area/a = loc.loc
+					if(a)
 						var/obj/countdown/c = locate("area_[a.name]")
 
 						if(c)
