@@ -333,6 +333,8 @@ obj/items
 turf/buildable
 	icon = 'turf.dmi'
 
+	var/isVault = 0
+
 	#if WINTER
 	name       = "snow"
 	icon_state = "snow"
@@ -340,6 +342,11 @@ turf/buildable
 	name       = "grass"
 	icon_state = "grass1"
 	#endif
+
+	vault
+		name = "floor"
+		icon_state = "brick"
+		isVault = 1
 
 	Exited(atom/movable/Obj, atom/newloc)
 		..()
@@ -355,6 +362,10 @@ turf/buildable
 		if(p.buildItemDisplay)
 			if(z == p.z && get_dist(src, p) < 30)
 				p.buildItemDisplay.loc = src
+
+				if(!p.buildItem.inVault && isVault)
+					p.buildItemDisplay.color = "#f00"
+					return
 
 				if(p.buildItem.reqWall)
 					var/turf/t = locate(x,y+1,z)
@@ -381,13 +392,15 @@ turf/buildable
 		var/mob/Player/p = usr
 		if(p.buildItemDisplay && z == p.z && get_dist(src, p) < 30)
 
+			if(!p.buildItem.inVault && isVault)
+				p << errormsg("You can't build this in a vault.")
+				return
 
 			if(p.buildItem.path)
 
 				if(p.buildItem.reqWall)
 					var/turf/t = locate(x,y+1,z)
 					if(!t || !t.flyblock)
-						p.buildItemDisplay.color = "#f00"
 						return
 
 				if(flyblock || (locate(p.buildItem.path) in src))
@@ -950,6 +963,7 @@ hudobj
 			path
 			price = 0
 			reqWall = 0
+			inVault = 1
 			clear
 			replace
 
@@ -1142,6 +1156,8 @@ hudobj
 				screen_x = 32
 				screen_y = 96
 
+				inVault = 0
+
 			shield_totem
 				icon = 'Totem.dmi'
 				icon_state = "Shield"
@@ -1153,6 +1169,8 @@ hudobj
 				screen_y = 128
 
 				path = /obj/buildable/shield_totem
+
+				inVault = 0
 
 			door
 				icon='Door.dmi'
@@ -1667,6 +1685,8 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+				inVault = 0
+
 			chaosbook
 				icon_state="chaos"
 
@@ -1678,6 +1698,8 @@ hudobj
 
 				maptext_x = 0
 				maptext_width = 32
+
+				inVault = 0
 
 			bankbook
 				icon_state="bank"
@@ -1691,6 +1713,8 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+				inVault = 0
+
 			magicbook
 				icon_state="rmagic"
 
@@ -1700,6 +1724,8 @@ hudobj
 
 				screen_x = 128
 				screen_y = 64
+
+				inVault = 0
 
 			hogwartsbook
 				icon_state="Hogwarts"
@@ -1713,6 +1739,8 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+				inVault = 0
+
 			herbbook
 				icon_state="herb"
 
@@ -1724,6 +1752,8 @@ hudobj
 
 				maptext_x = 0
 				maptext_width = 32
+
+				inVault = 0
 
 			potionbook
 				icon_state="potion"
@@ -1737,6 +1767,8 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+				inVault = 0
+
 			successbook
 				icon_state="key"
 
@@ -1746,6 +1778,8 @@ hudobj
 
 				screen_x = 128
 				screen_y = 96
+
+				inVault = 0
 
 			slythbook
 				icon_state="slyth"
@@ -1759,6 +1793,8 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+				inVault = 0
+
 			hufflebook
 				icon_state="huffle"
 
@@ -1770,6 +1806,8 @@ hudobj
 
 				maptext_x = 0
 				maptext_width = 32
+
+				inVault = 0
 
 			ravenbook
 				icon_state="raven"
@@ -1783,6 +1821,8 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+				inVault = 0
+
 			gryffbook
 				icon_state="gryff"
 
@@ -1792,6 +1832,8 @@ hudobj
 
 				screen_x = 128
 				screen_y = 128
+
+				inVault = 0
 
 			bookshelf
 				icon       ='Desk.dmi'
@@ -1853,6 +1895,8 @@ hudobj
 
 				screen_x = 32
 				screen_y = 224
+
+				inVault = 0
 
 		utility
 			secret_wood_door

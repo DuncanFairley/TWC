@@ -303,13 +303,13 @@ proc/updateVault(swapmap/map, owner, version)
 						w:projColor = null
 					if(istype(w, /obj/items/wearable/pets))
 						w:exp = 0
-/*	if(version < 6)
+	if(version < 6)
 		for(var/turf/t in map.AllTurfs())
 			var/fly = t.flyblock
 			var/turf/newTurf
 			if(istype(t, /turf/floor))
 				newTurf = new /turf/buildable/vault (t)
-				if(fly) newTurf.flyblock = flyblock*/
+				if(fly) newTurf.flyblock = fly
 
 
 mob/GM/verb/UnloadMap()
