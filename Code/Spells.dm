@@ -502,7 +502,7 @@ mob/Spells/verb/Serpensortia()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Serpensortia!"
 		hearers()<<"A Red-Spotted Green Snake, emerges from the wand."
-		var/obj/summon/snake/s = new  (loc, src)
+		var/obj/summon/snake/s = new  (loc, src, "Serpensortia")
 		s.FlickState("m-black",8,'Effects.dmi')
 		p.learnSpell("Serpensortia")
 
@@ -564,7 +564,7 @@ mob/Spells/verb/Avis()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=yellow> Avis!"
 		hearers()<<"A Phoenix emerges."
-		var/obj/summon/phoenix/s = new  (loc, src)
+		var/obj/summon/phoenix/s = new  (loc, src, "Avis")
 		s.FlickState("m-black",8,'Effects.dmi')
 		p.learnSpell("Avis")
 
@@ -580,7 +580,7 @@ mob/Spells/verb/Crapus_Sticketh()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Crapus...Sticketh!!"
 		hearers()<<"A stick figure appears."
-		var/obj/summon/stickman/s = new  (loc, src)
+		var/obj/summon/stickman/s = new  (loc, src, "Crapus-Sticketh")
 		s.FlickState("m-black",8,'Effects.dmi')
 
 mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at least 30 seconds/?
@@ -1673,6 +1673,7 @@ mob/Spells/verb/Scan(mob/Player/M in view())
 		p.learnSpell("Scan")
 
 mob/Spells/verb/Inferius()
+	set category = "Spells"
 	var/mob/Player/p = src
 
 	var/limit = 1 + round(p.Summoning.level / 10)
@@ -1687,15 +1688,15 @@ mob/Spells/verb/Inferius()
 		if(c.gold == -1) continue
 
 		c.revive = 1
-		animate(c, transform = null, time = 10)
+		animate(c, transform = null, alpha = 255, time = 10)
 
 		sleep(10)
-		var/obj/summon/s = new  (c.loc, src)
+		var/obj/summon/s = new  (c.loc, src, "Inferius")
 		c.loc = null
 		s.appearance = c.appearance
 		s.dir = c.dir
 
-		if(c.gold >= 0)
+		if(c.gold >= 0 && gold != null)
 			if(c.gender == FEMALE)
 				s.icon = 'FemaleZombie.dmi'
 			else

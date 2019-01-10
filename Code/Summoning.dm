@@ -14,32 +14,36 @@ obj/summon
 	density = 1
 
 	var
-		level
+		level = 100
 		HP
 		MHP
 		duration
 		mob/Player/summoner
 		mob/target
 		obj/healthbar/hpbar
+		cast
 
 
 	snake
 		icon_state = "snake"
 	phoenix
 		icon_state = "bird"
+		level = 200
 	stickman
-		icon_state = "bird"
+		icon_state = "stickman"
+		level = 300
 
-	New(loc, mob/Player/p)
+	New(loc, mob/Player/p, spell)
 		set waitfor = 0
 		..()
 
 		summoner = p
+		cast = spell
 
-		level    = p.level + p.Summoning.level
-		MHP      = 4 * (level) + 200
+		level   += p.level + p.Summoning.level*5
+		MHP      = 6 * (level) + 200
 		HP       = MHP
-		duration = 300 + p.Summoning.level*10
+		duration = 600 + p.Summoning.level*10
 
 		if(!p.Summons) p.Summons = list()
 		p.Summons += src
@@ -66,6 +70,10 @@ obj/summon
 				if(summoner)
 					target:target = summoner
 					target:ChangeState(target:HOSTILE)
+
+					if(cast)
+						winset(summoner, null, "command=\"[cast]\"")
+
 				else
 					target:ShouldIBeActive()
 			target = null
@@ -88,6 +96,9 @@ obj/summon
 
 			if(p.owner:monsterDmg > 0)
 				dmg *= 1 + p.owner:monsterDmg/100
+
+			if(p.owner == summoner)
+				dmg = round(dmg * 0.25)
 
 			var/n = dir2angle(get_dir(src, p))
 			emit(loc    = src,
@@ -121,6 +132,7 @@ obj/summon
 				var/d = get_dist(src, target)
 				if(d > 1)
 					step_to(src, target, 1)
+					delay = 2
 				else
 					if(ismonster(target))
 						var/mob/Enemies/e = target
@@ -131,7 +143,7 @@ obj/summon
 							e.dir = get_dir(e, src)
 							dir = turn(e.dir, 180)
 
-							var/dmg = level
+							var/dmg = level * 1.5
 
 							if(summoner.monsterDmg > 0)
 								dmg *= 1 + summoner.monsterDmg/100
@@ -158,7 +170,13 @@ obj/summon
 
 									summoner.Summoning.add(exp2give, summoner, 1)
 							else
-								HP -= e.Dmg
+
+								dmg = e.Dmg*0.5
+
+								if(summoner.monsterDef > 0)
+									dmg *= 1 - summoner.monsterDef/100
+
+								HP -= dmg
 								if(HP <= 0)	break
 
 								if(hpbar)
