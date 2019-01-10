@@ -950,7 +950,6 @@ mob/Player
 				if(auror) auror.Dispose()
 				if(de) de.Dispose()
 
-			src.ApplyOverlays(0)
 			BaseIcon()
 
 			LoginReward()
@@ -959,8 +958,10 @@ mob/Player
 			DisplayPets()
 
 			hpBar = new(src)
+			src.ApplyOverlays(0)
 			if(MP / MMP)
 				MPRegen()
+
 
 	proc/ApplyOverlays(ignoreBonus = 1)
 		src.overlays = list()
@@ -1878,6 +1879,9 @@ mob/proc/Death_Check(mob/killer = src)
 				displayKills(killer, 1, 2)
 				var/gold2give = (rand(6,14)/10)*gold
 				var/exp2give  = (rand(6,14)/10)*Expg
+
+				if((killer:passives & SWORD_ANIMAGUS) && killer:Animagus && killer:animagusPower < 100 && prob(10))
+					killer:animagusPower++
 
 				if(killer.level > src.level && !killer.findStatusEffect(/StatusEffect/Lamps/Farming))
 					gold2give -= gold2give * ((killer.level-src.level)/150)

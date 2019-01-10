@@ -83,8 +83,8 @@ mob/Player
 
 			var/dmg = round(rand(10) + (Dmg + clothDmg + Slayer.level) * (1.3 + Animagus.level/100), 1)
 
-			if(p.owner:monsterDmg > 0)
-				dmg *= 1 + p.owner:monsterDmg/100
+			if(monsterDmg > 0)
+				dmg *= 1 + monsterDmg/100
 
 			if(e.canBleed)
 				var/n = dir2angle(get_dir(O, src))
