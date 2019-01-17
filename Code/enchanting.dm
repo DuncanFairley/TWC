@@ -352,9 +352,10 @@ obj/items/crystal
 	desc = "Drag and drop to item with a empty socket."
 
 	proc/ToString()
-		if(Dmg && Def) return "+10 Damage +30 Defense"
-		if(Dmg) return "+10 Damage"
-		if(Def) return "+30 Defense"
+		if(Dmg && Def) return "+[Dmg] Damage +[Def] Defense"
+		if(Dmg) return "+[Dmg] Damage"
+		if(Def) return "+[Def] Defense"
+		if(luck) return "+[luck/2]% Drop Rate"
 
 	New(Loc, tier)
 		..(Loc)
@@ -371,7 +372,7 @@ obj/items/crystal
 				luck = tier
 
 	MouseDrop(over_object)
-		if((Dmg || Def) && istype(over_object, /obj/items/wearable) && (src in usr) && (over_object in usr) && over_object:socket != null)
+		if(desc != null && istype(over_object, /obj/items/wearable) && (src in usr) && (over_object in usr) && over_object:socket != null)
 			var/obj/items/wearable/w = over_object
 			var/mob/Player/p = usr
 			var/obj/items/crystal/s = stack > 1 ? Split(1) : src
@@ -425,12 +426,10 @@ obj/items/crystal
 		name  = "luck crystal"
 		icon_state = "luck"
 		luck  = 5
-		desc = null
 	strong_luck
 		name  = "strong luck crystal"
 		icon_state = "luck2"
 		luck  = 20
-		desc = null
 	soul
 		name = "soul crystal"
 		icon_state = "soul"
