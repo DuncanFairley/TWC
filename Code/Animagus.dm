@@ -75,7 +75,13 @@ mob/Player
 	Bump(atom/movable/O)
 		set waitfor = 0
 		..()
-		if(animagusOn && ismonster(O))
+		if(O in Summons)
+			var/tmpLoc = O.loc
+			O.density = 0
+			O.Move(loc)
+			Move(tmpLoc)
+			O.density = 1
+		else if(animagusOn && ismonster(O))
 			if(world.time - lastproj < 2) return
 			lastproj = world.time
 
