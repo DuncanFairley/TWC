@@ -502,7 +502,7 @@ mob/Spells/verb/Serpensortia()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Serpensortia!"
 		hearers()<<"A Red-Spotted Green Snake, emerges from the wand."
-		var/obj/summon/snake/s = new  (loc, src, "Serpensortia")
+		var/obj/summon/snake/s = new  (loc, src, "Serpensortia", 1)
 		s.FlickState("m-black",8,'Effects.dmi')
 		p.learnSpell("Serpensortia")
 
@@ -564,7 +564,7 @@ mob/Spells/verb/Avis()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=yellow> Avis!"
 		hearers()<<"A Phoenix emerges."
-		var/obj/summon/phoenix/s = new  (loc, src, "Avis")
+		var/obj/summon/phoenix/s = new  (loc, src, "Avis", 1)
 		s.FlickState("m-black",8,'Effects.dmi')
 		p.learnSpell("Avis")
 
@@ -580,7 +580,7 @@ mob/Spells/verb/Crapus_Sticketh()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Crapus...Sticketh!!"
 		hearers()<<"A stick figure appears."
-		var/obj/summon/stickman/s = new  (loc, src, "Crapus-Sticketh")
+		var/obj/summon/stickman/s = new  (loc, src, "Crapus-Sticketh", 1)
 		s.FlickState("m-black",8,'Effects.dmi')
 
 mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at least 30 seconds/?

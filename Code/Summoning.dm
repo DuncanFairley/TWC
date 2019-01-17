@@ -33,7 +33,7 @@ obj/summon
 		icon_state = "stickman"
 		level = 300
 
-	New(loc, mob/Player/p, spell)
+	New(loc, mob/Player/p, spell, size=0)
 		set waitfor = 0
 		..()
 
@@ -49,6 +49,10 @@ obj/summon
 		p.Summons += src
 
 		hpbar = new(src)
+
+		if(size)
+			size = min(3, size + p.Summoning.level/20)
+			transform = matrix() * size
 
 		sleep(4)
 		state()
