@@ -523,7 +523,6 @@ StatusEffect
 
 					p.overlays -= i
 
-					src=null
 					spawn(6)
 						if(p.followers && !p.flying)
 							var/obj/Shadow/s = locate(/obj/Shadow) in p.followers
