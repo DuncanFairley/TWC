@@ -498,7 +498,7 @@ mob/Spells/verb/Serpensortia()
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
+		new /StatusEffect/Summoned(src,10*p.cooldownModifier)
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Serpensortia!"
 		hearers()<<"A Red-Spotted Green Snake, emerges from the wand."
@@ -560,7 +560,7 @@ mob/Spells/verb/Avis()
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
+		new /StatusEffect/Summoned(src,10*p.cooldownModifier)
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=yellow> Avis!"
 		hearers()<<"A Phoenix emerges."
@@ -576,7 +576,7 @@ mob/Spells/verb/Crapus_Sticketh()
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
+		new /StatusEffect/Summoned(src,10*p.cooldownModifier)
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Crapus...Sticketh!!"
 		hearers()<<"A stick figure appears."
@@ -1674,35 +1674,39 @@ mob/Spells/verb/Scan(mob/Player/M in view())
 
 mob/Spells/verb/Inferius()
 	set category = "Spells"
-	var/mob/Player/p = src
 
-	var/limit = 1 + round(p.Summoning.level / 10)
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1))
+		var/mob/Player/p = src
 
-	if(p.Summons && p.Summons.len >= limit)
-		p << errormsg("You need higher summoning level to summon more.")
-		return
+		var/limit = 1 + round(p.Summoning.level / 10)
 
-	hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=silver> Inferius!"
+		if(p.Summons && p.Summons.len >= limit)
+			p << errormsg("You need higher summoning level to summon more.")
+			return
 
-	for(var/obj/corpse/c in view(15, src))
-		if(c.gold == -1 || c.revive == 1) continue
+		new /StatusEffect/Summoned(src,10*p.cooldownModifier)
 
-		c.revive = 1
-		animate(c, transform = null, alpha = 255, time = 10)
+		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=silver> Inferius!"
 
-		sleep(10)
-		var/obj/summon/s = new  (c.loc, src, "Inferius")
-		c.loc = null
-		s.appearance = c.appearance
-		s.dir = c.dir
+		for(var/obj/corpse/c in view(15, src))
+			if(c.gold == -1 || c.revive == 1) continue
 
-		if(c.gold >= 0 && gold != null)
-			if(c.gender == FEMALE)
-				s.icon = 'FemaleVampire.dmi'
-			else
-				s.icon = 'MaleVampire.dmi'
+			c.revive = 1
+			animate(c, transform = null, alpha = 255, time = 10)
 
-		if(p.Summons.len >= limit) break
+			sleep(10)
+			var/obj/summon/s = new  (c.loc, src, "Inferius")
+			c.loc = null
+			s.appearance = c.appearance
+			s.dir = c.dir
+
+			if(c.gold >= 0 && gold != null)
+				if(c.gender == FEMALE)
+					s.icon = 'FemaleVampire.dmi'
+				else
+					s.icon = 'MaleVampire.dmi'
+
+			if(p.Summons.len >= limit) break
 
 var/safemode = 1
 mob/var/tmp
