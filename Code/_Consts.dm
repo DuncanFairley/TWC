@@ -45,7 +45,7 @@
 #define MAX_WAND_LEVEL 50
 #define MAX_WAND_EXP(wand) ((wand.quality + 1) * 20000)
 
-#define POTIONS_AMOUNT 60
+#define POTIONS_AMOUNT 70
 
 // passives
 #define RING_WATERWALK 1
