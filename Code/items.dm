@@ -2854,6 +2854,13 @@ obj/items/spellbook
 		g = 0.5
 		b = 0.5
 
+	gladius
+		name = "Confused Swords and How to Conjure Them"
+		icon_state = "spell"
+		spell = /mob/Spells/verb/Gladius
+		r = 0.5
+		b = 0.5
+
 	inferi
 		name = "Book of The Dead"
 		icon_state = "de"

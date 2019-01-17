@@ -801,6 +801,15 @@ mob/Spells/verb/Waddiwasi()
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Waddiwasi"
 		castproj(MPreq = 10, icon_state = "gum", damage = usr.Dmg + clothDmg + usr:Ghost.level, name = "Waddiwasi", element = GHOST)
+
+mob/Spells/verb/Gladius()
+	set category="Spells"
+
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=20,againstocclumens=1,projectile=1))
+		var/mob/Player/p = src
+		p.lastAttack = "Gladius"
+		castproj(MPreq = 20, Type = /obj/projectile/NoImpact/Dir, icon_state = "sword", damage = usr.Dmg + clothDmg + usr:Ghost.level, name = "Gladius", element = GHOST)
+
 mob/Spells/verb/Tremorio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
@@ -1700,7 +1709,7 @@ mob/Spells/verb/Inferius()
 			s.appearance = c.appearance
 			s.dir = c.dir
 
-			if(c.gold >= 0 && gold != null)
+			if(c.gold >= 0 && c.gold != null)
 				if(c.gender == FEMALE)
 					s.icon = 'FemaleVampire.dmi'
 				else
@@ -2411,6 +2420,14 @@ obj
 			var/list/bumped
 			impact = 0
 			selfDamage = 0
+
+			Dir
+				Effect(atom/movable/a)
+					if(owner && (isplayer(a) || istype(a, /mob/Enemies)))
+						dir = pick(list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST) - dir)
+						walk(src, dir, 2)
+
+
 			Impact(atom/movable/a, turf/oldloc)
 
 				if(ismonster(a) || isplayer(a))
@@ -2443,7 +2460,7 @@ obj
 					if(m.HP - damage <= 0 && prob(40))
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 						for(var/d in dirs)
-							owner.castproj(Type = /obj/projectile/NoImpact, icon_state = "chaotica", damage = round(damage/2), name = "Chaotica", cd = 0, Loc = a.loc, Dir = d, element = FIRE)
+							owner.castproj(Type = type, icon_state = icon_state, damage = round(damage/2), name = name, cd = 0, Loc = a.loc, Dir = d, element = element)
 
 obj/circle
 	icon = 'circle1.dmi'
@@ -2710,6 +2727,8 @@ mob/Player
 				m:Incendio()
 			if("Bombarda")
 				m:Bombarda()
+			if("Gladius")
+				m:Gladius()
 
 
 mob/Player/var/cooldownModifier = 1
