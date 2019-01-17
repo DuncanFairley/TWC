@@ -130,7 +130,9 @@ obj/summon
 			var/delay = 4
 			if(target)
 				var/d = get_dist(src, target)
-				if(d > 1)
+				if(d > 15)
+					target = null
+				else if(d > 1)
 					step_to(src, target, 1)
 					delay = 2
 				else
@@ -188,6 +190,7 @@ obj/summon
 						var/dmg = p.onDamage(level, summoner)
 						target << "<span style='color:red'>[src] attacks you for [dmg] damage!</span>"
 						if(p.HP <= 0)
+							target = null
 							p.Death_Check(summoner)
 			else
 				var/d = get_dist(src, summoner)
