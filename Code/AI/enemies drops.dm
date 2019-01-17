@@ -20,6 +20,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 					        /obj/items/wearable/shield/selfdamage,
 					        /obj/items/wearable/sword/slayer,
 					        /obj/items/wearable/sword/vladmir,
+					        /obj/items/wearable/sword/wolf,
 					        /obj/items/wearable/sword/dragon),
 
 "Bubbles the Spider" = list(/obj/items/key/basic_key,
