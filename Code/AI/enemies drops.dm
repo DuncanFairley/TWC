@@ -12,6 +12,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 "legendary"          = list(/obj/items/crystal/soul,
 							/obj/items/artifact,
 							/obj/items/mystery_key,
+						    /obj/items/wearable/orb/magic,
 							/obj/items/wearable/orb/magic/greater,
                             /obj/items/wearable/ring/snowring,
 					        /obj/items/wearable/ring/aetherwalker_ring,
@@ -21,7 +22,8 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 					        /obj/items/wearable/sword/slayer,
 					        /obj/items/wearable/sword/vladmir,
 					        /obj/items/wearable/sword/wolf,
-					        /obj/items/wearable/sword/dragon),
+					        /obj/items/wearable/sword/dragon,
+					        /obj/items/wearable/sword/gold),
 
 "Bubbles the Spider" = list(/obj/items/key/basic_key,
 						    /obj/items/wearable/title/Crawler,
@@ -138,8 +140,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 "Floating Eye"       = list("0.02" =      /obj/items/wearable/title/Eye,
 							"0.5"  = list(/obj/items/wearable/orb/peace,
 							              /obj/items/wearable/orb/chaos,
-							              /obj/items/wearable/orb/magic,
-									      /obj/items/artifact),
+							              /obj/items/wearable/orb/magic),
 							"8"    =      /obj/items/ingredients/eyes),
 
 
