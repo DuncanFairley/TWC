@@ -658,7 +658,7 @@ mob
 			if(canBleed)
 				new /obj/corpse(loc, src)
 
-			var/rate        = 1
+			var/rate        = 1 + killer.dropRate/100
 			var/rate_factor = worldData.DropRateModifier
 
 			if(killer.House == worldData.housecupwinner)

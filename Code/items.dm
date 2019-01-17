@@ -12,6 +12,7 @@ mob/Player/var
 	tmp
 		monsterDmg = 0
 		monsterDef = 0
+		dropRate   = 0
 
 
 area
@@ -460,6 +461,7 @@ obj/items/wearable
 		passive = 0
 		monsterDef = 0
 		monsterDmg = 0
+		dropRate = 0
 		obj/items/crystal/socket
 
 		tmp
@@ -604,6 +606,8 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		if(socket)
 			owner.clothDmg -= socket.Dmg
 			owner.clothDef -= socket.Def
+			owner.dropRate -= socket.luck/2
+		owner.dropRate -= dropRate
 		owner.passives &= ~passive
 		owner.monsterDmg -= monsterDmg
 		owner.monsterDef -= monsterDef
@@ -633,6 +637,8 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		if(socket)
 			owner.clothDmg += socket.Dmg
 			owner.clothDef += socket.Def
+			owner.dropRate += socket.luck/2
+		owner.dropRate += dropRate
 		owner.passives |= passive
 		owner.monsterDmg += monsterDmg
 		owner.monsterDef += monsterDef

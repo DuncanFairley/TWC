@@ -1698,9 +1698,9 @@ mob/Spells/verb/Inferius()
 
 		if(c.gold >= 0 && gold != null)
 			if(c.gender == FEMALE)
-				s.icon = 'FemaleZombie.dmi'
+				s.icon = 'FemaleVampire.dmi'
 			else
-				s.icon = 'MaleZombie.dmi'
+				s.icon = 'MaleVampire.dmi'
 
 		if(p.Summons.len >= limit) break
 
