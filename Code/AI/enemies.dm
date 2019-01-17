@@ -1275,10 +1275,10 @@ mob
 						..()
 
 						if(prob(51))
-							icon   = 'FemaleZombie.dmi'
+							icon   = 'FemaleVampire.dmi'
 							gender = FEMALE
 						else
-							icon   = 'MaleZombie.dmi'
+							icon   = 'MaleVampire.dmi'
 							gender = MALE
 
 						GenerateIcon(src)
@@ -2219,6 +2219,7 @@ mob
 			drops = "Vampire"
 
 			var/rep = 4
+			var/tmp/areaName
 
 			MapInit()
 				set waitfor = 0
@@ -2231,14 +2232,15 @@ mob
 
 				GenerateIcon(src)
 
+				sleep(2)
+				if(loc)
+					areaName = "area_[loc.loc.name]"
+
 			ShouldIBeActive()
 				..()
 
 				if(rep != 0)
-					var/area/newareas/a = loc.loc
-					if(!istype(a, /area/newareas)) return
-
-					var/AreaData/data = worldData.areaData["area_[a.name]"]
+					var/AreaData/data = worldData.areaData[areaName]
 
 					if(data)
 						if(data.rep > 0)
@@ -2272,12 +2274,9 @@ mob
 
 					killer.addRep(r)
 
-					var/area/a = loc.loc
-					if(a)
-						var/obj/countdown/c = locate("area_[a.name]")
-
-						if(c)
-							c.add(1, killer.guild)
+					var/obj/countdown/c = locate(areaName)
+					if(c)
+						c.add(1, killer.guild)
 
 				..()
 
@@ -2434,7 +2433,7 @@ mob
 					var/obj/eye_counter/count = locate("EyeCounter")
 					if(count.add())
 						Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
-						new /mob/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97),rand(4,97),rand(4,5)))
+						new /mob/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97), rand(4,97), 3))
 
 					SpawnPet(killer, 0.02, null, /obj/items/wearable/pets/floating_eye)
 					SpawnPortal("teleportPointSnowman Dungeon", chance=2)
@@ -2744,9 +2743,9 @@ obj/corpse
 				a.undead++
 				var/mob/Player/p = dead
 				if(p.Gender == "Female")
-					icon = 'FemaleZombie.dmi'
+					icon = 'FemaleVampire.dmi'
 				else
-					icon = 'MaleZombie.dmi'
+					icon = 'MaleVampire.dmi'
 
 				animate(src, transform = null, time = 10)
 

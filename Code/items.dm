@@ -686,9 +686,9 @@ obj/items/Zombie_Head
 					p.overlays = null
 					if(p.away)p.ApplyAFKOverlay()
 					if(p.Gender=="Female")
-						p.icon = 'FemaleZombie.dmi'
+						p.icon = 'FemaleVampire.dmi'
 					else
-						p.icon = 'MaleZombie.dmi'
+						p.icon = 'MaleVampire.dmi'
 		else
 			..()
 
