@@ -246,6 +246,10 @@ obj/items/wearable/pets
 		icon_state = "Carrotosi"
 		currentSize = 1
 		minSize     = 1
+	bird
+		icon_state = "Avifors"
+		currentSize = 1
+		minSize     = 1
 
 
 obj/pet
