@@ -53,6 +53,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							/obj/items/chest/pet_chest,
 							/obj/items/spellbook/peace,
 							/obj/items/chest/wizard_chest,
+							/obj/items/spellbook/gladius,
 							/obj/items/lamps/triple_drop_rate_lamp,
 							/obj/items/lamps/triple_gold_lamp),
 
@@ -72,6 +73,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							/obj/items/key/community_key,
                             /obj/items/wearable/pets/sword,
 							/obj/items/wearable/title/Samurai,
+							/obj/items/spellbook/gladius,
 							/obj/items/vault_key),
 
 "duelist"            = list("10" = list(/obj/items/key/wizard_key,
