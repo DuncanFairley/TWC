@@ -245,7 +245,7 @@ obj/potions
 
 				if(c >= 4)
 					var/mob/Player/player = p.owner
-					player.Alchemy.add((quality*4 + rand(4,6))*30, player, 1)
+					player.Alchemy.add((quality*12 + rand(9,12))*300, player, 1)
 
 					if(isnum(pool))
 						potionId = "[pool]"
@@ -343,7 +343,7 @@ obj/potions
 			if(isBusy) return
 
 			if(p)
-				p.Alchemy.add(rand(1,3)*20, p, 1)
+				p.Alchemy.add(rand(3,9)*50, p, 1)
 
 			var/id     = (i.id - 1) * 3 + i.form
 			var/poolId = 0
@@ -635,26 +635,26 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/Defense
 
 		small_defense_potion
-			seconds = 120
+			seconds = 300
 
 		defense_potion
-			seconds = 240
+			seconds = 600
 
 		large_defense_potion
-			seconds = 360
+			seconds = 900
 
 	damage
 		icon_state = "red"
 		effect     = /StatusEffect/Potions/Damage
 
 		small_damage_potion
-			seconds = 120
+			seconds = 300
 
 		damage_potion
-			seconds = 240
+			seconds = 600
 
 		large_damage_potion
-			seconds = 360
+			seconds = 900
 
 	luck
 		name       = "felix felicis"
@@ -693,6 +693,30 @@ obj/items/potions
 					return
 
 				..()
+			else
+				..()
+
+	polyjuice_potion
+		icon_state = "orange"
+		effect     = /StatusEffect/Potions/Polyjuice
+		seconds    = 120
+
+		Click()
+			if(src in usr)
+
+				var/obj/corpse/c = locate() in range(1, usr)
+				if(c.gold >= 0 && c.gold != null)
+					var/mutable_appearance/ma = new(usr)
+					ma.icon = c.icon
+					ma.icon_state = c.icon_state
+					ma.overlays = c.overlays
+					ma.underlays = c.underlays
+
+					usr.appearance = ma
+
+					..()
+				else
+					usr << errormsg("You need a player corpse nearby to transform.")
 			else
 				..()
 

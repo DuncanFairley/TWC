@@ -280,6 +280,9 @@ proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inare
 	if(!M.loc)
 		M << "<b>You cannot use this in the void.</b>"
 		return 0
+	if(target && !target.key)
+		M << "<b>You can only use this on other players.</b>"
+		return 0
 	var/area/A = M.loc.loc
 	if(M.z >= SWAPMAP_Z && !inhogwarts && !(M.z in  worldData.sandboxZ))
 		M << "<b>You cannot use this in a vault.</b>"
@@ -314,9 +317,6 @@ proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inare
 		return 0
 	if(!againstocclumens && (target.occlumens || target.prevname))
 		M << "<b>A charm blocks your spell.</b>"
-		return 0
-	if(target && !target.key)
-		M << "<b>You can only use this on other players.</b>"
 		return 0
 	if(needwand && !(locate(/obj/items/wearable/wands) in M:Lwearing))
 		M << "<b>You must have a drawn wand to cast this.</b>"
@@ -411,6 +411,9 @@ StatusEffect
 			.=..()
 
 		Activate()
+			var/mob/Player/p = AttachedAtom
+			if(p)
+				p.noOverlays++
 			..()
 
 		Deactivate()
@@ -439,6 +442,21 @@ StatusEffect
 				var/mob/Player/p = AttachedAtom
 				if(p)
 					animate(p.client, color = null, time = 30)
+
+				..()
+
+		Polyjuice
+			Activate()
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.BaseIcon()
+					p.ApplyOverlays()
+					p.underlays = list()
+					p.addNameTag()
+					p.noOverlays--
 
 				..()
 
@@ -604,14 +622,14 @@ StatusEffect
 			Activate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDmg += 40 + (potion.quality - 4) * 4
+					p.clothDmg += 60 + (potion.quality - 4) * 40
 
 				..()
 
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDmg -= 40 + (potion.quality - 4) * 4
+					p.clothDmg -= 60 + (potion.quality - 4) * 40
 
 				..()
 
