@@ -58,8 +58,8 @@ obj/items/wearable/pets
 	destroyable  = 1
 	bonus        = NOENCHANT
 	scale        = 0.1
-//	useTypeStack = 1
-//	stackName    = "Pets:"
+	useTypeStack = 1
+	stackName    = "Pets:"
 
 	var
 		currentSize = 1
@@ -250,6 +250,7 @@ obj/items/wearable/pets
 		icon_state = "Avifors"
 		currentSize = 1
 		minSize     = 1
+		dropable    = 0
 
 
 obj/pet
@@ -545,6 +546,8 @@ obj/pet
 					                            /obj/items/treats/berry               = 20,
 					                            /obj/items/treats/sweet_berry         = 20,
 					                            /obj/items/treats/grape_berry         = 20,
+					                            /obj/items/seeds/daisy_seeds          = 10,
+					                            /obj/items/seeds/aconite_seeds        = 10,
 					                            /obj/items/treats/stick               = 25,))
 
 					var/obj/items/i = new prize (loc)
