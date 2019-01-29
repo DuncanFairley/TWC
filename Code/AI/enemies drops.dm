@@ -86,8 +86,8 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 
 
 "Rat"                = list("5"    = /obj/items/ingredients/rat_tail),
-"Dog"                = list("1"    = /obj/items/ingredients/eyes),
-"Wolf"               = list("2"    = /obj/items/ingredients/eyes),
+"Dog"                = list("2"    = /obj/items/ingredients/eyes),
+"Wolf"               = list("4"    = /obj/items/ingredients/eyes),
 
 "Demon Rat"          = list("10"   = list(/obj/items/demonic_essence,
                                           /obj/items/ingredients/rat_tail)),
@@ -142,8 +142,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 "Floating Eye"       = list("0.02" =      /obj/items/wearable/title/Eye,
 							"0.5"  = list(/obj/items/wearable/orb/peace,
 							              /obj/items/wearable/orb/chaos,
-							              /obj/items/wearable/orb/magic),
-							"8"    =      /obj/items/ingredients/eyes),
+							              /obj/items/wearable/orb/magic)),
 
 
 "Troll"              = list("5"    = list(/obj/items/Whoopie_Cushion,
