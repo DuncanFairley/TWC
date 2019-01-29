@@ -1869,8 +1869,15 @@ mob/Player
 			MP = min(MP + regen, MMP)
 			updateMP()
 
-		if(monsterDef > 0 && ismonster(attacker))
-			dmg *= 1 - min(monsterDef/100, 0.75)
+		if(ismonster(attacker))
+			if(monsterDef > 0)
+				dmg *= 1 - min(monsterDef/100, 0.75)
+
+			if(passives & SHIELD_MPDAMAGE)
+				var/r = min(dmg * 0.3, MP)
+				dmg -= r
+				MP -= r
+				updateMP()
 
 		dmg = round(dmg, 1)
 		HP -= dmg

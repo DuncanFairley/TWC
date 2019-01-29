@@ -4760,6 +4760,14 @@ obj/items/wearable/shield/selfdamage
 	suffix = "<span style=\"color:#ffa500;\">No damage from your own projectiles.</span>"
 	passive = SHIELD_SELFDAMAGE
 
+obj/items/wearable/shield/psychic
+	icon='trophies.dmi'
+	icon_state="Shield"
+	name="Psychic's shield"
+	desc="Psychic's shield, 30% of damage is taken to mana before health."
+	suffix = "<span style=\"color:#ffa500;\">30% of damage is taken to mana before health.</span>"
+	passive = SHIELD_MPDAMAGE
+
 obj/items/wearable/sword
 	bonus  = 0
 	socket = 0

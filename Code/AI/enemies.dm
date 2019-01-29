@@ -732,8 +732,8 @@ mob
 				if(killer.pet)
 					killer.pet.fetch(t)
 
-			var/base = worldData.baseChance * clamp(1 + (level - killer.level) / 200, 0.1, 20) * clamp(level/100, 0.1, 20)
-			if(level < killer.level) base *= (level / 800) * 0.4
+			var/base = worldData.baseChance * clamp(1 + (level - killer.level) / 200, 0.1, 20) * clamp(level/200, 0.1, 20)
+			if(level <= killer.level) base *= (level / 800) * 0.4
 
 			if(prize)
 				sparks = 1
