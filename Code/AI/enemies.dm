@@ -682,7 +682,7 @@ mob
 			if(isElite)
 				rate += 1
 				var/obj/items/elite/e = new (loc)
-				e.level = level/50
+				e.level = round(level/50)
 				e.name  = "sword of might: level [e.level]"
 				e.prizeDrop(killer.ckey, decay=1)
 				killer << infomsg("<i>[name] dropped [e.name]</i>")
@@ -770,9 +770,9 @@ mob
 				sparks = 1
 				prize = pickweight(list(/obj/items/crystal/defense = 1,
 										/obj/items/crystal/damage  = 1,
-										/obj/items/crystal/luck    = 3))
+										/obj/items/crystal/luck    = 1))
 
-				prize = new prize (loc, level/50)
+				prize = new prize (loc, round(level/50))
 				prize.prizeDrop(killer.ckey, decay=1)
 				killer << infomsg("<i>[name] dropped [prize.name]</i>")
 				if(killer.pet)
@@ -785,8 +785,6 @@ mob
 				prize.prizeDrop(killer.ckey, decay=1)
 				killer << colormsg("<i>[name] dropped [prize.name]</i>", "#FFA500")
 				killer.pity = 0
-			else
-				killer.pity += base/300
 
 			if(sparks)
 				emit(loc    = loc,
@@ -795,6 +793,9 @@ mob
 				 	 angle  = new /Random(0, 360),
 				 	 speed  = 5,
 				 	 life   = new /Random(4,8))
+			else
+				killer.pity += base/300
+
 			damage = null
 
 		proc/state()
