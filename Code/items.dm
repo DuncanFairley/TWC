@@ -13,6 +13,7 @@ mob/Player/var
 		monsterDmg = 0
 		monsterDef = 0
 		dropRate   = 0
+		noOverlays = 0
 
 
 area
@@ -474,7 +475,7 @@ obj/items/wearable
 	Compare(obj/items/i)
 		. = ..()
 
-		return . && i:bonus == bonus && i:quality == quality
+		return . && i:bonus == bonus && i:quality == quality && i:socket == socket
 
 	Clone()
 		var/obj/items/wearable/w = ..()
@@ -613,7 +614,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.monsterDef -= monsterDef
 		return REMOVED
 	else
-		if(showoverlay && !owner.trnsed && !owner.animagusOn)
+		if(showoverlay && !owner.trnsed && !owner.noOverlays)
 			var/image/o = new
 			o.icon = src.icon
 			o.layer = wear_layer
@@ -1213,7 +1214,7 @@ obj/items/wearable/brooms
 		if(!forceremove && !(src in owner.Lwearing) && owner.findStatusEffect(/StatusEffect/Knockedfrombroom))
 			owner << errormsg("You can't get back on your broom right now because you were recently knocked off.")
 			return
-		if(!(src in owner.Lwearing) && (owner.trnsed || owner.animagusOn))
+		if(!(src in owner.Lwearing) && (owner.trnsed || owner.noOverlays))
 			owner << errormsg("You can't fly while transfigured.")
 			return
 		if(owner.findStatusEffect(/StatusEffect/Potions/Vampire))
@@ -4642,9 +4643,6 @@ obj/items/money
 	canAuction = FALSE
 
 	var/factor = 1
-
-//	useTypeStack = 1
-//	name = "Money:"
 
 	platinum
 		icon_state = "platinum"

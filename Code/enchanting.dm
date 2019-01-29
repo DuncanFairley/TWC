@@ -296,7 +296,7 @@ obj
 
 				if(attacker)
 					attacker.checkQuestProgress("Enchant")
-					attacker.Alchemy.add(rand(4,6)*20, attacker, 1)
+					attacker.Alchemy.add(rand(9,12)*200, attacker, 1)
 
 				spawn(1)
 					emit(loc    = src,
@@ -376,16 +376,22 @@ obj/items/crystal
 			var/obj/items/wearable/w = over_object
 			var/mob/Player/p = usr
 			var/obj/items/crystal/s = stack > 1 ? Split(1) : src
+
+			var/worn = 0
 			if(w in p.Lwearing)
+				worn = 1
 				w.Equip(p, 1)
-				w.socket = s
+
+			w = w.stack > 1 ? w.Split(1) : w
+
+			w.socket = s
+			if(worn)
 				w.Equip(p, 1)
-			else
-				w.socket = s
+
 			if(s == src)
 				loc = null
 				Unmacro(p)
-				p.Resort_Stacking_Inv()
+			p.Resort_Stacking_Inv()
 			usr << infomsg("You insert [name] in [w.name]")
 		else
 			..()
@@ -419,7 +425,6 @@ obj/items/crystal
 		name  = "magic crystal"
 		icon_state = "magic"
 		bonus = 3
-		luck  = 5
 		Dmg = 10
 		Def = 30
 	luck
