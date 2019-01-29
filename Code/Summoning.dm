@@ -28,10 +28,10 @@ obj/summon
 		icon_state = "snake"
 	phoenix
 		icon_state = "bird"
-		level = 200
+		level = 150
 	stickman
 		icon_state = "stickman"
-		level = 300
+		level = 200
 
 	New(loc, mob/Player/p, spell, size=0)
 		set waitfor = 0
@@ -40,10 +40,10 @@ obj/summon
 		summoner = p
 		cast = spell
 
-		level   += p.level + p.Summoning.level*5
-		MHP      = 6 * (level) + 200
+		level   += p.level + p.Summoning.level
+		MHP      = 4 * (level) + 200
 		HP       = MHP
-		duration = 600 + p.Summoning.level*10
+		duration = 450 + p.Summoning.level*10
 
 		if(!p.Summons) p.Summons = list()
 		p.Summons += src
@@ -176,11 +176,7 @@ obj/summon
 
 									summoner.Summoning.add(exp2give, summoner, 1)
 							else
-
-								dmg = e.Dmg*0.5
-
-								if(summoner.monsterDef > 0)
-									dmg *= 1 - summoner.monsterDef/100
+								dmg = e.Dmg*0.6
 
 								HP -= dmg
 								if(HP <= 0)	break
@@ -191,7 +187,7 @@ obj/summon
 
 					else
 						var/mob/Player/p = target
-						var/dmg = p.onDamage(level, summoner)
+						var/dmg = p.onDamage(level - 100, summoner)
 						target << "<span style='color:red'>[src] attacks you for [dmg] damage!</span>"
 						if(p.HP <= 0)
 							target = null
