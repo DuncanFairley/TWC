@@ -965,25 +965,31 @@ mob/Player
 
 	proc/ApplyOverlays(ignoreBonus = 1)
 		src.overlays = list()
-		if(Lwearing)
-			var/mob/Player/var/list/tmpwearing = Lwearing
-			Lwearing = list()
 
-			if(!ignoreBonus)
-				clothDmg = 0
-				clothDef = 0
+		if(Lwearing && !trnsed && !noOverlays)
 
-			for(var/obj/items/wearable/W in tmpwearing)
-				var/b = W.bonus
+			if(ignoreBonus)
+				if(!trnsed && !noOverlays)
+					for(var/obj/items/wearable/W in Lwearing)
+						if(W.showoverlay)
+							var/image/o = new
+							o.icon = W.icon
+							o.layer = W.wear_layer
 
-				W.bonus = -1
-				W.Equip(src,1)
-				W.bonus = b
+							overlays += o
+			else
+				var/mob/Player/var/list/tmpwearing = Lwearing
+				Lwearing = list()
 
-				if(!ignoreBonus)
+				for(var/obj/items/wearable/W in tmpwearing)
+					var/b = W.bonus
+
+					W.bonus = -1
+					W.Equip(src,1)
+					W.bonus = b
+
 					W.calcBonus(src, 0)
 
-			if(!ignoreBonus)
 				resetMaxHP()
 
 		if(src.away)
