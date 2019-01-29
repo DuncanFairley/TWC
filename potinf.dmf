@@ -1098,6 +1098,7 @@ window "outputwindow"
 		size = 600x533
 		anchor1 = none
 		anchor2 = none
+		background-color = none
 		saved-params = "pos;size;is-minimized;is-maximized"
 		titlebar = false
 		statusbar = false
@@ -1105,40 +1106,10 @@ window "outputwindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
-	elem "input"
-		type = INPUT
-		pos = 0,512
-		size = 530x20
-		anchor1 = 0,100
-		anchor2 = 100,100
-		background-color = #d3b5b5
-		is-default = true
-		border = sunken
-		saved-params = "command"
-	elem "saybutton"
-		type = BUTTON
-		pos = 530,512
-		size = 40x20
-		anchor1 = 100,100
-		anchor2 = none
-		saved-params = "is-checked"
-		text = "Chat"
-		command = ".winset \"saybutton.is-checked=true?input.command=\"!say \\\"\" macrobutton.is-checked=false:input.command=\""
-		button-type = pushbox
-	elem "macrobutton"
-		type = BUTTON
-		pos = 570,512
-		size = 30x20
-		anchor1 = 100,100
-		anchor2 = none
-		saved-params = "is-checked"
-		text = "Alt"
-		command = ".winset \"macrobutton.is-checked=true?input.command=\"!.alt \" saybutton.is-checked=false:input.command=\""
-		button-type = pushbox
 	elem "output"
 		type = OUTPUT
 		pos = 0,0
-		size = 600x510
+		size = 600x512
 		anchor1 = 0,0
 		anchor2 = 100,100
 		font-family = "Arial,sans-serif"
@@ -1147,6 +1118,67 @@ window "outputwindow"
 		is-default = true
 		saved-params = "max-lines"
 		link-color = #3636f5
+	elem "buttonOOC"
+		type = BUTTON
+		pos = 0,472
+		size = 56x20
+		anchor1 = 0,100
+		anchor2 = none
+		background-color = none
+		is-visible = false
+		saved-params = "is-checked"
+		text = "OOC"
+		command = ".winset \"buttonChat.Text=OOC;input.command=\"OOC \\\"\""
+		is-checked = true
+		group = "chat"
+		button-type = pushbox
+	elem "buttonSay"
+		type = BUTTON
+		pos = 0,452
+		size = 56x20
+		anchor1 = 0,100
+		anchor2 = none
+		background-color = none
+		is-visible = false
+		saved-params = "is-checked"
+		text = "Say"
+		command = ".winset \"buttonChat.Text=Say;input.command=\"Say \\\"\""
+		group = "chat"
+		button-type = pushbox
+	elem "buttonCommand"
+		type = BUTTON
+		pos = 0,492
+		size = 56x20
+		anchor1 = 0,100
+		anchor2 = none
+		background-color = none
+		is-visible = false
+		saved-params = "is-checked"
+		text = "Command"
+		command = ".winset \"buttonChat.Text=Command;input.command=\""
+		group = "chat"
+		button-type = pushbox
+	elem "buttonChat"
+		type = BUTTON
+		pos = 0,512
+		size = 56x20
+		anchor1 = 0,100
+		anchor2 = none
+		background-color = none
+		saved-params = "is-checked"
+		text = "OOC"
+		command = ".winset \"buttonOOC.is-visible=true?buttonOOC.is-visible=false buttonSay.is-visible=false buttonCommand.is-visible=false:buttonOOC.is-visible=true buttonSay.is-visible=true buttonCommand.is-visible=true\""
+	elem "input"
+		type = INPUT
+		pos = 56,512
+		size = 544x20
+		anchor1 = 0,100
+		anchor2 = 100,100
+		background-color = #d3b5b5
+		is-default = true
+		border = line
+		saved-params = "command"
+		command = "OOC "
 
 window "rpane"
 	elem "rpane"
@@ -1485,7 +1517,6 @@ window "winSettings"
 		size = 256x302
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		is-visible = false
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "Settings"
@@ -1499,7 +1530,6 @@ window "winSettings"
 		size = 127x24
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		saved-params = "is-checked"
 		text = "Hide screen objects"
 		command = ".hideHud"
@@ -1510,7 +1540,6 @@ window "winSettings"
 		size = 60x20
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		saved-params = ""
 		text = "Colors:"
 	elem "buttonForeColor"
@@ -1519,7 +1548,6 @@ window "winSettings"
 		size = 72x28
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "Foreground"
@@ -1531,7 +1559,6 @@ window "winSettings"
 		size = 72x28
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "Background"
@@ -1543,7 +1570,6 @@ window "winSettings"
 		size = 88x28
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "On-Screen Text"
@@ -1555,7 +1581,6 @@ window "winSettings"
 		size = 119x24
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		saved-params = "is-checked"
 		text = "Hide quest tracker"
 		command = ".QuestTrackertoggle"
@@ -1566,7 +1591,6 @@ window "winSettings"
 		size = 247x24
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable automatic AFK (Use at your own risk!)"
 		command = ".AFKtoggle"
@@ -1577,7 +1601,6 @@ window "winSettings"
 		size = 232x24
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable sounds (PMs, Events, Classes etc)"
 		command = ".Soundtoggle"
@@ -1588,7 +1611,6 @@ window "winSettings"
 		size = 200x20
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		saved-params = "is-checked"
 		text = "Block trade requests                       "
 		command = ".Tradetoggle"
@@ -1599,7 +1621,6 @@ window "winSettings"
 		size = 239x20
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving flashing event notifications"
 		command = ".EventNotificationstoggle"
@@ -1610,7 +1631,6 @@ window "winSettings"
 		size = 240x24
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving monster attack messages  "
 		command = ".MonsterMessagestoggle"
@@ -1621,7 +1641,6 @@ window "winSettings"
 		size = 239x20
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving flashing class notifications"
 		command = ".ClassNotificationstoggle"
@@ -1632,7 +1651,6 @@ window "winSettings"
 		size = 126x20
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable Housechat"
 		command = ".Housechattoggle"
@@ -1643,7 +1661,6 @@ window "winSettings"
 		size = 200x20
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving private messages"
 		command = ".PMtoggle"
@@ -1654,7 +1671,6 @@ window "winSettings"
 		size = 96x20
 		anchor1 = none
 		anchor2 = none
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable OOC"
 		command = ".OOCtoggle"
