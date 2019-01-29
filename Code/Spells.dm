@@ -706,7 +706,7 @@ mob
 	Player/var/tmp/antifigura = 0
 	proc
 		CanTrans(mob/Player/p)
-			if(p.animagusOn)
+			if(p.noOverlays)
 				src << errormsg("You can't transfigure [p].")
 				return 0
 			if(p.antifigura > 0)
@@ -1200,7 +1200,7 @@ mob/proc/Haha()
 
 mob/Player/proc/BaseIcon()
 
-	if(animagusOn) return
+	if(noOverlays) return
 
 	if(icon_state == "Crocodile")
 		transform = null
@@ -1870,15 +1870,16 @@ mob/Player
 			updateMP()
 
 		if(monsterDef > 0 && ismonster(attacker))
-			dmg *= 1 - monsterDef/100
+			dmg *= 1 - min(monsterDef/100, 0.75)
 
 		dmg = round(dmg, 1)
 		HP -= dmg
 		updateHP()
 
-		for(var/obj/summon/s in Summons)
-			if(!s.target)
-				s.target = attacker
+		if(attacker != src)
+			for(var/obj/summon/s in Summons)
+				if(!s.target)
+					s.target = attacker
 
 		return dmg
 
@@ -1951,6 +1952,44 @@ mob/Enemies
 	var/canBleed = TRUE
 	var/element
 
+	proc/onDamage(dmg, mob/Player/p, elem = 0)
+		HP -= dmg
+
+		if(HP <= 0)
+			Death_Check(p)
+
+			if(p.passives & SWORD_HEALONKILL)
+				p.HP = min(round(p.HP + MHP*0.15, 1), p.MHP)
+				p.updateHP()
+
+			if(elem != 0)
+
+				var/exp2give  = (rand(6,14)/10)*Expg
+
+				if(p.level > src.level && !p.findStatusEffect(/StatusEffect/Lamps/Farming))
+					exp2give  -= exp2give  * ((p.level-src.level)/150)
+
+					if(exp2give <= 0) return 1
+
+				if(p.House == worldData.housecupwinner)
+					exp2give  *= 1.25
+
+				var/StatusEffect/Lamps/Exp/exp_rate   = p.findStatusEffect(/StatusEffect/Lamps/Exp)
+
+				if(exp_rate)  exp2give  *= exp_rate.rate
+
+				if(elem == FIRE) p.Fire.add(exp2give, p)
+
+				else if(elem == WATER) p.Water.add(exp2give, p)
+
+				else if(elem == EARTH) p.Earth.add(exp2give, p)
+
+				else if(elem == GHOST) p.Ghost.add(exp2give, p)
+
+				return exp2give
+		return 0
+
+
 	Attacked(obj/projectile/p)
 
 		if(isplayer(p.owner))
@@ -1989,42 +2028,10 @@ mob/Enemies
 
 			p.owner << "Your [p] does [dmg] damage to [src]."
 
-			HP -= dmg
-
-			var/tmp_ekills = p.owner:ekills
-			Death_Check(p.owner)
-
-			if(p.owner:ekills > tmp_ekills)
-
-				if(p.owner:passives & SWORD_HEALONKILL)
-					p.owner.HP = min( round(p.owner.HP + MHP*0.15, 1), p.owner.MHP)
-					p.owner:updateHP()
+			var/exp2give = onDamage(dmg, p.owner, p.element)
+			if(exp2give > 0)
 
 				p.owner:learnSpell(p.name, 30)
-
-				if(p.element != 0)
-
-					var/exp2give  = (rand(6,14)/10)*Expg
-
-					if(p.owner.level > src.level && !p.owner.findStatusEffect(/StatusEffect/Lamps/Farming))
-						exp2give  -= exp2give  * ((p.owner.level-src.level)/150)
-
-						if(exp2give <= 0) return
-
-					if(p.owner:House == worldData.housecupwinner)
-						exp2give  *= 1.25
-
-					var/StatusEffect/Lamps/Exp/exp_rate   = p.owner.findStatusEffect(/StatusEffect/Lamps/Exp)
-
-					if(exp_rate)  exp2give  *= exp_rate.rate
-
-					if(p.element == FIRE) p.owner:Fire.add(exp2give, p.owner)
-
-					else if(p.element == WATER) p.owner:Water.add(exp2give, p.owner)
-
-					else if(p.element == EARTH) p.owner:Earth.add(exp2give, p.owner)
-
-					else if(p.element == GHOST) p.owner:Ghost.add(exp2give, p.owner)
 			else
 				for(var/obj/summon/s in p.owner:Summons)
 					if(!s.target)

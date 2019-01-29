@@ -112,30 +112,8 @@ mob/Player
 
 			src << "You do [dmg] damage to [e.name]."
 
-			e.HP -= dmg
-
-			var/tmp_ekills = ekills
-			e.Death_Check(src)
-			if(ekills > tmp_ekills)
-
-				if(passives & SWORD_HEALONKILL)
-					HP = min( round(HP + e.MHP*0.15, 1), MHP)
-					updateHP()
-
-				var/exp2give = (rand(6,14)/10)*e.Expg
-
-				if(level > e.level && !findStatusEffect(/StatusEffect/Lamps/Farming))
-					exp2give -= exp2give * ((level-e.level)/150)
-
-					if(exp2give <= 0) return
-
-				if(House == worldData.housecupwinner)
-					exp2give *= 1.25
-
-				var/StatusEffect/Lamps/Exp/exp_rate = findStatusEffect(/StatusEffect/Lamps/Exp)
-
-				if(exp_rate) exp2give *= exp_rate.rate
-
+			var/exp2give = e.onDamage(dmg, src)
+			if(exp2give > 1)
 				Animagus.add(exp2give, src, 1)
 
 	proc
@@ -143,6 +121,7 @@ mob/Player
 			set waitfor = 0
 
 			animagusOn = 1
+			noOverlays++
 
 			if(tickers & ANIMAGUS_TICK) return
 			tickers |= ANIMAGUS_TICK
@@ -167,6 +146,7 @@ mob/Player
 			set waitfor = 0
 
 			animagusOn = 0
+			noOverlays--
 
 			if((tickers & ANIMAGUS_RECOVER) > 0) return
 			tickers |= ANIMAGUS_RECOVER
