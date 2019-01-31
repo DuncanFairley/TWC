@@ -236,6 +236,8 @@ obj/items
 						c = "#00a5ff"
 					if(3)
 						c = "#ffa500"
+					if(4)
+						c = "#551a8b"
 
 
 				if(c)
@@ -4715,6 +4717,13 @@ obj/items/wearable/ring/aetherwalker_ring
 	desc="A magical ring that allows you apparate without cooldown."
 	suffix = "<span style=\"color:#ffa500;\">Apparate's cooldown will be replaced with increased mana cost.</span>"
 	passive = RING_APPARATE
+
+obj/items/wearable/ring/ring_of_displacement
+	icon='ammy.dmi'
+	icon_state="snow"
+	desc="A magical ring that allows you to walk through monsters."
+	suffix = "<span style=\"color:#ffa500;\">Allows you to walk through monsters.</span>"
+	passive = RING_DISPLACEMENT
 
 obj/items/wearable/shield
 	bonus  = 0

@@ -50,7 +50,7 @@
 // passives
 #define RING_WATERWALK 1
 #define RING_APPARATE 2
-#define RING_3 4
+#define RING_DISPLACEMENT 4
 #define RING_4 8
 #define RING_5 16
 

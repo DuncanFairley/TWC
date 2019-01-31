@@ -81,50 +81,57 @@ mob/Player
 			O.Move(loc)
 			Move(tmpLoc)
 			O.density = 1
-		else if(animagusOn && ismonster(O))
-			if(world.time - lastproj < 2) return
-			lastproj = world.time
+		else if(ismonster(O))
+			if(animagusOn)
+				if(world.time - lastproj < 2) return
+				lastproj = world.time
 
-			var/mob/Enemies/e = O
+				var/mob/Enemies/e = O
 
-			var/dmg = round(rand(10) + (Dmg + clothDmg + Slayer.level) * (1.3 + Animagus.level/100), 1)
+				var/dmg = round(rand(10) + (Dmg + clothDmg + Slayer.level) * (1.3 + Animagus.level/100), 1)
 
-			if(monsterDmg > 0)
-				dmg *= 1 + monsterDmg/100
+				if(monsterDmg > 0)
+					dmg *= 1 + monsterDmg/100
 
-			if(e.canBleed)
-				var/n = dir2angle(get_dir(O, src))
-				emit(loc    = e,
-					 ptype  = /obj/particle/fluid/blood,
-				     amount = 4,
-				     angle  = new /Random(n - 25, n + 25),
-				     speed  = 2,
-				     life   = new /Random(15,25))
+				if(e.canBleed)
+					var/n = dir2angle(get_dir(O, src))
+					emit(loc    = e,
+						 ptype  = /obj/particle/fluid/blood,
+					     amount = 4,
+					     angle  = new /Random(n - 25, n + 25),
+					     speed  = 2,
+					     life   = new /Random(15,25))
 
-			var/angle = dir2angle(dir)
-			var/px = round(6  * cos(angle), 1)
-			var/py = round(-6 * sin(angle), 1)
-			pixel_x += px
-			pixel_y += py
-			sleep(2)
-			pixel_x -= px
-			pixel_y -= py
+				var/angle = dir2angle(dir)
+				var/px = round(6  * cos(angle), 1)
+				var/py = round(-6 * sin(angle), 1)
+				pixel_x += px
+				pixel_y += py
+				sleep(2)
+				pixel_x -= px
+				pixel_y -= py
 
-			src << "You do [dmg] damage to [e.name]."
+				src << "You do [dmg] damage to [e.name]."
 
-			var/exp2give = e.onDamage(dmg, src)
-			if(exp2give > 1)
-				Animagus.add(exp2give, src, 1)
-
+				var/exp2give = e.onDamage(dmg, src)
+				if(exp2give > 1)
+					Animagus.add(exp2give, src, 1)
+			else if(passives & RING_DISPLACEMENT)
+				var/tmpLoc = O.loc
+				O.density = 0
+				O.Move(loc)
+				Move(tmpLoc)
+				O.density = 1
 	proc
 		AnimagusTick(hudobj/Animagus/a)
 			set waitfor = 0
 
 			animagusOn = 1
-			noOverlays++
 
 			if(tickers & ANIMAGUS_TICK) return
 			tickers |= ANIMAGUS_TICK
+
+			noOverlays++
 
 			HPRegen()
 
@@ -140,13 +147,14 @@ mob/Player
 					ApplyOverlays()
 					break
 
+			noOverlays--
+
 			tickers &= ~ANIMAGUS_TICK
 
 		AnimagusRecover(hudobj/Animagus/a)
 			set waitfor = 0
 
 			animagusOn = 0
-			noOverlays--
 
 			if((tickers & ANIMAGUS_RECOVER) > 0) return
 			tickers |= ANIMAGUS_RECOVER
