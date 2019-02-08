@@ -425,6 +425,10 @@ mob
 				last_y = t.y
 				last_z = t.z
 
+			if(savefile_version < 44)
+				p.Spellcrafting = new("Spellcrafting")
+				p.TreasureHunting = new("Treasure Hunting")
+
 
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")

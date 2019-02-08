@@ -71,6 +71,7 @@ obj
 	farm
 		appearance_flags = PIXEL_SCALE|TILE_BOUND
 		canSave = 0
+		density = 1
 
 		var
 			hp    = 20000
@@ -165,7 +166,6 @@ obj
 			name       = "Rocks"
 			icon       = 'Moss_Rocks.dmi'
 			icon_state = "1"
-			density    = 1
 
 			hp    = 40000
 			maxhp = 40000
@@ -214,7 +214,6 @@ obj
 		tree
 			name       = "Tree"
 			icon       = 'BigTree.dmi'
-			density    = 1
 			pixel_x    = -64
 			pixel_y    = 0
 			layer      = 5

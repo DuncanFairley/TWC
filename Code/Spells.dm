@@ -1812,7 +1812,8 @@ mob/Player/var/element
 	Slayer
 	Animagus
 	Summoning
-
+	Spellcrafting
+	TreasureHunting
 
 element
 	var
@@ -2743,7 +2744,11 @@ mob/Player
 				m:Bombarda()
 			if("Gladius")
 				m:Gladius()
-
+			if("Spellbook")
+				if(!m:usedSpellbook)
+					lastAttack = "Inflamari"
+				else
+					m:usedSpellbook.cast(m)
 
 mob/Player/var/cooldownModifier = 1
 mob/Player/var/tmp/passives = 0

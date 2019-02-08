@@ -46,7 +46,9 @@ hudobj
 
 					var/action = parent.UsedKeys[key]
 					if(action)
-						if(isobj(action))
+						if(parent.usedSpellbook == action)
+							parent.usedSpellbook.cast(parent)
+						else if(isobj(action))
 							var/obj/o = action
 							usr=parent
 							o.Click()
@@ -131,7 +133,9 @@ mob/Player
 
 			var/action = UsedKeys[k]
 			if(action)
-				if(isobj(action))
+				if(usedSpellbook == action)
+					usedSpellbook.cast(src)
+				else if(isobj(action))
 					var/obj/o = action
 					usr=src
 					o.Click()

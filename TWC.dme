@@ -114,6 +114,7 @@
 #include "Code\Shops.dm"
 #include "Code\signs.dm"
 #include "Code\Spellbook.dm"
+#include "Code\Spellcrafting.dm"
 #include "Code\Spells.dm"
 #include "Code\SQL.dm"
 #include "Code\StatusEffects.dm"

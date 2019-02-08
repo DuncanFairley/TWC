@@ -411,9 +411,6 @@ StatusEffect
 			.=..()
 
 		Activate()
-			var/mob/Player/p = AttachedAtom
-			if(p)
-				p.noOverlays++
 			..()
 
 		Deactivate()
@@ -447,6 +444,9 @@ StatusEffect
 
 		Polyjuice
 			Activate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.noOverlays++
 				..()
 
 			Deactivate()

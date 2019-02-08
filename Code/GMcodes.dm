@@ -1914,6 +1914,7 @@ world/New()
 	MapInitialized()
 	awardcup(0)
 	InitSandbox()
+	InitLootDrop()
 
 //	worldlooper()
 world/proc/Load_Bans()
