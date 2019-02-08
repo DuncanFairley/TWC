@@ -2376,6 +2376,9 @@ obj/items/wearable/title
 	Frozen
 		title = "Frozen"
 		name  = "Title: Frozen"
+	Wrecker
+		title = "Wrecker"
+		name  = "Title: Wrecker"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
