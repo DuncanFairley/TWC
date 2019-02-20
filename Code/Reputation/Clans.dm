@@ -249,7 +249,7 @@ obj/items/wearable/masks
 				owner.prevname = owner.name
 				owner.gender   = NEUTER
 
-			if(n == "Deatheater")
+			if(n == "Deatheater" && !owner.trnsed && !owner.noOverlays)
 				owner.icon = 'Deatheater.dmi'
 				owner.trnsed = 1
 				owner.overlays = null

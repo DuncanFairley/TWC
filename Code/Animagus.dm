@@ -140,14 +140,13 @@ mob/Player
 				sleep(20 + Animagus.level*2)
 
 				if(animagusPower <= 0)
+					noOverlays--
 					a.color = null
 					AnimagusRecover(a)
 					BaseIcon()
 					flick("transfigure", src)
 					ApplyOverlays()
 					break
-
-			noOverlays--
 
 			tickers &= ~ANIMAGUS_TICK
 
@@ -208,6 +207,7 @@ hudobj
 
 				flick("transfigure", p)
 			else
+				p.noOverlays--
 				color = null
 				p.AnimagusRecover(src)
 				p.BaseIcon()
