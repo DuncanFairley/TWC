@@ -57,7 +57,7 @@
 #define SHIELD_MP 32
 #define SHIELD_SELFDAMAGE 64
 #define SHIELD_MPDAMAGE 128
-#define SHIELD_4 256
+#define SHIELD_GOLD 256
 #define SHIELD_5 512
 
 #define SWORD_FIRE 1024
@@ -74,6 +74,7 @@
 #define FIRE  2
 #define WATER 4
 #define GHOST 8
+#define HEAL 16
 
 #define SWAMP  1
 #define SHIELD 2

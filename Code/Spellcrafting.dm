@@ -5,28 +5,25 @@
  * For the full license text, see LICENSE.txt.
  */
 
-
-/*
-
-6. construct name
-7. add items that modify it
-
-*/
-
-
 #define PROJ 1
-#define AREA 2
+#define ARUA 2
 #define EXPLOSION 4
+
+
+#define PAGE_DAMAGETAKEN 64
+
+#define PAGE_DMG1 4096
 
 mob/Player/var/tmp/obj/items/wearable/spellbook/usedSpellbook
 
 obj/items/wearable/spellbook
 	var
-		cd      = 0
-		damage  = 0
-		flags   = 0
-		element = 0
-		mpCost  = 0
+		cd        = 1
+		damage    = 1
+		spellType = 0
+		flags     = 0
+		element   = 0
+		mpCost    = 1
 
 		tmp/lastUsed = 0
 
@@ -36,9 +33,12 @@ obj/items/wearable/spellbook
 	rarity = 4
 	showoverlay = FALSE
 
+	name = "spellbook \[Incomplete]"
+
 	Compare(obj/items/i)
 		. = ..()
-		return flags == 0 ? . : 0
+
+		return (flags == 0 && element == 0 && spellType == 0) ? . : 0
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= 100)
@@ -52,7 +52,7 @@ obj/items/wearable/spellbook
 				owner.usedSpellbook.Equip(owner,1,1)
 			owner.usedSpellbook = src
 
-			if(flags != PROJ && owner.lastAttack == "Spellbook")
+			if(spellType != PROJ && owner.lastAttack == "Spellbook")
 				owner.lastAttack = "Inflamari"
 
 		else if(. == REMOVED)
@@ -62,16 +62,16 @@ obj/items/wearable/spellbook
 	MouseEntered(location,control,params)
 		if((src in usr) && usr:infoBubble)
 
-			if(flags == 0)
+			if(spellType == 0)
 				winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"Blank spell book, what spells can you come up with?\"")
 				winshowRight(usr, "infobubble")
 			else
 				var/t
 
-				switch(flags)
+				switch(spellType)
 					if(EXPLOSION)
 						t = "Explosion"
-					if(AREA)
+					if(ARUA)
 						t = "Aura"
 					if(PROJ)
 						t = "Projectile"
@@ -89,7 +89,7 @@ obj/items/wearable/spellbook
 							e = "Earth"
 						if(GHOST)
 							e = "Ghost"
-				var/info = "Type: [t]\nElement: [e]\nPower: [damage]\nMP: [mpCost]\nCooldown:[cd/10] seconds"
+				var/info = "Type: [t]\nElement: [e]\nPower: [damage*100]%\nMP: [mpCost]\nCooldown:[cd/10] seconds"
 
 				winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[info]\"")
 				winshowRight(usr, "infobubble")
@@ -101,10 +101,55 @@ obj/items/wearable/spellbook
 		else
 			usr << errormsg("You have to equip this to cast.")
 
+	proc/fixName()
+
+		var/e
+		switch(element)
+			if(FIRE)
+				e = "Fire"
+			if(WATER)
+				e = "Water"
+			if(EARTH)
+				e = "Earth"
+			if(GHOST)
+				e = "Ghost"
+			if(HEAL)
+				e = "Healing"
+		var/t
+
+		switch(spellType)
+			if(EXPLOSION)
+				t = "Explosion"
+			if(ARUA)
+				t = "Aura"
+			if(PROJ)
+				t = "Projectile"
+
+		if(t == null || e == null)
+			name = "spellbook \[Incomplete]"
+
+		else
+			name = "[e] [t]"
+
+			if(flags & PAGE_DMG1)
+				name = "Strong [name]"
+
+			if(flags & PAGE_DAMAGETAKEN)
+				name = "Defensive [name]"
+
 	proc/cast(mob/Player/p, mob/attacker)
 		set waitfor = 0
-		if(world.time - lastUsed <= cd)
-			if(cd > 10)
+
+		if(element == 0 || spellType == 0)
+			p << errormsg("This spell book is incomplete.")
+			return
+
+		if((flags & PAGE_DAMAGETAKEN) && !attacker)
+			p << errormsg("You can't directly cast this spell, you have to be attacked.")
+			return
+
+		if(world.time - lastUsed <= cd*p.cooldownModifier)
+			if(cd > 10 && !attacker)
 				var/timeleft = ceil((lastUsed+cd - world.time)/10)
 				p << "<b>This can't be used for another [timeleft] second[timeleft==1 ? "" : "s"].</b>"
 			return
@@ -117,33 +162,37 @@ obj/items/wearable/spellbook
 
 		lastUsed = world.time
 
-		var/dmg = damage
+		var/dmg = p.Dmg * damage
 
 		var/state
-		if(damage < 0)
-			state = "heal"
-		else
-			dmg += p.Dmg
-			switch(element)
-				if(FIRE)
-					state = "fireball"
-					dmg += p.Fire.level
-				if(WATER)
-					state = "aqua"
-					dmg += p.Water.level
-				if(EARTH)
-					state = "quake"
-					dmg += p.Earth.level
-				if(GHOST)
-					state = "gum"
-					dmg += p.Ghost.level
+		switch(element)
+			if(FIRE)
+				state = "fireball"
+				dmg += p.Fire.level
+			if(WATER)
+				state = "aqua"
+				dmg += p.Water.level
+			if(EARTH)
+				state = "quake"
+				dmg += p.Earth.level
+			if(GHOST)
+				state = "gum"
+				dmg += p.Ghost.level
+			if(HEAL)
+				state = "healing"
 
-		if(flags & EXPLOSION)
+		if(spellType == EXPLOSION)
 			for(var/d in DIRS_LIST)
 				p.castproj(icon_state = state, damage = dmg*0.75, name = name, cd = 0, lag = 1, element = element, Dir=d)
-		else if(flags & PROJ)
-			p.castproj(icon_state = state, damage = dmg, name = name, cd = cd, element = element)
-			p.lastAttack = "Spellbook"
+		else if(spellType == PROJ)
+			p.castproj(icon_state = state, damage = dmg, name = name, cd = cd, element = element, Dir = attacker ? get_dir(p, attacker) : p.dir)
+			if(!attacker) p.lastAttack = "Spellbook"
+		else if(element == HEAL)
+			p.HP = min(p.MHP, p.HP + dmg)
+			p.updateHP()
+			p.overlays+=image('attacks.dmi', icon_state = "heal")
+			sleep(10)
+			p.overlays-=image('attacks.dmi', icon_state = "heal")
 		else
 			var/mutable_appearance/ma = new
 
@@ -185,13 +234,12 @@ obj/items/spellpage
 	icon_state = "magic"
 
 	var
-		cd      = 0
-		damage  = 0
+		cd      = 1
+		damage  = 1
+		spellType = 0
 		flags   = 0
 		element = 0
-		mpCost  = 0
-
-		multi = 0
+		mpCost  = 1
 
 	Click()
 		if(src in usr)
@@ -200,44 +248,79 @@ obj/items/spellpage
 				p << errormsg("You need to have a spell book equipped.")
 				return
 
-			if(element)
-				if(p.usedSpellbook.element == element)
-					p << errormsg("This spell book is already using this page.")
-					return
+			if(spellType)
+				p.usedSpellbook.spellType = spellType
 
-				p.usedSpellbook.element = element
+				p.usedSpellbook.flags = 0
+				p.usedSpellbook.cd = cd
+				p.usedSpellbook.mpCost = mpCost
+				p.usedSpellbook.damage = damage
+			else
+				if(element)
+					if(p.usedSpellbook.element == element)
+						p << errormsg("This spell book is already using this page.")
+						return
 
-			else if(damage == -1)
-				if(p.usedSpellbook.damage < 0)
-					p << errormsg("This spell book is already using this page.")
-					return
+					p.usedSpellbook.element = element
 
-				p.usedSpellbook.damage *= -1
+				if(flags > 0)
 
-			if(flags > 0)
+					if(p.usedSpellbook.flags & flags)
 
-				if(p.usedSpellbook.flags & flags)
+						p << errormsg("This spell book is already using this page.")
+						return
 
-					p << errormsg("This spell book is already using this page.")
-					return
+					p.usedSpellbook.flags |= flags
 
-				p.usedSpellbook.flags |= flags
-
-			if(multi)
 				p.usedSpellbook.cd *= cd
 				p.usedSpellbook.mpCost *= mpCost
-				if(damage != -1)
-					p.usedSpellbook.damage *= damage
-			else
-				p.usedSpellbook.cd += cd
-				p.usedSpellbook.mpCost += mpCost
-				if(damage != -1)
-					p.usedSpellbook.damage += damage
+				p.usedSpellbook.damage *= damage
+
+			p.usedSpellbook.fixName()
+
+			Consume()
 
 		else
 			..()
 
-
+	proj
+		name = "Spell Page: \[Projectile]"
+		spellType = PROJ
+		cd = 2
+		mpCost = 10
+	explosion
+		name = "Spell Page: \[Explosion]"
+		spellType = EXPLOSION
+		cd = 150
+		mpCost = 450
+	aura
+		name = "Spell Page: \[Aura]"
+		spellType = ARUA
+		cd = 150
+		mpCost = 300
+	fire
+		name = "Spell Page: \[Fire]"
+		element = FIRE
+	water
+		name = "Spell Page: \[Water]"
+		element = WATER
+	ghost
+		name = "Spell Page: \[Ghost]"
+		element = GHOST
+	earth
+		name = "Spell Page: \[Earth]"
+		element = EARTH
+	heal
+		name = "Spell Page: \[Heal]"
+		element = HEAL
+	damagetaken
+		name = "Spell Page: \[Cast On Damage Taken]"
+		flags = PAGE_DAMAGETAKEN
+	damage1
+		name = "Spell Page: \[Strong]"
+		flags = PAGE_DMG1
+		damage = 1.5
+		cd = 3
 
 obj
 	lootdrop
@@ -247,6 +330,7 @@ obj
 
 		icon       = 'turf.dmi'
 		icon_state = "barrels"
+		name = "Barrels"
 
 		var
 			origZ
@@ -279,10 +363,12 @@ obj
 
 				if(prob(10))
 					icon_state = "chest"
-		//		else if(prob(5))
-		//			icon_state = "spellcrafting"
+					name = "Chest"
+				else if(prob(5))
+					icon_state = "spellcrafting"
 				else
 					icon_state = "barrels"
+					name = "Barrels"
 
 				if(origRegion)
 					loc = pick(origRegion.lootSpawns)
@@ -296,6 +382,7 @@ obj
 						spawn() respawn()
 
 			drop(mob/Player/p)
+				if(density == 0) return
 				animate(src, transform = matrix()*2, alpha = 0, time = 5)
 				density = 0
 				var/sparks = 0
@@ -330,10 +417,21 @@ obj
 				var/base = worldData.baseChance * clamp(p.level/100, 0.1, 20)
 
 				if(icon_state == "spellcrafting" && prob(base * rate * 3))
-					var/prize = pickweight(list(/obj/items/wearable/title/Airbender   = 10,
-					                            /obj/items/wearable/title/Waterbender   = 10,
-					                            /obj/items/wearable/title/Firebender   = 10,
-					                            /obj/items/wearable/title/Earthbender   = 10))
+					var/prize = pick(/obj/items/wearable/title/Airbender,
+					                 /obj/items/wearable/title/Waterbender,
+					                 /obj/items/wearable/title/Firebender,
+					                 /obj/items/wearable/title/Earthbender,
+					                 /obj/items/spellpage/proj,
+									 /obj/items/spellpage/explosion,
+									 /obj/items/spellpage/aura,
+									 /obj/items/spellpage/fire,
+									 /obj/items/spellpage/water,
+									 /obj/items/spellpage/ghost,
+									 /obj/items/spellpage/earth,
+									 /obj/items/spellpage/heal,
+									 /obj/items/spellpage/damagetaken,
+									 /obj/items/spellpage/damage1,
+									 /obj/items/wearable/spellbook)
 
 					var/obj/items/i = new prize (loc)
 
@@ -393,7 +491,8 @@ obj
 				respawn()
 
 		Click()
-			drop(usr)
+			if(src in range(3))
+				drop(usr)
 
 		Attacked(obj/projectile/p)
 			if(icon_state == "barrels" && isplayer(p.owner))

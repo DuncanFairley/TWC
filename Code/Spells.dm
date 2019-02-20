@@ -1880,6 +1880,9 @@ mob/Player
 				MP -= r
 				updateMP()
 
+			if(usedSpellbook && (usedSpellbook.flags & PAGE_DAMAGETAKEN))
+				usedSpellbook.cast(src, attacker)
+
 		dmg = round(dmg, 1)
 		HP -= dmg
 		updateHP()
@@ -1894,6 +1897,15 @@ mob/Player
 
 	Attacked(obj/projectile/p, isReflected=0)
 		..()
+
+		if(p.element == HEAL)
+
+			HP = min(HP + p.damage, MHP)
+			updateHP()
+
+			p.owner << "Your [p] heals [src] for [p.damage]."
+			src << "[p.owner] heals you for [p.damage]."
+			return src
 
 		var/area/a = loc.loc
 		if(p.owner)
@@ -2000,7 +2012,7 @@ mob/Enemies
 
 	Attacked(obj/projectile/p)
 
-		if(isplayer(p.owner))
+		if(isplayer(p.owner) && p.element != HEAL)
 
 			var/dmg = p.damage + p.owner:Slayer.level
 
