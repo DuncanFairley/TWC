@@ -1385,7 +1385,7 @@ mob/Player
 				stat("Spellcrafting:", "[Spellcrafting.level]   Exp: [comma(Spellcrafting.exp)]/[comma(Spellcrafting.maxExp)] ([percent]%)")
 			if(TreasureHunting)
 				var/percent = round((TreasureHunting.exp / TreasureHunting.maxExp) * 100)
-				stat("Treasure Hunting:", "[Spellcrafting.level]   Exp: [comma(TreasureHunting.exp)]/[comma(TreasureHunting.maxExp)] ([percent]%)")
+				stat("Treasure Hunting:", "[TreasureHunting.level]   Exp: [comma(TreasureHunting.exp)]/[comma(TreasureHunting.maxExp)] ([percent]%)")
 			stat("House:",src.House)
 			if(level >= lvlcap && rankLevel)
 				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100)
@@ -1809,9 +1809,13 @@ mob/proc/Death_Check(mob/killer = src)
 						if(src.level < lvlcap)
 							src.Exp = round(src.Exp * 0.8)
 
-						var/gold/g = new(src)
-						var/goldLoss = g.toNumber() * 0.2
-						g.change(src, bronze=-goldLoss)
+						var/goldLoss
+						if(p.passives & SHIELD_GOLD)
+							goldLoss = 0
+						else
+							var/gold/g = new(src)
+							goldLoss = g.toNumber() * 0.2
+							g.change(src, bronze=-goldLoss)
 						new /obj/corpse (loc, src, goldLoss)
 
 					p.onDeath(loc, resurrect)
@@ -1983,7 +1987,8 @@ mob/Player/proc/resetMaxHP()
 	MHP = 4 * (level - 1) + 200 + 2 * (Def + clothDef)
 	if(HP > MHP)
 		HP = MHP
-		updateHP()
+		if(hpBar)
+			updateHP()
 
 mob/Player
 	proc

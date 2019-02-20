@@ -4780,6 +4780,14 @@ obj/items/wearable/shield/psychic
 	suffix = "<span style=\"color:#ffa500;\">30% of damage is taken to mana before health.</span>"
 	passive = SHIELD_MPDAMAGE
 
+obj/items/wearable/shield/gold
+	icon='trophies.dmi'
+	icon_state="Shield"
+	name="Golden Shield"
+	desc="You no longer suffer gold loss on death."
+	suffix = "<span style=\"color:#ffa500;\">You no longer suffer gold loss on death.</span>"
+	passive = SHIELD_GOLD
+
 obj/items/wearable/sword
 	bonus  = 0
 	socket = 0
