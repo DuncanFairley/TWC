@@ -357,15 +357,16 @@ obj
 				density = 1
 				transform = null
 
-				sleep(900)
+				sleep(600)
 
 				animate(src, alpha = 255, time = 5)
 
-				if(prob(10))
+				if(prob(25))
 					icon_state = "chest"
 					name = "Chest"
-				else if(prob(5))
+				else if(prob(15))
 					icon_state = "spellcrafting"
+					name = "Magic Chest"
 				else
 					icon_state = "barrels"
 					name = "Barrels"
@@ -416,7 +417,7 @@ obj
 
 				var/base = worldData.baseChance * clamp(p.level/100, 0.1, 20)
 
-				if(icon_state == "spellcrafting" && prob(base * rate * 3))
+				if(icon_state == "spellcrafting" && prob(base * rate * 10))
 					var/prize = pick(/obj/items/wearable/title/Airbender,
 					                 /obj/items/wearable/title/Waterbender,
 					                 /obj/items/wearable/title/Firebender,
@@ -440,7 +441,7 @@ obj
 					p << infomsg("<i>You found \a [i.name].</i>")
 
 				else if(prob(base * rate * 10))
-					if(prob(5))
+					if(prob(20))
 						var/prize = pickweight(list(/obj/items/wearable/title/Wrecker     = 5,
 						                            /obj/items/bucket                     = 10,
 						                            /obj/items/treats/berry               = 20,
