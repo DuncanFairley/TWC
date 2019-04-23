@@ -397,11 +397,11 @@ obj
 				if(icon_state == "chest")
 					rate += 0.5 + (p.TreasureHunting.level)/100
 
-					p.TreasureHunting.add((p.level + p.TreasureHunting.level + rand(10)) * 60, p, 1)
+					p.TreasureHunting.add((p.level + p.TreasureHunting.level + rand(15)) * 80, p, 1)
 				else if(icon_state == "spellcrafting")
 					rate += 2
 
-					p.Spellcrafting.add((p.level + p.Spellcrafting.level + rand(10)) * 60, p, 1)
+					p.Spellcrafting.add((p.level + p.Spellcrafting.level + rand(15)) * 80, p, 1)
 
 				if(p.guild) rate += p.getGuildAreas() * 0.05
 
@@ -543,7 +543,8 @@ proc/InitLootDrop()
 		var/teleportNode/n = worldData.TeleportMap.teleports[i]
 		if(n.lootSpawns)
 			var/r = rand(1, n.lootSpawns.len)
-			new /obj/lootdrop (n.lootSpawns[r])
+			new /obj/lootdrop (n.lootSpawns[r], n)
+
 			var/end = n.lootSpawns.len - r
 			if(end == r) end = rand(1, n.lootSpawns.len)
 			end = clamp(end, 1, n.lootSpawns.len)
