@@ -425,7 +425,7 @@ mob
 				last_y = t.y
 				last_z = t.z
 
-			if(savefile_version < 44)
+			if(savefile_version < 45)
 				p.Spellcrafting = new("Spellcrafting")
 				p.TreasureHunting = new("Treasure Hunting")
 

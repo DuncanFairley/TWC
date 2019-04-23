@@ -768,6 +768,7 @@ mob
 			character.Slayer = new("Slayer")
 			character.Summoning = new("Summoning")
 			character.Spellcrafting = new("Spellcrafting")
+			character.TreasureHunting = new("Treasure Hunting")
 			character.hpBar = new(character)
 
 			for(var/mob/Player/p in Players)
@@ -955,6 +956,7 @@ mob/Player
 
 			LoginReward()
 			if(worldData.eventPrize) EventReward()
+			secretSanta()
 
 			DisplayPets()
 
@@ -2348,7 +2350,11 @@ WorldData
 	var
 		list/loggedIn
 		list/eventTaken
+		list/secretSanta
 		eventPrize
+		secretSanta
+
+mob/proc/secretSanta()
 
 mob/Player
 	var/loginRewardDays = 1
