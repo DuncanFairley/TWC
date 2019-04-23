@@ -2352,7 +2352,6 @@ WorldData
 		list/eventTaken
 		list/secretSanta
 		eventPrize
-		secretSanta
 
 mob/proc/secretSanta()
 
