@@ -3,9 +3,10 @@ enchanting
 
 	scroll
 		reqType = /obj/items/scroll
-		chance  = 40
+		chance  = 45
 		prize   = list(/obj/items/wearable/title/Bookworm,
-		               /obj/items/wearable/title/Lumberjack)
+		               /obj/items/wearable/title/Lumberjack,
+		               /obj/items/riddle_scroll)
 
 	teleport
 		reqType = /obj/items/artifact
@@ -382,7 +383,9 @@ obj/items/crystal
 				worn = 1
 				w.Equip(p, 1)
 
-			w = w.stack > 1 ? w.Split(1) : w
+			if(w.stack > 1)
+				w = w.Split(1)
+				w.loc = p
 
 			w.socket = s
 			if(worn)

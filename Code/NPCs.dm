@@ -228,6 +228,23 @@ mob/TalkNPC
 			..()
 			GenerateIcon(src, wig = 0, shoes = 1, scarf = 1)
 
+obj/items/riddle_scroll
+	icon_state = "wrote"
+	icon = 'Scroll.dmi'
+
+	Click()
+		if(src in usr)
+			var/obj/magic_force/m = locate() in range(3)
+			if(!m)
+				usr << errormsg("This riddle is unreadable.")
+				return
+
+			usr << infomsg("Hey look, a new riddle, can you solve that one?")
+			m.pickRiddle()
+			Consume()
+		else
+			..()
+
 obj/magic_force
 
 	icon               = 'misc.dmi'
