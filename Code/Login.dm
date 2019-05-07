@@ -956,13 +956,12 @@ mob/Player
 
 			LoginReward()
 			if(worldData.eventPrize) EventReward()
-			secretSanta()
 
 			DisplayPets()
 
 			hpBar = new(src)
 			src.ApplyOverlays(0)
-			if(MP / MMP)
+			if(MP < MMP)
 				MPRegen()
 
 
@@ -2350,10 +2349,7 @@ WorldData
 	var
 		list/loggedIn
 		list/eventTaken
-		list/secretSanta
 		eventPrize
-
-mob/proc/secretSanta()
 
 mob/Player
 	var/loginRewardDays = 1
