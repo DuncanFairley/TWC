@@ -237,9 +237,9 @@ area
 		Library
 		Hufflepuff_Common_Room
 		Ravenclaw_Common_Room
-			SecondFloor
 		Slytherin_Common_Room
 		Gryffindor_Common_Room
+			SecondFloor
 		Dungeons
 		Potions
 			antiTeleport = 1
