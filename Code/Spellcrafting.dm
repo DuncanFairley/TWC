@@ -357,14 +357,14 @@ obj
 				density = 1
 				transform = null
 
-				sleep(600)
+				sleep(500)
 
 				animate(src, alpha = 255, time = 5)
 
-				if(prob(25))
+				if(prob(30))
 					icon_state = "chest"
 					name = "Chest"
-				else if(prob(15))
+				else if(prob(20))
 					icon_state = "spellcrafting"
 					name = "Magic Chest"
 				else
@@ -388,18 +388,18 @@ obj
 				density = 0
 				var/sparks = 0
 
-				var/rate        = 2 + p.dropRate/100
+				var/rate        = 6 + p.dropRate/100
 				var/rate_factor = worldData.DropRateModifier
 
 				if(p.House == worldData.housecupwinner)
 					rate += 0.25
 
 				if(icon_state == "chest")
-					rate += 0.5 + (p.TreasureHunting.level)/100
+					rate += 4 + (p.TreasureHunting.level)/50
 
 					p.TreasureHunting.add((p.level + p.TreasureHunting.level + rand(15)) * 80, p, 1)
 				else if(icon_state == "spellcrafting")
-					rate += 2
+					rate += 4 + (p.Spellcrafting.level)/50
 
 					p.Spellcrafting.add((p.level + p.Spellcrafting.level + rand(15)) * 80, p, 1)
 
@@ -415,9 +415,9 @@ obj
 
 				rate *= rate_factor
 
-				var/base = worldData.baseChance * clamp(p.level/100, 0.1, 20)
+				var/base = worldData.baseChance * clamp(p.level/100, 0.2, 20)
 
-				if(icon_state == "spellcrafting" && prob(base * rate * 10))
+				if(icon_state == "spellcrafting" && prob(base * rate * 20))
 					var/prize = pick(/obj/items/wearable/title/Airbender,
 					                 /obj/items/wearable/title/Waterbender,
 					                 /obj/items/wearable/title/Firebender,
@@ -440,7 +440,7 @@ obj
 
 					p << infomsg("<i>You found \a [i.name].</i>")
 
-				else if(prob(base * rate * 10))
+				else if(icon_state == "chest" && prob(base * rate * 20))
 					if(prob(20))
 						var/prize = pickweight(list(/obj/items/wearable/title/Wrecker     = 5,
 						                            /obj/items/bucket                     = 10,
