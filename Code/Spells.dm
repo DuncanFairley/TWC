@@ -1745,6 +1745,9 @@ mob
 			if(p.passives & SHIELD_SELFDAMAGE)
 				P.selfDamage = 0
 
+			if(p.passives & SWORD_GHOST)
+				P.element = GHOST
+
 			if(p.wand)
 				p.learnSpell(name)
 
@@ -1921,10 +1924,6 @@ mob/Player
 					lastCombat = world.time
 					p.owner:lastCombat = world.time
 
-				if(p.owner:passives & SWORD_GHOST)
-					p.element = GHOST
-
-
 		var/dmg = p.damage
 
 		if(p.element == FIRE)
@@ -2021,9 +2020,6 @@ mob/Enemies
 
 			if(p.owner:monsterDmg > 0)
 				dmg *= 1 + p.owner:monsterDmg/100
-
-			if(p.owner:passives & SWORD_GHOST)
-				p.element = GHOST
 
 			if(p.icon_state == "blood")
 				dmg += round(p.damage / 10, 1)
