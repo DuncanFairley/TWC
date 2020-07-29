@@ -275,8 +275,6 @@ proc
 	random()
 		return rand(1, 1000) / 1000
 
-	tan(x) return sin(x)/cos(x)
-
 
 var/const/PI = 3.14159265359
 

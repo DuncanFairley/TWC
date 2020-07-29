@@ -804,8 +804,8 @@ mob/Player
 					GenerateNameOverlay(255,255,255)
 
 	Login()
-		if(client.byond_version <= 511)
-			src << errormsg("BYOND version 512 is out, please always update to the latest stable version.")
+		if(client.byond_version <= 512)
+			src << errormsg("BYOND version 513 is out, please always update to the latest stable version.")
 		if(client.byond_version < world.byond_version)
 			src << errormsg("Your installed BYOND version is older than the one the game is using, please update to BYOND version [world.byond_version] or higher. You can continue to play but unpredicted errors may occur.")
 
