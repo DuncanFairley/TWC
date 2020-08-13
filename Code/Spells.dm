@@ -1984,17 +1984,17 @@ mob/Enemies
 				p.HP = min(round(p.HP + MHP*0.15, 1), p.MHP)
 				p.updateHP()
 
+			var/exp2give  = (rand(6,14)/10)*Expg
+
+			if(p.level > src.level && !p.findStatusEffect(/StatusEffect/Lamps/Farming))
+				exp2give  -= exp2give  * ((p.level-src.level)/150)
+
+				if(exp2give <= 0) return 1
+
+			if(p.House == worldData.housecupwinner)
+				exp2give  *= 1.25
+
 			if(elem != 0)
-
-				var/exp2give  = (rand(6,14)/10)*Expg
-
-				if(p.level > src.level && !p.findStatusEffect(/StatusEffect/Lamps/Farming))
-					exp2give  -= exp2give  * ((p.level-src.level)/150)
-
-					if(exp2give <= 0) return 1
-
-				if(p.House == worldData.housecupwinner)
-					exp2give  *= 1.25
 
 				var/StatusEffect/Lamps/Exp/exp_rate   = p.findStatusEffect(/StatusEffect/Lamps/Exp)
 
