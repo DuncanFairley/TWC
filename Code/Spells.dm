@@ -1994,11 +1994,11 @@ mob/Enemies
 			if(p.House == worldData.housecupwinner)
 				exp2give  *= 1.25
 
+			var/StatusEffect/Lamps/Exp/exp_rate   = p.findStatusEffect(/StatusEffect/Lamps/Exp)
+
+			if(exp_rate)  exp2give  *= exp_rate.rate
+
 			if(elem != 0)
-
-				var/StatusEffect/Lamps/Exp/exp_rate   = p.findStatusEffect(/StatusEffect/Lamps/Exp)
-
-				if(exp_rate)  exp2give  *= exp_rate.rate
 
 				if(elem == FIRE) p.Fire.add(exp2give, p)
 
@@ -2008,7 +2008,7 @@ mob/Enemies
 
 				else if(elem == GHOST) p.Ghost.add(exp2give, p)
 
-				return exp2give
+			return exp2give
 		return 0
 
 

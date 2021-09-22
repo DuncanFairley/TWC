@@ -1187,6 +1187,7 @@ tr.black
 				kp = i_Player.knownPotions
 
 			for(var/i in kp)
+				if(i > worldData.potions.len) continue
 				var/ing    = worldData.potions[i]
 				var/potion = worldData.potions[ing]
 
