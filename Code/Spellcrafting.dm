@@ -361,10 +361,10 @@ obj
 
 				animate(src, alpha = 255, time = 5)
 
-				if(prob(30))
+				if(prob(20))
 					icon_state = "chest"
 					name = "Chest"
-				else if(prob(20))
+				else if(prob(15))
 					icon_state = "spellcrafting"
 					name = "Magic Chest"
 				else
@@ -388,20 +388,20 @@ obj
 				density = 0
 				var/sparks = 0
 
-				var/rate        = 6 + p.dropRate/100
+				var/rate        = 3 + p.dropRate/100
 				var/rate_factor = worldData.DropRateModifier
 
 				if(p.House == worldData.housecupwinner)
 					rate += 0.25
 
 				if(icon_state == "chest")
-					rate += 4 + (p.TreasureHunting.level)/50
+					rate += 1 + (p.TreasureHunting.level)/100
 
-					p.TreasureHunting.add((p.level + p.TreasureHunting.level + rand(15)) * 80, p, 1)
+					p.TreasureHunting.add((p.level + p.TreasureHunting.level + rand(10)) * 50, p, 1)
 				else if(icon_state == "spellcrafting")
-					rate += 4 + (p.Spellcrafting.level)/50
+					rate += 1 + (p.Spellcrafting.level)/100
 
-					p.Spellcrafting.add((p.level + p.Spellcrafting.level + rand(15)) * 80, p, 1)
+					p.Spellcrafting.add((p.level + p.Spellcrafting.level + rand(10)) * 50, p, 1)
 
 				if(p.guild) rate += p.getGuildAreas() * 0.05
 
