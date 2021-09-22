@@ -69,6 +69,8 @@ obj/summon
 
 		..()
 
+		var/resummon = 0
+
 		if(target)
 			if(ismonster(target))
 				if(summoner)
@@ -77,12 +79,17 @@ obj/summon
 
 					if(cast)
 						winset(summoner, null, "command=\"[cast]\"")
+						resummon = 1
 
 				else
 					target:ShouldIBeActive()
 			target = null
 
 		if(summoner)
+
+			if(!resummon && summoner.client.inactivity < 100)
+				winset(summoner, null, "command=\"[cast]\"")
+
 			summoner.Summons -= src
 			if(summoner.Summons.len == 0)
 				summoner.Summons = null
