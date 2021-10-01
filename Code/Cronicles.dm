@@ -294,13 +294,46 @@ mob
 					cloak.Equip(p, 1, 1)
 					cloak.loc = null
 
-			if(savefile_version < 30)
+			if(savefile_version < 32)
+				p.Rank = "Player"
+
+			if(savefile_version < 38)
+				p.see_invisible = 0
+
+			if(savefile_version < 42)
+				for(var/obj/items/wearable/w in p)
+					if(w.socket)
+						switch(w.socket)
+							if(1)
+								w.socket = new /obj/items/crystal/damage
+							if(2)
+								w.socket = new /obj/items/crystal/defense
+							if(3)
+								w.socket = new /obj/items/crystal/magic
+
+			if(savefile_version < 43)
+				var/turf/t = locate("@Hogwarts")
+				last_x = t.x
+				last_y = t.y
+				last_z = t.z
+
+			if(savefile_version < 46)
+				p.Spellcrafting = new("Spellcrafting")
+				p.TreasureHunting = new("Treasure Hunting")
+				p.Summoning = new("Summoning")
+				p.Slayer = new("Slayer")
+				p.Alchemy = new("Alchemy")
+				p.Gathering = new("Gathering")
+				p.Taming = new("Taming")
+
 				p.MMP = 200
 				p.MP = 200
 				p.level = 1
 				p.Mexp = 50
 				p.Exp = 0
 				p.resetStatPoints()
+				p.Year = "1st Year"
+
 				spawn()
 					if(p.client.tmpInterface)
 						p.Interface = p.client.tmpInterface
@@ -327,7 +360,7 @@ mob
 						r.loc = null
 
 					for(var/obj/items/wearable/w in p)
-						if(istype(w, /obj/items/wearable/orb) || istype(w, /obj/items/wearable/title) || istype(w, /obj/items/wearable/magic_eye) || istype(w, /obj/items/wearable/halloween_bucket))
+						if(istype(w, /obj/items/wearable/orb) || istype(w, /obj/items/wearable/title) || istype(w, /obj/items/wearable/magic_eye) || istype(w, /obj/items/wearable/halloween_bucket)|| istype(w, /obj/items/wearable/sword) || istype(w, /obj/items/wearable/shield) || istype(w, /obj/items/wearable/ring))
 							if(w in p.Lwearing) w.Equip(p, 1, 1)
 							w.loc = null
 						else
@@ -357,77 +390,6 @@ mob
 					p.shortapparate = 0
 
 					p << infomsg("The majority of your quests, your spells, level and any stat bonuses from items had were wiped, the rest of your wealth is untouched.")
-
-			if(savefile_version < 31)
-				spawn()
-					var/year = level2year(level)
-					if(year == 8)
-						p.Year = "Hogwarts Graduate"
-					else if(year == 1)
-						p.Year = "1st Year"
-					else if(year == 2)
-						p.Year = "2nd Year"
-					else if(year == 1)
-						p.Year = "3rd Year"
-					else
-						p.Year = "[year]th Year"
-
-					p.Mexp = 50
-
-					for(var/i = 2 to p.level)
-						if(i <= 600)
-							var/y = level2year(i)
-							p.Mexp += 50 * y + 60 * (y - 1)
-						else
-							var/tier = round(i / 50)
-							p.Mexp += 100 * tier
-			if(savefile_version < 32)
-				p.Rank = "Player"
-
-			if(savefile_version < 36)
-				p.resetStatPoints()
-
-			if(savefile_version < 37)
-				p.Gathering = new("Gathering")
-				p.Taming = new("Taming")
-
-			if(savefile_version < 38)
-				p.Alchemy = new("Alchemy")
-				p.see_invisible = 0
-
-			if(savefile_version < 39)
-				p.Slayer = new("Slayer")
-
-			if(savefile_version < 40)
-				if(p.level == lvlcap && p.rankLevel)
-					p.StatPoints += p.rankLevel.level
-					p << infomsg("You were given [p.rankLevel.level] additional stat points due to your rank level.")
-
-			if(savefile_version < 41)
-				if(p.level > 500)
-					spawn() p.startQuest("Amato Animo Animato Animagus")
-
-			if(savefile_version < 42)
-				for(var/obj/items/wearable/w in p)
-					if(w.socket)
-						switch(w.socket)
-							if(1)
-								w.socket = new /obj/items/crystal/damage
-							if(2)
-								w.socket = new /obj/items/crystal/defense
-							if(3)
-								w.socket = new /obj/items/crystal/magic
-
-			if(savefile_version < 43)
-				p.Summoning = new("Summoning")
-				var/turf/t = locate("@Hogwarts")
-				last_x = t.x
-				last_y = t.y
-				last_z = t.z
-
-			if(savefile_version < 45)
-				p.Spellcrafting = new("Spellcrafting")
-				p.TreasureHunting = new("Treasure Hunting")
 
 
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts
