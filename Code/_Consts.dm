@@ -6,14 +6,12 @@
  */
 
 #define TICK_LAG 1
-#define islist(x) istype(x,/list)
 #define floor(x) round(x)
 #define ceil(x) (-round(-(x)))
 #define isplayer(x) istype(x, /mob/Player)
 #define ismonster(x) istype(x, /mob/Enemies)
 #define ismovable(x) istype(x, /atom/movable)
 #define SetSize(s) transform = matrix() * ((s) / iconSize)
-#define clamp(n, low, high) min(max((n), low), high)
 #define winshowCenter(player, window) player << output(window,"browser1:ShowCenterWindow")
 #define winshowRight(player, window) player << output(window,"browser1:ShowRightWindow")
 
