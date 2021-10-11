@@ -2141,3 +2141,148 @@ mob/Player/proc/removeStaff()
 	verbs -= /mob/Spells/verb/Gravitate
 
 mob/Player/var/tmp/prevname
+
+
+mob/test/verb/LoadBuildable(var/n as text)
+	Loadbuildable(n, 0)
+	src << infomsg("Loaded")
+
+mob/test/verb/EditGlobals()
+	spawn() usr:Edit(worldData)
+
+
+mob/test/verb/testQuest(mob/Player/p in Players)
+
+	var/n = input("Which quest?", "Quest Pointers") as null|anything in p.questPointers
+
+	if(n)
+		var/questPointer/pointer = p.questPointers[n]
+
+		for(var/r in pointer.reqs)
+			pointer.reqs[r] = 1
+			p.checkQuestProgress(r)
+
+
+mob/test/verb/Set_Area_Mouse_Opacity(n as num)
+	for(var/area/a in world)
+		a.mouse_opacity = n
+
+mob/Player/var/tmp/editScript
+mob/test/verb/setScript(var/text as null|message)
+	usr:editScript = text
+
+atom/movable
+	Click()
+		if(usr:editScript)
+			animateScript(src, usr:editScript)
+
+		..()
+
+proc/animateScript(atom/movable/obj, var/script)
+	set waitfor = 0
+	var/list/commands = splittext(script, "\n")
+	var/isFirst = 1
+	var/time = 1
+
+	var/list/variables = list("alpha"   = initial(obj.alpha),
+		                      "pixel_x" = initial(obj.pixel_x),
+		                      "pixel_y" = initial(obj.pixel_y))
+	var/matrix/m = matrix()
+	var/c = initial(obj.color)
+
+	for(var/command in commands)
+		var/i
+
+		variables["time"]   = 10
+		variables["loop"]   = 1
+		variables["easing"] = LINEAR_EASING
+
+		i = findtext(command, "end")
+		if(i)
+			sleep(time)
+			isFirst = 0
+			time    = 1
+			continue
+
+		i = findtext(command, "newMatrix")
+		if(i)
+			m = matrix()
+
+		i = findtext(command, "translate ")
+		if(i)
+			i += length("translate ")
+			var/end = findtext(command, ";", i)
+			var/list/s = splittext(command, " ", i, end)
+
+			var/tx = text2num(s[1])
+			var/ty = text2num(s[2])
+			m.Translate(tx, ty)
+
+		i = findtext(command, "scale ")
+		if(i)
+			i += length("scale ")
+			var/end = findtext(command, ";", i)
+			var/list/s = splittext(command, " ", i, end)
+
+			var/w = text2num(s[1])
+			var/h = text2num(s[2])
+			m.Scale(w, h)
+
+		i = findtext(command, "turn ")
+		if(i)
+			i += length("turn ")
+			var/end = findtext(command, ";", i)
+			var/list/s = splittext(command, " ", i, end)
+
+			var/angle = text2num(s[1])
+			m.Turn(angle)
+
+		i = findtext(command, "colorMatrix ")
+		if(i)
+			i += length("colorMatrix ")
+			var/end = findtext(command, ";", i)
+
+			var/list/s = splittext(command, " ", i, end)
+			for(var/rgb = 1 to s.len)
+				s[rgb] = text2num(s[rgb])
+
+			c = s
+		else
+			i = findtext(command, "color ")
+			if(i)
+				i += length("color ")
+				var/end = findtext(command, ";", i)
+
+				var/list/s = splittext(command, " ", i, end)
+
+				c = s[1]
+
+		for(var/v in variables)
+			i = findtext(command, "[v] ")
+			if(i)
+				i += length("[v] ")
+				var/end = findtext(command, ";", i)
+				var/s = splittext(command, " ", i, end)
+
+				variables[v] = text2num(s[1])
+		time += variables["time"]
+		if(isFirst)
+			isFirst = 0
+			animate(obj,
+			        alpha     = variables["alpha"],
+			        pixel_x   = variables["pixel_x"],
+			        pixel_y   = variables["pixel_y"],
+			        transform = m,
+			        color     = c,
+			        easing    = variables["easing"],
+			        time      = variables["time"],
+			        loop      = variables["loop"])
+		else
+			animate(alpha     = variables["alpha"],
+			        pixel_x   = variables["pixel_x"],
+			        pixel_y   = variables["pixel_y"],
+			        transform = m,
+			        color     = c,
+			        easing    = variables["easing"],
+			        time      = variables["time"],
+			        loop      = variables["loop"])
