@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 Duncan Fairley
+ * Copyright ï¿½ 2014 Duncan Fairley
  * Distributed under the GNU Affero General Public License, version 3.
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
@@ -43,19 +43,20 @@ proc/awardcup(newhouse=1)
 
 	var/obj/d = locate("[worldData.weekcupwinner]_cup")
 
-	for(var/i = 1 to 3)
-		var/obj/o = locate("cup[i]")
-		var/obj/od = locate("cupdesk[i]")
+	if(d)
+		for(var/i = 1 to 3)
+			var/obj/o = locate("cup[i]")
+			var/obj/od = locate("cupdesk[i]")
 
-		o.loc = d.loc
-		od.loc = d.loc
+			o.loc = d.loc
+			od.loc = d.loc
 
-		var/obj/newLoc = locate("[worldData.weekcupwinner]_floo[i]")
-		var/obj/fireplace = locate("cupfloo[i]")
+			var/obj/newLoc = locate("[worldData.weekcupwinner]_floo[i]")
+			var/obj/fireplace = locate("cupfloo[i]")
 
-		fireplace.loc.density = initial(fireplace.loc.density)
-		fireplace.loc = newLoc.loc
-		newLoc.loc.density = 0
+			fireplace.loc.density = initial(fireplace.loc.density)
+			fireplace.loc = newLoc.loc
+			newLoc.loc.density = 0
 
 
 mob/Headmasters_Office

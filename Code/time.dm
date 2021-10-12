@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 Duncan Fairley
+ * Copyright ï¿½ 2014 Duncan Fairley
  * Distributed under the GNU Affero General Public License, version 3.
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
@@ -12,18 +12,6 @@ WorldData/var/tmp
 	DropRateModifier  = 1
 	expModifier       = 1
 	expBookModifier       = 1
-
-proc/time_until(day, hour)
-
-	var/http[] = world.Export("http://wizardschronicles.com/time_functions.php?day=[day]&hour=[hour]")
-
-	if(!http) return -1
-
-	var/F = http["CONTENT"]
-	if(F)
-		return text2num(file2text(F))
-
-	return -1
 
 mob/GM/verb
 	Clan_Wars_Schedule(var/Event/e in clanwars_schedule)
@@ -65,14 +53,6 @@ mob/GM/verb
 						for(var/v in T.vars)
 							src << "[v] = [T.vars[v]]"
 
-	Add_AutoClass(var/day as text, var/hour as text)
-		set category = "Server"
-		var/date = add_autoclass(day, hour)
-		if(date != -1)
-			usr << infomsg("Auto class scheduled ([comma(date)])")
-		else
-			usr << errormsg("Could not schedule auto class.")
-
 	Weather(var/effect in worldData.weather_effects, var/prob as num)
 		set category = "Events"
 		worldData.weather_effects[effect] = prob
@@ -103,14 +83,22 @@ mob/GM/verb
 		worldData.expBookModifier = modifier
 		src << infomsg("Book exp modifier set to [modifier]")
 
-	Schedule_Clanwars(var/day as text, var/hour as text)
+	Schedule_Clanwars(var/datetime as text)
 		set category = "Server"
-		var/date = add_clan_wars(day, hour)
-		if(date != -1)
-			usr << infomsg("Clan wars scheduled ([comma(date)])")
+		set desc = "Enter date in YYYY-MM-DD hh:mm:ss format"
+		var/secs_until = add_clan_wars(datetime)
+		if(secs_until)
+			usr << infomsg("Clan wars scheduled to start in [comma(secs_until)] seconds.")
 		else
 			usr << errormsg("Could not schedule clan wars.")
-
+	Schedule_AutoClass(var/datetime as text)
+		set category = "Server"
+		set desc = "Enter date in YYYY-MM-DD hh:mm:ss format"
+		var/secs_until = add_autoclass(datetime)
+		if(secs_until)
+			usr << infomsg("Auto class scheduled to start in [comma(secs_until)] seconds.")
+		else
+			usr << errormsg("Could not schedule auto class.")
 	Start_Random_Event(var/RandomEvent/event in worldData.events+"random")
 		set category = "Events"
 		if(event == "random")
@@ -144,18 +132,16 @@ mob/GM/verb
 		usr << infomsg("Gifts [worldData.allowGifts ? "can" : "can't"] be opened.")
 
 proc
-	add_clan_wars(var/day, var/hour)
-		var/date = time_until(day, hour)
-		if(date != -1)
-			var/Event/ClanWars/e = new
-			clanwars_schedule["[day] - [hour]"] = e
-			scheduler.schedule(e, 10 * date)
-		return date
-	add_autoclass(var/day, var/hour)
-		var/date = time_until(day, hour)
-		if(date != -1)
-			var/Event/AutoClass/e = new
-			autoclass_schedule["[day] - [hour]"] = e
-			scheduler.schedule(e, 10 * date)
-		return date
+	add_clan_wars(var/datetime)
+		var/secs_until = rustg_seconds_until(datetime)
+		var/Event/ClanWars/e = new
+		clanwars_schedule["[datetime]"] = e
+		scheduler.schedule(e, 10 * secs_until)
+		return secs_until
+	add_autoclass(var/datetime)
+		var/secs_until = rustg_seconds_until(datetime)
+		var/Event/AutoClass/e = new
+		autoclass_schedule["[datetime]"] = e
+		scheduler.schedule(e, 10 * secs_until)
+		return secs_until
 

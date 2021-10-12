@@ -99,6 +99,7 @@
 #include "Code\RemovedStuff.dm"
 #include "Code\resize.dm"
 #include "Code\Revoke.dm"
+#include "Code\rust_g.dm"
 #include "Code\sandbox.dm"
 #include "Code\Shops.dm"
 #include "Code\signs.dm"

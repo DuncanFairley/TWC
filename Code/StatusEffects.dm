@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 Duncan Fairley
+ * Copyright ï¿½ 2014 Duncan Fairley
  * Distributed under the GNU Affero General Public License, version 3.
  * Your changes must be made public.
  * For the full license text, see LICENSE.txt.
@@ -253,15 +253,11 @@ proc
 
 		spawn()
 			RandomizeShop()
-			var/date = time_until("Sunday", "00")
-			if(date != -1)
-				var/Event/WeeklyEvents/e = new
-				scheduler.schedule(e, 10 * date)
+			var/Event/WeeklyEvents/w = new
+			scheduler.schedule(w, 10 * rustg_seconds_until("sunday"))
 
-			date = time_until("Tomorrow", "00")
-			if(date != -1)
-				var/Event/DailyEvents/e = new
-				scheduler.schedule(e, 10 * date)
+			var/Event/DailyEvents/d = new
+			scheduler.schedule(d, 10 * rustg_seconds_until("tomorrow"))
 
 		init_quests()
 
