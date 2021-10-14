@@ -1141,7 +1141,7 @@ obj/items/potions_book
 			var/const/HEADER = {"<html><head><title>Potion Book</title><style>
 body
 {
-	background-image: url('http://www.wizardschronicles.com/dpbg.jpg');
+	background-image: url('https://www.onlygfx.com/wp-content/uploads/2015/10/old-paper-texture-1.jpg');
 	margin: 8px;
 	padding:0px;
 }

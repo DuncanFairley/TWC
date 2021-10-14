@@ -17,7 +17,7 @@ mob
 	verb
 		Help()
 			set name = "Help/Rules"
-			switch(input("Please make a selection","Help Menu") as null|anything in list("Guide","Rules","Talk to a GM","Report a Bug","How to get spells"))
+			switch(input("Please make a selection","Help Menu") as null|anything in list("Rules","Talk to a GM","Report a Bug","How to get spells"))
 				if("Guide")
 					usr<<infomsg("The player guide is located <a href=\"http://guide.wizardschronicles.com\">here</a>.")
 				if("Rules")
