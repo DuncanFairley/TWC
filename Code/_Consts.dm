@@ -37,10 +37,10 @@
 #define PET_SHINY 128
 #define PET_FLY 256
 #define SHINY_LIST list("#dd1111", "#11dd11", "#1111dd", "#dd11dd", "#11dddd", "#dddd11")
-#define MAX_PET_LEVEL 50
+#define MAX_PET_LEVEL 100
 #define MAX_PET_EXP(pet) ((pet.quality + 1) * 20000)
 
-#define MAX_WAND_LEVEL 50
+#define MAX_WAND_LEVEL 100
 #define MAX_WAND_EXP(wand) ((wand.quality + 1) * 20000)
 
 #define POTIONS_AMOUNT 70
