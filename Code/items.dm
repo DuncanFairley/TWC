@@ -2853,6 +2853,12 @@ obj/items/spellbook
 		spell = /mob/Spells/verb/Sanguinis_Iactus
 		r = 0.6
 
+	avada
+		name = "Book of The Noseless"
+		icon_state = "de"
+		spell = /mob/Spells/verb/Avada_Kedavra
+		g = 0.6
+
 	felinious
 		name = "Book of Bad Luck"
 		icon_state = "spell"

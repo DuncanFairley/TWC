@@ -1453,9 +1453,13 @@ mob/Spells/verb/Telendevour()
 
 mob/Spells/verb/Avada_Kedavra()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=800,againstocclumens=1,projectile=1))
 
-		castproj(icon_state = "avada", name = "Avada Kedavra", damage = 10000, lag = 1)
+		var/dmg = usr.Dmg + clothDmg + usr:Ghost.level
+		dmg = round(dmg + dmg * 0.35, 1)
+
+		castproj(MPreq = 800, Type = /obj/projectile/Avada, damage = dmg, icon_state = "avada", name = "Avada Kedavra", element = GHOST, lag = 0, cd=4)
+
 
 mob/Spells/verb/Apparate()
 	set category="Spells"
@@ -2125,6 +2129,9 @@ obj
 						if("iceball")
 							particle = /obj/particle/smoke/proj
 							c = "#0bc"
+						if("avada")
+							particle = /obj/particle/smoke/proj
+							c = "#0b0"
 						if("fireball")
 							particle = /obj/particle/smoke/proj
 							c = "#c60"
@@ -2209,6 +2216,37 @@ obj
 
 				color      = "#08ffff"
 				blend_mode = BLEND_SUBTRACT
+
+
+		Avada
+
+			Effect(atom/movable/a)
+
+				if(owner && isplayer(a))
+					var/mob/Player/p = a
+
+					if(p.HP < p.MHP * 0.3)
+						emit(loc    = p.loc,
+							 ptype  = /obj/particle/smoke/proj,
+						     amount = 28,
+						     angle  = new /Random(0, 360),
+						     speed  = 2,
+						     life   = new /Random(20,35),
+						     color  = "#0c0")
+
+						damage = p.MHP
+
+						owner.HP = min(round(owner.HP + p.MHP*0.3, 1), owner.MHP)
+						owner:updateHP()
+
+					else
+						damage = 0
+						var/dmg = owner:onDamage(owner.MHP * 0.3, p)
+						owner << infomsg("[p] soul wasn't weakened enough, you took [dmg] damage!")
+						owner:Death_Check(p)
+
+
+
 
 		Lumos
 			New()
