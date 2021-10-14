@@ -145,3 +145,15 @@ proc
 		scheduler.schedule(e, 10 * secs_until)
 		return secs_until
 
+
+mob/test/verb/populateSchedule()
+
+	var/list/days = list("monday", "tuesday", "wednesday", "thursday", "friday")
+	var/list/hours = list("3pm", "6pm", "3am", "6am")
+
+	for(var/d in days)
+		for(var/h in hours)
+			add_clan_wars("[d] [h]")
+
+
+
