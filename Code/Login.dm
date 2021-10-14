@@ -310,6 +310,29 @@ proc/updateVault(swapmap/map, owner, version)
 			if(istype(t, /turf/floor))
 				newTurf = new /turf/buildable/vault (t)
 				if(fly) newTurf.flyblock = fly
+	if(version < 7)
+		for(var/turf/t in map.AllTurfs())
+
+			for(var/obj/items/reputation/r in t)
+				r.loc = null
+
+			for(var/obj/items/wearable/w in t)
+				if(istype(w, /obj/items/wearable/orb) || istype(w, /obj/items/wearable/title) || istype(w, /obj/items/wearable/magic_eye) || istype(w, /obj/items/wearable/sword) || istype(w, /obj/items/wearable/shield) || istype(w, /obj/items/wearable/ring))
+					w.loc = null
+				else
+					if(w.quality > 0)
+						w.quality = 0
+						w.bonus &= ~3
+
+						var/list/split = splittext(w.name, " +")
+
+						w.name = split[1]
+
+					if(istype(w, /obj/items/wearable/wands))
+						w:exp = 0
+						w:projColor = null
+					if(istype(w, /obj/items/wearable/pets))
+						w:exp = 0
 
 
 mob/GM/verb/UnloadMap()
