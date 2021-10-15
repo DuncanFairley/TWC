@@ -4159,6 +4159,17 @@ obj/roulette
 		     life   = new /Random(15,25))
 
 		var/obj/items/i = new prize (loc)
+
+		if(istype(i, /obj/items/wearable) && i:bonus == 0)
+
+			var/chance = clamp(L[prize], 10, 25)
+			if(prob(chance))
+				i:bonus   = 3
+
+				var/lvl = pick(1,2,3)
+				i:quality = lvl
+				i.name += " +[lvl]"
+
 		ohearers(src) << infomsg("<b>[playerName] opened a chest and won \a [i]!</b>")
 
 		i.prizeDrop(playerCkey, 600, decay=FALSE)
