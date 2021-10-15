@@ -1421,7 +1421,7 @@ obj/items/wearable/orb
 
 	var
 		exp
-		modifier = 1
+		modifier = 2
 
 	Consume()
 		exp = initial(exp)
@@ -1434,38 +1434,38 @@ obj/items/wearable/orb
 	chaos
 		name       = "orb of chaos"
 		bonus      = 5
-		exp   	   = 60000
+		exp   	   = 100000
 		icon_state = "chaos"
 
 		greater
 			name     = "greater orb of chaos"
-			exp      = 300000
-			modifier = 2
+			exp      = 500000
+			modifier = 4
 			quality  = -2
 
 	peace
 		name       = "orb of peace"
 		bonus      = 6
-		exp        = 60000
+		exp        = 100000
 		icon_state = "peace"
 
 		greater
 			name     = "greater orb of peace"
-			exp      = 300000
-			modifier = 2
+			exp      = 500000
+			modifier = 4
 			quality  = -2
 
 	magic
 		name       = "orb of magic"
 		bonus      = 7
-		exp   	   = 100000
-		modifier   = 1.5
+		exp   	   = 200000
+		modifier   = 3
 		rarity     = 3
 
 		greater
 			name     = "greater orb of magic"
-			exp      = 500000
-			modifier = 3
+			exp      = 800000
+			modifier = 6
 			quality  = -2
 
 mob/Player/var/tmp/obj/items/wearable/wands/wand
@@ -1505,6 +1505,11 @@ obj/items/wearable/wands
 				exp = 0
 				return
 
+			var/exp2give = 0
+
+			if(quality < 10)
+				exp2give = amount / 2
+
 			var/obj/items/wearable/orb/o = locate() in owner.Lwearing
 			if(o)
 				amount = round(amount * o.modifier, 1)
@@ -1519,7 +1524,11 @@ obj/items/wearable/wands
 						owner.Resort_Stacking_Inv()
 					owner << errormsg("[o.name] shatters.")
 
-				exp += amount
+				exp2give += amount
+
+			if(exp2give > 0)
+
+				exp += max(round(exp2give, 1), 1)
 
 				var/i = 0
 				while(exp >= MAX_WAND_EXP(src))
