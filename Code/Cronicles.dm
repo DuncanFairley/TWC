@@ -77,9 +77,14 @@ WorldData
 			lastusedAFKCheck
 			ministryopen
 
+WorldData/var/Version
+
 proc
 	Load_World()
 		var/savefile/X = new ("players/World.sav")
+		var/version
+		X["VERSION"] >> version
+		if(!version) version = 0
 
 		X["worldData"] >> worldData
 		if(!worldData) worldData = new
@@ -131,6 +136,7 @@ proc
 		for(var/e in autoclass_schedule)
 			classes += e
 
+		X["VERSION"] << WORLD_VERSION
 		X["worldData"] << worldData
 		X["ClanWars"] << cw
 		X["AutoClasses"] << classes
