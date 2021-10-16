@@ -2672,6 +2672,9 @@ mob/GM/verb/Return_View()
 	set category="Staff"
 	usr.client.eye=usr
 	usr.client.perspective=MOB_PERSPECTIVE
+
+	usr:Interface.SetDarknessColor(TELENDEVOUR_COLOR)
+
 	usr<<"You return to your body."
 
 obj/var
