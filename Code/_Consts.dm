@@ -15,8 +15,8 @@
 #define winshowCenter(player, window) player << output(window,"browser1:ShowCenterWindow")
 #define winshowRight(player, window) player << output(window,"browser1:ShowRightWindow")
 
-#define VERSION "16.70"
-#define SUB_VERSION "21"
+#define VERSION "16.71"
+#define SUB_VERSION "0"
 #define SAVEFILE_VERSION 46
 #define VAULT_VERSION 7
 #define WORLD_VERSION 1
