@@ -329,6 +329,8 @@ mob
 				p.Alchemy = new("Alchemy")
 				p.Gathering = new("Gathering")
 				p.Taming = new("Taming")
+				p.Animagus = new("Animagus")
+
 
 				p.MMP = 200
 				p.MP = 200
