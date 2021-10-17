@@ -212,7 +212,8 @@ hudobj
 
 				flick("transfigure", p)
 			else
-				p.noOverlays--
+				if(p.noOverlays > 0 && (p.tickers & ANIMAGUS_TICK))
+					p.noOverlays--
 				color = null
 				p.AnimagusRecover(src)
 				p.BaseIcon()
