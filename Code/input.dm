@@ -96,8 +96,11 @@ Input
 
 	Del()
 		if(parent && parent._input)
-			parent._input -= index
-			if(!parent._input.len) parent._input = null
+			try
+				parent._input -= index
+				if(!parent._input.len) parent._input = null
+			catch
+				parent._input = null
 		..()
 
 proc
