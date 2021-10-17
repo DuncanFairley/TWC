@@ -2011,8 +2011,8 @@ mob/Player/proc/resetMaxHP()
 	MHP = 4 * (level - 1) + 200 + 2 * (Def + clothDef)
 	if(HP > MHP)
 		HP = MHP
-		if(hpBar)
-			updateHP()
+	if(hpBar)
+		updateHP()
 
 mob/Player
 	proc
