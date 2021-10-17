@@ -4,6 +4,8 @@
 #define MAX_VIEW_TILES 2000
 #define HUD_LAYER 10
 
+#define BROWSER_VERSION 2
+
 obj/hud
 	plane = 2
 
@@ -107,10 +109,12 @@ client
 		browser_loaded = 0
 		hideHud = 0
 	verb
-		onLoad()
+		onLoad(var/n as num)
 			set hidden = 1
-			if(!browser_loaded)
-				browser_loaded = 1
+
+			if(!browser_loaded && n == BROWSER_VERSION)
+				browser_loaded = n
+
 			//	src << output(null,"browser1:CenterWindow")
 
 				if(isplayer(mob)) // if mapbrowser loaded after login()
@@ -140,7 +144,7 @@ client
 	proc
 		initMapBrowser()
 			set waitfor = 0
-			src << browse('mapbrowser.html',"window=browser1")
+			sleep(1)
 			while(!browser_loaded)
 				src << browse('mapbrowser.html',"window=browser1")
 				sleep(50)

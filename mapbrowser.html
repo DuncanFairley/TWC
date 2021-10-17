@@ -6,6 +6,7 @@ var map_width;
 var map_height;
 var win_name;
 var resizing = 1;
+var version = 2;
 
 function CallVerb() {
     var locstr = "byond://winset?command=" + arguments[0];
@@ -35,7 +36,7 @@ window.onresize = function() {
 };
 
 window.onload = function() {
-	CallVerb("onLoad");
+	CallVerb("onLoad", version);
 	WinSet("","mainvsplit.right","mapwindow","guild.is-visible","false","splitStack.is-visible","false","SpellBook.is-visible","false","Quests.is-visible","false","Monsters.is-visible","false","Auction.is-visible","false","winSettings.is-visible","false","radio_enabled.is-checked","false");
 	Resize();
 };
