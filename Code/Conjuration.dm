@@ -20,7 +20,8 @@ mob/verb/updateHPMP()
 	if(!(src:tickers & MP_REGEN) && MP < MMP)
 		src:MPRegen()
 
-	src:hpBar.Set(hppercent, src)
+	if(src:hpBar)
+		src:hpBar.Set(hppercent, src)
 
 	if(src:party)
 		src:party.updateHP(src, hppercent)
