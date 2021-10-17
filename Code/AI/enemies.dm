@@ -1001,9 +1001,10 @@ mob
 
 				if(dmg > 0)
 					dmg = target.onDamage(dmg, src)
-					if(target.MonsterMessages) hearers(target)<<"<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
-					if(target.HP <= 0)
-						Kill(target)
+					if(target)
+						if(target.MonsterMessages) hearers(target)<<"<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
+						if(target.HP <= 0)
+							Kill(target)
 				else
 					for(var/obj/summon/s in target.Summons)
 						if(!s.target) s.target = src
