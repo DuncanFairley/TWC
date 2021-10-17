@@ -958,7 +958,7 @@ obj/hud/screentext
 			maptext = null
 			var/count        = 4
 			var/offset       = 0
-			var/pixel_offset = 29
+			var/pixel_offset = 28
 
 			for(var/obj/hud/screentext/questPath/path in p.client.screen)
 				p.client.screen -= path
@@ -1009,7 +1009,7 @@ obj/hud/screentext
 					maptext = "<b>[questName]</b><br>  - [pointer.reqs[1]]<br>[maptext]"
 
 			if(maptext)
-				maptext = "<span style=\"color:[p.mapTextColor];\">[maptext] </span>"
+				maptext = "<span style=\"color:[p.mapTextColor];\">[maptext] </span><br><br>"
 
 			if(removePath)
 				p.pathdest = null
