@@ -430,7 +430,7 @@ mob
 	test
 		verb
 			View_Error_Log()
-				src << browse(file("Logs/[VERSION]-log.txt"))
+				src << browse(file("Logs/[VERSION].[SUB_VERSION]-log.txt"))
 			Reconnect_MySQL()
 				connected = my_connection.Connect(DBI,mysql_username,mysql_password)
 				src << "New connection started."

@@ -1853,7 +1853,7 @@ var
 
 	clanadmin_hash = ""
 world/New()
-	world.log = file("Logs/[VERSION]-log.txt")
+	world.log = file("Logs/[VERSION].[SUB_VERSION]-log.txt")
 	world.log << "---WORLD STARTED- [time2text(world.realtime)] - WORLD STARTED---"
 	var/INI/ini = new("config.ini")
 	if(!fexists("config.ini"))
