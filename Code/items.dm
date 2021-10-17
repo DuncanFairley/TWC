@@ -4559,7 +4559,7 @@ obj/items/treats
 			for(var/dist = 1 to 8)
 				var/turf/t = get_step(target, p.dir)
 				if(!t || (dist < 6 && t.density))
-					p << errormsg("You don't have enough space to throw the stick here.")
+					p << errormsg("You don't have enough space to throw the [name] here.")
 					return
 
 				if(t.density) break
