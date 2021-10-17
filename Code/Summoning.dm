@@ -32,6 +32,8 @@ obj/summon
 	stickman
 		icon_state = "stickman"
 		level = 200
+	corpse
+		level = 300
 
 	New(loc, mob/Player/p, spell, size=0)
 		set waitfor = 0
@@ -41,9 +43,9 @@ obj/summon
 		cast = spell
 
 		level   += p.level + p.Summoning.level
-		MHP      = 4 * (level) + 200
+		MHP      = 3 * (level) + 200
 		HP       = MHP
-		duration = 450 + p.Summoning.level*10
+		duration = 600 + p.Summoning.level*10
 
 		if(!p.Summons) p.Summons = list()
 		p.Summons += src
@@ -156,7 +158,7 @@ obj/summon
 							e.dir = get_dir(e, src)
 							dir = turn(e.dir, 180)
 
-							var/dmg = level * 1.5
+							var/dmg = level * 1.4
 
 							if(summoner.monsterDmg > 0)
 								dmg *= 1 + summoner.monsterDmg/100
@@ -183,7 +185,10 @@ obj/summon
 
 									summoner.Summoning.add(exp2give, summoner, 1)
 							else
-								dmg = e.Dmg*0.6
+								dmg = e.Dmg*0.8
+
+								if(level < e.level)
+									dmg += dmg * ((1 + e.level - level)/200)
 
 								HP -= dmg
 								if(HP <= 0)	break
@@ -194,7 +199,8 @@ obj/summon
 
 					else
 						var/mob/Player/p = target
-						var/dmg = p.onDamage(level - 100, summoner)
+
+						var/dmg = p.onDamage(round((level - 10)*0.6, 1), summoner)
 						target << "<span style='color:red'>[src] attacks you for [dmg] damage!</span>"
 						if(p.HP <= 0)
 							target = null

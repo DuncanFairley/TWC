@@ -1708,7 +1708,7 @@ mob/Spells/verb/Inferius()
 			animate(c, transform = null, alpha = 255, time = 10)
 
 			sleep(10)
-			var/obj/summon/s = new  (c.loc, src, "Inferius")
+			var/obj/summon/corpse/s = new  (c.loc, src, "Inferius")
 			c.loc = null
 			s.appearance = c.appearance
 			s.dir = c.dir
