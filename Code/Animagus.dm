@@ -190,6 +190,11 @@ hudobj
 			if(!p.animagusOn)
 				if(p.animagusPower < 5) return
 				if(istype(p.loc.loc, /area/arenas)) return
+
+				var/obj/items/wearable/brooms/b = locate() in p.Lwearing
+				if(b)
+					b.Equip(p, 1)
+
 				color = "#0c0"
 				p.AnimagusTick(src)
 
