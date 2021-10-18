@@ -14,7 +14,8 @@ obj/summon
 	density = 1
 
 	var
-		level = 100
+		level = 50
+		scale = 1.2
 		HP
 		MHP
 		duration
@@ -28,12 +29,26 @@ obj/summon
 		icon_state = "snake"
 	phoenix
 		icon_state = "bird"
-		level = 150
+		level = 100
+		scale = 1.4
 	stickman
 		icon_state = "stickman"
-		level = 200
+		level = 150
+		scale = 1.5
 	corpse
-		level = 300
+		level = 200
+		scale = 1.5
+	demon_snake
+		level = 200
+		scale = 1.5
+		icon_state = "snake"
+
+		New(loc, mob/Player/p, spell, size=0)
+			set waitfor = 0
+
+			icon_state = pick("snake", "wp_snake", "bg_snake", "rbo_snake")
+
+			..(loc, p, spell, size)
 
 	New(loc, mob/Player/p, spell, size=0)
 		set waitfor = 0
@@ -42,7 +57,7 @@ obj/summon
 		summoner = p
 		cast = spell
 
-		level   += p.level + p.Summoning.level
+		level   += p.level + p.Summoning.level - 1
 		MHP      = 3 * (level) + 200
 		HP       = MHP
 		duration = 600 + p.Summoning.level*10
@@ -158,7 +173,7 @@ obj/summon
 							e.dir = get_dir(e, src)
 							dir = turn(e.dir, 180)
 
-							var/dmg = level * 1.4
+							var/dmg = level * scale
 
 							if(summoner.monsterDmg > 0)
 								dmg *= 1 + summoner.monsterDmg/100
@@ -188,7 +203,7 @@ obj/summon
 								dmg = e.Dmg*0.8
 
 								if(level < e.level)
-									dmg += dmg * ((1 + e.level - level)/200)
+									dmg += dmg * ((51 + e.level - level)/200)
 
 								HP -= dmg
 								if(HP <= 0)	break
@@ -200,11 +215,12 @@ obj/summon
 					else
 						var/mob/Player/p = target
 
-						var/dmg = p.onDamage(round((level - 10)*0.6, 1), summoner)
+						var/dmg = p.onDamage(round((level - 51)*0.5, 1), summoner)
 						target << "<span style='color:red'>[src] attacks you for [dmg] damage!</span>"
 						if(p.HP <= 0)
 							target = null
 							p.Death_Check(summoner)
+						delay = 5
 			else
 				var/d = get_dist(src, summoner)
 				if(d > 20)

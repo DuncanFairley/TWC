@@ -4870,6 +4870,14 @@ obj/items/wearable/sword/wolf
 	suffix = "<span style=\"color:#ffa500;\">10% Chance to gain animagus charge on kill.</span>"
 	passive = SWORD_ANIMAGUS
 
+obj/items/wearable/sword/snake
+	icon='trophies.dmi'
+	icon_state="Sword"
+	name="Akalla's Fang"
+	desc="Serpensortia summons stronger snakes."
+	suffix = "<span style=\"color:#ffa500;\">Serpensortia summons stronger snakes.</span>"
+	passive = SWORD_SNAKE
+
 obj/items/wearable/sword/gold
 	icon='Scroll.dmi'
 	icon_state="gold"

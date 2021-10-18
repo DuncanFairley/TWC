@@ -147,7 +147,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 			del popup
 		if(!M) return
 		if(!(M in ohearers(client.view))) return
-		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
+		new /StatusEffect/Summoned(src,10*p.cooldownModifier)
 		p.MP = max(p.MP - 100, 0)
 		p.updateMP()
 		if(p.prevname)
@@ -498,12 +498,17 @@ mob/Spells/verb/Serpensortia()
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		new /StatusEffect/Summoned(src,10*p.cooldownModifier)
+		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
 
-		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Serpensortia!"
-		hearers()<<"A Red-Spotted Green Snake, emerges from the wand."
-		var/obj/summon/snake/s = new  (loc, src, "Serpensortia", 1)
-		s.FlickState("m-black",8,'Effects.dmi')
+		if(p.passives & SWORD_SNAKE)
+			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=4 color=#FF8C00>Serpensortia!"
+			var/obj/summon/demon_snake/s = new  (loc, src, "Serpensortia", 1)
+			s.FlickState("m-black",8,'Effects.dmi')
+		else
+			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3 color=green>Serpensortia!"
+			var/obj/summon/snake/s = new  (loc, src, "Serpensortia", 1)
+			s.FlickState("m-black",8,'Effects.dmi')
+
 		p.learnSpell("Serpensortia")
 
 mob/Spells/verb/Herbificus_Maxima()
@@ -560,7 +565,7 @@ mob/Spells/verb/Avis()
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		new /StatusEffect/Summoned(src,10*p.cooldownModifier)
+		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=yellow> Avis!"
 		hearers()<<"A Phoenix emerges."
@@ -576,7 +581,7 @@ mob/Spells/verb/Crapus_Sticketh()
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		new /StatusEffect/Summoned(src,10*p.cooldownModifier)
+		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Crapus...Sticketh!!"
 		hearers()<<"A stick figure appears."
@@ -1697,7 +1702,7 @@ mob/Spells/verb/Inferius()
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		new /StatusEffect/Summoned(src,10*p.cooldownModifier)
+		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=silver> Inferius!"
 
@@ -1827,11 +1832,11 @@ element
 		name
 		level = 0
 		exp = 0
-		maxExp = 2000
+		maxExp = 3000
 
 
 		const
-			MAX  = 150 // soft cap
+			MAX  = 80 // soft cap
 
 	New(n)
 		name = n
@@ -1858,7 +1863,7 @@ element
 			while(exp > maxExp)
 				exp -= maxExp
 				level++
-				maxExp = 2000 + (level * 2500)
+				maxExp = 3000 + (level * 4000)
 
 				var/t
 				if(name in list("Water", "Fire", "Earth", "Ghost"))
