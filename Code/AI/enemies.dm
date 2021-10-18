@@ -1959,7 +1959,7 @@ mob
 			Death(mob/Player/killer)
 				..()
 
-				SpawnPet(killer, 0.4, null, /obj/items/wearable/pets/rat)
+				SpawnPet(killer, 0.6, null, /obj/items/wearable/pets/rat)
 
 
 		Demon_Rat
@@ -1969,7 +1969,7 @@ mob
 			Death(mob/Player/killer)
 				..()
 
-				SpawnPet(killer, 0.5, null, /obj/items/wearable/pets/rat)
+				SpawnPet(killer, 0.9, null, /obj/items/wearable/pets/rat)
 				SpawnPortal("teleportPointSnowman Dungeon", chance=1)
 
 		Pixie
