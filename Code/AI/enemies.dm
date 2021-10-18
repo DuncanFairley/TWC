@@ -909,6 +909,9 @@ mob
 				ChangeState(INACTIVE)
 				return 0
 
+			if(origloc && loc.loc != origloc.loc)
+				loc = origloc
+
 			if(istype(loc.loc, /area/newareas))
 				var/area/newareas/a = loc.loc
 
