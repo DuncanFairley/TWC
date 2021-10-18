@@ -288,10 +288,11 @@ obj/items/spellpage
 		spellType = PROJ
 		cd = 2
 		mpCost = 10
+		damage = 1.1
 	explosion
 		name = "Spell Page: \[Explosion]"
 		spellType = EXPLOSION
-		cd = 150
+		cd = 100
 		mpCost = 450
 	aura
 		name = "Spell Page: \[Aura]"
@@ -319,8 +320,8 @@ obj/items/spellpage
 	damage1
 		name = "Spell Page: \[Strong]"
 		flags = PAGE_DMG1
-		damage = 1.5
-		cd = 3
+		damage = 2
+		cd = 1.5
 
 obj
 	lootdrop
@@ -395,11 +396,11 @@ obj
 					rate += 0.25
 
 				if(icon_state == "chest")
-					rate += 1 + (p.TreasureHunting.level)/100
+					rate += 1 + (p.TreasureHunting.level*2)/100
 
 					p.TreasureHunting.add((p.level + p.TreasureHunting.level + rand(10)) * 50, p, 1)
 				else if(icon_state == "spellcrafting")
-					rate += 1 + (p.Spellcrafting.level)/100
+					rate += 1 + (p.Spellcrafting.level*2)/100
 
 					p.Spellcrafting.add((p.level + p.Spellcrafting.level + rand(10)) * 50, p, 1)
 
@@ -417,7 +418,7 @@ obj
 
 				var/base = worldData.baseChance * clamp(p.level/100, 0.2, 20)
 
-				if(icon_state == "spellcrafting" && prob(base * rate * 20))
+				if(icon_state == "spellcrafting" && prob(base * rate * 30))
 					var/prize = pick(/obj/items/wearable/title/Airbender,
 					                 /obj/items/wearable/title/Waterbender,
 					                 /obj/items/wearable/title/Firebender,
@@ -440,7 +441,7 @@ obj
 
 					p << infomsg("<i>You found \a [i.name].</i>")
 
-				else if(icon_state == "chest" && prob(base * rate * 20))
+				else if(icon_state == "chest" && prob(base * rate * 40))
 					if(prob(20))
 						var/prize = pickweight(list(/obj/items/wearable/title/Wrecker     = 5,
 						                            /obj/items/bucket                     = 10,
@@ -461,7 +462,7 @@ obj
 						p << infomsg("<i>You found [g.toString()].</i>")
 						g.give(p)
 
-				else if(prob(base * rate * 3))
+				else if(prob(base * rate * 10))
 					sparks = 1
 					var/obj/items/prize = pickweight(list(/obj/items/crystal/defense = 1,
 												/obj/items/crystal/damage  = 1,
