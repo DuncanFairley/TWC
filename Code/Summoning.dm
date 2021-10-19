@@ -15,7 +15,7 @@ obj/summon
 
 	var
 		level = 50
-		scale = 1.2
+		scale = 1
 		HP
 		MHP
 		duration
@@ -30,17 +30,17 @@ obj/summon
 	phoenix
 		icon_state = "bird"
 		level = 100
-		scale = 1.4
+		scale = 1.2
 	stickman
 		icon_state = "stickman"
 		level = 150
-		scale = 1.5
+		scale = 1.6
 	corpse
 		level = 200
-		scale = 1.5
+		scale = 1.8
 	demon_snake
 		level = 200
-		scale = 1.5
+		scale = 2
 		icon_state = "snake"
 
 		New(loc, mob/Player/p, spell, size=0)
