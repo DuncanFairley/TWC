@@ -793,6 +793,7 @@ mob
 			character.Spellcrafting = new("Spellcrafting")
 			character.TreasureHunting = new("Treasure Hunting")
 			character.hpBar = new(character)
+			character.InitMouseHelper()
 
 			for(var/mob/Player/p in Players)
 				if(p.Gm)
@@ -981,6 +982,7 @@ mob/Player
 			if(worldData.eventPrize) EventReward()
 
 			DisplayPets()
+			InitMouseHelper()
 
 			hpBar = new(src)
 			src.ApplyOverlays(0)
@@ -1358,11 +1360,31 @@ mob
 
 
 mob/Player
-	var/tmp/obj/favorites/objFavorites = new
+	var/tmp
+		obj/favorites/objFavorites = new
+		list/mousehelper = list()
+
+	proc/InitMouseHelper()
+
+		mousehelper["Fire"]            = new /obj/mousehover/Fire
+		mousehelper["Water"]           = new /obj/mousehover/Water
+		mousehelper["Earth"]           = new /obj/mousehover/Earth
+		mousehelper["Ghost"]           = new /obj/mousehover/Ghost
+		mousehelper["Taming"]          = new /obj/mousehover/Taming
+		mousehelper["Gathering"]       = new /obj/mousehover/Gathering
+		mousehelper["Animagus"]        = new /obj/mousehover/Animagus
+		mousehelper["Alchemy"]         = new /obj/mousehover/Alchemy
+		mousehelper["Summoning"]       = new /obj/mousehover/Summoning
+		mousehelper["Spellcrafting"]   = new /obj/mousehover/Spellcrafting
+		mousehelper["TreasureHunting"] = new /obj/mousehover/Treasure_Hunting
+		mousehelper["Slayer"]          = new /obj/mousehover/Slayer
+
+
 	Stat()
 		if(statpanel("Stats"))
 			stat("Name:",src.name)
 			stat("Year:",src.Year)
+			stat("House:",src.House)
 			stat("Level:",src.level)
 			stat("HP:","[src.HP]/[src.MHP]")
 			stat("MP:","[src.MP]/[src.MMP]")
@@ -1370,47 +1392,61 @@ mob/Player
 			stat("Defense:","[Def] ([(Def - (level + 4))/3])")
 			stat("Cooldown Reduction:","[round(1000 - cooldownModifier*1000, 1)/10]%")
 			stat("MP Regeneration:", "[50 + round(level/10)*2 + MPRegen]")
+			stat("","")
+
 			if(Fire)
 				var/percent = round((Fire.exp / Fire.maxExp) * 100)
-				stat("Fire:", "[Fire.level]   Exp: [comma(Fire.exp)]/[comma(Fire.maxExp)] ([percent]%)")
-
+				var/obj/o = mousehelper["Fire"]
+				o.name = "Level: [Fire.level]   Exp: [comma(Fire.exp)]/[comma(Fire.maxExp)] ([percent]%)"
 			if(Earth)
 				var/percent = round((Earth.exp / Earth.maxExp) * 100)
-				stat("Earth:", "[Earth.level]   Exp: [comma(Earth.exp)]/[comma(Earth.maxExp)] ([percent]%)")
-
+				var/obj/o = mousehelper["Earth"]
+				o.name = "Level: [Earth.level]   Exp: [comma(Earth.exp)]/[comma(Earth.maxExp)] ([percent]%)"
 			if(Water)
 				var/percent = round((Water.exp / Water.maxExp) * 100)
-				stat("Water:", "[Water.level]   Exp: [comma(Water.exp)]/[comma(Water.maxExp)] ([percent]%)")
-
+				var/obj/o = mousehelper["Water"]
+				o.name = "Level: [Water.level]   Exp: [comma(Water.exp)]/[comma(Water.maxExp)] ([percent]%)"
 			if(Ghost)
 				var/percent = round((Ghost.exp / Ghost.maxExp) * 100)
-				stat("Ghost:", "[Ghost.level]   Exp: [comma(Ghost.exp)]/[comma(Ghost.maxExp)] ([percent]%)")
+				var/obj/o = mousehelper["Ghost"]
+				o.name = "Level: [Ghost.level]   Exp: [comma(Ghost.exp)]/[comma(Ghost.maxExp)] ([percent]%)"
 			if(animagusState && Animagus)
 				var/percent = round((Animagus.exp / Animagus.maxExp) * 100)
-				stat("Animagus:", "[Animagus.level]   Exp: [comma(Animagus.exp)]/[comma(Animagus.maxExp)] ([percent]%)")
-			stat("Professions:","")
+				var/obj/o = mousehelper["Animagus"]
+				o.name = "Level: [Animagus.level]   Exp: [comma(Animagus.exp)]/[comma(Animagus.maxExp)] ([percent]%)"
 			if(Gathering)
 				var/percent = round((Gathering.exp / Gathering.maxExp) * 100)
-				stat("Gathering:", "[Gathering.level]   Exp: [comma(Gathering.exp)]/[comma(Gathering.maxExp)] ([percent]%)")
+				var/obj/o = mousehelper["Gathering"]
+				o.name = "Level: [Gathering.level]   Exp: [comma(Gathering.exp)]/[comma(Gathering.maxExp)] ([percent]%)"
 			if(Taming)
 				var/percent = round((Taming.exp / Taming.maxExp) * 100)
-				stat("Taming:", "[Taming.level]   Exp: [comma(Taming.exp)]/[comma(Taming.maxExp)] ([percent]%)")
+				var/obj/o = mousehelper["Taming"]
+				o.name = "Level: [Taming.level]   Exp: [comma(Taming.exp)]/[comma(Taming.maxExp)] ([percent]%)"
 			if(Alchemy)
 				var/percent = round((Alchemy.exp / Alchemy.maxExp) * 100)
-				stat("Alchemy:", "[Alchemy.level]   Exp: [comma(Alchemy.exp)]/[comma(Alchemy.maxExp)] ([percent]%)")
+				var/obj/o = mousehelper["Alchemy"]
+				o.name = "Level: [Alchemy.level]   Exp: [comma(Alchemy.exp)]/[comma(Alchemy.maxExp)] ([percent]%)"
 			if(Slayer)
 				var/percent = round((Slayer.exp / Slayer.maxExp) * 100)
-				stat("Slayer:", "[Slayer.level]   Exp: [comma(Slayer.exp)]/[comma(Slayer.maxExp)] ([percent]%)")
+				var/obj/o = mousehelper["Slayer"]
+				o.name = "Level: [Slayer.level]   Exp: [comma(Slayer.exp)]/[comma(Slayer.maxExp)] ([percent]%)"
 			if(Summoning)
 				var/percent = round((Summoning.exp / Summoning.maxExp) * 100)
-				stat("Summoning:", "[Summoning.level]   Exp: [comma(Summoning.exp)]/[comma(Summoning.maxExp)] ([percent]%)")
+				var/obj/o = mousehelper["Summoning"]
+				o.name = "Level: [Summoning.level]   Exp: [comma(Summoning.exp)]/[comma(Summoning.maxExp)] ([percent]%)"
 			if(Spellcrafting)
 				var/percent = round((Spellcrafting.exp / Spellcrafting.maxExp) * 100)
-				stat("Spellcrafting:", "[Spellcrafting.level]   Exp: [comma(Spellcrafting.exp)]/[comma(Spellcrafting.maxExp)] ([percent]%)")
+				var/obj/o = mousehelper["Spellcrafting"]
+				o.name = "Level: [Spellcrafting.level]   Exp: [comma(Spellcrafting.exp)]/[comma(Spellcrafting.maxExp)] ([percent]%)"
 			if(TreasureHunting)
 				var/percent = round((TreasureHunting.exp / TreasureHunting.maxExp) * 100)
-				stat("Treasure Hunting:", "[TreasureHunting.level]   Exp: [comma(TreasureHunting.exp)]/[comma(TreasureHunting.maxExp)] ([percent]%)")
-			stat("House:",src.House)
+				var/obj/o = mousehelper["TreasureHunting"]
+				o.name = "Level: [TreasureHunting.level]   Exp: [comma(TreasureHunting.exp)]/[comma(TreasureHunting.maxExp)] ([percent]%)"
+
+			stat("---Skills---")
+			stat(mousehelper)
+			stat("","")
+
 			if(level >= lvlcap && rankLevel)
 				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100)
 				stat("Experience Rank: ", "[rankLevel.level]   Exp: [comma(rankLevel.exp)]/[comma(rankLevel.maxExp)] ([percent]%)")
@@ -1531,6 +1567,55 @@ obj
 
 		Click()
 			isopen = !isopen
+
+	mousehover
+		icon = 'HUD.dmi'
+		icon_state = "Animagus"
+
+		Fire
+			icon_state = "Fire"
+			desc = "Increases damage done with and reduces damage taken from Fire element."
+		Water
+			icon_state = "Water"
+			desc = "Increases damage done with and reduces damage taken from Water element."
+		Earth
+			icon_state = "Earth"
+			desc = "Increases damage done with and reduces damage taken from Earth element."
+		Ghost
+			icon_state = "Ghost"
+			desc = "Increases damage done with and reduces damage taken from Ghost element."
+		Gathering
+			icon_state = "Gathering"
+			desc = "More yield from herbs, trees and stones."
+		Taming
+			icon_state = "Taming"
+			desc = "Helps taming pets."
+		Alchemy
+			icon_state = "Alchemy"
+			desc = "Increases your knowledge of potion brewing, allowing you the chance to concoct expert level potions with greater effects and longitivtiy."
+		Animagus
+			icon_state = "Animagus"
+			desc = "Each level increases charge capacity by 1, reduces damage taken and increases auto health regeneration while in animagus form."
+		Summoning
+			icon_state = "Summoning"
+			desc = "Each level increases summon level by 1, every 10 levels your summon limit increases."
+		Spellcrafting
+			icon_state = "Spellcrafting"
+			desc = "You should probably click those blue chests you find around."
+		Slayer
+			icon_state = "Slayer"
+			desc = "Each level increases damage taken and dealt by 1."
+		Treasure_Hunting
+			icon_state = "Treasure Hunting"
+			desc = "You should probably click those chests and barrels you find around."
+
+		MouseEntered(location,control,params)
+			if(desc && usr:infoBubble)
+				winset(usr, null, "infobubble.labelTitle.text=\"[icon_state]\";infobubble.labelInfo.text=\"[name]\n[desc]\"")
+				winshowRight(usr, "infobubble")
+
+		MouseExited(location,control,params)
+			winshow(usr, "infobubble", 0)
 
 	stackobj
 		var/isopen=0

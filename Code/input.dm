@@ -13,7 +13,7 @@ obj/hud/TextMessage
 
 	var/tmp/count = 5
 
-	New(Loc, mob/Player/p, message, time=100)
+	New(Loc, mob/Player/p, message, time=30)
 		set waitfor = 0
 
 		p << infomsg(message)
@@ -59,16 +59,65 @@ obj/hud/TextMessage
 		p.client.screen += src
 
 		alpha = 0
-		animate(src, alpha = 255, time = 5)
+		animate(src, alpha = 255, time = 4)
 
-		sleep(time + 6)
+		sleep(time + 5)
 		if(p)
-			animate(src, alpha = 0, time = 5)
-			sleep(6)
+			animate(src, alpha = 0, time = 4)
+			sleep(5)
 			if(p) p.client.screen -= src
 
-mob/Player/proc/screenAlert(message, time=100)
+obj/hud/TextMessageExp
+	screen_loc = "WEST+1,CENTER"
+	icon       = 'hud.dmi'
+
+	appearance_flags = RESET_COLOR|RESET_TRANSFORM|NO_CLIENT_COLOR|PIXEL_SCALE
+
+	var/tmp/count = 0
+
+	New(Loc, mob/Player/p, message, state, time=4)
+		set waitfor = 0
+
+		icon_state = state
+
+		if(p.mapTextColor != "#ffffff")
+			maptext = {"<b style="font-size:12px;color:[p.mapTextColor]">[message]</b>"}
+		else
+			maptext = {"<b style="font-size:12px">[message]</b>"}
+
+		var/pixelsize = length(message) * 11
+
+		maptext_width = pixelsize
+		maptext_x     = 32
+		maptext_y     = 5
+
+		var/list/l = list()
+		for(var/obj/hud/TextMessageExp/t in p.client.screen)
+			if(count == t.count)
+				count++
+			else
+				l += t.count
+		while(count in l)
+			count++
+
+		screen_loc = "WEST+1,CENTER+[count]:[count*4]"
+
+		p.client.screen += src
+
+		alpha = 0
+		animate(src, alpha = 255, time = 4)
+
+		sleep(time + 5)
+		if(p)
+			animate(src, alpha = 0, time = 4)
+			sleep(5)
+			if(p) p.client.screen -= src
+
+mob/Player/proc/screenAlert(message, time=30)
 	new /obj/hud/TextMessage(null, src, message, time)
+
+mob/Player/proc/expAlert(message, state, time=4)
+	new /obj/hud/TextMessageExp(null, src, message, state, time)
 
 Input
 	var/mob/Player/parent
