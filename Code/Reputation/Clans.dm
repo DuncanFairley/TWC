@@ -243,6 +243,7 @@ obj/items/wearable/masks
 
 				owner.underlays = list()
 				owner.GenerateNameOverlay(r,g,b)
+				owner.prevname = owner.name
 				return
 
 			if(!owner.prevname)
