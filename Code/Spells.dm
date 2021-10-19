@@ -1209,6 +1209,7 @@ mob/Player/proc/BaseIcon()
 
 	if(icon_state == "Crocodile")
 		transform = null
+		icon_state = null
 
 	if(Gender == "Female")
 		if(Gm)
