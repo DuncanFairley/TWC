@@ -507,10 +507,6 @@ mob
 					target = p.owner
 					ChangeState(HOSTILE)
 
-				if(hpbar)
-					var/percent = HP / MHP
-					hpbar.Set(percent, src)
-
 		Move(NewLoc)
 			if(hpbar)
 				hpbar.glide_size = glide_size

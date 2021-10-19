@@ -178,27 +178,17 @@ obj/summon
 							if(summoner.monsterDmg > 0)
 								dmg *= 1 + summoner.monsterDmg/100
 
-							e.HP -= dmg
-							if(e.hpbar)
-								var/percent = e.HP / e.MHP
-								e.hpbar.Set(percent, e)
-							if(e.HP <= 0)
-								e.Death_Check(summoner)
+
+							var/exp2give = e.onDamage(dmg, summoner)
+
+					//		e.HP -= dmg
+					//		if(e.hpbar)
+					//			var/percent = e.HP / e.MHP
+					//			e.hpbar.Set(percent, e)
+							if(exp2give > 0)
 								target = null
+								summoner.Summoning.add(exp2give*0.8, summoner, 1)
 
-								var/exp2give = (rand(6,14)/10)*e.Expg
-
-								if(summoner.level > e.level && !summoner.findStatusEffect(/StatusEffect/Lamps/Farming))
-									exp2give -= exp2give * ((summoner.level-e.level)/150)
-
-								if(exp2give > 0)
-									if(summoner.House == worldData.housecupwinner)
-										exp2give *= 1.25
-
-									var/StatusEffect/Lamps/Exp/exp_rate = summoner.findStatusEffect(/StatusEffect/Lamps/Exp)
-									if(exp_rate) exp2give *= exp_rate.rate
-
-									summoner.Summoning.add(exp2give*0.8, summoner, 1)
 							else
 								dmg = e.Dmg*0.8
 
@@ -215,7 +205,12 @@ obj/summon
 					else
 						var/mob/Player/p = target
 
-						var/dmg = p.onDamage(round((level - 51)*0.5, 1), summoner)
+						var/dmg = round((level - 51)*0.5, 1)
+
+						if(target:animagusOn)
+							dmg = dmg * 0.7 - target:Animagus.level
+
+						dmg = p.onDamage(dmg, summoner)
 						target << "<span style='color:red'>[src] attacks you for [dmg] damage!</span>"
 						if(p.HP <= 0)
 							target = null

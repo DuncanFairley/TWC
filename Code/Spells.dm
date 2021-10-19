@@ -1980,7 +1980,7 @@ mob/Player
 				Death_Check(p.owner)
 
 				if(p.owner:passives & SWORD_HEALONKILL)
-					p.owner.HP = min( round(p.owner.HP + MHP*0.15, 1), p.owner.MHP)
+					p.owner.HP = min( round(p.owner.HP + MHP*0.20, 1), p.owner.MHP)
 					p.owner:updateHP()
 
 			else if(ismonster(p.owner))
@@ -2027,6 +2027,11 @@ mob/Enemies
 				else if(elem == GHOST) p.Ghost.add(exp2give, p)
 
 			return exp2give
+
+		if(hpbar)
+			var/percent = HP / MHP
+			hpbar.Set(percent, src)
+
 		return 0
 
 
@@ -2538,7 +2543,7 @@ obj
 			Effect(atom/movable/a)
 				if(owner && (isplayer(a) || istype(a, /mob/Enemies)))
 					var/mob/m = a
-					if(m.HP - damage <= 0 && prob(40))
+					if(m.HP - damage <= 0 && prob(60))
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 						for(var/d in dirs)
 							owner.castproj(Type = type, icon_state = icon_state, damage = round(damage/2), name = name, cd = 0, Loc = a.loc, Dir = d, element = element)
