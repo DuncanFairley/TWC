@@ -1832,11 +1832,11 @@ element
 		name
 		level = 0
 		exp = 0
-		maxExp = 3000
+		maxExp = 4000
 
 
 		const
-			MAX  = 80 // soft cap
+			MAX  = 50 // soft cap
 
 	New(n)
 		name = n
@@ -1859,19 +1859,27 @@ element
 			exp += amount
 			if(msg)
 				parent << infomsg("You gained [amount] [name] experience.")
+			parent.expAlert("[name] +[amount]", name)
 
 			while(exp > maxExp)
 				exp -= maxExp
 				level++
-				maxExp = 3000 + (level * 4000)
+				maxExp = 4000 + (level * 4000)
 
-				var/t
-				if(name in list("Water", "Fire", "Earth", "Ghost"))
-					t = "element"
-				else
-					t = "profession"
+				parent.screenAlert("[name] leveled up to [level]!")
 
-				parent.screenAlert("[name] [t] leveled up to [level]!")
+		adjustExp()
+			for(var/i = 0 to level-1)
+				exp += 2000 + (i * 2500)
+
+			level = 0
+			maxExp = 4000
+
+			while(exp > maxExp)
+				exp -= maxExp
+				level++
+				maxExp = 4000 + (level * 4000)
+
 
 mob/Player
 	var/tmp/lastCombat = 0

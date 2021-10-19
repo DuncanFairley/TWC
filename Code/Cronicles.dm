@@ -396,6 +396,34 @@ mob
 					p.shortapparate = 0
 
 					p << infomsg("The majority of your quests, your spells, level and any stat bonuses from items had were wiped, the rest of your wealth is untouched.")
+			if(savefile_version < 47)
+
+				if(p.Summoning)
+					p.Summoning.adjustExp()
+				if(p.Spellcrafting)
+					p.Spellcrafting.adjustExp()
+				if(p.TreasureHunting)
+					p.TreasureHunting.adjustExp()
+				if(p.Slayer)
+					p.Slayer.adjustExp()
+				if(p.Alchemy)
+					p.Alchemy.adjustExp()
+				if(p.Gathering)
+					p.Gathering.adjustExp()
+				if(p.Taming)
+					p.Taming.adjustExp()
+				if(p.Animagus)
+					p.Animagus.adjustExp()
+				if(p.Fire)
+					p.Fire.adjustExp()
+				if(p.Earth)
+					p.Earth.adjustExp()
+				if(p.Water)
+					p.Water.adjustExp()
+				if(p.Ghost)
+					p.Ghost.adjustExp()
+
+				p << infomsg("Your skill levels were adjusted to the new exp formula.")
 
 
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts

@@ -17,7 +17,7 @@
 
 #define VERSION "16.71"
 #define SUB_VERSION "1"
-#define SAVEFILE_VERSION 46
+#define SAVEFILE_VERSION 47
 #define VAULT_VERSION 7
 #define WORLD_VERSION 1
 #define lvlcap 800

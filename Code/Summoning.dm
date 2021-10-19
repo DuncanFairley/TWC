@@ -198,7 +198,7 @@ obj/summon
 									var/StatusEffect/Lamps/Exp/exp_rate = summoner.findStatusEffect(/StatusEffect/Lamps/Exp)
 									if(exp_rate) exp2give *= exp_rate.rate
 
-									summoner.Summoning.add(exp2give, summoner, 1)
+									summoner.Summoning.add(exp2give*0.8, summoner, 1)
 							else
 								dmg = e.Dmg*0.8
 
