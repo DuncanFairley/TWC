@@ -4782,8 +4782,8 @@ obj/items/wearable/shield/mana
 	icon='ammy.dmi'
 	icon_state="snow"
 	name="Emperor's bracelet"
-	desc="A magical bracelet that converts 10% of damage taken into mana."
-	suffix = "<span style=\"color:#ffa500;\">10% of damage taken will turn to mana.</span>"
+	desc="A magical bracelet that converts 30% of damage taken into mana."
+	suffix = "<span style=\"color:#ffa500;\">30% of damage taken will turn to mana.</span>"
 	passive = SHIELD_MP
 
 obj/items/wearable/shield/slayer
@@ -4806,8 +4806,8 @@ obj/items/wearable/shield/psychic
 	icon='trophies.dmi'
 	icon_state="Shield"
 	name="Psychic's shield"
-	desc="Psychic's shield, 30% of damage is taken to mana before health."
-	suffix = "<span style=\"color:#ffa500;\">30% of damage is taken to mana before health.</span>"
+	desc="Psychic's shield, 40% of damage is taken to mana before health."
+	suffix = "<span style=\"color:#ffa500;\">40% of damage is taken to mana before health.</span>"
 	passive = SHIELD_MPDAMAGE
 
 obj/items/wearable/shield/gold

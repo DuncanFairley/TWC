@@ -1886,7 +1886,7 @@ mob/Player
 	proc/onDamage(dmg, mob/attacker)
 
 		if((passives & SHIELD_MP) && MP < MMP)
-			var/regen = round(dmg / 10, 1)
+			var/regen = round(dmg / 30, 1)
 			MP = min(MP + regen, MMP)
 			updateMP()
 
@@ -1895,7 +1895,7 @@ mob/Player
 				dmg *= 1 - min(monsterDef/100, 0.75)
 
 			if(passives & SHIELD_MPDAMAGE)
-				var/r = min(dmg * 0.3, MP)
+				var/r = min(round(dmg * 0.4, 1), MP)
 				dmg -= r
 				MP -= r
 				updateMP()
