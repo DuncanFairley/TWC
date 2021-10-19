@@ -4858,8 +4858,8 @@ obj/items/wearable/sword/vladmir
 	icon='trophies.dmi'
 	icon_state="Sword"
 	name="Vladmir's Cutlass"
-	desc="Lifesteal 15% of max HP on kill."
-	suffix = "<span style=\"color:#ffa500;\">Lifesteal 15% of max HP on kill.</span>"
+	desc="Lifesteal 20% of max HP on kill."
+	suffix = "<span style=\"color:#ffa500;\">Lifesteal 20% of max HP on kill.</span>"
 	passive = SWORD_HEALONKILL
 
 obj/items/wearable/sword/wolf
