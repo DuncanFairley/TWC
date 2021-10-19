@@ -1894,14 +1894,15 @@ mob/Player
 			if(monsterDef > 0)
 				dmg *= 1 - min(monsterDef/100, 0.75)
 
-			if(passives & SHIELD_MPDAMAGE)
-				var/r = min(round(dmg * 0.4, 1), MP)
-				dmg -= r
-				MP -= r
-				updateMP()
+		// next 2 ifs are meant to be under ismonster, testing this to see how players react
+		if(passives & SHIELD_MPDAMAGE)
+			var/r = min(round(dmg * 0.4, 1), MP)
+			dmg -= r
+			MP -= r
+			updateMP()
 
-			if(usedSpellbook && (usedSpellbook.flags & PAGE_DAMAGETAKEN))
-				usedSpellbook.cast(src, attacker)
+		if(usedSpellbook && (usedSpellbook.flags & PAGE_DAMAGETAKEN))
+			usedSpellbook.cast(src, attacker)
 
 		dmg = round(dmg, 1)
 		HP -= dmg
