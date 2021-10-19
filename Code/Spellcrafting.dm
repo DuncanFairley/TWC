@@ -8,6 +8,7 @@
 #define PROJ 1
 #define ARUA 2
 #define EXPLOSION 4
+#define SUMMON 8
 
 
 #define PAGE_DAMAGETAKEN 64
@@ -124,6 +125,8 @@ obj/items/wearable/spellbook
 				t = "Aura"
 			if(PROJ)
 				t = "Projectile"
+			if(SUMMON)
+				t = "Summon"
 
 		if(t == null || e == null)
 			name = "spellbook \[Incomplete]"
@@ -187,47 +190,65 @@ obj/items/wearable/spellbook
 		else if(spellType == PROJ)
 			p.castproj(icon_state = state, damage = dmg, name = name, cd = cd, element = element, Dir = attacker ? get_dir(p, attacker) : p.dir)
 			if(!attacker) p.lastAttack = "Spellbook"
-		else if(element == HEAL)
-			p.HP = min(p.MHP, p.HP + dmg)
-			p.updateHP()
-			p.overlays+=image('attacks.dmi', icon_state = "heal")
-			sleep(10)
-			p.overlays-=image('attacks.dmi', icon_state = "heal")
+		else if(spellType == SUMMON)
+
+			var/obj/summon/s
+			var/command = (flags & PAGE_DAMAGETAKEN) ? null : "Spellbook"
+			switch(element)
+				if(FIRE)
+					s = new /obj/summon/fire (loc, p, command, 1)
+				if(WATER)
+					s = new /obj/summon/water (loc, p, command, 1)
+				if(EARTH)
+					s = new /obj/summon/earth (loc, p, command, 1)
+				if(GHOST)
+					s = new /obj/summon/ghost (loc, p, command, 1)
+		//		if(HEAL)
+
+			s.scale = damage
+
 		else
-			var/mutable_appearance/ma = new
-
-			ma.icon = 'attacks.dmi'
-			ma.icon_state = state
-
-			var/list/images = list()
-
-			for(var/d in list(0, 90, 180, 270))
-				var/matrix/m = matrix()
-				m.Translate(24, 0)
-				ma.transform = turn(m, d)
-
-				images += ma.appearance
-
-			var/obj/o = new
-			o.overlays = images
-			p.vis_contents += o
-
-			var/matrix/m = matrix()
-			m.Turn(90)
-			animate(o, transform = m, time = 10, loop = -1)
-			m.Turn(90)
-			animate(transform = m, time = 10)
-			m.Turn(90)
-			animate(transform = m, time = 10)
-			animate(transform = null, time = 10)
-
-			for(var/i = 1 to 10)
-				for(var/mob/Enemies/e in range(1, p))
-					e.onDamage(dmg, p, element)
-
+			if(element == HEAL)
+				p.HP = min(p.MHP, p.HP + dmg)
+				p.updateHP()
+				p.overlays+=image('attacks.dmi', icon_state = "heal")
 				sleep(10)
+				p.overlays-=image('attacks.dmi', icon_state = "heal")
+			else
+				var/mutable_appearance/ma = new
 
-			p.vis_contents -= o
+				ma.icon = 'attacks.dmi'
+				ma.icon_state = state
+
+				var/list/images = list()
+
+				for(var/d in list(0, 90, 180, 270))
+					var/matrix/m = matrix()
+					m.Translate(24, 0)
+					ma.transform = turn(m, d)
+
+					images += ma.appearance
+
+				var/obj/o = new
+				o.overlays = images
+				p.vis_contents += o
+
+				var/matrix/m = matrix()
+				m.Turn(90)
+				animate(o, transform = m, time = 10, loop = -1)
+				m.Turn(90)
+				animate(transform = m, time = 10)
+				m.Turn(90)
+				animate(transform = m, time = 10)
+				animate(transform = null, time = 10)
+
+				for(var/i = 1 to 10)
+					for(var/mob/Enemies/e in range(1, p))
+						e.onDamage(dmg, p, element)
+
+					sleep(10)
+
+				p.vis_contents -= o
 
 obj/items/spellpage
 	icon       = 'Scroll.dmi'
@@ -299,6 +320,11 @@ obj/items/spellpage
 		spellType = ARUA
 		cd = 150
 		mpCost = 300
+	summon
+		name = "Spell Page: \[Summon]"
+		spellType = SUMMON
+		cd = 100
+		mpCost = 100
 	fire
 		name = "Spell Page: \[Fire]"
 		element = FIRE

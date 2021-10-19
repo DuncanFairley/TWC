@@ -50,6 +50,51 @@ obj/summon
 
 			..(loc, p, spell, size)
 
+	water
+		icon_state = "water elemental"
+
+		New(loc, mob/Player/p, spell, size=0)
+			set waitfor = 0
+
+			level += p.Water.level
+
+			..(loc, p, spell, size)
+
+	fire
+		icon_state = "fire elemental"
+
+		New(loc, mob/Player/p, spell, size=0)
+			set waitfor = 0
+
+			level += p.Fire.level
+
+			..(loc, p, spell, size)
+
+	earth
+		icon_state = "archangel"
+
+		New(loc, mob/Player/p, spell, size=0)
+			set waitfor = 0
+
+			level += p.Earth.level
+
+			..(loc, p, spell, size)
+
+	ghost
+		icon_state = "wisp"
+
+		New(loc, mob/Player/p, spell, size=0)
+			set waitfor = 0
+
+			level += p.Ghost.level
+			color = rgb(rand(20, 255), rand(20, 255), rand(20, 255), rand(190,255))
+
+			..(loc, p, spell, size)
+	heal
+		icon_state = "slug"
+		level = 150
+		scale = 1.6
+
 	New(loc, mob/Player/p, spell, size=0)
 		set waitfor = 0
 		..()
@@ -57,7 +102,7 @@ obj/summon
 		summoner = p
 		cast = spell
 
-		level   += p.level + p.Summoning.level - 1
+		level   += p.level + p.Summoning.level
 		MHP      = 3 * (level) + 200
 		HP       = MHP
 		duration = 600 + p.Summoning.level*10
@@ -104,7 +149,7 @@ obj/summon
 
 		if(summoner)
 
-			if(!resummon && summoner.client.inactivity < 100)
+			if(!resummon && cast && summoner.client.inactivity < 300)
 				winset(summoner, null, "command=\"[cast]\"")
 
 			summoner.Summons -= src
