@@ -164,10 +164,6 @@ mob
 
 	var/list/base_saved_verbs
 
-	proc/base_InitFromSavefile()
-		return
-
-
 	Write(savefile/F)
 
 		..()
@@ -195,6 +191,7 @@ mob
 		//F["key"] << null
 		saveError = 0
 		..()
+
 		if(testtype != /mob/Player)
 			return
 		if (base_save_location && world.maxx)
@@ -513,9 +510,9 @@ var/rules = file("rules.html")
 
 mob/BaseCamp
 	base_save_allowed = 0
-	Login()
-		RemoveVerbs()
-		return
+//	Login()
+//		RemoveVerbs()
+//		return
 
 	Stat()
 		return
@@ -871,13 +868,12 @@ mob/BaseCamp/ChoosingCharacter
 client
 	var/tmp/savefile/_base_player_savefile
 
-	New()
-		.=..()
-		if (base_autoload_character)
-			base_ChooseCharacter()
-			base_Initialize()
-			return
-		return ..()
+//	New()
+//		..()
+//		if (base_autoload_character)
+//			base_ChooseCharacter()
+//			base_Initialize()
+
 
 	Del()
 		if(mob && isplayer(mob))
@@ -918,7 +914,7 @@ client
 			base_SaveMob()
 		if (base_autodelete_mob && mob)
 			del(mob)
-		return ..()
+		..()
 
 
 	proc/base_PlayerSavefile()
@@ -938,7 +934,6 @@ client
 
 
 	proc/base_ChooseCharacter()
-		base_SaveMob()
 
 		var/mob/BaseCamp/ChoosingCharacter/chooser
 
@@ -1010,6 +1005,8 @@ client
 
 		F["name"] << mob.name
 		F["mob"] << mob
+
+		mob.base_saved_verbs = null
 		if(wasDE)
 			mob.name = maskedName
 		_base_player_savefile = null
@@ -1042,11 +1039,12 @@ client
 
 			mob = new_mob
 
-			new_mob.base_InitFromSavefile()
 			if (base_save_verbs && new_mob.base_saved_verbs)
 				if(!new_mob.base_saved_verbs.len) return null
-				for (var/item in new_mob.base_saved_verbs)
-					new_mob.verbs += item
+		//		for (var/item in new_mob.base_saved_verbs)
+		//			new_mob.verbs += item
+				new_mob.verbs += new_mob.base_saved_verbs
+				new_mob.base_saved_verbs = null
 			return new_mob
 		return null
 
