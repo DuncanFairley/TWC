@@ -1858,8 +1858,8 @@ element
 			amount = round(amount/10, 1)
 
 			exp += amount
-			if(msg)
-				parent << infomsg("You gained [amount] [name] experience.")
+		//	if(msg)
+		//		parent << infomsg("You gained [amount] [name] experience.")
 			parent.expAlert("[name] +[amount]", name)
 
 			while(exp > maxExp)
