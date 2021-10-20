@@ -185,6 +185,16 @@ obj/items/wearable/pets
 
 		if(i)
 			Equip(owner, 1)
+
+			if(prob(20))
+				var/b = pick(0,1,2)
+				if(b == 2 && !(bonus & 2))
+					bonus |= 2
+					owner << infomsg("<b>Your [name] learned how to help you defend!</b>")
+				else if(b == 1 && !(bonus & 1))
+					bonus |= 1
+					owner << infomsg("<b>Your [name] learned how to help you attack!</b>")
+
 			quality += i
 			Equip(owner, 1)
 
