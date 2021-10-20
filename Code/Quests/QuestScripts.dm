@@ -597,8 +597,8 @@ quest
 		reward = /questReward/Mon1
 
 		Kill
-			desc = "Kill 80 rats."
-			reqs = list("Kill Rat" = 80)
+			desc = "Kill 100 rats."
+			reqs = list("Kill Rat" = 100)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -608,9 +608,9 @@ quest
 		reward = /questReward/Mon2
 
 		Kill
-			desc = "Kill 120 rats and 80 pixies."
-			reqs = list("Kill Rat"   = 120,
-						"Kill Pixie" = 80)
+			desc = "Kill 150 rats and 100 pixies."
+			reqs = list("Kill Rat"   = 150,
+						"Kill Pixie" = 100)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -620,8 +620,8 @@ quest
 		reward = /questReward/Mon3
 
 		Kill
-			desc = "Kill 160 pixies."
-			reqs = list("Kill Pixie" = 160)
+			desc = "Kill 200 pixies."
+			reqs = list("Kill Pixie" = 200)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -631,8 +631,8 @@ quest
 		reward = /questReward/Mon4
 
 		Kill
-			desc = "Kill 240 dogs."
-			reqs = list("Kill Dog" = 240)
+			desc = "Kill 300 dogs."
+			reqs = list("Kill Dog" = 300)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -642,8 +642,8 @@ quest
 		reward = /questReward/Mon5
 
 		Kill
-			desc = "Kill 320 snakes."
-			reqs = list("Kill Snake" = 320)
+			desc = "Kill 400 snakes."
+			reqs = list("Kill Snake" = 400)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -653,8 +653,8 @@ quest
 		reward = /questReward/Mon6
 
 		Kill
-			desc = "Kill 400 wolves."
-			reqs = list("Kill Wolf" = 400)
+			desc = "Kill 500 wolves."
+			reqs = list("Kill Wolf" = 500)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -664,9 +664,9 @@ quest
 		reward = /questReward/Mon7
 
 		Kill
-			desc = "Kill 160 snakes and 240 wolves."
-			reqs = list("Kill Snake" = 160,
-						"Kill Wolf"  = 240)
+			desc = "Kill 300 snakes and 200 wolves."
+			reqs = list("Kill Snake" = 200,
+						"Kill Wolf"  = 300)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -698,8 +698,8 @@ quest
 		reward = /questReward/Mon10
 
 		Kill
-			desc = "Kill 400 archangels."
-			reqs = list("Kill Archangel" = 400)
+			desc = "Kill 500 archangels."
+			reqs = list("Kill Archangel" = 500)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -709,8 +709,8 @@ quest
 		reward = /questReward/Mon11
 
 		Kill
-			desc = "Kill 420 water elementals."
-			reqs = list("Kill Water Elemental" = 420)
+			desc = "Kill 540 water elementals."
+			reqs = list("Kill Water Elemental" = 540)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -720,8 +720,8 @@ quest
 		reward = /questReward/Mon12
 
 		Kill
-			desc = "Kill 450 fire elementals."
-			reqs = list("Kill Fire Elemental" = 450)
+			desc = "Kill 560 fire elementals."
+			reqs = list("Kill Fire Elemental" = 560)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -731,8 +731,8 @@ quest
 		reward = /questReward/Mon13
 
 		Kill
-			desc = "Kill 500 wyverns."
-			reqs = list("Kill Wyvern" = 500)
+			desc = "Kill 600 wyverns."
+			reqs = list("Kill Wyvern" = 600)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -742,8 +742,8 @@ quest
 		reward = /questReward/Mon10
 
 		Kill
-			desc = "Kill 256 demon rats."
-			reqs = list("Kill Demon Rat" = 256)
+			desc = "Kill 456 demon rats."
+			reqs = list("Kill Demon Rat" = 456)
 		Reward
 			desc = "Go back to the hunter to get your reward!"
 			reqs = list("Hunter" = 1)
@@ -775,8 +775,8 @@ quest
 		reward = /questReward/Mon3
 
 		Clear
-			desc = "Tom wants you to clear his cellar of rats, kill 50 rats and pull the lever at the end of the cellar."
-			reqs = list("Lever" = 1, "Kill Rat" = 50)
+			desc = "Tom wants you to clear his cellar of rats, kill 60 rats and pull the lever at the end of the cellar."
+			reqs = list("Lever" = 1, "Kill Rat" = 60)
 		Reward
 			desc = "Go back to Tom to get your reward!"
 			reqs = list("Tom" = 1)
@@ -954,37 +954,37 @@ questReward
 		exp   = 200000
 	Mon1
 		gold = 1000
-		exp  = 12000
+		exp  = 20000
 	Mon2
 		gold = 2000
-		exp  = 24000
+		exp  = 30000
 		items = /obj/items/lamps/double_exp_lamp
 	Mon3
 		gold = 3000
-		exp  = 36000
+		exp  = 40000
 	Mon4
 		gold  = 4000
-		exp   = 48000
+		exp   = 50000
 		items = list(/obj/items/wearable/title/Hunter,
 				     /obj/items/lamps/triple_exp_lamp)
 	Mon5
 		gold = 5000
-		exp  = 60000
+		exp  = 70000
 	Mon6
 		gold = 6000
-		exp  = 72000
+		exp  = 80000
 		items = /obj/items/lamps/triple_exp_lamp
 	Mon7
 		gold = 7000
-		exp  = 84000
+		exp  = 90000
 		items = /obj/items/lamps/triple_exp_lamp
 	Mon8
 		gold = 8000
-		exp  = 96000
+		exp  = 100000
 		items = /obj/items/lamps/quadaple_exp_lamp
 	Mon9
 		gold  = 9000
-		exp   = 108000
+		exp   = 110000
 		items = list(/obj/items/wearable/title/Pest,
 					 /obj/items/lamps/penta_exp_lamp)
 	Mon10
@@ -992,20 +992,20 @@ questReward
 		exp  = 120000
 	Mon11
 		gold = 11000
-		exp  = 110000
+		exp  = 140000
 		items = /obj/items/lamps/quadaple_exp_lamp
 	Mon12
 		gold = 12000
-		exp  = 144000
+		exp  = 160000
 		items = /obj/items/lamps/triple_exp_lamp
 	Mon13
 		gold  = 13000
-		exp   = 156000
+		exp   = 180000
 		items = list(/obj/items/wearable/title/Exterminator,
 					 /obj/items/lamps/sextuple_exp_lamp)
 	Mon14
 		gold = 14000
-		exp  = 168000
+		exp  = 200000
 		items = list(/obj/items/artifact,
 					 /obj/items/artifact,
 					 /obj/items/magic_stone/summoning/random)
@@ -1070,16 +1070,16 @@ questReward
 		items = /obj/items/magic_stone/summoning/resurrection
 
 	TutorialWand
-		exp   = 100
+		exp   = 200
 		gold  = 200
 	TutorialPalmer
-		exp   = 200
+		exp   = 400
 		gold  = 400
 	TutorialQuests
-		exp   = 400
+		exp   = 800
 		gold  = 800
 	TutorialOther
-		exp   = 1000
+		exp   = 2000
 		gold  = 1000
 
 	Masterkey
@@ -1122,7 +1122,7 @@ questReward
 			points = -15
 			max    = 0
 	Slayer
-		points = 5000
+		points = 50000
 	Animagus
 		exp   = 40000
 		items = /obj/items/potions/animagus_potion
