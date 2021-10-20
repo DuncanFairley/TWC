@@ -782,6 +782,9 @@ mob
 				killer << colormsg("<i>[name] dropped [prize.name]</i>", "#FFA500")
 				killer.pity = 0
 
+				if(killer.pet)
+					killer.pet.fetch(prize)
+
 			if(sparks)
 				emit(loc    = loc,
 				 	 ptype  = /obj/particle/star,
