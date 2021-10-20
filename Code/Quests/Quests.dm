@@ -1009,7 +1009,7 @@ obj/hud/screentext
 					maptext = "<b>[questName]</b><br>  - [pointer.reqs[1]]<br>[maptext]"
 
 			if(maptext)
-				maptext = "<span style=\"color:[p.mapTextColor];\">[maptext] </span><br><br>"
+				maptext = "<span style=\"color:[p.mapTextColor];\">[maptext] </span>"
 
 			if(removePath)
 				p.pathdest = null
