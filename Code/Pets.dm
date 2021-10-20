@@ -261,6 +261,16 @@ obj/items/wearable/pets
 		currentSize = 1
 		minSize     = 1
 		dropable    = 0
+	squirrel
+		icon_state = "squirrel"
+		currentSize = 1
+		minSize = 1
+		dropable = 0
+	Cow
+		icon_state = "cow"
+		currentSize = 1
+		minSize = 1
+		dropable = 0
 
 
 obj/pet
