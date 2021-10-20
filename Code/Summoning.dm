@@ -24,6 +24,8 @@ obj/summon
 		obj/healthbar/hpbar
 		cast
 
+		corpse = 1
+
 
 	snake
 		icon_state = "snake"
@@ -51,6 +53,7 @@ obj/summon
 			..(loc, p, spell, size)
 
 	water
+		corpse = 0
 		icon_state = "water elemental"
 
 		New(loc, mob/Player/p, spell, size=0)
@@ -61,6 +64,8 @@ obj/summon
 			..(loc, p, spell, size)
 
 	fire
+		corpse = 0
+		level = 110
 		icon_state = "fire elemental"
 
 		New(loc, mob/Player/p, spell, size=0)
@@ -71,6 +76,7 @@ obj/summon
 			..(loc, p, spell, size)
 
 	earth
+		level = 110
 		icon_state = "archangel"
 
 		New(loc, mob/Player/p, spell, size=0)
@@ -81,6 +87,8 @@ obj/summon
 			..(loc, p, spell, size)
 
 	ghost
+		level = 110
+		corpse = 0
 		icon_state = "wisp"
 
 		New(loc, mob/Player/p, spell, size=0)
@@ -92,7 +100,7 @@ obj/summon
 			..(loc, p, spell, size)
 	heal
 		icon_state = "slug"
-		level = 150
+		level = 160
 		scale = 1.6
 
 	New(loc, mob/Player/p, spell, size=0)
@@ -127,7 +135,9 @@ obj/summon
 
 	Dispose()
 		duration = 0
-		new /obj/corpse(loc, src)
+
+		if(corpse)
+			new /obj/corpse(loc, src, turn=0, time=0)
 
 		..()
 

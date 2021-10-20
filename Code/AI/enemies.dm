@@ -2707,7 +2707,7 @@ obj/corpse
 			else
 				usr << errormsg("You need to be closer.")
 
-	New(turf/Loc, mob/dead, gold = 0)
+	New(turf/Loc, mob/dead, gold = 0, turn=1, time=40)
 		set waitfor = 0
 		..()
 
@@ -2715,9 +2715,10 @@ obj/corpse
 		dir                = dead.dir
 		layer              = 3
 
-		var/matrix/m = transform
-		m.Turn(90 * pick(1, -1))
-		animate(src, transform = m, time = 10, easing = pick(BOUNCE_EASING, BACK_EASING))
+		if(turn)
+			var/matrix/m = transform
+			m.Turn(90 * pick(1, -1))
+			animate(src, transform = m, time = 10, easing = pick(BOUNCE_EASING, BACK_EASING))
 
 		if(ismonster(dead))
 			var/mob/Enemies/e = dead
@@ -2764,7 +2765,7 @@ obj/corpse
 
 			sleep(600)
 		else
-			sleep(40)
+			sleep(time)
 
 		if(revive) return
 
