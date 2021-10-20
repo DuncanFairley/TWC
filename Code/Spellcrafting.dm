@@ -157,8 +157,7 @@ obj/items/wearable/spellbook
 				p << "<b>This can't be used for another [timeleft] second[timeleft==1 ? "" : "s"].</b>"
 			return
 
-		if((flags & SUMMON) && p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
-
+		if(spellType == SUMMON && p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
 			if(!(flags & PAGE_DAMAGETAKEN))
 				p << errormsg("You need higher summoning level to summon more.")
 			return
