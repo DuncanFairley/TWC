@@ -103,7 +103,7 @@ obj/summon
 		cast = spell
 
 		level   += p.level + p.Summoning.level
-		MHP      = 3 * (level) + 200
+		MHP      = 4 * (level) + 200
 		HP       = MHP
 		duration = 600 + p.Summoning.level*10
 
@@ -207,7 +207,12 @@ obj/summon
 					target = null
 				else if(d > 1)
 					step_to(src, target, 1)
-					delay = 2
+
+					if(isplayer(target))
+						delay = 3
+					else
+						delay = 2
+
 				else
 					if(ismonster(target))
 						var/mob/Enemies/e = target
@@ -226,16 +231,12 @@ obj/summon
 
 							var/exp2give = e.onDamage(dmg, summoner)
 
-					//		e.HP -= dmg
-					//		if(e.hpbar)
-					//			var/percent = e.HP / e.MHP
-					//			e.hpbar.Set(percent, e)
 							if(exp2give > 0)
 								target = null
 								summoner.Summoning.add(exp2give*0.8, summoner, 1)
 
 							else
-								dmg = e.Dmg*0.8
+								dmg = e.Dmg*0.7
 
 								if(level < e.level)
 									dmg += dmg * ((51 + e.level - level)/200)
@@ -260,6 +261,13 @@ obj/summon
 						if(p.HP <= 0)
 							target = null
 							p.Death_Check(summoner)
+						else
+							HP -= p.level
+							if(HP <= 0)	break
+
+							if(hpbar)
+								var/percent = HP / MHP
+								hpbar.Set(percent, src)
 						delay = 5
 			else
 				var/d = get_dist(src, summoner)
