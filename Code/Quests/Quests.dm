@@ -951,7 +951,7 @@ obj/hud/screentext
 			maptext = null
 			var/count        = 4
 			var/offset       = 0
-			var/pixel_offset = 28
+			var/pixel_offset = 17
 
 			for(var/obj/hud/screentext/questPath/path in p.client.screen)
 				p.client.screen -= path
