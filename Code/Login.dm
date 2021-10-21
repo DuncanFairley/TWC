@@ -2000,7 +2000,7 @@ mob/proc/Death_Check(mob/killer = src)
 				var/gold2give = (rand(6,14)/10)*gold
 				var/exp2give  = (rand(6,14)/10)*Expg
 
-				if((killer:passives & SWORD_ANIMAGUS) && killer:Animagus && killer:animagusPower < 100 + killer:Animagus.level && prob(20))
+				if((killer:passives & SWORD_ANIMAGUS) && killer:Animagus && killer:animagusPower < 100 + killer:Animagus.level && prob(50))
 					killer:animagusPower++
 
 				if(killer.level > src.level && !killer.findStatusEffect(/StatusEffect/Lamps/Farming))

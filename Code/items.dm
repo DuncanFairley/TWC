@@ -4868,8 +4868,8 @@ obj/items/wearable/sword/wolf
 	icon='trophies.dmi'
 	icon_state="Sword"
 	name="Wolf's Claw"
-	desc="20% Chance to gain animagus charge on kill."
-	suffix = "<span style=\"color:#ffa500;\">20% Chance to gain animagus charge on kill.</span>"
+	desc="50% Chance to gain animagus charge on kill."
+	suffix = "<span style=\"color:#ffa500;\">50% Chance to gain animagus charge on kill.</span>"
 	passive = SWORD_ANIMAGUS
 
 obj/items/wearable/sword/snake
