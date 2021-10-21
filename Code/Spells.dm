@@ -1878,7 +1878,7 @@ element
 
 mob/Player
 	var/tmp/lastCombat = 0
-	proc/onDamage(dmg, mob/attacker)
+	proc/onDamage(dmg, mob/attacker, triggerSummons=1)
 
 		if((passives & SHIELD_MP) && MP < MMP)
 			var/regen = round(dmg / 30, 1)
@@ -1903,7 +1903,7 @@ mob/Player
 		HP -= dmg
 		updateHP()
 
-		if(attacker != src)
+		if(triggerSummons && attacker != src)
 			for(var/obj/summon/s in Summons)
 				if(!s.target)
 					s.target = attacker

@@ -257,12 +257,11 @@ obj/items/wearable/pets
 		icon_state = "squirrel"
 		currentSize = 1
 		minSize = 1
-		dropable = 0
+		rarity = 3
 	Cow
 		icon_state = "cow"
 		currentSize = 1
 		minSize = 1
-		dropable = 0
 
 
 obj/pet
@@ -654,3 +653,195 @@ mob/Player/proc/DisplayPets()
 			animate(p, alpha = i.alpha, time = 5)
 
 		if(!o.pets.len) o.pets = null
+
+obj/squirrel
+	icon = 'Mobs.dmi'
+	icon_state = "squirrel"
+
+	canSave = FALSE
+	density = 1
+
+	var/tmp
+		level = 100
+		scale = 1
+		HP = 9000000
+		MHP = 9000000
+		mob/Player/target
+		obj/healthbar/big/hpbar
+		turf/origloc
+		size = 1
+
+		feed = 0
+
+	var/const
+		KILL_CHANCE = 20
+		FEED_CHANCE = 40
+
+	New(loc)
+		set waitfor = 0
+
+		sleep(30)
+
+		origloc = loc
+		..()
+
+		state()
+
+	Move(NewLoc)
+		if(hpbar)
+			hpbar.glide_size = glide_size
+			hpbar.loc = NewLoc
+		.=..()
+
+	Dispose(corpse=1)
+		set waitfor = 0
+
+		if(target)
+			if(prob(KILL_CHANCE))
+				corpse = 0
+				drop(target)
+			target = null
+
+		if(corpse)
+			new /obj/corpse(loc, src, time=0)
+
+		loc = null
+		size = 1
+		transform = null
+		pixel_y = 0
+		feed = 0
+
+		if(hpbar)
+			hpbar.loc = null
+			hpbar = null
+
+		sleep(600 + rand(-200,200))
+
+		loc = origloc
+
+		alpha = 0
+		animate(src, alpha = 255, time = 15)
+
+		state()
+
+	Attacked(obj/projectile/p)
+		if(isplayer(p.owner))
+
+			if(!target)
+
+				if(size < 3)
+					size+=0.5
+
+					animate(src, transform = matrix() * size, pixel_y = 12 * (size - 1), time = 4)
+
+					p.owner << errormsg("Your [p] hits [src]. Are you sure you want to attack an innocent squirrel?")
+
+					if(size < 3) return
+
+				target = p.owner
+
+				feed  = 0
+				level = target.level + 100
+				MHP   = 8 * (level) + 200
+				HP    = MHP
+
+				if(!hpbar)
+					hpbar = new(src)
+				return
+
+			else
+				if(target != p.owner) return
+
+			var/dmg = p.damage + p.owner:Slayer.level
+
+			if(p.owner:monsterDmg > 0)
+				dmg *= 1 + p.owner:monsterDmg/100
+
+			var/n = dir2angle(get_dir(src, p))
+			emit(loc    = src,
+				 ptype  = /obj/particle/fluid/blood,
+			     amount = 4,
+			     angle  = new /Random(n - 25, n + 25),
+			     speed  = 2,
+			     life   = new /Random(15,25))
+
+			p.owner << "Your [p] does [dmg] damage to [src]."
+
+			HP -= dmg
+
+			if(HP > 0)
+				var/percent = HP / MHP
+				hpbar.Set(percent, src)
+			else
+				p.owner << errormsg("<i>You killed [name].</i>")
+				Dispose()
+
+	proc/Feed(mob/Player/p)
+		feed++
+
+		if(feed > 3)
+			feed = 0
+
+			if(prob(FEED_CHANCE))
+				drop(p)
+				Dispose(0)
+
+	proc/drop(mob/Player/p)
+
+		var/obj/items/wearable/pets/squirrel/s = new (loc)
+		s.prizeDrop(p.ckey, decay=FALSE)
+
+		emit(loc    = loc,
+			 ptype  = /obj/particle/star,
+			 amount = 3,
+			 angle  = new /Random(0, 360),
+			 speed  = 5,
+			 life   = new /Random(4,8))
+
+	proc/state()
+		set waitfor = 0
+
+		while(loc)
+			var/delay = 4
+			if(target)
+				var/d = get_dist(src, target)
+				if(d > 15)
+					target = null
+				else if(d > 1)
+					var/turf/t = get_step_to(src, target, 1)
+					if(!t)
+						density = 0
+						t = get_step_to(src, target, 1)
+						density = 1
+					Move(t)
+
+					delay = 3
+				else
+					var/dmg = round(level*2, 1) - target.Slayer.level
+
+					if(target.monsterDef > 0)
+						dmg *= 1 - min(target.monsterDef/100, 0.75)
+
+					if(target.animagusOn)
+						dmg = dmg * 0.7 - target.Animagus.level
+
+					dmg = target.onDamage(dmg, src, 0)
+					target << "<span style='color:red'>[src] attacks you for [dmg] damage!</span>"
+					if(target.HP <= 0)
+						target.Death_Check(target)
+						target = null
+
+						HP = 900000
+						size = 1
+						animate(src, transform = null, pixel_y = 0, time = 12)
+
+					delay = 3
+
+			else // WANDER
+				step_rand(src)
+				delay = 8
+
+			glide_size = 32 / delay
+			sleep(delay)
+
+		if(loc) Dispose()
