@@ -500,7 +500,7 @@ mob/Spells/verb/Serpensortia()
 			s.FlickState("m-black",8,'Effects.dmi')
 		else
 			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3 color=green>Serpensortia!"
-			var/obj/summon/snake/s = new  (loc, src, "Serpensortia", 1)
+			var/obj/summon/snake/s = new  (loc, src, "Serpensortia", 0.5)
 			s.FlickState("m-black",8,'Effects.dmi')
 
 		p.learnSpell("Serpensortia")
