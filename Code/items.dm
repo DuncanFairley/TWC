@@ -4612,6 +4612,15 @@ obj/items/treats
 			var/mob/Player/p = usr
 
 			if(!p.pet)
+
+				if(message)
+					var/obj/squirrel/s = locate() in orange(2, usr)
+					if(s && !s.target)
+						s.Feed(usr)
+						p << "You fed the [s] a [name]."
+						Consume()
+						return
+
 				p << errormsg("Equip a pet first in order to feed or play with it.")
 				return
 
@@ -4875,9 +4884,9 @@ obj/items/wearable/sword/gold
 	icon='Scroll.dmi'
 	icon_state="gold"
 	name="Golden Scroll"
-	desc="20% drop rate bonus."
-	suffix = "<span style=\"color:#ffa500;\">20% drop rate bonus.</span>"
-	dropRate = 20
+	desc="50% drop rate bonus."
+	suffix = "<span style=\"color:#ffa500;\">50% drop rate bonus.</span>"
+	dropRate = 50
 
 obj/items/wearable/sword/ghost
 	icon='trophies.dmi'
