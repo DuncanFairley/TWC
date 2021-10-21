@@ -173,15 +173,12 @@ obj/summon
 			hpbar = null
 
 	Attacked(obj/projectile/p)
-		if(isplayer(p.owner))
+		if(isplayer(p.owner) && p.owner != summoner)
 
 			var/dmg = p.damage + p.owner:Slayer.level
 
 			if(p.owner:monsterDmg > 0)
 				dmg *= 1 + p.owner:monsterDmg/100
-
-			if(p.owner == summoner)
-				dmg = round(dmg * 0.25)
 
 			var/n = dir2angle(get_dir(src, p))
 			emit(loc    = src,
@@ -219,7 +216,7 @@ obj/summon
 					step_to(src, target, 1)
 
 					if(isplayer(target))
-						delay = 3
+						delay = 4
 					else
 						delay = 2
 
@@ -261,7 +258,7 @@ obj/summon
 					else
 						var/mob/Player/p = target
 
-						var/dmg = round((level - 51)*0.5, 1)
+						var/dmg = round((level - 51)*0.4, 1) - p.Slayer.level
 
 						if(target:animagusOn)
 							dmg = dmg * 0.7 - target:Animagus.level
@@ -272,7 +269,7 @@ obj/summon
 							target = null
 							p.Death_Check(summoner)
 						else
-							HP -= p.level
+							HP -= (p.Dmg + p.clothDmg + p.Slayer.level)*2
 							if(HP <= 0)	break
 
 							if(hpbar)
