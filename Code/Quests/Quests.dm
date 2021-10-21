@@ -833,7 +833,7 @@ mob/Player/Topic(href, href_list[])
 
 		src << output(null, "Monsters.outputMonsters")
 		src << output("<b><u>[monster]</u></b><br>", "Monsters.outputMonsters")
-		src << output("Knowledge level: [knowlevel]<br>Extra drop rate: [5 * knowlevel]%<br>Killed: [monsterkills[monster]]<br>", "Monsters.outputMonsters")
+		src << output("Knowledge level: [knowlevel]<br>Extra drop rate: [10 * knowlevel]%<br>Killed: [monsterkills[monster]]<br>", "Monsters.outputMonsters")
 		if(level)
 			src << output("Level: [level]", "Monsters.outputMonsters")
 			src << output("Gold: [round(level / 2)]", "Monsters.outputMonsters")
