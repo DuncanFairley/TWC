@@ -2005,7 +2005,7 @@ mob/Enemies
 				if(exp2give <= 0) return 1
 
 			if(p.House == worldData.housecupwinner)
-				exp2give  *= 1.25
+				exp2give  *= 1.5
 
 			var/StatusEffect/Lamps/Exp/exp_rate   = p.findStatusEffect(/StatusEffect/Lamps/Exp)
 

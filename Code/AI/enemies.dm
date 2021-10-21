@@ -650,7 +650,7 @@ mob
 			var/rate_factor = worldData.DropRateModifier
 
 			if(killer.House == worldData.housecupwinner)
-				rate += 0.25
+				rate += 0.5
 
 			if(killer.guild) rate += killer.getGuildAreas() * 0.1
 

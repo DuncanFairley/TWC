@@ -95,7 +95,7 @@ Event
 
 			if(house != worldData.housecupwinner)
 				worldData.housecupwinner = house
-				Players << "<b><span style=\"color:#CF21C0;\">[worldData.housecupwinner] moved to the top and gained favour. They receive +25% drop rate/gold/XP from monster kills.</span></b>"
+				Players << "<b><span style=\"color:#CF21C0;\">[worldData.housecupwinner] moved to the top and gained favour. They receive +50% drop rate/gold/XP from monster kills.</span></b>"
 
 
 	DailyEvents

@@ -882,7 +882,7 @@ mob/Player
 		bubblesort_atom_name(Players)
 
 		if(worldData.housecupwinner)
-			src << "<b><span style=\"color:#CF21C0;\">[worldData.housecupwinner] is the House Cup winner for this month. They receive +25% drop rate/gold/XP from monster kills.</span></b>"
+			src << "<b><span style=\"color:#CF21C0;\">[worldData.housecupwinner] is the House Cup winner for this month. They receive +50% drop rate/gold/XP from monster kills.</span></b>"
 		if(classdest)
 			src << announcemsg("[curClass] class is starting. Click <a href=\"?src=\ref[src];action=class_path;latejoiner=true\">here</a> for directions.")
 
@@ -1950,7 +1950,7 @@ mob/proc/Death_Check(mob/killer = src)
 					if(rndexp < 0) rndexp = rand(20,30)
 
 					if(killer:House == worldData.housecupwinner)
-						rndexp *= 1.25
+						rndexp *= 1.5
 
 					if(spamKilled)
 						rndexp = rndexp * 0.1
@@ -2008,8 +2008,8 @@ mob/proc/Death_Check(mob/killer = src)
 					exp2give  -= exp2give  * ((killer.level-src.level)/150)
 
 				if(killer:House == worldData.housecupwinner)
-					gold2give *= 1.25
-					exp2give  *= 1.25
+					gold2give *= 1.5
+					exp2give  *= 1.5
 
 				exp2give *= worldData.expModifier
 

@@ -418,7 +418,7 @@ obj
 				var/rate_factor = worldData.DropRateModifier
 
 				if(p.House == worldData.housecupwinner)
-					rate += 0.25
+					rate += 0.5
 
 				if(icon_state == "chest")
 					rate += 1 + (p.TreasureHunting.level*2)/100
