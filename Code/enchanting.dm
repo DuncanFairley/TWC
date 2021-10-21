@@ -356,7 +356,7 @@ obj/items/crystal
 		if(Dmg && Def) return "+[Dmg] Damage +[Def] Defense"
 		if(Dmg) return "+[Dmg] Damage"
 		if(Def) return "+[Def] Defense"
-		if(luck) return "+[luck/2]% Drop Rate"
+		if(luck) return "+[luck]% Drop Rate"
 
 	New(Loc, tier)
 		..(Loc)
