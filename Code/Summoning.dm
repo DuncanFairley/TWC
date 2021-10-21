@@ -190,7 +190,9 @@ obj/summon
 					var/percent = HP / MHP
 					hpbar.Set(percent, src)
 
-				if(!target && p.owner != summoner)
+			// use if allowing summoner to damage
+			//	if(!target && p.owner != summoner)
+				if(!target)
 					target = p.owner
 			else
 				p.owner << infomsg("<i>You killed [summoner]'s [name].</i>")
@@ -253,14 +255,14 @@ obj/summon
 
 						var/dmg = round((level - 51)*0.4, 1) - p.Slayer.level
 
-						if(target:animagusOn)
-							dmg = dmg * 0.7 - target:Animagus.level
+						if(p.animagusOn)
+							dmg = dmg * 0.7 - p.Animagus.level
 
 						dmg = p.onDamage(dmg, summoner)
 						target << "<span style='color:red'>[src] attacks you for [dmg] damage!</span>"
 						if(p.HP <= 0)
-							target = null
 							p.Death_Check(summoner)
+							target = null
 						else
 							HP -= (p.Dmg + p.clothDmg + p.Slayer.level)*2
 							if(HP <= 0)	break
