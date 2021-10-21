@@ -652,11 +652,11 @@ mob
 			if(killer.House == worldData.housecupwinner)
 				rate += 0.25
 
-			if(killer.guild) rate += killer.getGuildAreas() * 0.05
+			if(killer.guild) rate += killer.getGuildAreas() * 0.1
 
 			var/knowledge = monsterkills[name] + 1
 			if(knowledge)
-				rate += round(log(10, knowledge)) * 0.05
+				rate += round(log(10, knowledge)) * 0.1
 
 			var/StatusEffect/Lamps/DropRate/d = killer.findStatusEffect(/StatusEffect/Lamps/DropRate)
 			if(d)

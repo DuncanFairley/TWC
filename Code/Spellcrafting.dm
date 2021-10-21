@@ -429,7 +429,7 @@ obj
 
 					p.Spellcrafting.add((p.level + p.Spellcrafting.level + rand(10)) * 50, p, 1)
 
-				if(p.guild) rate += p.getGuildAreas() * 0.05
+				if(p.guild) rate += p.getGuildAreas() * 0.1
 
 				var/StatusEffect/Lamps/DropRate/d = p.findStatusEffect(/StatusEffect/Lamps/DropRate)
 				if(d)
