@@ -1000,7 +1000,7 @@ hudobj
 				maptext_width  = 256
 				maptext_height = 64
 				screen_x       = 32
-				screen_y       = -32
+				screen_y       = -64
 
 				Click()
 
@@ -1010,7 +1010,7 @@ hudobj
 				maptext = "Clear Decoration/Portkeys"
 
 				screen_x = 32
-				screen_y = 32
+				screen_y = 0
 
 			#if WINTER
 			snow
@@ -1235,7 +1235,7 @@ hudobj
 				price = list(/obj/items/stones = 15)
 				path = /obj/bigblackchair
 
-				screen_x = 32
+				screen_x = 64
 				screen_y = 64
 
 				maptext_x = 0
@@ -1248,7 +1248,7 @@ hudobj
 				price = list(/obj/items/stones = 15)
 				path = /obj/bigwhitechair
 
-				screen_x = 64
+				screen_x = 96
 				screen_y = 64
 
 				maptext_x = 0
@@ -1261,7 +1261,7 @@ hudobj
 				price = list(/obj/items/stones = 15)
 				path = /obj/bigpurplechair
 
-				screen_x = 96
+				screen_x = 128
 				screen_y = 64
 
 				maptext_x = 0
@@ -1275,7 +1275,7 @@ hudobj
 				price = list(/obj/items/stones = 15)
 				path = /obj/bigtealchair
 
-				screen_x = 128
+				screen_x = 160
 				screen_y = 64
 
 			Angel
@@ -1463,6 +1463,56 @@ hudobj
 
 				screen_x = 128
 				screen_y = 64
+
+			red_carpet
+				icon       = 'turf.dmi'
+				icon_state = "carpet"
+				color      = "#ff0000"
+
+				price = 3
+
+				screen_x = 32
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
+			green_carpet
+				icon       = 'turf.dmi'
+				icon_state = "carpet"
+				color      = "#00ff00"
+
+				price = 3
+
+				screen_x = 64
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
+			yellow_carpet
+				icon       = 'turf.dmi'
+				icon_state = "carpet"
+				color      = "#d5d500"
+
+				price = 3
+
+				screen_x = 96
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
+			blue_carpet
+				icon       = 'turf.dmi'
+				icon_state = "carpet"
+				color      = "#0d74db"
+
+				maptext = "Carpets: 3 wood logs"
+				price = 3
+
+				screen_x = 128
+				screen_y = 32
 
 			gryffindor
 				icon       = 'shields.dmi'
