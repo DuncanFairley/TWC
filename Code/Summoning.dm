@@ -114,7 +114,7 @@ obj/summon
 		hpbar = new(src)
 
 		if(size)
-			size = min(3, size + p.Summoning.level/20)
+			size = min(3, size + p.Summoning.level/25)
 			transform = matrix() * size
 
 		sleep(4)
