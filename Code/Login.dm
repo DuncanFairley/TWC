@@ -1,9 +1,3 @@
-/*
- * Copyright © 2014 Duncan Fairley
- * Distributed under the GNU Affero General Public License, version 3.
- * Your changes must be made public.
- * For the full license text, see LICENSE.txt.
- */
 /*mob/verb/NewVault1()
 
 	//THIS IS THE FUNCTION FOR CREATING ADDITIONAL VAULT TEMPLATES

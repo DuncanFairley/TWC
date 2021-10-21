@@ -1,9 +1,3 @@
-/*
- * Copyright © 2014 Duncan Fairley
- * Distributed under the GNU Affero General Public License, version 3.
- * Your changes must be made public.
- * For the full license text, see LICENSE.txt.
- */
 mob/Player/var/list/atom/movable/PM/pmsRec = list()
 mob/Player/var/list/atom/movable/PM/pmsSen = list()
 mob/Player/var/tmp/atom/movable/PM/curPM

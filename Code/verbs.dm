@@ -1,10 +1,3 @@
-/*
- * Copyright � 2014 Duncan Fairley
- * Distributed under the GNU Affero General Public License, version 3.
- * Your changes must be made public.
- * For the full license text, see LICENSE.txt.
- */
-
 mob/GM/verb/Force_PM(mob/M in world)
 		set category="Staff"
 		set popup_menu = 0

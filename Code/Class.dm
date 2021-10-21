@@ -1,10 +1,3 @@
-/*
- * Copyright © 2014 Duncan Fairley
- * Distributed under the GNU Affero General Public License, version 3.
- * Your changes must be made public.
- * For the full license text, see LICENSE.txt.
- */
-
 proc/GenerateIcon(atom/movable/a, px = 0, py = 0, wig = 1, shoes = 1, scarf = 1)
 
 	if(scarf)

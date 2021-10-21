@@ -1,9 +1,3 @@
-/*
- * Copyright © 2014 Duncan Fairley
- * Distributed under the GNU Affero General Public License, version 3.
- * Your changes must be made public.
- * For the full license text, see LICENSE.txt.
- */
 mob/var/spellpoints = 0 //Earn 5, and you get to choose a spell
 var/spellpointlog = file("Logs/spellpointlog.txt")
 mob/Player/proc/learnspell(path)

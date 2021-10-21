@@ -1,10 +1,3 @@
-/*
- * Copyright © 2014 Duncan Fairley
- * Distributed under the GNU Affero General Public License, version 3.
- * Your changes must be made public.
- * For the full license text, see LICENSE.txt.
- */
-
 var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cushion,
 			 	                                         /obj/items/Smoke_Pellet,
 			 	                                         /obj/items/Tube_of_fun)),
