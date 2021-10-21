@@ -24,7 +24,6 @@ proc/str_count(haystack, needle)
 
 client
 	mouse_pointer_icon='pointer.dmi'
-#include <deadron/basecamp>
 #define BASE_MENU_CREATE_CHARACTER	"Create New Character"
 #define BASE_MENU_DELETE_CHARACTER	"Delete Character"
 #define BASE_MENU_CANCEL			"Cancel"
