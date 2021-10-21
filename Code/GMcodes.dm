@@ -653,9 +653,9 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a HM class<br />"
 			curClass = "GCOM"
 			for(var/mob/Player/p in Players)
-				p.beep(2)
-			for(var/mob/Player/p in Players)
 				p << announcemsg("General Course of Magic class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
+			var/RandomEvent/GMClass/c = locate() in worldData.events
+			c.start()
 		Host_COMC_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named COMC Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"COMC-Class") as null|mob in world
@@ -668,8 +668,8 @@ mob
 			for(var/mob/Player/p in Players)
 				p << announcemsg("Care of Magical Creatures class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
 			curClass = "COMC"
-			for(var/mob/Player/p in Players)
-				p.beep(2)
+			var/RandomEvent/GMClass/c = locate() in worldData.events
+			c.start()
 		Host_Trans_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named Transfiguration Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"Transfiguration-Class") as null|mob in world
@@ -681,9 +681,9 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Transfiguration class<br />"
 			curClass = "Transfiguration"
 			for(var/mob/Player/p in Players)
-				p.beep(2)
-			for(var/mob/Player/p in Players)
 				p << announcemsg("Transfiguration class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
+			var/RandomEvent/GMClass/c = locate() in worldData.events
+			c.start()
 		Host_Duel_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named Charms. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"Charms-Class") as null|mob in world
@@ -695,9 +695,9 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Duel class<br />"
 			curClass = "Duel"
 			for(var/mob/Player/p in Players)
-				p.beep(2)
-			for(var/mob/Player/p in Players)
 				p << announcemsg("Duel class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
+			var/RandomEvent/GMClass/c = locate() in worldData.events
+			c.start()
 		Host_DADA_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named DADA Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"DADA-Class") as null|mob in world
@@ -709,9 +709,9 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a DADA class<br />"
 			curClass = "DADA"
 			for(var/mob/Player/p in Players)
-				p.beep(2)
-			for(var/mob/Player/p in Players)
 				p << announcemsg("Defence Against the Dark Arts class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
+			var/RandomEvent/GMClass/c = locate() in worldData.events
+			c.start()
 		Host_Headmaster_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named Headmaster Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"Headmaster-Class") as null|mob in world
@@ -723,9 +723,10 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Headmaster class<br />"
 			curClass = "Headmasters"
 			for(var/mob/Player/p in Players)
-				p.beep(2)
-			for(var/mob/Player/p in Players)
 				p << announcemsg("Headmaster's General Magic class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
+			var/RandomEvent/GMClass/c = locate() in worldData.events
+			c.start()
+
 		Host_Charms_Class()
 			set category = "Teach"
 			classdest = input("Select a mob where your class will be held. (Usually just the invisible mob named Charms Class. Note: The mob you select MUST be on the same floor as the default, or it won't work.)",,"Charms-Class") as null|mob in world
@@ -737,9 +738,10 @@ mob
 				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Charms class<br />"
 			curClass = "Charms"
 			for(var/mob/Player/p in Players)
-				p.beep(2)
-			for(var/mob/Player/p in Players)
 				p << announcemsg("Charms class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
+
+			var/RandomEvent/GMClass/c = locate() in worldData.events
+			c.start()
 
 		Host_Muggle_Studies_Class()
 			set category = "Teach"
@@ -751,10 +753,12 @@ mob
 			else
 				classlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] started a Muggle Studies class<br />"
 			curClass = "Muggle Studies"
-			for(var/mob/Player/p in Players)
-				p.beep(2)
+
 			for(var/mob/Player/p in Players)
 				p << announcemsg("Muggle Studies class is starting. Click <a href=\"?src=\ref[p];action=class_path\">here</a> for directions.")
+
+			var/RandomEvent/GMClass/c = locate() in worldData.events
+			c.start()
 
 		End_Floor_Guidence()
 			set category = "Teach"
@@ -773,6 +777,9 @@ mob
 						M << infomsg("The following players were currently using floor guidance. Maybe they want to come?:[stillpathing]")
 			usr<<infomsg("Floor Guidance offline.")
 			classdest = null
+
+			var/RandomEvent/GMClass/c = locate() in worldData.currentEvents
+			c.end()
 
 		Toggle_Safemode()
 			set category = "Server"

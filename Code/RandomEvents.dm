@@ -52,6 +52,28 @@ RandomEvent
 			endTime = null
 			desc = null
 
+	GMClass
+		name = "Special Class"
+		beepType = 2
+		chance = 0
+
+		start()
+			..()
+			var/time = 600*10
+			endTime = world.time + time
+			sleep(time)
+			if(!endTime) return
+			if(classdest)
+				classdest = null
+
+				for(var/mob/Player/M in Players)
+					if(M.classpathfinding)
+						for(var/image/C in M.client.images)
+							if(C.icon == 'arrows.dmi')
+								M.client.images.Remove(C)
+						M.classpathfinding = 0
+			end()
+
 	Tournament
 		name   = "Tournament"
 		chance = 8
