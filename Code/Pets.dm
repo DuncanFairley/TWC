@@ -663,7 +663,6 @@ obj/squirrel
 
 	var/tmp
 		level = 100
-		scale = 1
 		HP = 9000000
 		MHP = 9000000
 		mob/Player/target
