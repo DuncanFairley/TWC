@@ -208,7 +208,9 @@ obj/summon
 				if(d > 15)
 					target = null
 				else if(d > 1)
-					step_to(src, target, 1)
+					density = 0
+					step_towards(src, target)
+					density = 1
 
 					if(isplayer(target))
 						delay = 4
@@ -275,15 +277,17 @@ obj/summon
 				var/d = get_dist(src, summoner)
 				if(d > 20)
 					loc = summoner.loc
-				else if(d > 5)
-					step_to(src, summoner, 1)
+				else if(d > 10)
+					density = 0
+					step_towards(src, target)
+					density = 1
 
-					if(d > 10) delay = 1
+					if(d > 15) delay = 1
 					else delay = 2
 
 				else
 					step_rand(src)
-					delay = 6
+					delay = 8
 
 			glide_size = 32 / delay
 			duration -= delay
