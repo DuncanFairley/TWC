@@ -2083,6 +2083,7 @@ obj
 	projectile
 		layer = 4
 		density = 1
+		icon = 'attacks.dmi'
 		var
 			velocity = 0
 			const/MAX_VELOCITY = 10
