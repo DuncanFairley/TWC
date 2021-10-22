@@ -1598,7 +1598,7 @@ obj
 			desc = "You should probably click those blue chests you find around."
 		Slayer
 			icon_state = "Slayer"
-			desc = "Each level increases damage taken and dealt by 1."
+			desc = "Each level reduces damage taken and increases damage dealt by 1."
 		Treasure_Hunting
 			icon_state = "Treasure Hunting"
 			desc = "You should probably click those chests and barrels you find around."
