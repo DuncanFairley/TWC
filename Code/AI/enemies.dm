@@ -606,9 +606,10 @@ mob
 			P1.partner = P2
 			P2.partner = P1
 
-			sleep(2)
-
 			P1.density = 1
+
+			sleep(4)
+
 			step_rand(P1)
 
 			if(lava)
