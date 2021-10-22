@@ -260,18 +260,20 @@ obj/summon
 						if(p.animagusOn)
 							dmg = dmg * 0.7 - p.Animagus.level
 
-						dmg = p.onDamage(dmg, summoner)
-						target << "<span style='color:red'>[src] attacks you for [dmg] damage!</span>"
-						if(p.HP <= 0)
-							p.Death_Check(summoner)
-							target = null
-						else
-							HP -= (p.Dmg + p.clothDmg + p.Slayer.level)*2
-							if(HP <= 0)	break
+						if(dmg >= 1)
+							dmg = p.onDamage(dmg, summoner)
+							if(dmg >= 1)
+								target << "<span style='color:red'>[src] attacks you for [dmg] damage!</span>"
+								if(p.HP <= 0)
+									p.Death_Check(summoner)
+									target = null
+								else
+									HP -= (p.Dmg + p.clothDmg + p.Slayer.level)*2
+									if(HP <= 0)	break
 
-							if(hpbar)
-								var/percent = HP / MHP
-								hpbar.Set(percent, src)
+									if(hpbar)
+										var/percent = HP / MHP
+										hpbar.Set(percent, src)
 						delay = 5
 			else
 				var/d = get_dist(src, summoner)
