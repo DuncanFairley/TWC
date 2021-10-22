@@ -52,7 +52,7 @@ obj/summon
 		New(loc, mob/Player/p, spell, size=0)
 			set waitfor = 0
 
-			level += p.Water.level
+			level += p.Water.level*2
 
 			..(loc, p, spell, size)
 
@@ -64,7 +64,7 @@ obj/summon
 		New(loc, mob/Player/p, spell, size=0)
 			set waitfor = 0
 
-			level += p.Fire.level
+			level += p.Fire.level*2
 
 			..(loc, p, spell, size)
 
@@ -75,7 +75,7 @@ obj/summon
 		New(loc, mob/Player/p, spell, size=0)
 			set waitfor = 0
 
-			level += p.Earth.level
+			level += p.Earth.level*2
 
 			..(loc, p, spell, size)
 
@@ -87,7 +87,7 @@ obj/summon
 		New(loc, mob/Player/p, spell, size=0)
 			set waitfor = 0
 
-			level += p.Ghost.level
+			level += p.Ghost.level*2
 			color = rgb(rand(20, 255), rand(20, 255), rand(20, 255), rand(190,255))
 
 			..(loc, p, spell, size)
@@ -103,7 +103,7 @@ obj/summon
 		summoner = p
 		cast = spell
 
-		level   += p.level + p.Summoning.level
+		level   += p.level + p.Summoning.level*2
 		MHP      = 4 * (level) + 200
 		HP       = MHP
 		duration = 600 + p.Summoning.level*10
