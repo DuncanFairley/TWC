@@ -1049,6 +1049,8 @@ obj/items/seeds
 		cycles = 4
 		amount = 4
 
+		cap = 0
+
 	icon = 'potions_ingredients.dmi'
 	icon_state = "seeds"
 
@@ -1083,7 +1085,7 @@ obj/items/seeds
 			b.Consume()
 			Consume()
 
-			new /obj/herb (t, usr.ckey, plantType, delay, amount, name)
+			new /obj/herb (t, usr.ckey, plantType, delay, cycles, amount, name, cap)
 
 			var/list/dirs = DIRS_LIST
 			var/opDir
@@ -1128,6 +1130,7 @@ obj/items/seeds
 		delay = 288000
 		cycles = 3
 		amount = 1
+		cap = 3
 
 
 obj/items/freds_key
