@@ -1849,6 +1849,7 @@ element
 				else if(amount > 10)
 					amount = 10
 
+			if(amount < 10) return
 			amount = round(amount/10, 1)
 
 			exp += amount
