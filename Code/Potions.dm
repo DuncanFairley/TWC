@@ -983,15 +983,17 @@ obj
 			ownerCkey
 			water = 0
 			amount = 1
+			cap = 0
 			tmp/wait
 
-		New(Loc, ownerCkey, plantType, delay, yields, seedName)
+		New(Loc, ownerCkey, plantType, delay, yields, amount, seedName, cap=0)
 			..(Loc)
 
 			src.plantType = plantType
 			src.delay     = delay
 			src.yields    = yields
 			src.amount    = amount
+			src.cap       = cap
 
 			src.ownerCkey = ownerCkey
 
@@ -1036,8 +1038,15 @@ obj
 			var/improvedAmount = amount
 
 			if(isplayer(player))
-				improvedAmount += player.Gathering.level
-				player.Gathering.add((improvedAmount*10 + rand(4,6))*50, player, 1)
+
+				if(cap)
+
+					improvedAmount += round(player.Gathering.level / (1 + rand(1, cap * 4) + cap))
+
+					improvedAmount = min(improvedAmount, amount*cap)
+				else
+					improvedAmount += player.Gathering.level
+				player.Gathering.add((improvedAmount*10 + rand(6,8))*100, player, 1)
 
 				time = max(time - round(player.Gathering.level/5)*10, 50)
 
@@ -1218,3 +1227,217 @@ tr.black
 			i_Player << browse(HEADER + sortText + html + "</table></body></html>", "window=potions")
 
 
+obj/plant
+	icon = 'Plants.dmi'
+
+	canSave = FALSE
+	density = 1
+
+	var/tmp
+		level = 100
+		HP = 1000
+		MHP = 1000
+		duration
+		obj/healthbar/hpbar
+		delay = 4
+
+	New(loc, mob/Player/p, size=0)
+		set waitfor = 0
+
+		p.plants++
+
+		..()
+
+		owner = p
+
+		level    = round(p.level/2 + p.Gathering.level*2)
+		MHP      = 4 * (level) + 200
+		HP       = MHP
+		duration = 300 + p.Gathering.level*10
+
+
+		hpbar = new(src)
+
+		if(size)
+			size = min(2, size + p.Gathering.level/25)
+
+			var/matrix/m1 = matrix() * size
+			var/matrix/m2 = matrix() * size
+			m1.Scale(1.3, 1)
+			m2.Scale(1,   1.3)
+
+			animate(src, transform = m1, time = 5, loop = 32)
+			animate(transform = m2, time = 5)
+
+		sleep(4)
+		state()
+
+	Move(NewLoc)
+		if(hpbar)
+			hpbar.glide_size = glide_size
+			hpbar.loc = NewLoc
+		.=..()
+
+	Dispose()
+		set waitfor = 0
+
+		density = 0
+		animate(src, alpha = 0, time = 4)
+
+		owner:plants--
+
+		owner = null
+		if(hpbar)
+			hpbar.loc = null
+			hpbar = null
+
+		sleep(5)
+		loc = null
+
+	Attacked(obj/projectile/p)
+		if(isplayer(p.owner) && alpha != 0)
+
+			var/dmg = p.damage + p.owner:Slayer.level
+
+			if(p.owner:monsterDmg > 0)
+				dmg *= 1 + p.owner:monsterDmg/100
+
+
+			p.owner << "Your [p] does [dmg] damage to [src]."
+
+			HP -= dmg
+
+			if(HP > 0)
+				var/percent = HP / MHP
+				hpbar.Set(percent, src)
+			else
+				p.owner << errormsg("You destroyed [src].")
+				Dispose()
+
+	proc/state()
+		set waitfor = 0
+
+		while(duration > 0 && owner)
+
+			effect()
+
+			if(delay)
+				glide_size = 32 / delay
+				duration -= delay
+				sleep(delay)
+
+		if(loc) Dispose()
+
+	proc/effect()
+
+
+	firebreath
+		icon_state = "Orange Flower"
+		delay = 0
+
+		effect()
+
+			var/list/dirs = list(NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST)
+
+			for(var/d in dirs)
+				var/obj/projectile/P = new (src.loc,d,owner,'attacks.dmi',"fireball",level,"fire spit",FIRE)
+				P.shoot(3)
+				sleep(2)
+
+			duration -= 16
+	grumpy_hogweed
+		icon_state = "Pink Flower"
+		delay = 10
+
+		New(loc, mob/Player/p, size=0)
+			set waitfor = 0
+			..(loc, p, size)
+
+			var/image/img = image('lights.dmi',"green")
+			img.transform *= 3
+			img.layer = 8
+			img.appearance_flags = RESET_TRANSFORM
+			underlays += img
+
+		effect()
+
+			for(var/mob/Player/p in range(1, src))
+				p.HP = min(p.MHP, p.HP + round(level/2, 1))
+				p.updateHP()
+
+	magicflow
+		icon_state = "White Flower"
+		delay = 10
+
+		New(loc, mob/Player/p, size=0)
+			set waitfor = 0
+			..(loc, p, size)
+
+			var/image/img = image('lights.dmi',"blue")
+			img.transform *= 3
+			img.layer = 8
+			img.appearance_flags = RESET_TRANSFORM
+			underlays += img
+
+		effect()
+
+			for(var/mob/Player/p in range(1, src))
+				p.MP = min(p.MMP, p.MP + round(level/2, 1))
+				p.updateMP()
+
+
+mob/Player/var/tmp/plants = 0
+
+obj/items/plant
+	icon = 'Plants.dmi'
+	rarity  = 2
+
+	var/plantType
+
+	Click()
+		if(src in usr)
+
+			if(locate(/obj/plant) in range(2, usr))
+				usr << errormsg("You can't grow a plant so close to another.")
+				return
+
+			var/mob/Player/p = usr
+			if(p.plants >= 1 + round(p.Gathering.level / 10))
+				p << errormsg("You need higher gathering level to plant more.")
+				return
+
+			usr << infomsg("You feed [src] a bit of magic, it sprouts to life.")
+
+			new plantType (usr.loc, usr, 0.5)
+			if(Consume())
+				usr:Resort_Stacking_Inv()
+		else
+			..()
+
+	grumpy_hogweed
+		icon_state = "Pink Flower"
+		plantType = /obj/plant/grumpy_hogweed
+	magicflow
+		icon_state = "White Flower"
+		plantType = /obj/plant/magicflow
+	firebreath
+		icon_state = "Orange Flower"
+		plantType = /obj/plant/firebreath
+
+
+obj/items/seeds
+	grumpy_hogweed_seeds
+		plantType = /obj/items/plant/grumpy_hogweed
+		delay = 36000
+		cycles = 4
+		amount = 3
+	magicflow_seeds
+		plantType = /obj/items/plant/magicflow
+		delay = 36000
+		cycles = 4
+		amount = 3
+	firebreath_seeds
+		plantType = /obj/items/plant/firebreath
+		delay = 36000
+		cycles = 4
+		amount = 3
