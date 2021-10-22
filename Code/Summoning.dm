@@ -277,12 +277,12 @@ obj/summon
 				var/d = get_dist(src, summoner)
 				if(d > 20)
 					loc = summoner.loc
-				else if(d > 10)
+				else if(d > 7)
 					density = 0
-					step_towards(src, target)
+					step_towards(src, summoner)
 					density = 1
 
-					if(d > 15) delay = 1
+					if(d > 14) delay = 1
 					else delay = 2
 
 				else
