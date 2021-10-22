@@ -945,13 +945,13 @@ obj/hud/screentext
 	quest
 		screen_loc = "WEST+1,SOUTH+1"
 		maptext_width  = 320
-		maptext_height = 320
+		maptext_height = 352
 
 		proc/update(mob/Player/p)
 			maptext = null
 			var/count        = 4
 			var/offset       = 0
-			var/pixel_offset = 17
+			var/pixel_offset = 16
 
 			for(var/obj/hud/screentext/questPath/path in p.client.screen)
 				p.client.screen -= path
@@ -965,7 +965,7 @@ obj/hud/screentext
 				count--
 				if(count < 0) break
 
-				pixel_offset += (pointer.reqs.len) * 14 + 18
+				pixel_offset += (pointer.reqs.len) * 16 + 16
 				if(pixel_offset >= 32)
 					pixel_offset -= 32
 					offset++
