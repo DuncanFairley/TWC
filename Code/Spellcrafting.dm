@@ -443,7 +443,7 @@ obj
 
 				var/base = worldData.baseChance * clamp(p.level/100, 0.2, 20)
 
-				if(icon_state == "spellcrafting" && prob(base * rate * 30))
+				if(icon_state == "spellcrafting" && prob(base * rate * 20))
 					var/prize = pick(/obj/items/wearable/title/Airbender,
 					                 /obj/items/wearable/title/Waterbender,
 					                 /obj/items/wearable/title/Firebender,
@@ -451,6 +451,7 @@ obj
 					                 /obj/items/spellpage/proj,
 									 /obj/items/spellpage/explosion,
 									 /obj/items/spellpage/aura,
+									 /obj/items/spellpage/summon,
 									 /obj/items/spellpage/fire,
 									 /obj/items/spellpage/water,
 									 /obj/items/spellpage/ghost,
@@ -466,7 +467,7 @@ obj
 
 					p << infomsg("<i>You found \a [i.name].</i>")
 
-				else if(icon_state == "chest" && prob(base * rate * 40))
+				else if(icon_state == "chest" && prob(base * rate * 30))
 					if(prob(20))
 						var/prize = pickweight(list(/obj/items/wearable/title/Wrecker     = 5,
 						                            /obj/items/bucket                     = 10,
