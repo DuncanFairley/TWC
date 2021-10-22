@@ -146,7 +146,7 @@ obj/items/wearable/spellbook
 
 		if(world.time - lastUsed <= cd*p.cooldownModifier)
 			if(cd > 10 && !attacker)
-				var/timeleft = ceil((lastUsed+cd - world.time)/10)
+				var/timeleft = ceil((lastUsed+cd*p.cooldownModifier - world.time)/10)
 				p << "<b>This can't be used for another [timeleft] second[timeleft==1 ? "" : "s"].</b>"
 			return
 
