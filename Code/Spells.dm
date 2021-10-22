@@ -1721,6 +1721,29 @@ mob/Spells/verb/Inferius()
 
 			if(p.Summons.len >= limit) break
 
+mob/Spells/verb/Inferius_Maxima()
+	set category = "Spells"
+
+	if(canUse(src,needwand=0))
+
+		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=silver> Inferius Maxima!"
+
+		for(var/obj/corpse/c in view(15, src))
+			if(c.gold == -1 || c.revive == 1) continue
+
+			if(c.owner)
+				c.revive = 1
+				animate(c, transform = null, alpha = 255, time = 10)
+				sleep(10)
+				if(c.owner)
+					c.owner << infomsg("[usr] resurrected you.")
+					var/gold/g = new(bronze=c.gold)
+					g.give(c.owner)
+					c.owner:Transfer(c.loc)
+					c.owner.dir = c.dir
+					c.loc = null
+					c.owner = null
+
 var/safemode = 1
 mob/var/tmp
 	lastproj = 0

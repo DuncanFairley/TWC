@@ -2689,7 +2689,7 @@ obj/corpse
 	canSave = 0
 	Click()
 		..()
-		if(gold > 0)
+		if(gold > 0 && !revive)
 			if(src in orange(1))
 				var/gold/g = new(bronze=gold)
 				usr << infomsg("You looted [g.toString()] from [name]'s corpse.")
@@ -2707,6 +2707,7 @@ obj/corpse
 		appearance         = dead.appearance
 		dir                = dead.dir
 		layer              = 3
+		owner              = dead
 
 		if(turn)
 			var/matrix/m = transform
@@ -2760,10 +2761,13 @@ obj/corpse
 		else
 			sleep(time)
 
-		if(revive) return
+		if(revive)
+			owner = null
+			return
 
 		animate(src, alpha = 0, time = 10)
 		sleep(10)
+		owner = null
 		loc = null
 
 area/var/undead = 0
