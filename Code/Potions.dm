@@ -1250,7 +1250,7 @@ obj/plant
 
 		owner = p
 
-		level    = round(p.level/2 + p.Gathering.level*2)
+		level    = round(p.level/2 + p.Gathering.level*4)
 		MHP      = 4 * (level) + 200
 		HP       = MHP
 		duration = 300 + p.Gathering.level*10
@@ -1266,7 +1266,7 @@ obj/plant
 			m1.Scale(1.3, 1)
 			m2.Scale(1,   1.3)
 
-			animate(src, transform = m1, time = 5, loop = 32)
+			animate(src, transform = m1, time = 5, loop = -1)
 			animate(transform = m2, time = 5)
 
 		sleep(4)
@@ -1284,9 +1284,10 @@ obj/plant
 		density = 0
 		animate(src, alpha = 0, time = 4)
 
-		owner:plants--
+		if(owner)
+			owner:plants--
+			owner = null
 
-		owner = null
 		if(hpbar)
 			hpbar.loc = null
 			hpbar = null
@@ -1362,7 +1363,7 @@ obj/plant
 		effect()
 
 			for(var/mob/Player/p in range(1, src))
-				p.HP = min(p.MHP, p.HP + round(level/2, 1))
+				p.HP = min(p.MHP, p.HP + round(level, 1))
 				p.updateHP()
 
 	magicflow
@@ -1382,7 +1383,7 @@ obj/plant
 		effect()
 
 			for(var/mob/Player/p in range(1, src))
-				p.MP = min(p.MMP, p.MP + round(level/2, 1))
+				p.MP = min(p.MMP, p.MP + round(level, 1))
 				p.updateMP()
 
 
