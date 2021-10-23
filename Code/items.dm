@@ -4766,8 +4766,7 @@ obj/items/wearable/ring/ring_of_displacement
 	passive = RING_DISPLACEMENT
 
 obj/items/wearable/ring/cooling_shoes
-	icon='cyan_shoes.dmi'
-	icon_state="item"
+	icon_state="cooling shoes"
 	desc="magical shoes that keep you cool enough to walk on lava."
 	suffix = "<span style=\"color:#ffa500;\">Allows you to walk on lava.</span>"
 	passive = RING_LAVAWALK
