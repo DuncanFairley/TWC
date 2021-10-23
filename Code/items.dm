@@ -1257,6 +1257,8 @@ obj/items/wearable/brooms
 						s.Dispose()
 						owner.removeFollower(s)
 						animate(owner, flags = ANIMATION_END_NOW)
+				if(istype(owner.loc, /turf/lava))
+					owner.loc.Enter(owner, owner.loc)
 
 obj/items/wearable/brooms/firebolt
 	icon = 'firebolt_broom.dmi'
@@ -4762,6 +4764,27 @@ obj/items/wearable/ring/ring_of_displacement
 	desc="A magical ring that allows you to walk through monsters."
 	suffix = "<span style=\"color:#ffa500;\">Allows you to walk through monsters.</span>"
 	passive = RING_DISPLACEMENT
+
+obj/items/wearable/ring/cooling_shoes
+	icon='cyan_shoes.dmi'
+	icon_state="item"
+	desc="magical shoes that keep you cool enough to walk on lava."
+	suffix = "<span style=\"color:#ffa500;\">Allows you to walk on lava.</span>"
+	passive = RING_LAVAWALK
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		. = ..(owner, 1)
+		if(. == WORN)
+			src.gender = owner.gender
+			if(!overridetext)viewers(owner) << infomsg("[owner] throws \his pair of [src.name] on.")
+			for(var/obj/items/wearable/ring/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+		else if(. == REMOVED)
+			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
+
+			if(istype(owner.loc, /turf/lava))
+				owner.loc.Enter(owner, owner.loc)
 
 obj/items/wearable/shield
 	bonus  = 0

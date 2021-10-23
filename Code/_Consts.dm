@@ -43,7 +43,7 @@
 #define RING_WATERWALK 1
 #define RING_APPARATE 2
 #define RING_DISPLACEMENT 4
-#define RING_4 8
+#define RING_LAVAWALK 8
 #define RING_5 16
 
 #define SHIELD_MP 32

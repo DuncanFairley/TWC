@@ -393,6 +393,46 @@ StatusEffect
 	UsedGMHelp
 	DisplayedTrophy
 
+	Lava
+		Activate()
+			set waitfor = 0
+			..()
+			var/mob/Player/p = AttachedAtom
+
+			p.filters += filter(type="outline", size=1, color="#ffa500")
+
+			p.filters += filter(type="wave", x=60*rand() - 30, y=60*rand() - 30, size=rand()*2.5+0.5, offset=rand())
+
+			var/f = p.filters[p.filters.len]
+			animate(f, offset=f:offset, time=0, loop=-1, flags=ANIMATION_PARALLEL)
+			animate(offset=f:offset-1, time=rand()*20+2)
+
+			var/dmg = 450 + rand(-50, 50)
+
+			while(p)
+				p.HP -= dmg
+				if(p.HP <= 0)
+					p.Death_Check(p)
+					break
+				else
+					p.updateHP()
+
+
+				dmg *= 2
+
+				sleep(10)
+
+		Deactivate()
+			var/mob/Player/p = AttachedAtom
+			if(p)
+				if(istype(p.loc, /turf/lava))
+					scheduler.schedule(AttachedEvent,30)
+					new /hudobj/Cooldown (null, p.client, null, "Inflamari", 3, show=1)
+					return
+
+				p.filters = null
+
+			..()
 
 	Potions
 		var/obj/items/potions/potion
@@ -704,6 +744,7 @@ StatusEffect
 						 color  = "#c60")
 
 					sleep(10)
+
 
 		Health
 			var/amount = 1000

@@ -757,7 +757,13 @@ turf
 		icon_state="hplava"
 
 		Enter(atom/movable/O, atom/oldloc)
-			if(isplayer(O) && O.density) return 0
+			if(isplayer(O) && O.density)
+				if(O:passives & RING_LAVAWALK) return ..()
+
+				if(!O.LStatusEffects || !(locate(/StatusEffect/Lava) in O.LStatusEffects))
+					new /StatusEffect/Lava(O, 3, "Inflamari")
+
+				return 0
 			return ..()
 
 	blankturf/edge
