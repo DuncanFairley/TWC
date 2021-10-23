@@ -822,7 +822,7 @@ obj/squirrel
 						dmg *= 1 - min(target.monsterDef/100, 0.75)
 
 					if(target.animagusOn)
-						dmg = dmg * 0.7 - target.Animagus.level
+						dmg = dmg * 0.75 - target.Animagus.level
 
 					dmg = target.onDamage(dmg, src, 0)
 					target << "<span style='color:red'>[src] attacks you for [dmg] damage!</span>"

@@ -265,7 +265,7 @@ obj/summon
 						var/dmg = round((level - 51)*0.4, 1) - p.Slayer.level
 
 						if(p.animagusOn)
-							dmg = dmg * 0.7 - p.Animagus.level
+							dmg = dmg * 0.75 - p.Animagus.level
 
 						if(dmg >= 1)
 							dmg = p.onDamage(dmg, summoner)

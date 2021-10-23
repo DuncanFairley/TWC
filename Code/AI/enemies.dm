@@ -992,7 +992,7 @@ mob
 				dmg = round(dmg - target.Slayer.level)
 
 				if(target.animagusOn)
-					dmg = dmg * 0.7 - target.Animagus.level
+					dmg = dmg * 0.75 - target.Animagus.level
 
 				if(dmg > 0)
 					dmg = target.onDamage(dmg, src)

@@ -81,7 +81,7 @@ mob/Player
 
 				var/mob/Enemies/e = O
 
-				var/dmg = round(rand(10) + (Dmg + clothDmg + Slayer.level) * (1.3 + Animagus.level/100), 1)
+				var/dmg = round(rand(10) + (Dmg + clothDmg + Slayer.level) * (1.25 + Animagus.level/100), 1)
 
 				if(monsterDmg > 0)
 					dmg *= 1 + monsterDmg/100
