@@ -358,6 +358,7 @@ hudobj
 			else
 				var/obj/items/magic_stone/teleport/t
 				for(var/obj/items/magic_stone/teleport/i)
+					if(istype(i, /obj/items/magic_stone/teleport/memory)) continue
 					if(!i.dest)
 						t = i
 						break
