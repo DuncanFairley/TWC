@@ -277,6 +277,7 @@ area
 						Obj << infomsg("This section has an old form of dueling enabled. Each projectile will last a full 2 seconds regardless of whether it hits a wall or other blockage.")
 			Defence_Against_the_Dark_Arts
 			Matchmaking/Duel_Class
+				scaleDamage = 4
 
 		Entered(mob/Player/M)
 			..()
