@@ -141,7 +141,7 @@ obj/summon
 
 		..()
 
-		var/resummon = 0
+//		var/resummon = 0
 
 		if(target)
 			if(ismonster(target))
@@ -151,7 +151,7 @@ obj/summon
 
 					if(cast)
 						winset(summoner, null, "command=\"[cast]\"")
-						resummon = 1
+	//					resummon = 1
 
 				else
 					target:ShouldIBeActive()
