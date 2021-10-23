@@ -159,8 +159,8 @@ obj/summon
 
 		if(summoner)
 
-			if(!resummon && cast && summoner.client.inactivity < 300)
-				winset(summoner, null, "command=\"[cast]\"")
+	//		if(!resummon && cast && summoner.client.inactivity < 300)
+	//			winset(summoner, null, "command=\"[cast]\"")
 
 			summoner.Summons -= src
 			if(summoner.Summons.len == 0)
