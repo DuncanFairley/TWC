@@ -126,6 +126,13 @@ obj/summon
 			hpbar.loc = NewLoc
 		.=..()
 
+	Click()
+		..()
+
+		if(usr == summoner)
+			cast = null
+			Dispose()
+
 	Dispose()
 		duration = 0
 
