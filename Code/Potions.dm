@@ -529,7 +529,7 @@ obj/items/potions
 		if((src in usr) && canUse(M=usr, inarena=0,needwand=0))
 
 			if(usr:potionsMode == THROW && canThrow)
-				var/obj/projectile/Potion/proj = usr.castproj(Type = /obj/projectile/Potion, icon_state = "aqua", name = src.name, lag = 0)
+				var/obj/projectile/Potion/proj = usr.castproj(Type = /obj/projectile/Potion, icon_state = "potion", name = src.name, lag = 0)
 				proj.effect  = effect
 				proj.seconds = seconds
 			else

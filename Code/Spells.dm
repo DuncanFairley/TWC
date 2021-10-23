@@ -2177,7 +2177,7 @@ obj
 						if("gum")
 							particle = /obj/particle/smoke/proj
 							c = "#ff69b4"
-						if("flippendo")
+						if("flippendo","potion")
 							particle = /obj/particle/smoke
 						if("quake")
 							particle = /obj/particle/smoke/proj
