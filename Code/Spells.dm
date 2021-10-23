@@ -2431,6 +2431,26 @@ obj
 					a.dir = turn(a.dir, pick(45, -45))
 					walk(a, a.dir, MAX_VELOCITY - a:velocity)
 
+		Potion
+			var
+				effect
+				seconds
+			Effect(atom/movable/a)
+
+				if(src.owner && isplayer(a))
+					var/mob/Player/p = a
+					owner << "Your [src] hit [p]!"
+
+					var/StatusEffect/Potions/s = locate() in p.LStatusEffects
+					if(s)
+						owner << "[p] already is under the influence of a potion."
+						return
+
+					p << infomsg("[src] splashes on you.")
+					new effect (p, seconds, "Potion", src)
+
+
+
 		Transfiguration
 
 			Effect(atom/movable/a)

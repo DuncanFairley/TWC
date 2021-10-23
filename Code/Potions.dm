@@ -501,7 +501,7 @@ obj/bar
 		o.loc    = null
 		loc      = null
 
-
+mob/Player/var/tmp/potionsMode = 0
 obj/items/potions
 
 	icon = 'potions.dmi'
@@ -511,6 +511,8 @@ obj/items/potions
 		effect
 		seconds
 		quality = 1
+
+		canThrow = 1
 
 	Clone()
 		var/obj/items/potions/i = ..()
@@ -525,15 +527,21 @@ obj/items/potions
 
 	Click()
 		if((src in usr) && canUse(M=usr, inarena=0,needwand=0))
-			var/StatusEffect/Potions/p = locate() in usr.LStatusEffects
-			if(p)
-				usr << errormsg("[name] washed out the previous potion you consumed.")
-				p.Deactivate()
+
+			if(usr:potionsMode == THROW && canThrow)
+				var/obj/projectile/Potion/proj = usr.castproj(Type = /obj/projectile/Potion, icon_state = "aqua", name = src.name, lag = 0)
+				proj.effect  = effect
+				proj.seconds = seconds
+			else
+				var/StatusEffect/Potions/p = locate() in usr.LStatusEffects
+				if(p)
+					usr << errormsg("[name] washed out the previous potion you consumed.")
+					p.Deactivate()
+
+				usr << infomsg("You drink \a [src].")
+				new effect (usr, seconds, "Potion", src)
 
 			Consume()
-
-			usr << infomsg("You drink \a [src].")
-			new effect (usr, seconds, "Potion", src)
 		else
 			..()
 
@@ -676,6 +684,7 @@ obj/items/potions
 		icon_state = "orange"
 		effect     = /StatusEffect/Potions/Animagus
 		seconds    = 120
+		canThrow   = 0
 
 		Click()
 			if(src in usr)
@@ -693,6 +702,7 @@ obj/items/potions
 		icon_state = "orange"
 		effect     = /StatusEffect/Potions/Polyjuice
 		seconds    = 120
+		canThrow   = 0
 
 		Click()
 			if(src in usr)
@@ -738,7 +748,7 @@ obj/items/potions
 
 
 	instant
-
+		canThrow = 0
 		proc/Effect(mob/Player/p)
 
 		Click()

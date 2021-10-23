@@ -1586,7 +1586,18 @@ obj
 			desc = "Helps taming pets."
 		Alchemy
 			icon_state = "Alchemy"
-			desc = "Increases your knowledge of potion brewing, allowing you the chance to concoct expert level potions with greater effects and longitivtiy."
+			desc = "Increases your knowledge of potion brewing, allowing you the chance to concoct expert level potions with greater effects and longitivtiy. Click this to toggle use/throw mode."
+
+			Click()
+				var/mob/Player/p = usr
+
+				if(p.potionsMode == THROW)
+					p.potionsMode = DRINK
+					p << infomsg("You will now drink potions.")
+				else
+					p.potionsMode = THROW
+					p << infomsg("You will now throw potions.")
+
 		Animagus
 			icon_state = "Animagus"
 			desc = "Each level increases charge capacity by 1, reduces damage taken and increases auto health regeneration while in animagus form."
