@@ -1102,32 +1102,32 @@ obj/items/seeds
 
 	daisy_seeds
 		plantType = /obj/items/ingredients/daisy
-		delay = 288000
+		delay = 72000
 		cycles = 4
 		amount = 8
 	aconite_seeds
 		plantType = /obj/items/ingredients/aconite
-		delay = 288000
+		delay = 72000
 		cycles = 4
 		amount = 8
 	berry_seeds
 		plantType = /obj/items/treats/berry
-		delay = 144000
+		delay = 36000
 		cycles = 4
 		amount = 6
 	sweet_berry_seeds
 		plantType = /obj/items/treats/sweet_berry
-		delay = 36000
+		delay = 18000
 		cycles = 4
 		amount = 6
 	grape_berry_seeds
 		plantType = /obj/items/treats/grape_berry
-		delay = 72000
+		delay = 36000
 		cycles = 4
 		amount = 6
 	artifact_seeds
 		plantType = /obj/items/artifact
-		delay = 288000
+		delay = 144000
 		cycles = 3
 		amount = 1
 		cap = 3
