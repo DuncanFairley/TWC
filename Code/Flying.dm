@@ -755,13 +755,16 @@ turf
 
 	lava
 		icon_state="hplava"
+		var/burn = 1
 
 		Enter(atom/movable/O, atom/oldloc)
 			if(isplayer(O) && O.density)
-				if(O:passives & RING_LAVAWALK) return ..()
 
-				if(!O.LStatusEffects || !(locate(/StatusEffect/Lava) in O.LStatusEffects))
-					new /StatusEffect/Lava(O, 3, "Inflamari")
+				if(burn)
+					if(O:passives & RING_LAVAWALK) return ..()
+
+					if(!O.LStatusEffects || !(locate(/StatusEffect/Lava) in O.LStatusEffects))
+						new /StatusEffect/Lava(O, 3, "Inflamari")
 
 				return 0
 			return ..()
