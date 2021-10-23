@@ -1432,37 +1432,37 @@ obj/items/wearable/orb
 	chaos
 		name       = "orb of chaos"
 		bonus      = 5
-		exp   	   = 100000
+		exp   	   = 500000
 		icon_state = "chaos"
 
 		greater
 			name     = "greater orb of chaos"
-			exp      = 500000
+			exp      = 2500000
 			modifier = 4
 			quality  = -2
 
 	peace
 		name       = "orb of peace"
 		bonus      = 6
-		exp        = 100000
+		exp        = 500000
 		icon_state = "peace"
 
 		greater
 			name     = "greater orb of peace"
-			exp      = 500000
+			exp      = 2500000
 			modifier = 4
 			quality  = -2
 
 	magic
 		name       = "orb of magic"
 		bonus      = 7
-		exp   	   = 200000
+		exp   	   = 1000000
 		modifier   = 3
 		rarity     = 3
 
 		greater
 			name     = "greater orb of magic"
-			exp      = 800000
+			exp      = 5000000
 			modifier = 6
 			quality  = -2
 
@@ -1515,7 +1515,13 @@ obj/items/wearable/wands
 				if(o.exp < amount) amount = o.exp
 
 				o.exp -= amount
-				o.desc = "When equipped, your equipped wand will earn experience and level up by killing monsters. Durability: [round((o.exp / initial(o.exp)) * 100, 1)]%"
+
+				var/dura = round((o.exp / initial(o.exp)) * 100, 1)
+				o.desc = "When equipped, your equipped wand will earn experience and level up by killing monsters. Durability: [dura]%"
+
+				if(dura <= 10 && round(((o.exp + amount) / initial(o.exp)) * 100, 1) > 10)
+					owner << errormsg("Your equipped orb is about to break.")
+
 				if(o.exp == 0)
 					o.Equip(owner)
 					if(o.Consume())
@@ -3333,8 +3339,9 @@ obj/items
 
 obj/items/magic_stone
 	var
-		tmp/inUse = FALSE
-		seconds = 10
+		tmp/inUse   = FALSE
+		seconds     = 10
+		onlyOutside = 1
 
 
 	icon = 'trophies.dmi'
@@ -3395,9 +3402,10 @@ obj/items/magic_stone
 
 
 	teleport
-		icon    = 'Crystal.dmi'
-		name    = "teleport stone"
-		seconds = 2
+		icon        = 'Crystal.dmi'
+		name        = "teleport stone"
+		seconds     = 1
+		onlyOutside = 0
 		var/dest
 
 		desc = "Used for teleportation."
@@ -3579,11 +3587,14 @@ obj/items/magic_stone
 	proc/effect(mob/Player/p)
 	proc/circle(mob/Player/p)
 
-		if(!canUse(p,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=3000))
+		if(!canUse(p,cooldown=null,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=500,antiTeleport=1))
 			return
-		if(!(p.loc && (istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))))
-			p << errormsg("You can only use this outside.")
-			return
+
+		if(onlyOutside)
+			if(!(p.loc && (istype(p.loc.loc, /area/outside) || istype(p.loc.loc, /area/newareas/outside))))
+				p << errormsg("You can only use this outside.")
+				return
+
 		p.MP -= 500
 		p.updateMP()
 
