@@ -196,7 +196,7 @@ RandomEvent
 				a.scaleDamage = 1
 			else if(gameMode == "Undying")
 				a.undead = 1
-			else if(gameMode == "Undying")
+			else if(gameMode == "4 Hit Kill")
 				a.scaleDamage = 4
 			else if(gameMode == "Survival")
 				a.friendlyFire = 0
