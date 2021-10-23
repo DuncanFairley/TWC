@@ -4818,9 +4818,9 @@ obj/items/wearable/shield/slayer
 	icon='trophies.dmi'
 	icon_state="Shield"
 	name="Todd's shield"
-	desc="Todd's magical shield, provides 10% damage reduction from monsters."
-	suffix = "<span style=\"color:#ffa500;\">10% damage reduction from monsters.</span>"
-	monsterDef = 10
+	desc="Todd's magical shield, provides 15% damage reduction from monsters."
+	suffix = "<span style=\"color:#ffa500;\">15% damage reduction from monsters.</span>"
+	monsterDef = 15
 
 obj/items/wearable/shield/selfdamage
 	icon='trophies.dmi'
@@ -4870,9 +4870,9 @@ obj/items/wearable/sword/slayer
 	icon='trophies.dmi'
 	icon_state="Sword"
 	name="Todd's sword"
-	desc="Todd's magical sword, granting the wielder 10% damage to monsters."
-	suffix = "<span style=\"color:#ffa500;\">10% bonus damage to monsters.</span>"
-	monsterDmg = 10
+	desc="Todd's magical sword, granting the wielder 15% damage to monsters."
+	suffix = "<span style=\"color:#ffa500;\">15% bonus damage to monsters.</span>"
+	monsterDmg = 15
 
 obj/items/wearable/sword/dragon
 	icon='trophies.dmi'
