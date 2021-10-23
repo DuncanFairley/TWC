@@ -1851,8 +1851,8 @@ mob
 			icon = 'Mobs.dmi'
 			icon_state = "stickman"
 			level = 2200
-			HPmodifier  = 3
-			DMGmodifier = 1.4
+			HPmodifier  = 10
+			DMGmodifier = 1.6
 
 			MoveDelay   = 2
 			AttackDelay = 0
@@ -2165,8 +2165,8 @@ mob
 			level = 850
 			MoveDelay = 3
 
-			HPmodifier = 1.4
-			DMGmodifier = 0.6
+			HPmodifier = 1.6
+			DMGmodifier = 0.8
 
 			respawnTime = 900
 
@@ -2208,8 +2208,8 @@ mob
 		Vampire
 			icon = 'FemaleVampire.dmi'
 			level = 900
-			HPmodifier  = 1.4
-			DMGmodifier = 0.6
+			HPmodifier  = 1.6
+			DMGmodifier = 0.8
 			MoveDelay   = 3
 			respawnTime = 900
 
@@ -2306,8 +2306,8 @@ mob
 			icon_state = "wisp"
 			level = 850
 
-			HPmodifier  = 1.4
-			DMGmodifier = 0.7
+			HPmodifier  = 1.6
+			DMGmodifier = 0.8
 			MoveDelay = 3
 			canBleed = FALSE
 			var/tmp/fired = 0
@@ -2372,8 +2372,8 @@ mob
 
 			icon_state = "eye1"
 			level = 900
-			HPmodifier  = 1.4
-			DMGmodifier = 0.75
+			HPmodifier  = 1.8
+			DMGmodifier = 0.8
 			var
 				tmp/fired = 0
 				cd = 120
@@ -2383,7 +2383,7 @@ mob
 			Eye_of_The_Fallen
 				level = 2400
 				cd = 20
-				HPmodifier = 10
+				HPmodifier = 15
 
 				prizePoolSize = 2
 
@@ -2581,7 +2581,7 @@ mob
 			icon = 'Mobs.dmi'
 			icon_state = "basilisk"
 			level = 2000
-			HPmodifier = 10
+			HPmodifier = 12
 			DMGmodifier = 3
 			MoveDelay = 3
 			AttackDelay = 1
