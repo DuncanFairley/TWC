@@ -1504,7 +1504,7 @@ mob/Spells/verb/Episky()
 			return
 
 		hearers()<<"<span style=\"color:red;\"><b>[p]:</span></b> <font color=aqua>Episkey!"
-		new /StatusEffect/UsedEpiskey(src,15*p.cooldownModifier,"Episkey")
+		new /StatusEffect/UsedEpiskey(src,20*p.cooldownModifier,"Episkey")
 
 		p.HP = p.MHP
 
