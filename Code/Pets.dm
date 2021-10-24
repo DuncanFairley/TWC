@@ -100,6 +100,9 @@ obj/items/wearable/pets
 		if(owner.pet && owner.pet.busy && !forceremove)
 			owner << errormsg("Your pet is busy right now.")
 			return
+		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiPet)
+			owner << errormsg("Your pet isn't allowed here.")
+			return
 
 		.=..(owner, 1, forceremove)
 

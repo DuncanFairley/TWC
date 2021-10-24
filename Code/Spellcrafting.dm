@@ -38,6 +38,9 @@ obj/items/wearable/spellbook
 		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= 100)
 			owner << errormsg("You can't equip this while in combat.")
 			return
+		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiSpellbook)
+			owner << errormsg("You can not use it here.")
+			return
 		. = ..(owner)
 		if(. == WORN)
 			src.gender = owner.gender

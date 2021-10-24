@@ -11,9 +11,12 @@ mob/Player/var
 
 area
 	var
-		antiTheft    = FALSE
-		antiTeleport = FALSE
-		antiFly      = FALSE
+		antiTheft     = FALSE
+		antiTeleport  = FALSE
+		antiFly       = FALSE
+		antiEffect    = FALSE
+		antiSpellbook = FALSE
+		antiPet       = FALSE
 
 	inside
 		antiTheft
@@ -25,8 +28,29 @@ area
 
 	Entered(atom/movable/Obj,atom/OldLoc)
 		.=..()
-		if(antiFly && isplayer(Obj))
-			Obj:nofly()
+		if(isplayer(Obj))
+			var/mob/Player/p = Obj
+			if(antiFly)
+				p.nofly()
+
+			if(antiEffect && (p.passives || p.monsterDmg || p.monsterDef || p.dropRate))
+				var/obj/items/wearable/sword/s = locate() in p.Lwearing
+				if(s) s.Equip(p, 1)
+
+				var/obj/items/wearable/ring/r = locate() in p.Lwearing
+				if(r) r.Equip(p, 1)
+
+				var/obj/items/wearable/shield/i = locate() in p.Lwearing
+				if(i) i.Equip(p, 1)
+
+			if(antiSpellbook)
+				if(p.usedSpellbook) p.usedSpellbook.Equip(p, 1)
+
+			if(antiPet && p.pet)
+				var/obj/items/wearable/pets/P = locate() in p.Lwearing
+				if(P) P.Equip(p, 1)
+
+
 
 obj/items
 	var
@@ -1207,7 +1231,7 @@ obj/items/wearable/brooms
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiFly)
-			owner << errormsg("You cannot fly here.")
+			owner << errormsg("You can not fly here.")
 			return
 		if(!forceremove && !(src in owner.Lwearing) && owner.findStatusEffect(/StatusEffect/Knockedfrombroom))
 			owner << errormsg("You can't get back on your broom right now because you were recently knocked off.")
@@ -4745,6 +4769,9 @@ obj/items/wearable/ring
 		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= 100)
 			owner << errormsg("You can't equip this while in combat.")
 			return
+		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiEffect)
+			owner << errormsg("You can not use it here.")
+			return
 		. = ..(owner)
 		if(. == WORN)
 			src.gender = owner.gender
@@ -4808,6 +4835,9 @@ obj/items/wearable/shield
 		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= 100)
 			owner << errormsg("You can't equip this while in combat.")
 			return
+		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiEffect)
+			owner << errormsg("You can not use it here.")
+			return
 		. = ..(owner)
 		if(. == WORN)
 			src.gender = owner.gender
@@ -4867,6 +4897,9 @@ obj/items/wearable/sword
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= 100)
 			owner << errormsg("You can't equip this while in combat.")
+			return
+		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiEffect)
+			owner << errormsg("You can not use it here.")
 			return
 		. = ..(owner)
 		if(. == WORN)
