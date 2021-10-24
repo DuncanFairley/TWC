@@ -825,8 +825,10 @@ tr.grey
 			usr << browse(SCOREBOARD_HEADER + html + "</center></body></html>","window=scoreboard")
 
 area/arenas
-	antiFly      = TRUE
-	antiTeleport = TRUE
+	antiFly       = TRUE
+	antiTeleport  = TRUE
+	antiEffect    = TRUE
+	antiSpellbook = TRUE
 	Entered(atom/movable/Obj)
 		..()
 		if(isplayer(Obj))
