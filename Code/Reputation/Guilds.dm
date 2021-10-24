@@ -171,32 +171,45 @@ guild
 
 			var/playerRank = members[p.ckey]
 
-			var/row = 1
-			for(var/m in members)
-				row++
-				var/PlayerData/data = worldData.playersData[m]
-
+			if(playerRank == 1)
+				var/PlayerData/data = worldData.playersData[p.ckey]
 				alignment = data.fame < 0 ? "Chaos" : "Peace"
 
-				p << output(data.name, "guild.gridMembers:1,[row]")
-				p << output(ranks[members[m]], "guild.gridMembers:2,[row]")
-				p << output("[alignment] ([abs(data.fame)])", "guild.gridMembers:3,[row]")
+				p << output(data.name, "guild.gridMembers:1,2")
+				p << output(ranks[playerRank], "guild.gridMembers:2,2")
+				p << output("[alignment] ([abs(data.fame)])", "guild.gridMembers:3,2")
+				p << output("<a href=\"?src=\ref[p];action=guildRemove;who=[p.ckey]\">Quit</a>", "guild.gridMembers:5,2")
 
-				if(m == p.ckey)
-					p << output("<a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Quit</a>", "guild.gridMembers:5,[row]")
-				else
-					var/memberRank = members[m]
+				winset(p, "guild.gridMembers", "cells=5x2")
+			else
 
-					if(playerRank > 2 && playerRank > memberRank)
-						if(playerRank > memberRank + 1)
-							p << output("<a href=\"?src=\ref[p];action=guildPromote;who=[m]\">Promote</a>", "guild.gridMembers:4,[row]")
+				var/row = 1
 
-						if(memberRank > 1)
-							p << output("<a href=\"?src=\ref[p];action=guildDemote;who=[m]\">Demote</a>", "guild.gridMembers:5,[row]")
-						else
-							p << output("<a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Remove</a>", "guild.gridMembers:5,[row]")
+				for(var/m in members)
+					row++
+					var/PlayerData/data = worldData.playersData[m]
 
-			winset(p, "guild.gridMembers", "cells=5x[row]")
+					alignment = data.fame < 0 ? "Chaos" : "Peace"
+
+					p << output(data.name, "guild.gridMembers:1,[row]")
+					p << output(ranks[members[m]], "guild.gridMembers:2,[row]")
+					p << output("[alignment] ([abs(data.fame)])", "guild.gridMembers:3,[row]")
+
+					if(m == p.ckey)
+						p << output("<a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Quit</a>", "guild.gridMembers:5,[row]")
+					else
+						var/memberRank = members[m]
+
+						if(playerRank > 2 && playerRank > memberRank)
+							if(playerRank > memberRank + 1)
+								p << output("<a href=\"?src=\ref[p];action=guildPromote;who=[m]\">Promote</a>", "guild.gridMembers:4,[row]")
+
+							if(memberRank > 1)
+								p << output("<a href=\"?src=\ref[p];action=guildDemote;who=[m]\">Demote</a>", "guild.gridMembers:5,[row]")
+							else
+								p << output("<a href=\"?src=\ref[p];action=guildRemove;who=[m]\">Remove</a>", "guild.gridMembers:5,[row]")
+
+				winset(p, "guild.gridMembers", "cells=5x[row]")
 
 
 		Add(mob/Player/p)
