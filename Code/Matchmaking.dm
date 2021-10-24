@@ -824,29 +824,4 @@ tr.grey
 					html += {"<table class="colored"><tr class="grey" align="center"><td>[worldData.currentMatches.records[i]]</td></tr></table>"}
 			usr << browse(SCOREBOARD_HEADER + html + "</center></body></html>","window=scoreboard")
 
-area/arenas
-	antiFly       = TRUE
-	antiTeleport  = TRUE
-	antiEffect    = TRUE
-	antiSpellbook = TRUE
-	Entered(atom/movable/Obj)
-		..()
-		if(isplayer(Obj))
-			var/mob/Player/user = Obj
-			var/obj/items/wearable/invisibility_cloak/Cloak = locate() in user.Lwearing
-			if(Cloak) Cloak.Equip(user,1)
 
-			if(user.pet) user.pet.item.Equip(user,1)
-
-			if(user.LStatusEffects)
-				var/StatusEffect/Potions/p = locate() in user.LStatusEffects
-				if(p)
-					p.Deactivate()
-
-			if(user.animagusOn)
-				var/hudobj/Animagus/a = locate() in user.client.screen
-				a.color = null
-				flick("transfigure", user)
-				user.AnimagusRecover(a)
-				user.BaseIcon()
-				user.ApplyOverlays()

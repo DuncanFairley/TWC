@@ -17,6 +17,21 @@ area
 		antiEffect    = FALSE
 		antiSpellbook = FALSE
 		antiPet       = FALSE
+		antiAnimagus  = FALSE
+		antiSummon    = FALSE
+		antiMask      = FALSE
+		antiCloak     = FALSE
+
+	arenas
+		antiFly       = TRUE
+		antiTeleport  = TRUE
+		antiEffect    = TRUE
+		antiSpellbook = TRUE
+		antiPet       = TRUE
+		antiAnimagus  = TRUE
+		antiSummon    = TRUE
+		antiMask      = TRUE
+		antiCloak     = TRUE
 
 	inside
 		antiTheft
@@ -47,9 +62,36 @@ area
 				if(p.usedSpellbook) p.usedSpellbook.Equip(p, 1)
 
 			if(antiPet && p.pet)
-				var/obj/items/wearable/pets/P = locate() in p.Lwearing
-				if(P) P.Equip(p, 1)
+				p.pet.item.Equip(p,1)
 
+			if(antiAnimagus && p.animagusOn)
+				if(p.noOverlays > 0)
+					p.noOverlays--
+
+				var/hudobj/Animagus/a = locate() in p.client.screen
+				a.color = null
+
+				p.AnimagusRecover(a)
+				p.BaseIcon()
+				flick("transfigure", p)
+				p.ApplyOverlays()
+
+			if(antiCloak && p.alpha < 255)
+				var/obj/items/wearable/invisibility_cloak/Cloak = locate() in p.Lwearing
+				if(Cloak) Cloak.Equip(p,1)
+
+			if(p.LStatusEffects)
+				var/StatusEffect/Potions/pot = locate() in p.LStatusEffects
+				if(pot)
+					pot.Deactivate()
+
+			if(antiSummon && p.Summons)
+				for(var/obj/summon/s in p.Summons)
+					s.Dispose()
+
+			if(p.prevname && (antiMask || issafezone(src)))
+				var/obj/items/wearable/masks/m = locate() in p.Lwearing
+				if(m) m.Equip(p, 1)
 
 
 obj/items

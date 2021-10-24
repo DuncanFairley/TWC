@@ -96,9 +96,14 @@ obj/summon
 		level = 160
 		scale = 1.6
 
-	New(loc, mob/Player/p, spell, size=0)
+	New(turf/loc, mob/Player/p, spell, size=0)
 		set waitfor = 0
 		..()
+
+		var/area/a = loc.loc
+		if(a.antiSummon)
+			src.loc = null
+			return
 
 		summoner = p
 		cast = spell

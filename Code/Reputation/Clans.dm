@@ -336,19 +336,6 @@ obj/items/wearable/masks/teal_mask
 	g = 128
 	b = 128
 
-area
-	hogwarts
-		Entered(atom/movable/Obj, atom/OldLoc)
-			..()
-
-			if(isplayer(Obj) && issafezone(src))
-				var/mob/Player/p = Obj
-
-				var/obj/items/wearable/masks/m = locate() in p.Lwearing
-
-				if(m)
-					spawn(1) m.Equip(p, 1, 0)
-
 
 obj/items/wearable/masks/robe
 	desc = "A robe to hide your identity."
