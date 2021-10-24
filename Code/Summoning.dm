@@ -150,7 +150,10 @@ obj/summon
 					target:ChangeState(target:HOSTILE)
 
 					if(cast)
-						winset(summoner, null, "command=\"[cast]\"")
+						if(cast == "Spellbook")
+							summoner.usedSpellbook.cast(summoner)
+						else
+							winset(summoner, null, "command=\"[cast]\"")
 	//					resummon = 1
 
 				else
