@@ -279,7 +279,8 @@ class
 				..()
 				say("Careful when you use this. It fires projectiles in all 8 directions! It's quite a useful spell in my opinion.", p)
 		Protego
-			cd = 30
+			cd = 40
+			mp = 100
 			wand = TRUE
 			start(mob/Player/p)
 				..()
@@ -312,7 +313,8 @@ class
 				..()
 				say("This ties someone or something up with ropes.", p)
 		Expelliarmus
-			cd = 15
+			cd = 30
+			mp = 300
 			wand = TRUE
 			start(mob/Player/p)
 				..()
@@ -511,8 +513,8 @@ class
 				..()
 				say("This spell fills peoples' ears with an unidentifiable buzzing to keep them from hearing nearby conversations.", p)
 		Confundus
-			mp = 300
-			cd = 20
+			mp = 400
+			cd = 40
 			start(mob/Player/p)
 				..()
 				say("It causes the victim to become confused and befuddled.", p)
@@ -554,8 +556,8 @@ class
 				sleep(30)
 				say("[name]'s heal has a 10 second cooldown.", p)
 		Tarantallegra
-			mp = 100
-			cd = 15
+			mp = 200
+			cd = 30
 			start(mob/Player/p)
 				..()
 				say("This spell causes people to dance uncontrollably.", p)

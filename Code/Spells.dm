@@ -237,13 +237,15 @@ mob/Spells/verb/Protego()
 	set category = "Spells"
 	var/mob/Player/p = src
 	if(!p.reflect)
-		if(canUse(src,cooldown=/StatusEffect/UsedProtego,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+		if(canUse(src,cooldown=/StatusEffect/UsedProtego,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
 			new /StatusEffect/UsedProtego(src,40*p.cooldownModifier,"Protego")
 			p.overlays += /obj/Shield
 			hearers()<< "<b><span style=\"color:red;\">[usr]</b></span>: PROTEGO!"
 			p << "You shield yourself magically"
 			p.reflect = 0.5
 			p.learnSpell("Protego")
+			p.MP -= 100
+			p.updateMP()
 			sleep(30)
 			if(p.reflect)
 				p.reflect = 0
@@ -312,14 +314,19 @@ mob/Spells/verb/Deletrius()
 		usr << errormsg("This spell requires a wand.")
 mob/Spells/verb/Expelliarmus(mob/Player/M in view())
 	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=300,againstocclumens=1))
 		var/obj/items/wearable/wands/W = locate(/obj/items/wearable/wands) in M:Lwearing
 		if(W)
 			W.Equip(M,1)
 			hearers()<<"<span style=\"color:red;\"><b>[usr]</b></span>: <font color=white>Expelliarmus!"
 			hearers()<<"<b>[M] loses \his wand.</b>"
-			new /StatusEffect/UsedAnnoying(src,15*usr:cooldownModifier)
-			usr:learnSpell("Expelliarmus")
+			new /StatusEffect/UsedAnnoying(src,30*usr:cooldownModifier)
+
+			var/mob/Player/p = usr
+			p.MP -= 300
+			p.updateMP()
+
+			p.learnSpell("Expelliarmus")
 			M.nowand()
 		else
 			usr << "[M] doesn't have \his wand drawn."
@@ -1111,12 +1118,12 @@ mob/Spells/verb/Obliviate(mob/Player/M in oview())
 		p.updateMP()
 mob/Spells/verb/Tarantallegra(mob/Player/M in view())
 	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=100,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=200,againstocclumens=1))
 		if(M.dance) return
 		hearers()<<"<b>[usr]:</B><font color=green> <i>Tarantallegra!</i>"
-		new /StatusEffect/UsedAnnoying(src,15*usr:cooldownModifier)
+		new /StatusEffect/UsedAnnoying(src,30*usr:cooldownModifier)
 		var/mob/Player/p = src
-		p.MP-=100
+		p.MP-=200
 		p.updateMP()
 		if(key != "Murrawhip")
 			M.dance=1
@@ -1526,10 +1533,10 @@ mob/Spells/verb/Episky()
 mob/Spells/verb/Confundus(mob/Player/M in oview())
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=300,againstocclumens=1))
-		new /StatusEffect/UsedAnnoying(src,20*usr:cooldownModifier)
+		new /StatusEffect/UsedAnnoying(src,40*usr:cooldownModifier)
 		hearers()<<"<b><span style=\"color:red;\">[usr]:</b></span> <font color= #7CFC00>Confundus, [M]!"
 		var/mob/Player/p = src
-		p.MP-=300
+		p.MP-=400
 		p.updateMP()
 		p.learnSpell("Confundus")
 		M << errormsg("You feel confused...")
