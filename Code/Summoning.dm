@@ -100,10 +100,12 @@ obj/summon
 		set waitfor = 0
 		..()
 
-		var/area/a = loc.loc
-		if(a.antiSummon)
-			src.loc = null
-			return
+		sleep(1)
+		if(loc)
+			var/area/a = loc.loc
+			if(a.antiSummon)
+				src.loc = null
+				return
 
 		summoner = p
 		cast = spell

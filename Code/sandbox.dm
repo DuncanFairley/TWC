@@ -318,8 +318,9 @@ obj/items
 					owner.client.screen -= b
 
 				if(owner.buildItemDisplay)
-					owner.buildItemDisplay.loc.mouse_opacity = 1
-					owner.buildItemDisplay.loc = null
+					if(owner.buildItemDisplay.loc)
+						owner.buildItemDisplay.loc.mouse_opacity = 1
+						owner.buildItemDisplay.loc = null
 					owner.buildItemDisplay = null
 
 turf/buildable

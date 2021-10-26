@@ -2140,6 +2140,7 @@ mob/Player/proc/removeStaff()
 	verbs -= /mob/Spells/verb/Ecliptica
 	verbs -= /mob/Spells/verb/Basilio
 	verbs -= /mob/Spells/verb/Gravitate
+	verbs -= /mob/Spells/verb/Inferius_Maxima
 
 mob/Player/var/tmp/prevname
 
