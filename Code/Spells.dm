@@ -486,13 +486,16 @@ mob/Spells/verb/Basilio()
 
 mob/Spells/verb/Serpensortia()
 	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=100,againstocclumens=1))
 		var/mob/Player/p = src
 		if(p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
 		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
+
+		p.MP -= 100
+		p.updateMP()
 
 		if(p.passives & SWORD_SNAKE)
 			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=4 color=#FF8C00>Serpensortia!"
@@ -553,13 +556,16 @@ mob/Spells/verb/Ferula()
 
 mob/Spells/verb/Avis()
 	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
 		var/mob/Player/p = src
 		if(p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
 		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
+
+		p.MP -= 100
+		p.updateMP()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=yellow> Avis!"
 		hearers()<<"A Phoenix emerges."
@@ -569,13 +575,16 @@ mob/Spells/verb/Avis()
 
 mob/Spells/verb/Crapus_Sticketh()
 	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,useTimedProtection=1,target=null,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,useTimedProtection=1,target=null,mpreq=100,againstocclumens=1))
 		var/mob/Player/p = src
 		if(p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
 		new /StatusEffect/Summoned(src,15*p.cooldownModifier)
+
+		p.MP -= 100
+		p.updateMP()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Crapus...Sticketh!!"
 		hearers()<<"A stick figure appears."
@@ -1688,7 +1697,7 @@ mob/Spells/verb/Scan(mob/Player/M in view())
 mob/Spells/verb/Inferius()
 	set category = "Spells"
 
-	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1))
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
 		var/mob/Player/p = src
 
 		var/limit = 1 + round(p.Summoning.level / 10)

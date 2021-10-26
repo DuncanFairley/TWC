@@ -395,6 +395,7 @@ class
 		wand    = TRUE
 		Serpensortia
 			cd = 15
+			mp = 100
 			start(mob/Player/p)
 				..()
 				say("Summons a small snake that can be rebellious if not treated right.", p)
@@ -408,6 +409,7 @@ class
 				say("[name] will also disable projectile usage for 30 seconds.", p)
 		Avis
 			cd = 15
+			mp = 100
 			start(mob/Player/p)
 				..()
 				say("Summons a bird that can come to your aid and heal you plus others if needed.", p)
