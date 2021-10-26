@@ -211,7 +211,12 @@ obj/items/wearable/spellbook
 
 		else
 			if(element == HEAL)
-				p.HP = min(p.MHP, p.HP + dmg)
+
+				var/d = dmg
+				if(world.time - p.lastCombat <= 100)
+					d *= 0.5
+
+				p.HP = min(p.MHP, p.HP + d)
 				p.updateHP()
 				p.overlays+=image('attacks.dmi', icon_state = "heal")
 				sleep(10)
@@ -285,6 +290,10 @@ obj/items/spellpage
 						return
 
 					p.usedSpellbook.element = element
+
+				if(!p.usedSpellbook.spellType)
+					p << errormsg("This spell book needs a spell type first.")
+					return
 
 				if(flags > 0)
 
