@@ -32,6 +32,8 @@ area
 		antiSummon    = TRUE
 		antiMask      = TRUE
 		antiCloak     = TRUE
+	hogwarts
+		antiMask      = TRUE
 
 	inside
 		antiTheft
@@ -89,7 +91,8 @@ area
 				for(var/obj/summon/s in p.Summons)
 					s.Dispose()
 
-			if(p.prevname && (antiMask || issafezone(src)))
+			if(antiMask && p.prevname)
+
 				var/obj/items/wearable/masks/m = locate() in p.Lwearing
 				if(m) m.Equip(p, 1)
 
