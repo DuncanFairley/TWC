@@ -460,21 +460,29 @@ mob/Spells/verb/Aggravate()
 	if(canUse(src,cooldown=/StatusEffect/UsedAggro,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=150,againstocclumens=1))
 		var/mob/Player/p = src
 		hearers()<<"<b><span style=\"color:red;\">[p]</b></span>: <b><font size=3><font color=white>Aggravate!"
-		p.MP -= 150
-		p.updateMP()
+		p.MP -= 200
 
-		new /StatusEffect/UsedAggro(src, 30*p.cooldownModifier)
+		new /StatusEffect/UsedAggro(src, 20*p.cooldownModifier)
 
-		var/area/pArea = loc.loc
-		light(src, range=13, ticks=10, state = "red")
-		for(var/mob/Enemies/e in ohearers(13))
-			var/area/eArea = loc.loc
+		p.monsterDef += 10
+		p.HP = min(p.MHP, p.HP + 500)
+		p.updateHPMP()
 
-			if(eArea != pArea) continue
+	//	var/area/pArea = loc.loc
+		light(src, range=14, ticks=10, state = "red")
+		for(var/mob/Enemies/e in ohearers(14))
+		//	var/area/eArea = loc.loc
+
+		//	if(eArea != pArea) continue
 			if(e.state == 0)   continue
 
 			e.ChangeState(e.HOSTILE)
 			e.target = src
+
+		spawn(100)
+			p.monsterDef -= 10
+			p.HP = min(p.MHP, p.HP + 500)
+			p.updateHP()
 
 
 mob/Spells/verb/Basilio()
@@ -1155,7 +1163,7 @@ mob/Spells/verb/Immobulus()
 		hearers()<<"A sudden wave of energy emits from [usr]'s wand, immobilizing every projectile in sight."
 
 		var/const/RANGE = 6
-		var/const/TICKS = 60
+		var/const/TICKS = 80
 		var/const/STEP  = 3
 
 		var/obj/o = new(loc)
