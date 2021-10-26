@@ -1229,28 +1229,31 @@ mob/Player/proc/BaseIcon()
 		transform = null
 		icon_state = null
 
-	if(Gender == "Female")
-		if(Gm)
-			icon = 'FemaleStaff.dmi'
-		else if(House == "Gryffindor")
-			icon = 'FemaleGryffindor.dmi'
-		else if(House == "Ravenclaw")
-			icon = 'FemaleRavenclaw.dmi'
-		else if(House == "Slytherin")
-			icon = 'FemaleSlytherin.dmi'
-		else if(House == "Hufflepuff")
-			icon = 'FemaleHufflepuff.dmi'
+	if(CustomIcon)
+		icon = CustomIcon
 	else
-		if(Gm)
-			icon = 'MaleStaff.dmi'
-		else if(House == "Gryffindor")
-			icon = 'MaleGryffindor.dmi'
-		else if(House == "Ravenclaw")
-			icon = 'MaleRavenclaw.dmi'
-		else if(House == "Slytherin")
-			icon = 'MaleSlytherin.dmi'
-		else if(House == "Hufflepuff")
-			icon = 'MaleHufflepuff.dmi'
+		if(Gender == "Female")
+			if(Gm)
+				icon = 'FemaleStaff.dmi'
+			else if(House == "Gryffindor")
+				icon = 'FemaleGryffindor.dmi'
+			else if(House == "Ravenclaw")
+				icon = 'FemaleRavenclaw.dmi'
+			else if(House == "Slytherin")
+				icon = 'FemaleSlytherin.dmi'
+			else if(House == "Hufflepuff")
+				icon = 'FemaleHufflepuff.dmi'
+		else
+			if(Gm)
+				icon = 'MaleStaff.dmi'
+			else if(House == "Gryffindor")
+				icon = 'MaleGryffindor.dmi'
+			else if(House == "Ravenclaw")
+				icon = 'MaleRavenclaw.dmi'
+			else if(House == "Slytherin")
+				icon = 'MaleSlytherin.dmi'
+			else if(House == "Hufflepuff")
+				icon = 'MaleHufflepuff.dmi'
 
 mob/Spells/verb/Reddikulus(mob/Player/M in view())
 	set category="Spells"
