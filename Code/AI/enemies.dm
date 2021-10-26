@@ -110,6 +110,12 @@ obj
 						if(timer.minutes == 0)
 							isHours = 0
 							timer.setTime(60,0)
+
+							var/area/a = loc.loc
+							for(var/mob/Player/p in Players)
+								if(p.guild)
+									Players << infomsg("[a.name] pillar can be attacked in one hour.")
+
 							continue
 
 						sleep(600)
@@ -117,6 +123,10 @@ obj
 						sleep(10)
 
 				timer.loc = null
+				var/area/a = loc.loc
+				for(var/mob/Player/p in Players)
+					if(p.guild)
+						Players << infomsg("[a.name] pillar can be attacked.")
 
 				HP = initial(HP)
 				hpbar = new(src)
