@@ -74,13 +74,16 @@ mob/Player
 		sleep(10)
 
 		while(HP < MHP && animagusOn)
-			HP = min(HP + 30 + round(level/10)*3 + Animagus.level*3, MHP)
-			var/hppercent = clamp(HP / MHP, 0, 1)
 
-			Interface.hpbar.Set(hppercent)
-			Interface.hpbar.UpdateText(HP, MHP)
+			if(world.time - lastCombat > 100) // disables hp regen in pvp
 
-			hpBar.Set(hppercent, src)
+				HP = min(HP + 30 + round(level/10)*3 + Animagus.level*3, MHP)
+				var/hppercent = clamp(HP / MHP, 0, 1)
+
+				Interface.hpbar.Set(hppercent)
+				Interface.hpbar.UpdateText(HP, MHP)
+
+				hpBar.Set(hppercent, src)
 			sleep(10)
 
 		tickers &= ~HP_REGEN
