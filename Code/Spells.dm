@@ -1225,8 +1225,6 @@ mob/Spells/verb/Incendio()
 		p.lastAttack = "Incendio"
 		castproj(Type = /obj/projectile/BurnRoses, damage = dmg, MPreq = 10, icon_state = "fireball", name = "Incendio", element = FIRE)
 
-mob/proc/Haha()
-
 mob/Player/proc/BaseIcon()
 
 	if(noOverlays) return
