@@ -503,7 +503,7 @@ mob/Spells/verb/Serpensortia()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=100,againstocclumens=1))
 		var/mob/Player/p = src
-		if(p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
+		if(p.summons >= 1 + round(p.Summoning.level / 10))
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
@@ -573,7 +573,7 @@ mob/Spells/verb/Avis()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
 		var/mob/Player/p = src
-		if(p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
+		if(p.summons >= 1 + round(p.Summoning.level / 10))
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
@@ -592,7 +592,7 @@ mob/Spells/verb/Crapus_Sticketh()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,useTimedProtection=1,target=null,mpreq=100,againstocclumens=1))
 		var/mob/Player/p = src
-		if(p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
+		if(p.summons >= 1 + round(p.Summoning.level / 10))
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
@@ -1721,7 +1721,7 @@ mob/Spells/verb/Inferius()
 
 		var/limit = 1 + round(p.Summoning.level / 10)
 
-		if(p.Summons && p.Summons.len >= limit)
+		if(p.summons >= limit)
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 

@@ -1603,7 +1603,18 @@ obj
 			desc = "Each level increases charge capacity by 1, reduces damage taken and increases auto health regeneration while in animagus form."
 		Summoning
 			icon_state = "Summoning"
-			desc = "Each level increases summon level by 1, every 10 levels your summon limit increases."
+			desc = "Each level increases summon level by 1, every 10 levels your summon limit increases. Click to toggle summon mode."
+
+			Click()
+				var/mob/Player/p = usr
+
+				if(p.summonsMode == 1)
+					p.summonsMode = 2
+					p << infomsg("You will now summon stronger monsters. (2 slots)")
+				else
+					p.summonsMode = 1
+					p << infomsg("You will now summon normal monsters.")
+
 		Spellcrafting
 			icon_state = "Spellcrafting"
 			desc = "You should probably click those blue chests you find around."

@@ -1,4 +1,8 @@
-mob/Player/var/tmp/list/Summons
+mob/Player/var
+	tmp
+		list/Summons
+		summons = 0
+	summonsMode = 1
 
 obj/summon
 	icon = 'Mobs.dmi'
@@ -19,6 +23,7 @@ obj/summon
 
 		corpse = 1
 
+		summonTier
 
 	snake
 		icon_state = "snake"
@@ -97,7 +102,7 @@ obj/summon
 		level = 160
 		scale = 1.6
 
-	New(turf/loc, mob/Player/p, spell, size=0, monsterType=1)
+	New(turf/loc, mob/Player/p, spell, size=0)
 		set waitfor = 0
 		..()
 
@@ -116,12 +121,14 @@ obj/summon
 		HP       = MHP
 		duration = 600 + p.Summoning.level*10
 
+		summonTier = min(p.summonsMode, 1 + round(p.Summoning.level / 10) - p.summons)
+
 		if(!p.Summons) p.Summons = list()
 		p.Summons += src
-		p.summons += monsterType
+		p.summons += summonTier
 
-		if(monsterType > 1)
-			filters = filter(type="blur", size=1)
+		if(summonTier > 1)
+			filters = filter(type="outline", size=1, color="#00a5ff")
 
 		hpbar = new(src)
 
@@ -130,6 +137,11 @@ obj/summon
 			transform = matrix() * size
 
 		sleep(4)
+
+		scale *= summonTier
+		MHP   *= summonTier
+		HP     = MHP
+
 		state()
 
 	Move(NewLoc)
@@ -176,7 +188,7 @@ obj/summon
 
 	//		if(!resummon && cast && summoner.client.inactivity < 300)
 	//			winset(summoner, null, "command=\"[cast]\"")
-
+			summoner.summons -= summonTier
 			summoner.Summons -= src
 			if(summoner.Summons.len == 0)
 				summoner.Summons = null
@@ -277,7 +289,7 @@ obj/summon
 					else
 						var/mob/Player/p = target
 
-						var/dmg = round((level - 51)*0.5, 1) - p.Slayer.level
+						var/dmg = round((level - 51)*0.5*scale, 1) - p.Slayer.level
 
 						if(p.animagusOn)
 							dmg = dmg * 0.75 - p.Animagus.level
