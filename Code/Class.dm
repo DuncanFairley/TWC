@@ -268,6 +268,8 @@ class
 				say("This is the Full Body-Bind Curse! It stiffens a person's limbs so they cannot move.", p)
 		Reducto
 			wand = TRUE
+			mp = 400
+			cd = 15
 			start(mob/Player/p)
 				..()
 				say("If binded, this spell is perfect for you. It frees you from any binds or frozen spells.", p)

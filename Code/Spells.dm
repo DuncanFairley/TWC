@@ -657,7 +657,7 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 mob/Spells/verb/Incarcerous()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=50,againstocclumens=1))
-		new /StatusEffect/UsedStun(src,15*usr:cooldownModifier,"Incarcerous")
+		new /StatusEffect/UsedStun(src,10*usr:cooldownModifier,"Incarcerous")
 		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Incarcerous!</b>"
 
 		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 3 }, icon_state = "bind", name = "Incarcerous", lag = 1)
@@ -674,12 +674,18 @@ mob/Spells/verb/Anapneo(var/mob/Player/M in view())
 		usr:learnSpell("Anapneo")
 mob/Spells/verb/Reducto()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedReducto,needwand=1,inarena=0,insafezone=1,inhogwarts=1,mpreq=400,againstocclumens=1))
 		var/mob/Player/p = src
 		if(flying)
 			src << "<b><span style=\"color:red;\">Error:</b></span> You can't cast this spell while flying."
 			return
 		if(p.GMFrozen) return
+
+		new /StatusEffect/UsedReducto(src,15*p.cooldownModifier,"Reducto")
+
+		p.MP -= 400
+		p.updateMP()
+
 		hearers(client.view, src) << "<B><span style=\"color:red;\">[src]:</span><font color=white> <I>Reducto!</I>"
 		if(p.nomove < 2) p.nomove = 0
 		if(!trnsed) p.ApplyOverlays()
@@ -720,7 +726,7 @@ mob/Spells/verb/Petreficus_Totalus()
 	set category="Spells"
 	set name = "Petrificus Totalus"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=50,againstocclumens=1))
-		new /StatusEffect/UsedStun(src,15*usr:cooldownModifier,"Petrificus Totalus")
+		new /StatusEffect/UsedStun(src,10*usr:cooldownModifier,"Petrificus Totalus")
 		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Petrificus Totalus!</b>"
 
 		castproj(MPreq = 50, Type = /obj/projectile/Bind { min_time = 1; max_time = 10 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
@@ -1524,7 +1530,7 @@ mob/Spells/verb/Episky()
 			return
 
 		if(world.time - p.lastCombat <= COMBAT_TIME)
-			p << errormsg("You can't use while in combat.")
+			p << errormsg("You can't use this while in combat.")
 			return
 
 		hearers()<<"<span style=\"color:red;\"><b>[p]:</span></b> <font color=aqua>Episkey!"

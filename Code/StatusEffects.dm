@@ -358,6 +358,7 @@ StatusEffect
 	Apparate
 	UsedEpiskey
 	UsedImmobulus
+	UsedReducto
 	Summoned
 	Decloaked
 	Knockedfrombroom
