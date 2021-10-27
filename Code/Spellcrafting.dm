@@ -197,15 +197,15 @@ obj/items/wearable/spellbook
 			var/command = (flags & PAGE_DAMAGETAKEN) ? null : "Spellbook"
 			switch(element)
 				if(FIRE)
-					s = new /obj/summon/fire (p.loc, p, command, 1)
+					s = new /obj/summon/fire (p.loc, p, command, 0.5)
 				if(WATER)
-					s = new /obj/summon/water (p.loc, p, command, 1)
+					s = new /obj/summon/water (p.loc, p, command, 0.5)
 				if(EARTH)
-					s = new /obj/summon/earth (p.loc, p, command, 1)
+					s = new /obj/summon/earth (p.loc, p, command, 0.5)
 				if(GHOST)
-					s = new /obj/summon/ghost (p.loc, p, command, 1)
+					s = new /obj/summon/ghost (p.loc, p, command, 0.5)
 				if(HEAL)
-					s = new /obj/summon/heal (p.loc, p, command, 1)
+					s = new /obj/summon/heal (p.loc, p, command, 0.5)
 
 			s.scale = damage
 

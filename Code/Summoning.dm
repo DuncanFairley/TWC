@@ -97,7 +97,7 @@ obj/summon
 		level = 160
 		scale = 1.6
 
-	New(turf/loc, mob/Player/p, spell, size=0)
+	New(turf/loc, mob/Player/p, spell, size=0, monsterType=1)
 		set waitfor = 0
 		..()
 
@@ -118,11 +118,15 @@ obj/summon
 
 		if(!p.Summons) p.Summons = list()
 		p.Summons += src
+		p.summons += monsterType
+
+		if(monsterType > 1)
+			filters = filter(type="blur", size=1)
 
 		hpbar = new(src)
 
 		if(size)
-			size = min(3, size + p.Summoning.level/25)
+			size = min(3, size + p.Summoning.level/30)
 			transform = matrix() * size
 
 		sleep(4)
@@ -273,7 +277,7 @@ obj/summon
 					else
 						var/mob/Player/p = target
 
-						var/dmg = round((level - 51)*0.4, 1) - p.Slayer.level
+						var/dmg = round((level - 51)*0.5, 1) - p.Slayer.level
 
 						if(p.animagusOn)
 							dmg = dmg * 0.75 - p.Animagus.level

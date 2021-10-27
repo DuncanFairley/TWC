@@ -584,7 +584,7 @@ mob/Spells/verb/Avis()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=yellow> Avis!"
 		hearers()<<"A Phoenix emerges."
-		var/obj/summon/phoenix/s = new  (loc, src, "Avis", 1)
+		var/obj/summon/phoenix/s = new  (loc, src, "Avis", 0.5)
 		s.FlickState("m-black",8,'Effects.dmi')
 		p.learnSpell("Avis")
 
@@ -603,7 +603,7 @@ mob/Spells/verb/Crapus_Sticketh()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Crapus...Sticketh!!"
 		hearers()<<"A stick figure appears."
-		var/obj/summon/stickman/s = new  (loc, src, "Crapus-Sticketh", 1)
+		var/obj/summon/stickman/s = new  (loc, src, "Crapus-Sticketh", 0.5)
 		s.FlickState("m-black",8,'Effects.dmi')
 
 mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at least 30 seconds/?
