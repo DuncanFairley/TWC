@@ -1159,7 +1159,7 @@ mob
 				density = 1
 
 			Boss
-				prizePoolSize = 3
+				prizePoolSize = 4
 
 				Attack()
 					..()
@@ -1735,6 +1735,8 @@ mob
 					canBleed = FALSE
 					var/tmp/fired = 0
 
+					prizePoolSize = 5
+
 					MapInit()
 						set waitfor = 0
 						..()
@@ -1889,7 +1891,7 @@ mob
 			MoveDelay   = 2
 			AttackDelay = 0
 
-			prizePoolSize = 2
+			prizePoolSize = 3
 
 			var/tmp/fired = 0
 
@@ -2099,7 +2101,7 @@ mob
 			AttackDelay = 1
 			Range = 24
 			respawnTime = 6000
-			prizePoolSize = 2
+			prizePoolSize = 3
 
 			element = WATER
 
@@ -2203,7 +2205,7 @@ mob
 			AttackDelay = 1
 			Range = 24
 			respawnTime = 6000
-			prizePoolSize = 2
+			prizePoolSize = 3
 
 			ChangeState(var/i_State)
 				..(i_State)
@@ -2593,7 +2595,7 @@ mob
 				cd = 20
 				HPmodifier = 15
 
-				prizePoolSize = 2
+				prizePoolSize = 3
 
 				Range     = 20
 				MoveDelay = 2
@@ -2796,7 +2798,7 @@ mob
 			Range = 24
 			respawnTime = 6000
 
-			prizePoolSize = 2
+			prizePoolSize = 3
 
 			ChangeState(var/i_State)
 				..(i_State)
