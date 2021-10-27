@@ -47,6 +47,7 @@ obj/summon
 
 	water
 		corpse = 0
+		level = 110
 		icon_state = "water elemental"
 
 		New(loc, mob/Player/p, spell, size=0)
