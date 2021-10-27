@@ -21,6 +21,7 @@ area
 		antiSummon    = FALSE
 		antiMask      = FALSE
 		antiCloak     = FALSE
+		antiPotion    = FALSE
 
 	arenas
 		antiFly       = TRUE
@@ -32,6 +33,7 @@ area
 		antiSummon    = TRUE
 		antiMask      = TRUE
 		antiCloak     = TRUE
+		antiPotion    = TRUE
 	hogwarts
 		antiMask      = TRUE
 
@@ -82,7 +84,7 @@ area
 				var/obj/items/wearable/invisibility_cloak/Cloak = locate() in p.Lwearing
 				if(Cloak) Cloak.Equip(p,1)
 
-			if(p.LStatusEffects)
+			if(antiPotion && p.LStatusEffects)
 				var/StatusEffect/Potions/pot = locate() in p.LStatusEffects
 				if(pot)
 					pot.Deactivate()
@@ -697,8 +699,9 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.Lwearing.Add(src)
 		suffix = "worn"
 		UpdateDisplay()
+		var/td = owner.clothDef
 		if(bonus != -1)
-			calcBonus(owner)
+			calcBonus(owner, 0)
 		if(socket)
 			owner.clothDmg += socket.Dmg
 			owner.clothDef += socket.Def
@@ -707,6 +710,8 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.passives |= passive
 		owner.monsterDmg += monsterDmg
 		owner.monsterDef += monsterDef
+		if(td != owner.clothDef)
+			owner.resetMaxHP()
 		return WORN
 
 obj/items/food
