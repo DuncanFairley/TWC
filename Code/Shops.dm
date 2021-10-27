@@ -202,6 +202,11 @@ obj/Madame_Pomfrey
 			if(canUse(usr,needwand=0,cooldown=/StatusEffect/UsedFerulaToHeal))
 				set src in oview(1)
 				var/mob/Player/p = usr
+
+				if(world.time - p.lastCombat <= COMBAT_TIME)
+					p << errormsg("You can't use this while in combat.")
+					return
+
 				p<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [p]!"
 				new /StatusEffect/UsedFerulaToHeal(p,30*p.cooldownModifier)
 				p.overlays+=image('attacks.dmi',icon_state="heal")
