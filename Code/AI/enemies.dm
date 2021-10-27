@@ -732,7 +732,7 @@ mob
 					killer.pet.fetch(t)
 
 			var/base = worldData.baseChance * clamp(1 + (level - killer.level) / 200, 0.1, 20) * clamp(level/200, 0.1, 20)
-			if(level <= killer.level) base *= (level / 800) * 0.4
+			if(level < killer.level) base *= (level / 800) * 0.75
 
 			if(prize)
 				sparks = 1
@@ -765,7 +765,7 @@ mob
 					if(killer.pet)
 						killer.pet.fetch(prize)
 
-			else if(prob(base*rate*3))
+			else if(prob(base*rate*4))
 				sparks = 1
 				prize = pickweight(list(/obj/items/crystal/defense = 1,
 										/obj/items/crystal/damage  = 1,

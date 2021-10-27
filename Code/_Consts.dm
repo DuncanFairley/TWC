@@ -146,4 +146,4 @@ atom
 
 
 
-WorldData/var/tmp/baseChance = 0.02
+WorldData/var/tmp/baseChance = 0.015
