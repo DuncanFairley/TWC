@@ -1523,7 +1523,7 @@ mob/Spells/verb/Episky()
 			p << errormsg("You can't use this near such evil presence.")
 			return
 
-		if(world.time - p.lastCombat <= 100)
+		if(world.time - p.lastCombat <= COMBAT_TIME)
 			p << errormsg("You can't use while in combat.")
 			return
 

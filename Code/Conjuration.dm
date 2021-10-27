@@ -75,7 +75,7 @@ mob/Player
 
 		while(HP < MHP && animagusOn)
 
-			if(world.time - lastCombat > 100) // disables hp regen in pvp
+			if(world.time - lastCombat > COMBAT_TIME) // disables hp regen in pvp
 
 				HP = min(HP + 30 + round(level/10)*3 + Animagus.level*3, MHP)
 				var/hppercent = clamp(HP / MHP, 0, 1)

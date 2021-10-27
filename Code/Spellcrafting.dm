@@ -35,7 +35,7 @@ obj/items/wearable/spellbook
 		return (flags == 0 && element == 0 && spellType == 0) ? . : 0
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= 100)
+		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= COMBAT_TIME)
 			owner << errormsg("You can't equip this while in combat.")
 			return
 		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiSpellbook)
@@ -213,7 +213,7 @@ obj/items/wearable/spellbook
 			if(element == HEAL)
 
 				var/d = dmg
-				if(world.time - p.lastCombat <= 100)
+				if(world.time - p.lastCombat <= COMBAT_TIME)
 					d *= 0.5
 
 				p.HP = min(p.MHP, p.HP + d)
