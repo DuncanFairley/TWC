@@ -1263,13 +1263,13 @@ obj/plant
 		level    = round(p.level/2 + p.Gathering.level*4)
 		MHP      = 4 * (level) + 200
 		HP       = MHP
-		duration = 300 + p.Gathering.level*10
+		duration = 450 + p.Gathering.level*10
 
 
 		hpbar = new(src)
 
 		if(size)
-			size = min(2, size + p.Gathering.level/25)
+			size = min(2, size + p.Gathering.level/30)
 
 			var/matrix/m1 = matrix() * size
 			var/matrix/m2 = matrix() * size
