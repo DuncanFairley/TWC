@@ -660,7 +660,7 @@ mob/Spells/verb/Incarcerous()
 		new /StatusEffect/UsedStun(src,15*usr:cooldownModifier,"Incarcerous")
 		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Incarcerous!</b>"
 
-		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 1 }, icon_state = "bind", name = "Incarcerous", lag = 1)
+		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 3 }, icon_state = "bind", name = "Incarcerous", lag = 1)
 
 mob/Spells/verb/Anapneo(var/mob/Player/M in view())
 	set category="Spells"
@@ -723,7 +723,7 @@ mob/Spells/verb/Petreficus_Totalus()
 		new /StatusEffect/UsedStun(src,15*usr:cooldownModifier,"Petrificus Totalus")
 		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Petrificus Totalus!</b>"
 
-		castproj(MPreq = 50, Type = /obj/projectile/Bind { min_time = 0.4; max_time = 2.4 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
+		castproj(MPreq = 50, Type = /obj/projectile/Bind { min_time = 1; max_time = 10 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
 
 mob
 	Player/var/tmp/antifigura = 0
