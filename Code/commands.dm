@@ -190,6 +190,8 @@ mob/test/verb/Transfer_Savefile()
 
 				fcopy("[swapmaps_directory]/map_[ckey(oldkey)].sav", "[swapmaps_directory]/map_[ckey(newkey)].sav")
 
+				fdel("[swapmaps_directory]/map_[ckey(oldkey)].sav")
+
 				var/savefile/newV = new("[swapmaps_directory]/map_[ckey(newkey)].sav")
 				newV.cd = "//.0"
 				newV["id"] << ckey(newkey)
