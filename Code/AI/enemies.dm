@@ -353,6 +353,7 @@ area
 		inside
 			Pixie_Pit
 			Pumpkin_Pit
+			Pumpkin_Entrance
 			Silverblood_Maze
 				antiTeleport = TRUE
 				antiFly      = TRUE
@@ -2006,7 +2007,7 @@ mob
 
 				SpawnPet(killer, 0.9, null, /obj/items/wearable/pets/rat)
 
-				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon"), chance=0.1)
+				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon", "PumpkinEntrance"), chance=0.1)
 
 		Pixie
 			icon_state  = "pixie"
@@ -2416,7 +2417,7 @@ mob
 
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/acromantula)
-				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon"), chance=2)
+				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon", "PumpkinEntrance"), chance=2)
 
 			MapInit()
 				set waitfor = 0
@@ -2583,7 +2584,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.02, "rand", /obj/items/wearable/pets/wisp)
-				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon"), chance=1)
+				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon", "PumpkinEntrance"), chance=1)
 
 
 		Floating_Eye
