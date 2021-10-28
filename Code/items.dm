@@ -5020,3 +5020,15 @@ obj/items/wearable/sword/ghost
 	desc="Changes all projectiles element to ghost."
 	suffix = "<span style=\"color:#ffa500;\">Your projectiles element will be ghost.</span>"
 	passive = SWORD_GHOST
+
+
+obj/items/wearable/gm_robes
+	icon = 'trims.dmi'
+	dropable = 0
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+
+		. = ..(owner)
+		if(. == WORN)
+			for(var/obj/items/wearable/gm_robes/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)

@@ -2749,6 +2749,7 @@ mob/GM/verb/Remote_View(mob/M in world)
 		return
 	client.eye=M
 	client.perspective=EYE_PERSPECTIVE
+	Log_admin("[src] remote views [M]")
 	hearers()<<"[usr] sends \his view elsewhere."
 mob/GM/verb/HM_Remote_View(mob/M in world)
 	set category="Staff"
