@@ -3075,8 +3075,6 @@ obj/boss/deathDOTControl
 
 				highest = max(highest, distance)
 
-			world << highest
-
 			for(var/i = highest to 0 step -1)
 				if(!active) break
 				for(var/obj/boss/deathdot/d in dotList["[i]"])
@@ -3092,8 +3090,6 @@ obj/boss/deathDOTControl
 				for(var/obj/boss/deathdot/d in dotList["[i]"])
 					d.active = 0
 					d.alpha  = 0
-
-			world << "stopped"
 
 		Stop()
 			active = 0
