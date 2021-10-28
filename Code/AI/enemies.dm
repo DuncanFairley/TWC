@@ -3079,7 +3079,7 @@ obj/boss/deathDOTControl
 				if(!active) break
 				for(var/obj/boss/deathdot/d in dotList["[i]"])
 					d.active = 1
-					d.alpha  = 255
+					animate(d, alpha  = 140, time = 40)
 
 				sleep(100)
 
@@ -3100,8 +3100,8 @@ obj/boss/deathdot
 		active = 0
 
 	layer      = 6
-	icon       = 'black50.dmi'
-	icon_state = "impedimenta"
+	icon       = 'turf.dmi'
+	icon_state = "hplava"
 	alpha      = 0
 
 	Crossed(atom/movable/O)
