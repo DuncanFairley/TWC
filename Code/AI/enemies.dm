@@ -785,6 +785,15 @@ mob
 				sparks = 1
 				prize = pick(drops_list["legendary"])
 				prize = new prize (loc)
+
+				if(istype(prize, /obj/items/wearable) && prize:bonus == 0)
+
+					if(prob(10))
+						prize:bonus = 3
+						var/lvl = pick(1,2,3)
+						prize:quality = lvl
+						prize.name += " +[lvl]"
+
 				prize.prizeDrop(killer.ckey, decay=1)
 				killer << colormsg("<i>[name] dropped [prize.name]</i>", "#FFA500")
 				killer.pity = 0
