@@ -530,7 +530,7 @@ mob/TalkNPC/Artifacts_Salesman
 		for(var/turf/t in block(locate(x-2,y-2,z),locate(x+2,y-2,z)))
 			for(var/obj/items/wearable/i in t)
 				if(i.owner == p.ckey && (i.passive || i.monsterDmg || i.monsterDef || i.dropRate))
-					amount += i.stack
+					amount += i.stack * (1 + i.quality)
 					i.Dispose()
 
 		if(amount > 0)
@@ -541,6 +541,7 @@ mob/TalkNPC/Artifacts_Salesman
 
 			var/obj/items/artifact/a = new
 			a.stack = amount
+			a.UpdateDisplay()
 			a.Move(p)
 		else
 			s.AddText("I love legendary artifacts, if you've got any legendary items, I'll be willing to trade with you, drop them on the purple floor and talk to me.")
