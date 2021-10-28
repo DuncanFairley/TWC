@@ -1058,7 +1058,7 @@ RandomEvent
 			set waitfor = 0
 			..()
 			var/minutes = rand(30,60)
-			var/sale = rand(10,30)
+			var/sale = rand(15,40)
 
 			var/b = sale / 100
 			worldData.shopPriceModifier -= b
