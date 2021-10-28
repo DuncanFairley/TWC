@@ -4,7 +4,7 @@
 #define MAX_VIEW_TILES 2000
 #define HUD_LAYER 10
 
-#define BROWSER_VERSION 2
+#define BROWSER_VERSION 3
 
 obj/hud
 	plane = 2

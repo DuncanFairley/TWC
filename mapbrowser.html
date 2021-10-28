@@ -6,7 +6,7 @@ var map_width;
 var map_height;
 var win_name;
 var resizing = 1;
-var version = 2;
+var version = 3;
 
 function CallVerb() {
     var locstr = "byond://winset?command=" + arguments[0];
@@ -58,6 +58,7 @@ function Login() {
 	WinSet("","mainvsplit.right","rpane","mnu_Settings.command",".ShowSettings","mnu_Settings.is-disabled","false");
 	Resize();
 	resizing = 0;
+        SyncChat();
 }
 
 function BackColor() {
@@ -110,6 +111,21 @@ function CenterWindowCallback(properties) {
     resolution_y = screen.height;
     WinSet("mainwindow","pos",Math.floor((resolution_x-win_width)/2) + "," + Math.floor((resolution_y-win_height)/2));
 }
+
+function SyncChat() {
+    window.location = "byond://winget?callback=SyncChatCallback&id=input&property=command";
+}
+
+function SyncChatCallback(properties) {
+    var str = String(properties.command).substring(0,3);
+    if(str == "Say") {
+        WinSet("","buttonChat.text","Say");
+    }
+    else if(str == "Com") {
+        WinSet("","buttonChat.text","Command");
+    }
+}
+
 
 function ShowSplitStack() {
 	var s = encodeURIComponent(arguments[0]);
