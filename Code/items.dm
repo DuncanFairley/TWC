@@ -649,6 +649,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		if(showoverlay)
 			var/image/o = new
 			o.icon = src.icon
+			o.color = src.color
 			o.layer = wear_layer
 
 			owner.overlays -= o
@@ -683,6 +684,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		if(showoverlay && !owner.trnsed && !owner.noOverlays)
 			var/image/o = new
 			o.icon = src.icon
+			o.color = src.color
 			o.layer = wear_layer
 
 			owner.overlays += o
