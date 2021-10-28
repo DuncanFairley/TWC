@@ -148,10 +148,13 @@ mob/GM
 						p << "Your MassEdit variable is now [p.EditVar] with the reference [p.EditVal]."
 					if("null")
 						p.EditVal = null
-		FFA_Mode(var/dmg as num, var/os as anything in list("On", "Off"))
+		FFA_Mode(var/dmg as num, var/os as anything in list("On", "Off"), var/scale as anything in list("Scale damage", "Normal damage"))
 			set category = "Events"
 			var/area/a = locate(/area/arenas/MapThree/PlayArea)
-			a.dmg = dmg
+			if(scale == "Scale damage")
+				a.scaleDamage = dmg
+			else
+				a.dmg = dmg
 			a.oldsystem = os == "On"
 			src << infomsg("Set dmg modifier to [dmg], old system is [os].")
 
