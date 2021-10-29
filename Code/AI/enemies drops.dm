@@ -100,6 +100,12 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							             /obj/items/key/winter_key,
 							             /obj/items/chest/winter_chest)),
 
+"Demon Snake"        = list("0.5" = list(/obj/items/wearable/orb/peace,
+							             /obj/items/wearable/orb/chaos,
+							             /obj/items/wearable/orb/magic,
+							             /obj/items/key/summer_key,
+							             /obj/items/chest/summer_chest)),
+
 
 "Wisp"               = list("0.1" = /obj/items/wearable/title/Magic,
 							"0.5" = list(/obj/items/key/basic_key,
@@ -186,13 +192,14 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 						     			  /obj/items/crystal/strong_luck)),
 
 "Akalla"             = list("5"    = list(/obj/items/chest/wigs/sunset_wig_chest,
-										  /obj/items/chest/wigs/chess_chest,
+										  /obj/items/chest/wigs/demon_chest,
 										  /obj/items/chest/sunset_chest,
-										  /obj/items/key/chess_key,
+										  /obj/items/key/demon_key,
 										  /obj/items/key/pet_key,
-										  /obj/items/wearable/pets/snowman,
+										  /obj/items/wearable/pets/white_purple_demon_snake,
+										  /obj/items/wearable/pets/red_black_demon_snake,
 										  /obj/items/artifact,
-										  /obj/items/wearable/title/Frozen,
+										  /obj/items/wearable/title/Demonic,
 										  /obj/items/wearable/orb/peace,
 							              /obj/items/wearable/orb/chaos,
 							              /obj/items/wearable/orb/magic,

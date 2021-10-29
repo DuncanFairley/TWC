@@ -6,6 +6,7 @@ mob/Player/var
 		monsterDmg = 0
 		monsterDef = 0
 		dropRate   = 0
+		extraLimit = 0
 		noOverlays = 0
 
 
@@ -52,7 +53,7 @@ area
 			if(antiFly)
 				p.nofly()
 
-			if(antiEffect && (p.passives || p.monsterDmg || p.monsterDef || p.dropRate))
+			if(antiEffect && (p.passives || p.monsterDmg || p.monsterDef || p.dropRate || p.extraLimit))
 				var/obj/items/wearable/sword/s = locate() in p.Lwearing
 				if(s) s.Equip(p, 1)
 
@@ -529,6 +530,7 @@ obj/items/wearable
 		monsterDef = 0
 		monsterDmg = 0
 		dropRate = 0
+		extraLimit = 0
 		obj/items/crystal/socket
 
 		tmp
@@ -679,6 +681,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.passives &= ~passive
 		owner.monsterDmg -= monsterDmg
 		owner.monsterDef -= monsterDef
+		owner.extraLimit -= extraLimit
 		return REMOVED
 	else
 		if(showoverlay && !owner.trnsed && !owner.noOverlays)
@@ -712,6 +715,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.passives |= passive
 		owner.monsterDmg += monsterDmg
 		owner.monsterDef += monsterDef
+		owner.extraLimit += extraLimit
 		if(td != owner.clothDef)
 			owner.resetMaxHP()
 		return WORN
@@ -2471,6 +2475,9 @@ obj/items/wearable/title
 	Frozen
 		title = "Frozen"
 		name  = "Title: Frozen"
+	Demonic
+		title = "Demonic"
+		name  = "Title: Demonic"
 	Wrecker
 		title = "Wrecker"
 		name  = "Title: Wrecker"
@@ -3954,6 +3961,10 @@ obj/items
 				icon_state = "red"
 				drops      = "chess"
 				keyType = /obj/items/key/chess_key
+			demon_chest
+				icon_state = "green"
+				drops      = "demon"
+				keyType = /obj/items/key/demon_key
 
 	mystery_key
 		icon = 'ChestKey.dmi'
@@ -3973,6 +3984,7 @@ obj/items
 					  			  /obj/items/key/blood_key,
 								  /obj/items/key/pet_key,
 								  /obj/items/key/chess_key,
+								  /obj/items/key/demon_key,
 							      /obj/items/key/community_key,
 		              			  /obj/items/key/sunset_key)
 				k = new k (usr)
@@ -4017,6 +4029,8 @@ obj/items
 			icon_state = "blue"
 		chess_key
 			icon_state = "red"
+		demon_key
+			icon_state = "green"
 
 var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/duel_scarf       = 50,
 					                            /obj/items/wearable/shoes/duel_shoes         = 30,
@@ -4123,6 +4137,20 @@ var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/
 							                       /obj/items/wearable/shoes/black_shoes   = 25,
 							                       /obj/items/wearable/scarves/white_scarf = 35,
 							                       /obj/items/wearable/scarves/black_scarf = 35),
+
+							 "male_demon" = list(/obj/items/wearable/wigs/male_blackgreen_wig = 15,
+							                     /obj/items/wearable/hats/green_earmuffs  = 15,
+							                     /obj/items/wearable/shoes/grey_shoes   = 15,
+							                     /obj/items/wearable/shoes/black_shoes   = 25,
+							                     /obj/items/wearable/scarves/grey_scarf = 35,
+							                     /obj/items/wearable/scarves/green_scarf = 35),
+
+							 "female_demon" = list(/obj/items/wearable/wigs/female_redblack_wig = 15,
+							                       /obj/items/wearable/hats/green_earmuffs  = 15,
+							                       /obj/items/wearable/shoes/grey_shoes   = 15,
+							                       /obj/items/wearable/shoes/green_shoes   = 25,
+							                       /obj/items/wearable/scarves/grey_scarf = 35,
+							                       /obj/items/wearable/scarves/green_scarf = 35),
 
 							 "community1"     = list(/obj/items/wearable/scarves/heartscarf    = 16,
 							 					     /obj/items/wearable/scarves/alien_scarf   = 22,

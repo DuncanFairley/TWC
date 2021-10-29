@@ -114,7 +114,7 @@ obj
 							var/area/a = loc.loc
 							for(var/mob/Player/p in Players)
 								if(p.guild)
-									Players << infomsg("[a.name] pillar can be attacked in one hour.")
+									p << infomsg("[a.name] pillar can be attacked in one hour.")
 
 							continue
 
@@ -353,7 +353,9 @@ area
 		inside
 			Pixie_Pit
 			Pumpkin_Pit
+				planeColor = NIGHTCOLOR;
 			Pumpkin_Entrance
+				planeColor = NIGHTCOLOR;
 			Silverblood_Maze
 				antiTeleport = TRUE
 				antiFly      = TRUE
@@ -2115,10 +2117,15 @@ mob
 
 			element = WATER
 
+			var/attempts = 3
+
 			ChangeState(var/i_State)
 				..(i_State)
 
 				if(state == 0 && origloc && HP > 0)
+					if(attempts-- <= 0)
+						attempts = initial(attempts)
+						HP = MHP
 					loc = origloc
 
 			MapInit()
@@ -2217,6 +2224,8 @@ mob
 			respawnTime = 6000
 			prizePoolSize = 3
 
+			var/attempts = 3
+
 			ChangeState(var/i_State)
 				..(i_State)
 
@@ -2224,6 +2233,10 @@ mob
 					loc = origloc
 					var/obj/boss/deathDOTControl/c = locate("AkallaDeathControl")
 					c.Stop()
+
+					if(attempts-- <= 0)
+						attempts = initial(attempts)
+						HP = MHP
 				else
 					var/obj/boss/deathDOTControl/c = locate("AkallaDeathControl")
 					c.Start()
@@ -2363,8 +2376,8 @@ mob
 				for(var/i = 1 to s)
 					new /mob/Enemies/Summoned/Snake (loc)
 
+				SpawnPet(killer, 0.05, null, /obj/items/wearable/pets/demon_snake)
 
-				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/snake)
 
 			MapInit()
 				set waitfor = 0
@@ -2810,11 +2823,17 @@ mob
 
 			prizePoolSize = 3
 
+			var/attempts = 3
+
 			ChangeState(var/i_State)
 				..(i_State)
 
 				if(state == 0 && origloc && HP > 0)
 					loc = origloc
+
+					if(attempts-- <= 0)
+						attempts = initial(attempts)
+						HP = MHP
 
 			MapInit()
 				set waitfor = 0
