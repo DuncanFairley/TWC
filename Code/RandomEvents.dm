@@ -1223,7 +1223,7 @@ mob/Player
 			winset(src, "mainwindow", "flash=2")
 
 			if(playSounds)
-				var/sound/S = sound('Alert.ogg')
+				var/sound/S = sound('Alert.mp3')
 				src << S
 
 obj/items/treasure
@@ -1267,6 +1267,7 @@ obj/items/treasure
 		                        /obj/items/chest/sunset_chest         = 10,
 		                        /obj/items/chest/wigs/basic_wig_chest = 5,
 		                        /obj/items/chest/wigs/chess_chest     = 3,
+		                        /obj/items/chest/wigs/demon_chest     = 3,
 		                        /obj/items/chest/wigs/sunset_wig_chest= 3,
 		                        /obj/items/wearable/title/Pirate      = 1))
 
