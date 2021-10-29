@@ -121,7 +121,7 @@ obj/summon
 		HP       = MHP
 		duration = 600 + p.Summoning.level*10
 
-		summonTier = min(p.summonsMode, 1 + round(p.Summoning.level / 10) - p.summons)
+		summonTier = min(p.summonsMode, 1 + p.extraLimit + round(p.Summoning.level / 10) - p.summons)
 
 		if(!p.Summons) p.Summons = list()
 		p.Summons += src

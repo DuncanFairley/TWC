@@ -1413,7 +1413,7 @@ obj/items/plant
 				return
 
 			var/mob/Player/p = usr
-			if(p.plants >= 1 + round(p.Gathering.level / 10))
+			if(p.plants >= 1 + p.extraLimit + round(p.Gathering.level / 10))
 				p << errormsg("You need higher gathering level to plant more.")
 				return
 

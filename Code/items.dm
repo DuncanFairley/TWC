@@ -4886,6 +4886,13 @@ obj/items/wearable/ring/ring_of_displacement
 	suffix = "<span style=\"color:#ffa500;\">Allows you to walk through monsters.</span>"
 	passive = RING_DISPLACEMENT
 
+obj/items/wearable/ring/demonic_ring
+	icon='ammy.dmi'
+	icon_state="snow"
+	desc="A magical ring that allows you to control an extra summon/plant."
+	suffix = "<span style=\"color:#ffa500;\">Allows you control extra summon/plant.</span>"
+	extraLimit = 1
+
 obj/items/wearable/ring/cooling_shoes
 	icon='trophies.dmi'
 	icon_state="cooling shoes"
