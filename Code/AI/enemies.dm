@@ -2721,7 +2721,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/troll)
-				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon"), chance=0.3)
+				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon", "PumpkinEntrance"), chance=0.3)
 
 			ChangeState(var/i_State)
 				set waitfor = FALSE
