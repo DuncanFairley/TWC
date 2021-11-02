@@ -639,7 +639,7 @@ proc/RandomizeShop()
 						  /obj/items/wearable/scarves/teal_scarf,
 						  /obj/items/wearable/scarves/white_scarf,
 						  /obj/items/wearable/bling)
-	for(var/i = 1 to 5)
+	for(var/i = 1 to 10)
 		var/path = pick(items)
 		var/obj/items/item = new path()
 		item.price = round(item.price * (rand(80, 120)/100))
