@@ -1329,7 +1329,7 @@ obj/plant
 	proc/state()
 		set waitfor = 0
 
-		while(duration > 0 && owner)
+		while(duration > 0 && owner && get_dist(owner, src) < 30)
 
 			effect()
 
@@ -1408,6 +1408,10 @@ obj/items/plant
 
 	Click()
 		if(src in usr)
+
+			if(owner.loc && owner.loc.loc && owner.loc.loc:antiSummon)
+				owner << errormsg("You can not use it here.")
+				return
 
 			if(locate(/obj/plant) in range(2, usr))
 				usr << errormsg("You can't grow a plant so close to another.")
