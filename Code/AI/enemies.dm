@@ -1896,9 +1896,9 @@ mob
 		Stickman
 			icon = 'Mobs.dmi'
 			icon_state = "stickman"
-			level = 2200
+			level = 2100
 			HPmodifier  = 10
-			DMGmodifier = 1.6
+			DMGmodifier = 2
 
 			MoveDelay   = 2
 			AttackDelay = 0
@@ -2106,7 +2106,7 @@ mob
 
 		The_Good_Snowman
 			icon_state = "snowman"
-			level = 2400
+			level = 2300
 			HPmodifier = 10
 			DMGmodifier = 3
 			MoveDelay = 3
@@ -2215,9 +2215,9 @@ mob
 
 		Akalla
 			icon_state = "basilisk"
-			level = 2600
-			HPmodifier = 16
-			DMGmodifier = 10
+			level = 2400
+			HPmodifier = 15
+			DMGmodifier = 3
 			MoveDelay = 3
 			AttackDelay = 1
 			Range = 24
@@ -2270,11 +2270,11 @@ mob
 
 					if(!fired2)
 						fired2 = 1
-						spawn(rand(20, 40)) fired2 = 0
+						spawn(rand(30, 60)) fired2 = 0
 
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 						for(var/d in dirs)
-							castproj(Type = /obj/projectile/Bomb, icon_state = "trans", damage = Dmg*2, name = "Bomb", cd = 0, lag = 1, Dir=d)
+							castproj(Type = /obj/projectile/Bomb, icon_state = "trans", damage = Dmg*1.5, name = "Bomb", cd = 0, lag = 1, Dir=d)
 
 					if(!fired)
 
@@ -2614,7 +2614,7 @@ mob
 			MoveDelay = 3
 
 			Eye_of_The_Fallen
-				level = 2400
+				level = 2200
 				cd = 20
 				HPmodifier = 15
 
