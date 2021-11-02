@@ -790,7 +790,7 @@ mob/Spells/verb/Sanguinis_Iactus()
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
 
 		usr:lastAttack = "Sanguinis Iactus"
-		castproj(Type = /obj/projectile/Blood, MPreq = 5, icon_state = "blood", damage = usr.Dmg + clothDmg, name = "Blood")
+		castproj(Type = /obj/projectile/Blood, MPreq = 10, icon_state = "blood", damage = usr.Dmg + clothDmg, name = "Blood")
 
 mob/Spells/verb/Gravitate()
 	set category="Spells"
@@ -824,12 +824,12 @@ mob/Spells/verb/Glacius()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Glacius"
-		castproj(MPreq = 10, icon_state = "iceball", damage = usr.Dmg + clothDmg + usr:Water.level, name = "Glacius", element = WATER)
+		castproj(MPreq = 20, icon_state = "iceball", damage = usr.Dmg + clothDmg + usr:Water.level, name = "Glacius", element = WATER)
 mob/Spells/verb/Waddiwasi()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Waddiwasi"
-		castproj(MPreq = 10, icon_state = "gum", damage = usr.Dmg + clothDmg + usr:Ghost.level, name = "Waddiwasi", element = GHOST)
+		castproj(MPreq = 20, icon_state = "gum", damage = usr.Dmg + clothDmg + usr:Ghost.level, name = "Waddiwasi", element = GHOST)
 
 mob/Spells/verb/Gladius()
 	set category="Spells"
@@ -837,13 +837,13 @@ mob/Spells/verb/Gladius()
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=20,againstocclumens=1,projectile=1))
 		var/mob/Player/p = src
 		p.lastAttack = "Gladius"
-		castproj(MPreq = 20, Type = /obj/projectile/NoImpact/Dir, icon_state = "sword", damage = usr.Dmg + clothDmg + usr:Ghost.level, name = "Gladius", element = GHOST)
+		castproj(MPreq = 30, Type = /obj/projectile/NoImpact/Dir, icon_state = "sword", damage = usr.Dmg + clothDmg + usr:Ghost.level, name = "Gladius", element = GHOST)
 
 mob/Spells/verb/Tremorio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Tremorio"
-		castproj(MPreq = 5, icon_state = "quake", damage = usr.Dmg + clothDmg + usr:Earth.level, name = "Tremorio", element = EARTH)
+		castproj(MPreq = 10, icon_state = "quake", damage = usr.Dmg + clothDmg + usr:Earth.level, name = "Tremorio", element = EARTH)
 
 mob/var/tmp/list/_input
 
@@ -1223,7 +1223,7 @@ mob/Spells/verb/Incendio()
 		var/dmg = ((p.passives & SWORD_FIRE) ? Dmg + clothDmg : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
 
 		p.lastAttack = "Incendio"
-		castproj(Type = /obj/projectile/BurnRoses, damage = dmg, MPreq = 10, icon_state = "fireball", name = "Incendio", element = FIRE)
+		castproj(Type = /obj/projectile/BurnRoses, damage = dmg, MPreq = 20, icon_state = "fireball", name = "Incendio", element = FIRE)
 
 mob/Player/proc/BaseIcon()
 
@@ -1634,7 +1634,7 @@ mob/Spells/verb/Imperio(mob/Player/other in oview())
 		usr.client.perspective=MOB_PERSPECTIVE
 mob/Spells/verb/Portus()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25,antiTeleport=1,useTimedProtection=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=50,antiTeleport=1,useTimedProtection=1))
 
 		if(IsInputOpen(src, "Portus"))
 			del _input["Portus"]
@@ -1693,7 +1693,7 @@ mob/Spells/verb/Portus()
 		hearers()<<"[usr]: <span style=\"color:aqua;\"><font size=2>Portus!</span>"
 		hearers()<<"A portkey flys out of [usr]'s wand, and opens."
 		var/mob/Player/p = src
-		p.MP-=25
+		p.MP-=50
 		p.updateMP()
 		p.learnSpell("Portus")
 mob/Spells/verb/Sense(mob/Player/M in view())

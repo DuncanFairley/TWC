@@ -140,17 +140,17 @@ class
 			sleep(30)
 
 		Waddiwasi
-			mp = 10
+			mp = 20
 			start(mob/Player/p)
 				..()
 				say("The [name] projectile looks like pink gum.", p)
 		Glacius
-			mp = 10
+			mp = 20
 			start(mob/Player/p)
 				..()
 				say("The [name] projectile looks like ice and can also be used to freeze water.", p)
 		Tremorio
-			mp = 5
+			mp = 10
 			start(mob/Player/p)
 				..()
 				say("The [name] projectile looks like muddy dirt and rocks.", p)
@@ -260,7 +260,7 @@ class
 
 	dada
 		Petrificus_Totalus
-			mp = 10
+			mp = 50
 			cd = 15
 			uses = 200
 			start(mob/Player/p)
@@ -495,6 +495,7 @@ class
 				..()
 				say("This spell helps growing herbs, you still have to plant the seed in a bucket though.", p)
 		Bombarda
+			mp = 100
 			start(mob/Player/p)
 				..()
 				say("This spell destroys objects and turns it into rubble.", p)
@@ -537,7 +538,7 @@ class
 				say("This flips you upside down so any secret notes or pens will be on the floor for people to collect. Watch out!", p)
 		Incendio
 			wand = TRUE
-			mp = 10
+			mp = 20
 			start(mob/Player/p)
 				..()
 				say("This spell is helpful with burning roses.", p)
