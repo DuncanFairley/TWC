@@ -17,7 +17,7 @@
 #define SWAPMAP_Z 20 // world map z + 1 (the +1 is for buildable area, don't add if not using sandbox)
 #define WINTER 0
 #define AUTUMN 1
-#define HALLOWEEN 1
+#define HALLOWEEN 0
 #define NIGHTCOLOR "#6464d0"
 #define TELENDEVOUR_COLOR "#64d0d0"
 #define MAGICEYE_COLOR "#9df"
