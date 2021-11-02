@@ -3992,7 +3992,35 @@ obj/items
 				Consume()
 			else
 				..()
+	mystery_chest
+		icon = 'Chest.dmi'
+		icon_state = "golden"
+		rarity = 3
 
+		desc = "Click to get a random chest."
+
+		Click()
+			if(src in usr)
+				var/obj/items/key/k = pick(/obj/items/chest/basic_chest,
+		               			  /obj/items/chest/wizard_chest,
+		               			  /obj/items/chest/pentakill_chest,
+					   			  /obj/items/chest/prom_chest,
+					  			  /obj/items/chest/summer_chest,
+					   			  /obj/items/chest/winter_chest,
+					  			  /obj/items/chest/blood_chest,
+								  /obj/items/chest/pet_chest,
+								  /obj/items/chest/wigs/chess_chest,
+								  /obj/items/chest/wigs/demon_chest,
+							      /obj/items/chest/community1_chest,
+							      /obj/items/chest/community2_chest,
+		              			  /obj/items/chest/sunset_chest,
+		              			  /obj/items/chest/wigs/sunset_wig_chest,
+		              			  /obj/items/chest/wigs/basic_wig_chest)
+				k = new k (usr)
+				usr << infomsg("You received [k.name].")
+				Consume()
+			else
+				..()
 	key
 		icon = 'ChestKey.dmi'
 		icon_state = "master"
