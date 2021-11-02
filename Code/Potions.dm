@@ -149,6 +149,7 @@ obj/smoke
 		pixel_y   = initial(pixel_y)
 		alpha     = initial(alpha)
 		animate(src, pixel_x = pixel_x + rand(-10, 10), pixel_y = pixel_y + 36, alpha = 50, transform = matrix()*3, time = 24, loop = -1)
+		animate(pixel_x = initial(pixel_x), pixel_y = initial(pixel_y), transform = null, alpha = initial(alpha), time = 0)
 
 obj/potions
 	var
