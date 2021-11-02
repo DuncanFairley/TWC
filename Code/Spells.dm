@@ -1747,7 +1747,7 @@ mob/Spells/verb/Inferius()
 				else
 					s.icon = 'MaleVampire.dmi'
 
-			if(p.Summons.len >= limit) break
+			if(!p.Summons || p.Summons.len >= limit) break
 
 mob/Spells/verb/Inferius_Maxima()
 	set category = "Spells"

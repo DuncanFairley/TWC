@@ -779,7 +779,7 @@ mob
 			classdest = null
 
 			var/RandomEvent/GMClass/c = locate() in worldData.currentEvents
-			c.end()
+			c?.end()
 
 		Toggle_Safemode()
 			set category = "Server"

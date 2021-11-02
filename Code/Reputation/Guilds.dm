@@ -305,7 +305,7 @@ mob/TalkNPC/Guildmaster
 				s.AddText("Would you like to increase your guild's capacity for 1 artifacts and 10 gold coins?")
 				var/gold/money = new(p)
 				var/obj/items/artifact/a = locate() in p
-				if(a.stack >= 1 && money.have(100000))
+				if(a && a.stack >= 1 && money.have(100000))
 					s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
 				else
 					s.AddButtons(0, 0, "No", "#ff0000", 0, 0)
