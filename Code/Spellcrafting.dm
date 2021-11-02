@@ -124,9 +124,12 @@ obj/items/wearable/spellbook
 			if(SUMMON)
 				t = "Summon"
 
-		if(t == null || e == null)
+		if(t == null && e == null)
 			name = "spellbook \[Incomplete]"
-
+		else if	(t == null)
+			name = "spellbook \[Incomplete - [e]]"
+		else if	(e == null)
+			name = "spellbook \[Incomplete - [t]]"
 		else
 			name = "[e] [t]"
 
@@ -291,9 +294,10 @@ obj/items/spellpage
 
 					p.usedSpellbook.element = element
 
-				if(!p.usedSpellbook.spellType)
-					p << errormsg("This spell book needs a spell type first.")
-					return
+				else
+					if(!p.usedSpellbook.spellType)
+						p << errormsg("This spell book needs a spell type first.")
+						return
 
 				if(flags > 0)
 
@@ -309,7 +313,12 @@ obj/items/spellpage
 				p.usedSpellbook.damage *= damage
 
 			p.usedSpellbook.fixName()
-
+			if(p.usedSpellbook.stack > 1)
+				var/obj/items/wearable/spellbook/book = new
+				book.stack = p.usedSpellbook.stack - 1
+				book.Move(p)
+				p.usedSpellbook.stack = 1
+				p.usedSpellbook.UpdateDisplay()
 			Consume()
 
 		else
