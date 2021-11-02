@@ -2531,6 +2531,7 @@ WorldData/var/tmp/arenaSummon = 0
 	//2 = mapTwo	Clan Wars
 	//3 = MapThree	FFA
 mob/GM/verb/Arena_Summon()
+	set category = "Events"
 	if(worldData.currentArena)
 		src << "Arena summon can't be used while a match has already started."
 		return
@@ -2559,6 +2560,7 @@ mob/GM/verb/Arena_Summon()
 			if("Disable")
 				worldData.arenaSummon = 0
 mob/GM/verb/Arena()
+	set category = "Events"
 	if(worldData.currentArena)
 		del worldData.currentArena
 		src << "Previous round deleted."
