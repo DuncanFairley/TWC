@@ -150,6 +150,10 @@ obj/particle
 					alpha = alphaDest,
 				    time = t,
 				    loop = l)
+			if(loop != 1)
+				animate(transform = null,
+					alpha = 255,
+				    time = 0)
 
 			sleep(t * l + 1)
 			impact()

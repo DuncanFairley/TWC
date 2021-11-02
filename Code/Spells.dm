@@ -503,7 +503,7 @@ mob/Spells/verb/Serpensortia()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=100,againstocclumens=1))
 		var/mob/Player/p = src
-		if(p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
+		if(p.summons >= 1 + p.extraLimit + round(p.Summoning.level / 10))
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
@@ -573,7 +573,7 @@ mob/Spells/verb/Avis()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
 		var/mob/Player/p = src
-		if(p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
+		if(p.summons >= 1 + p.extraLimit + round(p.Summoning.level / 10))
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
@@ -584,7 +584,7 @@ mob/Spells/verb/Avis()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=yellow> Avis!"
 		hearers()<<"A Phoenix emerges."
-		var/obj/summon/phoenix/s = new  (loc, src, "Avis", 1)
+		var/obj/summon/phoenix/s = new  (loc, src, "Avis", 0.5)
 		s.FlickState("m-black",8,'Effects.dmi')
 		p.learnSpell("Avis")
 
@@ -592,7 +592,7 @@ mob/Spells/verb/Crapus_Sticketh()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,useTimedProtection=1,target=null,mpreq=100,againstocclumens=1))
 		var/mob/Player/p = src
-		if(p.Summons && p.Summons.len >= 1 + round(p.Summoning.level / 10))
+		if(p.summons >= 1 + p.extraLimit + round(p.Summoning.level / 10))
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
@@ -603,7 +603,7 @@ mob/Spells/verb/Crapus_Sticketh()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Crapus...Sticketh!!"
 		hearers()<<"A stick figure appears."
-		var/obj/summon/stickman/s = new  (loc, src, "Crapus-Sticketh", 1)
+		var/obj/summon/stickman/s = new  (loc, src, "Crapus-Sticketh", 0.5)
 		s.FlickState("m-black",8,'Effects.dmi')
 
 mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at least 30 seconds/?
@@ -657,10 +657,10 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 mob/Spells/verb/Incarcerous()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=50,againstocclumens=1))
-		new /StatusEffect/UsedStun(src,15*usr:cooldownModifier,"Incarcerous")
+		new /StatusEffect/UsedStun(src,10*usr:cooldownModifier,"Incarcerous")
 		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Incarcerous!</b>"
 
-		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 1 }, icon_state = "bind", name = "Incarcerous", lag = 1)
+		castproj(MPreq = 50, Type = /obj/projectile/Bind { time = 3 }, icon_state = "bind", name = "Incarcerous", lag = 1)
 
 mob/Spells/verb/Anapneo(var/mob/Player/M in view())
 	set category="Spells"
@@ -674,12 +674,18 @@ mob/Spells/verb/Anapneo(var/mob/Player/M in view())
 		usr:learnSpell("Anapneo")
 mob/Spells/verb/Reducto()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,mpreq=0,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedReducto,needwand=1,inarena=0,insafezone=1,inhogwarts=1,mpreq=400,againstocclumens=1))
 		var/mob/Player/p = src
 		if(flying)
 			src << "<b><span style=\"color:red;\">Error:</b></span> You can't cast this spell while flying."
 			return
 		if(p.GMFrozen) return
+
+		new /StatusEffect/UsedReducto(src,15*p.cooldownModifier,"Reducto")
+
+		p.MP -= 400
+		p.updateMP()
+
 		hearers(client.view, src) << "<B><span style=\"color:red;\">[src]:</span><font color=white> <I>Reducto!</I>"
 		if(p.nomove < 2) p.nomove = 0
 		if(!trnsed) p.ApplyOverlays()
@@ -720,10 +726,10 @@ mob/Spells/verb/Petreficus_Totalus()
 	set category="Spells"
 	set name = "Petrificus Totalus"
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=50,againstocclumens=1))
-		new /StatusEffect/UsedStun(src,15*usr:cooldownModifier,"Petrificus Totalus")
+		new /StatusEffect/UsedStun(src,10*usr:cooldownModifier,"Petrificus Totalus")
 		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Petrificus Totalus!</b>"
 
-		castproj(MPreq = 50, Type = /obj/projectile/Bind { min_time = 0.4; max_time = 2.4 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
+		castproj(MPreq = 50, Type = /obj/projectile/Bind { min_time = 1; max_time = 10 }, icon_state = "stone", name = "Petrificus Totalus", lag = 1)
 
 mob
 	Player/var/tmp/antifigura = 0
@@ -784,7 +790,7 @@ mob/Spells/verb/Sanguinis_Iactus()
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
 
 		usr:lastAttack = "Sanguinis Iactus"
-		castproj(Type = /obj/projectile/Blood, MPreq = 5, icon_state = "blood", damage = usr.Dmg + clothDmg, name = "Blood")
+		castproj(Type = /obj/projectile/Blood, MPreq = 10, icon_state = "blood", damage = usr.Dmg + clothDmg, name = "Blood")
 
 mob/Spells/verb/Gravitate()
 	set category="Spells"
@@ -818,12 +824,12 @@ mob/Spells/verb/Glacius()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Glacius"
-		castproj(MPreq = 10, icon_state = "iceball", damage = usr.Dmg + clothDmg + usr:Water.level, name = "Glacius", element = WATER)
+		castproj(MPreq = 20, icon_state = "iceball", damage = usr.Dmg + clothDmg + usr:Water.level, name = "Glacius", element = WATER)
 mob/Spells/verb/Waddiwasi()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Waddiwasi"
-		castproj(MPreq = 10, icon_state = "gum", damage = usr.Dmg + clothDmg + usr:Ghost.level, name = "Waddiwasi", element = GHOST)
+		castproj(MPreq = 20, icon_state = "gum", damage = usr.Dmg + clothDmg + usr:Ghost.level, name = "Waddiwasi", element = GHOST)
 
 mob/Spells/verb/Gladius()
 	set category="Spells"
@@ -831,13 +837,13 @@ mob/Spells/verb/Gladius()
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=20,againstocclumens=1,projectile=1))
 		var/mob/Player/p = src
 		p.lastAttack = "Gladius"
-		castproj(MPreq = 20, Type = /obj/projectile/NoImpact/Dir, icon_state = "sword", damage = usr.Dmg + clothDmg + usr:Ghost.level, name = "Gladius", element = GHOST)
+		castproj(MPreq = 30, Type = /obj/projectile/NoImpact/Dir, icon_state = "sword", damage = usr.Dmg + clothDmg + usr:Ghost.level, name = "Gladius", element = GHOST)
 
 mob/Spells/verb/Tremorio()
 	set category="Spells"
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Tremorio"
-		castproj(MPreq = 5, icon_state = "quake", damage = usr.Dmg + clothDmg + usr:Earth.level, name = "Tremorio", element = EARTH)
+		castproj(MPreq = 10, icon_state = "quake", damage = usr.Dmg + clothDmg + usr:Earth.level, name = "Tremorio", element = EARTH)
 
 mob/var/tmp/list/_input
 
@@ -1217,9 +1223,7 @@ mob/Spells/verb/Incendio()
 		var/dmg = ((p.passives & SWORD_FIRE) ? Dmg + clothDmg : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
 
 		p.lastAttack = "Incendio"
-		castproj(Type = /obj/projectile/BurnRoses, damage = dmg, MPreq = 10, icon_state = "fireball", name = "Incendio", element = FIRE)
-
-mob/proc/Haha()
+		castproj(Type = /obj/projectile/BurnRoses, damage = dmg, MPreq = 20, icon_state = "fireball", name = "Incendio", element = FIRE)
 
 mob/Player/proc/BaseIcon()
 
@@ -1523,8 +1527,8 @@ mob/Spells/verb/Episky()
 			p << errormsg("You can't use this near such evil presence.")
 			return
 
-		if(world.time - p.lastCombat <= 100)
-			p << errormsg("You can't use while in combat.")
+		if(world.time - p.lastCombat <= COMBAT_TIME)
+			p << errormsg("You can't use this while in combat.")
 			return
 
 		hearers()<<"<span style=\"color:red;\"><b>[p]:</span></b> <font color=aqua>Episkey!"
@@ -1630,7 +1634,7 @@ mob/Spells/verb/Imperio(mob/Player/other in oview())
 		usr.client.perspective=MOB_PERSPECTIVE
 mob/Spells/verb/Portus()
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=25,antiTeleport=1,useTimedProtection=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=50,antiTeleport=1,useTimedProtection=1))
 
 		if(IsInputOpen(src, "Portus"))
 			del _input["Portus"]
@@ -1689,7 +1693,7 @@ mob/Spells/verb/Portus()
 		hearers()<<"[usr]: <span style=\"color:aqua;\"><font size=2>Portus!</span>"
 		hearers()<<"A portkey flys out of [usr]'s wand, and opens."
 		var/mob/Player/p = src
-		p.MP-=25
+		p.MP-=50
 		p.updateMP()
 		p.learnSpell("Portus")
 mob/Spells/verb/Sense(mob/Player/M in view())
@@ -1715,9 +1719,9 @@ mob/Spells/verb/Inferius()
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
 		var/mob/Player/p = src
 
-		var/limit = 1 + round(p.Summoning.level / 10)
+		var/limit = 1 + p.extraLimit + round(p.Summoning.level / 10)
 
-		if(p.Summons && p.Summons.len >= limit)
+		if(p.summons >= limit)
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
@@ -2745,6 +2749,7 @@ mob/GM/verb/Remote_View(mob/M in world)
 		return
 	client.eye=M
 	client.perspective=EYE_PERSPECTIVE
+	Log_admin("[src] remote views [M]")
 	hearers()<<"[usr] sends \his view elsewhere."
 mob/GM/verb/HM_Remote_View(mob/M in world)
 	set category="Staff"

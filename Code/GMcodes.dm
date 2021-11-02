@@ -2142,6 +2142,12 @@ mob/Player/proc/removeStaff()
 	verbs -= /mob/Spells/verb/Gravitate
 	verbs -= /mob/Spells/verb/Inferius_Maxima
 
+	for(var/obj/items/wearable/gm_robes/g)
+		if(g in Lwearing)
+			g.Equip(src, 1)
+
+		g.loc = null
+
 mob/Player/var/tmp/prevname
 
 

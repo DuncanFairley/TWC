@@ -209,6 +209,12 @@ obj/items/wearable/pets
 		icon_state = "dog"
 	snake
 		icon_state = "snake"
+	demon_snake
+		icon_state = "bg_snake"
+	white_purple_demon_snake
+		icon_state = "wp_snake"
+	red_black_demon_snake
+		icon_state = "rbo_snake"
 	wolf
 		icon_state = "wolf"
 	troll

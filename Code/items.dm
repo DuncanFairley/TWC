@@ -6,6 +6,7 @@ mob/Player/var
 		monsterDmg = 0
 		monsterDef = 0
 		dropRate   = 0
+		extraLimit = 0
 		noOverlays = 0
 
 
@@ -21,6 +22,7 @@ area
 		antiSummon    = FALSE
 		antiMask      = FALSE
 		antiCloak     = FALSE
+		antiPotion    = FALSE
 
 	arenas
 		antiFly       = TRUE
@@ -32,6 +34,7 @@ area
 		antiSummon    = TRUE
 		antiMask      = TRUE
 		antiCloak     = TRUE
+		antiPotion    = TRUE
 	hogwarts
 		antiMask      = TRUE
 
@@ -50,7 +53,7 @@ area
 			if(antiFly)
 				p.nofly()
 
-			if(antiEffect && (p.passives || p.monsterDmg || p.monsterDef || p.dropRate))
+			if(antiEffect && (p.passives || p.monsterDmg || p.monsterDef || p.dropRate || p.extraLimit))
 				var/obj/items/wearable/sword/s = locate() in p.Lwearing
 				if(s) s.Equip(p, 1)
 
@@ -82,7 +85,7 @@ area
 				var/obj/items/wearable/invisibility_cloak/Cloak = locate() in p.Lwearing
 				if(Cloak) Cloak.Equip(p,1)
 
-			if(p.LStatusEffects)
+			if(antiPotion && p.LStatusEffects)
 				var/StatusEffect/Potions/pot = locate() in p.LStatusEffects
 				if(pot)
 					pot.Deactivate()
@@ -527,6 +530,7 @@ obj/items/wearable
 		monsterDef = 0
 		monsterDmg = 0
 		dropRate = 0
+		extraLimit = 0
 		obj/items/crystal/socket
 
 		tmp
@@ -647,6 +651,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		if(showoverlay)
 			var/image/o = new
 			o.icon = src.icon
+			o.color = src.color
 			o.layer = wear_layer
 
 			owner.overlays -= o
@@ -676,11 +681,13 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.passives &= ~passive
 		owner.monsterDmg -= monsterDmg
 		owner.monsterDef -= monsterDef
+		owner.extraLimit -= extraLimit
 		return REMOVED
 	else
 		if(showoverlay && !owner.trnsed && !owner.noOverlays)
 			var/image/o = new
 			o.icon = src.icon
+			o.color = src.color
 			o.layer = wear_layer
 
 			owner.overlays += o
@@ -697,8 +704,9 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.Lwearing.Add(src)
 		suffix = "worn"
 		UpdateDisplay()
+		var/td = owner.clothDef
 		if(bonus != -1)
-			calcBonus(owner)
+			calcBonus(owner, 0)
 		if(socket)
 			owner.clothDmg += socket.Dmg
 			owner.clothDef += socket.Def
@@ -707,6 +715,9 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.passives |= passive
 		owner.monsterDmg += monsterDmg
 		owner.monsterDef += monsterDef
+		owner.extraLimit += extraLimit
+		if(td != owner.clothDef)
+			owner.resetMaxHP()
 		return WORN
 
 obj/items/food
@@ -1501,37 +1512,37 @@ obj/items/wearable/orb
 	chaos
 		name       = "orb of chaos"
 		bonus      = 5
-		exp   	   = 500000
+		exp   	   = 200000
 		icon_state = "chaos"
 
 		greater
 			name     = "greater orb of chaos"
-			exp      = 2500000
+			exp      = 500000
 			modifier = 4
 			quality  = -2
 
 	peace
 		name       = "orb of peace"
 		bonus      = 6
-		exp        = 500000
+		exp        = 200000
 		icon_state = "peace"
 
 		greater
 			name     = "greater orb of peace"
-			exp      = 2500000
+			exp      = 500000
 			modifier = 4
 			quality  = -2
 
 	magic
 		name       = "orb of magic"
 		bonus      = 7
-		exp   	   = 1000000
+		exp   	   = 600000
 		modifier   = 3
 		rarity     = 3
 
 		greater
 			name     = "greater orb of magic"
-			exp      = 5000000
+			exp      = 2000000
 			modifier = 6
 			quality  = -2
 
@@ -2464,6 +2475,9 @@ obj/items/wearable/title
 	Frozen
 		title = "Frozen"
 		name  = "Title: Frozen"
+	Demonic
+		title = "Demonic"
+		name  = "Title: Demonic"
 	Wrecker
 		title = "Wrecker"
 		name  = "Title: Wrecker"
@@ -3747,6 +3761,7 @@ obj/memory_rune
 			loc.tag = "teleportPoint[name]"
 
 	Snowman_Dungeon
+	Snake_Dungeon
 	Silverblood
 	CoSFloor1
 		name = "CoS Floor 1"
@@ -3946,6 +3961,10 @@ obj/items
 				icon_state = "red"
 				drops      = "chess"
 				keyType = /obj/items/key/chess_key
+			demon_chest
+				icon_state = "green"
+				drops      = "demon"
+				keyType = /obj/items/key/demon_key
 
 	mystery_key
 		icon = 'ChestKey.dmi'
@@ -3965,6 +3984,7 @@ obj/items
 					  			  /obj/items/key/blood_key,
 								  /obj/items/key/pet_key,
 								  /obj/items/key/chess_key,
+								  /obj/items/key/demon_key,
 							      /obj/items/key/community_key,
 		              			  /obj/items/key/sunset_key)
 				k = new k (usr)
@@ -4009,6 +4029,8 @@ obj/items
 			icon_state = "blue"
 		chess_key
 			icon_state = "red"
+		demon_key
+			icon_state = "green"
 
 var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/duel_scarf       = 50,
 					                            /obj/items/wearable/shoes/duel_shoes         = 30,
@@ -4115,6 +4137,20 @@ var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/
 							                       /obj/items/wearable/shoes/black_shoes   = 25,
 							                       /obj/items/wearable/scarves/white_scarf = 35,
 							                       /obj/items/wearable/scarves/black_scarf = 35),
+
+							 "male_demon" = list(/obj/items/wearable/wigs/male_blackgreen_wig = 15,
+							                     /obj/items/wearable/hats/green_earmuffs  = 15,
+							                     /obj/items/wearable/shoes/grey_shoes   = 15,
+							                     /obj/items/wearable/shoes/black_shoes   = 25,
+							                     /obj/items/wearable/scarves/grey_scarf = 35,
+							                     /obj/items/wearable/scarves/green_scarf = 35),
+
+							 "female_demon" = list(/obj/items/wearable/wigs/female_redblack_wig = 15,
+							                       /obj/items/wearable/hats/green_earmuffs  = 15,
+							                       /obj/items/wearable/shoes/grey_shoes   = 15,
+							                       /obj/items/wearable/shoes/green_shoes   = 25,
+							                       /obj/items/wearable/scarves/grey_scarf = 35,
+							                       /obj/items/wearable/scarves/green_scarf = 35),
 
 							 "community1"     = list(/obj/items/wearable/scarves/heartscarf    = 16,
 							 					     /obj/items/wearable/scarves/alien_scarf   = 22,
@@ -4811,7 +4847,7 @@ obj/items/wearable/ring
 	showoverlay = FALSE
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= 100)
+		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= COMBAT_TIME)
 			owner << errormsg("You can't equip this while in combat.")
 			return
 		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiEffect)
@@ -4850,6 +4886,13 @@ obj/items/wearable/ring/ring_of_displacement
 	suffix = "<span style=\"color:#ffa500;\">Allows you to walk through monsters.</span>"
 	passive = RING_DISPLACEMENT
 
+obj/items/wearable/ring/demonic_ring
+	icon='ammy.dmi'
+	icon_state="snow"
+	desc="A magical ring that allows you to control an extra summon/plant."
+	suffix = "<span style=\"color:#ffa500;\">Allows you control extra summon/plant.</span>"
+	extraLimit = 1
+
 obj/items/wearable/ring/cooling_shoes
 	icon='trophies.dmi'
 	icon_state="cooling shoes"
@@ -4871,6 +4914,46 @@ obj/items/wearable/ring/cooling_shoes
 			if(istype(owner.loc, /turf/lava))
 				owner.loc.Enter(owner, owner.loc)
 
+obj/items/wearable/ring/berserker_ring
+	icon='ammy.dmi'
+	icon_state="snow"
+	desc="A magical ring that allows you to wield two swords instead of a shield."
+	suffix = "<span style=\"color:#ffa500;\">Allows you to wield two swords but no shield.</span>"
+	passive = RING_DUAL_SWORD
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		. = ..(owner)
+		if(. == WORN)
+			for(var/obj/items/wearable/shield/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+		else if(. == REMOVED)
+			var/i = 0
+			for(var/obj/items/wearable/sword/W in owner.Lwearing)
+				i++
+				if(i >= 2)
+					W.Equip(owner,1,1)
+
+obj/items/wearable/ring/guardian_ring
+	icon='ammy.dmi'
+	icon_state="snow"
+	desc="A magical ring that allows you to wield two shields instead of a sword."
+	suffix = "<span style=\"color:#ffa500;\">Allows you to wield two shields but no sword.</span>"
+	passive = RING_DUAL_SHIELD
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		. = ..(owner)
+		if(. == WORN)
+			for(var/obj/items/wearable/sword/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+		else if(. == REMOVED)
+			var/i = 0
+			for(var/obj/items/wearable/shield/W in owner.Lwearing)
+				i++
+				if(i >= 2)
+					W.Equip(owner,1,1)
+
 obj/items/wearable/shield
 	bonus  = 0
 	socket = 0
@@ -4878,18 +4961,22 @@ obj/items/wearable/shield
 	showoverlay = FALSE
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= 100)
+		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= COMBAT_TIME)
 			owner << errormsg("You can't equip this while in combat.")
 			return
 		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiEffect)
 			owner << errormsg("You can not use it here.")
 			return
+		if(!forceremove && !(src in owner.Lwearing) && (owner.passives & RING_DUAL_SWORD))
+			owner << errormsg("You can not use this.")
+			return
 		. = ..(owner)
 		if(. == WORN)
 			src.gender = owner.gender
 			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his arm.")
+			var/allowed = (owner.passives & RING_DUAL_SHIELD) ? 2 : 1
 			for(var/obj/items/wearable/shield/W in owner.Lwearing)
-				if(W != src)
+				if(W != src && --allowed <= 0)
 					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
@@ -4941,18 +5028,23 @@ obj/items/wearable/sword
 	showoverlay = FALSE
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= 100)
+		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= COMBAT_TIME)
 			owner << errormsg("You can't equip this while in combat.")
 			return
 		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiEffect)
 			owner << errormsg("You can not use it here.")
 			return
+		if(!forceremove && !(src in owner.Lwearing) && (owner.passives & RING_DUAL_SHIELD))
+			owner << errormsg("You can not use this.")
+			return
 		. = ..(owner)
 		if(. == WORN)
 			src.gender = owner.gender
 			if(!overridetext)viewers(owner) << infomsg("[owner] wields \his [src.name].")
+
+			var/allowed = (owner.passives & RING_DUAL_SWORD) ? 2 : 1
 			for(var/obj/items/wearable/sword/W in owner.Lwearing)
-				if(W != src)
+				if(W != src && --allowed <= 0)
 					W.Equip(owner,1,1)
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
@@ -5012,3 +5104,15 @@ obj/items/wearable/sword/ghost
 	desc="Changes all projectiles element to ghost."
 	suffix = "<span style=\"color:#ffa500;\">Your projectiles element will be ghost.</span>"
 	passive = SWORD_GHOST
+
+
+obj/items/wearable/gm_robes
+	icon = 'trims.dmi'
+	dropable = 0
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+
+		. = ..(owner)
+		if(. == WORN)
+			for(var/obj/items/wearable/gm_robes/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)

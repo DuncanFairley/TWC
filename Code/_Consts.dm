@@ -8,19 +8,20 @@
 #define winshowCenter(player, window) player << output(window,"browser1:ShowCenterWindow")
 #define winshowRight(player, window) player << output(window,"browser1:ShowRightWindow")
 
-#define VERSION "16.72"
+#define VERSION "16.73"
 #define SUB_VERSION "1"
 #define SAVEFILE_VERSION 47
 #define VAULT_VERSION 7
 #define WORLD_VERSION 1
 #define lvlcap 800
-#define SWAPMAP_Z 18 // world map z + 1 (the +1 is for buildable area, don't add if not using sandbox)
+#define SWAPMAP_Z 20 // world map z + 1 (the +1 is for buildable area, don't add if not using sandbox)
 #define WINTER 0
 #define AUTUMN 1
-#define HALLOWEEN 1
+#define HALLOWEEN 0
 #define NIGHTCOLOR "#6464d0"
 #define TELENDEVOUR_COLOR "#64d0d0"
 #define MAGICEYE_COLOR "#9df"
+#define COMBAT_TIME 150
 
 #define PET_LIGHT 1
 #define PET_FOLLOW_FAR 2
@@ -44,7 +45,8 @@
 #define RING_APPARATE 2
 #define RING_DISPLACEMENT 4
 #define RING_LAVAWALK 8
-#define RING_5 16
+#define RING_DUAL_SWORD 16
+#define RING_DUAL_SHIELD 32768
 
 #define SHIELD_MP 32
 #define SHIELD_SELFDAMAGE 64
@@ -57,8 +59,6 @@
 #define SWORD_ANIMAGUS 4096
 #define SWORD_GHOST 8192
 #define SWORD_SNAKE 16384
-
-#define EXTRA_EFFECT 32768
 
 
 
@@ -145,4 +145,4 @@ atom
 
 
 
-WorldData/var/tmp/baseChance = 0.02
+WorldData/var/tmp/baseChance = 0.015

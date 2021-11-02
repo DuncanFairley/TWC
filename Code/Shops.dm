@@ -202,6 +202,11 @@ obj/Madame_Pomfrey
 			if(canUse(usr,needwand=0,cooldown=/StatusEffect/UsedFerulaToHeal))
 				set src in oview(1)
 				var/mob/Player/p = usr
+
+				if(world.time - p.lastCombat <= COMBAT_TIME)
+					p << errormsg("You can't use this while in combat.")
+					return
+
 				p<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [p]!"
 				new /StatusEffect/UsedFerulaToHeal(p,30*p.cooldownModifier)
 				p.overlays+=image('attacks.dmi',icon_state="heal")
@@ -525,7 +530,7 @@ mob/TalkNPC/Artifacts_Salesman
 		for(var/turf/t in block(locate(x-2,y-2,z),locate(x+2,y-2,z)))
 			for(var/obj/items/wearable/i in t)
 				if(i.owner == p.ckey && (i.passive || i.monsterDmg || i.monsterDef || i.dropRate))
-					amount += i.stack
+					amount += i.stack * (1 + i.quality)
 					i.Dispose()
 
 		if(amount > 0)
@@ -536,6 +541,7 @@ mob/TalkNPC/Artifacts_Salesman
 
 			var/obj/items/artifact/a = new
 			a.stack = amount
+			a.UpdateDisplay()
 			a.Move(p)
 		else
 			s.AddText("I love legendary artifacts, if you've got any legendary items, I'll be willing to trade with you, drop them on the purple floor and talk to me.")
@@ -587,27 +593,27 @@ proc
 		return n==round(n)
 
 
-obj/items/wearable/shoes/green_shoes/price = 2000000
-obj/items/wearable/shoes/blue_shoes/price = 2000000
-obj/items/wearable/shoes/red_shoes/price = 2000000
-obj/items/wearable/shoes/yellow_shoes/price = 2000000
-obj/items/wearable/shoes/white_shoes/price = 4000000
-obj/items/wearable/shoes/orange_shoes/price = 4000000
-obj/items/wearable/shoes/teal_shoes/price = 4000000
-obj/items/wearable/shoes/purple_shoes/price = 4000000
-obj/items/wearable/shoes/black_shoes/price = 4000000
-obj/items/wearable/shoes/pink_shoes/price = 4000000
-obj/items/wearable/scarves/yellow_scarf/price = 200000
-obj/items/wearable/scarves/black_scarf/price = 1600000
-obj/items/wearable/scarves/blue_scarf/price = 200000
-obj/items/wearable/scarves/green_scarf/price = 1600000
-obj/items/wearable/scarves/orange_scarf/price = 200000
-obj/items/wearable/scarves/pink_scarf/price = 1600000
-obj/items/wearable/scarves/purple_scarf/price = 2000000
-obj/items/wearable/scarves/red_scarf/price = 1600000
-obj/items/wearable/scarves/teal_scarf/price = 2200000
-obj/items/wearable/scarves/white_scarf/price = 2200000
-obj/items/wearable/bling/price = 250000
+obj/items/wearable/shoes/green_shoes/price = 1000000
+obj/items/wearable/shoes/blue_shoes/price = 1000000
+obj/items/wearable/shoes/red_shoes/price = 1000000
+obj/items/wearable/shoes/yellow_shoes/price = 1000000
+obj/items/wearable/shoes/white_shoes/price = 2000000
+obj/items/wearable/shoes/orange_shoes/price = 2000000
+obj/items/wearable/shoes/teal_shoes/price = 2000000
+obj/items/wearable/shoes/purple_shoes/price = 2000000
+obj/items/wearable/shoes/black_shoes/price = 2000000
+obj/items/wearable/shoes/pink_shoes/price = 2000000
+obj/items/wearable/scarves/yellow_scarf/price = 100000
+obj/items/wearable/scarves/black_scarf/price = 800000
+obj/items/wearable/scarves/blue_scarf/price = 100000
+obj/items/wearable/scarves/green_scarf/price = 800000
+obj/items/wearable/scarves/orange_scarf/price = 100000
+obj/items/wearable/scarves/pink_scarf/price = 800000
+obj/items/wearable/scarves/purple_scarf/price = 1000000
+obj/items/wearable/scarves/red_scarf/price = 800000
+obj/items/wearable/scarves/teal_scarf/price = 1000000
+obj/items/wearable/scarves/white_scarf/price = 1000000
+obj/items/wearable/bling/price = 200000
 
 proc/RandomizeShop()
 	while(length(shops["random"]))
@@ -633,10 +639,10 @@ proc/RandomizeShop()
 						  /obj/items/wearable/scarves/teal_scarf,
 						  /obj/items/wearable/scarves/white_scarf,
 						  /obj/items/wearable/bling)
-	for(var/i = 1 to 5)
+	for(var/i = 1 to 10)
 		var/path = pick(items)
 		var/obj/items/item = new path()
-		item.price = round(item.price * (rand(90, 110)/100))
+		item.price = round(item.price * (rand(80, 120)/100))
 		shops["random"] += item
 
 		items -= path

@@ -149,6 +149,7 @@ obj/smoke
 		pixel_y   = initial(pixel_y)
 		alpha     = initial(alpha)
 		animate(src, pixel_x = pixel_x + rand(-10, 10), pixel_y = pixel_y + 36, alpha = 50, transform = matrix()*3, time = 24, loop = -1)
+		animate(pixel_x = initial(pixel_x), pixel_y = initial(pixel_y), transform = null, alpha = initial(alpha), time = 0)
 
 obj/potions
 	var
@@ -1263,13 +1264,13 @@ obj/plant
 		level    = round(p.level/2 + p.Gathering.level*4)
 		MHP      = 4 * (level) + 200
 		HP       = MHP
-		duration = 300 + p.Gathering.level*10
+		duration = 450 + p.Gathering.level*10
 
 
 		hpbar = new(src)
 
 		if(size)
-			size = min(2, size + p.Gathering.level/25)
+			size = min(2, size + p.Gathering.level/30)
 
 			var/matrix/m1 = matrix() * size
 			var/matrix/m2 = matrix() * size
@@ -1328,7 +1329,7 @@ obj/plant
 	proc/state()
 		set waitfor = 0
 
-		while(duration > 0 && owner)
+		while(duration > 0 && owner && get_dist(owner, src) < 30)
 
 			effect()
 
@@ -1408,12 +1409,16 @@ obj/items/plant
 	Click()
 		if(src in usr)
 
+			if(owner.loc && owner.loc.loc && owner.loc.loc:antiSummon)
+				owner << errormsg("You can not use it here.")
+				return
+
 			if(locate(/obj/plant) in range(2, usr))
 				usr << errormsg("You can't grow a plant so close to another.")
 				return
 
 			var/mob/Player/p = usr
-			if(p.plants >= 1 + round(p.Gathering.level / 10))
+			if(p.plants >= 1 + p.extraLimit + round(p.Gathering.level / 10))
 				p << errormsg("You need higher gathering level to plant more.")
 				return
 

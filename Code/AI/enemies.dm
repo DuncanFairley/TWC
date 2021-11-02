@@ -114,7 +114,7 @@ obj
 							var/area/a = loc.loc
 							for(var/mob/Player/p in Players)
 								if(p.guild)
-									Players << infomsg("[a.name] pillar can be attacked in one hour.")
+									p << infomsg("[a.name] pillar can be attacked in one hour.")
 
 							continue
 
@@ -126,7 +126,7 @@ obj
 				var/area/a = loc.loc
 				for(var/mob/Player/p in Players)
 					if(p.guild)
-						Players << infomsg("[a.name] pillar can be attacked.")
+						p << infomsg("[a.name] pillar can be attacked.")
 
 				HP = initial(HP)
 				hpbar = new(src)
@@ -353,6 +353,9 @@ area
 		inside
 			Pixie_Pit
 			Pumpkin_Pit
+				planeColor = NIGHTCOLOR;
+			Pumpkin_Entrance
+				planeColor = NIGHTCOLOR;
 			Silverblood_Maze
 				antiTeleport = TRUE
 				antiFly      = TRUE
@@ -377,6 +380,10 @@ area
 				SnowmmanEntrance
 				Snowman
 				SnowmanBoss
+					antiTeleport = TRUE
+				SnakeEntrance
+				Snake
+				SnakeBoss
 					antiTeleport = TRUE
 
 		Entered(atom/movable/O)
@@ -732,7 +739,7 @@ mob
 					killer.pet.fetch(t)
 
 			var/base = worldData.baseChance * clamp(1 + (level - killer.level) / 200, 0.1, 20) * clamp(level/200, 0.1, 20)
-			if(level <= killer.level) base *= (level / 800) * 0.4
+			if(level < killer.level) base *= (level / 800) * 0.75
 
 			if(prize)
 				sparks = 1
@@ -765,7 +772,7 @@ mob
 					if(killer.pet)
 						killer.pet.fetch(prize)
 
-			else if(prob(base*rate*3))
+			else if(prob(base*rate*4))
 				sparks = 1
 				prize = pickweight(list(/obj/items/crystal/defense = 1,
 										/obj/items/crystal/damage  = 1,
@@ -781,6 +788,15 @@ mob
 				sparks = 1
 				prize = pick(drops_list["legendary"])
 				prize = new prize (loc)
+
+				if(istype(prize, /obj/items/wearable) && prize:bonus == 0)
+
+					if(prob(10))
+						prize:bonus = 3
+						var/lvl = pick(1,2,3)
+						prize:quality = lvl
+						prize.name += " +[lvl]"
+
 				prize.prizeDrop(killer.ckey, decay=1)
 				killer << colormsg("<i>[name] dropped [prize.name]</i>", "#FFA500")
 				killer.pity = 0
@@ -1127,6 +1143,24 @@ mob
 
 					SetSize(rand(5,15) / 10)
 
+			Snake
+				icon = 'Mobs.dmi'
+				name = "Tiny Demon Snake"
+				icon_state = "snake"
+				level = 750
+				MoveDelay = 2
+				AttackDelay = 5
+				Range = 20
+				HPmodifier = 2
+				DMGmodifier = 1
+
+				MapInit()
+					set waitfor = 0
+					..()
+
+					icon_state = pick("go_snake", "bg_snake", "wp_snake", "rbo_snake")
+					SetSize(rand(5,15) / 10)
+
 			Blocked()
 				density = 0
 				var/turf/t = get_step_to(src, target, 1)
@@ -1137,7 +1171,7 @@ mob
 				density = 1
 
 			Boss
-				prizePoolSize = 3
+				prizePoolSize = 4
 
 				Attack()
 					..()
@@ -1713,6 +1747,8 @@ mob
 					canBleed = FALSE
 					var/tmp/fired = 0
 
+					prizePoolSize = 5
+
 					MapInit()
 						set waitfor = 0
 						..()
@@ -1860,14 +1896,14 @@ mob
 		Stickman
 			icon = 'Mobs.dmi'
 			icon_state = "stickman"
-			level = 2200
+			level = 2100
 			HPmodifier  = 10
-			DMGmodifier = 1.6
+			DMGmodifier = 2
 
 			MoveDelay   = 2
 			AttackDelay = 0
 
-			prizePoolSize = 2
+			prizePoolSize = 3
 
 			var/tmp/fired = 0
 
@@ -1972,7 +2008,8 @@ mob
 				..()
 
 				SpawnPet(killer, 0.9, null, /obj/items/wearable/pets/rat)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=1)
+
+				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon", "PumpkinEntrance"), chance=0.1)
 
 		Pixie
 			icon_state  = "pixie"
@@ -2004,6 +2041,9 @@ mob
 				..()
 
 				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/snake)
+
+				if(killer.level >= 700)
+					SpawnPortal("teleportPointSnake Dungeon", chance=0.5)
 
 		Wolf
 			icon_state  = "wolf"
@@ -2066,21 +2106,26 @@ mob
 
 		The_Good_Snowman
 			icon_state = "snowman"
-			level = 2400
+			level = 2300
 			HPmodifier = 10
 			DMGmodifier = 3
 			MoveDelay = 3
 			AttackDelay = 1
 			Range = 24
 			respawnTime = 6000
-			prizePoolSize = 2
+			prizePoolSize = 3
 
 			element = WATER
+
+			var/attempts = 3
 
 			ChangeState(var/i_State)
 				..(i_State)
 
 				if(state == 0 && origloc && HP > 0)
+					if(attempts-- <= 0)
+						attempts = initial(attempts)
+						HP = MHP
 					loc = origloc
 
 			MapInit()
@@ -2168,6 +2213,184 @@ mob
 					transform = null
 					Dmg = DMGmodifier * (level + 5)
 
+		Akalla
+			icon_state = "basilisk"
+			level = 2400
+			HPmodifier = 15
+			DMGmodifier = 3
+			MoveDelay = 3
+			AttackDelay = 1
+			Range = 24
+			respawnTime = 6000
+			prizePoolSize = 3
+
+			var/attempts = 3
+
+			ChangeState(var/i_State)
+				..(i_State)
+
+				if(state == 0 && origloc && HP > 0)
+					loc = origloc
+					var/obj/boss/deathDOTControl/c = locate("AkallaDeathControl")
+					c.Stop()
+
+					if(attempts-- <= 0)
+						attempts = initial(attempts)
+						HP = MHP
+				else
+					var/obj/boss/deathDOTControl/c = locate("AkallaDeathControl")
+					c.Start()
+
+			MapInit()
+				set waitfor = 0
+				..()
+				SetSize(3)
+
+				namefont.QuickName(src, name, "#eee", "#e00", top=1, py=16)
+
+				hpbar = new(src)
+
+			var/tmp
+				fired = 0
+				fired2 = 0
+
+			Blocked()
+				density = 0
+				var/turf/t = get_step_to(src, target, 1)
+				if(t)
+					Move(t)
+				else
+					..()
+				density = 1
+
+			Attack()
+				..()
+
+				if(target)
+
+					if(!fired2)
+						fired2 = 1
+						spawn(rand(30, 60)) fired2 = 0
+
+						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+						for(var/d in dirs)
+							castproj(Type = /obj/projectile/Bomb, icon_state = "trans", damage = Dmg*1.5, name = "Bomb", cd = 0, lag = 1, Dir=d)
+
+					if(!fired)
+
+						fired = 1
+						spawn()
+
+							var/obj/warnWidth  = new /obj/custom { icon = 'dot.dmi'; icon_state = "circle"; color = "#8A0707"; alpha = 20; appearance_flags = PIXEL_SCALE; } (loc)
+							var/obj/warnHeight = new /obj/custom { icon = 'dot.dmi'; icon_state = "circle"; color = "#8A0707"; alpha = 20; appearance_flags = PIXEL_SCALE; } (loc)
+
+							walk_towards(warnWidth, src)
+							walk_towards(warnHeight, src)
+
+							var/matrix/mWidth = matrix()
+							mWidth.Scale(17,1)
+
+							var/matrix/mHeight = matrix()
+							mHeight.Scale(1,17)
+
+							animate(warnWidth,  alpha = 100, transform = mWidth, time = 7)
+							animate(warnHeight, alpha = 100, transform = mHeight, time = 7)
+
+							sleep(30)
+
+							walk(warnWidth, 0)
+							warnWidth.loc = null
+
+							walk(warnHeight, 0)
+							warnHeight.loc = null
+
+							for(var/mob/Player/p in ohearers(8, src))
+								if(p.x == x || p.y == y)
+									if(!p.trnsed)
+										p:StateChange()
+									else
+										p.nomove = 1
+									spawn(rand(10,30))
+										if(p && p.nomove)
+											if(!p.trnsed)
+												p.StateChange()
+												p.ApplyOverlays()
+											else
+												p.nomove = 0
+
+							sleep(rand(50,150))
+							fired  = 0
+							fired2 = 0
+
+			Attacked()
+				..()
+
+
+			Kill(mob/Player/p)
+				set waitfor = 0
+				..(p)
+
+				sleep(1)
+
+				var/hudobj/teleport/t = new (null, p.client, null, show=1)
+				t.dest = "teleportPointSnake Dungeon"
+				p << errormsg("Click the teleport stone on screen button at the bottom right to go back to the snake dungeon.")
+
+
+
+			Death(mob/Player/killer)
+				set waitfor = 0
+				..(killer)
+
+				var/obj/boss/deathDOTControl/c = locate("AkallaDeathControl")
+				c.Stop()
+
+				SpawnPortal("teleportPointSnake Dungeon", timer=1)
+
+		Demon_Snake
+			icon = 'Mobs.dmi'
+
+			icon_state = "snake"
+			level = 850
+			MoveDelay = 3
+
+			HPmodifier = 3
+			DMGmodifier = 1
+
+			ChangeState(var/i_State)
+				set waitfor = FALSE
+
+				..(i_State)
+
+				if(i_State == WANDER && origloc && HP > 0)
+					HP = MHP
+					while(state == WANDER && get_dist(loc, origloc) > 2)
+						var/i = step_to(src, origloc)
+						if(!i) break
+						sleep(1)
+
+			Death(mob/Player/killer)
+				..()
+
+				var/s = prob(45) ? 2 : 1
+				for(var/i = 1 to s)
+					new /mob/Enemies/Summoned/Snake (loc)
+
+				SpawnPet(killer, 0.05, null, /obj/items/wearable/pets/demon_snake)
+
+
+			MapInit()
+				set waitfor = 0
+				..()
+
+				icon_state = pick("go_snake", "bg_snake", "wp_snake", "rbo_snake")
+
+				if(isElite)
+					SetSize(3)
+				else
+					SetSize(rand(15,25) / 10)
+
+
 		Acromantula
 			icon = 'Mobs.dmi'
 
@@ -2207,7 +2430,7 @@ mob
 
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/acromantula)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=2)
+				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon", "PumpkinEntrance"), chance=2)
 
 			MapInit()
 				set waitfor = 0
@@ -2374,7 +2597,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.02, "rand", /obj/items/wearable/pets/wisp)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=1)
+				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon", "PumpkinEntrance"), chance=1)
 
 
 		Floating_Eye
@@ -2386,16 +2609,16 @@ mob
 			DMGmodifier = 0.8
 			var
 				tmp/fired = 0
-				cd = 120
+				cd = 100
 
 			MoveDelay = 3
 
 			Eye_of_The_Fallen
-				level = 2400
+				level = 2200
 				cd = 20
 				HPmodifier = 15
 
-				prizePoolSize = 2
+				prizePoolSize = 3
 
 				Range     = 20
 				MoveDelay = 2
@@ -2443,7 +2666,7 @@ mob
 						new /mob/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97), rand(4,97), 3))
 
 					SpawnPet(killer, 0.02, null, /obj/items/wearable/pets/floating_eye)
-					SpawnPortal("teleportPointSnowman Dungeon", chance=2)
+					SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon"), chance=2)
 
 			Blocked()
 				density = 0
@@ -2511,7 +2734,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/troll)
-				SpawnPortal("teleportPointSnowman Dungeon", chance=1)
+				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon", "PumpkinEntrance"), chance=0.3)
 
 			ChangeState(var/i_State)
 				set waitfor = FALSE
@@ -2598,13 +2821,19 @@ mob
 			Range = 24
 			respawnTime = 6000
 
-			prizePoolSize = 2
+			prizePoolSize = 3
+
+			var/attempts = 3
 
 			ChangeState(var/i_State)
 				..(i_State)
 
 				if(state == 0 && origloc && HP > 0)
 					loc = origloc
+
+					if(attempts-- <= 0)
+						attempts = initial(attempts)
+						HP = MHP
 
 			MapInit()
 				set waitfor = 0
@@ -2851,3 +3080,61 @@ obj/boss/death
 
 		loc = null
 		o.loc = null
+
+obj/boss/deathDOTControl
+	var
+		active = 0
+		radius = 20
+
+	proc
+		Start()
+			set waitfor = 0
+			if(active) return
+
+			active = 1
+			var/list/dotList = list()
+			var/highest = 0
+			for(var/obj/boss/deathdot/d in range(radius, src))
+
+				var/distance = get_dist(d, src)
+				if(!("[distance]" in dotList))
+					dotList["[distance]"] = list()
+
+				dotList["[distance]"] += d
+
+				highest = max(highest, distance)
+
+			for(var/i = highest to 0 step -1)
+				if(!active) break
+				for(var/obj/boss/deathdot/d in dotList["[i]"])
+					d.active = 1
+					animate(d, alpha  = 140, time = 40)
+
+				sleep(100)
+
+			while(active)
+				sleep(10)
+
+			for(var/i = highest to 0 step -1)
+				for(var/obj/boss/deathdot/d in dotList["[i]"])
+					d.active = 0
+					d.alpha  = 0
+
+		Stop()
+			active = 0
+
+
+obj/boss/deathdot
+	var
+		active = 0
+
+	layer      = 6
+	icon       = 'turf.dmi'
+	icon_state = "hplava"
+	alpha      = 0
+
+	Crossed(atom/movable/O)
+		if(active && isplayer(O))
+			if(!O.LStatusEffects || !(locate(/StatusEffect/Lava) in O.LStatusEffects))
+				new /StatusEffect/Lava(O, 3, "Inflamari")
+
