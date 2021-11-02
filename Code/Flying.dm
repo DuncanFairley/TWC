@@ -482,25 +482,15 @@ obj/drop_on_death
 			if(slow) usr:slow -= slow
 
 turf
-	floo_aurorhosp
-		icon = 'misc.dmi'
-		icon_state="fireplace"
-		name = "Fireplace"
-		Entered(mob/Player/M)
-			if(isplayer(M))
-				M.FlickState("m-black",8,'Effects.dmi')
-				var/obj/O = locate("hogshospital")
-				M.loc = O.loc
-				M.FlickState("m-black",8,'Effects.dmi')
 	floo_dehosp
 		icon = 'misc.dmi'
-		icon_state="fireplace"
+		icon_state="floo fireplace"
 		name = "Fireplace"
 		Entered(mob/Player/M)
 			if(isplayer(M))
 				M.FlickState("m-black",8,'Effects.dmi')
 				var/obj/O = pick(worldData.spawners)
-				M.loc = O.loc
+				M.Transfer(O.loc)
 				M.FlickState("m-black",8,'Effects.dmi')
 
 obj
