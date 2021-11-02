@@ -201,11 +201,15 @@ area
 			icon_state   = "white"
 			antiTeleport = 1
 	DEHQ
+		antiSummon = 1
 	AurorHQ
+		antiSummon = 1
 
 	safezone
 		DEHQ
+			antiSummon = 1
 		AurorHQ
+			antiSummon = 1
 
 		Exited(atom/movable/Obj, atom/newloc)
 			..()
