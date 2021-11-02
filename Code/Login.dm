@@ -1004,12 +1004,18 @@ mob/Player
 
 				for(var/obj/items/wearable/W in tmpwearing)
 					var/b = W.bonus
-
+					var/obj/items/crystal/s = W.socket
 					W.bonus = -1
+					W.socket = null
 					W.Equip(src,1)
+					W.socket = s
 					W.bonus = b
 
 					W.calcBonus(src, 0)
+					if(s)
+						clothDmg += s.Dmg
+						clothDef += s.Def
+						dropRate += s.luck
 
 				resetMaxHP()
 
