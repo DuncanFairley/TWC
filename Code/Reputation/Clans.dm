@@ -266,6 +266,7 @@ obj/items/wearable/masks
 
 				owner.underlays = list()
 				owner.addNameTag()
+				owner.prevname = null
 			else if(owner.prevname)
 				owner.name     = owner.prevname
 				owner.prevname = null
