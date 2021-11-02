@@ -43,7 +43,7 @@ clan_wars
 				c = "#704F32"
 
 			for(var/turf/t in world)
-				if(t.z >= 21 && t.z <= 22)
+				if(t.z >= 4 && t.z <= 5)
 					if(istype(t, /turf/woodenfloor) || istype(t, /turf/nofirezone) || istype(t, /turf/sideBlock))
 						if(!findtext(t.icon_state, "wood")) continue
 						t.color = c
