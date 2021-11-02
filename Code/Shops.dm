@@ -529,7 +529,7 @@ mob/TalkNPC/Artifacts_Salesman
 		var/amount = 0
 		for(var/turf/t in block(locate(x-2,y-2,z),locate(x+2,y-2,z)))
 			for(var/obj/items/wearable/i in t)
-				if(i.owner == p.ckey && (i.passive || i.monsterDmg || i.monsterDef || i.dropRate))
+				if(i.owner == p.ckey && (i.passive || i.monsterDmg || i.monsterDef || i.dropRate || i.extraLimit))
 					amount += i.stack * (1 + i.quality)
 					i.Dispose()
 
