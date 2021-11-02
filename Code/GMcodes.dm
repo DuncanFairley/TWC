@@ -1480,7 +1480,7 @@ mob/GM
 			set category="Events"
 			var/note = input("Special notes, you would usually write name of the event and the round this reward was given, for example: \"Free For All - Round 2\"", "Notes") as null|text
 			if(note && note != "")
-				var/prize = input(src, "Prize?", "Give Prize") as null|anything in list("Gold","Key", "Artifact", "Rare Item", "Legendary Item")
+				var/prize = input(src, "Prize?", "Give Prize") as null|anything in list("Gold","Key","Chest", "Artifact", "Rare Item", "Legendary Item")
 				switch(prize)
 					if("Gold")
 						var/gold_prize = input("How much gold?", "Gold Prize") as null|num
@@ -1494,6 +1494,10 @@ mob/GM
 						hearers() << infomsg("<i>[name] gives [p] [item_prize.name].</i>")
 						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [name]([key])([client.address]) gave [item_prize.name] <b>prize</b> common item to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 
+					if("Chest")
+						var/obj/items/item_prize = new /obj/items/mystery_chest (p)
+						hearers() << infomsg("<i>[name] gives [p] [item_prize.name].</i>")
+						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [name]([key])([client.address]) gave [item_prize.name] <b>prize</b> common item to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 					if("Artifact")
 						var/obj/items/item_prize = new /obj/items/artifact (p)
 						hearers() << infomsg("<i>[name] gives [p] [item_prize.name].</i>")
