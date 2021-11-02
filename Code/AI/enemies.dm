@@ -126,7 +126,7 @@ obj
 				var/area/a = loc.loc
 				for(var/mob/Player/p in Players)
 					if(p.guild)
-						Players << infomsg("[a.name] pillar can be attacked.")
+						p << infomsg("[a.name] pillar can be attacked.")
 
 				HP = initial(HP)
 				hpbar = new(src)
