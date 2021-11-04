@@ -2185,7 +2185,7 @@ mob/test/verb/setScript(var/text as null|message)
 
 atom/movable
 	Click()
-		if(usr:editScript)
+		if(isplayer(usr) && usr:editScript)
 			animateScript(src, usr:editScript)
 
 		..()
