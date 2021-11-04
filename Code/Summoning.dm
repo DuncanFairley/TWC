@@ -13,6 +13,7 @@ obj/summon
 	var
 		level = 50
 		scale = 1
+		extraDmg
 		HP
 		MHP
 		duration
@@ -119,6 +120,7 @@ obj/summon
 		level   += p.level + p.Summoning.level*2
 		MHP      = 4 * (level) + 200
 		HP       = MHP
+		extraDmg = round(((p.Dmg + p.clothDmg) - (p.level + 4)) / 2)
 		duration = 600 + p.Summoning.level*10
 
 		summonTier = min(p.summonsMode, 1 + p.extraLimit + round(p.Summoning.level / 10) - p.summons)
@@ -261,7 +263,7 @@ obj/summon
 							e.dir = get_dir(e, src)
 							dir = turn(e.dir, 180)
 
-							var/dmg = level * scale
+							var/dmg = (level + extraDmg) * scale
 
 							if(summoner.monsterDmg > 0)
 								dmg *= 1 + summoner.monsterDmg/100
@@ -289,7 +291,7 @@ obj/summon
 					else
 						var/mob/Player/p = target
 
-						var/dmg = round((level - 51)*0.5*scale, 1) - p.Slayer.level
+						var/dmg = round((level + extraDmg - 51)*0.5*scale, 1) - p.Slayer.level
 
 						if(p.animagusOn)
 							dmg = dmg * 0.75 - p.Animagus.level
