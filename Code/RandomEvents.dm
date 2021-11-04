@@ -1143,7 +1143,6 @@ RandomEvent
 											 /obj/items/lamps/double_drop_rate_lamp,
 											 /obj/items/lamps/double_exp_lamp,
 											 /obj/items/lamps/double_gold_lamp,
-											 /obj/items/lamps/farmer_lamp,
 											 /obj/items/wearable/title/Warrior)
 					else if(tier == 5)
 						monster.drops = list(/obj/items/artifact,
@@ -1156,7 +1155,6 @@ RandomEvent
 											 /obj/items/lamps/triple_drop_rate_lamp,
 											 /obj/items/lamps/triple_exp_lamp,
 											 /obj/items/lamps/triple_gold_lamp,
-											 /obj/items/lamps/farmer_lamp,
 											 /obj/items/wearable/title/Warmonger)
 					else if(tier == 6)
 						monster.drops = list(/obj/items/artifact,
