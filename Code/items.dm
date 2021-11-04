@@ -4952,7 +4952,7 @@ obj/items/wearable/ring/berserker_ring
 	passive = RING_DUAL_SWORD
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		. = ..(owner)
+		. = ..(owner,overridetext,forceremove)
 		if(. == WORN)
 			for(var/obj/items/wearable/shield/W in owner.Lwearing)
 				if(W != src)
@@ -4972,7 +4972,7 @@ obj/items/wearable/ring/guardian_ring
 	passive = RING_DUAL_SHIELD
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
-		. = ..(owner)
+		. = ..(owner,overridetext,forceremove)
 		if(. == WORN)
 			for(var/obj/items/wearable/sword/W in owner.Lwearing)
 				if(W != src)
