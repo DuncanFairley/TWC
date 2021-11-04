@@ -1382,8 +1382,186 @@ mob/Player
 
 
 	Stat()
-		if(statpanel("Stats"))
+		if(statpanel("Character"))
 			stat("Name:",src.name)
+			stat("Year:",src.Year)
+			stat("House:",src.House)
+			stat("Level:",src.level)
+			stat("HP:","[src.HP]/[src.MHP]")
+			stat("MP:","[src.MP]/[src.MMP]")
+			stat("Damage:","[Dmg] ([Dmg - (level + 4)])")
+			stat("Defense:","[Def] ([(Def - (level + 4))/3])")
+			stat("Cooldown Reduction:","[round(1000 - cooldownModifier*1000, 1)/10]%")
+			stat("MP Regeneration:", "[50 + round(level/10)*2 + MPRegen]")
+			if(level >= lvlcap && rankLevel)
+				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100)
+				stat("Experience Rank: ", "[rankLevel.level]   Exp: [comma(rankLevel.exp)]/[comma(rankLevel.maxExp)] ([percent]%)")
+				stat("\icon[getRankIcon()]")
+			else
+				var/percent = round((Exp / Mexp) * 100)
+				stat("EXP:", "[comma(src.Exp)]/[comma(src.Mexp)] ([percent]%)")
+			if(wand && (wand.exp + wand.quality > 0))
+				var/maxExp = MAX_WAND_EXP(wand)
+				var/percent = round((wand.exp / maxExp) * 100)
+				stat("Wand:", "Level: [wand.quality]   Exp: [comma(wand.exp)]/[comma(maxExp)] ([percent]%)")
+			if(pet)
+				if(pet.item.exp + pet.item.quality > 0)
+					var/maxExp = MAX_PET_EXP(pet.item)
+					var/percent = round((pet.item.exp / maxExp) * 100)
+					stat("[pet.name]:", "Level: [pet.item.quality]   Exp: [comma(pet.item.exp)]/[comma(maxExp)] ([percent]%)")
+
+					percent = min(round(pet.stepCount / 10, 1), 100)
+					stat("",            "Happiness: [percent]%")
+				else
+					var/percent = min(round(pet.stepCount / 10, 1), 100)
+					stat("[pet.name]:", "Happiness: [percent]%")
+			stat("Stat points:", StatPoints)
+			stat("Spell points:", spellpoints)
+			stat("Threads:", threads)
+			if(learning)
+				stat("Learning:", learning.name)
+				stat("Uses required:", learning.uses)
+
+		if(statpanel("Skills"))
+			if(Fire)
+				var/percent = round((Fire.exp / Fire.maxExp) * 100)
+				var/obj/o = mousehelper["Fire"]
+				o.name = "Level: [Fire.level]   Exp: [comma(Fire.exp)]/[comma(Fire.maxExp)] ([percent]%)"
+			if(Earth)
+				var/percent = round((Earth.exp / Earth.maxExp) * 100)
+				var/obj/o = mousehelper["Earth"]
+				o.name = "Level: [Earth.level]   Exp: [comma(Earth.exp)]/[comma(Earth.maxExp)] ([percent]%)"
+			if(Water)
+				var/percent = round((Water.exp / Water.maxExp) * 100)
+				var/obj/o = mousehelper["Water"]
+				o.name = "Level: [Water.level]   Exp: [comma(Water.exp)]/[comma(Water.maxExp)] ([percent]%)"
+			if(Ghost)
+				var/percent = round((Ghost.exp / Ghost.maxExp) * 100)
+				var/obj/o = mousehelper["Ghost"]
+				o.name = "Level: [Ghost.level]   Exp: [comma(Ghost.exp)]/[comma(Ghost.maxExp)] ([percent]%)"
+			if(animagusState && Animagus)
+				var/percent = round((Animagus.exp / Animagus.maxExp) * 100)
+				var/obj/o = mousehelper["Animagus"]
+				o.name = "Level: [Animagus.level]   Exp: [comma(Animagus.exp)]/[comma(Animagus.maxExp)] ([percent]%)"
+			if(Gathering)
+				var/percent = round((Gathering.exp / Gathering.maxExp) * 100)
+				var/obj/o = mousehelper["Gathering"]
+				o.name = "Level: [Gathering.level]   Exp: [comma(Gathering.exp)]/[comma(Gathering.maxExp)] ([percent]%)"
+			if(Taming)
+				var/percent = round((Taming.exp / Taming.maxExp) * 100)
+				var/obj/o = mousehelper["Taming"]
+				o.name = "Level: [Taming.level]   Exp: [comma(Taming.exp)]/[comma(Taming.maxExp)] ([percent]%)"
+			if(Alchemy)
+				var/percent = round((Alchemy.exp / Alchemy.maxExp) * 100)
+				var/obj/o = mousehelper["Alchemy"]
+				o.name = "Level: [Alchemy.level]   Exp: [comma(Alchemy.exp)]/[comma(Alchemy.maxExp)] ([percent]%)"
+			if(Slayer)
+				var/percent = round((Slayer.exp / Slayer.maxExp) * 100)
+				var/obj/o = mousehelper["Slayer"]
+				o.name = "Level: [Slayer.level]   Exp: [comma(Slayer.exp)]/[comma(Slayer.maxExp)] ([percent]%)"
+			if(Summoning)
+				var/percent = round((Summoning.exp / Summoning.maxExp) * 100)
+				var/obj/o = mousehelper["Summoning"]
+				o.name = "Level: [Summoning.level]   Exp: [comma(Summoning.exp)]/[comma(Summoning.maxExp)] ([percent]%)"
+			if(Spellcrafting)
+				var/percent = round((Spellcrafting.exp / Spellcrafting.maxExp) * 100)
+				var/obj/o = mousehelper["Spellcrafting"]
+				o.name = "Level: [Spellcrafting.level]   Exp: [comma(Spellcrafting.exp)]/[comma(Spellcrafting.maxExp)] ([percent]%)"
+			if(TreasureHunting)
+				var/percent = round((TreasureHunting.exp / TreasureHunting.maxExp) * 100)
+				var/obj/o = mousehelper["TreasureHunting"]
+				o.name = "Level: [TreasureHunting.level]   Exp: [comma(TreasureHunting.exp)]/[comma(TreasureHunting.maxExp)] ([percent]%)"
+
+			stat(mousehelper)
+
+
+		if(statpanel("Info"))
+			if(admin)
+				stat("CPU:", world.cpu)
+				stat("Date:", time2text(world.realtime, "DDD MMM DD hh:mm:ss YYYY"))
+			stat("---House points---")
+			stat("Gryffindor",worldData.housepointsGSRH[1])
+			stat("Slytherin",worldData.housepointsGSRH[2])
+			stat("Ravenclaw",worldData.housepointsGSRH[3])
+			stat("Hufflepuff",worldData.housepointsGSRH[4])
+			stat("","")
+			if(worldData.currentEvents)
+				stat("Current Events:","")
+				for(var/RandomEvent/e in worldData.currentEvents)
+					if(e.desc)
+						stat("", "[e.name] - [e.desc]")
+					else if(e.endTime)
+						stat("", "[e.name] - [ticks2time(e.endTime - world.time)]")
+					else
+						stat("", e.name)
+			if(worldData.currentArena)
+				if(worldData.currentArena.roundtype == HOUSE_WARS)
+					stat("Arena:")
+					stat("Gryffindor",worldData.currentArena.teampoints["Gryffindor"])
+					stat("Slytherin",worldData.currentArena.teampoints["Slytherin"])
+					stat("Hufflepuff",worldData.currentArena.teampoints["Hufflepuff"])
+					stat("Ravenclaw",worldData.currentArena.teampoints["Ravenclaw"])
+				else if(worldData.currentArena.roundtype == FFA_WARS)
+					stat("Arena: (Players Alive)")
+					for(var/mob/M in worldData.currentArena.players)
+						stat("-",M.name)
+			if(worldData.currentMatches.arenas)
+				stat("Matchmaking:", "(Click to spectate. Click again to stop.)")
+				for(var/arena/a in worldData.currentMatches.arenas)
+					stat(a.spectateObj)
+
+		if(statpanel("Items"))
+
+			var/list/money
+			var/list/stacked
+			var/list/other
+
+			for(var/obj/O in src.contents)
+				if(istype(O, /obj/items/money))
+					if(!money) money = list()
+					money += O
+				else if(istype(O,/obj/stackobj))
+
+					if(!stacked) stacked = list()
+					stacked += O
+
+				else
+					if(Lfavorites && (O in Lfavorites)) continue
+
+					var/t
+					if(O.useTypeStack == 0)
+						t = O.type
+					else if(O.useTypeStack == 1)
+						t = O.parent_type
+					else
+						t = O.useTypeStack
+					if(!src:stackobjects || !(src:stackobjects.Find(t))) //If there's NOT a stack object for this obj type, print it
+						if(!other) other = list()
+						other += O
+
+
+			if(money)
+				stat("Money:")
+				stat(money)
+
+			stat(objFavorites.isopen ? "-" : "+", objFavorites)
+			if(objFavorites.isopen && Lfavorites)
+				stat(Lfavorites)
+
+			stat("Items:")
+			if(other)
+				stat(other)
+
+			if(stacked)
+				stat("Click to expand stacked items.")
+				for(var/obj/stackobj/s in stacked)
+					stat("+", s)
+					if(s.isopen)
+						for(var/obj/B in s.contains)
+							if(Lfavorites && (B in Lfavorites)) continue
+							stat("-", B)
+//		if(statpanel("Info"))
+/*			stat("Name:",src.name)
 			stat("Year:",src.Year)
 			stat("House:",src.House)
 			stat("Level:",src.level)
@@ -1508,58 +1686,8 @@ mob/Player
 			if(worldData.currentMatches.arenas)
 				stat("Matchmaking:", "(Click to spectate. Click again to stop.)")
 				for(var/arena/a in worldData.currentMatches.arenas)
-					stat(a.spectateObj)
+					stat(a.spectateObj)*/
 
-		if(statpanel("Items"))
-
-			var/list/money
-			var/list/stacked
-			var/list/other
-
-			for(var/obj/O in src.contents)
-				if(istype(O, /obj/items/money))
-					if(!money) money = list()
-					money += O
-				else if(istype(O,/obj/stackobj))
-
-					if(!stacked) stacked = list()
-					stacked += O
-
-				else
-					if(Lfavorites && (O in Lfavorites)) continue
-
-					var/t
-					if(O.useTypeStack == 0)
-						t = O.type
-					else if(O.useTypeStack == 1)
-						t = O.parent_type
-					else
-						t = O.useTypeStack
-					if(!src:stackobjects || !(src:stackobjects.Find(t))) //If there's NOT a stack object for this obj type, print it
-						if(!other) other = list()
-						other += O
-
-
-			if(money)
-				stat("Money:")
-				stat(money)
-
-			stat(objFavorites.isopen ? "-" : "+", objFavorites)
-			if(objFavorites.isopen && Lfavorites)
-				stat(Lfavorites)
-
-			stat("Items:")
-			if(other)
-				stat(other)
-
-			if(stacked)
-				stat("Click to expand stacked items.")
-				for(var/obj/stackobj/s in stacked)
-					stat("+", s)
-					if(s.isopen)
-						for(var/obj/B in s.contains)
-							if(Lfavorites && (B in Lfavorites)) continue
-							stat("-", B)
 obj
 	favorites
 		name = "Favorites:"
