@@ -3055,6 +3055,16 @@ mob/Enemies/Summoned/Zombie
 		if(a && a.undead > 1)
 			a.undead--
 
+
+obj/dropObj
+	icon = 'attacks.dmi'
+	pixel_y = 160
+	appearance_flags = PIXEL_SCALE
+	layer = 5
+
+	cow
+		icon = 'Cow.dmi'
+
 obj/boss/death
 
 	icon       = 'dot.dmi'
@@ -3079,12 +3089,9 @@ obj/boss/death
 
 		sleep(15)
 
-		var/obj/o = new(loc)
-		o.icon = 'Cow.dmi'
+		var/obj/dropObj/cow/o = new(loc)
 		o.transform = matrix()*range
-		o.pixel_y = 160
 		o.dir = pick(1,2,4,8)
-		o.appearance_flags = PIXEL_SCALE
 
 		animate(o, pixel_y = 0, time = 5)
 

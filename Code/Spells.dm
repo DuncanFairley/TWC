@@ -2016,13 +2016,14 @@ mob/Player
 		p.owner << "Your [p] does [dmg] damage to [src]."
 		src << "[p.owner] hit you for [dmg] with their [p]."
 
-		var/n = dir2angle(get_dir(src, p))
-		emit(loc    = src,
-			 ptype  = /obj/particle/fluid/blood,
-		     amount = 4,
-		     angle  = new /Random(n - 25, n + 25),
-		     speed  = 2,
-		     life   = new /Random(15,25))
+		if(p.canBleed)
+			var/n = dir2angle(get_dir(src, p))
+			emit(loc    = src,
+				 ptype  = /obj/particle/fluid/blood,
+			     amount = 4,
+			     angle  = new /Random(n - 25, n + 25),
+			     speed  = 2,
+			     life   = new /Random(15,25))
 
 		if(HP <= 0)
 			if(isplayer(p.owner))
@@ -2112,7 +2113,7 @@ mob/Enemies
 					else if(p.element & FIRE)
 						dmg += round(p.damage / 2, 1)
 
-			if(canBleed)
+			if(canBleed && p.canBleed)
 				var/n = dir2angle(get_dir(src, p))
 				emit(loc    = src,
 					 ptype  = /obj/particle/fluid/blood,
@@ -2149,6 +2150,7 @@ obj
 			steps = 0
 			impact = 1
 			selfDamage = 1
+			canBleed = 1
 
 		Move()
 			.=..()
@@ -2287,7 +2289,59 @@ obj
 				color      = "#08ffff"
 				blend_mode = BLEND_SUBTRACT
 
+		Meteor
+			density    = 0
+			icon       = 'dot.dmi'
+			icon_state = "circle"
+			color      = "#8A0707"
+			alpha      = 20
+			appearance_flags = PIXEL_SCALE
+			canBleed   = 0
+			selfDamage = 0
 
+			var
+				range = 3
+
+			New(Loc,mob/mob,damage,iconstate,name,element)
+				set waitfor = 0
+				src.loc=Loc
+				src.element = element
+				src.damage = damage
+				src.owner = mob
+				src.name = name
+
+		//		sleep(1)
+				var/matrix/m = matrix()
+				m.Scale(range + 0.5, range)
+
+				animate(src,  alpha = 100, transform = m, time = 4)
+
+				sleep(7)
+
+				var/obj/dropObj/o = new(loc)
+				o.icon_state = iconstate
+
+				var/d = rand(0,2)
+				if(d == 1)
+					o.pixel_x = -80
+					m.Turn(-45)
+					o.transform = m
+				else if(d == 2)
+					o.pixel_x = 80
+					m.Turn(45)
+					o.transform = m
+				else
+					o.transform = m
+
+				animate(o, pixel_y = 0, pixel_x = 0, time = 5)
+
+				sleep(5)
+
+				for(var/atom/movable/a in range((range-1)/2, loc))
+					a.Attacked(src)
+
+				loc = null
+				o.loc = null
 		Avada
 
 			Effect(atom/movable/a)

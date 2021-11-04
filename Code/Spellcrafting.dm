@@ -2,6 +2,7 @@
 #define ARUA 2
 #define EXPLOSION 4
 #define SUMMON 8
+#define METEOR 16
 
 
 #define PAGE_DAMAGETAKEN 64
@@ -123,6 +124,8 @@ obj/items/wearable/spellbook
 				t = "Projectile"
 			if(SUMMON)
 				t = "Summon"
+			if(METEOR)
+				t = "Meteor"
 
 		if(t == null && e == null)
 			name = "spellbook \[Incomplete]"
@@ -169,7 +172,7 @@ obj/items/wearable/spellbook
 
 		lastUsed = world.time
 
-		var/dmg = p.Dmg * damage
+		var/dmg = (p.Dmg + p.clothDmg) * damage
 
 		var/state
 		switch(element)
@@ -211,7 +214,8 @@ obj/items/wearable/spellbook
 					s = new /obj/summon/heal (p.loc, p, command, 0.5)
 
 			s.scale = damage
-
+		else if(spellType == METEOR)
+			new /obj/projectile/Meteor (attacker ? attacker.loc : p.loc, p, dmg*0.75, state, name, element)
 		else
 			if(element == HEAL)
 
@@ -335,6 +339,12 @@ obj/items/spellpage
 		spellType = EXPLOSION
 		cd = 100
 		mpCost = 450
+	meteor
+		name = "Spell Page: \[Meteor]"
+		spellType = METEOR
+		damage = 2
+		cd = 100
+		mpCost = 300
 	aura
 		name = "Spell Page: \[Aura]"
 		spellType = ARUA
@@ -473,6 +483,7 @@ obj
 									 /obj/items/spellpage/explosion,
 									 /obj/items/spellpage/aura,
 									 /obj/items/spellpage/summon,
+									 /obj/items/spellpage/meteor,
 									 /obj/items/spellpage/fire,
 									 /obj/items/spellpage/water,
 									 /obj/items/spellpage/ghost,
