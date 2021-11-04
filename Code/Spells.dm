@@ -787,7 +787,7 @@ mob/Spells/verb/Aqua_Eructo()
 
 mob/Spells/verb/Sanguinis_Iactus()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
+	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
 
 		usr:lastAttack = "Sanguinis Iactus"
 		castproj(Type = /obj/projectile/Blood, MPreq = 10, icon_state = "blood", damage = usr.Dmg + clothDmg, name = "Blood")
@@ -822,26 +822,26 @@ mob/Spells/verb/Inflamari()
 		castproj(icon_state = "fireball", damage = dmg + p.Fire.level, name = "Inflamari", element = FIRE)
 mob/Spells/verb/Glacius()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=20,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Glacius"
 		castproj(MPreq = 20, icon_state = "iceball", damage = usr.Dmg + clothDmg + usr:Water.level, name = "Glacius", element = WATER)
 mob/Spells/verb/Waddiwasi()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=20,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Waddiwasi"
 		castproj(MPreq = 20, icon_state = "gum", damage = usr.Dmg + clothDmg + usr:Ghost.level, name = "Waddiwasi", element = GHOST)
 
 mob/Spells/verb/Gladius()
 	set category="Spells"
 
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=20,againstocclumens=1,projectile=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
 		var/mob/Player/p = src
 		p.lastAttack = "Gladius"
 		castproj(MPreq = 30, Type = /obj/projectile/NoImpact/Dir, icon_state = "sword", damage = usr.Dmg + clothDmg + usr:Ghost.level, name = "Gladius", element = GHOST)
 
 mob/Spells/verb/Tremorio()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=5,againstocclumens=1,projectile=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=10,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Tremorio"
 		castproj(MPreq = 10, icon_state = "quake", damage = usr.Dmg + clothDmg + usr:Earth.level, name = "Tremorio", element = EARTH)
 
@@ -1217,7 +1217,7 @@ mob/Spells/verb/Impedimenta()
 					T.slow -= 1
 mob/Spells/verb/Incendio()
 	set category="Spells"
-	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=10,againstocclumens=1))
+	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=20,againstocclumens=1))
 
 		var/mob/Player/p = src
 		var/dmg = ((p.passives & SWORD_FIRE) ? (Dmg + clothDmg)*1.2 : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
@@ -1270,14 +1270,14 @@ mob/Spells/verb/Reddikulus(mob/Player/M in view())
 		M.Gender = M.Gender == "Male" ? "Female" : "Male"
 		M.BaseIcon()
 		M.Gender = M.Gender == "Male" ? "Female" : "Male"
-		flick("transfigure",src)
+		flick("transfigure",M)
 		usr:learnSpell("Riddikulus")
 		src=null
 		spawn(1200)
 			if(M)
 				M << "<b>You turn back to Normal</b>."
 				M.BaseIcon()
-				flick("transfigure",src)
+				flick("transfigure",M)
 
 mob/Spells/verb/Ecliptica()
 	set category="Spells"
@@ -1544,7 +1544,7 @@ mob/Spells/verb/Episky()
 
 mob/Spells/verb/Confundus(mob/Player/M in oview())
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=300,againstocclumens=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=400,againstocclumens=1))
 		new /StatusEffect/UsedAnnoying(src,40*usr:cooldownModifier)
 		hearers()<<"<b><span style=\"color:red;\">[usr]:</b></span> <font color= #7CFC00>Confundus, [M]!"
 		var/mob/Player/p = src
