@@ -766,7 +766,7 @@ mob/Spells/verb/Chaotica()
 	set category="Spells"
 
 	var/mob/Player/p = src
-	var/dmg = ((p.passives & SWORD_FIRE) ? Dmg + clothDmg : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
+	var/dmg = ((p.passives & SWORD_FIRE) ? (Dmg + clothDmg)*1.1 : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
 		p.lastAttack = "Chaotica"
@@ -805,7 +805,7 @@ mob/Spells/verb/Inflamari()
 	var/mob/Player/p = src
 	var/dmg
 	if(p.passives & SWORD_FIRE)
-		dmg = Dmg + clothDmg
+		dmg = (Dmg + clothDmg)*1.1
 	else
 		dmg = level * 0.9 + clothDmg
 
@@ -1220,7 +1220,7 @@ mob/Spells/verb/Incendio()
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=10,againstocclumens=1))
 
 		var/mob/Player/p = src
-		var/dmg = ((p.passives & SWORD_FIRE) ? Dmg + clothDmg : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
+		var/dmg = ((p.passives & SWORD_FIRE) ? (Dmg + clothDmg)*1.2 : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
 
 		p.lastAttack = "Incendio"
 		castproj(Type = /obj/projectile/BurnRoses, damage = dmg, MPreq = 20, icon_state = "fireball", name = "Incendio", element = FIRE)
@@ -1801,7 +1801,10 @@ mob
 				P.selfDamage = 0
 
 			if(p.passives & SWORD_GHOST)
-				P.element = GHOST
+				if(P.element == GHOST)
+					damage *= 1.2
+				else
+					P.element = GHOST
 
 			if(p.wand)
 				p.learnSpell(name)
@@ -1929,7 +1932,7 @@ element
 
 
 mob/Player
-	var/tmp/lastCombat = 0
+	var/tmp/lastCombat = -COMBAT_TIME
 	proc/onDamage(dmg, mob/attacker, triggerSummons=1)
 
 		if((passives & SHIELD_MP) && MP < MMP)
