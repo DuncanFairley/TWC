@@ -995,6 +995,7 @@ mob/Player
 						if(W.showoverlay)
 							var/image/o = new
 							o.icon = W.icon
+							o.color = W.color
 							o.layer = W.wear_layer
 
 							overlays += o
