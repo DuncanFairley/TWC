@@ -2054,7 +2054,7 @@ mob/Enemies
 
 			var/exp2give  = (rand(6,14)/10)*Expg
 
-			if(p.level > src.level && !p.findStatusEffect(/StatusEffect/Lamps/Farming))
+			if(p.level > src.level && !p.hardmode)
 				exp2give  -= exp2give  * ((p.level-src.level)/150)
 
 				if(exp2give <= 0) return 1

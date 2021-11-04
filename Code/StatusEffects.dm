@@ -842,8 +842,6 @@ StatusEffect
 	Lamps
 		var/tmp/obj/items/lamps/lamp
 
-		Farming
-
 		DropRate
 			var/rate
 			Double

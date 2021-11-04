@@ -1627,7 +1627,22 @@ obj
 			desc = "You should probably click those blue chests you find around."
 		Slayer
 			icon_state = "Slayer"
-			desc = "Each level reduces damage taken and increases damage dealt by 1."
+			desc = "Each level reduces damage taken and increases damage dealt by 1. Click this to toggle Hardmode (Requires level 10)"
+
+			Click()
+				var/mob/Player/p = usr
+
+				if(p.Slayer.level < 10)
+					p << errormsg("You need Slayer level 10 to use this option.")
+					return
+
+				if(p.hardmode == 0)
+					p.hardmode = 1
+					p << infomsg("Monsters will now be stronger but have 50% more drop rate.")
+				else
+					p.hardmode = 0
+					p << infomsg("You are fighting normal monsters now.")
+
 		Treasure_Hunting
 			icon_state = "Treasure Hunting"
 			desc = "You should probably click those chests and barrels you find around."
@@ -2032,7 +2047,7 @@ mob/proc/Death_Check(mob/killer = src)
 				if((killer:passives & SWORD_ANIMAGUS) && killer:Animagus && killer:animagusPower < 100 + killer:Animagus.level && prob(40))
 					killer:animagusPower++
 
-				if(killer.level > src.level && !killer.findStatusEffect(/StatusEffect/Lamps/Farming))
+				if(killer.level > src.level && !killer:hardmode)
 					gold2give -= gold2give * ((killer.level-src.level)/150)
 					exp2give  -= exp2give  * ((killer.level-src.level)/150)
 

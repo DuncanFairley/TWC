@@ -3171,10 +3171,6 @@ obj/items/lamps
 		effect  = /StatusEffect/Lamps/Power
 		seconds = 300
 
-	farmer_lamp
-		desc    = "Removes damage, gold and exp level reductions allowing you to farm gold and exp from lower level monsters."
-		effect  = /StatusEffect/Lamps/Farming
-		seconds = 3600
 	Click()
 		if(src in usr)
 			if(S)

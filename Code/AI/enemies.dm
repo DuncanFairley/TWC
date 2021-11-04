@@ -1,5 +1,7 @@
 area/var/safezoneoverride = 0
 
+mob/Player/var/hardmode = 0
+
 WorldData
 	var
 		eyesKilled = 0
@@ -470,6 +472,7 @@ mob
 				list
 					ignore
 					damage
+				hardmode = 0
 
 			Range         = 12
 			MoveDelay     = 4
@@ -591,7 +594,7 @@ mob
 						w.color = isShiny
 					w.prizeDrop(killer.ckey, 300)
 			else
-				if(killer.findStatusEffect(/StatusEffect/Lamps/Farming))
+				if(killer.findStatusEffect(/StatusEffect/Potions/Tame))
 					chance *= 3
 
 				if(prob(chance))
@@ -741,6 +744,9 @@ mob
 			var/base = worldData.baseChance * clamp(1 + (level - killer.level) / 200, 0.1, 20) * clamp(level/200, 0.1, 20)
 			if(level < killer.level) base *= (level / 800) * 0.75
 
+			if(hardmode)
+				rate += hardmode * 0.5
+
 			if(prize)
 				sparks = 1
 				if(prizePoolSize > 1 && damage && damage.len > 1)
@@ -842,7 +848,14 @@ mob
 			ChangeState(var/i_State)
 				set waitfor = 0
 
+				if(state == i_State) return
 				state = i_State
+
+				if(state != HOSTILE && hardmode)
+					HP = MHP
+					Dmg -= Dmg*hardmode
+					filters = null
+					hardmode = 0
 
 				if(state != 0)
 					switch(state)
@@ -853,6 +866,14 @@ mob
 							lag = 10
 						if(HOSTILE)
 							lag = max(MoveDelay, 1)
+
+							if(target.hardmode && !hardmode)
+								hardmode = target.hardmode
+								filters = filter(type="outline", size=1, color="#00a5ff")
+
+								HP = MHP * (1 + hardmode)
+								Dmg += Dmg * hardmode
+
 						if(CONTROLLED)
 							target = null
 							lag = 12
@@ -1007,7 +1028,7 @@ mob
 			else
 				var/dmg = Dmg + rand(0, 12)
 
-				if(isElite || target.findStatusEffect(/StatusEffect/Lamps/Farming))
+				if(isElite || hardmode)
 					dmg = dmg * (1 + abs(level - target.level)/200) + 100
 				else
 					if(target.level > level)
@@ -2714,7 +2735,7 @@ mob
 				for(var/mob/Enemies/m in orange(1, src))
 					p += 20
 
-				if(prob(p))
+				if(!reset && prob(p))
 					Dmg        += 1200
 					level       = 1000
 					MoveDelay   = 2

@@ -83,6 +83,12 @@ obj/items/COMCText
 obj/roofedge/canSave = 0
 obj/Flippendo/canSave = 0
 
+obj/items/lamps/farmer_lamp
+	New()
+		..()
+		spawn(1)
+			loc = null
+
 mob/verb/Meditate()
 	set hidden = 1
 
