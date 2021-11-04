@@ -2848,6 +2848,7 @@ var
 	clanevent1_pointsgivenforkill
 var/oldduelmode = 0
 mob/test/verb/Old_duel_mode()
+	set category = "Events"
 	oldduelmode = !oldduelmode
 	if(oldduelmode)
 		src << "Old duel mode is now on."

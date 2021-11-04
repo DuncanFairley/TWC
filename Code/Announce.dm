@@ -38,7 +38,7 @@ mob/Player/var
 	GMFrozen
 
 mob/test/verb/Download_Savefile()
-	set category="Staff"
+	set category="Debug"
 	var/ckeyname = input("Ckeyyyyy?") as null|text
 	if(!ckeyname) return
 	usr << ftp(file("players/[copytext(ckeyname,1,2)]/[ckeyname].sav"))

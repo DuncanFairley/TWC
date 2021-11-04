@@ -441,8 +441,10 @@ mob
 	test
 		verb
 			View_Error_Log()
+				set category = "Debug"
 				src << browse(file("Logs/[VERSION].[SUB_VERSION]-log.txt"))
 			Reconnect_MySQL()
+				set category = "Server"
 				connected = my_connection.Connect(DBI,mysql_username,mysql_password)
 				src << "New connection started."
 mob

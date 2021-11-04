@@ -48,7 +48,7 @@ mob/GM/verb
 							src << "[v] = [T.vars[v]]"
 
 	Weather(var/effect in worldData.weather_effects, var/prob as num)
-		set category = "Events"
+		set category = "Server"
 		worldData.weather_effects[effect] = prob
 		src << infomsg("[effect] has [prob] probability to occur.")
 
@@ -141,6 +141,7 @@ proc
 
 
 mob/test/verb/populateSchedule()
+	set category = "Server"
 
 	var/list/days = list("monday", "tuesday", "wednesday", "thursday", "friday")
 	var/list/hours = list("3pm", "6pm", "3am", "6am")

@@ -287,6 +287,7 @@ mob/GM/verb/GoldLogs()
 mob/GM/verb/KillLogs()
 	set hidden = 1
 mob/GM/verb/Administration_Tools()
+	set category = "Staff"
 	reset_winAT(usr)
 	if(/mob/GM/verb/EditVerbs in verbs)
 		reset_panATVerbs(usr)
@@ -343,7 +344,7 @@ mob/Player
 
 
 mob/test/verb/Remove_Junk()
-	set category = "Server"
+	set category = "Debug"
 	var/input = input("Which junk are we talkin'?","Junk Removal") as null|anything in list("PM Inbox","PM Outbox","Inventory","Bank Deposit Items")
 	if(!input) return
 	if(input == "PM Inbox")
@@ -512,6 +513,7 @@ mob
 			set category = "DJ"
 			usr<<browse(DJlog)
 		View_Player_Log()
+			set category = "Staff"
 			if(!mysql_enabled) {alert("MySQL isn't enabled on this server."); return}
 			var/input = input("This utility views the warnings, detentions, bans, etc. of a specified player. Do you wish to enter a ckey, or select a player?") as null|anything in list("Enter a ckey","Select a player")
 			if(!input)return
@@ -1421,7 +1423,7 @@ mob/GM
 					M.overlays-='Effects.dmi'
 
 		AddItem(var/s in shops, var/path in (typesof(/obj/items)-/obj/items))
-			set category="Staff"
+			set category="Server"
 			set name = "Add item to shop"
 
 			var/new_price = input("Price", "[path]") as null|num
@@ -1525,7 +1527,7 @@ mob/GM
 						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [name]([key])([client.address]) gave [item_prize.name] <b>prize</b> rare item to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 
 		RemoveItem(var/s in shops)
-			set category="Staff"
+			set category="Server"
 			set name = "Remove item from shop"
 
 			var/obj/items/i = input("Select item", "[s]") as null|obj in shops[s]
@@ -1534,7 +1536,7 @@ mob/GM
 				del i
 
 		EditItem(var/s in shops)
-			set category = "Staff"
+			set category = "Server"
 			set name = "Edit item price/limit"
 
 			var/obj/items/i = input("Select item", "[s]") as null|obj in shops[s]
@@ -1592,6 +1594,7 @@ var
 	crban_ipranges[0] // Banned IP ranges
 	crban_unbanned[0] // So we can remove bans (list of ckeys)
 mob/test/verb/Reload_Bans()
+	set category = "Server"
 	world.Load_Bans()
 proc/crban_fullban(mob/M)
 	// Ban the mob using as many methods as possible, and then boot them for good measure
@@ -1971,6 +1974,7 @@ image
 
 mob/test/verb/hireStaff((mob/Player/p in Players), color as text)
 	set category = "Staff"
+	set name = "Hire Staff"
 	if(!worldData.Gms) worldData.Gms = list()
 
 	if(!(p.ckey in worldData.Gms))
@@ -2110,6 +2114,7 @@ mob/test/verb/hireStaff((mob/Player/p in Players), color as text)
 
 mob/test/verb/fireStaff(var/Ckey in worldData.Gms)
 	set category = "Staff"
+	set name = "Fire Staff"
 
 	worldData.Gms -= Ckey
 	if(!worldData.Gms.len) worldData.Gms = null
@@ -2156,14 +2161,17 @@ mob/Player/var/tmp/prevname
 
 
 mob/test/verb/LoadBuildable(var/n as text)
+	set category = "Debug"
 	Loadbuildable(n, 0)
 	src << infomsg("Loaded")
 
 mob/test/verb/EditGlobals()
+	set category = "Debug"
 	spawn() usr:Edit(worldData)
 
 
 mob/test/verb/testQuest(mob/Player/p in Players)
+	set category = "Server"
 
 	var/n = input("Which quest?", "Quest Pointers") as null|anything in p.questPointers
 
@@ -2176,11 +2184,13 @@ mob/test/verb/testQuest(mob/Player/p in Players)
 
 
 mob/test/verb/Set_Area_Mouse_Opacity(n as num)
+	set category = "Server"
 	for(var/area/a in world)
 		a.mouse_opacity = n
 
 mob/Player/var/tmp/editScript
 mob/test/verb/setScript(var/text as null|message)
+	set category = "Server"
 	usr:editScript = text
 
 atom/movable

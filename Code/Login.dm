@@ -39,7 +39,7 @@ mob/verb/SaveMapCUSTOM()
 */
 mob/test/verb
 	enter_vault(ckey as text)
-		set category = "Vault Debug"
+		set category = "Debug"
 		var/swapmap/map = SwapMaps_Find("[ckey]")
 		if(!map)
 			map = SwapMaps_Load("[ckey]")
@@ -49,7 +49,7 @@ mob/test/verb
 			var/width = (map.x2+1) - map.x1
 			usr.loc = locate(map.x1 + round((width)/2), map.y1+1, map.z1 )
 	Change_Vault(var/vault as text, var/mob/Player/p in Players)
-		set category = "Vault Debug"
+		set category = "Debug"
 		if(fexists("[swapmaps_directory]/tmpl_vault[vault].sav"))
 			p.change_vault(vault)
 			usr << infomsg("Vault changed")
@@ -569,8 +569,10 @@ client/Command(T)
 	namefont.QuickName(src, n, rgb(r,g,b), outline, top=1)
 
 mob/test/verb/Tick_Lag(newnum as num)
+	set category = "Server"
 	world.tick_lag = newnum
 mob/test/verb/Modify_Housepoints()
+	set category = "Server"
 
 	worldData.housepointsGSRH[1] = input("Select Gryffindor's housepoints:","Housepoints",worldData.housepointsGSRH[1]) as num
 	worldData.housepointsGSRH[2] = input("Select Slytherin's housepoints:","Housepoints",worldData.housepointsGSRH[2]) as num

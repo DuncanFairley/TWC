@@ -337,6 +337,7 @@ mob
 		Clan_store()
 			set hidden = 1
 mob/test/verb/FloorColor(c as color)
+	set category = "Staff"
 	for(var/turf/t in world)
 		if(t.z >= 4 && t.z <= 5)
 			if(istype(t, /turf/woodenfloor) || istype(t, /turf/nofirezone) || istype(t, /turf/sideBlock))
@@ -344,7 +345,7 @@ mob/test/verb/FloorColor(c as color)
 				t.color = c
 
 mob/test/verb/pickColor(newColor as color)
-	set category = "Colors"
+	set category = "Debug"
 
 	var/ColorMatrix/c = new(newColor, 0.75)
 
@@ -352,7 +353,7 @@ mob/test/verb/pickColor(newColor as color)
 		animate(p.client, color = c.matrix, time = 10)
 
 mob/test/verb/pickColorSatContBright(s as num, c as num, b as num)
-	set category = "Colors"
+	set category = "Debug"
 
 	var/ColorMatrix/cm = new(s, c, b)
 
@@ -360,7 +361,7 @@ mob/test/verb/pickColorSatContBright(s as num, c as num, b as num)
 		animate(p.client, color = cm.matrix, time = 10)
 
 mob/test/verb/pickColorPreset(newColor in list("Invert", "BGR", "Greyscale", "Sepia", "Black & White", "Polaroid", "GRB", "RBG", "BRG", "GBR", "Normal"))
-	set category = "Colors"
+	set category = "Debug"
 
 	if(newColor == "Normal")
 		for(var/mob/Player/p in Players)

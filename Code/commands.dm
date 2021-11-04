@@ -138,7 +138,7 @@ mob/var/pname
 
 mob/var/PMBlock=0
 mob/test/verb/Transfer_Savefile()
-	set category="Staff"
+	set category="Debug"
 	if(alert("Note: The new key's savefile will be overwritten. If either the new key or the old key are online, they will be forcibly logged out. The old key's savefile will be stored so that Murrawhip can retrieve it if something goes wrong, but not loaded by the player. Their vault will not be transferred.",,"Yes","Cancel") == "Yes")
 		var/oldkey = input("Which key(Important! key! not ckey!) are you transferring the savefile FROM? (Usually a guest key)") as null|text
 		if(!oldkey)return
