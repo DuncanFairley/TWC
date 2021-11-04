@@ -853,7 +853,8 @@ mob
 
 				if(state != HOSTILE && hardmode)
 					HP = MHP
-					Dmg -= Dmg*hardmode
+					Dmg = DMGmodifier * (level + 5)
+					Dmg = round(Dmg * (rand(10,14)/10), 1)
 					filters = null
 					hardmode = 0
 
