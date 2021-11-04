@@ -2009,7 +2009,7 @@ mob
 
 				SpawnPet(killer, 0.9, null, /obj/items/wearable/pets/rat)
 
-				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon", "PumpkinEntrance"), chance=0.1)
+				SpawnPortal(pickweight(dungeons), chance=0.1)
 
 		Pixie
 			icon_state  = "pixie"
@@ -2430,7 +2430,7 @@ mob
 
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/acromantula)
-				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon", "PumpkinEntrance"), chance=2)
+				SpawnPortal(pickweight(dungeons), chance=2)
 
 			MapInit()
 				set waitfor = 0
@@ -2597,7 +2597,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.02, "rand", /obj/items/wearable/pets/wisp)
-				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon", "PumpkinEntrance"), chance=1)
+				SpawnPortal(pickweight(dungeons), chance=1)
 
 
 		Floating_Eye
@@ -2666,7 +2666,6 @@ mob
 						new /mob/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97), rand(4,97), 3))
 
 					SpawnPet(killer, 0.02, null, /obj/items/wearable/pets/floating_eye)
-					SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon"), chance=2)
 
 			Blocked()
 				density = 0
@@ -2734,7 +2733,7 @@ mob
 				..()
 
 				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/troll)
-				SpawnPortal(pick("teleportPointSnake Dungeon", "teleportPointSnowman Dungeon", "PumpkinEntrance"), chance=0.3)
+				SpawnPortal(pickweight(dungeons), chance=0.3)
 
 			ChangeState(var/i_State)
 				set waitfor = FALSE
@@ -3138,3 +3137,9 @@ obj/boss/deathdot
 			if(!O.LStatusEffects || !(locate(/StatusEffect/Lava) in O.LStatusEffects))
 				new /StatusEffect/Lava(O, 3, "Inflamari")
 
+
+var/list/dungeons = list(
+"teleportPointSnake Dungeon" = 10,
+"teleportPointSnowman Dungeon" = 10,
+"PumpkinEntrance" = 5,
+"teleportPointCoS Floor 3" = 10)

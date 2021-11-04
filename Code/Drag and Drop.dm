@@ -230,6 +230,7 @@ obj
 				var/mob/Player/user = usr
 				if(src in user.Lwearing)
 					src:Equip(user)
+				if(!src.loc) return
 			if(density)
 				density = 0
 				src.Move(over_location)
