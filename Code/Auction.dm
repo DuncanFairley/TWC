@@ -422,7 +422,7 @@ obj/items
 		var/mob/Player/P = usr
 		if(P.auctionInfo && P.auctionInfo.item == src)
 			P << output(null, "Auction.gridAuctionAddItem:1,1")
-			P << output(null, "Auction.gridAuction:2,1")
+			P << output(null, "Auction.gridAuctionAddItem:2,1")
 			P.auctionInfo.item = null
 			Move(P)
 			P.Resort_Stacking_Inv()
