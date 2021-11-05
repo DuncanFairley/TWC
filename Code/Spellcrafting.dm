@@ -342,12 +342,13 @@ obj/items/spellpage
 	meteor
 		name = "Spell Page: \[Meteor]"
 		spellType = METEOR
-		damage = 2
+		damage = 3
 		cd = 100
 		mpCost = 300
 	aura
 		name = "Spell Page: \[Aura]"
 		spellType = ARUA
+		damage = 2
 		cd = 150
 		mpCost = 300
 	summon
