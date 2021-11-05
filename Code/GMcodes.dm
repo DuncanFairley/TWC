@@ -1912,14 +1912,13 @@ world/New()
 	for(var/turf/T in locate(/area/arenas/MapThree/WaitingArea))
 		MapThreeWaitingAreaTurfs.Add(T)
 	world.status = "<b><span style=\"font-family:'Comic Sans MS'; color:black;\">Server: <span style=\"color:blue;\">Main Server</span> || Version: <span style=\"color:red;\">[VERSION].[SUB_VERSION]</span></span></b>"
-	for(var/mob/TalkNPC/M in world)
-		M.GenerateNameOverlay(255,255,255)
-
 	rankIcons = list()
 	for(var/state in icon_states('Ranks.dmi'))
 		rankIcons[state] = icon('Ranks.dmi', state)
 
 	MapInitialized()
+	for(var/mob/TalkNPC/M in world)
+		M.GenerateNameOverlay(255,255,255)
 	awardcup(0)
 	InitSandbox()
 	InitLootDrop()

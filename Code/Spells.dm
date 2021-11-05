@@ -2049,6 +2049,8 @@ mob/Player
 
 			else if(ismonster(p.owner))
 				p.owner:Kill(src)
+			else
+				Death_Check(src)
 
 		return src
 
