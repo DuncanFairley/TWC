@@ -5136,6 +5136,7 @@ obj/items/wearable/sword/ghost
 obj/items/wearable/gm_robes
 	icon = 'trims.dmi'
 	dropable = 0
+	wear_layer = FLOAT_LAYER - 6
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 
 		. = ..(owner)
