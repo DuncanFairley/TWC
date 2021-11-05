@@ -2127,7 +2127,8 @@ mob/Enemies
 				     speed  = 2,
 				     life   = new /Random(15,25))
 
-			p.owner << "Your [p] does [dmg] damage to [src]."
+			if(p.owner:MonsterMessages)
+				p.owner << "Your [p] does [dmg] damage to [src]."
 
 			var/exp2give = onDamage(dmg, p.owner, p.element)
 			if(exp2give > 0)
