@@ -545,8 +545,8 @@ mob
 			Dmg = DMGmodifier * (    (src.level)  + 5)
 			MHP = HPmodifier  * (4 * (src.level)  + 200)
 
-			Dmg = round(Dmg * (rand(10,14)/10), 1)
-			MHP = round(MHP * (rand(10,14)/10), 1)
+			Dmg = round(Dmg * (rand(10,15)/10), 1)
+			MHP = round(MHP * (rand(10,15)/10), 1)
 
 			gold = round(src.level / 2)
 			Expg = src.level * 6
@@ -855,8 +855,6 @@ mob
 
 				if(state != HOSTILE && hardmode)
 					HP = MHP
-					Dmg = DMGmodifier * (level + 5)
-					Dmg = round(Dmg * (rand(10,14)/10), 1)
 					filters = null
 					hardmode = 0
 
@@ -875,7 +873,6 @@ mob
 								filters = filter(type="outline", size=1, color="#00a5ff")
 
 								HP = MHP * (1 + hardmode)
-								Dmg += Dmg * hardmode
 
 						if(CONTROLLED)
 							target = null
@@ -976,7 +973,7 @@ mob
 					//view(M)<<"<SPAN STYLE='color: blue'>[src]'s attack doesn't even faze [M]</SPAN>"
 				else
 					dmg = p.onDamage(dmg, src)
-					hearers(p)<<"<SPAN STYLE='color: red'>[src] attacks [p] and causes [dmg] damage!</SPAN>"
+					p << "<SPAN STYLE='color: red'>[src] attacks [p] and causes [dmg] damage!</SPAN>"
 					if(src.removeoMob)
 						spawn() p.Death_Check(src.removeoMob)
 					else
@@ -1029,15 +1026,18 @@ mob
 				else
 					Blocked()
 			else
-				var/dmg = Dmg + rand(0, 12)
+				var/dmg = Dmg + rand(0, 20)
 
-				if(isElite || hardmode)
-					dmg = dmg * (1 + abs(level - target.level)/200) + 100
-				else
-					if(target.level > level)
-						dmg -= dmg * ((target.level - (level + 1))/150)
-					else if(target.level < level)
-						dmg += dmg * ((1 + level - target.level)/200)
+		//		if(isElite)
+		//			dmg = dmg * 1.5 + 100
+
+				if(hardmode)
+					dmg = dmg * (1.1 + hardmode) + 20*hardmode
+
+				if(target.level < level)
+					dmg += dmg * ((1 + level - target.level)/200)
+				else if(target.level > level && !isElite && !hardmode)
+					dmg -= dmg * ((target.level - (level + 1))/150)
 
 				dmg = round(dmg - target.Slayer.level)
 
@@ -1047,7 +1047,7 @@ mob
 				if(dmg > 0)
 					dmg = target.onDamage(dmg, src)
 					if(target)
-						if(target.MonsterMessages) hearers(target)<<"<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
+						if(target.MonsterMessages) target << "<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
 						if(target.HP <= 0)
 							Kill(target)
 				else
