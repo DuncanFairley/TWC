@@ -218,70 +218,6 @@ mob
 				gold       = null
 				goldinbank = null
 
-			if(savefile_version < 22)
-				spawn()
-					verbs -= /mob/GM/verb/Auror_chat
-					verbs -= /mob/GM/verb/Auror_Robes
-					verbs -= /mob/GM/verb/DErobes
-					verbs -= /mob/GM/verb/DE_chat
-					verbs -= /mob/GM/verb/Clan_store
-					verbs -= /mob/Spells/verb/Morsmordre
-
-			if(savefile_version < 23)
-				for(var/obj/items/i in src)
-					if(istype(i, /obj/items/ingredients/daisy) || istype(i, /obj/items/ingredients/aconite) || istype(i, /obj/items/food))
-						i.Dispose()
-
-			if(savefile_version < 24)
-				p.GMFrozen = 0
-
-			if(savefile_version < 26)
-
-				var/turf/t = locate("@DiagonAlley")
-				last_x = t.x
-				last_y = t.y
-				last_z = t.z
-
-				src << errormsg("Your entire gold savings was converted to the new currency coins, this includes your banked gold, make sure to drop your currency coins at your vault to avoid any loss.")
-
-				if(gold)
-					var/gold/g = new
-					g.plat   = gold.plat   + goldinbank.plat
-					g.gold   = gold.gold   + goldinbank.gold
-					g.silver = gold.silver + goldinbank.silver
-					g.bronze = gold.bronze + goldinbank.bronze
-
-					g.sort()
-					g.give(src)
-
-					gold = null
-					goldinbank = null
-
-				var/amount = 0
-				for(var/obj/items/artifact/a in src)
-					amount += a.stack
-					a.loc = null
-
-				if(amount)
-					var/obj/items/artifact/a = new (src)
-					a.stack = amount
-					a.UpdateDisplay()
-
-				var/obj/items/wearable/invisibility_cloak/cloak = locate() in p.Lwearing
-				if(cloak)
-					cloak.Equip(p, 1, 1)
-
-				for(var/obj/items/wearable/invisibility_cloak/c in src)
-					c.loc = null
-
-				p.Resort_Stacking_Inv()
-
-				p.refundSpells3()
-
-			if(savefile_version < 27)
-				gold = null
-				goldinbank = null
-
 			if(savefile_version < 29)
 				var/obj/items/wearable/invisibility_cloak/cloak = locate() in p.Lwearing
 				if(cloak)
@@ -294,22 +230,6 @@ mob
 			if(savefile_version < 38)
 				p.see_invisible = 0
 
-			if(savefile_version < 42)
-				for(var/obj/items/wearable/w in p)
-					if(w.socket)
-						switch(w.socket)
-							if(1)
-								w.socket = new /obj/items/crystal/damage
-							if(2)
-								w.socket = new /obj/items/crystal/defense
-							if(3)
-								w.socket = new /obj/items/crystal/magic
-
-			if(savefile_version < 43)
-				var/turf/t = locate("@Hogwarts")
-				last_x = t.x
-				last_y = t.y
-				last_z = t.z
 
 			if(savefile_version < 46)
 				p.Spellcrafting = new("Spellcrafting")
@@ -509,10 +429,6 @@ mob/BaseCamp
 
 	Stat()
 		return
-
-	proc/RemoveVerbs()
-		for (var/my_verb in verbs)
-			verbs -= my_verb
 
 mob/BaseCamp/FirstTimePlayer
 	proc/FirstTimePlayer()
@@ -1030,14 +946,15 @@ client
 			else if(error && !new_mob.name)
 				new_mob.name = "RenameMe"
 
-			mob = new_mob
-
 			if (base_save_verbs && new_mob.base_saved_verbs)
 				if(!new_mob.base_saved_verbs.len) return null
 		//		for (var/item in new_mob.base_saved_verbs)
 		//			new_mob.verbs += item
 				new_mob.verbs += new_mob.base_saved_verbs
 				new_mob.base_saved_verbs = null
+
+			mob = new_mob
+
 			return new_mob
 		return null
 
