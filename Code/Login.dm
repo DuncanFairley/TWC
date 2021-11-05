@@ -2505,10 +2505,21 @@ proc
 				if(E.isElite)
 					time *= 2
 					time += rand(0, 100)
+
+					if(E.hardmode)
+						time -= (time * E.hardmode)/10
+
+						time = max(round(time), 300) + rand(-30, 30)
+
 				else
 					if(killer && E.level + 1 < killer.level)
-						time = time * ((1 + E.level - killer.level)/200)
-						time = max(round(time), 200) + rand(-30, 30)
+						time = time * (1 - (killer.level - (1 + E.level))/800)
+
+					if(E.hardmode)
+						time -= (time * E.hardmode)/10
+
+					time = max(round(time), 100) + rand(-30, 30)
+
 				sleep(time)
 				if(E)
 					E.loc = E.origloc
