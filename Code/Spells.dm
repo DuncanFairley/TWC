@@ -106,7 +106,7 @@ mob/Spells/verb/Accio_Maxima()
 		p.learnSpell("Accio Maxima")
 
 		for(var/obj/items/i in range(p, 10))
-			if((!i.accioable && i.owner != ckey) || i.loc.density) continue
+			if(!i.accioable && i.owner != ckey) continue
 			i.walkTo(src, 1)
 
 
