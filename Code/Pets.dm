@@ -820,8 +820,10 @@ obj/squirrel
 					if(!t)
 						density = 0
 						t = get_step_to(src, target, 1)
+						Move(t)
 						density = 1
-					Move(t)
+					else
+						Move(t)
 
 					delay = 3
 				else

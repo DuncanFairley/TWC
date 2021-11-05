@@ -24,7 +24,7 @@ obj/summon
 
 		corpse = 1
 
-		summonTier
+		summonTier = 1
 
 	snake
 		icon_state = "snake"
@@ -39,6 +39,16 @@ obj/summon
 	corpse
 		level = 200
 		scale = 1.8
+	basilisk
+		level = 150
+		scale = 1.6
+		icon_state = "basilisk"
+		summonTier = 2
+	akalla
+		level = 200
+		scale = 2
+		icon_state = "basilisk"
+		summonTier = 2
 	demon_snake
 		level = 200
 		scale = 2
@@ -123,14 +133,15 @@ obj/summon
 		extraDmg = round(((p.Dmg + p.clothDmg) - (p.level + 4)) / 2)
 		duration = 600 + p.Summoning.level*10
 
-		summonTier = min(p.summonsMode, 1 + p.extraLimit + round(p.Summoning.level / 10) - p.summons)
+		if(p.summons + summonTier * p.summonsMode <= 1 + p.extraLimit + round(p.Summoning.level / 10))
+			summonTier = summonTier * p.summonsMode
+
+			if(p.summonsMode > 1)
+				filters = filter(type="outline", size=1, color="#00a5ff")
 
 		if(!p.Summons) p.Summons = list()
 		p.Summons += src
 		p.summons += summonTier
-
-		if(summonTier > 1)
-			filters = filter(type="outline", size=1, color="#00a5ff")
 
 		hpbar = new(src)
 

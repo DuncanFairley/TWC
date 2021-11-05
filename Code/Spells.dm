@@ -1992,13 +1992,14 @@ mob/Player
 
 		var/area/a = loc.loc
 		if(p.owner)
+
+			if(a.timedProtection && (lastHostile == 0 || world.time - lastHostile > 600)) return
+
 			if(isplayer(p.owner))
 
 				if(p.owner == src && !isReflected && (!p.selfDamage || !a.selfDamage)) return
 
 				if(!a.friendlyFire) return
-
-				if(a.timedProtection && (lastHostile == 0 || world.time - lastHostile > 600)) return
 
 				if(src != p.owner)
 					lastCombat = world.time
