@@ -349,6 +349,7 @@ mob
 					var/PlayerData/data = worldData.playersData[ckey]
 					if(data)
 						g = data.guild
+					if(!g) g = "-"
 
 					if((istype(t.loc, /area/DEHQ) || istype(t.loc, /area/safezone/DEHQ)) && worldData.majorChaos != g)
 						loc = locate("@Hogwarts")
