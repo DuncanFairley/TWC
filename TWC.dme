@@ -6,6 +6,35 @@
 // END_INTERNALS
 // BEGIN_FILE_DIR
 #define FILE_DIR .
+#define FILE_DIR "Icons"
+#define FILE_DIR "Icons/bases"
+#define FILE_DIR "Icons/bases/enemies"
+#define FILE_DIR "Icons/bases/npc"
+#define FILE_DIR "Icons/bases/player"
+#define FILE_DIR "Icons/bases/player/clan"
+#define FILE_DIR "Icons/environment"
+#define FILE_DIR "Icons/environment/obj"
+#define FILE_DIR "Icons/environment/obj/doors"
+#define FILE_DIR "Icons/environment/obj/potions"
+#define FILE_DIR "Icons/environment/turf"
+#define FILE_DIR "Icons/environment/turf/floors"
+#define FILE_DIR "Icons/environment/walls"
+#define FILE_DIR "Icons/hud"
+#define FILE_DIR "Icons/hud/login"
+#define FILE_DIR "Icons/img"
+#define FILE_DIR "Icons/items"
+#define FILE_DIR "Icons/items/food"
+#define FILE_DIR "Icons/items/wearables"
+#define FILE_DIR "Icons/items/wearables/brooms"
+#define FILE_DIR "Icons/items/wearables/hats"
+#define FILE_DIR "Icons/items/wearables/masks"
+#define FILE_DIR "Icons/items/wearables/scarves"
+#define FILE_DIR "Icons/items/wearables/scarves/community"
+#define FILE_DIR "Icons/items/wearables/shoes"
+#define FILE_DIR "Icons/items/wearables/wands"
+#define FILE_DIR "Icons/items/wearables/wigs"
+#define FILE_DIR "Sound"
+#define FILE_DIR "Triwizard"
 // END_FILE_DIR
 #define FILE_DIR Icons
 #define FILE_DIR Icons/bases
@@ -116,6 +145,7 @@
 #include "Code\world.topic.dm"
 #include "Code\AI\enemies drops.dm"
 #include "Code\AI\enemies.dm"
+#include "Code\Quests\QuestAI.dm"
 #include "Code\Quests\QuestNPCs.dm"
 #include "Code\Quests\Quests.dm"
 #include "Code\Quests\QuestScripts.dm"
