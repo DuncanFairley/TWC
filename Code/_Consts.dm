@@ -103,12 +103,12 @@ mob/Player
 
 mob/Player/verb/ToggleFPS()
 	set category = null
-	if(client.fps == 50)
+	if(client.fps == 40)
 		client.fps = 10
 		client.glide_size = 0
 		GLIDE = 0
 	else
-		client.fps = 50
+		client.fps = 40
 		client.glide_size = 32
 		GLIDE = 32
 	src << infomsg("FPS set to [client.fps].")
