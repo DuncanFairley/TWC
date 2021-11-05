@@ -97,7 +97,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
                                           /obj/items/ingredients/rat_tail)),
 
 
-"Snowman"            = list("0.5" = list(/obj/items/wearable/orb/peace,
+"Snowman"            = list("0.1" = list(/obj/items/wearable/orb/peace,
 							             /obj/items/wearable/orb/chaos,
 							             /obj/items/wearable/orb/magic,
 							             /obj/items/key/winter_key,
@@ -150,7 +150,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 
 
 "Floating Eye"       = list("0.02" =      /obj/items/wearable/title/Eye,
-							"0.5"  = list(/obj/items/wearable/orb/peace,
+							"0.1"  = list(/obj/items/wearable/orb/peace,
 							              /obj/items/wearable/orb/chaos,
 							              /obj/items/wearable/orb/magic)),
 
@@ -199,6 +199,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 										  /obj/items/chest/sunset_chest,
 										  /obj/items/key/demon_key,
 										  /obj/items/key/pet_key,
+										  /obj/items/spellbook/basilio,
 										  /obj/items/wearable/pets/white_purple_demon_snake,
 										  /obj/items/wearable/pets/red_black_demon_snake,
 										  /obj/items/artifact,

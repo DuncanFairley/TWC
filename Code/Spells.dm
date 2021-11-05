@@ -487,17 +487,25 @@ mob/Spells/verb/Aggravate()
 
 mob/Spells/verb/Basilio()
 	set category = "Spells"
-	hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Basilio!"
-	sleep(20)
-	hearers()<<"[usr]'s wand emits a bright flash of light."
-	sleep(20)
-	if(!src.loc.loc:safezoneoverride && (istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/hogwarts/Duel_Arenas) || istype(src.loc.loc,/area/hogwarts) || istype(src.loc.loc,/area/Diagon_Alley)))
-		src << "<b>You can't use this inside a safezone.</b>"
-		return
-	hearers()<<"A Black Basilisk, emerges from [usr]'s wand."
-	hearers()<<"<b>Basilisk</b>: Hissssssss!"
-	var/mob/Enemies/Summoned/Boss/Basilisk/D = new (locate(src.x,src.y-1,src.z))
-	D.FlickState("m-black",8,'Effects.dmi')
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=200,againstocclumens=1))
+		var/mob/Player/p = src
+		if(p.summons + 1 >= 1 + p.extraLimit + round(p.Summoning.level / 10))
+			p << errormsg("You need higher summoning level to summon more.")
+			return
+
+		new /StatusEffect/Summoned(src,30*p.cooldownModifier)
+
+		p.MP -= 200
+		p.updateMP()
+
+		if(p.passives & SWORD_SNAKE)
+			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=4><font color=#FF8C00> Basilio!"
+			var/obj/summon/akalla/s = new  (loc, src, "Basilio", 1)
+			s.FlickState("m-black",8,'Effects.dmi')
+		else
+			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Basilio!"
+			var/obj/summon/basilisk/s = new  (loc, src, "Basilio", 0.5)
+			s.FlickState("m-black",8,'Effects.dmi')
 
 mob/Spells/verb/Serpensortia()
 	set category = "Spells"

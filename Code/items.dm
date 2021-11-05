@@ -2964,6 +2964,12 @@ obj/items/spellbook
 		spell = /mob/Spells/verb/Avada_Kedavra
 		g = 0.6
 
+	basilio
+		name = "Demonic's Journal"
+		icon_state = "slyth"
+		spell = /mob/Spells/verb/Basilio
+		g = 0.6
+
 	felinious
 		name = "Book of Bad Luck"
 		icon_state = "spell"
