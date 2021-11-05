@@ -36,7 +36,7 @@ mob/TalkNPC
 			hpbar.loc = null
 			hpbar = null
 
-		sleep(300 + rand(-200,200))
+		sleep(300)
 
 		loc = origloc
 
@@ -214,6 +214,8 @@ mob/TalkNPC
 				route()
 			else
 				..()
+				sleep(316)
+				route()
 
 		MapInit()
 			set waitfor = 0
@@ -233,7 +235,7 @@ mob/TalkNPC
 	proc/route()
 		set waitfor = 0
 
-		var/list/targets = list("GCOM Class", "@Hogwarts", "Transfiguration Class", "Headmaster Class", "Charms Class", "COMC Class", "DADA Class", "Great Hall")
+		var/list/targets = list("GCOM Class", "@Hogwarts", "Transfiguration Class", "Headmaster Class", "Charms Class", "DADA Class", "Great Hall")
 		var/txtTarget = pick(targets)
 		var/turf/goal = locate(txtTarget)
 		if(!isturf(goal)) goal = goal.loc

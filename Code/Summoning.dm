@@ -299,7 +299,7 @@ obj/summon
 									var/percent = HP / MHP
 									hpbar.Set(percent, src)
 
-					else
+					else if(isplayer(target))
 						var/mob/Player/p = target
 
 						var/dmg = round((level + extraDmg - 51)*0.5*scale, 1) - p.Slayer.level
@@ -322,6 +322,8 @@ obj/summon
 										var/percent = HP / MHP
 										hpbar.Set(percent, src)
 						delay = 5
+					else
+						target = null
 			else
 				var/d = get_dist(src, summoner)
 				if(d > 20)
