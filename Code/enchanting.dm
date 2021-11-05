@@ -358,6 +358,22 @@ obj/items/crystal
 		if(Def) return "+[Def] Defense"
 		if(luck) return "+[luck]% Drop Rate"
 
+	Clone()
+		var/obj/items/crystal/i = new type
+
+		i.owner      = owner
+		i.name       = name
+		i.icon_state = icon_state
+		i.ignoreItem = ignoreItem
+		i.luck       = luck
+		i.Dmg        = Dmg
+		i.Def        = Def
+
+		return i
+
+	Compare(obj/items/crystal/i)
+		return i.name == name && i.type == type && i.owner == owner && i.icon_state == icon_state && i.ignoreItem == ignoreItem && i.luck == luck && i.Dmg == Dmg && i.Def == Def
+
 	New(Loc, tier)
 		..(Loc)
 
