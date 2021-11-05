@@ -1935,6 +1935,10 @@ mob/Player
 	var/tmp/lastCombat = -COMBAT_TIME
 	proc/onDamage(dmg, mob/attacker, triggerSummons=1)
 
+		if(loginProtection)
+			dmg = 0
+			return 0
+
 		if((passives & SHIELD_MP) && MP < MMP)
 			var/regen = round(dmg / 30, 1)
 			MP = min(MP + regen, MMP)
@@ -2044,6 +2048,7 @@ mob/Enemies
 	var/element
 
 	proc/onDamage(dmg, mob/Player/p, elem = 0)
+		dmg = round(dmg, 1)
 		HP -= dmg
 
 		if(HP <= 0)

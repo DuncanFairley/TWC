@@ -806,6 +806,7 @@ mob
 mob/var/tmp
 	clothDmg = 0
 	clothDef = 0
+	loginProtection = 0
 mob/Player
 
 	proc
@@ -824,6 +825,8 @@ mob/Player
 					GenerateNameOverlay(255,255,255)
 
 	Login()
+		loginProtection = 1
+
 		if(client.byond_version <= 512)
 			src << errormsg("BYOND version 513 is out, please always update to the latest stable version.")
 		if(client.byond_version < world.byond_version)
@@ -835,6 +838,9 @@ mob/Player
 				for(var/mob/Player/p in Players)
 					if(p.Gm)
 						p << errormsg("[src.ckey] - [src.name] encountered a save problem, please check it out.")
+
+			sleep(20)
+			loginProtection = 0
 
 		if(Gender=="Female")
 			gender = FEMALE
