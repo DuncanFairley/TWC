@@ -941,9 +941,6 @@ mob/Player
 			if(global.clanwars)
 				src.ClanwarsInfo()
 
-			loc.loc.Enter(src, src.loc)
-			loc.loc.Entered(src, src.loc)
-
 			if(!worldData.playersData) worldData.playersData = list()
 			var/PlayerData/data = worldData.playersData[ckey]
 			if(data && data.guild)
@@ -988,6 +985,8 @@ mob/Player
 
 			hpBar = new(src)
 			src.ApplyOverlays(0)
+			loc.loc.Enter(src, src.loc)
+			loc.loc.Entered(src, src.loc)
 			if(MP < MMP)
 				MPRegen()
 
