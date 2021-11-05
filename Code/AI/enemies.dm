@@ -1032,7 +1032,7 @@ mob
 		//			dmg = dmg * 1.5 + 100
 
 				if(hardmode)
-					dmg = dmg * (1.1 + hardmode) + 20*hardmode
+					dmg = dmg * (1.1 + hardmode) + 60*hardmode
 
 				if(target.level < level)
 					dmg += dmg * ((1 + level - target.level)/200)
