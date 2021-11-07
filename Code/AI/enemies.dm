@@ -2294,11 +2294,11 @@ mob
 
 					if(!fired2)
 						fired2 = 1
-						spawn(rand(30, 60)) fired2 = 0
+						spawn(rand(40, 80)) fired2 = 0
 
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 						for(var/d in dirs)
-							castproj(Type = /obj/projectile/Bomb, icon_state = "trans", damage = Dmg*1.5, name = "Bomb", cd = 0, lag = 1, Dir=d)
+							castproj(Type = /obj/projectile/Bomb, icon_state = "trans", damage = Dmg*0.75, name = "Bomb", cd = 0, lag = 1, Dir=d)
 
 					if(!fired)
 
@@ -3134,6 +3134,7 @@ obj/boss/deathDOTControl
 
 				highest = max(highest, distance)
 
+			sleep(100)
 			for(var/i = highest to 0 step -1)
 				if(!active) break
 				for(var/obj/boss/deathdot/d in dotList["[i]"])
