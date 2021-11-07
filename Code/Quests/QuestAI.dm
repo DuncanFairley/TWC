@@ -192,7 +192,7 @@ mob/TalkNPC
 			else // return to spot
 				density = 0
 				var/t = get_step_towards(src, origloc)
-				if(t)
+				if(t && origloc.z == z)
 					Move(t)
 				else
 					loc = origloc

@@ -598,28 +598,27 @@ obj/teleport/rorEntrance
 		set waitfor = 0
 
 		var/area/a = loc.loc
-		if(a.region && a.region.lootSpawns)
-			var/teleportNode/newRegion
-			if(prob(55))
-				var/timeout = 5
+
+		if(!a.region || !a.region.lootSpawns)
+			var/turf/t = locate("@Hogwarts")
+			a = t.loc
+
+		var/teleportNode/newRegion
+		if(prob(55))
+			var/timeout = 5
+			newRegion = pick(a.region.nodes)
+			while(timeout-- > 0 && (!newRegion.lootSpawns || !istype(newRegion.areas[1], /area/hogwarts)))
 				newRegion = pick(a.region.nodes)
-				while(timeout-- > 0 && (!newRegion.lootSpawns || !istype(newRegion.areas[1], /area/hogwarts)))
-					newRegion = pick(a.region.nodes)
-				if(timeout <= 0)
-					newRegion = a.region
-			else
+			if(timeout <= 0)
 				newRegion = a.region
-
-			var/turf/newLoc = pick(newRegion.lootSpawns)
-
-			loc.density = 1
-			loc = locate(newLoc.x, newLoc.y+1, newLoc.z)
-			loc.density = 0
-
-
 		else
-			loc = null
+			newRegion = a.region
 
+		var/turf/newLoc = pick(newRegion.lootSpawns)
+
+		loc.density = 1
+		loc = locate(newLoc.x, newLoc.y+1, newLoc.z)
+		loc.density = 0
 
 		spawn(9000)
 			rotate()
