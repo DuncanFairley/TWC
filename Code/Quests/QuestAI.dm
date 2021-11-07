@@ -270,7 +270,7 @@ mob/TalkNPC
 				sleep(DELAY)
 
 				if(cooldown <= 0)
-					if(prob(50))
+					if(prob(5))
 						var/obj/sitTarget
 						for(var/obj/o in view(5, src))
 							if(o.canSit)

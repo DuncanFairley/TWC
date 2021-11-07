@@ -208,42 +208,15 @@ obj
 			life
 			spell
 			spellProb
-			tmp/turf/origloc
 
 		New()
 			set waitfor = 0
 			..()
 			sleep(1)
-			if(life == null)
-				origloc = loc
-			else
+			if(life != null)
 				accioable = 0
 				wlable = 0
 
-		proc/respawn()
-			set waitfor = 0
-			if(!origloc) return
-
-			do
-				sleep(100)//rand(700, 2400))
-			while (locate(/mob/Player) in range(1, src))
-
-			if(z == origloc.z)
-				accioable = 0
-				wlable    = 0
-				glide_size = 16
-				while(loc != origloc)
-					var/t = get_step_towards(src, origloc)
-					if(!t)
-						loc = origloc
-						break
-					loc = t
-					sleep(2)
-				accioable = 1
-				wlable    = 1
-				glide_size = 32
-			else
-				loc = origloc
 
 		Click()
 			..()

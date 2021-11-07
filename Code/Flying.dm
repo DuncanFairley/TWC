@@ -72,7 +72,6 @@ obj/Force_Field
 
 obj
 	candle
-		var/tmp/turf/origloc
 		icon = 'turf.dmi'
 		icon_state = "candle"
 		layer = 7
@@ -85,29 +84,29 @@ obj
 			pixel_x = rand(-7,7)
 			pixel_y = rand(-7,7)
 
-			sleep(1)
-			origloc = loc
+	proc/backToPos(turf/origloc)
+		set waitfor = 0
+		if(origloc)
+			do
+				sleep(rand(700, 2400))
+			while (locate(/mob/Player) in range(1, src))
 
-		proc/respawn()
-			set waitfor = 0
-			sleep(rand(700, 2400))
-			if(origloc)
-				if(z == origloc.z)
-					accioable = 0
-					wlable    = 0
-					glide_size = 16
-					while(loc != origloc)
-						var/t = get_step_towards(src, origloc)
-						if(!t)
-							loc = origloc
-							break
-						loc = t
-						sleep(2)
-					accioable = 1
-					wlable    = 1
-					glide_size = 32
-				else
-					loc = origloc
+			if(z == origloc.z)
+				accioable = 0
+				wlable    = 0
+				glide_size = 16
+				while(loc != origloc)
+					var/t = get_step_towards(src, origloc)
+					if(!t)
+						loc = origloc
+						break
+					loc = t
+					sleep(2)
+				accioable = 1
+				wlable    = 1
+				glide_size = 32
+			else
+				loc = origloc
 
 
 	flyblock
@@ -138,35 +137,12 @@ obj/Cauldron
 	wlable = 1
 	accioable = 1
 
-	var/tmp/turf/origloc
 	New()
 		set waitfor = 0
 		..()
 		icon_state = "C[rand(1,8)]"
 
-		sleep(1)
-		origloc = loc
 
-	proc/respawn()
-		set waitfor = 0
-		sleep(rand(700, 2400))
-		if(origloc)
-			if(z == origloc.z)
-				accioable = 0
-				wlable    = 0
-				glide_size = 16
-				while(loc != origloc)
-					var/t = get_step_towards(src, origloc)
-					if(!t)
-						loc = origloc
-						break
-					loc = t
-					sleep(2)
-				accioable = 1
-				wlable    = 1
-				glide_size = 32
-			else
-				loc = origloc
 turf
 	Fireplace
 		icon='misc.dmi'
@@ -498,18 +474,26 @@ obj
 		icon       = 'turf.dmi'
 		icon_state = "Bed"
 	chairleft
+		accioable  = 1
 		icon       = 'desk.dmi'
 		icon_state = "cleft"
+		name       = "chair"
 	chairright
+		accioable  = 1
 		icon       = 'desk.dmi'
 		icon_state = "cright"
+		name       = "chair"
 	chairback
+		accioable  = 1
 		icon       = 'desk.dmi'
 		icon_state = "cback"
 		layer      = MOB_LAYER +1
+		name       = "chair"
 	chairfront
+		accioable  = 1
 		icon       ='desk.dmi'
 		icon_state = "cfront"
+		name       = "chair"
 
 turf
 	sideBlock

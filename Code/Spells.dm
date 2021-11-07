@@ -94,7 +94,7 @@ mob/Spells/verb/Accio(obj/M in oview(15,usr))
 			M.loc = t
 			sleep(2)
 
-		if(istype(M,/obj/candle) || istype(M,/obj/books) || istype(M,/obj/Cauldron)) M:respawn()
+		if(!istype(M,/obj/items)) M.backToPos(M.loc)
 
 mob/Spells/verb/Accio_Maxima()
 	set category = "Spells"
@@ -721,6 +721,7 @@ mob/Spells/verb/Reparo()
 			o.name=o.pname
 			o.icon_state=o.piconstate
 			o.rubble=0
+			o.density = 1
 
 mob/Spells/verb/Bombarda()
 	set category = "Spells"
@@ -1591,7 +1592,7 @@ mob/Spells/verb/Wingardium_Leviosa()
 				hearers(client.view)<<"<B>[usr.name]: <I>Wingardium Leviosa.</I>"
 				other.overlays += new /obj/overlay/flash
 				usr:learnSpell("Wingardium Leviosa")
-				if(istype(other, /obj/candle) || istype(other, /obj/books)) other:respawn()
+				if(!istype(other, /obj/items/)) other.backToPos(other.loc)
 				src=null
 				spawn()
 					var/seconds = 60
@@ -2419,6 +2420,7 @@ obj
 						o.icon = 'rubble.dmi'
 						o.icon_state = ""
 						o.rubble = 1
+						o.density = 0
 				else
 					dontHit = a
 
