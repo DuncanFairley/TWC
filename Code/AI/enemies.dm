@@ -1652,7 +1652,7 @@ mob
 					pixel_x = -48
 					pixel_y = -24
 					name = "The Black Blade"
-					HPmodifier = 20
+					HPmodifier = 25
 					DMGmodifier = 3
 					layer = 5
 					MoveDelay = 3
@@ -1761,7 +1761,7 @@ mob
 					pixel_x = -48
 					pixel_y = -24
 					name = "Stone Golem"
-					HPmodifier = 20
+					HPmodifier = 25
 					DMGmodifier = 2
 					layer = 5
 					MoveDelay = 3
@@ -2131,7 +2131,7 @@ mob
 		The_Good_Snowman
 			icon_state = "snowman"
 			level = 2300
-			HPmodifier = 10
+			HPmodifier = 12
 			DMGmodifier = 3
 			MoveDelay = 3
 			AttackDelay = 1
@@ -2240,7 +2240,7 @@ mob
 		Akalla
 			icon_state = "basilisk"
 			level = 2400
-			HPmodifier = 15
+			HPmodifier = 20
 			DMGmodifier = 3
 			MoveDelay = 3
 			AttackDelay = 1
@@ -2640,7 +2640,7 @@ mob
 			Eye_of_The_Fallen
 				level = 2200
 				cd = 20
-				HPmodifier = 15
+				HPmodifier = 20
 
 				prizePoolSize = 3
 
@@ -2837,7 +2837,7 @@ mob
 			icon = 'Mobs.dmi'
 			icon_state = "basilisk"
 			level = 2000
-			HPmodifier = 12
+			HPmodifier = 15
 			DMGmodifier = 3
 			MoveDelay = 3
 			AttackDelay = 1
