@@ -39,6 +39,7 @@ mob/TalkNPC
 		sleep(300)
 
 		loc = origloc
+		dir = initial(dir)
 
 		alpha = 0
 		animate(src, alpha = 255, time = 15)
