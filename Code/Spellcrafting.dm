@@ -621,7 +621,7 @@ obj/teleport/rorEntrance
 			loc = null
 
 
-		spawn(3000)
+		spawn(9000)
 			rotate()
 
 
