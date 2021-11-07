@@ -1,5 +1,16 @@
 mob/TalkNPC
 
+	Training_Dummy
+		icon_state="dummy"
+		dropAttack = 1
+
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+
+			var/ScreenText/s = new(p, src)
+			s.AddText("[src] is itching for a fight.")
+
 	Chase
 		icon_state="tim"
 

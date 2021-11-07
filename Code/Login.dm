@@ -1896,6 +1896,9 @@ mob/proc/Check_Death_Drop()
 	for(var/obj/drop_on_death/O in src)
 		O.Drop()
 
+area
+	var/respawnPoint
+
 mob/proc/Death_Check(mob/killer = src)
 
 	if(src.HP<1)
@@ -1930,34 +1933,39 @@ mob/proc/Death_Check(mob/killer = src)
 				p<<"[killer] tried to knock you out, but you are immortal."
 				killer<<"<span style=\"color:blue;\"><b>[src] is immortal and cannot die.</b></span>"
 				return
-			if(istype(src.loc.loc,/area/hogwarts/Duel_Arenas))
+			var/area/a = loc.loc
+			if(istype(a,/area/hogwarts/Duel_Arenas) || a.respawnPoint)
 				p.followplayer=0
 				p.HP=p.MHP
 				p.MP=p.MMP
 				p.updateHPMP()
 				p.FlickState("m-black",8,'Effects.dmi')
-				switch(src.loc.loc.type)
-					if(/area/hogwarts/Duel_Arenas/Main_Arena_Bottom)
-						p.Transfer(locate("DuelArena_Death"))
-					if(/area/hogwarts/Duel_Arenas/Matchmaking/Main_Arena_Top)
-						var/obj/o = pick(worldData.duel_chairs)
-						p.Transfer(o.loc)
-					if(/area/hogwarts/Duel_Arenas/Slytherin)
-						p.Transfer(locate("Slyth_Death"))
-					if(/area/hogwarts/Duel_Arenas/Gryffindor)
-						p.Transfer(locate("Gryffin_Death"))
-					if(/area/hogwarts/Duel_Arenas/Ravenclaw)
-						p.Transfer(locate("Raven_Death"))
-					if(/area/hogwarts/Duel_Arenas/Hufflepuff)
-						p.Transfer(locate("Huffle_Death"))
-					if(/area/hogwarts/Duel_Arenas/Matchmaking/Duel_Class)
-						p.Transfer(locate("DuelClass_Death"))
-					if(/area/hogwarts/Duel_Arenas/Defence_Against_the_Dark_Arts)
-						p.Transfer(locate("DADA_Death"))
-					if(/area/hogwarts/Duel_Arenas/Main_Arena_Lobby)
-						var/obj/Bed/B = pick(Beds)
-						p.Transfer(B.loc)
-						src.dir = SOUTH
+
+				if(a.respawnPoint)
+					p.Transfer(locate(a.respawnPoint))
+				else
+					switch(src.loc.loc.type)
+						if(/area/hogwarts/Duel_Arenas/Main_Arena_Bottom)
+							p.Transfer(locate("DuelArena_Death"))
+						if(/area/hogwarts/Duel_Arenas/Matchmaking/Main_Arena_Top)
+							var/obj/o = pick(worldData.duel_chairs)
+							p.Transfer(o.loc)
+						if(/area/hogwarts/Duel_Arenas/Slytherin)
+							p.Transfer(locate("Slyth_Death"))
+						if(/area/hogwarts/Duel_Arenas/Gryffindor)
+							p.Transfer(locate("Gryffin_Death"))
+						if(/area/hogwarts/Duel_Arenas/Ravenclaw)
+							p.Transfer(locate("Raven_Death"))
+						if(/area/hogwarts/Duel_Arenas/Hufflepuff)
+							p.Transfer(locate("Huffle_Death"))
+						if(/area/hogwarts/Duel_Arenas/Matchmaking/Duel_Class)
+							p.Transfer(locate("DuelClass_Death"))
+						if(/area/hogwarts/Duel_Arenas/Defence_Against_the_Dark_Arts)
+							p.Transfer(locate("DADA_Death"))
+						if(/area/hogwarts/Duel_Arenas/Main_Arena_Lobby)
+							var/obj/Bed/B = pick(Beds)
+							p.Transfer(B.loc)
+							src.dir = SOUTH
 				src<<"<i>You were knocked out by <b>[killer]</b>!</i>"
 				if(src.removeoMob) spawn()src:Permoveo()
 				src.sight &= ~BLIND
@@ -2039,6 +2047,10 @@ mob/proc/Death_Check(mob/killer = src)
 				src.dir = SOUTH
 				if(worldData.currentArena)
 					worldData.currentArena.handleSpawnDelay(src)
+
+				var/StatusEffect/Lava/s = locate() in p.LStatusEffects
+				if(s) s.Deactivate()
+
 				p.HP=p.MHP
 				p.MP=p.MMP
 				p.updateHPMP()

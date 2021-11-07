@@ -8,8 +8,9 @@ mob/TalkNPC
 			obj/healthbar/hpbar
 			turf/origloc
 
-		melee = 0
-		canFight = 1
+		canFight   = 1
+		melee      = 0
+		dropAttack = 0
 
 	New(loc)
 		origloc = loc
@@ -21,13 +22,12 @@ mob/TalkNPC
 			hpbar.loc = NewLoc
 		.=..()
 
-	Dispose(corpse=1)
+	Dispose()
 		set waitfor = 0
+
 		if(target)
-//			if(prob(10))
-//				drop(target)
 			target = null
-		if(HP > 0) return
+
 		new /obj/corpse(loc, src, time=0)
 
 		loc = null
@@ -42,6 +42,8 @@ mob/TalkNPC
 
 		alpha = 0
 		animate(src, alpha = 255, time = 15)
+		sleep(16)
+		reset()
 
 
 	Attacked(obj/projectile/p)
@@ -102,13 +104,22 @@ mob/TalkNPC
 	proc/state()
 		set waitfor = 0
 
-		while(target || loc != origloc)
+		var/attack = pick("fireball", "quake", "aqua", "iceball", "gum", "bombarda")
+
+		while(loc && (target || loc != origloc))
 			var/delay = 4
 			if(target)
 				var/d = get_dist(src, target)
 				if(d > 15)
 					target = null
 					continue
+
+				if(dropAttack && prob(10))
+					var/obj/boss/death/drop = new (target.loc, null, pick(3,5,7))
+					drop.density = 1
+					for(var/i = 1 to rand(0,4))
+						step_away(drop, src)
+					drop.density = 0
 
 				if(melee)
 					if(d > 1)
@@ -147,7 +158,7 @@ mob/TalkNPC
 
 						for(var/i = 1 to rand(1,8))
 							dir=get_dir(src, target)
-							castproj(icon_state = "fireball", damage = dmg, name = "Inflamari")
+							castproj(icon_state = attack, damage = dmg, name = "Spell")
 							sleep(2)
 							if(!target)
 								break
@@ -174,7 +185,7 @@ mob/TalkNPC
 							castproj(icon_state = "fireball", damage = dmg, name = "Incindia", cd = 0, lag = 1, Dir=di)
 					else
 						dir=get_dir(src, target)
-						castproj(icon_state = "fireball", damage = dmg, name = "Inflamari")
+						castproj(icon_state = attack, damage = dmg, name = "Spell")
 
 					delay = 2
 
@@ -197,7 +208,9 @@ mob/TalkNPC
 			glide_size = 32 / delay
 			sleep(delay)
 
-		if(loc) Dispose()
+		if(loc && HP > 0) reset()
+
+	proc/reset()
 
 	Student
 
@@ -207,15 +220,9 @@ mob/TalkNPC
 
 		post_init = 1
 
-		Dispose()
+		reset()
 			set waitfor = 0
-
-			if(loc && HP > 0)
-				route()
-			else
-				..()
-				sleep(316)
-				route()
+			route()
 
 		MapInit()
 			set waitfor = 0
@@ -228,6 +235,8 @@ mob/TalkNPC
 				gender = MALE
 			GenerateIcon(src)
 
+			namefont.QuickName(src, src.name, rgb(255,255,255), "#000", top=1)
+
 			sleep(40)
 
 			route()
@@ -235,13 +244,17 @@ mob/TalkNPC
 	proc/route()
 		set waitfor = 0
 
-		var/list/targets = list("GCOM Class", "@Hogwarts", "Transfiguration Class", "Headmaster Class", "Charms Class", "DADA Class", "Great Hall")
+		var/list/targets = list("GCOM Class", "@Hogwarts", "Transfiguration Class", "Headmaster Class", "Charms Class", "DADA Class", "Great Hall", "COMC Class", "leavevault")
+
+		var/const/DELAY = 3
+		var/const/COOLDOWN = 80
+		glide_size = 32 / DELAY
+
+		var/cooldown = COOLDOWN
+
 		var/txtTarget = pick(targets)
 		var/turf/goal = locate(txtTarget)
 		if(!isturf(goal)) goal = goal.loc
-
-		var/const/DELAY = 4
-		glide_size = 32 / DELAY
 
 		while(loc)
 
@@ -256,41 +269,46 @@ mob/TalkNPC
 
 				sleep(DELAY)
 
-
-				if(prob(1))
-					var/obj/sitTarget
-					for(var/obj/o in range(src, 5))
-						if(o.canSit)
-							sitTarget = o
-							break
-					if(sitTarget)
-						var/list/steps = list()
-						while(loc != sitTarget.loc)
-							if(!loc || target) break
-							dir = get_dir(loc, sitTarget)
-							loc = get_step(loc, dir)
-							steps += loc
-							sleep(DELAY)
-						if(loc == sitTarget.loc)
+				if(cooldown <= 0)
+					if(prob(50))
+						var/obj/sitTarget
+						for(var/obj/o in view(5, src))
+							if(o.canSit)
+								sitTarget = o
+								break
+						if(sitTarget)
+							density = 0
+							walk_towards(src,sitTarget,DELAY)
+							var/timeReq = (1 + get_dist(src,sitTarget))*DELAY
+							sleep(timeReq)
+							walk(src,0)
 							dir = sitTarget.canSit
+							density = 1
 							sleep(150)
+							density = 0
+							walk_towards(src, t,DELAY)
+							sleep(timeReq)
+							density = 1
+							walk(src,0)
 
-							while(loc != t)
-								if(!loc || target) break
-								dir = get_dir(loc, t)
-								loc = get_step(loc, dir)
+							cooldown = COOLDOWN
+				//			break
 
-				else if(prob(1))
-					dir = SOUTH
-					sleep(50)
+					else if(prob(1))
+						dir = SOUTH
+						sleep(50)
+
+						cooldown = COOLDOWN
+				//		break
+				else
+					cooldown--
 
 			if(target) break
 
 			if(loc.loc == goal.loc)
-				txtTarget = pick(targets-txtTarget)
+				txtTarget = pick(targets)
 				goal = locate(txtTarget)
 				if(!isturf(goal)) goal = goal.loc
-
 				continue
 
 			var/obj/teleport/o = locate() in orange(1, loc)

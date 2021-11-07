@@ -575,11 +575,55 @@ obj/static_obj/walltorch
 							a.region.lootSpawns = list()
 						a.region.lootSpawns += t
 
+
 		..()
 
 teleportNode
 	var
 		list/lootSpawns
+
+
+obj/teleport/rorEntrance
+	post_init = 1
+
+	dest = "rorEntrance"
+
+	MapInit()
+		set waitfor = 0
+		sleep(10)
+
+		rotate()
+
+	proc/rotate()
+		set waitfor = 0
+
+		var/area/a = loc.loc
+		if(a.region && a.region.lootSpawns)
+			var/teleportNode/newRegion
+			if(prob(55))
+				var/timeout = 5
+				newRegion = pick(a.region.nodes)
+				while(timeout-- > 0 && (!newRegion.lootSpawns || !istype(newRegion.areas[1], /area/hogwarts)))
+					newRegion = pick(a.region.nodes)
+				if(timeout <= 0)
+					newRegion = a.region
+			else
+				newRegion = a.region
+
+			var/turf/newLoc = pick(newRegion.lootSpawns)
+
+			loc.density = 1
+			loc = locate(newLoc.x, newLoc.y+1, newLoc.z)
+			loc.density = 0
+
+
+		else
+			loc = null
+
+
+		spawn(3000)
+			rotate()
+
 
 
 obj/manualLootSpawn
