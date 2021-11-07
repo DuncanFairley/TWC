@@ -86,6 +86,7 @@ mob/Spells/verb/Accio(obj/M in oview(15,usr))
 
 		var/turf/dest = locate(x, y-1, z)
 		if(!dest) dest = loc
+		var/turf/origLoc = M.loc
 		var/turf/t = M.loc
 
 		while(M.loc == t && t != dest)
@@ -94,7 +95,8 @@ mob/Spells/verb/Accio(obj/M in oview(15,usr))
 			M.loc = t
 			sleep(2)
 
-		if(!istype(M,/obj/items)) M.backToPos(M.loc)
+		if(!istype(M,/obj/items))
+			M.backToPos(origLoc)
 
 mob/Spells/verb/Accio_Maxima()
 	set category = "Spells"

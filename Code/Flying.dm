@@ -475,22 +475,26 @@ obj
 		icon_state = "Bed"
 	chairleft
 		accioable  = 1
+		wlable     = 1
 		icon       = 'desk.dmi'
 		icon_state = "cleft"
 		name       = "chair"
 	chairright
 		accioable  = 1
+		wlable     = 1
 		icon       = 'desk.dmi'
 		icon_state = "cright"
 		name       = "chair"
 	chairback
 		accioable  = 1
+		wlable     = 1
 		icon       = 'desk.dmi'
 		icon_state = "cback"
 		layer      = MOB_LAYER +1
 		name       = "chair"
 	chairfront
 		accioable  = 1
+		wlable     = 1
 		icon       ='desk.dmi'
 		icon_state = "cfront"
 		name       = "chair"
