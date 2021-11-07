@@ -327,6 +327,9 @@ proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inare
 		if(S)
 			return 0
 	return 1
+
+mob/Player/var/tmp/lastCDMsg = -1#INF
+
 StatusEffect
 /*	ClanWars
 		ReinforcedDoors
@@ -960,14 +963,17 @@ StatusEffect
 	var/Event/e_StatusEffect/AttachedEvent	//Not required - Contains /Event/e_StatusEffect to automatically cancel the StatusEffect
 	var/atom/AttachedAtom	//Required - Contains the /atom which the StatusEffect is attached to
 	proc
-		cantUseMsg(M)
+		cantUseMsg(mob/Player/M)
 			//Return 1 if it's a genuine event
+
 			var/timeleft = round(scheduler.time_to_fire(AttachedEvent)/10)
 			if(timeleft <= 0)
 				//scheduler.cancel(src.AttachedEvent)
 				del(src)
 				return 0
-			M << "<b>This can't be used for another [timeleft] second[timeleft==1 ? "" : "s"].</b>"
+			if(world.time - M.lastCDMsg > 10)
+				M.lastCDMsg = world.time
+				M << "<b>This can't be used for another [timeleft] second[timeleft==1 ? "" : "s"].</b>"
 			return 1
 	New(atom/pAttachedAtom,t,cooldownName)
 		//Attaches a StatusEffect to an atom - if t is specified, an /Event is attached also
