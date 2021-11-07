@@ -2004,6 +2004,8 @@ mob/Player
 
 				if(!a.friendlyFire) return
 
+				if(party && (p.owner in party.members)) return
+
 				if(src != p.owner)
 					lastCombat = world.time
 					p.owner:lastCombat = world.time
