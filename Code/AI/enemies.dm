@@ -2307,7 +2307,7 @@ mob
 
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 						for(var/d in dirs)
-							castproj(Type = /obj/projectile/Bomb, icon_state = "trans", damage = Dmg*0.75, name = "Bomb", cd = 0, lag = 1, Dir=d)
+							castproj(Type = /obj/projectile/Bomb, icon_state = "bombarda", damage = Dmg*0.75, name = "Bomb", cd = 0, lag = 1, Dir=d)
 
 					if(!fired)
 

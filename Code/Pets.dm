@@ -33,11 +33,15 @@ world/IsBanned(key,address)
 mob/Player/proc/StateChange()
 	if(nomove == 0)
 		nomove = 1
-		icon_state = "stone"
-		overlays = null
+		if(!trnsed)
+			icon_state = "stone"
+			overlays = null
 	else
 		nomove = 0
-		icon_state = ""
+
+		if(!trnsed)
+			icon_state = ""
+			ApplyOverlays()
 
 
 mob/Player/var/tmp/obj/pet/pet
