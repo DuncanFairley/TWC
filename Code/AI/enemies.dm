@@ -747,7 +747,7 @@ mob
 			if(level < killer.level) base *= (level / 800) * 0.75
 
 			if(hardmode)
-				rate += hardmode * 0.5
+				rate += hardmode * 0.25
 
 			if(prize)
 				sparks = 1

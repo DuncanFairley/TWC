@@ -1773,7 +1773,16 @@ obj
 
 				if(p.hardmode == 0)
 					p.hardmode = 1
-					p << infomsg("Monsters will now be stronger but have 50% more drop rate.")
+					p << infomsg("Monsters will now be stronger but have 25% more drop rate.")
+				else if(p.hardmode == 1)
+					p.hardmode = 2
+					p << infomsg("Monsters will now be even stronger but have 50% more drop rate.")
+				else if(p.hardmode == 2)
+					p.hardmode = 3
+					p << infomsg("Monsters will now be dangerously lethal but have 75% more drop rate.")
+				else if(p.hardmode == 3)
+					p.hardmode = 4
+					p << infomsg("Monsters will now be maybe possibly kill you but have 100% more drop rate.")
 				else
 					p.hardmode = 0
 					p << infomsg("You are fighting normal monsters now.")
