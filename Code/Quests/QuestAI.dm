@@ -12,6 +12,10 @@ mob/TalkNPC
 		melee      = 0
 		dropAttack = 0
 
+		holdAttackChance = 15
+		incindiaChance   = 5
+		bombChance   = 0
+
 	New(loc)
 		origloc = loc
 		..()
@@ -154,13 +158,23 @@ mob/TalkNPC
 				else
 					var/dmg = round(level*2, 1) - target.Slayer.level
 
+					var/ic
+					var/attackType
+					var/n
+					if(prob(bombChance))
+						n = "Bombarda"
+						ic = "bombarda"
+						attackType = /obj/projectile/Bomb
+					else
+						attackType = /obj/projectile
+
 					if(prob(10))
 						step_rand(src)
-					else if(prob(15))
+					else if(prob(holdAttackChance))
 
 						for(var/i = 1 to rand(1,8))
 							dir=get_dir(src, target)
-							castproj(icon_state = attack, damage = dmg, name = "Spell")
+							castproj(Type = attackType, icon_state = ic ? ic : attack, damage = dmg, name = n ? n : "Spell")
 							sleep(2)
 							if(!target)
 								break
@@ -181,13 +195,13 @@ mob/TalkNPC
 					else
 						step_rand(src)
 
-					if(prob(5))
+					if(prob(incindiaChance))
 						var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 						for(var/di in dirs)
-							castproj(icon_state = "fireball", damage = dmg, name = "Incindia", cd = 0, lag = 1, Dir=di)
+							castproj(Type = attackType, icon_state = ic ? ic : "fireball", damage = dmg, name = n ? n : "Incindia", cd = 0, lag = 1, Dir=di)
 					else
 						dir=get_dir(src, target)
-						castproj(icon_state = attack, damage = dmg, name = "Spell")
+						castproj(Type = attackType, icon_state = ic ? ic : attack, damage = Dmg, name = n ? n : "Spell")
 
 					delay = 2
 
