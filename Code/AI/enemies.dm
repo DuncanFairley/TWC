@@ -552,7 +552,7 @@ mob
 			Expg = src.level * 6
 
 			if(isElite)
-				Dmg  *= 3
+				Dmg  *= 2
 				MHP  *= 4
 				gold *= 3
 				Expg *= 3
@@ -870,7 +870,16 @@ mob
 
 							if(target.hardmode && !hardmode)
 								hardmode = target.hardmode
-								filters = filter(type="outline", size=1, color="#00a5ff")
+
+								switch(hardmode)
+									if(1)
+										filters = filter(type="outline", size=1, color="#0e0")
+									if(2)
+										filters = filter(type="outline", size=1, color="#00a5ff")
+									if(3)
+										filters = filter(type="outline", size=1, color="#ffa500")
+									if(4)
+										filters = filter(type="outline", size=1, color="#551a8b")
 
 								HP = MHP * (1 + hardmode)
 
@@ -1032,7 +1041,7 @@ mob
 		//			dmg = dmg * 1.5 + 100
 
 				if(hardmode)
-					dmg = dmg * (1.1 + hardmode) + 60*hardmode
+					dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
 
 				if(target.level < level)
 					dmg += dmg * ((1 + level - target.level)/200)
