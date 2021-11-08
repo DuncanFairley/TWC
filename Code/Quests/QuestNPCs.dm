@@ -1,14 +1,23 @@
 mob/TalkNPC
 
-	Training_Dummy
+	quest/Training_Dummy
 		icon_state="dummy"
 		dropAttack = 1
+		questPointers = "Battle Training \[Daily]"
 
-		Talk()
-			set src in oview(3)
-			var/mob/Player/p = usr
+		questStart(mob/Player/i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("[src] is itching for a fight.")
 
-			var/ScreenText/s = new(p, src)
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("[src] is itching for a fight.")
+
+		questCompleted(mob/Player/i_Player, questName)
+			var/ScreenText/s = new(i_Player, src)
 			s.AddText("[src] is itching for a fight.")
 
 	Chase

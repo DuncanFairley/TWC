@@ -1,4 +1,14 @@
 quest
+	TrainingDummy
+		name   = "Battle Training \[Daily]"
+		desc   = "This training dummy is itching for a fight, attack it!"
+		reward = /questReward/TrainingDummy
+		repeat = 864000
+
+		Reward
+			desc = "Fight the training dummy."
+			reqs = list("Kill Training Dummy" = 1)
+
 	Puzzle1
 		name = "Light a Way"
 		desc = "You found a secret door, find out where it leads."
@@ -913,6 +923,8 @@ quest
 			reqs = list("Professor Palmer" = 1)
 
 questReward
+	TrainingDummy
+		exp  = 200000
 	Blueprint1
 		exp   = 20000
 		items = /obj/items/wearable/blueprint/basic_blueprint

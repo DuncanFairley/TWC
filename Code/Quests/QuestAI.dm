@@ -26,6 +26,7 @@ mob/TalkNPC
 		set waitfor = 0
 
 		if(target)
+			target.checkQuestProgress("Kill [src.name]")
 			target = null
 
 		new /obj/corpse(loc, src, time=0)
