@@ -74,6 +74,9 @@ mob/Player
 			O.Move(loc)
 			Move(tmpLoc)
 			O.density = 1
+		else if(istype(O, /obj/lootdrop))
+			if(O.icon_state == "barrels")
+				O:drop(src)
 		else if(ismonster(O))
 			if(animagusOn)
 				if(world.time - lastproj < 2) return
