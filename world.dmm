@@ -2878,7 +2878,7 @@
 "bdr" = (/obj/static_obj/tables/normaltable{icon_state = "31"},/turf/woodenfloor,/area/hogwarts/Ravenclaw_Common_Room)
 "bds" = (/obj/static_obj/WTable,/obj/books/EXP_BOOK_lvlravenclawupgraded{pixel_y = 5},/turf/woodenfloor,/area/hogwarts/Ravenclaw_Common_Room)
 "bdt" = (/obj/static_obj/Angel,/turf/woodenfloor,/area/hogwarts/class/Charms)
-"bdu" = (/mob/TalkNPC/Training_Dummy,/turf/Black_Tile,/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = null; respawnPoint = "rorTrainingSpawn"})
+"bdu" = (/mob/TalkNPC/quest/Training_Dummy,/turf/Black_Tile,/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = null; respawnPoint = "rorTrainingSpawn"})
 "bdv" = (/obj/Columb,/turf/Black_Tile,/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = null; respawnPoint = "rorTrainingSpawn"})
 "bdw" = (/turf/duelsystemcenter{icon_state = "GD5"},/area/hogwarts/Duel_Arenas/Gryffindor)
 "bdx" = (/turf/Black_Tile{tag = "to ror training room"},/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = null; respawnPoint = "rorTrainingSpawn"})
