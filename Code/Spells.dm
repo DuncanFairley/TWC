@@ -1770,7 +1770,7 @@ mob/Spells/verb/Inferius_Maxima()
 		for(var/obj/corpse/c in view(15, src))
 			if(c.gold == -1 || c.revive == 1) continue
 
-			if(c.owner)
+			if(c.owner && isplayer(c.owner))
 				c.revive = 1
 				animate(c, transform = null, alpha = 255, time = 10)
 				sleep(10)
