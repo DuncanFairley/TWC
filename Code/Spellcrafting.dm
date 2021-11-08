@@ -338,13 +338,13 @@ obj/items/spellpage
 		name = "Spell Page: \[Explosion]"
 		spellType = EXPLOSION
 		cd = 100
-		mpCost = 450
+		mpCost = 400
 	meteor
 		name = "Spell Page: \[Meteor]"
 		spellType = METEOR
-		damage = 3
+		damage = 4
 		cd = 100
-		mpCost = 300
+		mpCost = 250
 	aura
 		name = "Spell Page: \[Aura]"
 		spellType = ARUA
