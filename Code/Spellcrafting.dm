@@ -404,8 +404,12 @@ obj
 			else
 				origZ = z
 
-			if(prob(60))
-				step_rand(src)
+			if(prob(65))
+				step(src, SOUTH)
+				for(var/i = 1 to rand(2,4))
+					if(!step(src, pick(SOUTH,SOUTHEAST,SOUTHWEST,EAST,WEST)))
+						step_rand(src)
+						break
 
 		proc
 			respawn()
@@ -432,8 +436,13 @@ obj
 				if(origRegion)
 					loc = pick(origRegion.lootSpawns)
 
-					if(prob(60))
-						step_rand(src)
+					if(prob(65))
+						step(src, SOUTH)
+						for(var/i = 1 to rand(2,4))
+							if(!step(src, pick(SOUTH,SOUTHEAST,SOUTHWEST,EAST,WEST)))
+								step_rand(src)
+								break
+
 				else
 					loc = locate(rand(10, 90), rand(10, 90), origZ)
 
