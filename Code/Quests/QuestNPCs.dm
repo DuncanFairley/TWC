@@ -926,7 +926,6 @@ obj/AlyssaChest
 			if(. && p.checkQuestProgress("Onion Root"))
 				p << infomsg("You find an Onion Root!")
 				new/obj/items/Alyssa/Onion_Root(usr)
-				p.Resort_Stacking_Inv()
 
 	Indigo_Seeds
 		Ror1
@@ -940,7 +939,6 @@ obj/AlyssaChest
 			if(. && p.checkQuestProgress("Indigo Seeds"))
 				p << infomsg("You find some Indigo Seeds!")
 				new/obj/items/Alyssa/Indigo_Seeds(usr)
-				p.Resort_Stacking_Inv()
 
 	Silver_Spider
 		Ror1
@@ -954,7 +952,6 @@ obj/AlyssaChest
 			if(. && p.checkQuestProgress("Silver Spider Legs"))
 				p << infomsg("You find some Silver Spider Legs!")
 				new/obj/items/Alyssa/Silver_Spider_Legs(usr)
-				p.Resort_Stacking_Inv()
 
 	Salamander_Drop
 		Ror1
@@ -968,7 +965,6 @@ obj/AlyssaChest
 			if(. && p.checkQuestProgress("Salamander Drop"))
 				p << infomsg("You find some Salamander Drop!")
 				new/obj/items/Alyssa/Salamander_Drop(usr)
-				p.Resort_Stacking_Inv()
 
 mob/TalkNPC/quest
 	Alyssa
@@ -1035,7 +1031,6 @@ mob/TalkNPC/quest
 								new/obj/items/AlyssaScroll(usr)
 								alert("Alyssa hands you her list of potion ingredients")
 								usr << "<b><span style=\"color:blue;\">Alyssa: </span>Thanks!"
-								p.Resort_Stacking_Inv()
 								p.startQuest("Make a Potion")
 							if("I've got better things to do")
 								return
@@ -1057,8 +1052,7 @@ obj/items
 				if(dels == "Yes")
 					if(src in usr)
 						src << "You crumple the scroll."
-						loc = null
-						usr:Resort_Stacking_Inv()
+						Move(null)
 			read()
 				set name = "Read"
 				usr << browse(content)

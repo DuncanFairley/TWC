@@ -22,8 +22,6 @@ trading
 
 			if(!end) with.trade.Deal(1)
 
-			parent.Resort_Stacking_Inv()
-
 
 		Clean(end = 0)
 			for(var/obj/O in items)
@@ -36,7 +34,6 @@ trading
 			if(parent)
 				if(parent.client)
 					winset(parent, null, {"Trade.is-visible=false;Trade.grid1.background-color=white;Trade.grid2.background-color=white;Trade.grid1.cells=0x0;Trade.grid2.cells=0x0;"})
-					parent.Resort_Stacking_Inv()
 				parent.trade = null
 				parent = null
 
@@ -138,7 +135,6 @@ obj/items
 							var/obj/items/lamps/lamp = src
 							lamp.S.Deactivate()
 
-						Unmacro(P)
 
 						var/obj/items/i = stack > 1 ? Split(1) : src
 
@@ -150,8 +146,7 @@ obj/items
 						P.trade.with << output(i, "Trade.grid2")
 						P.trade.items += i
 						P.trade.y++
-						P.contents -= i
-						P.Resort_Stacking_Inv()
+						i.Move(null)
 					else
 						P << errormsg("This item can't be dropped")
 				else
@@ -180,7 +175,6 @@ obj/items
 					if(cell <= P.trade.items.len)
 						P << output(P.trade.items.len == 0 ? null : P.trade.items[P.trade.items.len], "Trade.grid1")
 						P.trade.with << output(P.trade.items.len == 0 ? null : P.trade.items[P.trade.items.len], "Trade.grid2")
-				P.Resort_Stacking_Inv()
 			else
 				P << errormsg("You can't change terms of the trade while one of you already accepted.")
 		else

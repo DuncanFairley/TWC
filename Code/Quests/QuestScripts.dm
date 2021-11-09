@@ -1106,7 +1106,7 @@ questReward
 			var/t = p.Gender == "Male" ? /obj/items/wearable/wigs/male_royale_wig : /obj/items/wearable/wigs/female_royale_wig
 			var/obj/o = new t (p)
 			p << infomsg("You receive [o.name].")
-			p.Resort_Stacking_Inv()
+
 	PVP1
 		gold  = 15000
 		exp   = 15000

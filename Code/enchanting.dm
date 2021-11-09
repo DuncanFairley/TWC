@@ -408,9 +408,7 @@ obj/items/crystal
 				w.Equip(p, 1)
 
 			if(s == src)
-				loc = null
-				Unmacro(p)
-			p.Resort_Stacking_Inv()
+				Move(null)
 			usr << infomsg("You insert [name] in [w.name]")
 		else
 			..()

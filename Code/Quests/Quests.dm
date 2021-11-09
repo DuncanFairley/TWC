@@ -208,7 +208,7 @@ mob/TalkNPC/quest
 								alert("You nod")
 
 								p.startQuest("On House Arrest")
-								p.Resort_Stacking_Inv()
+
 
 mob
 	Baby
@@ -538,7 +538,7 @@ questReward
 				var/t = pick(/obj/items/artifact, /obj/items/magic_stone/teleport)
 				var/obj/o = new t (p)
 				p << infomsg("You receive [o.name].")
-				p.Resort_Stacking_Inv()
+
 
 	proc/get(mob/Player/p)
 		if(gold)
@@ -557,7 +557,7 @@ questReward
 			else
 				var/obj/o = new items (p)
 				p << infomsg("You receive [o.name].")
-			p.Resort_Stacking_Inv()
+
 
 questPointer
 	var/stage

@@ -935,9 +935,7 @@ StatusEffect
 			if(lamp.seconds <= 0)
 				AttachedAtom << errormsg("[lamp] disappears into thin air.")
 
-				lamp.Unmacro(AttachedAtom)
 				lamp.Dispose()
-				AttachedAtom:Resort_Stacking_Inv()
 			else
 				var/min = round(lamp.seconds / 60)
 				var/sec = lamp.seconds-(min*60)

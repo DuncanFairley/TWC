@@ -435,7 +435,6 @@ obj/drop_on_death
 			density = 0
 			Move(p)
 			density = dense
-			p.Resort_Stacking_Inv()
 
 			if(showicon == 1) p.overlays += icon
 			else if(showicon) p.overlays += showicon
@@ -446,7 +445,6 @@ obj/drop_on_death
 			density = 0
 			Move(usr.loc)
 			density = dense
-			usr:Resort_Stacking_Inv()
 			if(announceToWorld)
 				Players<<"<b>[usr] drops \the [src].</b>"
 			else

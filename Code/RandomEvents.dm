@@ -1270,7 +1270,6 @@ obj/items/treasure
 		                        /obj/items/wearable/title/Pirate      = 1))
 
 		var/obj/items/i = new t (usr)
-		usr:Resort_Stacking_Inv()
 
 		Players << infomsg("<b>[event]:</b> [usr] found a [i.name]!")
 

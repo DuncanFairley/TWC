@@ -181,7 +181,7 @@ mob/TalkNPC/Ollivander
 					if("Elder")
 						newwand = new/obj/items/wearable/wands/elder_wand(usr)
 				newwand.name = wandname
-				p.Resort_Stacking_Inv()
+
 				if(p.checkQuestProgress("Ollivander"))
 					s.AddText("Oh you're just starting out eh? My friend Palmer can help you out, his name is Palmer, he is quite friendly.")
 					p.startQuest("Tutorial: Friendly Professor")
@@ -415,7 +415,6 @@ obj/shop
 						usr << infomsg("You bought [i] for [price.toString()].")
 						g.change(usr, bronze=-actualPrice)
 						worldData.ministrybank += worldData.taxrate*actualPrice/100
-						usr:Resort_Stacking_Inv()
 
 						for(var/mob/Player/p in usr.loc)
 							parent:unshop(p)

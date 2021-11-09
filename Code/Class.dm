@@ -75,7 +75,6 @@ obj/teacher
 			l.name = classInfo.name
 			l.uses = classInfo.uses
 			wand.spell = l
-			p:Resort_Stacking_Inv()
 
 		else
 			p << errormsg("You aren't close enough.")
@@ -599,8 +598,7 @@ mob/Player
 					var/obj/items/wearable/wands/practice_wand/wand = locate() in Lwearing
 					if(wand)
 						wand.Equip(src)
-						wand.loc = null
-						Resort_Stacking_Inv()
+						wand.Move(null)
 						verbs += spellpath
 
 

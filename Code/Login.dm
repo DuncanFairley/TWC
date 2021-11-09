@@ -65,7 +65,6 @@ mob/Player/proc/change_vault(var/vault)
 			for(var/turf/t in map.AllTurfs())
 				for(var/obj/items/i in t)
 					i.Move(src)
-			src:Resort_Stacking_Inv()
 			map.Unload()
 		else
 			src << errormsg("Please evacuate everyone from your vault first.")
@@ -1805,13 +1804,14 @@ obj
 	stackobj
 		var/isopen=0
 		var/containstype
-		var/list/obj/contains = list()
+		var/list/contains = list()
+		var/count = 0
 		mouse_over_pointer = MOUSE_HAND_POINTER
 		canSave = FALSE
 
 		Click()
-			if(src in usr)
-				isopen = !isopen
+			isopen = !isopen
+
 		verb
 			Drop_All()
 				set category = null
@@ -1854,34 +1854,38 @@ mob/Player/var/tmp/list/obj/stackobj/stackobjects
 obj/var/useTypeStack = 0
 obj/var/stackName
 
-mob/proc/Resort_Stacking_Inv()
-	if(!istype(src,/mob/Player))
-		world.log << "[src] is of the wrong type ([src.type]) in /mob/proc/Resort_Stacking_Inv()"
-		return
+mob/Player/proc/Resort_Stacking_Inv()
 
-	if(src:Lfavorites)
+	if(Lfavorites)
 		for(var/obj/o in src:Lfavorites)
 			if(o.loc != src)
-				src:Lfavorites -= o
+				Lfavorites -= o
 
-		if(src:Lfavorites.len == 0) src:Lfavorites = null
+		if(Lfavorites.len == 0) Lfavorites = null
 
 	var/list/counts = list()
 
 	for(var/obj/O in contents)
 		if(istype(O,/obj/stackobj))
 			O.loc = null
-		else if(O.useTypeStack == 0)
-			counts[O.type]++
-		else if(O.useTypeStack == 1)
-			counts[O.parent_type]++
 		else
-			counts[O.useTypeStack]++
+			var/T
+			if(O.useTypeStack == 0)
+				T = O.type
+			else if(O.useTypeStack == 1)
+				T = O.parent_type
+			else
+				T = O.useTypeStack
+
+			if(!(T in counts)) counts[T] = list()
+			counts[T] += O
+
 	if(length(counts))
 		var/list/obj/stackobj/tmpstackobjects = list()
 		for(var/V in counts)
-			if(counts[V] > 1)
-				var/obj/stackobj/stack = new()
+			var/list/l = counts[V]
+			if(l.len > 1)
+				var/obj/stackobj/stack = new
 				var/obj/tmpV = new V
 				stack.containstype = V
 				if(src:stackobjects)
@@ -1892,13 +1896,13 @@ mob/proc/Resort_Stacking_Inv()
 				stack.icon_state = tmpV.icon_state
 				stack.name = tmpV.stackName ? tmpV.stackName : tmpV.name
 				contents += stack
-				for(var/obj/O in contents)
-					if(istype(O,stack.containstype))
-						stack.contains += O
+
+				stack.contains = l
 				var/c = 0
 				for(var/obj/items/i in stack.contains)
 					c += i.stack
 				stack.suffix = "<span style=\"color:red;\">(x[c])</span>"
+				stack.count = c
 				tmpstackobjects[V] = stack
 		src:stackobjects = tmpstackobjects
 	else

@@ -117,29 +117,87 @@ obj/items
 
 	New()
 		..()
-		Sort()
+		Move(loc)
 
 	Move(NewLoc,Dir=0)
 		if(isplayer(loc) && loc != NewLoc)
+
 			var/mob/Player/p = loc
+
+			Unmacro(p)
+
 			if(p.Lfavorites && (src in p.Lfavorites))
 				p.Lfavorites -= src
 				if(p.Lfavorites.len == 0) p.Lfavorites = null
 
+			var/T
+			if(useTypeStack == 0)
+				T = type
+			else if(useTypeStack == 1)
+				T = parent_type
+			else
+				T = useTypeStack
+
+			if(p.stackobjects && p.stackobjects[T])
+				var/obj/stackobj/stackObj = p.stackobjects[T]
+				stackObj.contains -= src
+				stackObj.count -= stack
+				if(stackObj.contains.len > 1)
+					stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"
+				else
+					stackObj.loc = null
+					p.stackobjects -= stackObj
+					if(!p.stackobjects.len)
+						p.stackobjects = null
 		.=..()
 
 		Sort()
 
+		if(isplayer(NewLoc))
+			var/mob/Player/p = NewLoc
+
+			var/T
+			if(useTypeStack == 0)
+				T = type
+			else if(useTypeStack == 1)
+				T = parent_type
+			else
+				T = useTypeStack
+
+			if(p.stackobjects && p.stackobjects[T])
+				var/obj/stackobj/stackObj = p.stackobjects[T]
+				if(loc)
+					stackObj.contains += src
+				stackObj.count += stack
+				stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"
+			else
+				var/list/items = list()
+				var/c = 0
+				for(var/obj/items/same in p)
+					if(same.useTypeStack == useTypeStack && (useTypeStack > 1 || istype(same, T)) && same != src)
+						items += same
+						c += same.stack
+
+				if(items.len > 0)
+					if(loc)
+						items += src
+
+					var/obj/stackobj/stackObj = new
+					var/obj/tmpV = new T
+					stackObj.containstype = T
+					stackObj.icon = tmpV.icon
+					stackObj.icon_state = tmpV.icon_state
+					stackObj.name = tmpV.stackName ? tmpV.stackName : tmpV.name
+					stackObj.loc = p
+					stackObj.contains = items
+					stackObj.suffix = "<span style=\"color:red;\">(x[c])</span>"
+
+					if(!p.stackobjects)
+						p.stackobjects = list()
+					p.stackobjects[T] = stackObj
+
 	Dispose()
-		var/mob/Player/p
-		if(isplayer(loc))
-			p = loc
-
-		..()
-
-		if(p)
-			Unmacro(p)
-			p.Resort_Stacking_Inv()
+		Move(null)
 
 	MouseEntered(location,control,params)
 		if(desc && (src in usr) && usr:infoBubble)
@@ -255,8 +313,6 @@ obj/items
 				if(a.antiTheft) src.owner = owner.ckey
 				Move(owner.loc)
 
-				Unmacro(owner)
-
 			if(!("ckeyowner" in i.vars) || !src:ckeyowner)
 				var/obj/playerShop/stand/s = locate() in owner.loc
 				if(s)
@@ -270,7 +326,6 @@ obj/items
 							if(i.Compare(shopItem))
 								i.Stack(shopItem)
 
-			owner.Resort_Stacking_Inv()
 
 		Unmacro(mob/Player/p)
 			if(p.UsedKeys)
@@ -345,7 +400,6 @@ obj/items/verb/Take()
 	i.owner = null
 	i.Move(usr)
 
-	usr.Resort_Stacking_Inv()
 
 obj/items/verb
 	Drop()
@@ -422,9 +476,8 @@ obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_cont
 				if(src in p.Lwearing)
 					src:Equip(p,1,1)
 
-				loc = null
+				Move(null)
 
-				p.Resort_Stacking_Inv()
 
 				p.pet.gotoBank(p)
 
@@ -494,7 +547,6 @@ obj/items/verb/Examine()
 obj/items/proc/Destroy(var/mob/Player/owner)
 	if(alert(owner,"Are you sure you wish to destroy your [src.name]?",,"Yes","Cancel") == "Yes")
 		Dispose()
-		owner.Resort_Stacking_Inv()
 		return 1
 
 obj/items/New()
@@ -627,7 +679,6 @@ obj/items/wearable/Destroy(var/mob/Player/owner)
 		if(src in owner.Lwearing)
 			Equip(owner)
 		Dispose()
-		owner.Resort_Stacking_Inv()
 		return 1
 
 obj/items/wearable/drop(mob/Player/owner, amount = 1)
@@ -906,8 +957,8 @@ obj/items/gift
 			var/obj/o = contents[1]
 			usr << infomsg("You opened your present and recieved [o.name]!")
 			o.loc = loc
-			loc = null
-			usr:Resort_Stacking_Inv()
+			Move(null)
+
 
 		Disown()
 			var/input = alert("Are you sure you wish to allow anyone to pick this gift up?",,"Yes","No")
@@ -953,8 +1004,6 @@ obj/items/gift
 				var/obj/items/lamps/lamp = i
 				lamp.S.Deactivate()
 
-			i.Unmacro(usr)
-
 			if(i.stack > 1)
 				var/obj/items/s = i.Split(1)
 				s.loc = src
@@ -972,10 +1021,9 @@ obj/items/gift
 
 			if(stack > 1)
 				var/obj/items/s = Split(stack - 1)
-				s.loc  = src.loc
+				s.Move(loc)
 				s.name = "gift wrappings"
 
-			usr:Resort_Stacking_Inv()
 
 obj/items/bagofgoodies
 	name = "bag of goodies"
@@ -1103,7 +1151,6 @@ obj/items/bucket
 
 				var/mob/Player/p = usr
 				s.Move(p)
-				p.Resort_Stacking_Inv()
 
 				usr << errormsg("You fill a bucket with water.")
 			else
@@ -1117,7 +1164,6 @@ obj/items/bucket
 					s.filled = 0
 
 					s.Move(p)
-					p.Resort_Stacking_Inv()
 					p << errormsg("You ran out of water.")
 		else
 			..()
@@ -1604,8 +1650,8 @@ obj/items/wearable/wands
 
 				if(o.exp == 0)
 					o.Equip(owner)
-					if(o.Consume())
-						owner.Resort_Stacking_Inv()
+					o.Consume()
+
 					owner << errormsg("[o.name] shatters.")
 
 				exp2give += amount
@@ -3046,8 +3092,8 @@ obj/items/easter_egg
 	Click()
 		if(src in usr)
 			new/obj/egg(usr.loc)
-			if(Consume())
-				usr:Resort_Stacking_Inv()
+			Consume()
+
 		else
 			..()
 obj/egg
@@ -3335,7 +3381,6 @@ obj/items
 				hearers() << "Portable Duel System: <i>ERROR</i>. Duel path must be clear of obstacles to deploy."
 				Packup()
 				Move(usr)
-				usr:Resort_Stacking_Inv()
 			else
 				new/obj/duelblock (c3.loc)
 				new/obj/duelblock (c5.loc)
@@ -3524,7 +3569,6 @@ obj/items/magic_stone
 
 					if(s != src)
 						s.Move(p)
-						p.Resort_Stacking_Inv()
 
 					p << infomsg("You charged your teleport stone to [s.dest].")
 				else
@@ -4386,7 +4430,6 @@ obj/items/colors
 				p << infomsg("You applied new <span style=\"color:[projColor == "blood" ? "#a00" : projColor];\">magical color</span> to your equipped wand.")
 				p.wand.projColor = projColor
 				Consume()
-				p.Resort_Stacking_Inv()
 		else
 			..()
 
@@ -4469,8 +4512,8 @@ obj/items/reputation
 		if(r1 == r2)
 			i_Player << errormsg("You are at max reputation for your rank.")
 
-		else if(Consume())
-			i_Player.Resort_Stacking_Inv()
+		else
+			Consume()
 
 	chaos_tablet
 		icon_state = "chaos"

@@ -419,7 +419,6 @@ mob
 						w.Equip(src, 1)
 
 					w.Dispose()
-					Resort_Stacking_Inv()
 
 				var/count = 0
 				for(var/s in removedSpells)

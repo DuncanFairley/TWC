@@ -389,11 +389,10 @@ mob/TalkNPC/Guildmaster
 					money.change(p, gold=-50)
 					a.stack -= 5
 					if(!a.stack)
-						a.loc = null
+						a.Dispose()
 					else
 						a.UpdateDisplay()
 
-					p.Resort_Stacking_Inv()
 
 					var/guild/g = new
 					g.Init(p, desiredname)

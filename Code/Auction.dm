@@ -60,7 +60,7 @@ mail
 				var/obj/o = content
 				i_Player << infomsg("[o.name] was sent to you.")
 				o.Move(i_Player)
-				i_Player.Resort_Stacking_Inv()
+
 
 
 
@@ -157,9 +157,8 @@ auction
 					if(!worldData.auctionItems.len) worldData.auctionItems = null
 					g.setVars(bronze=buyoutPrice)
 					p << infomsg("<b>Auction:</b> You bought [item.name] for [g.toString()].")
-					item.loc = p
+					item.Move(p)
 					item = null
-					p.Resort_Stacking_Inv()
 					p.auctionBuild()
 				else
 					var/gold/diff = new(bronze=buyoutPrice - g.toNumber())
@@ -178,7 +177,7 @@ auction
 				p.auctionBuild()
 				item.Move(p)
 				item = null
-				p.Resort_Stacking_Inv()
+
 
 
 
@@ -366,7 +365,6 @@ body
 				if(auctionInfo.item)
 					auctionInfo.item.Move(src)
 					auctionInfo.item = null
-					Resort_Stacking_Inv()
 
 				auctionInfo = null
 
@@ -396,7 +394,6 @@ obj/items
 						var/obj/items/lamps/lamp = src
 						lamp.S.Deactivate()
 
-					Unmacro(P)
 
 					var/obj/items/i
 					if(stack > 1)
@@ -413,8 +410,7 @@ obj/items
 					P << output(i, "Auction.gridAuctionAddItem:1,1")
 					P << output("<b class='item'>x[i.stack]</b>", "Auction.gridAuctionAddItem:2,1")
 					P.auctionInfo.item = i
-					P.contents -= i
-					P.Resort_Stacking_Inv()
+					i.Move(null)
 				else
 					P << errormsg("This item can't be used in auction.")
 
@@ -425,7 +421,6 @@ obj/items
 			P << output(null, "Auction.gridAuctionAddItem:2,1")
 			P.auctionInfo.item = null
 			Move(P)
-			P.Resort_Stacking_Inv()
 		else
 			..()
 

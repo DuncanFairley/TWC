@@ -48,8 +48,7 @@ obj/items/ingredients
 					i = Split(p.req)
 				else
 					i = src
-					loc = null
-					usr:Resort_Stacking_Inv()
+					Move(null)
 
 				usr << infomsg("You added \a [i] to \the [p].")
 
@@ -77,8 +76,7 @@ obj/items/ingredients
 				i = Split(p.req)
 			else
 				i = src
-				loc = null
-				usr:Resort_Stacking_Inv()
+				Move(null)
 
 			usr << infomsg("You added \a [i] to \the [p].")
 
@@ -1425,8 +1423,8 @@ obj/items/plant
 			usr << infomsg("You feed [src] a bit of magic, it sprouts to life.")
 
 			new plantType (usr.loc, usr, 0.5)
-			if(Consume())
-				usr:Resort_Stacking_Inv()
+			Consume()
+
 		else
 			..()
 

@@ -1522,7 +1522,6 @@ mob/GM
 						if(!worldData.prizeItems.len) worldData.prizeItems = null
 
 						var/obj/items/item_prize = new i (p)
-						p.Resort_Stacking_Inv()
 						hearers() << infomsg("<i>[name] gives [p] [item_prize.name].</i>")
 						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: [name]([key])([client.address]) gave [item_prize.name] <b>prize</b> rare item to [p.name]([p.key])([p.client.address]) Notes: [note]<br />"
 

@@ -306,7 +306,6 @@ matchmaking
 										 /obj/items/wearable/title/Battlemage)
 
 						var/obj/o = new prize (p)
-						p.Resort_Stacking_Inv()
 						p << infomsg("You receive [o.name]! How lucky!")
 
 

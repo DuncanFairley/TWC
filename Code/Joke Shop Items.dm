@@ -478,7 +478,6 @@ obj/items/fireworks
 			stack--
 			if(stack <= 0)
 				Dispose()
-				usr:Resort_Stacking_Inv()
 			else
 				UpdateDisplay()
 		else

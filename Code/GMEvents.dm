@@ -46,7 +46,6 @@ mob/TalkNPC
 						return
 
 					var/obj/O = new EventItem(usr)
-					usr:Resort_Stacking_Inv()
 					usr << "<span style=\"font-size:2; color:red;\">[src] hands you their [O.name].</span>"
 
 		/* This mob changes a var to everyone who talks to it.

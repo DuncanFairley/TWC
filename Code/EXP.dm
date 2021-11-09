@@ -941,7 +941,7 @@ gold
 					i.stack += bronze
 
 				i.UpdateDisplay()
-//			p.Resort_Stacking_Inv()
+
 
 		have(amount)
 			if(istype(amount, /gold)) amount = amount:toNumber()

@@ -120,7 +120,6 @@ obj/items/proc/walkTo(atom/movable/a, pickup=0)
 		sleep(1)
 	if(pickup && fetchable)
 		Move(a)
-		a:Resort_Stacking_Inv()
 
 
 mob/Spells/verb/Eat_Slugs(var/n as text)

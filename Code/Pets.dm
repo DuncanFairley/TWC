@@ -481,7 +481,6 @@ obj/pet
 				i.Move(p)
 				i.antiTheft = 0
 				i.filters = null
-				p.Resort_Stacking_Inv()
 
 		fetch = null
 		glide_size = glide
