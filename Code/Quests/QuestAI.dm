@@ -236,6 +236,15 @@ mob/TalkNPC
 
 		post_init = 1
 
+
+		Talk()
+			set src in oview(3)
+			var/mob/Player/p = usr
+
+			var/ScreenText/s = new(p, src)
+			s.AddText(pick("Hello there [p.name].", "How about that new hot DADA Professor?", "Have you seen my frog?"))
+
+
 		reset()
 			set waitfor = 0
 			route()
