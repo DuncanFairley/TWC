@@ -117,7 +117,50 @@ obj/items
 
 	New()
 		..()
-		Move(loc)
+		Sort()
+
+		if(isplayer(loc))
+			var/mob/Player/p = loc
+
+			var/T
+			if(useTypeStack == 0)
+				T = type
+			else if(useTypeStack == 1)
+				T = parent_type
+			else
+				T = useTypeStack
+
+			if(p.stackobjects && p.stackobjects[T])
+				var/obj/stackobj/stackObj = p.stackobjects[T]
+				if(loc)
+					stackObj.contains += src
+				stackObj.count += stack
+				stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"
+			else
+				var/list/items = list()
+				var/c = 0
+				for(var/obj/items/same in p)
+					if(same.useTypeStack == useTypeStack && (useTypeStack > 1 || istype(same, T)) && same != src)
+						items += same
+						c += same.stack
+
+				if(items.len > 0)
+					if(loc)
+						items += src
+
+					var/obj/stackobj/stackObj = new
+					var/obj/tmpV = new T
+					stackObj.containstype = T
+					stackObj.icon = tmpV.icon
+					stackObj.icon_state = tmpV.icon_state
+					stackObj.name = tmpV.stackName ? tmpV.stackName : tmpV.name
+					stackObj.loc = p
+					stackObj.contains = items
+					stackObj.suffix = "<span style=\"color:red;\">(x[c])</span>"
+
+					if(!p.stackobjects)
+						p.stackobjects = list()
+					p.stackobjects[T] = stackObj
 
 	Move(NewLoc,Dir=0)
 		if(isplayer(loc) && loc != NewLoc)
@@ -197,7 +240,40 @@ obj/items
 					p.stackobjects[T] = stackObj
 
 	Dispose()
-		Move(null)
+
+		if(isplayer(loc))
+
+			var/mob/Player/p = loc
+
+			Unmacro(p)
+
+			if(p.Lfavorites && (src in p.Lfavorites))
+				p.Lfavorites -= src
+				if(p.Lfavorites.len == 0) p.Lfavorites = null
+
+			var/T
+			if(useTypeStack == 0)
+				T = type
+			else if(useTypeStack == 1)
+				T = parent_type
+			else
+				T = useTypeStack
+
+			if(p.stackobjects && p.stackobjects[T])
+				var/obj/stackobj/stackObj = p.stackobjects[T]
+				stackObj.contains -= src
+				stackObj.count -= stack
+				if(stackObj.contains.len > 1)
+					stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"
+				else
+					stackObj.loc = null
+					p.stackobjects -= stackObj
+					if(!p.stackobjects.len)
+						p.stackobjects = null
+
+		loc = null
+
+
 
 	MouseEntered(location,control,params)
 		if(desc && (src in usr) && usr:infoBubble)
