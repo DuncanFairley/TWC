@@ -856,6 +856,9 @@ obj/squirrel
 				var/turf/t = get_step_rand(src)
 				dir = get_dir(src, t)
 				loc = t
+				if(hpbar)
+					hpbar.loc = null
+					hpbar = null
 	//			step_rand(src)
 				delay = 8
 
