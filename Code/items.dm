@@ -196,8 +196,8 @@ obj/items
 
 		Sort()
 
-		if(isplayer(NewLoc))
-			var/mob/Player/p = NewLoc
+		if(isplayer(loc))
+			var/mob/Player/p = loc
 
 			var/T
 			if(useTypeStack == 0)
