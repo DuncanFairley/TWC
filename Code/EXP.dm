@@ -900,29 +900,48 @@ gold
 				for(var/obj/items/money/m in p)
 					m.loc = null
 			if(plat > 0)
-				var/obj/items/money/platinum/i = new
-				i.stack = plat
+				var/obj/items/money/platinum/i = locate() in p
+				if(!i)
+					i = new
+					i.stack = plat
+					i.loc = p
+				else
+					i.stack += plat
+
 				i.UpdateDisplay()
-				i.Move(p)
 
 			if(gold > 0)
-				var/obj/items/money/gold/i = new
-				i.stack = gold
+				var/obj/items/money/gold/i = locate() in p
+				if(!i)
+					i = new
+					i.stack = gold
+					i.loc = p
+				else
+					i.stack += gold
+
 				i.UpdateDisplay()
-				i.Move(p)
 
 			if(silver > 0)
-				var/obj/items/money/silver/i = new
-				i.stack = silver
-				i.UpdateDisplay()
-				i.Move(p)
+				var/obj/items/money/silver/i = locate() in p
+				if(!i)
+					i = new
+					i.stack = silver
+					i.loc = p
+				else
+					i.stack += silver
 
-			if(bronze > 0)
-				var/obj/items/money/bronze/i = new
-				i.stack = bronze
 				i.UpdateDisplay()
-				i.Move(p)
-			p.Resort_Stacking_Inv()
+			if(bronze > 0)
+				var/obj/items/money/bronze/i = locate() in p
+				if(!i)
+					i = new
+					i.stack = bronze
+					i.loc = p
+				else
+					i.stack += bronze
+
+				i.UpdateDisplay()
+//			p.Resort_Stacking_Inv()
 
 		have(amount)
 			if(istype(amount, /gold)) amount = amount:toNumber()
