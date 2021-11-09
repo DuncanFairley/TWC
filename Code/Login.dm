@@ -791,6 +791,8 @@ mob
 			character.hpBar = new(character)
 			character.InitMouseHelper()
 
+			character.BYONDMemberReward()
+
 			for(var/mob/Player/p in Players)
 				if(p.Gm)
 					p << "<span style=\"font-size:2; color:#C0C0C0;\"><b><i>[character][character.refererckey==p.client.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey])([character.client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</i></b></span>"
@@ -979,6 +981,7 @@ mob/Player
 
 			LoginReward()
 			if(worldData.eventPrize) EventReward()
+			BYONDMemberReward()
 
 			DisplayPets()
 			InitMouseHelper()
@@ -2679,6 +2682,20 @@ mob/Player
 
 		new /hudobj/login_reward(null, client, null, show=1, Player=src)
 
+	proc/BYONDMemberReward()
+		set waitfor = 0
+		if(client.IsByondMember() != 0)
+
+			sleep(50)
+
+			var/obj/items/wearable/pets/bird/b = locate() in src
+			if(!b)
+
+				while(locate(/hudobj/login_reward) in client.screen)
+					sleep(10)
+
+				new /hudobj/login_reward(null, client, null, show=1, Player=src, Prize=/obj/items/wearable/pets/bird, Msg="Thank you for supporting BYOND by being a member.")
+
 	proc/EventReward()
 		set waitfor = 0
 
@@ -2712,7 +2729,7 @@ hudobj/login_reward
 	MouseExited()
 		if(alpha == 255) transform = matrix()*8
 
-	New(loc=null,client/Client,list/Params,show=1,Player=null,Prize=null)
+	New(loc=null,client/Client,list/Params,show=1,Player=null,Prize=null,Msg="Thank you for playing.")
 		..(loc,Client,Params,show)
 		player = Player
 
@@ -2720,7 +2737,7 @@ hudobj/login_reward
 
 
 		if(Prize)
-			o.maptext = "<b style=\"text-align:center;color:[player.mapTextColor];\">Thank you for playing.</b>"
+			o.maptext = "<b style=\"text-align:center;color:[player.mapTextColor];\">[Msg]</b>"
 			prize = Prize
 		else
 			var/daysRemaining = 50 - ((player.loginRewardDays + 1) % 50)
