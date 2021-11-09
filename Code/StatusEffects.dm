@@ -2,22 +2,31 @@ var/EventScheduler/tempFix/scheduler = new()
 atom/var/tmp/list/StatusEffect/LStatusEffects
 
 EventScheduler/tempFix
+	schedule(var/Event/E, var/ticks as num, var/priority = 0)
+		..(E, ticks / __sleep_delay, priority)
+
+	time_to_fire(var/Event/E)
+		.=..()
+		if(.) . *= __sleep_delay
+
 	__iteration()
-		src.__tick+=__sleep_delay
-		var/list/execute = src.__shift_down_events()
+//		__tick+=__sleep_delay
+		__tick++
+		if(__tick > 16777216) __tick = 16777216
+		var/list/execute = __shift_down_events()
 		if (execute)
 			QuickSort(execute, /EventScheduler/proc/__sort_priorities)
 			for (var/__Trigger/T in execute)
 				T.__event.fire()
-				src.__trigger_mapping.Remove(T.__event)
-		if (src.__tick == 16777216)
-			src.__tick = 0
+				__trigger_mapping.Remove(T.__event)
+		if (__tick == 16777216)
+			__tick = 0
 
-	__shift_down_events()
+/*	__shift_down_events()
 		var/list/result = null
 		for (var/T in src.__scheduled_events)
-			var/A = src.__scheduled_events[T]
-			src.__scheduled_events.Remove(T)
+			var/A = __scheduled_events[T]
+			__scheduled_events.Remove(T)
 			var/index = text2num(T) - __sleep_delay
 			if (index > 0)
 				src.__scheduled_events[num2text(index, 8)] = A
@@ -30,7 +39,7 @@ EventScheduler/tempFix
 						if (S)
 							S += Tr
 						else
-							src.__scheduled_events[text2num(new_index)] = list(Tr)
+							__scheduled_events[text2num(new_index)] = list(Tr)
 					else
 						if (result)
 							result += Tr
@@ -38,7 +47,7 @@ EventScheduler/tempFix
 							result = list(Tr)
 
 				result = A
-		return result
+		return result*/
 
 atom/proc/AddStatusEffect(StatusEffect/pStatusEffect)
 	if(src.LStatusEffects)
@@ -238,7 +247,7 @@ proc/cleanPlayerData(decay = 0)
 
 proc
 	init_events()
-	//	scheduler.set_sleep_delay(10)
+		scheduler.set_sleep_delay(10)
 		scheduler.start()
 		init_books()
 	//	init_weather()
