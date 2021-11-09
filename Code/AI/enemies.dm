@@ -925,6 +925,22 @@ mob
 						var/dist = get_dist(src, M)
 						if(min_dist > dist)
 							target = M
+
+							if(target.hardmode > hardmode)
+								hardmode = target.hardmode
+
+								switch(hardmode)
+									if(1)
+										filters = filter(type="outline", size=1, color="#0e0")
+									if(2)
+										filters = filter(type="outline", size=1, color="#00a5ff")
+									if(3)
+										filters = filter(type="outline", size=1, color="#ffa500")
+									if(4)
+										filters = filter(type="outline", size=1, color="#551a8b")
+
+								HP = MHP * (1 + hardmode)
+
 					else
 						Ignore(M)
 
@@ -1030,7 +1046,7 @@ mob
 					return
 
 			if(distance > 1)
-				if(prob(10))
+				if(distance > 4 && prob(5))
 					ChangeTarget()
 
 				var/turf/t = get_step_to(src, target, 1)
