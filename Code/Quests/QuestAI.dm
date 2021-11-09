@@ -59,7 +59,7 @@ mob/TalkNPC
 
 				target = p.owner
 
-				MHP   = 8 * (level) + 200 + p.damage + p.owner:Slayer.level
+				MHP   = 8 * (level) + 200 + (p.damage + p.owner:Slayer.level)*2
 				HP    = MHP
 
 				if(!hpbar)

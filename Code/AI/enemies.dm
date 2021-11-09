@@ -376,6 +376,11 @@ area
 				antiTeleport = TRUE
 				antiFly      = TRUE
 
+			TrainingDummy
+				antiTeleport = TRUE
+				antiFly      = TRUE
+				antiApparate = TRUE
+
 			Dungeon
 				antiTeleport = FALSE
 				antiFly      = TRUE
@@ -2036,11 +2041,24 @@ mob
 		Demon_Rat
 			icon_state = "rat"
 			level = 700
+			DMGmodifier = 0.8
 
 			Death(mob/Player/killer)
 				..()
 
 				SpawnPet(killer, 0.9, null, /obj/items/wearable/pets/rat)
+
+				SpawnPortal(pickweight(dungeons), chance=0.1)
+
+		Training_Dummy
+			icon_state = "dummy"
+			level = 700
+			DMGmodifier = 0.8
+
+			Death(mob/Player/killer)
+				..()
+
+				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/training_dummy)
 
 				SpawnPortal(pickweight(dungeons), chance=0.1)
 

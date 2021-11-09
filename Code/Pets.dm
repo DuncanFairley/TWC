@@ -275,6 +275,8 @@ obj/items/wearable/pets
 		icon_state = "cow"
 		currentSize = 1
 		minSize = 1
+	training_dummy
+		icon_state = "dummy"
 
 
 obj/pet

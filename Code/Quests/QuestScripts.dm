@@ -1,4 +1,52 @@
 quest
+	TrainingDummy1
+		name   = "Battle Training I"
+		desc   = "This training dummy is itching for a fight, attack it!"
+		reward = /questReward/TrainingDummy1
+
+		Reward
+			desc = "Fight Training Dummy Mk-I."
+			reqs = list("Kill Dummy Mk-I" = 3)
+	FaultyTrainingDummy
+		name   = "Faulty Training Dummies"
+		desc   = "Destroy the faulty training dummies!"
+		reward = /questReward/TrainingDummy1
+
+		Reward
+			desc = "Fight faulty training dummies."
+			reqs = list("Kill Training Dummy" = 500)
+	TrainingDummy2
+		name   = "Battle Training II"
+		desc   = "This training dummy is itching for a fight, attack it!"
+		reward = /questReward/TrainingDummy2
+
+		Reward
+			desc = "Fight Training Dummy Mk-II."
+			reqs = list("Kill Dummy Mk-II" = 3)
+	TrainingDummy3
+		name   = "Battle Training III"
+		desc   = "This training dummy is itching for a fight, attack it!"
+		reward = /questReward/TrainingDummy3
+
+		Reward
+			desc = "Fight Training Dummy Mk-III."
+			reqs = list("Kill Dummy Mk-III" = 3)
+	TrainingDummy4
+		name   = "Battle Training IV"
+		desc   = "This training dummy is itching for a fight, attack it!"
+		reward = /questReward/TrainingDummy4
+
+		Reward
+			desc = "Fight Training Dummy Mk-IV."
+			reqs = list("Kill Dummy Mk-IV" = 3)
+	TrainingDummy5
+		name   = "Battle Training V"
+		desc   = "This training dummy is itching for a fight, attack it!"
+		reward = /questReward/TrainingDummy5
+
+		Reward
+			desc = "Fight Training Dummy Mk-V."
+			reqs = list("Kill Dummy Mk-V" = 3)
 	TrainingDummy
 		name   = "Battle Training \[Daily]"
 		desc   = "This training dummy is itching for a fight, attack it!"
@@ -6,8 +54,9 @@ quest
 		repeat = 864000
 
 		Reward
-			desc = "Fight the training dummy."
-			reqs = list("Kill Training Dummy" = 1)
+			desc = "Fight Training Dummy Mk-V."
+			reqs = list("Kill Dummy Mk-V" = 1)
+
 
 	Puzzle1
 		name = "Light a Way"
@@ -923,8 +972,23 @@ quest
 			reqs = list("Professor Palmer" = 1)
 
 questReward
-	TrainingDummy
+	TrainingDummy1
+		exp  = 120000
+		items = /obj/items/lamps/double_exp_lamp
+	TrainingDummy2
+		exp  = 140000
+		items = /obj/items/lamps/triple_exp_lamp
+	TrainingDummy3
+		exp  = 160000
+		items = /obj/items/lamps/quadaple_exp_lamp
+	TrainingDummy4
+		exp  = 180000
+		items = /obj/items/lamps/penta_exp_lamp
+	TrainingDummy5
 		exp  = 200000
+		items = /obj/items/lamps/sextuple_exp_lamp
+	TrainingDummy
+		exp  = 220000
 	Blueprint1
 		exp   = 20000
 		items = /obj/items/wearable/blueprint/basic_blueprint

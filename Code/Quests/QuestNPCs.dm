@@ -1,24 +1,51 @@
 mob/TalkNPC
 
-	quest/Training_Dummy
-		icon_state="dummy"
-		dropAttack = 1
-		questPointers = "Battle Training \[Daily]"
+	quest
+		Training_Dummy
+			icon = 'Mobs.dmi'
+			icon_state="dummy"
 
-		questStart(mob/Player/i_Player, questName)
-			var/ScreenText/s = new(i_Player, src)
-			s.AddText("[src] is itching for a fight.")
+			Mk1
+				name = "Dummy Mk-I"
+				questPointers = "Battle Training I"
+				melee = 1
+				level = 1100
+			Mk2
+				name = "Dummy Mk-II"
+				questPointers = "Battle Training II"
+				holdAttackChance = 30
+				level = 1200
+			Mk3
+				name = "Dummy Mk-III"
+				questPointers = "Battle Training III"
+				level = 1300
+			Mk4
+				name = "Dummy Mk-IV"
+				questPointers = "Battle Training IV"
+				dropAttack = 1
+				level = 1400
+			Mk5
+				name = "Dummy Mk-V"
+				questPointers = list("Battle Training V", "Battle Training \[Daily]")
+				dropAttack     = 1
+				incindiaChance = 10
+				bombChance     = 35
+				level = 1500
 
-			..(i_Player, questName)
+			questStart(mob/Player/i_Player, questName)
+				var/ScreenText/s = new(i_Player, src)
+				s.AddText("[src] is itching for a fight.")
 
-		questOngoing(mob/Player/i_Player, questName)
-			.=..(i_Player, questName)
-			var/ScreenText/s = new(i_Player, src)
-			s.AddText("[src] is itching for a fight.")
+				..(i_Player, questName)
 
-		questCompleted(mob/Player/i_Player, questName)
-			var/ScreenText/s = new(i_Player, src)
-			s.AddText("[src] is itching for a fight.")
+			questOngoing(mob/Player/i_Player, questName)
+				.=..(i_Player, questName)
+				var/ScreenText/s = new(i_Player, src)
+				s.AddText("[src] is itching for a fight.")
+
+			questCompleted(mob/Player/i_Player, questName)
+				var/ScreenText/s = new(i_Player, src)
+				s.AddText("[src] is itching for a fight.")
 
 	Chase
 		icon_state="tim"
