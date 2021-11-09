@@ -591,15 +591,21 @@ teleportNode
 	var
 		list/lootSpawns
 
-
 obj/teleport/rorEntrance
 	post_init = 1
+	invisibility = 0
+	icon = 'wall1.dmi'
+	icon_state = "missing"
 
 	dest = "rorEntrance"
 
 	MapInit()
 		set waitfor = 0
 		sleep(10)
+
+		animate(src, alpha = 180, time = 8, loop = -1)
+		animate(alpha = 0, time = 8)
+		animate(alpha = 0, time = 50)
 
 		rotate()
 
