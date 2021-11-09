@@ -428,7 +428,7 @@ area/Exit(atom/movable/O, atom/newloc)
 				else if(e.target.loc.loc == newloc.loc)
 					return
 
-			var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+			var/list/dirs = DIRS_LIST
 			dirs -= e.dir
 
 			. = 0
@@ -836,7 +836,13 @@ mob
 			while(src.loc && state != 0)
 				switch(state)
 					if(WANDER)
-						step_rand(src)
+						var/turf/t = get_step_rand(src)
+						if(t.loc != loc.loc)
+							t = get_step_away(src, t)
+						dir = get_dir(src, t)
+						loc = t
+	//					step_rand(src)
+
 					if(SEARCH)
 						Search()
 					if(HOSTILE)
@@ -901,48 +907,62 @@ mob
 						loc = origloc
 
 			Search()
-				step_rand(src)
-				for(var/mob/Player/M in ohearers(src, Range))
-					if(M.loc.loc != src.loc.loc) continue
+	//			step_rand(src)
+				var/area/a = loc.loc
+	//			for(var/mob/Player/M in ohearers(src, Range))
+
+				var/min_dist = Range
+				for(var/mob/Player/M in a.Players)
+	//				if(M.loc.loc != src.loc.loc) continue
 					if(M.Immortal) continue
 					if(ignore && (M in ignore)) continue
 
-					if(!isPathBlocked(M, src, 1, src.density))
+					var/dist = get_dist(src, M)
+					if(dist > Range) continue
+					if(min_dist > dist)
+		//				if(!isPathBlocked(M, src, 1, src.density))
 						target = M
-						ChangeState(HOSTILE)
-						break
-					else
-						Ignore(M)
+						min_dist = dist
+			//				ChangeState(HOSTILE)
+			//			break
+		//				else
+		//					Ignore(M)
+				if(target)
+					ChangeState(HOSTILE)
+				else
+					step_rand(src)
 
 			ChangeTarget()
 				var/min_dist = Range
-				for(var/mob/Player/M in ohearers(src, Range))
-					if(M.loc.loc != src.loc.loc) continue
+				var/area/a = loc.loc
+				for(var/mob/Player/M in a.Players)
+		//		for(var/mob/Player/M in ohearers(src, Range))
+		//			if(M.loc.loc != src.loc.loc) continue
 					if(M.Immortal) continue
 					if(ignore && (M in ignore)) continue
 
-					if(!isPathBlocked(M, src, 1, src.density))
-						var/dist = get_dist(src, M)
-						if(min_dist > dist)
-							target = M
+		//			if(!isPathBlocked(M, src, 1, src.density))
+					var/dist = get_dist(src, M)
+					if(min_dist > dist)
+						target = M
 
-							if(target.hardmode > hardmode)
-								hardmode = target.hardmode
+						if(target.hardmode > hardmode)
+							hardmode = target.hardmode
 
-								switch(hardmode)
-									if(1)
-										filters = filter(type="outline", size=1, color="#0e0")
-									if(2)
-										filters = filter(type="outline", size=1, color="#00a5ff")
-									if(3)
-										filters = filter(type="outline", size=1, color="#ffa500")
-									if(4)
-										filters = filter(type="outline", size=1, color="#551a8b")
+							switch(hardmode)
+								if(1)
+									filters = filter(type="outline", size=1, color="#0e0")
+								if(2)
+									filters = filter(type="outline", size=1, color="#00a5ff")
+								if(3)
+									filters = filter(type="outline", size=1, color="#ffa500")
+								if(4)
+									filters = filter(type="outline", size=1, color="#551a8b")
 
-								HP = MHP * (1 + hardmode)
+							HP = MHP * (1 + hardmode)
 
-					else
-						Ignore(M)
+		//			else
+		//				Ignore(M)
 
 			Ignore(mob/M)
 				set waitfor = 0
@@ -1330,7 +1350,7 @@ mob
 							fired = 1
 							spawn(40) fired = 0
 
-							var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+							var/list/dirs = DIRS_LIST
 							for(var/d in dirs)
 								castproj(icon_state = "quake", damage = Dmg, name = "rubble", cd = 0, lag = 1,Dir=d)
 							sleep(AttackDelay)

@@ -35,6 +35,7 @@ teleportNode
 
 
 area
+	var/tmp/list/Players
 	Entered(atom/movable/O, atom/oldloc)
 		if(isplayer(O))
 			var/area/a
@@ -47,7 +48,15 @@ area
 					a.region.Exited(O, a)
 			else if(region)
 				region.Entered(O, src)
+
+			if(!Players) Players = list()
+			Players += O
 		.=..()
+	Exited(atom/movable/Obj, atom/newloc)
+		.=..()
+		if(isplayer(Obj) && Players && (Obj in Players))
+			Players -= Obj
+			if(!Players.len) Players = null
 
 proc
 	AccessibleAreas(turf/t)

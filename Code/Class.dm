@@ -666,11 +666,8 @@ obj/startClass
 			return
 
 		var/area/a = loc.loc
-		var/count = 0
-		for(var/mob/Player/p in a)
-			count++
 
-		if(count < worldData.classReqPlayers)
+		if(!a.Players || a.Players.len < worldData.classReqPlayers)
 			usr << errormsg("Not enough players to start a class, try inviting your friends over to the classroom.")
 			return
 

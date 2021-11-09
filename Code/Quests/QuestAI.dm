@@ -110,7 +110,7 @@ mob/TalkNPC
 	proc/state()
 		set waitfor = 0
 
-		var/attack = pick("fireball", "quake", "aqua", "iceball", "gum", "bombarda")
+		var/attack = pick("fireball", "quake", "aqua", "iceball", "gum")
 
 		while(loc && (target || loc != origloc))
 			var/delay = 4

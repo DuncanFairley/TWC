@@ -854,7 +854,10 @@ obj/squirrel
 					delay = 3
 
 			else // WANDER
-				step_rand(src)
+				var/turf/t = get_step_rand(src)
+				dir = get_dir(src, t)
+				loc = t
+	//			step_rand(src)
 				delay = 8
 
 			glide_size = 32 / delay
