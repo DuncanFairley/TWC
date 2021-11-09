@@ -972,10 +972,10 @@ mob
 			Ignore(mob/M)
 				set waitfor = 0
 				if(!ignore) ignore = list()
-				ignore[M] = M.loc
+				ignore += M
 				sleep(30)
-				while(M && ignore && ignore[M] == M.loc)
-					sleep(30)
+		//		while(M && ignore && ignore[M] == M.loc)
+	//				sleep(30)
 				if(M && ignore)
 					ignore -= M
 					if(ignore.len == 0)
