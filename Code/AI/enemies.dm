@@ -280,8 +280,10 @@ proc
 		var/distance = get_dist(o, target)
 
 		for(var/steps = 0 to STEPS_LIMIT)
-			if(!t) break
-			if(distance <= dist_limit) break
+			if(!t)
+				break
+			if(distance > dist_limit)
+				break
 
 			o.loc    = t
 			t        = get_step_to(o, target, dist)
@@ -836,12 +838,15 @@ mob
 			while(src.loc && state != 0)
 				switch(state)
 					if(WANDER)
-						var/turf/t = get_step_rand(src)
-						if(t.loc != loc.loc)
-							t = get_step_away(src, t)
-						dir = get_dir(src, t)
-						loc = t
-	//					step_rand(src)
+	//					var/turf/t = get_step_rand(src)
+	//					if(t.loc != loc.loc)
+	//						t = get_step_away(src, t)
+	//					dir = get_dir(src, t)
+	//					loc = t
+	//					if(hpbar)
+	//						hpbar.glide_size = glide_size
+	//						hpbar.loc = t
+						step_rand(src)
 
 					if(SEARCH)
 						Search()
@@ -920,13 +925,13 @@ mob
 					var/dist = get_dist(src, M)
 					if(dist > Range) continue
 					if(min_dist > dist)
-		//				if(!isPathBlocked(M, src, 1, src.density))
-						target = M
-						min_dist = dist
+						if(!isPathBlocked(M, src, 1, src.density, dist_limit=Range))
+							target = M
+							min_dist = dist
 			//				ChangeState(HOSTILE)
 			//			break
-		//				else
-		//					Ignore(M)
+						else
+							Ignore(M)
 				if(target)
 					ChangeState(HOSTILE)
 				else
@@ -941,34 +946,36 @@ mob
 					if(M.Immortal) continue
 					if(ignore && (M in ignore)) continue
 
-		//			if(!isPathBlocked(M, src, 1, src.density))
 					var/dist = get_dist(src, M)
 					if(min_dist > dist)
-						target = M
+						if(!isPathBlocked(M, src, 1, src.density, dist_limit=Range))
+							target = M
 
-						if(target.hardmode > hardmode)
-							hardmode = target.hardmode
+							if(target.hardmode > hardmode)
+								hardmode = target.hardmode
 
-							switch(hardmode)
-								if(1)
-									filters = filter(type="outline", size=1, color="#0e0")
-								if(2)
-									filters = filter(type="outline", size=1, color="#00a5ff")
-								if(3)
-									filters = filter(type="outline", size=1, color="#ffa500")
-								if(4)
-									filters = filter(type="outline", size=1, color="#551a8b")
+								switch(hardmode)
+									if(1)
+										filters = filter(type="outline", size=1, color="#0e0")
+									if(2)
+										filters = filter(type="outline", size=1, color="#00a5ff")
+									if(3)
+										filters = filter(type="outline", size=1, color="#ffa500")
+									if(4)
+										filters = filter(type="outline", size=1, color="#551a8b")
 
-							HP = MHP * (1 + hardmode)
+								HP = MHP * (1 + hardmode)
 
-		//			else
-		//				Ignore(M)
+						else
+							Ignore(M)
 
 			Ignore(mob/M)
 				set waitfor = 0
 				if(!ignore) ignore = list()
-				ignore += M
+				ignore[M] = M.loc
 				sleep(30)
+				while(M && ignore && ignore[M] == M.loc)
+					sleep(30)
 				if(M && ignore)
 					ignore -= M
 					if(ignore.len == 0)
@@ -1032,7 +1039,8 @@ mob
 
 		proc/Blocked()
 			blockCount++
-			if(blockCount > 10)
+			if(blockCount > 5)
+				Ignore(target)
 				target = null
 				ShouldIBeActive()
 
@@ -1278,7 +1286,7 @@ mob
 						if(M.loc.loc != src.loc.loc) continue
 						if(ignore && (M in ignore)) continue
 
-						if(!isPathBlocked(M, src, 1, src.density))
+						if(!isPathBlocked(M, src, 1, src.density, dist_limit=Range))
 							var/dist = get_dist(src, M)
 							if(min_dist > dist)
 								target = M
