@@ -398,7 +398,8 @@ area
 		Entered(atom/movable/O)
 			. = ..()
 
-			if(isplayer(O) && ++active == 1)
+			if(isplayer(O) && Players)
+				active = Players.len
 				for(var/mob/Enemies/M in src)
 					if(M.state == M.WANDER || M.state == M.INACTIVE)
 						M.ChangeState(M.SEARCH)
@@ -407,14 +408,14 @@ area
 			set waitfor = 0
 			. = ..()
 			sleep(1)
-			if(isplayer(O) && active > 0)
-				if(--active == 0)
-					for(var/mob/Enemies/M in src)
-						if(M.state != M.INACTIVE)
-							if(!region)
-								M.ChangeState(M.INACTIVE)
-							else if(!M.target)
-								M.ChangeState(M.WANDER)
+			if(isplayer(O) && !Players)
+				active = 0
+				for(var/mob/Enemies/M in src)
+					if(M.state != M.INACTIVE)
+						if(!region)
+							M.ChangeState(M.INACTIVE)
+						else if(!M.target)
+							M.ChangeState(M.WANDER)
 
 area/Exit(atom/movable/O, atom/newloc)
 	.=..()
