@@ -211,12 +211,12 @@ menu "menu"
 		command = "enable-radio"
 		category = "TWC Radio"
 		can-check = true
-		saved-params = "is-checked"
+		saved-params = ""
 	elem "btnsonginfo"
 		name = "Song Info"
 		command = "songinfo"
 		category = "TWC Radio"
-		saved-params = "is-checked"
+		saved-params = ""
 
 
 window "Auction"
@@ -224,22 +224,24 @@ window "Auction"
 		type = MAIN
 		pos = 281,0
 		size = 554x452
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		background-color = #a8d8f0
 		is-visible = false
-		saved-params = "pos;size;is-minimized;is-maximized"
+		saved-params = "pos;size;"
 		title = "Auction"
 		statusbar = false
 		can-minimize = false
 		macro = "macro"
 		on-close = ".auctionClosed"
+		outer-size = 570x491
+		inner-size = 554x452
 	elem "label12"
 		type = LABEL
 		pos = 8,223
 		size = 160x153
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		background-color = #508cb4
 		border = line
 		saved-params = ""
@@ -248,8 +250,8 @@ window "Auction"
 		type = LABEL
 		pos = 8,104
 		size = 160x112
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		background-color = #508cb4
 		border = line
 		saved-params = ""
@@ -258,8 +260,8 @@ window "Auction"
 		type = LABEL
 		pos = 136,107
 		size = 31x32
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		is-transparent = true
@@ -270,8 +272,8 @@ window "Auction"
 		type = BUTTON
 		pos = 111,113
 		size = 27x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = "is-checked"
@@ -283,8 +285,8 @@ window "Auction"
 		type = BUTTON
 		pos = 79,113
 		size = 27x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = "is-checked"
@@ -297,8 +299,8 @@ window "Auction"
 		type = BUTTON
 		pos = 93,324
 		size = 64x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = "is-checked"
@@ -310,8 +312,8 @@ window "Auction"
 		type = BUTTON
 		pos = 9,274
 		size = 84x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = "is-checked"
@@ -323,8 +325,8 @@ window "Auction"
 		type = BUTTON
 		pos = 9,249
 		size = 64x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = "is-checked"
@@ -336,8 +338,8 @@ window "Auction"
 		type = BUTTON
 		pos = 93,349
 		size = 64x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = "is-checked"
@@ -349,8 +351,8 @@ window "Auction"
 		type = BUTTON
 		pos = 9,224
 		size = 44x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = "is-checked"
@@ -363,8 +365,8 @@ window "Auction"
 		type = BUTTON
 		pos = 93,299
 		size = 56x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = "is-checked"
@@ -376,8 +378,8 @@ window "Auction"
 		type = BUTTON
 		pos = 93,274
 		size = 64x19
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = "is-checked"
@@ -389,8 +391,8 @@ window "Auction"
 		type = BUTTON
 		pos = 93,224
 		size = 72x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = "is-checked"
@@ -402,8 +404,8 @@ window "Auction"
 		type = BUTTON
 		pos = 93,249
 		size = 72x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = "is-checked"
@@ -415,8 +417,8 @@ window "Auction"
 		type = LABEL
 		pos = 16,108
 		size = 66x32
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		is-transparent = true
@@ -427,8 +429,8 @@ window "Auction"
 		type = LABEL
 		pos = 10,187
 		size = 56x24
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		font-style = "bold"
 		text-color = #e3e3e3
 		background-color = #508cb4
@@ -438,8 +440,8 @@ window "Auction"
 		type = INPUT
 		pos = 66,189
 		size = 97x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		border = sunken
 		saved-params = ""
 		no-command = true
@@ -447,8 +449,8 @@ window "Auction"
 		type = LABEL
 		pos = 12,160
 		size = 48x24
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		font-style = "bold"
 		text-color = #e3e3e3
 		background-color = #508cb4
@@ -458,8 +460,8 @@ window "Auction"
 		type = BUTTON
 		pos = 9,134
 		size = 60x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = "is-checked"
@@ -471,8 +473,8 @@ window "Auction"
 		type = BUTTON
 		pos = 59,134
 		size = 60x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = "is-checked"
@@ -484,8 +486,8 @@ window "Auction"
 		type = LABEL
 		pos = 8,376
 		size = 160x67
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		font-style = "bold"
 		text-color = #781800
 		background-color = #508cb4
@@ -498,8 +500,8 @@ window "Auction"
 		type = INPUT
 		pos = 66,162
 		size = 97x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		border = sunken
 		saved-params = ""
 		no-command = true
@@ -507,8 +509,8 @@ window "Auction"
 		type = GRID
 		pos = 7,59
 		size = 161x40
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = sunken
@@ -525,8 +527,8 @@ window "Auction"
 		type = BUTTON
 		pos = 118,134
 		size = 48x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -566,7 +568,7 @@ window "Auction"
 		pos = 495,2
 		size = 56x20
 		anchor1 = 100,0
-		anchor2 = none
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -579,22 +581,24 @@ window "Monsters"
 		type = MAIN
 		pos = 281,0
 		size = 419x315
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		background-color = #a9d8f0
 		is-visible = false
-		saved-params = "pos;size;is-minimized;is-maximized"
+		saved-params = "pos;size;"
 		title = "Monster Book"
 		statusbar = false
 		can-minimize = false
 		macro = "macro"
 		on-close = ".monsterBookClosed"
+		outer-size = 435x354
+		inner-size = 419x315
 	elem "label2"
 		type = LABEL
 		pos = 10,32
 		size = 192x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -609,7 +613,7 @@ window "Monsters"
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
-		saved-params = "max-lines"
+		saved-params = ""
 	elem "label7"
 		type = LABEL
 		pos = 217,32
@@ -654,16 +658,18 @@ window "Quests"
 		type = MAIN
 		pos = 281,0
 		size = 419x351
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		background-color = #a9d8f0
 		is-visible = false
-		saved-params = "pos;size;is-minimized;is-maximized"
+		saved-params = "pos;size;"
 		title = "Quest Book"
 		statusbar = false
 		can-minimize = false
 		macro = "macro"
 		on-close = ".questBookClosed"
+		outer-size = 435x390
+		inner-size = 419x351
 	elem "labelText"
 		type = LABEL
 		pos = 10,32
@@ -687,7 +693,7 @@ window "Quests"
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
-		saved-params = "max-lines"
+		saved-params = ""
 	elem "label7"
 		type = LABEL
 		pos = 217,68
@@ -715,8 +721,8 @@ window "Quests"
 		type = BUTTON
 		pos = 10,68
 		size = 192x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -745,14 +751,17 @@ window "SpellBook"
 		type = MAIN
 		pos = 281,0
 		size = 285x232
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
 		is-visible = false
-		saved-params = "pos;size;is-minimized;is-maximized"
+		saved-params = "pos;size;"
 		title = "Spellbook"
 		statusbar = false
 		macro = "macro"
 		on-close = ".spellBookClosed"
+		outer-size = 301x271
+		inner-size = 285x232
 	elem "gridSpellBook"
 		type = GRID
 		pos = 0,0
@@ -774,11 +783,11 @@ window "guild"
 		type = MAIN
 		pos = 281,0
 		size = 607x409
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		background-color = #a8d8f0
 		is-visible = false
-		saved-params = "pos;size;is-minimized;is-maximized"
+		saved-params = "pos;size;"
 		title = "Guild"
 		titlebar = false
 		statusbar = false
@@ -787,12 +796,14 @@ window "guild"
 		can-resize = false
 		alpha = 220
 		macro = "macro"
+		outer-size = 621x423
+		inner-size = 607x409
 	elem "labelBackground"
 		type = LABEL
 		pos = 7,109
 		size = 593x293
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		font-style = "bold"
 		text-color = #e3e3e3
 		background-color = #508cb4
@@ -805,8 +816,8 @@ window "guild"
 		type = BUTTON
 		pos = 264,351
 		size = 60x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -817,8 +828,8 @@ window "guild"
 		type = LABEL
 		pos = 296,323
 		size = 104x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #a8d8f0
 		background-color = #508cb4
 		saved-params = ""
@@ -828,8 +839,8 @@ window "guild"
 		type = LABEL
 		pos = 296,296
 		size = 104x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #a8d8f0
 		background-color = #508cb4
 		saved-params = ""
@@ -839,8 +850,8 @@ window "guild"
 		type = LABEL
 		pos = 296,269
 		size = 104x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #a8d8f0
 		background-color = #508cb4
 		saved-params = ""
@@ -850,8 +861,8 @@ window "guild"
 		type = LABEL
 		pos = 296,243
 		size = 104x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #a8d8f0
 		background-color = #508cb4
 		saved-params = ""
@@ -861,8 +872,8 @@ window "guild"
 		type = INPUT
 		pos = 192,323
 		size = 100x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #508cb4
 		background-color = #a8d8f0
 		saved-params = ""
@@ -870,8 +881,8 @@ window "guild"
 		type = INPUT
 		pos = 192,296
 		size = 100x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #508cb4
 		background-color = #a8d8f0
 		saved-params = ""
@@ -879,8 +890,8 @@ window "guild"
 		type = INPUT
 		pos = 192,269
 		size = 100x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #508cb4
 		background-color = #a8d8f0
 		saved-params = ""
@@ -888,8 +899,8 @@ window "guild"
 		type = INPUT
 		pos = 192,243
 		size = 100x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #508cb4
 		background-color = #a8d8f0
 		saved-params = ""
@@ -897,8 +908,8 @@ window "guild"
 		type = GRID
 		pos = 16,200
 		size = 576x192
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		saved-params = ""
@@ -910,8 +921,8 @@ window "guild"
 		type = OUTPUT
 		pos = 7,32
 		size = 593x72
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -922,19 +933,19 @@ window "guild"
 		type = OUTPUT
 		pos = 16,120
 		size = 576x75
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
-		saved-params = "max-lines"
+		saved-params = ""
 		link-color = #e3e3e3
 		visited-color = #e3e3e3
 	elem "buttonRanks"
 		type = BUTTON
 		pos = 137,8
 		size = 60x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -946,8 +957,8 @@ window "guild"
 		type = BUTTON
 		pos = 72,8
 		size = 60x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -959,8 +970,8 @@ window "guild"
 		type = BUTTON
 		pos = 576,8
 		size = 24x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		font-family = "Lucida Sans Unicode"
 		text-color = #e3e3e3
 		background-color = #781800
@@ -973,8 +984,8 @@ window "guild"
 		type = BUTTON
 		pos = 7,8
 		size = 60x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -988,12 +999,12 @@ window "infobubble"
 		type = MAIN
 		pos = 281,0
 		size = 150x150
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		background-color = #000000
 		is-visible = false
 		border = line
-		saved-params = "pos;size;is-minimized;is-maximized"
+		saved-params = "pos;size;"
 		title = "infobubble"
 		titlebar = false
 		statusbar = false
@@ -1001,12 +1012,14 @@ window "infobubble"
 		can-minimize = false
 		can-resize = false
 		alpha = 200
+		outer-size = 164x164
+		inner-size = 150x150
 	elem "labelTitle"
 		type = LABEL
 		pos = 0,0
 		size = 150x25
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		font-style = "bold"
 		text-color = #ffffff
 		background-color = #000000
@@ -1017,8 +1030,8 @@ window "infobubble"
 		type = LABEL
 		pos = 5,25
 		size = 140x125
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #ffffff
 		background-color = #000000
 		saved-params = ""
@@ -1031,20 +1044,24 @@ window "mainwindow"
 		type = MAIN
 		pos = 281,0
 		size = 640x440
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
 		is-default = true
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "The Wizards' Chronicles"
 		is-maximized = true
 		macro = "macro"
 		menu = "menu"
+		outer-size = 1936x1066
+		inner-size = 1920x1007
 	elem "radiobrowser"
 		type = BROWSER
 		pos = 352,152
 		size = 1x1
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
 		is-visible = false
 		saved-params = ""
 	elem "mainvsplit"
@@ -1053,6 +1070,7 @@ window "mainwindow"
 		size = 640x440
 		anchor1 = 0,0
 		anchor2 = 100,100
+		background-color = none
 		saved-params = "splitter"
 		right = "mapwindow"
 		is-vert = true
@@ -1062,21 +1080,25 @@ window "mapwindow"
 		type = MAIN
 		pos = 281,0
 		size = 645x490
-		anchor1 = none
-		anchor2 = none
-		saved-params = "pos;size;is-minimized;is-maximized"
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
+		saved-params = "pos;size;"
 		titlebar = false
 		statusbar = false
 		can-close = false
 		can-minimize = false
 		can-resize = false
 		is-pane = true
+		outer-size = 659x504
+		inner-size = 645x490
 	elem "browser1"
 		type = BROWSER
 		pos = 0,0
 		size = 645x490
 		anchor1 = 0,0
 		anchor2 = 100,100
+		background-color = none
 		saved-params = ""
 	elem "map"
 		type = MAP
@@ -1086,20 +1108,16 @@ window "mapwindow"
 		anchor2 = 100,100
 		is-default = true
 		saved-params = "icon-size"
-		icon-size = 32
 		zoom = 1
-		on-show = ".winset\"mainwindow.mainvsplit.left=mapwindow\""
-		on-hide = ".winset\"mainwindow.mainvsplit.left=\""
 
 window "outputwindow"
 	elem "outputwindow"
 		type = MAIN
 		pos = 281,0
 		size = 600x533
-		anchor1 = none
-		anchor2 = none
-		background-color = none
-		saved-params = "pos;size;is-minimized;is-maximized"
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		saved-params = "pos;size;"
 		titlebar = false
 		statusbar = false
 		can-close = false
@@ -1123,8 +1141,7 @@ window "outputwindow"
 		pos = 0,472
 		size = 56x20
 		anchor1 = 0,100
-		anchor2 = none
-		background-color = none
+		anchor2 = -1,-1
 		is-visible = false
 		saved-params = "is-checked"
 		text = "OOC"
@@ -1137,8 +1154,7 @@ window "outputwindow"
 		pos = 0,452
 		size = 56x20
 		anchor1 = 0,100
-		anchor2 = none
-		background-color = none
+		anchor2 = -1,-1
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Say"
@@ -1150,8 +1166,7 @@ window "outputwindow"
 		pos = 0,492
 		size = 56x20
 		anchor1 = 0,100
-		anchor2 = none
-		background-color = none
+		anchor2 = -1,-1
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Command"
@@ -1163,9 +1178,8 @@ window "outputwindow"
 		pos = 0,512
 		size = 56x20
 		anchor1 = 0,100
-		anchor2 = none
-		background-color = none
-		saved-params = "is-checked"
+		anchor2 = -1,-1
+		saved-params = "is-checked;text"
 		text = "OOC"
 		command = ".winset \"buttonOOC.is-visible=true?buttonOOC.is-visible=false buttonSay.is-visible=false buttonCommand.is-visible=false:buttonOOC.is-visible=true buttonSay.is-visible=true buttonCommand.is-visible=true\""
 	elem "input"
@@ -1185,9 +1199,9 @@ window "rpane"
 		type = MAIN
 		pos = 281,0
 		size = 640x480
-		anchor1 = none
-		anchor2 = none
-		saved-params = "pos;size;is-minimized;is-maximized"
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		saved-params = "pos;sizel"
 		is-pane = true
 	elem "rpanewindow"
 		type = CHILD
@@ -1202,8 +1216,8 @@ window "rpane"
 		type = BUTTON
 		pos = 0,0
 		size = 60x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Text"
@@ -1215,8 +1229,8 @@ window "rpane"
 		type = BUTTON
 		pos = 65,0
 		size = 60x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Browser"
@@ -1227,12 +1241,12 @@ window "rpane"
 		type = BUTTON
 		pos = 130,0
 		size = 60x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Info"
-		command = ".winset \"rpanewindow.left=infowindow\""
+		command = ".winset \"rpanewindow.left=infowindow\"\\nonShowItems 0"
 		group = "rpanemode"
 		button-type = pushbox
 
@@ -1241,9 +1255,9 @@ window "browserwindow"
 		type = MAIN
 		pos = 281,0
 		size = 640x480
-		anchor1 = none
-		anchor2 = none
-		saved-params = "pos;size;is-minimized;is-maximized"
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		saved-params = "pos;size;"
 		title = "Browser"
 		is-pane = true
 	elem "browser"
@@ -1263,10 +1277,11 @@ window "infowindow"
 	elem "infowindow"
 		type = MAIN
 		pos = 281,0
-		size = 640x480
-		anchor1 = none
-		anchor2 = none
-		saved-params = "pos;size;is-minimized;is-maximized"
+		size = 492x510
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
+		saved-params = "pos;size;"
 		title = "Info"
 		titlebar = false
 		statusbar = false
@@ -1274,25 +1289,37 @@ window "infowindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
+		outer-size = 506x524
+		inner-size = 492x510
 	elem "info"
 		type = INFO
 		pos = 0,0
-		size = 640x480
+		size = 492x510
 		anchor1 = 0,0
 		anchor2 = 100,100
 		is-default = true
 		saved-params = ""
 		highlight-color = #00aa00
+		tab-background-color = none
 		on-show = ".winset\"rpane.infob.is-visible=true;rpane.browseb.is-visible=true?rpane.infob.pos=130,0:rpane.infob.pos=65,0 rpane.textb.is-visible=true rpane.infob.is-checked=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=infowindow\""
 		on-hide = ".winset\"rpane.infob.is-visible=false;rpane.browseb.is-visible=true?rpane.browseb.is-checked=true rpane.rpanewindow.left=browserwindow:rpane.textb.is-visible=false rpane.rpanewindow.pos=0,0 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=\""
+	elem "backpack"
+		type = MAP
+		pos = 6,24
+		size = 480x480
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		is-visible = false
+		saved-params = "zoom;letterbox;zoom-mode"
+		zoom = 1
 
 window "Trade"
 	elem "Trade"
 		type = MAIN
 		pos = 281,0
 		size = 422x493
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		background-color = #a8d8f0
 		is-visible = false
 		saved-params = "pos;size;is-maximized"
@@ -1306,8 +1333,8 @@ window "Trade"
 		type = LABEL
 		pos = 15,437
 		size = 385x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		font-style = "bold"
 		text-color = #781800
 		background-color = #508cb4
@@ -1319,8 +1346,8 @@ window "Trade"
 		type = LABEL
 		pos = 187,208
 		size = 48x64
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -1330,8 +1357,8 @@ window "Trade"
 		type = LABEL
 		pos = 24,64
 		size = 376x32
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -1342,7 +1369,7 @@ window "Trade"
 		pos = 240,32
 		size = 160x25
 		anchor1 = 0,0
-		anchor2 = none
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -1353,7 +1380,7 @@ window "Trade"
 		pos = 24,32
 		size = 160x25
 		anchor1 = 0,0
-		anchor2 = none
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -1364,7 +1391,7 @@ window "Trade"
 		pos = -8,0
 		size = 456x24
 		anchor1 = 0,0
-		anchor2 = none
+		anchor2 = -1,-1
 		font-size = 16
 		font-style = "bold"
 		text-color = #a8d8f0
@@ -1377,7 +1404,7 @@ window "Trade"
 		pos = 131,468
 		size = 80x24
 		anchor1 = 0,0
-		anchor2 = none
+		anchor2 = -1,-1
 		font-style = "bold"
 		text-color = #008000
 		background-color = #a8d8f0
@@ -1389,7 +1416,7 @@ window "Trade"
 		pos = 211,468
 		size = 80x24
 		anchor1 = 0,0
-		anchor2 = none
+		anchor2 = -1,-1
 		font-style = "bold"
 		text-color = #ff0000
 		background-color = #a8d8f0
@@ -1401,7 +1428,7 @@ window "Trade"
 		pos = 19,104
 		size = 157x320
 		anchor1 = 0,0
-		anchor2 = none
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -1415,7 +1442,7 @@ window "Trade"
 		pos = 243,104
 		size = 160x320
 		anchor1 = 0,0
-		anchor2 = none
+		anchor2 = -1,-1
 		text-color = #e3e3e3
 		background-color = #508cb4
 		border = line
@@ -1431,11 +1458,11 @@ window "splitStack"
 		type = MAIN
 		pos = 281,0
 		size = 87x61
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		background-color = #ff8080
 		is-visible = false
-		saved-params = "pos;size;is-minimized;is-maximized"
+		saved-params = "pos;size;"
 		title = "Split Stack"
 		titlebar = false
 		statusbar = false
@@ -1448,8 +1475,8 @@ window "splitStack"
 		type = BUTTON
 		pos = 66,31
 		size = 18x18
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		font-style = "bold"
 		text-color = #e3e3e3
 		background-color = #508cb4
@@ -1460,8 +1487,8 @@ window "splitStack"
 		type = BUTTON
 		pos = 66,8
 		size = 18x18
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		font-style = "bold"
 		text-color = #e3e3e3
 		background-color = #508cb4
@@ -1472,8 +1499,8 @@ window "splitStack"
 		type = BUTTON
 		pos = 9,10
 		size = 47x40
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		font-style = "bold"
 		text-color = #e3e3e3
 		background-color = #508cb4
@@ -1484,8 +1511,8 @@ window "splitStack"
 		type = BAR
 		pos = 0,0
 		size = 64x60
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		background-color = #a8d8f0
 		saved-params = ""
 		bar-color = #508cbd
@@ -1499,8 +1526,8 @@ window "splitStack"
 		type = BAR
 		pos = 0,0
 		size = 64x60
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		background-color = #508cb4
 		saved-params = ""
 		bar-color = #a8d8f0
@@ -1515,10 +1542,10 @@ window "winSettings"
 		type = MAIN
 		pos = 281,0
 		size = 256x302
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		is-visible = false
-		saved-params = "pos;size;is-minimized;is-maximized"
+		saved-params = "pos;size;"
 		title = "Settings"
 		statusbar = false
 		can-minimize = false
@@ -1528,8 +1555,8 @@ window "winSettings"
 		type = BUTTON
 		pos = 9,276
 		size = 127x24
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		saved-params = "is-checked"
 		text = "Hide screen objects"
 		command = ".hideHud"
@@ -1538,16 +1565,16 @@ window "winSettings"
 		type = LABEL
 		pos = 0,7
 		size = 60x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		saved-params = ""
 		text = "Colors:"
 	elem "buttonForeColor"
 		type = BUTTON
 		pos = 152,34
 		size = 72x28
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		border = line
 		saved-params = "is-checked"
 		text = "Foreground"
@@ -1557,8 +1584,8 @@ window "winSettings"
 		type = BUTTON
 		pos = 152,3
 		size = 72x28
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		border = line
 		saved-params = "is-checked"
 		text = "Background"
@@ -1568,8 +1595,8 @@ window "winSettings"
 		type = BUTTON
 		pos = 56,3
 		size = 88x28
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		border = line
 		saved-params = "is-checked"
 		text = "On-Screen Text"
@@ -1579,8 +1606,8 @@ window "winSettings"
 		type = BUTTON
 		pos = 9,256
 		size = 119x24
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		saved-params = "is-checked"
 		text = "Hide quest tracker"
 		command = ".QuestTrackertoggle"
@@ -1589,8 +1616,8 @@ window "winSettings"
 		type = BUTTON
 		pos = 9,233
 		size = 247x24
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		saved-params = "is-checked"
 		text = "Disable automatic AFK (Use at your own risk!)"
 		command = ".AFKtoggle"
@@ -1599,8 +1626,8 @@ window "winSettings"
 		type = BUTTON
 		pos = 9,210
 		size = 232x24
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		saved-params = "is-checked"
 		text = "Disable sounds (PMs, Events, Classes etc)"
 		command = ".Soundtoggle"
@@ -1609,8 +1636,8 @@ window "winSettings"
 		type = BUTTON
 		pos = 9,118
 		size = 200x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		saved-params = "is-checked"
 		text = "Block trade requests                       "
 		command = ".Tradetoggle"
@@ -1619,8 +1646,8 @@ window "winSettings"
 		type = BUTTON
 		pos = 9,164
 		size = 239x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		saved-params = "is-checked"
 		text = "Disable receiving flashing event notifications"
 		command = ".EventNotificationstoggle"
@@ -1629,8 +1656,8 @@ window "winSettings"
 		type = BUTTON
 		pos = 9,187
 		size = 240x24
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		saved-params = "is-checked"
 		text = "Disable receiving monster attack messages  "
 		command = ".MonsterMessagestoggle"
@@ -1639,8 +1666,8 @@ window "winSettings"
 		type = BUTTON
 		pos = 9,141
 		size = 239x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		saved-params = "is-checked"
 		text = "Disable receiving flashing class notifications"
 		command = ".ClassNotificationstoggle"
@@ -1649,8 +1676,8 @@ window "winSettings"
 		type = BUTTON
 		pos = 9,74
 		size = 126x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		saved-params = "is-checked"
 		text = "Disable Housechat"
 		command = ".Housechattoggle"
@@ -1659,8 +1686,8 @@ window "winSettings"
 		type = BUTTON
 		pos = 9,96
 		size = 200x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		saved-params = "is-checked"
 		text = "Disable receiving private messages"
 		command = ".PMtoggle"
@@ -1669,8 +1696,8 @@ window "winSettings"
 		type = BUTTON
 		pos = 9,52
 		size = 96x20
-		anchor1 = none
-		anchor2 = none
+		anchor1 = -1,-1
+		anchor2 = -1,-1
 		saved-params = "is-checked"
 		text = "Disable OOC"
 		command = ".OOCtoggle"

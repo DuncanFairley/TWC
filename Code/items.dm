@@ -121,6 +121,12 @@ obj/items
 //		if(!loc) return
 		Sort()
 
+		if(isplayer(loc) && !slot)
+			var/mob/Player/p = loc
+			var/backpack/b = p.findSlot()
+			if(b)
+				b.place(src)
+
 /*		var/T
 		if(useTypeStack == 0)
 			T = type
@@ -191,6 +197,9 @@ obj/items
 				p.Lfavorites -= src
 				if(p.Lfavorites.len == 0) p.Lfavorites = null
 
+			if(slot)
+				slot.place(null)
+
 /*			if(p.stackobjects && p.stackobjects[T])
 				var/obj/stackobj/stackObj = p.stackobjects[T]
 				stackObj.contains -= src
@@ -206,6 +215,13 @@ obj/items
 		.=..()
 
 		Sort()
+
+		if(loc && isplayer(loc))
+			var/mob/Player/p = loc
+			var/backpack/b = p.findSlot()
+			if(b)
+				b.icon_state = "grid_new"
+				b.place(src)
 
 //		if(!NewLoc)
 //			loc = null
@@ -295,13 +311,19 @@ obj/items
 
 
 	MouseEntered(location,control,params)
-		if(desc && (src in usr) && usr:infoBubble)
+		if((src in usr) && usr:infoBubble)
 			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[desc]\"")
 			winshowRight(usr, "infobubble")
+
+			if(slot)
+				slot.icon_state = "grid_highlight"
 
 	MouseExited(location,control,params)
 		if(src in usr)
 			winshow(usr, "infobubble", 0)
+
+			if(slot)
+				slot.icon_state = "grid"
 
 	proc
 		Sort()
@@ -524,6 +546,24 @@ obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_cont
 
 				p << infomsg("[name] removed from favorites.")
 			default = 0
+		if(istype(over_object, /backpack) || (istype(over_object, /obj/items/) && (over_object in usr)))
+			var/backpack/b
+
+			if(istype(over_object, /obj/items/))
+				var/obj/items/i = over_object
+				b = i.slot
+			else
+				b = over_object
+
+			slot.icon_state = "grid"
+
+			if(b.item)
+				slot.place(b.item)
+			else
+				slot.place(null)
+
+			b.place(src)
+
 		else if(istype(over_object, /obj/items/) && (over_object in usr))
 			var/list/C = usr.contents.Copy()
 			C.Swap(usr.contents.Find(src),usr.contents.Find(over_object))
@@ -702,7 +742,7 @@ obj/items/wearable
 		return w
 
 	MouseEntered(location,control,params)
-		if((desc || quality || socket) && (src in usr) && usr:infoBubble)
+		if((src in usr) && usr:infoBubble)
 
 			var/info
 
@@ -733,6 +773,9 @@ obj/items/wearable
 			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[info]\"")
 			winshowRight(usr, "infobubble")
 
+			if(slot)
+				slot.icon_state = "grid_highlight"
+
 
 	UpdateDisplay()
 		var/const/WORN_TEXT = "<span style=\"color:blue;\">(Worn)</span>"
@@ -741,21 +784,25 @@ obj/items/wearable
 
 		if(stack > 1)
 			suffix  = "<span style=\"color:#c00;\">(x[stack])</span>"
-			maptext = "<span style=\"font-size:1; color:#c00;\"><b>[stack]</b></span>"
+
 
 			if(worn)
 				suffix = "[suffix] [WORN_TEXT]"
+				maptext = "<b><span style=\"font-size:1;\">E</span><br><span style=\"font-size:1; color:#c00;\">[stack]</span></b>"
+			else
+				maptext = "<span style=\"font-size:1; color:#c00;\"><b>[stack]</b></span>"
 
 			if(txt)
 				suffix = "[suffix] [txt]"
 		else
-			maptext = null
 			if(worn)
+				maptext = "<b><span style=\"font-size:1;\">E</span></b>"
 				suffix = WORN_TEXT
 
 				if(txt)
 					suffix = "[suffix] [txt]"
 			else
+				maptext = null
 				suffix = txt
 
 	proc

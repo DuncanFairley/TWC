@@ -100,6 +100,9 @@ obj/items/wearable/pets
 			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[info]\"")
 			winshowRight(usr, "infobubble")
 
+			if(slot)
+				slot.icon_state = "grid_highlight"
+
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		if(owner.pet && owner.pet.busy && !forceremove)
 			owner << errormsg("Your pet is busy right now.")

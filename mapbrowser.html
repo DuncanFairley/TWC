@@ -37,7 +37,7 @@ window.onresize = function() {
 
 window.onload = function() {
 	CallVerb("onLoad", version);
-	WinSet("","mainvsplit.right","mapwindow","guild.is-visible","false","splitStack.is-visible","false","SpellBook.is-visible","false","Quests.is-visible","false","Monsters.is-visible","false","Auction.is-visible","false","winSettings.is-visible","false","radio_enabled.is-checked","false");
+	WinSet("","mainvsplit.right","mapwindow","guild.is-visible","false","splitStack.is-visible","false","SpellBook.is-visible","false","Quests.is-visible","false","Monsters.is-visible","false","Auction.is-visible","false","winSettings.is-visible","false");
 	Resize();
 };
 
@@ -55,20 +55,19 @@ function ToggleFullscreen() {
 }
 
 function Login() {
-	WinSet("","mainvsplit.right","rpane","mnu_Settings.command",".ShowSettings","mnu_Settings.is-disabled","false");
+	WinSet("","mainvsplit.right","rpane","mnu_Settings.command",".ShowSettings","mnu_Settings.is-disabled","false","mainwindow.mainvsplit.left","mapwindow");
 	Resize();
 	resizing = 0;
-        SyncChat();
 }
 
 function BackColor() {
 	var c = encodeURIComponent(arguments[0]);
-	WinSet("","buttonBackColor.background-color",c,"buttonChat.background-color",c,"buttonCommand.background-color",c,"buttonOOC.background-color",c,"buttonSay.background-color",c,"mainvsplit.background-color",c,"info.background-color",c,"info.tab-background-color",c,"mainwindow.background-color",c,"rpanewindow.background-color",c,"rpane.background-color",c,"textb.background-color",c,"browseb.background-color",c,"infob.background-color",c,"infobubble.labelInfo.background-color",c,"infobubble.labelTitle.background-color",c,"infobubble.background-color",c);
+	WinSet("","buttonBackColor.background-color",c,"buttonChat.background-color",c,"buttonCommand.background-color",c,"buttonOOC.background-color",c,"buttonSay.background-color",c,"mainvsplit.background-color",c,"info.background-color",c,"info.tab-background-color",c,"mainwindow.background-color",c,"rpanewindow.background-color",c,"rpane.background-color",c,"textb.background-color",c,"browseb.background-color",c,"infob.background-color",c,"infobubble.labelInfo.background-color",c,"infobubble.labelTitle.background-color",c,"infobubble.background-color",c,"buttonItems.background-color",c);
 }
 
 function ForeColor() {
 	var c = encodeURIComponent(arguments[0]);
-	WinSet("","buttonForeColor.background-color",c,"buttonChat.text-color",c,"buttonCommand.text-color",c,"buttonOOC.text-color",c,"buttonSay.text-color",c,"mainvsplit.text-color",c,"info.text-color",c,"info.tab-text-color",c,"mainwindow.text-color",c,"rpanewindow.text-color",c,"rpane.text-color",c,"textb.text-color",c,"browseb.text-color",c,"infob.text-color",c,"infobubble.labelInfo.text-color",c,"infobubble.labelTitle.text-color",c);
+	WinSet("","buttonForeColor.background-color",c,"buttonChat.text-color",c,"buttonCommand.text-color",c,"buttonOOC.text-color",c,"buttonSay.text-color",c,"mainvsplit.text-color",c,"info.text-color",c,"info.tab-text-color",c,"mainwindow.text-color",c,"rpanewindow.text-color",c,"rpane.text-color",c,"textb.text-color",c,"browseb.text-color",c,"infob.text-color",c,"infobubble.labelInfo.text-color",c,"infobubble.labelTitle.text-color",c,"itemswindow.buttonItems.text-color",c);
 }
 
 var resolution_x;
@@ -111,21 +110,6 @@ function CenterWindowCallback(properties) {
     resolution_y = screen.height;
     WinSet("mainwindow","pos",Math.floor((resolution_x-win_width)/2) + "," + Math.floor((resolution_y-win_height)/2));
 }
-
-function SyncChat() {
-    window.location = "byond://winget?callback=SyncChatCallback&id=input&property=command";
-}
-
-function SyncChatCallback(properties) {
-    var str = String(properties.command).substring(0,3);
-    if(str == "Say") {
-        WinSet("","buttonChat.text","Say");
-    }
-    else if(str == "Com") {
-        WinSet("","buttonChat.text","Command");
-    }
-}
-
 
 function ShowSplitStack() {
 	var s = encodeURIComponent(arguments[0]);

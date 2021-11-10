@@ -60,11 +60,14 @@ mob/Player/proc/change_vault(var/vault)
 	var/swapmap/map = SwapMaps_Find("[ckey]")
 	if(!map)
 		map = SwapMaps_Load("[ckey]")
+
+	var/list/items = list()
 	if(map)
 		if(!map.InUse())
 			for(var/turf/t in map.AllTurfs())
 				for(var/obj/items/i in t)
-					i.Move(src)
+					items += i
+					i.loc = null
 			map.Unload()
 		else
 			src << errormsg("Please evacuate everyone from your vault first.")
@@ -98,6 +101,11 @@ mob/Player/proc/change_vault(var/vault)
 		var/obj/Hogwarts_Door/d = locate("vaultDoor[i]")
 		d.tag = null
 		d.vaultOwner = ckey
+
+	var/width = (map.x2+1) - map.x1
+	var/turf/newEntrance = locate(map.x1 + round((width)/2), map.y1+1, map.z1 )
+	for(var/obj/items/i in items)
+		i.loc = newEntrance
 
 	map.SetID("[src.ckey]")
 	map.Save()
@@ -801,6 +809,7 @@ mob
 				character.Interface = character.client.tmpInterface
 				character.Interface.Init(character)
 			character.startQuest("Tutorial: The Wand Maker")
+			character.buildBackpack()
 			src = null
 			sql_check_for_referral(character)
 			del(oldmob)
@@ -848,6 +857,7 @@ mob/Player
 		else if(Gender=="Male")
 			gender = MALE
 	//	Resort_Stacking_Inv()
+		buildBackpack()
 		mouse_drag_pointer = MOUSE_DRAG_POINTER
 		if(client.connection == "web")
 			winset(src, "mapwindow.map", "icon-size=32")
@@ -1374,6 +1384,8 @@ mob/Player
 		obj/favorites/objFavorites = new
 		list/mousehelper = list()
 
+		backpackOpen = 0
+
 	proc/InitMouseHelper()
 
 		mousehelper["Fire"]            = new /obj/mousehover/Fire
@@ -1518,6 +1530,15 @@ mob/Player
 				stat("Matchmaking:", "(Click to spectate. Click again to stop.)")
 				for(var/arena/a in worldData.currentMatches.arenas)
 					stat(a.spectateObj)
+
+		if(statpanel("Backpack"))
+			if(!backpackOpen)
+				backpackOpen = 1
+				winset(src, "backpack", "is-visible=true")
+		else
+			if(backpackOpen)
+				backpackOpen = 0
+				winset(src, "backpack", "is-visible=false")
 
 		if(statpanel("Items"))
 
@@ -1799,8 +1820,10 @@ obj
 				winset(usr, null, "infobubble.labelTitle.text=\"[icon_state]\";infobubble.labelInfo.text=\"[name]\n[desc]\"")
 				winshowRight(usr, "infobubble")
 
+
 		MouseExited(location,control,params)
 			winshow(usr, "infobubble", 0)
+
 
 	stackobj
 		var/isopen=0
