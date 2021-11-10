@@ -782,8 +782,15 @@ obj/items/wearable
 
 	UpdateDisplay()
 		var/const/WORN_TEXT = "<span style=\"color:blue;\">(Worn)</span>"
+		var/const/EQUIP = "<span style=\"text-align:left;font-size:1;\"><b>E</b></span>"
+
 		var/worn = findtext(suffix, "worn")
 		var/txt  = initial(suffix)
+
+		var/lvl = "<br><br>"
+		if(quality)
+			lvl = "<span style=\"text-align:right;font-size:1;\"><b>+[quality]</b></span>"
+
 
 		if(stack > 1)
 			suffix  = "<span style=\"color:#c00;\">(x[stack])</span>"
@@ -791,7 +798,7 @@ obj/items/wearable
 
 			if(worn)
 				suffix = "[suffix] [WORN_TEXT]"
-				maptext = "<b><span style=\"font-size:1;\">E</span><br><span style=\"font-size:1; color:#c00;\">[stack]</span></b>"
+				maptext = "[EQUIP]<br><span style=\"font-size:1; color:#c00;\"><b>[stack]</b></span>"
 			else
 				maptext = "<span style=\"font-size:1; color:#c00;\"><b>[stack]</b></span>"
 
@@ -799,13 +806,13 @@ obj/items/wearable
 				suffix = "[suffix] [txt]"
 		else
 			if(worn)
-				maptext = "<b><span style=\"font-size:1;\">E</span></b>"
+				maptext = "[EQUIP][lvl]"
 				suffix = WORN_TEXT
 
 				if(txt)
 					suffix = "[suffix] [txt]"
 			else
-				maptext = null
+				maptext = lvl
 				suffix = txt
 
 	proc
@@ -1889,7 +1896,6 @@ proc/displayKills(mob/Player/i_Player, count=0, countType=1)
 			sleep(1)
 
 		w.display = TRUE
-		spawn(3) w.display = FALSE
 
 		var/num
 		if(!countType)
@@ -1907,6 +1913,8 @@ proc/displayKills(mob/Player/i_Player, count=0, countType=1)
 			fadeText(i_Player, "<b><span style=\"color:[w.displayColor];\">[num] </span></b>", offset, 20)
 		else
 			fadeText(i_Player, "<b>[num]</b>", offset, 20)
+		sleep(3)
+		w?.display = FALSE
 
 obj/items/wearable/wands/cedar_wand //Thanksgiving
 	icon = 'cedar_wand.dmi'
