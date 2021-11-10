@@ -125,6 +125,7 @@ obj/items
 			var/mob/Player/p = loc
 			var/backpack/b = p.findSlot()
 			if(b)
+				b.icon_state = "grid_new"
 				b.place(src)
 
 /*		var/T
