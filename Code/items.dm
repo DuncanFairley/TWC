@@ -5291,7 +5291,7 @@ obj/items/wearable/sword/slayer
 
 obj/items/wearable/sword/dragon
 	icon='trophies.dmi'
-	icon_state="Sword"
+	icon_state="dragon"
 	name="Dragon's breath"
 	desc="Dragon's breath allows you to use fire spells with full damage."
 	suffix = "<span style=\"color:#ffa500;\">Fire spells now use full damage.</span>"
