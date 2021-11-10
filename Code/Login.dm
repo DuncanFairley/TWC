@@ -866,7 +866,7 @@ mob/Player
 			client.screen -= l
 
 		if(client.browser_loaded)
-			src << output(null,"browser1:Login")
+			src << output(House, "browser1:Login")
 
 		client.eye = src
 		client.perspective = MOB_PERSPECTIVE

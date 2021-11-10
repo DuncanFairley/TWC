@@ -118,7 +118,7 @@ client
 			//	src << output(null,"browser1:CenterWindow")
 
 				if(isplayer(mob)) // if mapbrowser loaded after login()
-					src << output(null,"browser1:Login")
+					src << output(mob:House,"browser1:Login")
 
 		onResize(VW as num,VH as num,BX as num,BY as num,Z as num)
 			set hidden = 1

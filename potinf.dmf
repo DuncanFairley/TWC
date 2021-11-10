@@ -1124,6 +1124,7 @@ window "outputwindow"
 		size = 600x533
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "pos;size;"
 		titlebar = false
 		statusbar = false
@@ -1131,6 +1132,8 @@ window "outputwindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
+		outer-size = 614x547
+		inner-size = 600x533
 	elem "output"
 		type = OUTPUT
 		pos = 0,0
@@ -1146,9 +1149,10 @@ window "outputwindow"
 	elem "buttonOOC"
 		type = BUTTON
 		pos = 0,472
-		size = 56x20
+		size = 64x20
 		anchor1 = 0,100
 		anchor2 = -1,-1
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "OOC"
@@ -1159,21 +1163,36 @@ window "outputwindow"
 	elem "buttonSay"
 		type = BUTTON
 		pos = 0,452
-		size = 56x20
+		size = 64x20
 		anchor1 = 0,100
 		anchor2 = -1,-1
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Say"
 		command = ".winset \"buttonChat.Text=Say;input.command=\"Say \\\"\""
 		group = "chat"
 		button-type = pushbox
+	elem "buttonHouse"
+		type = BUTTON
+		pos = 64,492
+		size = 64x20
+		anchor1 = 0,100
+		anchor2 = -1,-1
+		background-color = none
+		is-visible = false
+		saved-params = "is-checked"
+		text = "House"
+		command = ""
+		group = "chat"
+		button-type = pushbox
 	elem "buttonCommand"
 		type = BUTTON
 		pos = 0,492
-		size = 56x20
+		size = 64x20
 		anchor1 = 0,100
 		anchor2 = -1,-1
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Command"
@@ -1183,16 +1202,17 @@ window "outputwindow"
 	elem "buttonChat"
 		type = BUTTON
 		pos = 0,512
-		size = 56x20
+		size = 64x20
 		anchor1 = 0,100
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "is-checked;text"
 		text = "OOC"
-		command = ".winset \"buttonOOC.is-visible=true?buttonOOC.is-visible=false buttonSay.is-visible=false buttonCommand.is-visible=false:buttonOOC.is-visible=true buttonSay.is-visible=true buttonCommand.is-visible=true\""
+		command = ".winset \"buttonOOC.is-visible=true?buttonOOC.is-visible=false buttonSay.is-visible=false buttonCommand.is-visible=false buttonHouse.is-visible=false:buttonOOC.is-visible=true buttonSay.is-visible=true buttonCommand.is-visible=true buttonHouse.is-visible=true\""
 	elem "input"
 		type = INPUT
-		pos = 56,512
-		size = 544x20
+		pos = 64,512
+		size = 536x20
 		anchor1 = 0,100
 		anchor2 = 100,100
 		background-color = #d3b5b5
@@ -1547,6 +1567,7 @@ window "winSettings"
 		size = 256x302
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		is-visible = false
 		saved-params = "pos;size;"
 		title = "Settings"
@@ -1554,12 +1575,15 @@ window "winSettings"
 		can-minimize = false
 		can-resize = false
 		macro = "macro"
+		outer-size = 272x341
+		inner-size = 256x302
 	elem "butHideHud"
 		type = BUTTON
-		pos = 9,276
-		size = 127x24
+		pos = 5,268
+		size = 127x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "is-checked"
 		text = "Hide screen objects"
 		command = ".hideHud"
@@ -1570,6 +1594,7 @@ window "winSettings"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = ""
 		text = "Colors:"
 	elem "buttonForeColor"
@@ -1578,6 +1603,7 @@ window "winSettings"
 		size = 72x28
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "Foreground"
@@ -1589,6 +1615,7 @@ window "winSettings"
 		size = 72x28
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "Background"
@@ -1600,6 +1627,7 @@ window "winSettings"
 		size = 88x28
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "On-Screen Text"
@@ -1607,100 +1635,110 @@ window "winSettings"
 		is-flat = true
 	elem "butQuestTrackertoggle"
 		type = BUTTON
-		pos = 9,256
-		size = 119x24
+		pos = 5,244
+		size = 119x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "is-checked"
 		text = "Hide quest tracker"
 		command = ".QuestTrackertoggle"
 		button-type = checkbox
 	elem "butAFKtoggle"
 		type = BUTTON
-		pos = 9,233
-		size = 247x24
+		pos = 5,220
+		size = 247x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable automatic AFK (Use at your own risk!)"
 		command = ".AFKtoggle"
 		button-type = checkbox
 	elem "butSoundtoggle"
 		type = BUTTON
-		pos = 9,210
-		size = 232x24
+		pos = 5,196
+		size = 232x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable sounds (PMs, Events, Classes etc)"
 		command = ".Soundtoggle"
 		button-type = checkbox
 	elem "butTradetoggle"
 		type = BUTTON
-		pos = 9,118
-		size = 200x20
+		pos = 5,112
+		size = 195x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "is-checked"
 		text = "Block trade requests                       "
 		command = ".Tradetoggle"
 		button-type = checkbox
 	elem "butEventNotificationstoggle"
 		type = BUTTON
-		pos = 9,164
+		pos = 5,152
 		size = 239x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving flashing event notifications"
 		command = ".EventNotificationstoggle"
 		button-type = checkbox
 	elem "butMonsterMessagestoggle"
 		type = BUTTON
-		pos = 9,187
-		size = 240x24
+		pos = 5,172
+		size = 240x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving monster attack messages  "
 		command = ".MonsterMessagestoggle"
 		button-type = checkbox
 	elem "butClassNotificationstoggle"
 		type = BUTTON
-		pos = 9,141
-		size = 239x20
+		pos = 5,132
+		size = 235x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving flashing class notifications"
 		command = ".ClassNotificationstoggle"
 		button-type = checkbox
 	elem "butHousechattoggle"
 		type = BUTTON
-		pos = 9,74
-		size = 126x20
+		pos = 5,72
+		size = 123x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable Housechat"
 		command = ".Housechattoggle"
 		button-type = checkbox
 	elem "butPMtoggle"
 		type = BUTTON
-		pos = 9,96
-		size = 200x20
+		pos = 5,92
+		size = 195x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving private messages"
 		command = ".PMtoggle"
 		button-type = checkbox
 	elem "butOOCtoggle"
 		type = BUTTON
-		pos = 9,52
-		size = 96x20
+		pos = 5,52
+		size = 91x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "is-checked"
 		text = "Disable OOC"
 		command = ".OOCtoggle"
