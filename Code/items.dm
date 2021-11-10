@@ -118,9 +118,10 @@ obj/items
 	New()
 		..()
 
-		if(!loc) return
+//		if(!loc) return
+		Sort()
 
-		var/T
+/*		var/T
 		if(useTypeStack == 0)
 			T = type
 		else if(useTypeStack == 1)
@@ -168,17 +169,17 @@ obj/items
 				else
 					stackObj.contains += src
 					stackObj.count += stack
-					stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"
+					stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"*/
 
 
 	Move(NewLoc,Dir=0)
-		var/T
-		if(useTypeStack == 0)
-			T = type
-		else if(useTypeStack == 1)
-			T = parent_type
-		else
-			T = useTypeStack
+//		var/T
+//		if(useTypeStack == 0)
+//			T = type
+//		else if(useTypeStack == 1)
+//			T = parent_type
+//		else
+//			T = useTypeStack
 
 		if(isplayer(loc) && loc != NewLoc)
 
@@ -190,7 +191,7 @@ obj/items
 				p.Lfavorites -= src
 				if(p.Lfavorites.len == 0) p.Lfavorites = null
 
-			if(p.stackobjects && p.stackobjects[T])
+/*			if(p.stackobjects && p.stackobjects[T])
 				var/obj/stackobj/stackObj = p.stackobjects[T]
 				stackObj.contains -= src
 				stackObj.count -= stack
@@ -200,13 +201,17 @@ obj/items
 					stackObj.loc = null
 					p.stackobjects -= stackObj
 					if(!p.stackobjects.len)
-						p.stackobjects = null
+						p.stackobjects = null*/
 
-		if(!NewLoc)
-			loc = null
-			return
+		.=..()
 
-		if(Sort(NewLoc))
+		Sort()
+
+//		if(!NewLoc)
+//			loc = null
+//			return
+
+/*		if(Sort(NewLoc))
 			var/mob/Player/p = loc
 			if(p.stackobjects && p.stackobjects[T])
 				var/obj/stackobj/stackObj = p.stackobjects[T]
@@ -248,7 +253,7 @@ obj/items
 				else
 					stackObj.contains += src
 					stackObj.count += stack
-					stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"
+					stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"*/
 
 
 
@@ -264,7 +269,7 @@ obj/items
 				p.Lfavorites -= src
 				if(p.Lfavorites.len == 0) p.Lfavorites = null
 
-			var/T
+	/*		var/T
 			if(useTypeStack == 0)
 				T = type
 			else if(useTypeStack == 1)
@@ -283,7 +288,7 @@ obj/items
 					stackObj.loc = null
 					p.stackobjects -= stackObj
 					if(!p.stackobjects.len)
-						p.stackobjects = null
+						p.stackobjects = null*/
 
 		loc = null
 
@@ -299,10 +304,9 @@ obj/items
 			winshow(usr, "infobubble", 0)
 
 	proc
-		Sort(t)
-			if(!t) t = loc
-			if(istype(t, /atom))
-				for(var/obj/items/i in t)
+		Sort()
+			if(istype(loc, /atom))
+				for(var/obj/items/i in loc)
 					if(i != src && Compare(i))
 						Stack(i)
 						if(!loc) return 1

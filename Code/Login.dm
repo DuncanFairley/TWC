@@ -847,7 +847,7 @@ mob/Player
 			gender = FEMALE
 		else if(Gender=="Male")
 			gender = MALE
-		Resort_Stacking_Inv()
+	//	Resort_Stacking_Inv()
 		mouse_drag_pointer = MOUSE_DRAG_POINTER
 		if(client.connection == "web")
 			winset(src, "mapwindow.map", "icon-size=32")
@@ -1521,32 +1521,33 @@ mob/Player
 
 		if(statpanel("Items"))
 
-			var/list/money
-			var/list/stacked
-			var/list/other
+			var/list/money = list()
+	//		var/list/stacked
+			var/list/other = list()
 
 			for(var/obj/O in src.contents)
 				if(istype(O, /obj/items/money))
-					if(!money) money = list()
 					money += O
-				else if(istype(O,/obj/stackobj))
+		//		else if(istype(O,/obj/stackobj))
 
-					if(!stacked) stacked = list()
-					stacked += O
+		//			if(!stacked) stacked = list()
+		//			stacked += O
 
 				else
 					if(Lfavorites && (O in Lfavorites)) continue
 
-					var/t
-					if(O.useTypeStack == 0)
-						t = O.type
-					else if(O.useTypeStack == 1)
-						t = O.parent_type
-					else
-						t = O.useTypeStack
-					if(!src:stackobjects || !(src:stackobjects.Find(t))) //If there's NOT a stack object for this obj type, print it
-						if(!other) other = list()
-						other += O
+					other += O
+
+		//			var/t
+		//			if(O.useTypeStack == 0)
+		//				t = O.type
+		//			else if(O.useTypeStack == 1)
+		//				t = O.parent_type
+		//			else
+		//				t = O.useTypeStack
+		//			if(!src:stackobjects || !(src:stackobjects.Find(t))) //If there's NOT a stack object for this obj type, print it
+		//				if(!other) other = list()
+		//				other += O
 
 
 			if(money)
@@ -1561,14 +1562,14 @@ mob/Player
 			if(other)
 				stat(other)
 
-			if(stacked)
+	/*		if(stacked)
 				stat("Click to expand stacked items.")
 				for(var/obj/stackobj/s in stacked)
 					stat("+", s)
 					if(s.isopen)
 						for(var/obj/B in s.contains)
 							if(Lfavorites && (B in Lfavorites)) continue
-							stat("-", B)
+							stat("-", B)*/
 //		if(statpanel("Info"))
 /*			stat("Name:",src.name)
 			stat("Year:",src.Year)
