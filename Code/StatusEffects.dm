@@ -3,7 +3,7 @@ atom/var/tmp/list/StatusEffect/LStatusEffects
 
 EventScheduler/tempFix
 	schedule(var/Event/E, var/ticks as num, var/priority = 0)
-		..(E, ticks / __sleep_delay, priority)
+		..(E, round(ticks / __sleep_delay), priority)
 
 	time_to_fire(var/Event/E)
 		.=..()
