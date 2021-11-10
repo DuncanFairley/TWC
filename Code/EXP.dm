@@ -904,7 +904,7 @@ gold
 				if(!i)
 					i = new
 					i.stack = plat
-					i.loc = p
+					i.Move(p)
 				else
 					i.stack += plat
 
@@ -915,7 +915,7 @@ gold
 				if(!i)
 					i = new
 					i.stack = gold
-					i.loc = p
+					i.Move(p)
 				else
 					i.stack += gold
 
@@ -926,7 +926,7 @@ gold
 				if(!i)
 					i = new
 					i.stack = silver
-					i.loc = p
+					i.Move(p)
 				else
 					i.stack += silver
 
@@ -936,7 +936,7 @@ gold
 				if(!i)
 					i = new
 					i.stack = bronze
-					i.loc = p
+					i.Move(p)
 				else
 					i.stack += bronze
 
