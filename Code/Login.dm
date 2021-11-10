@@ -2812,7 +2812,7 @@ hudobj/login_reward
 			if(prize)
 
 				if(findtext(maptext, "BYOND"))
-					memberReward++
+					p.memberReward++
 
 				else
 					if(!worldData.eventTaken)
