@@ -97,16 +97,10 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
                                           /obj/items/ingredients/rat_tail)),
 
 
-"Snowman"            = list("0.1" = list(/obj/items/wearable/orb/peace,
-							             /obj/items/wearable/orb/chaos,
-							             /obj/items/wearable/orb/magic,
-							             /obj/items/key/winter_key,
+"Snowman"            = list("0.1" = list(/obj/items/key/winter_key,
 							             /obj/items/chest/winter_chest)),
 
-"Demon Snake"        = list("0.5" = list(/obj/items/wearable/orb/peace,
-							             /obj/items/wearable/orb/chaos,
-							             /obj/items/wearable/orb/magic,
-							             /obj/items/key/summer_key,
+"Demon Snake"        = list("0.1" = list(/obj/items/key/summer_key,
 							             /obj/items/chest/summer_chest)),
 
 
@@ -149,10 +143,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							              /obj/items/crystal/strong_luck)),
 
 
-"Floating Eye"       = list("0.02" =      /obj/items/wearable/title/Eye,
-							"0.1"  = list(/obj/items/wearable/orb/peace,
-							              /obj/items/wearable/orb/chaos,
-							              /obj/items/wearable/orb/magic)),
+"Floating Eye"       = list("0.02" =      /obj/items/wearable/title/Eye),
 
 
 "Troll"              = list("5"    = list(/obj/items/Whoopie_Cushion,
@@ -163,7 +154,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 			 			  	 			  /obj/items/ingredients/eyes,
 			 			  	 			  /obj/items/wearable/title/Troll)),
 
-"Acromantula"        = list("1"    = list(/obj/items/key/winter_key,
+"Acromantula"        = list("0.5"    = list(/obj/items/key/winter_key,
 			 			  	 			  /obj/items/key/blood_key,
 						     			  /obj/items/colors/yellow_stone,
 						     			  /obj/items/colors/blue_stone,
@@ -172,13 +163,12 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 			 			  	"10"   =      /obj/items/blood_sack),
 
 
-"Vampire"            = list("1"  = list(/obj/items/key/winter_key,
+"Vampire"            = list("0.5"  = list(/obj/items/key/winter_key,
 			 			  	 			  /obj/items/key/blood_key,
 			 			  	 			  /obj/items/colors/red_stone,
 							 			  /obj/items/colors/green_stone,
 							 			  /obj/items/wearable/orb/peace,
-							              /obj/items/wearable/orb/chaos,
-							              /obj/items/wearable/orb/magic),
+							              /obj/items/wearable/orb/chaos),
 			 			  	"15"    = list(/obj/items/blood_sack,
 			 			  	              /obj/items/reputation/chaos_tablet,
 			 			  	              /obj/items/reputation/peace_tablet)),
