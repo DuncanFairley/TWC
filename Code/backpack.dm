@@ -23,6 +23,8 @@ backpack
 				item.sy = r
 				item.screen_loc = "backpack:[c],[r]"
 				Client.screen += item
+
+				mouse_drag_pointer = item
 				mouse_over_pointer = MOUSE_HAND_POINTER
 			else
 				item.slot = null
@@ -31,6 +33,8 @@ backpack
 				item.screen_loc = null
 				if(item.screen_loc) Client.screen -= item
 				item = null
+
+				mouse_drag_pointer = MOUSE_INACTIVE_POINTER
 				mouse_over_pointer = MOUSE_INACTIVE_POINTER
 
 	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
