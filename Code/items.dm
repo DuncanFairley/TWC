@@ -308,6 +308,8 @@ obj/items
 
 		loc = null
 
+		if(slot)
+			slot.place(null)
 
 
 	MouseEntered(location,control,params)
