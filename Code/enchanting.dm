@@ -408,7 +408,7 @@ obj/items/crystal
 				w.Equip(p, 1)
 
 			if(s == src)
-				Move(null)
+				Dispose()
 			usr << infomsg("You insert [name] in [w.name]")
 		else
 			..()

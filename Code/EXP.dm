@@ -898,7 +898,7 @@ gold
 		give(mob/Player/p, replace=0)
 			if(replace)
 				for(var/obj/items/money/m in p)
-					m.loc = null
+					m.Dispose()
 			if(plat > 0)
 				var/obj/items/money/platinum/i = locate() in p
 				if(!i)

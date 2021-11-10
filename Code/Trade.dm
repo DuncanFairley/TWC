@@ -146,7 +146,7 @@ obj/items
 						P.trade.with << output(i, "Trade.grid2")
 						P.trade.items += i
 						P.trade.y++
-						i.Move(null)
+						i.Dispose()
 					else
 						P << errormsg("This item can't be dropped")
 				else

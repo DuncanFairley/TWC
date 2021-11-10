@@ -410,7 +410,7 @@ obj/items
 					P << output(i, "Auction.gridAuctionAddItem:1,1")
 					P << output("<b class='item'>x[i.stack]</b>", "Auction.gridAuctionAddItem:2,1")
 					P.auctionInfo.item = i
-					i.Move(null)
+					i.Dispose()
 				else
 					P << errormsg("This item can't be used in auction.")
 

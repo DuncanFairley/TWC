@@ -1052,7 +1052,7 @@ obj/items
 				if(dels == "Yes")
 					if(src in usr)
 						src << "You crumple the scroll."
-						Move(null)
+						Dispose()
 			read()
 				set name = "Read"
 				usr << browse(content)

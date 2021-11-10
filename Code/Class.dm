@@ -598,7 +598,7 @@ mob/Player
 					var/obj/items/wearable/wands/practice_wand/wand = locate() in Lwearing
 					if(wand)
 						wand.Equip(src)
-						wand.Move(null)
+						wand.Dispose()
 						verbs += spellpath
 
 

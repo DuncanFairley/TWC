@@ -48,7 +48,7 @@ obj/items/ingredients
 					i = Split(p.req)
 				else
 					i = src
-					Move(null)
+					Dispose()
 
 				usr << infomsg("You added \a [i] to \the [p].")
 
@@ -76,7 +76,7 @@ obj/items/ingredients
 				i = Split(p.req)
 			else
 				i = src
-				Move(null)
+				Dispose()
 
 			usr << infomsg("You added \a [i] to \the [p].")
 

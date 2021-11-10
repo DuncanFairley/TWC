@@ -615,7 +615,7 @@ obj/items/MouseDrop(over_object,src_location,over_location,src_control,over_cont
 				if(src in p.Lwearing)
 					src:Equip(p,1,1)
 
-				Move(null)
+				Dispose()
 
 
 				p.pet.gotoBank(p)
@@ -1110,7 +1110,7 @@ obj/items/gift
 			var/obj/o = contents[1]
 			usr << infomsg("You opened your present and recieved [o.name]!")
 			o.loc = loc
-			Move(null)
+			Dispose()
 
 
 		Disown()
