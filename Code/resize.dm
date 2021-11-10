@@ -112,7 +112,7 @@ client
 		onLoad(var/n as num)
 			set hidden = 1
 
-			if(!browser_loaded && n == BROWSER_VERSION)
+			if(!browser_loaded)
 				browser_loaded = n
 
 			//	src << output(null,"browser1:CenterWindow")
