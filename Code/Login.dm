@@ -2696,7 +2696,10 @@ WorldData
 		eventPrize
 
 mob/Player
-	var/loginRewardDays = 1
+	var
+		loginRewardDays = 1
+		memberReward = 0
+
 	proc/LoginReward()
 		set waitfor = 0
 
@@ -2712,7 +2715,7 @@ mob/Player
 
 	proc/BYONDMemberReward()
 		set waitfor = 0
-		if(client.IsByondMember() != 0)
+		if(client.IsByondMember() != 0 && memberReward < 1)
 
 			sleep(50)
 
@@ -2807,15 +2810,20 @@ hudobj/login_reward
 				 life   = new /Random(40,80))
 
 			if(prize)
-				if(!worldData.eventTaken)
-					worldData.eventTaken = list()
 
-				if(client.connection == "web")
-					worldData.eventTaken[client.address] = client.ckey
+				if(findtext(maptext, "BYOND"))
+					memberReward++
+
 				else
-					worldData.eventTaken[client.computer_id] = client.ckey
+					if(!worldData.eventTaken)
+						worldData.eventTaken = list()
 
-				worldData.eventTaken[client.ckey] = 1
+					if(client.connection == "web")
+						worldData.eventTaken[client.address] = client.ckey
+					else
+						worldData.eventTaken[client.computer_id] = client.ckey
+
+					worldData.eventTaken[client.ckey] = 1
 
 				if(islist(prize))
 					for(var/p in prize)
