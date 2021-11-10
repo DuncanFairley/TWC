@@ -211,12 +211,41 @@ menu "menu"
 		command = "enable-radio"
 		category = "TWC Radio"
 		can-check = true
-		saved-params = ""
+		saved-params = "is-checked"
 	elem "btnsonginfo"
 		name = "Song Info"
 		command = "songinfo"
 		category = "TWC Radio"
-		saved-params = ""
+		saved-params = "is-checked"
+	elem 
+		name = "Commands"
+		command = ""
+		saved-params = "is-checked"
+	elem 
+		name = "AFK"
+		command = "AFK"
+		category = "Commands"
+		saved-params = "is-checked"
+	elem 
+		name = "Who"
+		command = "Who"
+		category = "Commands"
+		saved-params = "is-checked"
+	elem 
+		name = "Daily Prophet"
+		command = "Daily-Prophet"
+		category = "Commands"
+		saved-params = "is-checked"
+	elem 
+		name = "Class Schedule"
+		command = "Class-Schedule"
+		category = "Commands"
+		saved-params = "is-checked"
+	elem 
+		name = "Help/Rules"
+		command = "Help/Rules"
+		category = "Commands"
+		saved-params = "is-checked"
 
 
 window "Auction"
@@ -234,8 +263,6 @@ window "Auction"
 		can-minimize = false
 		macro = "macro"
 		on-close = ".auctionClosed"
-		outer-size = 570x491
-		inner-size = 554x452
 	elem "label12"
 		type = LABEL
 		pos = 8,223
@@ -591,8 +618,6 @@ window "Monsters"
 		can-minimize = false
 		macro = "macro"
 		on-close = ".monsterBookClosed"
-		outer-size = 435x354
-		inner-size = 419x315
 	elem "label2"
 		type = LABEL
 		pos = 10,32
@@ -668,8 +693,6 @@ window "Quests"
 		can-minimize = false
 		macro = "macro"
 		on-close = ".questBookClosed"
-		outer-size = 435x390
-		inner-size = 419x351
 	elem "labelText"
 		type = LABEL
 		pos = 10,32
@@ -753,15 +776,12 @@ window "SpellBook"
 		size = 285x232
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		is-visible = false
 		saved-params = "pos;size;"
 		title = "Spellbook"
 		statusbar = false
 		macro = "macro"
 		on-close = ".spellBookClosed"
-		outer-size = 301x271
-		inner-size = 285x232
 	elem "gridSpellBook"
 		type = GRID
 		pos = 0,0
@@ -796,8 +816,6 @@ window "guild"
 		can-resize = false
 		alpha = 220
 		macro = "macro"
-		outer-size = 621x423
-		inner-size = 607x409
 	elem "labelBackground"
 		type = LABEL
 		pos = 7,109
@@ -1012,8 +1030,6 @@ window "infobubble"
 		can-minimize = false
 		can-resize = false
 		alpha = 200
-		outer-size = 164x164
-		inner-size = 150x150
 	elem "labelTitle"
 		type = LABEL
 		pos = 0,0
@@ -1046,22 +1062,18 @@ window "mainwindow"
 		size = 640x440
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		is-default = true
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "The Wizards' Chronicles"
 		is-maximized = true
 		macro = "macro"
 		menu = "menu"
-		outer-size = 1936x1066
-		inner-size = 1920x1007
 	elem "radiobrowser"
 		type = BROWSER
 		pos = 352,152
 		size = 1x1
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		is-visible = false
 		saved-params = ""
 	elem "mainvsplit"
@@ -1070,7 +1082,6 @@ window "mainwindow"
 		size = 640x440
 		anchor1 = 0,0
 		anchor2 = 100,100
-		background-color = none
 		saved-params = "splitter"
 		right = "mapwindow"
 		is-vert = true
@@ -1082,7 +1093,6 @@ window "mapwindow"
 		size = 645x490
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "pos;size;"
 		titlebar = false
 		statusbar = false
@@ -1090,15 +1100,12 @@ window "mapwindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
-		outer-size = 659x504
-		inner-size = 645x490
 	elem "browser1"
 		type = BROWSER
 		pos = 0,0
 		size = 645x490
 		anchor1 = 0,0
 		anchor2 = 100,100
-		background-color = none
 		saved-params = ""
 	elem "map"
 		type = MAP
@@ -1280,7 +1287,6 @@ window "infowindow"
 		size = 492x510
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "pos;size;"
 		title = "Info"
 		titlebar = false
@@ -1289,8 +1295,6 @@ window "infowindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
-		outer-size = 506x524
-		inner-size = 492x510
 	elem "info"
 		type = INFO
 		pos = 0,0
@@ -1300,7 +1304,6 @@ window "infowindow"
 		is-default = true
 		saved-params = ""
 		highlight-color = #00aa00
-		tab-background-color = none
 		on-show = ".winset\"rpane.infob.is-visible=true;rpane.browseb.is-visible=true?rpane.infob.pos=130,0:rpane.infob.pos=65,0 rpane.textb.is-visible=true rpane.infob.is-checked=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=infowindow\""
 		on-hide = ".winset\"rpane.infob.is-visible=false;rpane.browseb.is-visible=true?rpane.browseb.is-checked=true rpane.rpanewindow.left=browserwindow:rpane.textb.is-visible=false rpane.rpanewindow.pos=0,0 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=\""
 	elem "backpack"

@@ -1,6 +1,7 @@
 mob/Player/var/list/addToVault
 
 mob/verb/Follow(mob/M in (oview()&Players)|null)
+	set category = null
 	if(!M)
 		if(followplayer)
 			followplayer = 0
