@@ -1221,7 +1221,14 @@ mob/Player
 			winset(src, "mainwindow", "flash=2")
 
 			if(playSounds)
-				var/sound/S = sound('Alert.mp3')
+				var/sound/S
+				switch(BeepType)
+					if(1)
+						S = sound('Alert.ogg')
+					if(2)
+						S = sound('Alert.mp3')
+					if(3)
+						S = sound('TWC_Alert_2.ogg')
 				src << S
 
 obj/items/treasure

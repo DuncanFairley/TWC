@@ -1030,6 +1030,8 @@ window "infobubble"
 		can-minimize = false
 		can-resize = false
 		alpha = 200
+		outer-size = 164x164
+		inner-size = 150x150
 	elem "labelTitle"
 		type = LABEL
 		pos = 0,0
@@ -1062,18 +1064,22 @@ window "mainwindow"
 		size = 640x440
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		is-default = true
 		saved-params = "pos;size;is-minimized;is-maximized"
 		title = "The Wizards' Chronicles"
 		is-maximized = true
 		macro = "macro"
 		menu = "menu"
+		outer-size = 1936x1066
+		inner-size = 1920x1007
 	elem "radiobrowser"
 		type = BROWSER
 		pos = 352,152
 		size = 1x1
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		is-visible = false
 		saved-params = ""
 	elem "mainvsplit"
@@ -1082,6 +1088,7 @@ window "mainwindow"
 		size = 640x440
 		anchor1 = 0,0
 		anchor2 = 100,100
+		background-color = none
 		saved-params = "splitter"
 		right = "mapwindow"
 		is-vert = true
@@ -1228,14 +1235,19 @@ window "rpane"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "pos;sizel"
 		is-pane = true
+		can-scroll = both
+		outer-size = 656x538
+		inner-size = 640x499
 	elem "rpanewindow"
 		type = CHILD
 		pos = 0,0
 		size = 640x480
 		anchor1 = 0,0
 		anchor2 = 100,100
+		background-color = none
 		saved-params = "splitter"
 		right = "outputwindow"
 		is-vert = false
@@ -1245,6 +1257,7 @@ window "rpane"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Text"
@@ -1258,6 +1271,7 @@ window "rpane"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Browser"
@@ -1270,6 +1284,7 @@ window "rpane"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		is-visible = false
 		saved-params = "is-checked"
 		text = "Info"
@@ -1284,9 +1299,12 @@ window "browserwindow"
 		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "pos;size;"
 		title = "Browser"
 		is-pane = true
+		outer-size = 656x538
+		inner-size = 640x499
 	elem "browser"
 		type = BROWSER
 		pos = 0,0
@@ -1307,6 +1325,7 @@ window "infowindow"
 		size = 492x510
 		anchor1 = -1,-1
 		anchor2 = -1,-1
+		background-color = none
 		saved-params = "pos;size;"
 		title = "Info"
 		titlebar = false
@@ -1315,6 +1334,9 @@ window "infowindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
+		can-scroll = both
+		outer-size = 506x524
+		inner-size = 492x510
 	elem "info"
 		type = INFO
 		pos = 0,0
@@ -1324,6 +1346,7 @@ window "infowindow"
 		is-default = true
 		saved-params = ""
 		highlight-color = #00aa00
+		tab-background-color = none
 		on-show = ".winset\"rpane.infob.is-visible=true;rpane.browseb.is-visible=true?rpane.infob.pos=130,0:rpane.infob.pos=65,0 rpane.textb.is-visible=true rpane.infob.is-checked=true rpane.rpanewindow.pos=0,30 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=infowindow\""
 		on-hide = ".winset\"rpane.infob.is-visible=false;rpane.browseb.is-visible=true?rpane.browseb.is-checked=true rpane.rpanewindow.left=browserwindow:rpane.textb.is-visible=false rpane.rpanewindow.pos=0,0 rpane.rpanewindow.size=0x0 rpane.rpanewindow.left=\""
 	elem "backpack"
@@ -1494,6 +1517,8 @@ window "splitStack"
 		can-resize = false
 		transparent-color = #ff8080
 		macro = "macro"
+		outer-size = 101x75
+		inner-size = 87x61
 	elem "buttonSplitStack"
 		type = BUTTON
 		pos = 66,31
@@ -1564,7 +1589,7 @@ window "winSettings"
 	elem "winSettings"
 		type = MAIN
 		pos = 281,0
-		size = 256x302
+		size = 369x295
 		anchor1 = -1,-1
 		anchor2 = -1,-1
 		background-color = none
@@ -1575,8 +1600,55 @@ window "winSettings"
 		can-minimize = false
 		can-resize = false
 		macro = "macro"
-		outer-size = 272x341
-		inner-size = 256x302
+		outer-size = 385x334
+		inner-size = 369x295
+	elem "label4"
+		type = LABEL
+		pos = 236,7
+		size = 60x20
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
+		saved-params = ""
+		text = "Alert Sound:"
+		align = left
+	elem "buttonGlass"
+		type = BUTTON
+		pos = 301,47
+		size = 60x20
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
+		saved-params = "is-checked"
+		text = "Glass"
+		command = ".ChangeBeep 3"
+		group = "sound"
+		button-type = radio
+	elem "buttonGuitar"
+		type = BUTTON
+		pos = 301,27
+		size = 60x20
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
+		saved-params = "is-checked"
+		text = "Guitar"
+		command = ".ChangeBeep 2"
+		group = "sound"
+		button-type = radio
+	elem "buttonBeep"
+		type = BUTTON
+		pos = 301,7
+		size = 60x20
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
+		saved-params = "is-checked"
+		text = "Beep"
+		command = ".ChangeBeep 1"
+		is-checked = true
+		group = "sound"
+		button-type = radio
 	elem "butHideHud"
 		type = BUTTON
 		pos = 5,268
@@ -1642,7 +1714,7 @@ window "winSettings"
 		background-color = none
 		saved-params = "is-checked"
 		text = "Hide quest tracker"
-		command = ".QuestTrackertoggle"
+		command = ".winset \"butQuestTrackertoggle.is-checked=true?command=\".QuestTrackertoggle 1\":command=\".QuestTrackertoggle 0\"\""
 		button-type = checkbox
 	elem "butAFKtoggle"
 		type = BUTTON
@@ -1653,7 +1725,7 @@ window "winSettings"
 		background-color = none
 		saved-params = "is-checked"
 		text = "Disable automatic AFK (Use at your own risk!)"
-		command = ".AFKtoggle"
+		command = ".winset \"butAFKtoggle.is-checked=true?command=\".AFKtoggle 0\":command=\".AFKtoggle 1\"\""
 		button-type = checkbox
 	elem "butSoundtoggle"
 		type = BUTTON
@@ -1664,7 +1736,7 @@ window "winSettings"
 		background-color = none
 		saved-params = "is-checked"
 		text = "Disable sounds (PMs, Events, Classes etc)"
-		command = ".Soundtoggle"
+		command = ".winset \"butSoundtoggle.is-checked=true?command=\".Soundtoggle 0\":command=\".Soundtoggle 1\"\""
 		button-type = checkbox
 	elem "butTradetoggle"
 		type = BUTTON
@@ -1675,7 +1747,7 @@ window "winSettings"
 		background-color = none
 		saved-params = "is-checked"
 		text = "Block trade requests                       "
-		command = ".Tradetoggle"
+		command = ".winset \"butTradetoggle.is-checked=true?command=\".Tradetoggle 1\":command=\".Tradetoggle 0\"\""
 		button-type = checkbox
 	elem "butEventNotificationstoggle"
 		type = BUTTON
@@ -1686,7 +1758,7 @@ window "winSettings"
 		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving flashing event notifications"
-		command = ".EventNotificationstoggle"
+		command = ".winset \"butEventNotificationstoggle.is-checked=true?command=\".EventNotificationstoggle 0\":command=\".EventNotificationstoggle 1\"\""
 		button-type = checkbox
 	elem "butMonsterMessagestoggle"
 		type = BUTTON
@@ -1697,7 +1769,7 @@ window "winSettings"
 		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving monster attack messages  "
-		command = ".MonsterMessagestoggle"
+		command = ".winset \"butMonsterMessagestoggle.is-checked=true?command=\".MonsterMessagestoggle 0\":command=\".MonsterMessagestoggle 1\"\""
 		button-type = checkbox
 	elem "butClassNotificationstoggle"
 		type = BUTTON
@@ -1708,7 +1780,7 @@ window "winSettings"
 		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving flashing class notifications"
-		command = ".ClassNotificationstoggle"
+		command = ".winset \"butClassNotificationstoggle.is-checked=true?command=\".ClassNotificationstoggle 0\":command=\".ClassNotificationstoggle 1\"\""
 		button-type = checkbox
 	elem "butHousechattoggle"
 		type = BUTTON
@@ -1719,7 +1791,7 @@ window "winSettings"
 		background-color = none
 		saved-params = "is-checked"
 		text = "Disable Housechat"
-		command = ".Housechattoggle"
+		command = ".winset \"butHousechattoggle.is-checked=true?command=\".Housechattoggle 0\":command=\".Housechattoggle 1\"\""
 		button-type = checkbox
 	elem "butPMtoggle"
 		type = BUTTON
@@ -1730,7 +1802,7 @@ window "winSettings"
 		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving private messages"
-		command = ".PMtoggle"
+		command = ".winset \"butPMtoggle.is-checked=true?command=\".PMtoggle 1\":command=\".PMtoggle 0\"\""
 		button-type = checkbox
 	elem "butOOCtoggle"
 		type = BUTTON
@@ -1741,6 +1813,6 @@ window "winSettings"
 		background-color = none
 		saved-params = "is-checked"
 		text = "Disable OOC"
-		command = ".OOCtoggle"
+		command = ".winset \"butOOCtoggle.is-checked=true?command=\".OOCtoggle 0\":command=\".OOCtoggle 1\"\""
 		button-type = checkbox
 

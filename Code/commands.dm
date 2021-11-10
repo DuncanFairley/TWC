@@ -12,7 +12,9 @@ mob
 		MonsterMessages = 1
 
 	Player
-		var/tmp/openedSettings = 0
+		var
+			tmp/openedSettings = 0
+			BeepType = 1
 
 mob
 	verb
@@ -61,7 +63,19 @@ mob
 
 			winset += "winSettings.butHideHud.is-checked=false;"
 
+			winset += "winSettings.butHideHud.is-checked=false;"
+
+			switch(p.BeepType)
+				if(1)
+					winset += "winSettings.buttonBeep.is-checked=true;"
+				if(2)
+					winset += "winSettings.buttonGuitar.is-checked=true;"
+				if(3)
+					winset += "winSettings.buttonGlass.is-checked=true;"
+
+
 			winset(src,null,winset)
+
 		ShowSettings()
 			set name = ".ShowSettings"
 			var/mob/Player/p = src
@@ -69,69 +83,62 @@ mob
 				p.openedSettings = 1
 				resetSettings()
 			winshowCenter(src, "winSettings")
-		Soundtoggle()
+		Soundtoggle(var/n as num)
 			set name = ".Soundtoggle"
-			if(winget(src,"butSoundtoggle","is-checked") == "true")
-				src:playSounds = 0
-			else
-				src:playSounds = 1
-		MonsterMessagestoggle()
+			src:playSounds = n
+
+		ChangeBeep(var/n as num)
+			set name = ".ChangeBeep"
+			usr:BeepType = n
+
+			var/sound/S
+			switch(usr:BeepType)
+				if(1)
+					S = sound('Alert.ogg')
+				if(2)
+					S = sound('Alert.mp3')
+				if(3)
+					S = sound('TWC_Alert_2.ogg')
+			src << S
+
+		MonsterMessagestoggle(var/n as num)
 			set name = ".MonsterMessagestoggle"
-			if(winget(src,"butMonsterMessagestoggle","is-checked") == "true")
-				MonsterMessages = 0
-			else
-				MonsterMessages = 1
-		QuestTrackertoggle()
+			MonsterMessages = n
+
+		QuestTrackertoggle(var/n as num)
 			set name = ".QuestTrackertoggle"
 			var/mob/Player/p = src
-			if(winget(src,"butQuestTrackertoggle","is-checked") == "true")
-				p.HideQuestTracker = TRUE
-			else
-				p.HideQuestTracker = FALSE
+			p.HideQuestTracker = n
 			p.Interface.Update()
-		ClassNotificationstoggle()
-			set name = ".ClassNotificationstoggle"
-			if(winget(src,"butClassNotificationstoggle","is-checked") == "true")
-				ClassNotifications = 0
-			else
-				ClassNotifications = 1
-		EventNotificationstoggle()
-			set name = ".EventNotificationstoggle"
-			if(winget(src,"butEventNotificationstoggle","is-checked") == "true")
-				EventNotifications = 0
-			else
-				EventNotifications = 1
-		Housechattoggle()
-			set name = ".Housechattoggle"
-			if(winget(src,"butHousechattoggle","is-checked") == "true")
-				listenhousechat = 0
-			else
-				listenhousechat = 1
-		OOCtoggle()
-			set name = ".OOCtoggle"
-			if(winget(src,"butOOCtoggle","is-checked") == "true")
-				listenooc = 0
-			else
-				listenooc = 1
-		PMtoggle()
-			set name = ".PMtoggle"
-			if(winget(src,"butPMtoggle","is-checked") == "true")
-				src.PMBlock=1
-			else
-				src.PMBlock=0
-		Tradetoggle()
-			set name = ".Tradetoggle"
-			if(winget(src,"butTradetoggle","is-checked") == "true")
-				src:TradeBlock=1
-			else
-				src:TradeBlock=0
 
-		AFKtoggle()
+		ClassNotificationstoggle(var/n as num)
+			set name = ".ClassNotificationstoggle"
+			ClassNotifications = n
+
+		EventNotificationstoggle(var/n as num)
+			set name = ".EventNotificationstoggle"
+			EventNotifications = n
+
+		Housechattoggle(var/n as num)
+			set name = ".Housechattoggle"
+			listenhousechat = n
+
+		OOCtoggle(var/n as num)
+			set name = ".OOCtoggle"
+			listenooc = n
+
+		PMtoggle(var/n as num)
+			set name = ".PMtoggle"
+			src.PMBlock=n
+
+		Tradetoggle(var/n as num)
+			set name = ".Tradetoggle"
+			src:TradeBlock=n
+
+		AFKtoggle(var/n as num)
 			set name = ".AFKtoggle"
-			if(winget(src,"butAFKtoggle","is-checked") == "true")
-				src:autoAFK=0
-			else
-				src:autoAFK=1
+			src:autoAFK=n
+
 
 mob/Player/var/HideQuestTracker = FALSE
 mob/var/pname
