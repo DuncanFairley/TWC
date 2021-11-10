@@ -107,7 +107,7 @@ mob/Spells/verb/Accio_Maxima()
 		hearers(client.view, p)<< " <b>[p]:<i><font color=aqua> Accio Maxima!</i>"
 		p.learnSpell("Accio Maxima")
 
-		for(var/obj/items/i in range(p, 10))
+		for(var/obj/items/i in orange(10, p))
 			if(!i.accioable && i.owner != ckey) continue
 			i.walkTo(src, 1)
 
@@ -119,6 +119,10 @@ obj/items/proc/walkTo(atom/movable/a, pickup=0)
 		loc = get_step_towards(src, a.loc)
 		sleep(1)
 	if(pickup && fetchable)
+		owner = null
+		if(antiTheft)
+			antiTheft = 0
+			filters = null
 		Move(a)
 
 
