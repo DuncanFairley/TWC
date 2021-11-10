@@ -117,52 +117,69 @@ obj/items
 
 	New()
 		..()
-		Sort()
 
-		if(isplayer(loc))
+		if(!loc) return
+
+		var/T
+		if(useTypeStack == 0)
+			T = type
+		else if(useTypeStack == 1)
+			T = parent_type
+		else
+			T = useTypeStack
+
+		if(Sort(loc))
 			var/mob/Player/p = loc
-
-			var/T
-			if(useTypeStack == 0)
-				T = type
-			else if(useTypeStack == 1)
-				T = parent_type
-			else
-				T = useTypeStack
-
 			if(p.stackobjects && p.stackobjects[T])
 				var/obj/stackobj/stackObj = p.stackobjects[T]
-				if(loc)
-					stackObj.contains += src
 				stackObj.count += stack
 				stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"
-			else
-				var/list/items = list()
-				var/c = 0
-				for(var/obj/items/same in p)
-					if(same.useTypeStack == useTypeStack && (useTypeStack > 1 || istype(same, T)) && same != src)
-						items += same
-						c += same.stack
+		else
+			if(isplayer(loc))
+				var/mob/Player/p = loc
 
-				if(items.len > 0)
-					if(loc)
-						items += src
+				var/obj/stackobj/stackObj
 
-					var/obj/stackobj/stackObj = new
-					var/obj/tmpV = new T
-					stackObj.containstype = T
-					stackObj.icon = tmpV.icon
-					stackObj.icon_state = tmpV.icon_state
-					stackObj.name = tmpV.stackName ? tmpV.stackName : tmpV.name
-					stackObj.loc = p
-					stackObj.contains = items
-					stackObj.suffix = "<span style=\"color:red;\">(x[c])</span>"
+				if(p.stackobjects && p.stackobjects[T])
+					stackObj = p.stackobjects[T]
 
-					if(!p.stackobjects)
-						p.stackobjects = list()
-					p.stackobjects[T] = stackObj
+				if(!stackObj)
+					var/list/items = list()
+					var/c = 0
+					for(var/obj/items/same in p)
+						if(same.useTypeStack == useTypeStack && (useTypeStack > 1 || istype(same, T)))
+							items += same
+							c += same.stack
+
+					if(items.len > 0)
+						stackObj = new
+						var/obj/tmpV = new T
+						stackObj.containstype = T
+						stackObj.icon = tmpV.icon
+						stackObj.icon_state = tmpV.icon_state
+						stackObj.name = tmpV.stackName ? tmpV.stackName : tmpV.name
+						stackObj.loc = p
+						stackObj.contains = items
+						stackObj.suffix = "<span style=\"color:red;\">(x[c])</span>"
+
+						if(!p.stackobjects)
+							p.stackobjects = list()
+						p.stackobjects[T] = stackObj
+				else
+					stackObj.contains += src
+					stackObj.count += stack
+					stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"
+
 
 	Move(NewLoc,Dir=0)
+		var/T
+		if(useTypeStack == 0)
+			T = type
+		else if(useTypeStack == 1)
+			T = parent_type
+		else
+			T = useTypeStack
+
 		if(isplayer(loc) && loc != NewLoc)
 
 			var/mob/Player/p = loc
@@ -173,75 +190,71 @@ obj/items
 				p.Lfavorites -= src
 				if(p.Lfavorites.len == 0) p.Lfavorites = null
 
-			var/T
-			if(useTypeStack == 0)
-				T = type
-			else if(useTypeStack == 1)
-				T = parent_type
-			else
-				T = useTypeStack
-
 			if(p.stackobjects && p.stackobjects[T])
 				var/obj/stackobj/stackObj = p.stackobjects[T]
 				stackObj.contains -= src
 				stackObj.count -= stack
-				if(stackObj.contains.len > 1)
+				if(stackObj.contains.len > 0)
 					stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"
 				else
 					stackObj.loc = null
 					p.stackobjects -= stackObj
 					if(!p.stackobjects.len)
 						p.stackobjects = null
-		.=..()
 
-		Sort()
+		if(!NewLoc)
+			loc = null
+			return
 
-		if(isplayer(loc))
+		if(Sort(NewLoc))
 			var/mob/Player/p = loc
-
-			var/T
-			if(useTypeStack == 0)
-				T = type
-			else if(useTypeStack == 1)
-				T = parent_type
-			else
-				T = useTypeStack
-
 			if(p.stackobjects && p.stackobjects[T])
 				var/obj/stackobj/stackObj = p.stackobjects[T]
-				if(loc)
-					stackObj.contains += src
 				stackObj.count += stack
 				stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"
-			else
-				var/list/items = list()
-				var/c = 0
-				for(var/obj/items/same in p)
-					if(same.useTypeStack == useTypeStack && (useTypeStack > 1 || istype(same, T)) && same != src)
-						items += same
-						c += same.stack
 
-				if(items.len > 0)
-					if(loc)
-						items += src
+		else
+			.=..()
+			if(isplayer(loc))
+				var/mob/Player/p = loc
 
-					var/obj/stackobj/stackObj = new
-					var/obj/tmpV = new T
-					stackObj.containstype = T
-					stackObj.icon = tmpV.icon
-					stackObj.icon_state = tmpV.icon_state
-					stackObj.name = tmpV.stackName ? tmpV.stackName : tmpV.name
-					stackObj.loc = p
-					stackObj.contains = items
-					stackObj.suffix = "<span style=\"color:red;\">(x[c])</span>"
+				var/obj/stackobj/stackObj
 
-					if(!p.stackobjects)
-						p.stackobjects = list()
-					p.stackobjects[T] = stackObj
+				if(p.stackobjects && p.stackobjects[T])
+					stackObj = p.stackobjects[T]
 
-	Dispose()
+				if(!stackObj)
+					var/list/items = list()
+					var/c = 0
+					for(var/obj/items/same in p)
+						if(same.useTypeStack == useTypeStack && (useTypeStack > 1 || istype(same, T)))
+							items += same
+							c += same.stack
 
-		if(isplayer(loc))
+					if(items.len > 0)
+						stackObj = new
+						var/obj/tmpV = new T
+						stackObj.containstype = T
+						stackObj.icon = tmpV.icon
+						stackObj.icon_state = tmpV.icon_state
+						stackObj.name = tmpV.stackName ? tmpV.stackName : tmpV.name
+						stackObj.loc = p
+						stackObj.contains = items
+						stackObj.suffix = "<span style=\"color:red;\">(x[c])</span>"
+
+						if(!p.stackobjects)
+							p.stackobjects = list()
+						p.stackobjects[T] = stackObj
+				else
+					stackObj.contains += src
+					stackObj.count += stack
+					stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"
+
+
+
+	Dispose(sort=1)
+
+		if(sort && isplayer(loc))
 
 			var/mob/Player/p = loc
 
@@ -261,9 +274,10 @@ obj/items
 
 			if(p.stackobjects && p.stackobjects[T])
 				var/obj/stackobj/stackObj = p.stackobjects[T]
+
 				stackObj.contains -= src
 				stackObj.count -= stack
-				if(stackObj.contains.len > 1)
+				if(stackObj.contains.len > 0)
 					stackObj.suffix = "<span style=\"color:red;\">(x[stackObj.count])</span>"
 				else
 					stackObj.loc = null
@@ -285,12 +299,14 @@ obj/items
 			winshow(usr, "infobubble", 0)
 
 	proc
-		Sort()
-			if(istype(loc, /atom))
-				for(var/obj/items/i in loc)
+		Sort(t)
+			if(!t) t = loc
+			if(istype(t, /atom))
+				for(var/obj/items/i in t)
 					if(i != src && Compare(i))
 						Stack(i)
-						if(!loc) return
+						if(!loc) return 1
+
 		Clone()
 			var/obj/items/i = new type
 
@@ -324,7 +340,7 @@ obj/items
 			i.Refresh()
 
 			if(stack <= 0)
-				Dispose()
+				Dispose(0)
 			else
 				Refresh()
 
