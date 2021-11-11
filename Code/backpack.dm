@@ -30,8 +30,8 @@ backpack
 				item.slot = null
 				item.sx = null
 				item.sy = null
-				item.screen_loc = null
 				if(item.screen_loc) Client.screen -= item
+				item.screen_loc = null
 				item = null
 
 				mouse_drag_pointer = MOUSE_INACTIVE_POINTER
