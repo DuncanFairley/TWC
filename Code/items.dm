@@ -788,7 +788,7 @@ obj/items/wearable
 		var/txt  = initial(suffix)
 
 		var/lvl = "<br><br>"
-		if(quality)
+		if(quality > 0 && scale > 0)
 			lvl = "<span style=\"text-align:right;font-size:1;\"><b>+[quality]</b></span>"
 
 
@@ -1680,6 +1680,15 @@ obj/items/wearable/orb
 	desc = "When equipped, your equipped wand will earn experience and level up by killing monsters."
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+
+		if(stack > 1)
+			var/obj/items/wearable/orb/o = Split(1)
+			o.max_stack = 1
+			o.Equip(owner)
+			o.Move(owner)
+
+			return
+
 		. = ..(owner)
 		if(. == WORN)
 			src.gender = owner.gender
@@ -1695,6 +1704,39 @@ obj/items/wearable/orb
 	quality = -1
 	scale   = 3
 
+	Clone()
+		var/obj/items/wearable/orb/i = new type
+
+		i.owner      = owner
+		i.name       = name
+		i.icon_state = icon_state
+		i.exp        = exp
+		i.modifier   = modifier
+		i.bonus      = bonus
+		i.quality    = quality
+
+		return i
+
+	Compare(obj/items/wearable/orb/i)
+
+		if(i.name == name && i.type == type && i.owner == owner && i.icon_state == icon_state && i.exp == exp && i.modifier == modifier && i.bonus == bonus && i.quality == quality)
+
+			if(i.max_stack == max_stack)
+				return 1
+
+			if(isplayer(loc))
+				var/mob/Player/p = loc
+				if((i in p.Lwearing) || (src in p.Lwearing))
+					return 0
+
+				i.max_stack = 0
+				max_stack = 0
+				return 1
+
+		return 0
+
+	//	return i.name == name && i.type == type && i.owner == owner && i.icon_state == icon_state && i.exp == exp && i.modifier == modifier && i.bonus == bonus && i.quality == quality && i.max_stack == max_stack
+
 
 	var
 		exp
@@ -1705,8 +1747,6 @@ obj/items/wearable/orb
 		desc = initial(desc)
 
 		..()
-
-	max_stack = 1
 
 	chaos
 		name       = "orb of chaos"
@@ -3296,11 +3336,23 @@ obj/items/lamps
 		seconds
 		tmp/StatusEffect/S
 
-	max_stack = 1
 	useTypeStack = 1
 	stackName = "Lamps:"
 
 	rarity  = 2
+
+	Clone()
+		var/obj/items/lamps/i = new type
+
+		i.owner      = owner
+		i.name       = name
+		i.icon_state = icon_state
+		i.seconds    = seconds
+
+		return i
+
+	Compare(obj/items/lamps/i)
+		return i.name == name && i.type == type && i.owner == owner && i.icon_state == icon_state && i.seconds == seconds && i.max_stack == max_stack
 
 	double_drop_rate_lamp
 		desc    = "Doubles your drop rate."
@@ -3383,7 +3435,14 @@ obj/items/lamps
 			if(S)
 				S.Deactivate()
 			else
-				S = new effect (usr, seconds, "Lamp", src)
+
+				if(stack > 1)
+					var/obj/items/lamps/l = Split(1)
+					l.max_stack = 1
+					l.Move(src)
+					S = new effect (usr, l.seconds, "Lamp", l)
+				else
+					S = new effect (usr, seconds, "Lamp", src)
 		else
 			..()
 
