@@ -250,7 +250,7 @@ proc
 		scheduler.set_sleep_delay(10)
 		scheduler.start()
 		init_books()
-	//	init_weather()
+		init_weather()
 		init_random_events()
 		init_auction()
 
