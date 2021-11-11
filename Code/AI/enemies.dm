@@ -3206,14 +3206,14 @@ obj/boss/deathDOTControl
 
 				highest = max(highest, distance)
 
-			sleep(100)
+			sleep(40)
 			for(var/i = highest to 0 step -1)
 				if(!active) break
 				for(var/obj/boss/deathdot/d in dotList["[i]"])
 					d.active = 1
 					animate(d, alpha  = 140, time = 40)
 
-				sleep(100)
+				sleep(80)
 
 			while(active)
 				sleep(10)
