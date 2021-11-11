@@ -86,23 +86,22 @@ client/var/tmp/backpack/lastHover
 
 mob/Player
 
-	var/tmp/list/backpack[15][15]
+	var/tmp/list/backpack[BACKPACK_COLS][BACKPACK_ROWS]
 
 	proc/buildBackpack()
-		var/const/size = 15
 
 	//	backpack[size][size] = new
 
 		var/list/colorList
 
-		if(backColor != "#f0f0f0") colorList = list(backColor, backColor, backColor)
+		colorList = list(backColor, backColor, backColor)
 
-		for(var/r = 1 to size)
-			for(var/c = 1 to size)
+		for(var/r = 1 to BACKPACK_ROWS)
+			for(var/c = 1 to BACKPACK_COLS)
 				var/backpack/b = new
 				b.c = c
 				b.r = r
-				if(colorList) b.color = colorList
+				b.color = colorList
 				backpack[c][r] = b
 				b.screen_loc = "backpack:[c],[r]"
 				b.Client = client
@@ -110,7 +109,7 @@ mob/Player
 
 		for(var/obj/items/i in contents)
 			var/backpack/b
-			if(i.sx && i.sx <= size && i.sy <= size)
+			if(i.sx && i.sx <= BACKPACK_COLS && i.sy <= BACKPACK_ROWS)
 				b = backpack[i.sx][i.sy]
 				if(b.item)
 					b = findSlot()
@@ -123,8 +122,7 @@ mob/Player
 				break
 
 	proc/findSlot()
-		var/const/size = 15
-		for(var/r = size to 1 step -1)
-			for(var/c = 1 to size)
+		for(var/r = BACKPACK_ROWS to 1 step -1)
+			for(var/c = 1 to BACKPACK_COLS)
 				var/backpack/b = backpack[c][r]
 				if(!b.item) return b
