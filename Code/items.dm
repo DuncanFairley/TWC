@@ -1751,37 +1751,37 @@ obj/items/wearable/orb
 	chaos
 		name       = "orb of chaos"
 		bonus      = 5
-		exp   	   = 200000
+		exp   	   = 100000
 		icon_state = "chaos"
 
 		greater
 			name     = "greater orb of chaos"
-			exp      = 500000
+			exp      = 300000
 			modifier = 4
 			quality  = -2
 
 	peace
 		name       = "orb of peace"
 		bonus      = 6
-		exp        = 200000
+		exp        = 100000
 		icon_state = "peace"
 
 		greater
 			name     = "greater orb of peace"
-			exp      = 500000
+			exp      = 300000
 			modifier = 4
 			quality  = -2
 
 	magic
 		name       = "orb of magic"
 		bonus      = 7
-		exp   	   = 600000
+		exp   	   = 300000
 		modifier   = 3
 		rarity     = 3
 
 		greater
 			name     = "greater orb of magic"
-			exp      = 2000000
+			exp      = 1000000
 			modifier = 6
 			quality  = -2
 
