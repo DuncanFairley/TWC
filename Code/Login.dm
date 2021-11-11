@@ -2715,7 +2715,7 @@ mob/Player
 
 	proc/BYONDMemberReward()
 		set waitfor = 0
-		if(client.IsByondMember() != 0 && memberReward < 1)
+		if((client.IsByondMember() != 0 && memberReward < 1))
 
 			sleep(50)
 
@@ -2754,6 +2754,7 @@ hudobj/login_reward
 		canClick = FALSE
 		mob/Player/player
 		prize
+		BYOND = 0
 
 	MouseEntered()
 		if(alpha == 255) transform = matrix()*9
@@ -2766,6 +2767,8 @@ hudobj/login_reward
 
 		var/obj/o = new /obj/custom { appearance_flags = RESET_TRANSFORM; maptext_y = -120; maptext_x = -112; maptext_width = 256; maptext_height = 48; plane = 2 }
 
+		if(findtext(Msg, "BYOND"))
+			BYOND = 1
 
 		if(Prize)
 			o.maptext = "<b style=\"text-align:center;color:[player.mapTextColor];\">[Msg]</b>"
@@ -2810,10 +2813,8 @@ hudobj/login_reward
 				 life   = new /Random(40,80))
 
 			if(prize)
-
-				if(findtext(maptext, "BYOND"))
+				if(BYOND)
 					player.memberReward++
-
 				else
 					if(!worldData.eventTaken)
 						worldData.eventTaken = list()
