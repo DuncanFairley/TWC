@@ -636,7 +636,7 @@ mob/Player
 		splitSize
 
 	proc/split(obj/items/i_Item, loc)
-
+		if(splitItem) return
 		src << output("[i_Item.stack]","browser1:ShowSplitStack")
 		splitItem = i_Item
 
