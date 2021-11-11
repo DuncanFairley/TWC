@@ -83,7 +83,7 @@ function Resize() {
     var map_width = body.clientWidth;
     var map_height = body.clientHeight;
 	
-	var map_zoom = 1
+	var map_zoom = 1;
 
     var view_width = Math.ceil(map_width/32);
     if(!(view_width%2)) ++view_width;
@@ -114,7 +114,7 @@ function CenterWindowCallback(properties) {
 
 function ShowSplitStack() {
 	var s = encodeURIComponent(arguments[0]);
-	WinSet("","splitStack.splitPercent.value","100","splitStack.splitBar.value","100","splitButton.text",s);
+	WinSet("","splitStack.splitPercent.value","100","splitStack.splitBar.value","100","splitButton.text",s,"infobubble.is-visible","false");
 	ShowRightWindow("splitStack");
 }
 
