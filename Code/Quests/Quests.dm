@@ -1041,7 +1041,7 @@ mob/Player
 
 			for(var/row = 1 to BACKPACK_ROWS)
 				for(var/col = 1 to BACKPACK_COLS)
-					var/backpack/b = backpack[row][col]
+					var/backpack/b = backpack[col][row]
 					b.color = colorList
 
 		setForeColor(c as color)
