@@ -32,13 +32,13 @@ proc/global_loops()
 Weather
 	var/list/clouds = list()
 	proc
-		clouds(p=0, color=null)
-			generate_clouds(15, p, color)
-			generate_clouds(16, p, color)
-			generate_clouds(23, p, color)
+		clouds(p=0)
+			generate_clouds(15, p)
+			generate_clouds(16, p)
+			generate_clouds(23, p)
 
 		rain()
-			clouds(20, "rain")
+			clouds(15)
 			for(var/area/A in outside_areas)
 				for(var/turf/water/w in A)
 					if(prob(30)) continue
@@ -48,7 +48,7 @@ Weather
 
 				if (world.tick_usage > 80) lagstopsleep()
 		acid()
-			clouds(20, "rain")
+			clouds(15)
 			for(var/area/A in outside_areas)
 				for(var/turf/water/w in A)
 					if(prob(30)) continue
@@ -59,7 +59,7 @@ Weather
 				if (world.tick_usage > 80) lagstopsleep()
 
 		snow()
-			clouds(20)
+			clouds(15)
 			for(var/area/A in outside_areas)
 				A:SetWeather(/obj/weather/snow)
 				A.dmg = 0.75
@@ -76,7 +76,7 @@ Weather
 				if (world.tick_usage > 80) lagstopsleep()
 
 		// relocates / removes / adds existing clouds according to requirement per z level
-		generate_clouds(z, p=0, color=null)
+		generate_clouds(z, p=0)
 			p = max(0,p)
 			if("[z]" in clouds)
 				var/list/z_clouds = clouds["[z]"]
@@ -108,7 +108,7 @@ var/Weather/weather
 
 proc/init_weather()
 	weather = new()
-	scheduler.schedule(new/Event/Weather, 1)
+	scheduler.schedule(new/Event/Weather, 100)
 
 obj/cloud
 	icon  = 'clouds.dmi'
