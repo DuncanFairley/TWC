@@ -27,15 +27,17 @@ backpack
 				mouse_drag_pointer = item
 				mouse_over_pointer = MOUSE_HAND_POINTER
 			else
-				item.slot = null
-				item.sx = null
-				item.sy = null
-				if(item.screen_loc) Client.screen -= item
-				item.screen_loc = null
-				item = null
+				if(item)
+					icon_state = "grid"
+					item.slot = null
+					item.sx = null
+					item.sy = null
+					Client.screen -= item
+					item.screen_loc = null
+					item = null
 
-				mouse_drag_pointer = MOUSE_INACTIVE_POINTER
-				mouse_over_pointer = MOUSE_INACTIVE_POINTER
+					mouse_drag_pointer = MOUSE_INACTIVE_POINTER
+					mouse_over_pointer = MOUSE_INACTIVE_POINTER
 
 	MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
 
@@ -68,21 +70,10 @@ backpack
 		else
 			icon_state = "grid"
 
-	//	var/backpack/tmpHover = usr.client.lastHover
-
-	//	sleep(10)
-//		if(usr.client.lastHover == tmpHover)
-//			usr.client.lastHover.icon_state = "grid"
-	//		usr.client.lastHover = null
-
-//		icon_state = "grid"
-
 
 obj/items/var/tmp/backpack/slot
 obj/items/var/sx
 obj/items/var/sy
-
-client/var/tmp/backpack/lastHover
 
 mob/Player
 
