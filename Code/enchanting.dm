@@ -401,7 +401,8 @@ obj/items/crystal
 
 			if(w.stack > 1)
 				w = w.Split(1)
-				w.loc = p
+
+				w.Move(p)
 
 			w.socket = s
 			if(worn)
