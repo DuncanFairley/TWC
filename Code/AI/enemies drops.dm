@@ -1,5 +1,4 @@
 var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cushion,
-			 	                                         /obj/items/Smoke_Pellet,
 			 	                                         /obj/items/Tube_of_fun)),
 
 "legendary"          = list(/obj/items/crystal/soul,
@@ -30,6 +29,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 					        /obj/items/wearable/sword/ghost),
 
 "Bubbles the Spider" = list(/obj/items/key/basic_key,
+							/obj/items/crystal/soul,
 						    /obj/items/wearable/title/Crawler,
 						    /obj/items/chest/blood_chest,
 						    /obj/items/magic_stone/eye,
@@ -39,6 +39,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 
 "Willy the Whisp"	 = list(/obj/items/key/basic_key,
 							/obj/items/key/wizard_key,
+							/obj/items/crystal/soul,
 							/obj/items/wearable/title/Ghost,
 							/obj/items/lamps/triple_drop_rate_lamp,
 							/obj/items/lamps/triple_gold_lamp,
@@ -46,6 +47,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 
 
 "The Evil Snowman"	 = list(/obj/items/key/winter_key,
+							/obj/items/crystal/soul,
 						    /obj/items/wearable/title/Snowflakes,
 							/obj/items/lamps/triple_drop_rate_lamp,
 							/obj/items/lamps/triple_gold_lamp,
@@ -56,6 +58,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
 							/obj/items/chest/wigs/basic_wig_chest,
 							/obj/items/chest/pet_chest,
 							/obj/items/spellbook/peace,
+							/obj/items/crystal/soul,
 							/obj/items/chest/wizard_chest,
 							/obj/items/spellbook/gladius,
 							/obj/items/lamps/triple_drop_rate_lamp,
@@ -78,6 +81,7 @@ var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cush
                             /obj/items/wearable/pets/sword,
 							/obj/items/wearable/title/Samurai,
 							/obj/items/spellbook/gladius,
+							/obj/items/crystal/soul,
 							/obj/items/vault_key),
 
 "duelist"            = list("10" = list(/obj/items/key/wizard_key,
