@@ -1037,12 +1037,12 @@ mob/Player
 			backColor = "[c]"
 			src << output("[c]","browser1:BackColor")
 
-			var/list/colorList = list(backColor, backColor, backColor)
+		//	var/list/colorList = list(backColor, backColor, backColor)
 
 			for(var/row = 1 to BACKPACK_ROWS)
 				for(var/col = 1 to BACKPACK_COLS)
 					var/backpack/b = backpack[col][row]
-					b.color = colorList
+					b.color = backColor
 
 		setForeColor(c as color)
 			set hidden=1

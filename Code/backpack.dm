@@ -92,16 +92,16 @@ mob/Player
 
 	//	backpack[size][size] = new
 
-		var/list/colorList
+	//	var/list/colorList
 
-		colorList = list(backColor, backColor, backColor)
+//		colorList = list(backColor, backColor, backColor)
 
 		for(var/r = 1 to BACKPACK_ROWS)
 			for(var/c = 1 to BACKPACK_COLS)
 				var/backpack/b = new
 				b.c = c
 				b.r = r
-				b.color = colorList
+				b.color = backColor
 				backpack[c][r] = b
 				b.screen_loc = "backpack:[c],[r]"
 				b.Client = client
