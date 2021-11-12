@@ -2,12 +2,6 @@ var/EventScheduler/tempFix/scheduler = new()
 atom/var/tmp/list/StatusEffect/LStatusEffects
 
 EventScheduler/tempFix
-	schedule(var/Event/E, var/ticks as num, var/priority = 0)
-		..(E, round(ticks / __sleep_delay), priority)
-
-	time_to_fire(var/Event/E)
-		.=..()
-		if(.) . *= __sleep_delay
 
 	__iteration()
 //		__tick+=__sleep_delay
@@ -247,7 +241,7 @@ proc/cleanPlayerData(decay = 0)
 
 proc
 	init_events()
-		scheduler.set_sleep_delay(10)
+//		scheduler.set_sleep_delay(10)
 		scheduler.start()
 		init_books()
 		init_weather()
