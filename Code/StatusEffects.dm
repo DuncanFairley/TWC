@@ -589,7 +589,7 @@ StatusEffect
 				..()
 
 		Tame
-			var/factor = 10
+			var/factor = 15
 
 			Activate()
 				var/mob/Player/p = AttachedAtom

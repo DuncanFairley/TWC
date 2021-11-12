@@ -787,10 +787,9 @@ obj/items/wearable
 		var/worn = findtext(suffix, "worn")
 		var/txt  = initial(suffix)
 
-		var/lvl = ""
+		var/lvl
 		if(quality > 0 && scale > 0)
 			lvl = {"<span style="font-family:arial;font-size:8px;color:#fff;text-align:center;vertical-align:middle;-dm-text-outline:1px #ff0000"><b>+[quality]</b></span>"}
-
 
 		if(stack > 1)
 			suffix  = "<span style=\"color:#c00;\">(x[stack])</span>"
@@ -814,8 +813,6 @@ obj/items/wearable
 			else
 				maptext = lvl
 				suffix = txt
-
-		maptext = "<div style=\"white-space:pre-line\">[maptext]</div>"
 
 	proc
 		calcBonus(mob/Player/owner, reset=1)
