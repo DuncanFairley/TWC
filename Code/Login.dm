@@ -2447,7 +2447,7 @@ obj/Banker
 					new/obj/items/wearable/wands/interruption_wand(usr)
 					var/obj/items/freds_key/k = locate() in usr
 					if(k)
-						k.loc = null
+						k.Dispose()
 
 					p.checkQuestProgress("Fred's Wand")
 					return
