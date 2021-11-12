@@ -782,14 +782,14 @@ obj/items/wearable
 
 	UpdateDisplay()
 		var/const/WORN_TEXT = "<span style=\"color:blue;\">(Worn)</span>"
-		var/const/EQUIP = "<span style=\"text-align:left;font-size:1;\"><b>E</b></span>"
+		var/const/EQUIP = {"<span style="font-family:arial;font-size:8px;color:#fff;text-align:left;vertical-align:top;-dm-text-outline:1px #000000"><b>E</b></span>"}
 
 		var/worn = findtext(suffix, "worn")
 		var/txt  = initial(suffix)
 
-		var/lvl = "<br><br>"
+		var/lvl = ""
 		if(quality > 0 && scale > 0)
-			lvl = "<span style=\"text-align:right;font-size:1;\"><b>+[quality]</b></span>"
+			lvl = {"<span style="font-family:arial;font-size:8px;color:#fff;text-align:center;vertical-align:middle;-dm-text-outline:1px #ff0000"><b>+[quality]</b></span>"}
 
 
 		if(stack > 1)
@@ -798,9 +798,9 @@ obj/items/wearable
 
 			if(worn)
 				suffix = "[suffix] [WORN_TEXT]"
-				maptext = "[EQUIP]<br><span style=\"font-size:1; color:#c00;\"><b>[stack]</b></span>"
+				maptext = "[EQUIP][lvl]"
 			else
-				maptext = "<span style=\"font-size:1; color:#c00;\"><b>[stack]</b></span>"
+				maptext = "[lvl]<span style=\"font-size:1px; color:#c00;text-align:left;vertical-align:bottom;\"><b>[stack]</b></span>"
 
 			if(txt)
 				suffix = "[suffix] [txt]"
@@ -814,6 +814,8 @@ obj/items/wearable
 			else
 				maptext = lvl
 				suffix = txt
+
+		maptext = "<div style=\"white-space:pre-line\">[maptext]</div>"
 
 	proc
 		calcBonus(mob/Player/owner, reset=1)
