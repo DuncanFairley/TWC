@@ -1,5 +1,5 @@
-var/list/drops_list = list("default" = list("0.1" = list(/obj/items/Whoopie_Cushion,
-			 	                                         /obj/items/Tube_of_fun)),
+var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cushion,
+			 	                                          /obj/items/Tube_of_fun)),
 
 "legendary"          = list(/obj/items/crystal/soul,
 							/obj/items/artifact,
