@@ -43,6 +43,8 @@ backpack
 
 		if(item)
 			item.MouseDrop(over_object,src_location,over_location,src_control,over_control,params)
+		if(over_object != src)
+			icon_state = "grid"
 
 	Click(location,control,params)
 		if(item)
