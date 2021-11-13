@@ -2090,6 +2090,7 @@ mob/proc/Death_Check(mob/killer = src)
 
 				var/StatusEffect/Lava/s = locate() in p.LStatusEffects
 				if(s) s.Deactivate()
+				p.filters = null
 
 				p.HP=p.MHP
 				p.MP=p.MMP
