@@ -685,7 +685,6 @@ obj/squirrel
 		MHP = 9000000
 		mob/Player/target
 		obj/healthbar/big/hpbar
-		turf/origloc
 		size = 1
 
 		feed = 0

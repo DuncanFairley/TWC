@@ -84,9 +84,12 @@ obj
 			pixel_x = rand(-7,7)
 			pixel_y = rand(-7,7)
 
-	proc/backToPos(turf/origloc)
+	var/tmp/turf/origloc
+	proc/backToPos(turf/origSpot)
 		set waitfor = 0
-		if(origloc)
+
+		if(!origloc)
+			origloc = origSpot
 			do
 				sleep(rand(700, 2400))
 			while (locate(/mob/Player) in range(1, src))
@@ -107,6 +110,8 @@ obj
 				glide_size = 32
 			else
 				loc = origloc
+
+			origloc = null
 
 
 	flyblock
