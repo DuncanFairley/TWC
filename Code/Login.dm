@@ -2561,7 +2561,7 @@ proc
 					time += rand(0, 100)
 
 					if(E.hardmode)
-						time -= (time * E.hardmode)/10
+						time -= (time * E.hardmode)/10 + E.hardmode*30
 
 						time = max(round(time), 300) + rand(-30, 30)
 
@@ -2570,7 +2570,7 @@ proc
 						time = time * (1 - (killer.level - (1 + E.level))/800)
 
 					if(E.hardmode)
-						time -= (time * E.hardmode)/10
+						time -= (time * E.hardmode)/10 + E.hardmode*30
 
 					time = max(round(time), 100) + rand(-30, 30)
 
