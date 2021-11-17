@@ -2225,7 +2225,7 @@ mob
 					else
 						p.updateHP()
 
-				SpawnPet(killer, 0.05, null, /obj/items/wearable/pets/pumpkin)
+				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/pumpkin)
 
 
 		The_Good_Snowman
