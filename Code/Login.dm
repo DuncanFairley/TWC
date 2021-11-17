@@ -1383,6 +1383,7 @@ mob/Player
 	var/tmp
 		obj/favorites/objFavorites = new
 		list/mousehelper = list()
+		showItems = 0
 
 		backpackOpen = 0
 
@@ -1540,48 +1541,49 @@ mob/Player
 				backpackOpen = 0
 				winset(src, "backpack", "is-visible=false")
 
-		if(statpanel("Items"))
+		if(showItems || contents.len > BACKPACK_ROWS * BACKPACK_COLS)
+			if(statpanel("Items"))
 
-			var/list/money = list()
-	//		var/list/stacked
-			var/list/other = list()
+				var/list/money = list()
+		//		var/list/stacked
+				var/list/other = list()
 
-			for(var/obj/O in src.contents)
-				if(istype(O, /obj/items/money))
-					money += O
-		//		else if(istype(O,/obj/stackobj))
+				for(var/obj/O in src.contents)
+					if(istype(O, /obj/items/money))
+						money += O
+			//		else if(istype(O,/obj/stackobj))
 
-		//			if(!stacked) stacked = list()
-		//			stacked += O
+			//			if(!stacked) stacked = list()
+			//			stacked += O
 
-				else
-					if(Lfavorites && (O in Lfavorites)) continue
+					else
+						if(Lfavorites && (O in Lfavorites)) continue
 
-					other += O
+						other += O
 
-		//			var/t
-		//			if(O.useTypeStack == 0)
-		//				t = O.type
-		//			else if(O.useTypeStack == 1)
-		//				t = O.parent_type
-		//			else
-		//				t = O.useTypeStack
-		//			if(!src:stackobjects || !(src:stackobjects.Find(t))) //If there's NOT a stack object for this obj type, print it
-		//				if(!other) other = list()
-		//				other += O
+			//			var/t
+			//			if(O.useTypeStack == 0)
+			//				t = O.type
+			//			else if(O.useTypeStack == 1)
+			//				t = O.parent_type
+			//			else
+			//				t = O.useTypeStack
+			//			if(!src:stackobjects || !(src:stackobjects.Find(t))) //If there's NOT a stack object for this obj type, print it
+			//				if(!other) other = list()
+			//				other += O
 
 
-			if(money)
-				stat("Money:")
-				stat(money)
+				if(money)
+					stat("Money:")
+					stat(money)
 
-			stat(objFavorites.isopen ? "-" : "+", objFavorites)
-			if(objFavorites.isopen && Lfavorites)
-				stat(Lfavorites)
+				stat(objFavorites.isopen ? "-" : "+", objFavorites)
+				if(objFavorites.isopen && Lfavorites)
+					stat(Lfavorites)
 
-			stat("Items:")
-			if(other)
-				stat(other)
+				stat("Items:")
+				if(other)
+					stat(other)
 
 	/*		if(stacked)
 				stat("Click to expand stacked items.")
