@@ -1844,21 +1844,6 @@ atom/movable/proc
 		loc = null
 
 
-obj/portkey
-	Dispose()
-		partner = null
-		..()
-	Attacked(obj/projectile/p)
-		HP--
-		p.owner << "You hit the [name]."
-		if(HP < 1)
-			hearers(partner) << infomsg("The portkey has been destroyed from the other end.")
-			hearers(src)     << infomsg("The portkey has been destroyed.")
-
-			p.Dispose()
-			partner.Dispose()
-			Dispose()
-
 obj/egg
 	Attacked()
 		Hit()
@@ -2874,6 +2859,10 @@ obj/portkey
 	var
 		HP = 15
 		canDamage = 1
+
+		list/Players
+		obj/clock/timed = 0
+
 	icon='portal.dmi'
 	icon_state="portkey"
 	accioable = 1
@@ -2920,7 +2909,62 @@ obj/portkey
 
 		if(!(!M.client.moving && issafezone(M.loc.loc, 0)) && M.Transfer(partner.loc, 0))
 			M << "You step through the portkey."
+
+			if(timed)
+				if(timed == 2)
+
+					var/hudobj/Timer/t = locate() in M.client.screen
+					t.hide()
+
+					partner.timed.related -= t
+					if(partner.timed.related.len == 0)
+						partner.timed.related = null
+
+
+					partner.Players -= M
+					if(partner.Players.len == 0)
+						partner.Players = null
+
+				else
+					if(!Players) Players = list()
+					Players += M
+
+					var/hudobj/Timer/t = new(null, M.client, null, show=1)
+
+					t.maptext = timed.maptext
+
+					if(!timed.related)
+						timed.related = list()
+					timed.related += t
+
 			..()
+
+	Dispose()
+		if(Players)
+			for(var/mob/Player/p in Players)
+				p.Transfer(loc)
+
+			Players = null
+
+		if(timed && timed != 2)
+
+			for(var/hudobj/h in timed.related)
+				h.hide()
+
+			timed.related = null
+
+		partner = null
+		..()
+	Attacked(obj/projectile/p)
+		HP--
+		p.owner << "You hit the [name]."
+		if(HP < 1)
+			hearers(partner) << infomsg("The portkey has been destroyed from the other end.")
+			hearers(src)     << infomsg("The portkey has been destroyed.")
+
+			p.Dispose()
+			partner.Dispose()
+			Dispose()
 
 mob/Player
 	var/tmp/teleporting = 0

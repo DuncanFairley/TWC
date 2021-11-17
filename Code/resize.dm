@@ -517,6 +517,19 @@ hudobj
 		screen_y    = -44
 		anchor_y    = "NORTH"
 
+	Timer
+		icon = 'HUD.DMI'
+		icon_state = "cdr"
+
+		anchor_x    = "CENTER"
+		anchor_y    = "CENTER"
+
+		maptext_width = 128
+		maptext_x = 32
+
+		screen_x = -32
+		screen_y = 128
+
 obj/background
 	icon = 'black50.dmi'
 	color = "#000"

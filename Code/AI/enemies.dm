@@ -394,6 +394,8 @@ area
 				Snake
 				SnakeBoss
 					antiTeleport = TRUE
+				Cow
+					antiTeleport = TRUE
 
 		Entered(atom/movable/O)
 			. = ..()
@@ -616,8 +618,12 @@ mob
 					else
 						color = "#d00"
 
-		proc/SpawnPortal(dest, var/obj/Hogwarts_Door/gate/door, chance = 100, lava=0, timer=0)
+		proc/SpawnPortal(dest, var/obj/Hogwarts_Door/gate/door, chance = 100, lava=0, timer=0, timedInstance=0)
 			set waitfor = 0
+
+			if(dest == "cow dungeon level 1")
+				timedInstance = 1
+				timer = 3000
 
 			if(isElite) chance *= 5
 
@@ -631,8 +637,10 @@ mob
 			var/turf/target = locate(dest)
 			if(istype(target, /atom/movable)) target = target.loc
 
-			var/obj/portkey/P1 = new(loc, 0, "portkey", respawnTime-50)
-			var/obj/portkey/P2 = new(target, 0, "portkey", respawnTime-50)
+			var/timeToRespawn = timer > 1 ? timer : respawnTime
+
+			var/obj/portkey/P1 = new(loc, 0, "portkey", timeToRespawn)
+			var/obj/portkey/P2 = new(target, 0, "portkey", timeToRespawn)
 			P1.partner = P2
 			P2.partner = P1
 
@@ -653,17 +661,24 @@ mob
 			if(timer)
 				var/obj/clock/c = new(get_step(P1, SOUTH))
 
-				var/min = round(respawnTime/600)
-				var/sec = respawnTime - min*600
+				world << timeToRespawn
+				world << round(timeToRespawn/600)
+
+				var/min = round(timeToRespawn/600)
+				var/sec = round(timeToRespawn/10) - min*600
 
 				c.setTime(min,sec)
+
+				if(timedInstance)
+					P2.timed = 2
+					P1.timed = c
 
 				while(!c.countdown())
 					sleep(10)
 
 				c.loc = null
 			else
-				sleep(respawnTime-50)
+				sleep(timeToRespawn)
 
 			if(door) door.door = 0
 
@@ -2150,6 +2165,19 @@ mob
 
 				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/wolf)
 
+		Cow
+			icon_state  = "cow"
+			level       = 1000
+			HPmodifier  = 1.5
+			DMGmodifier = 0.5
+
+			respawnTime = 300
+
+			Death(mob/Player/killer)
+				..()
+
+				SpawnPet(killer, 0.2, null, /obj/items/wearable/pets/Cow)
+
 		Pumpkin
 			icon = 'Mobs.dmi'
 			icon_state  = "pumpkin"
@@ -3245,5 +3273,6 @@ obj/boss/deathdot
 var/list/dungeons = list(
 "teleportPointSnake Dungeon" = 10,
 "teleportPointSnowman Dungeon" = 10,
+"cow dungeon level 1" = 8,
 "PumpkinEntrance" = 5,
 "teleportPointCoS Floor 3" = 10)

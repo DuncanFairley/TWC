@@ -639,6 +639,8 @@ obj
 		var/seconds
 		var/minutes
 
+		var/tmp/list/related
+
 		maptext_width = 64
 
 		proc
@@ -674,6 +676,10 @@ obj
 					maptext = "<b><span style=\"font-size:4; color:#FF4500;\">[minutes]:[seconds < 10 ? "0" : ""][seconds]</span></b>"
 				else
 					maptext = "<b><span style=\"font-size:4; color:#FF4500;\">[seconds]</span></b>"
+
+				if(related)
+					for(var/obj/o in related)
+						o.maptext = maptext
 
 
 PlayerData
