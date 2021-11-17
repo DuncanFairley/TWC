@@ -661,9 +661,6 @@ mob
 			if(timer)
 				var/obj/clock/c = new(get_step(P1, SOUTH))
 
-				world << timeToRespawn
-				world << round(timeToRespawn/600)
-
 				var/min = round(timeToRespawn/600)
 				var/sec = round(timeToRespawn/10) - min*600
 
