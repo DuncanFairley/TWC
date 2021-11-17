@@ -2553,7 +2553,7 @@ mob
 					new /mob/Enemies/Summoned/Acromantula (loc)
 
 
-				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/acromantula)
+				SpawnPet(killer, 0.2, null, /obj/items/wearable/pets/acromantula)
 				SpawnPortal(pickweight(dungeons), chance=2)
 
 			MapInit()
@@ -2720,7 +2720,7 @@ mob
 			Death(mob/Player/killer)
 				..()
 
-				SpawnPet(killer, 0.02, "rand", /obj/items/wearable/pets/wisp)
+				SpawnPet(killer, 0.1, "rand", /obj/items/wearable/pets/wisp)
 				SpawnPortal(pickweight(dungeons), chance=1)
 
 
@@ -2789,7 +2789,7 @@ mob
 						Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
 						new /mob/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97), rand(4,97), 3))
 
-					SpawnPet(killer, 0.02, null, /obj/items/wearable/pets/floating_eye)
+					SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/floating_eye)
 
 			Blocked()
 				density = 0
@@ -2856,7 +2856,7 @@ mob
 			Death(mob/Player/killer)
 				..()
 
-				SpawnPet(killer, 0.03, null, /obj/items/wearable/pets/troll)
+				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/troll)
 				SpawnPortal(pickweight(dungeons), chance=0.3)
 
 			ChangeState(var/i_State)
