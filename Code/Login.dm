@@ -798,8 +798,6 @@ mob
 			character.hpBar = new(character)
 			character.InitMouseHelper()
 
-			character.BYONDMemberReward()
-
 			for(var/mob/Player/p in Players)
 				if(p.Gm)
 					p << "<span style=\"font-size:2; color:#C0C0C0;\"><b><i>[character][character.refererckey==p.client.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey])([character.client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</i></b></span>"
