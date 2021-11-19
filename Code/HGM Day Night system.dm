@@ -35,7 +35,7 @@ Weather
 		clouds(p=0)
 			generate_clouds(15, p)
 			generate_clouds(16, p)
-			generate_clouds(23, p)
+			generate_clouds(6, p)
 
 		rain()
 			clouds(15)
@@ -116,6 +116,7 @@ obj/cloud
 	mouse_opacity = 0
 	glide_size = 2
 	post_init = 1
+	canSave = FALSE
 
 	var/const/SIZE = 5
 
