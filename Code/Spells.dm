@@ -184,7 +184,7 @@ mob/Spells/verb/Disperse()
 			del(S)
 		for(var/turf/T in oview())
 			if(T.specialtype & SWAMP)
-				T.slow -= 5
+				T.slow -= 1
 				T.specialtype -= SWAMP
 				var/image/i = image('Effects.dmi',icon_state = "m-black",layer=10)
 				T.overlays += i
