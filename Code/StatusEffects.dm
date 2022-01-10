@@ -187,7 +187,7 @@ Event
 				worldData.majorPeace = guilds[guilds.len]
 
 			// rep/fame decay + clean player data
-			cleanPlayerData(0)
+			cleanPlayerData(1)
 
 	RandomEvents
 		fire()
