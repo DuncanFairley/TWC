@@ -5395,6 +5395,14 @@ obj/items/wearable/sword/ghost
 	suffix = "<span style=\"color:#ffa500;\">Your projectiles element will be ghost.</span>"
 	passive = SWORD_GHOST
 
+obj/items/wearable/sword/explode
+	icon='trophies.dmi'
+	icon_state="boomblade"
+	name="Boomblade"
+	desc="Monsters you kill explode."
+	suffix = "<span style=\"color:#ffa500;\">Monsters you kill explode.</span>"
+	passive = SWORD_EXPLODE
+
 
 obj/items/wearable/gm_robes
 	icon = 'trims.dmi'

@@ -2063,7 +2063,41 @@ mob/Enemies
 		HP -= dmg
 
 		if(HP <= 0)
+
+			var/restoreBleed = FALSE
+			if(p && canBleed && (p.passives & SWORD_EXPLODE))
+				canBleed = FALSE
+				restoreBleed = TRUE
+
+				var/c = color
+				if(elem != 0)
+					if(elem == FIRE) c = "#c60"
+					else if(elem == WATER) c = "#0bc"
+					else if(elem == EARTH) c = "#8b4513"
+					else if(elem == GHOST) c = "#ff69b4"
+
+				emit(loc    = loc,
+					 ptype  = /obj/particle/smoke,
+					 amount = 8,
+					 angle  = new /Random(0, 360),
+					 speed  = 2,
+					 life   = new /Random(15,20),
+					 color  = c)
+
+				var/obj/projectile/proj = new
+				proj.element = elem
+				proj.damage = round(dmg*0.1, 1)
+				proj.owner = p
+				proj.name = "[name]'s explosion"
+				proj.selfDamage = 0
+				for(var/atom/movable/a in range(1, loc))
+					a.Attacked(proj)
+
+
 			Death_Check(p)
+
+			if(restoreBleed)
+				canBleed = TRUE
 
 			if(p.passives & SWORD_HEALONKILL)
 				p.HP = min(round(p.HP + MHP*0.15, 1), p.MHP)
