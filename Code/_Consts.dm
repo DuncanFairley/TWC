@@ -69,6 +69,7 @@
 #define WATER 4
 #define GHOST 8
 #define HEAL 16
+#define COW 32
 
 #define SWAMP  1
 #define SHIELD 2

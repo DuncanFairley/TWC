@@ -147,7 +147,7 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 							              /obj/items/crystal/strong_luck)),
 
 
-"Floating Eye"       = list("0.02" =      /obj/items/wearable/title/Eye),
+"Floating Eye"       = list("0.02" =  /obj/items/wearable/title/Eye),
 
 
 "Troll"              = list("5"    = list(/obj/items/Whoopie_Cushion,
@@ -157,6 +157,8 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 			 			  	 			  /obj/items/scroll,
 			 			  	 			  /obj/items/ingredients/eyes,
 			 			  	 			  /obj/items/wearable/title/Troll)),
+
+"Cow"                = list("0.1"    = /obj/items/spellpage/cow),
 
 "Acromantula"        = list("0.5"    = list(/obj/items/key/winter_key,
 			 			  	 			  /obj/items/key/blood_key,

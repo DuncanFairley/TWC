@@ -108,9 +108,15 @@ obj/summon
 			color = rgb(rand(20, 255), rand(20, 255), rand(20, 255), rand(190,255))
 
 			..(loc, p, spell, size)
+
+	cow
+		level = 200
+		scale = 2
+		icon_state = "cow"
+
 	heal
 		icon_state = "slug"
-		level = 160
+		level = 180
 		scale = 1.6
 
 	New(turf/loc, mob/Player/p, spell, size=0)

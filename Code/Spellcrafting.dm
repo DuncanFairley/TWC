@@ -113,6 +113,8 @@ obj/items/wearable/spellbook
 				e = "Ghost"
 			if(HEAL)
 				e = "Healing"
+			if(COW)
+				e = "Moo"
 		var/t
 
 		switch(spellType)
@@ -190,6 +192,8 @@ obj/items/wearable/spellbook
 				dmg += p.Ghost.level
 			if(HEAL)
 				state = "healing"
+			if(COW)
+				state = "cow"
 
 		if(spellType == EXPLOSION)
 			for(var/d in DIRS_LIST)
@@ -212,6 +216,8 @@ obj/items/wearable/spellbook
 					s = new /obj/summon/ghost (p.loc, p, command, 0.5)
 				if(HEAL)
 					s = new /obj/summon/heal (p.loc, p, command, 0.5)
+				if(COW)
+					s = new /obj/summon/cow (p.loc, p, command, 0.5)
 
 			s.scale = damage
 		else if(spellType == METEOR)
@@ -371,6 +377,9 @@ obj/items/spellpage
 	heal
 		name = "Spell Page: \[Heal]"
 		element = HEAL
+	cow
+		name = "Spell Page: \[Cow]"
+		element = COW
 	damagetaken
 		name = "Spell Page: \[Cast On Damage Taken]"
 		flags = PAGE_DAMAGETAKEN
