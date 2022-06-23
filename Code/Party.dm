@@ -54,7 +54,7 @@ party
 
 		refreshHealthPos()
 			var/mob/Player/m = members[1]
-			var/offset = 2
+			var/offset = 3
 			for(var/obj/healthbar/bar in m.client.screen)
 				if(bar.name == "screen") continue
 				bar.screen_loc = "NORTH-[offset],WEST+2"
