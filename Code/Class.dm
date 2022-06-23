@@ -594,12 +594,11 @@ mob/Player
 
 				var/spellpath = learning.path
 
-				spawn()
-					var/obj/items/wearable/wands/practice_wand/wand = locate() in Lwearing
-					if(wand)
-						wand.Equip(src)
-						wand.Dispose()
-						verbs += spellpath
+				var/obj/items/wearable/wands/practice_wand/wand = locate() in Lwearing
+				if(wand)
+					wand.Equip(src)
+					wand.Dispose()
+					verbs += spellpath
 
 
 learnSpell
