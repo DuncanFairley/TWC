@@ -2076,22 +2076,30 @@ mob/Enemies
 					else if(elem == EARTH) c = "#8b4513"
 					else if(elem == GHOST) c = "#ff69b4"
 
-				emit(loc    = loc,
-					 ptype  = /obj/particle/smoke,
-					 amount = 8,
-					 angle  = new /Random(0, 360),
-					 speed  = 2,
-					 life   = new /Random(15,20),
-					 color  = c)
+		//		emit(loc    = loc,
+		//			 ptype  = /obj/particle/smoke,
+		//			 amount = 4,
+		//			 angle  = new /Random(0, 360),
+		//			 speed  = 2,
+		//			 life   = new /Random(15,20),
+		//			 color  = c)
 
 				var/obj/projectile/proj = new
 				proj.element = elem
-				proj.damage = round(dmg*0.1, 1)
+				proj.damage = round(dmg*0.75, 1)
 				proj.owner = p
 				proj.name = "[name]'s explosion"
 				proj.selfDamage = 0
-				for(var/atom/movable/a in range(1, loc))
-					a.Attacked(proj)
+
+				var/obj/o = new /obj/custom { canSave = 0; icon = 'Effects.dmi'; icon_state = "explode" } (loc)
+				o.color = list(c, c, c)
+				o.transform = turn(matrix()*(1.25 + (rand(0, 25) / 100)), 90 * rand(0, 3))
+				spawn(6)
+					o.loc = null
+
+				for(var/mob/Enemies/a in range(1, loc))
+					if(a.HP > 0)
+						a.Attacked(proj)
 
 
 			Death_Check(p)
