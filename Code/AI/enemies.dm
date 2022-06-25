@@ -912,6 +912,8 @@ mob
 										filters = filter(type="outline", size=1, color="#ffa500")
 									if(4)
 										filters = filter(type="outline", size=1, color="#551a8b")
+									if(5)
+										filters = filter(type="outline", size=1, color="#ff0000")
 
 								HP = MHP * (1 + hardmode)
 
