@@ -5321,6 +5321,15 @@ obj/items/wearable/shield/gold
 	suffix = "<span style=\"color:#ffa500;\">You no longer suffer gold loss on death.</span>"
 	passive = SHIELD_GOLD
 
+obj/items/wearable/shield/titan
+	icon='trophies.dmi'
+	icon_state="Shield"
+	name="Titan's Shield"
+	desc="Stat gain from this shield is doubled."
+	suffix = "<span style=\"color:#ffa500;\">Stat gain from this shield is doubled.</span>"
+	monsterDef = 5
+	scale = 2
+
 obj/items/wearable/sword
 	bonus  = 0
 	socket = 0
