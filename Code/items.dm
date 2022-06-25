@@ -3326,6 +3326,16 @@ obj/items/artifact
 	icon_state = "Ring"
 	rarity     = 3
 
+obj/items/ember_of_despair
+	icon       = 'attacks.dmi'
+	icon_state = "flame"
+	rarity     = 3
+
+obj/items/ember_of_frost
+	icon       = 'attacks.dmi'
+	icon_state = "frost"
+	rarity     = 3
+
 
 obj/items/lamps
 	icon       = 'lamp.dmi'

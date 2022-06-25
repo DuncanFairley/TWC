@@ -3315,6 +3315,11 @@ obj/monster_portal
 			monster.element     = elem == "Fire" ? FIRE : WATER
 			monster.calcStats()
 
+			if(elem == "Fire")
+				monster.drops = list("5" = /obj/items/ember_of_despair)
+			else
+				monster.drops = list("5" = /obj/items/ember_of_frost)
+
 			animate(monster, alpha = 255, time = 5)
 			mobs += monster
 

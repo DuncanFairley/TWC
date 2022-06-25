@@ -460,3 +460,86 @@ obj/items/crystal
 		ignoreItem = TRUE
 		rarity = 3
 		desc = null
+
+
+obj/blacksmith
+	icon               = 'attacks.dmi'
+	icon_state         = "frost"
+
+	mouse_over_pointer = MOUSE_HAND_POINTER
+	mouse_opacity      = 2
+	layer              = 4
+	density            = 1
+
+	var
+		max_upgrade = 10
+
+	Click()
+
+		if(src in oview(3))
+			var/mob/Player/p = usr
+
+			var/obj/items/wearable/i = locate() in locate(x, y-1, z)
+
+			if(i)
+
+				if(i.bonus == -1 && i.quality >= max_upgrade && (i.bonus & 4))
+					p << errormsg("[i.name] can not be upgraded.")
+				else
+					var/obj/items/ember_of_despair/despair = locate() in p
+					var/obj/items/ember_of_frost/frost = locate() in p
+
+					var/price = i.quality + 1
+
+					var/cancel = 0
+					if(!despair || despair.stack < price)
+						p << errormsg("You need [price] embers of despair to upgrade [i.name]. You have [despair ? despair.stack : "0"].")
+						cancel = 1
+
+					if(!frost || frost.stack < price)
+						p << errormsg("You need [price] embers of frost to upgrade [i.name]. You have [frost ? frost.stack : "0"].")
+						cancel = 1
+
+					if(cancel) return
+
+					despair.Consume(price)
+					frost.Consume(price)
+
+					if(i.quality >= 5 && prob(i.quality * 5))
+
+						var/chanceToFail = (i.quality+1)*5 + 5
+						p << infomsg("Failure! You could not upgrade [i.name]. ([100 - chanceToFail]%)")
+						return
+
+
+					i.bonus |= 3
+					i.quality++
+					i.name = "[splittext(i.name, " +")[1]] +[i.quality]"
+					i.UpdateDisplay()
+
+					p << infomsg("Success! You crafted [i.name].")
+
+					emit(loc    = src,
+						 ptype  = /obj/particle/magic,
+					     amount = 50,
+					     angle  = new /Random(1, 359),
+					     speed  = 2,
+					     life   = new /Random(15,25))
+
+
+			else if(i)
+				step(i, pick(SOUTH, SOUTHEAST, SOUTHWEST, EAST, WEST))
+			else
+				p << errormsg("Place an item you wish to upgrade in the red square.")
+
+
+
+
+
+		//			p << errormsg("You can't use this while an event is running.")
+
+
+		//		var/ScreenText/s = new(p, src)
+				//s.AddText("You solved the riddle.")
+
+
