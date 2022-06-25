@@ -812,6 +812,9 @@ mob
 				if(killer.pet)
 					killer.pet.fetch(prize)
 
+			if(killer.level >= 750 && prob(base*rate*12))
+				new /obj/monster_portal (loc)
+
 			if(prob(base * rate + killer.pity))
 				sparks = 1
 				prize = pick(drops_list["legendary"])
@@ -3254,6 +3257,79 @@ obj/boss/deathDOTControl
 
 		Stop()
 			active = 0
+
+
+obj/monster_portal
+
+	icon = 'spotlight.dmi'
+	layer = 10
+	alpha = 160
+	blend_mode = BLEND_MULTIPLY
+
+	pixel_x = -64
+	pixel_y = -64
+
+	New()
+		set waitfor = 0
+		..()
+
+		var/elem = pick("Fire", "Water")
+
+		if(elem == "Fire") color = "#c60"
+		else               color = "#0bc"
+
+		transform = matrix() * 0.2
+
+
+		var/const/RANGE = 10
+		animate(src, transform = matrix() * (RANGE * 0.4), time = RANGE * 5)
+
+		sleep(5)
+
+		var/list/mobs = list()
+
+		for(var/i = 1 to RANGE - 1)
+
+			var/offsetX = pick(i, -i, 0)
+			var/offsetY = pick(i, -i, 0)
+
+			if(offsetX == 0 && offsetY == 0)
+				if(prob(50))
+					offsetX = pick(i, -i)
+				else
+					offsetY = pick(i, -i)
+
+			var/turf/t = locate(x + offsetX, y + offsetY, z)
+
+			var/mob/Enemies/Summoned/monster = new (t)
+
+			monster.alpha = 0
+			monster.DMGmodifier = 1
+			monster.HPmodifier  = 1.5
+			monster.MoveDelay   = 3
+			monster.AttackDelay = 3
+			monster.level       = 800
+			monster.transform   = matrix() * (1.5 + (rand(0, 50) / 100))
+			monster.name        = "[elem] Elemental"
+			monster.icon_state  = "[lowertext(elem)] elemental"
+			monster.element     = elem == "Fire" ? FIRE : WATER
+			monster.calcStats()
+
+			animate(monster, alpha = 255, time = 5)
+			mobs += monster
+
+			sleep(5)
+
+		sleep(30)
+		animate(src, transform = matrix() * 0.2, time = 20)
+		sleep(20)
+		loc = null
+
+		for(var/mob/Enemies/Summoned/mon in mobs)
+			mon.Dispose()
+			mon.ChangeState(mon.INACTIVE)
+			mobs -= mon
+		mobs = null
 
 
 obj/boss/deathdot
