@@ -5171,6 +5171,8 @@ obj/items/wearable/ring/snowring
 	desc="A magical ring that can manipulate water."
 	suffix = "<span style=\"color:#ffa500;\">Allows you to walk on water.</span>"
 	passive = RING_WATERWALK
+	monsterDmg = 3
+	monsterDef = 3
 
 obj/items/wearable/ring/aetherwalker_ring
 	icon='ammy.dmi'
@@ -5185,6 +5187,8 @@ obj/items/wearable/ring/ring_of_displacement
 	desc="A magical ring that allows you to walk through monsters."
 	suffix = "<span style=\"color:#ffa500;\">Allows you to walk through monsters.</span>"
 	passive = RING_DISPLACEMENT
+	monsterDmg = 3
+	monsterDef = 3
 
 obj/items/wearable/ring/demonic_ring
 	icon='ammy.dmi'
@@ -5199,6 +5203,7 @@ obj/items/wearable/ring/cooling_shoes
 	desc="magical shoes that keep you cool enough to walk on lava."
 	suffix = "<span style=\"color:#ffa500;\">Allows you to walk on lava.</span>"
 	passive = RING_LAVAWALK
+	monsterDef = 3
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner, 1)
@@ -5220,6 +5225,7 @@ obj/items/wearable/ring/berserker_ring
 	desc="A magical ring that allows you to wield two swords instead of a shield."
 	suffix = "<span style=\"color:#ffa500;\">Allows you to wield two swords but no shield.</span>"
 	passive = RING_DUAL_SWORD
+	monsterDmg = 3
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner,overridetext,forceremove)
@@ -5240,6 +5246,7 @@ obj/items/wearable/ring/guardian_ring
 	desc="A magical ring that allows you to wield two shields instead of a sword."
 	suffix = "<span style=\"color:#ffa500;\">Allows you to wield two shields but no sword.</span>"
 	passive = RING_DUAL_SHIELD
+	monsterDef = 3
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner,overridetext,forceremove)
@@ -5288,6 +5295,7 @@ obj/items/wearable/shield/mana
 	desc="A magical bracelet that converts 30% of damage taken into mana."
 	suffix = "<span style=\"color:#ffa500;\">30% of damage taken will turn to mana.</span>"
 	passive = SHIELD_MP
+	monsterDef = 2
 
 obj/items/wearable/shield/slayer
 	icon='trophies.dmi'
@@ -5304,6 +5312,7 @@ obj/items/wearable/shield/selfdamage
 	desc="A clown's shield, provides protection against accidents."
 	suffix = "<span style=\"color:#ffa500;\">No damage from your own projectiles.</span>"
 	passive = SHIELD_SELFDAMAGE
+	monsterDef = 3
 
 obj/items/wearable/shield/psychic
 	icon='trophies.dmi'
@@ -5312,6 +5321,7 @@ obj/items/wearable/shield/psychic
 	desc="Psychic's shield, 40% of damage is taken to mana before health."
 	suffix = "<span style=\"color:#ffa500;\">40% of damage is taken to mana before health.</span>"
 	passive = SHIELD_MPDAMAGE
+	monsterDef = 2
 
 obj/items/wearable/shield/gold
 	icon='trophies.dmi'
@@ -5320,6 +5330,7 @@ obj/items/wearable/shield/gold
 	desc="You no longer suffer gold loss on death."
 	suffix = "<span style=\"color:#ffa500;\">You no longer suffer gold loss on death.</span>"
 	passive = SHIELD_GOLD
+	monsterDef = 2
 
 obj/items/wearable/shield/titan
 	icon='trophies.dmi'
@@ -5373,6 +5384,7 @@ obj/items/wearable/sword/dragon
 	desc="Dragon's breath allows you to use fire spells with full damage."
 	suffix = "<span style=\"color:#ffa500;\">Fire spells now use full damage.</span>"
 	passive = SWORD_FIRE
+	monsterDmg = 2
 
 obj/items/wearable/sword/vladmir
 	icon='trophies.dmi'
@@ -5413,6 +5425,7 @@ obj/items/wearable/sword/ghost
 	desc="Changes all projectiles element to ghost."
 	suffix = "<span style=\"color:#ffa500;\">Your projectiles element will be ghost.</span>"
 	passive = SWORD_GHOST
+	monsterDmg = 2
 
 obj/items/wearable/sword/explode
 	icon='trophies.dmi'
