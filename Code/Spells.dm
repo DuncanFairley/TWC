@@ -2065,9 +2065,10 @@ mob/Enemies
 		if(HP <= 0)
 
 			var/restoreBleed = FALSE
-			if(p && canBleed && (p.passives & SWORD_EXPLODE))
-				canBleed = FALSE
-				restoreBleed = TRUE
+			if(p && (p.passives & SWORD_EXPLODE))
+				if(canBleed)
+					canBleed = FALSE
+					restoreBleed = TRUE
 
 				var/c = color
 				if(elem != 0)
@@ -2075,14 +2076,6 @@ mob/Enemies
 					else if(elem == WATER) c = "#0bc"
 					else if(elem == EARTH) c = "#8b4513"
 					else if(elem == GHOST) c = "#ff69b4"
-
-		//		emit(loc    = loc,
-		//			 ptype  = /obj/particle/smoke,
-		//			 amount = 4,
-		//			 angle  = new /Random(0, 360),
-		//			 speed  = 2,
-		//			 life   = new /Random(15,20),
-		//			 color  = c)
 
 				var/obj/projectile/proj = new
 				proj.element = elem
@@ -2098,8 +2091,14 @@ mob/Enemies
 					o.loc = null
 
 				for(var/mob/Enemies/a in range(1, loc))
+					if(a==src) continue
 					if(a.HP > 0)
-						a.Attacked(proj)
+						if(a.canBleed)
+							a.canBleed = FALSE
+							a.Attacked(proj)
+							a.canBleed = TRUE
+						else
+							a.Attacked(proj)
 
 
 			Death_Check(p)
