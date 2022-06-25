@@ -463,8 +463,7 @@ obj/items/crystal
 
 
 obj/blacksmith
-	icon               = 'attacks.dmi'
-	icon_state         = "frost"
+	icon               = 'Anvil.dmi'
 
 	mouse_over_pointer = MOUSE_HAND_POINTER
 	mouse_opacity      = 2
@@ -531,15 +530,4 @@ obj/blacksmith
 				step(i, pick(SOUTH, SOUTHEAST, SOUTHWEST, EAST, WEST))
 			else
 				p << errormsg("Place an item you wish to upgrade in the red square.")
-
-
-
-
-
-		//			p << errormsg("You can't use this while an event is running.")
-
-
-		//		var/ScreenText/s = new(p, src)
-				//s.AddText("You solved the riddle.")
-
 
