@@ -3315,6 +3315,7 @@ obj/monster_portal
 			monster.name        = "[elem] Elemental"
 			monster.icon_state  = "[lowertext(elem)] elemental"
 			monster.element     = elem == "Fire" ? FIRE : WATER
+			monster.canBleed    = FALSE
 			monster.calcStats()
 
 			if(elem == "Fire")
