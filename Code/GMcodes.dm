@@ -1265,7 +1265,7 @@ mob/Player
 			MP -= 350
 			updateMP()
 		else
-			new /StatusEffect/Apparate(src,10*cooldownModifier,"Apparate")
+			new /StatusEffect/Apparate(src,10*(cooldownModifier+extraCDR),"Apparate")
 			MP -= 150
 			updateMP()
 

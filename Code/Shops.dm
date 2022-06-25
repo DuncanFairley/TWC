@@ -208,7 +208,7 @@ obj/Madame_Pomfrey
 					return
 
 				p<<"<b><span style=\"color:green;\">Madam Pomfrey:</span><font color=aqua> Episkey [p]!"
-				new /StatusEffect/UsedEpiskey(p,20*p.cooldownModifier)
+				new /StatusEffect/UsedEpiskey(p,20*(p.cooldownModifier+p.extraCDR))
 				p.overlays+=image('attacks.dmi',icon_state="heal")
 
 				p.HP = p.MHP
@@ -528,7 +528,7 @@ mob/TalkNPC/Artifacts_Salesman
 		var/amount = 0
 		for(var/turf/t in block(locate(x-2,y-2,z),locate(x+2,y-2,z)))
 			for(var/obj/items/wearable/i in t)
-				if(i.owner == p.ckey && (i.passive || i.monsterDmg || i.monsterDef || i.dropRate || i.extraLimit))
+				if(i.owner == p.ckey && (i.passive || i.monsterDmg || i.monsterDef || i.dropRate || i.extraLimit || i.extraCDR))
 					amount += i.stack * (1 + i.quality)
 					i.Dispose()
 

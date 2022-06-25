@@ -53,7 +53,7 @@ area
 			if(antiFly)
 				p.nofly()
 
-			if(antiEffect && (p.passives || p.monsterDmg || p.monsterDef || p.dropRate || p.extraLimit))
+			if(antiEffect && (p.passives || p.monsterDmg || p.monsterDef || p.dropRate || p.extraLimit || p.extraCDR))
 				var/obj/items/wearable/sword/s = locate() in p.Lwearing
 				if(s) s.Equip(p, 1)
 
@@ -722,6 +722,7 @@ obj/items/wearable
 		monsterDmg = 0
 		dropRate = 0
 		extraLimit = 0
+		extraCDR = 0
 		obj/items/crystal/socket
 
 		tmp
@@ -885,6 +886,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.monsterDmg -= monsterDmg
 		owner.monsterDef -= monsterDef
 		owner.extraLimit -= extraLimit
+		owner.extraCDR -= extraCDR
 		return REMOVED
 	else
 		if(showoverlay && !owner.trnsed && !owner.noOverlays)
@@ -919,6 +921,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.monsterDmg += monsterDmg
 		owner.monsterDef += monsterDef
 		owner.extraLimit += extraLimit
+		owner.extraCDR += extraCDR
 		if(td != owner.clothDef)
 			owner.resetMaxHP()
 		return WORN
@@ -962,7 +965,7 @@ obj/items/Zombie_Head
 	Click()
 		if(src in usr)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1,againstflying=0,againstcloaked=1))
-				new /StatusEffect/UsedTransfiguration(usr,15*usr:cooldownModifier)
+				new /StatusEffect/UsedTransfiguration(usr,15*(usr:cooldownModifier+usr:extraCDR))
 				if(usr.CanTrans(usr))
 					var/mob/Player/p = usr
 					flick("transfigure",p)
@@ -1963,7 +1966,7 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 		set category = "Spells"
 		if(src in usr:Lwearing)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-				new /StatusEffect/UsedTransfiguration(usr,30*usr:cooldownModifier)
+				new /StatusEffect/UsedTransfiguration(usr,30*(usr:cooldownModifier+usr:extraCDR))
 				hearers()<<"<b><span style=\"color:red;\">[usr]</span>:<b><span style=\"color:white;\"> Delicio Maxima.</b></span>"
 				sleep(20)
 				for(var/mob/Player/M in ohearers(usr.client.view,usr))
@@ -1991,7 +1994,7 @@ obj/items/wearable/wands/maple_wand //Easter
 		set category = "Spells"
 		if(src in usr:Lwearing)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-				new /StatusEffect/UsedTransfiguration(usr,30*usr:cooldownModifier)
+				new /StatusEffect/UsedTransfiguration(usr,30*(usr:cooldownModifier+usr:extraCDR))
 				hearers()<<"<b><span style=\"color:red;\">[usr]</span>:<b><span style=\"color:white;\"> Carrotosi Maxima.</b></span>"
 				sleep(20)
 				for(var/mob/Player/M in ohearers(usr.client.view,usr))
@@ -5196,6 +5199,13 @@ obj/items/wearable/ring/demonic_ring
 	desc="A magical ring that allows you to control an extra summon/plant."
 	suffix = "<span style=\"color:#ffa500;\">Allows you control extra summon/plant.</span>"
 	extraLimit = 1
+
+obj/items/wearable/ring/time_ring
+	icon='ammy.dmi'
+	icon_state="snow"
+	desc="A magical ring that grants you 10% additional cooldown reduction."
+	suffix = "<span style=\"color:#ffa500;\">10% cooldown reduction.</span>"
+	extraCDR = -0.1
 
 obj/items/wearable/ring/cooling_shoes
 	icon='trophies.dmi'

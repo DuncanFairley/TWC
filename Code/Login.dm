@@ -1411,7 +1411,7 @@ mob/Player
 			stat("MP:","[src.MP]/[src.MMP]")
 			stat("Damage:","[Dmg] ([Dmg - (level + 4)])")
 			stat("Defense:","[Def] ([(Def - (level + 4))/3])")
-			stat("Cooldown Reduction:","[round(1000 - cooldownModifier*1000, 1)/10]%")
+			stat("Cooldown Reduction:","[round(1000 - (cooldownModifier+extraCDR)*1000, 1)/10]%")
 			stat("MP Regeneration:", "[50 + round(level/10)*2 + MPRegen]")
 			if(level >= lvlcap && rankLevel)
 				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100)
