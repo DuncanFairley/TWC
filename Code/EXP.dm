@@ -160,7 +160,7 @@ hudobj/readClicker
 			canClick = FALSE
 
 			var/exp = get_exp(player.level) * worldData.expBookModifier
-			exp = round(rand(exp * 0.9, exp * 1.1)) + player.level
+			exp = (round(rand(exp * 0.9, exp * 1.1)) + player.level)*2
 
 			if(icon_state == "gold")
 				exp *= 3
@@ -392,6 +392,7 @@ obj
 
 proc
 	get_exp(var/level)
+		if(level >= 500) return 500
 		if(level >= 200) return 450
 		if(level >= 100) return 350
 		if(level >= 70)  return 300
