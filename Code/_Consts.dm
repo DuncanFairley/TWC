@@ -75,7 +75,7 @@
 #define SHIELD_15 16384
 #define SHIELD_16 32768
 
-#define SWORD_1 1
+#define SWORD_MANA 1
 #define SWORD_2 2
 #define SWORD_3 4
 #define SWORD_4 8

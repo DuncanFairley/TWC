@@ -5468,6 +5468,13 @@ obj/items/wearable/sword/explode
 	suffix = "<span style=\"color:#ffa500;\">Monsters you kill explode.</span>"
 	passive = SWORD_EXPLODE
 
+obj/items/wearable/sword/mana
+	icon='trophies.dmi'
+	icon_state="ghostblade"
+	name="Mageblade"
+	desc="Drains all your mana for higher damage output."
+	suffix = "<span style=\"color:#ffa500;\">Spells are empowered by mana.</span>"
+	passive = SWORD_MANA
 
 obj/items/wearable/gm_robes
 	icon = 'trims.dmi'

@@ -1815,7 +1815,19 @@ mob
 		if(client)
 
 			var/mob/Player/p = src
-			p.MP -= MPreq
+
+			if(p.passivesSword & SWORD_MANA)
+				var/dmg = round(p.MMP * 0.25)
+				var/cost = round(dmg * 0.5, 1)
+
+				if(p.MP >= cost)
+					P.damage = 10 + dmg + rand(0, 10)
+					p.MP -= cost
+				else
+					P.damage = 10 + p.MP + rand(0, 10)
+					p.MP = 0
+			else
+				p.MP -= MPreq
 			p.updateMP()
 
 			if(p.passivesShield & SHIELD_SELFDAMAGE)
