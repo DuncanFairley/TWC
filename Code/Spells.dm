@@ -1823,7 +1823,7 @@ mob
 
 			if(p.passivesSword & SWORD_GHOST)
 				if(P.element == GHOST)
-					damage *= 1.2
+					P.damage *= 1.2
 				else
 					P.element = GHOST
 
