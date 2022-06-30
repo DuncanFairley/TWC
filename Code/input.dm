@@ -88,6 +88,7 @@ obj/hud/TextMessageExp
 		for(var/obj/hud/TextMessageExp/t in p.client.screen)
 			if(count == t.count)
 				count++
+				if(count > 8) return
 			else
 				l += t.count
 		while(count in l)
