@@ -5211,6 +5211,15 @@ obj/items/wearable/ring/time_ring
 	suffix = "<span style=\"color:#ffa500;\">10% cooldown reduction.</span>"
 	extraCDR = -0.1
 
+obj/items/wearable/ring/slayer
+	name="Todd's ring"
+	icon='ammy.dmi'
+	icon_state="snow"
+	desc="A magical ring that grants you 10% additional monster damage and defense."
+	suffix = "<span style=\"color:#ffa500;\">10% monster damage/defense.</span>"
+	monsterDef = 10
+	monsterDmg = 10
+
 obj/items/wearable/ring/cooling_shoes
 	icon='trophies.dmi'
 	icon_state="cooling shoes"

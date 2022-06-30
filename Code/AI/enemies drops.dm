@@ -12,6 +12,7 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 					        /obj/items/wearable/ring/cooling_shoes,
 					        /obj/items/wearable/ring/demonic_ring,
 					        /obj/items/wearable/ring/time_ring,
+					        /obj/items/wearable/ring/slayer,
 					        /obj/items/wearable/shield/mana,
 					        /obj/items/wearable/shield/slayer,
 					        /obj/items/wearable/shield/selfdamage,
