@@ -2148,7 +2148,7 @@ mob/proc/Death_Check(mob/killer = src)
 							src.Exp = round(src.Exp * 0.8)
 
 						var/goldLoss
-						if(p.passives & SHIELD_GOLD)
+						if(p.passivesShield & SHIELD_GOLD)
 							goldLoss = 0
 						else
 							var/gold/g = new(src)
@@ -2235,7 +2235,7 @@ mob/proc/Death_Check(mob/killer = src)
 				var/gold2give = (rand(6,14)/10)*gold
 				var/exp2give  = (rand(6,14)/10)*Expg
 
-				if((killer:passives & SWORD_ANIMAGUS) && killer:Animagus && killer:animagusPower < 100 + killer:Animagus.level && prob(40))
+				if((killer:passivesSword & SWORD_ANIMAGUS) && killer:Animagus && killer:animagusPower < 100 + killer:Animagus.level && prob(40))
 					killer:animagusPower++
 
 				if(killer.level > src.level && !killer:hardmode)

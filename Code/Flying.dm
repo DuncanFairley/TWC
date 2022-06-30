@@ -661,7 +661,7 @@ turf
 		Enter(atom/movable/O, atom/oldloc)
 			if(name == "water")
 				if(isplayer(O) && O.density)
-					if(O:passives & RING_WATERWALK)
+					if(O:passivesRing & RING_WATERWALK)
 						ice()
 					else if(O.icon_state == "Crocodile") return 1
 					return 0
@@ -742,7 +742,7 @@ turf
 			if(isplayer(O) && O.density)
 
 				if(burn)
-					if(O:passives & RING_LAVAWALK) return ..()
+					if(O:passivesRing & RING_LAVAWALK) return ..()
 
 					if(!O.LStatusEffects || !(locate(/StatusEffect/Lava) in O.LStatusEffects))
 						new /StatusEffect/Lava(O, 3, "Inflamari")

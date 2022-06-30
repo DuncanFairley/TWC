@@ -113,7 +113,7 @@ mob/Player
 				var/exp2give = e.onDamage(dmg, src)
 				if(exp2give > 1)
 					Animagus.add(exp2give, src, 1)
-			else if(passives & RING_DISPLACEMENT)
+			else if(passivesRing & RING_DISPLACEMENT)
 				var/tmpLoc = O.loc
 				O.density = 0
 				O.Move(loc)

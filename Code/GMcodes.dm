@@ -1227,7 +1227,7 @@ turf
 		if(!isplayer(usr)) return
 		var/mob/Player/p = usr
 
-		var/mpCost = (p.passives & RING_APPARATE) ? 350 : 150
+		var/mpCost = (p.passivesRing & RING_APPARATE) ? 350 : 150
 		if((p.superspeed || (p.shortapparate && canUse(p,cooldown=/StatusEffect/Apparate,needwand=1,mpreq=mpCost))) && p.nomove == 0)
 
 			var/area/a = p.loc.loc
@@ -1261,7 +1261,7 @@ mob/Player
 	proc/Apparate(turf/t)
 		set waitfor = 0
 
-		if(passives & RING_APPARATE)
+		if(passivesRing & RING_APPARATE)
 			MP -= 350
 			updateMP()
 		else

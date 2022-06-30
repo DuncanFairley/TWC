@@ -503,7 +503,7 @@ mob/Spells/verb/Basilio()
 		p.MP -= 200
 		p.updateMP()
 
-		if(p.passives & SWORD_SNAKE)
+		if(p.passivesSword & SWORD_SNAKE)
 			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=4><font color=#FF8C00> Basilio!"
 			var/obj/summon/akalla/s = new  (loc, src, "Basilio", 1)
 			s.FlickState("m-black",8,'Effects.dmi')
@@ -525,7 +525,7 @@ mob/Spells/verb/Serpensortia()
 		p.MP -= 100
 		p.updateMP()
 
-		if(p.passives & SWORD_SNAKE)
+		if(p.passivesSword & SWORD_SNAKE)
 			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=4 color=#FF8C00>Serpensortia!"
 			var/obj/summon/demon_snake/s = new  (loc, src, "Serpensortia", 1)
 			s.FlickState("m-black",8,'Effects.dmi')
@@ -780,7 +780,7 @@ mob/Spells/verb/Chaotica()
 	set category="Spells"
 
 	var/mob/Player/p = src
-	var/dmg = ((p.passives & SWORD_FIRE) ? (Dmg + clothDmg)*1.1 : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
+	var/dmg = ((p.passivesSword & SWORD_FIRE) ? (Dmg + clothDmg)*1.1 : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=30,againstocclumens=1,projectile=1))
 		p.lastAttack = "Chaotica"
@@ -818,7 +818,7 @@ mob/Spells/verb/Inflamari()
 
 	var/mob/Player/p = src
 	var/dmg
-	if(p.passives & SWORD_FIRE)
+	if(p.passivesSword & SWORD_FIRE)
 		dmg = (Dmg + clothDmg)*1.1
 	else
 		dmg = level * 0.9 + clothDmg
@@ -1234,7 +1234,7 @@ mob/Spells/verb/Incendio()
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=20,againstocclumens=1))
 
 		var/mob/Player/p = src
-		var/dmg = ((p.passives & SWORD_FIRE) ? (Dmg + clothDmg)*1.2 : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
+		var/dmg = ((p.passivesSword & SWORD_FIRE) ? (Dmg + clothDmg)*1.2 : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
 
 		p.lastAttack = "Incendio"
 		castproj(Type = /obj/projectile/BurnRoses, damage = dmg, MPreq = 20, icon_state = "fireball", name = "Incendio", element = FIRE)
@@ -1505,7 +1505,7 @@ mob/Spells/verb/Avada_Kedavra()
 
 mob/Spells/verb/Apparate()
 	set category="Spells"
-	var/mpCost = (usr:passives & RING_APPARATE) ? 350 : 150
+	var/mpCost = (usr:passivesSword & RING_APPARATE) ? 350 : 150
 	if(canUse(src,cooldown=/StatusEffect/Apparate,needwand=1,mpreq=mpCost))
 
 		var/area/a = loc.loc
@@ -1818,10 +1818,10 @@ mob
 			p.MP -= MPreq
 			p.updateMP()
 
-			if(p.passives & SHIELD_SELFDAMAGE)
+			if(p.passivesShield & SHIELD_SELFDAMAGE)
 				P.selfDamage = 0
 
-			if(p.passives & SWORD_GHOST)
+			if(p.passivesSword & SWORD_GHOST)
 				if(P.element == GHOST)
 					damage *= 1.2
 				else
@@ -1945,7 +1945,7 @@ mob/Player
 			dmg = 0
 			return 0
 
-		if((passives & SHIELD_MP) && MP < MMP)
+		if((passivesShield & SHIELD_MP) && MP < MMP)
 			var/regen = round(dmg / 30, 1)
 			MP = min(MP + regen, MMP)
 			updateMP()
@@ -1955,7 +1955,7 @@ mob/Player
 				dmg *= 1 - min(monsterDef/100, 0.75)
 
 		// next 2 ifs are meant to be under ismonster, testing this to see how players react
-		if(passives & SHIELD_MPDAMAGE)
+		if(passivesShield & SHIELD_MPDAMAGE)
 			var/r = min(round(dmg * 0.4, 1), MP)
 			dmg -= r
 			MP -= r
@@ -2043,7 +2043,7 @@ mob/Player
 				p.owner:learnSpell(p.name, 300)
 				Death_Check(p.owner)
 
-				if(p.owner:passives & SWORD_HEALONKILL)
+				if(p.owner:passivesSword & SWORD_HEALONKILL)
 					p.owner.HP = min( round(p.owner.HP + MHP*0.20, 1), p.owner.MHP)
 					p.owner:updateHP()
 
@@ -2065,7 +2065,7 @@ mob/Enemies
 		if(HP <= 0)
 
 			var/restoreBleed = FALSE
-			if(p && (p.passives & SWORD_EXPLODE))
+			if(p && (p.passivesSword & SWORD_EXPLODE))
 				if(canBleed)
 					canBleed = FALSE
 					restoreBleed = TRUE
@@ -2106,7 +2106,7 @@ mob/Enemies
 			if(restoreBleed)
 				canBleed = TRUE
 
-			if(p.passives & SWORD_HEALONKILL)
+			if(p.passivesSword & SWORD_HEALONKILL)
 				p.HP = min(round(p.HP + MHP*0.15, 1), p.MHP)
 				p.updateHP()
 
@@ -3070,4 +3070,6 @@ mob/Player
 
 mob/Player/var/cooldownModifier = 1
 mob/Player/var/tmp/extraCDR = 0
-mob/Player/var/tmp/passives = 0
+mob/Player/var/tmp/passivesSword = 0
+mob/Player/var/tmp/passivesShield = 0
+mob/Player/var/tmp/passivesRing = 0
