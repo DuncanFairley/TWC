@@ -397,7 +397,7 @@ obj/items/crystal
 			if(monsterDmg)
 				monsterDmg = tier
 			if(monsterDef)
-				monsterDef = tier
+				monsterDef = tier * 0.2
 
 	MouseDrop(over_object)
 		if(desc != null && istype(over_object, /obj/items/wearable) && (src in usr) && (over_object in usr) && over_object:socket != null)
