@@ -386,10 +386,11 @@ obj/items/crystal
 
 		if(tier)
 			tier = min(tier, 20)
-			name = "[name]: level [tier]"
 
 			if(prob(10))
 				tier += rand(0, 5)
+
+			name = "[name]: level [tier]"
 
 			if(Dmg)
 				Dmg = tier
