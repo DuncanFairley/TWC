@@ -1958,7 +1958,7 @@ mob/Player
 			return 0
 
 		if((passivesShield & SHIELD_MP) && MP < MMP)
-			var/regen = round(dmg * 0.4, 1)
+			var/regen = round(dmg * 0.5, 1)
 			MP = min(MP + regen, MMP)
 			updateMP()
 
