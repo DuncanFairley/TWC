@@ -818,8 +818,12 @@ mob
 				if(killer.pet)
 					killer.pet.fetch(prize)
 
-			if(killer.level >= 750 && prob(base*rate*10))
-				new /obj/monster_portal (loc)
+			if(prob(base*rate*10))
+
+				if(killer.level >= 750 && prob(60))
+					new /obj/monster_portal (loc)
+				else
+					new /mob/Enemies/Summoned/Boss/Scared_Ghost (loc)
 
 			if(prob(base * rate + killer.pity))
 				sparks = 1
@@ -1517,15 +1521,15 @@ mob
 
 				Scared_Ghost
 					icon = 'NPCs.dmi'
-					HPmodifier = 2.5
+					HPmodifier = 1
 					layer = 5
-					MoveDelay = 4
-					AttackDelay = 4
+					MoveDelay = 5
+					AttackDelay = 5
 					Range = 15
-					level = 850
+					level = 1000
 					canBleed = FALSE
 					prizePoolSize = 1
-					extraDropRate = 10
+					extraDropRate = 60
 
 					MapInit()
 						set waitfor = 0
