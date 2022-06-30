@@ -5321,8 +5321,8 @@ obj/items/wearable/shield/mana
 	icon='ammy.dmi'
 	icon_state="snow"
 	name="Emperor's bracelet"
-	desc="A magical bracelet that converts 30% of damage taken into mana."
-	suffix = "<span style=\"color:#ffa500;\">30% of damage taken will turn to mana.</span>"
+	desc="A magical bracelet that converts 40% of damage taken into mana."
+	suffix = "<span style=\"color:#ffa500;\">40% of damage taken will turn to mana.</span>"
 	passive = SHIELD_MP
 	monsterDef = 2
 
