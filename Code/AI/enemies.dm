@@ -818,7 +818,7 @@ mob
 				if(killer.pet)
 					killer.pet.fetch(prize)
 
-			if(prob(base*rate*10))
+			if(extraDropRate == 0 && prob(base*rate*10))
 
 				if(killer.level >= 750 && prob(60))
 					new /obj/monster_portal (loc)
