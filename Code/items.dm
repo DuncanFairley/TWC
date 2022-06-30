@@ -878,9 +878,11 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			clothDef        = null
 			owner.resetMaxHP()
 		if(socket)
-			owner.clothDmg -= socket.Dmg
-			owner.clothDef -= socket.Def
-			owner.dropRate -= socket.luck
+			owner.clothDmg   -= socket.Dmg
+			owner.clothDef   -= socket.Def
+			owner.dropRate   -= socket.luck
+			owner.monsterDmg -= socket.monsterDmg
+			owner.monsterDef -= socket.monsterDef
 		owner.dropRate -= dropRate
 		owner.passives &= ~passive
 		owner.monsterDmg -= monsterDmg
@@ -913,9 +915,11 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		if(bonus != -1)
 			calcBonus(owner, 0)
 		if(socket)
-			owner.clothDmg += socket.Dmg
-			owner.clothDef += socket.Def
-			owner.dropRate += socket.luck
+			owner.clothDmg   += socket.Dmg
+			owner.clothDef   += socket.Def
+			owner.dropRate   += socket.luck
+			owner.monsterDmg += socket.monsterDmg
+			owner.monsterDef += socket.monsterDef
 		owner.dropRate += dropRate
 		owner.passives |= passive
 		owner.monsterDmg += monsterDmg

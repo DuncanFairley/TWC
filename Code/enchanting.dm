@@ -345,6 +345,8 @@ obj/items/crystal
 
 		Dmg = 0
 		Def = 0
+		monsterDmg = 0
+		monsterDef = 0
 
 	useTypeStack = 1
 	stackName = "Crystals:"
@@ -357,6 +359,9 @@ obj/items/crystal
 		if(Dmg) return "+[Dmg] Damage"
 		if(Def) return "+[Def] Defense"
 		if(luck) return "+[luck]% Drop Rate"
+		if(monsterDmg && monsterDef) return "+[monsterDmg]% Damage +[monsterDef]% Defense"
+		if(monsterDmg) return "+[monsterDmg]% Damage"
+		if(monsterDef) return "+[monsterDef]% Defense"
 
 	Clone()
 		var/obj/items/crystal/i = new type
@@ -368,11 +373,13 @@ obj/items/crystal
 		i.luck       = luck
 		i.Dmg        = Dmg
 		i.Def        = Def
+		i.monsterDmg = monsterDmg
+		i.monsterDef = monsterDef
 
 		return i
 
 	Compare(obj/items/crystal/i)
-		return i.name == name && i.type == type && i.owner == owner && i.icon_state == icon_state && i.ignoreItem == ignoreItem && i.luck == luck && i.Dmg == Dmg && i.Def == Def
+		return i.name == name && i.type == type && i.owner == owner && i.icon_state == icon_state && i.ignoreItem == ignoreItem && i.luck == luck && i.Dmg == Dmg && i.Def == Def && i.monsterDmg == monsterDmg && i.monsterDef == monsterDef
 
 	New(Loc, tier)
 		..(Loc)
@@ -387,6 +394,10 @@ obj/items/crystal
 				Def = tier*3
 			if(luck)
 				luck = tier
+			if(monsterDmg)
+				monsterDmg = tier
+			if(monsterDef)
+				monsterDef = tier
 
 	MouseDrop(over_object)
 		if(desc != null && istype(over_object, /obj/items/wearable) && (src in usr) && (over_object in usr) && over_object:socket != null)
@@ -439,6 +450,16 @@ obj/items/crystal
 		icon_state = "defense"
 		bonus = 2
 		Def = 30
+	damage_monster
+		name  = "red monster crystal"
+		icon_state = "damage"
+		bonus = 1
+		monsterDmg = 1
+	defense_monster
+		name  = "green monster crystal"
+		icon_state = "defense"
+		bonus = 2
+		monsterDef = 1
 	magic
 		name  = "magic crystal"
 		icon_state = "magic"
@@ -506,7 +527,7 @@ obj/blacksmith
 
 					if(i.quality >= 5 && prob(i.quality * 5))
 
-						var/chanceToFail = (i.quality+1)*5 + 5
+						var/chanceToFail = (i.quality+1)*5 + 10
 						p << infomsg("Failure! You could not upgrade [i.name]. ([100 - chanceToFail]%)")
 						return
 

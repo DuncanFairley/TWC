@@ -498,6 +498,8 @@ mob
 
 			isElite       = 0
 
+			extraDropRate = 0
+
 		Dispose()
 			..()
 
@@ -701,6 +703,8 @@ mob
 			if(knowledge)
 				rate += round(log(10, knowledge)) * 0.1
 
+			rate += extraDropRate
+
 			var/StatusEffect/Lamps/DropRate/d = killer.findStatusEffect(/StatusEffect/Lamps/DropRate)
 			if(d)
 				rate_factor *= d.rate
@@ -802,9 +806,11 @@ mob
 
 			else if(prob(base*rate*4))
 				sparks = 1
-				prize = pickweight(list(/obj/items/crystal/defense = 1,
-										/obj/items/crystal/damage  = 1,
-										/obj/items/crystal/luck    = 1))
+				prize = pickweight(list(/obj/items/crystal/defense         = 1,
+										/obj/items/crystal/damage          = 1,
+										/obj/items/crystal/defense_monster = 1,
+										/obj/items/crystal/damage_monster  = 1,
+										/obj/items/crystal/luck            = 1))
 
 				prize = new prize (loc, round(level/50))
 				prize.prizeDrop(killer.ckey, decay=1)
@@ -812,7 +818,7 @@ mob
 				if(killer.pet)
 					killer.pet.fetch(prize)
 
-			if(killer.level >= 750 && prob(base*rate*12))
+			if(killer.level >= 750 && prob(base*rate*10))
 				new /obj/monster_portal (loc)
 
 			if(prob(base * rate + killer.pity))
@@ -1493,7 +1499,70 @@ mob
 										loc    = t
 										break
 
-						if(p.icon_state == "gum" || (p.icon_state == "blood" && prob(70)))
+						if(p.element == GHOST || (p.icon_state == "blood" && prob(75)))
+							..()
+							emit(loc    = src,
+								 ptype  = /obj/particle/red,
+								 amount = 2,
+								 angle  = new /Random(1, 359),
+								 speed  = 2,
+								 life   = new /Random(15,20))
+						else
+							emit(loc    = src,
+								 ptype  = /obj/particle/green,
+								 amount = 2,
+								 angle  = new /Random(1, 359),
+								 speed  = 2,
+								 life   = new /Random(15,20))
+
+				Scared_Ghost
+					icon = 'NPCs.dmi'
+					HPmodifier = 2.5
+					layer = 5
+					MoveDelay = 4
+					AttackDelay = 4
+					Range = 15
+					level = 850
+					canBleed = FALSE
+					prizePoolSize = 1
+					extraDropRate = 10
+
+					MapInit()
+						set waitfor = 0
+						..()
+
+						if(prob(51))
+							icon   = 'FemaleStaff.dmi'
+							gender = FEMALE
+						else
+							icon   = 'MaleStaff.dmi'
+							gender = MALE
+
+						GenerateIcon(src)
+
+						alpha = rand(100,180)
+
+						sleep(210)
+
+						Dispose()
+						ChangeState(INACTIVE)
+
+					Attack()
+
+						if(prob(25))
+							step(src, pick(DIRS_LIST))
+							sleep(lag)
+
+						var/turf/t = get_step_away(src, target)
+
+						if(!t)
+							step_rand(src)
+						else
+							Move(t)
+
+					Attacked(obj/projectile/p)
+
+						if(p.element == GHOST || (p.icon_state == "blood" && prob(80)))
 							..()
 							emit(loc    = src,
 								 ptype  = /obj/particle/red,
