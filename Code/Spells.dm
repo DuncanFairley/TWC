@@ -2597,7 +2597,7 @@ obj
 					var/mob/Player/p = a
 					owner << "Your [src] hit [p]!"
 
-					if(p.passiveShield & SHIELD_ALCHEMY) return
+					if(p.passivesShield & SHIELD_ALCHEMY) return
 
 					var/StatusEffect/Potions/s = locate() in p.LStatusEffects
 					if(s)
