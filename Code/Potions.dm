@@ -288,6 +288,10 @@ obj/potions
 						i.name += " - [letters[quality]]"
 						if(i.seconds) i.seconds *= 1 + (quality - 4) * 0.1
 
+					if(prob(p.owner.Alchemy.level))
+						i.stack = rand(2,4)
+						i.UpdateDisplay()
+
 				else
 					emit(loc    = loc,
 						 ptype  = /obj/particle/smoke/green,
