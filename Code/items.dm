@@ -5222,6 +5222,16 @@ obj/items/wearable/ring/slayer
 	monsterDef = 10
 	monsterDmg = 10
 
+obj/items/wearable/ring/alchemy
+	name="Alchemist's ring"
+	icon='ammy.dmi'
+	icon_state="snow"
+	desc="Brewed potions are one tier higher."
+	suffix = "<span style=\"color:#ffa500;\">Brewed potions are one tier higher.</span>"
+	passive = RING_ALCHEMY
+	monsterDef = 3
+	monsterDmg = 3
+
 obj/items/wearable/ring/cooling_shoes
 	icon='trophies.dmi'
 	icon_state="cooling shoes"
@@ -5370,6 +5380,15 @@ obj/items/wearable/shield/titan
 	monsterDef = 5
 	scale = 2
 
+obj/items/wearable/shield/alchemy
+	icon='trophies.dmi'
+	icon_state="Shield"
+	name="Alchemist's Shield"
+	desc="You are immune to potions."
+	suffix = "<span style=\"color:#ffa500;\">You are immune to potions.</span>"
+	passive = SHIELD_ALCHEMY
+	monsterDef = 3
+
 obj/items/wearable/sword
 	bonus  = 0
 	socket = 0
@@ -5475,6 +5494,15 @@ obj/items/wearable/sword/mana
 	desc="Drains all your mana for higher damage output."
 	suffix = "<span style=\"color:#ffa500;\">Spells are empowered by mana.</span>"
 	passive = SWORD_MANA
+
+obj/items/wearable/sword/alchemy
+	icon='trophies.dmi'
+	icon_state="Sword"
+	name="Alchemist's blade"
+	desc="15% chance to not consume potions.<br>Grants a chance to produce more than one potion."
+	suffix = "<span style=\"color:#ffa500;\">15% chance to not consume potions.</span>"
+	passive = SWORD_ALCHEMY
+	monsterDmg = 3
 
 obj/items/wearable/gm_robes
 	icon = 'trims.dmi'

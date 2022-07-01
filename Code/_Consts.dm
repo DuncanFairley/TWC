@@ -46,7 +46,7 @@
 #define RING_DISPLACEMENT 4
 #define RING_LAVAWALK 8
 #define RING_DUAL_SWORD 16
-#define RING_6 32
+#define RING_ALCHEMY 32
 #define RING_7 64
 #define RING_8 128
 #define RING_9 256
@@ -58,7 +58,7 @@
 #define RING_15 16384
 #define RING_DUAL_SHIELD 32768
 
-#define SHIELD_1 1
+#define SHIELD_ALCHEMY 1
 #define SHIELD_2 2
 #define SHIELD_3 4
 #define SHIELD_4 8
@@ -76,7 +76,7 @@
 #define SHIELD_16 32768
 
 #define SWORD_MANA 1
-#define SWORD_2 2
+#define SWORD_ALCHEMY 2
 #define SWORD_3 4
 #define SWORD_4 8
 #define SWORD_5 16

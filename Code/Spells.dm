@@ -2597,6 +2597,8 @@ obj
 					var/mob/Player/p = a
 					owner << "Your [src] hit [p]!"
 
+					if(p.passiveShield & SHIELD_ALCHEMY) return
+
 					var/StatusEffect/Potions/s = locate() in p.LStatusEffects
 					if(s)
 						owner << "[p] already is under the influence of a potion."

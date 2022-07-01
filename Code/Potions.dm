@@ -225,6 +225,7 @@ obj/potions
 				var/potion
 				var/quality = countBits(flags) - 1
 				var/potionId
+				var/mob/Player/player = p.owner
 
 				if(p.icon_state in projs)
 					var/f = abs(projs[p.icon_state] - quality)
@@ -232,11 +233,13 @@ obj/potions
 					if(f == 0)     quality++
 					else if(f > 2) quality--
 
+				if(player.passivesRing & RING_ALCHEMY)
+					quality++
+
 				quality = max(1, quality)
 				quality = min(7, quality)
 
 				if(c >= 4)
-					var/mob/Player/player = p.owner
 					player.Alchemy.add((quality*12 + rand(9,12))*300, player, 1)
 
 					if(isnum(pool))
@@ -288,7 +291,10 @@ obj/potions
 						i.name += " - [letters[quality]]"
 						if(i.seconds) i.seconds *= 1 + (quality - 4) * 0.1
 
-					if(prob(p.owner.Alchemy.level))
+					var/quanChance = player.Alchemy.level
+					if(player.passivesSword & SWORD_ALCHEMY) quanChance += 10
+
+					if(prob(quanChance))
 						i.stack = rand(2,4)
 						i.UpdateDisplay()
 
@@ -542,7 +548,11 @@ obj/items/potions
 					p.Deactivate()
 
 				usr << infomsg("You drink \a [src].")
-				new effect (usr, seconds, "Potion", src)
+
+				if(!(p.passiveShield & SHIELD_ALCHEMY))
+					new effect (usr, seconds, "Potion", src)
+
+			if((usr:passivesSword & SWORD_ALCHEMY) && prob(15)) return
 
 			Consume()
 		else
