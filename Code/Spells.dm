@@ -1817,7 +1817,7 @@ mob
 			var/mob/Player/p = src
 
 			if(p.passivesSword & SWORD_MANA)
-				var/dmg = round(p.MMP * 0.25)
+				var/dmg = round(p.MMP * 1)
 				var/cost = round(dmg * 0.5, 1)
 
 				if(p.MP >= cost)
@@ -2102,15 +2102,15 @@ mob/Enemies
 				spawn(6)
 					o.loc = null
 
-				for(var/mob/Enemies/a in range(1, loc))
+				for(var/mob/Enemies/a in range(2, loc))
 					if(a==src) continue
 					if(a.HP > 0)
 						if(a.canBleed)
 							a.canBleed = FALSE
-							a.Attacked(proj)
+							a.Attacked(proj, 1)
 							a.canBleed = TRUE
 						else
-							a.Attacked(proj)
+							a.Attacked(proj, 1)
 
 
 			Death_Check(p)
@@ -2155,7 +2155,7 @@ mob/Enemies
 		return 0
 
 
-	Attacked(obj/projectile/p)
+	Attacked(obj/projectile/p, silent=0)
 
 		if(isplayer(p.owner) && p.element != HEAL)
 
@@ -2191,7 +2191,7 @@ mob/Enemies
 				     speed  = 2,
 				     life   = new /Random(15,25))
 
-			if(p.owner:MonsterMessages)
+			if(p.owner:MonsterMessages && !silent)
 				p.owner << "Your [p] does [dmg] damage to [src]."
 
 			var/exp2give = onDamage(dmg, p.owner, p.element)

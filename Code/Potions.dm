@@ -549,7 +549,7 @@ obj/items/potions
 
 				usr << infomsg("You drink \a [src].")
 
-				if(!(usr:passiveShield & SHIELD_ALCHEMY))
+				if(!(usr:passivesShield & SHIELD_ALCHEMY))
 					new effect (usr, seconds, "Potion", src)
 
 			if((usr:passivesSword & SWORD_ALCHEMY) && prob(15)) return
