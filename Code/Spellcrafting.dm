@@ -166,7 +166,7 @@ obj/items/wearable/spellbook
 				p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		if(!canUse(p,needwand=1,inarena=0,insafezone=0,inhogwarts=1,mpreq=mpCost,projectile=1))
+		if(!canUse(p,needwand=1,inarena=0,insafezone=0,inhogwarts=1,mpreq=mpCost,projectile=1,silent=(flags & PAGE_DAMAGETAKEN)))
 			return
 
 		p.MP-=mpCost

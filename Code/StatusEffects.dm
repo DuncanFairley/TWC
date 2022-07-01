@@ -268,7 +268,7 @@ proc/issafezone(area/A, useOverride=1,useTimedProtection=1)
 	. = safemode && !useOverride && (!istype(A,/area/hogwarts/Duel_Arenas) && (istype(A,/area/hogwarts) || istype(A,/area/Diagon_Alley)|| istype(A,/area/safezone)))
 	if(useTimedProtection)
 		. = . || (A.timedProtection && safemode)
-proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inarena=1,var/insafezone=1,var/inhogwarts=1,var/mob/Player/target=null,var/mpreq=0,var/againstocclumens=1,var/againstflying=1,var/againstcloaked=1,var/projectile=0,var/antiTeleport=0,var/useTimedProtection=0)
+proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inarena=1,var/insafezone=1,var/inhogwarts=1,var/mob/Player/target=null,var/mpreq=0,var/againstocclumens=1,var/againstflying=1,var/againstcloaked=1,var/projectile=0,var/antiTeleport=0,var/useTimedProtection=0,var/silent=0)
 	//Returns 1 if you can use the item/cast the spell. Also handles the printing of messages if you can't.
 	if(!M.loc)
 		M << "<b>You cannot use this in the void.</b>"
@@ -318,7 +318,7 @@ proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inare
 		M << "<b>You can't use this in Detention.</b>"
 		return 0
 	if(mpreq && M.MP < mpreq)
-		M << "<b>You require [mpreq] MP to cast this.</b>"
+		if(!silent) M << "<b>You require [mpreq] MP to cast this.</b>"
 		return 0
 	if(cooldown)
 		var/StatusEffect/S = M.findStatusEffect(cooldown)
