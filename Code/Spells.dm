@@ -1824,7 +1824,7 @@ mob
 					P.damage = 10 + dmg + rand(0, 10)
 					p.MP -= cost
 				else
-					P.damage = 10 + p.MP + rand(0, 10)
+					P.damage = 10 + p.MP*2 + rand(0, 10)
 					p.MP = 0
 
 				P.shoot(lag-1)
