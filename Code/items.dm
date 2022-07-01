@@ -5477,7 +5477,6 @@ obj/items/wearable/sword/ghost
 	desc="Changes all projectiles element to ghost."
 	suffix = "<span style=\"color:#ffa500;\">Your projectiles element will be ghost.</span>"
 	passive = SWORD_GHOST
-	monsterDmg = 2
 
 obj/items/wearable/sword/explode
 	icon='trophies.dmi'
@@ -5494,6 +5493,7 @@ obj/items/wearable/sword/mana
 	desc="Drains all your mana for higher damage output."
 	suffix = "<span style=\"color:#ffa500;\">Spells are empowered by mana.</span>"
 	passive = SWORD_MANA
+	monsterDmg = 2
 
 obj/items/wearable/sword/alchemy
 	icon='trophies.dmi'

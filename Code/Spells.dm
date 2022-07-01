@@ -1826,6 +1826,9 @@ mob
 				else
 					P.damage = 10 + p.MP + rand(0, 10)
 					p.MP = 0
+
+				P.shoot(lag-1)
+
 			else
 				p.MP -= MPreq
 			p.updateMP()
