@@ -1040,9 +1040,11 @@ mob/Player
 
 					W.calcBonus(src, 0)
 					if(s)
-						clothDmg += s.Dmg
-						clothDef += s.Def
-						dropRate += s.luck
+						clothDmg   += s.Dmg
+						clothDef   += s.Def
+						dropRate   += s.luck
+						monsterDmg += s.monsterDmg
+						monsterDef += s.monsterDef
 
 				resetMaxHP()
 
@@ -1806,19 +1808,19 @@ obj
 
 				if(p.hardmode == 0)
 					p.hardmode = 1
-					p << infomsg("Monsters will now be stronger but have 25% more drop rate.")
+					p << infomsg("Monsters will now be stronger but have 50% more drop rate.")
 				else if(p.hardmode == 1)
 					p.hardmode = 2
-					p << infomsg("Monsters will now be even stronger but have 50% more drop rate.")
+					p << infomsg("Monsters will now be even stronger but have 100% more drop rate.")
 				else if(p.hardmode == 2)
 					p.hardmode = 3
-					p << infomsg("Monsters will now be dangerously lethal but have 75% more drop rate.")
+					p << infomsg("Monsters will now be dangerously lethal but have 150% more drop rate.")
 				else if(p.hardmode == 3)
 					p.hardmode = 4
-					p << infomsg("Monsters will now be maybe possibly kill you but have 100% more drop rate.")
+					p << infomsg("Monsters will now be maybe possibly kill you but have 200% more drop rate.")
 				else if(p.hardmode == 4)
 					p.hardmode = 5
-					p << infomsg("Monsters will now butcher you but have 125% more drop rate.")
+					p << infomsg("Monsters will now butcher you but have 250% more drop rate.")
 				else
 					p.hardmode = 0
 					p << infomsg("You are fighting normal monsters now.")
