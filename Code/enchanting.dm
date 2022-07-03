@@ -507,7 +507,7 @@ obj/blacksmith
 
 			if(i)
 
-				if(i.bonus == -1 && i.quality >= max_upgrade && (i.bonus & 4))
+				if(i.bonus == -1 || i.quality >= max_upgrade || (i.bonus & 4))
 					p << errormsg("[i.name] can not be upgraded.")
 				else
 					var/obj/items/ember_of_despair/despair = locate() in p
