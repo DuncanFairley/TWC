@@ -335,6 +335,15 @@ proc/updateVault(swapmap/map, owner, version)
 					if(istype(w, /obj/items/wearable/pets))
 						w:exp = 0
 
+	if(version < 8)
+		for(var/turf/t in map.AllTurfs())
+			for(var/obj/items/wearable/w in t)
+				if(w.quality > 0 && w.bonus == (-1|3))
+					w.quality = 0
+					w.bonus &= ~3
+
+					var/list/split = splittext(w.name, " +")
+					w.name = split[1]
 
 mob/GM/verb/UnloadMap()
 	set category = "Custom Maps"

@@ -335,6 +335,15 @@ mob
 
 				p << infomsg("Your skill levels were adjusted to the new exp formula.")
 
+			if(savefile_version < 48)
+				for(var/obj/items/wearable/w in p)
+					if(w.quality > 0 && w.bonus == (-1|3))
+						w.quality = 0
+						w.bonus &= ~3
+
+						var/list/split = splittext(w.name, " +")
+						w.name = split[1]
+
 
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
