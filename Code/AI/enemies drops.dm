@@ -61,6 +61,9 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 							/obj/items/lamps/triple_gold_lamp,
 							/obj/items/wearable/afk/hot_chocolate),
 
+"Scared Ghost"       = list(/obj/items/ember_of_despair,
+							/obj/items/ember_of_frost),
+
 "Stone Golem"        = list(/obj/items/wearable/title/Earthbender,
                             /obj/items/wearable/pets/rock,
 							/obj/items/chest/wigs/basic_wig_chest,
