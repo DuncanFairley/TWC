@@ -257,6 +257,8 @@ obj
 
 					var/guild/g = worldData.guilds[data.guild]
 
+					if(!g) return
+
 					i.maptext        = "<span style=\"font-size:3; color:#FF4500;\">[g.name]</span>"
 					i.maptext_width  = maptext_width
 					i.maptext_height = maptext_height
@@ -771,7 +773,7 @@ mob
 			if(level < killer.level) base *= (level / 800) * 0.75
 
 			if(hardmode)
-				rate += hardmode * 0.25
+				rate += hardmode * 0.5
 
 			if(prize)
 				sparks = 1
@@ -823,6 +825,7 @@ mob
 				if(killer.level >= 750 && prob(60))
 					new /obj/monster_portal (loc)
 				else
+					killer << infomsg("A scared ghost appeared, it's running with loot, kill it!")
 					new /mob/Enemies/Summoned/Boss/Scared_Ghost (loc)
 
 			if(prob(base * rate + killer.pity))
