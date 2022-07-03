@@ -414,12 +414,14 @@ obj/items/crystal
 				worn = 1
 				w.Equip(p, 1)
 
+			var/addBack = 0
 			if(w.stack > 1)
+				addBack = 1
 				w = w.Split(1)
 
-				w.Move(p)
-
 			w.socket = s
+			if(addBack)
+				w.Move(p)
 			if(worn)
 				w.Equip(p, 1)
 
