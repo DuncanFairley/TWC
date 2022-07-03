@@ -600,6 +600,12 @@ teleportNode
 	var
 		list/lootSpawns
 
+mob/test/verb/Show_ROR()
+	set category="Debug"
+	set popup_menu = 0
+	usr.client.eye=locate(/obj/teleport/rorEntrance)
+	usr.client.perspective=EYE_PERSPECTIVE
+
 obj/teleport/rorEntrance
 	post_init = 1
 	invisibility = 0
