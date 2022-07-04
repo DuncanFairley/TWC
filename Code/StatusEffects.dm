@@ -450,16 +450,20 @@ StatusEffect
 		Activate()
 			..()
 
-		Deactivate()
+		Deactivate(var/expire=1)
 			var/mob/Player/p = AttachedAtom
 			if(p)
-				p << errormsg("Your potion's effect fades.")
-
 				for(var/hudobj/Cooldown/c in p.client.screen)
 					if(c.name == "Potion")
 						c.maptext = null
 						c.hide(1)
 						break
+
+				if(expire && p.potionsMode != THROW && (p.passivesRing & RING_FAIRY))
+					usr=p
+					potion.Click(fairy=1)
+				else
+					p << errormsg("Your potion's effect fades.")
 
 			..()
 

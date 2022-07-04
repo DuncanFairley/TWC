@@ -47,7 +47,7 @@
 #define RING_LAVAWALK 8
 #define RING_DUAL_SWORD 16
 #define RING_ALCHEMY 32
-#define RING_7 64
+#define RING_FAIRY 64
 #define RING_8 128
 #define RING_9 256
 #define RING_10 512

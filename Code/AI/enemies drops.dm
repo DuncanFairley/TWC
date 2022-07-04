@@ -14,6 +14,7 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 					        /obj/items/wearable/ring/time_ring,
 					        /obj/items/wearable/ring/slayer,
 					        /obj/items/wearable/ring/alchemy,
+					        /obj/items/wearable/ring/fairy,
 					        /obj/items/wearable/shield/alchemy,
 					        /obj/items/wearable/shield/mana,
 					        /obj/items/wearable/shield/slayer,

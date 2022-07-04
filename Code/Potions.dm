@@ -534,7 +534,7 @@ obj/items/potions
 	useTypeStack = /obj/items/potions
 	stackName = "Potions:"
 
-	Click()
+	Click(location,control,params,fairy=0)
 		if((src in usr) && canUse(M=usr, inarena=0,needwand=0))
 
 			if(usr:potionsMode == THROW && canThrow)
@@ -542,12 +542,16 @@ obj/items/potions
 				proj.effect  = effect
 				proj.seconds = seconds
 			else
-				var/StatusEffect/Potions/p = locate() in usr.LStatusEffects
-				if(p)
-					usr << errormsg("[name] washed out the previous potion you consumed.")
-					p.Deactivate()
 
-				usr << infomsg("You drink \a [src].")
+				if(!fairy)
+					var/StatusEffect/Potions/p = locate() in usr.LStatusEffects
+					if(p)
+						usr << errormsg("[name] washed out the previous potion you consumed.")
+						p.Deactivate(0)
+
+					usr << infomsg("You drink \a [src].")
+				else
+					usr << infomsg("You drink \a [src] (Fairy's ring).")
 
 				if(!(usr:passivesShield & SHIELD_ALCHEMY))
 					new effect (usr, seconds, "Potion", src)

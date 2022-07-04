@@ -88,7 +88,7 @@ area
 			if(antiPotion && p.LStatusEffects)
 				var/StatusEffect/Potions/pot = locate() in p.LStatusEffects
 				if(pot)
-					pot.Deactivate()
+					pot.Deactivate(0)
 
 			if(antiSummon && p.Summons)
 				for(var/obj/summon/s in p.Summons)
@@ -5229,6 +5229,16 @@ obj/items/wearable/ring/alchemy
 	desc="Brewed potions are one tier higher."
 	suffix = "<span style=\"color:#ffa500;\">Brewed potions are one tier higher.</span>"
 	passive = RING_ALCHEMY
+	monsterDef = 3
+	monsterDmg = 3
+
+obj/items/wearable/ring/fairy
+	name="Fairy's ring"
+	icon='ammy.dmi'
+	icon_state="snow"
+	desc="Re-uses potions at the end of their effect."
+	suffix = "<span style=\"color:#ffa500;\">Re-uses potions at the end of their effect.</span>"
+	passive = RING_FAIRY
 	monsterDef = 3
 	monsterDmg = 3
 
