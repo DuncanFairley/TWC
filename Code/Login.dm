@@ -1765,6 +1765,8 @@ obj
 			icon_state = "Alchemy"
 			desc = "Increases your knowledge of potion brewing, allowing you the chance to concoct expert level potions with greater effects and longitivtiy. Click this to toggle use/throw mode."
 
+			mouse_over_pointer = MOUSE_HAND_POINTER
+
 			Click()
 				var/mob/Player/p = usr
 
@@ -1782,6 +1784,8 @@ obj
 			icon_state = "Summoning"
 			desc = "Each level increases summon level by 1, every 10 levels your summon limit increases. Click to toggle summon mode."
 
+			mouse_over_pointer = MOUSE_HAND_POINTER
+
 			Click()
 				var/mob/Player/p = usr
 
@@ -1798,6 +1802,8 @@ obj
 		Slayer
 			icon_state = "Slayer"
 			desc = "Each level reduces damage taken and increases damage dealt by 1. Click this to toggle Hardmode (Requires level 10)"
+
+			mouse_over_pointer = MOUSE_HAND_POINTER
 
 			Click()
 				var/mob/Player/p = usr
