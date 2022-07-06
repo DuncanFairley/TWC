@@ -47,8 +47,8 @@
 #define RING_LAVAWALK 8
 #define RING_DUAL_SWORD 16
 #define RING_ALCHEMY 32
-#define RING_FAIRY 64
-#define RING_8 128
+#define RING_CLOWN 64
+#define RING_FAIRY 128
 #define RING_9 256
 #define RING_10 512
 #define RING_11 1024
@@ -64,7 +64,7 @@
 #define SHIELD_4 8
 #define SHIELD_5 16
 #define SHIELD_MP 32
-#define SHIELD_SELFDAMAGE 64
+#define SHIELD_CLOWN 64
 #define SHIELD_MPDAMAGE 128
 #define SHIELD_GOLD 256
 #define SHIELD_10 512
@@ -81,7 +81,7 @@
 #define SWORD_4 8
 #define SWORD_5 16
 #define SWORD_6 32
-#define SWORD_7 64
+#define SWORD_CLOWN 64
 #define SWORD_8 128
 #define SWORD_9 256
 #define SWORD_EXPLODE 512

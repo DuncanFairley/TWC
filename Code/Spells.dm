@@ -1820,20 +1820,23 @@ mob
 				var/dmg = round(p.MMP * 1)
 				var/cost = round(dmg * 0.5, 1)
 
-				if(p.MP >= cost)
+				if(cd == 0)
+					P.damage = 10 + dmg + rand(0, 10)
+					p.MP = 0
+				else if(p.MP >= cost)
 					P.damage = 10 + dmg + rand(0, 10)
 					p.MP -= cost
 				else
 					P.damage = 10 + p.MP*2 + rand(0, 10)
 					p.MP = 0
-
-				P.shoot(lag-1)
+				lag -= 1
+				P.shoot(lag)
 
 			else
 				p.MP -= MPreq
 			p.updateMP()
 
-			if(p.passivesShield & SHIELD_SELFDAMAGE)
+			if(p.passivesShield & SHIELD_CLOWN)
 				P.selfDamage = 0
 
 			if(p.passivesSword & SWORD_GHOST)
@@ -1841,6 +1844,18 @@ mob
 					P.damage *= 1.2
 				else
 					P.element = GHOST
+
+			if(p.passivesRing & RING_CLOWN)
+				P.element = pick(GHOST,FIRE,WATER,EARTH)
+
+			if((p.passivesSword & SWORD_CLOWN) && cd != 0)
+				P.dir = pick(DIRS_LIST)
+				P.shoot(lag)
+
+				var/dir2 = pick(DIRS_LIST-P.dir)
+
+				var/obj/projectile/P2 = new Type (Loc,dir2,src,icon,icon_state,P.damage,name,P.element)
+				P2.shoot(lag)
 
 			if(p.wand)
 				p.learnSpell(name)

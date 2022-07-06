@@ -5242,6 +5242,16 @@ obj/items/wearable/ring/fairy
 	monsterDef = 3
 	monsterDmg = 3
 
+obj/items/wearable/ring/clown
+	name="clown's ring"
+	icon='ammy.dmi'
+	icon_state="snow"
+	desc="Projectiles element is randomized."
+	suffix = "<span style=\"color:#ffa500;\">Projectiles element is randomized.</span>"
+	passive = RING_CLOWN
+	monsterDef = 3
+	monsterDmg = 3
+
 obj/items/wearable/ring/cooling_shoes
 	icon='trophies.dmi'
 	icon_state="cooling shoes"
@@ -5360,7 +5370,7 @@ obj/items/wearable/shield/selfdamage
 	name="clown's shield"
 	desc="A clown's shield, provides protection against accidents."
 	suffix = "<span style=\"color:#ffa500;\">No damage from your own projectiles.</span>"
-	passive = SHIELD_SELFDAMAGE
+	passive = SHIELD_CLOWN
 	monsterDef = 3
 
 obj/items/wearable/shield/psychic
@@ -5512,6 +5522,15 @@ obj/items/wearable/sword/alchemy
 	desc="15% chance to not consume potions.<br>Grants a chance to produce more than one potion."
 	suffix = "<span style=\"color:#ffa500;\">15% chance to not consume potions.</span>"
 	passive = SWORD_ALCHEMY
+	monsterDmg = 3
+
+obj/items/wearable/sword/clown
+	icon='trophies.dmi'
+	icon_state="Sword"
+	name="clown's blade"
+	desc="projectile spells fire 2 projectiles but at random direction."
+	suffix = "<span style=\"color:#ffa500;\">projectile spells fire 2 projectiles but at random direction.</span>"
+	passive = SWORD_CLOWN
 	monsterDmg = 3
 
 obj/items/wearable/gm_robes
