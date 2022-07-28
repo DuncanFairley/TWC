@@ -860,6 +860,22 @@ obj
 			icon_state = "Blue Flowers"
 			density    = 1
 
+		jailbar
+			icon       = 'Jail.dmi'
+			icon_state = "1"
+			layer      = 5
+
+			MapInit()
+
+				icon_state = "[rand(1,5)]"
+
+				..()
+
+		jailtip
+			icon       = 'Jail.dmi'
+			icon_state = "tip"
+			layer      = 5
+
 		tabletop
 			icon       = 'turf.dmi'
 			icon_state = "t1"
