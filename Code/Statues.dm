@@ -41,7 +41,7 @@ obj/museum
 
 	Linshon
 		desc = "<b>Former Headmaster of TWC.</b><br>Banana man! Linshon was the creator and first person to successfully host TWC's now annual 'Summer Bash'."
-		robes = "yellow"
+		robes = "MaleStaff"
 
 	Shirou
 		desc = "Former Headmaster of TWC & DADA Professor."
@@ -70,7 +70,7 @@ obj/museum
 
 	Sylar
 		desc = "<b>Headmaster of TWC. Former Deputy Headmaster, Administrator, Chat Moderator. Previous GCOM, DADA, and Charms Professor.</b><br>"
-		robes = "orange"
+		robes = "MaleStaff"
 
 	Chrissy
 		desc = "Former Headmistress, Deputy Headmistress, Administrator, and Professor."
@@ -82,7 +82,7 @@ obj/museum
 
 	Uchiha
 		desc = "Former Deputy Headmaster of TWC."
-		robes = "cyan"
+		robes = "MaleStaff"
 
 	Atomic
 		desc = "Former Deputy Headmaster of TWC."
@@ -90,7 +90,7 @@ obj/museum
 
 	Jared
 		desc = "Former Deputy Headmaster of TWC."
-		robes = "cyan"
+		robes = "MaleStaff"
 
 	Spitfire
 		desc = "Administrator & DADA Professor"
