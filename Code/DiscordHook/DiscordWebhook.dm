@@ -35,7 +35,7 @@ mob/Player/proc/SendDiscord(var/message)
 	else if(House == "Ravenclaw")
 		defaultIcon = "https://www.clipartmax.com/png/middle/264-2649292_ravenclaw-crest-harry-potter-ravenclaw-crest.png"
 	else if(House == "Slytherin")
-	 	defaultIcon = "https://toppng.com/uploads/preview/slytherin-crest-slytherin-crest-clipart-harry-potter-slytherin-crest-11562871434vbfa2qke9n.png"
+		defaultIcon = "https://toppng.com/uploads/preview/slytherin-crest-slytherin-crest-clipart-harry-potter-slytherin-crest-11562871434vbfa2qke9n.png"
 	else if(House == "Hufflepuff")
 		defaultIcon = "https://www.kindpng.com/imgv/hJJJwmR_hufflepuff-crest-harry-potter-banner-harry-potter-hufflepuff/"
 
@@ -55,7 +55,7 @@ mob/Player/proc/SendDiscord(var/message)
 		*/
 		list(
 			content = message,
-			avatar_url = client.key_info.IconURL(),
+			avatar_url = client.key_info.IconURL(defaultIcon),
 			username = name
 			)
 		)
