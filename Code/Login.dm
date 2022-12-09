@@ -571,6 +571,7 @@ client/Command(T)
 		failedtries++
 		if(failedtries>4)del(src)*/
 
+
 /mob/proc/GenerateNameOverlay(r,g,b,de=0)
 	var/outline = "#000"
 	//if(30*r+59*g+11*b > 7650) outline = "#000"
@@ -1288,6 +1289,7 @@ mob/Player
 									else
 										p << "<b><a style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\" href=\"?src=\ref[p];action=pm_reply;replynametext=[formatName(src)]\">OOC></a></b><b><span style=\"font-size:2; color:#3636F5;\">[src][GMTag]:</span></b> <span style=\"color:white; font-size:2;\"> [T]</span>"
 
+							usr:SendDiscord(T)
 
 							if(prevname)
 								chatlog << "<span style=\"color:blue;\"><b>[prevname] (ROBED)</b></span><span style=\"color:green;\"> OOC's '[T]'</span>"+"<br>"//This is what it adds to the log!
