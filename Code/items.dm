@@ -5252,6 +5252,16 @@ obj/items/wearable/ring/clown
 	monsterDef = 3
 	monsterDmg = 3
 
+obj/items/wearable/ring/ninja
+	name="ninja's ring"
+	icon='ammy.dmi'
+	icon_state="snow"
+	desc="Low level monsters ignore you."
+	suffix = "<span style=\"color:#ffa500;\">Low level monsters ignore you.</span>"
+	passive = RING_NINJA
+	monsterDef = 3
+	monsterDmg = 3
+
 obj/items/wearable/ring/cooling_shoes
 	icon='trophies.dmi'
 	icon_state="cooling shoes"
@@ -5409,6 +5419,15 @@ obj/items/wearable/shield/alchemy
 	passive = SHIELD_ALCHEMY
 	monsterDef = 3
 
+obj/items/wearable/shield/ninja
+	icon='trophies.dmi'
+	icon_state="Shield"
+	name="Ninja Shield"
+	desc="Enables dodge. (25%)"
+	suffix = "<span style=\"color:#ffa500;\">Enables dodge. (25%)</span>"
+	passive = SHIELD_NINJA
+	monsterDef = 5
+
 obj/items/wearable/sword
 	bonus  = 0
 	socket = 0
@@ -5532,6 +5551,14 @@ obj/items/wearable/sword/clown
 	suffix = "<span style=\"color:#ffa500;\">projectile spells fire 2 projectiles but at random direction.</span>"
 	passive = SWORD_CLOWN
 	monsterDmg = 3
+
+obj/items/wearable/sword/ninja
+	icon='trophies.dmi'
+	icon_state="Sword"
+	name="ninja blade"
+	desc="Enables back attack damage."
+	suffix = "<span style=\"color:#ffa500;\">Enables back attack damage.</span>"
+	passive = SWORD_NINJA
 
 obj/items/wearable/gm_robes
 	icon = 'trims.dmi'

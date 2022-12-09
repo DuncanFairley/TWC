@@ -951,6 +951,7 @@ mob
 				for(var/mob/Player/M in a.Players)
 	//				if(M.loc.loc != src.loc.loc) continue
 					if(M.Immortal) continue
+					if(M.level > level && (M.passivesRing & RING_NINJA)) continue
 					if(ignore && (M in ignore)) continue
 
 					var/dist = get_dist(src, M)
@@ -1135,7 +1136,7 @@ mob
 
 				if(dmg > 0)
 					dmg = target.onDamage(dmg, src)
-					if(target)
+					if(target && dmg > 0)
 						if(target.MonsterMessages) target << "<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
 						if(target.HP <= 0)
 							Kill(target)

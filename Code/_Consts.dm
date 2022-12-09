@@ -49,7 +49,7 @@
 #define RING_ALCHEMY 32
 #define RING_CLOWN 64
 #define RING_FAIRY 128
-#define RING_9 256
+#define RING_NINJA 256
 #define RING_10 512
 #define RING_11 1024
 #define RING_12 2048
@@ -59,7 +59,7 @@
 #define RING_DUAL_SHIELD 32768
 
 #define SHIELD_ALCHEMY 1
-#define SHIELD_2 2
+#define SHIELD_NINJA 2
 #define SHIELD_3 4
 #define SHIELD_4 8
 #define SHIELD_5 16
@@ -77,7 +77,7 @@
 
 #define SWORD_MANA 1
 #define SWORD_ALCHEMY 2
-#define SWORD_3 4
+#define SWORD_NINJA 4
 #define SWORD_4 8
 #define SWORD_5 16
 #define SWORD_6 32

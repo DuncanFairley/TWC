@@ -1975,6 +1975,15 @@ mob/Player
 			dmg = 0
 			return 0
 
+		if((passivesShield & SHIELD_NINJA) && prob(25))
+			dmg = 0
+
+			var/turf/t = get_step(attacker, turn(attacker.dir, 180))
+			Move(t)
+			dir = get_dir(src, attacker)
+
+			return 0
+
 		if((passivesShield & SHIELD_MP) && MP < MMP)
 			var/regen = round(dmg * 0.5, 1)
 			MP = min(MP + regen, MMP)
@@ -1984,7 +1993,6 @@ mob/Player
 			if(monsterDef > 0)
 				dmg *= 1 - min(monsterDef/100, 0.75)
 
-		// next 2 ifs are meant to be under ismonster, testing this to see how players react
 		if(passivesShield & SHIELD_MPDAMAGE)
 			var/r = min(round(dmg * 0.4, 1), MP)
 			dmg -= r
@@ -2089,6 +2097,7 @@ mob/Enemies
 	var/element
 
 	proc/onDamage(dmg, mob/Player/p, elem = 0)
+
 		dmg = round(dmg, 1)
 		HP -= dmg
 
@@ -2208,6 +2217,16 @@ mob/Enemies
 				     angle  = new /Random(n - 25, n + 25),
 				     speed  = 2,
 				     life   = new /Random(15,25))
+
+			if(p.owner:passivesSword & SWORD_NINJA)
+				var/angleDiff = abs(dir2angle(p.owner.dir) - dir2angle(dir))
+
+				if(angleDiff <= 45)
+					dmg *= 1.5
+				else if(angleDiff <= 90)
+					dmg *= 1.25
+
+			dmg = round(dmg, 1);
 
 			if(p.owner:MonsterMessages && !silent)
 				p.owner << "Your [p] does [dmg] damage to [src]."
