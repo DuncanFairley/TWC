@@ -39,6 +39,12 @@ mob/Player/proc/SendDiscord(var/message)
 	else if(House == "Hufflepuff")
 		defaultIcon = "https://www.kindpng.com/imgv/hJJJwmR_hufflepuff-crest-harry-potter-banner-harry-potter-hufflepuff/"
 
+	var/fixedName
+
+	if(prevname) fixedName = prevname
+	else if(pname) fixedName = pname
+	else fixedName = name
+
 	client.HttpPost(
 		/* Replace this with the webhook URL that you can Copy in Discord's Edit Webhook panel.
 		It's best to use a global const for this and keep it secret so others can't use it.
@@ -54,8 +60,8 @@ mob/Player/proc/SendDiscord(var/message)
 		They override the webhook's name and avatar for the post.
 		*/
 		list(
-			content = message,
+			content = html_decode(message),
 			avatar_url = client.key_info.IconURL(defaultIcon),
-			username = name
+			username = fixedName
 			)
 		)

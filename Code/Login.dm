@@ -813,6 +813,9 @@ mob
 					p << "<span style=\"font-size:2; color:#C0C0C0;\"><b><i>[character][character.refererckey==p.client.ckey ? "(referral)" : ""] ([character.client.address])([character.ckey])([character.client.connection == "web" ? "webclient" : "dreamseeker"]) logged in.</i></b></span>"
 				else
 					p << "<span style=\"font-size:2; color:#C0C0C0;\"><b><i>[character][character.refererckey==p.client.ckey ? "(referral)" : ""] logged in.</i></b></span>"
+
+			character.SendDiscord("logged in (new)")
+
 			if(character.client.tmpInterface)
 				character.Interface = character.client.tmpInterface
 				character.Interface.Init(character)
