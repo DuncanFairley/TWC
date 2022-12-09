@@ -251,7 +251,10 @@ ScreenText
 
 
 			if(displayImage)
-				owner << npcsay("[displayImage.name]: [t]")
+				if(ismob(src))
+					owner << npcsay("[displayImage.name]: [t]")
+				else
+					owner << infomsg("[t]")
 
 			if(animate) displayText.Show(5)
 

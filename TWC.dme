@@ -136,6 +136,7 @@
 #include "Code\Spellcrafting.dm"
 #include "Code\Spells.dm"
 #include "Code\SQL.dm"
+#include "Code\Statues.dm"
 #include "Code\StatusEffects.dm"
 #include "Code\Summoning.dm"
 #include "Code\swapmaps.dm"

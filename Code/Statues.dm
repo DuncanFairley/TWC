@@ -5,6 +5,8 @@ obj/museum
 
 	icon = 'statues.dmi'
 
+	mouse_over_pointer = MOUSE_HAND_POINTER
+
 	New()
 		..
 
@@ -14,10 +16,12 @@ obj/museum
 			icon = 'FemaleStaff.dmi'
 		else
 			icon_state = robes
-	verb
-		Examine()
-			set src in oview(10)
-			usr<<"This is [name]: [desc]"
+
+	Click()
+		..()
+
+		var/ScreenText/s = new(usr, src)
+		s.AddText("This is [name]: \n[desc]")
 
 	Murrawhip
 		desc  = "<b>Owner of TWC & Minister of Magic.<b><br>Murrawhip's contributions to TWC excel any other, he will go down forever in history as 'THAT ONE GUY WHO SHUT DOWN TWC BUT THEN CHANGED HIS MIND' and for that reason - we thank him!"
