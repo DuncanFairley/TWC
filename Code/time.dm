@@ -5,7 +5,8 @@ WorldData/var/tmp
 	shopPriceModifier = 1
 	DropRateModifier  = 1
 	expModifier       = 1
-	expBookModifier       = 1
+	expBookModifier   = 1
+	cdrModifier       = 1
 
 mob/GM/verb
 	Clan_Wars_Schedule(var/Event/e in clanwars_schedule)

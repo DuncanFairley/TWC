@@ -967,7 +967,7 @@ obj/items/Zombie_Head
 	Click()
 		if(src in usr)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1,againstflying=0,againstcloaked=1))
-				new /StatusEffect/UsedTransfiguration(usr,15*(usr:cooldownModifier+usr:extraCDR))
+				new /StatusEffect/UsedTransfiguration(usr,15*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
 				if(usr.CanTrans(usr))
 					var/mob/Player/p = usr
 					flick("transfigure",p)
@@ -1968,7 +1968,7 @@ obj/items/wearable/wands/cedar_wand //Thanksgiving
 		set category = "Spells"
 		if(src in usr:Lwearing)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-				new /StatusEffect/UsedTransfiguration(usr,30*(usr:cooldownModifier+usr:extraCDR))
+				new /StatusEffect/UsedTransfiguration(usr,30*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
 				hearers()<<"<b><span style=\"color:red;\">[usr]</span>:<b><span style=\"color:white;\"> Delicio Maxima.</b></span>"
 				sleep(20)
 				for(var/mob/Player/M in ohearers(usr.client.view,usr))
@@ -1996,7 +1996,7 @@ obj/items/wearable/wands/maple_wand //Easter
 		set category = "Spells"
 		if(src in usr:Lwearing)
 			if(canUse(usr,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,againstflying=0,againstcloaked=0))
-				new /StatusEffect/UsedTransfiguration(usr,30*(usr:cooldownModifier+usr:extraCDR))
+				new /StatusEffect/UsedTransfiguration(usr,30*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
 				hearers()<<"<b><span style=\"color:red;\">[usr]</span>:<b><span style=\"color:white;\"> Carrotosi Maxima.</b></span>"
 				sleep(20)
 				for(var/mob/Player/M in ohearers(usr.client.view,usr))

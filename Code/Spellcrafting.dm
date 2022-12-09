@@ -155,9 +155,9 @@ obj/items/wearable/spellbook
 			p << errormsg("You can't directly cast this spell, you have to be attacked.")
 			return
 
-		if(world.time - lastUsed <= cd*(p.cooldownModifier+p.extraCDR))
+		if(world.time - lastUsed <= cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
 			if(cd > 10 && !attacker)
-				var/timeleft = ceil((lastUsed+cd*(p.cooldownModifier+p.extraCDR) - world.time)/10)
+				var/timeleft = ceil((lastUsed+cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier - world.time)/10)
 				p << "<b>This can't be used for another [timeleft] second[timeleft==1 ? "" : "s"].</b>"
 			return
 

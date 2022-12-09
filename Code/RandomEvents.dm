@@ -1093,6 +1093,23 @@ RandomEvent
 					Players << infomsg("The experience bonus event is over.")
 					worldData.expModifier -= b
 
+	NoCD
+		name   = "No Cooldown"
+		chance = 7
+		start()
+			set waitfor = 0
+			..()
+			var/minutes = rand(5,25)
+
+			worldData.cdrModifier = 0
+			Players << infomsg("You feel a strange magic surrounding you, all your cooldowns are gone for [minutes] minutes.")
+
+			endTime = world.time + 600*minutes
+			spawn(minutes * 600)
+				end()
+				Players << infomsg("The cooldown event is over.")
+				worldData.cdrModifier = 1
+
 
 	Invasion
 		name = "Monster Invasion"
