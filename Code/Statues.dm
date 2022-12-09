@@ -17,6 +17,9 @@ obj/museum
 		else
 			icon_state = robes
 
+
+		namefont.QuickName(src, name, rgb(255,255,255), "#000", top=1)
+
 	Click()
 		..()
 
@@ -245,7 +248,7 @@ obj/museum
 		robes = "MaleStaff"
 
 	Ben
-		name = "Ben (Zachary Lyons/Link)"
+		name = "Ben (Link)"
 		desc = "GCOM Professor. Former Charms, COMC, and Transfiguration Professor. Previous Duel Instructor & Ravenclaw Prefect."
 		robes = "MaleStaff"
 
@@ -306,7 +309,7 @@ obj/museum
 		robes = "MaleStaff"
 
 	Zach
-		name = "Zach (Chaseio Blade)"
+		name = "Chaseio Blade"
 		desc = "GCOM Professor, Former COMC Professor, Former Off-Peak Professor."
 		robes = "MaleStaff"
 
