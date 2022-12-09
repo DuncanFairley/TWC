@@ -1505,6 +1505,10 @@ mob/Player
 
 			stat(mousehelper)
 
+		if(statpanel("Mastery"))
+			for(var/spellName in SpellUses)
+				var/uses = SpellUses[spellName]
+				stat("[spellName]:", "[getMasteryRank(uses)] ([uses])")
 
 		if(statpanel("Info"))
 			if(admin)
@@ -1729,6 +1733,17 @@ mob/Player
 				stat("Matchmaking:", "(Click to spectate. Click again to stop.)")
 				for(var/arena/a in worldData.currentMatches.arenas)
 					stat(a.spectateObj)*/
+
+proc/getMasteryRank(var/uses)
+
+	var/i = round(log(10, uses))
+
+	if(i >= 5) return "<span style=\"color:#aa2fbd;\">Master</span>"
+	if(i >= 4) return "<span style=\"color:#bdb82f;\">Professional</span>"
+	if(i >= 3) return "<span style=\"color:#2f55bd;\">Skilled</span>"
+	if(i >= 2) return "<span style=\"color:#47bd2f;\">Apprentice</span>"
+	if(i >= 1) return "Beginner"
+	return "Clueless"
 
 obj
 	favorites

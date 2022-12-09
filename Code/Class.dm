@@ -585,6 +585,7 @@ proc
 
 mob/Player
 	var/tmp/learnSpell/learning
+	var/list/SpellUses = list()
 
 	proc/learnSpell(name, use = 1)
 		if(learning && learning.name == name)
@@ -599,6 +600,12 @@ mob/Player
 					wand.Equip(src)
 					wand.Dispose()
 					verbs += spellpath
+		else
+			SpellUses[name]++
+
+			var/l = log(10, SpellUses[name])
+			if(l == round(l))
+				src << infomsg("You gained a new mastery level of <u>[name]</u>!")
 
 
 learnSpell
