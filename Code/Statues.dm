@@ -24,7 +24,26 @@ obj/museum
 		..()
 
 		var/ScreenText/s = new(usr, src)
+
 		s.AddText("This is [name]: \n[desc]")
+
+		if(name == usr.name)
+
+			s.SetButtons("OK", "#2299d0", "Clothing", "#00ff00", null)
+
+			if(!s.Wait()) return
+
+			if(s.Result == "Clothing")
+
+				var/d = desc
+				appearance = usr.appearance
+
+				underlays = list()
+				namefont.QuickName(src, name, rgb(255,255,255), "#000", top=1)
+
+				desc = d
+				mouse_over_pointer = MOUSE_HAND_POINTER
+
 
 	Murrawhip
 		desc  = "<b>Owner of TWC & Minister of Magic.<b><br>Murrawhip's contributions to TWC excel any other, he will go down forever in history as 'THAT ONE GUY WHO SHUT DOWN TWC BUT THEN CHANGED HIS MIND' and for that reason - we thank him!"
