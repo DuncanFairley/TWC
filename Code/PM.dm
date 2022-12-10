@@ -55,8 +55,8 @@ var/PMheader = {"
 </style>
 				"}
 
-proc/ckey2auth(ckey)
-	return md5("[clanadmin_hash][ckey]")
+//proc/ckey2auth(ckey)
+//	return md5("[clanadmin_hash][ckey]")
 mob/Player/proc/PMHome()
 	var/unreadmsgs = 0
 /*	var/clanadministration = "<div class = \"header\">Clan Administration</div>"

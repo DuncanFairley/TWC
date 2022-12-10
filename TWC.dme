@@ -148,8 +148,6 @@
 #include "Code\AI\enemies drops.dm"
 #include "Code\AI\enemies.dm"
 #include "Code\DiscordHook\DiscordWebhook.dm"
-#include "Code\DiscordHook\HttpPost.dm"
-#include "Code\DiscordHook\KeyInfo.dm"
 #include "Code\Quests\QuestAI.dm"
 #include "Code\Quests\QuestNPCs.dm"
 #include "Code\Quests\Quests.dm"

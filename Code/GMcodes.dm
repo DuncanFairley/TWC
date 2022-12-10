@@ -866,6 +866,12 @@ mob
 			for(var/mob/Player/p in Players)
 				p.beep(1)
 				p <<  "<hr><center><span style=\"color:blue;\"><b>Announcement From [src]:</b></span><br><span style=\"color:red;\"><b>[message]</span><hr></center>"
+
+			if(findtext(message, "class"))
+				usr:SendDiscord("@Classes [message]", discord_event_hook)
+			else
+				usr:SendDiscord("@Events [message]", discord_event_hook)
+
 			if(!mysql_enabled) return
 			var/sql = "INSERT INTO tblEventLogs(name,timestamp,message) VALUES([mysql_quote("[name] ([key])")],UNIX_TIMESTAMP(),[mysql_quote(message)])"
 			var/DBQuery/qry = my_connection.NewQuery(sql)
@@ -1858,7 +1864,10 @@ var
 	DBI = ""
 	connected = null
 
-	clanadmin_hash = ""
+	discord_ooc_hook
+	discord_event_hook
+
+//	clanadmin_hash = ""
 world/New()
 	world.log = file("Logs/[VERSION].[SUB_VERSION]-log.txt")
 	world.log << "---WORLD STARTED- [time2text(world.realtime)] - WORLD STARTED---"
@@ -1879,8 +1888,13 @@ world/New()
 			if(!connected)
 				world.log << my_connection.ErrorMsg()
 				mysql_enabled = 0
-		var/Configuration/cfg_clans = ini.GetSection("clans")
-		clanadmin_hash = cfg_clans.Value("clanadmin_hash")
+//		var/Configuration/cfg_clans = ini.GetSection("clans")
+//		clanadmin_hash = cfg_clans.Value("clanadmin_hash")
+
+		var/Configuration/cfg_discord = ini.GetSection("discord")
+		discord_ooc_hook = cfg_discord.Value("discord_ooc_hook")
+		discord_event_hook = cfg_discord.Value("discord_event_hook")
+
 	Load_World()
 	init_events()
 	swapmaps_directory = "vaults"
