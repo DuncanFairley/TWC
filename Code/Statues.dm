@@ -227,24 +227,12 @@ obj/museum
 		desc = "Former Charms Professor."
 		robes = "MaleStaff"
 
-	Neveahlee
-		desc = "Former Transfiguration Professor & Slytherin and Gryffindor Prefect."
-		robes = "FemaleStaff"
-
 	Severus
 		desc = "Former Transfiguration Professor."
 		robes = "MaleStaff"
 
 	Sam_Rajax
 		desc = "Former DADA Professor."
-		robes = "MaleStaff"
-
-	Deathflash
-		desc = "Former Duel Instructor."
-		robes = "MaleStaff"
-
-	Ice_Dragon
-		desc = "Former Duel Instructor."
 		robes = "MaleStaff"
 
 	Ben
@@ -284,10 +272,6 @@ obj/museum
 		desc = "Former Charms Professor."
 		robes = "MaleStaff"
 
-	Zander
-		desc = "Former Transfiguration Professor."
-		robes = "MaleStaff"
-
 	Andi
 		desc = "Former COMC Professor."
 		robes = "MaleStaff"
@@ -304,10 +288,6 @@ obj/museum
 		desc = "Former Transfiguration and DADA Professor."
 		robes = "MaleStaff"
 
-	Fire
-		desc = "Former Duel Instructor."
-		robes = "MaleStaff"
-
 	Zach
 		name = "Chaseio Blade"
 		desc = "GCOM Professor, Former COMC Professor, Former Off-Peak Professor."
@@ -318,5 +298,9 @@ obj/museum
 		robes = "MaleStaff"
 
 	Kole
-		desc = "Charms Professor.<br><b></b>"
+		desc = "Former Charms Professor."
+		robes = "MaleStaff"
+
+	Tim_Cloud
+		desc = "Forever remembered for being better than Zander."
 		robes = "MaleStaff"
