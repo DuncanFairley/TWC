@@ -55,19 +55,19 @@ obj/museum
 
 	Ragnarok
 		desc = "<b>Original owner of TWC.</b><br>Some people liked him and most people didn't."
-		robes = "blue"
+		robes = "blue2"
 
 	Lucifer
-		desc = "<b>Creator of TWC radio. Former Co-Owner & Transfiguration Professor.</b><br>A wonderful asset to TWC and a true friend in times of need."
+		desc = "<b>Creator of TWC radio. Former Transfiguration Professor.</b><br>A wonderful asset to TWC and a true friend in times of need."
 		robes = "MaleStaff"
 
 	Linshon
 		desc = "<b>Former Headmaster of TWC.</b><br>Banana man! Linshon was the creator and first person to successfully host TWC's now annual 'Summer Bash'."
-		robes = "MaleStaff"
+		robes = "yellow"
 
 	Shirou
 		desc = "Former Headmaster of TWC & DADA Professor."
-		robes = "lightblue"
+		robes = "blue"
 
 	Kozu
 		desc = "<b>Former Headmaster of TWC.</b><br>Part cute and cuddly, part fierce and fabulous."
@@ -91,11 +91,12 @@ obj/museum
 		robes = "white"
 
 	Sylar
-		desc = "<b>Headmaster of TWC. Former Deputy Headmaster, Administrator, Chat Moderator. Previous GCOM, DADA, and Charms Professor.</b><br>"
+		desc = "<b>Former Headmaster, Deputy Headmaster, Administrator, Chat Moderator. Previous GCOM, DADA, and Charms Professor.</b><br>"
 		robes = "MaleStaff"
 
 	Chrissy
-		desc = "Former Headmistress, Deputy Headmistress, Administrator, and Professor."
+		name = "Owen"
+		desc = "Former Headmaster, Deputy Headmaster, Administrator, and Professor."
 		robes = "pink"
 
 	Firefly
@@ -104,7 +105,7 @@ obj/museum
 
 	Uchiha
 		desc = "Former Deputy Headmaster of TWC."
-		robes = "MaleStaff"
+		robes = "lightblue"
 
 	Atomic
 		desc = "Former Deputy Headmaster of TWC."
