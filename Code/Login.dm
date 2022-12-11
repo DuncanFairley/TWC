@@ -598,12 +598,7 @@ mob/test/verb/Modify_Housepoints()
 	Save_World()
 
 proc/check(msg as text)
-    var/search = list("\n")//this is a list of stuff you want to make sure is not in the msg
-    for(var/c in search)//search through all the things in the list
-        var/pos = findtext(msg,c)//tells the position of the unwanted text
-        while(pos)//loops through the whole message to make sure there is no more unwanted text
-            msg = "[copytext(msg,1,pos)][copytext(msg,pos+1)]"//It makes the unwanted text(in this case "\n") display in the chat rather than it maknig a new line.
-            pos = findtext(msg,c,pos)//looks for anymore unwanted text after the first one is found
+    msg = replacetext(msg, "\n", "")
     return html_encode(msg)
 
 world
@@ -1000,6 +995,7 @@ mob/Player
 			BaseIcon()
 
 			LoginReward()
+			secretSanta()
 			if(worldData.eventPrize) EventReward()
 			BYONDMemberReward()
 
@@ -1148,6 +1144,13 @@ mob/Player
 										door.door = 0
 										view(door) << "<i>You hear the door lock.</i>"
 							switch(lowertext(t))
+								if("reception")
+									if(z == 21)
+										var/dest = locate("@Reception")
+
+										FlickState("Orb",12,'Effects.dmi')
+										Transfer(dest)
+
 								if("colloportus")
 									if(src.Gm)
 										sleep(20)
