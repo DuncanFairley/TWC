@@ -119,7 +119,7 @@ obj/summon
 		level = 180
 		scale = 1.6
 
-	New(turf/loc, mob/Player/p, spell, size=0)
+	New(turf/loc, mob/Player/p, spell, size=0, extraLevel=0)
 		set waitfor = 0
 		..()
 
@@ -133,7 +133,7 @@ obj/summon
 		summoner = p
 		cast = spell
 
-		level   += p.level + p.Summoning.level*2
+		level   += p.level + p.Summoning.level*2 + extraLevel
 		MHP      = 4 * (level) + 200
 		HP       = MHP
 		extraDmg = round(((p.Dmg + p.clothDmg) - (p.level + 4)) / 2)
