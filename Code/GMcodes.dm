@@ -1866,6 +1866,8 @@ var
 
 	discord_ooc_hook
 	discord_event_hook
+	discord_bot_url
+	discord_bot_pass
 
 //	clanadmin_hash = ""
 world/New()
@@ -1894,6 +1896,8 @@ world/New()
 		var/Configuration/cfg_discord = ini.GetSection("discord")
 		discord_ooc_hook = cfg_discord.Value("discord_ooc_hook")
 		discord_event_hook = cfg_discord.Value("discord_event_hook")
+		discord_bot_url = cfg_discord.Value("discord_bot_url")
+		discord_bot_pass = cfg_discord.Value("discord_bot_pass")
 
 	Load_World()
 	init_events()
@@ -1935,6 +1939,9 @@ world/New()
 	awardcup(0)
 	InitSandbox()
 	InitLootDrop()
+
+	if(discord_bot_url && discord_bot_url != "")
+		pollForDiscord()
 
 //	worldlooper()
 world/proc/Load_Bans()
