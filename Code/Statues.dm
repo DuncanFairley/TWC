@@ -324,3 +324,28 @@ obj/museum
 	Tim_Cloud
 		desc = "Forever remembered for being better than Zander."
 		robes = "MaleStaff"
+
+	Vanchi
+		desc = "Former Professor, known for teaching and promoting honourable dueling."
+		robes = "MaleStaff"
+
+	Blaze
+		desc = "A silent mountain forever in the background."
+		robes = "green"
+
+	Numble
+		desc = "Former Professor."
+		robes = "MaleStaff"
+
+	Kyo
+		desc = "Former Professor."
+		robes = "MaleStaff"
+
+	Sara
+		desc = "Too young to be here."
+		robes = "FemaleStaff"
+
+	Pie
+		name = "Katze (Pie)"
+		desc = "One of the most active and beloved professors to grace TWC with their presence."
+		robes = "MaleStaff"
