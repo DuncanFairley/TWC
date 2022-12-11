@@ -58,6 +58,6 @@ proc/pollForDiscord()
 						var/msg = check(body["content"])
 						var/name = body["name"]
 
-						Players << "<b><a style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a><span style=\"font-size:2; color:#3636F5;\">[name]:</span></b> <span style=\"color:white; font-size:2;\"> [msg]</span>"
+						Players << "<b><a style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a><span style=\"font-size:2; color:#3636F5;\"> \icon[wholist["Discord"]] [name]:</span></b> <span style=\"color:white; font-size:2;\"> [msg]</span>"
 
 		sleep(3)

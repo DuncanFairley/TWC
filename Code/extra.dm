@@ -70,9 +70,12 @@ obj/wholist
 		icon_state="m"
 	Empty
 		icon_state="e"
+	Discord
+		icon_state="d"
 var/list/wholist = list("Gryffindor" = new/obj/wholist/Gryffindor,
 						"Ravenclaw" = new/obj/wholist/Ravenclaw,
 						"Slytherin" = new/obj/wholist/Slytherin,
 						"Hufflepuff" = new/obj/wholist/Hufflepuff,
 						"Ministry" = new/obj/wholist/Ministry,
-						"Empty" = new/obj/wholist/Empty)
+						"Empty" = new/obj/wholist/Empty,
+						"Discord" = new/obj/wholist/Discord)
