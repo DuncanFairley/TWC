@@ -194,14 +194,14 @@ Event
 			set waitfor = 0
 
 			if(classdest || clanwars)
-				spawn(100) scheduler.schedule(src, rand(18000, 36000))  // 30 minutes to 1 hour
+				spawn(100) scheduler.schedule(src, rand(9000, 18000))  // 15 minutes to 30 hour
 
 				if(classdest)
 					for(var/mob/Player/p in Players)
 						if(p.Gm)
 							p << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
 			else
-				spawn(100) scheduler.schedule(src, rand(36000, 72000))  // 1 hour to 2 hours
+				spawn(100) scheduler.schedule(src, rand(27000, 54000))  // 45 minutes to 90 minutes
 				var/list/l = list()
 				for(var/RandomEvent/e in worldData.events)
 					if(e.chance == 0) continue

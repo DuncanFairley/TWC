@@ -543,7 +543,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(15,45)
+			var/minutes = rand(15,30)
 			var/list/m = list()
 			Players << infomsg("The Evil Snowman and his army appeared at Hogwarts grounds (behind the castle), defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
 
@@ -584,7 +584,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(15,45)
+			var/minutes = rand(15,30)
 			var/list/m = list()
 			Players << infomsg("Willy the Whisp and his army are haunting right outside at Hogwarts grounds (behind the castle), defend yourselves until ghostbus---- reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill Willy the Whisp before then you might be able to get a nice prize!")
 
@@ -707,7 +707,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(15,45)
+			var/minutes = rand(15,30)
 			var/list/m = list()
 			Players << infomsg("Something doesn't quite smell right outside at Hogwarts grounds (behind the castle), be cautious, evil forces are crawling, defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to ...butcher them... before then you might be able to get a nice prize!")
 
@@ -740,7 +740,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(15,45)
+			var/minutes = rand(15,30)
 			var/list/m = list()
 			Players << infomsg("A vampire lord has been lured outside of the castle at Hogwarts grounds (behind the castle) for [minutes] minutes, the vicious creature brought an army, it appears old and wealthy, maybe it carries valuables, slay it to find out!")
 
@@ -777,7 +777,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(15,45)
+			var/minutes = rand(15,30)
 			var/list/m = list()
 			Players << infomsg("A zombie has appeared outside (behind the castle) for [minutes] minutes, kill zombie before it infects others!")
 
@@ -821,7 +821,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(15,45)
+			var/minutes = rand(15,30)
 			var/list/m = list()
 			Players << infomsg("The Black Blade has appeared outside (behind the castle) for [minutes] minutes, destroy the blade!")
 
@@ -866,7 +866,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(15,45)
+			var/minutes = rand(15,30)
 			var/list/m = list()
 			Players << infomsg("The elder wand's magical force is possessing a stone construct outside (behind the castle) for [minutes] minutes, destroy the stone construct to harness the power of the broken elder wand!")
 
@@ -1057,7 +1057,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(30,60)
+			var/minutes = rand(15,30)
 			var/sale = rand(15,40)
 
 			var/b = sale / 100
@@ -1099,7 +1099,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(5,25)
+			var/minutes = rand(10,30)
 
 			worldData.cdrModifier = 0
 			Players << infomsg("You feel a strange magic surrounding you, all your cooldowns are gone for [minutes] minutes.")
