@@ -76,7 +76,7 @@ RandomEvent
 
 	Tournament
 		name   = "Tournament"
-		chance = 8
+		chance = 4
 		var/tmp/mob/Player/winner
 
 		start()
@@ -176,7 +176,7 @@ RandomEvent
 
 	FFA
 		name   = "Free For All"
-		chance = 8
+		chance = 6
 		var/tmp/mob/Player/winner
 
 		start(gameMode)
@@ -318,7 +318,7 @@ RandomEvent
 
 	HouseWars
 		name   = "House Wars"
-		chance = 8
+		chance = 3
 		var/tmp/mob/Player/winner
 
 		start(gameMode)
@@ -676,7 +676,7 @@ RandomEvent
 
 	Ghosts
 		name = "Ghost Invasion"
-		chance = 15
+		chance = 13
 		start()
 			set waitfor = 0
 			..()
@@ -1032,7 +1032,7 @@ RandomEvent
 
 	DropRate
 		name   = "Drop Rate Bonus"
-		chance = 7
+		chance = 10
 		start()
 			set waitfor = 0
 			..()
@@ -1053,7 +1053,7 @@ RandomEvent
 
 	Sale
 		name   = "Crazy Sale"
-		chance = 5
+		chance = 8
 		start()
 			set waitfor = 0
 			..()
@@ -1074,7 +1074,7 @@ RandomEvent
 
 	Exp
 		name   = "Experience Bonus"
-		chance = 7
+		chance = 10
 		start()
 			set waitfor = 0
 			..()
@@ -1095,7 +1095,7 @@ RandomEvent
 
 	NoCD
 		name   = "No Cooldown"
-		chance = 7
+		chance = 10
 		start()
 			set waitfor = 0
 			..()
