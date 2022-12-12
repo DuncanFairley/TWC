@@ -3454,7 +3454,7 @@
 "bov" = (/obj/museum/Malokh,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
 "bow" = (/obj/museum/Neo,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
 "box" = (/obj/museum/Angela,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
-"boy" = (/obj/museum/Chrissy,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
+"boy" = (/obj/museum/Owen,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
 "boz" = (/obj/museum/Lucifer,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
 "boA" = (/obj/museum/Nick_A_Creed,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
 "boB" = (/obj/museum/Andi,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
@@ -3538,8 +3538,8 @@
 "bqb" = (/obj/museum/Kyo,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
 "bqc" = (/obj/museum/Blaze,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
 "bqd" = (/obj/museum/Numble,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
-"bqe" = (/obj/museum/Pie,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
-"bqf" = (/obj/museum/Sara,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
+"bqe" = (/obj/museum/Katze,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
+"bqf" = (/obj/museum/Sara_Quilor,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
 "bqg" = (/obj/museum/Vanchi,/turf/floor{icon = 'Road.dmi'; icon_state = "SideWalk"},/area/Diagon_Alley/Museum)
 
 (1,1,1) = {"

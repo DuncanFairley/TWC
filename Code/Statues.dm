@@ -17,8 +17,9 @@ obj/museum
 		else
 			icon_state = robes
 
+		if(!pname) pname = name
 
-		namefont.QuickName(src, name, rgb(255,255,255), "#000", top=1)
+		namefont.QuickName(src, pname, rgb(255,255,255), "#000", top=1)
 
 	Click()
 		..()
@@ -27,7 +28,9 @@ obj/museum
 
 		s.AddText("This is [name]: \n[desc]")
 
-		if(name == usr.name)
+		var/n = usr.pname ? usr.pname : usr.name
+
+		if(name == n || pname == n)
 
 			s.SetButtons("OK", "#2299d0", "Clothing", "#00ff00", null)
 
@@ -86,7 +89,7 @@ obj/museum
 		robes = "teal"
 
 	Justin
-		name = "Justin (Demonic)"
+		pname = "Justin (Demonic)"
 		desc = "<b>Former Headmaster, Deputy Headmaster, Professor of every class at different points. Former Slytherin Prefect and Host.</b><br>He's just always there... It's kind of weird and some what creepy but he's always here when TWC needs him!"
 		robes = "white"
 
@@ -94,8 +97,7 @@ obj/museum
 		desc = "<b>Former Headmaster, Deputy Headmaster, Administrator, Chat Moderator. Previous GCOM, DADA, and Charms Professor.</b><br>"
 		robes = "MaleStaff"
 
-	Chrissy
-		name = "Owen"
+	Owen
 		desc = "Former Headmaster, Deputy Headmaster, Administrator, and Professor."
 		robes = "pink"
 
@@ -256,7 +258,7 @@ obj/museum
 		robes = "MaleStaff"
 
 	Ben
-		name = "Ben (Link)"
+		pname = "Ben (Link)"
 		desc = "GCOM Professor. Former Charms, COMC, and Transfiguration Professor. Previous Duel Instructor & Ravenclaw Prefect."
 		robes = "MaleStaff"
 
@@ -309,7 +311,7 @@ obj/museum
 		robes = "MaleStaff"
 
 	Zach
-		name = "Chaseio Blade"
+		pname = "Chaseio Blade"
 		desc = "GCOM Professor, Former COMC Professor, Former Off-Peak Professor."
 		robes = "MaleStaff"
 
@@ -341,11 +343,11 @@ obj/museum
 		desc = "Former Professor."
 		robes = "MaleStaff"
 
-	Sara
+	Sara_Quilor
 		desc = "Too young to be here."
 		robes = "FemaleStaff"
 
-	Pie
-		name = "Katze (Pie)"
+	Katze
+		pname = "Katze (Pie)"
 		desc = "One of the most active and beloved professors to grace TWC with their presence."
 		robes = "MaleStaff"
