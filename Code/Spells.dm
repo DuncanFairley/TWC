@@ -136,7 +136,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 	var/mpCost = 100
 	var/spellName = "Eat Slugs"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -253,7 +253,7 @@ mob/Spells/verb/Protego()
 	var/mpCost = 100
 	var/spellName = "Protego"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -340,7 +340,7 @@ mob/Spells/verb/Expelliarmus(mob/Player/M in view())
 	var/mpCost = 300
 	var/spellName = "Expelliarmus"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -428,7 +428,7 @@ mob/Spells/verb/Repellium()
 	var/mpCost = 100
 	var/spellName = "Repellium"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -464,7 +464,7 @@ mob/Spells/verb/Lumos()
 	var/mpCost = 100
 	var/spellName = "Repellium"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -496,7 +496,7 @@ mob/Spells/verb/Lumos_Maxima()
 	var/mpCost = 300
 	var/spellName = "Lumos Maxima"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -515,7 +515,7 @@ mob/Spells/verb/Aggravate()
 	var/mpCost = 150
 	var/spellName = "Aggravate"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -555,7 +555,7 @@ mob/Spells/verb/Basilio()
 	var/mpCost = 200
 	var/spellName = "Basilio"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -587,7 +587,7 @@ mob/Spells/verb/Serpensortia()
 	var/mpCost = 100
 	var/spellName = "Serpensortia"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -637,7 +637,7 @@ mob/Spells/verb/Shelleh()
 	var/mpCost = 100
 	var/spellName = "Shelleh"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -679,7 +679,7 @@ mob/Spells/verb/Avis()
 	var/mpCost = 100
 	var/spellName = "Avis"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -706,7 +706,7 @@ mob/Spells/verb/Crapus_Sticketh()
 	var/mpCost = 100
 	var/spellName = "Crapus Sticketh"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -751,7 +751,7 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 		var/mpCost = 300
 		var/spellName = "Permoveo"
 
-		var/uses = p.SpellUses[spellName]
+		var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 		var/tier = round(log(10, uses)) - 1
 		mpCost *= (100 - tier*2) / 100
 
@@ -790,7 +790,7 @@ mob/Spells/verb/Incarcerous()
 	var/mpCost = 50
 	var/spellName = "Incarcerous"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -817,7 +817,7 @@ mob/Spells/verb/Reducto()
 	var/mpCost = 400
 	var/spellName = "Reducto"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -845,7 +845,7 @@ mob/Spells/verb/Reparo()
 	var/mpCost = 150
 	var/spellName = "Reparo"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -877,7 +877,7 @@ mob/Spells/verb/Bombarda()
 	var/mpCost = 100
 	var/spellName = "Bombarda"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -894,7 +894,7 @@ mob/Spells/verb/Petreficus_Totalus()
 	var/mpCost = 50
 	var/spellName = "Petrificus Totalus"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -927,7 +927,7 @@ mob/Spells/verb/Antifigura()
 	var/mpCost = 50
 	var/spellName = "Antifigura"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -950,7 +950,7 @@ mob/Spells/verb/Chaotica()
 	var/mpCost = 30
 	var/spellName = "Chaotica"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -966,7 +966,7 @@ mob/Spells/verb/Aqua_Eructo()
 	var/mpCost = 50
 	var/spellName = "Aqua Eructo"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -988,7 +988,7 @@ mob/Spells/verb/Sanguinis_Iactus()
 	var/mpCost = 10
 	var/spellName = "Blood"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1004,7 +1004,7 @@ mob/Spells/verb/Gravitate()
 	var/mpCost = 300
 	var/spellName = "Gravitate"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1018,7 +1018,7 @@ mob/Spells/verb/Inflamari()
 
 	var/mob/Player/p = src
 	var/spellName = "Inflamari"
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 
 	var/dmg
@@ -1045,7 +1045,7 @@ mob/Spells/verb/Glacius()
 	var/mpCost = 20
 	var/spellName = "Glacius"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1059,7 +1059,7 @@ mob/Spells/verb/Waddiwasi()
 	var/mpCost = 20
 	var/spellName = "Waddiwasi"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1074,7 +1074,7 @@ mob/Spells/verb/Gladius()
 	var/mpCost = 30
 	var/spellName = "Gladius"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1089,7 +1089,7 @@ mob/Spells/verb/Tremorio()
 	var/mpCost = 10
 	var/spellName = "Tremorio"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1269,7 +1269,7 @@ mob/Spells/verb/Flagrate(message as message)
 	var/mpCost = 300
 	var/spellName = "Flagrate"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1295,7 +1295,7 @@ mob/Spells/verb/Langlock(mob/Player/M in oview())
 	var/mpCost = 600
 	var/spellName = "Langlock"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1337,7 +1337,7 @@ mob/Spells/verb/Incindia()
 	var/mpCost = 450
 	var/spellName = "Incindia"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1358,7 +1358,7 @@ mob/Spells/verb/Replacio(mob/Player/M in oview())
 	var/mpCost = 500
 	var/spellName = "Replacio"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1404,7 +1404,7 @@ mob/Spells/verb/Obliviate(mob/Player/M in oview())
 	var/mpCost = 700
 	var/spellName = "Obliviate"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1428,7 +1428,7 @@ mob/Spells/verb/Tarantallegra(mob/Player/M in view())
 	var/mpCost = 200
 	var/spellName = "Tarantallegra"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1462,7 +1462,7 @@ mob/Spells/verb/Immobulus()
 	var/mpCost = 500
 	var/spellName = "Immobulus"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1509,7 +1509,7 @@ mob/Spells/verb/Impedimenta()
 	var/mpCost = 750
 	var/spellName = "Impedimenta"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1538,7 +1538,7 @@ mob/Spells/verb/Incendio()
 	var/mpCost = 20
 	var/spellName = "Incendio"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1810,7 +1810,7 @@ mob/Spells/verb/Avada_Kedavra()
 	var/mpCost = 800
 	var/spellName = "Avada Kedavra"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1889,7 +1889,7 @@ mob/Spells/verb/Confundus(mob/Player/M in oview())
 	var/mpCost = 400
 	var/spellName = "Confundus"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1921,7 +1921,7 @@ mob/Spells/verb/Flippendo()
 	var/mpCost = 10
 	var/spellName = "Flippendo"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
@@ -1996,7 +1996,7 @@ mob/Spells/verb/Portus()
 	var/mpCost = 50
 	var/spellName = "Portus"
 
-	var/uses = p.SpellUses[spellName]
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
 	mpCost *= (100 - tier*2) / 100
 
