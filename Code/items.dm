@@ -5262,6 +5262,16 @@ obj/items/wearable/ring/ninja
 	monsterDef = 3
 	monsterDmg = 3
 
+obj/items/wearable/ring/nurse
+	name="nurse's ring"
+	icon='ammy.dmi'
+	icon_state="snow"
+	desc="Auto-cast Episkey."
+	suffix = "<span style=\"color:#ffa500;\">Auto-cast Episkey.</span>"
+	passive = RING_NURSE
+	monsterDef = 3
+	monsterDmg = 3
+
 obj/items/wearable/ring/cooling_shoes
 	icon='trophies.dmi'
 	icon_state="cooling shoes"
@@ -5422,10 +5432,19 @@ obj/items/wearable/shield/alchemy
 obj/items/wearable/shield/ninja
 	icon='trophies.dmi'
 	icon_state="Shield"
-	name="Ninja Shield"
+	name="Ninja's Shield"
 	desc="Enables dodge. (25%)"
 	suffix = "<span style=\"color:#ffa500;\">Enables dodge. (25%)</span>"
 	passive = SHIELD_NINJA
+	monsterDef = 5
+
+obj/items/wearable/shield/nurse
+	icon='trophies.dmi'
+	icon_state="Shield"
+	name="Nurse's Shield"
+	desc="Episkey provides 25% health shield on use."
+	suffix = "<span style=\"color:#ffa500;\">Episkey provides 25% health shield on use.</span>"
+	passive = SHIELD_NURSE
 	monsterDef = 5
 
 obj/items/wearable/sword
@@ -5559,6 +5578,14 @@ obj/items/wearable/sword/ninja
 	desc="Enables back attack damage."
 	suffix = "<span style=\"color:#ffa500;\">Enables back attack damage.</span>"
 	passive = SWORD_NINJA
+
+obj/items/wearable/sword/nurse
+	icon='trophies.dmi'
+	icon_state="Sword"
+	name="nurse's sword"
+	desc="Episkey is now area of effect ability."
+	suffix = "<span style=\"color:#ffa500;\">Episkey is now area of effect ability.</span>"
+	passive = SWORD_NURSE
 
 obj/items/wearable/gm_robes
 	icon = 'trims.dmi'

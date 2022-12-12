@@ -1882,8 +1882,13 @@ mob/Spells/verb/Episky()
 			cd = 20
 		new /StatusEffect/UsedEpiskey(src,cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier,"Episkey")
 
-		if(tier >= 1)
-			p.Shield = round(p.MHP * ((tier * 2) / 100), 1)
+		var/percent = 0
+
+		if(tier >= 1) percent += tier * 2
+		if(p.passivesShield & SHIELD_NURSE)	percent += 25
+
+		if(percent > 0)
+			p.Shield = round(p.MHP * (percent / 100), 1)
 
 		p.HP = p.MHP
 		p.updateHP()
@@ -1894,9 +1899,32 @@ mob/Spells/verb/Episky()
 		p.learnSpell(spellName)
 
 		overlays+=image('attacks.dmi', icon_state = "heal")
+
+		var/list/removeOverlays
+
+		if(p.passivesSword & SWORD_NURSE)
+
+			removeOverlays = list()
+			for(var/mob/Player/other in range(2))
+				if(other == p) continue
+				other.HP = other.MHP
+				other.updateHP()
+
+				if(percent > 0)
+					other.Shield = round(p.MHP * (percent / 100), 1)
+
+				removeOverlays += other
+
+				other.overlays+=image('attacks.dmi', icon_state = "heal")
+
 		sleep(10)
-		hearers()<<"<font color=aqua>[usr] heals \himself."
+
 		usr.overlays-=image('attacks.dmi', icon_state = "heal")
+
+		if(removeOverlays)
+			for(var/mob/Player/other in removeOverlays)
+				other.overlays-=image('attacks.dmi', icon_state = "heal")
+
 
 mob/Spells/verb/Confundus(mob/Player/M in oview())
 	set category="Spells"
@@ -2419,8 +2447,12 @@ mob/Player
 			else
 				dmg = 0
 
+		if((passivesRing & RING_NURSE) && HP - dmg <= 0)
+			usr:Episky()
+
 		HP -= dmg
 		updateHP()
+
 
 		if(triggerSummons && attacker != src)
 			for(var/obj/summon/s in Summons)
