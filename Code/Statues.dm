@@ -161,7 +161,7 @@ obj/museum
 
 	Charming
 		desc = "Former Charms Professor."
-		robes = "MaleStaff"
+		robes = "FemaleStaff"
 
 	Katsie
 		desc = "Former Transfiguration Professor."
@@ -270,7 +270,7 @@ obj/museum
 
 	Avery
 		desc = "Former DADA Professor."
-		robes = "FemaleStaff"
+		robes = "MaleStaff"
 
 	Malokh
 		desc = "Former DADA Professor & Ravenclaw Prefect."
@@ -294,7 +294,7 @@ obj/museum
 
 	Andi
 		desc = "Former COMC Professor."
-		robes = "MaleStaff"
+		robes = "FemaleStaff"
 
 	Theodore_Richards
 		desc = "Former DADA Professor."
@@ -331,7 +331,7 @@ obj/museum
 
 	Blaze
 		desc = "A silent mountain forever in the background."
-		robes = "green"
+		robes = "MaleStaff"
 
 	Numble
 		desc = "Former Professor."
