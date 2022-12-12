@@ -34,8 +34,13 @@ mob/Player
 
 	proc/updateHP()
 		var/hppercent = clamp(HP / MHP, 0, 1)
-		Interface.hpbar.Set(hppercent)
-		Interface.hpbar.UpdateText(HP, MHP)
+
+		if(Shield > 0)
+			Interface.hpbar.Set(hppercent, forceColor="#32a4a8")
+			Interface.hpbar.UpdateText(Shield)
+		else
+			Interface.hpbar.Set(hppercent)
+			Interface.hpbar.UpdateText(HP, MHP)
 
 		hpBar.Set(hppercent, src)
 
@@ -191,9 +196,11 @@ obj/healthbar
 			mtext.plane = 2
 
 			if(isMana)
-
 				Set(clamp(p.MP / p.MMP, 0, 1), instant=1)
 				UpdateText(p.MP, p.MMP)
+			else if(p.Shield > 0)
+				Set(clamp(p.HP / p.MHP, 0, 1), forceColor="#32a4a8", instant=1)
+				UpdateText(p.Shield)
 			else
 				Set(clamp(p.HP / p.MHP, 0, 1), instant=1)
 				UpdateText(p.HP, p.MHP)
@@ -206,22 +213,28 @@ obj/healthbar
 
 		proc
 			UpdateText(current, max)
-				mtext.maptext = "<b style=\"text-align: center;\">[current]/[max]</b>"
+				if(max)
+					mtext.maptext = "<b style=\"text-align: center;\">[current]/[max]</b>"
+				else
+					mtext.maptext = "<b style=\"text-align: center;\">[current]</b>"
 
-			Set(var/perc, instant=0)
+			Set(var/perc, instant=0, forceColor)
 				set waitfor = 0
 				var/newX = perc * barSize
 				var/matrix/m = matrix(1 - perc, 0, newX, 0, 1, 0)
 
 				var/c
-				if(isMana)
-					if(perc > 0.6) c = "#39f"
-					else if(perc >= 0.3) c = "#66b2ff"
-					else c = "#9cf"
+				if(forceColor)
+					c = forceColor
 				else
-					if(perc > 0.6) c = "#0d0"
-					else if(perc >= 0.3) c = "#d90"
-					else c = "#d00"
+					if(isMana)
+						if(perc > 0.6) c = "#39f"
+						else if(perc >= 0.3) c = "#66b2ff"
+						else c = "#9cf"
+					else
+						if(perc > 0.6) c = "#0d0"
+						else if(perc >= 0.3) c = "#d90"
+						else c = "#d00"
 
 				if(instant)
 					color = c

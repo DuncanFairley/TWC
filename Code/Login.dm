@@ -1427,6 +1427,8 @@ mob/Player
 			stat("House:",src.House)
 			stat("Level:",src.level)
 			stat("HP:","[src.HP]/[src.MHP]")
+			if(Shield > 0)
+				stat("Shield:","[Shield]")
 			stat("MP:","[src.MP]/[src.MMP]")
 			stat("Damage:","[Dmg] ([Dmg - (level + 4)])")
 			stat("Defense:","[Def] ([(Def - (level + 4))/3])")
@@ -2545,6 +2547,8 @@ mob/var
 	MHP=200
 	MP=200
 	MMP=200
+
+mob/Player/var/tmp/Shield = 0
 
 mob/var/Mexp=50
 mob/var/Exp=0

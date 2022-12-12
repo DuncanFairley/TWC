@@ -138,7 +138,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 		var/list/people = ohearers(client.view)&Players
@@ -255,7 +255,7 @@ mob/Spells/verb/Protego()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(!p.reflect)
 		if(canUse(src,cooldown=/StatusEffect/UsedProtego,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
@@ -342,7 +342,7 @@ mob/Spells/verb/Expelliarmus(mob/Player/M in view())
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=mpCost,againstocclumens=1))
 		var/obj/items/wearable/wands/W = locate(/obj/items/wearable/wands) in M:Lwearing
@@ -430,7 +430,7 @@ mob/Spells/verb/Repellium()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedRepel,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=white>Repellium!"
@@ -466,7 +466,7 @@ mob/Spells/verb/Lumos()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedLumos,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=white>Lumos!"
@@ -498,7 +498,7 @@ mob/Spells/verb/Lumos_Maxima()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedLumos,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 		hearers()<<"<b><span style=\"color:red;\">[p]</b></span>: <b><font size=3><font color=white>Lumos Maxima!"
@@ -517,7 +517,7 @@ mob/Spells/verb/Aggravate()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedAggro,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 		hearers()<<"<b><span style=\"color:red;\">[p]</b></span>: <b><font size=3><font color=white>Aggravate!"
@@ -557,7 +557,7 @@ mob/Spells/verb/Basilio()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=mpCost,againstocclumens=1))
 		if(p.summons + 1 >= 1 + p.extraLimit + round(p.Summoning.level / 10))
@@ -589,7 +589,7 @@ mob/Spells/verb/Serpensortia()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=mpCost,againstocclumens=1))
 		if(p.summons >= 1 + p.extraLimit + round(p.Summoning.level / 10))
@@ -639,7 +639,7 @@ mob/Spells/verb/Shelleh()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedShelleh,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 		new /StatusEffect/UsedShelleh(src,60*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
@@ -681,7 +681,7 @@ mob/Spells/verb/Avis()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 		if(p.summons >= 1 + p.extraLimit + round(p.Summoning.level / 10))
@@ -708,7 +708,7 @@ mob/Spells/verb/Crapus_Sticketh()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,useTimedProtection=1,target=null,mpreq=mpCost,againstocclumens=1))
 		if(p.summons >= 1 + p.extraLimit + round(p.Summoning.level / 10))
@@ -753,7 +753,7 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 
 		var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 		var/tier = round(log(10, uses)) - 1
-		mpCost *= (100 - tier*2) / 100
+		mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 		if(canUse(src,cooldown=/StatusEffect/Permoveo,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 			var/mob/Enemies/selmonster = input("Which monster do you cast Permoveo on?","Permoveo") as null|anything in enemies
@@ -792,7 +792,7 @@ mob/Spells/verb/Incarcerous()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=mpCost,againstocclumens=1))
 		new /StatusEffect/UsedStun(src,10*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier,"Incarcerous")
@@ -819,7 +819,7 @@ mob/Spells/verb/Reducto()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedReducto,needwand=1,inarena=0,insafezone=1,inhogwarts=1,mpreq=mpCost,againstocclumens=1))
 		if(flying)
@@ -847,7 +847,7 @@ mob/Spells/verb/Reparo()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedReparo,needwand=1,insafezone=1,inhogwarts=1,mpreq=mpCost))
 		new /StatusEffect/UsedReparo(src,10*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier,"Reparo")
@@ -879,7 +879,7 @@ mob/Spells/verb/Bombarda()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,mpreq=mpCost,projectile=1))
 		p.lastAttack = "Bombarda"
@@ -896,7 +896,7 @@ mob/Spells/verb/Petreficus_Totalus()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=mpCost,againstocclumens=1))
 		new /StatusEffect/UsedStun(src,10*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier,"Petrificus Totalus")
@@ -929,7 +929,7 @@ mob/Spells/verb/Antifigura()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(p.antifigura > 0)
 		new /StatusEffect/UsedTransfiguration(usr,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
@@ -952,7 +952,7 @@ mob/Spells/verb/Chaotica()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	var/dmg = ((p.passivesSword & SWORD_FIRE) ? (Dmg + clothDmg)*1.1 : round(level * 1.15 + clothDmg/3, 1)) + p.Fire.level
 
@@ -968,7 +968,7 @@ mob/Spells/verb/Aqua_Eructo()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
 		p.HP -= mpCost
@@ -990,7 +990,7 @@ mob/Spells/verb/Sanguinis_Iactus()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
 
@@ -1006,7 +1006,7 @@ mob/Spells/verb/Gravitate()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
 
@@ -1047,7 +1047,7 @@ mob/Spells/verb/Glacius()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Glacius"
@@ -1061,7 +1061,7 @@ mob/Spells/verb/Waddiwasi()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Waddiwasi"
@@ -1076,7 +1076,7 @@ mob/Spells/verb/Gladius()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
 		p.lastAttack = "Gladius"
@@ -1091,7 +1091,7 @@ mob/Spells/verb/Tremorio()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
 		usr:lastAttack = "Tremorio"
@@ -1271,7 +1271,7 @@ mob/Spells/verb/Flagrate(message as message)
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedFlagrate,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 		if(p.mute==0)
@@ -1297,7 +1297,7 @@ mob/Spells/verb/Langlock(mob/Player/M in oview())
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=mpCost,againstocclumens=1))
 		if(!M.silence)
@@ -1339,7 +1339,7 @@ mob/Spells/verb/Incindia()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedIncindia,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
 		hearers()<<"[src] raises \his wand into the air. <font color=red><b><i>INCINDIA!</b></i>"
@@ -1360,7 +1360,7 @@ mob/Spells/verb/Replacio(mob/Player/M in oview())
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=mpCost,againstocclumens=1))
 		if(issafezone(M.loc.loc, 0) && !issafezone(loc.loc, 0))
@@ -1406,7 +1406,7 @@ mob/Spells/verb/Obliviate(mob/Player/M in oview())
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=mpCost,againstocclumens=0))
 		hearers()<<"<b><span style=\"color:red;\">[usr]:<font color=green> Obliviate!</b></span>"
@@ -1430,7 +1430,7 @@ mob/Spells/verb/Tarantallegra(mob/Player/M in view())
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=mpCost,againstocclumens=1))
 		if(M.dance) return
@@ -1464,7 +1464,7 @@ mob/Spells/verb/Immobulus()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedImmobulus,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 		new /StatusEffect/UsedImmobulus(src, 20*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
@@ -1511,7 +1511,7 @@ mob/Spells/verb/Impedimenta()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 		hearers()<<"<b>[usr]:</b> <font color=red>Impedimenta!"
@@ -1540,7 +1540,7 @@ mob/Spells/verb/Incendio()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 
@@ -1812,7 +1812,7 @@ mob/Spells/verb/Avada_Kedavra()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
 
@@ -1852,8 +1852,16 @@ mob/Spells/verb/Apparate()
 mob/Spells/verb/Episky()
 	set name = "Episkey"
 	set category="Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedEpiskey,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		var/mob/Player/p = src
+
+	var/mob/Player/p = src
+	var/spellName = "Episkey"
+	var/mpCost = 50
+
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
+	var/tier = round(log(10, uses)) - 1
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
+
+	if(canUse(src,cooldown=/StatusEffect/UsedEpiskey,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 
 		var/obj/The_Dark_Mark/D = locate("DarkMark")
 		if(get_dist(p, D) <= 10)
@@ -1874,9 +1882,17 @@ mob/Spells/verb/Episky()
 			cd = 20
 		new /StatusEffect/UsedEpiskey(src,cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier,"Episkey")
 
-		p.HP = p.MHP
+		if(tier >= 1)
+			p.Shield = round(p.MHP * ((tier * 2) / 100), 1)
 
+		p.HP = p.MHP
 		p.updateHP()
+
+		p.MP-=mpCost
+		p.updateMP()
+
+		p.learnSpell(spellName)
+
 		overlays+=image('attacks.dmi', icon_state = "heal")
 		sleep(10)
 		hearers()<<"<font color=aqua>[usr] heals \himself."
@@ -1891,7 +1907,7 @@ mob/Spells/verb/Confundus(mob/Player/M in oview())
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=mpCost,againstocclumens=1))
 		new /StatusEffect/UsedAnnoying(src,40*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
@@ -1923,7 +1939,7 @@ mob/Spells/verb/Flippendo()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=1,target=null,mpreq=mpCost))
 		castproj(Type = /obj/projectile/Flippendo, MPreq = mpCost, icon_state = "flippendo", name = spellName)
@@ -1998,7 +2014,7 @@ mob/Spells/verb/Portus()
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
-	mpCost *= (100 - tier*2) / 100
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedPortus,needwand=1,inarena=0,insafezone=1,inhogwarts=0,target=null,mpreq=mpCost,antiTeleport=1,useTimedProtection=1))
 
@@ -2394,6 +2410,15 @@ mob/Player
 			usedSpellbook.cast(src, attacker)
 
 		dmg = round(dmg, 1)
+
+		if(Shield > 0)
+			Shield = Shield - dmg
+			if(Shield <= 0)
+				dmg = abs(Shield)
+				Shield = 0
+			else
+				dmg = 0
+
 		HP -= dmg
 		updateHP()
 
