@@ -28,6 +28,8 @@ obj/museum
 
 		s.AddText("This is [name]: \n[desc]")
 
+		if(usr:prevname) return
+
 		var/n = usr.pname ? usr.pname : usr.name
 
 		if(name == n || pname == n)
@@ -39,11 +41,13 @@ obj/museum
 			if(s.Result == "Clothing")
 
 				var/d = desc
+				var/tmpName = name
 				appearance = usr.appearance
 
 				underlays = list()
-				namefont.QuickName(src, name, rgb(255,255,255), "#000", top=1)
+				namefont.QuickName(src, pname, rgb(255,255,255), "#000", top=1)
 
+				name = tmpName
 				desc = d
 				mouse_over_pointer = MOUSE_HAND_POINTER
 
