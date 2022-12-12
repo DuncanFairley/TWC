@@ -188,7 +188,7 @@ var/snowCurse = 0
 WorldData
 	var
 		tmp
-			elfDelay = 30
+			elfDelay = 15
 			list/secretSanta
 
 
@@ -202,7 +202,7 @@ mob/Player
 		if(worldData.secretSanta)
 			if((client.computer_id in worldData.secretSanta) || (client.address in worldData.secretSanta) || (client.ckey in worldData.secretSanta)) return
 
-		var/minutes = worldData.elfDelay + rand(99)
+		var/minutes = worldData.elfDelay + rand(60)
 		sleep(minutes*600)
 
 		while(client.inactivity > 600 || !loc || !loc.loc:region)
@@ -319,7 +319,7 @@ hudobj/secretSanta
 		..(loc,Client,Params,show)
 		player = Player
 
-		icon_state = "[rand(1,16)]"
+		//icon_state = "[rand(1,16)]"
 
 		var/obj/o = new /obj/custom { appearance_flags = RESET_TRANSFORM; maptext_y = -120; maptext_x = -112; maptext_width = 256; maptext_height = 48; plane = 2 }
 
