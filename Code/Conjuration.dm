@@ -4,10 +4,14 @@ mob/verb/updateHPMP()
 	var/hppercent = clamp(HP / MHP, 0, 1)
 	var/mppercent = clamp(MP / MMP, 0, 1)
 
-	src:Interface.hpbar.Set(hppercent)
-	src:Interface.mpbar.Set(mppercent)
+	if(src:Shield > 0)
+		src:Interface.hpbar.Set(hppercent, forceColor="#32a4a8")
+		src:Interface.hpbar.UpdateText(HP, MHP, src:Shield)
+	else
+		src:Interface.hpbar.Set(hppercent)
+		src:Interface.hpbar.UpdateText(HP, MHP)
 
-	src:Interface.hpbar.UpdateText(HP, MHP)
+	src:Interface.mpbar.Set(mppercent)
 	src:Interface.mpbar.UpdateText(MP, MMP)
 
 	if(!(src:tickers & MP_REGEN) && MP < MMP)
