@@ -1908,10 +1908,11 @@ mob/Spells/verb/Episky()
 			for(var/mob/Player/other in range(2))
 				if(other == p) continue
 				other.HP = other.MHP
-				other.updateHP()
 
 				if(percent > 0)
 					other.Shield = round(p.MHP * (percent / 100), 1)
+
+				other.updateHP()
 
 				removeOverlays += other
 
