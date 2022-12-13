@@ -37,7 +37,7 @@ mob/Player
 
 		if(Shield > 0)
 			Interface.hpbar.Set(hppercent, forceColor="#32a4a8")
-			Interface.hpbar.UpdateText(Shield)
+			Interface.hpbar.UpdateText(HP, MHP, Shield)
 		else
 			Interface.hpbar.Set(hppercent)
 			Interface.hpbar.UpdateText(HP, MHP)
@@ -200,7 +200,7 @@ obj/healthbar
 				UpdateText(p.MP, p.MMP)
 			else if(p.Shield > 0)
 				Set(clamp(p.HP / p.MHP, 0, 1), forceColor="#32a4a8", instant=1)
-				UpdateText(p.Shield)
+				UpdateText(p.HP, p.MHP, p.Shield)
 			else
 				Set(clamp(p.HP / p.MHP, 0, 1), instant=1)
 				UpdateText(p.HP, p.MHP)
@@ -212,11 +212,11 @@ obj/healthbar
 			p.client.screen += back
 
 		proc
-			UpdateText(current, max)
-				if(max)
-					mtext.maptext = "<b style=\"text-align: center;\">[current]/[max]</b>"
+			UpdateText(current, max, shield=0)
+				if(shield)
+					mtext.maptext = "<b style=\"text-align: center;\">[current]/[max] (+[shield])</b>"
 				else
-					mtext.maptext = "<b style=\"text-align: center;\">[current]</b>"
+					mtext.maptext = "<b style=\"text-align: center;\">[current]/[max]</b>"
 
 			Set(var/perc, instant=0, forceColor)
 				set waitfor = 0
