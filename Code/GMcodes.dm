@@ -868,9 +868,9 @@ mob
 				p <<  "<hr><center><span style=\"color:blue;\"><b>Announcement From [src]:</b></span><br><span style=\"color:red;\"><b>[message]</span><hr></center>"
 
 			if(findtext(message, "class"))
-				usr:SendDiscord("@Classes [message]", discord_event_hook)
+				usr:SendDiscord("<@&900613650602143765> [message]", discord_event_hook)
 			else
-				usr:SendDiscord("@Events [message]", discord_event_hook)
+				usr:SendDiscord("<@&900613699151233024> [message]", discord_event_hook)
 
 			if(!mysql_enabled) return
 			var/sql = "INSERT INTO tblEventLogs(name,timestamp,message) VALUES([mysql_quote("[name] ([key])")],UNIX_TIMESTAMP(),[mysql_quote(message)])"
