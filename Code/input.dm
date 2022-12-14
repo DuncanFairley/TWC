@@ -181,7 +181,10 @@ ScreenText
 	New(mob/Player/i_Player, atom/i_Image = null, i_Button1 = "OK", i_Button1Color = "#2299d0", i_Button2 = null, i_Button2Color = "#ff0000", i_Button3 = null, i_Button3Color = "#00ff00")
 		..()
 
-		owner             = i_Player
+		owner = i_Player
+		if(owner.screen_text)
+			owner.screen_text.Dispose()
+
 		owner.screen_text = src
 
 		displayText = new
