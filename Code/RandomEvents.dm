@@ -1133,7 +1133,7 @@ RandomEvent
 			endTime = world.time + 600*minutes
 			spawn(minutes * 600)
 				end()
-				Players << infomsg("The cooldown event is over.")
+				Players << infomsg("The legendary effect event is over.")
 
 				worldData.passives -= passive
 				if(!worldData.passives.len)
