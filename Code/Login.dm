@@ -1002,6 +1002,13 @@ mob/Player
 			DisplayPets()
 			InitMouseHelper()
 
+			if(worldData.passives)
+				if(!passives) passives = list()
+				passives += worldData.passives
+
+				for(var/e in worldData.passives)
+					src << infomsg("You have the power of [e].")
+
 			hpBar = new(src)
 			src.ApplyOverlays(0)
 			loc.loc.Enter(src, src.loc)

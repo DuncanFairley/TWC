@@ -1110,6 +1110,40 @@ RandomEvent
 				Players << infomsg("The cooldown event is over.")
 				worldData.cdrModifier = 1
 
+	LegendaryEffect
+		name   = "Legendary Effect"
+		chance = 10
+		start(var/passive, var/minutes)
+			set waitfor = 0
+			..()
+
+			if(!minutes) minutes = rand(10,30)
+
+			if(!passive) passive = pick(RING_WATERWALK, RING_APPARATE, RING_DISPLACEMENT, RING_LAVAWALK, RING_ALCHEMY, RING_CLOWN, RING_FAIRY, RING_NINJA, RING_NURSE, SHIELD_ALCHEMY, SHIELD_NINJA, SHIELD_NURSE, SHIELD_CLOWN, SHIELD_MPDAMAGE, SHIELD_GOLD, SWORD_ALCHEMY, SWORD_NINJA, SWORD_NURSE, SWORD_CLOWN, SWORD_EXPLODE, SWORD_FIRE, SWORD_HEALONKILL, SWORD_ANIMAGUS, SWORD_GHOST, SWORD_SNAKE)
+
+			if(!worldData.passives) worldData.passives = list()
+			worldData.passives += passive
+
+			for(var/mob/Player/p in Players)
+				if(!p.passives) p.passives = list()
+				p.passives += passive
+
+			Players << infomsg("You feel a strange magic surrounding you, granting you [passive] for [minutes] minutes.")
+
+			endTime = world.time + 600*minutes
+			spawn(minutes * 600)
+				end()
+				Players << infomsg("The cooldown event is over.")
+
+				worldData.passives -= passive
+				if(!worldData.passives.len)
+					worldData.passives = null
+
+				for(var/mob/Player/p in Players)
+					p.passives -= passive
+
+					if(!p.passives.len)
+						p.passives = null
 
 	Invasion
 		name = "Monster Invasion"

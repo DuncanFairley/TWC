@@ -7,6 +7,7 @@ WorldData/var/tmp
 	expModifier       = 1
 	expBookModifier   = 1
 	cdrModifier       = 1
+	list/passives
 
 mob/GM/verb
 	Clan_Wars_Schedule(var/Event/e in clanwars_schedule)
@@ -112,6 +113,15 @@ mob/GM/verb
 			if(!time || time <= 0) return
 
 			event.start(spell, time)
+		else if(istype(event, /RandomEvent/LegendaryEffect))
+			var/list/effects = list(RING_WATERWALK, RING_APPARATE, RING_DISPLACEMENT, RING_LAVAWALK, RING_ALCHEMY, RING_CLOWN, RING_FAIRY, RING_NINJA, RING_NURSE, SHIELD_ALCHEMY, SHIELD_NINJA, SHIELD_NURSE, SHIELD_CLOWN, SHIELD_MPDAMAGE, SHIELD_GOLD, SWORD_ALCHEMY, SWORD_NINJA, SWORD_NURSE, SWORD_CLOWN, SWORD_EXPLODE, SWORD_FIRE,SWORD_MANA, SWORD_HEALONKILL, SWORD_ANIMAGUS, SWORD_GHOST, SWORD_SNAKE)
+
+			var/effect = input(src, "Which effect? (Cancel for random)", "Start Auto Class", "Random") as null|anything in effects
+
+			var/time = input(src, "How long? (in minutes)", "Start Auto Class", 30) as num|null
+			if(!time || time <= 0) return
+
+			event.start(effect, time)
 		else if(istype(event, /RandomEvent/FFA))
 			var/gameMode = input(src, "Game Mode? (Cancel for random)", "Start FFA", "Random") as null|anything in list("Normal","One Hit Kill", "Undying", "4 Hit Kill", "Survival")
 			event.start(gameMode)
