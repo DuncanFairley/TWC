@@ -53,7 +53,7 @@ area
 			if(antiFly)
 				p.nofly()
 
-			if(antiEffect && ((p.passivesSword|p.passivesShield|p.passivesRing) || p.monsterDmg || p.monsterDef || p.dropRate || p.extraLimit || p.extraCDR))
+			if(antiEffect && ((p.passives && p.passives.len) || p.monsterDmg || p.monsterDef || p.dropRate || p.extraLimit || p.extraCDR))
 				var/obj/items/wearable/sword/s = locate() in p.Lwearing
 				if(s) s.Equip(p, 1)
 
@@ -5160,7 +5160,8 @@ obj/items/wearable/ring
 			return
 		. = ..(owner)
 		if(. == WORN)
-			owner.passivesRing |= passive
+			if(!owner.passives) owner.passives = list()
+			owner.passives += passive
 
 			src.gender = owner.gender
 			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his finger.")
@@ -5168,7 +5169,8 @@ obj/items/wearable/ring
 				if(W != src)
 					W.Equip(owner,1,1)
 		else if(. == REMOVED)
-			owner.passivesRing &= ~passive
+			owner.passives -= passive
+			if(!owner.passives.len) owner.passives = null
 
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
 
@@ -5349,21 +5351,23 @@ obj/items/wearable/shield
 		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiEffect)
 			owner << errormsg("You can not use it here.")
 			return
-		if(!forceremove && !(src in owner.Lwearing) && (owner.passivesRing & RING_DUAL_SWORD))
+		if(!forceremove && !(src in owner.Lwearing) && (RING_DUAL_SWORD in owner.passives))
 			owner << errormsg("You can not use this.")
 			return
 		. = ..(owner)
 		if(. == WORN)
-			owner.passivesShield |= passive
+			if(!owner.passives) owner.passives = list()
+			owner.passives += passive
 
 			src.gender = owner.gender
 			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his arm.")
-			var/allowed = (owner.passivesRing & RING_DUAL_SHIELD) ? 2 : 1
+			var/allowed = (RING_DUAL_SHIELD in owner.passives) ? 2 : 1
 			for(var/obj/items/wearable/shield/W in owner.Lwearing)
 				if(W != src && --allowed <= 0)
 					W.Equip(owner,1,1)
 		else if(. == REMOVED)
-			owner.passivesShield &= ~passive
+			owner.passives -= passive
+			if(!owner.passives.len) owner.passives = null
 
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
 
@@ -5460,22 +5464,24 @@ obj/items/wearable/sword
 		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiEffect)
 			owner << errormsg("You can not use it here.")
 			return
-		if(!forceremove && !(src in owner.Lwearing) && (owner.passivesRing & RING_DUAL_SHIELD))
+		if(!forceremove && !(src in owner.Lwearing) && (RING_DUAL_SHIELD in owner.passives))
 			owner << errormsg("You can not use this.")
 			return
 		. = ..(owner)
 		if(. == WORN)
-			owner.passivesSword |= passive
+			if(!owner.passives) owner.passives = list()
+			owner.passives += passive
 
 			src.gender = owner.gender
 			if(!overridetext)viewers(owner) << infomsg("[owner] wields \his [src.name].")
 
-			var/allowed = (owner.passivesRing & RING_DUAL_SWORD) ? 2 : 1
+			var/allowed = (RING_DUAL_SWORD in owner.passives) ? 2 : 1
 			for(var/obj/items/wearable/sword/W in owner.Lwearing)
 				if(W != src && --allowed <= 0)
 					W.Equip(owner,1,1)
 		else if(. == REMOVED)
-			owner.passivesSword &= ~passive
+			owner.passives -= passive
+			if(!owner.passives.len) owner.passives = null
 
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
 

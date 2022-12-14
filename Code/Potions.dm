@@ -233,7 +233,7 @@ obj/potions
 					if(f == 0)     quality++
 					else if(f > 2) quality--
 
-				if(player.passivesRing & RING_ALCHEMY)
+				if(RING_ALCHEMY in player.passives)
 					quality++
 
 				quality = max(1, quality)
@@ -292,7 +292,7 @@ obj/potions
 						if(i.seconds) i.seconds *= 1 + (quality - 4) * 0.1
 
 					var/quanChance = player.Alchemy.level
-					if(player.passivesSword & SWORD_ALCHEMY) quanChance += 10
+					if(SWORD_ALCHEMY in player.passives) quanChance += 10
 
 					if(prob(quanChance))
 						i.stack = rand(2,4)
@@ -553,10 +553,10 @@ obj/items/potions
 				else
 					usr << infomsg("You drink \a [src] (Fairy's ring).")
 
-				if(!(usr:passivesShield & SHIELD_ALCHEMY))
+				if(!(SHIELD_ALCHEMY in usr:passives))
 					new effect (usr, seconds, "Potion", src)
 
-			if((usr:passivesSword & SWORD_ALCHEMY) && prob(15)) return
+			if((SWORD_ALCHEMY in usr:passives) && prob(15)) return
 
 			Consume()
 		else

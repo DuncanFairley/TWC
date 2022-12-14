@@ -951,7 +951,7 @@ mob
 				for(var/mob/Player/M in a.Players)
 	//				if(M.loc.loc != src.loc.loc) continue
 					if(M.Immortal) continue
-					if(M.level > level && (M.passivesRing & RING_NINJA)) continue
+					if(M.level > level && (RING_NINJA in M.passives)) continue
 					if(ignore && (M in ignore)) continue
 
 					var/dist = get_dist(src, M)
