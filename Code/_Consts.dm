@@ -41,32 +41,32 @@
 #define POTIONS_AMOUNT 70
 
 // passives
-#define RING_WATERWALK "RING_WATERWALK"
-#define RING_APPARATE "RING_APPARATE"
-#define RING_DISPLACEMENT "RING_DISPLACEMENT"
-#define RING_LAVAWALK "RING_LAVAWALK"
-#define RING_DUAL_SWORD "RING_DUAL_SWORD"
-#define RING_ALCHEMY "RING_ALCHEMY"
-#define RING_CLOWN "RING_CLOWN"
-#define RING_FAIRY "RING_FAIRY"
-#define RING_NINJA "RING_NINJA"
-#define RING_NURSE "RING_NURSE"
+#define RING_WATERWALK "Water walking"
+#define RING_APPARATE "Apparate on crack"
+#define RING_DISPLACEMENT "Walk through monsters"
+#define RING_LAVAWALK "Lava walking"
+#define RING_DUAL_SWORD "Wield two swords"
+#define RING_ALCHEMY "Potions brewed are of a higher tier"
+#define RING_CLOWN "Randomized projectile element"
+#define RING_FAIRY "Potions proc twice"
+#define RING_NINJA "Babies ignore you"
+#define RING_NURSE "Auto-cast Episkey"
 #define RING_11 1024
 #define RING_12 2048
 #define RING_13 4096
 #define RING_14 8192
 #define RING_15 16384
-#define RING_DUAL_SHIELD "RING_DUAL_SHIELD"
+#define RING_DUAL_SHIELD "Wield two shields"
 
-#define SHIELD_ALCHEMY "SHIELD_ALCHEMY"
-#define SHIELD_NINJA "SHIELD_NINJA"
-#define SHIELD_NURSE "SHIELD_NURSE"
+#define SHIELD_ALCHEMY "Immune to potions"
+#define SHIELD_NINJA "Chance to dodge"
+#define SHIELD_NURSE "Episkey will give a shield"
 #define SHIELD_4 8
 #define SHIELD_5 16
 #define SHIELD_MP 32
-#define SHIELD_CLOWN "SHIELD_CLOWN"
-#define SHIELD_MPDAMAGE "SHIELD_MPDAMAGE"
-#define SHIELD_GOLD "SHIELD_GOLD"
+#define SHIELD_CLOWN "Your projectiles won't damage you"
+#define SHIELD_MPDAMAGE "Mana will partially absorb damage taken"
+#define SHIELD_GOLD "No gold lost on death"
 #define SHIELD_10 512
 #define SHIELD_11 1024
 #define SHIELD_12 2048
@@ -75,21 +75,21 @@
 #define SHIELD_15 16384
 #define SHIELD_16 32768
 
-#define SWORD_MANA "SWORD_MANA"
-#define SWORD_ALCHEMY "SWORD_ALCHEMY"
-#define SWORD_NINJA "SWORD_NINJA"
-#define SWORD_NURSE "SWORD_NURSE"
+#define SWORD_MANA "Mana drain for increased damage"
+#define SWORD_ALCHEMY "Chance to not consume a potion"
+#define SWORD_NINJA "Ability to do back attack damage"
+#define SWORD_NURSE "AoE Episkey"
 #define SWORD_5 16
 #define SWORD_6 32
-#define SWORD_CLOWN "SWORD_CLOWN"
+#define SWORD_CLOWN "Projectiles shoot twice randomly"
 #define SWORD_8 128
 #define SWORD_9 256
-#define SWORD_EXPLODE "SWORD_EXPLODE"
-#define SWORD_FIRE "SWORD_FIRE"
-#define SWORD_HEALONKILL "SWORD_HEALONKILL"
-#define SWORD_ANIMAGUS "SWORD_ANIMAGUS"
-#define SWORD_GHOST "SWORD_GHOST"
-#define SWORD_SNAKE "SWORD_SNAKE"
+#define SWORD_EXPLODE "Monsters explode on death"
+#define SWORD_FIRE "Full damage fire spells"
+#define SWORD_HEALONKILL "Lifesteal"
+#define SWORD_ANIMAGUS "Chance to gain animagus charge"
+#define SWORD_GHOST "All projectiles become ghost element"
+#define SWORD_SNAKE "Stronger snake summon"
 #define SWORD_16 32768
 
 #define BACKPACK_ROWS  12
