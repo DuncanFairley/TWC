@@ -1056,7 +1056,7 @@ mob
 
 			var/class
 
-			options = list("text","num","type","reference","icon","file","restore to default")
+			options = list("text","num","text2list","type","reference","icon","file","restore to default")
 
 			if(default=="list")
 				options += "list"
@@ -1079,6 +1079,10 @@ mob
 				if("num")
 					O.vars[variable] = input("Enter new number:","Num",\
 						O.vars[variable]) as num
+
+				if("text2list")
+					O.vars[variable] = splittext(input("Enter new list seperated by '|':","Text2List",\
+						O.vars[variable]) as text, "|")
 
 				if("type")
 					O.vars[variable] = input("Enter type:","Type",O.vars[variable]) \
