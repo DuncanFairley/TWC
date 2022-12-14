@@ -896,11 +896,11 @@ RandomEvent
 
 	EntranceKillZone
 		name   = "Entrance Kill Zone"
-		chance = 5
+		chance = 4
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(10,30)
+			var/minutes = rand(10,20)
 			Players << errormsg("<b>Warning:</b> Hogwarts magical defenses are being suppressed by a dark evil magic, Entrance Hall will become a kill zone in 5 minutes for [minutes] minutes!<br>Move to another area (The library, common room, second floor etc) if you wish to remain safe.")
 			sleep(600)
 			for(var/i = 4 to 1 step -1)
@@ -937,7 +937,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(10,30)
+			var/minutes = rand(10,20)
 			Players << infomsg("Old dueling system is active for [minutes] minutes outside!")
 
 			for(var/area/A in outside_areas)
@@ -959,7 +959,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(9, 16)
+			var/minutes = rand(6, 15)
 			var/chests  = rand(4, 8)
 
 			Players << infomsg("A wizard-pirate dropped [chests] chests off his ship while casually flying through the castle's restricted airspace, he might've dropped those chests because we might've fired our magic-space guns at him.<br>Find the treasure chests before other pesky looters get them! You have [minutes] minutes.<br>(Treasure is not visible, it's hidden somewhere behind the castle at Hogwarts grounds.)")
@@ -1010,7 +1010,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(10,30)
+			var/minutes = rand(10,20)
 			var/snitches = rand(15,30)
 			Players << infomsg("[snitches] snitches were released outside behind Hogwarts, each snitch you catch will reward you!<br>The snitches will disappear in [minutes] minutes. To catch snitches you need to fly on a broom and walk on them.")
 
@@ -1036,7 +1036,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(30,60)
+			var/minutes = rand(20,40)
 			var/bonus = rand(25,100)
 
 			var/b = bonus / 100
@@ -1057,7 +1057,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(15,30)
+			var/minutes = rand(10,20)
 			var/sale = rand(15,40)
 
 			var/b = sale / 100
@@ -1078,7 +1078,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(30,60)
+			var/minutes = rand(20,40)
 			var/bonus = rand(25,100)
 
 			var/b = bonus / 100
@@ -1116,7 +1116,7 @@ RandomEvent
 		start()
 			set waitfor = 0
 			..()
-			var/minutes = rand(10,30)
+			var/minutes = rand(10,20)
 			var/monsters = rand(50,100)
 			var/tier = rand(1,9)
 			var/list/types = list("Slug", "Rat", "Pixie", "Dog", "Snake", "Wolf", "Troll", "Spider", "Stickman")

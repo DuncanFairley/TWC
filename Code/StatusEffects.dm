@@ -195,14 +195,17 @@ Event
 			set waitfor = 0
 
 			if(classdest || clanwars)
-				spawn(100) scheduler.schedule(src, rand(9000, 18000))  // 15 minutes to 30 hour
+				spawn(100) scheduler.schedule(src, rand(6000, 9000))  // 10 minutes to 15 minutes
 
 				if(classdest)
 					for(var/mob/Player/p in Players)
 						if(p.Gm)
 							p << errormsg("<b>Automated event just skipped because class guidance is on, please turn it off if no classes are going on.</b>")
 			else
-				spawn(100) scheduler.schedule(src, rand(27000, 54000))  // 45 minutes to 90 minutes
+				spawn(100)
+					while(worldData.currentEvents)
+						sleep(600)
+					scheduler.schedule(src, rand(2400, 4800))  // 4 minutes to 8 minutes
 				var/list/l = list()
 				for(var/RandomEvent/e in worldData.events)
 					if(e.chance == 0) continue
@@ -460,7 +463,7 @@ StatusEffect
 						c.hide(1)
 						break
 
-				if(expire && p.potionsMode != THROW && (p.passivesRing & RING_FAIRY))
+				if(expire && p.potionsMode != THROW && (RING_FAIRY in p.passives))
 					usr=p
 					potion.Click(fairy=1)
 				else
