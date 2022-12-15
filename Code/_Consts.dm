@@ -594,3 +594,16 @@ obj/christmas_tree
 
 	pixel_x = -77
 	pixel_y = -48
+
+obj/christmas_tree_orig
+	icon = 'christmas tree orig.dmi'
+
+	density = 1
+	layer = 5
+
+	pixel_x = -16
+	pixel_y = -16
+
+obj/christmas_lights
+	icon = 'turf.dmi'
+	icon_state = "lights"
