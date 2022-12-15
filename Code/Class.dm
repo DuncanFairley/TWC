@@ -600,7 +600,7 @@ mob/Player
 					wand.Equip(src)
 					wand.Dispose()
 					verbs += spellpath
-		else
+		else if(use == 1)
 			SpellUses[name]++
 
 			var/l = log(10, SpellUses[name])
