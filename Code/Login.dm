@@ -2445,7 +2445,7 @@ mob/Player
 							startQuest("Amato Animo Animato Animagus")
 
 
-				var/obj/items/wearable/seal_stone/seal = locate() in Lwearing
+				var/obj/items/wearable/seal_bracelet/seal = locate() in Lwearing
 				if(seal)
 					if(seal.level > level) seal.exp += Mexp
 

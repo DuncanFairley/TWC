@@ -525,7 +525,6 @@ obj/items/verb/Take()
 obj/items/verb
 	Drop()
 		set src in usr
-
 		hearers(usr) << infomsg("[usr] drops \his [src.name].")
 		drop(usr, 1)
 
@@ -3450,6 +3449,10 @@ obj/items/lamps
 				S.Deactivate()
 			else
 
+				if(findtext(name, " exp ") && (locate(/obj/items/wearable/seal_bracelet) in usr:Lwearing))
+					usr << errormsg("You can't use this while wearing a seal bracelet.")
+					return
+
 				if(stack > 1)
 					var/obj/items/lamps/l = Split(1)
 					l.max_stack = 1
@@ -4244,6 +4247,12 @@ obj/items
 				drops      = "demon"
 				keyType = /obj/items/key/demon_key
 
+			holiday_chest
+				name = "holiday chest"
+				icon_state = "red"
+				drops      = "holiday"
+				keyType = /obj/items/key/holiday_key
+
 	mystery_key
 		icon = 'ChestKey.dmi'
 		icon_state = "master"
@@ -4337,6 +4346,8 @@ obj/items
 			icon_state = "red"
 		demon_key
 			icon_state = "green"
+		holiday_key
+			icon_state = "red"
 
 var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/duel_scarf       = 50,
 					                            /obj/items/wearable/shoes/duel_shoes         = 30,
@@ -4398,6 +4409,26 @@ var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/
 							                    /obj/items/wearable/scarves/white_scarf      = 24,
 							                    /obj/items/wearable/shoes/red_shoes          = 18,
 							                    /obj/items/wearable/shoes/white_shoes        = 15),
+
+	                     	 "male_holiday"    = list(/obj/items/wearable/shoes/candycane_shoes       = 15,
+							                          /obj/items/wearable/scarves/candycane_scarf     = 20,
+							                          /obj/items/wearable/scarves/red_scarf           = 30,
+							                          /obj/items/wearable/scarves/white_scarf         = 30,
+							                          /obj/items/wearable/shoes/red_shoes             = 25,
+							                          /obj/items/wearable/shoes/white_shoes           = 25,
+							                          /obj/items/wearable/hats/red_earmuffs           = 10,
+							                          /obj/items/wearable/hats/white_earmuffs         = 10,
+							                          /obj/items/wearable/wigs/male_red_wig           = 6),
+
+	                     	 "female_holiday"    = list(/obj/items/wearable/shoes/candycane_shoes       = 15,
+							                            /obj/items/wearable/scarves/candycane_scarf     = 20,
+							                            /obj/items/wearable/scarves/red_scarf           = 30,
+							                            /obj/items/wearable/scarves/white_scarf         = 30,
+							                            /obj/items/wearable/shoes/red_shoes             = 25,
+							                            /obj/items/wearable/shoes/white_shoes           = 25,
+							                            /obj/items/wearable/hats/red_earmuffs           = 10,
+							                            /obj/items/wearable/hats/white_earmuffs         = 10,
+							                            /obj/items/wearable/wigs/male_red_wig           = 6),
 
 							 "(limited)2015 winter" = list(/obj/items/wearable/hats/red_earmuffs        = 10,
 							                       /obj/items/wearable/hats/white_earmuffs      = 10,
@@ -5614,13 +5645,15 @@ obj/items/wearable/gm_robes
 				if(W != src)
 					W.Equip(owner,1,1)
 
-obj/items/wearable/seal_stone
+obj/items/wearable/seal_bracelet
 
 	rarity = 3
 	showoverlay = FALSE
 
-	icon = 'trophies.dmi'
-	icon_state = "Sapphire"
+	icon = 'Season_bracelet.dmi'
+	icon_state = "inactive"
+
+	desc = "Equipping this will set your level back to 1, all exp earned will be added back upon reaching level cap again."
 
 	var
 		exp = 0
@@ -5632,58 +5665,84 @@ obj/items/wearable/seal_stone
 
 		return . && i:exp == exp && i:level == level && i:time == time
 
-	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+	Drop()
+		set src in usr
+
+		if((src in usr:Lwearing) && usr.level < lvlcap)
+			usr << errormsg("You can't unequip this until level cap.")
+			return
+
+		hearers(usr) << infomsg("[usr] drops \his [src.name].")
+		drop(usr, 1)
+
+	drop(mob/Player/owner, amount = 1)
 
 		if((src in owner.Lwearing) && owner.level < lvlcap)
 			owner << errormsg("You can't unequip this until level cap.")
 			return
 
-		if(!(src in owner.Lwearing))
+		.=..(owner,amount)
 
-			var/ScreenText/s = new(owner, src)
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 
-			s.AddText("Equipping this will set your level back to 1, are you sure you want to? (Experience will added back as experience rank upon reaching level cap again)")
-			s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
 
-			if(!s.Wait()) return
+		if(!overridetext)
+			if((src in owner.Lwearing) && owner.level < lvlcap)
+				owner << errormsg("You can't unequip this until level cap.")
+				return
 
-			if(s.Result != "Yes") return
+			if(!(src in owner.Lwearing))
+
+				var/ScreenText/s = new(owner, src)
+
+				s.AddText("Equipping this will set your level back to 1, are you sure you want to? (Experience will added back as experience rank upon reaching level cap again)")
+				s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
+
+				if(!s.Wait()) return
+
+				if(s.Result != "Yes") return
 
 		. = ..(owner)
 		if(. == WORN)
 
-			level = owner.level
-			time  = world.realtime
-			exp   = 0
+			if(!overridetext)
+				icon_state = "ongoing"
+				level = owner.level
+				time  = world.realtime
+				exp   = 0
 
-			src.gender = owner.gender
-			if(!overridetext)viewers(owner) << infomsg("[owner] wields \his [src.name].")
+				src.gender = owner.gender
+				viewers(owner) << infomsg("[owner] wields \his [src.name].")
 
-			owner.MMP = 200
-			owner.MP = 200
-			owner.level = 1
-			owner.Mexp = 50
-			owner.Exp = 0
-			owner.resetStatPoints()
-			owner.Year = "1st Year"
+				owner.MMP = 200
+				owner.MP = 200
+				owner.level = 1
+				owner.Mexp = 50
+				owner.Exp = 0
+				owner.resetStatPoints()
+				owner.Year = "1st Year"
 
-			owner << infomsg("Your base power has been sealed, you need to reach level cap to unequip this.")
+				owner << infomsg("Your base power has been sealed, you need to reach level cap to unequip this.")
 
 		else if(. == REMOVED)
 
-			var/seconds = round((world.realtime - time) / 10)
-			var/minutes = round(seconds / 60)
 
-			seconds -= minutes * 60
+			if(!overridetext)
+				var/seconds = round((world.realtime - time) / 10)
+				var/minutes = round(seconds / 60)
 
-			var/hours = round(minutes / 60)
+				seconds -= minutes * 60
 
-			minutes -= hours * 60
+				var/hours = round(minutes / 60)
 
-			var/days = round(hours / 24)
+				minutes -= hours * 60
 
-			hours -= days * 24
+				var/days = round(hours / 24)
 
-			name = "seal stone: \[[days] Days [hours]:[minutes]:[seconds]]"
+				hours -= days * 24
 
-			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
+				name = "seal bracelet: \[[days] Days [hours]:[minutes]:[seconds]]"
+
+				icon_state = "complete"
+
+				viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
