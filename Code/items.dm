@@ -5451,6 +5451,15 @@ obj/items/wearable/shield/nurse
 	passive = SHIELD_NURSE
 	monsterDef = 5
 
+obj/items/wearable/shield/spy
+	icon='trophies.dmi'
+	icon_state="Shield"
+	name="Spy's Shield"
+	desc="Occlumency is one tier higher. Always reveal who is watching you"
+	suffix = "<span style=\"color:#ffa500;\">Occlumency is one tier higher. Always reveal who is watching you.</span>"
+	passive = SHIELD_SPY
+	monsterDef = 5
+
 obj/items/wearable/sword
 	bonus  = 0
 	socket = 0
@@ -5604,3 +5613,77 @@ obj/items/wearable/gm_robes
 			for(var/obj/items/wearable/gm_robes/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
+
+obj/items/wearable/seal_stone
+
+	rarity = 3
+	showoverlay = FALSE
+
+	icon = 'trophies.dmi'
+	icon_state = "Sapphire"
+
+	var
+		exp = 0
+		level = lvlcap
+		time
+
+	Compare(obj/items/i)
+		. = ..()
+
+		return . && i:exp == exp && i:level == level && i:time == time
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+
+		if((src in owner.Lwearing) && owner.level < lvlcap)
+			owner << errormsg("You can't unequip this until level cap.")
+			return
+
+		if(!(src in owner.Lwearing))
+
+			var/ScreenText/s = new(owner, src)
+
+			s.AddText("Equipping this will set your level back to 1, are you sure you want to? (Experience will added back as experience rank upon reaching level cap again)")
+			s.AddButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
+
+			if(!s.Wait()) return
+
+			if(s.Result != "Yes") return
+
+		. = ..(owner)
+		if(. == WORN)
+
+			level = owner.level
+			time  = world.realtime
+			exp   = 0
+
+			src.gender = owner.gender
+			if(!overridetext)viewers(owner) << infomsg("[owner] wields \his [src.name].")
+
+			owner.MMP = 200
+			owner.MP = 200
+			owner.level = 1
+			owner.Mexp = 50
+			owner.Exp = 0
+			owner.resetStatPoints()
+			owner.Year = "1st Year"
+
+			owner << infomsg("Your base power has been sealed, you need to reach level cap to unequip this.")
+
+		else if(. == REMOVED)
+
+			var/seconds = round((world.realtime - time) / 10)
+			var/minutes = round(seconds / 60)
+
+			seconds -= minutes * 60
+
+			var/hours = round(minutes / 60)
+
+			minutes -= hours * 60
+
+			var/days = round(hours / 24)
+
+			hours -= days * 24
+
+			name = "seal stone: \[[days] Days [hours]:[minutes]:[seconds]]"
+
+			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")

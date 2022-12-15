@@ -2398,8 +2398,6 @@ mob/Player
 
 				lvlGlow()
 
-				if(level == lvlcap && rankLevel)
-					StatPoints += rankLevel.level
 
 				if(!(locate(/hudobj/UseStatpoints) in client.screen))
 					new /hudobj/UseStatpoints(null, client, null, show=1)
@@ -2446,11 +2444,24 @@ mob/Player
 
 							startQuest("Amato Animo Animato Animagus")
 
+
+				var/obj/items/wearable/seal_stone/seal = locate() in Lwearing
+				if(seal)
+					if(seal.level > level) seal.exp += Mexp
+
+					if(level == lvlcap) seal.Equip(src)
+
 				if(level <= 600)
 					Mexp += 50 * theiryear + 60 * (theiryear - 1)
 				else
 					var/tier = round(level / 50)
 					Mexp += 100 * tier
+
+				if(level == lvlcap && rankLevel)
+					StatPoints += rankLevel.level
+
+					if(seal)
+						rankLevel.add(round(seal.exp / 10, 1), src)
 
 proc/level2year(level)
 	if(level < 16) return 1
