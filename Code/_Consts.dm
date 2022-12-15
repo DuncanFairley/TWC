@@ -61,7 +61,7 @@
 #define SHIELD_ALCHEMY "immune to potions"
 #define SHIELD_NINJA "chance to dodge"
 #define SHIELD_NURSE "episkey will give a shield"
-#define SHIELD_4 8
+#define SHIELD_SPY "spycraft"
 #define SHIELD_5 16
 #define SHIELD_MP 32
 #define SHIELD_CLOWN "your projectiles won't damage you"

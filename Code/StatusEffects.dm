@@ -393,6 +393,8 @@ StatusEffect
 	UsedShelleh
 	UsedAggro
 	UsedAccio
+	UsedTelendevour
+	UsedOcclumency
 	Permoveo
 	UsedDisperse
 	SpellText

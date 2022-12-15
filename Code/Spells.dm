@@ -1380,22 +1380,39 @@ mob/Spells/verb/Replacio(mob/Player/M in oview())
 		p.learnSpell(spellName)
 mob/Spells/verb/Occlumency()
 	set category = "Spells"
-	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=1,againstocclumens=1))
-		var/mob/Player/p = src
-		if(p.occlumens == 0)
+
+	var/mob/Player/p = src
+	var/spellName = "Occlumency"
+
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
+	var/tier = round(log(10, uses)) - 1
+
+	if(SHIELD_SPY in p.passives) tier++
+
+	if(p.occlumens == 0)
+		if(canUse(src,cooldown=/StatusEffect/UsedOcclumency,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=1,againstocclumens=1))
+
+			new /StatusEffect/UsedOcclumency(src,5*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+
 			for(var/mob/Player/c in Players)
 				if(c == p) continue
 				if(c.client.eye == p && c.Interface.SetDarknessColor(TELENDEVOUR_COLOR))
-					c << errormsg("Your Telendevour wears off.")
-					c.client.eye = c
+
+					var/otherUses = ("Telendevour" in c.SpellUses) ? c.SpellUses["Telendevour"] : 1
+					var/otherTier = round(log(10, otherUses)) - 1
+
+					if(otherTier <= tier)
+						c << errormsg("Your Telendevour wears off.")
+						c.client.eye = c
+
 			hearers() << "<b><span style=\"color:red;\">[usr]</span></b>: <span style=\"color:white;\"><i>Occlumens!</i></span>"
 			p << "You can no longer be viewed by Telendevour."
 			p.occlumens = p.MMP
 			p.OcclumensCounter()
-			p.learnSpell("Occlumency")
-		else if(p.occlumens > 0)
-			src << "You release the barriers around your mind."
-			p.occlumens = -1
+			p.learnSpell(spellName)
+	else if(p.occlumens > 0)
+		src << "You release the barriers around your mind."
+		p.occlumens = -1
 
 mob/Spells/verb/Obliviate(mob/Player/M in oview())
 	set category="Spells"
@@ -1775,26 +1792,59 @@ mob/Spells/verb/Peskipixie_Pesternomae()
 mob/Spells/verb/Telendevour()
 	set category="Spells"
 	set popup_menu = 0
-	var/mob/Player/p = usr
+
+	var/mob/Player/p = src
+	var/mpCost = 50
+	var/spellName = "Telendevour"
+
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
+	var/tier = round(log(10, uses)) - 1
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
+
 	if(usr.client.eye == usr)
-		if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-			var/mob/Player/M = input("Which person would you like to view?") as null|anything in Players(list(src))
+		if(canUse(src,cooldown=/StatusEffect/UsedTelendevour,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
+
+			if(IsInputOpen(src, spellName))
+				del _input[spellName]
+
+			var/Input/popup = new (src, spellName)
+			var/list/l = Players(list(src))
+			if(!l.len) return
+			var/mob/Player/M = popup.InputList(src, "Which person would you like to view?", spellName, l[1], l)
+			del popup
+
 			if(!M) return
 			if(usr.client.eye != usr) return
-			if(istext(M) || M.occlumens>0 || istype(M.loc.loc, /area/ministry_of_magic))
-				src<<"<b>You feel magic repelling your spell.</b>"
-			else
-				p.Interface.SetDarknessColor(TELENDEVOUR_COLOR, 2)
-				usr.client.eye = M
-				usr.client.perspective = EYE_PERSPECTIVE
-				file("Logs/Telenlog.text") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] telendevoured [M]"
-				var/randnum = rand(1,7)
-				hearers() << "[usr]:<span style=\"font-size:2;\"><font color=blue><b> Telendevour!</b></span>"
-				usr:learnSpell("Telendevour")
-				if(randnum == 1)
-					M << "You feel that <b>[usr]</b> is watching you."
+
+			if(istext(M) || istype(M.loc.loc, /area/ministry_of_magic))
+				src << errormsg("<b>You feel magic repelling your spell.</b>")
+			else if(M.occlumens>0)
+
+				var/otherUses = ("Occlumency" in M.SpellUses) ? M.SpellUses["Occlumency"] : 1
+				var/otherTier = round(log(10, otherUses)) - 1
+
+				var/spycraft = (SHIELD_SPY in M.passives)
+				if(spycraft) otherTier++
+
+				if(tier <= otherTier && M.occlumens>0)
+					src << errormsg("<b>You feel magic repelling your spell.</b>")
 				else
-					M << "The hair on the back of your neck tingles."
+					new /StatusEffect/UsedTelendevour(src,5*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier,spellName)
+
+					p.MP -= mpCost
+					p.updateMP()
+
+					p.Interface.SetDarknessColor(TELENDEVOUR_COLOR, 2)
+					p.client.eye = M
+					p.client.perspective = EYE_PERSPECTIVE
+					file("Logs/Telenlog.text") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] telendevoured [M]"
+					var/randnum = rand(1,7)
+					hearers() << "[usr]:<span style=\"font-size:2;\"><font color=blue><b> Telendevour!</b></span>"
+					p.learnSpell(spellName)
+					if(spycraft || randnum == 1)
+						M << "You feel that <b>[usr]</b> is watching you."
+					else
+						M << "The hair on the back of your neck tingles."
 	else if(p.Interface.SetDarknessColor(TELENDEVOUR_COLOR))
 		usr.client.eye = usr
 		usr.client.perspective = EYE_PERSPECTIVE
