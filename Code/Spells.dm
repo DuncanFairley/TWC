@@ -2499,6 +2499,7 @@ mob/Player
 				dmg = 0
 
 		if((RING_NURSE in passives) && HP - dmg <= 0)
+			usr = src
 			usr:Episky()
 
 		HP -= dmg
