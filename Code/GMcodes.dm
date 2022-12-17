@@ -1281,7 +1281,6 @@ mob/Player
 
 		var/r = pick(1,-1)
 
-		nomove = 2
 
 		animate(src, transform = turn(matrix()*0.5, 60*r), time = 2)
 		animate(transform = turn(matrix()*0.25, 120*r), time = 2)
@@ -1290,9 +1289,11 @@ mob/Player
 		animate(transform = turn(matrix()*0.5, 300*r), time = 2)
 		animate(transform = matrix(), time = 2)
 
-		var/turf/oldLoc = loc
 
-		sleep(6)
+		sleep(3)
+		var/turf/oldLoc = loc
+		nomove = 2
+		sleep(3)
 
 		nomove = 0
 
