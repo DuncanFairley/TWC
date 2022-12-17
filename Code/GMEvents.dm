@@ -181,6 +181,9 @@ atom/Click(location)
 				if(!p.admin && (p.z < SWAPMAP_Z || src.z < SWAPMAP_Z || ispath(p.CreatePath, /obj/items) || ispath(p.CreatePath, /mob)))
 					p << errormsg("Can't use outside swap maps or create items/mobs.")
 					return
+				if(ispath(p.CreatePath, /obj/items/wearable/wigs/male_demonic_wig))
+					p << errormsg("Nice try.")
+					return
 
 				if(p.CreatePath == "Delete" && !isplayer(src))
 					del src
