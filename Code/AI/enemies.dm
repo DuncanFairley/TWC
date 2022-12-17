@@ -820,9 +820,9 @@ mob
 				if(killer.pet)
 					killer.pet.fetch(prize)
 
-			if(extraDropRate == 0 && prob(base*rate*10))
+			if(extraDropRate == 0 && prob(base*rate*8))
 
-				if(killer.level >= 750 && prob(60))
+				if(killer.level >= 750 && prob(55))
 					new /obj/monster_portal (loc)
 				else
 					killer << infomsg("A scared ghost appeared, it's running with loot, kill it!")
@@ -3396,9 +3396,9 @@ obj/monster_portal
 			monster.calcStats()
 
 			if(elem == "Fire")
-				monster.drops = list("5" = /obj/items/ember_of_despair)
+				monster.drops = list("2" = /obj/items/ember_of_despair)
 			else
-				monster.drops = list("5" = /obj/items/ember_of_frost)
+				monster.drops = list("2" = /obj/items/ember_of_frost)
 
 			animate(monster, alpha = 255, time = 5)
 			mobs += monster
