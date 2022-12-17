@@ -1004,10 +1004,11 @@ mob/Player
 
 			if(worldData.passives)
 				if(!passives) passives = list()
-				passives += worldData.passives
 
 				for(var/e in worldData.passives)
 					src << infomsg("You have the power of [e].")
+					passives[e] += 1
+
 
 			hpBar = new(src)
 			src.ApplyOverlays(0)
