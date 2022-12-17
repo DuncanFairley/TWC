@@ -667,6 +667,7 @@ mob/Player
 		if(!splitItem) return
 
 		var/val = clamp(text2num(winget(src, "splitStack.splitPercent", "value")) + n, 1, 100)
+		if(!splitItem) return
 		var/s   = round(splitItem.stack * val / 100, 1)
 
 		if(n != 0)

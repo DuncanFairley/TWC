@@ -970,6 +970,7 @@ mob
 					step_rand(src)
 
 			ChangeTarget()
+				if(!loc) return
 				var/min_dist = Range
 				var/area/a = loc.loc
 				for(var/mob/Player/M in a.Players)

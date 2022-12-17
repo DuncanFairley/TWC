@@ -1425,7 +1425,7 @@ obj/items/plant
 	Click()
 		if(src in usr)
 
-			if(owner.loc && owner.loc.loc && owner.loc.loc:antiSummon)
+			if(usr.loc && usr.loc.loc && usr.loc.loc:antiSummon)
 				owner << errormsg("You can not use it here.")
 				return
 
