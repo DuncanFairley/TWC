@@ -1537,6 +1537,11 @@ mob/Player
 			stat("Ravenclaw",worldData.housepointsGSRH[3])
 			stat("Hufflepuff",worldData.housepointsGSRH[4])
 			stat("","")
+
+			if(worldData.passives)
+				stat("Global Passives:","")
+				stat(worldData.passives)
+
 			if(worldData.currentEvents)
 				stat("Current Events:","")
 				for(var/RandomEvent/e in worldData.currentEvents)
