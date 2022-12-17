@@ -1818,8 +1818,7 @@ mob/Spells/verb/Telendevour()
 
 			if(istext(M) || istype(M.loc.loc, /area/ministry_of_magic))
 				src << errormsg("<b>You feel magic repelling your spell.</b>")
-			else if(M.occlumens>0)
-
+			else
 				var/otherUses = ("Occlumency" in M.SpellUses) ? M.SpellUses["Occlumency"] : 1
 				var/otherTier = round(log(10, otherUses)) - 1
 
@@ -2509,6 +2508,10 @@ mob/Player
 		if((RING_NURSE in passives) && HP - dmg <= 0)
 			usr = src
 			usr:Episky()
+
+			if(!findStatusEffect(/StatusEffect/DodgedDeath))
+				dmg = 0
+				new /StatusEffect/DodgedDeath(src, 50)
 
 		HP -= dmg
 		updateHP()
