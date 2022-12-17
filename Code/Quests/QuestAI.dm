@@ -31,6 +31,7 @@ mob/TalkNPC
 
 		if(target)
 			target.checkQuestProgress("Kill [src.name]")
+			target.checkQuestProgress("Kill Player")
 			target = null
 
 		new /obj/corpse(loc, src, time=0)
