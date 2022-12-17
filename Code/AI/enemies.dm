@@ -2085,7 +2085,7 @@ mob
 			var/tmp/fired = 0
 
 			Range = 16
-			respawnTime = 6000
+			respawnTime = 3000
 
 			drops = "duelist"
 
@@ -2315,7 +2315,7 @@ mob
 			MoveDelay = 3
 			AttackDelay = 1
 			Range = 24
-			respawnTime = 6000
+			respawnTime = 3000
 			prizePoolSize = 3
 
 			element = WATER
@@ -2428,7 +2428,7 @@ mob
 			MoveDelay = 3
 			AttackDelay = 1
 			Range = 24
-			respawnTime = 6000
+			respawnTime = 3000
 			prizePoolSize = 3
 
 			var/attempts = 3
@@ -3025,7 +3025,7 @@ mob
 			MoveDelay = 3
 			AttackDelay = 1
 			Range = 24
-			respawnTime = 6000
+			respawnTime = 3000
 
 			prizePoolSize = 3
 
