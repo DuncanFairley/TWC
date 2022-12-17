@@ -1525,7 +1525,7 @@ mob/Player
 		if(statpanel("Mastery"))
 			for(var/spellName in SpellUses)
 				var/uses = SpellUses[spellName]
-				stat("[spellName]:", "[getMasteryRank(uses)] ([uses])")
+				stat("[spellName]:", "[getMasteryRank(uses)] ([num2text(uses, 8)])")
 
 		if(statpanel("Info"))
 			if(admin)

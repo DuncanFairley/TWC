@@ -25,7 +25,7 @@ mob
 						Award("Need a cat?")
 
 			var/l = log(10, monsterkills[monster]) + 1
-			if(l == round(l))
+			if(l < 8 && l == round(l))
 				var/mob/Player/p = src
 				p.screenAlert("Monster Knowledge: \[[monster]] leveled up to [round(l)]")
 

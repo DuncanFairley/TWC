@@ -604,7 +604,8 @@ mob/Player
 			SpellUses[name]++
 
 			var/l = log(10, SpellUses[name])
-			if(l == round(l))
+
+			if(l < 7 && l == round(l))
 				src << infomsg("You gained a new mastery level of <u>[name]</u>!")
 
 
