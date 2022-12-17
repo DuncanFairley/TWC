@@ -213,7 +213,8 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 							"45"   = list(/obj/items/crystal/magic,
 						     			  /obj/items/crystal/strong_luck)),
 
-"Akalla"             = list("5"    = list(/obj/items/chest/wigs/sunset_wig_chest,
+"Akalla"             = list("0.001" = list(/obj/items/wearable/wigs/male_demonic_wig),
+							"5"    = list(/obj/items/chest/wigs/sunset_wig_chest,
 										  /obj/items/chest/wigs/demon_chest,
 										  /obj/items/chest/sunset_chest,
 										  /obj/items/key/demon_key,
