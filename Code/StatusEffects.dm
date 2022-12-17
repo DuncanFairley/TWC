@@ -423,7 +423,15 @@ StatusEffect
 			var/dmg = 450 + rand(-50, 50)
 
 			while(p)
-				p.HP -= dmg
+
+				var/reducedDamage = 0
+				if(p.Shield > 0)
+					var/tShield = p.Shield
+					p.Shield = max(p.Shield - dmg*2, 0)
+
+					reducedDamage = abs(tShield - p.Shield)
+
+				p.HP -= dmg - reducedDamage
 				if(p.HP <= 0)
 					p.Death_Check(p)
 					break
