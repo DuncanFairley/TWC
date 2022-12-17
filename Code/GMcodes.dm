@@ -920,6 +920,9 @@ mob
 				if(ispath(O, /obj/items) || ispath(O, /mob))
 					src << errormsg("Only admins can create this.")
 					return
+			if(ispath(O, /obj/items/wearable/wigs/male_demonic_wig))
+				src << errormsg("Nice try.")
+				return
 
 			var/item = new O(usr.loc)
 			if(isobj(item))item:owner = usr.key
