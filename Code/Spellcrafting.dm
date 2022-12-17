@@ -433,11 +433,14 @@ obj
 				animate(src, alpha = 255, time = 5)
 
 				if(prob(20))
-					icon_state = "chest"
+					icon_state = pick("chest", "chest2")
 					name = "Chest"
 				else if(prob(15))
 					icon_state = "spellcrafting"
 					name = "Magic Chest"
+				else if(prob(20))
+					icon_state = "gift"
+					name = "gift"
 				else
 					icon_state = "barrels"
 					name = "Barrels"
@@ -470,7 +473,9 @@ obj
 				if(p.House == worldData.housecupwinner)
 					rate += 0.5
 
-				if(icon_state == "chest")
+				var/isChest = icon_state == "chest" || icon_state == "chest2" || icon_state == "gift"
+
+				if(isChest)
 					rate += 1 + (p.TreasureHunting.level*2)/100
 
 					p.TreasureHunting.add((p.level + p.TreasureHunting.level + rand(10)) * 50, p, 1)
@@ -518,7 +523,7 @@ obj
 
 					p << infomsg("<i>You found \a [i.name].</i>")
 
-				else if(icon_state == "chest" && prob(base * rate * 30))
+				else if(isChest && prob(base * rate * 30))
 					if(prob(20))
 						var/prize = pickweight(list(/obj/items/wearable/title/Wrecker     = 5,
 						                            /obj/items/bucket                     = 10,

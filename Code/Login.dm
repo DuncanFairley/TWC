@@ -2641,6 +2641,7 @@ proc
 				if(E)
 					E.loc = E.origloc
 					E.HP = E.MHP
+					E.dead = 0
 					if(E.hpbar)
 						E.hpbar.Set(1, E)
 					var/active = E.ShouldIBeActive()

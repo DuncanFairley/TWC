@@ -5305,6 +5305,16 @@ obj/items/wearable/ring/nurse
 	monsterDef = 3
 	monsterDmg = 3
 
+obj/items/wearable/ring/titan
+	icon='ammy.dmi'
+	icon_state="snow"
+	name="Titan's Ring"
+	desc="Stat gain from this ring is doubled."
+	suffix = "<span style=\"color:#ffa500;\">Stat gain from this ring is doubled.</span>"
+	monsterDef = 3
+	monsterDmg = 3
+	scale = 2
+
 obj/items/wearable/ring/cooling_shoes
 	icon='trophies.dmi'
 	icon_state="cooling shoes"
@@ -5541,6 +5551,15 @@ obj/items/wearable/sword/dragon
 	suffix = "<span style=\"color:#ffa500;\">Fire spells now use full damage.</span>"
 	passive = SWORD_FIRE
 	monsterDmg = 2
+
+obj/items/wearable/sword/titan
+	icon='trophies.dmi'
+	icon_state="Sword"
+	name="Titan's Sword"
+	desc="Stat gain from this sword is doubled."
+	suffix = "<span style=\"color:#ffa500;\">Stat gain from this sword is doubled.</span>"
+	monsterDmg = 5
+	scale = 2
 
 obj/items/wearable/sword/vladmir
 	icon='trophies.dmi'

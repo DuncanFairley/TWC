@@ -1884,20 +1884,28 @@ mob/Spells/verb/Apparate()
 
 		var/turf/t
 
-		var/obj/o = new (loc)
-		o.density = 1
+		var/mob/Enemies/e = locate() in oview(15, src)
 
-		var/steps = 15
-		while(o.loc != src && steps > 0)
-			steps--
-			if(!step(o, dir) || o.loc.loc:antiApparate) break
-			t = o.loc
+		if(e)
+			t = get_step_towards(e, src)
 
-		o.loc = null
+		if(!t)
+			var/obj/o = new (loc)
+			o.density = 1
+
+			var/steps = 15
+			while(o.loc != src && steps > 0)
+				steps--
+				if(!step(o, dir) || o.loc.loc:antiApparate) break
+				t = o.loc
+
+			o.loc = null
 
 		if(t)
 			var/mob/Player/p = src
 			p.Apparate(t)
+			if(e)
+				p.dir = get_dir(p, e)
 
 mob/Spells/verb/Episky()
 	set name = "Episkey"
@@ -2594,15 +2602,18 @@ mob/Player
 
 mob/Enemies
 	var/canBleed = TRUE
+	var/tmp/dead = 0
 	var/element
 
 	proc/onDamage(dmg, mob/Player/p, elem = 0)
+
+		if(dead) return 0
 
 		dmg = round(dmg, 1)
 		HP -= dmg
 
 		if(HP <= 0)
-
+			dead = 1
 			var/restoreBleed = FALSE
 			if(p && (SWORD_EXPLODE in p.passives))
 				if(canBleed)
