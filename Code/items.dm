@@ -2148,9 +2148,9 @@ obj/items/wearable/wigs/male_red_wig
 obj/items/wearable/wigs/male_teal_wig
 	icon = 'male_teal_wig.dmi'
 	name = "male teal wig"
-/*obj/items/wearable/wigs/male_demonic_wig
+obj/items/wearable/wigs/male_demonic_wig
 	icon = 'male_demonic_wig.dmi'
-	name = "Demonic's wig"*/
+	name = "Demonic's wig"
 obj/items/wearable/wigs/male_bluebrown_wig
 	icon = 'male_bluebrown_wig.dmi'
 	name = "male blue and brown wig"
