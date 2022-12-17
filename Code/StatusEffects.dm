@@ -405,6 +405,7 @@ StatusEffect
 	UsedRiddikulus
 	UsedGMHelp
 	DisplayedTrophy
+	DodgedDeath
 
 	Lava
 		Activate()
@@ -430,6 +431,14 @@ StatusEffect
 					p.Shield = max(p.Shield - dmg*2, 0)
 
 					reducedDamage = abs(tShield - p.Shield)
+
+				if((RING_NURSE in p.passives) && p.HP - (dmg - reducedDamage) <= 0)
+					usr = p
+					usr:Episky()
+
+					if(!p.findStatusEffect(/StatusEffect/DodgedDeath))
+						reducedDamage = dmg
+						new /StatusEffect/DodgedDeath(p, 50)
 
 				p.HP -= dmg - reducedDamage
 				if(p.HP <= 0)
