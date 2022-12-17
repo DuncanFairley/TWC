@@ -189,7 +189,7 @@ obj
 				bonusChance = 0
 				applyBonus  = 0
 				ignoreItem  = 0
-			max_upgrade = 5
+			max_upgrade = 10
 
 		proc
 			colors()
@@ -498,7 +498,7 @@ obj/blacksmith
 	density            = 1
 
 	var
-		max_upgrade = 10
+		max_upgrade = 15
 
 	Click()
 
@@ -515,7 +515,16 @@ obj/blacksmith
 					var/obj/items/ember_of_despair/despair = locate() in p
 					var/obj/items/ember_of_frost/frost = locate() in p
 
-					var/price = i.quality + 1
+					var/priceFactor
+
+					if(i.quality >= 5)
+						priceFactor = 2
+					else if(i.quality >= 10)
+						priceFactor = 3
+					else
+						priceFactor = 1
+
+					var/price = i.quality*priceFactor + 2 + priceFactor
 
 					var/cancel = 0
 					if(!despair || despair.stack < price)
@@ -531,10 +540,17 @@ obj/blacksmith
 					despair.Consume(price)
 					frost.Consume(price)
 
-					if(i.quality >= 5 && prob(i.quality * 5))
+					var/chanceToFail = (i.quality+1)*6 + 15
 
-						var/chanceToFail = (i.quality+1)*5 + 10
+					if(i.quality >= 5 && prob(chanceToFail))
 						p << infomsg("Failure! You could not upgrade [i.name]. ([100 - chanceToFail]%)")
+
+						if(i.quality >= 10)
+							i.quality--
+							i.name = "[splittext(i.name, " +")[1]] +[i.quality]"
+							i.UpdateDisplay()
+
+							p << errormsg("Your item downgraded to [i.name].")
 						return
 
 
