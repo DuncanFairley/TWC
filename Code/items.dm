@@ -4429,7 +4429,7 @@ var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/
 							                            /obj/items/wearable/shoes/white_shoes           = 25,
 							                            /obj/items/wearable/hats/red_earmuffs           = 10,
 							                            /obj/items/wearable/hats/white_earmuffs         = 10,
-							                            /obj/items/wearable/wigs/male_red_wig           = 6),
+							                            /obj/items/wearable/wigs/female_red_wig           = 6),
 
 							 "(limited)2015 winter" = list(/obj/items/wearable/hats/red_earmuffs        = 10,
 							                       /obj/items/wearable/hats/white_earmuffs      = 10,
