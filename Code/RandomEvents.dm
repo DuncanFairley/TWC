@@ -1126,7 +1126,7 @@ RandomEvent
 
 			for(var/mob/Player/p in Players)
 				if(!p.passives) p.passives = list()
-				p.passives += passive
+				p.passives[passive] += 1
 
 			Players << infomsg("You feel a strange magic surrounding you, granting you [passive] for [minutes] minutes.")
 
@@ -1140,7 +1140,9 @@ RandomEvent
 					worldData.passives = null
 
 				for(var/mob/Player/p in Players)
-					p.passives -= passive
+					p.passives[passive] -= 1
+
+					if(p.passives[passive] <= 0) p.passives -= passive
 
 					if(!p.passives.len)
 						p.passives = null

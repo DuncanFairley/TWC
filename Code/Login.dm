@@ -1004,10 +1004,11 @@ mob/Player
 
 			if(worldData.passives)
 				if(!passives) passives = list()
-				passives += worldData.passives
 
 				for(var/e in worldData.passives)
 					src << infomsg("You have the power of [e].")
+					passives[e] += 1
+
 
 			hpBar = new(src)
 			src.ApplyOverlays(0)
@@ -2289,7 +2290,7 @@ mob/proc/Death_Check(mob/killer = src)
 				var/gold2give = (rand(6,14)/10)*gold
 				var/exp2give  = (rand(6,14)/10)*Expg
 
-				if((SWORD_ANIMAGUS in killer:passives) && killer:Animagus && killer:animagusPower < 100 + killer:Animagus.level && prob(40))
+				if((SWORD_ANIMAGUS in killer:passives) && killer:Animagus && killer:animagusPower < 100 + killer:Animagus.level && prob(39 + killer:passives[SWORD_ANIMAGUS]))
 					killer:animagusPower++
 
 				if(killer.level > src.level && !killer:hardmode)
@@ -2676,6 +2677,8 @@ proc
 
 mob/Player/proc/onDeath(turf/oldLoc, killerName)
 	set waitfor = 0
+
+	filters = null
 
 	var/obj/o        = new
 	o.screen_loc     = "CENTER,CENTER+3"

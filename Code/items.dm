@@ -718,6 +718,7 @@ obj/items/wearable
 		quality = 0
 		scale   = 1
 		passive = 0
+		power   = 1
 		monsterDef = 0
 		monsterDmg = 0
 		dropRate = 0
@@ -888,6 +889,12 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.monsterDef -= monsterDef
 		owner.extraLimit -= extraLimit
 		owner.extraCDR -= extraCDR
+
+		if(passive)
+			owner.passives[passive] -= power
+			if(owner.passives[passive] <= 0) owner.passives -= passive
+			if(!owner.passives.len) owner.passives = null
+
 		return REMOVED
 	else
 		if(showoverlay && !owner.trnsed && !owner.noOverlays)
@@ -926,6 +933,11 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.extraCDR += extraCDR
 		if(td != owner.clothDef)
 			owner.resetMaxHP()
+
+		if(passive)
+			if(!owner.passives) owner.passives = list()
+			owner.passives[passive] += power
+
 		return WORN
 
 obj/items/food
@@ -5192,18 +5204,12 @@ obj/items/wearable/ring
 			return
 		. = ..(owner)
 		if(. == WORN)
-			if(!owner.passives) owner.passives = list()
-			owner.passives += passive
-
 			src.gender = owner.gender
 			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his finger.")
 			for(var/obj/items/wearable/ring/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
 		else if(. == REMOVED)
-			owner.passives -= passive
-			if(!owner.passives.len) owner.passives = null
-
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
 
 
@@ -5398,9 +5404,6 @@ obj/items/wearable/shield
 			return
 		. = ..(owner)
 		if(. == WORN)
-			if(!owner.passives) owner.passives = list()
-			owner.passives += passive
-
 			src.gender = owner.gender
 			if(!overridetext)viewers(owner) << infomsg("[owner] hangs \his [src.name] onto \his arm.")
 			var/allowed = (RING_DUAL_SHIELD in owner.passives) ? 2 : 1
@@ -5408,9 +5411,6 @@ obj/items/wearable/shield
 				if(W != src && --allowed <= 0)
 					W.Equip(owner,1,1)
 		else if(. == REMOVED)
-			owner.passives -= passive
-			if(!owner.passives.len) owner.passives = null
-
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
 
 obj/items/wearable/shield/mana
@@ -5520,9 +5520,6 @@ obj/items/wearable/sword
 			return
 		. = ..(owner)
 		if(. == WORN)
-			if(!owner.passives) owner.passives = list()
-			owner.passives += passive
-
 			src.gender = owner.gender
 			if(!overridetext)viewers(owner) << infomsg("[owner] wields \his [src.name].")
 
@@ -5531,9 +5528,6 @@ obj/items/wearable/sword
 				if(W != src && --allowed <= 0)
 					W.Equip(owner,1,1)
 		else if(. == REMOVED)
-			owner.passives -= passive
-			if(!owner.passives.len) owner.passives = null
-
 			if(!overridetext)viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
 
 obj/items/wearable/sword/slayer

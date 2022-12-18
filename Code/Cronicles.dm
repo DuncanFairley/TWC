@@ -413,6 +413,7 @@ mob
 						if("Ministry")
 							p.icon = 'suit.dmi'
 			p.baseicon = p.icon
+			p.color = null
 			if(client)
 				for(var/mob/Player/c in Players)
 					if(c.Gm)

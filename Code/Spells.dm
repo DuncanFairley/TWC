@@ -833,7 +833,9 @@ mob/Spells/verb/Reducto()
 		p.updateMP()
 
 		hearers(client.view, src) << "<B><span style=\"color:red;\">[src]:</span><font color=white> <I>Reducto!</I>"
-		if(p.nomove < 2) p.nomove = 0
+		if(p.nomove < 2)
+			p.nomove = 0
+			p.RemoveEffect("stone")
 		if(!trnsed) p.ApplyOverlays()
 		FlickState("apparate",8,'Effects.dmi')
 		p.learnSpell(spellName)
@@ -1942,7 +1944,7 @@ mob/Spells/verb/Episky()
 		var/percent = 0
 
 		if(tier >= 1) percent += tier * 2
-		if(SHIELD_NURSE in p.passives)	percent += 25
+		if(SHIELD_NURSE in p.passives)	percent += 24 + p.passives[SHIELD_NURSE]
 
 		if(percent > 0)
 			p.Shield = round(p.MHP * (percent / 100), 1)
@@ -2468,7 +2470,7 @@ mob/Player
 			dmg = 0
 			return 0
 
-		if((SHIELD_NINJA in passives) && prob(25))
+		if((SHIELD_NINJA in passives) && prob(24 + passives[SHIELD_NINJA]))
 			dmg = 0
 
 			var/turf/t = get_step(attacker, turn(attacker.dir, 180))
@@ -2487,7 +2489,7 @@ mob/Player
 				dmg *= 1 - min(monsterDef/100, 0.75)
 
 		if(SHIELD_MPDAMAGE in passives)
-			var/r = min(round(dmg * 0.4, 1), MP)
+			var/r = min(round(dmg * (0.4 + ((passives[SHIELD_MPDAMAGE] - 1) / 100)), 1), MP)
 			dmg -= r
 			MP -= r
 			updateMP()
@@ -2576,7 +2578,9 @@ mob/Player
 		dmg = onDamage(dmg, p.owner)
 
 		p.owner << "Your [p] does [dmg] damage to [src]."
-		src << "[p.owner] hit you for [dmg] with their [p]."
+
+		if(MonsterMessages || !ismonster(p.owner))
+			src << "[p.owner] hit you for [dmg] with their [p]."
 
 		if(p.canBleed)
 			var/n = dir2angle(get_dir(src, p))
@@ -2593,7 +2597,7 @@ mob/Player
 				Death_Check(p.owner)
 
 				if(SWORD_HEALONKILL in p.owner:passives)
-					p.owner.HP = min( round(p.owner.HP + MHP*0.20, 1), p.owner.MHP)
+					p.owner.HP = min(round(p.owner.HP + MHP*(0.20 + ((p.owner:passives[SWORD_HEALONKILL] - 1) / 100)), 1), p.owner.MHP)
 					p.owner:updateHP()
 
 			else if(ismonster(p.owner))
@@ -2632,7 +2636,7 @@ mob/Enemies
 
 				var/obj/projectile/proj = new
 				proj.element = elem
-				proj.damage = round(dmg*0.75, 1)
+				proj.damage = round(dmg*(0.74 + p.passives[SWORD_EXPLODE] / 100), 1)
 				proj.owner = p
 				proj.name = "[name]'s explosion"
 				proj.selfDamage = 0
@@ -2660,7 +2664,7 @@ mob/Enemies
 				canBleed = TRUE
 
 			if(SWORD_HEALONKILL in p.passives)
-				p.HP = min(round(p.HP + MHP*0.15, 1), p.MHP)
+				p.HP = min(round(p.HP + MHP*(0.15 + ((p.passives[SWORD_HEALONKILL] - 1) / 100)), 1), p.MHP)
 				p.updateHP()
 
 			var/exp2give  = (rand(6,14)/10)*Expg

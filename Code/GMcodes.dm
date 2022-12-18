@@ -1084,8 +1084,15 @@ mob
 						O.vars[variable]) as num
 
 				if("text2list")
-					O.vars[variable] = splittext(input("Enter new list seperated by '|':","Text2List",\
-						O.vars[variable]) as text, "|")
+					var/list/l = list()
+					var/list/inputList = splittext(input("Enter new list seperated by '|':","Text2List", O.vars[variable]) as text, "|")
+					for(var/i in inputList)
+						if(findtext(i, "="))
+							var/list/associatedList = splittext(i, "=")
+							l[associatedList[1]] = associatedList[2]
+						else
+							l += i
+					O.vars[variable] = l
 
 				if("type")
 					O.vars[variable] = input("Enter type:","Type",O.vars[variable]) \

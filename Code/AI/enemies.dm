@@ -2514,17 +2514,7 @@ mob
 
 							for(var/mob/Player/p in ohearers(8, src))
 								if(p.x == x || p.y == y)
-									if(!p.trnsed)
-										p:StateChange()
-									else
-										p.nomove = 1
-									spawn(rand(10,30))
-										if(p && p.nomove)
-											if(!p.trnsed)
-												p.StateChange()
-												p.ApplyOverlays()
-											else
-												p.nomove = 0
+									p.ApplyEffect("stone")
 
 							sleep(rand(50,150))
 							fired  = 0
@@ -3095,17 +3085,8 @@ mob
 
 						for(var/mob/Player/p in ohearers(8, src))
 							if(p.x == x || p.y == y)
-								if(!p.trnsed)
-									p:StateChange()
-								else
-									p.nomove = 1
-								spawn(rand(10,30))
-									if(p && p.nomove)
-										if(!p.trnsed)
-											p.StateChange()
-											p.ApplyOverlays()
-										else
-											p.nomove = 0
+								p.ApplyEffect("stone")
+
 
 						sleep(rand(50,150))
 						fired = 0

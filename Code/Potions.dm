@@ -556,7 +556,7 @@ obj/items/potions
 				if(!(SHIELD_ALCHEMY in usr:passives))
 					new effect (usr, seconds, "Potion", src)
 
-			if((SWORD_ALCHEMY in usr:passives) && prob(15)) return
+			if((SWORD_ALCHEMY in usr:passives) && prob(14 + usr:passives[SWORD_ALCHEMY])) return
 
 			Consume()
 		else

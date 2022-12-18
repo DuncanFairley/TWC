@@ -404,6 +404,11 @@ obj/items/crystal
 				monsterDef = tier * 0.2
 
 	MouseDrop(over_object)
+
+		if(istype(over_object, /backpack))
+			var/backpack/b = over_object
+			over_object = b.item
+
 		if(desc != null && istype(over_object, /obj/items/wearable) && (src in usr) && (over_object in usr) && over_object:socket != null)
 			var/obj/items/wearable/w = over_object
 			var/mob/Player/p = usr
