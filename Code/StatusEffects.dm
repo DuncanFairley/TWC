@@ -421,7 +421,9 @@ StatusEffect
 			animate(f, offset=f:offset, time=0, loop=-1, flags=ANIMATION_PARALLEL)
 			animate(offset=f:offset-1, time=rand()*20+2)
 
-			var/dmg = 450 + rand(-50, 50)
+			var/lavawalk = (RING_LAVAWALK in p.passives) ? p.passives[RING_LAVAWALK] : 0
+
+			var/dmg = lavawalk ? 201 - lavawalk : (450 + rand(-50, 50))
 
 			while(p)
 
@@ -448,7 +450,7 @@ StatusEffect
 					p.updateHP()
 
 
-				dmg *= 2
+				dmg *= lavawalk ? 1.51 - (lavawalk / 100) : 2
 
 				sleep(10)
 
