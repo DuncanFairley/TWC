@@ -2578,7 +2578,9 @@ mob/Player
 		dmg = onDamage(dmg, p.owner)
 
 		p.owner << "Your [p] does [dmg] damage to [src]."
-		src << "[p.owner] hit you for [dmg] with their [p]."
+
+		if(MonsterMessages || !ismonster(p.owner))
+			src << "[p.owner] hit you for [dmg] with their [p]."
 
 		if(p.canBleed)
 			var/n = dir2angle(get_dir(src, p))
