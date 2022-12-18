@@ -31,19 +31,34 @@ world/IsBanned(key,address)
    if(istype(., /list) && (key == "Murrawhip"))
       .["Login"] = 1
 
-mob/Player/proc/StateChange()
-	if(nomove == 0)
+mob/Player/var/tmp/list/effects
+mob/Player/proc/ApplyEffect(var/effect, var/time=30)
+	set waitfor = 0
+
+	if(!effects) effects = list()
+
+	effects += effect
+
+	if(effect == "stone")
 		nomove = 1
-		if(!trnsed)
-			icon_state = "stone"
-			overlays = null
-	else
+		color = list("#808080", "#808080", "#808080")
+		animate(src, transform = turn(matrix(), 90), time = 10, easing = BOUNCE_EASING)
+		sleep(time)
+		RemoveEffect(effect)
+
+
+mob/Player/proc/RemoveEffect(var/effect)
+
+	if(!effects) return
+	if(!(effect in effects)) return
+
+	effects -= effect
+	if(effects.len == 0) effects = null
+
+	if(effect == "stone")
+		transform = null
+		color = null
 		nomove = 0
-
-		if(!trnsed)
-			icon_state = ""
-			ApplyOverlays()
-
 
 mob/Player/var/tmp/obj/pet/pet
 
