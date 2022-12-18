@@ -16,32 +16,31 @@ EventScheduler/tempFix
 		if (__tick == 16777216)
 			__tick = 0
 
-/*	__shift_down_events()
+	__shift_down_events()
 		var/list/result = null
 		for (var/T in src.__scheduled_events)
-			var/A = __scheduled_events[T]
-			__scheduled_events.Remove(T)
-			var/index = text2num(T) - __sleep_delay
-			if (index > 0)
+			var/A = src.__scheduled_events[T]
+			src.__scheduled_events.Remove(T)
+			var/index = text2num(T)
+			if (--index)
 				src.__scheduled_events[num2text(index, 8)] = A
 			else
 				for (var/__Trigger/Tr in A)
 					if (Tr.__scheduled_iterations > 0)
 						Tr.__scheduled_iterations--
 						var/new_index = Tr.__scheduled_iterations ? 16777216 : Tr.__scheduled_time
-						var/list/S = src.__scheduled_events[text2num(new_index)]
+						var/list/S = src.__scheduled_events[num2text(new_index, 8)]
 						if (S)
 							S += Tr
 						else
-							__scheduled_events[text2num(new_index)] = list(Tr)
+							src.__scheduled_events[num2text(new_index, 8)] = list(Tr)
 					else
 						if (result)
 							result += Tr
 						else
 							result = list(Tr)
-
 				result = A
-		return result*/
+		return result
 
 atom/proc/AddStatusEffect(StatusEffect/pStatusEffect)
 	if(src.LStatusEffects)
