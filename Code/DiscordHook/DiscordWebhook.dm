@@ -67,10 +67,21 @@ proc/pollForDiscord()
 
 				body["players"] = playerList
 
-
-			id = rustg_http_request_async(RUSTG_HTTP_METHOD_POST, discord_bot_url, json_encode(body), json_encode(headers), "{}")
+			try
+				id = rustg_http_request_async(RUSTG_HTTP_METHOD_POST, discord_bot_url, json_encode(body), json_encode(headers), "{}")
+			catch(var/exception/e)
+				world.log << "discord 1: [e] on [e.file]:[e.line]"
+				id = -1
+				continue
 		else
 			var/response = rustg_http_check_request(id)
+
+			try
+				response = rustg_http_check_request(id)
+			catch(var/exception/e)
+				world.log << "discord 2: [e] on [e.file]:[e.line]"
+				id = -1
+				continue
 
 
 			if(response != RUSTG_JOB_NO_RESULTS_YET)
