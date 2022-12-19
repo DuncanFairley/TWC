@@ -462,7 +462,7 @@ mob/Spells/verb/Lumos()
 
 	var/mob/Player/p = src
 	var/mpCost = 100
-	var/spellName = "Repellium"
+	var/spellName = "Lumos"
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
 	var/tier = round(log(10, uses)) - 1
@@ -478,8 +478,8 @@ mob/Spells/verb/Lumos()
 
 		var/obj/light/l = new(loc)
 
-		animate(l, transform = matrix() * 1.6, time = 10, loop = -1)
-		animate(   transform = matrix() * 1.5,   time = 10)
+		animate(l, transform = matrix() * (1.6 + tier / 10), time = 10, loop = -1)
+		animate(   transform = matrix() * (1.5 + tier / 10), time = 10)
 
 		p.addFollower(l)
 
