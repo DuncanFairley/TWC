@@ -74,7 +74,7 @@ proc/pollForDiscord()
 				id = -1
 				continue
 		else
-			var/response = rustg_http_check_request(id)
+			var/response
 
 			try
 				response = rustg_http_check_request(id)
