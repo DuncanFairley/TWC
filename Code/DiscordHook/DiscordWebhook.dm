@@ -48,10 +48,19 @@ proc/pollForDiscord()
 
 				var/playerList = ""
 				for(var/mob/Player/p in Players)
-					playerList += "Name: [p.name] \
+
+					var/n
+					if(p.pname)
+						n = p.pname
+					else if(p.prevname)
+						n = p.prevname
+					else
+						n = p.name
+
+					playerList += "Name: [n] \
 					Key: [p.key] \
 					Level: [p.level >= lvlcap ? "[getSkillGroup(p.ckey)]" : p.level] \
-					Rank: [p.Rank == "Player" ? p.Year : p.Rank]"
+					Rank: [p.Rank == "Player" ? p.Year : p.Rank]\n"
 
 
 				playerList += "\n[Players.len] players online."
