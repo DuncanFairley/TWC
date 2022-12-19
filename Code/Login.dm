@@ -842,6 +842,7 @@ mob/Player
 
 	Login()
 		loginProtection = 1
+		reportDiscordWho = 1
 
 		if(client.byond_version <= 512)
 			src << errormsg("BYOND version 513 is out, please always update to the latest stable version.")

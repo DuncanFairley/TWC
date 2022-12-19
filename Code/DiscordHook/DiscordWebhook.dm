@@ -32,6 +32,7 @@ mob/Player/proc/SendDiscord(var/message, var/dest)
 	rustg_http_request_async(RUSTG_HTTP_METHOD_POST, dest, json_encode(body), json_encode(headers), "{}")
 
 
+var/reportDiscordWho = 0
 proc/pollForDiscord()
 	set waitfor = 0
 
@@ -39,8 +40,35 @@ proc/pollForDiscord()
 	while(1)
 
 		if(id == -1)
-			var/list/headers = list("Content-Type" = "text/plain")
-			id = rustg_http_request_async(RUSTG_HTTP_METHOD_POST, discord_bot_url, discord_bot_pass, json_encode(headers), "{}")
+			var/list/headers = list("Content-Type" = "application/json")
+			var/body = list(password = discord_bot_pass)
+
+			if(reportDiscordWho)
+				reportDiscordWho = 0
+
+				var/playerList = ""
+				for(var/mob/Player/p in Players)
+					playerList += "Name: [p.name] \
+					Key: [p.key] \
+					Level: [p.level >= lvlcap ? "[getSkillGroup(p.ckey)]" : p.level] \
+					Rank: [p.Rank == "Player" ? p.Year : p.Rank]"
+
+
+				playerList += "\n[Players.len] players online."
+				var/logginginmobs = ""
+				for(var/client/C)
+					if(C.mob && !(C.mob in Players))
+						if(logginginmobs == "")
+							logginginmobs += "[C.key]"
+						else
+							logginginmobs += ", [C.key]"
+				if(logginginmobs != "")
+					playerList += "\nLogging in: [logginginmobs]."
+
+				body["players"] = playerList
+
+
+			id = rustg_http_request_async(RUSTG_HTTP_METHOD_POST, discord_bot_url, json_encode(body), json_encode(headers), "{}")
 		else
 			var/response = rustg_http_check_request(id)
 

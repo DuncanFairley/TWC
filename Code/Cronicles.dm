@@ -672,6 +672,7 @@ obj/loginCamera
 mob/BaseCamp/ChoosingCharacter
 	sight = SEE_THRU
 	Login()
+		reportDiscordWho = 1
 		new /hudobj/login/New(null, client, null, 1)
 		new /hudobj/login/Load(null, client, null, 1)
 
@@ -799,6 +800,7 @@ client
 
 
 	Del()
+		reportDiscordWho = 1
 		if(mob && isplayer(mob))
 			mob:playedtime += world.realtime  - mob:timelog
 			if(mob:isTrading())
