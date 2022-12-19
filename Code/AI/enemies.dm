@@ -488,6 +488,8 @@ mob
 					damage
 				hardmode = 0
 
+				revenge
+
 			Range         = 12
 			MoveDelay     = 4
 			AttackDelay   = 4
@@ -860,6 +862,21 @@ mob
 
 			damage = null
 
+			if(revenge)
+
+				if(revenge == killer.name)
+					killer << "An eye for an eye... Vengeance is yours."
+
+				revenge = null
+				underlays = null
+				isElite = 0
+				calcStats()
+
+				name = initial(name)
+				hpbar.Dispose()
+				hpbar = null
+				SetSize(1)
+
 		proc/state()
 			set waitfor = 0
 			if(active) return
@@ -1079,6 +1096,24 @@ mob
 
 		proc/Kill(mob/Player/p)
 			set waitfor = 0
+
+			if(!isElite && HP > 0 && !revenge && !hpbar && prob(30))
+
+				var/newName = "Big \"[p.name] Slayer\" [name]"
+				p << infomsg("[name] has distinguished themselves killing you, they are now named [newName]")
+				name = newName
+
+				revenge = p.name
+
+				isElite = 1
+				calcStats()
+
+				SetSize(3)
+
+				namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, py=16, size=4)
+				hpbar = new(src)
+
+
 			p.Death_Check(src)
 
 		proc/Attack()
