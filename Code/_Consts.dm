@@ -9,7 +9,7 @@
 #define winshowRight(player, window) player << output(window,"browser1:ShowRightWindow")
 
 #define VERSION "16.78"
-#define SUB_VERSION "2"
+#define SUB_VERSION "3"
 #define SAVEFILE_VERSION 48
 #define VAULT_VERSION 8
 #define WORLD_VERSION 1
@@ -75,7 +75,7 @@
 #define SHIELD_15 16384
 #define SHIELD_16 32768
 
-#define SWORD_MANA "nana drain for increased damage"
+#define SWORD_MANA "mana drain for increased damage"
 #define SWORD_ALCHEMY "chance to not consume a potion"
 #define SWORD_NINJA "ability to do back attack damage"
 #define SWORD_NURSE "AoE Episkey"
