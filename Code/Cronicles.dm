@@ -143,7 +143,7 @@ client/var/tmp
 	base_autoload_character = 0
 	base_autosave_character = 1
 	base_autodelete_mob = 1
-	base_save_verbs = 1
+
 obj/stackobj/Write(savefile/F)
 	return
 
@@ -789,6 +789,8 @@ mob/BaseCamp/ChoosingCharacter
 		client.base_DeleteMob(result)
 		return
 
+mob/Player/var/base_save_verbs = 0
+
 client
 	var/tmp/savefile/_base_player_savefile
 
@@ -911,8 +913,9 @@ client
 		if (!mob || !mob.base_save_allowed || !mob.save_loaded)
 			return
 
-		if (base_save_verbs)
-			mob.base_saved_verbs = mob.verbs
+		if (mob:base_save_verbs)
+			mob:base_saved_verbs = mob.verbs - (typesof(/mob/Player/verb)) - (typesof(/mob/verb))
+
 		var/first_initial = copytext(ckey, 1, 2)
 		fdel("players/[first_initial]/[ckey].sav")
 		var/savefile/F = base_PlayerSavefile()
@@ -962,10 +965,8 @@ client
 			else if(error && !new_mob.name)
 				new_mob.name = "RenameMe"
 
-			if (base_save_verbs && new_mob.base_saved_verbs)
+			if (new_mob:base_save_verbs && new_mob.base_saved_verbs)
 				if(!new_mob.base_saved_verbs.len) return null
-		//		for (var/item in new_mob.base_saved_verbs)
-		//			new_mob.verbs += item
 				new_mob.verbs += new_mob.base_saved_verbs
 				new_mob.base_saved_verbs = null
 
