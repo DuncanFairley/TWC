@@ -9,7 +9,7 @@
 #define winshowRight(player, window) player << output(window,"browser1:ShowRightWindow")
 
 #define VERSION "16.78"
-#define SUB_VERSION "3"
+#define SUB_VERSION "4"
 #define SAVEFILE_VERSION 48
 #define VAULT_VERSION 8
 #define WORLD_VERSION 1
@@ -182,10 +182,6 @@ atom
 
 WorldData/var/tmp/baseChance = 0.015
 
-
-mob/test/verb/StoneEffect()
-
-	color = "#808080"//list("#808080", "#808080", "#808080")
 
 var/snowCurse = 0
 
