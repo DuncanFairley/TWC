@@ -393,6 +393,7 @@ mob/Player/Topic(href,href_list[])
 						who.party.add(usr)
 
 mob/Player/verb/PM(var/p in Players())
+	set category = null
 	if(src.mute)
 		alert("You are not allowed to send messages.")
 		return

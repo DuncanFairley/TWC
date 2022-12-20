@@ -337,7 +337,7 @@ mob
 		Clan_store()
 			set hidden = 1
 mob/test/verb/FloorColor(c as color)
-	set category = "Staff"
+	set category = "Debug"
 	for(var/turf/t in world)
 		if(t.z >= 4 && t.z <= 5)
 			if(istype(t, /turf/woodenfloor) || istype(t, /turf/nofirezone) || istype(t, /turf/sideBlock))
@@ -865,3 +865,14 @@ obj
 mob/GM/verb
 	Release_From_Detention(mob/Player/M in Players)
 		set hidden = 1
+	Give_Immortality(mob/Player/M in world)
+		set hidden = 1
+		/*set popup_menu = 0
+		if(M.Immortal==0)
+			M.FlickState("m-black",8,'Effects.dmi')
+			M<<"<b><span style=\"color:aqua;\">[src] has made you an Immortal. You can no longer die.</span>"
+			M.Immortal=1
+		else if(M.Immortal==1)
+			M.FlickState("m-black",8,'Effects.dmi')
+			M<<"<b><span style=\"color:blue;\">[src] has made you a Mortal. You are now vulnerable to Death.</span>"
+			M.Immortal=0*/

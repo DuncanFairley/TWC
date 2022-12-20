@@ -820,17 +820,7 @@ mob
 				p.FlickState("m-black",8,'Effects.dmi')
 				p<<"You are now a Mortal."
 				p.Immortal=0
-		Give_Immortality(mob/Player/M in world)
-			set category="Staff"
-			set popup_menu = 0
-			if(M.Immortal==0)
-				M.FlickState("m-black",8,'Effects.dmi')
-				M<<"<b><span style=\"color:aqua;\">[src] has made you an Immortal. You can no longer die.</span>"
-				M.Immortal=1
-			else if(M.Immortal==1)
-				M.FlickState("m-black",8,'Effects.dmi')
-				M<<"<b><span style=\"color:blue;\">[src] has made you a Mortal. You are now vulnerable to Death.</span>"
-				M.Immortal=0
+
 		Mute(mob/Player/M in Players)
 			set category = "Staff"
 			if(M.mute==0)

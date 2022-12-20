@@ -3382,20 +3382,22 @@ obj/items/lamps
 		return i.name == name && i.type == type && i.owner == owner && i.icon_state == icon_state && i.seconds == seconds && i.max_stack == max_stack
 
 	double_drop_rate_lamp
-		desc    = "Doubles your drop rate."
+		desc    = "Increases your drop rate x2."
 		effect  = /StatusEffect/Lamps/DropRate/Double
 		seconds = 1800
 	triple_drop_rate_lamp
-		desc    = "Triples your drop rate."
+		desc    = "Increases your drop rate x3."
 		effect  = /StatusEffect/Lamps/DropRate/Triple
 		seconds = 1800
 	quadaple_drop_rate_lamp
-		desc    = "Quadaples your drop rate."
-		effect  = /StatusEffect/Lamps/DropRate/Quadaple
+		name = "quadruple drop rate lamp"
+		desc    = "Increases your drop rate x4."
+		effect  = /StatusEffect/Lamps/DropRate/Quadruple
 		seconds = 1800
 	penta_drop_rate_lamp
+		name = "quintuple drop rate lamp"
 		desc    = "Increases your drop rate x5."
-		effect  = /StatusEffect/Lamps/DropRate/Penta
+		effect  = /StatusEffect/Lamps/DropRate/Quintuple
 		seconds = 900
 	sextuple_drop_rate_lamp
 		desc    = "Increases your drop rate x6."
@@ -3403,44 +3405,48 @@ obj/items/lamps
 		seconds = 600
 
 	double_exp_lamp
-		desc    = "Doubles your exp gain rate."
+		desc    = "Increases your exp gain x2."
 		effect  = /StatusEffect/Lamps/Exp/Double
 		seconds = 1800
 	triple_exp_lamp
-		desc    = "Triples your exp gain rate."
+		desc    = "Increases your exp gain x3."
 		effect  = /StatusEffect/Lamps/Exp/Triple
 		seconds = 1800
 	quadaple_exp_lamp
-		desc    = "Quadaples your exp gain rate."
-		effect  = /StatusEffect/Lamps/Exp/Quadaple
+		name = "quadruple exp lamp"
+		desc    = "Increases your exp gain x4."
+		effect  = /StatusEffect/Lamps/Exp/Quadruple
 		seconds = 1800
 	penta_exp_lamp
-		desc    = "Increases your exp x5."
-		effect  = /StatusEffect/Lamps/Exp/Penta
+		name = "quintuple exp lamp"
+		desc    = "Increases your exp gain x5."
+		effect  = /StatusEffect/Lamps/Exp/Quintuple
 		seconds = 900
 	sextuple_exp_lamp
-		desc    = "Increases your exp x6."
+		desc    = "Increases your exp gain x6."
 		effect  = /StatusEffect/Lamps/Exp/Sextuple
 		seconds = 600
 
 	double_gold_lamp
-		desc    = "\"Doubling money!\""
+		desc    = "Increases your gold gain x2."
 		effect  = /StatusEffect/Lamps/Gold/Double
 		seconds = 1800
 	triple_gold_lamp
-		desc    = "Triples your gold gain rate."
+		desc    = "Increases your gold gain x3."
 		effect  = /StatusEffect/Lamps/Gold/Triple
 		seconds = 1800
 	quadaple_gold_lamp
-		desc    = "Quadaples your gold gain rate."
-		effect  = /StatusEffect/Lamps/Gold/Quadaple
+		name = "quadruple gold lamp"
+		desc    = "Increases your gold gain x4."
+		effect  = /StatusEffect/Lamps/Gold/Quadruple
 		seconds = 1800
 	penta_gold_lamp
-		desc    = "Increases your gold x5."
-		effect  = /StatusEffect/Lamps/Gold/Penta
+		name = "quintuple gold lamp"
+		desc    = "Increases your gold gain x5."
+		effect  = /StatusEffect/Lamps/Gold/Quintuple
 		seconds = 900
 	sextuple_gold_lamp
-		desc    = "Increases your gold x6."
+		desc    = "Increases your gold gain x6."
 		effect  = /StatusEffect/Lamps/Gold/Sextuple
 		seconds = 600
 

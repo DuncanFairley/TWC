@@ -882,9 +882,9 @@ StatusEffect
 				rate = 2
 			Triple
 				rate = 3
-			Quadaple
+			Quadruple
 				rate = 4
-			Penta
+			Quintuple
 				rate = 5
 			Sextuple
 				rate = 6
@@ -895,9 +895,9 @@ StatusEffect
 				rate = 2
 			Triple
 				rate = 3
-			Quadaple
+			Quadruple
 				rate = 4
-			Penta
+			Quintuple
 				rate = 5
 			Sextuple
 				rate = 6
@@ -908,9 +908,9 @@ StatusEffect
 				rate = 2
 			Triple
 				rate = 3
-			Quadaple
+			Quadruple
 				rate = 4
-			Penta
+			Quintuple
 				rate = 5
 			Sextuple
 				rate = 6

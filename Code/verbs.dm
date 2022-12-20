@@ -9,6 +9,7 @@ mob/GM/verb/Force_PM(mob/M in world)
 mob
 	verb
 		Help()
+			set category = null
 			set name = "Help/Rules"
 			switch(input("Please make a selection","Help Menu") as null|anything in list("Rules","Talk to a GM","Report a Bug","How to get spells"))
 				if("Guide")
@@ -89,6 +90,7 @@ mob/GM
 mob
 	verb
 		Class_Schedule()
+			set category = null
 			var/txt = file2text(Sched)
 
 			txt = replacetext(txt, "\[GMSchedule]", worldData.GMSchedule)

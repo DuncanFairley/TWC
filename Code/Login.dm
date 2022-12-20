@@ -1338,6 +1338,7 @@ mob/Player
 			src << "You are now [listenhousechat ? "listening" : "<b>not</b> listening"] to your house channel."
 
 		Who()
+			set category = null
 			var/online=0
 			for(var/mob/Player/M in Players)
 				online++
@@ -1360,6 +1361,7 @@ mob/Player
 
 
 		AFK()
+			set category = null
 			if(!usr.away)
 				usr.away = 1
 				usr.here=usr.status
