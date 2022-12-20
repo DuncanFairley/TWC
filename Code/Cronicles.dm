@@ -789,7 +789,7 @@ mob/BaseCamp/ChoosingCharacter
 		client.base_DeleteMob(result)
 		return
 
-mob/Player/var/base_save_verbs = 0
+mob/Player/var/base_save_verbs = 1
 
 client
 	var/tmp/savefile/_base_player_savefile
