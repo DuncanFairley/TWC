@@ -5793,6 +5793,8 @@ obj/items/wearable/wand_holster
 
 	desc = "holster for your wand!"
 
+	max_stack = 0
+
 	var
 		projColor
 		list/colors
