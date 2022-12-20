@@ -1802,6 +1802,7 @@ obj/items/wearable/orb
 			quality  = -2
 
 mob/Player/var/tmp/obj/items/wearable/wands/wand
+mob/Player/var/tmp/obj/items/wearable/wand_holster/holster
 
 obj/items/wearable/wands
 	scale = 0.6
@@ -4696,13 +4697,30 @@ obj/items/colors
 				p << errormsg("Your wand has to be at least level [reqLevel].")
 				return
 
-			if(p.wand.projColor && alert("Are you sure you want to override this wand's color?", "Override Wand Color", "Yes", "No") == "No")
-				return
+			if(p.holster)
 
-			if(locate(/obj/wand_desk) in oview(1))
-				p << infomsg("You applied new <span style=\"color:[projColor == "blood" ? "#a00" : projColor];\">magical color</span> to your equipped wand.")
-				p.wand.projColor = projColor
+				if(projColor in p.holster.colors)
+					p << errormsg("Your holster already has this color.")
+					return
+
+				if(!p.holster.colors) p.holster.colors = list()
+				p.holster.colors += projColor
+
+				if(!p.holster.projColor) p.holster.projColor = projColor
+
+				p << infomsg("You added a new <span style=\"color:[projColor == "blood" ? "#a00" : projColor];\">magical color</span> to your equipped holster.")
+
 				Consume()
+
+
+			else
+				if(p.wand.projColor && alert("Are you sure you want to override this wand's color?", "Override Wand Color", "Yes", "No") == "No")
+					return
+
+				if(locate(/obj/wand_desk) in oview(1))
+					p << infomsg("You applied new <span style=\"color:[projColor == "blood" ? "#a00" : projColor];\">magical color</span> to your equipped wand.")
+					p.wand.projColor = projColor
+					Consume()
 		else
 			..()
 
@@ -5699,11 +5717,15 @@ obj/items/wearable/seal_bracelet
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 
-
 		if(!overridetext)
 			if((src in owner.Lwearing) && owner.level < lvlcap)
 				owner << errormsg("You can't unequip this until level cap.")
 				return
+
+			for(var/obj/items/wearable/seal_bracelet/S in owner.Lwearing)
+				if(S != src)
+					owner << errormsg("You can only wear one.")
+					return
 
 			if(!(src in owner.Lwearing))
 
@@ -5760,3 +5782,45 @@ obj/items/wearable/seal_bracelet
 				icon_state = "complete"
 
 				viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
+
+obj/items/wearable/wand_holster
+
+	rarity = 3
+	showoverlay = FALSE
+
+	icon = 'Season_bracelet.dmi'
+	icon_state = "inactive"
+
+	desc = "holster for your wand!"
+
+	var
+		projColor
+		list/colors
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		. = ..(owner)
+		if(forceremove)return 0
+		if(. == WORN)
+			src.gender = owner.gender
+			for(var/obj/items/wearable/wand_holster/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+
+			owner.holster = src
+
+			new /hudobj/holster  (null, owner.client, null, 1)
+
+			if(!overridetext)
+				viewers(owner) << infomsg("[owner] equips \his [name].")
+
+		else if(. == REMOVED)
+			owner.holster = null
+
+			var/hudobj/holster/o = locate() in owner.client.screen
+			if(o)
+				o.hide()
+			for(var/hudobj/color_pick/c in owner.client.screen)
+				c.hide()
+
+			if(!overridetext)
+				viewers(owner) << infomsg("[owner] puts \his [name] away.")

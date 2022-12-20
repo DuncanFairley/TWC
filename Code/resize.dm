@@ -508,6 +508,83 @@ hudobj
 		MouseExited()
 			alpha = 110
 
+	holster
+		name        = "Holster"
+		icon        = 'Season_bracelet.dmi'
+		icon_state  = "inactive"
+
+		anchor_x    = "EAST"
+		screen_x    = -4
+		screen_y    = -176
+		anchor_y    = "NORTH"
+
+		mouse_opacity = 2
+
+		Click()
+			var/mob/Player/p = usr
+
+			if(!p.holster.colors) return
+
+			var/hudobj/color_pick/o = locate() in p.client.screen
+			if(o)
+				for(var/hudobj/color_pick/c)
+					c.hide()
+			else
+				var/offset = -36
+				for(var/c in p.holster.colors)
+
+					var/list/params = list("screen_x" = offset, "color" = c == "blood" ? "#a00" : c)
+
+					new /hudobj/color_pick (null, p.client, params, 1)
+
+					offset -= 32
+
+				if(p.holster.colors.len > 1)
+
+					var/list/params = list("screen_x" = offset, "icon_state" = "random")
+
+					new /hudobj/color_pick (null, p.client, params, 1)
+
+
+		alpha = 110
+		MouseEntered()
+			alpha = 255
+		MouseExited()
+			alpha = 110
+
+	color_pick
+		name        = "Pick Color"
+		icon        = 'Colors.dmi'
+		icon_state  = "pick"
+
+		anchor_x    = "EAST"
+		screen_x    = -36
+		screen_y    = -176
+		anchor_y    = "NORTH"
+
+		mouse_opacity = 2
+
+		alpha = 255
+
+		MouseEntered()
+			transform *= 1.25
+		MouseExited()
+			transform = null
+
+		Click()
+			var/mob/Player/p = usr
+
+			if(!color)
+				p.holster.projColor = "random"
+				p << infomsg("Random color selected.")
+				return
+			else if(color == "#a00")
+				p.holster.projColor = "blood"
+			else
+				p.holster.projColor = color
+
+			p << infomsg("New <span style=\"color:[color];\">magical color</span> selected.")
+
 	reading
 		icon_state         = "reading"
 		mouse_over_pointer = MOUSE_INACTIVE_POINTER

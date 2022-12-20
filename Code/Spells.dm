@@ -1504,7 +1504,9 @@ mob/Spells/verb/Immobulus()
 		o.layer = 6
 		light(o, range=RANGE, ticks=TICKS, state = "rand")
 
-		if(p.wand && p.wand.projColor)
+		if(p.holster && p.holster.projColor)
+			o.color = p.holster.projColor
+		else if(p.wand && p.wand.projColor)
 			o.color = p.wand.projColor
 
 		animate(o, alpha = 255, time = 10)
@@ -2343,6 +2345,29 @@ mob
 			if(RING_CLOWN in p.passives)
 				P.element = pick(GHOST,FIRE,WATER,EARTH)
 
+			if(p.wand)
+				if(cd != 0) p.learnSpell(name)
+
+
+				if(!P.color)
+					var/c
+					if(p.holster && p.holster.projColor)
+
+						if(p.holster.projColor == "random")
+							c = pick(p.holster.colors)
+						else
+							c = p.holster.projColor
+					else if(p.wand.projColor)
+						c = p.wand.projColor
+
+					if(c)
+						if(c == "blood")
+							P.color      = "#16d0d0"
+							P.blend_mode = BLEND_SUBTRACT
+						else
+							P.color = list(c, c, c)
+
+
 			if((SWORD_CLOWN in p.passives) && cd != 0)
 				P.dir = pick(DIRS_LIST)
 				P.shoot(lag)
@@ -2351,16 +2376,7 @@ mob
 
 				var/obj/projectile/P2 = new Type (Loc,dir2,src,icon,icon_state,P.damage,name,P.element)
 				P2.shoot(lag)
-
-			if(p.wand)
-				if(cd != 0) p.learnSpell(name)
-
-				if(!P.color && p.wand.projColor)
-					if(p.wand.projColor == "blood")
-						P.color      = "#16d0d0"
-						P.blend_mode = BLEND_SUBTRACT
-					else
-						P.color = list(p.wand.projColor, p.wand.projColor, p.wand.projColor)
+				P2.appearance = P.appearance
 
 atom/movable/proc
 	Attacked(obj/projectile/p)
