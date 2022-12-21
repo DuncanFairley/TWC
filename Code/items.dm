@@ -5320,7 +5320,7 @@ obj/items/wearable/ring/snowring
 	monsterDmg = 3
 	monsterDef = 3
 
-obj/items/wearable/ring/mage
+obj/items/wearable/ring/mana
 	icon='ammy.dmi'
 	icon_state="snow"
 	name="mage's ring"
