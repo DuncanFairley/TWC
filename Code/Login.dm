@@ -789,6 +789,7 @@ mob
 			var/obj/o = locate("@DiagonAlley")
 			character.loc = o.loc
 			character.verbs += /mob/Spells/verb/Inflamari
+			character.verbs += /mob/Spells/verb/Episky
 			character.Fire  = new("Fire")
 			character.Earth = new("Earth")
 			character.Water = new("Water")
@@ -1764,10 +1765,10 @@ proc/getMasteryRank(var/uses)
 
 	var/i = round(log(10, uses))
 
-	if(i >= 5) return "<span style=\"color:#aa2fbd;\">Master</span>"
-	if(i >= 4) return "<span style=\"color:#bdb82f;\">Professional</span>"
-	if(i >= 3) return "<span style=\"color:#2f55bd;\">Skilled</span>"
-	if(i >= 2) return "<span style=\"color:#47bd2f;\">Apprentice</span>"
+	if(i >= 5) return "Master"
+	if(i >= 4) return "Professional"
+	if(i >= 3) return "Skilled"
+	if(i >= 2) return "Apprentice"
 	if(i >= 1) return "Beginner"
 	return "Clueless"
 
@@ -2425,7 +2426,6 @@ mob/Player
 							src.Year="2nd Year"
 							src<<"<b>Congratulations, [src]! You are now a 2nd Year!</b>"
 							verbs += /mob/Spells/verb/Episky
-							src<<infomsg("You learned Episkey.")
 						else if(i == 3)
 							Year="3rd Year"
 							src<<"<b>Congratulations, [src]! You are now a 3rd Year!</b>"
