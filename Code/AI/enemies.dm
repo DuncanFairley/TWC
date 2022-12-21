@@ -837,6 +837,9 @@ mob
 
 				if(istype(prize, /obj/items/wearable) && prize:bonus == 0)
 
+					if(prob(1 + hardmode*2))
+						prize:Upgrade(5 + rand(0, 5))
+
 					if(prob(10))
 						prize:bonus = 3
 						var/lvl = pick(1,2,3)

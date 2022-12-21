@@ -824,6 +824,7 @@ mob/var/tmp
 	clothDmg = 0
 	clothDef = 0
 	loginProtection = 0
+	extraMP = 0
 mob/Player
 
 	proc
@@ -2387,6 +2388,12 @@ mob/Player/proc/resetMaxHP()
 	if(hpBar)
 		updateHP()
 
+mob/Player/proc/resetMaxMP()
+	MMP = 6 * level + 194 + extraMP
+	if(MP > MMP)
+		MP = MMP
+	updateMP()
+
 mob/Player
 	proc
 		LvlCheck(var/nomsg=0)
@@ -2398,7 +2405,7 @@ mob/Player
 				Dmg+=1
 				Def+=1
 				resetMaxHP()
-				MMP = 6 * level + 194
+				resetMaxMP()
 				HP=MHP
 				MP=MMP
 				updateHPMP()

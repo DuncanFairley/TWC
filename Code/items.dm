@@ -479,6 +479,8 @@ obj/items
 						c = "#ffa500"
 					if(4)
 						c = "#551a8b"
+					if(5)
+						c = "#660000"
 
 
 				if(c)
@@ -703,6 +705,30 @@ obj/items/New()
 			src.verbs -= /obj/items/verb/Take
 	..()
 
+proc/getStatName(var/s)
+	if(s == "clothDmg")   return "Damage"
+	if(s == "clothDef")   return "Defense"
+	if(s == "extraMP")    return "MP"
+	if(s == "dropRate")   return "Drop Rate"
+	if(s == "monsterDmg") return "% Monster Damage"
+	if(s == "monsterDmg") return "% Monster Defense"
+	if(s == "extraCDR")   return "CDR"
+	if(s == "extraLimit") return "Limit"
+	return s
+
+proc/getStatFactor(var/s)
+	if(s == "clothDmg")   return 10
+	if(s == "clothDef")   return 30
+	if(s == "extraMP")    return 120
+	return 1
+	/*if(s == "dropRate")   return 1
+	if(s == "monsterDmg") return 1
+	if(s == "monsterDmg") return 1
+	if(s == "extraCDR")   return 1
+	if(s == "extraLimit") return 1
+	return 1*/
+
+
 obj/items/wearable
 	icon_state = "item"
 
@@ -724,7 +750,10 @@ obj/items/wearable
 		dropRate = 0
 		extraLimit = 0
 		extraCDR = 0
+		extraMP = 0
 		obj/items/crystal/socket
+
+		list/effects
 
 		tmp
 			clothDmg
@@ -736,7 +765,7 @@ obj/items/wearable
 	Compare(obj/items/i)
 		. = ..()
 
-		return . && i:bonus == bonus && i:quality == quality && i:socket == socket
+		return . && i:bonus == bonus && i:quality == quality && i:socket == socket && i:power == power
 
 	Clone()
 		var/obj/items/wearable/w = ..()
@@ -749,33 +778,45 @@ obj/items/wearable
 	MouseEntered(location,control,params)
 		if((src in usr) && usr:infoBubble)
 
-			var/info
+			var/list/info = list()
 
 			if(quality)
-				if((bonus & 3) == 3)
+				if(bonus & DAMAGE)
 					var/dmg = 10*quality*scale
-					var/def = 30*quality*scale
-					if(dmg > 0) dmg = "+[dmg]"
-					if(def > 0) def = "+[def]"
-					info = "[desc]\n\n [dmg] Damage\n [def] Defense"
-				else if(bonus & DAMAGE)
-					var/dmg = 10*quality*scale
-					if(dmg > 0) dmg = "+[dmg]"
-					info = "[desc]\n\n [dmg] Damage"
-				else
-					var/def = 30*quality*scale
-					if(def > 0) def = "+[def]"
-					info = "[desc]\n\n [def] Defense"
-			else
-				info = desc
 
+					if(dmg != 0)
+						info["Damage"] = dmg
+
+				if(bonus & DEFENSE)
+					var/def = 30*quality*scale
+
+					if(def != 0)
+						info["Defense"] = def
+
+			var/s
 			if(socket)
-				info = "[info]\n [socket.name] [socket.ToString()]"
+				s = "[socket.name] [socket.ToString()]"
 			else if(socket == 0)
-				info = "[info]\n Empty Socket"
+				s = "Empty Socket"
 
+			if(effects)
+				for(var/e in effects)
+					info[getStatName(e)] += effects[e]
 
-			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[info]\"")
+			var/list/lines = list()
+
+			for(var/i in info)
+				if(findtext(i, "%"))
+					lines += "+[info[i]][i]"
+				else
+					lines += "+[info[i]] [i]"
+
+			if(power > 1)
+				lines += "+[power] Legendary Effect"
+
+			if(s) lines += s
+
+			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[jointext(lines, "\n")]\"")
 			winshowRight(usr, "infobubble")
 
 			if(slot)
@@ -826,6 +867,21 @@ obj/items/wearable
 				clothDef = round(30 * quality * scale, 1)
 				owner.clothDef += clothDef
 				if(reset) owner.resetMaxHP()
+
+		Upgrade(var/basePower, var/stats=2, var/random=1)
+
+			if(stats == 2)
+				rarity = 4
+				name   = "cursed [name]"
+
+			max_stack = 0
+			power = basePower
+
+			effects = list()
+
+			for(var/s = 1 to stats)
+				var/stat = pick("monsterDef", "monsterDmg",	"dropRate",	"clothDmg", "clothDef", "extraMP")
+				effects[stat] = (random ? rand(1, basePower) : basePower) * getStatFactor(stat)
 
 
 obj/items/wearable/Destroy(var/mob/Player/owner)
@@ -890,6 +946,14 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.extraLimit -= extraLimit
 		owner.extraCDR -= extraCDR
 
+		if(extraMP)
+			owner.extraMP -= extraMP
+			owner.resetMaxMP()
+
+		if(effects)
+			for(var/e in effects)
+				owner.vars[e] -= effects[e]
+
 		if(passive)
 			owner.passives[passive] -= power
 			if(owner.passives[passive] <= 0) owner.passives -= passive
@@ -931,6 +995,15 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.monsterDef += monsterDef
 		owner.extraLimit += extraLimit
 		owner.extraCDR += extraCDR
+
+		if(extraMP)
+			owner.extraMP += extraMP
+			owner.resetMaxMP()
+
+		if(effects)
+			for(var/e in effects)
+				owner.vars[e] += effects[e]
+
 		if(td != owner.clothDef)
 			owner.resetMaxHP()
 
