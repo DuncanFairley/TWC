@@ -894,8 +894,10 @@ interface
 			var/hudobj/Animagus/a = new (null, parent.client, null, show=2)
 
 			if(p.animagusOn)
-				usr=p
-				a.Click()
+				spawn(1)
+					p.animagusOn = 0
+					usr=p
+					a.Click()
 
 		if(p.StatPoints > 0)
 			new /hudobj/UseStatpoints(null, parent.client, null, show=2)

@@ -61,8 +61,7 @@ turf
 mob/Player
 	var
 		animagusState
-		tmp
-			animagusOn = 0
+		animagusOn = 0
 		animagusPower = 0
 
 	Bump(atom/movable/O)
@@ -222,7 +221,9 @@ hudobj
 
 			var/mob/Player/p = Client.mob
 			icon_state = p.animagusState
-			p.AnimagusRecover(src)
+
+			if(!p.animagusOn)
+				p.AnimagusRecover(src)
 
 area/hogwarts/Animagus
 	antiFly = 1
