@@ -5,8 +5,9 @@
 var map_width;
 var map_height;
 var win_name;
+var map_zoom = 1;
 var resizing = 1;
-var version = 3;
+var version = 4;
 
 function CallVerb() {
     var locstr = "byond://winset?command=" + arguments[0];
@@ -71,6 +72,12 @@ function ForeColor() {
 	WinSet("","buttonForeColor.background-color",c,"buttonChat.text-color",c,"buttonCommand.text-color",c,"buttonOOC.text-color",c,"buttonSay.text-color",c,"mainvsplit.text-color",c,"info.text-color",c,"info.tab-text-color",c,"mainwindow.text-color",c,"rpanewindow.text-color",c,"rpane.text-color",c,"textb.text-color",c,"browseb.text-color",c,"infob.text-color",c,"infobubble.labelInfo.text-color",c,"infobubble.labelTitle.text-color",c,"buttonHouse.text-color",c);
 }
 
+function SetZoom() {
+	var z = encodeURIComponent(arguments[0]);
+	map_zoom = parseFloat(z);
+	Resize();
+}
+
 var resolution_x;
 var resolution_y;
 
@@ -82,8 +89,6 @@ function Resize() {
     var body = document.getElementsByTagName('body')[0];
     var map_width = body.clientWidth;
     var map_height = body.clientHeight;
-	
-	var map_zoom = 1;
 
     var view_width = Math.ceil(map_width/32);
     if(!(view_width%2)) ++view_width;

@@ -875,6 +875,7 @@ mob/Player
 			client.screen -= l
 
 		if(client.browser_loaded)
+			src << output(MapZoom, "browser1:SetZoom")
 			src << output(House, "browser1:Login")
 
 		client.eye = src

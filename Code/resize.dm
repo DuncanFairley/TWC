@@ -98,6 +98,15 @@ hudobj
 			vars[v] = Params[v]
 		if(show) show(show-1)
 
+mob/Player
+	var/MapZoom = 1
+
+	verb/SetZoom(var/z as num)
+		set category = null
+
+		MapZoom = z
+		src << output(MapZoom,"browser1:SetZoom")
+
 client
 	var
 		view_width
