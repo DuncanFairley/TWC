@@ -37,10 +37,15 @@ window.onresize = function() {
 };
 
 window.onload = function() {
+	resizing = 1
+	setTimeout(loginEvents, 100);
+};
+
+function loginEvents() {
 	CallVerb("onLoad", version);
 	WinSet("","mainvsplit.right","mapwindow","guild.is-visible","false","splitStack.is-visible","false","SpellBook.is-visible","false","Quests.is-visible","false","Monsters.is-visible","false","Auction.is-visible","false","winSettings.is-visible","false");
 	Resize();
-};
+}
 
 var isfullscreen = 0;
 
@@ -75,6 +80,7 @@ function ForeColor() {
 function SetZoom() {
 	var z = encodeURIComponent(arguments[0]);
 	map_zoom = parseFloat(z);
+	if(resizing) return;
 	Resize();
 }
 

@@ -669,9 +669,24 @@ obj/loginCamera
 				target = null
 			sleep(4)
 
+PlayerData/var/autoLoad = 0
+
 mob/BaseCamp/ChoosingCharacter
 	sight = SEE_THRU
 	Login()
+
+		var/PlayerData/p = worldData.playersData[ckey]
+		if(p && p.autoLoad)
+
+			var/list/available_char_names=client.base_CharacterNames()
+
+			if(available_char_names.len >= 1)
+				client.tmpInterface = new (client)
+				client.glide_size = GLIDE_SIZE
+				client.base_LoadMob(available_char_names[1])
+				del(src)
+				return
+
 		reportDiscordWho = 1
 		new /hudobj/login/New(null, client, null, 1)
 		new /hudobj/login/Load(null, client, null, 1)

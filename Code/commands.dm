@@ -65,6 +65,12 @@ mob
 
 			winset += "winSettings.butHideHud.is-checked=false;"
 
+			var/PlayerData/pd = worldData.playersData[ckey]
+			if(pd && pd.autoLoad)
+				winset += "winSettings.butAutoLoad.is-checked=true;"
+			else
+				winset += "winSettings.butAutoLoad.is-checked=false;"
+
 			switch(p.BeepType)
 				if(1)
 					winset += "winSettings.buttonBeep.is-checked=true;"

@@ -879,6 +879,7 @@ interface
 
 
 	proc/Init(mob/Player/p)
+
 		parent = p
 
 		p.client.tmpInterface = null
@@ -890,7 +891,11 @@ interface
 		new /hudobj/Party_Invite(null, parent.client, null, 2)
 
 		if(p.animagusState)
-			new /hudobj/Animagus(null, parent.client, null, show=2)
+			var/hudobj/Animagus/a = new (null, parent.client, null, show=2)
+
+			if(p.animagusOn)
+				usr=p
+				a.Click()
 
 		if(p.StatPoints > 0)
 			new /hudobj/UseStatpoints(null, parent.client, null, show=2)
@@ -1058,6 +1063,14 @@ mob/Player
 			set name = ".toggleInfoBubble"
 
 			infoBubble = !infoBubble
+
+		setAutoLoad()
+			set hidden=1
+			set name = ".setAutoLoad"
+
+			var/PlayerData/p = initPlayer(ckey)
+
+			p.autoLoad = !p.autoLoad
 
 		hideHud()
 			set hidden=1

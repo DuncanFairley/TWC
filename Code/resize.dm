@@ -127,7 +127,13 @@ client
 			//	src << output(null,"browser1:CenterWindow")
 
 				if(isplayer(mob)) // if mapbrowser loaded after login()
+					src << output(mob:MapZoom, "browser1:SetZoom")
 					src << output(mob:House,"browser1:Login")
+
+					if(mob:foreColor != "#000000")
+						src << output("[mob:foreColor]","browser1:ForeColor")
+					if(mob:backColor != "#f0f0f0")
+						src << output("[mob:backColor]","browser1:BackColor")
 
 		onResize(VW as num,VH as num,BX as num,BY as num,Z as num)
 			set hidden = 1
@@ -150,13 +156,15 @@ client
 	New()
 		..()
 		initMapBrowser()
+
 	proc
 		initMapBrowser()
 			set waitfor = 0
-			sleep(1)
+			sleep(2)
 			while(!browser_loaded)
 				src << browse('mapbrowser.html',"window=browser1")
 				sleep(50)
+
 
 hudobj
 	icon               = 'HUD.dmi'

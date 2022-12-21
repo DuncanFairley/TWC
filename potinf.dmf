@@ -192,6 +192,11 @@ menu "menu"
 		category = "&File"
 		saved-params = "is-checked"
 	elem 
+		name = "Set Map Zoom"
+		command = "SetZoom"
+		category = "&File"
+		saved-params = "is-checked"
+	elem 
 		name = "&Quit"
 		command = ".quit"
 		category = "&File"
@@ -200,11 +205,6 @@ menu "menu"
 		name = "&Settings"
 		command = ""
 		is-disabled = true
-		saved-params = "is-checked"
-	elem 
-		name = "Zoom Factor"
-		command = "SetZoom"
-		category = "&Settings"
 		saved-params = "is-checked"
 	elem "mnu_radio"
 		name = "TWC Radio"
@@ -1098,7 +1098,6 @@ window "mapwindow"
 		size = 645x490
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "pos;size;"
 		titlebar = false
 		statusbar = false
@@ -1106,15 +1105,12 @@ window "mapwindow"
 		can-minimize = false
 		can-resize = false
 		is-pane = true
-		outer-size = 659x504
-		inner-size = 645x490
 	elem "browser1"
 		type = BROWSER
 		pos = 0,0
 		size = 645x490
 		anchor1 = 0,0
 		anchor2 = 100,100
-		background-color = none
 		saved-params = ""
 	elem "map"
 		type = MAP
@@ -1580,6 +1576,17 @@ window "winSettings"
 		macro = "macro"
 		outer-size = 386x334
 		inner-size = 370x295
+	elem "butAutoLoad"
+		type = BUTTON
+		pos = 137,244
+		size = 79x20
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = none
+		saved-params = "is-checked"
+		text = "Auto Load"
+		command = ".setAutoLoad"
+		button-type = checkbox
 	elem "label4"
 		type = LABEL
 		pos = 236,7
