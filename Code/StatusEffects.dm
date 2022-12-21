@@ -456,7 +456,16 @@ StatusEffect
 		Deactivate()
 			var/mob/Player/p = AttachedAtom
 			if(p)
+
+				var/onLava = 0
+
 				if(istype(p.loc, /turf/lava))
+					onLava = 1
+				else
+					var/obj/boss/deathdot/d = locate() in p.loc
+					if(d && d.active) onLava = 1
+
+				if(onLava)
 					scheduler.schedule(AttachedEvent,30)
 					new /hudobj/Cooldown (null, p.client, null, "Inflamari", 3, show=1)
 					return
