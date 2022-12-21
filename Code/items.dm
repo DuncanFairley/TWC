@@ -2632,7 +2632,7 @@ obj/items/wearable/invisibility_cloak
 				if(W != src)
 					W.Equip(owner,1,1)
 
-			var/a = clamp(round((world.realtime - time) / 36000), 0, 255)
+			var/a = clamp(round((world.realtime - time) / 432000), 0, 255)
 			if(!overridetext) owner << infomsg("You put on the cloak and become invisible to others.")
 
 			if(!owner.cloakReflection)
