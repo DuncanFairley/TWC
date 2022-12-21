@@ -5320,6 +5320,16 @@ obj/items/wearable/ring/snowring
 	monsterDmg = 3
 	monsterDef = 3
 
+obj/items/wearable/ring/mage
+	icon='ammy.dmi'
+	icon_state="snow"
+	name="mage's ring"
+	desc="Expands your maximum magic ability."
+	suffix = "<span style=\"color:#ffa500;\">Expands your maximum magic ability.</span>"
+	monsterDmg = 3
+	monsterDef = 3
+	extraMP    = 2400
+
 obj/items/wearable/ring/aetherwalker_ring
 	icon='ammy.dmi'
 	icon_state="snow"
