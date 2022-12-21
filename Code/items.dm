@@ -63,6 +63,13 @@ area
 				var/obj/items/wearable/shield/i = locate() in p.Lwearing
 				if(i) i.Equip(p, 1)
 
+				if(worldData.passives) p.passives = null
+			else if(!antiEffect && worldData.passives && !p.passives)
+
+				p.passives = list()
+				for(var/e in worldData.passives)
+					p.passives[e] += 1
+
 			if(antiSpellbook)
 				if(p.usedSpellbook) p.usedSpellbook.Equip(p, 1)
 
