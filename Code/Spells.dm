@@ -103,7 +103,7 @@ mob/Spells/verb/Accio_Maxima()
 	set waitfor = 0
 	if(canUse(src,cooldown=/StatusEffect/UsedAccio,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		var/mob/Player/p = src
-		new /StatusEffect/Summoned(src,10*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/Summoned(src,10*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, "Accio Maxima")
 		hearers(client.view, p)<< " <b>[p]:<i><font color=aqua> Accio Maxima!</i>"
 		p.learnSpell("Accio Maxima")
 
@@ -154,7 +154,7 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 			del popup
 		if(!M) return
 		if(!(M in ohearers(client.view))) return
-		new /StatusEffect/Summoned(src,10*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/Summoned(src,10*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 		p.MP = max(p.MP - mpCost, 0)
 		p.updateMP()
 		if(p.prevname)
@@ -259,7 +259,7 @@ mob/Spells/verb/Protego()
 
 	if(!p.reflect)
 		if(canUse(src,cooldown=/StatusEffect/UsedProtego,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
-			new /StatusEffect/UsedProtego(src,40*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier,"Protego")
+			new /StatusEffect/UsedProtego(src,40*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 			p.overlays += /obj/Shield
 			hearers()<< "<b><span style=\"color:red;\">[usr]</b></span>: PROTEGO!"
 			p << "You shield yourself magically"
@@ -413,7 +413,7 @@ mob/Spells/verb/Morsmordre()
 			src << errormsg("A dark mark already exists in the sky.")
 			return
 
-		new /StatusEffect/UsedClanAbilities(src, 600)
+		new /StatusEffect/UsedClanAbilities(src, 600, "Morsmordre")
 		D = new (locate(src.x,src.y+1,src.z))
 		D.density=0
 		D.owner = ckey
@@ -525,7 +525,7 @@ mob/Spells/verb/Aggravate()
 		hearers()<<"<b><span style=\"color:red;\">[p]</b></span>: <b><font size=3><font color=white>Aggravate!"
 		p.MP -= mpCost
 
-		new /StatusEffect/UsedAggro(src, 20*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedAggro(src, 20*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 
 		p.monsterDef += 10
 		p.HP = min(p.MHP, p.HP + 500)
@@ -566,7 +566,7 @@ mob/Spells/verb/Basilio()
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		new /StatusEffect/Summoned(src,30*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/Summoned(src,30*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 
 		p.MP -= mpCost
 		p.updateMP()
@@ -598,7 +598,7 @@ mob/Spells/verb/Serpensortia()
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		new /StatusEffect/Summoned(src,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/Summoned(src,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 
 		p.MP -= mpCost
 		p.updateMP()
@@ -644,7 +644,7 @@ mob/Spells/verb/Shelleh()
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedShelleh,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
-		new /StatusEffect/UsedShelleh(src,60*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedShelleh(src,60*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, spellName)
 		hearers()<<"<b><span style=\"color:red;\">[usr]:</span> <font color=white>Shelleh."
 
 		p.MP -= mpCost
@@ -662,7 +662,7 @@ mob/Spells/verb/Shelleh()
 mob/Spells/verb/Ferula()
 	set category = "Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedFerula,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		new /StatusEffect/UsedFerula(src, 60*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedFerula(src, 60*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, "Ferula")
 		var/obj/Madame_Pomfrey/p = new /obj/Madame_Pomfrey (loc, 500)
 
 		var/turf/t = locate(x,y+1,z)
@@ -690,7 +690,7 @@ mob/Spells/verb/Avis()
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		new /StatusEffect/Summoned(src,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/Summoned(src,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 
 		p.MP -= mpCost
 		p.updateMP()
@@ -717,7 +717,7 @@ mob/Spells/verb/Crapus_Sticketh()
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		new /StatusEffect/Summoned(src,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/Summoned(src,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 
 		p.MP -= mpCost
 		p.updateMP()
@@ -797,7 +797,7 @@ mob/Spells/verb/Incarcerous()
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=mpCost,againstocclumens=1))
-		new /StatusEffect/UsedStun(src,10*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier,"Incarcerous")
+		new /StatusEffect/UsedStun(src,10*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, spellName)
 		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Incarcerous!</b>"
 
 		castproj(MPreq = mpCost, Type = /obj/projectile/Bind { time = 3 }, icon_state = "bind", name = "Incarcerous", lag = 1)
@@ -829,7 +829,7 @@ mob/Spells/verb/Reducto()
 			return
 		if(p.GMFrozen) return
 
-		new /StatusEffect/UsedReducto(src,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier,"Reducto")
+		new /StatusEffect/UsedReducto(src,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 
 		p.MP -= mpCost
 		p.updateMP()
@@ -854,7 +854,7 @@ mob/Spells/verb/Reparo()
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedReparo,needwand=1,insafezone=1,inhogwarts=1,mpreq=mpCost))
-		new /StatusEffect/UsedReparo(src,10*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier,"Reparo")
+		new /StatusEffect/UsedReparo(src,10*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 		hearers(client.view,src) << "[src]: <b>Reparo!</b>"
 		p.MP -= mpCost
 		p.updateMP()
@@ -903,7 +903,7 @@ mob/Spells/verb/Petreficus_Totalus()
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedStun,needwand=1,inarena=1,insafezone=1,inhogwarts=1,mpreq=mpCost,againstocclumens=1))
-		new /StatusEffect/UsedStun(src,10*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier,"Petrificus Totalus")
+		new /StatusEffect/UsedStun(src,10*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, spellName)
 		hearers(usr.client.view, usr)<<"<b><span style=\"color:red;\">[usr]</span>:<b> Petrificus Totalus!</b>"
 
 		castproj(MPreq = mpCost, Type = /obj/projectile/Bind { min_time = 1; max_time = 10 }, icon_state = "stone", name = spellName, lag = 1)
@@ -1349,7 +1349,7 @@ mob/Spells/verb/Incindia()
 		hearers()<<"[src] raises \his wand into the air. <font color=red><b><i>INCINDIA!</b></i>"
 		p.MP-=mpCost
 		p.updateMP()
-		new /StatusEffect/UsedIncindia(src,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier,"Incindia")
+		new /StatusEffect/UsedIncindia(src,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 		var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 		var/damage = round((p.Dmg + p.clothDmg + p.Fire.level) * 0.75)
 		p.learnSpell(spellName)
@@ -1997,7 +1997,7 @@ mob/Spells/verb/Episky()
 			cd = 15
 		else
 			cd = 20
-		new /StatusEffect/UsedEpiskey(src,cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier,"Episkey")
+		new /StatusEffect/UsedEpiskey(src,cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 
 		var/percent = 0
 
