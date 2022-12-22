@@ -550,11 +550,13 @@ hudobj
 				var/offset = -36
 				for(var/c in p.holster.colors)
 
-					var/list/params = list("screen_x" = offset, "color" = c == "blood" ? "#a00" : c)
+					var/selectedColor = c == "blood" ? "#a00" : c
+					var/list/params = list("screen_x" = offset, "color" = selectedColor)
 
 					var/hudobj/color_pick/cp = new (null, p.client, params, 1)
 
-					cp.filters = filter(type="outline", size=2, color = c == "blood" ? "#a00" : c)
+					if(selectedColor in p.holster.selectedColors)
+						cp.filters = filter(type="outline", size=2, color = selectedColor)
 
 					offset -= 32
 
