@@ -823,6 +823,8 @@ obj/items/wearable
 
 			if(s) lines += s
 
+			if(desc) lines += desc
+
 			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[jointext(lines, "\n")]\"")
 			winshowRight(usr, "infobubble")
 
