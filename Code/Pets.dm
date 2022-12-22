@@ -154,6 +154,9 @@ obj/items/wearable/pets
 					owner.pet.owner = owner.ckey
 				owner.pet.alpha = 0
 				owner.pet.glide_size = owner.glide_size
+
+				if(locate(/obj/items/wearable/cog) in owner.Lwearing)
+					owner.pet.convert = 1
 		//	else
 		//		owner.pet.isDisposing = 0
 		//		owner.pet.refresh(5)
@@ -323,6 +326,8 @@ obj/pet
 			wander = 0
 
 			list/fetch
+
+			convert = 0
 
 	New(loc, obj/items/wearable/pets/pet)
 		set waitfor = 0
@@ -496,10 +501,20 @@ obj/pet
 				sleep(2)
 
 			if(p && item.loc == p && i && i.loc && i.loc == tempLoc)
-				i.owner = null
-				i.Move(p)
-				i.antiTheft = 0
-				i.filters = null
+
+				var/isLegendary = istype(i, /obj/items/wearable) && i:bonus == 0
+
+				if(isLegendary && convert >= isLegendary)
+					var/obj/items/artifact/a = new
+					a.stack = i.stack * (1 + i:quality)
+					a.UpdateDisplay()
+					a.Move(p)
+					i.Dispose()
+				else
+					i.owner = null
+					i.Move(p)
+					i.antiTheft = 0
+					i.filters = null
 
 		fetch = null
 		glide_size = glide

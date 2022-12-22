@@ -835,10 +835,13 @@ mob
 				prize = pick(drops_list["legendary"])
 				prize = new prize (loc)
 
-				if(istype(prize, /obj/items/wearable) && prize:bonus == 0)
+				var/isLegendary = istype(prize, /obj/items/wearable) && prize:bonus == 0
+				var/textColor = "#FFA500"
 
-					if(prob(1 + hardmode*2))
+				if(isLegendary)
+					if(prob(hardmode*2))
 						prize:Upgrade(5 + rand(0, 5))
+						textColor = "#551a8b"
 
 					if(prob(10))
 						prize:bonus = 3
@@ -847,7 +850,7 @@ mob
 						prize.name += " +[lvl]"
 
 				prize.prizeDrop(killer.ckey, decay=1)
-				killer << colormsg("<i>[name] dropped [prize.name]</i>", "#FFA500")
+				killer << colormsg("<i>[name] dropped [prize.name]</i>", textColor)
 				killer.pity = 0
 
 				if(killer.pet)

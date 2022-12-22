@@ -5883,6 +5883,41 @@ obj/items/wearable/seal_bracelet
 
 				viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
 
+obj/items/wearable/cog
+
+	rarity = 3
+	showoverlay = FALSE
+
+	icon = 'trophies.dmi'
+	icon_state = "cog"
+
+	desc = "Converts legendries to artifacts when picked up by pets."
+
+	var/tier = 1
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		. = ..(owner)
+		if(forceremove)return 0
+		if(. == WORN)
+			src.gender = owner.gender
+
+			if(owner.pet) owner.pet.convert = tier
+
+			for(var/obj/items/wearable/cog/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+
+			if(!overridetext)
+				viewers(owner) << infomsg("[owner] equips \his [name].")
+
+		else if(. == REMOVED)
+
+			if(owner.pet) owner.pet.convert = 0
+
+			if(!overridetext)
+				viewers(owner) << infomsg("[owner] puts \his [name] away.")
+
+
 obj/items/wearable/wand_holster
 
 	rarity = 3
