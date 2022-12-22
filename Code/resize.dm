@@ -130,10 +130,10 @@ client
 					src << output(mob:MapZoom, "browser1:SetZoom")
 					src << output(mob:House,"browser1:Login")
 
-					if(mob:foreColor != "#000000")
-						src << output("[mob:foreColor]","browser1:ForeColor")
-					if(mob:backColor != "#f0f0f0")
-						src << output("[mob:backColor]","browser1:BackColor")
+					if(mob:backColor == "#ffffff" && mob:foreColor == "#ffffff")
+						mob:foreColor = "#000000"
+					src << output("[mob:foreColor]","browser1:ForeColor")
+					src << output("[mob:backColor]","browser1:BackColor")
 
 		onResize(VW as num,VH as num,BX as num,BY as num,Z as num)
 			set hidden = 1

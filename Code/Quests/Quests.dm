@@ -905,10 +905,11 @@ interface
 		hpbar = new(null, p, "WEST", 16, "NORTH", -1)
 		mpbar = new(null, p, "WEST", 16, "NORTH", -16, mana=1)
 
-		if(p.foreColor != "#000000")
-			p << output("[p.foreColor]","browser1:ForeColor")
-		if(p.backColor != "#f0f0f0")
-			p << output("[p.backColor]","browser1:BackColor")
+		if(p.backColor == "#ffffff" && p.foreColor == "#ffffff")
+			p.foreColor = "#000000"
+
+		p << output("[p.foreColor]","browser1:ForeColor")
+		p << output("[p.backColor]","browser1:BackColor")
 
 		Update()
 
