@@ -468,7 +468,7 @@ obj
 				density = 0
 				var/sparks = 0
 
-				var/rate        = 3 + p.dropRate/100
+				var/rate        = 4 + p.dropRate/100
 				var/rate_factor = worldData.DropRateModifier
 
 				if(p.House == worldData.housecupwinner)
@@ -477,13 +477,13 @@ obj
 				var/isChest = icon_state == "chest" || icon_state == "chest2" || icon_state == "gift"
 
 				if(isChest)
-					rate += 1 + (p.TreasureHunting.level*2)/100
+					rate += 4 + (p.TreasureHunting.level*4)/100
 
-					p.TreasureHunting.add((p.level + p.TreasureHunting.level + rand(10)) * 50, p, 1)
+					p.TreasureHunting.add((p.level + p.TreasureHunting.level + rand(12)) * 50, p, 1)
 				else if(icon_state == "spellcrafting")
-					rate += 1 + (p.Spellcrafting.level*2)/100
+					rate += 4 + (p.Spellcrafting.level*4)/100
 
-					p.Spellcrafting.add((p.level + p.Spellcrafting.level + rand(10)) * 50, p, 1)
+					p.Spellcrafting.add((p.level + p.Spellcrafting.level + rand(12)) * 50, p, 1)
 
 				if(p.guild) rate += p.getGuildAreas() * 0.1
 
@@ -551,12 +551,13 @@ obj
 												/obj/items/crystal/damage  = 1,
 												/obj/items/crystal/luck    = 1))
 
-					prize = new prize (loc, round(p.level/50))
+					prize = new prize (loc, round(p.level/50) + rand(1,4))
 					prize.prizeDrop(p.ckey, decay=1)
 					p << infomsg("<i>You found [prize.name]</i>")
 					if(p.pet)
 						p.pet.fetch(prize)
-				else if(prob(base * rate))
+
+				if(prob(base * rate))
 					sparks = 1
 					var/obj/items/prize = pick(drops_list["legendary"])
 					prize = new prize (loc)
@@ -592,7 +593,7 @@ obj/static_obj/walltorch
 		if(post_init && loc.density)
 			var/area/a = loc.loc
 			if(a.region)
-				if((!a.region.lootSpawns || a.region.lootSpawns.len < 10) && prob(40))
+				if((!a.region.lootSpawns || a.region.lootSpawns.len <= 12) && prob(40))
 					var/turf/t = locate(x, y-2, z)
 					if(t && !t.density)
 						if(!a.region.lootSpawns)
