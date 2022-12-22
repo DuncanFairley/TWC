@@ -881,6 +881,8 @@ obj/items/wearable
 				rarity = 4
 				name   = "cursed [name]"
 
+				scale += 0.3 * scale
+
 			max_stack = 0
 			power = basePower
 
@@ -888,7 +890,7 @@ obj/items/wearable
 
 			for(var/s = 1 to stats)
 				var/stat = pick("monsterDef", "monsterDmg",	"dropRate",	"clothDmg", "clothDef", "extraMP")
-				effects[stat] = (random ? rand(1, basePower) : basePower) * getStatFactor(stat)
+				effects[stat] = (random ? rand(stats, basePower) : basePower) * getStatFactor(stat)
 
 
 obj/items/wearable/Destroy(var/mob/Player/owner)
