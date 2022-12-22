@@ -1918,11 +1918,16 @@ mob/Spells/verb/Avada_Kedavra()
 				     life   = new /Random(20,35),
 				     color  = "#0c0")
 
-				target.onDamage(target.MHP, p)
-				target.Death_Check(p)
+				if(target.reflect)
+					var/d = p.onDamage(target.MHP * target.reflect, p)
+					p << errormsg("Your spell got reflected, you inflicted [d] to yourself.")
+					p.Death_Check(p)
+				else
+					target.onDamage(target.MHP, p)
+					target.Death_Check(p)
 
-				p.HP = min(round(p.HP + target.MHP*0.3, 1), p.MHP)
-				p.updateHP()
+					p.HP = min(round(p.HP + target.MHP*0.3, 1), p.MHP)
+					p.updateHP()
 			else
 				var/dmg = p.onDamage(p.MHP * 0.3, target)
 				p << infomsg("[target] soul wasn't weakened enough, you took [dmg] damage!")
