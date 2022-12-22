@@ -7,7 +7,7 @@ var map_height;
 var win_name;
 var map_zoom = 1;
 var resizing = 1;
-var version = 4;
+var version = 5;
 
 function CallVerb() {
     var locstr = "byond://winset?command=" + arguments[0];
@@ -38,7 +38,7 @@ window.onresize = function() {
 
 window.onload = function() {
 	resizing = 1
-	setTimeout(loginEvents, 100);
+	setTimeout(loginEvents, 50);
 };
 
 function loginEvents() {
