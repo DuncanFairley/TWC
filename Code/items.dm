@@ -4383,6 +4383,27 @@ obj/items
 				Consume()
 			else
 				..()
+
+	mystery_artifact
+		icon = 'trophies.dmi'
+		icon_state = "Ring"
+		rarity = 3
+
+		desc = "Click to get a random artifact."
+
+		Click()
+			if(src in usr)
+
+				var/list/l = (drops_list["legendary"]).Copy(LEGENDARY_INDEX)
+
+				var/obj/items/wearable/prize = pick(l)
+				prize = new prize (usr)
+
+				usr << colormsg("<i>You received [prize.name].</i>", "#FFA500")
+				Consume()
+			else
+				..()
+
 	mystery_chest
 		icon = 'Chest.dmi'
 		icon_state = "golden"

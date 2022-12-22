@@ -6,6 +6,8 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 							/obj/items/mystery_key,
 						    /obj/items/wearable/orb/magic,
 							/obj/items/wearable/orb/magic/greater,
+					        /obj/items/wearable/spellbook,
+					        /obj/items/seeds/artifact_seeds,
                             /obj/items/wearable/ring/snowring,
 					        /obj/items/wearable/ring/aetherwalker_ring,
 					        /obj/items/wearable/ring/ring_of_displacement,
@@ -45,8 +47,6 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 					        /obj/items/wearable/sword/nurse,
 					        /obj/items/wearable/ring/guardian_ring,
 					        /obj/items/wearable/ring/berserker_ring,
-					        /obj/items/wearable/spellbook,
-					        /obj/items/seeds/artifact_seeds,
 					        /obj/items/wearable/sword/ghost),
 
 "Bubbles the Spider" = list(/obj/items/key/basic_key,
