@@ -2579,7 +2579,7 @@ mob/Player
 
 			if(!findStatusEffect(/StatusEffect/DodgedDeath))
 				dmg = 0
-				new /StatusEffect/DodgedDeath(src, 50)
+				new /StatusEffect/DodgedDeath(src, 100)
 
 		HP -= dmg
 		updateHP()
