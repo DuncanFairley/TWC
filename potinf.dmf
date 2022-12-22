@@ -163,7 +163,7 @@ macro "macro"
 		command = ".northeast"
 	elem 
 		name = "F3"
-		command = ".winset \"mainvsplit.right==rpane?mainvsplit.right=mapwindow:mainvsplit.right=rpane\""
+		command = ".winset \"mainvsplit.right==rpane?mainvsplit.right=mapwindow:mainvsplit.right=rpane;mainwindow.mainvsplit.left=mapwindow\""
 
 
 menu "menu"
