@@ -2197,7 +2197,7 @@ obj/items/wearable/wands/light_wand
 	displayColor = "#64c8ff"
 
 obj/items/wearable/wigs
-	price = 500000
+	price = 2000000
 	bonus = 0
 	desc = "A wig to hide those dreadful split ends."
 	wear_layer = FLOAT_LAYER - 4

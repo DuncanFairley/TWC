@@ -458,15 +458,15 @@ mob/TalkNPC/Vault_Salesman
 		..()
 		icon_state = "goblin[rand(1,3)]"
 
-		itemlist["Free Vault - Free!"]                                  = list("1",       0)
-		itemlist["Medium Vault - 3 platinum coins and 30 artifacts"]    = list("_med",    30)
-		itemlist["Big Vault - 6 platinum coins and 60 artifacts"]       = list("_big",    60)
-		itemlist["Huge Vault - 10 platinum coins and 100 artifacts"]    = list("_huge",   100)
-		itemlist["2 Rooms Vault - 15 platinum coins and 150 artifacts"] = list("_2rooms", 150)
-		itemlist["4 Rooms Vault - 24 platinum coins and 240 artifacts"] = list("_4rooms", 240)
-		itemlist["Luxury Vault - 36 platinum coins and 360 artifacts"]  = list("_luxury", 360)
-		itemlist["HQ Vault - 40 platinum coins and 400 artifacts"]      = list("_hq",     400)
-		itemlist["Wizard Vault - 66 platinum coins, 60 gold coins and 666 artifacts"]  = list("_wizard", 666)
+		itemlist["Free Vault - Free!"]                                   = list("1",       0)
+		itemlist["Medium Vault - 10 platinum coins and 100 artifacts"]   = list("_med",    100)
+		itemlist["Big Vault - 20 platinum coins and 200 artifacts"]      = list("_big",    200)
+		itemlist["Huge Vault - 30 platinum coins and 300 artifacts"]     = list("_huge",   300)
+		itemlist["2 Rooms Vault - 40 platinum coins and 400 artifacts"]  = list("_2rooms", 400)
+		itemlist["4 Rooms Vault - 60 platinum coins and 600 artifacts"]  = list("_4rooms", 600)
+		itemlist["Luxury Vault - 90 platinum coins and 900 artifacts"]   = list("_luxury", 900)
+		itemlist["HQ Vault - 100 platinum coins and 1000 artifacts"]     = list("_hq",     1000)
+		itemlist["Wizard Vault - 200 platinum coins and 2000 artifacts"] = list("_wizard", 2000)
 
 	Talk()
 		set src in oview(2)
@@ -592,27 +592,27 @@ proc
 		return n==round(n)
 
 
-obj/items/wearable/shoes/green_shoes/price = 1000000
-obj/items/wearable/shoes/blue_shoes/price = 1000000
-obj/items/wearable/shoes/red_shoes/price = 1000000
-obj/items/wearable/shoes/yellow_shoes/price = 1000000
-obj/items/wearable/shoes/white_shoes/price = 2000000
-obj/items/wearable/shoes/orange_shoes/price = 2000000
-obj/items/wearable/shoes/teal_shoes/price = 2000000
-obj/items/wearable/shoes/purple_shoes/price = 2000000
-obj/items/wearable/shoes/black_shoes/price = 2000000
-obj/items/wearable/shoes/pink_shoes/price = 2000000
-obj/items/wearable/scarves/yellow_scarf/price = 100000
-obj/items/wearable/scarves/black_scarf/price = 800000
-obj/items/wearable/scarves/blue_scarf/price = 100000
-obj/items/wearable/scarves/green_scarf/price = 800000
-obj/items/wearable/scarves/orange_scarf/price = 100000
-obj/items/wearable/scarves/pink_scarf/price = 800000
-obj/items/wearable/scarves/purple_scarf/price = 1000000
-obj/items/wearable/scarves/red_scarf/price = 800000
-obj/items/wearable/scarves/teal_scarf/price = 1000000
-obj/items/wearable/scarves/white_scarf/price = 1000000
-obj/items/wearable/bling/price = 200000
+obj/items/wearable/shoes/green_shoes/price = 4000000
+obj/items/wearable/shoes/blue_shoes/price = 4000000
+obj/items/wearable/shoes/red_shoes/price = 4000000
+obj/items/wearable/shoes/yellow_shoes/price = 4000000
+obj/items/wearable/shoes/white_shoes/price = 8000000
+obj/items/wearable/shoes/orange_shoes/price = 8000000
+obj/items/wearable/shoes/teal_shoes/price = 8000000
+obj/items/wearable/shoes/purple_shoes/price = 8000000
+obj/items/wearable/shoes/black_shoes/price = 8000000
+obj/items/wearable/shoes/pink_shoes/price = 8000000
+obj/items/wearable/scarves/yellow_scarf/price = 400000
+obj/items/wearable/scarves/black_scarf/price = 3000000
+obj/items/wearable/scarves/blue_scarf/price = 400000
+obj/items/wearable/scarves/green_scarf/price = 3000000
+obj/items/wearable/scarves/orange_scarf/price = 400000
+obj/items/wearable/scarves/pink_scarf/price = 3000000
+obj/items/wearable/scarves/purple_scarf/price = 4000000
+obj/items/wearable/scarves/red_scarf/price = 3000000
+obj/items/wearable/scarves/teal_scarf/price = 4000000
+obj/items/wearable/scarves/white_scarf/price = 4000000
+obj/items/wearable/bling/price = 800000
 
 proc/RandomizeShop()
 	while(length(shops["random"]))
