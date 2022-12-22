@@ -912,6 +912,10 @@ interface
 
 		Update()
 
+		if(p.WasdMovement)
+			spawn(1)
+				p.ToggleWASD()
+
 	proc/Update()
 		if(parent.HideQuestTracker && quest)
 			parent.client.screen -= quest
@@ -1073,6 +1077,14 @@ mob/Player
 			var/PlayerData/p = initPlayer(ckey)
 
 			p.autoLoad = !p.autoLoad
+
+		toggleWASDMovement()
+			set hidden=1
+			set name = ".toggleWasdMovement"
+
+			WasdMovement = !WasdMovement
+
+			ToggleWASD()
 
 		hideHud()
 			set hidden=1

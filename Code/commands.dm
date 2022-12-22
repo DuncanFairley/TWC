@@ -71,6 +71,11 @@ mob
 			else
 				winset += "winSettings.butAutoLoad.is-checked=false;"
 
+			if(p.WasdMovement)
+				winset += "butWASD.is-checked=true;"
+			else
+				winset += "butWASD.is-checked=false;"
+
 			switch(p.BeepType)
 				if(1)
 					winset += "winSettings.buttonBeep.is-checked=true;"

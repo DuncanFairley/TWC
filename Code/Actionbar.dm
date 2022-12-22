@@ -1,3 +1,36 @@
+mob/Player
+	var/WasdMovement = 0
+	proc/ToggleWASD()
+
+		if(WasdMovement)
+			winset(src, "w", "parent=macro;name=\"w\";command=\"MoveKey 1 1\"")
+			winset(src, "wup", "parent=macro;name=\"w+up\";command=\"MoveKey 1 0\"")
+
+			winset(src, "s", "parent=macro;name=\"s\";command=\"MoveKey 2 1\"")
+			winset(src, "sup", "parent=macro;name=\"s+up\";command=\"MoveKey 2 0\"")
+
+			winset(src, "d", "parent=macro;name=\"d\";command=\"MoveKey 4 1\"")
+			winset(src, "dup", "parent=macro;name=\"d+up\";command=\"MoveKey 4 0\"")
+
+			winset(src, "a", "parent=macro;name=\"a\";command=\"MoveKey 8 1\"")
+			winset(src, "aup", "parent=macro;name=\"a+up\";command=\"MoveKey 8 0\"")
+
+			src << infomsg("WASD movement on.")
+		else
+			winset(src, "macro.w", "parent=")
+			winset(src, "macro.wup", "parent=")
+
+			winset(src, "macro.s", "parent=")
+			winset(src, "macro.sup", "parent=")
+
+			winset(src, "macro.d", "parent=")
+			winset(src, "macro.dup", "parent=")
+
+			winset(src, "macro.a", "parent=")
+			winset(src, "macro.aup", "parent=")
+
+			src << infomsg("WASD movement off.")
+
 hudobj
 	actionbar
 		icon_state = "actionbarbox"
