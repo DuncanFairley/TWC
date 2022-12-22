@@ -70,6 +70,7 @@
 // BEGIN_INCLUDE
 #include <audeuro\inireader2\INI Reader 2\INI Reader 2.dme>
 #include <rotem12\colormatrix\ColorMatrix.dme>
+#include <rotem12\lightning\Lightning.dme>
 #include <stephen001\eventscheduling\Events\Events.dme>
 #include <stephen001\log4dm\log4dm.dme>
 #include <theodis\pathfinder\Pathfinder.dme>
