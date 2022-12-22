@@ -1879,10 +1879,11 @@ mob/Spells/verb/Avada_Kedavra()
 	var/tier = round(log(10, uses)) - 1
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
-	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
+	if(canUse(src,cooldown=/StatusEffect/UsedAvada,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
 		var/min_dist = 5
 
 		var/mob/Player/target
+
 		for(var/mob/Player/M in oview(5))
 			var/dist = get_dist(src, M)
 			if(min_dist > dist)
@@ -1890,7 +1891,13 @@ mob/Spells/verb/Avada_Kedavra()
 				min_dist = dist
 
 		if(target)
+			var/area/a = target.loc.loc
+			if(a.timedProtection && (lastHostile == 0 || world.time - lastHostile > 600)) target = null
+
+		if(target)
 			if(target.HP < target.MHP * 0.3)
+
+				new /StatusEffect/UsedAvada(src,5*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier,spellName)
 
 				var/vector/start = new (p.x      * world.icon_size + world.icon_size / 2, p.y      * world.icon_size + world.icon_size / 2)
 				var/vector/dest  = new (target.x * world.icon_size + world.icon_size / 2, target.y * world.icon_size + world.icon_size / 2)
@@ -1913,7 +1920,6 @@ mob/Spells/verb/Avada_Kedavra()
 
 				p.HP = min(round(p.HP + target.MHP*0.3, 1), p.MHP)
 				p.updateHP()
-
 			else
 				var/dmg = p.onDamage(p.MHP * 0.3, target)
 				p << infomsg("[target] soul wasn't weakened enough, you took [dmg] damage!")

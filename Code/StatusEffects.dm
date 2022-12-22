@@ -394,6 +394,7 @@ StatusEffect
 	UsedAccio
 	UsedTelendevour
 	UsedOcclumency
+	UsedAvada
 	Permoveo
 	UsedDisperse
 	SpellText
