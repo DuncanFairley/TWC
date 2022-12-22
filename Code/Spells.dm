@@ -447,10 +447,12 @@ mob/Spells/verb/Repellium()
 			time--
 			sleep(4)
 
-proc/light(atom/a, range=3, ticks=100, state = "light")
+proc/light(atom/a, range=3, ticks=100, state = "light", color)
 	var/image/img = image('lights.dmi',state)
+	img.appearance_flags = PIXEL_SCALE
 	img.transform *= range * 2 + 1
 	img.layer = 8
+	if(color) img.color = color
 
 	a.underlays += img
 	if(ticks != 0)
@@ -1856,6 +1858,16 @@ mob/Spells/verb/Telendevour()
 
 //AVADA//
 
+bolt/boltFix
+
+	New(vector/source, vector/dest, fade = 50)
+		..(source, dest, fade)
+
+		src.fade = fade
+
+obj/segment/segmentFix
+	appearance_flags = PIXEL_SCALE
+
 mob/Spells/verb/Avada_Kedavra()
 	set category="Spells"
 
@@ -1868,11 +1880,49 @@ mob/Spells/verb/Avada_Kedavra()
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
+		var/min_dist = 5
 
-		var/dmg = usr.Dmg + clothDmg + usr:Ghost.level
-		dmg = round(dmg + dmg * 0.35, 1)
+		var/mob/Player/target
+		for(var/mob/Player/M in oview(5))
+			var/dist = get_dist(src, M)
+			if(min_dist > dist)
+				target = M
+				min_dist = dist
 
-		castproj(MPreq = mpCost, Type = /obj/projectile/Avada, damage = dmg * ((100 + tier*2) / 100), icon_state = "avada", name = spellName, element = GHOST, lag = 0, cd=4)
+		if(target)
+			if(target.HP < target.MHP * 0.3)
+
+				var/vector/start = new (p.x      * world.icon_size + world.icon_size / 2, p.y      * world.icon_size + world.icon_size / 2)
+				var/vector/dest  = new (target.x * world.icon_size + world.icon_size / 2, target.y * world.icon_size + world.icon_size / 2)
+
+				var/bolt/boltFix/b = new(start, dest, 35)
+				b.Draw(z, /obj/segment/segmentFix, color = "#30ff30", thickness = 1)
+
+				light(b.lastCreatedBolt, 3, 10, "circle", "#30ff30")
+
+				emit(loc    = target.loc,
+					 ptype  = /obj/particle/smoke/proj,
+				     amount = 28,
+				     angle  = new /Random(0, 360),
+				     speed  = 2,
+				     life   = new /Random(20,35),
+				     color  = "#0c0")
+
+				target.onDamage(target.MHP, p)
+				target.Death_Check(p)
+
+				p.HP = min(round(p.HP + target.MHP*0.3, 1), p.MHP)
+				p.updateHP()
+
+			else
+				var/dmg = p.onDamage(p.MHP * 0.3, target)
+				p << infomsg("[target] soul wasn't weakened enough, you took [dmg] damage!")
+				p.Death_Check(target)
+		else
+			var/dmg = usr.Dmg + clothDmg + usr:Ghost.level
+			dmg = round(dmg + dmg * 0.35, 1)
+
+			castproj(MPreq = mpCost, Type = /obj/projectile/Avada, damage = dmg * ((100 + tier*2) / 100), icon_state = "avada", name = spellName, element = GHOST, lag = 0, cd=4)
 
 
 mob/Spells/verb/Apparate()
