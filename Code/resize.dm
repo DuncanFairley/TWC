@@ -552,15 +552,11 @@ hudobj
 
 					var/list/params = list("screen_x" = offset, "color" = c == "blood" ? "#a00" : c)
 
-					new /hudobj/color_pick (null, p.client, params, 1)
+					var/hudobj/color_pick/cp = new (null, p.client, params, 1)
+
+					cp.filters = filter(type="outline", size=2, color = c == "blood" ? "#a00" : c)
 
 					offset -= 32
-
-				if(p.holster.colors.len > 1)
-
-					var/list/params = list("screen_x" = offset, "icon_state" = "random")
-
-					new /hudobj/color_pick (null, p.client, params, 1)
 
 
 		alpha = 110
@@ -591,16 +587,21 @@ hudobj
 		Click()
 			var/mob/Player/p = usr
 
-			if(!color)
-				p.holster.projColor = "random"
-				p << infomsg("Random color selected.")
-				return
-			else if(color == "#a00")
-				p.holster.projColor = "blood"
-			else
-				p.holster.projColor = color
+			if(!p.holster.selectedColors || !(color in p.holster.selectedColors))
 
-			p << infomsg("New <span style=\"color:[color];\">magical color</span> selected.")
+				if(!p.holster.selectedColors) p.holster.selectedColors = list()
+				p.holster.selectedColors += color
+				filters = filter(type="outline", size=2, color=color)
+
+				p << infomsg("Added <span style=\"color:[color];\">magical color.</span>")
+
+			else
+				p.holster.selectedColors -= color
+				filters = null
+
+				if(!p.holster.selectedColors.len) p.holster.selectedColors = null
+
+				p << infomsg("Removed <span style=\"color:[color];\">magical color.</span>")
 
 	reading
 		icon_state         = "reading"

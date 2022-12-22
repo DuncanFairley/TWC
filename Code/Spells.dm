@@ -1506,8 +1506,8 @@ mob/Spells/verb/Immobulus()
 		o.layer = 6
 		light(o, range=RANGE, ticks=TICKS, state = "rand")
 
-		if(p.holster && p.holster.projColor)
-			o.color = p.holster.projColor
+		if(p.holster && p.holster.selectedColors)
+			o.color = pick(p.holster.selectedColors)
 		else if(p.wand && p.wand.projColor)
 			o.color = p.wand.projColor
 
@@ -2401,12 +2401,12 @@ mob
 
 				if(!P.color)
 					var/c
-					if(p.holster && p.holster.projColor)
+					if(p.holster && p.holster.selectedColors)
 
-						if(p.holster.projColor == "random")
-							c = pick(p.holster.colors)
+						if(p.holster.selectedColors.len > 1)
+							c = pick(p.holster.selectedColors)
 						else
-							c = p.holster.projColor
+							c = p.holster.selectedColors[1]
 					else if(p.wand.projColor)
 						c = p.wand.projColor
 
