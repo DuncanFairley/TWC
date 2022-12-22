@@ -326,6 +326,7 @@ obj/items/spellpage
 			if(p.usedSpellbook.stack > 1)
 				var/obj/items/wearable/spellbook/book = new
 				book.stack = p.usedSpellbook.stack - 1
+				book.UpdateDisplay()
 				book.Move(p)
 				p.usedSpellbook.stack = 1
 				p.usedSpellbook.UpdateDisplay()
