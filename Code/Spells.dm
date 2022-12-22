@@ -1902,6 +1902,9 @@ mob/Spells/verb/Avada_Kedavra()
 				var/vector/start = new (p.x      * world.icon_size + world.icon_size / 2, p.y      * world.icon_size + world.icon_size / 2)
 				var/vector/dest  = new (target.x * world.icon_size + world.icon_size / 2, target.y * world.icon_size + world.icon_size / 2)
 
+				start.X += (EAST & dir) ? 7 : -7
+				start.Y -= 6
+
 				var/bolt/boltFix/b = new(start, dest, 35)
 				b.Draw(z, /obj/segment/segmentFix, color = "#30ff30", thickness = 1)
 
