@@ -2603,6 +2603,8 @@ mob/Player
 				if(!s.target)
 					s.target = attacker
 
+					if(isplayer(attacker)) break
+
 		return dmg
 
 
