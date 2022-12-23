@@ -943,6 +943,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			clothDmg        = null
 
 		var/tmpDef = owner.clothDef
+		var/tmpMP = owner.extraMP
 
 		if(clothDef)
 			owner.clothDef -= clothDef
@@ -953,13 +954,13 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			owner.dropRate   -= socket.luck
 			owner.monsterDmg -= socket.monsterDmg
 			owner.monsterDef -= socket.monsterDef
+			owner.extraMP    -= socket.MP
 		owner.dropRate -= dropRate
 		owner.monsterDmg -= monsterDmg
 		owner.monsterDef -= monsterDef
 		owner.extraLimit -= extraLimit
 		owner.extraCDR -= extraCDR
 
-		var/tmpMP = owner.extraMP
 		if(extraMP)
 			owner.extraMP -= extraMP
 
@@ -972,7 +973,6 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 
 		if(tmpDef != owner.clothDef)
 			owner.resetMaxMP()
-
 
 		if(passive)
 			owner.passives[passive] -= power
@@ -1011,6 +1011,8 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			owner.dropRate   += socket.luck
 			owner.monsterDmg += socket.monsterDmg
 			owner.monsterDef += socket.monsterDef
+			owner.extraMP    += socket.MP
+
 		owner.dropRate += dropRate
 		owner.monsterDmg += monsterDmg
 		owner.monsterDef += monsterDef

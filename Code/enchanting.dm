@@ -347,6 +347,7 @@ obj/items/crystal
 		Def = 0
 		monsterDmg = 0
 		monsterDef = 0
+		MP = 0
 
 	useTypeStack = 1
 	stackName = "Crystals:"
@@ -355,13 +356,17 @@ obj/items/crystal
 	desc = "Drag and drop to item with a empty socket."
 
 	proc/ToString()
-		if(Dmg && Def) return "+[Dmg] Damage +[Def] Defense"
-		if(Dmg) return "+[Dmg] Damage"
-		if(Def) return "+[Def] Defense"
-		if(luck) return "+[luck]% Drop Rate"
-		if(monsterDmg && monsterDef) return "+[monsterDmg]% Damage +[monsterDef]% Defense"
-		if(monsterDmg) return "+[monsterDmg]% Damage"
-		if(monsterDef) return "+[monsterDef]% Defense"
+
+		var/list/lines = list()
+
+		if(Dmg) lines += "+[Dmg] Damage"
+		if(Def) lines += "+[Def] Defense"
+		if(luck) lines += "+[luck]% Drop Rate"
+		if(monsterDmg) lines += "+[monsterDmg]% Damage"
+		if(monsterDef) lines += "+[monsterDef]% Defense"
+		if(MP) lines += "+[MP] MP"
+
+		return jointext(lines, "\n")
 
 	Clone()
 		var/obj/items/crystal/i = new type
@@ -477,6 +482,7 @@ obj/items/crystal
 		bonus = 3
 		Dmg = 10
 		Def = 30
+		MP = 240
 	luck
 		name  = "luck crystal"
 		icon_state = "luck"
