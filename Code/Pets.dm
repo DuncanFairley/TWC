@@ -502,7 +502,9 @@ obj/pet
 
 			if(p && item.loc == p && i && i.loc && i.loc == tempLoc)
 
-				var/isLegendary = istype(i, /obj/items/wearable) && i:bonus == 0
+				var/isLegendary = istype(i, /obj/items/wearable) && (i:bonus == 0 || i:quality)
+
+				if(isLegendary && i.max_stack == 0) isLegendary = 0
 
 				if(isLegendary && convert >= isLegendary)
 					var/obj/items/artifact/a = new
