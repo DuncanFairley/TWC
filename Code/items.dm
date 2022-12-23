@@ -941,10 +941,12 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		if(clothDmg)
 			owner.clothDmg -= clothDmg
 			clothDmg        = null
+
+		var/tmpDef = owner.clothDef
+
 		if(clothDef)
 			owner.clothDef -= clothDef
 			clothDef        = null
-			owner.resetMaxHP()
 		if(socket)
 			owner.clothDmg   -= socket.Dmg
 			owner.clothDef   -= socket.Def
@@ -957,13 +959,20 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.extraLimit -= extraLimit
 		owner.extraCDR -= extraCDR
 
+		var/tmpMP = owner.extraMP
 		if(extraMP)
 			owner.extraMP -= extraMP
-			owner.resetMaxMP()
 
 		if(effects)
 			for(var/e in effects)
 				owner.vars[e] -= effects[e]
+
+		if(tmpMP != owner.extraMP)
+			owner.resetMaxMP()
+
+		if(tmpDef != owner.clothDef)
+			owner.resetMaxMP()
+
 
 		if(passive)
 			owner.passives[passive] -= power
@@ -992,7 +1001,8 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.Lwearing.Add(src)
 		suffix = "worn"
 		UpdateDisplay()
-		var/td = owner.clothDef
+		var/tmpDef = owner.clothDef
+		var/tmpMP = owner.extraMP
 		if(bonus != -1)
 			calcBonus(owner, 0)
 		if(socket)
@@ -1009,14 +1019,16 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 
 		if(extraMP)
 			owner.extraMP += extraMP
-			owner.resetMaxMP()
 
 		if(effects)
 			for(var/e in effects)
 				owner.vars[e] += effects[e]
 
-		if(td != owner.clothDef)
+		if(tmpDef != owner.clothDef)
 			owner.resetMaxHP()
+
+		if(tmpMP != owner.extraMP)
+			owner.resetMaxMP()
 
 		if(passive)
 			if(!owner.passives) owner.passives = list()
