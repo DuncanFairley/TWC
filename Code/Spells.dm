@@ -2637,7 +2637,8 @@ mob/Player
 					lastCombat = world.time
 					p.owner:lastCombat = world.time
 
-				if((level < 200 || p.owner.level < 200) && (abs(p.owner.level - level) >= 200)) return
+				if((level < 200 || p.owner.level < 200) && (abs(p.owner.level - level) >= 200))
+					if(!istype(a, /area/arenas) && !a.respawnPoint) return
 
 		var/dmg = p.damage
 
