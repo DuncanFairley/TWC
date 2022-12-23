@@ -2517,6 +2517,7 @@ obj/Banker
 			set src in oview(3)
 
 			var/mob/Player/p = usr
+			p.dir = get_dir(p, src)
 
 			if("On House Arrest" in p.questPointers)
 				var/questPointer/pointer = p.questPointers["On House Arrest"]

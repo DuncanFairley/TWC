@@ -515,6 +515,7 @@ obj/blacksmith
 
 		if(src in oview(3))
 			var/mob/Player/p = usr
+			p.dir = get_dir(p, src)
 
 			var/obj/items/wearable/i = locate() in locate(x, y-1, z)
 

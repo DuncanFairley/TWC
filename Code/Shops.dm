@@ -663,6 +663,7 @@ obj/shopStand
 	Click()
 		if(src in oview(3))
 			var/mob/Player/p = usr
+			p.dir = get_dir(p, src)
 
 			if(stock==0)
 				p << errormsg("Out of stock.")

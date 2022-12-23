@@ -221,6 +221,7 @@ obj
 		Click()
 			..()
 			if(src in view(1))
+				usr.dir = get_dir(usr, src)
 				Read_book()
 
 		verb/Read_book()

@@ -64,6 +64,8 @@ obj
 		Click()
 			..()
 
+			usr.dir = get_dir(usr, src)
+
 			var/list/actions = list("Submit a story")
 
 			if(usr.admin) actions += "Hire/Fire someone"

@@ -38,6 +38,7 @@ If you change your mind about using a custom icon for Prom, use Clear Prom Icon.
 			speak()
 				hearers() << "<i><b>Mr Prom</b>: [pick(sayings)]</i>"
 		Click()
+			usr.dir = get_dir(usr, src)
 			Talk()
 		verb
 			Talk()

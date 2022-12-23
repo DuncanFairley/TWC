@@ -475,6 +475,8 @@ obj/playerShop
 			var/mob/Player/p = usr
 			var/playerShop/shop = worldData.playerShops[name]
 
+			p.dir = get_dir(p, src)
+
 			var/ScreenText/s = new(p, src)
 
 			if(shop.bidCkey == p.ckey)
@@ -544,6 +546,7 @@ obj/playerShop
 			..()
 			if(!(src in oview(3))) return
 			var/mob/Player/p = usr
+			p.dir = get_dir(p, src)
 			var/playerShop/shop = worldData.playerShops[shopID]
 			var/obj/items/i     = shop.items ? shop.items[standID] : null
 

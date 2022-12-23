@@ -7,6 +7,7 @@ obj
 			if(src in oview(1))
 				var/choice
 				var/mob/Player/p = usr
+				p.dir = get_dir(p, src)
 				if(p.Rank == "Minister of Magic")
 					choice = input("What would you like to do?") as null|anything in list(
 					"Make Ministry-wide announcement",

@@ -910,6 +910,7 @@ obj/AlyssaChest
 	Click()
 		..()
 		if(src in oview(1))
+			usr.dir = get_dir(usr, src)
 			open(usr)
 		else
 			usr << errormsg("You need to be closer.")

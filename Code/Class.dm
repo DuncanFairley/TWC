@@ -86,6 +86,7 @@ obj/teacher
 
 	Click()
 		..()
+		usr.dir = get_dir(usr, src)
 		talk(usr)
 
 class
