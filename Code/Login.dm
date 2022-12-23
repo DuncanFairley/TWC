@@ -2284,7 +2284,7 @@ mob/proc/Death_Check(mob/killer = src)
 		else
 			if(isplayer(killer) && !killer:Immortal)
 				if(istype(src, /mob/Enemies))
-					if(!istype(src, /mob/Enemies/Summoned))
+					if(!istype(src, /mob/Enemies/Summoned) && src.name == initial(src.name))
 						killer.AddKill(src.name)
 					killer:checkQuestProgress("Kill [src.name]")
 					if(src:isElite)
