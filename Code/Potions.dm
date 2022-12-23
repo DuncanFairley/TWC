@@ -977,9 +977,27 @@ obj/click2confirm
 proc/childTypes(typesOf, exclude)
 	. = list()
 
+	var/list/types = typesof(typesOf)
 	var/lastType
-	for(var/t in typesof(typesOf))
+	for(var/i = types.len to 1 step -1)
+		var/t = types[i]
 		if(ispath(lastType, t)) continue
+		if(exclude)
+			var/skip = 0
+			for(var/p in exclude)
+				if(ispath(t, p))
+					skip =  1
+					break
+			if(skip) continue
+		. += t
+		lastType = t
+
+proc/parentTypes(typesOf, exclude)
+	. = list()
+
+	var/lastType
+	for(var/t in typesof(typesOf)-typesOf)
+		if(ispath(t, lastType))	continue
 		if(exclude)
 			var/skip = 0
 			for(var/p in exclude)

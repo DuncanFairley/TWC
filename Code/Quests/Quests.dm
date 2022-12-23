@@ -485,8 +485,7 @@ proc
 	init_quests()
 		quest_list   = list()
 		questRewards = list()
-		for(var/t in typesof(/quest/) - /quest)
-			if(findtext("[t]", "stage")) continue
+		for(var/t in parentTypes(/quest/))
 			var/quest/q = new t(1)
 			quest_list[q.name] = q
 
