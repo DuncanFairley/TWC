@@ -914,7 +914,7 @@ interface
 
 		if(p.WasdMovement)
 			spawn(1)
-				p.ToggleWASD()
+				p.ToggleWASD(0)
 
 	proc/Update()
 		if(parent.HideQuestTracker && quest)

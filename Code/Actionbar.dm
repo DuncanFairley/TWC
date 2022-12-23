@@ -1,6 +1,6 @@
 mob/Player
 	var/WasdMovement = 0
-	proc/ToggleWASD()
+	proc/ToggleWASD(var/msg=1)
 
 		if(WasdMovement)
 			winset(src, "w", "parent=macro;name=\"w\";command=\"MoveKey 1 1\"")
@@ -15,7 +15,7 @@ mob/Player
 			winset(src, "a", "parent=macro;name=\"a\";command=\"MoveKey 8 1\"")
 			winset(src, "aup", "parent=macro;name=\"a+up\";command=\"MoveKey 8 0\"")
 
-			src << infomsg("WASD movement on.")
+			if(msg) src << infomsg("WASD movement on.")
 		else
 			winset(src, "macro.w", "parent=")
 			winset(src, "macro.wup", "parent=")
@@ -29,7 +29,7 @@ mob/Player
 			winset(src, "macro.a", "parent=")
 			winset(src, "macro.aup", "parent=")
 
-			src << infomsg("WASD movement off.")
+			if(msg) src << infomsg("WASD movement off.")
 
 hudobj
 	actionbar
