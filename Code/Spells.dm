@@ -1919,7 +1919,7 @@ mob/Spells/verb/Avada_Kedavra()
 				     color  = "#0c0")
 
 				if(target.reflect)
-					var/d = p.onDamage(target.MHP * target.reflect, p)
+					var/d = p.onDamage(target.MHP * target.reflect, p, triggerSummons=0)
 					p << errormsg("Your spell got reflected, you inflicted [d] to yourself.")
 					p.Death_Check(p)
 				else
@@ -1929,7 +1929,7 @@ mob/Spells/verb/Avada_Kedavra()
 					p.HP = min(round(p.HP + target.MHP*0.3, 1), p.MHP)
 					p.updateHP()
 			else
-				var/dmg = p.onDamage(p.MHP * 0.3, target)
+				var/dmg = p.onDamage(p.MHP * 0.3, target, triggerSummons=0)
 				p << infomsg("[target] soul wasn't weakened enough, you took [dmg] damage!")
 				p.Death_Check(target)
 		else
@@ -2598,7 +2598,6 @@ mob/Player
 		HP -= dmg
 		updateHP()
 
-
 		if(triggerSummons && attacker != src)
 			for(var/obj/summon/s in Summons)
 				if(!s.target)
@@ -3072,7 +3071,7 @@ obj
 
 					else
 						damage = 0
-						var/dmg = owner:onDamage(owner.MHP * 0.3, p)
+						var/dmg = owner:onDamage(owner.MHP * 0.3, p, triggerSummons=0)
 						owner << infomsg("[p] soul wasn't weakened enough, you took [dmg] damage!")
 						owner:Death_Check(p)
 
