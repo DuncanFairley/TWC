@@ -221,6 +221,8 @@ obj/summon
 	Attacked(obj/projectile/p)
 		if(isplayer(p.owner) && p.owner != summoner)
 
+			if(summoner.party && (p.owner in summoner.party.members)) return
+
 			var/dmg = p.damage + p.owner:Slayer.level
 
 			if(p.owner:monsterDmg > 0)
