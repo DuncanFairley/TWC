@@ -1862,16 +1862,16 @@ obj
 				if(p.hardmode == 0)
 					p.hardmode = 1
 					p << infomsg("Monsters will now be stronger but have 50% more drop rate.")
-				else if(p.hardmode == 1)
+				else if(p.hardmode == 1 && p.Slayer.level >= 20)
 					p.hardmode = 2
 					p << infomsg("Monsters will now be even stronger but have 100% more drop rate.")
-				else if(p.hardmode == 2)
+				else if(p.hardmode == 2 && p.Slayer.level >= 30)
 					p.hardmode = 3
 					p << infomsg("Monsters will now be dangerously lethal but have 150% more drop rate.")
-				else if(p.hardmode == 3)
+				else if(p.hardmode == 3 && p.Slayer.level >= 40)
 					p.hardmode = 4
 					p << infomsg("Monsters will now be maybe possibly kill you but have 200% more drop rate.")
-				else if(p.hardmode == 4)
+				else if(p.hardmode == 4 && p.Slayer.level >= 50)
 					p.hardmode = 5
 					p << infomsg("Monsters will now butcher you but have 250% more drop rate.")
 				else
