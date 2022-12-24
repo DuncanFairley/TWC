@@ -521,21 +521,6 @@ mob
 			if(!origloc && p.owner && p.owner.loc.loc != loc.loc) return
 
 			..()
-			if(prizePoolSize > 1 && p.owner && p.damage && HP > 0)
-				if(!damage) damage = list()
-
-				var/perc = (p.damage / MHP) * 100
-
-				if(p.owner.ckey in damage)
-					damage[p.owner.ckey] += perc
-				else
-					damage[p.owner.ckey] = perc
-
-			if(HP > 0)
-
-				if((state == WANDER || state == SEARCH) && p.owner)
-					target = p.owner
-					ChangeState(HOSTILE)
 
 		Move(NewLoc)
 			if(hpbar)

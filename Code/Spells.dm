@@ -2700,10 +2700,26 @@ mob/Enemies
 
 		if(dead) return 0
 
+		if(prizePoolSize > 1 && p && dmg && HP > 0)
+			if(!damage) damage = list()
+
+			var/perc = (dmg / MHP) * 100
+
+			if(p.ckey in damage)
+				damage[p.ckey] += perc
+			else
+				damage[p.ckey] = perc
+
+
 		dmg = round(dmg, 1)
 		HP -= dmg
 
-		if(HP <= 0)
+		if(HP > 0)
+			if((state == WANDER || state == SEARCH) && p)
+				target = p
+				ChangeState(HOSTILE)
+
+		else
 			dead = 1
 			var/restoreBleed = FALSE
 			if(p && (SWORD_EXPLODE in p.passives))
