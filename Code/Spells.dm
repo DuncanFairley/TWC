@@ -3009,7 +3009,7 @@ obj
 			selfDamage = 0
 
 			var
-				range = 3
+				range = 4
 
 			New(Loc,mob/mob,damage,iconstate,name,element)
 				set waitfor = 0
@@ -3025,7 +3025,7 @@ obj
 
 				animate(src,  alpha = 100, transform = m, time = 4)
 
-				sleep(7)
+				sleep(3)
 
 				var/obj/dropObj/o = new(loc)
 				o.icon_state = iconstate
@@ -3042,9 +3042,9 @@ obj
 				else
 					o.transform = m
 
-				animate(o, pixel_y = 0, pixel_x = 0, time = 5)
+				animate(o, pixel_y = 0, pixel_x = 0, time = 4)
 
-				sleep(5)
+				sleep(3)
 
 				for(var/atom/movable/a in range((range-1)/2, loc))
 					a.Attacked(src)

@@ -221,7 +221,7 @@ obj/items/wearable/spellbook
 
 			s.scale = damage
 		else if(spellType == METEOR)
-			new /obj/projectile/Meteor (attacker ? attacker.loc : p.loc, p, dmg*0.75, state, name, element)
+			new /obj/projectile/Meteor (attacker ? attacker.loc : p.loc, p, dmg, state, name, element)
 		else
 			if(element == HEAL)
 
@@ -262,11 +262,11 @@ obj/items/wearable/spellbook
 				animate(transform = m, time = 10)
 				animate(transform = null, time = 10)
 
-				for(var/i = 1 to 10)
+				for(var/i = 1 to 20)
 					for(var/mob/Enemies/e in range(1, p))
 						e.onDamage(dmg, p, element)
 
-					sleep(10)
+					sleep(5)
 
 				p.vis_contents -= o
 
