@@ -136,7 +136,7 @@ obj/summon
 		level   += p.level + p.Summoning.level*2 + extraLevel
 		MHP      = 4 * (level) + 200
 		HP       = MHP
-		extraDmg = round(((p.Dmg + p.clothDmg) - (p.level + 4)) / 2)
+		extraDmg = round(((p.Dmg + p.clothDmg) - (p.level + 4)) * 0.4)
 		duration = 600 + p.Summoning.level*10
 
 		if(p.summons + summonTier * p.summonsMode <= 1 + p.extraLimit + round(p.Summoning.level / 10))
@@ -282,11 +282,13 @@ obj/summon
 							e.dir = get_dir(e, src)
 							dir = turn(e.dir, 180)
 
-							var/dmg = (level + extraDmg) * scale
+							var/dmg = max(0, (level + extraDmg) * scale - (e.level * 0.5))
 
 							if(summoner.monsterDmg > 0)
 								dmg *= 1 + summoner.monsterDmg/100
 
+							if(e.prizePoolSize > 1)
+								dmg = round((dmg*0.7) / e.prizePoolSize)
 
 							var/exp2give = e.onDamage(dmg, summoner)
 
@@ -310,7 +312,7 @@ obj/summon
 					else if(isplayer(target))
 						var/mob/Player/p = target
 
-						var/dmg = round((level + extraDmg - 51)*0.5*scale, 1) - p.Slayer.level
+						var/dmg = round((level + extraDmg - 51)*0.4*scale, 1) - p.Slayer.level
 
 						if(p.animagusOn)
 							dmg = dmg * 0.75 - p.Animagus.level
