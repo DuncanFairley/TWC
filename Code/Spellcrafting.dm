@@ -462,7 +462,7 @@ obj
 
 					p << infomsg("Yummy a cookie!")
 
-					if(!(locate(/RandomEvent/Wizard) in worldData.currentEvents) && prob(1))
+					if(!(locate(/RandomEvent/Wizard) in worldData.currentEvents) && prob(3))
 
 
 						var/turf/t = locate("@Hogwarts")
