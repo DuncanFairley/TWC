@@ -5395,9 +5395,9 @@ obj/items/wearable/ring/ring_of_displacement
 obj/items/wearable/ring/demonic_ring
 	icon='ammy.dmi'
 	icon_state="snow"
-	desc="A magical ring that allows you to control an extra summon/plant."
-	suffix = "<span style=\"color:#ffa500;\">Allows you control extra summon/plant.</span>"
-	extraLimit = 1
+	desc="A magical ring that allows you to control 3 extra summon/plant."
+	suffix = "<span style=\"color:#ffa500;\">Allows you control 3 extra summon/plant.</span>"
+	extraLimit = 3
 
 obj/items/wearable/ring/time_ring
 	icon='ammy.dmi'
