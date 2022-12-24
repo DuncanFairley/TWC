@@ -504,7 +504,7 @@ obj/pet
 
 				var/isLegendary = istype(i, /obj/items/wearable) && (i:bonus == 0 || i:quality)
 
-				if(isLegendary && i.max_stack == 0) isLegendary = 0
+				if(isLegendary && i.max_stack == 1) isLegendary = 0
 
 				if(isLegendary && convert >= isLegendary)
 					var/obj/items/artifact/a = new

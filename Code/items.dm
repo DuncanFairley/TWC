@@ -885,7 +885,7 @@ obj/items/wearable
 
 				scale += 0.3 * scale
 
-			max_stack = 0
+			max_stack = 1
 			power = basePower
 
 			effects = list()
@@ -5963,7 +5963,7 @@ obj/items/wearable/wand_holster
 
 	desc = "holster for your wand!"
 
-	max_stack = 0
+	max_stack = 1
 
 	var
 		list/selectedColors
