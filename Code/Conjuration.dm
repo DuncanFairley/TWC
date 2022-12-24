@@ -57,6 +57,7 @@ mob/Player
 mob/Player
 	var
 		MPRegen = 0
+		tmp/extraMPRegen = 0
 		tmp/tickers = 0
 
 	proc/MPRegen()
@@ -66,7 +67,7 @@ mob/Player
 		sleep(30)
 
 		while(MP < MMP)
-			MP = min(MP + 50 + round(level/10)*2 + MPRegen, MMP)
+			MP = min(MP + 50 + round(level/10)*2 + MPRegen + extraMPRegen, MMP)
 			var/mppercent = clamp(MP / MMP, 0, 1)
 
 			Interface.mpbar.Set(mppercent)

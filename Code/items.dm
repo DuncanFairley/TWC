@@ -713,21 +713,23 @@ obj/items/New()
 	..()
 
 proc/getStatName(var/s)
-	if(s == "clothDmg")   return "Damage"
-	if(s == "clothDef")   return "Defense"
-	if(s == "extraMP")    return "MP"
-	if(s == "dropRate")   return "Drop Rate"
-	if(s == "monsterDmg") return "% Monster Damage"
-	if(s == "monsterDmg") return "% Monster Defense"
-	if(s == "extraCDR")   return "CDR"
-	if(s == "extraLimit") return "Limit"
+	if(s == "clothDmg")     return "Damage"
+	if(s == "clothDef")     return "Defense"
+	if(s == "extraMP")      return "MP"
+	if(s == "dropRate")     return "Drop Rate"
+	if(s == "monsterDmg")   return "% Monster Damage"
+	if(s == "monsterDmg")   return "% Monster Defense"
+	if(s == "extraCDR")     return "CDR"
+	if(s == "extraLimit")   return "Limit"
+	if(s == "extraMPRegen") return "MP Regeneration"
 	return s
 
 proc/getStatFactor(var/s, var/gain)
-	if(s == "clothDmg")   return 10 * gain
-	if(s == "clothDef")   return 30 * gain
-	if(s == "extraMP")    return 120 * gain
-	if(s == "extraLimit") return 1
+	if(s == "clothDmg")     return 10  * gain
+	if(s == "clothDef")     return 30  * gain
+	if(s == "extraMP")      return 120 * gain
+	if(s == "extraMPRegen") return 20  * gain
+	if(s == "extraLimit")   return 1
 	return 1 * gain
 	/*if(s == "dropRate")   return 1
 	if(s == "monsterDmg") return 1
@@ -892,8 +894,8 @@ obj/items/wearable
 			effects = list()
 
 			for(var/s = 1 to stats)
-				var/stat = pick("monsterDef", "monsterDmg",	"dropRate",	"clothDmg", "clothDef", "extraMP", "extraLimit")
-				effects[stat] = (random ? rand(stats, basePower) : basePower) * getStatFactor(stat)
+				var/stat = pick("monsterDef", "monsterDmg",	"dropRate",	"clothDmg", "clothDef", "extraMP", "extraLimit", "extraMPRegen")
+				effects[stat] = getStatFactor(stat, (random ? rand(stats, basePower) : basePower))
 
 
 obj/items/wearable/Destroy(var/mob/Player/owner)
