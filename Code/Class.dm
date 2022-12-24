@@ -18,8 +18,12 @@ proc/GenerateIcon(atom/movable/a, px = 0, py = 0, wig = 1, shoes = 1, scarf = 1)
 		a.overlays += i
 
 	if(wig)
-		var/list/colors = list("black", "blue", "green", "grey", "pink", "purple", "silver", "cyan", "teal", "red", "orange")
-		var/image/i = image(text2path("/obj/items/wearable/wigs/[a.gender == MALE ? "male" : "female"]_[pick(colors)]_wig"), "")
+		var/image/i
+		if(istext(wig))
+			i = image(text2path("/obj/items/wearable/wigs/[a.gender == MALE ? "male" : "female"]_[wig]_wig"), "")
+		else
+			var/list/colors = list("black", "blue", "green", "grey", "pink", "purple", "silver", "cyan", "teal", "red", "orange")
+			i = image(text2path("/obj/items/wearable/wigs/[a.gender == MALE ? "male" : "female"]_[pick(colors)]_wig"), "")
 
 		i.layer   = FLOAT_LAYER - 4
 		i.pixel_x = px

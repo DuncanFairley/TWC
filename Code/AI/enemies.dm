@@ -2134,8 +2134,6 @@ mob
 
 								var/RandomEvent/Sword/e = locate() in worldData.currentEvents
 								if(e)
-									var/RandomEvent/Sword/e = locate() in worldData.events
-
 									if(e.swords < 30)
 										e.swords+=2
 										new /mob/Enemies/Summoned/Sword (loc)

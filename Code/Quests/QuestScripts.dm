@@ -409,6 +409,17 @@ quest
 			desc = "Go back to Palmer and make him give you a reward, quests are not fun without a reward!"
 			reqs = list("Professor Palmer" = 1)
 
+	Crushed
+		name   = "Crushed"
+		desc   = "Jake asked for your help."
+		reward = /questReward/Mon3
+
+		Sarah
+			desc = "Jake wants you to deliver a letter to Sarah."
+			reqs = list("Sarah" = 1)
+		Reward
+			desc = "Break Jake's heart for a girl like you're a text message."
+			reqs = list("Jake" = 1)
 
 	Ritual
 		name   = "Demonic Ritual"

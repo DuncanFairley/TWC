@@ -1,6 +1,89 @@
 mob/TalkNPC
 
+	Sarah
+		icon = 'FemaleGryffindor.dmi'
+
+		gender = FEMALE
+
+		New()
+			..()
+			tag = "Sarah"
+
+			GenerateIcon(src, wig="brown")
+
+		Talk()
+			var/mob/Player/p = usr
+
+			var/ScreenText/s = new(p, src)
+
+			if(p.checkQuestProgress("Sarah"))
+				s.AddText("Don't mind me. I'm just trying to get my mind off of things.")
+				p << "<i>You explain Jake sent you to deliver a letter.</i>"
+				s.AddText("A letter huh?")
+				p << "<i>You watch her eyes flitter left to right rapidly as her smile becomes less and less prominent.</i>"
+				s.AddText("This is... ")
+				s.AddText("I didn't realize he felt this way about me.")
+				p << "<i>Her eyes begin to water slightly.</i>"
+				s.AddText("Thing is, I'm to leave to the witchcraft school in Adams, Massachusetts of the United States shortly.")
+				s.AddText("I wish he and I had more time...")
+				p << "<i>She pauses and thinks a moment.</i>"
+				s.AddText("Perhaps that's it... hmmm...")
+				s.AddText("Well in either case. Thank you for delivering his message. Tell him the state of affairs. I truly wish it were different.")
+			else
+				s.AddText("Don't mind me. I'm just trying to get my mind off of things.")
+
 	quest
+
+		Jake
+			icon = 'MaleGryffindor.dmi'
+			questPointers = "Crushed"
+
+			gender = MALE
+
+			New()
+				..()
+
+				GenerateIcon(src)
+
+			questStart(mob/Player/i_Player, questName)
+				var/ScreenText/s = new(i_Player, src)
+
+				switch(questName)
+					if("Crushed")
+						s.AddText("Oh! Hello! My name's Jake. I play as one of the chasers for Gryffindor.")
+						i_Player << "<i>The teenage boy in front of you hesitates a moment, then gives a slight sigh as if something was taken away from him.</i>"
+						s.AddText("So this might be a pathetic request...")
+						s.AddText("I have a bit of a crush on one of our classmates. Not sure if you've met her, name's Sarah.")
+						s.AddText("She's got brown eyes, brown hair, and a smile that brightens my soul.")
+						i_Player << "<i>You see his eyes light up as he reminiscences supposedly about Sarah.</i>"
+						s.AddText("I was about to give her this letter. She usually waits around here, but she never showed up.")
+						s.AddText("Do you think you can help me? I just... want her to know how I feel.")
+
+				..(i_Player, questName)
+
+			questOngoing(mob/Player/i_Player, questName)
+				.=..(i_Player, questName)
+
+				var/ScreenText/s = new(i_Player, src)
+
+				switch(questName)
+					if("Crushed")
+						if(.)
+							s.AddText("You gave the letter to her?")
+							i_Player << "<i>You nod.</i>"
+							s.AddText("Did she read it?!")
+							i_Player << "<i>You nod again.</i>"
+							s.AddText("What did she say?!!")
+							i_Player << "<i>You explain to Jake Sarah's feelings, how she's flattered, but... she's moving to another continent.</i>"
+							s.AddText("Oh... I understand.")
+							i_Player << "<i>You notice Jake looks really down as he walks away.</i>"
+						else
+							s.AddText("Now that I think of it, she does enjoy shopping. Perhaps you'll catch her by a vendor in Hogsmeade?")
+
+			questCompleted(mob/Player/i_Player, questName)
+				//var/ScreenText/s = new(i_Player, src)
+				i_Player << "<i>You notice Jake is crying a lot in the bathroom. Best to give him space for now.</i>"
+
 		Training_Dummy
 			icon = 'Mobs.dmi'
 			icon_state="dummy"
