@@ -142,7 +142,10 @@ obj/summon
 		if(p.summons + summonTier * p.summonsMode <= 1 + p.extraLimit + round(p.Summoning.level / 10))
 			summonTier = summonTier * p.summonsMode
 
-			if(p.summonsMode > 1)
+
+			if(p.summonsMode > 2)
+				filters = filter(type="outline", size=1, color="#ffa500")
+			else if(p.summonsMode > 1)
 				filters = filter(type="outline", size=1, color="#00a5ff")
 
 		if(!p.Summons) p.Summons = list()
