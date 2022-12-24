@@ -406,6 +406,7 @@ StatusEffect
 	UsedGMHelp
 	DisplayedTrophy
 	DodgedDeath
+	SantaSpawned
 
 	Lava
 		Activate()

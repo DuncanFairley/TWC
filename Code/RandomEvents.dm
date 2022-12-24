@@ -905,6 +905,54 @@ RandomEvent
 			if(message) Players << infomsg("The stone golem's magic force vanished.")
 			end()
 
+	Wizard
+		name   = "Evil Santa"
+		chance = 0
+		start()
+			set waitfor = 0
+			..()
+			var/minutes = rand(30,45)
+			var/list/m = list()
+			Players << infomsg("Oh no, Evil Santa is mad people been eating his cookies, he's outside slaughtering everyone (behind the castle) for [minutes] minutes, someone stop him!")
+
+			var/obj/spawner/spawn_loc = pick(worldData.spawners)
+			var/mob/Enemies/Summoned/boss = new /mob/Enemies/Summoned/Boss/Wizard(spawn_loc.loc)
+			m += boss
+
+			for(var/i = 0; i <= rand(10, 20); i++)
+				spawn_loc = pick(worldData.spawners)
+				var/mob/Enemies/Summoned/monster = new (spawn_loc.loc)
+
+				monster.DMGmodifier = 1
+				monster.HPmodifier  = 3
+				monster.level       = 8 * 100 + rand(0, 10)
+				monster.name        = "Evil Elf"
+				monster.icon_state  = "elf[rand(1,3)]"
+				monster.icon        = 'NPCs.dmi'
+
+				m += monster
+
+			endTime = world.time + 600*minutes
+
+			var/message = 1
+			while(minutes-- > 0)
+				if(boss.loc == null)
+					message = 0
+					break
+				sleep(600)
+
+
+			for(var/mob/Enemies/Summoned/mon in m)
+				mon.Dispose()
+				mon.ChangeState(boss.INACTIVE)
+			m = null
+
+			new /StatusEffect/SantaSpawned(locate("@Hogwarts"), 144000)
+
+			if(message) Players << infomsg("Evil Santa is done throwing a tantrum and left.")
+			else Players << infomsg("Evil Santa was stopped.")
+			end()
+
 	EntranceKillZone
 		name   = "Entrance Kill Zone"
 		chance = 4

@@ -1103,7 +1103,7 @@ mob
 		proc/Kill(mob/Player/p)
 			set waitfor = 0
 
-			if(!isElite && HP > 0 && !revenge && !hpbar && prob(30))
+			if(!isElite && HP > 0 && !revenge && !hpbar && level <= 1000 && prob(30))
 
 				var/newName = "Big \"[p.name] Slayer\" [name]"
 				p << infomsg("[name] has distinguished themselves killing you, they are now named [newName]")
@@ -1242,8 +1242,8 @@ mob
 						s.loc = null
 						s = null
 
-					if("The Black Blade" in worldData.currentEvents)
-						var/RandomEvent/Sword/e = locate() in worldData.events
+					var/RandomEvent/Sword/e = locate() in worldData.currentEvents
+					if(e)
 						e.swords--
 				Dispose()
 					..()
@@ -1501,6 +1501,244 @@ mob
 									 life   = new /Random(15,20))
 							else
 								..()
+
+				Wizard
+					name = "Evil Santa"
+					HPmodifier = 30
+					DMGmodifier = 2
+					MoveDelay = 5
+					AttackDelay = 1
+					Range = 21
+					level = 3000
+
+					icon = 'NPCs.dmi'
+					icon_state = "santa"
+
+					var/tmp
+						oldA
+						firedMeteor  = 0
+						firedAvada   = 0
+						firedProtego = 0
+
+					MapInit()
+						set waitfor = 0
+						..()
+
+				//		if(prob(51))
+				//			icon   = 'FemaleVampire.dmi'
+				//			gender = FEMALE
+				//		else
+				//			icon   = 'MaleVampire.dmi'
+				//			gender = MALE
+
+				//		GenerateIcon(src)
+
+						namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1)
+				//		hpbar = new(src)
+
+						while(loc)
+
+							Blur()
+							sleep(20)
+
+							var/newX = x
+							var/newY = y
+
+							if(prob(35))
+								newX += (4 + rand(4)) * pick(1,-1)
+								newY += (4 + rand(4)) * pick(1,-1)
+							else if(prob(50))
+								newX += (4 + rand(4)) * pick(1,-1)
+							else
+								newY += (4 + rand(4)) * pick(1,-1)
+
+							newX = clamp(newX, 1, 100)
+							newY = clamp(newY, 1, 100)
+
+							var/turf/t = locate(newX, newY, z)
+
+							Dash(t)
+
+							sleep(50)
+
+
+					Attacked(obj/projectile/p)
+						set waitfor = 0
+
+						if(prob(25))
+							hearers(20, src)<<"<span style=\"color:red;\"><b>[src]:</span></b> <font color=aqua>Episkey!"
+							overlays+=image('attacks.dmi', icon_state = "heal")
+							sleep(10)
+							overlays-=image('attacks.dmi', icon_state = "heal")
+							HP += p.damage
+						else if(prob(10))
+							overlays += /obj/Shield
+							hearers(20, src)<< "<b><span style=\"color:red;\">[src]</b></span>: PROTEGO!"
+
+							p.damage = round(2 * p.damage, 1)
+							p.owner.Attacked(p, 1)
+
+							sleep(10)
+							overlays -= /obj/Shield
+							return
+
+						..(p)
+
+					Attack()
+						..()
+
+						if(target)
+
+							if(!firedAvada && get_dist(src, target) <= 5)
+								Avada()
+
+							else if(!firedMeteor)
+								Meteor()
+
+					proc/Avada()
+						set waitfor = 0
+
+						firedAvada = 1
+
+						var/vector/start = new (x        * world.icon_size + world.icon_size / 2, y        * world.icon_size + world.icon_size / 2)
+						var/vector/dest  = new (target.x * world.icon_size + world.icon_size / 2, target.y * world.icon_size + world.icon_size / 2)
+
+						start.X += (EAST & dir) ? 7 : -7
+						start.Y -= 6
+
+						var/bolt/boltFix/b = new(start, dest, 35)
+
+						var/c = "#ff3030" // "#30ff30"
+
+						b.Draw(z, /obj/segment/segmentFix, color = c, thickness = 1)
+
+						light(b.lastCreatedBolt, 3, 10, "circle", c)
+
+						emit(loc    = target.loc,
+							 ptype  = /obj/particle/smoke/proj,
+						     amount = 28,
+						     angle  = new /Random(0, 360),
+						     speed  = 2,
+						     life   = new /Random(20,35),
+						     color  = c)
+
+						target.onDamage(target.MHP * 0.5, src)
+						target.Death_Check(src)
+
+						sleep(50)
+						firedAvada = 0
+
+					proc/Meteor()
+						set waitfor = 0
+
+						firedMeteor = 1
+
+						var/obj/boss/death/d = new (target.loc, src, pick(3,5,7))
+						d.density = 1
+						for(var/i = 1 to rand(0,4))
+							step_away(d, src)
+						d.density = 0
+
+						sleep(10)
+						firedMeteor = 0
+
+					proc/Dash(turf/t)
+						set waitfor = 0
+
+						var
+							px = (x * 32) - (t.x * 32)
+							py = (y * 32) - (t.y * 32)
+
+						dir = get_dir(src, t)
+
+						var/time = round(((abs(px) + abs(py)) / 32) * 0.5)
+
+						var/list/ghosts = list()
+						for(var/i = 1 to 4)
+							var/image/o = new
+							o.appearance = appearance
+							o.alpha = 255 - i * 50
+
+							o.pixel_x = px * 0.1 * i
+							o.pixel_y = py * 0.1 * i
+
+							ghosts += o
+
+						var/underlaysTmp = underlays.Copy()
+						underlays += ghosts
+
+						animate(src, pixel_x = -px,
+						             pixel_y = -py, time = time)
+
+
+						sleep(time + 1)
+						pixel_x = 0
+						pixel_y = 0
+
+						density = 0
+						Move(t)
+						density = 1
+
+						underlays = underlaysTmp
+
+					proc/Blur()
+						set waitfor = 0
+
+						var/offsetX = rand(-1, 1)
+						var/offsetY = rand(-1, 1)
+
+						var/const/RANGE = 1
+
+						animate(src, alpha = 0, time = 4)
+						sleep(4)
+
+						alpha = 255
+
+						if(oldA)
+							appearance = oldA
+						else
+							oldA = appearance
+
+						var/list/blurs = list()
+
+						var/obj/o = new
+						o.appearance = appearance
+						o.alpha = 150
+
+						if(prob(35))
+							o.pixel_x = 128 * pick(1, -1)
+							o.pixel_y = 128 * pick(1, -1)
+						else if(prob(45))
+							o.pixel_x = 128 * pick(1, -1)
+						else
+							o.pixel_y = 128 * pick(1, -1)
+
+						blurs += o.appearance
+
+						for(var/i = -RANGE + offsetX to RANGE + offsetX)
+							for(var/j = -RANGE + offsetY to RANGE + offsetY)
+								if(i == 0 && j == 0) continue
+
+								if(prob(30)) continue
+
+								o.pixel_x = i*32
+								o.pixel_y = j*32
+
+								if(prob(10))
+									o.pixel_x *= 2
+
+								if(prob(10))
+									o.pixel_y *= 2
+
+								if(prob(50)) o.alpha = rand(120, 200)
+								else o.alpha = 255
+
+								blurs += o.appearance
+
+						overlays += blurs
+
+						alpha = 0
+						animate(src, alpha = 255, time = 4)
 
 				Ghost
 					name = "Vengeful Ghost"
@@ -1894,7 +2132,8 @@ mob
 							while(loc && spawns > 0)
 								spawns--
 
-								if("The Black Blade" in worldData.currentEvents)
+								var/RandomEvent/Sword/e = locate() in worldData.currentEvents
+								if(e)
 									var/RandomEvent/Sword/e = locate() in worldData.events
 
 									if(e.swords < 30)
