@@ -2085,6 +2085,11 @@ mob/proc/Death_Check(mob/killer = src)
 				killer << "Do not attack in the waiting area.."
 				p.HP = p.MHP
 				return
+
+			if(p.Summons)
+				for(var/obj/summon/s in p.Summons)
+					s.Dispose()
+
 			if(src.loc.loc.type in typesof(/area/arenas/MapThree/PlayArea))
 				if(worldData.currentArena)
 					var/list/players = range(8,worldData.currentArena.speaker)|worldData.currentArena.players
