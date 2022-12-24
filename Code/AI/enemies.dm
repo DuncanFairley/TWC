@@ -1511,6 +1511,15 @@ mob
 					Range = 21
 					level = 3000
 
+					drops = list(/obj/items/key/master_key,
+								 /obj/items/chest/legendary_golden_chest,
+								 /obj/items/wearable/orb/peace/greater,
+								 /obj/items/wearable/orb/chaos/greater,
+								 /obj/items/chest/winter_chest/limited_edition,
+								 /obj/items/lamps/sextuple_drop_rate_lamp,
+								 /obj/items/lamps/sextuple_gold_lamp,
+								 /obj/items/lamps/sextuple_exp_lamp)
+
 					icon = 'NPCs.dmi'
 					icon_state = "santa"
 
@@ -1540,6 +1549,7 @@ mob
 
 							Blur()
 							sleep(20)
+							if(!loc) break
 
 							var/newX = x
 							var/newY = y
@@ -1560,6 +1570,22 @@ mob
 							Dash(t)
 
 							sleep(50)
+
+					Death(mob/Player/killer)
+
+						var/list/winners = list()
+
+						for(var/i = damage.len to max(1 + damage.len - prizePoolSize, 1) step -1)
+							if(damage[i] == "" || damage[i] == null) continue
+							if(damage[damage[i]] < damageReq) break
+
+							winners += damage[i]
+
+						var/msg = "[jointext(winners, ", ")] defeated Evil Santa!"
+						Players << msg
+						killer.SendDiscord(msg, discord_event_hook)
+
+						..(killer)
 
 
 					Attacked(obj/projectile/p)
