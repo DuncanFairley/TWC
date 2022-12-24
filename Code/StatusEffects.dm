@@ -403,6 +403,7 @@ StatusEffect
 	KilledPlayerQuest
 	UsedRepel
 	UsedRiddikulus
+	UsedIllusio
 	UsedGMHelp
 	DisplayedTrophy
 	DodgedDeath

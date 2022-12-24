@@ -1001,6 +1001,95 @@ mob/Spells/verb/Sanguinis_Iactus()
 		usr:lastAttack = "Sanguinis Iactus"
 		castproj(Type = /obj/projectile/Blood, MPreq = mpCost, icon_state = "blood", damage = (usr.Dmg + clothDmg) * ((100 + tier*2) / 100), name = spellName)
 
+mob/Spells/verb/Illusio()
+	set category="Spells"
+
+	var/mob/Player/p = src
+	var/mpCost = 600
+	var/spellName = "Illusio"
+
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
+	var/tier = round(log(10, uses)) - 1
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
+
+	if(canUse(src,cooldown=/StatusEffect/UsedIllusio,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
+		new /StatusEffect/UsedIllusio (src,30*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, spellName)
+
+		p.Blur()
+		p.learnSpell(spellName)
+
+
+mob/Player
+	proc/Blur()
+		set waitfor = 0
+
+		var/offsetX = rand(-1, 1)
+		var/offsetY = rand(-1, 1)
+
+		var/const/RANGE = 1
+
+		animate(src, alpha = 0, time = 4)
+		sleep(4)
+
+		alpha = 255
+
+		var/list/blurs = list()
+
+		var/obj/standIn = new (loc)
+
+		addFollower(standIn)
+
+		var/obj/o = new
+		o.appearance = appearance
+		o.alpha = 150
+
+		if(prob(35))
+			o.pixel_x = 128 * pick(1, -1)
+			o.pixel_y = 128 * pick(1, -1)
+		else if(prob(45))
+			o.pixel_x = 128 * pick(1, -1)
+		else
+			o.pixel_y = 128 * pick(1, -1)
+
+		blurs += o.appearance
+
+		for(var/i = -RANGE + offsetX to RANGE + offsetX)
+			for(var/j = -RANGE + offsetY to RANGE + offsetY)
+				if(i == 0 && j == 0) continue
+
+				if(prob(30)) continue
+
+				o.pixel_x = i*32
+				o.pixel_y = j*32
+
+				if(prob(10))
+					o.pixel_x *= 2
+
+				if(prob(10))
+					o.pixel_y *= 2
+
+				if(prob(50)) o.alpha = rand(120, 200)
+				else o.alpha = 255
+
+				blurs += o.appearance
+
+		standIn.overlays += blurs
+
+		standIn.alpha = 0
+		animate(standIn, alpha = 255, time = 4)
+
+		alpha = 0
+		animate(src, alpha = 255, time = 4)
+
+		sleep(100)
+
+		animate(standIn, alpha = 0, time = 4)
+		sleep(4)
+
+		removeFollower(standIn)
+		standIn.loc = null
+
+
 mob/Spells/verb/Gravitate()
 	set category="Spells"
 

@@ -1489,18 +1489,16 @@ mob
 
 				Wizard
 					name = "Evil Santa"
-					HPmodifier = 30
-					DMGmodifier = 2
+					HPmodifier = 50
+					DMGmodifier = 3
 					MoveDelay = 5
 					AttackDelay = 1
-					Range = 21
-					level = 3000
+					Range = 22
+					level = 4000
 
 					drops = list(/obj/items/key/master_key,
+								 /obj/items/spellbook/illusion,
 								 /obj/items/chest/legendary_golden_chest,
-								 /obj/items/wearable/orb/peace/greater,
-								 /obj/items/wearable/orb/chaos/greater,
-								 /obj/items/chest/winter_chest/limited_edition,
 								 /obj/items/lamps/sextuple_drop_rate_lamp,
 								 /obj/items/lamps/sextuple_gold_lamp,
 								 /obj/items/lamps/sextuple_exp_lamp)
@@ -1566,9 +1564,10 @@ mob
 
 							winners += damage[i]
 
-						var/msg = "[jointext(winners, ", ")] defeated Evil Santa!"
-						Players << msg
-						killer.SendDiscord(msg, discord_event_hook)
+						if(winners.len)
+							var/msg = "[jointext(winners, ", ")] defeated Evil Santa!"
+							Players << msg
+							killer.SendDiscord(msg, discord_event_hook)
 
 						..(killer)
 

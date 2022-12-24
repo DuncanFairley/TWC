@@ -919,13 +919,13 @@ RandomEvent
 			var/mob/Enemies/Summoned/boss = new /mob/Enemies/Summoned/Boss/Wizard(spawn_loc.loc)
 			m += boss
 
-			for(var/i = 0; i <= rand(10, 20); i++)
+			for(var/i = 0; i <= rand(15, 30); i++)
 				spawn_loc = pick(worldData.spawners)
 				var/mob/Enemies/Summoned/monster = new (spawn_loc.loc)
 
-				monster.DMGmodifier = 1
-				monster.HPmodifier  = 3
-				monster.level       = 8 * 100 + rand(0, 10)
+				monster.DMGmodifier = 1.2
+				monster.HPmodifier  = 6
+				monster.level       = 10 * 100 + rand(0, 50)
 				monster.name        = "Evil Elf"
 				monster.icon_state  = "elf[rand(1,3)]"
 				monster.icon        = 'NPCs.dmi'

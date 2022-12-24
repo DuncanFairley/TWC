@@ -3335,6 +3335,13 @@ obj/items/spellbook
 		g = 0.5
 		b = 0.5
 
+	illusion
+		name = "A Trick of the Light"
+		icon_state = "rmagic"
+		spell = /mob/Spells/verb/Illusio
+		g = 0.5
+		b = 0.5
+
 	gladius
 		name = "Confused Swords and How to Conjure Them"
 		icon_state = "spell"
