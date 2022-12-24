@@ -219,7 +219,7 @@ obj/summon
 			hpbar = null
 
 	Attacked(obj/projectile/p)
-		if(isplayer(p.owner) && p.owner != summoner)
+		if(isplayer(p.owner) && summoner && p.owner != summoner)
 
 			if(summoner.party && (p.owner in summoner.party.members)) return
 
