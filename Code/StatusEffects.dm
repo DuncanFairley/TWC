@@ -931,21 +931,21 @@ StatusEffect
 			Activate()
 				..()
 				var/mob/Player/p = AttachedAtom
-				p.clothDmg += 30
+				p.clothDmg += 120
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
-				p.clothDmg -= 30
+				p.clothDmg -= 120
 				..()
 
 		Defense
 			Activate()
 				..()
 				var/mob/Player/p = AttachedAtom
-				p.clothDef += 90
+				p.clothDef += 360
 				p.resetMaxHP()
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
-				p.clothDef -= 90
+				p.clothDef -= 360
 				p.resetMaxHP()
 				..()
 
@@ -953,13 +953,13 @@ StatusEffect
 			Activate()
 				..()
 				var/mob/Player/p = AttachedAtom
-				p.clothDmg += 40
-				p.clothDef += 120
+				p.clothDmg += 120
+				p.clothDef += 360
 				p.resetMaxHP()
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
-				p.clothDmg -= 40
-				p.clothDef -= 120
+				p.clothDmg -= 120
+				p.clothDef -= 360
 				p.resetMaxHP()
 				..()
 
