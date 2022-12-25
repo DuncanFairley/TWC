@@ -947,8 +947,6 @@ RandomEvent
 				mon.ChangeState(boss.INACTIVE)
 			m = null
 
-			new /StatusEffect/SantaSpawned(locate("@Hogwarts"), 144000)
-
 			if(message) Players << infomsg("Evil Santa is done throwing a tantrum and left.")
 			else Players << infomsg("Evil Santa was stopped.")
 			end()
