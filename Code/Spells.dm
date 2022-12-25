@@ -2499,7 +2499,7 @@ mob
 				P.element = pick(GHOST,FIRE,WATER,EARTH)
 
 			if(p.wand)
-				if(cd != 0) p.learnSpell(name)
+				if(cd != 0 && lag != 0) p.learnSpell(name)
 
 
 				if(!P.color)
