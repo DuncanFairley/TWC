@@ -39,13 +39,13 @@ obj/items/ingredients
 					usr << errormsg("The tool is busy.")
 					return
 
-				if(stack < p.req)
-					usr << errormsg("You need [p.req] ingredients to extract.")
+				if(stack < p.req*p.mass)
+					usr << errormsg("You need [p.req*p.mass] ingredients to extract.")
 					return
 
 				var/obj/items/i
-				if(stack > p.req)
-					i = Split(p.req)
+				if(stack > p.req*p.mass)
+					i = Split(p.req*p.mass)
 				else
 					i = src
 					Dispose()
@@ -68,12 +68,12 @@ obj/items/ingredients
 
 			var/obj/items/i
 
-			if(stack < p.req)
-				usr << errormsg("You need [p.req] ingredients to extract.")
+			if(stack < p.req*p.mass)
+				usr << errormsg("You need [p.req*p.mass] ingredients to extract.")
 				return
 
-			if(stack > p.req)
-				i = Split(p.req)
+			if(stack > p.req*p.mass)
+				i = Split(p.req*p.mass)
 			else
 				i = src
 				Dispose()
@@ -153,6 +153,7 @@ obj/potions
 	var
 		tmp/isBusy = FALSE
 		req = 1
+		tmp/mass = 1
 
 	icon = 'potions_tools.dmi'
 
@@ -163,8 +164,12 @@ obj/potions
 
 	Click()
 		..()
-
-		usr << infomsg("Drag and drop an ingredient here or face and click the ingredient.")
+		if(mass==1)
+			mass = 10
+			usr << infomsg("Mass brew on. (x10)")
+		else
+			usr << infomsg("Mass brew off. (x1)")
+			mass = 1
 
 	cauldron
 		icon_state = "cauldron"
@@ -195,9 +200,13 @@ obj/potions
 				sleep(4)
 
 		Click()
+			if(isBusy) return
 			..()
 
-			usr << infomsg("Shoot with Inflamari to heat up.")
+			usr << infomsg("Cauldron reset.")
+			pool = 0
+			flags = 0
+
 
 		Attacked(obj/projectile/p)
 			if(!isBusy && p.owner && isplayer(p.owner))
@@ -298,6 +307,10 @@ obj/potions
 						i.stack = rand(2,4)
 						i.UpdateDisplay()
 
+					if(mass > 1)
+						i.stack *= mass
+						i.UpdateDisplay()
+
 				else
 					emit(loc    = loc,
 						 ptype  = /obj/particle/smoke/green,
@@ -345,7 +358,7 @@ obj/potions
 			if(isBusy) return
 
 			if(p)
-				p.Alchemy.add(rand(3,9)*50, p, 1)
+				p.Alchemy.add(rand(3,9)*50*mass, p, 1)
 
 			var/id     = (i.id - 1) * 3 + i.form
 			var/poolId = 0
@@ -412,7 +425,7 @@ obj/potions
 			if(isBusy)          return
 			if(i.form != SOLID) return
 
-			i.stack      = 1
+			i.stack      = mass
 			i.UpdateDisplay()
 			i.form       = POWDER
 			i.name       = "powdered [i.name]"
@@ -428,7 +441,7 @@ obj/potions
 			if(isBusy)          return
 			if(i.form != SOLID) return
 
-			i.stack      = 1
+			i.stack      = mass
 			i.UpdateDisplay()
 			i.form       = LIQUID
 			i.name       = "[i.name] extract"
