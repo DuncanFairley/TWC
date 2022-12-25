@@ -2292,6 +2292,9 @@ obj/items/wearable/wigs/male_orange_wig
 	icon = 'male_orange_wig.dmi'
 obj/items/wearable/wigs/male_chess_wig
 	icon = 'male_chess_wig.dmi'
+obj/items/wearable/wigs/male_redblack_wig
+	icon = 'male_redblack_wig.dmi'
+	name = "male red and black wig"
 
 //Holiday//
 obj/items/wearable/wigs/male_christmas_wig
