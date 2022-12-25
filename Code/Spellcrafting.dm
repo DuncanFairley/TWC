@@ -10,7 +10,7 @@
 #define PAGE_DMG1 4096
 #define PAGE_DMG2 8192
 #define PAGE_CD 16384
-#define PAGE_16 32768
+#define PAGE_RANGE 32768
 
 mob/Player/var/tmp/obj/items/wearable/spellbook/usedSpellbook
 
@@ -18,6 +18,7 @@ obj/items/wearable/spellbook
 	var
 		cd        = 1
 		damage    = 1
+		range     = 1
 		spellType = 0
 		flags     = 0
 		element   = 0
@@ -224,8 +225,10 @@ obj/items/wearable/spellbook
 					s = new /obj/summon/cow (p.loc, p, command, 0.5)
 
 			s.scale = damage
+			if(s.scale > 1) s.scale *= 0.75
 		else if(spellType == METEOR)
-			new /obj/projectile/Meteor (attacker ? attacker.loc : p.loc, p, dmg, state, name, element)
+			var/obj/projectile/Meteor/m = new (attacker ? attacker.loc : p.loc, p, dmg, state, name, element)
+			m.range = range
 		else
 			if(element == HEAL)
 
@@ -236,8 +239,25 @@ obj/items/wearable/spellbook
 				p.HP = min(p.MHP, p.HP + d)
 				p.updateHP()
 				p.overlays+=image('attacks.dmi', icon_state = "heal")
+
+				var/list/players
+
+				if(range > 1)
+					players = list()
+					for(var/mob/Player/other in range(range, p))
+						if(other == p) continue
+						players += other
+
+						other.HP = min(p.MHP, p.HP + d)
+						other.updateHP()
+						other.overlays+=image('attacks.dmi', icon_state = "heal")
+
 				sleep(10)
 				p.overlays-=image('attacks.dmi', icon_state = "heal")
+				if(players)
+					for(var/mob/Player/other in players)
+						other.overlays-=image('attacks.dmi', icon_state = "heal")
+
 			else
 				var/mutable_appearance/ma = new
 
@@ -252,34 +272,40 @@ obj/items/wearable/spellbook
 				else if(p.wand && p.wand.projColor)
 					c = p.wand.projColor
 
-				for(var/d in list(0, 90, 180, 270))
+				var/list/layers = list()
+
+				for(var/i = 1 to range)
+					for(var/d = 0 to 359 step (90 / i))
+						var/matrix/m = matrix()
+						m.Translate(24 * i, 0)
+						ma.transform = turn(m, d)
+						ma.color = c
+
+						images += ma.appearance
+
+					var/obj/o = new
+					o.overlays = images
+
+					layers += o
+
 					var/matrix/m = matrix()
-					m.Translate(24, 0)
-					ma.transform = turn(m, d)
-					ma.color = c
+					m.Turn(90)
+					animate(o, transform = m, time = 10, loop = -1)
+					m.Turn(90)
+					animate(transform = m, time = 10)
+					m.Turn(90)
+					animate(transform = m, time = 10)
+					animate(transform = null, time = 10)
 
-					images += ma.appearance
-
-				var/obj/o = new
-				o.overlays = images
-				p.vis_contents += o
-
-				var/matrix/m = matrix()
-				m.Turn(90)
-				animate(o, transform = m, time = 10, loop = -1)
-				m.Turn(90)
-				animate(transform = m, time = 10)
-				m.Turn(90)
-				animate(transform = m, time = 10)
-				animate(transform = null, time = 10)
+				p.vis_contents += layers
 
 				for(var/i = 1 to 20)
-					for(var/mob/Enemies/e in range(1, p))
+					for(var/mob/Enemies/e in range(range, p))
 						e.onDamage(dmg, p, element)
 
 					sleep(5)
 
-				p.vis_contents -= o
+				p.vis_contents -= layers
 
 obj/items/spellpage
 	icon       = 'Scroll.dmi'
@@ -292,6 +318,7 @@ obj/items/spellpage
 		flags   = 0
 		element = 0
 		mpCost  = 1
+		range   = 0
 
 	Click()
 		if(src in usr)
@@ -337,6 +364,7 @@ obj/items/spellpage
 				p.usedSpellbook.cd *= cd
 				p.usedSpellbook.mpCost *= mpCost
 				p.usedSpellbook.damage *= damage
+				p.usedSpellbook.range += range
 
 			p.usedSpellbook.fixName()
 			if(p.usedSpellbook.stack > 1)
@@ -368,6 +396,7 @@ obj/items/spellpage
 		damage = 4
 		cd = 100
 		mpCost = 250
+		range = 3
 	aura
 		name = "Spell Page: \[Aura]"
 		spellType = ARUA
@@ -377,8 +406,8 @@ obj/items/spellpage
 	summon
 		name = "Spell Page: \[Summon]"
 		spellType = SUMMON
-		cd = 100
-		mpCost = 100
+		cd = 150
+		mpCost = 150
 	fire
 		name = "Spell Page: \[Fire]"
 		element = FIRE
@@ -400,7 +429,7 @@ obj/items/spellpage
 	damagetaken
 		name = "Spell Page: \[Cast On Damage Taken]"
 		flags = PAGE_DAMAGETAKEN
-		mpCost = 2
+		mpCost = 2.5
 	damage1
 		name = "Spell Page: \[Strong]"
 		flags = PAGE_DMG1
@@ -413,12 +442,21 @@ obj/items/spellpage
 		damage = 4
 		cd = 3
 		mpCost = 6
+		range = 1
 	cd
 		name = "Spell Page: \[Fast]"
 		flags = PAGE_CD
 		damage = 0.6
 		cd = 0.5
 		mpCost = 2
+	range
+		name = "Spell Page: \[Big]"
+		flags = PAGE_RANGE
+		range = 1
+		damage = 0.75
+		cd = 1.1
+		mpCost = 2
+
 
 obj
 	cookiedrop
