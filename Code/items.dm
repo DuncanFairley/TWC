@@ -975,7 +975,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			owner.resetMaxMP()
 
 		if(tmpDef != owner.clothDef)
-			owner.resetMaxMP()
+			owner.resetMaxHP()
 
 		if(passive)
 			owner.passives[passive] -= power
@@ -3995,7 +3995,7 @@ obj/items/magic_stone
 
 	summoning
 		circle(mob/Player/P)
-			if(worldData.currentEvents)
+			if(worldData.currentEvents && worldData.currentEvents.len > 5)
 				P << errormsg("You can't use this while an event is running.")
 				return
 			..(P)
