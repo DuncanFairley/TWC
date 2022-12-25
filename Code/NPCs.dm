@@ -263,7 +263,7 @@ obj/magic_force
 
 			if(count <= 0)
 
-				if(worldData.currentEvents)
+				if(worldData.currentEvents && worldData.currentEvents.len > 5)
 					p << errormsg("You can't use this while an event is running.")
 					return
 
