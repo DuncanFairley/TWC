@@ -8,6 +8,9 @@
 #define PAGE_DAMAGETAKEN 64
 
 #define PAGE_DMG1 4096
+#define PAGE_DMG2 8192
+#define PAGE_CD 16384
+#define PAGE_16 32768
 
 mob/Player/var/tmp/obj/items/wearable/spellbook/usedSpellbook
 
@@ -19,6 +22,7 @@ obj/items/wearable/spellbook
 		flags     = 0
 		element   = 0
 		mpCost    = 1
+		maxPages  = 2
 
 		tmp/lastUsed = 0
 
@@ -323,6 +327,11 @@ obj/items/spellpage
 						p << errormsg("This spell book is already using this page.")
 						return
 
+					if(countBits(p.usedSpellbook.flags) >= p.usedSpellbook.maxPages)
+
+						p << errormsg("This spell book has no room for more pages.")
+						return
+
 					p.usedSpellbook.flags |= flags
 
 				p.usedSpellbook.cd *= cd
@@ -391,11 +400,25 @@ obj/items/spellpage
 	damagetaken
 		name = "Spell Page: \[Cast On Damage Taken]"
 		flags = PAGE_DAMAGETAKEN
+		mpCost = 2
 	damage1
 		name = "Spell Page: \[Strong]"
 		flags = PAGE_DMG1
 		damage = 2
 		cd = 1.5
+		mpCost = 2
+	damage2
+		name = "Spell Page: \[Grand]"
+		flags = PAGE_DMG2
+		damage = 4
+		cd = 3
+		mpCost = 6
+	cd
+		name = "Spell Page: \[Fast]"
+		flags = PAGE_CD
+		damage = 0.6
+		cd = 0.5
+		mpCost = 2
 
 obj
 	cookiedrop
@@ -624,6 +647,8 @@ obj
 									 /obj/items/spellpage/heal,
 									 /obj/items/spellpage/damagetaken,
 									 /obj/items/spellpage/damage1,
+									 /obj/items/spellpage/damage2,
+									 /obj/items/spellpage/cd,
 									 /obj/items/wearable/spellbook)
 
 					var/obj/items/i = new prize (loc)
