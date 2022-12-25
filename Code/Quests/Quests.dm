@@ -570,7 +570,7 @@ questPointer
 
 mob/Player
 	var/list/questPointers = list()
-	var/tmp/showQuestType = 0 // 0 - active, 1 - complete, 2 - all
+	var/tmp/showQuestType = 0 // 0 - active, 1 - complete, 2 - all, 3 - unaccepted
 
 	verb
 		showQuestType()
@@ -583,6 +583,8 @@ mob/Player
 				if(2)
 					winset(src, "Quests.buttonQuestDisplay", "text=\"All Quests\"")
 				if(3)
+					winset(src, "Quests.buttonQuestDisplay", "text=\"Unaccepted Quests\"")
+				if(4)
 					showQuestType = 0
 					winset(src, "Quests.buttonQuestDisplay", "text=\"Active Quests\"")
 			buildQuestBook()
@@ -615,6 +617,19 @@ mob/Player
 
 				var/quest/q = quest_list[questName]
 				if(pointer && (!pointer.stage || q.repeat)) completed++
+
+			if(showQuestType == 3)
+				for(var/questName in quest_list)
+					if(quest_list in questPointers) continue
+
+					i++
+					src << output("<a href=\"?src=\ref[src];action=selectQuest;questName=[questName]\">[questName]</a>", "Quests.gridQuests:1,[i]")
+					src << output(null, "Quests.gridQuests:2,[i]")
+					if(i == 1)
+						displayQuest(questName)
+
+
+
 
 			var/percent = round((completed /  quest_list.len) * 100, 1)
 			var/header  = "You completed [percent]% of the available quests.\nAdventure Time: [getPlayTime()]."
