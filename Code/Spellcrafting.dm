@@ -242,10 +242,17 @@ obj/items/wearable/spellbook
 
 				var/list/images = list()
 
+				var/c
+				if(p.holster && p.holster.selectedColors)
+					c = pick(p.holster.selectedColors)
+				else if(p.wand && p.wand.projColor)
+					c = p.wand.projColor
+
 				for(var/d in list(0, 90, 180, 270))
 					var/matrix/m = matrix()
 					m.Translate(24, 0)
 					ma.transform = turn(m, d)
+					ma.color = c
 
 					images += ma.appearance
 
