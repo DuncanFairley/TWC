@@ -157,7 +157,7 @@ party
 		addExp(var/amount, var/mob/Player/p, rate)
 
 			amount /= rate
-			amount = round(amount / members.len, 1)
+			amount = round((amount / members.len) * (1 + (members.len - 1) / 10), 1)
 
 			p.addExp(round(amount * rate, 1), !p.MonsterMessages)
 
