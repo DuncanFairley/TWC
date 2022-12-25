@@ -292,7 +292,7 @@ obj/potions
 						if(i.seconds) i.seconds *= 1 + (quality - 4) * 0.1
 
 					var/quanChance = player.Alchemy.level
-					if(SWORD_ALCHEMY in player.passives) quanChance += 10
+					if(SWORD_ALCHEMY in player.passives) quanChance += 10 + player.passives[SWORD_ALCHEMY]
 
 					if(prob(quanChance))
 						i.stack = rand(2,4)
