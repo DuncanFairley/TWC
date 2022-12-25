@@ -921,7 +921,7 @@ mob
 						if(HOSTILE)
 							lag = max(MoveDelay, 1)
 
-							if(target.hardmode && !hardmode)
+							if(target.hardmode && !hardmode && level <= 1000)
 								hardmode = target.hardmode
 
 								switch(hardmode)
@@ -992,7 +992,7 @@ mob
 						if(!isPathBlocked(M, src, 1, src.density, dist_limit=Range))
 							target = M
 
-							if(target.hardmode > hardmode)
+							if(target.hardmode > hardmode && level <= 1000)
 								hardmode = target.hardmode
 
 								switch(hardmode)
