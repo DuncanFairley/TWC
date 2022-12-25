@@ -249,7 +249,7 @@ obj/potions
 				quality = min(7, quality)
 
 				if(c >= 4)
-					player.Alchemy.add((quality*12 + rand(9,12))*300, player, 1)
+					player.Alchemy.add(((quality*12 + rand(9,12))*300)*mass, player, 1)
 
 					if(isnum(pool))
 						potionId = "[pool]"
@@ -298,16 +298,21 @@ obj/potions
 					if(quality != 4)
 						var/list/letters = list("T", "D", "P", null, "A", "E", "O")
 						i.name += " - [letters[quality]]"
-						if(i.seconds) i.seconds *= 1 + (quality - 4) * 0.1
+						if(i.seconds) i.seconds *= 1 + (quality - 4) * 0.3
 
 					var/quanChance = player.Alchemy.level
-					if(SWORD_ALCHEMY in player.passives) quanChance += 10 + player.passives[SWORD_ALCHEMY]
+					var/maxProc = 4
+					if(SWORD_ALCHEMY in player.passives)
+						quanChance += 10 + player.passives[SWORD_ALCHEMY]
+						maxProc = 6
 
-					if(prob(quanChance))
-						i.stack = rand(2,4)
+					if(prob(quanChance*0.1))
+						i.stack = maxProc*mass
 						i.UpdateDisplay()
-
-					if(mass > 1)
+					else if(prob(quanChance))
+						i.stack = rand(2,maxProc)*mass
+						i.UpdateDisplay()
+					else if(mass > 1)
 						i.stack *= mass
 						i.UpdateDisplay()
 
@@ -589,12 +594,12 @@ obj/items/potions
 	frost_potion
 		icon_state = "blue"
 		effect     = /StatusEffect/Potions/Frost
-		seconds    = 60
+		seconds    = 900
 
 	heat_potion
 		icon_state = "red"
 		effect     = /StatusEffect/Potions/Heat
-		seconds    = 60
+		seconds    = 900
 
 	health
 		icon_state = "red"
@@ -649,71 +654,71 @@ obj/items/potions
 	invisibility_potion
 		icon_state = "gray"
 		effect     = /StatusEffect/Potions/Invisibility
-		seconds    = 45
+		seconds    = 900
 
 	stone_body_potion
 		icon_state = "gray"
 		effect     = /StatusEffect/Potions/Stone
-		seconds    = 45
+		seconds    = 900
 
 	cat_eyes_potion
 		icon_state = "purple"
 		effect     = /StatusEffect/Potions/NightSight
-		seconds    = 300
+		seconds    = 1200
 
 	defense
 		icon_state = "green"
 		effect     = /StatusEffect/Potions/Defense
 
 		small_defense_potion
-			seconds = 300
+			seconds = 900
 
 		defense_potion
-			seconds = 600
+			seconds = 1200
 
 		large_defense_potion
-			seconds = 900
+			seconds = 1800
 
 	damage
 		icon_state = "red"
 		effect     = /StatusEffect/Potions/Damage
 
 		small_damage_potion
-			seconds = 300
+			seconds = 900
 
 		damage_potion
-			seconds = 600
+			seconds = 1200
 
 		large_damage_potion
-			seconds = 900
+			seconds = 1800
 
 	luck
 		name       = "felix felicis"
 		icon_state = "gray"
 		effect     = /StatusEffect/Potions/Luck
-		seconds    = 180
+		seconds    = 600
 
 	taming_potion
 		icon_state = "orange"
 		effect     = /StatusEffect/Potions/Tame
-		seconds    = 600
+		seconds    = 1200
 
 	giant
 		name       = "giant's draught"
 		icon_state = "red"
 		effect     = /StatusEffect/Potions/Size { size=2 }
-		seconds    = 90
+		seconds    = 300
 
 	dwarf
 		name       = "dwarf's draught"
 		icon_state = "green"
 		effect     = /StatusEffect/Potions/Size { size=0.5 }
-		seconds    = 90
+		seconds    = 300
 
 	animagus_potion
 		icon_state = "orange"
 		effect     = /StatusEffect/Potions/Animagus
-		seconds    = 120
+		seconds    = 300
 		canThrow   = 0
 
 		Click()
@@ -731,7 +736,7 @@ obj/items/potions
 	polyjuice_potion
 		icon_state = "orange"
 		effect     = /StatusEffect/Potions/Polyjuice
-		seconds    = 120
+		seconds    = 900
 		canThrow   = 0
 
 		Click()
@@ -758,22 +763,22 @@ obj/items/potions
 			name       = "super felix felicis"
 			icon_state = "gray"
 			effect     = /StatusEffect/Potions/Luck { factor = 10.3 }
-			seconds    = 180
+			seconds    = 300
 
 		immortality_potion
 			icon_state = "green"
 			effect = /StatusEffect/Potions/Health { amount = 99999 }
-			seconds = 120
+			seconds = 600
 
 		speed_potion
 			icon_state = "green"
 			effect = /StatusEffect/Potions/Speed
-			seconds = 120
+			seconds = 1200
 
 		vampire
 			name       = "ego sanguinare"
 			icon_state = "red"
-			seconds    = 600
+			seconds    = 1200
 			effect     = /StatusEffect/Potions/Vampire
 
 
@@ -794,11 +799,11 @@ obj/items/potions
 		wisdom_potion
 			icon_state = "green"
 
-			var/exp = 40000
+			var/exp = 60000
 
 			Effect(mob/Player/p)
 				if(p.level < lvlcap)
-					var/e = exp * (1 + (quality - 4) * 0.1)
+					var/e = exp * (1 + (quality - 4) * 0.3) + rand(exp * 0.1)
 					p << infomsg("You receive [comma(e)] experience.")
 					p.addExp(e)
 					. = 1
@@ -905,7 +910,7 @@ obj/items/potions
 
 				if(p.pet.item.quality < MAX_PET_LEVEL)
 					. = 1
-					var/e = 10000 + (quality - 4) * 1600
+					var/e = 30000 + (quality - 4) * 9000
 					p << infomsg("Your [item.name] gained [e] experience.")
 					item.addExp(p, e)
 				else
