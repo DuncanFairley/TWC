@@ -350,19 +350,24 @@ obj/pet
 			if(pet.function & PET_SHINY)
 				refresh(5)
 
-				emit(loc    = loc,
-					 ptype  = /obj/particle/star,
-					 amount = 3,
-					 angle  = new /Random(0, 360),
-					 speed  = 5,
-					 life   = new /Random(5,10))
+		if(pet.function & PET_SHINY)
+			emit(loc    = loc,
+				 ptype  = /obj/particle/star,
+				 amount = 3,
+				 angle  = new /Random(0, 360),
+				 speed  = 5,
+				 life   = new /Random(5,10))
 
 		SetSize(pet.currentSize)
 
 		if(pet.function & PET_LIGHT)
 			light = new (loc)
-			animate(light, transform = matrix() * 1.8, time = 10, loop = -1)
-			animate(       transform = matrix() * 1.7, time = 10)
+			light.appearance_flags |= RESET_TRANSFORM
+
+			var/size = (pet.function & PET_SHINY) ? 4 : 2
+
+			animate(light, transform = matrix() * (size + 0.1), time = 10, loop = -1)
+			animate(       transform = matrix() * size, time = 10)
 
 		if(pet.function & PET_FLY)
 			shadow = new (loc)
