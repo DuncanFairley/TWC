@@ -469,14 +469,20 @@ obj
 
 					p << infomsg("Yummy a cookie!")
 
-					if(!(locate(/RandomEvent/Wizard) in worldData.currentEvents) && prob(3))
+					var/turf/t = locate("@Hogwarts")
 
+					if(!t.findStatusEffect(/StatusEffect/SantaSpawned))
 
-						var/turf/t = locate("@Hogwarts")
-						if(!t.findStatusEffect(/StatusEffect/SantaSpawned))
+						if(!(locate(/RandomEvent/Wizard) in worldData.currentEvents) && prob(4))
+
+							new /StatusEffect/SantaSpawned(locate("@Hogwarts"), 36000)
 
 							var/RandomEvent/e = locate(/RandomEvent/Wizard) in worldData.events
 							e.start()
+
+					else
+						p << errormsg("You don't want to annoy Santa so soon.")
+
 
 					emit(loc    = loc,
 					 	 ptype  = /obj/particle/star,
