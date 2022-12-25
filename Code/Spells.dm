@@ -2785,7 +2785,7 @@ mob/Enemies
 	var/tmp/dead = 0
 	var/element
 
-	proc/onDamage(dmg, mob/Player/p, elem = 0)
+	proc/onDamage(dmg, mob/Player/p, elem = 0, projColor=null)
 
 		if(dead) return 0
 
@@ -2816,12 +2816,16 @@ mob/Enemies
 					canBleed = FALSE
 					restoreBleed = TRUE
 
-				var/c = color
-				if(elem != 0)
+				var/c
+				if(projColor)
+					c = projColor
+				else if(elem != 0)
 					if(elem == FIRE) c = "#c60"
 					else if(elem == WATER) c = "#0bc"
 					else if(elem == EARTH) c = "#8b4513"
 					else if(elem == GHOST) c = "#ff69b4"
+				else c = color
+
 
 				var/obj/projectile/proj = new
 				proj.element = elem
@@ -2829,6 +2833,7 @@ mob/Enemies
 				proj.owner = p
 				proj.name = "[name]'s explosion"
 				proj.selfDamage = 0
+				proj.color = c
 
 				var/obj/o = new /obj/custom { canSave = 0; icon = 'Effects.dmi'; icon_state = "explode" } (loc)
 				o.color = list(c, c, c)
@@ -2938,7 +2943,7 @@ mob/Enemies
 			if(p.owner:MonsterMessages && !silent)
 				p.owner << "Your [p] does [dmg] damage to [src]."
 
-			var/exp2give = onDamage(dmg, p.owner, p.element)
+			var/exp2give = onDamage(dmg, p.owner, p.element, p.color)
 			if(exp2give > 0)
 
 				p.owner:learnSpell(p.name, 30)

@@ -293,7 +293,13 @@ obj/summon
 							if(e.prizePoolSize > 1)
 								dmg = round((dmg*0.7) / e.prizePoolSize)
 
-							var/exp2give = e.onDamage(dmg, summoner)
+							var/c
+							if(summoner.holster && summoner.holster.selectedColors)
+								c = pick(summoner.holster.selectedColors)
+							else if(summoner.wand && summoner.wand.projColor)
+								c = summoner.wand.projColor
+
+							var/exp2give = e.onDamage(dmg, summoner, projColor=c)
 
 							if(exp2give > 0)
 								target = null
