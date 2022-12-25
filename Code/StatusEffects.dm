@@ -659,7 +659,7 @@ StatusEffect
 			var/factor = 3
 
 			Activate()
-				factor = factor + (potion.quality - 4) * 0.1
+				factor = factor * (1 + (potion.quality - 4) * 0.3)
 
 				..()
 
@@ -699,14 +699,14 @@ StatusEffect
 			Activate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDmg += 60 + (potion.quality - 4) * 40
+					p.clothDmg += 270 + (potion.quality - 4) * 60
 
 				..()
 
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDmg -= 60 + (potion.quality - 4) * 40
+					p.clothDmg -= 270 + (potion.quality - 4) * 60
 
 				..()
 
@@ -714,7 +714,7 @@ StatusEffect
 			Activate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDef += 120 + (potion.quality - 4) * 12
+					p.clothDef += 810 + (potion.quality - 4) * 180
 					p.resetMaxHP()
 
 				..()
@@ -722,7 +722,7 @@ StatusEffect
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDef -= 120 + (potion.quality - 4) * 12
+					p.clothDef -= 810 + (potion.quality - 4) * 180
 					p.resetMaxHP()
 
 				..()
