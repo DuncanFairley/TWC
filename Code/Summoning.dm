@@ -228,8 +228,7 @@ obj/summon
 
 			var/dmg = p.damage + p.owner:Slayer.level
 
-			if(p.owner:monsterDmg > 0)
-				dmg *= 1 + p.owner:monsterDmg/100
+			dmg *= 1 + p.owner:monsterDmg/100
 
 			var/n = dir2angle(get_dir(src, p))
 			emit(loc    = src,
@@ -287,8 +286,7 @@ obj/summon
 
 							var/dmg = max(0, (level + extraDmg) * scale - (e.level * 0.5))
 
-							if(summoner.monsterDmg > 0)
-								dmg *= 1 + summoner.monsterDmg/100
+							dmg *= 1 + summoner.monsterDmg/100
 
 							if(e.prizePoolSize > 1)
 								dmg = round((dmg*0.7) / e.prizePoolSize)

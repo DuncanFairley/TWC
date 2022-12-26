@@ -2654,8 +2654,7 @@ mob/Player
 			updateMP()
 
 		if(ismonster(attacker))
-			if(monsterDef > 0)
-				dmg *= 1 - min(monsterDef/100, 0.75)
+			dmg *= 1 - min(monsterDef/100, 0.75)
 
 		if(SHIELD_MPDAMAGE in passives)
 			var/r = min(round(dmg * (0.4 + ((passives[SHIELD_MPDAMAGE] - 1) / 100)), 1), MP)
@@ -2900,8 +2899,7 @@ mob/Enemies
 
 			var/dmg = p.damage + p.owner:Slayer.level
 
-			if(p.owner:monsterDmg > 0)
-				dmg *= 1 + p.owner:monsterDmg/100
+			dmg *= 1 + p.owner:monsterDmg/100
 
 			if(p.icon_state == "blood")
 				dmg += round(p.damage / 10, 1)

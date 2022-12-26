@@ -5659,6 +5659,15 @@ obj/items/wearable/shield/nurse
 	passive = SHIELD_NURSE
 	monsterDef = 5
 
+obj/items/wearable/shield/tank
+	icon='trophies.dmi'
+	icon_state="Shield"
+	name="phalanx"
+	desc="You are the tank."
+	suffix = "<span style=\"color:#ffa500;\">You are the tank.</span>"
+	monsterDef = 60
+	monsterDmg = -100
+
 obj/items/wearable/shield/spy
 	icon='trophies.dmi'
 	icon_state="Shield"

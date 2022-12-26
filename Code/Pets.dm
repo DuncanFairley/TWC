@@ -874,8 +874,7 @@ obj/squirrel
 				else
 					var/dmg = round(level*2, 1) - target.Slayer.level
 
-					if(target.monsterDef > 0)
-						dmg *= 1 - min(target.monsterDef/100, 0.75)
+					dmg *= 1 - min(target.monsterDef/100, 0.75)
 
 					if(target.animagusOn)
 						dmg = dmg * 0.75 - target.Animagus.level

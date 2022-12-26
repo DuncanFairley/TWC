@@ -72,8 +72,7 @@ mob/TalkNPC
 
 			var/dmg = p.damage + p.owner:Slayer.level
 
-			if(p.owner:monsterDmg > 0)
-				dmg *= 1 + p.owner:monsterDmg/100
+			dmg *= 1 + p.owner:monsterDmg/100
 
 			var/n = dir2angle(get_dir(src, p))
 			emit(loc    = src,
@@ -143,8 +142,7 @@ mob/TalkNPC
 					else
 						var/dmg = round(level*2, 1) - target.Slayer.level
 
-						if(target.monsterDef > 0)
-							dmg *= 1 - min(target.monsterDef/100, 0.75)
+						dmg *= 1 - min(target.monsterDef/100, 0.75)
 
 						if(target.animagusOn)
 							dmg = dmg * 0.75 - target.Animagus.level
