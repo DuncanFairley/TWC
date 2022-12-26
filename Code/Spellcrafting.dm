@@ -149,6 +149,15 @@ obj/items/wearable/spellbook
 			if(flags & PAGE_DAMAGETAKEN)
 				name = "Defensive [name]"
 
+			if(flags & PAGE_DMG2)
+				name = "Grand [name]"
+
+			if(flags & PAGE_CD)
+				name = "Fast [name]"
+
+			if(flags & PAGE_RANGE)
+				name = "Big [name]"
+
 	proc/cast(mob/Player/p, mob/attacker)
 		set waitfor = 0
 
@@ -178,6 +187,10 @@ obj/items/wearable/spellbook
 		p.updateMP()
 
 		lastUsed = world.time
+
+		var/t = cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier
+		if(t > 10)
+			new /hudobj/Cooldown (null, p.client, null, "Spellcrafting", t/10, show=1)
 
 		var/dmg = (p.Dmg + p.clothDmg) * damage
 
@@ -353,6 +366,8 @@ obj/items/spellpage
 
 						p << errormsg("This spell book is already using this page.")
 						return
+
+					world << countBits(p.usedSpellbook.flags)
 
 					if(countBits(p.usedSpellbook.flags) >= p.usedSpellbook.maxPages)
 
