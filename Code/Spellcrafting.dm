@@ -367,8 +367,6 @@ obj/items/spellpage
 						p << errormsg("This spell book is already using this page.")
 						return
 
-					world << countBits(p.usedSpellbook.flags)
-
 					if(countBits(p.usedSpellbook.flags) >= p.usedSpellbook.maxPages)
 
 						p << errormsg("This spell book has no room for more pages.")
