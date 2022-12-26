@@ -1133,7 +1133,8 @@ mob
 					return
 
 			if(distance > 1)
-				if(distance > 4 && prob(5))
+				var/area/newareas/a = loc.loc
+				if(a.Players.len > 1 && distance > 4 && prob(25))
 					ChangeTarget()
 
 				var/turf/t = get_step_to(src, target, 1)
