@@ -284,7 +284,7 @@ obj/summon
 							e.dir = get_dir(e, src)
 							dir = turn(e.dir, 180)
 
-							var/dmg = max(0, (level + extraDmg) * scale - (e.level * 0.5))
+							var/dmg = max(0, (level + extraDmg) * scale - (e.level * 0.5)*summonTier)
 
 							dmg *= 1 + summoner.monsterDmg/100
 
@@ -304,7 +304,7 @@ obj/summon
 								summoner.Summoning.add(exp2give*0.8, summoner, 1)
 
 							else
-								dmg = e.Dmg*0.7
+								dmg = e.Dmg*0.7*summonTier
 
 								if(level < e.level)
 									dmg += dmg * ((51 + e.level - level)/200)
