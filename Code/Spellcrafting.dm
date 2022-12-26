@@ -687,6 +687,7 @@ obj
 									 /obj/items/spellpage/damage1,
 									 /obj/items/spellpage/damage2,
 									 /obj/items/spellpage/cd,
+									 /obj/items/spellpage/range,
 									 /obj/items/wearable/spellbook)
 
 					var/obj/items/i = new prize (loc)
