@@ -981,10 +981,12 @@ proc/ticks2time(ticks)
 
 mob/Player/proc/lvlGlow()
 	set waitfor = 0
-	filters += filter(type="drop_shadow", y=0, size=4, offset=2, color="#ffa")
-	var/f = filters[filters.len]
-	animate(f, size=9, offset=5, y=7, time=14)
-	animate(size=12, offset=10, y=12, color="#ffa4", time=10)
 
-	sleep(30)
-	filters -= f
+	if(filters.len == 0)
+		filters += filter(type="drop_shadow", y=0, size=4, offset=2, color="#ffa")
+		var/f = filters[filters.len]
+		animate(f, size=9, offset=5, y=7, time=14)
+		animate(size=12, offset=10, y=12, color="#ffa4", time=10)
+
+		sleep(30)
+		filters -= f
