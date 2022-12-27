@@ -119,7 +119,8 @@ mob/Player
 					break
 
 		buildActionBar()
-			updateSpellbook()
+			set waitfor = 0
+			updateSpellbook(1)
 			loadSpells()
 			var/list/ActionKeys = list("1","2","3","4","5","6","7","8","9","0","-","=")
 			var/count = 0

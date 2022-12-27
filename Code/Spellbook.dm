@@ -37,10 +37,7 @@ mob/Player
 				if(istext(o))
 					UsedKeys[k] = spells[o]
 
-		updateSpellbook()
-			set waitfor = 0
-			if(updatingSpellbook) return
-			updatingSpellbook = 1
+		updateSpellbook(var/wait=0)
 			var/list/verbList = list("Take","Attack")
 
 			if(!spells) spells = list()
@@ -58,7 +55,7 @@ mob/Player
 				spells[v] = o
 
 				src << output(o, "SpellBook.gridSpellbook:[count]")
-				sleep(1)
+				if(wait) sleep(1)
 
 			var/list/objs = list()
 
@@ -80,9 +77,8 @@ mob/Player
 			for(var/o in objs)
 				count++
 				src << output(o, "SpellBook.gridSpellbook:[count]")
-				sleep(1)
+				if(wait) sleep(1)
 
-			updatingSpellbook = 0
 
 obj/spells
 	icon = 'SpellbookIcons.dmi'
