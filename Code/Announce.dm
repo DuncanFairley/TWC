@@ -67,6 +67,9 @@ mob/verb/Emote(t as text)
 	if(src:mute==1)
 		usr << errormsg("You can't emote while you are muted.")
 		return
-	t=check(t)
-	t = copytext(t,1,350)
-	hearers()<<"<i>[usr] [t]</i>"
+	if(t)
+		t=check(t)
+		t = copytext(t,1,350)
+		hearers()<<"<i>[usr] [t]</i>"
+	else
+		src << errormsg("Please enter something.")

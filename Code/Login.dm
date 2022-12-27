@@ -1321,7 +1321,7 @@ mob/Player
 								spawn(40)
 									spam--
 						else
-							src<<"Please enter something."
+							src << errormsg("Please enter something.")
 					else
 						src << errormsg("OOC is muted.")
 				else
