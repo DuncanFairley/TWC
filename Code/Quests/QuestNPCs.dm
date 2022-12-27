@@ -283,6 +283,38 @@ mob/TalkNPC/quest
 			var/ScreenText/s = new(i_Player, src)
 			s.AddText("Thanks again!")
 
+	Tom
+		icon_state = "tom"
+		questPointers = "Rats in the Cellar"
+
+		questStart(mob/Player/i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
+			s.AddText("Hello. Professor Palmer sent me an owl about you. Have you come to help me?")
+			if(s.Wait()) i_Player << "<i>You nod.</i>"
+			s.AddText("Excellent!")
+			s.AddText("I always store my beverages in a cellar below the ground to keep them cool, however recently there have been rats somehow getting in.")
+			s.AddText("If you would be so kind as to get rid of all the rats, and stop them from getting back in. I would be forever grateful.")
+
+			..(i_Player, questName)
+
+		questOngoing(mob/Player/i_Player, questName)
+			.=..(i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+
+			if(.)
+				s.AddText("Thank you.")
+			else
+				s.AddText("Have you gotten rid of those rats yet?")
+
+		questCompleted(mob/Player/i_Player, questName)
+
+			var/ScreenText/s = new(i_Player, src)
+			s.AddText("Thanks again.")
+
+
 
 	Tammie
 		icon_state = "tammie"

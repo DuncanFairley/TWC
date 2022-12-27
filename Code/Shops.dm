@@ -39,7 +39,7 @@ mob/Tom_
 	icon_state="tom"
 	density=1
 
-mob/TalkNPC/quest/Tom
+/*mob/TalkNPC/quest/Tom
 	icon_state="tom"
 	density=1
 	questPointers = "Rats in the Cellar"
@@ -114,7 +114,7 @@ mob/TalkNPC/quest/Tom
 				else
 					p << npcsay("Tom: Sorry mate. Those rats drank all of the beer.")
 			if(null)
-				p << npcsay("Tom: Seeya later then.")
+				p << npcsay("Tom: Seeya later then.")*/
 
 mob/TalkNPC/Ollivander
 	icon_state="ollivander"
