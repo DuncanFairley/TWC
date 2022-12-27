@@ -10,7 +10,7 @@ quest
 
 		Reward
 			desc = "Go back to Bob."
-			reqs = list("Bob" = 3)
+			reqs = list("Bob" = 1)
 	TrainingDummy1
 		name   = "Battle Training I"
 		desc   = "This training dummy is itching for a fight, attack it!"
