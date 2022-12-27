@@ -243,7 +243,7 @@ RandomEvent
 					worldData.currentArena.players << "<h4>Go!</h5>"
 					worldData.currentArena.started = 1
 
-					var/count = worldData.currentArena.players.len
+				//	var/count = worldData.currentArena.players.len
 
 					var/list/rndturfs = list()
 					for(var/turf/T in locate(/area/arenas/MapThree/PlayArea))
@@ -299,11 +299,11 @@ RandomEvent
 							p.Death_Check()
 
 					if(winner)
-						var/prize = 15000 * (count + 1)
-						var/gold/g = new(bronze=prize)
-						g.give(winner)
-						winner << infomsg("You won [g.toString()] for winning the round.")
-						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: (FFA) [winner.name] won [comma(prize)] gold.<br />"
+						var/t = pick(drops_list["legendary"])
+						var/obj/items/item_prize = new t (winner)
+
+						winner << infomsg("You won [item_prize.name] for winning the round.")
+						goldlog << "[time2text(world.realtime,"MMM DD YYYY - hh:mm")]: (FFA) [winner.name] won [item_prize.name].<br />"
 
 			if(a)
 				a.scaleDamage = 0
