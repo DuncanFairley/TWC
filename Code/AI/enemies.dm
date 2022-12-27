@@ -518,7 +518,8 @@ mob
 
 		Attacked(obj/projectile/p)
 			if(!isplayer(p.owner)) return
-			if(!origloc && p.owner && p.owner.loc.loc != loc.loc) return
+			if(!loc || !p.owner || !p.owner.loc) return
+			if(!origloc && p.owner.loc.loc != loc.loc) return
 
 			..()
 
