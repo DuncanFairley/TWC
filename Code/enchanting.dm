@@ -538,6 +538,12 @@ obj/blacksmith
 
 					var/price = i.quality*priceFactor + 2 + priceFactor
 
+					var/chanceFactor
+					if(findtext(i.name, "cursed "))
+						chanceFactor = 5
+					else
+						chanceFactor = 4
+
 					var/cancel = 0
 					if(!despair || despair.stack < price)
 						p << errormsg("You need [price] embers of despair to upgrade [i.name]. You have [despair ? despair.stack : "0"].")
@@ -552,7 +558,7 @@ obj/blacksmith
 					despair.Consume(price)
 					frost.Consume(price)
 
-					var/chanceToFail = (i.quality+1)*6 + 15
+					var/chanceToFail = (i.quality+1)*chanceFactor + chanceFactor*3
 
 					if(i.quality >= 5 && prob(chanceToFail))
 						p << infomsg("Failure! You could not upgrade [i.name]. ([100 - chanceToFail]%)")
