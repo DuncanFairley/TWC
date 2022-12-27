@@ -35,7 +35,7 @@
 "aaI" = (/turf/Hogwarts_Stone_Wall,/area/newareas/inside/Pixie_Pit)
 "aaJ" = (/turf/stonefloor,/area/newareas/inside/Pixie_Pit)
 "aaK" = (/mob/Enemies/Pixie,/turf/stonefloor,/area/newareas/inside/Pixie_Pit)
-"aaL" = (/mob/TalkNPC/quest/Sassy_Pixie,/turf/stonefloor,/area/newareas/inside/Pixie_Pit)
+"aaL" = (/mob/TalkNPC/quest/Sassy_Pixie{canFight = 0},/turf/stonefloor,/area/newareas/inside/Pixie_Pit)
 "aaM" = (/turf/stonefloor,/area/inside/Pixie_Pit)
 "aaN" = (/obj/teleportPath,/turf/stonefloor,/area/inside/Pixie_Pit)
 "aaO" = (/turf/stonefloor,/area/outside/Hogwarts{invisibility = 10})
