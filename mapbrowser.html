@@ -5,9 +5,13 @@
 var map_width;
 var map_height;
 var win_name;
-var map_zoom = 1;
+var user_map_zoom = 1;
 var resizing = 1;
 var version = 5;
+
+var TILE_WIDTH = 32;
+var TILE_HEIGHT = 32;
+var MAX_VIEW_TILES = 2100;
 
 function CallVerb() {
     var locstr = "byond://winset?command=" + arguments[0];
@@ -38,7 +42,7 @@ window.onresize = function() {
 
 window.onload = function() {
 	resizing = 1
-	setTimeout(loginEvents, 50);
+	setTimeout(loginEvents, 1);
 };
 
 function loginEvents() {
@@ -79,7 +83,7 @@ function ForeColor() {
 
 function SetZoom() {
 	var z = encodeURIComponent(arguments[0]);
-	map_zoom = parseFloat(z);
+	user_map_zoom = parseFloat(z);
 	if(resizing) return;
 	Resize();
 }
@@ -91,25 +95,32 @@ function CenterWindow() {
     window.location = "byond://winget?callback=CenterWindowCallback&id=mainwindow&property=size";
 }
 
-function Resize() {
+function Resize() 
+{
     var body = document.getElementsByTagName('body')[0];
-    var map_width = body.clientWidth;
-    var map_height = body.clientHeight;
+    map_width = body.clientWidth;
+    map_height = body.clientHeight;
+	
+	if(user_map_zoom < 1)
+	{
+		user_map_zoom = 1;
+	}
+    var map_zoom = user_map_zoom;
 
-    var view_width = Math.ceil(map_width/32);
+    var view_width = Math.ceil(map_width/TILE_WIDTH/map_zoom);
     if(!(view_width%2)) ++view_width;
-    var view_height = Math.ceil(map_height/32);
+    var view_height = Math.ceil(map_height/TILE_HEIGHT/map_zoom);
     if(!(view_height%2)) ++view_height;
 
-    while(view_width*view_height>2000) {
-        view_width = Math.ceil(map_width/32/++map_zoom);
+    while(view_width*view_height>MAX_VIEW_TILES) {
+        view_width = Math.ceil(map_width/TILE_WIDTH/++map_zoom);
         if(!(view_width%2)) ++view_width;
-        view_height = Math.ceil(map_height/32/map_zoom);
+        view_height = Math.ceil(map_height/TILE_HEIGHT/map_zoom);
         if(!(view_height%2)) ++view_height;
     }
 
-    var buffer_x = Math.floor((view_width*32 - map_width/map_zoom)/2);
-    var buffer_y = Math.floor((view_height*32 - map_height/map_zoom)/2);
+    var buffer_x = Math.floor((view_width*TILE_WIDTH - map_width/map_zoom)/2);
+    var buffer_y = Math.floor((view_height*TILE_HEIGHT - map_height/map_zoom)/2);
 
     WinSet("map","zoom",map_zoom);
     CallVerb("onResize",view_width,view_height,buffer_x,buffer_y,map_zoom);
