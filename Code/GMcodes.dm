@@ -1162,7 +1162,7 @@ mob
 				//usr.icon = usr.mprevicon
 				p.FlickState("Orb",12,'Effects.dmi')
 				sleep(12)
-				p.icon = usr.baseicon
+				p.BaseIcon()
 				p.ApplyOverlays()
 				p.invisibility=0
 				p.cloaked=0
