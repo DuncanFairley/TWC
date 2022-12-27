@@ -4,6 +4,8 @@ mob/Player
 	var/tmp
 		spellBookOpen = FALSE
 		list/spells
+
+		updatingSpellbook = 0
 	verb
 		spellBookClosed()
 			set name= ".spellBookClosed"
@@ -36,7 +38,9 @@ mob/Player
 					UsedKeys[k] = spells[o]
 
 		updateSpellbook()
-
+			set waitfor = 0
+			if(updatingSpellbook) return
+			updatingSpellbook = 1
 			var/list/verbList = list("Take","Attack")
 
 			if(!spells) spells = list()
@@ -54,6 +58,7 @@ mob/Player
 				spells[v] = o
 
 				src << output(o, "SpellBook.gridSpellbook:[count]")
+				sleep(1)
 
 			var/list/objs = list()
 
@@ -75,6 +80,9 @@ mob/Player
 			for(var/o in objs)
 				count++
 				src << output(o, "SpellBook.gridSpellbook:[count]")
+				sleep(1)
+
+			updatingSpellbook = 0
 
 obj/spells
 	icon = 'SpellbookIcons.dmi'
