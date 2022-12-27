@@ -224,10 +224,11 @@ mob/Spells/verb/Herbificus()
 mob/Spells/verb/Herbivicus()
 	set category = "Spells"
 	if(canUse(src,needwand=1,insafezone=1,inhogwarts=1))
-		hearers()<<"<b><span style=\"color:red;\">[usr]:</span> Herbivicus."
-
+		var/text = 0
 		for(var/obj/herb/h in oview(15, src))
 			if(h.wait) continue
+
+			text = 1
 
 			var/image/i = image('attacks.dmi',icon_state="heal")
 			h.overlays += i
@@ -243,6 +244,9 @@ mob/Spells/verb/Herbivicus()
 					h.grow(src)
 			else
 				h.grow(src)
+
+		if(text)
+			hearers()<<"<b><span style=\"color:red;\">[usr]:</span> Herbivicus."
 
 		usr:learnSpell("Herbivicus")
 
