@@ -2636,7 +2636,105 @@ element
 
 
 mob/Player
-	var/tmp/lastCombat = -COMBAT_TIME
+	var
+		tmp/lastCombat = -COMBAT_TIME
+		tmp/wandCharge = 0
+
+	proc/wandPower()
+		set waitfor = 0
+
+		var/obj/o = new
+		o.appearance = wand.appearance
+		o.maptext = null
+		o.layer = 5
+		o.appearance_flags = PIXEL_SCALE
+
+		var/obj/Shadow/s = new
+
+		s.pixel_y = - 16
+		s.appearance_flags |= RESET_TRANSFORM|PIXEL_SCALE
+		var/matrix/m = matrix()
+		m.Scale(1.6, 1)
+		s.transform = m
+
+		o.vis_contents += s
+
+		m = matrix()
+		m.Turn(90)
+		animate(o, transform = m, time = 6, loop = -1)
+		m.Turn(90)
+		animate(transform = m, time = 6)
+		m.Turn(90)
+		animate(transform = m, time = 6)
+		animate(transform = null, time = 6)
+
+		var/totalTime = 10
+		animate(o, pixel_x = pixel_x, pixel_y = pixel_y + 64, time = totalTime, loop = 1, flags = ANIMATION_PARALLEL)
+		var/t = rand(10, 30)
+		totalTime += t
+		animate(time = t)
+
+		var/list/time = list()
+
+		for(var/i = 1 to 4)
+			var/px = rand(-128, 128)
+			var/py = rand(-128, 128)
+
+			time["[totalTime - (totalTime % 5)]"] = "[px],[py]"
+
+			t = rand(20, 40)
+			totalTime += t + 10
+
+			animate(pixel_x = pixel_x + px, pixel_y = pixel_y + py, time = 10)
+			animate(time = t)
+
+		time["[totalTime - (totalTime % 5)]"] = "0,64"
+
+		animate(pixel_x = 0, pixel_y = 64, time = 10)
+		t = rand(10, 30)
+		totalTime += t + 10
+		animate(time = t)
+		animate(pixel_y = 0, time = 10)
+
+		vis_contents += o
+		// wand animation ends here
+
+		var/px = 0
+		var/py = 64
+		for(var/i = 0 to totalTime step 5)
+			if("[i]" in time)
+				var/txt = splittext(time["[i]"], ",")
+				px = text2num(txt[1])
+				py = text2num(txt[2])
+
+			for(var/mob/Enemies/e in range(5))
+				if(e.level > 1000) continue
+				if(!e.loc || e.HP <= 0 || e.dead) continue
+
+				var/vector/start = new (  x * 32 + 16,   y * 32 + 16)
+				var/vector/dest  = new (e.x * 32 + 16, e.y * 32 + 16)
+
+	//			start.X += (EAST & dir) ? 7 : -7
+	//			start.Y -= 6
+				start.X += px
+				start.Y += py
+
+
+				var/bolt/boltFix/b = new(start, dest, 35)
+				b.Draw(z, /obj/segment/segmentFix, color = "#E4CCFF", thickness = 1)
+
+				e.onDamage(e.MHP*10, src)
+
+			sleep(5)
+
+
+		sleep((totalTime-2) % 5)
+
+
+		animate(o, time = 0, flags = ANIMATION_END_NOW)
+		vis_contents -= o
+		o.vis_contents -= s
+
 	proc/onDamage(dmg, mob/attacker, triggerSummons=1)
 
 		if(loginProtection)
@@ -2689,6 +2787,26 @@ mob/Player
 
 		HP -= dmg
 		updateHP()
+
+		if(wand && wand.test && !isplayer(attacker) && attacker != src)
+			if(HP <= 0 && prob(25) && wandCharge >= 50)
+				new /StatusEffect/WandPower(src, 120)
+
+				wandCharge-=50
+				wand.wandPower.setCharge(wandCharge)
+
+				resurrect = 1
+				spawn() src << infomsg("Your wand resurrected you.")
+			else if(prob(25))
+
+				wandCharge = min(wandCharge + rand(1,3), 100)
+				wand.wandPower.setCharge(wandCharge)
+
+				if(wandCharge >= 100 && !findStatusEffect(/StatusEffect/WandPower))
+					wandCharge = 0
+					wand.wandPower.setCharge(wandCharge)
+					new /StatusEffect/WandPower(src, 30)
+					wandPower()
 
 		if(triggerSummons && attacker != src)
 			for(var/obj/summon/s in Summons)

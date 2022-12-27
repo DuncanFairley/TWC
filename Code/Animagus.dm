@@ -160,6 +160,32 @@ mob/Player
 			tickers &= ~ANIMAGUS_RECOVER
 hudobj
 
+	WandPower
+		name       = "Wand"
+		icon_state = "lvlup"
+		anchor_x   = "WEST"
+		screen_x   = 188
+		screen_y   = -48
+		anchor_y   = "NORTH"
+
+		maptext_x = 32
+		maptext_y = 8
+
+		mouse_opacity = 0
+
+		proc/setCharge(var/n)
+			var/mob/Player/p = client.mob
+			maptext = {"<span style=\"color:[p.mapTextColor];font-size:2px;\"><b>[n]%</b></span>"}
+
+		New(loc=null,client/Client,list/Params,show=1)
+			..(loc,Client,Params,show)
+
+			var/mob/Player/p = Client.mob
+			icon = p.wand.icon
+			icon_state = p.wand.icon_state
+
+			maptext = {"<span style=\"color:[p.mapTextColor];font-size:2px;\"><b>0%</b></span>"}
+
 	Animagus
 		name       = "Animagus"
 		icon_state = "lvlup"

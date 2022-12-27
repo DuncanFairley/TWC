@@ -408,6 +408,7 @@ StatusEffect
 	DisplayedTrophy
 	DodgedDeath
 	SantaSpawned
+	WandPower
 
 	Lava
 		Activate()

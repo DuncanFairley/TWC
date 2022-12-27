@@ -2212,6 +2212,9 @@ mob/proc/Death_Check(mob/killer = src)
 							if(resurrect.Consume())
 								resurrect.Equip(p, 1)
 						new /obj/corpse (loc, src, -1)
+					else if(p.resurrect)
+						p.resurrect = 0
+						new /obj/corpse (loc, src, -1)
 					else
 						if(src.level < lvlcap)
 							src.Exp = round(src.Exp * 0.8)

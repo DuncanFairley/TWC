@@ -1918,6 +1918,10 @@ obj/items/wearable/wands
 
 		lastused
 
+		test = 1
+
+		tmp/hudobj/WandPower/wandPower
+
 	bonus = NOENCHANT
 	max_stack = 1
 	socket = 0
@@ -2026,6 +2030,9 @@ obj/items/wearable/wands
 			lastused = owner.ckey
 			owner.wand = src
 
+			if(test)
+				wandPower = new (null, owner.client, null, 1)
+
 			if(!overridetext)
 				if(track)
 					displayKills(owner, 0, 1)
@@ -2037,6 +2044,11 @@ obj/items/wearable/wands
 					viewers(owner) << infomsg("[owner] draws \his [n].")
 		else if(. == REMOVED)
 			owner.wand = null
+
+			if(wandPower)
+				wandPower.hide()
+				wandPower = null
+
 			if(!overridetext)
 				var/n = worldData.elderWand == owner.ckey ? "[name] (elder)" : name
 				if(track && displayColor)
@@ -2531,6 +2543,8 @@ obj/items/wearable/scarves/sky_scarf
 	icon = 'scarf_sky.dmi'
 
 /////////
+
+mob/Player/var/tmp/resurrect = 0
 
 obj/items/wearable/resurrection_stone
 	showoverlay=0
