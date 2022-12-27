@@ -1,4 +1,16 @@
 quest
+	RoR
+		name   = "In my time of Requirement"
+		desc   = "Bob wants you to find room of requirement for him, he seems like an upstanding guy."
+		reward = /questReward/RoR
+
+		FindRor
+			desc = "Find Room of Requirement."
+			reqs = list("Go to Room of Requirement" = 1)
+
+		Reward
+			desc = "Go back to Bob."
+			reqs = list("Bob" = 3)
 	TrainingDummy1
 		name   = "Battle Training I"
 		desc   = "This training dummy is itching for a fight, attack it!"
@@ -983,6 +995,9 @@ quest
 			reqs = list("Professor Palmer" = 1)
 
 questReward
+	RoR
+		exp  = 40000
+		items = /obj/items/requirement_stone
 	TrainingDummy1
 		exp  = 120000
 		items = /obj/items/lamps/double_exp_lamp

@@ -18,21 +18,66 @@ mob/TalkNPC
 
 			if(p.checkQuestProgress("Sarah"))
 				s.AddText("Don't mind me. I'm just trying to get my mind off of things.")
-				p << "<i>You explain Jake sent you to deliver a letter.</i>"
+				if(s.Wait()) p << "<i>You explain Jake sent you to deliver a letter.</i>"
 				s.AddText("A letter huh?")
-				p << "<i>You watch her eyes flitter left to right rapidly as her smile becomes less and less prominent.</i>"
+				if(s.Wait()) p << "<i>You watch her eyes flitter left to right rapidly as her smile becomes less and less prominent.</i>"
 				s.AddText("This is... ")
 				s.AddText("I didn't realize he felt this way about me.")
-				p << "<i>Her eyes begin to water slightly.</i>"
+				if(s.Wait()) p << "<i>Her eyes begin to water slightly.</i>"
 				s.AddText("Thing is, I'm to leave to the witchcraft school in Adams, Massachusetts of the United States shortly.")
 				s.AddText("I wish he and I had more time...")
-				p << "<i>She pauses and thinks a moment.</i>"
+				if(s.Wait()) p << "<i>She pauses and thinks a moment.</i>"
 				s.AddText("Perhaps that's it... hmmm...")
 				s.AddText("Well in either case. Thank you for delivering his message. Tell him the state of affairs. I truly wish it were different.")
 			else
 				s.AddText("Don't mind me. I'm just trying to get my mind off of things.")
 
 	quest
+
+		Bob
+			icon = 'MaleSlytherin.dmi'
+
+			gender = MALE
+
+			New()
+				..()
+
+				GenerateIcon(src)
+
+			dropAttack     = 1
+			incindiaChance = 20
+			bombChance     = 100
+			level = 3000
+
+			questPointers = "In my time of Requirement"
+
+			questStart(mob/Player/i_Player, questName)
+				var/ScreenText/s = new(i_Player, src)
+
+				s.AddText("Hello, I'm Bob and I'm an alcoholic.")
+				s.AddText("I kind of want a safe space to do my business in peace, would you mind helping me find room of requirement?")
+
+				..(i_Player, questName)
+
+			questOngoing(mob/Player/i_Player, questName)
+				.=..(i_Player, questName)
+
+				var/ScreenText/s = new(i_Player, src)
+
+				if(.)
+					s.AddText("You found it? Really? One moment let me extract your memories.")
+					if(s.Wait())
+						i_Player << "<b><span style=\"color:red;\">[name]:</span> Memoria Extractum!"
+
+						s.AddText("You did find it, with your memories I am able to place a tracking charm on this stone, should make it easier to find again.")
+
+				else
+					s.AddText("I can't wait to have some peace and quiet.")
+
+			questCompleted(mob/Player/i_Player, questName)
+				var/ScreenText/s = new(i_Player, src)
+				s.AddText("Hit me up if you want to practice dueling, I'm a little rusty but I used to be good.")
+
 
 		Jake
 			icon = 'MaleGryffindor.dmi'
@@ -51,11 +96,11 @@ mob/TalkNPC
 				switch(questName)
 					if("Crushed")
 						s.AddText("Oh! Hello! My name's Jake. I play as one of the chasers for Gryffindor.")
-						i_Player << "<i>The teenage boy in front of you hesitates a moment, then gives a slight sigh as if something was taken away from him.</i>"
+						if(s.Wait()) i_Player << "<i>The teenage boy in front of you hesitates a moment, then gives a slight sigh as if something was taken away from him.</i>"
 						s.AddText("So this might be a pathetic request...")
 						s.AddText("I have a bit of a crush on one of our classmates. Not sure if you've met her, name's Sarah.")
 						s.AddText("She's got brown eyes, brown hair, and a smile that brightens my soul.")
-						i_Player << "<i>You see his eyes light up as he reminiscences supposedly about Sarah.</i>"
+						if(s.Wait()) i_Player << "<i>You see his eyes light up as he reminiscences supposedly about Sarah.</i>"
 						s.AddText("I was about to give her this letter. She usually waits around here, but she never showed up.")
 						s.AddText("Do you think you can help me? I just... want her to know how I feel.")
 
@@ -70,18 +115,19 @@ mob/TalkNPC
 					if("Crushed")
 						if(.)
 							s.AddText("You gave the letter to her?")
-							i_Player << "<i>You nod.</i>"
+							if(s.Wait()) i_Player << "<i>You nod.</i>"
 							s.AddText("Did she read it?!")
-							i_Player << "<i>You nod again.</i>"
+							if(s.Wait()) i_Player << "<i>You nod again.</i>"
 							s.AddText("What did she say?!!")
-							i_Player << "<i>You explain to Jake Sarah's feelings, how she's flattered, but... she's moving to another continent.</i>"
+							if(s.Wait()) i_Player << "<i>You explain to Jake Sarah's feelings, how she's flattered, but... she's moving to another continent.</i>"
 							s.AddText("Oh... I understand.")
-							i_Player << "<i>You notice Jake looks really down as he walks away.</i>"
+							if(s.Wait()) i_Player << "<i>You notice Jake looks really down as he walks away.</i>"
 						else
-							s.AddText("Now that I think of it, she does enjoy shopping. Perhaps you'll catch her by a vendor in Hogsmeade?")
+							s.AddText("Now that I think of it, she does enjoy shopping. Perhaps you'll catch her by a vendor in Hogsmeade or Diagon Alley?")
 
 			questCompleted(mob/Player/i_Player, questName)
 				//var/ScreenText/s = new(i_Player, src)
+
 				i_Player << "<i>You notice Jake is crying a lot in the bathroom. Best to give him space for now.</i>"
 
 		Training_Dummy

@@ -5974,6 +5974,25 @@ obj/items/wearable/cog
 			if(!overridetext)
 				viewers(owner) << infomsg("[owner] puts \his [name] away.")
 
+obj/items/requirement_stone
+
+	icon = 'trophies.dmi'
+	icon_state = "Ruby"
+
+	Click()
+		if(src in usr)
+			var/mob/Player/p = usr
+			if(p.pathdest && istype(p.pathdest, /obj/teleport/rorEntrance))
+				p.pathdest = null
+				p.removePath()
+			else
+				p.classpathfinding = 0
+
+				p.pathdest = locate(/obj/teleport/rorEntrance)
+				if(!p.pathTo(p.pathdest))
+					p.pathdest = null
+					p << errormsg("You don't know where you are, pathfinding magic is impossible here.")
+		..()
 
 obj/items/wearable/wand_holster
 
