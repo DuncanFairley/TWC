@@ -991,7 +991,7 @@ obj/hud/screentext
 				count--
 				if(count < 0) break
 
-				pixel_offset += (pointer.reqs.len) * 16 + 16
+				pixel_offset += (pointer.reqs.len) * 16 + 14
 				if(pixel_offset >= 32)
 					pixel_offset -= 32
 					offset++
