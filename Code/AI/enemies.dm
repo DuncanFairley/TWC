@@ -2711,10 +2711,13 @@ mob
 					new /mob/Enemies/Summoned/Boss/Snowman/Super (spawn_loc.loc)
 					world << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
 
-			Attacked()
-				..()
+			onDamage(dmg, mob/Player/p, elem = 0, projColor=null)
+				..(dmg, p, elem, projColor)
+
 				if(HP > 0)
-					var/percent = 1 + (1 - HP / MHP)*2
+
+					var/percent = clamp(HP / MHP * (1 + hardmode), 0.1, 1)
+					percent = 1 + (1 - percent)*2
 
 					if(isElite) percent += 2
 
