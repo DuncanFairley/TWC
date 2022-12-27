@@ -136,7 +136,7 @@ obj/summon
 		level   += p.level + p.Summoning.level*2 + extraLevel
 		MHP      = 4 * (level) + 200
 		HP       = MHP
-		extraDmg = round(((p.Dmg + p.clothDmg) - (p.level + 4)) * 0.4)
+		extraDmg = round(((p.Dmg + p.clothDmg) - (p.level + 4)) * 0.5)
 		duration = 600 + p.Summoning.level*10
 
 		if(p.summons + summonTier * p.summonsMode <= 1 + p.extraLimit + round(p.Summoning.level / 10))
@@ -284,7 +284,7 @@ obj/summon
 							e.dir = get_dir(e, src)
 							dir = turn(e.dir, 180)
 
-							var/dmg = max(0, (level + extraDmg) * scale - (e.level * 0.5)*summonTier)
+							var/dmg = max(0, (level + extraDmg) * scale - (e.level * 0.25)*summonTier)
 
 							dmg *= 1 + summoner.monsterDmg/100
 
