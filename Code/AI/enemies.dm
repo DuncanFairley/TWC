@@ -2546,6 +2546,8 @@ mob
 			HPmodifier  = 1.5
 			DMGmodifier = 0.5
 
+			extraDropRate = 3
+
 			respawnTime = 300
 
 			Death(mob/Player/killer)
