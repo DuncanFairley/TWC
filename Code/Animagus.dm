@@ -171,7 +171,23 @@ hudobj
 		maptext_x = 32
 		maptext_y = 8
 
-		mouse_opacity = 0
+		mouse_opacity = 2
+
+		MouseEntered()
+			transform *= 1.25
+		MouseExited()
+			transform = null
+
+		Click()
+			if(alpha == 0) return
+			var/mob/Player/p = usr
+
+			if(p.wandLock)
+				p.wandLock = 0
+				p << infomsg("Unlocked wand power.")
+			else
+				p.wandLock = 1
+				p << infomsg("Locked wand power.")
 
 		proc/setCharge(var/n)
 			var/mob/Player/p = client.mob

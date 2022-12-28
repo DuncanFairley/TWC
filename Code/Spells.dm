@@ -2639,6 +2639,7 @@ mob/Player
 	var
 		tmp/lastCombat = -COMBAT_TIME
 		tmp/wandCharge = 0
+		wandLock = 0
 
 	proc/wandPower()
 		set waitfor = 0
@@ -2723,7 +2724,7 @@ mob/Player
 				var/bolt/boltFix/b = new(start, dest, 35)
 				b.Draw(z, /obj/segment/segmentFix, color = "#E4CCFF", thickness = 1)
 
-				e.onDamage(e.MHP*10, src)
+				e.onDamage(e.MHP*10, src, projColor="#E4CCFF")
 
 			sleep(5)
 
@@ -2802,7 +2803,7 @@ mob/Player
 				wandCharge = min(wandCharge + rand(1,3), 100)
 				wand.wandPower.setCharge(wandCharge)
 
-				if(wandCharge >= 100 && !findStatusEffect(/StatusEffect/WandPower))
+				if(!wandLock && wandCharge >= 100 && !findStatusEffect(/StatusEffect/WandPower))
 					wandCharge = 0
 					wand.wandPower.setCharge(wandCharge)
 					new /StatusEffect/WandPower(src, 30)
