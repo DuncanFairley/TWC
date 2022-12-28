@@ -2641,6 +2641,10 @@ mob/Player
 		tmp/wandCharge = 0
 		wandLock = 0
 
+	proc/wandPowerTick()
+		wandCharge = min(wandCharge + rand(1,3), 100)
+		wand.wandPower.setCharge(wandCharge)
+
 	proc/wandPower()
 		set waitfor = 0
 
@@ -2800,13 +2804,12 @@ mob/Player
 				spawn() src << infomsg("Your wand resurrected you.")
 			else if(prob(25))
 
-				wandCharge = min(wandCharge + rand(1,3), 100)
-				wand.wandPower.setCharge(wandCharge)
+				wandPowerTick()
 
 				if(!wandLock && wandCharge >= 100 && !findStatusEffect(/StatusEffect/WandPower))
 					wandCharge = 0
 					wand.wandPower.setCharge(wandCharge)
-					new /StatusEffect/WandPower(src, 30)
+					new /StatusEffect/WandPower(src, 60)
 					wandPower()
 
 		if(triggerSummons && attacker != src)
@@ -2932,6 +2935,10 @@ mob/Enemies
 
 		else
 			dead = 1
+
+			if(p.wand && p.wand.test && prob(50))
+				p.wandPowerTick()
+
 			var/restoreBleed = FALSE
 			if(p && (SWORD_EXPLODE in p.passives))
 				if(canBleed)
