@@ -2728,7 +2728,7 @@ mob/Player
 				var/bolt/boltFix/b = new(start, dest, 35)
 				b.Draw(z, /obj/segment/segmentFix, color = "#E4CCFF", thickness = 1)
 
-				e.onDamage(e.MHP*10, src, projColor="#E4CCFF")
+				e.onDamage(e.MHP*10, src, projColor="#3393ff")
 
 			sleep(5)
 
