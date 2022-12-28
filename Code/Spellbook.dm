@@ -55,7 +55,6 @@ mob/Player
 				spells[v] = o
 
 				src << output(o, "SpellBook.gridSpellbook:[count]")
-				if(wait) sleep(1)
 
 			var/list/objs = list()
 
@@ -77,7 +76,7 @@ mob/Player
 			for(var/o in objs)
 				count++
 				src << output(o, "SpellBook.gridSpellbook:[count]")
-				if(wait) sleep(1)
+				if(wait && count % 10 == 0) sleep(1)
 
 
 obj/spells
