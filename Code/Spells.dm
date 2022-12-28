@@ -2709,7 +2709,7 @@ mob/Player
 				py = text2num(txt[2])
 
 			for(var/mob/Enemies/e in range(5))
-				if(e.level > 1000) continue
+				if(e.level > 1500) continue
 				if(!e.loc || e.HP <= 0 || e.dead) continue
 
 				var/vector/start = new (  x * 32 + 16,   y * 32 + 16)

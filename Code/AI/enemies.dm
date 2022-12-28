@@ -922,7 +922,7 @@ mob
 						if(HOSTILE)
 							lag = max(MoveDelay, 1)
 
-							if(target.hardmode && !hardmode && level <= 1000)
+							if(target.hardmode && !hardmode && level <= 1500)
 								hardmode = target.hardmode
 
 								switch(hardmode)
@@ -993,7 +993,7 @@ mob
 						if(!isPathBlocked(M, src, 1, src.density, dist_limit=Range))
 							target = M
 
-							if(target.hardmode > hardmode && level <= 1000)
+							if(target.hardmode > hardmode && level <= 1500)
 								hardmode = target.hardmode
 
 								switch(hardmode)
@@ -1089,7 +1089,7 @@ mob
 		proc/Kill(mob/Player/p)
 			set waitfor = 0
 
-			if(!isElite && HP > 0 && !revenge && !hpbar && level <= 1000 && prob(30))
+			if(!isElite && HP > 0 && !revenge && !hpbar && level <= 1500 && prob(30))
 
 				var/newName = "Big \"[p.name] Slayer\" [name]"
 				p << infomsg("[name] has distinguished themselves killing you, they are now named [newName]")
@@ -1825,7 +1825,7 @@ mob
 					level = 1000
 					canBleed = FALSE
 					prizePoolSize = 1
-					extraDropRate = 60
+					extraDropRate = 50
 
 					MapInit()
 						set waitfor = 0
