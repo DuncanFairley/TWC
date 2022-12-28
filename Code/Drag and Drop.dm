@@ -144,6 +144,20 @@ obj/brick2door
 
 					n -= d
 
+		Take_Hit(obj/projectile/p)
+			if(istype(p, /obj/projectile/Bomb))
+				HP -= 10
+			else
+				HP--
+
+			animate(src, pixel_x = pixel_x-1, time = 1)
+			animate(pixel_x = pixel_x+1, time = 2)
+			animate(pixel_x = pixel_x, time = 1)
+
+			if(HP < 1)
+				view(src) << "The door blows open."
+				Bust_Open()
+
 	clandoor
 		name = "door"
 		icon = 'Door.dmi'
