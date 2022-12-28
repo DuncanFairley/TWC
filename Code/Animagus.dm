@@ -162,7 +162,6 @@ hudobj
 
 	WandPower
 		name       = "Wand"
-		icon_state = "lvlup"
 		anchor_x   = "WEST"
 		screen_x   = 188
 		screen_y   = -48
@@ -188,10 +187,14 @@ hudobj
 			else
 				p.wandLock = 1
 				p << infomsg("Locked wand power.")
+			setCharge(p.wandCharge)
 
 		proc/setCharge(var/n)
 			var/mob/Player/p = client.mob
-			maptext = {"<span style=\"color:[p.mapTextColor];font-size:2px;\"><b>[n]%</b></span>"}
+
+			var/c = p.wandLock ? "#0c0" : p.mapTextColor
+
+			maptext = {"<span style=\"color:[c];font-size:2px;\"><b>[n]%</b></span>"}
 
 		New(loc=null,client/Client,list/Params,show=1)
 			..(loc,Client,Params,show)
@@ -200,7 +203,10 @@ hudobj
 			icon = p.wand.icon
 			icon_state = p.wand.icon_state
 
-			maptext = {"<span style=\"color:[p.mapTextColor];font-size:2px;\"><b>0%</b></span>"}
+			var/c = p.wandLock ? "#0c0" : p.mapTextColor
+
+			maptext = {"<span style=\"color:[c];font-size:2px;\"><b>0%</b></span>"}
+
 
 	Animagus
 		name       = "Animagus"
