@@ -921,10 +921,10 @@ mob
 			if(isobj(item))item:owner = usr.key
 			if(isobj(item)||ismob(item))hearers() << "With a flick of [usr]'s wand, a [item:name] appears."
 			if(ispath(O, /obj/items)) Log_admin("<b>[src.name] ([src.ckey]) has created [item:name]</b>")
-		Search_Create()
+		/*Search_Create()
 			set category="Staff"
 			usr.client<<link("?command=create;")
-		/*Edit(A in world)
+		Edit(A in world)
 			set category="Staff"
 			usr.client<<link("?command=edit;target=\ref[A];type=view;")*/
 		Edit(obj/O as obj|mob|turf|area in world)
