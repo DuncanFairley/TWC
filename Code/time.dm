@@ -7,7 +7,8 @@ WorldData/var/tmp
 	expModifier       = 1
 	expBookModifier   = 1
 	cdrModifier       = 1
-	list/passives
+
+WorldData/var/list/passives
 
 mob/GM/verb
 	Clan_Wars_Schedule(var/Event/e in clanwars_schedule)
