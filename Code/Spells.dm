@@ -2708,7 +2708,7 @@ mob/Player
 				px = text2num(txt[1])
 				py = text2num(txt[2])
 
-			for(var/mob/Enemies/e in range(5))
+			for(var/mob/Enemies/e in range(6))
 				if(e.level > 1500) continue
 				if(!e.loc || e.HP <= 0 || e.dead) continue
 
