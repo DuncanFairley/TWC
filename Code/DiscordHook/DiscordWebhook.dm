@@ -18,8 +18,8 @@ mob/Player/proc/SendDiscord(var/message, var/dest)
 
 	var/fixedName
 
-	if(prevname) fixedName = prevname
-	else if(pname) fixedName = pname
+	if(pname) fixedName = pname
+	else if(prevname) fixedName = prevname
 	else fixedName = name
 
 	var/list/headers = list("Content-Type" = "application/json")
@@ -37,7 +37,7 @@ proc/pollForDiscord()
 	set waitfor = 0
 
 	var/id = -1
-	while(1)
+	while(reportDiscordWho != -1)
 
 		if(id == -1)
 			var/list/headers = list("Content-Type" = "application/json")
@@ -108,4 +108,4 @@ proc/pollForDiscord()
 
 						Players << "<b><a style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a><span style=\"font-size:2; color:#3636F5;\"> \icon[wholist["Discord"]] [name]:</span></b> <span style=\"color:white; font-size:2;\"> [msg]</span>"
 
-		sleep(3)
+		sleep(4)

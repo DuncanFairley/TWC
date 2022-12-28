@@ -877,8 +877,11 @@ mob
 			set category = "Server"
 			switch(input("Are you sure you'd like to reboot?","?") in list("Yes", "Yes & Save", "No"))
 				if("Yes")
+					reportDiscordWho = -1
 					world.Reboot()
 				if("Yes & Save")
+					reportDiscordWho = -1
+					sleep(3)
 					for(var/mob/Player/p in Players)
 						if(z >= SWAPMAP_Z)
 							loc = locate("leavevault")
