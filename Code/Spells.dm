@@ -2681,11 +2681,17 @@ mob/Player
 
 		var/list/time = list()
 
+		var/lastPx = 0
+		var/lastPy = 64
 		for(var/i = 1 to 4)
 			var/px = rand(-128, 128)
 			var/py = rand(-128, 128)
 
-			time["[totalTime - (totalTime % 5)]"] = "[px],[py]"
+			time["[totalTime + 5 - (totalTime % 5)]"] = "[(px+lastPx)/2],[(py+lastPy)/2]"
+			time["[totalTime + 10 - (totalTime % 5)]"] = "[px],[py]"
+
+			lastPx = px
+			lastPy = py
 
 			t = rand(20, 40)
 			totalTime += t + 10
@@ -2693,7 +2699,8 @@ mob/Player
 			animate(pixel_x = pixel_x + px, pixel_y = pixel_y + py, time = 10)
 			animate(time = t)
 
-		time["[totalTime - (totalTime % 5)]"] = "0,64"
+		time["[totalTime + 5 - (totalTime % 5)]"] = "[(lastPx)/2],[(64+lastPy)/2]"
+		time["[totalTime + 10 - (totalTime % 5)]"] = "0,64"
 
 		animate(pixel_x = 0, pixel_y = 64, time = 10)
 		t = rand(10, 30)
@@ -2707,23 +2714,21 @@ mob/Player
 		var/px = 0
 		var/py = 64
 		for(var/i = 0 to totalTime step 5)
-			if("[i]" in time)
+			var/index = time.Find("[i]")
+			if(index)
 				var/txt = splittext(time["[i]"], ",")
 				px = text2num(txt[1])
 				py = text2num(txt[2])
 
-			for(var/mob/Enemies/e in range(6))
+			for(var/mob/Enemies/e in view(6, src))
 				if(e.level > 1500) continue
 				if(!e.loc || e.HP <= 0 || e.dead) continue
 
 				var/vector/start = new (  x * 32 + 16,   y * 32 + 16)
 				var/vector/dest  = new (e.x * 32 + 16, e.y * 32 + 16)
 
-	//			start.X += (EAST & dir) ? 7 : -7
-	//			start.Y -= 6
 				start.X += px
 				start.Y += py
-
 
 				var/bolt/boltFix/b = new(start, dest, 35)
 				b.Draw(z, /obj/segment/segmentFix, color = "#E4CCFF", thickness = 1)
