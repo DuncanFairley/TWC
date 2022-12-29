@@ -465,7 +465,7 @@ obj/items/spellpage
 	range
 		name = "Spell Page: \[Big]"
 		flags = PAGE_RANGE
-		range = 1
+		range = 2
 		damage = 0.75
 		cd = 1.1
 		mpCost = 2
