@@ -248,22 +248,29 @@ obj
 	lever
 		icon='lever.dmi'
 		density=1
+		mouse_opacity = 2
+
+		mouse_over_pointer = MOUSE_HAND_POINTER
+
+		Click()
+			..()
+			if(src in range(5))
+				Pull_Lever()
+
 		verb
 			Examine()
 				set src in oview(3)
 				alert("You see that the lever is connected to a small trapdoor in the wall")
 			Pull_Lever()
-				set src in oview(1)
-				switch(input("Pull the lever?","Pull the lever?")in list("Yes","No"))
-					if("Yes")
-						alert("You pull the lever")
-						alert("The trapdoor in the wall slowly creeks shut")
-						var/mob/Player/p = usr
-						p.checkQuestProgress("Lever")
-						for(var/obj/lever/L in oview())
-							flick("pull",L)
-					if("No")
-						return
+				set src in oview(3)
+
+				var/mob/Player/p = usr
+				if(p.checkQuestProgress("Lever"))
+					usr << infomsg("You pull the lever")
+					usr << infomsg("The trapdoor in the wall slowly creeks shut")
+					flick("pull",src)
+				else
+					usr << infomsg("You see no reason to pull this lever.")
 
 mob/TalkNPC/quest
 	easterbunny
