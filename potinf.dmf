@@ -164,6 +164,12 @@ macro "macro"
 	elem 
 		name = "F3"
 		command = ".winset \"mainvsplit.right==rpane?mainvsplit.right=mapwindow:mainvsplit.right=rpane;mainwindow.mainvsplit.left=mapwindow\""
+	elem 
+		name = "SHIFT"
+		command = "Shift 1"
+	elem 
+		name = "SHIFT+UP"
+		command = "Shift 0"
 
 
 menu "menu"
@@ -1566,7 +1572,6 @@ window "winSettings"
 		size = 370x295
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		is-visible = false
 		saved-params = "pos;"
 		title = "Settings"
@@ -1574,15 +1579,12 @@ window "winSettings"
 		can-minimize = false
 		can-resize = false
 		macro = "macro"
-		outer-size = 386x334
-		inner-size = 370x295
 	elem "butWASD"
 		type = BUTTON
 		pos = 137,268
 		size = 119x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "WASD Movement"
 		command = ".toggleWasdMovement"
@@ -1593,7 +1595,6 @@ window "winSettings"
 		size = 79x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Auto Load"
 		command = ".setAutoLoad"
@@ -1604,7 +1605,6 @@ window "winSettings"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = ""
 		text = "Alert Sound:"
 		align = left
@@ -1614,7 +1614,6 @@ window "winSettings"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Glass"
 		command = ".ChangeBeep 3"
@@ -1626,7 +1625,6 @@ window "winSettings"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Guitar"
 		command = ".ChangeBeep 2"
@@ -1638,7 +1636,6 @@ window "winSettings"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Beep"
 		command = ".ChangeBeep 1"
@@ -1651,7 +1648,6 @@ window "winSettings"
 		size = 127x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Hide screen objects"
 		command = ".hideHud"
@@ -1662,7 +1658,6 @@ window "winSettings"
 		size = 60x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = ""
 		text = "Colors:"
 	elem "buttonForeColor"
@@ -1671,7 +1666,6 @@ window "winSettings"
 		size = 72x28
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "Foreground"
@@ -1683,7 +1677,6 @@ window "winSettings"
 		size = 72x28
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "Background"
@@ -1695,7 +1688,6 @@ window "winSettings"
 		size = 88x28
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		border = line
 		saved-params = "is-checked"
 		text = "On-Screen Text"
@@ -1707,7 +1699,6 @@ window "winSettings"
 		size = 119x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Hide quest tracker"
 		command = ".winset \"butQuestTrackertoggle.is-checked=true?command=\".QuestTrackertoggle 1\":command=\".QuestTrackertoggle 0\"\""
@@ -1718,7 +1709,6 @@ window "winSettings"
 		size = 247x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable automatic AFK (Use at your own risk!)"
 		command = ".winset \"butAFKtoggle.is-checked=true?command=\".AFKtoggle 0\":command=\".AFKtoggle 1\"\""
@@ -1729,7 +1719,6 @@ window "winSettings"
 		size = 232x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable sounds (PMs, Events, Classes etc)"
 		command = ".winset \"butSoundtoggle.is-checked=true?command=\".Soundtoggle 0\":command=\".Soundtoggle 1\"\""
@@ -1740,7 +1729,6 @@ window "winSettings"
 		size = 195x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Block trade requests                       "
 		command = ".winset \"butTradetoggle.is-checked=true?command=\".Tradetoggle 1\":command=\".Tradetoggle 0\"\""
@@ -1751,7 +1739,6 @@ window "winSettings"
 		size = 239x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving flashing event notifications"
 		command = ".winset \"butEventNotificationstoggle.is-checked=true?command=\".EventNotificationstoggle 0\":command=\".EventNotificationstoggle 1\"\""
@@ -1762,7 +1749,6 @@ window "winSettings"
 		size = 240x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving monster attack messages  "
 		command = ".winset \"butMonsterMessagestoggle.is-checked=true?command=\".MonsterMessagestoggle 0\":command=\".MonsterMessagestoggle 1\"\""
@@ -1773,7 +1759,6 @@ window "winSettings"
 		size = 235x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving flashing class notifications"
 		command = ".winset \"butClassNotificationstoggle.is-checked=true?command=\".ClassNotificationstoggle 0\":command=\".ClassNotificationstoggle 1\"\""
@@ -1784,7 +1769,6 @@ window "winSettings"
 		size = 123x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable Housechat"
 		command = ".winset \"butHousechattoggle.is-checked=true?command=\".Housechattoggle 0\":command=\".Housechattoggle 1\"\""
@@ -1795,7 +1779,6 @@ window "winSettings"
 		size = 195x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable receiving private messages"
 		command = ".winset \"butPMtoggle.is-checked=true?command=\".PMtoggle 1\":command=\".PMtoggle 0\"\""
@@ -1806,7 +1789,6 @@ window "winSettings"
 		size = 91x20
 		anchor1 = -1,-1
 		anchor2 = -1,-1
-		background-color = none
 		saved-params = "is-checked"
 		text = "Disable OOC"
 		command = ".winset \"butOOCtoggle.is-checked=true?command=\".OOCtoggle 0\":command=\".OOCtoggle 1\"\""

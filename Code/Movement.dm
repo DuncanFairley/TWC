@@ -211,6 +211,21 @@ client
 mob
 	Player
 		verb
+			shift(var/n as num)
+				set instant = 1
+				set hidden = 1
+				if(n == 1)
+					if(nomove||GMFrozen||arcessoing||inOldArena()||!animagusOn) return
+		//			if(client.moveStart == null)
+
+					var/turf/t = get_step(src, dir)
+					if(t.density) return
+					for(var/i = 1 to 3)
+						var/turf/nt = get_step(t, dir)
+						if(nt.density) break
+						t = nt
+					jumpTo(t)
+
 			anorth()
 				set hidden = 1
 				if(GMFrozen||arcessoing||inOldArena()) return
