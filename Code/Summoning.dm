@@ -304,9 +304,10 @@ obj/summon
 								summoner.Summoning.add(exp2give*0.8, summoner, 1)
 
 							else
-								dmg = e.Dmg*0.7*summonTier
 								if(e.hardmode)
 									dmg = dmg * (1.1 + e.hardmode*0.5) + 60*e.hardmode
+
+								dmg = e.Dmg*0.7*summonTier
 
 								if(level < e.level)
 									dmg += dmg * ((51 + e.level - level)/200)
