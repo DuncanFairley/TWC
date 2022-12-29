@@ -192,7 +192,7 @@ hudobj
 		proc/setCharge(var/n)
 			var/mob/Player/p = client.mob
 
-			var/c = p.wandLock ? "#0c0" : p.mapTextColor
+			var/c = p.wandLock ? "#c00" : p.mapTextColor
 
 			maptext = {"<span style=\"color:[c];font-size:2px;\"><b>[n]%</b></span>"}
 
@@ -203,7 +203,7 @@ hudobj
 			icon = p.wand.icon
 			icon_state = p.wand.icon_state
 
-			var/c = p.wandLock ? "#0c0" : p.mapTextColor
+			var/c = p.wandLock ? "#c00" : p.mapTextColor
 
 			maptext = {"<span style=\"color:[c];font-size:2px;\"><b>0%</b></span>"}
 
