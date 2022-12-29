@@ -54,6 +54,7 @@ obj
 		var
 			HP = 100
 			tmp/obj/healthbar/hpbar
+			tmp/warn = 1
 
 		Attacked(obj/projectile/p)
 			if(HP > 0 && p.owner && isplayer(p.owner))
@@ -61,12 +62,22 @@ obj
 				var/mob/Player/player = p.owner
 				if(!player.guild) return
 
+				var/AreaData/data = worldData.areaData[tag]
+
+				if(warn && HP <= 95)
+					warn = 0
+					for(var/mob/Player/pl in Players)
+						if(pl.guild == data.guild)
+							pl << errormsg("Your [tag] pillar is being attacked.")
+
 				flick("[icon_state]-V", src)
 
-				HP--
+				if(player.guild == data.guild)
+					HP++
+				else
+					HP--
 
 				if(HP <= 0)
-					var/AreaData/data = worldData.areaData[tag]
 					data.guild = player.guild
 
 					updateDisplay()
@@ -74,6 +85,8 @@ obj
 				else
 					var/percent = HP / initial(HP)
 					hpbar.Set(percent, src)
+
+					if(HP == 100) warn = 1
 
 
 		MapInit()
@@ -131,6 +144,7 @@ obj
 						p << infomsg("[a.name] pillar can be attacked.")
 
 				HP = initial(HP)
+				warn = 1
 				hpbar = new(src)
 
 
