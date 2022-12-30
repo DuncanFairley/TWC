@@ -549,7 +549,7 @@ obj
 
 						if(!(locate(/RandomEvent/Wizard) in worldData.currentEvents) && prob(4))
 
-							new /StatusEffect/SantaSpawned(locate("@Hogwarts"), 36000)
+							new /StatusEffect/SantaSpawned(locate("@Hogwarts"), 1800)
 
 							var/RandomEvent/e = locate(/RandomEvent/Wizard) in worldData.events
 							e.start()
