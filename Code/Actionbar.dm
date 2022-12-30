@@ -15,6 +15,18 @@ mob/Player
 			winset(src, "a", "parent=macro;name=\"a\";command=\"MoveKey 8 1\"")
 			winset(src, "aup", "parent=macro;name=\"a+up\";command=\"MoveKey 8 0\"")
 
+			winset(src, "ctrlw", "parent=macro;name=\"ctrl+w\";command=\"anorth\"")
+			winset(src, "shiftw", "parent=macro;name=\"shift+w\";command=\"anorth\"")
+
+			winset(src, "ctrls", "parent=macro;name=\"ctrl+s\";command=\"asouth\"")
+			winset(src, "shifts", "parent=macro;name=\"shift+s\";command=\"asouth\"")
+
+			winset(src, "ctrld", "parent=macro;name=\"ctrl+d\";command=\"aeast\"")
+			winset(src, "shiftd", "parent=macro;name=\"shift+d\";command=\"aeast\"")
+
+			winset(src, "ctrla", "parent=macro;name=\"ctrl+a\";command=\"awest\"")
+			winset(src, "shifta", "parent=macro;name=\"shift+a\";command=\"awest\"")
+
 			if(msg) src << infomsg("WASD movement on.")
 		else
 			winset(src, "macro.w", "parent=")
@@ -28,6 +40,18 @@ mob/Player
 
 			winset(src, "macro.a", "parent=")
 			winset(src, "macro.aup", "parent=")
+
+			winset(src, "macro.ctrlw", "parent=")
+			winset(src, "macro.shiftw", "parent=")
+
+			winset(src, "macro.ctrls", "parent=")
+			winset(src, "macro.shifts", "parent=")
+
+			winset(src, "macro.ctrld", "parent=")
+			winset(src, "macro.shiftd", "parent=")
+
+			winset(src, "macro.ctrla", "parent=")
+			winset(src, "macro.shifta", "parent=")
 
 			if(msg) src << infomsg("WASD movement off.")
 
