@@ -1601,7 +1601,7 @@ obj/items/wearable/brooms
 	stackName = "Brooms:"
 	icon = 'firebolt_broom.dmi'
 
-	var/speed = 4
+	var/speed = 2
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiFly)
@@ -1664,9 +1664,11 @@ obj/items/wearable/brooms
 obj/items/wearable/brooms/firebolt
 	icon = 'firebolt_broom.dmi'
 	protection = 3
+	speed = 6
 obj/items/wearable/brooms/nimbus_2000
 	icon = 'nimbus_2000_broom.dmi'
 	protection = 2
+	speed = 4
 obj/items/wearable/brooms/cleansweep_seven
 	icon = 'cleansweep_seven_broom.dmi'
 
