@@ -2963,7 +2963,7 @@ mob
 		Vampire
 			icon = 'FemaleVampire.dmi'
 			level = 900
-			HPmodifier  = 1.6
+			HPmodifier  = 2
 			DMGmodifier = 0.8
 			MoveDelay   = 3
 			respawnTime = 900
