@@ -2642,7 +2642,7 @@ mob/Player
 		wandLock = 0
 
 	proc/wandPowerTick()
-		wandCharge = min(wandCharge + rand(1,3), 100)
+		wandCharge = min(wandCharge + rand(1,2), 100)
 		wand.wandPower.setCharge(wandCharge)
 
 	proc/wandPower()
@@ -2814,7 +2814,7 @@ mob/Player
 				if(!wandLock && wandCharge >= 100 && !findStatusEffect(/StatusEffect/WandPower))
 					wandCharge = 0
 					wand.wandPower.setCharge(wandCharge)
-					new /StatusEffect/WandPower(src, 60)
+					new /StatusEffect/WandPower(src, 30)
 					wandPower()
 
 		if(triggerSummons && attacker != src)
@@ -2941,7 +2941,7 @@ mob/Enemies
 		else
 			dead = 1
 
-			if(p.wand && p.wand.test && prob(50))
+			if(p.wand && p.wand.test && prob(20))
 				p.wandPowerTick()
 
 			var/restoreBleed = FALSE
@@ -3967,3 +3967,36 @@ mob/Player
 mob/Player/var/cooldownModifier = 1
 mob/Player/var/tmp/extraCDR = 0
 mob/Player/var/tmp/list/passives
+
+
+obj/wand
+
+	icon_state = "item"
+
+	var/obj/Shadow/s
+
+	New()
+		..()
+
+		icon = pick('ash_wand.dmi', 'birch_wand.dmi', 'blood_wand.dmi', 'cedar_wand.dmi', 'dragonhorn_wand.dmi', 'duel_wand.dmi', 'elder_wand.dmi', 'interruption_wand.dmi', 'light_wand.dmi', 'mahogany_wand.dmi',\
+		 'maple_wand.dmi', 'mithril_wand.dmi', 'mulberry_wand.dmi', 'oak_wand.dmi', 'royale_wand.dmi', 'salamander_wand.dmi', 'willow_wand.dmi')
+
+
+		s = new
+
+		s.pixel_y = - 16
+		s.appearance_flags |= RESET_TRANSFORM|PIXEL_SCALE
+		var/matrix/m = matrix()
+		m.Scale(1.6, 1)
+		s.transform = m
+
+		vis_contents += s
+
+		m = matrix()
+		m.Turn(90)
+		animate(src, transform = m, time = 6, loop = -1)
+		m.Turn(90)
+		animate(transform = m, time = 6)
+		m.Turn(90)
+		animate(transform = m, time = 6)
+		animate(transform = null, time = 6)
