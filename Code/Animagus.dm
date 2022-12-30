@@ -122,6 +122,7 @@ mob/Player
 			set waitfor = 0
 
 			animagusOn = 1
+			dashDistance = 4
 
 			if(tickers & ANIMAGUS_TICK) return
 			tickers |= ANIMAGUS_TICK
@@ -148,7 +149,10 @@ mob/Player
 		AnimagusRecover(hudobj/Animagus/a)
 			set waitfor = 0
 
+			if(animagusOn)
+				dashDistance = 0
 			animagusOn = 0
+
 
 			if((tickers & ANIMAGUS_RECOVER) > 0) return
 			tickers |= ANIMAGUS_RECOVER

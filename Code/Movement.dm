@@ -208,26 +208,87 @@ client
 			if(!movements) movements = list(SOUTHWEST)
 			else if(movements.len < 10) movements += SOUTHWEST
 
+obj/moveChecker
+	density = 1
+	canSave = FALSE
+
+	var
+		allowMobs  = 1
+		allowObjs  = 1
+		allowTurfs = 1
+
+		stop = 0
+
+
+	Bump(atom/a)
+		var/turf/t
+		if(isturf(a))
+			t = a
+			if(!allowTurfs) return
+		else
+			t = a.loc
+
+		if(t.flyblock) return
+
+		if(!allowMobs && ismob(a)) 	return
+
+		if(!allowObjs && isobj(a)) return
+
+		loc = t
+
+
 mob
 	Player
+		var/tmp
+			dash = 0
+			dashDistance = 0
 		verb
-			shift(var/n as num)
-				set instant = 1
+			dash(var/down as num)
 				set hidden = 1
-				if(n == 1)
-					if(nomove||GMFrozen||arcessoing||inOldArena()||!animagusOn) return
-		//			if(client.moveStart == null)
+				set instant = 1
 
-					var/turf/t = get_step(src, dir)
-					if(t.density) return
-					for(var/i = 1 to 3)
-						var/turf/nt = get_step(t, dir)
-						if(nt.density) break
-						t = nt
-					jumpTo(t)
+				if(down)
+					if(dash||nomove||!dashDistance||GMFrozen||arcessoing||inOldArena()) return
+					dash = 1
+
+					var/obj/moveChecker/o = new
+					while(dash)
+						var/d = dir
+
+						o.loc = loc
+						for(var/s = 1 to dashDistance)
+							step(o, d)
+							if(o.stop) break
+
+						var/turf/t = o.loc
+						o.loc = null
+
+						if(t == loc)
+							dash = 0
+							break
+
+						var/px = (x * 32) - (t.x * 32)
+						var/py = (y * 32) - (t.y * 32)
+
+						var/time = round((((abs(px) + abs(py)) / 32) * 0.5) / (dashDistance / 4))
+						time = max(1, time)
+
+						if(o.stop)
+							Move(t)
+							dir = d
+							dash = 0
+							break
+						else
+							jumpTo(t, time)
+
+						sleep(time)
+
+				else
+					dash = 0
 
 			anorth()
 				set hidden = 1
+				set instant = 1
 				if(GMFrozen||arcessoing||inOldArena()) return
 
 				if(client.moveStart == null)
@@ -235,8 +296,6 @@ mob
 				else
 					if(!client.movements) client.movements = list(FACE_NORTH)
 					else if(client.movements.len < 10) client.movements += FACE_NORTH
-
-
 			asouth()
 				set hidden = 1
 				if(GMFrozen||arcessoing||inOldArena()) return

@@ -1310,7 +1310,7 @@ mob/Player
 			density = dense
 			dir = d
 
-	proc/jumpTo(turf/t)
+	proc/jumpTo(turf/t, time)
 		set waitfor = 0
 		nomove = 2
 		var
@@ -1319,7 +1319,7 @@ mob/Player
 
 		dir = get_dir(src, t)
 
-		var/time = round(((abs(px) + abs(py)) / 32) * 0.5)
+		if(!time) time = round(((abs(px) + abs(py)) / 32) * 0.5)
 
 		var/list/ghosts = list()
 		for(var/i = 1 to 4)
@@ -1335,16 +1335,26 @@ mob/Player
 		var/underlaysTmp = underlays.Copy()
 		underlays += ghosts
 
-		animate(src, pixel_x = -px,
-		             pixel_y = -py, time = time)
+		var/prevPx = pixel_x
+		var/prevPy = pixel_y
+
+		animate(src, pixel_x = pixel_x - px,
+		             pixel_y = pixel_y - py, time = time, flags = ANIMATION_PARALLEL)
+
+		for(var/atom/movable/a in followers)
+			var/tx = a.pixel_x
+			var/ty = a.pixel_y
+			animate(a,   pixel_x = a.pixel_x - px,
+			             pixel_y = a.pixel_y - py, time = time, flags = ANIMATION_PARALLEL)
+			animate(pixel_x = tx, pixel_y = ty, time = 0)
 
 
 		animate(client, pixel_x = -px,
 		                pixel_y = -py, time = time)
 
-		sleep(time + 1)
-		pixel_x = 0
-		pixel_y = 0
+		sleep(time)
+		pixel_x = prevPx
+		pixel_y = prevPy
 
 		var/dense = density
 		density = 0
