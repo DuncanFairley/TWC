@@ -165,11 +165,11 @@ macro "macro"
 		name = "F3"
 		command = ".winset \"mainvsplit.right==rpane?mainvsplit.right=mapwindow:mainvsplit.right=rpane;mainwindow.mainvsplit.left=mapwindow\""
 	elem 
-		name = "SHIFT"
-		command = "Shift 1"
+		name = "ALT"
+		command = "dash 1"
 	elem 
-		name = "SHIFT+UP"
-		command = "Shift 0"
+		name = "ALT+UP"
+		command = "dash 0"
 
 
 menu "menu"
