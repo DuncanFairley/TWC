@@ -3021,10 +3021,10 @@ mob
 
 				if(killer && !killer.Immortal)
 
-					var/r = rep
-					if(prob(52)) r /= 2
+		//			var/r = rep
+		//			if(prob(52)) r /= 2
 
-					killer.addRep(r)
+			//		killer.addRep(r)
 
 					var/obj/countdown/c = locate(areaName)
 					if(c)
