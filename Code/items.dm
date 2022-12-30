@@ -1601,6 +1601,8 @@ obj/items/wearable/brooms
 	stackName = "Brooms:"
 	icon = 'firebolt_broom.dmi'
 
+	var/speed = 4
+
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiFly)
 			owner << errormsg("You can not fly here.")
@@ -1625,6 +1627,7 @@ obj/items/wearable/brooms
 			owner.density = 0
 			owner.flying = 1
 			owner.icon_state = "flying"
+			owner.dashDistance += speed
 			protection = initial(protection)
 			for(var/obj/items/wearable/brooms/W in owner.Lwearing)
 				if(W != src)
@@ -1642,6 +1645,8 @@ obj/items/wearable/brooms
 			owner.density = 1
 			owner.flying = 0
 			owner.icon_state = ""
+
+			owner.dashDistance -= speed
 
 			animate(owner, pixel_y = 0, time = 5)
 			owner.layer   = 4
