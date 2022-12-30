@@ -669,6 +669,7 @@ StatusEffect
 				var/mob/Player/p = AttachedAtom
 				if(p)
 					p.superspeed = 1
+					p.dashDistance += 8
 
 				..()
 
@@ -676,6 +677,7 @@ StatusEffect
 				var/mob/Player/p = AttachedAtom
 				if(p)
 					p.superspeed = 0
+					p.dashDistance -= 8
 
 				..()
 
