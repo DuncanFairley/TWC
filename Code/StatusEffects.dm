@@ -72,6 +72,14 @@ Event
 			spawn(600) scheduler.schedule(src, rand(9000, 12000) + 600) // 16 to 21 minutes
 			AFK_Train_Scan()
 
+	SaveWorld
+		fire()
+			set waitfor = 0
+			spawn() scheduler.schedule(src, 36000)
+			for(var/mob/Player/p in Players)
+				p.Save()
+				sleep(1)
+			Save_World()
 	Auction
 
 		fire()
@@ -250,6 +258,9 @@ proc
 		init_weather()
 		init_random_events()
 		init_auction()
+
+		var/Event/SaveWorld/s = new
+		scheduler.schedule(s, 36000)
 
 		spawn()
 			RandomizeShop()
