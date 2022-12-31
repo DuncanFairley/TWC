@@ -1176,7 +1176,8 @@ obj/items/scroll
 			var/obj/items/scroll/s = stack > 1 ? Split(1) : src
 			s.content += "<body style=\"background-color:black; color:white\"><b><span style=\"color:blue; font-size:large; \"><u>[name]</u></span><br><span style=\"color:red; font-size:xx-small;\">by [usr]</span></b><br><p><span style=\"font-size:small;\">[msg]</span></p></body>"
 			s.icon_state = "wrote"
-			s.loc = usr
+			s.Move(usr)
+			name = initial(name)
 			inuse = 0
 obj/items/bagofsnow
 	name="Bag 'o Sno"
