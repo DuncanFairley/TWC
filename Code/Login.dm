@@ -125,13 +125,9 @@ obj/teleport
 		if(isplayer(p))
 			Teleport(p)
 		else if(istype(p, /obj/moveChecker))
-			var/atom/A = locate(dest) //can be some turf, or some obj
-			if(A)
-				if(isobj(A))
-					A = A.loc
-				var/obj/moveChecker/o = p
-				o.loc = A
-				o.stop = 1
+			var/obj/moveChecker/o = p
+			o.loc = loc
+			o.stop = 1
 
 	proc/Teleport(mob/Player/M)
 		if(dest)
