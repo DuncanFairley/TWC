@@ -64,7 +64,7 @@
 #define SHIELD_NURSE "episkey will give a shield"
 #define SHIELD_SPY "spycraft"
 #define SHIELD_5 16
-#define SHIELD_MP 32
+#define SHIELD_MP "damage taken converted to mana"
 #define SHIELD_CLOWN "your projectiles won't damage you"
 #define SHIELD_MPDAMAGE "mana will partially absorb damage taken"
 #define SHIELD_GOLD "no gold lost on death"
