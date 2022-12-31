@@ -2029,7 +2029,7 @@ mob/Spells/verb/Avada_Kedavra()
 			var/dmg = usr.Dmg + clothDmg + usr:Ghost.level
 			dmg = round(dmg + dmg * 0.35, 1)
 
-			castproj(MPreq = mpCost, Type = /obj/projectile/Avada, damage = dmg * ((100 + tier*2) / 100), icon_state = "avada", name = spellName, element = GHOST, lag = 0, cd=4)
+			castproj(MPreq = mpCost, Type = /obj/projectile/Avada, damage = dmg * ((100 + tier*2) / 100), icon_state = "avada", name = spellName, element = GHOST, lag = 1, cd=4)
 
 
 mob/Spells/verb/Apparate()
