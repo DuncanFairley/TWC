@@ -1352,21 +1352,25 @@ mob/Player
 		animate(client, pixel_x = -px,
 		                pixel_y = -py, time = time)
 
+		var/turf/oldLoc = loc
+
 		sleep(time)
 		pixel_x = prevPx
 		pixel_y = prevPy
-
-		var/dense = density
-		density = 0
-		Move(t)
-		if(!density)
-			density = dense
 
 		client.pixel_x = 0
 		client.pixel_y = 0
 
 		underlays = underlaysTmp
 		nomove = 0
+
+		if(loc != oldLoc) return
+
+		var/dense = density
+		density = 0
+		Move(t)
+		if(!density)
+			density = dense
 
 
 
