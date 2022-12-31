@@ -412,7 +412,8 @@ obj/items/crystal
 
 		if(istype(over_object, /backpack))
 			var/backpack/b = over_object
-			over_object = b.item
+			if(b.item)
+				over_object = b.item
 
 		if(desc != null && istype(over_object, /obj/items/wearable) && (src in usr) && (over_object in usr) && over_object:socket != null)
 			var/obj/items/wearable/w = over_object
