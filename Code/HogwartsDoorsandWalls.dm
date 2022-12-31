@@ -18,12 +18,38 @@ obj/static_obj
 		icon_state = "arch"
 		layer = 5
 
+	Hole
+		icon = 'wall1.dmi'
+		icon_state = "hole"
+
+		layer = 5
+
+		MapInit()
+			var/matrix/m = matrix()
+			m.Scale(1 + rand(-1,3)/10, 1 + rand(-1,1)/10)
+			m.Translate(rand(-8, 8), 0)
+			transform = m
+
+			if(istype(loc, /turf/Hogwarts_Stone_Wall))
+				var/turf/Hogwarts_Stone_Wall/t = loc
+				t.hole = 1
+				t.layer = 5
+			..()
+
 turf
 	Hogwarts_Stone_Wall
 		opacity=0
 		density=1
 		flyblock=1
 		icon='wall1.dmi'
+
+		var/hole = 0
+
+		Enter(atom/movable/O, atom/oldloc)
+
+			if(hole && (O.icon_state == "Scurries" || findtext(O.icon_state, "snake"))) return 1
+			.=..()
+
 	Red_Carpet
 		icon='floors2.dmi'
 		icon_state="carpet"
