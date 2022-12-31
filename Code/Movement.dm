@@ -229,6 +229,7 @@ obj/moveChecker
 			t = a.loc
 
 		if(t.flyblock) return
+		if(t.loc:antiApparate) return
 
 		if(!allowMobs && ismob(a)) 	return
 
@@ -248,7 +249,15 @@ mob
 				set instant = 1
 
 				if(down)
-					if(dash||nomove||!dashDistance||GMFrozen||arcessoing||inOldArena()) return
+					if(dash||nomove||GMFrozen||arcessoing||inOldArena()) return
+
+					var/isApparate = 0
+					if(!dashDistance)
+						if(shortapparate && canUse(src,cooldown=/StatusEffect/Apparate,needwand=1,mpreq=350))
+							isApparate = 1
+						else
+							return
+
 					dash = 2
 
 					var/obj/moveChecker/o = new
@@ -259,7 +268,16 @@ mob
 
 						var/added = dash - 2
 
-						for(var/s = 1 to dashDistance+added)
+						var/dist
+						if(isApparate)
+							dist = 6
+							if(!canUse(src,cooldown=/StatusEffect/Apparate,needwand=1,mpreq=350))
+								dash = 0
+								break
+						else
+							dist = dashDistance
+
+						for(var/s = 1 to dist+added)
 							step(o, d)
 							if(o.stop) break
 
@@ -273,7 +291,7 @@ mob
 						var/px = (x * 32) - (t.x * 32)
 						var/py = (y * 32) - (t.y * 32)
 
-						var/time = round((((abs(px) + abs(py)) / 32) * 0.5) / (dashDistance / (4+added)))
+						var/time = round((((abs(px) + abs(py)) / 32) * 0.5) / (dist / (4+added)))
 						time = max(1, time)
 
 						if(o.stop)
@@ -281,7 +299,12 @@ mob
 							dir = d
 							o.stop = 0
 						else
-							jumpTo(t, time)
+							if(isApparate)
+								Apparate(t)
+								time = 12
+								added = 4
+							else
+								jumpTo(t, time)
 							if(dash >= 3)
 								dash = 2
 
@@ -323,6 +346,8 @@ mob
 								spawn(time)
 									vis_contents -= left
 									vis_contents -= right
+
+								if(isApparate) dash = 0
 
 						sleep(time)
 					dash = 0
