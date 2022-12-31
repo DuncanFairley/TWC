@@ -239,7 +239,7 @@ mob/TalkNPC/Broom_Salesman
 
 	Talk()
 		set src in oview(2)
-		usr << npcsay("Chrono: Check the brooms I got on the wall, they're all for sale.")
+		usr << npcsay("Chrono: Check the brooms I got on the wall, they're all for sale. You can press and hold alt while riding a broom to go very fast, got to love that feeling of wind blowing on your face.")
 
 mob/TalkNPC/Pet_Saleswoman
 	icon = 'NPCs.dmi'
