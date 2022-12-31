@@ -3937,6 +3937,13 @@ mob/Player
 	var/lastAttack = "Inflamari"
 	verb/Attack()
 		var/mob/m = src
+
+		if(dash && wand && wandCharge >= 10 && !wandLock)
+			wandCharge -= 10
+			wand.wandPower.setCharge(wandCharge)
+			dash = 5
+			return
+
 		switch(lastAttack)
 			if("Glacius")
 				m:Glacius()

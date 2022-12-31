@@ -249,14 +249,17 @@ mob
 
 				if(down)
 					if(dash||nomove||!dashDistance||GMFrozen||arcessoing||inOldArena()) return
-					dash = 1
+					dash = 2
 
 					var/obj/moveChecker/o = new
-					while(dash)
+					while(dash>=2)
 						var/d = dir
 
 						o.loc = loc
-						for(var/s = 1 to dashDistance)
+
+						var/added = dash - 2
+
+						for(var/s = 1 to dashDistance+added)
 							step(o, d)
 							if(o.stop) break
 
@@ -270,21 +273,62 @@ mob
 						var/px = (x * 32) - (t.x * 32)
 						var/py = (y * 32) - (t.y * 32)
 
-						var/time = round((((abs(px) + abs(py)) / 32) * 0.5) / (dashDistance / 4))
+						var/time = round((((abs(px) + abs(py)) / 32) * 0.5) / (dashDistance / (4+added)))
 						time = max(1, time)
 
 						if(o.stop)
 							Move(t)
 							dir = d
-							dash = 0
-							break
+							o.stop = 0
 						else
 							jumpTo(t, time)
+							if(dash >= 3)
+								dash = 2
+
+								var/obj/left = new
+								var/obj/right = new
+
+								left.appearance = appearance
+								right.appearance = appearance
+
+								left.dir = d
+								right.dir = d
+
+								var/diag = d & d-1
+								if(diag)
+									left.pixel_x =  py * 0.2 + px * 0.1
+									left.pixel_y =  px * 0.2 - py * 0.1
+
+									right.pixel_x =  -py * 0.2 - px * 0.1
+									right.pixel_y =  -px * 0.2 + py * 0.1
+								else
+									left.pixel_x =  py * 0.2 + px * 0.1
+									left.pixel_y =  px * 0.2 + py * 0.1
+
+									right.pixel_x =  -py * 0.2 + px * 0.1
+									right.pixel_y =  -px * 0.2 + py * 0.1
+
+								vis_contents += left
+								vis_contents += right
+
+								var/dmg = round(rand(10) + (Dmg + clothDmg + Slayer.level), 1)
+
+								dmg *= 1 + monsterDmg/100
+
+								dmg *= 2
+
+								for(var/mob/Enemies/e in view(dashDistance+added, src))
+									e.onDamage(dmg, src)
+
+								spawn(time)
+									vis_contents -= left
+									vis_contents -= right
 
 						sleep(time)
-
-				else
 					dash = 0
+
+				else if(dash == 2)
+					dash = 1
 
 			anorth()
 				set hidden = 1
