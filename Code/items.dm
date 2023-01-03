@@ -2349,6 +2349,8 @@ obj/items/wearable/wigs/female_blue_wig
 	name = "female light blue wig"
 obj/items/wearable/wigs/female_brown_wig
 	icon = 'female_brown_wig.dmi'
+obj/items/wearable/wigs/female_blackgreen_wig
+	icon = 'female_blackgreen_wig.dmi'
 obj/items/wearable/wigs/female_green_wig
 	icon = 'female_green_wig.dmi'
 obj/items/wearable/wigs/female_grey_wig
@@ -4674,7 +4676,7 @@ var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/
 							                     /obj/items/wearable/scarves/grey_scarf = 35,
 							                     /obj/items/wearable/scarves/green_scarf = 35),
 
-							 "female_demon" = list(/obj/items/wearable/wigs/female_redblack_wig = 15,
+							 "female_demon" = list(/obj/items/wearable/wigs/female_blackgreen_wig = 15,
 							                       /obj/items/wearable/hats/green_earmuffs  = 15,
 							                       /obj/items/wearable/shoes/grey_shoes   = 15,
 							                       /obj/items/wearable/shoes/green_shoes   = 25,
