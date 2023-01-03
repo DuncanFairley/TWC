@@ -978,8 +978,10 @@ mob
 									if(10)
 										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#ff0000")
 
-								HP = MHP * (1 + hardmode) + (200 * hardmode)
-								if(hardmode > 5) HP += (1000 * hardmode)
+								HP = MHP * (1 + hardmode) + (200 * hardmode) + 200
+								if(hardmode > 5) HP += 1000 + (2000 * hardmode)
+								if(HPmodifier < 1)
+									HP *= 100 / (HPmodifier * 100)
 
 						if(CONTROLLED)
 							target = null
@@ -1060,8 +1062,10 @@ mob
 									if(10)
 										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#ff0000")
 
-								HP = MHP * (1 + hardmode) + (200 * hardmode)
-								if(hardmode > 5) HP += (1000 * hardmode)
+								HP = MHP * (1 + hardmode) + (200 * hardmode) + 200
+								if(hardmode > 5) HP += 1000 + (2000 * hardmode)
+								if(HPmodifier < 1)
+									HP *= 100 / (HPmodifier * 100)
 
 						else
 							Ignore(M)
@@ -1210,6 +1214,9 @@ mob
 
 					if(hardmode > 5)
 						dmg += 140*hardmode
+
+					if(DMGmodifier < 1)
+						dmg *= 100 / (DMGmodifier * 100)
 
 				if(target.level < level)
 					dmg += dmg * ((1 + level - target.level)/200)
