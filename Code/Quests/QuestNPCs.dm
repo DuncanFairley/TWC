@@ -54,8 +54,14 @@ mob/TalkNPC
 			questStart(mob/Player/i_Player, questName)
 				var/ScreenText/s = new(i_Player, src)
 
-				s.AddText("Hello, I'm Bob and I'm an alcoholic.")
-				s.AddText("I kind of want a safe space to do my business in peace, would you mind helping me find room of requirement?")
+				switch(questName)
+					if("In my time of Requirement")
+						s.AddText("Hello, I'm Bob and I'm an alcoholic.")
+						s.AddText("I kind of want a safe space to do my business in peace, would you mind helping me find room of requirement?")
+					if("Happy Little Cloud")
+						s.AddText("Hi there, I've been minding my own business the other day when a cloud decided to pour water on my glass of wine.")
+						s.AddText("It's rude really, if I want to stay hydrated with wine, that's my choice, no cloud will dictate what liquid enters my body.")
+						s.AddText("Go kill those rude clouds, however fluffy they may be.")
 
 				..(i_Player, questName)
 
@@ -65,11 +71,16 @@ mob/TalkNPC
 				var/ScreenText/s = new(i_Player, src)
 
 				if(.)
-					s.AddText("You found it? Really? One moment let me extract your memories.")
-					if(s.Wait())
-						i_Player << "<b><span style=\"color:red;\">[name]:</span> Memoria Extractum!"
+					switch(questName)
+						if("In my time of Requirement")
+							s.AddText("You found it? Really? One moment let me extract your memories.")
+							if(s.Wait())
+								i_Player << "<b><span style=\"color:red;\">[name]:</span> Memoria Extractum!"
 
-						s.AddText("You did find it, with your memories I am able to place a tracking charm on this stone, should make it easier to find again.")
+								s.AddText("You did find it, with your memories I am able to place a tracking charm on this stone, should make it easier to find again.")
+						if("Happy Little Cloud")
+							s.AddText("Wait... You actually butchered those innocent fluffy clouds? You're a monster. I was only joking.")
+
 
 				else
 					s.AddText("I can't wait to have some peace and quiet.")

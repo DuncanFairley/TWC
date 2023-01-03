@@ -1,4 +1,16 @@
 quest
+	Cloud
+		name   = "Happy Little Cloud"
+		desc   = "Bob wants you to kill some fluffy clouds."
+		reward = /questReward/TrainingDummy1
+
+		Kill
+			desc = "Kill Clouds."
+			reqs = list("Kill Cloud" = 900)
+
+		Reward
+			desc = "Go back to Bob."
+			reqs = list("Bob" = 1)
 	RoR
 		name   = "In my time of Requirement"
 		desc   = "Bob wants you to find room of requirement for him, he seems like an upstanding guy."
