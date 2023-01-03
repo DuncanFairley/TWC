@@ -22,24 +22,40 @@ mob/Player/proc/SendDiscord(var/message, var/dest)
 	else if(prevname) fixedName = prevname
 	else fixedName = name
 
-	var/list/headers = list("Content-Type" = "application/json")
-
-
 	var/body = list(content = html_decode(message),
-			avatar_url = defaultIcon,
-			username = fixedName)
+		avatar_url = defaultIcon,
+		username = fixedName)
 
-	rustg_http_request_async(RUSTG_HTTP_METHOD_POST, dest, json_encode(body), json_encode(headers), "{}")
+	discordMessageQueue[json_encode(body)] = dest
 
+//	var/list/headers = list("Content-Type" = "application/json")
+
+
+//	var/body = list(content = html_decode(message),
+//			avatar_url = defaultIcon,
+//			username = fixedName)
+
+//	rustg_http_request_async(RUSTG_HTTP_METHOD_POST, dest, json_encode(body), json_encode(headers), "{}")
 
 var/reportDiscordWho = 0
+var/list/discordMessageQueue = list()
+
 proc/pollForDiscord()
 	set waitfor = 0
 
 	var/id = -1
 	while(reportDiscordWho != -1)
 
-		if(id == -1)
+		if(discordMessageQueue.len > 0)
+
+			var/body = discordMessageQueue[1]
+			var/dest = discordMessageQueue[body]
+			discordMessageQueue.Cut(1,2)
+
+			var/list/headers = list("Content-Type" = "application/json")
+
+			rustg_http_request_async(RUSTG_HTTP_METHOD_POST, dest, body, json_encode(headers), "{}")
+		else if(id == -1)
 			var/list/headers = list("Content-Type" = "application/json")
 			var/body = list(password = discord_bot_pass)
 
@@ -108,4 +124,4 @@ proc/pollForDiscord()
 
 						Players << "<b><a style=\"font-size:1;font-family:'Comic Sans MS';text-decoration:none;color:green;\">OOC></a><span style=\"font-size:2; color:#3636F5;\"> \icon[wholist["Discord"]] [name]:</span></b> <span style=\"color:white; font-size:2;\"> [msg]</span>"
 
-		sleep(4)
+		sleep(5)
