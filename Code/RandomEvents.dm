@@ -905,18 +905,17 @@ RandomEvent
 			if(message) Players << infomsg("The stone golem's magic force vanished.")
 			end()
 
-	Wizard
-		name   = "Evil Santa"
-		chance = 0
+	Illusionist
+		name   = "Illusionist"
 		start()
 			set waitfor = 0
 			..()
 			var/minutes = rand(30,45)
 			var/list/m = list()
-			Players << infomsg("Oh no, Evil Santa is mad people been eating his cookies, he's outside slaughtering everyone (behind the castle) for [minutes] minutes, someone stop him!")
+			Players << infomsg("The Illusionist is performing outside (behind the castle) for [minutes] minutes, someone stop them, it's an awful performance!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
-			var/mob/Enemies/Summoned/boss = new /mob/Enemies/Summoned/Boss/Wizard(spawn_loc.loc)
+			var/mob/Enemies/Summoned/boss = new /mob/Enemies/Summoned/Boss/Illusionist(spawn_loc.loc)
 			m += boss
 
 			for(var/i = 0; i <= rand(15, 30); i++)
@@ -926,7 +925,7 @@ RandomEvent
 				monster.DMGmodifier = 1.2
 				monster.HPmodifier  = 6
 				monster.level       = 10 * 100 + rand(0, 50)
-				monster.name        = "Evil Elf"
+				monster.name        = "Fake Elf"
 				monster.icon_state  = "elf[rand(1,3)]"
 				monster.icon        = 'NPCs.dmi'
 
@@ -947,8 +946,8 @@ RandomEvent
 				mon.ChangeState(boss.INACTIVE)
 			m = null
 
-			if(message) Players << infomsg("Evil Santa is done throwing a tantrum and left.")
-			else Players << infomsg("Evil Santa was stopped.")
+			if(message) Players << infomsg("The Illusionist is done performing and left.")
+			else Players << infomsg("The Illusionist was defeated.")
 			end()
 
 	EntranceKillZone

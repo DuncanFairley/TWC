@@ -375,7 +375,6 @@ area
 		sky
 		hogwarts_roof
 
-
 		inside
 			Pixie_Pit
 			Pumpkin_Pit
@@ -1513,24 +1512,16 @@ mob
 							else
 								..()
 
-				Wizard
-					name = "Evil Santa"
+				Illusionist
+					name = "Illusionist"
 					HPmodifier = 50
 					DMGmodifier = 3
 					MoveDelay = 5
 					AttackDelay = 1
 					Range = 22
-					level = 4000
+					level = 2500
 
-					drops = list(/obj/items/key/master_key,
-								 /obj/items/spellbook/illusion,
-								 /obj/items/chest/legendary_golden_chest,
-								 /obj/items/lamps/sextuple_drop_rate_lamp,
-								 /obj/items/lamps/sextuple_gold_lamp,
-								 /obj/items/lamps/sextuple_exp_lamp)
-
-					icon = 'NPCs.dmi'
-					icon_state = "santa"
+					icon = 'FemaleVampire.dmi'
 
 					var/tmp
 						oldA
@@ -1542,14 +1533,14 @@ mob
 						set waitfor = 0
 						..()
 
-				//		if(prob(51))
-				//			icon   = 'FemaleVampire.dmi'
-				//			gender = FEMALE
-				//		else
-				//			icon   = 'MaleVampire.dmi'
-				//			gender = MALE
+						if(prob(51))
+							icon   = 'FemaleVampire.dmi'
+							gender = FEMALE
+						else
+							icon   = 'MaleVampire.dmi'
+							gender = MALE
 
-				//		GenerateIcon(src)
+						GenerateIcon(src)
 
 						namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1)
 				//		hpbar = new(src)
@@ -3341,6 +3332,23 @@ mob
 		Wyvern
 			icon_state = "wyvern"
 			level = 650
+
+		Cloud
+			icon_state = "cloud"
+			level = 700
+			canBleed = FALSE
+
+			var/tmp/fired = 0
+
+			Attack()
+				if(!fired)
+					fired = 1
+					dir=get_dir(src, target)
+					castproj(icon_state = "aqua", damage = Dmg + rand(-4,8), name = "water droplet")
+					spawn(30) fired = 0
+
+				..()
+
 		Basilisk
 			icon = 'Mobs.dmi'
 			icon_state = "basilisk"

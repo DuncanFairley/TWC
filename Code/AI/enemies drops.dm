@@ -67,6 +67,14 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 							/obj/items/lamps/triple_gold_lamp,
 							/obj/items/wearable/afk/heart_ring),
 
+"Illusionist"     	 = list(/obj/items/key/basic_key,
+							/obj/items/key/wizard_key,
+							/obj/items/crystal/soul,
+							/obj/items/wearable/title/Illusionist,
+							/obj/items/lamps/triple_drop_rate_lamp,
+							/obj/items/lamps/triple_gold_lamp,
+							/obj/items/spellbook/illusion),
+
 
 "The Evil Snowman"	 = list(/obj/items/key/winter_key,
 							/obj/items/crystal/soul,

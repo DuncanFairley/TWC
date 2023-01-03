@@ -472,107 +472,6 @@ obj/items/spellpage
 
 
 obj
-	cookiedrop
-		canSave = 0
-		density = 1
-		mouse_over_pointer = MOUSE_HAND_POINTER
-
-		icon       = 'Food.dmi'
-		icon_state = "Pizza"
-		name = "Santa's cookie"
-
-		accioable = 1
-		wlable = 1
-
-		var
-			origZ
-			teleportNode/origRegion
-
-		New(Loc, region)
-			set waitfor = 0
-			..()
-			sleep(1)
-
-			if(region)
-				origRegion = region
-			else
-				origZ = z
-
-			if(prob(65))
-				step(src, SOUTH)
-				for(var/i = 1 to rand(2,4))
-					if(!step(src, pick(SOUTH,SOUTHEAST,SOUTHWEST,EAST,WEST)))
-						step_rand(src)
-						break
-
-		proc
-			respawn()
-				set waitfor = 0
-				loc = null
-
-				density = 1
-				transform = null
-
-				sleep(500)
-
-				animate(src, alpha = 255, time = 5)
-
-				if(origRegion)
-					loc = pick(origRegion.lootSpawns)
-
-					if(prob(65))
-						step(src, SOUTH)
-						for(var/i = 1 to rand(2,4))
-							if(!step(src, pick(SOUTH,SOUTHEAST,SOUTHWEST,EAST,WEST)))
-								step_rand(src)
-								break
-
-				else
-					loc = locate(rand(10, 90), rand(10, 90), origZ)
-
-					if(!loc)
-						spawn() respawn()
-
-			drop(mob/Player/p)
-				if(density == 0) return
-				animate(src, transform = matrix()*2, alpha = 0, time = 5)
-				density = 0
-				var/sparks = 1
-
-				if(sparks)
-
-					p << infomsg("Yummy a cookie!")
-
-					var/turf/t = locate("@Hogwarts")
-
-					if(!t.findStatusEffect(/StatusEffect/SantaSpawned))
-
-						if(!(locate(/RandomEvent/Wizard) in worldData.currentEvents) && prob(4))
-
-							new /StatusEffect/SantaSpawned(locate("@Hogwarts"), 1800)
-
-							var/RandomEvent/e = locate(/RandomEvent/Wizard) in worldData.events
-							e.start()
-
-					else
-						p << errormsg("You don't want to annoy Santa so soon.")
-
-
-					emit(loc    = loc,
-					 	 ptype  = /obj/particle/star,
-					 	 amount = 3,
-					 	 angle  = new /Random(0, 360),
-					 	 speed  = 5,
-					 	 life   = new /Random(4,8))
-
-				sleep(6)
-				respawn()
-
-		Click()
-			if(src in range(3))
-				usr.dir = get_dir(usr, src)
-				drop(usr)
-
 	lootdrop
 		canSave = 0
 		density = 1
@@ -786,14 +685,6 @@ obj/static_obj/walltorch
 							a.region.lootSpawns = list()
 						a.region.lootSpawns += t
 
-				if((!a.region.cookieSpawns || a.region.cookieSpawns.len < 5) && prob(40))
-					var/turf/t = locate(x, y-2, z)
-					if(t && !t.density)
-						if(!a.region.cookieSpawns)
-							a.region.cookieSpawns = list()
-						a.region.cookieSpawns += t
-
-
 		..()
 
 teleportNode
@@ -884,16 +775,4 @@ proc/InitLootDrop()
 			end = clamp(end, 1, n.lootSpawns.len)
 			new /obj/lootdrop (n.lootSpawns[end], n)
 
-	//		lagstopsleep()
-
-		if(n.cookieSpawns)
-			var/r = rand(1, n.cookieSpawns.len)
-			new /obj/cookiedrop (n.cookieSpawns[r], n)
-
-			var/end = n.cookieSpawns.len - r
-			if(end == r) end = rand(1, n.cookieSpawns.len)
-			end = clamp(end, 1, n.cookieSpawns.len)
-			new /obj/cookiedrop (n.cookieSpawns[end], n)
-
-
-		lagstopsleep()
+			lagstopsleep()
