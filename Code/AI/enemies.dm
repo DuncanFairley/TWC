@@ -3358,6 +3358,11 @@ mob
 
 				..()
 
+			Death(mob/Player/killer)
+				..()
+
+				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/cloud)
+
 		Basilisk
 			icon = 'Mobs.dmi'
 			icon_state = "basilisk"
