@@ -4426,6 +4426,12 @@ obj/items
 				drops      = "holiday"
 				keyType = /obj/items/key/holiday_key
 
+			hardmode_chest
+				name = "holiday chest"
+				icon_state = "red"
+				drops      = "hardmode"
+				keyType = /obj/items/key/master_key
+
 	mystery_key
 		icon = 'ChestKey.dmi'
 		icon_state = "master"
@@ -4603,6 +4609,24 @@ var/list/chest_prizes = list("(limited)duel" = list(/obj/items/wearable/scarves/
 							                    /obj/items/wearable/scarves/white_scarf      = 24,
 							                    /obj/items/wearable/shoes/red_shoes          = 18,
 							                    /obj/items/wearable/shoes/white_shoes        = 15),
+
+	                     	 "male_hardmode"    = list(/obj/items/wearable/scarves/orange_scarf   = 30,
+				                                       /obj/items/wearable/scarves/darkpink_scarf = 30,
+							                           /obj/items/wearable/shoes/orange_shoes     = 20,
+							                           /obj/items/wearable/shoes/darkpink_shoes   = 20,
+							                           /obj/items/wearable/hats/darkpink_earmuffs = 10,
+							                           /obj/items/wearable/hats/orange_earmuffs   = 10,
+							                           /obj/items/wearable/wigs/male_orange_wig   = 5,
+							                           /obj/items/wearable/wigs/male_darkpink_wig = 5),
+
+	                     	 "female_hardmode"  = list(/obj/items/wearable/scarves/orange_scarf     = 30,
+				                                       /obj/items/wearable/scarves/darkpink_scarf   = 30,
+							                           /obj/items/wearable/shoes/orange_shoes       = 20,
+							                           /obj/items/wearable/shoes/darkpink_shoes     = 20,
+							                           /obj/items/wearable/hats/darkpink_earmuffs   = 10,
+							                           /obj/items/wearable/hats/orange_earmuffs     = 10,
+							                           /obj/items/wearable/wigs/female_orange_wig   = 5,
+							                           /obj/items/wearable/wigs/female_darkpink_wig = 5),
 
 	                     	 "male_holiday"    = list(/obj/items/wearable/shoes/candycane_shoes       = 15,
 							                          /obj/items/wearable/scarves/candycane_scarf     = 20,
