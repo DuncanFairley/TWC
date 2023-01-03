@@ -290,10 +290,12 @@ proc
 		var/obj/o = new (source.loc)
 		o.density = 1
 
-		var/const/STEPS_LIMIT = 10
+		var/const/STEPS_LIMIT = 15
 
 		var/turf/t = get_step_to(o, target, dist)
 		var/distance = get_dist(o, target)
+
+		var/startingDistance = distance
 
 		for(var/steps = 0 to STEPS_LIMIT)
 			if(!t)
@@ -305,11 +307,11 @@ proc
 			t        = get_step_to(o, target, dist)
 			distance = get_dist(o, target)
 
-		if(!t && get_dist(o, target) > dist)
+		if(!t && distance > dist)
 			o.loc = null
 			return 1
 		o.loc = null
-		if(distance > dist_limit)
+		if(distance >= dist_limit / 2 || distance >= startingDistance)
 			return 1
 		return 0
 area
@@ -370,6 +372,10 @@ area
 			Graveyard
 			layer = 6	// set this layer above everything else so the overlay obscures everything
 
+		sky
+		hogwarts_roof
+
+
 		inside
 			Pixie_Pit
 			Pumpkin_Pit
@@ -379,6 +385,10 @@ area
 			Silverblood_Maze
 				antiTeleport = TRUE
 				antiFly      = TRUE
+
+				Bottom
+				Top
+
 			Ratcellar
 				antiTeleport = TRUE
 				antiFly      = TRUE
