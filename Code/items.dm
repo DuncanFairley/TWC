@@ -5990,7 +5990,12 @@ obj/items/wearable/cog
 
 	desc = "Converts legendries to artifacts when picked up by pets."
 
-	var/tier = 1
+	var/tier = LEGENDARY
+
+	crystal_cog
+		tier = CRYSTAL
+		icon_state = "crystal cog"
+		desc = "Converts crystals to currency coins when picked up by pets."
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
@@ -5998,10 +6003,10 @@ obj/items/wearable/cog
 		if(. == WORN)
 			src.gender = owner.gender
 
-			if(owner.pet) owner.pet.convert = tier
+			if(owner.pet) owner.pet.convert |= tier
 
 			for(var/obj/items/wearable/cog/W in owner.Lwearing)
-				if(W != src)
+				if(W != src && W.name == name)
 					W.Equip(owner,1,1)
 
 			if(!overridetext)
@@ -6009,7 +6014,7 @@ obj/items/wearable/cog
 
 		else if(. == REMOVED)
 
-			if(owner.pet) owner.pet.convert = 0
+			if(owner.pet) owner.pet.convert &= ~tier
 
 			if(!overridetext)
 				viewers(owner) << infomsg("[owner] puts \his [name] away.")

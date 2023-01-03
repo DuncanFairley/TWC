@@ -93,6 +93,10 @@
 #define SWORD_SNAKE "stronger snake summon"
 #define SWORD_16 32768
 
+#define LEGENDARY 1
+#define CURSED 2
+#define CRYSTAL 4
+
 #define BACKPACK_ROWS  12
 #define BACKPACK_COLS  20
 

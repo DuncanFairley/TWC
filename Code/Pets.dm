@@ -155,8 +155,8 @@ obj/items/wearable/pets
 				owner.pet.alpha = 0
 				owner.pet.glide_size = owner.glide_size
 
-				if(locate(/obj/items/wearable/cog) in owner.Lwearing)
-					owner.pet.convert = 1
+				for(var/obj/items/wearable/cog/c in owner.Lwearing)
+					owner.pet.convert |= c.tier
 		//	else
 		//		owner.pet.isDisposing = 0
 		//		owner.pet.refresh(5)
@@ -510,14 +510,21 @@ obj/pet
 			if(p && item.loc == p && i && i.loc && i.loc == tempLoc)
 
 				var/isLegendary = istype(i, /obj/items/wearable) && (i:bonus >= 0 && i:bonus <= 3)
+				var/isCrystal = istype(i, /obj/items/crystal) && findtext(i.name, " level ")
 
 				if(isLegendary && i.max_stack == 1) isLegendary = 0
 
-				if(isLegendary && convert >= isLegendary)
+				if(isLegendary && (convert & LEGENDARY))
 					var/obj/items/artifact/a = new
 					a.stack = i.stack * (1 + i:quality)
 					a.UpdateDisplay()
 					a.Move(p)
+					i.Dispose()
+				else if(isCrystal && (convert & CRYSTAL))
+					var/list/txt = splittext(i.name, " ")
+					var/amount = text2num(txt[txt.len]) * 50
+					var/gold/g = new(bronze=amount)
+					g.give(p)
 					i.Dispose()
 				else
 					i.owner = null
