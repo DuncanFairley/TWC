@@ -288,6 +288,8 @@ obj/items/wearable/pets
 		currentSize = 1
 		minSize     = 1
 		dropable    = 0
+	cloud
+		icon_state = "cloud"
 	squirrel
 		icon_state = "squirrel"
 		currentSize = 1

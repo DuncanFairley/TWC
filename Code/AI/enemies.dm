@@ -87,7 +87,7 @@ obj
 					var/percent = HP / initial(HP)
 					hpbar.Set(percent, src)
 
-					if(HP == 100) warn = 1
+					if(HP >= MHP) warn = 1
 
 
 		MapInit()
@@ -3340,6 +3340,14 @@ mob
 			canBleed = FALSE
 
 			var/tmp/fired = 0
+
+			MapInit()
+				set waitfor = 0
+				..()
+				alpha = rand(190,255)
+
+				if(!isElite)
+					SetSize(1 + (rand(-5,15) / 50)) // -10% to +30% size change
 
 			Attack()
 				if(!fired)

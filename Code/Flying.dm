@@ -750,6 +750,31 @@ turf
 				return 0
 			return ..()
 
+	sky
+		icon_state="sky"
+		Enter(atom/movable/O, atom/oldloc)
+			if(isplayer(O) && O.density)
+
+				if(O.loc == src)
+					var/mob/Player/p = O
+
+					var/turf/t = p.findGroundTile()
+
+					animate(p, pixel_z = 448, time = 0)
+					animate(pixel_z = 0, time = 10)
+
+					p.Move(t)
+
+					p.nomove = 2
+					sleep(10)
+					p.nomove = 0
+
+					p.HP = 0
+					p.Death_Check(p)
+
+				return 0
+			return ..()
+
 	blankturf/edge
 		icon       = null
 		icon_state = null

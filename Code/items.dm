@@ -1630,6 +1630,9 @@ obj/items/wearable/brooms
 			owner.icon_state = "flying"
 			owner.dashDistance += speed
 			protection = initial(protection)
+
+			new /hudobj/Fly (null, owner.client, null, 1)
+
 			for(var/obj/items/wearable/brooms/W in owner.Lwearing)
 				if(W != src)
 					W.Equip(owner,1,1)
@@ -1649,6 +1652,10 @@ obj/items/wearable/brooms
 
 			owner.dashDistance -= speed
 
+			var/hudobj/Fly/f = locate() in owner.client.screen
+			if(f)
+				f.hide()
+
 			animate(owner, pixel_y = 0, time = 5)
 			owner.layer   = 4
 
@@ -1659,8 +1666,7 @@ obj/items/wearable/brooms
 						s.Dispose()
 						owner.removeFollower(s)
 						animate(owner, flags = ANIMATION_END_NOW)
-				if(istype(owner.loc, /turf/lava))
-					owner.loc.Enter(owner, owner.loc)
+				owner.loc.Enter(owner, owner.loc)
 
 obj/items/wearable/brooms/firebolt
 	icon = 'firebolt_broom.dmi'
@@ -1670,6 +1676,15 @@ obj/items/wearable/brooms/nimbus_2000
 	icon = 'nimbus_2000_broom.dmi'
 	protection = 2
 	speed = 4
+obj/items/wearable/brooms/levitate
+
+	icon = 'Books.dmi'
+	icon_state = "raven"
+	showoverlay = FALSE
+
+	protection = 6
+	speed = 4
+
 obj/items/wearable/brooms/cleansweep_seven
 	icon = 'cleansweep_seven_broom.dmi'
 
@@ -2864,6 +2879,9 @@ obj/items/wearable/title
 	Wrecker
 		title = "Wrecker"
 		name  = "Title: Wrecker"
+	Illusionist
+		title = "Illusionist"
+		name  = "Title: Illusionist"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))

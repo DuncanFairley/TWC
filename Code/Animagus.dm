@@ -162,7 +162,146 @@ mob/Player
 				sleep(50)
 
 			tickers &= ~ANIMAGUS_RECOVER
+
+
+mob/Player/proc
+
+	findGroundTile()
+		var/ny
+		var/nz
+		var/nx = clamp(x, 1, 99)
+
+		ny = 1 + (y % 25) * 4
+
+		if(y >= 75)
+			nz = 16
+		else if(y >= 50)
+			nz = 6
+
+			nx = clamp(nx, 1, 82)
+
+
+		else if(y >= 25)
+			nz = 15
+			nx = clamp(nx, 16, 99)
+			ny = clamp(ny, 11, 99)
+		else
+			nz = 9
+
+			nx = clamp(nx, 1, 82)
+			ny = clamp(ny, 16, 99)
+
+		var/turf/dest = locate(nx, ny, nz)
+		var/area/a = dest.loc
+		while(!(istype(a, /area/outside) || istype(a, /area/newareas/outside)) || dest.flyblock || dest.skip)
+			ny--
+			if(ny < 0) ny = 100
+			dest = locate(nx, ny, nz)
+			a = dest.loc
+		return dest
+
+	findSkyTile()
+		var/ny
+		var/nz
+		var/nx = clamp(x, 1, 99)
+
+		ny = round(y / 4)
+		if(z == 16) ny += 75
+		else if(z == 6) ny += 50
+		else if(z == 15) ny += 25
+
+		nz = 22
+
+		var/turf/dest = locate(nx, ny, nz)
+		while(!istype(dest, /turf/sky))
+			ny--
+			if(ny < 0) ny = 100
+			dest = locate(nx, ny, nz)
+
+		return dest
+
 hudobj
+
+	Fly
+		name       = "Fly Up"
+		icon_state = "fly up"
+		anchor_x   = "WEST"
+		screen_x   = 156
+		screen_y   = -48
+		anchor_y   = "NORTH"
+
+		maptext_x = 32
+		maptext_y = 8
+
+		mouse_opacity = 2
+
+		MouseEntered()
+			transform *= 1.25
+		MouseExited()
+			transform = null
+
+		New(loc=null,client/Client,list/Params,show=1)
+			..(loc,Client,Params,show)
+
+			var/mob/Player/p = Client.mob
+
+			if(p.z == 22)
+				name = "Fly Down"
+				icon_state = "fly down"
+
+		Click()
+			set waitfor = 0
+
+			var/mob/Player/p = client.mob
+
+			if(p.nomove) return
+
+			var/area/a = p.loc.loc
+
+			if(p.z == 22)
+				if(!istype(p.loc, /turf/sky))
+					p << errormsg("You can't dive down into the ground.")
+					return
+			else if(!a || !(istype(a, /area/outside) || istype(a, /area/newareas/outside)))
+				p << errormsg("You need to be outside.")
+				return
+
+			var/flyup = name == "Fly Up"
+
+			if(flyup)
+				name = "Fly Down"
+				icon_state = "fly down"
+
+				animate(p, pixel_z = 448, time = 20)
+				animate(pixel_z = 0, time = 0)
+
+				var/turf/dest = p.findSkyTile()
+
+				p.nomove = 2
+				sleep(20)
+				p.nomove = 0
+
+				var/d = p.dir
+				p.Move(dest)
+				p.dir = d
+
+			else
+				name = "Fly Up"
+				icon_state = "fly up"
+
+				animate(p, pixel_z = 448, time = 0)
+				animate(pixel_z = 0, time = 20)
+
+				var/turf/dest = p.findGroundTile()
+
+				var/d = p.dir
+				p.Move(dest)
+				p.dir = d
+
+				p.nomove = 2
+				sleep(20)
+				p.nomove = 0
+
 
 	WandPower
 		name       = "Wand"
