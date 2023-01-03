@@ -866,6 +866,13 @@ mob
 				if(killer.pet)
 					killer.pet.fetch(prize)
 
+			else if(hardmode == 10 && prob(base * rate * 0.1))
+				sparks = 1
+				prize = new /obj/items/chest/wigs/hardmode_chest (loc)
+
+				killer << colormsg("<i><b>[name] dropped [prize.name]. It's too big for your pet to fetch, pick it up!</b></i>", "#FFC0CB")
+				prize.prizeDrop(killer.ckey, decay=1)
+
 			if(sparks)
 				emit(loc    = loc,
 				 	 ptype  = /obj/particle/star,
@@ -960,8 +967,19 @@ mob
 										filters = filter(type="outline", size=1, color="#551a8b")
 									if(5)
 										filters = filter(type="outline", size=1, color="#ff0000")
+									if(6)
+										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#0e0")
+									if(7)
+										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#00a5ff")
+									if(8)
+										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#ffa500")
+									if(9)
+										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#551a8b")
+									if(10)
+										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#ff0000")
 
-								HP = MHP * (1 + hardmode)
+								HP = MHP * (1 + hardmode) + (200 * hardmode)
+								if(hardmode > 5) HP += (1000 * hardmode)
 
 						if(CONTROLLED)
 							target = null
@@ -1029,8 +1047,21 @@ mob
 										filters = filter(type="outline", size=1, color="#ffa500")
 									if(4)
 										filters = filter(type="outline", size=1, color="#551a8b")
+									if(5)
+										filters = filter(type="outline", size=1, color="#ff0000")
+									if(6)
+										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#0e0")
+									if(7)
+										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#00a5ff")
+									if(8)
+										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#ffa500")
+									if(9)
+										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#551a8b")
+									if(10)
+										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#ff0000")
 
-								HP = MHP * (1 + hardmode)
+								HP = MHP * (1 + hardmode) + (200 * hardmode)
+								if(hardmode > 5) HP += (1000 * hardmode)
 
 						else
 							Ignore(M)
@@ -1176,6 +1207,9 @@ mob
 
 				if(hardmode)
 					dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
+
+					if(hardmode > 5)
+						dmg += 140*hardmode
 
 				if(target.level < level)
 					dmg += dmg * ((1 + level - target.level)/200)

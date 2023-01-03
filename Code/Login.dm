@@ -1877,6 +1877,21 @@ obj
 				else if(p.hardmode == 4 && p.Slayer.level >= 50)
 					p.hardmode = 5
 					p << infomsg("Monsters will now butcher you but have 250% more drop rate.")
+				else if(p.hardmode == 5 && p.Slayer.level >= 60)
+					p.hardmode = 6
+					p << infomsg("Monsters will now butcher you but have 300% more drop rate.")
+				else if(p.hardmode == 6 && p.Slayer.level >= 70)
+					p.hardmode = 7
+					p << infomsg("Monsters will now butcher you but have 350% more drop rate.")
+				else if(p.hardmode == 7 && p.Slayer.level >= 80)
+					p.hardmode = 8
+					p << infomsg("Monsters will now butcher you but have 400% more drop rate.")
+				else if(p.hardmode == 8 && p.Slayer.level >= 90)
+					p.hardmode = 9
+					p << infomsg("Monsters will now butcher you but have 450% more drop rate.")
+				else if(p.hardmode == 9 && p.Slayer.level >= 100)
+					p.hardmode = 10
+					p << infomsg("Monsters will now butcher you but have 500% more drop rate.")
 				else
 					p.hardmode = 0
 					p << infomsg("You are fighting normal monsters now.")
