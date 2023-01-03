@@ -2754,8 +2754,20 @@ mob/Player
 		if((SHIELD_NINJA in passives) && prob(24 + passives[SHIELD_NINJA]))
 			dmg = 0
 
+
 			var/turf/t = get_step(attacker, turn(attacker.dir, 180))
-			Move(t)
+
+			if(t != loc)
+				var/obj/o = new (loc)
+				o.appearance = appearance
+				o.dir = dir
+				var/px = (x - t.x) * -32
+				var/py = (y - t.y) * -32
+
+				animate(o, alpha = 0, pixel_x = pixel_x + px, pixel_y = pixel_y + py, time = 4)
+				spawn(4) o.loc = null
+
+				Move(t)
 			dir = get_dir(src, attacker)
 
 			return 0
