@@ -423,7 +423,7 @@ mob
 
 				p.SendDiscord("logged in")
 
-				src<<"<b><span style=\"font-size:2; color:#3636F5;\">Welcome to Harry Potter: The Wizards Chronicles</span> <u><a href='https://github.com/DuncanFairley/TWC/commits/master'>Version [VERSION].[SUB_VERSION]</a></u></b> <br>Come join Discord <a href=\"https://discord.gg/8wTeMWdCVF\">here.</a>"
+				src<<"<b><span style=\"font-size:2; color:#3636F5;\">Welcome to Harry Potter: The Wizards Chronicles</span> <u><a href='https://github.com/DuncanFairley/TWC/commits/master'>Version [VERSION].[SUB_VERSION]</a></u></b> <br>Come join Discord <a href=\"https://discord.gg/3HbY5PjmjE\">here.</a>"
 
 				if(src:lastreadDP < worldData.dplastupdate)
 					p << "<span style=\"color:red;\">The Daily Prophet has an issue that you haven't yet read. <a href='?src=\ref[src];action=daily_prophet'>Click here</a> to view.</span>"
