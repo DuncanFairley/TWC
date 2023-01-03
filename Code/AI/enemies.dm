@@ -2302,10 +2302,6 @@ mob
 						..()
 						SpawnPortal("teleportPointSnowman Dungeon")
 
-						var/obj/snow_counter/count = locate("SnowCounter")
-						if(count.add(100))
-							new /mob/Enemies/Summoned/Boss/Snowman/Super (loc)
- 							world << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
 
 					Attack(mob/M)
 						..()
@@ -2708,26 +2704,12 @@ mob
 
 				SpawnPortal("teleportPointSnowman Dungeon", timer=1)
 
-				var/obj/snow_counter/count = locate("SnowCounter")
-				if(count.add(100))
-					new /mob/Enemies/Summoned/Boss/Snowman/Super (loc)
- 					world << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
-
 		Snowman
 			icon = 'Snowman.dmi'
 			level = 750
 			HPmodifier  = 3
 			DMGmodifier = 0.8
 			element = WATER
-
-			Death(mob/Player/killer)
-				..()
-
-				var/obj/snow_counter/count = locate("SnowCounter")
-				if(count.add())
-					var/obj/spawner/spawn_loc = pick(worldData.spawners)
-					new /mob/Enemies/Summoned/Boss/Snowman/Super (spawn_loc.loc)
-					world << infomsg("<b>The Super Evil Snowman has appeared outside, I hear he's so super evil that he gathered super rare items.</b>")
 
 			onDamage(dmg, mob/Player/p, elem = 0, projColor=null)
 				..(dmg, p, elem, projColor)

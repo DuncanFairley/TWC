@@ -115,7 +115,6 @@ Event
 			spawn() scheduler.schedule(src, 864000)
 
 			worldData.loggedIn = null
-			worldData.secretSanta = null
 
 	AutoClass
 
