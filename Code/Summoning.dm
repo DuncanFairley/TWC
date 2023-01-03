@@ -299,6 +299,8 @@ obj/summon
 
 							var/exp2give = e.onDamage(dmg, summoner, projColor=c)
 
+							if(!summoner) break
+
 							if(exp2give > 0)
 								target = null
 								summoner.Summoning.add(exp2give*0.8, summoner, 1)

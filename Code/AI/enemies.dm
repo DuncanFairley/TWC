@@ -53,6 +53,7 @@ obj
 
 		var
 			HP = 100
+			MHP = 100
 			tmp/obj/healthbar/hpbar
 			tmp/warn = 1
 
@@ -1592,7 +1593,7 @@ mob
 					Attacked(obj/projectile/p)
 						set waitfor = 0
 
-						if(prob(25))
+						if(prob(15))
 							hearers(20, src)<<"<span style=\"color:red;\"><b>[src]:</span></b> <font color=aqua>Episkey!"
 							overlays+=image('attacks.dmi', icon_state = "heal")
 							sleep(10)
@@ -1649,7 +1650,7 @@ mob
 						     life   = new /Random(20,35),
 						     color  = c)
 
-						target.onDamage(target.MHP * 0.5, src)
+						target.onDamage(target.MHP * 0.35, src)
 						target.Death_Check(src)
 
 						sleep(50)
@@ -1666,7 +1667,7 @@ mob
 							step_away(d, src)
 						d.density = 0
 
-						sleep(10)
+						sleep(20)
 						firedMeteor = 0
 
 					proc/Dash(turf/t)
