@@ -49,7 +49,7 @@ mob/TalkNPC
 			bombChance     = 100
 			level = 3000
 
-			questPointers = "In my time of Requirement"
+			questPointers = list("In my time of Requirement", "Happy Little Cloud")
 
 			questStart(mob/Player/i_Player, questName)
 				var/ScreenText/s = new(i_Player, src)
