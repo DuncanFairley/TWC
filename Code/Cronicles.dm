@@ -344,6 +344,13 @@ mob
 						var/list/split = splittext(w.name, " +")
 						w.name = split[1]
 
+			if(savefile_version < 49)
+				var/list/l = list("Tamed Dog", "Basilisk", "Cloud", "Wyvern", "Fire Elemental", "Water Elemental", "Archangel", "Projectile", "Fire Golem", "Fire Bat", "Bird ", "Troll", "Floating Eye", "Eye of The Fallen", "Wisp", "Vampire", "Acromantula", "Demon Snake", "Akalla", "Snowman", "The Good Snowman", "Pumpkin", "Cow", "Wolf", "Snake", "Dog", "Pixie", "Training Dummy", "Demon Rat", "Rat", "Stickman", "Summoned", "Zombie", "Boss", "Stickman", "Snowman", "Golem", "Sword", "Wisp", "VampireLord", "Scared Ghost", "Ghost", "Zombie", "Acromantula", "Basilisk", "Snake", "Acromantula", "Sword", "Slug")
+				for(var/i in p.monsterkills)
+					if(!(i in l))
+						p.monsterkills -= i
+
+
 
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
