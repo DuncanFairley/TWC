@@ -309,6 +309,10 @@ obj/summon
 								if(e.hardmode)
 									dmg = dmg * (1.1 + e.hardmode*0.5) + 60*e.hardmode
 
+									if(e.DMGmodifier < 0.6)
+										var/perc = (e.DMGmodifier / 0.6) * 100
+										dmg *= 100 / perc
+
 								dmg = e.Dmg*0.7*summonTier
 
 								if(level < e.level)
