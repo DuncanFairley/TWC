@@ -186,15 +186,3 @@ atom
 
 
 WorldData/var/tmp/baseChance = 0.015
-
-mob/test/verb/testMonsters()
-
-	var/total = ""
-
-	for(var/i in childTypes(/mob/Enemies/))
-		var/list/s = splittext("[i]", "/")
-		var/n = replacetext(s[s.len], "_", " ")
-
-		total += "\"[n]\", "
-
-	world << "(" + total + ")"
