@@ -1148,7 +1148,7 @@ mob
 		proc/Kill(mob/Player/p)
 			set waitfor = 0
 
-			if(!isElite && HP > 0 && !revenge && !hpbar && level <= 1500 && prob(30))
+			if(!isElite && HP > 0 && !revenge && !hpbar && level <= 1500 && prob(20))
 
 				var/newName = "Big \"[p.name] Slayer\" [name]"
 				p << infomsg("[name] has distinguished themselves killing you, they are now named [newName]")
