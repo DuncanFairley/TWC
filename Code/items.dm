@@ -6026,6 +6026,8 @@ obj/items/wearable/seal_bracelet
 
 				viewers(owner) << infomsg("[owner] puts \his [src.name] into \his pocket.")
 
+				owner.SendDiscord("[owner.ckey] completed sealing bracelet challenge in [days] Days [hours]:[minutes]:[seconds].", discord_event_hook)
+
 obj/items/wearable/cog
 
 	rarity = 3
