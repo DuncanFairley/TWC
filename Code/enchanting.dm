@@ -348,6 +348,7 @@ obj/items/crystal
 		monsterDmg = 0
 		monsterDef = 0
 		MP = 0
+		power = 0
 
 	useTypeStack = 1
 	stackName = "Crystals:"
@@ -365,6 +366,7 @@ obj/items/crystal
 		if(monsterDmg) lines += "+[monsterDmg]% Damage"
 		if(monsterDef) lines += "+[monsterDef]% Defense"
 		if(MP) lines += "+[MP] MP"
+		if(power) lines += "+[power] Legendary Effect"
 
 		return jointext(lines, "\n")
 
@@ -495,9 +497,9 @@ obj/items/crystal
 	soul
 		name = "soul crystal"
 		icon_state = "soul"
-		luck = 5
 		ignoreItem = TRUE
 		rarity = 3
+		power = 5
 		desc = null
 
 
