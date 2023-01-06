@@ -1345,7 +1345,7 @@ mob
 				Death()
 					emit(loc    = loc,
 						 ptype  = /obj/particle/fluid/blood,
-						 amount = 25,
+						 amount = 10,
 						 angle  = new /Random(0, 360),
 						 speed  = 5,
 						 life   = new /Random(1,10))
@@ -2953,7 +2953,7 @@ mob
 			Death(mob/Player/killer)
 				emit(loc    = loc,
 					 ptype  = /obj/particle/fluid/blood,
-					 amount = 25,
+					 amount = 10,
 					 angle  = new /Random(0, 360),
 					 speed  = 5,
 					 life   = new /Random(5,15))
@@ -3027,7 +3027,7 @@ mob
 			Death(mob/Player/killer)
 				emit(loc    = loc,
 				 ptype  = /obj/particle/fluid/blood,
-					 amount = 25,
+					 amount = 10,
 					 angle  = new /Random(0, 360),
 					 speed  = 5,
 					 life   = new /Random(1,10))
