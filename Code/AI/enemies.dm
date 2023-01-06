@@ -335,7 +335,7 @@ area
 		proc/faction()
 			var/AreaData/data = worldData.areaData["area_[name]"]
 			if(data && icon)
-				var/c = data.rep > 0 ? "#600606" : "#0cf"
+				var/c = data.rep > 0 ? "#60060670" : "#00ccff70"
 
 				if(region && region.areas)
 					for(var/area/a in region.areas)
