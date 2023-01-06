@@ -295,6 +295,11 @@ obj/items/wearable/pets
 		currentSize = 1
 		minSize = 1
 		rarity = 3
+	pug
+		icon_state = "pug"
+		currentSize = 1
+		minSize = 1
+		rarity = 3
 	Cow
 		icon_state = "cow"
 		currentSize = 1
