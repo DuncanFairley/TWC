@@ -2275,6 +2275,10 @@ obj/items/wearable/wigs
 		else if(. == REMOVED)
 			if(!overridetext)viewers(owner) << infomsg("[owner] takes off \his [src.name].")
 
+obj/items/wearable/wigs/hairclip
+	showoverlay = FALSE
+	icon = 'Hair_Clip.dmi'
+	name = "hairclip"
 obj/items/wearable/wigs/male_lightgreen_wig
 	icon = 'male_lightgreen_wig.dmi'
 	name = "male light green wig"
