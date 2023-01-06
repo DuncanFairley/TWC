@@ -2811,10 +2811,10 @@ mob/Player
 		updateHP()
 
 		if(wand && wand.test && !isplayer(attacker) && attacker != src)
-			if(HP <= 0 && prob(25) && wandCharge >= 50)
+			if(HP <= 0 && ((wandCharge >= 100 && prob(50)) || (wandCharge >= 50 && wandCharge < 100 && prob(25))))
 				new /StatusEffect/WandPower(src, 120)
 
-				wandCharge-=50
+				wandCharge -= wandCharge >= 100 ? 100 : 50
 				wand.wandPower.setCharge(wandCharge)
 
 				resurrect = 1
