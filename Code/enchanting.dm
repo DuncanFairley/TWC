@@ -392,7 +392,7 @@ obj/items/crystal
 		..(Loc)
 
 		if(tier)
-			tier = min(tier, 20)
+			tier = clamp(tier, 1, 20)
 
 			if(prob(10))
 				tier += rand(0, 5)
