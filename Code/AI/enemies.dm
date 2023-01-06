@@ -67,9 +67,10 @@ obj
 
 				if(warn && HP <= 95)
 					warn = 0
+					var/areaName = replacetext(tag, "area_", "")
 					for(var/mob/Player/pl in Players)
 						if(pl.guild == data.guild)
-							pl << errormsg("Your [tag] pillar is being attacked.")
+							pl << errormsg("Your [areaName] pillar is being attacked.")
 
 				flick("[icon_state]-V", src)
 
@@ -1228,6 +1229,9 @@ mob
 
 				if(target.animagusOn)
 					dmg = dmg * 0.75 - target.Animagus.level
+
+				if(target.armor)
+					dmg -= target.armor
 
 				if(dmg > 0)
 					dmg = target.onDamage(dmg, src)
