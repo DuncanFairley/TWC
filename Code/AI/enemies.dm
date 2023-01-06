@@ -1728,7 +1728,7 @@ mob
 						             pixel_y = -py, time = time)
 
 
-						sleep(time + 1)
+						sleep(time)
 						pixel_x = 0
 						pixel_y = 0
 
