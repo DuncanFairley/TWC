@@ -15,6 +15,8 @@ mob/TalkNPC
 		holdAttackChance = 15
 		incindiaChance   = 5
 		bombChance   = 0
+		depulso = 0
+		dashChance = 0
 
 	New(loc)
 		origloc = loc
@@ -178,6 +180,26 @@ mob/TalkNPC
 							if(!target)
 								break
 						if(!target) continue
+					else if(prob(dashChance))
+
+						var/turf/back = get_step(target, turn(target.dir, 180))
+						Dash(back)
+
+					else if(depulso)
+						var/turf/back = get_step(target, turn(target.dir, 180))
+
+						if(back == loc)
+							var/turf/away = get_step_away(target,src,15)
+							target << "<b><span style=\"color:red;\">[src]:</span></b> Depulso!"
+							target.Move(away)
+						else
+							var/turf/t = get_step_to(src, back)
+							if(t)
+								Move(t)
+							else
+								var/turf/away = get_step_away(target,src,15)
+								target << "<b><span style=\"color:red;\">[src]:</span></b> Depulso!"
+								target.Move(away)
 
 					else if(d > 7)
 						var/turf/t = get_step_to(src, target, 1)
@@ -264,6 +286,45 @@ mob/TalkNPC
 			sleep(40)
 
 			route()
+
+	proc/Dash(turf/t)
+//		set waitfor = 0
+
+		var
+			px = (x * 32) - (t.x * 32)
+			py = (y * 32) - (t.y * 32)
+
+		dir = get_dir(src, t)
+
+		var/time = round(((abs(px) + abs(py)) / 32) * 0.5)
+
+		var/list/ghosts = list()
+		for(var/i = 1 to 4)
+			var/image/o = new
+			o.appearance = appearance
+			o.alpha = 255 - i * 50
+
+			o.pixel_x = px * 0.1 * i
+			o.pixel_y = py * 0.1 * i
+
+			ghosts += o
+
+		var/underlaysTmp = underlays.Copy()
+		underlays += ghosts
+
+		animate(src, pixel_x = -px,
+		             pixel_y = -py, time = time)
+
+
+		sleep(time)
+		pixel_x = 0
+		pixel_y = 0
+
+		density = 0
+		Move(t)
+		density = 1
+
+		underlays = underlaysTmp
 
 	proc/route()
 		set waitfor = 0
