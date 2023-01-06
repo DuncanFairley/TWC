@@ -807,7 +807,7 @@ obj/items/wearable
 						info["Defense"] = def
 
 			if(armor)
-				info["Armor"] = armor
+				info["Armor"] = armor * scale * quality
 
 			var/s
 			if(socket)
@@ -4444,7 +4444,6 @@ obj/items
 				keyType = /obj/items/key/holiday_key
 
 			hardmode_chest
-				name = "holiday chest"
 				icon_state = "red"
 				drops      = "hardmode"
 				keyType = /obj/items/key/master_key
