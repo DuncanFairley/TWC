@@ -1618,23 +1618,6 @@ mob
 
 							sleep(50)
 
-					Death(mob/Player/killer)
-
-						var/list/winners = list()
-
-						for(var/i = damage.len to max(1 + damage.len - prizePoolSize, 1) step -1)
-							if(damage[i] == "" || damage[i] == null) continue
-							if(damage[damage[i]] < damageReq) break
-
-							winners += damage[i]
-
-						if(winners.len)
-							var/msg = "[jointext(winners, ", ")] defeated Evil Santa!"
-							Players << msg
-							killer.SendDiscord(msg, discord_event_hook)
-
-						..(killer)
-
 
 					Attacked(obj/projectile/p)
 						set waitfor = 0
