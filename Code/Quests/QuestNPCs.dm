@@ -44,9 +44,12 @@ mob/TalkNPC
 
 				GenerateIcon(src)
 
-			dropAttack     = 1
-			incindiaChance = 20
-			bombChance     = 100
+			dropAttack       = 1
+			incindiaChance   = 20
+			bombChance       = 100
+			depulso          = 1
+			holdAttackChance = 0
+			dashChance       = 10
 			level = 3000
 
 			questPointers = list("In my time of Requirement", "Happy Little Cloud")
