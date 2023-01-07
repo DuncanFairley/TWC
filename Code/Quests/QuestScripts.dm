@@ -1197,17 +1197,17 @@ questReward
 		items = /obj/items/magic_stone/summoning/resurrection
 
 	TutorialWand
-		exp   = 200
-		gold  = 200
+		exp   = 1000
+		gold  = 500
 	TutorialPalmer
-		exp   = 400
-		gold  = 400
-	TutorialQuests
-		exp   = 800
-		gold  = 800
-	TutorialOther
 		exp   = 2000
 		gold  = 1000
+	TutorialQuests
+		exp   = 4000
+		gold  = 2000
+	TutorialOther
+		exp   = 6000
+		gold  = 3000
 
 	Masterkey
 		exp   = 32000
