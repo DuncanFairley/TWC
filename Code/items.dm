@@ -807,7 +807,7 @@ obj/items/wearable
 						info["Defense"] = def
 
 			if(armor)
-				info["Armor"] = armor * scale * quality
+				info["Armor"] = armor * scale * (quality + 1)
 
 			var/s
 			if(socket)
@@ -969,7 +969,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.monsterDef -= monsterDef
 		owner.extraLimit -= extraLimit
 		owner.extraCDR -= extraCDR
-		owner.armor -= armor * quality * scale
+		owner.armor -= armor * (quality + 1) * scale
 
 		if(extraMP)
 			owner.extraMP -= extraMP
@@ -1030,7 +1030,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.monsterDef += monsterDef
 		owner.extraLimit += extraLimit
 		owner.extraCDR += extraCDR
-		owner.armor += armor * quality * scale
+		owner.armor += armor * (quality + 1) * scale
 
 		if(extraMP)
 			owner.extraMP += extraMP
