@@ -3370,7 +3370,6 @@ mob
 			level = 550
 			canBleed = FALSE
 			element = WATER
-			respawnTime = 900
 		Fire_Elemental
 			icon_state = "fire elemental"
 			level = 600
