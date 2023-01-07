@@ -65,6 +65,7 @@ obj/mirror
 		icon_state = "glass"
 		layer = 5
 		density = 1
+		reflect = 1
 		var/obj/mirror/frame/frame
 		var/obj/mirror/base/base
 		var/list/obj/reflection/reflections = list() //associative
