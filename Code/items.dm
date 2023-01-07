@@ -986,7 +986,8 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 
 		if(passive)
 			owner.passives[passive] -= power
-			owner.passives[passive] -= socket?.power
+			if(socket && !isnum(socket))
+				owner.passives[passive] -= socket.power
 			if(owner.passives[passive] <= 0) owner.passives -= passive
 			if(!owner.passives.len) owner.passives = null
 
@@ -1047,7 +1048,8 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		if(passive)
 			if(!owner.passives) owner.passives = list()
 			owner.passives[passive] += power
-			owner.passives[passive] += socket?.power
+			if(socket && !isnum(socket))
+				owner.passives[passive] += socket.power
 
 		return WORN
 
