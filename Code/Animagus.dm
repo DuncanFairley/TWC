@@ -77,15 +77,29 @@ mob/Player
 			if(O.icon_state == "barrels")
 				O:drop(src)
 		else if(ismonster(O))
-			if(animagusOn)
+
+			if(RING_DISPLACEMENT in passives)
+				var/tmpLoc = O.loc
+				O.density = 0
+				O.Move(loc)
+				Move(tmpLoc)
+				O.density = 1
+			else
 				if(world.time - lastproj < 2) return
 				lastproj = world.time
 
 				var/mob/Enemies/e = O
 
-				var/dmg = round(rand(10) + (Dmg + clothDmg + Slayer.level) * (1.25 + Animagus.level/100), 1)
+				var/dmg = Dmg + clothDmg + Slayer.level
+
+				if(animagusOn)
+					dmg *= 1.25 + Animagus.level/100
+				else if(level > 50)
+					dmg *= 0.5
 
 				dmg *= 1 + monsterDmg/100
+
+				dmg = round(dmg, 1)
 
 				if(e.canBleed)
 					var/n = dir2angle(get_dir(O, src))
@@ -106,14 +120,9 @@ mob/Player
 				pixel_y -= py
 
 				var/exp2give = e.onDamage(dmg, src)
-				if(exp2give > 1)
+				if(exp2give > 1 && animagusOn)
 					Animagus.add(exp2give, src, 1)
-			else if(RING_DISPLACEMENT in passives)
-				var/tmpLoc = O.loc
-				O.density = 0
-				O.Move(loc)
-				Move(tmpLoc)
-				O.density = 1
+
 	proc
 		AnimagusTick(hudobj/Animagus/a)
 			set waitfor = 0
