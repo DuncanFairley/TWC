@@ -279,10 +279,10 @@ velocity
 	var/x
 	var/y
 
-proc/fadeText(turf/loc, text, offsetX = 0, offsetY = 0)
+proc/fadeText(turf/loc, text, offsetX = 0, offsetY = 0, maxY = 64)
 	if(istype(loc, /atom/movable))
 		loc = loc.loc
-	new /obj/fadeText (loc, text, offsetX, offsetY)
+	new /obj/fadeText (loc, text, offsetX, offsetY, maxY)
 
 obj
 	fadeText
@@ -291,7 +291,7 @@ obj
 		mouse_opacity  = 0
 		layer          = EFFECTS_LAYER
 
-		New(i_Loc, i_Text, i_OffsetX, i_OffsetY)
+		New(i_Loc, i_Text, i_OffsetX, i_OffsetY, maxY)
 			..()
 
 			maptext = i_Text
@@ -305,10 +305,10 @@ obj
 				offset = round(size / 8)
 
 			var/ox = rand(-offset,offset)
-			animate(src, pixel_x = pixel_x,        pixel_y = pixel_y,      alpha = 254, time = 0)
-			animate(pixel_x = pixel_x + ox * 0.25, pixel_y = pixel_y + 16, alpha = 253, time = 3)
-			animate(pixel_x = pixel_x + ox * 0.5,  pixel_y = pixel_y + 32, alpha = 196, time = 3)
-			animate(pixel_x = pixel_x + ox,        pixel_y = pixel_y + 48, alpha = 128, time = 3)
-			animate(pixel_x = pixel_x + ox * 2,    pixel_y = pixel_y + 64, alpha = 0,   time = 3)
+			animate(src, pixel_x = pixel_x,        pixel_y = pixel_y,               alpha = 254, time = 0)
+			animate(pixel_x = pixel_x + ox * 0.25, pixel_y = pixel_y + maxY * 0.25, alpha = 253, time = 3)
+			animate(pixel_x = pixel_x + ox * 0.5,  pixel_y = pixel_y + maxY * 0.5,  alpha = 196, time = 3)
+			animate(pixel_x = pixel_x + ox,        pixel_y = pixel_y + maxY * 0.75, alpha = 128, time = 3)
+			animate(pixel_x = pixel_x + ox * 2,    pixel_y = pixel_y + maxY,        alpha = 0,   time = 3)
 			spawn(13)
 				loc = null

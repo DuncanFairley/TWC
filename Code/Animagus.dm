@@ -105,9 +105,6 @@ mob/Player
 				pixel_x -= px
 				pixel_y -= py
 
-				if(MonsterMessages)
-					src << "You do [dmg] damage to [e.name]."
-
 				var/exp2give = e.onDamage(dmg, src)
 				if(exp2give > 1)
 					Animagus.add(exp2give, src, 1)

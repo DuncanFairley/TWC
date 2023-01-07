@@ -2611,9 +2611,7 @@ element
 			amount = round(amount/10, 1)
 
 			exp += amount
-		//	if(msg)
-		//		parent << infomsg("You gained [amount] [name] experience.")
-			parent.expAlert("[name] +[amount]", name)
+			parent.expAlert(amount, name)
 
 			while(exp > maxExp)
 				exp -= maxExp
@@ -2836,6 +2834,10 @@ mob/Player
 		HP -= dmg
 		updateHP()
 
+		if(dmg > 0)
+			var/offset = 15 - (length("[dmg]") * 5)
+			fadeText(src, "<b><span style=\"color:#DC143C;font-size:8px\">[dmg] </span></b>", offset, 20, 32)
+
 		if(wand && wand.test && !isplayer(attacker) && attacker != src)
 			if(HP <= 0 && ((wandCharge >= 100 && prob(50)) || (wandCharge >= 50 && wandCharge < 100 && prob(25))))
 				new /StatusEffect/WandPower(src, 120)
@@ -2918,11 +2920,6 @@ mob/Player
 
 		dmg = onDamage(dmg, p.owner)
 
-		p.owner << "Your [p] does [dmg] damage to [src]."
-
-		if(MonsterMessages || !ismonster(p.owner))
-			src << "[p.owner] hit you for [dmg] with their [p]."
-
 		if(p.canBleed)
 			var/n = dir2angle(get_dir(src, p))
 			emit(loc    = src,
@@ -2970,6 +2967,10 @@ mob/Enemies
 
 		dmg = round(dmg, 1)
 		HP -= dmg
+
+		if(dmg > 0)
+			var/offset = 15 - (length("[dmg]") * 5)
+			fadeText(src, "<b><span style=\"color:#f00;font-size:8px\">[dmg]</span></b>", offset, 20, 32)
 
 		if(HP > 0)
 			if((state == WANDER || state == SEARCH) && p)
@@ -3116,9 +3117,6 @@ mob/Enemies
 					dmg *= 1.25
 
 			dmg = round(dmg, 1);
-
-			if(p.owner:MonsterMessages && !silent)
-				p.owner << "Your [p] does [dmg] damage to [src]."
 
 			var/exp2give = onDamage(dmg, p.owner, p.element, p.color)
 			if(exp2give > 0)

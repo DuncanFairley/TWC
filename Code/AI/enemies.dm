@@ -1236,7 +1236,6 @@ mob
 				if(dmg > 0)
 					dmg = target.onDamage(dmg, src)
 					if(target && dmg > 0)
-						if(target.MonsterMessages) target << "<SPAN STYLE='color: red'>[src] attacks [target] and causes [dmg] damage!</SPAN>"
 						if(target.HP <= 0)
 							Kill(target)
 				else
