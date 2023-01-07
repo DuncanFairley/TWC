@@ -2745,7 +2745,13 @@ mob/Player
 		vis_contents -= o
 		o.vis_contents -= s
 
-	proc/onDamage(dmg, mob/attacker, triggerSummons=1)
+	proc/onDamage(dmg, mob/attacker, triggerSummons=1, elem=0)
+
+		if(elem == HEAL)
+
+			HP = min(HP + dmg, MHP)
+			updateHP()
+			return 0
 
 		if(loginProtection)
 			dmg = 0

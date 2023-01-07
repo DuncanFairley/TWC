@@ -3,6 +3,7 @@
 #define EXPLOSION 4
 #define SUMMON 8
 #define METEOR 16
+#define ARC 32
 
 
 #define PAGE_DAMAGETAKEN 64
@@ -18,7 +19,7 @@ obj/items/wearable/spellbook
 	var
 		cd        = 1
 		damage    = 1
-		range     = 1
+		range     = 0
 		spellType = 0
 		flags     = 0
 		element   = 0
@@ -78,6 +79,13 @@ obj/items/wearable/spellbook
 						t = "Aura"
 					if(PROJ)
 						t = "Projectile"
+					if(SUMMON)
+						t = "Summon"
+					if(METEOR)
+						t = "Meteor"
+					if(ARC)
+						t = "Arc"
+
 				var/e
 
 				if(damage < 0)
@@ -92,6 +100,9 @@ obj/items/wearable/spellbook
 							e = "Earth"
 						if(GHOST)
 							e = "Ghost"
+						if(COW)
+							e = "Cow"
+
 				var/info = "Type: [t]\nElement: [e]\nPower: [damage*100]%\nMP: [mpCost]\nCooldown:[cd/10] seconds"
 
 				winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[info]\"")
@@ -133,6 +144,8 @@ obj/items/wearable/spellbook
 				t = "Summon"
 			if(METEOR)
 				t = "Meteor"
+			if(ARC)
+				t = "Arc"
 
 		if(t == null && e == null)
 			name = "spellbook \[Incomplete]"
@@ -195,23 +208,30 @@ obj/items/wearable/spellbook
 		var/dmg = (p.Dmg + p.clothDmg) * damage
 
 		var/state
+		var/elementColor
 		switch(element)
 			if(FIRE)
 				state = "fireball"
 				dmg += p.Fire.level
+				elementColor = "#ffa500"
 			if(WATER)
 				state = "aqua"
 				dmg += p.Water.level
+				elementColor = "#0073eb"
 			if(EARTH)
 				state = "quake"
 				dmg += p.Earth.level
+				elementColor = "#996633"
 			if(GHOST)
 				state = "gum"
 				dmg += p.Ghost.level
+				elementColor = "#ff6699"
 			if(HEAL)
 				state = "healing"
+				elementColor = "#00eb73"
 			if(COW)
 				state = "cow"
+				elementColor = "#f4f4f4"
 
 		if(spellType == EXPLOSION)
 			for(var/d in DIRS_LIST)
@@ -242,6 +262,39 @@ obj/items/wearable/spellbook
 		else if(spellType == METEOR)
 			var/obj/projectile/Meteor/m = new (attacker ? attacker.loc : p.loc, p, dmg, state, name, element)
 			m.range = range
+		else if(spellType == ARC)
+
+			var/mob/target = attacker
+
+			var/list/chains = list()
+			var/count = range
+
+			chains += target
+
+			var/targetType = element == HEAL ? /mob/Player : /mob/Enemies
+
+			for(var/c = 1 to count)
+				target = locate(targetType) in (oview(5, target) - chains)
+				if(!target) break
+				chains += target
+
+			var/vector/start = new (p.x * 32 + 16, p.y * 32 + 10)
+
+			start.X += (EAST & p.dir) ? 7 : -7
+
+			for(var/mob/e in chains)
+
+				var/vector/dest  = new (e.x * 32 + 16, e.y * 32 + 16)
+
+				var/bolt/boltFix/b = new(start, dest, 20)
+
+				b.Draw(p.z, /obj/segment/segmentFix, color = elementColor, thickness = 1)
+
+				start = dest
+
+			for(var/mob/e in chains)
+				e:onDamage(dmg, p, elem=element)
+
 		else
 			if(element == HEAL)
 
@@ -314,7 +367,7 @@ obj/items/wearable/spellbook
 
 				for(var/i = 1 to 20)
 					for(var/mob/Enemies/e in range(range, p))
-						e.onDamage(dmg, p, element)
+						e.onDamage(dmg, p, elem=element)
 
 					sleep(5)
 
@@ -344,6 +397,7 @@ obj/items/spellpage
 				p.usedSpellbook.spellType = spellType
 
 				p.usedSpellbook.flags = 0
+				p.usedSpellbook.range = range
 				p.usedSpellbook.cd = cd
 				p.usedSpellbook.mpCost = mpCost
 				p.usedSpellbook.damage = damage
@@ -409,18 +463,26 @@ obj/items/spellpage
 		damage = 4
 		cd = 100
 		mpCost = 250
-		range = 3
+		range = 4
 	aura
 		name = "Spell Page: \[Aura]"
 		spellType = ARUA
 		damage = 2
 		cd = 150
 		mpCost = 300
+		range = 1
 	summon
 		name = "Spell Page: \[Summon]"
 		spellType = SUMMON
 		cd = 150
 		mpCost = 150
+	arc
+		name = "Spell Page: \[Arc]"
+		spellType = ARC
+		cd = 40
+		mpCost = 100
+		damage = 2
+		range = 4
 	fire
 		name = "Spell Page: \[Fire]"
 		element = FIRE
@@ -590,6 +652,7 @@ obj
 									 /obj/items/spellpage/aura,
 									 /obj/items/spellpage/summon,
 									 /obj/items/spellpage/meteor,
+									 /obj/items/spellpage/arc,
 									 /obj/items/spellpage/fire,
 									 /obj/items/spellpage/water,
 									 /obj/items/spellpage/ghost,
