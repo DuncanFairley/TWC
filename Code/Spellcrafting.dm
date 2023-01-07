@@ -582,9 +582,9 @@ obj
 				else if(prob(15))
 					icon_state = "spellcrafting"
 					name = "Magic Chest"
-				else if(prob(20))
-					icon_state = "gift"
-					name = "gift"
+		//		else if(prob(20))
+	//				icon_state = "gift"
+	//				name = "gift"
 				else
 					icon_state = "barrels"
 					name = "Barrels"
