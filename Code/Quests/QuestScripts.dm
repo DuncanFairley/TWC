@@ -120,6 +120,23 @@ quest
 			desc = "A book, I wonder if it contains any spells I could learn."
 			reqs = list("Approach the book" = 1)
 
+	Puzzle3
+		name = "Top of The World"
+		desc = "You walked through the tunnel, it led you here, it's a bit dusty but maybe you can find something useful."
+		reward = /questReward/Levitate
+
+		Room1
+			desc = "A locked gate, perhaps there's a way to open it."
+			reqs = list("Unlock the gate" = 1)
+
+		Room2
+			desc = "Looks like a storage area, get to the other side."
+			reqs = list("Get to the other side" = 1)
+
+		Reward
+			desc = "A book, you seem to understand it only if you hold it, copy the book."
+			reqs = list("Copy the book" = 1)
+
 	Animagus
 		name = "Amato Animo Animato Animagus"
 		desc = "You decided to start animagus training and placed a leaf of a mandrake in your mouth."
@@ -1052,6 +1069,9 @@ questReward
 	InferiBook
 		exp   = 40000
 		items = /obj/items/spellbook/inferi
+	Levitate
+		exp   = 20000
+		items = /obj/items/wearable/brooms/levitate
 	PotionsBook
 		gold  = 2000
 		exp   = 2000
