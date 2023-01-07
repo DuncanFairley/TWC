@@ -3045,15 +3045,15 @@ mob
 
 				..()
 
-			Attacked(obj/projectile/p)
-				p.damage = round(p.damage * rand(7, 9)/10)
-				if(MoveDelay == 3 && p.owner && prob(55))
+			onDamage(dmg, mob/Player/p, elem = 0, projColor=null)
+				dmg = round(dmg * rand(7, 9)/10)
+				if(MoveDelay == 3 && p && prob(55))
 					MoveDelay = 1
 					ChangeState(state)
 					spawn(30)
 						MoveDelay = 3
 						ChangeState(state)
-				..()
+				..(dmg, p, elem, projColor)
 
 			ChangeState(var/i_State)
 				set waitfor = FALSE
@@ -3090,8 +3090,20 @@ mob
 						flick("burning", S)
 						spawn(8) S.loc = null
 
+					var/dmg = Dmg + rand(-4,8)
+
+					if(hardmode)
+						dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
+
+						if(hardmode > 5)
+							dmg += 140*hardmode
+
+						if(DMGmodifier < 0.6)
+							var/perc = (DMGmodifier / 0.6) * 100
+							dmg *= 100 / perc
+
 					dir=get_dir(src, target)
-					castproj(icon_state = "fireball", damage = Dmg + rand(-4,8), name = "fire ball")
+					castproj(icon_state = "fireball", damage = dmg, name = "fire ball")
 					sleep(AttackDelay)
 
 			Attacked(obj/projectile/p)
@@ -3217,9 +3229,20 @@ mob
 					fired = 1
 					spawn(cd) fired = 0
 
+					var/dmg = round(Dmg*1.5) + rand(-4,8)
+
+					if(hardmode)
+						dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
+
+						if(hardmode > 5)
+							dmg += 140*hardmode
+
+						if(DMGmodifier < 0.6)
+							var/perc = (DMGmodifier / 0.6) * 100
+							dmg *= 100 / perc
+
 					var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 					var/tmp_d = dir
-					var/dmg = round(Dmg * 1.5 + rand(-4,8))
 					for(var/d in dirs)
 						dir = d
 						castproj(icon_state = "crucio2", damage = dmg, name = "death ball", cd = 0, lag = 1)
@@ -3308,8 +3331,21 @@ mob
 
 				if(!fired)
 					fired = 1
+
+					var/dmg = Dmg + rand(-4,8)
+
+					if(hardmode)
+						dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
+
+						if(hardmode > 5)
+							dmg += 140*hardmode
+
+						if(DMGmodifier < 0.6)
+							var/perc = (DMGmodifier / 0.6) * 100
+							dmg *= 100 / perc
+
 					dir=get_dir(src, target)
-					castproj(icon_state = "fireball", damage = Dmg + rand(-4,8), name = "fire ball")
+					castproj(icon_state = "fireball", damage = dmg, name = "fire ball")
 					spawn(30) fired = 0
 					sleep(AttackDelay)
 
@@ -3363,8 +3399,21 @@ mob
 			Attack()
 				if(!fired)
 					fired = 1
+
+					var/dmg = Dmg + rand(-4,8)
+
+					if(hardmode)
+						dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
+
+						if(hardmode > 5)
+							dmg += 140*hardmode
+
+						if(DMGmodifier < 0.6)
+							var/perc = (DMGmodifier / 0.6) * 100
+							dmg *= 100 / perc
+
 					dir=get_dir(src, target)
-					castproj(icon_state = "aqua", damage = Dmg + rand(-4,8), name = "water droplet")
+					castproj(icon_state = "aqua", damage = dmg, name = "water droplet")
 					spawn(30) fired = 0
 
 				..()
