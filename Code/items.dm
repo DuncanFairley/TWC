@@ -2251,6 +2251,7 @@ obj/items/wearable/wands/duel_wand
 obj/items/wearable/wands/blood_wand
 	icon = 'blood_wand.dmi'
 	displayColor = "#9A1010"
+	test = 2
 obj/items/wearable/wands/dragonhorn_wand
 	icon = 'dragonhorn_wand.dmi'
 	displayColor = "#037800"

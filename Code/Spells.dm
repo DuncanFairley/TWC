@@ -2720,20 +2720,33 @@ mob/Player
 				px = text2num(txt[1])
 				py = text2num(txt[2])
 
-			for(var/mob/Enemies/e in view(6, src))
-				if(e.level > 1500) continue
-				if(!e.loc || e.HP <= 0 || e.dead) continue
+			if(wand.test==2)
+				for(var/mob/Player/e in view(6, src))
+					var/vector/start = new (  x * 32 + 16,   y * 32 + 16)
+					var/vector/dest  = new (e.x * 32 + 16, e.y * 32 + 16)
 
-				var/vector/start = new (  x * 32 + 16,   y * 32 + 16)
-				var/vector/dest  = new (e.x * 32 + 16, e.y * 32 + 16)
+					start.X += px
+					start.Y += py
 
-				start.X += px
-				start.Y += py
+					var/bolt/boltFix/b = new(start, dest, 35)
+					b.Draw(z, /obj/segment/segmentFix, color = "#00eb73", thickness = 1)
 
-				var/bolt/boltFix/b = new(start, dest, 35)
-				b.Draw(z, /obj/segment/segmentFix, color = "#E4CCFF", thickness = 1)
+					e.onDamage(e.MHP*0.25, src, elem=HEAL|COW)
+			else
+				for(var/mob/Enemies/e in view(6, src))
+					if(e.level > 1500) continue
+					if(!e.loc || e.HP <= 0 || e.dead) continue
 
-				e.onDamage(e.MHP*10, src, projColor="#3393ff")
+					var/vector/start = new (  x * 32 + 16,   y * 32 + 16)
+					var/vector/dest  = new (e.x * 32 + 16, e.y * 32 + 16)
+
+					start.X += px
+					start.Y += py
+
+					var/bolt/boltFix/b = new(start, dest, 35)
+					b.Draw(z, /obj/segment/segmentFix, color = "#E4CCFF", thickness = 1)
+
+					e.onDamage(e.MHP*10, src, projColor="#3393ff")
 
 			sleep(5)
 
@@ -2747,9 +2760,16 @@ mob/Player
 
 	proc/onDamage(dmg, mob/attacker, triggerSummons=1, elem=0)
 
-		if(elem == HEAL)
+		if(elem & HEAL)
 
-			HP = min(HP + dmg, MHP)
+			if((HP + dmg > MHP) && (elem & COW))
+				var/diff = HP + dmg - MHP
+				HP = MHP
+				Shield = min(Shield + diff, MHP*2)
+
+			else
+				HP = min(HP + dmg, MHP)
+
 			updateHP()
 			return 0
 
