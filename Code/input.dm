@@ -46,6 +46,8 @@ obj/hud/TextMessage
 		while(count in l)
 			count++
 
+		if(count > 10) return
+
 		screen_loc = "CENTER,CENTER+[count]:[count*4]"
 
 		src.overlays += o
@@ -54,10 +56,10 @@ obj/hud/TextMessage
 		alpha = 0
 		animate(src, alpha = 255, time = 4)
 
-		sleep(time + 5)
+		sleep(time + 4)
 		if(p)
 			animate(src, alpha = 0, time = 4)
-			sleep(5)
+			sleep(4)
 			if(p) p.client.screen -= src
 
 obj/hud/TextMessageExp
@@ -101,17 +103,33 @@ obj/hud/TextMessageExp
 		alpha = 0
 		animate(src, alpha = 255, time = 4)
 
-		sleep(time + 5)
+		sleep(time + 4)
 		if(p)
 			animate(src, alpha = 0, time = 4)
-			sleep(5)
+			sleep(4)
 			if(p) p.client.screen -= src
 
 mob/Player/proc/screenAlert(message, time=30)
 	new /obj/hud/TextMessage(null, src, message, time)
 
-mob/Player/proc/expAlert(message, state, time=4)
-	new /obj/hud/TextMessageExp(null, src, message, state, time)
+mob/Player
+	var/tmp/list/expMessages
+
+	proc/expAlert(amount, state, time=4)
+		set waitfor = 0
+
+		if(expMessages)
+			expMessages[state] += amount
+			return
+
+		expMessages = list()
+		expMessages[state] = amount
+
+		sleep(time)
+		for(var/m in expMessages)
+			new /obj/hud/TextMessageExp(null, src, "[m] +[expMessages[m]]", m, time)
+		expMessages = null
+
 
 Input
 	var/mob/Player/parent

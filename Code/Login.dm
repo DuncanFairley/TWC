@@ -2318,7 +2318,6 @@ mob/proc/Death_Check(mob/killer = src)
 					killer:checkQuestProgress("Kill [src.name]")
 					if(src:isElite)
 						killer:checkQuestProgress("Kill Elites")
-				if(killer.MonsterMessages)killer<<"<i><small>You knocked [src] out!</small></i>"
 
 				killer:ekills+=1
 				displayKills(killer, 1, 2)
@@ -2349,12 +2348,14 @@ mob/proc/Death_Check(mob/killer = src)
 				gold2give = round(gold2give)
 				var/gold/g = new(bronze=gold2give)
 
-				if(killer.MonsterMessages)
+				if(exp2give > 0 && killer.level < lvlcap)
+					killer:expAlert(exp2give, "Level")
 
-					if(exp2give > 0 && killer.level < lvlcap)
-						killer<<"<i><small>You gained [comma(exp2give)] exp[gold2give > 0 ? " and [g.toString()]" : ""].</small></i>"
-					else if(gold2give > 0)
-						killer<<"<i><small>You gained [g.toString()].</small></i>"
+				if(killer.MonsterMessages)
+					if(gold2give > 0)
+						killer << "<i><small>You knocked [src] out and gained [g.toString()].</small></i>"
+					else
+						killer << "<i><small>You knocked [src] out!</small></i>"
 
 				if(gold2give > 0)
 					g.give(killer)

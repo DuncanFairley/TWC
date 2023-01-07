@@ -673,7 +673,8 @@ expRank
 			if(level >= MAX) return
 
 			exp += amount
-			if(!silent) parent << infomsg("You gained [comma(amount)] rank experience!")
+
+			parent.expAlert(amount, "Level")
 
 			while(exp > maxExp && level < MAX)
 				exp -= maxExp
