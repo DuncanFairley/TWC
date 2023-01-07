@@ -954,7 +954,7 @@ mob
 						if(HOSTILE)
 							lag = max(MoveDelay, 1)
 
-							if(target.hardmode && !hardmode && level <= 1500)
+							if(target.hardmode && !hardmode && level <= 1500 && level >= 50)
 								hardmode = target.hardmode
 
 								switch(hardmode)
@@ -1038,7 +1038,7 @@ mob
 						if(!isPathBlocked(M, src, 1, src.density, dist_limit=Range))
 							target = M
 
-							if(target.hardmode > hardmode && level <= 1500)
+							if(target.hardmode > hardmode && level <= 1500 && level >= 50)
 								hardmode = target.hardmode
 
 								switch(hardmode)
@@ -1149,7 +1149,7 @@ mob
 		proc/Kill(mob/Player/p)
 			set waitfor = 0
 
-			if(!isElite && HP > 0 && !revenge && !hpbar && level <= 1500 && prob(20))
+			if(!isElite && HP > 0 && !revenge && !hpbar && level <= 1500 && level > 200 && prob(20))
 
 				var/newName = "Big \"[p.name] Slayer\" [name]"
 				p << infomsg("[name] has distinguished themselves killing you, they are now named [newName]")
