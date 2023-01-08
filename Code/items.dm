@@ -8,7 +8,7 @@ mob/Player/var
 		dropRate   = 0
 		extraLimit = 0
 		noOverlays = 0
-		armor     = 0
+		Armor     = 0
 
 
 area
@@ -763,7 +763,7 @@ obj/items/wearable
 		extraLimit = 0
 		extraCDR = 0
 		extraMP = 0
-		armor = 0
+		Armor = 0
 		obj/items/crystal/socket
 
 		list/effects
@@ -806,8 +806,8 @@ obj/items/wearable
 					if(def != 0)
 						info["Defense"] = def
 
-			if(armor)
-				info["Armor"] = armor * scale * (quality + 1)
+			if(Armor)
+				info["Armor"] = Armor * scale * (quality + 1)
 
 			var/s
 			if(socket)
@@ -969,7 +969,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.monsterDef -= monsterDef
 		owner.extraLimit -= extraLimit
 		owner.extraCDR -= extraCDR
-		owner.armor -= armor * (quality + 1) * scale
+		owner.Armor -= Armor * (quality + 1) * scale
 
 		if(extraMP)
 			owner.extraMP -= extraMP
@@ -1030,7 +1030,7 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 		owner.monsterDef += monsterDef
 		owner.extraLimit += extraLimit
 		owner.extraCDR += extraCDR
-		owner.armor += armor * (quality + 1) * scale
+		owner.Armor += Armor * (quality + 1) * scale
 
 		if(extraMP)
 			owner.extraMP += extraMP
@@ -2265,7 +2265,7 @@ obj/items/wearable/wigs
 	price = 2000000
 	bonus = 0
 	desc = "A wig to hide those dreadful split ends."
-	armor = 3
+	Armor = 3
 	wear_layer = FLOAT_LAYER - 4
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
@@ -2424,7 +2424,7 @@ obj/items/wearable/shoes
 	desc   = "A pair of shoes. They look comfy!"
 	bonus  = 0
 	gender = PLURAL
-	armor = 3
+	Armor = 3
 
 	Equip(var/mob/Player/owner, var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
@@ -2486,7 +2486,7 @@ obj/items/wearable/shoes/blood_shoes
 obj/items/wearable/scarves
 	bonus = 0
 	desc = "A finely knit scarf designed to keep your neck toasty warm."
-	armor = 3
+	Armor = 3
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		. = ..(owner)
@@ -5434,7 +5434,7 @@ obj/items/wearable/ring
 	bonus  = 0
 	socket = 0
 	rarity = 3
-	armor  = 5
+	Armor  = 5
 	showoverlay = FALSE
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
@@ -5642,7 +5642,7 @@ obj/items/wearable/shield
 	bonus  = 0
 	socket = 0
 	rarity = 3
-	armor  = 5
+	Armor  = 5
 	showoverlay = FALSE
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
@@ -5768,7 +5768,7 @@ obj/items/wearable/sword
 	bonus  = 0
 	socket = 0
 	rarity = 3
-	armor  = 5
+	Armor  = 5
 	showoverlay = FALSE
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
