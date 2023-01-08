@@ -511,87 +511,149 @@ obj/blacksmith
 	layer              = 4
 	density            = 1
 
-	var
-		max_upgrade = 15
+	proc/smith(obj/item/i, mob/Player/p)
+
+	proc/checkPrice(mob/Player/p, price)
 
 	Click()
 
 		if(src in oview(3))
+
 			var/mob/Player/p = usr
 			p.dir = get_dir(p, src)
 
 			var/obj/items/wearable/i = locate() in locate(x, y-1, z)
 
 			if(i)
-
-				if(i.bonus == -1 || i.quality >= max_upgrade || (i.bonus & 4))
-					p << errormsg("[i.name] can not be upgraded.")
-				else
-					var/obj/items/ember_of_despair/despair = locate() in p
-					var/obj/items/ember_of_frost/frost = locate() in p
-
-					var/priceFactor
-
-					if(i.quality >= 5)
-						priceFactor = 2
-					else if(i.quality >= 10)
-						priceFactor = 3
-					else
-						priceFactor = 1
-
-					var/price = i.quality*priceFactor + 2 + priceFactor
-
-					var/chanceFactor
-					if(findtext(i.name, "cursed "))
-						chanceFactor = 5
-					else
-						chanceFactor = 4
-
-					var/cancel = 0
-					if(!despair || despair.stack < price)
-						p << errormsg("You need [price] embers of despair to upgrade [i.name]. You have [despair ? despair.stack : "0"].")
-						cancel = 1
-
-					if(!frost || frost.stack < price)
-						p << errormsg("You need [price] embers of frost to upgrade [i.name]. You have [frost ? frost.stack : "0"].")
-						cancel = 1
-
-					if(cancel) return
-
-					despair.Consume(price)
-					frost.Consume(price)
-
-					var/chanceToFail = (i.quality+1)*chanceFactor + chanceFactor*3
-
-					if(i.quality >= 5 && prob(chanceToFail))
-						p << infomsg("Failure! You could not upgrade [i.name]. ([100 - chanceToFail]%)")
-
-						if(i.quality >= 10)
-							i.quality--
-							i.name = "[splittext(i.name, " +")[1]] +[i.quality]"
-							i.UpdateDisplay()
-
-							p << errormsg("Your item downgraded to [i.name].")
-						return
-
-
-					i.bonus |= 3
-					i.quality++
-					i.name = "[splittext(i.name, " +")[1]] +[i.quality]"
-					i.UpdateDisplay()
-
-					p << infomsg("Success! You crafted [i.name].")
-
-					emit(loc    = src,
-						 ptype  = /obj/particle/magic,
-					     amount = 50,
-					     angle  = new /Random(1, 359),
-					     speed  = 2,
-					     life   = new /Random(15,25))
-
-
-			else if(i)
-				step(i, pick(SOUTH, SOUTHEAST, SOUTHWEST, EAST, WEST))
+				smith(i, p)
 			else
-				p << errormsg("Place an item you wish to upgrade in the red square.")
+				p << errormsg(desc)
+
+	stat_randomizer
+
+		desc = "Place an item (cursed items) you wish to randomize stats of in the red square. (5 artifacts)"
+
+		smith(obj/items/wearable/i, mob/Player/p)
+			if(!i.effects)
+				p << errormsg("[i.name] has no stats that can be randomized.")
+				return
+
+
+			if(checkPrice(p, 5, 1))
+
+				if(findtext(i.name, "cursed "))
+					i.name = initial(i.name)
+					i.scale = initial(i.scale)
+					i.Upgrade(5 + rand(0, 5))
+
+				p << infomsg("New stats of [i.name]:\n+[i.power] Legendary Effect")
+
+				for(var/e in i.effects)
+					p << infomsg("+[i.effects[e]] [getStatName(e)]")
+
+				emit(loc    = src,
+					 ptype  = /obj/particle/magic,
+				     amount = 50,
+				     angle  = new /Random(1, 359),
+				     speed  = 2,
+				     life   = new /Random(15,25))
+
+		checkPrice(mob/Player/p, price, consume=0)
+			. = 1
+			var/obj/items/artifact/a = locate() in p
+
+			if(!a || a.stack < price)
+				p << errormsg("You need [price] artifacts to randomize. You have [a ? a.stack : "0"].")
+				. = 0
+
+			if(. && consume)
+				a.Consume(price)
+
+	upgrade
+
+		desc = "Place an item you wish to upgrade in the red square."
+
+		var/max_upgrade = 15
+
+		smith(obj/items/wearable/i, mob/Player/p)
+			if(i.bonus == -1 || i.quality >= max_upgrade || (i.bonus & 4))
+				p << errormsg("[i.name] can not be upgraded.")
+			else
+				var/priceFactor
+
+				if(i.quality >= 5)
+					priceFactor = 2
+				else if(i.quality >= 10)
+					priceFactor = 3
+				else
+					priceFactor = 1
+
+				var/price = i.quality*priceFactor + 2 + priceFactor
+
+				var/chanceFactor
+				if(findtext(i.name, "cursed "))
+					chanceFactor = 5
+				else
+					chanceFactor = 4
+
+				var/ScreenText/s = new(p, src)
+				var/chanceToFail = i.quality >= 5 ? (i.quality+1)*chanceFactor + chanceFactor*3 : 0
+
+				var/msg = "Do you wish to attempt upgrading [i.name]?\nSuccess chance [100 - chanceToFail]%\nCost: [price] embers of frost and despair"
+				if(i.quality >= 10)
+					msg = "Item will downgrade a level on failure!\n"
+
+				if(checkPrice(p, price))
+					s.SetButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
+
+				s.AddText(msg)
+
+				if(!s.Wait()) return
+
+				if(s.Result != "Yes") return
+
+				if(!checkPrice(p, price, 1)) return
+
+				if(i.quality >= 5 && prob(chanceToFail))
+					p << infomsg("Failure! You could not upgrade [i.name]. ([100 - chanceToFail]%)")
+
+					if(i.quality >= 10)
+						i.quality--
+						i.name = "[splittext(i.name, " +")[1]] +[i.quality]"
+						i.UpdateDisplay()
+
+						p << errormsg("Your item downgraded to [i.name].")
+					return
+
+				i.bonus |= 3
+				i.quality++
+				i.name = "[splittext(i.name, " +")[1]] +[i.quality]"
+				i.UpdateDisplay()
+
+				p << infomsg("Success! You crafted [i.name].")
+
+				emit(loc    = src,
+					 ptype  = /obj/particle/magic,
+				     amount = 50,
+				     angle  = new /Random(1, 359),
+				     speed  = 2,
+				     life   = new /Random(15,25))
+
+
+		checkPrice(mob/Player/p, price, consume=0)
+			. = 1
+			var/obj/items/ember_of_despair/despair = locate() in p
+			var/obj/items/ember_of_frost/frost = locate() in p
+
+			if(!despair || despair.stack < price)
+				p << errormsg("You need [price] embers of despair to upgrade. You have [despair ? despair.stack : "0"].")
+				. = 0
+
+			if(!frost || frost.stack < price)
+				p << errormsg("You need [price] embers of frost to upgrade. You have [frost ? frost.stack : "0"].")
+				. = 0
+
+			if(. && consume)
+				despair.Consume(price)
+				frost.Consume(price)
 
