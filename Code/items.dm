@@ -5574,6 +5574,16 @@ obj/items/wearable/ring/titan
 	monsterDmg = 3
 	scale = 2
 
+obj/items/wearable/ring/thorn
+	icon='ammy.dmi'
+	icon_state="snow"
+	name="ring of thorns"
+	desc="High armor value."
+	suffix = "<span style=\"color:#ffa500;\">High armor value.</span>"
+	monsterDef = 2
+	monsterDmg = 2
+	Armor = 30
+
 obj/items/wearable/ring/cooling_shoes
 	icon='trophies.dmi'
 	icon_state="cooling shoes"
@@ -5695,7 +5705,7 @@ obj/items/wearable/shield/selfdamage
 obj/items/wearable/shield/psychic
 	icon='trophies.dmi'
 	icon_state="Shield"
-	name="Psychic's shield"
+	name="psychic's shield"
 	desc="Psychic's shield, 40% of damage is taken to mana before health."
 	suffix = "<span style=\"color:#ffa500;\">40% of damage is taken to mana before health.</span>"
 	passive = SHIELD_MPDAMAGE
@@ -5704,7 +5714,7 @@ obj/items/wearable/shield/psychic
 obj/items/wearable/shield/gold
 	icon='trophies.dmi'
 	icon_state="Shield"
-	name="Golden Shield"
+	name="golden shield"
 	desc="You no longer suffer gold loss on death."
 	suffix = "<span style=\"color:#ffa500;\">You no longer suffer gold loss on death.</span>"
 	passive = SHIELD_GOLD
@@ -5713,7 +5723,7 @@ obj/items/wearable/shield/gold
 obj/items/wearable/shield/titan
 	icon='trophies.dmi'
 	icon_state="Shield"
-	name="Titan's Shield"
+	name="titan's shield"
 	desc="Stat gain from this shield is doubled."
 	suffix = "<span style=\"color:#ffa500;\">Stat gain from this shield is doubled.</span>"
 	monsterDef = 5
@@ -5722,7 +5732,7 @@ obj/items/wearable/shield/titan
 obj/items/wearable/shield/alchemy
 	icon='trophies.dmi'
 	icon_state="Shield"
-	name="Alchemist's Shield"
+	name="alchemist's shield"
 	desc="You are immune to potions."
 	suffix = "<span style=\"color:#ffa500;\">You are immune to potions.</span>"
 	passive = SHIELD_ALCHEMY
@@ -5731,7 +5741,7 @@ obj/items/wearable/shield/alchemy
 obj/items/wearable/shield/ninja
 	icon='trophies.dmi'
 	icon_state="Shield"
-	name="Ninja's Shield"
+	name="ninja's shield"
 	desc="Enables dodge. (25%)"
 	suffix = "<span style=\"color:#ffa500;\">Enables dodge. (25%)</span>"
 	passive = SHIELD_NINJA
@@ -5758,11 +5768,19 @@ obj/items/wearable/shield/tank
 obj/items/wearable/shield/spy
 	icon='trophies.dmi'
 	icon_state="Shield"
-	name="Spy's Shield"
+	name="spy's shield"
 	desc="Occlumency is one tier higher. Always reveal who is watching you"
 	suffix = "<span style=\"color:#ffa500;\">Occlumency is one tier higher. Always reveal who is watching you.</span>"
 	passive = SHIELD_SPY
 	monsterDef = 5
+
+obj/items/wearable/shield/thorn
+	icon='trophies.dmi'
+	icon_state="Shield"
+	name="shield of thorns"
+	desc="Increases armor by 30%"
+	suffix = "<span style=\"color:#ffa500;\">Increases armor by 30%.</span>"
+	passive = SHIELD_THORN
 
 obj/items/wearable/sword
 	bonus  = 0
@@ -5909,6 +5927,14 @@ obj/items/wearable/sword/nurse
 	desc="Episkey is now area of effect ability."
 	suffix = "<span style=\"color:#ffa500;\">Episkey is now area of effect ability.</span>"
 	passive = SWORD_NURSE
+
+obj/items/wearable/sword/thorn
+	icon='trophies.dmi'
+	icon_state="Sword"
+	name="sword of thorns"
+	desc="Reflects armor damage back."
+	suffix = "<span style=\"color:#ffa500;\">Reflects armor damage back.</span>"
+	passive = SWORD_THORN
 
 obj/items/wearable/gm_robes
 	icon = 'trims.dmi'

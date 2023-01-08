@@ -63,7 +63,7 @@
 #define SHIELD_NINJA "chance to dodge"
 #define SHIELD_NURSE "episkey will give a shield"
 #define SHIELD_SPY "spycraft"
-#define SHIELD_5 16
+#define SHIELD_THORN "increases armor value"
 #define SHIELD_MP "damage taken converted to mana"
 #define SHIELD_CLOWN "your projectiles won't damage you"
 #define SHIELD_MPDAMAGE "mana will partially absorb damage taken"
@@ -80,7 +80,7 @@
 #define SWORD_ALCHEMY "chance to not consume a potion"
 #define SWORD_NINJA "ability to do back attack damage"
 #define SWORD_NURSE "AoE Episkey"
-#define SWORD_5 16
+#define SWORD_THORN "reflects armor damage back"
 #define SWORD_6 32
 #define SWORD_CLOWN "Projectiles shoot twice randomly"
 #define SWORD_8 128

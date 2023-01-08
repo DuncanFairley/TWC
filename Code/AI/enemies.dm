@@ -1231,7 +1231,13 @@ mob
 					dmg = dmg * 0.75 - target.Animagus.level
 
 				if(target.Armor)
-					dmg -= target.Armor
+					var/armor = target.Armor
+					if(SHIELD_THORN in target.passives)
+						armor *= 1 + (30 + target.passives[SHIELD_THORN] - 1) / 100
+					dmg -= armor
+
+					if(SWORD_THORN in target.passives)
+						onDamage(armor, target)
 
 				if(dmg > 0)
 					dmg = target.onDamage(dmg, src)
