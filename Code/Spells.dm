@@ -2955,7 +2955,7 @@ mob/Enemies
 		if(dead) return 0
 
 		if(elem == COW)
-			dmg += element == EARTH ? round(dmg / 2, 1) : round(dmg / 10, 1)
+			dmg += element == EARTH ? round(dmg *0.25, 1) : round(dmg / 10, 1)
 		else if(element && elem)
 
 			if(element == elem)
@@ -3040,7 +3040,7 @@ mob/Enemies
 				canBleed = TRUE
 
 			if(SWORD_HEALONKILL in p.passives)
-				p.HP = min(round(p.HP + MHP*(0.15 + ((p.passives[SWORD_HEALONKILL] - 1) / 100)), 1), p.MHP)
+				p.HP = min(round(p.HP + MHP*(0.20 + ((p.passives[SWORD_HEALONKILL] - 1) / 100)), 1), p.MHP)
 				p.updateHP()
 
 			var/exp2give  = (rand(6,14)/10)*Expg
