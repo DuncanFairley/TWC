@@ -51,13 +51,14 @@ mob/Player
 		if(party)
 			party.updateHP(src, hppercent)
 
-		if(!(tickers & HP_REGEN) && HP < MHP && animagusOn)
+		if(!(tickers & HP_REGEN) && HP < MHP)
 			HPRegen()
 
 mob/Player
 	var
 		MPRegen = 0
 		tmp/extraMPRegen = 0
+		tmp/extraHPRegen = 0
 		tmp/tickers = 0
 
 	proc/MPRegen()
@@ -83,11 +84,15 @@ mob/Player
 		tickers |= HP_REGEN
 		sleep(10)
 
-		while(HP < MHP && animagusOn)
+		while(HP < MHP)
 
 			if(world.time - lastCombat > COMBAT_TIME) // disables hp regen in pvp
 
-				HP = min(HP + 30 + round(level/10)*3 + Animagus.level*3, MHP)
+				var/amount = 10 + MHP * 0.01 + extraHPRegen
+				if(animagusOn)
+					amount += 30 + round(level/10)*3 + Animagus.level*3
+
+				HP = min(HP + round(amount), MHP)
 				var/hppercent = clamp(HP / MHP, 0, 1)
 
 				Interface.hpbar.Set(hppercent)
