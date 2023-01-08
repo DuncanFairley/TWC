@@ -1003,7 +1003,7 @@ mob/Spells/verb/Sanguinis_Iactus()
 	if(canUse(src,cooldown=null,needwand=0,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
 
 		usr:lastAttack = "Sanguinis Iactus"
-		castproj(Type = /obj/projectile/Blood, MPreq = mpCost, icon_state = "blood", damage = (usr.Dmg + clothDmg) * ((100 + tier*2) / 100), name = spellName)
+		castproj(Type = /obj/projectile/Blood, MPreq = mpCost, icon_state = "blood", element = COW, damage = (usr.Dmg + clothDmg) * ((100 + tier*2) / 100), name = spellName)
 
 mob/Spells/verb/Illusio()
 	set category="Spells"
