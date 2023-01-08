@@ -1230,8 +1230,8 @@ mob
 				if(target.animagusOn)
 					dmg = dmg * 0.75 - target.Animagus.level
 
-				if(target.armor)
-					dmg -= target.armor
+				if(target.Armor)
+					dmg -= target.Armor
 
 				if(dmg > 0)
 					dmg = target.onDamage(dmg, src)
@@ -1241,7 +1241,16 @@ mob
 				else
 					for(var/obj/summon/s in target.Summons)
 						if(!s.target) s.target = src
+
+				dir = get_dir(src, target)
+				var/angle = dir2angle(dir)
+				var/px = round(6  * cos(angle), 1)
+				var/py = round(-6 * sin(angle), 1)
+				pixel_x += px
+				pixel_y += py
 				sleep(AttackDelay)
+				pixel_x -= px
+				pixel_y -= py
 
 
 //////Monsters///////
