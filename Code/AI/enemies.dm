@@ -859,6 +859,7 @@ mob
 						var/lvl = pick(1,2,3)
 						prize:quality = lvl
 						prize.name += " +[lvl]"
+						prize.UpdateDisplay()
 
 				prize.prizeDrop(killer.ckey, decay=1)
 				killer << colormsg("<i>[name] dropped [prize.name]</i>", textColor)

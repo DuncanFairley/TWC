@@ -4865,6 +4865,7 @@ obj/roulette
 				var/lvl = pick(1,2,3)
 				i:quality = lvl
 				i.name += " +[lvl]"
+				i.UpdateDisplay()
 
 		ohearers(src) << infomsg("<b>[playerName] opened a chest and won \a [i]!</b>")
 
