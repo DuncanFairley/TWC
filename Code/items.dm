@@ -723,6 +723,7 @@ proc/getStatName(var/s)
 	if(s == "extraCDR")     return "CDR"
 	if(s == "extraLimit")   return "Limit"
 	if(s == "extraMPRegen") return "MP Regeneration"
+	if(s == "extraHPRegen") return "HP Regeneration"
 	return s
 
 proc/getStatFactor(var/s, var/gain)
@@ -730,6 +731,7 @@ proc/getStatFactor(var/s, var/gain)
 	if(s == "clothDef")     return 30  * gain
 	if(s == "extraMP")      return 120 * gain
 	if(s == "extraMPRegen") return 20  * gain
+	if(s == "extraHPRegen") return 10  * gain
 	if(s == "extraLimit")   return 1
 	if(s == "Armor")        return 5 * gain
 	return 1 * gain
@@ -900,7 +902,7 @@ obj/items/wearable
 			effects = list()
 
 			for(var/s = 1 to stats)
-				var/stat = pick("monsterDef", "monsterDmg",	"dropRate",	"clothDmg", "clothDef", "extraMP", "extraLimit", "extraMPRegen", "Armor")
+				var/stat = pick("monsterDef", "monsterDmg",	"dropRate",	"clothDmg", "clothDef", "extraMP", "extraLimit", "extraMPRegen", "Armor", "extraHPRegen")
 				effects[stat] = getStatFactor(stat, (random ? rand(stats, basePower) : basePower))
 
 
