@@ -2,7 +2,7 @@ The Wizards' Chronicles - README
 http://wizardschronicles.com
 --------------------------------------------------------------------------------
 The Wizards' Chronicles is a 2D RPG written with the BYOND engine 
-(http://byond.com). 
+(https://byond.com). 
 
 License
 --------------------------------------------------------------------------------
@@ -17,12 +17,13 @@ murrawhip at wizardschronicles.com
 
 Requirements
 --------------------------------------------------------------------------------
-BYOND (http://www.byond.com/download/)
+BYOND (https://www.byond.com/download/)
 The following libraries:
-http://www.byond.com/developer/Stephen001.EventScheduling
-http://www.byond.com/developer/Audeuro.INIReader2
-http://www.byond.com/developer/Theodis.Pathfinder
-http://www.byond.com/developer/Rotem12.ColorMatrix
+https://www.byond.com/developer/Stephen001.EventScheduling
+https://www.byond.com/developer/Audeuro.INIReader2
+https://www.byond.com/developer/Theodis.Pathfinder
+https://www.byond.com/developer/Rotem12.ColorMatrix
+https://www.byond.com/developer/Rotem12/Lightning
 
 rust-g from https://github.com/DuncanFairley/rust-g if not using included windows dll. 
 
