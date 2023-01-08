@@ -2954,6 +2954,15 @@ mob/Enemies
 
 		if(dead) return 0
 
+		if(elem == COW)
+			dmg += element == EARTH ? round(dmg / 2, 1) : round(dmg / 10, 1)
+		else if(element && elem)
+
+			if(element == elem)
+				dmg -= round(dmg / 10, 1)
+			else
+				dmg = round(dmg*resistances["[elem]"], 1)
+
 		if(prizePoolSize > 1 && p && dmg && HP > 0)
 			if(!damage) damage = list()
 
@@ -3080,24 +3089,6 @@ mob/Enemies
 			var/dmg = p.damage + p.owner:Slayer.level
 
 			dmg *= 1 + p.owner:monsterDmg/100
-
-			if(p.icon_state == "blood")
-				dmg += round(p.damage / 10, 1)
-			else if(element && p.element)
-				if(element == p.element)
-					dmg -= round(p.damage / 10, 1)
-
-				else if(element == FIRE && p.element == WATER)
-					dmg += round(p.damage / 2, 1)
-
-				else if((element & (EARTH|FIRE)) && (p.element & (WATER|GHOST)))
-					dmg += round(p.damage / 10, 1)
-
-				else if((element & WATER))
-					if(p.element & EARTH)
-						dmg += round(p.damage / 10, 1)
-					else if(p.element & FIRE)
-						dmg += round(p.damage / 2, 1)
 
 			if(canBleed && p.canBleed)
 				var/n = dir2angle(get_dir(src, p))

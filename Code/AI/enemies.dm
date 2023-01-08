@@ -515,6 +515,8 @@ mob
 
 				revenge
 
+				resistances
+
 			Range         = 12
 			MoveDelay     = 4
 			AttackDelay   = 4
@@ -564,6 +566,20 @@ mob
 
 				namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, py=16)
 				hpbar = new(src)
+
+			if(element)
+				if(element == FIRE)
+					resistances["[WATER]"] = 1.25
+					resistances["[EARTH]"] = 1.1
+
+				else if(element == WATER)
+					resistances["[FIRE]"] = 1.25
+					resistances["[EARTH]"] = 1.1
+
+				else if(element == EARTH)
+					resistances["[GHOST]"] = 0.9
+					resistances["[WATER]"] = 0.9
+					resistances["[FIRE]"]  = 0.9
 
 			ShouldIBeActive()
 
