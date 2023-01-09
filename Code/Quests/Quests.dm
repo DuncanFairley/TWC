@@ -408,8 +408,12 @@ mob/Player
 					else state = "active"
 				else
 					var/quest/q = quest_list[i_Mob.questPointers]
+
 					if(q.repeat)
-						state = "daily"
+						if(world.realtime - pointer.time >= q.repeat)
+							state = "daily"
+						else
+							state = "not ready"
 
 			if(state)
 				var/image/i = image('QuestMarker.dmi', i_Mob, state)
@@ -661,6 +665,22 @@ mob/Player
 
 			if(pointer.time)
 				src << output("Completed on: <b>[time2text(pointer.time, "DD Month")]</b><br>", "Quests.outputQuests")
+
+				if(q.repeat)
+					var/ticksUntil = q.repeat + world.realtime - pointer.time
+
+					if(ticksUntil <= 0)
+						src << output("<b>Available again.</b><br>")
+					else
+						var/seconds = round((ticksUntil) / 10)
+						var/minutes = round(seconds / 60)
+						seconds -= minutes * 60
+						var/hours = round(minutes / 60)
+						minutes -= hours * 60
+						var/days = round(hours / 24)
+						hours -= days * 24
+
+						src << output("Available again in: <b>\[[days] Days [hours]:[minutes]:[seconds]]</b><br>", "Quests.outputQuests")
 
 
 		startQuest(questName)
