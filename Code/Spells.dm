@@ -2954,6 +2954,12 @@ mob/Enemies
 
 		if(dead) return 0
 
+		if(elem == FIRE && (SWORD_FIRE in p.passives))
+			var/leech = round(dmg * 0.05, 1)
+
+			p.Shield = min(p.Shield + leech, p.MHP*0.5)
+			p.updateHP()
+
 		if(elem == COW)
 			dmg += element == EARTH ? round(dmg *0.25, 1) : round(dmg / 10, 1)
 		else if(element && elem)
