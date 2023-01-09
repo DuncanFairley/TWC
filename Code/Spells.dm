@@ -2518,7 +2518,7 @@ mob
 						c = p.wand.projColor
 
 					if(c)
-						if(c == "blood")
+						if(c == "blood" || c == "#880808")
 							P.color      = "#16d0d0"
 							P.blend_mode = BLEND_SUBTRACT
 						else
