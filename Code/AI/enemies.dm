@@ -568,6 +568,7 @@ mob
 				hpbar = new(src)
 
 			if(element)
+				resistances = list()
 				if(element == FIRE)
 					resistances["[WATER]"] = 1.25
 					resistances["[EARTH]"] = 1.1
