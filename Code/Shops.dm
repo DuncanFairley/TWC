@@ -103,7 +103,7 @@ mob/TalkNPC/Ollivander
 				newwand.name = wandname
 
 				if(p.checkQuestProgress("Ollivander"))
-					s.AddText("Oh you're just starting out eh? My friend Palmer can help you out, his name is Palmer, he is quite friendly.")
+					s.AddText("Oh you're just starting out eh? My friend can help you out, his name is Palmer, he is quite friendly.")
 					p.startQuest("Tutorial: Friendly Professor")
 
 

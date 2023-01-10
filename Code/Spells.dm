@@ -186,7 +186,7 @@ mob/Spells/verb/Disperse()
 	set hidden = 1
 
 	if(canUse(src,cooldown=/StatusEffect/UsedDisperse,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		new /StatusEffect/UsedDisperse(src,10*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedDisperse(src,10*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, "Disperse")
 		usr:learnSpell("Disperse")
 		for(var/obj/smokeeffect/S in oview(client.view))
 			del(S)
@@ -354,7 +354,7 @@ mob/Spells/verb/Expelliarmus(mob/Player/M in view())
 			W.Equip(M,1)
 			hearers()<<"<span style=\"color:red;\"><b>[usr]</b></span>: <font color=white>Expelliarmus!"
 			hearers()<<"<b>[M] loses \his wand.</b>"
-			new /StatusEffect/UsedAnnoying(src,30*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
+			new /StatusEffect/UsedAnnoying(src,30*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, spellName)
 
 			p.MP -= mpCost
 			p.updateMP()
@@ -385,7 +385,7 @@ mob/Player/proc/nowand()
 mob/Spells/verb/Eparo_Evanesca()
 	set category="Spells"
 	if(canUse(src,cooldown=/StatusEffect/UsedEvanesca,needwand=1,insafezone=1,inhogwarts=1))
-		new /StatusEffect/UsedEvanesca(src,10*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedEvanesca(src,10*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, "Eparo Evanesca")
 		hearers()<<"<b><font color=red>[usr] <font color=blue> Eparo Evanesca!"
 		usr:learnSpell("Eparo Evanesca")
 		for(var/mob/Player/M in hearers())
@@ -442,7 +442,7 @@ mob/Spells/verb/Repellium()
 		p.updateMP()
 		light(src, 3, 300, "light")
 		p.learnSpell(spellName)
-		new /StatusEffect/UsedRepel(src, 90*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedRepel(src, 90*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 		new /StatusEffect/DisableProjectiles(src, 30)
 		var/time = 75
 		while(time > 0)
@@ -480,7 +480,7 @@ mob/Spells/verb/Lumos()
 		p.updateMP()
 
 		p.learnSpell(spellName)
-		new /StatusEffect/UsedLumos(src, 60*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedLumos(src, 60*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 
 		var/obj/light/l = new(loc)
 
@@ -509,7 +509,7 @@ mob/Spells/verb/Lumos_Maxima()
 	if(canUse(src,cooldown=/StatusEffect/UsedLumos,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
 		hearers()<<"<b><span style=\"color:red;\">[p]</b></span>: <b><font size=3><font color=white>Lumos Maxima!"
 
-		new /StatusEffect/UsedLumos(src, 90*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedLumos(src, 90*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 
 		castproj(MPreq = mpCost, Type = /obj/projectile/Lumos, icon_state = "light", name = spellName, lag = 2)
 
@@ -769,7 +769,7 @@ mob/Spells/verb/Permoveo() // [your level] seconds - monster's level, but, /at l
 			if(p.level < selmonster.level)
 				src << errormsg("The monster is level [selmonster.level]. You need to be a higher level.")
 				return
-			new /StatusEffect/Permoveo(src, max(400-(usr.level/2), 30)*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+			new /StatusEffect/Permoveo(src, max(400-(usr.level/2), 30)*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 
 			hearers() << "[usr]: <i>Permoveo!</i>"
 			if(selmonster.removeoMob)
@@ -940,7 +940,7 @@ mob/Spells/verb/Antifigura()
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(p.antifigura > 0)
-		new /StatusEffect/UsedTransfiguration(usr,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedTransfiguration(usr,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 		src << infomsg("You release the shield around your body.")
 		p.antifigura = 0
 	else if(canUse(src,cooldown=/StatusEffect/UsedTransfiguration,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
@@ -1228,7 +1228,7 @@ mob/Spells/verb/Arcesso()
 				break
 		if(arcessoing)
 			//partner found
-			new /StatusEffect/UsedArcesso(src,15*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
+			new /StatusEffect/UsedArcesso(src,15*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, "Arcesso")
 			arcessoing.arcessoing = src
 			for(var/A in circles)
 				if(A:owner2) return
@@ -1338,7 +1338,7 @@ mob/Spells/verb/Arcesso()
 		else
 			//start waiting
 			if(src.MP>=800)
-				new /StatusEffect/UsedArcesso(src,15*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
+				new /StatusEffect/UsedArcesso(src,15*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, "Arcesso")
 				arcessoing = 1
 				hearers() << "[src] is waiting for a partner. Face [src] on the opposite side of the circle and cast Arcesso to participate."
 				for(var/A in circles)
@@ -1376,7 +1376,7 @@ mob/Spells/verb/Flagrate(message as message)
 				p << errormsg("Flagrate can only use up to 20 lines of text.")
 			else
 				message = copytext(message,1,500)
-				new /StatusEffect/UsedFlagrate(src,10*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+				new /StatusEffect/UsedFlagrate(src,10*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 				hearers(client.view)<<"<span style=\"color:red;\"><b>[usr]:</span> Flagrate!"
 				sleep(10)
 				hearers(client.view)<<"<span style=\"color:red;\"><b>[usr]:</span> <span style=\"color:#FF9933;\"><font size=3><font face='Comic Sans MS'> [html_encode(message)]</span>"
@@ -1489,7 +1489,7 @@ mob/Spells/verb/Occlumency()
 	if(p.occlumens == 0)
 		if(canUse(src,cooldown=/StatusEffect/UsedOcclumency,needwand=0,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=1,againstocclumens=1))
 
-			new /StatusEffect/UsedOcclumency(src,5*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+			new /StatusEffect/UsedOcclumency(src,5*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 
 			for(var/mob/Player/c in Players)
 				if(c == p) continue
@@ -1533,7 +1533,7 @@ mob/Spells/verb/Obliviate(mob/Player/M in oview())
 			hearers()<<"[usr] wiped [M]'s memory!"
 			p.learnSpell(spellName)
 		p.MP-=mpCost
-		new /StatusEffect/UsedAnnoying(src,30*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedAnnoying(src,30*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 		p.updateMP()
 mob/Spells/verb/Tarantallegra(mob/Player/M in view())
 	set category = "Spells"
@@ -1549,7 +1549,7 @@ mob/Spells/verb/Tarantallegra(mob/Player/M in view())
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=mpCost,againstocclumens=1))
 		if(M.dance) return
 		hearers()<<"<b>[usr]:</B><font color=green> <i>Tarantallegra!</i>"
-		new /StatusEffect/UsedAnnoying(src,30*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedAnnoying(src,30*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, spellName)
 		p.MP-=mpCost
 		p.updateMP()
 		if(key != "Murrawhip")
@@ -1581,7 +1581,7 @@ mob/Spells/verb/Immobulus()
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedImmobulus,needwand=1,inarena=1,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
-		new /StatusEffect/UsedImmobulus(src, 20*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedImmobulus(src, 20*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, spellName)
 		p.MP-=mpCost
 		p.updateMP()
 
@@ -1634,7 +1634,7 @@ mob/Spells/verb/Impedimenta()
 		hearers()<<"A sharp blast of energy emits from [usr]'s wand, slowing down everything in the area."
 		p.MP-=mpCost
 		p.updateMP()
-		new /StatusEffect/UsedStun(src,20*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedStun(src,20*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 		var/turf/lt = list()
 		for(var/turf/T in view(7))
 			lt += T
@@ -1704,7 +1704,7 @@ mob/Spells/verb/Reddikulus(mob/Player/M in view())
 			usr << "That person is already transfigured."
 			return
 		if(!M) return
-		new /StatusEffect/UsedRiddikulus(src,30*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedRiddikulus(src,30*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, "Riddikulus")
 		hearers()<<"<b><span style=\"color:red;\">[usr]</span>: <span style=\"color:red;\"><font size=3>Riddikulus!</span></font>, [M].</b>"
 
 		M.Gender = M.Gender == "Male" ? "Female" : "Male"
@@ -2157,7 +2157,7 @@ mob/Spells/verb/Confundus(mob/Player/M in oview())
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=mpCost,againstocclumens=1))
-		new /StatusEffect/UsedAnnoying(src,40*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedAnnoying(src,40*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, spellName)
 		hearers()<<"<b><span style=\"color:red;\">[usr]:</b></span> <font color= #7CFC00>Confundus, [M]!"
 		p.MP-=mpCost
 		p.updateMP()
@@ -2365,7 +2365,7 @@ mob/Spells/verb/Portus()
 					P2.partner = P1
 			if(null)
 				return
-		new /StatusEffect/UsedPortus(src,30*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/UsedPortus(src,30*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, spellName)
 		hearers()<<"[usr]: <span style=\"color:aqua;\"><font size=2>Portus!</span>"
 		hearers()<<"A portkey flys out of [usr]'s wand, and opens."
 		p.MP-=mpCost
@@ -2400,7 +2400,7 @@ mob/Spells/verb/Inferius()
 			p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		new /StatusEffect/Summoned(src,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		new /StatusEffect/Summoned(src,15*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, "Inferius")
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=silver> Inferius!"
 
