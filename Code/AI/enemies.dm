@@ -3135,7 +3135,7 @@ mob
 							dmg *= 100 / perc
 
 					dir=get_dir(src, target)
-					castproj(icon_state = "fireball", damage = dmg, name = "fire ball")
+					castproj(Type = /obj/projectile/BurnRoses, icon_state = "fireball", damage = dmg, name = "fire ball")
 					sleep(AttackDelay)
 
 			Attacked(obj/projectile/p)
@@ -3377,7 +3377,7 @@ mob
 							dmg *= 100 / perc
 
 					dir=get_dir(src, target)
-					castproj(icon_state = "fireball", damage = dmg, name = "fire ball")
+					castproj(Type = /obj/projectile/BurnRoses, icon_state = "fireball", damage = dmg, name = "fire ball")
 					spawn(30) fired = 0
 					sleep(AttackDelay)
 
