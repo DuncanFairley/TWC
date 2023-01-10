@@ -2731,7 +2731,8 @@ mob/Player
 
 					e.onDamage(e.MHP*0.25, src, elem=HEAL|COW)
 			else
-				for(var/mob/Enemies/e in view(6, src))
+				var/dmg = 100 + (level + 100) * wand.scale * wand.quality
+				for(var/mob/Enemies/e in view(5, src))
 					if(e.level > 1500) continue
 					if(!e.loc || e.HP <= 0 || e.dead) continue
 
@@ -2744,7 +2745,7 @@ mob/Player
 					var/bolt/boltFix/b = new(start, dest, 35)
 					b.Draw(z, /obj/segment/segmentFix, color = "#E4CCFF", thickness = 1)
 
-					e.onDamage(e.MHP*10, src, projColor="#3393ff")
+					e.onDamage(max(dmg, e.MHP + 100), src, projColor="#3393ff")
 
 			sleep(5)
 
