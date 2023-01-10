@@ -535,7 +535,7 @@ RandomEvent
 						M.classpathfinding = 0
 				end()
 			else
-				world.log << "TWC Error: [spell] not found in class type list (Class.dmi)"
+				world.log << "TWC Error: [spell] not found in class type list (Class.dm)"
 
 
 	TheEvilSnowman
@@ -545,7 +545,7 @@ RandomEvent
 			..()
 			var/minutes = rand(15,30)
 			var/list/m = list()
-			Players << infomsg("The Evil Snowman and his army appeared at Hogwarts grounds (behind the castle), defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
+			Players << infomsg("The Evil Snowman and his army have appeared at Hogwarts grounds (behind the castle), defend yourselves until reinforcements arrive! Reinforcements will arrive in [minutes] minutes, if you manage to kill the evil snowman before then you might be able to get a nice prize!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/Enemies/Summoned/Boss/boss = new /mob/Enemies/Summoned/Boss/Snowman(spawn_loc.loc)
@@ -776,7 +776,7 @@ RandomEvent
 				mon.Dispose()
 				mon.ChangeState(boss.INACTIVE)
 
-			if(message) Players << infomsg("The vampire lord and his army vanished to darkness.")
+			if(message) Players << infomsg("The vampire lord and his army vanished into darkness.")
 			end()
 
 	Zombie
@@ -787,7 +787,7 @@ RandomEvent
 			..()
 			var/minutes = rand(15,30)
 			var/list/m = list()
-			Players << infomsg("A zombie has appeared outside (behind the castle) for [minutes] minutes, kill zombie before it infects others!")
+			Players << infomsg("A zombie has appeared outside (behind the castle) for [minutes] minutes, kill the zombie before it infects others!")
 
 			var/obj/spawner/spawn_loc = pick(worldData.spawners)
 			var/mob/Enemies/Summoned/boss = new /mob/Enemies/Summoned/Boss/Zombie(spawn_loc.loc)

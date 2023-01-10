@@ -34,87 +34,7 @@ proc/infomsg(T as text)
 proc/colormsg(T as text, c)
 	return "<span style=\"color:[c];\">[T]</span>"
 
-mob/Tom_
-	icon = 'NPCs.dmi'
-	icon_state="tom"
-	density=1
 
-/*mob/TalkNPC/quest/Tom
-	icon_state="tom"
-	density=1
-	questPointers = "Rats in the Cellar"
-	Talk()
-		set src in oview(2)
-		..()
-		var/mob/Player/p = usr
-		var/questPointer/pointer = p.questPointers["Tutorial: Quests"]
-		if(pointer && pointer.stage == 2)
-			p.checkQuestProgress("Tom")
-		switch(input("Tom: Welcome to the Leaky Cauldron. What do ya wanna do?","Tom")as null|anything in list("Shop","Talk"))
-			if("Talk")
-				if("Rats in the Cellar" in p.questPointers)
-					pointer = p.questPointers["Rats in the Cellar"]
-					if(pointer.stage == 1)
-						usr << npcsay("Tom: I will take you down to the cellar")
-						sleep(10)
-						if(get_dist(usr,src)<5)
-							var/turf/t = locate("@TomCellar")
-							p.Transfer(t)
-							var/mob/TheTom = new/mob/Tom_(get_step(t, NORTH))
-							usr << npcsay("Tom: This is as far as I'll go. Thank you again.")
-							sleep(50)
-							del TheTom
-						else
-							usr << npcsay("You hear a voice in your head: <i>Hey! You're not even here!</i>")
-					else if(pointer.stage == 2)
-						usr << npcsay("Tom stares at you in awe.")
-						sleep(10)
-						usr << npcsay("Tom: You did it!")
-						sleep(10)
-						usr << npcsay("Tom: Thank you so much! I don't have much to give you, but I can give you this.")
-						p.checkQuestProgress("Tom")
-					else
-						usr << npcsay("Tom: Hey, Thanks again!")
-
-				else
-					usr << npcsay("Tom: Hello there, Professor Palmer sent me an owl about you.")
-					switch(input("Tom: Did you come to help me?","Help?")in list("Yes","No"))
-						if("Yes")
-							usr << npcsay("Tom: Excellent!")
-							sleep(10)
-							usr << npcsay("Tom: I always store my beverages in a cellar below the ground in order to keep them cool, however recently there have been rats somehow getting in.")
-							sleep(10)
-							usr << npcsay("Tom: If you would be so kind as to get rid of all the rats, and stop them from getting back in. I would be very greatful.")
-							switch(input("Tom: What do you say?","Help?")in list("Yes","No"))
-								if("Yes")
-									usr << npcsay("Tom: Thank you so much.")
-									sleep(10)
-									usr << npcsay("Tom: I will take you down to the cellar")
-									sleep(10)
-									if(get_dist(usr,src)<5)
-										p.startQuest("Rats in the Cellar")
-										var/turf/t = locate("@TomCellar")
-										p.Transfer(t)
-										var/mob/TheTom = new/mob/Tom_(get_step(t, NORTH))
-										usr << npcsay("Tom: This is as far as I'll go. Thank you again.")
-										sleep(20)
-										del TheTom
-									else
-										usr << npcsay("You hear a voice in your head: <i>Hey! You're not even here!</i>")
-									return
-								if("No")
-									usr << npcsay("Tom: Alright then.")
-									return
-						if("No")
-							usr << npcsay("Tom: My mistake. Carry on.")
-							return
-			if("Shop")
-				if(p.Year in list("1st Year","2nd Year","3rd Year",""))
-					p << npcsay("Tom: Sorry mate. Come back when you're older.")
-				else
-					p << npcsay("Tom: Sorry mate. Those rats drank all of the beer.")
-			if(null)
-				p << npcsay("Tom: Seeya later then.")*/
 
 mob/TalkNPC/Ollivander
 	icon_state="ollivander"
@@ -130,7 +50,7 @@ mob/TalkNPC/Ollivander
 		if(locate(/obj/items/wearable/wands) in p.contents)
 			s.AddText("Ah, I remember you, [p.name]. I believe I've already sold you a wand.")
 			if(p.checkQuestProgress("Ollivander"))
-				s.AddText("Oh you're just starting out eh? My friend Palmer can help you out, his name is Palmer, he is quite friendly.")
+				s.AddText("Oh you're just starting out eh? My friend can help you out, his name is Palmer, he is quite friendly.")
 				p.startQuest("Tutorial: Friendly Professor")
 			return
 
@@ -259,7 +179,7 @@ mob/TalkNPC/greenman
 		set src in oview(3)
 		var/mob/Player/p = usr
 		if(p.checkQuestProgress("Green Men"))
-			p << npcsay("Green Man: I heard you liked building, here you can have those papers... If you can read them hahahaha.")
+			p << npcsay("Green Man: I heard you liked building, here you can have these papers... If you can read them hahahaha.")
 		else
 			p << npcsay("Green Man: Hello, we are the Green Man Group. We are merchants who travel around selling things from far away places.")
 
@@ -373,7 +293,7 @@ obj/shop
 					M.overlays += o.icon
 
 					if(prob(10))
-						var/txt = pick("Try a few more, maybe you will find something you like.", "Eww, this looks like you gained a couple pounds.", "Try this for size!", "This does not make you look fat! I promise!", "You look so hot! You can almost forget an ugly person walked into the store.")
+						var/txt = pick("Try a few more, maybe you will find something you like.", "Eww, this looks like you gained a couple pounds.", "Try this on for size!", "This does not make you look fat! I promise!", "You look so hot! You can almost forget an ugly person walked into the store.")
 						usr << npcsay("Magic Mirror says: [txt]")
 
 		malewigshop
