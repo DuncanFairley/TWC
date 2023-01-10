@@ -1634,6 +1634,8 @@ obj/items/wearable/brooms
 		if(locate(/obj/items/wearable/invisibility_cloak) in owner.Lwearing)
 			owner << errormsg("Your cloak isn't big enough to cover you and your broom.")
 			return
+		if(forceremove && (src in owner.Lwearing) && speed)
+			owner.dashDistance -= speed
 		. = ..(owner)
 		if(forceremove)return 0
 		if(. == WORN)
