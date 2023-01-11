@@ -528,6 +528,85 @@ obj/blacksmith
 			else
 				p << errormsg(desc)
 
+
+	extract
+		desc = "Place an item to extract (5 artifacts per extracted item)"
+
+		smith(obj/items/wearable/i, mob/Player/p)
+			var/slots = 0
+
+			if(istype(i.socket, /obj/items/))
+				slots = 1
+			else if(istype(i, /obj/items/wearable/spellbook))
+				var/obj/items/wearable/spellbook/s = i
+
+				if(s.spellType) slots++
+				if(s.element) slots++
+
+				slots += countBits(s.flags)
+
+			if(!slots)
+				p << errormsg("Nothing to extract.")
+				return
+
+			if(checkPrice(p, slots * 5, 1))
+
+				p << infomsg("You extracted everything from [i.name] for [slots * 5] artifacts.")
+
+				if(istype(i.socket, /obj/items/))
+					i.socket.loc = i.loc
+					i.socket.owner = i.owner
+					i.socket = initial(i.socket)
+
+				else if(istype(i, /obj/items/wearable/spellbook))
+
+					var/obj/items/wearable/spellbook/s = i
+
+					var/list/pages = list()
+
+					if(s.spellType == PROJ)           pages += /obj/items/spellpage/proj
+					else if(s.spellType == ARUA)      pages += /obj/items/spellpage/aura
+					else if(s.spellType == EXPLOSION) pages += /obj/items/spellpage/explosion
+					else if(s.spellType == SUMMON)    pages += /obj/items/spellpage/summon
+					else if(s.spellType == METEOR)    pages += /obj/items/spellpage/meteor
+					else if(s.spellType == ARC)       pages += /obj/items/spellpage/arc
+
+					if(s.element == GHOST)      pages += /obj/items/spellpage/ghost
+					else if(s.element == EARTH) pages += /obj/items/spellpage/earth
+					else if(s.element == WATER) pages += /obj/items/spellpage/water
+					else if(s.element == FIRE)  pages += /obj/items/spellpage/fire
+					else if(s.element == COW)   pages += /obj/items/spellpage/cow
+
+					if(s.flags & PAGE_DAMAGETAKEN) pages += /obj/items/spellpage/damagetaken
+					if(s.flags & PAGE_DMG1)        pages += /obj/items/spellpage/damage1
+					if(s.flags & PAGE_DMG2)        pages += /obj/items/spellpage/damage2
+					if(s.flags & PAGE_CD)          pages += /obj/items/spellpage/cd
+					if(s.flags & PAGE_RANGE)       pages += /obj/items/spellpage/range
+
+					s.name      = initial(s.name)
+					s.cd        = initial(s.cd)
+					s.damage    = initial(s.damage)
+					s.range     = initial(s.range)
+					s.spellType = initial(s.spellType)
+					s.flags     = initial(s.flags)
+					s.element   = initial(s.element)
+					s.mpCost    = initial(s.mpCost)
+
+					for(var/t in pages)
+						var/obj/items/recovered = new t (i.loc)
+						recovered.owner = i.owner
+
+		checkPrice(mob/Player/p, price, consume=0)
+			. = 1
+			var/obj/items/artifact/a = locate() in p
+
+			if(!a || a.stack < price)
+				p << errormsg("You need [price] artifacts to extract. You have [a ? a.stack : "0"].")
+				. = 0
+
+			if(. && consume)
+				a.Consume(price)
+
 	stat_randomizer
 
 		desc = "Place an item (cursed items) you wish to randomize stats of in the red square. (5 artifacts)"

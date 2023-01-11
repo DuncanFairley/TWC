@@ -126,6 +126,22 @@
 #define DRINK 0
 #define THROW 1
 
+// SPELLCRAFTING
+#define PROJ 1
+#define ARUA 2
+#define EXPLOSION 4
+#define SUMMON 8
+#define METEOR 16
+#define ARC 32
+
+
+#define PAGE_DAMAGETAKEN 64
+
+#define PAGE_DMG1 4096
+#define PAGE_DMG2 8192
+#define PAGE_CD 16384
+#define PAGE_RANGE 32768
+
 
 #if HALLOWEEN
 WorldData/var/tmp/list/waterColors = list()
@@ -185,4 +201,4 @@ atom
 
 
 
-WorldData/var/tmp/baseChance = 0.015
+WorldData/var/tmp/baseChance = 0.014
