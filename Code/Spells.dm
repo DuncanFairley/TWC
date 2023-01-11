@@ -3096,6 +3096,8 @@ mob/Enemies
 
 		if(isplayer(p.owner) && p.element != HEAL)
 
+			var/dmg = p.damage
+
 			if(canBleed && p.canBleed)
 				var/n = dir2angle(get_dir(src, p))
 				emit(loc    = src,

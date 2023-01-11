@@ -1425,3 +1425,64 @@ obj
 						light.loc = null
 						light = null
 
+
+	Trashcan
+		icon       = 'Trash.dmi'
+		icon_state = "Lid On"
+		density    = 1
+
+		mouse_over_pointer = MOUSE_HAND_POINTER
+
+		var/tmp
+			list/cleaning
+			timer = 0
+
+		post_init = 1
+		MapInit()
+			verbs -= /obj/Trashcan/verb/Take_Out
+			if(prob(45))
+				icon_state = "Lid Off"
+
+		Click()
+			if(usr in oview(1, src))
+				EmptyTrash()
+
+		proc/EmptyTrash()
+			set waitfor = 0
+
+			var/start = 0
+			if(!cleaning)
+				cleaning = list()
+				start = 1
+
+			var/count = 0
+			for(var/obj/items/i in oview(1, src))
+				i.loc = null
+				cleaning += i
+
+				count++
+
+			if(count)
+
+				timer = 30
+
+				usr << infomsg("You put [count] items in the bin.")
+
+				if(start)
+					verbs += /obj/Trashcan/verb/Take_Out
+
+					while(timer-- > 0)
+						sleep(10)
+
+					verbs -= /obj/Trashcan/verb/Take_Out
+					cleaning = null
+			else
+				usr << infomsg("Drop items and click to throw them in the trash.")
+
+		verb/Take_Out()
+			set src in oview(1)
+
+			for(var/obj/items/i in cleaning)
+				cleaning -= i
+				i.loc = usr.loc
+			verbs -= /obj/Trashcan/verb/Take_Out
