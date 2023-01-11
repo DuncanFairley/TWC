@@ -26,8 +26,8 @@ mob
 				var/ScreenText/s = new(p, src)
 
 				var/gold/g = new (p)
-				if(!g.have(50000))
-					s.AddText("Well hello there, [usr.gender == MALE ? "sonny" : "young lady"]. Unfortunately you need 5 gold coins before I am able to help you.")
+				if(!g.have(250000))
+					s.AddText("Well hello there, [usr.gender == MALE ? "sonny" : "young lady"]. Unfortunately you need 25 gold coins before I am able to help you.")
 				else
 					s.AddText("Would you like to reset your stat points? It will cost 5 gold coins.")
 					s.SetButtons("Yes", "#00ff00", "No", "#ff0000", null)
@@ -36,9 +36,9 @@ mob
 
 					if(s.Result == "Yes")
 						g = new (p)
-						if(g.have(50000))
+						if(g.have(250000))
 							hearers(p) << npcsay("Demetrius: There you go, [p.gender == MALE ? "sonny" : "young lady"] - your stats are reset!")
-							g.change(gold=-5)
+							g.change(gold=-25)
 							g.give(p, 1)
 							p.resetStatPoints()
 							p.HP = usr.MHP
