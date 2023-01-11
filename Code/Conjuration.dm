@@ -65,15 +65,16 @@ mob/Player
 		set waitfor = 0
 
 		tickers |= MP_REGEN
-		sleep(30)
+		sleep(10)
 
 		while(MP < MMP)
-			MP = min(MP + 50 + round(level/10)*2 + MPRegen + extraMPRegen, MMP)
+			var/amount = 10 + MMP*0.01 + MPRegen + extraMPRegen
+			MP = min(MP + amount, MMP)
 			var/mppercent = clamp(MP / MMP, 0, 1)
 
 			Interface.mpbar.Set(mppercent)
 			Interface.mpbar.UpdateText(MP, MMP)
-			sleep(30)
+			sleep(10)
 
 		tickers &= ~MP_REGEN
 
