@@ -500,7 +500,6 @@ obj/items/crystal
 		ignoreItem = TRUE
 		rarity = 3
 		power = 5
-		desc = null
 
 
 obj/blacksmith
