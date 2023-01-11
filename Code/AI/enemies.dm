@@ -581,6 +581,10 @@ mob
 					resistances["[GHOST]"] = 0.9
 					resistances["[WATER]"] = 0.9
 					resistances["[FIRE]"]  = 0.9
+				else if(element == GHOST)
+					resistances["[WATER]"] = 0
+					resistances["[FIRE]"]  = 0
+					resistances["[EARTH]"]  = 0
 
 			ShouldIBeActive()
 
