@@ -452,11 +452,13 @@ obj/items/spellpage
 		cd = 2
 		mpCost = 10
 		damage = 1.1
+		desc = "Projectile spell type."
 	explosion
 		name = "Spell Page: \[Explosion]"
 		spellType = EXPLOSION
 		cd = 100
 		mpCost = 400
+		desc = "8 Projectiles fired in all directions."
 	meteor
 		name = "Spell Page: \[Meteor]"
 		spellType = METEOR
@@ -464,6 +466,7 @@ obj/items/spellpage
 		cd = 100
 		mpCost = 250
 		range = 4
+		desc = "Meteor dropped from above."
 	aura
 		name = "Spell Page: \[Aura]"
 		spellType = ARUA
@@ -471,6 +474,7 @@ obj/items/spellpage
 		cd = 150
 		mpCost = 300
 		range = 1
+		desc = "Engulf yourself in AoE aura."
 	summon
 		name = "Spell Page: \[Summon]"
 		spellType = SUMMON
@@ -483,6 +487,7 @@ obj/items/spellpage
 		mpCost = 100
 		damage = 2
 		range = 4
+		desc = "Spell arc, chains from target to target."
 	fire
 		name = "Spell Page: \[Fire]"
 		element = FIRE
@@ -501,6 +506,7 @@ obj/items/spellpage
 	cow
 		name = "Spell Page: \[Cow]"
 		element = COW
+		desc = "10% damage buff against monsters."
 	damagetaken
 		name = "Spell Page: \[Cast On Damage Taken]"
 		flags = PAGE_DAMAGETAKEN
