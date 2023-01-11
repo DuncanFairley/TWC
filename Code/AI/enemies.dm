@@ -3465,7 +3465,7 @@ mob
 			HPmodifier = 15
 			DMGmodifier = 3
 			MoveDelay = 3
-			AttackDelay = 1
+			AttackDelay = 3
 			Range = 24
 			respawnTime = 3000
 

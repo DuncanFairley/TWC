@@ -287,7 +287,7 @@ obj/summon
 							var/dmg = max(0, (level + extraDmg) * scale - ((e.level + e.hardmode*50) * 0.25)*summonTier)
 
 							if(e.prizePoolSize > 1)
-								dmg = round((dmg*0.7) / e.prizePoolSize)
+								dmg = round((dmg*0.75) / e.prizePoolSize)
 
 							var/c
 							if(summoner.holster && summoner.holster.selectedColors)
