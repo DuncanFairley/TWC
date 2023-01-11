@@ -286,8 +286,6 @@ obj/summon
 
 							var/dmg = max(0, (level + extraDmg) * scale - ((e.level + e.hardmode*50) * 0.25)*summonTier)
 
-							dmg *= 1 + summoner.monsterDmg/100
-
 							if(e.prizePoolSize > 1)
 								dmg = round((dmg*0.7) / e.prizePoolSize)
 

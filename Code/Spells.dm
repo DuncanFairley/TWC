@@ -2955,6 +2955,9 @@ mob/Enemies
 
 		if(dead) return 0
 
+		dmg += p.Slayer.level
+		dmg *= 1 + p.monsterDmg/100
+
 		if(elem == FIRE && (SWORD_FIRE in p.passives))
 			var/leech = round(dmg * 0.05, 1)
 
@@ -3093,10 +3096,6 @@ mob/Enemies
 
 		if(isplayer(p.owner) && p.element != HEAL)
 
-			var/dmg = p.damage + p.owner:Slayer.level
-
-			dmg *= 1 + p.owner:monsterDmg/100
-
 			if(canBleed && p.canBleed)
 				var/n = dir2angle(get_dir(src, p))
 				emit(loc    = src,
@@ -3113,8 +3112,6 @@ mob/Enemies
 					dmg *= 1.5
 				else if(angleDiff <= 90)
 					dmg *= 1.25
-
-			dmg = round(dmg, 1);
 
 			var/exp2give = onDamage(dmg, p.owner, p.element, p.color)
 			if(exp2give > 0)

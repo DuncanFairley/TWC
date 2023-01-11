@@ -336,8 +336,6 @@ mob
 
 								var/dmg = round(rand(10) + (Dmg + clothDmg + Slayer.level), 1)
 
-								dmg *= 1 + monsterDmg/100
-
 								dmg *= 2
 
 								for(var/mob/Enemies/e in view(dashDistance+added, src))

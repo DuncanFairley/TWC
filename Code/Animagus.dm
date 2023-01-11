@@ -97,10 +97,6 @@ mob/Player
 				else if(level > 50)
 					dmg *= 0.5
 
-				dmg *= 1 + monsterDmg/100
-
-				dmg = round(dmg, 1)
-
 				if(e.canBleed)
 					var/n = dir2angle(get_dir(O, src))
 					emit(loc    = e,
