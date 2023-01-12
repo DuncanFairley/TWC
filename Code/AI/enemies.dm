@@ -489,8 +489,8 @@ mob
 		icon = 'Mobs.dmi'
 		see_invisible = 1
 		var/active = 0
-		var/HPmodifier = 1
-		var/DMGmodifier = 0.6
+		var/HPmodifier = 2
+		var/DMGmodifier = 0.7
 		var/list/drops
 		var/tmp/turf/origloc
 		var/tmp/obj/healthbar/big/hpbar
@@ -856,9 +856,13 @@ mob
 
 			if(extraDropRate == 0 && prob(base*rate*8))
 
-				if(killer.level >= 750 && prob(55))
+				var/event = killer.level >= 750 ? pick(1,2,3) : pick(1,2)
+
+				if(event==3)
 					new /obj/monster_portal (loc)
-				else
+				else if(event==2)
+					new /mob/Enemies/Summoned/Boss/Scared_Ghost (loc)
+				else if(event==1)
 					killer << infomsg("A scared ghost appeared, it's running with loot, kill it!")
 					new /mob/Enemies/Summoned/Boss/Scared_Ghost (loc)
 
@@ -1238,8 +1242,8 @@ mob
 					if(hardmode > 5)
 						dmg += 140*hardmode
 
-					if(DMGmodifier < 0.6)
-						var/perc = (DMGmodifier / 0.6) * 100
+					if(DMGmodifier < 0.7)
+						var/perc = (DMGmodifier / 0.7) * 100
 						dmg *= 100 / perc
 
 				if(target.level < level)
@@ -1325,7 +1329,7 @@ mob
 				MoveDelay = 2
 				AttackDelay = 5
 				Range = 20
-				HPmodifier = 1.5
+				HPmodifier = 4
 				DMGmodifier = 0.8
 				canBleed = FALSE
 				var/tmp/obj/Shadow/s
@@ -1375,7 +1379,7 @@ mob
 				MoveDelay = 2
 				AttackDelay = 5
 				Range = 20
-				HPmodifier = 2
+				HPmodifier = 4
 				DMGmodifier = 1
 
 				Death()
@@ -1400,7 +1404,7 @@ mob
 				MoveDelay = 2
 				AttackDelay = 5
 				Range = 20
-				HPmodifier = 2
+				HPmodifier = 4
 				DMGmodifier = 1
 
 				MapInit()
@@ -1464,7 +1468,7 @@ mob
 					icon = 'Mobs.dmi'
 					icon_state = "basilisk"
 					name = "Mini Basilisk"
-					HPmodifier = 3
+					HPmodifier = 6
 					DMGmodifier = 3
 					MoveDelay = 3
 					level = 2000
@@ -1502,7 +1506,7 @@ mob
 					name = "Bubbles the Spider"
 					icon_state = "spider"
 					level = 2000
-					HPmodifier = 20
+					HPmodifier = 50
 					DMGmodifier = 4
 					MoveDelay = 3
 					AttackDelay = 1
@@ -1553,7 +1557,7 @@ mob
 
 				Zombie
 					name = "Zombie"
-					HPmodifier = 20
+					HPmodifier = 50
 					DMGmodifier = 2
 					MoveDelay = 3
 					AttackDelay = 3
@@ -1836,7 +1840,7 @@ mob
 				Ghost
 					name = "Vengeful Ghost"
 					icon = 'NPCs.dmi'
-					HPmodifier = 1.9
+					HPmodifier = 4
 					DMGmodifier = 0.8
 					layer = 5
 					MoveDelay = 2
@@ -1896,9 +1900,12 @@ mob
 								 speed  = 2,
 								 life   = new /Random(15,20))
 
+				Treasure_Chest
+
+
 				Scared_Ghost
 					icon = 'NPCs.dmi'
-					HPmodifier = 1
+					HPmodifier = 5
 					layer = 5
 					MoveDelay = 5
 					AttackDelay = 5
@@ -1964,7 +1971,7 @@ mob
 					name = "Vampire Lord"
 					icon = 'FemaleVampire.dmi'
 					icon_state = "flying"
-					HPmodifier = 20
+					HPmodifier = 50
 					DMGmodifier = 3
 					MoveDelay = 3
 					AttackDelay = 1
@@ -2080,7 +2087,7 @@ mob
 					icon = 'Mobs.dmi'
 					icon_state = "wisp"
 					name = "Willy the Whisp"
-					HPmodifier = 20
+					HPmodifier = 50
 					DMGmodifier = 2
 					layer = 5
 					MoveDelay = 3
@@ -2178,7 +2185,7 @@ mob
 					pixel_x = -48
 					pixel_y = -24
 					name = "The Black Blade"
-					HPmodifier = 25
+					HPmodifier = 60
 					DMGmodifier = 3
 					layer = 5
 					MoveDelay = 3
@@ -2286,7 +2293,7 @@ mob
 					pixel_x = -48
 					pixel_y = -24
 					name = "Stone Golem"
-					HPmodifier = 25
+					HPmodifier = 60
 					DMGmodifier = 2
 					layer = 5
 					MoveDelay = 3
@@ -2345,7 +2352,7 @@ mob
 				Snowman
 					icon = 'Snowman.dmi'
 					name = "The Evil Snowman"
-					HPmodifier = 20
+					HPmodifier = 50
 					DMGmodifier = 0.8
 					layer = 5
 					MoveDelay = 3
@@ -2685,7 +2692,7 @@ mob
 		The_Good_Snowman
 			icon_state = "snowman"
 			level = 2300
-			HPmodifier = 12
+			HPmodifier = 15
 			DMGmodifier = 3
 			MoveDelay = 3
 			AttackDelay = 1
@@ -2797,7 +2804,7 @@ mob
 		Akalla
 			icon_state = "basilisk"
 			level = 2400
-			HPmodifier = 20
+			HPmodifier = 25
 			DMGmodifier = 3
 			MoveDelay = 3
 			AttackDelay = 1
@@ -2925,7 +2932,7 @@ mob
 			level = 850
 			MoveDelay = 3
 
-			HPmodifier = 3
+			HPmodifier = 6
 			DMGmodifier = 1
 
 			ChangeState(var/i_State)
@@ -2969,7 +2976,7 @@ mob
 			level = 850
 			MoveDelay = 3
 
-			HPmodifier = 1.6
+			HPmodifier = 3.2
 			DMGmodifier = 0.8
 
 			respawnTime = 900
@@ -3134,8 +3141,8 @@ mob
 						if(hardmode > 5)
 							dmg += 140*hardmode
 
-						if(DMGmodifier < 0.6)
-							var/perc = (DMGmodifier / 0.6) * 100
+						if(DMGmodifier < 0.7)
+							var/perc = (DMGmodifier / 0.7) * 100
 							dmg *= 100 / perc
 
 					dir=get_dir(src, target)
@@ -3199,7 +3206,7 @@ mob
 			Eye_of_The_Fallen
 				level = 2200
 				cd = 20
-				HPmodifier = 20
+				HPmodifier = 50
 
 				prizePoolSize = 3
 
@@ -3273,8 +3280,8 @@ mob
 						if(hardmode > 5)
 							dmg += 140*hardmode
 
-						if(DMGmodifier < 0.6)
-							var/perc = (DMGmodifier / 0.6) * 100
+						if(DMGmodifier < 0.7)
+							var/perc = (DMGmodifier / 0.7) * 100
 							dmg *= 100 / perc
 
 					var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
@@ -3292,7 +3299,6 @@ mob
 			icon_state = "troll"
 			level = 750
 			HPmodifier  = 4
-			DMGmodifier = 0.6
 			MoveDelay   = 4
 			AttackDelay = 3
 
@@ -3349,7 +3355,6 @@ mob
 			AttackDelay = 5
 			MoveDelay = 5
 			element = FIRE
-			HPmodifier = 0.8
 
 			Fire_Bat
 				icon_state = "firebat"
@@ -3376,8 +3381,8 @@ mob
 						if(hardmode > 5)
 							dmg += 140*hardmode
 
-						if(DMGmodifier < 0.6)
-							var/perc = (DMGmodifier / 0.6) * 100
+						if(DMGmodifier < 0.7)
+							var/perc = (DMGmodifier / 0.7) * 100
 							dmg *= 100 / perc
 
 					dir=get_dir(src, target)
@@ -3443,8 +3448,8 @@ mob
 						if(hardmode > 5)
 							dmg += 140*hardmode
 
-						if(DMGmodifier < 0.6)
-							var/perc = (DMGmodifier / 0.6) * 100
+						if(DMGmodifier < 0.7)
+							var/perc = (DMGmodifier / 0.7) * 100
 							dmg *= 100 / perc
 
 					dir=get_dir(src, target)
@@ -3462,7 +3467,7 @@ mob
 			icon = 'Mobs.dmi'
 			icon_state = "basilisk"
 			level = 2000
-			HPmodifier = 15
+			HPmodifier = 20
 			DMGmodifier = 3
 			MoveDelay = 3
 			AttackDelay = 3
