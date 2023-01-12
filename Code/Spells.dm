@@ -2970,7 +2970,7 @@ mob/Enemies
 
 			if(element == elem)
 				dmg -= round(dmg / 10, 1)
-			else
+			else if("[elem]" in resistances)
 				dmg = round(dmg*resistances["[elem]"], 1)
 
 		if(prizePoolSize > 1 && p && dmg && HP > 0)

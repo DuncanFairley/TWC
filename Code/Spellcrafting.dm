@@ -246,7 +246,7 @@ obj/items/wearable/spellbook
 			s.scale = damage
 			if(s.scale > 1) s.scale *= 0.75
 		else if(spellType == METEOR)
-			var/obj/projectile/Meteor/m = new (attacker ? attacker.loc : p.loc, p, dmg, state, name, element)
+			var/obj/projectile/Meteor/m = new (attacker ? attacker.loc : p.loc, p, dmg*0.75, state, name, element)
 			m.range = range
 		else if(spellType == ARC)
 
@@ -353,7 +353,7 @@ obj/items/wearable/spellbook
 
 				for(var/i = 1 to 20)
 					for(var/mob/Enemies/e in range(range, p))
-						e.onDamage(dmg, p, elem=element)
+						e.onDamage(dmg*0.9, p, elem=element)
 
 					sleep(5)
 
@@ -506,7 +506,7 @@ obj/items/spellpage
 	damage2
 		name = "Spell Page: \[Grand]"
 		flags = PAGE_DMG2
-		damage = 4
+		damage = 3
 		cd = 3
 		mpCost = 6
 		range = 1
