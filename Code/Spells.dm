@@ -2779,10 +2779,9 @@ mob/Player
 		if((SHIELD_NINJA in passives) && prob(24 + passives[SHIELD_NINJA]))
 			dmg = 0
 
-
 			var/turf/t = get_step(attacker, turn(attacker.dir, 180))
 
-			if(t != loc)
+			if(t != loc && !away)
 				var/obj/o = new (loc)
 				o.appearance = appearance
 				o.dir = dir
@@ -2830,7 +2829,7 @@ mob/Player
 
 			if(!findStatusEffect(/StatusEffect/DodgedDeath))
 				dmg = 0
-				new /StatusEffect/DodgedDeath(src, 100)
+				new /StatusEffect/DodgedDeath(src, 150)
 
 		HP -= dmg
 		updateHP()

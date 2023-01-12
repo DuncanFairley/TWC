@@ -453,7 +453,7 @@ StatusEffect
 
 					if(!p.findStatusEffect(/StatusEffect/DodgedDeath))
 						reducedDamage = dmg
-						new /StatusEffect/DodgedDeath(p, 50)
+						new /StatusEffect/DodgedDeath(p, 150)
 
 				p.HP -= dmg - reducedDamage
 				if(p.HP <= 0)
