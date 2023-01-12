@@ -260,6 +260,9 @@ obj/items/wearable/pets
 	sword
 		icon_state  = "sword"
 		function    = PET_FLY
+	lantern
+		icon_state  = "lantern"
+		function    = PET_FLY|PET_SHINY|PET_LIGHT
 	pumpkin
 		icon_state  = "pumpkin"
 	pokeby
