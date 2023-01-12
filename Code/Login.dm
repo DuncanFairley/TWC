@@ -2179,10 +2179,6 @@ mob/proc/Death_Check(mob/killer = src)
 				if(worldData.currentArena)
 					worldData.currentArena.handleSpawnDelay(src)
 
-				var/StatusEffect/Lava/s = locate() in p.LStatusEffects
-				if(s) s.Deactivate()
-				p.filters = null
-
 				p.HP=p.MHP
 				p.MP=p.MMP
 				p.updateHPMP()
@@ -2722,6 +2718,9 @@ mob/Player/proc/onDeath(turf/oldLoc, killerName)
 	set waitfor = 0
 
 	filters = null
+
+	pixel_x = 0
+	pixel_y = 0
 
 	var/obj/o        = new
 	o.screen_loc     = "CENTER,CENTER+3"

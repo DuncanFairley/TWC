@@ -861,9 +861,8 @@ mob
 				if(event==3)
 					new /obj/monster_portal (loc)
 				else if(event==2)
-					new /mob/Enemies/Summoned/Boss/Scared_Ghost (loc)
+					new /mob/Enemies/Summoned/Boss/Treasure_Chest (loc)
 				else if(event==1)
-					killer << infomsg("A scared ghost appeared, it's running with loot, kill it!")
 					new /mob/Enemies/Summoned/Boss/Scared_Ghost (loc)
 
 			if(prob(base * rate + killer.pity))
@@ -1901,7 +1900,42 @@ mob
 								 life   = new /Random(15,20))
 
 				Treasure_Chest
+					icon = 'Chest.dmi'
+					HPmodifier = 15
+					layer = 5
+					MoveDelay = 5
+					AttackDelay = 5
+					Range = 1
+					level = 1000
+					canBleed = FALSE
+					prizePoolSize = 1
+					extraDropRate = 60
 
+					MapInit()
+						set waitfor = 0
+						..()
+
+						icon_state = pick("purple", "red", "blue", "green", "orange", "pink")
+
+						SetSize(2)
+
+						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1, py=16)
+						hpbar = new(src)
+
+						sleep(360)
+
+						Dispose()
+						ChangeState(INACTIVE)
+
+					Search()
+						sleep(lag)
+
+					Attack()
+						sleep(lag)
+
+					Move()
+						if(state == WANDER) return
+						.=..()
 
 				Scared_Ghost
 					icon = 'NPCs.dmi'
@@ -1913,7 +1947,9 @@ mob
 					level = 1000
 					canBleed = FALSE
 					prizePoolSize = 1
-					extraDropRate = 50
+					extraDropRate = 30
+
+					element = GHOST
 
 					MapInit()
 						set waitfor = 0
