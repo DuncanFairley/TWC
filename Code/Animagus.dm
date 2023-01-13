@@ -43,12 +43,12 @@ turf
 	var/tmp/skip = 0
 	proc
 		AdjacentTurfs()
-			var/L = list()
+			. = list()
 			for(var/turf/t in orange(1, src))
 				if(skip) continue
+				if(tag && t.tag) continue
 				if(!t.density)
-					L += t
-			return L
+					. += t
 
 		Distance(turf/t)
 			return abs(x - t.x) + abs(y - t.y)
