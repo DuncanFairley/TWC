@@ -1849,6 +1849,8 @@ mob
 					canBleed = FALSE
 					prizePoolSize = 1
 
+					element = GHOST
+
 					MapInit()
 						set waitfor = 0
 						..()
@@ -3158,6 +3160,8 @@ mob
 			MoveDelay = 3
 			canBleed = FALSE
 			var/tmp/fired = 0
+
+			element = GHOST
 
 			Attack(mob/M)
 				..()
