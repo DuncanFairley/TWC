@@ -292,7 +292,7 @@ proc
 		var/obj/o = new (source.loc)
 		o.density = 1
 
-		var/const/STEPS_LIMIT = 15
+		var/const/STEPS_LIMIT = 14
 
 		var/turf/t = get_step_to(o, target, dist)
 		var/distance = get_dist(o, target)
