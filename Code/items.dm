@@ -5486,6 +5486,8 @@ obj/items/wearable/ring/aetherwalker_ring
 	desc="A magical ring that allows you apparate without cooldown."
 	suffix = "<span style=\"color:#ffa500;\">Apparate's cooldown will be replaced with increased mana cost.</span>"
 	passive = RING_APPARATE
+	monsterDmg = 3
+	monsterDef = 3
 
 obj/items/wearable/ring/ring_of_displacement
 	icon='ammy.dmi'
@@ -5831,7 +5833,6 @@ obj/items/wearable/sword/dragon
 	desc="Dragon's breath allows you to use fire spells with full damage."
 	suffix = "<span style=\"color:#ffa500;\">Fire spells now use full damage.</span>"
 	passive = SWORD_FIRE
-	monsterDmg = 2
 
 obj/items/wearable/sword/titan
 	icon='trophies.dmi'

@@ -2640,7 +2640,7 @@ mob/Player
 		wandLock = 0
 
 	proc/wandPowerTick()
-		wandCharge = min(wandCharge + rand(1,2), 100)
+		wandCharge = min(wandCharge + 1, 100)
 		wand.wandPower.setCharge(wandCharge)
 
 	proc/wandPower()
@@ -3079,11 +3079,11 @@ mob/Enemies
 			return exp2give
 
 		if(hpbar)
-			var/maxHP = MHP * (1 + hardmode) + (200 * hardmode)
+			var/maxHP = MHP * (1 + hardmode) + (200 * hardmode * HPmodifier)
 			if(hardmode)
-				if(hardmode > 5) maxHP += 1000 + (2000 * hardmode)
-				if(HPmodifier < 1)
+				if(HPmodifier < 2)
 					maxHP *= 100 / (HPmodifier * 100)
+				if(hardmode > 5) maxHP += 2000 + (2000 * hardmode)
 
 			var/percent = HP / maxHP
 			hpbar.Set(percent, src)

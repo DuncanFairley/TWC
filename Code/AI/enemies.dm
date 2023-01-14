@@ -591,13 +591,13 @@ mob
 
 		proc/calcStats()
 			Dmg = DMGmodifier * (    (src.level)  + 5)
-			MHP = HPmodifier  * (4 * (src.level)  + 200)
+			MHP = HPmodifier  * (4 * (src.level)  + 210)
 
 			Dmg = round(Dmg * (rand(10,15)/10), 1)
 			MHP = round(MHP * (rand(10,15)/10), 1)
 
 			gold = round(src.level / 2)
-			Expg = src.level * 6
+			Expg = src.level * 5
 
 			if(isElite)
 				Dmg  *= 2
@@ -1004,10 +1004,10 @@ mob
 									if(10)
 										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#ff0000")
 
-								HP = MHP * (1 + hardmode) + (200 * hardmode)
-								if(hardmode > 5) HP += 1000 + (2000 * hardmode)
-								if(HPmodifier < 1)
+								HP = MHP * (1 + hardmode) + (200 * hardmode * HPmodifier)
+								if(HPmodifier < 2)
 									HP *= 100 / (HPmodifier * 100)
+								if(hardmode > 5) HP += 2000 + (2000 * hardmode)
 
 						if(CONTROLLED)
 							target = null
@@ -1088,10 +1088,10 @@ mob
 									if(10)
 										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#ff0000")
 
-								HP = MHP * (1 + hardmode) + (200 * hardmode)
-								if(hardmode > 5) HP += 1000 + (2000 * hardmode)
-								if(HPmodifier < 1)
+								HP = MHP * (1 + hardmode) + (200 * hardmode * HPmodifier)
+								if(HPmodifier < 2)
 									HP *= 100 / (HPmodifier * 100)
+								if(hardmode > 5) HP += 2000 + (2000 * hardmode)
 
 						else
 							Ignore(M)
@@ -2582,6 +2582,7 @@ mob
 
 				SpawnPortal("teleportPointCoS Floor 3", "CoSBoss2LockDoor", lava=1, timer=1)
 
+		// NORMAL MONSTER START
 
 		Rat
 			icon_state  = "rat"
@@ -2826,7 +2827,12 @@ mob
 
 				if(HP > 0)
 
-					var/percent = clamp(HP / MHP * (1 + hardmode), 0.1, 1)
+					var/maxHP = MHP * (1 + hardmode) + (200 * hardmode * HPmodifier)
+					if(HPmodifier < 2)
+						maxHP *= 100 / (HPmodifier * 100)
+					if(hardmode > 5) maxHP += 2000 + (2000 * hardmode)
+
+					var/percent = clamp(HP / maxHP, 0.1, 1)
 					percent = 1 + (1 - percent)*2
 
 					if(isElite) percent += 2
@@ -3057,7 +3063,7 @@ mob
 		Vampire
 			icon = 'FemaleVampire.dmi'
 			level = 900
-			HPmodifier  = 2
+			HPmodifier  = 4
 			DMGmodifier = 0.8
 			MoveDelay   = 3
 			respawnTime = 900
@@ -3155,7 +3161,7 @@ mob
 			icon_state = "wisp"
 			level = 850
 
-			HPmodifier  = 1.6
+			HPmodifier  = 4
 			DMGmodifier = 0.8
 			MoveDelay = 3
 			canBleed = FALSE
@@ -3235,8 +3241,9 @@ mob
 
 			icon_state = "eye1"
 			level = 900
-			HPmodifier  = 1.8
+			HPmodifier  = 4
 			DMGmodifier = 0.8
+			Range = 35
 			var
 				tmp/fired = 0
 				cd = 100
@@ -3250,7 +3257,7 @@ mob
 
 				prizePoolSize = 3
 
-				Range     = 20
+				Range     = 50
 				MoveDelay = 2
 				AttackDelay = 3
 
@@ -3463,8 +3470,11 @@ mob
 
 		Cloud
 			icon_state = "cloud"
-			level = 700
+			level = 850
 			canBleed = FALSE
+			HPmodifier  = 4
+			DMGmodifier = 0.8
+			Range = 35
 
 			var/tmp/fired = 0
 
