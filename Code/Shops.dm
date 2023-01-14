@@ -446,10 +446,17 @@ mob/TalkNPC/Artifacts_Salesman
 		var/ScreenText/s = new(p, src)
 
 		var/amount = 0
+		var/gold = 0
 		for(var/turf/t in block(locate(x-2,y-2,z),locate(x+2,y-2,z)))
 			for(var/obj/items/wearable/i in t)
 				if(i.owner == p.ckey && (i.passive || i.monsterDmg || i.monsterDef || i.dropRate || i.extraLimit || i.extraCDR || i.extraMP))
 					amount += i.stack * (1 + i.quality)
+					i.Dispose()
+			for(var/obj/items/crystal/i in t)
+				if(findtext(i.name, " level "))
+					var/list/txt = splittext(i.name, " ")
+					var/g = text2num(txt[txt.len]) * 50
+					gold += g * i.stack
 					i.Dispose()
 
 		if(amount > 0)
@@ -462,7 +469,13 @@ mob/TalkNPC/Artifacts_Salesman
 			a.stack = amount
 			a.UpdateDisplay()
 			a.Move(p)
-		else
+		if(gold > 0)
+			var/gold/g = new(bronze=gold)
+			g.give(p)
+
+			s.AddText("I'll give you [g.toString()] for those.")
+
+		if(amount == 0 && gold == 0)
 			s.AddText("I love legendary artifacts, if you've got any legendary items, I'll be willing to trade with you, drop them on the purple floor and talk to me.")
 
 mob/Player/var/threads = 0
