@@ -1147,6 +1147,11 @@ mob
 
 			ChangeState(INACTIVE)
 
+		Cross(atom/movable/O)
+			if(istype(O, /mob/Enemies))
+				return 1
+			.=..()
+
 
 		proc/BlindAttack()//removeoMob
 			for(var/mob/Player/p in range(1, src))
@@ -1170,6 +1175,8 @@ mob
 				Ignore(target)
 				target = null
 				ShouldIBeActive()
+			else
+				step_towards(src, target)
 
 		proc/Kill(mob/Player/p)
 			set waitfor = 0

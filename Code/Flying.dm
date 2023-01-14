@@ -52,6 +52,11 @@ obj/redroses
 	density=1
 	layer = 6
 
+	Cross(atom/movable/O)
+		if(istype(O, /mob/Enemies))
+			return 1
+		.=..()
+
 	Dispose()
 		set waitfor = 0
 		if(respawn)
