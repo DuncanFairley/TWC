@@ -29,7 +29,7 @@ mob
 				if(!g.have(250000))
 					s.AddText("Well hello there, [usr.gender == MALE ? "sonny" : "young lady"]. Unfortunately you need 25 gold coins before I am able to help you.")
 				else
-					s.AddText("Would you like to reset your stat points? It will cost 5 gold coins.")
+					s.AddText("Would you like to reset your stat points? It will cost 25 gold coins.")
 					s.SetButtons("Yes", "#00ff00", "No", "#ff0000", null)
 
 					if(!s.Wait()) return
