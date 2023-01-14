@@ -1443,6 +1443,9 @@ obj
 			if(prob(45))
 				icon_state = "Lid Off"
 
+			pixel_x = rand(-4,4)
+			pixel_y = rand(-4,4)
+
 		Click()
 			if(usr in oview(1, src))
 				EmptyTrash()
