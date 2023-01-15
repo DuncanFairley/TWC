@@ -421,6 +421,10 @@ area
 				Snake
 				SnakeBoss
 					antiTeleport = TRUE
+				LibraryEntrance
+				Library
+				LibraryBoss
+					antiTeleport = TRUE
 				Cow
 					antiTeleport = TRUE
 
@@ -1243,14 +1247,13 @@ mob
 		//			dmg = dmg * 1.5 + 100
 
 				if(hardmode)
+					if(DMGmodifier < 0.7)
+						var/perc = (DMGmodifier / 0.7) * 100
+						dmg *= 100 / perc
 					dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
 
 					if(hardmode > 5)
 						dmg += 140*hardmode
-
-					if(DMGmodifier < 0.7)
-						var/perc = (DMGmodifier / 0.7) * 100
-						dmg *= 100 / perc
 
 				if(target.level < level)
 					dmg += dmg * ((1 + level - target.level)/200)
