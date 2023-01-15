@@ -2781,7 +2781,7 @@ mob/Player
 
 			var/turf/t = get_step(attacker, turn(attacker.dir, 180))
 
-			if(t != loc && !away)
+			if(t != loc && !away && loc)
 				var/obj/o = new (loc)
 				o.appearance = appearance
 				o.dir = dir
