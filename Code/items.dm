@@ -4239,6 +4239,7 @@ obj/memory_rune
 			loc.tag = "teleportPoint[name]"
 
 	Snowman_Dungeon
+	Forbidden_Library
 	Snake_Dungeon
 	Silverblood
 	CoSFloor1

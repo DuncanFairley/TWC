@@ -3523,6 +3523,94 @@ mob
 
 				SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/cloud)
 
+
+		Flying_Book
+			icon = 'Books.dmi'
+
+			icon_state = "peace"
+			level = 850
+			MoveDelay = 3
+
+			HPmodifier = 6
+			DMGmodifier = 1.2
+
+			canBleed = FALSE
+			Range = 16
+
+			var/tmp/fired = 0
+
+			MapInit()
+				set waitfor = 0
+				..()
+
+				icon_state = pick("peace", "chaos", "bank", "rmagic", "Hogwarts", "herb", "potion", "huffle", "huffleup", "key", "sword", "slyth", "slythup", "gryff", "gryffup", "raven", "ravenup")
+
+		//		if(!isElite)
+		//			SetSize(rand(10,15) / 10)
+
+				var/obj/Shadow/s = new
+
+				s.pixel_y = isElite ? -32 : -16
+				s.appearance_flags |= RESET_TRANSFORM|PIXEL_SCALE
+				var/matrix/m = matrix()
+				m.Scale(isElite ? 3 : 1.5, 1)
+				s.transform = m
+
+				vis_contents += s
+
+				m = transform
+				m.Turn(90)
+				animate(src, transform = m, time = 6, loop = -1)
+				m.Turn(90)
+				animate(transform = m, time = 6)
+				m.Turn(90)
+				animate(transform = m, time = 6)
+				m.Turn(90)
+				animate(transform = m, time = 6)
+
+
+			ChangeState(var/i_State)
+				set waitfor = FALSE
+
+				..(i_State)
+
+				if(i_State == WANDER && origloc && HP > 0)
+					HP = MHP
+					while(state == WANDER && get_dist(loc, origloc) > 2)
+						var/i = step_to(src, origloc)
+						if(!i) break
+						sleep(1)
+
+			Attack()
+				if(!fired)
+					fired = 1
+
+					var/dmg = Dmg + rand(-4,8)
+
+					if(hardmode)
+						dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
+
+						if(hardmode > 5)
+							dmg += 140*hardmode
+
+						if(DMGmodifier < 0.7)
+							var/perc = (DMGmodifier / 0.7) * 100
+							dmg *= 100 / perc
+
+					dir=get_dir(src, target)
+					castproj(icon_state = pick("fireball", "quake", "aqua", "iceball", "gum"), damage = dmg, name = "spell")
+					spawn(20) fired = 0
+
+				..()
+	/*		Death(mob/Player/killer)
+				..()
+
+				var/s = prob(45) ? 2 : 1
+				for(var/i = 1 to s)
+					new /mob/Enemies/Summoned/Snake (loc)
+
+				SpawnPet(killer, 0.05, null, /obj/items/wearable/pets/demon_snake)*/
+
 		Basilisk
 			icon = 'Mobs.dmi'
 			icon_state = "basilisk"
@@ -3933,6 +4021,7 @@ obj/boss/deathdot
 var/list/dungeons = list(
 "teleportPointSnake Dungeon" = 10,
 "teleportPointSnowman Dungeon" = 10,
+"teleportPointForbidden Library" = 9,
 "cow dungeon level 1" = 8,
 "PumpkinEntrance" = 5,
 "teleportPointCoS Floor 3" = 10)
