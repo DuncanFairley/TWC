@@ -4136,8 +4136,8 @@ obj/items/magic_stone
 
 
 		effect(mob/Player/p)
-			var/obj/eye_counter/count = locate("EyeCounter")
-			worldData.eyesKilled = min(999, worldData.eyesKilled + 200)
+			var/obj/kill_counter/count = locate("Counter_Eyes")
+			worldData.counters["Counter_Eyes"] = min(999, worldData.counters["Counter_Eyes"] + 200)
 			count.updateDisplay()
 
 
@@ -4990,6 +4990,22 @@ obj/items/colors
 		icon_state = "red"
 		projColor  = "blood"
 		rarity     = 2
+	silver_stone
+		reqLevel  = 15
+		icon_state = "silver"
+		projColor = "#c0c0c0"
+		rarity     = 2
+	skyblue_stone
+		reqLevel  = 15
+		icon_state = "blue"
+		projColor = "#87CEEB"
+		rarity     = 2
+	limegreen_stone
+		reqLevel  = 15
+		icon_state = "green"
+		projColor = "#32CD32"
+		rarity     = 2
+
 
 obj/items/reputation
 	var/rep

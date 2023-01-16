@@ -4,39 +4,45 @@ mob/Player/var/hardmode = 0
 
 WorldData
 	var
-		eyesKilled = 0
+		counters
 		list/areaData
 
 obj
-	eye_counter
+	kill_counter
 		var/marks     = 0
 		maptext_width = 64
 		pixel_x       = 8
+		post_init      = 1
 
-		New()
-			..()
-			tag = "EyeCounter"
-			spawn(1)
-				maptext = "<b><span style=\"font-size:4; color:#FF4500;\">[worldData.eyesKilled]</span></b>"
+		MapInit()
+			set waitfor = 0
+			sleep(1)
+			tag = "Counter_" + name
+
+			if(!worldData.counters) worldData.counters = list()
+
+			if(!(tag in worldData.counters)) worldData.counters[tag] = 0
+
+			maptext = "<b><span style=\"font-size:4; color:#FF4500;\">[worldData.counters[tag]]</span></b>"
 
 		proc
 			add()
-				worldData.eyesKilled++
-				if(worldData.eyesKilled >= 1000)
-					worldData.eyesKilled = 0
+				worldData.counters[tag]++
+				if(worldData.counters[tag] >= 1000)
+					worldData.counters[tag] = 0
 					marks++
 					. = 1
 				updateDisplay()
 
 			updateDisplay()
-				if(worldData.eyesKilled >= 100)
+				if(worldData.counters[tag] >= 100)
 					pixel_x = -5
-				else if(worldData.eyesKilled >= 10)
+				else if(worldData.counters[tag] >= 10)
 					pixel_x = -4
 				else
 					pixel_x = 8
 
-				maptext = "<b><span style=\"font-size:4; color:#FF4500;\">[worldData.eyesKilled]</span></b>"
+				maptext = "<b><span style=\"font-size:4; color:#FF4500;\">[worldData.counters[tag]]</span></b>"
 
 obj
 	guildPillar
@@ -2687,10 +2693,26 @@ mob
 
 			respawnTime = 300
 
+			Cow_Queen
+				level = 2000
+				isElite = 1
+
+				HPmodifier = 3
+
+				MapInit()
+					set waitfor = 0
+					..()
+					origloc = null
+
 			Death(mob/Player/killer)
 				..()
 
-				SpawnPet(killer, 0.2, null, /obj/items/wearable/pets/Cow)
+				if(origloc)
+					SpawnPet(killer, 0.2, null, /obj/items/wearable/pets/Cow)
+
+					var/obj/kill_counter/count = locate("Counter_Cows")
+					if(count.add())
+						new /mob/Enemies/Cow/Cow_Queen (locate(rand(5,61), rand(52,96), 20))
 
 		Pumpkin
 			icon = 'Mobs.dmi'
@@ -3311,7 +3333,7 @@ mob
 			Death(mob/Player/killer)
 				..()
 				if(origloc)
-					var/obj/eye_counter/count = locate("EyeCounter")
+					var/obj/kill_counter/count = locate("Counter_Eyes")
 					if(count.add())
 						Players << infomsg("The Eye of The Fallen has appeared somewhere in the desert!")
 						new /mob/Enemies/Floating_Eye/Eye_of_The_Fallen (locate(rand(4,97), rand(4,97), 3))
