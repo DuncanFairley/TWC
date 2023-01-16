@@ -305,13 +305,16 @@ obj/summon
 
 							else
 								if(e.hardmode)
-									dmg = dmg * (1.1 + e.hardmode*0.5) + 60*e.hardmode
-
-									if(e.DMGmodifier < 0.6)
-										var/perc = (e.DMGmodifier / 0.6) * 100
+									if(e.DMGmodifier < 0.7)
+										var/perc = (e.DMGmodifier / 0.7) * 100
 										dmg *= 100 / perc
 
-								dmg = e.Dmg*0.7*summonTier
+									dmg = dmg * (1.1 + e.hardmode*0.5) + 60*e.hardmode
+
+									if(e.hardmode > 5)
+										dmg += 140*e.hardmode
+
+								dmg = e.Dmg*0.75*summonTier
 
 								if(level < e.level)
 									dmg += dmg * ((51 + e.level - level)/200)
