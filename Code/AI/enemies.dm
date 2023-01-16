@@ -1180,7 +1180,11 @@ mob
 				target = null
 				ShouldIBeActive()
 			else
+				var/turf/tmpLoc = loc
 				step_towards(src, target)
+				if(loc == tmpLoc)
+					var/mob/Enemies/e = locate() in oview(1, target)
+					step_towards(src, e)
 
 		proc/Kill(mob/Player/p)
 			set waitfor = 0
@@ -3528,7 +3532,7 @@ mob
 			icon = 'Books.dmi'
 
 			icon_state = "peace"
-			level = 850
+			level = 900
 			MoveDelay = 3
 
 			HPmodifier = 6
