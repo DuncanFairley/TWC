@@ -665,7 +665,7 @@ mob
 
 			if(dest == "cow dungeon level 1")
 				timedInstance = 1
-				timer = 3000
+				timer = 18000
 
 			if(isElite) chance *= 5
 
