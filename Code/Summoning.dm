@@ -319,6 +319,8 @@ obj/summon
 								if(level < e.level)
 									dmg += dmg * ((51 + e.level - level)/200)
 
+								dmg *= 1 - min(summoner.monsterDef/100, 0.75)
+
 								HP -= dmg
 								if(HP <= 0)	break
 
