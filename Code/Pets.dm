@@ -238,7 +238,7 @@ obj/items/wearable/pets
 	demon_snake
 		icon_state = "bg_snake"
 	white_purple_demon_snake
-		icon_state = "wp_snake"
+		icon_state = "white purple snake"
 	red_black_demon_snake
 		icon_state = "rbo_snake"
 	wolf

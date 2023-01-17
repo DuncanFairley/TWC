@@ -57,7 +57,7 @@ obj/summon
 		New(loc, mob/Player/p, spell, size=0)
 			set waitfor = 0
 
-			icon_state = pick("snake", "wp_snake", "bg_snake", "rbo_snake")
+			icon_state = pick("snake", "white purple snake", "bg_snake", "rbo_snake")
 
 			..(loc, p, spell, size)
 
