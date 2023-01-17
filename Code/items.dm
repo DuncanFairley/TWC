@@ -5024,7 +5024,7 @@ obj/items/reputation
 		return i
 
 	Compare(obj/items/reputation/i)
-		return i.name == name && i.type == type && i.owner == owner && i.icon_state == icon_state && i.rep == rep
+		return i.name == name && i.type == type && i.icon_state == icon_state && i.rep == rep
 
 
 	New()
