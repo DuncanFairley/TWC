@@ -309,7 +309,7 @@ obj/push
 					. = 0
 					break
 				for(var/atom/movable/a in t)
-					if(a.density)
+					if(a.density || istype(a, /obj/push/reset))
 						. = 0
 						break
 
