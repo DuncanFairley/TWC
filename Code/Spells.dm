@@ -545,8 +545,8 @@ mob/Spells/verb/Aggravate()
 		//	if(eArea != pArea) continue
 			if(e.state == 0)   continue
 
-			e.ChangeState(e.HOSTILE)
 			e.target = src
+			e.ChangeState(e.HOSTILE)
 
 		spawn(100)
 			p.monsterDef -= 10
