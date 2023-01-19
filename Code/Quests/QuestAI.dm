@@ -222,7 +222,7 @@ mob/TalkNPC
 							castproj(Type = attackType, icon_state = ic ? ic : "fireball", damage = dmg, name = n ? n : "Incindia", cd = 0, lag = 1, Dir=di)
 					else
 						dir=get_dir(src, target)
-						castproj(Type = attackType, icon_state = ic ? ic : attack, damage = Dmg, name = n ? n : "Spell")
+						castproj(Type = attackType, icon_state = ic ? ic : attack, damage = dmg, name = n ? n : "Spell")
 
 					delay = 2
 
