@@ -3637,6 +3637,177 @@ mob
 
 				SpawnPet(killer, 0.05, null, /obj/items/wearable/pets/demon_snake)*/
 
+		Cowbook
+			name = "Cownomicon"
+			icon_state = "Cow"
+			level = 2600
+			HPmodifier = 45
+			DMGmodifier = 3
+			MoveDelay = 3
+			AttackDelay = 1
+			Range = 24
+			respawnTime = 3000
+			prizePoolSize = 3
+
+			var/attempts = 3
+			var/obj/Shadow/s
+
+			ChangeState(var/i_State)
+				..(i_State)
+
+				if(state == 0 && origloc && HP > 0)
+					loc = origloc
+
+					if(attempts-- <= 0)
+						attempts = initial(attempts)
+						HP = MHP
+
+			MapInit()
+				set waitfor = 0
+				..()
+				SetSize(3)
+
+				namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, py=16)
+
+
+				s = new (loc)
+				s.transform = matrix() * 3
+
+				animate(src, pixel_y = 0, time = 2, loop = -1)
+				animate(pixel_y = 1, time = 2)
+				animate(pixel_y = 0, time = 2)
+				animate(pixel_y = -1, time = 2)
+
+
+			Move(newLoc)
+				if(s)
+					s.glide_size = glide_size
+					s.loc = newLoc
+				..()
+
+			var/tmp
+				firedAvada = 0
+				firedMeteor = 0
+				fired = 0
+
+			Blocked()
+				density = 0
+				var/turf/t = get_step_to(src, target, 1)
+				if(t)
+					Move(t)
+				else
+					..()
+				density = 1
+
+			onDamage(dmg, mob/Player/p, elem = 0, projColor=null)
+				if(prob(15))
+					HP += dmg
+					hearers(20, src)<<"<span style=\"color:red;\"><b>[src]:</span></b> <font color=aqua>Episkey!"
+					overlays+=image('attacks.dmi', icon_state = "heal")
+					spawn(10)
+						overlays-=image('attacks.dmi', icon_state = "heal")
+
+				..(dmg, p, elem, projColor)
+
+			Attack()
+				..()
+
+				if(target)
+
+					if(!firedAvada && get_dist(src, target) <= 3)
+						Avada()
+
+					else if(!firedMeteor)
+						Meteor()
+
+					else
+						var/attack = pick("fireball", "quake", "aqua", "iceball", "gum")
+
+						var/ic
+						var/attackType
+						var/n
+						if(prob(15))
+							n = "Bombarda"
+							ic = "bombarda"
+							attackType = /obj/projectile/Bomb
+						else
+							attackType = /obj/projectile
+
+						if(prob(5))
+							var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
+							for(var/di in dirs)
+								castproj(Type = attackType, icon_state = ic ? ic : "fireball", damage = Dmg, name = n ? n : "Incindia", cd = 0, lag = 1, Dir=di)
+						else
+							dir=get_dir(src, target)
+							castproj(Type = attackType, icon_state = ic ? ic : attack, damage = Dmg, name = n ? n : "Spell")
+
+
+			proc/Avada()
+				set waitfor = 0
+
+				firedAvada = 1
+
+				var/vector/start = new (x        * world.icon_size + world.icon_size / 2, y        * world.icon_size + world.icon_size / 2)
+				var/vector/dest  = new (target.x * world.icon_size + world.icon_size / 2, target.y * world.icon_size + world.icon_size / 2)
+
+				start.X += (EAST & dir) ? 7 : -7
+				start.Y -= 6
+
+				var/bolt/boltFix/b = new(start, dest, 35)
+
+				var/c = "#30ff30"
+
+				b.Draw(z, /obj/segment/segmentFix, color = c, thickness = 1)
+
+				light(b.lastCreatedBolt, 3, 10, "circle", c)
+
+				emit(loc    = target.loc,
+					 ptype  = /obj/particle/smoke/proj,
+				     amount = 28,
+				     angle  = new /Random(0, 360),
+				     speed  = 2,
+				     life   = new /Random(20,35),
+				     color  = c)
+
+				target.onDamage(target.MHP * 0.5, src)
+				target.Death_Check(src)
+
+				sleep(50)
+				firedAvada = 0
+
+			proc/Meteor()
+				set waitfor = 0
+
+				firedMeteor = 1
+
+				var/obj/boss/death/d = new (target.loc, src, pick(3,5,7))
+				d.density = 1
+				for(var/i = 1 to rand(0,4))
+					step_away(d, src)
+				d.density = 0
+
+				sleep(15)
+				firedMeteor = 0
+
+
+			Kill(mob/Player/p)
+				set waitfor = 0
+				..(p)
+
+				sleep(1)
+
+				var/hudobj/teleport/t = new (null, p.client, null, show=1)
+				t.dest = "teleportPointForbidden Library"
+				p << errormsg("Click the teleport stone on screen button at the bottom right to go back to the snake dungeon.")
+
+
+
+			Death(mob/Player/killer)
+				set waitfor = 0
+				..(killer)
+
+				SpawnPortal("teleportPointForbidden Library", timer=1)
+
 		Basilisk
 			icon = 'Mobs.dmi'
 			icon_state = "basilisk"
