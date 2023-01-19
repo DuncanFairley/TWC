@@ -2904,6 +2904,9 @@ obj/items/wearable/title
 	Illusionist
 		title = "Illusionist"
 		name  = "Title: Illusionist"
+	Cow
+		title = "Udderly Devastating"
+		name  = "Title: Udderly Devastating"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))

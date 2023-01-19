@@ -196,7 +196,8 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 
 "Cow"                = list("0.1"    = /obj/items/spellpage/cow),
 
-"Cow Queen"          = list("5"    = list(/obj/items/colors/silver_stone,
+"Cow Queen"          = list("5"    = list(/obj/items/wearable/title/Cow,
+										  /obj/items/colors/silver_stone,
 										  /obj/items/colors/skyblue_stone,
 										  /obj/items/colors/limegreen_stone)),
 
