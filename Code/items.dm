@@ -8,7 +8,7 @@ mob/Player/var
 		dropRate   = 0
 		extraLimit = 0
 		noOverlays = 0
-		Armor     = 0
+		Armor      = 0
 
 
 area
@@ -966,6 +966,11 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			owner.monsterDmg -= socket.monsterDmg
 			owner.monsterDef -= socket.monsterDef
 			owner.extraMP    -= socket.MP
+
+			if(socket.passive && !socket.skip)
+				owner.passives -= socket.passive
+				if(!owner.passives.len) owner.passives = null
+
 		owner.dropRate -= dropRate
 		owner.monsterDmg -= monsterDmg
 		owner.monsterDef -= monsterDef
@@ -1026,6 +1031,27 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			owner.monsterDmg += socket.monsterDmg
 			owner.monsterDef += socket.monsterDef
 			owner.extraMP    += socket.MP
+
+			if(socket.passive)
+				if(!owner.passives) owner.passives = list()
+
+				if(socket.passive in owner.passives)
+					var/obj/items/crystal/equippedCrystal = owner.passives[socket.passive]
+
+					if(equippedCrystal.passivePower < socket.passivePower)
+						equippedCrystal.skip = 1
+						owner.passives[socket.passive] = socket
+						socket.skip = 0
+					else
+						socket.skip = 1
+				else
+					owner.passives[socket.passive] = socket
+					socket.skip = 0
+
+
+			if(socket.passive && !socket.skip)
+				owner.passives -= socket.passive
+				if(!owner.passives.len) owner.passives = null
 
 		owner.dropRate += dropRate
 		owner.monsterDmg += monsterDmg
@@ -5028,17 +5054,6 @@ obj/items/reputation
 
 	Compare(obj/items/reputation/i)
 		return i.name == name && i.type == type && i.icon_state == icon_state && i.rep == rep
-
-
-	New()
-		if(prob(10))
-			rep *= 2
-			name = "greater [name]"
-		else if(prob(55))
-			rep /= 2
-			name = "small [name]"
-		else
-			name = "medium [name]"
 
 	proc/Add(mob/Player/i_Player)
 		var/r1 = i_Player.getRep()
