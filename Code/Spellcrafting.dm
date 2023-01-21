@@ -244,11 +244,25 @@ obj/items/wearable/spellbook
 					s = new /obj/summon/cow (p.loc, p, command, 0.5)
 
 			s.scale = damage
+
+			if(p.passives && (CRYSTAL_SUMMON in p.passives))
+				var/obj/items/crystal/passive = p.passives[CRYSTAL_SUMMON]
+				s.scale += (passive.passivePower / 100)
+
 			if(s.scale > 1) s.scale *= 0.75
 		else if(spellType == METEOR)
+
+			if(p.passives && (CRYSTAL_METEOR in p.passives))
+				var/obj/items/crystal/passive = p.passives[CRYSTAL_METEOR]
+				dmg *= 1 + (passive.passivePower / 100)
+
 			var/obj/projectile/Meteor/m = new (attacker ? attacker.loc : p.loc, p, dmg*0.75, state, name, element)
 			m.range = range
 		else if(spellType == ARC)
+
+			if(p.passives && (CRYSTAL_ARC in p.passives))
+				var/obj/items/crystal/passive = p.passives[CRYSTAL_ARC]
+				dmg *= 1 + (passive.passivePower / 100)
 
 			var/mob/target = attacker
 
@@ -282,6 +296,11 @@ obj/items/wearable/spellbook
 				e:onDamage(dmg, p, elem=element)
 
 		else
+
+			if(p.passives && (CRYSTAL_AURA in p.passives))
+				var/obj/items/crystal/passive = p.passives[CRYSTAL_AURA]
+				dmg *= 1 + (passive.passivePower / 100)
+
 			if(element == HEAL)
 
 				var/d = dmg

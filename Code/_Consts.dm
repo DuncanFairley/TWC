@@ -93,6 +93,11 @@
 #define SWORD_SNAKE "stronger snake summon"
 #define SWORD_16 32768
 
+#define CRYSTAL_AURA "aura damage"
+#define CRYSTAL_METEOR "meteor damage"
+#define CRYSTAL_SUMMON "summon damage"
+#define CRYSTAL_ARC "arc damage"
+
 #define LEGENDARY 1
 #define CURSED 2
 #define CRYSTAL 4

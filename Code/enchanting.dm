@@ -349,6 +349,10 @@ obj/items/crystal
 		monsterDef = 0
 		MP = 0
 		power = 0
+		passive
+		passivePower
+
+		tmp/skip = 0
 
 	useTypeStack = 1
 	stackName = "Crystals:"
@@ -366,6 +370,10 @@ obj/items/crystal
 		if(monsterDmg) lines += "+[monsterDmg]% Damage"
 		if(monsterDef) lines += "+[monsterDef]% Defense"
 		if(MP) lines += "+[MP] MP"
+
+		if(passive)
+			lines += "+[passivePower]% [passive]"
+
 		if(power) lines += "+[power] Legendary Effect"
 
 		return jointext(lines, "\n")
@@ -373,20 +381,24 @@ obj/items/crystal
 	Clone()
 		var/obj/items/crystal/i = new type
 
-		i.owner      = owner
-		i.name       = name
-		i.icon_state = icon_state
-		i.ignoreItem = ignoreItem
-		i.luck       = luck
-		i.Dmg        = Dmg
-		i.Def        = Def
-		i.monsterDmg = monsterDmg
-		i.monsterDef = monsterDef
+		i.owner        = owner
+		i.name         = name
+		i.icon_state   = icon_state
+		i.ignoreItem   = ignoreItem
+		i.luck         = luck
+		i.Dmg          = Dmg
+		i.Def          = Def
+		i.monsterDmg   = monsterDmg
+		i.monsterDef   = monsterDef
+		i.power        = power
+		i.passivePower = passivePower
+		i.passive      = passive
 
 		return i
 
 	Compare(obj/items/crystal/i)
-		return i.name == name && i.type == type && i.owner == owner && i.icon_state == icon_state && i.ignoreItem == ignoreItem && i.luck == luck && i.Dmg == Dmg && i.Def == Def && i.monsterDmg == monsterDmg && i.monsterDef == monsterDef
+		return i.name == name && i.type == type && i.owner == owner && i.icon_state == icon_state &&\
+		       i.ignoreItem == ignoreItem && i.luck == luck && i.Dmg == Dmg && i.Def == Def && i.monsterDmg == monsterDmg && i.monsterDef == monsterDef
 
 	New(Loc, tier)
 		..(Loc)
