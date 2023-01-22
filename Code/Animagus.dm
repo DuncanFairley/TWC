@@ -46,7 +46,6 @@ turf
 			. = list()
 			for(var/turf/t in orange(1, src))
 				if(skip) continue
-				if(tag && t.tag) continue
 				if(!t.density)
 					. += t
 
@@ -197,7 +196,7 @@ mob/Player/proc
 		var/area/a = dest.loc
 		while(!(istype(a, /area/outside) || istype(a, /area/newareas/outside)) || dest.flyblock || dest.skip)
 			ny--
-			if(ny < 0) ny = 100
+			if(ny <= 0) ny = 100
 			dest = locate(nx, ny, nz)
 			a = dest.loc
 		return dest

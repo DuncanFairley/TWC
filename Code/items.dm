@@ -2129,6 +2129,7 @@ proc/displayKills(mob/Player/i_Player, count=0, countType=1)
 		var/obj/items/wearable/wands/w = i_Player.wand
 		while(w.display)
 			sleep(1)
+			if(!w) return
 
 		w.display = TRUE
 

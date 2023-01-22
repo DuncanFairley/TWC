@@ -1284,6 +1284,10 @@ mob
 					if(SWORD_THORN in target.passives)
 						onDamage(armor, target)
 
+				if(!target)
+					ShouldIBeActive()
+					return
+
 				if(dmg > 0)
 					dmg = target.onDamage(dmg, src)
 					if(target && dmg > 0)
