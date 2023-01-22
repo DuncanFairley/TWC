@@ -3557,6 +3557,11 @@ obj/items/ember_of_frost
 	icon_state = "frost"
 	rarity     = 3
 
+obj/items/scroll_of_knowledge
+	icon       = 'Scroll.dmi'
+	icon_state = "magic"
+	rarity     = 3
+
 
 obj/items/lamps
 	icon       = 'lamp.dmi'
