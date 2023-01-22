@@ -512,6 +512,31 @@ obj/items/crystal
 		ignoreItem = TRUE
 		rarity = 3
 		power = 5
+	aura_crystal
+		name         = "aura crystal +1"
+		icon_state   = "soul"
+		passive      = CRYSTAL_AURA
+		passivePower = 1
+		rarity       = 4
+	meteor_crystal
+		name         = "meteor crystal +1"
+		icon_state   = "soul"
+		passive      = CRYSTAL_METEOR
+		passivePower = 1
+		rarity       = 4
+	summon_crystal
+		name         = "summon crystal +1"
+		icon_state   = "soul"
+		passive      = CRYSTAL_SUMMON
+		passivePower = 1
+		rarity       = 4
+	arc_crystal
+		name         = "arc crystal +1"
+		icon_state   = "soul"
+		passive      = CRYSTAL_ARC
+		passivePower = 1
+		rarity       = 4
+
 
 
 obj/blacksmith
@@ -521,6 +546,8 @@ obj/blacksmith
 	mouse_opacity      = 2
 	layer              = 4
 	density            = 1
+
+	var/searchType = /obj/items/wearable/
 
 	proc/smith(obj/item/i, mob/Player/p)
 
@@ -533,13 +560,50 @@ obj/blacksmith
 			var/mob/Player/p = usr
 			p.dir = get_dir(p, src)
 
-			var/obj/items/wearable/i = locate() in locate(x, y-1, z)
+			var/obj/items/i = locate(searchType) in locate(x, y-1, z)
 
 			if(i)
 				smith(i, p)
 			else
 				p << errormsg(desc)
 
+	crystal_upgrade
+		searchType = /obj/items/crystal
+		desc = "Place a crystal to upgrade (1 scroll of knowledge)"
+
+		smith(obj/items/crystal/c, mob/Player/p)
+			if(!c.passive)
+				p << errormsg("You can't upgrade this crystal.")
+				return
+
+			if(checkPrice(p, 1, 1))
+
+				var/chance = 100 - c.passivePower*3
+				if(prob(chance))
+					c.passivePower++
+					c.name = "[splittext(c.name, " +")[1]] +[c.passivePower]"
+					p << infomsg("Success! [c.name]")
+				else
+					p << errormsg("Failure! Could not upgrade [c.name] (chance: [chance]%)")
+
+
+		checkPrice(mob/Player/p, price, consume=0)
+			. = 1
+			var/obj/items/scroll_of_knowledge/s = locate() in p
+
+			if(!s || s.stack < price)
+				p << errormsg("You need [price] scroll of knowledge to upgrade. You have [s ? s.stack : "0"].")
+				. = 0
+
+			if(. && consume)
+				s.Consume(price)
+
+				emit(loc    = src,
+					 ptype  = /obj/particle/magic,
+				     amount = 50,
+				     angle  = new /Random(1, 359),
+				     speed  = 2,
+				     life   = new /Random(15,25))
 
 	extract
 		desc = "Place an item to extract (5 artifacts per extracted item)"
