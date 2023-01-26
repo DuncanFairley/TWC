@@ -367,9 +367,13 @@ mob
 						g = data.guild
 					if(!g) g = "-"
 
-					if((istype(t.loc, /area/DEHQ) || istype(t.loc, /area/safezone/DEHQ)) && worldData.majorChaos != g)
+					var/area/a = t.loc
+
+					if((istype(a, /area/DEHQ) || istype(a, /area/safezone/DEHQ)) && worldData.majorChaos != g)
 						loc = locate("@Hogwarts")
-					else if((istype(t.loc, /area/AurorHQ) || istype(t.loc, /area/safezone/AurorHQ)) && worldData.majorPeace != g)
+					else if((istype(a, /area/AurorHQ) || istype(a, /area/safezone/AurorHQ)) && worldData.majorPeace != g)
+						loc = locate("@Hogwarts")
+					else if(a.timedArea)
 						loc = locate("@Hogwarts")
 					else
 						loc = t
