@@ -3924,7 +3924,9 @@ obj/portkey
 	Dispose()
 		if(Players)
 			for(var/mob/Player/p in Players)
-				p.Transfer(loc)
+				var/area/playerArea = p.loc.loc
+				if(playerArea.timedArea)
+					p.Transfer(loc)
 
 			Players = null
 

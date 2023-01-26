@@ -325,6 +325,7 @@ proc
 area
 	var
 		containsMonsters = 0
+		timedArea = 0
 		tmp
 			active = 0
 	outside
@@ -433,6 +434,7 @@ area
 					antiTeleport = TRUE
 				Cow
 					antiTeleport = TRUE
+					timedArea    = TRUE
 
 		Entered(atom/movable/O)
 			. = ..()
