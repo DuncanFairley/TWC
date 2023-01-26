@@ -536,6 +536,12 @@ obj/items/crystal
 		passive      = CRYSTAL_ARC
 		passivePower = 1
 		rarity       = 4
+	blood_crystal
+		name         = "blood crystal +1"
+		icon_state   = "damage"
+		passive      = CRYSTAL_BLOOD
+		passivePower = 1
+		rarity       = 4
 
 
 

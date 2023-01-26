@@ -2963,6 +2963,13 @@ mob/Enemies
 			p.Shield = min(p.Shield + leech, p.MHP*0.5)
 			p.updateHP()
 
+		if(CRYSTAL_BLOOD in p.passives)
+			var/obj/items/crystal/passive = p.passives[CRYSTAL_ARC]
+			var/leech = round(dmg * (passive.passivePower / 400), 1)
+
+			p.HP = min(p.HP + leech, p.MHP)
+			p.updateHP()
+
 		if(elem == COW)
 			dmg += element == EARTH ? round(dmg *0.25, 1) : round(dmg / 10, 1)
 		else if(element && elem)

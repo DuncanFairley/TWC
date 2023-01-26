@@ -235,6 +235,7 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
                                           /obj/items/crystal/meteor_crystal,
                                           /obj/items/crystal/summon_crystal,
                                           /obj/items/crystal/arc_crystal,
+                                          /obj/items/crystal/blood_crystal,
 										  /obj/items/artifact,
 										  /obj/items/wearable/title/Bookworm,
 										  /obj/items/crystal/soul,

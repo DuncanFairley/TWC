@@ -97,6 +97,7 @@
 #define CRYSTAL_METEOR "meteor damage"
 #define CRYSTAL_SUMMON "summon damage"
 #define CRYSTAL_ARC "arc damage"
+#define CRYSTAL_BLOOD "damage leeched as health"
 
 #define LEGENDARY 1
 #define CURSED 2
