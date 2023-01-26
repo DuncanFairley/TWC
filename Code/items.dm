@@ -5979,6 +5979,16 @@ obj/items/wearable/sword/thorn
 	suffix = "<span style=\"color:#ffa500;\">Reflects armor damage back.</span>"
 	passive = SWORD_THORN
 
+obj/items/wearable/sword/glass
+	icon='trophies.dmi'
+	icon_state="Sword"
+	name="glass sword"
+	desc="Big damage."
+	suffix = "<span style=\"color:#ffa500;\">Big damage.</span>"
+	monsterDef = -50
+	monsterDmg = 100
+
+
 obj/items/wearable/gm_robes
 	icon = 'trims.dmi'
 	dropable = 0
