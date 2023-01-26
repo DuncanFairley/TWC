@@ -3016,7 +3016,7 @@ mob
 			level = 850
 			MoveDelay = 3
 
-			HPmodifier = 6
+			HPmodifier = 4
 			DMGmodifier = 1
 
 			ChangeState(var/i_State)
@@ -3561,7 +3561,7 @@ mob
 			level = 900
 			MoveDelay = 3
 
-			HPmodifier = 6
+			HPmodifier = 4
 			DMGmodifier = 1.2
 
 			canBleed = FALSE
