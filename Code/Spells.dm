@@ -2972,7 +2972,7 @@ mob/Enemies
 			p.updateHP()
 
 		if(CRYSTAL_BLOOD in p.passives)
-			var/obj/items/crystal/passive = p.passives[CRYSTAL_ARC]
+			var/obj/items/crystal/passive = p.passives[CRYSTAL_BLOOD]
 			var/leech = round(dmg * (passive.passivePower / 400), 1)
 
 			p.HP = min(p.HP + leech, p.MHP)
