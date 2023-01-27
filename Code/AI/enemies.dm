@@ -502,7 +502,7 @@ mob
 		see_invisible = 1
 		var/active = 0
 		var/HPmodifier = 2
-		var/DMGmodifier = 0.7
+		var/DMGmodifier = 0.8
 		var/list/drops
 		var/tmp/turf/origloc
 		var/tmp/obj/healthbar/big/hpbar
@@ -970,6 +970,27 @@ mob
 
 
 		proc
+			getHardmodeHealth()
+
+				var/health = MHP * (1 + hardmode) + (200 * hardmode * HPmodifier)
+				if(HPmodifier < 2)
+					health *= 200 / (HPmodifier * 100)
+				if(hardmode > 5) health += 2000 + (2000 * hardmode)
+
+				return health
+
+			getHardmodeDamage(var/dmg)
+
+				if(DMGmodifier < 0.8)
+					var/perc = (DMGmodifier / 0.8) * 100
+					dmg *= 100 / perc
+				dmg = dmg * (1.1 + hardmode*0.5) + 100*hardmode
+
+				if(hardmode > 5)
+					dmg += 200 + 200*hardmode
+
+				return dmg
+
 			ChangeState(var/i_State)
 				set waitfor = 0
 
@@ -1016,10 +1037,7 @@ mob
 									if(10)
 										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#ff0000")
 
-								HP = MHP * (1 + hardmode) + (200 * hardmode * HPmodifier)
-								if(HPmodifier < 2)
-									HP *= 100 / (HPmodifier * 100)
-								if(hardmode > 5) HP += 2000 + (2000 * hardmode)
+								HP = getHardmodeHealth()
 
 						if(CONTROLLED)
 							target = null
@@ -1100,10 +1118,7 @@ mob
 									if(10)
 										filters = filter(type="drop_shadow", size=2, y=0, x=0, offset=2, color="#ff0000")
 
-								HP = MHP * (1 + hardmode) + (200 * hardmode * HPmodifier)
-								if(HPmodifier < 2)
-									HP *= 100 / (HPmodifier * 100)
-								if(hardmode > 5) HP += 2000 + (2000 * hardmode)
+								HP = getHardmodeHealth()
 
 						else
 							Ignore(M)
@@ -1259,13 +1274,7 @@ mob
 		//			dmg = dmg * 1.5 + 100
 
 				if(hardmode)
-					if(DMGmodifier < 0.7)
-						var/perc = (DMGmodifier / 0.7) * 100
-						dmg *= 100 / perc
-					dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
-
-					if(hardmode > 5)
-						dmg += 140*hardmode
+					dmg = getHardmodeDamage(dmg)
 
 				if(target.level < level)
 					dmg += dmg * ((1 + level - target.level)/200)
@@ -1355,7 +1364,6 @@ mob
 				AttackDelay = 5
 				Range = 20
 				HPmodifier = 4
-				DMGmodifier = 0.8
 				canBleed = FALSE
 				var/tmp/obj/Shadow/s
 
@@ -1866,7 +1874,6 @@ mob
 					name = "Vengeful Ghost"
 					icon = 'NPCs.dmi'
 					HPmodifier = 4
-					DMGmodifier = 0.8
 					layer = 5
 					MoveDelay = 2
 					AttackDelay = 3
@@ -2417,7 +2424,7 @@ mob
 					icon = 'Snowman.dmi'
 					name = "The Evil Snowman"
 					HPmodifier = 50
-					DMGmodifier = 0.8
+					DMGmodifier = 3
 					layer = 5
 					MoveDelay = 3
 					AttackDelay = 1
@@ -2625,7 +2632,6 @@ mob
 		Demon_Rat
 			icon_state = "rat"
 			level = 700
-			DMGmodifier = 0.8
 
 			Death(mob/Player/killer)
 				..()
@@ -2637,7 +2643,6 @@ mob
 		Training_Dummy
 			icon_state = "dummy"
 			level = 700
-			DMGmodifier = 0.8
 
 			Death(mob/Player/killer)
 				..()
@@ -2861,7 +2866,6 @@ mob
 			icon = 'Snowman.dmi'
 			level = 750
 			HPmodifier  = 3
-			DMGmodifier = 0.8
 			element = WATER
 
 			onDamage(dmg, mob/Player/p, elem = 0, projColor=null)
@@ -2869,10 +2873,7 @@ mob
 
 				if(HP > 0)
 
-					var/maxHP = MHP * (1 + hardmode) + (200 * hardmode * HPmodifier)
-					if(HPmodifier < 2)
-						maxHP *= 100 / (HPmodifier * 100)
-					if(hardmode > 5) maxHP += 2000 + (2000 * hardmode)
+					var/maxHP = getHardmodeHealth()
 
 					var/percent = clamp(HP / maxHP, 0.1, 1)
 					percent = 1 + (1 - percent)*2
@@ -3063,7 +3064,6 @@ mob
 			MoveDelay = 3
 
 			HPmodifier = 3.2
-			DMGmodifier = 0.8
 
 			respawnTime = 900
 
@@ -3106,7 +3106,7 @@ mob
 			icon = 'FemaleVampire.dmi'
 			level = 900
 			HPmodifier  = 4
-			DMGmodifier = 0.8
+			DMGmodifier = 1
 			MoveDelay   = 3
 			respawnTime = 900
 
@@ -3204,7 +3204,7 @@ mob
 			level = 850
 
 			HPmodifier  = 4
-			DMGmodifier = 0.8
+			DMGmodifier = 1
 			MoveDelay = 3
 			canBleed = FALSE
 			var/tmp/fired = 0
@@ -3224,14 +3224,7 @@ mob
 					var/dmg = Dmg + rand(-4,8)
 
 					if(hardmode)
-						dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
-
-						if(hardmode > 5)
-							dmg += 140*hardmode
-
-						if(DMGmodifier < 0.7)
-							var/perc = (DMGmodifier / 0.7) * 100
-							dmg *= 100 / perc
+						dmg = getHardmodeDamage(dmg)
 
 					dir=get_dir(src, target)
 					castproj(Type = /obj/projectile/BurnRoses, icon_state = "fireball", damage = dmg, name = "fire ball")
@@ -3284,7 +3277,7 @@ mob
 			icon_state = "eye1"
 			level = 900
 			HPmodifier  = 4
-			DMGmodifier = 0.8
+			DMGmodifier = 1
 			Range = 35
 			var
 				tmp/fired = 0
@@ -3364,14 +3357,7 @@ mob
 					var/dmg = round(Dmg*1.5) + rand(-4,8)
 
 					if(hardmode)
-						dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
-
-						if(hardmode > 5)
-							dmg += 140*hardmode
-
-						if(DMGmodifier < 0.7)
-							var/perc = (DMGmodifier / 0.7) * 100
-							dmg *= 100 / perc
+						dmg = getHardmodeDamage(dmg)
 
 					var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 					var/tmp_d = dir
@@ -3465,14 +3451,7 @@ mob
 					var/dmg = Dmg + rand(-4,8)
 
 					if(hardmode)
-						dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
-
-						if(hardmode > 5)
-							dmg += 140*hardmode
-
-						if(DMGmodifier < 0.7)
-							var/perc = (DMGmodifier / 0.7) * 100
-							dmg *= 100 / perc
+						dmg = getHardmodeDamage(dmg)
 
 					dir=get_dir(src, target)
 					castproj(Type = /obj/projectile/BurnRoses, icon_state = "fireball", damage = dmg, name = "fire ball")
@@ -3515,7 +3494,7 @@ mob
 			level = 850
 			canBleed = FALSE
 			HPmodifier  = 4
-			DMGmodifier = 0.8
+			DMGmodifier = 1
 			Range = 35
 
 			var/tmp/fired = 0
@@ -3535,14 +3514,7 @@ mob
 					var/dmg = Dmg + rand(-4,8)
 
 					if(hardmode)
-						dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
-
-						if(hardmode > 5)
-							dmg += 140*hardmode
-
-						if(DMGmodifier < 0.7)
-							var/perc = (DMGmodifier / 0.7) * 100
-							dmg *= 100 / perc
+						dmg = getHardmodeDamage(dmg)
 
 					dir=get_dir(src, target)
 					castproj(icon_state = "aqua", damage = dmg, name = "water droplet")
@@ -3620,14 +3592,7 @@ mob
 					var/dmg = Dmg + rand(-4,8)
 
 					if(hardmode)
-						dmg = dmg * (1.1 + hardmode*0.5) + 60*hardmode
-
-						if(hardmode > 5)
-							dmg += 140*hardmode
-
-						if(DMGmodifier < 0.7)
-							var/perc = (DMGmodifier / 0.7) * 100
-							dmg *= 100 / perc
+						dmg = getHardmodeDamage(dmg)
 
 					dir=get_dir(src, target)
 					castproj(icon_state = pick("fireball", "quake", "aqua", "iceball", "gum"), damage = dmg, name = "spell")
@@ -3647,8 +3612,8 @@ mob
 			name = "Cownomicon"
 			icon_state = "Cow"
 			level = 2600
-			HPmodifier = 45
-			DMGmodifier = 3
+			HPmodifier = 50
+			DMGmodifier = 5
 			MoveDelay = 3
 			AttackDelay = 1
 			Range = 24
@@ -4007,8 +3972,8 @@ obj/corpse
 area/var/undead = 0
 
 mob/Enemies/Summoned/Zombie
-	DMGmodifier = 0.8
-	HPmodifier  = 1
+	DMGmodifier = 1
+	HPmodifier  = 2
 	MoveDelay   = 2
 	AttackDelay = 5
 
@@ -4173,7 +4138,7 @@ obj/monster_portal
 
 			monster.alpha = 0
 			monster.DMGmodifier = 1
-			monster.HPmodifier  = 1.5
+			monster.HPmodifier  = 2.5
 			monster.MoveDelay   = 3
 			monster.AttackDelay = 3
 			monster.level       = 800
