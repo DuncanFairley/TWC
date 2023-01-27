@@ -752,6 +752,9 @@ obj
 					p << colormsg("<i>You found [prize.name]</i>", textColor)
 					p.pity = 0
 
+					if(p.pet)
+						p.pet.fetch(prize)
+
 				if(sparks)
 					emit(loc    = loc,
 					 	 ptype  = /obj/particle/star,
