@@ -2965,7 +2965,8 @@ mob/Enemies
 			dmg *= 1 - ((hardmode - 5) * 5 / 100)
 
 		if(elem == FIRE && (SWORD_FIRE in p.passives))
-			var/leech = round(dmg * 0.05, 1)
+			var/perc = 5 + (p.passives[SWORD_FIRE] - 1) / 2
+			var/leech = round(dmg * (perc / 100), 1)
 
 			p.Shield = min(p.Shield + leech, p.MHP*0.5)
 			p.updateHP()
