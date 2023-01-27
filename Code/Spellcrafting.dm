@@ -634,7 +634,7 @@ obj
 				density = 0
 				var/sparks = 0
 
-				var/rate        = 4 + p.dropRate/100
+				var/rate        = 3 + p.dropRate/100
 				var/rate_factor = worldData.DropRateModifier
 
 				if(p.House == worldData.housecupwinner)
@@ -643,11 +643,11 @@ obj
 				var/isChest = icon_state == "chest" || icon_state == "chest2" || icon_state == "gift"
 
 				if(isChest)
-					rate += 4 + (p.TreasureHunting.level*4)/100
+					rate += 3 + (p.TreasureHunting.level*3)/100
 
 					p.TreasureHunting.add((p.level + p.TreasureHunting.level + rand(12)) * 50, p, 1)
 				else if(icon_state == "spellcrafting")
-					rate += 4 + (p.Spellcrafting.level*4)/100
+					rate += 3 + (p.Spellcrafting.level*3)/100
 
 					p.Spellcrafting.add((p.level + p.Spellcrafting.level + rand(12)) * 50, p, 1)
 
