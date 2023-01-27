@@ -52,7 +52,7 @@
 #define RING_FAIRY "potions proc twice"
 #define RING_NINJA "babies ignore you"
 #define RING_NURSE "auto-cast Episkey"
-#define RING_11 1024
+#define RING_TUNGRAD "wand charge gain increased"
 #define RING_12 2048
 #define RING_13 4096
 #define RING_14 8192

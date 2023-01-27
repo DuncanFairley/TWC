@@ -5628,6 +5628,16 @@ obj/items/wearable/ring/thorn
 	monsterDmg = 2
 	Armor = 30
 
+obj/items/wearable/ring/tungrad
+	icon='ammy.dmi'
+	icon_state="snow"
+	name="tungrad ring"
+	desc="Your wand loves this ring."
+	suffix = "<span style=\"color:#ffa500;\">Your wand loves this ring.</span>"
+	passive = RING_TUNGRAD
+	monsterDef = 2
+	monsterDmg = 2
+
 obj/items/wearable/ring/cooling_shoes
 	icon='trophies.dmi'
 	icon_state="cooling shoes"

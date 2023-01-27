@@ -2640,7 +2640,12 @@ mob/Player
 		wandLock = 0
 
 	proc/wandPowerTick()
-		wandCharge = min(wandCharge + 1, 100)
+		var/gain = 1
+
+		if(RING_TUNGRAD in passives)
+			gain += (passives[RING_TUNGRAD] - 1) / 4
+
+		wandCharge = min(wandCharge + gain, 100)
 		wand.wandPower.setCharge(wandCharge)
 
 	proc/wandPower()
