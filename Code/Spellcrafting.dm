@@ -275,6 +275,8 @@ obj/items/wearable/spellbook
 			chains += target
 
 			var/targetType = element == HEAL ? /mob/Player : /mob/Enemies
+			if(!target)
+				target = locate(targetType) in oview(5, p)
 
 			for(var/c = 1 to count)
 				target = locate(targetType) in (oview(5, target) - chains)
