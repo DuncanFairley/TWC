@@ -2792,6 +2792,10 @@ mob/Player
 				spawn(4) o.loc = null
 
 				Move(t)
+
+				if(usedSpellbook && (usedSpellbook.flags & PAGE_ONDASH))
+					usedSpellbook.cast(src, attacker)
+
 			dir = get_dir(src, attacker)
 
 			return 0
