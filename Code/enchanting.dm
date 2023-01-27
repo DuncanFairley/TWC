@@ -511,7 +511,7 @@ obj/items/crystal
 		icon_state = "soul"
 		ignoreItem = TRUE
 		rarity = 3
-		power = 5
+		power = 10
 	aura_crystal
 		name         = "aura crystal +1"
 		icon_state   = "soul"
