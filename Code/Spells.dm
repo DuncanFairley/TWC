@@ -2961,6 +2961,9 @@ mob/Enemies
 		dmg += p.Slayer.level
 		dmg *= 1 + p.monsterDmg/100
 
+		if(hardmode > 5)
+			dmg *= 1 - ((hardmode - 5) * 5 / 100)
+
 		if(elem == FIRE && (SWORD_FIRE in p.passives))
 			var/leech = round(dmg * 0.05, 1)
 
