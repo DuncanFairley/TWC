@@ -732,8 +732,24 @@ obj
 					sparks = 1
 					var/obj/items/prize = pick(drops_list["legendary"])
 					prize = new prize (loc)
+
+					var/isLegendary = istype(prize, /obj/items/wearable) && prize:bonus == 0
+					var/textColor = "#FFA500"
+
+					if(isLegendary)
+						if(p.TreasureHunting > 50 && prob((p.TreasureHunting - 50) / 10))
+							prize:Upgrade(5 + rand(0, 5))
+							textColor = "#551a8b"
+
+						if(prob(1))
+							prize:bonus = 3
+							var/lvl = pick(1,2,3)
+							prize:quality = lvl
+							prize.name += " +[lvl]"
+							prize.UpdateDisplay()
+
 					prize.prizeDrop(p.ckey, decay=1)
-					p << colormsg("<i>You found [prize.name]</i>", "#FFA500")
+					p << colormsg("<i>You found [prize.name]</i>", textColor)
 					p.pity = 0
 
 				if(sparks)
