@@ -5786,10 +5786,9 @@ obj/items/wearable/shield/ninja
 	icon='trophies.dmi'
 	icon_state="Shield"
 	name="ninja's shield"
-	desc="Enables dodge. (25%)"
-	suffix = "<span style=\"color:#ffa500;\">Enables dodge. (25%)</span>"
+	desc="Enables dodge. (30%)"
+	suffix = "<span style=\"color:#ffa500;\">Enables dodge. (30%)</span>"
 	passive = SHIELD_NINJA
-	monsterDef = 5
 
 obj/items/wearable/shield/nurse
 	icon='trophies.dmi'
