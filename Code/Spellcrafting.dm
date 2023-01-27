@@ -148,6 +148,9 @@ obj/items/wearable/spellbook
 			if(flags & PAGE_DAMAGETAKEN)
 				name = "Defensive [name]"
 
+			if(flags & PAGE_ONDASH)
+				name = "Offensive [name]"
+
 			if(flags & PAGE_DMG2)
 				name = "Grand [name]"
 
@@ -164,8 +167,8 @@ obj/items/wearable/spellbook
 			p << errormsg("This spell book is incomplete.")
 			return
 
-		if((flags & PAGE_DAMAGETAKEN) && !attacker)
-			p << errormsg("You can't directly cast this spell, you have to be attacked.")
+		if((flags & PAGE_DAMAGETAKEN|PAGE_ONDASH) && !attacker)
+			p << errormsg("You can't directly cast this spell.")
 			return
 
 		if(world.time - lastUsed <= cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
@@ -175,11 +178,11 @@ obj/items/wearable/spellbook
 			return
 
 		if(spellType == SUMMON && p.summons >= 1 + p.extraLimit + round(p.Summoning.level / 10))
-			if(!(flags & PAGE_DAMAGETAKEN))
+			if(!(flags & PAGE_DAMAGETAKEN|PAGE_ONDASH))
 				p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		if(!canUse(p,needwand=1,inarena=0,insafezone=0,inhogwarts=1,mpreq=mpCost,projectile=1,silent=(flags & PAGE_DAMAGETAKEN)))
+		if(!canUse(p,needwand=1,inarena=0,insafezone=0,inhogwarts=1,mpreq=mpCost,projectile=1,silent=(flags & PAGE_DAMAGETAKEN|PAGE_ONDASH)))
 			return
 
 		p.MP-=mpCost
@@ -228,7 +231,7 @@ obj/items/wearable/spellbook
 		else if(spellType == SUMMON)
 
 			var/obj/summon/s
-			var/command = (flags & PAGE_DAMAGETAKEN) ? null : "Spellbook"
+			var/command = (flags & PAGE_DAMAGETAKEN|PAGE_ONDASH) ? null : "Spellbook"
 			switch(element)
 				if(FIRE)
 					s = new /obj/summon/fire (p.loc, p, command, 0.5)
@@ -516,6 +519,13 @@ obj/items/spellpage
 		name = "Spell Page: \[Cast On Damage Taken]"
 		flags = PAGE_DAMAGETAKEN
 		mpCost = 2.5
+	dash
+		name = "Spell Page: \[Cast On Dash]"
+		flags = PAGE_ONDASH
+		damage = 1.25
+		cd = 0.75
+		mpCost = 2
+		range = 1
 	damage1
 		name = "Spell Page: \[Strong]"
 		flags = PAGE_DMG1
@@ -669,6 +679,7 @@ obj
 									 /obj/items/spellpage/ghost,
 									 /obj/items/spellpage/earth,
 									 /obj/items/spellpage/heal,
+									 /obj/items/spellpage/dash,
 									 /obj/items/spellpage/damagetaken,
 									 /obj/items/spellpage/damage1,
 									 /obj/items/spellpage/damage2,

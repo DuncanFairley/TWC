@@ -294,6 +294,10 @@ mob
 						var/time = round((((abs(px) + abs(py)) / 32) * 0.5) / (dist / (4+added)))
 						time = max(1, time)
 
+						if(usedSpellbook && (usedSpellbook.flags & PAGE_ONDASH))
+							var/mob/Enemies/target = locate() in view(10, src)
+							if(target) usedSpellbook.cast(src, target)
+
 						if(o.stop)
 							Move(t)
 							dir = d

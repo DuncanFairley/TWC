@@ -142,6 +142,7 @@
 
 
 #define PAGE_DAMAGETAKEN 64
+#define PAGE_ONDASH 128
 
 #define PAGE_DMG1 4096
 #define PAGE_DMG2 8192
