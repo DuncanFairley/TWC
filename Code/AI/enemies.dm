@@ -3640,6 +3640,7 @@ mob
 
 				namefont.QuickName(src, "The [name]", "#eee", "#e00", top=1, py=16)
 
+				hpbar = new(src)
 
 				s = new (loc)
 				s.transform = matrix() * 3
