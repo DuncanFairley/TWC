@@ -167,7 +167,7 @@ obj/items/wearable/spellbook
 			p << errormsg("This spell book is incomplete.")
 			return
 
-		if((flags & PAGE_DAMAGETAKEN|PAGE_ONDASH) && !attacker)
+		if((flags & (PAGE_DAMAGETAKEN|PAGE_ONDASH)) && !attacker)
 			p << errormsg("You can't directly cast this spell.")
 			return
 
@@ -178,11 +178,11 @@ obj/items/wearable/spellbook
 			return
 
 		if(spellType == SUMMON && p.summons >= 1 + p.extraLimit + round(p.Summoning.level / 10))
-			if(!(flags & PAGE_DAMAGETAKEN|PAGE_ONDASH))
+			if(!(flags & (PAGE_DAMAGETAKEN|PAGE_ONDASH)))
 				p << errormsg("You need higher summoning level to summon more.")
 			return
 
-		if(!canUse(p,needwand=1,inarena=0,insafezone=0,inhogwarts=1,mpreq=mpCost,projectile=1,silent=(flags & PAGE_DAMAGETAKEN|PAGE_ONDASH)))
+		if(!canUse(p,needwand=1,inarena=0,insafezone=0,inhogwarts=1,mpreq=mpCost,projectile=1,silent=(flags & (PAGE_DAMAGETAKEN|PAGE_ONDASH))))
 			return
 
 		p.MP-=mpCost
@@ -231,7 +231,7 @@ obj/items/wearable/spellbook
 		else if(spellType == SUMMON)
 
 			var/obj/summon/s
-			var/command = (flags & PAGE_DAMAGETAKEN|PAGE_ONDASH) ? null : "Spellbook"
+			var/command = (flags & (PAGE_DAMAGETAKEN|PAGE_ONDASH)) ? null : "Spellbook"
 			switch(element)
 				if(FIRE)
 					s = new /obj/summon/fire (p.loc, p, command, 0.5)
