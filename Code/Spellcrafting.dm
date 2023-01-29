@@ -737,7 +737,7 @@ obj
 					var/textColor = "#FFA500"
 
 					if(isLegendary)
-						if(p.TreasureHunting > 50 && prob((p.TreasureHunting - 50) / 10))
+						if(p.TreasureHunting.level > 50 && prob((p.TreasureHunting.level - 50) / 10))
 							prize:Upgrade(5 + rand(0, 5))
 							textColor = "#551a8b"
 
