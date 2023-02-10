@@ -3909,11 +3909,12 @@ obj/portkey
 				if(timed == 2)
 
 					var/hudobj/Timer/t = locate() in M.client.screen
-					t.hide()
 
-					partner.timed.related -= t
-					if(partner.timed.related.len == 0)
-						partner.timed.related = null
+					if(t)
+						t.hide()
+						partner.timed.related -= t
+						if(partner.timed.related.len == 0)
+							partner.timed.related = null
 
 
 					partner.Players -= M

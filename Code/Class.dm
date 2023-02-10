@@ -596,15 +596,15 @@ mob/Player
 		if(learning && learning.name == name)
 			learning.uses -= use
 			if(learning.uses <= 0)
-				src << infomsg("You learned [learning.name]!")
+				spawn()
+					src << infomsg("You learned [learning.name]!")
 
-				var/spellpath = learning.path
-
-				var/obj/items/wearable/wands/practice_wand/wand = locate() in Lwearing
-				if(wand)
-					wand.Equip(src)
-					wand.Dispose()
-					verbs += spellpath
+					var/spellpath = learning.path
+					var/obj/items/wearable/wands/practice_wand/wand = locate() in Lwearing
+					if(wand)
+						wand.Equip(src)
+						wand.Dispose()
+						verbs += spellpath
 		else if(use == 1)
 			SpellUses[name]++
 			if(SpellUses[name] == 1)

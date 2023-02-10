@@ -150,8 +150,7 @@ mob/TalkNPC
 							dmg = dmg * 0.75 - target.Animagus.level
 
 						dmg = target.onDamage(dmg, src, 0)
-						target << "<span style='color:red'>[src] attacks you for [dmg] damage!</span>"
-						if(target.HP <= 0)
+						if(target && target.HP <= 0)
 							target.Death_Check(target)
 							target = null
 

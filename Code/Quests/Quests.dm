@@ -658,29 +658,30 @@ mob/Player
 			src << output("<b><u>[q.name]</u></b><br>", "Quests.outputQuests")
 			src << output("[q.desc]<br>", "Quests.outputQuests")
 
-			for(var/i = 1 to q.stages.len)
-				if(pointer.stage && pointer.stage < i) break
-				var/quest/stage = q.stages[i]
-				src << output("[stage.desc]<br>", "Quests.outputQuests")
+			if(pointer)
+				for(var/i = 1 to q.stages.len)
+					if(pointer.stage && pointer.stage < i) break
+					var/quest/stage = q.stages[i]
+					src << output("[stage.desc]<br>", "Quests.outputQuests")
 
-			if(pointer.time)
-				src << output("Completed on: <b>[time2text(pointer.time, "DD Month")]</b><br>", "Quests.outputQuests")
+				if(pointer.time)
+					src << output("Completed on: <b>[time2text(pointer.time, "DD Month")]</b><br>", "Quests.outputQuests")
 
-				if(q.repeat)
-					var/ticksUntil = q.repeat + world.realtime - pointer.time
+					if(q.repeat)
+						var/ticksUntil = q.repeat + world.realtime - pointer.time
 
-					if(ticksUntil <= 0)
-						src << output("<b>Available again.</b><br>")
-					else
-						var/seconds = round((ticksUntil) / 10)
-						var/minutes = round(seconds / 60)
-						seconds -= minutes * 60
-						var/hours = round(minutes / 60)
-						minutes -= hours * 60
-						var/days = round(hours / 24)
-						hours -= days * 24
+						if(ticksUntil <= 0)
+							src << output("<b>Available again.</b><br>")
+						else
+							var/seconds = round((ticksUntil) / 10)
+							var/minutes = round(seconds / 60)
+							seconds -= minutes * 60
+							var/hours = round(minutes / 60)
+							minutes -= hours * 60
+							var/days = round(hours / 24)
+							hours -= days * 24
 
-						src << output("Available again in: <b>\[[days] Days [hours]:[minutes]:[seconds]]</b><br>", "Quests.outputQuests")
+							src << output("Available again in: <b>\[[days] Days [hours]:[minutes]:[seconds]]</b><br>", "Quests.outputQuests")
 
 
 		startQuest(questName)
