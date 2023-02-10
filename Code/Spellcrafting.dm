@@ -287,6 +287,8 @@ obj/items/wearable/spellbook
 
 			start.X += (EAST & p.dir) ? 7 : -7
 
+			dmg *= 1 + (chains - 3) / 10
+
 			for(var/mob/e in chains)
 
 				var/vector/dest  = new (e.x * 32 + 16, e.y * 32 + 16)
