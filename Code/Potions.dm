@@ -601,6 +601,31 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/Heat
 		seconds    = 900
 
+	black_fire_potion
+		icon_state = "red"
+		effect     = /StatusEffect/Potions/LegendaryEffect { passives = list(SWORD_FIRE, RING_LAVAWALK, SWORD_THORN) }
+		seconds    = 900
+
+	confusing_concoction
+		icon_state = "green"
+		effect     = /StatusEffect/Potions/Confusion
+		seconds    = 30
+
+	draught_of_living_dead
+		icon_state = "gray"
+		effect     = /StatusEffect/Potions/FakeDead
+		seconds    = 30
+
+	pompion_potion
+		icon_state = "red"
+		effect     = /StatusEffect/Potions/Pumpkin
+		seconds    = 30
+
+	brain_elixir
+		icon_state = "purple"
+		effect     = /StatusEffect/Potions/LegendaryEffect { passives = list(RING_ALCHEMY, SHIELD_SPY, SWORD_ALCHEMY) }
+		seconds    = 900
+
 	health
 		icon_state = "red"
 		effect     = /StatusEffect/Potions/Health

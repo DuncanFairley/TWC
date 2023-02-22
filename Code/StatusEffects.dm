@@ -548,6 +548,87 @@ StatusEffect
 
 				..()
 
+		Confusion
+			Activate()
+				set waitfor = 0
+				var/mob/Player/p = AttachedAtom
+				..()
+
+				p << errormsg("You feel confused...")
+
+				var/matrix/m = p.Interface.mapplane.transform
+				m.Turn(90 * rand(-2, 2))
+				m.Scale(1.25,1.25)
+				p.client.screen += p.Interface.mapplane
+				animate(p.Interface.mapplane, transform = m, time = 10)
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					animate(p.Interface.mapplane, transform = null, time = 10)
+					sleep(11)
+					if(p) p.client.screen -= p.Interface.mapplane
+
+				..()
+
+		Pumpkin
+			var/tmp/image/i
+			Activate()
+				set waitfor = 0
+				var/mob/Player/p = AttachedAtom
+				..()
+				i = image('attacks.dmi',icon_state="melofors")
+				p.overlays += i
+				animate(p.client, color = "#FFA500", time = 20)
+
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p && i)
+					p.overlays -= i
+					animate(p.client, color = null, time = 20)
+				..()
+
+		FakeDead
+			Activate()
+				set waitfor = 0
+				var/mob/Player/p = AttachedAtom
+				..()
+				var/matrix/m = p.transform
+				m.Turn(90 * pick(1, -1))
+				animate(p, transform = m, time = 10, easing = pick(BOUNCE_EASING, BACK_EASING))
+
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					animate(p, transform = null, time = 10)
+				..()
+
+		LegendaryEffect
+			var/passives
+			Activate()
+				set waitfor = 0
+				var/mob/Player/p = AttachedAtom
+				..()
+
+				for(var/passive in passives)
+					if(!p.passives) p.passives = list()
+					p.passives[passive] += potion.quality
+
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+
+					for(var/passive in passives)
+
+						p.passives[passive] -= potion.quality
+						if(p.passives[passive] <= 0) p.passives -= passive
+						if(!p.passives.len) p.passives = null
+
+				..()
+
 		Rainbow
 			Activate()
 				set waitfor = 0
