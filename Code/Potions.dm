@@ -626,6 +626,11 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/LegendaryEffect { passives = list(RING_ALCHEMY, SHIELD_SPY, SWORD_ALCHEMY) }
 		seconds    = 900
 
+	edurus_potion
+		icon_state = "gray"
+		effect     = /StatusEffect/Potions/Armor
+		seconds    = 900
+
 	health
 		icon_state = "red"
 		effect     = /StatusEffect/Potions/Health

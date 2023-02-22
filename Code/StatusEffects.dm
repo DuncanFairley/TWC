@@ -788,6 +788,20 @@ StatusEffect
 
 				..()
 
+		Armor
+			Activate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.Armor += 400 + (potion.quality - 4) * 100
+
+				..()
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					p.Armor -= 400 + (potion.quality - 4) * 100
+
+				..()
 
 		Damage
 			Activate()
