@@ -3417,6 +3417,12 @@ obj/items/spellbook
 		spell = /mob/Spells/verb/Avada_Kedavra
 		g = 0.6
 
+	imperio
+		name = "Book of Tyranny"
+		icon_state = "de"
+		spell = /mob/Spells/verb/Imperio
+		r = 0.6
+
 	basilio
 		name = "Demonic's Journal"
 		icon_state = "slyth"

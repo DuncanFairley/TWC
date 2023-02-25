@@ -39,6 +39,9 @@ obj/summon
 	corpse
 		level = 200
 		scale = 1.8
+	imperio
+		level = 250
+		scale = 2
 	basilisk
 		level = 150
 		scale = 1.6

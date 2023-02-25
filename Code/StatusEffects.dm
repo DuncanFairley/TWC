@@ -371,7 +371,6 @@ StatusEffect
 						if(D.HP > D.MHP) D.HP = D.HP
 				..()*/
 	GotSpellpoint
-	Poisoned
 	SteppedOnPoop
 	Flying
 	Apparate
@@ -405,6 +404,7 @@ StatusEffect
 	UsedTelendevour
 	UsedOcclumency
 	UsedAvada
+	UsedImperio
 	Permoveo
 	UsedDisperse
 	SpellText
@@ -420,6 +420,29 @@ StatusEffect
 	SantaSpawned
 	WandPower
 
+	Crucio
+		Activate()
+			set waitfor = 0
+			..()
+			var/mob/m = AttachedAtom
+
+			var/c = "#663a82"
+			m.color = list(c, c, c)
+
+			if(ismonster(m))
+				m:damageMod += 0.3
+			else
+				m:monsterDef -= 30
+
+		Deactivate()
+			var/mob/m = AttachedAtom
+			if(m)
+				m.color = null
+
+				if(ismonster(m))
+					m:damageMod -= 0.3
+				else
+					m:monsterDef += 30
 	Lava
 		Activate()
 			set waitfor = 0

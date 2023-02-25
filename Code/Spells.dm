@@ -2223,35 +2223,24 @@ mob/Spells/verb/Wingardium_Leviosa()
 		wingobject=null
 		Wingardiumleviosa = null
 
-mob/Spells/verb/Imperio(mob/Player/other in oview())
-	set category="Spells"
-	if(!Imperio)
 
-		if(!other.Imperio)
-			usr.Wingardiumleviosa = 1
-			usr.wingobject=other
-			Imperio = 1
-			hearers(usr.client.view,usr)<<"<B>[usr.name]:<font color=red> Imperio!"
-			usr.client.eye=other
-			usr.client.perspective=EYE_PERSPECTIVE
-			spawn(600)
-				if(Imperio)
-					usr.wingobject=null
-					other.overlays=null
-					if(other.away)other.ApplyAFKOverlay()
-					usr.Wingardiumleviosa = null
-					usr<< "You release possession of the person you were controlling."
-					usr.client.eye=usr
-					usr.client.perspective=MOB_PERSPECTIVE
-		else
-			usr << errormsg("You can not control [other] because \his mind is elsewhere.")
-	else
-		Imperio = 0
-		usr.wingobject=null
-		usr.Wingardiumleviosa = null
-		usr<< "You release possession of the person you were controlling."
-		usr.client.eye=usr
-		usr.client.perspective=MOB_PERSPECTIVE
+
+mob/Spells/verb/Imperio()
+	set category="Spells"
+
+	var/mob/Player/p = src
+	var/mpCost = 400
+	var/spellName = "Imperio"
+
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
+	var/tier = round(log(10, uses)) - 1
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
+
+	if(canUse(src,cooldown=/StatusEffect/UsedImperio,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
+		new /StatusEffect/UsedImperio(src,15*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, spellName)
+		castproj(MPreq = mpCost, Type = /obj/projectile/Imperio, icon_state = "avada", name = spellName, lag = 1, cd=4)
+
+
 mob/Spells/verb/Portus()
 	set category="Spells"
 
@@ -2959,12 +2948,15 @@ mob/Enemies
 	var/tmp/dead = 0
 	var/element
 
+	var/damageMod = 1
+
 	proc/onDamage(dmg, mob/Player/p, elem = 0, projColor=null)
 
 		if(dead) return 0
 
 		dmg += p.Slayer.level
 		dmg *= 1 + p.monsterDmg/100
+		dmg *= damageMod
 
 		if(hardmode > 5)
 			dmg *= 1 - ((hardmode - 5) * 5 / 100)
@@ -3379,6 +3371,41 @@ obj
 						owner << infomsg("[p] soul wasn't weakened enough, you took [dmg] damage!")
 						owner:Death_Check(p)
 
+		Imperio
+			Effect(atom/movable/a)
+				set waitfor = 0
+
+				if(owner && ismonster(a))
+					var/mob/Enemies/e = a
+					var/mob/Player/p = owner
+
+					var/limit = 1 + p.extraLimit + round(p.Summoning.level / 10)
+
+					if(p.summons >= limit) return
+
+					var/obj/summon/imperio/s = new  (e.loc, p)
+					s.appearance = e.appearance
+					s.dir = e.dir
+
+					e.HP = 0
+					e.Death_Check(e)
+
+				else if(owner && owner.admin && isplayer(a))
+					var/mob/Player/e = a
+					var/mob/Player/p = owner
+
+					var/obj/summon/imperio/s = new  (e.loc, p)
+					s.appearance = e.appearance
+					s.dir = e.dir
+
+					e.nomove = 1
+					e.invisibility = 100
+					while(s.loc)
+						e.loc = s.loc
+						e.dir = s.dir
+						sleep(1)
+					e.nomove = 0
+					e.invisibility = 0
 
 
 
@@ -3838,7 +3865,6 @@ mob/GM/verb/Return_View()
 obj/var
 	wlable = 0
 
-mob/var/Imperio = 0
 mob/GM
 	var
 		controlobject

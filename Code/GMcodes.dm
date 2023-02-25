@@ -2185,7 +2185,6 @@ mob/Player/proc/removeStaff()
 
 	verbs -= typesof(/mob/GM/verb/)
 	verbs -= /mob/test/verb/Teach_Spells
-	verbs -= /mob/Spells/verb/Imperio
 	verbs -= /mob/Spells/verb/Ecliptica
 	verbs -= /mob/Spells/verb/Gravitate
 	verbs -= /mob/Spells/verb/Inferius_Maxima
