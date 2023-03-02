@@ -81,7 +81,7 @@ mob/GM/verb/EditVerbs(var/Zref as text, var/Verb as text, var/btnid as text)
 	else
 		world.log << "Error code 3ghLMV"
 
-var/allverbs = typesof(/mob/verb) | typesof(/mob/Spells/verb) | typesof(/mob/GM/verb) | typesof(/mob/test/verb) | typesof(/mob/Quidditch/verb)
+var/allverbs = typesof(/mob/verb) | typesof(/mob/Spells/verb) | typesof(/mob/GM/verb) | typesof(/mob/test/verb)
 client/verb/tabATChange()
 	set name = ".tabATChange"
 	if(!mob.admin)return

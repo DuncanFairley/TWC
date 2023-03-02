@@ -893,7 +893,6 @@ mob/Player
 			verbs+=typesof(/mob/GM/verb/)
 			verbs+=typesof(/mob/Spells/verb/)
 			verbs+=typesof(/mob/test/verb/)
-			verbs+=typesof(/mob/Quidditch/verb)
 			Gm=1
 			draganddrop=1
 			shortapparate=1

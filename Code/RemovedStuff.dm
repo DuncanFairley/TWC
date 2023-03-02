@@ -101,36 +101,9 @@ obj/Green_Mushroom
 		..()
 		spawn(1) loc = null
 
-mob/GM/verb
-	Change_Area()
-		set hidden = 1
-	Your_Job()
-		set hidden = 1
-	Hire_Reporter()
-		set hidden = 1
-	Fire_DPSM()
-		set hidden = 1
-	Hire_Editor()
-		set hidden = 1
-	New_Story()
-		set hidden = 1
-	Clear_Stories()
-		set hidden = 1
-	Draft()
-		set hidden = 1
-	Edit_DP()
-		set hidden = 1
-
-
-mob/Quidditch/verb
-	Add_Spectator()
-		set hidden = 1
-	Remove_Spectator()
-		set hidden = 1
 
 mob/verb/Convert()
 	set hidden = 1
-
 
 obj/Exit
 	New()
@@ -201,21 +174,6 @@ obj/items/wearable/pimp_ring
 		spawn(1)
 			new /obj/items/wearable/afk/pimp_ring (loc)
 			loc = null
-
-mob/GM
-	verb
-		Take_Sense()
-			set hidden = 1
-		Take_Scan()
-			set hidden = 1
-		Take_Crucio()
-			set hidden = 1
-		Take_Serpensortia()
-			set hidden = 1
-		Take_Dementia()
-			set hidden = 1
-		Teach_Immobulus()
-			set hidden = 1
 
 obj/items/weather/acid
 	New()
@@ -316,13 +274,6 @@ obj/items/questbook
 		spawn(1)
 			loc = null
 
-
-mob/GM/verb
-	Add_GM_To_List()
-		set hidden = 1
-	GM_List_Admin()
-		set hidden = 1
-
 mob
 	GM/verb
 		Auror_Robes()
@@ -336,6 +287,7 @@ mob
 			set hidden = 1
 		Clan_store()
 			set hidden = 1
+
 mob/test/verb/FloorColor(c as color)
 	set category = "Debug"
 	for(var/turf/t in world)
@@ -390,6 +342,7 @@ mob
 											  /mob/Spells/verb/Rictusempra,
 											  /mob/Spells/verb/Dementia,
 											  /mob/Spells/verb/Melofors,
+											  /mob/Spells/verb/Crucio,
 											  /mob/Spells/verb/Levicorpus,
 											  /mob/Spells/verb/Densuago,
 											  /mob/Spells/verb/Solidus,
@@ -429,15 +382,15 @@ mob
 					src << infomsg("[count] spells were refunded.")
 
 
-mob/Spells/verb/Furnunculus(mob/M in view()&Players)
+mob/Spells/verb/Furnunculus()
 	set hidden = 1
 mob/Spells/verb/Arania_Eximae()
 	set hidden = 1
 mob/Spells/verb/Solidus()
 	set hidden = 1
-mob/Spells/verb/Densuago(mob/M in view()&Players)
+mob/Spells/verb/Densuago()
 	set hidden = 1
-mob/Spells/verb/Levicorpus(mob/M in view()&Players)
+mob/Spells/verb/Levicorpus()
 	set hidden = 1
 mob/Spells/verb/Dementia()
 	set hidden = 1
@@ -452,47 +405,11 @@ mob/Spells/verb/Expecto_Patronum()
 mob/Spells/verb/Evanesco()
 	set hidden = 1
 
-mob/GM
-	verb
-		Teach_Crucio()
-			set hidden = 1
-		Teach_Arania_Eximae()
-			set hidden = 1
-		Teach_Rictusempra()
-			set hidden = 1
-		Teach_Melofors()
-			set hidden = 1
-		Teach_Densuago()
-			set hidden = 1
-		Teach_Dementia()
-			set hidden = 1
-		Teach_Conjunctivis()
-			set hidden = 1
-		Teach_Aero()
-			set hidden = 1
-		Teach_Solidus()
-			set hidden = 1
-		Teach_Furnunculus()
-			set hidden = 1
-		Teach_Levicorpus()
-			set hidden = 1
-		Teach_Expecto_Patronum()
-			set hidden = 1
-		Teach_Eparo_Evanesca()
-			set hidden = 1
-		Teach_Evanesco()
-			set hidden = 1
-
-		DayNight()
-			set hidden = 1
-		/*	set category = "Server"
-			return
-			for(var/area/outside/O in world)
-				spawn() O.daycycle()
-		Night()
-			set category = "Server"
-			for(var/area/outside/O in world)
-				spawn() O.nightcycle()*/
+mob/GM/verb
+	Teach_Eparo_Evanesca()
+		set hidden = 1
+	Teach_Evanesco()
+		set hidden = 1
 
 mob/verb/DisableBetaMapMode()
 	set hidden = 1
