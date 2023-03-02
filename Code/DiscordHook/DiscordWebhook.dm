@@ -12,7 +12,7 @@ mob/Player/proc/SendDiscord(var/message, var/dest)
 	else if(House == "Slytherin")
 		defaultIcon = "https://toppng.com/uploads/preview/slytherin-crest-slytherin-crest-clipart-harry-potter-slytherin-crest-11562871434vbfa2qke9n.png"
 	else if(House == "Hufflepuff")
-		defaultIcon = "https://www.kindpng.com/imgv/hJJJwmR_hufflepuff-crest-harry-potter-banner-harry-potter-hufflepuff/"
+		defaultIcon = "https://www.kindpng.com/picc/m/484-4841237_hufflepuff-crest-harry-potter-banner-harry-potter-hufflepuff.png"
 	else
 		defaultIcon = "https://www.kindpng.com/picc/m/19-198867_transparent-harry-potter-hogwarts-crest-hd-png-download.png"
 
