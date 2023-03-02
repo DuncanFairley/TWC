@@ -3423,6 +3423,12 @@ obj/items/spellbook
 		spell = /mob/Spells/verb/Imperio
 		r = 0.6
 
+	crucio
+		name = "ASAP: Agony Suffering Affliction Pain"
+		icon_state = "de"
+		spell = /mob/Spells/verb/Crucio
+		r = 0.6
+
 	basilio
 		name = "Demonic's Journal"
 		icon_state = "slyth"

@@ -389,7 +389,6 @@ mob
 											  /mob/Spells/verb/Expecto_Patronum,
 											  /mob/Spells/verb/Rictusempra,
 											  /mob/Spells/verb/Dementia,
-											  /mob/Spells/verb/Crucio,
 											  /mob/Spells/verb/Melofors,
 											  /mob/Spells/verb/Levicorpus,
 											  /mob/Spells/verb/Densuago,
@@ -439,8 +438,6 @@ mob/Spells/verb/Solidus()
 mob/Spells/verb/Densuago(mob/M in view()&Players)
 	set hidden = 1
 mob/Spells/verb/Levicorpus(mob/M in view()&Players)
-	set hidden = 1
-mob/Spells/verb/Crucio(mob/M in oview()&Players)
 	set hidden = 1
 mob/Spells/verb/Dementia()
 	set hidden = 1

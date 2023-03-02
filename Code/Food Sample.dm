@@ -8,7 +8,6 @@ mob/GM/verb/Grant_All_Spells(mob/M in Players)
 							/mob/Spells/verb/Expecto_Patronum,
 							/mob/Spells/verb/Rictusempra,
 							/mob/Spells/verb/Dementia,
-							/mob/Spells/verb/Crucio,
 							/mob/Spells/verb/Melofors,
 							/mob/Spells/verb/Levicorpus,
 							/mob/Spells/verb/Densuago,

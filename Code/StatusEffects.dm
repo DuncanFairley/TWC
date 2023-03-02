@@ -421,13 +421,15 @@ StatusEffect
 	WandPower
 
 	Crucio
+		var/filter
 		Activate()
 			set waitfor = 0
 			..()
 			var/mob/m = AttachedAtom
-
 			var/c = "#663a82"
-			m.color = list(c, c, c)
+
+			m.filters += filter(type="color", color=list(c, c, c))
+			filter = m.filters[m.filters.len]
 
 			if(ismonster(m))
 				m:damageMod += 0.3
@@ -437,7 +439,8 @@ StatusEffect
 		Deactivate()
 			var/mob/m = AttachedAtom
 			if(m)
-				m.color = null
+				m.filters -= filter
+				filter = null
 
 				if(ismonster(m))
 					m:damageMod -= 0.3

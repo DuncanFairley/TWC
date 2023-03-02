@@ -2240,6 +2240,20 @@ mob/Spells/verb/Imperio()
 		new /StatusEffect/UsedImperio(src,15*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, spellName)
 		castproj(MPreq = mpCost, Type = /obj/projectile/Imperio, icon_state = "avada", name = spellName, lag = 1, cd=4)
 
+mob/Spells/verb/Crucio()
+	set category="Spells"
+
+	var/mob/Player/p = src
+	var/mpCost = 400
+	var/spellName = "Crucio"
+
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
+	var/tier = round(log(10, uses)) - 1
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
+
+	if(canUse(src,cooldown=/StatusEffect/UsedImperio,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
+		castproj(MPreq = mpCost, Type = /obj/projectile/StatusEffect { effect = /StatusEffect/Crucio }, icon_state = "avada", name = spellName, lag = 1, cd=4)
+
 
 mob/Spells/verb/Portus()
 	set category="Spells"
@@ -3013,8 +3027,19 @@ mob/Enemies
 			if(p.wand && p.wand.test && prob(20))
 				p.wandPowerTick()
 
+			var/explode = (p && ((SWORD_EXPLODE in p.passives))) ? round(dmg*(0.74 + p.passives[SWORD_EXPLODE] / 100), 1) : 0
+
+			if(findStatusEffect(/StatusEffect/Crucio))
+				for(var/mob/Enemies/e in orange(3, src))
+					if(!e.findStatusEffect(/StatusEffect/Crucio)) new /StatusEffect/Crucio (e,15,"Crucio")
+
+				if(!explode && prob(30))
+					explode = round(dmg * 0.75, 1)
+
+			LStatusEffects = null
+
 			var/restoreBleed = FALSE
-			if(p && (SWORD_EXPLODE in p.passives))
+			if(p && explode)
 				if(canBleed)
 					canBleed = FALSE
 					restoreBleed = TRUE
@@ -3032,7 +3057,7 @@ mob/Enemies
 
 				var/obj/projectile/proj = new
 				proj.element = elem
-				proj.damage = round(dmg*(0.74 + p.passives[SWORD_EXPLODE] / 100), 1)
+				proj.damage = explode
 				proj.owner = p
 				proj.name = "[name]'s explosion"
 				proj.selfDamage = 0
@@ -3370,6 +3395,14 @@ obj
 						var/dmg = owner:onDamage(owner.MHP * 0.3, p, triggerSummons=0)
 						owner << infomsg("[p] soul wasn't weakened enough, you took [dmg] damage!")
 						owner:Death_Check(p)
+
+		StatusEffect
+			var/effect
+
+			Effect(atom/movable/a)
+
+				if(owner)
+					new effect (a,15,"Crucio")
 
 		Imperio
 			Effect(atom/movable/a)
