@@ -744,6 +744,8 @@ obj
 		icon       ='desk.dmi'
 		icon_state = "S1"
 		density    = 1
+		accioable  = 1
+		wlable     = 1
 	Book_Shelf
 		icon       ='Desk.dmi'
 		icon_state = "1"
