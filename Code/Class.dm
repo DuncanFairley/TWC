@@ -668,9 +668,9 @@ obj/startClass
 	var/subject
 
 	Click()
-		if(worldData.currentEvents)
-			usr << errormsg("You can't use this while an event is running.")
-			return
+//		if(worldData.currentEvents)
+//			usr << errormsg("You can't use this while an event is running.")
+//			return
 
 		var/ticks = worldData.classCooldown - (world.realtime - worldData.lastClass)
 		if(ticks > 0)
