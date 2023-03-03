@@ -3401,7 +3401,7 @@ obj
 
 			Effect(atom/movable/a)
 
-				if(owner)
+				if(owner && (ismonster(a) || isplayer(a)))
 					new effect (a,15,"Crucio")
 
 		Imperio
