@@ -137,6 +137,27 @@ quest
 			desc = "A book, you seem to understand it only if you hold it, copy the book."
 			reqs = list("Copy the book" = 1)
 
+	Puzzle4
+		name = "Dungeons of Secrets"
+		desc = "You found a hidden chamber in the dungeons, what secret does it hold?"
+		reward = /questReward/Crucio
+
+		Room1
+			desc = "A locked gate, perhaps there's a way to open it."
+			reqs = list("Unlock the gate" = 1)
+
+		Room2
+			desc = "Looks like a sewer, I hope there's no mice around here."
+			reqs = list("Get through the sewers" = 1)
+
+		Room3
+			desc = "What a strange room, the person in the mirror looks at you funny."
+			reqs = list("Find a way to move forward" = 1)
+
+		Reward
+			desc = "A strange book, you seem to understand it only if you hold it, copy the book."
+			reqs = list("Copy the strange book" = 1)
+
 	Animagus
 		name = "Amato Animo Animato Animagus"
 		desc = "You decided to start animagus training and placed a leaf of a mandrake in your mouth."
@@ -1072,6 +1093,9 @@ questReward
 	Levitate
 		exp   = 20000
 		items = /obj/items/wearable/brooms/levitate
+	Crucio
+		exp   = 20000
+		items = /obj/items/spellbook/crucio
 	PotionsBook
 		gold  = 2000
 		exp   = 2000
