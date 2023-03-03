@@ -3612,25 +3612,47 @@ obj
 		Transfiguration
 
 			Effect(atom/movable/a)
+				set waitfor = 0
+				if(src.owner)
+					if(isplayer(a))
+						var/mob/Player/p = a
+						owner << "Your [src] hit [a]!"
 
-				if(src.owner && isplayer(a))
-					var/mob/Player/p = a
-					owner << "Your [src] hit [a]!"
+						if(owner.CanTrans(p))
+							p.nofly()
 
-					if(owner.CanTrans(p))
-						p.nofly()
+							flick("transfigure", p)
+							p.trnsed = 1
+							p.overlays = null
+							if(p.away) p.ApplyAFKOverlay()
 
-						flick("transfigure", p)
-						p.trnsed = 1
-						p.overlays = null
-						if(p.away) p.ApplyAFKOverlay()
+							p.icon       = 'Transfiguration.dmi'
+							p.icon_state = name
 
-						p.icon       = 'Transfiguration.dmi'
-						p.icon_state = name
+							src.owner:learnSpell(name, 10)
+						else
+							src.owner:learnSpell(name, 5)
+					else if(isobj(a) && !istype(a, /obj/items))
+
+						var/tmpIcon  = a.icon
+						var/tmpState = a.icon_state
 
 						src.owner:learnSpell(name, 10)
-					else
-						src.owner:learnSpell(name, 5)
+
+						if(a.trnsed)
+							a.trnsed = 0
+							animate(a, icon = a.icon, icon_state = a.icon_state, time = 0, flags = ANIMATION_END_NOW)
+						else
+							a.trnsed = 1
+							animate(a, icon = 'Transfiguration.dmi', icon_state = name, time = 100)
+							animate(icon = tmpIcon, icon_state = tmpState, time = 0)
+
+							for(var/i = 1 to 100)
+								if(!a.trnsed) return
+								sleep(1)
+							a.trnsed = 0
+
+
 
 		Bind
 			var/max_time
@@ -3866,7 +3888,7 @@ mob/Player/var/tmp
 	muff
 	occlumens = 0
 
-mob/var/tmp/trnsed = 0
+atom/movable/var/tmp/trnsed = 0
 mob
 	mouse_drag_pointer = MOUSE_DRAG_POINTER
 
