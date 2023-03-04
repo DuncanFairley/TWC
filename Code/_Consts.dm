@@ -97,6 +97,7 @@
 #define CRYSTAL_METEOR "meteor damage"
 #define CRYSTAL_SUMMON "summon damage"
 #define CRYSTAL_ARC "arc damage"
+#define CRYSTAL_TORNADO "tornado damage"
 #define CRYSTAL_BLOOD "damage leeched as health"
 
 #define LEGENDARY 1
@@ -139,6 +140,7 @@
 #define SUMMON 8
 #define METEOR 16
 #define ARC 32
+#define TORNADO 64
 
 
 #define PAGE_DAMAGETAKEN 64

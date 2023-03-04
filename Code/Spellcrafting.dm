@@ -71,6 +71,8 @@ obj/items/wearable/spellbook
 						t = "Meteor"
 					if(ARC)
 						t = "Arc"
+					if(TORNADO)
+						t = "Tornado"
 
 				var/e
 
@@ -132,6 +134,8 @@ obj/items/wearable/spellbook
 				t = "Meteor"
 			if(ARC)
 				t = "Arc"
+			if(TORNADO)
+				t = "Tornado"
 
 		if(t == null && e == null)
 			name = "spellbook \[Incomplete]"
@@ -224,9 +228,9 @@ obj/items/wearable/spellbook
 
 		if(spellType == EXPLOSION)
 			for(var/d in DIRS_LIST)
-				p.castproj(icon_state = state, damage = dmg*0.75, name = name, cd = 0, lag = 1, element = element, Dir=d)
+				p.castproj(icon_state = state, damage = dmg*0.75, name = name, cd = 0, lag = 1, element = element, Dir=d, learn=0)
 		else if(spellType == PROJ)
-			p.castproj(icon_state = state, damage = dmg, name = name, cd = cd, element = element, Dir = attacker ? get_dir(p, attacker) : p.dir)
+			p.castproj(icon_state = state, damage = dmg, name = name, cd = cd, element = element, Dir = attacker ? get_dir(p, attacker) : p.dir, learn=0)
 			if(!attacker) p.lastAttack = "Spellbook"
 		else if(spellType == SUMMON)
 
@@ -261,6 +265,15 @@ obj/items/wearable/spellbook
 
 			var/obj/projectile/Meteor/m = new (attacker ? attacker.loc : p.loc, p, dmg*0.75, state, name, element)
 			m.range = range
+		else if(spellType == TORNADO)
+
+			if(p.passives && (CRYSTAL_TORNADO in p.passives))
+				var/obj/items/crystal/passive = p.passives[CRYSTAL_TORNADO]
+				dmg *= 1 + (passive.passivePower / 100)
+
+			p.castproj(Type = /obj/projectile/NoImpact/Dir/Tornado, name = "[state] tornado", icon_state = state, damage = dmg, element = element, Dir = attacker ? get_dir(p, attacker) : p.dir, cd = cd, lag = 3, learn=0)
+			if(!attacker) p.lastAttack = "Spellbook"
+
 		else if(spellType == ARC)
 
 			if(p.passives && (CRYSTAL_ARC in p.passives))
@@ -342,8 +355,6 @@ obj/items/wearable/spellbook
 				ma.icon = 'attacks.dmi'
 				ma.icon_state = state
 
-				var/list/images = list()
-
 				var/c
 				if(p.holster && p.holster.selectedColors)
 					c = pick(p.holster.selectedColors)
@@ -353,6 +364,9 @@ obj/items/wearable/spellbook
 				var/list/layers = list()
 
 				for(var/i = 1 to range)
+
+					var/list/images = list()
+
 					for(var/d = 0 to 359 step (90 / i))
 						var/matrix/m = matrix()
 						m.Translate(24 * i, 0)
@@ -500,6 +514,14 @@ obj/items/spellpage
 		damage = 2
 		range = 4
 		desc = "Spell arc, chains from target to target."
+	tornado
+		name = "Spell Page: \[Tornado]"
+		spellType = TORNADO
+		cd = 40
+		mpCost = 100
+		damage = 2
+		range = 2
+		desc = "Tornado projectile."
 	fire
 		name = "Spell Page: \[Fire]"
 		element = FIRE
@@ -678,6 +700,7 @@ obj
 									 /obj/items/spellpage/summon,
 									 /obj/items/spellpage/meteor,
 									 /obj/items/spellpage/arc,
+									 /obj/items/spellpage/tornado,
 									 /obj/items/spellpage/fire,
 									 /obj/items/spellpage/water,
 									 /obj/items/spellpage/ghost,

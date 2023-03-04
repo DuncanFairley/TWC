@@ -2455,7 +2455,7 @@ mob/var/tmp
 	lastproj = 0
 	lastHostile = 0
 mob
-	proc/castproj(Type = /obj/projectile, MPreq = 0, icon = 'attacks.dmi', icon_state = "", damage = 0, name = "projectile", cd = 2, lag = 2, element = 0, Loc = loc, Dir = dir)
+	proc/castproj(Type = /obj/projectile, MPreq = 0, icon = 'attacks.dmi', icon_state = "", damage = 0, name = "projectile", cd = 2, lag = 2, element = 0, Loc = loc, Dir = dir, learn=1)
 		if(cd && (world.time - lastproj) < cd && !inOldArena()) return
 		if(!loc) return
 		lastproj = world.time
@@ -2506,7 +2506,7 @@ mob
 				P.element = pick(GHOST,FIRE,WATER,EARTH)
 
 			if(p.wand)
-				if(cd != 0 && lag != 0) p.learnSpell(name)
+				if(cd != 0 && lag != 0 && learn) p.learnSpell(name)
 
 
 				if(!P.color)
@@ -3728,6 +3728,60 @@ obj
 			selfDamage = 0
 
 			Dir
+
+				Tornado
+					New(loc,dir,mob/mob,icon,icon_state,damage,name,element)
+						set waitfor = 0
+						..(loc,dir,mob,icon,icon_state,damage,name,element)
+
+						var/mutable_appearance/ma = new
+
+						ma.icon = icon
+						ma.icon_state = icon_state
+
+						var/list/layers = list()
+						var/range = 4
+
+						for(var/i = 1 to range)
+
+							var/list/images = list()
+							for(var/d = 0 to 359 step (52 + (range - i) * 2))
+								var/matrix/m = matrix()
+								m.Translate(28 - (range - i) * 4, 0)
+						//		m.Translate(24, 0)
+								ma.transform = turn(m, d)
+
+								images += ma.appearance
+
+							var/obj/o = new
+							o.overlays = images
+							o.layer = 5
+
+							o.pixel_y = 16 * (i - 1)
+
+							layers += o
+
+							var/matrix/m = matrix()
+							m.Turn(90)
+							animate(o, transform = m, time = 10, loop = -1)
+							m.Turn(90)
+							animate(transform = m, time = 10)
+							m.Turn(90)
+							animate(transform = m, time = 10)
+							animate(transform = null, time = 10)
+
+						vis_contents += layers
+
+						while(loc)
+							for(var/mob/Enemies/e in orange(1, src))
+								e.onDamage(damage*0.9, mob, elem=element)
+							sleep(5)
+
+					Dispose()
+						..()
+						vis_contents = null
+
+
 				Effect(atom/movable/a)
 					if(owner && (isplayer(a) || istype(a, /mob/Enemies)))
 						dir = pick(list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST) - dir)
