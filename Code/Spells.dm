@@ -3021,6 +3021,9 @@ mob/Enemies
 				target = p
 				ChangeState(HOSTILE)
 
+			if(elem == WATER && (RING_LAVAWALK in p.passives) && !findStatusEffect(/StatusEffect/Slow))
+				new /StatusEffect/Slow (src,5)
+
 		else
 			dead = 1
 

@@ -524,6 +524,7 @@ mob
 					ignore
 					damage
 				hardmode = 0
+				slow = 0
 
 				revenge
 
@@ -1043,6 +1044,7 @@ mob
 							target = null
 							lag = 12
 
+					lag += slow
 					glide_size = 32/lag
 
 					state()
@@ -1314,7 +1316,7 @@ mob
 				var/py = round(-6 * sin(angle), 1)
 				pixel_x += px
 				pixel_y += py
-				sleep(AttackDelay)
+				sleep(AttackDelay+slow)
 				pixel_x -= px
 				pixel_y -= py
 
