@@ -2976,11 +2976,11 @@
 "bfl" = (/obj/squirrel,/turf/road{icon_state = "stonefloor2"},/area/outside/Hogwarts)
 "bfm" = (/turf/stonefloor{tag = "Hogwarts To Pixie Pit"},/area/newareas/inside/Pixie_Pit)
 "bfn" = (/obj/static_obj/Hogwarts_Stone_Arch,/obj/teleport{dest = "flame blacksmith"; tag = "null"},/turf/Black_Tile,/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = null; respawnPoint = "rorTrainingSpawn"})
-"bfo" = (/obj/Desk{icon = 'Icons/environment/walls/fence.dmi'; icon_state = "3"},/turf/Black_Tile,/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = null; respawnPoint = "rorTrainingSpawn"})
-"bfp" = (/obj/Desk{icon = 'Icons/environment/walls/fence.dmi'; icon_state = "11"},/turf/Black_Tile,/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = null; respawnPoint = "rorTrainingSpawn"})
-"bfq" = (/obj/static_obj/Hole,/obj/questStepTrigger{args = "Get through the sewers"; questName = "Dungeons of Secrets"},/turf/roofb,/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = "#0a0a0a"})
+"bfo" = (/obj/Desk{icon = 'fence.dmi'; icon_state = "3"},/turf/Black_Tile,/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = null; respawnPoint = "rorTrainingSpawn"})
+"bfp" = (/obj/Desk{icon = 'fence.dmi'; icon_state = "11"},/turf/Black_Tile,/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = null; respawnPoint = "rorTrainingSpawn"})
+"bfq" = (/obj/questStepTrigger{args = "Get through the sewers"; questName = "Dungeons of Secrets"},/turf/Hogwarts_Stone_Wall{hole = 1; icon = 'StoneRoof.dmi'; icon_state = "roof-15"; layer = 5; name = "roofb"; opacity = 1},/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = "#0a0a0a"})
 "bfr" = (/obj/static_obj/Book_Shelf1{density = 0; layer = 7; pixel_y = -7},/turf/Hogwarts_Stone_Wall,/area/hogwarts/West_Wing)
-"bfs" = (/obj/Desk{icon = 'Icons/environment/walls/fence.dmi'; icon_state = "9"},/turf/Black_Tile,/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = null; respawnPoint = "rorTrainingSpawn"})
+"bfs" = (/obj/Desk{icon = 'fence.dmi'; icon_state = "9"},/turf/Black_Tile,/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = null; respawnPoint = "rorTrainingSpawn"})
 "bft" = (/obj/static_obj/tablemid3,/obj/shopStand{artifactPrice = 0; goldPrice = 1000; icon = 'Icons/environment/obj/potions/potions_ingredients.dmi'; icon_state = "seeds"; item = /obj/items/seeds/grumpy_hogweed_seeds; name = "Grumpy Hogweed Seeds"; pixel_x = 0; pixel_y = 0},/turf/woodenfloor,/area/hogwarts/Greenhouse)
 "bfu" = (/obj/static_obj/tablemid3,/obj/shopStand{artifactPrice = 0; goldPrice = 1000; icon = 'Icons/environment/obj/potions/potions_ingredients.dmi'; icon_state = "seeds"; item = /obj/items/seeds/magicflow_seeds; name = "Magicflow Seeds"; pixel_x = 0; pixel_y = 0},/turf/woodenfloor,/area/hogwarts/Greenhouse)
 "bfv" = (/obj/static_obj/tablemid3,/obj/shopStand{artifactPrice = 0; goldPrice = 1000; icon = 'Icons/environment/obj/potions/potions_ingredients.dmi'; icon_state = "seeds"; item = /obj/items/seeds/firebreath_seeds; name = "Firebreath Seeds"; pixel_x = 0; pixel_y = 0},/turf/woodenfloor,/area/hogwarts/Greenhouse)
@@ -3258,7 +3258,7 @@
 "bkH" = (/obj/static_obj/art/Art,/turf/Hogwarts_Stone_Wall,/area/Diagon_Alley/HogsmeadeSafeZone)
 "bkI" = (/obj/static_obj/NeptuneBottom{name = "Window"; icon = 'house.dmi'; icon_state = "RedWindow-Top"},/turf/Hogwarts_Stone_Wall,/area/Diagon_Alley/HogsmeadeSafeZone)
 "bkJ" = (/turf/Hogwarts_Stone_Wall,/area)
-"bkK" = (/obj/static_obj/Torch_{pixel_y = 21},/turf/woodenfloorblack{tag = "CrucioPuzzleRespawn"},/area/hogwarts/Animagus)
+"bkK" = (/obj/static_obj/Torch_{pixel_y = 21},/turf/woodenfloorblack,/area/hogwarts/Animagus)
 "bkL" = (/obj/Trashcan,/turf/blackfloor,/area/Diagon_Alley)
 "bkM" = (/obj/Hogwarts_Door/roofb,/turf/floor,/area/hogwarts{antiApparate = 1; antiFly = 1; antiTeleport = 1; planeColor = "#0a0a0a"})
 "bkN" = (/obj/static_obj/WTable,/obj/shopStand{artifactPrice = 50; goldPrice = 2e+007; icon = 'Mobs.dmi'; icon_state = "lantern"; item = /obj/items/wearable/pets/lantern; name = "Scroll"; pixel_x = 1; pixel_y = 0},/turf/woodenfloor,/area/Diagon_Alley)
@@ -3303,12 +3303,12 @@
 "blA" = (/turf/grass,/turf/water,/area/newareas/inside/Dungeon/Cow)
 "blB" = (/obj/static_obj/Pink_Flowers{density = 1; icon = 'Plants.dmi'; icon_state = "Bush Top Left"; layer = 5; name = "Bush"},/turf/grass,/area)
 "blC" = (/obj/static_obj/Pink_Flowers{density = 1; icon = 'Plants.dmi'; icon_state = "Bush Top Right"; layer = 5; name = "Bush"},/turf/grass,/area)
-"blD" = (/obj/animagus{icon = 'Transfiguration.dmi'; icon_state = "black grey snake"; name = "black grey snake"},/turf/woodenfloorblack{tag = "CrucioPuzzleRespawn"},/area/hogwarts/Animagus)
+"blD" = (/obj/animagus{icon = 'Transfiguration.dmi'; icon_state = "black grey snake"; name = "black grey snake"},/turf/woodenfloorblack,/area/hogwarts/Animagus)
 "blE" = (/obj/static_obj/Pink_Flowers{name = "Bush"; icon = 'Plants.dmi'; icon_state = "Bush Bottom Left"},/turf/grass,/area/newareas/inside/Dungeon/Cow)
 "blF" = (/obj/static_obj/Pink_Flowers{name = "Bush"; icon = 'Plants.dmi'; icon_state = "Bush Bottom Right"},/turf/grass,/area/newareas/inside/Dungeon/Cow)
 "blG" = (/obj/static_obj/Pink_Flowers{name = "Bush"; icon = 'Plants.dmi'; icon_state = "Bush Bottom Left"},/turf/grass,/area)
 "blH" = (/obj/static_obj/Pink_Flowers{density = 0; icon = 'Plants.dmi'; icon_state = "Bush Bottom Right"; name = "Bush"},/turf/grass,/area)
-"blI" = (/turf/woodenfloorblack{tag = "CrucioPuzzleRespawn"},/area/hogwarts/Animagus)
+"blI" = (/turf/woodenfloorblack,/area/hogwarts/Animagus)
 "blJ" = (/obj/tree,/turf/grass,/area)
 "blK" = (/obj/tree,/turf/grass,/area/newareas/inside/Dungeon/Cow)
 "blL" = (/turf/grass,/turf/dirt_north,/area/newareas/inside/Dungeon/Cow)
@@ -4472,10 +4472,10 @@ bbCaVkbbCaVkaVkaVkaVkaVkaVkaVkbbCaVkaVkaVkaVkbbCaVkaVkaVkaVkbbCbbCaVkbbCaaPbkqbk
 bbCaVkbbCbbCbbCbbCaVkbbCbbCbbCbbCaVkbbCbbCbbCbbCaVkbbCbbCbbCbbCbbCaVkbbCbbCbkqbkqbkqbkrbkqbkqbkqaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaETaETaETaETaETaETaETaETaETaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaETaETaETaETaETaETaETaETaETaETaETaaPaETaETaETaETaETaETaETaETaETaETaETaaPaETaETaETaaPaaaaaa
 bbCaVkaVkaVkaVkbbCaVkbbCbbCaVkbbCaVkaVkaVkaVkaVkaVkaVkaVkaVkaVkaVkaVkaVkbfqbkqbkqbkubkvbkwbkqbkqaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaETaETaETaETaETaETaETaETaKMaaPaaaaaaaaaaaaaaaaaaaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaPEaaPaaPaaPaaPaaPaaPaaPaKCaaPaaPaaaaaa
 bbCaVkbbCbbCbbCbbCaVkbbCaVkaVkaVkaVkbbCbbCbbCbbCbbCbbCbbCbbCbbCbbCbbCbbCbbCbgqbkqbkqbkybkqbkqbgqaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaETaETaETaETaETaETaETaETaETaaPaaaaaaaaaaaaaaaaaaaaPbkJanYbkJbkJbkJanYbkJbkJbkJanYbkJbkJbkJanYbkJbkJbkJanYbkJaaPbkJaRPbkJaaPbkJbkJbkJaaPbkJbejbkJaaPaaaaaa
-bbCbbCbbCaTLaTLbbCbkzbbCbbCbbCbbCbbCbbCbkAbkAbkAbkAbkRbkAbkAbkAbkAaaPaaPaaPaaPaaPaaaaaPaaPaaPaaPaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaETaETaETaETaETaETaETaETaETaaPaaaaaaaaaaaaaaaaaaaaPbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJaaPbkJaRPbkJaaPbkJbkJbkJaaPbkJbekbkJaaPaaaaaa
+bbCbbCbbCaTLaTLbbCbkzbbCbbCbbCbbCbbCbbCbkAbkAbkAbkAbkRbkAbkAbkAbkAaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaETaETaETaETaETaETaETaETaETaaPaaaaaaaaaaaaaaaaaaaaPbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJaaPbkJaRPbkJaaPbkJbkJbkJaaPbkJbekbkJaaPaaaaaa
 aaPaaPaaPaaPaaPaaPbbdaaPaaPaaPaaPaaPaaPbkRbkRbkSbkRbkRbkRbkSbkRbkRaaPbkJbkJbkJaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaaPaSwaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaSBaSBaSEaSEaSBaSEaSBaSBaSBaSBaSBaSEaSBaSBaSBaSBaSBaSBaSBaaPaETaETaETaaPbbibaFbbiaaPaETaETaETaaPaaaaaa
 bkJbkJbkJaaPbkJbkJbktbkJbkJbkJbkJbkJaaPbkTbkVbkTbkVbkWbkTbkVbkTbkVaaPbkJbkJbkJaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbkJaRPbkJanYbkJbkJbkJanYbkJbkJbkJanYbkJbkJbkJanYbkJaSBaSEaSBaSBaSEaSBaSEaSEaSBaSEaSEaSEaSBaSEaSEaSEaSEaSEaSBaaPaVUaVUaVUaaPbbhbbhbbhaKCaETaEYaETaaPaaaaaa
-bkJbkJbkJaaPbkJbkJbkDbkJbkJbkJbkJbkJaaPblbblcblbblcbkEblbblcblbblcaaPbkKblDbkKaaPaaaaaaaaaaaPaaPaaPaaPaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbkJaXZbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJaSBaSEaSEaSEaSBaSEaSBaSBaSEaSBaSBaSBaSBaSBaSBaSEaSBaSBaSBaaPaVUaVUaVUaaPbbhbbhbbhaaPaETaETaETaaPaaaaaa
+bkJbkJbkJaaPbkJbkJbkDbkJbkJbkJbkJbkJaaPblbblcblbblcbkEblbblcblbblcaaPbkKblDbkKaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbkJaXZbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJaSBaSEaSEaSEaSBaSEaSBaSBaSEaSBaSBaSBaSBaSBaSBaSEaSBaSBaSBaaPaVUaVUaVUaaPbbhbbhbbhaaPaETaETaETaaPaaaaaa
 aSubllaKpaaPbkzbkzbkzbkzbkCaSubkFbllaaPbkqbkqbkqbkqbkqbkqbkqbkqbkqaaPblIblIblIaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaETaETaETaXXaXXaXXaETaETaSEaSEaSBaSBaSBaSBaSEaSBaSEaSBaSBaSBaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaveaXYaXYaaPaVUaVUaVUaaPaaPaaPaaPaaPaaPaaPaaPaaPaaaaaa
 aSuaSuaSuaaPbkzbkzbkzbkzbkCaSubkFaSuaaPbkqbkqbkqbkqbkqbkqbkqbkqbkqbtqblIblIblIaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaETaETaETaXXaXXaXXaETaETaSBaSBaSBaSEaSEaSEaSBaSEaSBaSBaSEaSEbkJbkJanYbkJbkJbkJanYbkJbkJbkJanYbkJbkJaveaveaveaaPaETaETaETaaPaaPaaaaaaaaaaaaaaaaaaaaaaaaaaa
 bkBbkBbkBaaPbkzbkzbkzbkzbkCaSubkFaSvaaPbkqbkqbkqbkqbkqbkqbkqbkqblnaaPaaPaaPaaPaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaETaETaETaXXaXXaXXaETaETaSEaSEaSBaSEaSBaSBaSEaSBaSEaSEaSEaSBbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJaveaXYaXYaaPaaPbaCaaPaaPaaPaaaaaaaaaaaaaaaaaaaaaaaaaaa
