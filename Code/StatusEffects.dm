@@ -423,7 +423,6 @@ StatusEffect
 	Slow
 		var/filter
 		Activate()
-			set waitfor = 0
 			..()
 			var/mob/Enemies/e = AttachedAtom
 			var/c = "#acd5f3"
@@ -432,7 +431,7 @@ StatusEffect
 			filter = e.filters[e.filters.len]
 
 			e.slow+=3
-			e.lag+=e.slow
+			e.lag+=3
 			e.glide_size = 32/e.lag
 
 		Deactivate()
@@ -442,13 +441,13 @@ StatusEffect
 				filter = null
 
 				e.slow-=3
-				e.lag-=e.slow
+				e.lag-=3
 				e.glide_size = 32/e.lag
+			..()
 
 	Crucio
 		var/filter
 		Activate()
-			set waitfor = 0
 			..()
 			var/mob/m = AttachedAtom
 			var/c = "#663a82"
@@ -471,6 +470,7 @@ StatusEffect
 					m:damageMod -= 0.3
 				else
 					m:monsterDef += 30
+			..()
 	Lava
 		Activate()
 			set waitfor = 0

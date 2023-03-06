@@ -3034,7 +3034,7 @@ mob/Enemies
 
 			if(findStatusEffect(/StatusEffect/Crucio))
 				for(var/mob/Enemies/e in orange(3, src))
-					if(!e.findStatusEffect(/StatusEffect/Crucio)) new /StatusEffect/Crucio (e,15,"Crucio")
+					if(!e.findStatusEffect(/StatusEffect/Crucio)) new /StatusEffect/Crucio (e,15)
 
 				if(!explode && prob(30))
 					explode = round(dmg * 0.75, 1)
@@ -3404,8 +3404,11 @@ obj
 
 			Effect(atom/movable/a)
 
-				if(owner && (ismonster(a) || isplayer(a)))
-					new effect (a,15,"Crucio")
+				if(owner)
+					if(ismonster(a))
+						new effect (a,15)
+					else if(isplayer(a))
+						new effect (a,15,"Crucio")
 
 		Imperio
 			Effect(atom/movable/a)
@@ -3651,7 +3654,7 @@ obj
 							animate(icon = tmpIcon, icon_state = tmpState, time = 0)
 
 							for(var/i = 1 to 100)
-								if(!a.trnsed) return
+								if(!a || !a.trnsed) return
 								sleep(1)
 							a.trnsed = 0
 
@@ -3776,7 +3779,7 @@ obj
 						vis_contents += layers
 
 						while(loc)
-							for(var/mob/Enemies/e in orange(1, src))
+							for(var/mob/Enemies/e in range(1, src))
 								e.onDamage(damage*0.9, mob, elem=element)
 							sleep(5)
 
