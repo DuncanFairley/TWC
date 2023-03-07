@@ -1,5 +1,6 @@
 
 mob/Player/proc/SendDiscord(var/message, var/dest)
+	return
 	if(!dest) dest = discord_ooc_hook
 	if(!dest) return
 
@@ -42,6 +43,8 @@ var/list/discordMessageQueue = list()
 
 proc/pollForDiscord()
 	set waitfor = 0
+
+	return
 
 	var/id = -1
 	while(reportDiscordWho != -1)
