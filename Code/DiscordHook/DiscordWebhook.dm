@@ -55,7 +55,7 @@ proc/pollForDiscord()
 			var/list/headers = list("Content-Type" = "application/json")
 
 			try
-				rustg_http_request_async(RUSTG_HTTP_METHOD_POST, dest, body, json_encode(headers), "{}")
+				id = rustg_http_request_async(RUSTG_HTTP_METHOD_POST, dest, body, json_encode(headers), "{}")
 			catch(var/exception/e)
 				world.log << "discord 3: [e] on [e.file]:[e.line]"
 		else if(id == -1)
