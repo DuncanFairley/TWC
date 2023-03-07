@@ -361,11 +361,8 @@ obj/items/wearable/spellbook
 				else if(p.wand && p.wand.projColor)
 					c = p.wand.projColor
 
-				var/list/layers = list()
-
+				var/list/images = list()
 				for(var/i = 1 to range)
-
-					var/list/images = list()
 
 					for(var/d = 0 to 359 step (90 / i))
 						var/matrix/m = matrix()
@@ -375,21 +372,19 @@ obj/items/wearable/spellbook
 
 						images += ma.appearance
 
-					var/obj/o = new
-					o.overlays = images
+				var/obj/o = new
+				o.overlays = images
 
-					layers += o
+				var/matrix/m = matrix()
+				m.Turn(90)
+				animate(o, transform = m, time = 10, loop = -1)
+				m.Turn(90)
+				animate(transform = m, time = 10)
+				m.Turn(90)
+				animate(transform = m, time = 10)
+				animate(transform = null, time = 10)
 
-					var/matrix/m = matrix()
-					m.Turn(90)
-					animate(o, transform = m, time = 10, loop = -1)
-					m.Turn(90)
-					animate(transform = m, time = 10)
-					m.Turn(90)
-					animate(transform = m, time = 10)
-					animate(transform = null, time = 10)
-
-				p.vis_contents += layers
+				p.vis_contents += o
 
 				for(var/i = 1 to 20)
 					for(var/mob/Enemies/e in range(range, p))
@@ -397,7 +392,7 @@ obj/items/wearable/spellbook
 
 					sleep(5)
 
-				p.vis_contents -= layers
+				p.vis_contents -= o
 
 obj/items/spellpage
 	icon       = 'Scroll.dmi'
