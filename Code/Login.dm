@@ -1540,6 +1540,7 @@ mob/Player
 		if(statpanel("Info"))
 			if(admin)
 				stat("CPU:", world.cpu)
+				stat("Map CPU:", world.map_cpu)
 				stat("Date:", time2text(world.realtime, "DDD MMM DD hh:mm:ss YYYY"))
 			stat("---House points---")
 			stat("Gryffindor",worldData.housepointsGSRH[1])

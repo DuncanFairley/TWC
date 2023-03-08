@@ -211,3 +211,64 @@ atom
 
 
 WorldData/var/tmp/baseChance = 0.014
+
+
+mob/test/verb/ReportStats()
+
+	var/list/stats = list()
+
+	for(var/obj/o in world)
+		if(istype(o, /obj/items)) continue
+		if(istype(o, /obj/Signs)) continue
+		if(istype(o, /obj/Hogwarts_Door)) continue
+		if(istype(o, /obj/smoke)) continue
+		if(istype(o, /obj/teleport)) continue
+		if(istype(o, /obj/Cauldron)) continue
+		if(istype(o, /obj/candle)) continue
+		if(istype(o, /obj/teleportPath)) continue
+		if(istype(o, /obj/spawner)) continue
+		if(istype(o, /obj/duel_chair)) continue
+		if(istype(o, /obj/destination)) continue
+		if(istype(o, /obj/playerShop)) continue
+		if(istype(o, /obj/cloud)) continue
+		if(istype(o, /obj/brick2door)) continue
+		if(istype(o, /obj/toilet)) continue
+		if(istype(o, /obj/mirror)) continue
+		if(istype(o, /hudobj)) continue
+		if(istype(o, /obj/hud)) continue
+		if(istype(o, /obj/shop)) continue
+		if(istype(o, /obj/exp_scoreboard)) continue
+		if(istype(o, /obj/Banker)) continue
+		if(istype(o, /obj/books)) continue
+		if(istype(o, /obj/potions)) continue
+		if(istype(o, /obj/Shadow)) continue
+		if(istype(o, /obj/light)) continue
+		if(istype(o, /obj/spells)) continue
+		if(istype(o, /obj/rep_scoreboard)) continue
+		if(istype(o, /obj/clanpillar)) continue
+		if(istype(o, /obj/guild)) continue
+		if(istype(o, /obj/countdown)) continue
+		if(istype(o, /obj/magic_force)) continue
+		if(istype(o, /obj/Lantern)) continue
+		if(istype(o, /obj/museum)) continue
+		if(istype(o, /obj/memory_rune)) continue
+		if(istype(o, /obj/AlyssaChest)) continue
+		if(istype(o, /obj/static_obj)) continue
+
+
+		if(!("[o.type]" in stats))
+			stats["[o.type]"] = 1
+		else
+			stats["[o.type]"]++
+
+		if (world.tick_usage > 90) lagstopsleep()
+
+	bubblesort_by_value(stats)
+
+	var/objCount = 0
+	for(var/i in stats)
+		src << "[i] = [stats[i]]"
+
+		objCount += stats[i]
+
+	src << "Objs: [objCount]"
