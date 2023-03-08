@@ -240,7 +240,7 @@ obj/items/wearable/pets
 	white_purple_demon_snake
 		icon_state = "white purple snake"
 	red_black_demon_snake
-		icon_state = "rbo_snake"
+		icon_state = "red and black snake"
 	wolf
 		icon_state = "wolf"
 	troll

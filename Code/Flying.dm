@@ -795,6 +795,13 @@ turf
 		flyblock   = 1
 		post_init  = 1
 
+		var/hole = 0
+
+		Enter(atom/movable/O, atom/oldloc)
+
+			if(hole && (O.icon_state == "Scurries" || findtext(O.icon_state, "snake"))) return 1
+			.=..()
+
 		MapInit()
 			set waitfor = 0
 			sleep(0)

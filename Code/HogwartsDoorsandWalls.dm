@@ -30,7 +30,14 @@ obj/static_obj
 			m.Translate(rand(-8, 8), 0)
 			transform = m
 
-			if(istype(loc, /turf/Hogwarts_Stone_Wall))
+			if(istype(loc, /turf/roofb))
+				var/turf/roofb/t = loc
+				t.hole = 1
+				t.layer = 5
+				loc = null
+				return
+
+			else if(istype(loc, /turf/Hogwarts_Stone_Wall))
 				var/turf/Hogwarts_Stone_Wall/t = loc
 				t.hole = 1
 				t.layer = 5

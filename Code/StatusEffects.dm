@@ -16,7 +16,7 @@ EventScheduler/tempFix
 		if (__tick == 16777216)
 			__tick = 0
 
-	__shift_down_events()
+/*	__shift_down_events()
 		var/list/result = null
 		for (var/T in src.__scheduled_events)
 			var/A = src.__scheduled_events[T]
@@ -40,7 +40,7 @@ EventScheduler/tempFix
 						else
 							result = list(Tr)
 				result = A
-		return result
+		return result*/
 
 atom/proc/AddStatusEffect(StatusEffect/pStatusEffect)
 	if(src.LStatusEffects)

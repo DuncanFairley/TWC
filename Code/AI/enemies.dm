@@ -1446,7 +1446,7 @@ mob
 					set waitfor = 0
 					..()
 
-					icon_state = pick("go_snake", "bg_snake", "white purple snake", "rbo_snake")
+					icon_state = pick("go_snake", "bg_snake", "white purple snake", "red and black snake")
 					SetSize(rand(5,15) / 10)
 
 			Blocked()
@@ -3050,7 +3050,7 @@ mob
 				set waitfor = 0
 				..()
 
-				icon_state = pick("go_snake", "bg_snake", "white purple snake", "rbo_snake")
+				icon_state = pick("go_snake", "bg_snake", "white purple snake", "red and black snake")
 
 				if(isElite)
 					SetSize(3)
