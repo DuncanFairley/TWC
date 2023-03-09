@@ -15,40 +15,24 @@ mob/GM/verb
 		set category = "Server"
 		switch(alert(src, "What do you want to do?", "Events", "Cancel Event", "Check Time", "Nothing"))
 			if("Cancel Event")
-				scheduler.cancel(clanwars_schedule[e])
+				schedulerMin.cancel(clanwars_schedule[e])
 				clanwars_schedule -=e
 				src << infomsg("Event cancelled.")
 			if("Check Time")
-				var/ticks = scheduler.time_to_fire(clanwars_schedule[e])
+				var/ticks = schedulerMin.time_to_fire(clanwars_schedule[e])
 				src << infomsg("[comma(ticks)] ticks until event starts.")
 
 	AutoClass_Schedule(var/Event/e in autoclass_schedule)
 		set category = "Server"
 		switch(alert(src, "What do you want to do?", "Events", "Cancel Event", "Check Time", "Nothing"))
 			if("Cancel Event")
-				scheduler.cancel(autoclass_schedule[e])
+				schedulerMin.cancel(autoclass_schedule[e])
 				autoclass_schedule -= e
 				src << infomsg("Event cancelled.")
 			if("Check Time")
-				var/ticks = scheduler.time_to_fire(autoclass_schedule[e])
+				var/ticks = schedulerMin.time_to_fire(autoclass_schedule[e])
 				src << infomsg("[comma(ticks)] ticks until event starts.")
 
-				var/Event/event = autoclass_schedule[e]
-				var/__Trigger/T = scheduler.__trigger_mapping[event]
-				if(T)
-					src << infomsg("found event, vars:")
-					for(var/v in event.vars)
-						src << "[v] = [event.vars[v]]"
-				else
-					src << infomsg("didn't found event, mapping:")
-
-					for(var/E in scheduler.__trigger_mapping)
-						src << "[E]"
-
-						T = scheduler.__trigger_mapping[E]
-
-						for(var/v in T.vars)
-							src << "[v] = [T.vars[v]]"
 
 	Weather(var/effect in worldData.weather_effects, var/prob as num)
 		set category = "Server"
@@ -142,13 +126,13 @@ proc
 		var/secs_until = rustg_seconds_until(datetime)
 		var/Event/ClanWars/e = new
 		clanwars_schedule["[datetime]"] = e
-		scheduler.schedule(e, 10 * secs_until)
+		schedulerMin.schedule(e, 10 * secs_until)
 		return secs_until
 	add_autoclass(var/datetime)
 		var/secs_until = rustg_seconds_until(datetime)
 		var/Event/AutoClass/e = new
 		autoclass_schedule["[datetime]"] = e
-		scheduler.schedule(e, 10 * secs_until)
+		schedulerMin.schedule(e, 10 * secs_until)
 		return secs_until
 
 

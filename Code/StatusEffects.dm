@@ -1,28 +1,60 @@
 var/EventScheduler/tempFix/scheduler = new()
+var/EventScheduler/tempFix/schedulerMin = new()
 atom/var/tmp/list/StatusEffect/LStatusEffects
 
 EventScheduler/tempFix
 
+	var/last_world_time
+
+	schedule(var/Event/E, var/ticks as num, var/priority = 0)
+
+		var/elapsed = world.time - last_world_time
+
+		var/__Trigger/T = new(E, src.__tick + elapsed, ticks, 0)
+
+		// we have to add elapsed because next iteration it'll attempt to remove sleep delay including elapsed
+		ticks += elapsed
+
+		if (T.__scheduled_iterations > 0)
+			ticks = num2text(16777216, 8)
+		else
+			ticks = num2text(ticks, 8)
+		var/list/A = src.__scheduled_events[ticks]
+		if (A)
+			A += T
+		else
+			src.__scheduled_events[ticks] = list(T)
+		src.__trigger_mapping[E] = T
+
+	time_to_fire(var/Event/E)
+		var/__Trigger/T = src.__trigger_mapping[E]
+		if (T)
+			var/elapsed = world.time - last_world_time
+			return ((T.__scheduled_iterations * 16777216) + T.__scheduled_time) - src.__tick - elapsed
+		return -1
+
 	__iteration()
-//		__tick+=__sleep_delay
-		__tick++
+		__tick+=__sleep_delay
+		last_world_time = world.time
+//		__tick++
 		if(__tick > 16777216) __tick = 16777216
 		var/list/execute = __shift_down_events()
 		if (execute)
-			QuickSort(execute, /EventScheduler/proc/__sort_priorities)
+//			QuickSort(execute, /EventScheduler/proc/__sort_priorities)
 			for (var/__Trigger/T in execute)
-				T.__event.fire()
+				spawn() T.__event.fire()
 				__trigger_mapping.Remove(T.__event)
-		if (__tick == 16777216)
+		if (__tick >= 16777216)
 			__tick = 0
 
-/*	__shift_down_events()
+	__shift_down_events()
 		var/list/result = null
 		for (var/T in src.__scheduled_events)
 			var/A = src.__scheduled_events[T]
 			src.__scheduled_events.Remove(T)
 			var/index = text2num(T)
-			if (--index)
+			index -= __sleep_delay
+			if (index > 0)
 				src.__scheduled_events[num2text(index, 8)] = A
 			else
 				for (var/__Trigger/Tr in A)
@@ -39,8 +71,32 @@ EventScheduler/tempFix
 							result += Tr
 						else
 							result = list(Tr)
-				result = A
-		return result*/
+		//		result = A
+		return result
+
+
+mob/test/verb/totalScheduler()
+	var/c = 0
+	var/t = 0
+	for (var/T in scheduler.__scheduled_events)
+		var/A = scheduler.__scheduled_events[T]
+		c++
+		for (var/__Trigger/Tr in A)
+			src << "[T] - [Tr.__event.type]"
+			t++
+	src << "total: [c],[t]"
+
+mob/test/verb/totalSchedulerMin()
+	var/c = 0
+	var/t = 0
+	for (var/T in schedulerMin.__scheduled_events)
+		var/A = schedulerMin.__scheduled_events[T]
+		c++
+		for (var/__Trigger/Tr in A)
+			src << "[T] - [Tr.__event.type]"
+			t++
+	src << "total: [c],[t]"
+
 
 atom/proc/AddStatusEffect(StatusEffect/pStatusEffect)
 	if(src.LStatusEffects)
@@ -63,19 +119,20 @@ Event
 			src.AttachedStatusEffect = pStatusEffect
 
 		fire()
+			set waitfor = 0
 			if(AttachedStatusEffect)AttachedStatusEffect.Deactivate()
 
 	AFKCheck
 
 		fire()
 			set waitfor = 0
-			spawn(600) scheduler.schedule(src, rand(9000, 12000) + 600) // 16 to 21 minutes
+			spawn(600) schedulerMin.schedule(src, 12000)
 			AFK_Train_Scan()
 
 	SaveWorld
 		fire()
 			set waitfor = 0
-			spawn() scheduler.schedule(src, 36000)
+			spawn() schedulerMin.schedule(src, 36000)
 			for(var/mob/Player/p in Players)
 				p.Save()
 				sleep(1)
@@ -84,7 +141,7 @@ Event
 
 		fire()
 			set waitfor = 0
-			spawn() scheduler.schedule(src, 36000)
+			spawn() schedulerMin.schedule(src, 36000)
 			auctionBidTime()
 
 
@@ -112,7 +169,7 @@ Event
 
 		fire()
 			set waitfor = 0
-			spawn() scheduler.schedule(src, 864000)
+			schedulerMin.schedule(src, 864000)
 
 			worldData.loggedIn = null
 
@@ -120,24 +177,24 @@ Event
 
 		fire()
 			set waitfor = 0
-			spawn()
-				scheduler.schedule(src, 6048000) // 1 week
-				var/RandomEvent/Class/auto_class = locate() in worldData.events
-				auto_class.start()
+
+			schedulerMin.schedule(src, 6048000) // 1 week
+			var/RandomEvent/Class/auto_class = locate() in worldData.events
+			auto_class.start()
 
 	ClanWars
 
 		fire()
 			set waitfor = 0
-			spawn()
-				scheduler.schedule(src, 6048000) // 1 week
-				toggle_clanwars()
+
+			schedulerMin.schedule(src, 6048000) // 1 week
+			toggle_clanwars()
 
 	Weather
 		fire()
 			set waitfor = 0
 
-			spawn() scheduler.schedule(src, rand(9000, 27000)) // // 15 to 45 minutes
+			schedulerMin.schedule(src, rand(9000, 27000)) // // 15 to 45 minutes
 			var/i = pickweight(worldData.weather_effects)
 			switch(i)
 				if("acid")        weather.acid()
@@ -149,7 +206,7 @@ Event
 	WeeklyEvents
 		fire()
 			set waitfor = 0
-			spawn() scheduler.schedule(src, 6048000) // 1 week
+			schedulerMin.schedule(src, 6048000) // 1 week
 			RandomizeShop()
 			rewardExpWeek()
 
@@ -201,7 +258,7 @@ Event
 			set waitfor = 0
 
 			if(classdest || clanwars)
-				spawn(100) scheduler.schedule(src, rand(6000, 9000))  // 10 minutes to 15 minutes
+				schedulerMin.schedule(src, rand(6000, 9000))  // 10 minutes to 15 minutes
 
 				if(classdest)
 					for(var/mob/Player/p in Players)
@@ -211,7 +268,7 @@ Event
 				spawn(100)
 					while(worldData.currentEvents)
 						sleep(600)
-					scheduler.schedule(src, rand(2400, 4800))  // 4 minutes to 8 minutes
+					schedulerMin.schedule(src, 6000)
 				var/list/l = list()
 				for(var/RandomEvent/e in worldData.events)
 					if(e.chance == 0) continue
@@ -251,23 +308,25 @@ proc/cleanPlayerData(decay = 0)
 
 proc
 	init_events()
-//		scheduler.set_sleep_delay(10)
+		scheduler.set_sleep_delay(10)
 		scheduler.start()
+		schedulerMin.set_sleep_delay(600)
+		schedulerMin.start()
 		init_books()
 		init_weather()
 		init_random_events()
 		init_auction()
 
 		var/Event/SaveWorld/s = new
-		scheduler.schedule(s, 36000)
+		schedulerMin.schedule(s, 36000)
 
 		spawn()
 			RandomizeShop()
 			var/Event/WeeklyEvents/w = new
-			scheduler.schedule(w, 10 * rustg_seconds_until("sunday"))
+			schedulerMin.schedule(w, 10 * rustg_seconds_until("sunday"))
 
 			var/Event/DailyEvents/d = new
-			scheduler.schedule(d, 10 * rustg_seconds_until("tomorrow"))
+			schedulerMin.schedule(d, 10 * rustg_seconds_until("tomorrow"))
 
 		init_quests()
 

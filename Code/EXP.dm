@@ -565,7 +565,7 @@ question
 proc/init_books()
 	for(var/t in typesof(/question/) - /question)
 		questions += new t
-	scheduler.schedule(new/Event/AFKCheck, 600)
+	schedulerMin.schedule(new/Event/AFKCheck, 600)
 
 proc
 	Shuffle(list/L)

@@ -18,7 +18,7 @@ mob/TalkNPC/merchant
 proc
 	init_auction()
 		var/Event/Auction/e = new
-		scheduler.schedule(e, 1800)
+		schedulerMin.schedule(e, 1800)
 
 	auctionBidTime()
 		if(worldData.auctionItems)

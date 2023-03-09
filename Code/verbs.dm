@@ -95,8 +95,8 @@ mob
 
 			txt = replacetext(txt, "\[GMSchedule]", worldData.GMSchedule)
 
-			var/Event/RandomEvents/re = locate() in scheduler.__trigger_mapping
-			txt = replacetext(txt, "\[Random Event]", scheduler.time_to_fire(re))
+			var/Event/RandomEvents/re = locate() in schedulerMin.__trigger_mapping
+			txt = replacetext(txt, "\[Random Event]", schedulerMin.time_to_fire(re))
 
 			var/list/tags = list("Auto Class", "Clan Wars")
 
@@ -125,7 +125,7 @@ mob
 							days[i] = "&nbsp;"
 
 						for(var/e in events)
-							var/time2fire = scheduler.time_to_fire(events[e])
+							var/time2fire = schedulerMin.time_to_fire(events[e])
 							if(time2fire == -1) continue
 							var/ticks = time2fire + world.realtime + 600 + (offset*36000)// + world.timeofday
 							var/day  = time2text(ticks, "DDD")
