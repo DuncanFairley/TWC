@@ -585,6 +585,9 @@ obj
 		icon_state = "barrels"
 		name = "Barrels"
 
+		accioable = 1
+		wlable    = 1
+
 		var
 			origZ
 			teleportNode/origRegion
