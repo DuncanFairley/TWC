@@ -20,6 +20,8 @@ teleportNode
 				p.map.icon_state = name
 				p.map.vis_contents = minimapEnemies
 
+			p.updateQuestMarkers()
+
 			if(active==1)
 				for(var/area/a in areas)
 					if(!a.containsMonsters || a.active || area == a) continue

@@ -344,11 +344,11 @@ image/questMarker
 area
 	var/tmp/list/questMobs
 
-	Entered(atom/movable/Obj, atom/OldLoc)
-		if(isplayer(Obj))
-			var/mob/Player/p = Obj
-			p.updateQuestMarkers()
-		.=..()
+//	Entered(atom/movable/Obj, atom/OldLoc)
+//		if(isplayer(Obj))
+//			var/mob/Player/p = Obj
+//			p.updateQuestMarkers()
+//		.=..()
 
 mob/Player
 	var/tmp/list/images
@@ -420,14 +420,28 @@ mob/Player
 				i.pixel_y = 36
 				addImage(i_Mob.name, i)
 
+				if(map)
+					var/obj/minimap/questMarker/marker = new
+					marker.icon_state = state
+
+					var/matrix/m = matrix()
+					m.Translate(i_Mob.x, i_Mob.y)
+					marker.transform = m
+
+					map.vis_contents += marker
+
+
 		updateQuestMarkers()
 			if(!loc) return
-			var/area/a = loc.loc
+
+			var/area/currentArea = loc.loc
 
 			removeAllImages()
-			if(a.questMobs)
-				for(var/mob/TalkNPC/quest/m in a.questMobs)
-					questMarker(m)
+
+			for(var/area/a in currentArea.region.areas)
+				if(a.questMobs)
+					for(var/mob/TalkNPC/quest/m in a.questMobs)
+						questMarker(m)
 
 obj/items/demonic_essence
 	icon       = 'jokeitems.dmi'

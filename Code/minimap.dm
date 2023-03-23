@@ -7,7 +7,7 @@ obj/minimap
 	blend_mode = BLEND_OVERLAY
 
 	plane
-		screen_loc = "EAST-4,NORTH-3"
+		screen_loc = "EAST-3,SOUTH+1"
 		appearance_flags = PLANE_MASTER|NO_CLIENT_COLOR|PIXEL_SCALE
 
 	visible
@@ -21,23 +21,38 @@ obj/minimap
 		icon_state="player"
 		pixel_x = 50
 		pixel_y = 50
+		mouse_opacity = 0
 
 	dot
 		layer = 5
-		icon = 'newMinimap.dmi'
+		icon = 'minimapDots.dmi'
 		icon_state="path"
 		blend_mode = BLEND_INSET_OVERLAY
+		pixel_x = -50
+		pixel_y = -50
+		mouse_opacity = 0
 	enemy
 		layer = 5
-		icon = 'newMinimap.dmi'
+		icon = 'minimapDots.dmi'
 		icon_state="enemy"
 		blend_mode = BLEND_INSET_OVERLAY
+		pixel_x = -50
+		pixel_y = -50
+		mouse_opacity = 0
+	questMarker
+		layer = 5
+		icon = 'minimapQuestMarkers.dmi'
+		icon_state="nonactive"
+		blend_mode = BLEND_INSET_OVERLAY
+		mouse_opacity = 0
+		pixel_x = -50
+		pixel_y = -50
 
 	minimap
 		icon = 'newMinimap.dmi'
 		blend_mode = BLEND_INSET_OVERLAY
 		layer=4
-		screen_loc = "EAST-4,NORTH-3"
+		screen_loc = "EAST-3,SOUTH+1"
 
 	Click(location,control,params)
 
@@ -56,25 +71,24 @@ hudobj
 		name       = "Minimap View"
 		icon_state = "Treasure Hunting"
 		anchor_x    = "EAST"
-		screen_x    = -132
-		screen_y    = -16
-		anchor_y    = "NORTH"
+		screen_x    = -4
+		screen_y    = 16
+		anchor_y    = "SOUTH"
 
 		mouse_opacity = 2
 
-		alpha = 255
-
+		alpha = 110
 		MouseEntered()
-			transform *= 1.25
+			alpha = 255
 		MouseExited()
-			transform = null
+			alpha = 110
 
 		Click()
 			var/mob/Player/p = usr
 
 			if(p.miniMapBig)
-				p.minimapPlane.screen_loc = "EAST-4,NORTH-3"
-				p.map.screen_loc = "EAST-4,NORTH-3"
+				p.minimapPlane.screen_loc = "EAST-3,SOUTH+1"
+				p.map.screen_loc = "EAST-3,SOUTH+1"
 				p.minimapPlane.transform = null
 			else
 				p.minimapPlane.screen_loc = "CENTER,CENTER"
