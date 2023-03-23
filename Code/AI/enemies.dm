@@ -568,6 +568,10 @@ mob
 				hpbar.glide_size = glide_size
 				hpbar.loc = NewLoc
 			.=..()
+			if(minimapDot)
+				var/matrix/m = matrix()
+				m.Translate(x, y)
+				minimapDot.transform = m
 
 		MapInit()
 			set waitfor = 0

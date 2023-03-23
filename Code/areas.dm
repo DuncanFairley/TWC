@@ -2,6 +2,7 @@ teleportNode
 	var
 		list/nodes
 		list/areas
+		list/minimapEnemies
 		name
 		active = FALSE
 
@@ -12,8 +13,12 @@ teleportNode
 			if(t in nodes) return 1
 			return 10
 
-		Entered(atom/movable/Obj, area/area)
+		Entered(mob/Player/p, area/area)
 			active++
+
+			if(p.map)
+				p.map.icon_state = name
+				p.map.vis_contents = minimapEnemies
 
 			if(active==1)
 				for(var/area/a in areas)
@@ -23,7 +28,11 @@ teleportNode
 						if(M.state == M.INACTIVE)
 							M.ChangeState(M.origloc ? M.WANDER : M.SEARCH)
 
-		Exited(atom/movable/Obj, area/area)
+		Exited(mob/Player/p, area/area, teleportNode/oldRegion)
+
+			if(p.map && !oldRegion && minimapEnemies)
+				p.map.vis_contents = null
+
 			if(active <= 0) return
 
 			if(--active <= 0)
@@ -32,6 +41,29 @@ teleportNode
 					a.active = 0
 					for(var/mob/Enemies/M in a)
 						M.ChangeState(M.INACTIVE)
+
+		init()
+
+			minimapEnemies = list()
+
+			for(var/area/a in areas)
+				if(!a.containsMonsters) continue
+
+				for(var/mob/Enemies/M in a)
+					M.minimapDot = new
+					var/matrix/m = matrix()
+					m.Translate(M.x, M.y)
+					M.minimapDot.transform = m
+
+					minimapEnemies += M.minimapDot
+
+			if(minimapEnemies.len == 0) minimapEnemies = null
+
+
+
+mob/Enemies/var/tmp/obj/minimap/enemy/minimapDot
+
+
 
 
 area
@@ -45,7 +77,7 @@ area
 				if(!(src in a.region.areas))
 					if(region)
 						region.Entered(O, src)
-					a.region.Exited(O, a)
+					a.region.Exited(O, a, region)
 			else if(region)
 				region.Entered(O, src)
 
@@ -120,6 +152,8 @@ teleportMap
 				var/area/a = t.loc
 				if(a.region == node) continue
 				node.nodes[a.region] = "[p.name]_to_[p.dest]:0"
+
+			node.init()
 
 WorldData/var/tmp/teleportMap/TeleportMap
 
@@ -329,6 +363,8 @@ proc/getPathTo(turf/source, atom/target)
 			t = locate(startarea.region.nodes[nextNode]) //the teleport turf on your current floor
 			. = AStar(source, t, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
 
+
+
 mob
 	Player
 		var/tmp/pathdest
@@ -338,6 +374,8 @@ mob
 				for(var/image/C in client.images)
 					if(C.icon == 'arrows.dmi')
 						client.images.Remove(C)
+				if(map)
+					map.overlays = null
 			pathTo(atom/target)
 				if(!loc) return
 
@@ -355,6 +393,7 @@ mob
 
 				if(destarea in startarea.region.areas)
 					path = AStar(loc, t, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
+			//		path = JPS(loc, t,)
 				else
 					var/teleport_path[]
 					teleport_path = AStar(startarea.region, destarea.region, /teleportNode/proc/AdjacentNodes, /teleportNode/proc/Distance)
@@ -363,12 +402,15 @@ mob
 						var/teleportNode/nextNode = teleport_path[2]
 						t = locate(startarea.region.nodes[nextNode]) //the teleport turf on your current floor
 						path = AStar(loc, t, /turf/proc/AdjacentTurfs, /turf/proc/Distance)
+			//			path = JPS(loc, t,)
 				sleep()
 
 				if(path && length(path))
 					removePath()
 					var/length = length(path)
 					var/gap    = min(max(round(length / 7, 1), 2), 4)
+					var/list/dots
+					if(map) dots = list()
 					for(var/i=1, i < length, i++)
 						if(i % gap == 0)
 							var/turf/A = path[i]
@@ -382,7 +424,15 @@ mob
 							else
 								arrow.icon_state = "0"
 
+							if(map)
+								var/obj/minimap/dot/d = new
+								var/matrix/m = matrix()
+								m.Translate(A.x,A.y)
+								d.transform = m
+								dots += d
+
 							src << arrow
+					if(map) map.overlays = dots
 					return 1
 
 		proc

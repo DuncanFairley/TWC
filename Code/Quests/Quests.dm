@@ -931,6 +931,7 @@ interface
 		new /hudobj/questbook(null, parent.client, null, show=2)
 		new /hudobj/monsterbook(null, parent.client, null, show=2)
 		new /hudobj/Party_Invite(null, parent.client, null, 2)
+		new /hudobj/MinimapView(null, parent.client, null, 2)
 
 		if(p.animagusState)
 			var/hudobj/Animagus/a = new (null, parent.client, null, show=2)
@@ -954,6 +955,8 @@ interface
 		p << output("[p.backColor]","browser1:BackColor")
 
 		Update()
+
+		spawn() p.initMinimap()
 
 		if(p.WasdMovement)
 			spawn(1)
