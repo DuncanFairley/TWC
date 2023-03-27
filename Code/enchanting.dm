@@ -711,6 +711,7 @@ obj/blacksmith
 					i.name = initial(i.name)
 					i.scale = initial(i.scale)
 					i.Upgrade(5 + rand(0, 5))
+					i.name = "[i.name] +[i.quality]"
 
 				p << infomsg("New stats of [i.name]:\n+[i.power] Legendary Effect")
 
