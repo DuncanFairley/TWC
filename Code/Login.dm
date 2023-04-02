@@ -910,7 +910,7 @@ mob/Player
 			src << "<u>You're in detention for [timerDet] minute[timerDet==1 ? "" : "s"].</u>"
 			detention_countdown()
 		addNameTag()
-		sortedInsert(src, isPlayer=TRUE)
+		sortedInsert(Players, src, isPlayer=TRUE)
 	//	Players.Add(src)
 	//	quicksortPlayers(Players)
 
