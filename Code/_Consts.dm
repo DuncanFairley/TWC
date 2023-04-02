@@ -263,7 +263,7 @@ mob/test/verb/ReportStats()
 
 		if (world.tick_usage > 90) lagstopsleep()
 
-	bubblesort_by_value(stats)
+	quicksortValue(stats)
 
 	var/objCount = 0
 	for(var/i in stats)

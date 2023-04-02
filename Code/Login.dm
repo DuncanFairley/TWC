@@ -910,8 +910,9 @@ mob/Player
 			src << "<u>You're in detention for [timerDet] minute[timerDet==1 ? "" : "s"].</u>"
 			detention_countdown()
 		addNameTag()
-		Players.Add(src)
-		bubblesort_atom_name(Players)
+		sortedInsert(src, isPlayer=TRUE)
+	//	Players.Add(src)
+	//	quicksortPlayers(Players)
 
 		if(worldData.housecupwinner)
 			src << "<b><span style=\"color:#CF21C0;\">[worldData.housecupwinner] is the House Cup winner for this month. They receive +50% drop rate/gold/XP from monster kills.</span></b>"

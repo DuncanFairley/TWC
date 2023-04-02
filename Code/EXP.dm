@@ -720,7 +720,7 @@ area
 
 proc/rewardExpWeek()
 	if(worldData.expScoreboard)
-		bubblesort_by_value(worldData.expScoreboard)
+		quicksortValue(worldData.expScoreboard, associated = TRUE)
 
 		for(var/i = 0 to 2)
 			if(worldData.expScoreboard.len <= i) break
@@ -749,7 +749,7 @@ obj/exp_scoreboard
 	Click()
 		..()
 		if(worldData.expScoreboard)
-			bubblesort_by_value(worldData.expScoreboard)
+			quicksortValue(worldData.expScoreboard, associated = TRUE)
 			var/const/SCOREBOARD_HEADER = {"<html><head><title>Experience Earned Leaderboard</title><style>body
 {
 	background-color:#FAFAFA;

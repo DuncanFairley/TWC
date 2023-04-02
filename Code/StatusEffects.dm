@@ -245,7 +245,7 @@ Event
 					var/guild/g = worldData.guilds[id]
 					guilds[id] = g.Score()
 
-				bubblesort_by_value(guilds)
+				quicksortValue(guilds)
 
 				worldData.majorChaos = guilds[1]
 				worldData.majorPeace = guilds[guilds.len]

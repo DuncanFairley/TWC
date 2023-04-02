@@ -832,7 +832,7 @@ mob
 					if(!(killer.ckey in damage) || damage[killer.ckey] < damageReq)
 						damage[killer.ckey] = damageReq
 
-					bubblesort_by_value(damage)
+					quicksortValue(damage)
 
 					var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
 					for(var/i = damage.len to max(1 + damage.len - prizePoolSize, 1) step -1)

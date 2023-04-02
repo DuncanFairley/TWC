@@ -608,7 +608,7 @@ mob/Player
 		else if(use == 1)
 			SpellUses[name]++
 			if(SpellUses[name] == 1)
-				bubblesort(SpellUses)
+				quicksort(SpellUses)
 
 			var/l = log(10, SpellUses[name])
 

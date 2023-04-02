@@ -708,7 +708,7 @@ mob/Player
 				pointer.stage = 1
 
 				questPointers[questName] = pointer
-				bubblesort(questPointers)
+				quicksort(questPointers)
 
 				Interface.Update()
 				src << infomsg(q.desc)

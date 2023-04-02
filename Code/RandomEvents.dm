@@ -4,7 +4,7 @@ proc/init_random_events()
 	worldData.events = list()
 	for(var/e in typesof(/RandomEvent/)-/RandomEvent)
 		worldData.events += new e
-	bubblesort_by_value(worldData.events, "chance")
+	quicksortValue(worldData.events, "chance")
 	schedulerMin.schedule(new/Event/RandomEvents, rand(3000, 36000)) // 5 minutes to 1 hour
 
 

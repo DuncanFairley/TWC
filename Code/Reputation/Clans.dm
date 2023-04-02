@@ -134,9 +134,9 @@ obj/rep_scoreboard
 				if(!guilds.len)
 					guilds = null
 				else
-					bubblesort_by_value(guilds)
+					quicksortValue(guilds)
 
-			bubblesort_by_value(people, "fame", TRUE)
+			quicksortValue(people, "fame", TRUE)
 
 			var/const/SCOREBOARD_HEADER = {"<html><head><title>Reputation Leaderboard</title><style>body
 {

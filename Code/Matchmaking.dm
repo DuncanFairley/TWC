@@ -150,7 +150,7 @@ matchmaking
 				matchmaking = TRUE
 				spawn(rand(50,100))
 					if(queue && queue.len >= 2)
-						bubblesort_by_value(queue)
+						quicksortValue(queue, associated = TRUE)
 						var/i = 0
 						while(queue && queue.len - i >= 2)
 							i += matchup(i)
@@ -769,7 +769,7 @@ obj/scoreboard
 
 				people[k] = p
 
-			bubblesort_by_value(people, "mmRating", TRUE)
+			quicksortValue(people, "mmRating", TRUE)
 
 			var/const/SCOREBOARD_HEADER = {"<html><head><title>Indefinite Season Leaderboard</title><style>body
 {

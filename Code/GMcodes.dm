@@ -11,7 +11,7 @@ mob
 			monsterkills[monster]++
 
 			if(monsterkills[monster] == 1)
-				bubblesort(monsterkills)
+				quicksort(monsterkills)
 
 			switch(monster)
 				if("Basilisk")

@@ -71,7 +71,7 @@ mob/Player
 
 				objs += o
 
-			bubblesort_by_value(objs, "name")
+			quicksortValue(objs, "name")
 
 			for(var/o in objs)
 				count++

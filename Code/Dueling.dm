@@ -1,4 +1,137 @@
+
+mob/Player/proc/getName()
+	if(pname) return pname
+	if(prevname) return prevname
+	return name
+
 proc
+	sortedInsert(list/L, item, variable = null, associated = FALSE, isPlayer = FALSE)
+
+		if(L.len == 0)
+			L += item
+			return 1
+
+		if(isPlayer)
+			var/mob/Player/player = item
+			var/name = player.getName()
+
+			for(var/i = 1 to L.len)
+				var/mob/Player/p = L[i]
+				if(p.getName() > name)
+					return L.Insert(i, item)
+		else
+			for(var/i = 1 to L.len)
+				if(L[i] > item)
+					return L.Insert(i, item)
+
+		return L.Insert(L.len+1, item)
+
+	quicksortPlayers(list/L)
+		var/low = 1
+		var/high = L.len
+		var/top = 2
+		var/list/stack[high - low + 1]
+		stack[1] = low
+		stack[2] = high
+
+		while (top >= 1)
+			high = stack[top--]
+			low = stack[top--]
+
+			var/mob/Player/pivot = L[high]
+			var/playerName = pivot.getName()
+
+			var/i = (low - 1)
+			for (var/j = low to high - 1)
+				var/mob/Player/jPlayer = L[j]
+				if (jPlayer.getName() <= playerName)
+					i++
+
+					L.Swap(i,j)
+
+			L.Swap(i+1,high)
+
+			var/p = i + 1
+
+			if (p - 1 > low)
+				stack[++top] = low
+				stack[++top] = p - 1
+
+			if (p + 1 < high)
+				stack[++top] = p + 1
+				stack[++top] = high
+
+	quicksortValue(list/L, variable = null, associated = FALSE)
+		var/low = 1
+		var/high = L.len
+		var/top = 2
+		var/list/stack[high - low + 1]
+		stack[1] = low
+		stack[2] = high
+
+		if(!variable && !associated) associated = TRUE
+
+		while (top >= 1)
+			high = stack[top--]
+			low = stack[top--]
+
+			var/datum/pivot = associated ? L[L[high]] : L[high]
+
+			var/i = (low - 1)
+			for (var/j = low to high - 1)
+				var/datum/jDatum = associated ? L[L[j]] : L[j]
+				if ((variable && jDatum.vars[variable] <= pivot.vars[variable]) ||\
+				    (!variable && jDatum <= pivot))
+					i++
+
+					L.Swap(i,j)
+
+			L.Swap(i+1,high)
+
+			var/p = i + 1
+
+			if (p - 1 > low)
+				stack[++top] = low
+				stack[++top] = p - 1
+
+			if (p + 1 < high)
+				stack[++top] = p + 1
+				stack[++top] = high
+
+	quicksort(list/L)
+		var/low = 1
+		var/high = L.len
+		var/top = 2
+		var/list/stack[high - low + 1]
+		stack[1] = low
+		stack[2] = high
+
+		while (top >= 1)
+			high = stack[top--]
+			low = stack[top--]
+
+			var/pivot = L[high]
+
+			var/i = (low - 1)
+			for (var/j = low to high - 1)
+				if (L[j] <= pivot)
+					i++
+
+					L.Swap(i,j)
+
+			L.Swap(i+1,high)
+
+			var/p = i + 1
+
+			if (p - 1 > low)
+				stack[++top] = low
+				stack[++top] = p - 1
+
+			if (p + 1 < high)
+				stack[++top] = p + 1
+				stack[++top] = high
+
+
 	bubblesort(list/L)
 		var i, j
 		for(i=L.len,i>0,i--)
