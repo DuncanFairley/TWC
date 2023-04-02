@@ -1182,8 +1182,7 @@ mob
 
 		var/tmp/overlapped = 0
 		proc/overlap()
-			set waitfor = 0
-			var/angle_change = 360 / overlapped
+			var/angle_change = 360 / (overlapped + 1)
 			var/angle = dir2angle(get_dir(src, target)) + 90
 			for(var/mob/Enemies/e in loc)
 				e.pixel_x = 10 * cos(angle)
@@ -1192,27 +1191,29 @@ mob
 
 		Cross(atom/movable/O)
 			if(istype(O, /mob/Enemies))
+				return 1
+			.=..()
+
+		Crossed(atom/movable/O)
+			if(istype(O, /mob/Enemies))
 
 				overlapped++
 				O:overlapped = overlapped
 
 				overlap()
 
-				return 1
-			.=..()
+		Uncrossed(atom/movable/O)
+			if(istype(O, /mob/Enemies))
+				overlapped--
+				O:overlapped=0
+				O.pixel_x = 0
+				O.pixel_y = 0
 
-		Uncross(atom/movable/O)
-			.=..()
-			if(.)
-				if(istype(O, /mob/Enemies))
-					overlapped--
-					O:overlapped=0
-					O.pixel_x = 0
-					O.pixel_y = 0
-
+				if(!overlapped)
+					pixel_x = 0
+					pixel_y = 0
+				else
 					overlap()
-
-
 
 		proc/BlindAttack()//removeoMob
 			for(var/mob/Player/p in range(1, src))
@@ -1346,8 +1347,8 @@ mob
 				var/angle = dir2angle(dir)
 				var/px = round(6  * cos(angle), 1)
 				var/py = round(-6 * sin(angle), 1)
-		//		animate(src, pixel_x = pixel_x + px, pixel_y = pixel_y + py, time = AttackDelay+slow/2)
-		//		animate(pixel_x = pixel_x - px, pixel_y = pixel_y - py, time = AttackDelay+slow/2)
+		//		animate(src, pixel_x = pixel_x + px, pixel_y = pixel_y + py, time = AttackDelay+slow/2, easing=BACK_EASING)
+		//		animate(pixel_x = pixel_x - px, pixel_y = pixel_y - py, time = AttackDelay+slow/2, easing=BACK_EASING)
 				pixel_x += px
 				pixel_y += py
 				sleep(AttackDelay+slow)
