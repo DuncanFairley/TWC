@@ -3120,6 +3120,7 @@ mob/Del()
 
 mob/Player/Logout()
 	Players<<"<B><span style=\"font-size:2; color:red;\"><I>[src] <b>logged out.</b></I></span></B>"
+	SendDiscord("logged out", discord_login_hook)
 	if(arcessoing)
 		stop_arcesso()
 	if(rankedArena)

@@ -1888,6 +1888,7 @@ var
 
 	discord_ooc_hook
 	discord_event_hook
+	discord_login_hook
 	discord_bot_url
 	discord_bot_pass
 
@@ -1918,6 +1919,7 @@ world/New()
 		var/Configuration/cfg_discord = ini.GetSection("discord")
 		discord_ooc_hook = cfg_discord.Value("discord_ooc_hook")
 		discord_event_hook = cfg_discord.Value("discord_event_hook")
+		discord_login_hook = cfg_discord.Value("discord_login_hook")
 		discord_bot_url = cfg_discord.Value("discord_bot_url")
 		discord_bot_pass = cfg_discord.Value("discord_bot_pass")
 
