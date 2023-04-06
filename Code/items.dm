@@ -769,6 +769,7 @@ obj/items/wearable
 		obj/items/crystal/socket
 
 		list/effects
+		list/failstack
 
 		tmp
 			clothDmg

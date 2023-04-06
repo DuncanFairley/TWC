@@ -766,9 +766,16 @@ obj/blacksmith
 				var/ScreenText/s = new(p, src)
 				var/chanceToFail = i.quality >= 5 ? (i.quality+1)*chanceFactor + chanceFactor*3 : 0
 
-				var/msg = "Do you wish to attempt upgrading [i.name]?\nSuccess chance [100 - chanceToFail]%\nCost: [price] embers of frost and despair"
+				var/addedChance = 0
+				if("[i.quality+1]" in i.failstack)
+					addedChance = round((i.failstack["[i.quality+1]"] / (i.quality+1)) * 3500, 1) / 100
+					chanceToFail -= addedChance
+
+				var/msg = "Do you wish to attempt upgrading [i.name]?\nSuccess chance [100 - chanceToFail]%\nCost: [price] embers of frost and despair\n"
+				if(addedChance)
+					msg += "Added Chance: [addedChance]% ([i.failstack["[i.quality+1]"]] fail streak)\n"
 				if(i.quality >= 10)
-					msg = "Item will downgrade a level on failure!\n"
+					msg += "Item will downgrade a level on failure!\n"
 
 				if(checkPrice(p, price))
 					s.SetButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
@@ -781,16 +788,23 @@ obj/blacksmith
 
 				if(!checkPrice(p, price, 1)) return
 
-				if(i.quality >= 5 && prob(chanceToFail))
-					p << infomsg("Failure! You could not upgrade [i.name]. ([100 - chanceToFail]%)")
+				if(i.quality >= 5)
 
-					if(i.quality >= 10)
-						i.quality--
-						i.name = "[splittext(i.name, " +")[1]] +[i.quality]"
-						i.UpdateDisplay()
+					if(prob(chanceToFail))
+						p << infomsg("Failure! You could not upgrade [i.name]. ([100 - chanceToFail]%)")
 
-						p << errormsg("Your item downgraded to [i.name].")
-					return
+						if(!i.failstack) i.failstack = list()
+						i.failstack["[i.quality+1]"]++
+
+						if(i.quality >= 10)
+							i.quality--
+							i.name = "[splittext(i.name, " +")[1]] +[i.quality]"
+							i.UpdateDisplay()
+
+							p << errormsg("Your item downgraded to [i.name].")
+						return
+
+					if(i.failstack) i.failstack -= "[i.quality+1]"
 
 				i.bonus |= 3
 				i.quality++
