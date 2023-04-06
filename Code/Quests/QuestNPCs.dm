@@ -78,7 +78,7 @@ mob/TalkNPC
 					var/dungeon/d = new /dungeon(16, 100, 100, MAP_INDOORS)
 
 					d.ExitLoc = i_Player.loc
-					d.QuestName = "Spring Cleaning \[Daily]"
+					d.QuestName = questName
 					d.QuestArgs = "Clear Rat Infestation"
 
 					d.Enter(i_Player)
