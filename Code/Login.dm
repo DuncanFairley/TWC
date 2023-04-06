@@ -140,7 +140,7 @@ obj/teleport
 					M << errormsg("Authorization Denied.")
 					return
 
-			var/atom/A = locate(dest) //can be some turf, or some obj
+			var/atom/A = isturf(dest) ? dest : locate(dest) //can be some turf, or some obj
 			if(A)
 				if(isobj(A))
 					A = A.loc

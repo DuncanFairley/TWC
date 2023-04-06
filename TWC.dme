@@ -96,6 +96,7 @@
 #include "Code\dmifontplus.dm"
 #include "Code\Drag and Drop.dm"
 #include "Code\Dueling.dm"
+#include "Code\dungeons.dm"
 #include "Code\enchanting.dm"
 #include "Code\EXP.dm"
 #include "Code\extra.dm"

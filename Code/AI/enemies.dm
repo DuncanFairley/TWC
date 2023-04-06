@@ -928,7 +928,10 @@ mob
 
 			damage = null
 
-			if(revenge)
+			if(killer.dungeon)
+				if(isElite)
+					killer.dungeon.Completed()
+			else if(revenge)
 
 				if(revenge == killer.name)
 					killer << "An eye for an eye... Vengeance is yours."
@@ -1209,7 +1212,8 @@ mob
 				O.pixel_x = 0
 				O.pixel_y = 0
 
-				if(!overlapped)
+				if(overlapped <= 0)
+					overlapped = 0
 					pixel_x = 0
 					pixel_y = 0
 				else

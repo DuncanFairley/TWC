@@ -592,9 +592,13 @@ obj
 			origZ
 			teleportNode/origRegion
 
+			tmp
+				lootType = 0
+
 		New(Loc, region)
 			set waitfor = 0
 			..()
+			if(region==0) return
 			sleep(1)
 
 			if(region)
@@ -610,6 +614,22 @@ obj
 						break
 
 		proc
+			pickType()
+				if(prob(20))
+					icon_state = pick("chest", "chest2")
+					name = "Chest"
+					lootType = 1
+				else if(prob(15))
+					icon_state = "spellcrafting"
+					name = "Magic Chest"
+					lootType = 2
+		//		else if(prob(20))
+	//				icon_state = "gift"
+	//				name = "gift"
+				else
+					icon_state = "barrels"
+					name = "Barrels"
+					lootType = 0
 			respawn()
 				set waitfor = 0
 				loc = null
@@ -621,18 +641,7 @@ obj
 
 				animate(src, alpha = 255, time = 5)
 
-				if(prob(20))
-					icon_state = pick("chest", "chest2")
-					name = "Chest"
-				else if(prob(15))
-					icon_state = "spellcrafting"
-					name = "Magic Chest"
-		//		else if(prob(20))
-	//				icon_state = "gift"
-	//				name = "gift"
-				else
-					icon_state = "barrels"
-					name = "Barrels"
+				pickType()
 
 				if(origRegion)
 					loc = pick(origRegion.lootSpawns)
@@ -662,13 +671,11 @@ obj
 				if(p.House == worldData.housecupwinner)
 					rate += 0.5
 
-				var/isChest = icon_state == "chest" || icon_state == "chest2" || icon_state == "gift"
-
-				if(isChest)
+				if(lootType == 1)
 					rate += 3 + (p.TreasureHunting.level*3)/100
 
 					p.TreasureHunting.add((p.level + p.TreasureHunting.level + rand(12)) * 50, p, 1)
-				else if(icon_state == "spellcrafting")
+				else if(lootType == 2)
 					rate += 3 + (p.Spellcrafting.level*3)/100
 
 					p.Spellcrafting.add((p.level + p.Spellcrafting.level + rand(12)) * 50, p, 1)
@@ -687,7 +694,7 @@ obj
 
 				var/base = worldData.baseChance * clamp(p.level/100, 0.2, 20)
 
-				if(icon_state == "spellcrafting" && prob(base * rate * 20))
+				if(lootType == 2 && prob(base * rate * 20))
 					var/prize = pick(/obj/items/wearable/title/Airbender,
 					                 /obj/items/wearable/title/Waterbender,
 					                 /obj/items/wearable/title/Firebender,
@@ -718,7 +725,7 @@ obj
 
 					p << infomsg("<i>You found \a [i.name].</i>")
 
-				else if(isChest && prob(base * rate * 30))
+				else if(lootType == 1 && prob(base * rate * 30))
 					if(prob(20))
 						var/prize = pickweight(list(/obj/items/wearable/title/Wrecker     = 5,
 						                            /obj/items/bucket                     = 10,
