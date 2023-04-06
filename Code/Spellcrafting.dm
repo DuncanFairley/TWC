@@ -594,6 +594,7 @@ obj
 
 			tmp
 				lootType = 0
+				extraChance = 0
 
 		New(Loc, region)
 			set waitfor = 0
@@ -665,7 +666,7 @@ obj
 				density = 0
 				var/sparks = 0
 
-				var/rate        = 3 + p.dropRate/100
+				var/rate        = 3 + p.dropRate/100 + extraChance
 				var/rate_factor = worldData.DropRateModifier
 
 				if(p.House == worldData.housecupwinner)
