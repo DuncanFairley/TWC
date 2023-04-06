@@ -1,4 +1,18 @@
 quest
+	RatClean
+		name = "Spring Cleaning \[Repeatable]"
+		desc   = "Arthur wants you to clean out a rat infestation."
+		reward = /questReward/Mon5
+		repeat = 1
+
+		Kill
+			desc = "Clear Rat Infestation."
+			reqs = list("Clear Rat Infestation" = 1)
+
+		Reward
+			desc = "Go back to Arthur."
+			reqs = list("Arthur" = 1)
+
 	Cloud
 		name   = "Happy Little Cloud"
 		desc   = "Bob wants you to kill some fluffy clouds."

@@ -33,6 +33,59 @@ mob/TalkNPC
 				s.AddText("Don't mind me. I'm just trying to get my mind off of things.")
 
 	quest
+		Arthur
+			icon = 'MaleRavenclaw.dmi'
+			gender = MALE
+
+			New()
+				..()
+
+				GenerateIcon(src)
+
+			questPointers = "Spring Cleaning \[Repeatable]"
+
+			questStart(mob/Player/i_Player, questName)
+				var/ScreenText/s = new(i_Player, src)
+
+				switch(questName)
+					if("Spring Cleaning \[Repeatable]")
+						s.AddText("Hello there, you seem strong, say... Would you mind helping me with a small matter?")
+						s.AddText("We want to expand the library to those few rooms but there's a rat infestation problem, I'd be in your debt if you could please get rid of those yucky rats!")
+
+				..(i_Player, questName)
+
+				questOngoing(i_Player, questName)
+
+			questOngoing(mob/Player/i_Player, questName)
+				.=..(i_Player, questName)
+
+				var/ScreenText/s = new(i_Player, src)
+
+				if(.)
+					switch(questName)
+						if("Spring Cleaning \[Repeatable]")
+							s.AddText("Thank you so much, your work is much appreciated, we however decided to expand the library at another floor...")
+
+				else
+
+
+					s.SetButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
+					s.AddText("Do you want to go kill those rats now?")
+
+					if(!s.Wait()) return
+					if(s.Result != "Yes") return
+
+					var/dungeon/d = new /dungeon(16, 100, 100, MAP_INDOORS)
+
+					d.ExitLoc = i_Player.loc
+					d.QuestName = "Spring Cleaning \[Daily]"
+					d.QuestArgs = "Clear Rat Infestation"
+
+					d.Enter(i_Player)
+
+			questCompleted(mob/Player/i_Player, questName)
+				var/ScreenText/s = new(i_Player, src)
+				s.AddText("Thanks again, those rats were really disgusting, if they come back I'll sure give you a call!")
 
 		Bob
 			icon = 'MaleSlytherin.dmi'
