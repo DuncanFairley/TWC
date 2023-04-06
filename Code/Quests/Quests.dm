@@ -438,10 +438,11 @@ mob/Player
 
 			removeAllImages()
 
-			for(var/area/a in currentArea.region.areas)
-				if(a.questMobs)
-					for(var/mob/TalkNPC/quest/m in a.questMobs)
-						questMarker(m)
+			if(currentArea.region)
+				for(var/area/a in currentArea.region.areas)
+					if(a.questMobs)
+						for(var/mob/TalkNPC/quest/m in a.questMobs)
+							questMarker(m)
 
 obj/items/demonic_essence
 	icon       = 'jokeitems.dmi'
