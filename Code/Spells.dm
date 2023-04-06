@@ -3119,12 +3119,7 @@ mob/Enemies
 			return exp2give
 
 		if(hpbar)
-			var/maxHP = MHP * (1 + hardmode) + (200 * hardmode * HPmodifier)
-			if(hardmode)
-				if(HPmodifier < 2)
-					maxHP *= 100 / (HPmodifier * 100)
-				if(hardmode > 5) maxHP += 2000 + (2000 * hardmode)
-
+			var/maxHP = getHardmodeHealth()
 			var/percent = HP / maxHP
 			hpbar.Set(percent, src)
 
