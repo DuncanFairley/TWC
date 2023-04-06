@@ -10,9 +10,6 @@
 
 to-do:
 	* more room types (ice, lava)
-	- monsters
-	- boss
-	? secret rooms reward
 	? boss key & door
 
 */
@@ -420,11 +417,18 @@ room
 				new parent.FloorType (t)
 
 		//decor
-		for(var/i = 1 to rand(1, 6))
+		for(var/i = 1 to rand(1, 4))
 			new /obj/lootdrop/norespawn (locate(rand(left+1, right-1), rand(bottom+1, top-2), parent.Z), 0)
+		if(size) // secret
+			var/obj/lootdrop/norespawn/chest = new (locate(rand(left+1, right-1), rand(bottom+1, top-2), parent.Z), 0)
+			chest.extraChance = 3
+			chest.transform = matrix() * 3
+			chest.icon_state = pick("chest", "chest2")
+			chest.name = "Chest"
+			chest.lootType = 1
 
 		if(connectsTo)
-			for(var/i = 1 to rand(5, 10))
+			for(var/i = 1 to rand(4, 8))
 				var/mob/Enemies/e = new parent.MonsterType (locate(rand(left+1, right-1), rand(bottom+1, top-2), parent.Z), 0)
 				e.origloc = null
 		else if(!size) // boss room
