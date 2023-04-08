@@ -99,6 +99,7 @@
 #define CRYSTAL_ARC "arc damage"
 #define CRYSTAL_TORNADO "tornado damage"
 #define CRYSTAL_BLOOD "damage leeched as health"
+#define CRYSTAL_CC "increased damage on monsters influenced by status effects"
 
 #define LEGENDARY 1
 #define CURSED 2

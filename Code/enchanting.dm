@@ -548,6 +548,12 @@ obj/items/crystal
 		passive      = CRYSTAL_BLOOD
 		passivePower = 1
 		rarity       = 4
+	affliction_crystal
+		name         = "blood crystal +1"
+		icon_state   = "damage"
+		passive      = CRYSTAL_CC
+		passivePower = 1
+		rarity       = 4
 
 
 
