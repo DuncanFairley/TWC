@@ -12,6 +12,13 @@ to-do:
 	* more room types (ice, lava)
 	? boss key & door
 
+
+	boss room key icon
+	minimap icon, maybe a scroll-like-globe/radar, perhaps just a map, at the moment using treasure hunting skill icon
+	wand holster - kole started on something but he lost it all i think
+	(lowest prio since not in use atm) pet bag, basically a bulky bag, one of them fantastic beasts bags.
+
+
 */
 
 var/list/generatedDungeons = list()
@@ -62,6 +69,9 @@ dungeon
 	var/rowSize
 	var/disposing = 0
 	var/list/Players
+	var/obj/Hogwarts_Door/door
+
+	var/puzzleType = 1
 
 
 	New(split, width, height, type)
@@ -182,6 +192,18 @@ dungeon
 					options -= option
 				if(found) break
 
+		if(puzzleType == 1)
+			if(prob(70))
+				var/room/key = rooms[used[rand(2, used.len-1)]]
+				var/mob/Enemies/e = locate() in range(key.Width/2, locate(floor(key.X + key.Width / 2), floor(key.Y + key.Height / 2), Z))
+
+				if(e) e.drops = /obj/items/dungeon_key
+				else door.door=1
+			else
+				var/room/key = rooms[SecretRoom]
+				new /obj/items/dungeon_key (locate(floor(key.X + key.Width / 2), floor(key.Y + key.Height / 2), Z))
+
+
 
 	proc/GetEntry()
 		var/room/r = rooms[FirstRoom]
@@ -243,8 +265,8 @@ dungeon
 			size2 = 0
 			shift = rand(-7, 7)
 		else
-			size1 = rand(0,2)
-			size2 = rand(0,2)
+			size1 = rand(1,7)
+			size2 = rand(1,7)
 
 			var/range = 7-max(size1, size2)
 			shift = rand(-range, range)
@@ -311,12 +333,15 @@ dungeon
 					bottomleft = new /turf/Hogwarts_Stone_Wall (bottomleft)
 					bottomleft.density = 0
 				else
-					new /obj/Hogwarts_Door (bottomleft)
+					door = new (bottomleft)
+					door.door = 0
 			else
 				start = (dir == WEST || dir == SOUTH) ? topright : bottomleft
 
 			if(type == ROOM_BOSS)
-				if(dir != NORTH || !NeedsWall) new /obj/Hogwarts_Door (start)
+				if(dir != NORTH || !NeedsWall)
+					door = new (start)
+					door.door = 0
 			else
 				var/turf/t = new EdgeType (start)
 				t.density = 0
@@ -495,3 +520,24 @@ obj/lootdrop/norespawn
 	respawn()
 		set waitfor = 0
 		loc = null
+
+obj/items/dungeon_key
+	icon = 'ChestKey.dmi'
+	icon_state = "master"
+	max_stack  = 1
+	canSave    = FALSE
+	fetchable  = 0
+
+	Take()
+		set src in oview(1)
+		var/mob/Player/p = usr
+		if(p.dungeon)
+			p.dungeon.door.door = 1
+			p << infomsg("Boss room is now unlocked!")
+			loc = null
+
+	Crossed(mob/Player/p)
+		if(isplayer(p) && p.dungeon)
+			p.dungeon.door.door = 1
+			p << infomsg("Boss room is now unlocked!")
+			loc = null
