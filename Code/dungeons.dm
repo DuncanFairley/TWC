@@ -58,6 +58,7 @@ dungeon
 	var/ExitLoc
 	var/QuestName
 	var/QuestArgs
+	var/list/Passives
 
 	var/EdgeType
 	var/FloorType
@@ -220,7 +221,24 @@ dungeon
 
 		p.Transfer(GetEntry())
 
+		if(Passives)
+			if(!p.passives) p.passives = list()
+
+			for(var/e in Passives)
+				p << infomsg("You gain the power of [e].")
+				p.passives[e] += 1
+
 	proc/Exit(mob/Player/p)
+
+		if(p.dungeon.Passives)
+			for(var/e in Passives)
+				p.passives[e] -= 1
+
+				if(p.passives[e] <= 0) p.passives -= e
+
+				if(!p.passives.len)
+					p.passives = null
+
 		p.dungeon = null
 		Players -= p
 		if(!Players.len)

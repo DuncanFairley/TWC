@@ -1,5 +1,68 @@
 mob/TalkNPC
 
+	Diablo
+		icon = 'FemaleSlytherin.dmi'
+
+		gender = FEMALE
+
+		dashChance = 40
+		level      = 6000
+		melee      = 1
+
+		New()
+			..()
+			tag = "Diablo"
+
+			GenerateIcon(src, wig="red")
+
+		Talk()
+			var/mob/Player/p = usr
+
+			var/ScreenText/s = new(p, src)
+
+			s.SetButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
+			s.AddText("Do you want to explore my dungeon? (Level 800 recommended)")
+
+			if(!s.Wait()) return
+			if(s.Result != "Yes") return
+
+			var/dungeon/d = new /dungeon(16, 100, 100)
+			var/t = rand(1,3)
+			if(t == 1)
+				d.NeedsWall = /turf/Hogwarts_Stone_Wall
+				d.EdgeType = /turf/roofb
+				d.FloorType = pick(/turf/woodenfloor, /turf/woodenfloorblack, /turf/woodenfloor { color="#008eaa" })
+
+			else if(t == 2)
+				d.EdgeType = /turf/blankturf/edge
+				d.FloorType = /turf/grass
+
+			else if(t == 3)
+				d.EdgeType = /turf/blankturf/edge
+				d.FloorType = /turf/sand
+
+			d.MonsterType = pick(/mob/Enemies/Rat             { level = 900; HPmodifier = 2.5; DMGmodifier = 1.2 },\
+								 /mob/Enemies/Training_Dummy  { level = 900; HPmodifier = 2.5; DMGmodifier = 1.2 },\
+								 /mob/Enemies/Pixie           { level = 900; HPmodifier = 2.5; DMGmodifier = 1.2 },\
+								 /mob/Enemies/Dog             { level = 900; HPmodifier = 2.5; DMGmodifier = 1.2 },\
+								 /mob/Enemies/Snake           { level = 900; HPmodifier = 2.5; DMGmodifier = 1.2 },\
+								 /mob/Enemies/Wolf            { level = 900; HPmodifier = 2.5; DMGmodifier = 1.2 },\
+								 /mob/Enemies/Acromantula     { level = 900; HPmodifier = 2.5; DMGmodifier = 1.2 },\
+								 /mob/Enemies/Troll           { level = 900; HPmodifier = 2.5; DMGmodifier = 1.2 },\
+								 /mob/Enemies/Water_Elemental { level = 900; HPmodifier = 2.5; DMGmodifier = 1.2 },\
+								 /mob/Enemies/Fire_Elemental  { level = 900; HPmodifier = 2.5; DMGmodifier = 1.2 },\
+								 /mob/Enemies/Wyvern          { level = 900; HPmodifier = 2.5; DMGmodifier = 1.2 },\
+								 /mob/Enemies/Archangel       { level = 900; HPmodifier = 2.5; DMGmodifier = 1.2 })
+
+			d.Passives = list(pick(RING_WATERWALK, RING_APPARATE, RING_DISPLACEMENT, RING_LAVAWALK, RING_ALCHEMY, RING_CLOWN, RING_FAIRY, RING_NINJA, RING_NURSE),\
+                              pick(SHIELD_ALCHEMY, SHIELD_NINJA, SHIELD_NURSE, SHIELD_CLOWN, SHIELD_MP, SHIELD_GOLD, SHIELD_THORN),\
+							  pick(SWORD_ALCHEMY, SWORD_NINJA, SWORD_NURSE, SWORD_CLOWN, SWORD_EXPLODE, SWORD_FIRE, SWORD_HEALONKILL, SWORD_ANIMAGUS, SWORD_GHOST, SWORD_SNAKE, SWORD_THORN))
+
+			d.ExitLoc = p.loc
+			d.Generate()
+
+			d.Enter(p)
+
 	Sarah
 		icon = 'FemaleGryffindor.dmi'
 
