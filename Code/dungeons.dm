@@ -541,10 +541,11 @@ obj/lootdrop/norespawn
 
 obj/items/dungeon_key
 	icon = 'ChestKey.dmi'
-	icon_state = "master"
+	icon_state = "boss"
 	max_stack  = 1
 	canSave    = FALSE
 	fetchable  = 0
+	rarity     = 5
 
 	Take()
 		set src in oview(1)
