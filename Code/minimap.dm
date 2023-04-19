@@ -83,19 +83,33 @@ hudobj
 		MouseExited()
 			alpha = 110
 
+		verb/Hide()
+			set src in usr.client.screen
+
+			var/mob/Player/p = usr
+
+			p.miniMapMode = 0
+			p.client.screen -= p.minimapPlane
+			p.client.screen -= p.map
+
+
 		Click()
 			var/mob/Player/p = usr
 
-			if(p.miniMapBig)
+			if(p.miniMapMode == 1)
+				p.minimapPlane.screen_loc = "CENTER-1,CENTER-1"
+				p.map.screen_loc = "CENTER-1,CENTER-1"
+				p.minimapPlane.transform = matrix() * 3
+				p.miniMapMode = 2
+			else
+				if(p.miniMapMode == 0)
+					p.client.screen += p.minimapPlane
+					p.client.screen += p.map
+
 				p.minimapPlane.screen_loc = "EAST-3,SOUTH+1"
 				p.map.screen_loc = "EAST-3,SOUTH+1"
 				p.minimapPlane.transform = null
-			else
-				p.minimapPlane.screen_loc = "CENTER,CENTER"
-				p.map.screen_loc = "CENTER,CENTER"
-				p.minimapPlane.transform = matrix() * 2
-
-			p.miniMapBig = !p.miniMapBig
+				p.miniMapMode = 1
 
 mob/test/verb/zoomMinimap(var/z as num)
 
@@ -109,16 +123,16 @@ mob/test/verb/zoomMinimap(var/z as num)
 
 	p.map.transform = m
 
-	if(p.miniMapBig)
+	if(p.miniMapMode)
 		p.minimapPlane.screen_loc = "EAST-4,NORTH-4"
 		p.map.screen_loc = "EAST-4,NORTH-4"
 		p.minimapPlane.transform = null
 	else
-		p.minimapPlane.screen_loc = "CENTER,CENTER"
-		p.map.screen_loc = "CENTER,CENTER"
-		p.minimapPlane.transform = matrix() * 2
+		p.minimapPlane.screen_loc = "CENTER-1,CENTER-1"
+		p.map.screen_loc = "CENTER-1,CENTER-1"
+		p.minimapPlane.transform = matrix() * 3
 
-	p.miniMapBig = !p.miniMapBig
+	p.miniMapMode = !p.miniMapMode
 
 //	var/offset = 4 + round((100 * (z - 1)) / 12, 1)
 
@@ -131,7 +145,7 @@ mob/Player
 	var/tmp/obj/minimap/minimap/map
 	var/tmp/obj/minimap/plane/minimapPlane
 	var/zoomFactor = 2
-	var/tmp/miniMapBig = 0
+	var/miniMapMode = 1
 
 	proc/initMinimap()
 		minimapPlane = new
@@ -151,8 +165,14 @@ mob/Player
 		map.transform = m
 
 
-		client.screen += minimapPlane
-		client.screen += map
+	//	client.screen += minimapPlane
+	//	client.screen += map
+
+		if(miniMapMode)
+			miniMapMode = 1
+			client.screen += minimapPlane
+			client.screen += map
+
 
 	Move()
 		.=..()
