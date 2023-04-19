@@ -64,6 +64,7 @@ dungeon
 	var/FloorType
 	var/NeedsWall = 0
 	var/MonsterType
+	var/Decorations
 
 	var/list/rooms
 	var/swapmap/fastdel/map
@@ -89,9 +90,13 @@ dungeon
 			EdgeType = /turf/roofb
 			FloorType = pick(/turf/woodenfloor, /turf/woodenfloorblack, /turf/woodenfloor { color="#008eaa" })
 
+			Decorations = list(/obj/static_obj/Armor, /obj/static_obj/Angel, /obj/static_obj/Columb)
+
 		else if(Type == MAP_GRASS)
 			EdgeType = /turf/blankturf/edge
 			FloorType = /turf/grass
+
+			Decorations = list(/obj/static_obj/Pink_Flowers, /obj/static_obj/Blue_Flowers, /obj/static_obj/Pink_Flowers { icon_state = "Rose Bush"; name = "Rose Bush" })
 
 		else if(Type == MAP_DESERT)
 			EdgeType = /turf/blankturf/edge
@@ -460,8 +465,6 @@ room
 				new parent.FloorType (t)
 
 		//decor
-		for(var/i = 1 to rand(1, 4))
-			new /obj/lootdrop/norespawn (locate(rand(left+1, right-1), rand(bottom+1, top-2), parent.Z), 0)
 		if(size) // secret
 			var/obj/lootdrop/norespawn/chest = new (locate(rand(left+1, right-1), rand(bottom+1, top-2), parent.Z), 0)
 			chest.extraChance = 3
@@ -469,6 +472,33 @@ room
 			chest.icon_state = pick("chest", "chest2")
 			chest.name = "Chest"
 			chest.lootType = 1
+		else //if(prob(60))
+
+			var/pillar = rand(1, 6)
+
+			var/angle_change = 360 / (pillar)
+			var/angle = pick(0, 90, 180, 270)
+			var/distanceW = (right - left) / 2
+			var/distanceH = (top   - bottom) / 2
+
+			var/rngDistanceW = rand(2, distanceW-2)
+			var/rngDistanceH = rand(2, distanceH-2)
+
+			var/decorType = pick(parent.Decorations)
+
+			for(var/p = 1 to pillar)
+				var/px = round(left   + distanceW + rngDistanceW * cos(angle))
+				var/py = round(bottom + distanceH + rngDistanceH * sin(angle))
+
+	//			new parent.EdgeType  (locate(px, py+1, parent.Z))
+	//			new parent.NeedsWall (locate(px, py, parent.Z))
+				new decorType (locate(px, py, parent.Z))
+
+				angle = (360 + angle + angle_change) % 360
+
+		for(var/i = 1 to rand(1, 4))
+			new /obj/lootdrop/norespawn (locate(rand(left+1, right-1), rand(bottom+1, top-2), parent.Z), 0)
+
 
 		if(connectsTo)
 			for(var/i = 1 to rand(4, 8))

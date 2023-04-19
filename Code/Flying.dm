@@ -1109,6 +1109,11 @@ obj
 			icon_state = "angel"
 			density    = 1
 			layer      = MOB_LAYER + 1
+		Columb
+			icon       = 'statues_64x64.dmi'
+			icon_state = "columb"
+			density    = 1
+			layer      = MOB_LAYER + 1
 		statuebody
 			icon       = 'statues.dmi'
 			icon_state = "stat"

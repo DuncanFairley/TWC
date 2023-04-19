@@ -32,10 +32,12 @@ mob/TalkNPC
 				d.NeedsWall = /turf/Hogwarts_Stone_Wall
 				d.EdgeType = /turf/roofb
 				d.FloorType = pick(/turf/woodenfloor, /turf/woodenfloorblack, /turf/woodenfloor { color="#008eaa" })
+				d.Decorations = list(/obj/static_obj/Armor, /obj/static_obj/Angel, /obj/static_obj/Columb)
 
 			else if(t == 2)
 				d.EdgeType = /turf/blankturf/edge
 				d.FloorType = /turf/grass
+				d.Decorations = list(/obj/static_obj/Pink_Flowers, /obj/static_obj/Blue_Flowers, /obj/static_obj/Pink_Flowers { icon_state = "Rose Bush"; name = "Rose Bush" })
 
 			else if(t == 3)
 				d.EdgeType = /turf/blankturf/edge
