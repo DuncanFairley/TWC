@@ -2,7 +2,7 @@ teleportNode
 	var
 		list/nodes
 		list/areas
-		list/minimapEnemies
+//		list/minimapEnemies
 		name
 		active = FALSE
 
@@ -18,7 +18,8 @@ teleportNode
 
 			if(p.map)
 				p.map.icon_state = name
-				p.map.vis_contents = minimapEnemies
+//				p.map.vis_contents = minimapEnemies
+				p.map.vis_contents = null
 
 			p.updateQuestMarkers()
 
@@ -32,7 +33,7 @@ teleportNode
 
 		Exited(mob/Player/p, area/area, teleportNode/oldRegion)
 
-			if(p.map && !oldRegion && minimapEnemies)
+			if(p.map && !oldRegion) //&& minimapEnemies)
 				p.map.vis_contents = null
 
 			if(active <= 0) return
@@ -46,7 +47,7 @@ teleportNode
 
 		init()
 
-			minimapEnemies = list()
+/*			minimapEnemies = list()
 
 			for(var/area/a in areas)
 				if(!a.containsMonsters) continue
@@ -59,11 +60,11 @@ teleportNode
 
 					minimapEnemies += M.minimapDot
 
-			if(minimapEnemies.len == 0) minimapEnemies = null
+			if(minimapEnemies.len == 0) minimapEnemies = null*/
 
 
 
-mob/Enemies/var/tmp/obj/minimap/enemy/minimapDot
+//mob/Enemies/var/tmp/obj/minimap/enemy/minimapDot
 
 
 
