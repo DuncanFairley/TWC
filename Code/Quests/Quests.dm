@@ -829,8 +829,13 @@ mob/Player/Topic(href, href_list[])
 				find = "Forbidden Forest"
 			if("Pumpkin")
 				level = 750
+				find = "Pumpkin Dungeon"
 			if("Snowman")
 				level = 700
+				find = "Snowman Dungeon"
+			if("The Good Snowman")
+				level = 2300
+				find = "Snowman Dungeon"
 			if("Wisp")
 				level = 850
 				find = "Graveyard Underground"
@@ -865,7 +870,7 @@ mob/Player/Topic(href, href_list[])
 			if("Basilisk")
 				level = 2000
 				find = "Chamber of Secrets"
-				ability = "Freeze"
+				ability = "Stone Gaze"
 			if("Stickman")
 				level = 2200
 				find = "Chamber of Secrets"
@@ -885,6 +890,33 @@ mob/Player/Topic(href, href_list[])
 			if("Floating Eye")
 				level = 900
 				ability = "Deathball"
+			if("Eye_of_The_Fallen")
+				level = 2200
+				ability = "Deathball barrage"
+				find = "Desert"
+			if("Demon Snake")
+				level = 850
+				ability = "mini snake on death"
+				find = "Snake Dungeon"
+			if("Akalla")
+				level = 2400
+				ability = "Stone Gaze, Bombarda barrage, lava filling room"
+				find = "Snake Dungeon"
+			if("Cloud")
+				level = 850
+				ability = "Water droplet"
+			if("Flying Book")
+				level = 900
+				ability = "Random spell"
+				find = "Library Dungeon"
+			if("Cownomicon")
+				level = 2600
+				ability = "Random spell, random spell barrage, Episkey"
+				find = "Library Dungeon"
+			if("Training Dummy")
+				level = 750
+				find = "Room of Requirement"
+
 
 		var/knowlevel = round(log(10, monsterkills[monster]) + 1)
 
