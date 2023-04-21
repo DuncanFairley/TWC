@@ -155,7 +155,8 @@ obj/summon
 		p.Summons += src
 		p.summons += summonTier
 
-		hpbar = new(src)
+		hpbar = new
+		vis_contents += hpbar
 
 		if(size)
 			size = min(3, size + p.Summoning.level/40)
@@ -169,11 +170,11 @@ obj/summon
 
 		state()
 
-	Move(NewLoc)
-		if(hpbar)
-			hpbar.glide_size = glide_size
-			hpbar.loc = NewLoc
-		.=..()
+//	Move(NewLoc)
+//		if(hpbar)
+//			hpbar.glide_size = glide_size
+//			hpbar.loc = NewLoc
+//		.=..()
 
 	Click()
 		..()
@@ -190,7 +191,7 @@ obj/summon
 
 		..()
 
-//		var/resummon = 0
+		var/resummon = 0
 
 		if(target)
 			if(ismonster(target))
@@ -203,7 +204,7 @@ obj/summon
 							summoner.usedSpellbook.cast(summoner)
 						else
 							winset(summoner, null, "command=\"[cast]\"")
-	//					resummon = 1
+						resummon = 1
 
 				else
 					target:ShouldIBeActive()
@@ -211,8 +212,8 @@ obj/summon
 
 		if(summoner)
 
-	//		if(!resummon && cast && summoner.client.inactivity < 300)
-	//			winset(summoner, null, "command=\"[cast]\"")
+			if(!resummon && cast && summoner.client.inactivity < 3000)
+				winset(summoner, null, "command=\"[cast]\"")
 			summoner.summons -= summonTier
 			summoner.Summons -= src
 			if(summoner.Summons.len == 0)
