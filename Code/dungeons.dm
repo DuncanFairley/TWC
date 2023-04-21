@@ -472,7 +472,7 @@ room
 			chest.icon_state = pick("chest", "chest2")
 			chest.name = "Chest"
 			chest.lootType = 1
-		else //if(prob(60))
+		else if(parent.Decorations && prob(85))
 
 			var/pillar = rand(1, 6)
 
