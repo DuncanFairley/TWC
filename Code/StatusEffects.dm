@@ -479,6 +479,37 @@ StatusEffect
 	SantaSpawned
 	WandPower
 
+	Bind
+		var/filter
+		var/time
+
+		New(atom/pAttachedAtom,t,cooldownname,time)
+			src.time = time
+			.=..()
+
+		Activate()
+			..()
+			var/mob/Enemies/e = AttachedAtom
+			var/c = "#aaa"
+
+			e.filters += filter(type="color", color=list(c, c, c))
+			filter = e.filters[e.filters.len]
+
+			e.slow+=time
+			e.lag+=time
+			e.glide_size = 32/e.lag
+
+		Deactivate()
+			var/mob/Enemies/e = AttachedAtom
+			if(e)
+				e.filters -= filter
+				filter = null
+
+				e.slow-=time
+				e.lag-=time
+				e.glide_size = 32/e.lag
+			..()
+
 	Slow
 		var/filter
 		Activate()
