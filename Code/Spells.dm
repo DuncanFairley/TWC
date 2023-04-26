@@ -665,18 +665,36 @@ mob/Spells/verb/Shelleh()
 
 mob/Spells/verb/Ferula()
 	set category = "Spells"
-	if(canUse(src,cooldown=/StatusEffect/UsedFerula,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
-		new /StatusEffect/UsedFerula(src, 60*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, "Ferula")
-		var/obj/Madame_Pomfrey/p = new /obj/Madame_Pomfrey (loc, 500)
 
-		var/turf/t = locate(x,y+1,z)
-		if(t)
-			p.loc = t
+	var/mob/Player/p = src
+	var/mpCost = 100
+	var/spellName = "Ferula"
 
-		p.FlickState("Orb",12,'Effects.dmi')
-		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=aqua> Ferula!"
-		hearers()<<"[usr] has summoned Madame Pomfrey!"
-		usr:learnSpell("Ferula")
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
+	var/tier = round(log(10, uses)) - 1
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
+
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=100,againstocclumens=1))
+
+		if(p.summons >= 1 + p.extraLimit + round(p.Summoning.level / 10))
+			p << errormsg("You need higher summoning level to summon more.")
+			return
+
+		new /StatusEffect/Summoned(src, 15*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, spellName)
+
+		p.MP -= mpCost
+		p.updateMP()
+
+		if(SWORD_NURSE in p.passives)
+			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=4 color=#FF8C00>Ferula!</font>"
+			var/obj/summon/nurse/s = new  (loc, src, "Nurse", 0, tier + 400)
+			s.FlickState("m-black",8,'Effects.dmi')
+		else
+			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=aqua> Ferula!"
+			var/obj/summon/nurse/s = new  (loc, src, "Nurse", 0, tier)
+			s.FlickState("m-black",8,'Effects.dmi')
+
+		usr:learnSpell(spellName)
 
 mob/Spells/verb/Avis()
 	set category = "Spells"

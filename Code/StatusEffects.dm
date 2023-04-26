@@ -439,8 +439,6 @@ StatusEffect
 	Summoned
 	Decloaked
 	Knockedfrombroom
-	UsedFerulaToHeal
-	UsedFerula
 	UsedLevicorpus
 	UsedEvanesco
 	UsedEvanesca

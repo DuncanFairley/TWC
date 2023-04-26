@@ -30,8 +30,11 @@ obj/summon
 		icon_state = "snake"
 	phoenix
 		icon_state = "bird"
-		level = 100
-		scale = 1.2
+
+		Effect(var/damage)
+			summoner.HP = min(round(summoner.HP + damage*0.05, 1), summoner.MHP)
+			summoner.updateHP()
+
 	stickman
 		icon_state = "stickman"
 		level = 150
@@ -121,6 +124,17 @@ obj/summon
 		icon_state = "slug"
 		level = 180
 		scale = 1.6
+
+	nurse
+		level = 50
+		scale = 0.5
+		icon = 'NPCs.dmi'
+		icon_state = "nurse"
+
+		Effect(var/damage)
+			summoner.HP = min(round(summoner.HP + damage*0.25, 1), summoner.MHP)
+			summoner.updateHP()
+
 
 	New(turf/loc, mob/Player/p, spell, size=0, extraLevel=0)
 		set waitfor = 0
@@ -260,6 +274,9 @@ obj/summon
 				p.owner << infomsg("<i>You killed [summoner]'s [name].</i>")
 				Dispose()
 
+	proc/Effect(var/damage)
+
+
 	proc/state()
 		set waitfor = 0
 
@@ -303,6 +320,8 @@ obj/summon
 							var/exp2give = e.onDamage(dmg, summoner, projColor=c)
 
 							if(!summoner) break
+
+							Effect(dmg)
 
 							if(exp2give > 0)
 								target = null
