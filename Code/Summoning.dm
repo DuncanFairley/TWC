@@ -156,6 +156,7 @@ obj/summon
 		p.summons += summonTier
 
 		hpbar = new
+		hpbar.appearance_flags |= RESET_TRANSFORM
 		vis_contents += hpbar
 
 		if(size)
