@@ -3212,10 +3212,16 @@ obj
 			src.owner = mob
 			src.name = name
 
+			if(element == FIRE)
+				var/obj/light/l = new
+				l.transform = matrix() * 0.5
+				vis_contents += l
+
 			spawn(life)
 				Dispose()
 
 		Dispose()
+			vis_contents = null
 			walk(src,0)
 			..()
 		proc
@@ -3686,39 +3692,49 @@ obj
 
 			Effect(atom/movable/a)
 
-				if(src.owner && isplayer(a))
-					var/mob/Player/p = a
-					owner << "Your [src] hit [a]!"
+				if(src.owner)
+					if(isplayer(a))
+						var/mob/Player/p = a
+						owner << "Your [src] hit [a]!"
 
 
-					if(p.removeoMob)
-						p << errormsg("Your Permoveo spell failed.")
-						p.client.eye = p
-						p.client.perspective=MOB_PERSPECTIVE
-						p.removeoMob:ReturnToStart()
-						p.removeoMob:removeoMob = null
-						p.removeoMob = null
+						if(p.removeoMob)
+							p << errormsg("Your Permoveo spell failed.")
+							p.client.eye = p
+							p.client.perspective=MOB_PERSPECTIVE
+							p.removeoMob:ReturnToStart()
+							p.removeoMob:removeoMob = null
+							p.removeoMob = null
 
-					p << errormsg("You were hit by [owner]'s [name].")
+						p << errormsg("You were hit by [owner]'s [name].")
 
-					p.nomove=1
-					if(!p.trnsed)
-						p.icon_state = icon_state
-						p.overlays   = null
+						p.nomove=1
+						if(!p.trnsed)
+							p.icon_state = icon_state
+							p.overlays   = null
 
-					src.owner:learnSpell(name, 10)
+						src.owner:learnSpell(name, 10)
 
-					spawn()
-						var/t = round(time * 10)
-						while(p && p.nomove && t > 0)
-							t--
-							sleep(1)
+						spawn()
+							var/t = round(time * 10)
+							while(p && p.nomove && t > 0)
+								t--
+								sleep(1)
 
-						if(p)
-							p.nomove = 0
-							if(!p.trnsed)
-								p.icon_state = ""
-								p.ApplyOverlays()
+							if(p)
+								p.nomove = 0
+								if(!p.trnsed)
+									p.icon_state = ""
+									p.ApplyOverlays()
+					else if(ismonster(a))
+						var/mob/Enemies/e = a
+						var/t = time
+						if(e.isElite) t *= 0.5
+						if(e.level > owner.level) t *= 0.5
+						if(e.level >= 1000) t *= 0.5
+
+						if(!a.findStatusEffect(/StatusEffect/Bind))
+							new /StatusEffect/Bind (a,t,time=t*10)
 
 		BurnRoses
 
