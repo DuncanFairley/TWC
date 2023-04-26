@@ -130,6 +130,15 @@ obj/summon
 		scale = 0.5
 		icon = 'NPCs.dmi'
 		icon_state = "nurse"
+		corpse = 0
+
+		Dispose()
+
+			var/obj/corpse/c = new (loc, src, turn=0, time=0)
+			flick("disappaear", c)
+	//		c.FlickState("disappaear",8,'NPCs.dmi')
+
+			..()
 
 		Effect(var/damage)
 			summoner.HP = min(round(summoner.HP + damage*0.25, 1), summoner.MHP)

@@ -687,12 +687,14 @@ mob/Spells/verb/Ferula()
 
 		if(SWORD_NURSE in p.passives)
 			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=4 color=#FF8C00>Ferula!</font>"
-			var/obj/summon/nurse/s = new  (loc, src, "Nurse", 0, tier + 400)
-			s.FlickState("m-black",8,'Effects.dmi')
+			var/obj/summon/nurse/s = new  (loc, src, "Ferula", 0, tier + 400)
+			flick("summon", s)
+	//		s.FlickState("summon",8,'NPCs.dmi')
 		else
 			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=aqua> Ferula!"
-			var/obj/summon/nurse/s = new  (loc, src, "Nurse", 0, tier)
-			s.FlickState("m-black",8,'Effects.dmi')
+			var/obj/summon/nurse/s = new  (loc, src, "Ferula", 0, tier)
+			flick("summon", s)
+	//		s.FlickState("summon",8,'NPCs.dmi')
 
 		usr:learnSpell(spellName)
 
