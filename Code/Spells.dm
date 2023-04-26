@@ -719,7 +719,7 @@ mob/Spells/verb/Avis()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=yellow> Avis!"
 		hearers()<<"A Phoenix emerges."
-		var/obj/summon/phoenix/s = new  (loc, src, "Avis", 0.5)
+		var/obj/summon/phoenix/s = new  (loc, src, "Avis", 0.5, tier)
 		s.FlickState("m-black",8,'Effects.dmi')
 		p.learnSpell(spellName)
 
