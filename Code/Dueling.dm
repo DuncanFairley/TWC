@@ -99,6 +99,7 @@ proc
 				stack[++top] = high
 
 	quicksort(list/L)
+		if(L.len <= 1) return
 		var/low = 1
 		var/high = L.len
 		var/top = 2
