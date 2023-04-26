@@ -3736,6 +3736,8 @@ obj
 						if(!a.findStatusEffect(/StatusEffect/Bind))
 							new /StatusEffect/Bind (a,t,time=t*10)
 
+							owner:learnSpell(name, 10)
+
 		BurnRoses
 
 			Effect(atom/movable/a)
