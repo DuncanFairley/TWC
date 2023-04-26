@@ -1206,6 +1206,40 @@ obj
 
 mob/Player/var/list/knownPotions
 
+proc/getRngRecipe()
+	var/i = rand(1, worldData.potions.len)
+	var/ing    = worldData.potions[i]
+	var/potion = worldData.potions[ing]
+
+	while(potion == 0)
+		i = rand(1, worldData.potions.len)
+		ing    = worldData.potions[i]
+		potion = worldData.potions[ing]
+
+	ing = text2num(ing)
+	var/ingredients = ""
+
+	if(ing & 1)    ingredients += "daisy, "
+	if(ing & 2)    ingredients += "powdered daisy, "
+	if(ing & 4)    ingredients += "daisy extract, "
+
+	if(ing & 8)    ingredients += "aconite, "
+	if(ing & 16)   ingredients += "powdered aconite, "
+	if(ing & 32)   ingredients += "aconite extract, "
+
+	if(ing & 64)   ingredients += "eyes, "
+	if(ing & 128)  ingredients += "powdered eyes, "
+	if(ing & 256)  ingredients += "eyes extract, "
+
+	if(ing & 512)  ingredients += "rat tail, "
+	if(ing & 1024) ingredients += "powdered rat tail, "
+	if(ing & 2048) ingredients += "rat tail extract, "
+
+	var/list/t = splittext("[potion]", "/")
+	potion = replacetext(t[t.len], "_", " ")
+
+	return list(ingredients, potion)
+
 obj/items/potions_book
 	icon       = 'Books.dmi'
 	icon_state = "potion"

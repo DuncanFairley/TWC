@@ -121,6 +121,11 @@ class
 		lastTaught = world.time
 		say("Welcome students to [subject] class. Today you will be learning about the spell [name].", p)
 		sleep(30)
+
+		var/list/recipe = getRngRecipe()
+		say("Before I begin, to help with your potion studies, I hear [recipe[1]]will produce [recipe[2]] potion.", p)
+		sleep(30)
+
 		say("When I'm done explaining the spell, please come to me and take a practice wand, use that wand to practice the spell until you've learned it. Of course if you already have a practice wand of another spell, you will not be able to get another.", p)
 		sleep(60)
 		say("This spell [mp ? "uses [mp] of your" : "does not use"] MP for each use. It [wand ? "requires" : "doesn't require"] a wand.", p)
