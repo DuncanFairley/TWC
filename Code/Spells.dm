@@ -2394,8 +2394,13 @@ mob/Spells/verb/Scan(mob/Player/M in view())
 mob/Spells/verb/Inferius()
 	set category = "Spells"
 
+	var/mob/Player/p = src
+	var/spellName = "Inferius"
+
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
+	var/tier = round(log(10, uses)) - 1
+
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=0,inhogwarts=0,target=null,mpreq=0,againstocclumens=1))
-		var/mob/Player/p = src
 
 		var/limit = 1 + p.extraLimit + round(p.Summoning.level / 10)
 
@@ -2407,6 +2412,8 @@ mob/Spells/verb/Inferius()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=silver> Inferius!"
 
+		p.learnSpell(spellName)
+
 		for(var/obj/corpse/c in view(15, src))
 			if(c.gold == -1 || c.revive == 1) continue
 
@@ -2414,7 +2421,7 @@ mob/Spells/verb/Inferius()
 			animate(c, transform = null, alpha = 255, time = 10)
 
 			sleep(10)
-			var/obj/summon/corpse/s = new  (c.loc, src, "Inferius")
+			var/obj/summon/corpse/s = new  (c.loc, src, "Inferius", 1, tier)
 			c.loc = null
 			s.appearance = c.appearance
 			s.dir = c.dir
