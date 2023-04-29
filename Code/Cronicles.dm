@@ -351,6 +351,11 @@ mob
 						p.monsterkills -= i
 
 
+			if(savefile_version < 50)
+				for(var/obj/items/lamps/l in src)
+					for(var/obj/o in l.contents)
+						o.Move(src)
+
 
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")

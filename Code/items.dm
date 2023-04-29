@@ -3698,8 +3698,8 @@ obj/items/lamps
 				if(stack > 1)
 					var/obj/items/lamps/l = Split(1)
 					l.max_stack = 1
-					l.Move(src)
-					S = new effect (usr, l.seconds, "Lamp", l)
+					l.Move(usr)
+					l.S = new effect (usr, l.seconds, "Lamp", l)
 				else
 					S = new effect (usr, seconds, "Lamp", src)
 		else
