@@ -147,7 +147,8 @@ obj/summon
 
 	New(turf/loc, mob/Player/p, spell, size=0, extraLevel=0)
 		set waitfor = 0
-		..()
+
+		if(!src.loc || src.loc.density) src.loc = p.loc
 
 		sleep(1)
 		if(loc)
@@ -163,7 +164,7 @@ obj/summon
 		MHP      = 4 * (level) + 200
 		HP       = MHP
 		extraDmg = round(((p.Dmg + p.clothDmg) - (p.level + 4)) * 0.5)
-		duration = 600 + p.Summoning.level*10
+		duration = 900 + p.Summoning.level*60
 
 		if(p.summons + summonTier * p.summonsMode <= 1 + p.extraLimit + round(p.Summoning.level / 10))
 			summonTier = summonTier * p.summonsMode
