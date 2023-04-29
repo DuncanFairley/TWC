@@ -525,6 +525,7 @@ mob
 					damage
 				hardmode = 0
 				slow = 0
+				stun = 0
 
 				revenge
 
@@ -964,9 +965,10 @@ mob
 						step_rand(src)
 
 					if(SEARCH)
-						Search()
+						if(!stun) Search()
 					if(HOSTILE)
-						Attack()
+						if(!stun)
+							Attack()
 					if(CONTROLLED)
 						BlindAttack()
 				sleep(lag)
