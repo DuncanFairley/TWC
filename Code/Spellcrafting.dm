@@ -801,6 +801,8 @@ obj
 			if(src in range(3))
 				usr.dir = get_dir(usr, src)
 				drop(usr)
+			else
+				..()
 
 		Attacked(obj/projectile/p)
 			if(icon_state == "barrels" && isplayer(p.owner))

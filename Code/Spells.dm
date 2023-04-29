@@ -72,6 +72,16 @@ proc/name2spellpath(name)
 			return V
 	world.log << "Was unable to find a spellpath in proc/name2spellpath with name=[name]"
 
+obj
+	Click()
+		var/mob/Player/p = usr
+
+		if(accioable && get_dist(usr, src) > 1)
+
+			if(/mob/Spells/verb/Accio in p.verbs)
+				call(p, /mob/Spells/verb/Accio)(src)
+
+
 mob/Spells/verb/Accio(obj/M in oview(15,usr))
 	set category = "Spells"
 	set waitfor = 0
