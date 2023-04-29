@@ -477,6 +477,49 @@ StatusEffect
 	SantaSpawned
 	WandPower
 
+	Slugs
+		var/filter
+		var/mob/Player/owner
+
+		New(atom/pAttachedAtom,t,cooldownname,mob/Player/owner)
+			src.owner = owner
+			.=..()
+
+		Activate()
+			set waitfor = 0
+			..()
+			var/mob/Enemies/e = AttachedAtom
+
+			var/c = "#080"
+
+			e.filters += filter(type="color", color=list(c, c, c))
+			filter = e.filters[e.filters.len]
+
+			var/dmg = (owner.Dmg + owner.clothDmg) * 0.2
+
+			while(e)
+
+				if(prob(15))
+					for(var/mob/Enemies/spread in range(1, e))
+						if(e == spread) continue
+						if(!spread.findStatusEffect(/StatusEffect/Slugs))
+							new /StatusEffect/Slugs (spread, 10, owner=owner)
+							break
+
+				e.onDamage(dmg, owner)
+				sleep(10)
+
+
+
+		Deactivate()
+			var/mob/Enemies/e = AttachedAtom
+			if(e)
+				e.filters -= filter
+				filter = null
+
+			..()
+
+
 	Bind
 		var/filter
 		var/time
@@ -495,7 +538,8 @@ StatusEffect
 
 			e.slow+=time
 			e.lag+=time
-			e.glide_size = 32/e.lag
+			e.glide_size = 32
+			e.stun = 1
 
 		Deactivate()
 			var/mob/Enemies/e = AttachedAtom
@@ -506,10 +550,12 @@ StatusEffect
 				e.slow-=time
 				e.lag-=time
 				e.glide_size = 32/e.lag
+				e.stun = 0
 			..()
 
 	Slow
 		var/filter
+
 		Activate()
 			..()
 			var/mob/Enemies/e = AttachedAtom
@@ -535,6 +581,7 @@ StatusEffect
 
 	Crucio
 		var/filter
+
 		Activate()
 			..()
 			var/mob/m = AttachedAtom

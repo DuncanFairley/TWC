@@ -126,11 +126,9 @@ obj/items/proc/walkTo(atom/movable/a, pickup=0)
 		Move(a)
 
 
-mob/Spells/verb/Eat_Slugs(var/n as text)
+mob/Spells/verb/Eat_Slugs(var/n=null as text)
 	set category = "Spells"
-	set hidden = 1
-	if(IsInputOpen(src, "Eat Slugs"))
-		del _input["Eat Slugs"]
+//	set hidden = 1
 
 	var/mob/Player/p = src
 	var/mpCost = 100
@@ -141,44 +139,48 @@ mob/Spells/verb/Eat_Slugs(var/n as text)
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
-		var/list/people = ohearers(client.view)&Players
 		var/mob/Player/M
 		if(n)
+			var/list/people = ohearers(client.view)&Players
 			for(var/mob/Player/i in people)
 				if(findtext(n, i.name) && length(i.name) + 2 >= length(n))
 					M = i
 					break
-		if(!M && people.len)
-			var/Input/popup = new (src, "Eat Slugs")
-			M = popup.InputList(src, "Cast this curse on?", "Eat Slugs", people[1], people)
-			del popup
-		if(!M) return
-		if(!(M in ohearers(client.view))) return
+
+
+
+		if(M)
+			if(p.prevname)
+				hearers() << "<span style=\"font-size:2;\"><font color=red><b><font color=red>[usr]</span></b> :<font color=white> Eat Slugs, [M.name]!"
+			else
+				hearers() << "<span style=\"font-size:2;\"><font color=red><b>[p.Tag]<font color=red>[usr]</span> [p.GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
+
+			M << errormsg("[usr] has casted the slug vomiting curse on you.")
+
+			spawn()
+				var/slugs = rand(4,12)
+				while(M && slugs > 0 && M.MP > 0)
+					M.MP -= rand(20,60) * round(M.level/100)
+					new/mob/Enemies/Summoned/Slug(M.loc)
+					if(M.MP < 0)
+						M.MP = 0
+						M.updateMP()
+						M << errormsg("You feel drained from the slug vomiting curse.")
+						break
+					else
+						M.updateMP()
+					slugs--
+					sleep(rand(20,90))
+		else
+			castproj(MPreq = 0, Type = /obj/projectile/Slugs, icon_state = "slug", name = "Slug", lag = 1, learn=0)
+
 		new /StatusEffect/Summoned(src,10*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 		p.MP = max(p.MP - mpCost, 0)
 		p.updateMP()
-		if(p.prevname)
-			hearers() << "<span style=\"font-size:2;\"><font color=red><b><font color=red>[usr]</span></b> :<font color=white> Eat Slugs, [M.name]!"
-		else
-			hearers() << "<span style=\"font-size:2;\"><font color=red><b>[p.Tag]<font color=red>[usr]</span> [p.GMTag]</b>:<font color=white> Eat Slugs, [M.name]!"
 
-		M << errormsg("[usr] has casted the slug vomiting curse on you.")
 		p.learnSpell(spellName)
 		src=null
-		spawn()
-			var/slugs = rand(4,12)
-			while(M && slugs > 0 && M.MP > 0)
-				M.MP -= rand(20,60) * round(M.level/100)
-				new/mob/Enemies/Summoned/Slug(M.loc)
-				if(M.MP < 0)
-					M.MP = 0
-					M.updateMP()
-					M << errormsg("You feel drained from the slug vomiting curse.")
-					break
-				else
-					M.updateMP()
-				slugs--
-				sleep(rand(20,90))
+
 		return TRUE
 
 mob/Spells/verb/Disperse()
@@ -579,11 +581,11 @@ mob/Spells/verb/Basilio()
 
 		if(SWORD_SNAKE in p.passives)
 			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=4><font color=#FF8C00> Basilio!"
-			var/obj/summon/akalla/s = new  (loc, src, "Basilio", 1, tier)
+			var/obj/summon/akalla/s = new  (get_step(p, p.dir), src, "Basilio", 1, tier)
 			s.FlickState("m-black",8,'Effects.dmi')
 		else
 			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=green> Basilio!"
-			var/obj/summon/basilisk/s = new  (loc, src, "Basilio", 0.5, tier)
+			var/obj/summon/basilisk/s = new  (get_step(p, p.dir), src, "Basilio", 0.5, tier)
 			s.FlickState("m-black",8,'Effects.dmi')
 
 mob/Spells/verb/Serpensortia()
@@ -687,12 +689,12 @@ mob/Spells/verb/Ferula()
 
 		if(SWORD_NURSE in p.passives)
 			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=4 color=#FF8C00>Ferula!</font>"
-			var/obj/summon/nurse/s = new  (loc, src, "Ferula", 0, tier + 400)
+			var/obj/summon/nurse/s = new  (get_step(p, p.dir), src, "Ferula", 0, tier + 400)
 			flick("summon", s)
 	//		s.FlickState("summon",8,'NPCs.dmi')
 		else
 			hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=aqua> Ferula!"
-			var/obj/summon/nurse/s = new  (loc, src, "Ferula", 0, tier)
+			var/obj/summon/nurse/s = new  (get_step(p, p.dir), src, "Ferula", 0, tier)
 			flick("summon", s)
 	//		s.FlickState("summon",8,'NPCs.dmi')
 
@@ -721,7 +723,7 @@ mob/Spells/verb/Avis()
 
 		hearers()<<"<b><span style=\"color:red;\">[usr]</b></span>: <b><font size=3><font color=yellow> Avis!"
 		hearers()<<"A Phoenix emerges."
-		var/obj/summon/phoenix/s = new  (loc, src, "Avis", 0.5, tier)
+		var/obj/summon/phoenix/s = new  (get_step(p, p.dir), src, "Avis", 0.5, tier)
 		s.FlickState("m-black",8,'Effects.dmi')
 		p.learnSpell(spellName)
 
@@ -2272,7 +2274,7 @@ mob/Spells/verb/Crucio()
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedImperio,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
-		castproj(MPreq = mpCost, Type = /obj/projectile/StatusEffect { effect = /StatusEffect/Crucio }, icon_state = "avada", name = spellName, lag = 1, cd=4)
+		castproj(MPreq = mpCost, Type = /obj/projectile/StatusEffect { effect = /StatusEffect/Crucio; effectName = "Crucio" }, icon_state = "avada", name = spellName, lag = 1, cd=4)
 
 
 mob/Spells/verb/Portus()
@@ -3433,6 +3435,7 @@ obj
 
 		StatusEffect
 			var/effect
+			var/effectName
 
 			Effect(atom/movable/a)
 
@@ -3440,7 +3443,32 @@ obj
 					if(ismonster(a))
 						new effect (a,15)
 					else if(isplayer(a))
-						new effect (a,15,"Crucio")
+						new effect (a,15,effectName)
+
+		Slugs
+
+			Effect(atom/movable/a)
+				set waitfor = 0
+				..()
+				if(isplayer(a))
+					var/mob/Player/M = a
+					var/slugs = rand(4,12)
+					while(M && slugs > 0 && M.MP > 0)
+						M.MP -= rand(20,60) * round(M.level/100)
+						new/mob/Enemies/Summoned/Slug(M.loc)
+						if(M.MP < 0)
+							M.MP = 0
+							M.updateMP()
+							M << errormsg("You feel drained from the slug vomiting curse.")
+							break
+						else
+							M.updateMP()
+						slugs--
+						sleep(rand(20,90))
+				else if(ismonster(a))
+					if(!a.findStatusEffect(/StatusEffect/Slugs))
+						new /StatusEffect/Slugs (a,10,owner=owner)
+
 
 		Imperio
 			Effect(atom/movable/a)
