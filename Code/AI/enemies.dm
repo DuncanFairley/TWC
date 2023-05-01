@@ -3497,7 +3497,7 @@ mob
 						dmg = getHardmodeDamage(dmg)
 
 					dir=get_dir(src, target)
-					castproj(Type = /obj/projectile/BurnRoses, icon_state = "fireball", damage = dmg, name = "fire ball")
+					castproj(Type = /obj/projectile/BurnRoses, icon_state = "firesound", damage = dmg, name = "fire sound")
 					spawn(30) fired = 0
 					sleep(AttackDelay)
 
