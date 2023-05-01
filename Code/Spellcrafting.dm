@@ -212,11 +212,11 @@ obj/items/wearable/spellbook
 				dmg += p.Water.level
 				elementColor = "#0073eb"
 			if(EARTH)
-				state = "quake"
+				state = "earth"
 				dmg += p.Earth.level
 				elementColor = "#996633"
 			if(GHOST)
-				state = "gum"
+				state = "ghost"
 				dmg += p.Ghost.level
 				elementColor = "#ff6699"
 			if(HEAL)

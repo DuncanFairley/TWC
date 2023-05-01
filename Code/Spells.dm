@@ -1479,7 +1479,7 @@ mob/Spells/verb/Incindia()
 		var/damage = round((p.Dmg + p.clothDmg + p.Fire.level) * 0.75)
 		p.learnSpell(spellName)
 		for(var/d in dirs)
-			castproj(icon_state = "fireball", damage = damage * ((100 + tier*2) / 100), name = "Incindia", cd = 0, lag = 1, element = FIRE, Dir=d)
+			castproj(icon_state = "incindia", damage = damage * ((100 + tier*2) / 100), name = "Incindia", cd = 0, lag = 1, element = FIRE, Dir=d)
 mob/Spells/verb/Replacio(mob/Player/M in oview())
 	set category="Spells"
 
