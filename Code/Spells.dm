@@ -99,11 +99,20 @@ mob/Spells/verb/Accio(obj/M in oview(15,usr))
 		var/turf/origLoc = M.loc
 		var/turf/t = M.loc
 
+		var/obj/Shadow/s = new
+		s.pixel_y -= 16
+		M.vis_contents += s
+
+		M.pixel_y += 16
+
 		while(M.loc == t && t != dest)
 			t = get_step_towards(M, dest)
 			if(!t) break
 			M.loc = t
 			sleep(2)
+
+		M.pixel_y -= 16
+		M.vis_contents -= s
 
 		if(!istype(M,/obj/items))
 			M.backToPos(origLoc)
