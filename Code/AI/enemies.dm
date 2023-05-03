@@ -3478,6 +3478,11 @@ mob
 				icon_state = "firebat"
 				level = 400
 
+				Death(mob/Player/killer)
+					..()
+
+					SpawnPet(killer, 0.1, null, /obj/items/wearable/pets/fire_bat)
+
 			Fire_Golem
 				icon_state = "firegolem"
 				level = 450

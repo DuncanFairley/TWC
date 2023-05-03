@@ -309,6 +309,8 @@ obj/items/wearable/pets
 		minSize = 1
 	training_dummy
 		icon_state = "dummy"
+	fire_bat
+		icon_state = "firebat"
 
 
 obj/pet
