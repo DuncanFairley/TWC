@@ -3340,6 +3340,21 @@ obj/items/rosesbook
 		else
 			..()
 
+obj/items/class_notes
+	icon       = 'Books.dmi'
+	icon_state = "spell"
+
+	rarity = 2
+
+	Click()
+		if(src in usr)
+			usr << infomsg("You read [name], you gained a spell point!")
+			usr.spellpoints++
+
+			Consume()
+
+		else
+			..()
 
 obj/items/spellbook
 	icon       = 'Books.dmi'
