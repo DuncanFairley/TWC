@@ -506,6 +506,10 @@ room
 				e.origloc = null
 		else if(!size) // boss room
 			var/mob/Enemies/e = new parent.MonsterType (locate(rand(left+1, right-1), rand(bottom+1, top-2), parent.Z), 0)
+
+			var/chance = e.level / 800
+			e.drops = list("[chance]" = /obj/items/class_notes)
+
 			e.level *= 2
 			e.isElite = 1
 			e.MapInit()
