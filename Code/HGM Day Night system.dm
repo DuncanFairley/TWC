@@ -176,6 +176,10 @@ area
 		if(isplayer(a))
 			var/mob/Player/p = a
 
+			if(!p.key)
+				a.loc = initial(a.loc)
+				return
+
 			p.Interface.SetDarknessColor()
 
 	outside	// lay this area on the map anywhere you want it to change from night to day

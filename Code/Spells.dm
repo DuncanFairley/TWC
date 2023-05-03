@@ -370,6 +370,18 @@ mob/Spells/verb/Expelliarmus(mob/Player/M in view())
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=/StatusEffect/UsedAnnoying,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=M,mpreq=mpCost,againstocclumens=1))
+
+		if(!M.key) // practice dummy
+			hearers()<<"<span style=\"color:red;\"><b>[usr]</b></span>: <font color=white>Expelliarmus!"
+			hearers()<<"<b>[M] loses \his wand.</b>"
+			new /StatusEffect/UsedAnnoying(src,30*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier, spellName)
+
+			p.MP -= mpCost
+			p.updateMP()
+
+			p.learnSpell(spellName)
+			return
+
 		var/obj/items/wearable/wands/W = locate(/obj/items/wearable/wands) in M:Lwearing
 		if(W)
 			W.Equip(M,1)
@@ -423,8 +435,9 @@ mob/Spells/verb/Eparo_Evanesca()
 				M<<"You have been revealed!"
 				new /StatusEffect/Decloaked(M,15*(usr:cooldownModifier+usr:extraCDR)*worldData.cdrModifier)
 
-mob/Spells/verb/Imitatus(mob/M in view()&Players, T as text)
+mob/Spells/verb/Imitatus(mob/Player/M in view(), T as text)
 	set category = "Spells"
+	if(!isplayer(M)) return
 	var/mob/Player/p = src
 	if(p.mute==1){src<<"You cannot cast this spell while muted.";return}
 	hearers()<<"<span style=\"color:red;\">[p]:</span> Imitatus."
@@ -2204,6 +2217,8 @@ mob/Spells/verb/Confundus(mob/Player/M in oview())
 		p.updateMP()
 		p.learnSpell("Confundus")
 		M << errormsg("You feel confused...")
+
+		if(!M.key) return
 
 		var/matrix/m = M.Interface.mapplane.transform
 		m.Turn(90 * rand(-2, 2))

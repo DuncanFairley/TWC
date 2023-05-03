@@ -345,7 +345,7 @@ proc/canUse(mob/Player/M,var/StatusEffect/cooldown=null,var/needwand=1,var/inare
 	if(!M.loc)
 		M << "<b>You cannot use this in the void.</b>"
 		return 0
-	if(target && !target.key)
+	if(target && !isplayer(target))
 		M << "<b>You can only use this on other players.</b>"
 		return 0
 	var/area/A = M.loc.loc
