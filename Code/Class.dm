@@ -700,3 +700,13 @@ obj/startClass
 
 
 
+mob/Player/Training_Dummy
+
+	icon = 'Mobs.dmi'
+	icon_state = "dummy"
+
+	New()
+		..()
+
+		verbs -= typesof(/mob/verb/)
+		verbs -= typesof(/mob/Player/verb/)
