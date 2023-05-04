@@ -144,12 +144,8 @@ obj/items/proc/walkTo(atom/movable/a, pickup=0)
 			filters = null
 		Move(a)
 
+proc/Eat_Slugs(mob/Player/p, var/n)
 
-mob/Spells/verb/Eat_Slugs(var/n=null as text)
-	set category = "Spells"
-//	set hidden = 1
-
-	var/mob/Player/p = src
 	var/mpCost = 100
 	var/spellName = "Eat Slugs"
 
@@ -157,16 +153,12 @@ mob/Spells/verb/Eat_Slugs(var/n=null as text)
 	var/tier = round(log(10, uses)) - 1
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
-	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
+	if(n)
 		var/mob/Player/M
-		if(n)
-			var/list/people = ohearers(client.view)&Players
-			for(var/mob/Player/i in people)
-				if(findtext(n, i.name) && length(i.name) + 2 >= length(n))
-					M = i
-					break
-
-
+		var/list/people = hearers(p.client.view)&Players
+		for(var/mob/Player/i in people)
+			if(findtext(n, i.name) && length(i.name) + 2 >= length(n))
+				M = i
 
 		if(M)
 			if(p.prevname)
@@ -181,26 +173,47 @@ mob/Spells/verb/Eat_Slugs(var/n=null as text)
 				while(M && slugs > 0 && M.MP > 0)
 					M.MP -= rand(20,60) * round(M.level/100)
 					new/mob/Enemies/Summoned/Slug(M.loc)
-					if(M.MP < 0)
-						M.MP = 0
-						M.updateMP()
-						M << errormsg("You feel drained from the slug vomiting curse.")
-						break
-					else
-						M.updateMP()
+					if(M.key)
+						if(M.MP < 0)
+							M.MP = 0
+							M.updateMP()
+							M << errormsg("You feel drained from the slug vomiting curse.")
+							break
+						else
+							M.updateMP()
 					slugs--
 					sleep(rand(20,90))
-		else
-			castproj(MPreq = 0, Type = /obj/projectile/Slugs, icon_state = "slug", name = "Slug", lag = 1, learn=0)
+
+
+		new /StatusEffect/Summoned(p,10*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
+		p.MP = max(p.MP - mpCost, 0)
+		p.updateMP()
+
+		p.learnSpell(spellName)
+
+		return TRUE
+
+mob/Spells/verb/Eat_Slugs()
+	set category = "Spells"
+//	set hidden = 1
+
+	var/mob/Player/p = src
+	var/mpCost = 100
+	var/spellName = "Eat Slugs"
+
+	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
+	var/tier = round(log(10, uses)) - 1
+	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
+
+	if(canUse(src,cooldown=/StatusEffect/Summoned,needwand=1,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1))
+
+		castproj(MPreq = 0, Type = /obj/projectile/Slugs, icon_state = "slug", name = "Slug", lag = 1, learn=0)
 
 		new /StatusEffect/Summoned(src,10*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, spellName)
 		p.MP = max(p.MP - mpCost, 0)
 		p.updateMP()
 
 		p.learnSpell(spellName)
-		src=null
-
-		return TRUE
 
 mob/Spells/verb/Disperse()
 	set category = "Spells"
@@ -3490,13 +3503,14 @@ obj
 					while(M && slugs > 0 && M.MP > 0)
 						M.MP -= rand(20,60) * round(M.level/100)
 						new/mob/Enemies/Summoned/Slug(M.loc)
-						if(M.MP < 0)
-							M.MP = 0
-							M.updateMP()
-							M << errormsg("You feel drained from the slug vomiting curse.")
-							break
-						else
-							M.updateMP()
+						if(M.key)
+							if(M.MP < 0)
+								M.MP = 0
+								M.updateMP()
+								M << errormsg("You feel drained from the slug vomiting curse.")
+								break
+							else
+								M.updateMP()
 						slugs--
 						sleep(rand(20,90))
 				else if(ismonster(a))

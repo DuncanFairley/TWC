@@ -1104,7 +1104,7 @@ mob/Player
 											T.specialtype |= SHIELD
 								else if(cmptext(copytext(t, 1, 10),"eat slugs"))
 									if(/mob/Spells/verb/Eat_Slugs in verbs)
-										silent = usr:Eat_Slugs(copytext(t, 11))
+										silent = Eat_Slugs(usr, copytext(t, 11))
 
 								if(!silent)
 									for(var/mob/Player/M in hearers(client.view))
