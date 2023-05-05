@@ -1060,6 +1060,7 @@ quest
 
 questReward
 	RoR
+		gold  = 40000
 		exp  = 40000
 		items = /obj/items/requirement_stone
 	TrainingDummy1
@@ -1095,7 +1096,7 @@ questReward
 		exp   = 5000
 		items = /obj/items/wearable/blueprint/utility_blueprint
 	ProjectileBook
-		gold  = 1000
+		gold  = 4000
 		exp   = 40000
 		items = /obj/items/spellbook/projectile
 	CatBook
@@ -1111,91 +1112,91 @@ questReward
 		exp   = 20000
 		items = /obj/items/spellbook/crucio
 	PotionsBook
-		gold  = 2000
-		exp   = 2000
+		gold  = 40000
+		exp   = 40000
 		items = /obj/items/potions_book
 	Monster
-		gold  = 16000
+		gold  = 40000
 		exp   = 200000
 	Mon1
-		gold = 1000
+		gold = 4000
 		exp  = 20000
 	Mon2
-		gold = 2000
+		gold = 8000
 		exp  = 30000
 		items = /obj/items/lamps/double_exp_lamp
 	Mon3
-		gold = 3000
+		gold = 12000
 		exp  = 40000
 	Mon4
-		gold  = 4000
+		gold  = 50000
 		exp   = 50000
 		items = list(/obj/items/wearable/title/Hunter,
 				     /obj/items/lamps/triple_exp_lamp)
 	Mon5
-		gold = 5000
+		gold = 70000
 		exp  = 70000
 	Mon6
-		gold = 6000
+		gold = 80000
 		exp  = 80000
 		items = /obj/items/lamps/triple_exp_lamp
 	Mon7
-		gold = 7000
+		gold = 90000
 		exp  = 90000
 		items = /obj/items/lamps/triple_exp_lamp
 	Mon8
-		gold = 8000
+		gold = 100000
 		exp  = 100000
 		items = /obj/items/lamps/quadaple_exp_lamp
 	Mon9
-		gold  = 9000
+		gold  = 110000
 		exp   = 110000
 		items = list(/obj/items/wearable/title/Pest,
 					 /obj/items/lamps/penta_exp_lamp)
 	Mon10
-		gold = 10000
+		gold = 120000
 		exp  = 120000
 	Mon11
-		gold = 11000
+		gold = 140000
 		exp  = 140000
 		items = /obj/items/lamps/quadaple_exp_lamp
 	Mon12
-		gold = 12000
+		gold = 160000
 		exp  = 160000
 		items = /obj/items/lamps/triple_exp_lamp
 	Mon13
-		gold  = 13000
+		gold  = 180000
 		exp   = 180000
 		items = list(/obj/items/wearable/title/Exterminator,
 					 /obj/items/lamps/sextuple_exp_lamp)
 	Mon14
-		gold = 14000
+		gold = 200000
 		exp  = 200000
 		items = list(/obj/items/artifact,
 					 /obj/items/artifact,
 					 /obj/items/magic_stone/summoning/random)
 	Boss
-		gold  = 20000
+		gold  = 200000
 		exp   = 200000
 		items = /obj/items/artifact
 		items = /obj/items/magic_stone/teleport
 	Artifact
-		gold  = 14000
+		gold  = 140000
 		exp   = 140000
 		items = /obj/items/artifact
 	Teleport
-		gold  = 16000
+		gold  = 160000
 		exp   = 160000
 		items = /obj/items/magic_stone/teleport
 	RoyaleShoes
-		gold  = 5000
+		gold  = 50000
 		exp   = 10000
 		items = /obj/items/wearable/shoes/royale_shoes
 	RoyaleScarf
-		gold  = 24000
+		gold  = 40000
 		items = /obj/items/wearable/scarves/royale_scarf
 	RoyaleWand
-		gold  = 32000
+		gold  = 60000
 		items = /obj/items/wearable/wands/royale_wand
 	RoyaleWig
 		get(mob/Player/p)
@@ -1223,7 +1224,7 @@ questReward
 		items = /obj/items/wearable/wands/dragonhorn_wand
 
 	Ritual
-		gold  = 3000
+		gold  = 30000
 		exp   = 30000
 		items = list(/obj/items/bagofgoodies,
 					 /obj/items/lamps/penta_exp_lamp)
@@ -1236,16 +1237,16 @@ questReward
 
 	TutorialWand
 		exp   = 1000
-		gold  = 500
+		gold  = 2000
 	TutorialPalmer
 		exp   = 2000
-		gold  = 1000
+		gold  = 4000
 	TutorialQuests
 		exp   = 4000
-		gold  = 2000
+		gold  = 8000
 	TutorialOther
 		exp   = 6000
-		gold  = 3000
+		gold  = 12000
 
 	Masterkey
 		exp   = 32000
