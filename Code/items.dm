@@ -4961,7 +4961,13 @@ obj/wand_desk
 		..()
 
 		if(usr in oview(1, src))
-			usr << infomsg("If you have any wand coloring stones, click them to apply the color effect.")
+
+			var/mob/Player/p = usr
+
+			if(p.wand && p.wand.projColor && alert("Do you want to remove this wand's color? (Color stone can not be recovered)", "Clear Wand Color", "Yes", "No") == "Yes")
+				p.wand.projColor = null
+			else
+				usr << infomsg("If you have any wand coloring stones, click them to apply the color effect.")
 
 obj/items/colors
 
@@ -4994,8 +5000,6 @@ obj/items/colors
 
 				if(!p.holster.colors) p.holster.colors = list()
 				p.holster.colors += projColor
-
-			//	if(!p.holster.projColor) p.holster.projColor = projColor
 
 				p << infomsg("You added a new <span style=\"color:[projColor == "blood" ? "#880808" : projColor];\">magical color</span> to your equipped holster.")
 
