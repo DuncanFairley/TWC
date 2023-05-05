@@ -10,6 +10,8 @@ obj/summon
 	canSave = FALSE
 	density = 1
 
+	mouse_opacity = 2
+
 	var
 		level = 50
 		scale = 1
