@@ -1991,21 +1991,20 @@ mob/Spells/verb/Telendevour()
 				var/spycraft = (SHIELD_SPY in M.passives)
 				if(spycraft) otherTier++
 
+				new /StatusEffect/UsedTelendevour(src,5*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier,spellName)
+				p.learnSpell(spellName)
+				p.MP -= mpCost
+				p.updateMP()
+
 				if(tier <= otherTier && M.occlumens>0)
 					src << errormsg("<b>You feel magic repelling your spell.</b>")
 				else
-					new /StatusEffect/UsedTelendevour(src,5*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier,spellName)
-
-					p.MP -= mpCost
-					p.updateMP()
-
 					p.Interface.SetDarknessColor(TELENDEVOUR_COLOR, 2)
 					p.client.eye = M
 					p.client.perspective = EYE_PERSPECTIVE
 					file("Logs/Telenlog.text") << "[time2text(world.realtime,"MMM DD YYYY - hh:mm:ss")]: [usr] telendevoured [M]"
 					var/randnum = rand(1,7)
 					hearers() << "[usr]:<span style=\"font-size:2;\"><font color=blue><b> Telendevour!</b></span>"
-					p.learnSpell(spellName)
 					if(spycraft || randnum == 1)
 						M << "You feel that <b>[usr]</b> is watching you."
 					else
