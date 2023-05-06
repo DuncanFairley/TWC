@@ -1048,6 +1048,12 @@ obj
 
 				if(prob(80)) color = rgb(rand(150, 220), rand(100, 150), 0)
 
+				if(prob(45))
+					pixel_y -= 4
+					var/matrix/m = matrix()
+					m.Scale(rand(7,11)/10,1)
+					transform = m
+
 				#endif
 
 				..()
