@@ -10,6 +10,7 @@ mob/Player/var
 		noOverlays = 0
 		Armor      = 0
 
+		image/highlight
 
 area
 	var
@@ -106,7 +107,6 @@ area
 
 				var/obj/items/wearable/masks/m = locate() in p.Lwearing
 				if(m) m.Equip(p, 1)
-
 
 obj/items
 	var
@@ -322,12 +322,15 @@ obj/items
 
 
 	MouseEntered(location,control,params)
-		if((src in usr) && usr:infoBubble)
-			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[desc]\"")
-			winshowRight(usr, "infobubble")
+		if(src in usr)
+			if(usr:infoBubble)
+				winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[GetDesc()]\"")
+				winshowRight(usr, "infobubble")
 
 			if(slot)
 				slot.icon_state = "grid_highlight"
+		else
+			Highlight(usr)
 
 	MouseExited(location,control,params)
 		if(src in usr)
@@ -336,7 +339,43 @@ obj/items
 			if(slot)
 				slot.icon_state = "grid"
 
+		var/mob/Player/p = usr
+		if(p.highlight)
+			p.client.images -= p.highlight
+			p.highlight = null
+
 	proc
+		GetDesc()
+			return desc
+
+		Highlight(mob/Player/p)
+			if(p.highlight)
+				p.client.images -= p.highlight
+
+			p.highlight = image(src, src)
+
+			var/c = "#0e0"
+			switch(rarity)
+				if(2)
+					c = "#00a5ff"
+				if(3)
+					c = "#ffa500"
+				if(4)
+					c = "#551a8b"
+				if(5)
+					c = "#660000"
+
+			p.highlight.filters = filter(type="drop_shadow", size=1, y=0, x=0, offset=2, color=c)
+
+			p.highlight.maptext_x = 32
+			p.highlight.maptext_y = 8
+			p.highlight.maptext_width = 320
+			p.highlight.maptext = "<b>[name]</b>"
+
+			p.client.images += p.highlight
+
+
+
 		Sort()
 			if(istype(loc, /atom))
 				for(var/obj/items/i in loc)
@@ -791,58 +830,51 @@ obj/items/wearable
 
 		return w
 
-	MouseEntered(location,control,params)
-		if((src in usr) && usr:infoBubble)
+	GetDesc()
+		var/list/info = list()
 
-			var/list/info = list()
+		if(quality)
+			if(bonus & DAMAGE)
+				var/dmg = 10*quality*scale
 
-			if(quality)
-				if(bonus & DAMAGE)
-					var/dmg = 10*quality*scale
+				if(dmg != 0)
+					info["Damage"] = dmg
 
-					if(dmg != 0)
-						info["Damage"] = dmg
+			if(bonus & DEFENSE)
+				var/def = 30*quality*scale
 
-				if(bonus & DEFENSE)
-					var/def = 30*quality*scale
+				if(def != 0)
+					info["Defense"] = def
 
-					if(def != 0)
-						info["Defense"] = def
+		if(Armor)
+			info["Armor"] = Armor * scale * (quality + 1)
 
-			if(Armor)
-				info["Armor"] = Armor * scale * (quality + 1)
+		var/s
+		if(socket)
+			s = "[socket.name] [socket.ToString()]"
+		else if(socket == 0)
+			s = "Empty Socket"
 
-			var/s
-			if(socket)
-				s = "[socket.name] [socket.ToString()]"
-			else if(socket == 0)
-				s = "Empty Socket"
+		if(effects)
+			for(var/e in effects)
+				info[getStatName(e)] += effects[e]
 
-			if(effects)
-				for(var/e in effects)
-					info[getStatName(e)] += effects[e]
+		var/list/lines = list()
 
-			var/list/lines = list()
+		for(var/i in info)
+			if(findtext(i, "%"))
+				lines += "+[info[i]][i]"
+			else
+				lines += "+[info[i]] [i]"
 
-			for(var/i in info)
-				if(findtext(i, "%"))
-					lines += "+[info[i]][i]"
-				else
-					lines += "+[info[i]] [i]"
+		if(power > 1)
+			lines += "+[power] Legendary Effect"
 
-			if(power > 1)
-				lines += "+[power] Legendary Effect"
+		if(s) lines += s
 
-			if(s) lines += s
+		if(desc) lines += desc
 
-			if(desc) lines += desc
-
-			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[jointext(lines, "\n")]\"")
-			winshowRight(usr, "infobubble")
-
-			if(slot)
-				slot.icon_state = "grid_highlight"
-
+		return jointext(lines, "\n")
 
 	UpdateDisplay()
 		var/const/WORN_TEXT = "<span style=\"color:blue;\">(Worn)</span>"
@@ -4332,19 +4364,15 @@ obj/items
 			else
 				..()
 
-		MouseEntered(location,control,params)
-			if((src in usr) && usr:infoBubble)
+		GetDesc()
+			if(!desc)
+				var/info = ""
+				for(var/d in chest_prizes[drops])
+					var/list/split = splittext ("[d]", "/")
+					info += "[split[split.len]]\n"
+				return replacetext(info, "_", " ")
 
-				if(!desc)
-					var/info = ""
-					for(var/d in chest_prizes[drops])
-						var/list/split = splittext ("[d]", "/")
-						info += "[split[split.len]]\n"
-					winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[replacetext(info, "_", " ")]\"")
-				else
-					winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[desc]\"")
-
-				winshowRight(usr, "infobubble")
+			return desc
 
 		verb
 			Open()
@@ -4455,22 +4483,17 @@ obj/items
 
 		wigs
 			useTypeStack = /obj/items/chest
-			MouseEntered(location,control,params)
-				if((src in usr) && usr:infoBubble)
+			GetDesc()
+				if(!desc)
+					var/info = ""
 
-					if(!desc)
-						var/info = ""
+					var/id = usr.Gender == "Female" ? "female_[drops]" : "male_[drops]"
 
-						var/id = usr.Gender == "Female" ? "female_[drops]" : "male_[drops]"
-
-						for(var/d in chest_prizes[id])
-							var/list/split = splittext ("[d]", "/")
-							info += "[split[split.len]]\n"
-						winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[replacetext(info, "_", " ")]\"")
-					else
-						winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[desc]\"")
-
-					winshowRight(usr, "infobubble")
+					for(var/d in chest_prizes[id])
+						var/list/split = splittext ("[d]", "/")
+						info += "[split[split.len]]\n"
+					return replacetext(info, "_", " ")
+				return desc
 
 			Open()
 				set src in usr

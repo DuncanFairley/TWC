@@ -80,44 +80,40 @@ obj/items/wearable/pets
 
 		minSize     = 1
 
-	MouseEntered(location,control,params)
-		if((src in usr) && usr:infoBubble)
+	GetDesc()
+		var/info = ""
+		if(quality > 0)
+			info = "Level: [quality]\n"
 
-			var/info = ""
-			if(quality > 0)
-				info = "Level: [quality]\n"
+			if((bonus & 3) == 3)
+				var/dmg = 10*quality*scale
+				var/def = 30*quality*scale
+				if(dmg > 0) dmg = "+[dmg]"
+				if(def > 0) def = "+[def]"
+				info += " [dmg] Damage\n [def] Defense\n"
+			else if(bonus & DAMAGE)
+				var/dmg = 10*quality*scale
+				if(dmg > 0) dmg = "+[dmg]"
+				info += " [dmg] Damage\n"
+			else if(bonus & DEFENSE)
+				var/def = 30*quality*scale
+				if(def > 0) def = "+[def]"
+				info += " [def] Defense\n"
 
-				if((bonus & 3) == 3)
-					var/dmg = 10*quality*scale
-					var/def = 30*quality*scale
-					if(dmg > 0) dmg = "+[dmg]"
-					if(def > 0) def = "+[def]"
-					info += " [dmg] Damage\n [def] Defense\n"
-				else if(bonus & DAMAGE)
-					var/dmg = 10*quality*scale
-					if(dmg > 0) dmg = "+[dmg]"
-					info += " [dmg] Damage\n"
-				else if(bonus & DEFENSE)
-					var/def = 30*quality*scale
-					if(def > 0) def = "+[def]"
-					info += " [def] Defense\n"
+		if(function & PET_LIGHT)
+			info += "\n[name] knows lumos"
 
-			if(function & PET_LIGHT)
-				info += "\n[name] knows lumos"
+		if(function & PET_FETCH)
+			info += "\n[name] knows how to fetch drops from monsters"
+		else
+			info += "\n[name] doesn't knows how to fetch drops from monsters"
 
-			if(function & PET_FETCH)
-				info += "\n[name] knows how to fetch drops from monsters"
-			else
-				info += "\n[name] doesn't knows how to fetch drops from monsters"
+		if(function & PET_SHINY)
+			info += "\n\n[name] is a shiny"
 
-			if(function & PET_SHINY)
-				info += "\n\n[name] is a shiny"
+		return info
 
-			winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[info]\"")
-			winshowRight(usr, "infobubble")
 
-			if(slot)
-				slot.icon_state = "grid_highlight"
 
 	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
 		if(owner.pet && owner.pet.busy && !forceremove)

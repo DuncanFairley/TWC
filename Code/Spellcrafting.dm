@@ -49,53 +49,47 @@ obj/items/wearable/spellbook
 			if(!overridetext)viewers(owner) << infomsg("[owner] unequips \his [src.name].")
 			owner.usedSpellbook = null
 
-	MouseEntered(location,control,params)
-		if((src in usr) && usr:infoBubble)
+	GetDesc()
 
-			if(spellType == 0)
-				winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"Blank spell book, what spells can you come up with?\"")
-				winshowRight(usr, "infobubble")
+		if(spellType == 0)
+			return "Blank spell book, what spells can you come up with?"
+		else
+			var/t
+
+			switch(spellType)
+				if(EXPLOSION)
+					t = "Explosion"
+				if(ARUA)
+					t = "Aura"
+				if(PROJ)
+					t = "Projectile"
+				if(SUMMON)
+					t = "Summon"
+				if(METEOR)
+					t = "Meteor"
+				if(ARC)
+					t = "Arc"
+				if(TORNADO)
+					t = "Tornado"
+
+			var/e
+
+			if(damage < 0)
+				e = "Healing"
 			else
-				var/t
+				switch(element)
+					if(FIRE)
+						e = "Fire"
+					if(WATER)
+						e = "Water"
+					if(EARTH)
+						e = "Earth"
+					if(GHOST)
+						e = "Ghost"
+					if(COW)
+						e = "Cow"
 
-				switch(spellType)
-					if(EXPLOSION)
-						t = "Explosion"
-					if(ARUA)
-						t = "Aura"
-					if(PROJ)
-						t = "Projectile"
-					if(SUMMON)
-						t = "Summon"
-					if(METEOR)
-						t = "Meteor"
-					if(ARC)
-						t = "Arc"
-					if(TORNADO)
-						t = "Tornado"
-
-				var/e
-
-				if(damage < 0)
-					e = "Healing"
-				else
-					switch(element)
-						if(FIRE)
-							e = "Fire"
-						if(WATER)
-							e = "Water"
-						if(EARTH)
-							e = "Earth"
-						if(GHOST)
-							e = "Ghost"
-						if(COW)
-							e = "Cow"
-
-				var/info = "Type: [t]\nElement: [e]\nPower: [damage*100]%\nMP: [mpCost]\nCooldown:[cd/10] seconds"
-
-				winset(usr, null, "infobubble.labelTitle.text=\"[name]\";infobubble.labelInfo.text=\"[info]\"")
-				winshowRight(usr, "infobubble")
-
+			return "Type: [t]\nElement: [e]\nPower: [damage*100]%\nMP: [mpCost]\nCooldown:[cd/10] seconds"
 
 	verb/Cast()
 		if(usr:usedSpellbook == src)
