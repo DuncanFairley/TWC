@@ -774,7 +774,6 @@ mob
 				e.level = round(level/50)
 				e.name  = "sword of might: level [e.level]"
 				e.prizeDrop(killer.ckey, decay=1)
-				killer << infomsg("<i>[name] dropped [e.name]</i>")
 
 				if(killer.pet)
 					killer.pet.fetch(e)
@@ -815,7 +814,6 @@ mob
 					t.title = "[name] Slayer"
 					t.name  = "Title: [name] Slayer"
 				t.prizeDrop(killer.ckey, decay=FALSE)
-				killer << infomsg("<i>[name] dropped [t.name]</i>")
 				sparks = 1
 
 				if(killer.pet)
@@ -854,7 +852,6 @@ mob
 				else
 					prize = new prize (loc)
 					prize.prizeDrop(killer.ckey, decay=1)
-					killer << infomsg("<i>[name] dropped [prize.name]</i>")
 					if(killer.pet)
 						killer.pet.fetch(prize)
 
@@ -868,7 +865,6 @@ mob
 
 				prize = new prize (loc, round(level/50))
 				prize.prizeDrop(killer.ckey, decay=1)
-				killer << infomsg("<i>[name] dropped [prize.name]</i>")
 				if(killer.pet)
 					killer.pet.fetch(prize)
 
