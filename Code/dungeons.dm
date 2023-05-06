@@ -55,7 +55,7 @@ dungeon
 	var/SecretRoom
 	var/BossRoom
 
-	var/ExitLoc
+	var/turf/ExitLoc
 	var/QuestName
 	var/QuestArgs
 	var/list/Passives
@@ -369,6 +369,14 @@ dungeon
 				var/turf/t = new EdgeType (start)
 				t.density = 0
 				t.layer = 5
+
+				bottomleft.appearance_flags |= RESET_ALPHA
+
+				t.underlays += bottomleft
+
+				animate(t, alpha = 100, time = 8, loop = -1)
+				animate(alpha = 255, time = 8)
+				animate(alpha = 255, time = 50)
 
 			if(dir == EAST || dir == WEST)
 				new EdgeType (locate(start.x, start.y+1, Z))
