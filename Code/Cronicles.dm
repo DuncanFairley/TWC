@@ -162,14 +162,20 @@ mob
 		..()
 		if(src.type != /mob/Player)
 			return
+		var/mob/Player/p = src
 //		F["overlays"] << null
 		F["icon"] << null
 //		F["underlays"] << null
 		F["savefileversion"] << SAVEFILE_VERSION
 		if (base_save_location && world.maxx)
-			F["last_x"] << x
-			F["last_y"] << y
-			F["last_z"] << z
+			if(p.dungeon)
+				F["last_x"] << p.dungeon.ExitLoc.x
+				F["last_y"] << p.dungeon.ExitLoc.y
+				F["last_z"] << p.dungeon.ExitLoc.z
+			else
+				F["last_x"] << x
+				F["last_y"] << y
+				F["last_z"] << z
 
 		var/list/spells = src:saveSpells()
 		if(spells && spells.len)
