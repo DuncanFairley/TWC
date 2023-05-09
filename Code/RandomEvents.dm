@@ -905,6 +905,52 @@ RandomEvent
 			if(message) Players << infomsg("The stone golem's magic force vanished.")
 			end()
 
+
+	SpaceRanger
+		name   = "Space Ranger"
+		start()
+			set waitfor = 0
+			..()
+			var/minutes = rand(30,45)
+			var/list/m = list()
+			Players << infomsg("A UFO came out of a wormhole and flew behind our school at mach speed. The notorious pilot Anakin Aetherwalker must be stopped.")
+
+			var/obj/spawner/spawn_loc = pick(worldData.spawners)
+			var/mob/Enemies/Summoned/boss = new /mob/Enemies/Summoned/Boss/Anakin_Aetherwalker(spawn_loc.loc)
+			m += boss
+
+			for(var/i = 0; i <= rand(15, 30); i++)
+				spawn_loc = pick(worldData.spawners)
+				var/mob/Enemies/Summoned/monster = new (spawn_loc.loc)
+
+				monster.DMGmodifier = 1.5
+				monster.HPmodifier  = 6
+				monster.level       = 1000 + rand(0, 100)
+				monster.name        = "Space Weirdness"
+				monster.icon_state  = "eye"
+				monster.icon        = 'potions_ingredients.dmi'
+
+				m += monster
+
+			endTime = world.time + 600*minutes
+
+			var/message = 1
+			while(minutes-- > 0)
+				if(boss.loc == null)
+					message = 0
+					break
+				sleep(600)
+
+
+			for(var/mob/Enemies/Summoned/mon in m)
+				mon.Dispose()
+				mon.ChangeState(boss.INACTIVE)
+			m = null
+
+			if(message) Players << infomsg("Anakin Aetherwalk took his weirdness and flew back home.")
+			else Players << infomsg("It's over, we have the high ground, Anakin Aetherwalker's weird object was defeated.")
+			end()
+
 	Illusionist
 		name   = "Illusionist"
 		start()

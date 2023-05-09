@@ -353,6 +353,7 @@ obj/items
 				p.client.images -= p.highlight
 
 			p.highlight = image(src, src)
+	//		p.highlight.layer = 100
 
 			var/c = "#0e0"
 			switch(rarity)
@@ -371,6 +372,14 @@ obj/items
 			p.highlight.maptext_y = 8
 			p.highlight.maptext_width = 320
 			p.highlight.maptext = "<b>[name]</b>"
+		//	p.highlight.maptext = "<b>[name]</b>\n"
+
+		/*	var/info = "<b>[name]</b>\n[GetDesc()]"
+
+			var/size = splittext(p.client.MeasureText(info), "x")
+			p.highlight.maptext_width  = text2num(size[1])
+			p.highlight.maptext_height = text2num(size[2])
+			p.highlight.maptext = info*/
 
 			p.client.images += p.highlight
 
@@ -2967,6 +2976,9 @@ obj/items/wearable/title
 	Cow
 		title = "Udderly Devastating"
 		name  = "Title: Udderly Devastating"
+	Aetherwalker
+		title = "Aetherwalker"
+		name  = "Title: Aetherwalker"
 
 mob/Bump(obj/ball/B)
 	if(istype(B,/obj/ball))
@@ -5092,7 +5104,26 @@ obj/items/colors
 		icon_state = "green"
 		projColor = "#32CD32"
 		rarity     = 2
-
+	icyblue_stone
+		reqLevel  = 15
+		icon_state = "blue"
+		projColor = "#368BC1 "
+		rarity     = 2
+	indigo_stone
+		reqLevel  = 15
+		icon_state = "purple"
+		projColor = "#4B0082"
+		rarity     = 2
+	rubyred_stone
+		reqLevel  = 15
+		icon_state = "red"
+		projColor = "#9b111e"
+		rarity     = 2
+	emeraldgreen_stone
+		reqLevel  = 15
+		icon_state = "green"
+		projColor = "#50C878"
+		rarity     = 2
 
 obj/items/reputation
 	var/rep

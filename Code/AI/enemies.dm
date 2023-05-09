@@ -1671,6 +1671,114 @@ mob
 							else
 								..()
 
+				Anakin_Aetherwalker
+					HPmodifier = 60
+					DMGmodifier = 3
+					MoveDelay = 3
+					AttackDelay = 1
+					Range = 22
+					level = 2600
+					icon = 'ammy.dmi'
+					icon_state = "snow"
+
+					var/tmp/dashed = 0
+
+					MapInit()
+						set waitfor = 0
+						..()
+
+						namefont.QuickName(src, "[name]", "#eee", "#e00", top=1)
+						hpbar = new(src)
+
+						var/mutable_appearance/ma = new
+
+						ma.icon = 'potions_ingredients.dmi'
+						ma.icon_state = "eye"
+
+						var/list/images = list()
+
+						for(var/d = 0 to 359 step 90)
+							var/matrix/m = matrix()
+							m.Translate(24, 0)
+							ma.transform = turn(m, d)
+
+							images += ma.appearance
+
+						var/obj/o = new
+						o.overlays = images
+
+						var/matrix/m = matrix()
+						m.Turn(90)
+						animate(o, transform = m, time = 10, loop = -1)
+						m.Turn(90)
+						animate(transform = m, time = 10)
+						m.Turn(90)
+						animate(transform = m, time = 10)
+						animate(transform = null, time = 10)
+
+						vis_contents += o
+
+						var/obj/Shadow/s = new
+
+						s.pixel_y = -16
+						s.appearance_flags |= RESET_TRANSFORM|PIXEL_SCALE
+
+						vis_contents += s
+
+						pixel_y += 16
+
+					Attack()
+						..()
+
+						if(target)
+
+							if(!dashed && get_dist(src, target) > 3 && prob(10))
+								Dash(get_step_towards(target, src))
+
+					proc/Dash(turf/t)
+						set waitfor = 0
+
+						dashed = 1
+
+						var
+							px = (x * 32) - (t.x * 32)
+							py = (y * 32) - (t.y * 32)
+
+						dir = get_dir(src, t)
+
+						var/time = round(((abs(px) + abs(py)) / 32) * 0.5)
+
+						var/list/ghosts = list()
+						for(var/i = 1 to 4)
+							var/image/o = new
+							o.appearance = appearance
+							o.alpha = 255 - i * 50
+
+							o.pixel_x = px * 0.1 * i
+							o.pixel_y = py * 0.1 * i
+
+							ghosts += o
+
+						var/underlaysTmp = underlays.Copy()
+						underlays += ghosts
+
+						animate(src, pixel_x = -px,
+						             pixel_y = -py, time = time)
+
+
+						sleep(time)
+						pixel_x = 0
+						pixel_y = 0
+
+						density = 0
+						Move(t)
+						density = 1
+
+						underlays = underlaysTmp
+
+						sleep(50)
+						dashed = 0
+
 				Illusionist
 					name = "Illusionist"
 					HPmodifier = 50

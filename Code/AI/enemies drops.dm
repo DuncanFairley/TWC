@@ -80,6 +80,19 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 							/obj/items/lamps/triple_gold_lamp,
 							/obj/items/spellbook/illusion),
 
+"Anakin Aetherwalker"= list(/obj/items/mystery_key,
+							/obj/items/crystal/soul,
+							/obj/items/wearable/title/Aetherwalker,
+							/obj/items/lamps/triple_drop_rate_lamp,
+							/obj/items/lamps/triple_gold_lamp,
+							/obj/items/ingredients/eyes,
+							/obj/items/wearable/ring/aetherwalker_ring,
+							/obj/items/mystery_artifact,
+							/obj/items/colors/icyblue_stone,
+							/obj/items/colors/indigo_stone,
+							/obj/items/colors/rubyred_stone,
+							/obj/items/colors/emeraldgreen_stone),
+
 
 "The Evil Snowman"	 = list(/obj/items/key/winter_key,
 							/obj/items/crystal/soul,
