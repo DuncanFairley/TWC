@@ -76,7 +76,8 @@ obj
 	Click()
 		var/mob/Player/p = usr
 
-		if(accioable && get_dist(usr, src) > 1)
+		var/d = get_dist(usr, src)
+		if(accioable && d > 1 && d <= 15)
 
 			if(/mob/Spells/verb/Accio in p.verbs)
 				call(p, /mob/Spells/verb/Accio)(src)
