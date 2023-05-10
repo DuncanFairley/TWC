@@ -961,6 +961,9 @@ mob/Player
 	var/tmp/interface/Interface
 
 interface
+	var/obj/hud/ScrollMessage/dropMessage
+	var/obj/hud/ScrollMessage/levelMessage
+	var/obj/hud/ScrollMessage/expMessage
 	var/obj/hud/screentext/quest/quest
 	var/obj/healthbar/screen/hpbar
 	var/obj/healthbar/screen/mpbar
@@ -979,6 +982,10 @@ interface
 		new /hudobj/monsterbook(null, parent.client, null, show=2)
 		new /hudobj/Party_Invite(null, parent.client, null, 2)
 		new /hudobj/MinimapView(null, parent.client, null, 2)
+
+		dropMessage  = new ("EAST-5,CENTER-10", parent)
+		levelMessage = new ("CENTER,CENTER+5", parent)
+		expMessage   = new ("WEST+1,CENTER", parent)
 
 		if(p.animagusState)
 			var/hudobj/Animagus/a = new (null, parent.client, null, show=2)

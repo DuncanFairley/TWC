@@ -660,7 +660,7 @@ mob
 					if(isShiny)
 						w.function |= PET_SHINY|PET_LIGHT
 						w.color = isShiny
-					w.prizeDrop(killer.ckey, 300)
+					w.prizeDrop(killer.ckey, 300,player=killer)
 			else
 				if(killer.findStatusEffect(/StatusEffect/Potions/Tame))
 					chance *= 3
@@ -773,7 +773,7 @@ mob
 				var/obj/items/elite/e = new (loc)
 				e.level = round(level/50)
 				e.name  = "sword of might: level [e.level]"
-				e.prizeDrop(killer.ckey, decay=1)
+				e.prizeDrop(killer.ckey, decay=1,player=killer)
 
 				if(killer.pet)
 					killer.pet.fetch(e)
@@ -813,7 +813,7 @@ mob
 				else
 					t.title = "[name] Slayer"
 					t.name  = "Title: [name] Slayer"
-				t.prizeDrop(killer.ckey, decay=FALSE)
+				t.prizeDrop(killer.ckey, decay=FALSE, player=killer)
 				sparks = 1
 
 				if(killer.pet)
@@ -851,7 +851,7 @@ mob
 								step(item, randomDir)
 				else
 					prize = new prize (loc)
-					prize.prizeDrop(killer.ckey, decay=1)
+					prize.prizeDrop(killer.ckey, decay=1, player=killer)
 					if(killer.pet)
 						killer.pet.fetch(prize)
 
@@ -864,7 +864,7 @@ mob
 										/obj/items/crystal/luck            = 1))
 
 				prize = new prize (loc, round(level/50))
-				prize.prizeDrop(killer.ckey, decay=1)
+				prize.prizeDrop(killer.ckey, decay=1, player=killer)
 				if(killer.pet)
 					killer.pet.fetch(prize)
 
@@ -899,7 +899,7 @@ mob
 						prize.name += " +[lvl]"
 						prize.UpdateDisplay()
 
-				prize.prizeDrop(killer.ckey, decay=1)
+				prize.prizeDrop(killer.ckey, decay=1, player=killer)
 				killer << colormsg("<i>[name] dropped [prize.name]</i>", textColor)
 				killer.pity = 0
 
@@ -911,7 +911,7 @@ mob
 				prize = new /obj/items/chest/wigs/hardmode_chest (loc)
 
 				killer << colormsg("<i><b>[name] dropped [prize.name]. It's too big for your pet to fetch, pick it up!</b></i>", "#FFC0CB")
-				prize.prizeDrop(killer.ckey, decay=1)
+				prize.prizeDrop(killer.ckey, decay=1, player=killer)
 
 			if(sparks)
 				emit(loc    = loc,

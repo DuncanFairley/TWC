@@ -293,7 +293,7 @@ obj/potions
 					p.owner:checkQuestProgress("Brew Potion")
 
 					var/obj/items/potions/i = new potion (loc)
-					i.prizeDrop(p.owner.ckey, 600, decay=FALSE)
+					i.prizeDrop(p.owner.ckey, 600, decay=FALSE, player=p.owner)
 					i.quality   = quality
 					if(quality != 4)
 						var/list/letters = list("T", "D", "P", null, "A", "E", "O")

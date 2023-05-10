@@ -716,7 +716,7 @@ obj
 
 					var/obj/items/i = new prize (loc)
 
-					i.prizeDrop(p.ckey)
+					i.prizeDrop(p.ckey, player=p)
 
 					p << infomsg("<i>You found \a [i.name].</i>")
 
@@ -733,7 +733,7 @@ obj
 
 						var/obj/items/i = new prize (loc)
 
-						i.prizeDrop(p.ckey)
+						i.prizeDrop(p.ckey, player=p)
 
 						p << infomsg("<i>You found \a [i.name].</i>")
 					else
@@ -748,7 +748,7 @@ obj
 												/obj/items/crystal/luck    = 1))
 
 					prize = new prize (loc, round(p.level/50) + rand(1,4))
-					prize.prizeDrop(p.ckey, decay=1)
+					prize.prizeDrop(p.ckey, decay=1, player=p)
 					p << infomsg("<i>You found [prize.name]</i>")
 					if(p.pet)
 						p.pet.fetch(prize)
@@ -773,7 +773,7 @@ obj
 							prize.name += " +[lvl]"
 							prize.UpdateDisplay()
 
-					prize.prizeDrop(p.ckey, decay=1)
+					prize.prizeDrop(p.ckey, decay=1, player=p)
 					p << colormsg("<i>You found [prize.name]</i>", textColor)
 					p.pity = 0
 

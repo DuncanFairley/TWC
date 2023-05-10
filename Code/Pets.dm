@@ -633,7 +633,7 @@ obj/pet
 
 					var/obj/items/i = new prize (loc)
 
-					i.prizeDrop(p.ckey)
+					i.prizeDrop(p.ckey, player=p)
 
 					p << infomsg("Your [name] has found \a [i.name] while walking.")
 
@@ -857,7 +857,7 @@ obj/squirrel
 	proc/drop(mob/Player/p)
 
 		var/obj/items/wearable/pets/squirrel/s = new (loc)
-		s.prizeDrop(p.ckey, decay=FALSE)
+		s.prizeDrop(p.ckey, decay=FALSE, player=p)
 
 		emit(loc    = loc,
 			 ptype  = /obj/particle/star,

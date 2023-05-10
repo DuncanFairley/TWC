@@ -1,7 +1,57 @@
+
+obj/ScreenMapText
+	appearance_flags = RESET_COLOR|RESET_TRANSFORM|NO_CLIENT_COLOR|PIXEL_SCALE
+	maptext_width = 320
+	maptext_y = 8
+	maptext_x = -152
+	alpha = 50
+	pixel_y = -32
+
+obj/hud/ScrollMessage
+	screen_loc = "EAST-5,CENTER-10"
+
+	var/tmp/mob/Player/parent
+
+	New(Loc, mob/Player/p)
+
+		screen_loc = Loc
+		p.client.screen += src
+		parent = p
+
+	proc/Display(var/text, var/hex=null, var/state=null, var/time=50)
+		set waitfor = 0
+
+		var/obj/ScreenMapText/o = new
+		o.maptext = "<b><span style=\"color:[parent.mapTextColor];\">[text]</span></b>"
+
+		if(hex)
+			var/obj/custom/back = new /obj/custom { icon = 'black50.dmi'; icon_state = "white" }
+			back.color      = hex
+
+			var/matrix/m = matrix()
+			m.Scale(11,1)
+
+			back.transform = m
+
+			o.underlays += back
+
+		for(var/obj/old in vis_contents)
+			animate(old, pixel_y = old.pixel_y + 32, time = 6, flags=ANIMATION_PARALLEL)
+
+		vis_contents += o
+		animate(o, pixel_y = 0, alpha = 255, time = 6)
+
+		sleep(time+6)
+
+		animate(o, alpha = 0, time = 10, flags=ANIMATION_PARALLEL)
+		sleep(10)
+		vis_contents -= o
+
+
 obj/hud/TextMessage
 	screen_loc = "CENTER,CENTER+5"
 	icon       = 'black50.dmi'
-	icon_state = "input"
+	icon_state = "white"
 	color      = "#111"
 
 	var/tmp/count = 5
@@ -110,7 +160,17 @@ obj/hud/TextMessageExp
 			if(p) p.client.screen -= src
 
 mob/Player/proc/screenAlert(message, time=30)
-	new /obj/hud/TextMessage(null, src, message, time)
+
+	var/c
+	if(mapTextColor != "#ffffff")
+		var/rr = 255 - hex2value(copytext(mapTextColor, 2, 4))
+		var/gg = 255 - hex2value(copytext(mapTextColor, 4, 6))
+		var/bb = 255 - hex2value(copytext(mapTextColor, 6, 8))
+		c = rgb(rr, gg, bb)
+	else
+		c = "#111"
+	Interface.levelMessage.Display("<span style=\"text-align:center\">[message]</span>", hex=c, state=null, time=time)
+//	new /obj/hud/TextMessage(null, src, message, time)
 
 mob/Player
 	var/tmp/list/expMessages

@@ -348,12 +348,16 @@ obj/items
 		GetDesc()
 			return desc
 
-		Highlight(mob/Player/p)
+		Highlight(mob/Player/p, time=0)
+			set waitfor = 0
+
+			var/image/i
+
 			if(p.highlight)
 				p.client.images -= p.highlight
 
-			p.highlight = image(src, src)
-	//		p.highlight.layer = 100
+			i = image(src, src)
+			i.layer = 5
 
 			var/c = "#0e0"
 			switch(rarity)
@@ -366,22 +370,35 @@ obj/items
 				if(5)
 					c = "#660000"
 
-			p.highlight.filters = filter(type="drop_shadow", size=1, y=0, x=0, offset=2, color=c)
+			i.filters = filter(type="drop_shadow", size=1, y=0, x=0, offset=2, color=c)
 
-			p.highlight.maptext_x = 32
-			p.highlight.maptext_y = 8
-			p.highlight.maptext_width = 320
-			p.highlight.maptext = "<b>[name]</b>"
-		//	p.highlight.maptext = "<b>[name]</b>\n"
+			i.maptext_x = 32
+			i.maptext_y = 8
+			i.maptext_width = 320
+			i.maptext = "<b>[name]</b>"
+		//	i.maptext = "<b>[name]</b>\n"
 
 		/*	var/info = "<b>[name]</b>\n[GetDesc()]"
 
 			var/size = splittext(p.client.MeasureText(info), "x")
-			p.highlight.maptext_width  = text2num(size[1])
-			p.highlight.maptext_height = text2num(size[2])
-			p.highlight.maptext = info*/
+			i.maptext_width  = text2num(size[1])
+			i.maptext_height = text2num(size[2])
+			i.maptext = info*/
 
-			p.client.images += p.highlight
+			if(time)
+				p.client.images += i
+				i.alpha = 0
+				animate(i, alpha = 255, time = 4)
+				sleep(time+4)
+				animate(i, alpha = 0, time = 4)
+				sleep(4)
+				p.client.images -= i
+			else
+				if(p.highlight)
+					p.client.images -= p.highlight
+				p.highlight = i
+
+				p.client.images += i
 
 
 
@@ -518,7 +535,7 @@ obj/items
 			hearers(usr) << infomsg("[usr] drops all of \his [src.name] items.")
 			drop(usr, stack)
 
-		prizeDrop(ownerCkey, protection=300, decay=TRUE)
+		prizeDrop(ownerCkey, protection=300, decay=TRUE, mob/Player/player=null)
 			set waitfor = 0
 
 			antiTheft = 1
@@ -541,6 +558,10 @@ obj/items
 
 				if(c)
 					filters = filter(type="outline", size=1, color=c)
+
+					if(player)
+						player.Interface.dropMessage.Display("+[name]", c)
+						Highlight(player, 30)
 
 			sleep(protection)
 
