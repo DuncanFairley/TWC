@@ -351,6 +351,10 @@ obj/museum
 		desc = "Too young to be here."
 		robes = "FemaleStaff"
 
+	Melissa
+		desc = "Former Professor."
+		robes = "FemaleStaff"
+
 	Katze
 		pname = "Katze (Pie)"
 		desc = "One of the most active and beloved professors to grace TWC with their presence."
