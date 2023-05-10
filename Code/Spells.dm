@@ -1038,8 +1038,10 @@ mob/Spells/verb/Chaotica()
 mob/Spells/verb/Aqua_Eructo()
 	set category="Spells"
 
+	if(world.time - lastproj < 2) return
+
 	var/mob/Player/p = src
-	var/mpCost = 50
+	var/mpCost = 5 + p.MHP * 0.01
 	var/spellName = "Aqua Eructo"
 
 	var/uses = (spellName in p.SpellUses) ? p.SpellUses[spellName] : 1
@@ -1047,8 +1049,8 @@ mob/Spells/verb/Aqua_Eructo()
 	mpCost = round(mpCost * (100 - tier*2) / 100, 1)
 
 	if(canUse(src,cooldown=null,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=0,againstocclumens=1,projectile=1))
-		p.HP -= mpCost
-		p.updateHP()
+
+		p.onDamage(mpCost, p)
 		Death_Check()
 
 		var/dmg = round(p.Def / 3 + p.Water.level, 1)
