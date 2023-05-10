@@ -224,7 +224,7 @@ obj/items/wearable/spellbook
 			for(var/d in DIRS_LIST)
 				p.castproj(icon_state = state, damage = dmg*0.75, name = name, cd = 0, lag = 1, element = element, Dir=d, learn=0)
 		else if(spellType == PROJ)
-			p.castproj(icon_state = state, damage = dmg, name = name, cd = cd, element = element, Dir = attacker ? get_dir(p, attacker) : p.dir, learn=0)
+			p.castproj(icon_state = state, damage = dmg, name = name, cd = 0, element = element, Dir = attacker ? get_dir(p, attacker) : p.dir, learn=0)
 			if(!attacker) p.lastAttack = "Spellbook"
 		else if(spellType == SUMMON)
 
@@ -257,7 +257,7 @@ obj/items/wearable/spellbook
 				var/obj/items/crystal/passive = p.passives[CRYSTAL_METEOR]
 				dmg *= 1 + (passive.passivePower / 100)
 
-			var/obj/projectile/Meteor/m = new (attacker ? attacker.loc : p.loc, p, dmg*0.75, state, name, element)
+			var/obj/projectile/Meteor/m = new (attacker ? attacker.loc : p.loc, p, dmg*0.75, cd=0, state, name, element, learn=0)
 			m.range = range
 		else if(spellType == TORNADO)
 
@@ -265,7 +265,7 @@ obj/items/wearable/spellbook
 				var/obj/items/crystal/passive = p.passives[CRYSTAL_TORNADO]
 				dmg *= 1 + (passive.passivePower / 100)
 
-			p.castproj(Type = /obj/projectile/NoImpact/Dir/Tornado, name = "[state] tornado", icon_state = state, damage = dmg, element = element, Dir = attacker ? get_dir(p, attacker) : p.dir, cd = cd, lag = 3, learn=0)
+			p.castproj(Type = /obj/projectile/NoImpact/Dir/Tornado, name = "[state] tornado", icon_state = state, damage = dmg, element = element, Dir = attacker ? get_dir(p, attacker) : p.dir, cd = 0, lag = 3, learn=0)
 			if(!attacker) p.lastAttack = "Spellbook"
 
 		else if(spellType == ARC)
