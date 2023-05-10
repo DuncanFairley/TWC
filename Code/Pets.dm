@@ -72,6 +72,7 @@ obj/items/wearable/pets
 	scale        = 0.1
 	useTypeStack = 1
 	stackName    = "Pets:"
+	rarity       = 3
 
 	var
 		currentSize = 1
@@ -233,10 +234,13 @@ obj/items/wearable/pets
 		icon_state = "snake"
 	demon_snake
 		icon_state = "bg_snake"
+		rarity = 4
 	white_purple_demon_snake
 		icon_state = "white purple snake"
+		rarity = 4
 	red_black_demon_snake
 		icon_state = "red and black snake"
+		rarity = 4
 	wolf
 		icon_state = "wolf"
 	troll
@@ -245,6 +249,7 @@ obj/items/wearable/pets
 		icon_state = "spider"
 	wisp
 		icon_state = "wisp"
+		rarity = 4
 	floating_eye
 		icon_state = "eye1"
 	mad_eye
@@ -253,6 +258,7 @@ obj/items/wearable/pets
 		icon_state  = "golem"
 		currentSize = 2
 		minSize     = 2
+		rarity = 4
 	sword
 		icon_state  = "sword"
 		function    = PET_FLY
@@ -261,6 +267,7 @@ obj/items/wearable/pets
 		function    = PET_FLY|PET_SHINY|PET_LIGHT
 	pumpkin
 		icon_state  = "pumpkin"
+		rarity = 4
 	pokeby
 		icon_state = "pokeby"
 		dropable = 0
@@ -289,24 +296,28 @@ obj/items/wearable/pets
 		dropable    = 0
 	cloud
 		icon_state = "cloud"
+		rarity = 4
 	squirrel
 		icon_state = "squirrel"
 		currentSize = 1
 		minSize = 1
-		rarity = 3
+		rarity = 4
 	pug
 		icon_state = "pug"
 		currentSize = 1
 		minSize = 1
-		rarity = 3
+		rarity = 4
 	Cow
 		icon_state = "cow"
 		currentSize = 1
 		minSize = 1
+		rarity = 4
 	training_dummy
 		icon_state = "dummy"
+		rarity = 4
 	fire_bat
 		icon_state = "firebat"
+		rarity = 4
 
 
 obj/pet
