@@ -605,6 +605,106 @@ hudobj
 
 				p << infomsg("Removed <span style=\"color:[color];\">magical color.</span>")
 
+	collector
+		name        = "Holster"
+		icon        = 'Season_bracelet.dmi'
+		icon_state  = "inactive"
+
+		anchor_x    = "EAST"
+		screen_x    = -4
+		screen_y    = -208
+		anchor_y    = "NORTH"
+
+		mouse_opacity = 2
+
+		var/hudobj/collector_pick/selected
+
+		Click()
+			var/mob/Player/p = usr
+
+			var/obj/items/wearable/collector/c = locate() in p.Lwearing
+			if(!c) return
+
+			var/hudobj/collector_pick/o = locate() in p.client.screen
+			if(o)
+				for(var/hudobj/collector_pick/cp)
+					cp.hide()
+			else
+				var/offsetX = -36
+				var/offsetY = -208
+				for(var/i in c.collected)
+
+					var/obj/items/item = itemInfo[i]
+					var/list/params = list("screen_x" = offsetX, "screen_y" = offsetY, "icon" = item.icon, "icon_state" = item.icon_state, "name" = item.name, "itemType" = i)
+
+					var/hudobj/collector_pick/cp = new (null, p.client, params, 1)
+
+					if(c.selected == i)
+						cp.filters = filter(type="outline", size=2, color = "#ffa500")
+						selected = cp
+
+					offsetX -= 32
+
+					if(offsetX <= -292)
+						offsetX = -36
+						offsetY -= 32
+
+
+		alpha = 110
+		MouseEntered()
+			alpha = 255
+		MouseExited()
+			alpha = 110
+
+	collector_pick
+		anchor_x    = "EAST"
+		screen_x    = -36
+		screen_y    = -208
+		anchor_y    = "NORTH"
+
+		mouse_opacity = 2
+
+		alpha = 255
+
+		var/itemType
+
+		MouseEntered()
+			transform *= 1.25
+
+		MouseExited()
+			transform = null
+
+		Click()
+			var/mob/Player/p = usr
+
+			var/obj/items/wearable/collector/c = locate() in p.Lwearing
+			if(!c) return
+
+			var/hudobj/collector/cHud = locate() in p.client.screen
+
+
+			if(c.selected == itemType)
+				c.remove(p, c.selected)
+				cHud.selected = null
+				c.selected = null
+
+				filters = null
+
+				p << infomsg("Deactivated [name]")
+
+			else
+				if(c.selected)
+					cHud.selected.filters = null
+					c.remove(p, c.selected)
+
+				c.selected = itemType
+				c.add(p, c.selected)
+				cHud.selected = src
+
+				filters = filter(type="outline", size=2, color = "#ffa500")
+
+				p << infomsg("Activated [name]")
+
 	reading
 		icon_state         = "reading"
 		mouse_over_pointer = MOUSE_INACTIVE_POINTER

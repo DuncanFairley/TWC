@@ -6328,3 +6328,112 @@ obj/items/wearable/wand_holster
 
 			if(!overridetext)
 				viewers(owner) << infomsg("[owner] puts \his [name] away.")
+
+
+var/list/itemInfo
+proc/InitItems()
+	itemInfo = list()
+
+	var/types = typesof(/obj/items/wearable/sword)|typesof(/obj/items/wearable/shield)|typesof(/obj/items/wearable/ring)
+
+	types -= /obj/items/wearable/sword
+	types -= /obj/items/wearable/shield
+	types -= /obj/items/wearable/ring
+
+	for(var/t in types)
+
+		itemInfo[t] = new t
+
+
+obj/items/wearable/collector
+
+	icon = 'Season_bracelet.dmi'
+	icon_state = "inactive"
+
+	desc = "Catch em all"
+
+	max_stack = 1
+	rarity = 4
+
+	var/list/collected
+	var/selected
+
+	showoverlay = FALSE
+
+	Equip(var/mob/Player/owner,var/overridetext=0,var/forceremove=0)
+		if(!forceremove && !overridetext && !(src in owner.Lwearing) && world.time - owner.lastCombat <= COMBAT_TIME)
+			owner << errormsg("You can't equip this while in combat.")
+			return
+		if(!forceremove && !(src in owner.Lwearing) && owner.loc && owner.loc.loc && owner.loc.loc:antiEffect)
+			owner << errormsg("You can not use it here.")
+			return
+		. = ..(owner)
+		if(. == WORN)
+			src.gender = owner.gender
+
+			for(var/obj/items/wearable/collector/W in owner.Lwearing)
+				if(W != src)
+					W.Equip(owner,1,1)
+
+			new /hudobj/collector  (null, owner.client, null, 1)
+
+			if(!overridetext)
+				viewers(owner) << infomsg("[owner] equips \his [name].")
+
+			if(selected) add(owner, selected)
+
+		else if(. == REMOVED)
+
+			var/hudobj/collector/o = locate() in owner.client.screen
+			if(o)
+				o.hide()
+			for(var/hudobj/collector_pick/c in owner.client.screen)
+				c.hide()
+
+			if(!overridetext)
+				viewers(owner) << infomsg("[owner] puts \his [name] away.")
+
+			if(selected) remove(owner, selected)
+
+	proc/add(mob/Player/owner, t)
+		var/obj/items/wearable/w = itemInfo[t]
+
+		var/tmpMP = owner.extraMP
+
+		owner.dropRate += w.dropRate
+		owner.monsterDmg += w.monsterDmg
+		owner.monsterDef += w.monsterDef
+		owner.extraLimit += w.extraLimit
+		owner.extraCDR += w.extraCDR
+
+		if(w.extraMP)
+			owner.extraMP += w.extraMP
+
+		if(tmpMP != owner.extraMP)
+			owner.resetMaxMP()
+
+		if(w.passive)
+			if(!owner.passives) owner.passives = list()
+			owner.passives[w.passive] += 1
+
+	proc/remove(mob/Player/owner, t)
+		var/obj/items/wearable/w = itemInfo[t]
+
+		var/tmpMP = owner.extraMP
+
+		owner.dropRate -= w.dropRate
+		owner.monsterDmg -= w.monsterDmg
+		owner.monsterDef -= w.monsterDef
+		owner.extraLimit -= w.extraLimit
+		owner.extraCDR -= w.extraCDR
+
+		if(w.extraMP)
+			owner.extraMP -= w.extraMP
+
+		if(tmpMP != owner.extraMP)
+			owner.resetMaxMP()
+
+		if(w.passive)
+			owner.passives[w.passive] -= 1
+			if(owner.passives[w.passive] <= 0) owner.passives -= w.passive
+			if(!owner.passives.len) owner.passives = null

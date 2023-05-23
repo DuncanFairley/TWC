@@ -1963,6 +1963,7 @@ world/New()
 	awardcup(0)
 	InitSandbox()
 	InitLootDrop()
+	InitItems()
 
 	if(discord_bot_url && discord_bot_url != "")
 		pollForDiscord()
