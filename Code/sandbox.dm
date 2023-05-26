@@ -2144,6 +2144,37 @@ hudobj
 
 				path = /obj/potions/grind
 
+			male_statue
+				icon='MaleVampire.dmi'
+		//		icon_state="cauldron"
+
+				price = list(/obj/items/wood_log = 100,
+				             /obj/items/stones = 100,
+				             /obj/items/artifact = 5)
+
+				screen_x = 32
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
+				path = /obj/statue/male
+
+			female_statue
+				icon='FemaleVampire.dmi'
+		//		icon_state="cauldron"
+
+				price = list(/obj/items/wood_log = 100,
+				             /obj/items/stones = 100,
+				             /obj/items/artifact = 5)
+
+				screen_x = 64
+				screen_y = 32
+
+				maptext = "Statues: 100 stone & wood and 5 artifacts"
+
+				path = /obj/statue/female
+
 
 
 obj
@@ -2176,3 +2207,125 @@ obj
 						if(b2 && b2.icon_state == "2") return
 
 					b.icon_state = "2"
+
+obj
+	statue
+
+		mouse_over_pointer = MOUSE_HAND_POINTER
+		density = 1
+
+		verb/Turn()
+			set src in view(1)
+
+			dir = turn(dir, 90)
+
+		var/effects
+
+		MouseEntered(location,control,params)
+			if(effects)
+				Highlight(usr)
+
+		MouseExited(location,control,params)
+			var/mob/Player/p = usr
+			if(p.highlight)
+				p.client.images -= p.highlight
+				p.highlight = null
+
+		proc/Highlight(mob/Player/p)
+			set waitfor = 0
+
+			var/image/i
+
+			if(p.highlight)
+				p.client.images -= p.highlight
+
+			i = image(src, src)
+			i.layer = 5
+
+			var/c = "#ffa500"
+			i.filters = filter(type="drop_shadow", size=1, y=0, x=0, offset=2, color=c)
+
+			i.maptext_x = 32
+			i.maptext_y = 8
+			i.maptext = effects
+			var/size = splittext(p.client.MeasureText(effects), "x")
+			i.maptext_width  = text2num(size[1])
+			i.maptext_height = text2num(size[2])
+
+			if(p.highlight)
+				p.client.images -= p.highlight
+			p.highlight = i
+
+			p.client.images += i
+
+		New()
+			set waitfor = 0
+			..()
+			sleep(1)
+			if(contents.len)
+				var/images = list()
+				for(var/obj/items/wearable/w in src)
+					if(w.showoverlay)
+						var/image/o = new
+						o.icon = w.icon
+						o.color = w.color
+						o.layer = w.wear_layer
+
+						images += o
+
+				overlays = images
+
+		Click()
+			if(src in oview(1))
+				var/mob/Player/p = usr
+
+				if(contents.len)
+
+					for(var/obj/items/wearable/w in src)
+						w.Move(p)
+						w.Equip(p)
+
+					overlays = null
+					effects = null
+
+					if(p.highlight)
+						p.client.images -= p.highlight
+						p.highlight = null
+
+				else
+
+					var/images = list()
+					for(var/obj/items/wearable/w in p.Lwearing)
+						if(w.showoverlay)
+							w.Equip(p)
+							w.Move(src)
+
+							var/image/o = new
+							o.icon = w.icon
+							o.color = w.color
+							o.layer = w.wear_layer
+
+							images += o
+
+						else if(istype(w, /obj/items/wearable/sword))
+							effects += "[w.name]\n"
+							w.Equip(p)
+							w.Move(src)
+						else if(istype(w, /obj/items/wearable/ring))
+							effects += "[w.name]\n"
+							w.Equip(p)
+							w.Move(src)
+						else if(istype(w, /obj/items/wearable/shield))
+							effects += "[w.name]\n"
+							w.Equip(p)
+							w.Move(src)
+
+
+					overlays = images
+
+					Highlight(p)
+
+		male
+			icon = 'MaleVampire.dmi'
+		female
+			icon = 'FemaleVampire.dmi'
