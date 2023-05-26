@@ -4247,19 +4247,45 @@ obj/boss/deathDOTControl
 
 obj/monster_portal
 
-	icon = 'spotlight.dmi'
+	icon = 'attacks.dmi'
 	layer = 10
 	alpha = 160
-	blend_mode = BLEND_MULTIPLY
 
-	pixel_x = -64
-	pixel_y = -64
+	var/tmp
+		opened = 0
+		elem
+
+	mouse_over_pointer = MOUSE_HAND_POINTER
+
+	Click()
+		if(src in view(15))
+			icon = 'spotlight.dmi'
+			blend_mode = BLEND_MULTIPLY
+
+			mouse_over_pointer = MOUSE_INACTIVE_POINTER
+			transform = null
+
+			pixel_x = -64
+			pixel_y = -64
+			mouse_opacity = 0
+
+			expand()
 
 	New()
 		set waitfor = 0
 		..()
+		elem = pick("Fire", "Water")
 
-		var/elem = pick("Fire", "Water")
+		icon_state = elem == "Fire" ? "flame" : "frost"
+		transform *= 3
+
+		sleep(600)
+		if(!opened) loc = null
+
+	proc/expand()
+		set waitfor = 0
+
+		opened = 1
 
 		if(elem == "Fire") color = "#c60"
 		else               color = "#0bc"
