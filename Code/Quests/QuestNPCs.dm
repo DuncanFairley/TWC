@@ -27,6 +27,7 @@ mob/TalkNPC
 			if(s.Result != "Yes") return
 
 			var/dungeon/d = new /dungeon(16, 100, 100)
+			d.DropRate = 1
 			var/t = rand(1,3)
 			if(t == 1)
 				d.NeedsWall = /turf/Hogwarts_Stone_Wall
@@ -145,6 +146,7 @@ mob/TalkNPC
 					d.ExitLoc = i_Player.loc
 					d.QuestName = questName
 					d.QuestArgs = "Clear Rat Infestation"
+					d.DropRate = 0.5
 
 					d.Enter(i_Player)
 

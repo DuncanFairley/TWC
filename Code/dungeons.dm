@@ -59,6 +59,7 @@ dungeon
 	var/QuestName
 	var/QuestArgs
 	var/list/Passives
+	var/DropRate = 0
 
 	var/EdgeType
 	var/FloorType

@@ -825,6 +825,9 @@ mob
 			if(hardmode)
 				rate += hardmode * 0.5
 
+			if(killer.dungeon)
+				rate += killer.dungeon.DropRate
+
 			if(prize)
 				sparks = 1
 				if(prizePoolSize > 1 && damage && damage.len > 1)
