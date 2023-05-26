@@ -602,3 +602,5 @@ obj/items/dungeon_key
 			p.dungeon.door.door = 1
 			p << infomsg("Boss room is now unlocked!")
 			loc = null
+
+	Dispose()
