@@ -27,6 +27,7 @@ proc
 		return L.Insert(L.len+1, item)
 
 	quicksortPlayers(list/L)
+		if(L.len <= 1) return
 		var/low = 1
 		var/high = L.len
 		var/top = 2
@@ -62,6 +63,7 @@ proc
 				stack[++top] = high
 
 	quicksortValue(list/L, variable = null, associated = FALSE)
+		if(L.len <= 1) return
 		var/low = 1
 		var/high = L.len
 		var/top = 2
