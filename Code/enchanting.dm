@@ -585,6 +585,83 @@ obj/blacksmith
 			else
 				p << errormsg(desc)
 
+	collection
+
+		desc = "Place a legendary item to feed it to your collection bracelet (10 artifacts)"
+
+		Click()
+			if(src in oview(3))
+
+				var/mob/Player/p = usr
+				p.dir = get_dir(p, src)
+
+				var/obj/items/wearable/collector/c = locate(/obj/items/wearable/collector) in p
+
+				if(!c)
+
+					var/ScreenText/s = new(p, src)
+					var/msg = "Do you wish to create a collection bracelet?\nCost: 200 artifacts.\n"
+
+					if(checkPrice(p, 200))
+						s.SetButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
+
+					s.AddText(msg)
+
+					if(!s.Wait()) return
+
+					if(s.Result != "Yes") return
+
+					if(!checkPrice(p, 200, 1)) return
+
+					c = new (loc)
+					c.prizeDrop(p.ckey, 600, FALSE, p)
+
+					return
+
+				var/obj/items/i = locate(/obj/items/wearable/sword) in locate(x, y-1, z)
+
+				if(!i) i = locate(/obj/items/wearable/ring)   in locate(x, y-1, z)
+				if(!i) i = locate(/obj/items/wearable/shield) in locate(x, y-1, z)
+
+				if(i)
+
+					if(i.type in c.collected)
+						p << errormsg("You already collected [i.name].")
+					else
+						var/ScreenText/s = new(p, src)
+						var/msg = "Do you wish to feed [i.name] into your collection bracelet?\nCost: 5 artifacts.\n"
+
+						if(checkPrice(p, 10))
+							s.SetButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
+
+						s.AddText(msg)
+
+						if(!s.Wait()) return
+
+						if(s.Result != "Yes") return
+
+						if(!checkPrice(p, 10, 1)) return
+
+						if(!c.collected) c.collected = list()
+						c.collected += i.type
+
+						i.Consume()
+
+				else
+					p << errormsg(desc)
+
+		checkPrice(mob/Player/p, price, consume=0)
+			. = 1
+			var/obj/items/artifact/a = locate() in p
+
+			if(!a || a.stack < price)
+				p << errormsg("You need [price] artifacts. You have [a ? a.stack : "0"].")
+				. = 0
+
+			if(. && consume)
+				a.Consume(price)
+
+
 	crystal_upgrade
 		searchType = /obj/items/crystal
 		desc = "Place a crystal to upgrade (1 scroll of knowledge)"
