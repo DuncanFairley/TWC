@@ -7,7 +7,7 @@
 	var/midx = (width+1)/2
 	var/swapmap/map = new /swapmap("vault1",width,height,1)
 	map.BuildRectangle(map.LoCorner(),map.HiCorner(),/turf/roofb)
-	map.BuildFilledRectangle(get_step(map.LoCorner(),NORTHEAST),get_step(map.HiCorner(),SOUTHWEST),/turf/floor)
+	map.BuildFilledRectangle(get_step(map.LoCorner(),NORTHEAST),get_step(map.HiCorner(),SOUTHWEST),/turf/buildable/vault)
 	map.BuildFilledRectangle(locate(map.x1+1,map.y1+height-2,map.z1),locate(map.x1+width-2,map.y1+height-2,map.z1),/turf/Hogwarts_Stone_Wall)
 	map.BuildFilledRectangle(locate(map.x1+midx-1,map.y1+1,map.z1),locate(map.x1+midx-1,map.y1+1,map.z1),/obj/teleport/leavevault)
 	map.Save()
@@ -18,25 +18,32 @@ mob/verb/NewVaultCustom(var/height as num, var/width as num)
 	if(width % 2 == 0) width--
 
 	var/midx = (width+1)/2
-	var/swapmap/map = new /swapmap("vault_wizard",width,height,1)
+	var/swapmap/map = new /swapmap("vault_mansion",width,height,1)
 	map.BuildRectangle(map.LoCorner(),map.HiCorner(),/turf/roofb)
-	map.BuildFilledRectangle(get_step(map.LoCorner(),NORTHEAST),get_step(map.HiCorner(),SOUTHWEST),/turf/floor)
-	map.BuildFilledRectangle(locate(map.x1+1,map.y1+height-2,map.z1),locate(map.x1+width-2,map.y1+height-2,map.z1),/turf/Hogwarts_Stone_Wall)
+
+	for(var/turf/t in block(locate(1,1,24), locate(35,35,24)))
+		var/turf/build = new t.type (locate(t.x, t.y, map.z1))
+		build.name = t.name
+		build.color = t.color
+		build.icon_state = t.icon_state
+
+//	map.BuildFilledRectangle(get_step(map.LoCorner(),NORTHEAST),get_step(map.HiCorner(),SOUTHWEST),/turf/buildable/vault)
+//	map.BuildFilledRectangle(locate(map.x1+1,map.y1+height-2,map.z1),locate(map.x1+width-2,map.y1+height-2,map.z1),/turf/Hogwarts_Stone_Wall)
 
 
 	map.BuildFilledRectangle(locate(map.x1+midx-1,map.y1+1,map.z1),locate(map.x1+midx-1,map.y1+1,map.z1),/obj/teleport/leavevault)
 	map.Save()
 
 mob/verb/LoadMapCUSTOM()
-	var/swapmap/map = SwapMaps_Load("vault_wizard")
+	var/swapmap/map = SwapMaps_Load("vault_mansion")
 
 	var/width = (map.x2+1) - map.x1
 	usr.loc = locate(map.x1 + round((width)/2), map.y1+1, map.z1 )
 
 mob/verb/SaveMapCUSTOM()
-	var/swapmap/map = SwapMaps_Find("vault_wizard")
-	map.Save()
-*/
+	var/swapmap/map = SwapMaps_Find("vault_mansion")
+	map.Save()*/
+
 mob/test/verb
 	enter_vault(ckey as text)
 		set category = "Debug"
@@ -68,6 +75,10 @@ mob/Player/proc/change_vault(var/vault)
 				for(var/obj/items/i in t)
 					items += i
 					i.loc = null
+				for(var/obj/statue/s in t)
+					for(var/obj/items/i in s)
+						items += i
+						i.loc = null
 			map.Unload()
 		else
 			src << errormsg("Please evacuate everyone from your vault first.")
