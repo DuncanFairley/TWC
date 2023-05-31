@@ -2239,24 +2239,26 @@ obj
 			if(p.highlight)
 				p.client.images -= p.highlight
 
-			i = image(src, src)
-			i.layer = 5
+			if(effects)
 
-			var/c = "#ffa500"
-			i.filters = filter(type="drop_shadow", size=1, y=0, x=0, offset=2, color=c)
+				i = image(src, src)
+				i.layer = 5
 
-			i.maptext_x = 32
-			i.maptext_y = 8
-			i.maptext = effects
-			var/size = splittext(p.client.MeasureText(effects), "x")
-			i.maptext_width  = text2num(size[1])
-			i.maptext_height = text2num(size[2])
+				var/c = "#ffa500"
+				i.filters = filter(type="drop_shadow", size=1, y=0, x=0, offset=2, color=c)
 
-			if(p.highlight)
-				p.client.images -= p.highlight
-			p.highlight = i
+				i.maptext_x = 32
+				i.maptext_y = 8
+				i.maptext = effects
+				var/size = splittext(p.client.MeasureText(effects), "x")
+				i.maptext_width  = text2num(size[1])
+				i.maptext_height = text2num(size[2])
 
-			p.client.images += i
+				if(p.highlight)
+					p.client.images -= p.highlight
+				p.highlight = i
+
+				p.client.images += i
 
 		New()
 			set waitfor = 0

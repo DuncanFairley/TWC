@@ -392,7 +392,8 @@ obj/items
 				sleep(time+4)
 				animate(i, alpha = 0, time = 4)
 				sleep(4)
-				p.client.images -= i
+				if(p)
+					p.client.images -= i
 			else
 				if(p.highlight)
 					p.client.images -= p.highlight
