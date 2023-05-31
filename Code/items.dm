@@ -5608,7 +5608,7 @@ obj/items/wearable/ring
 obj/items/wearable/ring/snowring
 	icon='ammy.dmi'
 	icon_state="snow"
-	name="Ring of Snow"
+	name="ring of snow"
 	desc="A magical ring that can manipulate water."
 	suffix = "<span style=\"color:#ffa500;\">Allows you to walk on water.</span>"
 	passive = RING_WATERWALK
@@ -5667,7 +5667,7 @@ obj/items/wearable/ring/slayer
 	monsterDmg = 10
 
 obj/items/wearable/ring/alchemy
-	name="Alchemist's ring"
+	name="alchemist's ring"
 	icon='ammy.dmi'
 	icon_state="snow"
 	desc="Brewed potions are one tier higher."
@@ -5677,7 +5677,7 @@ obj/items/wearable/ring/alchemy
 	monsterDmg = 3
 
 obj/items/wearable/ring/fairy
-	name="Fairy's ring"
+	name="fairy's ring"
 	icon='ammy.dmi'
 	icon_state="snow"
 	desc="Re-uses potions at the end of their effect."
@@ -5719,7 +5719,7 @@ obj/items/wearable/ring/nurse
 obj/items/wearable/ring/titan
 	icon='ammy.dmi'
 	icon_state="snow"
-	name="Titan's Ring"
+	name="titan's ring"
 	desc="Stat gain from this ring is doubled."
 	suffix = "<span style=\"color:#ffa500;\">Stat gain from this ring is doubled.</span>"
 	monsterDef = 3
@@ -5841,7 +5841,7 @@ obj/items/wearable/shield
 obj/items/wearable/shield/mana
 	icon='ammy.dmi'
 	icon_state="snow"
-	name="Emperor's bracelet"
+	name="emperor's bracelet"
 	desc="A magical bracelet that converts 50% of damage taken into mana."
 	suffix = "<span style=\"color:#ffa500;\">50% of damage taken will turn to mana.</span>"
 	passive = SHIELD_MP
@@ -5911,7 +5911,7 @@ obj/items/wearable/shield/ninja
 obj/items/wearable/shield/nurse
 	icon='trophies.dmi'
 	icon_state="Shield"
-	name="Nurse's Shield"
+	name="nurse's shield"
 	desc="Episkey provides 25% health shield on use."
 	suffix = "<span style=\"color:#ffa500;\">Episkey provides 25% health shield on use.</span>"
 	passive = SHIELD_NURSE
@@ -5983,15 +5983,15 @@ obj/items/wearable/sword/slayer
 obj/items/wearable/sword/dragon
 	icon='trophies.dmi'
 	icon_state="dragon"
-	name="Dragon's breath"
-	desc="Dragon's breath allows you to use fire spells with full damage."
+	name="dragonbreath"
+	desc="Dragonbreath allows you to use fire spells with full damage."
 	suffix = "<span style=\"color:#ffa500;\">Fire spells now use full damage.</span>"
 	passive = SWORD_FIRE
 
 obj/items/wearable/sword/titan
 	icon='trophies.dmi'
 	icon_state="Sword"
-	name="Titan's Sword"
+	name="titan's sword"
 	desc="Stat gain from this sword is doubled."
 	suffix = "<span style=\"color:#ffa500;\">Stat gain from this sword is doubled.</span>"
 	monsterDmg = 5
@@ -6000,7 +6000,7 @@ obj/items/wearable/sword/titan
 obj/items/wearable/sword/vladmir
 	icon='trophies.dmi'
 	icon_state="Sword"
-	name="Vladmir's Cutlass"
+	name="Vladmir's cutlass"
 	desc="Lifesteal 20% of max HP on kill."
 	suffix = "<span style=\"color:#ffa500;\">Lifesteal 20% of max HP on kill.</span>"
 	passive = SWORD_HEALONKILL
@@ -6008,7 +6008,7 @@ obj/items/wearable/sword/vladmir
 obj/items/wearable/sword/wolf
 	icon='trophies.dmi'
 	icon_state="Sword"
-	name="Wolf's Claw"
+	name="wolf's claw"
 	desc="40% Chance to gain animagus charge on kill."
 	suffix = "<span style=\"color:#ffa500;\">40% Chance to gain animagus charge on kill.</span>"
 	passive = SWORD_ANIMAGUS
@@ -6016,7 +6016,7 @@ obj/items/wearable/sword/wolf
 obj/items/wearable/sword/snake
 	icon='trophies.dmi'
 	icon_state="Sword"
-	name="Akalla's Fang"
+	name="Akalla's fang"
 	desc="Serpensortia summons stronger snakes."
 	suffix = "<span style=\"color:#ffa500;\">Serpensortia summons stronger snakes.</span>"
 	passive = SWORD_SNAKE
@@ -6024,7 +6024,7 @@ obj/items/wearable/sword/snake
 obj/items/wearable/sword/gold
 	icon='Scroll.dmi'
 	icon_state="gold"
-	name="Golden Scroll"
+	name="golden scroll"
 	desc="50% drop rate bonus."
 	suffix = "<span style=\"color:#ffa500;\">50% drop rate bonus.</span>"
 	dropRate = 50
@@ -6032,7 +6032,7 @@ obj/items/wearable/sword/gold
 obj/items/wearable/sword/ghost
 	icon='trophies.dmi'
 	icon_state="ghostblade"
-	name="Ghostblade"
+	name="ghostblade"
 	desc="Changes all projectiles element to ghost."
 	suffix = "<span style=\"color:#ffa500;\">Your projectiles element will be ghost.</span>"
 	passive = SWORD_GHOST
@@ -6040,7 +6040,7 @@ obj/items/wearable/sword/ghost
 obj/items/wearable/sword/explode
 	icon='trophies.dmi'
 	icon_state="boomblade"
-	name="Boomblade"
+	name="boomblade"
 	desc="Monsters you kill explode."
 	suffix = "<span style=\"color:#ffa500;\">Monsters you kill explode.</span>"
 	passive = SWORD_EXPLODE
@@ -6048,7 +6048,7 @@ obj/items/wearable/sword/explode
 obj/items/wearable/sword/mana
 	icon='trophies.dmi'
 	icon_state="ghostblade"
-	name="Mageblade"
+	name="mageblade"
 	desc="Drains all your mana for higher damage output."
 	suffix = "<span style=\"color:#ffa500;\">Spells are empowered by mana.</span>"
 	passive = SWORD_MANA
@@ -6057,7 +6057,7 @@ obj/items/wearable/sword/mana
 obj/items/wearable/sword/alchemy
 	icon='trophies.dmi'
 	icon_state="Sword"
-	name="Alchemist's blade"
+	name="alchemist's blade"
 	desc="15% chance to not consume potions.<br>Grants a chance to produce more than one potion."
 	suffix = "<span style=\"color:#ffa500;\">15% chance to not consume potions.</span>"
 	passive = SWORD_ALCHEMY
@@ -6290,7 +6290,7 @@ obj/items/wearable/wand_holster
 	rarity = 3
 	showoverlay = FALSE
 
-	icon = 'Season_bracelet.dmi'
+	icon = 'season_bracelet.dmi'
 	icon_state = "inactive"
 
 	desc = "holster for your wand!"
