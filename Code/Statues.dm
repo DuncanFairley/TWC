@@ -66,7 +66,7 @@ obj/museum
 			if(s.Result == "Clothing")
 				var/mob/Player/p = usr
 
-				if(checkPrice(p, 30))
+				if(checkPrice(p, 50))
 					s.SetButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
 
 				s.AddText("Your clothing will be copied to the statue for 30 artifacts.")
@@ -75,7 +75,7 @@ obj/museum
 
 				if(s.Result != "Yes") return
 
-				if(!checkPrice(p, 30, 1)) return
+				if(!checkPrice(p, 50, 1)) return
 
 				for(var/obj/o in src)
 					o.loc = null
