@@ -100,6 +100,8 @@ proc
 			worldData.housepointsGSRH[3] = 0
 			worldData.housepointsGSRH[4] = 0
 
+		loadMuseum()
+
 		var/list/cw
 		X["ClanWars"] >> cw
 		if(cw && cw.len)

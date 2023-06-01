@@ -1,3 +1,28 @@
+WorldData
+	var
+		list/museum
+
+proc
+	loadMuseum()
+
+		for(var/p in worldData.museum)
+			var/obj/museum/m = locate(text2path("/obj/museum/[p]"))
+
+			if(!m)
+				worldData.museum -= p
+				continue
+
+			var/images = list()
+			for(var/obj/items/wearable/w in worldData.museum[p])
+				var/image/o = new
+				o.icon = w.icon
+				o.color = w.color
+				o.layer = w.wear_layer
+
+				images += o
+			m.overlays = images
+
+
 obj/museum
 
 	density = 1
@@ -32,24 +57,59 @@ obj/museum
 
 		var/n = usr.pname ? usr.pname : usr.name
 
-		if(name == n || pname == n)
+		if((name == n || pname == n) && (robes == "MaleStaff" || robes == "FemaleStaff"))
 
 			s.SetButtons("OK", "#2299d0", "Clothing", "#00ff00", null)
 
 			if(!s.Wait()) return
 
 			if(s.Result == "Clothing")
+				var/mob/Player/p = usr
 
-				var/d = desc
-				var/tmpName = name
-				appearance = usr.appearance
+				if(checkPrice(p, 30))
+					s.SetButtons(0, 0, "No", "#ff0000", "Yes", "#00ff00")
 
-				underlays = list()
-				namefont.QuickName(src, pname, rgb(255,255,255), "#000", top=1)
+				s.AddText("Your clothing will be copied to the statue for 30 artifacts.")
 
-				name = tmpName
-				desc = d
-				mouse_over_pointer = MOUSE_HAND_POINTER
+				if(!s.Wait()) return
+
+				if(s.Result != "Yes") return
+
+				if(!checkPrice(p, 30, 1)) return
+
+				for(var/obj/o in src)
+					o.loc = null
+
+				var/items = list()
+				var/images = list()
+				for(var/obj/items/wearable/w in p.Lwearing)
+					if(w.showoverlay)
+						var/obj/items/wearable/c = w.Clone()
+						items += c
+
+						var/image/o = new
+						o.icon = w.icon
+						o.color = w.color
+						o.layer = w.wear_layer
+
+						images += o
+
+				overlays = images
+
+				if(!worldData.museum) worldData.museum = list()
+				worldData.museum["[name]"] = items
+
+	proc
+		checkPrice(mob/Player/p, price, consume=0)
+			. = 1
+			var/obj/items/artifact/a = locate() in p
+
+			if(!a || a.stack < price)
+				p << errormsg("You need [price] artifacts. You have [a ? a.stack : "0"].")
+				. = 0
+
+			if(. && consume)
+				a.Consume(price)
 
 
 	Murrawhip
