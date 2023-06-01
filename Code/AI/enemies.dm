@@ -876,7 +876,8 @@ mob
 				var/event = killer.level >= 750 ? pick(1,2,3) : pick(1,2)
 
 				if(event==3)
-					new /obj/monster_portal (loc)
+					var/auto = (RING_AFK in killer.passives)
+					new /obj/monster_portal (loc, auto)
 				else if(event==2)
 					new /mob/Enemies/Summoned/Boss/Treasure_Chest (loc)
 				else if(event==1)
@@ -2122,6 +2123,11 @@ mob
 						if(state == WANDER) return
 						.=..()
 
+					onDamage(dmg, mob/Player/p, elem = 0, projColor=null)
+						if((RING_AFK in p.passives))
+							dmg *= 2
+						..(dmg, p, elem, projColor)
+
 				Scared_Ghost
 					icon = 'NPCs.dmi'
 					HPmodifier = 5
@@ -2186,6 +2192,11 @@ mob
 								 angle  = new /Random(1, 359),
 								 speed  = 2,
 								 life   = new /Random(15,20))
+
+					onDamage(dmg, mob/Player/p, elem = 0, projColor=null)
+						if((RING_AFK in p.passives))
+							dmg *= 2
+						..(dmg, p, elem, projColor)
 
 
 				VampireLord
@@ -4261,23 +4272,20 @@ obj/monster_portal
 	mouse_over_pointer = MOUSE_HAND_POINTER
 
 	Click()
+		if(opened) return
+
 		if(src in view(15))
-			icon = 'spotlight.dmi'
-			blend_mode = BLEND_MULTIPLY
-
-			mouse_over_pointer = MOUSE_INACTIVE_POINTER
-			transform = null
-
-			pixel_x = -64
-			pixel_y = -64
-			mouse_opacity = 0
 
 			expand()
 
-	New()
+	New(Loc, open=0)
 		set waitfor = 0
-		..()
+		..(Loc)
 		elem = pick("Fire", "Water")
+
+		if(open)
+			expand()
+			return
 
 		icon_state = elem == "Fire" ? "flame" : "frost"
 		transform *= 3
@@ -4289,6 +4297,16 @@ obj/monster_portal
 		set waitfor = 0
 
 		opened = 1
+
+		icon = 'spotlight.dmi'
+		blend_mode = BLEND_MULTIPLY
+
+		mouse_over_pointer = MOUSE_INACTIVE_POINTER
+		transform = null
+
+		pixel_x = -64
+		pixel_y = -64
+		mouse_opacity = 0
 
 		if(elem == "Fire") color = "#c60"
 		else               color = "#0bc"

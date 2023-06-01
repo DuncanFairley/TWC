@@ -53,7 +53,7 @@
 #define RING_NINJA "babies ignore you"
 #define RING_NURSE "auto-cast Episkey"
 #define RING_TUNGRAD "wand charge gain increased"
-#define RING_12 2048
+#define RING_AFK "easier random monster encounters"
 #define RING_13 4096
 #define RING_14 8192
 #define RING_15 16384

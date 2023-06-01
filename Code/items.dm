@@ -5737,6 +5737,16 @@ obj/items/wearable/ring/thorn
 	monsterDmg = 2
 	Armor = 30
 
+obj/items/wearable/ring/afk
+	icon='ammy.dmi'
+	icon_state="snow"
+	name="sleepwalker ring"
+	desc="Easier random monster encounters."
+	suffix = "<span style=\"color:#ffa500;\">Easier random monster encounters.</span>"
+	passive = RING_AFK
+	monsterDef = 3
+	monsterDmg = 3
+
 obj/items/wearable/ring/tungrad
 	icon='ammy.dmi'
 	icon_state="snow"
