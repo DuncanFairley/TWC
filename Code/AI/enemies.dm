@@ -4334,6 +4334,8 @@ obj/monster_portal
 
 			var/turf/t = locate(x + offsetX, y + offsetY, z)
 
+			if(!t || t.skip) t = loc
+
 			var/mob/Enemies/Summoned/monster = new (t)
 
 			monster.alpha = 0
