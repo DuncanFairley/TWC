@@ -3047,7 +3047,7 @@ mob/Enemies
 		if(dead) return 0
 
 		dmg += p.Slayer.level
-		dmg *= 1 + min(p.monsterDmg/100, 1)
+		dmg *= 1 + min(p.monsterDmg/100, 2)
 		dmg *= damageMod
 
 		if(hardmode > 5)
