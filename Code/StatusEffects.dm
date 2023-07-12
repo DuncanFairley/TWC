@@ -247,8 +247,34 @@ Event
 
 				quicksortValue(guilds)
 
-				worldData.majorChaos = guilds[1]
-				worldData.majorPeace = guilds[guilds.len]
+				var/chaosIndex = -1
+				for(var/i = 1 to guilds.len)
+					var/isActive = 0
+					var/guild/g = worldData.guilds[guilds[i]]
+					for(var/member in g.members)
+						var/PlayerData/p = worldData.playersData[member]
+						if(world.realtime - p.time <= 12096000)
+							isActive = 1
+							break
+
+					if(isActive)
+						chaosIndex = i
+						worldData.majorChaos = guilds[i]
+						break
+
+				if(chaosIndex > 0 && chaosIndex != guilds.len)
+					for(var/i = guilds.len to chaosIndex step -1)
+						var/isActive = 0
+						var/guild/g = worldData.guilds[guilds[i]]
+						for(var/member in g.members)
+							var/PlayerData/p = worldData.playersData[member]
+							if(world.realtime - p.time <= 12096000)
+								isActive = 1
+								break
+
+						if(isActive)
+							worldData.majorPeace = guilds[i]
+							break
 
 			// rep/fame decay + clean player data
 			cleanPlayerData(1)
