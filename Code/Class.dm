@@ -123,7 +123,7 @@ class
 		sleep(30)
 
 		var/list/recipe = getRngRecipe()
-		say("Before I begin, to help with your potion studies, I hear [recipe[1]]will produce [recipe[2]] potion.", p)
+		say("Before I begin, to help with your potion studies, I hear [recipe[1]]will produce [recipe[2]].", p)
 		sleep(30)
 
 		say("When I'm done explaining the spell, please come to me and take a practice wand, use that wand to practice the spell until you've learned it. Of course if you already have a practice wand of another spell, you will not be able to get another.", p)
