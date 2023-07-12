@@ -5870,7 +5870,7 @@ obj/items/wearable/shield/selfdamage
 	icon='trophies.dmi'
 	icon_state="Shield"
 	name="clown's shield"
-	desc="A clown's shield, provides protection against accidents."
+	desc="No damage from your own projectiles."
 	suffix = "<span style=\"color:#ffa500;\">No damage from your own projectiles.</span>"
 	passive = SHIELD_CLOWN
 	monsterDef = 3
@@ -5879,7 +5879,7 @@ obj/items/wearable/shield/psychic
 	icon='trophies.dmi'
 	icon_state="Shield"
 	name="psychic's shield"
-	desc="Psychic's shield, 40% of damage is taken to mana before health."
+	desc="40% of damage is taken to mana before health."
 	suffix = "<span style=\"color:#ffa500;\">40% of damage is taken to mana before health.</span>"
 	passive = SHIELD_MPDAMAGE
 	monsterDef = 2
@@ -5995,7 +5995,7 @@ obj/items/wearable/sword/dragon
 	icon='trophies.dmi'
 	icon_state="dragon"
 	name="dragonbreath"
-	desc="Dragonbreath allows you to use fire spells with full damage."
+	desc="Fire spells now use full damage."
 	suffix = "<span style=\"color:#ffa500;\">Fire spells now use full damage.</span>"
 	passive = SWORD_FIRE
 
