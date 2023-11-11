@@ -1026,8 +1026,8 @@ window "guild"
 window "infobubble"
 	elem "infobubble"
 		type = MAIN
-		pos = 281,0
-		size = 150x150
+		pos = 372,0
+		size = 200x200
 		anchor1 = -1,-1
 		anchor2 = -1,-1
 		background-color = #000000
@@ -1041,10 +1041,12 @@ window "infobubble"
 		can-minimize = false
 		can-resize = false
 		alpha = 200
+		outer-size = 214x214
+		inner-size = 200x200
 	elem "labelTitle"
 		type = LABEL
 		pos = 0,0
-		size = 150x25
+		size = 200x25
 		anchor1 = -1,-1
 		anchor2 = -1,-1
 		font-style = "bold"
@@ -1056,7 +1058,7 @@ window "infobubble"
 	elem "labelInfo"
 		type = LABEL
 		pos = 5,25
-		size = 140x125
+		size = 190x175
 		anchor1 = -1,-1
 		anchor2 = -1,-1
 		text-color = #ffffff
