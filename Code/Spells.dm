@@ -2892,7 +2892,8 @@ mob/Player
 			updateMP()
 
 		if(ismonster(attacker))
-			dmg *= 1 - min(monsterDef/100, 0.75)
+			var/monsterDefLimit = (SHIELD_SOUL in passives) ? 0.9 : 0.75
+			dmg *= 1 - min(monsterDef/100, monsterDefLimit)
 
 		if(SHIELD_MPDAMAGE in passives)
 			var/r = min(round(dmg * (0.4 + ((passives[SHIELD_MPDAMAGE] - 1) / 100)), 1), MP)
@@ -3046,8 +3047,10 @@ mob/Enemies
 
 		if(dead) return 0
 
+		var/monsterDmgLimit = (SHIELD_SOUL in p.passives) ? 3 : 2
+
 		dmg += p.Slayer.level
-		dmg *= 1 + min(p.monsterDmg/100, 2)
+		dmg *= 1 + min(p.monsterDmg/100, monsterDmgLimit)
 		dmg *= damageMod
 
 		if(hardmode > 5)
@@ -3093,6 +3096,9 @@ mob/Enemies
 
 		dmg = round(dmg, 1)
 		HP -= dmg
+
+		if((SWORD_SOUL in p.passives) && (HP / MHP) * 100 <= 10)
+			HP = 0
 
 		if(dmg > 0)
 			var/offset = 15 - (length("[dmg]") * 5)

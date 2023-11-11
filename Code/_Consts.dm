@@ -68,7 +68,7 @@
 #define SHIELD_CLOWN "your projectiles won't damage you"
 #define SHIELD_MPDAMAGE "mana will partially absorb damage taken"
 #define SHIELD_GOLD "no gold lost on death"
-#define SHIELD_10 512
+#define SHIELD_SOUL "increases damage reduction/increases limits"
 #define SHIELD_11 1024
 #define SHIELD_12 2048
 #define SHIELD_13 4096
@@ -81,7 +81,7 @@
 #define SWORD_NINJA "ability to do back attack damage"
 #define SWORD_NURSE "AoE Episkey"
 #define SWORD_THORN "reflects armor damage back"
-#define SWORD_6 32
+#define SWORD_SOUL "attacks on monsters execute them if they have 10% or less health"
 #define SWORD_CLOWN "Projectiles shoot twice randomly"
 #define SWORD_8 128
 #define SWORD_9 256
@@ -92,6 +92,8 @@
 #define SWORD_GHOST "all projectiles become ghost element"
 #define SWORD_SNAKE "stronger snake summon"
 #define SWORD_16 32768
+
+#define EFFECTS_LIST list(RING_AFK, RING_WATERWALK, RING_APPARATE, RING_DISPLACEMENT, RING_LAVAWALK, RING_ALCHEMY, RING_CLOWN, RING_FAIRY, RING_NINJA, RING_NURSE, SHIELD_ALCHEMY, SHIELD_NINJA, SHIELD_NURSE, SHIELD_CLOWN, SHIELD_MP, SHIELD_MPDAMAGE, SHIELD_GOLD, SHIELD_THORN, SHIELD_SOUL, SWORD_ALCHEMY, SWORD_NINJA, SWORD_NURSE, SWORD_CLOWN, SWORD_EXPLODE, SWORD_FIRE, SWORD_HEALONKILL, SWORD_ANIMAGUS, SWORD_GHOST, SWORD_SNAKE, SWORD_THORN, SWORD_SOUL)
 
 #define CRYSTAL_AURA "aura damage"
 #define CRYSTAL_METEOR "meteor damage"

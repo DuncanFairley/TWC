@@ -5954,6 +5954,14 @@ obj/items/wearable/shield/thorn
 	suffix = "<span style=\"color:#ffa500;\">Increases armor by 30%.</span>"
 	passive = SHIELD_THORN
 
+obj/items/wearable/shield/soul
+	icon='trophies.dmi'
+	icon_state="Shield"
+	name="soul shield"
+	desc="Increases damage reduction/increases limits."
+	suffix = "<span style=\"color:#ffa500;\">Increases damage reduction/increases limits.</span>"
+	passive = SHIELD_SOUL
+
 obj/items/wearable/sword
 	bonus  = 0
 	socket = 0
@@ -6106,6 +6114,14 @@ obj/items/wearable/sword/thorn
 	desc="Reflects armor damage back."
 	suffix = "<span style=\"color:#ffa500;\">Reflects armor damage back.</span>"
 	passive = SWORD_THORN
+
+obj/items/wearable/sword/soul
+	icon='trophies.dmi'
+	icon_state="ghostblade"
+	name="soulblade"
+	desc="attacks on monsters execute them if they have 10% or less health."
+	suffix = "<span style=\"color:#ffa500;\">attacks on monsters execute them if they have 10% or less health.</span>"
+	passive = SWORD_SOUL
 
 obj/items/wearable/sword/glass
 	icon='trophies.dmi'
