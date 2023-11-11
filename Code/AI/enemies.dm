@@ -893,8 +893,13 @@ mob
 
 				if(isLegendary)
 					if(prob(hardmode*2))
-						prize:Upgrade(5 + rand(0, 5))
-						textColor = "#551a8b"
+
+						if(hardmode > 5 && prob(hardmode*2))
+							prize:Upgrade(10 + rand(0, 5), 3)
+							textColor = "#660000"
+						else
+							prize:Upgrade(5 + rand(0, 5))
+							textColor = "#551a8b"
 
 					if(prob(10))
 						prize:bonus = 3

@@ -959,6 +959,11 @@ obj/items/wearable
 				name   = "cursed [name]"
 
 				scale += 0.3 * scale
+			else if(stats == 3)
+				rarity = 5
+				name   = "hallowed [name]"
+
+				scale += 0.6 * scale
 
 			max_stack = 1
 			power = basePower

@@ -790,17 +790,25 @@ obj/blacksmith
 
 			if(checkPrice(p, 5, 1))
 
+				i.name = initial(i.name)
+				i.scale = initial(i.scale)
+
 				if(findtext(i.name, "cursed "))
-					i.name = initial(i.name)
-					i.scale = initial(i.scale)
 
 					if(i.quality >= 15)
-						i.Upgrade(10)
+						i.Upgrade(10, random=0)
 					else
 						i.Upgrade(5 + rand(0, 5))
 
-					if(i.quality)
-						i.name = "[i.name] +[i.quality]"
+				else if(findtext(i.name, "hallowed "))
+
+					if(i.quality >= 15)
+						i.Upgrade(15, 3, 0)
+					else
+						i.Upgrade(10 + rand(0, 5), 3)
+
+				if(i.quality)
+					i.name = "[i.name] +[i.quality]"
 
 				p << infomsg("New stats of [i.name]:\n+[i.power] Legendary Effect")
 

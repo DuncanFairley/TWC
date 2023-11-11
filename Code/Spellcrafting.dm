@@ -763,8 +763,13 @@ obj
 
 					if(isLegendary)
 						if(p.TreasureHunting.level > 50 && prob((p.TreasureHunting.level - 50) / 10))
-							prize:Upgrade(5 + rand(0, 5))
-							textColor = "#551a8b"
+
+							if(p.TreasureHunting.level > 75 && prob((p.TreasureHunting.level - 50) / 10))
+								prize:Upgrade(10 + rand(0, 5), 3)
+								textColor = "#660000"
+							else
+								prize:Upgrade(5 + rand(0, 5))
+								textColor = "#551a8b"
 
 						if(prob(1))
 							prize:bonus = 3
