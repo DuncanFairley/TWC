@@ -964,6 +964,12 @@ obj/items/wearable
 				name   = "hallowed [name]"
 
 				scale += 0.6 * scale
+			else if(stats == 4)
+				rarity = 6
+				name   = "divine [name]"
+
+				scale += scale
+				random = 0
 
 			max_stack = 1
 			power = basePower

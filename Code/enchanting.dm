@@ -807,6 +807,10 @@ obj/blacksmith
 					else
 						i.Upgrade(10 + rand(0, 5), 3)
 
+				else if(findtext(i.name, "divine "))
+					i.Upgrade(20, 4, 0)
+
+
 				if(i.quality)
 					i.name = "[i.name] +[i.quality]"
 
@@ -856,9 +860,13 @@ obj/blacksmith
 
 				var/chanceFactor
 				if(findtext(i.name, "cursed "))
-					chanceFactor = 5
-				else
 					chanceFactor = 4
+				else if(findtext(i.name, "hallowed "))
+					chanceFactor = 5
+				else if(findtext(i.name, "divine "))
+					chanceFactor = 6
+				else
+					chanceFactor = 3
 
 				var/ScreenText/s = new(p, src)
 				var/chanceToFail = i.quality >= 5 ? (i.quality+1)*chanceFactor + chanceFactor*3 : 0
