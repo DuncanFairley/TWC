@@ -896,7 +896,7 @@ mob
 
 						if(hardmode >= 10 && prob(1))
 							prize:Upgrade(20, 4)
-							textColor = "#660000"
+							textColor = "#db7093"
 						else if(hardmode > 5 && prob(hardmode*2))
 							prize:Upgrade(10 + rand(0, 5), 3)
 							textColor = "#660000"

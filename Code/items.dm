@@ -369,6 +369,8 @@ obj/items
 					c = "#551a8b"
 				if(5)
 					c = "#660000"
+				if(6)
+					c = "#db7093"
 
 			i.filters = filter(type="drop_shadow", size=1, y=0, x=0, offset=2, color=c)
 
