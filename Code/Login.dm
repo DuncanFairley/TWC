@@ -1014,6 +1014,7 @@ mob/Player
 			BaseIcon()
 
 			LoginReward()
+			secretSanta()
 			if(worldData.eventPrize) EventReward()
 			BYONDMemberReward()
 
