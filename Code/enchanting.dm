@@ -782,18 +782,20 @@ obj/blacksmith
 
 		desc = "Place an item (cursed items) you wish to randomize stats of in the red square. (5 artifacts)"
 
+		var/free = 0
+
 		smith(obj/items/wearable/i, mob/Player/p)
 			if(!i.effects)
 				p << errormsg("[i.name] has no stats that can be randomized.")
 				return
 
 
-			if(checkPrice(p, 5, 1))
+			if(free || checkPrice(p, 5, 1))
 
-				i.name = initial(i.name)
 				i.scale = initial(i.scale)
 
 				if(findtext(i.name, "cursed "))
+					i.name = initial(i.name)
 
 					if(i.quality >= 15)
 						i.Upgrade(10, random=0)
@@ -801,6 +803,7 @@ obj/blacksmith
 						i.Upgrade(5 + rand(0, 5))
 
 				else if(findtext(i.name, "hallowed "))
+					i.name = initial(i.name)
 
 					if(i.quality >= 15)
 						i.Upgrade(15, 3, 0)
@@ -808,6 +811,8 @@ obj/blacksmith
 						i.Upgrade(10 + rand(0, 5), 3)
 
 				else if(findtext(i.name, "divine "))
+					i.name = initial(i.name)
+
 					i.Upgrade(20, 4, 0)
 
 
