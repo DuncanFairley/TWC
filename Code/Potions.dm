@@ -833,6 +833,11 @@ obj/items/potions
 
 			Effect(mob/Player/p)
 				if(p.level < lvlcap)
+
+					if((locate(/obj/items/wearable/seal_bracelet) in usr:Lwearing))
+						usr << errormsg("You can't use this while wearing a seal bracelet.")
+						return
+
 					var/e = exp * (1 + (quality - 4) * 0.3) + rand(exp * 0.1)
 					p << infomsg("You receive [comma(e)] experience.")
 					p.addExp(e)
