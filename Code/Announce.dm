@@ -43,6 +43,12 @@ mob/test/verb/Download_Savefile()
 	if(!ckeyname) return
 	usr << ftp(file("players/[copytext(ckeyname,1,2)]/[ckeyname].sav"))
 
+mob/test/verb/Download_Map()
+	set category="Debug"
+	var/ckeyname = input("map name?") as null|text
+	if(!ckeyname) return
+	usr << ftp(file("vaults/[ckeyname].sav"))
+
 mob
 	var/questionius = 2
 	verb

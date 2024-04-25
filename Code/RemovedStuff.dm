@@ -54,6 +54,13 @@ obj/christmas_lights
 		spawn(1)
 			loc=null
 
+obj/snow_counter
+	canSave = FALSE
+	New()
+		..()
+		spawn(1)
+			loc=null
+
 
 mob/Player
 	verb
