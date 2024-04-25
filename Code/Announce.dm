@@ -47,7 +47,7 @@ mob/test/verb/Download_Map()
 	set category="Debug"
 	var/ckeyname = input("map name?") as null|text
 	if(!ckeyname) return
-	usr << ftp(file("vaults/[ckeyname].sav"))
+	usr << ftp(file("vaults/[ckeyname]"))
 
 mob
 	var/questionius = 2
