@@ -1,3 +1,60 @@
+
+obj/secret/Elf
+	canSave = FALSE
+	New()
+		..()
+		spawn(1)
+			loc=null
+
+hudobj/secretSanta
+	canSave = FALSE
+	New()
+		..()
+		spawn(1)
+			loc=null
+
+obj/items/treasure/gift
+	canSave = FALSE
+	New()
+		..()
+		spawn(1)
+			loc=null
+
+obj/clock/Curse_Clock
+	canSave = FALSE
+	New()
+		..()
+		spawn(1)
+			loc=null
+
+mob/Enemies/Summoned/Boss/Snowman/Super
+	New()
+		..()
+		spawn(1)
+			loc=null
+
+obj/christmas_tree
+	canSave = FALSE
+	New()
+		..()
+		spawn(1)
+			loc=null
+
+obj/christmas_tree_orig
+	canSave = FALSE
+	New()
+		..()
+		spawn(1)
+			loc=null
+
+obj/christmas_lights
+	canSave = FALSE
+	New()
+		..()
+		spawn(1)
+			loc=null
+
+
 mob/Player
 	verb
 		Use_Statpoints()
