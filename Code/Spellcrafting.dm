@@ -257,7 +257,7 @@ obj/items/wearable/spellbook
 				var/obj/items/crystal/passive = p.passives[CRYSTAL_METEOR]
 				dmg *= 1 + (passive.passivePower / 100)
 
-			var/obj/projectile/Meteor/m = new (attacker ? attacker.loc : p.loc, p, dmg*0.75, cd=0, state, name, element, learn=0)
+			var/obj/projectile/Meteor/m = new (attacker ? attacker.loc : p.loc, p, dmg*0.75, state, name, element)
 			m.range = range
 		else if(spellType == TORNADO)
 
