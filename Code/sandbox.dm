@@ -1154,6 +1154,36 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+			clock
+				icon       ='General.dmi'
+				icon_state = "tile79"
+
+				price = 2
+				path = /obj/static_obj/Clock { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+				mouse_opacity = 2
+
+				screen_x = 32
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
+			dual_swords
+				icon       ='wallobjs.dmi'
+				icon_state = "sword"
+
+				price = 2
+				path = /obj/static_obj/Dual_Swords { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+				mouse_opacity = 2
+
+				screen_x = 64
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
 			wall_torch
 				icon       ='turf.dmi'
 				icon_state = "walltorch"
