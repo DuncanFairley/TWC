@@ -1219,12 +1219,12 @@ hudobj
 				path = /obj/buildable/wall/wood
 				replace = /obj/buildable/wall/fence
 
-			stairs
-				icon       = 'General.dmi'
-				icon_state = "Stairs"
+			woodfloor
+				icon       = 'turf.dmi'
+				icon_state = "wood"
+				color      = "#704f32"
 
 				price = 2
-				path = /obj/static_obj/Hogwarts_Stairs { post_init = 0 }
 
 				screen_x = 32
 				screen_y = 224
@@ -1232,15 +1232,41 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
-			woodfloor
+			woodfloorblack
 				icon       = 'turf.dmi'
 				icon_state = "wood"
-				color      = "#704f32"
+				color      = "#303A3A"
 
 				price = 2
-				maptext = "Wood Floor: 2 wood logs"
 
 				screen_x = 64
+				screen_y = 224
+
+				maptext_x = 0
+				maptext_width = 32
+
+			woodfloorteal
+				icon       = 'turf.dmi'
+				icon_state = "wood"
+				color      = "#008eaa"
+
+				price = 2
+
+				screen_x = 96
+				screen_y = 224
+
+				maptext_x = 0
+				maptext_width = 32
+
+			stairs
+				icon       = 'General.dmi'
+				icon_state = "Stairs"
+
+				price = 2
+				path = /obj/static_obj/Hogwarts_Stairs { post_init = 0 }
+				maptext = "Wood Floor: 2 wood logs"
+
+				screen_x = 128
 				screen_y = 224
 
 		stone
@@ -1347,6 +1373,19 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+			Column
+				icon       = 'statues_64x64.dmi'
+				icon_state = "columb"
+
+				price = list(/obj/items/stones = 20)
+				path = /obj/static_obj/Columb { post_init = 0; }
+
+				screen_x = 128
+				screen_y = 96
+
+				maptext_x = 0
+				maptext_width = 32
+
 			Armor
 				icon       = 'statues_64x64.dmi'
 				icon_state = "armor"
@@ -1355,7 +1394,7 @@ hudobj
 				price = list(/obj/items/stones = 20)
 				path = /obj/static_obj/Armor { post_init = 0; }
 
-				screen_x = 128
+				screen_x = 160
 				screen_y = 96
 
 			door
@@ -1749,7 +1788,7 @@ hudobj
 				icon_state="peace"
 
 				price = 100
-				path = /obj/books/EXP_BOOK_lvl0 { life = 14400 }
+				path = /obj/books/EXP_BOOK_lvl0 { life = 86400 }
 
 				screen_x = 32
 				screen_y = 64
@@ -1763,7 +1802,7 @@ hudobj
 				icon_state="chaos"
 
 				price = 100
-				path = /obj/books/EXP_BOOK_lvl1 { life = 14400 }
+				path = /obj/books/EXP_BOOK_lvl1 { life = 86400 }
 
 				screen_x = 64
 				screen_y = 64
@@ -1777,7 +1816,7 @@ hudobj
 				icon_state="bank"
 
 				price = 100
-				path = /obj/books/EXP_BOOK_lvl2 { life = 14400 }
+				path = /obj/books/EXP_BOOK_lvl2 { life = 86400 }
 
 				screen_x = 96
 				screen_y = 64
@@ -1790,9 +1829,9 @@ hudobj
 			magicbook
 				icon_state="rmagic"
 
-				maptext = "Books (4 hours): 100 wood logs"
+				maptext = "Books (1 day): 100 wood logs"
 				price = 100
-				path = /obj/books/EXP_BOOK_lvl3 { life = 14400 }
+				path = /obj/books/EXP_BOOK_lvl3 { life = 86400 }
 
 				screen_x = 128
 				screen_y = 64
@@ -1803,7 +1842,7 @@ hudobj
 				icon_state="Hogwarts"
 
 				price = 200
-				path = /obj/books/EXP_BOOK_lvl4 { life = 28800 }
+				path = /obj/books/EXP_BOOK_lvl4 { life = 259200 }
 
 				screen_x = 32
 				screen_y = 96
@@ -1817,7 +1856,7 @@ hudobj
 				icon_state="herb"
 
 				price = 200
-				path = /obj/books/EXP_BOOK_lvl5 { life = 28800 }
+				path = /obj/books/EXP_BOOK_lvl5 { life = 259200 }
 
 				screen_x = 64
 				screen_y = 96
@@ -1831,7 +1870,7 @@ hudobj
 				icon_state="potion"
 
 				price = 200
-				path = /obj/books/EXP_BOOK_lvl6 { life = 28800 }
+				path = /obj/books/EXP_BOOK_lvl6 { life = 259200 }
 
 				screen_x = 96
 				screen_y = 96
@@ -1844,9 +1883,9 @@ hudobj
 			successbook
 				icon_state="key"
 
-				maptext = "Books (8 hours): 200 wood logs"
+				maptext = "Books (3 days): 200 wood logs"
 				price = 200
-				path = /obj/books/EXP_BOOK_lvl7 { life = 28800 }
+				path = /obj/books/EXP_BOOK_lvl7 { life = 259200 }
 
 				screen_x = 128
 				screen_y = 96
@@ -1857,7 +1896,7 @@ hudobj
 				icon_state="slyth"
 
 				price = 300
-				path = /obj/books/EXP_BOOK_lvlslytherin { life = 43200 }
+				path = /obj/books/EXP_BOOK_lvlslytherin { life = 604800 }
 
 				screen_x = 32
 				screen_y = 128
@@ -1871,7 +1910,7 @@ hudobj
 				icon_state="huffle"
 
 				price = 300
-				path = /obj/books/EXP_BOOK_lvlhufflepuff { life = 43200 }
+				path = /obj/books/EXP_BOOK_lvlhufflepuff { life = 604800 }
 
 				screen_x = 64
 				screen_y = 128
@@ -1885,7 +1924,7 @@ hudobj
 				icon_state="raven"
 
 				price = 300
-				path = /obj/books/EXP_BOOK_lvlravenclaw { life = 43200 }
+				path = /obj/books/EXP_BOOK_lvlravenclaw { life = 604800 }
 
 				screen_x = 96
 				screen_y = 128
@@ -1898,9 +1937,9 @@ hudobj
 			gryffbook
 				icon_state="gryff"
 
-				maptext = "Books (12 hours): 300 wood logs"
+				maptext = "Books (7 days): 300 wood logs"
 				price = 300
-				path = /obj/books/EXP_BOOK_lvlgryffindor { life = 43200 }
+				path = /obj/books/EXP_BOOK_lvlgryffindor { life = 604800 }
 
 				screen_x = 128
 				screen_y = 128
