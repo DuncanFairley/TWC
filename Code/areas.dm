@@ -34,6 +34,7 @@ teleportNode
 		Exited(mob/Player/p, area/area, teleportNode/oldRegion)
 
 			if(p.map && !oldRegion) //&& minimapEnemies)
+				if(p.z >= SWAPMAP_Z) p.map.icon_state = ""
 				p.map.vis_contents = null
 
 			if(active <= 0) return
