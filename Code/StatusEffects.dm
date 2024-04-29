@@ -1293,22 +1293,23 @@ StatusEffect
 			..()
 
 		Deactivate()
-			AttachedAtom << infomsg("[lamp]'s effect fades.")
-			lamp.seconds = round(scheduler.time_to_fire(AttachedEvent)/10)
-			if(lamp.seconds <= 0)
-				AttachedAtom << errormsg("[lamp] disappears into thin air.")
+			if(lamp)
+				AttachedAtom << infomsg("[lamp]'s effect fades.")
+				lamp.seconds = round(scheduler.time_to_fire(AttachedEvent)/10)
+				if(lamp.seconds <= 0)
+					AttachedAtom << errormsg("[lamp] disappears into thin air.")
 
-				lamp.Dispose()
-			else
-				var/min = round(lamp.seconds / 60)
-				var/sec = lamp.seconds-(min*60)
-				var/time = ""
-				if(min) time = "[min] minutes"
-				if(sec)
-					if(min) time += " and "
-					time += "[sec] seconds."
-				lamp.desc = "[initial(lamp.desc)] Time Remaining: [time]"
-				lamp.icon_state = "inactive"
+					lamp.Dispose()
+				else
+					var/min = round(lamp.seconds / 60)
+					var/sec = lamp.seconds-(min*60)
+					var/time = ""
+					if(min) time = "[min] minutes"
+					if(sec)
+						if(min) time += " and "
+						time += "[sec] seconds."
+					lamp.desc = "[initial(lamp.desc)] Time Remaining: [time]"
+					lamp.icon_state = "inactive"
 			if(isplayer(AttachedAtom))
 				for(var/hudobj/Cooldown/c in AttachedAtom:client.screen)
 					if(c.name == "Lamp")

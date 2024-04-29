@@ -517,6 +517,8 @@ obj/pet
 
 			fetch.Cut(1,2)
 
+			if(!item) break
+
 			var/mob/Player/p = item.loc
 			while(loc && p && item.loc == p && i && i.loc && i.loc == tempLoc && loc != i.loc)
 				dir = get_dir(loc, i.loc)

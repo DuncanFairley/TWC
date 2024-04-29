@@ -773,7 +773,7 @@ obj/items/potions
 			if(src in usr)
 
 				var/obj/corpse/c = locate() in range(1, usr)
-				if(c.gold >= 0 && c.gold != null)
+				if(c && c.gold >= 0 && c.gold != null)
 					var/mutable_appearance/ma = new(usr)
 					ma.icon = c.icon
 					ma.icon_state = c.icon_state
