@@ -1,14 +1,43 @@
 WorldData/var/tmp/list/sandboxZ
 
+WorldData/var
+	list/buildableID
+
+
+mob/test/verb/UploadMap(f as file)
+	set category="Debug"
+	if(isnull(f)) return
+
+	var/filename = "[f]"
+	var/file_ext = lowertext(copytext(filename, max(length(filename)-3,1)))
+	if(file_ext != ".sav")
+		src << errormsg("only .sav allowed")
+		return
+
+	var/path = "vaults/[filename]"
+	if(fexists(path))
+		fdel(path)
+
+	fcopy(f,path)
+
+
+mob/test/verb/SandboxStart()
+	set category="Debug"
+
+	InitSandbox()
+
 proc
 	InitSandbox(attempts=3)
 		set waitfor = 0
 
-		Loadbuildable("custom_buildable")
-		Loadbuildable("custom_buildable2")
+		if(worldData.buildableID)
+			for(var/i in worldData.buildableID)
+				Loadbuildable(i)
+		//		Loadbuildable("custom_buildable")
+	//			Loadbuildable("custom_buildable2")
 
-		if(!worldData.sandboxZ)
-			spawnFarmable()
+			if(!worldData.sandboxZ)
+				spawnFarmable()
 
 	Loadbuildable(name, attempts=3)
 		set waitfor = 0
