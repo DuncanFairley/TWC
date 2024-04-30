@@ -739,6 +739,7 @@
 "aok" = (/obj/static_obj/sink,/turf/diamondt,/area/Diagon_Alley)
 "aol" = (/mob/TalkNPC/quest/vampires/Austra,/obj/Chair,/turf/woodenfloorblack,/area/DEHQ)
 "aom" = (/obj/static_obj/art/Art_Female,/turf/Hogwarts_Stone_Wall,/area/Diagon_Alley)
+"aon" = (/obj/animagus{name = "red and black snake"; icon = 'Transfiguration.dmi'; icon_state = "red and black snake"},/turf/woodenfloorblack,/area/hogwarts/Animagus)
 "aoo" = (/obj/static_obj/art/Art_Tree,/turf/Hogwarts_Stone_Wall,/area/Diagon_Alley)
 "aop" = (/obj/static_obj/art/Art_Male,/turf/Hogwarts_Stone_Wall,/area/Diagon_Alley)
 "aoq" = (/obj/static_obj/Fireplace{icon_state = "purple fireplace"; density = 0},/turf/Hogwarts_Stone_Wall,/area/hogwarts{antiTeleport = 1; antiTheft = 1; antiApparate = 1; planeColor = null; antiFly = 1})
@@ -3292,7 +3293,6 @@
 "blA" = (/turf/grass,/turf/water,/area/newareas/inside/Dungeon/Cow)
 "blB" = (/obj/static_obj/Pink_Flowers{name = "Bush"; icon = 'Plants.dmi'; icon_state = "Bush Top Left"; density = 1; layer = 5},/turf/grass,/area)
 "blC" = (/obj/static_obj/Pink_Flowers{name = "Bush"; icon = 'Plants.dmi'; icon_state = "Bush Top Right"; density = 1; layer = 5},/turf/grass,/area)
-"blD" = (/obj/animagus{name = "red and black snake"; icon = 'Transfiguration.dmi'; icon_state = "rbo_snake"},/turf/woodenfloorblack,/area/hogwarts/Animagus)
 "blE" = (/obj/static_obj/Pink_Flowers{name = "Bush"; icon = 'Plants.dmi'; icon_state = "Bush Bottom Left"},/turf/grass,/area/newareas/inside/Dungeon/Cow)
 "blF" = (/obj/static_obj/Pink_Flowers{name = "Bush"; icon = 'Plants.dmi'; icon_state = "Bush Bottom Right"},/turf/grass,/area/newareas/inside/Dungeon/Cow)
 "blG" = (/obj/static_obj/Pink_Flowers{name = "Bush"; icon = 'Plants.dmi'; icon_state = "Bush Bottom Left"},/turf/grass,/area)
@@ -4453,7 +4453,7 @@ bbCaVkbbCbbCbbCbbCaVkbbCaVkaVkaVkaVkbbCbbCbbCbbCbbCbbCbbCbbCbbCbbCbbCbbCbbCbgqbk
 bbCbbCbbCaTLaTLbbCbkzbbCbbCbbCbbCbbCbbCbkAbkAbkAbkAbkRbkAbkAbkAbkAaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaETaETaETaETaETaETaETaETaETaaPaaaaaaaaaaaaaaaaaaaaPbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJaaPbkJaRPbkJaaPbkJbkJbkJaaPbkJbekbkJaaPaaaaaa
 aaPaaPaaPaaPaaPaaPbbdaaPaaPaaPaaPaaPaaPbkRbkRbkSbkRbkRbkRbkSbkRbkRaaPbkJbkJbkJaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaaPaSwaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaSBaSBaSEaSEaSBaSEaSBaSBaSBaSBaSBaSEaSBaSBaSBaSBaSBaSBaSBaaPaETaETaETaaPbbibaFbbiaaPaETaETaETaaPaaaaaa
 bkJbkJbkJaaPbkJbkJbktbkJbkJbkJbkJbkJaaPbkTbkVbkTbkVbkWbkTbkVbkTbkVaaPbkJbkJbkJaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbkJaRPbkJanYbkJbkJbkJanYbkJbkJbkJanYbkJbkJbkJanYbkJaSBaSEaSBaSBaSEaSBaSEaSEaSBaSEaSEaSEaSBaSEaSEaSEaSEaSEaSBaaPaVUaVUaVUaaPbbhbbhbbhaKCaETaEYaETaaPaaaaaa
-bkJbkJbkJaaPbkJbkJbkDbkJbkJbkJbkJbkJaaPblbblcblbblcbkEblbblcblbblcaaPbkKblDbkKaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbkJaXZbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJaSBaSEaSEaSEaSBaSEaSBaSBaSEaSBaSBaSBaSBaSBaSBaSEaSBaSBaSBaaPaVUaVUaVUaaPbbhbbhbbhaaPaETaETaETaaPaaaaaa
+bkJbkJbkJaaPbkJbkJbkDbkJbkJbkJbkJbkJaaPblbblcblbblcbkEblbblcblbblcaaPbkKaonbkKaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbkJaXZbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJaSBaSEaSEaSEaSBaSEaSBaSBaSEaSBaSBaSBaSBaSBaSBaSEaSBaSBaSBaaPaVUaVUaVUaaPbbhbbhbbhaaPaETaETaETaaPaaaaaa
 aSubllaKpaaPbkzbkzbkzbkzbkCaSubkFbllaaPbkqbkqbkqbkqbkqbkqbkqbkqbkqaaPblIblIblIaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaETaETaETaXXaXXaXXaETaETaSEaSEaSBaSBaSBaSBaSEaSBaSEaSBaSBaSBaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaveaXYaXYaaPaVUaVUaVUaaPaaPaaPaaPaaPaaPaaPaaPaaPaaaaaa
 aSuaSuaSuaaPbkzbkzbkzbkzbkCaSubkFaSuaaPbkqbkqbkqbkqbkqbkqbkqbkqbkqbmnblIblIblIaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaETaETaETaXXaXXaXXaETaETaSBaSBaSBaSEaSEaSEaSBaSEaSBaSBaSEaSEbkJbkJanYbkJbkJbkJanYbkJbkJbkJanYbkJbkJaveaveaveaaPaETaETaETaaPaaPaaaaaaaaaaaaaaaaaaaaaaaaaaa
 bkBbkBbkBaaPbkzbkzbkzbkzbkCaSubkFaSvaaPbkqbkqbkqbkqbkqbkqbkqbkqblnaaPaaPaaPaaPaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaETaETaETaXXaXXaXXaETaETaSEaSEaSBaSEaSBaSBaSEaSBaSEaSEaSEaSBbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJbkJaveaXYaXYaaPaaPbaCaaPaaPaaPaaaaaaaaaaaaaaaaaaaaaaaaaaa
