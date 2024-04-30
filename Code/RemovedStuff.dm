@@ -344,8 +344,80 @@ obj/items/scroll/prize
 	write()
 		set hidden = 1
 
+obj/art
+	Art_Tree
+		canSave = FALSE
+		New()
+			..()
+			spawn(1)
+				new /obj/static_obj/art/Art_Tree (loc)
+				loc=null
+	Art_Tree2
+		canSave = FALSE
+		New()
+			..()
+			spawn(1)
+				loc=null
+	Art
+		canSave = FALSE
+		New()
+			..()
+			spawn(1)
+				new /obj/static_obj/art/Art_Female (loc)
+				loc=null
+	Art1
+		canSave = FALSE
+		New()
+			..()
+			spawn(1)
+				loc=null
+	Art_Man
+		canSave = FALSE
+		New()
+			..()
+			spawn(1)
+				new /obj/static_obj/art/Art_Male (loc)
+				loc=null
+	Art_Man2
+		canSave = FALSE
+		New()
+			..()
+			spawn(1)
+				loc=null
 
-
+obj/static_obj/art
+	Art_Tree2
+		canSave = FALSE
+		New()
+			..()
+			spawn(1)
+				loc=null
+	Art
+		canSave = FALSE
+		New()
+			..()
+			spawn(1)
+				new /obj/static_obj/art/Art_Female (loc)
+				loc=null
+	Art1
+		canSave = FALSE
+		New()
+			..()
+			spawn(1)
+				loc=null
+	Art_Man
+		canSave = FALSE
+		New()
+			..()
+			spawn(1)
+				new /obj/static_obj/art/Art_Male (loc)
+				loc=null
+	Art_Man2
+		canSave = FALSE
+		New()
+			..()
+			spawn(1)
+				loc=null
 mob
 	Player
 		proc
