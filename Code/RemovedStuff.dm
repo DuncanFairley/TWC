@@ -582,34 +582,6 @@ obj
 		density    = 1
 		layer      = 2
 
-	art
-		icon    = 'Decoration.dmi'
-		density = 1
-
-		Art_Tree
-			icon_state = "tree top"
-		Art_Tree2
-			icon_state = "tree"
-		Art
-			icon_state = "royal top1"
-		Art1
-			icon_state = "royal1"
-		Art_Man
-			icon_state = "royal top"
-		Art_Man2
-			icon_state = "royal"
-
-		painting
-			density = 0
-			p1
-				icon_state = "big tl"
-			p2
-				icon_state = "big tr"
-			p3
-				icon_state = "big bl"
-			p4
-				icon_state = "big br"
-
 	Hogwarts_Stairs
 		icon = 'General.dmi'
 		icon_state = "Stairs"
@@ -793,14 +765,6 @@ obj
 			icon_state = "c3"
 		c4
 			icon_state = "c4"
-	Golden_Candles
-		icon       = 'Decoration.dmi'
-		icon_state = "gcandle"
-		pixel_y    = -16
-	Golden_Candles_
-		icon       ='Decoration.dmi'
-		icon_state = "gcandle1"
-		pixel_y    = -16
 	plate
 		icon       ='turf.dmi'
 		icon_state="plate"

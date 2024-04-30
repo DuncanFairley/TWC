@@ -968,17 +968,28 @@ obj
 			density = 1
 
 			Art_Tree
-				icon_state = "tree top"
-			Art_Tree2
 				icon_state = "tree"
-			Art
-				icon_state = "royal top1"
-			Art1
-				icon_state = "royal1"
-			Art_Man
-				icon_state = "royal top"
-			Art_Man2
+				pixel_y = -16
+			Art_Female
 				icon_state = "royal"
+				pixel_y = -16
+			Art_Male
+				icon_state = "royal2"
+				pixel_y = -16
+			Art_White_Flower
+				icon_state = "whiteflower"
+				pixel_y = -16
+			Art_Pink_Flower
+				icon_state = "pinkflower"
+				pixel_y = -16
+			Art_Pink_Flower2
+				icon_state = "pinkflower2"
+				pixel_y = -16
+			Art_Small
+				icon_state = "small"
+				pixel_y = -16
+
+
 
 			painting
 				density = 0
@@ -1273,10 +1284,6 @@ obj
 		Golden_Candles
 			icon       = 'Decoration.dmi'
 			icon_state = "gcandle"
-			pixel_y    = -16
-		Golden_Candles_
-			icon       ='Decoration.dmi'
-			icon_state = "gcandle1"
 			pixel_y    = -16
 		plate
 			icon       ='turf.dmi'
