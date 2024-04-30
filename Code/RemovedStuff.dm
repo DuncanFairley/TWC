@@ -19,12 +19,6 @@ obj/items/treasure/gift
 		..()
 		spawn(1)
 			loc=null
-obj/sink
-	canSave = FALSE
-	New()
-		..()
-		spawn(1)
-			loc=null
 
 obj/clock/Curse_Clock
 	canSave = FALSE
@@ -67,12 +61,66 @@ obj/snow_counter
 		spawn(1)
 			loc=null
 
+
 mob/Player
 	verb
 		Use_Statpoints()
 			set hidden = 1
 
+
+		/*	if(StatPoints>0)
+				switch(input("Which stat would you like to improve?","You have [StatPoints] stat points.")as null|anything in list ("Damage","Defense"))
+					if("Damage")
+						if(StatPoints>0)
+							var/SP = round(input("How many stat points do you want to put into Damage? You have [StatPoints]",,StatPoints) as num|null)
+							if(!SP || SP < 0)return
+							if(SP <= StatPoints)
+								var/addstat = 1*SP
+								Dmg+=addstat
+								src<<infomsg("You gained [addstat] damage!")
+								StatPoints -= SP
+							else
+								src << errormsg("You cannot put [SP] stat points into Damage as you only have [StatPoints]")
+					if("Defense")
+						if(StatPoints>0)
+							var/SP = round(input("How many stat points do you want to put into Defense? You have [StatPoints]",,StatPoints) as num|null)
+							if(!SP || SP < 0)return
+							if(SP <= StatPoints)
+								var/addstat = 3*SP
+								Def += addstat
+								src<<infomsg("You gained [addstat] defense!")
+								StatPoints -= SP
+							else
+								src << errormsg("You cannot put [SP] stat points into Defense as you only have [StatPoints]")
+				resetMaxHP()
+				updateHPMP()
+				if(StatPoints == 0)
+					verbs.Remove(/mob/Player/verb/Use_Statpoints)
+			else
+				verbs.Remove(/mob/Player/verb/Use_Statpoints)*/
+
+
 obj/items/herosbrace
+/*	name = "Hero's brace"
+	icon = 'herosbrace.dmi'
+	Click()
+		if(src in usr)
+			if(canUse(M=usr, needwand=0, inarena=0, inhogwarts=0, antiTeleport=1))
+				var/turf/t
+				switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Forbidden Forest","Graveyard"))
+					if("Diagon Alley")
+						t = locate("@DiagonAlley")
+					if("Forbidden Forest")
+						t = locate("@Forest")
+					if("Graveyard")
+						t = locate("@Graveyard")
+				if(t && canUse(M=usr, needwand=0, inarena=0, inhogwarts=0))
+					flick('tele2.dmi',usr)
+					usr:Transfer(t)
+				if(usr.removeoMob) spawn()usr:Permoveo()
+		else
+			..()*/
+
 	New()
 		..()
 		spawn(1)
@@ -435,6 +483,7 @@ mob/verb/ToggleBetaMapMode()
 	set hidden = 1
 mob/verb/Mapmodetoggle()
 	set hidden = 1
+
 mob/Player/verb/Give()
 	set hidden = 1
 
@@ -474,15 +523,300 @@ gold
 					iBronze.UpdateDisplay()
 
 obj
+	Pink_Flowers
+		icon       = 'Plants.dmi'
+		icon_state = "Pink Flowers"
+		density    = 1
+	Blue_Flowers
+		icon       = 'Plants.dmi'
+		icon_state = "Blue Flowers"
+		density    = 1
+	tabletop
+		icon       = 'turf.dmi'
+		icon_state = "t1"
+		density    = 1
+		layer      = 2
+	tableleft
+		icon       = 'turf.dmi'
+		icon_state = "t2"
+		density    = 1
+		layer      = 2
+	tablemiddle2
+		icon       = 'turf.dmi'
+		icon_state = "mid2"
+		density    = 1
+		layer      = 2
+	tablemiddle
+		icon       = 'turf.dmi'
+		icon_state = "middle"
+		density    = 1
+		layer      = 2
+	tablecornerL
+		icon       = 'turf.dmi'
+		icon_state = "t2"
+		density    = 1
+		layer      = 2
+	tablecornerR
+		icon       = 'turf.dmi'
+		icon_state = "t3"
+		density    = 1
+		layer      = 2
+	tableright
+		icon       = 'turf.dmi'
+		icon_state = "bottomright"
+		density    = 1
+		layer      = 2
+	tableleft
+		icon       = 'turf.dmi'
+		icon_state = "bottom1"
+		density    = 1
+		layer      = 2
+	tablebottom
+		icon       = 'turf.dmi'
+		icon_state = "bottom"
+		density    = 1
+		layer      = 2
+	tablemid3
+		icon       = 'turf.dmi'
+		icon_state = "mid3"
+		density    = 1
+		layer      = 2
+
+	Hogwarts_Stairs
+		icon = 'General.dmi'
+		icon_state = "Stairs"
+
+	tree
+		name       = "Tree"
+		icon       = 'BigTree.dmi'
+		icon_state = "stump"
+
+		density    = 1
+		pixel_x    = -64
+
+
+		New()
+			..()
+
+			var/obj/tree_top/t = new(loc)
+			t.y++
+
+			#if WINTER
+
+			invisibility = 100
+
+			#else
+
+			if(prob(60))
+				var/r = rand(160, 255)
+				var/g = rand(82, r)
+				var/b = rand(45, g)
+				color = rgb(r, g, b)
+
+			#endif
+
+	tree_top
+		name       = "Tree"
+		icon       = 'BigTree.dmi'
+		icon_state = "top"
+		density = 1
+		pixel_x = -64
+		pixel_y = -32
+		layer   = 5
+
+		New()
+			..()
+
+			#if WINTER
+
+			if(prob(70)) color = rgb(170, rand(170, 240), 170)
+
+			var/r = rand(1,3)
+			icon_state = "stump[r]_winter"
+
+			if(prob(75))
+				var/image/i = new('BigTree.dmi', "snow[r]")
+				i.appearance_flags = RESET_COLOR
+				overlays += i
+
+			#else
+
+			if(prob(80)) color = rgb(rand(150, 220), rand(100, 150), 0)
+
+			#endif
+
+	Armor_Head
+		icon       = 'statues.dmi'
+		icon_state = "head"
+		layer      = MOB_LAYER + 1
+	gargoylerighttop
+		icon       = 'statues.dmi'
+		icon_state = "top3"
+		layer      = MOB_LAYER + 1
+	gargoylelefttop
+		icon       = 'statues.dmi'
+		icon_state = "top2"
+		layer      = MOB_LAYER + 1
+	gargoylerightbottom
+		icon       = 'statues.dmi'
+		icon_state = "bottom3"
+		density    = 1
+	gargoyleleftbottom
+		icon       = 'statues.dmi'
+		icon_state = "bottom2"
+		density    = 1
+	Angel_Bottom
+		icon       = 'statues.dmi'
+		icon_state = "bottom1"
+		density    = 1
+	Angel_Top
+		icon       = 'statues.dmi'
+		icon_state = "top1"
+		layer      = MOB_LAYER + 1
+	Armor_Feet
+		icon       = 'statues.dmi'
+		icon_state = "feet"
+		density    = 1
+	Dual_Swords
+		icon       = 'wallobjs.dmi'
+		icon_state = "sword"
+		density    = 1
+	Fireplace
+		icon       = 'misc.dmi'
+		icon_state = "fireplace"
+		density    = 1
+	fence
+		icon       = 'turf.dmi'
+		icon_state = "fence"
+		density    = 1
+		pixel_y    = 16
+	downfence
+		icon       = 'turf.dmi'
+		icon_state = "fence side"
+		density    = 1
+	halffence
+		icon       = 'turf.dmi'
+		icon_state = "fence"
+		layer      = 5
+		pixel_y    = -2
+	Clock
+		icon       = 'General.dmi'
+		icon_state = "tile79"
+		density    = 1
+	gryffindor
+		icon       = 'shields.dmi'
+		icon_state = "gryffindor"
+		density    = 1
+	slytherin
+		icon       = 'shields.dmi'
+		icon_state = "slytherin"
+		density    = 1
+	hufflepuff
+		icon       = 'shields.dmi'
+		icon_state = "hufflepuff"
+		density    = 1
+	ravenclaw
+		icon       = 'shields.dmi'
+		icon_state = "ravenclaw"
+		density    = 1
+	gryffindorbanner
+		icon       = 'shields.dmi'
+		icon_state = "gryffindorbanner"
+		density    = 1
+	slytherinbanner
+		icon       = 'shields.dmi'
+		icon_state = "slytherinbanner"
+		density    = 1
+	hufflepuffbanner
+		icon       = 'shields.dmi'
+		icon_state = "hufflepuffbanner"
+		density    = 1
+	ravenclawbanner
+		icon       = 'shields.dmi'
+		icon_state = "ravenclawbanner"
+		density    = 1
+	hogwartshield
+		icon       = 'shields.dmi'
+		icon_state = "hogwartsshield"
+		density    = 1
+	hogwartbanner
+		icon       = 'shields.dmi'
+		icon_state = "hogwartsbanner"
+		density    = 1
+	Neptune
+		icon       = 'statues.dmi'
+		icon_state = "top6"
+		density    = 1
+	NeptuneBottom
+		icon       = 'statues.dmi'
+		icon_state = "bottom6"
+		density    = 1
+	Grave_Rip
+		icon       = 'statues.dmi'
+		icon_state = "rip"
+	curtains
+		icon       = 'turf.dmi'
+		layer      = 5
+		c1
+			icon_state = "c1"
+		c2
+			icon_state = "c2"
+		c3
+			icon_state = "c3"
+		c4
+			icon_state = "c4"
+	plate
+		icon       ='turf.dmi'
+		icon_state="plate"
 	Desk
 		icon       ='desk.dmi'
 		icon_state = "S1"
 		density    = 1
 		accioable  = 1
 		wlable     = 1
+	Book_Shelf
+		icon       ='Desk.dmi'
+		icon_state = "1"
+		density    = 1
+	Book_Shelf1
+		icon       ='Desk.dmi'
+		icon_state = "2"
+		density    = 1
+	Blackboard_
+		icon       = 'bb.dmi'
+		icon_state = "1"
+	Blackboard__
+		icon       = 'bb.dmi'
+		icon_state = "2"
+	Blackboard___
+		icon       = 'bb.dmi'
+		icon_state = "3"
+	Barrels
+		icon       = 'turf.dmi'
+		icon_state = "barrels"
+		density    = 1
+	sink
+		icon       = 'sink.dmi'
+		density    = 1
+	Magic_Sphere
+		icon       ='misc.dmi'
+		icon_state = "black"
+	Triple_Candle
+		icon       = 'General.dmi'
+		icon_state = "tile80"
+		density    = 1
 
 mob/GM/verb
 	Release_From_Detention(mob/Player/M in Players)
 		set hidden = 1
 	Give_Immortality(mob/Player/M in world)
 		set hidden = 1
+		/*set popup_menu = 0
+		if(M.Immortal==0)
+			M.FlickState("m-black",8,'Effects.dmi')
+			M<<"<b><span style=\"color:aqua;\">[src] has made you an Immortal. You can no longer die.</span>"
+			M.Immortal=1
+		else if(M.Immortal==1)
+			M.FlickState("m-black",8,'Effects.dmi')
+			M<<"<b><span style=\"color:blue;\">[src] has made you a Mortal. You are now vulnerable to Death.</span>"
+			M.Immortal=0*/

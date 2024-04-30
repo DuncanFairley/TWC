@@ -2127,7 +2127,7 @@ hudobj
 
 				maptext = "Bathroom utility: 10 wood logs"
 				price = 10
-				path = /obj/static_obj/sink
+				path = /obj/sink
 
 				screen_x = 64
 				screen_y = 128
