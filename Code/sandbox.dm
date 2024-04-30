@@ -1184,6 +1184,81 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+			art_white_flower
+				icon       ='Decoration.dmi'
+				icon_state = "whiteflower"
+
+				price = 2
+				path = /obj/static_obj/art/Art_White_Flower { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+				mouse_opacity = 2
+
+				screen_x = 96
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
+			art_red_flower
+				icon       ='Decoration.dmi'
+				icon_state = "pinkflower"
+
+				price = 2
+				path = /obj/static_obj/art/Art_Pink_Flower { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+				mouse_opacity = 2
+
+				screen_x = 128
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
+			art_pink_flower
+				icon       ='Decoration.dmi'
+				icon_state = "pinkflower2"
+
+				price = 2
+				path = /obj/static_obj/art/Art_Pink_Flower2 { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+				mouse_opacity = 2
+
+				screen_x = 160
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
+			art_painting
+				icon       ='Decoration.dmi'
+				icon_state = "small"
+
+				price = 2
+				path = /obj/static_obj/art/Art_Small { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+				mouse_opacity = 2
+
+				screen_x = 192
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
+			art_tree
+				icon       ='Decoration.dmi'
+				icon_state = "tree"
+
+				price = 2
+				path = /obj/static_obj/art/Art_Tree { post_init = 0; pixel_y = 32; density = 0 }
+				reqWall = 1
+				mouse_opacity = 2
+
+				screen_x = 224
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
 			wall_torch
 				icon       ='turf.dmi'
 				icon_state = "walltorch"
