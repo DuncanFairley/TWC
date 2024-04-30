@@ -68,58 +68,7 @@ mob/Player
 			set hidden = 1
 
 
-		/*	if(StatPoints>0)
-				switch(input("Which stat would you like to improve?","You have [StatPoints] stat points.")as null|anything in list ("Damage","Defense"))
-					if("Damage")
-						if(StatPoints>0)
-							var/SP = round(input("How many stat points do you want to put into Damage? You have [StatPoints]",,StatPoints) as num|null)
-							if(!SP || SP < 0)return
-							if(SP <= StatPoints)
-								var/addstat = 1*SP
-								Dmg+=addstat
-								src<<infomsg("You gained [addstat] damage!")
-								StatPoints -= SP
-							else
-								src << errormsg("You cannot put [SP] stat points into Damage as you only have [StatPoints]")
-					if("Defense")
-						if(StatPoints>0)
-							var/SP = round(input("How many stat points do you want to put into Defense? You have [StatPoints]",,StatPoints) as num|null)
-							if(!SP || SP < 0)return
-							if(SP <= StatPoints)
-								var/addstat = 3*SP
-								Def += addstat
-								src<<infomsg("You gained [addstat] defense!")
-								StatPoints -= SP
-							else
-								src << errormsg("You cannot put [SP] stat points into Defense as you only have [StatPoints]")
-				resetMaxHP()
-				updateHPMP()
-				if(StatPoints == 0)
-					verbs.Remove(/mob/Player/verb/Use_Statpoints)
-			else
-				verbs.Remove(/mob/Player/verb/Use_Statpoints)*/
-
-
 obj/items/herosbrace
-/*	name = "Hero's brace"
-	icon = 'herosbrace.dmi'
-	Click()
-		if(src in usr)
-			if(canUse(M=usr, needwand=0, inarena=0, inhogwarts=0, antiTeleport=1))
-				var/turf/t
-				switch(input("Where would you like to teleport to?","Teleport to?") as null|anything in list("Diagon Alley","Forbidden Forest","Graveyard"))
-					if("Diagon Alley")
-						t = locate("@DiagonAlley")
-					if("Forbidden Forest")
-						t = locate("@Forest")
-					if("Graveyard")
-						t = locate("@Graveyard")
-				if(t && canUse(M=usr, needwand=0, inarena=0, inhogwarts=0))
-					flick('tele2.dmi',usr)
-					usr:Transfer(t)
-				if(usr.removeoMob) spawn()usr:Permoveo()
-		else
-			..()*/
 
 	New()
 		..()
@@ -811,12 +760,3 @@ mob/GM/verb
 		set hidden = 1
 	Give_Immortality(mob/Player/M in world)
 		set hidden = 1
-		/*set popup_menu = 0
-		if(M.Immortal==0)
-			M.FlickState("m-black",8,'Effects.dmi')
-			M<<"<b><span style=\"color:aqua;\">[src] has made you an Immortal. You can no longer die.</span>"
-			M.Immortal=1
-		else if(M.Immortal==1)
-			M.FlickState("m-black",8,'Effects.dmi')
-			M<<"<b><span style=\"color:blue;\">[src] has made you a Mortal. You are now vulnerable to Death.</span>"
-			M.Immortal=0*/
