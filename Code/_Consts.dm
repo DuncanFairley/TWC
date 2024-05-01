@@ -78,7 +78,7 @@
 
 #define SWORD_MANA "mana drain for increased damage"
 #define SWORD_ALCHEMY "chance to not consume a potion"
-#define SWORD_NINJA "ability to do back attack damage"
+#define SWORD_NINJA "ability to attack from the rear"
 #define SWORD_NURSE "AoE Episkey"
 #define SWORD_THORN "reflects armor damage back"
 #define SWORD_SOUL "attacks on monsters execute them if they have 10% or less health"

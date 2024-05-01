@@ -6108,8 +6108,8 @@ obj/items/wearable/sword/ninja
 	icon='trophies.dmi'
 	icon_state="Sword"
 	name="ninja blade"
-	desc="Enables back attack damage."
-	suffix = "<span style=\"color:#ffa500;\">Enables back attack damage.</span>"
+	desc="Enables user to attack from the rear."
+	suffix = "<span style=\"color:#ffa500;\">Enables user to attack from the rear.</span>"
 	passive = SWORD_NINJA
 
 obj/items/wearable/sword/nurse
