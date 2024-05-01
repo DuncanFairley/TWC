@@ -42,32 +42,32 @@
 #define POTIONS_AMOUNT 70
 
 // passives
-#define RING_WATERWALK "water walking"
-#define RING_APPARATE "apparate on crack"
-#define RING_DISPLACEMENT "walk through monsters"
-#define RING_LAVAWALK "lava walking"
-#define RING_DUAL_SWORD "wield two swords"
-#define RING_ALCHEMY "potions brewed are of a higher tier"
-#define RING_CLOWN "randomized projectile element"
-#define RING_FAIRY "potions proc twice"
-#define RING_NINJA "babies ignore you"
-#define RING_NURSE "auto-cast Episkey"
-#define RING_TUNGRAD "wand charge gain increased"
-#define RING_AFK "easier random monster encounters"
+#define RING_WATERWALK "ability to walk on water"
+#define RING_APPARATE "ability to apparate with no cooldown"
+#define RING_DISPLACEMENT "ability to pass through monsters"
+#define RING_LAVAWALK "ability to walk on lava"
+#define RING_DUAL_SWORD "ability to wield two swords"
+#define RING_ALCHEMY "ability to have potions brewed a tier higher than normal"
+#define RING_CLOWN "ability to randomize the projectile element that you cast"
+#define RING_FAIRY "ability to have potion effects last double the time"
+#define RING_NINJA "ability to have low-level monsters ignore you"
+#define RING_NURSE "ability to auto-cast Episkey"
+#define RING_TUNGRAD "ability to have an increase in wand charge"
+#define RING_AFK "ability while idle to have easier monster encounters"
 #define RING_13 4096
 #define RING_14 8192
 #define RING_15 16384
-#define RING_DUAL_SHIELD "wield two shields"
+#define RING_DUAL_SHIELD "ability to wield two shields"
 
-#define SHIELD_ALCHEMY "immune to potions"
-#define SHIELD_NINJA "chance to dodge"
-#define SHIELD_NURSE "episkey will give a shield"
-#define SHIELD_SPY "spycraft"
-#define SHIELD_THORN "increases armor value"
-#define SHIELD_MP "damage taken converted to mana"
-#define SHIELD_CLOWN "your projectiles won't damage you"
-#define SHIELD_MPDAMAGE "mana will partially absorb damage taken"
-#define SHIELD_GOLD "no gold lost on death"
+#define SHIELD_ALCHEMY "ability to be immune to potion effects"
+#define SHIELD_NINJA "ability to have a chance to dodge incoming attacks"
+#define SHIELD_NURSE "ability to cast a shield upon use of Episkey"
+#define SHIELD_SPY "ability to always know who is watching you"
+#define SHIELD_THORN "ability to increase your armor value"
+#define SHIELD_MP "ability to have damage received converted to mana"
+#define SHIELD_CLOWN "ability to be immune to any self harm"
+#define SHIELD_MPDAMAGE "ability to cast a mana shield to protect you from harm"
+#define SHIELD_GOLD "ability to keep all gold upon death"
 #define SHIELD_SOUL "increases damage reduction/increases limits"
 #define SHIELD_11 1024
 #define SHIELD_12 2048
@@ -76,21 +76,21 @@
 #define SHIELD_15 16384
 #define SHIELD_16 32768
 
-#define SWORD_MANA "mana drain for increased damage"
-#define SWORD_ALCHEMY "chance to not consume a potion"
-#define SWORD_NINJA "ability to attack from the rear"
-#define SWORD_NURSE "AoE Episkey"
-#define SWORD_THORN "reflects armor damage back"
-#define SWORD_SOUL "attacks on monsters execute them if they have 10% or less health"
-#define SWORD_CLOWN "Projectiles shoot twice randomly"
+#define SWORD_MANA "ability to drain your mana to increase damage"
+#define SWORD_ALCHEMY "ability to have a chance to not consume a potion"
+#define SWORD_NINJA "ability to inflict back attack damage"
+#define SWORD_NURSE "ability to cast Episkey over a wider area"
+#define SWORD_THORN "ability to reflect damage back based off armor value"
+#define SWORD_SOUL "ability to execute a monster at 10% or less health"
+#define SWORD_CLOWN "ability to shoot two projectiles in random directions"
 #define SWORD_8 128
 #define SWORD_9 256
-#define SWORD_EXPLODE "monsters explode on death"
-#define SWORD_FIRE "full damage fire spells"
-#define SWORD_HEALONKILL "lifesteal"
-#define SWORD_ANIMAGUS "chance to gain animagus charge"
-#define SWORD_GHOST "all projectiles become ghost element"
-#define SWORD_SNAKE "stronger snake summon"
+#define SWORD_EXPLODE "ability to cause monsters to explode on death"
+#define SWORD_FIRE "ability to cast FIRE spells at full power"
+#define SWORD_HEALONKILL "ability to lifesteal on kill"
+#define SWORD_ANIMAGUS "ability to have a chance to gain an animagus charge"
+#define SWORD_GHOST "ability to shoot GHOST element projectiles"
+#define SWORD_SNAKE "ability to summon more durable snake minions"
 #define SWORD_16 32768
 
 #define EFFECTS_LIST list(RING_AFK, RING_WATERWALK, RING_APPARATE, RING_DISPLACEMENT, RING_LAVAWALK, RING_ALCHEMY, RING_CLOWN, RING_FAIRY, RING_NINJA, RING_NURSE, SHIELD_ALCHEMY, SHIELD_NINJA, SHIELD_NURSE, SHIELD_CLOWN, SHIELD_MP, SHIELD_MPDAMAGE, SHIELD_GOLD, SHIELD_THORN, SHIELD_SOUL, SWORD_ALCHEMY, SWORD_NINJA, SWORD_NURSE, SWORD_CLOWN, SWORD_EXPLODE, SWORD_FIRE, SWORD_HEALONKILL, SWORD_ANIMAGUS, SWORD_GHOST, SWORD_SNAKE, SWORD_THORN, SWORD_SOUL)
