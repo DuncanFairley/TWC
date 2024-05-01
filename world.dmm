@@ -965,6 +965,7 @@
 "asC" = (/turf/water{layer = 3},/area/outside/Hogwarts)
 "asD" = (/turf/roofb,/area/hogwarts/Greenhouse)
 "asE" = (/turf/Hogwarts_Stone_Wall,/area/hogwarts/Greenhouse)
+"asF" = (/obj/static_obj/WTable,/obj/shopStand{name = "cursed cog"; icon = 'trophies.dmi'; icon_state = "cursed cog"; pixel_y = 5; item = /obj/items/wearable/cog/cursed_cog; artifactPrice = 50; goldPrice = 4e+07},/turf/woodenfloor,/area/Diagon_Alley/Artifacts)
 "asG" = (/obj/static_obj/Ghost_Bottom{pixel_y = -7},/turf/Hogwarts_Stone_Wall,/area/hogwarts/Greenhouse)
 "asH" = (/obj/static_obj/Ghost_Top{pixel_y = -7},/turf/Hogwarts_Stone_Wall,/area/hogwarts/Greenhouse)
 "asI" = (/obj/static_obj/Ghost_Bottom2{pixel_y = -7},/turf/Hogwarts_Stone_Wall,/area/hogwarts/Greenhouse)
@@ -3542,7 +3543,6 @@
 "bqr" = (/obj/static_obj/Armor{layer = 6},/turf/dirt,/area/newareas/inside/Dungeon/Snake)
 "bqs" = (/obj/push/rock,/turf/dirt,/area/newareas/inside/Dungeon/Snake)
 "bqt" = (/obj/static_obj/WTable,/obj/shopStand{name = "crystal cog"; icon = 'trophies.dmi'; icon_state = "crystal cog"; pixel_y = 5; item = /obj/items/wearable/cog/crystal_cog; artifactPrice = 0; goldPrice = 2.5e+07},/turf/woodenfloor,/area/Diagon_Alley/Artifacts)
-"bqu" = (/obj/static_obj/WTable,/turf/woodenfloor,/area/Diagon_Alley/Artifacts)
 "bqv" = (/obj/static_obj/WTable,/obj/shopStand{name = "cog"; icon = 'trophies.dmi'; icon_state = "cog"; pixel_y = 5; item = /obj/items/wearable/cog; artifactPrice = 0; goldPrice = 2.5e+07},/turf/woodenfloor,/area/Diagon_Alley/Artifacts)
 "bqw" = (/obj/static_obj/Pink_Flowers{name = "Bush"; icon = 'Plants.dmi'; icon_state = "Bush Top Right"; density = 1; layer = 5},/turf/grass,/turf/dirt_south,/area/outside/Hogsmeade)
 "bqx" = (/turf/roofb{density = 0; layer = 5},/area/newareas/inside/Dungeon/Snake)
@@ -5040,9 +5040,9 @@ algalkallalkalkallalkamDallalkalgaaaaaaaaaaaaalgalkallamEamFallalkalkalkalkalkal
 algalpbqZamLbraamNbqZbrbbraalpalgaaaaaaaaaaaaalgalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalgalIanaamebqjameanbalIakjakjakjakjakjakjakjakjakjakjamRakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjaaPajcajcajcajcajcalLaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 algalpbrcamTbrdalpbrcamTbrdalpalgaaaaaaaaaaaaalgalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalpalgalIameameameameameamVakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjaaPaojaojaojaojaojalLaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 algalpalpalpalpalpalpalpalpalpalgalLalLalLalLalgalgalgamAalgalgalgalgalgalgalgalgalgalgalgalgalgalgalgalgalgalgalgalgalIameameameameamealIakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjakjbkLakjakjakjakjakjaaPaWbaXiaYmaYIaoQalLaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-algalpalpalpalpalpalpalpalpalpalgaaaaaaaaaaaaalgalkallamWallalkalgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalIbqtameameamebqualIaaPaaPaaPaaPaaPaaPaaPaaPakjakjakjakjakjaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPalLalLalLalLalLalLalLaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+algalpalpalpalpalpalpalpalpalpalgaaaaaaaaaaaaalgalkallamWallalkalgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalIbqtameameamebqvalIaaPaaPaaPaaPaaPaaPaaPaaPakjakjakjakjakjaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPalLalLalLalLalLalLalLaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 algalpalpalpalpalpalpalpalpalpalgaaaaaaaaaaaaalgalpalpalpalpalpalgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalIameameameameamealIaaaaaaaaaaaaaaaaaaaaaaaPakjakjakjakjakjaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-algalpalpalpalpalpalpalpalpalpalgaaaaaaaaaaaaalgalpalpalTalpalpalgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalIbqvaosapvapwapxalIaaaaaaaaaaaaaaaaaaaaaaaPakiakjakjakjakiaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+algalpalpalpalpalpalpalpalpalpalgaaaaaaaaaaaaalgalpalpalTalpalpalgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalIasFaosapvapwapxalIaaaaaaaaaaaaaaaaaaaaaaaPakiakjakjakjakiaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 algalpalpalpalpalpalpalpalpalpalgaaaaaaaaaaaaalgalpalZamaambalpalgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaalIalKalKalKalKalKalIaaaaaaaaaaaaaaaaaaaaaaaPakjakjakjakjakjaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 algalgalgalgalgalgalgalgalpalpalgalgalgalgalgalgalpamiamjamkalpalgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaaPakjakjakjaaPaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 aaaaaaaaaaaaaaaaaaaaaalgalpalpalkallalkalkallalkalpalpamvalpalpalgaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaancandaneaneancaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

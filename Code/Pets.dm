@@ -529,9 +529,14 @@ obj/pet
 			if(p && item.loc == p && i && i.loc && i.loc == tempLoc)
 
 				var/isLegendary = istype(i, /obj/items/wearable) && (i:bonus >= 0 && i:bonus <= 3)
-				var/isCrystal = istype(i, /obj/items/crystal) && findtext(i.name, " level ")
+				var/isCrystal   = istype(i, /obj/items/crystal) && findtext(i.name, " level ")
 
-				if(isLegendary && i.max_stack == 1) isLegendary = 0
+				if(isLegendary && i.max_stack == 1)
+
+					if(findtext(i.name, "cursed ") && (convert & CURSED))
+						isLegendary = 1
+					else
+						isLegendary = 0
 
 				if(isLegendary && (convert & LEGENDARY))
 					var/obj/items/artifact/a = new

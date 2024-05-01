@@ -6278,6 +6278,11 @@ obj/items/wearable/cog
 
 	var/tier = LEGENDARY
 
+	cursed_cog
+		tier = LEGENDARY|CURSED
+		icon_state = "cursed cog"
+		desc = "Converts legendries (up to cursed) to artifacts when picked up by pets."
+
 	crystal_cog
 		tier = CRYSTAL
 		icon_state = "crystal cog"
