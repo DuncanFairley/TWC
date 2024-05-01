@@ -1563,7 +1563,9 @@ mob/Player
 
 			if(worldData.passives)
 				stat("Global Passives:","")
-				stat(worldData.passives)
+				for(var/i in worldData.passives)
+					var/cap = uppertext(copytext(i,1,2)) + copytext(i,2)
+					stat(cap)
 
 			if(worldData.currentEvents)
 				stat("Current Events:","")
