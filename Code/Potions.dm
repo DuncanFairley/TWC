@@ -1179,6 +1179,11 @@ obj
 			i.prizeDrop(ownerCkey, protection=600, decay=FALSE)
 
 			if(!lastUsed || --yields <= 0)
+
+				var/chance = max(player.Gathering.level/4, 75)
+				if(prob(chance))
+					new /obj/items/bucket (loc)
+
 				loc = null
 			else
 				transform = null
