@@ -199,6 +199,14 @@ obj/potions
 				smoke += new /obj/smoke (loc)
 				sleep(4)
 
+
+		Dispose()
+			for(var/obj/o in smoke)
+				o.loc = null
+			smoke = null
+			..()
+
+
 		Click()
 			if(isBusy) return
 			..()
@@ -438,6 +446,9 @@ obj/potions
 
 			..()
 
+		MouseEntered(location,control,params)
+			loc.MouseEntered(location,control,params)
+
 	dropper
 		icon_state = "dropper"
 		req = 3
@@ -453,6 +464,9 @@ obj/potions
 			i.icon_state = "[i.icon_state]_liquid"
 
 			..()
+
+		MouseEntered(location,control,params)
+			loc.MouseEntered(location,control,params)
 
 
 	proc/Process(mob/Player/p, obj/items/ingredients/i)
