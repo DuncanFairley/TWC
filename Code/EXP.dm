@@ -655,7 +655,13 @@ mob/Player
 				if(!rankLevel)
 					rankLevel = new
 
-				if(rankLevel.level >= 150)
+				if(rankLevel.level >= 300)
+					amount = round(amount * 0.01, 1)
+				else if(rankLevel.level >= 250)
+					amount = round(amount * 0.02, 1)
+				else if(rankLevel.level >= 200)
+					amount = round(amount * 0.04, 1)
+				else if(rankLevel.level >= 150)
 					amount = round(amount * 0.06, 1)
 				else if(rankLevel.level >= 100)
 					amount = round(amount * 0.08, 1)
@@ -671,7 +677,7 @@ expRank
 		maxExp = 200000
 
 		const
-			MAX  = 182
+			MAX  = 326
 			TIER = 4
 
 	proc
@@ -685,7 +691,16 @@ expRank
 			while(exp > maxExp && level < MAX)
 				exp -= maxExp
 				level++
+
 				maxExp = 200000 + (level * 50000)
+
+				if(level >= 300)
+					maxExp *= 10
+				else if(level >= 200)
+					maxExp *= 6
+				else if(level >= 100)
+					maxExp *= 3
+
 				parent.screenAlert("You leveled up to rank [level]!")
 				parent << infomsg("You have gained a statpoint, click + next to your health bar.")
 				parent.StatPoints++
