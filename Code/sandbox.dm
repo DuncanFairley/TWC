@@ -291,12 +291,15 @@ obj
 
 obj/items
 	wood_log
-		icon = 'Wood Log.dmi'
+		icon       = 'Wood Log.dmi'
 		icon_state = "log1"
+		accioable  = 1
+		wlable     = 1
 	stones
-		icon = 'Moss_Rocks.dmi'
+		icon       = 'Moss_Rocks.dmi'
 		icon_state = "small"
-
+		accioable  = 1
+		wlable     = 1
 
 	wearable/blueprint
 		icon = 'blueprint.dmi'
