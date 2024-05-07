@@ -3151,15 +3151,6 @@ mob/Enemies
 					else if(elem == GHOST) c = "#ff69b4"
 				else c = color
 
-
-				var/obj/projectile/proj = new
-				proj.element = elem
-				proj.damage = explode
-				proj.owner = p
-				proj.name = "[name]'s explosion"
-				proj.selfDamage = 0
-				proj.color = c
-
 				var/obj/o = new /obj/custom { canSave = 0; icon = 'Effects.dmi'; icon_state = "explode" } (loc)
 				o.color = list(c, c, c)
 				o.transform = turn(matrix()*(1.25 + (rand(0, 25) / 100)), 90 * rand(0, 3))
@@ -3169,12 +3160,7 @@ mob/Enemies
 				for(var/mob/Enemies/a in range(2, loc))
 					if(a==src) continue
 					if(a.HP > 0)
-						if(a.canBleed)
-							a.canBleed = FALSE
-							a.Attacked(proj, 1)
-							a.canBleed = TRUE
-						else
-							a.Attacked(proj, 1)
+						spawn() a.onDamage(explode, p, elem, c)
 
 
 			Death_Check(p)
