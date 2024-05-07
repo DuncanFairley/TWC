@@ -595,6 +595,15 @@ obj/shopStand
 		reqRep
 		amount = 1
 
+	MouseEntered(location,control,params)
+		Highlight(usr, "#00a5ff")
+
+	MouseExited(location,control,params)
+		var/mob/Player/p = usr
+		if(p.highlight)
+			p.client.images -= p.highlight
+			p.highlight = null
+
 	Click()
 		if(src in oview(3))
 			var/mob/Player/p = usr
@@ -616,13 +625,13 @@ obj/shopStand
 
 			var/txt
 			if(goldPrice && artifactPrice)
-				txt = "Would you like to buy this item for [gPrice.toString()] and [artifactPrice] artifacts?"
+				txt = "Would you like to buy [name] for [gPrice.toString()] and [artifactPrice] artifacts?"
 			else if(goldPrice)
-				txt = "Would you like to buy this item for [gPrice.toString()]?"
+				txt = "Would you like to buy [name] for [gPrice.toString()]?"
 			else if(artifactPrice)
-				txt = "Would you like to buy this item for [artifactPrice] artifacts?"
+				txt = "Would you like to buy [name] for [artifactPrice] artifacts?"
 			else
-				txt = "Would you like to buy this item for [threads] threads?"
+				txt = "Would you like to buy [name] for [threads] threads?"
 
 			if(desc)
 				txt += "\n[desc]"
@@ -653,6 +662,7 @@ obj/shopStand
 
 				var/obj/items/i = new item
 				i.stack = amount
+				i.UpdateDisplay()
 				i.Move(p)
 				p << infomsg(txt)
 

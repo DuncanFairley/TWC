@@ -2407,7 +2407,7 @@ obj
 				p.client.images -= p.highlight
 				p.highlight = null
 
-		proc/Highlight(mob/Player/p)
+		Highlight(mob/Player/p)
 			set waitfor = 0
 
 			var/image/i

@@ -108,6 +108,51 @@ area
 				var/obj/items/wearable/masks/m = locate() in p.Lwearing
 				if(m) m.Equip(p, 1)
 
+
+obj
+	proc
+		Highlight(mob/Player/p, c, time=0)
+			set waitfor = 0
+
+			var/image/i
+
+			if(p.highlight)
+				p.client.images -= p.highlight
+
+			i = image(src, src)
+			i.layer = 10
+
+			i.filters = filter(type="drop_shadow", size=1, y=0, x=0, offset=2, color=c)
+
+			i.maptext_x = 32
+			i.maptext_y = 8
+			i.maptext_width = 320
+			i.maptext = "<b>[name]</b>"
+		//	i.maptext = "<b>[name]</b>\n"
+
+		/*	var/info = "<b>[name]</b>\n[GetDesc()]"
+
+			var/size = splittext(p.client.MeasureText(info), "x")
+			i.maptext_width  = text2num(size[1])
+			i.maptext_height = text2num(size[2])
+			i.maptext = info*/
+
+			if(time)
+				p.client.images += i
+				i.alpha = 0
+				animate(i, alpha = 255, time = 4)
+				sleep(time+4)
+				animate(i, alpha = 0, time = 4)
+				sleep(4)
+				if(p)
+					p.client.images -= i
+			else
+				if(p.highlight)
+					p.client.images -= p.highlight
+				p.highlight = i
+
+				p.client.images += i
+
 obj/items
 	var
 		dropable      = 1
@@ -344,66 +389,28 @@ obj/items
 			p.client.images -= p.highlight
 			p.highlight = null
 
+
+	Highlight(mob/Player/p, time=0)
+		set waitfor = 0
+
+		var/c = "#0e0"
+		switch(rarity)
+			if(2)
+				c = "#00a5ff"
+			if(3)
+				c = "#ffa500"
+			if(4)
+				c = "#551a8b"
+			if(5)
+				c = "#660000"
+			if(6)
+				c = "#db7093"
+
+		..(p, c, time)
+
 	proc
 		GetDesc()
 			return desc
-
-		Highlight(mob/Player/p, time=0)
-			set waitfor = 0
-
-			var/image/i
-
-			if(p.highlight)
-				p.client.images -= p.highlight
-
-			i = image(src, src)
-			i.layer = 5
-
-			var/c = "#0e0"
-			switch(rarity)
-				if(2)
-					c = "#00a5ff"
-				if(3)
-					c = "#ffa500"
-				if(4)
-					c = "#551a8b"
-				if(5)
-					c = "#660000"
-				if(6)
-					c = "#db7093"
-
-			i.filters = filter(type="drop_shadow", size=1, y=0, x=0, offset=2, color=c)
-
-			i.maptext_x = 32
-			i.maptext_y = 8
-			i.maptext_width = 320
-			i.maptext = "<b>[name]</b>"
-		//	i.maptext = "<b>[name]</b>\n"
-
-		/*	var/info = "<b>[name]</b>\n[GetDesc()]"
-
-			var/size = splittext(p.client.MeasureText(info), "x")
-			i.maptext_width  = text2num(size[1])
-			i.maptext_height = text2num(size[2])
-			i.maptext = info*/
-
-			if(time)
-				p.client.images += i
-				i.alpha = 0
-				animate(i, alpha = 255, time = 4)
-				sleep(time+4)
-				animate(i, alpha = 0, time = 4)
-				sleep(4)
-				if(p)
-					p.client.images -= i
-			else
-				if(p.highlight)
-					p.client.images -= p.highlight
-				p.highlight = i
-
-				p.client.images += i
-
-
 
 		Sort()
 			if(istype(loc, /atom))
@@ -3333,7 +3340,7 @@ obj/clanpillar
 			else
 				var/percent = HP / MHP
 				hpbar.Set(percent, src)
-			..()
+
 		enable(MHP2)
 			density = 1
 			invisibility = 0
