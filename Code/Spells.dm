@@ -2899,7 +2899,13 @@ mob/Player
 
 		if(ismonster(attacker))
 			var/monsterDefLimit = (SHIELD_SOUL in passives) ? 0.9 : 0.75
-			dmg *= 1 - min(monsterDef/100, monsterDefLimit)
+
+			var/mdef = monsterDef
+
+			if(hardmode > 5)
+				mdef -= (hardmode - 5) * 5
+
+			dmg *= 1 - min(mdef/100, monsterDefLimit)
 
 		if(SHIELD_MPDAMAGE in passives)
 			var/r = min(round(dmg * (0.4 + ((passives[SHIELD_MPDAMAGE] - 1) / 100)), 1), MP)
