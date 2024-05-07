@@ -2536,7 +2536,6 @@ obj/Banker
 	density=1
 	mouse_over_pointer = MOUSE_HAND_POINTER
 
-	var/gold/goldinbank
 
 	New()
 		..()
@@ -2574,12 +2573,6 @@ obj/Banker
 
 					p.checkQuestProgress("Fred's Wand")
 					return
-
-			if(goldinbank)
-				goldinbank.give(usr)
-				usr << infomsg("You withdraw [goldinbank.toString()]")
-				goldinbank = null
-				return
 
 			var/gold/g = new(usr)
 			if(g.sorted)

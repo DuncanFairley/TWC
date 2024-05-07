@@ -43,11 +43,12 @@ RandomEvent
 				p.beep(beepType)
 
 		end()
-			worldData.currentEvents[src]--
-			if(worldData.currentEvents[src] <= 0)
-				worldData.currentEvents -= src
+			if(src in worldData.currentEvents)
+				worldData.currentEvents[src]--
+				if(worldData.currentEvents[src] <= 0)
+					worldData.currentEvents -= src
 
-			if(worldData.currentEvents.len == 0) worldData.currentEvents = null
+				if(worldData.currentEvents.len == 0) worldData.currentEvents = null
 
 			endTime = null
 			desc = null
