@@ -223,7 +223,6 @@ Duel
 		duelcenter.overlays = list()
 		duelcenter:D = null
 		duelcenter = null
-		..()
 
 	proc
 		Pre_Duel()

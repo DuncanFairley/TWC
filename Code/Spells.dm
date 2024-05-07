@@ -4208,7 +4208,6 @@ obj/portkey
 						timed.related = list()
 					timed.related += t
 
-			..()
 
 	Dispose()
 		if(Players)
