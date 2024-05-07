@@ -499,17 +499,23 @@ mob/Spells/verb/Repellium()
 			time--
 			sleep(4)
 
-proc/light(atom/a, range=3, ticks=100, state = "light", color)
-	var/image/img = image('lights.dmi',state)
-	img.appearance_flags = PIXEL_SCALE
-	img.transform *= range * 2 + 1
-	img.layer = 8
-	if(color) img.color = color
+obj/squareLight
+	icon             = 'lights.dmi'
+	icon_state       = "light"
+	mouse_opacity    = 0
+	appearance_flags = PIXEL_SCALE
+	layer            = 8
 
-	a.underlays += img
+proc/light(atom/movable/a, range=3, ticks=100, state = "light", color)
+	var/obj/squareLight/o = new
+	o.icon_state = state
+	o.transform *= range * 2 + 1
+	if(color) o.color = color
+
+	a.vis_contents += o
 	if(ticks != 0)
 		spawn(ticks)
-			if(a) a.underlays -= img
+			if(a) a.vis_contents -= o
 
 mob/Spells/verb/Lumos()
 	set category = "Spells"
