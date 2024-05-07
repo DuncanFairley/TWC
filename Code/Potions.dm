@@ -179,6 +179,9 @@ obj/potions
 			pool = 0
 			flags = 0
 
+		MouseEntered(location,control,params)
+			loc.MouseEntered(location,control,params)
+
 		New()
 			set waitfor = 0
 			..()
