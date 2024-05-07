@@ -973,7 +973,7 @@
 "asK" = (/obj/static_obj/tablecornerR,/turf/woodenfloor,/area/hogwarts/Greenhouse)
 "asL" = (/turf/grass,/area/hogwarts/Greenhouse)
 "asM" = (/obj/static_obj/tablecornerL,/turf/woodenfloor,/area/hogwarts/Greenhouse)
-"asN" = (/obj/static_obj/tablemiddle2,/turf/woodenfloor,/area/hogwarts/Greenhouse)
+"asN" = (/obj/static_obj/tablemiddle2,/obj/shopStand{name = "Sweet Berry Seeds x10"; icon = 'candy.dmi'; icon_state = "sweet"; item = /obj/items/seeds/sweet_berry_seeds; amount = 10; artifactPrice = 0; goldPrice = 300000},/turf/woodenfloor,/area/hogwarts/Greenhouse)
 "asO" = (/obj/static_obj/tablemid3,/turf/woodenfloor,/area/hogwarts/Greenhouse)
 "asP" = (/turf/water/water,/area/hogwarts/Greenhouse)
 "asQ" = (/obj/AlyssaChest/Indigo_Seeds/Ror2,/turf/grass,/area/outside/Hogwarts)
@@ -1858,6 +1858,7 @@
 "aJL" = (/obj/static_obj/tables/normaltable,/obj/static_obj/Triple_Candle,/turf/woodenfloor,/area/hogwarts/Great_Hall)
 "aJM" = (/obj/static_obj/tables/normaltable{icon_state = "32"},/obj/static_obj/plate,/turf/woodenfloor,/area/hogwarts/Great_Hall)
 "aJN" = (/turf/Hogwarts_Stone_Wall,/area/hogwarts/class/Defence_Against_the_Dark_Arts)
+"aJO" = (/obj/static_obj/tablemiddle2,/obj/shopStand{name = "Grape Berry Seeds x10"; icon = 'candy.dmi'; icon_state = "grape"; item = /obj/items/seeds/grape_berry_seeds; amount = 10; artifactPrice = 0; goldPrice = 400000},/turf/woodenfloor,/area/hogwarts/Greenhouse)
 "aJP" = (/obj/static_obj/Angel,/turf/Black_Tile,/area/hogwarts/class/Defence_Against_the_Dark_Arts)
 "aJQ" = (/turf/Black_Tile,/area/hogwarts/class/Defence_Against_the_Dark_Arts)
 "aJR" = (/obj/static_obj/Armor,/turf/Black_Tile,/area/hogwarts/class/Defence_Against_the_Dark_Arts)
@@ -2355,6 +2356,7 @@
 "aTp" = (/obj/Desk{icon_state = "TD2"},/turf/woodenfloor,/area/hogwarts/West_Wing)
 "aTq" = (/obj/static_obj/slytherin,/turf/Hogwarts_Stone_Wall,/area/hogwarts/class/Headmasters_Class_West)
 "aTr" = (/obj/housecouch{icon_state = "red"},/turf/Red_Carpet,/area/hogwarts/Gryffindor_Common_Room)
+"aTs" = (/obj/static_obj/tablemiddle2,/obj/shopStand{name = "Berry Seeds x10"; icon = 'candy.dmi'; icon_state = "berry"; item = /obj/items/seeds/berry_seeds; amount = 10; artifactPrice = 0; goldPrice = 500000},/turf/woodenfloor,/area/hogwarts/Greenhouse)
 "aTt" = (/obj/housecouch{icon_state = "redleft"},/turf/Red_Carpet,/area/hogwarts/Gryffindor_Common_Room)
 "aTu" = (/obj/static_obj/Red_Carpet_Corners{icon_state = "north"; dir = 2},/obj/static_obj/Red_Carpet_Corners{icon_state = "east"; dir = 2},/turf/woodenfloor,/area/hogwarts/Gryffindor_Common_Room)
 "aTv" = (/obj/books/EXP_BOOK_lvlgryffindor,/turf/Red_Carpet,/area/hogwarts/Gryffindor_Common_Room)
@@ -2560,6 +2562,8 @@
 "aXn" = (/obj/teleportPath,/turf/woodenfloor{tag = "porchLeftIn"},/area/hogwarts/Forth_Floor)
 "aXo" = (/obj/static_obj/Book_Shelf{density = 0; layer = 7; pixel_y = -7},/turf/Hogwarts_Stone_Wall,/area/hogwarts/Gryffindor_Common_Room/SecondFloor)
 "aXp" = (/obj/static_obj/Book_Shelf1{density = 0; layer = 7; pixel_y = -7},/turf/Hogwarts_Stone_Wall,/area/hogwarts/Gryffindor_Common_Room/SecondFloor)
+"aXq" = (/obj/static_obj/tablemiddle2,/obj/shopStand{name = "Daisy Seeds x10"; icon = 'Icons/environment/obj/potions/potions_ingredients.dmi'; icon_state = "daisy"; item = /obj/items/seeds/daisy_seeds; amount = 10; artifactPrice = 0; goldPrice = 500000},/turf/woodenfloor,/area/hogwarts/Greenhouse)
+"aXr" = (/obj/static_obj/tablemiddle2,/obj/shopStand{name = "Aconite Seeds x10"; icon = 'Icons/environment/obj/potions/potions_ingredients.dmi'; icon_state = "aconite"; item = /obj/items/seeds/aconite_seeds; amount = 10; artifactPrice = 0; goldPrice = 750000},/turf/woodenfloor,/area/hogwarts/Greenhouse)
 "aXs" = (/obj/static_obj/Hogwarts_Stairs,/turf/woodenfloor,/area/newareas/hogwarts_roof)
 "aXt" = (/obj/Hogwarts_Door,/turf/woodenfloor,/area/hogwarts/class/Charms)
 "aXu" = (/obj/static_obj/Angel,/turf/woodenfloor,/area/hogwarts/Gryffindor_Common_Room/SecondFloor)
@@ -2898,6 +2902,7 @@
 "bdP" = (/turf/Duel_3,/turf/duelblock,/area/hogwarts/Duel_Arenas/Ravenclaw)
 "bdQ" = (/turf/Duel_5,/turf/duelblock,/area/hogwarts/Duel_Arenas/Ravenclaw)
 "bdR" = (/turf/Duel_6,/area/hogwarts/Duel_Arenas/Ravenclaw)
+"bdS" = (/obj/static_obj/tablemiddle2,/obj/shopStand{name = "Bucket x10"; icon = 'bucket.dmi'; icon_state = "null"; item = /obj/items/bucket; amount = 10; artifactPrice = 0; goldPrice = 100000},/turf/woodenfloor,/area/hogwarts/Greenhouse)
 "bdT" = (/turf/Staircase,/area/hogwarts{antiTeleport = 1; antiApparate = 1; planeColor = null; antiFly = 1; respawnPoint = "rorTrainingSpawn"})
 "bdU" = (/turf/duelsystemcenter,/area/hogwarts/Duel_Arenas/Matchmaking/Main_Arena_Top)
 "bdV" = (/turf/blackfloor,/area/hogwarts{antiTeleport = 1; antiTheft = 1; antiApparate = 1; planeColor = null; antiFly = 1})
@@ -5258,11 +5263,11 @@ aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfasfasfas
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasCarYaquarTasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasCaqjaqjaqjaqjaqjasDasEasEasEasIasJasEasEasEasDasDasDasEasEasEasIasJasEasEasEasDaqjaqjaqjaqjaqj
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasCarYaquarTasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasCaqjaqjaqjaqjaqjaaPasKasLasLasLasLasLasLasMaaPaaPaaPasKasLasLasLasLasLasLasMaaPaqjaqjaqjaqjaqj
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasCarYaquarTasfasfasfasfasfasfasfasfasfasfasfasfasfasfaqjaqjaqjaqBaqjaqjaqjaqjaaPaXMasLasLasLasLasLasLasOaaPaaPaaPasNasLasLasLasLasLasLasOaaPaqjaqjaqjaqjaqj
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasCarYaquarTasfasfasfasfasfasfasfasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjaaPaXPasLasLasPasPasLasLasOaaPaaPaaPasNasLasLasPasPasLasLasOaaPaqjaqjaqjaqkaql
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfasfasfasQaqjaqjaqjaqjasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfaqnaqnaqnaquaquaquaqnaqnaqnasfasfasfasfasfasfasfasfasfasfaqjaqBaqjaqjaqjaqjaqjaqjaqjaaPaXTasLasLasPasPasLasLbftaaPaaPaaPasNasLasLasPasPasLasLasOaaPaqjaqjaqjaqqaqr
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfasfaqjaqjaqjaqBaqjaqjaqjasfasfasfasfasfasfasfasfasfasfasfasfasfasfaqnbqIbqIaquaquaqubqIbqIaqnasfasfasfasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaaPaSGasLasLasPasPasLasLbfuaaPaaPaaPasNasLasLasPasPasLasLasOaaPaqjaqjaqjaqjaqj
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjasfasfasfasfasfasfasfasfasfasfasfasfasfaqnbqIaqGaquaquaquaqGbqIaqnasfasfasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaaPaUQasLasLasPasPasLasLbfvaaPaaPaaPasNasLasLasPasPasLasLasOaaPaqjaqjaqjaqjaqj
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjasfasfasfasfasfasfasfasfasfasfasfasfasfaqnbqIbqIaquaquaqubqIbqIaqnasfasfasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaaPbfwasLasLasPasPasLasLasOaaPaaPaaPasNasLasLasPasPasLasLasOaaPaqjaqjaqjaqjaqj
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfasCarYaquarTasfasfasfasfasfasfasfasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjaaPaXPasLasLasPasPasLasLasOaaPaaPaaPaJOasLasLasPasPasLasLasOaaPaqjaqjaqjaqkaql
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfasfasfasQaqjaqjaqjaqjasfasfasfasfasfasfasfasfasfasfasfasfasfasfasfaqnaqnaqnaquaquaquaqnaqnaqnasfasfasfasfasfasfasfasfasfasfaqjaqBaqjaqjaqjaqjaqjaqjaqjaaPaXTasLasLasPasPasLasLbftaaPaaPaaPaTsasLasLasPasPasLasLasOaaPaqjaqjaqjaqqaqr
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfasfaqjaqjaqjaqBaqjaqjaqjasfasfasfasfasfasfasfasfasfasfasfasfasfasfaqnbqIbqIaquaquaqubqIbqIaqnasfasfasfasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaaPaSGasLasLasPasPasLasLbfuaaPaaPaaPaXqasLasLasPasPasLasLasOaaPaqjaqjaqjaqjaqj
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjasfasfasfasfasfasfasfasfasfasfasfasfasfaqnbqIaqGaquaquaquaqGbqIaqnasfasfasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaaPaUQasLasLasPasPasLasLbfvaaPaaPaaPaXrasLasLasPasPasLasLasOaaPaqjaqjaqjaqjaqj
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjasfasfasfasfasfasfasfasfasfasfasfasfasfaqnbqIbqIaquaquaqubqIbqIaqnasfasfasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaaPbfwasLasLasPasPasLasLasOaaPaaPaaPbdSasLasLasPasPasLasLasOaaPaqjaqjaqjaqjaqj
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfaqjbcKaqjaqjaqjaqjaqjaqBaqjasfasfasfasfasfasfasfasfasfasfasfasfasfaqnaquaquaquaquaquaquaquaqnasfasfasfasfasfasfasfaqjaqjaqBaqjaqjaqjaqjaqjaqjaqBaqjaqjaaPasRasLasLasPasPasLasLasSbkJanYbkJasRasLasLasPasPasLasLasSaaPaqjaqjaqjaqjaqj
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjasfasfasfasfasfasfasfasfasfasfasfasfasfaqnaquaquaquaquaquaquaquaqnasfasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaaPasTasLasLasLasLasLasLasTbkJasUbkJasTasLasLasLasLasLasLasTaaPaqkaqlaqjaqjaqj
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaanKasfasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjasfasfasfasfasfasfasfasfasfasfasfasfasfasfaqnaquaquaquaquaquaquaquaqnasfasfasfasfasfasfasfaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaqjaaPasTasLasLasLasLasLasLasTasTasTasTasTasLasLasLasLasLasLasTaaPaqqaqraqjaqjaqj
