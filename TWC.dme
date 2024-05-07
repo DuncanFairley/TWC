@@ -149,6 +149,7 @@
 #include "Code\verbs.dm"
 #include "Code\world.topic.dm"
 #include "Code\AI\enemies drops.dm"
+#include "Code\AI\enemies logic.dm"
 #include "Code\AI\enemies.dm"
 #include "Code\DiscordHook\DiscordWebhook.dm"
 #include "Code\Quests\QuestAI.dm"
