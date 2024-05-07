@@ -200,7 +200,7 @@ dungeon
 				if(found) break
 
 		if(puzzleType == 1)
-			if(prob(70))
+			if(prob(70) || !SecretRoom)
 				var/room/key = rooms[used[rand(2, used.len-1)]]
 				var/mob/Enemies/e = locate() in range(key.Width/2, locate(floor(key.X + key.Width / 2), floor(key.Y + key.Height / 2), Z))
 
