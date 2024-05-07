@@ -1157,7 +1157,7 @@ obj
 
 					improvedAmount = min(improvedAmount, amount*cap)
 				else
-					improvedAmount += player.Gathering.level
+					improvedAmount += player.Gathering.level + round(rand(0, 1 + player.Gathering.level/3))
 				player.Gathering.add((improvedAmount*10 + rand(6,8))*100, player, 1)
 
 				time = max(time - round(player.Gathering.level/5)*10, 50)
@@ -1180,7 +1180,7 @@ obj
 
 			if(!lastUsed || --yields <= 0)
 
-				var/chance = max(player.Gathering.level/4, 75)
+				var/chance = max(1 + player.Gathering.level/3, 50)
 				if(prob(chance))
 					new /obj/items/bucket (loc)
 
