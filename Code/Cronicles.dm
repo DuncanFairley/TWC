@@ -364,6 +364,30 @@ mob
 					for(var/obj/o in l.contents)
 						o.Move(src)
 
+	/*		if(savefile_version < 51)
+				var/vault/v = worldData.globalvaults[ckey]
+			//	if(v.tmpl == selectedvault)
+
+				var/filename = "vaults/map_[ckey].sav"
+
+				var/savefile/edit = new(filename)
+				var/txt = edit.ExportText("/")
+
+				var/list/replace = list("/obj/WTable"       = "/obj/static_obj/WTable",
+				                        "/obj/Pink_Flowers" = "/obj/static_obj/Pink_Flowers",
+				                        "/obj/Blue_Flowers" = "/obj/static_obj/Blue_Flowers")
+
+				for(var/r in replace)
+					txt = replacetext(txt, r, replace[r])
+
+				text2file(txt, "testsav.txt")
+
+				fdel(filename)
+
+				edit = new(filename)
+				edit.ImportText("/",txt)*/
+
+
 
 			if(last_z >= SWAPMAP_Z && !worldData.currentMatches.isReconnect(src) && (!worldData.sandboxZ || !(last_z in worldData.sandboxZ))) //If player is on a swap map, move them to gringotts
 				loc = locate("leavevault")
@@ -706,6 +730,7 @@ mob/BaseCamp/ChoosingCharacter
 
 				if(available_char_names.len >= 1)
 					client.tmpInterface = new (client)
+					client.onResize(60, 31, 0, 0, 1)
 					client.glide_size = GLIDE_SIZE
 					client.base_LoadMob(available_char_names[1])
 					del(src)
