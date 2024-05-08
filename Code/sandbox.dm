@@ -2409,6 +2409,7 @@ obj
 
 		Highlight(mob/Player/p)
 			set waitfor = 0
+			if(!isplayer(p)) return
 
 			var/image/i
 

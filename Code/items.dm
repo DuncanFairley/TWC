@@ -114,6 +114,8 @@ obj
 		Highlight(mob/Player/p, c, time=0)
 			set waitfor = 0
 
+			if(!isplayer(p)) return
+
 			var/image/i
 
 			if(p.highlight)
