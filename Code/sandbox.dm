@@ -428,7 +428,7 @@ turf/buildable
 					if(!t || !t.flyblock)
 						return
 
-				if(flyblock || (locate(p.buildItem.path) in src))
+				if((flyblock && !p.buildItem.reqWall) || (locate(p.buildItem.path) in src))
 					if(!p.buildItem.replace || !(locate(p.buildItem.replace) in src))
 						return
 
@@ -466,7 +466,7 @@ turf/buildable
 					var/obj/o = locate(p.buildItem.replace) in src
 					if(o) o.Dispose()
 
-				Clear(p.buildItem.clear)
+				Clear(p.buildItem.clear, 1 + p.buildItem.reqWall)
 				var/obj/buildable/wall/o = new p.buildItem.path(src)
 
 				if(istype(o, /obj/buildable/wall) || istype(o, /obj/buildable/door/secret))
@@ -496,11 +496,13 @@ turf/buildable
 			..()
 
 	proc
-		Clear(clear)
+		Clear(clear, all = 0) // 0 - all, 1 - only floor, 2 only wall
 			for(var/obj/o in src)
 				if(!o.canSave) continue
 				if(istype(o, /obj/items)) continue
 				if(istype(o, /obj/buildable)) continue
+				if(all == 1 && o.pixel_y > 20) continue
+				if(all == 2 && o.pixel_y < 20) continue
 
 				if(clear)
 					if(istype(o, clear))
@@ -713,6 +715,12 @@ obj/buildable
 		bricks
 			opacity = 0
 			icon = 'wall1.dmi'
+
+			MouseEntered(location,control,params)
+				loc.MouseEntered(location,control,params)
+
+			Click(location,control,params)
+				loc.Click(location,control,params)
 
 		New()
 			set waitfor = 0
