@@ -720,6 +720,7 @@ obj/loginCamera
 PlayerData/var/autoLoad = 0
 
 mob/BaseCamp/ChoosingCharacter
+	var/highlight
 	sight = SEE_THRU
 	Login()
 		if(worldData.playersData)
