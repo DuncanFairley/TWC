@@ -500,7 +500,7 @@ turf/buildable
 			for(var/obj/o in src)
 				if(!o.canSave) continue
 				if(istype(o, /obj/items)) continue
-				if(istype(o, /obj/buildable)) continue
+				if(istype(o, /obj/buildable) && !o:canClear) continue
 				if(all == 1 && o.pixel_y > 20) continue
 				if(all == 2 && o.pixel_y < 20) continue
 
@@ -537,8 +537,9 @@ obj/buildable
 		rate = 5000
 
 		canHeal = 0
-
+		canClear = 0
 		block = 0
+
 
 	density = 1
 
@@ -721,6 +722,8 @@ obj/buildable
 
 			Click(location,control,params)
 				loc.Click(location,control,params)
+
+
 
 		New()
 			set waitfor = 0
@@ -1041,7 +1044,7 @@ hudobj
 				maptext_width  = 256
 				maptext_height = 64
 				screen_x       = 32
-				screen_y       = -64
+				screen_y       = -96
 
 				Click()
 
@@ -1051,7 +1054,7 @@ hudobj
 				maptext = "Clear Decoration/Portkeys"
 
 				screen_x = 32
-				screen_y = 0
+				screen_y = -32
 
 			#if WINTER
 			snow
@@ -2126,6 +2129,78 @@ hudobj
 				inVault = 0
 
 		utility
+			male_statue
+				icon='MaleVampire.dmi'
+		//		icon_state="cauldron"
+
+				price = list(/obj/items/wood_log = 100,
+				             /obj/items/stones = 100,
+				             /obj/items/artifact = 5)
+
+				screen_x = 32
+				screen_y = 0
+
+				maptext_x = 0
+				maptext_width = 32
+
+				path = /obj/statue/male
+
+			female_statue
+				icon='FemaleVampire.dmi'
+		//		icon_state="cauldron"
+
+				price = list(/obj/items/wood_log = 100,
+				             /obj/items/stones = 100,
+				             /obj/items/artifact = 5)
+
+				screen_x = 64
+				screen_y = 0
+
+				maptext = "Statues: 100 stone & wood and 5 artifacts"
+
+				path = /obj/statue/female
+
+			fake_wood
+				icon = 'wood_wall.dmi'
+				icon_state = "10"
+
+				price = 40
+
+				screen_x = 32
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
+				path = /obj/buildable/wall/wood { density = 0; layer = 5; mouse_opacity = 0; block = 0; canClear = 1 }
+				replace = /obj/buildable/wall/wood
+
+			fake_bricks
+				icon = 'wall1.dmi'
+
+				price = list(/obj/items/stones = 40)
+
+				screen_x = 64
+				screen_y = 32
+
+				path = /obj/buildable/wall/bricks { density = 0; layer = 5; mouse_opacity = 0; block = 0; canClear = 1 }
+				replace = /obj/buildable/wall/bricks
+
+				maptext_x = 0
+				maptext_width = 32
+
+			fake_stone
+				icon = 'stone.dmi'
+				icon_state = "10"
+
+				price = list(/obj/items/stones = 40)
+				maptext = "Fake wall: 40 wood/stone"
+
+				screen_x = 96
+				screen_y = 32
+
+				path = /obj/buildable/wall/stone { density = 0; layer = 5; mouse_opacity = 0; block = 0; canClear = 1 }
+				replace = /obj/buildable/wall/stone
 			secret_wood_door
 				icon = 'wood_wall.dmi'
 				icon_state = "10"
@@ -2327,38 +2402,6 @@ hudobj
 				screen_y = 224
 
 				path = /obj/potions/grind
-
-			male_statue
-				icon='MaleVampire.dmi'
-		//		icon_state="cauldron"
-
-				price = list(/obj/items/wood_log = 100,
-				             /obj/items/stones = 100,
-				             /obj/items/artifact = 5)
-
-				screen_x = 32
-				screen_y = 32
-
-				maptext_x = 0
-				maptext_width = 32
-
-				path = /obj/statue/male
-
-			female_statue
-				icon='FemaleVampire.dmi'
-		//		icon_state="cauldron"
-
-				price = list(/obj/items/wood_log = 100,
-				             /obj/items/stones = 100,
-				             /obj/items/artifact = 5)
-
-				screen_x = 64
-				screen_y = 32
-
-				maptext = "Statues: 100 stone & wood and 5 artifacts"
-
-				path = /obj/statue/female
-
 
 
 obj
