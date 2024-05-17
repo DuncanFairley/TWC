@@ -159,7 +159,7 @@ obj
 		alpha = 100
 		density = 0
 		layer = 10
-		mouse_over_pointer = MOUSE_HAND_POINTER
+//		mouse_over_pointer = MOUSE_HAND_POINTER
 		appearance_flags = LONG_GLIDE
 		glide_size = 4
 
@@ -254,6 +254,15 @@ obj/magic_force
 
 		tmp
 			count = 8
+
+	MouseEntered(location,control,params)
+		Highlight(usr, "#00a5ff")
+
+	MouseExited(location,control,params)
+		var/mob/Player/p = usr
+		if(p.highlight)
+			p.client.images -= p.highlight
+			p.highlight = null
 
 	Click()
 

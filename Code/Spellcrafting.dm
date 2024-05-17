@@ -582,6 +582,15 @@ obj
 		accioable = 1
 		wlable    = 1
 
+		MouseEntered(location,control,params)
+			Highlight(usr, "#00a5ff")
+
+		MouseExited(location,control,params)
+			var/mob/Player/p = usr
+			if(p.highlight)
+				p.client.images -= p.highlight
+				p.highlight = null
+
 		var
 			origZ
 			teleportNode/origRegion

@@ -171,6 +171,16 @@ obj/potions
 			usr << infomsg("Mass brew off. (x1)")
 			mass = 1
 
+	MouseEntered(location,control,params)
+		loc.MouseEntered(location,control,params)
+		Highlight(usr, "#00a5ff")
+
+	MouseExited(location,control,params)
+		var/mob/Player/p = usr
+		if(p.highlight)
+			p.client.images -= p.highlight
+			p.highlight = null
+
 	cauldron
 		icon_state = "cauldron"
 
@@ -178,9 +188,6 @@ obj/potions
 			list/smoke
 			pool = 0
 			flags = 0
-
-		MouseEntered(location,control,params)
-			loc.MouseEntered(location,control,params)
 
 		New()
 			set waitfor = 0
@@ -449,9 +456,6 @@ obj/potions
 
 			..()
 
-		MouseEntered(location,control,params)
-			loc.MouseEntered(location,control,params)
-
 	dropper
 		icon_state = "dropper"
 		req = 3
@@ -467,10 +471,6 @@ obj/potions
 			i.icon_state = "[i.icon_state]_liquid"
 
 			..()
-
-		MouseEntered(location,control,params)
-			loc.MouseEntered(location,control,params)
-
 
 	proc/Process(mob/Player/p, obj/items/ingredients/i)
 		set waitfor = 0

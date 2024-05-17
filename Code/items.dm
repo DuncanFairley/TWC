@@ -126,10 +126,11 @@ obj
 
 			i.filters = filter(type="drop_shadow", size=1, y=0, x=0, offset=2, color=c)
 
-			i.maptext_x = 32
+			i.maptext_x = 36
 			i.maptext_y = 8
 			i.maptext_width = 320
 			i.maptext = "<b>[name]</b>"
+			i.pixel_y = 0
 		//	i.maptext = "<b>[name]</b>\n"
 
 		/*	var/info = "<b>[name]</b>\n[GetDesc()]"
@@ -5229,6 +5230,15 @@ obj/color_lamp
 	icon_state = "inactive"
 
 	mouse_over_pointer = MOUSE_HAND_POINTER
+
+	MouseEntered(location,control,params)
+		Highlight(usr, "#00a5ff")
+
+	MouseExited(location,control,params)
+		var/mob/Player/p = usr
+		if(p.highlight)
+			p.client.images -= p.highlight
+			p.highlight = null
 
 	var
 		vaultOwner

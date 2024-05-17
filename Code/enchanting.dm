@@ -565,6 +565,15 @@ obj/blacksmith
 	layer              = 4
 	density            = 1
 
+	MouseEntered(location,control,params)
+		Highlight(usr, "#00a5ff")
+
+	MouseExited(location,control,params)
+		var/mob/Player/p = usr
+		if(p.highlight)
+			p.client.images -= p.highlight
+			p.highlight = null
+
 	var/searchType = /obj/items/wearable/
 
 	proc/smith(obj/item/i, mob/Player/p)

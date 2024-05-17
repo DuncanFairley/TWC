@@ -870,6 +870,15 @@ obj/buildable
 		icon = 'Totem.dmi'
 		icon_state = "Shield"
 
+		MouseEntered(location,control,params)
+			Highlight(usr, "#00a5ff")
+
+		MouseExited(location,control,params)
+			var/mob/Player/p = usr
+			if(p.highlight)
+				p.client.images -= p.highlight
+				p.highlight = null
+
 		Click()
 			if(src in range(1))
 
@@ -911,6 +920,15 @@ obj/buildable
 		mouse_over_pointer = MOUSE_HAND_POINTER
 		icon = 'Totem.dmi'
 		icon_state = "Hammer"
+
+		MouseEntered(location,control,params)
+			Highlight(usr, "#00a5ff")
+
+		MouseExited(location,control,params)
+			var/mob/Player/p = usr
+			if(p.highlight)
+				p.client.images -= p.highlight
+				p.highlight = null
 
 		Click()
 			if(src in range(1))

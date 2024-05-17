@@ -5,6 +5,15 @@ obj
 		icon_state="sign"
 		density=1
 
+		MouseEntered(location,control,params)
+			Highlight(usr, "#00a5ff")
+
+		MouseExited(location,control,params)
+			var/mob/Player/p = usr
+			if(p.highlight)
+				p.client.images -= p.highlight
+				p.highlight = null
+
 		verb
 			read_sign()
 				set src in oview(10)
