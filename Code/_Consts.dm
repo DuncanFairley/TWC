@@ -219,7 +219,7 @@ atom
 
 
 
-WorldData/var/tmp/baseChance = 0.014
+WorldData/var/baseChance = 0.014
 
 
 mob/test/verb/ReportStats()

@@ -1121,6 +1121,8 @@ StatusEffect
 				..()
 				var/mob/Player/p = AttachedAtom
 
+				if(amount >= 99999) p.monsterDef += 1
+
 				amount += (potion.quality - 4) * 10
 
 				while(p)
@@ -1136,6 +1138,13 @@ StatusEffect
 						 color  = "green")
 
 					sleep(10)
+
+			Deactivate()
+				var/mob/Player/p = AttachedAtom
+				if(p)
+					if(amount >= 99999) p.monsterDef -= 1
+
+				..()
 
 
 		Mana
