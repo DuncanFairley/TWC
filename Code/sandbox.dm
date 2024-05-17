@@ -2293,6 +2293,19 @@ hudobj
 				screen_x = 64
 				screen_y = 128
 
+			stand_sign
+				icon = 'statues.dmi'
+				icon_state = "sign3"
+
+				price = 10
+				path = /obj/Signs/custom { icon_state = "sign3"; pixel_y = 0; density = 1 }
+
+				screen_x = 32
+				screen_y = 160
+
+				maptext_x = 0
+				maptext_width = 32
+
 			sign
 				icon = 'statues.dmi'
 				icon_state = "sign"
@@ -2302,7 +2315,7 @@ hudobj
 				path = /obj/Signs/custom
 				reqWall = 1
 
-				screen_x = 32
+				screen_x = 64
 				screen_y = 160
 
 			DiagonAlley_Portkey
