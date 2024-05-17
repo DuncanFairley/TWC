@@ -470,10 +470,11 @@ turf/buildable
 				var/obj/buildable/wall/o = new p.buildItem.path(src)
 
 				if(istype(o, /obj/buildable/wall) || istype(o, /obj/buildable/door/secret))
-					o.hp = 10000
-					if(!o.hpbar)
-						o.hpbar = new(o)
-					o.hpbar.Set(o.hp / o.maxhp, instant=1)
+					if(o.density)
+						o.hp = 10000
+						if(!o.hpbar)
+							o.hpbar = new(o)
+						o.hpbar.Set(o.hp / o.maxhp, instant=1)
 
 					spawn(2)
 						for(var/obj/buildable/w in orange(1, src))
@@ -550,14 +551,15 @@ obj/buildable
 			var/turf/t = loc
 			t.flyblock = 2
 
-		if(!hpbar)
-			var/perc = clamp(hp / maxhp, 0, 1)
-			if(perc < 1)
-				hpbar = new(src)
-				hpbar.Set(perc)
+		if(density)
+			if(!hpbar)
+				var/perc = clamp(hp / maxhp, 0, 1)
+				if(perc < 1)
+					hpbar = new(src)
+					hpbar.Set(perc)
 
-		if(canHeal && hp < maxhp)
-			regen()
+			if(canHeal && hp < maxhp)
+				regen()
 		..()
 
 	Dispose()
@@ -723,7 +725,21 @@ obj/buildable
 			Click(location,control,params)
 				loc.Click(location,control,params)
 
+		railing
+			opacity = 0
+			density = 0
+			pixel_y = 40
+			block   = 0
+			icon = 'fence.dmi'
+			icon_state = "10"
+			canClear = 1
 
+			updateState()
+				..()
+
+				var/num = text2num(icon_state)
+
+				if(!(num & 4)) icon_state = "[num + 4]"
 
 		New()
 			set waitfor = 0
@@ -734,9 +750,10 @@ obj/buildable
 
 		proc
 			updateState()
-				var/turf/t = loc
-				var/n = t.autojoin1("flyblock", 2)
-				icon_state = "[n]"
+				var/turf/t = pixel_y >= 32 ? locate(x, y+1, z) : loc
+				if(t)
+					var/n = t.autojoin1("flyblock", 2)
+					icon_state = "[n]"
 
 		Dispose()
 			var/turf/t = loc
@@ -1904,15 +1921,33 @@ hudobj
 				screen_x = 64
 				screen_y = 192
 
+			railing
+				icon = 'fence.dmi'
+				icon_state = "10"
+
+				price = 15
+
+				screen_x = 32
+				screen_y = 224
+
+				reqWall = 1
+
+				path = /obj/buildable/wall/railing
+
+				maptext_x = 0
+				maptext_width = 32
+
 			fence
 				icon = 'fence.dmi'
 				icon_state = "10"
 
 				price = 15
-				maptext = "Fence: 15 wood logs"
+				maptext = "Railing/Fence: 15 wood logs"
 
-				screen_x = 32
+				screen_x = 64
 				screen_y = 224
+
+				reqWall = 1
 
 				path = /obj/buildable/wall/fence
 				replace = /obj/buildable/wall/wood
