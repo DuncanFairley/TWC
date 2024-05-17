@@ -9,7 +9,7 @@
 #define winshowRight(player, window) player << output(window,"browser1:ShowRightWindow")
 
 #define VERSION "16.88"
-#define SUB_VERSION "4"
+#define SUB_VERSION "5"
 #define SAVEFILE_VERSION 50
 #define VAULT_VERSION 8
 #define WORLD_VERSION 1
@@ -153,6 +153,12 @@
 #define PAGE_DMG2 8192
 #define PAGE_CD 16384
 #define PAGE_RANGE 32768
+
+// Monster passives
+#define INCREASED_DAMAGE "increased damage"
+#define INCREASED_DEFENSE "increased defense"
+#define CHILL_ON_HIT "chill on hit"
+
 
 
 #if HALLOWEEN
