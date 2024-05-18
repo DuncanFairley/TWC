@@ -1121,7 +1121,7 @@ StatusEffect
 				..()
 				var/mob/Player/p = AttachedAtom
 
-				if(amount >= 99999) p.monsterDef += 1
+				if(amount >= 90000) p.monsterDef += 100
 
 				amount += (potion.quality - 4) * 10
 
@@ -1142,7 +1142,7 @@ StatusEffect
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					if(amount >= 99999) p.monsterDef -= 1
+					if(amount >= 90000) p.monsterDef -= 100
 
 				..()
 
