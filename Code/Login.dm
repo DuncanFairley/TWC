@@ -873,7 +873,7 @@ mob/Player
 					if(p.Gm)
 						p << errormsg("[src.ckey] - [src.name] encountered a save problem, please check it out.")
 
-			sleep(50)
+			sleep(100)
 			loginProtection = 0
 
 		if(Gender=="Female")
