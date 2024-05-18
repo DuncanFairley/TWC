@@ -2865,8 +2865,8 @@ mob/Player
 			return 0
 
 		if(loginProtection)
-			dmg = 0
-			return 0
+			dmg = 1
+
 
 		if((SHIELD_NINJA in passives) && prob(29 + passives[SHIELD_NINJA]))
 			dmg = 0
