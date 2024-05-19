@@ -162,7 +162,7 @@
 #define INCREASED_DEFENSE "increased defense"
 #define CAST_PROJ "casts spells"
 #define CAST_PROJ_SPREAD "casts greater spells"
-
+#define INCREASED_DROPRATE "increased drop rate"
 
 
 #if HALLOWEEN
