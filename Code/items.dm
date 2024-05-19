@@ -111,7 +111,7 @@ area
 
 obj
 	proc
-		Highlight(mob/Player/p, c, time=0)
+		Highlight(mob/Player/p, c, time=0, desc=null)
 			set waitfor = 0
 
 			if(!isplayer(p)) return
@@ -131,6 +131,11 @@ obj
 			i.maptext_width = 320
 			i.maptext = "<b>[name]</b>"
 			i.pixel_y = 0
+			i.appearance_flags = RESET_COLOR
+			i.color = null
+
+			if(desc) i.maptext += "\n[desc]"
+
 		//	i.maptext = "<b>[name]</b>\n"
 
 		/*	var/info = "<b>[name]</b>\n[GetDesc()]"

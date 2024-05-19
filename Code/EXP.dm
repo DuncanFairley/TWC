@@ -217,6 +217,15 @@ obj
 				accioable = 0
 				wlable = 0
 
+		MouseEntered(location,control,params)
+			Highlight(usr, "#00a5ff", desc="Spell: [spell:name]")
+
+		MouseExited(location,control,params)
+			var/mob/Player/p = usr
+			if(p.highlight)
+				p.client.images -= p.highlight
+				p.highlight = null
+
 
 		Click()
 			..()
