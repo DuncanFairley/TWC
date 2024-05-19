@@ -2716,7 +2716,7 @@ proc
 								 speed  = 5,
 								 life   = new /Random(5,10))
 
-						if(E.hardmode > 2 && prob(E.hardmode))
+						if(E.hardmode >= 4 && prob(E.hardmode))
 							var/pas = MONSTER_PASSIVE_LIST
 							E.passives = list()
 
