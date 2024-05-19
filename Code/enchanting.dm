@@ -596,7 +596,7 @@ obj/blacksmith
 
 	collection
 
-		desc = "Place a legendary item to feed it to your collection bracelet (10 artifacts)"
+		desc = "Feed a legendary item to your collection bracelet (200 artifacts)"
 
 		Click()
 			if(src in oview(3))
@@ -789,7 +789,7 @@ obj/blacksmith
 
 	stat_randomizer
 
-		desc = "Place an item (cursed items) you wish to randomize stats of in the red square. (5 artifacts)"
+		desc = "Place an item (cursed items) you wish to randomize (5 artifacts)"
 
 		var/free = 0
 
@@ -853,7 +853,7 @@ obj/blacksmith
 
 	upgrade
 
-		desc = "Place an item you wish to upgrade in the red square."
+		desc = "Place an item you wish to upgrade"
 
 		var/max_upgrade = 15
 
