@@ -521,6 +521,9 @@ mob
 				CONTROLLED = 8
 				AGGRO      = 16
 
+				FIRED_PROJ        = 1
+				FIRED_PROJ_SPREAD = 2
+
 			tmp
 				state = INACTIVE
 				list
@@ -529,6 +532,7 @@ mob
 				hardmode = 0
 				slow = 0
 				stun = 0
+				cooldowns = 0
 
 				revenge
 
@@ -829,6 +833,9 @@ mob
 
 			if(hardmode)
 				rate += hardmode * 0.5
+
+			if(passives)
+				rate += passives.len * 0.3
 
 			if(killer.dungeon)
 				rate += killer.dungeon.DropRate
@@ -1285,6 +1292,41 @@ mob
 
 			p.Death_Check(src)
 
+
+		proc/CastProj(cd=20)
+			set waitfor = 0
+			if(cooldowns & FIRED_PROJ) return
+			if(prob(75)) return
+			cooldowns |= FIRED_PROJ
+
+			var/dmg = Dmg + rand(-4,8)
+
+			if(hardmode)
+				dmg = getHardmodeDamage(dmg)
+
+			dir=get_dir(src, target)
+			castproj(icon_state = pick("fireball", "quake", "aqua", "iceball", "gum"), damage = dmg, name = "spell")
+
+			sleep(cd)
+			cooldowns &= ~FIRED_PROJ
+
+		proc/CastProjSpread(cd=40)
+			set waitfor = 0
+			if(cooldowns & FIRED_PROJ_SPREAD) return
+			if(prob(75)) return
+			cooldowns |= FIRED_PROJ_SPREAD
+
+			var/dmg = Dmg + rand(-4,8)
+
+			if(hardmode)
+				dmg = getHardmodeDamage(dmg)
+
+			for(var/di in DIRS_LIST)
+				castproj(icon_state = pick("fireball", "quake", "aqua", "iceball", "gum"), damage = Dmg, name = "spell", cd = 0, lag = 1, Dir=di)
+
+			sleep(cd)
+			cooldowns &= ~FIRED_PROJ_SPREAD
+
 		proc/Attack()
 
 			if(prob(20))
@@ -1309,6 +1351,12 @@ mob
 				if(!target)
 					ShouldIBeActive()
 					return
+
+			if(CAST_PROJ in passives)
+				CastProj(passives[CAST_PROJ])
+
+			if(CAST_PROJ_SPREAD in passives)
+				CastProjSpread(passives[CAST_PROJ_SPREAD])
 
 			if(distance > 1)
 				var/area/newareas/a = loc.loc

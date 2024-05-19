@@ -2716,6 +2716,23 @@ proc
 								 speed  = 5,
 								 life   = new /Random(5,10))
 
+						if(E.hardmode > 2 && prob(E.hardmode))
+							var/pas = MONSTER_PASSIVE_LIST
+							E.passives = list()
+
+							for(var/i = 1 to (E.hardmode - 2) / 2)
+								var/j = pick(pas)
+								pas -= j
+
+								E.passives[j] = rand(20,60)
+
+							var/colors = list("#0e0","#00a5ff","#ffa500","#551a8b")
+
+							E.filters += filter(type="rays", size=32, y=0, x=0, offset=0, color=colors[E.passives.len])
+
+						else
+							E.passives = null
+
 			else
 				E.loc = null
 				if(E.hpbar)

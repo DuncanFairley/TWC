@@ -2509,8 +2509,7 @@ mob
 							attackType = /obj/projectile
 
 						if(prob(5))
-							var/list/dirs = list(NORTH, SOUTH, EAST, WEST, NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST)
-							for(var/di in dirs)
+							for(var/di in DIRS_LIST)
 								castproj(Type = attackType, icon_state = ic ? ic : "fireball", damage = Dmg, name = n ? n : "Incindia", cd = 0, lag = 1, Dir=di)
 						else
 							dir=get_dir(src, target)

@@ -2907,6 +2907,9 @@ mob/Player
 
 			dmg *= 1 - min(mdef/100, monsterDefLimit)
 
+			if(INCREASED_DAMAGE in attacker:passives)
+				dmg *= 1 + (attacker:passives[INCREASED_DAMAGE] / 100)
+
 		if(SHIELD_MPDAMAGE in passives)
 			var/r = min(round(dmg * (0.4 + ((passives[SHIELD_MPDAMAGE] - 1) / 100)), 1), MP)
 			dmg -= r
@@ -3064,6 +3067,9 @@ mob/Enemies
 		dmg += p.Slayer.level
 		dmg *= 1 + min(p.monsterDmg/100, monsterDmgLimit)
 		dmg *= damageMod
+
+		if(INCREASED_DEFENSE in passives)
+			dmg *= 1 - (passives[INCREASED_DEFENSE] / 100)
 
 		if(hardmode > 5)
 			dmg *= 1 - ((hardmode - 5) * 5 / 100)

@@ -155,9 +155,13 @@
 #define PAGE_RANGE 32768
 
 // Monster passives
+#define MONSTER_PASSIVE_LIST list(INCREASED_DAMAGE,INCREASED_DEFENSE,CAST_PROJ,CAST_PROJ_SPREAD)
+
+
 #define INCREASED_DAMAGE "increased damage"
 #define INCREASED_DEFENSE "increased defense"
-#define CHILL_ON_HIT "chill on hit"
+#define CAST_PROJ "casts spells"
+#define CAST_PROJ_SPREAD "casts greater spells"
 
 
 
