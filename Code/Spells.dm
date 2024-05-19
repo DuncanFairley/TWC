@@ -2892,11 +2892,6 @@ mob/Player
 
 			return 0
 
-		if((SHIELD_MP in passives) && MP < MMP)
-			var/regen = round(dmg * (0.5 + ((passives[SHIELD_MPDAMAGE] - 1) / 100)) , 1)
-			MP = min(MP + regen, MMP)
-			updateMP()
-
 		if(ismonster(attacker))
 			var/monsterDefLimit = (SHIELD_SOUL in passives) ? 0.9 : 0.75
 
@@ -2909,6 +2904,11 @@ mob/Player
 
 			if(INCREASED_DAMAGE in attacker:passives)
 				dmg *= 1 + (attacker:passives[INCREASED_DAMAGE] / 100)
+
+		if((SHIELD_MP in passives) && MP < MMP)
+			var/regen = round(dmg * (0.5 + ((passives[SHIELD_MP] - 1) / 100)) , 1)
+			MP = min(MP + regen, MMP)
+			updateMP()
 
 		if(SHIELD_MPDAMAGE in passives)
 			var/r = min(round(dmg * (0.4 + ((passives[SHIELD_MPDAMAGE] - 1) / 100)), 1), MP)
