@@ -5157,7 +5157,7 @@ obj/items/colors
 	icyblue_stone
 		reqLevel  = 15
 		icon_state = "blue"
-		projColor = "#368BC1 "
+		projColor = "#368BC1"
 		rarity     = 2
 	indigo_stone
 		reqLevel  = 15

@@ -550,6 +550,12 @@ hudobj
 				var/offset = -36
 				for(var/c in p.holster.colors)
 
+					// temporary fix for icy blue bug
+					if(findtext(c, " "))
+						p.holster.colors -= c
+						c = replacetext(c, " ", "")
+						p.holster.colors += c
+
 					var/selectedColor = c == "blood" ? "#880808" : c
 					var/list/params = list("screen_x" = offset, "color" = selectedColor)
 
