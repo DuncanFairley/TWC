@@ -1947,8 +1947,6 @@ hudobj
 				screen_x = 64
 				screen_y = 224
 
-				reqWall = 1
-
 				path = /obj/buildable/wall/fence
 				replace = /obj/buildable/wall/wood
 
