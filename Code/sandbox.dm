@@ -961,6 +961,7 @@ obj/buildable
 			else
 				..()
 	hammer_totem
+		name = "pet totem"
 		var/tmp/list/pets
 
 		mouse_over_pointer = MOUSE_HAND_POINTER
