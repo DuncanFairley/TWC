@@ -702,8 +702,10 @@ StatusEffect
 
 	Potions
 		var/obj/items/potions/potion
+		var/quality
 		New(atom/pAttachedAtom,t,cooldownname,obj/items/potions/p)
 			potion = p
+			quality = p.quality
 			.=..()
 
 		Activate()
@@ -826,7 +828,7 @@ StatusEffect
 
 				for(var/passive in passives)
 					if(!p.passives) p.passives = list()
-					p.passives[passive] += potion.quality
+					p.passives[passive] += quality
 
 
 			Deactivate()
@@ -835,7 +837,7 @@ StatusEffect
 
 					for(var/passive in passives)
 
-						p.passives[passive] -= potion.quality
+						p.passives[passive] -= quality
 						if(p.passives[passive] <= 0) p.passives -= passive
 						if(!p.passives.len) p.passives = null
 
@@ -963,7 +965,7 @@ StatusEffect
 			var/factor = 3
 
 			Activate()
-				factor = factor * (1 + (potion.quality - 4) * 0.3)
+				factor = factor * (1 + (quality - 4) * 0.3)
 
 				..()
 
@@ -1004,14 +1006,14 @@ StatusEffect
 			Activate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.Armor += 400 + (potion.quality - 4) * 100
+					p.Armor += 400 + (quality - 4) * 100
 
 				..()
 
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.Armor -= 400 + (potion.quality - 4) * 100
+					p.Armor -= 400 + (quality - 4) * 100
 
 				..()
 
@@ -1019,14 +1021,14 @@ StatusEffect
 			Activate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDmg += 270 + (potion.quality - 4) * 60
+					p.clothDmg += 270 + (quality - 4) * 60
 
 				..()
 
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDmg -= 270 + (potion.quality - 4) * 60
+					p.clothDmg -= 270 + (quality - 4) * 60
 
 				..()
 
@@ -1034,7 +1036,7 @@ StatusEffect
 			Activate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDef += 810 + (potion.quality - 4) * 180
+					p.clothDef += 810 + (quality - 4) * 180
 					p.resetMaxHP()
 
 				..()
@@ -1042,7 +1044,7 @@ StatusEffect
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDef -= 810 + (potion.quality - 4) * 180
+					p.clothDef -= 810 + (quality - 4) * 180
 					p.resetMaxHP()
 
 				..()
@@ -1123,7 +1125,7 @@ StatusEffect
 
 				if(amount >= 90000) p.monsterDef += 100
 
-				amount += (potion.quality - 4) * 10
+				amount += (quality - 4) * 10
 
 				while(p)
 					p.HP = min(p.HP + amount + rand(-10, 10), p.MHP)
@@ -1155,7 +1157,7 @@ StatusEffect
 				..()
 				var/mob/Player/p = AttachedAtom
 
-				amount += (potion.quality - 4) * 10
+				amount += (quality - 4) * 10
 
 				while(p)
 					p.MP = min(p.MP + amount + rand(-10, 10), p.MMP)

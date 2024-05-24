@@ -2804,6 +2804,7 @@ mob/Player
 		var/px = 0
 		var/py = 64
 		for(var/i = 0 to totalTime step 5)
+			if(!wand) break
 			var/index = time.Find("[i]")
 			if(index)
 				var/txt = splittext(time["[i]"], ",")
@@ -3794,7 +3795,7 @@ obj
 			Move()
 				..()
 
-				var/step = 20 / (MAX_VELOCITY - velocity)
+				var/step = 20 / max(MAX_VELOCITY - velocity, 1)
 
 				time += (max_time - min_time) / step
 

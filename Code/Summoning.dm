@@ -158,6 +158,9 @@ obj/summon
 			if(a.antiSummon)
 				src.loc = null
 				return
+		if(!p)
+			Dispose()
+			return
 
 		summoner = p
 		cast = spell
