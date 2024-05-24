@@ -225,6 +225,8 @@ obj/teleport
 						o.Move(t)
 					M.addToVault = null
 
+				M.DisplayPets(1)
+
 			else
 				M << npcsay("Vault Master: You don't have a vault here, [M]. Come speak to me and let's see if we can change that.")
 	leavevault

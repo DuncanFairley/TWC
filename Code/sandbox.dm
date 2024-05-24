@@ -2206,7 +2206,7 @@ hudobj
 				screen_x = 32
 				screen_y = 224
 
-				inVault = 0
+				inVault = 1
 
 		utility
 			male_statue

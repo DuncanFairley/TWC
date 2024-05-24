@@ -722,9 +722,13 @@ obj/pet
 			shadow.loc = null
 			shadow     = null
 
-mob/Player/proc/DisplayPets()
+mob/Player/proc/DisplayPets(fromVault=0)
 	var/obj/buildable/hammer_totem/o = locate("pet_[ckey]")
 	if(o)
+		if(fromVault)
+			if(!o.loc:isVault) return
+			if(o.pets)         return
+
 		o.pets = list()
 		for(var/obj/items/wearable/pets/i in src)
 			if(i in Lwearing) continue
