@@ -360,6 +360,11 @@ proc/updateVault(swapmap/map, owner, version)
 					var/list/split = splittext(w.name, " +")
 					w.name = split[1]
 
+	if(version < 9)
+		for(var/turf/buildable/t in map.AllTurfs())
+			for(var/obj/buildable/door/d in t)
+				d.vaultOwner = owner
+
 mob/GM/verb/UnloadMap()
 	set category = "Custom Maps"
 	if(!length(loadedMaps))

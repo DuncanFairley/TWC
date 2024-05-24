@@ -469,6 +469,10 @@ turf/buildable
 				Clear(p.buildItem.clear, 1 + p.buildItem.reqWall)
 				var/obj/buildable/wall/o = new p.buildItem.path(src)
 
+				if(isVault && istype(o, /obj/buildable/door))
+					var/obj/buildable/door/d = o
+					d.vaultOwner = usr.ckey
+
 				if(istype(o, /obj/buildable/wall) || istype(o, /obj/buildable/door/secret))
 					if(o.density)
 						o.hp = 10000
@@ -764,12 +768,18 @@ obj/buildable
 
 	door
 		canHeal = 1
-		hp    = 50000
-		maxhp = 50000
-		rate = 10000
-		block = 1
+		hp      = 50000
+		maxhp   = 50000
+		rate    = 10000
+		block   = 1
+		opacity = 1
 
-		var/tmp/open = 0
+
+		var
+			tmp/open = 0
+			door = 1
+			claimed
+			vaultOwner
 
 		wood
 			icon='Door.dmi'
@@ -808,10 +818,15 @@ obj/buildable
 
 			Bumped(mob/Player/p)
 
-				for(var/obj/buildable/shield_totem/c in range(10, src))
-					if(!c.allowed) continue
-					if(usr.ckey in c.allowed) continue
-					return
+
+				if(vaultOwner)
+					if(claimed && usr.ckey != claimed && usr.ckey != vaultOwner)
+						return
+				else
+					for(var/obj/buildable/shield_totem/c in range(10, src))
+						if(!c.allowed) continue
+						if(usr.ckey in c.allowed) continue
+						return
 
 				if(!open)
 					open = 1
@@ -835,16 +850,16 @@ obj/buildable
 					var/n = t.autojoin1("flyblock", 2)
 					icon_state = "[n]"
 
-		opacity=1
-
-		var/door = 1
-
 		proc/Bumped(mob/Player/p)
 
-			for(var/obj/buildable/shield_totem/c in range(10, src))
-				if(!c.allowed) continue
-				if(usr.ckey in c.allowed) continue
-				return
+			if(vaultOwner)
+				if(claimed && usr.ckey != claimed && usr.ckey != vaultOwner)
+					return
+			else
+				for(var/obj/buildable/shield_totem/c in range(10, src))
+					if(!c.allowed) continue
+					if(usr.ckey in c.allowed) continue
+					return
 
 			if(icon_state != "open")
 				flick("opening", src)
@@ -873,6 +888,20 @@ obj/buildable
 			density    = 1
 			icon_state = "closed"
 			opacity    = 1
+
+			if(!vaultOwner)
+				verbs -= /obj/buildable/door/verb/Claim
+
+		verb/Claim()
+			set src in oview(1)
+
+			if(!claimed)
+				claimed = usr.ckey
+				usr << infomsg("This door will now open only to you")
+
+			else if(vaultOwner == usr.ckey || claimed == usr.ckey)
+				claimed = null
+				usr << infomsg("This door is now unclaimed")
 
 	shield_totem
 		var/list/allowed
