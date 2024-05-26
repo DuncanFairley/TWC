@@ -2733,7 +2733,7 @@ proc
 								var/j = pick(pas)
 								pas -= j
 
-								E.passives[j] = rand(10,100)
+								E.passives[j] = rand(10, E.hardmode * 10)
 
 							var/colors = list("#0e0","#00a5ff","#ffa500","#551a8b")
 
