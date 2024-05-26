@@ -671,6 +671,51 @@ obj/blacksmith
 				a.Consume(price)
 
 
+	hammer_upgrade
+		desc = "Place an item (cursed items) you wish to upgrade (hammer of variety)"
+
+		smith(obj/items/wearable/i, mob/Player/p)
+
+			if(!i.effects)
+				p << errormsg("[i.name] can't be upgraded.")
+				return
+
+			if(i.bonus & i.EXTRA_STAT)
+				p << errormsg("[i.name] is already upgraded.")
+				return
+
+			if(checkPrice(p, 1 + i.effects.len, 1))
+
+				i.bonus |= i.EXTRA_STAT
+
+				Randomize(i)
+
+				emit(loc    = src,
+					 ptype  = /obj/particle/magic,
+				     amount = 50,
+				     angle  = new /Random(1, 359),
+				     speed  = 2,
+				     life   = new /Random(15,25))
+
+
+		checkPrice(mob/Player/p, price, consume=0)
+			. = 1
+			var/obj/items/hammer_of_variety/s = locate() in p
+
+			if(!s || s.stack < price)
+				p << errormsg("You need [price] hammer of variety to upgrade. You have [s ? s.stack : "0"].")
+				. = 0
+
+			if(. && consume)
+				s.Consume(price)
+
+				emit(loc    = src,
+					 ptype  = /obj/particle/magic,
+				     amount = 50,
+				     angle  = new /Random(1, 359),
+				     speed  = 2)
+
+
 	crystal_upgrade
 		searchType = /obj/items/crystal
 		desc = "Place a crystal to upgrade (1 scroll of knowledge)"
@@ -787,6 +832,39 @@ obj/blacksmith
 			if(. && consume)
 				a.Consume(price)
 
+	proc/Randomize(obj/items/wearable/i, mob/Player/p)
+		i.scale = initial(i.scale)
+
+		if(findtext(i.name, "cursed "))
+			i.name = initial(i.name)
+
+			if(i.quality >= 15)
+				i.Upgrade(10, random=0)
+			else
+				i.Upgrade(5 + rand(0, 5))
+
+		else if(findtext(i.name, "hallowed "))
+			i.name = initial(i.name)
+
+			if(i.quality >= 15)
+				i.Upgrade(15, 3, 0)
+			else
+				i.Upgrade(10 + rand(0, 5), 3)
+
+		else if(findtext(i.name, "divine "))
+			i.name = initial(i.name)
+
+			i.Upgrade(20, 4, 0)
+
+
+		if(i.quality)
+			i.name = "[i.name] +[i.quality]"
+
+		p << infomsg("New stats of [i.name]:\n+[i.power] Legendary Effect")
+
+		for(var/e in i.effects)
+			p << infomsg("+[i.effects[e]] [getStatName(e)]")
+
 	stat_randomizer
 
 		desc = "Place an item (cursed items) you wish to randomize (5 artifacts)"
@@ -801,37 +879,7 @@ obj/blacksmith
 
 			if(free || checkPrice(p, 5, 1))
 
-				i.scale = initial(i.scale)
-
-				if(findtext(i.name, "cursed "))
-					i.name = initial(i.name)
-
-					if(i.quality >= 15)
-						i.Upgrade(10, random=0)
-					else
-						i.Upgrade(5 + rand(0, 5))
-
-				else if(findtext(i.name, "hallowed "))
-					i.name = initial(i.name)
-
-					if(i.quality >= 15)
-						i.Upgrade(15, 3, 0)
-					else
-						i.Upgrade(10 + rand(0, 5), 3)
-
-				else if(findtext(i.name, "divine "))
-					i.name = initial(i.name)
-
-					i.Upgrade(20, 4, 0)
-
-
-				if(i.quality)
-					i.name = "[i.name] +[i.quality]"
-
-				p << infomsg("New stats of [i.name]:\n+[i.power] Legendary Effect")
-
-				for(var/e in i.effects)
-					p << infomsg("+[i.effects[e]] [getStatName(e)]")
+				Randomize(i, p)
 
 				emit(loc    = src,
 					 ptype  = /obj/particle/magic,

@@ -3,6 +3,7 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 
 "legendary"          = list(/obj/items/crystal/soul,
 							/obj/items/artifact,
+							/obj/items/hammer_of_variety,
 							/obj/items/mystery_key,
 						    /obj/items/wearable/orb/magic,
 							/obj/items/wearable/orb/magic/greater,

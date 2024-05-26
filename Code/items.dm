@@ -835,11 +835,12 @@ obj/items/wearable
 
 	var
 		const
-			NOUPGRADE = -1 // -1 can't be upgraded
-			UPGRADE   = 0  // 0  can be upgraded
-			DAMAGE    = 1  // 1 damage
-			DEFENSE   = 2  // 2 defense
-			NOENCHANT = 4
+			NOUPGRADE  = -1 // -1 can't be upgraded
+			UPGRADE    = 0  // 0  can be upgraded
+			DAMAGE     = 1  // 1 damage
+			DEFENSE    = 2  // 2 defense
+			NOENCHANT  = 4
+			EXTRA_STAT = 8
 
 		bonus   = NOUPGRADE
 		quality = 0
@@ -992,6 +993,8 @@ obj/items/wearable
 			power = basePower
 
 			effects = list()
+
+			if(bonus & EXTRA_STAT) stats++
 
 			for(var/s = 1 to stats)
 				var/stat = pick("monsterDef", "monsterDmg",	"dropRate",	"clothDmg", "clothDef", "extraMP", "extraLimit", "extraMPRegen", "Armor", "extraHPRegen")
@@ -3684,6 +3687,11 @@ obj/items/scroll_of_knowledge
 	icon       = 'Scroll.dmi'
 	icon_state = "magic"
 	rarity     = 3
+
+obj/items/hammer_of_variety
+	icon       = 'trophies.dmi'
+	icon_state = "hammer"
+	rarity     = 4
 
 
 obj/items/lamps
