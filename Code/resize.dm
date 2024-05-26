@@ -674,11 +674,16 @@ hudobj
 
 		var/itemType
 
-		MouseEntered()
-			transform *= 1.25
+		MouseEntered(location,control,params)
+	//		transform *= 1.25
+			Highlight(usr, "#00a5ff", px=-70,py=48)
 
-		MouseExited()
-			transform = null
+		MouseExited(location,control,params)
+	//		transform = null
+			var/mob/Player/p = usr
+			if(p.highlight)
+				p.client.images -= p.highlight
+				p.highlight = null
 
 		Click()
 			var/mob/Player/p = usr

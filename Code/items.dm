@@ -111,7 +111,7 @@ area
 
 obj
 	proc
-		Highlight(mob/Player/p, c, time=0, desc=null)
+		Highlight(mob/Player/p, c, time=0, desc=null,px=0,py=0)
 			set waitfor = 0
 
 			if(!isplayer(p)) return
@@ -126,13 +126,15 @@ obj
 
 			i.filters = filter(type="drop_shadow", size=1, y=0, x=0, offset=2, color=c)
 
-			i.maptext_x = 36
-			i.maptext_y = 8
+			i.maptext_x = 36 + px
+			i.maptext_y = 8 + py
 			i.maptext_width = 320
 			i.maptext = "<b>[name]</b>"
 			i.pixel_y = 0
+			i.pixel_x = 0
 			i.appearance_flags = RESET_COLOR
 			i.color = null
+			i.mouse_opacity = 0
 
 			if(desc) i.maptext += "\n[desc]"
 
@@ -6495,6 +6497,14 @@ obj/items/wearable/collector
 			if(!owner.passives) owner.passives = list()
 			owner.passives[w.passive] += 1
 
+		if(w.passive == RING_DUAL_SWORD)
+			for(var/obj/items/wearable/shield/W in owner.Lwearing)
+				W.Equip(owner,1,1)
+
+		else if(w.passive == RING_DUAL_SHIELD)
+			for(var/obj/items/wearable/sword/W in owner.Lwearing)
+				W.Equip(owner,1,1)
+
 	proc/remove(mob/Player/owner, t)
 		var/obj/items/wearable/w = itemInfo[t]
 
@@ -6516,3 +6526,17 @@ obj/items/wearable/collector
 			owner.passives[w.passive] -= 1
 			if(owner.passives[w.passive] <= 0) owner.passives -= w.passive
 			if(!owner.passives.len) owner.passives = null
+
+		if(w.passive == RING_DUAL_SWORD)
+			var/i = 0
+			for(var/obj/items/wearable/sword/W in owner.Lwearing)
+				i++
+				if(i >= 2)
+					W.Equip(owner,1,1)
+
+		else if(w.passive == RING_DUAL_SHIELD)
+			var/i = 0
+			for(var/obj/items/wearable/sword/W in owner.Lwearing)
+				i++
+				if(i >= 2)
+					W.Equip(owner,1,1)
