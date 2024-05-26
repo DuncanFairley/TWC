@@ -1413,7 +1413,7 @@ mob
 				CastMeteor(passives[CAST_METEOR])
 
 			if(CAST_TORNADO in passives)
-				CastTornado(passives[FIRED_TORNADO])
+				CastTornado(passives[CAST_TORNADO])
 
 			if(distance > 1)
 				var/area/newareas/a = loc.loc
