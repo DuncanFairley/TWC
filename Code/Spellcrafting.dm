@@ -1,5 +1,6 @@
 
 mob/Player/var/tmp/obj/items/wearable/spellbook/usedSpellbook
+mob/Player/var/tmp/SpellbookLastUsed = 0
 
 obj/items/wearable/spellbook
 	var
@@ -11,8 +12,6 @@ obj/items/wearable/spellbook
 		element   = 0
 		mpCost    = 1
 		maxPages  = 2
-
-		tmp/lastUsed = 0
 
 	icon       = 'Books.dmi'
 	icon_state = "spell"
@@ -169,9 +168,9 @@ obj/items/wearable/spellbook
 			p << errormsg("You can't directly cast this spell.")
 			return
 
-		if(world.time - lastUsed <= cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
+		if(world.time - p.SpellbookLastUsed <= cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier)
 			if(cd > 10 && !attacker)
-				var/timeleft = ceil((lastUsed+cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier - world.time)/10)
+				var/timeleft = ceil((p.SpellbookLastUsed+cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier - world.time)/10)
 				p << "<b>This can't be used for another [timeleft] second[timeleft==1 ? "" : "s"].</b>"
 			return
 
@@ -186,7 +185,7 @@ obj/items/wearable/spellbook
 		p.MP-=mpCost
 		p.updateMP()
 
-		lastUsed = world.time
+		p.SpellbookLastUsed = world.time
 
 		var/t = cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier
 		if(t > 10)
