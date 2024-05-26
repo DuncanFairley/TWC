@@ -243,14 +243,8 @@ Event
 				var/list/guilds = list()
 				for(var/id in worldData.guilds)
 					var/guild/g = worldData.guilds[id]
-					guilds[id] = g.Score()
 
-				quicksortValue(guilds)
-
-				var/chaosIndex = -1
-				for(var/i = 1 to guilds.len)
 					var/isActive = 0
-					var/guild/g = worldData.guilds[guilds[i]]
 					for(var/member in g.members)
 						var/PlayerData/p = worldData.playersData[member]
 						if(world.realtime - p.time <= 12096000)
@@ -258,23 +252,19 @@ Event
 							break
 
 					if(isActive)
-						chaosIndex = i
-						worldData.majorChaos = guilds[i]
-						break
+						guilds[id] = g.Score()
 
-				if(chaosIndex > 0 && chaosIndex != guilds.len)
-					for(var/i = guilds.len to chaosIndex step -1)
-						var/isActive = 0
-						var/guild/g = worldData.guilds[guilds[i]]
-						for(var/member in g.members)
-							var/PlayerData/p = worldData.playersData[member]
-							if(world.realtime - p.time <= 12096000)
-								isActive = 1
-								break
+				quicksortValue(guilds)
 
-						if(isActive)
-							worldData.majorPeace = guilds[i]
-							break
+				if(guilds[guilds[1]] <= -100)
+					worldData.majorChaos = guilds[1]
+				else
+					worldData.majorChaos = null
+
+				if(guilds[guilds[guilds.len]] >= 100)
+					worldData.majorPeace = guilds[guilds.len]
+				else
+					worldData.majorPeace = null
 
 			// rep/fame decay + clean player data
 			cleanPlayerData(1)
