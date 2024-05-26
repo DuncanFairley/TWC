@@ -2904,7 +2904,8 @@ mob/Player
 			dmg *= 1 - min(mdef/100, monsterDefLimit)
 
 			if(INCREASED_DAMAGE in attacker:passives)
-				dmg *= 1 + (attacker:passives[INCREASED_DAMAGE] / 100)
+				var/rate = min(attacker:passives[INCREASED_DAMAGE], 80)
+				dmg *= 1 + (rate / 100)
 
 		if((SHIELD_MP in passives) && MP < MMP)
 			var/regen = round(dmg * (0.5 + ((passives[SHIELD_MP] - 1) / 100)) , 1)
@@ -3070,7 +3071,8 @@ mob/Enemies
 		dmg *= damageMod
 
 		if(INCREASED_DEFENSE in passives)
-			dmg *= 1 - (passives[INCREASED_DEFENSE] / 100)
+			var/rate = min(passives[INCREASED_DEFENSE], 80)
+			dmg *= 1 - (rate / 100)
 
 		if(hardmode > 5)
 			dmg *= 1 - ((hardmode - 5) * 5 / 100)

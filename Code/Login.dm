@@ -2725,7 +2725,7 @@ proc
 								 speed  = 5,
 								 life   = new /Random(5,10))
 
-						if(E.hardmode >= 2 && prob(E.hardmode * 2))
+						if(E.hardmode >= 2 && prob(E.hardmode * 1.5))
 							var/pas = MONSTER_PASSIVE_LIST
 							E.passives = list()
 
@@ -2733,7 +2733,7 @@ proc
 								var/j = pick(pas)
 								pas -= j
 
-								E.passives[j] = rand(20,100)
+								E.passives[j] = rand(10,100)
 
 							var/colors = list("#0e0","#00a5ff","#ffa500","#551a8b")
 

@@ -1295,10 +1295,10 @@ mob
 			p.Death_Check(src)
 
 
-		proc/CastProj(cd=20)
+		proc/CastProj(cd=20, min=20, max=100)
 			set waitfor = 0
 			if(cooldowns & FIRED_PROJ) return
-			if(prob(30)) return
+			if(prob(35)) return
 			cooldowns |= FIRED_PROJ
 
 			var/dmg = Dmg + rand(-4,8)
@@ -1309,13 +1309,16 @@ mob
 			dir=get_dir(src, target)
 			castproj(icon_state = pick("fireball", "quake", "aqua", "iceball", "gum"), damage = dmg, name = "spell")
 
+			cd = min(max, cd)
+			cd = max(min, cd)
+
 			sleep(cd)
 			cooldowns &= ~FIRED_PROJ
 
-		proc/CastProjSpread(cd=40)
+		proc/CastProjSpread(cd=40, min=30, max=100)
 			set waitfor = 0
 			if(cooldowns & FIRED_PROJ_SPREAD) return
-			if(prob(30)) return
+			if(prob(35)) return
 			cooldowns |= FIRED_PROJ_SPREAD
 
 			var/dmg = Dmg + rand(-4,8)
@@ -1326,14 +1329,17 @@ mob
 			for(var/di in DIRS_LIST)
 				castproj(icon_state = pick("fireball", "quake", "aqua", "iceball", "gum"), damage = Dmg, name = "spell", cd = 0, lag = 1, Dir=di)
 
+			cd = min(max, cd)
+			cd = max(min, cd)
+
 			sleep(cd)
 			cooldowns &= ~FIRED_PROJ_SPREAD
 
-		proc/CastMeteor(cd=40)
+		proc/CastMeteor(cd=40, min=50, max=100)
 			set waitfor = 0
 
 			if(cooldowns & FIRED_METEOR) return
-			if(prob(30)) return
+			if(prob(35)) return
 			cooldowns |= FIRED_METEOR
 
 			var/dmg = Dmg + rand(-4,8)
@@ -1341,17 +1347,21 @@ mob
 			if(hardmode)
 				dmg = getHardmodeDamage(dmg)
 
-			var/obj/projectile/Meteor/m = new (target ? target.loc : loc, src, dmg, pick("fireball", "quake", "aqua", "iceball", "gum"), "spell", element)
-			m.range = pick(3,5,7)
+			var/state = pick("fireball", "quake", "aqua", "iceball", "gum")
+			var/obj/projectile/Meteor/m = new (target ? target.loc : loc, src, dmg*0.75, state, "spell", element)
+			m.range = pick(3,5)
+
+			cd = min(max, cd)
+			cd = max(min, cd)
 
 			sleep(cd)
 			cooldowns &= ~FIRED_METEOR
 
-		proc/CastTornado(cd=40)
+		proc/CastTornado(cd=40, min=40, max=100)
 			set waitfor = 0
 
 			if(cooldowns & FIRED_TORNADO) return
-			if(prob(30)) return
+			if(prob(35)) return
 			cooldowns |= FIRED_TORNADO
 
 			var/dmg = Dmg + rand(-4,8)
@@ -1361,6 +1371,9 @@ mob
 
 			var/state = pick("fireball", "quake", "aqua", "iceball", "gum")
 			castproj(Type = /obj/projectile/NoImpact/Dir/Tornado, name = "[state] tornado", icon_state = state, damage = dmg, element = element, Dir = target ? get_dir(src, target) : dir, cd = 0, lag = 3, learn=0)
+
+			cd = min(max, cd)
+			cd = max(min, cd)
 
 			sleep(cd)
 			cooldowns &= ~FIRED_TORNADO
@@ -1399,7 +1412,7 @@ mob
 			if(CAST_METEOR in passives)
 				CastMeteor(passives[CAST_METEOR])
 
-			if(FIRED_TORNADO in passives)
+			if(CAST_TORNADO in passives)
 				CastTornado(passives[FIRED_TORNADO])
 
 			if(distance > 1)
