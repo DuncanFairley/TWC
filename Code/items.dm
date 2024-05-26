@@ -6536,7 +6536,7 @@ obj/items/wearable/collector
 
 		else if(w.passive == RING_DUAL_SHIELD)
 			var/i = 0
-			for(var/obj/items/wearable/sword/W in owner.Lwearing)
+			for(var/obj/items/wearable/shield/W in owner.Lwearing)
 				i++
 				if(i >= 2)
 					W.Equip(owner,1,1)
