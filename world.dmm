@@ -2928,6 +2928,7 @@
 "bep" = (/obj/guildPillar,/turf/Red_Carpet,/area/AurorHQ)
 "beq" = (/turf/Staircase2,/area/hogwarts{antiTeleport = 1; antiApparate = 1; planeColor = null; antiFly = 1; respawnPoint = "rorTrainingSpawn"})
 "ber" = (/obj/static_obj/art/Art_Tree,/turf/Hogwarts_Stone_Wall,/area/hogwarts{antiTeleport = 1; antiApparate = 1; planeColor = null; antiFly = 1; respawnPoint = "rorTrainingSpawn"})
+"bes" = (/obj/blacksmith/hammer_upgrade,/turf/blackfloor{color = "#8ff4ce"},/area/hogwarts{antiTeleport = 1; antiTheft = 1; antiApparate = 1; planeColor = null; antiFly = 1})
 "bet" = (/obj/Clock,/turf/Hogwarts_Stone_Wall,/area/hogwarts{antiTeleport = 1; antiApparate = 1; planeColor = null; antiFly = 1; respawnPoint = "rorTrainingSpawn"})
 "bev" = (/obj/teleport/portkey{name = "Fireplace"; icon = 'misc.dmi'; icon_state = "floo fireplace"; dest = "DEHQCenter"},/turf/Hogwarts_Stone_Wall{density = 0; flyblock = 0},/area/safezone/DEHQ)
 "bew" = (/obj/static_obj/Hogwarts_Stone_Arch,/obj/teleport{dest = "to ror training room"},/turf/Black_Tile,/area/hogwarts{antiTeleport = 1; antiApparate = 1; planeColor = null; antiFly = 1; respawnPoint = "rorTrainingSpawn"})
@@ -3123,7 +3124,6 @@
 "bie" = (/turf/Black_Tile{tag = "to ror boss"},/area/hogwarts{antiTeleport = 1; antiApparate = 1; planeColor = null; antiFly = 1; respawnPoint = "rorTrainingSpawn"})
 "bif" = (/obj/teleport{tag = "null"; dest = "from ror boss"},/turf/Black_Tile,/area/hogwarts{antiTeleport = 1; antiApparate = 1; planeColor = null; antiFly = 1})
 "big" = (/obj/questStepTrigger{questName = "Light a Way"},/turf/blankturf,/area)
-"bih" = (/obj/static_obj/WTable,/turf/Black_Tile,/area/hogwarts{antiTeleport = 1; antiTheft = 1; antiApparate = 1; planeColor = null; antiFly = 1})
 "bii" = (/obj/static_obj/Pink_Flowers{name = "Bush"; icon = 'Plants.dmi'; icon_state = "Bush Top Right"; density = 0; layer = 5},/turf/grass,/turf/dirt_west,/turf/dirt_south,/area)
 "bij" = (/turf/lava,/area/hogwarts{antiTeleport = 1; antiApparate = 1; planeColor = null; antiFly = 1; respawnPoint = "CrucioPuzzleRespawn"})
 "bik" = (/obj/static_obj/Gargoyleright,/turf/blackfloor{color = "#8ff4ce"},/area/hogwarts{antiTeleport = 1; antiTheft = 1; antiApparate = 1; planeColor = null; antiFly = 1})
@@ -3142,12 +3142,10 @@
 "bix" = (/obj/static_obj/Pink_Flowers{name = "Bush"; icon = 'Plants.dmi'; icon_state = "Bush Bottom Right"},/turf/grass,/area/newareas/inside/Pumpkin_Pit)
 "biy" = (/mob/Enemies/Pumpkin,/turf/grass,/area/newareas/inside/Pumpkin_Pit)
 "biz" = (/mob/Enemies/Pumpkin{isElite = 1},/turf/grass,/area/newareas/inside/Pumpkin_Pit)
-"biA" = (/obj/chairright,/turf/Black_Tile,/area/hogwarts{antiTeleport = 1; antiTheft = 1; antiApparate = 1; planeColor = null; antiFly = 1})
 "biB" = (/turf/grass,/turf/dirt_west,/area/newareas/inside/Pumpkin_Pit)
 "biC" = (/turf/dirt,/area/newareas/inside/Pumpkin_Pit)
 "biD" = (/turf/grass,/turf/dirt_east,/area/newareas/inside/Pumpkin_Pit)
 "biE" = (/mob/Enemies/Pumpkin,/turf/dirt,/area/newareas/inside/Pumpkin_Pit)
-"biF" = (/obj/chairback,/turf/Black_Tile,/area/hogwarts{antiTeleport = 1; antiTheft = 1; antiApparate = 1; planeColor = null; antiFly = 1})
 "biG" = (/turf/grass,/turf/dirt_south,/area/newareas/inside/Pumpkin_Pit)
 "biH" = (/mob/Enemies/Pumpkin{isElite = 1},/turf/dirt,/area/newareas/inside/Pumpkin_Pit)
 "biI" = (/turf/grass,/turf/dirt_north,/area/newareas/inside/Pumpkin_Pit)
@@ -3801,13 +3799,13 @@ aaGaaMaaMaaMaaMaaMaaMaaMaaMaaMaaMaaGaaaaaaaaaaaaaaaaaaaaaaaPaMmaMmaMmaMmaMmaMmaM
 aaGaaMaaMaaMaaMaaNaaMaaMaaMaaMaaMaaGaaaaaaaaaaaaaaaaaaaaaaaPaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaaPaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaaPaKoaKoaKoaKoaKoaKoaKoaKoaKoaKoaKoaKoaKoaaPaWTaXEbbqaMmaMmaMmbbrbbzbdyaMmaMmaMmbdEbdFbdGaMmaMmaMmbdHbdIbdLaaP
 aaGaaGaaGaaGaaGaaOaaGaaGaaGaaGaaGaaGaaaaaaaaaaaaaaaaaaaaaaaPbdvaMmaMmaMmaMmaMmaMmaMmaMmaMmbieaMmaMmaMmaMmaMmaMmaMmaMmaMmbdvaaPbdvaMmaMmaMmaMmaMmaMmaMmaMmaMmbdxaMmaMmaMmaMmaMmaMmaMmaMmaMmbdvaaPbeRaKoaKoaKoaKoaKobeSaKoaKoaKoaKoaKobeRaaPaMmbdMaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaaP
 aaaaaaaaaaaaaaGaaGaaGaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPbifaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPbeTaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPaaPbeUaaPaaPaaPaaPaaPaaPaaPbdNbdNbdNaMmaMmaMmbdNbdNbdNbdNbdNbdNbdNbdNbdNaMmaMmaMmbdNbdNbdNaaP
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaaPaaPaaaaaaaaaaaaaaPadgbgQadgbhZadeadeadgadeadebhZadgadebgQaaPaaPaaPaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaaPaaPaaaaaaaaaaaaaaaaaPaFuaxQaFubdTbdZbeqaFuaFuaFuaFuaFuaFuaFuaFuaFubdTbdZbeqaFuberaFuaaP
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPadeaoqadebhZadeadeadeadeadebhZaoqadeadeaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPadhaFuadhbdTbdZbeqaFuaFxadhaFubetaFuadhaFxaFubdTbdZbeqadhaFuadhaaP
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbilatabilbhZapLbikapKbipapMbhZaKobiAbihaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaFubewaFubdTbdZbeqaFuaFuaFuaFuaFuaFuaFuaFuaFubdTbdZbeqaFubeBaFuaaP
-aaaaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabigaaaaaPbilbecbilbhZbecbilbecbilbecbhZaKoaKobiFaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaFtbeIaFtaMmaMmaMmbeJbeKbeLbeMbeNbeLbeMbeObeJaMmaMmaMmbePbeQbePaaP
-aaaaabaacaacaacaacaacaacaacaacaacaacaacaacaacaacaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbilbilbilbhZbilbilbilbilbilbhZaKoaKoaKoaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaMmaMmaMmaMmaMmaMmaMmaMmbeVbeWaMmbeVbeWaMmaMmaMmaMmaMmaMmaMmaMmaaP
-aaaaabaacaacaacaacaacaacaacaacaacaacaacaacaacaacaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbjdbjdbjdadgbjdbjdbjdbjdbjdadgaKoaKoaKoaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaMmaMmbeXaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmbeXaMmaMmaaP
-aaaaabaadaadaadaadaadaadaadaadaadaadaadaadaadaadaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbjibjibjiadebjibjibjibjibjiadeaKoaKoaKoaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaMmbeYbeZbfaaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmbeYbeZbfaaMmaaP
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaaPaaPaaaaaaaaaaaaaaPadgbgQadgbhZadeadeadgadeadebhZadgbgQadgaaPaaPaaPaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaaPaaPaaaaaaaaaaaaaaaaaPaFuaxQaFubdTbdZbeqaFuaFuaFuaFuaFuaFuaFuaFuaFubdTbdZbeqaFuberaFuaaP
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPadeaoqadebhZadeadeadeadeadebhZadeaoqadeaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPadhaFuadhbdTbdZbeqaFuaFxadhaFubetaFuadhaFxaFubdTbdZbeqadhaFuadhaaP
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbilatabilbhZapLbikapKbipapMbhZbilbesbilaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaFubewaFubdTbdZbeqaFuaFuaFuaFuaFuaFuaFuaFuaFubdTbdZbeqaFubeBaFuaaP
+aaaaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabigaaaaaPbilbecbilbhZbecbilbecbilbecbhZbilbecbilaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaFtbeIaFtaMmaMmaMmbeJbeKbeLbeMbeNbeLbeMbeObeJaMmaMmaMmbePbeQbePaaP
+aaaaabaacaacaacaacaacaacaacaacaacaacaacaacaacaacaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbilbilbilbhZbilbilbilbilbilbhZbilbilbilaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaMmaMmaMmaMmaMmaMmaMmaMmbeVbeWaMmbeVbeWaMmaMmaMmaMmaMmaMmaMmaMmaaP
+aaaaabaacaacaacaacaacaacaacaacaacaacaacaacaacaacaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbjdbjdbjdadgbjdbjdbjdbjdbjdadgbjdbjdbjdaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaMmaMmbeXaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmbeXaMmaMmaaP
+aaaaabaadaadaadaadaadaadaadaadaadaadaadaadaadaadaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPbjibjibjiadebjibjibjibjibjiadebjibjibjiaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaMmbeYbeZbfaaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmbeYbeZbfaaMmaaP
 aaaaabaadaadaadaadaadaadaadaadaadaaeaaeaaeaadaadaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaKoaKoaKoaOdbjlaKoaKoaKobjlaOdaKoaKoaKoaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaMmaMmbfbaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmbfbaMmaMmaaP
 aaaaabaadaadaadaadaadaadaadaadaafaagaahaaiaajaadaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaKoaKoaKoaKoaKoaKoaKoaKoaKoaKoaKoaKoaKoaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaMmaaP
 aaaaabaadaadaadaadaadaadaadaadaafaakaalaamaajaadaabaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaKoaKoaKoaKoaKoaKoaKoaKoaKoaKoaKoaKoaKoaaPaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaPaMmaMmaMmaMmaMmbfcbfcbfcbfcbfcbfcbfcbfcbfcbfcbfcaMmaMmaMmaMmaMmaaP

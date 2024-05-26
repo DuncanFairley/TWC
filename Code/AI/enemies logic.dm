@@ -1310,7 +1310,7 @@ mob
 			dir=get_dir(src, target)
 			castproj(icon_state = pick("fireball", "quake", "aqua", "iceball", "gum"), damage = dmg, name = "spell")
 
-			cd = ,min + (max - min) * (cd / 100)
+			cd = min + (max - min) * (cd / 100)
 
 			sleep(cd)
 			cooldowns &= ~FIRED_PROJ
@@ -1329,7 +1329,7 @@ mob
 			for(var/di in DIRS_LIST)
 				castproj(icon_state = pick("fireball", "quake", "aqua", "iceball", "gum"), damage = Dmg, name = "spell", cd = 0, lag = 1, Dir=di)
 
-			cd = ,min + (max - min) * (cd / 100)
+			cd = min + (max - min) * (cd / 100)
 
 			sleep(cd)
 			cooldowns &= ~FIRED_PROJ_SPREAD
@@ -1350,7 +1350,7 @@ mob
 			var/obj/projectile/Meteor/m = new (target ? target.loc : loc, src, dmg*0.75, state, "spell", element)
 			m.range = pick(3,5)
 
-			cd = ,min + (max - min) * (cd / 100)
+			cd = min + (max - min) * (cd / 100)
 
 			sleep(cd)
 			cooldowns &= ~FIRED_METEOR
@@ -1370,7 +1370,7 @@ mob
 			var/state = pick("fireball", "quake", "aqua", "iceball", "gum")
 			castproj(Type = /obj/projectile/NoImpact/Dir/Tornado, name = "[state] tornado", icon_state = state, damage = dmg*0.9, element = element, Dir = target ? get_dir(src, target) : dir, cd = 0, lag = 3, learn=0)
 
-			cd = ,min + (max - min) * (cd / 100)
+			cd = min + (max - min) * (cd / 100)
 
 			sleep(cd)
 			cooldowns &= ~FIRED_TORNADO
@@ -1425,7 +1425,7 @@ mob
 
 			vis_contents -= o
 
-			cd = ,min + (max - min) * (cd / 100)
+			cd = min + (max - min) * (cd / 100)
 
 			sleep(cd)
 			cooldowns &= ~FIRED_AURA
