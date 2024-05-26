@@ -89,7 +89,7 @@ mob/Player
 
 			if(world.time - lastCombat > COMBAT_TIME) // disables hp regen in pvp
 
-				var/amount = 10 + MHP * 0.01 + extraHPRegen
+				var/amount = 10 + MHP * 0.05 + extraHPRegen
 				if(animagusOn)
 					amount += 30 + round(level/10)*3 + Animagus.level*3
 
