@@ -245,7 +245,7 @@ Event
 					var/guild/g = worldData.guilds[id]
 					guilds[id] = g.Score()
 
-				quicksort(guilds)
+				quicksortValue(guilds)
 
 				var/chaosIndex = -1
 				for(var/i = 1 to guilds.len)
