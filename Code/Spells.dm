@@ -2904,7 +2904,7 @@ mob/Player
 			dmg *= 1 - min(mdef/100, monsterDefLimit)
 
 			if(INCREASED_DAMAGE in attacker:passives)
-				var/rate = min(attacker:passives[INCREASED_DAMAGE], 80)
+				var/rate = min(attacker:passives[INCREASED_DAMAGE], 75)
 				dmg *= 1 + (rate / 100)
 
 		if((SHIELD_MP in passives) && MP < MMP)
@@ -3071,7 +3071,7 @@ mob/Enemies
 		dmg *= damageMod
 
 		if(INCREASED_DEFENSE in passives)
-			var/rate = min(passives[INCREASED_DEFENSE], 80)
+			var/rate = min(passives[INCREASED_DEFENSE], 75)
 			dmg *= 1 - (rate / 100)
 
 		if(hardmode > 5)
@@ -3917,7 +3917,7 @@ obj
 							while(loc)
 								for(var/mob/Player/e in range(1, src))
 									e.onDamage(damage*0.9, mob, elem=element)
-								sleep(5)
+								sleep(10)
 						else
 							while(loc)
 								for(var/mob/Enemies/e in range(1, src))
