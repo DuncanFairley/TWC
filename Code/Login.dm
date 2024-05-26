@@ -1470,6 +1470,8 @@ mob/Player
 			stat("Cooldown Reduction:","[round(1000 - (cooldownModifier+extraCDR)*1000, 1)/10]%")
 			stat("MP Regeneration:", "[50 + round(level/10)*2 + MPRegen + extraMPRegen]")
 			stat("Armor:", "[Armor]")
+			stat("Monster Damage:", "[monsterDmg]%")
+			stat("Monster Defense:", "[monsterDef]%")
 			stat("Summon Limit:", "[1 + extraLimit + round(Summoning.level / 10)]")
 			if(level >= lvlcap && rankLevel)
 				var/percent = round((rankLevel.exp / rankLevel.maxExp) * 100)
@@ -2723,15 +2725,15 @@ proc
 								 speed  = 5,
 								 life   = new /Random(5,10))
 
-						if(E.hardmode >= 4 && prob(E.hardmode))
+						if(E.hardmode >= 2 && prob(E.hardmode * 2))
 							var/pas = MONSTER_PASSIVE_LIST
 							E.passives = list()
 
-							for(var/i = 1 to (E.hardmode - 2) / 2)
+							for(var/i = 1 to (E.hardmode) / 2)
 								var/j = pick(pas)
 								pas -= j
 
-								E.passives[j] = rand(20,60)
+								E.passives[j] = rand(20,100)
 
 							var/colors = list("#0e0","#00a5ff","#ffa500","#551a8b")
 
