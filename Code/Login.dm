@@ -2735,7 +2735,7 @@ proc
 
 								E.passives[j] = rand(10, E.hardmode * 10)
 
-							var/colors = list("#0e0","#00a5ff","#ffa500","#551a8b")
+							var/colors = list("#0e0","#00a5ff","#ffa500","#551a8b", "#ff0000")
 
 							E.filters += filter(type="rays", size=32, y=0, x=0, offset=0, color=colors[E.passives.len])
 

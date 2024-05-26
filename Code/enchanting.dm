@@ -690,13 +690,6 @@ obj/blacksmith
 
 				Randomize(i)
 
-				emit(loc    = src,
-					 ptype  = /obj/particle/magic,
-				     amount = 50,
-				     angle  = new /Random(1, 359),
-				     speed  = 2,
-				     life   = new /Random(15,25))
-
 
 		checkPrice(mob/Player/p, price, consume=0)
 			. = 1
@@ -713,7 +706,8 @@ obj/blacksmith
 					 ptype  = /obj/particle/magic,
 				     amount = 50,
 				     angle  = new /Random(1, 359),
-				     speed  = 2)
+				     speed  = 2,
+				     life   = new /Random(15,25))
 
 
 	crystal_upgrade
