@@ -684,7 +684,7 @@ obj/blacksmith
 				p << errormsg("[i.name] is already upgraded.")
 				return
 
-			if(checkPrice(p, 1 + i.effects.len, 1))
+			if(checkPrice(p, (2 + i.effects.len)*5, 1))
 
 				i.bonus |= i.EXTRA_STAT
 
