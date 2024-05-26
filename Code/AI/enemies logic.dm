@@ -525,6 +525,7 @@ mob
 				FIRED_PROJ_SPREAD = 2
 				FIRED_METEOR      = 4
 				FIRED_TORNADO     = 8
+				FIRED_AURA        = 16
 
 			tmp
 				state = INACTIVE
@@ -1378,6 +1379,62 @@ mob
 			sleep(cd)
 			cooldowns &= ~FIRED_TORNADO
 
+		proc/CastAura(cd=50, min=50, max=100)
+			set waitfor = 0
+
+			if(cooldowns & FIRED_AURA) return
+			if(prob(35)) return
+			cooldowns |= FIRED_AURA
+
+			var/mutable_appearance/ma = new
+
+			ma.icon = 'attacks.dmi'
+			ma.icon_state = pick("fireball", "quake", "aqua", "iceball", "gum")
+
+			var/range = rand(1, 3)
+			var/dmg = Dmg + rand(-4,8)
+
+			if(hardmode)
+				dmg = getHardmodeDamage(dmg)
+
+			var/list/images = list()
+			for(var/i = 1 to range)
+
+				for(var/d = 0 to 359 step (90 / i))
+					var/matrix/m = matrix()
+					m.Translate(24 * i, 0)
+					ma.transform = turn(m, d)
+
+					images += ma.appearance
+
+			var/obj/o = new
+			o.overlays = images
+
+			var/matrix/m = matrix()
+			m.Turn(90)
+			animate(o, transform = m, time = 10, loop = -1)
+			m.Turn(90)
+			animate(transform = m, time = 10)
+			m.Turn(90)
+			animate(transform = m, time = 10)
+			animate(transform = null, time = 10)
+
+			vis_contents += o
+
+			for(var/i = 1 to 10)
+				for(var/mob/Player/e in range(range, src))
+					e.onDamage(dmg*0.9, src, elem=element)
+
+				sleep(10)
+
+			vis_contents -= o
+
+			cd = min(max, cd)
+			cd = max(min, cd)
+
+			sleep(cd)
+			cooldowns &= ~FIRED_AURA
+
 		proc/Attack()
 
 			if(prob(20))
@@ -1414,6 +1471,9 @@ mob
 
 			if(CAST_TORNADO in passives)
 				CastTornado(passives[CAST_TORNADO])
+
+			if(CAST_AURA in passives)
+				CastTornado(passives[CAST_AURA])
 
 			if(distance > 1)
 				var/area/newareas/a = loc.loc
