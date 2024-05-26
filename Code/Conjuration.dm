@@ -68,7 +68,7 @@ mob/Player
 		sleep(10)
 
 		while(MP < MMP)
-			var/amount = 10 + MMP*0.01 + MPRegen + extraMPRegen
+			var/amount = 10 + MMP*0.05 + MPRegen + extraMPRegen
 			MP = min(MP + amount, MMP)
 			var/mppercent = clamp(MP / MMP, 0, 1)
 
