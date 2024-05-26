@@ -1269,9 +1269,9 @@ RandomEvent
 				var/obj/spawner/spawn_loc = pick(worldData.spawners)
 				var/mob/Enemies/Summoned/monster = new (spawn_loc.loc)
 
-				monster.DMGmodifier = 0.8
-				monster.HPmodifier  = 1.2
-				monster.level       = tier * 100 + rand(0, 10)
+				monster.DMGmodifier = 1
+				monster.HPmodifier  = 1.5
+				monster.level       = tier * 100 + rand(0, 20)
 				monster.name        = types[tier]
 				monster.icon_state  = lowertext(types[tier])
 				monster.icon        = 'Mobs.dmi'
@@ -1283,7 +1283,16 @@ RandomEvent
 					monster.name   = "[pick("Odd ", "Big ", "Giant ", "Mysteriously Big ", "Enormous ", "Magical ", "")][monster.name][pick(" King", " Queen", " Leader", "")]"
 					monster.transform *= 4
 					monster.DMGmodifier = 4
-					monster.HPmodifier  = 10
+					monster.HPmodifier  = 20
+
+					var/pas = MONSTER_PASSIVE_LIST
+					monster.passives = list()
+
+					for(var/pass = 1 to max(1, tier / 2))
+						var/j = pick(pas)
+						pas -= j
+
+						monster.passives[j] = rand(20,100)
 
 					boss = monster
 
