@@ -3911,10 +3911,16 @@ obj
 
 						vis_contents += layers
 
-						while(loc)
-							for(var/mob/Enemies/e in range(1, src))
-								e.onDamage(damage*0.9, mob, elem=element)
-							sleep(5)
+						if(ismonster(mob))
+							while(loc)
+								for(var/mob/Player/e in range(1, src))
+									e.onDamage(damage*0.9, mob, elem=element)
+								sleep(5)
+						else
+							while(loc)
+								for(var/mob/Enemies/e in range(1, src))
+									e.onDamage(damage*0.9, mob, elem=element)
+								sleep(5)
 
 					Dispose()
 						..()

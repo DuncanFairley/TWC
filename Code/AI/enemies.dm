@@ -511,7 +511,7 @@ mob
 								Avada()
 
 							else if(!firedMeteor)
-								Meteor()
+								MeteorBoss()
 
 					proc/Avada()
 						set waitfor = 0
@@ -546,7 +546,7 @@ mob
 						sleep(50)
 						firedAvada = 0
 
-					proc/Meteor()
+					proc/MeteorBoss()
 						set waitfor = 0
 
 						firedMeteor = 1
@@ -2493,7 +2493,7 @@ mob
 						Avada()
 
 					else if(!firedMeteor)
-						Meteor()
+						MeteorBoss()
 
 					else
 						var/attack = pick("fireball", "quake", "aqua", "iceball", "gum")
@@ -2549,7 +2549,7 @@ mob
 				sleep(50)
 				firedAvada = 0
 
-			proc/Meteor()
+			proc/MeteorBoss()
 				set waitfor = 0
 
 				firedMeteor = 1

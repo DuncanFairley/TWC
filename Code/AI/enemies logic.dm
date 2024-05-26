@@ -523,6 +523,8 @@ mob
 
 				FIRED_PROJ        = 1
 				FIRED_PROJ_SPREAD = 2
+				FIRED_METEOR      = 4
+				FIRED_TORNADO     = 8
 
 			tmp
 				state = INACTIVE
@@ -1296,7 +1298,7 @@ mob
 		proc/CastProj(cd=20)
 			set waitfor = 0
 			if(cooldowns & FIRED_PROJ) return
-			if(prob(75)) return
+			if(prob(30)) return
 			cooldowns |= FIRED_PROJ
 
 			var/dmg = Dmg + rand(-4,8)
@@ -1313,7 +1315,7 @@ mob
 		proc/CastProjSpread(cd=40)
 			set waitfor = 0
 			if(cooldowns & FIRED_PROJ_SPREAD) return
-			if(prob(75)) return
+			if(prob(30)) return
 			cooldowns |= FIRED_PROJ_SPREAD
 
 			var/dmg = Dmg + rand(-4,8)
@@ -1326,6 +1328,42 @@ mob
 
 			sleep(cd)
 			cooldowns &= ~FIRED_PROJ_SPREAD
+
+		proc/CastMeteor(cd=40)
+			set waitfor = 0
+
+			if(cooldowns & FIRED_METEOR) return
+			if(prob(30)) return
+			cooldowns |= FIRED_METEOR
+
+			var/dmg = Dmg + rand(-4,8)
+
+			if(hardmode)
+				dmg = getHardmodeDamage(dmg)
+
+			var/obj/projectile/Meteor/m = new (target ? target.loc : loc, src, dmg, pick("fireball", "quake", "aqua", "iceball", "gum"), "spell", element)
+			m.range = pick(3,5,7)
+
+			sleep(cd)
+			cooldowns &= ~FIRED_METEOR
+
+		proc/CastTornado(cd=40)
+			set waitfor = 0
+
+			if(cooldowns & FIRED_TORNADO) return
+			if(prob(30)) return
+			cooldowns |= FIRED_TORNADO
+
+			var/dmg = Dmg + rand(-4,8)
+
+			if(hardmode)
+				dmg = getHardmodeDamage(dmg)
+
+			var/state = pick("fireball", "quake", "aqua", "iceball", "gum")
+			castproj(Type = /obj/projectile/NoImpact/Dir/Tornado, name = "[state] tornado", icon_state = state, damage = dmg, element = element, Dir = target ? get_dir(src, target) : dir, cd = 0, lag = 3, learn=0)
+
+			sleep(cd)
+			cooldowns &= ~FIRED_TORNADO
 
 		proc/Attack()
 
@@ -1357,6 +1395,12 @@ mob
 
 			if(CAST_PROJ_SPREAD in passives)
 				CastProjSpread(passives[CAST_PROJ_SPREAD])
+
+			if(CAST_METEOR in passives)
+				CastMeteor(passives[CAST_METEOR])
+
+			if(FIRED_TORNADO in passives)
+				CastTornado(passives[FIRED_TORNADO])
 
 			if(distance > 1)
 				var/area/newareas/a = loc.loc

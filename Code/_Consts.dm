@@ -155,14 +155,17 @@
 #define PAGE_RANGE 32768
 
 // Monster passives
-#define MONSTER_PASSIVE_LIST list(INCREASED_DAMAGE,INCREASED_DEFENSE,CAST_PROJ,CAST_PROJ_SPREAD,INCREASED_DROPRATE)
+#define MONSTER_PASSIVE_LIST list(INCREASED_DAMAGE,INCREASED_DEFENSE,CAST_PROJ,CAST_PROJ_SPREAD,CAST_METEOR,CAST_TORNADO,INCREASED_DROPRATE)
 
 
 #define INCREASED_DAMAGE "increased damage"
 #define INCREASED_DEFENSE "increased defense"
+#define INCREASED_DROPRATE "increased drop rate"
 #define CAST_PROJ "casts spells"
 #define CAST_PROJ_SPREAD "casts greater spells"
-#define INCREASED_DROPRATE "increased drop rate"
+#define CAST_METEOR "casts meteor"
+#define CAST_TORNADO "casts tornado"
+
 
 
 #if HALLOWEEN
