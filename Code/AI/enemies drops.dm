@@ -3,7 +3,6 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 
 "legendary"          = list(/obj/items/crystal/soul,
 							/obj/items/artifact,
-							/obj/items/hammer_of_variety,
 							/obj/items/mystery_key,
 						    /obj/items/wearable/orb/magic,
 							/obj/items/wearable/orb/magic/greater,
@@ -139,7 +138,8 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 							/obj/items/crystal/soul,
 							/obj/items/vault_key),
 
-"duelist"            = list("10" = list(/obj/items/key/wizard_key,
+"duelist"            = list("2"  = /obj/items/hammer_of_variety,
+							"10" = list(/obj/items/key/wizard_key,
 										/obj/items/artifact,
 							   		    /obj/items/stickbook,
 									    /obj/items/crystal/soul,
@@ -192,7 +192,8 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 							"40"   =      /obj/items/chest/blood_chest),
 
 
-"Eye of The Fallen"  = list("10"   = list(/obj/items/wearable/pets/mad_eye,
+"Eye of The Fallen"  = list("2"    = /obj/items/hammer_of_variety,
+							"10"   = list(/obj/items/wearable/pets/mad_eye,
 										  /obj/items/artifact,
 										  /obj/items/crystal/soul,
 				                          /obj/items/wearable/title/Fallen,
@@ -240,7 +241,8 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 			 			  	              /obj/items/reputation/peace_tablet)),
 
 
-"Basilisk"           = list("5"    = list(/obj/items/key/pentakill_key,
+"Basilisk"           = list("2"    = /obj/items/hammer_of_variety,
+							"5"    = list(/obj/items/key/pentakill_key,
 										  /obj/items/artifact,
 										  /obj/items/wearable/title/Petrified,
 										  /obj/items/crystal/soul,
@@ -250,7 +252,8 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 							"45"   = list(/obj/items/crystal/magic,
 						     			  /obj/items/crystal/strong_luck)),
 
-"Cownomicon"         = list("5"    = list(/obj/items/crystal/aura_crystal,
+"Cownomicon"         = list("2"    = /obj/items/hammer_of_variety,
+							"5"    = list(/obj/items/crystal/aura_crystal,
                                           /obj/items/crystal/meteor_crystal,
                                           /obj/items/crystal/summon_crystal,
                                           /obj/items/crystal/arc_crystal,
@@ -265,6 +268,7 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 							              /obj/items/wearable/orb/magic),
 							"45"   =      /obj/items/scroll_of_knowledge),
 "Akalla"             = list("0.001" = list(/obj/items/wearable/wigs/male_demonic_wig),
+							"2"    = /obj/items/hammer_of_variety,
 							"5"    = list(/obj/items/chest/wigs/sunset_wig_chest,
 										  /obj/items/chest/wigs/demon_chest,
 										  /obj/items/chest/sunset_chest,
@@ -282,7 +286,8 @@ var/list/drops_list = list("default" = list("0.05" = list(/obj/items/Whoopie_Cus
 							"50"   = list(/obj/items/crystal/magic,
 						     			  /obj/items/crystal/strong_luck)),
 
-"The Good Snowman"   = list("5"    = list(/obj/items/chest/wigs/sunset_wig_chest,
+"The Good Snowman"   = list("2"    = /obj/items/hammer_of_variety,
+							"5"    = list(/obj/items/chest/wigs/sunset_wig_chest,
 										  /obj/items/chest/wigs/chess_chest,
 										  /obj/items/chest/sunset_chest,
 										  /obj/items/key/chess_key,
