@@ -808,7 +808,7 @@ proc/getStatName(var/s)
 	if(s == "extraMP")      return "MP"
 	if(s == "dropRate")     return "Drop Rate"
 	if(s == "monsterDmg")   return "% Monster Damage"
-	if(s == "monsterDmg")   return "% Monster Defense"
+	if(s == "monsterDef")   return "% Monster Defense"
 	if(s == "extraCDR")     return "CDR"
 	if(s == "extraLimit")   return "Limit"
 	if(s == "extraMPRegen") return "MP Regeneration"
