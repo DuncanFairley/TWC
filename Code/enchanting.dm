@@ -367,8 +367,8 @@ obj/items/crystal
 		if(Dmg) lines += "+[Dmg] Damage"
 		if(Def) lines += "+[Def] Defense"
 		if(luck) lines += "+[luck]% Drop Rate"
-		if(monsterDmg) lines += "+[monsterDmg]% Damage"
-		if(monsterDef) lines += "+[monsterDef]% Defense"
+		if(monsterDmg) lines += "+[round(monsterDmg * MONSTER_DMG_CRYSTAL_MULTI)]% Damage"
+		if(monsterDef) lines += "+[round(monsterDef * MONSTER_DEF_CRYSTAL_MULTI)]% Defense"
 		if(MP) lines += "+[MP] MP"
 
 		if(passive)
