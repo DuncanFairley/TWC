@@ -2869,7 +2869,7 @@ mob/Player
 			dmg = 1
 
 
-		if((SHIELD_NINJA in passives) && prob(29 + passives[SHIELD_NINJA]))
+		if((SHIELD_NINJA in passives) && prob(29 + passives[SHIELD_NINJA]/2))
 			dmg = 0
 
 			var/turf/t = get_step(attacker, turn(attacker.dir, 180))
