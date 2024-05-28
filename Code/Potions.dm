@@ -623,6 +623,11 @@ obj/items/potions
 		effect     = /StatusEffect/Potions/LegendaryEffect { passives = list(SWORD_FIRE, SWORD_SOUL, SWORD_THORN) }
 		seconds    = 900
 
+	ice_shatter_potion
+		icon_state = "blue"
+		effect     = /StatusEffect/Potions/LegendaryEffect { passives = list(SWORD_EXPLODE, RING_LAVAWALK, SHIELD_THORN) }
+		seconds    = 900
+
 	confusing_concoction
 		icon_state = "green"
 		effect     = /StatusEffect/Potions/Confusion
