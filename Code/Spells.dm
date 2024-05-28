@@ -3026,6 +3026,14 @@ mob/Player
 		if(a.scaleDamage && p.owner != src)
 			dmg = round(MHP / a.scaleDamage, 1)
 
+		if(ismonster(p.owner))
+			if(Armor)
+				var/armor = Armor * 0.5
+				if(SHIELD_THORN in passives)
+					armor *= 1 + (30 + passives[SHIELD_THORN] - 1) / 100
+					dmg -= armor
+
+
 		dmg = onDamage(dmg, p.owner)
 
 		if(p.canBleed)
