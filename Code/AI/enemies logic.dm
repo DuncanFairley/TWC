@@ -1456,19 +1456,19 @@ mob
 					return
 
 			if(CAST_PROJ in passives)
-				CastProj(passives[CAST_PROJ])
+				CastProj(100 - passives[CAST_PROJ])
 
 			if(CAST_PROJ_SPREAD in passives)
-				CastProjSpread(passives[CAST_PROJ_SPREAD])
+				CastProjSpread(100 - passives[CAST_PROJ_SPREAD])
 
 			if(CAST_METEOR in passives)
-				CastMeteor(passives[CAST_METEOR])
+				CastMeteor(100 - passives[CAST_METEOR])
 
 			if(CAST_TORNADO in passives)
-				CastTornado(passives[CAST_TORNADO])
+				CastTornado(100 - passives[CAST_TORNADO])
 
 			if(CAST_AURA in passives)
-				CastTornado(passives[CAST_AURA])
+				CastTornado(100 - passives[CAST_AURA])
 
 			if(distance > 1)
 				var/area/newareas/a = loc.loc
