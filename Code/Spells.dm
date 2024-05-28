@@ -2913,7 +2913,7 @@ mob/Player
 			updateMP()
 
 		if(SHIELD_MPDAMAGE in passives)
-			var/r = min(round(dmg * (0.4 + ((passives[SHIELD_MPDAMAGE] - 1) / 100)), 1), MP)
+			var/r = min(round(dmg * (0.35 + ((passives[SHIELD_MPDAMAGE] - 1) / 100)), 1), MP)
 			dmg -= r
 			MP -= r
 			updateMP()
