@@ -620,7 +620,7 @@ obj/items/potions
 
 	black_fire_potion
 		icon_state = "red"
-		effect     = /StatusEffect/Potions/LegendaryEffect { passives = list(SWORD_FIRE, RING_LAVAWALK, SWORD_THORN) }
+		effect     = /StatusEffect/Potions/LegendaryEffect { passives = list(SWORD_FIRE, SWORD_SOUL, SWORD_THORN) }
 		seconds    = 900
 
 	confusing_concoction
