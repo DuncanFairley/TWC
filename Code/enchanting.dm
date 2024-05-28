@@ -420,7 +420,7 @@ obj/items/crystal
 			if(monsterDmg)
 				monsterDmg = tier
 			if(monsterDef)
-				monsterDef = tier * 0.2
+				monsterDef = tier
 
 	MouseDrop(over_object)
 
