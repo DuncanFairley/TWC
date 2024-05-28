@@ -1060,8 +1060,8 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			owner.clothDmg   -= socket.Dmg
 			owner.clothDef   -= socket.Def
 			owner.dropRate   -= socket.luck
-			owner.monsterDmg -= socket.monsterDmg
-			owner.monsterDef -= socket.monsterDef
+			owner.monsterDmg -= socket.monsterDmg * 0.8
+			owner.monsterDef -= socket.monsterDef * 0.8
 			owner.extraMP    -= socket.MP
 
 			if(socket.passive && !socket.skip)
@@ -1125,8 +1125,8 @@ obj/items/wearable/proc/Equip(var/mob/Player/owner)
 			owner.clothDmg   += socket.Dmg
 			owner.clothDef   += socket.Def
 			owner.dropRate   += socket.luck
-			owner.monsterDmg += socket.monsterDmg
-			owner.monsterDef += socket.monsterDef
+			owner.monsterDmg += socket.monsterDmg * 0.8
+			owner.monsterDef += socket.monsterDef * 0.8
 			owner.extraMP    += socket.MP
 
 			if(socket.passive)
