@@ -247,14 +247,14 @@ obj/items/wearable/spellbook
 
 			if(p.passives && (CRYSTAL_SUMMON in p.passives))
 				var/obj/items/crystal/passive = p.passives[CRYSTAL_SUMMON]
-				s.scale += (passive.passivePower / 100)
+				s.scale += ((passive.passivePower + 3) / 100)
 
 			if(s.scale > 1) s.scale *= 0.75
 		else if(spellType == METEOR)
 
 			if(p.passives && (CRYSTAL_METEOR in p.passives))
 				var/obj/items/crystal/passive = p.passives[CRYSTAL_METEOR]
-				dmg *= 1 + (passive.passivePower / 100)
+				dmg *= 1 + ((passive.passivePower + 3) / 100)
 
 			var/obj/projectile/Meteor/m = new (attacker ? attacker.loc : p.loc, p, dmg*0.75, state, name, element)
 			m.range = range
@@ -262,7 +262,7 @@ obj/items/wearable/spellbook
 
 			if(p.passives && (CRYSTAL_TORNADO in p.passives))
 				var/obj/items/crystal/passive = p.passives[CRYSTAL_TORNADO]
-				dmg *= 1 + (passive.passivePower / 100)
+				dmg *= 1 + ((passive.passivePower + 3) / 100)
 
 			p.castproj(Type = /obj/projectile/NoImpact/Dir/Tornado, name = "[state] tornado", icon_state = state, damage = dmg, element = element, Dir = attacker ? get_dir(p, attacker) : p.dir, cd = 0, lag = 3, learn=0)
 			if(!attacker) p.lastAttack = "Spellbook"
@@ -271,7 +271,7 @@ obj/items/wearable/spellbook
 
 			if(p.passives && (CRYSTAL_ARC in p.passives))
 				var/obj/items/crystal/passive = p.passives[CRYSTAL_ARC]
-				dmg *= 1 + (passive.passivePower / 100)
+				dmg *= 1 + ((passive.passivePower + 3) / 100)
 
 			var/mob/target = attacker
 
@@ -312,7 +312,7 @@ obj/items/wearable/spellbook
 
 			if(p.passives && (CRYSTAL_AURA in p.passives))
 				var/obj/items/crystal/passive = p.passives[CRYSTAL_AURA]
-				dmg *= 1 + (passive.passivePower / 100)
+				dmg *= 1 + ((passive.passivePower + 3) / 100)
 
 			if(element == HEAL)
 

@@ -3122,14 +3122,14 @@ mob/Enemies
 
 		if(CRYSTAL_BLOOD in p.passives)
 			var/obj/items/crystal/passive = p.passives[CRYSTAL_BLOOD]
-			var/leech = round(dmg * (passive.passivePower / 100), 1)
+			var/leech = round(dmg * ((passive.passivePower + 3) / 100), 1)
 
 			p.HP = min(p.HP + leech, p.MHP)
 			p.updateHP()
 
 		if(LStatusEffects && (CRYSTAL_CC in p.passives))
 			var/obj/items/crystal/passive = p.passives[CRYSTAL_CC]
-			dmg *= 1 + (passive.passivePower / 100)
+			dmg *= 1 + ((passive.passivePower + 3) / 100)
 
 		if(elem == COW)
 			dmg += element == EARTH ? round(dmg *0.25, 1) : round(dmg / 10, 1)

@@ -372,7 +372,7 @@ obj/items/crystal
 		if(MP) lines += "+[MP] MP"
 
 		if(passive)
-			lines += "+[passivePower]% [passive]"
+			lines += "+[passivePower + 3]% [passive]"
 
 		if(power) lines += "+[power] Legendary Effect"
 
