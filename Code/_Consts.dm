@@ -167,8 +167,8 @@
 #define CAST_TORNADO "casts tornado"
 #define CAST_AURA "casts aura"
 
-#define MONSTER_DMG_CRYSTAL_MULTI 0.8
-#define MONSTER_DEF_CRYSTAL_MULTI 0.8
+#define MONSTER_DMG_CRYSTAL_MULTI 0.75
+#define MONSTER_DEF_CRYSTAL_MULTI 0.75
 
 
 #if HALLOWEEN
