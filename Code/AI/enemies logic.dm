@@ -667,6 +667,8 @@ mob
 
 				if(isElite) chance *= 2
 
+				chance *= 1 + (killer.Taming.level / 100)
+
 				if(prob(chance * 10))
 					var/obj/items/wearable/pets/w = new spawnType (loc)
 					if(isShiny)
@@ -676,6 +678,8 @@ mob
 			else
 				if(killer.findStatusEffect(/StatusEffect/Potions/Tame))
 					chance *= 3
+
+				chance *= 1 + (killer.Taming.level / 200)
 
 				if(prob(chance))
 					if(defaultColor == "rand")
