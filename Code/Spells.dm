@@ -2331,6 +2331,27 @@ mob/Spells/verb/Crucio()
 	if(canUse(src,cooldown=/StatusEffect/UsedImperio,needwand=1,inarena=1,insafezone=0,inhogwarts=1,target=null,mpreq=mpCost,againstocclumens=1,projectile=1))
 		castproj(MPreq = mpCost, Type = /obj/projectile/StatusEffect { effect = /StatusEffect/Crucio; effectName = "Crucio" }, icon_state = "avada", name = spellName, lag = 1, cd=4)
 
+obj/debuff
+
+	crucio
+
+	icon = 'Poop.dmi'
+	icon_state = "Normal"
+
+
+	New()
+		set waitfor = 0
+		..()
+
+		sleep(100)
+		loc = null
+
+	Crossed(mob/Enemies/e)
+		if(ismonster(e))
+
+			if(!e.findStatusEffect(/StatusEffect/Crucio)) new /StatusEffect/Crucio (e,15)
+
+			loc=null
 
 mob/Spells/verb/Portus()
 	set category="Spells"
@@ -3162,6 +3183,9 @@ mob/Enemies
 
 				if(!explode && prob(30))
 					explode = round(dmg * 0.75, 1)
+
+				if(explode && prob(60))
+					new /obj/debuff/crucio (loc)
 
 			LStatusEffects = null
 
