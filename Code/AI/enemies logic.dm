@@ -1827,16 +1827,17 @@ obj/monster_portal
 			var/mob/Enemies/Summoned/monster = new (t)
 
 			monster.alpha = 0
-			monster.DMGmodifier = 1
-			monster.HPmodifier  = 2.5
-			monster.MoveDelay   = 3
-			monster.AttackDelay = 3
-			monster.level       = 800
-			monster.transform   = matrix() * (1.5 + (rand(0, 50) / 100))
-			monster.name        = "[elem] Elemental"
-			monster.icon_state  = "[lowertext(elem)] elemental"
-			monster.element     = elem == "Fire" ? FIRE : WATER
-			monster.canBleed    = FALSE
+			monster.DMGmodifier   = 1
+			monster.HPmodifier    = 2.5
+			monster.MoveDelay     = 3
+			monster.AttackDelay   = 3
+			monster.level         = 800
+			monster.extraDropRate = 10
+			monster.transform     = matrix() * (1.5 + (rand(0, 50) / 100))
+			monster.name          = "[elem] Elemental"
+			monster.icon_state    = "[lowertext(elem)] elemental"
+			monster.element       = elem == "Fire" ? FIRE : WATER
+			monster.canBleed      = FALSE
 			monster.calcStats()
 
 			if(elem == "Fire")
