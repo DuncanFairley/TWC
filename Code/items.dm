@@ -580,7 +580,7 @@ obj/items
 					filters = filter(type="outline", size=1, color=c)
 
 					if(player)
-						player.Interface.dropMessage.Display("+[name]", c)
+						player.Interface.dropMessage.Display("+[name]", c, prio=rarity)
 						Highlight(player, 30)
 
 			sleep(protection)
