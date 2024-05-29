@@ -520,7 +520,7 @@ obj/pet
 			if(!item) break
 
 			var/mob/Player/p = item.loc
-			while(loc && p && item.loc == p && i && i.loc && i.loc == tempLoc && loc != i.loc)
+			while(loc && p && item.loc == p && i && i.loc && i.loc == tempLoc && loc != i.loc && fetch.len < 5)
 				dir = get_dir(loc, i.loc)
 				loc = get_step(loc, dir)
 				updateFollowers()
