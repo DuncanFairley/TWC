@@ -2923,12 +2923,15 @@ mob/Player
 
 		dmg = round(dmg, 1)
 
+		var/shieldDmg = 0
 		if(Shield > 0)
 			Shield = Shield - dmg
 			if(Shield <= 0)
+				shieldDmg = dmg - abs(Shield)
 				dmg = abs(Shield)
 				Shield = 0
 			else
+				shieldDmg = dmg
 				dmg = 0
 
 		if((RING_NURSE in passives) && HP - dmg <= 0)
@@ -2941,6 +2944,10 @@ mob/Player
 
 		HP -= dmg
 		updateHP()
+
+		if(shieldDmg > 0)
+			var/offset = 15 - (length("[shieldDmg]") * 5)
+			fadeText(src, "<b><span style=\"color:#32a4a8;font-size:8px\">[shieldDmg] </span></b>", offset, 20, 32)
 
 		if(dmg > 0)
 			var/offset = 15 - (length("[dmg]") * 5)
