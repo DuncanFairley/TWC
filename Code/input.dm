@@ -6,11 +6,15 @@ obj/ScreenMapText
 	maptext_x = -152
 	alpha = 50
 	pixel_y = -32
+	mouse_opacity = 0
 
 obj/hud/ScrollMessage
 	screen_loc = "EAST-5,CENTER-10"
 
 	var/tmp/mob/Player/parent
+	mouse_opacity = 0
+
+	var/count = 0
 
 	New(Loc, mob/Player/p)
 
@@ -18,8 +22,13 @@ obj/hud/ScrollMessage
 		p.client.screen += src
 		parent = p
 
-	proc/Display(var/text, var/hex=null, var/state=null, var/time=50)
+	proc/Display(var/text, var/hex=null, var/state=null, var/time=50, var/prio=1)
 		set waitfor = 0
+
+		if(count >= 15 && prio <= 3) return
+		if(count >= 10 && prio <= 2) return
+
+		count++
 
 		var/obj/ScreenMapText/o = new
 		o.maptext = "<b><span style=\"color:[parent.mapTextColor];\">[text]</span></b>"
@@ -46,13 +55,15 @@ obj/hud/ScrollMessage
 		animate(o, alpha = 0, time = 10, flags=ANIMATION_PARALLEL)
 		sleep(10)
 		vis_contents -= o
+		count--
 
 
 obj/hud/TextMessage
-	screen_loc = "CENTER,CENTER+5"
-	icon       = 'black50.dmi'
-	icon_state = "white"
-	color      = "#111"
+	screen_loc    = "CENTER,CENTER+5"
+	icon          = 'black50.dmi'
+	icon_state    = "white"
+	color         = "#111"
+	mouse_opacity = 0
 
 	var/tmp/count = 5
 
@@ -115,6 +126,7 @@ obj/hud/TextMessage
 obj/hud/TextMessageExp
 	screen_loc = "WEST+1,CENTER"
 	icon       = 'hud.dmi'
+	mouse_opacity = 0
 
 	appearance_flags = RESET_COLOR|RESET_TRANSFORM|NO_CLIENT_COLOR|PIXEL_SCALE
 
