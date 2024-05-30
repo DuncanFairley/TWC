@@ -2335,15 +2335,11 @@ obj/debuff
 
 	crucio
 
-	icon = 'Poop.dmi'
-	icon_state = "Normal"
-
-
 	New()
 		set waitfor = 0
 		..()
 
-		sleep(100)
+		sleep(150)
 		loc = null
 
 	Crossed(mob/Enemies/e)
@@ -3184,7 +3180,7 @@ mob/Enemies
 				if(!explode && prob(30))
 					explode = round(dmg * 0.75, 1)
 
-				if(explode && prob(60))
+				if(explode)
 					new /obj/debuff/crucio (loc)
 
 			LStatusEffects = null
