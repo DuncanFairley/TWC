@@ -3151,6 +3151,7 @@ mob/Enemies
 		HP -= dmg
 
 		if((SWORD_SOUL in p.passives) && (HP / MHP) * 100 <= 10)
+			dmg += HP
 			HP = 0
 
 		if(dmg > 0)
