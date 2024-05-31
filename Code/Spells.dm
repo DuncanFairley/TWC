@@ -123,7 +123,7 @@ mob/Spells/verb/Accio_Maxima()
 	set waitfor = 0
 	if(canUse(src,cooldown=/StatusEffect/UsedAccio,needwand=0,inarena=0,insafezone=1,inhogwarts=1,target=null,mpreq=0,againstocclumens=1))
 		var/mob/Player/p = src
-		new /StatusEffect/Summoned(src,10*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, "Accio Maxima")
+		new /StatusEffect/UsedAccio(src,20*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier, "Accio Maxima")
 		hearers(client.view, p)<< " <b>[p]:<i><font color=aqua> Accio Maxima!</i>"
 		p.learnSpell("Accio Maxima")
 
