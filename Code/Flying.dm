@@ -93,7 +93,7 @@ obj
 	proc/backToPos(turf/origSpot)
 		set waitfor = 0
 
-		if(!origSpot)
+		if(!origloc && origSpot)
 			origloc = origSpot
 			do
 				sleep(rand(700, 2400))
