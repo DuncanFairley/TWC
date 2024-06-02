@@ -1555,7 +1555,7 @@ mob/Player
 
 				if(Slayer.level >= 30)
 					o.name += "\n\n"
-					var/end = round(min(5, Summoning.level / 30))
+					var/end = 1 + round(min(5, Summoning.level / 30))
 					for(var/i = 1 to end)
 						var/txt = summonsMode == i ? "\[[i]]" : "[i]"
 						if(i == end)
@@ -1894,7 +1894,7 @@ obj
 				if(ix > 34 && iy < 16)
 
 					var/level = round((ix - 34) / 14, 1)
-					var/end = round(min(5, p.Summoning.level / 30))
+					var/end = 1 + round(min(5, p.Summoning.level / 30))
 					level = min(level, end)
 					level = max(level, 1)
 
