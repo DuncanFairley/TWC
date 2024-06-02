@@ -1814,7 +1814,7 @@ mob/Player
 proc/getMasteryRank(var/uses)
 
 	var/i = round(log(10, uses))
-
+	if(i >= 6) return "Grandmaster"
 	if(i >= 5) return "Master"
 	if(i >= 4) return "Professional"
 	if(i >= 3) return "Skilled"
