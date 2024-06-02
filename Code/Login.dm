@@ -1866,7 +1866,13 @@ obj
 					p << infomsg("You will now summon stronger monsters. (2 slots)")
 				else if(p.summonsMode == 2 && p.Summoning.level >= 50)
 					p.summonsMode = 3
-					p << infomsg("You will now summon stronger monsters. (3 slots)")
+					p << infomsg("You will now summon even stronger monsters. (3 slots)")
+				else if(p.summonsMode == 3 && p.Summoning.level >= 100)
+					p.summonsMode = 4
+					p << infomsg("You will now summon dangerously strong monsters. (4 slots)")
+				else if(p.summonsMode == 4 && p.Summoning.level >= 150)
+					p.summonsMode = 5
+					p << infomsg("You will now summon dangerously lethal monsters. (5 slots)")
 				else
 					p.summonsMode = 1
 					p << infomsg("You will now summon normal monsters.")
