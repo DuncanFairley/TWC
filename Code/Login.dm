@@ -1539,10 +1539,30 @@ mob/Player
 				var/percent = round((Slayer.exp / Slayer.maxExp) * 100)
 				var/obj/o = mousehelper["Slayer"]
 				o.name = "Level: [Slayer.level]   Exp: [comma(Slayer.exp)]/[comma(Slayer.maxExp)] ([percent]%)"
+				if(Slayer.level >= 10)
+					o.name += "\n\n"
+					var/end = round(min(10, Slayer.level / 10))
+					for(var/i = 0 to end)
+						var/txt = hardmode == i ? "\[[i]]" : "[i]"
+						if(i == end)
+							o.name += " [txt]\n"
+						else
+							o.name += " [txt] |"
 			if(Summoning)
 				var/percent = round((Summoning.exp / Summoning.maxExp) * 100)
 				var/obj/o = mousehelper["Summoning"]
 				o.name = "Level: [Summoning.level]   Exp: [comma(Summoning.exp)]/[comma(Summoning.maxExp)] ([percent]%)"
+
+				if(Slayer.level >= 30)
+					o.name += "\n\n"
+					var/end = round(min(5, Summoning.level / 30))
+					for(var/i = 1 to end)
+						var/txt = summonsMode == i ? "\[[i]]" : "[i]"
+						if(i == end)
+							o.name += " [txt]\n"
+						else
+							o.name += " [txt] |"
+
 			if(Spellcrafting)
 				var/percent = round((Spellcrafting.exp / Spellcrafting.maxExp) * 100)
 				var/obj/o = mousehelper["Spellcrafting"]
@@ -1858,24 +1878,57 @@ obj
 
 			mouse_over_pointer = MOUSE_HAND_POINTER
 
-			Click()
+			Click(location,control,params)
 				var/mob/Player/p = usr
 
-				if(p.summonsMode == 1)
-					p.summonsMode = 2
-					p << infomsg("You will now summon stronger monsters. (2 slots)")
-				else if(p.summonsMode == 2 && p.Summoning.level >= 50)
-					p.summonsMode = 3
-					p << infomsg("You will now summon even stronger monsters. (3 slots)")
-				else if(p.summonsMode == 3 && p.Summoning.level >= 100)
-					p.summonsMode = 4
-					p << infomsg("You will now summon dangerously strong monsters. (4 slots)")
-				else if(p.summonsMode == 4 && p.Summoning.level >= 150)
-					p.summonsMode = 5
-					p << infomsg("You will now summon dangerously lethal monsters. (5 slots)")
+				if(p.Summoning.level < 30)
+					p << errormsg("You need Summoning level 30 to use this option.")
+					return
+
+				var/list/l = params2list(params)
+				var/ix = text2num(l["icon-x"])
+				var/iy = text2num(l["icon-y"])
+
+				var/old = p.summonsMode
+
+				if(ix > 34 && iy < 16)
+
+					var/level = round((ix - 34) / 14, 1)
+					var/end = round(min(5, p.Summoning.level / 30))
+					level = min(level, end)
+					level = max(level, 1)
+
+					p.summonsMode = level
+
 				else
-					p.summonsMode = 1
-					p << infomsg("You will now summon normal monsters.")
+
+					if(p.summonsMode == 1)
+						p.summonsMode = 2
+					else if(p.summonsMode == 2 && p.Summoning.level >= 60)
+						p.summonsMode = 3
+					else if(p.summonsMode == 3 && p.Summoning.level >= 90)
+						p.summonsMode = 4
+					else if(p.summonsMode == 4 && p.Summoning.level >= 120)
+						p.summonsMode = 5
+					else
+						p.summonsMode = 1
+
+				if(old != p.summonsMode) outputText(p)
+
+			proc/outputText(mob/Player/p)
+
+				switch(p.summonsMode)
+					if(1)
+						p << infomsg("You will now summon normal monsters.")
+					if(2)
+						p << infomsg("You will now summon stronger monsters. (2 slots)")
+					if(3)
+						p << infomsg("You will now summon even stronger monsters. (3 slots)")
+					if(4)
+						p << infomsg("You will now summon dangerously strong monsters. (4 slots)")
+					if(5)
+						p << infomsg("You will now summon dangerously lethal monsters. (5 slots)")
+
 
 		Spellcrafting
 			icon_state = "Spellcrafting"
@@ -1886,46 +1939,80 @@ obj
 
 			mouse_over_pointer = MOUSE_HAND_POINTER
 
-			Click()
+
+			Click(location,control,params)
 				var/mob/Player/p = usr
 
 				if(p.Slayer.level < 10)
 					p << errormsg("You need Slayer level 10 to use this option.")
 					return
 
-				if(p.hardmode == 0)
-					p.hardmode = 1
-					p << infomsg("Monsters will now be stronger but have 50% more drop rate.")
-				else if(p.hardmode == 1 && p.Slayer.level >= 20)
-					p.hardmode = 2
-					p << infomsg("Monsters will now be even stronger but have 100% more drop rate.")
-				else if(p.hardmode == 2 && p.Slayer.level >= 30)
-					p.hardmode = 3
-					p << infomsg("Monsters will now be dangerously lethal but have 150% more drop rate.")
-				else if(p.hardmode == 3 && p.Slayer.level >= 40)
-					p.hardmode = 4
-					p << infomsg("Monsters will now be maybe possibly kill you but have 200% more drop rate.")
-				else if(p.hardmode == 4 && p.Slayer.level >= 50)
-					p.hardmode = 5
-					p << infomsg("Monsters will now butcher you but have 250% more drop rate.")
-				else if(p.hardmode == 5 && p.Slayer.level >= 60)
-					p.hardmode = 6
-					p << infomsg("Monsters will now butcher you but have 300% more drop rate.")
-				else if(p.hardmode == 6 && p.Slayer.level >= 70)
-					p.hardmode = 7
-					p << infomsg("Monsters will now butcher you but have 350% more drop rate.")
-				else if(p.hardmode == 7 && p.Slayer.level >= 80)
-					p.hardmode = 8
-					p << infomsg("Monsters will now butcher you but have 400% more drop rate.")
-				else if(p.hardmode == 8 && p.Slayer.level >= 90)
-					p.hardmode = 9
-					p << infomsg("Monsters will now butcher you but have 450% more drop rate.")
-				else if(p.hardmode == 9 && p.Slayer.level >= 100)
-					p.hardmode = 10
-					p << infomsg("Monsters will now butcher you but have 500% more drop rate.")
+				var/list/l = params2list(params)
+				var/ix = text2num(l["icon-x"])
+				var/iy = text2num(l["icon-y"])
+
+				var/old = p.hardmode
+
+				if(ix > 34 && iy < 16)
+
+					var/level = round((ix - 34) / 14 - 1, 1)
+					var/end = round(min(10, p.Slayer.level / 10))
+					level = min(level, end)
+					level = max(level, 0)
+
+					p.hardmode = level
+
 				else
-					p.hardmode = 0
-					p << infomsg("You are fighting normal monsters now.")
+					if(p.hardmode == 0)
+						p.hardmode = 1
+					else if(p.hardmode == 1 && p.Slayer.level >= 20)
+						p.hardmode = 2
+					else if(p.hardmode == 2 && p.Slayer.level >= 30)
+						p.hardmode = 3
+					else if(p.hardmode == 3 && p.Slayer.level >= 40)
+						p.hardmode = 4
+					else if(p.hardmode == 4 && p.Slayer.level >= 50)
+						p.hardmode = 5
+					else if(p.hardmode == 5 && p.Slayer.level >= 60)
+						p.hardmode = 6
+					else if(p.hardmode == 6 && p.Slayer.level >= 70)
+						p.hardmode = 7
+					else if(p.hardmode == 7 && p.Slayer.level >= 80)
+						p.hardmode = 8
+					else if(p.hardmode == 8 && p.Slayer.level >= 90)
+						p.hardmode = 9
+					else if(p.hardmode == 9 && p.Slayer.level >= 100)
+						p.hardmode = 10
+					else
+						p.hardmode = 0
+
+				if(old != p.hardmode) outputText(p)
+
+			proc/outputText(mob/Player/p)
+
+				switch(p.hardmode)
+					if(0)
+						p << infomsg("You are fighting normal monsters now.")
+					if(1)
+						p << infomsg("Monsters will now be stronger but have 50% more drop rate.")
+					if(2)
+						p << infomsg("Monsters will now be even stronger but have 100% more drop rate.")
+					if(3)
+						p << infomsg("Monsters will now be dangerously lethal but have 150% more drop rate.")
+					if(4)
+						p << infomsg("Monsters will now be maybe possibly kill you but have 200% more drop rate.")
+					if(5)
+						p << infomsg("Monsters will now butcher you but have 250% more drop rate.")
+					if(6)
+						p << infomsg("Monsters will now butcher you but have 300% more drop rate.")
+					if(7)
+						p << infomsg("Monsters will now butcher you but have 350% more drop rate.")
+					if(8)
+						p << infomsg("Monsters will now butcher you but have 400% more drop rate.")
+					if(9)
+						p << infomsg("Monsters will now butcher you but have 450% more drop rate.")
+					if(10)
+						p << infomsg("Monsters will now butcher you but have 500% more drop rate.")
 
 		Treasure_Hunting
 			icon_state = "Treasure Hunting"
