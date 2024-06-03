@@ -182,11 +182,6 @@ obj/items/wearable/spellbook
 		if(!canUse(p,needwand=1,inarena=0,insafezone=0,inhogwarts=1,mpreq=mpCost,projectile=1,silent=(flags & (PAGE_DAMAGETAKEN|PAGE_ONDASH))))
 			return
 
-		mpCost = max(1, mpCost - round(p.Spellcrafting.level/2))
-
-		p.MP-=mpCost
-		p.updateMP()
-
 		p.SpellbookLastUsed = world.time
 
 		var/t = cd*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier
@@ -194,6 +189,11 @@ obj/items/wearable/spellbook
 			new /hudobj/Cooldown (null, p.client, null, "Spellcrafting", t/10, show=1)
 
 		var/dmg = (p.Dmg + p.clothDmg) * damage
+
+		mpCost = max(1, mpCost - round(p.Spellcrafting.level/2))
+
+		p.MP-=mpCost
+		p.updateMP()
 
 		var/state
 		var/elementColor
@@ -222,9 +222,13 @@ obj/items/wearable/spellbook
 				elementColor = "#f4f4f4"
 
 		if(spellType == EXPLOSION)
+			if(SWORD_MANA in p.passives) p.MP+=mpCost
+
 			for(var/d in DIRS_LIST)
 				p.castproj(icon_state = state, damage = dmg*0.75, name = name, cd = 0, lag = 1, element = element, Dir=d, learn=0, canClone=0)
 		else if(spellType == PROJ)
+			if(SWORD_MANA in p.passives) p.MP+=mpCost
+
 			p.castproj(icon_state = state, damage = dmg, name = name, cd = 0, element = element, Dir = attacker ? get_dir(p, attacker) : p.dir, learn=0)
 			if(!attacker) p.lastAttack = "Spellbook"
 		else if(spellType == SUMMON)
@@ -253,6 +257,7 @@ obj/items/wearable/spellbook
 
 			if(s.scale > 1) s.scale *= 0.75
 		else if(spellType == METEOR)
+			if(SWORD_MANA in p.passives) p.MP+=mpCost
 
 			if(p.passives && (CRYSTAL_METEOR in p.passives))
 				var/obj/items/crystal/passive = p.passives[CRYSTAL_METEOR]
@@ -263,6 +268,7 @@ obj/items/wearable/spellbook
 //			var/obj/projectile/Meteor/m = new (loc = attacker ? attacker.loc : p.loc, mob = p, damage = dmg*0.75, icon_state = state, name = name, element = element)
 			m.range = range
 		else if(spellType == TORNADO)
+			if(SWORD_MANA in p.passives) p.MP+=mpCost
 
 			if(p.passives && (CRYSTAL_TORNADO in p.passives))
 				var/obj/items/crystal/passive = p.passives[CRYSTAL_TORNADO]
@@ -347,6 +353,8 @@ obj/items/wearable/spellbook
 						other.overlays-=image('attacks.dmi', icon_state = "heal")
 
 			else
+				if(SWORD_MANA in p.passives) p.MP+=mpCost
+
 				var/mutable_appearance/ma = new
 
 				ma.icon = 'attacks.dmi'
@@ -384,16 +392,51 @@ obj/items/wearable/spellbook
 				p.vis_contents += o
 
 				var/drain = round(mpCost*0.5)
+
+				if(SWORD_MANA in p.passives)
+					dmg = round(p.MMP * 1)
+
+					var/cost = round(dmg * 0.5, 1)
+
+					if(p.MP >= cost)
+						dmg = 10 + dmg + rand(0, 10)
+						p.MP -= cost
+					else
+						dmg = 10 + p.MP*2 + rand(0, 10)
+						p.MP = 0
+
+					p.MP-=cost
+					p.updateMP()
+
 				for(var/i = 1 to 20)
+
 					for(var/mob/Enemies/e in range(range, p))
 						e.onDamage(dmg*0.9, p, elem=element)
 
 					sleep(5)
 
 					if(i != 20)
-						if(p.MP < drain) break
-						p.MP -= drain
-						p.updateMP()
+						if(SWORD_MANA in p.passives)
+
+							dmg = round(p.MMP * 1)
+
+							var/cost = round(dmg * 0.25, 1)
+
+							if(p.MP >= cost)
+								dmg = 10 + dmg + rand(0, 10)
+								p.MP -= cost
+							else
+								dmg = 10 + p.MP*2 + rand(0, 10)
+								p.MP = 0
+
+							p.MP-=cost
+							p.updateMP()
+
+						else
+							if(p.MP < drain) break
+
+							p.MP -= drain
+							p.updateMP()
 
 				p.vis_contents -= o
 
