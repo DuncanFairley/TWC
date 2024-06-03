@@ -334,10 +334,11 @@ obj/potions
 
 					var/quanChance = player.Alchemy.level
 
-					var/maxProc = 4
+					var/maxProc = 4 + round(player.Alchemy.level / 50)
+
 					if(SWORD_ALCHEMY in player.passives)
 						quanChance += 10 + player.passives[SWORD_ALCHEMY]
-						maxProc = 6
+						maxProc *= 2
 
 					if(prob(quanChance*0.1))
 						i.stack = maxProc*mass
