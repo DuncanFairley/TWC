@@ -330,7 +330,7 @@ obj/potions
 						                        "E-","E","E+",
 						                        "O-","O","O+")
 						i.name += " - [letters[quality]]"
-						if(i.seconds) i.seconds *= 1 + (quality - 4) * 0.3
+						if(i.seconds) i.seconds *= max(1 + (quality - 6) * 0.2, 0.1)
 
 					var/quanChance = player.Alchemy.level
 
@@ -877,7 +877,7 @@ obj/items/potions
 						usr << errormsg("You can't use this while wearing a seal bracelet.")
 						return
 
-					var/e = exp * (1 + (quality - 4) * 0.3) + rand(exp * 0.1)
+					var/e = exp * (max(1 + (quality - 6) * 0.2, 0.1)) + rand(exp * 0.1)
 					p << infomsg("You receive [comma(e)] experience.")
 					p.addExp(e)
 					. = 1
@@ -984,7 +984,7 @@ obj/items/potions
 
 				if(p.pet.item.quality < MAX_PET_LEVEL)
 					. = 1
-					var/e = 30000 + (quality - 4) * 9000
+					var/e = 30000 + (quality - 6) * 9000
 					p << infomsg("Your [item.name] gained [e] experience.")
 					item.addExp(p, e)
 				else

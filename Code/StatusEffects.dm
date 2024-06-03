@@ -955,7 +955,7 @@ StatusEffect
 			var/factor = 3
 
 			Activate()
-				factor = factor * (1 + (quality - 4) * 0.3)
+				factor = factor * max(1 + (quality - 6) * 0.2, 0.1)
 
 				..()
 
@@ -996,14 +996,14 @@ StatusEffect
 			Activate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.Armor += 400 + (quality - 4) * 100
+					p.Armor += 400 + max(1 + (quality - 6) * 0.2, 0.1)
 
 				..()
 
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.Armor -= 400 + (quality - 4) * 100
+					p.Armor -= 400 + max(1 + (quality - 6) * 0.2, 0.1)
 
 				..()
 
@@ -1011,14 +1011,14 @@ StatusEffect
 			Activate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDmg += 270 + (quality - 4) * 60
+					p.clothDmg += 270 + (quality - 6) * 60
 
 				..()
 
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDmg -= 270 + (quality - 4) * 60
+					p.clothDmg -= 270 + (quality - 6) * 60
 
 				..()
 
@@ -1026,7 +1026,7 @@ StatusEffect
 			Activate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDef += 810 + (quality - 4) * 180
+					p.clothDef += 810 + (quality - 6) * 180
 					p.resetMaxHP()
 
 				..()
@@ -1034,7 +1034,7 @@ StatusEffect
 			Deactivate()
 				var/mob/Player/p = AttachedAtom
 				if(p)
-					p.clothDef -= 810 + (quality - 4) * 180
+					p.clothDef -= 810 + (quality - 6) * 180
 					p.resetMaxHP()
 
 				..()
@@ -1115,7 +1115,7 @@ StatusEffect
 
 				if(amount >= 90000) p.monsterDef += 100
 
-				amount += (quality - 4) * 10
+				amount += (quality - 6) * 10
 
 				while(p)
 					p.HP = min(p.HP + amount + rand(-10, 10), p.MHP)
@@ -1147,7 +1147,7 @@ StatusEffect
 				..()
 				var/mob/Player/p = AttachedAtom
 
-				amount += (quality - 4) * 10
+				amount += (quality - 6) * 10
 
 				while(p)
 					p.MP = min(p.MP + amount + rand(-10, 10), p.MMP)
