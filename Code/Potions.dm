@@ -264,6 +264,13 @@ obj/potions
 				if(RING_ALCHEMY in player.passives)
 					quality++
 
+				var/upQual = 1 + player.Alchemy.level/4
+				for(var/i = 1 to 3)
+					if(prob(upQual)) quality++
+					else
+						if(i == 1 && prob(upQual)) quality--
+						break
+
 				quality = max(1,  quality)
 				quality = min(19, quality)
 
