@@ -2926,7 +2926,7 @@ mob/Player
 				dmg *= 1 + (rate / 100)
 
 		if((SHIELD_MP in passives) && MP < MMP)
-			var/regen = round(dmg * (0.4 + ((passives[SHIELD_MP] - 1) / 100)) , 1)
+			var/regen = round(dmg * (0.5 + ((passives[SHIELD_MP] - 1) / 100)) , 1)
 			MP = min(MP + regen, MMP)
 			updateMP()
 
