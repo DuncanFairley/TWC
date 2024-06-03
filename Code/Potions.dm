@@ -242,12 +242,13 @@ obj/potions
 
 				var/list/projs = list()
 
-				projs["aqua"]     = 1
-				projs["quake"]    = 2
-				projs["iceball"]  = 3
-				projs["gum"]      = 4
-				projs["chaotica"] = 5
-				projs["blood"]    = 6
+				projs["aqua"]     = 2
+				projs["quake"]    = 3
+				projs["iceball"]  = 5
+				projs["gum"]      = 7
+				projs["chaotica"] = 11
+				projs["blood"]    = 13
+				projs["avada"]    = 17
 
 				var/potion
 				var/quality = countBits(flags) - 1
@@ -255,16 +256,16 @@ obj/potions
 				var/mob/Player/player = p.owner
 
 				if(p.icon_state in projs)
-					var/f = abs(projs[p.icon_state] - quality)
+					var/f = abs((1 + quality) % projs[p.icon_state])
 
-					if(f == 0)     quality++
-					else if(f > 2) quality--
+					if(f == 0)                            quality++
+					else if(f >= projs[p.icon_state] / 2) quality--
 
 				if(RING_ALCHEMY in player.passives)
 					quality++
 
 				quality = max(1, quality)
-				quality = min(7, quality)
+				quality = min(19, quality)
 
 				if(c >= 4)
 					player.Alchemy.add(((quality*12 + rand(9,12))*300)*mass, player, 1)
@@ -313,8 +314,14 @@ obj/potions
 					var/obj/items/potions/i = new potion (loc)
 					i.prizeDrop(p.owner.ckey, 600, decay=FALSE, player=p.owner)
 					i.quality   = quality
-					if(quality != 4)
-						var/list/letters = list("T", "D", "P", null, "A", "E", "O")
+					if(quality != 10)
+						var/list/letters = list("T-","T","T+",
+						                        "D-","D","D+",
+						                        "P-","P","P+",
+						                        null,
+						                        "A-","A","A+",
+						                        "E-","E","E+",
+						                        "O-","O","O+")
 						i.name += " - [letters[quality]]"
 						if(i.seconds) i.seconds *= 1 + (quality - 4) * 0.3
 
