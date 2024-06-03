@@ -5900,8 +5900,8 @@ obj/items/wearable/shield/mana
 	icon='ammy.dmi'
 	icon_state="snow"
 	name="emperor's bracelet"
-	desc="A magical bracelet that converts 40% of damage taken into mana."
-	suffix = "<span style=\"color:#ffa500;\">40% of damage taken will turn to mana.</span>"
+	desc="A magical bracelet that converts 50% of damage taken into mana."
+	suffix = "<span style=\"color:#ffa500;\">50% of damage taken will turn to mana.</span>"
 	passive = SHIELD_MP
 	monsterDef = 2
 
@@ -6050,8 +6050,8 @@ obj/items/wearable/sword/dragon
 	icon='trophies.dmi'
 	icon_state="dragon"
 	name="dragonbreath"
-	desc="Fire spells now use full damage."
-	suffix = "<span style=\"color:#ffa500;\">Fire spells now use full damage.</span>"
+	desc="Fire spells now use full damage. Damage leeched as shield."
+	suffix = "<span style=\"color:#ffa500;\">Fire spells now use full damage. Damage leeched as shield.</span>"
 	passive = SWORD_FIRE
 
 obj/items/wearable/sword/titan
