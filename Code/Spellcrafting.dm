@@ -182,7 +182,7 @@ obj/items/wearable/spellbook
 		if(!canUse(p,needwand=1,inarena=0,insafezone=0,inhogwarts=1,mpreq=mpCost,projectile=1,silent=(flags & (PAGE_DAMAGETAKEN|PAGE_ONDASH))))
 			return
 
-		mpCost = max(1, mpCost - round(Spellcrafting.level/2))
+		mpCost = max(1, mpCost - round(p.Spellcrafting.level/2))
 
 		p.MP-=mpCost
 		p.updateMP()
@@ -223,7 +223,7 @@ obj/items/wearable/spellbook
 
 		if(spellType == EXPLOSION)
 			for(var/d in DIRS_LIST)
-				p.castproj(icon_state = state, damage = dmg*0.75, name = name, cd = 0, lag = 1, element = element, Dir=d, learn=0)
+				p.castproj(icon_state = state, damage = dmg*0.75, name = name, cd = 0, lag = 1, element = element, Dir=d, learn=0, canClone=0)
 		else if(spellType == PROJ)
 			p.castproj(icon_state = state, damage = dmg, name = name, cd = 0, element = element, Dir = attacker ? get_dir(p, attacker) : p.dir, learn=0)
 			if(!attacker) p.lastAttack = "Spellbook"
@@ -258,7 +258,9 @@ obj/items/wearable/spellbook
 				var/obj/items/crystal/passive = p.passives[CRYSTAL_METEOR]
 				dmg *= 1 + ((passive.passivePower + 3) / 100)
 
-			var/obj/projectile/Meteor/m = new (attacker ? attacker.loc : p.loc, p, dmg*0.75, state, name, element)
+			var/obj/projectile/Meteor/m = p.castproj(Type = /obj/projectile/Meteor, Loc = attacker ? attacker.loc : p.loc, name = "[state] meteor", icon_state = state, damage = dmg*0.75, element = element, cd = 0, lag = -1, learn=0)
+
+//			var/obj/projectile/Meteor/m = new (loc = attacker ? attacker.loc : p.loc, mob = p, damage = dmg*0.75, icon_state = state, name = name, element = element)
 			m.range = range
 		else if(spellType == TORNADO)
 

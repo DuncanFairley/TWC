@@ -1523,7 +1523,7 @@ mob/Spells/verb/Incindia()
 		var/damage = round((p.Dmg + p.clothDmg + p.Fire.level) * 0.75)
 		p.learnSpell(spellName)
 		for(var/d in dirs)
-			castproj(icon_state = "incindia", damage = damage * ((100 + tier*2) / 100), name = "Incindia", cd = 0, lag = 1, element = FIRE, Dir=d)
+			castproj(icon_state = "incindia", damage = damage * ((100 + tier*2) / 100), name = "Incindia", cd = 0, lag = 1, element = FIRE, Dir=d, canClone=0)
 mob/Spells/verb/Replacio(mob/Player/M in oview())
 	set category="Spells"
 
@@ -2556,7 +2556,7 @@ mob/var/tmp
 	lastproj = 0
 	lastHostile = 0
 mob
-	proc/castproj(Type = /obj/projectile, MPreq = 0, icon = 'attacks.dmi', icon_state = "", damage = 0, name = "projectile", cd = 2, lag = 2, element = 0, Loc = loc, Dir = dir, learn=1)
+	proc/castproj(Type = /obj/projectile, MPreq = 0, icon = 'attacks.dmi', icon_state = "", damage = 0, name = "projectile", cd = 2, lag = 2, element = 0, Loc = loc, Dir = dir, learn=1, canClone=1)
 		if(cd && (world.time - lastproj) < cd && !inOldArena()) return
 		if(!loc) return
 		lastproj = world.time
@@ -2568,8 +2568,9 @@ mob
 			lastHostile = world.time
 
 		var/obj/projectile/P = new Type (Loc,Dir,src,icon,icon_state,damage,name,element)
-		P.shoot(lag)
+		if(lag != -1) P.shoot(lag)
 		. = P
+
 		if(client)
 
 			var/mob/Player/p = src
@@ -2588,7 +2589,7 @@ mob
 					P.damage = 10 + p.MP*2 + rand(0, 10)
 					p.MP = 0
 				lag -= 1
-				P.shoot(lag)
+				if(lag != -1) P.shoot(lag)
 
 			else
 				p.MP -= MPreq
@@ -2609,7 +2610,6 @@ mob
 			if(p.wand)
 				if(cd != 0 && lag != 0 && learn) p.learnSpell(name)
 
-
 				if(!P.color)
 					var/c
 					if(p.holster && p.holster.selectedColors)
@@ -2628,15 +2628,14 @@ mob
 						else
 							P.color = list(c, c, c)
 
-
-			if((SWORD_CLOWN in p.passives) && cd != 0)
+			if((SWORD_CLOWN in p.passives) && canClone)
 				P.dir = pick(DIRS_LIST)
-				P.shoot(lag)
+				if(lag != -1) P.shoot(lag)
 
 				var/dir2 = pick(DIRS_LIST-P.dir)
 
 				var/obj/projectile/P2 = new Type (Loc,dir2,src,icon,icon_state,P.damage,name,P.element)
-				P2.shoot(lag)
+				if(lag != -1) P2.shoot(lag)
 				P2.appearance = P.appearance
 
 atom/movable/proc
@@ -3464,9 +3463,9 @@ obj
 			var
 				range = 4
 
-			New(Loc,mob/mob,damage,iconstate,name,element)
+			New(loc,dir,mob/mob,icon,icon_state,damage,name,element)
 				set waitfor = 0
-				src.loc=Loc
+				src.loc=loc
 				src.element = element
 				src.damage = damage
 				src.owner = mob
@@ -3481,7 +3480,7 @@ obj
 				sleep(3)
 
 				var/obj/dropObj/o = new(loc)
-				o.icon_state = iconstate
+				o.icon_state = icon_state
 
 				var/d = rand(0,2)
 				if(d == 1)
@@ -3499,10 +3498,10 @@ obj
 
 				sleep(3)
 
-				for(var/atom/movable/a in range((range-1)/2, loc))
-					a.Attacked(src)
+				for(var/atom/movable/a in range((range-1)/2, src.loc))
+					spawn() a.Attacked(src)
 
-				loc = null
+				src.loc = null
 				o.loc = null
 		Avada
 

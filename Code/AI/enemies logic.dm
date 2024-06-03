@@ -1351,7 +1351,8 @@ mob
 				dmg = getHardmodeDamage(dmg)
 
 			var/state = pick("fireball", "quake", "aqua", "iceball", "gum")
-			var/obj/projectile/Meteor/m = new (target ? target.loc : loc, src, dmg*0.75, state, "spell", element)
+
+			var/obj/projectile/Meteor/m = new (loc = target ? target.loc : loc, mob = src, damage = dmg*0.75, icon_state = state, name = "spell", element = element)
 			m.range = pick(3,5)
 
 			cd = min + (max - min) * (cd / 100)
