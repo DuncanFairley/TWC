@@ -157,6 +157,10 @@ obj/items/wearable/spellbook
 			if(flags & PAGE_RANGE)
 				name = "Big [name]"
 
+			if(flags & PAGE_MP)
+				name = "Wise [name]"
+
+
 	proc/cast(mob/Player/p, mob/attacker)
 		set waitfor = 0
 
@@ -619,6 +623,11 @@ obj/items/spellpage
 		damage = 0.75
 		cd = 1.1
 		mpCost = 2
+	mp
+		name = "Spell Page: \[Wise]"
+		flags = PAGE_MP
+		damage = 0.8
+		mpCost = 0.5
 
 
 obj
