@@ -3113,6 +3113,18 @@ mob/Enemies
 
 		if(dead) return 0
 
+		if(totalDamage && p in totalDamage)
+			totalDamage[p] += dmg
+			return
+		else
+			if(!totalDamage) totalDamage = list()
+			totalDamage[p] = dmg
+			sleep(0)
+
+		dmg = totalDamage[p]
+		totalDamage -= p
+		if(!totalDamage.len) totalDamage = null
+
 		var/monsterDmgLimit = (SHIELD_SOUL in p.passives) ? 3 : 2
 
 		dmg += p.Slayer.level
