@@ -2631,11 +2631,13 @@ mob
 			if((SWORD_CLOWN in p.passives) && canClone)
 				P.dir = pick(DIRS_LIST)
 				if(lag != -1) P.shoot(lag)
+				else P.loc = get_step_rand(Loc)
 
 				var/dir2 = pick(DIRS_LIST-P.dir)
 
 				var/obj/projectile/P2 = new Type (Loc,dir2,src,icon,icon_state,P.damage,name,P.element)
 				if(lag != -1) P2.shoot(lag)
+				else P2.loc = get_step_rand(Loc)
 				P2.appearance = P.appearance
 
 atom/movable/proc
