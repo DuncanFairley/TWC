@@ -264,7 +264,7 @@ obj/potions
 				if(RING_ALCHEMY in player.passives)
 					quality++
 
-				quality = max(1, quality)
+				quality = max(1,  quality)
 				quality = min(19, quality)
 
 				if(c >= 4)
@@ -280,20 +280,20 @@ obj/potions
 
 					potion = worldData.potions[potionId]
 					if(potion==null)
-						var/chance = clamp(50 + POTIONS_AMOUNT - worldData.potionsAmount + player.Alchemy.level, 10, 90)
+						var/chance = clamp(50 + POTIONS_AMOUNT - worldData.potionsAmount + player.Alchemy.level/3, 5, 90)
 
 						if(prob(chance))
 							potion = pick(childTypes(/obj/items/potions, list(/obj/items/potions/health, /obj/items/potions/mana)))
 
 							if(ispath(potion, /obj/items/potions/super))
-								if(prob(max(75 - player.Alchemy.level, 25)))
+								if(prob(max(90 - player.Alchemy.level/3, 25)))
 									potion = null
 							else
 								worldData.potions[potionId] = potion
 								worldData.potionsAmount++
 
 						else
-							chance = clamp((worldData.potionsAmount / (worldData.potions.len + 1))*50 - player.Alchemy.level, 1, 90)
+							chance = clamp((worldData.potionsAmount / (worldData.potions.len + 1))*50 - player.Alchemy.level/3, 1, 90)
 							if(prob(chance))
 								potion = 0
 								worldData.potions[potionId] = potion
@@ -326,6 +326,7 @@ obj/potions
 						if(i.seconds) i.seconds *= 1 + (quality - 4) * 0.3
 
 					var/quanChance = player.Alchemy.level
+
 					var/maxProc = 4
 					if(SWORD_ALCHEMY in player.passives)
 						quanChance += 10 + player.passives[SWORD_ALCHEMY]
