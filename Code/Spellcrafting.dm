@@ -379,11 +379,17 @@ obj/items/wearable/spellbook
 
 				p.vis_contents += o
 
+				var/drain = round(mpCost*0.5)
 				for(var/i = 1 to 20)
 					for(var/mob/Enemies/e in range(range, p))
 						e.onDamage(dmg*0.9, p, elem=element)
 
 					sleep(5)
+
+					if(i != 20)
+						if(p.MP < drain) break
+						p.MP -= drain
+						p.updateMP()
 
 				p.vis_contents -= o
 
