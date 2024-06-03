@@ -190,7 +190,7 @@ obj/items/wearable/spellbook
 
 		var/dmg = (p.Dmg + p.clothDmg) * damage
 
-		mpCost = max(1, mpCost - round(p.Spellcrafting.level/2))
+		mpCost = max(1, mpCost - round(p.Spellcrafting.level))
 
 		p.MP-=mpCost
 		p.updateMP()
@@ -391,12 +391,12 @@ obj/items/wearable/spellbook
 
 				p.vis_contents += o
 
-				var/drain = round(mpCost*0.5)
+				var/drain = round(mpCost*0.25)
 
 				if(SWORD_MANA in p.passives)
 					dmg = round(p.MMP * 1)
 
-					var/cost = round(dmg * 0.5, 1)
+					var/cost = round(dmg * 0.5 * 0.5, 1)
 
 					if(p.MP >= cost)
 						dmg = 10 + dmg + rand(0, 10)
@@ -420,7 +420,7 @@ obj/items/wearable/spellbook
 
 							dmg = round(p.MMP * 1)
 
-							var/cost = round(dmg * 0.25, 1)
+							var/cost = round(dmg * 0.5 * 0.25, 1)
 
 							if(p.MP >= cost)
 								dmg = 10 + dmg + rand(0, 10)
