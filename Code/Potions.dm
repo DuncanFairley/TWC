@@ -368,11 +368,12 @@ obj/potions
 							 life   = new /Random(1,50),
 							 color  = "#c60")
 
-				/*		spawn(4)
+						spawn(4)
 							if(p.owner)
-								hearers(src) << errormsg("[p.owner]'s mixture caused an explosion.")
-								p.owner.HP = 0
-								p.owner.Death_Check(p.owner)*/
+								p.owner:onDamage(p.owner.MHP * 0.5, p.owner)
+				//				hearers(src) << errormsg("[p.owner]'s mixture caused an explosion.")
+				//				p.owner.HP = 0
+				//				p.owner.Death_Check(p.owner)
 
 				var/i = worldData.potions.Find(potionId)
 				if(i)
