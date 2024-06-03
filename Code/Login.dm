@@ -1895,8 +1895,7 @@ obj
 
 					var/level = round((ix - 34) / 14, 1)
 					var/end = 1 + round(min(5, p.Summoning.level / 30))
-					level = min(level, end)
-					level = max(level, 1)
+					level = clamp(level, 1, end)
 
 					p.summonsMode = level
 
@@ -1957,8 +1956,7 @@ obj
 
 					var/level = round((ix - 34) / 14 - 1, 1)
 					var/end = round(min(10, p.Slayer.level / 10))
-					level = min(level, end)
-					level = max(level, 0)
+					level = clamp(level, 0, end)
 
 					p.hardmode = level
 
