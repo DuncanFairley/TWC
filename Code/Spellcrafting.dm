@@ -182,6 +182,8 @@ obj/items/wearable/spellbook
 		if(!canUse(p,needwand=1,inarena=0,insafezone=0,inhogwarts=1,mpreq=mpCost,projectile=1,silent=(flags & (PAGE_DAMAGETAKEN|PAGE_ONDASH))))
 			return
 
+		mpCost = max(1, mpCost - round(Spellcrafting.level/2))
+
 		p.MP-=mpCost
 		p.updateMP()
 
