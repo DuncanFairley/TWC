@@ -2629,16 +2629,30 @@ mob
 							P.color = list(c, c, c)
 
 			if((SWORD_CLOWN in p.passives) && canClone)
-				P.dir = pick(DIRS_LIST)
-				if(lag != -1) P.shoot(lag)
-				else P.loc = get_step_rand(Loc)
 
-				var/dir2 = pick(DIRS_LIST-P.dir)
+				var/amount = 1 + round(p.passives[SWORD_CLOWN] / 10)
 
-				var/obj/projectile/P2 = new Type (Loc,dir2,src,icon,icon_state,P.damage,name,P.element)
-				if(lag != -1) P2.shoot(lag)
-				else P2.loc = get_step_rand(Loc)
-				P2.appearance = P.appearance
+				var/list/dirs = DIRS_LIST
+
+				P.dir = pick(dirs)
+				dirs -= P.dir
+
+				if(lag != -1)
+					P.shoot(lag)
+				else
+					P.loc = get_step_rand(get_step(Loc, P.dir))
+
+				for(var/i = 1 to amount)
+					var/dir2 = pick(dirs)
+
+					dirs -= dir2
+
+					var/obj/projectile/P2 = new Type (Loc,dir2,src,icon,icon_state,P.damage,name,P.element)
+					if(lag != -1)
+						P2.shoot(lag)
+					else
+						P2.loc = get_step_rand(get_step(Loc, dir2))
+					P2.appearance = P.appearance
 
 atom/movable/proc
 	Attacked(obj/projectile/p)
@@ -3092,6 +3106,8 @@ mob/Enemies
 	var/element
 
 	var/damageMod = 1
+
+	var/tmp/list/totalDamage
 
 	proc/onDamage(dmg, mob/Player/p, elem = 0, projColor=null)
 
