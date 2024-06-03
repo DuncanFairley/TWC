@@ -3055,7 +3055,7 @@ mob/Player
 				var/armor = Armor * 0.5
 				if(SHIELD_THORN in passives)
 					armor *= 1 + (30 + passives[SHIELD_THORN] - 1) / 100
-					dmg -= armor
+					dmg = max(dmg - armor, 1)
 
 
 		dmg = onDamage(dmg, p.owner)

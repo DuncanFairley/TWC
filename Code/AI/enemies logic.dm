@@ -1508,7 +1508,7 @@ mob
 					var/armor = target.Armor
 					if(SHIELD_THORN in target.passives)
 						armor *= 1 + (30 + target.passives[SHIELD_THORN] - 1) / 100
-					dmg -= armor
+					dmg = max(dmg - armor, 1)
 
 					if(SWORD_THORN in target.passives)
 						onDamage(armor, target)
