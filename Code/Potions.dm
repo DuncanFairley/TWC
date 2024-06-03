@@ -262,7 +262,7 @@ obj/potions
 					else if(f >= projs[p.icon_state] / 2) quality--
 
 				if(RING_ALCHEMY in player.passives)
-					quality++
+					quality += 1 + round(player.passives[RING_ALCHEMY]/10)
 
 				var/upQual = 1 + player.Alchemy.level/4
 				for(var/i = 1 to 3)
