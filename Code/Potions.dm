@@ -368,6 +368,7 @@ obj/potions
 							 life   = new /Random(1,50),
 							 color  = "#c60")
 
+					if(!(SHIELD_ALCHEMY in player.passives))
 						spawn(4)
 							if(p.owner)
 								p.owner:onDamage(p.owner.MHP * 0.5, p.owner)
