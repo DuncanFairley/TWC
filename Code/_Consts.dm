@@ -9,9 +9,9 @@
 #define winshowRight(player, window) player << output(window,"browser1:ShowRightWindow")
 
 #define VERSION "16.88"
-#define SUB_VERSION "13"
-#define SAVEFILE_VERSION 50
-#define VAULT_VERSION 9
+#define SUB_VERSION "14"
+#define SAVEFILE_VERSION 51
+#define VAULT_VERSION 10
 #define WORLD_VERSION 1
 #define lvlcap 800
 #define SWAPMAP_Z 24 // world map z + 1 (the +1 is for buildable area, don't add if not using sandbox)
