@@ -367,6 +367,11 @@ proc/updateVault(swapmap/map, owner, version)
 			for(var/obj/buildable/door/d in t)
 				d.vaultOwner = owner
 
+	if(version < 10)
+		for(var/turf/buildable/t in map.AllTurfs())
+			for(var/obj/items/wearable/spellbook/s in t)
+				s.Calc()
+
 mob/GM/verb/UnloadMap()
 	set category = "Custom Maps"
 	if(!length(loadedMaps))

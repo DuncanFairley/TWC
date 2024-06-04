@@ -364,6 +364,10 @@ mob
 					for(var/obj/o in l.contents)
 						o.Move(src)
 
+			if(savefile_version < 51)
+				for(var/obj/items/wearable/spellbook/s in src)
+					s.Calc()
+
 	/*		if(savefile_version < 51)
 				var/vault/v = worldData.globalvaults[ckey]
 			//	if(v.tmpl == selectedvault)

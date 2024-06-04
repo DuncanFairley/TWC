@@ -21,6 +21,38 @@ obj/items/wearable/spellbook
 
 	name = "spellbook \[Incomplete]"
 
+	proc/Calc()
+		var/obj/items/spellpage/mainPage = list()
+
+		if(spellType == PROJ)           mainPage = new /obj/items/spellpage/proj
+		else if(spellType == ARUA)      mainPage = new /obj/items/spellpage/aura
+		else if(spellType == EXPLOSION) mainPage = new /obj/items/spellpage/explosion
+		else if(spellType == SUMMON)    mainPage = new /obj/items/spellpage/summon
+		else if(spellType == METEOR)    mainPage = new /obj/items/spellpage/meteor
+		else if(spellType == ARC)       mainPage = new /obj/items/spellpage/arc
+
+		cd        = mainPage.cd
+		damage    = mainPage.damage
+		range     = mainPage.range
+		mpCost    = mainPage.mpCost
+
+		var/list/pages = list()
+		if(flags & PAGE_DAMAGETAKEN) pages += /obj/items/spellpage/damagetaken
+		if(flags & PAGE_DMG1)        pages += /obj/items/spellpage/damage1
+		if(flags & PAGE_DMG2)        pages += /obj/items/spellpage/damage2
+		if(flags & PAGE_CD)          pages += /obj/items/spellpage/cd
+		if(flags & PAGE_RANGE)       pages += /obj/items/spellpage/range
+
+		for(var/t in pages)
+			var/obj/items/spellpage/page = new t
+
+			cd     *= page.cd
+			mpCost *= page.mpCost
+			damage *= page.damage
+			range  += page.range
+
+
+
 	Compare(obj/items/i)
 		. = ..()
 
@@ -194,9 +226,9 @@ obj/items/wearable/spellbook
 
 		var/dmg = (p.Dmg + p.clothDmg) * damage
 
-		mpCost = max(1, mpCost - round(p.Spellcrafting.level))
+		var/mp = max(1, mpCost - round(p.Spellcrafting.level))
 
-		p.MP-=mpCost
+		p.MP-=mp
 		p.updateMP()
 
 		var/state
@@ -226,12 +258,12 @@ obj/items/wearable/spellbook
 				elementColor = "#f4f4f4"
 
 		if(spellType == EXPLOSION)
-			if(SWORD_MANA in p.passives) p.MP+=mpCost
+			if(SWORD_MANA in p.passives) p.MP+=mp
 
 			for(var/d in DIRS_LIST)
 				p.castproj(icon_state = state, damage = dmg*0.75, name = name, cd = 0, lag = 1, element = element, Dir=d, learn=0, canClone=0)
 		else if(spellType == PROJ)
-			if(SWORD_MANA in p.passives) p.MP+=mpCost
+			if(SWORD_MANA in p.passives) p.MP+=mp
 
 			p.castproj(icon_state = state, damage = dmg, name = name, cd = 0, element = element, Dir = attacker ? get_dir(p, attacker) : p.dir, learn=0)
 			if(!attacker) p.lastAttack = "Spellbook"
@@ -261,7 +293,7 @@ obj/items/wearable/spellbook
 
 			if(s.scale > 1) s.scale *= 0.75
 		else if(spellType == METEOR)
-			if(SWORD_MANA in p.passives) p.MP+=mpCost
+			if(SWORD_MANA in p.passives) p.MP+=mp
 
 			if(p.passives && (CRYSTAL_METEOR in p.passives))
 				var/obj/items/crystal/passive = p.passives[CRYSTAL_METEOR]
@@ -272,7 +304,7 @@ obj/items/wearable/spellbook
 //			var/obj/projectile/Meteor/m = new (loc = attacker ? attacker.loc : p.loc, mob = p, damage = dmg*0.75, icon_state = state, name = name, element = element)
 			m.range = range
 		else if(spellType == TORNADO)
-			if(SWORD_MANA in p.passives) p.MP+=mpCost
+			if(SWORD_MANA in p.passives) p.MP+=mp
 
 			if(p.passives && (CRYSTAL_TORNADO in p.passives))
 				var/obj/items/crystal/passive = p.passives[CRYSTAL_TORNADO]
@@ -357,7 +389,7 @@ obj/items/wearable/spellbook
 						other.overlays-=image('attacks.dmi', icon_state = "heal")
 
 			else
-				if(SWORD_MANA in p.passives) p.MP+=mpCost
+				if(SWORD_MANA in p.passives) p.MP+=mp
 
 				var/mutable_appearance/ma = new
 
@@ -395,7 +427,7 @@ obj/items/wearable/spellbook
 
 				p.vis_contents += o
 
-				var/drain = round(mpCost*0.25)
+				var/drain = round(mp*0.25)
 
 				if(SWORD_MANA in p.passives)
 					dmg = round(p.MMP * 1)
