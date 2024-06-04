@@ -6124,7 +6124,7 @@ obj/items/wearable/sword/alchemy
 	icon='trophies.dmi'
 	icon_state="Sword"
 	name="alchemist's blade"
-	desc="15% chance to not consume potions.<br>Grants a chance to produce more than one potion."
+	desc="15% chance to not consume potions. Grants a chance to produce more than one potion."
 	suffix = "<span style=\"color:#ffa500;\">15% chance to not consume potions.</span>"
 	passive = SWORD_ALCHEMY
 	monsterDmg = 3
