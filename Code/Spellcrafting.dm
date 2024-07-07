@@ -496,6 +496,14 @@ obj/items/spellpage
 				p << errormsg("You need to have a spell book equipped.")
 				return
 
+			if(spellType && p.usedSpellbook.spellType)
+				p << errormsg("Spell book already has a spell type.")
+				return
+
+			if(element && p.usedSpellbook.element)
+				p << errormsg("Spell book already has an element.")
+				return
+
 			if(spellType)
 				p.usedSpellbook.spellType = spellType
 
