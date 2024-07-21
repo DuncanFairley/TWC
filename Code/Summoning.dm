@@ -13,7 +13,7 @@ obj/summon
 	mouse_opacity = 2
 
 	var
-		level = 50
+		level = 100
 		scale = 1
 		extraDmg
 		HP
@@ -39,22 +39,22 @@ obj/summon
 
 	stickman
 		icon_state = "stickman"
-		level = 150
-		scale = 1.6
-	corpse
 		level = 200
 		scale = 1.8
-	imperio
-		level = 250
+	corpse
+		level = 300
 		scale = 2
+	imperio
+		level = 400
+		scale = 3
 	basilisk
-		level = 150
-		scale = 1.6
+		level = 200
+		scale = 1.8
 		icon_state = "basilisk"
 		summonTier = 2
 	akalla
 		level = 200
-		scale = 2
+		scale = 2.2
 		icon_state = "basilisk"
 		summonTier = 2
 	demon_snake
@@ -71,7 +71,7 @@ obj/summon
 
 	water
 		corpse = 0
-		level = 110
+		level = 200
 		icon_state = "water elemental"
 
 		New(loc, mob/Player/p, spell, size=0)
@@ -83,7 +83,7 @@ obj/summon
 
 	fire
 		corpse = 0
-		level = 110
+		level = 200
 		icon_state = "fire elemental"
 
 		New(loc, mob/Player/p, spell, size=0)
@@ -94,7 +94,7 @@ obj/summon
 			..(loc, p, spell, size)
 
 	earth
-		level = 110
+		level = 200200
 		icon_state = "archangel"
 
 		New(loc, mob/Player/p, spell, size=0)
@@ -105,7 +105,7 @@ obj/summon
 			..(loc, p, spell, size)
 
 	ghost
-		level = 110
+		level = 200
 		corpse = 0
 		icon_state = "wisp"
 
@@ -118,17 +118,17 @@ obj/summon
 			..(loc, p, spell, size)
 
 	cow
-		level = 200
+		level = 301
 		scale = 2
 		icon_state = "cow"
 
 	heal
 		icon_state = "slug"
-		level = 180
+		level = 200
 		scale = 1.6
 
 	nurse
-		level = 50
+		level = 100
 		scale = 0.5
 		icon = 'NPCs.dmi'
 		icon_state = "nurse"
@@ -166,7 +166,7 @@ obj/summon
 		cast = spell
 
 		level   += p.level + p.Summoning.level*2 + extraLevel
-		MHP      = 4 * (level) + 200
+		MHP      = 4 * (level) + 400
 		HP       = MHP
 		extraDmg = round(((p.Dmg + p.clothDmg) - (p.level + 4)) * 0.5)
 		duration = 900 + p.Summoning.level*60
@@ -343,6 +343,7 @@ obj/summon
 								summoner.Summoning.add(exp2give*0.8, summoner, 1)
 
 							else
+								dmg = e.Dmg
 								if(e.hardmode)
 									if(e.DMGmodifier < 0.7)
 										var/perc = (e.DMGmodifier / 0.7) * 100
@@ -353,12 +354,15 @@ obj/summon
 									if(e.hardmode > 5)
 										dmg += 140*e.hardmode
 
-								dmg = e.Dmg*0.75*summonTier
+								dmg = dmg*0.75
 
 								if(level < e.level)
 									dmg += dmg * ((51 + e.level - level)/200)
 
-								dmg *= 1 - min(summoner.monsterDef/100, 0.75)
+
+								var/monsterDefLimit = (SHIELD_SOUL in summoner.passives) ? 0.9 : 0.75
+
+								dmg *= 1 - min((summoner.monsterDef + summonTier*5)/100, monsterDefLimit)
 
 								HP -= dmg
 								if(HP <= 0)	break
