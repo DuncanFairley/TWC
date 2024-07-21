@@ -586,11 +586,16 @@ obj/playerShop
 
 				var/ScreenText/s = new(p, src)
 				var/gold/price = new(bronze=i.price)
+				var/gold/price10 = new(bronze=i.price*10)
 				var/gold/g = new(p)
 				s.AddText("Would you like to buy [i.name] for [price.toString()]?<br>Description: [i.desc]")
 
 				if(g.have(price))
-					s.SetButtons("Buy", "#00ff00", "Cancel", "#ff0000", null)
+
+					if(i.stack >= 10)
+						s.SetButtons("Buy", "#00ff00", "Cancel", "#ff0000", "Buy x10", "#00ff00")
+					else
+						s.SetButtons("Buy", "#00ff00", "Cancel", "#ff0000", null)
 
 					if(!s.Wait()) return
 
@@ -602,6 +607,17 @@ obj/playerShop
 							mail(p.ckey, infomsg("You bought [i.name] for [price.toString()]."), i.Split(1))
 						else
 							mail(p.ckey, infomsg("You bought [i.name] for [price.toString()]."), i)
+							remove()
+
+					else if(s.Result == "Buy x10")
+						g.change(p, bronze=-i.price*10)
+
+						mail(shop.owner, infomsg("[i.name] x10 was bought for [price10.toString()]."), i.price*10)
+
+						if(i.stack > 10)
+							mail(p.ckey, infomsg("You bought [i.name] x10 for [price10.toString()]."), i.Split(10))
+						else
+							mail(p.ckey, infomsg("You bought [i.name] x10 for [price10.toString()]."), i)
 							remove()
 
 			else p << errormsg("This stand is empty.")
