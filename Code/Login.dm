@@ -1579,6 +1579,10 @@ mob/Player
 
 			stat(mousehelper)
 
+		if(istype(loc, /turf/buildable) && statpanel("Blueprints"))
+			for(var/obj/items/wearable/blueprint/b in contents)
+				stat(b)
+
 		if(statpanel("Mastery"))
 			for(var/spellName in SpellUses)
 				var/uses = SpellUses[spellName]

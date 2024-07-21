@@ -76,6 +76,7 @@ backpack
 obj/items/var/tmp/backpack/slot
 obj/items/var/sx
 obj/items/var/sy
+obj/items/var/ignoreBackpack = 0
 
 mob/Player
 
@@ -102,6 +103,7 @@ mob/Player
 				client.screen += b
 
 		for(var/obj/items/i in contents)
+			if(i.ignoreBackpack) continue
 			var/backpack/b
 			if(i.sx && i.sx <= BACKPACK_COLS && i.sy <= BACKPACK_ROWS)
 				b = backpack[i.sx][i.sy]

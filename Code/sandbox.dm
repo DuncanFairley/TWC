@@ -309,6 +309,8 @@ obj/items
 		useTypeStack = 1
 		stackName = "Blueprints"
 
+		ignoreBackpack = 1
+
 		var/buildType
 
 		basic_blueprint
