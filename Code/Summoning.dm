@@ -94,7 +94,7 @@ obj/summon
 			..(loc, p, spell, size)
 
 	earth
-		level = 200200
+		level = 200
 		icon_state = "archangel"
 
 		New(loc, mob/Player/p, spell, size=0)
