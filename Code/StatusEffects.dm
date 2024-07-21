@@ -269,6 +269,8 @@ Event
 			// rep/fame decay + clean player data
 			cleanPlayerData(1)
 
+			Save_World()
+
 	RandomEvents
 		fire()
 			set waitfor = 0
