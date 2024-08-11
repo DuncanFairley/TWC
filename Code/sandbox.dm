@@ -1354,6 +1354,19 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+			Trashcan
+				icon       ='Trash.dmi'
+				icon_state = "Lid On"
+
+				price = 2
+				path = /obj/Trashcan
+
+				screen_x = 256
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
 			wall_torch
 				icon       ='turf.dmi'
 				icon_state = "walltorch"
