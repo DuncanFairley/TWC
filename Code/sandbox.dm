@@ -1340,6 +1340,20 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+			plate
+				icon       ='turf.dmi'
+				icon_state = "plate"
+
+				price = 2
+				path = /obj/static_obj/plate { pixel_y = 10; }
+				clear = /obj/static_obj/plate
+
+				screen_x = 224
+				screen_y = 64
+
+				maptext_x = 0
+				maptext_width = 32
+
 			wall_torch
 				icon       ='turf.dmi'
 				icon_state = "walltorch"
@@ -1350,7 +1364,7 @@ hudobj
 				reqWall = 1
 				mouse_opacity = 2
 
-				screen_x = 232
+				screen_x = 256
 				screen_y = 64
 
 			Bed
