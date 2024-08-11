@@ -1354,6 +1354,20 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+			Triple_Candle
+				icon       ='General.dmi'
+				icon_state = "tile80"
+
+				price = 2
+				path = /obj/static_obj/Triple_Candle
+				clear = /obj/static_obj/Triple_Candle
+
+				screen_x = 288
+				screen_y = 32
+
+				maptext_x = 0
+				maptext_width = 32
+
 			Trashcan
 				icon       ='Trash.dmi'
 				icon_state = "Lid On"
