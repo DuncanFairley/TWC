@@ -1572,6 +1572,19 @@ hudobj
 				maptext_x = 0
 				maptext_width = 32
 
+			Neptune
+				icon       = 'statues_64x64.dmi'
+				icon_state = "neptune"
+
+				price = list(/obj/items/stones = 20)
+				path = /obj/static_obj/Neptune { post_init = 0; }
+
+				screen_x = 160
+				screen_y = 96
+
+				maptext_x = 0
+				maptext_width = 32
+
 			Armor
 				icon       = 'statues_64x64.dmi'
 				icon_state = "armor"
@@ -1580,7 +1593,7 @@ hudobj
 				price = list(/obj/items/stones = 20)
 				path = /obj/static_obj/Armor { post_init = 0; }
 
-				screen_x = 160
+				screen_x = 192
 				screen_y = 96
 
 			door
