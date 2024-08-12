@@ -1131,7 +1131,7 @@ obj
 			icon_state = "columb"
 			density    = 1
 			layer      = MOB_LAYER + 1
-		Neptune
+		NeptuneStatue
 			icon       = 'statues_64x64.dmi'
 			icon_state = "neptune"
 			density    = 1

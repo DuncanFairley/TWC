@@ -1618,7 +1618,7 @@ hudobj
 				icon_state = "neptune"
 
 				price = list(/obj/items/stones = 20)
-				path = /obj/static_obj/Neptune { post_init = 0; }
+				path = /obj/static_obj/NeptuneStatue { post_init = 0; }
 
 				screen_x = 160
 				screen_y = 96
