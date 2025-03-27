@@ -2067,8 +2067,8 @@ mob/Spells/verb/Avada_Kedavra()
 
 				new /StatusEffect/UsedAvada(src,5*(p.cooldownModifier+p.extraCDR)*worldData.cdrModifier,spellName)
 
-				var/vector/start = new (p.x      * world.icon_size + world.icon_size / 2, p.y      * world.icon_size + world.icon_size / 2)
-				var/vector/dest  = new (target.x * world.icon_size + world.icon_size / 2, target.y * world.icon_size + world.icon_size / 2)
+				var/___vector/start = new (p.x      * world.icon_size + world.icon_size / 2, p.y      * world.icon_size + world.icon_size / 2)
+				var/___vector/dest  = new (target.x * world.icon_size + world.icon_size / 2, target.y * world.icon_size + world.icon_size / 2)
 
 				start.X += (EAST & dir) ? 7 : -7
 				start.Y -= 6
@@ -2845,8 +2845,8 @@ mob/Player
 
 			if(wand.test==2)
 				for(var/mob/Player/e in view(6, src))
-					var/vector/start = new (  x * 32 + 16,   y * 32 + 16)
-					var/vector/dest  = new (e.x * 32 + 16, e.y * 32 + 16)
+					var/___vector/start = new (  x * 32 + 16,   y * 32 + 16)
+					var/___vector/dest  = new (e.x * 32 + 16, e.y * 32 + 16)
 
 					start.X += px
 					start.Y += py
@@ -2861,8 +2861,8 @@ mob/Player
 					if(e.level > 1500) continue
 					if(!e.loc || e.HP <= 0 || e.dead) continue
 
-					var/vector/start = new (  x * 32 + 16,   y * 32 + 16)
-					var/vector/dest  = new (e.x * 32 + 16, e.y * 32 + 16)
+					var/___vector/start = new (  x * 32 + 16,   y * 32 + 16)
+					var/___vector/dest  = new (e.x * 32 + 16, e.y * 32 + 16)
 
 					start.X += px
 					start.Y += py

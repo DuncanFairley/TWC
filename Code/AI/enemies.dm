@@ -518,8 +518,8 @@ mob
 
 						firedAvada = 1
 
-						var/vector/start = new (x        * world.icon_size + world.icon_size / 2, y        * world.icon_size + world.icon_size / 2)
-						var/vector/dest  = new (target.x * world.icon_size + world.icon_size / 2, target.y * world.icon_size + world.icon_size / 2)
+						var/___vector/start = new (x        * world.icon_size + world.icon_size / 2, y        * world.icon_size + world.icon_size / 2)
+						var/___vector/dest  = new (target.x * world.icon_size + world.icon_size / 2, target.y * world.icon_size + world.icon_size / 2)
 
 						start.X += (EAST & dir) ? 7 : -7
 						start.Y -= 6
@@ -2521,8 +2521,8 @@ mob
 
 				firedAvada = 1
 
-				var/vector/start = new (x        * world.icon_size + world.icon_size / 2, y        * world.icon_size + world.icon_size / 2)
-				var/vector/dest  = new (target.x * world.icon_size + world.icon_size / 2, target.y * world.icon_size + world.icon_size / 2)
+				var/___vector/start = new (x        * world.icon_size + world.icon_size / 2, y        * world.icon_size + world.icon_size / 2)
+				var/___vector/dest  = new (target.x * world.icon_size + world.icon_size / 2, target.y * world.icon_size + world.icon_size / 2)
 
 				start.X += (EAST & dir) ? 7 : -7
 				start.Y -= 6

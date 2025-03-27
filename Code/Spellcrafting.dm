@@ -335,7 +335,7 @@ obj/items/wearable/spellbook
 				if(!target) break
 				chains += target
 
-			var/vector/start = new (p.x * 32 + 16, p.y * 32 + 10)
+			var/___vector/start = new (p.x * 32 + 16, p.y * 32 + 10)
 
 			start.X += (EAST & p.dir) ? 7 : -7
 
@@ -343,7 +343,7 @@ obj/items/wearable/spellbook
 
 			for(var/mob/e in chains)
 
-				var/vector/dest  = new (e.x * 32 + 16, e.y * 32 + 16)
+				var/___vector/dest  = new (e.x * 32 + 16, e.y * 32 + 16)
 
 				var/bolt/boltFix/b = new(start, dest, 20)
 
